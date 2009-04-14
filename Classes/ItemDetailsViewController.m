@@ -124,11 +124,11 @@
 	[result release];
 	[alert release];
 	
-	//Refresh the inventory - CRASHES?
-	//[appModel fetchInventory];
-	
 	//Dismiss Item Details View
 	[self dismissModalViewControllerAnimated:NO];
+	
+	//Refresh the inventory
+	[appModel fetchInventory];
 	
 }
 
@@ -147,8 +147,8 @@
 	[result release];
 	[alert release];
 	
-	//Refresh the inventory - CRASHES?
-	//[appModel fetchInventory];
+	//Refresh the inventory
+	[appModel fetchInventory];
 	
 	//Dismiss Item Details View
 	[self dismissModalViewControllerAnimated:NO];

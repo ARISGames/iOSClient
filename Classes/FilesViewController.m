@@ -48,6 +48,7 @@
 
 -(void)refreshInventory {
 	NSLog(@"Inventory Recieved message recieved in FilesViewController");
+	inventoryTableData = appModel.inventory;
 	[inventoryTable reloadData];
 	
 }

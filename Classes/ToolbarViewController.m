@@ -42,11 +42,11 @@
 		
 		//Determine the Button Label
 		NSString *label;
-		if ([notification.object count] == 1) {
+		//if ([notification.object count] == 1) {
 			NearbyLocation *loc = [notification.object objectAtIndex:0];
 			label = loc.name; 
-		}
-		else label = @"Nearby"; 
+		//}
+		//else do some cool list stuff here
 		
 		//Create the Button
 		UIBarButtonItem *nearbyButton = [[UIBarButtonItem alloc] initWithTitle: label style:UIBarButtonSystemItemEdit target:self action:@selector(nearbyButtonAction:)];

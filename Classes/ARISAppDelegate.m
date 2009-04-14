@@ -190,7 +190,7 @@
 	//If only one object exists (a single NPC, Node or Item) launch it in a modal UIWebView
 	//Otherwise, create a list
 	
-	if ([appModel.nearbyLocationsList count] == 1) {
+	//if ([appModel.nearbyLocationsList count] == 1) {
 		//Take them to the item
 		NearbyLocation *loc = [appModel.nearbyLocationsList objectAtIndex: 0 ];
 		NSString *moduleName;
@@ -205,10 +205,10 @@
 		[genericWebViewController setURL: fullURL];
 		[genericWebViewController setToolbarTitle:loc.name];
 		[window addSubview:genericWebViewController.view];
-	}
-	else {
+	//}
+	//else {
 		//Take them to a list 
-	}
+	//}
 	
 }
 
