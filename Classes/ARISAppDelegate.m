@@ -79,8 +79,7 @@
 	[selViewController performSelector:@selector(setModel:) withObject:appModel];
 	
 	//Setup MyCLController
-	myCLController = [[MyCLController alloc] init];
-	myCLController.delegate = self;
+	myCLController = [[MyCLController alloc] initWithAppModel:appModel];
 	[myCLController.locationManager startUpdatingLocation];
 }
 
@@ -217,20 +216,6 @@
 	[genericWebViewController.view removeFromSuperview];
 }
 
-#pragma mark --- Delegate methods for MyCLController ---
-- (void)updateLatitude: (NSString *)latitude andLongitude:(NSString *)longitude andAccuracy:(float)accuracy  {	
-	//Update the Model
-	appModel.lastLatitude = [latitude copy];
-	appModel.lastLongitude = [longitude copy];
-	appModel.lastLocationAccuracy = accuracy;
-	
-	//Tell the other parts of the client
-	NSNotification *updatedLocationNotification = [NSNotification notificationWithName:@"PlayerMoved" object:self];
-	[[NSNotificationCenter defaultCenter] postNotification:updatedLocationNotification];
-
-	//Tell the model to update the server and fetch any nearby locations
-	[appModel updateServerLocationAndfetchNearbyLocationList];
-}
 
 #pragma mark navigation controller delegate
 - (void)navigationController:(UINavigationController *)navigationController 

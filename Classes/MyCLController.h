@@ -47,25 +47,18 @@
  */
 #import <CoreLocation/CoreLocation.h>
 #import <CoreLocation/CLLocationManagerDelegate.h>
-
-// This protocol is used to send the text for location updates back to another view controller
-@protocol MyCLControllerDelegate <NSObject>
-@required
--(void)updateLatitude: (NSString *)latitude andLongitude: (NSString *)longitude andAccuracy:(float)accuracy;
--(void)newError:(NSString *)text;
-@end
+#import "model/AppModel.h"
 
 
 // Class definition
 @interface MyCLController : NSObject <CLLocationManagerDelegate> {
 	CLLocationManager *locationManager;
-	id *delegate;
+	AppModel *appModel;
 }
 
 @property (nonatomic, retain) CLLocationManager *locationManager;
-@property (nonatomic, assign) id *delegate;
 
--(MyCLController*) init;
+-(MyCLController*) initWithAppModel:(AppModel *)model;
 
 - (void)locationManager:(CLLocationManager *)manager
 	didUpdateToLocation:(CLLocation *)newLocation

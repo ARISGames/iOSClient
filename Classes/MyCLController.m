@@ -53,9 +53,9 @@
 
 @implementation MyCLController
 
-@synthesize delegate, locationManager;
+@synthesize locationManager;
 
-- (MyCLController*) init {
+- (MyCLController*) initWithAppModel:(AppModel *)model {
 	self = [super init];
 	if (self != nil) {
 		self.locationManager = [[[CLLocationManager alloc] init] autorelease];
@@ -63,6 +63,7 @@
 		self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
 		self.locationManager.distanceFilter = 1.0; //Minimum change of 1 meters for update
 	}
+	appModel = model;
 	return self;
 		
 }
@@ -74,10 +75,15 @@
 	NSLog(@"Read %lf, %lf from CLLocationManager with Accuracy of %gm,%gm", newLocation.coordinate.latitude,
 		  newLocation.coordinate.longitude,  newLocation.horizontalAccuracy, newLocation.verticalAccuracy );
 	
-	
-	[self.delegate updateLatitude:[NSString stringWithFormat: @"%lf", newLocation.coordinate.latitude]
-					andLongitude: [NSString stringWithFormat:@"%lf",newLocation.coordinate.longitude]
-					andAccuracy: newLocation.horizontalAccuracy];
+	//Update the Model
+		appModel.lastLocation = newLocation;
+		
+	//Tell the other parts of the client
+	NSNotification *updatedLocationNotification = [NSNotification notificationWithName:@"PlayerMoved" object:nil];
+	[[NSNotificationCenter defaultCenter] postNotification:updatedLocationNotification];
+		
+	//Tell the model to update the server and fetch any nearby locations
+	[appModel updateServerLocationAndfetchNearbyLocationList];
 	
 }
 /*
@@ -189,8 +195,7 @@
 		[errorString appendFormat:@"Description: \"%@\"\n", [error localizedDescription]];
 	}
 	
-	// Send the update to our delegate
-	//[self.delegate newLocationUpdate:errorString];
+	//Send the update somewhere?
 }
 
 
@@ -212,7 +217,6 @@
 
 - (void)dealloc {
 	[locationManager release];
-	[delegate release];
     [super dealloc];
 }
 

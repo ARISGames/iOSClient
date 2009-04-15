@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Game.h";
+#import <CoreLocation/CLLocation.h>
+#import "Game.h"
+
 
 @interface AppModel : NSObject {
 	NSString *baseAppURL;
@@ -19,9 +21,7 @@
 	NSMutableArray *gameList;
 	NSMutableArray *locationList;
 	NSMutableArray *nearbyLocationsList;
-	NSString *lastLatitude;
-	NSString *lastLongitude;
-	float lastLocationAccuracy;
+	CLLocation *lastLocation;
 	NSMutableArray *inventory;
 }
 
@@ -34,9 +34,7 @@
 @property(copy, readwrite) NSMutableArray *gameList;	
 @property(copy, readwrite) NSMutableArray *locationList;	
 @property(copy, readwrite) NSMutableArray *nearbyLocationsList;	
-@property(copy, readwrite) NSString *lastLatitude;
-@property(copy, readwrite) NSString *lastLongitude;
-@property(readwrite) float lastLocationAccuracy;
+@property(copy, readwrite) CLLocation *lastLocation;	
 @property(copy, readwrite) NSMutableArray *inventory;	
 
 -(void)loadUserDefaults;

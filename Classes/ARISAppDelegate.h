@@ -15,7 +15,7 @@
 #import "TODOViewController.h"
 #import "GenericWebViewController.h";
 
-@interface ARISAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate, MyCLControllerDelegate> {
+@interface ARISAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate> {
     UIWindow *window;
     UITabBarController *tabBarController;
 	LoginViewController *loginViewController;

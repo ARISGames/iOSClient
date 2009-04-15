@@ -13,7 +13,7 @@
 
 @synthesize webview;
 @synthesize titleLabel;
-
+@synthesize backButton;
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {

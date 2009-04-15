@@ -38,8 +38,8 @@
 		Location *location = [[Location alloc] init];
 		location.locationId = [[attributeDict objectForKey:@"location_id"] intValue];
 		location.name = [attributeDict objectForKey:@"name"];
-		location.latitude = [attributeDict objectForKey:@"latitude"];
-		location.longitude = [attributeDict objectForKey:@"longitude"];
+		location.latitude = [[attributeDict objectForKey:@"latitude"] doubleValue];
+		location.longitude = [[attributeDict objectForKey:@"longitude"] doubleValue];
 		if ([[attributeDict objectForKey:@"hidden"] isEqualToString: @"1"]) location.hidden = YES;
 		else location.hidden = NO;
 		

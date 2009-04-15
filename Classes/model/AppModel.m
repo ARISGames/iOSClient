@@ -24,9 +24,7 @@
 @synthesize gameList;
 @synthesize locationList;
 @synthesize nearbyLocationsList;
-@synthesize lastLatitude;
-@synthesize lastLongitude;
-@synthesize lastLocationAccuracy;
+@synthesize lastLocation;
 @synthesize inventory;
 
 
@@ -175,8 +173,8 @@
 	[nearbyLocationsList retain];
 	
 	//init url
-	NSString *urlString = [NSString stringWithFormat:@"%@?module=RESTAsync&site=%@&user_name=%@&password=%@&latitude=%@&longitude=%@",
-						   baseAppURL, site, username, password, self.lastLatitude, self.lastLongitude];
+	NSString *urlString = [NSString stringWithFormat:@"%@?module=RESTAsync&site=%@&user_name=%@&password=%@&latitude=%f&longitude=%f",
+						   baseAppURL, site, username, password, lastLocation.coordinate.latitude, lastLocation.coordinate.longitude];
 	
 	NSLog([NSString stringWithFormat:@"Fetching Nearby Locations from : %@", urlString]);
 	

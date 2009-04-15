@@ -23,7 +23,7 @@
 
 - (void) setModel:(AppModel *)model;
 - (IBAction)cameraButtonTouchAction;
-- (IBAction)uploadButtonTouchAction;
+
 
 @property(copy, readwrite) NSString *moduleName;
 @property (nonatomic, retain) UIImagePickerController *imagePickerController;

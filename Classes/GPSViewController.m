@@ -7,6 +7,7 @@
 //
 
 #import "GPSViewController.h"
+#import "model/AppModel.h"
 #import "RMMapView.h"
 #import "RMMarker.h"
 #import "RMMarkerManager.h"
@@ -21,6 +22,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	moduleName = @"RESTMap";
+	
+	NSLog(@"Begin Loading GPS View");
 	
 	//register for notifications
 	NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
@@ -42,13 +45,13 @@
 	markerManager = [mapView markerManager];
 	
 	//Set up the Player Marker and Center the Map on them
-	CLLocationCoordinate2D playerPosition;
-	playerPosition.latitude = [appModel.lastLatitude floatValue];
-	playerPosition.longitude = [appModel.lastLongitude floatValue];
+	//Since we arn't ABSOLUTLY sure we have a valid playerLocation in the Model, make a fake one and let CLCController update later
 	
+	
+	CLLocationCoordinate2D playerPosition;
 	playerMarker = [[RMMarker alloc]initWithCGImage:[RMMarker loadPNGFromBundle:@"marker-player"]];
 	[markerManager addMarker:playerMarker AtLatLong:playerPosition];
-	[[mapView contents] moveToLatLong:playerPosition];
+
 	
 	NSLog(@"GPS View Loaded");
 }
@@ -86,17 +89,15 @@
 	NSLog(@"PlayerMoved notification recieved by GPS controller, running refreshPlayerMarker");
 	
 	//Move the player marker
-	CLLocationCoordinate2D playerPosition;
-	playerPosition.latitude = [appModel.lastLatitude floatValue];
-	playerPosition.longitude = [appModel.lastLongitude floatValue];
-	[markerManager moveMarker:playerMarker AtLatLon: playerPosition];
+
+	[markerManager moveMarker:playerMarker AtLatLon: appModel.lastLocation.coordinate];
 	
-	if (appModel.lastLocationAccuracy > 0 && appModel.lastLocationAccuracy < 100)
+	if (appModel.lastLocation.horizontalAccuracy > 0 && appModel.lastLocation.horizontalAccuracy < 100)
 		[playerMarker replaceImage:[RMMarker loadPNGFromBundle:@"marker-player"] anchorPoint:CGPointMake(.5, .6)];
 	else [playerMarker replaceImage:[RMMarker loadPNGFromBundle:@"marker-player-lqgps"] anchorPoint:CGPointMake(.5, .6)];
 
 	
-	[[mapView contents] moveToLatLong:playerPosition];
+	[[mapView contents] moveToLatLong:appModel.lastLocation.coordinate];
 }
 
 - (void)refreshMarkers {
@@ -112,8 +113,8 @@
 	for ( Location* location in appModel.locationList ) {
 		if (location.hidden == YES) continue;
 		CLLocationCoordinate2D locationLatLong;
-		locationLatLong.latitude = [location.latitude floatValue];
-		locationLatLong.longitude = [location.longitude floatValue];
+		locationLatLong.latitude = location.latitude;
+		locationLatLong.longitude = location.longitude;
 
 		RMMarker *locationMarker = [[RMMarker alloc]initWithCGImage:[RMMarker loadPNGFromBundle:@"marker-blue"]];
 		[locationMarker setTextLabel:location.name];

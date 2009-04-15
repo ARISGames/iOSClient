@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "model/AppModel.h";
+#import "model/AppModel.h"
 #import "RMMapView.h"
 #import "RMMarker.h"
 #import "RMMarkerManager.h"
+#import "Location.h"
 
 
 @interface GPSViewController : UIViewController {

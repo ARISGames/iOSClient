@@ -19,8 +19,6 @@
 
 - (void)dealloc {
 	[name release];
-	[latitude release];
-	[longitude release];
     [super dealloc];
 }
 
