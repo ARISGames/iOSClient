@@ -35,12 +35,12 @@
 	
 	if ([elementName isEqualToString:@"game"]) {
 		//ok, new game
-		NSLog(@"NEW Game!!");
 		Game *game = [[Game alloc] init];
 		game.gameId = [[attributeDict objectForKey:@"id"] intValue];
+		game.site = [attributeDict objectForKey:@"site"];
 		game.name = [attributeDict objectForKey:@"name"];
-		NSLog(game.name);
 		[gameList addObject:game];
+		NSLog(@"GameListParser: Added Game '%@' with a site name of '%@'",game.name ,game.site );
 	}
 }
 
@@ -50,7 +50,7 @@
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
 	NSDictionary *dictionary = [NSDictionary dictionaryWithObject:gameList forKey:@"gameList"];
-	NSLog(@"DONE WITH GAME XML!!");
+	NSLog(@"GameListParser: Finished Building the Game List");
 	NSNotification *gameListNotification = [NSNotification notificationWithName:@"ReceivedGameList" object:self userInfo:dictionary];
 	[[NSNotificationCenter defaultCenter] postNotification:gameListNotification];
 }

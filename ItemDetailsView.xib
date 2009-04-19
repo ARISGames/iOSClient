@@ -58,7 +58,7 @@
 					</object>
 					<object class="IBUIButton" id="410671672">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">292</int>
+						<int key="NSvFlags">-2147483356</int>
 						<string key="NSFrame">{{244, 371}, {70, 37}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -104,7 +104,7 @@
 					</object>
 					<object class="IBUIButton" id="953436460">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">292</int>
+						<int key="NSvFlags">-2147483356</int>
 						<string key="NSFrame">{{166, 371}, {70, 37}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -117,6 +117,27 @@
 						<string key="IBUIDisabledTitle">Drop</string>
 						<string key="IBUISelectedTitle">Drop</string>
 						<string key="IBUINormalTitle">Drop</string>
+						<reference key="IBUIHighlightedTitleColor" ref="6288214"/>
+						<object class="NSColor" key="IBUINormalTitleColor">
+							<int key="NSColorSpace">1</int>
+							<bytes key="NSRGB">MC4xOTYwNzg0MyAwLjMwOTgwMzkzIDAuNTIxNTY4NjYAA</bytes>
+						</object>
+					</object>
+					<object class="IBUIButton" id="441392885">
+						<reference key="NSNextResponder" ref="191373211"/>
+						<int key="NSvFlags">-2147483356</int>
+						<string key="NSFrame">{{166, 371}, {148, 37}}</string>
+						<reference key="NSSuperview" ref="191373211"/>
+						<bool key="IBUIOpaque">NO</bool>
+						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
+						<int key="IBUIContentHorizontalAlignment">0</int>
+						<int key="IBUIContentVerticalAlignment">0</int>
+						<reference key="IBUIFont" ref="255322363"/>
+						<int key="IBUIButtonType">1</int>
+						<string key="IBUIHighlightedTitle">Pickup</string>
+						<string key="IBUIDisabledTitle">Pickup</string>
+						<string key="IBUISelectedTitle">Pickup</string>
+						<string key="IBUINormalTitle">Pickup</string>
 						<reference key="IBUIHighlightedTitleColor" ref="6288214"/>
 						<object class="NSColor" key="IBUINormalTitleColor">
 							<int key="NSColorSpace">1</int>
@@ -142,22 +163,6 @@
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<object class="NSMutableArray" key="connectionRecords">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">deleteButton</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="410671672"/>
-					</object>
-					<int key="connectionID">17</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">dropButton</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="953436460"/>
-					</object>
-					<int key="connectionID">18</int>
-				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">dropButtonTouchAction:</string>
@@ -201,6 +206,39 @@
 					</object>
 					<int key="connectionID">27</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">pickupButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="441392885"/>
+					</object>
+					<int key="connectionID">31</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">dropButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="953436460"/>
+					</object>
+					<int key="connectionID">32</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">deleteButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="410671672"/>
+					</object>
+					<int key="connectionID">33</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">pickupButtonTouchAction:</string>
+						<reference key="source" ref="441392885"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">34</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -220,8 +258,9 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="64668083"/>
 							<reference ref="140983437"/>
-							<reference ref="410671672"/>
 							<reference ref="953436460"/>
+							<reference ref="410671672"/>
+							<reference ref="441392885"/>
 						</object>
 						<reference key="parent" ref="360949347"/>
 					</object>
@@ -256,6 +295,11 @@
 						<reference key="object" ref="140983437"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">28</int>
+						<reference key="object" ref="441392885"/>
+						<reference key="parent" ref="191373211"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -270,12 +314,14 @@
 					<string>13.IBPluginDependency</string>
 					<string>14.IBPluginDependency</string>
 					<string>19.IBPluginDependency</string>
+					<string>28.IBPluginDependency</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>ItemDetailsViewController</string>
 					<string>UIResponder</string>
-					<string>{{352, 137}, {320, 480}}</string>
+					<string>{{440, 444}, {320, 480}}</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -303,7 +349,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">27</int>
+			<int key="maxID">34</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -318,9 +364,13 @@
 							<string>backButtonTouchAction:</string>
 							<string>deleteButtonTouchAction:</string>
 							<string>dropButtonTouchAction:</string>
+							<string>pickupButtonTouchAction:</string>
+							<string>playMovie:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -334,12 +384,14 @@
 							<string>deleteButton</string>
 							<string>descriptionView</string>
 							<string>dropButton</string>
+							<string>pickupButton</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UITextView</string>
+							<string>UIButton</string>
 							<string>UIButton</string>
 						</object>
 					</object>

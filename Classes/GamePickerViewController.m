@@ -17,12 +17,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	NSLog(@"GAME PICKER");
+	NSLog(@"GamePickerViewController: View Loaded");
 	
 	//create game list
 	gameList = [NSMutableArray array];
 	[gameList retain];
-	
+		
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -45,7 +45,7 @@
 #pragma mark custom methods, logic
 
 - (void)setGameList:(NSMutableArray *)list {
-	NSLog(@"setGameList!!");
+	NSLog(@"GamePickerViewController: Game List Set");
 	[gameList release];
 	gameList = list;
 	[gameList retain];

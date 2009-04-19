@@ -232,7 +232,7 @@
 				A7986D670F8FEC3900A5469F /* Logout */,
 				A7986D650F8FEC1100A5469F /* Login */,
 				A7986D6C0F8FECBA00A5469F /* Toolbar */,
-				A7986D6B0F8FEC8800A5469F /* Nearby Locations */,
+				A7986D6B0F8FEC8800A5469F /* Generic Web View (compatability) */,
 				A7986D690F8FEC6300A5469F /* Camera */,
 				A7986D680F8FEC4900A5469F /* Quests */,
 				A7986D660F8FEC2100A5469F /* Inventory */,
@@ -424,14 +424,14 @@
 			name = "Core App";
 			sourceTree = "<group>";
 		};
-		A7986D6B0F8FEC8800A5469F /* Nearby Locations */ = {
+		A7986D6B0F8FEC8800A5469F /* Generic Web View (compatability) */ = {
 			isa = PBXGroup;
 			children = (
 				A7F0EE5F0F71D0C5008F7BAD /* GenericWebViewController.h */,
 				A7F0EE600F71D0C5008F7BAD /* GenericWebViewController.m */,
 				A7F0EE3E0F71CFEF008F7BAD /* GenericWebView.xib */,
 			);
-			name = "Nearby Locations";
+			name = "Generic Web View (compatability)";
 			sourceTree = "<group>";
 		};
 		A7986D6C0F8FECBA00A5469F /* Toolbar */ = {
@@ -486,7 +486,7 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* ARIS */ = {
+		1D6058900D05DD3D006BFB54 /* SimpleMap */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "ARIS" */;
 			buildPhases = (
@@ -521,7 +521,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* ARIS */,
+				1D6058900D05DD3D006BFB54 /* SimpleMap */,
 			);
 		};
 /* End PBXProject section */

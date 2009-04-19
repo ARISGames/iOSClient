@@ -8,6 +8,7 @@
 
 #import "NearbyLocationsListParserDelegate.h"
 #import "NearbyLocation.h";
+#import "Item.h";
 
 @implementation NearbyLocationsListParserDelegate
 
@@ -31,6 +32,7 @@
 		elementName = qName;
 	}
 	
+	//Parse the old Web style locations that simply link to a URL handled with HTML
 	if ([elementName isEqualToString:@"nearbyLocation"]) {
 		NearbyLocation *nearbyLocation = [[NearbyLocation alloc] init];
 		nearbyLocation.locationId = [[attributeDict objectForKey:@"id"] intValue];
@@ -42,6 +44,21 @@
 		NSLog([NSString stringWithFormat:@"Nearby Location added to Model: %@ Type: %@ URL: %@", 
 			   nearbyLocation.name, nearbyLocation.type, nearbyLocation.URL]);
 	}
+	//Parse any items
+	if ([elementName isEqualToString:@"item"]) {
+		Item *nearbyItem = [[Item alloc] init];
+		nearbyItem.itemId = [[attributeDict objectForKey:@"id"] intValue];
+		nearbyItem.locationId = [[attributeDict objectForKey:@"locationID"] intValue];
+		nearbyItem.name = [attributeDict objectForKey:@"name"];
+		nearbyItem.description = [attributeDict objectForKey:@"description"];		
+		nearbyItem.type = [attributeDict objectForKey:@"type"];
+		nearbyItem.iconURL = [attributeDict objectForKey:@"iconURL"];
+		nearbyItem.mediaURL = [attributeDict objectForKey:@"mediaURL"];
+		[nearbyLocationList addObject:nearbyItem];
+		NSLog([NSString stringWithFormat:@"Nearby Item added to Model: %@ Type: %@ LocationId: %d URL: %@", 
+			   nearbyItem.name, nearbyItem.type, nearbyItem.locationId, nearbyItem.mediaURL]);
+	}
+	
 }
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser {

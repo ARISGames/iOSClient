@@ -8,6 +8,7 @@
 
 #import "AudioToolbox/AudioToolbox.h"
 #import "ToolbarViewController.h"
+#import "Item.h"
 
 
 @implementation ToolbarViewController
@@ -37,14 +38,24 @@
 		
 	//Clear a button if it exists
 	navigationItem.rightBarButtonItem = nil;
-	
-	if ([notification.object count] > 0) {
+	NSArray *nearbyLocations = notification.object;
+	if ([nearbyLocations count] > 0) {
 		
 		//Determine the Button Label
 		NSString *label;
+		
 		//if ([notification.object count] == 1) {
-			NearbyLocation *loc = [notification.object objectAtIndex:0];
-			label = loc.name; 
+			if ([[nearbyLocations objectAtIndex: 0 ] isKindOfClass:[Item class]]) {
+				NSLog(@"Toolbar: nearby object is an Item");
+				Item *nearbyItem = [notification.object objectAtIndex:0];
+				label = nearbyItem.name; 
+			}
+			if ([[notification.object objectAtIndex: 0 ] isKindOfClass:[NearbyLocation class]]) {
+				NSLog(@"Toolbar: nearby object is a nearbyLocation");
+
+				NearbyLocation *loc = [notification.object objectAtIndex:0];
+				label = loc.name; 
+			}
 		//}
 		//else do some cool list stuff here
 		

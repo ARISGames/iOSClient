@@ -16,24 +16,29 @@
 	AppModel *appModel;
 	Item *item;
 	MPMoviePlayerController *mMoviePlayer; //only used if item is a video
+	bool inInventory;
 	IBOutlet UITextView *descriptionView;
 	IBOutlet UIButton *dropButton;
 	IBOutlet UIButton *deleteButton;
 	IBOutlet UIButton *backButton;
+	IBOutlet UIButton *pickupButton;
 }
 
 @property(copy, readwrite) AppModel *appModel;
 @property(copy, readwrite) Item *item;
+@property(readwrite) bool inInventory;
 @property (nonatomic, retain) UITextView *descriptionView;
 @property (nonatomic, retain) UIButton *dropButton;
 @property (nonatomic, retain) UIButton *deleteButton;
 @property (nonatomic, retain) UIButton *backButton;
+@property (nonatomic, readwrite, retain) UIButton *pickupButton;
 
 - (void) setModel:(AppModel *)model;
 - (void) setItem:(Item *)item;
 - (IBAction)dropButtonTouchAction: (id) sender;
 - (IBAction)deleteButtonTouchAction: (id) sender;
 - (IBAction)backButtonTouchAction: (id) sender;
+- (IBAction)pickupButtonTouchAction: (id) sender;
 - (IBAction)playMovie:(id)sender;
 
 

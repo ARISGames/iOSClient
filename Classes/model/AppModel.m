@@ -49,8 +49,8 @@
 - (BOOL)login {
 	BOOL loginSuccessful = NO;
 	//piece together URL
-	NSString *urlString = [NSString stringWithFormat:@"%@?module=RESTLogin&site=%@&user_name=%@&password=%@",
-						   baseAppURL, site, username, password];
+	NSString *urlString = [NSString stringWithFormat:@"%@?module=RESTLogin&user_name=%@&password=%@",
+						   baseAppURL, username, password];
 	
 	NSLog(urlString);
 	//try login
@@ -96,8 +96,9 @@
 	[gameList retain];
 	
 	//init url
-	NSString *urlString = [NSString stringWithFormat:@"%@?module=RESTSelectGame&site=%@&user_name=%@&password=%@",
-									baseAppURL, site, username, password];
+	NSString *urlString = [NSString stringWithFormat:@"%@?module=RESTSelectGame&user_name=%@&password=%@",
+									baseAppURL, username, password];
+	NSLog(@"Fetching Game List from: %@", urlString );
 
 	NSXMLParser *parser = [[NSXMLParser alloc] initWithContentsOfURL:[NSURL URLWithString:urlString]];
 	GameListParserDelegate *gameListParserDelegate = [[GameListParserDelegate alloc] initWithGameList:gameList];

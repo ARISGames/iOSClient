@@ -151,8 +151,8 @@
 	ItemDetailsViewController *itemDetailsViewController = [[ItemDetailsViewController alloc] initWithNibName:@"ItemDetailsView" bundle:[NSBundle mainBundle]];
 	[itemDetailsViewController setModel:appModel];
 	[itemDetailsViewController setItem:selectedItem];
+	itemDetailsViewController.inInventory = YES;
 	[self presentModalViewController:itemDetailsViewController animated:NO];
-	[itemDetailsViewController release];
 }
 
 

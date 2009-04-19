@@ -12,6 +12,7 @@
 @implementation Item
 
 @synthesize itemId;
+@synthesize locationId;
 @synthesize name;
 @synthesize description;
 @synthesize type;

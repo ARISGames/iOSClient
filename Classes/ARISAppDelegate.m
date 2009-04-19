@@ -9,6 +9,8 @@
 #import "ARISAppDelegate.h"
 #import "model/Game.h"
 #import "NearbyLocation.h"
+#import "Item.h"
+#import "ItemDetailsViewController.h"
 
 //private
 @interface ARISAppDelegate (hidden)
@@ -146,7 +148,7 @@
 	NSDictionary *userInfo = notification.userInfo;
 	Game *selectedGame = [userInfo objectForKey:@"game"];
 	
-	NSLog([NSString stringWithFormat:@"Game Selected: %@", selectedGame.name]);
+	NSLog([NSString stringWithFormat:@"AppDelegate: '%@' Selected using '%@' as it's site", selectedGame.name, selectedGame.site]);
 
 	[gamePickerViewController.view removeFromSuperview];
 	
@@ -154,7 +156,7 @@
 	tabBarController.selectedIndex = 0;
 	
 	//Set the model to this game
-	appModel.site = selectedGame.name;
+	appModel.site = selectedGame.site;
 		
 	//Load the default module, TODO
 	appModel.currentModule = @"TODO";
@@ -164,7 +166,7 @@
     //NSDictionary *loginObject = [notification object];
 	NSDictionary *userInfo = notification.userInfo;
 	NSMutableArray *gameList = [userInfo objectForKey:@"gameList"];
-	NSLog(@"SETTING Game List on controller");
+	NSLog(@"AppDelegate: Setting Game List on controller");
 	[gamePickerViewController setGameList:gameList];
 	[gamePickerViewController slideIn];
 }
@@ -184,26 +186,36 @@
 }
 
 - (void)displayNearbyObjects:(NSNotification *)notification {
-	NSLog(@"Nearby Button Notification recieved by App Delegate");
+	NSLog(@"Nearby Button Touched Notification recieved by App Delegate");
 	//We should have the nearbyLocationList aray in the model that tells us what is nearby
 	//If only one object exists (a single NPC, Node or Item) launch it in a modal UIWebView
 	//Otherwise, create a list
 	
 	//if ([appModel.nearbyLocationsList count] == 1) {
-		//Take them to the item
-		NearbyLocation *loc = [appModel.nearbyLocationsList objectAtIndex: 0 ];
-		NSString *moduleName;
-		if ([loc.type isEqualToString: @"Item"]) moduleName = @"RESTInventory";
-		else moduleName = @"RESTNodeViewer";
-		NSString *baseURL = [appModel getURLStringForModule:moduleName];
-		NSString *URLparams = loc.URL;
-		NSString *fullURL = [ NSString stringWithFormat:@"%@%@", baseURL, URLparams];
+		//Take them to the object
+		if ([[appModel.nearbyLocationsList objectAtIndex: 0 ] isKindOfClass:[Item class]]) {
+			//It's an item, use a real view controller
+			Item *nearbyItem = [appModel.nearbyLocationsList objectAtIndex: 0 ];
+			ItemDetailsViewController *itemDetailsViewController = [[ItemDetailsViewController alloc] initWithNibName:@"ItemDetailsView" bundle:[NSBundle mainBundle]];
+			[itemDetailsViewController setModel:appModel];
+			[itemDetailsViewController setItem:nearbyItem];
+			itemDetailsViewController.inInventory = NO;
+			[tabBarController presentModalViewController:itemDetailsViewController animated:YES];
+			[itemDetailsViewController release];
+		}
+		else if ([[appModel.nearbyLocationsList objectAtIndex: 0 ] isKindOfClass:[NearbyLocation class]]){
+			//It is a NearbyLocation, using the old WebView approach
+			NearbyLocation *loc = [appModel.nearbyLocationsList objectAtIndex: 0 ];
+			NSString *baseURL = [appModel getURLStringForModule:@"RESTNodeViewer"];
+			NSString *URLparams = loc.URL;
+			NSString *fullURL = [ NSString stringWithFormat:@"%@%@", baseURL, URLparams];
 		
-		NSLog([NSString stringWithFormat:@"Loading genericWebView for: %@ at %@", loc.name, fullURL ]);
-		[genericWebViewController setModel:appModel];
-		[genericWebViewController setURL: fullURL];
-		[genericWebViewController setToolbarTitle:loc.name];
-		[window addSubview:genericWebViewController.view];
+			NSLog([NSString stringWithFormat:@"Loading genericWebView for: %@ at %@", loc.name, fullURL ]);
+			[genericWebViewController setModel:appModel];
+			[genericWebViewController setURL: fullURL];
+			[genericWebViewController setToolbarTitle:loc.name];
+			[window addSubview:genericWebViewController.view];
+		}
 	//}
 	//else {
 		//Take them to a list 

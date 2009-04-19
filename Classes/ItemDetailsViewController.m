@@ -12,10 +12,12 @@
 
 @synthesize appModel;
 @synthesize item;
+@synthesize inInventory;
 @synthesize descriptionView;
 @synthesize dropButton;
 @synthesize deleteButton;
 @synthesize backButton;
+@synthesize pickupButton;
 
 
 -(void) setModel:(AppModel *)model{
@@ -24,7 +26,7 @@
 		appModel = model;
 		[appModel retain];
 	}
-	NSLog(@"Item Detail View: Model set");
+	NSLog(@"ItemDetailsViewController: Model set");
 }
 
 -(void) setItem:(Item *)newItem{
@@ -34,17 +36,29 @@
 		[item retain];
 	}
 	
-	NSLog(@"Item Detail View: Item set");
+	NSLog(@"ItemDetailsViewController:  Item set");
 }
 
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
 	
+	if (inInventory == YES) {
+		pickupButton.hidden = YES;
+		dropButton.hidden = NO;
+		deleteButton.hidden = NO;
+	}
+	else {
+		pickupButton.hidden = NO;
+		dropButton.hidden = YES;
+		deleteButton.hidden = YES;
+	}
+	
+	//Set Up General Stuff
 	descriptionView.text = item.description;
 	
 	if ([item.type isEqualToString: @"Image"]) {
-		NSLog(@"Item Detail View: Image Layout Selected");
+		NSLog(@"ItemDetailsViewController:  Image Layout Selected");
 		
 		//Setup the image view
 		NSString* imageURL = [item.mediaURL stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
@@ -64,7 +78,7 @@
 	}
 	
 	if ([item.type isEqualToString: @"AV"]) {
-		NSLog(@"Item Detail View: Video Layout Selected");
+		NSLog(@"ItemDetailsViewController:  Video Layout Selected");
 		
 		
 		
@@ -115,7 +129,7 @@
 	NSString *URLparams = [ NSString stringWithFormat:@"&event=dropItemHere&item_id=%d", self.item.itemId];
 	NSString *fullURL = [ NSString stringWithFormat:@"%@%@", baseURL, URLparams];
 	
-	NSLog([NSString stringWithFormat:@"Dropping Item Here using REST Call: %@", fullURL ]);
+	NSLog([NSString stringWithFormat:@"ItemDetailsViewController: Dropping Item Here using REST Call: %@", fullURL ]);
 	
 	NSString *result = [[NSString alloc] initWithContentsOfURL:[NSURL URLWithString:fullURL]];
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Success" message: result delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
@@ -130,6 +144,12 @@
 	//Refresh the inventory
 	[appModel fetchInventory];
 	
+	//Refresh the Nearby Locations
+	[appModel updateServerLocationAndfetchNearbyLocationList];
+	
+	//Refresh Map Locations
+	[appModel fetchLocationList];
+	
 }
 
 - (IBAction)deleteButtonTouchAction: (id) sender{
@@ -138,7 +158,7 @@
 	NSString *URLparams = [ NSString stringWithFormat:@"&event=destroyPlayerItem&item_id=%d", self.item.itemId];
 	NSString *fullURL = [ NSString stringWithFormat:@"%@%@", baseURL, URLparams];
 	
-	NSLog([NSString stringWithFormat:@"Deleting all Items for this Player on server: %@", fullURL ]);
+	NSLog([NSString stringWithFormat:@"ItemDetailsViewController: Deleting all Items for this Player on server: %@", fullURL ]);
 	
 	NSString *result = [[NSString alloc] initWithContentsOfURL:[NSURL URLWithString:fullURL]];
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Success" message: result delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
@@ -155,7 +175,7 @@
 	
 }
 - (IBAction)backButtonTouchAction: (id) sender{
-	NSLog(@"Dismiss Item Details View");
+	NSLog(@"ItemDetailsViewController: Dismiss Item Details View");
 	[self dismissModalViewControllerAnimated:NO];
 }
 
@@ -164,6 +184,31 @@
     [mMoviePlayer play];
 }
 
+- (IBAction)pickupButtonTouchAction: (id) sender{
+	NSLog(@"ItemDetailsViewController: pickupButtonTouched");
+	
+	//Fire off a request to the REST Module and display an alert when it is successfull
+	NSString *baseURL = [appModel getURLStringForModule:@"RESTInventory"];
+	NSString *URLparams = [ NSString stringWithFormat:@"&event=pickupItem&item_id=%d&location_id=%d", self.item.itemId, self.item.locationId];
+	NSString *fullURL = [ NSString stringWithFormat:@"%@%@", baseURL, URLparams];
+	
+	NSLog([NSString stringWithFormat:@"ItemDetailsViewController: Telling server to pickup this item using URL: %@", fullURL ]);
+	
+	NSString *result = [[NSString alloc] initWithContentsOfURL:[NSURL URLWithString:fullURL]];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Success" message: result delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+	
+	[alert show];
+	[result release];
+	[alert release];
+	
+	//Refresh the Nearby Locations
+	[appModel updateServerLocationAndfetchNearbyLocationList];
+	
+	//Refresh Map Locations
+	[appModel fetchLocationList];
+	
+	[self dismissModalViewControllerAnimated:YES];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview

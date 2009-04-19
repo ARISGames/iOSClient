@@ -11,10 +11,12 @@
 
 @interface Game : NSObject {
 	int gameId;
+	NSString *site;
 	NSString *name;
 }
 
 @property(readwrite, assign) int gameId;
+@property(copy, readwrite) NSString *site;
 @property(copy, readwrite) NSString *name;
 
 @end
