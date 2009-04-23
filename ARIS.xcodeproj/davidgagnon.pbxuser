@@ -152,8 +152,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 262110791;
-			PBXWorkspaceStateSaveDate = 262110791;
+			PBXPerProjectTemplateStateSaveDate = 262210925;
+			PBXWorkspaceStateSaveDate = 262210925;
 		};
 		perUserProjectItems = {
 			A703EFCF0F7C5718008A12E2 /* PBXTextBookmark */ = A703EFCF0F7C5718008A12E2 /* PBXTextBookmark */;
@@ -238,7 +238,6 @@
 			A79C6D4D0F9E5EE8006496C5 /* PBXTextBookmark */ = A79C6D4D0F9E5EE8006496C5 /* PBXTextBookmark */;
 			A79C6D4E0F9E5EE8006496C5 /* PBXTextBookmark */ = A79C6D4E0F9E5EE8006496C5 /* PBXTextBookmark */;
 			A79C6D4F0F9E5EE8006496C5 /* PBXTextBookmark */ = A79C6D4F0F9E5EE8006496C5 /* PBXTextBookmark */;
-			A79C6D550F9E5EE8006496C5 /* PBXTextBookmark */ = A79C6D550F9E5EE8006496C5 /* PBXTextBookmark */;
 			A79C6D560F9E5EE8006496C5 /* PBXTextBookmark */ = A79C6D560F9E5EE8006496C5 /* PBXTextBookmark */;
 			A79C6D570F9E5EE8006496C5 /* PBXTextBookmark */ = A79C6D570F9E5EE8006496C5 /* PBXTextBookmark */;
 			A79CFCF00F93D0D700DE57F8 /* PBXTextBookmark */ = A79CFCF00F93D0D700DE57F8 /* PBXTextBookmark */;
@@ -258,12 +257,13 @@
 			A7C4BC730FA0EF7100B84571 /* PBXTextBookmark */ = A7C4BC730FA0EF7100B84571 /* PBXTextBookmark */;
 			A7C4BC740FA0EF7100B84571 /* PBXTextBookmark */ = A7C4BC740FA0EF7100B84571 /* PBXTextBookmark */;
 			A7C4BC750FA0EF7100B84571 /* PBXTextBookmark */ = A7C4BC750FA0EF7100B84571 /* PBXTextBookmark */;
-			A7C4BC770FA0EF7100B84571 /* PBXTextBookmark */ = A7C4BC770FA0EF7100B84571 /* PBXTextBookmark */;
-			A7C4BC790FA0EF7100B84571 /* PBXTextBookmark */ = A7C4BC790FA0EF7100B84571 /* PBXTextBookmark */;
 			A7C4BC7A0FA0EF7100B84571 /* PBXTextBookmark */ = A7C4BC7A0FA0EF7100B84571 /* PBXTextBookmark */;
 			A7C4BC7C0FA0EF7100B84571 /* PBXTextBookmark */ = A7C4BC7C0FA0EF7100B84571 /* PBXTextBookmark */;
-			A7C4BC7E0FA0EF7100B84571 /* PBXTextBookmark */ = A7C4BC7E0FA0EF7100B84571 /* PBXTextBookmark */;
-			A7C4BC800FA0EF7100B84571 /* PBXTextBookmark */ = A7C4BC800FA0EF7100B84571 /* PBXTextBookmark */;
+			A7C4BCAF0FA110AF00B84571 /* PBXTextBookmark */ = A7C4BCAF0FA110AF00B84571 /* PBXTextBookmark */;
+			A7C4BCB00FA110AF00B84571 /* PBXTextBookmark */ = A7C4BCB00FA110AF00B84571 /* PBXTextBookmark */;
+			A7C4BCB10FA110AF00B84571 /* PBXTextBookmark */ = A7C4BCB10FA110AF00B84571 /* PBXTextBookmark */;
+			A7C4BCB20FA110AF00B84571 /* PBXTextBookmark */ = A7C4BCB20FA110AF00B84571 /* PBXTextBookmark */;
+			A7C4BCB30FA110AF00B84571 /* PBXTextBookmark */ = A7C4BCB30FA110AF00B84571 /* PBXTextBookmark */;
 			A7D469770F94281B0000ACE5 /* PBXTextBookmark */ = A7D469770F94281B0000ACE5 /* PBXTextBookmark */;
 			A7D469E70F967E940000ACE5 /* PBXTextBookmark */ = A7D469E70F967E940000ACE5 /* PBXTextBookmark */;
 			A7D469E80F967E940000ACE5 /* PBXTextBookmark */ = A7D469E80F967E940000ACE5 /* PBXTextBookmark */;
@@ -366,7 +366,7 @@
 	};
 	2B3D12D70F437D6E0067FD3A /* FilesViewController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1453, 434}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1453, 420}}";
 			sepNavSelRange = "{404, 18}";
 			sepNavVisRange = "{0, 0}";
 		};
@@ -854,9 +854,9 @@
 	};
 	A72C02160F7985FF00D00602 /* QRScannerViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1080, 1148}}";
-			sepNavSelRange = "{1437, 0}";
-			sepNavVisRange = "{828, 1159}";
+			sepNavIntBoundsRect = "{{0, 0}, {1453, 1344}}";
+			sepNavSelRange = "{702, 0}";
+			sepNavVisRange = "{0, 1723}";
 		};
 	};
 	A72F049E0F6ED78F0089B90F /* NearbyLocationsListParserDelegate.h */ = {
@@ -1324,7 +1324,7 @@
 		fRef = A72C02160F7985FF00D00602 /* QRScannerViewController.m */;
 		name = "QRScannerViewController.m: 53";
 		rLen = 0;
-		rLoc = 1437;
+		rLoc = 1646;
 		rType = 0;
 		vrLen = 1159;
 		vrLoc = 828;
@@ -1337,16 +1337,6 @@
 		rLoc = 4524;
 		rType = 0;
 		vrLen = 730;
-		vrLoc = 0;
-	};
-	A79C6D550F9E5EE8006496C5 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 2B3D12D70F437D6E0067FD3A /* FilesViewController.h */;
-		name = "FilesViewController.h: 18";
-		rLen = 18;
-		rLoc = 404;
-		rType = 0;
-		vrLen = 357;
 		vrLoc = 0;
 	};
 	A79C6D560F9E5EE8006496C5 /* PBXTextBookmark */ = {
@@ -1605,36 +1595,10 @@
 	};
 	A7C4BC760FA0EF7100B84571 /* config.inc.php */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = text.script.php;
 		name = config.inc.php;
 		path = "/Volumes/Projects-dev/web/aris/editor/config.inc.php";
 		sourceTree = "<absolute>";
-	};
-	A7C4BC770FA0EF7100B84571 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = A7C4BC780FA0EF7100B84571 /* games_backup.php */;
-		name = "games_backup.php: 19";
-		rLen = 0;
-		rLoc = 1055;
-		rType = 0;
-		vrLen = 1559;
-		vrLoc = 0;
-	};
-	A7C4BC780FA0EF7100B84571 /* games_backup.php */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.script.php;
-		name = games_backup.php;
-		path = "/Volumes/Projects-dev/web/aris/editor/games_backup.php";
-		sourceTree = "<absolute>";
-	};
-	A7C4BC790FA0EF7100B84571 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 2B3D15A20F461AA30067FD3A /* ToolbarViewController.m */;
-		name = "ToolbarViewController.m: 45";
-		rLen = 839;
-		rLoc = 1191;
-		rType = 0;
-		vrLen = 982;
-		vrLoc = 1119;
 	};
 	A7C4BC7A0FA0EF7100B84571 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -1648,6 +1612,7 @@
 	};
 	A7C4BC7B0FA0EF7100B84571 /* config.inc.php */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = text.script.php;
 		name = config.inc.php;
 		path = "/Volumes/Projects-dev/web/aris/editor/config.inc.php";
 		sourceTree = "<absolute>";
@@ -1657,53 +1622,79 @@
 		fRef = A7C4BC7D0FA0EF7100B84571 /* games_backup.php */;
 		name = "games_backup.php: 19";
 		rLen = 0;
-		rLoc = 1055;
+		rLoc = 1660;
 		rType = 0;
 		vrLen = 1559;
 		vrLoc = 0;
 	};
 	A7C4BC7D0FA0EF7100B84571 /* games_backup.php */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = text.script.php;
 		name = games_backup.php;
 		path = "/Volumes/Projects-dev/web/aris/editor/games_backup.php";
 		sourceTree = "<absolute>";
 	};
-	A7C4BC7E0FA0EF7100B84571 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = A7C4BC7F0FA0EF7100B84571 /* config.inc.php */;
-		name = "config.inc.php: 27";
-		rLen = 0;
-		rLoc = 1214;
-		rType = 0;
-		vrLen = 1552;
-		vrLoc = 123;
-	};
-	A7C4BC7F0FA0EF7100B84571 /* config.inc.php */ = {
-		isa = PBXFileReference;
-		name = config.inc.php;
-		path = "/Volumes/Projects-dev/web/aris/editor/config.inc.php";
-		sourceTree = "<absolute>";
-	};
-	A7C4BC800FA0EF7100B84571 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = A7C4BC810FA0EF7100B84571 /* games_backup.php */;
-		name = "games_backup.php: 35";
-		rLen = 0;
-		rLoc = 1256;
-		rType = 0;
-		vrLen = 2891;
-		vrLoc = 0;
-	};
 	A7C4BC810FA0EF7100B84571 /* games_backup.php */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = text.script.php;
 		name = games_backup.php;
 		path = "/Volumes/Projects-dev/web/aris/editor/games_backup.php";
 		sourceTree = "<absolute>";
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1453, 1414}}";
-			sepNavSelRange = "{1256, 0}";
-			sepNavVisRange = "{0, 2891}";
+			sepNavIntBoundsRect = "{{0, 0}, {1453, 1456}}";
+			sepNavSelRange = "{1878, 0}";
+			sepNavVisRange = "{0, 2919}";
 		};
+	};
+	A7C4BCAF0FA110AF00B84571 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12D70F437D6E0067FD3A /* FilesViewController.h */;
+		name = "FilesViewController.h: 18";
+		rLen = 18;
+		rLoc = 404;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A7C4BCB00FA110AF00B84571 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7C4BC810FA0EF7100B84571 /* games_backup.php */;
+		name = "games_backup.php: 49";
+		rLen = 0;
+		rLoc = 1878;
+		rType = 0;
+		vrLen = 2919;
+		vrLoc = 0;
+	};
+	A7C4BCB10FA110AF00B84571 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A72C02160F7985FF00D00602 /* QRScannerViewController.m */;
+		name = "QRScannerViewController.m: 53";
+		rLen = 0;
+		rLoc = 1646;
+		rType = 0;
+		vrLen = 2022;
+		vrLoc = 0;
+	};
+	A7C4BCB20FA110AF00B84571 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7C4BC810FA0EF7100B84571 /* games_backup.php */;
+		name = "games_backup.php: 49";
+		rLen = 0;
+		rLoc = 1878;
+		rType = 0;
+		vrLen = 2919;
+		vrLoc = 0;
+	};
+	A7C4BCB30FA110AF00B84571 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A72C02160F7985FF00D00602 /* QRScannerViewController.m */;
+		name = "QRScannerViewController.m: 31";
+		rLen = 0;
+		rLoc = 702;
+		rType = 0;
+		vrLen = 1723;
+		vrLoc = 0;
 	};
 	A7D469770F94281B0000ACE5 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
