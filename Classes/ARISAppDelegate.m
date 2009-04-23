@@ -76,7 +76,7 @@
 	moreNavController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 	moreNavController.delegate = self;
 	
-	//make sure first view controller in tab has model set
+	//make sure first view controller in tab has model set, but black it out
 	UIViewController *selViewController = [tabBarController selectedViewController];
 	[selViewController performSelector:@selector(setModel:) withObject:appModel];
 	
@@ -157,9 +157,10 @@
 	
 	//Set the model to this game
 	appModel.site = selectedGame.site;
-		
-	//Load the default module, TODO
-	appModel.currentModule = @"TODO";
+	
+	//Refresh the first ViewController that has been hiding under the login/select game stuff by reloading it's model
+	UIViewController *selViewController = [tabBarController selectedViewController];
+	[selViewController performSelector:@selector(setModel:) withObject:appModel];
 }
 
 - (void)setGameList:(NSNotification *)notification {
