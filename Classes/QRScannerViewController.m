@@ -48,8 +48,22 @@
 
 #pragma mark UIImagePickerControllerDelegate Protocol Methods
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)img editingInfo:(NSDictionary *)editInfo {
-	//img is now available to us
 	[[picker parentViewController] dismissModalViewControllerAnimated:YES];
+	
+	
+	
+	//init the qr scanner
+	
+	
+	//execute the scan
+	NSString *QRResult = [[NSString alloc] init];
+	NSLog(@"QR Scanner: Decode Complete. Result = ", QRResult);
+	
+	//for now: use the result to build a url
+	
+	//for now: launch that URL
+	
+	
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
