@@ -8,7 +8,7 @@
 
 #import "AudioToolbox/AudioToolbox.h"
 #import "ToolbarViewController.h"
-#import "Item.h"
+
 
 
 @implementation ToolbarViewController
@@ -27,6 +27,17 @@
 	NSLog(@"Top Toolbar Loaded");
 }
 
+-(void) setModel:(AppModel *)model {
+	if(appModel != model) {
+		[appModel release];
+		appModel = model;
+		[appModel retain];
+	}
+
+	NSLog(@"model set for ToolBar");
+}
+
+
 -(void) setToolbarTitle:(NSString *)title {
 	//NSLog(@"setToolbarTitle");
 	titleLabel.text = title;
@@ -35,7 +46,7 @@
 
 - (void)processNearbyLocationsList:(NSNotification *)notification {
     NSLog(@"Toolbar recieved Nearby Locations List Notification");
-		
+	
 	//Clear a button if it exists
 	navigationItem.rightBarButtonItem = nil;
 	NSArray *nearbyLocations = notification.object;

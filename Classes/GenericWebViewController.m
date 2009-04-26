@@ -40,7 +40,7 @@
 -(void) setURL: (NSString*)urlString {
 	request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
 	[webview loadRequest:request];
-	NSLog(@"Generic Web Controller is Now Loading the URL in setURL");
+	NSLog(@"Generic Web Controller is Now Loading: %@",urlString);
 }
 
 -(void) setModel:(AppModel *)model{
@@ -54,6 +54,7 @@
 }
 
 -(void) setToolbarTitle:(NSString *)title {
+	NSLog (@"GenericWebView: Set Title to:'%@'",title);
 	titleLabel.text = title;
 }
 

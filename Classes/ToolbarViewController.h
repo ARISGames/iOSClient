@@ -8,15 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import "NearbyLocation.h"
+#import "model/AppModel.h";
+#import "Item.h"
+#import "GenericWebViewController.h"
 
 
 
 @interface ToolbarViewController : UIViewController {
+	AppModel *appModel;
 	UILabel *titleLabel;
 	UINavigationItem *navigationItem;
 	UIView *sv;
 }
 
+-(void) setModel:(AppModel *)model;
 -(void) setToolbarTitle:(NSString *)title;
 -(void) nearbyButtonAction:(id)sender;
 

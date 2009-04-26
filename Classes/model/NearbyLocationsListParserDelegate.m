@@ -35,6 +35,7 @@
 	//Parse the old Web style locations that simply link to a URL handled with HTML
 	if ([elementName isEqualToString:@"nearbyLocation"]) {
 		NearbyLocation *nearbyLocation = [[NearbyLocation alloc] init];
+		nearbyLocation.forceView = [[attributeDict objectForKey:@"forceView"] boolValue];
 		nearbyLocation.locationId = [[attributeDict objectForKey:@"id"] intValue];
 		nearbyLocation.name = [attributeDict objectForKey:@"label"];
 		nearbyLocation.type = [attributeDict objectForKey:@"type"];

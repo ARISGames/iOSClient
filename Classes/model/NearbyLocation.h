@@ -11,6 +11,7 @@
 
 @interface NearbyLocation : NSObject {
 	int locationId;
+	bool forceView;
 	NSString *name;
 	NSString *type;
 	NSString *iconURL;
@@ -18,6 +19,7 @@
 }
 
 @property(readwrite, assign) int locationId;
+@property(readwrite, assign) bool forceView;
 @property(copy, readwrite) NSString *name;
 @property(copy, readwrite) NSString *type;
 @property(copy, readwrite) NSString *iconURL;

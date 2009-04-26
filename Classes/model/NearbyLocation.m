@@ -12,6 +12,7 @@
 @implementation NearbyLocation
 
 @synthesize locationId;
+@synthesize forceView;
 @synthesize name;
 @synthesize type;
 @synthesize iconURL;

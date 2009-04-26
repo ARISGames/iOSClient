@@ -43,6 +43,7 @@
 	[dispatcher addObserver:self selector:@selector(selectGame:) name:@"SelectGame" object:nil];
 	[dispatcher addObserver:self selector:@selector(setGameList:) name:@"ReceivedGameList" object:nil];
 	[dispatcher addObserver:self selector:@selector(performLogout:) name:@"LogoutRequested" object:nil];
+	[dispatcher addObserver:self selector:@selector(processNearbyLocationsList:) name:@"ReceivedNearbyLocationList" object:nil];
 	[dispatcher addObserver:self selector:@selector(displayNearbyObjects:) name:@"NearbyButtonTouched" object:nil];
 	[dispatcher addObserver:self selector:@selector(destroyNearbyObjectsView:) name:@"BackButtonTouched" object:nil];
 	
@@ -54,6 +55,8 @@
 	
     // Add the tab bar controller's current view as a subview of the window
 	[window addSubview:toolbarViewController.view];
+	[toolbarViewController setModel:appModel];
+	
 	[window addSubview:tabBarController.view];	
 
 	
@@ -185,6 +188,33 @@
 	[window addSubview:loginViewController.view];
 	loginViewController.view.hidden == NO;
 }
+
+- (void)processNearbyLocationsList:(NSNotification *)notification {
+    NSLog(@"App Delegate recieved Nearby Locations List Notification");
+	NSArray *nearbyLocations = notification.object;
+	//Check for a force View flag in one of the nearby locations and display if found
+	for (NSObject *unknownNearbyLocation in nearbyLocations) {
+		if ([unknownNearbyLocation isKindOfClass:[NearbyLocation class]]) {
+			NearbyLocation *nearbyLocation = unknownNearbyLocation;
+			if (nearbyLocation.forceView == YES) {
+				NSLog(@"A forced view location is nearby");
+				NSString *baseURL = [appModel getURLStringForModule:@"RESTNodeViewer"];
+				NSString *URLparams = nearbyLocation.URL;
+				NSString *fullURL = [ NSString stringWithFormat:@"%@%@", baseURL, URLparams];
+					
+				NSLog([NSString stringWithFormat:@"Loading genericWebView for: %@ at %@", nearbyLocation.name, fullURL ]);
+					
+										
+				[genericWebViewController setModel:appModel];
+				[genericWebViewController setURL: fullURL];
+				[genericWebViewController setToolbarTitle:nearbyLocation.name];
+				[window addSubview:genericWebViewController.view];					
+			}
+		}
+	}
+}
+
+
 
 - (void)displayNearbyObjects:(NSNotification *)notification {
 	NSLog(@"Nearby Button Touched Notification recieved by App Delegate");

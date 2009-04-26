@@ -138,7 +138,7 @@
 						<reference key="source" ref="372490531"/>
 						<reference key="destination" ref="855877861"/>
 					</object>
-					<int key="connectionID">22</int>
+					<int key="connectionID">24</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -227,7 +227,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>GenericWebViewController</string>
 					<string>UIResponder</string>
-					<string>{{652, 183}, {320, 480}}</string>
+					<string>{{502, 183}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -256,7 +256,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">23</int>
+			<int key="maxID">24</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
