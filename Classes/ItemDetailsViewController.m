@@ -138,17 +138,18 @@
 	[result release];
 	[alert release];
 	
+	
 	//Dismiss Item Details View
 	[self dismissModalViewControllerAnimated:NO];
-	
-	//Refresh the inventory
-	[appModel fetchInventory];
 	
 	//Refresh the Nearby Locations
 	[appModel updateServerLocationAndfetchNearbyLocationList];
 	
 	//Refresh Map Locations
 	[appModel fetchLocationList];
+	
+	//Refresh the inventory
+	[appModel fetchInventory];
 	
 }
 
@@ -206,6 +207,9 @@
 	
 	//Refresh Map Locations
 	[appModel fetchLocationList];
+	
+	//Refresh the inventory
+	[appModel fetchInventory];
 	
 	[self dismissModalViewControllerAnimated:YES];
 }

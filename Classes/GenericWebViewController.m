@@ -31,6 +31,11 @@
 
 - (void)backButtonAction:(id)sender {
 	NSLog(@"Back Button Touched");
+	
+	//Refesh any parts of the model that might have been changed while using this view
+	[appModel fetchLocationList];
+	[appModel fetchInventory];
+	
 	NSNotification *loginNotification = [NSNotification notificationWithName:@"BackButtonTouched" object:self];
 	[[NSNotificationCenter defaultCenter] postNotification:loginNotification];
 }
