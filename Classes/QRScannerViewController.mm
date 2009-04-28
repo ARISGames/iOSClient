@@ -7,6 +7,8 @@
 //
 
 #import "QRScannerViewController.h"
+#import "Decoder.h"
+#import "TwoDDecoderResult.h"
 
 
 @implementation QRScannerViewController 
@@ -47,27 +49,54 @@
 }
 
 #pragma mark UIImagePickerControllerDelegate Protocol Methods
+
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)img editingInfo:(NSDictionary *)editInfo {
 	[[picker parentViewController] dismissModalViewControllerAnimated:YES];
+	CGRect cropRect;
+	if ([editInfo objectForKey:UIImagePickerControllerCropRect]) {  //do we have a user specified cropRect?
+		cropRect = [[editInfo objectForKey:UIImagePickerControllerCropRect] CGRectValue];
+	} else { //No user-specified croprect, so set cropRect to use entire image
+		cropRect = CGRectMake(0.0, 0.0, img.size.width, img.size.height);
+	}
 	
-	
-	
-	//init the qr scanner
-	
-	
-	//execute the scan
-	NSString *QRResult = [[NSString alloc] init];
-	NSLog(@"QR Scanner: Decode Complete. Result = ", QRResult);
-	
-	//for now: use the result to build a url
-	
-	//for now: launch that URL
-	
+	//Now to decode
+	Decoder *imageDecoder = [[Decoder alloc] init]; //create a decoder
+	[imageDecoder setDelegate:self];  //we get told about the scan, 
+	[imageDecoder decodeImage:img cropRect:cropRect]; //start the decode. When done, our delegate method will be called.
 	
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
 	[[picker parentViewController] dismissModalViewControllerAnimated:YES];
+}
+
+#pragma mark QRCScan delegate methods
+
+- (void)decoder:(Decoder *)decoder didDecodeImage:(UIImage *)image usingSubset:(UIImage *)subset withResult:(TwoDDecoderResult *)twoDResult {
+	//get the result
+	NSString *result = twoDResult.text;
+	//we are done with the scanner, so release it
+	[decoder release];
+	NSLog(@"QR Scanner: Decode Complete. Result = ", result);
+	
+	//for now: use the result to build a url
+	NSURL *url = [NSURL URLWithString:result];
+	
+	//for now: launch that URL
+	
+}
+
+- (void)decoder:(Decoder *)decoder decodingImage:(UIImage *)image usingSubset:(UIImage *)subset progress:(NSString *)message {
+	NSLog(@"Decoding image");
+}
+
+- (void)decoder:(Decoder *)decoder failedToDecodeImage:(UIImage *)image usingSubset:(UIImage *)subset reason:(NSString *)reason {
+	NSLog(@"Failed to decode image");
+	[decoder release];
+}
+
+- (void)decoder:(Decoder *)decoder willDecodeImage:(UIImage *)image usingSubset:(UIImage *)subset {
+	NSLog(@"Will decode image");
 }
 
 #pragma mark UINavigationControllerDelegate Protocol Methods

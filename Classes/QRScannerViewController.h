@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "model/AppModel.h";
+#import "DecoderDelegate.h"
 
 
-@interface QRScannerViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
+@interface QRScannerViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, DecoderDelegate> {
 	NSString *moduleName;
 	AppModel *appModel;
 	UIButton *scanButton;
