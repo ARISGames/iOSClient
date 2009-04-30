@@ -21,7 +21,6 @@
 	LoginViewController *loginViewController;
 	ToolbarViewController *toolbarViewController;
 	GamePickerViewController *gamePickerViewController;
-	GenericWebViewController *genericWebViewController;
 	AppModel *appModel;
 	UIWebView *webView;
 	MyCLController *myCLController;
@@ -32,6 +31,5 @@
 @property (nonatomic, retain) IBOutlet LoginViewController *loginViewController;
 @property (nonatomic, retain) IBOutlet ToolbarViewController *toolbarViewController;
 @property (nonatomic, retain) IBOutlet GamePickerViewController *gamePickerViewController;
-@property (nonatomic, retain) IBOutlet GenericWebViewController *genericWebViewController;
 
 @end

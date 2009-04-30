@@ -36,8 +36,7 @@
 	[appModel fetchLocationList];
 	[appModel fetchInventory];
 	
-	NSNotification *loginNotification = [NSNotification notificationWithName:@"BackButtonTouched" object:self];
-	[[NSNotificationCenter defaultCenter] postNotification:loginNotification];
+	[self.view removeFromSuperview];
 }
 
 

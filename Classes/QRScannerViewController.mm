@@ -53,11 +53,11 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)img editingInfo:(NSDictionary *)editInfo {
 	[[picker parentViewController] dismissModalViewControllerAnimated:YES];
 	CGRect cropRect;
-	if ([editInfo objectForKey:UIImagePickerControllerCropRect]) {  //do we have a user specified cropRect?
-		cropRect = [[editInfo objectForKey:UIImagePickerControllerCropRect] CGRectValue];
-	} else { //No user-specified croprect, so set cropRect to use entire image
+	//if ([editInfo objectForKey:UIImagePickerControllerCropRect]) {  //do we have a user specified cropRect?
+	//	cropRect = [[editInfo objectForKey:UIImagePickerControllerCropRect] CGRectValue];
+	//} else { //No user-specified croprect, so set cropRect to use entire image
 		cropRect = CGRectMake(0.0, 0.0, img.size.width, img.size.height);
-	}
+	//}
 	
 	//Now to decode
 	Decoder *imageDecoder = [[Decoder alloc] init]; //create a decoder
@@ -77,13 +77,25 @@
 	NSString *result = twoDResult.text;
 	//we are done with the scanner, so release it
 	[decoder release];
-	NSLog(@"QR Scanner: Decode Complete. Result = ", result);
+	NSLog(@"QR Scanner: Decode Complete. QR Code ID = %@", result);
 	
-	//for now: use the result to build a url
-	NSURL *url = [NSURL URLWithString:result];
+	//init url
+	NSString *baseURL = [appModel getURLStringForModule:@"RESTQRScanner"];
+	NSString *fullURL = [ NSString stringWithFormat:@"%@&qrcode_id=%@", baseURL, result];
+	NSLog([NSString stringWithFormat:@"Fetching QR Code from : %@", fullURL]);
 	
-	//for now: launch that URL
+	//setup the xml parser to use a qrparser delegate and the deleage to use this view controller as a delegate
+	NSXMLParser *parser = [[NSXMLParser alloc] initWithContentsOfURL:[NSURL URLWithString:fullURL]];
+	QRScannerParserDelegate *parserDelegate = [[QRScannerParserDelegate alloc] init];
+	[parser setDelegate: parserDelegate];
+	[parserDelegate setDelegate: self];
 	
+	//init parser
+	[parser setShouldProcessNamespaces:NO];
+	[parser setShouldReportNamespacePrefixes:NO];
+	[parser setShouldResolveExternalEntities:NO];
+	[parser parse];
+	[parser release];
 }
 
 - (void)decoder:(Decoder *)decoder decodingImage:(UIImage *)image usingSubset:(UIImage *)subset progress:(NSString *)message {
@@ -106,6 +118,28 @@
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
 	//nada
+}
+
+#pragma mark QRScannerParserDelegate Methods
+- (void) qrParserDidFinish:(QRCode*)qrcode{
+	NSLog(@"QRScannerViewController: Recieved QR Code Message for '%@'", qrcode.label);
+	
+	//Build the ful URL
+	NSString *baseURL;
+	if ([qrcode.type isEqualToString:@"Item"])  baseURL = [appModel getURLStringForModule:@"RESTInventory"];
+	else baseURL = [appModel getURLStringForModule:@"RESTNodeViewer"];
+	
+	NSString *URLparams = qrcode.URL;
+	NSString *fullURL = [ NSString stringWithFormat:@"%@%@", baseURL, URLparams];
+	
+	//Load the webview
+	NSLog([NSString stringWithFormat:@"Loading genericWebView for: %@ at %@", qrcode.label, fullURL ]);
+	
+	GenericWebViewController *genericWebViewController = [[GenericWebViewController alloc] initWithNibName:@"GenericWebView" bundle:[NSBundle mainBundle]];
+	[genericWebViewController setModel:appModel];
+	[genericWebViewController setURL: fullURL];
+	[genericWebViewController setToolbarTitle:qrcode.label];
+	[self.view addSubview:genericWebViewController.view];		
 }
 
 

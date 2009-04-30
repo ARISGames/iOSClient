@@ -4,7 +4,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {652, 630}}";
 			sepNavSelRange = "{648, 0}";
-			sepNavVisRange = "{196, 1032}";
+			sepNavVisRange = "{195, 1028}";
 		};
 	};
 	1D6058900D05DD3D006BFB54 /* SimpleMap */ = {
@@ -14,9 +14,9 @@
 		);
 	};
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
-		activeBuildConfigurationName = Distribution;
+		activeBuildConfigurationName = Debug;
 		activeExecutable = A70042B50F4DE05E00D0978E /* SimpleMap */;
-		activeSDKPreference = iphonesimulator2.2.1;
+		activeSDKPreference = iphoneos2.2.1;
 		activeTarget = 1D6058900D05DD3D006BFB54 /* SimpleMap */;
 		codeSenseManager = A70042CC0F4DE08A00D0978E /* Code sense */;
 		executables = (
@@ -45,18 +45,40 @@
 					PBXFileDataSource_Target_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 257371872;
-			PBXWorkspaceStateSaveDate = 257371872;
+			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					434,
+					60,
+					20,
+					48,
+					43,
+					43,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXTargetDataSource_PrimaryAttribute,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 262714460;
+			PBXWorkspaceStateSaveDate = 262714460;
 		};
 		perUserProjectItems = {
 			A70043030F4DE60100D0978E /* PlistBookmark */ = A70043030F4DE60100D0978E /* PlistBookmark */;
 			A70043050F4DE60100D0978E /* PlistBookmark */ = A70043050F4DE60100D0978E /* PlistBookmark */;
+			A70986140FA7A46D00FCCA78 /* PBXTextBookmark */ = A70986140FA7A46D00FCCA78 /* PBXTextBookmark */;
+			A72135190FA8B469003E4059 /* PBXTextBookmark */ = A72135190FA8B469003E4059 /* PBXTextBookmark */;
 			A722E8180F576C12004B04D2 /* PBXTextBookmark */ = A722E8180F576C12004B04D2 /* PBXTextBookmark */;
 			A722E8190F576C12004B04D2 /* PBXTextBookmark */ = A722E8190F576C12004B04D2 /* PBXTextBookmark */;
-			A722E81A0F576C12004B04D2 /* PBXTextBookmark */ = A722E81A0F576C12004B04D2 /* PBXTextBookmark */;
 			A722E81B0F576C12004B04D2 /* PBXTextBookmark */ = A722E81B0F576C12004B04D2 /* PBXTextBookmark */;
 			A722E81C0F576C12004B04D2 /* PBXTextBookmark */ = A722E81C0F576C12004B04D2 /* PBXTextBookmark */;
-			A722E83B0F58484B004B04D2 /* PBXTextBookmark */ = A722E83B0F58484B004B04D2 /* PBXTextBookmark */;
 			A7E4C95A0F55DB9F00C6D9E8 /* PBXTextBookmark */ = A7E4C95A0F55DB9F00C6D9E8 /* PBXTextBookmark */;
 			A7E4C95B0F55DB9F00C6D9E8 /* PBXBookmark */ = A7E4C95B0F55DB9F00C6D9E8 /* PBXBookmark */;
 			A7E4C95C0F55DB9F00C6D9E8 /* PBXTextBookmark */ = A7E4C95C0F55DB9F00C6D9E8 /* PBXTextBookmark */;
@@ -99,6 +121,7 @@
 		fallbackIsa = XCSourceControlManager;
 		isSCMEnabled = 0;
 		scmConfiguration = {
+			repositoryName = ATSVN;
 		};
 	};
 	A70042CC0F4DE08A00D0978E /* Code sense */ = {
@@ -127,6 +150,26 @@
 		rLen = 0;
 		rLoc = 2147483647;
 	};
+	A70986140FA7A46D00FCCA78 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 090C948B0EC23FCD003AEE25 /* RMMarkerManager.h */;
+		name = "RMMarkerManager.h: 29";
+		rLen = 0;
+		rLoc = 648;
+		rType = 0;
+		vrLen = 1026;
+		vrLoc = 196;
+	};
+	A72135190FA8B469003E4059 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 090C948B0EC23FCD003AEE25 /* RMMarkerManager.h */;
+		name = "RMMarkerManager.h: 29";
+		rLen = 0;
+		rLoc = 648;
+		rType = 0;
+		vrLen = 1028;
+		vrLoc = 195;
+	};
 	A722E8180F576C12004B04D2 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = B8C974690E8A1A50007D16AD /* RMMapView.h */;
@@ -147,16 +190,6 @@
 		vrLen = 898;
 		vrLoc = 838;
 	};
-	A722E81A0F576C12004B04D2 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 090C948B0EC23FCD003AEE25 /* RMMarkerManager.h */;
-		name = "RMMarkerManager.h: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 1052;
-		vrLoc = 0;
-	};
 	A722E81B0F576C12004B04D2 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = B8C974690E8A1A50007D16AD /* RMMapView.h */;
@@ -176,16 +209,6 @@
 		rType = 0;
 		vrLen = 898;
 		vrLoc = 838;
-	};
-	A722E83B0F58484B004B04D2 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 090C948B0EC23FCD003AEE25 /* RMMarkerManager.h */;
-		name = "RMMarkerManager.h: 29";
-		rLen = 0;
-		rLoc = 648;
-		rType = 0;
-		vrLen = 1032;
-		vrLoc = 196;
 	};
 	A7E4C95A0F55DB9F00C6D9E8 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;

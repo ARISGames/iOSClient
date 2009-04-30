@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "model/AppModel.h";
+#import "model/AppModel.h"
 #import "DecoderDelegate.h"
+#import "QRScannerParserDelegate.h"
+#import "GenericWebViewController.h"
 
 
-@interface QRScannerViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, DecoderDelegate> {
+@interface QRScannerViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, DecoderDelegate, QRScannerParserDelegateDelegate> {
 	NSString *moduleName;
 	AppModel *appModel;
 	UIButton *scanButton;
@@ -20,6 +22,7 @@
 
 
 - (void) setModel:(AppModel *)model;
+- (void) qrParserDidFinish:(QRCode*)qrcode;
 
 @property(copy, readwrite) NSString *moduleName;
 @property (nonatomic, retain) UIButton *scanButton;
