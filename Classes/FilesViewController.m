@@ -133,12 +133,7 @@
 	}
 	UIImage *icon = [UIImage imageWithData:iconData];
 	iconView.image = icon;
-/*
-	[relativeURL release];
-	[iconURL release];
-	[iconData release];
-	[icon release];
-*/
+
 	return cell;
 }
 
@@ -155,7 +150,6 @@
 															initWithNibName:@"ItemDetailsView" bundle:[NSBundle mainBundle]];
 	itemDetailsViewController.appModel = appModel;
 	itemDetailsViewController.item = selectedItem;
-	NSLog(@"detail view item (%@) = selectedItem (%@)", itemDetailsViewController.item, selectedItem);
 	itemDetailsViewController.inInventory = YES;
 
 	[self presentModalViewController:itemDetailsViewController animated:NO];

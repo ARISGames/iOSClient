@@ -31,7 +31,11 @@
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
 	//init app model
 	appModel = [[AppModel alloc] init];
-	appModel.baseAppURL = @"http://atsosxdev.doit.wisc.edu/aris/games/index.php";
+	// Should use a trailing slash
+	//appModel.baseAppURL = @"http://atsosxdev.doit.wisc.edu/aris/games/";
+	appModel.baseAppURL = @"http://localhost:8888/aris/games/";
+	NSURL *url = [NSURL URLWithString:appModel.baseAppURL];
+	appModel.serverName = [NSString stringWithFormat:@"http://%@:%@", [url host], [url port]];
 	appModel.site = @"Default";
 	[appModel loadUserDefaults];
 	[appModel retain];
@@ -103,9 +107,6 @@
 	UINavigationController *navController = viewController.navigationController;
 	navController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 }
-
-
-
 
 # pragma mark custom methods, notification handlers
 
@@ -226,7 +227,7 @@
 			//It's an item, use a real view controller
 			Item *nearbyItem = [appModel.nearbyLocationsList objectAtIndex: 0 ];
 			ItemDetailsViewController *itemDetailsViewController = [[ItemDetailsViewController alloc] initWithNibName:@"ItemDetailsView" bundle:[NSBundle mainBundle]];
-			[itemDetailsViewController setModel:appModel];
+			itemDetailsViewController.appModel = appModel;
 			[itemDetailsViewController setItem:nearbyItem];
 			itemDetailsViewController.inInventory = NO;
 			[tabBarController presentModalViewController:itemDetailsViewController animated:YES];
@@ -287,8 +288,6 @@
 	[defaults setObject:appModel.baseAppURL forKey:@"baseAppURL"];
 	
 	[defaults release];
-	
-	
 }
 
 - (void)dealloc {

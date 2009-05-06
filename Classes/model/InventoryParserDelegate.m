@@ -30,14 +30,14 @@
 		elementName = qName;
 	}
 	
-	if ([elementName isEqualToString:@"item"]) {
+	if ([elementName isEqualToString:@"row"]) {
 		Item *item = [[Item alloc] init];
-		item.itemId = [[attributeDict objectForKey:@"id"] intValue];
+		item.itemId = [[attributeDict objectForKey:@"item_id"] intValue];
 		item.name = [attributeDict objectForKey:@"name"];
 		item.description = [attributeDict objectForKey:@"description"];
 		item.type = [attributeDict objectForKey:@"type"];
-		item.mediaURL = [attributeDict objectForKey:@"mediaURL"];
-		item.iconURL = [attributeDict objectForKey:@"iconURL"];
+		item.mediaURL = [attributeDict objectForKey:@"media"];
+		item.iconURL = [attributeDict objectForKey:@"icon"];
 		[inventory addObject:item];
 		NSLog([NSString stringWithFormat:@"Inventory Item added to Model: %@ ID: %d Type: %@", item.name, item.itemId, item.type] );
 	}

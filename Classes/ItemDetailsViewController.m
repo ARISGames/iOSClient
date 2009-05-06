@@ -18,8 +18,7 @@
 @synthesize deleteButton;
 @synthesize backButton;
 @synthesize pickupButton;
-
-
+/*
 -(void) setModel:(AppModel *)model{
 	if(appModel != model) {
 		[appModel release];
@@ -34,15 +33,14 @@
 		[item release];
 		item = newItem;
 		[item retain];
+		NSLog(@"Now using %@", item);
 	}
-	
-	NSLog(@"ItemDetailsViewController:  Item set");
+	NSLog(@"ItemDetailsViewController: Item set");
 }
-
+*/
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-	
 	if (inInventory == YES) {
 		pickupButton.hidden = YES;
 		dropButton.hidden = NO;
@@ -53,38 +51,33 @@
 		dropButton.hidden = YES;
 		deleteButton.hidden = YES;
 	}
-	
+	NSLog(@"current item: %@; mediaURL: %@", item, item.mediaURL);
+	NSString *mediaURL = [appModel getURLString:item.mediaURL];
+
 	//Set Up General Stuff
 	descriptionView.text = item.description;
 	
 	if ([item.type isEqualToString: @"Image"]) {
-		NSLog(@"ItemDetailsViewController:  Image Layout Selected");
-		
+		NSLog(@"ItemDetailsViewController: Image Layout Selected");
 		//Setup the image view
-		NSString* imageURL = [item.mediaURL stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-		NSData* imageData = [[NSData alloc]initWithContentsOfURL:[NSURL URLWithString:imageURL]];
+		NSData* imageData = [[NSData alloc]initWithContentsOfURL:[NSURL URLWithString:mediaURL]];
 		UIImage* image = [[UIImage alloc] initWithData:imageData];
 		UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 360,300)];
-		[imageView setImage: image];
+		imageView.image = image;
 		
 		//Add the image view
 		[[self view] addSubview:imageView];
 		
 		//clean up
-		[imageURL release];
 		[imageData release];
 		[image release];
 		[imageView release];
 	}
-	
-	if ([item.type isEqualToString: @"AV"]) {
+	else if ([item.type isEqualToString: @"AV"]) {
 		NSLog(@"ItemDetailsViewController:  Video Layout Selected");
-		
-		
-		
+
 		//Create movie player object
-		NSString* videoURL = [item.mediaURL stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-		mMoviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:videoURL]];
+		mMoviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:mediaURL]];
 		
 		// Register to receive a notifications
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePreloadDidFinish:) name:MPMoviePlayerContentPreloadDidFinishNotification object:nil];
@@ -97,16 +90,14 @@
 		mMoviePlayer.backgroundColor = [UIColor blackColor];
 		
 		//Add a button
-		
 		UIButton *button = [[UIButton buttonWithType:UIButtonTypeCustom] initWithFrame:CGRectMake(120, 120, 80, 80)];
 		[button addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
 		[button setImage:[UIImage imageNamed:@"playArrow.png"] forState:UIControlStateNormal];
 		//[button setBackgroundColor:[UIColor whiteColor]];
-		[[self view] addSubview:button];
-
-		
-	}	
+		[[self view] addSubview:button];		
+	}
 	
+	[mediaURL release];
 	[super viewDidLoad];
 }
 
@@ -189,8 +180,8 @@
 	NSLog(@"ItemDetailsViewController: pickupButtonTouched");
 	
 	//Fire off a request to the REST Module and display an alert when it is successfull
-	NSString *baseURL = [appModel getURLStringForModule:@"RESTInventory"];
-	NSString *URLparams = [ NSString stringWithFormat:@"&event=pickupItem&item_id=%d&location_id=%d", self.item.itemId, self.item.locationId];
+	NSString *baseURL = [appModel getURLStringForModule:@"Inventory"];
+	NSString *URLparams = [ NSString stringWithFormat:@"&controller=SimpleREST&event=pickupItem&item_id=%d&location_id=%d", self.item.itemId, self.item.locationId];
 	NSString *fullURL = [ NSString stringWithFormat:@"%@%@", baseURL, URLparams];
 	
 	NSLog([NSString stringWithFormat:@"ItemDetailsViewController: Telling server to pickup this item using URL: %@", fullURL ]);
@@ -225,7 +216,6 @@
 	
 	// free our movie player
     [mMoviePlayer release];
-	
 	[super dealloc];
 }
 

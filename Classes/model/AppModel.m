@@ -12,9 +12,15 @@
 #import "NearbyLocationsListParserDelegate.h"
 #import "InventoryParserDelegate.h"
 
+#import "Item.h"
+#import "XMLParserDelegate.h"
+
 
 @implementation AppModel
 
+NSDictionary *InventoryElements;
+
+@synthesize serverName;
 @synthesize baseAppURL;
 @synthesize loggedIn;
 @synthesize username;
@@ -27,12 +33,40 @@
 @synthesize lastLocation;
 @synthesize inventory;
 
+-(id)init {
+    if (self = [super init]) {
+		if (InventoryElements == nil) {	
+			InventoryElements = [NSDictionary dictionaryWithObjectsAndKeys:
+								 [NSNull null], @"result",
+								 [NSNull null], @"frameworkTplPath",
+								 [NSNull null], @"isIphone",
+								 [NSNull null], @"site",
+								 [NSNull null], @"title",
+								 [NSNull null], @"inventory",
+			 [NSDictionary dictionaryWithObjectsAndKeys:
+			  [Item class], @"__CLASS_NAME",
+			  @"setItemId:", @"item_id",
+			  @"setName:", @"name",
+			  @"setDescription:", @"description",
+			  @"setType:", @"type",
+			  @"setMediaURL:", @"media",
+			  @"setIconURL:", @"icon",
+			  nil
+			  ], @"row", 
+			nil];
+			[InventoryElements retain];
+		}
+		NSLog(@"Testing InventoryElements nilp? %@", InventoryElements);
+	}
+			 
+    return self;
+}
 
 -(void)loadUserDefaults {
 	//Load user settings
 	NSLog(@"Loading User Defaults");
 	NSUserDefaults *defaults = [[NSUserDefaults alloc] init];
-	if ([defaults stringForKey:@"baseAppURL"]) baseAppURL = [defaults stringForKey:@"baseAppURL"];
+	//if ([defaults stringForKey:@"baseAppURL"]) baseAppURL = [defaults stringForKey:@"baseAppURL"];
 	loggedIn = [defaults boolForKey:@"loggedIn"];
 	if (loggedIn == YES) {
 		username = [defaults stringForKey:@"username"];
@@ -42,8 +76,6 @@
 	}
 	else NSLog(@"No Data to Load");
 	[defaults release];
-	
-	
 }
 
 - (BOOL)login {
@@ -74,8 +106,7 @@
 }
 
 -(NSURLRequest *)getURLForModule:(NSString *)moduleName {
-	NSString *urlString = [NSString stringWithFormat:@"%@?module=%@&site=%@&user_name=%@&password=%@",
-									baseAppURL, moduleName, site, username, password];
+	NSString *urlString = [self getURLStringForModule:moduleName];
 	
 	NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
 	return urlRequest;
@@ -85,6 +116,10 @@
 	NSString *urlString = [NSString stringWithFormat:@"%@?module=%@&site=%@&user_name=%@&password=%@",
 						   baseAppURL, moduleName, site, username, password];
 	return urlString;
+}
+
+-(NSString *) getURLString:(NSString *)relativeURL {
+	return [[[NSString alloc] initWithFormat:@"%@%@", serverName, relativeURL]  stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
 }
 
 - (void)fetchGameList {
@@ -125,7 +160,6 @@
 	NSString *urlString = [NSString stringWithFormat:@"%@?module=RESTMap&site=%@&user_name=%@&password=%@",
 						   baseAppURL, site, username, password];
 	NSLog([NSString stringWithFormat:@"Fetching All Locations from : %@", urlString]);
-	
 	NSXMLParser *parser = [[NSXMLParser alloc] initWithContentsOfURL:[NSURL URLWithString:urlString]];
 	
 	LocationListParserDelegate *locationListParserDelegate = [[LocationListParserDelegate alloc] initWithLocationList:locationList];
@@ -142,20 +176,22 @@
 - (void)fetchInventory {
 	//init inventory array
 	if(inventory != nil) {
+		NSLog(@"*** Releasing inventory ***");
 		[inventory release];
 	}
+
 	inventory = [NSMutableArray array];
 	[inventory retain];
 	
 	//init url
-	NSString *urlString = [NSString stringWithFormat:@"%@?module=RESTInventory&site=%@&user_name=%@&password=%@",
-						   baseAppURL, site, username, password];
+	NSString *urlString = [self getURLStringForModule:@"Inventory&controller=SimpleREST"];	
 	NSLog([NSString stringWithFormat:@"Fetching Inventory from : %@", urlString]);
 	
 	NSXMLParser *parser = [[NSXMLParser alloc] initWithContentsOfURL:[NSURL URLWithString:urlString]];
 	
-	InventoryParserDelegate *inventoryParserDelegate = [[InventoryParserDelegate alloc] initWithInventory:inventory];
-	[parser setDelegate:inventoryParserDelegate];
+	XMLParserDelegate *parserDelegate = [[XMLParserDelegate alloc] initWithDictionary:InventoryElements
+																		   andResults:inventory forNotification:@"ReceivedInventory"];
+	[parser setDelegate:parserDelegate];
 	
 	//init parser
 	[parser setShouldProcessNamespaces:NO];
@@ -183,7 +219,6 @@
 	
 	NearbyLocationsListParserDelegate *nearbyLocationsListParserDelegate = [[NearbyLocationsListParserDelegate alloc] initWithNearbyLocationsList:nearbyLocationsList];
 	[parser setDelegate:nearbyLocationsListParserDelegate];
-	
 	//init parser
 	[parser setShouldProcessNamespaces:NO];
 	[parser setShouldReportNamespacePrefixes:NO];
@@ -201,6 +236,7 @@
 	[password release];
 	[currentModule release];
 	[site release];
+	[InventoryElements release];
     [super dealloc];
 }
 

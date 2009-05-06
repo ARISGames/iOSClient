@@ -24,8 +24,8 @@
 	IBOutlet UIButton *pickupButton;
 }
 
-@property(copy, readwrite) AppModel *appModel;
-@property(copy, readwrite) Item *item;
+@property(readwrite, retain) AppModel *appModel;
+@property(readwrite, retain) Item *item;
 @property(readwrite) bool inInventory;
 @property (nonatomic, retain) UITextView *descriptionView;
 @property (nonatomic, retain) UIButton *dropButton;
@@ -33,8 +33,6 @@
 @property (nonatomic, retain) UIButton *backButton;
 @property (nonatomic, readwrite, retain) UIButton *pickupButton;
 
-- (void) setModel:(AppModel *)model;
-- (void) setItem:(Item *)item;
 - (IBAction)dropButtonTouchAction: (id) sender;
 - (IBAction)deleteButtonTouchAction: (id) sender;
 - (IBAction)backButtonTouchAction: (id) sender;
