@@ -18,7 +18,7 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	moduleName = @"RESTInventory";
+	moduleName = @"Inventory";
 	
 	//register for notifications
 	NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
@@ -54,14 +54,12 @@
 }
 
 - (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier {
-	
 	CGRect CellFrame = CGRectMake(0, 0, 300, 60);
 	CGRect IconFrame = CGRectMake(10, 10, 50, 50);
 	CGRect Label1Frame = CGRectMake(70, 10, 290, 25);
 	CGRect Label2Frame = CGRectMake(70, 33, 290, 25);
 	UILabel *lblTemp;
 	UIImageView *iconViewTemp;
-
 	
 	UITableViewCell *cell = [[[UITableViewCell alloc] initWithFrame:CellFrame reuseIdentifier:cellIdentifier] autorelease];
 	
@@ -94,7 +92,6 @@
 	[cell.contentView addSubview:iconViewTemp];
 	[iconViewTemp release];
 
-	
 	return cell;
 }
 
@@ -113,13 +110,10 @@
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
 	static NSString *CellIdentifier = @"Cell";
 	
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-	
-	if(cell == nil)
-		cell = [self getCellContentView:CellIdentifier];
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];	
+	if(cell == nil) cell = [self getCellContentView:CellIdentifier];
 	
 	UILabel *lblTemp1 = (UILabel *)[cell viewWithTag:1];
 	lblTemp1.text = [[inventoryTableData objectAtIndex: [indexPath row]] name];
@@ -128,15 +122,24 @@
 	lblTemp2.text = [[inventoryTableData objectAtIndex: [indexPath row]] description];
 	
 	UIImageView *iconView = (UIImageView *)[cell viewWithTag:3];
-	NSString* iconURL = [[[inventoryTableData objectAtIndex: [indexPath row]] iconURL] stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-	NSData* iconData = [[NSData alloc]initWithContentsOfURL:[NSURL URLWithString:iconURL]];
-	UIImage* icon = [[UIImage alloc] initWithData:iconData];
-	[iconView setImage:icon];
+	
+	NSString *relativeURL = [[[inventoryTableData objectAtIndex:[indexPath row]] iconURL] stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];	
+	NSString *iconURL = [appModel getURLString:relativeURL];
+	NSError *error = nil;
+	
+	NSData *iconData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:iconURL] options:NSUncachedRead error:&error];
+	if (error) {
+		NSLog(@"Error: %@", error);
+	}
+	UIImage *icon = [UIImage imageWithData:iconData];
+	iconView.image = icon;
+/*
+	[relativeURL release];
 	[iconURL release];
 	[iconData release];
 	[icon release];
-			
-	return cell;	
+*/
+	return cell;
 }
 
 // Customize the height of each row
@@ -148,22 +151,17 @@
 	Item *selectedItem = [inventoryTableData objectAtIndex:[indexPath row]];
 	NSLog(@"Displaying Detail View: %@", selectedItem.name);
 	
-	ItemDetailsViewController *itemDetailsViewController = [[ItemDetailsViewController alloc] initWithNibName:@"ItemDetailsView" bundle:[NSBundle mainBundle]];
-	[itemDetailsViewController setModel:appModel];
-	[itemDetailsViewController setItem:selectedItem];
+	ItemDetailsViewController *itemDetailsViewController = [[ItemDetailsViewController alloc] 
+															initWithNibName:@"ItemDetailsView" bundle:[NSBundle mainBundle]];
+	itemDetailsViewController.appModel = appModel;
+	itemDetailsViewController.item = selectedItem;
+	NSLog(@"detail view item (%@) = selectedItem (%@)", itemDetailsViewController.item, selectedItem);
 	itemDetailsViewController.inInventory = YES;
+
 	[self presentModalViewController:itemDetailsViewController animated:NO];
 }
 
-
-
-
-
-
-
-
 #pragma mark Memory Management
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
     // Release anything that's not essential, such as cached data
@@ -174,6 +172,4 @@
 	[moduleName release];
     [super dealloc];
 }
-
-
 @end
