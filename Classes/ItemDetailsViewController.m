@@ -116,8 +116,8 @@
 
 - (IBAction)dropButtonTouchAction: (id) sender{
 	//Fire off a request to the REST Module and display an alert when it is successfull
-	NSString *baseURL = [appModel getURLStringForModule:@"RESTInventory"];
-	NSString *URLparams = [ NSString stringWithFormat:@"&event=dropItemHere&item_id=%d", self.item.itemId];
+	NSString *baseURL = [appModel getURLStringForModule:@"Inventory"];
+	NSString *URLparams = [ NSString stringWithFormat:@"&controller=SimpleREST&event=dropItemHere&item_id=%d", self.item.itemId];
 	NSString *fullURL = [ NSString stringWithFormat:@"%@%@", baseURL, URLparams];
 	
 	NSLog([NSString stringWithFormat:@"ItemDetailsViewController: Dropping Item Here using REST Call: %@", fullURL ]);
@@ -146,8 +146,8 @@
 
 - (IBAction)deleteButtonTouchAction: (id) sender{
 	//Fire off a request to the REST Module and display an alert when it is successfull
-	NSString *baseURL = [appModel getURLStringForModule:@"RESTInventory"];
-	NSString *URLparams = [ NSString stringWithFormat:@"&event=destroyPlayerItem&item_id=%d", self.item.itemId];
+	NSString *baseURL = [appModel getURLStringForModule:@"Inventory"];
+	NSString *URLparams = [ NSString stringWithFormat:@"&controller=SimpleREST&event=destroyPlayerItem&item_id=%d", self.item.itemId];
 	NSString *fullURL = [ NSString stringWithFormat:@"%@%@", baseURL, URLparams];
 	
 	NSLog([NSString stringWithFormat:@"ItemDetailsViewController: Deleting all Items for this Player on server: %@", fullURL ]);
