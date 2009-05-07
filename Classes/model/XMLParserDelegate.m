@@ -58,13 +58,13 @@
 		
 		id value = [attributeDict objectForKey:attributeKey];
 		if (!value) {
-			NSLog(@"XMLParser: ERROR: %@: No value for %@ in %@", attributeKey, qName, notificationName);
+			NSLog(@"XMLParser: ERROR: %@: No value for %@ in %@", attributeKey, elementName, notificationName);
 			continue;
 		}
 		[result performSelector:selector withObject:value];
 	}
 	[results addObject:result];
-	NSLog(@"XMLParser: added object.");
+	NSLog(@"XMLParser: added object");
 }
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser { }
