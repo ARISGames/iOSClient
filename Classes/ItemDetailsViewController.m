@@ -18,26 +18,6 @@
 @synthesize deleteButton;
 @synthesize backButton;
 @synthesize pickupButton;
-/*
--(void) setModel:(AppModel *)model{
-	if(appModel != model) {
-		[appModel release];
-		appModel = model;
-		[appModel retain];
-	}
-	NSLog(@"ItemDetailsViewController: Model set");
-}
-
--(void) setItem:(Item *)newItem{
-	if(item != newItem) {
-		[item release];
-		item = newItem;
-		[item retain];
-		NSLog(@"Now using %@", item);
-	}
-	NSLog(@"ItemDetailsViewController: Item set");
-}
-*/
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
@@ -53,6 +33,7 @@
 	}
 	NSLog(@"current item: %@; mediaURL: %@", item, item.mediaURL);
 	NSString *mediaURL = [appModel getURLString:item.mediaURL];
+	NSLog(@"ItemDetailsViewController: Media URL to display: %@",mediaURL);
 
 	//Set Up General Stuff
 	descriptionView.text = item.description;
