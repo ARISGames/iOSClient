@@ -31,9 +31,9 @@
 		dropButton.hidden = YES;
 		deleteButton.hidden = YES;
 	}
-	NSLog(@"current item: %@; mediaURL: %@", item, item.mediaURL);
 	NSString *mediaURL = [appModel getURLString:item.mediaURL];
-	NSLog(@"ItemDetailsViewController: Media URL to display: %@",mediaURL);
+	NSLog(@"ItemDetailsViewController: View Loaded. Current item: %@; mediaURL: %@", item.name, mediaURL);
+
 
 	//Set Up General Stuff
 	descriptionView.text = item.description;
