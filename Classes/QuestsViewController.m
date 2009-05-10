@@ -6,13 +6,24 @@
 //  Copyright 2009 University of Wisconsin. All rights reserved.
 //
 
-#import "TODOViewController.h"
+#import "QuestsViewController.h"
 
 
-@implementation TODOViewController
+@implementation QuestsViewController
 
 @synthesize webview;
 @synthesize moduleName;
+
+//Override init for passing title and icon to tab bar
+- (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
+{
+    self = [super initWithNibName:nibName bundle:nibBundle];
+    if (self) {
+        self.title = @"Tasks";
+        self.tabBarItem.image = [UIImage imageNamed:@"Quest.png"];
+    }
+    return self;
+}
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {

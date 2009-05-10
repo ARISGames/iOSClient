@@ -14,6 +14,16 @@
 @synthesize moduleName;
 @synthesize imagePickerController;
 
+//Override init for passing title and icon to tab bar
+- (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
+{
+    self = [super initWithNibName:nibName bundle:nibBundle];
+    if (self) {
+        self.title = @"Camera";
+        self.tabBarItem.image = [UIImage imageNamed:@"camera.png"];
+    }
+    return self;
+}
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {

@@ -13,6 +13,17 @@
 
 @synthesize gameTable;
 
+//Override init for passing title and icon to tab bar
+- (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
+{
+    self = [super initWithNibName:nibName bundle:nibBundle];
+    if (self) {
+        self.title = @"Select Game";
+        self.tabBarItem.image = [UIImage imageNamed:@"Game.png"];
+    }
+    return self;
+}
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];

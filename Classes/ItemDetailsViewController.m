@@ -112,7 +112,7 @@
 	
 	
 	//Dismiss Item Details View
-	[self dismissModalViewControllerAnimated:NO];
+	[self.navigationController popToRootViewControllerAnimated:YES];
 	
 	//Refresh the Nearby Locations
 	[appModel updateServerLocationAndfetchNearbyLocationList];
@@ -144,12 +144,12 @@
 	[appModel fetchInventory];
 	
 	//Dismiss Item Details View
-	[self dismissModalViewControllerAnimated:NO];
+	[self.navigationController popToRootViewControllerAnimated:YES];
 	
 }
 - (IBAction)backButtonTouchAction: (id) sender{
 	NSLog(@"ItemDetailsViewController: Dismiss Item Details View");
-	[self dismissModalViewControllerAnimated:NO];
+	[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 -(IBAction)playMovie:(id)sender
@@ -183,7 +183,7 @@
 	//Refresh the inventory
 	[appModel fetchInventory];
 	
-	[self dismissModalViewControllerAnimated:YES];
+	[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

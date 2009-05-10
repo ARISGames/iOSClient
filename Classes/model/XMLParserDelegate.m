@@ -71,7 +71,7 @@
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
 	NSDictionary *result = [NSDictionary dictionaryWithObject:results forKey:@"result"];
-	NSLog(@"XMLParser: Finished parsing for %@", notificationName);
+	NSLog(@"XMLParser: Finished parsing. Posted '%@' notification", notificationName);
 	
 	NSNotification *notification = 
 		[NSNotification notificationWithName:notificationName 

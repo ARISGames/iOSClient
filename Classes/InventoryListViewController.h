@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "model/AppModel.h";
+#import "ARISAppDelegate.h";
 #import "Item.h";
 #import "ItemDetailsViewController.h";
 
-@interface FilesViewController : UIViewController {
+@interface InventoryListViewController : UIViewController {
 	NSString *moduleName;
 	AppModel *appModel;	
 	UITableView *inventoryTable;

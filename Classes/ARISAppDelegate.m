@@ -7,33 +7,24 @@
 //
 
 #import "ARISAppDelegate.h"
-#import "model/Game.h"
-#import "NearbyLocation.h"
-#import "Item.h"
-#import "ItemDetailsViewController.h"
-
-//private
-@interface ARISAppDelegate (hidden)
-
--(void) contractTabBar;
--(void) expandTabBar;
-
-@end
 
 @implementation ARISAppDelegate
 
 @synthesize window;
 @synthesize tabBarController;
 @synthesize loginViewController;
-@synthesize toolbarViewController;
 @synthesize gamePickerViewController;
+
+//@synthesize toolbarViewController;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
 	//init app model
 	appModel = [[AppModel alloc] init];
+	
 	// Should use a trailing slash
 	//appModel.baseAppURL = @"http://atsosxdev.doit.wisc.edu/aris/games/";
-	appModel.baseAppURL = @"http://localhost:8888/aris/games/";
+	//appModel.baseAppURL = @"http://localhost:8888/aris/games/";
+	appModel.baseAppURL = @"http://localhost/engine/";
 	NSURL *url = [NSURL URLWithString:appModel.baseAppURL];
 	appModel.serverName = [NSString stringWithFormat:@"http://%@:%@", [url host], [url port]];
 	appModel.site = @"Default";
@@ -48,77 +39,123 @@
 	[dispatcher addObserver:self selector:@selector(performLogout:) name:@"LogoutRequested" object:nil];
 	[dispatcher addObserver:self selector:@selector(processNearbyLocationsList:) name:@"ReceivedNearbyLocationList" object:nil];
 	[dispatcher addObserver:self selector:@selector(displayNearbyObjects:) name:@"NearbyButtonTouched" object:nil];
+
+	//Setup Tasks View
+	QuestsViewController *questsViewController = [[[QuestsViewController alloc] initWithNibName:@"Quests" bundle:nil] autorelease];
+	UINavigationController *questsNavigationController = [[UINavigationController alloc] initWithRootViewController: questsViewController];
 	
-	//set frame rect of Tabbar view to sit below title/nav bar
-	[self contractTabBar];
+	//Setup GPS View
+	GPSViewController *gpsViewController = [[[GPSViewController alloc] initWithNibName:@"GPS" bundle:nil] autorelease];
+	UINavigationController *gpsNavigationController = [[UINavigationController alloc] initWithRootViewController: gpsViewController];
 	
-	UIView *tableView = gamePickerViewController.view;
-	tableView.frame = CGRectMake(0.0f, 485.0f, 320.0f, 416.0f);
+	//Setup Inventory View
+	InventoryListViewController *inventoryListViewController = [[[InventoryListViewController alloc] initWithNibName:@"InventoryList" bundle:nil] autorelease];
+	UINavigationController *inventoryNavigationController = [[UINavigationController alloc] initWithRootViewController: inventoryListViewController];
 	
-    // Add the tab bar controller's current view as a subview of the window
-	[window addSubview:toolbarViewController.view];
-	[toolbarViewController setModel:appModel];
+	//Setup Camera View
+	CameraViewController *cameraViewController = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
+	UINavigationController *cameraNavigationController = [[UINavigationController alloc] initWithRootViewController: cameraViewController];
 	
+	//QR Scanner Developer View
+	QRScannerViewController *qrScannerViewController = [[[QRScannerViewController alloc] initWithNibName:@"QRScanner" bundle:nil] autorelease];
+	UINavigationController *qrScannerNavigationController = [[UINavigationController alloc] initWithRootViewController: qrScannerViewController];
+
+	//IM View
+	IMViewController *imViewController = [[[IMViewController alloc] initWithNibName:@"IM" bundle:nil] autorelease];
+	UINavigationController *imNavigationController = [[UINavigationController alloc] initWithRootViewController: imViewController];
+	
+	//Game Picker View
+	gamePickerViewController = [[[GamePickerViewController alloc] initWithNibName:@"GamePicker" bundle:nil] autorelease];
+	UINavigationController *gamePickerNavigationController = [[UINavigationController alloc] initWithRootViewController: gamePickerViewController];
+	
+	//Login View
+	loginViewController = [[[LoginViewController alloc] initWithNibName:@"Login" bundle:nil] autorelease];
+	[loginViewController retain];
+	
+	//Logout View
+	LogoutViewController *logoutViewController = [[[LogoutViewController alloc] initWithNibName:@"Logout" bundle:nil] autorelease];
+	UINavigationController *logoutNavigationController = [[UINavigationController alloc] initWithRootViewController: logoutViewController];
+	
+	//Developer View
+	DeveloperViewController *developerViewController = [[[DeveloperViewController alloc] initWithNibName:@"Developer" bundle:nil] autorelease];
+	UINavigationController *developerNavigationController = [[UINavigationController alloc] initWithRootViewController: developerViewController];
+	
+	
+	//Add the view controllers to the Tab Bar
+	tabBarController.viewControllers = [NSArray arrayWithObjects: 
+										questsNavigationController, 
+										gpsNavigationController,
+										inventoryNavigationController,
+										cameraNavigationController,
+										qrScannerNavigationController,
+										imNavigationController,
+										gamePickerNavigationController,
+										logoutNavigationController,
+										developerNavigationController,
+										nil];	
+
 	[window addSubview:tabBarController.view];	
 
+	//Customize the 'more' nav controller on the tab bar
+	UINavigationController *moreNavController = tabBarController.moreNavigationController;
+	moreNavController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+	moreNavController.delegate = self;
 	
+	//Setup MyCLController
+	myCLController = [[MyCLController alloc] initWithAppModel:appModel];
+	[myCLController.locationManager startUpdatingLocation];
+		
 	//Display the login screen if this user is not logged in
 	if (appModel.loggedIn == YES) {
 		[appModel fetchGameList];
 		if (appModel.site == @"Default") {
 			NSLog(@"Player already logged in, but a site has not been selected. Display site picker");
+			tabBarController.view.hidden = YES;
 			[window addSubview:gamePickerViewController.view];
 		}
 		else NSLog(@"Player already logged in and they have a site selected. Go into the default module");
 	}
 	else {
 		NSLog(@"Player not logged in, display login");
+		tabBarController.view.hidden = YES;
 		[window addSubview:loginViewController.view];
 	}
 	
-	UINavigationController *moreNavController = tabBarController.moreNavigationController;
-	//customize the more nav controller
-	moreNavController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-	moreNavController.delegate = self;
-	
-	//make sure first view controller in tab has model set, but black it out
-	UIViewController *selViewController = [tabBarController selectedViewController];
-	[selViewController performSelector:@selector(setModel:) withObject:appModel];
-	
-	//Setup MyCLController
-	myCLController = [[MyCLController alloc] initWithAppModel:appModel];
-	[myCLController.locationManager startUpdatingLocation];
 }
 
 // Optional UITabBarControllerDelegate method
 - (void)tabBarController:(UITabBarController *)tabController didSelectViewController:(UIViewController *)viewController {
-	if(tabBarController.selectedIndex == 4) {
-		[self expandTabBar];
-	} else if(tabBarController.selectedIndex < 4) {
-		//navController = 
-		[self contractTabBar];
-		[toolbarViewController setToolbarTitle:viewController.title];
+	
+	UINavigationController *navigationController;
+	UIViewController *visibleViewController;
+	
+	//Get the naviation controller and visable view controller
+	if ([viewController isKindOfClass:[UINavigationController class]]) {
+		navigationController = (UINavigationController*)viewController;
+		visibleViewController = [navigationController visibleViewController];
+	}
+	else {
+		navigationController = nil;
+		visibleViewController = viewController;
 	}
 	
-	if([viewController respondsToSelector:@selector(setModel:)]) {
-		[viewController performSelector:@selector(setModel:) withObject:appModel];
+	
+	navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+	
+	if([visibleViewController respondsToSelector:@selector(setModel:)]) {
+		[visibleViewController performSelector:@selector(setModel:) withObject:appModel];
 	}
 	
-	UINavigationController *navController = viewController.navigationController;
-	navController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+	//Hides the existing Controller
+	UIViewController *selViewController = [tabBarController selectedViewController];
+	[selViewController.navigationController.view removeFromSuperview];
+	
+	//Displays the view Controller
+	[window addSubview:viewController.navigationController.view];	
+
 }
 
 # pragma mark custom methods, notification handlers
-
-- (void)contractTabBar {
-	UIView *tabBar = tabBarController.view;
-	tabBar.frame = CGRectMake(0.0f, 64.0f, 320.0f, 416.0f);
-}
-
-- (void)expandTabBar {
-	UIView *tabBar = tabBarController.view;
-	tabBar.frame = CGRectMake(0.0f, 20.0f, 320.0f, 460.0f);
-}
 
 - (void)performUserLogin:(NSNotification *)notification {
 	NSDictionary *userInfo = notification.userInfo;
@@ -150,19 +187,32 @@
 	NSDictionary *userInfo = notification.userInfo;
 	Game *selectedGame = [userInfo objectForKey:@"game"];
 	
-	NSLog([NSString stringWithFormat:@"AppDelegate: '%@' Selected using '%@' as it's site", selectedGame.name, selectedGame.site]);
+	NSLog([NSString stringWithFormat:@"AppDelegate: Game Selected. '%@' game was selected using '%@' as it's site", selectedGame.name, selectedGame.site]);
 
 	[gamePickerViewController.view removeFromSuperview];
 	
-	//change tab bar selected index
+	//Set tabBar to the first item
 	tabBarController.selectedIndex = 0;
 	
 	//Set the model to this game
 	appModel.site = selectedGame.site;
 	
-	//Refresh the first ViewController that has been hiding under the login/select game stuff by reloading it's model
-	UIViewController *selViewController = [tabBarController selectedViewController];
-	[selViewController performSelector:@selector(setModel:) withObject:appModel];
+	//Display the tabBar (and it's content)
+	tabBarController.view.hidden = NO;
+	
+	
+	//Get the visable view controller and make sure it's model has been set
+	UIViewController *viewController = [tabBarController selectedViewController];
+	UIViewController *visibleViewController;
+	if ([viewController isKindOfClass:[UINavigationController class]]) {
+		UINavigationController *navigationController = (UINavigationController*) viewController;
+		visibleViewController = [navigationController visibleViewController];
+		[visibleViewController performSelector:@selector(setModel:) withObject:appModel];
+	}
+	else {
+		visibleViewController = viewController;
+		[visibleViewController performSelector:@selector(setModel:) withObject:appModel];
+	}
 }
 
 - (void)setGameList:(NSNotification *)notification {
@@ -177,15 +227,23 @@
 - (void)performLogout:(NSNotification *)notification {
     NSLog(@"Performing Logout: Clearing NSUserDefaults and Displaying Login Screen");
 	
+	//Clear any user realated info in appModel
+	appModel.loggedIn = NO;
+	appModel.username = nil;
+	appModel.password = nil;
+	appModel.site = nil;
+	
 	//Clear NSUserDefaults
 	NSUserDefaults *defaults = [[NSUserDefaults alloc] init];
 	[defaults removeObjectForKey:@"loggedIn"];	
+	[defaults removeObjectForKey:@"username"];
+	[defaults removeObjectForKey:@"password"];
+	[defaults removeObjectForKey:@"site"];	
 	[defaults release];
 	
-	
 	//(re)load the login view
+	tabBarController.view.hidden = YES;
 	[window addSubview:loginViewController.view];
-	loginViewController.view.hidden == NO;
 }
 
 - (void)processNearbyLocationsList:(NSNotification *)notification {
@@ -206,7 +264,7 @@
 				GenericWebViewController *genericWebViewController = [[GenericWebViewController alloc] initWithNibName:@"GenericWebView" bundle:[NSBundle mainBundle]];
 				[genericWebViewController setModel:appModel];
 				[genericWebViewController setURL: fullURL];
-				[genericWebViewController setToolbarTitle:nearbyLocation.name];
+				//[genericWebViewController setToolbarTitle:nearbyLocation.name];
 				[window addSubview:genericWebViewController.view];	
 			}
 		}
@@ -244,7 +302,7 @@
 			GenericWebViewController *genericWebViewController = [[GenericWebViewController alloc] initWithNibName:@"GenericWebView" bundle:[NSBundle mainBundle]];
 			[genericWebViewController setModel:appModel];
 			[genericWebViewController setURL: fullURL];
-			[genericWebViewController setToolbarTitle:loc.name];
+			//[genericWebViewController setToolbarTitle:loc.name];
 			[window addSubview:genericWebViewController.view];
 
 		}

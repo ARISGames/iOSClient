@@ -1,5 +1,5 @@
 //
-//  TODOViewController.h
+//  QuestsViewController.h
 //  ARIS
 //
 //  Created by Ben Longoria on 2/11/09.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "model/AppModel.h";
 
-@interface TODOViewController : UIViewController {
+@interface QuestsViewController : UIViewController {
 	NSString *moduleName;
 	UIWebView *webview;
 	AppModel *appModel;

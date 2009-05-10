@@ -174,6 +174,7 @@ NSDictionary *InventoryElements;
 }
 
 - (void)fetchInventory {
+	NSLog(@"Model: Inventory Fetch Requested");
 	//init inventory array
 	if(inventory != nil) {
 		NSLog(@"*** Releasing inventory ***");

@@ -67,7 +67,7 @@
 }
 
 -(void) setNavigationTitle:(NSString *)title {
-	titleItem.title = title;
+	self.title = title;
 }
 
 - (void)performLogin {

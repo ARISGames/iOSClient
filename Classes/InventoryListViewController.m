@@ -6,24 +6,34 @@
 //  Copyright 2009 University of Wisconsin. All rights reserved.
 //
 
-#import "FilesViewController.h"
+#import "InventoryListViewController.h"
 
 
-@implementation FilesViewController
+@implementation InventoryListViewController
 
 @synthesize moduleName;
 @synthesize inventoryTable;
 @synthesize inventoryTableData;
 
+//Override init for passing title and icon to tab bar
+- (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
+{
+    self = [super initWithNibName:nibName bundle:nibBundle];
+    if (self) {
+        self.title = @"Inventory";
+        self.tabBarItem.image = [UIImage imageNamed:@"Inventory.png"];
+		self.moduleName = @"Inventory";
+		
+		//register for notifications
+		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+		[dispatcher addObserver:self selector:@selector(refreshInventory) name:@"ReceivedInventory" object:nil];
+    }
+    return self;
+}
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	moduleName = @"Inventory";
-	
-	//register for notifications
-	NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-	[dispatcher addObserver:self selector:@selector(refreshInventory) name:@"ReceivedInventory" object:nil];
-	
 	NSLog(@"Inventory View Loaded");
 }
 
@@ -40,10 +50,8 @@
 	
 	//Populate inventory
 	[appModel fetchInventory];
-	inventoryTableData = appModel.inventory;
-	[inventoryTable reloadData];
-		
-	NSLog(@"model set for Inventory");
+	
+	NSLog(@"Inventory: Model Set");
 }
 
 -(void)refreshInventory {
@@ -152,7 +160,9 @@
 	itemDetailsViewController.item = selectedItem;
 	itemDetailsViewController.inInventory = YES;
 
-	[self presentModalViewController:itemDetailsViewController animated:NO];
+	//Put the view on the screen
+	[[self navigationController] pushViewController:itemDetailsViewController animated:YES];
+	
 }
 
 #pragma mark Memory Management
