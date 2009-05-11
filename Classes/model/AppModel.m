@@ -63,18 +63,41 @@ NSDictionary *InventoryElements;
 }
 
 -(void)loadUserDefaults {
-	//Load user settings
-	NSLog(@"Loading User Defaults");
+	NSLog(@"Model: Loading User Defaults");
 	NSUserDefaults *defaults = [[NSUserDefaults alloc] init];
-	//if ([defaults stringForKey:@"baseAppURL"]) baseAppURL = [defaults stringForKey:@"baseAppURL"];
+	if ([defaults stringForKey:@"baseAppURL"] != nil) baseAppURL = [defaults stringForKey:@"baseAppURL"];
 	loggedIn = [defaults boolForKey:@"loggedIn"];
 	if (loggedIn == YES) {
 		username = [defaults stringForKey:@"username"];
 		password = [defaults stringForKey:@"password"];
-		site = [defaults stringForKey:@"site"];
-		NSLog([NSString stringWithFormat:@"Defaults Found. User: %@ Password: %@ Site: %@", username, password, site]);
+		if ([defaults stringForKey:@"site"] != nil) site = [defaults stringForKey:@"site"]; //otherwise, leave self.site as is
+		NSLog([NSString stringWithFormat:@"Model: Defaults Found. User: %@ Password: %@ Site: %@", username, password, site]);
 	}
-	else NSLog(@"No Data to Load");
+	else NSLog(@"Model: No default User Data to Load");
+	[defaults release];
+}
+
+-(void)clearUserDefaults {
+	NSLog(@"Model: Clearing User Defaults");
+	
+	NSUserDefaults *defaults = [[NSUserDefaults alloc] init];
+	[defaults removeObjectForKey:@"loggedIn"];	
+	[defaults removeObjectForKey:@"username"];
+	[defaults removeObjectForKey:@"password"];
+	//Don't clear the baseAppURL
+	[defaults removeObjectForKey:@"site"];
+	[defaults release];
+}
+
+-(void)saveUserDefaults {
+	NSLog(@"Model: Saving User Defaults");
+	
+	NSUserDefaults *defaults = [[NSUserDefaults alloc] init];
+	[defaults setBool:loggedIn forKey:@"loggedIn"];
+	[defaults setObject:username forKey:@"username"];
+	[defaults setObject:password forKey:@"password"];
+	[defaults setObject:baseAppURL forKey:@"baseAppURL"];
+	[defaults setObject:site forKey:@"site"];
 	[defaults release];
 }
 

@@ -36,6 +36,10 @@
 				<int key="NSvFlags">274</int>
 				<string key="NSFrameSize">{320, 416}</string>
 				<reference key="NSSuperview"/>
+				<object class="NSColor" key="IBUIBackgroundColor">
+					<int key="NSColorSpace">3</int>
+					<bytes key="NSWhite">MQA</bytes>
+				</object>
 				<bool key="IBUIOpaque">NO</bool>
 				<bool key="IBUIClipsSubviews">YES</bool>
 				<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -46,15 +50,15 @@
 					<int key="IBUIBarStyle">1</int>
 					<bool key="IBUIPrompted">NO</bool>
 				</object>
+				<bool key="IBUIShowsHorizontalScrollIndicator">NO</bool>
 				<int key="IBUIIndicatorStyle">2</int>
 				<bool key="IBUIBouncesZoom">NO</bool>
-				<int key="IBUIStyle">1</int>
 				<int key="IBUISeparatorStyle">1</int>
 				<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
 				<bool key="IBUIShowsSelectionImmediatelyOnTouchBegin">YES</bool>
 				<float key="IBUIRowHeight">4.400000e+01</float>
-				<float key="IBUISectionHeaderHeight">1.000000e+01</float>
-				<float key="IBUISectionFooterHeight">1.000000e+01</float>
+				<float key="IBUISectionHeaderHeight">2.200000e+01</float>
+				<float key="IBUISectionFooterHeight">2.200000e+01</float>
 			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -119,7 +123,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>GamePickerViewController</string>
 					<string>UIResponder</string>
-					<string>{{463, 124}, {320, 480}}</string>
+					<string>{{472, 664}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
 			</object>

@@ -42,6 +42,8 @@ extern NSDictionary *InventoryElements;
 
 -(id)init;
 -(void)loadUserDefaults;
+-(void)clearUserDefaults;
+-(void)saveUserDefaults;
 -(BOOL)login;
 -(void)fetchGameList;
 -(void)fetchLocationList;

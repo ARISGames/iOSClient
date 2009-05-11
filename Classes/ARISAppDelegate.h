@@ -33,6 +33,7 @@
     UITabBarController *tabBarController;
 	LoginViewController *loginViewController;
 	GamePickerViewController *gamePickerViewController;
+	UINavigationController *gamePickerNavigationController;
 	AppModel *appModel;
 	UIWebView *webView;
 	MyCLController *myCLController;
@@ -42,5 +43,7 @@
 @property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
 @property (nonatomic, retain) IBOutlet LoginViewController *loginViewController;
 @property (nonatomic, retain) IBOutlet GamePickerViewController *gamePickerViewController;
+@property (nonatomic, retain) IBOutlet UINavigationController *gamePickerNavigationController;
+
 
 @end
