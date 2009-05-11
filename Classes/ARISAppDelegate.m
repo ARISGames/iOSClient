@@ -23,8 +23,8 @@
 	
 	// Should use a trailing slash
 	//appModel.baseAppURL = @"http://atsosxdev.doit.wisc.edu/aris/games/";
-	//appModel.baseAppURL = @"http://localhost:8888/aris/games/";
-	appModel.baseAppURL = @"http://localhost/engine/";
+	appModel.baseAppURL = @"http://localhost:8888/aris/games/";
+	//appModel.baseAppURL = @"http://localhost/engine/";
 	NSURL *url = [NSURL URLWithString:appModel.baseAppURL];
 	appModel.serverName = [NSString stringWithFormat:@"http://%@:%@", [url host], [url port]];
 	appModel.site = @"Default";
@@ -118,6 +118,8 @@
 	else {
 		NSLog(@"Player not logged in, display login");
 		tabBarController.view.hidden = YES;
+		loginViewController.view.frame = [UIScreen mainScreen].applicationFrame;
+
 		[window addSubview:loginViewController.view];
 	}
 	
@@ -252,7 +254,7 @@
 	//Check for a force View flag in one of the nearby locations and display if found
 	for (NSObject *unknownNearbyLocation in nearbyLocations) {
 		if ([unknownNearbyLocation isKindOfClass:[NearbyLocation class]]) {
-			NearbyLocation *nearbyLocation = unknownNearbyLocation;
+			NearbyLocation *nearbyLocation = (NearbyLocation *)unknownNearbyLocation;
 			if (nearbyLocation.forceView == YES) {
 				NSLog(@"A forced view location is nearby");
 				NSString *baseURL = [appModel getURLStringForModule:@"RESTNodeViewer"];
