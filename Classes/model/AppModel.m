@@ -71,22 +71,22 @@ NSDictionary *InventoryElements;
 	NSLog(@"Model: Loading User Defaults");
 	
 	//Load the base App URL and calculate the serverName (we should move the calculation to a geter)
-	baseAppURL = [defaults stringForKey:@"baseAppURL"];
+	self.baseAppURL = [defaults stringForKey:@"baseAppURL"];
 	NSURL *url = [NSURL URLWithString:self.baseAppURL];
-	serverName = [NSString stringWithFormat:@"http://%@:%@", [url host], [url port]];
+	self.serverName = [NSString stringWithFormat:@"http://%@:%@", [url host], [url port]];
 	
-	site = [defaults stringForKey:@"site"];
-	loggedIn = [defaults boolForKey:@"loggedIn"];
+	self.site = [defaults stringForKey:@"site"];
+	self.loggedIn = [defaults boolForKey:@"loggedIn"];
 	
 	if (loggedIn == YES) {
 		if (![baseAppURL isEqualToString:[defaults stringForKey:@"lastBaseAppURL"]]) {
-			loggedIn = NO;
-			site = @"Default";
+			self.loggedIn = NO;
+			self.site = @"Default";
 			NSLog(@"Model: Server URL changed since last execution. Throw out Defaults and use URL: '%@' Site: '%@'", baseAppURL, site);
 		}
 		else {
-			username = [defaults stringForKey:@"username"];
-			password = [defaults stringForKey:@"password"];
+			self.username = [defaults stringForKey:@"username"];
+			self.password = [defaults stringForKey:@"password"];
 			NSLog(@"Model: Defaults Found. Use URL: '%@' User: '%@' Password: '%@' Site: '%@'", baseAppURL, username, password, site);
 		}
 	}
