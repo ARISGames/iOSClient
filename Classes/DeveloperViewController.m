@@ -13,8 +13,6 @@
 @synthesize moduleName;
 @synthesize locationTable;
 @synthesize locationTableData;
-@synthesize serverTable;
-@synthesize serverTableData;
 @synthesize clearEventsButton;
 @synthesize clearItemsButton;
 @synthesize accuracyLabelValue;
@@ -40,13 +38,6 @@
 	//register for notifications
 	NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
 	[dispatcher addObserver:self selector:@selector(updateAccuracy) name:@"PlayerMoved" object:nil];	
-	
-	//Populate server array
-	serverTableData = [[NSMutableArray alloc] init];
-    [self.serverTableData addObject: @"http://davembp.local/engine/index.php"];
-    [self.serverTableData addObject: @"http://atsosxdev.doit.wisc.edu/aris/games/index.php"];
-	//Add more debugging servers here
-	[self.serverTable reloadData];	
 	
 	NSLog(@"Developer loaded");
 }
@@ -124,7 +115,6 @@
 // returns the # of rows in each component..
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	if (tableView == locationTable) return [locationTableData count];
-	else if (tableView == serverTable) return [serverTableData count];
 	else return 0;
 }
 
@@ -142,7 +132,6 @@
 
 	//Set the text based on who's asking
 	if (tableView == locationTable) cell.text = [[locationTableData objectAtIndex: [indexPath row]] name];
-	else if (tableView == serverTable) cell.text = [self.serverTableData objectAtIndex: [indexPath row]];
 	
     return cell;
 }
@@ -157,14 +146,6 @@
 
 		appModel.lastLocation = newLocation;
 		[appModel updateServerLocationAndfetchNearbyLocationList];
-	}
-	
-	else if (tableView == serverTable) {
-		//change model's URL
-		appModel.baseAppURL = [serverTableData objectAtIndex:[indexPath row]];
-		//Logout the user
-		NSNotification *logoutRequestNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self];
-		[[NSNotificationCenter defaultCenter] postNotification:logoutRequestNotification];
 	}
 }
 

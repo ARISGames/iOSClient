@@ -19,6 +19,7 @@
 -(void) setNavigationTitle:(NSString *)title;
 -(void) fadeIn;
 -(void) fadeOut;
+-(void) performLogin;
 
 @property (nonatomic, retain) IBOutlet UITextField *username;
 @property (nonatomic, retain) IBOutlet UITextField *password;

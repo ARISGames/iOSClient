@@ -35,6 +35,10 @@ NSDictionary *InventoryElements;
 
 -(id)init {
     if (self = [super init]) {
+		//Init USerDefaults
+		defaults = [NSUserDefaults standardUserDefaults];
+		
+		//Init Inventory XML Parsing info
 		if (InventoryElements == nil) {	
 			InventoryElements = [NSDictionary dictionaryWithObjectsAndKeys:
 								 [NSNull null], @"result",
@@ -62,44 +66,66 @@ NSDictionary *InventoryElements;
     return self;
 }
 
+
 -(void)loadUserDefaults {
 	NSLog(@"Model: Loading User Defaults");
-	NSUserDefaults *defaults = [[NSUserDefaults alloc] init];
-	if ([defaults stringForKey:@"baseAppURL"] != nil) baseAppURL = [defaults stringForKey:@"baseAppURL"];
+	
+	//Load the base App URL and calculate the serverName (we should move the calculation to a geter)
+	baseAppURL = [defaults stringForKey:@"baseAppURL"];
+	NSURL *url = [NSURL URLWithString:self.baseAppURL];
+	serverName = [NSString stringWithFormat:@"http://%@:%@", [url host], [url port]];
+	
+	site = [defaults stringForKey:@"site"];
 	loggedIn = [defaults boolForKey:@"loggedIn"];
+	
 	if (loggedIn == YES) {
-		username = [defaults stringForKey:@"username"];
-		password = [defaults stringForKey:@"password"];
-		if ([defaults stringForKey:@"site"] != nil) site = [defaults stringForKey:@"site"]; //otherwise, leave self.site as is
-		NSLog([NSString stringWithFormat:@"Model: Defaults Found. User: %@ Password: %@ Site: %@", username, password, site]);
+		if (![baseAppURL isEqualToString:[defaults stringForKey:@"lastBaseAppURL"]]) {
+			loggedIn = NO;
+			site = @"Default";
+			NSLog(@"Model: Server URL changed since last execution. Throw out Defaults and use URL: '%@' Site: '%@'", baseAppURL, site);
+		}
+		else {
+			username = [defaults stringForKey:@"username"];
+			password = [defaults stringForKey:@"password"];
+			NSLog(@"Model: Defaults Found. Use URL: '%@' User: '%@' Password: '%@' Site: '%@'", baseAppURL, username, password, site);
+		}
 	}
-	else NSLog(@"Model: No default User Data to Load");
-	[defaults release];
+	else NSLog(@"Model: No default User Data to Load. Use URL: '%@' Site: '%@'", baseAppURL, site);
 }
+
 
 -(void)clearUserDefaults {
 	NSLog(@"Model: Clearing User Defaults");
 	
-	NSUserDefaults *defaults = [[NSUserDefaults alloc] init];
 	[defaults removeObjectForKey:@"loggedIn"];	
 	[defaults removeObjectForKey:@"username"];
 	[defaults removeObjectForKey:@"password"];
 	//Don't clear the baseAppURL
 	[defaults removeObjectForKey:@"site"];
-	[defaults release];
+
 }
+
 
 -(void)saveUserDefaults {
 	NSLog(@"Model: Saving User Defaults");
 	
-	NSUserDefaults *defaults = [[NSUserDefaults alloc] init];
 	[defaults setBool:loggedIn forKey:@"loggedIn"];
 	[defaults setObject:username forKey:@"username"];
 	[defaults setObject:password forKey:@"password"];
-	[defaults setObject:baseAppURL forKey:@"baseAppURL"];
+	[defaults setObject:baseAppURL forKey:@"lastBaseAppURL"];
 	[defaults setObject:site forKey:@"site"];
-	[defaults release];
 }
+
+
+-(void)initUserDefaults {
+	NSDictionary *initDefaults = [NSDictionary dictionaryWithObjectsAndKeys:
+								  @"http://atsosxdev.doit.wisc.edu/aris/games", @"baseAppURL",
+								  @"Default", @"site",
+								  nil];
+
+	[defaults registerDefaults:initDefaults];
+}
+
 
 - (BOOL)login {
 	BOOL loginSuccessful = NO;
@@ -128,6 +154,7 @@ NSDictionary *InventoryElements;
 	return loginSuccessful;
 }
 
+
 -(NSURLRequest *)getURLForModule:(NSString *)moduleName {
 	NSString *urlString = [self getURLStringForModule:moduleName];
 	
@@ -135,15 +162,18 @@ NSDictionary *InventoryElements;
 	return urlRequest;
 }
 
+
 -(NSString *)getURLStringForModule:(NSString *)moduleName {
 	NSString *urlString = [NSString stringWithFormat:@"%@?module=%@&site=%@&user_name=%@&password=%@",
 						   baseAppURL, moduleName, site, username, password];
 	return urlString;
 }
 
+
 -(NSString *) getURLString:(NSString *)relativeURL {
 	return [[[NSString alloc] initWithFormat:@"%@%@", serverName, relativeURL]  stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
 }
+
 
 - (void)fetchGameList {
 	//init location list array
@@ -171,6 +201,7 @@ NSDictionary *InventoryElements;
 	[parser release];
 }
 
+
 - (void)fetchLocationList {
 	//init location list array
 	if(locationList != nil) {
@@ -195,6 +226,7 @@ NSDictionary *InventoryElements;
 	[parser parse];
 	[parser release];
 }
+
 
 - (void)fetchInventory {
 	NSLog(@"Model: Inventory Fetch Requested");
@@ -224,6 +256,7 @@ NSDictionary *InventoryElements;
 	[parser parse];
 	[parser release];
 }
+
 
 - (void)updateServerLocationAndfetchNearbyLocationList {
 	//init a fresh nearby location list array

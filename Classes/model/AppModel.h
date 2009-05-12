@@ -13,6 +13,7 @@
 extern NSDictionary *InventoryElements;
 
 @interface AppModel : NSObject {
+	NSUserDefaults *defaults;
 	NSString *serverName;
 	NSString *baseAppURL;
 	BOOL loggedIn;
@@ -44,6 +45,7 @@ extern NSDictionary *InventoryElements;
 -(void)loadUserDefaults;
 -(void)clearUserDefaults;
 -(void)saveUserDefaults;
+-(void)initUserDefaults;
 -(BOOL)login;
 -(void)fetchGameList;
 -(void)fetchLocationList;

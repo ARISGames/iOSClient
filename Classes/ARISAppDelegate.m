@@ -22,14 +22,13 @@
 	//init app model
 	appModel = [[AppModel alloc] init];
 	
-	// Should use a trailing slash
-	//appModel.baseAppURL = @"http://atsosxdev.doit.wisc.edu/aris/games/";
-	//appModel.baseAppURL = @"http://localhost:8888/aris/games/";
-	appModel.baseAppURL = @"http://localhost/engine/";
-	NSURL *url = [NSURL URLWithString:appModel.baseAppURL];
-	appModel.serverName = [NSString stringWithFormat:@"http://%@:%@", [url host], [url port]];
-	appModel.site = @"Default";
+	//Init keys in UserDefaults in case the user has not visited the ARIS Settings page
+	//To set these defaults, edit Settings.bundle->Root.plist and initUSerDefaults in appMode.m
+	[appModel initUserDefaults];
+	
+	//Load defaults from UserDefaults
 	[appModel loadUserDefaults];
+	
 	[appModel retain];
 
 	//register for notifications from views

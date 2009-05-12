@@ -16,8 +16,6 @@
 	
 	UITableView *locationTable;
 	NSMutableArray *locationTableData;
-	UITableView *serverTable;
-	NSMutableArray *serverTableData;
 	UIButton *clearEventsButton;
 	UIButton *clearItemsButton;
 	UILabel *accuracyLabelValue;
@@ -28,8 +26,6 @@
 @property(copy, readwrite) NSString *moduleName;
 @property(nonatomic, retain) IBOutlet UITableView *locationTable;
 @property(nonatomic, retain) IBOutlet NSMutableArray *locationTableData;
-@property(nonatomic, retain) IBOutlet UITableView *serverTable;
-@property(nonatomic, retain) IBOutlet NSMutableArray *serverTableData;
 @property(nonatomic, retain) IBOutlet UIButton *clearEventsButton;
 @property(nonatomic, retain) IBOutlet UIButton *clearItemsButton;
 @property(nonatomic, retain) IBOutlet UILabel *accuracyLabelValue;
