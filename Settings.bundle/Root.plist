@@ -10,6 +10,12 @@
 	<array>
 		<dict>
 			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>Advanced Settings</string>
+		</dict>
+		<dict>
+			<key>Type</key>
 			<string>PSTextFieldSpecifier</string>
 			<key>Title</key>
 			<string>Server URL</string>
@@ -25,6 +31,22 @@
 			<string>None</string>
 			<key>AutocorrectionType</key>
 			<string>No</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+			<key>Title</key>
+			<string>About ARIS</string>
+		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTitleValueSpecifier</string>
+			<key>Title</key>
+			<string>Version</string>
+			<key>DefaultValue</key>
+			<string>Run ARIS to update</string>
+			<key>Key</key>
+			<string>appVerison</string>
 		</dict>
 	</array>
 </dict>

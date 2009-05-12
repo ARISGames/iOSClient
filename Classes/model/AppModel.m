@@ -116,10 +116,12 @@ NSDictionary *InventoryElements;
 	[defaults setObject:password forKey:@"password"];
 	[defaults setObject:baseAppURL forKey:@"lastBaseAppURL"];
 	[defaults setObject:site forKey:@"site"];
+	[defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"appVerison"];
+	
 }
 
 
--(void)initUserDefaults {
+-(void)initUserDefaults {	
 	NSDictionary *initDefaults = [NSDictionary dictionaryWithObjectsAndKeys:
 								  @"http://atsosxdev.doit.wisc.edu/aris/games", @"baseAppURL",
 								  @"Default", @"site",
