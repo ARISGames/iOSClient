@@ -236,12 +236,8 @@
     NSLog(@"Performing Logout: Clearing NSUserDefaults and Displaying Login Screen");
 	
 	//Clear any user realated info in appModel (except server)
-	appModel.loggedIn = NO;
-	appModel.username = nil;
-	appModel.password = nil;
-	appModel.site = nil;
-	
 	[appModel clearUserDefaults];
+	[appModel loadUserDefaults];
 	
 	//(re)load the login view
 	tabBarController.view.hidden = YES;

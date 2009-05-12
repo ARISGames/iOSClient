@@ -101,7 +101,7 @@ NSDictionary *InventoryElements;
 	[defaults removeObjectForKey:@"username"];
 	[defaults removeObjectForKey:@"password"];
 	//Don't clear the baseAppURL
-	[defaults removeObjectForKey:@"site"];
+	[defaults setObject:@"Default" forKey:@"site"];
 
 }
 
@@ -129,19 +129,16 @@ NSDictionary *InventoryElements;
 
 - (BOOL)login {
 	BOOL loginSuccessful = NO;
-	//piece together URL
-	NSString *urlString = [NSString stringWithFormat:@"%@?module=RESTLogin&user_name=%@&password=%@",
-						   baseAppURL, username, password];
 	
-	NSLog(urlString);
-	//try login
-	NSURLRequest *keyRequest = [NSURLRequest requestWithURL: [NSURL URLWithString:urlString]
-												cachePolicy:NSURLRequestUseProtocolCachePolicy
-												timeoutInterval:60.0];
+	//Piece together URL
+	NSURLRequest *keyRequest = [self getURLForModule:@"RESTLogin"];
+	
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 	
 	NSURLResponse *response = NULL;
 	NSData *loginData = [NSURLConnection sendSynchronousRequest:keyRequest returningResponse:&response error:NULL];
 	
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	NSString *loginResponse = [[NSString alloc] initWithData:loginData encoding:NSASCIIStringEncoding];
 	
 	//handle login response
@@ -158,15 +155,16 @@ NSDictionary *InventoryElements;
 -(NSURLRequest *)getURLForModule:(NSString *)moduleName {
 	NSString *urlString = [self getURLStringForModule:moduleName];
 	
-	NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+	NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]
+												cachePolicy:NSURLRequestUseProtocolCachePolicy
+												timeoutInterval:60.0];
 	return urlRequest;
 }
 
 
 -(NSString *)getURLStringForModule:(NSString *)moduleName {
-	NSString *urlString = [NSString stringWithFormat:@"%@?module=%@&site=%@&user_name=%@&password=%@",
-						   baseAppURL, moduleName, site, username, password];
-	return urlString;
+	return [[[NSString alloc] initWithFormat:@"%@?module=%@&site=%@&user_name=%@&password=%@",
+							baseAppURL, moduleName, site, username, password] stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
 }
 
 
