@@ -7,13 +7,15 @@
 //
 
 #import "AppModel.h"
+
 #import "GameListParserDelegate.h"
 #import "LocationListParserDelegate.h"
 #import "NearbyLocationsListParserDelegate.h"
 #import "InventoryParserDelegate.h"
+#import "XMLParserDelegate.h"
 
 #import "Item.h"
-#import "XMLParserDelegate.h"
+
 
 
 @implementation AppModel
@@ -130,15 +132,9 @@ NSDictionary *InventoryElements;
 - (BOOL)login {
 	BOOL loginSuccessful = NO;
 	
-	//Piece together URL
+	//Check with the Server
 	NSURLRequest *keyRequest = [self getURLForModule:@"RESTLogin"];
-	
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-	
-	NSURLResponse *response = NULL;
-	NSData *loginData = [NSURLConnection sendSynchronousRequest:keyRequest returningResponse:&response error:NULL];
-	
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	NSData *loginData = [self fetchURLData:keyRequest];
 	NSString *loginResponse = [[NSString alloc] initWithData:loginData encoding:NSASCIIStringEncoding];
 	
 	//handle login response
@@ -167,13 +163,38 @@ NSDictionary *InventoryElements;
 							baseAppURL, moduleName, site, username, password] stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
 }
 
+-(NSURLRequest *)getURL:(NSString *)relativeURL {
+	NSString *urlString = [self getURLString:relativeURL];
+	
+	NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]
+												cachePolicy:NSURLRequestUseProtocolCachePolicy
+											timeoutInterval:60.0];
+	return urlRequest;
+}
 
 -(NSString *) getURLString:(NSString *)relativeURL {
 	return [[[NSString alloc] initWithFormat:@"%@%@", serverName, relativeURL]  stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
 }
 
+-(NSData *) fetchURLData: (NSURLRequest *)request {
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+	NSURLResponse *response = NULL;
+	NSError *error = NULL;
+	NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	if (error != NULL) {
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"ARIS is not able to communicate with the server. Check your internet connection."
+												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+		[alert show];	
+		[alert release];
+	}
+
+	return data;
+}
 
 - (void)fetchGameList {
+	NSLog(@"AppModel: Fetching Game List.");
+	
 	//init location list array
 	if(gameList != nil) {
 		[gameList release];
@@ -181,12 +202,11 @@ NSDictionary *InventoryElements;
 	gameList = [NSMutableArray array];
 	[gameList retain];
 	
-	//init url
-	NSString *urlString = [NSString stringWithFormat:@"%@?module=RESTSelectGame&user_name=%@&password=%@",
-									baseAppURL, username, password];
-	NSLog(@"Fetching Game List from: %@", urlString );
+	//Fetch the Data
+	NSURLRequest *request = [self getURLForModule:@"RESTSelectGame"];
+	NSData *data = [self fetchURLData:request];
 
-	NSXMLParser *parser = [[NSXMLParser alloc] initWithContentsOfURL:[NSURL URLWithString:urlString]];
+	NSXMLParser *parser = [[NSXMLParser alloc] initWithData:data];
 	GameListParserDelegate *gameListParserDelegate = [[GameListParserDelegate alloc] initWithGameList:gameList];
 	
 	[parser setDelegate:gameListParserDelegate];
@@ -201,6 +221,8 @@ NSDictionary *InventoryElements;
 
 
 - (void)fetchLocationList {
+	NSLog(@"Fetching All Locations.");
+	
 	//init location list array
 	if(locationList != nil) {
 		[locationList release];
@@ -208,12 +230,11 @@ NSDictionary *InventoryElements;
 	locationList = [NSMutableArray array];
 	[locationList retain];
 	
-	//init url
-	NSString *urlString = [NSString stringWithFormat:@"%@?module=RESTMap&site=%@&user_name=%@&password=%@",
-						   baseAppURL, site, username, password];
-	NSLog([NSString stringWithFormat:@"Fetching All Locations from : %@", urlString]);
-	NSXMLParser *parser = [[NSXMLParser alloc] initWithContentsOfURL:[NSURL URLWithString:urlString]];
+	//Fetch Data
+	NSURLRequest *request = [self getURLForModule:@"RESTMap"];
+	NSData *data = [self fetchURLData:request];
 	
+	NSXMLParser *parser = [[NSXMLParser alloc] initWithData:data];
 	LocationListParserDelegate *locationListParserDelegate = [[LocationListParserDelegate alloc] initWithLocationList:locationList];
 	[parser setDelegate:locationListParserDelegate];
 	
@@ -237,12 +258,11 @@ NSDictionary *InventoryElements;
 	inventory = [NSMutableArray array];
 	[inventory retain];
 	
-	//init url
-	NSString *urlString = [self getURLStringForModule:@"Inventory&controller=SimpleREST"];	
-	NSLog([NSString stringWithFormat:@"Fetching Inventory from : %@", urlString]);
+	//Fetch Data
+	NSURLRequest *request = [self getURLForModule:@"Inventory&controller=SimpleREST"];
+	NSData *data = [self fetchURLData:request];
 	
-	NSXMLParser *parser = [[NSXMLParser alloc] initWithContentsOfURL:[NSURL URLWithString:urlString]];
-	
+	NSXMLParser *parser = [[NSXMLParser alloc] initWithData:data];	
 	XMLParserDelegate *parserDelegate = [[XMLParserDelegate alloc] initWithDictionary:InventoryElements
 																		   andResults:inventory forNotification:@"ReceivedInventory"];
 	[parser setDelegate:parserDelegate];
@@ -264,14 +284,15 @@ NSDictionary *InventoryElements;
 	nearbyLocationsList = [NSMutableArray array];
 	[nearbyLocationsList retain];
 	
-	//init url
-	NSString *urlString = [NSString stringWithFormat:@"%@?module=RESTAsync&site=%@&user_name=%@&password=%@&latitude=%f&longitude=%f",
-						   baseAppURL, site, username, password, lastLocation.coordinate.latitude, lastLocation.coordinate.longitude];
 	
-	NSLog([NSString stringWithFormat:@"Fetching Nearby Locations from : %@", urlString]);
+	//Fetch Data
+	NSURLRequest *request = [self getURLForModule:
+							 [NSString stringWithFormat:@"RESTAsync&latitude=%f&longitude=%f", lastLocation.coordinate.latitude, lastLocation.coordinate.longitude]];
+	NSData *data = [self fetchURLData:request];
 	
-	NSXMLParser *parser = [[NSXMLParser alloc] initWithContentsOfURL:[NSURL URLWithString:urlString]];
+	NSXMLParser *parser = [[NSXMLParser alloc] initWithData:data];	
 	
+		
 	NearbyLocationsListParserDelegate *nearbyLocationsListParserDelegate = [[NearbyLocationsListParserDelegate alloc] initWithNearbyLocationsList:nearbyLocationsList];
 	[parser setDelegate:nearbyLocationsListParserDelegate];
 	//init parser

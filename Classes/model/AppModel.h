@@ -54,5 +54,8 @@ extern NSDictionary *InventoryElements;
 -(NSURLRequest *) getURLForModule:(NSString *)moduleName;
 -(NSString *)getURLStringForModule:(NSString *)moduleName;
 -(NSString *) getURLString:(NSString *)relativeURL;
+-(NSURLRequest *)getURL:(NSString *)relativeURL;
+-(NSData *) fetchURLData: (NSURLRequest *)request;
+
 
 @end
