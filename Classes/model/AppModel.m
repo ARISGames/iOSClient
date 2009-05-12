@@ -153,7 +153,7 @@ NSDictionary *InventoryElements;
 	
 	NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]
 												cachePolicy:NSURLRequestUseProtocolCachePolicy
-												timeoutInterval:60.0];
+												timeoutInterval:15.0];
 	return urlRequest;
 }
 
@@ -168,7 +168,7 @@ NSDictionary *InventoryElements;
 	
 	NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]
 												cachePolicy:NSURLRequestUseProtocolCachePolicy
-											timeoutInterval:60.0];
+											timeoutInterval:15.0];
 	return urlRequest;
 }
 
