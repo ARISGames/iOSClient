@@ -7,6 +7,7 @@
 //
 
 #import "LoginViewController.h"
+#import "SelfRegistrationViewController.h"
 
 
 @implementation LoginViewController
@@ -16,6 +17,18 @@
 @synthesize login;
 @synthesize titleItem;
 
+
+//Override init for passing title and icon to tab bar
+- (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
+{
+    self = [super initWithNibName:nibName bundle:nibBundle];
+    if (self) {
+        self.title = @"Login to ARIS";
+    }
+    return self;
+}
+
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -23,6 +36,16 @@
 	[login addTarget:self action:@selector(performLogin) forControlEvents:UIControlEventTouchUpInside];
 	
 	NSLog(@"Login View Loaded");
+}
+
+-(void) setModel:(AppModel *)model {
+	if(appModel != model) {
+		[appModel release];
+		appModel = model;
+		[appModel retain];
+	}
+	
+	NSLog(@"Login: Model Set");
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -82,6 +105,16 @@
 	[password resignFirstResponder];
 }
 
+-(IBAction)newUserButtonTouched: (id) sender{
+	NSLog(@"Login: New User Button Touched");
+	SelfRegistrationViewController *selfRegistrationViewController = [[SelfRegistrationViewController alloc] 
+															initWithNibName:@"SelfRegistration" bundle:[NSBundle mainBundle]];
+	[selfRegistrationViewController setModel:appModel];
+	
+	//Put the view on the screen
+	[[self navigationController] pushViewController:selfRegistrationViewController animated:YES];
+	
+}
 
 - (void)dealloc {
 	[titleItem release];

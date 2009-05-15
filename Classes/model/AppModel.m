@@ -149,7 +149,7 @@ NSDictionary *InventoryElements;
 	return loginSuccessful;
 }
 
-
+//Returns the complete URL for the module, including authentication
 -(NSURLRequest *)getURLForModule:(NSString *)moduleName {
 	NSString *urlString = [self getURLStringForModule:moduleName];
 	
@@ -159,12 +159,15 @@ NSDictionary *InventoryElements;
 	return urlRequest;
 }
 
-
+//Returns the complete URL for the module, including authentication
 -(NSString *)getURLStringForModule:(NSString *)moduleName {
-	return [[[NSString alloc] initWithFormat:@"%@?module=%@&site=%@&user_name=%@&password=%@",
+	NSString *URLString = [[[NSString alloc] initWithFormat:@"%@?module=%@&site=%@&user_name=%@&password=%@",
 							baseAppURL, moduleName, site, username, password] stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+	NSLog(@"Model: URL String for Module was = %@",URLString);
+	return URLString;
 }
 
+//Returns the complete URL for the server
 -(NSURLRequest *)getURL:(NSString *)relativeURL {
 	NSString *urlString = [self getURLString:relativeURL];
 	
@@ -174,9 +177,31 @@ NSDictionary *InventoryElements;
 	return urlRequest;
 }
 
+//Returns the complete URL for the server
 -(NSString *) getURLString:(NSString *)relativeURL {
-	return [[[NSString alloc] initWithFormat:@"%@%@", serverName, relativeURL]  stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+	NSString *URLString = [[[NSString alloc] initWithFormat:@"%@%@", serverName, relativeURL]  stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+	NSLog(@"Model: URL String for Module was = %@",URLString);
+	return URLString;
 }
+
+//Returns the complete URL including the engine path
+-(NSURLRequest *)getEngineURL:(NSString *)relativeURL {
+	NSString *urlString = [self getEngineURLString:relativeURL];
+	
+	NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]
+												cachePolicy:NSURLRequestUseProtocolCachePolicy
+											timeoutInterval:15.0];
+	return urlRequest;
+}
+
+//Returns the complete URL including the engine path
+-(NSString *) getEngineURLString:(NSString *)relativeURL {
+	NSString *URLString = [[[NSString alloc] initWithFormat:@"%@/%@", baseAppURL, relativeURL]  stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+	NSLog(@"Model: URL String for Module was = %@",URLString);
+	return URLString;
+}
+
+
 
 -(NSData *) fetchURLData: (NSURLRequest *)request {
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;

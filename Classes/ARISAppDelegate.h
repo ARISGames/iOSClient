@@ -32,6 +32,7 @@
     UIWindow *window;
     UITabBarController *tabBarController;
 	LoginViewController *loginViewController;
+	UINavigationController *loginViewNavigationController;
 	GamePickerViewController *gamePickerViewController;
 	UINavigationController *gamePickerNavigationController;
 	AppModel *appModel;
@@ -42,6 +43,7 @@
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
 @property (nonatomic, retain) IBOutlet LoginViewController *loginViewController;
+@property (nonatomic, retain) IBOutlet UINavigationController *loginViewNavigationController;
 @property (nonatomic, retain) IBOutlet GamePickerViewController *gamePickerViewController;
 @property (nonatomic, retain) IBOutlet UINavigationController *gamePickerNavigationController;
 

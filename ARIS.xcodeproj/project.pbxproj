@@ -122,6 +122,8 @@
 		A7149F9D0FB89DC8008BAB5D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A7149F9C0FB89DC8008BAB5D /* Settings.bundle */; };
 		A72135270FA8B548003E4059 /* QRScannerParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A72135260FA8B548003E4059 /* QRScannerParserDelegate.m */; };
 		A721352E0FA8B6F6003E4059 /* QRCode.m in Sources */ = {isa = PBXBuildFile; fileRef = A721352D0FA8B6F6003E4059 /* QRCode.m */; };
+		A722C8C00FBCD8D0009432DB /* SelfRegistration.xib in Resources */ = {isa = PBXBuildFile; fileRef = A722C8BF0FBCD8D0009432DB /* SelfRegistration.xib */; };
+		A722C8C60FBCD92E009432DB /* SelfRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */; };
 		A722E6E70F573174004B04D2 /* GameListParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A722E6E60F573174004B04D2 /* GameListParserDelegate.m */; };
 		A722E7150F57425B004B04D2 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = A722E7140F57425B004B04D2 /* Location.m */; };
 		A722E73A0F57431B004B04D2 /* LocationListParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A722E7390F57431B004B04D2 /* LocationListParserDelegate.m */; };
@@ -329,6 +331,9 @@
 		A72135260FA8B548003E4059 /* QRScannerParserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRScannerParserDelegate.m; sourceTree = "<group>"; };
 		A721352C0FA8B6F6003E4059 /* QRCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRCode.h; sourceTree = "<group>"; };
 		A721352D0FA8B6F6003E4059 /* QRCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QRCode.m; sourceTree = "<group>"; };
+		A722C8BF0FBCD8D0009432DB /* SelfRegistration.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelfRegistration.xib; sourceTree = "<group>"; };
+		A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelfRegistrationViewController.h; sourceTree = "<group>"; };
+		A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelfRegistrationViewController.m; sourceTree = "<group>"; };
 		A722E6E50F573174004B04D2 /* GameListParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameListParserDelegate.h; sourceTree = "<group>"; };
 		A722E6E60F573174004B04D2 /* GameListParserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameListParserDelegate.m; sourceTree = "<group>"; };
 		A722E7130F57425B004B04D2 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
@@ -698,6 +703,9 @@
 				2B3D11AF0F4361940067FD3A /* LoginViewController.h */,
 				2B3D11B00F4361940067FD3A /* LoginViewController.m */,
 				2B3D11AC0F4361380067FD3A /* Login.xib */,
+				A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */,
+				A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */,
+				A722C8BF0FBCD8D0009432DB /* SelfRegistration.xib */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -937,6 +945,7 @@
 				A78E753C0FB5B88000922F6C /* GPS.xib in Resources */,
 				A78E753E0FB5BA0C00922F6C /* Developer.xib in Resources */,
 				A7149F9D0FB89DC8008BAB5D /* Settings.bundle in Resources */,
+				A722C8C00FBCD8D0009432DB /* SelfRegistration.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1019,6 +1028,7 @@
 				A72135270FA8B548003E4059 /* QRScannerParserDelegate.m in Sources */,
 				A721352E0FA8B6F6003E4059 /* QRCode.m in Sources */,
 				A7F73FD50FB248DF0044B85A /* XMLParserDelegate.m in Sources */,
+				A722C8C60FBCD92E009432DB /* SelfRegistrationViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

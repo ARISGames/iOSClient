@@ -13,6 +13,7 @@
 @synthesize window;
 @synthesize tabBarController;
 @synthesize loginViewController;
+@synthesize loginViewNavigationController;
 @synthesize gamePickerViewController;
 @synthesize gamePickerNavigationController;
 
@@ -89,7 +90,10 @@
 
 	//Login View
 	loginViewController = [[[LoginViewController alloc] initWithNibName:@"Login" bundle:nil] autorelease];
+	[loginViewController setModel:appModel];
 	loginViewController.view.frame = [UIScreen mainScreen].applicationFrame;
+	loginViewNavigationController = [[UINavigationController alloc] initWithRootViewController: loginViewController];
+	loginViewNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 	[loginViewController retain]; //This view may be removed and readded to the window
 	
 	//Add the view controllers to the Tab Bar
@@ -129,7 +133,7 @@
 	else {
 		NSLog(@"Appdelegate: Player not logged in, display login");
 		tabBarController.view.hidden = YES;
-		[window addSubview:loginViewController.view];
+		[window addSubview:loginViewNavigationController.view];
 	}
 	
 }
@@ -176,7 +180,7 @@
 	//handle login response
 	if(loginSuccessful) {
 		NSLog(@"AppDelegate: Login Success");
-		[loginViewController.view removeFromSuperview];
+		[loginViewNavigationController.view removeFromSuperview];
 		[appModel fetchGameList];
 		[window addSubview:gamePickerNavigationController.view];
 		gamePickerViewController.view.frame = [UIScreen mainScreen].applicationFrame;
@@ -241,7 +245,7 @@
 	
 	//(re)load the login view
 	tabBarController.view.hidden = YES;
-	[window addSubview:loginViewController.view];
+	[window addSubview:loginViewNavigationController.view];
 }
 
 - (void)processNearbyLocationsList:(NSNotification *)notification {
