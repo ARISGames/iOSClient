@@ -15,6 +15,7 @@
 
 #import "model/Game.h"
 #import "NearbyLocation.h"
+#import "InventoryBar.h"
 #import "Item.h"
 #import "ItemDetailsViewController.h"
 
@@ -38,6 +39,7 @@
 	AppModel *appModel;
 	UIWebView *webView;
 	MyCLController *myCLController;
+	InventoryBar *inventoryBar;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
@@ -46,6 +48,7 @@
 @property (nonatomic, retain) IBOutlet UINavigationController *loginViewNavigationController;
 @property (nonatomic, retain) IBOutlet GamePickerViewController *gamePickerViewController;
 @property (nonatomic, retain) IBOutlet UINavigationController *gamePickerNavigationController;
+@property (nonatomic, retain) IBOutlet InventoryBar *inventoryBar;
 
 
 @end

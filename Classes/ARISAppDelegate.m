@@ -16,6 +16,7 @@
 @synthesize loginViewNavigationController;
 @synthesize gamePickerViewController;
 @synthesize gamePickerNavigationController;
+@synthesize inventoryBar;
 
 //@synthesize toolbarViewController;
 
@@ -81,6 +82,7 @@
 	UINavigationController *developerNavigationController = [[UINavigationController alloc] initWithRootViewController: developerViewController];
 	developerNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 	
+	
 	//Game Picker View
 	gamePickerViewController = [[[GamePickerViewController alloc] initWithNibName:@"GamePicker" bundle:nil] autorelease];
 	gamePickerViewController.view.frame = [UIScreen mainScreen].applicationFrame;
@@ -135,7 +137,9 @@
 		tabBarController.view.hidden = YES;
 		[window addSubview:loginViewNavigationController.view];
 	}
-	
+	//Inventory Bar, which is really a view
+	inventoryBar = [[InventoryBar alloc] initWithFrame:CGRectMake(0.0, 60.0, 320.0, 44.0)];
+	[window addSubview:inventoryBar];	
 }
 
 // A Player selected a tab from the tab bar
@@ -252,23 +256,27 @@
     NSLog(@"App Delegate recieved Nearby Locations List Notification");
 	NSArray *nearbyLocations = notification.object;
 	//Check for a force View flag in one of the nearby locations and display if found
-	for (NSObject *unknownNearbyLocation in nearbyLocations) {
-		if ([unknownNearbyLocation isKindOfClass:[NearbyLocation class]]) {
-			NearbyLocation *nearbyLocation = (NearbyLocation *)unknownNearbyLocation;
-			if (nearbyLocation.forceView == YES) {
-				NSLog(@"A forced view location is nearby");
-				NSString *baseURL = [appModel getURLStringForModule:@"RESTNodeViewer"];
-				NSString *URLparams = nearbyLocation.URL;
-				NSString *fullURL = [ NSString stringWithFormat:@"%@%@", baseURL, URLparams];
-					
-				NSLog([NSString stringWithFormat:@"Loading genericWebView for: %@ at %@", nearbyLocation.name, fullURL ]);
-					
-				GenericWebViewController *genericWebViewController = [[GenericWebViewController alloc] initWithNibName:@"GenericWebView" bundle:[NSBundle mainBundle]];
-				[genericWebViewController setModel:appModel];
-				[genericWebViewController setURL: fullURL];
-				[window addSubview:genericWebViewController.view];	
-			}
-		}
+	[inventoryBar clearAllItems];
+	for (NSObject <NearbyObjectProtocol> *unknownNearbyLocation in nearbyLocations) {
+		[inventoryBar addItem:unknownNearbyLocation];
+//		if ([unknownNearbyLocation isKindOfClass:[NearbyLocation class]]) {
+//		NearbyLocation *nearbyLocation = (NearbyLocation *)unknownNearbyLocation;
+		
+			
+//			if (nearbyLocation.forceView == YES) {
+//				NSLog(@"A forced view location is nearby");
+//				NSString *baseURL = [appModel getURLStringForModule:@"RESTNodeViewer"];
+//				NSString *URLparams = nearbyLocation.URL;
+//				NSString *fullURL = [ NSString stringWithFormat:@"%@%@", baseURL, URLparams];
+//					
+//				NSLog([NSString stringWithFormat:@"Loading genericWebView for: %@ at %@", nearbyLocation.name, fullURL ]);
+//					
+//				GenericWebViewController *genericWebViewController = [[GenericWebViewController alloc] initWithNibName:@"GenericWebView" bundle:[NSBundle mainBundle]];
+//				[genericWebViewController setModel:appModel];
+//				[genericWebViewController setURL: fullURL];
+//				[window addSubview:genericWebViewController.view];	
+//			}
+//		}
 	}
 }
 
