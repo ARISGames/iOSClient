@@ -7,21 +7,27 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NearbyObjectProtocol.h"
 
-
-@interface Item : NSObject {
+@interface Item : NSObject <NearbyObjectProtocol> {
+	NSString *name;
+	nearbyObjectKind kind;
+	BOOL forcedDisplay;
+	
 	int itemId;
 	int locationId; //null if in the player's inventory
-	NSString *name;
 	NSString *description;
 	NSString *type;
 	NSString *mediaURL;
 	NSString *iconURL;
 }
 
+@property(copy, readwrite) NSString *name;
+@property(readwrite, assign) nearbyObjectKind kind;
+@property(readwrite, assign) BOOL forcedDisplay;
+
 @property(readwrite, assign) int itemId;
 @property(readwrite, assign) int locationId;
-@property(copy, readwrite) NSString *name;
 @property(copy, readwrite) NSString *description;
 @property(copy, readwrite) NSString *type;
 @property(copy, readwrite) NSString *mediaURL;
@@ -32,8 +38,7 @@
 							andType:(NSString)newType andMediaURL:(NSString)newMediaURL
 							andIconURL:(NSString)newIconURL;
 
-- (UIViewController*)showModalDetailsView;
 */
-
+- (void) display;
 
 @end

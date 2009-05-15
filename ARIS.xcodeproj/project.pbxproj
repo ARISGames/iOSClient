@@ -334,6 +334,7 @@
 		A722C8BF0FBCD8D0009432DB /* SelfRegistration.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelfRegistration.xib; sourceTree = "<group>"; };
 		A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelfRegistrationViewController.h; sourceTree = "<group>"; };
 		A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelfRegistrationViewController.m; sourceTree = "<group>"; };
+		A722CB5A0FBDFEA6009432DB /* NearbyObjectProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyObjectProtocol.h; sourceTree = "<group>"; };
 		A722E6E50F573174004B04D2 /* GameListParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameListParserDelegate.h; sourceTree = "<group>"; };
 		A722E6E60F573174004B04D2 /* GameListParserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameListParserDelegate.m; sourceTree = "<group>"; };
 		A722E7130F57425B004B04D2 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
@@ -593,6 +594,7 @@
 				A7F73FD40FB248DF0044B85A /* XMLParserDelegate.m */,
 				A7A623590F841C99008E0DFD /* Item.h */,
 				A7A6235A0F841C99008E0DFD /* Item.m */,
+				A722CB5A0FBDFEA6009432DB /* NearbyObjectProtocol.h */,
 				A72F04AC0F6ED8620089B90F /* NearbyLocation.h */,
 				A72F04AD0F6ED8620089B90F /* NearbyLocation.m */,
 				A722E7380F57431B004B04D2 /* LocationListParserDelegate.h */,
@@ -828,7 +830,7 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* ARIS */ = {
+		1D6058900D05DD3D006BFB54 /* SimpleMap */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "ARIS" */;
 			buildPhases = (
@@ -881,7 +883,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* ARIS */,
+				1D6058900D05DD3D006BFB54 /* SimpleMap */,
 				289811FC0FA1105E002ED288 /* zxingcore */,
 			);
 		};

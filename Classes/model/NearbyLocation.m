@@ -11,12 +11,20 @@
 
 @implementation NearbyLocation
 
+@synthesize name;
+@synthesize kind;
+@synthesize forcedDisplay;
+
 @synthesize locationId;
 @synthesize forceView;
-@synthesize name;
 @synthesize type;
 @synthesize iconURL;
 @synthesize URL;
+
+- (void) display{
+	NSLog(@"NearbyLocation (Web Style): Display Self Requested");
+
+}
 
 - (void)dealloc {
 	[name release];

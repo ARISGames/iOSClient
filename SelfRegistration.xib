@@ -511,7 +511,6 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="335226769"/>
-							<reference ref="637073247"/>
 							<reference ref="385743888"/>
 							<reference ref="346776234"/>
 							<reference ref="194249507"/>
@@ -523,6 +522,7 @@
 							<reference ref="473646297"/>
 							<reference ref="12741758"/>
 							<reference ref="528899408"/>
+							<reference ref="637073247"/>
 						</object>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -620,7 +620,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>SelfRegistrationViewController</string>
 					<string>UIResponder</string>
-					<string>{{391, 577}, {320, 480}}</string>
+					<string>{{391, 376}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
