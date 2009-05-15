@@ -48,7 +48,7 @@
 - (void)setTitle:(NSString *)newTitle {
 	[title release];
 	title = [newTitle copy];
-	UIFont *font = [UIFont systemFontOfSize:9.0];
+	UIFont *font = [UIFont systemFontOfSize:12.0];
 	// Precalculate size of text and size of font so that text fits inside placard
 	textSize = [title sizeWithFont:font minFontSize:9.0 actualFontSize:&fontSize forWidth:(self.bounds.size.width-STRING_INDENT) lineBreakMode:UILineBreakModeMiddleTruncation];
 	[self setNeedsDisplay];
