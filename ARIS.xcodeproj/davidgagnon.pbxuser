@@ -124,7 +124,7 @@
 				PBXFileTableDataSourceColumnSortingDirectionKey = 1;
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
-					725,
+					534,
 					20,
 					20,
 					48,
@@ -588,6 +588,118 @@
 			A722CA960FBCF66C009432DB /* PBXTextBookmark */ = A722CA960FBCF66C009432DB /* PBXTextBookmark */;
 			A722CA970FBCF66C009432DB /* PBXTextBookmark */ = A722CA970FBCF66C009432DB /* PBXTextBookmark */;
 			A722CA980FBCF66C009432DB /* PBXTextBookmark */ = A722CA980FBCF66C009432DB /* PBXTextBookmark */;
+			A722CA990FBCF785009432DB /* PBXTextBookmark */ = A722CA990FBCF785009432DB /* PBXTextBookmark */;
+			A722CA9B0FBCF7A1009432DB /* PBXTextBookmark */ = A722CA9B0FBCF7A1009432DB /* PBXTextBookmark */;
+			A722CA9E0FBCF7A8009432DB /* PlistBookmark */ = A722CA9E0FBCF7A8009432DB /* PlistBookmark */;
+			A722CA9F0FBCF7A8009432DB /* PBXTextBookmark */ = A722CA9F0FBCF7A8009432DB /* PBXTextBookmark */;
+			A722CAA00FBCF7A8009432DB /* PBXTextBookmark */ = A722CAA00FBCF7A8009432DB /* PBXTextBookmark */;
+			A722CAA10FBCF7A8009432DB /* PBXTextBookmark */ = A722CAA10FBCF7A8009432DB /* PBXTextBookmark */;
+			A722CAB50FBDE927009432DB /* PlistBookmark */ = A722CAB50FBDE927009432DB /* PlistBookmark */;
+			A722CAB60FBDE927009432DB /* PBXTextBookmark */ = A722CAB60FBDE927009432DB /* PBXTextBookmark */;
+			A722CAB70FBDE927009432DB /* PBXTextBookmark */ = A722CAB70FBDE927009432DB /* PBXTextBookmark */;
+			A722CAB80FBDE927009432DB /* PBXTextBookmark */ = A722CAB80FBDE927009432DB /* PBXTextBookmark */;
+			A722CABD0FBDEA8E009432DB /* PlistBookmark */ = A722CABD0FBDEA8E009432DB /* PlistBookmark */;
+			A722CABE0FBDEA8E009432DB /* PBXTextBookmark */ = A722CABE0FBDEA8E009432DB /* PBXTextBookmark */;
+			A722CABF0FBDEA8F009432DB /* PBXTextBookmark */ = A722CABF0FBDEA8F009432DB /* PBXTextBookmark */;
+			A722CAC00FBDEA8F009432DB /* PBXTextBookmark */ = A722CAC00FBDEA8F009432DB /* PBXTextBookmark */;
+			A722CAC20FBDEBD9009432DB /* PlistBookmark */ = A722CAC20FBDEBD9009432DB /* PlistBookmark */;
+			A722CAC30FBDEBD9009432DB /* PBXTextBookmark */ = A722CAC30FBDEBD9009432DB /* PBXTextBookmark */;
+			A722CAC40FBDEBD9009432DB /* PBXTextBookmark */ = A722CAC40FBDEBD9009432DB /* PBXTextBookmark */;
+			A722CAC50FBDEBD9009432DB /* PBXTextBookmark */ = A722CAC50FBDEBD9009432DB /* PBXTextBookmark */;
+			A722CAC60FBDEBD9009432DB /* PBXTextBookmark */ = A722CAC60FBDEBD9009432DB /* PBXTextBookmark */;
+			A722CAC70FBDEBD9009432DB /* PBXTextBookmark */ = A722CAC70FBDEBD9009432DB /* PBXTextBookmark */;
+			A722CAC80FBDEBD9009432DB /* PBXTextBookmark */ = A722CAC80FBDEBD9009432DB /* PBXTextBookmark */;
+			A722CAC90FBDEBFB009432DB /* PlistBookmark */ = A722CAC90FBDEBFB009432DB /* PlistBookmark */;
+			A722CACA0FBDEBFB009432DB /* PBXTextBookmark */ = A722CACA0FBDEBFB009432DB /* PBXTextBookmark */;
+			A722CACB0FBDEBFB009432DB /* PBXTextBookmark */ = A722CACB0FBDEBFB009432DB /* PBXTextBookmark */;
+			A722CACC0FBDEBFB009432DB /* PBXTextBookmark */ = A722CACC0FBDEBFB009432DB /* PBXTextBookmark */;
+			A722CACD0FBDEC7D009432DB /* PlistBookmark */ = A722CACD0FBDEC7D009432DB /* PlistBookmark */;
+			A722CACE0FBDEC7D009432DB /* PBXTextBookmark */ = A722CACE0FBDEC7D009432DB /* PBXTextBookmark */;
+			A722CACF0FBDEC7D009432DB /* PBXTextBookmark */ = A722CACF0FBDEC7D009432DB /* PBXTextBookmark */;
+			A722CAD00FBDEC7D009432DB /* PBXTextBookmark */ = A722CAD00FBDEC7D009432DB /* PBXTextBookmark */;
+			A722CAD10FBDEC82009432DB /* PlistBookmark */ = A722CAD10FBDEC82009432DB /* PlistBookmark */;
+			A722CAD20FBDEC82009432DB /* PBXTextBookmark */ = A722CAD20FBDEC82009432DB /* PBXTextBookmark */;
+			A722CAD30FBDEC82009432DB /* PBXTextBookmark */ = A722CAD30FBDEC82009432DB /* PBXTextBookmark */;
+			A722CAD40FBDEC82009432DB /* PBXTextBookmark */ = A722CAD40FBDEC82009432DB /* PBXTextBookmark */;
+			A722CAD50FBDECD6009432DB /* PlistBookmark */ = A722CAD50FBDECD6009432DB /* PlistBookmark */;
+			A722CAD60FBDECD6009432DB /* PBXTextBookmark */ = A722CAD60FBDECD6009432DB /* PBXTextBookmark */;
+			A722CAD70FBDECD6009432DB /* PBXTextBookmark */ = A722CAD70FBDECD6009432DB /* PBXTextBookmark */;
+			A722CAD80FBDECD6009432DB /* PBXTextBookmark */ = A722CAD80FBDECD6009432DB /* PBXTextBookmark */;
+			A722CAD90FBDECEF009432DB /* PlistBookmark */ = A722CAD90FBDECEF009432DB /* PlistBookmark */;
+			A722CADA0FBDECEF009432DB /* PBXTextBookmark */ = A722CADA0FBDECEF009432DB /* PBXTextBookmark */;
+			A722CADB0FBDECEF009432DB /* PBXTextBookmark */ = A722CADB0FBDECEF009432DB /* PBXTextBookmark */;
+			A722CADC0FBDECEF009432DB /* PBXTextBookmark */ = A722CADC0FBDECEF009432DB /* PBXTextBookmark */;
+			A722CADD0FBDECFE009432DB /* PlistBookmark */ = A722CADD0FBDECFE009432DB /* PlistBookmark */;
+			A722CADE0FBDECFE009432DB /* PBXTextBookmark */ = A722CADE0FBDECFE009432DB /* PBXTextBookmark */;
+			A722CADF0FBDECFE009432DB /* PBXTextBookmark */ = A722CADF0FBDECFE009432DB /* PBXTextBookmark */;
+			A722CAE00FBDECFE009432DB /* PBXTextBookmark */ = A722CAE00FBDECFE009432DB /* PBXTextBookmark */;
+			A722CAE20FBDED69009432DB /* PlistBookmark */ = A722CAE20FBDED69009432DB /* PlistBookmark */;
+			A722CAE30FBDED69009432DB /* PBXTextBookmark */ = A722CAE30FBDED69009432DB /* PBXTextBookmark */;
+			A722CAE40FBDED69009432DB /* PBXTextBookmark */ = A722CAE40FBDED69009432DB /* PBXTextBookmark */;
+			A722CAE50FBDED69009432DB /* PBXTextBookmark */ = A722CAE50FBDED69009432DB /* PBXTextBookmark */;
+			A722CAE70FBDED77009432DB /* PlistBookmark */ = A722CAE70FBDED77009432DB /* PlistBookmark */;
+			A722CAE80FBDED77009432DB /* PBXTextBookmark */ = A722CAE80FBDED77009432DB /* PBXTextBookmark */;
+			A722CAE90FBDED77009432DB /* PBXTextBookmark */ = A722CAE90FBDED77009432DB /* PBXTextBookmark */;
+			A722CAEA0FBDED77009432DB /* PBXTextBookmark */ = A722CAEA0FBDED77009432DB /* PBXTextBookmark */;
+			A722CAED0FBDEE02009432DB /* PlistBookmark */ = A722CAED0FBDEE02009432DB /* PlistBookmark */;
+			A722CAEE0FBDEE02009432DB /* PBXTextBookmark */ = A722CAEE0FBDEE02009432DB /* PBXTextBookmark */;
+			A722CAEF0FBDEE02009432DB /* PBXTextBookmark */ = A722CAEF0FBDEE02009432DB /* PBXTextBookmark */;
+			A722CAF00FBDEE02009432DB /* PBXTextBookmark */ = A722CAF00FBDEE02009432DB /* PBXTextBookmark */;
+			A722CAF10FBDEE2A009432DB /* PlistBookmark */ = A722CAF10FBDEE2A009432DB /* PlistBookmark */;
+			A722CAF20FBDEE2A009432DB /* PBXTextBookmark */ = A722CAF20FBDEE2A009432DB /* PBXTextBookmark */;
+			A722CAF30FBDEE2A009432DB /* PBXTextBookmark */ = A722CAF30FBDEE2A009432DB /* PBXTextBookmark */;
+			A722CAF40FBDEE2A009432DB /* PBXTextBookmark */ = A722CAF40FBDEE2A009432DB /* PBXTextBookmark */;
+			A722CAF60FBDEE92009432DB /* PlistBookmark */ = A722CAF60FBDEE92009432DB /* PlistBookmark */;
+			A722CAF70FBDEE92009432DB /* PBXTextBookmark */ = A722CAF70FBDEE92009432DB /* PBXTextBookmark */;
+			A722CAF80FBDEE92009432DB /* PBXTextBookmark */ = A722CAF80FBDEE92009432DB /* PBXTextBookmark */;
+			A722CAF90FBDEE92009432DB /* PBXTextBookmark */ = A722CAF90FBDEE92009432DB /* PBXTextBookmark */;
+			A722CAFE0FBDEF09009432DB /* PlistBookmark */ = A722CAFE0FBDEF09009432DB /* PlistBookmark */;
+			A722CAFF0FBDEF09009432DB /* PBXTextBookmark */ = A722CAFF0FBDEF09009432DB /* PBXTextBookmark */;
+			A722CB000FBDEF09009432DB /* PBXTextBookmark */ = A722CB000FBDEF09009432DB /* PBXTextBookmark */;
+			A722CB010FBDEF09009432DB /* PBXTextBookmark */ = A722CB010FBDEF09009432DB /* PBXTextBookmark */;
+			A722CB040FBDEFB2009432DB /* PlistBookmark */ = A722CB040FBDEFB2009432DB /* PlistBookmark */;
+			A722CB050FBDEFB2009432DB /* PBXTextBookmark */ = A722CB050FBDEFB2009432DB /* PBXTextBookmark */;
+			A722CB060FBDEFB2009432DB /* PBXTextBookmark */ = A722CB060FBDEFB2009432DB /* PBXTextBookmark */;
+			A722CB070FBDEFB2009432DB /* PBXTextBookmark */ = A722CB070FBDEFB2009432DB /* PBXTextBookmark */;
+			A722CB0A0FBDF06C009432DB /* PlistBookmark */ = A722CB0A0FBDF06C009432DB /* PlistBookmark */;
+			A722CB0B0FBDF06C009432DB /* PBXTextBookmark */ = A722CB0B0FBDF06C009432DB /* PBXTextBookmark */;
+			A722CB0C0FBDF06C009432DB /* PBXTextBookmark */ = A722CB0C0FBDF06C009432DB /* PBXTextBookmark */;
+			A722CB0D0FBDF06C009432DB /* PBXTextBookmark */ = A722CB0D0FBDF06C009432DB /* PBXTextBookmark */;
+			A722CB100FBDF1C2009432DB /* PlistBookmark */ = A722CB100FBDF1C2009432DB /* PlistBookmark */;
+			A722CB110FBDF1C2009432DB /* PBXTextBookmark */ = A722CB110FBDF1C2009432DB /* PBXTextBookmark */;
+			A722CB120FBDF1C2009432DB /* PBXTextBookmark */ = A722CB120FBDF1C2009432DB /* PBXTextBookmark */;
+			A722CB130FBDF1C2009432DB /* PBXTextBookmark */ = A722CB130FBDF1C2009432DB /* PBXTextBookmark */;
+			A722CB170FBDF258009432DB /* PlistBookmark */ = A722CB170FBDF258009432DB /* PlistBookmark */;
+			A722CB180FBDF258009432DB /* PBXTextBookmark */ = A722CB180FBDF258009432DB /* PBXTextBookmark */;
+			A722CB190FBDF258009432DB /* PBXTextBookmark */ = A722CB190FBDF258009432DB /* PBXTextBookmark */;
+			A722CB1A0FBDF258009432DB /* PBXTextBookmark */ = A722CB1A0FBDF258009432DB /* PBXTextBookmark */;
+			A722CB1C0FBDF2D5009432DB /* PlistBookmark */ = A722CB1C0FBDF2D5009432DB /* PlistBookmark */;
+			A722CB1D0FBDF2D5009432DB /* PBXTextBookmark */ = A722CB1D0FBDF2D5009432DB /* PBXTextBookmark */;
+			A722CB1E0FBDF2D5009432DB /* PBXTextBookmark */ = A722CB1E0FBDF2D5009432DB /* PBXTextBookmark */;
+			A722CB1F0FBDF2D5009432DB /* PBXTextBookmark */ = A722CB1F0FBDF2D5009432DB /* PBXTextBookmark */;
+			A722CB220FBDF307009432DB /* PlistBookmark */ = A722CB220FBDF307009432DB /* PlistBookmark */;
+			A722CB230FBDF307009432DB /* PBXTextBookmark */ = A722CB230FBDF307009432DB /* PBXTextBookmark */;
+			A722CB240FBDF307009432DB /* PBXTextBookmark */ = A722CB240FBDF307009432DB /* PBXTextBookmark */;
+			A722CB250FBDF307009432DB /* PBXTextBookmark */ = A722CB250FBDF307009432DB /* PBXTextBookmark */;
+			A722CB270FBDF36B009432DB /* PlistBookmark */ = A722CB270FBDF36B009432DB /* PlistBookmark */;
+			A722CB280FBDF36B009432DB /* PBXTextBookmark */ = A722CB280FBDF36B009432DB /* PBXTextBookmark */;
+			A722CB290FBDF36B009432DB /* PBXTextBookmark */ = A722CB290FBDF36B009432DB /* PBXTextBookmark */;
+			A722CB2A0FBDF36B009432DB /* PBXTextBookmark */ = A722CB2A0FBDF36B009432DB /* PBXTextBookmark */;
+			A722CB2C0FBDF380009432DB /* PlistBookmark */ = A722CB2C0FBDF380009432DB /* PlistBookmark */;
+			A722CB2D0FBDF380009432DB /* PBXTextBookmark */ = A722CB2D0FBDF380009432DB /* PBXTextBookmark */;
+			A722CB2E0FBDF380009432DB /* PBXTextBookmark */ = A722CB2E0FBDF380009432DB /* PBXTextBookmark */;
+			A722CB2F0FBDF380009432DB /* PBXTextBookmark */ = A722CB2F0FBDF380009432DB /* PBXTextBookmark */;
+			A722CB310FBDF3B2009432DB /* PlistBookmark */ = A722CB310FBDF3B2009432DB /* PlistBookmark */;
+			A722CB320FBDF3B2009432DB /* PBXTextBookmark */ = A722CB320FBDF3B2009432DB /* PBXTextBookmark */;
+			A722CB330FBDF3B2009432DB /* PBXTextBookmark */ = A722CB330FBDF3B2009432DB /* PBXTextBookmark */;
+			A722CB340FBDF3B2009432DB /* PBXTextBookmark */ = A722CB340FBDF3B2009432DB /* PBXTextBookmark */;
+			A722CB360FBDF3BF009432DB /* PlistBookmark */ = A722CB360FBDF3BF009432DB /* PlistBookmark */;
+			A722CB370FBDF3BF009432DB /* PBXTextBookmark */ = A722CB370FBDF3BF009432DB /* PBXTextBookmark */;
+			A722CB380FBDF3BF009432DB /* PBXTextBookmark */ = A722CB380FBDF3BF009432DB /* PBXTextBookmark */;
+			A722CB390FBDF3BF009432DB /* PBXTextBookmark */ = A722CB390FBDF3BF009432DB /* PBXTextBookmark */;
+			A722CB3E0FBDF7C5009432DB /* PlistBookmark */ = A722CB3E0FBDF7C5009432DB /* PlistBookmark */;
+			A722CB3F0FBDF7C5009432DB /* PBXTextBookmark */ = A722CB3F0FBDF7C5009432DB /* PBXTextBookmark */;
+			A722CB400FBDF7C5009432DB /* PBXTextBookmark */ = A722CB400FBDF7C5009432DB /* PBXTextBookmark */;
 			A722E7310F574307004B04D2 = A722E7310F574307004B04D2 /* PBXTextBookmark */;
 			A722E7330F574307004B04D2 = A722E7330F574307004B04D2 /* PBXTextBookmark */;
 			A722E7340F574307004B04D2 = A722E7340F574307004B04D2 /* PBXTextBookmark */;
@@ -782,7 +894,7 @@
 	};
 	2B3D12EA0F4382070067FD3A /* LogoutViewController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {903, 308}}";
+			sepNavIntBoundsRect = "{{0, 0}, {712, 336}}";
 			sepNavSelRange = "{151, 0}";
 			sepNavVisRange = "{0, 0}";
 		};
@@ -853,9 +965,9 @@
 	};
 	2B3D18D40F4B25720067FD3A /* AppModel.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {903, 896}}";
-			sepNavSelRange = "{1768, 0}";
-			sepNavVisRange = "{636, 1243}";
+			sepNavIntBoundsRect = "{{0, 0}, {948, 896}}";
+			sepNavSelRange = "{1612, 0}";
+			sepNavVisRange = "{636, 1244}";
 		};
 	};
 	2B3D18D50F4B25720067FD3A /* AppModel.m */ = {
@@ -1596,16 +1708,16 @@
 	};
 	A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {903, 574}}";
-			sepNavSelRange = "{858, 0}";
-			sepNavVisRange = "{286, 752}";
+			sepNavIntBoundsRect = "{{0, 0}, {794, 602}}";
+			sepNavSelRange = "{1165, 0}";
+			sepNavVisRange = "{201, 919}";
 		};
 	};
 	A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1044, 1470}}";
-			sepNavSelRange = "{2690, 0}";
-			sepNavVisRange = "{1798, 1091}";
+			sepNavIntBoundsRect = "{{0, 0}, {1044, 2490}}";
+			sepNavSelRange = "{1405, 27}";
+			sepNavVisRange = "{1015, 1875}";
 			sepNavWindowFrame = "{{15, 348}, {1343, 825}}";
 		};
 	};
@@ -1644,7 +1756,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 13";
 		rLen = 0;
-		rLoc = 496;
+		rLoc = 552;
 		rType = 0;
 		vrLen = 253;
 		vrLoc = 0;
@@ -1785,7 +1897,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 29";
 		rLen = 0;
-		rLoc = 685;
+		rLoc = 885;
 		rType = 0;
 		vrLen = 681;
 		vrLoc = 356;
@@ -1795,7 +1907,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 23";
 		rLen = 307;
-		rLoc = 549;
+		rLoc = 729;
 		rType = 0;
 		vrLen = 956;
 		vrLoc = 0;
@@ -1805,7 +1917,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 29";
 		rLen = 0;
-		rLoc = 689;
+		rLoc = 889;
 		rType = 0;
 		vrLen = 802;
 		vrLoc = 154;
@@ -2045,7 +2157,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 25";
 		rLen = 0;
-		rLoc = 689;
+		rLoc = 889;
 		rType = 0;
 		vrLen = 748;
 		vrLoc = 356;
@@ -2095,7 +2207,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 34";
 		rLen = 0;
-		rLoc = 895;
+		rLoc = 1074;
 		rType = 0;
 		vrLen = 944;
 		vrLoc = 40;
@@ -2105,7 +2217,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 29";
 		rLen = 0;
-		rLoc = 685;
+		rLoc = 885;
 		rType = 0;
 		vrLen = 683;
 		vrLoc = 356;
@@ -2125,7 +2237,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 14";
 		rLen = 0;
-		rLoc = 271;
+		rLoc = 320;
 		rType = 0;
 		vrLen = 690;
 		vrLoc = 0;
@@ -2145,7 +2257,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 48";
 		rLen = 0;
-		rLoc = 1013;
+		rLoc = 1211;
 		rType = 0;
 		vrLen = 639;
 		vrLoc = 700;
@@ -2155,7 +2267,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 33";
 		rLen = 0;
-		rLoc = 940;
+		rLoc = 1119;
 		rType = 0;
 		vrLen = 964;
 		vrLoc = 40;
@@ -2225,7 +2337,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 17";
 		rLen = 0;
-		rLoc = 1044;
+		rLoc = 1172;
 		rType = 0;
 		vrLen = 253;
 		vrLoc = 0;
@@ -2265,7 +2377,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 23";
 		rLen = 0;
-		rLoc = 689;
+		rLoc = 889;
 		rType = 0;
 		vrLen = 742;
 		vrLoc = 154;
@@ -2275,7 +2387,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 14";
 		rLen = 0;
-		rLoc = 285;
+		rLoc = 327;
 		rType = 0;
 		vrLen = 964;
 		vrLoc = 40;
@@ -2285,7 +2397,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 48";
 		rLen = 0;
-		rLoc = 1013;
+		rLoc = 1211;
 		rType = 0;
 		vrLen = 639;
 		vrLoc = 700;
@@ -2295,7 +2407,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 33";
 		rLen = 0;
-		rLoc = 940;
+		rLoc = 1119;
 		rType = 0;
 		vrLen = 964;
 		vrLoc = 40;
@@ -2475,7 +2587,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 16";
 		rLen = 0;
-		rLoc = 310;
+		rLoc = 434;
 		rType = 0;
 		vrLen = 947;
 		vrLoc = 0;
@@ -2495,7 +2607,7 @@
 		comments = "error: request for member 'moduleName' in something not a structure or union";
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		rLen = 1;
-		rLoc = 27;
+		rLoc = 29;
 		rType = 1;
 	};
 	A722C9310FBCE28D009432DB /* PBXTextBookmark */ = {
@@ -2503,7 +2615,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 16";
 		rLen = 0;
-		rLoc = 310;
+		rLoc = 434;
 		rType = 0;
 		vrLen = 947;
 		vrLoc = 0;
@@ -2522,8 +2634,8 @@
 		isa = PBXTextBookmark;
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 28";
-		rLen = 34;
-		rLoc = 629;
+		rLen = 185;
+		rLoc = 678;
 		rType = 0;
 		vrLen = 689;
 		vrLoc = 0;
@@ -2544,7 +2656,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 14";
 		rLen = 0;
-		rLoc = 271;
+		rLoc = 320;
 		rType = 0;
 		vrLen = 690;
 		vrLoc = 0;
@@ -2573,8 +2685,8 @@
 		isa = PBXTextBookmark;
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 28";
-		rLen = 34;
-		rLoc = 629;
+		rLen = 185;
+		rLoc = 678;
 		rType = 0;
 		vrLen = 689;
 		vrLoc = 0;
@@ -2595,7 +2707,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 14";
 		rLen = 0;
-		rLoc = 271;
+		rLoc = 320;
 		rType = 0;
 		vrLen = 690;
 		vrLoc = 0;
@@ -2624,8 +2736,8 @@
 		isa = PBXTextBookmark;
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 28";
-		rLen = 34;
-		rLoc = 629;
+		rLen = 185;
+		rLoc = 678;
 		rType = 0;
 		vrLen = 689;
 		vrLoc = 0;
@@ -2834,8 +2946,8 @@
 		isa = PBXTextBookmark;
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 22";
-		rLen = 306;
-		rLoc = 382;
+		rLen = 457;
+		rLoc = 431;
 		rType = 0;
 		vrLen = 667;
 		vrLoc = 200;
@@ -2906,7 +3018,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 18";
 		rLen = 0;
-		rLoc = 360;
+		rLoc = 409;
 		rType = 0;
 		vrLen = 785;
 		vrLoc = 200;
@@ -2926,7 +3038,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 18";
 		rLen = 0;
-		rLoc = 360;
+		rLoc = 409;
 		rType = 0;
 		vrLen = 785;
 		vrLoc = 200;
@@ -3107,8 +3219,8 @@
 		isa = PBXTextBookmark;
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 28";
-		rLen = 34;
-		rLoc = 629;
+		rLen = 185;
+		rLoc = 678;
 		rType = 0;
 		vrLen = 727;
 		vrLoc = 0;
@@ -3117,8 +3229,8 @@
 		isa = PBXTextBookmark;
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 28";
-		rLen = 34;
-		rLoc = 629;
+		rLen = 185;
+		rLoc = 678;
 		rType = 0;
 		vrLen = 727;
 		vrLoc = 0;
@@ -3227,7 +3339,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 18";
 		rLen = 0;
-		rLoc = 360;
+		rLoc = 409;
 		rType = 0;
 		vrLen = 667;
 		vrLoc = 200;
@@ -3247,7 +3359,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 64";
 		rLen = 0;
-		rLoc = 2225;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 899;
 		vrLoc = 1010;
@@ -3399,7 +3511,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 64";
 		rLen = 0;
-		rLoc = 2211;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1040;
 		vrLoc = 1086;
@@ -3419,7 +3531,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 64";
 		rLen = 0;
-		rLoc = 2211;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1040;
 		vrLoc = 1086;
@@ -3429,7 +3541,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 38";
 		rLen = 0;
-		rLoc = 987;
+		rLoc = 1165;
 		rType = 0;
 		vrLen = 844;
 		vrLoc = 200;
@@ -3470,7 +3582,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 38";
 		rLen = 0;
-		rLoc = 987;
+		rLoc = 1165;
 		rType = 0;
 		vrLen = 844;
 		vrLoc = 200;
@@ -3511,7 +3623,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 38";
 		rLen = 0;
-		rLoc = 987;
+		rLoc = 1165;
 		rType = 0;
 		vrLen = 844;
 		vrLoc = 200;
@@ -3552,7 +3664,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 20";
 		rLen = 0;
-		rLoc = 426;
+		rLoc = 549;
 		rType = 0;
 		vrLen = 844;
 		vrLoc = 200;
@@ -3562,7 +3674,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 64";
 		rLen = 0;
-		rLoc = 2211;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1040;
 		vrLoc = 1086;
@@ -3572,7 +3684,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 20";
 		rLen = 0;
-		rLoc = 426;
+		rLoc = 549;
 		rType = 0;
 		vrLen = 844;
 		vrLoc = 200;
@@ -3582,7 +3694,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 67";
 		rLen = 0;
-		rLoc = 2168;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1156;
 		vrLoc = 1366;
@@ -3623,7 +3735,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 55";
 		rLen = 0;
-		rLoc = 1441;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1631;
 		vrLoc = 962;
@@ -3663,7 +3775,7 @@
 		comments = "error: syntax error before '{' token";
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		rLen = 1;
-		rLoc = 37;
+		rLoc = 39;
 		rType = 1;
 	};
 	A722C9D00FBCEAE7009432DB /* PBXTextBookmark */ = {
@@ -3681,7 +3793,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 38";
 		rLen = 0;
-		rLoc = 1037;
+		rLoc = 1165;
 		rType = 0;
 		vrLen = 890;
 		vrLoc = 154;
@@ -3702,7 +3814,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 54";
 		rLen = 0;
-		rLoc = 1379;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1660;
 		vrLoc = 962;
@@ -3743,7 +3855,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 54";
 		rLen = 0;
-		rLoc = 1379;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1660;
 		vrLoc = 962;
@@ -3784,7 +3896,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 55";
 		rLen = 0;
-		rLoc = 1395;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1663;
 		vrLoc = 962;
@@ -3825,7 +3937,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 55";
 		rLen = 0;
-		rLoc = 1395;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1662;
 		vrLoc = 962;
@@ -3866,7 +3978,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 55";
 		rLen = 0;
-		rLoc = 1395;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1662;
 		vrLoc = 962;
@@ -3907,7 +4019,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 55";
 		rLen = 0;
-		rLoc = 1395;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1552;
 		vrLoc = 570;
@@ -3927,7 +4039,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 67";
 		rLen = 0;
-		rLoc = 2135;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1179;
 		vrLoc = 985;
@@ -3937,7 +4049,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 36";
 		rLen = 0;
-		rLoc = 940;
+		rLoc = 1119;
 		rType = 0;
 		vrLen = 752;
 		vrLoc = 286;
@@ -3957,7 +4069,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 67";
 		rLen = 0;
-		rLoc = 2135;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1179;
 		vrLoc = 985;
@@ -3967,7 +4079,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 28";
 		rLen = 11;
-		rLoc = 650;
+		rLoc = 830;
 		rType = 0;
 		vrLen = 752;
 		vrLoc = 286;
@@ -3987,7 +4099,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 38";
 		rLen = 0;
-		rLoc = 1037;
+		rLoc = 1165;
 		rType = 0;
 		vrLen = 890;
 		vrLoc = 154;
@@ -4008,7 +4120,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 53";
 		rLen = 0;
-		rLoc = 1159;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1366;
 		vrLoc = 815;
@@ -4018,7 +4130,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 33";
 		rLen = 0;
-		rLoc = 858;
+		rLoc = 1038;
 		rType = 0;
 		vrLen = 752;
 		vrLoc = 286;
@@ -4038,7 +4150,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 33";
 		rLen = 0;
-		rLoc = 858;
+		rLoc = 1038;
 		rType = 0;
 		vrLen = 752;
 		vrLoc = 286;
@@ -4079,7 +4191,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 53";
 		rLen = 0;
-		rLoc = 1159;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1366;
 		vrLoc = 815;
@@ -4120,7 +4232,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 53";
 		rLen = 0;
-		rLoc = 1159;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1366;
 		vrLoc = 815;
@@ -4161,7 +4273,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 56";
 		rLen = 0;
-		rLoc = 1514;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1372;
 		vrLoc = 815;
@@ -4202,7 +4314,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 53";
 		rLen = 0;
-		rLoc = 1152;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1311;
 		vrLoc = 815;
@@ -4243,7 +4355,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 53";
 		rLen = 0;
-		rLoc = 1151;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1310;
 		vrLoc = 815;
@@ -4284,7 +4396,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 53";
 		rLen = 0;
-		rLoc = 1151;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1310;
 		vrLoc = 815;
@@ -4325,7 +4437,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 53";
 		rLen = 0;
-		rLoc = 1184;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1333;
 		vrLoc = 815;
@@ -4344,7 +4456,7 @@
 		isa = PBXTextBookmark;
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		rLen = 0;
-		rLoc = 60;
+		rLoc = 53;
 		rType = 1;
 	};
 	A722CA450FBCF1D9009432DB /* PBXTextBookmark */ = {
@@ -4362,7 +4474,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 61";
 		rLen = 0;
-		rLoc = 1753;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1329;
 		vrLoc = 815;
@@ -4393,7 +4505,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 53";
 		rLen = 0;
-		rLoc = 1198;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1334;
 		vrLoc = 815;
@@ -4403,7 +4515,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 61";
 		rLen = 0;
-		rLoc = 1753;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1330;
 		vrLoc = 815;
@@ -4434,7 +4546,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 54";
 		rLen = 0;
-		rLoc = 1293;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1357;
 		vrLoc = 815;
@@ -4444,7 +4556,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 61";
 		rLen = 0;
-		rLoc = 1753;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1353;
 		vrLoc = 815;
@@ -4475,7 +4587,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 53";
 		rLen = 0;
-		rLoc = 1192;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1357;
 		vrLoc = 815;
@@ -4485,7 +4597,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 61";
 		rLen = 0;
-		rLoc = 1753;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1353;
 		vrLoc = 815;
@@ -4516,7 +4628,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 53";
 		rLen = 0;
-		rLoc = 1192;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1357;
 		vrLoc = 815;
@@ -4526,7 +4638,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 61";
 		rLen = 0;
-		rLoc = 1753;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1353;
 		vrLoc = 815;
@@ -4557,7 +4669,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 48";
 		rLen = 0;
-		rLoc = 1009;
+		rLoc = 1207;
 		rType = 0;
 		vrLen = 1357;
 		vrLoc = 815;
@@ -4577,7 +4689,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 48";
 		rLen = 0;
-		rLoc = 1009;
+		rLoc = 1207;
 		rType = 0;
 		vrLen = 1357;
 		vrLoc = 815;
@@ -4597,7 +4709,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 64";
 		rLen = 0;
-		rLoc = 1995;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1353;
 		vrLoc = 815;
@@ -4617,7 +4729,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 64";
 		rLen = 0;
-		rLoc = 1995;
+		rLoc = 1266;
 		rType = 0;
 		vrLen = 1353;
 		vrLoc = 815;
@@ -4719,7 +4831,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 48";
 		rLen = 0;
-		rLoc = 1009;
+		rLoc = 1207;
 		rType = 0;
 		vrLen = 1386;
 		vrLoc = 794;
@@ -4749,7 +4861,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 85";
 		rLen = 0;
-		rLoc = 2690;
+		rLoc = 2897;
 		rType = 0;
 		vrLen = 1091;
 		vrLoc = 1798;
@@ -4765,6 +4877,1153 @@
 		vrLoc = 636;
 	};
 	A722CA980FBCF66C009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CA990FBCF785009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 38";
+		rLen = 0;
+		rLoc = 1165;
+		rType = 0;
+		vrLen = 890;
+		vrLoc = 154;
+	};
+	A722CA9B0FBCF7A1009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 38";
+		rLen = 0;
+		rLoc = 1165;
+		rType = 0;
+		vrLen = 890;
+		vrLoc = 154;
+	};
+	A722CA9E0FBCF7A8009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CA9F0FBCF7A8009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 85";
+		rLen = 0;
+		rLoc = 2897;
+		rType = 0;
+		vrLen = 1091;
+		vrLoc = 1798;
+	};
+	A722CAA00FBCF7A8009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D18D40F4B25720067FD3A /* AppModel.h */;
+		name = "AppModel.h: 58";
+		rLen = 0;
+		rLoc = 1768;
+		rType = 0;
+		vrLen = 1243;
+		vrLoc = 636;
+	};
+	A722CAA10FBCF7A8009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CAB50FBDE927009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CAB60FBDE927009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 85";
+		rLen = 0;
+		rLoc = 2897;
+		rType = 0;
+		vrLen = 804;
+		vrLoc = 2169;
+	};
+	A722CAB70FBDE927009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D18D40F4B25720067FD3A /* AppModel.h */;
+		name = "AppModel.h: 47";
+		rLen = 0;
+		rLoc = 1330;
+		rType = 0;
+		vrLen = 1244;
+		vrLoc = 636;
+	};
+	A722CAB80FBDE927009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CABD0FBDEA8E009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CABE0FBDEA8E009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 20";
+		rLen = 0;
+		rLoc = 429;
+		rType = 0;
+		vrLen = 669;
+		vrLoc = 0;
+	};
+	A722CABF0FBDEA8F009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D18D40F4B25720067FD3A /* AppModel.h */;
+		name = "AppModel.h: 47";
+		rLen = 0;
+		rLoc = 1330;
+		rType = 0;
+		vrLen = 1244;
+		vrLoc = 636;
+	};
+	A722CAC00FBDEA8F009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CAC20FBDEBD9009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CAC30FBDEBD9009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 20";
+		rLen = 0;
+		rLoc = 429;
+		rType = 0;
+		vrLen = 688;
+		vrLoc = 0;
+	};
+	A722CAC40FBDEBD9009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D18D40F4B25720067FD3A /* AppModel.h */;
+		name = "AppModel.h: 55";
+		rLen = 0;
+		rLoc = 1612;
+		rType = 0;
+		vrLen = 1244;
+		vrLoc = 636;
+	};
+	A722CAC50FBDEBD9009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 33";
+		rLen = 0;
+		rLoc = 1038;
+		rType = 0;
+		vrLen = 889;
+		vrLoc = 155;
+	};
+	A722CAC60FBDEBD9009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D18D40F4B25720067FD3A /* AppModel.h */;
+		name = "AppModel.h: 55";
+		rLen = 0;
+		rLoc = 1612;
+		rType = 0;
+		vrLen = 1244;
+		vrLoc = 636;
+	};
+	A722CAC70FBDEBD9009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 19";
+		rLen = 0;
+		rLoc = 529;
+		rType = 0;
+		vrLen = 931;
+		vrLoc = 155;
+	};
+	A722CAC80FBDEBD9009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CAC90FBDEBFB009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CACA0FBDEBFB009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 91";
+		rLen = 0;
+		rLoc = 3659;
+		rType = 0;
+		vrLen = 789;
+		vrLoc = 2398;
+	};
+	A722CACB0FBDEBFB009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 19";
+		rLen = 0;
+		rLoc = 529;
+		rType = 0;
+		vrLen = 931;
+		vrLoc = 155;
+	};
+	A722CACC0FBDEBFB009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CACD0FBDEC7D009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CACE0FBDEC7D009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 15";
+		rLen = 0;
+		rLoc = 320;
+		rType = 0;
+		vrLen = 685;
+		vrLoc = 154;
+	};
+	A722CACF0FBDEC7D009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 28";
+		rLen = 0;
+		rLoc = 728;
+		rType = 0;
+		vrLen = 1017;
+		vrLoc = 155;
+	};
+	A722CAD00FBDEC7D009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CAD10FBDEC82009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CAD20FBDEC82009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 15";
+		rLen = 0;
+		rLoc = 320;
+		rType = 0;
+		vrLen = 685;
+		vrLoc = 154;
+	};
+	A722CAD30FBDEC82009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 32";
+		rLen = 0;
+		rLoc = 977;
+		rType = 0;
+		vrLen = 1017;
+		vrLoc = 155;
+	};
+	A722CAD40FBDEC82009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CAD50FBDECD6009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CAD60FBDECD6009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 15";
+		rLen = 0;
+		rLoc = 320;
+		rType = 0;
+		vrLen = 685;
+		vrLoc = 154;
+	};
+	A722CAD70FBDECD6009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 17";
+		rLen = 0;
+		rLoc = 432;
+		rType = 0;
+		vrLen = 990;
+		vrLoc = 155;
+	};
+	A722CAD80FBDECD6009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CAD90FBDECEF009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CADA0FBDECEF009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 30";
+		rLen = 0;
+		rLoc = 848;
+		rType = 0;
+		vrLen = 814;
+		vrLoc = 154;
+	};
+	A722CADB0FBDECEF009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 17";
+		rLen = 0;
+		rLoc = 432;
+		rType = 0;
+		vrLen = 990;
+		vrLoc = 155;
+	};
+	A722CADC0FBDECEF009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CADD0FBDECFE009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CADE0FBDECFE009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 121";
+		rLen = 0;
+		rLoc = 5134;
+		rType = 0;
+		vrLen = 852;
+		vrLoc = 3476;
+	};
+	A722CADF0FBDECFE009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 17";
+		rLen = 0;
+		rLoc = 432;
+		rType = 0;
+		vrLen = 990;
+		vrLoc = 155;
+	};
+	A722CAE00FBDECFE009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CAE20FBDED69009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CAE30FBDED69009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 133";
+		rLen = 0;
+		rLoc = 5134;
+		rType = 0;
+		vrLen = 957;
+		vrLoc = 3517;
+	};
+	A722CAE40FBDED69009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 17";
+		rLen = 0;
+		rLoc = 432;
+		rType = 0;
+		vrLen = 1043;
+		vrLoc = 155;
+	};
+	A722CAE50FBDED69009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CAE70FBDED77009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CAE80FBDED77009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 153";
+		rLen = 0;
+		rLoc = 5134;
+		rType = 0;
+		vrLen = 822;
+		vrLoc = 4412;
+	};
+	A722CAE90FBDED77009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 17";
+		rLen = 0;
+		rLoc = 432;
+		rType = 0;
+		vrLen = 1043;
+		vrLoc = 155;
+	};
+	A722CAEA0FBDED77009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CAED0FBDEE02009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CAEE0FBDEE02009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 16";
+		rLen = 0;
+		rLoc = 320;
+		rType = 0;
+		vrLen = 885;
+		vrLoc = 4353;
+	};
+	A722CAEF0FBDEE02009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 17";
+		rLen = 0;
+		rLoc = 386;
+		rType = 0;
+		vrLen = 1066;
+		vrLoc = 155;
+	};
+	A722CAF00FBDEE02009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CAF10FBDEE2A009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CAF20FBDEE2A009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 16";
+		rLen = 0;
+		rLoc = 320;
+		rType = 0;
+		vrLen = 885;
+		vrLoc = 4353;
+	};
+	A722CAF30FBDEE2A009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 31";
+		rLen = 0;
+		rLoc = 728;
+		rType = 0;
+		vrLen = 1066;
+		vrLoc = 155;
+	};
+	A722CAF40FBDEE2A009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CAF60FBDEE92009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CAF70FBDEE92009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 95";
+		rLen = 0;
+		rLoc = 3152;
+		rType = 0;
+		vrLen = 937;
+		vrLoc = 2718;
+	};
+	A722CAF80FBDEE92009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 17";
+		rLen = 6;
+		rLoc = 379;
+		rType = 0;
+		vrLen = 1066;
+		vrLoc = 155;
+	};
+	A722CAF90FBDEE92009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CAFE0FBDEF09009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CAFF0FBDEF09009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 31";
+		rLen = 0;
+		rLoc = 715;
+		rType = 0;
+		vrLen = 822;
+		vrLoc = 388;
+	};
+	A722CB000FBDEF09009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 17";
+		rLen = 0;
+		rLoc = 386;
+		rType = 0;
+		vrLen = 975;
+		vrLoc = 155;
+	};
+	A722CB010FBDEF09009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CB040FBDEFB2009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CB050FBDEFB2009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 88";
+		rLen = 0;
+		rLoc = 2897;
+		rType = 0;
+		vrLen = 912;
+		vrLoc = 2694;
+	};
+	A722CB060FBDEFB2009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 17";
+		rLen = 0;
+		rLoc = 386;
+		rType = 0;
+		vrLen = 975;
+		vrLoc = 155;
+	};
+	A722CB070FBDEFB2009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CB0A0FBDF06C009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CB0B0FBDF06C009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 30";
+		rLen = 0;
+		rLoc = 711;
+		rType = 0;
+		vrLen = 842;
+		vrLoc = 343;
+	};
+	A722CB0C0FBDF06C009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 16";
+		rLen = 12;
+		rLoc = 352;
+		rType = 0;
+		vrLen = 975;
+		vrLoc = 155;
+	};
+	A722CB0D0FBDF06C009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CB100FBDF1C2009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CB110FBDF1C2009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 137";
+		rLen = 0;
+		rLoc = 4451;
+		rType = 0;
+		vrLen = 958;
+		vrLoc = 4085;
+	};
+	A722CB120FBDF1C2009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 16";
+		rLen = 12;
+		rLoc = 352;
+		rType = 0;
+		vrLen = 975;
+		vrLoc = 155;
+	};
+	A722CB130FBDF1C2009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CB170FBDF258009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CB180FBDF258009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 55";
+		rLen = 0;
+		rLoc = 1266;
+		rType = 0;
+		vrLen = 1313;
+		vrLoc = 1162;
+	};
+	A722CB190FBDF258009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 16";
+		rLen = 12;
+		rLoc = 352;
+		rType = 0;
+		vrLen = 975;
+		vrLoc = 155;
+	};
+	A722CB1A0FBDF258009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CB1C0FBDF2D5009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CB1D0FBDF2D5009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 42";
+		rLen = 0;
+		rLoc = 1017;
+		rType = 0;
+		vrLen = 1688;
+		vrLoc = 2454;
+	};
+	A722CB1E0FBDF2D5009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 23";
+		rLen = 0;
+		rLoc = 550;
+		rType = 0;
+		vrLen = 560;
+		vrLoc = 598;
+	};
+	A722CB1F0FBDF2D5009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CB220FBDF307009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CB230FBDF307009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 42";
+		rLen = 0;
+		rLoc = 1017;
+		rType = 0;
+		vrLen = 1688;
+		vrLoc = 2454;
+	};
+	A722CB240FBDF307009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 23";
+		rLen = 0;
+		rLoc = 550;
+		rType = 0;
+		vrLen = 560;
+		vrLoc = 598;
+	};
+	A722CB250FBDF307009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CB270FBDF36B009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CB280FBDF36B009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 153";
+		rLen = 9;
+		rLoc = 5028;
+		rType = 0;
+		vrLen = 1404;
+		vrLoc = 3759;
+	};
+	A722CB290FBDF36B009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 29";
+		rLen = 0;
+		rLoc = 714;
+		rType = 0;
+		vrLen = 545;
+		vrLoc = 433;
+	};
+	A722CB2A0FBDF36B009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CB2C0FBDF380009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CB2D0FBDF380009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 146";
+		rLen = 0;
+		rLoc = 4700;
+		rType = 0;
+		vrLen = 1471;
+		vrLoc = 3665;
+	};
+	A722CB2E0FBDF380009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 29";
+		rLen = 14;
+		rLoc = 700;
+		rType = 0;
+		vrLen = 545;
+		vrLoc = 433;
+	};
+	A722CB2F0FBDF380009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CB310FBDF3B2009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CB320FBDF3B2009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 16";
+		rLen = 0;
+		rLoc = 296;
+		rType = 0;
+		vrLen = 865;
+		vrLoc = 0;
+	};
+	A722CB330FBDF3B2009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 29";
+		rLen = 14;
+		rLoc = 700;
+		rType = 0;
+		vrLen = 972;
+		vrLoc = 200;
+	};
+	A722CB340FBDF3B2009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CB360FBDF3BF009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CB370FBDF3BF009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 16";
+		rLen = 0;
+		rLoc = 296;
+		rType = 0;
+		vrLen = 863;
+		vrLoc = 0;
+	};
+	A722CB380FBDF3BF009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 29";
+		rLen = 14;
+		rLoc = 700;
+		rType = 0;
+		vrLen = 972;
+		vrLoc = 200;
+	};
+	A722CB390FBDF3BF009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
+		name = "LogoutViewController.h: 8";
+		rLen = 0;
+		rLoc = 151;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	A722CB3E0FBDF7C5009432DB /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = A726BD190FBA7F620098CCD0 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/davidgagnon/Documents/Aris/svn/iPhoneClient/Settings.bundle/Root.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	A722CB3F0FBDF7C5009432DB /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 61";
+		rLen = 27;
+		rLoc = 1405;
+		rType = 0;
+		vrLen = 1875;
+		vrLoc = 1015;
+	};
+	A722CB400FBDF7C5009432DB /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 2B3D12EA0F4382070067FD3A /* LogoutViewController.h */;
 		name = "LogoutViewController.h: 8";
@@ -5659,7 +6918,7 @@
 		argumentStrings = (
 		);
 		autoAttachOnCrash = 1;
-		breakpointsEnabled = 1;
+		breakpointsEnabled = 0;
 		configStateDict = {
 		};
 		customDataFormattersEnabled = 1;
@@ -6104,7 +7363,7 @@
 		ignoreCount = 0;
 		lineNumber = 42;
 		location = ARIS;
-		modificationTime = 264041956.603495;
+		modificationTime = 264106712.562969;
 		state = 2;
 	};
 }

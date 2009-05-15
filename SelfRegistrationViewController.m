@@ -12,6 +12,8 @@
 @implementation SelfRegistrationViewController
 
 @synthesize moduleName;
+@synthesize scrollView;
+@synthesize entryFields;
 @synthesize userName;
 @synthesize password;
 @synthesize firstName;
@@ -26,6 +28,7 @@
     if (self) {
         self.title = @"Create a New User";
 		self.moduleName = @"RESTLogin";
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardNotification:)  name:UIKeyboardWillShowNotification object:nil];  
     }
     return self;
 }
@@ -37,7 +40,6 @@
 		appModel = model;
 		[appModel retain];
 	}
-	
 	NSLog(@"Self Registration: Model Set");
 }
 
@@ -49,9 +51,17 @@
  */
 
 - (IBAction)submitButtonTouched: (id) sender{
+	[self submitRegistration];
+}
+
+- (IBAction)cancelButtonTouched: (id) sender{
+	[self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+-(void)submitRegistration {
 	//Check with the Server
 	NSString *newUserURLString = [[NSString alloc] initWithFormat:@"?module=%@&event=selfRegistration&site=%@&user_name=%@&password=%@&first_name=%@&last_name=%@&email=%@",
-									 moduleName, appModel.site, self.userName.text, self.password.text, self.firstName.text, self.lastName.text, self.email.text];
+								  moduleName, appModel.site, self.userName.text, self.password.text, self.firstName.text, self.lastName.text, self.email.text];
 	//NSLog(@"SelfRegistration: Module String = %@",newUserModuleString);
 	NSURLRequest *newUserRequest = [appModel getEngineURL:newUserURLString];
 	NSData *newUserRequestData = [appModel fetchURLData:newUserRequest];
@@ -65,7 +75,7 @@
 		[alert show];	
 		[alert release];
 		[self.navigationController popToRootViewControllerAnimated:YES];
-
+		
 	}
 	else {
 		NSLog(@"SelfRegistration: Error Creating New User");
@@ -75,18 +85,78 @@
 		[alert release];
 		
 	}
-
+	
 }
 
-- (IBAction)cancelButtonTouched: (id) sender{
-	[self.navigationController popToRootViewControllerAnimated:YES];
-}
+- (void)scrollViewToCenterOfScreen:(UIView *)theView {  
+    CGFloat viewCenterY = theView.center.y;  
+    CGRect applicationFrame = [[UIScreen mainScreen] applicationFrame];  
+	
+    CGFloat availableHeight = applicationFrame.size.height - keyboardBounds.size.height;    // Remove area covered by keyboard  
+	
+    CGFloat y = viewCenterY - availableHeight / 2.0;  
+    if (y < 0) {  
+        y = 0;  
+    }  
+    scrollView.contentSize = CGSizeMake(applicationFrame.size.width, applicationFrame.size.height + keyboardBounds.size.height);  
+    [scrollView setContentOffset:CGPointMake(0, y) animated:YES];  
+} 
 
-- (IBAction)doneButtonOnKeyboardTouched: (id)sender{
-}
 
+#pragma mark UITextFieldDelegate  
 
+- (void)textFieldDidBeginEditing:(UITextField *)textField {  
+    [self scrollViewToCenterOfScreen:textField];  
+}  
 
+#pragma mark UITextViewDelegate  
+
+- (void)textViewDidBeginEditing:(UITextView *)textView {  
+    [self scrollViewToCenterOfScreen:textView];  
+}  
+
+- (void)keyboardNotification:(NSNotification*)notification {  
+    NSDictionary *userInfo = [notification userInfo];  
+    NSValue *keyboardBoundsValue = [userInfo objectForKey:UIKeyboardBoundsUserInfoKey];  
+    [keyboardBoundsValue getValue:&keyboardBounds];  
+}  
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {  
+    // Find the next entry field  
+    for (UIView *view in [self entryFields]) {  
+        if (view.tag == (textField.tag + 1)) {  
+            [view becomeFirstResponder];  
+            break;  
+        }  
+    }  
+	
+	if (textField.tag == 5) {
+		//Last field, go ahead and submit
+		[self submitRegistration];
+	}
+	
+    return NO;  
+} 
+
+/* 
+ Returns an array of all data entry fields in the view. 
+ Fields are ordered by tag, and only fields with tag > 0 are included. 
+ Returned fields are guaranteed to be a subclass of UIResponder. 
+ */  
+- (NSMutableArray *)entryFields {  
+    if (!entryFields) {  
+        self.entryFields = [[NSMutableArray alloc] init];  
+        NSInteger tag = 1;  
+        UIView *aView;  
+        while (aView = [self.view viewWithTag:tag]) {  
+            if (aView && [[aView class] isSubclassOfClass:[UIResponder class]]) {  
+                [entryFields addObject:aView];  
+            }  
+            tag++;  
+        }  
+    }  
+    return entryFields;  
+}  
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
