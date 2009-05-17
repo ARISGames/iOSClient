@@ -149,6 +149,9 @@
 		A7A623560F841A80008E0DFD /* InventoryParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A623550F841A80008E0DFD /* InventoryParserDelegate.m */; };
 		A7A6235B0F841C99008E0DFD /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A6235A0F841C99008E0DFD /* Item.m */; };
 		A7BCBB3F0F8C236900C7A36C /* ItemDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7BCBB3E0F8C236900C7A36C /* ItemDetailsView.xib */; };
+		A7C1F6000FC070690045F15D /* InventoryBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C1F5FC0FC070690045F15D /* InventoryBar.m */; };
+		A7C1F6010FC070690045F15D /* InventoryBarItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C1F5FE0FC070690045F15D /* InventoryBarItemView.m */; };
+		A7C1F6020FC070690045F15D /* Placard.png in Resources */ = {isa = PBXBuildFile; fileRef = A7C1F5FF0FC070690045F15D /* Placard.png */; };
 		A7E39EAD0F5F60D000826198 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E39EAC0F5F60D000826198 /* CameraViewController.m */; };
 		A7E39ECA0F5F655E00826198 /* Camera.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7E39EC90F5F655E00826198 /* Camera.xib */; };
 		A7E39FB40F5F930E00826198 /* Developer.png in Resources */ = {isa = PBXBuildFile; fileRef = A7E39FA90F5F930E00826198 /* Developer.png */; };
@@ -334,7 +337,7 @@
 		A722C8BF0FBCD8D0009432DB /* SelfRegistration.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelfRegistration.xib; sourceTree = "<group>"; };
 		A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelfRegistrationViewController.h; sourceTree = "<group>"; };
 		A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelfRegistrationViewController.m; sourceTree = "<group>"; };
-		A722CB5A0FBDFEA6009432DB /* NearbyObjectProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyObjectProtocol.h; sourceTree = "<group>"; };
+		A722CB5A0FBDFEA6009432DB /* NearbyObjectProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NearbyObjectProtocol.h; path = Classes/model/NearbyObjectProtocol.h; sourceTree = "<group>"; };
 		A722E6E50F573174004B04D2 /* GameListParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameListParserDelegate.h; sourceTree = "<group>"; };
 		A722E6E60F573174004B04D2 /* GameListParserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameListParserDelegate.m; sourceTree = "<group>"; };
 		A722E7130F57425B004B04D2 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
@@ -371,6 +374,11 @@
 		A7A623590F841C99008E0DFD /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
 		A7A6235A0F841C99008E0DFD /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; };
 		A7BCBB3E0F8C236900C7A36C /* ItemDetailsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemDetailsView.xib; sourceTree = "<group>"; };
+		A7C1F5FB0FC070690045F15D /* InventoryBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryBar.h; sourceTree = "<group>"; };
+		A7C1F5FC0FC070690045F15D /* InventoryBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryBar.m; sourceTree = "<group>"; };
+		A7C1F5FD0FC070690045F15D /* InventoryBarItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryBarItemView.h; sourceTree = "<group>"; };
+		A7C1F5FE0FC070690045F15D /* InventoryBarItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryBarItemView.m; sourceTree = "<group>"; };
+		A7C1F5FF0FC070690045F15D /* Placard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Placard.png; sourceTree = "<group>"; };
 		A7E39EAB0F5F60D000826198 /* CameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CameraViewController.h; path = Classes/CameraViewController.h; sourceTree = "<group>"; };
 		A7E39EAC0F5F60D000826198 /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CameraViewController.m; path = Classes/CameraViewController.m; sourceTree = "<group>"; };
 		A7E39EC90F5F655E00826198 /* Camera.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Camera.xib; sourceTree = "<group>"; };
@@ -594,7 +602,6 @@
 				A7F73FD40FB248DF0044B85A /* XMLParserDelegate.m */,
 				A7A623590F841C99008E0DFD /* Item.h */,
 				A7A6235A0F841C99008E0DFD /* Item.m */,
-				A722CB5A0FBDFEA6009432DB /* NearbyObjectProtocol.h */,
 				A72F04AC0F6ED8620089B90F /* NearbyLocation.h */,
 				A72F04AD0F6ED8620089B90F /* NearbyLocation.m */,
 				A722E7380F57431B004B04D2 /* LocationListParserDelegate.h */,
@@ -614,6 +621,19 @@
 			);
 			name = Model;
 			path = Classes/model;
+			sourceTree = "<group>";
+		};
+		A760473F0FC0AA1E00219A53 /* NearbyObjectBar */ = {
+			isa = PBXGroup;
+			children = (
+				A722CB5A0FBDFEA6009432DB /* NearbyObjectProtocol.h */,
+				A7C1F5FB0FC070690045F15D /* InventoryBar.h */,
+				A7C1F5FC0FC070690045F15D /* InventoryBar.m */,
+				A7C1F5FD0FC070690045F15D /* InventoryBarItemView.h */,
+				A7C1F5FE0FC070690045F15D /* InventoryBarItemView.m */,
+				A7C1F5FF0FC070690045F15D /* Placard.png */,
+			);
+			name = NearbyObjectBar;
 			sourceTree = "<group>";
 		};
 		A77B06ED0F78372F005945D3 /* Images */ = {
@@ -765,12 +785,13 @@
 		A7986D6A0F8FEC7200A5469F /* Core App */ = {
 			isa = PBXGroup;
 			children = (
+				A7149F9C0FB89DC8008BAB5D /* Settings.bundle */,
 				A7E4C88B0F54C4D000C6D9E8 /* QuartzCore.framework */,
 				A78FD8B10F4B7EA200820FEA /* CoreGraphics.framework */,
 				A78FD8AF0F4B7E9400820FEA /* Foundation.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				A7E4C8980F54C5E300C6D9E8 /* CoreLocation.framework */,
-				A7149F9C0FB89DC8008BAB5D /* Settings.bundle */,
+				A760473F0FC0AA1E00219A53 /* NearbyObjectBar */,
 				2B3D17040F49C9920067FD3A /* Model */,
 				A763B5230F4E283100FDCC55 /* MyCLController.h */,
 				A763B5240F4E283100FDCC55 /* MyCLController.m */,
@@ -830,7 +851,7 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* SimpleMap */ = {
+		1D6058900D05DD3D006BFB54 /* ARIS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "ARIS" */;
 			buildPhases = (
@@ -883,7 +904,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* SimpleMap */,
+				1D6058900D05DD3D006BFB54 /* ARIS */,
 				289811FC0FA1105E002ED288 /* zxingcore */,
 			);
 		};
@@ -948,6 +969,7 @@
 				A78E753E0FB5BA0C00922F6C /* Developer.xib in Resources */,
 				A7149F9D0FB89DC8008BAB5D /* Settings.bundle in Resources */,
 				A722C8C00FBCD8D0009432DB /* SelfRegistration.xib in Resources */,
+				A7C1F6020FC070690045F15D /* Placard.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1031,6 +1053,8 @@
 				A721352E0FA8B6F6003E4059 /* QRCode.m in Sources */,
 				A7F73FD50FB248DF0044B85A /* XMLParserDelegate.m in Sources */,
 				A722C8C60FBCD92E009432DB /* SelfRegistrationViewController.m in Sources */,
+				A7C1F6000FC070690045F15D /* InventoryBar.m in Sources */,
+				A7C1F6010FC070690045F15D /* InventoryBarItemView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
