@@ -43,7 +43,7 @@
 		//Setup the image view
 		NSData* imageData = [[NSData alloc]initWithContentsOfURL:[NSURL URLWithString:mediaURL]];
 		UIImage* image = [[UIImage alloc] initWithData:imageData];
-		UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 360,300)];
+		UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 360,220)];
 		imageView.image = image;
 		
 		//Add the image view
