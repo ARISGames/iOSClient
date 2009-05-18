@@ -587,7 +587,7 @@
 				A7986D640F8FEBFA00A5469F /* Game Picker */,
 				A7986D670F8FEC3900A5469F /* Logout */,
 				A7986D610F8FEBB200A5469F /* Developer */,
-				A7986D6C0F8FECBA00A5469F /* Toolbar */,
+				A7986D6C0F8FECBA00A5469F /* Toolbar (Not used, only kept for code refrence) */,
 				A7986D650F8FEC1100A5469F /* Login */,
 				A7986D6B0F8FEC8800A5469F /* Generic Web View (compatability) */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -819,14 +819,14 @@
 			name = "Generic Web View (compatability)";
 			sourceTree = "<group>";
 		};
-		A7986D6C0F8FECBA00A5469F /* Toolbar */ = {
+		A7986D6C0F8FECBA00A5469F /* Toolbar (Not used, only kept for code refrence) */ = {
 			isa = PBXGroup;
 			children = (
 				2B3D15A10F461AA30067FD3A /* ToolbarViewController.h */,
 				2B3D15A20F461AA30067FD3A /* ToolbarViewController.m */,
 				2B3D15A40F461AD10067FD3A /* Toolbar.xib */,
 			);
-			name = Toolbar;
+			name = "Toolbar (Not used, only kept for code refrence)";
 			sourceTree = "<group>";
 		};
 		A7986D7C0F8FEDD900A5469F /* Products */ = {
