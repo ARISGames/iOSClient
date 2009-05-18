@@ -39,7 +39,7 @@
 					<object class="IBUIButton" id="988830135">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{20, 109}, {280, 35}}</string>
+						<string key="NSFrame">{{20, 110}, {280, 35}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -88,7 +88,7 @@
 					<object class="IBUITextField" id="500603277">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{20, 57}, {136, 31}}</string>
+						<string key="NSFrame">{{124, 23}, {176, 31}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -119,7 +119,7 @@
 					<object class="IBUITextField" id="881626414">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{164, 57}, {136, 31}}</string>
+						<string key="NSFrame">{{124, 62}, {176, 31}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -150,7 +150,7 @@
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
-						<string key="IBUIText">User Name</string>
+						<string key="IBUIText">User Name:</string>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MSAxIDEAA</bytes>
@@ -165,12 +165,12 @@
 					<object class="IBUILabel" id="150816426">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{173, 28}, {127, 21}}</string>
+						<string key="NSFrame">{{20, 67}, {127, 21}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
-						<string key="IBUIText">Password</string>
+						<string key="IBUIText">Password:</string>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MSAxIDEAA</bytes>
@@ -274,11 +274,11 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="708684874"/>
-							<reference ref="988830135"/>
 							<reference ref="500603277"/>
 							<reference ref="881626414"/>
-							<reference ref="1028201620"/>
+							<reference ref="988830135"/>
 							<reference ref="150816426"/>
+							<reference ref="1028201620"/>
 						</object>
 						<reference key="parent" ref="360949347"/>
 					</object>
