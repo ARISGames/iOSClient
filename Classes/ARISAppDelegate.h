@@ -30,18 +30,20 @@
 #import "DeveloperViewController.h"
 
 @interface ARISAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate> {
-    UIWindow *window;
+	AppModel *appModel;
+	UIWindow *window;
     UITabBarController *tabBarController;
+	InventoryBar *inventoryBar;
+	MyCLController *myCLController;
 	LoginViewController *loginViewController;
 	UINavigationController *loginViewNavigationController;
 	GamePickerViewController *gamePickerViewController;
 	UINavigationController *gamePickerNavigationController;
-	AppModel *appModel;
-	UIWebView *webView;
-	MyCLController *myCLController;
-	InventoryBar *inventoryBar;
+	
+	UINavigationController *nearbyObjectNavigationController;
 }
 
+@property (nonatomic, retain) AppModel *appModel;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
 @property (nonatomic, retain) IBOutlet LoginViewController *loginViewController;
@@ -49,6 +51,8 @@
 @property (nonatomic, retain) IBOutlet GamePickerViewController *gamePickerViewController;
 @property (nonatomic, retain) IBOutlet UINavigationController *gamePickerNavigationController;
 @property (nonatomic, retain) IBOutlet InventoryBar *inventoryBar;
+@property (nonatomic, retain) IBOutlet UINavigationController *nearbyObjectNavigationController;
 
+- (void)displayNearbyObjectView:(UIViewController *)nearbyObjectViewController;
 
 @end

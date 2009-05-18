@@ -10,6 +10,7 @@
 
 @implementation ARISAppDelegate
 
+@synthesize appModel;
 @synthesize window;
 @synthesize tabBarController;
 @synthesize loginViewController;
@@ -17,6 +18,7 @@
 @synthesize gamePickerViewController;
 @synthesize gamePickerNavigationController;
 @synthesize inventoryBar;
+@synthesize nearbyObjectNavigationController;
 
 //@synthesize toolbarViewController;
 
@@ -99,7 +101,7 @@
 	[loginViewController retain]; //This view may be removed and readded to the window
 	
 	//Add the view controllers to the Tab Bar
-	tabBarController.viewControllers = [NSArray arrayWithObjects: 
+	tabBarController.viewControllers = [NSMutableArray arrayWithObjects: 
 										questsNavigationController, 
 										gpsNavigationController,
 										inventoryNavigationController,
@@ -118,7 +120,7 @@
 	moreNavController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 	moreNavController.delegate = self;
 	
-	//Setup MyCLController
+	//Setup Location Manager
 	myCLController = [[MyCLController alloc] initWithAppModel:appModel];
 	[myCLController.locationManager startUpdatingLocation];
 		
@@ -137,41 +139,29 @@
 		tabBarController.view.hidden = YES;
 		[window addSubview:loginViewNavigationController.view];
 	}
+	
 	//Inventory Bar, which is really a view
 	inventoryBar = [[InventoryBar alloc] initWithFrame:CGRectMake(0.0, 60.0, 320.0, 44.0)];
 	[window addSubview:inventoryBar];	
 }
 
-// A Player selected a tab from the tab bar
-- (void)tabBarController:(UITabBarController *)tabController didSelectViewController:(UIViewController *)viewController {
-	
-	UINavigationController *navigationController;
-	UIViewController *visibleViewController;
-	
-	//Get the naviation controller and visable view controller
-	if ([viewController isKindOfClass:[UINavigationController class]]) {
-		navigationController = (UINavigationController*)viewController;
-		visibleViewController = [navigationController visibleViewController];
-	}
-	else {
-		navigationController = nil;
-		visibleViewController = viewController;
-	}
-	
-	if([visibleViewController respondsToSelector:@selector(setModel:)]) {
-		[visibleViewController performSelector:@selector(setModel:) withObject:appModel];
-	}
-	
-	//Hides the existing Controller
-	UIViewController *selViewController = [tabBarController selectedViewController];
-	[selViewController.navigationController.view removeFromSuperview];
-	
-	//Displays the view Controller
-	[window addSubview:viewController.navigationController.view];	
-
-}
 
 # pragma mark custom methods, notification handlers
+- (void)newError: (NSString *)text {
+	NSLog(text);
+}
+
+- (void)displayNearbyObjectView:(UIViewController *)nearbyObjectViewController {	
+	nearbyObjectNavigationController = [[UINavigationController alloc] initWithRootViewController: nearbyObjectViewController];
+	nearbyObjectNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+	
+	//Create a close button
+	nearbyObjectViewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
+																												target:nearbyObjectNavigationController.view 
+																												action:@selector(removeFromSuperview)];
+	//Display
+	[window addSubview:nearbyObjectNavigationController.view]; //Didn't display the tab bar below!
+}
 
 - (void)performUserLogin:(NSNotification *)notification {
 	NSDictionary *userInfo = notification.userInfo;
@@ -259,69 +249,41 @@
 	[inventoryBar clearAllItems];
 	for (NSObject <NearbyObjectProtocol> *unknownNearbyLocation in nearbyLocations) {
 		[inventoryBar addItem:unknownNearbyLocation];
-//		if ([unknownNearbyLocation isKindOfClass:[NearbyLocation class]]) {
-//		NearbyLocation *nearbyLocation = (NearbyLocation *)unknownNearbyLocation;
-		
-			
-//			if (nearbyLocation.forceView == YES) {
-//				NSLog(@"A forced view location is nearby");
-//				NSString *baseURL = [appModel getURLStringForModule:@"RESTNodeViewer"];
-//				NSString *URLparams = nearbyLocation.URL;
-//				NSString *fullURL = [ NSString stringWithFormat:@"%@%@", baseURL, URLparams];
-//					
-//				NSLog([NSString stringWithFormat:@"Loading genericWebView for: %@ at %@", nearbyLocation.name, fullURL ]);
-//					
-//				GenericWebViewController *genericWebViewController = [[GenericWebViewController alloc] initWithNibName:@"GenericWebView" bundle:[NSBundle mainBundle]];
-//				[genericWebViewController setModel:appModel];
-//				[genericWebViewController setURL: fullURL];
-//				[window addSubview:genericWebViewController.view];	
-//			}
-//		}
 	}
 }
 
 
+#pragma mark Tab Bar delegate
 
-- (void)displayNearbyObjects:(NSNotification *)notification {
-	NSLog(@"Nearby Button Touched Notification recieved by App Delegate");
-	//We should have the nearbyLocationList aray in the model that tells us what is nearby
-	//If only one object exists (a single NPC, Node or Item) launch it in a modal UIWebView
-	//Otherwise, create a list
-	
-	//if ([appModel.nearbyLocationsList count] == 1) {
-		//Take them to the object
-		if ([[appModel.nearbyLocationsList objectAtIndex: 0 ] isKindOfClass:[Item class]]) {
-			//It's an item, use a real view controller
-			Item *nearbyItem = [appModel.nearbyLocationsList objectAtIndex: 0 ];
-			ItemDetailsViewController *itemDetailsViewController = [[ItemDetailsViewController alloc] initWithNibName:@"ItemDetailsView" bundle:[NSBundle mainBundle]];
-			itemDetailsViewController.appModel = appModel;
-			[itemDetailsViewController setItem:nearbyItem];
-			itemDetailsViewController.inInventory = NO;
-			[tabBarController presentModalViewController:itemDetailsViewController animated:YES];
-			[itemDetailsViewController release];
-		}
-		else if ([[appModel.nearbyLocationsList objectAtIndex: 0 ] isKindOfClass:[NearbyLocation class]]){
-			//It is a NearbyLocation, using the old WebView approach
-			NearbyLocation *loc = [appModel.nearbyLocationsList objectAtIndex: 0 ];
-			NSString *baseURL = [appModel getURLStringForModule:@"RESTNodeViewer"];
-			NSString *URLparams = loc.URL;
-			NSString *fullURL = [ NSString stringWithFormat:@"%@%@", baseURL, URLparams];
+// A Player selected a tab from the tab bar
+- (void)tabBarController:(UITabBarController *)tabController didSelectViewController:(UIViewController *)viewController {
 		
-			NSLog([NSString stringWithFormat:@"Loading genericWebView for: %@ at %@", loc.name, fullURL ]);
-			GenericWebViewController *genericWebViewController = [[GenericWebViewController alloc] initWithNibName:@"GenericWebView" bundle:[NSBundle mainBundle]];
-			[genericWebViewController setModel:appModel];
-			[genericWebViewController setURL: fullURL];
-			//[genericWebViewController setToolbarTitle:loc.name];
-			[window addSubview:genericWebViewController.view];
-
-		}
-	//}
-	//else {
-		//Take them to a list 
-	//}
+	UINavigationController *navigationController;
+	UIViewController *visibleViewController;
+	
+	//Get the naviation controller and visible view controller
+	if ([viewController isKindOfClass:[UINavigationController class]]) {
+		navigationController = (UINavigationController*)viewController;
+		visibleViewController = [navigationController visibleViewController];
+	}
+	else {
+		navigationController = nil;
+		visibleViewController = viewController;
+	}
+	
+	//Use setModel to refresh the content
+	if([visibleViewController respondsToSelector:@selector(setModel:)]) {
+		[visibleViewController performSelector:@selector(setModel:) withObject:appModel];
+	}
+	
+	//Hides the existing Controller
+	UIViewController *selViewController = [tabBarController selectedViewController];
+	[selViewController.navigationController.view removeFromSuperview];
+	
+	//Displays the view Controller
+	[window addSubview:viewController.navigationController.view];	
 	
 }
-
 
 
 #pragma mark navigation controller delegate
@@ -337,10 +299,7 @@
 	}
 }
 
-- (void)newError: (NSString *)text {
-	NSLog(text);
-}
-
+#pragma mark Memory Management
 
 -(void) applicationWillTerminate:(UIApplication *)application {
 	NSLog(@"Begin Application Termination");

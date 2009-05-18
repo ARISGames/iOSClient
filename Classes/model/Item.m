@@ -8,6 +8,8 @@
 
 #import "Item.h"
 #import "ItemDetailsViewController.h"
+#import "AppModel.h"
+#import "ARISAppDelegate.h"
 
 
 @implementation Item
@@ -26,14 +28,21 @@
 
 - (void) display{
 	NSLog(@"Item: Display Self Requested");
+	
+	//Create a reference to the delegate using the application singleton.
+	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
+	AppModel *appModel = appDelegate.appModel;
+		
 	ItemDetailsViewController *itemDetailsViewController = [[ItemDetailsViewController alloc] 
 															initWithNibName:@"ItemDetailsView" bundle:[NSBundle mainBundle]];
-	//itemDetailsViewController.appModel = appModel;
 	itemDetailsViewController.item = self;
 	itemDetailsViewController.inInventory = NO;
+	itemDetailsViewController.appModel = appModel;
+
+	//Have AppDelegate display
+	[appDelegate displayNearbyObjectView:itemDetailsViewController];
+
 	
-	//Put the view on the screen
-	//[[self navigationController] pushViewController:itemDetailsViewController animated:YES];
 }
 
 - (void)dealloc {
