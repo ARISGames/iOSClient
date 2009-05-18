@@ -26,8 +26,11 @@
 @property(readwrite, assign) nearbyObjectKind kind;
 @property(readwrite, assign) BOOL forcedDisplay;
 
-@property(readwrite, assign) int itemId;
-@property(readwrite, assign) int locationId;
+@property(readonly, assign) int itemId;
+@property(readonly, assign) int locationId;
+- (void) setItemId:(NSString *)fromStringValue;
+- (void) setLocationId:(NSString *)fromStringValue;
+
 @property(copy, readwrite) NSString *description;
 @property(copy, readwrite) NSString *type;
 @property(copy, readwrite) NSString *mediaURL;

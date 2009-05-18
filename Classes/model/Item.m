@@ -25,6 +25,13 @@
 @synthesize mediaURL;
 @synthesize iconURL;
 
+- (void) setItemId:(NSString *)fromStringValue {
+	itemId = [fromStringValue intValue];
+}
+
+- (void) setLocationId:(NSString *)fromStringValue {
+	locationId = [fromStringValue intValue];
+}
 
 - (void) display{
 	NSLog(@"Item: Display Self Requested");

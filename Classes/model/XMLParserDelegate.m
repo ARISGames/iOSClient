@@ -70,6 +70,10 @@
 - (void)parserDidStartDocument:(NSXMLParser *)parser { }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
+	if ([results count] < 1) {
+		NSLog(@"Nothing nearby; not posting notification.");
+		return;
+	}
 	NSDictionary *result = [NSDictionary dictionaryWithObject:results forKey:@"result"];
 	NSLog(@"XMLParser: Finished parsing. Posted '%@' notification", notificationName);
 	
