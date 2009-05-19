@@ -158,6 +158,7 @@
 															initWithNibName:@"ItemDetailsView" bundle:[NSBundle mainBundle]];
 	itemDetailsViewController.appModel = appModel;
 	itemDetailsViewController.item = selectedItem;
+	itemDetailsViewController.navigationItem.title = selectedItem.name;
 	itemDetailsViewController.inInventory = YES;
 
 	//Put the view on the screen
