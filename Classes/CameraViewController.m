@@ -116,6 +116,10 @@
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [pool release];
 	
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Photo Taken" message: @"It is available in your inventory" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+	[alert show];
+	[alert release];
+	
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
