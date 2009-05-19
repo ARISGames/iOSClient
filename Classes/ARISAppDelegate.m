@@ -41,7 +41,6 @@
 	[dispatcher addObserver:self selector:@selector(selectGame:) name:@"SelectGame" object:nil];
 	[dispatcher addObserver:self selector:@selector(setGameList:) name:@"ReceivedGameList" object:nil];
 	[dispatcher addObserver:self selector:@selector(performLogout:) name:@"LogoutRequested" object:nil];
-	[dispatcher addObserver:self selector:@selector(processNearbyLocationsList:) name:@"ReceivedNearbyLocationList" object:nil];
 	[dispatcher addObserver:self selector:@selector(displayNearbyObjects:) name:@"NearbyButtonTouched" object:nil];
 
 	//Setup Tasks View
@@ -141,7 +140,7 @@
 	}
 	
 	//Inventory Bar, which is really a view
-	inventoryBar = [[InventoryBar alloc] initWithFrame:CGRectMake(0.0, 60.0, 320.0, 44.0)];
+	inventoryBar = [[InventoryBar alloc] initWithFrame:CGRectMake(0.0, 60.0, 320.0, 15.0)];
 	[window addSubview:inventoryBar];	
 }
 
@@ -242,15 +241,7 @@
 	[window addSubview:loginViewNavigationController.view];
 }
 
-- (void)processNearbyLocationsList:(NSNotification *)notification {
-    NSLog(@"App Delegate recieved Nearby Locations List Notification");
-	NSArray *nearbyLocations = notification.object;
-	//Check for a force View flag in one of the nearby locations and display if found
-	[inventoryBar clearAllItems];
-	for (NSObject <NearbyObjectProtocol> *unknownNearbyLocation in nearbyLocations) {
-		[inventoryBar addItem:unknownNearbyLocation];
-	}
-}
+
 
 
 #pragma mark Tab Bar delegate

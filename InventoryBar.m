@@ -31,7 +31,10 @@
 }
 
 - (id)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
+    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+	[dispatcher addObserver:self selector:@selector(processNearbyLocationsList:) name:@"ReceivedNearbyLocationList" object:nil];
+	
+	if (self = [super initWithFrame:frame]) {
 		usedSpace = 20.0;
 		maxScroll = 0.0;
 		CGRect viewFrame = self.bounds;
@@ -56,6 +59,15 @@
 	return self;
 }
 
+- (void)processNearbyLocationsList:(NSNotification *)notification {
+    NSLog(@"App Delegate recieved Nearby Locations List Notification");
+	NSArray *nearbyLocations = notification.object;
+	//Check for a force View flag in one of the nearby locations and display if found
+	[self clearAllItems];
+	for (NSObject <NearbyObjectProtocol> *unknownNearbyLocation in nearbyLocations) {
+		[self addItem:unknownNearbyLocation];
+	}
+}
 
 - (void)drawRect:(CGRect)rect {
 	[[UIColor grayColor] set];
@@ -93,6 +105,7 @@
 	newViewFrame.origin.y = ((buttonView.bounds.size.height - newViewFrame.size.height) / 2.0) + buttonView.bounds.origin.y;
 	itemView.frame = newViewFrame;
 	[buttonView addSubview:itemView];
+	[buttonView setNeedsDisplay];
 	maxScroll = itemView.frame.origin.x + itemView.frame.size.width + 5 - buttonView.frame.size.width;
 	if (maxScroll < 0.0) {
 		maxScroll = 0.0;
