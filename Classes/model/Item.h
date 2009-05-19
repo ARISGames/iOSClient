@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "NearbyObjectProtocol.h"
+#import "QRCodeProtocol.h"
 
-@interface Item : NSObject <NearbyObjectProtocol> {
+@interface Item : NSObject <NearbyObjectProtocol,QRCodeProtocol> {
 	NSString *name;
 	nearbyObjectKind kind;
 	BOOL forcedDisplay;
@@ -36,12 +37,6 @@
 @property(copy, readwrite) NSString *mediaURL;
 @property(copy, readwrite) NSString *iconURL;
 
-/*
-- (Item*)initWithId:(int)id andName:(NSString*)newName andDescription:(NSString)newDescription 
-							andType:(NSString)newType andMediaURL:(NSString)newMediaURL
-							andIconURL:(NSString)newIconURL;
-
-*/
 - (void) display;
 
 @end

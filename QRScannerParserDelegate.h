@@ -7,18 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "QRCode.h"
+#import "QRCodeProtocol.h"
 
 @protocol QRScannerParserDelegateDelegate <NSObject>
-- (void) qrParserDidFinish:(QRCode *)qrcode;
+- (void) qrParserDidFinish:(id<QRCodeProtocol>)qrcode;
 @end
 
 @interface QRScannerParserDelegate : NSObject {
-	QRCode *qrcode;
 	id<QRScannerParserDelegateDelegate> delegate;
+	id<QRCodeProtocol> qrcode;
 }
 
-@property(copy, readwrite) QRCode *qrcode;
 @property(nonatomic, assign) id<QRScannerParserDelegateDelegate> delegate;
+@property(retain, readwrite) id<QRCodeProtocol> qrcode;
 
 @end

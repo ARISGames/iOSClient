@@ -86,6 +86,7 @@
 - (void)decoder:(Decoder *)decoder didDecodeImage:(UIImage *)image usingSubset:(UIImage *)subset withResult:(TwoDDecoderResult *)twoDResult {
 	//get the result
 	NSString *result = twoDResult.text;
+
 	//we are done with the scanner, so release it
 	[decoder release];
 	NSLog(@"QR Scanner: Decode Complete. QR Code ID = %@", result);
@@ -132,26 +133,8 @@
 }
 
 #pragma mark QRScannerParserDelegate Methods
-- (void) qrParserDidFinish:(QRCode*)qrcode{
-	NSLog(@"QRScannerViewController: Recieved QR Code Message for '%@'", qrcode.label);
-	
-	//Build the ful URL
-	NSString *baseURL;
-	if ([qrcode.type isEqualToString:@"Item"])  baseURL = [appModel getURLStringForModule:@"RESTInventory"];
-	else baseURL = [appModel getURLStringForModule:@"RESTNodeViewer"];
-	
-	NSString *URLparams = qrcode.URL;
-	NSString *fullURL = [ NSString stringWithFormat:@"%@%@", baseURL, URLparams];
-	
-	//Load the webview
-	NSLog([NSString stringWithFormat:@"Loading genericWebView for: %@ at %@", qrcode.label, fullURL ]);
-	
-	GenericWebViewController *genericWebViewController = [[GenericWebViewController alloc] initWithNibName:@"GenericWebView" bundle:[NSBundle mainBundle]];
-	[genericWebViewController setModel:appModel];
-	[genericWebViewController setURL: fullURL];
-	genericWebViewController.title = qrcode.label;
-	
-	[[self navigationController] pushViewController:genericWebViewController animated:YES];
+- (void) qrParserDidFinish:(id<QRCodeProtocol> *)qrcode{
+	[qrcode display];
 }
 
 

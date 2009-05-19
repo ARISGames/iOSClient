@@ -7,18 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "QRCodeProtocol.h"
 
 
-@interface QRCode : NSObject {
-	NSString *label;
-	NSString *type;
+@interface QRCode : NSObject <QRCodeProtocol> {
+	NSString *name;
+	QRCodeKind kind;
 	NSString *iconURL;
 	NSString *URL;
 }
 
 
-@property(copy, readwrite) NSString *label;
-@property(copy, readwrite) NSString *type;
+@property(copy, readwrite) NSString *name;
+@property(readwrite, assign) QRCodeKind kind;
 @property(copy, readwrite) NSString *URL;
 @property(copy, readwrite) NSString *iconURL;
 

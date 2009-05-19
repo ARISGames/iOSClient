@@ -8,11 +8,15 @@
 
 #import "QRScannerParserDelegate.h"
 
+#import "QRCode.h"
+#import "Item.h"
+
 
 @implementation QRScannerParserDelegate
 
 @synthesize delegate;
 @synthesize qrcode;
+
 
 #pragma mark NSXMLParser delegate methods
 
@@ -23,15 +27,29 @@
 		elementName = qName;
 	}
 	
-	if ([elementName isEqualToString:@"QRCode"]) {
-		//Found a location element 
-		qrcode = [[QRCode alloc]init];
-		qrcode.label = [attributeDict objectForKey:@"label"];
-		qrcode.type = [attributeDict objectForKey:@"type"];
-		qrcode.URL = [attributeDict objectForKey:@"url"];
-		qrcode.iconURL = [attributeDict objectForKey:@"icon"];
+	if ( [elementName isEqualToString:@"QRCode"]) {
+		//Found a QR element 
+		
+		QRCode *currentObject = [[QRCode alloc]init];
+		currentObject.name = [attributeDict objectForKey:@"name"];
+		currentObject.URL =  [attributeDict objectForKey:@"URL"];
+		currentObject.iconURL = [attributeDict objectForKey:@"iconURL"];
+		qrcode = currentObject;
+		NSLog(@"QRScannerParserDelegate: QRCode found : '%@'", currentObject.name);
 
-		NSLog([NSString stringWithFormat:@"QRScannerParserDelegate: Recieved QR Code details for '%@'", qrcode.label]);
+
+	}
+	else if ( [elementName isEqualToString:@"Item"])  {
+		Item *currentObject = [[Item alloc]init];	
+		currentObject.itemId = [attributeDict objectForKey:@"id"];
+		currentObject.name = [attributeDict objectForKey:@"name"];
+		currentObject.type = [attributeDict objectForKey:@"itemType"];
+		currentObject.description = [attributeDict objectForKey:@"description"];
+		currentObject.mediaURL = [attributeDict objectForKey:@"mediaURL"];
+		currentObject.iconURL = [attributeDict objectForKey:@"iconURL"];
+		qrcode = currentObject;
+		NSLog(@"QRScannerParserDelegate: Item found : '%@'", currentObject.name);
+
 	}
 }
 
