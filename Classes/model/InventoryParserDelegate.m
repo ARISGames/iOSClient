@@ -32,7 +32,7 @@
 	
 	if ([elementName isEqualToString:@"row"]) {
 		Item *item = [[Item alloc] init];
-		item.itemId = [[attributeDict objectForKey:@"item_id"] intValue];
+		item.itemId = [attributeDict objectForKey:@"item_id"];
 		item.name = [attributeDict objectForKey:@"name"];
 		item.description = [attributeDict objectForKey:@"description"];
 		item.type = [attributeDict objectForKey:@"type"];
