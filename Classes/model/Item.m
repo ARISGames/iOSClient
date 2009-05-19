@@ -43,6 +43,7 @@
 	ItemDetailsViewController *itemDetailsViewController = [[ItemDetailsViewController alloc] 
 															initWithNibName:@"ItemDetailsView" bundle:[NSBundle mainBundle]];
 	itemDetailsViewController.item = self;
+	itemDetailsViewController.navigationItem.title = name;
 	itemDetailsViewController.inInventory = NO;
 	itemDetailsViewController.appModel = appModel;
 
