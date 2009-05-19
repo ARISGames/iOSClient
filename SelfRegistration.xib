@@ -59,6 +59,11 @@
 										<int key="NSID">2</int>
 									</object>
 								</object>
+								<object class="NSFont" key="IBUIFont" id="991089715">
+									<string key="NSName">Helvetica</string>
+									<double key="NSSize">1.600000e+01</double>
+									<int key="NSfFlags">16</int>
+								</object>
 								<bool key="IBUIClearsOnBeginEditing">YES</bool>
 								<bool key="IBUIAdjustsFontSizeToFit">YES</bool>
 								<float key="IBUIMinimumFontSize">1.700000e+01</float>
@@ -83,6 +88,7 @@
 									<bytes key="NSWhite">MAA</bytes>
 									<reference key="NSCustomColorSpace" ref="979584650"/>
 								</object>
+								<reference key="IBUIFont" ref="991089715"/>
 								<bool key="IBUIClearsOnBeginEditing">YES</bool>
 								<bool key="IBUIAdjustsFontSizeToFit">YES</bool>
 								<float key="IBUIMinimumFontSize">1.700000e+01</float>
@@ -108,6 +114,7 @@
 									<bytes key="NSWhite">MAA</bytes>
 									<reference key="NSCustomColorSpace" ref="979584650"/>
 								</object>
+								<reference key="IBUIFont" ref="991089715"/>
 								<bool key="IBUIClearsOnBeginEditing">YES</bool>
 								<bool key="IBUIAdjustsFontSizeToFit">YES</bool>
 								<float key="IBUIMinimumFontSize">1.700000e+01</float>
@@ -133,6 +140,7 @@
 									<bytes key="NSWhite">MAA</bytes>
 									<reference key="NSCustomColorSpace" ref="979584650"/>
 								</object>
+								<reference key="IBUIFont" ref="991089715"/>
 								<bool key="IBUIClearsOnBeginEditing">YES</bool>
 								<bool key="IBUIAdjustsFontSizeToFit">YES</bool>
 								<float key="IBUIMinimumFontSize">1.700000e+01</float>
@@ -157,6 +165,7 @@
 									<bytes key="NSWhite">MAA</bytes>
 									<reference key="NSCustomColorSpace" ref="979584650"/>
 								</object>
+								<reference key="IBUIFont" ref="991089715"/>
 								<bool key="IBUIClearsOnBeginEditing">YES</bool>
 								<bool key="IBUIAdjustsFontSizeToFit">YES</bool>
 								<float key="IBUIMinimumFontSize">1.700000e+01</float>
@@ -620,7 +629,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>SelfRegistrationViewController</string>
 					<string>UIResponder</string>
-					<string>{{391, 376}, {320, 480}}</string>
+					<string>{{614, 376}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
