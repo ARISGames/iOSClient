@@ -74,6 +74,13 @@ NSDictionary *InventoryElements;
 	
 	//Load the base App URL and calculate the serverName (we should move the calculation to a geter)
 	self.baseAppURL = [defaults stringForKey:@"baseAppURL"];
+	
+	//Make sure it has a trailing slash (needed in some places)
+	int length = [self.baseAppURL length];
+	unichar lastChar = [self.baseAppURL characterAtIndex:length-1];
+	NSString *lastCharString = [ NSString stringWithCharacters:&lastChar length:1 ];
+	if (![lastCharString isEqualToString:@"/"]) self.baseAppURL = [[NSString alloc] initWithFormat:@"%@/",self.baseAppURL];
+	
 	NSURL *url = [NSURL URLWithString:self.baseAppURL];
 	self.serverName = [NSString stringWithFormat:@"http://%@:%@", [url host], [url port]];
 	
