@@ -48,8 +48,8 @@
 	//Parse any items
 	if ([elementName isEqualToString:@"item"]) {
 		Item *nearbyItem = [[Item alloc] init];
-		nearbyItem.itemId = [[attributeDict objectForKey:@"id"] intValue];
-		nearbyItem.locationId = [[attributeDict objectForKey:@"locationID"] intValue];
+		nearbyItem.itemId = [attributeDict objectForKey:@"id"];
+		nearbyItem.locationId = [attributeDict objectForKey:@"locationID"];
 		nearbyItem.name = [attributeDict objectForKey:@"name"];
 		nearbyItem.description = [attributeDict objectForKey:@"description"];		
 		nearbyItem.type = [attributeDict objectForKey:@"type"];
