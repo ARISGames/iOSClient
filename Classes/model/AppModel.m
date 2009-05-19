@@ -150,10 +150,10 @@ NSDictionary *InventoryElements;
 }
 
 //Returns the complete URL for the module, including authentication
--(NSURLRequest *)getURLForModule:(NSString *)moduleName {
+-(NSMutableURLRequest *)getURLForModule:(NSString *)moduleName {
 	NSString *urlString = [self getURLStringForModule:moduleName];
 	
-	NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]
+	NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]
 												cachePolicy:NSURLRequestUseProtocolCachePolicy
 												timeoutInterval:15.0];
 	return urlRequest;
@@ -168,10 +168,10 @@ NSDictionary *InventoryElements;
 }
 
 //Returns the complete URL for the server
--(NSURLRequest *)getURL:(NSString *)relativeURL {
+-(NSMutableURLRequest *)getURL:(NSString *)relativeURL {
 	NSString *urlString = [self getURLString:relativeURL];
 	
-	NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]
+	NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]
 												cachePolicy:NSURLRequestUseProtocolCachePolicy
 											timeoutInterval:15.0];
 	return urlRequest;
@@ -185,10 +185,10 @@ NSDictionary *InventoryElements;
 }
 
 //Returns the complete URL including the engine path
--(NSURLRequest *)getEngineURL:(NSString *)relativeURL {
+-(NSMutableURLRequest *)getEngineURL:(NSString *)relativeURL {
 	NSString *urlString = [self getEngineURLString:relativeURL];
 	
-	NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]
+	NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]
 												cachePolicy:NSURLRequestUseProtocolCachePolicy
 											timeoutInterval:15.0];
 	return urlRequest;

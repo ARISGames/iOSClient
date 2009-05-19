@@ -51,11 +51,11 @@ extern NSDictionary *InventoryElements;
 -(void)fetchLocationList;
 -(void)fetchInventory;
 -(void)updateServerLocationAndfetchNearbyLocationList;
--(NSURLRequest *) getURLForModule:(NSString *)moduleName;
+-(NSMutableURLRequest *) getURLForModule:(NSString *)moduleName;
 -(NSString *)getURLStringForModule:(NSString *)moduleName;
 -(NSString *) getURLString:(NSString *)relativeURL;
--(NSURLRequest *)getURL:(NSString *)relativeURL;
--(NSURLRequest *)getEngineURL:(NSString *)relativeURL;
+-(NSMutableURLRequest *)getURL:(NSString *)relativeURL;
+-(NSMutableURLRequest *)getEngineURL:(NSString *)relativeURL;
 -(NSString *) getEngineURLString:(NSString *)relativeURL;
 -(NSData *) fetchURLData: (NSURLRequest *)request;
 
