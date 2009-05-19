@@ -104,7 +104,7 @@
 	NSLog([NSString stringWithFormat:@"ItemDetailsViewController: Dropping Item Here using REST Call: %@", fullURL ]);
 	
 	NSString *result = [[NSString alloc] initWithContentsOfURL:[NSURL URLWithString:fullURL]];
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Success" message: result delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Item Dropped" message: @"Your Item was dropped here on the map. Other players will not see this object on their map." delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
 	
 	[alert show];
 	[result release];
@@ -134,7 +134,7 @@
 	NSLog([NSString stringWithFormat:@"ItemDetailsViewController: Deleting all Items for this Player on server: %@", fullURL ]);
 	
 	NSString *result = [[NSString alloc] initWithContentsOfURL:[NSURL URLWithString:fullURL]];
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Success" message: result delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Item destroyed" message: @"This object was removed from your inventory" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
 	
 	[alert show];
 	[result release];
@@ -168,7 +168,7 @@
 	NSLog([NSString stringWithFormat:@"ItemDetailsViewController: Telling server to pickup this item using URL: %@", fullURL ]);
 	
 	NSString *result = [[NSString alloc] initWithContentsOfURL:[NSURL URLWithString:fullURL]];
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Success" message: result delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Picked up an Item" message: @"It is available in your inventory" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
 	
 	[alert show];
 	[result release];
@@ -183,7 +183,7 @@
 	//Refresh the inventory
 	[appModel fetchInventory];
 	
-	[self.navigationController popToRootViewControllerAnimated:YES];
+	[self.navigationController.view removeFromSuperview];
 }
 
 - (void)didReceiveMemoryWarning {
