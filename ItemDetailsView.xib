@@ -8,7 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="12"/>
+			<integer value="1"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -38,7 +38,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBUITextView" id="64668083">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">301</int>
+						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{0, 219}, {320, 94}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -233,10 +233,10 @@
 						<reference key="object" ref="191373211"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="64668083"/>
 							<reference ref="410671672"/>
 							<reference ref="953436460"/>
 							<reference ref="441392885"/>
+							<reference ref="64668083"/>
 						</object>
 						<reference key="parent" ref="360949347"/>
 					</object>
@@ -290,7 +290,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>ItemDetailsViewController</string>
 					<string>UIResponder</string>
-					<string>{{949, 260}, {320, 480}}</string>
+					<string>{{403, 260}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
