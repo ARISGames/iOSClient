@@ -40,7 +40,7 @@
 		buttonView = [[UIView alloc] initWithFrame:viewFrame];
 		[buttonView setClipsToBounds:YES];
 		[self addSubview:buttonView];
-		[self setHidden:YES];
+		[self clearAllItems];
     }
     return self;
 }
@@ -108,7 +108,10 @@
 - (void)addItemView:(NearbyBarItemView *)itemView {
 	//get the last subview of the buttonView
 	UIView *lastView = [[buttonView subviews] lastObject];
-	float newX = lastView.frame.origin.x + lastView.frame.size.width + 5;
+	float newX;
+	if (lastView) newX = lastView.frame.origin.x + lastView.frame.size.width + 5;
+	else newX = 0;
+	
 	CGRect newViewFrame = itemView.frame;
 	newViewFrame.origin.x = newX;
 	newViewFrame.origin.y = ((buttonView.bounds.size.height - newViewFrame.size.height) / 2.0) + buttonView.bounds.origin.y;
