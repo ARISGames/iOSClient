@@ -15,7 +15,7 @@
 
 #import "model/Game.h"
 #import "NearbyLocation.h"
-#import "InventoryBar.h"
+#import "NearbyBar.h"
 #import "Item.h"
 #import "ItemDetailsViewController.h"
 
@@ -33,13 +33,12 @@
 	AppModel *appModel;
 	UIWindow *window;
     UITabBarController *tabBarController;
-	InventoryBar *inventoryBar;
+	NearbyBar *nearbyBar;
 	MyCLController *myCLController;
 	LoginViewController *loginViewController;
 	UINavigationController *loginViewNavigationController;
 	GamePickerViewController *gamePickerViewController;
 	UINavigationController *gamePickerNavigationController;
-	
 	UINavigationController *nearbyObjectNavigationController;
 }
 
@@ -50,7 +49,7 @@
 @property (nonatomic, retain) IBOutlet UINavigationController *loginViewNavigationController;
 @property (nonatomic, retain) IBOutlet GamePickerViewController *gamePickerViewController;
 @property (nonatomic, retain) IBOutlet UINavigationController *gamePickerNavigationController;
-@property (nonatomic, retain) IBOutlet InventoryBar *inventoryBar;
+@property (nonatomic, retain) IBOutlet NearbyBar *nearbyBar;
 @property (nonatomic, retain) IBOutlet UINavigationController *nearbyObjectNavigationController;
 
 - (void)displayNearbyObjectView:(UIViewController *)nearbyObjectViewController;

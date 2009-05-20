@@ -17,7 +17,7 @@
 @synthesize loginViewNavigationController;
 @synthesize gamePickerViewController;
 @synthesize gamePickerNavigationController;
-@synthesize inventoryBar;
+@synthesize nearbyBar;
 @synthesize nearbyObjectNavigationController;
 
 //@synthesize toolbarViewController;
@@ -140,8 +140,8 @@
 	}
 	
 	//Inventory Bar, which is really a view
-	inventoryBar = [[InventoryBar alloc] initWithFrame:CGRectMake(0.0, 60.0, 320.0, 15.0)];
-	[window addSubview:inventoryBar];	
+	nearbyBar = [[NearbyBar alloc] initWithFrame:CGRectMake(0.0, 60.0, 320.0, 15.0)];
+	[window addSubview:nearbyBar];	
 }
 
 
