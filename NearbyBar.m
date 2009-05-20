@@ -7,24 +7,22 @@
 //
 
 #import "NearbyBar.h"
+#import "AudioToolbox/AudioToolbox.h"
 
 
 @implementation NearbyBar
 @synthesize hidden;
 
 - (void)setHidden:(BOOL)newHidden {
-	CGRect myFrame;
 	if (newHidden != [self hidden]) {
-		myFrame = self.frame;
-		if (newHidden == YES) {
-			myFrame.origin.y -= 100.0; //We should calculate this!
-		} else {
-			myFrame.origin.y += 100.0;
-		}
 		[UIView beginAnimations: nil context: nil ]; // Tell UIView we're ready to start animations.
 		[UIView setAnimationCurve: UIViewAnimationCurveEaseInOut ];
-		[UIView setAnimationDuration: 0.25f ]; // Set the duration to 4/10ths of a second.
-		self.frame = myFrame;
+		[UIView setAnimationDuration: 0.25f ]; // Set the duration to 4/10ths of a second.		
+		if (newHidden == YES) {
+			self.alpha = 0.0;
+		} else {
+			self.alpha = 0.8;
+		}
 		[UIView commitAnimations];
 		hidden = newHidden;
 	}
@@ -42,6 +40,7 @@
 		buttonView = [[UIView alloc] initWithFrame:viewFrame];
 		[buttonView setClipsToBounds:YES];
 		[self addSubview:buttonView];
+		[self setHidden:YES];
     }
     return self;
 }
@@ -60,12 +59,22 @@
 }
 
 - (void)processNearbyLocationsList:(NSNotification *)notification {
-    NSLog(@"App Delegate recieved Nearby Locations List Notification");
+    NSLog(@"NearbyBar: Recieved a Nearby Locations List Notification");
 	NSArray *nearbyLocations = notification.object;
-	//Check for a force View flag in one of the nearby locations and display if found
-	[self clearAllItems];
-	for (NSObject <NearbyObjectProtocol> *unknownNearbyLocation in nearbyLocations) {
-		[self addItem:unknownNearbyLocation];
+	
+	if ([nearbyLocations count] > 0) {
+		//Check for a force View flag in one of the nearby locations and display if found
+	
+		//If something has been added to the list, vibrate
+		AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+	
+		[self clearAllItems];
+		for (NSObject <NearbyObjectProtocol> *unknownNearbyLocation in nearbyLocations) {
+			[self addItem:unknownNearbyLocation];
+		}
+	}
+	else {
+		[self setHidden:YES];
 	}
 }
 
@@ -135,7 +144,7 @@
 	for (UIView *element in enumerator) {
 		if ((element.frame.origin.x + element.frame.size.width) < divide) {
 			divide = element.frame.origin.x + element.frame.size.width;
-			NSLog(@"Divide is %f", divide);
+			NSLog(@"NearbyBar: Divide is %f", divide);
 			break;
 		}
 	}
@@ -163,35 +172,19 @@
 	
 - (IBAction)scrollLeft:(id)sender {
 	float scrollTarget = [self leftmostDivide];
-	NSLog(@"ScrollTarget is %f",scrollTarget);
+	NSLog(@"NearbyBar: ScrollTarget is %f",scrollTarget);
 	float delta = buttonView.bounds.origin.x - scrollTarget;
-	NSLog(@"Delta is %f",delta);
+	NSLog(@"NearbyBar: Delta is %f",delta);
 	[self scroll:delta];
 }
 
 - (IBAction)scrollRight:(id)sender {
 	float scrollTarget = [self rightmostDivide];
-	NSLog(@"ScrollTarget is %f",scrollTarget);
+	NSLog(@"NearbyBar: ScrollTarget is %f",scrollTarget);
 	float delta = (buttonView.bounds.origin.x + buttonView.bounds.size.width) - scrollTarget;
-	NSLog(@"Delta is %f",delta);
+	NSLog(@"NearbyBar: Delta is %f",delta);
 	[self scroll:delta];
-//	[self scroll:75.0];
 }
-
-//- (void)addItem:(UIView *)itemView {
-//	CGRect viewFrame = itemView.frame;
-//	viewFrame.origin.x = usedSpace;
-//	itemView.frame = viewFrame;
-//	NSLog(@"Frame x:%f y:%f width:%f height:%f", viewFrame.origin.x, viewFrame.origin.y, viewFrame.size.width, viewFrame.size.height);
-//
-//	usedSpace = usedSpace + viewFrame.size.width + 5;
-//	if (usedSpace > self.frame.size.width) {
-//		CGRect myFrame = self.frame;
-//		myFrame.size.width = usedSpace;
-//		self.frame = myFrame;
-//	}
-//	[self addSubview:itemView];
-//}
 	
 #pragma mark Touches
 
@@ -219,9 +212,9 @@
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-	NSLog(@"Touch ended");
+	NSLog(@"NearbyBar: Touch ended");
 	if (!dragged) {
-		NSLog(@"I should open an item");
+		NSLog(@"NearbyBar: I should open an item, it was not a drag");
 		UITouch *touch = [touches anyObject]; //should be just one
 		CGPoint touchPoint = [touch locationInView:buttonView];
 		NSArray *myItems = [buttonView subviews];
@@ -229,7 +222,7 @@
 		NearbyBarItemView *myView;
 		while (myView = [viewEnumerator nextObject]) {
 			if (CGRectContainsPoint([myView frame], touchPoint)) {
-				NSLog(@"Found me an object! %@", [myView title]);
+				NSLog(@"NearbyBar: Found the object selected, displaying: %@", [myView title]);
 				[[myView nearbyObject] display];
 			} else {
 				//NSLog(@"Nope! Not it.");
