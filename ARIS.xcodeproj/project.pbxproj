@@ -150,9 +150,9 @@
 		A7A623560F841A80008E0DFD /* InventoryParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A623550F841A80008E0DFD /* InventoryParserDelegate.m */; };
 		A7A6235B0F841C99008E0DFD /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A6235A0F841C99008E0DFD /* Item.m */; };
 		A7BCBB3F0F8C236900C7A36C /* ItemDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7BCBB3E0F8C236900C7A36C /* ItemDetailsView.xib */; };
-		A7C1F6000FC070690045F15D /* InventoryBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C1F5FC0FC070690045F15D /* InventoryBar.m */; };
-		A7C1F6010FC070690045F15D /* InventoryBarItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C1F5FE0FC070690045F15D /* InventoryBarItemView.m */; };
-		A7C1F6020FC070690045F15D /* Placard.png in Resources */ = {isa = PBXBuildFile; fileRef = A7C1F5FF0FC070690045F15D /* Placard.png */; };
+		A7C1F6000FC070690045F15D /* NearbyBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */; };
+		A7C1F6010FC070690045F15D /* NearbyBarItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */; };
+		A7C1F6020FC070690045F15D /* NearbyBarButtonBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = A7C1F5FF0FC070690045F15D /* NearbyBarButtonBackground.png */; };
 		A7E39EAD0F5F60D000826198 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E39EAC0F5F60D000826198 /* CameraViewController.m */; };
 		A7E39ECA0F5F655E00826198 /* Camera.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7E39EC90F5F655E00826198 /* Camera.xib */; };
 		A7E39FB40F5F930E00826198 /* Developer.png in Resources */ = {isa = PBXBuildFile; fileRef = A7E39FA90F5F930E00826198 /* Developer.png */; };
@@ -376,11 +376,11 @@
 		A7A623590F841C99008E0DFD /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
 		A7A6235A0F841C99008E0DFD /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; };
 		A7BCBB3E0F8C236900C7A36C /* ItemDetailsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemDetailsView.xib; sourceTree = "<group>"; };
-		A7C1F5FB0FC070690045F15D /* InventoryBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryBar.h; sourceTree = "<group>"; };
-		A7C1F5FC0FC070690045F15D /* InventoryBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryBar.m; sourceTree = "<group>"; };
-		A7C1F5FD0FC070690045F15D /* InventoryBarItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryBarItemView.h; sourceTree = "<group>"; };
-		A7C1F5FE0FC070690045F15D /* InventoryBarItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryBarItemView.m; sourceTree = "<group>"; };
-		A7C1F5FF0FC070690045F15D /* Placard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Placard.png; sourceTree = "<group>"; };
+		A7C1F5FB0FC070690045F15D /* NearbyBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyBar.h; sourceTree = "<group>"; };
+		A7C1F5FC0FC070690045F15D /* NearbyBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyBar.m; sourceTree = "<group>"; };
+		A7C1F5FD0FC070690045F15D /* NearbyBarItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyBarItemView.h; sourceTree = "<group>"; };
+		A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyBarItemView.m; sourceTree = "<group>"; };
+		A7C1F5FF0FC070690045F15D /* NearbyBarButtonBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NearbyBarButtonBackground.png; sourceTree = "<group>"; };
 		A7E39EAB0F5F60D000826198 /* CameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CameraViewController.h; path = Classes/CameraViewController.h; sourceTree = "<group>"; };
 		A7E39EAC0F5F60D000826198 /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CameraViewController.m; path = Classes/CameraViewController.m; sourceTree = "<group>"; };
 		A7E39EC90F5F655E00826198 /* Camera.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Camera.xib; sourceTree = "<group>"; };
@@ -629,11 +629,11 @@
 			isa = PBXGroup;
 			children = (
 				A722CB5A0FBDFEA6009432DB /* NearbyObjectProtocol.h */,
-				A7C1F5FB0FC070690045F15D /* InventoryBar.h */,
-				A7C1F5FC0FC070690045F15D /* InventoryBar.m */,
-				A7C1F5FD0FC070690045F15D /* InventoryBarItemView.h */,
-				A7C1F5FE0FC070690045F15D /* InventoryBarItemView.m */,
-				A7C1F5FF0FC070690045F15D /* Placard.png */,
+				A7C1F5FB0FC070690045F15D /* NearbyBar.h */,
+				A7C1F5FC0FC070690045F15D /* NearbyBar.m */,
+				A7C1F5FD0FC070690045F15D /* NearbyBarItemView.h */,
+				A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */,
+				A7C1F5FF0FC070690045F15D /* NearbyBarButtonBackground.png */,
 			);
 			name = NearbyObjectBar;
 			sourceTree = "<group>";
@@ -972,7 +972,7 @@
 				A78E753E0FB5BA0C00922F6C /* Developer.xib in Resources */,
 				A7149F9D0FB89DC8008BAB5D /* Settings.bundle in Resources */,
 				A722C8C00FBCD8D0009432DB /* SelfRegistration.xib in Resources */,
-				A7C1F6020FC070690045F15D /* Placard.png in Resources */,
+				A7C1F6020FC070690045F15D /* NearbyBarButtonBackground.png in Resources */,
 				A76048E70FC1B6DE00219A53 /* QRCodeProtocol.h in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1057,8 +1057,8 @@
 				A721352E0FA8B6F6003E4059 /* QRCode.m in Sources */,
 				A7F73FD50FB248DF0044B85A /* XMLParserDelegate.m in Sources */,
 				A722C8C60FBCD92E009432DB /* SelfRegistrationViewController.m in Sources */,
-				A7C1F6000FC070690045F15D /* InventoryBar.m in Sources */,
-				A7C1F6010FC070690045F15D /* InventoryBarItemView.m in Sources */,
+				A7C1F6000FC070690045F15D /* NearbyBar.m in Sources */,
+				A7C1F6010FC070690045F15D /* NearbyBarItemView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
