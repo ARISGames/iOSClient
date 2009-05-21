@@ -15,18 +15,18 @@
 @interface NearbyBar : UIView {
 	float usedSpace;
 	float exposedHeight;
-	float hiddenHeight;
+	float shrunkenHeight;
 	UIView *buttonView;
 	CGPoint lastTouch;
 	float maxScroll;
-	BOOL hidden;
+	BOOL shrunken;
 	BOOL dragged;
 	UIColor *fillColor;
 	IndicatorView *indicator;
 }
-@property(readwrite) 	BOOL hidden;
+@property(readwrite) 	BOOL shrunken;
 @property(readwrite)	float exposedHeight;
-@property(readwrite)	float hiddenHeight;
+@property(readwrite)	float shrunkenHeight;
 @property(readwrite,retain) UIColor *fillColor;
 @property(readwrite,retain) IndicatorView *indicator;
 

@@ -11,20 +11,20 @@
 
 
 @implementation NearbyBar
-@synthesize hidden;
-@synthesize hiddenHeight;
+@synthesize shrunken;
+@synthesize shrunkenHeight;
 @synthesize exposedHeight;
 @synthesize fillColor;
 @synthesize indicator;
 
 
-- (void)setHidden:(BOOL)newHidden {
+- (void)setshrunken:(BOOL)newshrunken {
 	CGRect myFrame;
-	if (newHidden != [self hidden]) {
+	if (newshrunken != [self shrunken]) {
 		[UIView beginAnimations: nil context: nil ]; // Tell UIView we're ready to start animations.
 		myFrame = self.frame;
-		if (newHidden == YES) {
-			myFrame.size.height = hiddenHeight;
+		if (newshrunken == YES) {
+			myFrame.size.height = shrunkenHeight;
 			buttonView.alpha = 0.0;
 			//[self setFillColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.3]];
 			self.alpha = 0.5;
@@ -36,7 +36,7 @@
 		}
 		self.frame = myFrame;
 		[UIView commitAnimations];
-		hidden = newHidden;
+		shrunken = newshrunken;
 	}
 }
 
@@ -53,8 +53,8 @@
 - (void)finishInit {
 	usedSpace = 20.0;
 	maxScroll = 0.0;
-	hiddenHeight = self.frame.size.height;
-	hidden = YES;
+	shrunkenHeight = self.frame.size.height;
+	shrunken = YES;
 	[self setAlpha:0.5];
 	exposedHeight = 44.0;
 	CGRect viewFrame = self.bounds;
@@ -68,8 +68,8 @@
 	viewFrame = self.bounds;
 	viewFrame.origin.x +=3.0;
 	viewFrame.origin.y +=2.0;
-	viewFrame.size.width = self.hiddenHeight - 4.0;
-	viewFrame.size.height = self.hiddenHeight - 4.0;
+	viewFrame.size.width = self.shrunkenHeight - 4.0;
+	viewFrame.size.height = self.shrunkenHeight - 4.0;
 	IndicatorView *indicatorView = [[IndicatorView alloc] initWithFrame:viewFrame];
 	[self addSubview:indicatorView];
 	self.indicator = indicatorView;
@@ -82,7 +82,7 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
 	if ([object isMemberOfClass:[IndicatorView class]]) {  //should be, unless we start observing something else
 		BOOL exposedState = [[change objectForKey:NSKeyValueChangeNewKey] boolValue];
-		[self setHidden:!exposedState];
+		[self setshrunken:!exposedState];
 	} else {
 		NSLog(@"I seem to be observing something I'm not looking at. Weird.");
 	}
@@ -115,6 +115,7 @@
 	NSObject <NearbyObjectProtocol> *forcedDisplayItem = nil;
 	
 	if ([nearbyLocations count] > 0) {
+		self.hidden = NO;
 		//Check for a force View flag in one of the nearby locations and display if found
 		
 		BOOL newItem = NO;	//flag to see if at least one new item is in list
@@ -152,6 +153,8 @@
 		if (forcedDisplayItem) {
 			[forcedDisplayItem display];
 		}
+	} else {
+		self.hidden = YES;
 	}
 }
 
@@ -166,14 +169,14 @@
 	while (myView = [viewEnumerator nextObject]) {
 		[myView removeFromSuperview];
 	}
-//	[self setHidden:YES];
+//	[self setshrunken:YES];
 }
 
 - (void)addItem:(NSObject <NearbyObjectProtocol> *)item {
 	NearbyBarItemView *itemView = [[NearbyBarItemView alloc] init];
 	[itemView setNearbyObject:item];
 	[self addItemView:itemView];
-//	[self setHidden:NO];
+//	[self setshrunken:NO];
 }
 
 - (void)addItemView:(NearbyBarItemView *)itemView {
@@ -263,7 +266,7 @@
 #pragma mark Touches
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	if (!self.hidden) {
+	if (!self.shrunken) {
 		dragged = NO;
 		UITouch *touch = [touches anyObject]; //should be just one
 		lastTouch = [touch locationInView:self];
@@ -278,7 +281,7 @@
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event { 
-	if (!self.hidden) {
+	if (!self.shrunken) {
 		UITouch *touch = [touches anyObject]; //should be just one
 		CGPoint touchPoint = [touch locationInView:self];
 		float deltaX = touchPoint.x - lastTouch.x;
@@ -297,7 +300,7 @@
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-	if (!self.hidden) {
+	if (!self.shrunken) {
 		if (!dragged) {
 			NSLog(@"NearbyBar: I should open an item, it was not a drag");
 			UITouch *touch = [touches anyObject]; //should be just one
