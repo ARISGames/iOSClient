@@ -67,8 +67,8 @@
 	viewFrame = self.bounds;
 	viewFrame.origin.x +=3.0;
 	viewFrame.origin.y +=3.0;
-	viewFrame.size.width = 10.0;
-	viewFrame.size.height = 10.0;
+	viewFrame.size.width = self.hiddenHeight - 6.0;
+	viewFrame.size.height = self.hiddenHeight - 6.0;
 	IndicatorView *indicatorView = [[IndicatorView alloc] initWithFrame:viewFrame];
 	[self addSubview:indicatorView];
 	self.indicator = indicatorView;

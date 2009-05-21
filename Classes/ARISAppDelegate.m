@@ -143,11 +143,7 @@
 	}
 	
 	//Inventory Bar, which is really a view
-<<<<<<< .mine
 	nearbyBar = [[NearbyBar alloc] initWithFrame:CGRectMake(0.0, 63.0, 320.0, 20.0)];
-=======
-	nearbyBar = [[NearbyBar alloc] initWithFrame:CGRectMake(0.0, 63.0, 320.0, 15.0)];
->>>>>>> .r10729
 	[window addSubview:nearbyBar];	
 }
 
