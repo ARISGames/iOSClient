@@ -112,10 +112,28 @@
 	
 	if ([nearbyLocations count] > 0) {
 		//Check for a force View flag in one of the nearby locations and display if found
-	
-		//If something has been added to the list, vibrate
-		AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
-	
+		
+		BOOL newItem = NO;	//flag to see if at least one new item is in list
+		for (NSObject <NearbyObjectProtocol> *unknownNearbyLocation in nearbyLocations) {
+			//check each new object againt list
+			BOOL match = NO;
+			for (NearbyBarItemView *anItemView in [buttonView subviews]) {
+				NSObject <NearbyObjectProtocol> *existingItem = anItemView.nearbyObject;
+				if (([[existingItem name] isEqualToString:[unknownNearbyLocation name]])
+					&& ([existingItem kind] == [unknownNearbyLocation kind])) {
+					match = YES;
+				}
+			}
+			//did we find a match for this item? If not, we have a new item
+			if (!match) {
+				newItem = YES;
+			}
+		}
+		
+		//If we have a new item, vibrate
+		if (newItem) {
+			AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+		}
 		[self clearAllItems];
 		for (NSObject <NearbyObjectProtocol> *unknownNearbyLocation in nearbyLocations) {
 			[self addItem:unknownNearbyLocation];
