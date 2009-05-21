@@ -66,9 +66,9 @@
 	[self addSubview:buttonView];
 	viewFrame = self.bounds;
 	viewFrame.origin.x +=3.0;
-	viewFrame.origin.y +=3.0;
-	viewFrame.size.width = self.hiddenHeight - 6.0;
-	viewFrame.size.height = self.hiddenHeight - 6.0;
+	viewFrame.origin.y +=2.0;
+	viewFrame.size.width = self.hiddenHeight - 4.0;
+	viewFrame.size.height = self.hiddenHeight - 4.0;
 	IndicatorView *indicatorView = [[IndicatorView alloc] initWithFrame:viewFrame];
 	[self addSubview:indicatorView];
 	self.indicator = indicatorView;
@@ -266,6 +266,8 @@
 		UITouch *touch = [touches anyObject]; //should be just one
 		lastTouch = [touch locationInView:self];
 		dragged = NO;
+	} else {
+		self.indicator.expanded = YES;
 	}
 }
 
