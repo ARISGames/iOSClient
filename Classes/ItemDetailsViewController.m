@@ -41,7 +41,10 @@
 	if ([item.type isEqualToString: @"Image"]) {
 		NSLog(@"ItemDetailsViewController: Image Layout Selected");
 		//Setup the image view
+		[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 		NSData* imageData = [[NSData alloc]initWithContentsOfURL:[NSURL URLWithString:mediaURL]];
+		[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+
 		UIImage* image = [[UIImage alloc] initWithData:imageData];
 		UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 360,220)];
 		imageView.image = image;
