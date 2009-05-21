@@ -23,6 +23,9 @@
 //@synthesize toolbarViewController;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
+	//Don't sleep
+	application.idleTimerDisabled = YES;
+	
 	//init app model
 	appModel = [[AppModel alloc] init];
 	
@@ -101,11 +104,11 @@
 	
 	//Add the view controllers to the Tab Bar
 	tabBarController.viewControllers = [NSMutableArray arrayWithObjects: 
-										questsNavigationController, 
 										gpsNavigationController,
+										questsNavigationController, 
 										inventoryNavigationController,
-										cameraNavigationController,
 										qrScannerNavigationController,
+										cameraNavigationController,
 										imNavigationController,
 										gamePickerNavigationController,
 										logoutNavigationController,
@@ -140,7 +143,11 @@
 	}
 	
 	//Inventory Bar, which is really a view
+<<<<<<< .mine
+	nearbyBar = [[NearbyBar alloc] initWithFrame:CGRectMake(0.0, 63.0, 320.0, 20.0)];
+=======
 	nearbyBar = [[NearbyBar alloc] initWithFrame:CGRectMake(0.0, 63.0, 320.0, 15.0)];
+>>>>>>> .r10729
 	[window addSubview:nearbyBar];	
 }
 
