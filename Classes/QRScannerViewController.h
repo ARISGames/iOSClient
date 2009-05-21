@@ -22,7 +22,7 @@
 
 
 - (void) setModel:(AppModel *)model;
-- (void) qrParserDidFinish:(id<QRCodeProtocol> *)qrcode;
+- (void) qrParserDidFinish:(id<QRCodeProtocol>)qrcode;
 
 @property(copy, readwrite) NSString *moduleName;
 @property (nonatomic, retain) UIButton *scanButton;

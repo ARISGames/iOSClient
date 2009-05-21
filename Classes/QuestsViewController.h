@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "model/AppModel.h";
 
-@interface QuestsViewController : UIViewController {
+@interface QuestsViewController : UIViewController <UIWebViewDelegate> {
 	NSString *moduleName;
 	UIWebView *webview;
 	AppModel *appModel;

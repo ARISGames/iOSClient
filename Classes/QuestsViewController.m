@@ -28,11 +28,12 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	
+	self.webview.delegate = self;
 	moduleName = @"RESTQuest";
 	
 	NSLog(@"To Do View Loaded");
 }
+
 
 - (void)viewDidAppear {
 	[webview loadRequest:[appModel getURLForModule:moduleName]];
@@ -58,6 +59,18 @@
 	[moduleName release];
     [super dealloc];
 }
+
+#pragma mark WebView Delegate
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+	
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	
+}
+
 
 
 @end

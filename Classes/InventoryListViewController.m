@@ -132,13 +132,9 @@
 	UIImageView *iconView = (UIImageView *)[cell viewWithTag:3];
 	
 	NSString *relativeURL = [[[inventoryTableData objectAtIndex:[indexPath row]] iconURL] stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];	
-	NSString *iconURL = [appModel getURLString:relativeURL];
-	NSError *error = nil;
-	
-	NSData *iconData = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:iconURL] options:NSUncachedRead error:&error];
-	if (error) {
-		NSLog(@"Error: %@", error);
-	}
+	NSURLRequest *iconRequest = [appModel getURL:relativeURL];
+	NSData *iconData = [appModel fetchURLData: iconRequest];
+
 	UIImage *icon = [UIImage imageWithData:iconData];
 	iconView.image = icon;
 

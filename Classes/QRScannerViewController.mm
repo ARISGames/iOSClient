@@ -133,7 +133,7 @@
 }
 
 #pragma mark QRScannerParserDelegate Methods
-- (void) qrParserDidFinish:(id<QRCodeProtocol> *)qrcode{
+- (void) qrParserDidFinish:(id<QRCodeProtocol>)qrcode{
 	[qrcode display];
 }
 

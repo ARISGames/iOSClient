@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "model/AppModel.h";
 
-@interface GenericWebViewController : UIViewController {
+@interface GenericWebViewController : UIViewController <UIWebViewDelegate> {
 	NSURLRequest *request;
 	UIWebView *webview;
 	AppModel *appModel;	
@@ -19,7 +19,6 @@
 
 -(void) setModel:(AppModel *)model;
 -(void) setURL:(NSString*)urlString;
--(void) setToolbarTitle:(NSString *)title;
 -(void) backButtonAction:(id)sender;
 
 

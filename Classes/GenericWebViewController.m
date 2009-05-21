@@ -18,11 +18,11 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+	webview.delegate = self;
 	[webview loadRequest:request];
 	NSLog(@"Generic Web Controller is Now Loading the URL in ViewDidLoad");
 	NSLog(@"GenericWebView loaded");
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
@@ -57,15 +57,20 @@
 	NSLog(@"model set for GenericWebViewController");
 }
 
--(void) setToolbarTitle:(NSString *)title {
-	NSLog (@"GenericWebView: Set Title to:'%@'",title);
-	titleLabel.text = title;
-}
-
 - (void)dealloc {
 	[appModel release];
     [super dealloc];
 }
 
+#pragma mark WebView Delegate
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+	
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	
+}
 
 @end
