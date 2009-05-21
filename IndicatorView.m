@@ -75,9 +75,9 @@
 	}
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	NSLog(@"IndicatorView got a touch.");
-	[self setExpanded:![self expanded]];
-}
+//- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+//	NSLog(@"IndicatorView got a touch.");
+//	[self setExpanded:![self expanded]];
+//}
 
 @end

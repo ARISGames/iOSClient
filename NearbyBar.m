@@ -59,7 +59,8 @@
 	exposedHeight = 44.0;
 	CGRect viewFrame = self.bounds;
 	viewFrame.size.height = exposedHeight;
-	viewFrame = CGRectInset(viewFrame, 30.0, 0);
+	viewFrame = CGRectInset(viewFrame, 40.0, 0);
+	viewFrame.origin.x += 20;
 	buttonView = [[UIView alloc] initWithFrame:viewFrame];
 	[buttonView setClipsToBounds:YES];
 	[buttonView setAlpha:0.0];
@@ -263,9 +264,14 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 	if (!self.hidden) {
+		dragged = NO;
 		UITouch *touch = [touches anyObject]; //should be just one
 		lastTouch = [touch locationInView:self];
-		dragged = NO;
+		CGRect shrinkRect = self.bounds;
+		shrinkRect.size.width = self.bounds.size.height;
+		if (CGRectContainsPoint(shrinkRect, lastTouch)) {
+			self.indicator.expanded = NO;
+		}
 	} else {
 		self.indicator.expanded = YES;
 	}
