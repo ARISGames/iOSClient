@@ -12,51 +12,99 @@
 
 @implementation NearbyBar
 @synthesize hidden;
+@synthesize hiddenHeight;
+@synthesize exposedHeight;
+@synthesize fillColor;
+
 
 - (void)setHidden:(BOOL)newHidden {
+	CGRect myFrame;
 	if (newHidden != [self hidden]) {
 		[UIView beginAnimations: nil context: nil ]; // Tell UIView we're ready to start animations.
-		[UIView setAnimationCurve: UIViewAnimationCurveEaseInOut ];
-		[UIView setAnimationDuration: 0.25f ]; // Set the duration to 4/10ths of a second.		
+		myFrame = self.frame;
 		if (newHidden == YES) {
-			self.alpha = 0.0;
+			myFrame.size.height = hiddenHeight;
+			buttonView.alpha = 0.0;
+			//[self setFillColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.3]];
+			self.alpha = 0.5;
 		} else {
-			self.alpha = 0.8;
+			myFrame.size.height = exposedHeight;
+			buttonView.alpha = 1.0;
+			//[self setFillColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0]];
+			self.alpha = 1.0;
 		}
+		self.frame = myFrame;
 		[UIView commitAnimations];
 		hidden = newHidden;
 	}
 }
 
-- (id)initWithFrame:(CGRect)frame {
-    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+- (BOOL)isOpaque {
+	return NO;
+}
+
+- (void)setFillColor:(UIColor *)newColor {
+	[fillColor release];
+	fillColor = [newColor retain];
+	[self setNeedsDisplay];
+}
+
+- (void)finishInit {
+	usedSpace = 20.0;
+	maxScroll = 0.0;
+	hiddenHeight = self.frame.size.height;
+	hidden = YES;
+	[self setAlpha:0.5];
+	exposedHeight = 44.0;
+	CGRect viewFrame = self.bounds;
+	viewFrame.size.height = exposedHeight;
+	viewFrame = CGRectInset(viewFrame, 30.0, 0);
+	buttonView = [[UIView alloc] initWithFrame:viewFrame];
+	[buttonView setClipsToBounds:YES];
+	[buttonView setAlpha:0.0];
+	[self addSubview:buttonView];
+	viewFrame = self.bounds;
+	viewFrame.origin.x +=3.0;
+	viewFrame.origin.y +=3.0;
+	viewFrame.size.width = 10.0;
+	viewFrame.size.height = 10.0;
+	IndicatorView *indicatorView = [[IndicatorView alloc] initWithFrame:viewFrame];
+	[self addSubview:indicatorView];
+	self.fillColor = [UIColor grayColor];
+	NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
 	[dispatcher addObserver:self selector:@selector(processNearbyLocationsList:) name:@"ReceivedNearbyLocationList" object:nil];
-	
-	if (self = [super initWithFrame:frame]) {
-		usedSpace = 20.0;
-		maxScroll = 0.0;
-		CGRect viewFrame = self.bounds;
-		viewFrame = CGRectInset(viewFrame, 30.0, 0);
-		buttonView = [[UIView alloc] initWithFrame:viewFrame];
-		[buttonView setClipsToBounds:YES];
-		[self addSubview:buttonView];
-		[self clearAllItems];
-    }
+	[indicatorView addObserver:self forKeyPath:@"expanded" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionInitial context:nil];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+	if ([object isMemberOfClass:[IndicatorView class]]) {  //should be, unless we start observing something else
+		BOOL exposedState = [[change objectForKey:NSKeyValueChangeNewKey] boolValue];
+		[self setHidden:!exposedState];
+	} else {
+		NSLog(@"I seem to be observing something I'm not looking at. Weird.");
+	}
+}
+
+- (id)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+		[self finishInit];
+	}
     return self;
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
 	if (self = [super initWithCoder:decoder]) {
-		usedSpace = 20.0;
-		maxScroll = 0.0;
-		CGRect viewFrame = self.bounds;
-		viewFrame = CGRectInset(viewFrame, 30.0, 0);
-		buttonView = [[UIView alloc] initWithFrame:viewFrame];
-		[buttonView setClipsToBounds:YES];
-		[self addSubview:buttonView];
+		[self finishInit];
 	}
 	return self;
 }
+
+
+- (void)drawRect:(CGRect)rect {
+	[self.fillColor set];
+	UIRectFill(rect);
+}
+
 
 - (void)processNearbyLocationsList:(NSNotification *)notification {
     NSLog(@"NearbyBar: Recieved a Nearby Locations List Notification");
@@ -77,12 +125,6 @@
 		[self setHidden:YES];
 	}
 }
-
-- (void)drawRect:(CGRect)rect {
-	[[UIColor grayColor] set];
-	UIRectFill(rect);
-}
-
 
 - (void)dealloc {
     [super dealloc];
@@ -192,43 +234,46 @@
 #pragma mark Touches
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	UITouch *touch = [touches anyObject]; //should be just one
-	lastTouch = [touch locationInView:self];
-	dragged = NO;
+	if (!self.hidden) {
+		UITouch *touch = [touches anyObject]; //should be just one
+		lastTouch = [touch locationInView:self];
+		dragged = NO;
+	}
 }
 
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {  
-	UITouch *touch = [touches anyObject]; //should be just one
-	CGPoint touchPoint = [touch locationInView:self];
-	float deltaX = touchPoint.x - lastTouch.x;
-	lastTouch = touchPoint;
-	CGRect myFrame = buttonView.bounds;
-	myFrame.origin.x -= deltaX;
-	if (myFrame.origin.x > maxScroll) {
-		myFrame.origin.x = maxScroll;
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event { 
+	if (!self.hidden) {
+		UITouch *touch = [touches anyObject]; //should be just one
+		CGPoint touchPoint = [touch locationInView:self];
+		float deltaX = touchPoint.x - lastTouch.x;
+		lastTouch = touchPoint;
+		CGRect myFrame = buttonView.bounds;
+		myFrame.origin.x -= deltaX;
+		if (myFrame.origin.x > maxScroll) {
+			myFrame.origin.x = maxScroll;
+		}
+		if (myFrame.origin.x < 0.0) {
+			myFrame.origin.x = 0.0;
+		}
+		buttonView.bounds = myFrame;
+		dragged = YES;
 	}
-	if (myFrame.origin.x < 0.0) {
-		myFrame.origin.x = 0.0;
-	}
-	buttonView.bounds = myFrame;
-	dragged = YES;
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-	NSLog(@"NearbyBar: Touch ended");
-	if (!dragged) {
-		NSLog(@"NearbyBar: I should open an item, it was not a drag");
-		UITouch *touch = [touches anyObject]; //should be just one
-		CGPoint touchPoint = [touch locationInView:buttonView];
-		NSArray *myItems = [buttonView subviews];
-		NSEnumerator *viewEnumerator = [myItems objectEnumerator];
-		NearbyBarItemView *myView;
-		while (myView = [viewEnumerator nextObject]) {
-			if (CGRectContainsPoint([myView frame], touchPoint)) {
-				NSLog(@"NearbyBar: Found the object selected, displaying: %@", [myView title]);
-				[[myView nearbyObject] display];
-			} else {
-				//NSLog(@"Nope! Not it.");
+	if (!self.hidden) {
+		if (!dragged) {
+			NSLog(@"NearbyBar: I should open an item, it was not a drag");
+			UITouch *touch = [touches anyObject]; //should be just one
+			CGPoint touchPoint = [touch locationInView:buttonView];
+			NSArray *myItems = [buttonView subviews];
+			NSEnumerator *viewEnumerator = [myItems objectEnumerator];
+			NearbyBarItemView *myView;
+			while (myView = [viewEnumerator nextObject]) {
+				if (CGRectContainsPoint([myView frame], touchPoint)) {
+					NSLog(@"NearbyBar: Found the object selected, displaying: %@", [myView title]);
+					[[myView nearbyObject] display];
+				}
 			}
 		}
 	}

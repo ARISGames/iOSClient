@@ -8,19 +8,25 @@
 
 #import <UIKit/UIKit.h>
 #import "NearbyBarItemView.h"
+#import "IndicatorView.h"
 #import "NearbyObjectProtocol.h"
 
 
 @interface NearbyBar : UIView {
 	float usedSpace;
+	float exposedHeight;
+	float hiddenHeight;
 	UIView *buttonView;
 	CGPoint lastTouch;
 	float maxScroll;
 	BOOL hidden;
 	BOOL dragged;
-
+	UIColor *fillColor;	
 }
 @property(readwrite) 	BOOL hidden;
+@property(readwrite)	float exposedHeight;
+@property(readwrite)	float hiddenHeight;
+@property(readwrite,retain) UIColor *fillColor;
 
 - (void)addItem:(NSObject <NearbyObjectProtocol> *)item;
 - (void)clearAllItems;
