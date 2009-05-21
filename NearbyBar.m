@@ -111,6 +111,7 @@
 - (void)processNearbyLocationsList:(NSNotification *)notification {
     NSLog(@"NearbyBar: Recieved a Nearby Locations List Notification");
 	NSArray *nearbyLocations = notification.object;
+	NSObject <NearbyObjectProtocol> *forcedDisplayItem = nil;
 	
 	if ([nearbyLocations count] > 0) {
 		//Check for a force View flag in one of the nearby locations and display if found
@@ -129,6 +130,10 @@
 			//did we find a match for this item? If not, we have a new item
 			if (!match) {
 				newItem = YES;
+				//also check to see if we should force a display.
+				if ([unknownNearbyLocation forcedDisplay]) {
+					forcedDisplayItem = unknownNearbyLocation;
+				}
 			}
 		}
 		
@@ -142,6 +147,9 @@
 		[self clearAllItems];
 		for (NSObject <NearbyObjectProtocol> *unknownNearbyLocation in nearbyLocations) {
 			[self addItem:unknownNearbyLocation];
+		}
+		if (forcedDisplayItem) {
+			[forcedDisplayItem display];
 		}
 	}
 }
