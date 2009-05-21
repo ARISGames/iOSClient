@@ -21,12 +21,15 @@
 	float maxScroll;
 	BOOL hidden;
 	BOOL dragged;
-	UIColor *fillColor;	
+	UIColor *fillColor;
+	IndicatorView *indicator;
 }
 @property(readwrite) 	BOOL hidden;
 @property(readwrite)	float exposedHeight;
 @property(readwrite)	float hiddenHeight;
 @property(readwrite,retain) UIColor *fillColor;
+@property(readwrite,retain) IndicatorView *indicator;
+
 
 - (void)addItem:(NSObject <NearbyObjectProtocol> *)item;
 - (void)clearAllItems;

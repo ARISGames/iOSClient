@@ -57,21 +57,27 @@
 	return NO;
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	if (!expanded) {
-		[UIView beginAnimations:nil context:nil];
-		self.transform = CGAffineTransformMakeRotation(PI/2.0);
-		[self setFillColor:[UIColor darkGrayColor]];
-		[UIView commitAnimations];
-		self.expanded = YES;
-	} else {
-		[UIView beginAnimations:nil context:nil];
-		self.transform = CGAffineTransformMakeRotation(0.0);
-		[self setFillColor:[UIColor blackColor]];
-		[UIView commitAnimations];
-		self.expanded = NO;
+- (void)setExpanded:(BOOL)newExpanded {
+	if (newExpanded != expanded) {
+		if (!expanded) {
+			[UIView beginAnimations:nil context:nil];
+			self.transform = CGAffineTransformMakeRotation(PI/2.0);
+			[self setFillColor:[UIColor darkGrayColor]];
+			[UIView commitAnimations];
+			expanded = YES;
+		} else {
+			[UIView beginAnimations:nil context:nil];
+			self.transform = CGAffineTransformMakeRotation(0.0);
+			[self setFillColor:[UIColor blackColor]];
+			[UIView commitAnimations];
+			expanded = NO;
+		}
 	}
-		
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+	NSLog(@"IndicatorView got a touch.");
+	[self setExpanded:![self expanded]];
 }
 
 @end

@@ -15,6 +15,7 @@
 @synthesize hiddenHeight;
 @synthesize exposedHeight;
 @synthesize fillColor;
+@synthesize indicator;
 
 
 - (void)setHidden:(BOOL)newHidden {
@@ -70,10 +71,11 @@
 	viewFrame.size.height = 10.0;
 	IndicatorView *indicatorView = [[IndicatorView alloc] initWithFrame:viewFrame];
 	[self addSubview:indicatorView];
+	self.indicator = indicatorView;
 	self.fillColor = [UIColor grayColor];
 	NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
 	[dispatcher addObserver:self selector:@selector(processNearbyLocationsList:) name:@"ReceivedNearbyLocationList" object:nil];
-	[indicatorView addObserver:self forKeyPath:@"expanded" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionInitial context:nil];
+	[self.indicator addObserver:self forKeyPath:@"expanded" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionInitial context:nil];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -132,15 +134,15 @@
 		
 		//If we have a new item, vibrate
 		if (newItem) {
+			NSLog(@"Have a new item.");
 			AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+			NSLog(@"expanding.");
+			[[self indicator] setExpanded:YES];
 		}
 		[self clearAllItems];
 		for (NSObject <NearbyObjectProtocol> *unknownNearbyLocation in nearbyLocations) {
 			[self addItem:unknownNearbyLocation];
 		}
-	}
-	else {
-		[self setHidden:YES];
 	}
 }
 
@@ -155,14 +157,14 @@
 	while (myView = [viewEnumerator nextObject]) {
 		[myView removeFromSuperview];
 	}
-	[self setHidden:YES];
+//	[self setHidden:YES];
 }
 
 - (void)addItem:(NSObject <NearbyObjectProtocol> *)item {
 	NearbyBarItemView *itemView = [[NearbyBarItemView alloc] init];
 	[itemView setNearbyObject:item];
 	[self addItemView:itemView];
-	[self setHidden:NO];
+//	[self setHidden:NO];
 }
 
 - (void)addItemView:(NearbyBarItemView *)itemView {
