@@ -39,5 +39,9 @@
 -(IBAction)submitButtonTouched: (id) sender;
 -(IBAction)cancelButtonTouched: (id) sender;
 
-
 @end
+
+@interface SelfRegistrationViewController()
+-(void)submitRegistration;
+@end
+

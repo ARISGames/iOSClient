@@ -111,7 +111,7 @@
 
 - (void)processNearbyLocationsList:(NSNotification *)notification {
     NSLog(@"NearbyBar: Recieved a Nearby Locations List Notification");
-	NSArray *nearbyLocations = notification.object;
+	NSArray *nearbyLocations = [notification.object results];
 	NSObject <NearbyObjectProtocol> *forcedDisplayItem = nil;
 	
 	if ([nearbyLocations count] > 0) {
