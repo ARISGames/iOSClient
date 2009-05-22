@@ -136,6 +136,7 @@
 		A75AF2B90F86A47100F15535 /* ItemDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A75AF2B80F86A47100F15535 /* ItemDetailsViewController.m */; };
 		A76048E70FC1B6DE00219A53 /* QRCodeProtocol.h in Resources */ = {isa = PBXBuildFile; fileRef = A76048E60FC1B6DE00219A53 /* QRCodeProtocol.h */; };
 		A763B5250F4E283100FDCC55 /* MyCLController.m in Sources */ = {isa = PBXBuildFile; fileRef = A763B5240F4E283100FDCC55 /* MyCLController.m */; };
+		A767D63B0FC5CB6F00CB4A52 /* IndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = A767D63A0FC5CB6F00CB4A52 /* IndicatorView.m */; };
 		A78E753C0FB5B88000922F6C /* GPS.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78E753B0FB5B88000922F6C /* GPS.xib */; };
 		A78E753E0FB5BA0C00922F6C /* Developer.xib in Resources */ = {isa = PBXBuildFile; fileRef = A78E753D0FB5BA0C00922F6C /* Developer.xib */; };
 		A78FD8B00F4B7E9400820FEA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78FD8AF0F4B7E9400820FEA /* Foundation.framework */; };
@@ -149,6 +150,14 @@
 		A7A172950F4F273B0017E865 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = A7A172940F4F273B0017E865 /* Icon.icns */; };
 		A7A623560F841A80008E0DFD /* InventoryParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A623550F841A80008E0DFD /* InventoryParserDelegate.m */; };
 		A7A6235B0F841C99008E0DFD /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A6235A0F841C99008E0DFD /* Item.m */; };
+		A7AC94B50FC6FBC4005E2E1C /* NPC.m in Sources */ = {isa = PBXBuildFile; fileRef = A7AC94B20FC6FBC4005E2E1C /* NPC.m */; };
+		A7AC94B60FC6FBC4005E2E1C /* Option.m in Sources */ = {isa = PBXBuildFile; fileRef = A7AC94B40FC6FBC4005E2E1C /* Option.m */; };
+		A7AC94B90FC6FBF7005E2E1C /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = A7AC94B80FC6FBF7005E2E1C /* Node.m */; };
+		A7AC94CB0FC6FC3C005E2E1C /* ConversationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7AC94CA0FC6FC3C005E2E1C /* ConversationController.m */; };
+		A7AC94CE0FC6FC49005E2E1C /* NodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7AC94CD0FC6FC49005E2E1C /* NodeViewController.m */; };
+		A7AC94D60FC6FC94005E2E1C /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = A7AC94D50FC6FC94005E2E1C /* Constants.m */; };
+		A7AC95120FC700E6005E2E1C /* Node.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7AC95110FC700E6005E2E1C /* Node.xib */; };
+		A7AC95140FC700F0005E2E1C /* Conversations.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7AC95130FC700F0005E2E1C /* Conversations.xib */; };
 		A7BCBB3F0F8C236900C7A36C /* ItemDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7BCBB3E0F8C236900C7A36C /* ItemDetailsView.xib */; };
 		A7C1F6000FC070690045F15D /* NearbyBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */; };
 		A7C1F6010FC070690045F15D /* NearbyBarItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */; };
@@ -359,6 +368,8 @@
 		A76048E60FC1B6DE00219A53 /* QRCodeProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QRCodeProtocol.h; sourceTree = "<group>"; };
 		A763B5230F4E283100FDCC55 /* MyCLController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyCLController.h; path = Classes/MyCLController.h; sourceTree = "<group>"; };
 		A763B5240F4E283100FDCC55 /* MyCLController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyCLController.m; path = Classes/MyCLController.m; sourceTree = "<group>"; };
+		A767D6390FC5CB6F00CB4A52 /* IndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndicatorView.h; sourceTree = "<group>"; };
+		A767D63A0FC5CB6F00CB4A52 /* IndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndicatorView.m; sourceTree = "<group>"; };
 		A77A7EB70FB3305500A9DAB5 /* XMLParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLParserDelegate.h; sourceTree = "<group>"; };
 		A78E753B0FB5B88000922F6C /* GPS.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GPS.xib; sourceTree = "<group>"; };
 		A78E753D0FB5BA0C00922F6C /* Developer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Developer.xib; sourceTree = "<group>"; };
@@ -373,8 +384,22 @@
 		A7A172940F4F273B0017E865 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		A7A623540F841A80008E0DFD /* InventoryParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryParserDelegate.h; sourceTree = "<group>"; };
 		A7A623550F841A80008E0DFD /* InventoryParserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryParserDelegate.m; sourceTree = "<group>"; };
-		A7A623590F841C99008E0DFD /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
-		A7A6235A0F841C99008E0DFD /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; };
+		A7A623590F841C99008E0DFD /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Item.h; path = Classes/model/Item.h; sourceTree = "<group>"; };
+		A7A6235A0F841C99008E0DFD /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Item.m; path = Classes/model/Item.m; sourceTree = "<group>"; };
+		A7AC94B10FC6FBC4005E2E1C /* NPC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NPC.h; path = Classes/model/NPC.h; sourceTree = "<group>"; };
+		A7AC94B20FC6FBC4005E2E1C /* NPC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NPC.m; path = Classes/model/NPC.m; sourceTree = "<group>"; };
+		A7AC94B30FC6FBC4005E2E1C /* Option.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Option.h; sourceTree = "<group>"; };
+		A7AC94B40FC6FBC4005E2E1C /* Option.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Option.m; sourceTree = "<group>"; };
+		A7AC94B70FC6FBF7005E2E1C /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
+		A7AC94B80FC6FBF7005E2E1C /* Node.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Node.m; sourceTree = "<group>"; };
+		A7AC94C90FC6FC3C005E2E1C /* ConversationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationController.h; sourceTree = "<group>"; };
+		A7AC94CA0FC6FC3C005E2E1C /* ConversationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationController.m; sourceTree = "<group>"; };
+		A7AC94CC0FC6FC49005E2E1C /* NodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeViewController.h; sourceTree = "<group>"; };
+		A7AC94CD0FC6FC49005E2E1C /* NodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NodeViewController.m; sourceTree = "<group>"; };
+		A7AC94D40FC6FC94005E2E1C /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = SOURCE_ROOT; };
+		A7AC94D50FC6FC94005E2E1C /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = SOURCE_ROOT; };
+		A7AC95110FC700E6005E2E1C /* Node.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Node.xib; sourceTree = "<group>"; };
+		A7AC95130FC700F0005E2E1C /* Conversations.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Conversations.xib; sourceTree = "<group>"; };
 		A7BCBB3E0F8C236900C7A36C /* ItemDetailsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemDetailsView.xib; sourceTree = "<group>"; };
 		A7C1F5FB0FC070690045F15D /* NearbyBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyBar.h; sourceTree = "<group>"; };
 		A7C1F5FC0FC070690045F15D /* NearbyBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyBar.m; sourceTree = "<group>"; };
@@ -580,6 +605,8 @@
 			isa = PBXGroup;
 			children = (
 				A7986D6A0F8FEC7200A5469F /* Core App */,
+				A7AC94C80FC6FC22005E2E1C /* NPC */,
+				A7AC94C70FC6FC17005E2E1C /* Nodes */,
 				A7986D680F8FEC4900A5469F /* Quests */,
 				A7986D600F8FEB8700A5469F /* GPS */,
 				A7986D660F8FEC2100A5469F /* Inventory */,
@@ -600,10 +627,12 @@
 		2B3D17040F49C9920067FD3A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				A7AC94D40FC6FC94005E2E1C /* Constants.h */,
+				A7AC94D50FC6FC94005E2E1C /* Constants.m */,
+				A7AC94B30FC6FBC4005E2E1C /* Option.h */,
+				A7AC94B40FC6FBC4005E2E1C /* Option.m */,
 				A77A7EB70FB3305500A9DAB5 /* XMLParserDelegate.h */,
 				A7F73FD40FB248DF0044B85A /* XMLParserDelegate.m */,
-				A7A623590F841C99008E0DFD /* Item.h */,
-				A7A6235A0F841C99008E0DFD /* Item.m */,
 				A72F04AC0F6ED8620089B90F /* NearbyLocation.h */,
 				A72F04AD0F6ED8620089B90F /* NearbyLocation.m */,
 				A722E7380F57431B004B04D2 /* LocationListParserDelegate.h */,
@@ -628,6 +657,8 @@
 		A760473F0FC0AA1E00219A53 /* NearbyObjectBar */ = {
 			isa = PBXGroup;
 			children = (
+				A767D6390FC5CB6F00CB4A52 /* IndicatorView.h */,
+				A767D63A0FC5CB6F00CB4A52 /* IndicatorView.m */,
 				A722CB5A0FBDFEA6009432DB /* NearbyObjectProtocol.h */,
 				A7C1F5FB0FC070690045F15D /* NearbyBar.h */,
 				A7C1F5FC0FC070690045F15D /* NearbyBar.m */,
@@ -740,6 +771,8 @@
 			children = (
 				A7955B920F73E095005148E4 /* AudioToolbox.framework */,
 				A79202630F8E717C0049F990 /* MediaPlayer.framework */,
+				A7A623590F841C99008E0DFD /* Item.h */,
+				A7A6235A0F841C99008E0DFD /* Item.m */,
 				A7E39FAB0F5F930E00826198 /* Inventory.png */,
 				A702FBBD0F8E804A00BE6549 /* playArrow.png */,
 				2B3D12D70F437D6E0067FD3A /* InventoryListViewController.h */,
@@ -839,6 +872,30 @@
 				A7986D830F8FEDD900A5469F /* libMapView.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A7AC94C70FC6FC17005E2E1C /* Nodes */ = {
+			isa = PBXGroup;
+			children = (
+				A7AC95110FC700E6005E2E1C /* Node.xib */,
+				A7AC94B70FC6FBF7005E2E1C /* Node.h */,
+				A7AC94B80FC6FBF7005E2E1C /* Node.m */,
+				A7AC94CC0FC6FC49005E2E1C /* NodeViewController.h */,
+				A7AC94CD0FC6FC49005E2E1C /* NodeViewController.m */,
+			);
+			name = Nodes;
+			sourceTree = "<group>";
+		};
+		A7AC94C80FC6FC22005E2E1C /* NPC */ = {
+			isa = PBXGroup;
+			children = (
+				A7AC95130FC700F0005E2E1C /* Conversations.xib */,
+				A7AC94B10FC6FBC4005E2E1C /* NPC.h */,
+				A7AC94B20FC6FBC4005E2E1C /* NPC.m */,
+				A7AC94C90FC6FC3C005E2E1C /* ConversationController.h */,
+				A7AC94CA0FC6FC3C005E2E1C /* ConversationController.m */,
+			);
+			name = NPC;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -974,6 +1031,8 @@
 				A722C8C00FBCD8D0009432DB /* SelfRegistration.xib in Resources */,
 				A7C1F6020FC070690045F15D /* NearbyBarButtonBackground.png in Resources */,
 				A76048E70FC1B6DE00219A53 /* QRCodeProtocol.h in Resources */,
+				A7AC95120FC700E6005E2E1C /* Node.xib in Resources */,
+				A7AC95140FC700F0005E2E1C /* Conversations.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1059,6 +1118,13 @@
 				A722C8C60FBCD92E009432DB /* SelfRegistrationViewController.m in Sources */,
 				A7C1F6000FC070690045F15D /* NearbyBar.m in Sources */,
 				A7C1F6010FC070690045F15D /* NearbyBarItemView.m in Sources */,
+				A767D63B0FC5CB6F00CB4A52 /* IndicatorView.m in Sources */,
+				A7AC94B50FC6FBC4005E2E1C /* NPC.m in Sources */,
+				A7AC94B60FC6FBC4005E2E1C /* Option.m in Sources */,
+				A7AC94B90FC6FBF7005E2E1C /* Node.m in Sources */,
+				A7AC94CB0FC6FC3C005E2E1C /* ConversationController.m in Sources */,
+				A7AC94CE0FC6FC49005E2E1C /* NodeViewController.m in Sources */,
+				A7AC94D60FC6FC94005E2E1C /* Constants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
