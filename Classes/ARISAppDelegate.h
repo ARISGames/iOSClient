@@ -13,6 +13,7 @@
 #import "GenericWebViewController.h";
 #import "MyCLController.h"
 
+#import "Constants.h"
 #import "model/Game.h"
 #import "NearbyLocation.h"
 #import "NearbyBar.h"
@@ -40,6 +41,7 @@
 	GamePickerViewController *gamePickerViewController;
 	UINavigationController *gamePickerNavigationController;
 	UINavigationController *nearbyObjectNavigationController;
+	UIViewController *pushedViewController;
 }
 
 @property (nonatomic, retain) AppModel *appModel;
@@ -51,7 +53,12 @@
 @property (nonatomic, retain) IBOutlet UINavigationController *gamePickerNavigationController;
 @property (nonatomic, retain) IBOutlet NearbyBar *nearbyBar;
 @property (nonatomic, retain) IBOutlet UINavigationController *nearbyObjectNavigationController;
+@property (readonly) UIViewController *pushedViewController;
 
+- (void) displayNode:(NSNotification *)notification; 
+// - (void)processNearbyLocationsList:(NSNotification *)notification;
 - (void)displayNearbyObjectView:(UIViewController *)nearbyObjectViewController;
+- (BOOL)isPushedViewControllerA:(Class)testClass;
+- (IBAction)popViewController:(id)sender;
 
 @end
