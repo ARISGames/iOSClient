@@ -11,9 +11,13 @@
 
 @interface IndicatorView : UIView {
 	BOOL expanded;
+	CGPoint translationPoint;
+	CGPoint homePoint;
 	UIColor *fillColor;
 }
 @property(readwrite) BOOL expanded;
+@property(readwrite) CGPoint translationPoint;
+@property(readwrite) CGPoint homePoint;
 @property(readwrite,retain) UIColor *fillColor;
 
 @end

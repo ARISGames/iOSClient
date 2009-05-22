@@ -15,11 +15,14 @@
 
 @synthesize expanded;
 @synthesize fillColor;
+@synthesize translationPoint;
+@synthesize homePoint;
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
 		expanded = NO;
 		[self setFillColor:[UIColor blackColor]];
+		homePoint = self.center;
     }
     return self;
 }
@@ -62,22 +65,19 @@
 		if (!expanded) {
 			[UIView beginAnimations:nil context:nil];
 			self.transform = CGAffineTransformMakeRotation(PI/2.0);
+			self.center = translationPoint;
 			[self setFillColor:[UIColor darkGrayColor]];
 			[UIView commitAnimations];
 			expanded = YES;
 		} else {
 			[UIView beginAnimations:nil context:nil];
 			self.transform = CGAffineTransformMakeRotation(0.0);
+			self.center = homePoint;
 			[self setFillColor:[UIColor blackColor]];
 			[UIView commitAnimations];
 			expanded = NO;
 		}
 	}
 }
-
-//- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-//	NSLog(@"IndicatorView got a touch.");
-//	[self setExpanded:![self expanded]];
-//}
 
 @end

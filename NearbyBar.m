@@ -19,6 +19,11 @@
 @synthesize indicator;
 @synthesize inactive;
 
+- (void)setExposedHeight:(float)newHeight {
+	exposedHeight = newHeight;
+	NSLog(@"Exposed height set to :%f", exposedHeight);
+	indicator.translationPoint = CGPointMake(self.bounds.origin.x + newHeight / 2.0, self.bounds.origin.y + newHeight / 2.0);
+}
 
 - (void)setshrunken:(BOOL)newshrunken {
 	CGRect myFrame;
@@ -33,6 +38,9 @@
 		} else {
 			myFrame.size.height = exposedHeight;
 			buttonView.alpha = 1.0;
+			CGRect bounds = buttonView.bounds;
+			bounds.origin.x = 0.0; 
+			buttonView.bounds = bounds;
 			//[self setFillColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0]];
 			self.alpha = 1.0;
 		}
@@ -78,16 +86,7 @@
 	shrunken = YES;
 	itemTouch = NO;
 	[self setAlpha:0.5];
-	exposedHeight = 44.0;
 	CGRect viewFrame = self.bounds;
-	viewFrame.size.height = exposedHeight;
-	viewFrame = CGRectInset(viewFrame, 40.0, 0);
-	viewFrame.origin.x += 20;
-	buttonView = [[UIView alloc] initWithFrame:viewFrame];
-	[buttonView setClipsToBounds:YES];
-	[buttonView setAlpha:0.0];
-	[self addSubview:buttonView];
-	viewFrame = self.bounds;
 	viewFrame.origin.x +=3.0;
 	viewFrame.origin.y +=2.0;
 	viewFrame.size.width = self.shrunkenHeight - 4.0;
@@ -95,10 +94,21 @@
 	IndicatorView *indicatorView = [[IndicatorView alloc] initWithFrame:viewFrame];
 	[self addSubview:indicatorView];
 	self.indicator = indicatorView;
-	self.fillColor = [UIColor grayColor];
+	self.exposedHeight = 44.0;
+	viewFrame = self.bounds;
+	viewFrame.size.height = exposedHeight;
+	viewFrame = CGRectInset(viewFrame, 40.0, 0);
+	viewFrame.origin.x += 20;
+	buttonView = [[UIView alloc] initWithFrame:viewFrame];
+	[buttonView setClipsToBounds:YES];
+	[buttonView setAlpha:0.0];
+	[self addSubview:buttonView];
+	self.fillColor = [UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:0.8];;
 	NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
 	[dispatcher addObserver:self selector:@selector(processNearbyLocationsList:) name:@"ReceivedNearbyLocationList" object:nil];
 	[self.indicator addObserver:self forKeyPath:@"expanded" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionInitial context:nil];
+	self.alpha = 0.0;
+	self.inactive = YES;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -132,7 +142,7 @@
 
 
 - (void)processNearbyLocationsList:(NSNotification *)notification {
-    NSLog(@"NearbyBar: Recieved a Nearby Locations List Notification");
+   // NSLog(@"NearbyBar: Recieved a Nearby Locations List Notification");
 	NSArray *nearbyLocations = notification.object;
 	NSObject <NearbyObjectProtocol> *forcedDisplayItem = nil;
 	
@@ -163,9 +173,7 @@
 		
 		//If we have a new item, vibrate
 		if (newItem) {
-			NSLog(@"Have a new item.");
 			AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
-			NSLog(@"expanding.");
 			[[self indicator] setExpanded:YES];
 		}
 		[self clearAllItems];
@@ -243,7 +251,7 @@
 	for (UIView *element in enumerator) {
 		if ((element.frame.origin.x + element.frame.size.width) < divide) {
 			divide = element.frame.origin.x + element.frame.size.width;
-			NSLog(@"NearbyBar: Divide is %f", divide);
+			//NSLog(@"NearbyBar: Divide is %f", divide);
 			break;
 		}
 	}
