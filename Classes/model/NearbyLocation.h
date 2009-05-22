@@ -15,7 +15,7 @@
 	BOOL forcedDisplay;
 	
 	int locationId;
-	bool forceView;
+//	bool forceView;
 	NSString *type;
 	NSString *iconURL;
 	NSString *URL;
@@ -24,11 +24,14 @@
 
 @property(copy, readwrite) NSString *name;
 @property(readwrite, assign) nearbyObjectKind kind;
-@property(readwrite, assign) BOOL forcedDisplay;
+@property(readonly, assign) BOOL forcedDisplay;
 
 @property(readwrite, assign) int locationId;
-@property(readwrite, assign) bool forceView;
-@property(copy, readwrite) NSString *type;
+- (void) setForcedDisplay:(NSString *)fromStringValue;
+
+@property(copy, readonly) NSString *type;
+- (void)setType:(NSString *) fromStringValue;
+
 @property(copy, readwrite) NSString *iconURL;
 @property(copy, readwrite) NSString *URL;
 

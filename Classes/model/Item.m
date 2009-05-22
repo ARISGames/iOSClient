@@ -11,7 +11,6 @@
 #import "AppModel.h"
 #import "ARISAppDelegate.h"
 
-
 @implementation Item
 
 @synthesize name;

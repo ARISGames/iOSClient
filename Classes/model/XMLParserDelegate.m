@@ -9,6 +9,7 @@
 #import "XMLParserDelegate.h"
 
 @implementation XMLParserDelegate
+@synthesize results;
 
 - (XMLParserDelegate*)initWithDictionary:(NSDictionary *)aDictionary 
 							  andResults:(NSMutableArray *)theResults 
@@ -64,7 +65,7 @@
 		[result performSelector:selector withObject:value];
 	}
 	[results addObject:result];
-	NSLog(@"XMLParser: added object");
+	NSLog(@"XMLParser: added object %@", result);
 }
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser { }

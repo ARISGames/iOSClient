@@ -15,6 +15,8 @@
 	NSString *notificationName;
 }
 
+@property(readonly) NSMutableArray *results;
+
 - (XMLParserDelegate*)initWithDictionary:(NSDictionary *)aDictionary 
 							  andResults:(NSMutableArray *)theResults
 						 forNotification:(NSString *)name;
