@@ -15,7 +15,7 @@
 			sepNavWindowFrame = "{{15, 295}, {866, 578}}";
 		};
 	};
-	1D6058900D05DD3D006BFB54 /* ARIS */ = {
+	1D6058900D05DD3D006BFB54 /* SimpleMap */ = {
 		activeExec = 0;
 		executables = (
 			A7A172730F4F26280017E865 /* ARIS */,
@@ -56,9 +56,9 @@
 		activeBuildConfigurationName = Debug;
 		activeExecutable = A7A172730F4F26280017E865 /* ARIS */;
 		activeSDKPreference = iphonesimulator2.2.1;
-		activeTarget = 1D6058900D05DD3D006BFB54 /* ARIS */;
+		activeTarget = 1D6058900D05DD3D006BFB54 /* SimpleMap */;
 		addToTargets = (
-			1D6058900D05DD3D006BFB54 /* ARIS */,
+			1D6058900D05DD3D006BFB54 /* SimpleMap */,
 		);
 		breakpoints = (
 			A7FFD0DC0F86975B0015DE70 /* PhotoItemDetailsViewController.m:42 */,
@@ -200,8 +200,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 264701006;
-			PBXWorkspaceStateSaveDate = 264701006;
+			PBXPerProjectTemplateStateSaveDate = 264702792;
+			PBXWorkspaceStateSaveDate = 264702792;
 		};
 		perUserProjectItems = {
 			A703EFCF0F7C5718008A12E2 = A703EFCF0F7C5718008A12E2 /* PBXTextBookmark */;
@@ -2516,7 +2516,7 @@
 		fRef = A76048830FC1A89400219A53 /* davidgagnon.pbxuser */;
 		name = "davidgagnon.pbxuser: 3786";
 		rLen = 0;
-		rLoc = 115106;
+		rLoc = 114786;
 		rType = 0;
 		vrLen = 575;
 		vrLoc = 0;
