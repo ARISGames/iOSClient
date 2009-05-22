@@ -21,10 +21,13 @@
 	float maxScroll;
 	BOOL shrunken;
 	BOOL dragged;
+	BOOL inactive;
+	BOOL itemTouch;
 	UIColor *fillColor;
 	IndicatorView *indicator;
 }
 @property(readwrite) 	BOOL shrunken;
+@property(readwrite)	BOOL inactive;
 @property(readwrite)	float exposedHeight;
 @property(readwrite)	float shrunkenHeight;
 @property(readwrite,retain) UIColor *fillColor;
