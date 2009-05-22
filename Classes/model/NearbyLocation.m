@@ -9,8 +9,7 @@
 #import "NearbyLocation.h"
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
-//#import "GenericWebViewController.h"
-#import "NodeViewController.h"
+#import "GenericWebViewController.h"
 
 @implementation NearbyLocation
 
@@ -19,36 +18,32 @@
 @synthesize forcedDisplay;
 
 @synthesize locationId;
-//@synthesize forceView;
+@synthesize forceView;
 @synthesize type;
 @synthesize iconURL;
 @synthesize URL;
 
-- (void)setForcedDisplay: (NSString *)fromStringValue {
-	forcedDisplay = [fromStringValue boolValue];
-}
-
-- (void)setType:(NSString *) fromStringValue {
-	type = fromStringValue;
-	if ([fromStringValue isEqualToString:@"node"]) kind = NearbyObjectNode;
-	else if ([fromStringValue isEqualToString:@"npc"]) kind = NearbyObjectNPC;
-}
-
 - (void) display{
 	NSLog(@"NearbyLocation (Web Style): Display Self Requested");
+	NSLog(@"Item: Display Self Requested");
 	
-	ARISAppDelegate *delegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	switch (self.kind) {
-		case NearbyObjectNode:
-			[[delegate appModel] fetchNode:URL];
-			break;
-		case NearbyObjectNPC:
-			[[delegate appModel] fetchConversations:URL];
-			break;
-		default:
-			NSLog(@"WARNING NearbyLocation: Unhandled kind %d", self.kind);
-			break;
-	}
+	//Create a reference to the delegate using the application singleton.
+	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
+	AppModel *appModel = appDelegate.appModel;
+	
+	//Set up a GenericWebViewController
+	GenericWebViewController *genericWebViewController = [[GenericWebViewController alloc] 
+														  initWithNibName:@"GenericWebView" bundle:[NSBundle mainBundle]];	
+	NSString *baseURL = [appModel getURLStringForModule:@"RESTNodeViewer"];
+	NSString *URLparams = self.URL;
+	NSString *fullURL = [ NSString stringWithFormat:@"%@%@", baseURL, URLparams];
+	
+	[genericWebViewController setModel:appModel];
+	[genericWebViewController setURL: fullURL];
+	genericWebViewController.title = self.name;
+
+	//Have AppDelegate display
+	[appDelegate displayNearbyObjectView:genericWebViewController];
 }
 
 - (void)dealloc {

@@ -35,7 +35,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	NSLog(@"Inventory View Loaded");
-	[self parentViewController].title = @"Inventory";
 }
 
 - (void)viewDidAppear {

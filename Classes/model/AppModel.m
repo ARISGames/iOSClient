@@ -8,7 +8,6 @@
 
 #import "AppModel.h"
 
-#import "Constants.h"
 #import "GameListParserDelegate.h"
 #import "LocationListParserDelegate.h"
 #import "NearbyLocationsListParserDelegate.h"
@@ -16,17 +15,12 @@
 #import "XMLParserDelegate.h"
 
 #import "Item.h"
-#import "NPC.h"
-#import "Option.h"
-#import "NearbyLocation.h"
-#import "XMLParserDelegate.h"
+
+
 
 @implementation AppModel
 
 NSDictionary *InventoryElements;
-NSDictionary *NearbyLocationsElements;
-NSDictionary *NodeElements;
-NSDictionary *NPCElements;
 
 @synthesize serverName;
 @synthesize baseAppURL;
@@ -40,7 +34,6 @@ NSDictionary *NPCElements;
 @synthesize nearbyLocationsList;
 @synthesize lastLocation;
 @synthesize inventory;
-@synthesize nodeList, npcList;
 
 -(id)init {
     if (self = [super init]) {
@@ -69,102 +62,7 @@ NSDictionary *NPCElements;
 			nil];
 			[InventoryElements retain];
 		}
-		if (NearbyLocationsElements == nil) {
-			NearbyLocationsElements = [NSDictionary dictionaryWithObjectsAndKeys:
-								 [NSNull null], @"result",
-								 [NSNull null], @"results",
-								 [NSNull null], @"frameworkTplPath",
-								 [NSNull null], @"isIphone",
-								 [NSNull null], @"site",
-								 [NSNull null], @"title",
-								 [NSNull null], @"function",
-								[NSDictionary dictionaryWithObjectsAndKeys:
-								  [Item class], @"__CLASS_NAME",
-								  @"setItemId:", @"id",
-								  @"setName:", @"name",
-								  @"setDescription:", @"description",
-								  @"setType:", @"type",
-								  @"setMediaURL:", @"media",
-								  @"setIconURL:", @"icon",
-								  nil
-								  ], @"item",
-								[NSDictionary dictionaryWithObjectsAndKeys:
-								  [NearbyLocation class], @"__CLASS_NAME",
-								  @"setLocationId:", @"locationId",
-								  @"setName:", @"name",
-								  @"setURL:", @"url",
-								  @"setType:", @"type",
-								  @"setIconURL:", @"icon",
-								  @"setForcedDisplay:", @"forceView",
-								  nil
-								], @"node", 
-								[NSDictionary dictionaryWithObjectsAndKeys:
-								  [NearbyLocation class], @"__CLASS_NAME",
-								  @"setLocationId:", @"locationId",
-								  @"setName:", @"name",
-								  @"setURL:", @"url",
-								  @"setType:", @"type",
-								  @"setIconURL:", @"icon",
-								  @"setForcedDisplay:", @"forceView",
-								  nil
-								], @"npc", 
-								nil];
-			[NearbyLocationsElements retain];
-		}
-		if (NodeElements == nil) {
-			NodeElements = [NSDictionary dictionaryWithObjectsAndKeys:
-									   [NSNull null], @"result",
-									   [NSNull null], @"frameworkTplPath",
-									   [NSNull null], @"isIphone",
-									   [NSNull null], @"site",
-									   [NSNull null], @"messages",
-									   [NSNull null], @"conversations",
-									   [NSNull null], @"wwwBase",
-									   [NSNull null], @"npc",
-									   [NSNull null], @"title",
-									   [NSDictionary dictionaryWithObjectsAndKeys:
-										[Node class], @"__CLASS_NAME",
-										@"setName:", @"title",
-										@"setDescription:", @"text",
-										@"setOptionOneText:", @"opt1_text",
-										@"setOptionOneId:", @"opt1_node_id",
-										@"setOptionTwoText:", @"opt2_text",
-										@"setOptionTwoId:", @"opt2_node_id",
-										@"setOptionThreeText:", @"opt3_text",
-										@"setOptionThreeId:", @"opt3_node_id",										
-										nil
-										], @"node",
-									   nil];
-			[NodeElements retain];
-		}
-		if (NPCElements == nil) {
-			NPCElements = [NSDictionary dictionaryWithObjectsAndKeys:
-						   [NSNull null], @"result",
-						   [NSNull null], @"frameworkTplPath",
-						   [NSNull null], @"isIphone",
-						   [NSNull null], @"site",
-						   [NSNull null], @"messages",
-						   [NSNull null], @"conversations",
-						   [NSNull null], @"wwwBase",
-						   [NSNull null], @"node",
-						   [NSNull null], @"title",
-						   [NSDictionary dictionaryWithObjectsAndKeys:
-							[NPC class], @"__CLASS_NAME",
-							@"setName:", @"name",
-							@"setDescription:", @"text",
-							@"setMediaURL:", @"media",
-							@"setNpcID:", @"npc_id",
-							nil
-							], @"npc",
-						   [NSDictionary dictionaryWithObjectsAndKeys:
-							[Option class], @"__CLASS_NAME",
-							@"setText:", @"text",
-							@"setNodeIdFromString:", @"node_id",
-							nil
-							], @"row",
-						   nil];
-			[NPCElements retain];
-		}
+		NSLog(@"Testing InventoryElements nilp? %@", InventoryElements);
 	}
 			 
     return self;
@@ -398,41 +296,10 @@ NSDictionary *NPCElements;
 	NSURLRequest *request = [self getURLForModule:@"Inventory&controller=SimpleREST"];
 	NSData *data = [self fetchURLData:request];
 	
-	
+	NSXMLParser *parser = [[NSXMLParser alloc] initWithData:data];	
 	XMLParserDelegate *parserDelegate = [[XMLParserDelegate alloc] initWithDictionary:InventoryElements
 																		   andResults:inventory forNotification:@"ReceivedInventory"];
-	[self startParsing:data usingDelegate:parserDelegate];
-}
-
--(void)fetchNode: (NSString *)fromURL {
-	if (nodeList != nil) [nodeList release];
-	nodeList = [NSMutableArray array];
-	[nodeList retain];
-	
-	NSURLRequest *request = [self getURLForModule:[NSString stringWithFormat:@"%@&controller=SimpleREST", fromURL]];
-	NSData *data = [self fetchURLData:request];
-	XMLParserDelegate *parserDelegate = [[XMLParserDelegate alloc] initWithDictionary:NodeElements
-																		   andResults:nodeList
-																	  forNotification:NODE_NOTIFICATION];
-	[self startParsing:data usingDelegate:parserDelegate];
-}
-
--(void)fetchConversations: (NSString *)fromURL {
-	if (npcList != nil) [npcList release];
-	npcList = [NSMutableArray array];
-	[npcList retain];
-	
-	NSURLRequest *request = [self getURLForModule:[NSString stringWithFormat:@"%@&controller=SimpleREST", fromURL]];
-	NSData *data = [self fetchURLData:request];
-	XMLParserDelegate *parserDelegate = [[XMLParserDelegate alloc] initWithDictionary:NPCElements
-																		   andResults:npcList
-																	  forNotification:NPC_NOTIFICATION];
-	[self startParsing:data usingDelegate:parserDelegate];
-}
-
--(void)startParsing: (NSData *)data usingDelegate:(XMLParserDelegate *)delegate {
-	NSXMLParser *parser = [[NSXMLParser alloc] initWithData:data];
-	[parser setDelegate:delegate];
+	[parser setDelegate:parserDelegate];
 	
 	//init parser
 	[parser setShouldProcessNamespaces:NO];
@@ -442,6 +309,7 @@ NSDictionary *NPCElements;
 	[parser release];
 }
 
+
 - (void)updateServerLocationAndfetchNearbyLocationList {
 	//init a fresh nearby location list array
 	if(nearbyLocationsList != nil) {
@@ -449,22 +317,18 @@ NSDictionary *NPCElements;
 	}
 	nearbyLocationsList = [NSMutableArray array];
 	[nearbyLocationsList retain];
-
-
+	
+	
 	//Fetch Data
 	NSURLRequest *request = [self getURLForModule:
-							 [NSString stringWithFormat:@"Async&controller=SimpleREST&latitude=%f&longitude=%f", lastLocation.coordinate.latitude, lastLocation.coordinate.longitude]];
+							 [NSString stringWithFormat:@"RESTAsync&latitude=%f&longitude=%f", lastLocation.coordinate.latitude, lastLocation.coordinate.longitude]];
 	NSData *data = [self fetchURLData:request];
 	
 	NSXMLParser *parser = [[NSXMLParser alloc] initWithData:data];	
 	
-	//NearbyLocationsListParserDelegate *nearbyLocationsListParserDelegate = [[NearbyLocationsListParserDelegate alloc] initWithNearbyLocationsList:nearbyLocationsList];
-	XMLParserDelegate *parserDelegate = [[XMLParserDelegate alloc] initWithDictionary:NearbyLocationsElements
-																		   andResults:nearbyLocationsList 
-																	  forNotification:@"ReceivedNearbyLocationList"];
-	
-	[parser setDelegate:parserDelegate];
-
+		
+	NearbyLocationsListParserDelegate *nearbyLocationsListParserDelegate = [[NearbyLocationsListParserDelegate alloc] initWithNearbyLocationsList:nearbyLocationsList];
+	[parser setDelegate:nearbyLocationsListParserDelegate];
 	//init parser
 	[parser setShouldProcessNamespaces:NO];
 	[parser setShouldReportNamespacePrefixes:NO];

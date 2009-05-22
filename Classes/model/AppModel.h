@@ -9,11 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CLLocation.h>
 #import "Game.h"
-#import "Node.h";
-#import "XMLParserDelegate.h"
 
 extern NSDictionary *InventoryElements;
-extern NSDictionary *NearbyLocationsElements;
 
 @interface AppModel : NSObject {
 	NSUserDefaults *defaults;
@@ -29,8 +26,6 @@ extern NSDictionary *NearbyLocationsElements;
 	NSMutableArray *nearbyLocationsList;
 	CLLocation *lastLocation;
 	NSMutableArray *inventory;
-	NSMutableArray *nodeList;
-	NSMutableArray *npcList;
 }
 
 @property(copy) NSString *serverName;
@@ -45,8 +40,6 @@ extern NSDictionary *NearbyLocationsElements;
 @property(copy, readwrite) NSMutableArray *nearbyLocationsList;	
 @property(copy, readwrite) CLLocation *lastLocation;	
 @property(copy, readwrite) NSMutableArray *inventory;	
-@property(retain, readwrite) NSMutableArray *nodeList;
-@property(retain, readwrite) NSMutableArray *npcList;
 
 -(id)init;
 -(void)loadUserDefaults;
@@ -57,8 +50,6 @@ extern NSDictionary *NearbyLocationsElements;
 -(void)fetchGameList;
 -(void)fetchLocationList;
 -(void)fetchInventory;
--(void)fetchNode: (NSString *)fromURL;
--(void)fetchConversations: (NSString *)fromURL;
 -(void)updateServerLocationAndfetchNearbyLocationList;
 -(NSMutableURLRequest *) getURLForModule:(NSString *)moduleName;
 -(NSString *)getURLStringForModule:(NSString *)moduleName;
@@ -70,8 +61,3 @@ extern NSDictionary *NearbyLocationsElements;
 
 
 @end
-
-@interface AppModel()
--(void)startParsing: (NSData *)data usingDelegate:(XMLParserDelegate *)delegate;
-@end
-
