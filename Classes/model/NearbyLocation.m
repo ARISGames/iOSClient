@@ -18,7 +18,6 @@
 @synthesize forcedDisplay;
 
 @synthesize locationId;
-@synthesize forceView;
 @synthesize type;
 @synthesize iconURL;
 @synthesize URL;
