@@ -12,6 +12,7 @@
 #import "RMMarker.h"
 #import "RMMarkerManager.h"
 #import "Location.h"
+#import "ARISAppDelegate.h"
 
 @implementation GPSViewController
 
@@ -25,10 +26,27 @@
     if (self) {
         self.title = @"GPS";
         self.tabBarItem.image = [UIImage imageNamed:@"GPS.png"];
-    }
+		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
+																							   target:self action:@selector(refresh:)] autorelease];
+	}
     return self;
 }
+		
+- (IBAction)refresh: (id) sender{
 
+	NSLog(@"GPS: Refresh Requested");
+	
+	//Center the Map
+	[[mapView contents] moveToLatLong:appModel.lastLocation.coordinate];
+	
+	//Force a location update
+	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
+	[appDelegate.myCLController.locationManager stopUpdatingLocation];
+	[appDelegate.myCLController.locationManager startUpdatingLocation];
+
+
+}
+		
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -62,7 +80,7 @@
 	CLLocationCoordinate2D playerPosition;
 	playerMarker = [[RMMarker alloc]initWithCGImage:[RMMarker loadPNGFromBundle:@"marker-player"]];
 	[markerManager addMarker:playerMarker AtLatLong:playerPosition];
-
+	
 	
 	NSLog(@"GPS View Loaded");
 }

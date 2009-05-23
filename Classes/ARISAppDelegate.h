@@ -43,6 +43,7 @@
 }
 
 @property (nonatomic, retain) AppModel *appModel;
+@property (nonatomic, retain) MyCLController *myCLController;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
 @property (nonatomic, retain) IBOutlet LoginViewController *loginViewController;

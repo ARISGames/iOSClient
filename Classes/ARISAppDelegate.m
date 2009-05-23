@@ -19,6 +19,7 @@
 @synthesize gamePickerNavigationController;
 @synthesize nearbyBar;
 @synthesize nearbyObjectNavigationController;
+@synthesize myCLController;
 
 //@synthesize toolbarViewController;
 
