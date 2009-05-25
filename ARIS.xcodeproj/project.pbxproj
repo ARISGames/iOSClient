@@ -142,6 +142,9 @@
 		A78FD8B20F4B7EA200820FEA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78FD8B10F4B7EA200820FEA /* CoreGraphics.framework */; };
 		A79202640F8E717C0049F990 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A79202630F8E717C0049F990 /* MediaPlayer.framework */; };
 		A7955B930F73E095005148E4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7955B920F73E095005148E4 /* AudioToolbox.framework */; };
+		A79830140FCB1CD700C1C2E7 /* WaitingIndicatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A79830130FCB1CD700C1C2E7 /* WaitingIndicatorViewController.m */; };
+		A79830180FCB1D8900C1C2E7 /* WaitingIndicator.xib in Resources */ = {isa = PBXBuildFile; fileRef = A79830170FCB1D8900C1C2E7 /* WaitingIndicator.xib */; };
+		A798301B0FCB1F8100C1C2E7 /* RoundedBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = A798301A0FCB1F8100C1C2E7 /* RoundedBackground.png */; };
 		A7986E860F8FF42000A5469F /* libMapView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A7986D830F8FEDD900A5469F /* libMapView.a */; };
 		A7A172830F4F26A60017E865 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = A7A172820F4F26A60017E865 /* Entitlements.plist */; };
 		A7A1728C0F4F27120017E865 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A7A1728A0F4F27120017E865 /* Icon.png */; };
@@ -367,6 +370,10 @@
 		A78FD8B10F4B7EA200820FEA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		A79202630F8E717C0049F990 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		A7955B920F73E095005148E4 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		A79830120FCB1CD700C1C2E7 /* WaitingIndicatorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitingIndicatorViewController.h; sourceTree = "<group>"; };
+		A79830130FCB1CD700C1C2E7 /* WaitingIndicatorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitingIndicatorViewController.m; sourceTree = "<group>"; };
+		A79830170FCB1D8900C1C2E7 /* WaitingIndicator.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WaitingIndicator.xib; sourceTree = "<group>"; };
+		A798301A0FCB1F8100C1C2E7 /* RoundedBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RoundedBackground.png; sourceTree = "<group>"; };
 		A7A172720F4F26280017E865 /* ARIS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARIS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7A172820F4F26A60017E865 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		A7A1728A0F4F27120017E865 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
@@ -657,6 +664,17 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
+		A798300A0FCB1C5900C1C2E7 /* Waiting Indicator */ = {
+			isa = PBXGroup;
+			children = (
+				A798301A0FCB1F8100C1C2E7 /* RoundedBackground.png */,
+				A79830120FCB1CD700C1C2E7 /* WaitingIndicatorViewController.h */,
+				A79830130FCB1CD700C1C2E7 /* WaitingIndicatorViewController.m */,
+				A79830170FCB1D8900C1C2E7 /* WaitingIndicator.xib */,
+			);
+			name = "Waiting Indicator";
+			sourceTree = "<group>";
+		};
 		A7986D600F8FEB8700A5469F /* GPS */ = {
 			isa = PBXGroup;
 			children = (
@@ -800,6 +818,7 @@
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				A7E4C8980F54C5E300C6D9E8 /* CoreLocation.framework */,
 				A760473F0FC0AA1E00219A53 /* NearbyObjectBar */,
+				A798300A0FCB1C5900C1C2E7 /* Waiting Indicator */,
 				2B3D17040F49C9920067FD3A /* Model */,
 				A763B5230F4E283100FDCC55 /* MyCLController.h */,
 				A763B5240F4E283100FDCC55 /* MyCLController.m */,
@@ -979,6 +998,8 @@
 				A722C8C00FBCD8D0009432DB /* SelfRegistration.xib in Resources */,
 				A7C1F6020FC070690045F15D /* NearbyBarButtonBackground.png in Resources */,
 				A76048E70FC1B6DE00219A53 /* QRCodeProtocol.h in Resources */,
+				A79830180FCB1D8900C1C2E7 /* WaitingIndicator.xib in Resources */,
+				A798301B0FCB1F8100C1C2E7 /* RoundedBackground.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1065,6 +1086,7 @@
 				A7C1F6000FC070690045F15D /* NearbyBar.m in Sources */,
 				A7C1F6010FC070690045F15D /* NearbyBarItemView.m in Sources */,
 				A7FA0E7C0FC7048C00941493 /* IndicatorView.m in Sources */,
+				A79830140FCB1CD700C1C2E7 /* WaitingIndicatorViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

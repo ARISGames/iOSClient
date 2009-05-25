@@ -151,13 +151,22 @@
 }
 
 - (void) showWaitingIndicator:(NSString *)message {
-	waitingIndicator = [[WaitingIndicatorViewController alloc] initWithNibName:@"WaitingIndicator" bundle:nil];
-	if (message) waitingIndicator.message = message;
+	[self removeWaitingIndicator];
+	self.waitingIndicator = [[WaitingIndicatorViewController alloc] initWithNibName:@"WaitingIndicator" bundle:nil];
+	[self.waitingIndicator retain];
+	
+	self.waitingIndicator.message = message;
+	
 	[self.window addSubview:self.waitingIndicator.view];
+	
 }
 
 - (void) removeWaitingIndicator {
-	[self.waitingIndicator.view removeFromSuperview];
+	if (self.waitingIndicator != nil) {
+		[self.waitingIndicator.view removeFromSuperview];
+		[self.waitingIndicator release];
+	}
+
 
 }
 

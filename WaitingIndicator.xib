@@ -39,7 +39,7 @@
 					<object class="IBUIImageView" id="873752421">
 						<reference key="NSNextResponder" ref="363539573"/>
 						<int key="NSvFlags">274</int>
-						<string key="NSFrame">{{86, 160}, {147, 141}}</string>
+						<string key="NSFrame">{{69, 167}, {181, 140}}</string>
 						<reference key="NSSuperview" ref="363539573"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
@@ -47,7 +47,7 @@
 						</object>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
-						<float key="IBUIAlpha">8.000000e-01</float>
+						<float key="IBUIAlpha">4.154930e-01</float>
 						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<object class="NSCustomResource" key="IBUIImage">
@@ -58,12 +58,17 @@
 					<object class="IBUILabel" id="879236608">
 						<reference key="NSNextResponder" ref="363539573"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{106, 242}, {107, 21}}</string>
+						<string key="NSFrame">{{94, 242}, {133, 43}}</string>
 						<reference key="NSSuperview" ref="363539573"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="IBUIText">Loading...</string>
+						<object class="NSFont" key="IBUIFont">
+							<string key="NSName">Helvetica-Bold</string>
+							<double key="NSSize">2.600000e+01</double>
+							<int key="NSfFlags">16</int>
+						</object>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MSAxIDEAA</bytes>
@@ -89,11 +94,8 @@
 				<string key="NSFrameSize">{320, 460}</string>
 				<reference key="NSSuperview"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
-					<int key="NSColorSpace">3</int>
-					<bytes key="NSWhite">MSAwAA</bytes>
-					<object class="NSColorSpace" key="NSCustomColorSpace">
-						<int key="NSID">2</int>
-					</object>
+					<int key="NSColorSpace">1</int>
+					<bytes key="NSRGB">MCAwIDAAA</bytes>
 				</object>
 				<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 			</object>
@@ -153,8 +155,8 @@
 						<reference key="object" ref="363539573"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="879236608"/>
 							<reference ref="493114948"/>
+							<reference ref="879236608"/>
 							<reference ref="873752421"/>
 						</object>
 						<reference key="parent" ref="360949347"/>
@@ -193,7 +195,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>WaitingIndicatorViewController</string>
 					<string>UIResponder</string>
-					<string>{{421, 354}, {320, 460}}</string>
+					<string>{{288, 154}, {320, 460}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>{{21, 716}, {132, 106}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>

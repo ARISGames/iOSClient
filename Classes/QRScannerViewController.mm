@@ -9,6 +9,7 @@
 #import "QRScannerViewController.h"
 #import "Decoder.h"
 #import "TwoDDecoderResult.h"
+#import "ARISAppDelegate.h"
 
 
 @implementation QRScannerViewController 
@@ -84,12 +85,19 @@
 #pragma mark QRCScan delegate methods
 
 - (void)decoder:(Decoder *)decoder didDecodeImage:(UIImage *)image usingSubset:(UIImage *)subset withResult:(TwoDDecoderResult *)twoDResult {
+	//Start Waiting Indicator
+	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
+	[appDelegate removeWaitingIndicator];
+	
 	//get the result
 	NSString *result = twoDResult.text;
 
 	//we are done with the scanner, so release it
 	[decoder release];
 	NSLog(@"QR Scanner: Decode Complete. QR Code ID = %@", result);
+	
+	//Start Waiting Indicator
+	[appDelegate showWaitingIndicator:@"Loading Content..."];
 	
 	//init url
 	NSString *baseURL = [appModel getURLStringForModule:@"RESTQRScanner"];
@@ -117,10 +125,28 @@
 - (void)decoder:(Decoder *)decoder failedToDecodeImage:(UIImage *)image usingSubset:(UIImage *)subset reason:(NSString *)reason {
 	NSLog(@"Failed to decode image");
 	[decoder release];
+	
+	//Stop Waiting Indicator
+	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
+	[appDelegate removeWaitingIndicator];
+	
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Decoding Error" message:@"Try scanning the code again: Step back 2 feet and hold the camera as still as possible"
+												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+	[alert show];	
+	[alert release];
+	
+	
+	
+	
 }
 
 - (void)decoder:(Decoder *)decoder willDecodeImage:(UIImage *)image usingSubset:(UIImage *)subset {
-	NSLog(@"Will decode image");
+	NSLog(@"QR: Will decode image");
+	
+	//Start Waiting Indicator
+	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
+	[appDelegate showWaitingIndicator:@"Decoding..."];
+	
 }
 
 #pragma mark UINavigationControllerDelegate Protocol Methods
@@ -134,7 +160,22 @@
 
 #pragma mark QRScannerParserDelegate Methods
 - (void) qrParserDidFinish:(id<QRCodeProtocol>)qrcode{
-	[qrcode display];
+	//Stop Waiting Indicator
+	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
+	[appDelegate removeWaitingIndicator];
+	
+	if (qrcode == nil) {
+		//Display an alert
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Decoding Error" message:@"This code is not a part of your current ARIS game"
+													   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+		[alert show];	
+		[alert release];
+		
+	}
+	else {	
+		//Display the content
+		[qrcode display];
+	}
 }
 
 
