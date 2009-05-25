@@ -28,6 +28,7 @@
 #import "GamePickerViewController.h"
 #import "LogoutViewController.h"
 #import "DeveloperViewController.h"
+#import "WaitingIndicatorViewController.h"
 
 @interface ARISAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate> {
 	AppModel *appModel;
@@ -40,6 +41,7 @@
 	GamePickerViewController *gamePickerViewController;
 	UINavigationController *gamePickerNavigationController;
 	UINavigationController *nearbyObjectNavigationController;
+	WaitingIndicatorViewController *waitingIndicator;
 }
 
 @property (nonatomic, retain) AppModel *appModel;
@@ -52,7 +54,10 @@
 @property (nonatomic, retain) IBOutlet UINavigationController *gamePickerNavigationController;
 @property (nonatomic, retain) IBOutlet NearbyBar *nearbyBar;
 @property (nonatomic, retain) IBOutlet UINavigationController *nearbyObjectNavigationController;
+@property (nonatomic, retain) WaitingIndicatorViewController *waitingIndicator;
 
 - (void)displayNearbyObjectView:(UIViewController *)nearbyObjectViewController;
+- (void) showWaitingIndicator:(NSString *)message;
+- (void) removeWaitingIndicator;
 
 @end

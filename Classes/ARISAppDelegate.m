@@ -20,6 +20,7 @@
 @synthesize nearbyBar;
 @synthesize nearbyObjectNavigationController;
 @synthesize myCLController;
+@synthesize waitingIndicator;
 
 //@synthesize toolbarViewController;
 
@@ -146,6 +147,18 @@
 	//Inventory Bar, which is really a view
 	nearbyBar = [[NearbyBar alloc] initWithFrame:CGRectMake(0.0, 63.0, 320.0, 20.0)];
 	[window addSubview:nearbyBar];	
+	
+}
+
+- (void) showWaitingIndicator:(NSString *)message {
+	waitingIndicator = [[WaitingIndicatorViewController alloc] initWithNibName:@"WaitingIndicator" bundle:nil];
+	if (message) waitingIndicator.message = message;
+	[self.window addSubview:self.waitingIndicator.view];
+}
+
+- (void) removeWaitingIndicator {
+	[self.waitingIndicator.view removeFromSuperview];
+
 }
 
 
