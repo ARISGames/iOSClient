@@ -26,6 +26,7 @@ extern NSDictionary *InventoryElements;
 	NSMutableArray *nearbyLocationsList;
 	CLLocation *lastLocation;
 	NSMutableArray *inventory;
+	UIAlertView *networkAlert;
 }
 
 @property(copy) NSString *serverName;
@@ -39,7 +40,8 @@ extern NSDictionary *InventoryElements;
 @property(copy, readwrite) NSMutableArray *locationList;	
 @property(copy, readwrite) NSMutableArray *nearbyLocationsList;	
 @property(copy, readwrite) CLLocation *lastLocation;	
-@property(copy, readwrite) NSMutableArray *inventory;	
+@property(copy, readwrite) NSMutableArray *inventory;
+@property(retain) UIAlertView *networkAlert;	
 
 -(id)init;
 -(void)loadUserDefaults;

@@ -34,6 +34,7 @@ NSDictionary *InventoryElements;
 @synthesize nearbyLocationsList;
 @synthesize lastLocation;
 @synthesize inventory;
+@synthesize networkAlert;
 
 -(id)init {
     if (self = [super init]) {
@@ -63,6 +64,10 @@ NSDictionary *InventoryElements;
 			[InventoryElements retain];
 		}
 		NSLog(@"Testing InventoryElements nilp? %@", InventoryElements);
+		
+		//Set Up Network Alert
+		networkAlert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"ARIS is not able to communicate with the server. Check your internet connection."
+												 delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 	}
 			 
     return self;
@@ -216,13 +221,8 @@ NSDictionary *InventoryElements;
 	NSError *error = NULL;
 	NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-	if (error != NULL) {
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"ARIS is not able to communicate with the server. Check your internet connection."
-												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-		[alert show];	
-		[alert release];
-	}
-
+	if (error != NULL && networkAlert.visible == NO) [networkAlert show];	
+	else if (networkAlert.visible == NO) [networkAlert dismissWithClickedButtonIndex:0 animated:YES];
 	return data;
 }
 
