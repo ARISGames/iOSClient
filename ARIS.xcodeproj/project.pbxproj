@@ -156,6 +156,7 @@
 		A7C1F6000FC070690045F15D /* NearbyBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */; };
 		A7C1F6010FC070690045F15D /* NearbyBarItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */; };
 		A7C1F6020FC070690045F15D /* NearbyBarButtonBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = A7C1F5FF0FC070690045F15D /* NearbyBarButtonBackground.png */; };
+		A7DA71060FCF1580008D6EB1 /* GradientBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = A7DA71050FCF1580008D6EB1 /* GradientBackground.png */; };
 		A7E39EAD0F5F60D000826198 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E39EAC0F5F60D000826198 /* CameraViewController.m */; };
 		A7E39ECA0F5F655E00826198 /* Camera.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7E39EC90F5F655E00826198 /* Camera.xib */; };
 		A7E39FB40F5F930E00826198 /* Developer.png in Resources */ = {isa = PBXBuildFile; fileRef = A7E39FA90F5F930E00826198 /* Developer.png */; };
@@ -389,6 +390,7 @@
 		A7C1F5FD0FC070690045F15D /* NearbyBarItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyBarItemView.h; sourceTree = "<group>"; };
 		A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyBarItemView.m; sourceTree = "<group>"; };
 		A7C1F5FF0FC070690045F15D /* NearbyBarButtonBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NearbyBarButtonBackground.png; sourceTree = "<group>"; };
+		A7DA71050FCF1580008D6EB1 /* GradientBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = GradientBackground.png; path = images/GradientBackground.png; sourceTree = "<group>"; };
 		A7E39EAB0F5F60D000826198 /* CameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CameraViewController.h; path = Classes/CameraViewController.h; sourceTree = "<group>"; };
 		A7E39EAC0F5F60D000826198 /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CameraViewController.m; path = Classes/CameraViewController.m; sourceTree = "<group>"; };
 		A7E39EC90F5F655E00826198 /* Camera.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Camera.xib; sourceTree = "<group>"; };
@@ -811,6 +813,7 @@
 		A7986D6A0F8FEC7200A5469F /* Core App */ = {
 			isa = PBXGroup;
 			children = (
+				A7DA71050FCF1580008D6EB1 /* GradientBackground.png */,
 				A7149F9C0FB89DC8008BAB5D /* Settings.bundle */,
 				A7E4C88B0F54C4D000C6D9E8 /* QuartzCore.framework */,
 				A78FD8B10F4B7EA200820FEA /* CoreGraphics.framework */,
@@ -1000,6 +1003,7 @@
 				A76048E70FC1B6DE00219A53 /* QRCodeProtocol.h in Resources */,
 				A79830180FCB1D8900C1C2E7 /* WaitingIndicator.xib in Resources */,
 				A798301B0FCB1F8100C1C2E7 /* RoundedBackground.png in Resources */,
+				A7DA71060FCF1580008D6EB1 /* GradientBackground.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
