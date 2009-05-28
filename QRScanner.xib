@@ -39,15 +39,14 @@
 					<object class="IBUIButton" id="1054013886">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{28, 18}, {263, 46}}</string>
+						<string key="NSFrame">{{35, 40}, {250, 50}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
-						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<object class="NSFont" key="IBUIFont" id="935465166">
+						<object class="NSFont" key="IBUIFont" id="597370359">
 							<string key="NSName">Helvetica-Bold</string>
-							<double key="NSSize">2.100000e+01</double>
+							<double key="NSSize">1.800000e+01</double>
 							<int key="NSfFlags">16</int>
 						</object>
 						<int key="IBUIButtonType">1</int>
@@ -73,19 +72,18 @@
 					<object class="IBUITextField" id="727500807">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{28, 100}, {263, 31}}</string>
+						<string key="NSFrame">{{35, 112}, {250, 31}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
-						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<string key="IBUIText">Manually Enter Code</string>
+						<string key="IBUIText"/>
 						<int key="IBUIBorderStyle">3</int>
-						<string key="IBUIPlaceholder">Manually Enter Code</string>
+						<string key="IBUIPlaceholder">Enter Numeric Code</string>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">2</int>
 							<bytes key="NSRGB">MC4xOTYwNzg0NSAwLjMwOTgwMzkzIDAuNTIxNTY4NjYAA</bytes>
 						</object>
-						<reference key="IBUIFont" ref="935465166"/>
+						<reference key="IBUIFont" ref="597370359"/>
 						<int key="IBUITextAlignment">1</int>
 						<bool key="IBUIClearsOnBeginEditing">YES</bool>
 						<bool key="IBUIAdjustsFontSizeToFit">YES</bool>
@@ -93,8 +91,7 @@
 						<object class="IBUITextInputTraits" key="IBUITextInputTraits">
 							<int key="IBUIAutocorrectionType">1</int>
 							<int key="IBUIKeyboardType">2</int>
-							<int key="IBUIKeyboardAppearance">1</int>
-							<int key="IBUIReturnKeyType">1</int>
+							<int key="IBUIReturnKeyType">7</int>
 							<bool key="IBUIEnablesReturnKeyAutomatically">YES</bool>
 						</object>
 					</object>
@@ -177,8 +174,8 @@
 						<reference key="object" ref="191373211"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="1054013886"/>
 							<reference ref="727500807"/>
+							<reference ref="1054013886"/>
 						</object>
 						<reference key="parent" ref="360949347"/>
 					</object>
@@ -220,7 +217,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>QRScannerViewController</string>
 					<string>UIResponder</string>
-					<string>{{314, 117}, {320, 480}}</string>
+					<string>{{356, 258}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
