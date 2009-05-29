@@ -35,7 +35,8 @@
 
 
 	//Set Up General Stuff
-	UILabel *itemDescriptionView = [[UILabel alloc] initWithFrame:CGRectMake(0, 220, 320,
+	int margin = 10;
+	UILabel *itemDescriptionView = [[UILabel alloc] initWithFrame:CGRectMake(margin, 220 + margin, 320 - (2 * margin),
 																			 [self calculateTextHeight:item.description])];
 	itemDescriptionView.text = item.description;
 	itemDescriptionView.backgroundColor = [UIColor blackColor];
