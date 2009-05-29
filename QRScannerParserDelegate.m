@@ -29,18 +29,16 @@
 	
 	if ( [elementName isEqualToString:@"QRCode"]) {
 		//Found a QR element 
-		
-		QRCode *currentObject = [[QRCode alloc]init];
+		QRCode *currentObject = [[QRCode alloc] init];
 		currentObject.name = [attributeDict objectForKey:@"name"];
 		currentObject.URL =  [attributeDict objectForKey:@"URL"];
 		currentObject.iconURL = [attributeDict objectForKey:@"iconURL"];
 		qrcode = currentObject;
 		NSLog(@"QRScannerParserDelegate: QRCode found : '%@'", currentObject.name);
-
-
 	}
 	else if ( [elementName isEqualToString:@"Item"])  {
-		Item *currentObject = [[Item alloc]init];	
+		Item *currentObject = [[Item alloc] init];	
+		
 		currentObject.itemId = [attributeDict objectForKey:@"id"];
 		currentObject.name = [attributeDict objectForKey:@"name"];
 		currentObject.type = [attributeDict objectForKey:@"itemType"];
