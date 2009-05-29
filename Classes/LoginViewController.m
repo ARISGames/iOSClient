@@ -15,7 +15,7 @@
 @synthesize username;
 @synthesize password;
 @synthesize login;
-@synthesize titleItem;
+//@synthesize titleItem;
 
 
 //Override init for passing title and icon to tab bar

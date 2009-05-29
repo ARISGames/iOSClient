@@ -23,6 +23,6 @@
 @property (nonatomic, retain) IBOutlet UITextField *username;
 @property (nonatomic, retain) IBOutlet UITextField *password;
 @property (nonatomic, retain) IBOutlet UIButton *login;
-@property (nonatomic, retain) IBOutlet UINavigationItem *titleItem;
+//@property (nonatomic, retain) IBOutlet UINavigationItem *titleItem;
 
 @end

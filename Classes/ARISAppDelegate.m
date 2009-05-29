@@ -244,6 +244,7 @@
 		visibleViewController = viewController;
 		[visibleViewController performSelector:@selector(setModel:) withObject:appModel];
 	}
+	[appModel updateServerLocationAndfetchNearbyLocationList];
 }
 
 - (void)setGameList:(NSNotification *)notification {
