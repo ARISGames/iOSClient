@@ -87,7 +87,8 @@ NSDictionary *InventoryElements;
 	if (![lastCharString isEqualToString:@"/"]) self.baseAppURL = [[NSString alloc] initWithFormat:@"%@/",self.baseAppURL];
 	
 	NSURL *url = [NSURL URLWithString:self.baseAppURL];
-	self.serverName = [NSString stringWithFormat:@"http://%@:%@", [url host], [url port]];
+	self.serverName = [NSString stringWithFormat:@"http://%@:%d", [url host], 
+					   ([url port] ? [[url port] intValue] : 80)];
 	
 	self.site = [defaults stringForKey:@"site"];
 	self.loggedIn = [defaults boolForKey:@"loggedIn"];
