@@ -127,7 +127,9 @@
 	lblTemp1.text = [[inventoryTableData objectAtIndex: [indexPath row]] name];
 	
 	UILabel *lblTemp2 = (UILabel *)[cell viewWithTag:2];
-	lblTemp2.text = [[inventoryTableData objectAtIndex: [indexPath row]] description];
+	NSString *description = [[inventoryTableData objectAtIndex: [indexPath row]] description];
+	int targetIndex = [self indexOf:'.' inString:description] + 1;
+	lblTemp2.text = [description substringToIndex:targetIndex];
 	
 	UIImageView *iconView = (UIImageView *)[cell viewWithTag:3];
 	
@@ -139,6 +141,14 @@
 	iconView.image = icon;
 
 	return cell;
+}
+					 
+ - (unsigned int) indexOf:(char) searchChar inString:(NSString *)searchString {
+	NSRange searchRange;
+	searchRange.location = (unsigned int) searchChar;
+	searchRange.length = 1;
+	NSRange foundRange = [searchString rangeOfCharacterFromSet:[NSCharacterSet characterSetWithRange:searchRange]];
+	return foundRange.location;	
 }
 
 // Customize the height of each row

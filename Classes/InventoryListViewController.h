@@ -21,6 +21,7 @@
 
 -(void) setModel:(AppModel *)model;
 -(void) refreshInventory;
+- (unsigned int) indexOf:(char) searchChar inString:(NSString *)searchString;
 
 @property(copy, readwrite) NSString *moduleName;
 @property(nonatomic, retain) IBOutlet UITableView *inventoryTable;

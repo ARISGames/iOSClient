@@ -13,7 +13,6 @@
 @synthesize appModel;
 @synthesize item;
 @synthesize inInventory;
-@synthesize descriptionView;
 @synthesize dropButton;
 @synthesize deleteButton;
 @synthesize backButton;
@@ -36,7 +35,17 @@
 
 
 	//Set Up General Stuff
-	descriptionView.text = item.description;
+	UILabel *itemDescriptionView = [[UILabel alloc] initWithFrame:CGRectMake(0, 220, 320,
+																			 [self calculateTextHeight:item.description])];
+	itemDescriptionView.text = item.description;
+	itemDescriptionView.backgroundColor = [UIColor blackColor];
+	itemDescriptionView.textColor = [UIColor whiteColor];
+	itemDescriptionView.lineBreakMode = UILineBreakModeWordWrap;
+	itemDescriptionView.numberOfLines = 0;
+	
+	[scrollView addSubview:itemDescriptionView];
+	[scrollView setContentSize:CGSizeMake(320, itemDescriptionView.frame.origin.y
+										  + itemDescriptionView.frame.size.height)];
 	
 	if ([item.type isEqualToString: @"Image"]) {
 		NSLog(@"ItemDetailsViewController: Image Layout Selected");
@@ -46,11 +55,11 @@
 		[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 
 		UIImage* image = [[UIImage alloc] initWithData:imageData];
-		UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 360,220)];
+		UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 220)];
 		imageView.image = image;
 		
 		//Add the image view
-		[[self view] addSubview:imageView];
+		[scrollView addSubview:imageView];
 		
 		//clean up
 		[imageData release];
@@ -66,7 +75,6 @@
 		// Register to receive a notifications
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePreloadDidFinish:) name:MPMoviePlayerContentPreloadDidFinishNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayBackDidFinish:) name:MPMoviePlayerPlaybackDidFinishNotification object:mMoviePlayer];
-				
 		
 		//Configure Movie Player
 		mMoviePlayer.scalingMode = MPMovieScalingModeFill; // Movie scaling mode can be one of: MPMovieScalingModeNone, MPMovieScalingModeAspectFit,MPMovieScalingModeAspectFill, MPMovieScalingModeFill.
@@ -74,29 +82,32 @@
 		mMoviePlayer.backgroundColor = [UIColor blackColor];
 		
 		//Add a button
-		UIButton *button = [[UIButton buttonWithType:UIButtonTypeCustom] initWithFrame:CGRectMake(120, 120, 80, 80)];
+		UIButton *button = [[UIButton buttonWithType:UIButtonTypeCustom] 
+							initWithFrame:CGRectMake(120, 60, 80, 80)];
 		[button addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
 		[button setImage:[UIImage imageNamed:@"playArrow.png"] forState:UIControlStateNormal];
-		//[button setBackgroundColor:[UIColor whiteColor]];
-		[[self view] addSubview:button];		
+		[scrollView addSubview:button];		
 	}
 	
 	[mediaURL release];
 	[super viewDidLoad];
 }
 
+- (int) calculateTextHeight:(NSString *)text {
+	CGRect frame = CGRectMake(0, 0, self.view.bounds.size.width, 100000);
+	CGSize calcSize = [text sizeWithFont:[UIFont systemFontOfSize:17.0]
+					   constrainedToSize:frame.size lineBreakMode:UILineBreakModeWordWrap];
+	frame.size = calcSize;
+	frame.size.height += 0;
+	NSLog(@"Found height of %f", frame.size.height);
+	return frame.size.height;
+}
 
 //  Notification called when the movie finished preloading.
-- (void) moviePreloadDidFinish:(NSNotification*)notification
-{
-}
+- (void) moviePreloadDidFinish:(NSNotification*)notification { }
 
 //  Notification called when the movie finished playing.
-- (void) moviePlayBackDidFinish:(NSNotification*)notification
-{ 
-}
-
-
+- (void) moviePlayBackDidFinish:(NSNotification*)notification { }
 
 - (IBAction)dropButtonTouchAction: (id) sender{
 	//Fire off a request to the REST Module and display an alert when it is successfull
@@ -125,7 +136,6 @@
 	
 	//Refresh the inventory
 	[appModel fetchInventory];
-	
 }
 
 - (IBAction)deleteButtonTouchAction: (id) sender{
@@ -148,15 +158,14 @@
 	
 	//Dismiss Item Details View
 	[self.navigationController popToRootViewControllerAnimated:YES];
-	
 }
+
 - (IBAction)backButtonTouchAction: (id) sender{
 	NSLog(@"ItemDetailsViewController: Dismiss Item Details View");
 	[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
--(IBAction)playMovie:(id)sender
-{
+-(IBAction)playMovie:(id)sender {
     [mMoviePlayer play];
 }
 
@@ -165,8 +174,8 @@
 	
 	//Fire off a request to the REST Module and display an alert when it is successfull
 	NSString *baseURL = [appModel getURLStringForModule:@"Inventory"];
-	NSString *URLparams = [ NSString stringWithFormat:@"&controller=SimpleREST&event=pickupItem&item_id=%d&location_id=%d", self.item.itemId, self.item.locationId];
-	NSString *fullURL = [ NSString stringWithFormat:@"%@%@", baseURL, URLparams];
+	NSString *URLparams = [NSString stringWithFormat:@"&controller=SimpleREST&event=pickupItem&item_id=%d&location_id=%d", self.item.itemId, self.item.locationId];
+	NSString *fullURL = [NSString stringWithFormat:@"%@%@", baseURL, URLparams];
 	
 	NSLog([NSString stringWithFormat:@"ItemDetailsViewController: Telling server to pickup this item using URL: %@", fullURL ]);
 	
@@ -194,7 +203,6 @@
     // Release anything that's not essential, such as cached data
 }
 
-
 - (void)dealloc {
     NSLog(@"Item Details View: Deallocating");
 	
@@ -202,6 +210,5 @@
     [mMoviePlayer release];
 	[super dealloc];
 }
-
 
 @end

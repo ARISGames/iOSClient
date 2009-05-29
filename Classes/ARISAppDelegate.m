@@ -111,7 +111,7 @@
 										inventoryNavigationController,
 										qrScannerNavigationController,
 										cameraNavigationController,
-										imNavigationController,
+										/* imNavigationController, */
 										gamePickerNavigationController,
 										logoutNavigationController,
 										developerNavigationController,
