@@ -128,7 +128,8 @@
 	
 	UILabel *lblTemp2 = (UILabel *)[cell viewWithTag:2];
 	NSString *description = [[inventoryTableData objectAtIndex: [indexPath row]] description];
-	int targetIndex = [self indexOf:'.' inString:description] + 1;
+	int targetIndex = MIN([self indexOf:'.' inString:description] + 1, 
+						  [description length] - 1);
 	lblTemp2.text = [description substringToIndex:targetIndex];
 	
 	UIImageView *iconView = (UIImageView *)[cell viewWithTag:3];
