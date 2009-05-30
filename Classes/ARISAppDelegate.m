@@ -223,11 +223,16 @@
 
 	[gamePickerNavigationController.view removeFromSuperview];
 	
-	//Set tabBar to the first item
-	tabBarController.selectedIndex = 0;
-	
 	//Set the model to this game
 	appModel.site = selectedGame.site;
+	
+	//Notify the Server
+	NSLog(@"AppDelegate: Game Selected. Notifying Server");
+	NSURLRequest *request = [appModel getURLForModule:@"RESTSelectGame&event=setGame"];	
+	[appModel fetchURLData:request];
+	
+	//Set tabBar to the first item
+	tabBarController.selectedIndex = 0;
 	
 	//Display the tabBar (and it's content)
 	tabBarController.view.hidden = NO;
