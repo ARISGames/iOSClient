@@ -31,6 +31,7 @@ NSDictionary *InventoryElements;
 @synthesize site;
 @synthesize gameList;
 @synthesize locationList;
+@synthesize playerList;
 @synthesize nearbyLocationsList;
 @synthesize lastLocation;
 @synthesize inventory;
@@ -265,12 +266,20 @@ NSDictionary *InventoryElements;
 	locationList = [NSMutableArray array];
 	[locationList retain];
 	
+	//init player list array
+	if(playerList != nil) {
+		[playerList release];
+	}
+	playerList = [NSMutableArray array];
+	[playerList retain];
+	
+	
 	//Fetch Data
 	NSURLRequest *request = [self getURLForModule:@"RESTMap"];
 	NSData *data = [self fetchURLData:request];
 	
 	NSXMLParser *parser = [[NSXMLParser alloc] initWithData:data];
-	LocationListParserDelegate *locationListParserDelegate = [[LocationListParserDelegate alloc] initWithLocationList:locationList];
+	LocationListParserDelegate *locationListParserDelegate = [[LocationListParserDelegate alloc] initWithModel:self];
 	[parser setDelegate:locationListParserDelegate];
 	
 	//init parser

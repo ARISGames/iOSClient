@@ -157,6 +157,7 @@
 		A7C1F6010FC070690045F15D /* NearbyBarItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */; };
 		A7C1F6020FC070690045F15D /* NearbyBarButtonBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = A7C1F5FF0FC070690045F15D /* NearbyBarButtonBackground.png */; };
 		A7DA71060FCF1580008D6EB1 /* GradientBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = A7DA71050FCF1580008D6EB1 /* GradientBackground.png */; };
+		A7E32E9E0FD1CEFD0058EDB7 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E32E9D0FD1CEFD0058EDB7 /* Player.m */; };
 		A7E39EAD0F5F60D000826198 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E39EAC0F5F60D000826198 /* CameraViewController.m */; };
 		A7E39ECA0F5F655E00826198 /* Camera.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7E39EC90F5F655E00826198 /* Camera.xib */; };
 		A7E39FB40F5F930E00826198 /* Developer.png in Resources */ = {isa = PBXBuildFile; fileRef = A7E39FA90F5F930E00826198 /* Developer.png */; };
@@ -391,6 +392,8 @@
 		A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyBarItemView.m; sourceTree = "<group>"; };
 		A7C1F5FF0FC070690045F15D /* NearbyBarButtonBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NearbyBarButtonBackground.png; sourceTree = "<group>"; };
 		A7DA71050FCF1580008D6EB1 /* GradientBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = GradientBackground.png; path = images/GradientBackground.png; sourceTree = "<group>"; };
+		A7E32E9C0FD1CEFD0058EDB7 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		A7E32E9D0FD1CEFD0058EDB7 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 		A7E39EAB0F5F60D000826198 /* CameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CameraViewController.h; path = Classes/CameraViewController.h; sourceTree = "<group>"; };
 		A7E39EAC0F5F60D000826198 /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CameraViewController.m; path = Classes/CameraViewController.m; sourceTree = "<group>"; };
 		A7E39EC90F5F655E00826198 /* Camera.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Camera.xib; sourceTree = "<group>"; };
@@ -632,6 +635,8 @@
 				2B3D17060F49C99B0067FD3A /* Game.m */,
 				A722E7130F57425B004B04D2 /* Location.h */,
 				A722E7140F57425B004B04D2 /* Location.m */,
+				A7E32E9C0FD1CEFD0058EDB7 /* Player.h */,
+				A7E32E9D0FD1CEFD0058EDB7 /* Player.m */,
 			);
 			name = Model;
 			path = Classes/model;
@@ -1091,6 +1096,7 @@
 				A7C1F6010FC070690045F15D /* NearbyBarItemView.m in Sources */,
 				A7FA0E7C0FC7048C00941493 /* IndicatorView.m in Sources */,
 				A79830140FCB1CD700C1C2E7 /* WaitingIndicatorViewController.m in Sources */,
+				A7E32E9E0FD1CEFD0058EDB7 /* Player.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

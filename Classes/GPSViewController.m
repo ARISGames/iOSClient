@@ -12,6 +12,7 @@
 #import "RMMarker.h"
 #import "RMMarkerManager.h"
 #import "Location.h"
+#import "Player.h"
 #import "ARISAppDelegate.h"
 
 @implementation GPSViewController
@@ -154,6 +155,21 @@
 		[locationMarker release];
 		
 	}
+	
+	//Add the freshly loaded players from the notification
+	for ( Player* player in appModel.playerList ) {
+		if (player.hidden == YES) continue;
+		CLLocationCoordinate2D locationLatLong;
+		locationLatLong.latitude = player.latitude;
+		locationLatLong.longitude = player.longitude;
+		
+		RMMarker *marker = [[RMMarker alloc]initWithCGImage:[RMMarker loadPNGFromBundle:@"marker-player"]];
+		[marker setTextLabel:player.name];
+		[markerManager addMarker:marker AtLatLong:locationLatLong];
+		[marker release];
+		
+	}
+	
 	
 }
 

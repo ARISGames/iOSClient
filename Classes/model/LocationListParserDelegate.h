@@ -7,12 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "AppModel.h"
 
 @interface LocationListParserDelegate : NSObject {
 	NSMutableArray *locationList;
+	NSMutableArray *playerList;
+
 
 }
 
-- (LocationListParserDelegate*)initWithLocationList:(NSMutableArray *)modelLocationList;
+- (LocationListParserDelegate*)initWithModel:(AppModel *)model;
 @end

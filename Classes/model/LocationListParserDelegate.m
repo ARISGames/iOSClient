@@ -8,14 +8,17 @@
 
 #import "LocationListParserDelegate.h"
 #import "Location.h";
+#import "Player.h";
 
 @implementation LocationListParserDelegate
 
-- (LocationListParserDelegate*)initWithLocationList:(NSMutableArray *)modelLocationList {
+- (LocationListParserDelegate*)initWithModel:(AppModel *)model{
 	self = [super init];
     if ( self ) {
-		locationList = modelLocationList;
-		[locationList retain];
+		locationList = model.locationList;
+		[locationList  retain];
+		playerList = model.playerList;
+		[playerList retain];
     }
 	
     return self;
@@ -45,6 +48,18 @@
 		
 		[locationList addObject:location];
 		NSLog([NSString stringWithFormat:@"Adding Location: %@", location.name]);
+	}
+	
+	if ([elementName isEqualToString:@"player"]) {
+		//Found a location element 
+		Player *player = [[Player alloc] init];
+		player.name = [attributeDict objectForKey:@"name"];
+		player.latitude = [[attributeDict objectForKey:@"latitude"] doubleValue];
+		player.longitude = [[attributeDict objectForKey:@"longitude"] doubleValue];
+		player.hidden = NO;
+		
+		[playerList addObject:player];
+		NSLog([NSString stringWithFormat:@"Adding Player: %@", player.name]);
 	}
 }
 
