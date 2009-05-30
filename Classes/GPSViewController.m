@@ -68,7 +68,10 @@
 							CGRectGetMinY(mainViewBounds),
 							CGRectGetWidth(mainViewBounds),
 							tableViewHeight);
-	mapView = [[RMMapView alloc] initWithFrame:tableFrame];    
+	mapView = [[RMMapView alloc] initWithFrame:tableFrame];
+    
+	mapView.contents.zoom = 16;
+	
 	[self.view addSubview:mapView];
 	
 	markerManager = [mapView markerManager];
