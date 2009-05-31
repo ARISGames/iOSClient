@@ -86,7 +86,7 @@
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-	[[picker parentViewController] dismissModalViewControllerAnimated:YES];
+	[[picker parentViewController] dismissModalViewControllerAnimated:NO];
 }
 
 #pragma mark QRCScan delegate methods
