@@ -137,7 +137,7 @@ NSDictionary *InventoryElements;
 
 -(void)initUserDefaults {	
 	NSDictionary *initDefaults = [NSDictionary dictionaryWithObjectsAndKeys:
-								  @"http://atsosxdev.doit.wisc.edu/aris/games", @"baseAppURL",
+								  @"http://arisgames.org/engine/", @"baseAppURL",
 								  @"Default", @"site",
 								  nil];
 
