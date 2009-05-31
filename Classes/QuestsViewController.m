@@ -7,7 +7,7 @@
 //
 
 #import "QuestsViewController.h"
-
+#import "ARISAppDelegate.h"
 
 @implementation QuestsViewController
 
@@ -64,10 +64,17 @@
 - (void)webViewDidStartLoad:(UIWebView *)webView {
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 	
+	//Show waiting Indicator
+	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showWaitingIndicator:@"Loading..."];
+	
+	
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	
+	//Stop Waiting Indicator
+	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeWaitingIndicator];
 	
 }
 

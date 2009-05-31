@@ -106,8 +106,8 @@
 	
 	//Add the view controllers to the Tab Bar
 	tabBarController.viewControllers = [NSMutableArray arrayWithObjects: 
-										gpsNavigationController,
 										questsNavigationController, 
+										gpsNavigationController,
 										inventoryNavigationController,
 										qrScannerNavigationController,
 										cameraNavigationController,
@@ -157,7 +157,7 @@
 	
 	self.waitingIndicator.message = message;
 	
-	[self.window addSubview:self.waitingIndicator.view];
+	if (appModel.loggedIn == YES) [self.window addSubview:self.waitingIndicator.view];
 	
 }
 
