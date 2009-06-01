@@ -101,8 +101,8 @@
 	//Notify server that the item was viewed
 	NSURLRequest *request = [appModel getURLForModule:[ NSString stringWithFormat:@"Inventory&controller=SimpleREST&event=viewedItem&item_id=%d", self.item.itemId]];
 	NSLog(@"ItemDetialsViewController: Notifying server this item was viewed using URL:%@",request.URL.absoluteString);
-	//[NSThread detachNewThreadSelector: @selector(fetchURLData:) toTarget: appModel withObject: request];	
-	[appModel fetchURLData:request];
+	[NSThread detachNewThreadSelector: @selector(fetchURLData:) toTarget: appModel withObject: request];	
+	//[appModel fetchURLData:request];
 	
 	[mediaURL release];
 	
