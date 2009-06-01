@@ -15,6 +15,7 @@
 	double latitude;
 	double longitude;
 	bool hidden;
+	int qty;
 }
 
 @property(readwrite, assign) int locationId;
@@ -22,5 +23,6 @@
 @property(readwrite) double latitude;
 @property(readwrite) double longitude;
 @property(readwrite) bool hidden;
+@property(readwrite) int qty;
 
 @end

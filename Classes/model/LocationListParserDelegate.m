@@ -45,6 +45,7 @@
 		location.longitude = [[attributeDict objectForKey:@"longitude"] doubleValue];
 		if ([[attributeDict objectForKey:@"hidden"] isEqualToString: @"1"]) location.hidden = YES;
 		else location.hidden = NO;
+		location.qty = [[attributeDict objectForKey:@"qty"] intValue];
 		
 		[locationList addObject:location];
 		NSLog([NSString stringWithFormat:@"Adding Location: %@", location.name]);

@@ -3,7 +3,7 @@
 	1D3623240D0F684500981E51 /* ARISAppDelegate.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1116, 1064}}";
-			sepNavSelRange = "{2377, 0}";
+			sepNavSelRange = "{425, 0}";
 			sepNavVisRange = "{0, 697}";
 		};
 	};
@@ -60,7 +60,7 @@
 		};
 	};
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
-		activeBuildConfigurationName = Distribution;
+		activeBuildConfigurationName = Debug;
 		activeExecutable = A7A172730F4F26280017E865 /* ARIS */;
 		activeSDKPreference = iphoneos2.2.1;
 		activeTarget = 1D6058900D05DD3D006BFB54 /* ARIS */;
@@ -417,9 +417,9 @@
 	};
 	2B3D12DF0F4380B70067FD3A /* GPSViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {863, 2800}}";
-			sepNavSelRange = "{3407, 0}";
-			sepNavVisRange = "{2991, 479}";
+			sepNavIntBoundsRect = "{{0, 0}, {1116, 2618}}";
+			sepNavSelRange = "{4485, 0}";
+			sepNavVisRange = "{4009, 994}";
 		};
 	};
 	2B3D12EA0F4382070067FD3A /* LogoutViewController.h */ = {
@@ -1012,16 +1012,16 @@
 	};
 	A722E7130F57425B004B04D2 /* Location.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {885, 378}}";
-			sepNavSelRange = "{166, 0}";
-			sepNavVisRange = "{0, 495}";
+			sepNavIntBoundsRect = "{{0, 0}, {1116, 406}}";
+			sepNavSelRange = "{235, 0}";
+			sepNavVisRange = "{0, 535}";
 		};
 	};
 	A722E7140F57425B004B04D2 /* Location.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {885, 367}}";
-			sepNavSelRange = "{325, 0}";
-			sepNavVisRange = "{0, 354}";
+			sepNavIntBoundsRect = "{{0, 0}, {1116, 396}}";
+			sepNavSelRange = "{305, 0}";
+			sepNavVisRange = "{0, 371}";
 		};
 	};
 	A722E7380F57431B004B04D2 /* LocationListParserDelegate.h */ = {
@@ -1033,9 +1033,9 @@
 	};
 	A722E7390F57431B004B04D2 /* LocationListParserDelegate.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {885, 1442}}";
-			sepNavSelRange = "{417, 0}";
-			sepNavVisRange = "{341, 191}";
+			sepNavIntBoundsRect = "{{0, 0}, {1116, 1316}}";
+			sepNavSelRange = "{1179, 0}";
+			sepNavVisRange = "{531, 1131}";
 		};
 	};
 	A72C02150F7985FF00D00602 /* QRScannerViewController.h */ = {
@@ -1061,9 +1061,9 @@
 	};
 	A72F049F0F6ED78F0089B90F /* NearbyLocationsListParserDelegate.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {968, 1190}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1116, 1316}}";
 			sepNavSelRange = "{753, 0}";
-			sepNavVisRange = "{531, 738}";
+			sepNavVisRange = "{412, 1096}";
 			sepNavWindowFrame = "{{15, 40}, {1225, 838}}";
 		};
 	};
@@ -1683,8 +1683,8 @@
 	};
 	A7E32E9C0FD1CEFD0058EDB7 /* Player.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {885, 367}}";
-			sepNavSelRange = "{166, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {1116, 396}}";
+			sepNavSelRange = "{429, 0}";
 			sepNavVisRange = "{0, 429}";
 		};
 	};
@@ -1900,7 +1900,7 @@
 		fRef = 2B3D12DF0F4380B70067FD3A /* GPSViewController.m */;
 		name = "GPSViewController.m: 160";
 		rLen = 0;
-		rLoc = 4917;
+		rLoc = 5003;
 		rType = 0;
 		vrLen = 753;
 		vrLoc = 4751;
@@ -1910,7 +1910,7 @@
 		fRef = A722E7390F57431B004B04D2 /* LocationListParserDelegate.m */;
 		name = "LocationListParserDelegate.m: 55";
 		rLen = 0;
-		rLoc = 1596;
+		rLoc = 1661;
 		rType = 0;
 		vrLen = 1097;
 		vrLoc = 940;
@@ -1930,7 +1930,7 @@
 		fRef = A722E7140F57425B004B04D2 /* Location.m */;
 		name = "Location.m: 22";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 342;
 		rType = 0;
 		vrLen = 354;
 		vrLoc = 0;
@@ -1950,7 +1950,7 @@
 		fRef = A722E7140F57425B004B04D2 /* Location.m */;
 		name = "Location.m: 22";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 342;
 		rType = 0;
 		vrLen = 354;
 		vrLoc = 0;
@@ -2028,7 +2028,7 @@
 		ignoreCount = 0;
 		lineNumber = 42;
 		location = ARIS;
-		modificationTime = 265517140.183783;
+		modificationTime = 265517905.869263;
 		state = 2;
 	};
 }

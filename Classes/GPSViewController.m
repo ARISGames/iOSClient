@@ -152,7 +152,10 @@
 		locationLatLong.longitude = location.longitude;
 
 		RMMarker *locationMarker = [[RMMarker alloc]initWithCGImage:[RMMarker loadPNGFromBundle:@"marker-blue"]];
-		[locationMarker setTextLabel:location.name];
+		NSString *label;
+		if (location.qty > 0) label = [[NSString alloc] initWithFormat:@"%@ (%d)",location.name, location.qty];
+		else label = location.name;
+		[locationMarker setTextLabel:label];
 		[markerManager addMarker:locationMarker AtLatLong:locationLatLong];
 		[locationMarker release];
 		
