@@ -50,6 +50,10 @@
 		appModel = model;
 		[appModel retain];
 	}
+	
+	//Show waiting Indicator
+	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showWaitingIndicator:@"Loading..."];
+	
 	[webview loadRequest:[appModel getURLForModule:moduleName]];
 	NSLog(@"model set for QUEST" );
 }
@@ -63,9 +67,6 @@
 #pragma mark WebView Delegate
 - (void)webViewDidStartLoad:(UIWebView *)webView {
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-	
-	//Show waiting Indicator
-	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showWaitingIndicator:@"Loading..."];
 	
 	
 }
