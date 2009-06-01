@@ -151,20 +151,21 @@
 }
 
 - (void) showWaitingIndicator:(NSString *)message {
-	[self removeWaitingIndicator];
-	self.waitingIndicator = [[WaitingIndicatorViewController alloc] initWithNibName:@"WaitingIndicator" bundle:nil];
-	[self.waitingIndicator retain];
+	if (!self.waitingIndicator) {
+		self.waitingIndicator = [[WaitingIndicatorViewController alloc] initWithNibName:@"WaitingIndicator" bundle:nil];
+		[self.window addSubview:self.waitingIndicator.view]; 
+		[self.waitingIndicator retain];
+	}
 	
 	self.waitingIndicator.message = message;
 	
-	if (appModel.loggedIn == YES) [self.window addSubview:self.waitingIndicator.view];
+	if (appModel.loggedIn == YES) self.waitingIndicator.view.hidden = NO;
 	
 }
 
 - (void) removeWaitingIndicator {
 	if (self.waitingIndicator != nil) {
-		[self.waitingIndicator.view removeFromSuperview];
-		[self.waitingIndicator release];
+		 self.waitingIndicator.view.hidden = YES;
 	}
 
 
