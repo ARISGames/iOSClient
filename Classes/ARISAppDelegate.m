@@ -160,6 +160,7 @@
 	self.waitingIndicator.message = message;
 	
 	if (appModel.loggedIn == YES) self.waitingIndicator.view.hidden = NO;
+	else self.waitingIndicator.view.hidden = YES;
 	
 }
 
