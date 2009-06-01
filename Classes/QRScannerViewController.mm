@@ -70,7 +70,7 @@
 #pragma mark UIImagePickerControllerDelegate Protocol Methods
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)img editingInfo:(NSDictionary *)editInfo {
-	[[picker parentViewController] dismissModalViewControllerAnimated:YES];
+	[[picker parentViewController] dismissModalViewControllerAnimated:NO];
 	CGRect cropRect;
 	//if ([editInfo objectForKey:UIImagePickerControllerCropRect]) {  //do we have a user specified cropRect?
 	//	cropRect = [[editInfo objectForKey:UIImagePickerControllerCropRect] CGRectValue];
