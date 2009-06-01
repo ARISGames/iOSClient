@@ -115,7 +115,9 @@
 	[self refreshPlayerMarker];
 		
 	//Ask for the Locations to be loaded into the model, which will trigger a notification to refreshMarkers here
-	[appModel fetchLocationList];
+	[NSThread detachNewThreadSelector: @selector(fetchLocationList) toTarget:appModel withObject: nil];	
+
+	//[appModel fetchLocationList];
 }
 
 - (void)refreshPlayerMarker {
