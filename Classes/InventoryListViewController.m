@@ -48,6 +48,10 @@
 		[appModel retain];
 	}
 	
+	//Show waiting Indicator in own thread so it appears on time
+	[NSThread detachNewThreadSelector: @selector(showWaitingIndicator:) toTarget: (ARISAppDelegate *)[[UIApplication sharedApplication] delegate] withObject: @"Loading..."];	
+	
+	
 	//Populate inventory
 	[appModel fetchInventory];
 	
@@ -58,6 +62,8 @@
 	NSLog(@"Inventory Recieved message recieved in FilesViewController");
 	inventoryTableData = appModel.inventory;
 	[inventoryTable reloadData];
+	//Stop Waiting Indicator
+	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeWaitingIndicator];
 	
 }
 
