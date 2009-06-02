@@ -16,7 +16,7 @@
 
 #import "Item.h"
 
-
+static NSString *nearbyLock = @"nearbyLock";
 
 @implementation AppModel
 
@@ -32,10 +32,11 @@ NSDictionary *InventoryElements;
 @synthesize gameList;
 @synthesize locationList;
 @synthesize playerList;
-@synthesize nearbyLocationsList;
 @synthesize lastLocation;
 @synthesize inventory;
 @synthesize networkAlert;
+
+@dynamic nearbyLocationsList;
 
 -(id)init {
     if (self = [super init]) {
@@ -321,33 +322,45 @@ NSDictionary *InventoryElements;
 
 
 - (void)updateServerLocationAndfetchNearbyLocationList {
-	//init a fresh nearby location list array
-	if(nearbyLocationsList != nil) {
-		[nearbyLocationsList release];
-	}
-	nearbyLocationsList = [NSMutableArray array];
-	[nearbyLocationsList retain];
+	@synchronized (nearbyLock) {
+		//init a fresh nearby location list array
+		if(nearbyLocationsList != nil) {
+			[nearbyLocationsList release];
+		}
+		nearbyLocationsList = [NSMutableArray array];
+		[nearbyLocationsList retain];
 	
+		//Fetch Data
+		NSURLRequest *request = [self getURLForModule:
+								 [NSString stringWithFormat:@"RESTAsync&latitude=%f&longitude=%f", lastLocation.coordinate.latitude, lastLocation.coordinate.longitude]];
+		NSData *data = [self fetchURLData:request];	
+		NSXMLParser *parser = [[NSXMLParser alloc] initWithData:data];	
 	
-	//Fetch Data
-	NSURLRequest *request = [self getURLForModule:
-							 [NSString stringWithFormat:@"RESTAsync&latitude=%f&longitude=%f", lastLocation.coordinate.latitude, lastLocation.coordinate.longitude]];
-	NSData *data = [self fetchURLData:request];
-	
-	NSXMLParser *parser = [[NSXMLParser alloc] initWithData:data];	
-	
+		NearbyLocationsListParserDelegate *nearbyLocationsListParserDelegate = [[NearbyLocationsListParserDelegate alloc] initWithNearbyLocationsList:nearbyLocationsList];
+		[parser setDelegate:nearbyLocationsListParserDelegate];
 		
-	NearbyLocationsListParserDelegate *nearbyLocationsListParserDelegate = [[NearbyLocationsListParserDelegate alloc] initWithNearbyLocationsList:nearbyLocationsList];
-	[parser setDelegate:nearbyLocationsListParserDelegate];
-	//init parser
-	[parser setShouldProcessNamespaces:NO];
-	[parser setShouldReportNamespacePrefixes:NO];
-	[parser setShouldResolveExternalEntities:NO];
-	[parser parse];
-	[parser release];
+		//init parser
+		[parser setShouldProcessNamespaces:NO];
+		[parser setShouldReportNamespacePrefixes:NO];
+		[parser setShouldResolveExternalEntities:NO];
+		[parser parse];
+		[parser release];
+	}
 }
 
+- (NSMutableArray *)nearbyLocationsList {
+	NSMutableArray *result = nil;
+	@synchronized (nearbyLock) {
+		result = [nearbyLocationsList retain];
+	}
+	return result;
+}
 
+- (void)setNearbyLocationList:(NSMutableArray *)source {
+	@synchronized (nearbyLock) {
+		nearbyLocationsList = [source copy];
+	}
+}
 
 - (void)dealloc {
 	[gameList release];
