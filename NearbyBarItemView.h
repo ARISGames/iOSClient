@@ -15,11 +15,11 @@
 	NSString *title;
 	CGFloat fontSize;
 	CGSize textSize;
-	UIImage *placardImage;
+	UIImage *iconImage;
 }
 @property(readwrite, retain) NSObject <NearbyObjectProtocol> *nearbyObject;
 @property(readwrite,copy) NSString *title;
-@property (nonatomic, retain) UIImage *placardImage;
+@property (nonatomic, retain) UIImage *iconImage;
 
 
 @end
