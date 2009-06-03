@@ -38,12 +38,13 @@
 		nearbyLocation.forcedDisplay = [[attributeDict objectForKey:@"forceView"] boolValue];
 		nearbyLocation.locationId = [[attributeDict objectForKey:@"id"] intValue];
 		nearbyLocation.name = [attributeDict objectForKey:@"label"];
-		nearbyLocation.type = [attributeDict objectForKey:@"type"];
+		if ([[attributeDict objectForKey:@"type"] isEqualToString: @"Npc"]) nearbyLocation.kind = NearbyObjectNPC;
+		if ([[attributeDict objectForKey:@"type"] isEqualToString: @"Node"]) nearbyLocation.kind = NearbyObjectNode;
 		nearbyLocation.iconURL = [attributeDict objectForKey:@"iconURL"];
 		nearbyLocation.URL = [attributeDict objectForKey:@"URL"];
 		[nearbyLocationList addObject:nearbyLocation];
-		NSLog([NSString stringWithFormat:@"Nearby Location added to Model: %@ Type: %@ URL: %@", 
-			   nearbyLocation.name, nearbyLocation.type, nearbyLocation.URL]);
+		NSLog([NSString stringWithFormat:@"Nearby Location added to Model: %@ URL: %@", 
+			   nearbyLocation.name, nearbyLocation.URL]);
 	}
 	//Parse any items
 	if ([elementName isEqualToString:@"item"]) {

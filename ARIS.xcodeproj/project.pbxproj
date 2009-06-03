@@ -155,6 +155,9 @@
 		A7C1F6010FC070690045F15D /* NearbyBarItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */; };
 		A7C1F6020FC070690045F15D /* NearbyBarButtonBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = A7C1F5FF0FC070690045F15D /* NearbyBarButtonBackground.png */; };
 		A7DA71060FCF1580008D6EB1 /* GradientBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = A7DA71050FCF1580008D6EB1 /* GradientBackground.png */; };
+		A7DBEDAD0FD5FF8400C6C659 /* page.png in Resources */ = {isa = PBXBuildFile; fileRef = A7DBEDAA0FD5FF8400C6C659 /* page.png */; };
+		A7DBEDAE0FD5FF8400C6C659 /* person.png in Resources */ = {isa = PBXBuildFile; fileRef = A7DBEDAB0FD5FF8400C6C659 /* person.png */; };
+		A7DBEDAF0FD5FF8400C6C659 /* pickaxe.png in Resources */ = {isa = PBXBuildFile; fileRef = A7DBEDAC0FD5FF8400C6C659 /* pickaxe.png */; };
 		A7E32E9E0FD1CEFD0058EDB7 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E32E9D0FD1CEFD0058EDB7 /* Player.m */; };
 		A7E39EAD0F5F60D000826198 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E39EAC0F5F60D000826198 /* CameraViewController.m */; };
 		A7E39ECA0F5F655E00826198 /* Camera.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7E39EC90F5F655E00826198 /* Camera.xib */; };
@@ -387,6 +390,9 @@
 		A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyBarItemView.m; sourceTree = "<group>"; };
 		A7C1F5FF0FC070690045F15D /* NearbyBarButtonBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NearbyBarButtonBackground.png; sourceTree = "<group>"; };
 		A7DA71050FCF1580008D6EB1 /* GradientBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = GradientBackground.png; path = images/GradientBackground.png; sourceTree = "<group>"; };
+		A7DBEDAA0FD5FF8400C6C659 /* page.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page.png; sourceTree = "<group>"; };
+		A7DBEDAB0FD5FF8400C6C659 /* person.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = person.png; sourceTree = "<group>"; };
+		A7DBEDAC0FD5FF8400C6C659 /* pickaxe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pickaxe.png; sourceTree = "<group>"; };
 		A7E32E9C0FD1CEFD0058EDB7 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		A7E32E9D0FD1CEFD0058EDB7 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 		A7E39EAB0F5F60D000826198 /* CameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CameraViewController.h; path = Classes/CameraViewController.h; sourceTree = "<group>"; };
@@ -639,6 +645,9 @@
 		A760473F0FC0AA1E00219A53 /* NearbyObjectBar */ = {
 			isa = PBXGroup;
 			children = (
+				A7DBEDAA0FD5FF8400C6C659 /* page.png */,
+				A7DBEDAB0FD5FF8400C6C659 /* person.png */,
+				A7DBEDAC0FD5FF8400C6C659 /* pickaxe.png */,
 				A7FA0E7A0FC7048C00941493 /* IndicatorView.h */,
 				A7FA0E7B0FC7048C00941493 /* IndicatorView.m */,
 				A722CB5A0FBDFEA6009432DB /* NearbyObjectProtocol.h */,
@@ -992,6 +1001,9 @@
 				A79830180FCB1D8900C1C2E7 /* WaitingIndicator.xib in Resources */,
 				A798301B0FCB1F8100C1C2E7 /* RoundedBackground.png in Resources */,
 				A7DA71060FCF1580008D6EB1 /* GradientBackground.png in Resources */,
+				A7DBEDAD0FD5FF8400C6C659 /* page.png in Resources */,
+				A7DBEDAE0FD5FF8400C6C659 /* person.png in Resources */,
+				A7DBEDAF0FD5FF8400C6C659 /* pickaxe.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

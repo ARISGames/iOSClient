@@ -18,13 +18,11 @@
 @synthesize forcedDisplay;
 
 @synthesize locationId;
-@synthesize type;
 @synthesize iconURL;
 @synthesize URL;
 
 - (void) display{
 	NSLog(@"NearbyLocation (Web Style): Display Self Requested");
-	NSLog(@"Item: Display Self Requested");
 	
 	//Create a reference to the delegate using the application singleton.
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
@@ -45,9 +43,9 @@
 	[appDelegate displayNearbyObjectView:genericWebViewController];
 }
 
+
 - (void)dealloc {
 	[name release];
-	[type release];
 	[iconURL release];
 	[URL release];
     [super dealloc];

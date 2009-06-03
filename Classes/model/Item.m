@@ -33,6 +33,10 @@
 	locationId = [fromStringValue intValue];
 }
 
+-(nearbyObjectKind) kind {
+	return NearbyObjectItem;
+}
+
 - (void) display{
 	NSLog(@"Item: Display Self Requested");
 	
