@@ -45,6 +45,8 @@
 	[appDelegate.myCLController.locationManager stopUpdatingLocation];
 	[appDelegate.myCLController.locationManager startUpdatingLocation];
 
+	//Rerfresh all contents
+	[self refreshMap];
 
 }
 		
@@ -57,7 +59,7 @@
 	
 	//register for notifications
 	NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-	[dispatcher addObserver:self selector:@selector(refreshPlayerMarker) name:@"PlayerMoved" object:nil];
+	[dispatcher addObserver:self selector:@selector(refreshMap) name:@"PlayerMoved" object:nil];
 	[dispatcher addObserver:self selector:@selector(refreshMarkers) name:@"ReceivedLocationList" object:nil];
 
 
@@ -118,12 +120,9 @@
 	//[NSThread detachNewThreadSelector: @selector(fetchLocationList) toTarget:appModel withObject: nil];	
 	[appModel fetchLocationList];
 
-	//[appModel fetchLocationList];
 }
 
 - (void)refreshPlayerMarker {
-	NSLog(@"PlayerMoved notification recieved by GPS controller, running refreshPlayerMarker");
-	
 	//Move the player marker
 
 	[markerManager moveMarker:playerMarker AtLatLon: appModel.lastLocation.coordinate];
