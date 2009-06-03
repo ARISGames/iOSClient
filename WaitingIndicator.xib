@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="7.03">
 	<data>
 		<int key="IBDocument.SystemTarget">528</int>
-		<string key="IBDocument.SystemVersion">9G55</string>
+		<string key="IBDocument.SystemVersion">9J61</string>
 		<string key="IBDocument.InterfaceBuilderVersion">677</string>
-		<string key="IBDocument.AppKitVersion">949.43</string>
+		<string key="IBDocument.AppKitVersion">949.46</string>
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -38,8 +38,8 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBUIImageView" id="873752421">
 						<reference key="NSNextResponder" ref="363539573"/>
-						<int key="NSvFlags">274</int>
-						<string key="NSFrame">{{64, 119}, {192, 194}}</string>
+						<int key="NSvFlags">293</int>
+						<string key="NSFrame">{{62, 119}, {192, 243}}</string>
 						<reference key="NSSuperview" ref="363539573"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
@@ -47,7 +47,7 @@
 						</object>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
-						<float key="IBUIAlpha">4.154930e-01</float>
+						<float key="IBUIAlpha">8.521127e-01</float>
 						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<object class="NSCustomResource" key="IBUIImage">
@@ -57,8 +57,8 @@
 					</object>
 					<object class="IBUILabel" id="879236608">
 						<reference key="NSNextResponder" ref="363539573"/>
-						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{93, 217}, {133, 43}}</string>
+						<int key="NSvFlags">293</int>
+						<string key="NSFrame">{{92, 242}, {133, 43}}</string>
 						<reference key="NSSuperview" ref="363539573"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -80,8 +80,8 @@
 					</object>
 					<object class="IBUIActivityIndicatorView" id="493114948">
 						<reference key="NSNextResponder" ref="363539573"/>
-						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{140, 172}, {37, 37}}</string>
+						<int key="NSvFlags">293</int>
+						<string key="NSFrame">{{140, 197}, {37, 37}}</string>
 						<reference key="NSSuperview" ref="363539573"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -91,11 +91,11 @@
 						<int key="IBUIStyle">0</int>
 					</object>
 				</object>
-				<string key="NSFrameSize">{320, 431}</string>
+				<string key="NSFrameSize">{320, 480}</string>
 				<reference key="NSSuperview"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">1</int>
-					<bytes key="NSRGB">MCAwIDAAA</bytes>
+					<bytes key="NSRGB">MCAwIDAgMC4xMgA</bytes>
 				</object>
 				<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 			</object>
@@ -156,8 +156,8 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="873752421"/>
-							<reference ref="879236608"/>
 							<reference ref="493114948"/>
+							<reference ref="879236608"/>
 						</object>
 						<reference key="parent" ref="360949347"/>
 					</object>
@@ -195,7 +195,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>WaitingIndicatorViewController</string>
 					<string>UIResponder</string>
-					<string>{{288, 183}, {320, 431}}</string>
+					<string>{{745, 366}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>{{21, 716}, {132, 106}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>

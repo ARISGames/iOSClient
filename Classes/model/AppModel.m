@@ -13,6 +13,7 @@
 #import "NearbyLocationsListParserDelegate.h"
 #import "InventoryParserDelegate.h"
 #import "XMLParserDelegate.h"
+#import "ARISAppDelegate.h"
 
 #import "Item.h"
 
@@ -66,10 +67,6 @@ NSDictionary *InventoryElements;
 			[InventoryElements retain];
 		}
 		NSLog(@"Testing InventoryElements nilp? %@", InventoryElements);
-		
-		//Set Up Network Alert
-		networkAlert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:@"ARIS is not able to communicate with the server. Check your internet connection."
-												 delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 	}
 			 
     return self;
@@ -224,8 +221,8 @@ NSDictionary *InventoryElements;
 	NSError *error = NULL;
 	NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-	if (error != NULL && networkAlert.visible == NO) [networkAlert show];	
-	else if (networkAlert.visible == NO) [networkAlert dismissWithClickedButtonIndex:0 animated:YES];
+	if (error != NULL) [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showNetworkAlert];	
+	else [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeNetworkAlert];
 	return data;
 }
 

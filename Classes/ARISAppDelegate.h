@@ -42,6 +42,7 @@
 	UINavigationController *gamePickerNavigationController;
 	UINavigationController *nearbyObjectNavigationController;
 	WaitingIndicatorViewController *waitingIndicator;
+	UIAlertView *networkAlert;
 }
 
 @property (nonatomic, retain) AppModel *appModel;
@@ -55,9 +56,12 @@
 @property (nonatomic, retain) IBOutlet NearbyBar *nearbyBar;
 @property (nonatomic, retain) IBOutlet UINavigationController *nearbyObjectNavigationController;
 @property (nonatomic, retain) WaitingIndicatorViewController *waitingIndicator;
+@property (nonatomic, retain) UIAlertView *networkAlert;
 
 - (void)displayNearbyObjectView:(UIViewController *)nearbyObjectViewController;
 - (void) showWaitingIndicator:(NSString *)message;
 - (void) removeWaitingIndicator;
+- (void) showNetworkAlert;
+- (void) removeNetworkAlert;
 
 @end

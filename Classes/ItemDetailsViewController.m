@@ -107,8 +107,8 @@
 	[mediaURL release];
 	
 	//Stop Waiting Indicator
-	[NSThread detachNewThreadSelector: @selector(removeWaitingIndicator) toTarget: (ARISAppDelegate *)[[UIApplication sharedApplication] delegate] withObject: nil];
-	//[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeWaitingIndicator];
+	//[NSThread detachNewThreadSelector: @selector(removeWaitingIndicator) toTarget: (ARISAppDelegate *)[[UIApplication sharedApplication] delegate] withObject: nil];
+	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeWaitingIndicator];
 	
 	
 	[super viewDidLoad];

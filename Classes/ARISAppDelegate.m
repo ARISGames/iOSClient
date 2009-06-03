@@ -21,6 +21,7 @@
 @synthesize nearbyObjectNavigationController;
 @synthesize myCLController;
 @synthesize waitingIndicator;
+@synthesize networkAlert;
 
 //@synthesize toolbarViewController;
 
@@ -150,26 +151,50 @@
 	
 }
 
+
+- (void) showNetworkAlert{
+	NSLog (@"AppDelegate: Showing Network Alert");
+	
+	if (!self.networkAlert) {
+		networkAlert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:
+						@"ARIS is not able to communicate with the server. Check your internet connection."
+												 delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+	}
+	
+	if (self.networkAlert.visible == NO) [networkAlert show];
+		
+}
+
+- (void) removeNetworkAlert {
+	NSLog (@"AppDelegate: Removing Network Alert");
+	
+	if (self.networkAlert != nil) {
+		[self.networkAlert dismissWithClickedButtonIndex:0 animated:YES];
+	}
+}
+
+
+
+
 - (void) showWaitingIndicator:(NSString *)message {
+	NSLog (@"AppDelegate: Showing Waiting Indicator");
+	
 	if (!self.waitingIndicator) {
 		self.waitingIndicator = [[WaitingIndicatorViewController alloc] initWithNibName:@"WaitingIndicator" bundle:nil];
-		[self.window addSubview:self.waitingIndicator.view]; 
-		[self.waitingIndicator retain];
 	}
 	
 	self.waitingIndicator.message = message;
 	
-	if (appModel.loggedIn == YES) self.waitingIndicator.view.hidden = NO;
-	else self.waitingIndicator.view.hidden = YES;
-	
+	//by adding a subview to window, we make sure it is put on top
+	if (appModel.loggedIn == YES) [self.window addSubview:self.waitingIndicator.view]; 
 }
 
 - (void) removeWaitingIndicator {
-	if (self.waitingIndicator != nil) {
-		 self.waitingIndicator.view.hidden = YES;
-	}
+	NSLog (@"AppDelegate: Removing Waiting Indicator");
+	
+	if (self.waitingIndicator != nil) [self.waitingIndicator.view removeFromSuperview ];
 
-
+	
 }
 
 
