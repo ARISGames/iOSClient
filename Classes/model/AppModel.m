@@ -18,6 +18,7 @@
 #import "Item.h"
 
 static NSString *nearbyLock = @"nearbyLock";
+static NSString *locationsLock = @"locationsLock";
 
 @implementation AppModel
 
@@ -255,38 +256,73 @@ NSDictionary *InventoryElements;
 
 
 - (void)fetchLocationList {
-	NSLog(@"Fetching All Locations.");
+	@synchronized (nearbyLock) {
 	
-	//init location list array
-	if(locationList != nil) {
-		[locationList release];
+		NSLog(@"Fetching All Locations.");	
+		
+		//init location list array
+		if(locationList != nil) {
+			[locationList release];
+		}
+		locationList = [NSMutableArray array];
+		[locationList retain];
+	
+		//init player list array
+		if(playerList != nil) {
+			[playerList release];
+		}
+		playerList = [NSMutableArray array];
+		[playerList retain];
+	
+	
+		//Fetch Data
+		NSURLRequest *request = [self getURLForModule:@"RESTMap"];
+		NSData *data = [self fetchURLData:request];
+	
+		NSXMLParser *parser = [[NSXMLParser alloc] initWithData:data];
+		LocationListParserDelegate *locationListParserDelegate = [[LocationListParserDelegate alloc] initWithModel:self];
+		[parser setDelegate:locationListParserDelegate];
+	
+		//init parser
+		[parser setShouldProcessNamespaces:NO];
+		[parser setShouldReportNamespacePrefixes:NO];
+		[parser setShouldResolveExternalEntities:NO];
+		[parser parse];
+		[parser release];
 	}
-	locationList = [NSMutableArray array];
-	[locationList retain];
-	
-	//init player list array
-	if(playerList != nil) {
-		[playerList release];
-	}
-	playerList = [NSMutableArray array];
-	[playerList retain];
-	
-	
-	//Fetch Data
-	NSURLRequest *request = [self getURLForModule:@"RESTMap"];
-	NSData *data = [self fetchURLData:request];
-	
-	NSXMLParser *parser = [[NSXMLParser alloc] initWithData:data];
-	LocationListParserDelegate *locationListParserDelegate = [[LocationListParserDelegate alloc] initWithModel:self];
-	[parser setDelegate:locationListParserDelegate];
-	
-	//init parser
-	[parser setShouldProcessNamespaces:NO];
-	[parser setShouldReportNamespacePrefixes:NO];
-	[parser setShouldResolveExternalEntities:NO];
-	[parser parse];
-	[parser release];
 }
+
+- (NSMutableArray *)locationList {
+	NSMutableArray *result = nil;
+	@synchronized (locationsLock) {
+		result = [locationList retain];
+	}
+	return result;
+}
+
+- (void)setLocationList:(NSMutableArray *)source {
+	@synchronized (locationsLock) {
+		locationList = [source copy];
+	}
+}
+
+
+- (NSMutableArray *)playerList {
+	NSMutableArray *result = nil;
+	@synchronized (locationsLock) {
+		result = [playerList retain];
+	}
+	return result;
+}
+
+- (void)setPlayerList:(NSMutableArray *)source {
+	@synchronized (locationsLock) {
+		playerList = [source copy];
+	}
+}
+
+
+
 
 
 - (void)fetchInventory {

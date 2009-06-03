@@ -15,6 +15,9 @@
 #import "Player.h"
 #import "ARISAppDelegate.h"
 
+
+static int DEFAULT_ZOOM = 16;
+
 @implementation GPSViewController
 
 @synthesize mapView;
@@ -35,7 +38,7 @@
 		
 - (IBAction)refresh: (id) sender{
 
-	NSLog(@"GPS: Refresh Requested");
+	NSLog(@"GPS: Refresh Button Touched");
 	
 	//Center the Map
 	[[mapView contents] moveToLatLong:appModel.lastLocation.coordinate];
@@ -47,6 +50,9 @@
 
 	//Rerfresh all contents
 	[self refreshMap];
+	
+	//Zoom and Center
+	[self zoomAndCenterMap];
 
 }
 		
@@ -73,8 +79,6 @@
 							tableViewHeight);
 	mapView = [[RMMapView alloc] initWithFrame:tableFrame];
     
-	mapView.contents.zoom = 16;
-	
 	[self.view addSubview:mapView];
 	
 	markerManager = [mapView markerManager];
@@ -87,6 +91,8 @@
 	playerMarker = [[RMMarker alloc]initWithCGImage:[RMMarker loadPNGFromBundle:@"marker-player"]];
 	[markerManager addMarker:playerMarker AtLatLong:playerPosition];
 	
+	//Zoom and Center
+	[self zoomAndCenterMap];
 	
 	NSLog(@"GPS View Loaded");
 }
@@ -111,15 +117,23 @@
 
 // Updates the map to current data for player and locations from the server
 - (void) refreshMap {
-	NSLog(@"GPS refreshMap requested");
-	
+	NSLog(@"GPS refreshMap requested");	
 	//Move the player marker
 	[self refreshPlayerMarker];
 		
 	//Ask for the Locations to be loaded into the model, which will trigger a notification to refreshMarkers here
-	//[NSThread detachNewThreadSelector: @selector(fetchLocationList) toTarget:appModel withObject: nil];	
-	[appModel fetchLocationList];
+	[NSThread detachNewThreadSelector: @selector(fetchLocationList) toTarget:appModel withObject: nil];	
+	//[appModel fetchLocationList];
 
+}
+
+-(void) zoomAndCenterMap {
+	
+	//Center the map on the player
+	[[mapView contents] moveToLatLong:appModel.lastLocation.coordinate];
+	
+	//Set to default zoom
+	mapView.contents.zoom = DEFAULT_ZOOM;
 }
 
 - (void)refreshPlayerMarker {
@@ -132,7 +146,7 @@
 	else [playerMarker replaceImage:[RMMarker loadPNGFromBundle:@"marker-player-lqgps"] anchorPoint:CGPointMake(.5, .6)];
 
 	
-	[[mapView contents] moveToLatLong:appModel.lastLocation.coordinate];
+	//[[mapView contents] moveToLatLong:appModel.lastLocation.coordinate];
 }
 
 - (void)refreshMarkers {
