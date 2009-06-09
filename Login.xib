@@ -43,11 +43,12 @@
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
+						<float key="IBUIAlpha">4.859155e-01</float>
 						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">GradientBackground.png</string>
+							<string key="NSResourceName">LoginBackground.png</string>
 						</object>
 					</object>
 					<object class="IBUIButton" id="988830135">
@@ -69,13 +70,13 @@
 						<string key="IBUIDisabledTitle">Login</string>
 						<string key="IBUISelectedTitle">Login</string>
 						<string key="IBUINormalTitle">Login</string>
-						<object class="NSColor" key="IBUIHighlightedTitleColor" id="284387298">
-							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MC43ODgwNDM1IDAuMDM3MTMxNjA0IDAAA</bytes>
+						<object class="NSColor" key="IBUIHighlightedTitleColor" id="571465566">
+							<int key="NSColorSpace">2</int>
+							<bytes key="NSRGB">MC4xMjU0OTAyIDAgMC43NzI1NDkwOQA</bytes>
 						</object>
-						<reference key="IBUIDisabledTitleColor" ref="284387298"/>
-						<reference key="IBUISelectedTitleColor" ref="284387298"/>
-						<reference key="IBUINormalTitleColor" ref="284387298"/>
+						<reference key="IBUIDisabledTitleColor" ref="571465566"/>
+						<reference key="IBUISelectedTitleColor" ref="571465566"/>
+						<reference key="IBUINormalTitleColor" ref="571465566"/>
 					</object>
 					<object class="IBUIButton" id="708684874">
 						<reference key="NSNextResponder" ref="191373211"/>
@@ -96,10 +97,13 @@
 						<string key="IBUIDisabledTitle">Sign Up</string>
 						<string key="IBUISelectedTitle">Sign Up</string>
 						<string key="IBUINormalTitle">Sign Up</string>
-						<reference key="IBUIHighlightedTitleColor" ref="284387298"/>
-						<reference key="IBUIDisabledTitleColor" ref="284387298"/>
-						<reference key="IBUISelectedTitleColor" ref="284387298"/>
-						<reference key="IBUINormalTitleColor" ref="284387298"/>
+						<object class="NSColor" key="IBUIHighlightedTitleColor" id="789723755">
+							<int key="NSColorSpace">2</int>
+							<bytes key="NSRGB">MC4xMjU0OTAyIDAgMC43NzI1NDkwOQA</bytes>
+						</object>
+						<reference key="IBUIDisabledTitleColor" ref="789723755"/>
+						<reference key="IBUISelectedTitleColor" ref="789723755"/>
+						<reference key="IBUINormalTitleColor" ref="789723755"/>
 						<object class="NSColor" key="IBUIHighlightedTitleShadowColor" id="198129035">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MC4wMTA5NDg5MDUAA</bytes>
@@ -354,7 +358,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>LoginViewController</string>
 					<string>UIResponder</string>
-					<string>{{744, 376}, {320, 480}}</string>
+					<string>{{713, 375}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -402,14 +406,12 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>login</string>
 							<string>password</string>
-							<string>titleItem</string>
 							<string>username</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UIButton</string>
 							<string>UITextField</string>
-							<string>UINavigationItem</string>
 							<string>UITextField</string>
 						</object>
 					</object>
