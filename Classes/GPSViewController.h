@@ -24,6 +24,7 @@
 
 -(void) setModel:(AppModel *)model;
 -(void) refreshMap;
+-(void) zoomAndCenterMap;
 -(void) refreshPlayerMarker;
 
 
