@@ -182,7 +182,7 @@ static int DEFAULT_ZOOM = 16;
 		locationLatLong.latitude = player.latitude;
 		locationLatLong.longitude = player.longitude;
 		
-		RMMarker *marker = [[RMMarker alloc]initWithCGImage:[RMMarker loadPNGFromBundle:@"marker-player"]];
+		RMMarker *marker = [[RMMarker alloc]initWithCGImage:[RMMarker loadPNGFromBundle:@"marker-other-player"]];
 		[marker setTextLabel:player.name];
 		[markerManager addMarker:marker AtLatLong:locationLatLong];
 		[marker release];
