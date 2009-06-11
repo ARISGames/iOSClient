@@ -122,8 +122,8 @@ static int DEFAULT_ZOOM = 16;
 	[self refreshPlayerMarker];
 		
 	//Ask for the Locations to be loaded into the model, which will trigger a notification to refreshMarkers here
-	[NSThread detachNewThreadSelector: @selector(fetchLocationList) toTarget:appModel withObject: nil];	
-	//[appModel fetchLocationList];
+	//[NSThread detachNewThreadSelector: @selector(fetchLocationList) toTarget:appModel withObject: nil];	
+	[appModel fetchLocationList];
 
 }
 
