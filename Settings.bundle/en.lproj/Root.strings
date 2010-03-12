@@ -1,0 +1,6 @@
+﻿/* A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences. */
+
+"Advanced Settings" = "Advanced Settings";
+"Server URL" = "Server URL";
+"About ARIS" = "About ARIS";
+
