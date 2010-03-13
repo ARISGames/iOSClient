@@ -189,8 +189,6 @@
 		ABBEBBC2104D7CF900AA7285 /* NodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABBEBBC1104D7CF900AA7285 /* NodeViewController.m */; };
 		ABBEBBC5104D7DAB00AA7285 /* Node.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABBEBBC4104D7DAB00AA7285 /* Node.xib */; };
 		ABD5C4E9104F1A0E002EB824 /* Npc.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD5C4E8104F1A0E002EB824 /* Npc.m */; };
-		ABD5C622104F3863002EB824 /* Npc.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABD5C61F104F3863002EB824 /* Npc.xib */; };
-		ABD5C623104F3863002EB824 /* NpcViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD5C621104F3863002EB824 /* NpcViewController.m */; };
 		ABD6226110D6FBB400D3B747 /* QuestActiveIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = ABD6225F10D6FBB400D3B747 /* QuestActiveIcon.png */; };
 		ABD6226210D6FBB400D3B747 /* QuestCompleteIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = ABD6226010D6FBB400D3B747 /* QuestCompleteIcon.png */; };
 		ABD6226510D6FBCE00D3B747 /* logout.png in Resources */ = {isa = PBXBuildFile; fileRef = ABD6226410D6FBCE00D3B747 /* logout.png */; };
@@ -451,9 +449,6 @@
 		ABBEBBC4104D7DAB00AA7285 /* Node.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Node.xib; sourceTree = "<group>"; };
 		ABD5C4E7104F1A0E002EB824 /* Npc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Npc.h; sourceTree = "<group>"; };
 		ABD5C4E8104F1A0E002EB824 /* Npc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Npc.m; sourceTree = "<group>"; };
-		ABD5C61F104F3863002EB824 /* Npc.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Npc.xib; sourceTree = "<group>"; };
-		ABD5C620104F3863002EB824 /* NpcViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NpcViewController.h; sourceTree = "<group>"; };
-		ABD5C621104F3863002EB824 /* NpcViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NpcViewController.m; sourceTree = "<group>"; };
 		ABD6225F10D6FBB400D3B747 /* QuestActiveIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = QuestActiveIcon.png; sourceTree = "<group>"; };
 		ABD6226010D6FBB400D3B747 /* QuestCompleteIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = QuestCompleteIcon.png; sourceTree = "<group>"; };
 		ABD6226410D6FBCE00D3B747 /* logout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logout.png; sourceTree = "<group>"; };
@@ -659,7 +654,6 @@
 				A7986D6A0F8FEC7200A5469F /* Core App */,
 				AB6B774810C9D61200275650 /* ARView */,
 				ABBEBBBF104D7CE400AA7285 /* Nodes */,
-				ABD4F19F1046FC7A003AC93C /* NPC */,
 				A7986D680F8FEC4900A5469F /* Quests */,
 				ABDA40A910506AF400823A94 /* GPS */,
 				A7986D660F8FEC2100A5469F /* Inventory */,
@@ -950,16 +944,6 @@
 			name = Nodes;
 			sourceTree = "<group>";
 		};
-		ABD4F19F1046FC7A003AC93C /* NPC */ = {
-			isa = PBXGroup;
-			children = (
-				ABD5C61F104F3863002EB824 /* Npc.xib */,
-				ABD5C620104F3863002EB824 /* NpcViewController.h */,
-				ABD5C621104F3863002EB824 /* NpcViewController.m */,
-			);
-			name = NPC;
-			sourceTree = "<group>";
-		};
 		ABDA40A910506AF400823A94 /* GPS */ = {
 			isa = PBXGroup;
 			children = (
@@ -1089,7 +1073,6 @@
 				A798301B0FCB1F8100C1C2E7 /* RoundedBackground.png in Resources */,
 				A7615F8F0FDED3DC00438796 /* LoginBackground.png in Resources */,
 				ABBEBBC5104D7DAB00AA7285 /* Node.xib in Resources */,
-				ABD5C622104F3863002EB824 /* Npc.xib in Resources */,
 				ABDA40BD10506AF400823A94 /* GPS.xib in Resources */,
 				ABDA40C310506AF400823A94 /* player.png in Resources */,
 				ABB925C410C857D800B09506 /* defaultAudioIcon.png in Resources */,
@@ -1213,7 +1196,6 @@
 				ABBEBBAD104D7CC800AA7285 /* NodeOption.m in Sources */,
 				ABBEBBC2104D7CF900AA7285 /* NodeViewController.m in Sources */,
 				ABD5C4E9104F1A0E002EB824 /* Npc.m in Sources */,
-				ABD5C623104F3863002EB824 /* NpcViewController.m in Sources */,
 				AB2223F510502CD800A4255E /* Quest.m in Sources */,
 				ABDA40BF10506AF400823A94 /* GPSViewController.m in Sources */,
 				ABDA40C110506AF400823A94 /* Annotation.m in Sources */,
