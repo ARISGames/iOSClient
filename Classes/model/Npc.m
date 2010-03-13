@@ -10,7 +10,6 @@
 #import "AppModel.h"
 #import "DialogViewController.h"
 #import "Npc.h"
-#import "NpcViewController.h"
 
 @implementation Npc
 @synthesize npcId;
