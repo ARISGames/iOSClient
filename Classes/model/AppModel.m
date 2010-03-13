@@ -263,6 +263,27 @@ static const int kEmptyValue = -1;
 	[self fetchInventory];
 }
 
+- (void)updateServerNpcViewed: (int)npcId {
+	NSLog(@"Model: Npc %d Viewed, update server", npcId);
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.gameId],
+						  [NSString stringWithFormat:@"%d",playerId],
+						  [NSString stringWithFormat:@"%d",npcId],
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+																	andServiceName:@"players" 
+																	 andMethodName:@"npcViewed" 
+																	  andArguments:arguments];
+	[jsonConnection performAsynchronousRequestWithParser:nil]; 
+	
+	//Check for any updates to player state
+	[self fetchLocationList];
+	[self fetchQuestList];
+	[self fetchInventory];
+}
+
+
 - (void)updateServerGameSelected{
 	NSLog(@"Model: Game %d Selected, update server", gameId);
 	

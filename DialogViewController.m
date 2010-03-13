@@ -141,6 +141,12 @@ NSString *const kHtmlTemplate =
 #pragma mark NPC Control
 - (void) beginWithNPC:(Npc *)aNpc {
 	currentNpc = [aNpc retain];
+	
+	//tell the server
+	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
+	AppModel *appModel = appDelegate.appModel;
+	[appModel updateServerNpcViewed:currentNpc.npcId];
+	
 	parser = [[SceneParser alloc] initWithDefaultNpcId:[aNpc mediaId]];
 	parser.delegate = self;
 	

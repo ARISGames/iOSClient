@@ -89,6 +89,7 @@ extern NSDictionary *InventoryElements;
 - (void)updateServerLocationAndfetchNearbyLocationList;
 - (void)updateServerNodeViewed: (int)nodeId;
 - (void)updateServerItemViewed: (int)itemId;
+- (void)updateServerNpcViewed: (int)npcId;
 - (void)updateServerPickupItem: (int)itemId fromLocation: (int)locationId;
 - (void)updateServerDropItemHere: (int)itemId;
 - (void)updateServerDestroyItem: (int)itemId;
