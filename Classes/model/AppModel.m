@@ -377,10 +377,94 @@ static const int kEmptyValue = -1;
 	[jsonConnection performSynchronousRequest]; 
 }
 
-- (void)createItemForImage: (UIImage *)image{
+- (void)createItemAndGiveToPlayerFromFileData:(NSData *)fileData andFileName:(NSString *)fileName{
 	NSLog(@"Model: creating a new Item for an image");
-	//Upload the file to get it's name
-	//Create the media record, add the item to the game and add this item to the players inventory
+
+	//Do the file upload first
+	NSString* newFileName = [self uploadFileToServerAndGetName:fileData fileName:fileName];
+
+	
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects:
+						  [NSString stringWithFormat:@"%d",self.gameId],
+						  [NSString stringWithFormat:@"%d",self.playerId],
+						  @"Name",
+						  @"Description",
+						  newFileName,
+						  @"0",
+						  @"0",
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+																	andServiceName:@"items" 
+																	 andMethodName:@"createItemAndGiveToPlayer" 
+																	  andArguments:arguments];
+	[jsonConnection performAsynchronousRequestWithParser:nil]; 
+	
+	[self fetchMediaList];
+	[self fetchInventory];	
+		
+}
+
+
+- (NSString*)uploadFileToServerAndGetName: (NSData *)fileData fileName:(NSString*)fileName{
+	NSLog(@"Model: Preparing to send file to Server");
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
+	
+	//[appDelegate performSelectorInBackground:@selector(showWaitingIndicator:) withObject:@"Uploading Image"];
+	[appDelegate showWaitingIndicator:@"Uploading Image"];
+	
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+
+	
+	// setting up the request object now
+	NSString *urlString = [[[NSString alloc] initWithFormat:@"%@services/aris/uploadHandler.php",self.baseAppURL] autorelease];
+	NSURL *url = [[[NSURL alloc] initWithString:urlString] autorelease];
+	NSMutableURLRequest* request = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
+	[request setHTTPMethod: @"POST"];
+	
+	//Add headers
+	NSString *boundary = [NSString stringWithString:@"---------------------------14737809831466499882746641449"];
+	NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary];
+	[request addValue:contentType forHTTPHeaderField: @"Content-Type"];
+	
+	//body
+	NSMutableData *body = [NSMutableData data];
+	[body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+	
+	// GameID
+	[body appendData:[self encode:[NSString stringWithFormat:@"%d", self.gameId] forPostWithName:@"gameID"]];
+	
+	//image
+	[body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"%@\"\r\n",fileName] dataUsingEncoding:NSUTF8StringEncoding]];
+	[body appendData:[[NSString stringWithString:@"Content-Type: application/octet-stream\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+	[body appendData:[NSData dataWithData:fileData]];
+	[body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+	
+	// setting the body of the post to the reqeust
+	[request setHTTPBody:body];
+	
+	// post it
+	NSURLResponse *response;
+	NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+	NSString *returnString = [[[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding] autorelease];
+	NSLog(@"Model: File Upload Result from Server: %@", returnString);
+	
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	[appDelegate removeWaitingIndicator];
+    //[pool drain];
+	
+	return returnString;
+}
+//sure would be nice to wrap this in with the code above
+- (NSData *) encode:(NSString *)data forPostWithName:(NSString *)name {
+	NSString *const boundaryMagicString  = @"---------------------------14737809831466499882746641449";
+	
+	NSData *result = [[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n%@\r\n--%@\r\n",
+						name, data, boundaryMagicString] dataUsingEncoding:NSUTF8StringEncoding] autorelease];
+	return result;	
 }
 
 - (void)updateServerLocationAndfetchNearbyLocationList {
@@ -519,6 +603,8 @@ static const int kEmptyValue = -1;
 
 
 - (void)fetchMediaList {
+	NSLog(@"AppModel: Fetching Media List");
+	
 	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",self.gameId], nil];
 	
 	self.mediaList = [self fetchFromService:@"media" usingMethod:@"getMedia"

@@ -13,14 +13,19 @@
 @synthesize label;
 @synthesize message;
 
--(void)setMessage {
-	label.text = message;
+-(void) setMessage: (NSString*) newMessage{
+	label.text = newMessage;
+	[label setNeedsDisplay];
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
 	NSLog(@"Waiting Indicator: ViewDidLoad");
-    [spinner startAnimating];
+	[spinner startAnimating];
+	
+	//should force a display
+	[self.view drawRect:self.view.bounds];
+
 	[super viewDidLoad];
 }
 

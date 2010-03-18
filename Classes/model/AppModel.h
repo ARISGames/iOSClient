@@ -95,9 +95,11 @@ extern NSDictionary *InventoryElements;
 - (void)updateServerDestroyItem: (int)itemId;
 - (void)resetPlayerEvents;
 - (void)resetPlayerItems;
-- (void)createItemForImage: (UIImage *)image;
+- (void)createItemAndGiveToPlayerFromFileData:(NSData *)fileData andFileName:(NSString *)fileName;
 - (BOOL)registerNewUser:(NSString*)userName password:(NSString*)pass 
 			  firstName:(NSString*)firstName lastName:(NSString*)lastName email:(NSString*)email;
+- (NSString*)uploadFileToServerAndGetName: (NSData *)fileData fileName:(NSString*)fileName;
+
 
 - (Item *)parseItemFromDictionary: (NSDictionary *)itemDictionary;
 - (Node *)parseNodeFromDictionary: (NSDictionary *)nodeDictionary;

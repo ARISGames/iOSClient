@@ -12,11 +12,11 @@
 @interface WaitingIndicatorViewController : UIViewController {
 	UIActivityIndicatorView *spinner;
 	UILabel *label;
-	NSString *message;
 
 }
 
-@property(nonatomic, retain) NSString *message;
+@property(readonly) NSString *message;
+-(void) setMessage: (NSString*) newMessage;
 @property(nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
 @property(nonatomic, retain) IBOutlet UILabel *label;
 
