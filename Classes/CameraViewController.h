@@ -12,11 +12,18 @@
 
 @interface CameraViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
 	AppModel *appModel;	
-	IBOutlet UIButton *takePhotoButton;
+	IBOutlet UIButton *cameraButton;
+	IBOutlet UIButton *libraryButton;
+
     UIImagePickerController *imagePickerController;
 }
+
+@property (nonatomic, retain) IBOutlet UIButton *cameraButton;
+@property (nonatomic, retain) IBOutlet UIButton *libraryButton;
 @property (nonatomic, retain) UIImagePickerController *imagePickerController;
 
 - (IBAction)cameraButtonTouchAction;
+- (IBAction)libraryButtonTouchAction;
+
 
 @end

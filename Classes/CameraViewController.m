@@ -19,6 +19,8 @@
 @implementation CameraViewController
 
 @synthesize imagePickerController;
+@synthesize cameraButton;
+@synthesize libraryButton;
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle {
@@ -38,12 +40,16 @@
 	
 	self.imagePickerController = [[UIImagePickerController alloc] init];
 	
-	self.imagePickerController.allowsEditing = YES;
+	if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+		self.cameraButton.enabled = YES;
+		self.cameraButton.alpha = 1.0;
+	}
+	else {
+		self.cameraButton.enabled = NO;
+		self.cameraButton.alpha = 0.6;
+	}
+	
 	self.imagePickerController.delegate = self;
-	self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-	self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePickerController.sourceType];
-
-	self.imagePickerController.showsCameraControls = YES;
 	
 	NSLog(@"Camera Loaded");
 }
@@ -51,10 +57,20 @@
 
 - (IBAction)cameraButtonTouchAction {
 	NSLog(@"Camera Button Pressed");
+	self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+	self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePickerController.sourceType];
+	self.imagePickerController.allowsEditing = YES;
+	self.imagePickerController.showsCameraControls = YES;
+
 	[self presentModalViewController:self.imagePickerController animated:YES];
 	[self.imagePickerController release];
 }
-
+- (IBAction)libraryButtonTouchAction {
+	NSLog(@"Library Button Pressed");
+	self.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+	[self presentModalViewController:self.imagePickerController animated:YES];
+	[self.imagePickerController release];
+}
 
 
 #pragma mark UIImagePickerControllerDelegate Protocol Methods
