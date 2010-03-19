@@ -9,7 +9,7 @@
 #import "CameraViewController.h"
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
-
+#import <MobileCoreServices/UTCoreTypes.h>
 
 @interface CameraViewController()
 - (NSData *) encode:(NSString *)data forPostWithName:(NSString *)name;
@@ -37,9 +37,13 @@
     [super viewDidLoad];
 	
 	self.imagePickerController = [[UIImagePickerController alloc] init];
-	[imagePickerController release];
-	self.imagePickerController.allowsImageEditing = YES;
+	
+	self.imagePickerController.allowsEditing = YES;
 	self.imagePickerController.delegate = self;
+	self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+	self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePickerController.sourceType];
+
+	self.imagePickerController.showsCameraControls = YES;
 	
 	NSLog(@"Camera Loaded");
 }
@@ -47,24 +51,41 @@
 
 - (IBAction)cameraButtonTouchAction {
 	NSLog(@"Camera Button Pressed");
-	self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
 	[self presentModalViewController:self.imagePickerController animated:YES];
+	[self.imagePickerController release];
 }
 
 
 
 #pragma mark UIImagePickerControllerDelegate Protocol Methods
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)img 
-				  editingInfo:(NSDictionary *)editInfo 
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary  *)info
+
 {
+	NSLog(@"CameraViewController: User Selected an Image or Video");
+
 	[[picker parentViewController] dismissModalViewControllerAnimated:YES];
 
-			
-	//turning the image in the UIView into a NSData JPEG object at 90% quality
-	NSData *imageData = UIImageJPEGRepresentation(img, .8);
-	
-	[appModel createItemAndGiveToPlayerFromFileData:imageData andFileName:@"image.jpg"];
-	
+	NSString* mediaType = [info objectForKey:UIImagePickerControllerMediaType];
+
+
+	if ([mediaType isEqualToString:@"public.image"]){
+		UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
+        if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];             
+		
+		NSLog(@"CameraViewController: Found an Image");
+		NSData *imageData = UIImageJPEGRepresentation(image, .8);
+		[appModel createItemAndGiveToPlayerFromFileData:imageData andFileName:@"image.jpg"];
+	}	
+	else if ([mediaType isEqualToString:@"public.movie"]){
+		NSLog(@"CameraViewController: Found a Movie");
+		NSURL *videoURL = [info objectForKey:UIImagePickerControllerMediaURL];
+		NSData *videoData = [NSData dataWithContentsOfURL:videoURL];
+		[appModel createItemAndGiveToPlayerFromFileData:videoData andFileName:@"video.m4v"];
+	}	
+
+
+
+
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {

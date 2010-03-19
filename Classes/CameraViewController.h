@@ -13,8 +13,6 @@
 @interface CameraViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
 	AppModel *appModel;	
 	IBOutlet UIButton *takePhotoButton;
-	IBOutlet UIButton *uploadPhotoButton;
-    IBOutlet UIImageView *image;
     UIImagePickerController *imagePickerController;
 }
 @property (nonatomic, retain) UIImagePickerController *imagePickerController;

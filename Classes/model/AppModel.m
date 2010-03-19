@@ -409,7 +409,6 @@ static const int kEmptyValue = -1;
 
 - (NSString*)uploadFileToServerAndGetName: (NSData *)fileData fileName:(NSString*)fileName{
 	NSLog(@"Model: Preparing to send file to Server");
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
 	
@@ -420,9 +419,9 @@ static const int kEmptyValue = -1;
 
 	
 	// setting up the request object now
-	NSString *urlString = [[[NSString alloc] initWithFormat:@"%@services/aris/uploadHandler.php",self.baseAppURL] autorelease];
-	NSURL *url = [[[NSURL alloc] initWithString:urlString] autorelease];
-	NSMutableURLRequest* request = [[[NSMutableURLRequest alloc] initWithURL:url] autorelease];
+	NSString *urlString = [[NSString alloc] initWithFormat:@"%@services/aris/uploadHandler.php",self.baseAppURL];
+	NSURL *url = [[NSURL alloc] initWithString:urlString];
+	NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:url];
 	[request setHTTPMethod: @"POST"];
 	
 	//Add headers
@@ -449,12 +448,12 @@ static const int kEmptyValue = -1;
 	// post it
 	NSURLResponse *response;
 	NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-	NSString *returnString = [[[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding] autorelease];
+	NSString *returnString = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
 	NSLog(@"Model: File Upload Result from Server: %@", returnString);
 	
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	[appDelegate removeWaitingIndicator];
-    //[pool drain];
+
 	
 	return returnString;
 }
