@@ -40,6 +40,16 @@
 	self.imagePickerController.allowsImageEditing = YES;
 	self.imagePickerController.delegate = self;
 	
+	if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+		self.scanButton.enabled = YES;
+		self.scanButton.alpha = 1.0;
+	}
+	else {
+		self.scanButton.enabled = NO;
+		self.scanButton.alpha = 0.6;
+	}
+	
+	
 	NSLog(@"QRScannerViewController: Loaded");
 }
 

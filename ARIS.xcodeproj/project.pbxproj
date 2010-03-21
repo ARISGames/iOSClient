@@ -146,6 +146,10 @@
 		A7F0EE3F0F71CFEF008F7BAD /* GenericWebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7F0EE3E0F71CFEF008F7BAD /* GenericWebView.xib */; };
 		A7F0EE610F71D0C5008F7BAD /* GenericWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F0EE600F71D0C5008F7BAD /* GenericWebViewController.m */; };
 		A7FA0E7C0FC7048C00941493 /* IndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7FA0E7B0FC7048C00941493 /* IndicatorView.m */; };
+		AB0DE7B611556EC200A6EC3E /* ARCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE7AF11556EC200A6EC3E /* ARCoordinate.m */; };
+		AB0DE7B711556EC200A6EC3E /* ARGeoCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE7B111556EC200A6EC3E /* ARGeoCoordinate.m */; };
+		AB0DE7B811556EC200A6EC3E /* ARGeoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE7B311556EC200A6EC3E /* ARGeoViewController.m */; };
+		AB0DE7B911556EC200A6EC3E /* ARViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE7B511556EC200A6EC3E /* ARViewController.m */; };
 		AB15EC1510B49F8A00EEC11F /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AB15EC1410B49F8A00EEC11F /* AsyncImageView.m */; };
 		AB2223F510502CD800A4255E /* Quest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB2223F410502CD800A4255E /* Quest.m */; };
 		AB3E113F10486A5500A9034C /* JSONConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AB3E113E10486A5500A9034C /* JSONConnection.m */; };
@@ -161,14 +165,6 @@
 		AB8A3CCE104936F500422773 /* libiconv.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AB8A3CCD104936F500422773 /* libiconv.2.dylib */; };
 		AB8A42A0104C7F8C00422773 /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8A429F104C7F8C00422773 /* Node.m */; };
 		AB9A7C1710AA173F002FD9BC /* ARISURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AB9A7C1610AA173F002FD9BC /* ARISURLConnection.m */; };
-		ABA1046910CA0B2A008538D0 /* ARGeoCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = ABA1046610CA0B2A008538D0 /* ARGeoCoordinate.m */; };
-		ABA1046A10CA0B2A008538D0 /* ARGeoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABA1046810CA0B2A008538D0 /* ARGeoViewController.m */; };
-		ABA1049910CA0C6E008538D0 /* ARCoordinate.h in Sources */ = {isa = PBXBuildFile; fileRef = AB6B774C10C9D64800275650 /* ARCoordinate.h */; };
-		ABA1049A10CA0C6E008538D0 /* ARCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = AB6B774D10C9D64800275650 /* ARCoordinate.m */; };
-		ABA1049B10CA0C6E008538D0 /* ARViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = AB6B774E10C9D64800275650 /* ARViewController.h */; };
-		ABA1049C10CA0C6E008538D0 /* ARViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB6B774F10C9D64800275650 /* ARViewController.m */; };
-		ABA1049D10CA0C6E008538D0 /* ARGeoCoordinate.h in Sources */ = {isa = PBXBuildFile; fileRef = ABA1046510CA0B2A008538D0 /* ARGeoCoordinate.h */; };
-		ABA1049E10CA0C6E008538D0 /* ARGeoViewController.h in Sources */ = {isa = PBXBuildFile; fileRef = ABA1046710CA0B2A008538D0 /* ARGeoViewController.h */; };
 		ABA1049F10CA0C6E008538D0 /* location.png in Sources */ = {isa = PBXBuildFile; fileRef = AB6B775410C9D64800275650 /* location.png */; };
 		ABA104A010CA0C6E008538D0 /* ARViewViewControler.h in Sources */ = {isa = PBXBuildFile; fileRef = AB6B775C10C9D6C900275650 /* ARViewViewControler.h */; };
 		ABA104C710CA0E3E008538D0 /* ARView.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABA104C610CA0E3E008538D0 /* ARView.xib */; };
@@ -389,6 +385,14 @@
 		A7F0EE600F71D0C5008F7BAD /* GenericWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GenericWebViewController.m; path = Classes/GenericWebViewController.m; sourceTree = "<group>"; };
 		A7FA0E7A0FC7048C00941493 /* IndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndicatorView.h; sourceTree = "<group>"; };
 		A7FA0E7B0FC7048C00941493 /* IndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndicatorView.m; sourceTree = "<group>"; };
+		AB0DE7AE11556EC200A6EC3E /* ARCoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARCoordinate.h; sourceTree = "<group>"; };
+		AB0DE7AF11556EC200A6EC3E /* ARCoordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARCoordinate.m; sourceTree = "<group>"; };
+		AB0DE7B011556EC200A6EC3E /* ARGeoCoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARGeoCoordinate.h; sourceTree = "<group>"; };
+		AB0DE7B111556EC200A6EC3E /* ARGeoCoordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARGeoCoordinate.m; sourceTree = "<group>"; };
+		AB0DE7B211556EC200A6EC3E /* ARGeoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARGeoViewController.h; sourceTree = "<group>"; };
+		AB0DE7B311556EC200A6EC3E /* ARGeoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARGeoViewController.m; sourceTree = "<group>"; };
+		AB0DE7B411556EC200A6EC3E /* ARViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARViewController.h; sourceTree = "<group>"; };
+		AB0DE7B511556EC200A6EC3E /* ARViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARViewController.m; sourceTree = "<group>"; };
 		AB15EC1310B49F8A00EEC11F /* AsyncImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncImageView.h; sourceTree = "<group>"; };
 		AB15EC1410B49F8A00EEC11F /* AsyncImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncImageView.m; sourceTree = "<group>"; };
 		AB2223F310502CD800A4255E /* Quest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quest.h; sourceTree = "<group>"; };
@@ -412,10 +416,6 @@
 		AB549EDE1047007B00A901EF /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		AB54A0B81047301E00A901EF /* JSONResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONResult.h; sourceTree = "<group>"; };
 		AB54A0B91047301E00A901EF /* JSONResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONResult.m; sourceTree = "<group>"; };
-		AB6B774C10C9D64800275650 /* ARCoordinate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARCoordinate.h; sourceTree = "<group>"; };
-		AB6B774D10C9D64800275650 /* ARCoordinate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARCoordinate.m; sourceTree = "<group>"; };
-		AB6B774E10C9D64800275650 /* ARViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARViewController.h; sourceTree = "<group>"; };
-		AB6B774F10C9D64800275650 /* ARViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARViewController.m; sourceTree = "<group>"; };
 		AB6B775410C9D64800275650 /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
 		AB6B775C10C9D6C900275650 /* ARViewViewControler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARViewViewControler.h; sourceTree = "<group>"; };
 		AB6B775D10C9D6C900275650 /* ARViewViewControler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARViewViewControler.m; sourceTree = "<group>"; };
@@ -424,10 +424,6 @@
 		AB8A429F104C7F8C00422773 /* Node.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Node.m; sourceTree = "<group>"; };
 		AB9A7C1510AA173F002FD9BC /* ARISURLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISURLConnection.h; sourceTree = "<group>"; };
 		AB9A7C1610AA173F002FD9BC /* ARISURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISURLConnection.m; sourceTree = "<group>"; };
-		ABA1046510CA0B2A008538D0 /* ARGeoCoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARGeoCoordinate.h; sourceTree = "<group>"; };
-		ABA1046610CA0B2A008538D0 /* ARGeoCoordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARGeoCoordinate.m; sourceTree = "<group>"; };
-		ABA1046710CA0B2A008538D0 /* ARGeoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARGeoViewController.h; sourceTree = "<group>"; };
-		ABA1046810CA0B2A008538D0 /* ARGeoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARGeoViewController.m; sourceTree = "<group>"; };
 		ABA104C610CA0E3E008538D0 /* ARView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ARView.xib; sourceTree = "<group>"; };
 		ABB925C110C857D800B09506 /* defaultAudioIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultAudioIcon.png; sourceTree = "<group>"; };
 		ABB925C210C857D800B09506 /* defaultImageIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultImageIcon.png; sourceTree = "<group>"; };
@@ -907,7 +903,14 @@
 		AB6B774810C9D61200275650 /* ARView */ = {
 			isa = PBXGroup;
 			children = (
-				AB6B774B10C9D64800275650 /* ARKIt */,
+				AB0DE7AE11556EC200A6EC3E /* ARCoordinate.h */,
+				AB0DE7AF11556EC200A6EC3E /* ARCoordinate.m */,
+				AB0DE7B011556EC200A6EC3E /* ARGeoCoordinate.h */,
+				AB0DE7B111556EC200A6EC3E /* ARGeoCoordinate.m */,
+				AB0DE7B211556EC200A6EC3E /* ARGeoViewController.h */,
+				AB0DE7B311556EC200A6EC3E /* ARGeoViewController.m */,
+				AB0DE7B411556EC200A6EC3E /* ARViewController.h */,
+				AB0DE7B511556EC200A6EC3E /* ARViewController.m */,
 				AB6B775C10C9D6C900275650 /* ARViewViewControler.h */,
 				AB6B775D10C9D6C900275650 /* ARViewViewControler.m */,
 				AB3F4E6C10CCC17400E6C9D7 /* NearbyObjectARCoordinate.h */,
@@ -916,21 +919,6 @@
 				AB6B775410C9D64800275650 /* location.png */,
 			);
 			name = ARView;
-			sourceTree = "<group>";
-		};
-		AB6B774B10C9D64800275650 /* ARKIt */ = {
-			isa = PBXGroup;
-			children = (
-				AB6B774C10C9D64800275650 /* ARCoordinate.h */,
-				AB6B774D10C9D64800275650 /* ARCoordinate.m */,
-				AB6B774E10C9D64800275650 /* ARViewController.h */,
-				AB6B774F10C9D64800275650 /* ARViewController.m */,
-				ABA1046510CA0B2A008538D0 /* ARGeoCoordinate.h */,
-				ABA1046610CA0B2A008538D0 /* ARGeoCoordinate.m */,
-				ABA1046710CA0B2A008538D0 /* ARGeoViewController.h */,
-				ABA1046810CA0B2A008538D0 /* ARGeoViewController.m */,
-			);
-			name = ARKIt;
 			sourceTree = "<group>";
 		};
 		ABBEBBBF104D7CE400AA7285 /* Nodes */ = {
@@ -1106,14 +1094,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ABA1049910CA0C6E008538D0 /* ARCoordinate.h in Sources */,
-				ABA1049A10CA0C6E008538D0 /* ARCoordinate.m in Sources */,
-				ABA1049B10CA0C6E008538D0 /* ARViewController.h in Sources */,
-				ABA1049C10CA0C6E008538D0 /* ARViewController.m in Sources */,
-				ABA1049D10CA0C6E008538D0 /* ARGeoCoordinate.h in Sources */,
-				ABA1046910CA0B2A008538D0 /* ARGeoCoordinate.m in Sources */,
-				ABA1049E10CA0C6E008538D0 /* ARGeoViewController.h in Sources */,
-				ABA1046A10CA0B2A008538D0 /* ARGeoViewController.m in Sources */,
 				ABA1049F10CA0C6E008538D0 /* location.png in Sources */,
 				ABA104A010CA0C6E008538D0 /* ARViewViewControler.h in Sources */,
 				AB6B775E10C9D6C900275650 /* ARViewViewControler.m in Sources */,
@@ -1208,6 +1188,10 @@
 				D424324E1107730E00E58147 /* SceneParser.m in Sources */,
 				D42432631107735800E58147 /* DialogViewController.m in Sources */,
 				D4D366AC111B65E0009C4D00 /* AudioStreamer.m in Sources */,
+				AB0DE7B611556EC200A6EC3E /* ARCoordinate.m in Sources */,
+				AB0DE7B711556EC200A6EC3E /* ARGeoCoordinate.m in Sources */,
+				AB0DE7B811556EC200A6EC3E /* ARGeoViewController.m in Sources */,
+				AB0DE7B911556EC200A6EC3E /* ARViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

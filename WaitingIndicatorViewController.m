@@ -11,7 +11,6 @@
 @implementation WaitingIndicatorViewController
 @synthesize spinner;
 @synthesize label;
-@synthesize message;
 
 -(void) setMessage: (NSString*) newMessage{
 	label.text = newMessage;
