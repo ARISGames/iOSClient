@@ -48,7 +48,7 @@
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
 		activeBuildConfigurationName = Debug;
 		activeExecutable = AB4B1015103CF1360061AD3D /* ARIS */;
-		activeSDKPreference = iphonesimulator3.1.3;
+		activeSDKPreference = iphoneos3.1.3;
 		activeTarget = 1D6058900D05DD3D006BFB54 /* ARIS */;
 		addToTargets = (
 			1D6058900D05DD3D006BFB54 /* ARIS */,
@@ -542,7 +542,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {929, 2561}}";
 			sepNavSelRange = "{5162, 0}";
-			sepNavVisRange = "{4417, 2020}";
+			sepNavVisRange = "{4356, 2081}";
 		};
 	};
 	2B3D12EA0F4382070067FD3A /* LogoutViewController.h */ = {
@@ -1489,6 +1489,11 @@
 		vrLen = 1026;
 		vrLoc = 4177;
 	};
+	AB4150B51159291400DBA15F /* microphoneBackground.jpg */ = {
+		uiCtxt = {
+			sepNavWindowFrame = "{{15, 430}, {726, 743}}";
+		};
+	};
 	AB4150B711592A2300DBA15F /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
@@ -1511,7 +1516,7 @@
 	};
 	AB4150B911592A2300DBA15F /* PBXBookmark */ = {
 		isa = PBXBookmark;
-		fRef = AB4150B51159291400DBA15F /* microphone.jpg */;
+		fRef = AB4150B51159291400DBA15F /* microphoneBackground.jpg */;
 	};
 	AB4150BA11592A2300DBA15F /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -3878,9 +3883,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 34;
-		modificationTime = 291066352.507087;
+		modificationTime = 291069490.347207;
 		originalNumberOfMultipleMatches = 1;
-		state = 1;
+		state = 0;
 	};
 	ABCC330F114C5CA300BB485D /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
