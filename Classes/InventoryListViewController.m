@@ -153,8 +153,8 @@
 	else {
 		//Load the Default
 		if ([media.type isEqualToString: @"Image"]) iconView.image = [UIImage imageNamed:@"defaultImageIcon.png"];
-		if ([media.type isEqualToString: @"Audio"]) iconView.image = [UIImage imageNamed:@"defaultAudioIcon"];
-		if ([media.type isEqualToString: @"Video"]) iconView.image = [UIImage imageNamed:@"defaultVideoIcon"];
+		if ([media.type isEqualToString: @"Audio"]) iconView.image = [UIImage imageNamed:@"defaultAudioIcon.png"];
+		if ([media.type isEqualToString: @"Video"]) iconView.image = [UIImage imageNamed:@"defaultVideoIcon.png"];
 	}
 	
 
