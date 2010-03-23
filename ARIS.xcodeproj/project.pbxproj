@@ -150,10 +150,17 @@
 		AB0DE7B711556EC200A6EC3E /* ARGeoCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE7B111556EC200A6EC3E /* ARGeoCoordinate.m */; };
 		AB0DE7B811556EC200A6EC3E /* ARGeoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE7B311556EC200A6EC3E /* ARGeoViewController.m */; };
 		AB0DE7B911556EC200A6EC3E /* ARViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE7B511556EC200A6EC3E /* ARViewController.m */; };
+		AB0DE80411559CF000A6EC3E /* AudioRecorderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE80011559CF000A6EC3E /* AudioRecorderViewController.m */; };
+		AB0DE80511559CF000A6EC3E /* AudioRecorderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB0DE80111559CF000A6EC3E /* AudioRecorderViewController.xib */; };
+		AB0DE80611559CF000A6EC3E /* RecordEnabledActiveLeopard.tiff in Resources */ = {isa = PBXBuildFile; fileRef = AB0DE80211559CF000A6EC3E /* RecordEnabledActiveLeopard.tiff */; };
+		AB0DE80711559CF000A6EC3E /* RecordPressedActiveLeopard.tiff in Resources */ = {isa = PBXBuildFile; fileRef = AB0DE80311559CF000A6EC3E /* RecordPressedActiveLeopard.tiff */; };
+		AB0DE80911559D0500A6EC3E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0DE80811559D0500A6EC3E /* AVFoundation.framework */; };
+		AB0DE80D11559D1200A6EC3E /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */; };
 		AB15EC1510B49F8A00EEC11F /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AB15EC1410B49F8A00EEC11F /* AsyncImageView.m */; };
 		AB2223F510502CD800A4255E /* Quest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB2223F410502CD800A4255E /* Quest.m */; };
 		AB3E113F10486A5500A9034C /* JSONConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AB3E113E10486A5500A9034C /* JSONConnection.m */; };
 		AB3F4E6E10CCC17400E6C9D7 /* NearbyObjectARCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = AB3F4E6D10CCC17400E6C9D7 /* NearbyObjectARCoordinate.m */; };
+		AB4150B61159291400DBA15F /* microphone.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AB4150B51159291400DBA15F /* microphone.jpg */; };
 		AB549EDF1047007B00A901EF /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = AB549ED41047007B00A901EF /* NSObject+SBJSON.m */; };
 		AB549EE01047007B00A901EF /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = AB549ED61047007B00A901EF /* NSString+SBJSON.m */; };
 		AB549EE11047007B00A901EF /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = AB549ED81047007B00A901EF /* SBJSON.m */; };
@@ -393,6 +400,13 @@
 		AB0DE7B311556EC200A6EC3E /* ARGeoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARGeoViewController.m; sourceTree = "<group>"; };
 		AB0DE7B411556EC200A6EC3E /* ARViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARViewController.h; sourceTree = "<group>"; };
 		AB0DE7B511556EC200A6EC3E /* ARViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARViewController.m; sourceTree = "<group>"; };
+		AB0DE7FF11559CF000A6EC3E /* AudioRecorderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRecorderViewController.h; sourceTree = "<group>"; };
+		AB0DE80011559CF000A6EC3E /* AudioRecorderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRecorderViewController.m; sourceTree = "<group>"; };
+		AB0DE80111559CF000A6EC3E /* AudioRecorderViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AudioRecorderViewController.xib; sourceTree = "<group>"; };
+		AB0DE80211559CF000A6EC3E /* RecordEnabledActiveLeopard.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = RecordEnabledActiveLeopard.tiff; sourceTree = "<group>"; };
+		AB0DE80311559CF000A6EC3E /* RecordPressedActiveLeopard.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = RecordPressedActiveLeopard.tiff; sourceTree = "<group>"; };
+		AB0DE80811559D0500A6EC3E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		AB15EC1310B49F8A00EEC11F /* AsyncImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncImageView.h; sourceTree = "<group>"; };
 		AB15EC1410B49F8A00EEC11F /* AsyncImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncImageView.m; sourceTree = "<group>"; };
 		AB2223F310502CD800A4255E /* Quest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quest.h; sourceTree = "<group>"; };
@@ -401,6 +415,7 @@
 		AB3E113E10486A5500A9034C /* JSONConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONConnection.m; sourceTree = "<group>"; };
 		AB3F4E6C10CCC17400E6C9D7 /* NearbyObjectARCoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyObjectARCoordinate.h; sourceTree = "<group>"; };
 		AB3F4E6D10CCC17400E6C9D7 /* NearbyObjectARCoordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyObjectARCoordinate.m; sourceTree = "<group>"; };
+		AB4150B51159291400DBA15F /* microphone.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = microphone.jpg; sourceTree = "<group>"; };
 		AB549ED21047007B00A901EF /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		AB549ED31047007B00A901EF /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		AB549ED41047007B00A901EF /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -490,6 +505,8 @@
 				AB8A3CCE104936F500422773 /* libiconv.2.dylib in Frameworks */,
 				ABDA40DE10506CB300823A94 /* MapKit.framework in Frameworks */,
 				D4D366DF111B6789009C4D00 /* CFNetwork.framework in Frameworks */,
+				AB0DE80911559D0500A6EC3E /* AVFoundation.framework in Frameworks */,
+				AB0DE80D11559D1200A6EC3E /* CoreAudio.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -654,6 +671,7 @@
 				ABDA40A910506AF400823A94 /* GPS */,
 				A7986D660F8FEC2100A5469F /* Inventory */,
 				A7986D690F8FEC6300A5469F /* Camera */,
+				AB0DE7FE11559CCA00A6EC3E /* Audio Recorder */,
 				A7986D620F8FEBD300A5469F /* QR Scanner */,
 				A7986D640F8FEBFA00A5469F /* Game Picker */,
 				A7986D670F8FEC3900A5469F /* Logout */,
@@ -839,6 +857,8 @@
 		A7986D6A0F8FEC7200A5469F /* Core App */ = {
 			isa = PBXGroup;
 			children = (
+				AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */,
+				AB0DE80811559D0500A6EC3E /* AVFoundation.framework */,
 				A7E4C88B0F54C4D000C6D9E8 /* QuartzCore.framework */,
 				A78FD8B10F4B7EA200820FEA /* CoreGraphics.framework */,
 				A78FD8AF0F4B7E9400820FEA /* Foundation.framework */,
@@ -877,6 +897,19 @@
 				A7F0EE3E0F71CFEF008F7BAD /* GenericWebView.xib */,
 			);
 			name = "Generic Web View (compatability)";
+			sourceTree = "<group>";
+		};
+		AB0DE7FE11559CCA00A6EC3E /* Audio Recorder */ = {
+			isa = PBXGroup;
+			children = (
+				AB0DE7FF11559CF000A6EC3E /* AudioRecorderViewController.h */,
+				AB0DE80011559CF000A6EC3E /* AudioRecorderViewController.m */,
+				AB0DE80111559CF000A6EC3E /* AudioRecorderViewController.xib */,
+				AB4150B51159291400DBA15F /* microphone.jpg */,
+				AB0DE80211559CF000A6EC3E /* RecordEnabledActiveLeopard.tiff */,
+				AB0DE80311559CF000A6EC3E /* RecordPressedActiveLeopard.tiff */,
+			);
+			name = "Audio Recorder";
 			sourceTree = "<group>";
 		};
 		AB549ED11047007B00A901EF /* JSON Framework */ = {
@@ -1084,6 +1117,10 @@
 				D443855D1108B0100053E9FD /* aris.css in Resources */,
 				D4DE6B8B110A00D7008BFE38 /* defaultNpc.png in Resources */,
 				D4DE6B8F110A044D008BFE38 /* defaultPlayer.png in Resources */,
+				AB0DE80511559CF000A6EC3E /* AudioRecorderViewController.xib in Resources */,
+				AB0DE80611559CF000A6EC3E /* RecordEnabledActiveLeopard.tiff in Resources */,
+				AB0DE80711559CF000A6EC3E /* RecordPressedActiveLeopard.tiff in Resources */,
+				AB4150B61159291400DBA15F /* microphone.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1192,6 +1229,7 @@
 				AB0DE7B711556EC200A6EC3E /* ARGeoCoordinate.m in Sources */,
 				AB0DE7B811556EC200A6EC3E /* ARGeoViewController.m in Sources */,
 				AB0DE7B911556EC200A6EC3E /* ARViewController.m in Sources */,
+				AB0DE80411559CF000A6EC3E /* AudioRecorderViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

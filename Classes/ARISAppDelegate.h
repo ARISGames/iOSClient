@@ -22,6 +22,7 @@
 #import "GPSViewController.h"
 #import "InventoryListViewController.h"
 #import "CameraViewController.h"
+#import "AudioRecorderViewController.h"
 #import "ARViewViewControler.h"
 #import "QRScannerViewController.h"
 #import "GamePickerViewController.h"

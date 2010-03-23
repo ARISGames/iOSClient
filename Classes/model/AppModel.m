@@ -382,8 +382,6 @@ static const int kEmptyValue = -1;
 
 	//Do the file upload first
 	NSString* newFileName = [self uploadFileToServerAndGetName:fileData fileName:fileName];
-
-	
 	
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects:
@@ -401,6 +399,7 @@ static const int kEmptyValue = -1;
 																	  andArguments:arguments];
 	[jsonConnection performAsynchronousRequestWithParser:nil]; 
 	
+	 
 	[self fetchMediaList];
 	[self fetchInventory];	
 		
@@ -461,8 +460,8 @@ static const int kEmptyValue = -1;
 - (NSData *) encode:(NSString *)data forPostWithName:(NSString *)name {
 	NSString *const boundaryMagicString  = @"---------------------------14737809831466499882746641449";
 	
-	NSData *result = [[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n%@\r\n--%@\r\n",
-						name, data, boundaryMagicString] dataUsingEncoding:NSUTF8StringEncoding] autorelease];
+	NSData *result = [[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n%@\r\n--%@\r\n",
+						name, data, boundaryMagicString] dataUsingEncoding:NSUTF8StringEncoding];
 	return result;	
 }
 

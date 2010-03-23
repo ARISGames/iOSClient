@@ -73,6 +73,11 @@
 	UINavigationController *cameraNavigationController = [[UINavigationController alloc] initWithRootViewController: cameraViewController];
 	cameraNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 
+	//Setup Audio Recorder View
+	AudioRecorderViewController *audioRecorderViewController = [[[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil] autorelease];
+	UINavigationController *audioRecorderNavigationController = [[UINavigationController alloc] initWithRootViewController: audioRecorderViewController];
+	audioRecorderNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;	
+	
 	//QR Scanner Developer View
 	QRScannerViewController *qrScannerViewController = [[[QRScannerViewController alloc] initWithNibName:@"QRScanner" bundle:nil] autorelease];
 	UINavigationController *qrScannerNavigationController = [[UINavigationController alloc] initWithRootViewController: qrScannerViewController];
@@ -112,7 +117,7 @@
 										qrScannerNavigationController,
 										arNavigationController,
 										cameraNavigationController,
-										/* imNavigationController, */
+										audioRecorderNavigationController,
 										gamePickerNavigationController,
 										logoutNavigationController,
 										developerNavigationController,
