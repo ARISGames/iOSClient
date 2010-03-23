@@ -1121,17 +1121,32 @@
 	};
 	AB0DE7FF11559CF000A6EC3E /* AudioRecorderViewController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {936, 706}}";
+			sepNavIntBoundsRect = "{{0, 0}, {936, 596}}";
 			sepNavSelRange = "{355, 0}";
 			sepNavVisRange = "{0, 996}";
+			sepNavWindowFrame = "{{38, 409}, {726, 743}}";
 		};
 	};
 	AB0DE80011559CF000A6EC3E /* AudioRecorderViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {929, 2561}}";
+			sepNavIntBoundsRect = "{{0, 0}, {901, 2587}}";
 			sepNavSelRange = "{3802, 0}";
-			sepNavVisRange = "{3192, 1786}";
+			sepNavVisRange = "{3192, 1475}";
 		};
+	};
+	AB0DE80211559CF000A6EC3E /* RecordEnabledActiveLeopard.tiff */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = image.tiff;
+		name = RecordEnabledActiveLeopard.tiff;
+		path = "/Users/djgagnon/Documents/Aris/svn-trunk/iPhoneClient/RecordEnabledActiveLeopard.tiff";
+		sourceTree = "<absolute>";
+	};
+	AB0DE80311559CF000A6EC3E /* RecordPressedActiveLeopard.tiff */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = image.tiff;
+		name = RecordPressedActiveLeopard.tiff;
+		path = "/Users/djgagnon/Documents/Aris/svn-trunk/iPhoneClient/RecordPressedActiveLeopard.tiff";
+		sourceTree = "<absolute>";
 	};
 	AB0DE82C11559EE100A6EC3E /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -3883,7 +3898,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 34;
-		modificationTime = 291069490.347207;
+		modificationTime = 291069776.806827;
 		originalNumberOfMultipleMatches = 1;
 		state = 0;
 	};

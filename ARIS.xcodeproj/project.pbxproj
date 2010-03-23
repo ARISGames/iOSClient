@@ -152,8 +152,6 @@
 		AB0DE7B911556EC200A6EC3E /* ARViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE7B511556EC200A6EC3E /* ARViewController.m */; };
 		AB0DE80411559CF000A6EC3E /* AudioRecorderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE80011559CF000A6EC3E /* AudioRecorderViewController.m */; };
 		AB0DE80511559CF000A6EC3E /* AudioRecorderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB0DE80111559CF000A6EC3E /* AudioRecorderViewController.xib */; };
-		AB0DE80611559CF000A6EC3E /* RecordEnabledActiveLeopard.tiff in Resources */ = {isa = PBXBuildFile; fileRef = AB0DE80211559CF000A6EC3E /* RecordEnabledActiveLeopard.tiff */; };
-		AB0DE80711559CF000A6EC3E /* RecordPressedActiveLeopard.tiff in Resources */ = {isa = PBXBuildFile; fileRef = AB0DE80311559CF000A6EC3E /* RecordPressedActiveLeopard.tiff */; };
 		AB0DE80911559D0500A6EC3E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0DE80811559D0500A6EC3E /* AVFoundation.framework */; };
 		AB0DE80D11559D1200A6EC3E /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */; };
 		AB15EC1510B49F8A00EEC11F /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AB15EC1410B49F8A00EEC11F /* AsyncImageView.m */; };
@@ -404,8 +402,6 @@
 		AB0DE7FF11559CF000A6EC3E /* AudioRecorderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRecorderViewController.h; sourceTree = "<group>"; };
 		AB0DE80011559CF000A6EC3E /* AudioRecorderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRecorderViewController.m; sourceTree = "<group>"; };
 		AB0DE80111559CF000A6EC3E /* AudioRecorderViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AudioRecorderViewController.xib; sourceTree = "<group>"; };
-		AB0DE80211559CF000A6EC3E /* RecordEnabledActiveLeopard.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = RecordEnabledActiveLeopard.tiff; sourceTree = "<group>"; };
-		AB0DE80311559CF000A6EC3E /* RecordPressedActiveLeopard.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = RecordPressedActiveLeopard.tiff; sourceTree = "<group>"; };
 		AB0DE80811559D0500A6EC3E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		AB15EC1310B49F8A00EEC11F /* AsyncImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncImageView.h; sourceTree = "<group>"; };
@@ -909,8 +905,6 @@
 				AB0DE80011559CF000A6EC3E /* AudioRecorderViewController.m */,
 				AB0DE80111559CF000A6EC3E /* AudioRecorderViewController.xib */,
 				AB4150B51159291400DBA15F /* microphoneBackground.jpg */,
-				AB0DE80211559CF000A6EC3E /* RecordEnabledActiveLeopard.tiff */,
-				AB0DE80311559CF000A6EC3E /* RecordPressedActiveLeopard.tiff */,
 			);
 			name = "Audio Recorder";
 			sourceTree = "<group>";
@@ -1121,8 +1115,6 @@
 				D4DE6B8B110A00D7008BFE38 /* defaultNpc.png in Resources */,
 				D4DE6B8F110A044D008BFE38 /* defaultPlayer.png in Resources */,
 				AB0DE80511559CF000A6EC3E /* AudioRecorderViewController.xib in Resources */,
-				AB0DE80611559CF000A6EC3E /* RecordEnabledActiveLeopard.tiff in Resources */,
-				AB0DE80711559CF000A6EC3E /* RecordPressedActiveLeopard.tiff in Resources */,
 				AB4150B61159291400DBA15F /* microphoneBackground.jpg in Resources */,
 				AB4151CB11595A2600DBA15F /* cameraBackground.jpg in Resources */,
 			);
