@@ -48,7 +48,7 @@
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
 		activeBuildConfigurationName = Debug;
 		activeExecutable = AB4B1015103CF1360061AD3D /* ARIS */;
-		activeSDKPreference = iphoneos3.1.3;
+		activeSDKPreference = iphonesimulator3.1.3;
 		activeTarget = 1D6058900D05DD3D006BFB54 /* ARIS */;
 		addToTargets = (
 			1D6058900D05DD3D006BFB54 /* ARIS */,
@@ -104,7 +104,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					751,
+					335,
 					20,
 					48,
 					43,
@@ -420,6 +420,15 @@
 			AB4151C4115951F200DBA15F /* PBXBookmark */ = AB4151C4115951F200DBA15F /* PBXBookmark */;
 			AB4151C5115951F200DBA15F /* PBXTextBookmark */ = AB4151C5115951F200DBA15F /* PBXTextBookmark */;
 			AB4151C6115951F200DBA15F /* PBXTextBookmark */ = AB4151C6115951F200DBA15F /* PBXTextBookmark */;
+			AB4151E71159671C00DBA15F /* PBXTextBookmark */ = AB4151E71159671C00DBA15F /* PBXTextBookmark */;
+			AB4151E81159671C00DBA15F /* PBXBookmark */ = AB4151E81159671C00DBA15F /* PBXBookmark */;
+			AB4151E91159671C00DBA15F /* PBXBookmark */ = AB4151E91159671C00DBA15F /* PBXBookmark */;
+			AB4151EA1159671C00DBA15F /* PBXBookmark */ = AB4151EA1159671C00DBA15F /* PBXBookmark */;
+			AB4151EB1159671C00DBA15F /* PBXTextBookmark */ = AB4151EB1159671C00DBA15F /* PBXTextBookmark */;
+			AB4151EC1159671C00DBA15F /* PBXTextBookmark */ = AB4151EC1159671C00DBA15F /* PBXTextBookmark */;
+			AB4151ED1159671C00DBA15F /* PBXBookmark */ = AB4151ED1159671C00DBA15F /* PBXBookmark */;
+			AB4151EE1159671C00DBA15F /* PBXBookmark */ = AB4151EE1159671C00DBA15F /* PBXBookmark */;
+			AB4151EF1159671C00DBA15F /* PBXBookmark */ = AB4151EF1159671C00DBA15F /* PBXBookmark */;
 			AB48CC60111BF50F004ECE94 = AB48CC60111BF50F004ECE94 /* PlistBookmark */;
 			AB48CC61111BF50F004ECE94 = AB48CC61111BF50F004ECE94 /* PBXBookmark */;
 			AB48CC97111BFC87004ECE94 = AB48CC97111BFC87004ECE94 /* PBXTextBookmark */;
@@ -3044,6 +3053,60 @@
 		vrLen = 2020;
 		vrLoc = 4417;
 	};
+	AB4151E71159671C00DBA15F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */;
+		name = "InventoryListViewController.m: 157";
+		rLen = 0;
+		rLoc = 5162;
+		rType = 0;
+		vrLen = 2081;
+		vrLoc = 4356;
+	};
+	AB4151E81159671C00DBA15F /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = ABB925DC10C8587200B09506 /* camera.png */;
+	};
+	AB4151E91159671C00DBA15F /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = AB4151CA11595A2600DBA15F /* cameraBackground.jpg */;
+	};
+	AB4151EA1159671C00DBA15F /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = A7A1728B0F4F27120017E865 /* Default.png */;
+	};
+	AB4151EB1159671C00DBA15F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB0DE7FF11559CF000A6EC3E /* AudioRecorderViewController.h */;
+		name = "AudioRecorderViewController.h: 15";
+		rLen = 0;
+		rLoc = 355;
+		rType = 0;
+		vrLen = 996;
+		vrLoc = 0;
+	};
+	AB4151EC1159671C00DBA15F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB0DE80011559CF000A6EC3E /* AudioRecorderViewController.m */;
+		name = "AudioRecorderViewController.m: 134";
+		rLen = 0;
+		rLoc = 3802;
+		rType = 0;
+		vrLen = 1475;
+		vrLoc = 3192;
+	};
+	AB4151ED1159671C00DBA15F /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = AB4150B51159291400DBA15F /* microphoneBackground.jpg */;
+	};
+	AB4151EE1159671C00DBA15F /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = AB4151DC115963D000DBA15F /* qrBackground.png */;
+	};
+	AB4151EF1159671C00DBA15F /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = AB4151DC115963D000DBA15F /* qrBackground.png */;
+	};
 	AB48CC60111BF50F004ECE94 /* PlistBookmark */ = {
 		isa = PlistBookmark;
 		fRef = A7A172820F4F26A60017E865 /* Entitlements.plist */;
@@ -3898,9 +3961,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 34;
-		modificationTime = 291069776.806827;
+		modificationTime = 291071769.294296;
 		originalNumberOfMultipleMatches = 1;
-		state = 0;
+		state = 1;
 	};
 	ABCC330F114C5CA300BB485D /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
