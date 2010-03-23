@@ -172,8 +172,6 @@
 		AB8A3CCE104936F500422773 /* libiconv.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AB8A3CCD104936F500422773 /* libiconv.2.dylib */; };
 		AB8A42A0104C7F8C00422773 /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8A429F104C7F8C00422773 /* Node.m */; };
 		AB9A7C1710AA173F002FD9BC /* ARISURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AB9A7C1610AA173F002FD9BC /* ARISURLConnection.m */; };
-		ABA1049F10CA0C6E008538D0 /* location.png in Sources */ = {isa = PBXBuildFile; fileRef = AB6B775410C9D64800275650 /* location.png */; };
-		ABA104A010CA0C6E008538D0 /* ARViewViewControler.h in Sources */ = {isa = PBXBuildFile; fileRef = AB6B775C10C9D6C900275650 /* ARViewViewControler.h */; };
 		ABA104C710CA0E3E008538D0 /* ARView.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABA104C610CA0E3E008538D0 /* ARView.xib */; };
 		ABB925C410C857D800B09506 /* defaultAudioIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB925C110C857D800B09506 /* defaultAudioIcon.png */; };
 		ABB925C510C857D800B09506 /* defaultImageIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB925C210C857D800B09506 /* defaultImageIcon.png */; };
@@ -1131,8 +1129,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ABA1049F10CA0C6E008538D0 /* location.png in Sources */,
-				ABA104A010CA0C6E008538D0 /* ARViewViewControler.h in Sources */,
 				AB6B775E10C9D6C900275650 /* ARViewViewControler.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* ARISAppDelegate.m in Sources */,

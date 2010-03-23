@@ -69,7 +69,7 @@
 										  + itemDescriptionView.frame.size.height)];
 	
 	
-	Media *media = [appModel.mediaList objectForKey:[NSNumber numberWithInt:item.mediaId]];
+	Media *media = [appModel mediaForMediaId: item.mediaId];
 
 	if ([media.type isEqualToString: @"Image"] && media.url) {
 		NSLog(@"ItemDetailsViewController: Image Layout Selected");
@@ -103,6 +103,10 @@
 		[button addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
 		[button setImage:[UIImage imageNamed:@"playArrow.png"] forState:UIControlStateNormal];
 		[scrollView addSubview:button];		
+	}
+	
+	else {
+		NSLog(@"ItemDetailsVC: Error Loading Media ID: %d. It etiher doesn't exist or is not of a valid type.", item.mediaId);
 	}
 
 	//Stop Waiting Indicator

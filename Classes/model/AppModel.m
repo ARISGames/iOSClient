@@ -390,8 +390,8 @@ static const int kEmptyValue = -1;
 						  @"Name",
 						  @"Description",
 						  newFileName,
-						  @"0",
-						  @"0",
+						  @"1",
+						  @"1",
 						  nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
 																	andServiceName:@"items" 
@@ -400,7 +400,6 @@ static const int kEmptyValue = -1;
 	[jsonConnection performAsynchronousRequestWithParser:nil]; 
 	
 	 
-	[self fetchMediaList];
 	[self fetchInventory];	
 		
 }
@@ -663,7 +662,20 @@ static const int kEmptyValue = -1;
 	
 }
 
-
+-(Media *)mediaForMediaId: (int)mId {
+	Media *media = [self.mediaList objectForKey:[NSNumber numberWithInt:mId]];
+	
+	if (!media) {
+		//Let's pause everything and do a lookup
+		NSLog(@"AppModel: Media not found in cached media List, refresh");
+		[self fetchMediaList];
+		
+		media = [self.mediaList objectForKey:[NSNumber numberWithInt:mId]];
+		if (media) NSLog(@"AppModel: Media found after refresh");
+		else NSLog(@"AppModel: Media still NOT found after refresh");
+	}
+	return media;
+}
 
 #pragma mark Parsers
 - (NSInteger) validIntForKey:(NSString *const)aKey inDictionary:(NSDictionary *const)aDictionary {

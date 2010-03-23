@@ -144,10 +144,10 @@
 	AsyncImageView *iconView = (AsyncImageView *)[cell viewWithTag:3];
 	
 	Item *item = [inventory objectAtIndex:[indexPath row]];
-	Media *media = [appModel.mediaList objectForKey:[NSNumber numberWithInt:item.mediaId]];
+	Media *media = [appModel mediaForMediaId: item.mediaId];
 
 	if (item.iconMediaId != 0) {
-		Media *iconMedia = [appModel.mediaList objectForKey:[NSNumber numberWithInt:item.iconMediaId]];
+		Media *iconMedia = [appModel mediaForMediaId: item.iconMediaId];
 		[iconView loadImageFromMedia:iconMedia];
 	}
 	else {

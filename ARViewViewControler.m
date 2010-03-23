@@ -113,12 +113,11 @@
 	titleLabel.frame = CGRectMake(BOX_WIDTH / 2.0 - titleLabel.frame.size.width / 2.0 - 4.0, 0, titleLabel.frame.size.width + 8.0, titleLabel.frame.size.height + 8.0);
 	
 	
-	
 	AsyncImageView *imageView = [[AsyncImageView alloc] initWithFrame:CGRectZero];
 	imageView.frame = CGRectMake((int)(BOX_WIDTH / 2.0 - 300 / 2.0), 20, 300, 300);
 	if (coordinate.mediaId != 0) {
-		 Media *imageMedia = [appModel.mediaList objectForKey:[NSNumber numberWithInt:coordinate.mediaId]];
-		 [imageView loadImageFromMedia:imageMedia];
+		Media *imageMedia = [appModel mediaForMediaId: coordinate.mediaId];
+		[imageView loadImageFromMedia:imageMedia];
 	}
 	else imageView.image = [UIImage imageNamed:@"location.png"];
 

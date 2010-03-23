@@ -12,6 +12,7 @@
 #import "Item.h"
 #import "Node.h"
 #import "Npc.h"
+#import "Media.h"
 
 extern NSDictionary *InventoryElements;
 
@@ -85,6 +86,8 @@ extern NSDictionary *InventoryElements;
 - (Item *)fetchItem:(int)itemId;
 - (Node *)fetchNode:(int)nodeId;
 - (Npc *)fetchNpc:(int)npcId;
+- (Media *)mediaForMediaId:(int)mId;
+
 	
 - (void)updateServerLocationAndfetchNearbyLocationList;
 - (void)updateServerNodeViewed: (int)nodeId;
