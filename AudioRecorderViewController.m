@@ -89,11 +89,14 @@
 }
 
 - (IBAction)playOrPause:(id)sender {
+	NSLog(@"AudioRecorder: Play/Pause Button selected");
 	// if already playing, then pause
     if (playing) {
         [playOrPauseButton setTitle: @"Play" forState: UIControlStateHighlighted];
         [playOrPauseButton setTitle: @"Play" forState: UIControlStateNormal];
-        [self.soundPlayer pause];
+        
+		playing = NO;
+		[self.soundPlayer stop];
 		
 		// if stopped or paused, start playing
     } else {
@@ -105,7 +108,8 @@
 			[newPlayer release];
 			[self.soundPlayer prepareToPlay];
 			[self.soundPlayer setDelegate: self];
-		}			
+		}	
+		playing = YES;
         [self.soundPlayer play];
     }
 	
@@ -131,7 +135,7 @@
 		
 		NSDictionary *recordSettings =
 		[[NSDictionary alloc] initWithObjectsAndKeys:
-		 [NSNumber numberWithFloat: 22050.0], AVSampleRateKey,
+		 [NSNumber numberWithFloat: 44100.0], AVSampleRateKey,
 		 [NSNumber numberWithInt: kAudioFormatMPEG4AAC], AVFormatIDKey,
 		 [NSNumber numberWithInt: 1], AVNumberOfChannelsKey,
 		 [NSNumber numberWithInt: AVAudioQualityMax],
@@ -191,6 +195,10 @@
 	[playOrPauseButton setTitle: @"Play" forState: UIControlStateNormal];
 	soundPlayer = nil;
 	
+}
+
+- (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error {
+	NSLog(@"AudioRecorder: Playback Error");
 }
 
 
