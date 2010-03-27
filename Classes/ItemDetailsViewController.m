@@ -99,9 +99,9 @@
 		
 		//Add a button
 		UIButton *button = [[UIButton buttonWithType:UIButtonTypeCustom] 
-							initWithFrame:CGRectMake(120, 60, 80, 80)];
+							initWithFrame:CGRectMake(0, 0, 320, 220)];
 		[button addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
-		[button setImage:[UIImage imageNamed:@"playArrow.png"] forState:UIControlStateNormal];
+		[button setImage:[UIImage imageNamed:@"clickToPlay.png"] forState:UIControlStateNormal];
 		[scrollView addSubview:button];		
 	}
 	

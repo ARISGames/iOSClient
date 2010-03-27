@@ -111,7 +111,6 @@
 		2B3D17070F49C99B0067FD3A /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D17060F49C99B0067FD3A /* Game.m */; };
 		2B3D175A0F49D18D0067FD3A /* DeveloperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D17590F49D18D0067FD3A /* DeveloperViewController.m */; };
 		2B3D18D60F4B25720067FD3A /* AppModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */; };
-		A702FBBE0F8E804A00BE6549 /* playArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = A702FBBD0F8E804A00BE6549 /* playArrow.png */; };
 		A7149F9D0FB89DC8008BAB5D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A7149F9C0FB89DC8008BAB5D /* Settings.bundle */; };
 		A722C8C00FBCD8D0009432DB /* SelfRegistration.xib in Resources */ = {isa = PBXBuildFile; fileRef = A722C8BF0FBCD8D0009432DB /* SelfRegistration.xib */; };
 		A722C8C60FBCD92E009432DB /* SelfRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */; };
@@ -169,6 +168,7 @@
 		AB549EE41047007B00A901EF /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = AB549EDE1047007B00A901EF /* SBJsonWriter.m */; };
 		AB54A0BA1047301E00A901EF /* JSONResult.m in Sources */ = {isa = PBXBuildFile; fileRef = AB54A0B91047301E00A901EF /* JSONResult.m */; };
 		AB6B775E10C9D6C900275650 /* ARViewViewControler.m in Sources */ = {isa = PBXBuildFile; fileRef = AB6B775D10C9D6C900275650 /* ARViewViewControler.m */; };
+		AB7FB978115DBF1500DB81A6 /* clickToPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = AB7FB977115DBF1500DB81A6 /* clickToPlay.png */; };
 		AB8A3CCE104936F500422773 /* libiconv.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AB8A3CCD104936F500422773 /* libiconv.2.dylib */; };
 		AB8A42A0104C7F8C00422773 /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8A429F104C7F8C00422773 /* Node.m */; };
 		AB9A7C1710AA173F002FD9BC /* ARISURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AB9A7C1610AA173F002FD9BC /* ARISURLConnection.m */; };
@@ -340,7 +340,6 @@
 		2B3D18D40F4B25720067FD3A /* AppModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppModel.h; sourceTree = "<group>"; };
 		2B3D18D50F4B25720067FD3A /* AppModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppModel.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; plistStructureDefinitionIdentifier = "<none>"; sourceTree = "<group>"; };
-		A702FBBD0F8E804A00BE6549 /* playArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playArrow.png; sourceTree = "<group>"; };
 		A7149F9C0FB89DC8008BAB5D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		A722C8BF0FBCD8D0009432DB /* SelfRegistration.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelfRegistration.xib; sourceTree = "<group>"; };
 		A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelfRegistrationViewController.h; sourceTree = "<group>"; };
@@ -432,6 +431,7 @@
 		AB6B775410C9D64800275650 /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
 		AB6B775C10C9D6C900275650 /* ARViewViewControler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARViewViewControler.h; sourceTree = "<group>"; };
 		AB6B775D10C9D6C900275650 /* ARViewViewControler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARViewViewControler.m; sourceTree = "<group>"; };
+		AB7FB977115DBF1500DB81A6 /* clickToPlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clickToPlay.png; sourceTree = "<group>"; };
 		AB8A3CCD104936F500422773 /* libiconv.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.2.dylib; path = ../../../../../../usr/lib/libiconv.2.dylib; sourceTree = SDKROOT; };
 		AB8A429E104C7F8C00422773 /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
 		AB8A429F104C7F8C00422773 /* Node.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Node.m; sourceTree = "<group>"; };
@@ -807,7 +807,7 @@
 				ABB925C110C857D800B09506 /* defaultAudioIcon.png */,
 				ABB925C210C857D800B09506 /* defaultImageIcon.png */,
 				ABB925C310C857D800B09506 /* defaultVideoIcon.png */,
-				A702FBBD0F8E804A00BE6549 /* playArrow.png */,
+				AB7FB977115DBF1500DB81A6 /* clickToPlay.png */,
 				2B3D12D70F437D6E0067FD3A /* InventoryListViewController.h */,
 				2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */,
 				2B3D12DA0F437E690067FD3A /* InventoryList.xib */,
@@ -1083,7 +1083,6 @@
 				A7F0EE3F0F71CFEF008F7BAD /* GenericWebView.xib in Resources */,
 				A72C02140F7985EF00D00602 /* QRScanner.xib in Resources */,
 				A7BCBB3F0F8C236900C7A36C /* ItemDetailsView.xib in Resources */,
-				A702FBBE0F8E804A00BE6549 /* playArrow.png in Resources */,
 				A78E753E0FB5BA0C00922F6C /* Developer.xib in Resources */,
 				A7149F9D0FB89DC8008BAB5D /* Settings.bundle in Resources */,
 				A722C8C00FBCD8D0009432DB /* SelfRegistration.xib in Resources */,
@@ -1119,6 +1118,7 @@
 				AB4150B61159291400DBA15F /* microphoneBackground.jpg in Resources */,
 				AB4151CB11595A2600DBA15F /* cameraBackground.jpg in Resources */,
 				AB4151DD115963D000DBA15F /* qrBackground.png in Resources */,
+				AB7FB978115DBF1500DB81A6 /* clickToPlay.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
