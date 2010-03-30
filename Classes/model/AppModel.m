@@ -465,52 +465,51 @@ static const int kEmptyValue = -1;
 }
 
 - (void)updateServerLocationAndfetchNearbyLocationList {
-	@synchronized (nearbyLock) {
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		NSLog(@"Model: updating player position on server and determining nearby Locations");
-		
-		if (!loggedIn) {
-			NSLog(@"Model: Player Not logged in yet, skip the location update");	
-			return;
-		}
-		
-		//init a fresh nearby location list array
-		if(nearbyLocationsList != nil) {
-			[nearbyLocationsList release];
-		}
-		nearbyLocationsList = [[NSMutableArray alloc] initWithCapacity:5];
-		
-		//Update the server with the new Player Location
-		NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.playerId],
-							  [NSString stringWithFormat:@"%f",playerLocation.coordinate.latitude],
-							  [NSString stringWithFormat:@"%f",playerLocation.coordinate.longitude],
-							  nil];
-		JSONConnection *jsonConnection = [[JSONConnection alloc] initWithArisJSONServer:self.jsonServerBaseURL 
-																		 andServiceName:@"players" 
-																		  andMethodName:@"updatePlayerLocation" 
-																		   andArguments:arguments];
-		[jsonConnection performAsynchronousRequestWithParser:nil]; 
-		
-		//Rebuild nearbyLocationList
-		//We could just do this in the getter
-		NSEnumerator *locationsListEnumerator = [locationList objectEnumerator];
-		Location *location;
-		while (location = [locationsListEnumerator nextObject]) {
-			//check if the location is close to the player
-			if ([playerLocation getDistanceFrom:location.location] < location.error)
-				[nearbyLocationsList addObject:location];
-		}
-		
-		//Tell the rest of the app that the nearbyLocationList is fresh
-		NSNotification *nearbyLocationListNotification = 
-		[NSNotification notificationWithName:@"ReceivedNearbyLocationList" object:nearbyLocationsList];
-		[[NSNotificationCenter defaultCenter] postNotification:nearbyLocationListNotification];
-		[pool drain];
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	NSLog(@"Model: updating player position on server and determining nearby Locations");
+	
+	if (!loggedIn) {
+		NSLog(@"Model: Player Not logged in yet, skip the location update");	
+		return;
 	}
+	
+	//init a fresh nearby location list array
+	if(nearbyLocationsList != nil) {
+		[nearbyLocationsList release];
+	}
+	nearbyLocationsList = [[NSMutableArray alloc] initWithCapacity:5];
+	
+	//Update the server with the new Player Location
+	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.playerId],
+						  [NSString stringWithFormat:@"%f",playerLocation.coordinate.latitude],
+						  [NSString stringWithFormat:@"%f",playerLocation.coordinate.longitude],
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithArisJSONServer:self.jsonServerBaseURL 
+																	 andServiceName:@"players" 
+																	  andMethodName:@"updatePlayerLocation" 
+																	   andArguments:arguments];
+	[jsonConnection performAsynchronousRequestWithParser:nil]; 
+	
+	//Rebuild nearbyLocationList
+	//We could just do this in the getter
+	NSEnumerator *locationsListEnumerator = [locationList objectEnumerator];
+	Location *location;
+	while (location = [locationsListEnumerator nextObject]) {
+		//check if the location is close to the player
+		if ([playerLocation getDistanceFrom:location.location] < location.error)
+			[nearbyLocationsList addObject:location];
+	}
+	
+	//Tell the rest of the app that the nearbyLocationList is fresh
+	NSNotification *nearbyLocationListNotification = 
+	[NSNotification notificationWithName:@"ReceivedNearbyLocationList" object:nearbyLocationsList];
+	[[NSNotificationCenter defaultCenter] postNotification:nearbyLocationListNotification];
+	[pool drain];
+	
 }
 
 
-#pragma mark Fetch selectors
+#pragma mark Sync Fetch selectors
 - (id) fetchFromService:(NSString *)aService usingMethod:(NSString *)aMethod 
 			   withArgs:(NSArray *)arguments usingParser:(SEL)aSelector 
 {
@@ -572,6 +571,49 @@ static const int kEmptyValue = -1;
 	[[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
+
+-(Media *)mediaForMediaId: (int)mId {
+	Media *media = [self.mediaList objectForKey:[NSNumber numberWithInt:mId]];
+	
+	if (!media) {
+		//Let's pause everything and do a lookup
+		NSLog(@"AppModel: Media not found in cached media List, refresh");
+		[self fetchMediaList];
+		
+		media = [self.mediaList objectForKey:[NSNumber numberWithInt:mId]];
+		if (media) NSLog(@"AppModel: Media found after refresh");
+		else NSLog(@"AppModel: Media still NOT found after refresh");
+	}
+	return media;
+}
+
+- (void)fetchMediaList {
+	NSLog(@"AppModel: Fetching Media List");
+	
+	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",self.gameId], nil];
+	
+	self.mediaList = [self fetchFromService:@"media" usingMethod:@"getMedia"
+								   withArgs:arguments usingParser:@selector(parseMediaListFromArray:)];
+	
+}
+
+
+-(NSObject<QRCodeProtocol> *)fetchQRCode:(NSString*)code{
+	NSLog(@"Model: Fetch Requested for QRCode Code: %@", code);
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.gameId],
+						  [NSString stringWithFormat:@"%@",code],
+						  [NSString stringWithFormat:@"%d",self.playerId],
+						  nil];
+	
+	return [self fetchFromService:@"qrcodes" usingMethod:@"getQRCodeObjectForPlayer"
+						 withArgs:arguments usingParser:@selector(parseQRCodeObjectFromDictionary:)];
+	
+}	
+
+#pragma mark ASync Fetch selectors
+
 - (void)fetchLocationList {
 	NSLog(@"AppModel: Fetching Locations from Server");	
 	
@@ -596,20 +638,6 @@ static const int kEmptyValue = -1;
 	locationListHash = 0;
 }
 
-
-
-
-- (void)fetchMediaList {
-	NSLog(@"AppModel: Fetching Media List");
-	
-	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",self.gameId], nil];
-	
-	self.mediaList = [self fetchFromService:@"media" usingMethod:@"getMedia"
-									  withArgs:arguments usingParser:@selector(parseMediaListFromArray:)];
-	
-}
-
-
 - (void)fetchInventory {
 	NSLog(@"Model: Inventory Fetch Requested");
 	
@@ -626,23 +654,6 @@ static const int kEmptyValue = -1;
 																	  andArguments:arguments];
 	[jsonConnection performAsynchronousRequestWithParser:@selector(parseInventoryFromJSON:)]; 
 }
-
-
--(NSObject<QRCodeProtocol> *)fetchQRCode:(NSString*)QRcodeId{
-	NSLog(@"Model: Fetch Requested for QRCodeId: %@", QRcodeId);
-	
-	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.gameId],
-						  [NSString stringWithFormat:@"%@",QRcodeId],
-						  [NSString stringWithFormat:@"%d",self.playerId],
-						  nil];
-	
-	return [self fetchFromService:@"qrcodes" usingMethod:@"getQRCodeObjectForPlayer"
-				  withArgs:arguments usingParser:@selector(parseQRCodeObjectFromDictionary:)];
-	
-}	
-
-
 
 
 -(void)fetchQuestList {
@@ -662,20 +673,6 @@ static const int kEmptyValue = -1;
 	
 }
 
--(Media *)mediaForMediaId: (int)mId {
-	Media *media = [self.mediaList objectForKey:[NSNumber numberWithInt:mId]];
-	
-	if (!media) {
-		//Let's pause everything and do a lookup
-		NSLog(@"AppModel: Media not found in cached media List, refresh");
-		[self fetchMediaList];
-		
-		media = [self.mediaList objectForKey:[NSNumber numberWithInt:mId]];
-		if (media) NSLog(@"AppModel: Media found after refresh");
-		else NSLog(@"AppModel: Media still NOT found after refresh");
-	}
-	return media;
-}
 
 #pragma mark Parsers
 - (NSInteger) validIntForKey:(NSString *const)aKey inDictionary:(NSDictionary *const)aDictionary {
@@ -923,8 +920,18 @@ static const int kEmptyValue = -1;
 
 -(NSObject<QRCodeProtocol> *)parseQRCodeObjectFromDictionary: (NSDictionary *)qrCodeObjectDictionary {
 
+	NSString *latitude = [qrCodeObjectDictionary valueForKey:@"latitude"];
+	NSString *longitude = [qrCodeObjectDictionary valueForKey:@"longitude"];
+	NSLog(@"AppModel-parseQRCodeObjectFromDictionary: Lat:%@ Lng:%@",latitude,longitude);
+
+	CLLocation *location = [[CLLocation alloc] initWithLatitude:[latitude doubleValue]
+												   longitude:[longitude doubleValue]];
+	
+	self.playerLocation = [location copy];
+	//[appModel updateServerLocationAndfetchNearbyLocationList];
+	
 	NSString *type = [qrCodeObjectDictionary valueForKey:@"type"];
-	NSLog(@"QRCode Type: %@",type);
+	NSLog(@"AppModel-parseQRCodeObjectFromDictionary: QRCode type is: %@",type);
 
 	if ([type isEqualToString:@"Node"]) return [self parseNodeFromDictionary:qrCodeObjectDictionary];
 	if ([type isEqualToString:@"Item"]) return [self parseItemFromDictionary:qrCodeObjectDictionary];

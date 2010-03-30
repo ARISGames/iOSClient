@@ -42,7 +42,12 @@
 	
 	//NSLog(@"PARSER data: %@", dataObject);
 	
-	self.data = [self parseJSONData:dataObject];
+	if (self.returnCode == 0) {
+		NSLog(@"JSONResult: The return code was 0, continue to parse out the data");
+		self.data = [self parseJSONData:dataObject];
+	}
+	else NSLog(@"JSONResult: The return code was NOT 0, do not parse out the data. Return Code Description: %@",self.returnCodeDescription);
+
 		
 	return self;
 }

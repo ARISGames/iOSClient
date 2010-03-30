@@ -106,13 +106,13 @@
 	[self loadResult:encodedText];
 }	
 
--(void) loadResult:(NSString *)encodedText {
+-(void) loadResult:(NSString *)code {
 	//Fetch the coresponding object from the server
-	NSObject<QRCodeProtocol> *qrCodeObject = [appModel fetchQRCode:encodedText];
+	NSObject<QRCodeProtocol> *qrCodeObject = [appModel fetchQRCode:code];
 	
 	if (qrCodeObject == nil) {
 		//Display an alert
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Decoding Error" message:@"This code is not a part of your current ARIS game"
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Scan Successful, But..." message:@"This code doesn't mean anything right now. You should come back later."
 			 delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 		[alert show];	
 		[alert release];
