@@ -452,6 +452,7 @@ NSString *const kHtmlTemplate =
 	
 	[currentNode release];
 	Node *newNode = [appModel fetchNode:selectedOption.nodeId];
+	[appModel updateServerNodeViewed:selectedOption.nodeId];
 	optionList = newNode.numberOfOptions > 0 ? newNode.options : currentNpc.options;
 	currentNode = newNode;
 	[parser parseText:newNode.text];
