@@ -45,6 +45,8 @@ static int const COMPLETED_SECTION = 1;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+	[appModel updateServerQuestsViewed];
+	
 	[self refresh];
 	
 	//remove any existing badge

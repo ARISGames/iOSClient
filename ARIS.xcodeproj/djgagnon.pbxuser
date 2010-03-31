@@ -104,7 +104,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					1170,
+					842,
 					20,
 					48,
 					43,
@@ -195,8 +195,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 291669293;
-			PBXWorkspaceStateSaveDate = 291669293;
+			PBXPerProjectTemplateStateSaveDate = 291740013;
+			PBXWorkspaceStateSaveDate = 291740013;
 		};
 		perUserProjectItems = {
 			AB035095115291A900388DB3 = AB035095115291A900388DB3 /* PBXTextBookmark */;
@@ -207,6 +207,19 @@
 			AB0350C51152958100388DB3 = AB0350C51152958100388DB3 /* PBXTextBookmark */;
 			AB0DE6E31154264B00A6EC3E = AB0DE6E31154264B00A6EC3E /* PBXTextBookmark */;
 			AB0DE6F21154268A00A6EC3E = AB0DE6F21154268A00A6EC3E /* PBXTextBookmark */;
+			AB1700001163BDEC00459B48 /* PBXTextBookmark */ = AB1700001163BDEC00459B48 /* PBXTextBookmark */;
+			AB1700011163BDEC00459B48 /* PBXTextBookmark */ = AB1700011163BDEC00459B48 /* PBXTextBookmark */;
+			AB17FFE51163997E00459B48 /* PBXTextBookmark */ = AB17FFE51163997E00459B48 /* PBXTextBookmark */;
+			AB17FFE61163997E00459B48 /* PBXTextBookmark */ = AB17FFE61163997E00459B48 /* PBXTextBookmark */;
+			AB17FFF31163BD3B00459B48 /* PBXTextBookmark */ = AB17FFF31163BD3B00459B48 /* PBXTextBookmark */;
+			AB17FFF41163BD3B00459B48 /* PBXTextBookmark */ = AB17FFF41163BD3B00459B48 /* PBXTextBookmark */;
+			AB17FFF51163BD3B00459B48 /* PBXTextBookmark */ = AB17FFF51163BD3B00459B48 /* PBXTextBookmark */;
+			AB17FFFA1163BDEC00459B48 /* PBXTextBookmark */ = AB17FFFA1163BDEC00459B48 /* PBXTextBookmark */;
+			AB17FFFB1163BDEC00459B48 /* PBXTextBookmark */ = AB17FFFB1163BDEC00459B48 /* PBXTextBookmark */;
+			AB17FFFC1163BDEC00459B48 /* PBXTextBookmark */ = AB17FFFC1163BDEC00459B48 /* PBXTextBookmark */;
+			AB17FFFD1163BDEC00459B48 /* PBXTextBookmark */ = AB17FFFD1163BDEC00459B48 /* PBXTextBookmark */;
+			AB17FFFE1163BDEC00459B48 /* PBXTextBookmark */ = AB17FFFE1163BDEC00459B48 /* PBXTextBookmark */;
+			AB17FFFF1163BDEC00459B48 /* PBXTextBookmark */ = AB17FFFF1163BDEC00459B48 /* PBXTextBookmark */;
 			AB1FF56910CB4F9F00ECAF8B = AB1FF56910CB4F9F00ECAF8B /* PBXTextBookmark */;
 			AB2223FA10502E7D00A4255E = AB2223FA10502E7D00A4255E /* PBXTextBookmark */;
 			AB236B4810516EFF001F1476 = AB236B4810516EFF001F1476 /* PBXTextBookmark */;
@@ -297,33 +310,33 @@
 			AB5F57321162834C00506AAF = AB5F57321162834C00506AAF /* PBXTextBookmark */;
 			AB5F57331162834C00506AAF = AB5F57331162834C00506AAF /* PBXTextBookmark */;
 			AB5F57351162834C00506AAF = AB5F57351162834C00506AAF /* PBXTextBookmark */;
-			AB5F5742116285F800506AAF /* PBXTextBookmark */ = AB5F5742116285F800506AAF /* PBXTextBookmark */;
-			AB5F5743116285F800506AAF /* PBXTextBookmark */ = AB5F5743116285F800506AAF /* PBXTextBookmark */;
-			AB5F5744116285F800506AAF /* PBXTextBookmark */ = AB5F5744116285F800506AAF /* PBXTextBookmark */;
-			AB5F5745116285F800506AAF /* PBXTextBookmark */ = AB5F5745116285F800506AAF /* PBXTextBookmark */;
-			AB5F5746116285F800506AAF /* PBXTextBookmark */ = AB5F5746116285F800506AAF /* PBXTextBookmark */;
-			AB5F5747116285F800506AAF /* PBXTextBookmark */ = AB5F5747116285F800506AAF /* PBXTextBookmark */;
-			AB5F5748116285F800506AAF /* PBXTextBookmark */ = AB5F5748116285F800506AAF /* PBXTextBookmark */;
-			AB5F5749116285F800506AAF /* PBXTextBookmark */ = AB5F5749116285F800506AAF /* PBXTextBookmark */;
-			AB5F574A116285F800506AAF /* PBXTextBookmark */ = AB5F574A116285F800506AAF /* PBXTextBookmark */;
-			AB5F574B116285F800506AAF /* PBXTextBookmark */ = AB5F574B116285F800506AAF /* PBXTextBookmark */;
-			AB5F575A1162867F00506AAF /* PBXTextBookmark */ = AB5F575A1162867F00506AAF /* PBXTextBookmark */;
-			AB5F575B1162867F00506AAF /* PBXTextBookmark */ = AB5F575B1162867F00506AAF /* PBXTextBookmark */;
-			AB5F575F1162869400506AAF /* PBXTextBookmark */ = AB5F575F1162869400506AAF /* PBXTextBookmark */;
-			AB5F57601162869400506AAF /* PBXTextBookmark */ = AB5F57601162869400506AAF /* PBXTextBookmark */;
-			AB5F5763116286AA00506AAF /* PBXTextBookmark */ = AB5F5763116286AA00506AAF /* PBXTextBookmark */;
-			AB5F5764116286AA00506AAF /* PBXTextBookmark */ = AB5F5764116286AA00506AAF /* PBXTextBookmark */;
-			AB5F5765116286AA00506AAF /* PBXTextBookmark */ = AB5F5765116286AA00506AAF /* PBXTextBookmark */;
-			AB5F57661162872600506AAF /* PBXTextBookmark */ = AB5F57661162872600506AAF /* PBXTextBookmark */;
-			AB5F57671162872600506AAF /* PBXTextBookmark */ = AB5F57671162872600506AAF /* PBXTextBookmark */;
-			AB5F576D116287C100506AAF /* PBXTextBookmark */ = AB5F576D116287C100506AAF /* PBXTextBookmark */;
-			AB5F576E116287C100506AAF /* PBXTextBookmark */ = AB5F576E116287C100506AAF /* PBXTextBookmark */;
-			AB5F576F116287C100506AAF /* PBXTextBookmark */ = AB5F576F116287C100506AAF /* PBXTextBookmark */;
-			AB5F5770116287C100506AAF /* PBXTextBookmark */ = AB5F5770116287C100506AAF /* PBXTextBookmark */;
-			AB5F57751162881D00506AAF /* PBXTextBookmark */ = AB5F57751162881D00506AAF /* PBXTextBookmark */;
-			AB5F57761162881D00506AAF /* PBXTextBookmark */ = AB5F57761162881D00506AAF /* PBXTextBookmark */;
-			AB5F577A1162886100506AAF /* PBXTextBookmark */ = AB5F577A1162886100506AAF /* PBXTextBookmark */;
-			AB5F577B1162886100506AAF /* PBXTextBookmark */ = AB5F577B1162886100506AAF /* PBXTextBookmark */;
+			AB5F5742116285F800506AAF = AB5F5742116285F800506AAF /* PBXTextBookmark */;
+			AB5F5743116285F800506AAF = AB5F5743116285F800506AAF /* PBXTextBookmark */;
+			AB5F5744116285F800506AAF = AB5F5744116285F800506AAF /* PBXTextBookmark */;
+			AB5F5745116285F800506AAF = AB5F5745116285F800506AAF /* PBXTextBookmark */;
+			AB5F5746116285F800506AAF = AB5F5746116285F800506AAF /* PBXTextBookmark */;
+			AB5F5747116285F800506AAF = AB5F5747116285F800506AAF /* PBXTextBookmark */;
+			AB5F5748116285F800506AAF = AB5F5748116285F800506AAF /* PBXTextBookmark */;
+			AB5F5749116285F800506AAF = AB5F5749116285F800506AAF /* PBXTextBookmark */;
+			AB5F574A116285F800506AAF = AB5F574A116285F800506AAF /* PBXTextBookmark */;
+			AB5F574B116285F800506AAF = AB5F574B116285F800506AAF /* PBXTextBookmark */;
+			AB5F575A1162867F00506AAF = AB5F575A1162867F00506AAF /* PBXTextBookmark */;
+			AB5F575B1162867F00506AAF = AB5F575B1162867F00506AAF /* PBXTextBookmark */;
+			AB5F575F1162869400506AAF = AB5F575F1162869400506AAF /* PBXTextBookmark */;
+			AB5F57601162869400506AAF = AB5F57601162869400506AAF /* PBXTextBookmark */;
+			AB5F5763116286AA00506AAF = AB5F5763116286AA00506AAF /* PBXTextBookmark */;
+			AB5F5764116286AA00506AAF = AB5F5764116286AA00506AAF /* PBXTextBookmark */;
+			AB5F5765116286AA00506AAF = AB5F5765116286AA00506AAF /* PBXTextBookmark */;
+			AB5F57661162872600506AAF = AB5F57661162872600506AAF /* PBXTextBookmark */;
+			AB5F57671162872600506AAF = AB5F57671162872600506AAF /* PBXTextBookmark */;
+			AB5F576D116287C100506AAF = AB5F576D116287C100506AAF /* PBXTextBookmark */;
+			AB5F576E116287C100506AAF = AB5F576E116287C100506AAF /* PBXTextBookmark */;
+			AB5F576F116287C100506AAF = AB5F576F116287C100506AAF /* PBXTextBookmark */;
+			AB5F5770116287C100506AAF = AB5F5770116287C100506AAF /* PBXTextBookmark */;
+			AB5F57751162881D00506AAF = AB5F57751162881D00506AAF /* PBXTextBookmark */;
+			AB5F57761162881D00506AAF = AB5F57761162881D00506AAF /* PBXTextBookmark */;
+			AB5F577A1162886100506AAF = AB5F577A1162886100506AAF /* PBXTextBookmark */;
+			AB5F577B1162886100506AAF = AB5F577B1162886100506AAF /* PBXTextBookmark */;
 			AB6285B4109752F200C340E2 = AB6285B4109752F200C340E2 /* PBXBookmark */;
 			AB6285B9109752F200C340E2 = AB6285B9109752F200C340E2 /* PBXTextBookmark */;
 			AB6B76B110C98A5100275650 = AB6B76B110C98A5100275650 /* PBXTextBookmark */;
@@ -410,9 +423,9 @@
 	};
 	2B3D12CD0F437AC60067FD3A /* QuestsViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1075, 2847}}";
-			sepNavSelRange = "{773, 0}";
-			sepNavVisRange = "{399, 701}";
+			sepNavIntBoundsRect = "{{0, 0}, {1020, 2912}}";
+			sepNavSelRange = "{1376, 36}";
+			sepNavVisRange = "{482, 1360}";
 		};
 	};
 	2B3D12D70F437D6E0067FD3A /* InventoryListViewController.h */ = {
@@ -424,9 +437,9 @@
 	};
 	2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {873, 2704}}";
-			sepNavSelRange = "{4604, 0}";
-			sepNavVisRange = "{3923, 1682}";
+			sepNavIntBoundsRect = "{{0, 0}, {1020, 2886}}";
+			sepNavSelRange = "{1012, 0}";
+			sepNavVisRange = "{387, 935}";
 		};
 	};
 	2B3D12EA0F4382070067FD3A /* LogoutViewController.h */ = {
@@ -487,16 +500,16 @@
 	};
 	2B3D18D40F4B25720067FD3A /* AppModel.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {974, 1482}}";
-			sepNavSelRange = "{2250, 0}";
-			sepNavVisRange = "{1936, 1629}";
+			sepNavIntBoundsRect = "{{0, 0}, {1020, 1391}}";
+			sepNavSelRange = "{2756, 0}";
+			sepNavVisRange = "{2136, 879}";
 		};
 	};
 	2B3D18D50F4B25720067FD3A /* AppModel.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1348, 13442}}";
-			sepNavSelRange = "{34650, 0}";
-			sepNavVisRange = "{33041, 2942}";
+			sepNavIntBoundsRect = "{{0, 0}, {1020, 13754}}";
+			sepNavSelRange = "{11299, 0}";
+			sepNavVisRange = "{11057, 749}";
 		};
 	};
 	A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */ = {
@@ -543,9 +556,9 @@
 	};
 	A72C02160F7985FF00D00602 /* QRScannerViewController.mm */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1348, 2314}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1237, 2288}}";
 			sepNavSelRange = "{3871, 0}";
-			sepNavVisRange = "{2471, 2616}";
+			sepNavVisRange = "{2471, 1868}";
 		};
 	};
 	A75AF2B70F86A47100F15535 /* ItemDetailsViewController.h */ = {
@@ -557,7 +570,7 @@
 	};
 	A75AF2B80F86A47100F15535 /* ItemDetailsViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1348, 3029}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1020, 3029}}";
 			sepNavSelRange = "{2145, 58}";
 			sepNavVisRange = "{0, 0}";
 			sepNavWindowFrame = "{{15, 40}, {1181, 838}}";
@@ -874,6 +887,136 @@
 			sepNavVisRange = "{2059, 482}";
 		};
 	};
+	AB1700001163BDEC00459B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D18D40F4B25720067FD3A /* AppModel.h */;
+		name = "AppModel.h: 89";
+		rLen = 0;
+		rLoc = 2463;
+		rType = 0;
+		vrLen = 878;
+		vrLoc = 1936;
+	};
+	AB1700011163BDEC00459B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D18D40F4B25720067FD3A /* AppModel.h */;
+		name = "AppModel.h: 97";
+		rLen = 0;
+		rLoc = 2756;
+		rType = 0;
+		vrLen = 879;
+		vrLoc = 2136;
+	};
+	AB17FFE51163997E00459B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A75AF2B80F86A47100F15535 /* ItemDetailsViewController.m */;
+		name = "ItemDetailsViewController.m: 72";
+		rLen = 58;
+		rLoc = 2145;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	AB17FFE61163997E00459B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A72C02160F7985FF00D00602 /* QRScannerViewController.mm */;
+		name = "QRScannerViewController.mm: 115";
+		rLen = 0;
+		rLoc = 3871;
+		rType = 0;
+		vrLen = 2650;
+		vrLoc = 2403;
+	};
+	AB17FFF31163BD3B00459B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A72C02160F7985FF00D00602 /* QRScannerViewController.mm */;
+		name = "QRScannerViewController.mm: 115";
+		rLen = 0;
+		rLoc = 3871;
+		rType = 0;
+		vrLen = 1868;
+		vrLoc = 2471;
+	};
+	AB17FFF41163BD3B00459B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
+		name = "AppModel.m: 919";
+		rLen = 0;
+		rLoc = 36396;
+		rType = 0;
+		vrLen = 2140;
+		vrLoc = 33669;
+	};
+	AB17FFF51163BD3B00459B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
+		name = "AppModel.m: 303";
+		rLen = 0;
+		rLoc = 10109;
+		rType = 0;
+		vrLen = 2084;
+		vrLoc = 9746;
+	};
+	AB17FFFA1163BDEC00459B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A75AF2B80F86A47100F15535 /* ItemDetailsViewController.m */;
+		name = "ItemDetailsViewController.m: 72";
+		rLen = 58;
+		rLoc = 2145;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	AB17FFFB1163BDEC00459B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
+		name = "AppModel.m: 333";
+		rLen = 0;
+		rLoc = 11299;
+		rType = 0;
+		vrLen = 749;
+		vrLoc = 11057;
+	};
+	AB17FFFC1163BDEC00459B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
+		name = "AppModel.m: 303";
+		rLen = 0;
+		rLoc = 10109;
+		rType = 0;
+		vrLen = 422;
+		vrLoc = 9746;
+	};
+	AB17FFFD1163BDEC00459B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12CD0F437AC60067FD3A /* QuestsViewController.m */;
+		name = "QuestsViewController.m: 48";
+		rLen = 36;
+		rLoc = 1376;
+		rType = 0;
+		vrLen = 1360;
+		vrLoc = 482;
+	};
+	AB17FFFE1163BDEC00459B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = ABDA40AD10506AF400823A94 /* GPSViewController.m */;
+		name = "GPSViewController.m: 126";
+		rLen = 0;
+		rLoc = 3504;
+		rType = 0;
+		vrLen = 1058;
+		vrLoc = 2791;
+	};
+	AB17FFFF1163BDEC00459B48 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */;
+		name = "InventoryListViewController.m: 35";
+		rLen = 0;
+		rLoc = 1012;
+		rType = 0;
+		vrLen = 935;
+		vrLoc = 387;
+	};
 	AB1FF56910CB4F9F00ECAF8B /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = AB8A429F104C7F8C00422773 /* Node.m */;
@@ -1122,7 +1265,7 @@
 		fRef = 2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */;
 		name = "InventoryListViewController.m: 118";
 		rLen = 0;
-		rLoc = 3419;
+		rLoc = 3462;
 		rType = 0;
 		vrLen = 1168;
 		vrLoc = 3321;
@@ -1152,7 +1295,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 669";
 		rLen = 0;
-		rLoc = 24751;
+		rLoc = 26497;
 		rType = 0;
 		vrLen = 1073;
 		vrLoc = 24233;
@@ -1839,7 +1982,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 919";
 		rLen = 0;
-		rLoc = 34650;
+		rLoc = 36396;
 		rType = 0;
 		vrLen = 2035;
 		vrLoc = 34004;
@@ -1874,11 +2017,6 @@
 		name = games.php;
 		path = "/Users/djgagnon/Documents/Aris/svn-trunk/server/services/aris/games.php";
 		sourceTree = "<absolute>";
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1326, 8541}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 1289}";
-		};
 	};
 	AB5F5742116285F800506AAF /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -1925,7 +2063,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 919";
 		rLen = 0;
-		rLoc = 34650;
+		rLoc = 36396;
 		rType = 0;
 		vrLen = 2942;
 		vrLoc = 33041;
@@ -2436,7 +2574,7 @@
 		fRef = 2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */;
 		name = "InventoryListViewController.m: 148";
 		rLen = 0;
-		rLoc = 4604;
+		rLoc = 4647;
 		rType = 0;
 		vrLen = 1682;
 		vrLoc = 3923;
@@ -2655,9 +2793,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 34;
-		modificationTime = 291670112.584924;
+		modificationTime = 291740051.020109;
 		originalNumberOfMultipleMatches = 1;
-		state = 1;
+		state = 0;
 	};
 	ABCC330F114C5CA300BB485D /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -2741,9 +2879,9 @@
 	};
 	ABDA40AD10506AF400823A94 /* GPSViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {845, 4732}}";
-			sepNavSelRange = "{1182, 114}";
-			sepNavVisRange = "{625, 1409}";
+			sepNavIntBoundsRect = "{{0, 0}, {1020, 4875}}";
+			sepNavSelRange = "{3504, 0}";
+			sepNavVisRange = "{2791, 1058}";
 		};
 	};
 	ABDA40B010506AF400823A94 /* Annotation.h */ = {

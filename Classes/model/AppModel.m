@@ -299,6 +299,51 @@ static const int kEmptyValue = -1;
 	[jsonConnection performAsynchronousRequestWithParser:nil]; 
 }
 
+- (void)updateServerMapViewed{
+	NSLog(@"Model: Map Viewed, update server");
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects:
+						  [NSString stringWithFormat:@"%d",self.gameId],
+						  [NSString stringWithFormat:@"%d",playerId],
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+																	andServiceName:@"players" 
+																	 andMethodName:@"mapViewed" 
+																	  andArguments:arguments];
+	[jsonConnection performAsynchronousRequestWithParser:nil]; 
+}
+
+- (void)updateServerQuestsViewed{
+	NSLog(@"Model: Quests Viewed, update server");
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects:
+						  [NSString stringWithFormat:@"%d",self.gameId],
+						  [NSString stringWithFormat:@"%d",playerId],
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+																	andServiceName:@"players" 
+																	 andMethodName:@"questsViewed" 
+																	  andArguments:arguments];
+	[jsonConnection performAsynchronousRequestWithParser:nil]; 
+}
+
+- (void)updateServerInventoryViewed{
+	NSLog(@"Model: Inventory Viewed, update server");
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects:
+						  [NSString stringWithFormat:@"%d",self.gameId],
+						  [NSString stringWithFormat:@"%d",playerId],
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+																	andServiceName:@"players" 
+																	 andMethodName:@"inventoryViewed" 
+																	  andArguments:arguments];
+	[jsonConnection performAsynchronousRequestWithParser:nil]; 
+}
+
 
 
 - (void)resetPlayerEvents {

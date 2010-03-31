@@ -123,6 +123,8 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+	[appModel updateServerMapViewed];
+	
 	[self refresh];		
 	
 	//remove any existing badge

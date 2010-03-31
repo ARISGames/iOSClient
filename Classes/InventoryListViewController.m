@@ -39,6 +39,8 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+	[appModel updateServerInventoryViewed];
+	
 	[self refresh];		
 	
 	//remove any existing badge
