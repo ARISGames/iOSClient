@@ -81,8 +81,7 @@ NSString *const kHtmlTemplate =
 	
 	pcTableViewController = [[UITableViewController alloc] initWithStyle:UITableViewCellStyleDefault];
 	pcTableViewController.view = pcTableView;
-	[pcTableView setFrame:CGRectMake(0, 138, 320, 220)];
-
+	
 	npcWebView.hidden = NO;
 	[npcWebView loadHTMLString:[NSString stringWithFormat:kHtmlTemplate, [currentNpc greeting]] 
 					   baseURL:[NSURL URLWithString:resourcePath]];
@@ -193,6 +192,7 @@ NSString *const kHtmlTemplate =
 
 		currentCharacter = currentScene.characterId;
 		pcLabel.text = kPcContinue;
+
 		++scriptIndex;
 	}
 	else {
