@@ -81,6 +81,9 @@ NSString *const kHtmlTemplate =
 	
 	pcTableViewController = [[UITableViewController alloc] initWithStyle:UITableViewCellStyleDefault];
 	pcTableViewController.view = pcTableView;
+
+	[pcImage updateViewWithNewImage:[UIImage imageNamed:@"defaultPlayer.png"]];
+
 	
 	npcWebView.hidden = NO;
 	[npcWebView loadHTMLString:[NSString stringWithFormat:kHtmlTemplate, [currentNpc greeting]] 
@@ -93,6 +96,7 @@ NSString *const kHtmlTemplate =
 	pcAnswerView.hidden = YES;
 	lastPcId = 0;
 	currentNode = nil;
+	
 	[self moveNpcIn];	// Always start with the NPC Conversation list?
 	
 /*
@@ -154,17 +158,6 @@ NSString *const kHtmlTemplate =
 	NSLog(@"OptionList: %@", optionList);
 }
 
-- (void) loadPCImage:(NSInteger)mediaId {
-	if (mediaId > 0) {
-		pcImage.image = nil;
-		[self loadCharacterImage:mediaId withPriorId:&lastPcId inView:pcImage];
-	}
-	else if (lastPcId != 0) {
-		[pcImage updateViewWithNewImage:[UIImage imageNamed:@"defaultPlayer.png"]];
-		lastPcId = 0;
-	}
-}
-
 - (void) loadNPCImage:(NSInteger)mediaId {
 	[self loadCharacterImage:mediaId withPriorId:&lastNpcId inView:npcImage];
 }
@@ -177,7 +170,7 @@ NSString *const kHtmlTemplate =
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
 	AppModel *appModel = appDelegate.appModel;
 	
-	Media *characterMedia = [appModel.mediaList objectForKey:[NSNumber numberWithInt:mediaId]];
+	Media *characterMedia = [appModel mediaForMediaId:mediaId];
 	[aView loadImageFromMedia:characterMedia];
 	[aView setNeedsDisplay];
 	*priorId = mediaId;
@@ -269,9 +262,7 @@ NSString *const kHtmlTemplate =
 	
 	if (cachedScene.isPc) {
 		characterWebView = pcWebView;
-		characterScrollView = pcScrollView;
-		
-		[self loadPCImage:cachedScene.characterId];
+		characterScrollView = pcScrollView;		
 		cachedScrollView = pcImage;
 	}
 	else {
