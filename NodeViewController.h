@@ -9,12 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "AppModel.h"
 #import "Node.h"
+#import <MediaPlayer/MediaPlayer.h>
+
 
 @interface NodeViewController : UIViewController 
 {
 	AppModel *appModel;
 	Node *node;
-	
+	MPMoviePlayerController *mMoviePlayer; //only used if item is a video
+
 	UITableView *tableView;
 	IBOutlet UIScrollView *scrollView;
 }

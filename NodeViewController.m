@@ -11,6 +11,7 @@
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
 #import "Media.h"
+#import "AsyncImageView.h"
 
 static NSString * const OPTION_CELL = @"option";
 
@@ -45,22 +46,50 @@ static NSString * const OPTION_CELL = @"option";
 		[subview removeFromSuperview];
 	}
 	
-	//Setup the image view
-	if (node.mediaId > 0) {
-		Media *media = [appModel.mediaList objectForKey:[NSNumber numberWithInt:node.mediaId]];
+	Media *media = [appModel mediaForMediaId: self.node.mediaId];
+	
+	if ([media.type isEqualToString: @"Image"] && media.url) {
+		NSLog(@"ItemDetailsViewController: Image Layout Selected");
 		
-		[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-		NSLog(@"NodeViewController: Image URL: %@", media.url);
-		NSData* imageData = [[NSData alloc]initWithContentsOfURL:[NSURL URLWithString:media.url]];
-		[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+		AsyncImageView* mediaImageView = [[AsyncImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 220)];
 		
-		UIImage* image = [[UIImage alloc] initWithData:imageData];
-		UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 220)];
-		imageView.image = image;
+		[mediaImageView loadImageFromMedia:media];
 		
-		//Add the image to the scroller
-		[scrollView addSubview:imageView];
+		//Add the image view
+		[scrollView addSubview:mediaImageView];
+		
 	}
+	else if (([media.type isEqualToString: @"Video"] || [media.type isEqualToString: @"Audio"]) && media.url) {
+		NSLog(@"ItemDetailsViewController:  Video Layout Selected");
+		
+		//Create movie player object
+		mMoviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+		
+		// Register to receive a notifications
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePreloadDidFinish:) name:MPMoviePlayerContentPreloadDidFinishNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayBackDidFinish:) name:MPMoviePlayerPlaybackDidFinishNotification object:mMoviePlayer];
+		
+		//Configure Movie Player
+		mMoviePlayer.scalingMode = MPMovieScalingModeFill; // Movie scaling mode can be one of: MPMovieScalingModeNone, MPMovieScalingModeAspectFit,MPMovieScalingModeAspectFill, MPMovieScalingModeFill.
+		mMoviePlayer.movieControlMode = MPMovieControlModeDefault; //Movie control mode can be one of: MPMovieControlModeDefault, MPMovieControlModeVolumeOnly, MPMovieControlModeHidden.
+		mMoviePlayer.backgroundColor = [UIColor blackColor];
+		
+		//Add a button
+		UIButton *button = [[UIButton buttonWithType:UIButtonTypeCustom] 
+							initWithFrame:CGRectMake(0, 0, 320, 220)];
+		[button addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
+		[button setImage:[UIImage imageNamed:@"clickToPlay.png"] forState:UIControlStateNormal];
+		[scrollView addSubview:button];		
+	}
+	
+	else {
+		NSLog(@"ItemDetailsVC: Error Loading Media ID: %d. It etiher doesn't exist or is not of a valid type.", node.mediaId);
+	}
+	
+	
+	
+	
+	
 	//Set Up Text Area
 	int margin = 10;
 	UILabel *nodeTextView = [[UILabel alloc] initWithFrame:CGRectMake(margin, 220 + margin, 320 - (2 * margin),
@@ -78,6 +107,18 @@ static NSString * const OPTION_CELL = @"option";
 	//Refresh the tableView
 	[tableView reloadData];
 }
+
+-(IBAction)playMovie:(id)sender {
+    [mMoviePlayer play];
+}
+
+
+//  Notification called when the movie finished preloading.
+- (void) moviePreloadDidFinish:(NSNotification*)notification { }
+
+//  Notification called when the movie finished playing.
+- (void) moviePlayBackDidFinish:(NSNotification*)notification { }
+
 
 - (int) calculateTextHeight:(NSString *)text {
 	CGRect frame = CGRectMake(0, 0, self.view.bounds.size.width, 200000);
@@ -169,6 +210,9 @@ static NSString * const OPTION_CELL = @"option";
 
 
 - (void)dealloc {
+	// free our movie player
+    [mMoviePlayer release];
+	
     [super dealloc];
 }
 
