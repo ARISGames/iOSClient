@@ -20,6 +20,8 @@ NSString *const kOutAnimation = @"out";
 NSString *const kInAnimation = @"in";
 NSString *const kPcContinue = @"Tap to continue.";
 NSString *const kPcReview = @"Tap to review.";
+NSString *const kPlayerName = @"You";
+
 
 NSString *const kHtmlTemplate = 
 @"<html>"
@@ -215,6 +217,7 @@ NSString *const kHtmlTemplate =
 		[self movePcIn];
 		currentCharacter = 0;
 		pcLabel.text = kPcReview;
+		self.title = kPlayerName;
 		++scriptIndex;
 	}
 }
@@ -264,11 +267,13 @@ NSString *const kHtmlTemplate =
 	BOOL isCurrentlyDisplayed;
 	
 	if (cachedScene.isPc) {
+		self.title = kPlayerName;
 		characterWebView = pcWebView;
 		characterScrollView = pcScrollView;		
 		cachedScrollView = pcImage;
 	}
 	else {
+		self.title = currentNpc.name;
 		characterWebView = npcWebView;
 		characterScrollView = npcScrollView;
 		
