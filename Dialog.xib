@@ -123,40 +123,42 @@
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<bool key="IBUIMultipleTouchEnabled">YES</bool>
+										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 										<int key="IBUIDataDetectorTypes">1</int>
 										<bool key="IBUIDetectsPhoneNumbers">YES</bool>
-									</object>
-									<object class="IBUITableView" id="1028266386">
-										<reference key="NSNextResponder" ref="231392317"/>
-										<int key="NSvFlags">292</int>
-										<string key="NSFrameSize">{320, 230}</string>
-										<reference key="NSSuperview" ref="231392317"/>
-										<object class="NSColor" key="IBUIBackgroundColor">
-											<int key="NSColorSpace">1</int>
-											<bytes key="NSRGB">MSAwLjAyMzU3MzcyMDgzIDAgMAA</bytes>
-										</object>
-										<bool key="IBUIOpaque">NO</bool>
-										<bool key="IBUIClipsSubviews">YES</bool>
-										<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
-										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-										<bool key="IBUIShowsVerticalScrollIndicator">NO</bool>
-										<bool key="IBUIBouncesZoom">NO</bool>
-										<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
-										<bool key="IBUIShowsSelectionImmediatelyOnTouchBegin">YES</bool>
-										<float key="IBUIRowHeight">44</float>
-										<float key="IBUISectionHeaderHeight">22</float>
-										<float key="IBUISectionFooterHeight">22</float>
 									</object>
 								</object>
 								<string key="NSFrame">{{0, 150}, {320, 230}}</string>
 								<reference key="NSSuperview" ref="629273398"/>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MCAwIDAgMC41AA</bytes>
+									<bytes key="NSRGB">MCAwIDAgMC43AA</bytes>
 								</object>
 								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+							</object>
+							<object class="IBUITableView" id="1028266386">
+								<reference key="NSNextResponder" ref="629273398"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{0, 150}, {320, 230}}</string>
+								<reference key="NSSuperview" ref="629273398"/>
+								<object class="NSColor" key="IBUIBackgroundColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MSAwLjAyMzU3MzcyMDgzIDAgMAA</bytes>
+								</object>
+								<bool key="IBUIOpaque">NO</bool>
+								<bool key="IBUIClipsSubviews">YES</bool>
+								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<bool key="IBUIShowsVerticalScrollIndicator">NO</bool>
+								<bool key="IBUIBouncesZoom">NO</bool>
+								<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
+								<bool key="IBUIShowsSelectionImmediatelyOnTouchBegin">YES</bool>
+								<float key="IBUIRowHeight">44</float>
+								<float key="IBUISectionHeaderHeight">22</float>
+								<float key="IBUISectionFooterHeight">22</float>
 							</object>
 							<object class="IBUILabel" id="809984558">
 								<reference key="NSNextResponder" ref="629273398"/>
@@ -240,7 +242,7 @@
 										</object>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
-										<bool key="IBUIMultipleTouchEnabled">YES</bool>
+										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 									</object>
 								</object>
@@ -248,7 +250,7 @@
 								<reference key="NSSuperview" ref="133102362"/>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MCAwIDAgMC41AA</bytes>
+									<bytes key="NSRGB">MCAwIDAgMC43AA</bytes>
 								</object>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -478,6 +480,7 @@
 							<reference ref="231392317"/>
 							<reference ref="644584544"/>
 							<reference ref="809984558"/>
+							<reference ref="1028266386"/>
 						</object>
 						<reference key="parent" ref="774585933"/>
 						<string key="objectName">PC View</string>
@@ -488,7 +491,6 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="411850233"/>
-							<reference ref="1028266386"/>
 							<reference ref="50999612"/>
 						</object>
 						<reference key="parent" ref="629273398"/>
@@ -509,15 +511,6 @@
 						<reference key="object" ref="411850233"/>
 						<reference key="parent" ref="231392317"/>
 						<string key="objectName">PC Text</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">23</int>
-						<reference key="object" ref="1028266386"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-						</object>
-						<reference key="parent" ref="231392317"/>
-						<string key="objectName">PC Table View</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">13</int>
@@ -584,6 +577,12 @@
 						<int key="objectID">20</int>
 						<reference key="object" ref="350694249"/>
 						<reference key="parent" ref="133102362"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">23</int>
+						<reference key="object" ref="1028266386"/>
+						<reference key="parent" ref="629273398"/>
+						<string key="objectName">PC Table View</string>
 					</object>
 				</object>
 			</object>
