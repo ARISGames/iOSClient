@@ -50,6 +50,7 @@ NSString *const kHtmlTemplate =
 @synthesize npcImage, pcImage, npcWebView, pcWebView, pcTableView, npcScrollView, pcScrollView;
 @synthesize pcAnswerView, mainView, npcView, pcView, pcLabel;
 
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
 	assert(npcImage && @"npcImage not connected.");
@@ -67,6 +68,8 @@ NSString *const kHtmlTemplate =
 	assert(pcView && @"pcView not connected.");
 	
     [super viewDidLoad];
+	
+	self.title = currentNpc.name;
 	[self loadNPCImage:currentNpc.mediaId];
 	
 	resourcePath = [[NSString stringWithFormat:@"file:/%@//", [[[[NSBundle mainBundle] resourcePath]

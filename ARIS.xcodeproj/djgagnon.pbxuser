@@ -428,6 +428,21 @@
 			AB705E8A1166519100A73DA0 /* PBXTextBookmark */ = AB705E8A1166519100A73DA0 /* PBXTextBookmark */;
 			AB705E8E1166520F00A73DA0 /* PBXTextBookmark */ = AB705E8E1166520F00A73DA0 /* PBXTextBookmark */;
 			AB705E8F1166520F00A73DA0 /* PBXTextBookmark */ = AB705E8F1166520F00A73DA0 /* PBXTextBookmark */;
+			AB705E93116652D700A73DA0 /* PBXTextBookmark */ = AB705E93116652D700A73DA0 /* PBXTextBookmark */;
+			AB705E94116652D700A73DA0 /* PBXTextBookmark */ = AB705E94116652D700A73DA0 /* PBXTextBookmark */;
+			AB705E95116652D700A73DA0 /* PBXTextBookmark */ = AB705E95116652D700A73DA0 /* PBXTextBookmark */;
+			AB705E96116652D700A73DA0 /* PBXTextBookmark */ = AB705E96116652D700A73DA0 /* PBXTextBookmark */;
+			AB705E97116652D700A73DA0 /* PBXTextBookmark */ = AB705E97116652D700A73DA0 /* PBXTextBookmark */;
+			AB705E98116652D700A73DA0 /* PBXTextBookmark */ = AB705E98116652D700A73DA0 /* PBXTextBookmark */;
+			AB705E99116652D700A73DA0 /* PBXTextBookmark */ = AB705E99116652D700A73DA0 /* PBXTextBookmark */;
+			AB705E9D116652FE00A73DA0 /* PBXTextBookmark */ = AB705E9D116652FE00A73DA0 /* PBXTextBookmark */;
+			AB705E9E116652FE00A73DA0 /* PBXTextBookmark */ = AB705E9E116652FE00A73DA0 /* PBXTextBookmark */;
+			AB705EA21166534400A73DA0 /* PBXTextBookmark */ = AB705EA21166534400A73DA0 /* PBXTextBookmark */;
+			AB705EA31166534400A73DA0 /* PBXTextBookmark */ = AB705EA31166534400A73DA0 /* PBXTextBookmark */;
+			AB705EA41166535500A73DA0 /* PBXTextBookmark */ = AB705EA41166535500A73DA0 /* PBXTextBookmark */;
+			AB705EA51166535500A73DA0 /* PBXTextBookmark */ = AB705EA51166535500A73DA0 /* PBXTextBookmark */;
+			AB705EA81166535B00A73DA0 /* PBXTextBookmark */ = AB705EA81166535B00A73DA0 /* PBXTextBookmark */;
+			AB705EA91166535B00A73DA0 /* PBXTextBookmark */ = AB705EA91166535B00A73DA0 /* PBXTextBookmark */;
 			AB7C6281115BF73800D23EAA = AB7C6281115BF73800D23EAA /* PBXTextBookmark */;
 			AB7C628A115C037E00D23EAA = AB7C628A115C037E00D23EAA /* PBXTextBookmark */;
 			AB7C628B115C037E00D23EAA = AB7C628B115C037E00D23EAA /* PBXBookmark */;
@@ -1591,7 +1606,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 145";
 		rLen = 0;
-		rLoc = 4779;
+		rLoc = 4813;
 		rType = 0;
 		vrLen = 1010;
 		vrLoc = 4232;
@@ -1773,7 +1788,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 196";
 		rLen = 0;
-		rLoc = 6041;
+		rLoc = 6075;
 		rType = 0;
 		vrLen = 1342;
 		vrLoc = 5866;
@@ -1783,7 +1798,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 196";
 		rLen = 0;
-		rLoc = 6041;
+		rLoc = 6075;
 		rType = 0;
 		vrLen = 1247;
 		vrLoc = 5961;
@@ -1833,7 +1848,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 197";
 		rLen = 0;
-		rLoc = 6040;
+		rLoc = 6074;
 		rType = 0;
 		vrLen = 1396;
 		vrLoc = 5687;
@@ -1843,7 +1858,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 196";
 		rLen = 0;
-		rLoc = 6040;
+		rLoc = 6074;
 		rType = 0;
 		vrLen = 1446;
 		vrLoc = 5689;
@@ -1853,7 +1868,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 196";
 		rLen = 0;
-		rLoc = 6040;
+		rLoc = 6074;
 		rType = 0;
 		vrLen = 1381;
 		vrLoc = 5725;
@@ -1863,7 +1878,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 340";
 		rLen = 18;
-		rLoc = 10304;
+		rLoc = 10338;
 		rType = 0;
 		vrLen = 1861;
 		vrLoc = 781;
@@ -1913,7 +1928,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 340";
 		rLen = 18;
-		rLoc = 10304;
+		rLoc = 10338;
 		rType = 0;
 		vrLen = 1451;
 		vrLoc = 4703;
@@ -1923,7 +1938,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 340";
 		rLen = 18;
-		rLoc = 10304;
+		rLoc = 10338;
 		rType = 0;
 		vrLen = 1490;
 		vrLoc = 4732;
@@ -1933,7 +1948,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 340";
 		rLen = 18;
-		rLoc = 10304;
+		rLoc = 10338;
 		rType = 0;
 		vrLen = 1504;
 		vrLoc = 4753;
@@ -1943,7 +1958,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 340";
 		rLen = 18;
-		rLoc = 10304;
+		rLoc = 10338;
 		rType = 0;
 		vrLen = 1504;
 		vrLoc = 4753;
@@ -1985,7 +2000,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 84";
 		rLen = 0;
-		rLoc = 2976;
+		rLoc = 3010;
 		rType = 0;
 		vrLen = 1850;
 		vrLoc = 1494;
@@ -1995,7 +2010,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 84";
 		rLen = 0;
-		rLoc = 2976;
+		rLoc = 3010;
 		rType = 0;
 		vrLen = 1874;
 		vrLoc = 1495;
@@ -2005,7 +2020,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 84";
 		rLen = 0;
-		rLoc = 2976;
+		rLoc = 3010;
 		rType = 0;
 		vrLen = 1810;
 		vrLoc = 1611;
@@ -2015,7 +2030,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 84";
 		rLen = 0;
-		rLoc = 2976;
+		rLoc = 3010;
 		rType = 0;
 		vrLen = 1892;
 		vrLoc = 1292;
@@ -2032,7 +2047,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 163";
 		rLen = 0;
-		rLoc = 5184;
+		rLoc = 5218;
 		rType = 0;
 		vrLen = 1431;
 		vrLoc = 4561;
@@ -2042,7 +2057,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 274";
 		rLen = 0;
-		rLoc = 8067;
+		rLoc = 8101;
 		rType = 0;
 		vrLen = 1246;
 		vrLoc = 7108;
@@ -2052,7 +2067,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 274";
 		rLen = 0;
-		rLoc = 8067;
+		rLoc = 8101;
 		rType = 0;
 		vrLen = 1284;
 		vrLoc = 7142;
@@ -2062,7 +2077,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 274";
 		rLen = 0;
-		rLoc = 8067;
+		rLoc = 8101;
 		rType = 0;
 		vrLen = 1276;
 		vrLoc = 7153;
@@ -2112,7 +2127,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 157";
 		rLen = 0;
-		rLoc = 5184;
+		rLoc = 5218;
 		rType = 0;
 		vrLen = 1592;
 		vrLoc = 7522;
@@ -2122,7 +2137,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 163";
 		rLen = 0;
-		rLoc = 5184;
+		rLoc = 5218;
 		rType = 0;
 		vrLen = 1480;
 		vrLoc = 4588;
@@ -2132,7 +2147,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 163";
 		rLen = 0;
-		rLoc = 5184;
+		rLoc = 5218;
 		rType = 0;
 		vrLen = 1495;
 		vrLoc = 4649;
@@ -2142,7 +2157,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 170";
 		rLen = 0;
-		rLoc = 5184;
+		rLoc = 5218;
 		rType = 0;
 		vrLen = 1365;
 		vrLoc = 4797;
@@ -2182,7 +2197,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 170";
 		rLen = 0;
-		rLoc = 5184;
+		rLoc = 5218;
 		rType = 0;
 		vrLen = 1365;
 		vrLoc = 4797;
@@ -2192,7 +2207,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 167";
 		rLen = 0;
-		rLoc = 5184;
+		rLoc = 5218;
 		rType = 0;
 		vrLen = 1243;
 		vrLoc = 5062;
@@ -2202,7 +2217,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 166";
 		rLen = 0;
-		rLoc = 5184;
+		rLoc = 5218;
 		rType = 0;
 		vrLen = 1282;
 		vrLoc = 4991;
@@ -2212,7 +2227,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 270";
 		rLen = 0;
-		rLoc = 7994;
+		rLoc = 8028;
 		rType = 0;
 		vrLen = 1592;
 		vrLoc = 7531;
@@ -2222,7 +2237,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 274";
 		rLen = 0;
-		rLoc = 8067;
+		rLoc = 8101;
 		rType = 0;
 		vrLen = 1577;
 		vrLoc = 7653;
@@ -2232,7 +2247,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 141";
 		rLen = 33;
-		rLoc = 4694;
+		rLoc = 4728;
 		rType = 0;
 		vrLen = 1549;
 		vrLoc = 4371;
@@ -2242,7 +2257,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 141";
 		rLen = 33;
-		rLoc = 4694;
+		rLoc = 4728;
 		rType = 0;
 		vrLen = 1549;
 		vrLoc = 4371;
@@ -2252,7 +2267,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 157";
 		rLen = 0;
-		rLoc = 5181;
+		rLoc = 5215;
 		rType = 0;
 		vrLen = 1325;
 		vrLoc = 4145;
@@ -2262,7 +2277,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 85";
 		rLen = 0;
-		rLoc = 2975;
+		rLoc = 3009;
 		rType = 0;
 		vrLen = 1863;
 		vrLoc = 2183;
@@ -2272,7 +2287,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 84";
 		rLen = 0;
-		rLoc = 2954;
+		rLoc = 2988;
 		rType = 0;
 		vrLen = 1846;
 		vrLoc = 2230;
@@ -2282,7 +2297,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 84";
 		rLen = 0;
-		rLoc = 2970;
+		rLoc = 3004;
 		rType = 0;
 		vrLen = 1843;
 		vrLoc = 2296;
@@ -2292,7 +2307,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 84";
 		rLen = 0;
-		rLoc = 2970;
+		rLoc = 3004;
 		rType = 0;
 		vrLen = 1843;
 		vrLoc = 2296;
@@ -2342,7 +2357,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 84";
 		rLen = 0;
-		rLoc = 2970;
+		rLoc = 3004;
 		rType = 0;
 		vrLen = 1841;
 		vrLoc = 2296;
@@ -2352,7 +2367,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 84";
 		rLen = 0;
-		rLoc = 2897;
+		rLoc = 2931;
 		rType = 0;
 		vrLen = 1730;
 		vrLoc = 1707;
@@ -2362,7 +2377,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 84";
 		rLen = 0;
-		rLoc = 2897;
+		rLoc = 2931;
 		rType = 0;
 		vrLen = 1730;
 		vrLoc = 1707;
@@ -2420,7 +2435,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 84";
 		rLen = 0;
-		rLoc = 2897;
+		rLoc = 2931;
 		rType = 0;
 		vrLen = 1408;
 		vrLoc = 10292;
@@ -2430,7 +2445,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 85";
 		rLen = 0;
-		rLoc = 2899;
+		rLoc = 2933;
 		rType = 0;
 		vrLen = 1864;
 		vrLoc = 1494;
@@ -2440,7 +2455,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 85";
 		rLen = 0;
-		rLoc = 2899;
+		rLoc = 2933;
 		rType = 0;
 		vrLen = 980;
 		vrLoc = 1611;
@@ -2510,7 +2525,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 89";
 		rLen = 0;
-		rLoc = 3069;
+		rLoc = 3103;
 		rType = 0;
 		vrLen = 753;
 		vrLoc = 2538;
@@ -2520,7 +2535,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 85";
 		rLen = 0;
-		rLoc = 2970;
+		rLoc = 3004;
 		rType = 0;
 		vrLen = 740;
 		vrLoc = 2538;
@@ -2530,7 +2545,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 70";
 		rLen = 0;
-		rLoc = 2295;
+		rLoc = 2329;
 		rType = 0;
 		vrLen = 476;
 		vrLoc = 1707;
@@ -2574,7 +2589,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 96";
 		rLen = 1;
-		rLoc = 3219;
+		rLoc = 3253;
 		rType = 0;
 		vrLen = 298;
 		vrLoc = 3071;
@@ -2584,7 +2599,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 96";
 		rLen = 1;
-		rLoc = 3219;
+		rLoc = 3253;
 		rType = 0;
 		vrLen = 1108;
 		vrLoc = 3071;
@@ -2900,7 +2915,7 @@
 		rLen = 0;
 		rLoc = 3844;
 		rType = 0;
-		vrLen = 2586;
+		vrLen = 2555;
 		vrLoc = 3250;
 	};
 	AB6B771610C9D1DB00275650 /* PBXTextBookmark */ = {
@@ -3077,7 +3092,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 70";
 		rLen = 0;
-		rLoc = 2295;
+		rLoc = 2329;
 		rType = 0;
 		vrLen = 570;
 		vrLoc = 1660;
@@ -3087,7 +3102,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 95";
 		rLen = 1;
-		rLoc = 3219;
+		rLoc = 3253;
 		rType = 0;
 		vrLen = 1278;
 		vrLoc = 2978;
@@ -3097,7 +3112,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 95";
 		rLen = 1;
-		rLoc = 3219;
+		rLoc = 3253;
 		rType = 0;
 		vrLen = 1278;
 		vrLoc = 2978;
@@ -3107,7 +3122,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 70";
 		rLen = 0;
-		rLoc = 2295;
+		rLoc = 2329;
 		rType = 0;
 		vrLen = 523;
 		vrLoc = 1660;
@@ -3117,7 +3132,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 95";
 		rLen = 1;
-		rLoc = 3219;
+		rLoc = 3253;
 		rType = 0;
 		vrLen = 1248;
 		vrLoc = 2978;
@@ -3127,7 +3142,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 70";
 		rLen = 0;
-		rLoc = 2295;
+		rLoc = 2329;
 		rType = 0;
 		vrLen = 523;
 		vrLoc = 1660;
@@ -3137,7 +3152,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 95";
 		rLen = 1;
-		rLoc = 3219;
+		rLoc = 3253;
 		rType = 0;
 		vrLen = 1248;
 		vrLoc = 2978;
@@ -3147,7 +3162,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 70";
 		rLen = 0;
-		rLoc = 2295;
+		rLoc = 2329;
 		rType = 0;
 		vrLen = 523;
 		vrLoc = 1660;
@@ -3157,10 +3172,160 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 95";
 		rLen = 1;
-		rLoc = 3219;
+		rLoc = 3253;
 		rType = 0;
 		vrLen = 1248;
 		vrLoc = 2978;
+	};
+	AB705E93116652D700A73DA0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = D42432621107735800E58147 /* DialogViewController.m */;
+		name = "DialogViewController.m: 83";
+		rLen = 0;
+		rLoc = 2329;
+		rType = 0;
+		vrLen = 214;
+		vrLoc = 1550;
+	};
+	AB705E94116652D700A73DA0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = D42432611107735800E58147 /* DialogViewController.h */;
+		name = "DialogViewController.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 809;
+		vrLoc = 0;
+	};
+	AB705E95116652D700A73DA0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = ABBEBBC1104D7CF900AA7285 /* NodeViewController.m */;
+		name = "NodeViewController.m: 20";
+		rLen = 375;
+		rLoc = 402;
+		rType = 0;
+		vrLen = 1029;
+		vrLoc = 28;
+	};
+	AB705E96116652D700A73DA0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = ABDA40B310506AF400823A94 /* AnnotationView.m */;
+		name = "AnnotationView.m: 25";
+		rLen = 93;
+		rLoc = 410;
+		rType = 0;
+		vrLen = 1094;
+		vrLoc = 131;
+	};
+	AB705E97116652D700A73DA0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = ABDA40AD10506AF400823A94 /* GPSViewController.m */;
+		name = "GPSViewController.m: 29";
+		rLen = 755;
+		rLoc = 571;
+		rType = 0;
+		vrLen = 1063;
+		vrLoc = 335;
+	};
+	AB705E98116652D700A73DA0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = D42432621107735800E58147 /* DialogViewController.m */;
+		name = "DialogViewController.m: 62";
+		rLen = 0;
+		rLoc = 1495;
+		rType = 0;
+		vrLen = 1378;
+		vrLoc = 1231;
+	};
+	AB705E99116652D700A73DA0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = D42432621107735800E58147 /* DialogViewController.m */;
+		name = "DialogViewController.m: 59";
+		rLen = 0;
+		rLoc = 1494;
+		rType = 0;
+		vrLen = 1206;
+		vrLoc = 1291;
+	};
+	AB705E9D116652FE00A73DA0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = D42432621107735800E58147 /* DialogViewController.m */;
+		name = "DialogViewController.m: 85";
+		rLen = 0;
+		rLoc = 2329;
+		rType = 0;
+		vrLen = 214;
+		vrLoc = 1550;
+	};
+	AB705E9E116652FE00A73DA0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = D42432621107735800E58147 /* DialogViewController.m */;
+		name = "DialogViewController.m: 84";
+		rLen = 0;
+		rLoc = 2288;
+		rType = 0;
+		vrLen = 1413;
+		vrLoc = 1743;
+	};
+	AB705EA21166534400A73DA0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = D42432621107735800E58147 /* DialogViewController.m */;
+		name = "DialogViewController.m: 85";
+		rLen = 0;
+		rLoc = 2329;
+		rType = 0;
+		vrLen = 214;
+		vrLoc = 1550;
+	};
+	AB705EA31166534400A73DA0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = D42432621107735800E58147 /* DialogViewController.m */;
+		name = "DialogViewController.m: 84";
+		rLen = 0;
+		rLoc = 2272;
+		rType = 0;
+		vrLen = 1413;
+		vrLoc = 1743;
+	};
+	AB705EA41166535500A73DA0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = D42432621107735800E58147 /* DialogViewController.m */;
+		name = "DialogViewController.m: 73";
+		rLen = 0;
+		rLoc = 2329;
+		rType = 0;
+		vrLen = 525;
+		vrLoc = 1612;
+	};
+	AB705EA51166535500A73DA0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = D42432621107735800E58147 /* DialogViewController.m */;
+		name = "DialogViewController.m: 52";
+		rLen = 0;
+		rLoc = 1494;
+		rType = 0;
+		vrLen = 1144;
+		vrLoc = 564;
+	};
+	AB705EA81166535B00A73DA0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = D42432621107735800E58147 /* DialogViewController.m */;
+		name = "DialogViewController.m: 73";
+		rLen = 0;
+		rLoc = 2329;
+		rType = 0;
+		vrLen = 525;
+		vrLoc = 1612;
+	};
+	AB705EA91166535B00A73DA0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = D42432621107735800E58147 /* DialogViewController.m */;
+		name = "DialogViewController.m: 52";
+		rLen = 0;
+		rLoc = 1494;
+		rType = 0;
+		vrLen = 1380;
+		vrLoc = 1194;
 	};
 	AB7C6281115BF73800D23EAA /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -3426,9 +3591,9 @@
 	};
 	ABBEBBC1104D7CF900AA7285 /* NodeViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {974, 2275}}";
-			sepNavSelRange = "{1299, 0}";
-			sepNavVisRange = "{1183, 1005}";
+			sepNavIntBoundsRect = "{{0, 0}, {880, 2262}}";
+			sepNavSelRange = "{402, 375}";
+			sepNavVisRange = "{28, 1029}";
 		};
 	};
 	ABBEBCDD104DDCDB00AA7285 /* PBXTextBookmark */ = {
@@ -3454,9 +3619,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 34;
-		modificationTime = 291918349.453084;
+		modificationTime = 291918681.504733;
 		originalNumberOfMultipleMatches = 1;
-		state = 1;
+		state = 0;
 	};
 	ABCC330F114C5CA300BB485D /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -3540,9 +3705,9 @@
 	};
 	ABDA40AD10506AF400823A94 /* GPSViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1020, 4875}}";
-			sepNavSelRange = "{3504, 0}";
-			sepNavVisRange = "{2791, 1058}";
+			sepNavIntBoundsRect = "{{0, 0}, {880, 4927}}";
+			sepNavSelRange = "{571, 755}";
+			sepNavVisRange = "{335, 1063}";
 		};
 	};
 	ABDA40B010506AF400823A94 /* Annotation.h */ = {
@@ -3568,9 +3733,9 @@
 	};
 	ABDA40B310506AF400823A94 /* AnnotationView.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1258, 1599}}";
-			sepNavSelRange = "{3219, 0}";
-			sepNavVisRange = "{2491, 1213}";
+			sepNavIntBoundsRect = "{{0, 0}, {1258, 1846}}";
+			sepNavSelRange = "{410, 93}";
+			sepNavVisRange = "{131, 1094}";
 		};
 	};
 	ABDA40B510506AF400823A94 /* player.png */ = {
@@ -3683,7 +3848,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 455";
 		rLen = 0;
-		rLoc = 14088;
+		rLoc = 14122;
 		rType = 0;
 		vrLen = 1258;
 		vrLoc = 13379;
@@ -3748,16 +3913,16 @@
 	};
 	D42432611107735800E58147 /* DialogViewController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {880, 1001}}";
+			sepNavIntBoundsRect = "{{0, 0}, {880, 1066}}";
 			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{284, 422}";
+			sepNavVisRange = "{0, 809}";
 		};
 	};
 	D42432621107735800E58147 /* DialogViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {978, 6006}}";
-			sepNavSelRange = "{3219, 1}";
-			sepNavVisRange = "{2978, 1248}";
+			sepNavIntBoundsRect = "{{0, 0}, {880, 6097}}";
+			sepNavSelRange = "{1494, 0}";
+			sepNavVisRange = "{1194, 1380}";
 			sepNavWindowFrame = "{{61, 88}, {726, 743}}";
 		};
 	};
