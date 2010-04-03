@@ -361,7 +361,7 @@ NSString *const kHtmlTemplate =
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
 	AppModel *appModel = appDelegate.appModel;
 	
-	Media *audioMedia = [appModel.mediaList objectForKey:[NSNumber numberWithInt:soundId]];
+	Media *audioMedia = [appModel mediaForMediaId:soundId];
 	
 	if (!audioMedia) return;
 	NSURL *url = [[NSURL alloc] initWithString:audioMedia.url];

@@ -904,7 +904,7 @@ static const int kEmptyValue = -1;
 			continue;
 		}
 		
-		fileName = [NSString stringWithFormat:@"%@gamedata/%d/%@", baseAppURL, gameId, fileName];
+		fileName = [NSString stringWithFormat:@"%@gamedata/%d/%@", self.baseAppURL, self.gameId, fileName];
 		NSLog(@"AppModel fetchMediaList: Full URL: %@", fileName);
 		
 		Media *media = [[Media alloc] initWithId:uid andUrlString:fileName ofType:type];
