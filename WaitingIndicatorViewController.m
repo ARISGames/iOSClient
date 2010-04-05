@@ -11,10 +11,15 @@
 @implementation WaitingIndicatorViewController
 @synthesize spinner;
 @synthesize label;
+@synthesize progressView;
 
--(void) setMessage: (NSString*) newMessage{
+- (void) setMessage: (NSString*) newMessage{
 	label.text = newMessage;
 	[label setNeedsDisplay];
+}
+
+- (NSString*) message{
+	return label.text;
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -22,9 +27,8 @@
 	NSLog(@"Waiting Indicator: ViewDidLoad");
 	[spinner startAnimating];
 	
-	//should force a display
-	[self.view drawRect:self.view.bounds];
-
+	progressView.progress = 0;
+	
 	[super viewDidLoad];
 }
 

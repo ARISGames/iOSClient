@@ -14,6 +14,7 @@
 #import "JSONConnection.h"
 #import "JSONResult.h"
 #import "JSON.h"
+#import "ASIFormDataRequest.h"
 
 static NSString *const nearbyLock = @"nearbyLock";
 static NSString *const locationsLock = @"locationsLock";
@@ -423,10 +424,32 @@ static const int kEmptyValue = -1;
 }
 
 - (void)createItemAndGiveToPlayerFromFileData:(NSData *)fileData andFileName:(NSString *)fileName{
-	NSLog(@"Model: creating a new Item for an image");
+	NSLog(@"Model: Uploading File");
 
-	//Do the file upload first
-	NSString* newFileName = [self uploadFileToServerAndGetName:fileData fileName:fileName];
+	// setting up the request object now
+	NSString *urlString = [[NSString alloc] initWithFormat:@"%@services/aris/uploadHandler.php",self.baseAppURL];
+	NSURL *url = [[NSURL alloc] initWithString:urlString];
+	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+	[request setPostValue:[NSString stringWithFormat:@"%d", self.gameId] forKey:@"gameID"];
+	[request setPostValue:fileName forKey:@"fileName"];
+	[request setData:fileData forKey:@"file"];
+	[request setDidFinishSelector:@selector(uploadItemRequestFinished:)];
+	[request setDidFailSelector:@selector(uploadItemRequestFailed:)];
+	[request setDelegate:self];
+	
+	
+	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate showWaitingIndicator:@"Uploading"];
+	[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
+	[request startAsynchronous];
+}
+
+- (void)uploadItemRequestFinished:(ASIHTTPRequest *)request
+{
+	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate removeWaitingIndicator];
+	NSLog(@"Model: creating a new Item for an image: requestFinished");
+	NSString *newFileName = [request responseString];
 	
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects:
@@ -444,70 +467,18 @@ static const int kEmptyValue = -1;
 																	  andArguments:arguments];
 	[jsonConnection performAsynchronousRequestWithParser:nil]; 
 	
-	 
 	[self fetchInventory];	
-		
 }
 
-
-- (NSString*)uploadFileToServerAndGetName: (NSData *)fileData fileName:(NSString*)fileName{
-	NSLog(@"Model: Preparing to send file to Server");
-	
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-	
-	//[appDelegate performSelectorInBackground:@selector(showWaitingIndicator:) withObject:@"Uploading Image"];
-	[appDelegate showWaitingIndicator:@"Uploading Image"];
-	
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-
-	
-	// setting up the request object now
-	NSString *urlString = [[NSString alloc] initWithFormat:@"%@services/aris/uploadHandler.php",self.baseAppURL];
-	NSURL *url = [[NSURL alloc] initWithString:urlString];
-	NSMutableURLRequest* request = [[NSMutableURLRequest alloc] initWithURL:url];
-	[request setHTTPMethod: @"POST"];
-	
-	//Add headers
-	NSString *boundary = [NSString stringWithString:@"---------------------------14737809831466499882746641449"];
-	NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@",boundary];
-	[request addValue:contentType forHTTPHeaderField: @"Content-Type"];
-	
-	//body
-	NSMutableData *body = [NSMutableData data];
-	[body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-	
-	// GameID
-	[body appendData:[self encode:[NSString stringWithFormat:@"%d", self.gameId] forPostWithName:@"gameID"]];
-	
-	//image
-	[body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"%@\"\r\n",fileName] dataUsingEncoding:NSUTF8StringEncoding]];
-	[body appendData:[[NSString stringWithString:@"Content-Type: application/octet-stream\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
-	[body appendData:[NSData dataWithData:fileData]];
-	[body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-	
-	// setting the body of the post to the reqeust
-	[request setHTTPBody:body];
-	
-	// post it
-	NSURLResponse *response;
-	NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-	NSString *returnString = [[NSString alloc] initWithData:returnData encoding:NSUTF8StringEncoding];
-	NSLog(@"Model: File Upload Result from Server: %@", returnString);
-	
-	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+- (void)uploadItemRequestFailed:(ASIHTTPRequest *)request
+{
+	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate removeWaitingIndicator];
+	NSError *error = [request error];
+	NSLog(@"Model: uploadItemRequestFailed: %@",[error localizedDescription]);
+}
 
-	
-	return returnString;
-}
-//sure would be nice to wrap this in with the code above
-- (NSData *) encode:(NSString *)data forPostWithName:(NSString *)name {
-	NSString *const boundaryMagicString  = @"---------------------------14737809831466499882746641449";
-	
-	NSData *result = [[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n%@\r\n--%@\r\n",
-						name, data, boundaryMagicString] dataUsingEncoding:NSUTF8StringEncoding];
-	return result;	
-}
+
 
 - (void)updateServerLocationAndfetchNearbyLocationList {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];

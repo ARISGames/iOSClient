@@ -104,7 +104,6 @@ extern NSDictionary *InventoryElements;
 - (void)createItemAndGiveToPlayerFromFileData:(NSData *)fileData andFileName:(NSString *)fileName;
 - (BOOL)registerNewUser:(NSString*)userName password:(NSString*)pass 
 			  firstName:(NSString*)firstName lastName:(NSString*)lastName email:(NSString*)email;
-- (NSString*)uploadFileToServerAndGetName: (NSData *)fileData fileName:(NSString*)fileName;
 
 
 - (Item *)parseItemFromDictionary: (NSDictionary *)itemDictionary;
