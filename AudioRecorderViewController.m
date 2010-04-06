@@ -13,6 +13,8 @@
 @synthesize soundFileURL;
 @synthesize soundRecorder;
 @synthesize soundPlayer;
+@synthesize meter;
+@synthesize meterUpdateTimer;
 
 
 
@@ -41,6 +43,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
+	meter = [[AudioMeter alloc]initWithFrame:CGRectMake(32, 20, 320-64, 160)];
+	meter.alpha = 0.0;
+	[self.view addSubview:meter];
+	
 	NSString *tempDir = NSTemporaryDirectory ();
     NSString *soundFilePath =[tempDir stringByAppendingString: @"sound.caf"];
 	
@@ -48,9 +54,9 @@
     self.soundFileURL = newURL;
     [newURL release];
 	
-    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-    //audioSession.delegate = self;
-    [audioSession setActive: YES error: nil];
+	[[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayAndRecord error: nil];
+    [[AVAudioSession sharedInstance] setDelegate: self];
+    [[AVAudioSession sharedInstance] setActive: YES error: nil];
 	
     recording = NO;
     playing = NO;
@@ -100,17 +106,21 @@
 		
 		// if stopped or paused, start playing
     } else {
-        [playOrPauseButton setTitle: @"Pause" forState: UIControlStateHighlighted];
-        [playOrPauseButton setTitle: @"Pause" forState: UIControlStateNormal];
+		[[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];
+
 		if (nil == self.soundPlayer) {
-			AVAudioPlayer *newPlayer =[[AVAudioPlayer alloc] initWithContentsOfURL:self.soundFileURL error: nil];
+			NSError *error;
+			AVAudioPlayer *newPlayer =[[AVAudioPlayer alloc] initWithContentsOfURL:self.soundFileURL error: &error];
 			self.soundPlayer = newPlayer;
 			[newPlayer release];
 			[self.soundPlayer prepareToPlay];
 			[self.soundPlayer setDelegate: self];
 		}	
 		playing = YES;
+		[playOrPauseButton setTitle: @"Pause" forState: UIControlStateHighlighted];
+        [playOrPauseButton setTitle: @"Pause" forState: UIControlStateNormal];
         [self.soundPlayer play];
+
     }
 	
 }
@@ -127,20 +137,17 @@
 		
 		[recordOrStopButton setTitle: @"Record" forState:UIControlStateNormal];
 		[recordOrStopButton setTitle: @"Record" forState:UIControlStateHighlighted];
-		[[AVAudioSession sharedInstance] setActive: NO error: nil];
 		
 	} else {
 		
 		[[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryRecord error: nil];
 		
-		NSDictionary *recordSettings =
-		[[NSDictionary alloc] initWithObjectsAndKeys:
-		 [NSNumber numberWithFloat: 44100.0], AVSampleRateKey,
-		 [NSNumber numberWithInt: kAudioFormatMPEG4AAC], AVFormatIDKey,
-		 [NSNumber numberWithInt: 1], AVNumberOfChannelsKey,
-		 [NSNumber numberWithInt: AVAudioQualityMax],
-		 AVEncoderAudioQualityKey,
-		 nil];
+		NSDictionary *recordSettings = [[NSDictionary alloc] initWithObjectsAndKeys:
+										[NSNumber numberWithFloat: 44100.0], AVSampleRateKey,
+										[NSNumber numberWithInt: kAudioFormatAppleLossless], AVFormatIDKey,
+										[NSNumber numberWithInt: 1], AVNumberOfChannelsKey,
+										[NSNumber numberWithInt: AVAudioQualityMax],AVEncoderAudioQualityKey,
+										nil];
 		
 		AVAudioRecorder *newRecorder = [[AVAudioRecorder alloc] initWithURL: soundFileURL settings: recordSettings error: nil];
 		[recordSettings release];
@@ -150,14 +157,52 @@
 		soundRecorder.delegate = self;
 		[soundRecorder setMeteringEnabled:YES];
 		[soundRecorder prepareToRecord];
+		
+		
+		BOOL audioHWAvailable = [[AVAudioSession sharedInstance] inputIsAvailable];
+		if (! audioHWAvailable) {
+			UIAlertView *cantRecordAlert =
+			[[UIAlertView alloc] initWithTitle: @"Warning"
+									   message: @"Audio input hardware not available"
+									  delegate: nil
+							 cancelButtonTitle:@"OK"
+							 otherButtonTitles:nil];
+			[cantRecordAlert show];
+			[cantRecordAlert release]; 
+			return;
+		}
+		
 		[soundRecorder record];
+		
+		self.meter.alpha = 1.0; 
+		self.meterUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 
+																 target:self 
+															   selector:@selector(updateMeter) 
+															   userInfo:nil 
+																repeats:YES];
 		NSLog(@"Recording.");
 		[recordOrStopButton setTitle: @"Stop" forState: UIControlStateNormal];
 		[recordOrStopButton setTitle: @"Stop" forState: UIControlStateHighlighted];
-		
 		recording = YES;
 	}
 }
+
+
+- (void)updateMeter {
+	[self.soundRecorder updateMeters];
+	float levelInDb = [self.soundRecorder averagePowerForChannel:0];
+	levelInDb = levelInDb + 160;
+	
+	//Level will always be between 0 and 160 now
+	//Usually it will sit around 100 in quiet so we need to correct
+	levelInDb = MAX(levelInDb - 100,0);
+	float levelInZeroToOne = levelInDb / 60;
+	
+	NSLog(@"AudioRecorderLevel: %f, level in float:%f",levelInDb,levelInZeroToOne);
+
+	[self.meter updateLevel:levelInZeroToOne];
+}
+
 
 - (IBAction)upload:(id)sender {
 	NSLog(@"AudioRecorder:Upload Button Pressed");
@@ -178,6 +223,11 @@
 
 - (void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag{
 	recording = NO;
+	[self.meterUpdateTimer invalidate];
+	[self.meter updateLevel:0];
+	self.meter.alpha = 0.0; 
+
+	
 	[recordOrStopButton setTitle: @"Record" forState:UIControlStateNormal];
 	[recordOrStopButton setTitle: @"Record" forState:UIControlStateHighlighted];
 	
@@ -185,6 +235,7 @@
 	[playOrPauseButton setEnabled:YES];
 	[uploadButton setAlpha:1.0];
 	[uploadButton setEnabled:YES];
+
 }
 
 #pragma mark Audio Player Delegate Methods
@@ -194,7 +245,6 @@
 	[playOrPauseButton setTitle: @"Play" forState: UIControlStateHighlighted];
 	[playOrPauseButton setTitle: @"Play" forState: UIControlStateNormal];
 	soundPlayer = nil;
-	
 }
 
 - (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error {

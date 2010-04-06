@@ -189,6 +189,7 @@
 		ABBEBBAD104D7CC800AA7285 /* NodeOption.m in Sources */ = {isa = PBXBuildFile; fileRef = ABBEBBAC104D7CC800AA7285 /* NodeOption.m */; };
 		ABBEBBC2104D7CF900AA7285 /* NodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABBEBBC1104D7CF900AA7285 /* NodeViewController.m */; };
 		ABBEBBC5104D7DAB00AA7285 /* Node.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABBEBBC4104D7DAB00AA7285 /* Node.xib */; };
+		ABC399CF116B9EBC002185D4 /* AudioMeter.m in Sources */ = {isa = PBXBuildFile; fileRef = ABC399CE116B9EBC002185D4 /* AudioMeter.m */; };
 		ABD5C4E9104F1A0E002EB824 /* Npc.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD5C4E8104F1A0E002EB824 /* Npc.m */; };
 		ABD6226110D6FBB400D3B747 /* QuestActiveIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = ABD6225F10D6FBB400D3B747 /* QuestActiveIcon.png */; };
 		ABD6226210D6FBB400D3B747 /* QuestCompleteIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = ABD6226010D6FBB400D3B747 /* QuestCompleteIcon.png */; };
@@ -466,6 +467,8 @@
 		ABBEBBC0104D7CF900AA7285 /* NodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeViewController.h; sourceTree = "<group>"; };
 		ABBEBBC1104D7CF900AA7285 /* NodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NodeViewController.m; sourceTree = "<group>"; };
 		ABBEBBC4104D7DAB00AA7285 /* Node.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Node.xib; sourceTree = "<group>"; };
+		ABC399CD116B9EBC002185D4 /* AudioMeter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMeter.h; sourceTree = "<group>"; };
+		ABC399CE116B9EBC002185D4 /* AudioMeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioMeter.m; sourceTree = "<group>"; };
 		ABD5C4E7104F1A0E002EB824 /* Npc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Npc.h; sourceTree = "<group>"; };
 		ABD5C4E8104F1A0E002EB824 /* Npc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Npc.m; sourceTree = "<group>"; };
 		ABD6225F10D6FBB400D3B747 /* QuestActiveIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = QuestActiveIcon.png; sourceTree = "<group>"; };
@@ -941,6 +944,8 @@
 				AB0DE80011559CF000A6EC3E /* AudioRecorderViewController.m */,
 				AB0DE80111559CF000A6EC3E /* AudioRecorderViewController.xib */,
 				AB4150B51159291400DBA15F /* microphoneBackground.jpg */,
+				ABC399CD116B9EBC002185D4 /* AudioMeter.h */,
+				ABC399CE116B9EBC002185D4 /* AudioMeter.m */,
 			);
 			name = "Audio Recorder";
 			sourceTree = "<group>";
@@ -1291,6 +1296,7 @@
 				ABF4A38E116847640043EB1C /* ASINetworkQueue.m in Sources */,
 				ABF4A38F116847640043EB1C /* ASINSStringAdditions.m in Sources */,
 				ABF4A392116847900043EB1C /* Reachability.m in Sources */,
+				ABC399CF116B9EBC002185D4 /* AudioMeter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
