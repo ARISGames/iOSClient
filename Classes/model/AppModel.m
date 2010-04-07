@@ -454,15 +454,21 @@ static const int kEmptyValue = -1;
 	NSLog(@"Model: creating a new Item for an image: requestFinished");
 	
 	NSDictionary *postDict = request.postData;
+	NSString *title = [postDict objectForKey:@"title"];
+	NSString *desc = [postDict objectForKey:@"desc"];
+	
+	if (desc == NULL) desc = @""; 
 	
 	NSString *newFileName = [request responseString];
+
+	NSLog(@"AppModel: Creating Item for Title:%@ Desc:%@ File:%@",title,desc,newFileName);
 	
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects:
 						  [NSString stringWithFormat:@"%d",self.gameId],
 						  [NSString stringWithFormat:@"%d",self.playerId],
-						  [[postDict objectForKey:@"title"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
-						  [[postDict objectForKey:@"description"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+						  [title stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+						  [desc stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
 						  newFileName,
 						  @"1",
 						  @"1",

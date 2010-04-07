@@ -141,7 +141,6 @@
 	NSString *description = [[inventory objectAtIndex: [indexPath row]] description];
 	int targetIndex = MIN([self indexOf:'.' inString:description] + 1, 
 						  [description length] - 1);
-	lblTemp2.text = [description substringToIndex:targetIndex];
 	
 	AsyncImageView *iconView = (AsyncImageView *)[cell viewWithTag:3];
 	
