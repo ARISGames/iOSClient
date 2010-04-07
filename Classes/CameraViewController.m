@@ -10,17 +10,15 @@
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
 #import <MobileCoreServices/UTCoreTypes.h>
-
-@interface CameraViewController()
-- (NSData *) encode:(NSString *)data forPostWithName:(NSString *)name;
-@end
-
+#import "TitleAndDecriptionFormViewController.h"
 
 @implementation CameraViewController
 
 @synthesize imagePickerController;
 @synthesize cameraButton;
 @synthesize libraryButton;
+@synthesize mediaData;
+@synthesize mediaFilename;
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle {
@@ -78,31 +76,49 @@
 
 {
 	NSLog(@"CameraViewController: User Selected an Image or Video");
-
+		
 	[[picker parentViewController] dismissModalViewControllerAnimated:YES];
 
+	//Get the data for the selected image or video
 	NSString* mediaType = [info objectForKey:UIImagePickerControllerMediaType];
-
-
+	
 	if ([mediaType isEqualToString:@"public.image"]){
 		UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
         if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];             
 		
 		NSLog(@"CameraViewController: Found an Image");
-		NSData *imageData = UIImageJPEGRepresentation(image, .8);
-		[appModel createItemAndGiveToPlayerFromFileData:imageData andFileName:@"image.jpg"];
+		self.mediaData = UIImageJPEGRepresentation(image, .8);
+		self.mediaFilename = @"image.jpg";
 	}	
 	else if ([mediaType isEqualToString:@"public.movie"]){
 		NSLog(@"CameraViewController: Found a Movie");
 		NSURL *videoURL = [info objectForKey:UIImagePickerControllerMediaURL];
-		NSData *videoData = [NSData dataWithContentsOfURL:videoURL];
-		[appModel createItemAndGiveToPlayerFromFileData:videoData andFileName:@"video.m4v"];
+		self.mediaData = [NSData dataWithContentsOfURL:videoURL];
+		self.mediaFilename = @"video.m4v";
 	}	
-
-
-
-
+	
+	TitleAndDecriptionFormViewController *titleAndDescForm = [[TitleAndDecriptionFormViewController alloc] 
+													   initWithNibName:@"TitleAndDecriptionFormViewController" bundle:nil];
+	
+	titleAndDescForm.delegate = self;
+	//[self presentModalViewController:titleAndDescForm animated:NO];
+	[self.view addSubview:titleAndDescForm.view];
 }
+
+
+- (void)titleAndDescriptionFormDidFinish:(TitleAndDecriptionFormViewController*)titleAndDescForm{
+	NSLog(@"CameraVC: Back from form");
+	[titleAndDescForm.view removeFromSuperview];
+	
+	
+	[appModel createItemAndGiveToPlayerFromFileData:self.mediaData 
+										   fileName:self.mediaFilename 
+											  title:titleAndDescForm.titleField.text 
+										description:titleAndDescForm.descriptionField.text];
+
+	
+}
+
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
 	[[picker parentViewController] dismissModalViewControllerAnimated:YES];

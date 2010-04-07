@@ -21,6 +21,7 @@
 	AVAudioRecorder *soundRecorder;
 	AVAudioPlayer *soundPlayer;
 	NSURL *soundFileURL;
+	NSData *audioData;
 	IBOutlet UIButton *recordOrStopButton;
 	IBOutlet UIButton *playOrPauseButton;
 	IBOutlet UIButton *uploadButton;
@@ -33,6 +34,7 @@
 
 @property(readwrite, retain) AudioMeter *meter;
 @property(readwrite, retain) NSURL *soundFileURL;
+@property(readwrite, retain) NSData *audioData;
 @property(readwrite, retain) AVAudioRecorder *soundRecorder;
 @property(readwrite, retain) AVAudioPlayer *soundPlayer;
 @property(readwrite, retain) NSTimer *meterUpdateTimer;

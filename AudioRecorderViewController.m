@@ -8,6 +8,7 @@
 
 #import "AudioRecorderViewController.h"
 #import "ARISAppDelegate.h"
+#import "TitleAndDecriptionFormViewController.h";
 
 @implementation AudioRecorderViewController
 @synthesize soundFileURL;
@@ -15,7 +16,7 @@
 @synthesize soundPlayer;
 @synthesize meter;
 @synthesize meterUpdateTimer;
-
+@synthesize audioData;
 
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -213,10 +214,28 @@
         [self.soundPlayer pause];
 	}
 
-	NSData *audioData = [NSData dataWithContentsOfURL:soundFileURL];
-	[appModel createItemAndGiveToPlayerFromFileData:audioData andFileName:@"audio.caf"];
+	self.audioData = [NSData dataWithContentsOfURL:soundFileURL];
+	
+	TitleAndDecriptionFormViewController *titleAndDescForm = [[TitleAndDecriptionFormViewController alloc] 
+															  initWithNibName:@"TitleAndDecriptionFormViewController" bundle:nil];
+	titleAndDescForm.delegate = self;
+	[self.view addSubview:titleAndDescForm.view];
+}
+
+
+- (void)titleAndDescriptionFormDidFinish:(TitleAndDecriptionFormViewController*)titleAndDescForm{
+	NSLog(@"CameraVC: Back from form");
+	[titleAndDescForm.view removeFromSuperview];
+	
+	
+	[appModel createItemAndGiveToPlayerFromFileData:self.audioData 
+										   fileName:@"audio.caf" 
+											  title:titleAndDescForm.titleField.text 
+										description:titleAndDescForm.descriptionField.text];
+	
 	
 }
+
 
 
 #pragma mark Audio Recorder Delegate Metods

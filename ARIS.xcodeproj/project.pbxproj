@@ -190,6 +190,8 @@
 		ABBEBBC2104D7CF900AA7285 /* NodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABBEBBC1104D7CF900AA7285 /* NodeViewController.m */; };
 		ABBEBBC5104D7DAB00AA7285 /* Node.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABBEBBC4104D7DAB00AA7285 /* Node.xib */; };
 		ABC399CF116B9EBC002185D4 /* AudioMeter.m in Sources */ = {isa = PBXBuildFile; fileRef = ABC399CE116B9EBC002185D4 /* AudioMeter.m */; };
+		ABC39B25116BD28F002185D4 /* TitleAndDecriptionFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABC39B23116BD28F002185D4 /* TitleAndDecriptionFormViewController.m */; };
+		ABC39B26116BD28F002185D4 /* TitleAndDecriptionFormViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABC39B24116BD28F002185D4 /* TitleAndDecriptionFormViewController.xib */; };
 		ABD5C4E9104F1A0E002EB824 /* Npc.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD5C4E8104F1A0E002EB824 /* Npc.m */; };
 		ABD6226110D6FBB400D3B747 /* QuestActiveIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = ABD6225F10D6FBB400D3B747 /* QuestActiveIcon.png */; };
 		ABD6226210D6FBB400D3B747 /* QuestCompleteIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = ABD6226010D6FBB400D3B747 /* QuestCompleteIcon.png */; };
@@ -469,6 +471,9 @@
 		ABBEBBC4104D7DAB00AA7285 /* Node.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Node.xib; sourceTree = "<group>"; };
 		ABC399CD116B9EBC002185D4 /* AudioMeter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMeter.h; sourceTree = "<group>"; };
 		ABC399CE116B9EBC002185D4 /* AudioMeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioMeter.m; sourceTree = "<group>"; };
+		ABC39B22116BD28F002185D4 /* TitleAndDecriptionFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleAndDecriptionFormViewController.h; sourceTree = "<group>"; };
+		ABC39B23116BD28F002185D4 /* TitleAndDecriptionFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitleAndDecriptionFormViewController.m; sourceTree = "<group>"; };
+		ABC39B24116BD28F002185D4 /* TitleAndDecriptionFormViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TitleAndDecriptionFormViewController.xib; sourceTree = "<group>"; };
 		ABD5C4E7104F1A0E002EB824 /* Npc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Npc.h; sourceTree = "<group>"; };
 		ABD5C4E8104F1A0E002EB824 /* Npc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Npc.m; sourceTree = "<group>"; };
 		ABD6225F10D6FBB400D3B747 /* QuestActiveIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = QuestActiveIcon.png; sourceTree = "<group>"; };
@@ -702,6 +707,7 @@
 				A7986D680F8FEC4900A5469F /* Quests */,
 				ABDA40A910506AF400823A94 /* GPS */,
 				A7986D660F8FEC2100A5469F /* Inventory */,
+				ABC39C5F116C428C002185D4 /* Title and Description Form */,
 				A7986D690F8FEC6300A5469F /* Camera */,
 				AB0DE7FE11559CCA00A6EC3E /* Audio Recorder */,
 				A7986D620F8FEBD300A5469F /* QR Scanner */,
@@ -1003,6 +1009,16 @@
 			name = Nodes;
 			sourceTree = "<group>";
 		};
+		ABC39C5F116C428C002185D4 /* Title and Description Form */ = {
+			isa = PBXGroup;
+			children = (
+				ABC39B22116BD28F002185D4 /* TitleAndDecriptionFormViewController.h */,
+				ABC39B23116BD28F002185D4 /* TitleAndDecriptionFormViewController.m */,
+				ABC39B24116BD28F002185D4 /* TitleAndDecriptionFormViewController.xib */,
+			);
+			name = "Title and Description Form";
+			sourceTree = "<group>";
+		};
 		ABDA40A910506AF400823A94 /* GPS */ = {
 			isa = PBXGroup;
 			children = (
@@ -1182,6 +1198,7 @@
 				AB4151CB11595A2600DBA15F /* cameraBackground.jpg in Resources */,
 				AB4151DD115963D000DBA15F /* qrBackground.png in Resources */,
 				AB7FB978115DBF1500DB81A6 /* clickToPlay.png in Resources */,
+				ABC39B26116BD28F002185D4 /* TitleAndDecriptionFormViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1297,6 +1314,7 @@
 				ABF4A38F116847640043EB1C /* ASINSStringAdditions.m in Sources */,
 				ABF4A392116847900043EB1C /* Reachability.m in Sources */,
 				ABC399CF116B9EBC002185D4 /* AudioMeter.m in Sources */,
+				ABC39B25116BD28F002185D4 /* TitleAndDecriptionFormViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

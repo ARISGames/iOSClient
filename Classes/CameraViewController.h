@@ -16,11 +16,17 @@
 	IBOutlet UIButton *libraryButton;
 
     UIImagePickerController *imagePickerController;
+	NSData *mediaData;
+	NSString *mediaFilename;
 }
 
 @property (nonatomic, retain) IBOutlet UIButton *cameraButton;
 @property (nonatomic, retain) IBOutlet UIButton *libraryButton;
 @property (nonatomic, retain) UIImagePickerController *imagePickerController;
+@property (nonatomic, retain) NSData *mediaData;
+@property (nonatomic, retain) NSString *mediaFilename;
+
+
 
 - (IBAction)cameraButtonTouchAction;
 - (IBAction)libraryButtonTouchAction;

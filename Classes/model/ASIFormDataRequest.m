@@ -15,7 +15,6 @@
 - (void)buildURLEncodedPostBody;
 - (void)appendPostString:(NSString *)string;
 
-@property (retain) NSMutableDictionary *postData;
 @property (retain) NSMutableDictionary *fileData;
 
 #if DEBUG_FORM_DATA_REQUEST
@@ -26,6 +25,14 @@
 @end
 
 @implementation ASIFormDataRequest
+
+@synthesize postData;
+@synthesize fileData;
+@synthesize postFormat;
+@synthesize stringEncoding;
+#if DEBUG_FORM_DATA_REQUEST
+@synthesize debugBodyString;
+#endif
 
 #pragma mark utilities
 - (NSString*)encodeURL:(NSString *)string
@@ -302,11 +309,4 @@
 	return newRequest;
 }
 
-@synthesize postData;
-@synthesize fileData;
-@synthesize postFormat;
-@synthesize stringEncoding;
-#if DEBUG_FORM_DATA_REQUEST
-@synthesize debugBodyString;
-#endif
 @end

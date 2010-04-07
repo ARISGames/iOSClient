@@ -423,7 +423,8 @@ static const int kEmptyValue = -1;
 	[jsonConnection performSynchronousRequest]; 
 }
 
-- (void)createItemAndGiveToPlayerFromFileData:(NSData *)fileData andFileName:(NSString *)fileName{
+- (void)createItemAndGiveToPlayerFromFileData:(NSData *)fileData fileName:(NSString *)fileName 
+										title:(NSString *)title description:(NSString*)description {
 	NSLog(@"Model: Uploading File");
 
 	// setting up the request object now
@@ -433,6 +434,8 @@ static const int kEmptyValue = -1;
 	[request setPostValue:[NSString stringWithFormat:@"%d", self.gameId] forKey:@"gameID"];
 	[request setPostValue:fileName forKey:@"fileName"];
 	[request setData:fileData forKey:@"file"];
+	[request setPostValue:title forKey:@"title"];
+	[request setPostValue:description forKey:@"description"];
 	[request setDidFinishSelector:@selector(uploadItemRequestFinished:)];
 	[request setDidFailSelector:@selector(uploadItemRequestFailed:)];
 	[request setDelegate:self];
@@ -444,19 +447,22 @@ static const int kEmptyValue = -1;
 	[request startAsynchronous];
 }
 
-- (void)uploadItemRequestFinished:(ASIHTTPRequest *)request
+- (void)uploadItemRequestFinished:(ASIFormDataRequest *)request
 {
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate removeWaitingIndicator];
 	NSLog(@"Model: creating a new Item for an image: requestFinished");
+	
+	NSDictionary *postDict = request.postData;
+	
 	NSString *newFileName = [request responseString];
 	
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects:
 						  [NSString stringWithFormat:@"%d",self.gameId],
 						  [NSString stringWithFormat:@"%d",self.playerId],
-						  @"Name",
-						  @"Description",
+						  [[postDict objectForKey:@"title"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+						  [[postDict objectForKey:@"description"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
 						  newFileName,
 						  @"1",
 						  @"1",
