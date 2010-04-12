@@ -87,7 +87,15 @@ NSString *const kHtmlTemplate =
 	pcTableViewController = [[UITableViewController alloc] initWithStyle:UITableViewCellStyleDefault];
 	pcTableViewController.view = pcTableView;
 
-	[pcImage updateViewWithNewImage:[UIImage imageNamed:@"defaultPlayer.png"]];
+	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
+	AppModel *appModel = appDelegate.appModel;
+	
+	if (appModel.gamePcMediaId != 0) {
+		//Load the image from the media Table
+		Media *pcMedia = [appModel mediaForMediaId:appModel.gamePcMediaId];
+		[pcImage loadImageFromMedia: pcMedia];
+	}
+	else [pcImage updateViewWithNewImage:[UIImage imageNamed:@"defaultPlayer.png"]];
 
 	
 	npcWebView.hidden = NO;

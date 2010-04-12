@@ -138,9 +138,7 @@
 	lblTemp1.text = [[inventory objectAtIndex: [indexPath row]] name];
 	
 	UILabel *lblTemp2 = (UILabel *)[cell viewWithTag:2];
-	NSString *description = [[inventory objectAtIndex: [indexPath row]] description];
-	int targetIndex = MIN([self indexOf:'.' inString:description] + 1, 
-						  [description length] - 1);
+	lblTemp2.text = [[inventory objectAtIndex: [indexPath row]] description];
 	
 	AsyncImageView *iconView = (AsyncImageView *)[cell viewWithTag:3];
 	

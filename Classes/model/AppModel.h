@@ -23,6 +23,7 @@ extern NSDictionary *InventoryElements;
 	NSString *jsonServerBaseURL;
 	NSString *site;
 	int gameId;
+	int gamePcMediaId;
 	UIViewController *currentModule;
 	UIAlertView *networkAlert;
 	
@@ -54,6 +55,7 @@ extern NSDictionary *InventoryElements;
 @property(copy, readwrite) UIViewController *currentModule;
 @property(copy, readwrite) NSString *site;
 @property(readwrite) int gameId;
+@property(readwrite) int gamePcMediaId;
 @property(copy, readwrite) NSMutableArray *gameList;	
 @property(copy, readwrite) NSMutableArray *locationList;
 @property(copy, readwrite) NSMutableArray *playerList;

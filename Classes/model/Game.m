@@ -13,6 +13,7 @@
 @synthesize gameId;
 @synthesize name;
 @synthesize site;
+@synthesize pcMediaId;
 
 - (void)dealloc {
 	[name release];

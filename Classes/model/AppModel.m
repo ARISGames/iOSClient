@@ -32,7 +32,7 @@ static const int kEmptyValue = -1;
 @implementation AppModel
 @synthesize serverName, baseAppURL, jsonServerBaseURL, loggedIn;
 @synthesize username, password, playerId, currentModule;
-@synthesize site, gameId, gameList, locationList, playerList;
+@synthesize site, gameId, gamePcMediaId, gameList, locationList, playerList;
 @synthesize playerLocation, inventory, questList, networkAlert, mediaList;
 
 @synthesize nearbyLocationsList;
@@ -802,6 +802,11 @@ static const int kEmptyValue = -1;
 		NSString *prefix = [gameDictionary valueForKey:@"prefix"];
 		//parse out the trailing _ in the prefix
 		game.site = [prefix substringToIndex:[prefix length] - 1];
+		
+		NSString *pc_media_id = [gameDictionary valueForKey:@"pc_media_id"];
+		if (pc_media_id) game.pcMediaId = [pc_media_id intValue];
+		else game.pcMediaId = 0;
+		
 		NSLog(@"Model: Adding Game: %@", game.name);
 		[tempGameList addObject:game]; 
 	}
@@ -871,7 +876,8 @@ static const int kEmptyValue = -1;
 	while (dict = [enumerator nextObject]) {
 		NSInteger uid = [[dict valueForKey:@"media_id"] intValue];
 		NSString *fileName = [dict valueForKey:@"file_name"];
-		
+		NSString *urlPath = [dict valueForKey:@"url_path"];
+
 		NSString *type = [dict valueForKey:@"type"];
 		
 		if (uid < 1) {
@@ -887,10 +893,11 @@ static const int kEmptyValue = -1;
 			continue;
 		}
 		
-		fileName = [NSString stringWithFormat:@"%@gamedata/%d/%@", self.baseAppURL, self.gameId, fileName];
-		NSLog(@"AppModel fetchMediaList: Full URL: %@", fileName);
 		
-		Media *media = [[Media alloc] initWithId:uid andUrlString:fileName ofType:type];
+		NSString *fullUrl = [NSString stringWithFormat:@"%@%@", urlPath, fileName];
+		NSLog(@"AppModel fetchMediaList: Full URL: %@", fullUrl);
+		
+		Media *media = [[Media alloc] initWithId:uid andUrlString:fullUrl ofType:type];
 		[tempMediaList setObject:media forKey:[NSNumber numberWithInt:uid]];
 		[media release];
 	}

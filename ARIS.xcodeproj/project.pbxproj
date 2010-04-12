@@ -220,8 +220,7 @@
 		D443855D1108B0100053E9FD /* aris.css in Resources */ = {isa = PBXBuildFile; fileRef = D443855C1108B0100053E9FD /* aris.css */; };
 		D4D366AC111B65E0009C4D00 /* AudioStreamer.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D366AB111B65E0009C4D00 /* AudioStreamer.m */; };
 		D4D366DF111B6789009C4D00 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D366DE111B6789009C4D00 /* CFNetwork.framework */; };
-		D4DE6B8B110A00D7008BFE38 /* defaultNpc.png in Resources */ = {isa = PBXBuildFile; fileRef = D4DE6B8A110A00D7008BFE38 /* defaultNpc.png */; };
-		D4DE6B8F110A044D008BFE38 /* defaultPlayer.png in Resources */ = {isa = PBXBuildFile; fileRef = D4DE6B8E110A044D008BFE38 /* defaultPlayer.png */; };
+		D4DE6B8B110A00D7008BFE38 /* defaultCharacter.png in Resources */ = {isa = PBXBuildFile; fileRef = D4DE6B8A110A00D7008BFE38 /* defaultCharacter.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -519,8 +518,7 @@
 		D4D366AA111B65E0009C4D00 /* AudioStreamer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioStreamer.h; sourceTree = "<group>"; };
 		D4D366AB111B65E0009C4D00 /* AudioStreamer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioStreamer.m; sourceTree = "<group>"; };
 		D4D366DE111B6789009C4D00 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
-		D4DE6B8A110A00D7008BFE38 /* defaultNpc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultNpc.png; sourceTree = "<group>"; };
-		D4DE6B8E110A044D008BFE38 /* defaultPlayer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultPlayer.png; sourceTree = "<group>"; };
+		D4DE6B8A110A00D7008BFE38 /* defaultCharacter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultCharacter.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1071,8 +1069,7 @@
 				D424324B1107730E00E58147 /* SceneParser.h */,
 				D424324C1107730E00E58147 /* SceneParser.m */,
 				D443855C1108B0100053E9FD /* aris.css */,
-				D4DE6B8A110A00D7008BFE38 /* defaultNpc.png */,
-				D4DE6B8E110A044D008BFE38 /* defaultPlayer.png */,
+				D4DE6B8A110A00D7008BFE38 /* defaultCharacter.png */,
 			);
 			name = Dialog;
 			sourceTree = "<group>";
@@ -1191,8 +1188,7 @@
 				ABD6226510D6FBCE00D3B747 /* logout.png in Resources */,
 				D4243268110773EB00E58147 /* Dialog.xib in Resources */,
 				D443855D1108B0100053E9FD /* aris.css in Resources */,
-				D4DE6B8B110A00D7008BFE38 /* defaultNpc.png in Resources */,
-				D4DE6B8F110A044D008BFE38 /* defaultPlayer.png in Resources */,
+				D4DE6B8B110A00D7008BFE38 /* defaultCharacter.png in Resources */,
 				AB0DE80511559CF000A6EC3E /* AudioRecorderViewController.xib in Resources */,
 				AB4150B61159291400DBA15F /* microphoneBackground.jpg in Resources */,
 				AB4151CB11595A2600DBA15F /* cameraBackground.jpg in Resources */,
