@@ -95,7 +95,7 @@ NSString *const kHtmlTemplate =
 		Media *pcMedia = [appModel mediaForMediaId:appModel.gamePcMediaId];
 		[pcImage loadImageFromMedia: pcMedia];
 	}
-	else [pcImage updateViewWithNewImage:[UIImage imageNamed:@"defaultPlayer.png"]];
+	else [pcImage updateViewWithNewImage:[UIImage imageNamed:@"defaultCharacter.png"]];
 
 	
 	npcWebView.hidden = NO;
