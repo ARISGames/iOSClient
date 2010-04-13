@@ -94,7 +94,7 @@
 		NSLog(@"CameraViewController: Found a Movie");
 		NSURL *videoURL = [info objectForKey:UIImagePickerControllerMediaURL];
 		self.mediaData = [NSData dataWithContentsOfURL:videoURL];
-		self.mediaFilename = @"video.m4v";
+		self.mediaFilename = @"video.mp4";
 	}	
 	
 	TitleAndDecriptionFormViewController *titleAndDescForm = [[TitleAndDecriptionFormViewController alloc] 
