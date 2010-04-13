@@ -48,7 +48,7 @@
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
 		activeBuildConfigurationName = Debug;
 		activeExecutable = AB4B1015103CF1360061AD3D /* ARIS */;
-		activeSDKPreference = iphonesimulator3.1.3;
+		activeSDKPreference = iphoneos3.1.3;
 		activeTarget = 1D6058900D05DD3D006BFB54 /* ARIS */;
 		addToTargets = (
 			1D6058900D05DD3D006BFB54 /* ARIS */,
@@ -1919,7 +1919,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 43;
-		modificationTime = 292871854.677014;
+		modificationTime = 292872253.22557;
 		originalNumberOfMultipleMatches = 1;
 		state = 0;
 	};
@@ -1936,7 +1936,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 21;
-		modificationTime = 292871854.67704;
+		modificationTime = 292872253.225583;
 		originalNumberOfMultipleMatches = 1;
 		state = 0;
 	};
@@ -2139,7 +2139,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 78;
-		modificationTime = 292871854.677072;
+		modificationTime = 292872253.225591;
 		originalNumberOfMultipleMatches = 1;
 		state = 0;
 	};
@@ -2799,7 +2799,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 34;
-		modificationTime = 292871854.676959;
+		modificationTime = 292872253.225529;
 		originalNumberOfMultipleMatches = 1;
 		state = 0;
 	};
