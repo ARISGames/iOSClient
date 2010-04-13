@@ -476,6 +476,8 @@ static const int kEmptyValue = -1;
 						  newFileName,
 						  @"1",
 						  @"1",
+						  [NSString stringWithFormat:@"%d",playerLocation.coordinate.latitude],
+						  [NSString stringWithFormat:@"%d",playerLocation.coordinate.longitude],
 						  nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
 																	andServiceName:@"items" 
