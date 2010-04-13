@@ -76,6 +76,7 @@ static const int kEmptyValue = -1;
 					   ([url port] ? [[url port] intValue] : 80)];
 	
 	self.gameId = [defaults integerForKey:@"gameId"];
+	self.gamePcMediaId = [defaults integerForKey:@"gamePcMediaId"];
 	self.loggedIn = [defaults boolForKey:@"loggedIn"];
 	
 	if (loggedIn == YES) {
@@ -109,6 +110,8 @@ static const int kEmptyValue = -1;
 	[defaults removeObjectForKey:@"password"];
 	[defaults removeObjectForKey:@"playerId"];
 	[defaults removeObjectForKey:@"gameId"];
+	[defaults removeObjectForKey:@"gamePcMediaId"];
+	
 	//Don't clear the baseAppURL
 }
 
@@ -120,6 +123,7 @@ static const int kEmptyValue = -1;
 	[defaults setObject:password forKey:@"password"];
 	[defaults setInteger:playerId forKey:@"playerId"];
 	[defaults setInteger:gameId forKey:@"gameId"];
+	[defaults setInteger:gamePcMediaId forKey:@"gamePcMediaId"];
 	[defaults setObject:baseAppURL forKey:@"lastBaseAppURL"];
 	[defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"appVerison"];
 }
