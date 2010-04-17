@@ -275,13 +275,14 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>71</integer>
-									<integer>68</integer>
+									<integer>30</integer>
+									<integer>17</integer>
+									<integer>2</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 870}, {265, 677}}</string>
+							<string>{{0, 416}, {265, 677}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -302,7 +303,7 @@
 							<real>243</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>79 137 1361 736 0 0 1440 878 </string>
+						<string>77 142 1361 736 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -320,7 +321,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>GamePickerViewController.m</string>
+								<string>AppModel.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -328,11 +329,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>GamePickerViewController.m</string>
+										<string>AppModel.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>AB6D802111797BE5009D9ADB</string>
+										<string>AB6D80381179FC69009D9ADB</string>
 										<key>history</key>
 										<array>
 											<string>AB549EF01047058D00A901EF</string>
@@ -455,12 +456,13 @@
 											<string>AB6D7F71117973B8009D9ADB</string>
 											<string>AB6D7F73117973B8009D9ADB</string>
 											<string>AB6D7F8E117976C0009D9ADB</string>
-											<string>AB6D7F8F117976C0009D9ADB</string>
 											<string>AB6D801011797B0B009D9ADB</string>
 											<string>AB6D801111797B0B009D9ADB</string>
 											<string>AB6D801F11797BE5009D9ADB</string>
 											<string>AB6D802011797BE5009D9ADB</string>
-											<string>AB5717A31167A7E700BD34CA</string>
+											<string>AB6D80361179FC69009D9ADB</string>
+											<string>AB6D80371179FC69009D9ADB</string>
+											<string>AB6D7F8F117976C0009D9ADB</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -474,7 +476,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {1074, 690}}</string>
 								<key>RubberWindowFrame</key>
-								<string>79 137 1361 736 0 0 1440 878 </string>
+								<string>77 142 1361 736 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -494,7 +496,7 @@
 								<key>Frame</key>
 								<string>{{0, 695}, {1074, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>79 137 1361 736 0 0 1440 878 </string>
+								<string>77 142 1361 736 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -656,7 +658,7 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>AB6D802211797BE5009D9ADB</string>
+		<string>AB6D80391179FC69009D9ADB</string>
 		<string>AB6D7F2311795E15009D9ADB</string>
 		<string>AB6D7F2411795E15009D9ADB</string>
 		<string>1CD10A99069EF8BA00B06720</string>
@@ -665,7 +667,7 @@
 		<string>/Users/djgagnon/Documents/Aris/svn-trunk/iPhoneClient/ARIS.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>79 137 1361 736 0 0 1440 878 </string>
+	<string>77 142 1361 736 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -1001,7 +1003,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {983, 746}}</string>
 								<key>RubberWindowFrame</key>
-								<string>5 89 983 787 0 0 1440 878 </string>
+								<string>33 89 983 787 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXDebugCLIModule</string>
@@ -1030,7 +1032,7 @@
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.consoleV3</string>
 			<key>WindowString</key>
-			<string>5 89 983 787 0 0 1440 878 </string>
+			<string>33 89 983 787 0 0 1440 878 </string>
 			<key>WindowToolGUID</key>
 			<string>1C78EAAD065D492600B07095</string>
 			<key>WindowToolIsVisible</key>

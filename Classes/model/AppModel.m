@@ -596,13 +596,9 @@ static const int kEmptyValue = -1;
 
 - (void)fetchGameList {
 	NSLog(@"AppModel: Fetching Game List.");
-	NSArray *arguments = [NSArray arrayWithObjects: 
-						  [NSString stringWithFormat:@"%d",self.playerLocation.coordinate.latitude],
-						  [NSString stringWithFormat:@"%d",self.playerLocation.coordinate.longitude],
-						  nil];
 	
-	self.gameList = [self fetchFromService:@"games" usingMethod:@"getGamesWithDistenceFromLocation"
-						 withArgs:arguments usingParser:@selector(parseGameListFromArray:)];
+	self.gameList = [self fetchFromService:@"games" usingMethod:@"getGamesWithLocation"
+						 withArgs:nil usingParser:@selector(parseGameListFromArray:)];
 	
 	//Tell everyone
 	NSLog(@"AppModel: Finished Building the Game List");
