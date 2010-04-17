@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
+
 
 
 @interface Game : NSObject {
@@ -14,12 +16,14 @@
 	NSString *site;
 	NSString *name;
 	int pcMediaId;
+	CLLocation *location;
 }
 
 @property(readwrite, assign) int gameId;
 @property(copy, readwrite) NSString *site;
 @property(copy, readwrite) NSString *name;
 @property(readwrite, assign) int pcMediaId;
+@property(copy, readwrite) CLLocation *location;
 
 
 @end

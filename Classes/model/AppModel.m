@@ -596,8 +596,13 @@ static const int kEmptyValue = -1;
 
 - (void)fetchGameList {
 	NSLog(@"AppModel: Fetching Game List.");
-	self.gameList = [self fetchFromService:@"games" usingMethod:@"getGames"
-						 withArgs:nil usingParser:@selector(parseGameListFromArray:)];
+	NSArray *arguments = [NSArray arrayWithObjects: 
+						  [NSString stringWithFormat:@"%d",self.playerLocation.coordinate.latitude],
+						  [NSString stringWithFormat:@"%d",self.playerLocation.coordinate.longitude],
+						  nil];
+	
+	self.gameList = [self fetchFromService:@"games" usingMethod:@"getGamesWithDistenceFromLocation"
+						 withArgs:arguments usingParser:@selector(parseGameListFromArray:)];
 	
 	//Tell everyone
 	NSLog(@"AppModel: Finished Building the Game List");
@@ -813,10 +818,14 @@ static const int kEmptyValue = -1;
 		if (pc_media_id) game.pcMediaId = [pc_media_id intValue];
 		else game.pcMediaId = 0;
 		
+		game.location = [[CLLocation alloc] initWithLatitude:[[gameDictionary valueForKey:@"latitude"] doubleValue]
+												   longitude:[[gameDictionary valueForKey:@"longitude"] doubleValue]];
+
+		
 		NSLog(@"Model: Adding Game: %@", game.name);
 		[tempGameList addObject:game]; 
 	}
-	
+
 	return tempGameList;
 
 }

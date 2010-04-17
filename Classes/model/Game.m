@@ -14,6 +14,7 @@
 @synthesize name;
 @synthesize site;
 @synthesize pcMediaId;
+@synthesize location;
 
 - (void)dealloc {
 	[name release];

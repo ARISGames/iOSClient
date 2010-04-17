@@ -26,6 +26,7 @@
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
 		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"ReceivedGameList" object:nil];
+		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"PlayerMoved" object:nil];
 		
 		//create game list
 		gameList = [NSMutableArray array];
@@ -58,6 +59,7 @@
 - (void)refreshViewFromModel {
 	NSLog(@"GamePickerViewController: Refresh View from Model");
 	gameList = appModel.gameList;
+	
 	[gameTable reloadData];
 }
 
@@ -89,10 +91,18 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
 	
 	cell.textLabel.text = [[gameList objectAtIndex:[indexPath row]] name];
+	
+	CLLocation *gameLoc = [[gameList objectAtIndex:[indexPath row]] location];
+	NSLog(@"Game Lat:%f Long:%f Player Lat:%f Long:%f",gameLoc.coordinate.latitude, gameLoc.coordinate.longitude,appModel.playerLocation.coordinate.latitude,appModel.playerLocation.coordinate.longitude  );
+	
+	if (appModel.playerLocation) {
+		double dist = [gameLoc getDistanceFrom:appModel.playerLocation];
+		cell.detailTextLabel.text = [NSString stringWithFormat:@"%1.2f Km from here",  dist/1000];
+	}
 	
     return cell;
 }
