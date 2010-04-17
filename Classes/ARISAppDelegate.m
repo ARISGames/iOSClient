@@ -115,7 +115,7 @@
 										gpsNavigationController,
 										inventoryNavigationController,
 										qrScannerNavigationController,
-										arNavigationController,
+										//arNavigationController,
 										cameraNavigationController,
 										audioRecorderNavigationController,
 										gamePickerNavigationController,
