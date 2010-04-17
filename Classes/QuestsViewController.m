@@ -82,7 +82,7 @@ static int const COMPLETED_SECTION = 1;
 	CGRect cellFrame = CGRectMake(0, 0, 300, 60);
 	CGRect iconFrame = CGRectMake(5, 5, 50, 50);
 	CGRect label1Frame = CGRectMake(70, 10, 230, 25);
-	CGRect label2Frame = CGRectMake(70, 35, 230, 25);
+	CGRect label2Frame = CGRectMake(70, 35, 230, 30);
 	UILabel *lblTemp;
 	AsyncImageView *iconViewTemp;
 	
@@ -109,6 +109,7 @@ static int const COMPLETED_SECTION = 1;
 	lblTemp.font = [UIFont boldSystemFontOfSize:12];
 	lblTemp.textColor = [UIColor lightGrayColor];
 	lblTemp.backgroundColor = [UIColor clearColor];
+	lblTemp.numberOfLines = 2;
 	[cell.contentView addSubview:lblTemp];
 	[lblTemp release];
 	
@@ -121,6 +122,8 @@ static int const COMPLETED_SECTION = 1;
 	
 	return cell;
 }
+
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return [quests count];
@@ -170,7 +173,7 @@ static int const COMPLETED_SECTION = 1;
 
 // Customize the height of each row
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 60;
+	return 80;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
