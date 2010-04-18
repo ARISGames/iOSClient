@@ -58,8 +58,9 @@
 
 - (void)refreshViewFromModel {
 	NSLog(@"GamePickerViewController: Refresh View from Model");
-	gameList = appModel.gameList;
-	
+	if (gameList) [gameList release];
+	gameList = [appModel.gameList sortedArrayUsingSelector:@selector(compareDistanceFromPlayer:)];
+	[gameList retain];
 	[gameTable reloadData];
 }
 
@@ -95,15 +96,9 @@
     }
 	
 	cell.textLabel.text = [[gameList objectAtIndex:[indexPath row]] name];
-	
-	CLLocation *gameLoc = [[gameList objectAtIndex:[indexPath row]] location];
-	NSLog(@"Game Lat:%f Long:%f Player Lat:%f Long:%f",gameLoc.coordinate.latitude, gameLoc.coordinate.longitude,appModel.playerLocation.coordinate.latitude,appModel.playerLocation.coordinate.longitude  );
-	
-	if (appModel.playerLocation) {
-		double dist = [gameLoc getDistanceFrom:appModel.playerLocation];
-		cell.detailTextLabel.text = [NSString stringWithFormat:@"%1.2f Km from here",  dist/1000];
-	}
-	
+	double dist = [[gameList objectAtIndex:[indexPath row]] distanceFromPlayer];
+	cell.detailTextLabel.text = [NSString stringWithFormat:@"%1.2f Km from here",  dist/1000];
+
     return cell;
 }
 

@@ -10,13 +10,12 @@
 #import <CoreLocation/CoreLocation.h>
 
 
-
 @interface Game : NSObject {
 	int gameId;
 	NSString *site;
 	NSString *name;
 	int pcMediaId;
-	CLLocation *location;
+	CLLocation *location;	
 }
 
 @property(readwrite, assign) int gameId;
@@ -24,6 +23,10 @@
 @property(copy, readwrite) NSString *name;
 @property(readwrite, assign) int pcMediaId;
 @property(copy, readwrite) CLLocation *location;
+
+- (double)distanceFromPlayer;
+- (NSComparisonResult)compareDistanceFromPlayer:(Game*)otherGame;
+
 
 
 @end

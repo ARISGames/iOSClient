@@ -11,7 +11,7 @@
 
 @interface GamePickerViewController : UITableViewController {
 	AppModel *appModel;
-	NSMutableArray *gameList;
+	NSArray *gameList;
 	UITableView *gameTable;
 }
 
