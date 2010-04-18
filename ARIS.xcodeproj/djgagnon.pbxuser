@@ -407,9 +407,9 @@
 	};
 	2B3D12CD0F437AC60067FD3A /* QuestsViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1031, 2873}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1031, 2886}}";
 			sepNavSelRange = "{5733, 235}";
-			sepNavVisRange = "{5000, 988}";
+			sepNavVisRange = "{4984, 1004}";
 		};
 	};
 	2B3D12D70F437D6E0067FD3A /* InventoryListViewController.h */ = {
@@ -1900,7 +1900,7 @@
 		fRef = 2B3D14610F45EBAA0067FD3A /* GamePickerViewController.m */;
 		name = "GamePickerViewController.m: 150";
 		rLen = 0;
-		rLoc = 6274;
+		rLoc = 6272;
 		rType = 0;
 		vrLen = 1358;
 		vrLoc = 3725;
@@ -1950,7 +1950,7 @@
 		fRef = 2B3D14610F45EBAA0067FD3A /* GamePickerViewController.m */;
 		name = "GamePickerViewController.m: 150";
 		rLen = 0;
-		rLoc = 6274;
+		rLoc = 6272;
 		rType = 0;
 		vrLen = 2041;
 		vrLoc = 2720;
@@ -1960,7 +1960,7 @@
 		fRef = 2B3D14610F45EBAA0067FD3A /* GamePickerViewController.m */;
 		name = "GamePickerViewController.m: 150";
 		rLen = 0;
-		rLoc = 6274;
+		rLoc = 6272;
 		rType = 0;
 		vrLen = 2041;
 		vrLoc = 2720;
@@ -1970,7 +1970,7 @@
 		fRef = 2B3D14610F45EBAA0067FD3A /* GamePickerViewController.m */;
 		name = "GamePickerViewController.m: 150";
 		rLen = 0;
-		rLoc = 6274;
+		rLoc = 6272;
 		rType = 0;
 		vrLen = 2041;
 		vrLoc = 2720;
@@ -2114,7 +2114,7 @@
 		fRef = 2B3D14610F45EBAA0067FD3A /* GamePickerViewController.m */;
 		name = "GamePickerViewController.m: 188";
 		rLen = 0;
-		rLoc = 6333;
+		rLoc = 6331;
 		rType = 0;
 		vrLen = 1425;
 		vrLoc = 1164;
@@ -2124,7 +2124,7 @@
 		fRef = 2B3D14610F45EBAA0067FD3A /* GamePickerViewController.m */;
 		name = "GamePickerViewController.m: 187";
 		rLen = 0;
-		rLoc = 6251;
+		rLoc = 6249;
 		rType = 0;
 		vrLen = 1397;
 		vrLoc = 4948;
@@ -2134,7 +2134,7 @@
 		fRef = 2B3D14610F45EBAA0067FD3A /* GamePickerViewController.m */;
 		name = "GamePickerViewController.m: 187";
 		rLen = 0;
-		rLoc = 6251;
+		rLoc = 6249;
 		rType = 0;
 		vrLen = 1397;
 		vrLoc = 4948;
@@ -2290,9 +2290,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 43;
-		modificationTime = 293325292.56856;
+		modificationTime = 293325804.49813;
 		originalNumberOfMultipleMatches = 1;
-		state = 1;
+		state = 0;
 	};
 	ABC399B0116B9209002185D4 /* AudioMeterViewController.m:21 */ = {
 		isa = PBXFileBreakpoint;
@@ -2307,9 +2307,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 21;
-		modificationTime = 293325292.568574;
+		modificationTime = 293325804.498141;
 		originalNumberOfMultipleMatches = 1;
-		state = 1;
+		state = 0;
 	};
 	ABC399CD116B9EBC002185D4 /* AudioMeter.h */ = {
 		uiCtxt = {
@@ -2510,9 +2510,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 78;
-		modificationTime = 293325292.568587;
+		modificationTime = 293325804.498151;
 		originalNumberOfMultipleMatches = 1;
-		state = 1;
+		state = 0;
 	};
 	ABC39B22116BD28F002185D4 /* TitleAndDecriptionFormViewController.h */ = {
 		uiCtxt = {
@@ -2626,9 +2626,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 34;
-		modificationTime = 293325292.568535;
+		modificationTime = 293325804.498072;
 		originalNumberOfMultipleMatches = 1;
-		state = 1;
+		state = 0;
 	};
 	ABCC330F114C5CA300BB485D /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;

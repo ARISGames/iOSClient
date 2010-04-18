@@ -126,7 +126,7 @@
 
 	cell.textLabel.text = currentGame.name;
 	double dist = currentGame.distanceFromPlayer;
-	cell.detailTextLabel.text = [NSString stringWithFormat:@"%1.2f Km from here",  dist/1000];
+	cell.detailTextLabel.text = [NSString stringWithFormat:@"%1.1f Kilometers",  dist/1000];
 
     return cell;
 }
