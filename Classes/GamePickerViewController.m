@@ -28,9 +28,12 @@
 		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"ReceivedGameList" object:nil];
 		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"PlayerMoved" object:nil];
 		
-		//create game list
-		gameList = [NSMutableArray array];
-		[gameList retain];
+		//create game lists
+		nearGameList = [NSMutableArray array];
+		[nearGameList retain];
+		
+		farGameList = [NSMutableArray array];
+		[farGameList retain];
     }
     return self;
 }
@@ -58,9 +61,30 @@
 
 - (void)refreshViewFromModel {
 	NSLog(@"GamePickerViewController: Refresh View from Model");
-	if (gameList) [gameList release];
-	gameList = [appModel.gameList sortedArrayUsingSelector:@selector(compareDistanceFromPlayer:)];
-	[gameList retain];
+	
+	//Sort the game list
+	NSArray* sortedGameList = [appModel.gameList sortedArrayUsingSelector:@selector(compareDistanceFromPlayer:)];
+	NSMutableArray* nearArray = [[NSMutableArray alloc] initWithCapacity:10];
+	NSMutableArray* farArray = [[NSMutableArray alloc] initWithCapacity:10];
+	
+	//Divide into two arrays
+	double maxDistanceForNearby = 10000; //in Meters
+
+	for (int i=0; i<[sortedGameList count]; i++) {
+		if ([[sortedGameList objectAtIndex:i] distanceFromPlayer] <= maxDistanceForNearby)  
+			[nearArray addObject:[sortedGameList objectAtIndex:i]];
+		else [farArray addObject:[sortedGameList objectAtIndex:i]];
+
+	}
+
+	if (nearGameList) [nearGameList release];
+	nearGameList = nearArray;
+	[nearGameList retain];
+	
+	if (farGameList) [farGameList release];
+	farGameList = farArray;
+	[farGameList retain];
+
 	[gameTable reloadData];
 }
 
@@ -78,12 +102,13 @@
 
 #pragma mark Table view methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return 2;
 }
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [gameList count];
+	if (section = 0) return [nearGameList count];
+	else return [farGameList count];
 }
 
 // Customize the appearance of table view cells.
@@ -95,8 +120,12 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
 	
-	cell.textLabel.text = [[gameList objectAtIndex:[indexPath row]] name];
-	double dist = [[gameList objectAtIndex:[indexPath row]] distanceFromPlayer];
+	Game *currentGame;
+	if (indexPath.section == 0) currentGame = [nearGameList objectAtIndex:indexPath.row];
+	else currentGame = [farGameList objectAtIndex:indexPath.row];
+
+	cell.textLabel.text = currentGame.name;
+	double dist = currentGame.distanceFromPlayer;
 	cell.detailTextLabel.text = [NSString stringWithFormat:@"%1.2f Km from here",  dist/1000];
 
     return cell;
@@ -104,7 +133,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     //do select game notification;
-	Game *selectedGame = [gameList objectAtIndex:[indexPath row]];
+	Game *selectedGame;
+	if (indexPath.section == 0) selectedGame = [nearGameList objectAtIndex:indexPath.row];
+	else selectedGame = [farGameList objectAtIndex:indexPath.row];
+	
 	NSDictionary *dictionary = [NSDictionary dictionaryWithObject:selectedGame forKey:@"game"];
 	
 	NSNotification *loginNotification = [NSNotification notificationWithName:@"SelectGame" object:self userInfo:dictionary];
@@ -150,9 +182,17 @@
  }
  */
 
+- (NSString *)tableView:(UITableView *)view titleForHeaderInSection:(NSInteger)section {
+	if (section == 0) return @"Nearby Games";	
+	else if (section == 1) return @"Other Games";
+	return @"Quests";
+}
+
 
 - (void)dealloc {
-	[gameList release];
+	[nearGameList release];
+	[farGameList release];
+
     [super dealloc];
 }
 
