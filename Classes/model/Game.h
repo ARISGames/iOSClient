@@ -15,16 +15,27 @@
 	NSString *site;
 	NSString *name;
 	NSString *description;
-	int pcMediaId;
+	NSString *authors;
+
+	
 	CLLocation *location;	
+	int numPlayers;
+	int pcMediaId;
+	int iconMediaId;
 }
 
 @property(readwrite, assign) int gameId;
 @property(copy, readwrite) NSString *site;
 @property(copy, readwrite) NSString *name;
 @property(copy, readwrite) NSString *description;
-@property(readwrite, assign) int pcMediaId;
+@property(copy, readwrite) NSString *authors;
+
 @property(copy, readwrite) CLLocation *location;
+@property(readwrite, assign) int pcMediaId;
+@property(readwrite, assign) int iconMediaId;
+@property(readwrite, assign) int numPlayers;
+
+
 
 - (double)distanceFromPlayer;
 - (NSComparisonResult)compareDistanceFromPlayer:(Game*)otherGame;

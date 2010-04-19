@@ -597,7 +597,7 @@ static const int kEmptyValue = -1;
 - (void)fetchGameList {
 	NSLog(@"AppModel: Fetching Game List.");
 	
-	self.gameList = [self fetchFromService:@"games" usingMethod:@"getGamesWithLocation"
+	self.gameList = [self fetchFromService:@"games" usingMethod:@"getGamesWithDetails"
 						 withArgs:nil usingParser:@selector(parseGameListFromArray:)];
 	
 	//Tell everyone
@@ -818,7 +818,12 @@ static const int kEmptyValue = -1;
 		
 		game.location = [[CLLocation alloc] initWithLatitude:[[gameDictionary valueForKey:@"latitude"] doubleValue]
 												   longitude:[[gameDictionary valueForKey:@"longitude"] doubleValue]];
-
+		
+		
+		game.authors = [gameDictionary valueForKey:@"editors"];
+		game.numPlayers = [[gameDictionary valueForKey:@"numPlayers"] intValue];
+		game.iconMediaId = [[gameDictionary valueForKey:@"icon_media_id"] intValue];
+		
 		
 		NSLog(@"Model: Adding Game: %@", game.name);
 		[tempGameList addObject:game]; 

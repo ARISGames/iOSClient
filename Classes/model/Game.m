@@ -17,7 +17,10 @@
 @synthesize description;
 @synthesize site;
 @synthesize pcMediaId;
+@synthesize iconMediaId;
+@synthesize numPlayers;
 @synthesize location;
+@synthesize authors;
 
 - (void)dealloc {
 	[name release];

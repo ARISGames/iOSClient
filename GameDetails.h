@@ -9,17 +9,32 @@
 #import <UIKit/UIKit.h>
 #import "Game.h"
 #import <MapKit/MapKit.h>
+#import "AsyncImageView.h"
 
 
-@interface GameDetails : UIViewController <MKMapViewDelegate, UITextViewDelegate>{
+@interface GameDetails : UIViewController <MKMapViewDelegate, UITextViewDelegate, MKReverseGeocoderDelegate>{
 	Game *game; 
 	IBOutlet MKMapView *map;
 	IBOutlet UIWebView *descriptionWebView;
+	IBOutlet UILabel *titleLabel;
+	IBOutlet UILabel *playersLabel;
+	IBOutlet UILabel *authorsLabel;
+	IBOutlet UILabel *locationLabel;
+	IBOutlet AsyncImageView *iconView;
+	IBOutlet UIScrollView *scrollView;
+	IBOutlet UIView *contentView;
 }
 
 @property (nonatomic, retain) Game *game;
 @property (nonatomic, retain) IBOutlet MKMapView *map;
 @property (nonatomic, retain) IBOutlet UIWebView *descriptionWebView;
+@property (nonatomic, retain) IBOutlet UILabel *titleLabel;
+@property (nonatomic, retain) IBOutlet UILabel *playersLabel;
+@property (nonatomic, retain) IBOutlet UILabel *authorsLabel;
+@property (nonatomic, retain) IBOutlet UILabel *locationLabel;
+@property (nonatomic, retain) IBOutlet AsyncImageView *iconView;
+@property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
+@property (nonatomic, retain) IBOutlet UIView *contentView;
 
 
 @end

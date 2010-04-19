@@ -7,6 +7,9 @@
 //
 
 #import "GameDetails.h"
+#import "AppModel.h"
+#import "ARISAppDelegate.h"
+#import <MapKit/MKReverseGeocoder.h>
 
 NSString *const kGameDetailsHtmlTemplate = 
 @"<html>"
@@ -14,7 +17,7 @@ NSString *const kGameDetailsHtmlTemplate =
 @"	<title>Aris</title>"
 @"	<style type='text/css'><!--"
 @"	body {"
-@"		background-color: #000000;"
+@"		background-color: transparent;"
 @"		color: #FFFFFF;"
 @"		font-size: 17px;"
 @"		font-family: Helvetia, Sans-Serif;"
@@ -33,6 +36,13 @@ NSString *const kGameDetailsHtmlTemplate =
 @synthesize map;
 @synthesize descriptionWebView;
 @synthesize game;
+@synthesize titleLabel;
+@synthesize playersLabel;
+@synthesize authorsLabel;
+@synthesize locationLabel;
+@synthesize iconView;
+@synthesize scrollView;
+@synthesize contentView;
 
 
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -54,8 +64,9 @@ NSString *const kGameDetailsHtmlTemplate =
 
 - (void)viewWillAppear:(BOOL)animated {
 	NSLog(@"GameDetails: View Will Appear, Refresh");
-	self.title = self.game.name;
+	self.title = @"Details";
 	
+	scrollView.contentSize = CGSizeMake(contentView.frame.size.width,contentView.frame.size.height);
 	
 	NSString *resourcePath = [[NSString stringWithFormat:@"file:/%@//", [[[[NSBundle mainBundle] resourcePath]
 																stringByReplacingOccurrencesOfString:@"/" withString:@"//"]
@@ -73,6 +84,25 @@ NSString *const kGameDetailsHtmlTemplate =
 	region.span.longitudeDelta=0.1;
 	[map setRegion:region animated:YES];
 	[map regionThatFits:region];
+	
+	playersLabel.text = [NSString stringWithFormat:@"Players: %d",game.numPlayers];
+	authorsLabel.text = [NSString stringWithFormat:@"Authors: %@",game.authors];
+	
+	if (game.iconMediaId != 0) {
+		AppModel *appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
+		Media *iconMedia = [appModel mediaForMediaId: game.iconMediaId];
+		[iconView loadImageFromMedia:iconMedia];
+	}
+	else iconView.image = [UIImage imageNamed:@"defaultImageIcon.png"];
+	
+	locationLabel.text = @"";
+	MKReverseGeocoder *reverseGeocoder = [[MKReverseGeocoder alloc] initWithCoordinate:self.game.location.coordinate];
+	reverseGeocoder.delegate = self;
+	[reverseGeocoder start];
+	
+	titleLabel.text = game.name;
+	
+	
 }
 
 /*
@@ -82,6 +112,16 @@ NSString *const kGameDetailsHtmlTemplate =
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 */
+
+#pragma mark MKReverseGeocoderDelegate
+- (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFindPlacemark:(MKPlacemark *)placemark {
+	locationLabel.text = [NSString stringWithFormat:@"%@, %@",placemark.locality,placemark.administrativeArea];
+}
+
+
+- (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFailWithError:(NSError *)error {
+}
+
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
