@@ -804,7 +804,9 @@ static const int kEmptyValue = -1;
 	while (gameDictionary = [gameListEnumerator nextObject]) {
 		//create a new game
 		Game *game = [[Game alloc] init];
+	
 		game.gameId = [[gameDictionary valueForKey:@"game_id"] intValue];
+		NSLog(@"AppModel: Parsing Game: %d", game.gameId);		
 		game.name = [gameDictionary valueForKey:@"name"];
 		game.description = [gameDictionary valueForKey:@"description"];
 

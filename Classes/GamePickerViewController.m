@@ -204,7 +204,8 @@
  */
 
 - (NSString *)tableView:(UITableView *)view titleForHeaderInSection:(NSInteger)section {
-	if (section == 0) return @"Nearby Games";	
+	if (section == 0 && [nearGameList count] == 0) return @"No Nearby Games Found";
+	else if (section == 0) return @"Nearby Games Found";	
 	else if (section == 1) return @"Other Games";
 	return @"Quests";
 }
