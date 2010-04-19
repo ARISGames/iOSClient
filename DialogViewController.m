@@ -77,6 +77,7 @@ NSString *const kHtmlTemplate =
 	resourcePath = [[NSString stringWithFormat:@"file:/%@//", [[[[NSBundle mainBundle] resourcePath]
 					 stringByReplacingOccurrencesOfString:@"/" withString:@"//"]
 					stringByReplacingOccurrencesOfString:@" " withString:@"%20"]] retain];
+	NSLog(@"DialogVC: Resource Path: %@",resourcePath);
 	
 	npcScrollView.contentSize = [npcView frame].size;
 	pcScrollView.contentSize = [pcView frame].size;

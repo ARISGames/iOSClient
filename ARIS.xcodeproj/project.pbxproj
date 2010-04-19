@@ -171,6 +171,8 @@
 		AB7FB978115DBF1500DB81A6 /* clickToPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = AB7FB977115DBF1500DB81A6 /* clickToPlay.png */; };
 		AB8A3CCE104936F500422773 /* libiconv.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AB8A3CCD104936F500422773 /* libiconv.2.dylib */; };
 		AB8A42A0104C7F8C00422773 /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8A429F104C7F8C00422773 /* Node.m */; };
+		AB8FD00C117BCF61004F8B9B /* GameDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8FD00A117BCF61004F8B9B /* GameDetails.m */; };
+		AB8FD00D117BCF61004F8B9B /* GameDetails.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB8FD00B117BCF61004F8B9B /* GameDetails.xib */; };
 		AB9A7C1710AA173F002FD9BC /* ARISURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AB9A7C1610AA173F002FD9BC /* ARISURLConnection.m */; };
 		ABA104C710CA0E3E008538D0 /* ARView.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABA104C610CA0E3E008538D0 /* ARView.xib */; };
 		ABB925C410C857D800B09506 /* defaultAudioIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB925C110C857D800B09506 /* defaultAudioIcon.png */; };
@@ -447,6 +449,9 @@
 		AB8A3CCD104936F500422773 /* libiconv.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.2.dylib; path = ../../../../../../usr/lib/libiconv.2.dylib; sourceTree = SDKROOT; };
 		AB8A429E104C7F8C00422773 /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
 		AB8A429F104C7F8C00422773 /* Node.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Node.m; sourceTree = "<group>"; };
+		AB8FD009117BCF61004F8B9B /* GameDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameDetails.h; sourceTree = "<group>"; };
+		AB8FD00A117BCF61004F8B9B /* GameDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameDetails.m; sourceTree = "<group>"; };
+		AB8FD00B117BCF61004F8B9B /* GameDetails.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GameDetails.xib; sourceTree = "<group>"; };
 		AB9A7C1510AA173F002FD9BC /* ARISURLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISURLConnection.h; sourceTree = "<group>"; };
 		AB9A7C1610AA173F002FD9BC /* ARISURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISURLConnection.m; sourceTree = "<group>"; };
 		ABA104C610CA0E3E008538D0 /* ARView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ARView.xib; sourceTree = "<group>"; };
@@ -823,6 +828,9 @@
 				2B3D14600F45EBAA0067FD3A /* GamePickerViewController.h */,
 				2B3D14610F45EBAA0067FD3A /* GamePickerViewController.m */,
 				2B3D16650F4628C70067FD3A /* GamePicker.xib */,
+				AB8FD009117BCF61004F8B9B /* GameDetails.h */,
+				AB8FD00A117BCF61004F8B9B /* GameDetails.m */,
+				AB8FD00B117BCF61004F8B9B /* GameDetails.xib */,
 			);
 			name = "Game Picker";
 			sourceTree = "<group>";
@@ -1195,6 +1203,7 @@
 				AB4151DD115963D000DBA15F /* qrBackground.png in Resources */,
 				AB7FB978115DBF1500DB81A6 /* clickToPlay.png in Resources */,
 				ABC39B26116BD28F002185D4 /* TitleAndDecriptionFormViewController.xib in Resources */,
+				AB8FD00D117BCF61004F8B9B /* GameDetails.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1311,6 +1320,7 @@
 				ABF4A392116847900043EB1C /* Reachability.m in Sources */,
 				ABC399CF116B9EBC002185D4 /* AudioMeter.m in Sources */,
 				ABC39B25116BD28F002185D4 /* TitleAndDecriptionFormViewController.m in Sources */,
+				AB8FD00C117BCF61004F8B9B /* GameDetails.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

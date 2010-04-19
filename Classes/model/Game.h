@@ -14,6 +14,7 @@
 	int gameId;
 	NSString *site;
 	NSString *name;
+	NSString *description;
 	int pcMediaId;
 	CLLocation *location;	
 }
@@ -21,6 +22,7 @@
 @property(readwrite, assign) int gameId;
 @property(copy, readwrite) NSString *site;
 @property(copy, readwrite) NSString *name;
+@property(copy, readwrite) NSString *description;
 @property(readwrite, assign) int pcMediaId;
 @property(copy, readwrite) CLLocation *location;
 

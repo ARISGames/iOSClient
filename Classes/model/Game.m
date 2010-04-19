@@ -14,6 +14,7 @@
 
 @synthesize gameId;
 @synthesize name;
+@synthesize description;
 @synthesize site;
 @synthesize pcMediaId;
 @synthesize location;

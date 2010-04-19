@@ -806,8 +806,10 @@ static const int kEmptyValue = -1;
 		Game *game = [[Game alloc] init];
 		game.gameId = [[gameDictionary valueForKey:@"game_id"] intValue];
 		game.name = [gameDictionary valueForKey:@"name"];
-		NSString *prefix = [gameDictionary valueForKey:@"prefix"];
+		game.description = [gameDictionary valueForKey:@"description"];
+
 		//parse out the trailing _ in the prefix
+		NSString *prefix = [gameDictionary valueForKey:@"prefix"];
 		game.site = [prefix substringToIndex:[prefix length] - 1];
 		
 		NSString *pc_media_id = [gameDictionary valueForKey:@"pc_media_id"];

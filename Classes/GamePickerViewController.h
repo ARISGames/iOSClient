@@ -11,8 +11,8 @@
 
 @interface GamePickerViewController : UITableViewController {
 	AppModel *appModel;
-	NSArray *nearGameList;
-	NSArray *farGameList;
+	NSMutableArray *nearGameList;
+	NSMutableArray *farGameList;
 	UITableView *gameTable;
 }
 
@@ -20,6 +20,9 @@
 -(void) slideOut;
 -(void) refresh;
 
+@property (nonatomic, retain) NSMutableArray *nearGameList;
+@property (nonatomic, retain) NSMutableArray *farGameList;
 @property (nonatomic, retain) IBOutlet UITableView *gameTable;
+
 
 @end
