@@ -126,7 +126,7 @@
 										gamePickerNavigationController,
 										logoutNavigationController,
 										startOverNavigationController,
-										developerNavigationController,
+										//developerNavigationController,
 										nil];	
 
 	[window addSubview:tabBarController.view];	

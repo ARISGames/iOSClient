@@ -10,6 +10,24 @@
 #import "ARISAppDelegate.h"
 #import "Media.h"
 
+NSString *const kItemDetailsDescriptionHtmlTemplate = 
+@"<html>"
+@"<head>"
+@"	<title>Aris</title>"
+@"	<style type='text/css'><!--"
+@"	body {"
+@"		background-color: #000000;"
+@"		color: #FFFFFF;"
+@"		font-size: 17px;"
+@"		font-family: Helvetia, Sans-Serif;"
+@"	}"
+@"	--></style>"
+@"</head>"
+@"<body>%@</body>"
+@"</html>";
+
+
+
 @implementation ItemDetailsViewController
 @synthesize appModel, item, inInventory, dropButton;
 @synthesize deleteButton, backButton, pickupButton;
@@ -54,39 +72,17 @@
 
 
 	//Set Up General Stuff
-	int margin = 10;
-	//UILabel *itemDescriptionView = [[UILabel alloc] initWithFrame:CGRectMake(margin, 220 + margin, 320 - (2 * margin),
-	//[self calculateTextHeight:item.description])];
-	
-	[itemDescriptionView loadHTMLString:item.description baseURL:nil];
+	NSString *htmlDescription = [NSString stringWithFormat:kItemDetailsDescriptionHtmlTemplate, item.description];
+	[itemDescriptionView loadHTMLString:htmlDescription baseURL:nil];
 
-//	itemDescriptionView.text = item.description;
-//	itemDescriptionView.backgroundColor = [UIColor blackColor];
-//	itemDescriptionView.textColor = [UIColor whiteColor];
-//	itemDescriptionView.lineBreakMode = UILineBreakModeWordWrap;
-//	itemDescriptionView.numberOfLines = 0;
-	
-	//[scrollView addSubview:itemDescriptionView];
-	//[scrollView setContentSize:CGSizeMake(320, itemDescriptionView.frame.origin.y
-	//									  + itemDescriptionView.frame.size.height)];
-	
-	
 	Media *media = [appModel mediaForMediaId: item.mediaId];
 
 	if ([media.type isEqualToString: @"Image"] && media.url) {
 		NSLog(@"ItemDetailsViewController: Image Layout Selected");
-		
-		//AsyncImageView* mediaImageView = [[AsyncImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 220)];
-		
 		[itemImageView loadImageFromMedia:media];
-
-		//Add the image view
-		//[itemImageView setImage:[mediaImageView getImage]];
-//		[scrollView addSubview:mediaImageView];
-		
 	}
 	else if (([media.type isEqualToString: @"Video"] || [media.type isEqualToString: @"Audio"]) && media.url) {
-		NSLog(@"ItemDetailsViewController:  Video Layout Selected");
+		NSLog(@"ItemDetailsViewController:  AV Layout Selected");
 
 		//Create movie player object
 		mMoviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
@@ -113,7 +109,6 @@
 	}
 
 	//Stop Waiting Indicator
-	//[NSThread detachNewThreadSelector: @selector(removeWaitingIndicator) toTarget: (ARISAppDelegate *)[[UIApplication sharedApplication] delegate] withObject: nil];
 	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeWaitingIndicator];
 	
 	//Notify the server this item was displayed
@@ -122,15 +117,6 @@
 }
 
 
-- (int) calculateTextHeight:(NSString *)text {
-	CGRect frame = CGRectMake(0, 0, self.view.bounds.size.width, 200000);
-	CGSize calcSize = [text sizeWithFont:[UIFont systemFontOfSize:18.0]
-					   constrainedToSize:frame.size lineBreakMode:UILineBreakModeWordWrap];
-	frame.size = calcSize;
-	frame.size.height += 0;
-	NSLog(@"Found height of %f", frame.size.height);
-	return frame.size.height;
-}
 
 //  Notification called when the movie finished preloading.
 - (void) moviePreloadDidFinish:(NSNotification*)notification { }
@@ -261,7 +247,7 @@
 - (void)showView:(UIView *)aView {
 	CGRect superFrame = [aView superview].bounds;
 	CGRect viewFrame = [aView frame];
-	viewFrame.origin.y = superFrame.origin.y + superFrame.size.height - 200;
+	viewFrame.origin.y = superFrame.origin.y + superFrame.size.height - 175;
 	[UIView beginAnimations:nil context:NULL]; //we animate the transition
 	[aView setFrame:viewFrame];
 	[UIView commitAnimations]; //run animation
