@@ -27,6 +27,7 @@
 #import "QRScannerViewController.h"
 #import "GamePickerViewController.h"
 #import "LogoutViewController.h"
+#import "StartOverViewController.h"
 #import "DeveloperViewController.h"
 #import "WaitingIndicatorViewController.h"
 

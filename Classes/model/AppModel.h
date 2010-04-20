@@ -101,8 +101,7 @@ extern NSDictionary *InventoryElements;
 - (void)updateServerPickupItem: (int)itemId fromLocation: (int)locationId;
 - (void)updateServerDropItemHere: (int)itemId;
 - (void)updateServerDestroyItem: (int)itemId;
-- (void)resetPlayerEvents;
-- (void)resetPlayerItems;
+- (void)startOverGame;
 - (void)createItemAndGiveToPlayerFromFileData:(NSData *)fileData andFileName:(NSString *)fileName;
 - (BOOL)registerNewUser:(NSString*)userName password:(NSString*)pass 
 			  firstName:(NSString*)firstName lastName:(NSString*)lastName email:(NSString*)email;

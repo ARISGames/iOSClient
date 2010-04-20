@@ -156,6 +156,10 @@
 		AB15EC1510B49F8A00EEC11F /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AB15EC1410B49F8A00EEC11F /* AsyncImageView.m */; };
 		AB2223F510502CD800A4255E /* Quest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB2223F410502CD800A4255E /* Quest.m */; };
 		AB39C820117E4009007AD31F /* microphone.png in Resources */ = {isa = PBXBuildFile; fileRef = AB39C81F117E4009007AD31F /* microphone.png */; };
+		AB39C852117E4613007AD31F /* StartOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB39C850117E4613007AD31F /* StartOverViewController.m */; };
+		AB39C853117E4613007AD31F /* StartOverViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB39C851117E4613007AD31F /* StartOverViewController.xib */; };
+		AB39C85B117E4ECE007AD31F /* StartOverButton.png in Resources */ = {isa = PBXBuildFile; fileRef = AB39C85A117E4ECE007AD31F /* StartOverButton.png */; };
+		AB39C85D117E4F9F007AD31F /* StartOverIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = AB39C85C117E4F9F007AD31F /* StartOverIcon.png */; };
 		AB3E113F10486A5500A9034C /* JSONConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AB3E113E10486A5500A9034C /* JSONConnection.m */; };
 		AB3F4E6E10CCC17400E6C9D7 /* NearbyObjectARCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = AB3F4E6D10CCC17400E6C9D7 /* NearbyObjectARCoordinate.m */; };
 		AB4150B61159291400DBA15F /* microphoneBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AB4150B51159291400DBA15F /* microphoneBackground.jpg */; };
@@ -422,6 +426,11 @@
 		AB2223F310502CD800A4255E /* Quest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quest.h; sourceTree = "<group>"; };
 		AB2223F410502CD800A4255E /* Quest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Quest.m; sourceTree = "<group>"; };
 		AB39C81F117E4009007AD31F /* microphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = microphone.png; sourceTree = "<group>"; };
+		AB39C84F117E4613007AD31F /* StartOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartOverViewController.h; sourceTree = "<group>"; };
+		AB39C850117E4613007AD31F /* StartOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartOverViewController.m; sourceTree = "<group>"; };
+		AB39C851117E4613007AD31F /* StartOverViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StartOverViewController.xib; sourceTree = "<group>"; };
+		AB39C85A117E4ECE007AD31F /* StartOverButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StartOverButton.png; sourceTree = "<group>"; };
+		AB39C85C117E4F9F007AD31F /* StartOverIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StartOverIcon.png; sourceTree = "<group>"; };
 		AB3E113D10486A5500A9034C /* JSONConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONConnection.h; sourceTree = "<group>"; };
 		AB3E113E10486A5500A9034C /* JSONConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONConnection.m; sourceTree = "<group>"; };
 		AB3F4E6C10CCC17400E6C9D7 /* NearbyObjectARCoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyObjectARCoordinate.h; sourceTree = "<group>"; };
@@ -717,6 +726,7 @@
 				AB0DE7FE11559CCA00A6EC3E /* Audio Recorder */,
 				A7986D620F8FEBD300A5469F /* QR Scanner */,
 				A7986D640F8FEBFA00A5469F /* Game Picker */,
+				AB39C84C117E45DF007AD31F /* Start Over */,
 				A7986D670F8FEC3900A5469F /* Logout */,
 				A7986D610F8FEBB200A5469F /* Developer */,
 				A7986D650F8FEC1100A5469F /* Login */,
@@ -965,6 +975,18 @@
 			name = "Audio Recorder";
 			sourceTree = "<group>";
 		};
+		AB39C84C117E45DF007AD31F /* Start Over */ = {
+			isa = PBXGroup;
+			children = (
+				AB39C85C117E4F9F007AD31F /* StartOverIcon.png */,
+				AB39C85A117E4ECE007AD31F /* StartOverButton.png */,
+				AB39C84F117E4613007AD31F /* StartOverViewController.h */,
+				AB39C850117E4613007AD31F /* StartOverViewController.m */,
+				AB39C851117E4613007AD31F /* StartOverViewController.xib */,
+			);
+			name = "Start Over";
+			sourceTree = "<group>";
+		};
 		AB549ED11047007B00A901EF /* JSON Framework */ = {
 			isa = PBXGroup;
 			children = (
@@ -1208,6 +1230,9 @@
 				ABC39B26116BD28F002185D4 /* TitleAndDecriptionFormViewController.xib in Resources */,
 				AB8FD00D117BCF61004F8B9B /* GameDetails.xib in Resources */,
 				AB39C820117E4009007AD31F /* microphone.png in Resources */,
+				AB39C853117E4613007AD31F /* StartOverViewController.xib in Resources */,
+				AB39C85B117E4ECE007AD31F /* StartOverButton.png in Resources */,
+				AB39C85D117E4F9F007AD31F /* StartOverIcon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1325,6 +1350,7 @@
 				ABC399CF116B9EBC002185D4 /* AudioMeter.m in Sources */,
 				ABC39B25116BD28F002185D4 /* TitleAndDecriptionFormViewController.m in Sources */,
 				AB8FD00C117BCF61004F8B9B /* GameDetails.m in Sources */,
+				AB39C852117E4613007AD31F /* StartOverViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -87,6 +87,11 @@
 	LogoutViewController *logoutViewController = [[[LogoutViewController alloc] initWithNibName:@"Logout" bundle:nil] autorelease];
 	UINavigationController *logoutNavigationController = [[UINavigationController alloc] initWithRootViewController: logoutViewController];
 	logoutNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+
+	//Start Over View
+	StartOverViewController *startOverViewController = [[[StartOverViewController alloc] initWithNibName:@"StartOverViewController" bundle:nil] autorelease];
+	UINavigationController *startOverNavigationController = [[UINavigationController alloc] initWithRootViewController: startOverViewController];
+	startOverNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;	
 	
 	//Developer View
 	DeveloperViewController *developerViewController = [[[DeveloperViewController alloc] initWithNibName:@"Developer" bundle:nil] autorelease];
@@ -120,6 +125,7 @@
 										audioRecorderNavigationController,
 										gamePickerNavigationController,
 										logoutNavigationController,
+										startOverNavigationController,
 										developerNavigationController,
 										nil];	
 

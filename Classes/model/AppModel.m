@@ -349,35 +349,21 @@ static const int kEmptyValue = -1;
 	[jsonConnection performAsynchronousRequestWithParser:nil]; 
 }
 
-
-
-- (void)resetPlayerEvents {
-	NSLog(@"Model: Clearing Player Events");
+- (void)startOverGame{
+	NSLog(@"Model: Start Over");
 	
 	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.gameId],
+	NSArray *arguments = [NSArray arrayWithObjects:
+						  [NSString stringWithFormat:@"%d",self.gameId],
 						  [NSString stringWithFormat:@"%d",playerId],
 						  nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
 																	andServiceName:@"players" 
-																	 andMethodName:@"resetEvents" 
+																	 andMethodName:@"startOver" 
 																	  andArguments:arguments];
-	[jsonConnection performSynchronousRequest]; 
+	[jsonConnection performAsynchronousRequestWithParser:@selector(parseStartOverFromJSON:)]; 
 }
 
-- (void)resetPlayerItems {
-	NSLog(@"Model: Clearing Player Items");
-	
-	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.gameId],
-						  [NSString stringWithFormat:@"%d",playerId],
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
-																	andServiceName:@"players" 
-																	 andMethodName:@"resetItems" 
-																	  andArguments:arguments];
-	[jsonConnection performSynchronousRequest]; 
-}
 
 - (void)updateServerPickupItem: (int)itemId fromLocation: (int)locationId {
 	NSLog(@"Model: Informing the Server the player picked up item");
@@ -997,6 +983,12 @@ static const int kEmptyValue = -1;
 }
 
 
+-(void)parseStartOverFromJSON:(JSONResult *)jsonResult{
+	NSLog(@"AppModel: Parsing start over result and firing off fetches");
+	[self fetchInventory];
+	[self fetchQuestList];
+	[self fetchLocationList];
+}
 
 -(void)parseQuestListFromJSON: (JSONResult *)jsonResult{
 
