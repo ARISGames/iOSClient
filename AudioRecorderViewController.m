@@ -23,7 +23,7 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         self.title = @"Audio Recorder";
-        self.tabBarItem.image = [UIImage imageNamed:@"camera.png"];
+        self.tabBarItem.image = [UIImage imageNamed:@"microphone.png"];
 		
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
 		

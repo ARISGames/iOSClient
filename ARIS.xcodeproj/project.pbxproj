@@ -155,6 +155,7 @@
 		AB0DE80D11559D1200A6EC3E /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */; };
 		AB15EC1510B49F8A00EEC11F /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AB15EC1410B49F8A00EEC11F /* AsyncImageView.m */; };
 		AB2223F510502CD800A4255E /* Quest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB2223F410502CD800A4255E /* Quest.m */; };
+		AB39C820117E4009007AD31F /* microphone.png in Resources */ = {isa = PBXBuildFile; fileRef = AB39C81F117E4009007AD31F /* microphone.png */; };
 		AB3E113F10486A5500A9034C /* JSONConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AB3E113E10486A5500A9034C /* JSONConnection.m */; };
 		AB3F4E6E10CCC17400E6C9D7 /* NearbyObjectARCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = AB3F4E6D10CCC17400E6C9D7 /* NearbyObjectARCoordinate.m */; };
 		AB4150B61159291400DBA15F /* microphoneBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AB4150B51159291400DBA15F /* microphoneBackground.jpg */; };
@@ -420,6 +421,7 @@
 		AB15EC1410B49F8A00EEC11F /* AsyncImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncImageView.m; sourceTree = "<group>"; };
 		AB2223F310502CD800A4255E /* Quest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quest.h; sourceTree = "<group>"; };
 		AB2223F410502CD800A4255E /* Quest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Quest.m; sourceTree = "<group>"; };
+		AB39C81F117E4009007AD31F /* microphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = microphone.png; sourceTree = "<group>"; };
 		AB3E113D10486A5500A9034C /* JSONConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONConnection.h; sourceTree = "<group>"; };
 		AB3E113E10486A5500A9034C /* JSONConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONConnection.m; sourceTree = "<group>"; };
 		AB3F4E6C10CCC17400E6C9D7 /* NearbyObjectARCoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyObjectARCoordinate.h; sourceTree = "<group>"; };
@@ -952,6 +954,7 @@
 		AB0DE7FE11559CCA00A6EC3E /* Audio Recorder */ = {
 			isa = PBXGroup;
 			children = (
+				AB39C81F117E4009007AD31F /* microphone.png */,
 				AB0DE7FF11559CF000A6EC3E /* AudioRecorderViewController.h */,
 				AB0DE80011559CF000A6EC3E /* AudioRecorderViewController.m */,
 				AB0DE80111559CF000A6EC3E /* AudioRecorderViewController.xib */,
@@ -1204,6 +1207,7 @@
 				AB7FB978115DBF1500DB81A6 /* clickToPlay.png in Resources */,
 				ABC39B26116BD28F002185D4 /* TitleAndDecriptionFormViewController.xib in Resources */,
 				AB8FD00D117BCF61004F8B9B /* GameDetails.xib in Resources */,
+				AB39C820117E4009007AD31F /* microphone.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
