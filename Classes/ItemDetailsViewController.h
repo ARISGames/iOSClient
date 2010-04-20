@@ -10,6 +10,7 @@
 #import "model/AppModel.h";
 #import "Item.h";
 #import <MediaPlayer/MediaPlayer.h>
+#import "AsyncImageView.h"
 
 
 @interface ItemDetailsViewController : UIViewController {
@@ -17,11 +18,15 @@
 	Item *item;
 	MPMoviePlayerController *mMoviePlayer; //only used if item is a video
 	bool inInventory;
+	bool descriptionShowing;
 	//IBOutlet UITextView *descriptionView;
 	IBOutlet UIButton *dropButton;
 	IBOutlet UIButton *deleteButton;
 	IBOutlet UIButton *backButton;
 	IBOutlet UIButton *pickupButton;
+	
+	IBOutlet AsyncImageView *itemImageView;
+	IBOutlet UIWebView *itemDescriptionView;
 	
 	IBOutlet UIScrollView *scrollView;
 }
@@ -39,6 +44,7 @@
 - (IBAction)backButtonTouchAction: (id) sender;
 - (IBAction)pickupButtonTouchAction: (id) sender;
 - (IBAction)playMovie:(id)sender;
+- (IBAction)toggleDescription:(id)sender;
 - (int) calculateTextHeight:(NSString *)text;
 
 @end

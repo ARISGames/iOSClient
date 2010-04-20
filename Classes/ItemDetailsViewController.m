@@ -9,7 +9,6 @@
 #import "ItemDetailsViewController.h"
 #import "ARISAppDelegate.h"
 #import "Media.h"
-#import "AsyncImageView.h"
 
 @implementation ItemDetailsViewController
 @synthesize appModel, item, inInventory, dropButton;
@@ -56,17 +55,20 @@
 
 	//Set Up General Stuff
 	int margin = 10;
-	UILabel *itemDescriptionView = [[UILabel alloc] initWithFrame:CGRectMake(margin, 220 + margin, 320 - (2 * margin),
-																			 [self calculateTextHeight:item.description])];
-	itemDescriptionView.text = item.description;
-	itemDescriptionView.backgroundColor = [UIColor blackColor];
-	itemDescriptionView.textColor = [UIColor whiteColor];
-	itemDescriptionView.lineBreakMode = UILineBreakModeWordWrap;
-	itemDescriptionView.numberOfLines = 0;
+	//UILabel *itemDescriptionView = [[UILabel alloc] initWithFrame:CGRectMake(margin, 220 + margin, 320 - (2 * margin),
+	//[self calculateTextHeight:item.description])];
 	
-	[scrollView addSubview:itemDescriptionView];
-	[scrollView setContentSize:CGSizeMake(320, itemDescriptionView.frame.origin.y
-										  + itemDescriptionView.frame.size.height)];
+	[itemDescriptionView loadHTMLString:item.description baseURL:nil];
+
+//	itemDescriptionView.text = item.description;
+//	itemDescriptionView.backgroundColor = [UIColor blackColor];
+//	itemDescriptionView.textColor = [UIColor whiteColor];
+//	itemDescriptionView.lineBreakMode = UILineBreakModeWordWrap;
+//	itemDescriptionView.numberOfLines = 0;
+	
+	//[scrollView addSubview:itemDescriptionView];
+	//[scrollView setContentSize:CGSizeMake(320, itemDescriptionView.frame.origin.y
+	//									  + itemDescriptionView.frame.size.height)];
 	
 	
 	Media *media = [appModel mediaForMediaId: item.mediaId];
@@ -74,12 +76,13 @@
 	if ([media.type isEqualToString: @"Image"] && media.url) {
 		NSLog(@"ItemDetailsViewController: Image Layout Selected");
 		
-		AsyncImageView* mediaImageView = [[AsyncImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 220)];
+		//AsyncImageView* mediaImageView = [[AsyncImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 220)];
 		
-		[mediaImageView loadImageFromMedia:media];
+		[itemImageView loadImageFromMedia:media];
 
 		//Add the image view
-		[scrollView addSubview:mediaImageView];
+		//[itemImageView setImage:[mediaImageView getImage]];
+//		[scrollView addSubview:mediaImageView];
 		
 	}
 	else if (([media.type isEqualToString: @"Video"] || [media.type isEqualToString: @"Audio"]) && media.url) {
@@ -224,5 +227,66 @@
     [mMoviePlayer release];
 	[super dealloc];
 }
+
+#pragma mark Zooming delegate methods
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+	NSLog(@"got a viewForZooming.");
+	return itemImageView;
+}
+
+- (void) scrollViewDidEndZooming: (UIScrollView *) scrollView withView: (UIView *) view atScale: (float) scale
+{
+	NSLog(@"got a scrollViewDidEndZooming. Scale: %f", scale);
+	CGAffineTransform transform = CGAffineTransformIdentity;
+	transform = CGAffineTransformScale(transform, scale, scale);
+	itemImageView.transform = transform;
+}
+
+- (void) touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event
+{
+    UITouch       *touch = [touches anyObject];
+	NSLog(@"got a touchesEnded.");
+	
+    if([touch tapCount] == 2) {
+		//NSLog(@"TouchCount is 2.");
+		CGAffineTransform transform = CGAffineTransformIdentity;
+		transform = CGAffineTransformScale(transform, 1.0, 1.0);
+		itemImageView.transform = transform;
+    }
+}
+
+#pragma mark Animate view show/hide
+
+- (void)showView:(UIView *)aView {
+	CGRect superFrame = [aView superview].bounds;
+	CGRect viewFrame = [aView frame];
+	viewFrame.origin.y = superFrame.origin.y + superFrame.size.height - 200;
+	[UIView beginAnimations:nil context:NULL]; //we animate the transition
+	[aView setFrame:viewFrame];
+	[UIView commitAnimations]; //run animation
+}
+
+- (void)hideView:(UIView *)aView {
+	CGRect superFrame = [aView superview].bounds;
+	CGRect viewFrame = [aView frame];
+	viewFrame.origin.y = superFrame.origin.y + superFrame.size.height;
+	[UIView beginAnimations:nil context:NULL]; //we animate the transition
+	[aView setFrame:viewFrame];
+	[UIView commitAnimations]; //run animation
+}
+
+- (void)toggleDescription:(id)sender {
+	if (descriptionShowing) { //description is showing, so hide
+		[self hideView:itemDescriptionView];
+		//[notesButton setStyle:UIBarButtonItemStyleBordered]; //set button style
+		descriptionShowing = NO;
+	} else {  //description is not showing, so show
+		[self showView:itemDescriptionView];
+		//[notesButton setStyle:UIBarButtonItemStyleDone];
+		descriptionShowing = YES;
+	}
+}
+
 
 @end
