@@ -277,7 +277,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>29</integer>
+									<integer>30</integer>
 									<integer>17</integer>
 									<integer>2</integer>
 									<integer>0</integer>
@@ -333,7 +333,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>AB39C894117E5737007AD31F</string>
+										<string>AB39C8AB117E5B51007AD31F</string>
 										<key>history</key>
 										<array>
 											<string>AB549EF01047058D00A901EF</string>
@@ -494,7 +494,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>AppModel.h</string>
+								<string>AppModel.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -502,11 +502,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>AppModel.h</string>
+										<string>AppModel.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>AB39C895117E5737007AD31F</string>
+										<string>AB39C8AC117E5B51007AD31F</string>
 										<key>history</key>
 										<array>
 											<string>AB549EF01047058D00A901EF</string>
@@ -640,9 +640,9 @@
 											<string>AB39C881117E5553007AD31F</string>
 											<string>AB39C882117E5553007AD31F</string>
 											<string>AB39C88D117E5715007AD31F</string>
-											<string>AB39C88E117E5715007AD31F</string>
 											<string>AB39C88F117E5715007AD31F</string>
-											<string>AB39C890117E5715007AD31F</string>
+											<string>AB39C8A4117E5B03007AD31F</string>
+											<string>AB39C8A5117E5B03007AD31F</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -840,12 +840,12 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>AB39C896117E5737007AD31F</string>
+		<string>AB39C8A7117E5B03007AD31F</string>
 		<string>AB39C83B117E412A007AD31F</string>
 		<string>AB39C83C117E412A007AD31F</string>
+		<string>1C78EAAD065D492600B07095</string>
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>AB4B1043103D02990061AD3D</string>
-		<string>1C78EAAD065D492600B07095</string>
 		<string>/Users/djgagnon/Documents/Aris/svn-trunk/iPhoneClient/ARIS.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
@@ -1220,7 +1220,7 @@
 			<key>WindowToolGUID</key>
 			<string>1C78EAAD065D492600B07095</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>Identifier</key>

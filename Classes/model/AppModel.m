@@ -359,7 +359,7 @@ static const int kEmptyValue = -1;
 						  nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
 																	andServiceName:@"players" 
-																	 andMethodName:@"startOver" 
+																	 andMethodName:@"startOverGameForPlayer" 
 																	  andArguments:arguments];
 	[jsonConnection performAsynchronousRequestWithParser:@selector(parseStartOverFromJSON:)]; 
 }
