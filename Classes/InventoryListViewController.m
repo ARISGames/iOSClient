@@ -185,6 +185,7 @@
 	itemDetailsViewController.item = selectedItem;
 	itemDetailsViewController.navigationItem.title = selectedItem.name;
 	itemDetailsViewController.inInventory = YES;
+	itemDetailsViewController.hidesBottomBarWhenPushed = YES;
 
 	//Put the view on the screen
 	[[self navigationController] pushViewController:itemDetailsViewController animated:YES];

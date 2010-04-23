@@ -29,42 +29,30 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
 
 @implementation ItemDetailsViewController
-@synthesize appModel, item, inInventory, dropButton;
-@synthesize deleteButton, backButton, pickupButton;
+@synthesize appModel, item, inInventory;
+
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
 	//Show waiting Indicator in own thread so it appears on time
 	//[NSThread detachNewThreadSelector: @selector(showWaitingIndicator:) toTarget: (ARISAppDelegate *)[[UIApplication sharedApplication] delegate] withObject: @"Loading..."];	
 	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate]showWaitingIndicator:@"Loading..."];
+		
+	if (inInventory == YES) {		
+		dropButton.width = 75.0;
+		deleteButton.width = 75.0;
+		detailButton.width = 140.0;
+		
+		[toolBar setItems:[NSMutableArray arrayWithObjects: dropButton, deleteButton, detailButton,  nil] animated:NO];
 
-	if (inInventory == YES) {
-		pickupButton.hidden = YES;
-		dropButton.hidden = NO;
-		deleteButton.hidden = NO;
-		
-		if (item.dropable) {
-			dropButton.enabled = YES;
-			dropButton.alpha = 1;
-		}
-		else {
-			dropButton.enabled = NO;
-			dropButton.alpha = .2;
-		}
-		
-		if (item.destroyable) {
-			deleteButton.enabled = YES;
-			deleteButton.alpha = 1;
-		}
-		else {
-			deleteButton.enabled = NO;
-			deleteButton.alpha = .2;
-		}
+		if (!item.dropable) dropButton.enabled = NO;
+		if (!item.destroyable) deleteButton.enabled = NO;
 	}
 	else {
-		pickupButton.hidden = NO;
-		dropButton.hidden = YES;
-		deleteButton.hidden = YES;
+		detailButton.width = 150.0;
+		pickupButton.width = 150.0;
+		
+		[toolBar setItems:[NSMutableArray arrayWithObjects: pickupButton,detailButton, nil] animated:NO];
 	}
 	
 
