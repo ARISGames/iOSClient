@@ -415,13 +415,15 @@ static const int kEmptyValue = -1;
 
 - (void)createItemAndGiveToPlayerFromFileData:(NSData *)fileData fileName:(NSString *)fileName 
 										title:(NSString *)title description:(NSString*)description {
-	NSLog(@"Model: Uploading File");
 
 	// setting up the request object now
 	NSString *urlString = [[NSString alloc] initWithFormat:@"%@services/aris/uploadHandler.php",self.baseAppURL];
 	NSURL *url = [[NSURL alloc] initWithString:urlString];
 	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
-	[request setPostValue:[NSString stringWithFormat:@"%d", self.gameId] forKey:@"gameID"];
+
+	NSString *gameID = [NSString stringWithFormat:@"%d", self.gameId];
+ 	[request setPostValue:gameID forKey:@"gameID"];
+	 
 	[request setPostValue:fileName forKey:@"fileName"];
 	[request setData:fileData forKey:@"file"];
 	[request setPostValue:title forKey:@"title"];
@@ -430,6 +432,7 @@ static const int kEmptyValue = -1;
 	[request setDidFailSelector:@selector(uploadItemRequestFailed:)];
 	[request setDelegate:self];
 	
+	NSLog(@"Model: Uploading File. gameID:%@ fileName:%@ title:%@ description:%@",gameID,fileName,title,description );
 	
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate showWaitingIndicator:@"Uploading"];
@@ -441,7 +444,10 @@ static const int kEmptyValue = -1;
 {
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate removeWaitingIndicator];
-	NSLog(@"Model: creating a new Item for an image: requestFinished");
+	
+	NSString *response = [request responseString];
+
+	NSLog(@"Model: Upload Media Request Finished. Response: %@", response);
 	
 	NSDictionary *postDict = request.postData;
 	NSString *title = [postDict objectForKey:@"title"];
@@ -480,6 +486,10 @@ static const int kEmptyValue = -1;
 	[appDelegate removeWaitingIndicator];
 	NSError *error = [request error];
 	NSLog(@"Model: uploadItemRequestFailed: %@",[error localizedDescription]);
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message: @"An unknown error occured while uploading the file" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+	
+	[alert show];
+	[alert release];
 }
 
 
