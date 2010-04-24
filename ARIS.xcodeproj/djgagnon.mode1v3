@@ -269,6 +269,7 @@
 								<string>A7986D6A0F8FEC7200A5469F</string>
 								<string>2B3D17040F49C9920067FD3A</string>
 								<string>A7986D660F8FEC2100A5469F</string>
+								<string>AB0DE7FE11559CCA00A6EC3E</string>
 								<string>A7986D640F8FEBFA00A5469F</string>
 								<string>A7986D670F8FEC3900A5469F</string>
 								<string>1C37FBAC04509CD000000102</string>
@@ -277,13 +278,14 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>73</integer>
-									<integer>63</integer>
+									<integer>30</integer>
+									<integer>17</integer>
+									<integer>2</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 988}, {275, 713}}</string>
+							<string>{{0, 118}, {275, 713}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -304,7 +306,7 @@
 							<real>253</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>62 106 1329 772 0 0 1440 878 </string>
+						<string>60 106 1329 772 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -334,7 +336,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>AB18C83E1183B4BA00E71BA2</string>
+										<string>AB18C84A1183B9BF00E71BA2</string>
 										<key>history</key>
 										<array>
 											<string>AB549EF01047058D00A901EF</string>
@@ -450,8 +452,6 @@
 											<string>AB0C07D5117CD1AA00136C28</string>
 											<string>AB0C07D8117CD1AA00136C28</string>
 											<string>AB39C82B117E412A007AD31F</string>
-											<string>AB39C82C117E412A007AD31F</string>
-											<string>AB39C840117E4199007AD31F</string>
 											<string>AB39C862117E4FB3007AD31F</string>
 											<string>AB39C863117E4FB3007AD31F</string>
 											<string>AB39C864117E4FB3007AD31F</string>
@@ -470,7 +470,9 @@
 											<string>AB88E00E1182541B006D3E9E</string>
 											<string>AB88E0291183A092006D3E9E</string>
 											<string>AB88E02A1183A092006D3E9E</string>
-											<string>AB18C8141183A95D00E71BA2</string>
+											<string>AB18C8471183B9BF00E71BA2</string>
+											<string>AB18C8481183B9BF00E71BA2</string>
+											<string>AB18C8491183B9BF00E71BA2</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -484,7 +486,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {1032, 448}}</string>
 								<key>RubberWindowFrame</key>
-								<string>62 106 1329 772 0 0 1440 878 </string>
+								<string>60 106 1329 772 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -509,7 +511,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>AB18C8411183B4BA00E71BA2</string>
+										<string>AB18C84B1183B9BF00E71BA2</string>
 										<key>history</key>
 										<array>
 											<string>AB549EF01047058D00A901EF</string>
@@ -659,7 +661,7 @@
 								<key>Frame</key>
 								<string>{{0, 453}, {1032, 273}}</string>
 								<key>RubberWindowFrame</key>
-								<string>62 106 1329 772 0 0 1440 878 </string>
+								<string>60 106 1329 772 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -679,7 +681,7 @@
 								<key>Frame</key>
 								<string>{{0, 731}, {1032, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>62 106 1329 772 0 0 1440 878 </string>
+								<string>60 106 1329 772 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -843,15 +845,16 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>AB18C84C1183B9BF00E71BA2</string>
 		<string>AB18C8211183A95D00E71BA2</string>
 		<string>AB18C8231183A95D00E71BA2</string>
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>AB4B1043103D02990061AD3D</string>
-		<string>/Users/djgagnon/Documents/Aris/svn-trunk/iPhoneClient/ARIS.xcodeproj</string>
 		<string>1C78EAAD065D492600B07095</string>
+		<string>/Users/djgagnon/Documents/Aris/svn-trunk/iPhoneClient/ARIS.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>62 106 1329 772 0 0 1440 878 </string>
+	<string>60 106 1329 772 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>

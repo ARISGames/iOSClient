@@ -420,10 +420,10 @@ static const int kEmptyValue = -1;
 	NSString *urlString = [[NSString alloc] initWithFormat:@"%@services/aris/uploadHandler.php",self.baseAppURL];
 	NSURL *url = [[NSURL alloc] initWithString:urlString];
 	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
-
+	request.timeOutSeconds = 60;
+	
 	NSString *gameID = [NSString stringWithFormat:@"%d", self.gameId];
- 	[request setPostValue:gameID forKey:@"gameID"];
-	 
+ 	[request setPostValue:gameID forKey:@"gameID"];	 
 	[request setPostValue:fileName forKey:@"fileName"];
 	[request setData:fileData forKey:@"file"];
 	[request setPostValue:title forKey:@"title"];
