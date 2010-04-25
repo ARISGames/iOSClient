@@ -229,6 +229,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -278,12 +280,14 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>100</integer>
+									<integer>73</integer>
+									<integer>72</integer>
+									<integer>71</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 1084}, {275, 680}}</string>
+							<string>{{0, 961}, {275, 680}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -495,7 +499,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>AB37BCB11184E55100C5CE8B</string>
+										<string>AB37BCDD1184EC1100C5CE8B</string>
 										<key>history</key>
 										<array>
 											<string>AB549EF01047058D00A901EF</string>
@@ -652,8 +656,6 @@
 							<string>38pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -671,7 +673,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>AB37BCB21184E55100C5CE8B</string>
+										<string>AB37BCDE1184EC1100C5CE8B</string>
 										<key>history</key>
 										<array>
 											<string>AB549EF01047058D00A901EF</string>
@@ -805,7 +807,7 @@
 											<string>AB37BCA81184E3E900C5CE8B</string>
 											<string>AB37BCA91184E3E900C5CE8B</string>
 											<string>AB37BCAA1184E3E900C5CE8B</string>
-											<string>AB37BCAB1184E3E900C5CE8B</string>
+											<string>AB37BCD21184EB0A00C5CE8B</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -832,7 +834,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>DialogViewController.h</string>
+								<string>DialogViewController.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -840,15 +842,14 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>DialogViewController.h</string>
+										<string>DialogViewController.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>AB37BCB91184E55100C5CE8B</string>
+										<string>AB37BCDF1184EC1100C5CE8B</string>
 										<key>history</key>
 										<array>
 											<string>AB549EF01047058D00A901EF</string>
-											<string>ABBEBCDD104DDCDB00AA7285</string>
 											<string>AB2223FA10502E7D00A4255E</string>
 											<string>AB236B4810516EFF001F1476</string>
 											<string>AB236DE31051BA62001F1476</string>
@@ -973,12 +974,13 @@
 											<string>AB37BCA81184E3E900C5CE8B</string>
 											<string>AB37BCA91184E3E900C5CE8B</string>
 											<string>AB37BCAA1184E3E900C5CE8B</string>
-											<string>AB37BCB31184E55100C5CE8B</string>
 											<string>AB37BCB41184E55100C5CE8B</string>
 											<string>AB37BCB51184E55100C5CE8B</string>
 											<string>AB37BCB61184E55100C5CE8B</string>
 											<string>AB37BCB71184E55100C5CE8B</string>
-											<string>AB37BCB81184E55100C5CE8B</string>
+											<string>AB37BCBE1184E86B00C5CE8B</string>
+											<string>AB37BCD41184EB0A00C5CE8B</string>
+											<string>AB37BCD51184EB0A00C5CE8B</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -1180,7 +1182,7 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>AB37BCBA1184E55100C5CE8B</string>
+		<string>AB37BCE01184EC1100C5CE8B</string>
 		<string>AB37BC131184B2AD00C5CE8B</string>
 		<string>AB37BC0E1184B1EB00C5CE8B</string>
 		<string>1C78EAAD065D492600B07095</string>

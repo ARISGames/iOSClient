@@ -51,7 +51,7 @@ NSString *const kHtmlTemplate =
 
 @implementation DialogViewController
 @synthesize npcImage, pcImage, npcWebView, pcWebView, pcTableView, npcScrollView, pcScrollView;
-@synthesize pcAnswerView, mainView, npcView, pcView, pcLabel;
+@synthesize pcAnswerView, mainView, npcView, pcView, pcLabel, nothingElseLabel;
 
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -217,6 +217,10 @@ NSString *const kHtmlTemplate =
 				AppModel *appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
 				Npc *newNpc = [appModel fetchNpc:currentNpc.npcId];
 				optionList = newNpc.options;
+			}
+			int optionCount = [optionList count];
+			if (optionCount == 0) {
+				nothingElseLabel.hidden = NO;
 			}
 			pcTableView.hidden = NO;
 			pcWebView.hidden = YES;
