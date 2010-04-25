@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">768</int>
-		<string key="IBDocument.SystemVersion">10C540</string>
+		<string key="IBDocument.SystemVersion">10D573</string>
 		<string key="IBDocument.InterfaceBuilderVersion">762</string>
-		<string key="IBDocument.AppKitVersion">1038.25</string>
-		<string key="IBDocument.HIToolboxVersion">458.00</string>
+		<string key="IBDocument.AppKitVersion">1038.29</string>
+		<string key="IBDocument.HIToolboxVersion">460.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			<string key="NS.object.0">87</string>
@@ -77,40 +77,6 @@
 								<int key="NSvFlags">292</int>
 								<object class="NSMutableArray" key="NSSubviews">
 									<bool key="EncodedWithXMLCoder">YES</bool>
-									<object class="IBUITextField" id="50999612">
-										<reference key="NSNextResponder" ref="231392317"/>
-										<int key="NSvFlags">-2147483356</int>
-										<string key="NSFrame">{{20, 100}, {280, 31}}</string>
-										<reference key="NSSuperview" ref="231392317"/>
-										<object class="NSColor" key="IBUIBackgroundColor" id="485293241">
-											<int key="NSColorSpace">3</int>
-											<bytes key="NSWhite">MCAwAA</bytes>
-										</object>
-										<bool key="IBUIOpaque">NO</bool>
-										<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
-										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-										<int key="IBUIContentVerticalAlignment">0</int>
-										<string key="IBUIText"/>
-										<int key="IBUIBorderStyle">3</int>
-										<string key="IBUIPlaceholder">Response</string>
-										<object class="NSColor" key="IBUITextColor">
-											<int key="NSColorSpace">3</int>
-											<bytes key="NSWhite">MAA</bytes>
-											<object class="NSColorSpace" key="NSCustomColorSpace">
-												<int key="NSID">2</int>
-											</object>
-										</object>
-										<bool key="IBUIClearsOnBeginEditing">YES</bool>
-										<bool key="IBUIAdjustsFontSizeToFit">YES</bool>
-										<float key="IBUIMinimumFontSize">17</float>
-										<object class="IBUITextInputTraits" key="IBUITextInputTraits">
-											<int key="IBUIKeyboardType">1</int>
-											<int key="IBUIReturnKeyType">1</int>
-											<bool key="IBUIEnablesReturnKeyAutomatically">YES</bool>
-											<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-										</object>
-										<int key="IBUIClearButtonMode">1</int>
-									</object>
 									<object class="IBUIWebView" id="411850233">
 										<reference key="NSNextResponder" ref="231392317"/>
 										<int key="NSvFlags">292</int>
@@ -165,7 +131,10 @@
 								<int key="NSvFlags">269</int>
 								<string key="NSFrame">{{0, 390}, {320, 20}}</string>
 								<reference key="NSSuperview" ref="629273398"/>
-								<reference key="IBUIBackgroundColor" ref="485293241"/>
+								<object class="NSColor" key="IBUIBackgroundColor" id="485293241">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MCAwAA</bytes>
+								</object>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -184,6 +153,37 @@
 								<int key="IBUIBaselineAdjustment">1</int>
 								<float key="IBUIMinimumFontSize">10</float>
 								<int key="IBUITextAlignment">1</int>
+							</object>
+							<object class="IBUITextField" id="50999612">
+								<reference key="NSNextResponder" ref="629273398"/>
+								<int key="NSvFlags">-2147483356</int>
+								<string key="NSFrame">{{20, 250}, {280, 31}}</string>
+								<reference key="NSSuperview" ref="629273398"/>
+								<reference key="IBUIBackgroundColor" ref="485293241"/>
+								<bool key="IBUIOpaque">NO</bool>
+								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<int key="IBUIContentVerticalAlignment">0</int>
+								<string key="IBUIText"/>
+								<int key="IBUIBorderStyle">3</int>
+								<string key="IBUIPlaceholder">Response</string>
+								<object class="NSColor" key="IBUITextColor">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MAA</bytes>
+									<object class="NSColorSpace" key="NSCustomColorSpace">
+										<int key="NSID">2</int>
+									</object>
+								</object>
+								<bool key="IBUIClearsOnBeginEditing">YES</bool>
+								<bool key="IBUIAdjustsFontSizeToFit">YES</bool>
+								<float key="IBUIMinimumFontSize">17</float>
+								<object class="IBUITextInputTraits" key="IBUITextInputTraits">
+									<int key="IBUIKeyboardType">1</int>
+									<int key="IBUIReturnKeyType">1</int>
+									<bool key="IBUIEnablesReturnKeyAutomatically">YES</bool>
+									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								</object>
+								<int key="IBUIClearButtonMode">1</int>
 							</object>
 						</object>
 						<string key="NSFrame">{{-400, 0}, {320, 416}}</string>
@@ -481,6 +481,7 @@
 							<reference ref="644584544"/>
 							<reference ref="809984558"/>
 							<reference ref="1028266386"/>
+							<reference ref="50999612"/>
 						</object>
 						<reference key="parent" ref="774585933"/>
 						<string key="objectName">PC View</string>
@@ -491,7 +492,6 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="411850233"/>
-							<reference ref="50999612"/>
 						</object>
 						<reference key="parent" ref="629273398"/>
 						<string key="objectName">Transparency</string>
@@ -568,12 +568,6 @@
 						<reference key="parent" ref="629273398"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">34</int>
-						<reference key="object" ref="50999612"/>
-						<reference key="parent" ref="231392317"/>
-						<string key="objectName">Answer</string>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">20</int>
 						<reference key="object" ref="350694249"/>
 						<reference key="parent" ref="133102362"/>
@@ -583,6 +577,12 @@
 						<reference key="object" ref="1028266386"/>
 						<reference key="parent" ref="629273398"/>
 						<string key="objectName">PC Table View</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">34</int>
+						<reference key="object" ref="50999612"/>
+						<reference key="parent" ref="629273398"/>
+						<string key="objectName">Answer</string>
 					</object>
 				</object>
 			</object>
@@ -629,7 +629,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>{{463, 303}, {320, 480}}</string>
+					<string>{{414, 303}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>AsyncImageView</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>

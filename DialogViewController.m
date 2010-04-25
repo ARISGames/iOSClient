@@ -6,6 +6,7 @@
 //  Copyright Studio Tectorum 2009. All rights reserved.
 //
 #import "ARISAppDelegate.h"
+#import "AppModel.h"
 #import "AsyncImageView.h"
 #import "AudioStreamer.h"
 #import "DialogViewController.h"
@@ -150,7 +151,7 @@ NSString *const kHtmlTemplate =
 }
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	[pcAnswerView resignFirstResponder];
+	//[pcAnswerView resignFirstResponder];
 	if (scriptIndex > [currentScript count]) scriptIndex = [currentScript count] - 1;
 	[self continueScript];
 }
@@ -211,6 +212,12 @@ NSString *const kHtmlTemplate =
 		}
 		else {
 			if (currentNode.numberOfOptions > 0) optionList = currentNode.options;
+			else {
+				//refresh our option list
+				AppModel *appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
+				Npc *newNpc = [appModel fetchNpc:currentNpc.npcId];
+				optionList = newNpc.options;
+			}
 			pcTableView.hidden = NO;
 			pcWebView.hidden = YES;
 			pcAnswerView.hidden = YES;
