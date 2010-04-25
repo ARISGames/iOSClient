@@ -602,7 +602,7 @@
 	A75AF2B80F86A47100F15535 /* ItemDetailsViewController.m */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1356, 3640}}";
-			sepNavSelRange = "{6105, 223}";
+			sepNavSelRange = "{6103, 0}";
 			sepNavVisRange = "{5842, 581}";
 			sepNavWindowFrame = "{{15, 40}, {1181, 838}}";
 		};
@@ -679,9 +679,9 @@
 	};
 	A7C1F5FC0FC070690045F15D /* NearbyBar.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1013, 4693}}";
-			sepNavSelRange = "{4071, 0}";
-			sepNavVisRange = "{2836, 1490}";
+			sepNavIntBoundsRect = "{{0, 0}, {1202, 4914}}";
+			sepNavSelRange = "{5677, 0}";
+			sepNavVisRange = "{5261, 496}";
 		};
 	};
 	A7C1F5FD0FC070690045F15D /* NearbyBarItemView.h */ = {
@@ -1033,7 +1033,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 489";
 		rLen = 0;
-		rLoc = 18107;
+		rLoc = 18174;
 		rType = 0;
 		vrLen = 1295;
 		vrLoc = 17237;
@@ -1093,7 +1093,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 489";
 		rLen = 0;
-		rLoc = 18107;
+		rLoc = 18174;
 		rType = 0;
 		vrLen = 1282;
 		vrLoc = 17237;
@@ -2440,7 +2440,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 879";
 		rLen = 74;
-		rLoc = 33628;
+		rLoc = 33695;
 		rType = 0;
 		vrLen = 1537;
 		vrLoc = 32506;
@@ -2450,7 +2450,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 879";
 		rLen = 74;
-		rLoc = 33628;
+		rLoc = 33695;
 		rType = 0;
 		vrLen = 1356;
 		vrLoc = 33341;
@@ -2470,7 +2470,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 894";
 		rLen = 0;
-		rLoc = 34244;
+		rLoc = 34311;
 		rType = 0;
 		vrLen = 1359;
 		vrLoc = 33114;
@@ -2520,7 +2520,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 894";
 		rLen = 0;
-		rLoc = 34244;
+		rLoc = 34311;
 		rType = 0;
 		vrLen = 1359;
 		vrLoc = 33114;
@@ -2530,7 +2530,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 898";
 		rLen = 0;
-		rLoc = 34373;
+		rLoc = 34440;
 		rType = 0;
 		vrLen = 1456;
 		vrLoc = 32843;
@@ -2550,7 +2550,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 894";
 		rLen = 0;
-		rLoc = 34244;
+		rLoc = 34311;
 		rType = 0;
 		vrLen = 1429;
 		vrLoc = 32843;
@@ -2570,7 +2570,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 897";
 		rLen = 0;
-		rLoc = 34366;
+		rLoc = 34433;
 		rType = 0;
 		vrLen = 1429;
 		vrLoc = 32843;
@@ -2876,9 +2876,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 43;
-		modificationTime = 293848836.312646;
+		modificationTime = 293859658.897457;
 		originalNumberOfMultipleMatches = 1;
-		state = 1;
+		state = 0;
 	};
 	ABC399B0116B9209002185D4 /* AudioMeterViewController.m:21 */ = {
 		isa = PBXFileBreakpoint;
@@ -2893,9 +2893,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 21;
-		modificationTime = 293848836.312674;
+		modificationTime = 293859658.897467;
 		originalNumberOfMultipleMatches = 1;
-		state = 1;
+		state = 0;
 	};
 	ABC399CD116B9EBC002185D4 /* AudioMeter.h */ = {
 		uiCtxt = {
@@ -3046,9 +3046,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 78;
-		modificationTime = 293848836.312659;
+		modificationTime = 293859658.897486;
 		originalNumberOfMultipleMatches = 1;
-		state = 1;
+		state = 0;
 	};
 	ABC39B22116BD28F002185D4 /* TitleAndDecriptionFormViewController.h */ = {
 		uiCtxt = {
@@ -3132,9 +3132,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 34;
-		modificationTime = 293848836.312615;
+		modificationTime = 293859658.89742;
 		originalNumberOfMultipleMatches = 1;
-		state = 1;
+		state = 0;
 	};
 	ABCC330F114C5CA300BB485D /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;

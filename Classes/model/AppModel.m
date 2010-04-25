@@ -451,23 +451,23 @@ static const int kEmptyValue = -1;
 	
 	NSDictionary *postDict = request.postData;
 	NSString *title = [postDict objectForKey:@"title"];
-	NSString *desc = [postDict objectForKey:@"desc"];
+	NSString *description = [postDict objectForKey:@"description"];
 	
-	if (desc == NULL) desc = @""; 
+	if (description == NULL) description = @""; 
 	
 	NSString *newFileName = [request responseString];
 
-	NSLog(@"AppModel: Creating Item for Title:%@ Desc:%@ File:%@",title,desc,newFileName);
+	NSLog(@"AppModel: Creating Item for Title:%@ Desc:%@ File:%@",title,description,newFileName);
 	
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects:
 						  [NSString stringWithFormat:@"%d",self.gameId],
 						  [NSString stringWithFormat:@"%d",self.playerId],
 						  [title stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
-						  [desc stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+						  [description stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
 						  newFileName,
-						  @"1",
-						  @"1",
+						  @"1", //dropable
+						  @"1", //destroyable
 						  [NSString stringWithFormat:@"%f",playerLocation.coordinate.latitude],
 						  [NSString stringWithFormat:@"%f",playerLocation.coordinate.longitude],
 						  nil];
