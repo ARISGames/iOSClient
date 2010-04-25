@@ -50,6 +50,17 @@
 	
 }
 
+- (BOOL)isEqual:(id)anObject {
+	if (![anObject isKindOfClass:[Item class]]) return NO;
+	Item *anItem = (Item*)anObject;
+	if (anItem.itemId == self.itemId) return YES;
+	return NO;
+}
+
+- (NSUInteger)hash {
+	return itemId;
+}
+
 
 - (void)dealloc {
 	[name release];

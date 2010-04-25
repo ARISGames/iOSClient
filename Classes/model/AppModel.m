@@ -665,9 +665,6 @@ static const int kEmptyValue = -1;
 - (void)fetchInventory {
 	NSLog(@"Model: Inventory Fetch Requested");
 	
-	inventory = [NSMutableArray array];
-	[inventory retain];
-	
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.gameId],
 						  [NSString stringWithFormat:@"%d",self.playerId],
 						  nil];

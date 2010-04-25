@@ -51,9 +51,9 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 		if (!item.destroyable) deleteButton.enabled = NO;
 	}
 	else {
-		detailButton.width = 150.0;
 		pickupButton.width = 150.0;
-		
+		detailButton.width = 150.0;
+
 		[toolBar setItems:[NSMutableArray arrayWithObjects: pickupButton,detailButton, nil] animated:NO];
 	}
 	
@@ -129,9 +129,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	//Refresh Map Locations (To add this item)
 	[appModel fetchLocationList];
 	
-	//Refresh the Nearby Locations (This item should now be part of the list)
-	[appModel updateServerLocationAndfetchNearbyLocationList];
-	
 	//Refresh the inventory (To remove this item)
 	[appModel fetchInventory];
 	
@@ -169,8 +166,17 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     [mMoviePlayer play];
 }
 
+
 - (IBAction)pickupButtonTouchAction: (id) sender{
 	NSLog(@"ItemDetailsViewController: pickupButtonTouched");
+	
+	if ([appModel.inventory containsObject:self.item]) {
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Duplicate Item" message: @"You cannot carry any more of this item" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+		[alert show];
+		[alert release];
+		
+		return;
+	}
 	
 	[appModel updateServerPickupItem:self.item.itemId fromLocation:self.item.locationId];
 	
@@ -181,9 +187,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	
 	//Refresh Map Locations (to update quantities on the map)
 	[appModel fetchLocationList];
-	
-	//Refresh the Nearby Locations (in case this item is no longer here)
-	[appModel updateServerLocationAndfetchNearbyLocationList];
 	
 	//Refresh the inventory (to show the new item)
 	[appModel fetchInventory];
