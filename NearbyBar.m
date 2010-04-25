@@ -174,6 +174,12 @@
 		//If we have a new item, vibrate
 		if (newItem) {
 			AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+			
+			SystemSoundID nearbyAlert;  
+			AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"nearbyAlertSound" ofType:@"wav"]], &nearbyAlert);  
+			AudioServicesPlaySystemSound (nearbyAlert);  
+			
+			
 			[[self indicator] setExpanded:YES];
 		}
 		[self clearAllItems];

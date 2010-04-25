@@ -154,6 +154,7 @@
 		AB0DE80911559D0500A6EC3E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0DE80811559D0500A6EC3E /* AVFoundation.framework */; };
 		AB0DE80D11559D1200A6EC3E /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */; };
 		AB15EC1510B49F8A00EEC11F /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AB15EC1410B49F8A00EEC11F /* AsyncImageView.m */; };
+		AB18C8501183EDAA00E71BA2 /* nearbyAlertSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = AB18C84F1183EDAA00E71BA2 /* nearbyAlertSound.wav */; };
 		AB2223F510502CD800A4255E /* Quest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB2223F410502CD800A4255E /* Quest.m */; };
 		AB39C820117E4009007AD31F /* microphone.png in Resources */ = {isa = PBXBuildFile; fileRef = AB39C81F117E4009007AD31F /* microphone.png */; };
 		AB39C852117E4613007AD31F /* StartOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB39C850117E4613007AD31F /* StartOverViewController.m */; };
@@ -423,6 +424,7 @@
 		AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		AB15EC1310B49F8A00EEC11F /* AsyncImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncImageView.h; sourceTree = "<group>"; };
 		AB15EC1410B49F8A00EEC11F /* AsyncImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncImageView.m; sourceTree = "<group>"; };
+		AB18C84F1183EDAA00E71BA2 /* nearbyAlertSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = nearbyAlertSound.wav; sourceTree = "<group>"; };
 		AB2223F310502CD800A4255E /* Quest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quest.h; sourceTree = "<group>"; };
 		AB2223F410502CD800A4255E /* Quest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Quest.m; sourceTree = "<group>"; };
 		AB39C81F117E4009007AD31F /* microphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = microphone.png; sourceTree = "<group>"; };
@@ -778,6 +780,7 @@
 		A760473F0FC0AA1E00219A53 /* NearbyObjectBar */ = {
 			isa = PBXGroup;
 			children = (
+				AB18C84F1183EDAA00E71BA2 /* nearbyAlertSound.wav */,
 				ABB925C710C8581B00B09506 /* item.png */,
 				ABB925C810C8581B00B09506 /* page.png */,
 				ABB925C910C8581B00B09506 /* npc.png */,
@@ -1233,6 +1236,7 @@
 				AB39C853117E4613007AD31F /* StartOverViewController.xib in Resources */,
 				AB39C85B117E4ECE007AD31F /* StartOverButton.png in Resources */,
 				AB39C85D117E4F9F007AD31F /* StartOverIcon.png in Resources */,
+				AB18C8501183EDAA00E71BA2 /* nearbyAlertSound.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
