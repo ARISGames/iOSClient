@@ -147,9 +147,7 @@
 	NSObject <NearbyObjectProtocol> *forcedDisplayItem = nil;
 	
 	if ([nearbyLocations count] > 0) {
-		self.inactive = NO; //we have at least one nearby item, so activate ourself
-		//Check for a force View flag in one of the nearby locations and display if found
-		
+		self.inactive = NO; //we have at least one nearby item, so activate ourself		
 		BOOL newItem = NO;	//flag to see if at least one new item is in list
 		for (NSObject <NearbyObjectProtocol> *unknownNearbyLocation in nearbyLocations) {
 			//check each new object againt list
