@@ -56,8 +56,8 @@
     [newURL release];
 	
 	[[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayAndRecord error: nil];
-    [[AVAudioSession sharedInstance] setDelegate: self];
-    [[AVAudioSession sharedInstance] setActive: YES error: nil];
+    [[AVAudioSession sharedInstance] setActive: NO error: nil];
+	[[AVAudioSession sharedInstance] setDelegate: self];
 	
     recording = NO;
     playing = NO;
@@ -104,10 +104,12 @@
         
 		playing = NO;
 		[self.soundPlayer stop];
+		[[AVAudioSession sharedInstance] setActive: NO error: nil];
 		
 		// if stopped or paused, start playing
     } else {
 		[[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];
+		[[AVAudioSession sharedInstance] setActive: YES error: nil];
 
 		if (nil == self.soundPlayer) {
 			NSError *error;
@@ -132,6 +134,7 @@
 	if (recording) {
 		
 		[soundRecorder stop];
+		[[AVAudioSession sharedInstance] setActive: NO error: nil];
 		NSLog(@"Recording stopped.");
 		recording = NO;
 		self.soundRecorder = nil;
@@ -142,6 +145,8 @@
 	} else {
 		
 		[[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryRecord error: nil];
+		[[AVAudioSession sharedInstance] setActive: YES error: nil];
+
 		
 		NSDictionary *recordSettings = [[NSDictionary alloc] initWithObjectsAndKeys:
 										[NSNumber numberWithFloat: 44100.0], AVSampleRateKey,
@@ -242,6 +247,7 @@
 
 - (void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag{
 	recording = NO;
+	[[AVAudioSession sharedInstance] setActive: NO error: nil];
 	[self.meterUpdateTimer invalidate];
 	[self.meter updateLevel:0];
 	self.meter.alpha = 0.0; 
@@ -260,6 +266,7 @@
 #pragma mark Audio Player Delegate Methods
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
+	[[AVAudioSession sharedInstance] setActive: NO error: nil];
 	playing = NO;
 	[playOrPauseButton setTitle: @"Play" forState: UIControlStateHighlighted];
 	[playOrPauseButton setTitle: @"Play" forState: UIControlStateNormal];

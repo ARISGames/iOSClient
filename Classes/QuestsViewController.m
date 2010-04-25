@@ -11,6 +11,8 @@
 #import "Quest.h"
 #import "Media.h"
 #import "AsyncImageView.h"
+#import "AudioToolbox/AudioToolbox.h"
+
 
 static NSString * const OPTION_CELL = @"quest";
 static int const ACTIVE_SECTION = 0;
@@ -64,7 +66,15 @@ static int const COMPLETED_SECTION = 1;
 	NSLog(@"QuestsViewController: Refreshing view from model");
 
 	//Add a badge if this is NOT the first time data has been loaded
-	if (quests != nil) self.tabBarItem.badgeValue = @"!";
+	if (quests != nil) { 
+		self.tabBarItem.badgeValue = @"!";
+		
+		AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+		
+		SystemSoundID alert;  
+		AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"questChange" ofType:@"wav"]], &alert);  
+		AudioServicesPlaySystemSound (alert); 
+	}
 	
 	//rebuild the list
 	NSArray *activeQuestsArray = [appModel.questList objectForKey:@"active"];

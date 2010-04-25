@@ -356,6 +356,11 @@
 	//Displays the view Controller
 	[window addSubview:viewController.navigationController.view];	
 	
+	//Play a sound
+	SystemSoundID alert;  
+	AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"switchTabs" ofType:@"wav"]], &alert);  
+	AudioServicesPlaySystemSound (alert);  
+	
 }
 
 

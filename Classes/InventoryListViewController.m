@@ -9,6 +9,8 @@
 #import "InventoryListViewController.h"
 #import "Media.h"
 #import "AsyncImageView.h"
+#import "AudioToolbox/AudioToolbox.h"
+
 
 @implementation InventoryListViewController
 
@@ -60,7 +62,14 @@
 	NSLog(@"InventoryListViewController: Refresh View from Model");
 	
 	//Add a badge if this is NOT the first time data has been loaded
-	if (inventory != nil) self.tabBarItem.badgeValue = @"!";
+	if (inventory != nil) {
+		self.tabBarItem.badgeValue = @"!";
+		AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+		
+		SystemSoundID alert;  
+		AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"inventoryChange" ofType:@"wav"]], &alert);  
+		AudioServicesPlaySystemSound (alert);  
+	}
 	
 	inventory = appModel.inventory;
 	[inventoryTable reloadData];

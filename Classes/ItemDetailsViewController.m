@@ -9,6 +9,8 @@
 #import "ItemDetailsViewController.h"
 #import "ARISAppDelegate.h"
 #import "Media.h"
+#import "AudioToolbox/AudioToolbox.h"
+
 
 NSString *const kItemDetailsDescriptionHtmlTemplate = 
 @"<html>"
@@ -251,6 +253,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 }
 
 - (void)toggleDescription:(id)sender {
+	SystemSoundID alert;  
+	AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"showDetails" ofType:@"wav"]], &alert);  
+	AudioServicesPlaySystemSound (alert);  
+	
 	if (descriptionShowing) { //description is showing, so hide
 		[self hideView:itemDescriptionView];
 		//[notesButton setStyle:UIBarButtonItemStyleBordered]; //set button style

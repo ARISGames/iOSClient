@@ -30,6 +30,8 @@
 #import "StartOverViewController.h"
 #import "DeveloperViewController.h"
 #import "WaitingIndicatorViewController.h"
+#import "AudioToolbox/AudioToolbox.h"
+
 
 @interface ARISAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate> {
 	AppModel *appModel;

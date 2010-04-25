@@ -365,7 +365,7 @@ static const int kEmptyValue = -1;
 																	andServiceName:@"players" 
 																	 andMethodName:@"pickupItemFromLocation" 
 																	  andArguments:arguments];
-	[jsonConnection performSynchronousRequest]; 
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllLists)]; 
 }
 
 - (void)updateServerDropItemHere: (int)itemId {
@@ -382,7 +382,7 @@ static const int kEmptyValue = -1;
 																	andServiceName:@"players" 
 																	 andMethodName:@"dropItem" 
 																	  andArguments:arguments];
-	[jsonConnection performSynchronousRequest]; 
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllLists)]; 
 }
 
 - (void)updateServerDestroyItem: (int)itemId {
@@ -397,7 +397,7 @@ static const int kEmptyValue = -1;
 																	andServiceName:@"players" 
 																	 andMethodName:@"destroyItem" 
 																	  andArguments:arguments];
-	[jsonConnection performSynchronousRequest]; 
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllLists)]; 
 }
 
 - (void)createItemAndGiveToPlayerFromFileData:(NSData *)fileData fileName:(NSString *)fileName 
@@ -875,6 +875,11 @@ static const int kEmptyValue = -1;
 	NSNotification *notification = 
 	[NSNotification notificationWithName:@"ReceivedLocationList" object:nil];
 	[[NSNotificationCenter defaultCenter] postNotification:notification];
+	
+	//Force a location update
+	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
+	[appDelegate.myCLController.locationManager stopUpdatingLocation];
+	[appDelegate.myCLController.locationManager startUpdatingLocation];
 	
 }
 

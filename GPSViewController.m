@@ -14,6 +14,8 @@
 #import "AnnotationView.h"
 #import "Media.h"
 #import "Annotation.h"
+#import "AudioToolbox/AudioToolbox.h"
+
 
 //static int DEFAULT_ZOOM = 16;
 //static float INITIAL_SPAN = 0.001;
@@ -169,7 +171,16 @@
 	
 	
 		//Add a badge if this is NOT the first time data has been loaded
-		if (locations != nil) self.tabBarItem.badgeValue = @"!";
+		if (locations != nil) {
+			self.tabBarItem.badgeValue = @"!";
+			
+			AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+			
+			SystemSoundID alert;  
+			AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"mapChange" ofType:@"wav"]], &alert);  
+			AudioServicesPlaySystemSound (alert);  
+			
+		}
 	
 		//Blow away the old markers except for the player marker
 		NSEnumerator *existingAnnotationsEnumerator = [[[mapView annotations] copy] objectEnumerator];
