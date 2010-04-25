@@ -239,12 +239,8 @@ static const int kEmptyValue = -1;
 																	andServiceName:@"players" 
 																	 andMethodName:@"nodeViewed" 
 																	  andArguments:arguments];
-	[jsonConnection performAsynchronousRequestWithParser:nil]; 
-	
-	//Check for any updates to player state
-	[self fetchLocationList];
-	[self fetchQuestList];
-	[self fetchInventory];
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllLists)]; 
+
 }
 
 - (void)updateServerItemViewed: (int)itemId {
@@ -260,12 +256,8 @@ static const int kEmptyValue = -1;
 																	andServiceName:@"players" 
 																	 andMethodName:@"itemViewed" 
 																	  andArguments:arguments];
-	[jsonConnection performAsynchronousRequestWithParser:nil]; 
-	
-	//Check for any updates to player state
-	[self fetchLocationList];
-	[self fetchQuestList];
-	[self fetchInventory];
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllLists)]; 
+
 }
 
 - (void)updateServerNpcViewed: (int)npcId {
@@ -280,12 +272,7 @@ static const int kEmptyValue = -1;
 																	andServiceName:@"players" 
 																	 andMethodName:@"npcViewed" 
 																	  andArguments:arguments];
-	[jsonConnection performAsynchronousRequestWithParser:nil]; 
-	
-	//Check for any updates to player state
-	[self fetchLocationList];
-	[self fetchQuestList];
-	[self fetchInventory];
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllLists)]; 
 }
 
 
@@ -475,9 +462,8 @@ static const int kEmptyValue = -1;
 																	andServiceName:@"items" 
 																	 andMethodName:@"createItemAndGiveToPlayer" 
 																	  andArguments:arguments];
-	[jsonConnection performAsynchronousRequestWithParser:nil]; 
-	
-	[self fetchInventory];	
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllLists)]; 
+
 }
 
 - (void)uploadItemRequestFailed:(ASIHTTPRequest *)request
@@ -644,6 +630,13 @@ static const int kEmptyValue = -1;
 }	
 
 #pragma mark ASync Fetch selectors
+
+- (void)fetchAllLists{
+	[self fetchLocationList];
+	[self fetchQuestList];
+	[self fetchInventory];	
+}
+
 
 - (void)fetchLocationList {
 	NSLog(@"AppModel: Fetching Locations from Server");	
