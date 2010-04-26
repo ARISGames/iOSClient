@@ -91,6 +91,8 @@
 	
     [imageView setNeedsLayout];
     [self setNeedsLayout];
+	[self.superview setNeedsLayout];
+
 	[UIView beginAnimations:@"async" context:nil];
 	[UIView setAnimationCurve:UIViewAnimationCurveLinear];
 	[UIView setAnimationDuration:0.25];

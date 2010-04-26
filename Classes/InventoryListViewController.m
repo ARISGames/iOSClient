@@ -160,13 +160,11 @@
 	}
 	else {
 		//Load the Default
-		if ([media.type isEqualToString: @"Image"]) iconView.image = [UIImage imageNamed:@"defaultImageIcon.png"];
-		if ([media.type isEqualToString: @"Audio"]) iconView.image = [UIImage imageNamed:@"defaultAudioIcon.png"];
-		if ([media.type isEqualToString: @"Video"]) iconView.image = [UIImage imageNamed:@"defaultVideoIcon.png"];
+		if ([media.type isEqualToString: @"Image"]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultImageIcon.png"]];
+		if ([media.type isEqualToString: @"Audio"]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultAudioIcon.png"]];
+		if ([media.type isEqualToString: @"Video"]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultVideoIcon.png"]];
 	}
 	
-
-
 	return cell;
 }
 
