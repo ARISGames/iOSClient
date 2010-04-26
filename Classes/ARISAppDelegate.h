@@ -32,6 +32,9 @@
 #import "WaitingIndicatorViewController.h"
 #import "AudioToolbox/AudioToolbox.h"
 
+#import "Reachability.h"
+
+
 
 @interface ARISAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate> {
 	AppModel *appModel;
@@ -46,6 +49,8 @@
 	UINavigationController *nearbyObjectNavigationController;
 	WaitingIndicatorViewController *waitingIndicator;
 	UIAlertView *networkAlert;
+	NSString *internetReachability;
+	BOOL gotInternet;
 }
 
 @property (nonatomic, retain) AppModel *appModel;
@@ -62,10 +67,11 @@
 @property (nonatomic, retain) UIAlertView *networkAlert;
 
 
-- (void)displayNearbyObjectView:(UIViewController *)nearbyObjectViewController;
+- (void) displayNearbyObjectView:(UIViewController *)nearbyObjectViewController;
 - (void) showWaitingIndicator:(NSString *)message;
 - (void) removeWaitingIndicator;
 - (void) showNetworkAlert;
 - (void) removeNetworkAlert;
+- (BOOL) checkInternet;
 
 @end
