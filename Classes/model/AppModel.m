@@ -524,6 +524,12 @@ static const int kEmptyValue = -1;
 	
 }
 
+- (void) silenceNextServerUpdate {
+	NSLog(@"AppModel: silenceNextServerUpdate");
+	
+	NSNotification *notification = [NSNotification notificationWithName:@"SilentNextUpdate" object:nil];
+	[[NSNotificationCenter defaultCenter] postNotification:notification];
+}
 
 #pragma mark Sync Fetch selectors
 - (id) fetchFromService:(NSString *)aService usingMethod:(NSString *)aMethod 

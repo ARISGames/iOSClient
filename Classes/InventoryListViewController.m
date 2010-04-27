@@ -9,7 +9,6 @@
 #import "InventoryListViewController.h"
 #import "Media.h"
 #import "AsyncImageView.h"
-#import "AudioToolbox/AudioToolbox.h"
 
 
 @implementation InventoryListViewController
@@ -25,13 +24,19 @@
         self.title = @"Inventory";
         self.tabBarItem.image = [UIImage imageNamed:@"inventory.png"];
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
-
+		silenceNextServerUpdate = YES;
+		
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
 		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"ReceivedInventory" object:nil];
-		
+		[dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
+
     }
     return self;
+}
+
+- (void)silenceNextUpdate {
+	silenceNextServerUpdate = YES;
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -62,14 +67,14 @@
 	NSLog(@"InventoryListViewController: Refresh View from Model");
 	
 	//Add a badge if this is NOT the first time data has been loaded
-	if (inventory != nil) {
+	if (silenceNextServerUpdate == NO) {
 		self.tabBarItem.badgeValue = @"!";
-		AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+
+		ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+		[appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
 		
-		SystemSoundID alert;  
-		AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"inventoryChange" ofType:@"wav"]], &alert);  
-		AudioServicesPlaySystemSound (alert);  
 	}
+	else silenceNextServerUpdate = NO;
 	
 	inventory = appModel.inventory;
 	[inventoryTable reloadData];
@@ -185,6 +190,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {	
 	Item *selectedItem = [inventory objectAtIndex:[indexPath row]];
 	NSLog(@"Displaying Detail View: %@", selectedItem.name);
+	
+	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
 	
 	ItemDetailsViewController *itemDetailsViewController = [[ItemDetailsViewController alloc] 
 															initWithNibName:@"ItemDetailsView" bundle:[NSBundle mainBundle]];

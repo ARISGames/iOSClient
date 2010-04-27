@@ -9,7 +9,6 @@
 #import "ItemDetailsViewController.h"
 #import "ARISAppDelegate.h"
 #import "Media.h"
-#import "AudioToolbox/AudioToolbox.h"
 
 
 NSString *const kItemDetailsDescriptionHtmlTemplate = 
@@ -117,6 +116,9 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 - (IBAction)dropButtonTouchAction: (id) sender{
 	NSLog(@"ItemDetailsVC: Drop Button Pressed");
 	
+	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate playAudioAlert:@"drop" shouldVibrate:YES];
+	
 	[appModel updateServerDropItemHere:self.item.itemId];
 
 	
@@ -125,6 +127,8 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 										delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
 	[alert show];
 	[alert release];
+	
+	[appModel silenceNextServerUpdate];
 	
 	//Refresh Map Locations (To add this item)
 	[appModel fetchLocationList];
@@ -140,6 +144,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 - (IBAction)deleteButtonTouchAction: (id) sender{
 	NSLog(@"ItemDetailsVC: Destroy Button Pressed");
 
+	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate playAudioAlert:@"drop" shouldVibrate:YES];
+	
+
 	[appModel updateServerDestroyItem:self.item.itemId];
 	
 	
@@ -151,6 +159,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	 
 	
 	//Refresh the inventory
+	[appModel silenceNextServerUpdate];
 	[appModel fetchInventory];
 	
 	//Dismiss Item Details View
@@ -169,8 +178,12 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
 - (IBAction)pickupButtonTouchAction: (id) sender{
 	NSLog(@"ItemDetailsViewController: pickupButtonTouched");
+	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+
 	
 	if ([appModel.inventory containsObject:self.item]) {
+		[appDelegate playAudioAlert:@"error" shouldVibrate:YES];
+		
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Duplicate Item" message: @"You cannot carry any more of this item" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
 		[alert show];
 		[alert release];
@@ -180,11 +193,14 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	
 	[appModel updateServerPickupItem:self.item.itemId fromLocation:self.item.locationId];
 	
+	[appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
+	
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Picked up an Item" message: @"It is available in your inventory" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
 	
 	[alert show];
 	[alert release];
 	
+	[appModel silenceNextServerUpdate];
 	//Refresh Map Locations (to update quantities on the map)
 	[appModel fetchLocationList];
 	
@@ -256,9 +272,8 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 }
 
 - (void)toggleDescription:(id)sender {
-	SystemSoundID alert;  
-	AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"showDetails" ofType:@"wav"]], &alert);  
-	AudioServicesPlaySystemSound (alert);  
+	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate playAudioAlert:@"swish" shouldVibrate:YES];
 	
 	if (descriptionShowing) { //description is showing, so hide
 		[self hideView:itemDescriptionView];

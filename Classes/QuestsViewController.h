@@ -15,7 +15,7 @@
 	AppModel *appModel;
 	NSMutableArray *quests;
 	IBOutlet UITableView *tableView;
-
+	BOOL silenceNextServerUpdate;
 }
 
 @property(nonatomic, retain) IBOutlet UITableView *tableView;

@@ -21,6 +21,8 @@
 	BOOL autoCenter;
 	IBOutlet UIBarButtonItem *mapTypeButton;
 	IBOutlet UIBarButtonItem *playerTrackingButton;
+	BOOL silenceNextServerUpdate;
+
 }
 
 -(void) refresh;

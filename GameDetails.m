@@ -68,14 +68,9 @@ NSString *const kGameDetailsHtmlTemplate =
 	
 	scrollView.contentSize = CGSizeMake(contentView.frame.size.width,contentView.frame.size.height);
 	
-	NSString *resourcePath = [[NSString stringWithFormat:@"file:/%@//", [[[[NSBundle mainBundle] resourcePath]
-																stringByReplacingOccurrencesOfString:@"/" withString:@"//"]
-															   stringByReplacingOccurrencesOfString:@" " withString:@"%20"]] retain];
-	NSLog(@"GameDetails: Resource Path: %@", resourcePath);
-
 	NSString *htmlDescription = [NSString stringWithFormat:kGameDetailsHtmlTemplate, self.game.description];
 	NSLog(@"GameDetails: HTML Description: %@", htmlDescription);
-	[descriptionWebView loadHTMLString:htmlDescription baseURL:[NSURL URLWithString:resourcePath]];
+	[descriptionWebView loadHTMLString:htmlDescription baseURL:nil];
 	
 	
 	MKCoordinateRegion region = map.region;

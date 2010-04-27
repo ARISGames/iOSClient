@@ -7,7 +7,7 @@
 //
 
 #import "NearbyBar.h"
-#import "AudioToolbox/AudioToolbox.h"
+#import "ARISAppDelegate.h"
 
 
 @implementation NearbyBar
@@ -172,12 +172,8 @@
 		//If we have a new item, vibrate
 		if (newItem) {
 			
-			AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
-			
-			SystemSoundID alert;  
-			AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"nearbyObject" ofType:@"wav"]], &alert);  
-			AudioServicesPlaySystemSound (alert);  
-			
+			ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+			[appDelegate playAudioAlert:@"nearbyObject" shouldVibrate:YES];
 			
 			[[self indicator] setExpanded:YES];
 		}
@@ -352,7 +348,12 @@
 				NearbyBarItemView *myView;
 				while (myView = [viewEnumerator nextObject]) {
 					if (CGRectContainsPoint([myView frame], touchPoint)) {
+						
 						NSLog(@"NearbyBar: Found the object selected, displaying: %@", [myView title]);
+						
+						ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+						[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
+						
 						[[myView nearbyObject] display];
 					}
 				}

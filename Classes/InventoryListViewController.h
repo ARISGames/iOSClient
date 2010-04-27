@@ -16,6 +16,8 @@
 	AppModel *appModel;	
 	UITableView *inventoryTable;
 	NSMutableArray *inventory;
+	BOOL silenceNextServerUpdate;
+
 }
 
 @property(nonatomic, retain) IBOutlet UITableView *inventoryTable;

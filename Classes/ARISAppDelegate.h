@@ -73,5 +73,6 @@
 - (void) showNetworkAlert;
 - (void) removeNetworkAlert;
 - (BOOL) checkInternet;
+- (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate;
 
 @end

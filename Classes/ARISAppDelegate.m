@@ -226,6 +226,20 @@
 	if (self.waitingIndicator != nil) [self.waitingIndicator.view removeFromSuperview ];
 }
 
+- (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate{
+	NSLog(@"AppDelegate: Playing an audio Alert sound");
+	
+	//Vibrate
+	if (shouldVibrate == YES) 	AudioServicesPlaySystemSound (kSystemSoundID_Vibrate);  
+
+	//Play a sound
+	SystemSoundID alert;  
+	AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:wavFileName ofType:@"wav"]], &alert);  
+	AudioServicesPlaySystemSound (alert);  
+	
+}
+
+
 
 # pragma mark custom methods, notification handlers
 -(BOOL)checkInternet{
@@ -383,13 +397,7 @@
 	UIViewController *selViewController = [tabBarController selectedViewController];
 	[selViewController.navigationController.view removeFromSuperview];
 	
-	//Displays the view Controller
-	[window addSubview:viewController.navigationController.view];	
-	
-	//Play a sound
-	SystemSoundID alert;  
-	AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"switchTabs" ofType:@"wav"]], &alert);  
-	AudioServicesPlaySystemSound (alert);  
+	[self playAudioAlert:@"click" shouldVibrate:NO];
 	
 }
 

@@ -14,7 +14,6 @@
 #import "AnnotationView.h"
 #import "Media.h"
 #import "Annotation.h"
-#import "AudioToolbox/AudioToolbox.h"
 
 
 //static int DEFAULT_ZOOM = 16;
@@ -36,21 +35,27 @@
         self.title = @"GPS";
         self.tabBarItem.image = [UIImage imageNamed:@"gps.png"];
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
-		
+		silenceNextServerUpdate = YES;
 		autoCenter = YES;
 		
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
 		[dispatcher addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];
 		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"ReceivedLocationList" object:nil];
-		
-		
+		[dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];		
 	}
 	
     return self;
 }
+
+- (void)silenceNextUpdate {
+	silenceNextServerUpdate = YES;
+}
 		
 - (IBAction)changeMapType: (id) sender {
+	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate playAudioAlert:@"ticktick" shouldVibrate:NO];
+	
 	switch (mapView.mapType) {
 		case MKMapTypeStandard:
 			mapView.mapType=MKMapTypeSatellite;
@@ -65,11 +70,13 @@
 }
 
 - (IBAction)refreshButtonAction: (id) sender{
-
 	NSLog(@"GPSViewController: Refresh Button Touched");
-		
+	
+	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate playAudioAlert:@"ticktick" shouldVibrate:NO];
+	
+	
 	//Force a location update
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
 	[appDelegate.myCLController.locationManager stopUpdatingLocation];
 	[appDelegate.myCLController.locationManager startUpdatingLocation];
 
@@ -171,16 +178,14 @@
 	
 	
 		//Add a badge if this is NOT the first time data has been loaded
-		if (locations != nil) {
+		if (silenceNextServerUpdate == NO) {
 			self.tabBarItem.badgeValue = @"!";
 			
-			AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
-			
-			SystemSoundID alert;  
-			AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"mapChange" ofType:@"wav"]], &alert);  
-			AudioServicesPlaySystemSound (alert);  
+			ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+			[appDelegate playAudioAlert:@"mapChange" shouldVibrate:YES];
 			
 		}
+		else silenceNextServerUpdate = NO;
 	
 		//Blow away the old markers except for the player marker
 		NSEnumerator *existingAnnotationsEnumerator = [[[mapView annotations] copy] objectEnumerator];

@@ -147,6 +147,7 @@
 	
 	NSDictionary *dictionary = [NSDictionary dictionaryWithObject:selectedGame forKey:@"game"];
 	
+	[appModel silenceNextServerUpdate];
 	NSNotification *loginNotification = [NSNotification notificationWithName:@"SelectGame" object:self userInfo:dictionary];
 	[[NSNotificationCenter defaultCenter] postNotification:loginNotification];
 	

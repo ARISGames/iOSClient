@@ -11,7 +11,6 @@
 #import "Quest.h"
 #import "Media.h"
 #import "AsyncImageView.h"
-#import "AudioToolbox/AudioToolbox.h"
 
 
 static NSString * const OPTION_CELL = @"quest";
@@ -48,12 +47,19 @@ NSString *const kQuestsHtmlTemplate =
         self.title = @"Quests";
         self.tabBarItem.image = [UIImage imageNamed:@"quest.png"];
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
-		
+		silenceNextServerUpdate = YES;
+
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
 		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"ReceivedQuestList" object:nil];
+		[dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
+
     }
     return self;
+}
+
+- (void)silenceNextUpdate {
+	silenceNextServerUpdate = YES;
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -83,15 +89,14 @@ NSString *const kQuestsHtmlTemplate =
 	NSLog(@"QuestsViewController: Refreshing view from model");
 
 	//Add a badge if this is NOT the first time data has been loaded
-	if (quests != nil) { 
+	if (silenceNextServerUpdate == NO) {
 		self.tabBarItem.badgeValue = @"!";
 		
-		AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
-		
-		SystemSoundID alert;  
-		AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"questChange" ofType:@"wav"]], &alert);  
-		AudioServicesPlaySystemSound (alert); 
+		ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+		[appDelegate playAudioAlert:@"questChange" shouldVibrate:YES];
+				
 	}
+	else silenceNextServerUpdate = NO;
 	
 	//rebuild the list
 	NSArray *activeQuestsArray = [appModel.questList objectForKey:@"active"];

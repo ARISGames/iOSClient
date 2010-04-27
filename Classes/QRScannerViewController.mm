@@ -111,6 +111,9 @@
 	NSObject<QRCodeProtocol> *qrCodeObject = [appModel fetchQRCode:code];
 	
 	if (qrCodeObject == nil) {
+		ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+		[appDelegate playAudioAlert:@"error" shouldVibrate:NO];
+		
 		//Display an alert
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Scan Successful, But..." message:@"This code doesn't mean anything right now. You should come back later."
 			 delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
@@ -119,6 +122,9 @@
 					  
 	}
 	else {	
+		ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+		[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
+		
 		//Display the content
 		[qrCodeObject display];
 	}
@@ -135,6 +141,7 @@
 	//Stop Waiting Indicator
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
 	[appDelegate removeWaitingIndicator];
+	[appDelegate playAudioAlert:@"error" shouldVibrate:YES];
 	
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Decoding Error" message:@"Try scanning the code again: Step back 2 feet and hold the camera as still as possible"
 												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
