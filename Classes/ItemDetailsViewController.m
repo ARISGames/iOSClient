@@ -273,7 +273,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
 - (void)toggleDescription:(id)sender {
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate playAudioAlert:@"swish" shouldVibrate:YES];
+	[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
 	
 	if (descriptionShowing) { //description is showing, so hide
 		[self hideView:itemDescriptionView];
