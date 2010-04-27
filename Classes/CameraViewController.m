@@ -59,15 +59,14 @@
 	self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePickerController.sourceType];
 	self.imagePickerController.allowsEditing = YES;
 	self.imagePickerController.showsCameraControls = YES;
-
 	[self presentModalViewController:self.imagePickerController animated:YES];
-	[self.imagePickerController release];
 }
+
+
 - (IBAction)libraryButtonTouchAction {
 	NSLog(@"Library Button Pressed");
 	self.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
 	[self presentModalViewController:self.imagePickerController animated:YES];
-	[self.imagePickerController release];
 }
 
 
