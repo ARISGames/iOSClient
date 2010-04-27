@@ -166,6 +166,10 @@
 		else {
 			NSLog(@"Appdelegate: Player already logged in and they have a site selected. Go into the default module");
 			[appModel fetchMediaList];
+			[appModel fetchLocationList];
+			[appModel fetchInventory];
+			
+			[self playAudioAlert:@"questChange" shouldVibrate:NO];
 		}
 	}
 	else {
@@ -350,6 +354,10 @@
 	
 	NSLog(@"AppDelegate: %@ selected",[visibleViewController title]);
 	[appModel fetchMediaList];
+	[appModel fetchLocationList];
+	[appModel fetchInventory];
+	
+	[self playAudioAlert:@"questChange" shouldVibrate:NO];
 	
 	//Use setModel to refresh the content
 	if([visibleViewController respondsToSelector:@selector(refresh)]) {
