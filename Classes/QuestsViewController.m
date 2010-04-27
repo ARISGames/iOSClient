@@ -18,6 +18,23 @@ static NSString * const OPTION_CELL = @"quest";
 static int const ACTIVE_SECTION = 0;
 static int const COMPLETED_SECTION = 1;
 
+NSString *const kQuestsHtmlTemplate = 
+@"<html>"
+@"<head>"
+@"	<title>Aris</title>"
+@"	<style type='text/css'><!--"
+@"	body {"
+@"		background-color: #000000;"
+@"		color: #FFFFFF;"
+@"		font-size: 17px;"
+@"		font-family: Helvetia, Sans-Serif;"
+@"	}"
+@"	--></style>"
+@"</head>"
+@"<body>%@</body>"
+@"</html>";
+
+
 @implementation QuestsViewController
 
 @synthesize tableView;
@@ -92,8 +109,9 @@ static int const COMPLETED_SECTION = 1;
 	CGRect cellFrame = CGRectMake(0, 0, 300, 60);
 	CGRect iconFrame = CGRectMake(5, 5, 50, 50);
 	CGRect label1Frame = CGRectMake(70, 10, 230, 25);
-	CGRect label2Frame = CGRectMake(70, 35, 230, 30);
+	CGRect descriptionFrame = CGRectMake(70, 35, 230, 30);
 	UILabel *lblTemp;
+	UIWebView *descriptionView;
 	AsyncImageView *iconViewTemp;
 	
 	
@@ -113,15 +131,16 @@ static int const COMPLETED_SECTION = 1;
 	[cell.contentView addSubview:lblTemp];
 	[lblTemp release];
 	
-	//Initialize Label with tag 2.
-	lblTemp = [[UILabel alloc] initWithFrame:label2Frame];
-	lblTemp.tag = 2;
-	lblTemp.font = [UIFont boldSystemFontOfSize:12];
-	lblTemp.textColor = [UIColor lightGrayColor];
-	lblTemp.backgroundColor = [UIColor clearColor];
-	lblTemp.numberOfLines = 2;
-	[cell.contentView addSubview:lblTemp];
-	[lblTemp release];
+	//Initialize Description with tag 2.
+	descriptionView = [[UIWebView alloc] initWithFrame:descriptionFrame];
+	descriptionView.tag = 2;
+	[descriptionView setBackgroundColor:[UIColor clearColor]];
+//	lblTemp.font = [UIFont boldSystemFontOfSize:12];
+//	lblTemp.textColor = [UIColor lightGrayColor];
+//	lblTemp.backgroundColor = [UIColor clearColor];
+//	lblTemp.numberOfLines = 2;
+	[cell.contentView addSubview:descriptionView];
+	[descriptionView release];
 	
 	//Init Icon with tag 3
 	iconViewTemp = [[AsyncImageView alloc] initWithFrame:iconFrame];
@@ -129,7 +148,7 @@ static int const COMPLETED_SECTION = 1;
 	iconViewTemp.backgroundColor = [UIColor blackColor];
 	[cell.contentView addSubview:iconViewTemp];
 	[iconViewTemp release];
-	
+	[cell sizeToFit];
 	return cell;
 }
 
@@ -158,14 +177,34 @@ static int const COMPLETED_SECTION = 1;
 	NSArray *array = [quests objectAtIndex:section];	
 	Quest *quest = (Quest*)[array objectAtIndex:indexWithinSection];
 	
-	//Get the refrence to the cell's properties
+	//Get the reference to the cell's properties
 	UILabel *cellName = (UILabel *)[cell viewWithTag:1];
-	UILabel *cellDescription = (UILabel *)[cell viewWithTag:2];
+	UIWebView *cellDescription = (UIWebView *)[cell viewWithTag:2];
 	AsyncImageView *cellIconView = (AsyncImageView *)[cell viewWithTag:3];
 
 	//Set the name and description, those are easy
 	cellName.text = quest.name;
-	cellDescription.text = quest.description;
+	NSString *htmlDescription = [NSString stringWithFormat:kQuestsHtmlTemplate, quest.description];
+	NSLog(@"cellForRowAtIndex setting description to %@", htmlDescription);
+	[cellDescription loadHTMLString:htmlDescription baseURL:nil];
+	while (cellDescription.loading) {
+		NSLog(@"Loading...");
+	}
+	CGRect descriptionFrame = [cellDescription frame];
+	NSLog(@"Description Frame is {%f, %f, %f, %f}", 
+		  descriptionFrame.origin.x, 
+		  descriptionFrame.origin.y, 
+		  descriptionFrame.size.width,
+		  descriptionFrame.size.height);
+	NSString *newHeight = [cellDescription stringByEvaluatingJavaScriptFromString:@"document.body.clientHeight;"];
+	NSLog(@"New height should be %@", newHeight);
+	descriptionFrame.size = [cellDescription sizeThatFits:CGSizeMake(descriptionFrame.size.width,[[cellDescription stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight + document.body.offsetTop;"] floatValue])];
+	NSLog(@"New Description Frame should be {%f, %f, %f, %f}", 
+		  descriptionFrame.origin.x, 
+		  descriptionFrame.origin.y, 
+		  descriptionFrame.size.width,
+		  descriptionFrame.size.height);
+	[cellDescription setFrame:descriptionFrame];
 	
 	//Set the icon
 	if (quest.iconMediaId > 0) {
@@ -177,13 +216,14 @@ static int const COMPLETED_SECTION = 1;
 		if (section == COMPLETED_SECTION) cellIconView.image = [UIImage imageNamed:@"QuestCompleteIcon.png"];
 
 	}
-	
+	[cell sizeToFit];
 	return cell;
 }
 
 // Customize the height of each row
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 80;
+-(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+	UITableViewCell *cell = [self tableView:aTableView cellForRowAtIndexPath:indexPath];
+	return cell.frame.size.height ;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
