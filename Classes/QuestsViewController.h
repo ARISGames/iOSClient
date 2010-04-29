@@ -11,15 +11,17 @@
 #import "model/AppModel.h";
 
 
-@interface QuestsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate> {
+@interface QuestsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate, UIWebViewDelegate> {
 	AppModel *appModel;
 	NSMutableArray *quests;
+	NSMutableArray *questCells;
+	int cellsLoaded;
 	IBOutlet UITableView *tableView;
 	BOOL silenceNextServerUpdate;
 }
 
-@property(nonatomic, retain) IBOutlet UITableView *tableView;
 @property(nonatomic, retain) NSMutableArray *quests;
+@property(nonatomic, retain) NSMutableArray *questCells;
 
 
 - (void)refresh;

@@ -25,19 +25,27 @@ NSString *const kQuestsHtmlTemplate =
 @"	body {"
 @"		background-color: #000000;"
 @"		color: #FFFFFF;"
-@"		font-size: 17px;"
+@"		font-size: 14px;"
 @"		font-family: Helvetia, Sans-Serif;"
+@"		margin: 0;"
+@"	}"
+@"	h1 {"
+@"		background-color: #000000;"
+@"		color: #CCCCCC;"
+@"		font-size: 18px;"
+@"		font-style: bold;"
+@"		font-family: Helvetia, Sans-Serif;"
+@"		margin: 0 0 10 0;"
 @"	}"
 @"	--></style>"
 @"</head>"
-@"<body>%@</body>"
+@"<body><h1>%@</h1>%@</body>"
 @"</html>";
 
 
 @implementation QuestsViewController
 
-@synthesize tableView;
-@synthesize quests;
+@synthesize quests,questCells;
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
@@ -49,6 +57,8 @@ NSString *const kQuestsHtmlTemplate =
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
 		silenceNextServerUpdate = YES;
 
+		cellsLoaded = 0;
+		
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
 		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"ReceivedQuestList" object:nil];
@@ -103,137 +113,202 @@ NSString *const kQuestsHtmlTemplate =
 	NSArray *completedQuestsArray = [appModel.questList objectForKey:@"completed"];
 	
 	self.quests = [NSArray arrayWithObjects:activeQuestsArray, completedQuestsArray, nil];
+	[self.quests retain];
 
+	[self constructCells];
+}
+
+-(void)constructCells{
+	NSLog(@"QuestsVC: Constructing Cells");
+	//Iterate through each element in quests and save the cell into questCells
+	NSMutableArray *activeQuestCells = [NSMutableArray arrayWithCapacity:10];
+	NSMutableArray *completedQuestCells = [NSMutableArray arrayWithCapacity:10];
+	
+	NSArray *activeQuests = [quests objectAtIndex:ACTIVE_SECTION];
+	NSArray *completedQuests = [quests objectAtIndex:COMPLETED_SECTION];
+	NSEnumerator *e;
+	Quest *quest;
+	
+	e = [activeQuests objectEnumerator];
+	while ( (quest = (Quest*)[e nextObject]) ) {
+		[activeQuestCells addObject: [self getCellContentViewForQuest:quest inSection:ACTIVE_SECTION]];
+	}
+	
+	e = [completedQuests objectEnumerator];
+	while ( (quest = (Quest*)[e nextObject]) ) {
+		[completedQuestCells addObject:[self getCellContentViewForQuest:quest inSection:COMPLETED_SECTION]];
+	}
+	
+	self.questCells = [NSArray arrayWithObjects:activeQuestCells,completedQuestCells, nil];
+	[self.questCells retain];
+	
+	NSLog(@"QuestsVC: Cells created and stored in questCells");
+
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+	cellsLoaded++;
+	int cellTotal = [[self.quests objectAtIndex:ACTIVE_SECTION] count] + [[self.quests objectAtIndex:COMPLETED_SECTION] count];
+	
+	NSLog(@"QuestsViewController: VebView loaded: Cell Total:%d Current Cell Count:%d",cellTotal,cellsLoaded);
+
+	
+	if(cellsLoaded == cellTotal)
+	
+	{
+		cellsLoaded = 0;
+		[self performSelector:@selector(updateCellSizes) withObject:nil afterDelay:0.1];
+	}
+}
+
+-(void)updateCellSizes{
+	//Loop through each object in quests and calculate the heights
+
+	NSArray *activeQuestCells = [questCells objectAtIndex:ACTIVE_SECTION];
+	NSArray *completedQuestCells = [questCells objectAtIndex:COMPLETED_SECTION];
+	NSEnumerator *e;
+	UITableViewCell *cell;
+	
+	e = [activeQuestCells objectEnumerator];
+	while ( (cell = (UITableViewCell*)[e nextObject]) ) {
+		[self updateCellSize:cell];
+	}
+	
+	e = [completedQuestCells objectEnumerator];
+	while ( (cell = (UITableViewCell*)[e nextObject]) ) {
+		[self updateCellSize:cell];
+	}
+	
 	[tableView reloadData];
 }
+
+-(void)updateCellSize:(UITableViewCell*)cell {
+	NSLog(@"QuestViewController: Updating Cell Sizes");
+
+	UIWebView *descriptionView = (UIWebView *)[cell viewWithTag:1];
+	float newHeight = [[descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
+	
+	NSLog(@"QuestViewController: Description View Calculated Height is: %f",newHeight);
+
+	
+	CGRect descriptionFrame = [descriptionView frame];	
+	descriptionFrame.size = CGSizeMake(descriptionFrame.size.width,newHeight);
+	[descriptionView setFrame:descriptionFrame];	
+	NSLog(@"QuestViewController: description UIWebView frame set to {%f, %f, %f, %f}", 
+		  descriptionFrame.origin.x, 
+		  descriptionFrame.origin.y, 
+		  descriptionFrame.size.width,
+		  descriptionFrame.size.height);
+	
+	CGRect cellFrame = [cell frame];
+	cellFrame.size = CGSizeMake(cell.frame.size.width,newHeight + 25);
+	[cell setFrame:cellFrame];
+
+	NSLog(@"QuestViewController: cell frame set to {%f, %f, %f, %f}", 
+		  cell.frame.origin.x, 
+		  cell.frame.origin.y, 
+		  cell.frame.size.width,
+		  cell.frame.size.height);
+}
+	
 
 
 #pragma mark PickerViewDelegate selectors
 
-- (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier {
-	CGRect cellFrame = CGRectMake(0, 0, 300, 60);
+- (UITableViewCell *) getCellContentViewForQuest:(Quest *)quest inSection:(int)section {
+	CGRect cellFrame = CGRectMake(0, 0, 300, 100);
 	CGRect iconFrame = CGRectMake(5, 5, 50, 50);
-	CGRect label1Frame = CGRectMake(70, 10, 230, 25);
-	CGRect descriptionFrame = CGRectMake(70, 35, 230, 30);
-	UILabel *lblTemp;
+	//CGRect nameFrame = CGRectMake(70, 10, 230, 25);
+	CGRect descriptionFrame = CGRectMake(70, 10, 230, 50);
+	
+	//UILabel *nameView;
 	UIWebView *descriptionView;
-	AsyncImageView *iconViewTemp;
+	AsyncImageView *iconView;
 	
+	UITableViewCell *cell = [[UITableViewCell alloc] initWithFrame:cellFrame];
 	
-	UITableViewCell *cell = [[[UITableViewCell alloc] initWithFrame:cellFrame 
-													reuseIdentifier:cellIdentifier] autorelease];
+	/*
+	UITableViewCell *cell = [[UITableViewCell alloc] initWithFrame:cellFrame 
+													reuseIdentifier:OPTION_CELL];
+	*/
 	
 	//Setup Cell
 	UIView *transparentBackground = [[UIView alloc] initWithFrame:CGRectZero];
     transparentBackground.backgroundColor = [UIColor clearColor];
     cell.backgroundView = transparentBackground;
 	
-	//Initialize Label with tag 1.
-	lblTemp = [[UILabel alloc] initWithFrame:label1Frame];
-	lblTemp.tag = 1;
-	lblTemp.textColor = [UIColor whiteColor];
-	lblTemp.backgroundColor = [UIColor clearColor];
-	[cell.contentView addSubview:lblTemp];
-	[lblTemp release];
+	//Initialize Label
+	//nameView = [[UILabel alloc] initWithFrame:nameFrame];
+	//nameView.textColor = [UIColor whiteColor];
+	//nameView.backgroundColor = [UIColor clearColor];
+	//nameView.text = quest.name;
+	//[cell.contentView addSubview:nameView];
+	//[nameView release];
 	
-	//Initialize Description with tag 2.
+	//Initialize Description with Tag 1
 	descriptionView = [[UIWebView alloc] initWithFrame:descriptionFrame];
-	descriptionView.tag = 2;
+	descriptionView.delegate = self;
+	descriptionView.tag = 1;
 	[descriptionView setBackgroundColor:[UIColor clearColor]];
-//	lblTemp.font = [UIFont boldSystemFontOfSize:12];
-//	lblTemp.textColor = [UIColor lightGrayColor];
-//	lblTemp.backgroundColor = [UIColor clearColor];
-//	lblTemp.numberOfLines = 2;
+	NSString *htmlDescription = [NSString stringWithFormat:kQuestsHtmlTemplate, quest.name, quest.description];
+	[descriptionView loadHTMLString:htmlDescription baseURL:nil];
 	[cell.contentView addSubview:descriptionView];
 	[descriptionView release];
 	
-	//Init Icon with tag 3
-	iconViewTemp = [[AsyncImageView alloc] initWithFrame:iconFrame];
-	iconViewTemp.tag = 3;
-	iconViewTemp.backgroundColor = [UIColor blackColor];
-	[cell.contentView addSubview:iconViewTemp];
-	[iconViewTemp release];
-	[cell sizeToFit];
-	return cell;
-}
-
-
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [quests count];
-}
-
-// returns the # of rows in each component..
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	NSArray *array = [quests objectAtIndex:section];
-	return [array count];
-}
-
-// Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)nibTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {	
-	//Get the cell definition
-	UITableViewCell *cell = [nibTableView dequeueReusableCellWithIdentifier:OPTION_CELL];	
-	if(cell == nil) cell = [self getCellContentView:OPTION_CELL];
-	
-	//Get the quest object
-	int section = indexPath.section;
-	int indexWithinSection = indexPath.row;
-	
-	NSArray *array = [quests objectAtIndex:section];	
-	Quest *quest = (Quest*)[array objectAtIndex:indexWithinSection];
-	
-	//Get the reference to the cell's properties
-	UILabel *cellName = (UILabel *)[cell viewWithTag:1];
-	UIWebView *cellDescription = (UIWebView *)[cell viewWithTag:2];
-	AsyncImageView *cellIconView = (AsyncImageView *)[cell viewWithTag:3];
-
-	//Set the name and description, those are easy
-	cellName.text = quest.name;
-	NSString *htmlDescription = [NSString stringWithFormat:kQuestsHtmlTemplate, quest.description];
-	NSLog(@"cellForRowAtIndex setting description to %@", htmlDescription);
-	[cellDescription loadHTMLString:htmlDescription baseURL:nil];
-	while (cellDescription.loading) {
-		NSLog(@"Loading...");
-	}
-	CGRect descriptionFrame = [cellDescription frame];
-	NSLog(@"Description Frame is {%f, %f, %f, %f}", 
-		  descriptionFrame.origin.x, 
-		  descriptionFrame.origin.y, 
-		  descriptionFrame.size.width,
-		  descriptionFrame.size.height);
-	NSString *newHeight = [cellDescription stringByEvaluatingJavaScriptFromString:@"document.body.clientHeight;"];
-	NSLog(@"New height should be %@", newHeight);
-	descriptionFrame.size = [cellDescription sizeThatFits:CGSizeMake(descriptionFrame.size.width,[[cellDescription stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight + document.body.offsetTop;"] floatValue])];
-	NSLog(@"New Description Frame should be {%f, %f, %f, %f}", 
-		  descriptionFrame.origin.x, 
-		  descriptionFrame.origin.y, 
-		  descriptionFrame.size.width,
-		  descriptionFrame.size.height);
-	[cellDescription setFrame:descriptionFrame];
+	//Init Icon
+	iconView = [[AsyncImageView alloc] initWithFrame:iconFrame];
+	//nameView.backgroundColor = [UIColor blackColor];
 	
 	//Set the icon
 	if (quest.iconMediaId > 0) {
 		Media *iconMedia = [appModel.mediaList objectForKey:[NSNumber numberWithInt:quest.iconMediaId]];
-		[cellIconView loadImageFromMedia:iconMedia];
+		[iconView loadImageFromMedia:iconMedia];
 	}
 	else {
-		if (section == ACTIVE_SECTION) cellIconView.image = [UIImage imageNamed:@"QuestActiveIcon.png"];
-		if (section == COMPLETED_SECTION) cellIconView.image = [UIImage imageNamed:@"QuestCompleteIcon.png"];
-
+		if (section == ACTIVE_SECTION) iconView.image = [UIImage imageNamed:@"QuestActiveIcon.png"];
+		if (section == COMPLETED_SECTION) iconView.image = [UIImage imageNamed:@"QuestCompleteIcon.png"];
+		
 	}
-	[cell sizeToFit];
+	[cell.contentView addSubview:iconView];
+	[iconView release];
+	
 	return cell;
 }
 
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    int num = [questCells count]; 
+	NSLog(@"QuestsVC: %d sections in table", num);
+	return num;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+	NSArray *array = [questCells objectAtIndex:section];
+	int num = [array count];
+	NSLog(@"QuestsVC: %d rows in section %d",num,section);
+	return num;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)nibTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {	
+	NSArray *sectionArray = [questCells objectAtIndex:indexPath.section];
+	UITableViewCell *cell = [sectionArray objectAtIndex:indexPath.row];
+	NSLog(@"QuestsVC: Returning a cell for section: %d row: %d",indexPath.section,indexPath.row);
+
+	return cell;
+}
+
+
 // Customize the height of each row
 -(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	UITableViewCell *cell = [self tableView:aTableView cellForRowAtIndexPath:indexPath];
-	return cell.frame.size.height ;
+	UITableViewCell *cell = [[questCells objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+	int height = cell.frame.size.height;
+	NSLog(@"QuestsVC: Height for Cell: %d",height);
+	return height;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	//Don't do anything just yet
-	//We should add a long description area here
+	//We could add a long description area here
 }
 
 - (NSString *)tableView:(UITableView *)view titleForHeaderInSection:(NSInteger)section {
@@ -269,7 +344,6 @@ NSString *const kQuestsHtmlTemplate =
 }
 
 - (void)dealloc {
-	[appModel release];
     [super dealloc];
 }
 
