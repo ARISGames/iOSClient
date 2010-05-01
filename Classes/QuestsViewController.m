@@ -112,6 +112,7 @@ NSString *const kQuestsHtmlTemplate =
 	NSArray *activeQuestsArray = [appModel.questList objectForKey:@"active"];
 	NSArray *completedQuestsArray = [appModel.questList objectForKey:@"completed"];
 	
+	if (self.quests) [self.quests release];
 	self.quests = [NSArray arrayWithObjects:activeQuestsArray, completedQuestsArray, nil];
 	[self.quests retain];
 
@@ -124,8 +125,8 @@ NSString *const kQuestsHtmlTemplate =
 	NSMutableArray *activeQuestCells = [NSMutableArray arrayWithCapacity:10];
 	NSMutableArray *completedQuestCells = [NSMutableArray arrayWithCapacity:10];
 	
-	NSArray *activeQuests = [quests objectAtIndex:ACTIVE_SECTION];
-	NSArray *completedQuests = [quests objectAtIndex:COMPLETED_SECTION];
+	NSArray *activeQuests = [self.quests objectAtIndex:ACTIVE_SECTION];
+	NSArray *completedQuests = [self.quests objectAtIndex:COMPLETED_SECTION];
 	NSEnumerator *e;
 	Quest *quest;
 	
@@ -141,6 +142,8 @@ NSString *const kQuestsHtmlTemplate =
 	
 	self.questCells = [NSArray arrayWithObjects:activeQuestCells,completedQuestCells, nil];
 	[self.questCells retain];
+	
+	if ([activeQuestCells count] == 0 && [completedQuestCells count] == 0) [tableView reloadData];
 	
 	NSLog(@"QuestsVC: Cells created and stored in questCells");
 
