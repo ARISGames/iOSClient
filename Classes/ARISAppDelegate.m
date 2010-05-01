@@ -27,20 +27,6 @@
 //@synthesize toolbarViewController;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
-	gotInternet = [self checkInternet]; //Test for Internet, calling the self method
-	if ( gotInternet == 0) {
-		//I have no internet
-		NSLog(@"hey, i have no internets");
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"No connection to the Internet" message: @"Please connect to the internet and restart ARIS" delegate: self cancelButtonTitle: nil otherButtonTitles: nil];
-		[alert show];
-		[alert release];
-		return;
-		
-	} else {
-		//I do have internet
-		NSLog(@"hey, i have internets: all systems go");
-	}
-	
 	
 	//Don't sleep
 	application.idleTimerDisabled = YES;
@@ -55,6 +41,23 @@
 	//Load defaults from UserDefaults
 	[appModel loadUserDefaults];
 	[appModel retain];
+	
+	
+	//Check for Internet conductivity
+	NSLog(@"AppDelegate: Verifying Connection to: %@",appModel.serverName);
+	Reachability *r = [Reachability reachabilityWithHostName:appModel.serverName];
+	NetworkStatus internetStatus = [r currentReachabilityStatus];
+	BOOL connection = (internetStatus == ReachableViaWiFi) || (internetStatus == ReachableViaWWAN);
+	//connection = YES; //For debugging locally
+	if (!connection) {
+		NSLog(@"AppDelegate: Internet Connection Failed");
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"No connection to the Internet" message: @"Please connect to the internet and restart ARIS" delegate: self cancelButtonTitle: nil otherButtonTitles: nil];
+		[alert show];
+		[alert release];
+		return;
+	} else {
+		NSLog(@"AppDelegate: Internet Connection Functional");
+	}
 
 	//register for notifications from views
 	NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
@@ -244,20 +247,6 @@
 }
 
 
-
-# pragma mark custom methods, notification handlers
--(BOOL)checkInternet{
-	//Test for Internet Connection
-	Reachability *r = [Reachability reachabilityWithHostName:@"arisgames.org"];
-	NetworkStatus internetStatus = [r currentReachabilityStatus];
-	BOOL internet;
-	if ((internetStatus != ReachableViaWiFi) && (internetStatus != ReachableViaWWAN)) {
-		internet = NO;
-	} else {
-		internet = YES;
-	}
-	return internet;
-}
 
 
 
