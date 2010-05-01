@@ -49,8 +49,6 @@
 	UINavigationController *nearbyObjectNavigationController;
 	WaitingIndicatorViewController *waitingIndicator;
 	UIAlertView *networkAlert;
-	NSString *internetReachability;
-	BOOL gotInternet;
 }
 
 @property (nonatomic, retain) AppModel *appModel;

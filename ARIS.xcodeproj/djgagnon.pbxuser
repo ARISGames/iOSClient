@@ -2,9 +2,9 @@
 {
 	1D3623240D0F684500981E51 /* ARISAppDelegate.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {925, 1027}}";
-			sepNavSelRange = "{2621, 0}";
-			sepNavVisRange = "{1476, 1320}";
+			sepNavIntBoundsRect = "{{0, 0}, {961, 988}}";
+			sepNavSelRange = "{1504, 0}";
+			sepNavVisRange = "{828, 1581}";
 		};
 	};
 	1D3623250D0F684500981E51 /* ARISAppDelegate.m */ = {
@@ -316,6 +316,11 @@
 			AB5BA5AC118CEC7800E5FF00 /* PBXTextBookmark */ = AB5BA5AC118CEC7800E5FF00 /* PBXTextBookmark */;
 			AB5BA5AD118CEC7800E5FF00 /* PBXTextBookmark */ = AB5BA5AD118CEC7800E5FF00 /* PBXTextBookmark */;
 			AB5BA5AE118CEC7800E5FF00 /* PBXTextBookmark */ = AB5BA5AE118CEC7800E5FF00 /* PBXTextBookmark */;
+			AB5BA5B1118CECBB00E5FF00 /* PBXTextBookmark */ = AB5BA5B1118CECBB00E5FF00 /* PBXTextBookmark */;
+			AB5BA5B2118CECBB00E5FF00 /* PBXTextBookmark */ = AB5BA5B2118CECBB00E5FF00 /* PBXTextBookmark */;
+			AB5BA5B3118CECBB00E5FF00 /* PBXTextBookmark */ = AB5BA5B3118CECBB00E5FF00 /* PBXTextBookmark */;
+			AB5BA5B4118CECBB00E5FF00 /* PBXTextBookmark */ = AB5BA5B4118CECBB00E5FF00 /* PBXTextBookmark */;
+			AB5BA5B5118CECBB00E5FF00 /* PBXTextBookmark */ = AB5BA5B5118CECBB00E5FF00 /* PBXTextBookmark */;
 			AB5F570611627E2500506AAF = AB5F570611627E2500506AAF /* PBXTextBookmark */;
 			AB5F570711627E2500506AAF = AB5F570711627E2500506AAF /* PBXTextBookmark */;
 			AB5F570B11627E2500506AAF = AB5F570B11627E2500506AAF /* PBXTextBookmark */;
@@ -2109,6 +2114,56 @@
 		vrLen = 1246;
 		vrLoc = 646;
 	};
+	AB5BA5B1118CECBB00E5FF00 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB8FD00A117BCF61004F8B9B /* GameDetails.m */;
+		name = "GameDetails.m: 9";
+		rLen = 0;
+		rLoc = 161;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	AB5BA5B2118CECBB00E5FF00 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = ABF4A390116847900043EB1C /* Reachability.h */;
+		name = "Reachability.h: 66";
+		rLen = 47;
+		rLoc = 2971;
+		rType = 0;
+		vrLen = 102;
+		vrLoc = 2764;
+	};
+	AB5BA5B3118CECBB00E5FF00 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 51";
+		rLen = 0;
+		rLoc = 1447;
+		rType = 0;
+		vrLen = 1246;
+		vrLoc = 646;
+	};
+	AB5BA5B4118CECBB00E5FF00 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
+		name = "ARISAppDelegate.h: 76";
+		rLen = 82;
+		rLoc = 2656;
+		rType = 0;
+		vrLen = 1487;
+		vrLoc = 1309;
+	};
+	AB5BA5B5118CECBB00E5FF00 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
+		name = "ARISAppDelegate.h: 52";
+		rLen = 0;
+		rLoc = 1504;
+		rType = 0;
+		vrLen = 1581;
+		vrLoc = 828;
+	};
 	AB5F570611627E2500506AAF /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = ABD5C4E7104F1A0E002EB824 /* Npc.h */;
@@ -2301,7 +2356,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 76";
 		rLen = 82;
-		rLoc = 2708;
+		rLoc = 2656;
 		rType = 0;
 		vrLen = 1487;
 		vrLoc = 1309;
@@ -2491,7 +2546,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 72";
 		rLen = 0;
-		rLoc = 2621;
+		rLoc = 2569;
 		rType = 0;
 		vrLen = 1320;
 		vrLoc = 1476;
@@ -2908,9 +2963,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 43;
-		modificationTime = 294448217.796646;
+		modificationTime = 294448310.53568;
 		originalNumberOfMultipleMatches = 1;
-		state = 0;
+		state = 1;
 	};
 	ABC399B0116B9209002185D4 /* AudioMeterViewController.m:21 */ = {
 		isa = PBXFileBreakpoint;
@@ -2925,9 +2980,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 21;
-		modificationTime = 294448217.79666;
+		modificationTime = 294448310.535658;
 		originalNumberOfMultipleMatches = 1;
-		state = 0;
+		state = 1;
 	};
 	ABC399CD116B9EBC002185D4 /* AudioMeter.h */ = {
 		uiCtxt = {
@@ -3048,9 +3103,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 78;
-		modificationTime = 294448217.796686;
+		modificationTime = 294448310.535692;
 		originalNumberOfMultipleMatches = 1;
-		state = 0;
+		state = 1;
 	};
 	ABC39B22116BD28F002185D4 /* TitleAndDecriptionFormViewController.h */ = {
 		uiCtxt = {
@@ -3124,9 +3179,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 34;
-		modificationTime = 294448217.796602;
+		modificationTime = 294448310.535706;
 		originalNumberOfMultipleMatches = 1;
-		state = 0;
+		state = 1;
 	};
 	ABCC330F114C5CA300BB485D /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
