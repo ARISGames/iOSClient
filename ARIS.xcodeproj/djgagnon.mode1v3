@@ -216,7 +216,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>AB5BA64A118D240400E5FF00</string>
+						<string>AB5BA657118D255200E5FF00</string>
 						<key>history</key>
 						<array>
 							<string>AB5BA60F118CF04900E5FF00</string>
@@ -309,19 +309,18 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateExpansionKey</key>
 							<array>
 								<string>29B97314FDCFA39411CA2CEA</string>
-								<string>A7986D6A0F8FEC7200A5469F</string>
 								<string>1C37FBAC04509CD000000102</string>
 								<string>1C37FABC05509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>54</integer>
-									<integer>53</integer>
+									<integer>24</integer>
+									<integer>23</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 357}, {254, 731}}</string>
+							<string>{{0, 0}, {254, 731}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -370,7 +369,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>AB5BA646118D240400E5FF00</string>
+										<string>AB5BA654118D255200E5FF00</string>
 										<key>history</key>
 										<array>
 											<string>AB549EF01047058D00A901EF</string>
@@ -542,7 +541,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>AB5BA647118D240400E5FF00</string>
+										<string>AB5BA655118D255200E5FF00</string>
 										<key>history</key>
 										<array>
 											<string>AB549EF01047058D00A901EF</string>
@@ -715,7 +714,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>AB5BA649118D240400E5FF00</string>
+										<string>AB5BA656118D255200E5FF00</string>
 										<key>history</key>
 										<array>
 											<string>AB549EF01047058D00A901EF</string>
@@ -1052,7 +1051,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>AB5BA64B118D240400E5FF00</string>
 		<string>AB5BA538118CC60700E5FF00</string>
 		<string>AB5BA528118CC1FF00E5FF00</string>
 		<string>1CD10A99069EF8BA00B06720</string>
