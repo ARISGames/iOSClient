@@ -48,7 +48,7 @@
 	Reachability *r = [Reachability reachabilityWithHostName:appModel.serverName];
 	NetworkStatus internetStatus = [r currentReachabilityStatus];
 	BOOL connection = (internetStatus == ReachableViaWiFi) || (internetStatus == ReachableViaWWAN);
-	//connection = YES; //For debugging locally
+	connection = YES; //For debugging locally
 	if (!connection) {
 		NSLog(@"AppDelegate: Internet Connection Failed");
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"No connection to the Internet" message: @"Please connect to the internet and restart ARIS" delegate: self cancelButtonTitle: nil otherButtonTitles: nil];
