@@ -17,6 +17,7 @@
 const NSInteger kStartingIndex = 0;
 const NSInteger kPcIndex = 0;
 const NSInteger kMaxOptions = 20;
+const NSInteger kOptionsFontSize = 17;
 NSString *const kOutAnimation = @"out";
 NSString *const kInAnimation = @"in";
 NSString *const kPcContinue = @"Tap to continue.";
@@ -454,7 +455,29 @@ NSString *const kHtmlTemplate =
 
 	cell.textLabel.text = option.text;
 	cell.textLabel.textColor = [UIColor whiteColor];
+	cell.textLabel.minimumFontSize = kOptionsFontSize;
+	
+	//Automatically size based on contents
+	cell.textLabel.numberOfLines = 0;
+	[cell.textLabel sizeToFit];
+	
 	return cell;
+}
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+	NodeOption *option = [optionList objectAtIndex:indexPath.row];
+
+	CGFloat maxWidth = [UIScreen mainScreen].bounds.size.width - 50;
+    CGFloat maxHeight = 9999;
+    CGSize maximumLabelSize = CGSizeMake(maxWidth,maxHeight);
+	
+    CGSize expectedLabelSize = [option.text sizeWithFont:[UIFont systemFontOfSize:kOptionsFontSize] 
+									   constrainedToSize:maximumLabelSize lineBreakMode:UILineBreakModeWordWrap]; 
+	
+	return expectedLabelSize.height + 40;
+	
+	
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
