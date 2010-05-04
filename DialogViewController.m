@@ -25,11 +25,18 @@ NSString *const kPcReview = @"Tap to review.";
 NSString *const kPlayerName = @"You";
 
 
-NSString *const kHtmlTemplate = 
+NSString *const kDialogHtmlTemplate = 
 @"<html>"
 @"<head>"
 @"	<title>Aris</title>"
-@"	<link rel='stylesheet' type='text/css' href='aris.css' />"
+@"	<style type='text/css'><!--"
+@"	body {"
+@"		background-color: transparent;"
+@"		color: #FFFFFF;"
+@"		font-size: 19px;"
+@"		font-family: Helvetia, Sans-Serif;"
+@"	}"
+@"	--></style>"
 @"</head>"
 @"<body>%@</body>"
 @"</html>";
@@ -76,11 +83,7 @@ NSString *const kHtmlTemplate =
 	self.title = currentNpc.name;
 	[self loadNPCImage:currentNpc.mediaId];
 	
-	resourcePath = [[NSString stringWithFormat:@"file:/%@//", [[[[NSBundle mainBundle] resourcePath]
-					 stringByReplacingOccurrencesOfString:@"/" withString:@"//"]
-					stringByReplacingOccurrencesOfString:@" " withString:@"%20"]] retain];
-	NSLog(@"DialogVC: Resource Path: %@",resourcePath);
-	
+
 	npcScrollView.contentSize = [npcView frame].size;
 	pcScrollView.contentSize = [pcView frame].size;
 	
@@ -102,8 +105,8 @@ NSString *const kHtmlTemplate =
 
 	
 	npcWebView.hidden = NO;
-	[npcWebView loadHTMLString:[NSString stringWithFormat:kHtmlTemplate, [currentNpc greeting]] 
-					   baseURL:[NSURL URLWithString:resourcePath]];
+	[npcWebView loadHTMLString:[NSString stringWithFormat:kDialogHtmlTemplate, [currentNpc greeting]] 
+					   baseURL:nil];
 
 	pcAnswerView.delegate = self;
 	
@@ -231,8 +234,8 @@ NSString *const kHtmlTemplate =
 		
 		cachedScrollView = pcImage;
 		[pcScrollView zoomToRect:[pcImage frame] animated:NO];
-		[pcWebView loadHTMLString:[NSString stringWithFormat:kHtmlTemplate, @""] 
-								 baseURL:[NSURL URLWithString:resourcePath]];
+		[pcWebView loadHTMLString:[NSString stringWithFormat:kDialogHtmlTemplate, @""] 
+								 baseURL:nil];
 		
 		[self moveAllOutWithPostSelector:nil];
 		[self movePcIn];
@@ -305,8 +308,8 @@ NSString *const kHtmlTemplate =
 	isCurrentlyDisplayed = [characterWebView alpha] < 1;
 	NSLog(@"Character %d IsCurrentlyDisplayed: %d", currentCharacter, isCurrentlyDisplayed);
 	
-	[characterWebView loadHTMLString:[NSString stringWithFormat:kHtmlTemplate, cachedScene.text] 
-							 baseURL:[NSURL URLWithString:resourcePath]];
+	[characterWebView loadHTMLString:[NSString stringWithFormat:kDialogHtmlTemplate, cachedScene.text] 
+							 baseURL:nil];
 	if (isCurrentlyDisplayed) {
 		[UIView beginAnimations:@"dialog" context:nil];
 		[UIView setAnimationCurve:UIViewAnimationCurveLinear];

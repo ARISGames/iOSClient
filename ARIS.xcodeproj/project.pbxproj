@@ -234,7 +234,6 @@
 		D42432631107735800E58147 /* DialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D42432621107735800E58147 /* DialogViewController.m */; };
 		D4243268110773EB00E58147 /* Dialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4243267110773EB00E58147 /* Dialog.xib */; };
 		D43717DF106D62BB0020C515 /* Media.m in Sources */ = {isa = PBXBuildFile; fileRef = D43717DE106D62BB0020C515 /* Media.m */; };
-		D443855D1108B0100053E9FD /* aris.css in Resources */ = {isa = PBXBuildFile; fileRef = D443855C1108B0100053E9FD /* aris.css */; };
 		D4D366AC111B65E0009C4D00 /* AudioStreamer.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D366AB111B65E0009C4D00 /* AudioStreamer.m */; };
 		D4D366DF111B6789009C4D00 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D366DE111B6789009C4D00 /* CFNetwork.framework */; };
 		D4DE6B8B110A00D7008BFE38 /* defaultCharacter.png in Resources */ = {isa = PBXBuildFile; fileRef = D4DE6B8A110A00D7008BFE38 /* defaultCharacter.png */; };
@@ -550,7 +549,6 @@
 		D4243267110773EB00E58147 /* Dialog.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Dialog.xib; sourceTree = "<group>"; };
 		D43717DD106D62BB0020C515 /* Media.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Media.h; sourceTree = "<group>"; };
 		D43717DE106D62BB0020C515 /* Media.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Media.m; sourceTree = "<group>"; };
-		D443855C1108B0100053E9FD /* aris.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = aris.css; sourceTree = "<group>"; };
 		D4D366AA111B65E0009C4D00 /* AudioStreamer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioStreamer.h; sourceTree = "<group>"; };
 		D4D366AB111B65E0009C4D00 /* AudioStreamer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioStreamer.m; sourceTree = "<group>"; };
 		D4D366DE111B6789009C4D00 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -1139,7 +1137,6 @@
 				D424324A1107730E00E58147 /* Scene.m */,
 				D424324B1107730E00E58147 /* SceneParser.h */,
 				D424324C1107730E00E58147 /* SceneParser.m */,
-				D443855C1108B0100053E9FD /* aris.css */,
 				D4DE6B8A110A00D7008BFE38 /* defaultCharacter.png */,
 			);
 			name = Dialog;
@@ -1258,7 +1255,6 @@
 				ABD6226210D6FBB400D3B747 /* QuestCompleteIcon.png in Resources */,
 				ABD6226510D6FBCE00D3B747 /* logout.png in Resources */,
 				D4243268110773EB00E58147 /* Dialog.xib in Resources */,
-				D443855D1108B0100053E9FD /* aris.css in Resources */,
 				D4DE6B8B110A00D7008BFE38 /* defaultCharacter.png in Resources */,
 				AB0DE80511559CF000A6EC3E /* AudioRecorderViewController.xib in Resources */,
 				AB4150B61159291400DBA15F /* microphoneBackground.jpg in Resources */,

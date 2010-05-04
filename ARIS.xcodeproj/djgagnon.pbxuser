@@ -46,9 +46,9 @@
 		};
 	};
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
-		activeBuildConfigurationName = Debug;
+		activeBuildConfigurationName = Distribution;
 		activeExecutable = AB4B1015103CF1360061AD3D /* ARIS */;
-		activeSDKPreference = iphonesimulator3.1.3;
+		activeSDKPreference = iphoneos3.1.3;
 		activeTarget = 1D6058900D05DD3D006BFB54 /* ARIS */;
 		addToTargets = (
 			1D6058900D05DD3D006BFB54 /* ARIS */,
@@ -272,6 +272,9 @@
 			AB50891011909C1F0002FCFA /* PlistBookmark */ = AB50891011909C1F0002FCFA /* PlistBookmark */;
 			AB50891111909C1F0002FCFA /* PlistBookmark */ = AB50891111909C1F0002FCFA /* PlistBookmark */;
 			AB50891211909C1F0002FCFA /* PBXTextBookmark */ = AB50891211909C1F0002FCFA /* PBXTextBookmark */;
+			AB50893B11909C6B0002FCFA /* PBXTextBookmark */ = AB50893B11909C6B0002FCFA /* PBXTextBookmark */;
+			AB50893C11909C6B0002FCFA /* PlistBookmark */ = AB50893C11909C6B0002FCFA /* PlistBookmark */;
+			AB50893D11909C6B0002FCFA /* PBXTextBookmark */ = AB50893D11909C6B0002FCFA /* PBXTextBookmark */;
 			AB549EF01047058D00A901EF = AB549EF01047058D00A901EF /* PBXTextBookmark */;
 			AB5717A41167A7E700BD34CA = AB5717A41167A7E700BD34CA /* PBXTextBookmark */;
 			AB5717BD1167B08900BD34CA = AB5717BD1167B08900BD34CA /* PBXTextBookmark */;
@@ -1145,7 +1148,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 113";
 		rLen = 0;
-		rLoc = 3837;
+		rLoc = 3646;
 		rType = 0;
 		vrLen = 1674;
 		vrLoc = 3283;
@@ -1259,9 +1262,9 @@
 	};
 	AB3E113E10486A5500A9034C /* JSONConnection.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1272, 2314}}";
-			sepNavSelRange = "{5534, 0}";
-			sepNavVisRange = "{5203, 571}";
+			sepNavIntBoundsRect = "{{0, 0}, {1240, 2314}}";
+			sepNavSelRange = "{5322, 0}";
+			sepNavVisRange = "{5125, 649}";
 		};
 	};
 	AB3F4E6C10CCC17400E6C9D7 /* NearbyObjectARCoordinate.h */ = {
@@ -1567,6 +1570,37 @@
 		rLoc = 9223372036854775807;
 	};
 	AB50891211909C1F0002FCFA /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB3E113E10486A5500A9034C /* JSONConnection.m */;
+		name = "JSONConnection.m: 165";
+		rLen = 0;
+		rLoc = 5534;
+		rType = 0;
+		vrLen = 571;
+		vrLoc = 5203;
+	};
+	AB50893B11909C6B0002FCFA /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB8FD00A117BCF61004F8B9B /* GameDetails.m */;
+		name = "GameDetails.m: 9";
+		rLen = 0;
+		rLoc = 161;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	AB50893C11909C6B0002FCFA /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = AB30BE25118AA64A00926276 /* Root.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/djgagnon/Documents/Aris/svn-trunk/iPhoneClient/Settings.bundle/Root.plist";
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	AB50893D11909C6B0002FCFA /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = AB3E113E10486A5500A9034C /* JSONConnection.m */;
 		name = "JSONConnection.m: 165";
@@ -2318,7 +2352,7 @@
 	};
 	AB8FD00A117BCF61004F8B9B /* GameDetails.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1272, 1885}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1240, 1885}}";
 			sepNavSelRange = "{161, 0}";
 			sepNavVisRange = "{0, 0}";
 		};
@@ -2543,7 +2577,7 @@
 		fRef = D42432621107735800E58147 /* DialogViewController.m */;
 		name = "DialogViewController.m: 361";
 		rLen = 192;
-		rLoc = 11494;
+		rLoc = 11253;
 		rType = 0;
 		vrLen = 1426;
 		vrLoc = 10901;
@@ -2725,9 +2759,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 43;
-		modificationTime = 294689669.136045;
+		modificationTime = 294692050.053042;
 		originalNumberOfMultipleMatches = 1;
-		state = 1;
+		state = 0;
 	};
 	ABC399B0116B9209002185D4 /* AudioMeterViewController.m:21 */ = {
 		isa = PBXFileBreakpoint;
@@ -2742,9 +2776,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 21;
-		modificationTime = 294689669.13607;
+		modificationTime = 294692050.053056;
 		originalNumberOfMultipleMatches = 1;
-		state = 1;
+		state = 0;
 	};
 	ABC399CD116B9EBC002185D4 /* AudioMeter.h */ = {
 		uiCtxt = {
@@ -2865,9 +2899,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 78;
-		modificationTime = 294689669.136096;
+		modificationTime = 294692050.053069;
 		originalNumberOfMultipleMatches = 1;
-		state = 1;
+		state = 0;
 	};
 	ABC39B22116BD28F002185D4 /* TitleAndDecriptionFormViewController.h */ = {
 		uiCtxt = {
@@ -2941,9 +2975,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 34;
-		modificationTime = 294689669.136083;
+		modificationTime = 294692050.053008;
 		originalNumberOfMultipleMatches = 1;
-		state = 1;
+		state = 0;
 	};
 	ABCC330F114C5CA300BB485D /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -3174,9 +3208,9 @@
 	};
 	D42432621107735800E58147 /* DialogViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1370, 6630}}";
-			sepNavSelRange = "{11494, 192}";
-			sepNavVisRange = "{10901, 1426}";
+			sepNavIntBoundsRect = "{{0, 0}, {1240, 6799}}";
+			sepNavSelRange = "{911, 0}";
+			sepNavVisRange = "{243, 1144}";
 			sepNavWindowFrame = "{{61, 88}, {726, 743}}";
 		};
 	};
@@ -3192,13 +3226,6 @@
 			sepNavIntBoundsRect = "{{0, 0}, {1013, 390}}";
 			sepNavSelRange = "{319, 0}";
 			sepNavVisRange = "{0, 458}";
-		};
-	};
-	D443855C1108B0100053E9FD /* aris.css */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {938, 561}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 97}";
 		};
 	};
 	D4D366AA111B65E0009C4D00 /* AudioStreamer.h */ = {
