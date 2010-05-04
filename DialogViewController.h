@@ -73,6 +73,7 @@
 - (void) loadNPCImage:(NSInteger)mediaId;
 - (void) continueScript;
 - (void) didFinishParsing;
+- (void) stopAllAudio;
 
 @end
 

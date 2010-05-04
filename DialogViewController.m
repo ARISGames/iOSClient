@@ -81,6 +81,9 @@ NSString *const kDialogHtmlTemplate =
     [super viewDidLoad];
 	
 	self.title = currentNpc.name;
+	self.navigationItem.leftBarButtonItem.title = @"End Conversation";
+	
+	
 	[self loadNPCImage:currentNpc.mediaId];
 	
 
@@ -141,6 +144,11 @@ NSString *const kDialogHtmlTemplate =
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
+}
+
+- (void) viewDidDisappear:(BOOL)animated {
+	NSLog(@"DialogViewController: View Did Disapear");
+	[self stopAllAudio];
 }
 
 
@@ -208,6 +216,9 @@ NSString *const kDialogHtmlTemplate =
 		++scriptIndex;
 	}
 	else {
+		[self stopAllAudio];
+
+		
 		// Display the appropriate question for the PC
 		if ([currentNode.answerString length] > 0) {
 			pcTableView.hidden = YES;
@@ -285,11 +296,18 @@ NSString *const kDialogHtmlTemplate =
 	else [self moveAllOutWithPostSelector:@selector(finishScene)];
 }
 
+- (void) stopAllAudio {
+	NSLog(@"Dialog ViewController: Stoping all Audio");
+	
+	if (fgPlayer) [fgPlayer stop];
+	if (bgPlayer) [bgPlayer stop];
+}
+
 - (void) finishScene {
 	UIWebView *characterWebView;
 	UIScrollView *characterScrollView;
 	BOOL isCurrentlyDisplayed;
-	
+		 
 	if (cachedScene.isPc) {
 		self.title = kPlayerName;
 		characterWebView = pcWebView;
