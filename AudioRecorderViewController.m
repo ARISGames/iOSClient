@@ -189,6 +189,12 @@
 		NSLog(@"Recording.");
 		[recordOrStopButton setTitle: @"Stop" forState: UIControlStateNormal];
 		[recordOrStopButton setTitle: @"Stop" forState: UIControlStateHighlighted];
+		
+		[playOrPauseButton setAlpha:0.7];
+		[playOrPauseButton setEnabled:NO];
+		[uploadButton setAlpha:0.7];
+		[uploadButton setEnabled:NO];
+		
 		recording = YES;
 	}
 }
@@ -217,7 +223,22 @@
         [playOrPauseButton setTitle: @"Play" forState: UIControlStateHighlighted];
         [playOrPauseButton setTitle: @"Play" forState: UIControlStateNormal];
         [self.soundPlayer pause];
+		playing = NO;
 	}
+	
+	if (recording) {
+		[soundRecorder stop];
+		[[AVAudioSession sharedInstance] setActive: NO error: nil];
+		NSLog(@"Recording stopped.");
+		recording = NO;
+		self.soundRecorder = nil;
+		
+		[recordOrStopButton setTitle: @"Record" forState:UIControlStateNormal];
+		[recordOrStopButton setTitle: @"Record" forState:UIControlStateHighlighted];
+	
+	}
+	
+	
 
 	self.audioData = [NSData dataWithContentsOfURL:soundFileURL];
 	

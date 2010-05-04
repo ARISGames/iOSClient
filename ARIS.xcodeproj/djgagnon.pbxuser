@@ -3046,7 +3046,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 43;
-		modificationTime = 294694047.273061;
+		modificationTime = 294694755.769034;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -3063,7 +3063,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 21;
-		modificationTime = 294694047.273035;
+		modificationTime = 294694755.769004;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -3186,7 +3186,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 78;
-		modificationTime = 294694047.273047;
+		modificationTime = 294694755.769018;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -3262,7 +3262,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 34;
-		modificationTime = 294694047.273005;
+		modificationTime = 294694755.768977;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -3488,9 +3488,9 @@
 	};
 	D42432611107735800E58147 /* DialogViewController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1240, 1131}}";
-			sepNavSelRange = "{960, 0}";
-			sepNavVisRange = "{600, 608}";
+			sepNavIntBoundsRect = "{{0, 0}, {1159, 1040}}";
+			sepNavSelRange = "{2143, 0}";
+			sepNavVisRange = "{1069, 1082}";
 		};
 	};
 	D42432621107735800E58147 /* DialogViewController.m */ = {
