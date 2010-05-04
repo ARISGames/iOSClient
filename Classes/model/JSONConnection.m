@@ -91,8 +91,6 @@
 		[requestString appendString:argument];
 	}
 	
-	NSLog(@"JSONConnection: JSON URL for async request is : %@", requestString);
-	
 	//Convert into a NSURLRequest
 	NSURL *requestURL = [[NSURL alloc]initWithString:requestString];
 	NSURLRequest *request = [NSURLRequest requestWithURL:requestURL
@@ -109,9 +107,17 @@
 	[asyncData retain];
 	[urlConnection start];
 	
-	NSLog(@"JSONConnection: Begining Async request");
+	NSLog(@"JSONConnection: Begining Async request.  %@", requestString);
 
 }
+
+-(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse*)response
+{
+	NSLog(@"JSONConnection: didRevieveResponse");
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+
+}
+
 
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {

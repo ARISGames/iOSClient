@@ -44,11 +44,11 @@
 	
 	
 	//Check for Internet conductivity
-	NSLog(@"AppDelegate: Verifying Connection to: %@",appModel.serverName);
-	Reachability *r = [Reachability reachabilityWithHostName:appModel.serverName];
+	NSLog(@"AppDelegate: Verifying Connection to: %@",appModel.baseAppURL);
+	Reachability *r = [Reachability reachabilityWithHostName:@"arisgames.org"];
 	NetworkStatus internetStatus = [r currentReachabilityStatus];
 	BOOL connection = (internetStatus == ReachableViaWiFi) || (internetStatus == ReachableViaWWAN);
-	connection = YES; //For debugging locally
+	//connection = YES; //For debugging locally
 	if (!connection) {
 		NSLog(@"AppDelegate: Internet Connection Failed");
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"No connection to the Internet" message: @"Please connect to the internet and restart ARIS" delegate: self cancelButtonTitle: nil otherButtonTitles: nil];

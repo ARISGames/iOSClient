@@ -497,6 +497,7 @@ static const int kEmptyValue = -1;
 	
 	//Update the server with the new Player Location
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.playerId],
+						  [NSString stringWithFormat:@"%f",self.gameId],
 						  [NSString stringWithFormat:@"%f",playerLocation.coordinate.latitude],
 						  [NSString stringWithFormat:@"%f",playerLocation.coordinate.longitude],
 						  nil];
