@@ -1503,16 +1503,16 @@
 			};
 			name = Debug;
 		};
-		289811FF0FA1105E002ED288 /* Distribution */ = {
+		289811FF0FA1105E002ED288 /* Enterprise Distribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				PREBINDING = NO;
 				PRODUCT_NAME = zxingcore;
 			};
-			name = Distribution;
+			name = "Enterprise Distribution";
 		};
-		A759A4B90F4F2599004279E0 /* Distribution */ = {
+		A759A4B90F4F2599004279E0 /* Enterprise Distribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
@@ -1527,9 +1527,9 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos3.0;
 			};
-			name = Distribution;
+			name = "Enterprise Distribution";
 		};
-		A759A4BA0F4F2599004279E0 /* Distribution */ = {
+		A759A4BA0F4F2599004279E0 /* Enterprise Distribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1558,7 +1558,64 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos3.0;
 			};
-			name = Distribution;
+			name = "Enterprise Distribution";
+		};
+		AB5089DC1190CE0C0002FCFA /* AppStore Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos3.0;
+			};
+			name = "AppStore Distribution";
+		};
+		AB5089DD1190CE0C0002FCFA /* AppStore Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: David Gagnon";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = ARIS_Prefix.pch;
+				HEADER_SEARCH_PATHS = "Classes/map/MapView/**";
+				INFOPLIST_FILE = Info.plist;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\\\"$(SRCROOT)/Classes/map/MapView/build/Debug-iphonesimulator\\\"",
+					"\\\"$(SRCROOT)/Classes/map/MapView/build/Release-iphoneos\\\"",
+					"\\\"$(SRCROOT)/Classes/map/MapView/build/Release-iphonesimulator\\\"",
+					"\\\"$(SRCROOT)/Classes/map/Proj4/build/Debug-iphonesimulator\\\"",
+					"\\\"$(SRCROOT)/Classes/map/Proj4/build/Release-iphoneos\\\"",
+					"\\\"$(SRCROOT)/Classes/map/Proj4/build/Release-iphonesimulator\\\"",
+					"\\\"$(SRCROOT)\\\"",
+					"\\\"$(SRCROOT)/build/Debug-iphonesimulator\\\"",
+				);
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = ARIS;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A68C61C9-B01F-4138-94A8-211BA1CB620A";
+				SDKROOT = iphoneos3.1;
+			};
+			name = "AppStore Distribution";
+		};
+		AB5089DE1190CE0C0002FCFA /* AppStore Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				PREBINDING = NO;
+				PRODUCT_NAME = zxingcore;
+			};
+			name = "AppStore Distribution";
 		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1583,7 +1640,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
-				A759A4BA0F4F2599004279E0 /* Distribution */,
+				A759A4BA0F4F2599004279E0 /* Enterprise Distribution */,
+				AB5089DD1190CE0C0002FCFA /* AppStore Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -1592,7 +1650,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				289811FE0FA1105E002ED288 /* Debug */,
-				289811FF0FA1105E002ED288 /* Distribution */,
+				289811FF0FA1105E002ED288 /* Enterprise Distribution */,
+				AB5089DE1190CE0C0002FCFA /* AppStore Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -1601,7 +1660,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
-				A759A4B90F4F2599004279E0 /* Distribution */,
+				A759A4B90F4F2599004279E0 /* Enterprise Distribution */,
+				AB5089DC1190CE0C0002FCFA /* AppStore Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
