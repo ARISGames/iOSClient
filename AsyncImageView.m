@@ -79,15 +79,17 @@
     while ([[self subviews] count] > 0) {
 		[[[self subviews] lastObject] removeFromSuperview];
     }
-	
+		
 	//create the image view
     UIImageView* imageView = [[[UIImageView alloc] initWithImage:image] autorelease];
 	
     imageView.contentMode = UIViewContentModeScaleAspectFit;
-    //imageView.autoresizingMask = ( UIViewAutoresizingFlexibleWidth || UIViewAutoresizingFlexibleHeight );
 	
     [self addSubview:imageView];
     imageView.frame = self.bounds;
+	
+	NSLog(@"AsyncImageView: image frame is X:%f Y:%f Width:%f Height:%f",imageView.frame.origin.x,imageView.frame.origin.y,imageView.frame.size.width,imageView.frame.size.height );
+
 	
     [imageView setNeedsLayout];
     [self setNeedsLayout];

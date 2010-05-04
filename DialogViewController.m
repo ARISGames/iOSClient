@@ -352,11 +352,14 @@ NSString *const kHtmlTemplate =
 }
 
 - (void) movePcIn {
+	NSLog(@"DialogViewController: Move PC view to Main View X:%f Y:%f Width:%f Height:%f",mainView.frame.origin.x,mainView.frame.origin.y,mainView.frame.size.width,mainView.frame.size.height );
 	[self movePcTo:[mainView frame] withAlpha:1.0
 		  andNpcTo:[npcView frame] withAlpha:[npcView alpha] withPostSelector:nil];
 }
 
 - (void) moveNpcIn {
+	NSLog(@"DialogViewController: Move NPC view to Main View X:%f Y:%f Width:%f Height:%f",mainView.frame.origin.x,mainView.frame.origin.y,mainView.frame.size.width,mainView.frame.size.height );
+
 	[self movePcTo:[pcView frame] withAlpha:[pcView alpha]
 		  andNpcTo:[mainView frame] withAlpha:1.0 withPostSelector:nil];	
 }
