@@ -83,7 +83,7 @@
 	[[NSNotificationCenter defaultCenter] postNotification:updatedLocationNotification];
 		
 	//Tell the model to update the server and fetch any nearby locations
-	[NSThread detachNewThreadSelector: @selector(updateServerLocationAndfetchNearbyLocationList) toTarget: appModel withObject: nil];	
+	[appModel updateServerLocationAndfetchNearbyLocationList];	
 	
 }
 

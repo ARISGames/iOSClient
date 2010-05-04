@@ -481,7 +481,6 @@ static const int kEmptyValue = -1;
 
 
 - (void)updateServerLocationAndfetchNearbyLocationList {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSLog(@"Model: updating player position on server and determining nearby Locations");
 	
 	if (!loggedIn) {
@@ -507,6 +506,7 @@ static const int kEmptyValue = -1;
 																	   andArguments:arguments];
 	[jsonConnection performAsynchronousRequestWithParser:nil]; 
 	
+	
 	//Rebuild nearbyLocationList
 	//We could just do this in the getter
 	NSEnumerator *locationsListEnumerator = [locationList objectEnumerator];
@@ -521,7 +521,6 @@ static const int kEmptyValue = -1;
 	NSNotification *nearbyLocationListNotification = 
 	[NSNotification notificationWithName:@"ReceivedNearbyLocationList" object:nearbyLocationsList];
 	[[NSNotificationCenter defaultCenter] postNotification:nearbyLocationListNotification];
-	[pool drain];
 	
 }
 
