@@ -24,7 +24,7 @@
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
-        self.title = @"Scanner";
+        self.title = @"Decoder";
         self.tabBarItem.image = [UIImage imageNamed:@"qrscanner.png"];
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
     }
@@ -61,10 +61,22 @@
 	 
 }
 
-- (IBAction)codeEnteredAction: (id) sender{
+
+#pragma mark Delegate for text entry
+
+-(BOOL) textFieldShouldReturn:(UITextField*) textField {
 	NSLog(@"QRScannerViewController: Code Entered");
+	
+	[textField resignFirstResponder]; 
+	
+	[[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the keyboard go away before loading the object
+	
 	[self loadResult:manualCode.text];
+	
+	return YES;
+	
 }
+
 
 
 #pragma mark UIImagePickerControllerDelegate Protocol Methods
