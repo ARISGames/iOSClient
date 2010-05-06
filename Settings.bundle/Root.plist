@@ -48,6 +48,16 @@
 			<key>Key</key>
 			<string>appVerison</string>
 		</dict>
+		<dict>
+			<key>Type</key>
+			<string>PSTitleValueSpecifier</string>
+			<key>Title</key>
+			<string>Build</string>
+			<key>Key</key>
+			<string>buildNum</string>
+			<key>DefaultValue</key>
+			<string>Run ARIS to Update</string>
+		</dict>
 	</array>
 </dict>
 </plist>

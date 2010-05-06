@@ -126,6 +126,8 @@ static const int kEmptyValue = -1;
 	[defaults setInteger:gamePcMediaId forKey:@"gamePcMediaId"];
 	[defaults setObject:baseAppURL forKey:@"lastBaseAppURL"];
 	[defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"appVerison"];
+	[defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBuildNumber"] forKey:@"buildNum"];
+
 }
 
 -(void)initUserDefaults {	
