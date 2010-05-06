@@ -159,7 +159,7 @@
 	
 	//Start Waiting Indicator
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-	[appDelegate showWaitingIndicator:@"Decoding..."];
+	[appDelegate showWaitingIndicator:@"Decoding..." displayProgressBar:NO];
 	
 }
 

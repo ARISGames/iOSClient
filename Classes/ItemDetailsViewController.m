@@ -37,7 +37,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 - (void)viewDidLoad {
 	//Show waiting Indicator in own thread so it appears on time
 	//[NSThread detachNewThreadSelector: @selector(showWaitingIndicator:) toTarget: (ARISAppDelegate *)[[UIApplication sharedApplication] delegate] withObject: @"Loading..."];	
-	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate]showWaitingIndicator:@"Loading..."];
+	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate]showWaitingIndicator:@"Loading..." displayProgressBar:NO];
 		
 	if (inInventory == YES) {		
 		dropButton.width = 75.0;

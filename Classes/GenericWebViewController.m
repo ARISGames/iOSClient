@@ -17,7 +17,7 @@
 - (void)viewDidLoad {
 	//Show waiting Indicator in own thread so it appears on time
 	//[NSThread detachNewThreadSelector: @selector(showWaitingIndicator:) toTarget: (ARISAppDelegate *)[[UIApplication sharedApplication] delegate] withObject: @"Loading..."];
-	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showWaitingIndicator:@"Loading..."];
+	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showWaitingIndicator:@"Loading..." displayProgressBar:NO];
 
 	appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
 	
@@ -41,7 +41,7 @@
 -(void) setURL: (NSString*)urlString {
 	//Show waiting Indicator in own thread so it appears on time
 	//[NSThread detachNewThreadSelector: @selector(showWaitingIndicator:) toTarget: (ARISAppDelegate *)[[UIApplication sharedApplication] delegate] withObject: @"Loading..."];	
-	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showWaitingIndicator:@"Loading..."];
+	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showWaitingIndicator:@"Loading..." displayProgressBar:NO];
 	/*
 	request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
 	webview.hidden = YES;

@@ -66,7 +66,7 @@
 
 
 - (void) displayNearbyObjectView:(UIViewController *)nearbyObjectViewController;
-- (void) showWaitingIndicator:(NSString *)message;
+- (void) showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)yesOrNo;
 - (void) removeWaitingIndicator;
 - (void) showNetworkAlert;
 - (void) removeNetworkAlert;

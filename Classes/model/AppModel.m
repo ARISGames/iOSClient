@@ -422,7 +422,7 @@ static const int kEmptyValue = -1;
 	NSLog(@"Model: Uploading File. gameID:%@ fileName:%@ title:%@ description:%@",gameID,fileName,title,description );
 	
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate showWaitingIndicator:@"Uploading"];
+	[appDelegate showWaitingIndicator:@"Uploading" displayProgressBar:YES];
 	[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
 	[request startAsynchronous];
 }

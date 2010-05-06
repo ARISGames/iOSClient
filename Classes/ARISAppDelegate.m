@@ -214,18 +214,18 @@
 
 
 
-- (void) showWaitingIndicator:(NSString *)message {
+- (void) showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)yesOrNo {
 	NSLog (@"AppDelegate: Showing Waiting Indicator");
 	if (!self.waitingIndicator) {
 		self.waitingIndicator = [[WaitingIndicatorViewController alloc] initWithNibName:@"WaitingIndicator" bundle:nil];
 	}
 	self.waitingIndicator.message = message;
+	if (yesOrNo == YES) self.waitingIndicator.progressView.alpha = 1;
+	else self.waitingIndicator.progressView.alpha = 0;
 	
 	//by adding a subview to window, we make sure it is put on top
-	if (appModel.loggedIn == YES) {
-		//[NSThread detachNewThreadSelector:@selector(addSubview:) toTarget:self.window withObject:self.waitingIndicator.view];
-		[self.window addSubview:self.waitingIndicator.view]; 
-	}
+	if (appModel.loggedIn == YES) [self.window addSubview:self.waitingIndicator.view]; 
+
 }
 
 - (void) removeWaitingIndicator {
