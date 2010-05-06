@@ -645,9 +645,9 @@
 	};
 	2B3D18D50F4B25720067FD3A /* AppModel.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {965, 14248}}";
-			sepNavSelRange = "{23820, 0}";
-			sepNavVisRange = "{23306, 689}";
+			sepNavIntBoundsRect = "{{0, 0}, {965, 13819}}";
+			sepNavSelRange = "{15982, 0}";
+			sepNavVisRange = "{15088, 1435}";
 			sepNavWindowFrame = "{{15, 33}, {1168, 845}}";
 		};
 	};
@@ -689,15 +689,15 @@
 	A72C02150F7985FF00D00602 /* QRScannerViewController.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {978, 455}}";
-			sepNavSelRange = "{839, 0}";
-			sepNavVisRange = "{234, 678}";
+			sepNavSelRange = "{574, 0}";
+			sepNavVisRange = "{45, 873}";
 		};
 	};
 	A72C02160F7985FF00D00602 /* QRScannerViewController.mm */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {985, 2691}}";
-			sepNavSelRange = "{2058, 0}";
-			sepNavVisRange = "{1702, 997}";
+			sepNavIntBoundsRect = "{{0, 0}, {999, 2704}}";
+			sepNavSelRange = "{641, 0}";
+			sepNavVisRange = "{2060, 1411}";
 		};
 	};
 	A75AF2B70F86A47100F15535 /* ItemDetailsViewController.h */ = {
@@ -835,9 +835,9 @@
 	};
 	A7E39EAC0F5F60D000826198 /* CameraViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {999, 2106}}";
-			sepNavSelRange = "{4726, 0}";
-			sepNavVisRange = "{2620, 1223}";
+			sepNavIntBoundsRect = "{{0, 0}, {999, 2132}}";
+			sepNavSelRange = "{4074, 0}";
+			sepNavVisRange = "{3654, 1076}";
 		};
 	};
 	A7F0EE5F0F71D0C5008F7BAD /* GenericWebViewController.h */ = {
@@ -1105,7 +1105,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 260";
 		rLen = 0;
-		rLoc = 11061;
+		rLoc = 11062;
 		rType = 0;
 		vrLen = 483;
 		vrLoc = 10811;
@@ -2730,7 +2730,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 421";
 		rLen = 0;
-		rLoc = 16541;
+		rLoc = 16542;
 		rType = 0;
 		vrLen = 513;
 		vrLoc = 16077;
@@ -3999,9 +3999,9 @@
 	};
 	ABBEBBC1104D7CF900AA7285 /* NodeViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1419, 2795}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1419, 2834}}";
 			sepNavSelRange = "{7571, 0}";
-			sepNavVisRange = "{3375, 725}";
+			sepNavVisRange = "{3239, 950}";
 		};
 	};
 	ABBEBCDD104DDCDB00AA7285 /* PBXTextBookmark */ = {
@@ -4083,9 +4083,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 43;
-		modificationTime = 294854338.306601;
+		modificationTime = 294857152.069106;
 		originalNumberOfMultipleMatches = 1;
-		state = 0;
+		state = 1;
 	};
 	ABC399B0116B9209002185D4 /* AudioMeterViewController.m:21 */ = {
 		isa = PBXFileBreakpoint;
@@ -4100,9 +4100,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 21;
-		modificationTime = 294854338.30662;
+		modificationTime = 294857152.069065;
 		originalNumberOfMultipleMatches = 1;
-		state = 0;
+		state = 1;
 	};
 	ABC399CD116B9EBC002185D4 /* AudioMeter.h */ = {
 		uiCtxt = {
@@ -4223,9 +4223,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 78;
-		modificationTime = 294854338.306664;
+		modificationTime = 294857152.069087;
 		originalNumberOfMultipleMatches = 1;
-		state = 0;
+		state = 1;
 	};
 	ABC39B22116BD28F002185D4 /* TitleAndDecriptionFormViewController.h */ = {
 		uiCtxt = {
@@ -4299,9 +4299,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 34;
-		modificationTime = 294854338.306502;
+		modificationTime = 294857152.069031;
 		originalNumberOfMultipleMatches = 1;
-		state = 0;
+		state = 1;
 	};
 	ABCC330F114C5CA300BB485D /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;

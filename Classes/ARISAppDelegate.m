@@ -220,7 +220,7 @@
 		self.waitingIndicator = [[WaitingIndicatorViewController alloc] initWithNibName:@"WaitingIndicator" bundle:nil];
 	}
 	self.waitingIndicator.message = message;
-	self.waitingIndicator.progressView.hidden = displayProgressBar;
+	self.waitingIndicator.progressView.hidden = !displayProgressBar;
 	
 	//by adding a subview to window, we make sure it is put on top
 	if (appModel.loggedIn == YES) [self.window addSubview:self.waitingIndicator.view]; 
