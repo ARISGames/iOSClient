@@ -17,7 +17,7 @@
 	AppModel *appModel;
 	Node *node;
 	MPMoviePlayerController *mMoviePlayer; //only used if item is a video
-
+	CGSize imageSize;
 	UITableView *tableView;
 	IBOutlet UIScrollView *scrollView;
 }

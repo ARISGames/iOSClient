@@ -47,20 +47,29 @@ static NSString * const OPTION_CELL = @"option";
 	}
 	
 	Media *media = [appModel mediaForMediaId: self.node.mediaId];
-	
+
 	if ([media.type isEqualToString: @"Image"] && media.url) {
 		NSLog(@"ItemDetailsViewController: Image Layout Selected");
-		
-		AsyncImageView* mediaImageView = [[AsyncImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 220)];
-		
+		AsyncImageView* mediaImageView = [[AsyncImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 320)]; 
 		[mediaImageView loadImageFromMedia:media];
-		
-		//Add the image view
+				
+		//Add the image view to the scroller
 		[scrollView addSubview:mediaImageView];
 		
+		imageSize = mediaImageView.frame.size;
 	}
 	else if (([media.type isEqualToString: @"Video"] || [media.type isEqualToString: @"Audio"]) && media.url) {
 		NSLog(@"ItemDetailsViewController:  Video Layout Selected");
+		
+		//Add a button
+		UIButton *button = [[UIButton buttonWithType:UIButtonTypeCustom] 
+							initWithFrame:CGRectMake(0, 0, 320, 320)];
+		[button addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
+		[button setImage:[UIImage imageNamed:@"clickToPlay.png"] forState:UIControlStateNormal];
+		[scrollView addSubview:button];	
+		
+		imageSize = button.frame.size;
+
 		
 		//Create movie player object
 		mMoviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
@@ -73,13 +82,6 @@ static NSString * const OPTION_CELL = @"option";
 		mMoviePlayer.scalingMode = MPMovieScalingModeFill; // Movie scaling mode can be one of: MPMovieScalingModeNone, MPMovieScalingModeAspectFit,MPMovieScalingModeAspectFill, MPMovieScalingModeFill.
 		mMoviePlayer.movieControlMode = MPMovieControlModeDefault; //Movie control mode can be one of: MPMovieControlModeDefault, MPMovieControlModeVolumeOnly, MPMovieControlModeHidden.
 		mMoviePlayer.backgroundColor = [UIColor blackColor];
-		
-		//Add a button
-		UIButton *button = [[UIButton buttonWithType:UIButtonTypeCustom] 
-							initWithFrame:CGRectMake(0, 0, 320, 220)];
-		[button addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
-		[button setImage:[UIImage imageNamed:@"clickToPlay.png"] forState:UIControlStateNormal];
-		[scrollView addSubview:button];		
 	}
 	
 	else {
@@ -87,12 +89,9 @@ static NSString * const OPTION_CELL = @"option";
 	}
 	
 	
-	
-	
-	
 	//Set Up Text Area
 	int margin = 10;
-	UILabel *nodeTextView = [[UILabel alloc] initWithFrame:CGRectMake(margin, 220 + margin, 320 - (2 * margin),
+	UILabel *nodeTextView = [[UILabel alloc] initWithFrame:CGRectMake(margin, imageSize.height + margin, 320 - (2 * margin),
 																			 [self calculateTextHeight:self.node.text])];
 	nodeTextView.text = self.node.text;
 	nodeTextView.backgroundColor = [UIColor blackColor];
@@ -111,6 +110,7 @@ static NSString * const OPTION_CELL = @"option";
 -(IBAction)playMovie:(id)sender {
     [mMoviePlayer play];
 }
+
 
 
 //  Notification called when the movie finished preloading.
