@@ -53,7 +53,7 @@
 		};
 	};
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
-		activeBuildConfigurationName = Debug;
+		activeBuildConfigurationName = "Enterprise Distribution";
 		activeExecutable = AB4B1015103CF1360061AD3D /* ARIS */;
 		activeSDKPreference = iphoneos3.1.3;
 		activeTarget = 1D6058900D05DD3D006BFB54 /* ARIS */;
@@ -115,7 +115,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					902,
+					369,
 					20,
 					48,
 					43,
@@ -519,6 +519,9 @@
 			AB96887611947A20003DF745 /* PBXTextBookmark */ = AB96887611947A20003DF745 /* PBXTextBookmark */;
 			AB96887A11947B07003DF745 /* PBXTextBookmark */ = AB96887A11947B07003DF745 /* PBXTextBookmark */;
 			AB96887B11947B07003DF745 /* PBXTextBookmark */ = AB96887B11947B07003DF745 /* PBXTextBookmark */;
+			AB96888E11948663003DF745 /* PBXTextBookmark */ = AB96888E11948663003DF745 /* PBXTextBookmark */;
+			AB96888F11948663003DF745 /* PBXTextBookmark */ = AB96888F11948663003DF745 /* PBXTextBookmark */;
+			AB96889011948663003DF745 /* PBXTextBookmark */ = AB96889011948663003DF745 /* PBXTextBookmark */;
 			ABB925F010C8591F00B09506 = ABB925F010C8591F00B09506 /* PBXBookmark */;
 			ABB9261E10C85AB000B09506 = ABB9261E10C85AB000B09506 /* PBXBookmark */;
 			ABB9262110C85AB000B09506 = ABB9262110C85AB000B09506 /* PBXTextBookmark */;
@@ -587,9 +590,9 @@
 	};
 	2B3D12CD0F437AC60067FD3A /* QuestsViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1080, 4485}}";
+			sepNavIntBoundsRect = "{{0, 0}, {901, 4485}}";
 			sepNavSelRange = "{5541, 603}";
-			sepNavVisRange = "{4066, 584}";
+			sepNavVisRange = "{3987, 359}";
 			sepNavWindowFrame = "{{0, 33}, {1440, 845}}";
 		};
 	};
@@ -2668,7 +2671,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1146, 2145}}";
 			sepNavSelRange = "{516, 0}";
-			sepNavVisRange = "{2358, 1531}";
+			sepNavVisRange = "{2656, 1544}";
 		};
 	};
 	AB8FD118117C0F41004F8B9B /* PBXTextBookmark */ = {
@@ -4251,6 +4254,36 @@
 		rType = 0;
 		vrLen = 584;
 		vrLoc = 4066;
+	};
+	AB96888E11948663003DF745 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB8FD00A117BCF61004F8B9B /* GameDetails.m */;
+		name = "GameDetails.m: 24";
+		rLen = 0;
+		rLoc = 516;
+		rType = 0;
+		vrLen = 1569;
+		vrLoc = 2629;
+	};
+	AB96888F11948663003DF745 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB8FD00A117BCF61004F8B9B /* GameDetails.m */;
+		name = "GameDetails.m: 24";
+		rLen = 0;
+		rLoc = 516;
+		rType = 0;
+		vrLen = 1544;
+		vrLoc = 2656;
+	};
+	AB96889011948663003DF745 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12CD0F437AC60067FD3A /* QuestsViewController.m */;
+		name = "QuestsViewController.m: 192";
+		rLen = 603;
+		rLoc = 5541;
+		rType = 0;
+		vrLen = 359;
+		vrLoc = 3987;
 	};
 	AB9A7C1510AA173F002FD9BC /* ARISURLConnection.h */ = {
 		uiCtxt = {
