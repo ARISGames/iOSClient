@@ -12,9 +12,10 @@
 #import "AsyncImageView.h"
 
 
-@interface GameDetails : UIViewController <MKMapViewDelegate, UITextViewDelegate, MKReverseGeocoderDelegate>{
+@interface GameDetails : UIViewController <MKMapViewDelegate, UITextViewDelegate, MKReverseGeocoderDelegate, UIWebViewDelegate>{
 	Game *game; 
 	IBOutlet MKMapView *map;
+	IBOutlet UILabel *mapLabel;
 	IBOutlet UIWebView *descriptionWebView;
 	IBOutlet UILabel *titleLabel;
 	IBOutlet UILabel *playersLabel;
@@ -27,6 +28,7 @@
 
 @property (nonatomic, retain) Game *game;
 @property (nonatomic, retain) IBOutlet MKMapView *map;
+@property (nonatomic, retain) IBOutlet UILabel *mapLabel;
 @property (nonatomic, retain) IBOutlet UIWebView *descriptionWebView;
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 @property (nonatomic, retain) IBOutlet UILabel *playersLabel;

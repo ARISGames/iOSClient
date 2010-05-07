@@ -21,6 +21,7 @@ NSString *const kGameDetailsHtmlTemplate =
 @"		color: #FFFFFF;"
 @"		font-size: 17px;"
 @"		font-family: Helvetia, Sans-Serif;"
+@"		margin: 0px;"
 @"	}"
 @"	--></style>"
 @"</head>"
@@ -70,6 +71,7 @@ NSString *const kGameDetailsHtmlTemplate =
 	
 	NSString *htmlDescription = [NSString stringWithFormat:kGameDetailsHtmlTemplate, self.game.description];
 	NSLog(@"GameDetails: HTML Description: %@", htmlDescription);
+	descriptionWebView.delegate = self;
 	[descriptionWebView loadHTMLString:htmlDescription baseURL:nil];
 	
 	
@@ -97,8 +99,38 @@ NSString *const kGameDetailsHtmlTemplate =
 	
 	titleLabel.text = game.name;
 	
-	
 }
+
+- (void)webViewDidFinishLoad:(UIWebView *)descriptionView {
+	//Content Loaded, now we can resize
+	
+	float newHeight = [[descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
+	
+	NSLog(@"GameDetails: Description View Calculated Height is: %f",newHeight);
+	
+	CGRect descriptionFrame = [descriptionView frame];	
+	descriptionFrame.size = CGSizeMake(descriptionFrame.size.width,newHeight);
+	[descriptionView setFrame:descriptionFrame];	
+	NSLog(@"GameDetails: description UIWebView frame set to {%f, %f, %f, %f}", 
+		  descriptionFrame.origin.x, 
+		  descriptionFrame.origin.y, 
+		  descriptionFrame.size.width,
+		  descriptionFrame.size.height);
+	
+	//Move the Map Title and Map Down
+	CGRect originalMapLabelFrame = mapLabel.frame;
+	CGRect originalMapFrame = map.frame;
+	float margin = 25;
+	float newMapLabelYPosition = descriptionFrame.origin.y + descriptionFrame.size.height + margin;
+	float newMapYPosition = newMapLabelYPosition + originalMapLabelFrame.size.height + margin;
+	
+	[mapLabel setFrame:CGRectMake(originalMapLabelFrame.origin.x, newMapLabelYPosition, 
+								  originalMapLabelFrame.size.width, originalMapLabelFrame.size.height)];
+	
+	[map setFrame:CGRectMake(originalMapFrame.origin.x, newMapYPosition, 
+							 originalMapFrame.size.width, originalMapFrame.size.height)];
+}
+
 
 /*
 // Override to allow orientations other than the default portrait orientation.
