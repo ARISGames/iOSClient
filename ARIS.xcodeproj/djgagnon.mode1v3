@@ -277,14 +277,13 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>22</integer>
-									<integer>16</integer>
-									<integer>2</integer>
+									<integer>50</integer>
+									<integer>45</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 78}, {277, 728}}</string>
+							<string>{{0, 317}, {277, 728}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -305,7 +304,7 @@
 							<real>255</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>190 91 1206 787 0 0 1440 878 </string>
+						<string>191 91 1206 787 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -323,7 +322,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>NearbyBar.m</string>
+								<string>QuestsViewController.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -331,11 +330,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>NearbyBar.m</string>
+										<string>QuestsViewController.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>AB9688F11194AD4D003DF745</string>
+										<string>AB9688F91194BFE3003DF745</string>
 										<key>history</key>
 										<array>
 											<string>AB549EF01047058D00A901EF</string>
@@ -467,12 +466,12 @@
 											<string>AB9687F41194635F003DF745</string>
 											<string>AB9687F51194635F003DF745</string>
 											<string>AB96883F11947689003DF745</string>
-											<string>AB96884011947689003DF745</string>
 											<string>AB96885A11947954003DF745</string>
 											<string>AB9688B81194AA38003DF745</string>
 											<string>AB9688B91194AA38003DF745</string>
 											<string>AB9688BA1194AA38003DF745</string>
-											<string>AB9688E31194AC95003DF745</string>
+											<string>AB9688F71194BFE3003DF745</string>
+											<string>AB9688F81194BFE3003DF745</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -486,7 +485,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {907, 544}}</string>
 								<key>RubberWindowFrame</key>
-								<string>190 91 1206 787 0 0 1440 878 </string>
+								<string>191 91 1206 787 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -511,7 +510,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>AB9688F21194AD4D003DF745</string>
+										<string>AB9688FA1194BFE3003DF745</string>
 										<key>history</key>
 										<array>
 											<string>AB549EF01047058D00A901EF</string>
@@ -663,7 +662,7 @@
 								<key>Frame</key>
 								<string>{{0, 549}, {907, 192}}</string>
 								<key>RubberWindowFrame</key>
-								<string>190 91 1206 787 0 0 1440 878 </string>
+								<string>191 91 1206 787 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -683,7 +682,7 @@
 								<key>Frame</key>
 								<string>{{0, 746}, {907, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>190 91 1206 787 0 0 1440 878 </string>
+								<string>191 91 1206 787 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -847,7 +846,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>AB9688F01194AD3F003DF745</string>
 		<string>AB968777119373A5003DF745</string>
 		<string>AB9687161193350F003DF745</string>
 		<string>1C78EAAD065D492600B07095</string>
@@ -856,7 +854,7 @@
 		<string>/Users/djgagnon/Documents/Aris/svn-trunk/iPhoneClient/ARIS.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>190 91 1206 787 0 0 1440 878 </string>
+	<string>191 91 1206 787 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>

@@ -230,23 +230,12 @@ NSString *const kQuestsHtmlTemplate =
 	
 	UITableViewCell *cell = [[UITableViewCell alloc] initWithFrame:cellFrame];
 	
-	/*
-	UITableViewCell *cell = [[UITableViewCell alloc] initWithFrame:cellFrame 
-													reuseIdentifier:OPTION_CELL];
-	*/
-	
 	//Setup Cell
 	UIView *transparentBackground = [[UIView alloc] initWithFrame:CGRectZero];
     transparentBackground.backgroundColor = [UIColor clearColor];
     cell.backgroundView = transparentBackground;
-	
-	//Initialize Label
-	//nameView = [[UILabel alloc] initWithFrame:nameFrame];
-	//nameView.textColor = [UIColor whiteColor];
-	//nameView.backgroundColor = [UIColor clearColor];
-	//nameView.text = quest.name;
-	//[cell.contentView addSubview:nameView];
-	//[nameView release];
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
 	
 	//Initialize Description with Tag 1
 	descriptionView = [[UIWebView alloc] initWithFrame:descriptionFrame];
@@ -309,10 +298,12 @@ NSString *const kQuestsHtmlTemplate =
 	return height;
 }
 
+/*
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	//Don't do anything just yet
 	//We could add a long description area here
 }
+*/
 
 - (NSString *)tableView:(UITableView *)view titleForHeaderInSection:(NSInteger)section {
 	if (section == ACTIVE_SECTION) return @"Active Quests";	
