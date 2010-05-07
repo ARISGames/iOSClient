@@ -87,10 +87,10 @@
 }
 
 - (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier {
-	CGRect CellFrame = CGRectMake(0, 0, 300, 60);
+	CGRect CellFrame = CGRectMake(0, 0, 320, 60);
 	CGRect IconFrame = CGRectMake(5, 5, 50, 50);
-	CGRect Label1Frame = CGRectMake(70, 10, 290, 25);
-	CGRect Label2Frame = CGRectMake(70, 33, 290, 25);
+	CGRect Label1Frame = CGRectMake(70, 10, 240, 25);
+	CGRect Label2Frame = CGRectMake(70, 33, 240, 25);
 	UILabel *lblTemp;
 	UIImageView *iconViewTemp;
 	
