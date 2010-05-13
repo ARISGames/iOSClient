@@ -147,13 +147,12 @@
 		[[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryRecord error: nil];
 		[[AVAudioSession sharedInstance] setActive: YES error: nil];
 
-		
 		NSDictionary *recordSettings = [[NSDictionary alloc] initWithObjectsAndKeys:
-										[NSNumber numberWithFloat: 44100.0], AVSampleRateKey,
-										[NSNumber numberWithInt: kAudioFormatMPEG4AAC], AVFormatIDKey,
-										[NSNumber numberWithInt: 1], AVNumberOfChannelsKey,
-										[NSNumber numberWithInt: AVAudioQualityMax],AVEncoderAudioQualityKey,
-										nil];
+							[NSNumber numberWithInt:kAudioFormatAppleIMA4],AVFormatIDKey,
+							  [NSNumber numberWithInt:16000.0],AVSampleRateKey,
+							  [NSNumber numberWithInt: 1],AVNumberOfChannelsKey,
+							  nil];
+		
 		
 		AVAudioRecorder *newRecorder = [[AVAudioRecorder alloc] initWithURL: soundFileURL settings: recordSettings error: nil];
 		[recordSettings release];
