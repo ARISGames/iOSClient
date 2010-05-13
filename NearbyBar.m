@@ -142,55 +142,56 @@
 
 
 - (void)processNearbyLocationsList:(NSNotification *)notification {
-   // NSLog(@"NearbyBar: Recieved a Nearby Locations List Notification");
+    NSLog(@"NearbyBar: Recieved a Nearby Locations List Notification");
 	NSArray *nearbyLocations = notification.object;
 	NSObject <NearbyObjectProtocol> *forcedDisplayItem = nil;
 	
-	self.inactive = YES;
-
-	if ([nearbyLocations count] > 0) {
-		BOOL newItem = NO;	//flag to see if at least one new item is in list
-		for (NSObject <NearbyObjectProtocol> *unknownNearbyLocation in nearbyLocations) {
-			//check each new object againt list
-			BOOL match = NO;
-			if ([unknownNearbyLocation kind] == NearbyObjectPlayer) continue;
-			
-			for (NearbyBarItemView *anItemView in [buttonView subviews]) {
-				NSObject <NearbyObjectProtocol> *existingItem = anItemView.nearbyObject;
-				if (([[existingItem name] isEqualToString:[unknownNearbyLocation name]])
-					&& ([existingItem kind] == [unknownNearbyLocation kind])) {
-					match = YES;
-				}
-			}
-			//did we find a match for this item? If not, we have a new item
-			if (!match) {
-				newItem = YES;
-				self.inactive = NO;
-
-				//also check to see if we should force a display.
-				if ([unknownNearbyLocation forcedDisplay]) {
-					forcedDisplayItem = unknownNearbyLocation;
-				}
-			}
-		}
-		
-		//If we have a new item, vibrate
-		if (newItem) {
-			ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-			[appDelegate playAudioAlert:@"nearbyObject" shouldVibrate:YES];
-			self.inactive = NO;
-			[[self indicator] setExpanded:YES];
-		}
-		[self clearAllItems];
-		for (NSObject <NearbyObjectProtocol> *unknownNearbyLocation in nearbyLocations) {
-			if ([unknownNearbyLocation kind] != NearbyObjectPlayer) [self addItem:unknownNearbyLocation];
-		}
-		if (forcedDisplayItem) {
-			[forcedDisplayItem display];
-		}
-	} else {
+	if ([nearbyLocations count] == 0) { 
 		self.inactive = YES;
+		return;
 	}
+	
+	BOOL newItem = NO;	//flag to see if at least one new item is in list
+	
+	for (NSObject <NearbyObjectProtocol> *unknownNearbyLocation in nearbyLocations) {
+		//check each new object againt list
+		BOOL match = NO;
+		if ([unknownNearbyLocation kind] == NearbyObjectPlayer) continue;
+		
+		//This is not a player, so display the bar
+		self.inactive = NO;
+		
+		for (NearbyBarItemView *anItemView in [buttonView subviews]) {
+			NSObject <NearbyObjectProtocol> *existingItem = anItemView.nearbyObject;
+			if (([[existingItem name] isEqualToString:[unknownNearbyLocation name]])
+				&& ([existingItem kind] == [unknownNearbyLocation kind])) {
+				match = YES;
+			}
+		}
+		//did we find a match for this item? If not, we have a new item
+		if (!match && [unknownNearbyLocation kind] != NearbyObjectPlayer) {
+			newItem = YES;
+			//also check to see if we should force a display.
+			if ([unknownNearbyLocation forcedDisplay]) {
+				forcedDisplayItem = unknownNearbyLocation;
+			}
+		}
+	}
+	
+	//If we have a new item, vibrate and expand
+	if (newItem) {
+		ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+		[appDelegate playAudioAlert:@"nearbyObject" shouldVibrate:YES];
+		[[self indicator] setExpanded:YES];
+	}
+	[self clearAllItems];
+	for (NSObject <NearbyObjectProtocol> *unknownNearbyLocation in nearbyLocations) {
+		if ([unknownNearbyLocation kind] != NearbyObjectPlayer) [self addItem:unknownNearbyLocation];
+	}
+	if (forcedDisplayItem) {
+		[forcedDisplayItem display];
+	}
+	
 }
 
 - (void)dealloc {
