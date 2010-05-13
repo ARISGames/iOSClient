@@ -22,7 +22,7 @@
 			<key>Key</key>
 			<string>baseAppURL</string>
 			<key>DefaultValue</key>
-			<string>http://arisgames.org/server1</string>
+			<string>http://atsosxdev.doit.wisc.edu/aris/server</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>KeyboardType</key>

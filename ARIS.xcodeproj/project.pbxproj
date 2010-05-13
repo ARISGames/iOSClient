@@ -750,10 +750,6 @@
 				A7986D650F8FEC1100A5469F /* Login */,
 				A7986D6B0F8FEC8800A5469F /* Generic Web View (compatability) */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				D4D366DE111B6789009C4D00 /* CFNetwork.framework */,
-				ABF4A3AC116847E40043EB1C /* SystemConfiguration.framework */,
-				ABF4A3B0116847F50043EB1C /* MobileCoreServices.framework */,
-				ABF4A3B41168480C0043EB1C /* libz.1.2.3.dylib */,
 			);
 			name = ARIS;
 			sourceTree = "<group>";
@@ -936,6 +932,8 @@
 		A7986D6A0F8FEC7200A5469F /* Core App */ = {
 			isa = PBXGroup;
 			children = (
+				ABF4A3AC116847E40043EB1C /* SystemConfiguration.framework */,
+				D4D366DE111B6789009C4D00 /* CFNetwork.framework */,
 				AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */,
 				AB0DE80811559D0500A6EC3E /* AVFoundation.framework */,
 				A7E4C88B0F54C4D000C6D9E8 /* QuartzCore.framework */,
@@ -946,6 +944,8 @@
 				A7955B920F73E095005148E4 /* AudioToolbox.framework */,
 				A79202630F8E717C0049F990 /* MediaPlayer.framework */,
 				ABDA40DD10506CB300823A94 /* MapKit.framework */,
+				ABF4A3B0116847F50043EB1C /* MobileCoreServices.framework */,
+				ABF4A3B41168480C0043EB1C /* libz.1.2.3.dylib */,
 				AB549ED11047007B00A901EF /* JSON Framework */,
 				ABF4A36C116847500043EB1C /* ASI Netrork Framework */,
 				AB37BC2E1184CDE600C5CE8B /* Sound Effects */,
@@ -1553,7 +1553,7 @@
 				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: UW Division of Information Technology";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ARIS_Prefix.pch;
@@ -1572,7 +1572,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = ARIS;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E05A2F1A-52DD-4F77-8464-B55B9BDAD0AB";
 				SDKROOT = iphoneos3.0;
 			};
 			name = "Enterprise Distribution";
