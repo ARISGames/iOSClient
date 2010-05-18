@@ -182,7 +182,7 @@
 			self.tabBarItem.badgeValue = @"!";
 			
 			ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-			[appDelegate playAudioAlert:@"mapChange" shouldVibrate:YES];
+			//[appDelegate playAudioAlert:@"mapChange" shouldVibrate:YES]; //this is a little annoying becasue it happens even when players move
 			
 		}
 		else silenceNextServerUpdate = NO;
