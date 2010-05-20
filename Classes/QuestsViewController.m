@@ -37,6 +37,7 @@ NSString *const kQuestsHtmlTemplate =
 @"		font-family: Helvetia, Sans-Serif;"
 @"		margin: 0 0 10 0;"
 @"	}"
+@"	a {color: #FFFFFF; text-decoration: underline; }"
 @"	--></style>"
 @"</head>"
 @"<body><h1>%@</h1>%@</body>"
@@ -148,6 +149,27 @@ NSString *const kQuestsHtmlTemplate =
 	NSLog(@"QuestsVC: Cells created and stored in questCells");
 
 }
+
+- (BOOL)webView:(UIWebView *)webView  
+shouldStartLoadWithRequest:(NSURLRequest *)request  
+ navigationType:(UIWebViewNavigationType)navigationType; {  
+	
+    NSURL *requestURL = [ [ request URL ] retain ];  
+	// Check to see what protocol/scheme the requested URL is.  
+	if ( ( [ [ requestURL scheme ] isEqualToString: @"http" ]  
+		  || [ [ requestURL scheme ] isEqualToString: @"https" ] )  
+		&& ( navigationType == UIWebViewNavigationTypeLinkClicked ) ) {  
+		return ![ [ UIApplication sharedApplication ] openURL: [ requestURL autorelease ] ];  
+	}  
+	// Auto release  
+	[ requestURL release ];  
+	// If request url is something other than http or https it will open  
+	// in UIWebView. You could also check for the other following  
+	// protocols: tel, mailto and sms  
+	return YES;  
+} 
+
+
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
 	cellsLoaded++;
