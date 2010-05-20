@@ -192,8 +192,8 @@
 	NSLog (@"AppDelegate: Showing Network Alert");
 	
 	if (!self.networkAlert) {
-		networkAlert = [[UIAlertView alloc] initWithTitle:@"Network Error" message:
-						@"ARIS is not able to communicate with the server. Check your internet connection."
+		networkAlert = [[UIAlertView alloc] initWithTitle:@"Network Warning" message:
+						@"Your internet connection is slow or unreliable."
 												 delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 	}
 	
