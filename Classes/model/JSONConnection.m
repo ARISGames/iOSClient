@@ -50,7 +50,7 @@
 	NSURL *requestURL = [[NSURL alloc]initWithString:requestString];
 	NSURLRequest *requestURLRequest = [NSURLRequest requestWithURL:requestURL
 													   cachePolicy:NSURLRequestReturnCacheDataElseLoad
-												   timeoutInterval:30];
+												   timeoutInterval:15];
 	
 	// Make synchronous request
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -97,7 +97,7 @@
 	NSURL *requestURL = [[NSURL alloc]initWithString:requestString];
 	NSURLRequest *request = [NSURLRequest requestWithURL:requestURL
 													   cachePolicy:NSURLRequestReturnCacheDataElseLoad
-												   timeoutInterval:30];
+												   timeoutInterval:15];
 	
 	//set up indicators
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
