@@ -113,7 +113,7 @@ NSString *const kDescriptionPrompt = @"Enter a Description";
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-	NSLog(@"ItemPropertiesViewController:Fetching a cell");
+	NSLog(@"TitleAndDescriptionFormViewController:Fetching a cell");
 	
 	
     static NSString *CellIdentifier = @"Cell";
