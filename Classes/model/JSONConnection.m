@@ -50,7 +50,7 @@
 	NSURL *requestURL = [[NSURL alloc]initWithString:requestString];
 	NSURLRequest *requestURLRequest = [NSURLRequest requestWithURL:requestURL
 													   cachePolicy:NSURLRequestReturnCacheDataElseLoad
-												   timeoutInterval:15];
+												   timeoutInterval:60];
 	
 	// Make synchronous request
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -68,7 +68,7 @@
 	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeWaitingIndicator];
 
 	if (error != nil) {
-		NSLog(@"JSONConnection: Error communicating with server. %d", [error code]);
+		NSLog(@"JSONConnection: Error communicating with server.");
 		[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showNetworkAlert];	
 	}	
 	
@@ -97,7 +97,7 @@
 	NSURL *requestURL = [[NSURL alloc]initWithString:requestString];
 	NSURLRequest *request = [NSURLRequest requestWithURL:requestURL
 													   cachePolicy:NSURLRequestReturnCacheDataElseLoad
-												   timeoutInterval:15];
+												   timeoutInterval:60];
 	
 	//set up indicators
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -162,7 +162,7 @@
 }
 
 - (void)connection:(ARISURLConnection *)connection didFailWithError:(NSError *)error {
-	NSLog(@"JSONConnection: Error communicating with server. %d", error.code);
+	NSLog(@"JSONConnection: Error communicating with server.");
 	
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	//[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeWaitingIndicator];
