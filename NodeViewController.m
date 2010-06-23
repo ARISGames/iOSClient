@@ -55,33 +55,25 @@ static NSString * const OPTION_CELL = @"option";
 				
 		//Add the image view to the scroller
 		[scrollView addSubview:mediaImageView];
-		
 		imageSize = mediaImageView.frame.size;
 	}
 	else if (([media.type isEqualToString: @"Video"] || [media.type isEqualToString: @"Audio"]) && media.url) {
 		NSLog(@"ItemDetailsViewController:  Video Layout Selected");
 		
 		//Add a button
-		UIButton *button = [[UIButton buttonWithType:UIButtonTypeCustom] 
-							initWithFrame:CGRectMake(0, 0, 320, 320)];
+		UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
 		[button addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
 		[button setImage:[UIImage imageNamed:@"clickToPlay.png"] forState:UIControlStateNormal];
 		[scrollView addSubview:button];	
-		
 		imageSize = button.frame.size;
-
 		
 		//Create movie player object
-		mMoviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
-		
-		// Register to receive a notifications
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePreloadDidFinish:) name:MPMoviePlayerContentPreloadDidFinishNotification object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(moviePlayBackDidFinish:) name:MPMoviePlayerPlaybackDidFinishNotification object:mMoviePlayer];
-		
-		//Configure Movie Player
-		mMoviePlayer.scalingMode = MPMovieScalingModeFill; // Movie scaling mode can be one of: MPMovieScalingModeNone, MPMovieScalingModeAspectFit,MPMovieScalingModeAspectFill, MPMovieScalingModeFill.
-		mMoviePlayer.movieControlMode = MPMovieControlModeDefault; //Movie control mode can be one of: MPMovieControlModeDefault, MPMovieControlModeVolumeOnly, MPMovieControlModeHidden.
-		mMoviePlayer.backgroundColor = [UIColor blackColor];
+		mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+		[mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(movieFinishedCallback:)
+													 name:MPMoviePlayerPlaybackDidFinishNotification
+												   object:nil];
 	}
 	
 	else {
@@ -108,16 +100,16 @@ static NSString * const OPTION_CELL = @"option";
 }
 
 -(IBAction)playMovie:(id)sender {
-    [mMoviePlayer play];
+	[self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
 }
 
-
-
-//  Notification called when the movie finished preloading.
-- (void) moviePreloadDidFinish:(NSNotification*)notification { }
-
-//  Notification called when the movie finished playing.
-- (void) moviePlayBackDidFinish:(NSNotification*)notification { }
+- (void)movieFinishedCallback:(NSNotification*) aNotification
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self
+										name:MPMoviePlayerPlaybackDidFinishNotification
+										object:mMoviePlayer];
+	[self dismissMoviePlayerViewControllerAnimated];
+}
 
 
 - (int) calculateTextHeight:(NSString *)text {

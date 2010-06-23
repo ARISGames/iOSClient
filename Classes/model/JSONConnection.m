@@ -58,8 +58,8 @@
 	
 	[[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the activity indicator show before doing the sync request
 	
-	NSURLResponse *response;
-	NSError *error;
+	NSURLResponse *response = nil;
+	NSError *error = nil;
 	NSData *resultData = [NSURLConnection sendSynchronousRequest:requestURLRequest
 											   returningResponse:&response
 														   error:&error];	
@@ -67,8 +67,8 @@
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeWaitingIndicator];
 
-	if (error != NULL) {
-		NSLog(@"JSONConnection: Error communicating with server. %d", error.code);
+	if (error != nil) {
+		NSLog(@"JSONConnection: Error communicating with server. %d", [error code]);
 		[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showNetworkAlert];	
 	}	
 	

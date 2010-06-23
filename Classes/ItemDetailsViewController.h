@@ -9,14 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "model/AppModel.h";
 #import "Item.h";
-#import <MediaPlayer/MediaPlayer.h>
+#import "ARISMoviePlayerViewController.h"
 #import "AsyncImageView.h"
 
 
 @interface ItemDetailsViewController : UIViewController {
 	AppModel *appModel;
 	Item *item;
-	MPMoviePlayerController *mMoviePlayer; //only used if item is a video
+	ARISMoviePlayerViewController *mMoviePlayer; //only used if item is a video
 	bool inInventory;
 	bool descriptionShowing;
 	IBOutlet UIToolbar *toolBar;

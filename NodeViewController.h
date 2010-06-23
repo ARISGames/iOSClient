@@ -9,14 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "AppModel.h"
 #import "Node.h"
-#import <MediaPlayer/MediaPlayer.h>
-
+#import "ARISMoviePlayerViewController.h"
 
 @interface NodeViewController : UIViewController 
 {
 	AppModel *appModel;
 	Node *node;
-	MPMoviePlayerController *mMoviePlayer; //only used if item is a video
+	ARISMoviePlayerViewController *mMoviePlayer; //only used if item is a video
 	CGSize imageSize;
 	UITableView *tableView;
 	IBOutlet UIScrollView *scrollView;

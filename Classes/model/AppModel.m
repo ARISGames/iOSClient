@@ -474,7 +474,7 @@ static const int kEmptyValue = -1;
 	[appDelegate removeWaitingIndicator];
 	NSError *error = [request error];
 	NSLog(@"Model: uploadItemRequestFailed: %@",[error localizedDescription]);
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message: @"An unknown error occured while uploading the file" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message: @"An network error occured while uploading the file" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
 	
 	[alert show];
 	[alert release];
