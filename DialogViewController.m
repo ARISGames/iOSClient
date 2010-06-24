@@ -78,11 +78,17 @@ NSString *const kDialogHtmlTemplate =
 	assert(npcView && @"npcView not connected.");
 	assert(pcView && @"pcView not connected.");
 	
+	//Create a close button
+	self.navigationItem.leftBarButtonItem = 
+	[[UIBarButtonItem alloc] initWithTitle:@"End Conversation"
+									 style: UIBarButtonItemStyleBordered
+									target:self 
+									action:@selector(backButtonTouchAction:)];		
+	
+	
     [super viewDidLoad];
 	
 	self.title = currentNpc.name;
-	self.navigationItem.leftBarButtonItem.title = @"End Conversation";
-	
 	
 	[self loadNPCImage:currentNpc.mediaId];
 	
@@ -151,6 +157,18 @@ NSString *const kDialogHtmlTemplate =
 	[self stopAllAudio];
 }
 
+- (IBAction)backButtonTouchAction: (id) sender{
+	NSLog(@"DialogViewController: Notify server of NPC view and Dismiss view");
+	
+	//tell the server
+	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
+	AppModel *appModel = appDelegate.appModel;
+	[appModel updateServerNpcViewed:currentNpc.npcId];
+	
+	//[self.view removeFromSuperview];
+	[self dismissModalViewControllerAnimated:YES];
+}
+
 
 - (void)dealloc {
 	[currentNpc release];
@@ -171,12 +189,7 @@ NSString *const kDialogHtmlTemplate =
 #pragma mark NPC Control
 - (void) beginWithNPC:(Npc *)aNpc {
 	currentNpc = [aNpc retain];
-	
-	//tell the server
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-	AppModel *appModel = appDelegate.appModel;
-	[appModel updateServerNpcViewed:currentNpc.npcId];
-	
+		
 	parser = [[SceneParser alloc] initWithDefaultNpcId:[aNpc mediaId]];
 	parser.delegate = self;
 	

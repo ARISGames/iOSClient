@@ -31,14 +31,21 @@ static NSString * const OPTION_CELL = @"option";
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
 	NSLog(@"NodeViewController: Displaying Node '%@'",self.node.name);
+	
+	
+	//Create a close button
+	self.navigationItem.leftBarButtonItem = 
+	[[UIBarButtonItem alloc] initWithTitle:@"Back"
+									 style: UIBarButtonItemStyleBordered
+									target:self 
+									action:@selector(backButtonTouchAction:)];	
+	 
+	
 	[self refreshView];
     [super viewDidLoad];
 }
 
 - (void) refreshView {
-	//Update the server
-	[appModel updateServerNodeViewed:node.nodeId];
-	
 	self.title = self.node.name;
 		
 	//Throw out an existing scroller subviews
@@ -97,6 +104,16 @@ static NSString * const OPTION_CELL = @"option";
 	
 	//Refresh the tableView
 	[tableView reloadData];
+}
+
+- (IBAction)backButtonTouchAction: (id) sender{
+	NSLog(@"NodeViewController: Notify server of Node view and Dismiss view");
+	
+	//Notify the server this item was displayed
+	[appModel updateServerNodeViewed:node.nodeId];
+	
+	//[self.view removeFromSuperview];
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 -(IBAction)playMovie:(id)sender {

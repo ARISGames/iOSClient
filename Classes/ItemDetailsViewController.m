@@ -56,6 +56,14 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 		[toolBar setItems:[NSMutableArray arrayWithObjects: pickupButton,detailButton, nil] animated:NO];
 	}
 	
+	//Create a close button
+	self.navigationItem.leftBarButtonItem = 
+	[[UIBarButtonItem alloc] initWithTitle:@"Back"
+									 style: UIBarButtonItemStyleBordered
+									target:self 
+									action:@selector(backButtonTouchAction:)];	
+	
+	
 
 	NSLog(@"ItemDetailsViewController: View Loaded. Current item: %@", item.name);
 
@@ -95,8 +103,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	//Stop Waiting Indicator
 	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeWaitingIndicator];
 	
-	//Notify the server this item was displayed
-	[appModel updateServerItemViewed:item.itemId];
 	[super viewDidLoad];
 }
 
@@ -113,6 +119,9 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate playAudioAlert:@"drop" shouldVibrate:YES];
+	
+	//Notify the server this item was displayed
+	[appModel updateServerItemViewed:item.itemId];
 	
 	[appModel updateServerDropItemHere:self.item.itemId];
 
@@ -133,7 +142,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	
 	//Dismiss Item Details View
 	[self.navigationController popToRootViewControllerAnimated:YES];
-
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 - (IBAction)deleteButtonTouchAction: (id) sender{
@@ -142,6 +151,8 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate playAudioAlert:@"drop" shouldVibrate:YES];
 	
+	//Notify the server this item was displayed
+	[appModel updateServerItemViewed:item.itemId];
 
 	[appModel updateServerDestroyItem:self.item.itemId];
 	
@@ -156,14 +167,20 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	//Refresh the inventory
 	[appModel silenceNextServerUpdate];
 	[appModel fetchInventory];
-	
-	//Dismiss Item Details View
+		
 	[self.navigationController popToRootViewControllerAnimated:YES];
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 - (IBAction)backButtonTouchAction: (id) sender{
-	NSLog(@"ItemDetailsViewController: Dismiss Item Details View");
+	NSLog(@"ItemDetailsViewController: Notify server of Item view and Dismiss Item Details View");
+	
+	//Notify the server this item was displayed
+	[appModel updateServerItemViewed:item.itemId];
+	
 	[self.navigationController popToRootViewControllerAnimated:YES];
+	[self dismissModalViewControllerAnimated:YES];
+	
 }
 
 -(IBAction)playMovie:(id)sender {
@@ -202,7 +219,11 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	//Refresh the inventory (to show the new item)
 	[appModel fetchInventory];
 	
-	[self.navigationController.view removeFromSuperview];
+	//Notify the server this item was displayed
+	[appModel updateServerItemViewed:item.itemId];
+	
+	[self.navigationController popToRootViewControllerAnimated:YES];
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

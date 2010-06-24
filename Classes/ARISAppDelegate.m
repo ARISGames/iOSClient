@@ -256,15 +256,9 @@
 - (void)displayNearbyObjectView:(UIViewController *)nearbyObjectViewController {
 	nearbyObjectNavigationController = [[UINavigationController alloc] initWithRootViewController:nearbyObjectViewController];
 	nearbyObjectNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-	
-	//Create a close button
-	nearbyObjectViewController.navigationItem.leftBarButtonItem = 
-		[[UIBarButtonItem alloc] initWithTitle:@"Back"
-								style: UIBarButtonItemStyleBordered
-								target:nearbyObjectNavigationController.view 
-								action:@selector(removeFromSuperview)];	
+		
 	//Display
-	[window addSubview:nearbyObjectNavigationController.view]; //Didn't display the tab bar below!
+	[self.tabBarController presentModalViewController:nearbyObjectNavigationController animated:YES];
 }
 
 
