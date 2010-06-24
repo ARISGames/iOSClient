@@ -239,14 +239,19 @@
 	if (shouldVibrate == YES) [NSThread detachNewThreadSelector:@selector(vibrate) toTarget:self withObject:nil];	
 	//Play the sound on a background thread
 	[NSThread detachNewThreadSelector:@selector(playAudio:) toTarget:self withObject:wavFileName];
-
 }
 
 //Play a sound
 - (void) playAudio:(NSString*)wavFileName {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];  
+
+	
 	SystemSoundID alert;  
-	AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:wavFileName ofType:@"wav"]], &alert);  
-	AudioServicesPlaySystemSound (alert);  
+	NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:wavFileName ofType:@"wav"]];
+	AudioServicesCreateSystemSoundID((CFURLRef)url, &alert);  
+	AudioServicesPlaySystemSound (alert);
+				  
+	[pool release];
 }
 
 //Vibrate
