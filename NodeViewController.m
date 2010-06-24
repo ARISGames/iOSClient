@@ -112,6 +112,9 @@ static NSString * const OPTION_CELL = @"option";
 	//Notify the server this item was displayed
 	[appModel updateServerNodeViewed:node.nodeId];
 	
+	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
+	appDelegate.nearbyBar.hidden = NO;
+	
 	//[self.view removeFromSuperview];
 	[self dismissModalViewControllerAnimated:YES];
 }

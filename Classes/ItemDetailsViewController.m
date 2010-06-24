@@ -119,6 +119,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate playAudioAlert:@"drop" shouldVibrate:YES];
+	appDelegate.nearbyBar.hidden = NO;
 	
 	//Notify the server this item was displayed
 	[appModel updateServerItemViewed:item.itemId];
@@ -150,6 +151,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate playAudioAlert:@"drop" shouldVibrate:YES];
+	appDelegate.nearbyBar.hidden = NO;
 	
 	//Notify the server this item was displayed
 	[appModel updateServerItemViewed:item.itemId];
@@ -177,6 +179,9 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	
 	//Notify the server this item was displayed
 	[appModel updateServerItemViewed:item.itemId];
+	
+	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
+	appDelegate.nearbyBar.hidden = NO;
 	
 	[self.navigationController popToRootViewControllerAnimated:YES];
 	[self dismissModalViewControllerAnimated:YES];

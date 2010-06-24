@@ -236,16 +236,23 @@
 	NSLog(@"AppDelegate: Playing an audio Alert sound");
 	
 	//Vibrate
-	if (shouldVibrate == YES) 	AudioServicesPlaySystemSound (kSystemSoundID_Vibrate);  
+	if (shouldVibrate == YES) [NSThread detachNewThreadSelector:@selector(vibrate) toTarget:self withObject:nil];	
+	//Play the sound on a background thread
+	[NSThread detachNewThreadSelector:@selector(playAudio:) toTarget:self withObject:wavFileName];
 
-	//Play a sound
+}
+
+//Play a sound
+- (void) playAudio:(NSString*)wavFileName {
 	SystemSoundID alert;  
 	AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:wavFileName ofType:@"wav"]], &alert);  
 	AudioServicesPlaySystemSound (alert);  
-	
 }
 
-
+//Vibrate
+- (void) vibrate {
+	AudioServicesPlaySystemSound (kSystemSoundID_Vibrate);  
+}
 
 
 
@@ -254,6 +261,9 @@
 }
 
 - (void)displayNearbyObjectView:(UIViewController *)nearbyObjectViewController {
+	//Hide the nearby bar
+	nearbyBar.hidden = YES;
+	
 	nearbyObjectNavigationController = [[UINavigationController alloc] initWithRootViewController:nearbyObjectViewController];
 	nearbyObjectNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 		
