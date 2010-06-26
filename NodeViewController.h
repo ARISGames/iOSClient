@@ -15,7 +15,7 @@
 {
 	AppModel *appModel;
 	Node *node;
-	ARISMoviePlayerViewController *mMoviePlayer; //only used if item is a video
+	MPMoviePlayerViewController *mMoviePlayer; //only used if item is a video
 	CGSize imageSize;
 	UITableView *tableView;
 	IBOutlet UIScrollView *scrollView;

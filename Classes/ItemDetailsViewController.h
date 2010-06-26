@@ -16,7 +16,9 @@
 @interface ItemDetailsViewController : UIViewController {
 	AppModel *appModel;
 	Item *item;
-	ARISMoviePlayerViewController *mMoviePlayer; //only used if item is a video
+	//ARISMoviePlayerViewController *mMoviePlayer; //only used if item is a video
+	MPMoviePlayerViewController *mMoviePlayer; //only used if item is a video
+
 	bool inInventory;
 	bool descriptionShowing;
 	IBOutlet UIToolbar *toolBar;
@@ -44,6 +46,5 @@
 - (IBAction)pickupButtonTouchAction: (id) sender;
 - (IBAction)playMovie:(id)sender;
 - (IBAction)toggleDescription:(id)sender;
-- (int) calculateTextHeight:(NSString *)text;
 
 @end

@@ -144,6 +144,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	//Dismiss Item Details View
 	[self.navigationController popToRootViewControllerAnimated:YES];
 	[self dismissModalViewControllerAnimated:YES];
+
 }
 
 - (IBAction)deleteButtonTouchAction: (id) sender{
@@ -172,6 +173,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 		
 	[self.navigationController popToRootViewControllerAnimated:YES];
 	[self dismissModalViewControllerAnimated:YES];
+
 }
 
 - (IBAction)backButtonTouchAction: (id) sender{
@@ -229,6 +231,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	
 	[self.navigationController popToRootViewControllerAnimated:YES];
 	[self dismissModalViewControllerAnimated:YES];
+
 }
 
 - (void)didReceiveMemoryWarning {
