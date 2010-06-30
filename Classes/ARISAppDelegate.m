@@ -58,7 +58,7 @@
 	} else {
 		NSLog(@"AppDelegate: Internet Connection Functional");
 	}
-
+	
 	//register for notifications from views
 	NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
 	[dispatcher addObserver:self selector:@selector(performUserLogin:) name:@"PerformUserLogin" object:nil];
@@ -294,6 +294,7 @@
 	if(appModel.loggedIn) {
 		NSLog(@"AppDelegate: Login Success");
 		[loginViewNavigationController.view removeFromSuperview];
+		[appModel saveUserDefaults];
 		[window addSubview:gamePickerNavigationController.view]; //This will automatically load it's own data
 		gamePickerViewController.view.frame = [UIScreen mainScreen].applicationFrame;
 
@@ -316,6 +317,8 @@
     //NSDictionary *loginObject = [notification object];
 	NSDictionary *userInfo = notification.userInfo;
 	Game *selectedGame = [userInfo objectForKey:@"game"];
+	[appModel saveUserDefaults];
+
 	
 	NSLog(@"AppDelegate: Game Selected. '%@' game was selected using '%@' as it's site", selectedGame.name, selectedGame.site);
 
