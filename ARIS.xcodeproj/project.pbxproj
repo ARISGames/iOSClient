@@ -185,6 +185,7 @@
 		AB6484B51187860E00261315 /* drop.wav in Resources */ = {isa = PBXBuildFile; fileRef = AB6484B41187860E00261315 /* drop.wav */; };
 		AB6B775E10C9D6C900275650 /* ARViewViewControler.m in Sources */ = {isa = PBXBuildFile; fileRef = AB6B775D10C9D6C900275650 /* ARViewViewControler.m */; };
 		AB7FB978115DBF1500DB81A6 /* clickToPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = AB7FB977115DBF1500DB81A6 /* clickToPlay.png */; };
+		AB82F79011F0EAA300B8E3DC /* microphoneForeground.png in Resources */ = {isa = PBXBuildFile; fileRef = AB82F78F11F0EAA300B8E3DC /* microphoneForeground.png */; };
 		AB8A3CCE104936F500422773 /* libiconv.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AB8A3CCD104936F500422773 /* libiconv.2.dylib */; };
 		AB8A42A0104C7F8C00422773 /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8A429F104C7F8C00422773 /* Node.m */; };
 		AB8FD00C117BCF61004F8B9B /* GameDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8FD00A117BCF61004F8B9B /* GameDetails.m */; };
@@ -479,6 +480,7 @@
 		AB6B775C10C9D6C900275650 /* ARViewViewControler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARViewViewControler.h; sourceTree = "<group>"; };
 		AB6B775D10C9D6C900275650 /* ARViewViewControler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARViewViewControler.m; sourceTree = "<group>"; };
 		AB7FB977115DBF1500DB81A6 /* clickToPlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clickToPlay.png; sourceTree = "<group>"; };
+		AB82F78F11F0EAA300B8E3DC /* microphoneForeground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = microphoneForeground.png; sourceTree = "<group>"; };
 		AB8A3CCD104936F500422773 /* libiconv.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.2.dylib; path = ../../../../../../usr/lib/libiconv.2.dylib; sourceTree = SDKROOT; };
 		AB8A429E104C7F8C00422773 /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
 		AB8A429F104C7F8C00422773 /* Node.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Node.m; sourceTree = "<group>"; };
@@ -992,6 +994,7 @@
 				AB0DE7FF11559CF000A6EC3E /* AudioRecorderViewController.h */,
 				AB0DE80011559CF000A6EC3E /* AudioRecorderViewController.m */,
 				AB0DE80111559CF000A6EC3E /* AudioRecorderViewController.xib */,
+				AB82F78F11F0EAA300B8E3DC /* microphoneForeground.png */,
 				AB4150B51159291400DBA15F /* microphoneBackground.jpg */,
 				ABC399CD116B9EBC002185D4 /* AudioMeter.h */,
 				ABC399CE116B9EBC002185D4 /* AudioMeter.m */,
@@ -1283,6 +1286,7 @@
 				AB64848F118783BB00261315 /* error.wav in Resources */,
 				AB6484971187842B00261315 /* ticktick.wav in Resources */,
 				AB6484B51187860E00261315 /* drop.wav in Resources */,
+				AB82F79011F0EAA300B8E3DC /* microphoneForeground.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1539,16 +1543,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: UW Division of Information Technology";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: UW Division of Information Technology";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				ONLY_ACTIVE_ARCH = NO;
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "D14C3F02-C8B2-42ED-B71D-FC92CB362494";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D14C3F02-C8B2-42ED-B71D-FC92CB362494";
 				SDKROOT = iphoneos4.0;
 			};
 			name = "Enterprise Distribution";
@@ -1588,16 +1593,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: David Gagnon";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: David Gagnon";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				ONLY_ACTIVE_ARCH = NO;
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "A68C61C9-B01F-4138-94A8-211BA1CB620A";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A68C61C9-B01F-4138-94A8-211BA1CB620A";
 				SDKROOT = iphoneos4.0;
 			};
 			name = "AppStore Distribution";
@@ -1647,13 +1653,14 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: David Gagnon (56YHU87885)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				ONLY_ACTIVE_ARCH = NO;
 				PREBINDING = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A862388F-9251-40BD-8769-49CC59D42E01";
 				SDKROOT = iphoneos4.0;
 			};
 			name = Debug;

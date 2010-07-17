@@ -12,24 +12,30 @@
 #import "AppModel.h";
 #import "AudioMeter.h"
 
+typedef enum {
+	kAudioRecorderStarting,
+	kAudioRecorderRecording,
+	kAudioRecorderRecordingComplete,
+	kAudioRecorderPlaying
+} modeType;
 
 
 @interface AudioRecorderViewController : UIViewController <AVAudioSessionDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate> {
 	AppModel *appModel;	
-
+	
 	AudioMeter *meter;
 	AVAudioRecorder *soundRecorder;
 	AVAudioPlayer *soundPlayer;
 	NSURL *soundFileURL;
 	NSData *audioData;
-	IBOutlet UIButton *recordOrStopButton;
-	IBOutlet UIButton *playOrPauseButton;
+	IBOutlet UIButton *recordStopOrPlayButton;
 	IBOutlet UIButton *uploadButton;
-
+	IBOutlet UIButton *discardButton;
+	modeType mode;
 	BOOL recording;
 	BOOL playing;
 	NSTimer *meterUpdateTimer;
-
+	
 }
 
 @property(readwrite, retain) AudioMeter *meter;
@@ -40,9 +46,12 @@
 @property(readwrite, retain) NSTimer *meterUpdateTimer;
 
 
-- (IBAction) recordOrStop: (id) sender;
-- (IBAction) playOrPause: (id) sender;
-- (IBAction) upload: (id) sender;
+- (IBAction) recordStopOrPlayButtonAction: (id) sender;
+- (IBAction) uploadButtonAction: (id) sender;
+- (IBAction) discardButtonAction: (id) sender;
+- (void) updateButtonsForCurrentMode;
+
+
 
 @end
 
