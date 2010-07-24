@@ -24,6 +24,10 @@
 
 - (void)dealloc {
 	[name release];
+	[site release];
+	[description release];
+	[authors release];
+	[location release];	
     [super dealloc];
 }
 

@@ -250,7 +250,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	UIWebView *descriptionView;
 	AsyncImageView *iconView;
 	
-	UITableViewCell *cell = [[UITableViewCell alloc] initWithFrame:cellFrame];
+	UITableViewCell *cell = [[[UITableViewCell alloc] initWithFrame:cellFrame] autorelease];
 	
 	//Setup Cell
 	UIView *transparentBackground = [[UIView alloc] initWithFrame:CGRectZero];

@@ -43,9 +43,11 @@
 	[appModel retain];
 	
 	
+	
 	//Check for Internet conductivity
 	NSLog(@"AppDelegate: Verifying Connection to: %@",appModel.baseAppURL);
-	Reachability *r = [Reachability reachabilityWithHostName:@"arisgames.org"];
+	//Reachability *r = [Reachability reachabilityWithHostName:@"arisgames.org"];
+	Reachability *r = [Reachability reachabilityWithHostName:@"davembp.local"];
 	NetworkStatus internetStatus = [r currentReachabilityStatus];
 	BOOL connection = (internetStatus == ReachableViaWiFi) || (internetStatus == ReachableViaWWAN);
 	//connection = YES; //For debugging locally
@@ -67,9 +69,9 @@
 	[dispatcher addObserver:self selector:@selector(displayNearbyObjects:) name:@"NearbyButtonTouched" object:nil];
 
 	//Setup ARView
-	ARViewViewControler *arViewController = [[[ARViewViewControler alloc] initWithNibName:@"ARView" bundle:nil] autorelease];
-	UINavigationController *arNavigationController = [[UINavigationController alloc] initWithRootViewController: arViewController];
-	arNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+	//ARViewViewControler *arViewController = [[[ARViewViewControler alloc] initWithNibName:@"ARView" bundle:nil] autorelease];
+	//UINavigationController *arNavigationController = [[UINavigationController alloc] initWithRootViewController: arViewController];
+	//arNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 	
 	//Setup Tasks View
 	QuestsViewController *questsViewController = [[[QuestsViewController alloc] initWithNibName:@"Quests" bundle:nil] autorelease];
@@ -147,7 +149,7 @@
 										//developerNavigationController,
 										nil];	
 
-	[window addSubview:tabBarController.view];	
+	[window addSubview:tabBarController.view];
 
 	//Customize the 'more' nav controller on the tab bar
 	UINavigationController *moreNavController = tabBarController.moreNavigationController;

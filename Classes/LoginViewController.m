@@ -84,6 +84,7 @@
 	
 	//Put the view on the screen
 	[[self navigationController] pushViewController:selfRegistrationViewController animated:YES];
+	[selfRegistrationViewController release];
 	
 }
 
