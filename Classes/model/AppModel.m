@@ -851,8 +851,8 @@ static const int kEmptyValue = -1;
 		if (pc_media_id) game.pcMediaId = [pc_media_id intValue];
 		else game.pcMediaId = 0;
 		
-		game.location = [[CLLocation alloc] initWithLatitude:[[gameDictionary valueForKey:@"latitude"] doubleValue]
-												   longitude:[[gameDictionary valueForKey:@"longitude"] doubleValue]];
+		game.location = [[[CLLocation alloc] initWithLatitude:[[gameDictionary valueForKey:@"latitude"] doubleValue]
+												   longitude:[[gameDictionary valueForKey:@"longitude"] doubleValue]] autorelease];
 		
 		
 		game.authors = [gameDictionary valueForKey:@"editors"];
@@ -899,8 +899,10 @@ static const int kEmptyValue = -1;
 		location.locationId = [[locationDictionary valueForKey:@"location_id"] intValue];
 		location.name = [locationDictionary valueForKey:@"name"];
 		location.iconMediaId = [[locationDictionary valueForKey:@"icon_media_id"] intValue];
-		location.location = [[CLLocation alloc] initWithLatitude:[[locationDictionary valueForKey:@"latitude"] doubleValue]
-													   longitude:[[locationDictionary valueForKey:@"longitude"] doubleValue]];
+		CLLocation *tmpLocation = [[CLLocation alloc] initWithLatitude:[[locationDictionary valueForKey:@"latitude"] doubleValue]
+															  longitude:[[locationDictionary valueForKey:@"longitude"] doubleValue]];
+		location.location = tmpLocation;
+		[tmpLocation release];
 		location.error = [[locationDictionary valueForKey:@"error"] doubleValue];
 		location.objectType = [locationDictionary valueForKey:@"type"];
 		location.objectId = [[locationDictionary valueForKey:@"type_id"] intValue];
@@ -913,6 +915,7 @@ static const int kEmptyValue = -1;
 		[location release];
 	}
 	
+	//if (self.locationList) [self.locationList release];
 	self.locationList = tempLocationsList;
 	
 	//Tell everyone
@@ -1019,8 +1022,12 @@ static const int kEmptyValue = -1;
 	NSString *longitude = [qrCodeObjectDictionary valueForKey:@"longitude"];
 	NSLog(@"AppModel-parseQRCodeObjectFromDictionary: Lat:%@ Lng:%@",latitude,longitude);
 
-	self.playerLocation = [[[CLLocation alloc] initWithLatitude:[latitude doubleValue]
-												   longitude:[longitude doubleValue]] copy];
+	CLLocation *location = [[CLLocation alloc] initWithLatitude:[latitude doubleValue]
+													  longitude:[longitude doubleValue]];
+	
+	self.playerLocation = [location copy];
+	[location release];
+	
 	
 	//[appModel updateServerLocationAndfetchNearbyLocationList];
 	

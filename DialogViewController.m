@@ -529,11 +529,13 @@ NSString *const kDialogHtmlTemplate =
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
 	AppModel *appModel = appDelegate.appModel;
 	
-	[currentNode release];
 	Node *newNode = [appModel fetchNode:selectedOption.nodeId];
 	[appModel updateServerNodeViewed:selectedOption.nodeId];
 	optionList = newNode.numberOfOptions > 0 ? newNode.options : currentNpc.options;
+	if (currentNode) [currentNode release];
 	currentNode = newNode;
+	[currentNode retain];
+	
 	[parser parseText:newNode.text];
 }
 

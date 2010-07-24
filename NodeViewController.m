@@ -63,6 +63,7 @@ static NSString * const OPTION_CELL = @"option";
 		//Add the image view to the scroller
 		[scrollView addSubview:mediaImageView];
 		imageSize = mediaImageView.frame.size;
+		[mediaImageView release];
 	}
 	else if (([media.type isEqualToString: @"Video"] || [media.type isEqualToString: @"Audio"]) && media.url) {
 		NSLog(@"ItemDetailsViewController:  Video Layout Selected");
@@ -73,6 +74,7 @@ static NSString * const OPTION_CELL = @"option";
 		[button setImage:[UIImage imageNamed:@"clickToPlay.png"] forState:UIControlStateNormal];
 		[scrollView addSubview:button];	
 		imageSize = button.frame.size;
+		[button release];
 		
 		//Create movie player object
 		mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
@@ -101,6 +103,7 @@ static NSString * const OPTION_CELL = @"option";
 										  + nodeTextView.frame.size.height)];
 	//Add the text to the scroller
 	[scrollView addSubview:nodeTextView];
+	[nodeTextView release];
 	
 	//Refresh the tableView
 	[tableView reloadData];

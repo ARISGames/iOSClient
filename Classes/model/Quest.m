@@ -17,4 +17,11 @@
 @synthesize iconMediaId;
 
 
+- (void) dealloc {
+	[name release];
+	[description release];
+	[super dealloc];
+}
+
+
 @end

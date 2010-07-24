@@ -109,6 +109,7 @@
 	titleAndDescForm.delegate = self;
 	//[self presentModalViewController:titleAndDescForm animated:NO];
 	[self.view addSubview:titleAndDescForm.view];
+	[titleAndDescForm release];
 }
 
 

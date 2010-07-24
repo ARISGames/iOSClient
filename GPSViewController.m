@@ -42,7 +42,8 @@
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
 		[dispatcher addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];
 		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"ReceivedLocationList" object:nil];
-		[dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];		
+		[dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
+		
 	}
 	
     return self;
@@ -139,7 +140,21 @@
 	//remove any existing badge
 	self.tabBarItem.badgeValue = nil;
 	
+	//create a time for automatic map refresh
+	NSLog(@"GPSViewController: Starting Refresh Timer");
+	if (refreshTimer != nil && [refreshTimer isValid]) [refreshTimer invalidate];
+	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
+
+	
 	NSLog(@"GPSViewController: view did appear");
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	NSLog(@"GPSViewController: Stopping Refresh Timer");
+	if (refreshTimer) {
+		[refreshTimer invalidate];
+		refreshTimer = nil;
+	}
 }
 
 
@@ -181,7 +196,7 @@
 		if (silenceNextServerUpdate == NO) {
 			self.tabBarItem.badgeValue = @"!";
 			
-			ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+			//ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 			//[appDelegate playAudioAlert:@"mapChange" shouldVibrate:YES]; //this is a little annoying becasue it happens even when players move
 			
 		}

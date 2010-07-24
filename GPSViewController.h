@@ -22,6 +22,7 @@
 	IBOutlet UIBarButtonItem *mapTypeButton;
 	IBOutlet UIBarButtonItem *playerTrackingButton;
 	BOOL silenceNextServerUpdate;
+	NSTimer *refreshTimer;
 
 }
 

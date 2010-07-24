@@ -69,7 +69,6 @@
 @property(nonatomic, retain) IBOutlet UIView		*pcView;
 
 - (void) beginWithNPC:(Npc *)aNpc;
-- (void) loadPCImage:(NSInteger)mediaId;
 - (void) loadNPCImage:(NSInteger)mediaId;
 - (void) continueScript;
 - (void) didFinishParsing;

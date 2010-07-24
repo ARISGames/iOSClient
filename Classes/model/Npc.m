@@ -51,7 +51,18 @@
 	[dialogController beginWithNPC:self];
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
 	[appDelegate displayNearbyObjectView:dialogController];
+	[dialogController release];
 }
 
+
+- (void) dealloc {
+	[name release];
+	[description release];
+	[greeting release];
+	[options release];
+	[location release];
+	[super dealloc];
+}
+ 
 
 @end

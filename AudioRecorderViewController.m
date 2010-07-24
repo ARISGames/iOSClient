@@ -215,6 +215,7 @@
 															  initWithNibName:@"TitleAndDecriptionFormViewController" bundle:nil];
 	titleAndDescForm.delegate = self;
 	[self.view addSubview:titleAndDescForm.view];
+	[titleAndDescForm release];
 }	
 
 - (void)titleAndDescriptionFormDidFinish:(TitleAndDecriptionFormViewController*)titleAndDescForm{

@@ -97,6 +97,7 @@ NSString *const kGameDetailsHtmlTemplate =
 	MKReverseGeocoder *reverseGeocoder = [[MKReverseGeocoder alloc] initWithCoordinate:self.game.location.coordinate];
 	reverseGeocoder.delegate = self;
 	[reverseGeocoder start];
+	[reverseGeocoder release];
 	
 	titleLabel.text = game.name;
 	

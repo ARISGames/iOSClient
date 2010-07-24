@@ -47,6 +47,7 @@
 
 	//Have AppDelegate display
 	[appDelegate displayNearbyObjectView:itemDetailsViewController];
+	[itemDetailsViewController release];
 	
 }
 
@@ -67,5 +68,6 @@
 	[description release];
     [super dealloc];
 }
+ 
 
 @end

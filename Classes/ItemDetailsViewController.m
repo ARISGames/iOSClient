@@ -86,6 +86,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 		[button addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
 		[button setImage:[UIImage imageNamed:@"clickToPlay.png"] forState:UIControlStateNormal];
 		[scrollView addSubview:button];			
+		[button release];
 		
 		//Create movie player object
 		mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];

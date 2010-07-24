@@ -80,10 +80,12 @@
 
 	if (self.nearGameList) [self.nearGameList release];
 	self.nearGameList = tempNearArray;
+	[tempNearArray release];
 	[self.nearGameList retain];
 	
 	if (self.farGameList) [self.farGameList release];
 	self.farGameList = tempFarArray;
+	[tempFarArray release];
 	[self.farGameList retain];
 
 	[gameTable reloadData];
