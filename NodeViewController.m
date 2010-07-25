@@ -22,6 +22,15 @@ static NSString * const OPTION_CELL = @"option";
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(movieFinishedCallback:)
+													 name:MPMoviePlayerPlaybackDidFinishNotification
+												   object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self 
+												 selector:@selector(movieLoadStateChanged:) 
+													 name:MPMoviePlayerLoadStateDidChangeNotification 
+												   object:nil];
     }
 
     return self;
@@ -47,7 +56,8 @@ static NSString * const OPTION_CELL = @"option";
 
 - (void) refreshView {
 	self.title = self.node.name;
-		
+	int topMargin = 10;
+	
 	//Throw out an existing scroller subviews
 	for(UIView *subview in [self.scrollView subviews]) {
 		[subview removeFromSuperview];
@@ -68,21 +78,26 @@ static NSString * const OPTION_CELL = @"option";
 	else if (([media.type isEqualToString: @"Video"] || [media.type isEqualToString: @"Audio"]) && media.url) {
 		NSLog(@"ItemDetailsViewController:  Video Layout Selected");
 		
-		//Add a button
-		UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
-		[button addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
-		[button setImage:[UIImage imageNamed:@"clickToPlay.png"] forState:UIControlStateNormal];
-		[scrollView addSubview:button];	
-		imageSize = button.frame.size;
-		[button release];
+		//Setup the Button
+		mediaPlaybackButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 320, 295)];
+		
+		[mediaPlaybackButton addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
+		[mediaPlaybackButton setBackgroundImage:[UIImage imageNamed:@"clickToPlay.png"] forState:UIControlStateNormal];
+		[mediaPlaybackButton setTitle:@"Preparing to Play" forState:UIControlStateNormal];
+		mediaPlaybackButton.enabled = NO;
+		mediaPlaybackButton.titleLabel.font = [UIFont boldSystemFontOfSize:24];
+		[mediaPlaybackButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
+		[mediaPlaybackButton setContentVerticalAlignment:UIControlContentVerticalAlignmentBottom];
+		topMargin = 50; 
+		
+		[scrollView addSubview:mediaPlaybackButton];	
+		imageSize = mediaPlaybackButton.frame.size;
 		
 		//Create movie player object
 		mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
 		[mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(movieFinishedCallback:)
-													 name:MPMoviePlayerPlaybackDidFinishNotification
-												   object:nil];
+
+		[mMoviePlayer.moviePlayer prepareToPlay];
 	}
 	
 	else {
@@ -91,8 +106,8 @@ static NSString * const OPTION_CELL = @"option";
 	
 	
 	//Set Up Text Area
-	int margin = 10;
-	UILabel *nodeTextView = [[UILabel alloc] initWithFrame:CGRectMake(margin, imageSize.height + margin, 320 - (2 * margin),
+	int sideMargin = 10;
+	UILabel *nodeTextView = [[UILabel alloc] initWithFrame:CGRectMake(sideMargin, imageSize.height + topMargin, 320 - (2 * sideMargin),
 																			 [self calculateTextHeight:self.node.text])];
 	nodeTextView.text = self.node.text;
 	nodeTextView.backgroundColor = [UIColor blackColor];
@@ -123,17 +138,10 @@ static NSString * const OPTION_CELL = @"option";
 }
 
 -(IBAction)playMovie:(id)sender {
+
+		
 	[self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
 }
-
-- (void)movieFinishedCallback:(NSNotification*) aNotification
-{
-	[[NSNotificationCenter defaultCenter] removeObserver:self
-										name:MPMoviePlayerPlaybackDidFinishNotification
-										object:mMoviePlayer];
-	[self dismissMoviePlayerViewControllerAnimated];
-}
-
 
 - (int) calculateTextHeight:(NSString *)text {
 	CGRect frame = CGRectMake(0, 0, self.view.bounds.size.width, 200000);
@@ -144,6 +152,68 @@ static NSString * const OPTION_CELL = @"option";
 	NSLog(@"Found height of %f", frame.size.height);
 	return frame.size.height;
 }
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
+    // Release anything that's not essential, such as cached data
+}
+
+
+- (void)dealloc {
+	NSLog(@"NodeViewController: Dealloc");
+    
+	[mMoviePlayer release];
+	[node release];
+	[tableView release];
+	[scrollView release];
+	
+	//remove listeners
+	[[NSNotificationCenter defaultCenter] removeObserver:self
+													name:MPMoviePlayerPlaybackDidFinishNotification
+												  object:mMoviePlayer];
+	[[NSNotificationCenter defaultCenter] removeObserver:self
+													name:MPMoviePlayerLoadStateDidChangeNotification
+												  object:mMoviePlayer];	
+
+	
+	
+    [super dealloc];
+}
+
+#pragma mark MPMoviePlayerController Notification Handlers
+
+
+- (void)movieLoadStateChanged:(NSNotification*) aNotification{
+	switch ([(MPMoviePlayerController *) aNotification.object loadState]) {
+		case MPMovieLoadStateUnknown:
+			NSLog(@"NodeViewController: Unknown Load State");
+			break;
+		case MPMovieLoadStatePlayable:
+			NSLog(@"NodeViewController: Playable Load State");
+			[mediaPlaybackButton setTitle:@"Touch To Play" forState:UIControlStateNormal];
+			mediaPlaybackButton.enabled = YES;
+			break;
+		case MPMovieLoadStatePlaythroughOK:
+			NSLog(@"NodeViewController: Playthrough OK Load State");
+			break;
+		case MPMovieLoadStateStalled:
+			NSLog(@"NodeViewController: Stalled Load State");
+			break;	
+		default:
+			break;
+	}
+
+}
+
+
+- (void)movieFinishedCallback:(NSNotification*) aNotification
+{
+	[self dismissMoviePlayerViewControllerAnimated];
+}
+
+
+
+
 
 /*
 // Override to allow orientations other than the default portrait orientation.
@@ -218,18 +288,7 @@ static NSString * const OPTION_CELL = @"option";
 	return @"Options";
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-    // Release anything that's not essential, such as cached data
-}
 
-
-- (void)dealloc {
-	// free our movie player
-    [mMoviePlayer release];
-	
-    [super dealloc];
-}
 
 
 @end

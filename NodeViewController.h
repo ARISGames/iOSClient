@@ -18,6 +18,7 @@
 	MPMoviePlayerViewController *mMoviePlayer; //only used if item is a video
 	CGSize imageSize;
 	UITableView *tableView;
+	UIButton *mediaPlaybackButton;
 	IBOutlet UIScrollView *scrollView;
 }
 

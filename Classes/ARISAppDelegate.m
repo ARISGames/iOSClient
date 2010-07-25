@@ -276,6 +276,7 @@
 		
 	//Display
 	[self.tabBarController presentModalViewController:nearbyObjectNavigationController animated:YES];
+	[nearbyObjectNavigationController release];
 }
 
 
