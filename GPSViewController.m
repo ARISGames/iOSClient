@@ -16,14 +16,13 @@
 #import "Annotation.h"
 
 
-//static int DEFAULT_ZOOM = 16;
-//static float INITIAL_SPAN = 0.001;
+static float INITIAL_SPAN = 0.001;
 
 @implementation GPSViewController
 
 @synthesize locations;
 @synthesize mapView;
-@synthesize autoCenter;
+@synthesize tracking;
 @synthesize mapTypeButton;
 @synthesize playerTrackingButton;
 
@@ -36,7 +35,7 @@
         self.tabBarItem.image = [UIImage imageNamed:@"gps.png"];
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
 		silenceNextServerUpdate = YES;
-		autoCenter = YES;
+		tracking = YES;
 		
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
@@ -76,6 +75,10 @@
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate playAudioAlert:@"ticktick" shouldVibrate:NO];
 	
+	//resume auto centering
+	tracking = YES;
+	playerTrackingButton.style = UIBarButtonItemStyleDone;
+
 	
 	//Force a location update
 	[appDelegate.myCLController.locationManager stopUpdatingLocation];
@@ -121,6 +124,8 @@
 	
 	playerTrackingButton.target = self; 
 	playerTrackingButton.action = @selector(refreshButtonAction:);
+	playerTrackingButton.style = UIBarButtonItemStyleDone;
+
 	
 	//Force an update of the locations
 	[appModel forceUpdateOnNextLocationListFetch];
@@ -166,7 +171,8 @@
 		[appModel fetchLocationList];
 	
 		//Zoom and Center
-		[self zoomAndCenterMap];
+		if (tracking) [self zoomAndCenterMap];
+
 	} else {
 		NSLog(@"GPSViewController: refresh requested but ignored, as mapview is nil");	
 		
@@ -175,13 +181,15 @@
 
 -(void) zoomAndCenterMap {
 	
+	appSetNextRegionChange = YES;
+	
 	//Center the map on the player
 	MKCoordinateRegion region = mapView.region;
 	region.center = appModel.playerLocation.coordinate;
+	region.span = MKCoordinateSpanMake(INITIAL_SPAN, INITIAL_SPAN);
+
 	[mapView setRegion:region animated:YES];
-	
-	//Set to default zoom
-	//mapView.contents.zoom = DEFAULT_ZOOM;
+		
 }
 
 
@@ -343,7 +351,23 @@
 //    return [UIImage imageWithCGImage:imageMasked];
 //}
 //
-#pragma mark Views for annotations
+#pragma mark MKMapViewDelegate
+
+- (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
+	//User must have moved the map. Turn off Tracking
+	NSLog(@"GPSVC: regionDidChange delegate metohd fired");
+
+	if (!appSetNextRegionChange) {
+		NSLog(@"GPSVC: regionDidChange without appSetNextRegionChange, it must have been the user");
+		tracking = NO;
+		playerTrackingButton.style = UIBarButtonItemStyleBordered;
+	}
+	
+	appSetNextRegionChange = NO;
+
+
+}
+
 
 - (MKAnnotationView *)mapView:(MKMapView *)myMapView viewForAnnotation:(id <MKAnnotation>)annotation{
 	NSLog(@"GPSViewController: In viewForAnnotation");

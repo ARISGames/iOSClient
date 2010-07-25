@@ -18,7 +18,8 @@
 	AppModel *appModel;
 	MKMapView *mapView;
 	NSArray *locations;
-	BOOL autoCenter;
+	BOOL tracking;
+	BOOL appSetNextRegionChange;
 	IBOutlet UIBarButtonItem *mapTypeButton;
 	IBOutlet UIBarButtonItem *playerTrackingButton;
 	BOOL silenceNextServerUpdate;
@@ -33,7 +34,10 @@
 @property (nonatomic, retain) MKMapView *mapView;
 @property (nonatomic, retain) NSArray *locations;
 
-@property BOOL autoCenter;
+@property BOOL tracking;
+@property BOOL appSetNextRegionChange;
+
+
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *mapTypeButton;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *playerTrackingButton;
 
