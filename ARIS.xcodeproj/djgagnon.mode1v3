@@ -279,13 +279,12 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>81</integer>
-									<integer>71</integer>
-									<integer>0</integer>
+									<integer>95</integer>
+									<integer>94</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 1066}, {281, 708}}</string>
+							<string>{{0, 1077}, {281, 708}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -334,7 +333,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>ABC3C19511FCFDE600E59FAC</string>
+										<string>ABC3C1C911FCFF6E00E59FAC</string>
 										<key>history</key>
 										<array>
 											<string>ABBEBCDD104DDCDB00AA7285</string>
@@ -501,7 +500,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>AnnotationView.m</string>
+								<string>DecodedBitStreamParser.cpp</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -509,11 +508,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>AnnotationView.m</string>
+										<string>DecodedBitStreamParser.cpp</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>ABC3C19B11FCFDE600E59FAC</string>
+										<string>ABC3C1CA11FCFF6E00E59FAC</string>
 										<key>history</key>
 										<array>
 											<string>ABBEBCDD104DDCDB00AA7285</string>
@@ -527,7 +526,6 @@
 											<string>ABB9262310C85AB000B09506</string>
 											<string>ABB9262510C85AB000B09506</string>
 											<string>ABB9262710C85AB000B09506</string>
-											<string>AB6B771710C9D1DB00275650</string>
 											<string>AB6B772310C9D2AA00275650</string>
 											<string>ABD6229B10DAFAE200D3B747</string>
 											<string>AB6EB77F10FE875700F20771</string>
@@ -654,7 +652,8 @@
 											<string>ABC3C19711FCFDE600E59FAC</string>
 											<string>ABC3C19811FCFDE600E59FAC</string>
 											<string>ABC3C19911FCFDE600E59FAC</string>
-											<string>ABC3C19A11FCFDE600E59FAC</string>
+											<string>ABC3C1A811FCFEE500E59FAC</string>
+											<string>ABC3C1A911FCFEE500E59FAC</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -881,7 +880,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string></string>
+								<string>DecodedBitStreamParser.cpp</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -898,6 +897,8 @@
 							<string>366pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
