@@ -218,7 +218,8 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	
 	CGRect descriptionFrame = [descriptionView frame];	
 	descriptionFrame.size = CGSizeMake(descriptionFrame.size.width,newHeight);
-	[descriptionView setFrame:descriptionFrame];	
+	[descriptionView setFrame:descriptionFrame];
+	[[[descriptionView subviews] lastObject] setScrollEnabled:NO];
 	NSLog(@"QuestViewController: description UIWebView frame set to {%f, %f, %f, %f}", 
 		  descriptionFrame.origin.x, 
 		  descriptionFrame.origin.y, 
