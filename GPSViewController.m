@@ -232,7 +232,7 @@ static float INITIAL_SPAN = 0.001;
 			Annotation *annotation = [[Annotation alloc]initWithCoordinate:locationLatLong];
 			
 			annotation.title = location.name;
-			if (location.kind == NearbyObjectItem) annotation.subtitle = [NSString stringWithFormat:@"Quantity: %d",location.qty];
+			if (location.kind == NearbyObjectItem && location.qty > 1) annotation.subtitle = [NSString stringWithFormat:@"Quantity: %d",location.qty];
 			NSLog(@"GPSViewController: Annotation title is %@; subtitle is %@.", annotation.title, annotation.subtitle);
 			
 			annotation.iconMediaId = location.iconMediaId; //if we have a custom icon
@@ -268,7 +268,7 @@ static float INITIAL_SPAN = 0.001;
 }
 
 - (void)dealloc {
-	[appModel release];
+	[mapView release];
     [super dealloc];
 }
 

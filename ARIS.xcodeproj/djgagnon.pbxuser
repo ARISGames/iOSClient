@@ -443,6 +443,12 @@
 			ABC3C15011FCF50700E59FAC /* PBXTextBookmark */ = ABC3C15011FCF50700E59FAC /* PBXTextBookmark */;
 			ABC3C15411FCF56C00E59FAC /* PBXTextBookmark */ = ABC3C15411FCF56C00E59FAC /* PBXTextBookmark */;
 			ABC3C15511FCF56C00E59FAC /* PBXTextBookmark */ = ABC3C15511FCF56C00E59FAC /* PBXTextBookmark */;
+			ABC3C15911FCF80500E59FAC /* PBXTextBookmark */ = ABC3C15911FCF80500E59FAC /* PBXTextBookmark */;
+			ABC3C15A11FCF80500E59FAC /* PBXTextBookmark */ = ABC3C15A11FCF80500E59FAC /* PBXTextBookmark */;
+			ABC3C15B11FCF80500E59FAC /* PBXTextBookmark */ = ABC3C15B11FCF80500E59FAC /* PBXTextBookmark */;
+			ABC3C15C11FCF80500E59FAC /* PBXTextBookmark */ = ABC3C15C11FCF80500E59FAC /* PBXTextBookmark */;
+			ABC3C15D11FCF80500E59FAC /* PBXTextBookmark */ = ABC3C15D11FCF80500E59FAC /* PBXTextBookmark */;
+			ABC3C15E11FCF80500E59FAC /* PBXTextBookmark */ = ABC3C15E11FCF80500E59FAC /* PBXTextBookmark */;
 			ABD6229B10DAFAE200D3B747 = ABD6229B10DAFAE200D3B747 /* PBXBookmark */;
 			ABE768DA119BB22000E800B6 = ABE768DA119BB22000E800B6 /* PBXTextBookmark */;
 			ABF4A44C11698A240043EB1C = ABF4A44C11698A240043EB1C /* PBXTextBookmark */;
@@ -2683,7 +2689,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 43;
-		modificationTime = 301790566.993376;
+		modificationTime = 301791233.173219;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -2700,7 +2706,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 21;
-		modificationTime = 301790566.993058;
+		modificationTime = 301791233.172941;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -2773,7 +2779,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 78;
-		modificationTime = 301790566.992335;
+		modificationTime = 301791233.172172;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -3147,7 +3153,7 @@
 		fRef = ABDA40AD10506AF400823A94 /* GPSViewController.m */;
 		name = "GPSViewController.m: 358";
 		rLen = 57;
-		rLoc = 11896;
+		rLoc = 11915;
 		rType = 0;
 		vrLen = 828;
 		vrLoc = 11478;
@@ -3167,7 +3173,7 @@
 		fRef = ABDA40AD10506AF400823A94 /* GPSViewController.m */;
 		name = "GPSViewController.m: 358";
 		rLen = 57;
-		rLoc = 11896;
+		rLoc = 11915;
 		rType = 0;
 		vrLen = 828;
 		vrLoc = 11478;
@@ -3177,7 +3183,7 @@
 		fRef = ABDA40AD10506AF400823A94 /* GPSViewController.m */;
 		name = "GPSViewController.m: 358";
 		rLen = 57;
-		rLoc = 11896;
+		rLoc = 11915;
 		rType = 0;
 		vrLen = 828;
 		vrLoc = 11478;
@@ -3207,7 +3213,7 @@
 		fRef = ABDA40AD10506AF400823A94 /* GPSViewController.m */;
 		name = "GPSViewController.m: 366";
 		rLen = 22;
-		rLoc = 12165;
+		rLoc = 12184;
 		rType = 0;
 		vrLen = 803;
 		vrLoc = 11393;
@@ -3217,7 +3223,7 @@
 		fRef = ABDA40AD10506AF400823A94 /* GPSViewController.m */;
 		name = "GPSViewController.m: 356";
 		rLen = 0;
-		rLoc = 11813;
+		rLoc = 11832;
 		rType = 0;
 		vrLen = 854;
 		vrLoc = 11345;
@@ -3276,6 +3282,66 @@
 		vrLen = 1196;
 		vrLoc = 10153;
 	};
+	ABC3C15911FCF80500E59FAC /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */;
+		name = "InventoryListViewController.m: 157";
+		rLen = 0;
+		rLoc = 4720;
+		rType = 0;
+		vrLen = 155;
+		vrLoc = 5049;
+	};
+	ABC3C15A11FCF80500E59FAC /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = ABDA40B310506AF400823A94 /* AnnotationView.m */;
+		name = "AnnotationView.m: 81";
+		rLen = 0;
+		rLoc = 3219;
+		rType = 0;
+		vrLen = 1994;
+		vrLoc = 1851;
+	};
+	ABC3C15B11FCF80500E59FAC /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = ABDA40B110506AF400823A94 /* Annotation.m */;
+		name = "Annotation.m: 14";
+		rLen = 0;
+		rLoc = 240;
+		rType = 0;
+		vrLen = 401;
+		vrLoc = 0;
+	};
+	ABC3C15C11FCF80500E59FAC /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = ABDA40AC10506AF400823A94 /* GPSViewController.h */;
+		name = "GPSViewController.h: 19";
+		rLen = 7;
+		rLoc = 369;
+		rType = 0;
+		vrLen = 956;
+		vrLoc = 0;
+	};
+	ABC3C15D11FCF80500E59FAC /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = ABDA40AD10506AF400823A94 /* GPSViewController.m */;
+		name = "GPSViewController.m: 271";
+		rLen = 0;
+		rLoc = 8139;
+		rType = 0;
+		vrLen = 1180;
+		vrLoc = 12123;
+	};
+	ABC3C15E11FCF80500E59FAC /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = ABDA40AD10506AF400823A94 /* GPSViewController.m */;
+		name = "GPSViewController.m: 235";
+		rLen = 0;
+		rLoc = 6899;
+		rType = 0;
+		vrLen = 1698;
+		vrLoc = 6113;
+	};
 	ABCA5D821044618F004DA60D /* InventoryParserDelegate.m:34 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
@@ -3289,7 +3355,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 34;
-		modificationTime = 301790566.99279;
+		modificationTime = 301791233.172663;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -3314,16 +3380,16 @@
 	};
 	ABDA40AC10506AF400823A94 /* GPSViewController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1003, 572}}";
-			sepNavSelRange = "{805, 0}";
-			sepNavVisRange = "{240, 567}";
+			sepNavIntBoundsRect = "{{0, 0}, {1003, 585}}";
+			sepNavSelRange = "{369, 7}";
+			sepNavVisRange = "{0, 956}";
 		};
 	};
 	ABDA40AD10506AF400823A94 /* GPSViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1003, 5226}}";
-			sepNavSelRange = "{2612, 19}";
-			sepNavVisRange = "{10153, 1196}";
+			sepNavIntBoundsRect = "{{0, 0}, {1062, 5252}}";
+			sepNavSelRange = "{6899, 0}";
+			sepNavVisRange = "{6113, 1698}";
 		};
 	};
 	ABDA40B010506AF400823A94 /* Annotation.h */ = {
@@ -3335,7 +3401,7 @@
 	};
 	ABDA40B110506AF400823A94 /* Annotation.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {961, 600}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1003, 544}}";
 			sepNavSelRange = "{240, 0}";
 			sepNavVisRange = "{0, 401}";
 		};
@@ -3349,9 +3415,9 @@
 	};
 	ABDA40B310506AF400823A94 /* AnnotationView.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1258, 1677}}";
-			sepNavSelRange = "{259, 0}";
-			sepNavVisRange = "{2936, 2398}";
+			sepNavIntBoundsRect = "{{0, 0}, {1258, 1651}}";
+			sepNavSelRange = "{3219, 0}";
+			sepNavVisRange = "{1851, 1994}";
 			sepNavWindowFrame = "{{15, 33}, {1168, 845}}";
 		};
 	};
