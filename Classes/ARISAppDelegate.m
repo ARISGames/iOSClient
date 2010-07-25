@@ -46,8 +46,7 @@
 	
 	//Check for Internet conductivity
 	NSLog(@"AppDelegate: Verifying Connection to: %@",appModel.baseAppURL);
-	//Reachability *r = [Reachability reachabilityWithHostName:@"arisgames.org"];
-	Reachability *r = [Reachability reachabilityWithHostName:@"davembp.local"];
+	Reachability *r = [Reachability reachabilityWithHostName:@"arisgames.org"];
 	NetworkStatus internetStatus = [r currentReachabilityStatus];
 	BOOL connection = (internetStatus == ReachableViaWiFi) || (internetStatus == ReachableViaWWAN);
 	//connection = YES; //For debugging locally
@@ -60,6 +59,7 @@
 	} else {
 		NSLog(@"AppDelegate: Internet Connection Functional");
 	}
+	
 	
 	//register for notifications from views
 	NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
