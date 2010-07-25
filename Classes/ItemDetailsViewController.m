@@ -242,6 +242,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	//Notify the server this item was displayed
 	[appModel updateServerItemViewed:item.itemId];
 	
+	appDelegate.nearbyBar.hidden = NO;
 	[self.navigationController popToRootViewControllerAnimated:YES];
 	[self dismissModalViewControllerAnimated:YES];
 

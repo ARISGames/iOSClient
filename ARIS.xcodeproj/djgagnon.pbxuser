@@ -407,6 +407,10 @@
 			ABC3C0E811FCDE0800E59FAC /* PBXTextBookmark */ = ABC3C0E811FCDE0800E59FAC /* PBXTextBookmark */;
 			ABC3C0EA11FCDE7D00E59FAC /* PBXTextBookmark */ = ABC3C0EA11FCDE7D00E59FAC /* PBXTextBookmark */;
 			ABC3C0EB11FCDE7D00E59FAC /* PBXTextBookmark */ = ABC3C0EB11FCDE7D00E59FAC /* PBXTextBookmark */;
+			ABC3C0EE11FCDF0A00E59FAC /* PBXTextBookmark */ = ABC3C0EE11FCDF0A00E59FAC /* PBXTextBookmark */;
+			ABC3C0EF11FCDF0A00E59FAC /* PBXTextBookmark */ = ABC3C0EF11FCDF0A00E59FAC /* PBXTextBookmark */;
+			ABC3C0F011FCDF0A00E59FAC /* PBXTextBookmark */ = ABC3C0F011FCDF0A00E59FAC /* PBXTextBookmark */;
+			ABC3C0F111FCDF0A00E59FAC /* PBXTextBookmark */ = ABC3C0F111FCDF0A00E59FAC /* PBXTextBookmark */;
 			ABD6229B10DAFAE200D3B747 = ABD6229B10DAFAE200D3B747 /* PBXBookmark */;
 			ABE768DA119BB22000E800B6 = ABE768DA119BB22000E800B6 /* PBXTextBookmark */;
 			ABF4A44C11698A240043EB1C = ABF4A44C11698A240043EB1C /* PBXTextBookmark */;
@@ -458,9 +462,9 @@
 	};
 	2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1003, 2743}}";
-			sepNavSelRange = "{6646, 0}";
-			sepNavVisRange = "{5956, 1244}";
+			sepNavIntBoundsRect = "{{0, 0}, {1003, 2899}}";
+			sepNavSelRange = "{4720, 0}";
+			sepNavVisRange = "{5049, 155}";
 		};
 	};
 	2B3D12EA0F4382070067FD3A /* LogoutViewController.h */ = {
@@ -598,9 +602,9 @@
 	};
 	A75AF2B80F86A47100F15535 /* ItemDetailsViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1003, 4849}}";
-			sepNavSelRange = "{7164, 40}";
-			sepNavVisRange = "{6478, 952}";
+			sepNavIntBoundsRect = "{{0, 0}, {1398, 4966}}";
+			sepNavSelRange = "{8483, 0}";
+			sepNavVisRange = "{7793, 967}";
 			sepNavWindowFrame = "{{15, 33}, {1181, 745}}";
 		};
 	};
@@ -2647,9 +2651,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 43;
-		modificationTime = 301784585.59479;
+		modificationTime = 301784840.046297;
 		originalNumberOfMultipleMatches = 1;
-		state = 0;
+		state = 1;
 	};
 	ABC399B0116B9209002185D4 /* AudioMeterViewController.m:21 */ = {
 		isa = PBXFileBreakpoint;
@@ -2664,9 +2668,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 21;
-		modificationTime = 301784585.594842;
+		modificationTime = 301784840.046282;
 		originalNumberOfMultipleMatches = 1;
-		state = 0;
+		state = 1;
 	};
 	ABC399CD116B9EBC002185D4 /* AudioMeter.h */ = {
 		uiCtxt = {
@@ -2737,9 +2741,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 78;
-		modificationTime = 301784585.594916;
+		modificationTime = 301784840.046247;
 		originalNumberOfMultipleMatches = 1;
-		state = 0;
+		state = 1;
 	};
 	ABC39B22116BD28F002185D4 /* TitleAndDecriptionFormViewController.h */ = {
 		uiCtxt = {
@@ -2901,6 +2905,46 @@
 		vrLen = 1244;
 		vrLoc = 5956;
 	};
+	ABC3C0EE11FCDF0A00E59FAC /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */;
+		name = "InventoryListViewController.m: 157";
+		rLen = 0;
+		rLoc = 4720;
+		rType = 0;
+		vrLen = 155;
+		vrLoc = 5049;
+	};
+	ABC3C0EF11FCDF0A00E59FAC /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */;
+		name = "InventoryListViewController.m: 201";
+		rLen = 0;
+		rLoc = 6619;
+		rType = 0;
+		vrLen = 1244;
+		vrLoc = 5956;
+	};
+	ABC3C0F011FCDF0A00E59FAC /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A75AF2B80F86A47100F15535 /* ItemDetailsViewController.m */;
+		name = "ItemDetailsViewController.m: 207";
+		rLen = 40;
+		rLoc = 7164;
+		rType = 0;
+		vrLen = 924;
+		vrLoc = 6506;
+	};
+	ABC3C0F111FCDF0A00E59FAC /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A75AF2B80F86A47100F15535 /* ItemDetailsViewController.m */;
+		name = "ItemDetailsViewController.m: 245";
+		rLen = 0;
+		rLoc = 8483;
+		rType = 0;
+		vrLen = 967;
+		vrLoc = 7793;
+	};
 	ABCA5D821044618F004DA60D /* InventoryParserDelegate.m:34 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
@@ -2914,9 +2958,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 34;
-		modificationTime = 301784585.594688;
+		modificationTime = 301784840.04627;
 		originalNumberOfMultipleMatches = 1;
-		state = 0;
+		state = 1;
 	};
 	ABD5C4E7104F1A0E002EB824 /* Npc.h */ = {
 		uiCtxt = {

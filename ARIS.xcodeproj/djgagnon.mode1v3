@@ -284,7 +284,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>108</integer>
+									<integer>111</integer>
 									<integer>101</integer>
 									<integer>0</integer>
 								</array>
@@ -339,7 +339,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>ABC3C0EA11FCDE7D00E59FAC</string>
+										<string>ABC3C0EE11FCDF0A00E59FAC</string>
 										<key>history</key>
 										<array>
 											<string>ABBEBCDD104DDCDB00AA7285</string>
@@ -508,7 +508,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>InventoryListViewController.m</string>
+								<string>ItemDetailsViewController.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -516,11 +516,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>InventoryListViewController.m</string>
+										<string>ItemDetailsViewController.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>ABC3C0EB11FCDE7D00E59FAC</string>
+										<string>ABC3C0F111FCDF0A00E59FAC</string>
 										<key>history</key>
 										<array>
 											<string>ABBEBCDD104DDCDB00AA7285</string>
@@ -658,8 +658,8 @@
 											<string>ABC3C0D911FCDD6B00E59FAC</string>
 											<string>ABC3C0DA11FCDD6B00E59FAC</string>
 											<string>ABC3C0DB11FCDD6B00E59FAC</string>
-											<string>ABC3C0E611FCDE0800E59FAC</string>
-											<string>ABC3C0E711FCDE0800E59FAC</string>
+											<string>ABC3C0EF11FCDF0A00E59FAC</string>
+											<string>ABC3C0F011FCDF0A00E59FAC</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -857,7 +857,7 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>ABC3C0E911FCDE0800E59FAC</string>
+		<string>ABC3C0F211FCDF0A00E59FAC</string>
 		<string>ABC3C0E111FCDD6B00E59FAC</string>
 		<string>ABC3C0E211FCDD6B00E59FAC</string>
 		<string>1CD10A99069EF8BA00B06720</string>
