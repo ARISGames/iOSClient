@@ -188,12 +188,17 @@ NSString *const kDialogHtmlTemplate =
 
 #pragma mark NPC Control
 - (void) beginWithNPC:(Npc *)aNpc {
-	currentNpc = [aNpc retain];
+	if (currentNpc) [currentNpc release];
+	currentNpc = aNpc;
+	[currentNpc retain];
 		
 	parser = [[SceneParser alloc] initWithDefaultNpcId:[aNpc mediaId]];
 	parser.delegate = self;
 	
+	if (optionList) [optionList release];
 	optionList = currentNpc.options;
+	[optionList retain];
+	
 	assert(optionList == aNpc.options);
 	NSLog(@"OptionList: %@", optionList);
 }
@@ -239,13 +244,17 @@ NSString *const kDialogHtmlTemplate =
 			pcAnswerView.hidden = NO;
 		}
 		else {
-			if (currentNode.numberOfOptions > 0) optionList = currentNode.options;
+			if (currentNode.numberOfOptions > 0) {
+				optionList = currentNode.options;
+				[optionList retain];
+			}
 			else {
 				//refresh our option list
 				AppModel *appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
 				Npc *newNpc = [appModel fetchNpc:currentNpc.npcId];
 				optionList = newNpc.options;
-			}
+				[optionList retain];
+ 			}
 			int optionCount = [optionList count];
 			if (optionCount == 0) {
 				nothingElseLabel.hidden = NO;
@@ -464,8 +473,16 @@ NSString *const kDialogHtmlTemplate =
 	[currentNode release];
 	Node *newNode = [appModel fetchNode:targetNode];
 	// TODO: This might need to check for answer string
+	
+	if (optionList) [optionList release];
 	optionList = newNode.numberOfOptions > 0 ? newNode.options : currentNpc.options;
+	[optionList retain];
+	
+	if (currentNode) [currentNode release];
 	currentNode = newNode;
+	[currentNode retain];
+	[newNode release];
+	
 	[parser parseText:newNode.text];
 	
 	return YES;
@@ -531,10 +548,15 @@ NSString *const kDialogHtmlTemplate =
 	
 	Node *newNode = [appModel fetchNode:selectedOption.nodeId];
 	[appModel updateServerNodeViewed:selectedOption.nodeId];
+	
+	if (optionList) [optionList release];
 	optionList = newNode.numberOfOptions > 0 ? newNode.options : currentNpc.options;
+	[optionList retain];
+
 	if (currentNode) [currentNode release];
 	currentNode = newNode;
 	[currentNode retain];
+
 	
 	[parser parseText:newNode.text];
 }
