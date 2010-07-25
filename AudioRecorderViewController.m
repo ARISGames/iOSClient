@@ -229,7 +229,6 @@
 	
 	[[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryAmbient error: nil];
 	[self dismissModalViewControllerAnimated:YES];
-	[self.view removeFromSuperview];
 }
 
 - (IBAction) discardButtonAction: (id) sender{
