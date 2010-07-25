@@ -915,8 +915,8 @@ static const int kEmptyValue = -1;
 		[location release];
 	}
 	
-	//if (self.locationList) [self.locationList release];
 	self.locationList = tempLocationsList;
+	[tempLocationsList release];
 	
 	//Tell everyone
 	NSLog(@"AppModel: Finished fetching locations from server, model updated");
@@ -1006,6 +1006,7 @@ static const int kEmptyValue = -1;
 	}
 
 	self.inventory = tempInventory;
+	[tempInventory release];
 	
 	NSLog(@"AppModel: Finished fetching inventory from server, model updated");
 	NSNotification *notification = [NSNotification notificationWithName:@"ReceivedInventory" object:nil];
@@ -1107,6 +1108,7 @@ static const int kEmptyValue = -1;
 	[activeQuestObjects release];
 	[completedQuestObjects release];
 	self.questList = tmpQuestList;
+	[tmpQuestList release];
 	
 	//Sound the alarm
 	NSLog(@"AppModel: Finished fetching quests from server, model updated");
