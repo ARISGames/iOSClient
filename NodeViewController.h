@@ -19,6 +19,7 @@
 	CGSize imageSize;
 	UITableView *tableView;
 	UIButton *mediaPlaybackButton;
+	UIActivityIndicatorView *spinner;
 	IBOutlet UIScrollView *scrollView;
 }
 

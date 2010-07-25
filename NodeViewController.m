@@ -184,25 +184,23 @@ static NSString * const OPTION_CELL = @"option";
 
 
 - (void)movieLoadStateChanged:(NSNotification*) aNotification{
-	switch ([(MPMoviePlayerController *) aNotification.object loadState]) {
-		case MPMovieLoadStateUnknown:
-			NSLog(@"NodeViewController: Unknown Load State");
-			break;
-		case MPMovieLoadStatePlayable:
-			NSLog(@"NodeViewController: Playable Load State");
-			[mediaPlaybackButton setTitle:@"Touch To Play" forState:UIControlStateNormal];
-			mediaPlaybackButton.enabled = YES;
-			break;
-		case MPMovieLoadStatePlaythroughOK:
-			NSLog(@"NodeViewController: Playthrough OK Load State");
-			break;
-		case MPMovieLoadStateStalled:
-			NSLog(@"NodeViewController: Stalled Load State");
-			break;	
-		default:
-			break;
-	}
+	MPMovieLoadState state = [(MPMoviePlayerController *) aNotification.object loadState];
 
+	if( state & MPMovieLoadStateUnknown ) {
+		NSLog(@"NodeViewController: Unknown Load State");
+	}
+	if( state & MPMovieLoadStatePlayable ) {
+		NSLog(@"NodeViewController: Playable Load State");
+	} 
+	if( state & MPMovieLoadStatePlaythroughOK ) {
+		NSLog(@"NodeViewController: Playthrough OK Load State");
+		[mediaPlaybackButton setTitle:@"Touch To Play" forState:UIControlStateNormal];
+		mediaPlaybackButton.enabled = YES;	
+	} 
+	if( state & MPMovieLoadStateStalled ) {
+		NSLog(@"NodeViewController: Stalled Load State");
+	} 
+		
 }
 
 

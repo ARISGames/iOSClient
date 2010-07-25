@@ -310,7 +310,7 @@
 							<real>259</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>73 88 1367 767 0 0 1440 878 </string>
+						<string>31 35 1367 767 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -340,7 +340,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>AB27174111FBFEDB009E0FFB</string>
+										<string>AB27174511FC0025009E0FFB</string>
 										<key>history</key>
 										<array>
 											<string>ABBEBCDD104DDCDB00AA7285</string>
@@ -494,7 +494,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {1064, 602}}</string>
 								<key>RubberWindowFrame</key>
-								<string>73 88 1367 767 0 0 1440 878 </string>
+								<string>31 35 1367 767 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -519,7 +519,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>AB27174211FBFEDB009E0FFB</string>
+										<string>AB27174611FC0025009E0FFB</string>
 										<key>history</key>
 										<array>
 											<string>ABBEBCDD104DDCDB00AA7285</string>
@@ -669,7 +669,7 @@
 								<key>Frame</key>
 								<string>{{0, 607}, {1064, 114}}</string>
 								<key>RubberWindowFrame</key>
-								<string>73 88 1367 767 0 0 1440 878 </string>
+								<string>31 35 1367 767 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -689,7 +689,7 @@
 								<key>Frame</key>
 								<string>{{0, 726}, {1064, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>73 88 1367 767 0 0 1440 878 </string>
+								<string>31 35 1367 767 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -853,17 +853,16 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>AB27174311FBFEDB009E0FFB</string>
 		<string>1C530D57069F1CE1000CFCEE</string>
 		<string>AB27150E11FB6D4C009E0FFB</string>
 		<string>AB27150F11FB6D4C009E0FFB</string>
+		<string>1C78EAAD065D492600B07095</string>
 		<string>AB4B1043103D02990061AD3D</string>
 		<string>1CD10A99069EF8BA00B06720</string>
-		<string>1C78EAAD065D492600B07095</string>
 		<string>/Users/djgagnon/Documents/Aris/svn-trunk/iPhoneClient/ARIS.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>73 88 1367 767 0 0 1440 878 </string>
+	<string>31 35 1367 767 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -1201,7 +1200,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {747, 696}}</string>
 								<key>RubberWindowFrame</key>
-								<string>32 136 747 737 0 0 1440 878 </string>
+								<string>34 136 747 737 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXDebugCLIModule</string>
@@ -1230,11 +1229,11 @@
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.consoleV3</string>
 			<key>WindowString</key>
-			<string>32 136 747 737 0 0 1440 878 </string>
+			<string>34 136 747 737 0 0 1440 878 </string>
 			<key>WindowToolGUID</key>
 			<string>1C78EAAD065D492600B07095</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>Identifier</key>
