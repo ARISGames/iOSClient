@@ -64,7 +64,8 @@
 	
 	//Save the image in the media
 	media.image = image;
-
+	[media.image retain];
+	
 	[self updateViewWithNewImage:image];
 }
 
@@ -100,6 +101,7 @@
 	[UIView setAnimationDuration:0.25];
 	self.alpha = 1.0;
 	[UIView commitAnimations];
+
 }
 
 - (UIImage*) getImage {

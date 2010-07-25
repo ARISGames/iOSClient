@@ -32,6 +32,23 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 @implementation ItemDetailsViewController
 @synthesize appModel, item, inInventory;
 
+// The designated initializer. Override to perform setup that is required before the view is loaded.
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(movieFinishedCallback:)
+													 name:MPMoviePlayerPlaybackDidFinishNotification
+												   object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self 
+												 selector:@selector(movieLoadStateChanged:) 
+													 name:MPMoviePlayerLoadStateDidChangeNotification 
+												   object:nil];
+    }
+	
+    return self;
+}
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
@@ -81,20 +98,22 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	else if (([media.type isEqualToString: @"Video"] || [media.type isEqualToString: @"Audio"]) && media.url) {
 		NSLog(@"ItemDetailsViewController:  AV Layout Selected");
 
-		//Add a button
-		UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
-		[button addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
-		[button setImage:[UIImage imageNamed:@"clickToPlay.png"] forState:UIControlStateNormal];
-		[scrollView addSubview:button];			
-		[button release];
-		
+		//Setup the Button
+		mediaPlaybackButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 320, 295)];
+		[mediaPlaybackButton addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
+		[mediaPlaybackButton setBackgroundImage:[UIImage imageNamed:@"clickToPlay.png"] forState:UIControlStateNormal];
+		[mediaPlaybackButton setTitle:@"Preparing to Play" forState:UIControlStateNormal];
+		mediaPlaybackButton.enabled = NO;
+		mediaPlaybackButton.titleLabel.font = [UIFont boldSystemFontOfSize:24];
+		[mediaPlaybackButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
+		[mediaPlaybackButton setContentVerticalAlignment:UIControlContentVerticalAlignmentBottom];
+		[scrollView addSubview:mediaPlaybackButton];	
+				
 		//Create movie player object
 		mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
 		[mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(movieFinishedCallback:)
-													 name:MPMoviePlayerPlaybackDidFinishNotification
-												   object:nil];			
+		
+		[mMoviePlayer.moviePlayer prepareToPlay];		
 	}
 	
 	else {
@@ -107,13 +126,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	[super viewDidLoad];
 }
 
-- (void)movieFinishedCallback:(NSNotification*) aNotification
-{
-	[[NSNotificationCenter defaultCenter] removeObserver:self
-													name:MPMoviePlayerPlaybackDidFinishNotification
-												  object:mMoviePlayer];
-	[self dismissMoviePlayerViewControllerAnimated];
-}
 
 - (IBAction)dropButtonTouchAction: (id) sender{
 	NSLog(@"ItemDetailsVC: Drop Button Pressed");
@@ -245,8 +257,53 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	
 	// free our movie player
     [mMoviePlayer release];
+	
+	[mediaPlaybackButton release];
+	
+	//remove listeners
+	[[NSNotificationCenter defaultCenter] removeObserver:self
+													name:MPMoviePlayerPlaybackDidFinishNotification
+												  object:mMoviePlayer];
+	[[NSNotificationCenter defaultCenter] removeObserver:self
+													name:MPMoviePlayerLoadStateDidChangeNotification
+												  object:mMoviePlayer];	
 	[super dealloc];
 }
+
+
+#pragma mark MPMoviePlayerController Notification Handlers
+
+
+- (void)movieLoadStateChanged:(NSNotification*) aNotification{
+	MPMovieLoadState state = [(MPMoviePlayerController *) aNotification.object loadState];
+	
+	if( state & MPMovieLoadStateUnknown ) {
+		NSLog(@"ItemDetailsViewController: Unknown Load State");
+	}
+	if( state & MPMovieLoadStatePlayable ) {
+		NSLog(@"ItemDetailsViewController: Playable Load State");
+	} 
+	if( state & MPMovieLoadStatePlaythroughOK ) {
+		NSLog(@"ItemDetailsViewController: Playthrough OK Load State");
+		[mediaPlaybackButton setTitle:@"Touch To Play" forState:UIControlStateNormal];
+		mediaPlaybackButton.enabled = YES;	
+	} 
+	if( state & MPMovieLoadStateStalled ) {
+		NSLog(@"ItemDetailsViewController: Stalled Load State");
+	} 
+	
+}
+
+
+- (void)movieFinishedCallback:(NSNotification*) aNotification
+{
+	[self dismissMoviePlayerViewControllerAnimated];
+}
+
+
+
+
+
 
 #pragma mark Zooming delegate methods
 

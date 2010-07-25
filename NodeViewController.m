@@ -80,7 +80,6 @@ static NSString * const OPTION_CELL = @"option";
 		
 		//Setup the Button
 		mediaPlaybackButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 320, 295)];
-		
 		[mediaPlaybackButton addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
 		[mediaPlaybackButton setBackgroundImage:[UIImage imageNamed:@"clickToPlay.png"] forState:UIControlStateNormal];
 		[mediaPlaybackButton setTitle:@"Preparing to Play" forState:UIControlStateNormal];
@@ -88,11 +87,11 @@ static NSString * const OPTION_CELL = @"option";
 		mediaPlaybackButton.titleLabel.font = [UIFont boldSystemFontOfSize:24];
 		[mediaPlaybackButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
 		[mediaPlaybackButton setContentVerticalAlignment:UIControlContentVerticalAlignmentBottom];
-		topMargin = 50; 
-		
 		[scrollView addSubview:mediaPlaybackButton];	
-		imageSize = mediaPlaybackButton.frame.size;
 		
+		imageSize = mediaPlaybackButton.frame.size;
+		topMargin = 50; 
+
 		//Create movie player object
 		mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
 		[mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
@@ -138,8 +137,6 @@ static NSString * const OPTION_CELL = @"option";
 }
 
 -(IBAction)playMovie:(id)sender {
-
-		
 	[self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
 }
 
@@ -166,6 +163,7 @@ static NSString * const OPTION_CELL = @"option";
 	[node release];
 	[tableView release];
 	[scrollView release];
+	[mediaPlaybackButton release];
 	
 	//remove listeners
 	[[NSNotificationCenter defaultCenter] removeObserver:self
@@ -174,8 +172,6 @@ static NSString * const OPTION_CELL = @"option";
 	[[NSNotificationCenter defaultCenter] removeObserver:self
 													name:MPMoviePlayerLoadStateDidChangeNotification
 												  object:mMoviePlayer];	
-
-	
 	
     [super dealloc];
 }

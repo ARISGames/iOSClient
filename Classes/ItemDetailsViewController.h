@@ -27,12 +27,11 @@
 	IBOutlet UIBarButtonItem *pickupButton;
 	IBOutlet UIBarButtonItem *detailButton;
 	IBOutlet UIButton *backButton;
-
-	
 	IBOutlet AsyncImageView *itemImageView;
 	IBOutlet UIWebView *itemDescriptionView;
-	
 	IBOutlet UIScrollView *scrollView;
+	UIButton *mediaPlaybackButton;
+
 }
 
 @property(readwrite, retain) AppModel *appModel;
