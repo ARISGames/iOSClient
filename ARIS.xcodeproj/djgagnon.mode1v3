@@ -272,6 +272,7 @@
 								<string>ABBEBBBF104D7CE400AA7285</string>
 								<string>D42432501107734300E58147</string>
 								<string>ABDA40A910506AF400823A94</string>
+								<string>A7986D690F8FEC6300A5469F</string>
 								<string>AB0DE7FE11559CCA00A6EC3E</string>
 								<string>A7986D640F8FEBFA00A5469F</string>
 								<string>1C37FBAC04509CD000000102</string>
@@ -281,14 +282,13 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>37</integer>
-									<integer>24</integer>
-									<integer>4</integer>
+									<integer>100</integer>
+									<integer>97</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 500}, {281, 708}}</string>
+							<string>{{0, 1390}, {281, 708}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -327,7 +327,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>AppModel.m</string>
+								<string>CameraViewController.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -335,11 +335,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>AppModel.m</string>
+										<string>CameraViewController.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>AB27167B11FBA538009E0FFB</string>
+										<string>AB27169311FBD33D009E0FFB</string>
 										<key>history</key>
 										<array>
 											<string>ABBEBCDD104DDCDB00AA7285</string>
@@ -418,7 +418,6 @@
 											<string>AB9687FD1194689F003DF745</string>
 											<string>AB96882211946EFC003DF745</string>
 											<string>AB69491711990D97002BF2D0</string>
-											<string>ABE768DA119BB22000E800B6</string>
 											<string>ABFAF42D11A5C66C004C768A</string>
 											<string>ABFAF42F11A5C66C004C768A</string>
 											<string>AB7BB93911A5D2A1005D4D66</string>
@@ -441,7 +440,6 @@
 											<string>AB82F79411F0EACD00B8E3DC</string>
 											<string>AB82F79911F0EEF000B8E3DC</string>
 											<string>AB82F7A811F0F08800B8E3DC</string>
-											<string>AB82F7CC11F0F23F00B8E3DC</string>
 											<string>AB82F7D311F0F37400B8E3DC</string>
 											<string>AB819D1611F3BC0700653272</string>
 											<string>AB27154811FB727A009E0FFB</string>
@@ -455,7 +453,6 @@
 											<string>AB2715E611FB9BDE009E0FFB</string>
 											<string>AB27161711FB9DC3009E0FFB</string>
 											<string>AB27163011FBA008009E0FFB</string>
-											<string>AB27163111FBA008009E0FFB</string>
 											<string>AB27163311FBA008009E0FFB</string>
 											<string>AB27163411FBA008009E0FFB</string>
 											<string>AB27163611FBA008009E0FFB</string>
@@ -470,14 +467,17 @@
 											<string>AB27164911FBA055009E0FFB</string>
 											<string>AB27164A11FBA055009E0FFB</string>
 											<string>AB27164B11FBA055009E0FFB</string>
-											<string>AB27165411FBA1D3009E0FFB</string>
 											<string>AB27165511FBA1D3009E0FFB</string>
 											<string>AB27165611FBA1D3009E0FFB</string>
 											<string>AB27165711FBA1D3009E0FFB</string>
 											<string>AB27166811FBA4A2009E0FFB</string>
 											<string>AB27166911FBA4A2009E0FFB</string>
-											<string>AB27167911FBA538009E0FFB</string>
-											<string>AB27167A11FBA538009E0FFB</string>
+											<string>AB27168611FBBD57009E0FFB</string>
+											<string>AB27168711FBBD57009E0FFB</string>
+											<string>AB27168811FBBD57009E0FFB</string>
+											<string>AB27169011FBD33D009E0FFB</string>
+											<string>AB27169111FBD33D009E0FFB</string>
+											<string>AB27169211FBD33D009E0FFB</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -516,7 +516,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>AB27167C11FBA538009E0FFB</string>
+										<string>AB27169411FBD33D009E0FFB</string>
 										<key>history</key>
 										<array>
 											<string>ABBEBCDD104DDCDB00AA7285</string>
@@ -848,12 +848,12 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>1C530D57069F1CE1000CFCEE</string>
 		<string>AB27150E11FB6D4C009E0FFB</string>
 		<string>AB27150F11FB6D4C009E0FFB</string>
 		<string>1C78EAAD065D492600B07095</string>
 		<string>AB4B1043103D02990061AD3D</string>
 		<string>1CD10A99069EF8BA00B06720</string>
-		<string>1C530D57069F1CE1000CFCEE</string>
 		<string>/Users/djgagnon/Documents/Aris/svn-trunk/iPhoneClient/ARIS.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
@@ -873,14 +873,12 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>GPSViewController.h</string>
+								<string>AppModel.m</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -897,6 +895,8 @@
 							<string>366pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -1162,7 +1162,7 @@
 			<key>WindowToolGUID</key>
 			<string>1C530D57069F1CE1000CFCEE</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>Identifier</key>
