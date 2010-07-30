@@ -31,7 +31,7 @@ static float INITIAL_SPAN = 0.001;
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
-        self.title = @"GPS";
+        self.title = NSLocalizedString(@"MapViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"gps.png"];
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
 		silenceNextServerUpdate = YES;
@@ -121,6 +121,7 @@ static float INITIAL_SPAN = 0.001;
 	//Setup the buttons
 	mapTypeButton.target = self; 
 	mapTypeButton.action = @selector(changeMapType:);
+	mapTypeButton.title = NSLocalizedString(@"MapTypeKey",@"");
 	
 	playerTrackingButton.target = self; 
 	playerTrackingButton.action = @selector(refreshButtonAction:);

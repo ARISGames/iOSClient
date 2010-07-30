@@ -54,8 +54,15 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 - (void)viewDidLoad {
 	//Show waiting Indicator in own thread so it appears on time
 	//[NSThread detachNewThreadSelector: @selector(showWaitingIndicator:) toTarget: (ARISAppDelegate *)[[UIApplication sharedApplication] delegate] withObject: @"Loading..."];	
-	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate]showWaitingIndicator:@"Loading..." displayProgressBar:NO];
-		
+	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate]showWaitingIndicator:NSLocalizedString(@"LoadingKey",@"") displayProgressBar:NO];
+	
+	
+	//Setup the Toolbar Buttons
+	dropButton.title = NSLocalizedString(@"ItemDropKey", @"");
+	pickupButton.title = NSLocalizedString(@"ItemPickupKey", @"");
+	deleteButton.title = NSLocalizedString(@"ItemDeleteKey",@"");
+	detailButton.title = NSLocalizedString(@"ItemDetailKey", @"");
+	
 	if (inInventory == YES) {		
 		dropButton.width = 75.0;
 		deleteButton.width = 75.0;
@@ -75,7 +82,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	
 	//Create a close button
 	self.navigationItem.leftBarButtonItem = 
-	[[UIBarButtonItem alloc] initWithTitle:@"Back"
+	[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey",@"")
 									 style: UIBarButtonItemStyleBordered
 									target:self 
 									action:@selector(backButtonTouchAction:)];	
@@ -102,7 +109,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 		mediaPlaybackButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 320, 295)];
 		[mediaPlaybackButton addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
 		[mediaPlaybackButton setBackgroundImage:[UIImage imageNamed:@"clickToPlay.png"] forState:UIControlStateNormal];
-		[mediaPlaybackButton setTitle:@"Preparing to Play" forState:UIControlStateNormal];
+		[mediaPlaybackButton setTitle:NSLocalizedString(@"PreparingToPlayKey",@"") forState:UIControlStateNormal];
 		mediaPlaybackButton.enabled = NO;
 		mediaPlaybackButton.titleLabel.font = [UIFont boldSystemFontOfSize:24];
 		[mediaPlaybackButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
@@ -140,9 +147,9 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	[appModel updateServerDropItemHere:self.item.itemId];
 
 	
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Item Dropped" 
-										message: @"Your Item was dropped here on the map for other players to see." 
-										delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"ItemDroppedTitleKey",@"")
+										message: NSLocalizedString(@"ItemDroppedMessageKey",@"") 
+										delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey",@"") otherButtonTitles: nil];
 	[alert show];
 	[alert release];
 	
@@ -173,8 +180,8 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	[appModel updateServerDestroyItem:self.item.itemId];
 	
 	
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Item Destroyed" 
-													message: @"This object was removed from your inventory" 
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"ItemDestroyedTitleKey", @"")
+													message: NSLocalizedString(@"ItemDestroyedMessageKey", @"")
 												   delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
 	[alert show];
 	[alert release];
@@ -216,7 +223,9 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	if ([appModel.inventory containsObject:self.item]) {
 		[appDelegate playAudioAlert:@"error" shouldVibrate:YES];
 		
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Duplicate Item" message: @"You cannot carry any more of this item" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"ItemDuplicateTitleKey",@"")
+														message: NSLocalizedString(@"ItemDuplicateMessageKey",@"")
+													   delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
 		[alert show];
 		[alert release];
 		
@@ -227,7 +236,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	
 	[appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
 	
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Picked up an Item" message: @"It is available in your inventory" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"ItemPickedUpTitleKey", @"")
+													message: NSLocalizedString(@"ItemPickedUpMessageKey", @"") 
+												   delegate: self 
+										  cancelButtonTitle: @"OkKey" otherButtonTitles: nil];
 	
 	[alert show];
 	[alert release];
@@ -286,7 +298,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	} 
 	if( state & MPMovieLoadStatePlaythroughOK ) {
 		NSLog(@"ItemDetailsViewController: Playthrough OK Load State");
-		[mediaPlaybackButton setTitle:@"Touch To Play" forState:UIControlStateNormal];
+		[mediaPlaybackButton setTitle:NSLocalizedString(@"TouchToPlayKey",@"") forState:UIControlStateNormal];
 		mediaPlaybackButton.enabled = YES;	
 	} 
 	if( state & MPMovieLoadStateStalled ) {

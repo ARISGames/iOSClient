@@ -2,17 +2,17 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1024</int>
-		<string key="IBDocument.SystemVersion">10D573</string>
+		<string key="IBDocument.SystemVersion">10F569</string>
 		<string key="IBDocument.InterfaceBuilderVersion">788</string>
 		<string key="IBDocument.AppKitVersion">1038.29</string>
-		<string key="IBDocument.HIToolboxVersion">460.00</string>
+		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			<string key="NS.object.0">117</string>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="6"/>
+			<integer value="13"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -291,7 +291,7 @@
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">Tap to continue.</string>
+								<string key="IBUIText">npcLabel</string>
 								<reference key="IBUIFont" ref="1032263385"/>
 								<object class="NSColor" key="IBUITextColor">
 									<int key="NSColorSpace">1</int>
@@ -474,6 +474,14 @@
 						<reference key="destination" ref="954674689"/>
 					</object>
 					<int key="connectionID">51</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">npcLabel</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="350694249"/>
+					</object>
+					<int key="connectionID">54</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -693,7 +701,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">53</int>
+			<int key="maxID">54</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -716,6 +724,7 @@
 							<string>mainView</string>
 							<string>nothingElseLabel</string>
 							<string>npcImage</string>
+							<string>npcLabel</string>
 							<string>npcScrollView</string>
 							<string>npcView</string>
 							<string>npcWebView</string>
@@ -732,6 +741,7 @@
 							<string>UIView</string>
 							<string>UILabel</string>
 							<string>AsyncImageView</string>
+							<string>UILabel</string>
 							<string>UIScrollView</string>
 							<string>UIView</string>
 							<string>UIWebView</string>
@@ -751,6 +761,7 @@
 							<string>mainView</string>
 							<string>nothingElseLabel</string>
 							<string>npcImage</string>
+							<string>npcLabel</string>
 							<string>npcScrollView</string>
 							<string>npcView</string>
 							<string>npcWebView</string>
@@ -775,6 +786,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">npcImage</string>
 								<string key="candidateClassName">AsyncImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">npcLabel</string>
+								<string key="candidateClassName">UILabel</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">npcScrollView</string>

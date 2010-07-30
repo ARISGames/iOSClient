@@ -24,7 +24,9 @@
 	UIScrollView *npcScrollView;
 	UIScrollView *pcScrollView;
 	UILabel		 *pcLabel;
-	UILabel *nothingElseLabel;
+	UILabel		*nothingElseLabel;
+	UILabel		*npcLabel;
+
 	
 	UIView	*mainView;
 	UIView	*npcView;
@@ -59,6 +61,7 @@
 @property(nonatomic, retain) IBOutlet UITextField	*pcAnswerView;
 @property(nonatomic, retain) IBOutlet UILabel		*pcLabel;
 @property(nonatomic, retain) IBOutlet UILabel		*nothingElseLabel;
+@property(nonatomic, retain) IBOutlet UILabel		*npcLabel;
 
 
 @property(nonatomic, retain) IBOutlet UIScrollView	*npcScrollView;

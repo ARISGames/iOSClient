@@ -44,7 +44,7 @@ static NSString * const OPTION_CELL = @"option";
 	
 	//Create a close button
 	self.navigationItem.leftBarButtonItem = 
-	[[UIBarButtonItem alloc] initWithTitle:@"Back"
+	[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey",@"")
 									 style: UIBarButtonItemStyleBordered
 									target:self 
 									action:@selector(backButtonTouchAction:)];	
@@ -82,7 +82,7 @@ static NSString * const OPTION_CELL = @"option";
 		mediaPlaybackButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 320, 295)];
 		[mediaPlaybackButton addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
 		[mediaPlaybackButton setBackgroundImage:[UIImage imageNamed:@"clickToPlay.png"] forState:UIControlStateNormal];
-		[mediaPlaybackButton setTitle:@"Preparing to Play" forState:UIControlStateNormal];
+		[mediaPlaybackButton setTitle:NSLocalizedString(@"PreparingToPlayKey",@"") forState:UIControlStateNormal];
 		mediaPlaybackButton.enabled = NO;
 		mediaPlaybackButton.titleLabel.font = [UIFont boldSystemFontOfSize:24];
 		[mediaPlaybackButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
@@ -190,7 +190,7 @@ static NSString * const OPTION_CELL = @"option";
 	} 
 	if( state & MPMovieLoadStatePlaythroughOK ) {
 		NSLog(@"NodeViewController: Playthrough OK Load State");
-		[mediaPlaybackButton setTitle:@"Touch To Play" forState:UIControlStateNormal];
+		[mediaPlaybackButton setTitle:NSLocalizedString(@"TouchToPlayKey",@"") forState:UIControlStateNormal];
 		mediaPlaybackButton.enabled = YES;	
 	} 
 	if( state & MPMovieLoadStateStalled ) {

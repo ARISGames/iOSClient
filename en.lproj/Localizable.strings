@@ -6,11 +6,49 @@
    Copyright 2010 University of Wisconsin. All rights reserved.
  */
 
-
+//General
 "NoConnectionTitleKey" = "No connection to the Internet";
 "NoConnectionMessageKey" = "Please connect to the internet and restart ARIS";
 "PoorConnectionTitleKey" = "Network Warning";
 "PoorConnectionMessageKey" = "Your internet connection is slow or unreliable";
 "LoginErrorTitleKey" = "Login Error";
 "LoginErrorMessageKey" = "Unknown Username/Password";
+"PreparingToPlayKey" = "Preparing to Play";
+"TouchToPlayKey" = "Touch to Play";
+"BackButtonKey" = "Back";
+"LoadingKey" = "Loading...";
+"OkKey" = "Ok";
 
+//AR View
+"ARViewTitleKey" = "AR View";
+
+//Dialog View
+"DialogContinue" = "Tap to Continue";
+"DialogReview" = "Tap to Review";
+"DialogPlayerName" = "You";
+
+//Item Details View
+"ItemDropKey" = "Drop";
+"ItemDeleteKey" = "Destroy";
+"ItemPickupKey" = "Pickup";
+"ItemDetailKey" = "Detail";
+"ItemDroppedTitleKey" = "Item Dropped";
+"ItemDroppedMessageKey" = "Your Item was dropped here on the map for other players to see";
+"ItemDestroyedTitleKey" = "Item Destroyed";
+"ItemDestroyedMessageKey" = "This object was removed from your inventory and permantly destroyed";
+"ItemDuplicateTitleKey" = "Duplicate Item";
+"ItemDuplicateMessageKey" = "You cannot carry any more of this item";
+"ItemPickedUpTitleKey" = "Picked up an Item";
+"ItemPickedUpMessageKey" = "It is available in your inventory";
+
+//Quests View
+"QuestViewTitleKey" = "Quests";
+"QuestsActiveTitleKey" = "Active Quests";
+"QuestsCompleteTitleKey" = "Completed Quests";
+
+//Map View
+"MapViewTitleKey" = "Map";
+"MapTypeKey" = "Map Type";
+
+//Inventory View
+"InventoryViewTitleKey" = "Inventory";

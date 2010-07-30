@@ -53,7 +53,7 @@ NSString *const kQuestsHtmlTemplate =
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
-        self.title = @"Quests";
+        self.title = NSLocalizedString(@"QuestViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"quest.png"];
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
 		silenceNextServerUpdate = YES;
@@ -329,8 +329,8 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 */
 
 - (NSString *)tableView:(UITableView *)view titleForHeaderInSection:(NSInteger)section {
-	if (section == ACTIVE_SECTION) return @"Active Quests";	
-	else if (section == COMPLETED_SECTION) return @"Completed Quests";
+	if (section == ACTIVE_SECTION) return NSLocalizedString(@"QuestsActiveTitleKey",@"");	
+	else if (section == COMPLETED_SECTION) return NSLocalizedString(@"QuestsCompleteTitleKey",@"");
 	return @"Quests";
 }
 

@@ -20,9 +20,6 @@ const NSInteger kMaxOptions = 20;
 const NSInteger kOptionsFontSize = 17;
 NSString *const kOutAnimation = @"out";
 NSString *const kInAnimation = @"in";
-NSString *const kPcContinue = @"Tap to continue.";
-NSString *const kPcReview = @"Tap to review.";
-NSString *const kPlayerName = @"You";
 
 
 NSString *const kDialogHtmlTemplate = 
@@ -125,6 +122,7 @@ NSString *const kDialogHtmlTemplate =
 	lastPcId = 0;
 	currentNode = nil;
 	
+	npcLabel.text = NSLocalizedString(@"DialogContinue",@"");
 	[self moveNpcIn];	// Always start with the NPC Conversation list?
 	
 /*
@@ -229,7 +227,7 @@ NSString *const kDialogHtmlTemplate =
 		[self applyScene:currentScene];
 
 		currentCharacter = currentScene.characterId;
-		pcLabel.text = kPcContinue;
+		pcLabel.text = NSLocalizedString(@"DialogContinue",@"");
 
 		++scriptIndex;
 	}
@@ -273,8 +271,8 @@ NSString *const kDialogHtmlTemplate =
 		[self moveAllOutWithPostSelector:nil];
 		[self movePcIn];
 		currentCharacter = 0;
-		pcLabel.text = kPcReview;
-		self.title = kPlayerName;
+		pcLabel.text = NSLocalizedString(@"DialogReview",@"");
+		self.title = NSLocalizedString(@"DialogPlayerName",@"");
 		++scriptIndex;
 	}
 }
@@ -331,7 +329,7 @@ NSString *const kDialogHtmlTemplate =
 	BOOL isCurrentlyDisplayed;
 		 
 	if (cachedScene.isPc) {
-		self.title = kPlayerName;
+		self.title = NSLocalizedString(@"DialogPlayerName",@"");
 		characterWebView = pcWebView;
 		characterScrollView = pcScrollView;		
 		cachedScrollView = pcImage;
