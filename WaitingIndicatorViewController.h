@@ -3,7 +3,7 @@
 //  ARIS
 //
 //  Created by David Gagnon on 5/25/09.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Copyright 2009 University of Wisconsin - Madison. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
