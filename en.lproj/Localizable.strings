@@ -18,6 +18,7 @@
 "BackButtonKey" = "Back";
 "LoadingKey" = "Loading...";
 "OkKey" = "Ok";
+"SaveKey" = "Save";
 
 //AR View
 "ARViewTitleKey" = "AR View";
@@ -52,3 +53,24 @@
 
 //Inventory View
 "InventoryViewTitleKey" = "Inventory";
+
+//Title and Description Form
+"TitleAndDescriptionTitleKey" = "Title";
+"TitleAndDescriptionTitlePrompt" = "Enter a Title";
+"TitleAndDescriptionDescriptionPrompt" = "Enter a Description";
+
+//Camera
+"CameraTitleKey" = "Camera";
+"CameraLibraryButtonTitleKey" = "Use Library";
+"CameraCameraButtonTitleKey" = "Use Camera";
+
+//Audio Recorder
+"AudioRecorderTitleKey" = "Recorder";
+"BeginRecordingKey" = "Begin Recording";
+"StopRecordingKey" = "Stop Recording";
+"PlayKey" = "Play";
+"StopKey" = "Stop";
+"UploadKey" = "Upload";
+"DiscardKey" = "Discard";
+"NoAudioHardwareAvailableTitleKey" = "Warning";
+"NoAudioHardwareAvailableMessageKey" = "Audio input hardware not available";

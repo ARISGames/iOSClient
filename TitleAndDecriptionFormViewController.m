@@ -8,11 +8,6 @@
 
 #import "TitleAndDecriptionFormViewController.h"
 
-NSString *const kTitlePrompt = @"Enter a Title";
-NSString *const kDescriptionPrompt = @"Enter a Description";
-
-
-
 @implementation TitleAndDecriptionFormViewController
 
 @synthesize formTableView;
@@ -24,7 +19,7 @@ NSString *const kDescriptionPrompt = @"Enter a Description";
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
         // Custom initialization
-		self.title = @"Title";
+		self.title = NSLocalizedString(@"TitleAndDescriptionTitleKey",@"");
     }
     return self;
 }
@@ -36,15 +31,15 @@ NSString *const kDescriptionPrompt = @"Enter a Description";
     [super viewDidLoad];
 	
 	self.titleField = [[UITextField alloc]initWithFrame:CGRectMake(10, 10, 290, 30) ];
-	self.titleField.placeholder = kTitlePrompt;
+	self.titleField.placeholder = NSLocalizedString(@"TitleAndDescriptionTitlePrompt",@"");
 	self.titleField.returnKeyType =  UIReturnKeyDone;
 	self.titleField.delegate = self;
 	self.descriptionField = [[UITextField alloc]initWithFrame:CGRectMake(10, 10, 290, 30) ];
-	self.descriptionField.placeholder = kDescriptionPrompt;
+	self.descriptionField.placeholder = NSLocalizedString(@"TitleAndDescriptionDescriptionPrompt",@"");;
 	self.descriptionField.returnKeyType =  UIReturnKeyDone;
 	self.descriptionField.delegate = self;
 	
-	UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"Save" style: 
+	UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"SaveKey",@"") style: 
 							   UIBarButtonItemStyleDone target:self action:@selector(notifyDelegate)];
 
 	self.navigationItem.rightBarButtonItem = button;

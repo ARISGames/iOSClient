@@ -23,7 +23,7 @@
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        self.title = @"Audio Recorder";
+        self.title = NSLocalizedString(@"AudioRecorderTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"microphone.png"];
 		
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
@@ -82,28 +82,36 @@
 }
 
 - (void)updateButtonsForCurrentMode{
+	[uploadButton setTitle: NSLocalizedString(@"UploadKey", @"") forState: UIControlStateNormal];
+	[uploadButton setTitle: NSLocalizedString(@"UploadKey", @"") forState: UIControlStateHighlighted];			
+
+	[discardButton setTitle: NSLocalizedString(@"DiscardKey", @"") forState: UIControlStateNormal];
+	[discardButton setTitle: NSLocalizedString(@"DiscardKey", @"") forState: UIControlStateHighlighted];			
+
+	
+	
 	switch (mode) {
 		case kAudioRecorderStarting:
-			[recordStopOrPlayButton setTitle: @"Begin Recording" forState: UIControlStateNormal];
-			[recordStopOrPlayButton setTitle: @"Begin Recording" forState: UIControlStateHighlighted];			
+			[recordStopOrPlayButton setTitle: NSLocalizedString(@"BeginRecordingKey", @"") forState: UIControlStateNormal];
+			[recordStopOrPlayButton setTitle: NSLocalizedString(@"BeginRecordingKey", @"") forState: UIControlStateHighlighted];			
 			uploadButton.hidden = YES;
 			discardButton.hidden = YES;
 			break;
 		case kAudioRecorderRecording:
-			[recordStopOrPlayButton setTitle: @"Stop Recording" forState: UIControlStateNormal];
-			[recordStopOrPlayButton setTitle: @"Stop Recording" forState: UIControlStateHighlighted];			
+			[recordStopOrPlayButton setTitle: NSLocalizedString(@"StopRecordingKey", @"") forState: UIControlStateNormal];
+			[recordStopOrPlayButton setTitle: NSLocalizedString(@"StopRecordingKey", @"") forState: UIControlStateHighlighted];			
 			uploadButton.hidden = YES;
 			discardButton.hidden = YES;
 			break;
 		case kAudioRecorderRecordingComplete:
-			[recordStopOrPlayButton setTitle: @"Play" forState: UIControlStateNormal];
-			[recordStopOrPlayButton setTitle: @"Play" forState: UIControlStateHighlighted];			
+			[recordStopOrPlayButton setTitle: NSLocalizedString(@"PlayKey", @"") forState: UIControlStateNormal];
+			[recordStopOrPlayButton setTitle: NSLocalizedString(@"PlayKey", @"") forState: UIControlStateHighlighted];			
 			uploadButton.hidden = NO;
 			discardButton.hidden = NO;
 			break;
 		case kAudioRecorderPlaying:
-			[recordStopOrPlayButton setTitle: @"Stop" forState: UIControlStateNormal];
-			[recordStopOrPlayButton setTitle: @"Stop" forState: UIControlStateHighlighted];			
+			[recordStopOrPlayButton setTitle: NSLocalizedString(@"StopKey", @"") forState: UIControlStateNormal];
+			[recordStopOrPlayButton setTitle: NSLocalizedString(@"StopKey", @"") forState: UIControlStateHighlighted];			
 			uploadButton.hidden = YES;
 			discardButton.hidden = YES;
 			break;
@@ -142,10 +150,10 @@
 			BOOL audioHWAvailable = [[AVAudioSession sharedInstance] inputIsAvailable];
 			if (! audioHWAvailable) {
 				UIAlertView *cantRecordAlert =
-				[[UIAlertView alloc] initWithTitle: @"Warning"
-										   message: @"Audio input hardware not available"
+				[[UIAlertView alloc] initWithTitle: NSLocalizedString(@"NoAudioHardwareAvailableTitleKey", @"")
+										   message: NSLocalizedString(@"NoAudioHardwareAvailableMessageKey", @"")
 										  delegate: nil
-								 cancelButtonTitle:@"OK"
+								 cancelButtonTitle: NSLocalizedString(@"OkKey",@"")
 								 otherButtonTitles:nil];
 				[cantRecordAlert show];
 				[cantRecordAlert release]; 
