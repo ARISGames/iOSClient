@@ -1,0 +1,15 @@
+/* 
+   Localizable.strings
+   ARIS
+
+   Created by David J Gagnon on 7/30/10.
+   Copyright 2010 University of Wisconsin. All rights reserved.
+ */
+ 
+
+"NoConnectionTitleKey" = "No connection to the Internet";
+"NoConnectionMessageKey" = "Please connect to the internet and restart ARIS";
+"PoorConnectionTitleKey" = "Network Warning";
+"PoorConnectionMessageKey" = "Your internet connection is slow or unreliable";
+"LoginErrorTitleKey" = "Login Error";
+"LoginErrorMessageKey" = "Unknown Username/Password";

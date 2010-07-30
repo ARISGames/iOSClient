@@ -145,6 +145,7 @@
 		A7F0EE3F0F71CFEF008F7BAD /* GenericWebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7F0EE3E0F71CFEF008F7BAD /* GenericWebView.xib */; };
 		A7F0EE610F71D0C5008F7BAD /* GenericWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F0EE600F71D0C5008F7BAD /* GenericWebViewController.m */; };
 		A7FA0E7C0FC7048C00941493 /* IndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7FA0E7B0FC7048C00941493 /* IndicatorView.m */; };
+		AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB0A5BA3120365420065CE68 /* Localizable.strings */; };
 		AB0DE7B611556EC200A6EC3E /* ARCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE7AF11556EC200A6EC3E /* ARCoordinate.m */; };
 		AB0DE7B711556EC200A6EC3E /* ARGeoCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE7B111556EC200A6EC3E /* ARGeoCoordinate.m */; };
 		AB0DE7B811556EC200A6EC3E /* ARGeoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE7B311556EC200A6EC3E /* ARGeoViewController.m */; };
@@ -169,7 +170,6 @@
 		AB39C85D117E4F9F007AD31F /* StartOverIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = AB39C85C117E4F9F007AD31F /* StartOverIcon.png */; };
 		AB3E113F10486A5500A9034C /* JSONConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AB3E113E10486A5500A9034C /* JSONConnection.m */; };
 		AB3F4E6E10CCC17400E6C9D7 /* NearbyObjectARCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = AB3F4E6D10CCC17400E6C9D7 /* NearbyObjectARCoordinate.m */; };
-		AB3FD75E120344D000B0C578 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = AB3FD75D120344D000B0C578 /* LICENSE */; };
 		AB4150B61159291400DBA15F /* microphoneBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AB4150B51159291400DBA15F /* microphoneBackground.jpg */; };
 		AB4151CB11595A2600DBA15F /* cameraBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AB4151CA11595A2600DBA15F /* cameraBackground.jpg */; };
 		AB4151DD115963D000DBA15F /* qrBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = AB4151DC115963D000DBA15F /* qrBackground.png */; };
@@ -421,6 +421,8 @@
 		A7F0EE600F71D0C5008F7BAD /* GenericWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GenericWebViewController.m; path = Classes/GenericWebViewController.m; sourceTree = "<group>"; };
 		A7FA0E7A0FC7048C00941493 /* IndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndicatorView.h; sourceTree = "<group>"; };
 		A7FA0E7B0FC7048C00941493 /* IndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndicatorView.m; sourceTree = "<group>"; };
+		AB0A5BA4120365420065CE68 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		AB0A5BA61203665C0065CE68 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AB0DE7AE11556EC200A6EC3E /* ARCoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARCoordinate.h; sourceTree = "<group>"; };
 		AB0DE7AF11556EC200A6EC3E /* ARCoordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARCoordinate.m; sourceTree = "<group>"; };
 		AB0DE7B011556EC200A6EC3E /* ARGeoCoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARGeoCoordinate.h; sourceTree = "<group>"; };
@@ -455,7 +457,6 @@
 		AB3E113E10486A5500A9034C /* JSONConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONConnection.m; sourceTree = "<group>"; };
 		AB3F4E6C10CCC17400E6C9D7 /* NearbyObjectARCoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyObjectARCoordinate.h; sourceTree = "<group>"; };
 		AB3F4E6D10CCC17400E6C9D7 /* NearbyObjectARCoordinate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyObjectARCoordinate.m; sourceTree = "<group>"; };
-		AB3FD75D120344D000B0C578 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		AB4150B51159291400DBA15F /* microphoneBackground.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = microphoneBackground.jpg; sourceTree = "<group>"; };
 		AB4151CA11595A2600DBA15F /* cameraBackground.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cameraBackground.jpg; sourceTree = "<group>"; };
 		AB4151DC115963D000DBA15F /* qrBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qrBackground.png; sourceTree = "<group>"; };
@@ -741,6 +742,7 @@
 		29B97314FDCFA39411CA2CEA /* ARIS */ = {
 			isa = PBXGroup;
 			children = (
+				AB0A5BA3120365420065CE68 /* Localizable.strings */,
 				A7149F9C0FB89DC8008BAB5D /* Settings.bundle */,
 				A7986D6A0F8FEC7200A5469F /* Core App */,
 				AB6B774810C9D61200275650 /* ARView */,
@@ -759,7 +761,6 @@
 				A7986D650F8FEC1100A5469F /* Login */,
 				A7986D6B0F8FEC8800A5469F /* Generic Web View (compatability) */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				AB3FD75D120344D000B0C578 /* LICENSE */,
 			);
 			name = ARIS;
 			sourceTree = "<group>";
@@ -1213,6 +1214,14 @@
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "ARIS" */;
 			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+				en,
+				es,
+			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* ARIS */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1294,7 +1303,7 @@
 				AB6484B51187860E00261315 /* drop.wav in Resources */,
 				AB82F79011F0EAA300B8E3DC /* microphoneForeground.png in Resources */,
 				ABC3C14311FCF2A400E59FAC /* locateMe.png in Resources */,
-				AB3FD75E120344D000B0C578 /* LICENSE in Resources */,
+				AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1491,6 +1500,18 @@
 			targetProxy = 289812400FA1144C002ED288 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		AB0A5BA3120365420065CE68 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AB0A5BA4120365420065CE68 /* en */,
+				AB0A5BA61203665C0065CE68 /* es */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {

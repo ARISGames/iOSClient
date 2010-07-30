@@ -42,6 +42,14 @@
 	[appModel loadUserDefaults];
 	[appModel retain];
 	
+	//Log the current Language
+	NSArray *languages = [[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"];
+	NSString *currentLanguage = [languages objectAtIndex:0];
+	NSLog(@"Current Locale: %@", [[NSLocale currentLocale] localeIdentifier]);
+	NSLog(@"Current language: %@", currentLanguage);
+	[languages release];
+	[currentLanguage release];
+	
 	
 	
 	//Check for Internet conductivity
@@ -49,10 +57,10 @@
 	Reachability *r = [Reachability reachabilityWithHostName:@"arisgames.org"];
 	NetworkStatus internetStatus = [r currentReachabilityStatus];
 	BOOL connection = (internetStatus == ReachableViaWiFi) || (internetStatus == ReachableViaWWAN);
-	//connection = YES; //For debugging locally
+	//connection = NO; //For debugging locally
 	if (!connection) {
 		NSLog(@"AppDelegate: Internet Connection Failed");
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"No connection to the Internet" message: @"Please connect to the internet and restart ARIS" delegate: self cancelButtonTitle: nil otherButtonTitles: nil];
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"NoConnectionTitleKey", @"") message: NSLocalizedString(@"NoConnectionMessageKey",@"") delegate: self cancelButtonTitle: nil otherButtonTitles: nil];
 		[alert show];
 		[alert release];
 		return;
@@ -194,8 +202,8 @@
 	NSLog (@"AppDelegate: Showing Network Alert");
 	
 	if (!self.networkAlert) {
-		networkAlert = [[UIAlertView alloc] initWithTitle:@"Network Warning" message:
-						@"Your internet connection is slow or unreliable."
+		networkAlert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"PoorConnectionTitleKey", @"") 
+											message: NSLocalizedString(@"PoorConnectionMessageKey", @"")
 												 delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 	}
 	
@@ -305,7 +313,8 @@
 		NSLog(@"AppDelegate: Login Failed, check for a network issue");
 		if (self.networkAlert) NSLog(@"AppDelegate: Network is down, skip login alert");
 		else {
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"Invalid username or password."
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"LoginErrorTitleKey",@"")
+															message:NSLocalizedString(@"LoginErrorMessageKey",@"")
 														   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 			[alert show];	
 			[alert release];
