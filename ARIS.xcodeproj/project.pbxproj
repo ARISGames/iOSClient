@@ -142,8 +142,6 @@
 		A7E39ECA0F5F655E00826198 /* Camera.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7E39EC90F5F655E00826198 /* Camera.xib */; };
 		A7E4C88C0F54C4D000C6D9E8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E4C88B0F54C4D000C6D9E8 /* QuartzCore.framework */; };
 		A7E4C8990F54C5E300C6D9E8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E4C8980F54C5E300C6D9E8 /* CoreLocation.framework */; };
-		A7F0EE3F0F71CFEF008F7BAD /* GenericWebView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7F0EE3E0F71CFEF008F7BAD /* GenericWebView.xib */; };
-		A7F0EE610F71D0C5008F7BAD /* GenericWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F0EE600F71D0C5008F7BAD /* GenericWebViewController.m */; };
 		A7FA0E7C0FC7048C00941493 /* IndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7FA0E7B0FC7048C00941493 /* IndicatorView.m */; };
 		AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB0A5BA3120365420065CE68 /* Localizable.strings */; };
 		AB0DE7B611556EC200A6EC3E /* ARCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE7AF11556EC200A6EC3E /* ARCoordinate.m */; };
@@ -416,9 +414,6 @@
 		A7E39EC90F5F655E00826198 /* Camera.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Camera.xib; sourceTree = "<group>"; };
 		A7E4C88B0F54C4D000C6D9E8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A7E4C8980F54C5E300C6D9E8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		A7F0EE3E0F71CFEF008F7BAD /* GenericWebView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GenericWebView.xib; sourceTree = "<group>"; };
-		A7F0EE5F0F71D0C5008F7BAD /* GenericWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GenericWebViewController.h; path = Classes/GenericWebViewController.h; sourceTree = "<group>"; };
-		A7F0EE600F71D0C5008F7BAD /* GenericWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GenericWebViewController.m; path = Classes/GenericWebViewController.m; sourceTree = "<group>"; };
 		A7FA0E7A0FC7048C00941493 /* IndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndicatorView.h; sourceTree = "<group>"; };
 		A7FA0E7B0FC7048C00941493 /* IndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndicatorView.m; sourceTree = "<group>"; };
 		AB0A5BA4120365420065CE68 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -759,7 +754,6 @@
 				A7986D670F8FEC3900A5469F /* Logout */,
 				A7986D610F8FEBB200A5469F /* Developer */,
 				A7986D650F8FEC1100A5469F /* Login */,
-				A7986D6B0F8FEC8800A5469F /* Generic Web View (compatability) */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
 			name = ARIS;
@@ -981,16 +975,6 @@
 				A7A1728A0F4F27120017E865 /* Icon.png */,
 			);
 			name = "Core App";
-			sourceTree = "<group>";
-		};
-		A7986D6B0F8FEC8800A5469F /* Generic Web View (compatability) */ = {
-			isa = PBXGroup;
-			children = (
-				A7F0EE5F0F71D0C5008F7BAD /* GenericWebViewController.h */,
-				A7F0EE600F71D0C5008F7BAD /* GenericWebViewController.m */,
-				A7F0EE3E0F71CFEF008F7BAD /* GenericWebView.xib */,
-			);
-			name = "Generic Web View (compatability)";
 			sourceTree = "<group>";
 		};
 		AB0DE7FE11559CCA00A6EC3E /* Audio Recorder */ = {
@@ -1248,7 +1232,6 @@
 				A7A1728D0F4F27120017E865 /* Default.png in Resources */,
 				A7A172950F4F273B0017E865 /* Icon.icns in Resources */,
 				A7E39ECA0F5F655E00826198 /* Camera.xib in Resources */,
-				A7F0EE3F0F71CFEF008F7BAD /* GenericWebView.xib in Resources */,
 				A72C02140F7985EF00D00602 /* QRScanner.xib in Resources */,
 				A7BCBB3F0F8C236900C7A36C /* ItemDetailsView.xib in Resources */,
 				A78E753E0FB5BA0C00922F6C /* Developer.xib in Resources */,
@@ -1344,7 +1327,6 @@
 				A763B5250F4E283100FDCC55 /* MyCLController.m in Sources */,
 				A722E7150F57425B004B04D2 /* Location.m in Sources */,
 				A7E39EAD0F5F60D000826198 /* CameraViewController.m in Sources */,
-				A7F0EE610F71D0C5008F7BAD /* GenericWebViewController.m in Sources */,
 				A72C02170F7985FF00D00602 /* QRScannerViewController.mm in Sources */,
 				A7A6235B0F841C99008E0DFD /* Item.m in Sources */,
 				A75AF2B90F86A47100F15535 /* ItemDetailsViewController.m in Sources */,

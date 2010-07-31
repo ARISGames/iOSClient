@@ -273,7 +273,6 @@
 								<string>A7986D670F8FEC3900A5469F</string>
 								<string>A7986D610F8FEBB200A5469F</string>
 								<string>A7986D650F8FEC1100A5469F</string>
-								<string>A7986D6B0F8FEC8800A5469F</string>
 								<string>1C37FBAC04509CD000000102</string>
 								<string>1C37FAAC04509CD000000102</string>
 								<string>1C37FABC05509CD000000102</string>
@@ -281,12 +280,11 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>40</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 0}, {281, 724}}</string>
+							<string>{{0, 160}, {281, 724}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -493,7 +491,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>GenericWebViewController.m</string>
+								<string>Localizable.strings</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -501,11 +499,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>GenericWebViewController.m</string>
+										<string>Localizable.strings</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>AB0A5D0B12048B510065CE68</string>
+										<string>AB0A5D1612048C970065CE68</string>
 										<key>history</key>
 										<array>
 											<string>AB2223FA10502E7D00A4255E</string>
@@ -625,7 +623,6 @@
 											<string>AB0A5C3412037A480065CE68</string>
 											<string>AB0A5C4912037DD40065CE68</string>
 											<string>AB0A5C7A120382E90065CE68</string>
-											<string>AB0A5C7B120382E90065CE68</string>
 											<string>AB0A5C9412038A7E0065CE68</string>
 											<string>AB0A5C9512038A7E0065CE68</string>
 											<string>AB0A5C9612038A7E0065CE68</string>
@@ -639,7 +636,7 @@
 											<string>AB0A5D0712048B510065CE68</string>
 											<string>AB0A5D0812048B510065CE68</string>
 											<string>AB0A5D0912048B510065CE68</string>
-											<string>AB0A5D0A12048B510065CE68</string>
+											<string>AB0A5D0E12048BDC0065CE68</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -651,14 +648,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 5}, {1028, 400}}</string>
+								<string>{{0, 5}, {1028, 627}}</string>
 								<key>RubberWindowFrame</key>
 								<string>5 89 1331 783 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>400pt</string>
+							<string>627pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -678,7 +675,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>AB0A5D0C12048B510065CE68</string>
+										<string>AB0A5D1712048C970065CE68</string>
 										<key>history</key>
 										<array>
 											<string>AB2223FA10502E7D00A4255E</string>
@@ -822,14 +819,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 410}, {1028, 327}}</string>
+								<string>{{0, 637}, {1028, 100}}</string>
 								<key>RubberWindowFrame</key>
 								<string>5 89 1331 783 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>327pt</string>
+							<string>100pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -1010,6 +1007,7 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>AB0A5D1812048C970065CE68</string>
 		<string>AB0A5BBC120367620065CE68</string>
 		<string>AB0A5BBD120367620065CE68</string>
 		<string>1C78EAAD065D492600B07095</string>
