@@ -18,6 +18,7 @@
 	IBOutlet UILabel *mapLabel;
 	IBOutlet UIWebView *descriptionWebView;
 	IBOutlet UILabel *titleLabel;
+	IBOutlet UILabel *descriptionLabel;
 	IBOutlet UILabel *playersLabel;
 	IBOutlet UILabel *authorsLabel;
 	IBOutlet UILabel *locationLabel;
@@ -34,6 +35,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *playersLabel;
 @property (nonatomic, retain) IBOutlet UILabel *authorsLabel;
 @property (nonatomic, retain) IBOutlet UILabel *locationLabel;
+@property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
 @property (nonatomic, retain) IBOutlet AsyncImageView *iconView;
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, retain) IBOutlet UIView *contentView;

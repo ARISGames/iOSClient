@@ -41,6 +41,8 @@ NSString *const kGameDetailsHtmlTemplate =
 @synthesize titleLabel;
 @synthesize playersLabel;
 @synthesize authorsLabel;
+@synthesize descriptionLabel;
+@synthesize mapLabel;
 @synthesize locationLabel;
 @synthesize iconView;
 @synthesize scrollView;
@@ -66,7 +68,11 @@ NSString *const kGameDetailsHtmlTemplate =
 
 - (void)viewWillAppear:(BOOL)animated {
 	NSLog(@"GameDetails: View Will Appear, Refresh");
-	self.title = @"Details";
+	self.title = NSLocalizedString(@"GameDetailsTitleKey",@"");
+	
+	descriptionLabel.text = NSLocalizedString(@"DescriptionKey",@"");
+	mapLabel.text = NSLocalizedString(@"MapKey",@"");
+
 	
 	scrollView.contentSize = CGSizeMake(contentView.frame.size.width,contentView.frame.size.height);
 	
@@ -83,8 +89,8 @@ NSString *const kGameDetailsHtmlTemplate =
 	[map setRegion:region animated:YES];
 	[map regionThatFits:region];
 	
-	playersLabel.text = [NSString stringWithFormat:@"Players: %d",game.numPlayers];
-	authorsLabel.text = [NSString stringWithFormat:@"Authors: %@",game.authors];
+	playersLabel.text = [NSString stringWithFormat:@"%@: %d", NSLocalizedString(@"PlayersKey",@""),game.numPlayers];
+	authorsLabel.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"AuthorsKey",@""),game.authors];
 	
 	if (game.iconMediaId != 0) {
 		AppModel *appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];

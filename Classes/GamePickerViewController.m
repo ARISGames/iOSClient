@@ -22,7 +22,7 @@
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
-        self.title = @"Select Game";
+        self.title = NSLocalizedString(@"GamePickerTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"game.png"];
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
 		
@@ -135,7 +135,7 @@
 
 	cell.textLabel.text = currentGame.name;
 	double dist = currentGame.distanceFromPlayer;
-	cell.detailTextLabel.text = [NSString stringWithFormat:@"%1.1f Kilometers",  dist/1000];
+	cell.detailTextLabel.text = [NSString stringWithFormat:@"%1.1f %@",  dist/1000, NSLocalizedString(@"KilometersKey", @"") ];
 	cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 
     return cell;
@@ -207,10 +207,10 @@
  */
 
 - (NSString *)tableView:(UITableView *)view titleForHeaderInSection:(NSInteger)section {
-	if (section == 0 && [nearGameList count] == 0) return @"No Nearby Games Found";
-	else if (section == 0) return @"Nearby Games Found";	
-	else if (section == 1) return @"Other Games";
-	return @"Quests";
+	if (section == 0 && [nearGameList count] == 0) return NSLocalizedString(@"GamePickerNoNearbyGamesKey",@"");
+	else if (section == 0) return NSLocalizedString(@"GamePickerNearbyGamesKey", @"");	
+	else if (section == 1) return NSLocalizedString(@"GamePickerOtherGamesKey", @"");
+	return @"";
 }
 
 

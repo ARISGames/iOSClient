@@ -74,3 +74,23 @@
 "DiscardKey" = "Discard";
 "NoAudioHardwareAvailableTitleKey" = "Warning";
 "NoAudioHardwareAvailableMessageKey" = "Audio input hardware not available";
+
+//QR Scanner
+"QRScannerTitleKey" = "Decoder";
+"QRScannerErrorTitleKey" = "Scan Successful, But...";
+"QRScannerErrorMessageKey" = "This code doesn't mean anything right now. You should come back later";
+"QRScannerDecodingErrorTitleKey" = "Decoding Error";
+"QRScannerDecodingKey" = "Decoding...";
+"QRScannerDecodingErrorMessageKey" = "Try scanning the code again: Step back 2 feet and hold the camera as still as possible";
+
+//Game Picker
+"GamePickerTitleKey" = "Select Game";
+"KilometersKey" = "Kilometers";
+"GamePickerNoNearbyGamesKey" = "No Nearby Games Found";
+"GamePickerNearbyGamesKey" = "Nearby Games";
+"GamePickerOtherGamesKey" = "Other Games";
+"GameDetailsTitleKey" = "Details";
+"PlayersKey" = "Players";
+"AuthorsKey" = "Authors";
+"DescriptionKey" = "Description";
+"MapKey" = "Map";

@@ -24,7 +24,7 @@
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
-        self.title = @"Decoder";
+        self.title = NSLocalizedString(@"QRScannerTitleKey", @"");
         self.tabBarItem.image = [UIImage imageNamed:@"qrscanner.png"];
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
     }
@@ -127,8 +127,11 @@
 		[appDelegate playAudioAlert:@"error" shouldVibrate:NO];
 		
 		//Display an alert
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Scan Successful, But..." message:@"This code doesn't mean anything right now. You should come back later."
-			 delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", @"")
+														message:NSLocalizedString(@"QRScannerErrorMessageKey", @"")
+													   delegate:self 
+											  cancelButtonTitle:NSLocalizedString(@"OkKey", @"")
+											  otherButtonTitles:nil];
 		[alert show];	
 		[alert release];
 					  
@@ -155,8 +158,11 @@
 	[appDelegate removeWaitingIndicator];
 	[appDelegate playAudioAlert:@"error" shouldVibrate:YES];
 	
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Decoding Error" message:@"Try scanning the code again: Step back 2 feet and hold the camera as still as possible"
-												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"QRScannerDecodingErrorTitleKey", @"")
+													message:NSLocalizedString(@"QRScannerDecodingErrorMessageKey", @"")
+												   delegate:self 
+										  cancelButtonTitle:NSLocalizedString(@"OkKey", @"")
+										  otherButtonTitles:nil];
 	[alert show];	
 	[alert release];
 }
@@ -171,7 +177,7 @@
 	
 	//Start Waiting Indicator
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-	[appDelegate showWaitingIndicator:@"Decoding..." displayProgressBar:NO];
+	[appDelegate showWaitingIndicator:NSLocalizedString(@"QRScannerDecodingKey",@"") displayProgressBar:NO];
 	
 }
 
