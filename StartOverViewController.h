@@ -11,6 +11,7 @@
 
 @interface StartOverViewController : UIViewController {
 	IBOutlet UIButton *startOverButton;
+	IBOutlet UILabel *warningLabel;
 }
 
 -(IBAction)startOverButtonPressed: (id) sender;

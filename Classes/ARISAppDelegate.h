@@ -10,7 +10,6 @@
 #import "model/AppModel.h";
 
 #import "LoginViewController.h";
-#import "GenericWebViewController.h";
 #import "MyCLController.h"
 
 #import "model/Game.h"

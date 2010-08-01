@@ -94,3 +94,8 @@
 "AuthorsKey" = "Authors";
 "DescriptionKey" = "Description";
 "MapKey" = "Map";
+
+//Start Over
+"StartOverTitleKey" = "Start Over";
+"StartOverKey" = "Start Over";
+"StartOverWarningKey" = "This cannot be undone.";

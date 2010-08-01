@@ -16,19 +16,22 @@
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-		self.title = @"Start Over";
-		self.tabBarItem.image = [UIImage imageNamed:@"StartOverIcon.png"];
-    }
+		self.title = NSLocalizedString(@"StartOverTitleKey", @"");
+		self.tabBarItem.image = [UIImage imageNamed:@"StartOverIcon.png"];		
+	}
     return self;
 }
 
 
-/*
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
+	warningLabel.text = NSLocalizedString(@"StartOverWarningKey", @"");
+	[startOverButton setTitle:NSLocalizedString(@"StartOverKey",@"") forState:UIControlStateNormal];
+	
     [super viewDidLoad];
 }
-*/
+
 
 /*
 // Override to allow orientations other than the default portrait orientation.
