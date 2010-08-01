@@ -391,44 +391,6 @@
 }
 
 
-
-
-#pragma mark Tab Bar delegate
-
-// A Player selected a tab from the tab bar
-- (void)tabBarController:(UITabBarController *)tabController didSelectViewController:(UIViewController *)viewController {
-		
-	UINavigationController *navigationController;
-	UIViewController *visibleViewController;
-	
-	//Get the naviation controller and visible view controller
-	if ([viewController isKindOfClass:[UINavigationController class]]) {
-		navigationController = (UINavigationController*)viewController;
-		visibleViewController = [navigationController visibleViewController];
-	}
-	else {
-		navigationController = nil;
-		visibleViewController = viewController;
-	}
-	
-	NSLog(@"AppDelegate: %@ selected",[visibleViewController title]);
-	
-	//Hides the existing Controller
-	UIViewController *selViewController = [tabBarController selectedViewController];
-	[selViewController.navigationController.view removeFromSuperview];
-	
-	[self playAudioAlert:@"click" shouldVibrate:NO];
-	
-}
-
-
-#pragma mark navigation controller delegate
-- (void)navigationController:(UINavigationController *)navigationController 
-	   didShowViewController:(UIViewController *)viewController 
-					animated:(BOOL)animated {
-	
-}
-
 #pragma mark Memory Management
 
 -(void) applicationWillTerminate:(UIApplication *)application {
