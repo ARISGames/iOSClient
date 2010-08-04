@@ -20,6 +20,7 @@
 @synthesize firstName;
 @synthesize lastName;
 @synthesize email;
+@synthesize messageLabel;
 
 
 //Override init for passing title and icon to tab bar
@@ -27,7 +28,8 @@
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
-        self.title = @"Create a New User";
+        self.title = NSLocalizedString(@"SelfRegistrationTitleKey", @"");
+		
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardNotification:)  name:UIKeyboardWillShowNotification object:nil];  
@@ -39,6 +41,15 @@
 
 
 - (void)viewDidLoad {
+	messageLabel.text = NSLocalizedString(@"SelfRegistrationMessageKey",@"");
+	userName.placeholder = NSLocalizedString(@"UsernameKey",@"");
+	password.placeholder = NSLocalizedString(@"PasswordKey",@"");
+	email.placeholder = NSLocalizedString(@"EmailKey",@"");
+	firstName.placeholder = NSLocalizedString(@"FirstNameKey",@"");
+	lastName.placeholder = NSLocalizedString(@"LastNameKey",@"");
+	[createAccountButton setTitle:NSLocalizedString(@"CreateAccountKey",@"") forState:UIControlStateNormal];
+					  
+	
 	[super viewDidLoad];
 }
  
@@ -47,9 +58,6 @@
 	[self submitRegistration];
 }
 
-- (IBAction)cancelButtonTouched: (id) sender{
-	[self.navigationController popToRootViewControllerAnimated:YES];
-}
 
 -(void)submitRegistration {
 	//Check with the Server

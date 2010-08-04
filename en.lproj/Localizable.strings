@@ -107,10 +107,16 @@
 "LogoutKey" = "Logout";
 "LogoutWarningKey" = "Are you sure you wish to Logout?";
 
-//Login
+//Login and
 "LoginTitleKey" = "Login to ARIS";
 "UsernameKey" = "Username";
 "PasswordKey" = "Password";
 "LoginKey" = "Login";
 "NewAccountMessageKey" = "Don't Have an Account?";
 "CreateAccountKey" = "Signup";
+"SelfRegistrationTitleKey" = "Create a New User";
+"SelfRegistrationMessageKey" = "Please enter ALL of the following";
+"EmailKey" = "Email";
+"FirstNameKey" = "First Name";
+"LastNameKey" = "Last Name";
+"CreateAccountKey" = "Create Account";
