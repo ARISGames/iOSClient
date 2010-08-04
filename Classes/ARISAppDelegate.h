@@ -69,6 +69,7 @@
 - (void) removeWaitingIndicator;
 - (void) showNetworkAlert;
 - (void) removeNetworkAlert;
+- (void) returnToHomeView;
 - (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate;
 
 @end

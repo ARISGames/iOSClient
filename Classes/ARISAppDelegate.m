@@ -390,6 +390,11 @@
 	[window addSubview:loginViewNavigationController.view];
 }
 
+- (void) returnToHomeView{
+	NSLog(@"AppDelegate: Returning to Home View - Tab Bar Index 0");
+	[tabBarController setSelectedIndex:0];	
+}
+
 
 #pragma mark Memory Management
 

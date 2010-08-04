@@ -17,7 +17,7 @@
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
-        self.title = @"Logout";
+        self.title = NSLocalizedString(@"LogoutTitleKey", @"");
         self.tabBarItem.image = [UIImage imageNamed:@"logout.png"];
     }
     return self;
@@ -25,6 +25,9 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
+	warningLabel.text = NSLocalizedString(@"LogoutWarningKey", @"");
+	[logoutButton setTitle:NSLocalizedString(@"LogoutKey",@"") forState:UIControlStateNormal];
+	
     [super viewDidLoad];	
 	NSLog(@"Logout View Controller Loaded");
 }

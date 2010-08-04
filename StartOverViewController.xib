@@ -45,7 +45,7 @@
 					<object class="IBUILabel" id="171106774">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">301</int>
-						<string key="NSFrame">{{67, 286}, {198, 54}}</string>
+						<string key="NSFrame">{{20, 286}, {280, 54}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
@@ -206,7 +206,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>StartOverViewController</string>
 					<string>UIResponder</string>
-					<string>{{528, 376}, {320, 480}}</string>
+					<string>{{68, 257}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>

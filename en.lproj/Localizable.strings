@@ -98,4 +98,11 @@
 //Start Over
 "StartOverTitleKey" = "Start Over";
 "StartOverKey" = "Start Over";
-"StartOverWarningKey" = "This cannot be undone.";
+"StartOverWarningKey" = "This cannot be reversed";
+"StartOverResetAlertTitleKey" = "Success";
+"StartOverResetAlertMessageKey" = "You have reset your progress for this game";
+
+//Logout
+"LogoutTitleKey" = "Logout";
+"LogoutKey" = "Logout";
+"LogoutWarningKey" = "Are you sure you wish to Logout?";

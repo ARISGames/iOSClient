@@ -154,6 +154,7 @@
 		AB0DE80D11559D1200A6EC3E /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */; };
 		AB15EC1510B49F8A00EEC11F /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AB15EC1410B49F8A00EEC11F /* AsyncImageView.m */; };
 		AB2223F510502CD800A4255E /* Quest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB2223F410502CD800A4255E /* Quest.m */; };
+		AB2FE579120A154B00758F8C /* LogoutButton.png in Resources */ = {isa = PBXBuildFile; fileRef = AB2FE578120A154B00758F8C /* LogoutButton.png */; };
 		AB37BC441184CE0F00C5CE8B /* nearbyObject.wav in Resources */ = {isa = PBXBuildFile; fileRef = AB37BC431184CE0F00C5CE8B /* nearbyObject.wav */; };
 		AB37BC4B1184D0F700C5CE8B /* questChange.wav in Resources */ = {isa = PBXBuildFile; fileRef = AB37BC451184D0F700C5CE8B /* questChange.wav */; };
 		AB37BC4D1184D0F700C5CE8B /* harp.wav in Resources */ = {isa = PBXBuildFile; fileRef = AB37BC471184D0F700C5CE8B /* harp.wav */; };
@@ -435,6 +436,7 @@
 		AB15EC1410B49F8A00EEC11F /* AsyncImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncImageView.m; sourceTree = "<group>"; };
 		AB2223F310502CD800A4255E /* Quest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quest.h; sourceTree = "<group>"; };
 		AB2223F410502CD800A4255E /* Quest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Quest.m; sourceTree = "<group>"; };
+		AB2FE578120A154B00758F8C /* LogoutButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LogoutButton.png; sourceTree = "<group>"; };
 		AB37BC431184CE0F00C5CE8B /* nearbyObject.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = nearbyObject.wav; sourceTree = "<group>"; };
 		AB37BC451184D0F700C5CE8B /* questChange.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = questChange.wav; sourceTree = "<group>"; };
 		AB37BC471184D0F700C5CE8B /* harp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = harp.wav; sourceTree = "<group>"; };
@@ -901,6 +903,7 @@
 		A7986D670F8FEC3900A5469F /* Logout */ = {
 			isa = PBXGroup;
 			children = (
+				AB2FE578120A154B00758F8C /* LogoutButton.png */,
 				ABD6226410D6FBCE00D3B747 /* logout.png */,
 				2B3D12EA0F4382070067FD3A /* LogoutViewController.h */,
 				2B3D12EB0F4382070067FD3A /* LogoutViewController.m */,
@@ -1287,6 +1290,7 @@
 				AB82F79011F0EAA300B8E3DC /* microphoneForeground.png in Resources */,
 				ABC3C14311FCF2A400E59FAC /* locateMe.png in Resources */,
 				AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */,
+				AB2FE579120A154B00758F8C /* LogoutButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
