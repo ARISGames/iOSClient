@@ -106,3 +106,11 @@
 "LogoutTitleKey" = "Logout";
 "LogoutKey" = "Logout";
 "LogoutWarningKey" = "Are you sure you wish to Logout?";
+
+//Login
+"LoginTitleKey" = "Login to ARIS";
+"UsernameKey" = "Username";
+"PasswordKey" = "Password";
+"LoginKey" = "Login";
+"NewAccountMessageKey" = "Don't Have an Account?";
+"CreateAccountKey" = "Signup";

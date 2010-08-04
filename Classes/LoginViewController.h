@@ -10,19 +10,14 @@
 #import "AppModel.h"
 
 @interface LoginViewController : UIViewController {
-	AppModel *appModel;
-	UITextField *username;
-	UITextField *password;
-	UIButton *login;
+	IBOutlet UITextField *usernameField;
+	IBOutlet UITextField *passwordField;
+	IBOutlet UIButton *loginButton;
+	IBOutlet UIButton *newAccountButton;
+	IBOutlet UILabel *newAccountMessageLabel;
 }
 
--(void) setModel:(AppModel *)model;
--(void) performLogin;
--(IBAction)newUserButtonTouched: (id) sender;
-
-@property (nonatomic, retain) IBOutlet UITextField *username;
-@property (nonatomic, retain) IBOutlet UITextField *password;
-@property (nonatomic, retain) IBOutlet UIButton *login;
-//@property (nonatomic, retain) IBOutlet UINavigationItem *titleItem;
+-(IBAction)newAccountButtonTouched: (id) sender;
+-(IBAction)loginButtonTouched: (id) sender;
 
 @end

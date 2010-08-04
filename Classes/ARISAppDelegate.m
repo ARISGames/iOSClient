@@ -136,7 +136,6 @@
 
 	//Login View
 	loginViewController = [[[LoginViewController alloc] initWithNibName:@"Login" bundle:nil] autorelease];
-	[loginViewController setModel:appModel];
 	loginViewController.view.frame = [UIScreen mainScreen].applicationFrame;
 	loginViewNavigationController = [[UINavigationController alloc] initWithRootViewController: loginViewController];
 	loginViewNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
