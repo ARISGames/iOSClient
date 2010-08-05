@@ -36,7 +36,7 @@
 "ItemDroppedTitleKey" = "Item Dropped";
 "ItemDroppedMessageKey" = "Your Item was dropped here on the map for other players to see";
 "ItemDestroyedTitleKey" = "Item Destroyed";
-"ItemDestroyedMessageKey" = "This object was removed from your inventory and permantly destroyed";
+"ItemDestroyedMessageKey" = "This object was removed from your inventory and permanently destroyed";
 "ItemDuplicateTitleKey" = "Duplicate Item";
 "ItemDuplicateMessageKey" = "You cannot carry any more of this item";
 "ItemPickedUpTitleKey" = "Picked up an Item";
@@ -82,6 +82,8 @@
 "QRScannerDecodingErrorTitleKey" = "Decoding Error";
 "QRScannerDecodingKey" = "Decoding...";
 "QRScannerDecodingErrorMessageKey" = "Try scanning the code again: Step back 2 feet and hold the camera as still as possible";
+"ScanUsingCameraKey" = "Scan Using Camera";
+"EnterCodeKey" = "Manually Type Code";
 
 //Game Picker
 "GamePickerTitleKey" = "Select Game";

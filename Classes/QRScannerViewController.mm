@@ -36,6 +36,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 		
+	[scanButton setTitle:NSLocalizedString(@"ScanUsingCameraKey",@"") forState:UIControlStateNormal];
+	manualCode.placeholder = NSLocalizedString(@"EnterCodeKey",@"");
+	
 	self.imagePickerController = [[UIImagePickerController alloc] init];
 	self.imagePickerController.allowsImageEditing = YES;
 	self.imagePickerController.delegate = self;
