@@ -1,0 +1,124 @@
+/* 
+   Localizable.strings
+   ARIS
+
+   Created by Fred UBIK2 on 8/4/10.
+   Copyright 2010 University of Wisconsin. All rights reserved.
+ */
+
+//General
+"NoConnectionTitleKey" = "Pas de connexion à Internet";
+"NoConnectionMessageKey" = "S.V.P, connectez-vous à internet et redémarrez ARIS";
+"PoorConnectionTitleKey" = "Notification Réseau";
+"PoorConnectionMessageKey" = "Votre connexion à internet est lente ou désactivée";
+"LoginErrorTitleKey" = "Erreur de Login";
+"LoginErrorMessageKey" = "Nom d’utilisateur/mot de passe inconnu";
+"PreparingToPlayKey" = "Préparation du Jeu";
+"TouchToPlayKey" = "Toucher pour Jouer";
+"BackButtonKey" = "Retour";
+"LoadingKey" = "Chargement...";
+"OkKey" = "Ok";
+"SaveKey" = "Sauver";
+
+//AR View
+"ARViewTitleKey" = "Vue AR";
+
+//Dialog View
+"DialogContinue" = "Toucher pour continuer";
+"DialogReview" = "Toucher pour revoir";
+"DialogPlayerName" = "Toi";
+
+//Item Details View
+"ItemDropKey" = "Déposer";
+"ItemDeleteKey" = "Détruire";
+"ItemPickupKey" = "Prendre";
+"ItemDetailKey" = "Détail";
+"ItemDroppedTitleKey" = "Élément déposé";
+"ItemDroppedMessageKey" = "Votre élément a été déposé ici sur la carte pour que d’autres joueurs puissent le voir";
+"ItemDestroyedTitleKey" = "Élément détruit";
+"ItemDestroyedMessageKey" = "Cet objet a été déplacé de votre inventaire et définitivement détruit";
+"ItemDuplicateTitleKey" = "Dupliquer l’Élément";
+"ItemDuplicateMessageKey" = "Tu ne peux plus emporter encore cet objet";
+"ItemPickedUpTitleKey" = "A pris un Élément";
+"ItemPickedUpMessageKey" = "C’est disponible dans votre inventaire";
+
+//Quests View
+"QuestViewTitleKey" = "Questions";
+"QuestsActiveTitleKey" = "Questions Actives";
+
+"QuestsCompleteTitleKey" = "Questions Résolues";
+
+//Map View
+"MapViewTitleKey" = "Carte";
+"MapTypeKey" = "Type de Carte";
+
+//Inventory View
+"InventoryViewTitleKey" = "Inventaire";
+
+//Title and Description Form
+"TitleAndDescriptionTitleKey" = "Titre";
+"TitleAndDescriptionTitlePrompt" = "Entrer un Titre";
+"TitleAndDescriptionDescriptionPrompt" = "Entrer une Description";
+
+//Camera
+"CameraTitleKey" = "Appareil Photo";
+"CameraLibraryButtonTitleKey" = "Utiliser la Librairie";
+"CameraCameraButtonTitleKey" = "Utiliser l’Appareil Photo";
+
+//Audio Recorder
+"AudioRecorderTitleKey" = "Enregistreur";
+"BeginRecordingKey" = "Commencer l’Enregistrement";
+"StopRecordingKey" = "Arrêter l’Enregistrement";
+"PlayKey" = "Play";
+"StopKey" = "Stop";
+"UploadKey" = "Télécharger";
+"DiscardKey" = "Écarter";
+"NoAudioHardwareAvailableTitleKey" = "Avertissement";
+"NoAudioHardwareAvailableMessageKey" = "Entrée Audio non disponible";
+
+//QR Scanner
+"QRScannerTitleKey" = "Décodeur";
+"QRScannerErrorTitleKey" = "Scan Réussi, Mais...";
+"QRScannerErrorMessageKey" = "Ce code ne veut rien dire pour le moment. Tu devrais revenir plus tard";
+"QRScannerDecodingErrorTitleKey" = "Erreur de Décodification";
+"QRScannerDecodingKey" = "Décodage...";
+"QRScannerDecodingErrorMessageKey" = "Essaye encore de scanner le code:Recule de deux pas et tiens l’appareil photo le plus immobile possible";
+
+
+//Game Picker
+"GamePickerTitleKey" = "Choisir le Jeu";
+"KilometersKey" = "Kilometres";
+"GamePickerNoNearbyGamesKey" = "Pas de jeux trouvés à proximité";
+"GamePickerNearbyGamesKey" = "Jeux à proximité";
+"GamePickerOtherGamesKey" = "Autres Jeux";
+"GameDetailsTitleKey" = "Détails";
+"PlayersKey" = "Joueurs";
+"AuthorsKey" = "Auteurs";
+"DescriptionKey" = "Déscription";
+"MapKey" = "Carte";
+
+//Start Over
+"StartOverTitleKey" = "Recommencer";
+"StartOverKey" = "Recommencer";
+"StartOverWarningKey" = "C’est irréversible";
+"StartOverResetAlertTitleKey" = "Succès";
+"StartOverResetAlertMessageKey" = "Tu as réinitialisé ta progression pour ce jeu";
+
+//Logout
+"LogoutTitleKey" = "Logout";
+"LogoutKey" = "Logout";
+"LogoutWarningKey" = "Es-tu certain de vouloir réaliser un Logout?";
+
+//Login and
+"LoginTitleKey" = "Login de ARIS";
+"UsernameKey" = "Nom d’Utilisateur";
+"PasswordKey" = "Mot de Passe";
+"LoginKey" = "Login";
+"NewAccountMessageKey" = "Pas encore de compte d’accès?";
+"CreateAccountKey" = "s’inscrire";
+"SelfRegistrationTitleKey" = "Créer un nouvel utilisateur";
+"SelfRegistrationMessageKey" = "S.V.P, compléter tout ce qui suit";
+"EmailKey" = "Email";
+"FirstNameKey" = "Prénom";
+"LastNameKey" = "Nom";
+"CreateAccountKey" = "Créer un Compte d’accès";

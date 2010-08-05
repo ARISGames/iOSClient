@@ -29,8 +29,8 @@
     [super viewDidLoad];
 	
 	usernameField.placeholder = NSLocalizedString(@"UsernameKey", @"");
-	passwordField.placeholder = NSLocalizedString(@"UsernameKey", @"");
-	[loginButton setTitle:NSLocalizedString(@"Login",@"") forState:UIControlStateNormal];
+	passwordField.placeholder = NSLocalizedString(@"PasswordKey", @"");
+	[loginButton setTitle:NSLocalizedString(@"LoginKey",@"") forState:UIControlStateNormal];
 	newAccountMessageLabel.text = NSLocalizedString(@"NewAccountMessageKey", @"");
 	[newAccountButton setTitle:NSLocalizedString(@"CreateAccountKey",@"") forState:UIControlStateNormal];
 		
