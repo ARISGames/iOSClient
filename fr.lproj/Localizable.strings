@@ -83,12 +83,12 @@
 "QRScannerDecodingErrorTitleKey" = "Erreur de Décodification";
 "QRScannerDecodingKey" = "Décodage...";
 "QRScannerDecodingErrorMessageKey" = "Essaye encore de scanner le code:Recule de deux pas et tiens l’appareil photo le plus immobile possible";
-"ScanUsingCameraKey" = "Numérisation à l'aide Camera";
+"ScanUsingCameraKey" = "Numérisation à l'aide de l'appareil photo";
 "EnterCodeKey" = "Entrez le code manuellement";
 
 //Game Picker
 "GamePickerTitleKey" = "Choisir le Jeu";
-"KilometersKey" = "Kilometres";
+"KilometersKey" = "Kilomètres";
 "GamePickerNoNearbyGamesKey" = "Pas de jeux trouvés à proximité";
 "GamePickerNearbyGamesKey" = "Jeux à proximité";
 "GamePickerOtherGamesKey" = "Autres Jeux";

@@ -45,7 +45,7 @@
 					<object class="IBUIButton" id="293417540">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{87, 73}, {146, 168}}</string>
+						<string key="NSFrame">{{50, 73}, {220, 168}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -208,7 +208,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>LogoutViewController</string>
 					<string>UIResponder</string>
-					<string>{{512, 276}, {320, 480}}</string>
+					<string>{{131, 282}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -559,7 +559,7 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NS.key.0">LogoutButton.png</string>
-			<string key="NS.object.0">{144, 173}</string>
+			<string key="NS.object.0">{216, 173}</string>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">117</string>
 	</data>

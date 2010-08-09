@@ -69,7 +69,7 @@
 					<object class="IBUIButton" id="198380020">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{83, 73}, {165, 168}}</string>
+						<string key="NSFrame">{{36, 71}, {248, 168}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -526,7 +526,7 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NS.key.0">StartOverButton.png</string>
-			<string key="NS.object.0">{144, 158}</string>
+			<string key="NS.object.0">{216, 158}</string>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">117</string>
 	</data>

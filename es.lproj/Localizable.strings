@@ -2,14 +2,128 @@
    Localizable.strings
    ARIS
 
-   Created by David J Gagnon on 7/30/10.
+   Created by Verónica Perales on 8/4/10.
    Copyright 2010 University of Wisconsin. All rights reserved.
  */
- 
 
-"NoConnectionTitleKey" = "No connection to the Internet";
-"NoConnectionMessageKey" = "Please connect to the internet and restart ARIS";
-"PoorConnectionTitleKey" = "Network Warning";
-"PoorConnectionMessageKey" = "Your internet connection is slow or unreliable";
-"LoginErrorTitleKey" = "Login Error";
-"LoginErrorMessageKey" = "Unknown Username/Password";
+//General
+"NoConnectionTitleKey" = "Sin conexión a Internet";
+"NoConnectionMessageKey" = "Por favor, conéctese a internet y reinicie ARIS";
+"PoorConnectionTitleKey" = "Aviso de red";
+"PoorConnectionMessageKey" = "Conexión a Internet lenta o desactivada";
+"LoginErrorTitleKey" = "Error de identificación";
+"LoginErrorMessageKey" = "Usuario/Clave desconocida";
+"PreparingToPlayKey" = "Preparando el juego";
+"TouchToPlayKey" = "Toca para jugar";
+"BackButtonKey" = "Volver";
+"LoadingKey" = "Cargando...";
+"OkKey" = "Ok";
+"SaveKey" = "Guardar";
+
+//AR View
+"ARViewTitleKey" = "Vista AR";
+
+//Dialog View
+"DialogContinue" = "Teclee para Continuar";
+"DialogReview" = "Teclee para ver de nuevo";
+"DialogPlayerName" = "Tu";
+
+
+//Item Details View
+"ItemDropKey" = "Soltar";
+"ItemDeleteKey" = "Destruir";
+"ItemPickupKey" = "Coger";
+"ItemDetailKey" = "Detalle";
+"ItemDroppedTitleKey" = "Elemento soltado";
+"ItemDroppedMessageKey" =  "Tu elemento se encuentra en el mapa para que otros usuarios puedan verlo";
+"ItemDestroyedTitleKey" = "Elemento destruído";
+
+"ItemDestroyedMessageKey" = "Este objeto ha sido borrado del inventario y destruido definitivamente";
+"ItemDuplicateTitleKey" = "Elemento Duplicado";
+"ItemDuplicateMessageKey" = "No puedes importar más este elemento";
+"ItemPickedUpTitleKey" = "Coger un elemento";
+"ItemPickedUpMessageKey" = "Disponible en tu inventario";
+
+//Quests View
+"QuestViewTitleKey" = "Cuestiones";
+"QuestsActiveTitleKey" = "Cuestiones activas";
+"QuestsCompleteTitleKey" = "Cuestiones Completadas";
+
+//Map View
+"MapViewTitleKey" = "Mapa";
+"MapTypeKey" = "Mapa Tipo";
+
+//Inventory View
+"InventoryViewTitleKey" = "Inventario";
+
+//Title and Description Form
+"TitleAndDescriptionTitleKey" = "Título";
+"TitleAndDescriptionTitlePrompt" =  "Introduce Título";
+"TitleAndDescriptionDescriptionPrompt" = "Introduce una Descripción";
+
+//Camera
+"CameraTitleKey" = "Cámara";
+"CameraLibraryButtonTitleKey" = "Usa la Librería";
+"CameraCameraButtonTitleKey" = "Usa la Cámara";
+
+//Audio Recorder
+"AudioRecorderTitleKey" = "Grabar";
+"BeginRecordingKey" = "Iniciar Grabación";
+"StopRecordingKey" = "Parar Grabación";
+"PlayKey" = "Play";
+"StopKey" = "Stop";
+"UploadKey" = "Cargar";
+"DiscardKey" = "Desestimar";
+"NoAudioHardwareAvailableTitleKey" = "Atención";
+"NoAudioHardwareAvailableMessageKey" = "Entrada de audido no disponible";
+
+
+//QR Scanner
+"QRScannerTitleKey" = "Decodificador";
+"QRScannerErrorTitleKey" = "Scaneado Exitoso, Pero...";
+"QRScannerErrorMessageKey" = "Este código no tiene sentido en este momento. Deberías intentarlo más tarde";
+"QRScannerDecodingErrorTitleKey" = "Error de Decodificación";
+"QRScannerDecodingKey" = "Decodificando...";
+"QRScannerDecodingErrorMessageKey" = "Pruebe a escanear el código de nuevo: retroceda dos pies y sostenga la cámara tan firmemente como sea posible";
+"ScanUsingCameraKey" = "Escanear Usando Cámara";
+"EnterCodeKey" =  "Inserte el Código Manualmente";
+
+
+//Game Picker
+"GamePickerTitleKey" =  "Seleccione Juego";
+"KilometersKey" =  "Kilómetros";
+"GamePickerNoNearbyGamesKey" = "No se Encuentran Juegos Próximos";
+"GamePickerNearbyGamesKey" =  "Juegos Próximos";
+"GamePickerOtherGamesKey" = "Otros Juegos";
+"GameDetailsTitleKey" = "Detalles";
+"PlayersKey" = "Jugadores";
+"AuthorsKey" = "Autores";
+"DescriptionKey" = "Descripción";
+"MapKey" = "Mapa";
+
+//Start Over
+"StartOverTitleKey" = "Empezar otra vez";
+"StartOverKey" = "Empezar otra vez";
+"StartOverWarningKey" = "Esto no es reversible";
+"StartOverResetAlertTitleKey" = "Exitoso";
+"StartOverResetAlertMessageKey" = "Has reseteado tu progreso en el juego";
+
+
+//Logout
+"LogoutTitleKey" =  "Salir";
+"LogoutKey" = "Salir";
+"LogoutWarningKey" = "Seguro que quieres Salir?";
+
+//Login and
+"LoginTitleKey" = "Conectando con ARIS";
+"UsernameKey" = "Usuario";
+"PasswordKey" = "Clave";
+"LoginKey" = "Conectar";
+"NewAccountMessageKey" = "¿No tienes una Cuenta?";
+"CreateAccountKey" = "Crear Cuenta";
+"SelfRegistrationTitleKey" = "Crear nuevo usuario";
+"SelfRegistrationMessageKey" = "Por favor rellene TODO lo que sigue";
+"EmailKey" = "Email";
+"FirstNameKey" = "Nombre";
+"LastNameKey" = "Apellido";
+"CreateAccountKey" = "Crear Cuenta";
