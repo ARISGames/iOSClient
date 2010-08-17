@@ -225,7 +225,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 		
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"ItemDuplicateTitleKey",@"")
 														message: NSLocalizedString(@"ItemDuplicateMessageKey",@"")
-													   delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+													   delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey",@"") otherButtonTitles: nil];
 		[alert show];
 		[alert release];
 		
