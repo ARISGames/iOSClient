@@ -31,8 +31,8 @@
 	NSDictionary *resultDictionary = [json objectWithString:JSONString error:&jsonError];
 
 	if (jsonError.code) {
-		NSLog(@"JSONResult: Error %d parsing JSON String: %@. There must be a problem with the server",jsonError.code, JSONString);
-		[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showNetworkAlert];
+		NSLog(@"JSONResult: SERVER RESPONSE ERROR - Error %d parsing JSON String: %@. There must be a problem with the server",jsonError.code, JSONString);
+		//[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showServerAlert]; //This is not technically a network issue.
 		return nil;
 	}
 	self.returnCode = [[resultDictionary objectForKey:@"returnCode"]intValue];
@@ -46,8 +46,8 @@
 		NSLog(@"JSONResult: The return code was 0, continue to parse out the data");
 		self.data = [self parseJSONData:dataObject];
 	}
-	else NSLog(@"JSONResult: The return code was NOT 0, do not parse out the data. Return Code Description: %@",self.returnCodeDescription);
-
+	else NSLog(@"JSONResult: SERVER RESPONSE ERROR - The return code was NOT 0, do not parse out the data. Return Code Description: %@",self.returnCodeDescription);
+	//Todo: Better communication back to the rest of the program when this happens
 		
 	return self;
 }
