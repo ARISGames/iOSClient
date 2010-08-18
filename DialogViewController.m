@@ -469,7 +469,8 @@ NSString *const kDialogHtmlTemplate =
 	AppModel *appModel = appDelegate.appModel;
 		
 	[currentNode release];
-	Node *newNode = [appModel fetchNode:targetNode];
+	//Node *newNode = [appModel fetchNode:targetNode];
+	Node *newNode = [appModel nodeForNodeId: targetNode];
 	// TODO: This might need to check for answer string
 	
 	if (optionList) [optionList release];
@@ -544,7 +545,9 @@ NSString *const kDialogHtmlTemplate =
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
 	AppModel *appModel = appDelegate.appModel;
 	
-	Node *newNode = [appModel fetchNode:selectedOption.nodeId];
+	//Node *newNode = [appModel fetchNode:selectedOption.nodeId];
+	Node *newNode = [appModel nodeForNodeId:selectedOption.nodeId];
+	
 	[appModel updateServerNodeViewed:selectedOption.nodeId];
 	
 	if (optionList) [optionList release];

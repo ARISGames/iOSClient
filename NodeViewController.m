@@ -273,7 +273,8 @@ static NSString * const OPTION_CELL = @"option";
 	NSLog(@"Displaying option ``%@''", selectedOption.text);
 	
 	int newNodeId = selectedOption.nodeId;
-	Node *newNode = [appModel fetchNode:newNodeId];
+	//Node *newNode = [appModel fetchNode:newNodeId];
+	Node *newNode = [appModel nodeForNodeId: newNodeId];
 	self.node = newNode;
 	[self refreshView];
 }

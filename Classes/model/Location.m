@@ -41,18 +41,18 @@
 	AppModel *model = [appDelegate appModel];
 	
 	if (self.kind == NearbyObjectItem) {
-		Item *item = [model fetchItem:objectId]; 
+		Item *item = [model itemForItemId:objectId]; 		
 		item.locationId = self.locationId;
 		[item display];	
 	}
 	
 	if (self.kind == NearbyObjectNode) {
-		Node *node = [model fetchNode:objectId]; 
+		Node *node = [model nodeForNodeId: objectId]; 
 		[node display];	
 	}
 	
 	if (self.kind == NearbyObjectNPC) {
-		Npc *npc = [model fetchNpc:objectId]; 
+		Npc *npc = [model fetchNpc: objectId]; 
 		[npc display];	
 	}
 }

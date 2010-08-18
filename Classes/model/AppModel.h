@@ -42,7 +42,11 @@ extern NSDictionary *InventoryElements;
 	NSInteger inventoryHash; 
 	NSMutableDictionary *questList;
 	NSInteger questListHash;
-	NSMutableDictionary *mediaList;
+	NSMutableDictionary *gameMediaList;
+	NSMutableDictionary *gameItemList;
+	NSMutableDictionary *gameNodeList;
+	NSMutableDictionary *gameNpcList;
+
 }
 
 @property(copy) NSString *serverName;
@@ -60,12 +64,15 @@ extern NSDictionary *InventoryElements;
 @property(copy, readwrite) NSMutableArray *locationList;
 @property(copy, readwrite) NSMutableArray *playerList;
 @property(copy, readwrite) NSMutableDictionary *questList;
-@property(copy, readwrite) NSMutableDictionary *mediaList;
 @property(copy, readwrite) NSMutableArray *nearbyLocationsList;	
 @property(copy, readwrite) CLLocation *playerLocation;	
 @property(copy, readwrite) NSMutableArray *inventory;
-
 @property(retain) UIAlertView *networkAlert;
+
+@property(copy, readwrite) NSMutableDictionary *gameMediaList;
+@property(copy, readwrite) NSMutableDictionary *gameItemList;
+@property(copy, readwrite) NSMutableDictionary *gameNodeList;
+@property(copy, readwrite) NSMutableDictionary *gameNpcList;
 
 
 - (id)init;
@@ -82,7 +89,9 @@ extern NSDictionary *InventoryElements;
 - (void)fetchGameList;
 - (void)fetchLocationList;
 - (void)forceUpdateOnNextLocationListFetch;
-- (void)fetchMediaList;
+- (void)fetchGameMediaList;
+- (void)fetchGameItemList;
+- (void)fetchGameNodeList;
 - (void)fetchInventory;
 - (void)fetchQuestList;
 - (Item *)fetchItem:(int)itemId;
@@ -111,6 +120,6 @@ extern NSDictionary *InventoryElements;
 - (Node *)parseNodeFromDictionary: (NSDictionary *)nodeDictionary;
 - (Npc *)parseNpcFromDictionary: (NSDictionary *)npcDictionary;
 - (void)updateServerGameSelected;
--(NSObject<QRCodeProtocol> *)fetchQRCode:(NSString*)QRcodeId;
+- (NSObject<QRCodeProtocol> *)fetchQRCode:(NSString*)QRcodeId;
 
 @end

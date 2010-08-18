@@ -33,7 +33,8 @@ static const int kEmptyValue = -1;
 @synthesize serverName, baseAppURL, jsonServerBaseURL, loggedIn;
 @synthesize username, password, playerId, currentModule;
 @synthesize site, gameId, gamePcMediaId, gameList, locationList, playerList;
-@synthesize playerLocation, inventory, questList, networkAlert, mediaList;
+@synthesize playerLocation, inventory, questList, networkAlert;
+@synthesize gameMediaList, gameItemList, gameNodeList, gameNpcList;
 
 @synthesize nearbyLocationsList;
 
@@ -42,14 +43,14 @@ static const int kEmptyValue = -1;
     if (self = [super init]) {
 		//Init USerDefaults
 		defaults = [NSUserDefaults standardUserDefaults];
-		mediaList = [[NSMutableDictionary alloc] initWithCapacity:kDefaultCapacity];
+		gameMediaList = [[NSMutableDictionary alloc] initWithCapacity:kDefaultCapacity];
 	}
 			 
     return self;
 }
 
 - (void)dealloc {
-	[mediaList release];
+	[gameMediaList release];
 	[gameList release];
 	[baseAppURL release];
 	[username release];
@@ -244,7 +245,7 @@ static const int kEmptyValue = -1;
 																	andServiceName:@"players" 
 																	 andMethodName:@"nodeViewed" 
 																	  andArguments:arguments];
-	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllLists)]; 
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; 
 	[jsonConnection release];
 }
 
@@ -261,7 +262,7 @@ static const int kEmptyValue = -1;
 																	andServiceName:@"players" 
 																	 andMethodName:@"itemViewed" 
 																	  andArguments:arguments];
-	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllLists)]; 
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; 
 	[jsonConnection release];
 
 }
@@ -278,7 +279,7 @@ static const int kEmptyValue = -1;
 																	andServiceName:@"players" 
 																	 andMethodName:@"npcViewed" 
 																	  andArguments:arguments];
-	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllLists)]; 
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; 
 	[jsonConnection release];
 
 }
@@ -383,7 +384,7 @@ static const int kEmptyValue = -1;
 																	andServiceName:@"players" 
 																	 andMethodName:@"pickupItemFromLocation" 
 																	  andArguments:arguments];
-	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllLists)]; 
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; 
 	[jsonConnection release];
 
 }
@@ -402,7 +403,7 @@ static const int kEmptyValue = -1;
 																	andServiceName:@"players" 
 																	 andMethodName:@"dropItem" 
 																	  andArguments:arguments];
-	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllLists)]; 
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; 
 	[jsonConnection release];
 
 }
@@ -419,7 +420,7 @@ static const int kEmptyValue = -1;
 																	andServiceName:@"players" 
 																	 andMethodName:@"destroyItem" 
 																	  andArguments:arguments];
-	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllLists)]; 
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; 
 	[jsonConnection release];
 
 }
@@ -486,7 +487,7 @@ static const int kEmptyValue = -1;
 																	andServiceName:@"items" 
 																	 andMethodName:@"createItemAndGiveToPlayer" 
 																	  andArguments:arguments];
-	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllLists)]; 
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; 
 	[jsonConnection release];
 
 }
@@ -557,6 +558,71 @@ static const int kEmptyValue = -1;
 	[[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
+
+#pragma mark Retrieving Cashed Objects 
+
+-(Media *)mediaForMediaId: (int)mId {
+	Media *media = [self.gameMediaList objectForKey:[NSNumber numberWithInt:mId]];
+	
+	if (!media) {
+		//Let's pause everything and do a lookup
+		NSLog(@"AppModel: Media not found in cached media List, refresh");
+		[self fetchGameMediaList];
+		
+		media = [self.gameMediaList objectForKey:[NSNumber numberWithInt:mId]];
+		if (media) NSLog(@"AppModel: Media found after refresh");
+		else NSLog(@"AppModel: Media still NOT found after refresh");
+	}
+	return media;
+}
+
+-(Npc *)npcForNpcId: (int)mId {
+	Npc *npc = [self.gameNpcList objectForKey:[NSNumber numberWithInt:mId]];
+	
+	if (!npc) {
+		//Let's pause everything and do a lookup
+		NSLog(@"AppModel: Npc not found in cached item list, refresh");
+		[self fetchGameNpcList];
+		
+		npc = [self.gameNpcList objectForKey:[NSNumber numberWithInt:mId]];
+		if (npc) NSLog(@"AppModel: Npc found after refresh");
+		else NSLog(@"AppModel: Npc still NOT found after refresh");
+	}
+	return npc;
+}
+
+-(Node *)nodeForNodeId: (int)mId {
+	Node *node = [self.gameNodeList objectForKey:[NSNumber numberWithInt:mId]];
+	
+	if (!node) {
+		//Let's pause everything and do a lookup
+		NSLog(@"AppModel: Node not found in cached item list, refresh");
+		[self fetchGameNodeList];
+		
+		node = [self.gameNodeList objectForKey:[NSNumber numberWithInt:mId]];
+		if (node) NSLog(@"AppModel: Node found after refresh");
+		else NSLog(@"AppModel: Node still NOT found after refresh");
+	}
+	return node;
+}
+
+-(Item *)itemForItemId: (int)mId {
+	Item *item = [self.gameItemList objectForKey:[NSNumber numberWithInt:mId]];
+	
+	if (!item) {
+		//Let's pause everything and do a lookup
+		NSLog(@"AppModel: Item not found in cached item list, refresh");
+		[self fetchGameItemList];
+		
+		item = [self.gameItemList objectForKey:[NSNumber numberWithInt:mId]];
+		if (item) NSLog(@"AppModel: Item found after refresh");
+		else NSLog(@"AppModel: Item still NOT found after refresh");
+	}
+	return item;
+}
+
+
+
 #pragma mark Sync Fetch selectors
 - (id) fetchFromService:(NSString *)aService usingMethod:(NSString *)aMethod 
 			   withArgs:(NSArray *)arguments usingParser:(SEL)aSelector 
@@ -577,6 +643,13 @@ static const int kEmptyValue = -1;
 	}
 	
 	return [self performSelector:aSelector withObject:jsonResult.data];
+}
+
+- (void)fetchAllGameLists {
+	[self fetchGameItemList];
+	[self fetchGameNpcList];
+	[self fetchGameNodeList];
+	[self fetchGameMediaList];
 }
 
 
@@ -623,30 +696,54 @@ static const int kEmptyValue = -1;
 }
 
 
--(Media *)mediaForMediaId: (int)mId {
-	Media *media = [self.mediaList objectForKey:[NSNumber numberWithInt:mId]];
-	
-	if (!media) {
-		//Let's pause everything and do a lookup
-		NSLog(@"AppModel: Media not found in cached media List, refresh");
-		[self fetchMediaList];
-		
-		media = [self.mediaList objectForKey:[NSNumber numberWithInt:mId]];
-		if (media) NSLog(@"AppModel: Media found after refresh");
-		else NSLog(@"AppModel: Media still NOT found after refresh");
-	}
-	return media;
-}
 
-- (void)fetchMediaList {
+
+- (void)fetchGameMediaList {
 	NSLog(@"AppModel: Fetching Media List");
 	
 	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",self.gameId], nil];
 	
-	self.mediaList = [self fetchFromService:@"media" usingMethod:@"getMedia"
-								   withArgs:arguments usingParser:@selector(parseMediaListFromArray:)];
+	self.gameMediaList = [self fetchFromService:@"media" usingMethod:@"getMedia"
+								   withArgs:arguments usingParser:@selector(parseGameMediaListFromArray:)];
 	
 }
+
+
+- (void)fetchGameItemList {
+	NSLog(@"AppModel: Fetching Item List");
+	
+	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",self.gameId], nil];
+	
+	self.gameItemList = [self fetchFromService:@"items" usingMethod:@"getItems"
+									   withArgs:arguments usingParser:@selector(parseGameItemListFromArray:)];
+	
+}
+
+
+
+- (void)fetchGameNodeList {
+	NSLog(@"AppModel: Fetching Node List");
+	
+	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",self.gameId], nil];
+	
+	self.gameNodeList = [self fetchFromService:@"nodes" usingMethod:@"getNodes"
+									  withArgs:arguments usingParser:@selector(parseGameNodeListFromArray:)];
+	
+}
+
+
+
+- (void)fetchGameNpcList {
+	NSLog(@"AppModel: Fetching Npc List");
+	
+	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",self.gameId], nil];
+	
+	self.gameNpcList = [self fetchFromService:@"npc" usingMethod:@"getNpcs"
+									  withArgs:arguments usingParser:@selector(parseGameNpcListFromArray:)];
+	
+}
+
+
 
 
 -(NSObject<QRCodeProtocol> *)fetchQRCode:(NSString*)code{
@@ -665,7 +762,7 @@ static const int kEmptyValue = -1;
 
 #pragma mark ASync Fetch selectors
 
-- (void)fetchAllLists{
+- (void)fetchAllPlayerLists{
 	[self fetchLocationList];
 	[self fetchQuestList];
 	[self fetchInventory];	
@@ -932,7 +1029,7 @@ static const int kEmptyValue = -1;
 }
 
 
--(NSMutableDictionary *)parseMediaListFromArray: (NSArray *)mediaListArray{
+-(NSMutableDictionary *)parseGameMediaListFromArray: (NSArray *)mediaListArray{
 	NSMutableDictionary *tempMediaList = [[[NSMutableDictionary alloc] init] autorelease];
 	NSEnumerator *enumerator = [((NSArray *)mediaListArray) objectEnumerator];
 	NSDictionary *dict;
@@ -944,21 +1041,21 @@ static const int kEmptyValue = -1;
 		NSString *type = [dict valueForKey:@"type"];
 		
 		if (uid < 1) {
-			NSLog(@"AppModel fetchMediaList: Invalid media id: %d", uid);
+			NSLog(@"AppModel fetchGameMediaList: Invalid media id: %d", uid);
 			continue;
 		}
 		if ([fileName length] < 1) {
-			NSLog(@"AppModel fetchMediaList: Empty fileName string for media #%d.", uid);
+			NSLog(@"AppModel fetchGameMediaList: Empty fileName string for media #%d.", uid);
 			continue;
 		}
 		if ([type length] < 1) {
-			NSLog(@"AppModel fetchMediaList: Empty type for media #%d", uid);
+			NSLog(@"AppModel fetchGameMediaList: Empty type for media #%d", uid);
 			continue;
 		}
 		
 		
 		NSString *fullUrl = [NSString stringWithFormat:@"%@%@", urlPath, fileName];
-		NSLog(@"AppModel fetchMediaList: Full URL: %@", fullUrl);
+		NSLog(@"AppModel fetchGameMediaList: Full URL: %@", fullUrl);
 		
 		Media *media = [[Media alloc] initWithId:uid andUrlString:fullUrl ofType:type];
 		[tempMediaList setObject:media forKey:[NSNumber numberWithInt:uid]];
@@ -968,6 +1065,48 @@ static const int kEmptyValue = -1;
 	return tempMediaList;
 }
 
+
+-(NSMutableDictionary *)parseGameItemListFromArray: (NSArray *)itemListArray{
+	NSMutableDictionary *tempItemList = [[[NSMutableDictionary alloc] init] autorelease];
+	NSEnumerator *enumerator = [((NSArray *)itemListArray) objectEnumerator];
+	NSDictionary *dict;
+	while (dict = [enumerator nextObject]) {
+		Item *tmpItem = [self parseItemFromDictionary:dict];
+		
+		[tempItemList setObject:tmpItem forKey:[NSNumber numberWithInt:tmpItem.itemId]];
+		//[item release];
+	}
+	
+	return tempItemList;
+}
+
+-(NSMutableDictionary *)parseGameNodeListFromArray: (NSArray *)nodeListArray{
+	NSMutableDictionary *tempNodeList = [[[NSMutableDictionary alloc] init] autorelease];
+	NSEnumerator *enumerator = [((NSArray *)nodeListArray) objectEnumerator];
+	NSDictionary *dict;
+	while (dict = [enumerator nextObject]) {
+		Node *tmpNode = [self parseNodeFromDictionary:dict];
+		
+		[tempNodeList setObject:tmpNode forKey:[NSNumber numberWithInt:tmpNode.nodeId]];
+		//[node release];
+	}
+	
+	return tempNodeList;
+}
+
+
+-(NSMutableDictionary *)parseGameNpcListFromArray: (NSArray *)npcListArray{
+	NSMutableDictionary *tempNpcList = [[[NSMutableDictionary alloc] init] autorelease];
+	NSEnumerator *enumerator = [((NSArray *)npcListArray) objectEnumerator];
+	NSDictionary *dict;
+	while (dict = [enumerator nextObject]) {
+		Npc *tmpNpc = [self parseNpcFromDictionary:dict];
+		
+		[tempNpcList setObject:tmpNpc forKey:[NSNumber numberWithInt:tmpNpc.npcId]];
+	}
+	
+	return tempNpcList;
+}
 
 -(void)parseInventoryFromJSON: (JSONResult *)jsonResult{
 	NSLog(@"AppModel: Parsing Inventory");

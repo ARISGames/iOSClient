@@ -177,9 +177,7 @@
 		}
 		else {
 			NSLog(@"Appdelegate: Player already logged in and they have a site selected. Go into the default module");
-			[appModel fetchMediaList];
-			[appModel fetchLocationList];
-			[appModel fetchInventory];
+			[appModel fetchAllGameLists];
 			
 			[self playAudioAlert:@"questChange" shouldVibrate:NO];
 		}
@@ -364,9 +362,8 @@
 	}
 	
 	NSLog(@"AppDelegate: %@ selected",[visibleViewController title]);
-	[appModel fetchMediaList];
-	[appModel fetchLocationList];
-	[appModel fetchInventory];
+	
+	[appModel fetchAllGameLists];
 	
 	[self playAudioAlert:@"questChange" shouldVibrate:NO];
 	

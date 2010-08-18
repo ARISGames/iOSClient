@@ -276,7 +276,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	
 	//Set the icon
 	if (quest.iconMediaId > 0) {
-		Media *iconMedia = [appModel.mediaList objectForKey:[NSNumber numberWithInt:quest.iconMediaId]];
+		Media *iconMedia = [appModel mediaForMediaId:quest.iconMediaId];
 		[iconView loadImageFromMedia:iconMedia];
 	}
 	else {
