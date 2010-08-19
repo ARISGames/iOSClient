@@ -52,6 +52,7 @@
 	[requestString release];
 	
 	ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+	request.numberOfTimesToRetryOnTimeout = 5;
 	
 	// Make synchronous request
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -102,7 +103,7 @@
 	[requestString release];
 	
 	NSURLRequest *request = [NSURLRequest requestWithURL:requestURL
-													   cachePolicy:NSURLRequestReturnCacheDataElseLoad
+													   cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
 												   timeoutInterval:60];
 	[requestURL release];
 	
