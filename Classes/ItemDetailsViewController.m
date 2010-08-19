@@ -144,6 +144,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	//Notify the server this item was displayed
 	[appModel updateServerItemViewed:item.itemId];
 	
+	[appModel silenceNextServerUpdate];
 	[appModel updateServerDropItemHere:self.item.itemId];
 
 	
@@ -152,15 +153,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 										delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey",@"") otherButtonTitles: nil];
 	[alert show];
 	[alert release];
-	
-	[appModel silenceNextServerUpdate];
-	
-	//Refresh Map Locations (To add this item)
-	[appModel fetchLocationList];
-	
-	//Refresh the inventory (To remove this item)
-	[appModel fetchInventory];
-	
+		
 	//Dismiss Item Details View
 	[self.navigationController popToRootViewControllerAnimated:YES];
 	[self dismissModalViewControllerAnimated:YES];
@@ -177,6 +170,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	//Notify the server this item was displayed
 	[appModel updateServerItemViewed:item.itemId];
 
+	[appModel silenceNextServerUpdate];
 	[appModel updateServerDestroyItem:self.item.itemId];
 	
 	
@@ -186,10 +180,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	[alert show];
 	[alert release];
 	 
-	
-	//Refresh the inventory
-	[appModel silenceNextServerUpdate];
-	[appModel fetchInventory];
 		
 	[self.navigationController popToRootViewControllerAnimated:YES];
 	[self dismissModalViewControllerAnimated:YES];
@@ -232,6 +222,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 		return;
 	}
 	
+	[appModel silenceNextServerUpdate];
 	[appModel updateServerPickupItem:self.item.itemId fromLocation:self.item.locationId];
 	
 	[appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
@@ -243,16 +234,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	
 	[alert show];
 	[alert release];
-	
-	[appModel silenceNextServerUpdate];
-	//Refresh Map Locations (to update quantities on the map)
-	[appModel fetchLocationList];
-	
-	//Refresh the inventory (to show the new item)
-	[appModel fetchInventory];
-	
-	//Notify the server this item was displayed
-	[appModel updateServerItemViewed:item.itemId];
 	
 	appDelegate.nearbyBar.hidden = NO;
 	[self.navigationController popToRootViewControllerAnimated:YES];

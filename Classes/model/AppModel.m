@@ -384,9 +384,9 @@ static const int kEmptyValue = -1;
 																	andServiceName:@"players" 
 																	 andMethodName:@"pickupItemFromLocation" 
 																	  andArguments:arguments];
-	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; 
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After 
 	[jsonConnection release];
-
+	
 }
 
 - (void)updateServerDropItemHere: (int)itemId {
@@ -403,7 +403,7 @@ static const int kEmptyValue = -1;
 																	andServiceName:@"players" 
 																	 andMethodName:@"dropItem" 
 																	  andArguments:arguments];
-	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; 
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After 
 	[jsonConnection release];
 
 }
@@ -420,7 +420,7 @@ static const int kEmptyValue = -1;
 																	andServiceName:@"players" 
 																	 andMethodName:@"destroyItem" 
 																	  andArguments:arguments];
-	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; 
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After 
 	[jsonConnection release];
 
 }
@@ -438,11 +438,13 @@ static const int kEmptyValue = -1;
  	[request setPostValue:gameID forKey:@"gameID"];	 
 	[request setPostValue:fileName forKey:@"fileName"];
 	[request setData:fileData forKey:@"file"];
-	[request setPostValue:title forKey:@"title"];
-	[request setPostValue:description forKey:@"description"];
 	[request setDidFinishSelector:@selector(uploadItemRequestFinished:)];
 	[request setDidFailSelector:@selector(uploadItemRequestFailed:)];
 	[request setDelegate:self];
+	
+	//We need these after the upload is complete to create the item on the server
+	NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:title, @"title", description, @"description", nil];
+	[request setUserInfo:userInfo];
 	
 	NSLog(@"Model: Uploading File. gameID:%@ fileName:%@ title:%@ description:%@",gameID,fileName,title,description );
 	
@@ -461,9 +463,8 @@ static const int kEmptyValue = -1;
 
 	NSLog(@"Model: Upload Media Request Finished. Response: %@", response);
 	
-	NSDictionary *postDict = request.postData;
-	NSString *title = [postDict objectForKey:@"title"];
-	NSString *description = [postDict objectForKey:@"description"];
+	NSString *title = [[request userInfo] objectForKey:@"title"];
+	NSString *description = [[request userInfo] objectForKey:@"description"];
 	
 	if (description == NULL) description = @""; 
 	
@@ -974,10 +975,12 @@ static const int kEmptyValue = -1;
 	//Check for an error
 	//Compare this hash to the last one. If the same, stop hee
 
+	
 	if (jsonResult.hash == locationListHash) {
 		NSLog(@"AppModel: Hash is same as last location list update, continue");
 		return;
 	}
+	 
 	 
 	//Save this hash for later comparisions
 	locationListHash = jsonResult.hash;

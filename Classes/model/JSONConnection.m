@@ -52,12 +52,13 @@
 	[requestString release];
 	
 	ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
-	request.numberOfTimesToRetryOnTimeout = 5;
+	[request setNumberOfTimesToRetryOnTimeout: 2];
+
 	
 	// Make synchronous request
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showWaitingIndicator: @"Loading" displayProgressBar:NO];
-	//[[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the activity indicator show before doing the sync request
+	[[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the activity indicator show before doing the sync request
 	
 	[request startSynchronous];
 				  
@@ -105,7 +106,7 @@
 	ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:requestURL];
 	[request setNumberOfTimesToRetryOnTimeout:2];
 	[request setDelegate:self];
-	
+
 
 	//Store the parser in the request
 	if (parser) [request setUserInfo:[NSDictionary dictionaryWithObject:NSStringFromSelector(parser) forKey:@"parser"]]; 
