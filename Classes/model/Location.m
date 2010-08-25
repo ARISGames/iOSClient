@@ -52,7 +52,7 @@
 	}
 	
 	if (self.kind == NearbyObjectNPC) {
-		Npc *npc = [model fetchNpc: objectId]; 
+		Npc *npc = [model npcForNpcId: objectId]; 
 		[npc display];	
 	}
 }
