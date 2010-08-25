@@ -562,6 +562,43 @@ static const int kEmptyValue = -1;
 
 #pragma mark Retrieving Cashed Objects 
 
+-(void)modifyQuantity: (int)quantityModifier forLocationId: (int)locationId {
+	NSLog(@"AppModel: modifying quantity for a location in the local location list");
+	
+	//find the location in the list with the matching locationId
+	for (Location* loc in nearbyLocationsList) {
+		if (loc.locationId == locationId ) {
+			loc.qty += quantityModifier;
+		}
+	}
+
+	//find the location in the list with the matching locationId
+	for (Location* loc in locationList) {
+		if (loc.locationId == locationId ) {
+			loc.qty += quantityModifier;
+		}
+	}	
+	
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedNearbyLocationList" object:nil]];	
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedLocationList" object:nil]];	
+}
+
+-(void)removeItemFromInventory: (Item*)item {
+	NSLog(@"AppModel: removing an item from the local inventory");
+	
+	[self.inventory removeObject:item];
+	NSNotification *notification = [NSNotification notificationWithName:@"ReceivedInventory" object:nil];
+	[[NSNotificationCenter defaultCenter] postNotification:notification];
+}
+
+-(void)addItemToInventory: (Item*)item {
+	NSLog(@"AppModel: adding an item from the local inventory");
+
+	[self.inventory addObject:item];
+	NSNotification *notification = [NSNotification notificationWithName:@"ReceivedInventory" object:nil];
+	[[NSNotificationCenter defaultCenter] postNotification:notification];
+}
+
 -(Media *)mediaForMediaId: (int)mId {
 	Media *media = [self.gameMediaList objectForKey:[NSNumber numberWithInt:mId]];
 	

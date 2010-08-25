@@ -145,7 +145,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	[appModel updateServerItemViewed:item.itemId];
 	
 	[appModel silenceNextServerUpdate];
-	[appModel updateServerDropItemHere:self.item.itemId];
+	[appModel updateServerDropItemHere:item.itemId];
+	
+	//Update the model until the server refresh happens
+	[appModel removeItemFromInventory:item];
 
 	
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"ItemDroppedTitleKey",@"")
@@ -172,7 +175,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
 	[appModel silenceNextServerUpdate];
 	[appModel updateServerDestroyItem:self.item.itemId];
-	
+
+	//Update the model until the server refresh happens
+	[appModel removeItemFromInventory:item];
+
 	
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"ItemDestroyedTitleKey", @"")
 													message: NSLocalizedString(@"ItemDestroyedMessageKey", @"")
@@ -224,6 +230,8 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	
 	[appModel silenceNextServerUpdate];
 	[appModel updateServerPickupItem:self.item.itemId fromLocation:self.item.locationId];
+	
+	[appModel modifyQuantity:-1 forLocationId:self.item.locationId];
 	
 	[appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
 	
