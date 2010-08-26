@@ -338,6 +338,11 @@
 	appModel.gamePcMediaId = selectedGame.pcMediaId;
 	[appModel saveUserDefaults];
 	
+	//Clear out the old game data
+	[appModel resetAllPlayerLists];
+
+	
+	
 	//Notify the Server
 	NSLog(@"AppDelegate: Game Selected. Notifying Server");
 	[appModel updateServerGameSelected];

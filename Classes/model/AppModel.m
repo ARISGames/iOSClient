@@ -355,6 +355,8 @@ static const int kEmptyValue = -1;
 
 - (void)startOverGame{
 	NSLog(@"Model: Start Over");
+	[self resetAllPlayerLists];
+	
 	
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects:
@@ -693,6 +695,8 @@ static const int kEmptyValue = -1;
 }
 
 
+
+
 -(Item *)fetchItem:(int)itemId{
 	NSLog(@"Model: Fetch Requested for Item %d", itemId);
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.gameId],
@@ -808,6 +812,33 @@ static const int kEmptyValue = -1;
 	[self fetchInventory];	
 }
 
+- (void)resetAllPlayerLists {
+	NSLog(@"AppModel: resetAllPlayerLists");
+	
+
+	//Clear them out
+	self.locationList = [[NSMutableArray alloc] initWithCapacity:0];
+
+	NSMutableArray *completedQuestObjects = [[NSMutableArray alloc] init];
+	NSMutableArray *activeQuestObjects = [[NSMutableArray alloc] init];
+	NSMutableDictionary *tmpQuestList = [[NSMutableDictionary alloc] init];
+	[tmpQuestList setObject:activeQuestObjects forKey:@"active"];
+	[tmpQuestList setObject:completedQuestObjects forKey:@"completed"];
+	[activeQuestObjects release];
+	[completedQuestObjects release];
+	self.questList = tmpQuestList;
+	[tmpQuestList release];
+
+	
+	self.inventory = [[NSMutableArray alloc] initWithCapacity:0];
+	
+	//Tell the VCs
+	[self silenceNextServerUpdate];
+
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedLocationList" object:nil]];
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedQuestList" object:nil]];
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedInventory" object:nil]];
+}
 
 - (void)fetchLocationList {
 	NSLog(@"AppModel: Fetching Locations from Server");	
