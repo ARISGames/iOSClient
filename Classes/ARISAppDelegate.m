@@ -327,9 +327,7 @@
     //NSDictionary *loginObject = [notification object];
 	NSDictionary *userInfo = notification.userInfo;
 	Game *selectedGame = [userInfo objectForKey:@"game"];
-	[appModel saveUserDefaults];
 
-	
 	NSLog(@"AppDelegate: Game Selected. '%@' game was selected using '%@' as it's site", selectedGame.name, selectedGame.site);
 
 	[gamePickerNavigationController.view removeFromSuperview];
@@ -338,6 +336,7 @@
 	appModel.site = selectedGame.site;
 	appModel.gameId = selectedGame.gameId;
 	appModel.gamePcMediaId = selectedGame.pcMediaId;
+	[appModel saveUserDefaults];
 	
 	//Notify the Server
 	NSLog(@"AppDelegate: Game Selected. Notifying Server");
