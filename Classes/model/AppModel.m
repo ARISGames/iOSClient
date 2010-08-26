@@ -615,6 +615,8 @@ static const int kEmptyValue = -1;
 }
 
 -(Npc *)npcForNpcId: (int)mId {
+	NSLog(@"AppModel: Npc %d requested from cached list",mId);
+
 	Npc *npc = [self.gameNpcList objectForKey:[NSNumber numberWithInt:mId]];
 	
 	if (!npc) {
@@ -776,7 +778,7 @@ static const int kEmptyValue = -1;
 	
 	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",self.gameId], nil];
 	
-	self.gameNpcList = [self fetchFromService:@"npc" usingMethod:@"getNpcs"
+	self.gameNpcList = [self fetchFromService:@"npcs" usingMethod:@"getNpcs"
 									  withArgs:arguments usingParser:@selector(parseGameNpcListFromArray:)];
 	
 }
