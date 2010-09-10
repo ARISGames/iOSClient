@@ -582,14 +582,14 @@ static const int kEmptyValue = -1;
 	}	
 	
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedNearbyLocationList" object:nil]];	
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedLocationList" object:nil]];	
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewLocationListReady" object:nil]];	
 }
 
 -(void)removeItemFromInventory: (Item*)item {
 	NSLog(@"AppModel: removing an item from the local inventory");
 	
 	[self.inventory removeObject:item];
-	NSNotification *notification = [NSNotification notificationWithName:@"ReceivedInventory" object:nil];
+	NSNotification *notification = [NSNotification notificationWithName:@"NewInventoryReady" object:nil];
 	[[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
@@ -597,7 +597,7 @@ static const int kEmptyValue = -1;
 	NSLog(@"AppModel: adding an item from the local inventory");
 
 	[self.inventory addObject:item];
-	NSNotification *notification = [NSNotification notificationWithName:@"ReceivedInventory" object:nil];
+	NSNotification *notification = [NSNotification notificationWithName:@"NewInventoryReady" object:nil];
 	[[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
@@ -738,19 +738,6 @@ static const int kEmptyValue = -1;
 						 withArgs:arguments usingParser:@selector(parseConversationNodeOptionsFromArray:)];
 }
 
-- (void)fetchGameList {
-	NSLog(@"AppModel: Fetching Game List.");
-	
-	self.gameList = [self fetchFromService:@"games" usingMethod:@"getGamesWithDetails"
-						 withArgs:nil usingParser:@selector(parseGameListFromArray:)];
-	
-	//Tell everyone
-	NSLog(@"AppModel: Finished Building the Game List");
-	NSNotification *notification = [NSNotification notificationWithName:@"ReceivedGameList" object:self userInfo:nil];
-	[[NSNotificationCenter defaultCenter] postNotification:notification];
-}
-
-
 
 
 - (void)fetchGameMediaList {
@@ -846,9 +833,9 @@ static const int kEmptyValue = -1;
 	//Tell the VCs
 	[self silenceNextServerUpdate];
 
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedLocationList" object:nil]];
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedQuestList" object:nil]];
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedInventory" object:nil]];
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewLocationListReady" object:nil]];
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewQuestListReady" object:nil]];
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewInventoryReady" object:nil]];
 }
 
 - (void)fetchLocationList {
@@ -909,8 +896,20 @@ static const int kEmptyValue = -1;
 	[jsonConnection performAsynchronousRequestWithParser:@selector(parseQuestListFromJSON:)]; 
 	[jsonConnection release];
 	
-	
 }
+
+- (void)fetchGameList {
+	NSLog(@"AppModel: Fetch Requested for Game List.");
+		
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+																	andServiceName:@"games"
+																	 andMethodName:@"getGamesWithDetails"
+																	  andArguments:nil];
+	
+	[jsonConnection performAsynchronousRequestWithParser:@selector(parseGameListFromJSON:)]; 
+	[jsonConnection release];
+}
+
 
 
 #pragma mark Parsers
@@ -1020,8 +1019,13 @@ static const int kEmptyValue = -1;
 	return conversationNodeOptions;
 }
 
--(NSArray *)parseGameListFromArray: (NSArray *)gameListArray{
-	NSMutableArray *tempGameList = [[[NSMutableArray alloc] init] autorelease];
+-(void)parseGameListFromJSON: (JSONResult *)jsonResult{
+	
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RecievedGameList" object:nil]];
+
+	NSArray *gameListArray = (NSArray *)jsonResult.data;
+	
+	NSMutableArray *tempGameList = [[NSMutableArray alloc] init];
 	
 	NSEnumerator *gameListEnumerator = [gameListArray objectEnumerator];	
 	NSDictionary *gameDictionary;
@@ -1056,8 +1060,10 @@ static const int kEmptyValue = -1;
 		[game release];
 	}
 
+	self.gameList = tempGameList;
+	[tempGameList release];
 	
-	return tempGameList;
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewGameListReady" object:nil]];
 
 }
 
@@ -1065,15 +1071,15 @@ static const int kEmptyValue = -1;
 
 	NSLog(@"AppModel: Parsing Location List");
 	
-	//Check for an error
-	//Compare this hash to the last one. If the same, stop hee
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedLocationList" object:nil]];
 
+	//Check for an error
 	
+	//Compare this hash to the last one. If the same, stop hee
 	if (jsonResult.hash == locationListHash) {
 		NSLog(@"AppModel: Hash is same as last location list update, continue");
 		return;
 	}
-	 
 	 
 	//Save this hash for later comparisions
 	locationListHash = jsonResult.hash;
@@ -1113,9 +1119,7 @@ static const int kEmptyValue = -1;
 	
 	//Tell everyone
 	NSLog(@"AppModel: Finished fetching locations from server, model updated");
-	NSNotification *notification = 
-	[NSNotification notificationWithName:@"ReceivedLocationList" object:nil];
-	[[NSNotificationCenter defaultCenter] postNotification:notification];
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewLocationListReady" object:nil]];
 	
 	//Force a location update
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
@@ -1207,10 +1211,11 @@ static const int kEmptyValue = -1;
 -(void)parseInventoryFromJSON: (JSONResult *)jsonResult{
 	NSLog(@"AppModel: Parsing Inventory");
 	
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedInventory" object:nil]];
+
 	//Check for an error
 	
-	//Compare this hash to the last one. If the same, stop hee
-	
+	//Compare this hash to the last one. If the same, stop hee	
 	if (jsonResult.hash == inventoryHash) {
 		NSLog(@"AppModel: Hash is same as last inventory listy update, continue");
 		return;
@@ -1244,8 +1249,7 @@ static const int kEmptyValue = -1;
 	[tempInventory release];
 	
 	NSLog(@"AppModel: Finished fetching inventory from server, model updated");
-	NSNotification *notification = [NSNotification notificationWithName:@"ReceivedInventory" object:nil];
-	[[NSNotificationCenter defaultCenter] postNotification:notification];
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewInventoryReady" object:nil]];
 	
 	//Note: The inventory list VC listener will add the badge now that it knows something is different
 	
@@ -1290,6 +1294,9 @@ static const int kEmptyValue = -1;
 	NSLog(@"AppModel: Parsing Quests");
 	
 	//Check for an error
+	
+	//Tell everyone we just recieved the questList
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedQuestList" object:nil]];
 	
 	//Compare this hash to the last one. If the same, stop here
 	if (jsonResult.hash == questListHash) {
@@ -1347,8 +1354,7 @@ static const int kEmptyValue = -1;
 	
 	//Sound the alarm
 	NSLog(@"AppModel: Finished fetching quests from server, model updated");
-	NSNotification *notification = [NSNotification notificationWithName:@"ReceivedQuestList" object:nil];
-	[[NSNotificationCenter defaultCenter] postNotification:notification];
+	[[NSNotificationCenter defaultCenter] postNotification: [NSNotification notificationWithName:@"NewQuestListReady" object:nil]];
 	
 }
 

@@ -62,7 +62,8 @@ NSString *const kQuestsHtmlTemplate =
 		
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"ReceivedQuestList" object:nil];
+		[dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedQuestList" object:nil];
+		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewQuestListReady" object:nil];
 		[dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
 
     }
@@ -94,11 +95,27 @@ NSString *const kQuestsHtmlTemplate =
 - (void)refresh {
 	NSLog(@"QuestsViewController: refresh requested");
 	if (appModel.loggedIn) [appModel fetchQuestList];
+	[self showLoadingIndicator];
+}
+
+
+-(void)showLoadingIndicator{
+	UIActivityIndicatorView *activityIndicator = 
+		[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
+	[activityIndicator release];
+	[[self navigationItem] setRightBarButtonItem:barButton];
+	[barButton release];
+	[activityIndicator startAnimating];
+}
+
+-(void)removeLoadingIndicator{
+	[[self navigationItem] setRightBarButtonItem:nil];
 }
 
 -(void)refreshViewFromModel {
 	NSLog(@"QuestsViewController: Refreshing view from model");
-
+	
 	//Add a badge if this is NOT the first time data has been loaded
 	if (silenceNextServerUpdate == NO) {
 		self.tabBarItem.badgeValue = @"!";

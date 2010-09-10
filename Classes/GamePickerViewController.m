@@ -28,7 +28,8 @@
 		
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"ReceivedGameList" object:nil];
+		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
+		[dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
 		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"PlayerMoved" object:nil];
 		
 		//create game lists
@@ -47,11 +48,15 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-	NSLog(@"GamePickerViewController: View Appeared, reloading data");	
-	[appModel fetchGameList];
+	NSLog(@"GamePickerViewController: View Appeared");	
+	[self refresh];
 }
 
-
+-(void)refresh {
+	NSLog(@"GamePickerViewController: Refresh Requested");
+	[appModel fetchGameList];
+	[self showLoadingIndicator];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
@@ -59,6 +64,19 @@
 }
 
 #pragma mark custom methods, logic
+-(void)showLoadingIndicator{
+	UIActivityIndicatorView *activityIndicator = 
+	[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
+	[activityIndicator release];
+	[[self navigationItem] setRightBarButtonItem:barButton];
+	[barButton release];
+	[activityIndicator startAnimating];
+}
+
+-(void)removeLoadingIndicator{
+	[[self navigationItem] setRightBarButtonItem:nil];
+}
 
 - (void)refreshViewFromModel {
 	NSLog(@"GamePickerViewController: Refresh View from Model");
@@ -78,15 +96,11 @@
 
 	}
 
-	if (self.nearGameList) [self.nearGameList release];
 	self.nearGameList = tempNearArray;
 	[tempNearArray release];
-	[self.nearGameList retain];
 	
-	if (self.farGameList) [self.farGameList release];
 	self.farGameList = tempFarArray;
 	[tempFarArray release];
-	[self.farGameList retain];
 
 	[gameTable reloadData];
 }

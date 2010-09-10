@@ -40,7 +40,8 @@ static float INITIAL_SPAN = 0.001;
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
 		[dispatcher addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];
-		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"ReceivedLocationList" object:nil];
+		[dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedLocationList" object:nil];
+		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewLocationListReady" object:nil];
 		[dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
 		
 	}
@@ -169,8 +170,9 @@ static float INITIAL_SPAN = 0.001;
 	if (mapView) {
 		NSLog(@"GPSViewController: refresh requested");	
 	
-		[appModel fetchLocationList];
-	
+		if (appModel.loggedIn) [appModel fetchLocationList];
+		[self showLoadingIndicator];
+
 		//Zoom and Center
 		if (tracking) [self zoomAndCenterMap];
 
@@ -193,6 +195,19 @@ static float INITIAL_SPAN = 0.001;
 		
 }
 
+-(void)showLoadingIndicator{
+	UIActivityIndicatorView *activityIndicator = 
+	[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
+	[activityIndicator release];
+	[[self navigationItem] setRightBarButtonItem:barButton];
+	[barButton release];
+	[activityIndicator startAnimating];
+}
+
+-(void)removeLoadingIndicator{
+	[[self navigationItem] setRightBarButtonItem:nil];
+}
 
 
 - (void)refreshViewFromModel {

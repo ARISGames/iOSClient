@@ -28,7 +28,8 @@
 		
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"ReceivedInventory" object:nil];
+		[dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedInventory" object:nil];
+		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewInventoryReady" object:nil];
 		[dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
 
     }
@@ -61,6 +62,21 @@
 -(void)refresh {
 	NSLog(@"InventoryListViewController: Refresh Requested");
 	[appModel fetchInventory];
+	[self showLoadingIndicator];
+}
+
+-(void)showLoadingIndicator{
+	UIActivityIndicatorView *activityIndicator = 
+	[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
+	[activityIndicator release];
+	[[self navigationItem] setRightBarButtonItem:barButton];
+	[barButton release];
+	[activityIndicator startAnimating];
+}
+
+-(void)removeLoadingIndicator{
+	[[self navigationItem] setRightBarButtonItem:nil];
 }
 
 -(void)refreshViewFromModel {
