@@ -63,7 +63,7 @@
 @property (nonatomic, retain) WaitingIndicatorViewController *waitingIndicator;
 @property (nonatomic, retain) UIAlertView *networkAlert;
 
-
+- (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password;
 - (void) displayNearbyObjectView:(UIViewController *)nearbyObjectViewController;
 - (void) showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)yesOrNo;
 - (void) removeWaitingIndicator;

@@ -71,7 +71,6 @@
 	
 	//register for notifications from views
 	NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-	[dispatcher addObserver:self selector:@selector(performUserLogin:) name:@"PerformUserLogin" object:nil];
 	[dispatcher addObserver:self selector:@selector(selectGame:) name:@"SelectGame" object:nil];
 	[dispatcher addObserver:self selector:@selector(performLogout:) name:@"LogoutRequested" object:nil];
 	[dispatcher addObserver:self selector:@selector(displayNearbyObjects:) name:@"NearbyButtonTouched" object:nil];
@@ -288,14 +287,11 @@
 
 
 
-- (void)performUserLogin:(NSNotification *)notification {
-	NSLog(@"AppDelegate: Login Requested");
+- (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password {
 	
-	NSDictionary *userInfo = notification.userInfo;
-	
-	NSLog(@"AppDelegate: Perform Login for: %@ Paswword: %@", [userInfo objectForKey:@"username"], [userInfo objectForKey:@"password"]);
-	appModel.username = [userInfo objectForKey:@"username"];
-	appModel.password = [userInfo objectForKey:@"password"];
+	NSLog(@"AppDelegate: Attempt Login for: %@ Password: %@", userName, password);
+	appModel.username = userName;
+	appModel.password = password;
 
 	[appModel login];
 	
@@ -387,6 +383,7 @@
 	//Clear any user realated info in appModel (except server)
 	[appModel clearUserDefaults];
 	[appModel loadUserDefaults];
+	[appModel resetAllPlayerLists];
 	
 	//(re)load the login view
 	tabBarController.view.hidden = YES;

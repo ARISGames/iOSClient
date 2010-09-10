@@ -812,7 +812,12 @@ static const int kEmptyValue = -1;
 
 - (void)resetAllPlayerLists {
 	NSLog(@"AppModel: resetAllPlayerLists");
+
 	
+	//Clear the Hashes
+	questListHash = 0;
+	inventoryHash = 0;
+	locationListHash = 0;
 
 	//Clear them out
 	self.locationList = [[NSMutableArray alloc] initWithCapacity:0];

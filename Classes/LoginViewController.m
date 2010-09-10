@@ -8,6 +8,7 @@
 
 #import "LoginViewController.h"
 #import "SelfRegistrationViewController.h"
+#import "ARISAppDelegate.h"
 
 
 @implementation LoginViewController
@@ -58,12 +59,9 @@
 -(IBAction)loginButtonTouched: (id) sender {
 	NSLog(@"Login: Login Button Touched");
 
-	NSArray *keys = [NSArray arrayWithObjects:@"username", @"password", nil];
-	NSArray *objects = [NSArray arrayWithObjects:usernameField.text, passwordField.text, nil];
-	NSDictionary *dictionary = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
-	NSNotification *loginNotification = [NSNotification notificationWithName:@"PerformUserLogin" object:self userInfo:dictionary];
-	[[NSNotificationCenter defaultCenter] postNotification:loginNotification];
-	
+	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate attemptLoginWithUserName:usernameField.text andPassword:passwordField.text]; 
+		
 	[usernameField resignFirstResponder];
 	[passwordField resignFirstResponder];
 }
