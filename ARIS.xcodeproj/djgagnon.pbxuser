@@ -966,9 +966,9 @@
 	};
 	2B3D11B00F4361940067FD3A /* LoginViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1017, 1391}}";
-			sepNavSelRange = "{2420, 20}";
-			sepNavVisRange = "{2408, 607}";
+			sepNavIntBoundsRect = "{{0, 0}, {1017, 1456}}";
+			sepNavSelRange = "{2591, 0}";
+			sepNavVisRange = "{2412, 786}";
 			sepNavWindowFrame = "{{61, 101}, {1653, 1030}}";
 		};
 	};
@@ -1087,9 +1087,9 @@
 	};
 	A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1216, 2236}}";
-			sepNavSelRange = "{1581, 19}";
-			sepNavVisRange = "{2748, 1588}";
+			sepNavIntBoundsRect = "{{0, 0}, {1216, 2171}}";
+			sepNavSelRange = "{1569, 44}";
+			sepNavVisRange = "{1643, 1222}";
 		};
 	};
 	A722CB5A0FBDFEA6009432DB /* NearbyObjectProtocol.h */ = {
@@ -8008,9 +8008,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 43;
-		modificationTime = 305853847.81006;
+		modificationTime = 305854193.189441;
 		originalNumberOfMultipleMatches = 1;
-		state = 0;
+		state = 1;
 	};
 	ABC399B0116B9209002185D4 /* AudioMeterViewController.m:21 */ = {
 		isa = PBXFileBreakpoint;
@@ -8025,9 +8025,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 21;
-		modificationTime = 305853847.810622;
+		modificationTime = 305854193.189138;
 		originalNumberOfMultipleMatches = 1;
-		state = 0;
+		state = 1;
 	};
 	ABC399CD116B9EBC002185D4 /* AudioMeter.h */ = {
 		uiCtxt = {
@@ -8098,9 +8098,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 78;
-		modificationTime = 305853847.811253;
+		modificationTime = 305854193.188809;
 		originalNumberOfMultipleMatches = 1;
-		state = 0;
+		state = 1;
 	};
 	ABC39B22116BD28F002185D4 /* TitleAndDecriptionFormViewController.h */ = {
 		uiCtxt = {
@@ -8197,9 +8197,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 34;
-		modificationTime = 305853847.808865;
+		modificationTime = 305854193.167669;
 		originalNumberOfMultipleMatches = 1;
-		state = 0;
+		state = 1;
 	};
 	ABCF16E31225C50200DE3FC4 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;

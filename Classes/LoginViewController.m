@@ -94,6 +94,10 @@
 
 -(void)removeLoadingIndicator{
 	[[self navigationItem] setRightBarButtonItem:nil];
+	loginButton.enabled = YES;
+	usernameField.enabled = YES;
+	passwordField.enabled = YES;
+	newAccountButton.enabled = YES;
 }
 
 - (void)dealloc {
