@@ -182,7 +182,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"ItemDestroyedTitleKey", @"")
 													message: NSLocalizedString(@"ItemDestroyedMessageKey", @"")
-												   delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+												   delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
 	[alert show];
 	[alert release];
 	 
@@ -221,7 +221,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 		
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"ItemDuplicateTitleKey",@"")
 														message: NSLocalizedString(@"ItemDuplicateMessageKey",@"")
-													   delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey",@"") otherButtonTitles: nil];
+													   delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
 		[alert show];
 		[alert release];
 		
@@ -238,7 +238,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"ItemPickedUpTitleKey", @"")
 													message: NSLocalizedString(@"ItemPickedUpMessageKey", @"") 
 												   delegate: self 
-										  cancelButtonTitle: @"OkKey" otherButtonTitles: nil];
+										  cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
 	
 	[alert show];
 	[alert release];
