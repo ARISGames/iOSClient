@@ -727,6 +727,17 @@ static const int kEmptyValue = -1;
 						 withArgs:arguments usingParser:@selector(parseNpcFromDictionary:)];
 }
 
+-(Npc *)fetchNpcConversations:(int)npcId afterViewingNode:(int)nodeId{
+	NSLog(@"Model: Fetch Requested for Npc %d Conversations after Viewing node %d", npcId, nodeId);
+	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.gameId],
+						  [NSString stringWithFormat:@"%d",npcId],
+						  [NSString stringWithFormat:@"%d",self.playerId],
+						  [NSString stringWithFormat:@"%d",nodeId],
+						  nil];
+	return [self fetchFromService:@"npcs" usingMethod:@"getNpcConversationsForPlayerAfterViewingNode"
+						 withArgs:arguments usingParser:@selector(parseConversationNodeOptionsFromArray:)];
+}
+
 - (void)fetchGameList {
 	NSLog(@"AppModel: Fetching Game List.");
 	
@@ -953,22 +964,19 @@ static const int kEmptyValue = -1;
 		[node addOption:option];
 		[option release];
 	}
-	else if ([nodeDictionary valueForKey:@"opt2_node_id"] != [NSNull null] && [[nodeDictionary valueForKey:@"opt2_node_id"] intValue] > 0) {
+	if ([nodeDictionary valueForKey:@"opt2_node_id"] != [NSNull null] && [[nodeDictionary valueForKey:@"opt2_node_id"] intValue] > 0) {
 		optionNodeId = [[nodeDictionary valueForKey:@"opt2_node_id"] intValue];
 		text = [nodeDictionary valueForKey:@"opt2_text"]; 
 		option = [[NodeOption alloc] initWithText:text andNodeId: optionNodeId];
 		[node addOption:option];
 		[option release];
 	}
-	else if ([nodeDictionary valueForKey:@"opt3_node_id"] != [NSNull null] && [[nodeDictionary valueForKey:@"opt3_node_id"] intValue] > 0) {
+	if ([nodeDictionary valueForKey:@"opt3_node_id"] != [NSNull null] && [[nodeDictionary valueForKey:@"opt3_node_id"] intValue] > 0) {
 		optionNodeId = [[nodeDictionary valueForKey:@"opt3_node_id"] intValue];
 		text = [nodeDictionary valueForKey:@"opt3_text"]; 
 		option = [[NodeOption alloc] initWithText:text andNodeId: optionNodeId];
 		[node addOption:option];
 		[option release];
-	}
-	else {
-		//Should never get here
 	}
 	
 	
@@ -984,17 +992,32 @@ static const int kEmptyValue = -1;
 	npc.mediaId = [[npcDictionary valueForKey:@"media_id"] intValue];
 	
 	NSArray *conversationOptions = [npcDictionary objectForKey:@"conversationOptions"];
-	NSEnumerator *conversationOptionsEnumerator = [conversationOptions objectEnumerator];
+	NSArray *parsedConversationOptions = [self parseConversationNodeOptionsFromArray:conversationOptions];
+	
+	for(NodeOption *no in parsedConversationOptions){
+		[npc addOption: no];
+	}
+
+	
+	return npc;	
+}
+
+-(NSMutableArray *)parseConversationNodeOptionsFromArray: (NSDictionary *)conversationOptionsArray {
+	NSMutableArray *conversationNodeOptions = [[NSMutableArray alloc] initWithCapacity:3];
+	
+	NSEnumerator *conversationOptionsEnumerator = [conversationOptionsArray objectEnumerator];
 	NSDictionary *conversationDictionary;
+	
 	while (conversationDictionary = [conversationOptionsEnumerator nextObject]) {	
 		//Make the Node Option and add it to the Npc
 		int optionNodeId = [[conversationDictionary valueForKey:@"node_id"] intValue];
 		NSString *text = [conversationDictionary valueForKey:@"text"]; 
 		NodeOption *option = [[NodeOption alloc] initWithText:text andNodeId: optionNodeId];
-		[npc addOption:option];
+		[conversationNodeOptions addObject:option];
 		[option release];
 	}
-	return npc;	
+	
+	return conversationNodeOptions;
 }
 
 -(NSArray *)parseGameListFromArray: (NSArray *)gameListArray{

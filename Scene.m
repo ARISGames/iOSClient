@@ -10,18 +10,19 @@
 
 
 @implementation Scene
-@synthesize isPc, text, characterId, zoomRect, fgSound, bgSound;
+@synthesize isPc, text, characterId, zoomRect, zoomTime, fgSound, bgSound;
 
-- (id) initWithText:(NSString *)aText andIsPc:(Boolean)isPcYorN
-	   andCharacter:(int)aCharacterId andZoom:(CGRect)aRect 
-	  withForeSound:(int)aFgSound andBackSound:(int)aBgSound
-
-{
+- (id) initWithText:(NSString *)aText andIsPc:(Boolean)isPcYorN andCharacter:(int)aCharacterId 
+			andZoom:(CGRect)aRect andZoomTime:(float)zoomSeconds
+	  withForeSound:(int)aFgSound andBackSound:(int)aBgSound{
+	
 	if (self = [super init]) {
 		isPc = isPcYorN;
 		text = [[aText copy] retain];
 		characterId = aCharacterId;
 		zoomRect = aRect;
+		zoomTime = zoomSeconds;
+		
 		fgSound = aFgSound;
 		bgSound = aBgSound;
 	}

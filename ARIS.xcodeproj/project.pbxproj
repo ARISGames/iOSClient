@@ -188,6 +188,7 @@
 		AB82F79011F0EAA300B8E3DC /* microphoneForeground.png in Resources */ = {isa = PBXBuildFile; fileRef = AB82F78F11F0EAA300B8E3DC /* microphoneForeground.png */; };
 		AB8A3CCE104936F500422773 /* libiconv.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AB8A3CCD104936F500422773 /* libiconv.2.dylib */; };
 		AB8A42A0104C7F8C00422773 /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8A429F104C7F8C00422773 /* Node.m */; };
+		AB8E31F61228399B00C198C3 /* textFade.png in Resources */ = {isa = PBXBuildFile; fileRef = AB8E31F51228399B00C198C3 /* textFade.png */; };
 		AB8FD00C117BCF61004F8B9B /* GameDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8FD00A117BCF61004F8B9B /* GameDetails.m */; };
 		AB8FD00D117BCF61004F8B9B /* GameDetails.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB8FD00B117BCF61004F8B9B /* GameDetails.xib */; };
 		AB9A7C1710AA173F002FD9BC /* ARISURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AB9A7C1610AA173F002FD9BC /* ARISURLConnection.m */; };
@@ -485,6 +486,7 @@
 		AB8A3CCD104936F500422773 /* libiconv.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.2.dylib; path = ../../../../../../usr/lib/libiconv.2.dylib; sourceTree = SDKROOT; };
 		AB8A429E104C7F8C00422773 /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
 		AB8A429F104C7F8C00422773 /* Node.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Node.m; sourceTree = "<group>"; };
+		AB8E31F51228399B00C198C3 /* textFade.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textFade.png; sourceTree = "<group>"; };
 		AB8FD009117BCF61004F8B9B /* GameDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameDetails.h; sourceTree = "<group>"; };
 		AB8FD00A117BCF61004F8B9B /* GameDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameDetails.m; sourceTree = "<group>"; };
 		AB8FD00B117BCF61004F8B9B /* GameDetails.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GameDetails.xib; sourceTree = "<group>"; };
@@ -1131,6 +1133,7 @@
 		D42432501107734300E58147 /* Dialog */ = {
 			isa = PBXGroup;
 			children = (
+				AB8E31F51228399B00C198C3 /* textFade.png */,
 				D4243267110773EB00E58147 /* Dialog.xib */,
 				D4D366AA111B65E0009C4D00 /* AudioStreamer.h */,
 				D4D366AB111B65E0009C4D00 /* AudioStreamer.m */,
@@ -1293,6 +1296,7 @@
 				ABC3C14311FCF2A400E59FAC /* locateMe.png in Resources */,
 				AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */,
 				AB2FE579120A154B00758F8C /* LogoutButton.png in Resources */,
+				AB8E31F61228399B00C198C3 /* textFade.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

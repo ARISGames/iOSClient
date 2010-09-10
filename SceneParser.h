@@ -25,6 +25,7 @@
 	NSMutableArray	*script;
 	NSString		*sourceText;
 	CGRect			zoomRect;
+	float			zoomTime;
 	
 	int				fgSound;
 	int				bgSound;

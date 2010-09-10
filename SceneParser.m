@@ -9,6 +9,7 @@
 #import "SceneParser.h"
 
 const NSInteger kDefaultPc = 0;
+const float kDefaultZoomTime = 1.0;
 
 NSString *const kTagPc = @"pc";
 NSString *const kTagNpc = @"npc";
@@ -18,6 +19,7 @@ NSString *const kTagZoomX = @"zoomX";
 NSString *const kTagZoomY = @"zoomY";
 NSString *const kTagZoomWidth = @"zoomWidth";
 NSString *const kTagZoomHeight = @"zoomHeight";
+NSString *const kTagZoomTime = @"zoomTime";
 
 NSString *const kTagSoundBg = @"bgSound";
 NSString *const kTagSoundFg = @"fgSound";
@@ -78,7 +80,7 @@ NSString *const kTagSoundFg = @"fgSound";
 		else currentCharacterId = defaultNpcId;
 	}
 	
-	zoomRect = CGRectMake(0, 0, 320, 460);
+	zoomRect = CGRectMake(0, 0, 320, 416);
 	zoomRect.origin.x = [attributeDict objectForKey:kTagZoomX]
 		? [[attributeDict objectForKey:kTagZoomX] floatValue] : zoomRect.origin.x;
 	zoomRect.origin.y = [attributeDict objectForKey:kTagZoomX]
@@ -87,6 +89,9 @@ NSString *const kTagSoundFg = @"fgSound";
 		? [[attributeDict objectForKey:kTagZoomWidth] floatValue] : zoomRect.size.width;
 	zoomRect.size.height = [attributeDict objectForKey:kTagZoomX]
 		? [[attributeDict objectForKey:kTagZoomHeight] floatValue] : zoomRect.size.height;
+
+	zoomTime = [attributeDict objectForKey:kTagZoomTime]
+	? [[attributeDict objectForKey:kTagZoomTime] floatValue] : kDefaultZoomTime;
 	
 	fgSound = [attributeDict objectForKey:kTagSoundFg]
 		? [[attributeDict objectForKey:kTagSoundFg] intValue] : kEmptySound;
@@ -107,6 +112,7 @@ NSString *const kTagSoundFg = @"fgSound";
 											  andIsPc:isPc
 										 andCharacter:currentCharacterId
 											  andZoom:zoomRect
+										  andZoomTime:zoomTime
 										withForeSound:fgSound
 										 andBackSound:bgSound];
 		[script addObject:newScene];
@@ -136,7 +142,8 @@ NSString *const kTagSoundFg = @"fgSound";
 		Scene *defaultScene = [[Scene alloc] initWithText:sourceText
 												  andIsPc:NO
 											 andCharacter:defaultNpcId
-												  andZoom:CGRectMake(0, 0, 320, 460)
+												  andZoom:CGRectMake(0, 0, 320, 416)
+												andZoomTime:kDefaultZoomTime
 											withForeSound:kEmptySound
 											 andBackSound:kEmptySound];
 		[script addObject:defaultScene];
