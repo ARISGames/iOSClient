@@ -71,6 +71,7 @@
 	
 	//register for notifications from views
 	NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+	[dispatcher addObserver:self selector:@selector(finishLoginAttempt:) name:@"NewLoginResponseReady" object:nil];
 	[dispatcher addObserver:self selector:@selector(selectGame:) name:@"SelectGame" object:nil];
 	[dispatcher addObserver:self selector:@selector(performLogout:) name:@"LogoutRequested" object:nil];
 	[dispatcher addObserver:self selector:@selector(displayNearbyObjects:) name:@"NearbyButtonTouched" object:nil];
@@ -287,13 +288,19 @@
 
 
 
-- (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password {
-	
+- (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password {	
 	NSLog(@"AppDelegate: Attempt Login for: %@ Password: %@", userName, password);
 	appModel.username = userName;
 	appModel.password = password;
 
+	[loginViewController showLoadingIndicator];
 	[appModel login];
+}
+
+- (void)finishLoginAttempt:(NSNotification *)notification {
+	NSLog(@"AppDelegate: Finishing Login Attempt");
+	
+	[loginViewController removeLoadingIndicator];
 	
 	//handle login response
 	if(appModel.loggedIn) {
@@ -302,7 +309,7 @@
 		[appModel saveUserDefaults];
 		[window addSubview:gamePickerNavigationController.view]; //This will automatically load it's own data
 		gamePickerViewController.view.frame = [UIScreen mainScreen].applicationFrame;
-
+		
 	} else {
 		NSLog(@"AppDelegate: Login Failed, check for a network issue");
 		if (self.networkAlert) NSLog(@"AppDelegate: Network is down, skip login alert");
@@ -313,8 +320,6 @@
 			[alert show];	
 			[alert release];
 		}
-
-		
 	}
 	
 }

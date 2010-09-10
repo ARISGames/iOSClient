@@ -77,6 +77,25 @@
 	
 }
 
+-(void)showLoadingIndicator{
+	UIActivityIndicatorView *activityIndicator = 
+	[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
+	[activityIndicator release];
+	[[self navigationItem] setRightBarButtonItem:barButton];
+	[barButton release];
+	[activityIndicator startAnimating];
+	
+	loginButton.enabled = NO;
+	usernameField.enabled = NO;
+	passwordField.enabled = NO;
+	newAccountButton.enabled = NO;
+}
+
+-(void)removeLoadingIndicator{
+	[[self navigationItem] setRightBarButtonItem:nil];
+}
+
 - (void)dealloc {
 	[usernameField release];
 	[passwordField release];

@@ -176,27 +176,9 @@ static const int kEmptyValue = -1;
 																	andMethodName:@"login"
 																	andArguments:arguments]; 
 
-	JSONResult *jsonResult = [jsonConnection performSynchronousRequest];
+	[jsonConnection performAsynchronousRequestWithParser:@selector(parseLoginResponseFromJSON:)]; 
 	[jsonConnection release];
 	
-	if (!jsonResult) {
-		self.loggedIn = NO;
-		return NO;
-	}
-	
-	//handle login response
-	int returnCode = jsonResult.returnCode;
-	NSLog(@"AppModel: Login Result Code: %d", returnCode);
-	if(returnCode == 0) {
-		self.loggedIn = YES;
-		loggedIn = YES;
-		playerId = [((NSDecimalNumber*)jsonResult.data) intValue];
-	}
-	else {
-		self.loggedIn = NO;	
-	}
-
-	return self.loggedIn;
 }
 
 - (BOOL)registerNewUser:(NSString*)userName password:(NSString*)pass 
@@ -1023,6 +1005,33 @@ static const int kEmptyValue = -1;
 	
 	return conversationNodeOptions;
 }
+
+
+-(void)parseLoginResponseFromJSON: (JSONResult *)jsonResult{
+	NSLog(@"AppModel: parseLoginResponseFromJSON");
+	
+	if (!jsonResult) {
+		self.loggedIn = NO;
+		[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewLoginResponseReady" object:nil]];
+	}
+
+	//handle login response
+	int returnCode = jsonResult.returnCode;
+	NSLog(@"AppModel: Login Result Code: %d", returnCode);
+	if(returnCode == 0) {
+		self.loggedIn = YES;
+		loggedIn = YES;
+		playerId = [((NSDecimalNumber*)jsonResult.data) intValue];
+	}
+	else {
+		self.loggedIn = NO;	
+	}
+
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewLoginResponseReady" object:nil]];
+}
+
+
+
 
 -(void)parseGameListFromJSON: (JSONResult *)jsonResult{
 	
