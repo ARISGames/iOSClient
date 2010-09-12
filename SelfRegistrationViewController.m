@@ -10,9 +10,9 @@
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
 
-
 @implementation SelfRegistrationViewController
 
+@synthesize waitingIndicator;
 @synthesize scrollView;
 @synthesize entryFields;
 @synthesize userName;
@@ -33,6 +33,8 @@
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardNotification:)  name:UIKeyboardWillShowNotification object:nil];  
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selfRegistrationFailure)  name:@"SelfRegistrationFailed" object:nil];  
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selfRegistrationSuccess)  name:@"SelfRegistrationSucceeded" object:nil];  
     
 	}
 	
@@ -48,13 +50,21 @@
 	firstName.placeholder = NSLocalizedString(@"FirstNameKey",@"");
 	lastName.placeholder = NSLocalizedString(@"LastNameKey",@"");
 	[createAccountButton setTitle:NSLocalizedString(@"CreateAccountKey",@"") forState:UIControlStateNormal];
-					  
-	
 	[super viewDidLoad];
 }
  
+-(void)showLoadingIndicator{
+	self.waitingIndicator = [[WaitingIndicatorView alloc] initWithMessage:@"Creating a New User..." showProgressBar:NO];
+	[self.waitingIndicator show];
+}
+
+-(void)removeLoadingIndicator{
+	[self.waitingIndicator dismiss];
+}
+
 
 - (IBAction)submitButtonTouched: (id) sender{
+	[self showLoadingIndicator];
 	[self submitRegistration];
 }
 
@@ -63,28 +73,37 @@
 	//Check with the Server
 	//self.userName.text, self.password.text, self.firstName.text, self.lastName.text, self.email.text];
 	
-	BOOL success = [appModel registerNewUser:self.userName.text password:self.password.text 
+	[appModel registerNewUser:self.userName.text password:self.password.text 
 								   firstName:self.firstName.text lastName:self.lastName.text email:self.email.text]; 
+}
 	
-	if(success) {
-		NSLog(@"SelfRegistration: New User Created Successfully");
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Your new User was Created. Go ahead and login."
+
+-(void)selfRegistrationFailure{
+	NSLog(@"SelfRegistration: Unsuccessfull registration attempt, check network before giving an alert");
+
+	[self removeLoadingIndicator];
+	
+	if (appModel.networkAlert) NSLog(@"SelfRegistration: Network is down, skip alert");
+	else{
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Either this name has been taken or you didn't fill out all the required information."
 													   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 		[alert show];	
 		[alert release];
-		[self.navigationController popToRootViewControllerAnimated:YES];
-	}
-	else {
-		NSLog(@"SelfRegistration: Unsuccessfull registration attempt, check network before giving an alert");
-		if (appModel.networkAlert) NSLog(@"SelfRegistration: Network is down, skip alert");
-		else{
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Either this name has been taken or you didn't fill out all the required information."
-													   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-			[alert show];	
-			[alert release];
-		}	
-	}
+	}		
 }
+
+-(void)selfRegistrationSuccess{
+	NSLog(@"SelfRegistration: New User Created Successfully");
+	
+	[self removeLoadingIndicator];
+
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Your new User was Created. Go ahead and login."
+												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+	[alert show];	
+	[alert release];
+	[self.navigationController popToRootViewControllerAnimated:YES];
+}
+	
 
 - (void)scrollViewToCenterOfScreen:(UIView *)theView {  
     CGFloat viewCenterY = theView.center.y;  
@@ -164,6 +183,7 @@
 
 - (void)dealloc {
 	[appModel release];
+	[waitingIndicator release];
     [super dealloc];
 }
 

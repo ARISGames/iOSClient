@@ -168,7 +168,7 @@ static const int kEmptyValue = -1;
 
 
 #pragma mark Communication with Server
-- (BOOL)login {
+- (void)login {
 	NSLog(@"AppModel: Login Requested");
 	NSArray *arguments = [NSArray arrayWithObjects:self.username, self.password, nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithArisJSONServer:jsonServerBaseURL 
@@ -181,7 +181,7 @@ static const int kEmptyValue = -1;
 	
 }
 
-- (BOOL)registerNewUser:(NSString*)userName password:(NSString*)pass 
+- (void)registerNewUser:(NSString*)userName password:(NSString*)pass 
 			  firstName:(NSString*)firstName lastName:(NSString*)lastName email:(NSString*)email {
 	NSLog(@"AppModel: New User Registration Requested");
 	//createPlayer($strNewUserName, $strPassword, $strFirstName, $strLastName, $strEmail)
@@ -191,27 +191,8 @@ static const int kEmptyValue = -1;
 																	  andMethodName:@"createPlayer"
 																	   andArguments:arguments]; 
 	
-	JSONResult *jsonResult = [jsonConnection performSynchronousRequest];
+	[jsonConnection performAsynchronousRequestWithParser:@selector(parseSelfRegistrationResponseFromJSON:)]; 
 	[jsonConnection release];
-	
-	
-	if (!jsonResult) {
-		NSLog(@"AppModel registerNewUser: No result Data, return");
-		return NO;
-	}
-	
-    BOOL success;
-	
-	int returnCode = jsonResult.returnCode;
-	if (returnCode == 0) {
-		NSLog(@"AppModel: Result from new user request successfull");
-		success = YES;
-	}
-	else { 
-		NSLog(@"AppModel: Result from new user request unsuccessfull");
-		success = NO;
-	}
-	return success;
 	
 }
 
@@ -1030,6 +1011,26 @@ static const int kEmptyValue = -1;
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewLoginResponseReady" object:nil]];
 }
 
+
+
+-(void)parseSelfRegistrationResponseFromJSON: (JSONResult *)jsonResult{
+
+	
+	if (!jsonResult) {
+		NSLog(@"AppModel registerNewUser: No result Data, return");
+		[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"SelfRegistrationFailed" object:nil]];
+	}
+
+	int returnCode = jsonResult.returnCode;
+	if (returnCode == 0) {
+		NSLog(@"AppModel: Result from new user request successfull");
+		[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"SelfRegistrationSucceeded" object:nil]];
+	}
+	else { 
+		NSLog(@"AppModel: Result from new user request unsuccessfull");
+		[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"SelfRegistrationFailed" object:nil]];
+	}
+}
 
 
 

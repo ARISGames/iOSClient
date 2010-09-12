@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "AppModel.h"
+#import "WaitingIndicatorView.h"
+
 
 
 @interface SelfRegistrationViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate> {
 	AppModel *appModel;
+	WaitingIndicatorView *waitingIndicator;
 	IBOutlet UIScrollView *scrollView;
 	CGRect keyboardBounds; 
 	NSMutableArray *entryFields;
@@ -25,6 +28,7 @@
 	
 }
 
+@property (nonatomic, retain) WaitingIndicatorView *waitingIndicator;
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, retain) NSMutableArray *entryFields;
 @property (nonatomic, retain) IBOutlet UITextField *userName;
