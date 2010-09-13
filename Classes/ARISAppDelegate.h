@@ -52,6 +52,12 @@
 	WaitingIndicatorView *waitingIndicatorView;
 
 	UIAlertView *networkAlert;
+	
+	
+	UIWindow* tvOutWindow;
+	UIImageView *tvOutMirrorView;
+	BOOL tvOutDone;
+	
 }
 
 @property (nonatomic, retain) AppModel *appModel;

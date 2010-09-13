@@ -192,6 +192,11 @@
 	nearbyBar = [[NearbyBar alloc] initWithFrame:CGRectMake(0.0, 63.0, 320.0, 20.0)];
 	[window addSubview:nearbyBar];	
 	
+	if ([[UIScreen screens] count] > 1) {
+		NSLog(@"Found an external screen.");
+		[self startTVOut];
+	}
+	
 }
 
 
@@ -414,6 +419,110 @@
 	[tabBarController setSelectedIndex:0];	
 }
 
+#pragma mark TV Out Methods
+
+#define kFPS 10
+#define kUseBackgroundThread	YES
+
+- (UIImage*)imageWithScreenContents 
+{
+    // Create a graphics context with the target size
+    // On iOS 4 and later, use UIGraphicsBeginImageContextWithOptions to take the scale into consideration
+    // On iOS prior to 4, fall back to use UIGraphicsBeginImageContext
+    CGSize imageSize = [[UIScreen mainScreen] bounds].size;
+    if (NULL != UIGraphicsBeginImageContextWithOptions)
+        UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
+    else
+        UIGraphicsBeginImageContext(imageSize);
+	
+    CGContextRef context = UIGraphicsGetCurrentContext();
+	
+    // Iterate over every window from back to front
+    for (UIWindow *w in [[UIApplication sharedApplication] windows]) 
+    {
+        if (![w respondsToSelector:@selector(screen)] || [w screen] == [UIScreen mainScreen])
+        {
+            // -renderInContext: renders in the coordinate space of the layer,
+            // so we must first apply the layer's geometry to the graphics context
+            CGContextSaveGState(context);
+            // Center the context around the window's anchor point
+            CGContextTranslateCTM(context, [w center].x, [window center].y);
+            // Apply the window's transform about the anchor point
+            CGContextConcatCTM(context, [w transform]);
+            // Offset by the portion of the bounds left of and above the anchor point
+            CGContextTranslateCTM(context,
+                                  -[w bounds].size.width * [[window layer] anchorPoint].x,
+                                  -[w bounds].size.height * [[window layer] anchorPoint].y);
+			
+            // Render the layer hierarchy to the current context
+            [[w layer] renderInContext:context];
+			
+            // Restore the context
+            CGContextRestoreGState(context);
+        }
+    }
+	
+    // Retrieve the screenshot image
+    UIImage *i = UIGraphicsGetImageFromCurrentImageContext();
+	
+    UIGraphicsEndImageContext();
+	
+    return i;
+}
+
+
+
+- (void) startTVOut;
+{
+	// you need to have a main window already open when you call start
+	if (!tvOutWindow) {
+
+		tvOutWindow = [[UIWindow alloc]	init];
+		tvOutWindow.screen = [[[UIScreen screens] objectAtIndex:1] retain];
+		//tvOutWindow.screen.currentMode = [tvOutWindow.screen.availableModes objectAtIndex:0]; //This is the lowest supported res
+		[tvOutWindow makeKeyAndVisible];
+		tvOutWindow.userInteractionEnabled = NO;
+		
+		tvOutMirrorView = [[UIImageView alloc] initWithFrame: [[UIScreen mainScreen] bounds]];
+		
+		if ([UIApplication sharedApplication].statusBarOrientation != UIInterfaceOrientationPortrait) {
+			tvOutMirrorView.transform = CGAffineTransformRotate(tvOutMirrorView.transform, M_PI * 1.5);
+		}
+		tvOutMirrorView.center = tvOutWindow.center;
+		[tvOutWindow addSubview: tvOutMirrorView];
+				
+		[NSThread detachNewThreadSelector:@selector(tvOutUpdateLoop) toTarget:self withObject:nil];
+
+	}
+}
+
+- (void) stopTVOut;
+{
+	tvOutDone = YES;
+
+	if (tvOutWindow) {
+		[tvOutWindow release];
+		tvOutWindow = nil;
+	}
+}
+
+- (void)tvOutUpdateLoop;
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    tvOutDone = NO;
+	
+    while ( ! tvOutDone )
+    {
+		[self performSelectorOnMainThread:@selector(updateTVOut) withObject:nil waitUntilDone:NO];
+        [NSThread sleepForTimeInterval: (1.0/kFPS) ];
+    }
+    [pool release];
+}
+
+- (void) updateTVOut;
+{
+	tvOutMirrorView.image = [self imageWithScreenContents];
+}
 
 #pragma mark Memory Management
 
