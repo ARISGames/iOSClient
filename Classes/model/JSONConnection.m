@@ -57,14 +57,14 @@
 	
 	// Make synchronous request
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showWaitingIndicator: @"Loading" displayProgressBar:NO];
+	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showNewWaitingIndicator: @"Loading" displayProgressBar:NO];
 	[[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the activity indicator show before doing the sync request
 
 	
 	[request startSynchronous];
 				  
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeWaitingIndicator];
+	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeNewWaitingIndicator];
 
 	NSError *error = [request error];
 	if (error) {
