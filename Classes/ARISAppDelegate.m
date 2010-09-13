@@ -222,10 +222,9 @@
 
 - (void) showNewWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar {
 	NSLog (@"AppDelegate: Showing Waiting Indicator");
-	if (!self.waitingIndicatorView) {
-		self.waitingIndicatorView = [[WaitingIndicatorView alloc] initWithWaitingMessage:message showProgressBar:NO];
-	}
-
+	if (self.waitingIndicatorView) [self.waitingIndicatorView release];
+	
+	self.waitingIndicatorView = [[WaitingIndicatorView alloc] initWithWaitingMessage:message showProgressBar:NO];
 	[self.waitingIndicatorView show];
 	
 }
