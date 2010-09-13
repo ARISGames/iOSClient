@@ -422,7 +422,6 @@
 #pragma mark TV Out Methods
 
 #define kFPS 10
-#define kUseBackgroundThread	YES
 
 - (UIImage*)imageWithScreenContents 
 {
