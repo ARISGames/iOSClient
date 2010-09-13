@@ -59,9 +59,25 @@ NSString *const kDialogHtmlTemplate =
 
 @implementation DialogViewController
 @synthesize npcImage, pcImage, npcWebView, pcWebView, pcTableView;
-@synthesize npcScrollView, pcScrollView, npcImageScrollView, pcImageScrollView;
+@synthesize npcScrollView, pcScrollView, npcImageScrollView, pcImageScrollView, pcActivityIndicator;
 @synthesize npcContinueButton, pcContinueButton;
 @synthesize pcAnswerView, mainView, npcView, pcView, nothingElseLabel;
+
+
+// The designated initializer. Override to perform setup that is required before the view is loaded.
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(optionsRecievedFromNotification:)
+													 name:@"ConversationNodeOptionsReady"
+												   object:nil];
+    }
+	
+    return self;
+}
+
+
 
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -112,6 +128,7 @@ NSString *const kDialogHtmlTemplate =
 	pcAnswerView.hidden = YES;
 	pcTableView.hidden = NO;
 	pcWebView.hidden = YES;
+	pcActivityIndicator.hidden = YES;
 
 	
 	//Check if the game specifies a PC image
@@ -225,13 +242,7 @@ NSString *const kDialogHtmlTemplate =
 		
 	parser = [[SceneParser alloc] initWithDefaultNpcId:[aNpc mediaId]];
 	parser.delegate = self;
-	
-	if (optionList) [optionList release];
-	optionList = currentNpc.options;
-	[optionList retain];
-	
-	assert(optionList == aNpc.options);
-	NSLog(@"OptionList: %@", optionList);
+
 }
 
 - (void) loadNPCImage:(NSInteger)mediaId {
@@ -263,12 +274,6 @@ NSString *const kDialogHtmlTemplate =
 	else { 	//End of Script. Display Player Options
 		[self stopAllAudio];
 		[self applyPlayerOptions];
-		
-		//Create a reference to the delegate using the application singleton.
-		//ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-		//AppModel *appModel = appDelegate.appModel;
-			
-		//[appModel updateServerNodeViewed:currentNode.nodeId];
 	}
 }
 
@@ -295,34 +300,52 @@ NSString *const kDialogHtmlTemplate =
 		
 		if (currentNode.numberOfOptions > 0) {
 			//There are node options
-			optionList = currentNode.options;
-			[optionList retain];
+			[self finishApplyingPlayerOptions:currentNode.options];
 		}
 		else {
 			//No node options, load the conversations
 			AppModel *appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
-			optionList = [appModel fetchNpcConversations:currentNpc.npcId afterViewingNode:currentNode.nodeId];
-			[optionList retain];
+			[appModel fetchNpcConversations:currentNpc.npcId afterViewingNode:currentNode.nodeId];
+			[self showWaitingIndicatorForPlayerOptions];
 		}
-		
-		//Now our options are populated with node or conversation choices, display
-		if ([optionList count] == 0) {
-			nothingElseLabel.hidden = NO;
-			pcTableView.hidden = YES;
-			pcTableView.alpha = 0;
-		}
-		else {
-			pcTableView.hidden = NO;
-			pcWebView.hidden = YES;
-			pcAnswerView.hidden = YES;
-			[pcTableView reloadData];
-		}
-		
 	}
 	
 	[self moveAllOutWithPostSelector:nil];
 	[self movePcIn];
 	
+}
+
+- (void) optionsRecievedFromNotification:(NSNotification*) notification{
+	[self dismissWaitingIndicatorForPlayerOptions];
+	[self finishApplyingPlayerOptions: (NSArray*)[notification object]];
+}
+
+- (void) finishApplyingPlayerOptions:(NSArray*)options{
+	//Now our options are populated with node or conversation choices, display
+	if ([options count] == 0) {
+		nothingElseLabel.hidden = NO;
+		pcTableView.hidden = YES;
+		pcTableView.alpha = 0;
+	}
+	else {
+		pcTableView.hidden = NO;
+		pcWebView.hidden = YES;
+		pcAnswerView.hidden = YES;
+		optionList = options;
+		[optionList retain];
+		[pcTableView reloadData];
+	}
+}
+
+- (void) showWaitingIndicatorForPlayerOptions{
+	pcTableViewController.view.hidden = YES;
+	pcActivityIndicator.hidden = NO;
+	[pcActivityIndicator startAnimating];
+}
+- (void) dismissWaitingIndicatorForPlayerOptions{
+	pcTableViewController.view.hidden = NO;	
+	pcActivityIndicator.hidden = YES;
+	[pcActivityIndicator stopAnimating];
 }
 
 - (void) applyScene:(Scene *)aScene {	
@@ -604,16 +627,12 @@ NSString *const kDialogHtmlTemplate =
 		
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
 	AppModel *appModel = appDelegate.appModel;
-		
-	[currentNode release];
-	//Node *newNode = [appModel fetchNode:targetNode];
+
+
 	Node *newNode = [appModel nodeForNodeId: targetNode];
+
 	// TODO: This might need to check for answer string
-	
-	if (optionList) [optionList release];
-	optionList = newNode.numberOfOptions > 0 ? newNode.options : currentNpc.options;
-	[optionList retain];
-	
+		
 	if (currentNode) [currentNode release];
 	currentNode = newNode;
 	[currentNode retain];
@@ -690,21 +709,13 @@ NSString *const kDialogHtmlTemplate =
 	NodeOption *selectedOption = [optionList objectAtIndex:[indexPath row]];
 	NSLog(@"Going to node #%d for prompt '%@'", selectedOption.nodeId, selectedOption.text);
 	
-	//Create a reference to the delegate using the application singleton.
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-	AppModel *appModel = appDelegate.appModel;
-	
+	AppModel *appModel = [(ARISAppDelegate *) [[UIApplication sharedApplication] delegate] appModel];	
 	Node *newNode = [appModel nodeForNodeId:selectedOption.nodeId];
-		
-	if (optionList) [optionList release];
-	optionList = newNode.numberOfOptions > 0 ? newNode.options : currentNpc.options;
-	[optionList retain];
 
 	if (currentNode) [currentNode release];
 	currentNode = newNode;
 	[currentNode retain];
 
-	
 	[parser parseText:newNode.text];
 }
 

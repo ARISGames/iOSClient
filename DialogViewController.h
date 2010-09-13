@@ -25,6 +25,7 @@
 	IBOutlet	UIScrollView *pcScrollView;
 	IBOutlet	UIScrollView *npcImageScrollView;
 	IBOutlet	UIScrollView *pcImageScrollView;
+	IBOutlet	UIActivityIndicatorView *pcActivityIndicator;
 	IBOutlet	UILabel		*nothingElseLabel;
 	IBOutlet	UIButton	*pcContinueButton;
 	IBOutlet	UIButton	*npcContinueButton;
@@ -51,8 +52,10 @@
 	
 	Npc				*currentNpc;
 	Node			*currentNode;
-	NSMutableArray	*optionList;
+	NSArray			*optionList;
 }
+
+
 
 @property(nonatomic, retain) IBOutlet AsyncImageView	*npcImage;
 @property(nonatomic, retain) IBOutlet AsyncImageView	*pcImage;
@@ -62,15 +65,15 @@
 @property(nonatomic, retain) IBOutlet UITextField	*pcAnswerView;
 @property(nonatomic, retain) IBOutlet UILabel		*nothingElseLabel;
 @property(nonatomic, retain) IBOutlet UILabel		*npcLabel;
-@property (nonatomic, retain) IBOutlet UIButton *npcContinueButton;
-@property (nonatomic, retain) IBOutlet UIButton *pcContinueButton;
-
-
+@property(nonatomic, retain) IBOutlet UIButton *npcContinueButton;
+@property(nonatomic, retain) IBOutlet UIButton *pcContinueButton;
 
 @property(nonatomic, retain) IBOutlet UIScrollView	*npcScrollView;
 @property(nonatomic, retain) IBOutlet UIScrollView	*pcScrollView;
 @property(nonatomic, retain) IBOutlet UIScrollView	*npcImageScrollView;
 @property(nonatomic, retain) IBOutlet UIScrollView	*pcImageScrollView;
+@property(nonatomic, retain) IBOutlet UIActivityIndicatorView *pcActivityIndicator;
+
 
 @property(nonatomic, retain) IBOutlet UIView		*mainView;
 @property(nonatomic, retain) IBOutlet UIView		*npcView;

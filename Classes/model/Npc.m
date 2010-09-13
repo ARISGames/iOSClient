@@ -19,8 +19,6 @@
 @synthesize mediaId;
 @synthesize kind;
 @synthesize forcedDisplay;
-@synthesize numberOfOptions;
-@synthesize options;
 
 
 -(nearbyObjectKind) kind {
@@ -30,19 +28,11 @@
 - (Npc *)init {
 	self = [super init];
     if (self) {
-		options = [[NSMutableArray alloc] init];
     }
-	
     return self;	
 }
 
-- (NSInteger) numberOfOptions {
-	return [options count];
-}
 
-- (void) addOption:(NodeOption *)newOption{
-	[options addObject:newOption];
-}
 
 - (void) display{
 	NSLog(@"Npc: Display Self Requested");
@@ -59,7 +49,6 @@
 	[name release];
 	[description release];
 	[greeting release];
-	[options release];
 	[location release];
 	[super dealloc];
 }

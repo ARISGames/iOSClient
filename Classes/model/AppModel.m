@@ -681,17 +681,6 @@ static const int kEmptyValue = -1;
 						 withArgs:arguments usingParser:@selector(parseNpcFromDictionary:)];
 }
 
--(Npc *)fetchNpcConversations:(int)npcId afterViewingNode:(int)nodeId{
-	NSLog(@"Model: Fetch Requested for Npc %d Conversations after Viewing node %d", npcId, nodeId);
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.gameId],
-						  [NSString stringWithFormat:@"%d",npcId],
-						  [NSString stringWithFormat:@"%d",self.playerId],
-						  [NSString stringWithFormat:@"%d",nodeId],
-						  nil];
-	return [self fetchFromService:@"npcs" usingMethod:@"getNpcConversationsForPlayerAfterViewingNode"
-						 withArgs:arguments usingParser:@selector(parseConversationNodeOptionsFromArray:)];
-}
-
 
 -(NSObject<QRCodeProtocol> *)fetchQRCode:(NSString*)code{
 	NSLog(@"Model: Fetch Requested for QRCode Code: %@", code);
@@ -753,6 +742,23 @@ static const int kEmptyValue = -1;
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewLocationListReady" object:nil]];
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewQuestListReady" object:nil]];
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewInventoryReady" object:nil]];
+}
+
+-(void)fetchNpcConversations:(int)npcId afterViewingNode:(int)nodeId{
+	NSLog(@"Model: Fetch Requested for Npc %d Conversations after Viewing node %d", npcId, nodeId);
+	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.gameId],
+						  [NSString stringWithFormat:@"%d",npcId],
+						  [NSString stringWithFormat:@"%d",self.playerId],
+						  [NSString stringWithFormat:@"%d",nodeId],
+						  nil];
+	
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+																	andServiceName:@"npcs"
+																	 andMethodName:@"getNpcConversationsForPlayerAfterViewingNode"
+																	  andArguments:arguments];
+	[jsonConnection performAsynchronousRequestWithParser:@selector(parseConversationNodeOptionsFromJSON:)]; 
+	[jsonConnection release];
+
 }
 
 
@@ -982,19 +988,14 @@ static const int kEmptyValue = -1;
 	npc.greeting = [npcDictionary valueForKey:@"text"];
 	npc.description = [npcDictionary valueForKey:@"description"];
 	npc.mediaId = [[npcDictionary valueForKey:@"media_id"] intValue];
-	
-	NSArray *conversationOptions = [npcDictionary objectForKey:@"conversationOptions"];
-	NSArray *parsedConversationOptions = [self parseConversationNodeOptionsFromArray:conversationOptions];
-	
-	for(NodeOption *no in parsedConversationOptions){
-		[npc addOption: no];
-	}
 
-	
 	return npc;	
 }
 
--(NSMutableArray *)parseConversationNodeOptionsFromArray: (NSDictionary *)conversationOptionsArray {
+
+-(void)parseConversationNodeOptionsFromJSON: (JSONResult *)jsonResult {
+	NSArray *conversationOptionsArray = (NSArray *)jsonResult.data;
+	
 	NSMutableArray *conversationNodeOptions = [[NSMutableArray alloc] initWithCapacity:3];
 	
 	NSEnumerator *conversationOptionsEnumerator = [conversationOptionsArray objectEnumerator];
@@ -1009,7 +1010,9 @@ static const int kEmptyValue = -1;
 		[option release];
 	}
 	
-	return conversationNodeOptions;
+	//return conversationNodeOptions;
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ConversationNodeOptionsReady" object:conversationNodeOptions]];
+	
 }
 
 
