@@ -269,7 +269,7 @@
 								<string>AB0A5BA3120365420065CE68</string>
 								<string>A7986D6A0F8FEC7200A5469F</string>
 								<string>2B3D17040F49C9920067FD3A</string>
-								<string>A7986D640F8FEBFA00A5469F</string>
+								<string>A7986D650F8FEC1100A5469F</string>
 								<string>1C37FBAC04509CD000000102</string>
 								<string>1C37FAAC04509CD000000102</string>
 								<string>1C37FABC05509CD000000102</string>
@@ -277,13 +277,13 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>82</integer>
-									<integer>79</integer>
+									<integer>64</integer>
+									<integer>6</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 1088}, {332, 559}}</string>
+							<string>{{0, 838}, {332, 716}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -295,7 +295,7 @@
 					<key>GeometryConfiguration</key>
 					<dict>
 						<key>Frame</key>
-						<string>{{0, 0}, {349, 577}}</string>
+						<string>{{0, 0}, {349, 734}}</string>
 						<key>GroupTreeTableConfiguration</key>
 						<array>
 							<string>SCMStatusColumn</string>
@@ -304,7 +304,7 @@
 							<real>310</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>0 259 1368 618 0 0 1440 878 </string>
+						<string>0 102 1411 775 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -322,7 +322,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>GamePickerViewController.m</string>
+								<string>ARISAppDelegate.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -330,11 +330,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>GamePickerViewController.m</string>
+										<string>ARISAppDelegate.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>ABEBF72C123DDA6F00ECE66C</string>
+										<string>ABEBF7AD123E210E00ECE66C</string>
 										<key>history</key>
 										<array>
 											<string>ABB9262310C85AB000B09506</string>
@@ -412,7 +412,6 @@
 											<string>AB0A5CB7120474790065CE68</string>
 											<string>AB0A5CB8120474790065CE68</string>
 											<string>AB0A5CB9120474790065CE68</string>
-											<string>AB0A5CC51204769F0065CE68</string>
 											<string>AB0A5D0712048B510065CE68</string>
 											<string>AB0A5D0812048B510065CE68</string>
 											<string>AB0A5D0912048B510065CE68</string>
@@ -461,7 +460,6 @@
 											<string>AB756F70123AA9DE00BD45DD</string>
 											<string>AB756F7A123AAB9700BD45DD</string>
 											<string>AB756F7B123AAB9700BD45DD</string>
-											<string>AB756FA5123ADAE600BD45DD</string>
 											<string>AB756FD4123ADE4D00BD45DD</string>
 											<string>AB756FE0123AE0E400BD45DD</string>
 											<string>AB75703A123AE4AE00BD45DD</string>
@@ -476,16 +474,18 @@
 											<string>ABEBF617123D9F3500ECE66C</string>
 											<string>ABEBF650123DA1EF00ECE66C</string>
 											<string>ABEBF65A123DA2E900ECE66C</string>
-											<string>ABEBF65B123DA2E900ECE66C</string>
-											<string>ABEBF65C123DA2E900ECE66C</string>
-											<string>ABEBF65D123DA2E900ECE66C</string>
-											<string>ABEBF66C123DA3E800ECE66C</string>
 											<string>ABEBF677123DBC1200ECE66C</string>
 											<string>ABEBF69D123DD03A00ECE66C</string>
 											<string>ABEBF6E5123DD60D00ECE66C</string>
 											<string>ABEBF70F123DD90600ECE66C</string>
-											<string>ABEBF71A123DD96400ECE66C</string>
-											<string>ABEBF71B123DD96400ECE66C</string>
+											<string>ABEBF73C123E146000ECE66C</string>
+											<string>ABEBF73D123E146000ECE66C</string>
+											<string>ABEBF74D123E15A700ECE66C</string>
+											<string>ABEBF76E123E1AA700ECE66C</string>
+											<string>ABEBF785123E1B4000ECE66C</string>
+											<string>ABEBF7A6123E20B900ECE66C</string>
+											<string>ABEBF7A7123E20B900ECE66C</string>
+											<string>ABEBF7AC123E210E00ECE66C</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -497,14 +497,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1014, 572}}</string>
+								<string>{{0, 0}, {1057, 729}}</string>
 								<key>RubberWindowFrame</key>
-								<string>0 259 1368 618 0 0 1440 878 </string>
+								<string>0 102 1411 775 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>572pt</string>
+							<string>729pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -517,9 +517,9 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 577}, {1014, 0}}</string>
+								<string>{{0, 734}, {1057, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>0 259 1368 618 0 0 1440 878 </string>
+								<string>0 102 1411 775 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -528,7 +528,7 @@
 						</dict>
 					</array>
 					<key>Proportion</key>
-					<string>1014pt</string>
+					<string>1057pt</string>
 				</dict>
 			</array>
 			<key>Name</key>
@@ -681,15 +681,16 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>ABEBF72D123DDA6F00ECE66C</string>
+		<string>ABEBF7A9123E20B900ECE66C</string>
 		<string>ABEBF524123D857000ECE66C</string>
 		<string>ABEBF519123D807800ECE66C</string>
+		<string>1C78EAAD065D492600B07095</string>
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>AB4B1043103D02990061AD3D</string>
 		<string>/Users/djgagnon/Documents/Aris/svn-trunk/iPhoneClient/ARIS.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>0 259 1368 618 0 0 1440 878 </string>
+	<string>0 102 1411 775 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -712,7 +713,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>ARISAppDelegate.m</string>
+								<string>SelfRegistrationViewController.m</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -779,7 +780,7 @@
 			<key>WindowToolGUID</key>
 			<string>AB4B1043103D02990061AD3D</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
@@ -1025,9 +1026,9 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1071, 748}}</string>
+								<string>{{0, 0}, {1182, 748}}</string>
 								<key>RubberWindowFrame</key>
-								<string>16 89 1071 789 0 0 1440 878 </string>
+								<string>16 89 1182 789 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXDebugCLIModule</string>
@@ -1056,11 +1057,11 @@
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.consoleV3</string>
 			<key>WindowString</key>
-			<string>16 89 1071 789 0 0 1440 878 </string>
+			<string>16 89 1182 789 0 0 1440 878 </string>
 			<key>WindowToolGUID</key>
 			<string>1C78EAAD065D492600B07095</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>Identifier</key>

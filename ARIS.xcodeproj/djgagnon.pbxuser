@@ -9,9 +9,9 @@
 	};
 	1D3623250D0F684500981E51 /* ARISAppDelegate.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1223, 5213}}";
-			sepNavSelRange = "{8708, 0}";
-			sepNavVisRange = "{8214, 1418}";
+			sepNavIntBoundsRect = "{{0, 0}, {1111, 5564}}";
+			sepNavSelRange = "{10173, 0}";
+			sepNavVisRange = "{9632, 1646}";
 			sepNavWindowFrame = "{{259, 40}, {1181, 838}}";
 		};
 	};
@@ -164,7 +164,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					775,
+					818,
 					20,
 					48,
 					43,
@@ -1199,6 +1199,57 @@
 			ABEBF724123DD9A500ECE66C /* PBXTextBookmark */ = ABEBF724123DD9A500ECE66C /* PBXTextBookmark */;
 			ABEBF728123DD9FE00ECE66C /* PBXTextBookmark */ = ABEBF728123DD9FE00ECE66C /* PBXTextBookmark */;
 			ABEBF72C123DDA6F00ECE66C /* PBXTextBookmark */ = ABEBF72C123DDA6F00ECE66C /* PBXTextBookmark */;
+			ABEBF732123DDBE700ECE66C /* PBXTextBookmark */ = ABEBF732123DDBE700ECE66C /* PBXTextBookmark */;
+			ABEBF733123DDBE700ECE66C /* PBXTextBookmark */ = ABEBF733123DDBE700ECE66C /* PBXTextBookmark */;
+			ABEBF737123DDC6A00ECE66C /* PBXTextBookmark */ = ABEBF737123DDC6A00ECE66C /* PBXTextBookmark */;
+			ABEBF73C123E146000ECE66C /* PBXTextBookmark */ = ABEBF73C123E146000ECE66C /* PBXTextBookmark */;
+			ABEBF73D123E146000ECE66C /* PBXTextBookmark */ = ABEBF73D123E146000ECE66C /* PBXTextBookmark */;
+			ABEBF73E123E146000ECE66C /* PBXTextBookmark */ = ABEBF73E123E146000ECE66C /* PBXTextBookmark */;
+			ABEBF73F123E146000ECE66C /* PBXTextBookmark */ = ABEBF73F123E146000ECE66C /* PBXTextBookmark */;
+			ABEBF744123E155100ECE66C /* PBXTextBookmark */ = ABEBF744123E155100ECE66C /* PBXTextBookmark */;
+			ABEBF749123E158000ECE66C /* PBXTextBookmark */ = ABEBF749123E158000ECE66C /* PBXTextBookmark */;
+			ABEBF74A123E158200ECE66C /* PBXTextBookmark */ = ABEBF74A123E158200ECE66C /* PBXTextBookmark */;
+			ABEBF74D123E15A700ECE66C /* PBXTextBookmark */ = ABEBF74D123E15A700ECE66C /* PBXTextBookmark */;
+			ABEBF74E123E15A700ECE66C /* PBXTextBookmark */ = ABEBF74E123E15A700ECE66C /* PBXTextBookmark */;
+			ABEBF74F123E15A700ECE66C /* PBXTextBookmark */ = ABEBF74F123E15A700ECE66C /* PBXTextBookmark */;
+			ABEBF750123E15A700ECE66C /* PBXTextBookmark */ = ABEBF750123E15A700ECE66C /* PBXTextBookmark */;
+			ABEBF751123E15A700ECE66C /* PBXTextBookmark */ = ABEBF751123E15A700ECE66C /* PBXTextBookmark */;
+			ABEBF755123E164A00ECE66C /* PBXTextBookmark */ = ABEBF755123E164A00ECE66C /* PBXTextBookmark */;
+			ABEBF758123E16FC00ECE66C /* PBXTextBookmark */ = ABEBF758123E16FC00ECE66C /* PBXTextBookmark */;
+			ABEBF759123E16FC00ECE66C /* PBXTextBookmark */ = ABEBF759123E16FC00ECE66C /* PBXTextBookmark */;
+			ABEBF75A123E16FC00ECE66C /* PBXTextBookmark */ = ABEBF75A123E16FC00ECE66C /* PBXTextBookmark */;
+			ABEBF75F123E17F000ECE66C /* PBXTextBookmark */ = ABEBF75F123E17F000ECE66C /* PBXTextBookmark */;
+			ABEBF764123E181B00ECE66C /* PBXTextBookmark */ = ABEBF764123E181B00ECE66C /* PBXTextBookmark */;
+			ABEBF76E123E1AA700ECE66C /* PBXTextBookmark */ = ABEBF76E123E1AA700ECE66C /* PBXTextBookmark */;
+			ABEBF76F123E1AA700ECE66C /* PBXTextBookmark */ = ABEBF76F123E1AA700ECE66C /* PBXTextBookmark */;
+			ABEBF770123E1AA700ECE66C /* PBXTextBookmark */ = ABEBF770123E1AA700ECE66C /* PBXTextBookmark */;
+			ABEBF771123E1AA700ECE66C /* PBXTextBookmark */ = ABEBF771123E1AA700ECE66C /* PBXTextBookmark */;
+			ABEBF772123E1AA700ECE66C /* PBXTextBookmark */ = ABEBF772123E1AA700ECE66C /* PBXTextBookmark */;
+			ABEBF773123E1AA700ECE66C /* PBXTextBookmark */ = ABEBF773123E1AA700ECE66C /* PBXTextBookmark */;
+			ABEBF776123E1AB100ECE66C /* PBXTextBookmark */ = ABEBF776123E1AB100ECE66C /* PBXTextBookmark */;
+			ABEBF777123E1AB100ECE66C /* XCBuildMessageTextBookmark */ = ABEBF777123E1AB100ECE66C /* XCBuildMessageTextBookmark */;
+			ABEBF778123E1AB100ECE66C /* PBXTextBookmark */ = ABEBF778123E1AB100ECE66C /* PBXTextBookmark */;
+			ABEBF77B123E1AC300ECE66C /* PBXTextBookmark */ = ABEBF77B123E1AC300ECE66C /* PBXTextBookmark */;
+			ABEBF77D123E1AD200ECE66C /* PBXTextBookmark */ = ABEBF77D123E1AD200ECE66C /* PBXTextBookmark */;
+			ABEBF781123E1B1900ECE66C /* PBXTextBookmark */ = ABEBF781123E1B1900ECE66C /* PBXTextBookmark */;
+			ABEBF784123E1B4000ECE66C /* PBXTextBookmark */ = ABEBF784123E1B4000ECE66C /* PBXTextBookmark */;
+			ABEBF785123E1B4000ECE66C /* PBXTextBookmark */ = ABEBF785123E1B4000ECE66C /* PBXTextBookmark */;
+			ABEBF786123E1B4000ECE66C /* PBXTextBookmark */ = ABEBF786123E1B4000ECE66C /* PBXTextBookmark */;
+			ABEBF787123E1B4000ECE66C /* PBXTextBookmark */ = ABEBF787123E1B4000ECE66C /* PBXTextBookmark */;
+			ABEBF78B123E1B8300ECE66C /* PBXTextBookmark */ = ABEBF78B123E1B8300ECE66C /* PBXTextBookmark */;
+			ABEBF790123E1D4E00ECE66C /* PBXTextBookmark */ = ABEBF790123E1D4E00ECE66C /* PBXTextBookmark */;
+			ABEBF791123E1D4E00ECE66C /* PBXTextBookmark */ = ABEBF791123E1D4E00ECE66C /* PBXTextBookmark */;
+			ABEBF792123E1D4E00ECE66C /* PBXTextBookmark */ = ABEBF792123E1D4E00ECE66C /* PBXTextBookmark */;
+			ABEBF795123E1D8F00ECE66C /* PBXTextBookmark */ = ABEBF795123E1D8F00ECE66C /* PBXTextBookmark */;
+			ABEBF79A123E1DFB00ECE66C /* PBXTextBookmark */ = ABEBF79A123E1DFB00ECE66C /* PBXTextBookmark */;
+			ABEBF79D123E1EC400ECE66C /* PBXTextBookmark */ = ABEBF79D123E1EC400ECE66C /* PBXTextBookmark */;
+			ABEBF79F123E1F6500ECE66C /* PBXTextBookmark */ = ABEBF79F123E1F6500ECE66C /* PBXTextBookmark */;
+			ABEBF7A2123E1F9D00ECE66C /* PBXTextBookmark */ = ABEBF7A2123E1F9D00ECE66C /* PBXTextBookmark */;
+			ABEBF7A6123E20B900ECE66C /* PBXTextBookmark */ = ABEBF7A6123E20B900ECE66C /* PBXTextBookmark */;
+			ABEBF7A7123E20B900ECE66C /* PBXTextBookmark */ = ABEBF7A7123E20B900ECE66C /* PBXTextBookmark */;
+			ABEBF7A8123E20B900ECE66C /* PBXTextBookmark */ = ABEBF7A8123E20B900ECE66C /* PBXTextBookmark */;
+			ABEBF7AC123E210E00ECE66C /* PBXTextBookmark */ = ABEBF7AC123E210E00ECE66C /* PBXTextBookmark */;
+			ABEBF7AD123E210E00ECE66C /* PBXTextBookmark */ = ABEBF7AD123E210E00ECE66C /* PBXTextBookmark */;
 			ABECD180121E500200D82466 = ABECD180121E500200D82466 /* PBXTextBookmark */;
 			ABECD185121E500200D82466 = ABECD185121E500200D82466 /* PBXTextBookmark */;
 			ABECD186121E500200D82466 = ABECD186121E500200D82466 /* PBXTextBookmark */;
@@ -1235,16 +1286,16 @@
 	};
 	2B3D11AF0F4361940067FD3A /* LoginViewController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1025, 351}}";
+			sepNavIntBoundsRect = "{{0, 0}, {953, 492}}";
 			sepNavSelRange = "{442, 0}";
-			sepNavVisRange = "{146, 397}";
+			sepNavVisRange = "{0, 543}";
 		};
 	};
 	2B3D11B00F4361940067FD3A /* LoginViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1025, 1157}}";
-			sepNavSelRange = "{730, 0}";
-			sepNavVisRange = "{1686, 748}";
+			sepNavIntBoundsRect = "{{0, 0}, {996, 1144}}";
+			sepNavSelRange = "{1180, 54}";
+			sepNavVisRange = "{498, 1742}";
 			sepNavWindowFrame = "{{61, 101}, {1653, 1030}}";
 		};
 	};
@@ -1293,16 +1344,16 @@
 	};
 	2B3D14600F45EBAA0067FD3A /* GamePickerViewController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1017, 377}}";
+			sepNavIntBoundsRect = "{{0, 0}, {953, 492}}";
 			sepNavSelRange = "{609, 0}";
-			sepNavVisRange = "{154, 461}";
+			sepNavVisRange = "{0, 615}";
 		};
 	};
 	2B3D14610F45EBAA0067FD3A /* GamePickerViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1055, 2951}}";
-			sepNavSelRange = "{7598, 0}";
-			sepNavVisRange = "{7030, 955}";
+			sepNavIntBoundsRect = "{{0, 0}, {1055, 3042}}";
+			sepNavSelRange = "{3984, 0}";
+			sepNavVisRange = "{0, 1265}";
 		};
 	};
 	2B3D17050F49C99B0067FD3A /* Game.h */ = {
@@ -1356,17 +1407,17 @@
 	};
 	A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {902, 611}}";
-			sepNavSelRange = "{752, 70}";
-			sepNavVisRange = "{40, 1357}";
+			sepNavIntBoundsRect = "{{0, 0}, {953, 492}}";
+			sepNavSelRange = "{488, 0}";
+			sepNavVisRange = "{0, 725}";
 			sepNavWindowFrame = "{{0, 33}, {1440, 845}}";
 		};
 	};
 	A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1274, 2561}}";
-			sepNavSelRange = "{2037, 0}";
-			sepNavVisRange = "{698, 1519}";
+			sepNavIntBoundsRect = "{{0, 0}, {1188, 1534}}";
+			sepNavSelRange = "{2909, 0}";
+			sepNavVisRange = "{1739, 1517}";
 		};
 	};
 	A722CB5A0FBDFEA6009432DB /* NearbyObjectProtocol.h */ = {
@@ -1562,9 +1613,9 @@
 	};
 	AB0A5BA4120365420065CE68 /* en */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {902, 1612}}";
-			sepNavSelRange = "{578, 0}";
-			sepNavVisRange = "{0, 644}";
+			sepNavIntBoundsRect = "{{0, 0}, {953, 1612}}";
+			sepNavSelRange = "{3562, 1}";
+			sepNavVisRange = "{2901, 1189}";
 		};
 	};
 	AB0A5BA61203665C0065CE68 /* es */ = {
@@ -1861,8 +1912,8 @@
 		isa = PBXTextBookmark;
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 57";
-		rLen = 46;
-		rLoc = 2020;
+		rLen = 0;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 1588;
 		vrLoc = 2748;
@@ -6413,7 +6464,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 342";
 		rLen = 0;
-		rLoc = 14806;
+		rLoc = 14837;
 		rType = 0;
 		vrLen = 2163;
 		vrLoc = 5450;
@@ -6647,7 +6698,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 342";
 		rLen = 0;
-		rLoc = 14806;
+		rLoc = 14837;
 		rType = 0;
 		vrLen = 1019;
 		vrLoc = 6594;
@@ -6687,7 +6738,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 342";
 		rLen = 0;
-		rLoc = 14806;
+		rLoc = 14837;
 		rType = 0;
 		vrLen = 966;
 		vrLoc = 13666;
@@ -7304,7 +7355,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 290";
 		rLen = 88;
-		rLoc = 12860;
+		rLoc = 12891;
 		rType = 0;
 		vrLen = 1505;
 		vrLoc = 11357;
@@ -7344,7 +7395,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 290";
 		rLen = 88;
-		rLoc = 12860;
+		rLoc = 12891;
 		rType = 0;
 		vrLen = 1707;
 		vrLoc = 11845;
@@ -7354,7 +7405,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 290";
 		rLen = 88;
-		rLoc = 12860;
+		rLoc = 12891;
 		rType = 0;
 		vrLen = 1707;
 		vrLoc = 11845;
@@ -7364,7 +7415,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 290";
 		rLen = 88;
-		rLoc = 12860;
+		rLoc = 12891;
 		rType = 0;
 		vrLen = 1707;
 		vrLoc = 11845;
@@ -7394,7 +7445,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 293";
 		rLen = 0;
-		rLoc = 13030;
+		rLoc = 13061;
 		rType = 0;
 		vrLen = 1652;
 		vrLoc = 11845;
@@ -7451,7 +7502,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 293";
 		rLen = 0;
-		rLoc = 13030;
+		rLoc = 13061;
 		rType = 0;
 		vrLen = 1652;
 		vrLoc = 11845;
@@ -7461,7 +7512,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 386";
 		rLen = 0;
-		rLoc = 16304;
+		rLoc = 16335;
 		rType = 0;
 		vrLen = 1456;
 		vrLoc = 14417;
@@ -7471,7 +7522,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 386";
 		rLen = 0;
-		rLoc = 16304;
+		rLoc = 16335;
 		rType = 0;
 		vrLen = 1456;
 		vrLoc = 14417;
@@ -7521,7 +7572,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 386";
 		rLen = 0;
-		rLoc = 16304;
+		rLoc = 16335;
 		rType = 0;
 		vrLen = 712;
 		vrLoc = 15019;
@@ -7531,7 +7582,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 300";
 		rLen = 0;
-		rLoc = 13269;
+		rLoc = 13300;
 		rType = 0;
 		vrLen = 1606;
 		vrLoc = 11789;
@@ -7581,7 +7632,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 299";
 		rLen = 26;
-		rLoc = 13187;
+		rLoc = 13218;
 		rType = 0;
 		vrLen = 1536;
 		vrLoc = 12205;
@@ -7591,7 +7642,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 299";
 		rLen = 26;
-		rLoc = 13187;
+		rLoc = 13218;
 		rType = 0;
 		vrLen = 1605;
 		vrLoc = 12355;
@@ -7611,7 +7662,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 299";
 		rLen = 0;
-		rLoc = 13214;
+		rLoc = 13245;
 		rType = 0;
 		vrLen = 1637;
 		vrLoc = 12354;
@@ -7631,7 +7682,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 303";
 		rLen = 0;
-		rLoc = 13332;
+		rLoc = 13363;
 		rType = 0;
 		vrLen = 906;
 		vrLoc = 12194;
@@ -7868,7 +7919,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 342";
 		rLen = 0;
-		rLoc = 14806;
+		rLoc = 14837;
 		rType = 0;
 		vrLen = 966;
 		vrLoc = 13666;
@@ -7878,7 +7929,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 376";
 		rLen = 0;
-		rLoc = 15815;
+		rLoc = 15846;
 		rType = 0;
 		vrLen = 1208;
 		vrLoc = 14294;
@@ -8282,9 +8333,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 43;
-		modificationTime = 306043499.0623;
+		modificationTime = 306061498.894155;
 		originalNumberOfMultipleMatches = 1;
-		state = 1;
+		state = 0;
 	};
 	ABC399B0116B9209002185D4 /* AudioMeterViewController.m:21 */ = {
 		isa = PBXFileBreakpoint;
@@ -8299,9 +8350,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 21;
-		modificationTime = 306043499.062266;
+		modificationTime = 306061498.894205;
 		originalNumberOfMultipleMatches = 1;
-		state = 1;
+		state = 0;
 	};
 	ABC399CD116B9EBC002185D4 /* AudioMeter.h */ = {
 		uiCtxt = {
@@ -8372,9 +8423,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 78;
-		modificationTime = 306043499.062238;
+		modificationTime = 306061498.894217;
 		originalNumberOfMultipleMatches = 1;
-		state = 1;
+		state = 0;
 	};
 	ABC39B22116BD28F002185D4 /* TitleAndDecriptionFormViewController.h */ = {
 		uiCtxt = {
@@ -8471,7 +8522,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 34;
-		modificationTime = 306043499.062284;
+		modificationTime = 306061498.894103;
 		originalNumberOfMultipleMatches = 1;
 		state = 0;
 	};
@@ -8584,7 +8635,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 303";
 		rLen = 0;
-		rLoc = 13332;
+		rLoc = 13363;
 		rType = 0;
 		vrLen = 989;
 		vrLoc = 12191;
@@ -8605,7 +8656,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		fallbackIsa = XCBuildMessageTextBookmark;
 		rLen = 0;
-		rLoc = 57;
+		rLoc = 49;
 		rType = 1;
 	};
 	ABEBF503123D7FDB00ECE66C /* PBXTextBookmark */ = {
@@ -8613,7 +8664,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 65";
 		rLen = 0;
-		rLoc = 2066;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 1293;
 		vrLoc = 987;
@@ -8623,7 +8674,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 303";
 		rLen = 0;
-		rLoc = 13332;
+		rLoc = 13363;
 		rType = 0;
 		vrLen = 989;
 		vrLoc = 12191;
@@ -8634,7 +8685,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		fallbackIsa = XCBuildMessageTextBookmark;
 		rLen = 0;
-		rLoc = 57;
+		rLoc = 49;
 		rType = 1;
 	};
 	ABEBF50D123D807800ECE66C /* PBXTextBookmark */ = {
@@ -8642,7 +8693,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 82";
 		rLen = 0;
-		rLoc = 2135;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 527;
 		vrLoc = 1989;
@@ -8662,7 +8713,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 27";
 		rLen = 0;
-		rLoc = 821;
+		rLoc = 488;
 		rType = 0;
 		vrLen = 767;
 		vrLoc = 405;
@@ -8672,7 +8723,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 23";
 		rLen = 19;
-		rLoc = 693;
+		rLoc = 461;
 		rType = 0;
 		vrLen = 737;
 		vrLoc = 435;
@@ -8682,7 +8733,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 82";
 		rLen = 0;
-		rLoc = 2135;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 527;
 		vrLoc = 1989;
@@ -8692,7 +8743,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 23";
 		rLen = 19;
-		rLoc = 693;
+		rLoc = 461;
 		rType = 0;
 		vrLen = 737;
 		vrLoc = 435;
@@ -8702,7 +8753,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 82";
 		rLen = 0;
-		rLoc = 2135;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 481;
 		vrLoc = 2037;
@@ -8712,7 +8763,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 23";
 		rLen = 19;
-		rLoc = 693;
+		rLoc = 461;
 		rType = 0;
 		vrLen = 737;
 		vrLoc = 435;
@@ -8722,7 +8773,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 65";
 		rLen = 0;
-		rLoc = 2066;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 1213;
 		vrLoc = 987;
@@ -8732,7 +8783,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 105";
 		rLen = 0;
-		rLoc = 2748;
+		rLoc = 1972;
 		rType = 0;
 		vrLen = 1186;
 		vrLoc = 3069;
@@ -8752,7 +8803,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 16";
 		rLen = 0;
-		rLoc = 477;
+		rLoc = 345;
 		rType = 0;
 		vrLen = 639;
 		vrLoc = 0;
@@ -8812,7 +8863,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 93";
 		rLen = 0;
-		rLoc = 2301;
+		rLoc = 1739;
 		rType = 0;
 		vrLen = 880;
 		vrLoc = 2458;
@@ -8832,7 +8883,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 55";
 		rLen = 0;
-		rLoc = 2006;
+		rLoc = 1417;
 		rType = 0;
 		vrLen = 1196;
 		vrLoc = 1477;
@@ -8852,7 +8903,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 69";
 		rLen = 0;
-		rLoc = 2066;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 989;
 		vrLoc = 1857;
@@ -8872,7 +8923,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 58";
 		rLen = 0;
-		rLoc = 2036;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 946;
 		vrLoc = 1908;
@@ -8893,7 +8944,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		fallbackIsa = XCBuildMessageTextBookmark;
 		rLen = 0;
-		rLoc = 57;
+		rLoc = 49;
 		rType = 1;
 	};
 	ABEBF547123D8E8900ECE66C /* PBXTextBookmark */ = {
@@ -8901,7 +8952,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 61";
 		rLen = 0;
-		rLoc = 2066;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 1262;
 		vrLoc = 1414;
@@ -8921,7 +8972,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 16";
 		rLen = 0;
-		rLoc = 477;
+		rLoc = 345;
 		rType = 0;
 		vrLen = 468;
 		vrLoc = 171;
@@ -8931,7 +8982,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 15";
 		rLen = 0;
-		rLoc = 378;
+		rLoc = 345;
 		rType = 0;
 		vrLen = 429;
 		vrLoc = 171;
@@ -8942,7 +8993,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		fallbackIsa = XCBuildMessageTextBookmark;
 		rLen = 0;
-		rLoc = 57;
+		rLoc = 49;
 		rType = 1;
 	};
 	ABEBF54D123D8E8A00ECE66C /* PBXTextBookmark */ = {
@@ -8950,7 +9001,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 61";
 		rLen = 0;
-		rLoc = 2066;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 1655;
 		vrLoc = 987;
@@ -8960,7 +9011,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 16";
 		rLen = 0;
-		rLoc = 308;
+		rLoc = 279;
 		rType = 0;
 		vrLen = 1188;
 		vrLoc = 138;
@@ -8970,7 +9021,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 15";
 		rLen = 0;
-		rLoc = 378;
+		rLoc = 345;
 		rType = 0;
 		vrLen = 429;
 		vrLoc = 171;
@@ -8980,7 +9031,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 16";
 		rLen = 0;
-		rLoc = 308;
+		rLoc = 279;
 		rType = 0;
 		vrLen = 1136;
 		vrLoc = 209;
@@ -8990,7 +9041,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 15";
 		rLen = 0;
-		rLoc = 378;
+		rLoc = 345;
 		rType = 0;
 		vrLen = 429;
 		vrLoc = 171;
@@ -9054,7 +9105,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 84";
 		rLen = 0;
-		rLoc = 2135;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 381;
 		vrLoc = 2635;
@@ -9128,7 +9179,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 34";
 		rLen = 0;
-		rLoc = 1091;
+		rLoc = 611;
 		rType = 0;
 		vrLen = 1071;
 		vrLoc = 195;
@@ -9258,7 +9309,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 31";
 		rLen = 0;
-		rLoc = 802;
+		rLoc = 488;
 		rType = 0;
 		vrLen = 917;
 		vrLoc = 480;
@@ -9278,7 +9329,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 71";
 		rLen = 0;
-		rLoc = 2135;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 575;
 		vrLoc = 2114;
@@ -9288,8 +9339,8 @@
 		comments = "Expected ';' before 'initWithMessage'";
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		fallbackIsa = XCBuildMessageTextBookmark;
-		rLen = 1;
-		rLoc = 57;
+		rLen = 0;
+		rLoc = 49;
 		rType = 1;
 	};
 	ABEBF597123D96E400ECE66C /* PBXTextBookmark */ = {
@@ -9297,7 +9348,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 57";
 		rLen = 0;
-		rLoc = 2036;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 1579;
 		vrLoc = 698;
@@ -9317,7 +9368,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 26";
 		rLen = 0;
-		rLoc = 541;
+		rLoc = 392;
 		rType = 0;
 		vrLen = 1777;
 		vrLoc = 358;
@@ -9477,7 +9528,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 26";
 		rLen = 0;
-		rLoc = 541;
+		rLoc = 392;
 		rType = 0;
 		vrLen = 1776;
 		vrLoc = 358;
@@ -9487,7 +9538,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 65";
 		rLen = 0;
-		rLoc = 2135;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 1723;
 		vrLoc = 772;
@@ -9497,7 +9548,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 58";
 		rLen = 0;
-		rLoc = 2036;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 1580;
 		vrLoc = 698;
@@ -9517,7 +9568,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 31";
 		rLen = 0;
-		rLoc = 802;
+		rLoc = 488;
 		rType = 0;
 		vrLen = 1397;
 		vrLoc = 0;
@@ -9527,7 +9578,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 57";
 		rLen = 0;
-		rLoc = 2035;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 1723;
 		vrLoc = 772;
@@ -9537,7 +9588,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 57";
 		rLen = 0;
-		rLoc = 2035;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 1723;
 		vrLoc = 772;
@@ -9557,7 +9608,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 76";
 		rLen = 0;
-		rLoc = 2275;
+		rLoc = 1739;
 		rType = 0;
 		vrLen = 1644;
 		vrLoc = 1569;
@@ -9567,7 +9618,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 76";
 		rLen = 0;
-		rLoc = 2275;
+		rLoc = 1739;
 		rType = 0;
 		vrLen = 1644;
 		vrLoc = 1569;
@@ -9577,7 +9628,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 58";
 		rLen = 0;
-		rLoc = 2036;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 1209;
 		vrLoc = 930;
@@ -9597,7 +9648,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 63";
 		rLen = 0;
-		rLoc = 2135;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 1616;
 		vrLoc = 1569;
@@ -9657,7 +9708,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 188";
 		rLen = 0;
-		rLoc = 6040;
+		rLoc = 3467;
 		rType = 0;
 		vrLen = 1739;
 		vrLoc = 621;
@@ -9747,7 +9798,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 31";
 		rLen = 0;
-		rLoc = 802;
+		rLoc = 488;
 		rType = 0;
 		vrLen = 1148;
 		vrLoc = 249;
@@ -9757,7 +9808,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 188";
 		rLen = 0;
-		rLoc = 6040;
+		rLoc = 3467;
 		rType = 0;
 		vrLen = 1037;
 		vrLoc = 1323;
@@ -9767,7 +9818,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 59";
 		rLen = 0;
-		rLoc = 2036;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 970;
 		vrLoc = 5124;
@@ -9777,7 +9828,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 59";
 		rLen = 0;
-		rLoc = 2036;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 1516;
 		vrLoc = 698;
@@ -9787,7 +9838,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 59";
 		rLen = 0;
-		rLoc = 2036;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 1516;
 		vrLoc = 698;
@@ -9797,7 +9848,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 59";
 		rLen = 0;
-		rLoc = 2036;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 1516;
 		vrLoc = 698;
@@ -9817,7 +9868,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 59";
 		rLen = 0;
-		rLoc = 2036;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 970;
 		vrLoc = 5124;
@@ -9907,7 +9958,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 59";
 		rLen = 0;
-		rLoc = 2036;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 1516;
 		vrLoc = 698;
@@ -9957,7 +10008,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 59";
 		rLen = 0;
-		rLoc = 2036;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 965;
 		vrLoc = 5124;
@@ -9967,7 +10018,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 33";
 		rLen = 0;
-		rLoc = 895;
+		rLoc = 623;
 		rType = 0;
 		vrLen = 1599;
 		vrLoc = 380;
@@ -10007,7 +10058,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 33";
 		rLen = 0;
-		rLoc = 895;
+		rLoc = 623;
 		rType = 0;
 		vrLen = 1059;
 		vrLoc = 380;
@@ -10027,7 +10078,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 32";
 		rLen = 0;
-		rLoc = 895;
+		rLoc = 623;
 		rType = 0;
 		vrLen = 1109;
 		vrLoc = 333;
@@ -10047,7 +10098,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 26";
 		rLen = 0;
-		rLoc = 547;
+		rLoc = 398;
 		rType = 0;
 		vrLen = 773;
 		vrLoc = 209;
@@ -10067,7 +10118,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 26";
 		rLen = 0;
-		rLoc = 547;
+		rLoc = 398;
 		rType = 0;
 		vrLen = 773;
 		vrLoc = 209;
@@ -10077,7 +10128,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 58";
 		rLen = 0;
-		rLoc = 2037;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 1514;
 		vrLoc = 698;
@@ -10097,7 +10148,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 27";
 		rLen = 0;
-		rLoc = 736;
+		rLoc = 482;
 		rType = 0;
 		vrLen = 1225;
 		vrLoc = 167;
@@ -10107,7 +10158,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 34";
 		rLen = 89;
-		rLoc = 896;
+		rLoc = 624;
 		rType = 0;
 		vrLen = 1488;
 		vrLoc = 230;
@@ -10117,7 +10168,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 32";
 		rLen = 0;
-		rLoc = 851;
+		rLoc = 623;
 		rType = 0;
 		vrLen = 1417;
 		vrLoc = 3;
@@ -10127,7 +10178,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 32";
 		rLen = 0;
-		rLoc = 851;
+		rLoc = 623;
 		rType = 0;
 		vrLen = 339;
 		vrLoc = 621;
@@ -10137,7 +10188,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 32";
 		rLen = 0;
-		rLoc = 872;
+		rLoc = 623;
 		rType = 0;
 		vrLen = 391;
 		vrLoc = 230;
@@ -10147,7 +10198,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 34";
 		rLen = 0;
-		rLoc = 935;
+		rLoc = 663;
 		rType = 0;
 		vrLen = 358;
 		vrLoc = 621;
@@ -10177,7 +10228,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 58";
 		rLen = 0;
-		rLoc = 2037;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 1511;
 		vrLoc = 698;
@@ -10187,7 +10238,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 28";
 		rLen = 0;
-		rLoc = 620;
+		rLoc = 471;
 		rType = 0;
 		vrLen = 1769;
 		vrLoc = 231;
@@ -10207,7 +10258,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 46";
 		rLen = 0;
-		rLoc = 1488;
+		rLoc = 1065;
 		rType = 0;
 		vrLen = 1728;
 		vrLoc = 402;
@@ -10257,7 +10308,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 32";
 		rLen = 0;
-		rLoc = 843;
+		rLoc = 623;
 		rType = 0;
 		vrLen = 1735;
 		vrLoc = 402;
@@ -10326,8 +10377,8 @@
 		isa = PBXTextBookmark;
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 31";
-		rLen = 70;
-		rLoc = 752;
+		rLen = 0;
+		rLoc = 488;
 		rType = 0;
 		vrLen = 1357;
 		vrLoc = 40;
@@ -10336,8 +10387,8 @@
 		isa = PBXTextBookmark;
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 58";
-		rLen = 31;
-		rLoc = 2036;
+		rLen = 0;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 1442;
 		vrLoc = 1137;
@@ -10417,7 +10468,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 303";
 		rLen = 0;
-		rLoc = 13332;
+		rLoc = 13363;
 		rType = 0;
 		vrLen = 1752;
 		vrLoc = 11853;
@@ -10427,7 +10478,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 303";
 		rLen = 0;
-		rLoc = 13332;
+		rLoc = 13363;
 		rType = 0;
 		vrLen = 1752;
 		vrLoc = 11853;
@@ -10447,7 +10498,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 58";
 		rLen = 0;
-		rLoc = 2037;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 1518;
 		vrLoc = 698;
@@ -10467,7 +10518,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 301";
 		rLen = 0;
-		rLoc = 13271;
+		rLoc = 13302;
 		rType = 0;
 		vrLen = 1067;
 		vrLoc = 12556;
@@ -10477,7 +10528,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 234";
 		rLen = 34;
-		rLoc = 10518;
+		rLoc = 10549;
 		rType = 0;
 		vrLen = 852;
 		vrLoc = 10199;
@@ -10537,7 +10588,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 234";
 		rLen = 34;
-		rLoc = 10518;
+		rLoc = 10549;
 		rType = 0;
 		vrLen = 855;
 		vrLoc = 12466;
@@ -10557,7 +10608,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 234";
 		rLen = 34;
-		rLoc = 10518;
+		rLoc = 10549;
 		rType = 0;
 		vrLen = 864;
 		vrLoc = 12489;
@@ -10577,7 +10628,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 234";
 		rLen = 34;
-		rLoc = 10518;
+		rLoc = 10549;
 		rType = 0;
 		vrLen = 886;
 		vrLoc = 12384;
@@ -10627,7 +10678,7 @@
 		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
 		name = "SelfRegistrationViewController.m: 58";
 		rLen = 0;
-		rLoc = 2037;
+		rLoc = 1418;
 		rType = 0;
 		vrLen = 1519;
 		vrLoc = 698;
@@ -10638,7 +10689,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		fallbackIsa = XCBuildMessageTextBookmark;
 		rLen = 1;
-		rLoc = 310;
+		rLoc = 309;
 		rType = 1;
 	};
 	ABEBF694123DC66900ECE66C /* PBXTextBookmark */ = {
@@ -10646,7 +10697,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 312";
 		rLen = 0;
-		rLoc = 13163;
+		rLoc = 13194;
 		rType = 0;
 		vrLen = 1349;
 		vrLoc = 12384;
@@ -10656,7 +10707,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 234";
 		rLen = 34;
-		rLoc = 10518;
+		rLoc = 10549;
 		rType = 0;
 		vrLen = 886;
 		vrLoc = 12384;
@@ -10676,7 +10727,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 319";
 		rLen = 0;
-		rLoc = 13332;
+		rLoc = 13363;
 		rType = 0;
 		vrLen = 1307;
 		vrLoc = 12885;
@@ -10746,7 +10797,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 407";
 		rLen = 0;
-		rLoc = 16304;
+		rLoc = 16335;
 		rType = 0;
 		vrLen = 1304;
 		vrLoc = 14409;
@@ -10786,7 +10837,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 312";
 		rLen = 0;
-		rLoc = 13163;
+		rLoc = 13194;
 		rType = 0;
 		vrLen = 1349;
 		vrLoc = 12384;
@@ -10836,7 +10887,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 312";
 		rLen = 0;
-		rLoc = 13163;
+		rLoc = 13194;
 		rType = 0;
 		vrLen = 1349;
 		vrLoc = 12384;
@@ -10916,7 +10967,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 257";
 		rLen = 0;
-		rLoc = 11423;
+		rLoc = 11454;
 		rType = 0;
 		vrLen = 1308;
 		vrLoc = 10543;
@@ -10926,7 +10977,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 319";
 		rLen = 0;
-		rLoc = 13314;
+		rLoc = 13345;
 		rType = 0;
 		vrLen = 1127;
 		vrLoc = 12386;
@@ -10936,7 +10987,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 312";
 		rLen = 0;
-		rLoc = 13163;
+		rLoc = 13194;
 		rType = 0;
 		vrLen = 1355;
 		vrLoc = 12386;
@@ -10956,7 +11007,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 319";
 		rLen = 0;
-		rLoc = 13314;
+		rLoc = 13345;
 		rType = 0;
 		vrLen = 1236;
 		vrLoc = 12837;
@@ -10976,7 +11027,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 319";
 		rLen = 0;
-		rLoc = 13314;
+		rLoc = 13345;
 		rType = 0;
 		vrLen = 1236;
 		vrLoc = 12837;
@@ -11066,7 +11117,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 405";
 		rLen = 31;
-		rLoc = 16211;
+		rLoc = 16242;
 		rType = 0;
 		vrLen = 680;
 		vrLoc = 15719;
@@ -11340,6 +11391,515 @@
 		rType = 0;
 		vrLen = 955;
 		vrLoc = 7030;
+	};
+	ABEBF732123DDBE700ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D14610F45EBAA0067FD3A /* GamePickerViewController.m */;
+		name = "GamePickerViewController.m: 219";
+		rLen = 0;
+		rLoc = 7598;
+		rType = 0;
+		vrLen = 1122;
+		vrLoc = 3116;
+	};
+	ABEBF733123DDBE700ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D14610F45EBAA0067FD3A /* GamePickerViewController.m */;
+		name = "GamePickerViewController.m: 219";
+		rLen = 0;
+		rLoc = 7598;
+		rType = 0;
+		vrLen = 1098;
+		vrLoc = 3142;
+	};
+	ABEBF737123DDC6A00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D14610F45EBAA0067FD3A /* GamePickerViewController.m */;
+		name = "GamePickerViewController.m: 128";
+		rLen = 0;
+		rLoc = 3984;
+		rType = 0;
+		vrLen = 1098;
+		vrLoc = 3142;
+	};
+	ABEBF73C123E146000ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D14610F45EBAA0067FD3A /* GamePickerViewController.m */;
+		name = "GamePickerViewController.m: 128";
+		rLen = 0;
+		rLoc = 3984;
+		rType = 0;
+		vrLen = 1265;
+		vrLoc = 0;
+	};
+	ABEBF73D123E146000ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D14600F45EBAA0067FD3A /* GamePickerViewController.h */;
+		name = "GamePickerViewController.h: 27";
+		rLen = 0;
+		rLoc = 609;
+		rType = 0;
+		vrLen = 615;
+		vrLoc = 0;
+	};
+	ABEBF73E123E146000ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 400";
+		rLen = 52;
+		rLoc = 16039;
+		rType = 0;
+		vrLen = 1085;
+		vrLoc = 15624;
+	};
+	ABEBF73F123E146000ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB0A5BA4120365420065CE68 /* en */;
+		name = "Localizable.strings: 124";
+		rLen = 16;
+		rLoc = 4053;
+		rType = 0;
+		vrLen = 1189;
+		vrLoc = 2901;
+	};
+	ABEBF744123E155100ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB0A5BA4120365420065CE68 /* en */;
+		name = "Localizable.strings: 124";
+		rLen = 16;
+		rLoc = 4053;
+		rType = 0;
+		vrLen = 1189;
+		vrLoc = 2901;
+	};
+	ABEBF749123E158000ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 311";
+		rLen = 0;
+		rLoc = 13194;
+		rType = 0;
+		vrLen = 1420;
+		vrLoc = 12359;
+	};
+	ABEBF74A123E158200ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB0A5BA4120365420065CE68 /* en */;
+		name = "Localizable.strings: 124";
+		rLen = 16;
+		rLoc = 4053;
+		rType = 0;
+		vrLen = 1189;
+		vrLoc = 2901;
+	};
+	ABEBF74D123E15A700ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB0A5BA4120365420065CE68 /* en */;
+		name = "Localizable.strings: 108";
+		rLen = 1;
+		rLoc = 3562;
+		rType = 0;
+		vrLen = 1189;
+		vrLoc = 2901;
+	};
+	ABEBF74E123E15A700ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 31";
+		rLen = 0;
+		rLoc = 488;
+		rType = 0;
+		vrLen = 1277;
+		vrLoc = 40;
+	};
+	ABEBF74F123E15A700ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D11B00F4361940067FD3A /* LoginViewController.m */;
+		name = "LoginViewController.m: 78";
+		rLen = 0;
+		rLoc = 2411;
+		rType = 0;
+		vrLen = 1162;
+		vrLoc = 1442;
+	};
+	ABEBF750123E15A700ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 58";
+		rLen = 0;
+		rLoc = 1418;
+		rType = 0;
+		vrLen = 1165;
+		vrLoc = 1137;
+	};
+	ABEBF751123E15A700ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 58";
+		rLen = 0;
+		rLoc = 1418;
+		rType = 0;
+		vrLen = 1291;
+		vrLoc = 986;
+	};
+	ABEBF755123E164A00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 311";
+		rLen = 0;
+		rLoc = 13194;
+		rType = 0;
+		vrLen = 1420;
+		vrLoc = 12359;
+	};
+	ABEBF758123E16FC00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 33";
+		rLen = 0;
+		rLoc = 611;
+		rType = 0;
+		vrLen = 1153;
+		vrLoc = 52;
+	};
+	ABEBF759123E16FC00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 19";
+		rLen = 0;
+		rLoc = 323;
+		rType = 0;
+		vrLen = 1399;
+		vrLoc = 0;
+	};
+	ABEBF75A123E16FC00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 144";
+		rLen = 0;
+		rLoc = 3254;
+		rType = 0;
+		vrLen = 1145;
+		vrLoc = 3987;
+	};
+	ABEBF75F123E17F000ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 144";
+		rLen = 0;
+		rLoc = 3254;
+		rType = 0;
+		vrLen = 1345;
+		vrLoc = 2795;
+	};
+	ABEBF764123E181B00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 144";
+		rLen = 0;
+		rLoc = 3254;
+		rType = 0;
+		vrLen = 1317;
+		vrLoc = 2887;
+	};
+	ABEBF76E123E1AA700ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D11AF0F4361940067FD3A /* LoginViewController.h */;
+		name = "LoginViewController.h: 21";
+		rLen = 0;
+		rLoc = 442;
+		rType = 0;
+		vrLen = 543;
+		vrLoc = 0;
+	};
+	ABEBF76F123E1AA700ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D11B00F4361940067FD3A /* LoginViewController.m */;
+		name = "LoginViewController.m: 43";
+		rLen = 225;
+		rLoc = 1180;
+		rType = 0;
+		vrLen = 1125;
+		vrLoc = 561;
+	};
+	ABEBF770123E1AA700ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 24";
+		rLen = 0;
+		rLoc = 488;
+		rType = 0;
+		vrLen = 725;
+		vrLoc = 0;
+	};
+	ABEBF771123E1AA700ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 223";
+		rLen = 96;
+		rLoc = 10176;
+		rType = 0;
+		vrLen = 1321;
+		vrLoc = 9661;
+	};
+	ABEBF772123E1AA700ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 50";
+		rLen = 0;
+		rLoc = 1466;
+		rType = 0;
+		vrLen = 1800;
+		vrLoc = 623;
+	};
+	ABEBF773123E1AA700ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 75";
+		rLen = 0;
+		rLoc = 2483;
+		rType = 0;
+		vrLen = 1652;
+		vrLoc = 1217;
+	};
+	ABEBF776123E1AB100ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 311";
+		rLen = 0;
+		rLoc = 13194;
+		rType = 0;
+		vrLen = 1512;
+		vrLoc = 12359;
+	};
+	ABEBF777123E1AB100ECE66C /* XCBuildMessageTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "'waitingIndicator' undeclared (first use in this function)";
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		fallbackIsa = XCBuildMessageTextBookmark;
+		rLen = 1;
+		rLoc = 117;
+		rType = 1;
+	};
+	ABEBF778123E1AB100ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 105";
+		rLen = 0;
+		rLoc = 3467;
+		rType = 0;
+		vrLen = 1007;
+		vrLoc = 2465;
+	};
+	ABEBF77B123E1AC300ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 105";
+		rLen = 0;
+		rLoc = 3467;
+		rType = 0;
+		vrLen = 1007;
+		vrLoc = 2465;
+	};
+	ABEBF77D123E1AD200ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 75";
+		rLen = 0;
+		rLoc = 2483;
+		rType = 0;
+		vrLen = 1553;
+		vrLoc = 1400;
+	};
+	ABEBF781123E1B1900ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 105";
+		rLen = 0;
+		rLoc = 3467;
+		rType = 0;
+		vrLen = 1007;
+		vrLoc = 2465;
+	};
+	ABEBF784123E1B4000ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D11B00F4361940067FD3A /* LoginViewController.m */;
+		name = "LoginViewController.m: 43";
+		rLen = 54;
+		rLoc = 1180;
+		rType = 0;
+		vrLen = 1124;
+		vrLoc = 561;
+	};
+	ABEBF785123E1B4000ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
+		name = "SelfRegistrationViewController.h: 24";
+		rLen = 0;
+		rLoc = 488;
+		rType = 0;
+		vrLen = 725;
+		vrLoc = 0;
+	};
+	ABEBF786123E1B4000ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 75";
+		rLen = 0;
+		rLoc = 2483;
+		rType = 0;
+		vrLen = 1007;
+		vrLoc = 2458;
+	};
+	ABEBF787123E1B4000ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 30";
+		rLen = 0;
+		rLoc = 714;
+		rType = 0;
+		vrLen = 1244;
+		vrLoc = 138;
+	};
+	ABEBF78B123E1B8300ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 46";
+		rLen = 0;
+		rLoc = 1391;
+		rType = 0;
+		vrLen = 1406;
+		vrLoc = 472;
+	};
+	ABEBF790123E1D4E00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D11B00F4361940067FD3A /* LoginViewController.m */;
+		name = "LoginViewController.m: 43";
+		rLen = 54;
+		rLoc = 1180;
+		rType = 0;
+		vrLen = 1124;
+		vrLoc = 561;
+	};
+	ABEBF791123E1D4E00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 46";
+		rLen = 0;
+		rLoc = 1391;
+		rType = 0;
+		vrLen = 1429;
+		vrLoc = 1605;
+	};
+	ABEBF792123E1D4E00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 108";
+		rLen = 58;
+		rLoc = 3472;
+		rType = 0;
+		vrLen = 1347;
+		vrLoc = 2229;
+	};
+	ABEBF795123E1D8F00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 108";
+		rLen = 0;
+		rLoc = 3532;
+		rType = 0;
+		vrLen = 1447;
+		vrLoc = 1974;
+	};
+	ABEBF79A123E1DFB00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 107";
+		rLen = 0;
+		rLoc = 3467;
+		rType = 0;
+		vrLen = 1321;
+		vrLoc = 1739;
+	};
+	ABEBF79D123E1EC400ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 95";
+		rLen = 0;
+		rLoc = 3199;
+		rType = 0;
+		vrLen = 1685;
+		vrLoc = 1741;
+	};
+	ABEBF79F123E1F6500ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 90";
+		rLen = 0;
+		rLoc = 2909;
+		rType = 0;
+		vrLen = 1573;
+		vrLoc = 1680;
+	};
+	ABEBF7A2123E1F9D00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 90";
+		rLen = 0;
+		rLoc = 2909;
+		rType = 0;
+		vrLen = 1517;
+		vrLoc = 1739;
+	};
+	ABEBF7A6123E20B900ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 90";
+		rLen = 0;
+		rLoc = 2909;
+		rType = 0;
+		vrLen = 1517;
+		vrLoc = 1739;
+	};
+	ABEBF7A7123E20B900ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D11B00F4361940067FD3A /* LoginViewController.m */;
+		name = "LoginViewController.m: 43";
+		rLen = 54;
+		rLoc = 1180;
+		rType = 0;
+		vrLen = 1742;
+		vrLoc = 498;
+	};
+	ABEBF7A8123E20B900ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 227";
+		rLen = 0;
+		rLoc = 10399;
+		rType = 0;
+		vrLen = 1647;
+		vrLoc = 9632;
+	};
+	ABEBF7AC123E210E00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 227";
+		rLen = 0;
+		rLoc = 10399;
+		rType = 0;
+		vrLen = 1647;
+		vrLoc = 9632;
+	};
+	ABEBF7AD123E210E00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 220";
+		rLen = 0;
+		rLoc = 10173;
+		rType = 0;
+		vrLen = 1646;
+		vrLoc = 9632;
 	};
 	ABECD180121E500200D82466 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -11617,7 +12177,7 @@
 		fRef = A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */;
 		name = "SelfRegistrationViewController.h: 27";
 		rLen = 0;
-		rLoc = 821;
+		rLoc = 488;
 		rType = 0;
 		vrLen = 768;
 		vrLoc = 405;

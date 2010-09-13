@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="31"/>
+			<integer value="1"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -61,7 +61,7 @@
 					<object class="IBUIButton" id="988830135">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{61, 113}, {207, 38}}</string>
+						<string key="NSFrame">{{55, 113}, {210, 38}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -157,7 +157,7 @@
 					<object class="IBUITextField" id="881626414">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{29, 70}, {271, 31}}</string>
+						<string key="NSFrame">{{29, 63}, {271, 31}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -327,9 +327,9 @@
 							<reference ref="500603277"/>
 							<reference ref="708684874"/>
 							<reference ref="988830135"/>
-							<reference ref="881626414"/>
 							<reference ref="936918531"/>
 							<reference ref="24419821"/>
+							<reference ref="881626414"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
