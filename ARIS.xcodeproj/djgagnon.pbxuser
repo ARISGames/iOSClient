@@ -238,7 +238,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					778,
+					722,
 					60,
 					20,
 					48,
@@ -454,6 +454,9 @@
 			AB540FCE123EC829001BCF69 /* PBXTextBookmark */ = AB540FCE123EC829001BCF69 /* PBXTextBookmark */;
 			AB540FD2123EC84C001BCF69 /* PBXTextBookmark */ = AB540FD2123EC84C001BCF69 /* PBXTextBookmark */;
 			AB540FD3123EC84C001BCF69 /* PBXTextBookmark */ = AB540FD3123EC84C001BCF69 /* PBXTextBookmark */;
+			AB540FFB123ECCA2001BCF69 /* PBXTextBookmark */ = AB540FFB123ECCA2001BCF69 /* PBXTextBookmark */;
+			AB540FFC123ECCA2001BCF69 /* XCBuildMessageTextBookmark */ = AB540FFC123ECCA2001BCF69 /* XCBuildMessageTextBookmark */;
+			AB540FFD123ECCA2001BCF69 /* PBXTextBookmark */ = AB540FFD123ECCA2001BCF69 /* PBXTextBookmark */;
 			AB5BA535118CC60700E5FF00 = AB5BA535118CC60700E5FF00 /* PBXTextBookmark */;
 			AB5F5743116285F800506AAF = AB5F5743116285F800506AAF /* PBXTextBookmark */;
 			AB69AFF511CAC676005D63E6 = AB69AFF511CAC676005D63E6 /* PBXTextBookmark */;
@@ -684,9 +687,9 @@
 	};
 	2B3D18D50F4B25720067FD3A /* AppModel.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {943, 18512}}";
+			sepNavIntBoundsRect = "{{0, 0}, {943, 18746}}";
 			sepNavSelRange = "{28127, 0}";
-			sepNavVisRange = "{27716, 1054}";
+			sepNavVisRange = "{27615, 1311}";
 			sepNavWindowFrame = "{{26, 33}, {1168, 845}}";
 		};
 	};
@@ -740,9 +743,9 @@
 	};
 	A72C02160F7985FF00D00602 /* QRScannerViewController.mm */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1118, 2847}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1118, 2925}}";
 			sepNavSelRange = "{6468, 0}";
-			sepNavVisRange = "{5807, 1526}";
+			sepNavVisRange = "{6063, 1042}";
 			sepNavWindowFrame = "{{0, 33}, {1440, 845}}";
 		};
 	};
@@ -1445,16 +1448,16 @@
 	};
 	AB3E113D10486A5500A9034C /* JSONConnection.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {996, 649}}";
+			sepNavIntBoundsRect = "{{0, 0}, {940, 455}}";
 			sepNavSelRange = "{321, 0}";
-			sepNavVisRange = "{0, 884}";
+			sepNavVisRange = "{0, 734}";
 		};
 	};
 	AB3E113E10486A5500A9034C /* JSONConnection.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {996, 2262}}";
-			sepNavSelRange = "{2057, 0}";
-			sepNavVisRange = "{720, 1833}";
+			sepNavIntBoundsRect = "{{0, 0}, {908, 2288}}";
+			sepNavSelRange = "{1701, 0}";
+			sepNavVisRange = "{1298, 1401}";
 		};
 	};
 	AB3F4E6C10CCC17400E6C9D7 /* NearbyObjectARCoordinate.h */ = {
@@ -2900,7 +2903,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 1324";
 		rLen = 0;
-		rLoc = 50438;
+		rLoc = 50416;
 		rType = 0;
 		vrLen = 920;
 		vrLoc = 49522;
@@ -3014,6 +3017,35 @@
 		rType = 0;
 		vrLen = 1526;
 		vrLoc = 5807;
+	};
+	AB540FFB123ECCA2001BCF69 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = D42432621107735800E58147 /* DialogViewController.m */;
+		name = "DialogViewController.m: 712";
+		rLen = 0;
+		rLoc = 22405;
+		rType = 0;
+		vrLen = 1006;
+		vrLoc = 21969;
+	};
+	AB540FFC123ECCA2001BCF69 /* XCBuildMessageTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "Request for member 'networkNewActivityIndicatorVisible' in something not a structure or union";
+		fRef = AB3E113E10486A5500A9034C /* JSONConnection.m */;
+		fallbackIsa = XCBuildMessageTextBookmark;
+		rLen = 1;
+		rLoc = 58;
+		rType = 1;
+	};
+	AB540FFD123ECCA2001BCF69 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB3E113E10486A5500A9034C /* JSONConnection.m */;
+		name = "JSONConnection.m: 60";
+		rLen = 0;
+		rLoc = 1701;
+		rType = 0;
+		vrLen = 1401;
+		vrLoc = 1298;
 	};
 	AB549ED21047007B00A901EF /* JSON.h */ = {
 		uiCtxt = {
@@ -3521,7 +3553,7 @@
 	};
 	AB9A7C1510AA173F002FD9BC /* ARISURLConnection.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {777, 395}}";
+			sepNavIntBoundsRect = "{{0, 0}, {940, 355}}";
 			sepNavSelRange = "{96, 0}";
 			sepNavVisRange = "{0, 367}";
 		};
@@ -3628,7 +3660,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 43;
-		modificationTime = 306104393.84514;
+		modificationTime = 306105574.566129;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -3645,7 +3677,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 21;
-		modificationTime = 306104393.846097;
+		modificationTime = 306105574.56643;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -3698,7 +3730,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 78;
-		modificationTime = 306104393.846469;
+		modificationTime = 306105574.566725;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -3767,7 +3799,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 34;
-		modificationTime = 306104393.84571;
+		modificationTime = 306105574.565298;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -4274,7 +4306,7 @@
 		fRef = AB3E113E10486A5500A9034C /* JSONConnection.m */;
 		name = "JSONConnection.m: 67";
 		rLen = 0;
-		rLoc = 2057;
+		rLoc = 2063;
 		rType = 0;
 		vrLen = 1833;
 		vrLoc = 720;
@@ -4491,9 +4523,9 @@
 	};
 	D42432621107735800E58147 /* DialogViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {978, 9711}}";
-			sepNavSelRange = "{2279, 0}";
-			sepNavVisRange = "{1783, 637}";
+			sepNavIntBoundsRect = "{{0, 0}, {810, 9828}}";
+			sepNavSelRange = "{22405, 0}";
+			sepNavVisRange = "{21969, 1006}";
 			sepNavWindowFrame = "{{61, 88}, {726, 743}}";
 		};
 	};

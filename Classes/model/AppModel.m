@@ -1321,7 +1321,7 @@ static const int kEmptyValue = -1;
 }
 
 
--(NSObject<QRCodeProtocol> *)parseQRCodeObjectFromJSON: (JSONResult *)jsonResult {
+-(void)parseQRCodeObjectFromJSON: (JSONResult *)jsonResult {
 
 	NSDictionary *qrCodeObjectDictionary = jsonResult.data;
 	
@@ -1338,7 +1338,7 @@ static const int kEmptyValue = -1;
 	NSString *type = [qrCodeObjectDictionary valueForKey:@"type"];
 	NSLog(@"AppModel-parseQRCodeObjectFromDictionary: QRCode type is: %@",type);
 
-	NSObject<QRCodeProtocol> *qrCodeObject;
+	NSObject<QRCodeProtocol> *qrCodeObject = nil;
 	if ([type isEqualToString:@"Node"]) qrCodeObject = [self parseNodeFromDictionary:qrCodeObjectDictionary];
 	if ([type isEqualToString:@"Item"]) qrCodeObject = [self parseItemFromDictionary:qrCodeObjectDictionary];
 	if ([type isEqualToString:@"Npc"]) qrCodeObject = [self parseNpcFromDictionary:qrCodeObjectDictionary];

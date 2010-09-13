@@ -1529,7 +1529,7 @@
 				GCC_PREFIX_HEADER = ARIS_Prefix.pch;
 				HEADER_SEARCH_PATHS = "Classes/map/MapView/**";
 				INFOPLIST_FILE = Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(SRCROOT)/Classes/map/MapView/build/Debug-iphonesimulator\\\"",
@@ -1602,7 +1602,7 @@
 				GCC_PREFIX_HEADER = ARIS_Prefix.pch;
 				HEADER_SEARCH_PATHS = "Classes/map/MapView/**";
 				INFOPLIST_FILE = Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(SRCROOT)/Classes/map/MapView/build/Debug-iphonesimulator\\\"",
@@ -1654,7 +1654,7 @@
 				GCC_PREFIX_HEADER = ARIS_Prefix.pch;
 				HEADER_SEARCH_PATHS = "Classes/map/MapView/**";
 				INFOPLIST_FILE = Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\\\"$(SRCROOT)/Classes/map/MapView/build/Debug-iphonesimulator\\\"",
