@@ -682,19 +682,6 @@ static const int kEmptyValue = -1;
 }
 
 
--(NSObject<QRCodeProtocol> *)fetchQRCode:(NSString*)code{
-	NSLog(@"Model: Fetch Requested for QRCode Code: %@", code);
-	
-	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.gameId],
-						  [NSString stringWithFormat:@"%@",code],
-						  [NSString stringWithFormat:@"%d",self.playerId],
-						  nil];
-	
-	return [self fetchFromService:@"qrcodes" usingMethod:@"getQRCodeObjectForPlayer"
-						 withArgs:arguments usingParser:@selector(parseQRCodeObjectFromDictionary:)];
-	
-}	
 
 #pragma mark ASync Fetch selectors
 
@@ -743,6 +730,28 @@ static const int kEmptyValue = -1;
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewQuestListReady" object:nil]];
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewInventoryReady" object:nil]];
 }
+
+
+-(void)fetchQRCode:(NSString*)code{
+	NSLog(@"Model: Fetch Requested for QRCode Code: %@", code);
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.gameId],
+						  [NSString stringWithFormat:@"%@",code],
+						  [NSString stringWithFormat:@"%d",self.playerId],
+						  nil];
+	/*
+	return [self fetchFromService:@"qrcodes" usingMethod:@"getQRCodeObjectForPlayer"
+						 withArgs:arguments usingParser:@selector(parseQRCodeObjectFromDictionary:)];
+	*/
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+																	andServiceName:@"qrcodes"
+																	 andMethodName:@"getQRCodeObjectForPlayer"
+																	  andArguments:arguments];
+	[jsonConnection performAsynchronousRequestWithParser:@selector(parseQRCodeObjectFromJSON:)]; 
+	[jsonConnection release];
+	
+}	
 
 -(void)fetchNpcConversations:(int)npcId afterViewingNode:(int)nodeId{
 	NSLog(@"Model: Fetch Requested for Npc %d Conversations after Viewing node %d", npcId, nodeId);
@@ -1312,8 +1321,10 @@ static const int kEmptyValue = -1;
 }
 
 
--(NSObject<QRCodeProtocol> *)parseQRCodeObjectFromDictionary: (NSDictionary *)qrCodeObjectDictionary {
+-(NSObject<QRCodeProtocol> *)parseQRCodeObjectFromJSON: (JSONResult *)jsonResult {
 
+	NSDictionary *qrCodeObjectDictionary = jsonResult.data;
+	
 	NSString *latitude = [qrCodeObjectDictionary valueForKey:@"latitude"];
 	NSString *longitude = [qrCodeObjectDictionary valueForKey:@"longitude"];
 	NSLog(@"AppModel-parseQRCodeObjectFromDictionary: Lat:%@ Lng:%@",latitude,longitude);
@@ -1324,17 +1335,17 @@ static const int kEmptyValue = -1;
 	self.playerLocation = [location copy];
 	[location release];
 	
-	
-	//[appModel updateServerLocationAndfetchNearbyLocationList];
-	
 	NSString *type = [qrCodeObjectDictionary valueForKey:@"type"];
 	NSLog(@"AppModel-parseQRCodeObjectFromDictionary: QRCode type is: %@",type);
 
-	if ([type isEqualToString:@"Node"]) return [self parseNodeFromDictionary:qrCodeObjectDictionary];
-	if ([type isEqualToString:@"Item"]) return [self parseItemFromDictionary:qrCodeObjectDictionary];
-	if ([type isEqualToString:@"Npc"]) return [self parseNpcFromDictionary:qrCodeObjectDictionary];
+	NSObject<QRCodeProtocol> *qrCodeObject;
+	if ([type isEqualToString:@"Node"]) qrCodeObject = [self parseNodeFromDictionary:qrCodeObjectDictionary];
+	if ([type isEqualToString:@"Item"]) qrCodeObject = [self parseItemFromDictionary:qrCodeObjectDictionary];
+	if ([type isEqualToString:@"Npc"]) qrCodeObject = [self parseNpcFromDictionary:qrCodeObjectDictionary];
 
-	return nil;
+	[[NSNotificationCenter defaultCenter] postNotification: [NSNotification notificationWithName:@"QRCodeObjectReady" object:qrCodeObject]];
+
+	
 }
 
 

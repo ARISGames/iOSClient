@@ -120,6 +120,6 @@ extern NSDictionary *InventoryElements;
 - (Node *)parseNodeFromDictionary: (NSDictionary *)nodeDictionary;
 - (Npc *)parseNpcFromDictionary: (NSDictionary *)npcDictionary;
 - (void)updateServerGameSelected;
-- (NSObject<QRCodeProtocol> *)fetchQRCode:(NSString*)QRcodeId;
+- (void)fetchQRCode:(NSString*)QRcodeId;
 
 @end
