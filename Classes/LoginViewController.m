@@ -13,6 +13,8 @@
 
 @implementation LoginViewController
 
+@synthesize waitingIndicator;
+
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
@@ -28,6 +30,9 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+	
+	self.waitingIndicator = [[WaitingIndicatorView alloc] initWithWaitingMessage:@"Logging In..." showProgressBar:NO];
+
 	
 	usernameField.placeholder = NSLocalizedString(@"UsernameKey", @"");
 	passwordField.placeholder = NSLocalizedString(@"PasswordKey", @"");
@@ -78,26 +83,11 @@
 }
 
 -(void)showLoadingIndicator{
-	UIActivityIndicatorView *activityIndicator = 
-	[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
-	[activityIndicator release];
-	[[self navigationItem] setRightBarButtonItem:barButton];
-	[barButton release];
-	[activityIndicator startAnimating];
-	
-	loginButton.enabled = NO;
-	usernameField.enabled = NO;
-	passwordField.enabled = NO;
-	newAccountButton.enabled = NO;
+	[self.waitingIndicator show];
 }
 
 -(void)removeLoadingIndicator{
-	[[self navigationItem] setRightBarButtonItem:nil];
-	loginButton.enabled = YES;
-	usernameField.enabled = YES;
-	passwordField.enabled = YES;
-	newAccountButton.enabled = YES;
+	[self.waitingIndicator dismiss];
 }
 
 - (void)dealloc {
@@ -106,6 +96,7 @@
 	[loginButton release];
 	[newAccountMessageLabel release];
 	[newAccountButton release];
+	[waitingIndicator release];
     [super dealloc];
 }
 

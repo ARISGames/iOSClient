@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "AppModel.h"
+#import "WaitingIndicatorView.h"
+
 
 @interface LoginViewController : UIViewController {
+	WaitingIndicatorView *waitingIndicator;
+
 	IBOutlet UITextField *usernameField;
 	IBOutlet UITextField *passwordField;
 	IBOutlet UIButton *loginButton;
@@ -17,7 +21,11 @@
 	IBOutlet UILabel *newAccountMessageLabel;
 }
 
+@property (nonatomic, retain) WaitingIndicatorView *waitingIndicator;
+
+
 -(IBAction)newAccountButtonTouched: (id) sender;
 -(IBAction)loginButtonTouched: (id) sender;
+
 
 @end
