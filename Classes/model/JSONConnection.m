@@ -59,6 +59,7 @@
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showWaitingIndicator: @"Loading" displayProgressBar:NO];
 	[[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the activity indicator show before doing the sync request
+
 	
 	[request startSynchronous];
 				  

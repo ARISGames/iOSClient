@@ -2,16 +2,16 @@
 {
 	1D3623240D0F684500981E51 /* ARISAppDelegate.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1017, 988}}";
-			sepNavSelRange = "{2459, 0}";
-			sepNavVisRange = "{642, 2187}";
+			sepNavIntBoundsRect = "{{0, 0}, {1025, 1066}}";
+			sepNavSelRange = "{2217, 97}";
+			sepNavVisRange = "{1517, 1098}";
 		};
 	};
 	1D3623250D0F684500981E51 /* ARISAppDelegate.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1017, 5629}}";
-			sepNavSelRange = "{12812, 0}";
-			sepNavVisRange = "{12191, 989}";
+			sepNavIntBoundsRect = "{{0, 0}, {1025, 5889}}";
+			sepNavSelRange = "{13342, 0}";
+			sepNavVisRange = "{12386, 1127}";
 			sepNavWindowFrame = "{{259, 40}, {1181, 838}}";
 		};
 	};
@@ -164,7 +164,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					724,
+					847,
 					20,
 					48,
 					43,
@@ -1105,6 +1105,59 @@
 			ABEBF660123DA2E900ECE66C /* PBXTextBookmark */ = ABEBF660123DA2E900ECE66C /* PBXTextBookmark */;
 			ABEBF665123DA30400ECE66C /* PBXTextBookmark */ = ABEBF665123DA30400ECE66C /* PBXTextBookmark */;
 			ABEBF666123DA30400ECE66C /* PBXTextBookmark */ = ABEBF666123DA30400ECE66C /* PBXTextBookmark */;
+			ABEBF66C123DA3E800ECE66C /* PBXTextBookmark */ = ABEBF66C123DA3E800ECE66C /* PBXTextBookmark */;
+			ABEBF66D123DA3E800ECE66C /* PBXTextBookmark */ = ABEBF66D123DA3E800ECE66C /* PBXTextBookmark */;
+			ABEBF66E123DA3E800ECE66C /* PBXTextBookmark */ = ABEBF66E123DA3E800ECE66C /* PBXTextBookmark */;
+			ABEBF66F123DA3E800ECE66C /* PBXTextBookmark */ = ABEBF66F123DA3E800ECE66C /* PBXTextBookmark */;
+			ABEBF672123DA3FA00ECE66C /* PBXTextBookmark */ = ABEBF672123DA3FA00ECE66C /* PBXTextBookmark */;
+			ABEBF677123DBC1200ECE66C /* PBXTextBookmark */ = ABEBF677123DBC1200ECE66C /* PBXTextBookmark */;
+			ABEBF678123DBC1200ECE66C /* PBXTextBookmark */ = ABEBF678123DBC1200ECE66C /* PBXTextBookmark */;
+			ABEBF679123DBC1200ECE66C /* PBXTextBookmark */ = ABEBF679123DBC1200ECE66C /* PBXTextBookmark */;
+			ABEBF67A123DBC1200ECE66C /* PBXTextBookmark */ = ABEBF67A123DBC1200ECE66C /* PBXTextBookmark */;
+			ABEBF67B123DBC1200ECE66C /* PBXTextBookmark */ = ABEBF67B123DBC1200ECE66C /* PBXTextBookmark */;
+			ABEBF67C123DBC1200ECE66C /* PBXTextBookmark */ = ABEBF67C123DBC1200ECE66C /* PBXTextBookmark */;
+			ABEBF67D123DBC1200ECE66C /* PBXTextBookmark */ = ABEBF67D123DBC1200ECE66C /* PBXTextBookmark */;
+			ABEBF67E123DBC1200ECE66C /* PBXTextBookmark */ = ABEBF67E123DBC1200ECE66C /* PBXTextBookmark */;
+			ABEBF680123DBC5000ECE66C /* PBXTextBookmark */ = ABEBF680123DBC5000ECE66C /* PBXTextBookmark */;
+			ABEBF681123DBC5000ECE66C /* PBXTextBookmark */ = ABEBF681123DBC5000ECE66C /* PBXTextBookmark */;
+			ABEBF685123DBC6100ECE66C /* PBXTextBookmark */ = ABEBF685123DBC6100ECE66C /* PBXTextBookmark */;
+			ABEBF686123DBC6100ECE66C /* PBXTextBookmark */ = ABEBF686123DBC6100ECE66C /* PBXTextBookmark */;
+			ABEBF68A123DBCE100ECE66C /* PBXTextBookmark */ = ABEBF68A123DBCE100ECE66C /* PBXTextBookmark */;
+			ABEBF68B123DBCE100ECE66C /* PBXTextBookmark */ = ABEBF68B123DBCE100ECE66C /* PBXTextBookmark */;
+			ABEBF68C123DBCE100ECE66C /* PBXTextBookmark */ = ABEBF68C123DBCE100ECE66C /* PBXTextBookmark */;
+			ABEBF68D123DBCE100ECE66C /* PBXTextBookmark */ = ABEBF68D123DBCE100ECE66C /* PBXTextBookmark */;
+			ABEBF68E123DBCE100ECE66C /* PBXTextBookmark */ = ABEBF68E123DBCE100ECE66C /* PBXTextBookmark */;
+			ABEBF692123DC66900ECE66C /* PBXTextBookmark */ = ABEBF692123DC66900ECE66C /* PBXTextBookmark */;
+			ABEBF693123DC66900ECE66C /* XCBuildMessageTextBookmark */ = ABEBF693123DC66900ECE66C /* XCBuildMessageTextBookmark */;
+			ABEBF694123DC66900ECE66C /* PBXTextBookmark */ = ABEBF694123DC66900ECE66C /* PBXTextBookmark */;
+			ABEBF695123DC67200ECE66C /* PBXTextBookmark */ = ABEBF695123DC67200ECE66C /* PBXTextBookmark */;
+			ABEBF696123DC67200ECE66C /* PBXTextBookmark */ = ABEBF696123DC67200ECE66C /* PBXTextBookmark */;
+			ABEBF69B123DD03A00ECE66C /* PBXTextBookmark */ = ABEBF69B123DD03A00ECE66C /* PBXTextBookmark */;
+			ABEBF69C123DD03A00ECE66C /* PBXTextBookmark */ = ABEBF69C123DD03A00ECE66C /* PBXTextBookmark */;
+			ABEBF69D123DD03A00ECE66C /* PBXTextBookmark */ = ABEBF69D123DD03A00ECE66C /* PBXTextBookmark */;
+			ABEBF69E123DD03A00ECE66C /* PBXTextBookmark */ = ABEBF69E123DD03A00ECE66C /* PBXTextBookmark */;
+			ABEBF69F123DD03A00ECE66C /* PBXTextBookmark */ = ABEBF69F123DD03A00ECE66C /* PBXTextBookmark */;
+			ABEBF6A0123DD03A00ECE66C /* PBXTextBookmark */ = ABEBF6A0123DD03A00ECE66C /* PBXTextBookmark */;
+			ABEBF6A1123DD03A00ECE66C /* PBXTextBookmark */ = ABEBF6A1123DD03A00ECE66C /* PBXTextBookmark */;
+			ABEBF6A2123DD03A00ECE66C /* PBXTextBookmark */ = ABEBF6A2123DD03A00ECE66C /* PBXTextBookmark */;
+			ABEBF6A3123DD03A00ECE66C /* PBXTextBookmark */ = ABEBF6A3123DD03A00ECE66C /* PBXTextBookmark */;
+			ABEBF6A7123DD06400ECE66C /* PBXTextBookmark */ = ABEBF6A7123DD06400ECE66C /* PBXTextBookmark */;
+			ABEBF6A8123DD06400ECE66C /* PBXTextBookmark */ = ABEBF6A8123DD06400ECE66C /* PBXTextBookmark */;
+			ABEBF6AC123DD0BC00ECE66C /* PBXTextBookmark */ = ABEBF6AC123DD0BC00ECE66C /* PBXTextBookmark */;
+			ABEBF6AD123DD0BE00ECE66C /* PBXTextBookmark */ = ABEBF6AD123DD0BE00ECE66C /* PBXTextBookmark */;
+			ABEBF6AE123DD0BE00ECE66C /* PBXTextBookmark */ = ABEBF6AE123DD0BE00ECE66C /* PBXTextBookmark */;
+			ABEBF6B1123DD17100ECE66C /* PBXTextBookmark */ = ABEBF6B1123DD17100ECE66C /* PBXTextBookmark */;
+			ABEBF6B2123DD17100ECE66C /* PBXTextBookmark */ = ABEBF6B2123DD17100ECE66C /* PBXTextBookmark */;
+			ABEBF6B7123DD18000ECE66C /* PBXTextBookmark */ = ABEBF6B7123DD18000ECE66C /* PBXTextBookmark */;
+			ABEBF6BA123DD18A00ECE66C /* PBXTextBookmark */ = ABEBF6BA123DD18A00ECE66C /* PBXTextBookmark */;
+			ABEBF6BB123DD18A00ECE66C /* PBXTextBookmark */ = ABEBF6BB123DD18A00ECE66C /* PBXTextBookmark */;
+			ABEBF6BF123DD1F400ECE66C /* PBXTextBookmark */ = ABEBF6BF123DD1F400ECE66C /* PBXTextBookmark */;
+			ABEBF6C0123DD1F400ECE66C /* PBXTextBookmark */ = ABEBF6C0123DD1F400ECE66C /* PBXTextBookmark */;
+			ABEBF6C4123DD22E00ECE66C /* PBXTextBookmark */ = ABEBF6C4123DD22E00ECE66C /* PBXTextBookmark */;
+			ABEBF6C5123DD22E00ECE66C /* PBXTextBookmark */ = ABEBF6C5123DD22E00ECE66C /* PBXTextBookmark */;
+			ABEBF6C9123DD2AD00ECE66C /* PBXTextBookmark */ = ABEBF6C9123DD2AD00ECE66C /* PBXTextBookmark */;
+			ABEBF6CA123DD2AD00ECE66C /* PBXTextBookmark */ = ABEBF6CA123DD2AD00ECE66C /* PBXTextBookmark */;
+			ABEBF6CB123DD2AD00ECE66C /* PBXTextBookmark */ = ABEBF6CB123DD2AD00ECE66C /* PBXTextBookmark */;
 			ABECD180121E500200D82466 = ABECD180121E500200D82466 /* PBXTextBookmark */;
 			ABECD185121E500200D82466 = ABECD185121E500200D82466 /* PBXTextBookmark */;
 			ABECD186121E500200D82466 = ABECD186121E500200D82466 /* PBXTextBookmark */;
@@ -1141,16 +1194,16 @@
 	};
 	2B3D11AF0F4361940067FD3A /* LoginViewController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {902, 562}}";
-			sepNavSelRange = "{587, 0}";
-			sepNavVisRange = "{0, 689}";
+			sepNavIntBoundsRect = "{{0, 0}, {1025, 351}}";
+			sepNavSelRange = "{442, 0}";
+			sepNavVisRange = "{146, 397}";
 		};
 	};
 	2B3D11B00F4361940067FD3A /* LoginViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {902, 1365}}";
-			sepNavSelRange = "{2880, 0}";
-			sepNavVisRange = "{1745, 1166}";
+			sepNavIntBoundsRect = "{{0, 0}, {1025, 1157}}";
+			sepNavSelRange = "{730, 0}";
+			sepNavVisRange = "{1686, 748}";
 			sepNavWindowFrame = "{{61, 101}, {1653, 1030}}";
 		};
 	};
@@ -1249,9 +1302,9 @@
 	};
 	2B3D18D50F4B25720067FD3A /* AppModel.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1006, 17836}}";
-			sepNavSelRange = "{38154, 0}";
-			sepNavVisRange = "{37860, 573}";
+			sepNavIntBoundsRect = "{{0, 0}, {1440, 17966}}";
+			sepNavSelRange = "{16072, 20}";
+			sepNavVisRange = "{15190, 1568}";
 			sepNavWindowFrame = "{{26, 33}, {1168, 845}}";
 		};
 	};
@@ -1272,7 +1325,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1274, 2561}}";
 			sepNavSelRange = "{2037, 0}";
-			sepNavVisRange = "{698, 1518}";
+			sepNavVisRange = "{698, 1519}";
 		};
 	};
 	A722CB5A0FBDFEA6009432DB /* NearbyObjectProtocol.h */ = {
@@ -1469,8 +1522,8 @@
 	AB0A5BA4120365420065CE68 /* en */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {902, 1612}}";
-			sepNavSelRange = "{3250, 0}";
-			sepNavVisRange = "{0, 27}";
+			sepNavSelRange = "{578, 0}";
+			sepNavVisRange = "{0, 644}";
 		};
 	};
 	AB0A5BA61203665C0065CE68 /* es */ = {
@@ -1744,7 +1797,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -2108,7 +2161,7 @@
 		fRef = AB3E113E10486A5500A9034C /* JSONConnection.m */;
 		name = "JSONConnection.m: 155";
 		rLen = 0;
-		rLoc = 4926;
+		rLoc = 4927;
 		rType = 0;
 		vrLen = 1045;
 		vrLoc = 4309;
@@ -2148,7 +2201,7 @@
 		fRef = AB3E113E10486A5500A9034C /* JSONConnection.m */;
 		name = "JSONConnection.m: 109";
 		rLen = 0;
-		rLoc = 3531;
+		rLoc = 3532;
 		rType = 0;
 		vrLen = 470;
 		vrLoc = 3267;
@@ -2399,7 +2452,7 @@
 		fRef = AB3E113E10486A5500A9034C /* JSONConnection.m */;
 		name = "JSONConnection.m: 175";
 		rLen = 163;
-		rLoc = 5167;
+		rLoc = 5168;
 		rType = 0;
 		vrLen = 623;
 		vrLoc = 4733;
@@ -2838,16 +2891,16 @@
 	};
 	AB3E113D10486A5500A9034C /* JSONConnection.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1015, 538}}";
-			sepNavSelRange = "{775, 43}";
-			sepNavVisRange = "{0, 884}";
+			sepNavIntBoundsRect = "{{0, 0}, {1025, 455}}";
+			sepNavSelRange = "{321, 0}";
+			sepNavVisRange = "{3, 881}";
 		};
 	};
 	AB3E113E10486A5500A9034C /* JSONConnection.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {887, 2210}}";
-			sepNavSelRange = "{1751, 0}";
-			sepNavVisRange = "{1298, 898}";
+			sepNavIntBoundsRect = "{{0, 0}, {1025, 2262}}";
+			sepNavSelRange = "{1877, 0}";
+			sepNavVisRange = "{1522, 463}";
 		};
 	};
 	AB3F4E6C10CCC17400E6C9D7 /* NearbyObjectARCoordinate.h */ = {
@@ -3200,7 +3253,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -3540,7 +3593,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -3570,7 +3623,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -3600,7 +3653,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -3630,7 +3683,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -3670,7 +3723,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -3710,7 +3763,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -3760,7 +3813,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -3790,7 +3843,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -3900,7 +3953,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -3956,7 +4009,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -3996,7 +4049,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4026,7 +4079,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4056,7 +4109,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4146,7 +4199,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4206,7 +4259,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4266,7 +4319,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4296,7 +4349,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4326,7 +4379,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4356,7 +4409,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4406,7 +4459,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4446,7 +4499,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4476,7 +4529,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4516,7 +4569,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4596,7 +4649,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4643,7 +4696,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4673,7 +4726,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4703,7 +4756,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4750,7 +4803,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4780,7 +4833,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4810,7 +4863,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4840,7 +4893,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4880,7 +4933,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4920,7 +4973,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4950,7 +5003,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4980,7 +5033,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -5020,7 +5073,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -5130,7 +5183,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -5170,7 +5223,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -5210,7 +5263,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -5250,7 +5303,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -5310,7 +5363,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -5367,7 +5420,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -5407,7 +5460,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -5437,7 +5490,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -5487,7 +5540,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -5544,7 +5597,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -5594,7 +5647,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -5634,7 +5687,7 @@
 		fRef = AB3E113E10486A5500A9034C /* JSONConnection.m */;
 		name = "JSONConnection.m: 156";
 		rLen = 0;
-		rLoc = 4926;
+		rLoc = 4927;
 		rType = 0;
 		vrLen = 710;
 		vrLoc = 4288;
@@ -5644,7 +5697,7 @@
 		fRef = AB3E113E10486A5500A9034C /* JSONConnection.m */;
 		name = "JSONConnection.m: 151";
 		rLen = 0;
-		rLoc = 4756;
+		rLoc = 4757;
 		rType = 0;
 		vrLen = 772;
 		vrLoc = 2963;
@@ -5654,7 +5707,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -5674,7 +5727,7 @@
 		fRef = AB3E113E10486A5500A9034C /* JSONConnection.m */;
 		name = "JSONConnection.m: 151";
 		rLen = 0;
-		rLoc = 4756;
+		rLoc = 4757;
 		rType = 0;
 		vrLen = 683;
 		vrLoc = 3056;
@@ -5684,7 +5737,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -5714,7 +5767,7 @@
 		fRef = AB3E113E10486A5500A9034C /* JSONConnection.m */;
 		name = "JSONConnection.m: 151";
 		rLen = 0;
-		rLoc = 4756;
+		rLoc = 4757;
 		rType = 0;
 		vrLen = 300;
 		vrLoc = 3056;
@@ -5744,7 +5797,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -5774,7 +5827,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -5814,7 +5867,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -5874,7 +5927,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -5914,7 +5967,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -5944,7 +5997,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -5991,7 +6044,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -6021,7 +6074,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -6319,7 +6372,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 342";
 		rLen = 0;
-		rLoc = 14286;
+		rLoc = 14834;
 		rType = 0;
 		vrLen = 2163;
 		vrLoc = 5450;
@@ -6329,7 +6382,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 1542;
 		vrLoc = 829;
@@ -6339,7 +6392,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 474;
 		vrLoc = 854;
@@ -6359,7 +6412,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 582;
 		vrLoc = 856;
@@ -6379,7 +6432,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 611;
 		vrLoc = 857;
@@ -6399,7 +6452,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 467;
 		vrLoc = 1002;
@@ -6419,7 +6472,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 518;
 		vrLoc = 1063;
@@ -6459,7 +6512,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 57";
 		rLen = 0;
-		rLoc = 1763;
+		rLoc = 1843;
 		rType = 0;
 		vrLen = 1679;
 		vrLoc = 1063;
@@ -6553,7 +6606,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 342";
 		rLen = 0;
-		rLoc = 14286;
+		rLoc = 14834;
 		rType = 0;
 		vrLen = 1019;
 		vrLoc = 6594;
@@ -6593,7 +6646,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 342";
 		rLen = 0;
-		rLoc = 14286;
+		rLoc = 14834;
 		rType = 0;
 		vrLen = 966;
 		vrLoc = 13666;
@@ -7180,7 +7233,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 66";
 		rLen = 0;
-		rLoc = 2459;
+		rLoc = 2614;
 		rType = 0;
 		vrLen = 2187;
 		vrLoc = 642;
@@ -7210,7 +7263,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 290";
 		rLen = 88;
-		rLoc = 12355;
+		rLoc = 12888;
 		rType = 0;
 		vrLen = 1505;
 		vrLoc = 11357;
@@ -7220,7 +7273,7 @@
 		fRef = 2B3D11B00F4361940067FD3A /* LoginViewController.m */;
 		name = "LoginViewController.m: 62";
 		rLen = 0;
-		rLoc = 1929;
+		rLoc = 1781;
 		rType = 0;
 		vrLen = 1504;
 		vrLoc = 1038;
@@ -7240,7 +7293,7 @@
 		fRef = 2B3D11B00F4361940067FD3A /* LoginViewController.m */;
 		name = "LoginViewController.m: 58";
 		rLen = 0;
-		rLoc = 1747;
+		rLoc = 1599;
 		rType = 0;
 		vrLen = 1430;
 		vrLoc = 1141;
@@ -7250,7 +7303,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 290";
 		rLen = 88;
-		rLoc = 12355;
+		rLoc = 12888;
 		rType = 0;
 		vrLen = 1707;
 		vrLoc = 11845;
@@ -7260,7 +7313,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 290";
 		rLen = 88;
-		rLoc = 12355;
+		rLoc = 12888;
 		rType = 0;
 		vrLen = 1707;
 		vrLoc = 11845;
@@ -7270,7 +7323,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 290";
 		rLen = 88;
-		rLoc = 12355;
+		rLoc = 12888;
 		rType = 0;
 		vrLen = 1707;
 		vrLoc = 11845;
@@ -7300,7 +7353,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 293";
 		rLen = 0;
-		rLoc = 12525;
+		rLoc = 13058;
 		rType = 0;
 		vrLen = 1652;
 		vrLoc = 11845;
@@ -7357,7 +7410,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 293";
 		rLen = 0;
-		rLoc = 12525;
+		rLoc = 13058;
 		rType = 0;
 		vrLen = 1652;
 		vrLoc = 11845;
@@ -7367,7 +7420,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 386";
 		rLen = 0;
-		rLoc = 15784;
+		rLoc = 16332;
 		rType = 0;
 		vrLen = 1456;
 		vrLoc = 14417;
@@ -7377,7 +7430,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 386";
 		rLen = 0;
-		rLoc = 15784;
+		rLoc = 16332;
 		rType = 0;
 		vrLen = 1456;
 		vrLoc = 14417;
@@ -7427,7 +7480,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 386";
 		rLen = 0;
-		rLoc = 15784;
+		rLoc = 16332;
 		rType = 0;
 		vrLen = 712;
 		vrLoc = 15019;
@@ -7437,7 +7490,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 300";
 		rLen = 0;
-		rLoc = 12737;
+		rLoc = 13297;
 		rType = 0;
 		vrLen = 1606;
 		vrLoc = 11789;
@@ -7457,7 +7510,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 74";
 		rLen = 0;
-		rLoc = 2460;
+		rLoc = 2481;
 		rType = 0;
 		vrLen = 1099;
 		vrLoc = 1704;
@@ -7487,7 +7540,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 299";
 		rLen = 26;
-		rLoc = 12655;
+		rLoc = 13215;
 		rType = 0;
 		vrLen = 1536;
 		vrLoc = 12205;
@@ -7497,7 +7550,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 299";
 		rLen = 26;
-		rLoc = 12655;
+		rLoc = 13215;
 		rType = 0;
 		vrLen = 1605;
 		vrLoc = 12355;
@@ -7517,7 +7570,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 299";
 		rLen = 0;
-		rLoc = 12682;
+		rLoc = 13242;
 		rType = 0;
 		vrLen = 1637;
 		vrLoc = 12354;
@@ -7537,7 +7590,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 303";
 		rLen = 0;
-		rLoc = 12812;
+		rLoc = 13360;
 		rType = 0;
 		vrLen = 906;
 		vrLoc = 12194;
@@ -7557,7 +7610,7 @@
 		fRef = 2B3D11AF0F4361940067FD3A /* LoginViewController.h */;
 		name = "LoginViewController.h: 21";
 		rLen = 0;
-		rLoc = 681;
+		rLoc = 535;
 		rType = 0;
 		vrLen = 394;
 		vrLoc = 146;
@@ -7577,7 +7630,7 @@
 		fRef = 2B3D11B00F4361940067FD3A /* LoginViewController.m */;
 		name = "LoginViewController.m: 58";
 		rLen = 0;
-		rLoc = 1747;
+		rLoc = 1599;
 		rType = 0;
 		vrLen = 567;
 		vrLoc = 1348;
@@ -7586,8 +7639,8 @@
 		isa = PBXTextBookmark;
 		fRef = 2B3D11B00F4361940067FD3A /* LoginViewController.m */;
 		name = "LoginViewController.m: 80";
-		rLen = 20;
-		rLoc = 2570;
+		rLen = 0;
+		rLoc = 2414;
 		rType = 0;
 		vrLen = 607;
 		vrLoc = 2408;
@@ -7754,7 +7807,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 1543;
 		vrLoc = 829;
@@ -7774,7 +7827,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 342";
 		rLen = 0;
-		rLoc = 14286;
+		rLoc = 14834;
 		rType = 0;
 		vrLen = 966;
 		vrLoc = 13666;
@@ -7784,7 +7837,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 376";
 		rLen = 0;
-		rLoc = 15295;
+		rLoc = 15843;
 		rType = 0;
 		vrLen = 1208;
 		vrLoc = 14294;
@@ -8188,7 +8241,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 43;
-		modificationTime = 306029313.382203;
+		modificationTime = 306041513.194936;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -8205,7 +8258,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 21;
-		modificationTime = 306029313.382169;
+		modificationTime = 306041513.194901;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -8278,7 +8331,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 78;
-		modificationTime = 306029313.382137;
+		modificationTime = 306041513.194873;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -8303,7 +8356,7 @@
 		fRef = 2B3D11B00F4361940067FD3A /* LoginViewController.m */;
 		name = "LoginViewController.m: 51";
 		rLen = 225;
-		rLoc = 1328;
+		rLoc = 1180;
 		rType = 0;
 		vrLen = 1314;
 		vrLoc = 620;
@@ -8377,7 +8430,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 34;
-		modificationTime = 306029313.382186;
+		modificationTime = 306041513.194921;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -8490,7 +8543,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 303";
 		rLen = 0;
-		rLoc = 12812;
+		rLoc = 13360;
 		rType = 0;
 		vrLen = 989;
 		vrLoc = 12191;
@@ -8499,8 +8552,8 @@
 		isa = PBXTextBookmark;
 		fRef = 2B3D11B00F4361940067FD3A /* LoginViewController.m */;
 		name = "LoginViewController.m: 80";
-		rLen = 20;
-		rLoc = 2570;
+		rLen = 0;
+		rLoc = 2414;
 		rType = 0;
 		vrLen = 629;
 		vrLoc = 2408;
@@ -8529,7 +8582,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 303";
 		rLen = 0;
-		rLoc = 12812;
+		rLoc = 13360;
 		rType = 0;
 		vrLen = 989;
 		vrLoc = 12191;
@@ -8558,7 +8611,7 @@
 		fRef = 2B3D11B00F4361940067FD3A /* LoginViewController.m */;
 		name = "LoginViewController.m: 87";
 		rLen = 0;
-		rLoc = 2622;
+		rLoc = 2414;
 		rType = 0;
 		vrLen = 629;
 		vrLoc = 2408;
@@ -8910,9 +8963,9 @@
 	};
 	ABEBF565123D916D00ECE66C /* WaitingIndicatorView.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {781, 728}}";
+			sepNavIntBoundsRect = "{{0, 0}, {880, 650}}";
 			sepNavSelRange = "{253, 0}";
-			sepNavVisRange = "{0, 484}";
+			sepNavVisRange = "{0, 583}";
 		};
 	};
 	ABEBF571123D959800ECE66C /* PBXTextBookmark */ = {
@@ -10253,7 +10306,7 @@
 		fRef = 2B3D11AF0F4361940067FD3A /* LoginViewController.h */;
 		name = "LoginViewController.h: 25";
 		rLen = 0;
-		rLoc = 587;
+		rLoc = 442;
 		rType = 0;
 		vrLen = 689;
 		vrLoc = 0;
@@ -10263,7 +10316,7 @@
 		fRef = 2B3D11B00F4361940067FD3A /* LoginViewController.m */;
 		name = "LoginViewController.m: 32";
 		rLen = 0;
-		rLoc = 854;
+		rLoc = 730;
 		rType = 0;
 		vrLen = 1391;
 		vrLoc = 38;
@@ -10273,7 +10326,7 @@
 		fRef = 2B3D11B00F4361940067FD3A /* LoginViewController.m */;
 		name = "LoginViewController.m: 88";
 		rLen = 0;
-		rLoc = 2690;
+		rLoc = 2414;
 		rType = 0;
 		vrLen = 1351;
 		vrLoc = 3;
@@ -10293,7 +10346,7 @@
 		fRef = 2B3D11B00F4361940067FD3A /* LoginViewController.m */;
 		name = "LoginViewController.m: 99";
 		rLen = 0;
-		rLoc = 2880;
+		rLoc = 2574;
 		rType = 0;
 		vrLen = 1166;
 		vrLoc = 1745;
@@ -10307,6 +10360,535 @@
 		rType = 0;
 		vrLen = 27;
 		vrLoc = 0;
+	};
+	ABEBF66C123DA3E800ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D11B00F4361940067FD3A /* LoginViewController.m */;
+		name = "LoginViewController.m: 99";
+		rLen = 0;
+		rLoc = 2574;
+		rType = 0;
+		vrLen = 1166;
+		vrLoc = 1745;
+	};
+	ABEBF66D123DA3E800ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 303";
+		rLen = 0;
+		rLoc = 13360;
+		rType = 0;
+		vrLen = 1752;
+		vrLoc = 11853;
+	};
+	ABEBF66E123DA3E800ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 303";
+		rLen = 0;
+		rLoc = 13360;
+		rType = 0;
+		vrLen = 1752;
+		vrLoc = 11853;
+	};
+	ABEBF66F123DA3E800ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB0A5BA4120365420065CE68 /* en */;
+		name = "Localizable.strings: 97";
+		rLen = 0;
+		rLoc = 3250;
+		rType = 0;
+		vrLen = 27;
+		vrLoc = 0;
+	};
+	ABEBF672123DA3FA00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 58";
+		rLen = 0;
+		rLoc = 2037;
+		rType = 0;
+		vrLen = 1518;
+		vrLoc = 698;
+	};
+	ABEBF677123DBC1200ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
+		name = "ARISAppDelegate.h: 68";
+		rLen = 0;
+		rLoc = 2466;
+		rType = 0;
+		vrLen = 1436;
+		vrLoc = 1548;
+	};
+	ABEBF678123DBC1200ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 301";
+		rLen = 0;
+		rLoc = 13299;
+		rType = 0;
+		vrLen = 1067;
+		vrLoc = 12556;
+	};
+	ABEBF679123DBC1200ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 234";
+		rLen = 34;
+		rLoc = 10546;
+		rType = 0;
+		vrLen = 852;
+		vrLoc = 10199;
+	};
+	ABEBF67A123DBC1200ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB0A5BA4120365420065CE68 /* en */;
+		name = "Localizable.strings: 17";
+		rLen = 0;
+		rLoc = 578;
+		rType = 0;
+		vrLen = 644;
+		vrLoc = 0;
+	};
+	ABEBF67B123DBC1200ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D11AF0F4361940067FD3A /* LoginViewController.h */;
+		name = "LoginViewController.h: 15";
+		rLen = 0;
+		rLoc = 249;
+		rType = 0;
+		vrLen = 433;
+		vrLoc = 0;
+	};
+	ABEBF67C123DBC1200ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D11B00F4361940067FD3A /* LoginViewController.m */;
+		name = "LoginViewController.m: 35";
+		rLen = 0;
+		rLoc = 730;
+		rType = 0;
+		vrLen = 694;
+		vrLoc = 324;
+	};
+	ABEBF67D123DBC1200ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
+		name = "ARISAppDelegate.h: 72";
+		rLen = 0;
+		rLoc = 2614;
+		rType = 0;
+		vrLen = 1241;
+		vrLoc = 1599;
+	};
+	ABEBF67E123DBC1200ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
+		name = "ARISAppDelegate.h: 68";
+		rLen = 20;
+		rLoc = 2424;
+		rType = 0;
+		vrLen = 1178;
+		vrLoc = 1518;
+	};
+	ABEBF680123DBC5000ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 234";
+		rLen = 34;
+		rLoc = 10546;
+		rType = 0;
+		vrLen = 855;
+		vrLoc = 12466;
+	};
+	ABEBF681123DBC5000ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
+		name = "ARISAppDelegate.h: 68";
+		rLen = 20;
+		rLoc = 2424;
+		rType = 0;
+		vrLen = 1178;
+		vrLoc = 1518;
+	};
+	ABEBF685123DBC6100ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 234";
+		rLen = 34;
+		rLoc = 10546;
+		rType = 0;
+		vrLen = 864;
+		vrLoc = 12489;
+	};
+	ABEBF686123DBC6100ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
+		name = "ARISAppDelegate.h: 68";
+		rLen = 20;
+		rLoc = 2424;
+		rType = 0;
+		vrLen = 1178;
+		vrLoc = 1518;
+	};
+	ABEBF68A123DBCE100ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 234";
+		rLen = 34;
+		rLoc = 10546;
+		rType = 0;
+		vrLen = 886;
+		vrLoc = 12384;
+	};
+	ABEBF68B123DBCE100ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
+		name = "ARISAppDelegate.h: 66";
+		rLen = 97;
+		rLoc = 2217;
+		rType = 0;
+		vrLen = 1098;
+		vrLoc = 1517;
+	};
+	ABEBF68C123DBCE100ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D11B00F4361940067FD3A /* LoginViewController.m */;
+		name = "LoginViewController.m: 32";
+		rLen = 0;
+		rLoc = 730;
+		rType = 0;
+		vrLen = 748;
+		vrLoc = 1686;
+	};
+	ABEBF68D123DBCE100ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D11AF0F4361940067FD3A /* LoginViewController.h */;
+		name = "LoginViewController.h: 15";
+		rLen = 0;
+		rLoc = 249;
+		rType = 0;
+		vrLen = 433;
+		vrLoc = 0;
+	};
+	ABEBF68E123DBCE100ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D11AF0F4361940067FD3A /* LoginViewController.h */;
+		name = "LoginViewController.h: 21";
+		rLen = 0;
+		rLoc = 442;
+		rType = 0;
+		vrLen = 390;
+		vrLoc = 146;
+	};
+	ABEBF692123DC66900ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */;
+		name = "SelfRegistrationViewController.m: 58";
+		rLen = 0;
+		rLoc = 2037;
+		rType = 0;
+		vrLen = 1519;
+		vrLoc = 698;
+	};
+	ABEBF693123DC66900ECE66C /* XCBuildMessageTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "Expected ']' before ';' token";
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		fallbackIsa = XCBuildMessageTextBookmark;
+		rLen = 1;
+		rLoc = 311;
+		rType = 1;
+	};
+	ABEBF694123DC66900ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 312";
+		rLen = 0;
+		rLoc = 13191;
+		rType = 0;
+		vrLen = 1349;
+		vrLoc = 12384;
+	};
+	ABEBF695123DC67200ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 234";
+		rLen = 34;
+		rLoc = 10546;
+		rType = 0;
+		vrLen = 886;
+		vrLoc = 12384;
+	};
+	ABEBF696123DC67200ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D11AF0F4361940067FD3A /* LoginViewController.h */;
+		name = "LoginViewController.h: 21";
+		rLen = 0;
+		rLoc = 442;
+		rType = 0;
+		vrLen = 397;
+		vrLoc = 146;
+	};
+	ABEBF69B123DD03A00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 319";
+		rLen = 0;
+		rLoc = 13360;
+		rType = 0;
+		vrLen = 1307;
+		vrLoc = 12885;
+	};
+	ABEBF69C123DD03A00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
+		name = "AppModel.m: 417";
+		rLen = 20;
+		rLoc = 16072;
+		rType = 0;
+		vrLen = 1568;
+		vrLoc = 15190;
+	};
+	ABEBF69D123DD03A00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB3E113D10486A5500A9034C /* JSONConnection.h */;
+		name = "JSONConnection.h: 16";
+		rLen = 0;
+		rLoc = 321;
+		rType = 0;
+		vrLen = 881;
+		vrLoc = 3;
+	};
+	ABEBF69E123DD03A00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB3E113E10486A5500A9034C /* JSONConnection.m */;
+		name = "JSONConnection.m: 60";
+		rLen = 20;
+		rLoc = 1694;
+		rType = 0;
+		vrLen = 1329;
+		vrLoc = 1084;
+	};
+	ABEBF69F123DD03A00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB3E113E10486A5500A9034C /* JSONConnection.m */;
+		name = "JSONConnection.m: 60";
+		rLen = 20;
+		rLoc = 1694;
+		rType = 0;
+		vrLen = 1349;
+		vrLoc = 1176;
+	};
+	ABEBF6A0123DD03A00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D11AF0F4361940067FD3A /* LoginViewController.h */;
+		name = "LoginViewController.h: 21";
+		rLen = 0;
+		rLoc = 442;
+		rType = 0;
+		vrLen = 397;
+		vrLoc = 146;
+	};
+	ABEBF6A1123DD03A00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
+		name = "AppModel.m: 671";
+		rLen = 0;
+		rLoc = 25256;
+		rType = 0;
+		vrLen = 1079;
+		vrLoc = 27082;
+	};
+	ABEBF6A2123DD03A00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 407";
+		rLen = 0;
+		rLoc = 16332;
+		rType = 0;
+		vrLen = 1304;
+		vrLoc = 14409;
+	};
+	ABEBF6A3123DD03A00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 224";
+		rLen = 96;
+		rLoc = 10204;
+		rType = 0;
+		vrLen = 340;
+		vrLoc = 10198;
+	};
+	ABEBF6A7123DD06400ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB3E113E10486A5500A9034C /* JSONConnection.m */;
+		name = "JSONConnection.m: 64";
+		rLen = 0;
+		rLoc = 1874;
+		rType = 0;
+		vrLen = 1547;
+		vrLoc = 1220;
+	};
+	ABEBF6A8123DD06400ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 224";
+		rLen = 96;
+		rLoc = 10204;
+		rType = 0;
+		vrLen = 340;
+		vrLoc = 10198;
+	};
+	ABEBF6AC123DD0BC00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 312";
+		rLen = 0;
+		rLoc = 13191;
+		rType = 0;
+		vrLen = 1349;
+		vrLoc = 12384;
+	};
+	ABEBF6AD123DD0BE00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB3E113E10486A5500A9034C /* JSONConnection.m */;
+		name = "JSONConnection.m: 64";
+		rLen = 0;
+		rLoc = 1874;
+		rType = 0;
+		vrLen = 1547;
+		vrLoc = 1220;
+	};
+	ABEBF6AE123DD0BE00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 224";
+		rLen = 96;
+		rLoc = 10204;
+		rType = 0;
+		vrLen = 340;
+		vrLoc = 10198;
+	};
+	ABEBF6B1123DD17100ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB3E113E10486A5500A9034C /* JSONConnection.m */;
+		name = "JSONConnection.m: 61";
+		rLen = 0;
+		rLoc = 1806;
+		rType = 0;
+		vrLen = 1350;
+		vrLoc = 1298;
+	};
+	ABEBF6B2123DD17100ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 224";
+		rLen = 96;
+		rLoc = 10204;
+		rType = 0;
+		vrLen = 340;
+		vrLoc = 10198;
+	};
+	ABEBF6B7123DD18000ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 312";
+		rLen = 0;
+		rLoc = 13191;
+		rType = 0;
+		vrLen = 1349;
+		vrLoc = 12384;
+	};
+	ABEBF6BA123DD18A00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB3E113E10486A5500A9034C /* JSONConnection.m */;
+		name = "JSONConnection.m: 61";
+		rLen = 0;
+		rLoc = 1806;
+		rType = 0;
+		vrLen = 1370;
+		vrLoc = 1300;
+	};
+	ABEBF6BB123DD18A00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 224";
+		rLen = 96;
+		rLoc = 10204;
+		rType = 0;
+		vrLen = 340;
+		vrLoc = 10198;
+	};
+	ABEBF6BF123DD1F400ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB3E113E10486A5500A9034C /* JSONConnection.m */;
+		name = "JSONConnection.m: 61";
+		rLen = 0;
+		rLoc = 1806;
+		rType = 0;
+		vrLen = 1338;
+		vrLoc = 1382;
+	};
+	ABEBF6C0123DD1F400ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 224";
+		rLen = 96;
+		rLoc = 10204;
+		rType = 0;
+		vrLen = 340;
+		vrLoc = 10198;
+	};
+	ABEBF6C4123DD22E00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB3E113E10486A5500A9034C /* JSONConnection.m */;
+		name = "JSONConnection.m: 64";
+		rLen = 0;
+		rLoc = 1877;
+		rType = 0;
+		vrLen = 1285;
+		vrLoc = 1410;
+	};
+	ABEBF6C5123DD22E00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 224";
+		rLen = 96;
+		rLoc = 10204;
+		rType = 0;
+		vrLen = 340;
+		vrLoc = 10198;
+	};
+	ABEBF6C9123DD2AD00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB3E113E10486A5500A9034C /* JSONConnection.m */;
+		name = "JSONConnection.m: 64";
+		rLen = 0;
+		rLoc = 1877;
+		rType = 0;
+		vrLen = 463;
+		vrLoc = 1522;
+	};
+	ABEBF6CA123DD2AD00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 257";
+		rLen = 0;
+		rLoc = 11451;
+		rType = 0;
+		vrLen = 1308;
+		vrLoc = 10543;
+	};
+	ABEBF6CB123DD2AD00ECE66C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 319";
+		rLen = 0;
+		rLoc = 13342;
+		rType = 0;
+		vrLen = 1127;
+		vrLoc = 12386;
 	};
 	ABECD180121E500200D82466 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -10417,7 +10999,7 @@
 		fRef = 1D3623240D0F684500981E51 /* ARISAppDelegate.h */;
 		name = "ARISAppDelegate.h: 68";
 		rLen = 116;
-		rLoc = 2541;
+		rLoc = 2696;
 		rType = 0;
 		vrLen = 1152;
 		vrLoc = 1162;
@@ -10554,7 +11136,7 @@
 		fRef = 2B3D11AF0F4361940067FD3A /* LoginViewController.h */;
 		name = "LoginViewController.h: 20";
 		rLen = 49;
-		rLoc = 589;
+		rLoc = 443;
 		rType = 0;
 		vrLen = 540;
 		vrLoc = 0;
@@ -10564,7 +11146,7 @@
 		fRef = 2B3D11B00F4361940067FD3A /* LoginViewController.m */;
 		name = "LoginViewController.m: 18";
 		rLen = 0;
-		rLoc = 450;
+		rLoc = 420;
 		rType = 0;
 		vrLen = 550;
 		vrLoc = 150;

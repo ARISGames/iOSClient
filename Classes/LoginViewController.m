@@ -13,7 +13,6 @@
 
 @implementation LoginViewController
 
-@synthesize waitingIndicator;
 
 
 //Override init for passing title and icon to tab bar
@@ -30,10 +29,7 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	
-	self.waitingIndicator = [[WaitingIndicatorView alloc] initWithWaitingMessage:@"Logging In..." showProgressBar:NO];
-
-	
+		
 	usernameField.placeholder = NSLocalizedString(@"UsernameKey", @"");
 	passwordField.placeholder = NSLocalizedString(@"PasswordKey", @"");
 	[loginButton setTitle:NSLocalizedString(@"LoginKey",@"") forState:UIControlStateNormal];
@@ -82,13 +78,6 @@
 	
 }
 
--(void)showLoadingIndicator{
-	[self.waitingIndicator show];
-}
-
--(void)removeLoadingIndicator{
-	[self.waitingIndicator dismiss];
-}
 
 - (void)dealloc {
 	[usernameField release];
@@ -96,7 +85,6 @@
 	[loginButton release];
 	[newAccountMessageLabel release];
 	[newAccountButton release];
-	[waitingIndicator release];
     [super dealloc];
 }
 

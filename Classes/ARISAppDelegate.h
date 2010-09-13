@@ -29,6 +29,8 @@
 #import "StartOverViewController.h"
 #import "DeveloperViewController.h"
 #import "WaitingIndicatorViewController.h"
+#import "WaitingIndicatorView.h"
+
 #import "AudioToolbox/AudioToolbox.h"
 
 #import "Reachability.h"
@@ -47,6 +49,8 @@
 	UINavigationController *gamePickerNavigationController;
 	UINavigationController *nearbyObjectNavigationController;
 	WaitingIndicatorViewController *waitingIndicator;
+	WaitingIndicatorView *waitingIndicatorView;
+
 	UIAlertView *networkAlert;
 }
 
@@ -61,6 +65,8 @@
 @property (nonatomic, retain) IBOutlet NearbyBar *nearbyBar;
 @property (nonatomic, retain) IBOutlet UINavigationController *nearbyObjectNavigationController;
 @property (nonatomic, retain) WaitingIndicatorViewController *waitingIndicator;
+@property (nonatomic, retain) WaitingIndicatorView *waitingIndicatorView;
+
 @property (nonatomic, retain) UIAlertView *networkAlert;
 
 - (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password;

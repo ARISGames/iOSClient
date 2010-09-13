@@ -21,7 +21,7 @@
 @synthesize nearbyBar;
 @synthesize nearbyObjectNavigationController;
 @synthesize myCLController;
-@synthesize waitingIndicator;
+@synthesize waitingIndicator,waitingIndicatorView;
 @synthesize networkAlert;
 
 //@synthesize toolbarViewController;
@@ -221,6 +221,21 @@
 
 
 
+- (void) showNewWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar {
+	NSLog (@"AppDelegate: Showing Waiting Indicator");
+	if (!self.waitingIndicatorView) {
+		self.waitingIndicatorView = [[WaitingIndicatorView alloc] initWithWaitingMessage:message showProgressBar:NO];
+	}
+
+	[self.waitingIndicatorView show];
+	
+}
+
+- (void) removeNewWaitingIndicator {
+	NSLog (@"AppDelegate: Removing Waiting Indicator");
+	if (self.waitingIndicatorView != nil) [self.waitingIndicatorView dismiss];
+}
+
 
 - (void) showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar {
 	NSLog (@"AppDelegate: Showing Waiting Indicator");
@@ -239,6 +254,7 @@
 	NSLog (@"AppDelegate: Removing Waiting Indicator");
 	if (self.waitingIndicator != nil) [self.waitingIndicator.view removeFromSuperview ];
 }
+
 
 - (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate{
 	NSLog(@"AppDelegate: Playing an audio Alert sound");
@@ -293,14 +309,14 @@
 	appModel.username = userName;
 	appModel.password = password;
 
-	[loginViewController showLoadingIndicator];
+	[self showNewWaitingIndicator:@"Logging In..." displayProgressBar:NO];
 	[appModel login];
 }
 
 - (void)finishLoginAttempt:(NSNotification *)notification {
 	NSLog(@"AppDelegate: Finishing Login Attempt");
 	
-	[loginViewController removeLoadingIndicator];
+	[self removeNewWaitingIndicator];
 	
 	//handle login response
 	if(appModel.loggedIn) {
