@@ -169,7 +169,6 @@
 		
 	//Display the login screen if this user is not logged in
 	if (appModel.loggedIn == YES) {
-		[appModel fetchGameList];
 		if (!appModel.gameId || appModel.gameId == 0 ) {
 			NSLog(@"Appdelegate: Player already logged in, but a site has not been selected. Display site picker");
 			tabBarController.view.hidden = YES;

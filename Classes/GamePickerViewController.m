@@ -30,12 +30,7 @@
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
 		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
 		[dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
-		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"PlayerMoved" object:nil];
 		
-		//create game lists
-		self.nearGameList = [[NSMutableArray alloc] initWithCapacity:10];
-		self.farGameList = [[NSMutableArray alloc] initWithCapacity:10];
-
     }
     return self;
 }
@@ -221,7 +216,7 @@
  */
 
 - (NSString *)tableView:(UITableView *)view titleForHeaderInSection:(NSInteger)section {
-	if (section == 0 && [nearGameList count] == 0) return NSLocalizedString(@"GamePickerNoNearbyGamesKey",@"");
+	if (nearGameList && section == 0 && [nearGameList count] == 0) return NSLocalizedString(@"GamePickerNoNearbyGamesKey",@"");
 	else if (section == 0) return NSLocalizedString(@"GamePickerNearbyGamesKey", @"");	
 	else if (section == 1) return NSLocalizedString(@"GamePickerOtherGamesKey", @"");
 	return @"";
