@@ -11,39 +11,36 @@
 
 @implementation WaitingIndicatorView
 
-@synthesize alertView, message, progressView;
+@synthesize progressView;
 
-- (id)initWithMessage: (NSString*) m showProgressBar:(bool)showProgress {
-	if (self = [super init]) {
-		self.alertView = [[[UIAlertView alloc] initWithTitle:m message:nil delegate:self cancelButtonTitle:nil otherButtonTitles: nil] autorelease];
+
+- (id)initWithWaitingMessage: (NSString*) m showProgressBar:(bool)showProgress {
+	if (self = [super initWithTitle:m message:nil delegate:self cancelButtonTitle:nil otherButtonTitles: nil]) {
+		if (showProgress) self.progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
 	}
 	return self;
 }
-	
-	
 
-
-
-- (void) setMessage: (NSString*) newMessage{
-	self.alertView.title = newMessage;
+- (void) setWaitingMessage: (NSString*) newMessage{
+	super.title = newMessage;
 }
 
-- (NSString*) message{
-	return self.alertView.title;
+- (NSString*) waitingMessage{
+	return super.title;
 }
 
+	
 - (void)show{
-	[self.alertView show];
-	
+	[super show];
 	UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];	
-	indicator.center = CGPointMake(self.alertView.bounds.size.width / 2, self.alertView.bounds.size.height - 50);
+	indicator.center = CGPointMake(super.bounds.size.width / 2, super.bounds.size.height - 40);
 	[indicator startAnimating];
-	[self.alertView addSubview:indicator];
+	[super addSubview:indicator];
 	[indicator release];
 }
 
 - (void)dismiss{
-	[self.alertView dismissWithClickedButtonIndex:0 animated:YES];
+	[super dismissWithClickedButtonIndex:0 animated:YES];
 
 }
 

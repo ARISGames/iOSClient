@@ -29,7 +29,8 @@
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
         self.title = NSLocalizedString(@"SelfRegistrationTitleKey", @"");
-		
+		self.waitingIndicator = [[WaitingIndicatorView alloc] initWithWaitingMessage:@"Creating a New User" showProgressBar:NO];
+
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardNotification:)  name:UIKeyboardWillShowNotification object:nil];  
@@ -54,7 +55,6 @@
 }
  
 -(void)showLoadingIndicator{
-	self.waitingIndicator = [[WaitingIndicatorView alloc] initWithMessage:@"Creating a New User..." showProgressBar:NO];
 	[self.waitingIndicator show];
 }
 
@@ -64,12 +64,13 @@
 
 
 - (IBAction)submitButtonTouched: (id) sender{
-	[self showLoadingIndicator];
 	[self submitRegistration];
 }
 
 
 -(void)submitRegistration {
+	[self showLoadingIndicator];
+	
 	//Check with the Server
 	//self.userName.text, self.password.text, self.firstName.text, self.lastName.text, self.email.text];
 	
@@ -182,7 +183,6 @@
 
 
 - (void)dealloc {
-	[appModel release];
 	[waitingIndicator release];
     [super dealloc];
 }

@@ -9,17 +9,15 @@
 #import <UIKit/UIKit.h>
 
 
-@interface WaitingIndicatorView : UIView {
-	UIAlertView *alertView;
+@interface WaitingIndicatorView : UIAlertView {
 	UIProgressView *progressView;
 }
 
-@property (nonatomic, retain) UIAlertView *alertView;
-@property(assign) NSString *message;
--(void) setMessage: (NSString*) newMessage;
 @property(nonatomic, retain) UIProgressView *progressView;
+@property(nonatomic, copy) NSString *waitingMessage;
+-(void) setWaitingMessage: (NSString*) newMessage;
 
-- (id)initWithMessage: (NSString*)m showProgressBar:(bool)showProgress;
+- (id)initWithWaitingMessage: (NSString*)m showProgressBar:(bool)showProgress;
 - (void)show;
 - (void)dismiss;
 
