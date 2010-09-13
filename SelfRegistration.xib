@@ -277,8 +277,8 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="12741758"/>
 							<reference ref="346776234"/>
-							<reference ref="385743888"/>
 							<reference ref="637073247"/>
+							<reference ref="385743888"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -395,18 +395,14 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>createAccountButton</string>
 							<string>email</string>
-							<string>messageLabel</string>
 							<string>password</string>
-							<string>scrollView</string>
 							<string>userName</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UIButton</string>
 							<string>UITextField</string>
-							<string>UILabel</string>
 							<string>UITextField</string>
-							<string>UIScrollView</string>
 							<string>UITextField</string>
 						</object>
 					</object>
@@ -416,9 +412,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>createAccountButton</string>
 							<string>email</string>
-							<string>messageLabel</string>
 							<string>password</string>
-							<string>scrollView</string>
 							<string>userName</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -432,16 +426,8 @@
 								<string key="candidateClassName">UITextField</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">messageLabel</string>
-								<string key="candidateClassName">UILabel</string>
-							</object>
-							<object class="IBToOneOutletInfo">
 								<string key="name">password</string>
 								<string key="candidateClassName">UITextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">scrollView</string>
-								<string key="candidateClassName">UIScrollView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">userName</string>
@@ -579,25 +565,9 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">UILabel</string>
-					<string key="superclassName">UIView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">UIKit.framework/Headers/UILabel.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
 					<string key="className">UIResponder</string>
 					<string key="superclassName">NSObject</string>
 					<reference key="sourceIdentifier" ref="1045131951"/>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">UIScrollView</string>
-					<string key="superclassName">UIView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">UIKit.framework/Headers/UIScrollView.h</string>
-					</object>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">UISearchBar</string>
