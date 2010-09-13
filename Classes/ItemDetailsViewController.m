@@ -54,7 +54,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 - (void)viewDidLoad {
 	//Show waiting Indicator in own thread so it appears on time
 	//[NSThread detachNewThreadSelector: @selector(showWaitingIndicator:) toTarget: (ARISAppDelegate *)[[UIApplication sharedApplication] delegate] withObject: @"Loading..."];	
-	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate]showWaitingIndicator:NSLocalizedString(@"LoadingKey",@"") displayProgressBar:NO];
+	//[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate]showWaitingIndicator:NSLocalizedString(@"LoadingKey",@"") displayProgressBar:NO];
 	
 	
 	//Setup the Toolbar Buttons
@@ -128,7 +128,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	}
 
 	//Stop Waiting Indicator
-	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeWaitingIndicator];
+	//[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeWaitingIndicator];
 	
 	[super viewDidLoad];
 }
