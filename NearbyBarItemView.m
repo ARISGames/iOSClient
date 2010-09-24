@@ -22,14 +22,11 @@
 
 
 - (id)init {
-//	UIImage *image = [UIImage imageNamed:@"NearbyBarButtonBackground.png"];
 	CGRect frame = CGRectMake(0, 7, kNearbyBarItemWidth, kNearbyBarItemHeight);
 
-	// Set self's frame to encompass the image
 	if (self = [self initWithFrame:frame]) {
 		
 		self.opaque = NO;
-		//placardImage = image;
 		
 	}
 	return self;
@@ -46,7 +43,6 @@
 		nearbyObject = newObject;
 		[nearbyObject retain];
 		[self setTitle:[nearbyObject name]];
-		//NSLog(@"Item type is %d", [nearbyObject kind]);
 		switch ([nearbyObject kind]) {
 			case NearbyObjectNPC:
 				//NSLog(@"There's an NPC nearby.");
@@ -135,17 +131,10 @@
 	// Get the font of the appropriate size
 	UIFont *font = [UIFont boldSystemFontOfSize:fontSize];
 	
-	/*
-	[[UIColor blackColor] set];
-	point = CGPointMake(x, y + 0.5);
-	[title drawAtPoint:point forWidth:(self.bounds.size.width - ICON_WIDTH - RIGHT_STRING_MARGIN) withFont:font fontSize:fontSize lineBreakMode:UILineBreakModeMiddleTruncation baselineAdjustment:UIBaselineAdjustmentAlignBaselines];
-	*/
-	
 	[[UIColor whiteColor] set];
 	point = CGPointMake(x, y);
 	[title drawAtPoint:point forWidth:(self.bounds.size.width - ICON_WIDTH - RIGHT_STRING_MARGIN) withFont:font fontSize:fontSize lineBreakMode:UILineBreakModeTailTruncation baselineAdjustment:UIBaselineAdjustmentAlignCenters]; 
 	
-	//UIImage *iconImage = [UIImage imageNamed:@"item.png"];
 	CGFloat iconImageX = self.bounds.origin.x + 5.0;
 	CGFloat iconImageY = ((self.bounds.size.height - iconImage.size.height) / 2.0) + self.bounds.origin.y;
 	[self.iconImage drawAtPoint:(CGPointMake(iconImageX, iconImageY))];
@@ -154,24 +143,5 @@
 	CGColorSpaceRelease(myColorspace);
 	CGGradientRelease(myGradient);
 }
-
-//- (void)olddrawRect:(CGRect)rect {
-//	[placardImage drawAtPoint:(CGPointMake(0.0, 0.0))];
-//
-//	CGFloat x = self.bounds.size.width/2 - textSize.width/2;
-//	CGFloat y = self.bounds.size.height/2 - textSize.height/2;
-//	CGPoint point;
-//
-//	// Get the font of the appropriate size
-//	UIFont *font = [UIFont systemFontOfSize:fontSize];
-//
-//	[[UIColor blackColor] set];
-//	point = CGPointMake(x, y + 0.5);
-//	[title drawAtPoint:point forWidth:(self.bounds.size.width-STRING_INDENT) withFont:font fontSize:fontSize lineBreakMode:UILineBreakModeMiddleTruncation baselineAdjustment:UIBaselineAdjustmentAlignBaselines];
-//
-//	[[UIColor whiteColor] set];
-//	point = CGPointMake(x, y);
-//	[title drawAtPoint:point forWidth:(self.bounds.size.width-STRING_INDENT) withFont:font fontSize:fontSize lineBreakMode:UILineBreakModeMiddleTruncation baselineAdjustment:UIBaselineAdjustmentAlignBaselines]; 
-//}
 
 @end

@@ -755,6 +755,14 @@
 			ABDD8C45124D4FA10020F8BF /* PBXTextBookmark */ = ABDD8C45124D4FA10020F8BF /* PBXTextBookmark */;
 			ABDD8C46124D4FA10020F8BF /* PBXTextBookmark */ = ABDD8C46124D4FA10020F8BF /* PBXTextBookmark */;
 			ABDD8C47124D4FA10020F8BF /* PBXTextBookmark */ = ABDD8C47124D4FA10020F8BF /* PBXTextBookmark */;
+			ABDD8DB2124D51280020F8BF /* PBXTextBookmark */ = ABDD8DB2124D51280020F8BF /* PBXTextBookmark */;
+			ABDD8DB3124D51280020F8BF /* PBXTextBookmark */ = ABDD8DB3124D51280020F8BF /* PBXTextBookmark */;
+			ABDD8DB4124D51280020F8BF /* PBXTextBookmark */ = ABDD8DB4124D51280020F8BF /* PBXTextBookmark */;
+			ABDD8DB5124D51280020F8BF /* PBXTextBookmark */ = ABDD8DB5124D51280020F8BF /* PBXTextBookmark */;
+			ABDD8DB6124D51280020F8BF /* PBXTextBookmark */ = ABDD8DB6124D51280020F8BF /* PBXTextBookmark */;
+			ABDD8DB7124D51280020F8BF /* PBXTextBookmark */ = ABDD8DB7124D51280020F8BF /* PBXTextBookmark */;
+			ABDD8DB8124D51280020F8BF /* PBXTextBookmark */ = ABDD8DB8124D51280020F8BF /* PBXTextBookmark */;
+			ABDD8DB9124D51280020F8BF /* PBXTextBookmark */ = ABDD8DB9124D51280020F8BF /* PBXTextBookmark */;
 			ABEBF571123D959800ECE66C = ABEBF571123D959800ECE66C /* PBXTextBookmark */;
 			ABEBF572123D959800ECE66C = ABEBF572123D959800ECE66C /* PBXTextBookmark */;
 			ABEBF573123D959800ECE66C = ABEBF573123D959800ECE66C /* PBXTextBookmark */;
@@ -1052,16 +1060,16 @@
 	};
 	A7C1F5FB0FC070690045F15D /* NearbyBar.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {784, 403}}";
-			sepNavSelRange = "{199, 0}";
-			sepNavVisRange = "{450, 50}";
+			sepNavIntBoundsRect = "{{0, 0}, {784, 429}}";
+			sepNavSelRange = "{215, 0}";
+			sepNavVisRange = "{430, 85}";
 		};
 	};
 	A7C1F5FC0FC070690045F15D /* NearbyBar.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {992, 3718}}";
-			sepNavSelRange = "{1008, 0}";
-			sepNavVisRange = "{307, 1116}";
+			sepNavIntBoundsRect = "{{0, 0}, {992, 3744}}";
+			sepNavSelRange = "{441, 0}";
+			sepNavVisRange = "{0, 1025}";
 		};
 	};
 	A7C1F5FD0FC070690045F15D /* NearbyBarItemView.h */ = {
@@ -1073,9 +1081,9 @@
 	};
 	A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1370, 2470}}";
-			sepNavSelRange = "{3545, 0}";
-			sepNavVisRange = "{1757, 1746}";
+			sepNavIntBoundsRect = "{{0, 0}, {784, 2054}}";
+			sepNavSelRange = "{4417, 0}";
+			sepNavVisRange = "{0, 649}";
 		};
 	};
 	A7DBEDAB0FD5FF8400C6C659 /* npc.png */ = {
@@ -1164,7 +1172,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 16";
 		rLen = 9;
-		rLoc = 273;
+		rLoc = 289;
 		rType = 0;
 		vrLen = 107;
 		vrLoc = 225;
@@ -1421,7 +1429,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 83";
 		rLen = 0;
-		rLoc = 2368;
+		rLoc = 2171;
 		rType = 0;
 		vrLen = 826;
 		vrLoc = 145;
@@ -1441,7 +1449,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 149";
 		rLen = 0;
-		rLoc = 2948;
+		rLoc = 2964;
 		rType = 0;
 		vrLen = 1162;
 		vrLoc = 5050;
@@ -2689,7 +2697,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 83";
 		rLen = 0;
-		rLoc = 2368;
+		rLoc = 2171;
 		rType = 0;
 		vrLen = 737;
 		vrLoc = 801;
@@ -2739,7 +2747,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 16";
 		rLen = 9;
-		rLoc = 273;
+		rLoc = 289;
 		rType = 0;
 		vrLen = 895;
 		vrLoc = 0;
@@ -2759,7 +2767,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 29";
 		rLen = 0;
-		rLoc = 1766;
+		rLoc = 1782;
 		rType = 0;
 		vrLen = 689;
 		vrLoc = 442;
@@ -2829,9 +2837,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 43;
-		modificationTime = 307056543.14731;
+		modificationTime = 307056546.217578;
 		originalNumberOfMultipleMatches = 1;
-		state = 1;
+		state = 0;
 	};
 	ABC399B0116B9209002185D4 /* AudioMeterViewController.m:21 */ = {
 		isa = PBXFileBreakpoint;
@@ -2846,9 +2854,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 21;
-		modificationTime = 307056543.147255;
+		modificationTime = 307056546.217603;
 		originalNumberOfMultipleMatches = 1;
-		state = 1;
+		state = 0;
 	};
 	ABC399CD116B9EBC002185D4 /* AudioMeter.h */ = {
 		uiCtxt = {
@@ -2899,9 +2907,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 78;
-		modificationTime = 307056543.147296;
+		modificationTime = 307056546.217613;
 		originalNumberOfMultipleMatches = 1;
-		state = 1;
+		state = 0;
 	};
 	ABC39B22116BD28F002185D4 /* TitleAndDecriptionFormViewController.h */ = {
 		uiCtxt = {
@@ -2968,7 +2976,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 34;
-		modificationTime = 307056543.147281;
+		modificationTime = 307056546.217534;
 		originalNumberOfMultipleMatches = 1;
 		state = 0;
 	};
@@ -3073,7 +3081,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 54";
 		rLen = 0;
-		rLoc = 1768;
+		rLoc = 1784;
 		rType = 0;
 		vrLen = 1692;
 		vrLoc = 414;
@@ -3152,7 +3160,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 110";
 		rLen = 0;
-		rLoc = 3540;
+		rLoc = 3343;
 		rType = 0;
 		vrLen = 1881;
 		vrLoc = 1586;
@@ -3162,7 +3170,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 22;
 		vrLoc = 0;
@@ -3192,7 +3200,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 111";
 		rLen = 0;
-		rLoc = 3545;
+		rLoc = 3348;
 		rType = 0;
 		vrLen = 1542;
 		vrLoc = 2621;
@@ -3202,7 +3210,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -3232,7 +3240,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 108";
 		rLen = 0;
-		rLoc = 3540;
+		rLoc = 3343;
 		rType = 0;
 		vrLen = 1554;
 		vrLoc = 2621;
@@ -3242,7 +3250,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -3292,7 +3300,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 16";
 		rLen = 9;
-		rLoc = 273;
+		rLoc = 289;
 		rType = 0;
 		vrLen = 1040;
 		vrLoc = 0;
@@ -3312,7 +3320,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 108";
 		rLen = 0;
-		rLoc = 3540;
+		rLoc = 3343;
 		rType = 0;
 		vrLen = 1554;
 		vrLoc = 2621;
@@ -3322,7 +3330,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 71";
 		rLen = 0;
-		rLoc = 1768;
+		rLoc = 1784;
 		rType = 0;
 		vrLen = 1520;
 		vrLoc = 1276;
@@ -3332,7 +3340,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 75";
 		rLen = 0;
-		rLoc = 1858;
+		rLoc = 1874;
 		rType = 0;
 		vrLen = 1436;
 		vrLoc = 1487;
@@ -3342,7 +3350,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -3382,7 +3390,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 75";
 		rLen = 0;
-		rLoc = 1809;
+		rLoc = 1825;
 		rType = 0;
 		vrLen = 1437;
 		vrLoc = 1487;
@@ -3393,7 +3401,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		fallbackIsa = XCBuildMessageTextBookmark;
 		rLen = 1;
-		rLoc = 112;
+		rLoc = 108;
 		rType = 1;
 	};
 	ABDD8A0A124D39150020F8BF /* PBXTextBookmark */ = {
@@ -3401,7 +3409,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 109";
 		rLen = 0;
-		rLoc = 3540;
+		rLoc = 3343;
 		rType = 0;
 		vrLen = 1590;
 		vrLoc = 2579;
@@ -3411,7 +3419,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -3461,7 +3469,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 110";
 		rLen = 0;
-		rLoc = 3540;
+		rLoc = 3343;
 		rType = 0;
 		vrLen = 1590;
 		vrLoc = 2579;
@@ -3471,7 +3479,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 75";
 		rLen = 0;
-		rLoc = 1809;
+		rLoc = 1825;
 		rType = 0;
 		vrLen = 1411;
 		vrLoc = 1487;
@@ -3481,7 +3489,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 75";
 		rLen = 0;
-		rLoc = 1809;
+		rLoc = 1825;
 		rType = 0;
 		vrLen = 1411;
 		vrLoc = 1487;
@@ -3491,7 +3499,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -3521,7 +3529,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 76";
 		rLen = 0;
-		rLoc = 1881;
+		rLoc = 1897;
 		rType = 0;
 		vrLen = 1410;
 		vrLoc = 1487;
@@ -3531,7 +3539,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -3561,7 +3569,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 76";
 		rLen = 0;
-		rLoc = 1881;
+		rLoc = 1897;
 		rType = 0;
 		vrLen = 1410;
 		vrLoc = 1487;
@@ -3571,7 +3579,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 110";
 		rLen = 0;
-		rLoc = 3540;
+		rLoc = 3343;
 		rType = 0;
 		vrLen = 1590;
 		vrLoc = 2579;
@@ -3581,7 +3589,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 108";
 		rLen = 0;
-		rLoc = 3528;
+		rLoc = 3331;
 		rType = 0;
 		vrLen = 1591;
 		vrLoc = 2579;
@@ -3591,7 +3599,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -3621,7 +3629,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 109";
 		rLen = 0;
-		rLoc = 3540;
+		rLoc = 3343;
 		rType = 0;
 		vrLen = 1595;
 		vrLoc = 2579;
@@ -3631,7 +3639,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -3661,7 +3669,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 110";
 		rLen = 0;
-		rLoc = 3540;
+		rLoc = 3343;
 		rType = 0;
 		vrLen = 1579;
 		vrLoc = 2579;
@@ -3671,7 +3679,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -3701,7 +3709,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 110";
 		rLen = 0;
-		rLoc = 3539;
+		rLoc = 3342;
 		rType = 0;
 		vrLen = 1579;
 		vrLoc = 2579;
@@ -3711,7 +3719,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -3741,7 +3749,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 110";
 		rLen = 0;
-		rLoc = 3539;
+		rLoc = 3342;
 		rType = 0;
 		vrLen = 1579;
 		vrLoc = 2579;
@@ -3751,7 +3759,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 16";
 		rLen = 9;
-		rLoc = 273;
+		rLoc = 289;
 		rType = 0;
 		vrLen = 1040;
 		vrLoc = 0;
@@ -3771,7 +3779,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 76";
 		rLen = 0;
-		rLoc = 1881;
+		rLoc = 1897;
 		rType = 0;
 		vrLen = 1410;
 		vrLoc = 1487;
@@ -3781,7 +3789,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 258";
 		rLen = 0;
-		rLoc = 5286;
+		rLoc = 5302;
 		rType = 0;
 		vrLen = 1312;
 		vrLoc = 6971;
@@ -3791,7 +3799,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -3802,7 +3810,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		fallbackIsa = XCBuildMessageTextBookmark;
 		rLen = 1;
-		rLoc = 112;
+		rLoc = 108;
 		rType = 1;
 	};
 	ABDD8A4E124D3C290020F8BF /* PBXTextBookmark */ = {
@@ -3810,7 +3818,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 112";
 		rLen = 0;
-		rLoc = 3545;
+		rLoc = 3348;
 		rType = 0;
 		vrLen = 1249;
 		vrLoc = 2766;
@@ -3840,7 +3848,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 258";
 		rLen = 0;
-		rLoc = 5286;
+		rLoc = 5302;
 		rType = 0;
 		vrLen = 1312;
 		vrLoc = 6971;
@@ -3850,7 +3858,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 430";
 		rLen = 0;
-		rLoc = 7133;
+		rLoc = 7149;
 		rType = 0;
 		vrLen = 1311;
 		vrLoc = 12177;
@@ -3860,7 +3868,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 22;
 		vrLoc = 0;
@@ -3890,7 +3898,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 430";
 		rLen = 0;
-		rLoc = 7133;
+		rLoc = 7149;
 		rType = 0;
 		vrLen = 1272;
 		vrLoc = 12216;
@@ -3900,7 +3908,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -3930,7 +3938,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 430";
 		rLen = 0;
-		rLoc = 7133;
+		rLoc = 7149;
 		rType = 0;
 		vrLen = 1281;
 		vrLoc = 7150;
@@ -3940,7 +3948,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -3950,7 +3958,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 112";
 		rLen = 0;
-		rLoc = 3545;
+		rLoc = 3348;
 		rType = 0;
 		vrLen = 1249;
 		vrLoc = 2766;
@@ -3980,7 +3988,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 430";
 		rLen = 0;
-		rLoc = 7133;
+		rLoc = 7149;
 		rType = 0;
 		vrLen = 1272;
 		vrLoc = 12216;
@@ -3990,7 +3998,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 430";
 		rLen = 0;
-		rLoc = 7133;
+		rLoc = 7149;
 		rType = 0;
 		vrLen = 1272;
 		vrLoc = 12216;
@@ -4000,7 +4008,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4010,7 +4018,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 112";
 		rLen = 0;
-		rLoc = 3545;
+		rLoc = 3348;
 		rType = 0;
 		vrLen = 1249;
 		vrLoc = 2766;
@@ -4040,7 +4048,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 196";
 		rLen = 0;
-		rLoc = 3540;
+		rLoc = 3556;
 		rType = 0;
 		vrLen = 1537;
 		vrLoc = 5435;
@@ -4050,7 +4058,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4080,7 +4088,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 16";
 		rLen = 9;
-		rLoc = 273;
+		rLoc = 289;
 		rType = 0;
 		vrLen = 969;
 		vrLoc = 0;
@@ -4090,7 +4098,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 196";
 		rLen = 0;
-		rLoc = 3540;
+		rLoc = 3556;
 		rType = 0;
 		vrLen = 1546;
 		vrLoc = 5425;
@@ -4100,7 +4108,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 293";
 		rLen = 0;
-		rLoc = 6139;
+		rLoc = 6155;
 		rType = 0;
 		vrLen = 1203;
 		vrLoc = 8057;
@@ -4110,7 +4118,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4140,7 +4148,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 342";
 		rLen = 0;
-		rLoc = 6143;
+		rLoc = 6159;
 		rType = 0;
 		vrLen = 1292;
 		vrLoc = 9525;
@@ -4150,7 +4158,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4180,7 +4188,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 411";
 		rLen = 0;
-		rLoc = 6567;
+		rLoc = 6583;
 		rType = 0;
 		vrLen = 1389;
 		vrLoc = 11780;
@@ -4190,7 +4198,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 22;
 		vrLoc = 0;
@@ -4220,7 +4228,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 410";
 		rLen = 0;
-		rLoc = 6567;
+		rLoc = 6583;
 		rType = 0;
 		vrLen = 1284;
 		vrLoc = 11832;
@@ -4230,7 +4238,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4260,7 +4268,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 264";
 		rLen = 0;
-		rLoc = 5606;
+		rLoc = 5622;
 		rType = 0;
 		vrLen = 1361;
 		vrLoc = 7347;
@@ -4270,7 +4278,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4300,7 +4308,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 259";
 		rLen = 0;
-		rLoc = 5342;
+		rLoc = 5358;
 		rType = 0;
 		vrLen = 1337;
 		vrLoc = 7405;
@@ -4310,7 +4318,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4340,7 +4348,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 266";
 		rLen = 0;
-		rLoc = 5691;
+		rLoc = 5707;
 		rType = 0;
 		vrLen = 1270;
 		vrLoc = 7504;
@@ -4350,7 +4358,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4380,7 +4388,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 265";
 		rLen = 0;
-		rLoc = 5640;
+		rLoc = 5656;
 		rType = 0;
 		vrLen = 1305;
 		vrLoc = 7470;
@@ -4390,7 +4398,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4420,7 +4428,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 259";
 		rLen = 0;
-		rLoc = 5320;
+		rLoc = 5336;
 		rType = 0;
 		vrLen = 1273;
 		vrLoc = 7534;
@@ -4430,7 +4438,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4460,7 +4468,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 259";
 		rLen = 0;
-		rLoc = 5342;
+		rLoc = 5358;
 		rType = 0;
 		vrLen = 1367;
 		vrLoc = 7560;
@@ -4470,7 +4478,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4500,7 +4508,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 259";
 		rLen = 0;
-		rLoc = 5342;
+		rLoc = 5358;
 		rType = 0;
 		vrLen = 1367;
 		vrLoc = 7560;
@@ -4510,7 +4518,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 110";
 		rLen = 0;
-		rLoc = 3539;
+		rLoc = 3342;
 		rType = 0;
 		vrLen = 1519;
 		vrLoc = 2579;
@@ -4520,7 +4528,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 24";
 		rLen = 0;
-		rLoc = 565;
+		rLoc = 490;
 		rType = 0;
 		vrLen = 849;
 		vrLoc = 26;
@@ -4530,7 +4538,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4570,7 +4578,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4610,7 +4618,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4660,7 +4668,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 0;
 		vrLoc = 0;
@@ -4700,7 +4708,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 259";
 		rLen = 0;
-		rLoc = 5342;
+		rLoc = 5358;
 		rType = 0;
 		vrLen = 1295;
 		vrLoc = 7560;
@@ -4710,7 +4718,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 128";
 		rLen = 0;
-		rLoc = 2659;
+		rLoc = 2675;
 		rType = 0;
 		vrLen = 1229;
 		vrLoc = 3238;
@@ -4720,7 +4728,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 6";
 		rLen = 0;
-		rLoc = 119;
+		rLoc = 135;
 		rType = 0;
 		vrLen = 225;
 		vrLoc = 0;
@@ -4750,7 +4758,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 128";
 		rLen = 0;
-		rLoc = 2659;
+		rLoc = 2675;
 		rType = 0;
 		vrLen = 1369;
 		vrLoc = 3288;
@@ -4760,7 +4768,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 6";
 		rLen = 0;
-		rLoc = 119;
+		rLoc = 135;
 		rType = 0;
 		vrLen = 255;
 		vrLoc = 3;
@@ -4790,7 +4798,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 259";
 		rLen = 0;
-		rLoc = 5342;
+		rLoc = 5358;
 		rType = 0;
 		vrLen = 1082;
 		vrLoc = 7405;
@@ -4800,7 +4808,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 6";
 		rLen = 0;
-		rLoc = 119;
+		rLoc = 135;
 		rType = 0;
 		vrLen = 237;
 		vrLoc = 22;
@@ -4830,7 +4838,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 259";
 		rLen = 0;
-		rLoc = 5342;
+		rLoc = 5358;
 		rType = 0;
 		vrLen = 1082;
 		vrLoc = 7405;
@@ -4850,7 +4858,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 76";
 		rLen = 0;
-		rLoc = 1809;
+		rLoc = 1612;
 		rType = 0;
 		vrLen = 1438;
 		vrLoc = 1569;
@@ -4860,7 +4868,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 6";
 		rLen = 0;
-		rLoc = 119;
+		rLoc = 135;
 		rType = 0;
 		vrLen = 213;
 		vrLoc = 47;
@@ -4890,7 +4898,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 82";
 		rLen = 0;
-		rLoc = 2158;
+		rLoc = 1961;
 		rType = 0;
 		vrLen = 1553;
 		vrLoc = 1667;
@@ -4900,7 +4908,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 6";
 		rLen = 0;
-		rLoc = 119;
+		rLoc = 135;
 		rType = 0;
 		vrLen = 242;
 		vrLoc = 50;
@@ -4930,7 +4938,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 82";
 		rLen = 0;
-		rLoc = 2158;
+		rLoc = 1961;
 		rType = 0;
 		vrLen = 1585;
 		vrLoc = 1672;
@@ -4940,7 +4948,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 6";
 		rLen = 0;
-		rLoc = 119;
+		rLoc = 135;
 		rType = 0;
 		vrLen = 222;
 		vrLoc = 88;
@@ -4970,7 +4978,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 82";
 		rLen = 0;
-		rLoc = 2158;
+		rLoc = 1961;
 		rType = 0;
 		vrLen = 1552;
 		vrLoc = 1670;
@@ -4980,7 +4988,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 6";
 		rLen = 0;
-		rLoc = 119;
+		rLoc = 135;
 		rType = 0;
 		vrLen = 191;
 		vrLoc = 141;
@@ -5010,7 +5018,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 77";
 		rLen = 0;
-		rLoc = 1940;
+		rLoc = 1743;
 		rType = 0;
 		vrLen = 1615;
 		vrLoc = 1672;
@@ -5020,7 +5028,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 6";
 		rLen = 0;
-		rLoc = 119;
+		rLoc = 135;
 		rType = 0;
 		vrLen = 188;
 		vrLoc = 144;
@@ -5050,7 +5058,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 77";
 		rLen = 0;
-		rLoc = 1940;
+		rLoc = 1743;
 		rType = 0;
 		vrLen = 1599;
 		vrLoc = 1713;
@@ -5060,7 +5068,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 6";
 		rLen = 0;
-		rLoc = 119;
+		rLoc = 135;
 		rType = 0;
 		vrLen = 210;
 		vrLoc = 145;
@@ -5090,7 +5098,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 77";
 		rLen = 0;
-		rLoc = 2078;
+		rLoc = 1881;
 		rType = 0;
 		vrLen = 1597;
 		vrLoc = 1713;
@@ -5100,7 +5108,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 6";
 		rLen = 0;
-		rLoc = 119;
+		rLoc = 135;
 		rType = 0;
 		vrLen = 207;
 		vrLoc = 169;
@@ -5140,7 +5148,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 136";
 		rLen = 0;
-		rLoc = 4324;
+		rLoc = 4127;
 		rType = 0;
 		vrLen = 581;
 		vrLoc = 145;
@@ -5150,7 +5158,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 147";
 		rLen = 0;
-		rLoc = 4858;
+		rLoc = 4359;
 		rType = 0;
 		vrLen = 1289;
 		vrLoc = 3992;
@@ -5160,7 +5168,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 6";
 		rLen = 0;
-		rLoc = 119;
+		rLoc = 135;
 		rType = 0;
 		vrLen = 197;
 		vrLoc = 199;
@@ -5190,7 +5198,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 147";
 		rLen = 0;
-		rLoc = 4910;
+		rLoc = 4411;
 		rType = 0;
 		vrLen = 1260;
 		vrLoc = 4091;
@@ -5200,7 +5208,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 6";
 		rLen = 0;
-		rLoc = 119;
+		rLoc = 135;
 		rType = 0;
 		vrLen = 189;
 		vrLoc = 225;
@@ -5230,7 +5238,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 76";
 		rLen = 0;
-		rLoc = 1758;
+		rLoc = 1561;
 		rType = 0;
 		vrLen = 1203;
 		vrLoc = 1490;
@@ -5240,7 +5248,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 6";
 		rLen = 0;
-		rLoc = 119;
+		rLoc = 135;
 		rType = 0;
 		vrLen = 172;
 		vrLoc = 258;
@@ -5270,7 +5278,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 75";
 		rLen = 0;
-		rLoc = 1757;
+		rLoc = 1560;
 		rType = 0;
 		vrLen = 1383;
 		vrLoc = 1529;
@@ -5280,7 +5288,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 6";
 		rLen = 0;
-		rLoc = 119;
+		rLoc = 135;
 		rType = 0;
 		vrLen = 187;
 		vrLoc = 258;
@@ -5320,7 +5328,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 16";
 		rLen = 9;
-		rLoc = 273;
+		rLoc = 289;
 		rType = 0;
 		vrLen = 579;
 		vrLoc = 0;
@@ -5330,7 +5338,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 259";
 		rLen = 0;
-		rLoc = 5342;
+		rLoc = 5358;
 		rType = 0;
 		vrLen = 1082;
 		vrLoc = 7405;
@@ -5340,7 +5348,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 128";
 		rLen = 0;
-		rLoc = 2659;
+		rLoc = 2675;
 		rType = 0;
 		vrLen = 1032;
 		vrLoc = 3121;
@@ -5350,7 +5358,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 6";
 		rLen = 0;
-		rLoc = 119;
+		rLoc = 135;
 		rType = 0;
 		vrLen = 202;
 		vrLoc = 259;
@@ -5380,7 +5388,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 128";
 		rLen = 0;
-		rLoc = 2659;
+		rLoc = 2675;
 		rType = 0;
 		vrLen = 1032;
 		vrLoc = 3121;
@@ -5420,7 +5428,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 6";
 		rLen = 0;
-		rLoc = 119;
+		rLoc = 135;
 		rType = 0;
 		vrLen = 218;
 		vrLoc = 260;
@@ -5460,7 +5468,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 128";
 		rLen = 0;
-		rLoc = 2659;
+		rLoc = 2675;
 		rType = 0;
 		vrLen = 1032;
 		vrLoc = 3121;
@@ -5470,7 +5478,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 259";
 		rLen = 0;
-		rLoc = 5276;
+		rLoc = 5292;
 		rType = 0;
 		vrLen = 1091;
 		vrLoc = 7470;
@@ -5480,7 +5488,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 6";
 		rLen = 0;
-		rLoc = 119;
+		rLoc = 135;
 		rType = 0;
 		vrLen = 200;
 		vrLoc = 292;
@@ -5520,7 +5528,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 259";
 		rLen = 0;
-		rLoc = 5276;
+		rLoc = 5292;
 		rType = 0;
 		vrLen = 771;
 		vrLoc = 0;
@@ -5530,7 +5538,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 123";
 		rLen = 0;
-		rLoc = 2659;
+		rLoc = 2675;
 		rType = 0;
 		vrLen = 1326;
 		vrLoc = 3276;
@@ -5540,7 +5548,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 6";
 		rLen = 0;
-		rLoc = 119;
+		rLoc = 135;
 		rType = 0;
 		vrLen = 203;
 		vrLoc = 310;
@@ -5592,7 +5600,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 27";
 		rLen = 0;
-		rLoc = 450;
+		rLoc = 466;
 		rType = 0;
 		vrLen = 607;
 		vrLoc = 144;
@@ -5602,7 +5610,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 17";
 		rLen = 0;
-		rLoc = 260;
+		rLoc = 276;
 		rType = 0;
 		vrLen = 791;
 		vrLoc = 0;
@@ -5612,7 +5620,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 338";
 		rLen = 0;
-		rLoc = 6441;
+		rLoc = 6457;
 		rType = 0;
 		vrLen = 849;
 		vrLoc = 9510;
@@ -5622,7 +5630,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 11";
 		rLen = 0;
-		rLoc = 199;
+		rLoc = 215;
 		rType = 0;
 		vrLen = 184;
 		vrLoc = 141;
@@ -5652,7 +5660,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 347";
 		rLen = 0;
-		rLoc = 6243;
+		rLoc = 6259;
 		rType = 0;
 		vrLen = 1033;
 		vrLoc = 9510;
@@ -5662,7 +5670,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 11";
 		rLen = 0;
-		rLoc = 199;
+		rLoc = 215;
 		rType = 0;
 		vrLen = 181;
 		vrLoc = 144;
@@ -5692,7 +5700,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 347";
 		rLen = 0;
-		rLoc = 6243;
+		rLoc = 6259;
 		rType = 0;
 		vrLen = 985;
 		vrLoc = 10797;
@@ -5702,7 +5710,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 11";
 		rLen = 0;
-		rLoc = 199;
+		rLoc = 215;
 		rType = 0;
 		vrLen = 181;
 		vrLoc = 144;
@@ -5732,7 +5740,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 353";
 		rLen = 0;
-		rLoc = 6441;
+		rLoc = 6457;
 		rType = 0;
 		vrLen = 1012;
 		vrLoc = 9510;
@@ -5742,7 +5750,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 11";
 		rLen = 0;
-		rLoc = 199;
+		rLoc = 215;
 		rType = 0;
 		vrLen = 198;
 		vrLoc = 145;
@@ -5772,7 +5780,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 342";
 		rLen = 0;
-		rLoc = 6243;
+		rLoc = 6259;
 		rType = 0;
 		vrLen = 753;
 		vrLoc = 9769;
@@ -5782,7 +5790,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 11";
 		rLen = 0;
-		rLoc = 199;
+		rLoc = 215;
 		rType = 0;
 		vrLen = 190;
 		vrLoc = 169;
@@ -5812,7 +5820,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 103";
 		rLen = 0;
-		rLoc = 2659;
+		rLoc = 2675;
 		rType = 0;
 		vrLen = 1034;
 		vrLoc = 2521;
@@ -5822,7 +5830,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 11";
 		rLen = 0;
-		rLoc = 199;
+		rLoc = 215;
 		rType = 0;
 		vrLen = 34;
 		vrLoc = 199;
@@ -5852,7 +5860,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 105";
 		rLen = 0;
-		rLoc = 2659;
+		rLoc = 2675;
 		rType = 0;
 		vrLen = 1024;
 		vrLoc = 2533;
@@ -5862,7 +5870,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 11";
 		rLen = 0;
-		rLoc = 199;
+		rLoc = 215;
 		rType = 0;
 		vrLen = 2;
 		vrLoc = 232;
@@ -5892,7 +5900,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 105";
 		rLen = 0;
-		rLoc = 2659;
+		rLoc = 2675;
 		rType = 0;
 		vrLen = 1022;
 		vrLoc = 2536;
@@ -5902,7 +5910,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 11";
 		rLen = 0;
-		rLoc = 199;
+		rLoc = 215;
 		rType = 0;
 		vrLen = 33;
 		vrLoc = 233;
@@ -5932,7 +5940,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 78";
 		rLen = 0;
-		rLoc = 1768;
+		rLoc = 1784;
 		rType = 0;
 		vrLen = 1172;
 		vrLoc = 958;
@@ -5942,7 +5950,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 11";
 		rLen = 0;
-		rLoc = 199;
+		rLoc = 215;
 		rType = 0;
 		vrLen = 33;
 		vrLoc = 233;
@@ -5972,7 +5980,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 58";
 		rLen = 0;
-		rLoc = 1766;
+		rLoc = 1782;
 		rType = 0;
 		vrLen = 1130;
 		vrLoc = 1034;
@@ -5982,7 +5990,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 11";
 		rLen = 0;
-		rLoc = 199;
+		rLoc = 215;
 		rType = 0;
 		vrLen = 51;
 		vrLoc = 233;
@@ -6012,7 +6020,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 58";
 		rLen = 0;
-		rLoc = 1190;
+		rLoc = 1206;
 		rType = 0;
 		vrLen = 1022;
 		vrLoc = 1201;
@@ -6022,7 +6030,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 11";
 		rLen = 0;
-		rLoc = 199;
+		rLoc = 215;
 		rType = 0;
 		vrLen = 71;
 		vrLoc = 234;
@@ -6052,7 +6060,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 342";
 		rLen = 0;
-		rLoc = 7002;
+		rLoc = 7018;
 		rType = 0;
 		vrLen = 1147;
 		vrLoc = 8869;
@@ -6062,7 +6070,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 327";
 		rLen = 0;
-		rLoc = 6435;
+		rLoc = 6451;
 		rType = 0;
 		vrLen = 1155;
 		vrLoc = 8968;
@@ -6072,7 +6080,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 11";
 		rLen = 0;
-		rLoc = 199;
+		rLoc = 215;
 		rType = 0;
 		vrLen = 59;
 		vrLoc = 266;
@@ -6102,7 +6110,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 321";
 		rLen = 138;
-		rLoc = 6297;
+		rLoc = 6313;
 		rType = 0;
 		vrLen = 1150;
 		vrLoc = 8990;
@@ -6112,7 +6120,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 11";
 		rLen = 0;
-		rLoc = 199;
+		rLoc = 215;
 		rType = 0;
 		vrLen = 59;
 		vrLoc = 284;
@@ -6142,7 +6150,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 249";
 		rLen = 0;
-		rLoc = 6143;
+		rLoc = 6159;
 		rType = 0;
 		vrLen = 1172;
 		vrLoc = 6835;
@@ -6152,7 +6160,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 11";
 		rLen = 0;
-		rLoc = 199;
+		rLoc = 215;
 		rType = 0;
 		vrLen = 54;
 		vrLoc = 305;
@@ -6182,7 +6190,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 249";
 		rLen = 0;
-		rLoc = 6143;
+		rLoc = 6159;
 		rType = 0;
 		vrLen = 1288;
 		vrLoc = 5800;
@@ -6192,7 +6200,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 11";
 		rLen = 0;
-		rLoc = 199;
+		rLoc = 215;
 		rType = 0;
 		vrLen = 49;
 		vrLoc = 325;
@@ -6222,7 +6230,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 103";
 		rLen = 0;
-		rLoc = 1768;
+		rLoc = 1784;
 		rType = 0;
 		vrLen = 1056;
 		vrLoc = 1865;
@@ -6232,7 +6240,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 11";
 		rLen = 0;
-		rLoc = 199;
+		rLoc = 215;
 		rType = 0;
 		vrLen = 47;
 		vrLoc = 343;
@@ -6262,7 +6270,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 109";
 		rLen = 0;
-		rLoc = 2622;
+		rLoc = 2638;
 		rType = 0;
 		vrLen = 1009;
 		vrLoc = 2218;
@@ -6272,7 +6280,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 11";
 		rLen = 0;
-		rLoc = 199;
+		rLoc = 215;
 		rType = 0;
 		vrLen = 31;
 		vrLoc = 359;
@@ -6302,7 +6310,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 54";
 		rLen = 0;
-		rLoc = 1035;
+		rLoc = 1051;
 		rType = 0;
 		vrLen = 1031;
 		vrLoc = 306;
@@ -6312,7 +6320,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 11";
 		rLen = 0;
-		rLoc = 199;
+		rLoc = 215;
 		rType = 0;
 		vrLen = 33;
 		vrLoc = 374;
@@ -6342,7 +6350,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 85";
 		rLen = 0;
-		rLoc = 1811;
+		rLoc = 1827;
 		rType = 0;
 		vrLen = 1164;
 		vrLoc = 1387;
@@ -6352,7 +6360,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 11";
 		rLen = 0;
-		rLoc = 199;
+		rLoc = 215;
 		rType = 0;
 		vrLen = 38;
 		vrLoc = 390;
@@ -6382,7 +6390,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 31";
 		rLen = 0;
-		rLoc = 631;
+		rLoc = 647;
 		rType = 0;
 		vrLen = 639;
 		vrLoc = 0;
@@ -6392,7 +6400,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 85";
 		rLen = 0;
-		rLoc = 1811;
+		rLoc = 1827;
 		rType = 0;
 		vrLen = 1048;
 		vrLoc = 259;
@@ -6402,7 +6410,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 40";
 		rLen = 0;
-		rLoc = 980;
+		rLoc = 996;
 		rType = 0;
 		vrLen = 1003;
 		vrLoc = 3;
@@ -6412,7 +6420,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 11";
 		rLen = 0;
-		rLoc = 199;
+		rLoc = 215;
 		rType = 0;
 		vrLen = 38;
 		vrLoc = 412;
@@ -6442,7 +6450,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 33";
 		rLen = 0;
-		rLoc = 778;
+		rLoc = 794;
 		rType = 0;
 		vrLen = 987;
 		vrLoc = 47;
@@ -6452,7 +6460,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 11";
 		rLen = 0;
-		rLoc = 199;
+		rLoc = 215;
 		rType = 0;
 		vrLen = 84;
 		vrLoc = 414;
@@ -6482,7 +6490,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 34";
 		rLen = 0;
-		rLoc = 778;
+		rLoc = 794;
 		rType = 0;
 		vrLen = 946;
 		vrLoc = 88;
@@ -6492,7 +6500,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 11";
 		rLen = 0;
-		rLoc = 199;
+		rLoc = 215;
 		rType = 0;
 		vrLen = 49;
 		vrLoc = 450;
@@ -6522,7 +6530,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 38";
 		rLen = 0;
-		rLoc = 1008;
+		rLoc = 1024;
 		rType = 0;
 		vrLen = 1116;
 		vrLoc = 307;
@@ -6532,10 +6540,90 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 11";
 		rLen = 0;
-		rLoc = 199;
+		rLoc = 215;
 		rType = 0;
 		vrLen = 50;
 		vrLoc = 450;
+	};
+	ABDD8DB2124D51280020F8BF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 195";
+		rLen = 47;
+		rLoc = 9742;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	ABDD8DB3124D51280020F8BF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 314";
+		rLen = 0;
+		rLoc = 13295;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	ABDD8DB4124D51280020F8BF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = D42432621107735800E58147 /* DialogViewController.m */;
+		name = "DialogViewController.m: 188";
+		rLen = 0;
+		rLoc = 6314;
+		rType = 0;
+		vrLen = 1003;
+		vrLoc = 5765;
+	};
+	ABDD8DB5124D51280020F8BF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
+		name = "NearbyBar.h: 3";
+		rLen = 0;
+		rLoc = 62;
+		rType = 0;
+		vrLen = 655;
+		vrLoc = 0;
+	};
+	ABDD8DB6124D51280020F8BF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
+		name = "NearbyBar.m: 24";
+		rLen = 0;
+		rLoc = 441;
+		rType = 0;
+		vrLen = 1025;
+		vrLoc = 0;
+	};
+	ABDD8DB7124D51280020F8BF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
+		name = "NearbyBarItemView.m: 14";
+		rLen = 32;
+		rLoc = 264;
+		rType = 0;
+		vrLen = 745;
+		vrLoc = 0;
+	};
+	ABDD8DB8124D51280020F8BF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
+		name = "NearbyBarItemView.m: 138";
+		rLen = 0;
+		rLoc = 4417;
+		rType = 0;
+		vrLen = 649;
+		vrLoc = 0;
+	};
+	ABDD8DB9124D51280020F8BF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
+		name = "NearbyBar.h: 11";
+		rLen = 0;
+		rLoc = 215;
+		rType = 0;
+		vrLen = 85;
+		vrLoc = 430;
 	};
 	ABEBF564123D916D00ECE66C /* WaitingIndicatorView.h */ = {
 		uiCtxt = {
@@ -6756,7 +6844,7 @@
 		fRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */;
 		name = "NearbyBar.m: 71";
 		rLen = 0;
-		rLoc = 1768;
+		rLoc = 1784;
 		rType = 0;
 		vrLen = 1499;
 		vrLoc = 1294;
@@ -6816,7 +6904,7 @@
 		fRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */;
 		name = "NearbyBarItemView.m: 110";
 		rLen = 0;
-		rLoc = 3540;
+		rLoc = 3343;
 		rType = 0;
 		vrLen = 1852;
 		vrLoc = 1590;
@@ -6826,7 +6914,7 @@
 		fRef = A7C1F5FB0FC070690045F15D /* NearbyBar.h */;
 		name = "NearbyBar.h: 21";
 		rLen = 0;
-		rLoc = 325;
+		rLoc = 341;
 		rType = 0;
 		vrLen = 22;
 		vrLoc = 0;
@@ -6996,9 +7084,9 @@
 	};
 	D42432621107735800E58147 /* DialogViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {978, 9711}}";
+			sepNavIntBoundsRect = "{{0, 0}, {978, 9802}}";
 			sepNavSelRange = "{6314, 0}";
-			sepNavVisRange = "{5936, 649}";
+			sepNavVisRange = "{5765, 1003}";
 			sepNavWindowFrame = "{{61, 88}, {726, 743}}";
 		};
 	};

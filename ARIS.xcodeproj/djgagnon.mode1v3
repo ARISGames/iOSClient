@@ -282,14 +282,14 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>27</integer>
+									<integer>29</integer>
 									<integer>21</integer>
 									<integer>3</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 98}, {464, 654}}</string>
+							<string>{{0, 0}, {464, 654}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -338,7 +338,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>ABDD8C44124D4FA10020F8BF</string>
+										<string>ABDD8DB2124D51280020F8BF</string>
 										<key>history</key>
 										<array>
 											<string>ABB9262310C85AB000B09506</string>
@@ -526,7 +526,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>ABDD8C45124D4FA10020F8BF</string>
+										<string>ABDD8DB3124D51280020F8BF</string>
 										<key>history</key>
 										<array>
 											<string>ABB9262310C85AB000B09506</string>
@@ -704,7 +704,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>NearbyBar.m</string>
+								<string>NearbyBarItemView.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -712,11 +712,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>NearbyBar.m</string>
+										<string>NearbyBarItemView.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>ABDD8C46124D4FA10020F8BF</string>
+										<string>ABDD8DB8124D51280020F8BF</string>
 										<key>history</key>
 										<array>
 											<string>ABB9262310C85AB000B09506</string>
@@ -857,15 +857,15 @@
 											<string>ABB3A80712487FC3000503CE</string>
 											<string>ABB3A824124880A0000503CE</string>
 											<string>ABB3A825124880A0000503CE</string>
-											<string>ABB3A82E12488143000503CE</string>
 											<string>ABDD8B64124D451D0020F8BF</string>
-											<string>ABDD8B71124D45A70020F8BF</string>
 											<string>ABDD8B9F124D48310020F8BF</string>
 											<string>ABDD8BA0124D48310020F8BF</string>
 											<string>ABDD8BA1124D48310020F8BF</string>
 											<string>ABDD8BA2124D48310020F8BF</string>
-											<string>ABDD8C2F124D4F620020F8BF</string>
-											<string>ABDD8C30124D4F620020F8BF</string>
+											<string>ABDD8DB4124D51280020F8BF</string>
+											<string>ABDD8DB5124D51280020F8BF</string>
+											<string>ABDD8DB6124D51280020F8BF</string>
+											<string>ABDD8DB7124D51280020F8BF</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -904,7 +904,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>ABDD8C47124D4FA10020F8BF</string>
+										<string>ABDD8DB9124D51280020F8BF</string>
 										<key>history</key>
 										<array>
 											<string>ABB9262310C85AB000B09506</string>

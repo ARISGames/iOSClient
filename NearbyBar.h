@@ -1,6 +1,6 @@
 //
-//  InventoryBar.h
-//  fun with button bars
+//  NearbyBar.m
+//  Displayes a view to show nearby objects
 //
 //  Created by Brian Deith on 5/6/09.
 //  Copyright 2009 Brian Deith. All rights reserved.
