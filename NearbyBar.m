@@ -9,130 +9,39 @@
 #import "NearbyBar.h"
 #import "ARISAppDelegate.h"
 
+#define kNearbyBarExposedHeight 40
+
 
 @implementation NearbyBar
 
-@synthesize shrunken;
-@synthesize shrunkenHeight;
-@synthesize exposedHeight;
 @synthesize fillColor;
-@synthesize indicator;
 @synthesize inactive;
 
-- (void)setExposedHeight:(float)newHeight {
-	exposedHeight = newHeight;
-	NSLog(@"Exposed height set to :%f", exposedHeight);
-	indicator.translationPoint = CGPointMake(self.bounds.origin.x + newHeight / 2.0, self.bounds.origin.y + newHeight / 2.0);
-}
-
-- (void)setshrunken:(BOOL)newshrunken {
-	CGRect myFrame;
-	if (newshrunken != [self shrunken]) {
-		[UIView beginAnimations: nil context: nil ]; // Tell UIView we're ready to start animations.
-		myFrame = self.frame;
-		if (newshrunken == YES) {
-			myFrame.size.height = shrunkenHeight;
-			buttonView.alpha = 0.0;
-			//[self setFillColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.3]];
-			self.alpha = 0.5;
-		} else {
-			myFrame.size.height = exposedHeight;
-			buttonView.alpha = 1.0;
-			CGRect bounds = buttonView.bounds;
-			bounds.origin.x = 0.0; 
-			buttonView.bounds = bounds;
-			//[self setFillColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0]];
-			self.alpha = 1.0;
-		}
-		self.frame = myFrame;
-		[UIView commitAnimations];
-		shrunken = newshrunken;
-	}
-}
-
-- (void)setInactive:(BOOL)newInactive {
-	if (newInactive != [self inactive]) {
-		[UIView beginAnimations: nil context: nil ];
-		if (newInactive == YES) {
-			//make bar inactive by hiding it completely
-			self.alpha=0.0;
-		} else {
-			//bar is being exposed, so set alpha apropriate to shrunken state
-			if (self.shrunken) {
-				self.alpha = 0.5; 
-			} else {
-				self.alpha = 1.0;
-			}
-		}
-		inactive = newInactive;
-		[UIView commitAnimations];
-	}
-}
-			
-- (BOOL)isOpaque {
-	return NO;
-}
-
-- (void)setFillColor:(UIColor *)newColor {
-	[fillColor release];
-	fillColor = [newColor retain];
-	[self setNeedsDisplay];
-}
-
-- (void)finishInit {
-	usedSpace = 20.0;
-	maxScroll = 0.0;
-	shrunkenHeight = self.frame.size.height;
-	shrunken = YES;
-	itemTouch = NO;
-	[self setAlpha:0.5];
-	CGRect viewFrame = self.bounds;
-	viewFrame.origin.x +=3.0;
-	viewFrame.origin.y +=2.0;
-	viewFrame.size.width = self.shrunkenHeight - 4.0;
-	viewFrame.size.height = self.shrunkenHeight - 4.0;
-	IndicatorView *indicatorView = [[IndicatorView alloc] initWithFrame:viewFrame];
-	[self addSubview:indicatorView];
-	self.indicator = indicatorView;
-	self.exposedHeight = 44.0;
-	viewFrame = self.bounds;
-	viewFrame.size.height = exposedHeight;
-	viewFrame = CGRectInset(viewFrame, 40.0, 0);
-	viewFrame.origin.x += 20;
-	buttonView = [[UIView alloc] initWithFrame:viewFrame];
-	[buttonView setClipsToBounds:YES];
-	[buttonView setAlpha:0.0];
-	[self addSubview:buttonView];
-	self.fillColor = [UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:0.8];;
-	NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-	[dispatcher addObserver:self selector:@selector(processNearbyLocationsList:) name:@"ReceivedNearbyLocationList" object:nil];
-	[self.indicator addObserver:self forKeyPath:@"expanded" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionInitial context:nil];
-	self.alpha = 0.0;
-	self.inactive = YES;
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-	if ([object isMemberOfClass:[IndicatorView class]]) {  //should be, unless we start observing something else
-		BOOL exposedState = [[change objectForKey:NSKeyValueChangeNewKey] boolValue];
-		[self setshrunken:!exposedState];
-	} else {
-		NSLog(@"I seem to be observing something I'm not looking at. Weird.");
-	}
-}
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-		[self finishInit];
+		maxScroll = 0.0;
+		itemTouch = NO;
+		
+		CGRect buttonViewFrame = self.bounds;
+		buttonViewFrame.size.height = kNearbyBarExposedHeight;
+		buttonViewFrame = CGRectInset(buttonViewFrame, 5.0, 0.0); //how far to inset the items
+		buttonView = [[UIView alloc] initWithFrame:buttonViewFrame];
+		[buttonView setClipsToBounds:YES];
+		[buttonView setAlpha:1.0];
+		[self addSubview:buttonView];
+		
+		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+		[dispatcher addObserver:self selector:@selector(processNearbyLocationsList:) name:@"ReceivedNearbyLocationList" object:nil];		
+	
+		self.inactive = YES;
+
+	
 	}
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)decoder {
-	if (self = [super initWithCoder:decoder]) {
-		[self finishInit];
-	}
-	return self;
-}
+
 
 
 - (void)drawRect:(CGRect)rect {
@@ -140,6 +49,61 @@
 	UIRectFill(rect);
 }
 
+//We need to manually hide and unhide to make sure things line up just right
+- (void)setHidden:(BOOL)newHidden {	
+	if (newHidden) {
+		[UIView beginAnimations: nil context: nil ]; // Tell UIView we're ready to start animations.
+		CGRect myFrame = self.frame;
+		myFrame.size.height = 0;
+		self.frame = myFrame;
+		self.alpha = 0.0;
+		ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+		CGFloat newAppYOrigin = self.frame.origin.y + self.frame.size.height;
+		[appDelegate setApplicationYOrigin:newAppYOrigin];
+	
+		[UIView commitAnimations];	
+	}
+	else {
+		self.alpha = 1.0;
+		[self setInactive:inactive];
+	}	
+}
+
+ 
+- (void)setInactive:(BOOL)newInactive {
+
+	self.fillColor = [UIColor colorWithRed:27/255.0 green:76/255.0 blue:26/255.0 alpha:1.0];
+	
+	[UIView beginAnimations: nil context: nil ];
+	CGRect newFrame = self.frame;
+	if (newInactive == YES) {
+		//make bar inactive by hiding it completely
+		self.alpha=0.0;
+		newFrame.size.height = 0;
+	} else {
+		//bar is being exposed, so set alpha apropriate to shrunken state
+		self.alpha = 1.0; 
+		newFrame.size.height = kNearbyBarExposedHeight;
+	}
+	[self setFrame:newFrame];
+	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	
+	[appDelegate setApplicationYOrigin:self.frame.origin.y + self.frame.size.height];
+	
+	[UIView commitAnimations];
+}
+			
+
+
+- (void)setFillColor:(UIColor *)newColor {
+	[fillColor release];
+	fillColor = [newColor retain];
+	[self setNeedsDisplay];
+}
+ 
+
+
+#pragma mark Managing Nearby Items
 
 - (void)processNearbyLocationsList:(NSNotification *)notification {
     NSLog(@"NearbyBar: Recieved a Nearby Locations List Notification");
@@ -162,7 +126,8 @@
 		self.inactive = NO;
 		
 		for (NearbyBarItemView *anItemView in [buttonView subviews]) {
-			NSObject <NearbyObjectProtocol> *existingItem = anItemView.nearbyObject;
+			NSObject <NearbyObjectProtocol> *existingItem = nil;
+			if ([anItemView respondsToSelector:@selector(nearbyObject)]) existingItem = anItemView.nearbyObject;
 			if (([[existingItem name] isEqualToString:[unknownNearbyLocation name]])
 				&& ([existingItem kind] == [unknownNearbyLocation kind])) {
 				match = YES;
@@ -182,21 +147,19 @@
 	if (newItem) {
 		ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 		[appDelegate playAudioAlert:@"nearbyObject" shouldVibrate:YES];
-		[[self indicator] setExpanded:YES];
 	}
 	[self clearAllItems];
 	for (NSObject <NearbyObjectProtocol> *unknownNearbyLocation in nearbyLocations) {
 		if ([unknownNearbyLocation kind] != NearbyObjectPlayer) [self addItem:unknownNearbyLocation];
 	}
+
 	if (forcedDisplayItem) {
 		[forcedDisplayItem display];
 	}
 	
 }
 
-- (void)dealloc {
-    [super dealloc];
-}
+
 
 - (void)clearAllItems {
 	NSArray *myItems = [buttonView subviews];
@@ -205,22 +168,33 @@
 	while (myView = [viewEnumerator nextObject]) {
 		[myView removeFromSuperview];
 	}
-//	[self setshrunken:YES];
 }
 
 - (void)addItem:(NSObject <NearbyObjectProtocol> *)item {
 	NearbyBarItemView *itemView = [[NearbyBarItemView alloc] init];
 	[itemView setNearbyObject:item];
 	[self addItemView:itemView];
-//	[self setshrunken:NO];
 }
 
 - (void)addItemView:(NearbyBarItemView *)itemView {
 	//get the last subview of the buttonView
 	UIView *lastView = [[buttonView subviews] lastObject];
 	float newX;
-	if (lastView) newX = lastView.frame.origin.x + lastView.frame.size.width + 5;
-	else newX = 0;
+	if (lastView) {
+		//At least one button is already here
+		newX = lastView.frame.origin.x + lastView.frame.size.width + 5;
+	} 
+	else {
+		CGRect labelFrame = CGRectMake(0, 0, 70, self.frame.size.height);
+		UILabel *nearbyLabel = [[UILabel alloc]initWithFrame:labelFrame];
+		nearbyLabel.text = @"Nearby Obejcts:";
+		nearbyLabel.backgroundColor = [UIColor clearColor];
+		nearbyLabel.textColor = [UIColor whiteColor];
+		nearbyLabel.font = [UIFont systemFontOfSize:12.0];
+		nearbyLabel.numberOfLines = 2;
+		[buttonView addSubview:nearbyLabel];
+		newX = 80;
+	}
 	
 	CGRect newViewFrame = itemView.frame;
 	newViewFrame.origin.x = newX;
@@ -228,143 +202,76 @@
 	itemView.frame = newViewFrame;
 	[buttonView addSubview:itemView];
 	[buttonView setNeedsDisplay];
+	
 	maxScroll = itemView.frame.origin.x + itemView.frame.size.width + 5 - buttonView.frame.size.width;
 	if (maxScroll < 0.0) {
 		maxScroll = 0.0;
 	}
-}
-
-- (float)leftmostDivide {
-	float divide;
-	divide = buttonView.bounds.origin.x;
-	NSArray *itemViews = [buttonView subviews];
-	NSEnumerator *enumerator = [itemViews objectEnumerator];
-	for (UIView *element in enumerator) {
-		if (element.frame.origin.x > divide) {
-			divide = element.frame.origin.x;
-//			NSLog(@"Divide is %f", divide);
-			break;
-		}
-	}
-	return divide;
-}
-
-- (float)rightmostDivide {
-	float divide;
-	divide = buttonView.bounds.origin.x + buttonView.bounds.size.width;
-	NSArray *itemViews = [buttonView subviews];
-	NSEnumerator *enumerator = [itemViews reverseObjectEnumerator];
-	for (UIView *element in enumerator) {
-		if ((element.frame.origin.x + element.frame.size.width) < divide) {
-			divide = element.frame.origin.x + element.frame.size.width;
-			//NSLog(@"NearbyBar: Divide is %f", divide);
-			break;
-		}
-	}
-	return divide;
-}
-
- 	
-- (void)scroll:(float)delta {
-	//scroll by delta amount. -delta moves buttons to right,
-	//+delta to left. Amount pinned to 0..maxScroll.
-	CGRect myBounds = buttonView.bounds;
-	myBounds.origin.x -= delta;
-	if (myBounds.origin.x > maxScroll) {
-		myBounds.origin.x = maxScroll;
-	}
-	if (myBounds.origin.x < 0.0) {
-		myBounds.origin.x = 0.0;
-	}
-	[UIView beginAnimations: nil context: nil ]; // Tell UIView we're ready to start animations.
-	[UIView setAnimationCurve: UIViewAnimationCurveEaseInOut ];
-	[UIView setAnimationDuration: 0.4f ]; // Set the duration to 4/10ths of a second.
-	buttonView.bounds = myBounds;
-	[UIView commitAnimations];
-}
 	
-- (IBAction)scrollLeft:(id)sender {
-	float scrollTarget = [self leftmostDivide];
-	NSLog(@"NearbyBar: ScrollTarget is %f",scrollTarget);
-	float delta = buttonView.bounds.origin.x - scrollTarget;
-	NSLog(@"NearbyBar: Delta is %f",delta);
-	[self scroll:delta];
+
 }
 
-- (IBAction)scrollRight:(id)sender {
-	float scrollTarget = [self rightmostDivide];
-	NSLog(@"NearbyBar: ScrollTarget is %f",scrollTarget);
-	float delta = (buttonView.bounds.origin.x + buttonView.bounds.size.width) - scrollTarget;
-	NSLog(@"NearbyBar: Delta is %f",delta);
-	[self scroll:delta];
-}
-	
-#pragma mark Touches
 
+
+#pragma mark Managing Touches
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 	if (!self.inactive) { //ignore touches while inactive
-		if (!self.shrunken) {
-			itemTouch = YES;
-			dragged = NO;
-			UITouch *touch = [touches anyObject]; //should be just one
-			lastTouch = [touch locationInView:self];
-			CGRect shrinkRect = self.bounds;
-			shrinkRect.size.width = self.bounds.size.height;
-			if (CGRectContainsPoint(shrinkRect, lastTouch)) {
-				self.indicator.expanded = NO;
-			}
-		} else {
-			itemTouch = NO;
-			self.indicator.expanded = YES;
-		}
+		itemTouch = YES;
+		dragged = NO;
+		UITouch *touch = [touches anyObject]; //should be just one
+		lastTouch = [touch locationInView:self];
 	}
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event { 
 	if (!self.inactive) { //ignore touches while inactive
-		if (!self.shrunken) {
-			UITouch *touch = [touches anyObject]; //should be just one
-			CGPoint touchPoint = [touch locationInView:self];
-			float deltaX = touchPoint.x - lastTouch.x;
-			lastTouch = touchPoint;
-			CGRect myFrame = buttonView.bounds;
-			myFrame.origin.x -= deltaX;
-			if (myFrame.origin.x > maxScroll) {
-				myFrame.origin.x = maxScroll;
-			}
-			if (myFrame.origin.x < 0.0) {
-				myFrame.origin.x = 0.0;
-			}
-			buttonView.bounds = myFrame;
-			dragged = YES;
+		UITouch *touch = [touches anyObject]; //should be just one
+		CGPoint touchPoint = [touch locationInView:self];
+		float deltaX = touchPoint.x - lastTouch.x;
+		lastTouch = touchPoint;
+		CGRect myFrame = buttonView.bounds;
+		myFrame.origin.x -= deltaX;
+		if (myFrame.origin.x > maxScroll) {
+			myFrame.origin.x = maxScroll;
 		}
+		if (myFrame.origin.x < 0) {
+			myFrame.origin.x = 0;
+		}	
+		buttonView.bounds = myFrame;
+		dragged = YES;
+		
 	}
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 	if (!self.inactive) { //ignore touches while inactive
-		if (!self.shrunken) {
-			if ((!dragged) && itemTouch) {
-				//NSLog(@"NearbyBar: I should open an item, it was not a drag");
-				UITouch *touch = [touches anyObject]; //should be just one
-				CGPoint touchPoint = [touch locationInView:buttonView];
-				NSArray *myItems = [buttonView subviews];
-				NSEnumerator *viewEnumerator = [myItems objectEnumerator];
-				NearbyBarItemView *myView;
-				while (myView = [viewEnumerator nextObject]) {
-					if (CGRectContainsPoint([myView frame], touchPoint)) {
-						
-						NSLog(@"NearbyBar: Found the object selected, displaying: %@", [myView title]);
-						
-						ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-						[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
-						
-						[[myView nearbyObject] display];
-					}
+		if ((!dragged) && itemTouch) {
+			//NSLog(@"NearbyBar: I should open an item, it was not a drag");
+			UITouch *touch = [touches anyObject]; //should be just one
+			CGPoint touchPoint = [touch locationInView:buttonView];
+			NSArray *myItems = [buttonView subviews];
+			NSEnumerator *viewEnumerator = [myItems objectEnumerator];
+			NearbyBarItemView *myView;
+			while (myView = [viewEnumerator nextObject]) {
+				if (CGRectContainsPoint([myView frame], touchPoint)) {
+					
+					NSLog(@"NearbyBar: Found the object selected, displaying: %@", [myView title]);
+					
+					ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+					[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
+					
+					if ([myView respondsToSelector:@selector(nearbyObject)]) [[myView nearbyObject] display];
 				}
 			}
 		}
+		
 	}
+}
+
+
+#pragma mark Mamory Management
+- (void)dealloc {
+    [super dealloc];
 }
 
 @end

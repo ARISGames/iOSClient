@@ -199,10 +199,12 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	[appModel updateServerItemViewed:item.itemId];
 	
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-	appDelegate.nearbyBar.hidden = NO;
 	
 	[self.navigationController popToRootViewControllerAnimated:YES];
 	[self dismissModalViewControllerAnimated:YES];
+	
+	appDelegate.nearbyBar.hidden = NO;
+
 	
 }
 

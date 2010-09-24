@@ -25,6 +25,7 @@ static float INITIAL_SPAN = 0.001;
 @synthesize tracking;
 @synthesize mapTypeButton;
 @synthesize playerTrackingButton;
+@synthesize toolBar;
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
@@ -95,26 +96,8 @@ static float INITIAL_SPAN = 0.001;
     [super viewDidLoad];
 	
 	NSLog(@"Begin Loading GPS View");
-
-	//Setup the Map
-	CGFloat tableViewHeight = 325; //416-44; // todo: get this from const
-	CGRect mainViewBounds = self.view.bounds;
-	CGRect tableFrame;
-	tableFrame = CGRectMake(CGRectGetMinX(mainViewBounds),
-							CGRectGetMinY(mainViewBounds),
-							CGRectGetWidth(mainViewBounds),
-							tableViewHeight);
-	
-	NSLog(@"GPSViewController: Mapview about to be inited.");
-	mapView = [[MKMapView alloc] initWithFrame:tableFrame];
-	[mapView setFrame:tableFrame];
-	MKCoordinateRegion region = mapView.region;
-	region.span.latitudeDelta=0.001;
-	region.span.longitudeDelta=0.001;
-	[mapView setRegion:region animated:NO];
-	[mapView regionThatFits:region];
 	mapView.showsUserLocation = YES;
-	[mapView setDelegate:self]; //View will request annotation views from us
+	[mapView setDelegate:self];
 	[self.view addSubview:mapView];
 	NSLog(@"GPSViewController: Mapview inited and added to view");
 	

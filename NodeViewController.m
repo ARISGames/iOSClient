@@ -130,10 +130,11 @@ static NSString * const OPTION_CELL = @"option";
 	[appModel updateServerNodeViewed:node.nodeId];
 	
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-	appDelegate.nearbyBar.hidden = NO;
 	
 	//[self.view removeFromSuperview];
 	[self dismissModalViewControllerAnimated:YES];
+	appDelegate.nearbyBar.hidden = NO;
+
 }
 
 -(IBAction)playMovie:(id)sender {

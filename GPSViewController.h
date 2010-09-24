@@ -16,12 +16,13 @@
 
 @interface GPSViewController : UIViewController <MKMapViewDelegate> {
 	AppModel *appModel;
-	MKMapView *mapView;
+	IBOutlet MKMapView *mapView;
 	NSArray *locations;
 	BOOL tracking;
 	BOOL appSetNextRegionChange;
 	IBOutlet UIBarButtonItem *mapTypeButton;
 	IBOutlet UIBarButtonItem *playerTrackingButton;
+	IBOutlet UIToolbar *toolBar;
 	BOOL silenceNextServerUpdate;
 	NSTimer *refreshTimer;
 
@@ -40,5 +41,7 @@
 
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *mapTypeButton;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *playerTrackingButton;
+@property (nonatomic, retain) IBOutlet UIToolbar *toolBar;
+
 
 @end

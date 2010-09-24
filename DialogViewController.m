@@ -180,11 +180,12 @@ NSString *const kDialogHtmlTemplate =
 	
 	//tell the server
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-	appDelegate.nearbyBar.hidden = NO;
 	AppModel *appModel = appDelegate.appModel;
 	[appModel updateServerNpcViewed:currentNpc.npcId];
 	
 	[self dismissModalViewControllerAnimated:YES];
+	appDelegate.nearbyBar.hidden = NO;
+
 }
 
 - (IBAction)continueButtonTouchAction{

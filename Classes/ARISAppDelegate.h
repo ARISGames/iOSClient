@@ -77,6 +77,7 @@
 
 - (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password;
 - (void) displayNearbyObjectView:(UIViewController *)nearbyObjectViewController;
+- (void) setApplicationYOrigin: (CGFloat)yOrigin;
 - (void) showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)yesOrNo;
 - (void) removeWaitingIndicator;
 - (void) showNetworkAlert;

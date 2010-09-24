@@ -141,7 +141,8 @@
 	loginViewNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 	[loginViewController retain]; //This view may be removed and readded to the window
 	
-	//Add the view controllers to the Tab Bar
+	//Add the view controllers to a Tab Bar
+	tabBarController = [[UITabBarController alloc] init];
 	tabBarController.viewControllers = [NSMutableArray arrayWithObjects: 
 										questsNavigationController, 
 										gpsNavigationController,
@@ -155,7 +156,7 @@
 										startOverNavigationController,
 										//developerNavigationController,
 										nil];	
-
+	[tabBarController.view setFrame:UIScreen.mainScreen.applicationFrame];
 	[window addSubview:tabBarController.view];
 
 	//Customize the 'more' nav controller on the tab bar
@@ -189,13 +190,29 @@
 	}
 	
 	//Inventory Bar, which is really a view
-	nearbyBar = [[NearbyBar alloc] initWithFrame:CGRectMake(0.0, 63.0, 320.0, 20.0)];
+	nearbyBar = [[NearbyBar alloc] initWithFrame:CGRectMake(UIScreen.mainScreen.applicationFrame.origin.x, 
+															UIScreen.mainScreen.applicationFrame.origin.y, 
+															UIScreen.mainScreen.applicationFrame.size.width, 
+															20.0)];
 	[window addSubview:nearbyBar];	
 	
 	if ([[UIScreen screens] count] > 1) {
 		NSLog(@"Found an external screen.");
 		[self startTVOut];
 	}
+	
+}
+
+- (void) setApplicationYOrigin: (CGFloat)yOrigin {
+
+	CGFloat height = UIScreen.mainScreen.applicationFrame.size.height - yOrigin + 20;
+	
+	NSLog(@"AppDelegate: Setting Application y origin to %f and height to %f", yOrigin, height);
+	
+	tabBarController.view.frame = CGRectMake(window.frame.origin.x,
+											yOrigin,
+											window.frame.size.width,
+											height);
 	
 }
 
@@ -294,7 +311,7 @@
 
 - (void)displayNearbyObjectView:(UIViewController *)nearbyObjectViewController {
 	//Hide the nearby bar
-	nearbyBar.hidden = YES;
+	[nearbyBar setHidden:YES];
 	
 	nearbyObjectNavigationController = [[UINavigationController alloc] initWithRootViewController:nearbyObjectViewController];
 	nearbyObjectNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;

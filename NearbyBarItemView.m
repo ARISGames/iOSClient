@@ -10,6 +10,9 @@
 
 #define RIGHT_STRING_MARGIN 5
 #define ICON_WIDTH 30
+#define kNearbyBarItemWidth 150
+#define kNearbyBarItemHeight 30
+
 
 @implementation NearbyBarItemView
 
@@ -20,7 +23,7 @@
 
 - (id)init {
 //	UIImage *image = [UIImage imageNamed:@"NearbyBarButtonBackground.png"];
-	CGRect frame = CGRectMake(0, 7, 150, 30);
+	CGRect frame = CGRectMake(0, 7, kNearbyBarItemWidth, kNearbyBarItemHeight);
 
 	// Set self's frame to encompass the image
 	if (self = [self initWithFrame:frame]) {
@@ -69,14 +72,14 @@
 - (void)setTitle:(NSString *)newTitle {
 	[title release];
 	title = [newTitle copy];
-	UIFont *font = [UIFont systemFontOfSize:12.0];
+	UIFont *font = [UIFont boldSystemFontOfSize:12.0];
 	// Precalculate size of text and size of font so that text fits inside placard
-	textSize = [title sizeWithFont:font minFontSize:9.0 actualFontSize:&fontSize forWidth:(self.bounds.size.width-RIGHT_STRING_MARGIN - ICON_WIDTH) lineBreakMode:UILineBreakModeMiddleTruncation];
+	textSize = [title sizeWithFont:font minFontSize:12.0 actualFontSize:&fontSize forWidth:(self.bounds.size.width-RIGHT_STRING_MARGIN - ICON_WIDTH) lineBreakMode:UILineBreakModeTailTruncation];
 	[self setNeedsDisplay];
 }
 
 - (void)drawRect:(CGRect)rect {
-	float radius = 10.0;
+	float radius = 8.0;
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGMutablePathRef path = CGPathCreateMutable();
 	CGPathMoveToPoint(path, NULL, rect.origin.x, rect.origin.y + radius);
@@ -101,16 +104,19 @@
 	CGGradientRef myGradient;
 	CGColorSpaceRef myColorspace;
 	size_t num_locations = 2;
-	CGFloat locations[3] = { 0.0, 0.5, 1.0 };
+	CGFloat locations[2] = { 0.0, 0.5};
+	
 	CGFloat components[12] = { 
-		0.82, 0.01, 0.01, 1.0,
-		0.50, 0.20, 0.01, 1.0,
-		0.70, 0.01, 0.01, 1.0
-	};
+		40/255.0, 135/255.0, 31/255.0, 1.0,
+
+		34/255.0, 92/255.0, 31/255.0, 1.0
+
+	}; 
+	 
 	
 	myColorspace = CGColorSpaceCreateDeviceRGB();
 	myGradient = CGGradientCreateWithColorComponents (myColorspace, components,
-													  locations, num_locations);
+												  locations, num_locations);
 	CGPoint myStartPoint, myEndPoint;
 	myStartPoint = self.bounds.origin;
 	myEndPoint.x = self.bounds.origin.x;
@@ -127,15 +133,17 @@
 	CGPoint point;
 	
 	// Get the font of the appropriate size
-	UIFont *font = [UIFont systemFontOfSize:fontSize];
+	UIFont *font = [UIFont boldSystemFontOfSize:fontSize];
 	
+	/*
 	[[UIColor blackColor] set];
 	point = CGPointMake(x, y + 0.5);
 	[title drawAtPoint:point forWidth:(self.bounds.size.width - ICON_WIDTH - RIGHT_STRING_MARGIN) withFont:font fontSize:fontSize lineBreakMode:UILineBreakModeMiddleTruncation baselineAdjustment:UIBaselineAdjustmentAlignBaselines];
+	*/
 	
 	[[UIColor whiteColor] set];
 	point = CGPointMake(x, y);
-	[title drawAtPoint:point forWidth:(self.bounds.size.width - ICON_WIDTH - RIGHT_STRING_MARGIN) withFont:font fontSize:fontSize lineBreakMode:UILineBreakModeMiddleTruncation baselineAdjustment:UIBaselineAdjustmentAlignBaselines]; 
+	[title drawAtPoint:point forWidth:(self.bounds.size.width - ICON_WIDTH - RIGHT_STRING_MARGIN) withFont:font fontSize:fontSize lineBreakMode:UILineBreakModeTailTruncation baselineAdjustment:UIBaselineAdjustmentAlignCenters]; 
 	
 	//UIImage *iconImage = [UIImage imageNamed:@"item.png"];
 	CGFloat iconImageX = self.bounds.origin.x + 5.0;
