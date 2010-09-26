@@ -1165,8 +1165,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "ARIS" */;
 			buildPhases = (
-				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
+				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
 				AB508AC8119330710002FCFA /* ShellScript */,
 			);
@@ -1515,29 +1515,19 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: David Gagnon (56YHU87885)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ARIS_Prefix.pch;
-				HEADER_SEARCH_PATHS = "Classes/map/MapView/**";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\\\"$(SRCROOT)/Classes/map/MapView/build/Debug-iphonesimulator\\\"",
-					"\\\"$(SRCROOT)/Classes/map/MapView/build/Release-iphoneos\\\"",
-					"\\\"$(SRCROOT)/Classes/map/MapView/build/Release-iphonesimulator\\\"",
-					"\\\"$(SRCROOT)/Classes/map/Proj4/build/Debug-iphonesimulator\\\"",
-					"\\\"$(SRCROOT)/Classes/map/Proj4/build/Release-iphoneos\\\"",
-					"\\\"$(SRCROOT)/Classes/map/Proj4/build/Release-iphonesimulator\\\"",
-					"\\\"$(SRCROOT)\\\"",
-					"\\\"$(SRCROOT)/build/Debug-iphonesimulator\\\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = ARIS;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F7BC70E7-3490-4451-B1EB-6B2157C01EA2";
 				SDKROOT = iphoneos4.1;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1590,29 +1580,20 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: UW Division of Information Technology";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ARIS_Prefix.pch;
-				HEADER_SEARCH_PATHS = "Classes/map/MapView/**";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\\\"$(SRCROOT)/Classes/map/MapView/build/Debug-iphonesimulator\\\"",
-					"\\\"$(SRCROOT)/Classes/map/MapView/build/Release-iphoneos\\\"",
-					"\\\"$(SRCROOT)/Classes/map/MapView/build/Release-iphonesimulator\\\"",
-					"\\\"$(SRCROOT)/Classes/map/Proj4/build/Debug-iphonesimulator\\\"",
-					"\\\"$(SRCROOT)/Classes/map/Proj4/build/Release-iphoneos\\\"",
-					"\\\"$(SRCROOT)/Classes/map/Proj4/build/Release-iphonesimulator\\\"",
-					"\\\"$(SRCROOT)\\\"",
-					"\\\"$(SRCROOT)/build/Debug-iphonesimulator\\\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = ARIS;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D14C3F02-C8B2-42ED-B71D-FC92CB362494";
 				SDKROOT = iphoneos4.1;
 				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = "Enterprise Distribution";
 		};
@@ -1646,25 +1627,16 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ARIS_Prefix.pch;
-				HEADER_SEARCH_PATHS = "Classes/map/MapView/**";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\\\"$(SRCROOT)/Classes/map/MapView/build/Debug-iphonesimulator\\\"",
-					"\\\"$(SRCROOT)/Classes/map/MapView/build/Release-iphoneos\\\"",
-					"\\\"$(SRCROOT)/Classes/map/MapView/build/Release-iphonesimulator\\\"",
-					"\\\"$(SRCROOT)/Classes/map/Proj4/build/Debug-iphonesimulator\\\"",
-					"\\\"$(SRCROOT)/Classes/map/Proj4/build/Release-iphoneos\\\"",
-					"\\\"$(SRCROOT)/Classes/map/Proj4/build/Release-iphonesimulator\\\"",
-					"\\\"$(SRCROOT)\\\"",
-					"\\\"$(SRCROOT)/build/Debug-iphonesimulator\\\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = ARIS;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A68C61C9-B01F-4138-94A8-211BA1CB620A";
 				SDKROOT = iphoneos4.1;
 				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = "AppStore Distribution";
 		};
