@@ -21,7 +21,7 @@
 	BOOL itemTouch;
 	UIColor *fillColor;
 }
-@property(readwrite)	BOOL inactive;
+@property(readwrite)		BOOL inactive;
 @property(readwrite,retain) UIColor *fillColor;
 
 

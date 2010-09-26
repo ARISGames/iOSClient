@@ -71,17 +71,18 @@
 
  
 - (void)setInactive:(BOOL)newInactive {
-
-	self.fillColor = [UIColor colorWithRed:27/255.0 green:76/255.0 blue:26/255.0 alpha:1.0];
 	
 	[UIView beginAnimations: nil context: nil ];
 	CGRect newFrame = self.frame;
 	if (newInactive == YES) {
 		//make bar inactive by hiding it completely
+		inactive = YES;
 		self.alpha=0.0;
 		newFrame.size.height = 0;
 	} else {
+		inactive = NO;
 		//bar is being exposed, so set alpha apropriate to shrunken state
+		self.fillColor = [UIColor colorWithRed:27/255.0 green:76/255.0 blue:26/255.0 alpha:1.0];
 		self.alpha = 1.0; 
 		newFrame.size.height = kNearbyBarExposedHeight;
 	}
@@ -111,6 +112,7 @@
 	NSObject <NearbyObjectProtocol> *forcedDisplayItem = nil;
 	
 	if ([nearbyLocations count] == 0) { 
+		[self clearAllItems];
 		self.inactive = YES;
 		return;
 	}

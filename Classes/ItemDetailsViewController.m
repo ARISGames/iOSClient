@@ -245,9 +245,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	[alert show];
 	[alert release];
 	
-	appDelegate.nearbyBar.hidden = NO;
 	[self.navigationController popToRootViewControllerAnimated:YES];
 	[self dismissModalViewControllerAnimated:YES];
+	appDelegate.nearbyBar.hidden = NO;
+
 
 }
 

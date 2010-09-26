@@ -480,11 +480,6 @@ static const int kEmptyValue = -1;
 		return;
 	}
 	
-	//init a fresh nearby location list array
-	if(nearbyLocationsList != nil) {
-		[nearbyLocationsList release];
-	}
-	nearbyLocationsList = [[NSMutableArray alloc] initWithCapacity:5];
 	
 	//Update the server with the new Player Location
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.playerId],
@@ -499,23 +494,35 @@ static const int kEmptyValue = -1;
 	[jsonConnection performAsynchronousRequestWithParser:nil]; 
 	[jsonConnection release];
 	
+	[self rebuildNearbyLocationList];
 	
-	//Rebuild nearbyLocationList
-	//We could just do this in the getter
+
+	
+}
+
+- (void) rebuildNearbyLocationList {
+	
+	//init a fresh nearby location list array
+	if(nearbyLocationsList != nil) {
+		[nearbyLocationsList release];
+	}
+	nearbyLocationsList = [[NSMutableArray alloc] initWithCapacity:5];
+	
 	NSEnumerator *locationsListEnumerator = [locationList objectEnumerator];
 	Location *location;
 	while (location = [locationsListEnumerator nextObject]) {
 		//check if the location is close to the player
-		if ([playerLocation getDistanceFrom:location.location] < location.error)
-			[nearbyLocationsList addObject:location];
+		if ([playerLocation getDistanceFrom:location.location] < location.error && 
+			(location.kind != NearbyObjectItem || location.qty > 0)) {
+				[nearbyLocationsList addObject:location];
+		}
 	}
 	
 	//Tell the rest of the app that the nearbyLocationList is fresh
-	NSNotification *nearbyLocationListNotification = 
-	[NSNotification notificationWithName:@"ReceivedNearbyLocationList" object:nearbyLocationsList];
+	NSNotification *nearbyLocationListNotification =  [NSNotification notificationWithName:@"ReceivedNearbyLocationList" object:nearbyLocationsList];
 	[[NSNotificationCenter defaultCenter] postNotification:nearbyLocationListNotification];
-	
 }
+
 
 - (void) silenceNextServerUpdate {
 	NSLog(@"AppModel: silenceNextServerUpdate");
@@ -530,22 +537,16 @@ static const int kEmptyValue = -1;
 -(void)modifyQuantity: (int)quantityModifier forLocationId: (int)locationId {
 	NSLog(@"AppModel: modifying quantity for a location in the local location list");
 	
-	//find the location in the list with the matching locationId
-	for (Location* loc in nearbyLocationsList) {
-		if (loc.locationId == locationId ) {
-			loc.qty += quantityModifier;
-		}
-	}
-
-	//find the location in the list with the matching locationId
 	for (Location* loc in locationList) {
-		if (loc.locationId == locationId ) {
+		if (loc.locationId == locationId && loc.kind == NearbyObjectItem) {
 			loc.qty += quantityModifier;
+			NSLog(@"AppModel: Quantity for %@ set to %d",loc.name,loc.qty);	
 		}
 	}	
 	
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedNearbyLocationList" object:nil]];	
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewLocationListReady" object:nil]];	
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewLocationListReady" object:nil]];
+	
+	[self rebuildNearbyLocationList];
 }
 
 -(void)removeItemFromInventory: (Item*)item {
@@ -701,7 +702,7 @@ static const int kEmptyValue = -1;
 - (void)resetAllPlayerLists {
 	NSLog(@"AppModel: resetAllPlayerLists");
 
-	
+
 	//Clear the Hashes
 	questListHash = 0;
 	inventoryHash = 0;
@@ -709,6 +710,7 @@ static const int kEmptyValue = -1;
 
 	//Clear them out
 	self.locationList = [[NSMutableArray alloc] initWithCapacity:0];
+	self.nearbyLocationsList = [[NSMutableArray alloc] initWithCapacity:0];
 
 	NSMutableArray *completedQuestObjects = [[NSMutableArray alloc] init];
 	NSMutableArray *activeQuestObjects = [[NSMutableArray alloc] init];
@@ -729,6 +731,8 @@ static const int kEmptyValue = -1;
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewLocationListReady" object:nil]];
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewQuestListReady" object:nil]];
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewInventoryReady" object:nil]];
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedNearbyLocationList" object:nil]];
+
 }
 
 

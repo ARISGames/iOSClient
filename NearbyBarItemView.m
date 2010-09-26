@@ -1,6 +1,6 @@
 //
-//  InventoryBarItem.m
-//  fun with button bars
+//  NearbyBarItem.m
+//  A single button, representing a nearby object, on a NearbyBar
 //
 //  Created by Brian Deith on 5/6/09.
 //  Copyright 2009 Brian Deith. All rights reserved.
