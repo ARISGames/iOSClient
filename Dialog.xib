@@ -235,7 +235,7 @@
 								<int key="IBUIStyle">0</int>
 							</object>
 						</object>
-						<string key="NSFrameSize">{320, 416}</string>
+						<string key="NSFrame">{{-400, 0}, {320, 416}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<object class="NSColor" key="IBUIBackgroundColor" id="332756645">
 							<int key="NSColorSpace">1</int>
@@ -328,7 +328,7 @@
 								<float key="IBUIMaximumZoomScale">1000</float>
 							</object>
 						</object>
-						<string key="NSFrame">{{-400, 0}, {320, 416}}</string>
+						<string key="NSFrameSize">{320, 416}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>

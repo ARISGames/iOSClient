@@ -46,7 +46,6 @@
 	manualCode.placeholder = NSLocalizedString(@"EnterCodeKey",@"");
 	
 	self.imagePickerController = [[UIImagePickerController alloc] init];
-	self.imagePickerController.allowsImageEditing = YES;
 	self.imagePickerController.delegate = self;
 	
 	if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {

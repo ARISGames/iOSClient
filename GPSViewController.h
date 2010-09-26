@@ -30,13 +30,13 @@
 
 -(void) refresh;
 -(void) zoomAndCenterMap;
+-(void) showLoadingIndicator;
 
 
 @property (nonatomic, retain) MKMapView *mapView;
 @property (nonatomic, retain) NSArray *locations;
 
 @property BOOL tracking;
-@property BOOL appSetNextRegionChange;
 
 
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *mapTypeButton;

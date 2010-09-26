@@ -512,7 +512,7 @@ static const int kEmptyValue = -1;
 	Location *location;
 	while (location = [locationsListEnumerator nextObject]) {
 		//check if the location is close to the player
-		if ([playerLocation getDistanceFrom:location.location] < location.error && 
+		if ([playerLocation distanceFromLocation:location.location] < location.error && 
 			(location.kind != NearbyObjectItem || location.qty > 0)) {
 				[nearbyLocationsList addObject:location];
 		}
@@ -1327,7 +1327,7 @@ static const int kEmptyValue = -1;
 
 -(void)parseQRCodeObjectFromJSON: (JSONResult *)jsonResult {
 
-	NSDictionary *qrCodeObjectDictionary = jsonResult.data;
+	NSDictionary *qrCodeObjectDictionary = (NSDictionary *)jsonResult.data;
 	
 	NSString *latitude = [qrCodeObjectDictionary valueForKey:@"latitude"];
 	NSString *longitude = [qrCodeObjectDictionary valueForKey:@"longitude"];

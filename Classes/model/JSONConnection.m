@@ -58,8 +58,6 @@
 	// Make synchronous request
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showNewWaitingIndicator: @"Loading" displayProgressBar:NO];
-	[[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the activity indicator show before doing the sync request
-
 	
 	[request startSynchronous];
 				  
@@ -70,7 +68,7 @@
 	if (error) {
 		NSLog(@"*** JSONConnection: performSynchronousRequest Error: %@ %@",
 			  [error localizedDescription],
-			  [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
+			  [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
 		[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showNetworkAlert];
 		return nil;		
 	}				  
@@ -152,7 +150,7 @@
 	// inform the user
     NSLog(@"*** JSONConnection: requestFailed: %@ %@",
           [error localizedDescription],
-          [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
+          [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
 	
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	//[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeWaitingIndicator];

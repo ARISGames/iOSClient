@@ -64,7 +64,6 @@
 @property(nonatomic, retain) IBOutlet UITableView	*pcTableView;
 @property(nonatomic, retain) IBOutlet UITextField	*pcAnswerView;
 @property(nonatomic, retain) IBOutlet UILabel		*nothingElseLabel;
-@property(nonatomic, retain) IBOutlet UILabel		*npcLabel;
 @property(nonatomic, retain) IBOutlet UIButton *npcContinueButton;
 @property(nonatomic, retain) IBOutlet UIButton *pcContinueButton;
 
@@ -86,6 +85,11 @@
 - (void) loadNPCImage:(NSInteger)mediaId;
 - (void) continueScript;
 - (void) didFinishParsing;
+- (void) applyNPCWithGreeting;
+- (void) applyPlayerOptions;
+- (void) finishApplyingPlayerOptions:(NSArray*)options;
+- (void) showWaitingIndicatorForPlayerOptions;
+- (void) dismissWaitingIndicatorForPlayerOptions;
 - (void) stopAllAudio;
 
 @end

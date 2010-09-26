@@ -28,7 +28,7 @@
 	
 	if (!self.geoLocation) return;
 	
-	double baseDistance = [origin getDistanceFrom:self.geoLocation];
+	double baseDistance = [origin distanceFromLocation:self.geoLocation];
 	
 	self.radialDistance = sqrt(pow(origin.altitude - self.geoLocation.altitude, 2) + pow(baseDistance, 2));
 		

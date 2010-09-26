@@ -25,4 +25,6 @@
 
 - (void) refresh;
 - (unsigned int) indexOf:(char) searchChar inString:(NSString *)searchString;
+- (void)showLoadingIndicator;
+
 @end

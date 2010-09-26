@@ -249,6 +249,7 @@
 	self.waitingIndicatorView = [[WaitingIndicatorView alloc] initWithWaitingMessage:message showProgressBar:NO];
 	[self.waitingIndicatorView show];
 	
+	[[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the activity indicator show before returning	
 }
 
 - (void) removeNewWaitingIndicator {

@@ -14,7 +14,7 @@
 @end
 
 
-@interface SceneParser : NSObject {
+@interface SceneParser : NSObject <NSXMLParserDelegate> {
 	Boolean			isPc;
 	NSInteger		currentCharacterId;
 	NSMutableString	*currentText;

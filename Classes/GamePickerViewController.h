@@ -19,6 +19,7 @@
 -(void) slideIn;
 -(void) slideOut;
 -(void) refresh;
+-(void)showLoadingIndicator;
 
 @property (nonatomic, retain) NSMutableArray *nearGameList;
 @property (nonatomic, retain) NSMutableArray *farGameList;

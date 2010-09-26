@@ -79,10 +79,13 @@
 - (void) displayNearbyObjectView:(UIViewController *)nearbyObjectViewController;
 - (void) setApplicationYOrigin: (CGFloat)yOrigin;
 - (void) showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)yesOrNo;
+- (void) showNewWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar;
 - (void) removeWaitingIndicator;
+- (void) removeNewWaitingIndicator;
 - (void) showNetworkAlert;
 - (void) removeNetworkAlert;
 - (void) returnToHomeView;
 - (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate;
+- (void) startTVOut;
 
 @end

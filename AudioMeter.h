@@ -24,4 +24,7 @@
 @property(readwrite, retain) UIColor *activeColor;
 @property(readwrite, retain) UIColor *inactiveColor;
 
+
+- (void)updateLevel:(double)level;
+
 @end

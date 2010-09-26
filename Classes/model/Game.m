@@ -39,7 +39,7 @@
 
 - (double)distanceFromPlayer {
 	AppModel *appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
-	if (appModel.playerLocation) return [self.location getDistanceFrom:appModel.playerLocation];
+	if (appModel.playerLocation) return [self.location distanceFromLocation:appModel.playerLocation];
 	else return 0;
 }
 

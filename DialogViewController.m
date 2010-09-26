@@ -530,7 +530,7 @@ NSString *const kDialogHtmlTemplate =
 
 	//position the continue button
 	CGRect continueButtonFrame = [continueButton frame];	
-	continueButtonFrame.origin = CGPointMake(continueButtonFrame.origin.x, webViewFrame.origin.y+webViewFrame.size.height+10);
+	continueButtonFrame.origin = CGPointMake(continueButtonFrame.origin.x, webViewFrame.origin.y+webViewFrame.size.height+5);
 	[continueButton setFrame:continueButtonFrame];
 	/*
 	NSLog(@"DialogViewController: Continue Button frame set to {%f, %f, %f, %f}", 

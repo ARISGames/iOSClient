@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ARISAppDelegate.h";
 #import "model/AppModel.h";
+#import "Quest.h"
 
 
 @interface QuestsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate, UIWebViewDelegate> {
@@ -25,6 +26,13 @@
 
 
 - (void)refresh;
+- (void)showLoadingIndicator;
+- (void)removeLoadingIndicator;
+- (void)constructCells;
+- (UITableViewCell*) getCellContentViewForQuest:(Quest*)quest inSection:(int)section;
+- (void)updateCellSize:(UITableViewCell*)cell;
+
+
 
 
 @end
