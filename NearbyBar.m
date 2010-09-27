@@ -189,7 +189,7 @@
 	else {
 		CGRect labelFrame = CGRectMake(0, 0, 70, self.frame.size.height);
 		UILabel *nearbyLabel = [[UILabel alloc]initWithFrame:labelFrame];
-		nearbyLabel.text = @"Nearby Obejcts:";
+		nearbyLabel.text = NSLocalizedString(@"NearbyObjectsKey",@"");
 		nearbyLabel.backgroundColor = [UIColor clearColor];
 		nearbyLabel.textColor = [UIColor whiteColor];
 		nearbyLabel.font = [UIFont systemFontOfSize:12.0];

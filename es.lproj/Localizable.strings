@@ -19,6 +19,7 @@
 "LoadingKey" = "Cargando...";
 "OkKey" = "Ok";
 "SaveKey" = "Guardar";
+"NearbyObjectsKey" = "Objetos Cercanos:";
 
 //AR View
 "ARViewTitleKey" = "Vista AR";

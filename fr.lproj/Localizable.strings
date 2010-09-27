@@ -19,6 +19,7 @@
 "LoadingKey" = "Chargement...";
 "OkKey" = "Ok";
 "SaveKey" = "Sauver";
+"NearbyObjectsKey" = "Objets à Proximité:";
 
 //AR View
 "ARViewTitleKey" = "Vue AR";
@@ -36,7 +37,7 @@
 "ItemDroppedTitleKey" = "Élément déposé";
 "ItemDroppedMessageKey" = "Votre élément a été déposé ici sur la carte pour que d’autres joueurs puissent le voir";
 "ItemDestroyedTitleKey" = "Élément détruit";
-"ItemDestroyedMessageKey" = "Cet objet a été déplacé de votre inventaire et définitivement détruit";
+"ItemDestroyedMessageKey" = "Cet élément a été déplacé de votre inventaire et définitivement détruit";
 "ItemDuplicateTitleKey" = "Dupliquer l’Élément";
 "ItemDuplicateMessageKey" = "Tu ne peux plus emporter encore cet objet";
 "ItemPickedUpTitleKey" = "A pris un Élément";

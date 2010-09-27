@@ -19,6 +19,7 @@
 "LoadingKey" = "Loading...";
 "OkKey" = "Ok";
 "SaveKey" = "Save";
+"NearbyObjectsKey" = "Nearby Obejcts:";
 
 //AR View
 "ARViewTitleKey" = "AR View";
@@ -36,7 +37,7 @@
 "ItemDroppedTitleKey" = "Item Dropped";
 "ItemDroppedMessageKey" = "Your Item was dropped here on the map for other players to see";
 "ItemDestroyedTitleKey" = "Item Destroyed";
-"ItemDestroyedMessageKey" = "This object was removed from your inventory and permanently destroyed";
+"ItemDestroyedMessageKey" = "This Item was removed from your inventory and permanently destroyed";
 "ItemDuplicateTitleKey" = "Duplicate Item";
 "ItemDuplicateMessageKey" = "You cannot carry any more of this item";
 "ItemPickedUpTitleKey" = "Picked up an Item";
