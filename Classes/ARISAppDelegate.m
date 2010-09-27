@@ -129,16 +129,16 @@
 	
 	//Game Picker View
 	gamePickerViewController = [[[GamePickerViewController alloc] initWithNibName:@"GamePicker" bundle:nil] autorelease];
-	gamePickerViewController.view.frame = [UIScreen mainScreen].applicationFrame;
 	gamePickerNavigationController = [[UINavigationController alloc] initWithRootViewController: gamePickerViewController];
 	gamePickerNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+	[gamePickerNavigationController.view setFrame:UIScreen.mainScreen.applicationFrame];
 	[loginViewController retain]; //This view may be removed and readded to the window
 
 	//Login View
 	loginViewController = [[[LoginViewController alloc] initWithNibName:@"Login" bundle:nil] autorelease];
-	loginViewController.view.frame = [UIScreen mainScreen].applicationFrame;
 	loginViewNavigationController = [[UINavigationController alloc] initWithRootViewController: loginViewController];
 	loginViewNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+	[loginViewNavigationController.view setFrame:UIScreen.mainScreen.applicationFrame];
 	[loginViewController retain]; //This view may be removed and readded to the window
 	
 	//Add the view controllers to a Tab Bar
@@ -344,9 +344,7 @@
 		NSLog(@"AppDelegate: Login Success");
 		[loginViewNavigationController.view removeFromSuperview];
 		[appModel saveUserDefaults];
-		[window addSubview:gamePickerNavigationController.view]; //This will automatically load it's own data
-		gamePickerViewController.view.frame = [UIScreen mainScreen].applicationFrame;
-		
+		[window addSubview:gamePickerNavigationController.view]; //This will automatically load it's own data		
 	} else {
 		NSLog(@"AppDelegate: Login Failed, check for a network issue");
 		if (self.networkAlert) NSLog(@"AppDelegate: Network is down, skip login alert");

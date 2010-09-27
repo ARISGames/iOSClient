@@ -100,18 +100,6 @@
 	[gameTable reloadData];
 }
 
-- (void)slideIn {	
-	[UIView beginAnimations:nil context:nil];
-	self.view.frame = CGRectMake(0.0f, 64.0f, 320.0f, 416.0f);
-	[UIView commitAnimations];
-}
-
-- (void)slideOut {	
-	[UIView beginAnimations:nil context:nil];
-	self.view.frame = CGRectMake(0.0f, 485.0f, 320.0f, 416.0f);
-	[UIView commitAnimations];
-}
-
 #pragma mark Table view methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 2;

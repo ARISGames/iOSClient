@@ -16,8 +16,6 @@
 	UITableView *gameTable;
 }
 
--(void) slideIn;
--(void) slideOut;
 -(void) refresh;
 -(void)showLoadingIndicator;
 
