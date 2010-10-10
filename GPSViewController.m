@@ -37,6 +37,8 @@ static float INITIAL_SPAN = 0.001;
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
 		silenceNextServerUpdate = YES;
 		tracking = YES;
+		playerTrackingButton.style = UIBarButtonItemStyleDone;
+
 		
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
