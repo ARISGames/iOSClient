@@ -369,7 +369,6 @@ static float INITIAL_SPAN = 0.001;
 
 }
 
-
 - (MKAnnotationView *)mapView:(MKMapView *)myMapView viewForAnnotation:(id <MKAnnotation>)annotation{
 	NSLog(@"GPSViewController: In viewForAnnotation");
 
@@ -381,17 +380,6 @@ static float INITIAL_SPAN = 0.001;
 		 return nil; //Let it do it's own thing
 	}
 	
-	//Other Players
-	/*
-	if ( annotation isMemberOfClass:[PlayerAnnotation class]]) {
-		NSLog(@"GPSViewController: Getting the annotation view for another player: %@", annotation.title);
-
-		AnnotationView *playerAnnotationView = [[AnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"OtherPlayerAnnotation"];
-		playerAnnotationView.image = [UIImage imageNamed:@"marker-other-player.png"];
-		return playerAnnotationView;	
-	} 
-	 */
-	
 	//Everything else
 	else {
 		NSLog(@"GPSViewController: Getting the annotation view for a game object: %@", annotation.title);
@@ -399,6 +387,7 @@ static float INITIAL_SPAN = 0.001;
 		return annotationView;
 	}
 }
+
 
 
 @end

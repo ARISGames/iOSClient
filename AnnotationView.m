@@ -74,7 +74,7 @@
 		iconView.contentMode =  UIViewContentModeScaleAspectFit;
 		[self addSubview:iconView];
 		
-		//Only load the media if it is > 0, otherwise, lets load a default
+		//Only load the icon media if it is > 0, otherwise, lets load a default
 		if (annotation.iconMediaId != 0) {
 			AppModel *appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
 			Media *iconMedia = [appModel mediaForMediaId: annotation.iconMediaId];
@@ -102,14 +102,14 @@
 - (void)drawRect:(CGRect)rect {
 	CGMutablePathRef calloutPath = CGPathCreateMutable();
 	CGPoint pointerPoint = CGPointMake(self.contentRect.origin.x + 0.5 * self.contentRect.size.width,  self.contentRect.origin.y + self.contentRect.size.height + POINTER_LENGTH);
-	CGFloat radius = 10.0;
+	CGFloat radius = 7.0;
 	CGPathMoveToPoint(calloutPath, NULL, CGRectGetMinX(self.contentRect) + radius, CGRectGetMinY(self.contentRect));
     CGPathAddArc(calloutPath, NULL, CGRectGetMaxX(self.contentRect) - radius, CGRectGetMinY(self.contentRect) + radius, radius, 3 * M_PI / 2, 0, 0);
     CGPathAddArc(calloutPath, NULL, CGRectGetMaxX(self.contentRect) - radius, CGRectGetMaxY(self.contentRect) - radius, radius, 0, M_PI / 2, 0);
 	
-	CGPathAddLineToPoint(calloutPath, NULL, pointerPoint.x + 20.0, CGRectGetMaxY(self.contentRect));
+	CGPathAddLineToPoint(calloutPath, NULL, pointerPoint.x + 10.0, CGRectGetMaxY(self.contentRect));
 	CGPathAddLineToPoint(calloutPath, NULL, pointerPoint.x, pointerPoint.y);
-	CGPathAddLineToPoint(calloutPath, NULL, pointerPoint.x + 5.0,  CGRectGetMaxY(self.contentRect));
+	CGPathAddLineToPoint(calloutPath, NULL, pointerPoint.x - 10.0,  CGRectGetMaxY(self.contentRect));
 	
     CGPathAddArc(calloutPath, NULL, CGRectGetMinX(self.contentRect) + radius, CGRectGetMaxY(self.contentRect) - radius, radius, M_PI / 2, M_PI, 0);
     CGPathAddArc(calloutPath, NULL, CGRectGetMinX(self.contentRect) + radius, CGRectGetMinY(self.contentRect) + radius, radius, M_PI, 3 * M_PI / 2, 0);	

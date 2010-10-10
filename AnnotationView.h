@@ -12,7 +12,7 @@
 #import "ARISAppDelegate.h";
 #import "AsyncImageView.h"
 
-#define POINTER_LENGTH 30
+#define POINTER_LENGTH 10
 #define IMAGE_HEIGHT 30
 
 
