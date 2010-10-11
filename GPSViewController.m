@@ -366,12 +366,32 @@ static float INITIAL_SPAN = 0.001;
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
 	Location *location = ((Annotation*)view.annotation).location;
 	NSLog(@"GPSViewController: didSelectAnnotationView for location: %@",location.name);
+	
+	//Set up buttons
+	NSMutableArray *buttonTitles = [NSMutableArray arrayWithCapacity:1];
+	int cancelButtonIndex = 0;
+	if (location.allowsQuickTravel)	{
+		[buttonTitles addObject: @"Quick Travel"];
+		cancelButtonIndex = 1;
+	}
+	[buttonTitles addObject: @"Cancel"];
+	
+	
+	
+	
+	//Create and Display Action Sheet
 	UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:location.name 
 															delegate:self 
-												   cancelButtonTitle:@"Cancel" 
+												   cancelButtonTitle:nil 
 											  destructiveButtonTitle:nil 
-												   otherButtonTitles:@"Quick Travel",nil];
+												   otherButtonTitles:nil];
 	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+	actionSheet.cancelButtonIndex = cancelButtonIndex;
+	
+	for (NSString *title in buttonTitles) {
+		[actionSheet addButtonWithTitle:title];
+	}
+	
 	[actionSheet showInView:view];
 	
 	
@@ -382,10 +402,11 @@ static float INITIAL_SPAN = 0.001;
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
 	NSLog(@"GPSViewController: action sheet button %d was clicked",buttonIndex);
 	
-	if (buttonIndex == 0) {
-		Annotation *annotation = [mapView.selectedAnnotations lastObject];
-		[annotation.location display];
-	}
+	Annotation *currentAnnotation = [mapView.selectedAnnotations lastObject];
+	
+	if (buttonIndex == actionSheet.cancelButtonIndex) [mapView deselectAnnotation:currentAnnotation animated:YES]; 
+	else [currentAnnotation.location display];
+
 }
 
 

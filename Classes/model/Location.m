@@ -25,6 +25,7 @@
 @synthesize objectId;
 @synthesize hidden;
 @synthesize forcedDisplay;
+@synthesize allowsQuickTravel;
 @synthesize qty;
 
 -(nearbyObjectKind) kind {

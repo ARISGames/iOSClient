@@ -1163,9 +1163,12 @@ static const int kEmptyValue = -1;
 		location.objectId = [[locationDictionary valueForKey:@"type_id"] intValue];
 		location.hidden = [[locationDictionary valueForKey:@"hidden"] boolValue];
 		location.forcedDisplay = [[locationDictionary valueForKey:@"force_view"] boolValue];
+		location.allowsQuickTravel = [[locationDictionary valueForKey:@"allow_quick_travel"] boolValue];
 		location.qty = [[locationDictionary valueForKey:@"item_qty"] intValue];
 		
-		NSLog(@"Model: Adding Location: %@", location.name);
+		NSLog(@"Model: Adding Location: %@ - Type:%@ Id:%d Hidden:%d ForceDisp:%d QuickTravel:%d Qty:%d", 
+			  location.name, location.objectType, location.objectId, 
+			  location.hidden, location.forcedDisplay, location.allowsQuickTravel, location.qty);
 		[tempLocationsList addObject:location];
 		[location release];
 	}
