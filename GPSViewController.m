@@ -14,6 +14,7 @@
 #import "AnnotationView.h"
 #import "Media.h"
 #import "Annotation.h"
+#import <UIKit/UIActionSheet.h>
 
 
 static float INITIAL_SPAN = 0.001;
@@ -231,13 +232,14 @@ static float INITIAL_SPAN = 0.001;
 			CLLocationCoordinate2D locationLatLong = location.location.coordinate;
 			
 			Annotation *annotation = [[Annotation alloc]initWithCoordinate:locationLatLong];
+			annotation.location = location;
+			
 			
 			annotation.title = location.name;
-			if (location.kind == NearbyObjectItem && location.qty > 1) annotation.subtitle = [NSString stringWithFormat:@"Quantity: %d",location.qty];
-			NSLog(@"GPSViewController: Annotation title is %@; subtitle is %@.", annotation.title, annotation.subtitle);
-			
-			annotation.iconMediaId = location.iconMediaId; //if we have a custom icon
-			annotation.kind = location.kind; //if we want a default icon
+			if (location.kind == NearbyObjectItem && location.qty > 1) 
+				annotation.subtitle = [NSString stringWithFormat:@"Quantity: %d",location.qty];
+			annotation.iconMediaId = location.iconMediaId;
+			annotation.kind = location.kind;
 
 			[mapView addAnnotation:annotation];
 			if (!mapView) {
@@ -323,35 +325,7 @@ static float INITIAL_SPAN = 0.001;
 }
 
 
-//-(UIImage *)addText:(NSString *)text1 toImage:(UIImage *)img {
-//    int w = img.size.width;
-//    int h = img.size.height; 
-//    //lon = h - lon;
-//    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-//    CGContextRef context = CGBitmapContextCreate(NULL, w, h, 8, 4 * w, colorSpace, kCGImageAlphaPremultipliedFirst);
-//    
-//    CGContextDrawImage(context, CGRectMake(0, 0, w, h), img.CGImage);
-//    CGContextSetRGBFillColor(context, 0.0, 0.0, 1.0, 1);
-//	
-//    char* text	= (char *)[text1 cStringUsingEncoding:NSASCIIStringEncoding];// "05/05/09";
-//    CGContextSelectFont(context, "Arial", 18, kCGEncodingMacRoman);
-//    CGContextSetTextDrawingMode(context, kCGTextFill);
-//    CGContextSetRGBFillColor(context, 255, 255, 255, 1);
-//	
-//	
-//    //rotate text
-//    CGContextSetTextMatrix(context, CGAffineTransformMakeRotation( -M_PI/4 ));
-//	
-//    CGContextShowTextAtPoint(context, 4, 52, text, strlen(text));
-//	
-//	
-//    CGImageRef imageMasked = CGBitmapContextCreateImage(context);
-//    CGContextRelease(context);
-//    CGColorSpaceRelease(colorSpace);
-//	
-//    return [UIImage imageWithCGImage:imageMasked];
-//}
-//
+
 #pragma mark MKMapViewDelegate
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
@@ -385,6 +359,32 @@ static float INITIAL_SPAN = 0.001;
 		NSLog(@"GPSViewController: Getting the annotation view for a game object: %@", annotation.title);
 		AnnotationView *annotationView=[[AnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
 		return annotationView;
+	}
+}
+
+
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
+	Location *location = ((Annotation*)view.annotation).location;
+	NSLog(@"GPSViewController: didSelectAnnotationView for location: %@",location.name);
+	UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:location.name 
+															delegate:self 
+												   cancelButtonTitle:@"Cancel" 
+											  destructiveButtonTitle:nil 
+												   otherButtonTitles:@"Quick Travel",nil];
+	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+	[actionSheet showInView:view];
+	
+	
+	
+}
+
+#pragma mark UIActionSheet Delegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+	NSLog(@"GPSViewController: action sheet button %d was clicked",buttonIndex);
+	
+	if (buttonIndex == 0) {
+		Annotation *annotation = [mapView.selectedAnnotations lastObject];
+		[annotation.location display];
 	}
 }
 
