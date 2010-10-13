@@ -15,13 +15,13 @@
 @interface InventoryListViewController : UIViewController {
 	AppModel *appModel;	
 	UITableView *inventoryTable;
-	NSMutableArray *inventory;
+	NSArray *inventory;
 	BOOL silenceNextServerUpdate;
 
 }
 
 @property(nonatomic, retain) IBOutlet UITableView *inventoryTable;
-@property(nonatomic, retain) NSMutableArray *inventory;
+@property(nonatomic, retain) NSArray *inventory;
 
 - (void) refresh;
 - (unsigned int) indexOf:(char) searchChar inString:(NSString *)searchString;

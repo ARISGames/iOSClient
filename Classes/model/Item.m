@@ -21,6 +21,7 @@
 @synthesize itemId;
 @synthesize mediaId;
 @synthesize locationId;
+@synthesize qty,maxQty;
 @synthesize description;
 @synthesize iconMediaId;
 

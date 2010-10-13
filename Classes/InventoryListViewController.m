@@ -92,7 +92,7 @@
 	}
 	else silenceNextServerUpdate = NO;
 	
-	inventory = appModel.inventory;
+	self.inventory = [appModel.inventory allValues];
 	[inventoryTable reloadData];
 	
 	//Stop Waiting Indicator
@@ -164,15 +164,17 @@
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];	
 	if(cell == nil) cell = [self getCellContentView:CellIdentifier];
 	
+	Item *item = [inventory objectAtIndex: [indexPath row]];
+	
 	UILabel *lblTemp1 = (UILabel *)[cell viewWithTag:1];
-	lblTemp1.text = [[inventory objectAtIndex: [indexPath row]] name];
+	lblTemp1.text = item.name;								   
 	
 	UILabel *lblTemp2 = (UILabel *)[cell viewWithTag:2];
-	lblTemp2.text = [[inventory objectAtIndex: [indexPath row]] description];
+	if (item.qty > 1) lblTemp2.text = [NSString stringWithFormat:@"x %d ",item.qty];
+	else lblTemp2.text = @"";
 	
 	AsyncImageView *iconView = (AsyncImageView *)[cell viewWithTag:3];
 	
-	Item *item = [inventory objectAtIndex:[indexPath row]];
 	Media *media = [appModel mediaForMediaId: item.mediaId];
 
 	if (item.iconMediaId != 0) {

@@ -35,6 +35,7 @@ static const int kEmptyValue = -1;
 @synthesize site, gameId, gamePcMediaId, gameList, locationList, playerList;
 @synthesize playerLocation, inventory, questList, networkAlert;
 @synthesize gameMediaList, gameItemList, gameNodeList, gameNpcList;
+@synthesize locationListHash, questListHash, inventoryHash;
 
 @synthesize nearbyLocationsList;
 
@@ -336,7 +337,7 @@ static const int kEmptyValue = -1;
 }
 
 
-- (void)updateServerPickupItem: (int)itemId fromLocation: (int)locationId {
+- (void)updateServerPickupItem: (int)itemId fromLocation: (int)locationId qty:(int)qty{
 	NSLog(@"Model: Informing the Server the player picked up item");
 	
 	//Call server service
@@ -344,17 +345,19 @@ static const int kEmptyValue = -1;
 						  [NSString stringWithFormat:@"%d",playerId],
 						  [NSString stringWithFormat:@"%d",itemId],
 						  [NSString stringWithFormat:@"%d",locationId],
+						  [NSString stringWithFormat:@"%d",qty],
 						  nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
 																	andServiceName:@"players" 
 																	 andMethodName:@"pickupItemFromLocation" 
 																	  andArguments:arguments];
 	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After 
+	[self forceUpdateOnNextLocationListFetch];
 	[jsonConnection release];
 	
 }
 
-- (void)updateServerDropItemHere: (int)itemId {
+- (void)updateServerDropItemHere: (int)itemId qty:(int)qty{
 	NSLog(@"Model: Informing the Server the player dropped an item");
 	
 	//Call server service
@@ -363,23 +366,26 @@ static const int kEmptyValue = -1;
 						  [NSString stringWithFormat:@"%d",itemId],
 						  [NSString stringWithFormat:@"%f",playerLocation.coordinate.latitude],
 						  [NSString stringWithFormat:@"%f",playerLocation.coordinate.longitude],
+						  [NSString stringWithFormat:@"%d",qty],
 						  nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
 																	andServiceName:@"players" 
 																	 andMethodName:@"dropItem" 
 																	  andArguments:arguments];
 	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After 
+	[self forceUpdateOnNextLocationListFetch];
 	[jsonConnection release];
 
 }
 
-- (void)updateServerDestroyItem: (int)itemId {
+- (void)updateServerDestroyItem: (int)itemId qty:(int)qty {
 	NSLog(@"Model: Informing the Server the player destroyed an item");
 	
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.gameId],
 						  [NSString stringWithFormat:@"%d",playerId],
 						  [NSString stringWithFormat:@"%d",itemId],
+						  [NSString stringWithFormat:@"%d",qty],
 						  nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
 																	andServiceName:@"players" 
@@ -549,18 +555,21 @@ static const int kEmptyValue = -1;
 	[self rebuildNearbyLocationList];
 }
 
--(void)removeItemFromInventory: (Item*)item {
+-(void)removeItemFromInventory:(Item*)item qtyToRemove:(int)qty {
 	NSLog(@"AppModel: removing an item from the local inventory");
 	
-	[self.inventory removeObject:item];
+	item.qty -=qty; 
+	if (item.qty < 1) [self.inventory removeObjectForKey:[NSString stringWithFormat:@"%d",item.itemId]];
+
 	NSNotification *notification = [NSNotification notificationWithName:@"NewInventoryReady" object:nil];
 	[[NSNotificationCenter defaultCenter] postNotification:notification];
+	 
 }
 
 -(void)addItemToInventory: (Item*)item {
 	NSLog(@"AppModel: adding an item from the local inventory");
 
-	[self.inventory addObject:item];
+	[self.inventory setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]];
 	NSNotification *notification = [NSNotification notificationWithName:@"NewInventoryReady" object:nil];
 	[[NSNotificationCenter defaultCenter] postNotification:notification];
 }
@@ -704,9 +713,9 @@ static const int kEmptyValue = -1;
 
 
 	//Clear the Hashes
-	questListHash = 0;
-	inventoryHash = 0;
-	locationListHash = 0;
+	questListHash = @"";
+	inventoryHash = @"";
+	locationListHash = @"";
 
 	//Clear them out
 	self.locationList = [[NSMutableArray alloc] initWithCapacity:0];
@@ -723,7 +732,7 @@ static const int kEmptyValue = -1;
 	[tmpQuestList release];
 
 	
-	self.inventory = [[NSMutableArray alloc] initWithCapacity:0];
+	self.inventory = [[NSMutableDictionary alloc] initWithCapacity:10];
 	
 	//Tell the VCs
 	[self silenceNextServerUpdate];
@@ -872,7 +881,7 @@ static const int kEmptyValue = -1;
 }
 
 - (void)forceUpdateOnNextLocationListFetch {
-	locationListHash = 0;
+	locationListHash = @"";
 }
 
 - (void)fetchInventory {
@@ -945,6 +954,8 @@ static const int kEmptyValue = -1;
 	item.iconMediaId = [[itemDictionary valueForKey:@"icon_media_id"] intValue];
 	item.dropable = [[itemDictionary valueForKey:@"dropable"] boolValue];
 	item.destroyable = [[itemDictionary valueForKey:@"destroyable"] boolValue];
+	item.maxQty = [[itemDictionary valueForKey:@"max_qty_in_inventory"] intValue];
+	
 	NSLog(@"\tadded item %@", item.name);
 	
 	return item;	
@@ -1132,13 +1143,15 @@ static const int kEmptyValue = -1;
 	//Check for an error
 	
 	//Compare this hash to the last one. If the same, stop hee
-	if (jsonResult.hash == locationListHash) {
+	
+	if ([jsonResult.hash isEqualToString:self.locationListHash]) {
 		NSLog(@"AppModel: Hash is same as last location list update, continue");
 		return;
 	}
+	
 	 
 	//Save this hash for later comparisions
-	locationListHash = jsonResult.hash;
+	self.locationListHash = [jsonResult.hash copy];
 	
 	//Continue parsing
 	NSArray *locationsArray = (NSArray *)jsonResult.data;
@@ -1288,19 +1301,20 @@ static const int kEmptyValue = -1;
 	//Check for an error
 	
 	//Compare this hash to the last one. If the same, stop hee	
-	if (jsonResult.hash == inventoryHash) {
+	
+	if ([jsonResult.hash isEqualToString:self.inventoryHash]) {
 		NSLog(@"AppModel: Hash is same as last inventory listy update, continue");
 		return;
 	}
-
+	
 	
 	//Save this hash for later comparisions
-	inventoryHash = jsonResult.hash;
+	self.inventoryHash = [jsonResult.hash copy];
 	
 	//Continue parsing
 	NSArray *inventoryArray = (NSArray *)jsonResult.data;
 	
-	NSMutableArray *tempInventory = [[NSMutableArray alloc] init];
+	NSMutableDictionary *tempInventory = [[NSMutableDictionary alloc] initWithCapacity:10];
 	NSEnumerator *inventoryEnumerator = [((NSArray *)inventoryArray) objectEnumerator];	
 	NSDictionary *itemDictionary;
 	while (itemDictionary = [inventoryEnumerator nextObject]) {
@@ -1312,8 +1326,9 @@ static const int kEmptyValue = -1;
 		item.iconMediaId = [[itemDictionary valueForKey:@"icon_media_id"] intValue];
 		item.dropable = [[itemDictionary valueForKey:@"dropable"] boolValue];
 		item.destroyable = [[itemDictionary valueForKey:@"destroyable"] boolValue];
+		item.qty = [[itemDictionary valueForKey:@"qty"] intValue];
 		NSLog(@"Model: Adding Item: %@", item.name);
-		[tempInventory addObject:item]; 
+		[tempInventory setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]]; 
 		[item release];
 	}
 
@@ -1373,13 +1388,13 @@ static const int kEmptyValue = -1;
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedQuestList" object:nil]];
 	
 	//Compare this hash to the last one. If the same, stop here
-	if (jsonResult.hash == questListHash) {
+	if ([jsonResult.hash isEqualToString:self.questListHash]) {
 		NSLog(@"AppModel: Hash is same as last quest list update, continue");
 		return;
 	}
 	
 	//Save this hash for later comparisions
-	questListHash = jsonResult.hash;
+	self.questListHash = [jsonResult.hash copy];
 	
 	//Continue parsing
 	NSDictionary *questListDictionary = (NSDictionary *)jsonResult.data;	

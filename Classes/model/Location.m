@@ -44,6 +44,7 @@
 	if (self.kind == NearbyObjectItem) {
 		Item *item = [model itemForItemId:objectId]; 		
 		item.locationId = self.locationId;
+		item.qty = self.qty;
 		[item display];	
 	}
 	

@@ -27,7 +27,7 @@
 //@synthesize toolbarViewController;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
-	
+		
 	//Don't sleep
 	application.idleTimerDisabled = YES;
 	

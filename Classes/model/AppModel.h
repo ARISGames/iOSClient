@@ -36,13 +36,13 @@ extern NSDictionary *InventoryElements;
 
 	NSMutableArray *gameList;
 	NSMutableArray *locationList;
-	NSInteger locationListHash;
+	NSString *locationListHash;
 	NSMutableArray *playerList;
 	NSMutableArray *nearbyLocationsList;
-	NSMutableArray *inventory;
-	NSInteger inventoryHash; 
+	NSMutableDictionary *inventory;
+	NSString *inventoryHash; 
 	NSMutableDictionary *questList;
-	NSInteger questListHash;
+	NSString *questListHash;
 	NSMutableDictionary *gameMediaList;
 	NSMutableDictionary *gameItemList;
 	NSMutableDictionary *gameNodeList;
@@ -63,11 +63,14 @@ extern NSDictionary *InventoryElements;
 @property(readwrite) int gamePcMediaId;
 @property(copy, readwrite) NSMutableArray *gameList;	
 @property(nonatomic, retain) NSMutableArray *locationList;
+@property(nonatomic, retain) NSString *locationListHash;
 @property(copy, readwrite) NSMutableArray *playerList;
 @property(copy, readwrite) NSMutableDictionary *questList;
+@property(nonatomic, retain) NSString *questListHash;
 @property(copy, readwrite) NSMutableArray *nearbyLocationsList;	
 @property(copy, readwrite) CLLocation *playerLocation;	
-@property(nonatomic, retain) NSMutableArray *inventory;
+@property(nonatomic, retain) NSMutableDictionary *inventory;
+@property(nonatomic, retain) NSString *inventoryHash;
 @property(retain) UIAlertView *networkAlert;
 
 @property(copy, readwrite) NSMutableDictionary *gameMediaList;
@@ -119,14 +122,14 @@ extern NSDictionary *InventoryElements;
 - (void)updateServerMapViewed;
 - (void)updateServerQuestsViewed;
 - (void)updateServerInventoryViewed;
-- (void)updateServerPickupItem: (int)itemId fromLocation: (int)locationId;
-- (void)updateServerDropItemHere: (int)itemId;
-- (void)updateServerDestroyItem: (int)itemId;
+- (void)updateServerPickupItem: (int)itemId fromLocation: (int)locationId qty: (int)qty;
+- (void)updateServerDropItemHere: (int)itemId qty:(int)qty;
+- (void)updateServerDestroyItem: (int)itemId qty:(int)qty;
 - (void)startOverGame;
 - (void)silenceNextServerUpdate;
 
 - (void)modifyQuantity: (int)quantityModifier forLocationId: (int)locationId;
-- (void)removeItemFromInventory: (Item*)item;
+- (void)removeItemFromInventory: (Item*)item qtyToRemove:(int)qty;
 
 - (void)registerNewUser:(NSString*)userName password:(NSString*)pass 
 			  firstName:(NSString*)firstName lastName:(NSString*)lastName email:(NSString*)email;

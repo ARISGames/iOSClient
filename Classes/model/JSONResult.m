@@ -22,7 +22,7 @@
 - (JSONResult*)initWithJSONString:(NSString *)JSONString{
 	
 	//Calculate the hash
-	hash = [JSONString hash];
+	self.hash = JSONString;
 	
 	// Parse JSON into a resultObject
 	SBJSON *json = [[SBJSON new] autorelease];

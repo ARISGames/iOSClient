@@ -56,7 +56,7 @@
 -(void) refresh {	
 	NSLog(@"DeveloperViewController: Refresh Began");
 
-	[appModel fetchLocationList];
+	//[appModel fetchLocationList];
 }
 
 -(void) refreshViewFromModel {

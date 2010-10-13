@@ -16,6 +16,8 @@
 	int mediaId;
 	int iconMediaId;
 	int locationId; //null if in the player's inventory
+	int qty;
+	int maxQty;
 	NSString *description;	
 	BOOL forcedDisplay;
 	BOOL dropable;
@@ -30,6 +32,8 @@
 @property(readwrite, assign) int itemId;
 @property(readwrite, assign) int locationId;
 @property(readwrite, assign) int mediaId;
+@property(readwrite, assign) int qty;
+@property(readwrite, assign) int maxQty;
 @property(copy, readwrite) NSString *description;
 @property(readwrite, assign) int iconMediaId;
 @property (readwrite, assign) BOOL dropable;

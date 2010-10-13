@@ -237,7 +237,7 @@ static float INITIAL_SPAN = 0.001;
 			
 			annotation.title = location.name;
 			if (location.kind == NearbyObjectItem && location.qty > 1) 
-				annotation.subtitle = [NSString stringWithFormat:@"Quantity: %d",location.qty];
+				annotation.subtitle = [NSString stringWithFormat:@"x %d",location.qty];
 			annotation.iconMediaId = location.iconMediaId;
 			annotation.kind = location.kind;
 
