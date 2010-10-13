@@ -255,7 +255,7 @@
 			NSEnumerator *viewEnumerator = [myItems objectEnumerator];
 			NearbyBarItemView *myView;
 			while (myView = [viewEnumerator nextObject]) {
-				if (CGRectContainsPoint([myView frame], touchPoint)) {
+				if (CGRectContainsPoint([myView frame], touchPoint) && [myView respondsToSelector:@selector(title)]) {
 					
 					NSLog(@"NearbyBar: Found the object selected, displaying: %@", [myView title]);
 					
