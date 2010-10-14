@@ -700,7 +700,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>ABFEAB6212667D2D00D69B03</string>
+										<string>ABFEAB821266819400D69B03</string>
 										<key>history</key>
 										<array>
 											<string>ABB9262310C85AB000B09506</string>
@@ -887,7 +887,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>ABFEAB6312667D2D00D69B03</string>
+										<string>ABFEAB831266819400D69B03</string>
 										<key>history</key>
 										<array>
 											<string>ABB9262310C85AB000B09506</string>
@@ -1238,13 +1238,13 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>ABFEAB6112667D1A00D69B03</string>
+		<string>ABFEAB841266819400D69B03</string>
 		<string>ABFEAB5112667C8B00D69B03</string>
 		<string>ABFEAB5212667C8B00D69B03</string>
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>AB4B1043103D02990061AD3D</string>
-		<string>1C78EAAD065D492600B07095</string>
 		<string>/Users/djgagnon/Documents/Aris/svn-trunk/iPhoneClient/ARIS.xcodeproj</string>
+		<string>1C78EAAD065D492600B07095</string>
 	</array>
 	<key>WindowString</key>
 	<string>1 114 1439 764 0 0 1440 878 </string>
