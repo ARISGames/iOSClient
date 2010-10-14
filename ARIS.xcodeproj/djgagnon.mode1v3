@@ -281,14 +281,13 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>27</integer>
-									<integer>21</integer>
-									<integer>3</integer>
+									<integer>105</integer>
+									<integer>95</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 277}, {257, 705}}</string>
+							<string>{{0, 1397}, {257, 705}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -700,7 +699,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>ABFEAB821266819400D69B03</string>
+										<string>ABFEAB8D1266850B00D69B03</string>
 										<key>history</key>
 										<array>
 											<string>ABB9262310C85AB000B09506</string>
@@ -875,7 +874,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>NearbyBar.m</string>
+								<string>ItemDetailsViewController.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -883,11 +882,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>NearbyBar.m</string>
+										<string>ItemDetailsViewController.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>ABFEAB831266819400D69B03</string>
+										<string>ABFEAB901266850B00D69B03</string>
 										<key>history</key>
 										<array>
 											<string>ABB9262310C85AB000B09506</string>
@@ -1034,9 +1033,9 @@
 											<string>AB8BDC2612666ED00030E14E</string>
 											<string>AB8BDC3312666F350030E14E</string>
 											<string>AB8BDC3D12666F690030E14E</string>
-											<string>AB8BDC8112667BB70030E14E</string>
 											<string>AB8BDC8212667BB70030E14E</string>
-											<string>ABFEAB4412667C8B00D69B03</string>
+											<string>ABFEAB8E1266850B00D69B03</string>
+											<string>ABFEAB8F1266850B00D69B03</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -1238,13 +1237,13 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>ABFEAB841266819400D69B03</string>
+		<string>ABFEAB911266850B00D69B03</string>
 		<string>ABFEAB5112667C8B00D69B03</string>
 		<string>ABFEAB5212667C8B00D69B03</string>
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>AB4B1043103D02990061AD3D</string>
-		<string>/Users/djgagnon/Documents/Aris/svn-trunk/iPhoneClient/ARIS.xcodeproj</string>
 		<string>1C78EAAD065D492600B07095</string>
+		<string>/Users/djgagnon/Documents/Aris/svn-trunk/iPhoneClient/ARIS.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
 	<string>1 114 1439 764 0 0 1440 878 </string>
