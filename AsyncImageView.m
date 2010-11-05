@@ -11,12 +11,17 @@
 
 @implementation AsyncImageView
 
+@synthesize connection;
+@synthesize data;
+@synthesize media;
+
+
 - (void)loadImageFromMedia:(Media *) aMedia {
-	media = aMedia;
+	self.media = aMedia;
 	
 	//check if the media already as the image, if so, just grab it
-	if (media.image) {
-		[self updateViewWithNewImage:media.image];
+	if (self.media.image) {
+		[self updateViewWithNewImage:self.media.image];
 		return;
 	}
 	
@@ -32,19 +37,19 @@
 	[self addSubview:spinner];
 	
 	if (connection!=nil) { [connection release]; }
-    if (data!=nil) { [data release]; }
+    if (data!=nil) { [self.data release]; }
     NSURLRequest* request = [NSURLRequest requestWithURL:[[NSURL alloc]initWithString:media.url]
 											 cachePolicy:NSURLRequestUseProtocolCachePolicy
 										 timeoutInterval:60.0];
-    connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
 
 
 - (void)connection:(NSURLConnection *)theConnection didReceiveData:(NSData *)incrementalData {
-    if (data==nil) {
-		data = [[NSMutableData alloc] initWithCapacity:2048];
+    if (self.data==nil) {
+		self.data = [[NSMutableData alloc] initWithCapacity:2048];
     }
-    [data appendData:incrementalData];
+    [self.data appendData:incrementalData];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection*)theConnection {
@@ -52,19 +57,19 @@
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	
 	//throw out the connection
-    [connection release];
-    connection=nil;
+    [self.connection release];
+    self.connection=nil;
 	
 	//turn the data into an image
 	UIImage* image = [UIImage imageWithData:data];
 	
 	//throw out the data
-	[data release];
-    data=nil;
+	[self.data release];
+    self.data=nil;
 	
 	//Save the image in the media
-	media.image = image;
-	[media.image retain];
+	self.media.image = image;
+	[self.media.image retain];
 	
 	[self updateViewWithNewImage:image];
 }

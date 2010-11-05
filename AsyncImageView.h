@@ -16,6 +16,11 @@
 	
 }
 
+@property (nonatomic, retain) NSURLConnection* connection;
+@property (nonatomic, retain) NSMutableData* data;
+@property (nonatomic, retain) Media *media;
+
+
 - (void) loadImageFromMedia:(Media *) aMedia;
 - (UIImage*) getImage;
 - (void) updateViewWithNewImage:(UIImage*)image;
