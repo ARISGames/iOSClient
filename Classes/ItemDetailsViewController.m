@@ -182,7 +182,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	NSLog(@"ItemDetailsVC: Destroy Button Pressed");
 
 	
-	mode = kItemDetailsDropping;
+	mode = kItemDetailsDestroying;
 	
 	//Create and Display Action Sheet
 	UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil
