@@ -143,6 +143,7 @@
 	
 	//Add the view controllers to a Tab Bar
 	tabBarController = [[UITabBarController alloc] init];
+	tabBarController.delegate = self;
 	tabBarController.viewControllers = [NSMutableArray arrayWithObjects: 
 										questsNavigationController, 
 										gpsNavigationController,
@@ -434,6 +435,18 @@
 	NSLog(@"AppDelegate: Returning to Home View - Tab Bar Index 0");
 	[tabBarController setSelectedIndex:0];	
 }
+
+#pragma mark UITabBarControllerDelegate methods
+- (void)tabBarController:(UITabBarController *)tabBar didSelectViewController:(UIViewController *)viewController{
+	int selectedIndex = [tabBar.viewControllers indexOfObject:tabBar.selectedViewController];
+	NSLog(@"AppDelegate: didSelectViewController at index %d",selectedIndex);
+	if (selectedIndex > 3){
+		NSLog(@"AppDelegate: didSelectViewController at index %d",selectedIndex);
+		[tabBar.moreNavigationController popToRootViewControllerAnimated:NO];
+		//tabBar.selectedViewController = tabBar.moreNavigationController;
+	}
+}
+
 
 #pragma mark TV Out Methods
 
