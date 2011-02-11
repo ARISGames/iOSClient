@@ -105,6 +105,7 @@
 	ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:requestURL];
 	[request setNumberOfTimesToRetryOnTimeout:2];
 	[request setDelegate:self];
+	[request setTimeOutSeconds:60];
 
 
 	//Store the parser in the request
