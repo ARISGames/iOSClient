@@ -44,6 +44,11 @@
 
 - (void)viewDidAppear:(BOOL)animated {
 	NSLog(@"GamePickerViewController: View Appeared");	
+	
+	self.nearGameList = [NSMutableArray arrayWithCapacity:1];
+	self.farGameList = [NSMutableArray arrayWithCapacity:1];
+
+	[gameTable reloadData];
 	[self refresh];
 }
 

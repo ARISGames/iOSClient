@@ -204,6 +204,18 @@
 	
 }
 
+- (void)applicationDidBecomeActive:(UIApplication *)application{
+	NSLog(@"AppDelegate: applicationDidBecomeActive");
+	[appModel loadUserDefaults];
+}
+
+
+
+
+
+
+
+
 - (void) setApplicationYOrigin: (CGFloat)yOrigin {
 
 	CGFloat height = UIScreen.mainScreen.applicationFrame.size.height - yOrigin + 20;
@@ -345,6 +357,8 @@
 		NSLog(@"AppDelegate: Login Success");
 		[loginViewNavigationController.view removeFromSuperview];
 		[appModel saveUserDefaults];
+		if ([window.subviews containsObject:gamePickerNavigationController.view])
+			[gamePickerNavigationController.view removeFromSuperview];
 		[window addSubview:gamePickerNavigationController.view]; //This will automatically load it's own data		
 	} else {
 		NSLog(@"AppDelegate: Login Failed, check for a network issue");
@@ -554,9 +568,13 @@
 
 #pragma mark Memory Management
 
+- (void)applicationWillResignActive:(UIApplication *)application {
+	NSLog(@"AppModel: Begin Application Resign Active");
+	[appModel saveUserDefaults];
+}
+
 -(void) applicationWillTerminate:(UIApplication *)application {
-	NSLog(@"Begin Application Termination");
-	
+	NSLog(@"AppModel: Begin Application Termination");
 	[appModel saveUserDefaults];
 }
 

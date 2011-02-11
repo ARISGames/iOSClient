@@ -63,6 +63,7 @@ static const int kEmptyValue = -1;
 
 -(void)loadUserDefaults {
 	NSLog(@"Model: Loading User Defaults");
+	[defaults synchronize];
 	
 	//Load the base App URL
 	self.baseAppURL = [defaults stringForKey:@"baseAppURL"];
@@ -82,9 +83,12 @@ static const int kEmptyValue = -1;
 	self.loggedIn = [defaults boolForKey:@"loggedIn"];
 	
 	if (loggedIn == YES) {
-		if (![baseAppURL isEqualToString:[defaults stringForKey:@"lastBaseAppURL"]]) {
-			self.loggedIn = NO;
-			NSLog(@"Model: Server URL changed since last execution. Throw out Defaults and use URL: '%@' Site: '%@' GameId: '%d'", baseAppURL, site, gameId);
+		NSString *lastBaseAppURL = [defaults stringForKey:@"lastBaseAppURL"];
+		NSLog(@"AppModel: Last Base App URL:%@ Current:%@",lastBaseAppURL,self.baseAppURL);
+		if (![self.baseAppURL isEqualToString:lastBaseAppURL]) {
+			NSLog(@"Model: Server URL changed since last execution. Throw out Defaults and use server URL:%@", baseAppURL);
+			NSNotification *loginNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self userInfo:nil];
+			[[NSNotificationCenter defaultCenter] postNotification:loginNotification];
 		}
 		else {
 			self.username = [defaults stringForKey:@"username"];
@@ -118,7 +122,7 @@ static const int kEmptyValue = -1;
 }
 
 -(void)saveUserDefaults {
-	NSLog(@"Model: Saving User Defaults");
+	NSLog(@"Model: Saving User Defaults. lastBaseAppURL will be %@",baseAppURL);
 	
 	[defaults setBool:loggedIn forKey:@"loggedIn"];
 	[defaults setObject:username forKey:@"username"];
