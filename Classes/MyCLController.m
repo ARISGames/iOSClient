@@ -77,14 +77,7 @@
 	
 	//Update the Model
 		appModel.playerLocation = newLocation;
-		
-	//Tell the other parts of the client
-	NSNotification *updatedLocationNotification = [NSNotification notificationWithName:@"PlayerMoved" object:nil];
-	[[NSNotificationCenter defaultCenter] postNotification:updatedLocationNotification];
-		
-	//Tell the model to update the server and fetch any nearby locations
-	[appModel updateServerLocationAndfetchNearbyLocationList];	
-	
+			
 }
 
 // Called when there is an error getting the location

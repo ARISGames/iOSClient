@@ -68,7 +68,7 @@ extern NSDictionary *InventoryElements;
 @property(copy, readwrite) NSMutableDictionary *questList;
 @property(nonatomic, retain) NSString *questListHash;
 @property(copy, readwrite) NSMutableArray *nearbyLocationsList;	
-@property(copy, readwrite) CLLocation *playerLocation;	
+@property(nonatomic, retain) CLLocation *playerLocation;	
 @property(nonatomic, retain) NSMutableDictionary *inventory;
 @property(nonatomic, retain) NSString *inventoryHash;
 @property(retain) UIAlertView *networkAlert;
@@ -80,6 +80,9 @@ extern NSDictionary *InventoryElements;
 
 
 - (id)init;
+- (void)setPlayerLocation:(CLLocation *) newLocation;	
+
+
 - (void)loadUserDefaults;
 - (void)clearUserDefaults;
 - (void)saveUserDefaults;
@@ -114,8 +117,7 @@ extern NSDictionary *InventoryElements;
 - (void)createItemAndGiveToPlayerFromFileData:(NSData *)fileData fileName:(NSString *)fileName 
 										title:(NSString *)title description:(NSString*)description;
 	
-- (void)updateServerLocationAndfetchNearbyLocationList;
-- (void)rebuildNearbyLocationList;
+- (void)updateServerWithPlayerLocation;
 - (void)updateServerNodeViewed: (int)nodeId;
 - (void)updateServerItemViewed: (int)itemId;
 - (void)updateServerNpcViewed: (int)npcId;

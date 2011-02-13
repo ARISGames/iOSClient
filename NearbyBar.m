@@ -9,13 +9,10 @@
 #import "NearbyBar.h"
 #import "ARISAppDelegate.h"
 
-#define kNearbyBarExposedHeight 40
-
-
 @implementation NearbyBar
 
 @synthesize fillColor;
-@synthesize inactive;
+@synthesize oldNearbyLocationList;
 
 
 - (id)initWithFrame:(CGRect)frame {
@@ -28,13 +25,14 @@
 		buttonViewFrame = CGRectInset(buttonViewFrame, 5.0, 0.0); //how far to inset the items
 		buttonView = [[UIView alloc] initWithFrame:buttonViewFrame];
 		[buttonView setClipsToBounds:YES];
-		[buttonView setAlpha:1.0];
+
 		[self addSubview:buttonView];
 		
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-		[dispatcher addObserver:self selector:@selector(processNearbyLocationsList:) name:@"ReceivedNearbyLocationList" object:nil];		
-	
-		self.inactive = YES;
+		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"playerMoved" object:nil];		
+		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewLocationListReady" object:nil];			
+
+		self.oldNearbyLocationList = [NSMutableArray arrayWithCapacity:5];
 
 	
 	}
@@ -42,124 +40,72 @@
 }
 
 
-
-
 - (void)drawRect:(CGRect)rect {
+	self.fillColor = [UIColor colorWithRed:27/255.0 green:76/255.0 blue:26/255.0 alpha:1.0];
 	[self.fillColor set];
 	UIRectFill(rect);
 }
-
-//We need to manually hide and unhide to make sure things line up just right
-- (void)setHidden:(BOOL)newHidden {	
-	if (newHidden) {
-		[UIView beginAnimations: nil context: nil ]; // Tell UIView we're ready to start animations.
-		CGRect myFrame = self.frame;
-		myFrame.size.height = 0;
-		self.frame = myFrame;
-		self.alpha = 0.0;
-		ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-		CGFloat newAppYOrigin = self.frame.origin.y + self.frame.size.height;
-		[appDelegate setApplicationYOrigin:newAppYOrigin];
-	
-		[UIView commitAnimations];	
-	}
-	else {
-		self.alpha = 1.0;
-		[self setInactive:inactive];
-	}	
-}
-
- 
-- (void)setInactive:(BOOL)newInactive {
-	
-	[UIView beginAnimations: nil context: nil ];
-	CGRect newFrame = self.frame;
-	if (newInactive == YES) {
-		//make bar inactive by hiding it completely
-		inactive = YES;
-		self.alpha=0.0;
-		newFrame.size.height = 0;
-	} else {
-		inactive = NO;
-		//bar is being exposed, so set alpha apropriate to shrunken state
-		self.fillColor = [UIColor colorWithRed:27/255.0 green:76/255.0 blue:26/255.0 alpha:1.0];
-		self.alpha = 1.0; 
-		newFrame.size.height = kNearbyBarExposedHeight;
-	}
-	[self setFrame:newFrame];
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	
-	[appDelegate setApplicationYOrigin:self.frame.origin.y + self.frame.size.height];
-	
-	[UIView commitAnimations];
-}
-			
-
-
-- (void)setFillColor:(UIColor *)newColor {
-	[fillColor release];
-	fillColor = [newColor retain];
-	[self setNeedsDisplay];
-}
  
 
 
-#pragma mark Managing Nearby Items
+- (void)refreshViewFromModel{
+	NSLog(@"NearbyBar: refreshViewFromModel");
+	
+	AppModel *appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
+	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 
-- (void)processNearbyLocationsList:(NSNotification *)notification {
-    NSLog(@"NearbyBar: Recieved a Nearby Locations List Notification");
-	NSArray *nearbyLocations = notification.object;
+	NSMutableArray *nearbyLocationList = [NSMutableArray arrayWithCapacity:5];
 	NSObject <NearbyObjectProtocol> *forcedDisplayItem = nil;
+
 	
-	if ([nearbyLocations count] == 0) { 
-		[self clearAllItems];
-		self.inactive = YES;
-		return;
-	}
-	
+	//Filter out the locations that meet some basic requirements
+	for(Location *location in appModel.locationList) {
+		if ([appModel.playerLocation distanceFromLocation:location.location] > location.error) continue;
+		else if (location.kind == NearbyObjectItem && location.qty < 1 ) continue;
+		else if (location.kind == NearbyObjectPlayer) continue;
+		else [nearbyLocationList addObject:location];
+	 }
+		
+	//Check if anything is new since last time
 	BOOL newItem = NO;	//flag to see if at least one new item is in list
-	
-	for (NSObject <NearbyObjectProtocol> *unknownNearbyLocation in nearbyLocations) {
-		//check each new object againt list
+	for (Location *location in nearbyLocationList) {		
 		BOOL match = NO;
-		if ([unknownNearbyLocation kind] == NearbyObjectPlayer) continue;
-		
-		//This is not a player, so display the bar
-		self.inactive = NO;
-		
-		for (NearbyBarItemView *anItemView in [buttonView subviews]) {
-			NSObject <NearbyObjectProtocol> *existingItem = nil;
-			if ([anItemView respondsToSelector:@selector(nearbyObject)]) existingItem = anItemView.nearbyObject;
-			if (([[existingItem name] isEqualToString:[unknownNearbyLocation name]])
-				&& ([existingItem kind] == [unknownNearbyLocation kind])) {
-				match = YES;
-			}
+		for (Location *oldLocation in oldNearbyLocationList) {
+			if (oldLocation.locationId == location.locationId) match = YES;	
 		}
-		//did we find a match for this item? If not, we have a new item
-		if (!match && [unknownNearbyLocation kind] != NearbyObjectPlayer) {
+		if (match == NO) {
+			if (location.forcedDisplay) forcedDisplayItem = location; 
 			newItem = YES;
-			//also check to see if we should force a display.
-			if ([unknownNearbyLocation forcedDisplay]) {
-				forcedDisplayItem = unknownNearbyLocation;
-			}
 		}
 	}
-	
-	//If we have a new item, vibrate and expand
+
+	//If we have something new, alert the user
 	if (newItem) {
-		ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 		[appDelegate playAudioAlert:@"nearbyObject" shouldVibrate:YES];
 	}
-	[self clearAllItems];
-	for (NSObject <NearbyObjectProtocol> *unknownNearbyLocation in nearbyLocations) {
-		if ([unknownNearbyLocation kind] != NearbyObjectPlayer) [self addItem:unknownNearbyLocation];
-	}
 
+	//If we have a force display, do it
 	if (forcedDisplayItem) {
 		[forcedDisplayItem display];
 	}
 	
+	//Update the view
+	[self clearAllItems];
+	
+	if ([nearbyLocationList count] == 0) { 
+		[appDelegate showNearbyBar:NO];
+	}
+	else {
+		for (Location *location in nearbyLocationList) [self addItem:location];
+		[appDelegate showNearbyBar:YES];
+	}
+
+	
+	//Save this nearby list
+	self.oldNearbyLocationList = nearbyLocationList;
 }
+
+#pragma mark Managing Nearby Items
 
 
 
@@ -179,6 +125,7 @@
 }
 
 - (void)addItemView:(NearbyBarItemView *)itemView {
+	
 	//get the last subview of the buttonView
 	UIView *lastView = [[buttonView subviews] lastObject];
 	float newX;
@@ -187,15 +134,16 @@
 		newX = lastView.frame.origin.x + lastView.frame.size.width + 5;
 	} 
 	else {
-		CGRect labelFrame = CGRectMake(0, 0, 70, self.frame.size.height);
+		CGRect labelFrame = CGRectMake(0, 0, 70, kNearbyBarExposedHeight);
 		UILabel *nearbyLabel = [[UILabel alloc]initWithFrame:labelFrame];
 		nearbyLabel.text = NSLocalizedString(@"NearbyObjectsKey",@"");
 		nearbyLabel.backgroundColor = [UIColor clearColor];
 		nearbyLabel.textColor = [UIColor whiteColor];
 		nearbyLabel.font = [UIFont systemFontOfSize:12.0];
 		nearbyLabel.numberOfLines = 2;
+		nearbyLabel.lineBreakMode = UILineBreakModeWordWrap;
 		[buttonView addSubview:nearbyLabel];
-		newX = 80;
+		newX = nearbyLabel.frame.size.width + 10;
 	}
 	
 	CGRect newViewFrame = itemView.frame;
@@ -217,56 +165,48 @@
 
 #pragma mark Managing Touches
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	if (!self.inactive) { //ignore touches while inactive
-		itemTouch = YES;
-		dragged = NO;
-		UITouch *touch = [touches anyObject]; //should be just one
-		lastTouch = [touch locationInView:self];
-	}
+	itemTouch = YES;
+	dragged = NO;
+	UITouch *touch = [touches anyObject]; //should be just one
+	lastTouch = [touch locationInView:self];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event { 
-	if (!self.inactive) { //ignore touches while inactive
-		UITouch *touch = [touches anyObject]; //should be just one
-		CGPoint touchPoint = [touch locationInView:self];
-		float deltaX = touchPoint.x - lastTouch.x;
-		lastTouch = touchPoint;
-		CGRect myFrame = buttonView.bounds;
-		myFrame.origin.x -= deltaX;
-		if (myFrame.origin.x > maxScroll) {
-			myFrame.origin.x = maxScroll;
-		}
-		if (myFrame.origin.x < 0) {
-			myFrame.origin.x = 0;
-		}	
-		buttonView.bounds = myFrame;
-		dragged = YES;
-		
+	UITouch *touch = [touches anyObject]; //should be just one
+	CGPoint touchPoint = [touch locationInView:self];
+	float deltaX = touchPoint.x - lastTouch.x;
+	lastTouch = touchPoint;
+	CGRect myFrame = buttonView.bounds;
+	myFrame.origin.x -= deltaX;
+	if (myFrame.origin.x > maxScroll) {
+		myFrame.origin.x = maxScroll;
 	}
+	if (myFrame.origin.x < 0) {
+		myFrame.origin.x = 0;
+	}	
+	buttonView.bounds = myFrame;
+	dragged = YES;
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-	if (!self.inactive) { //ignore touches while inactive
-		if ((!dragged) && itemTouch) {
-			//NSLog(@"NearbyBar: I should open an item, it was not a drag");
-			UITouch *touch = [touches anyObject]; //should be just one
-			CGPoint touchPoint = [touch locationInView:buttonView];
-			NSArray *myItems = [buttonView subviews];
-			NSEnumerator *viewEnumerator = [myItems objectEnumerator];
-			NearbyBarItemView *myView;
-			while (myView = [viewEnumerator nextObject]) {
-				if (CGRectContainsPoint([myView frame], touchPoint) && [myView respondsToSelector:@selector(title)]) {
-					
-					NSLog(@"NearbyBar: Found the object selected, displaying: %@", [myView title]);
-					
-					ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-					[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
-					
-					if ([myView respondsToSelector:@selector(nearbyObject)]) [[myView nearbyObject] display];
-				}
+	if ((!dragged) && itemTouch) {
+		//NSLog(@"NearbyBar: I should open an item, it was not a drag");
+		UITouch *touch = [touches anyObject]; //should be just one
+		CGPoint touchPoint = [touch locationInView:buttonView];
+		NSArray *myItems = [buttonView subviews];
+		NSEnumerator *viewEnumerator = [myItems objectEnumerator];
+		NearbyBarItemView *myView;
+		while (myView = [viewEnumerator nextObject]) {
+			if (CGRectContainsPoint([myView frame], touchPoint) && [myView respondsToSelector:@selector(title)]) {
+				
+				NSLog(@"NearbyBar: Found the object selected, displaying: %@", [myView title]);
+				
+				ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+				[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
+				
+				if ([myView respondsToSelector:@selector(nearbyObject)]) [[myView nearbyObject] display];
 			}
 		}
-		
 	}
 }
 

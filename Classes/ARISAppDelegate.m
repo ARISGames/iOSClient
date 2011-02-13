@@ -54,7 +54,8 @@
 	
 	//Check for Internet conductivity
 	NSLog(@"AppDelegate: Verifying Connection to: %@",appModel.baseAppURL);
-	Reachability *r = [Reachability reachabilityWithHostName:@"arisgames.org"];
+//	Reachability *r = [Reachability reachabilityWithHostName:@"arisgames.org"];
+	Reachability *r = [Reachability reachabilityWithHostName:@"davembp.local"];
 	NetworkStatus internetStatus = [r currentReachabilityStatus];
 	BOOL connection = (internetStatus == ReachableViaWiFi) || (internetStatus == ReachableViaWWAN);
 	//connection = NO; //For debugging locally
@@ -194,7 +195,7 @@
 	nearbyBar = [[NearbyBar alloc] initWithFrame:CGRectMake(UIScreen.mainScreen.applicationFrame.origin.x, 
 															UIScreen.mainScreen.applicationFrame.origin.y, 
 															UIScreen.mainScreen.applicationFrame.size.width, 
-															20.0)];
+															kNearbyBarExposedHeight)];
 	[window addSubview:nearbyBar];	
 	
 	if ([[UIScreen screens] count] > 1) {
@@ -207,26 +208,6 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application{
 	NSLog(@"AppDelegate: applicationDidBecomeActive");
 	[appModel loadUserDefaults];
-}
-
-
-
-
-
-
-
-
-- (void) setApplicationYOrigin: (CGFloat)yOrigin {
-
-	CGFloat height = UIScreen.mainScreen.applicationFrame.size.height - yOrigin + 20;
-	
-	NSLog(@"AppDelegate: Setting Application y origin to %f and height to %f", yOrigin, height);
-	
-	tabBarController.view.frame = CGRectMake(window.frame.origin.x,
-											yOrigin,
-											window.frame.size.width,
-											height);
-	
 }
 
 
@@ -287,6 +268,44 @@
 - (void) removeWaitingIndicator {
 	NSLog (@"AppDelegate: Removing Waiting Indicator");
 	if (self.waitingIndicator != nil) [self.waitingIndicator.view removeFromSuperview ];
+}
+
+
+- (void) showNearbyBar:(BOOL)yesOrNo {
+
+	CGRect newNearbyBarFrame;
+	CGRect newTabBarControllerFrame;
+	
+	if (yesOrNo) {
+		NSLog(@"AppDelegate: showNearbyBar: YES");
+
+		newNearbyBarFrame = CGRectMake(window.frame.origin.x,
+									   UIScreen.mainScreen.applicationFrame.origin.y,
+									   window.frame.size.width,
+									   kNearbyBarExposedHeight);
+	}
+	else {
+		NSLog(@"AppDelegate: showNearbyBar: NO");
+		newNearbyBarFrame = CGRectMake(window.frame.origin.x,
+									   UIScreen.mainScreen.applicationFrame.origin.y,
+									   window.frame.size.width,
+									   0);
+	}
+	
+	int bottomOfNearbyBarView = newNearbyBarFrame.origin.y + newNearbyBarFrame.size.height;
+	
+	newTabBarControllerFrame = CGRectMake(window.frame.origin.x, 
+								bottomOfNearbyBarView, 
+								window.frame.size.width,
+								UIScreen.mainScreen.applicationFrame.size.height - bottomOfNearbyBarView + 20);
+	
+	
+	//Do the transition
+	[UIView beginAnimations: nil context: nil ]; // Tell UIView we're ready to start animations.
+	tabBarController.view.frame = newTabBarControllerFrame;
+	nearbyBar.frame = newNearbyBarFrame;
+	[UIView commitAnimations];	
+
 }
 
 

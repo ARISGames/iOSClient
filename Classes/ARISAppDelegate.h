@@ -77,13 +77,13 @@
 
 - (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password;
 - (void) displayNearbyObjectView:(UIViewController *)nearbyObjectViewController;
-- (void) setApplicationYOrigin: (CGFloat)yOrigin;
 - (void) showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)yesOrNo;
 - (void) showNewWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar;
 - (void) removeWaitingIndicator;
 - (void) removeNewWaitingIndicator;
 - (void) showNetworkAlert;
 - (void) removeNetworkAlert;
+- (void) showNearbyBar: (BOOL) yesOrNo;
 - (void) returnToHomeView;
 - (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate;
 - (void) startTVOut;

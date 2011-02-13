@@ -169,8 +169,19 @@ static const int kEmptyValue = -1;
 	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+#pragma mark Seters/Geters
 
-
+- (void)setPlayerLocation:(CLLocation *) newLocation{
+	playerLocation = newLocation;
+	[playerLocation retain];
+	
+	//Tell the model to update the server and fetch any nearby locations
+	[self updateServerWithPlayerLocation];	
+	
+	//Tell the other parts of the client
+	NSNotification *updatedLocationNotification = [NSNotification notificationWithName:@"PlayerMoved" object:nil];
+	[[NSNotificationCenter defaultCenter] postNotification:updatedLocationNotification];
+}
 
 #pragma mark Communication with Server
 - (void)login {
@@ -482,7 +493,7 @@ static const int kEmptyValue = -1;
 
 
 
-- (void)updateServerLocationAndfetchNearbyLocationList {
+- (void)updateServerWithPlayerLocation {
 	NSLog(@"Model: updating player position on server and determining nearby Locations");
 	
 	if (!loggedIn) {
@@ -504,33 +515,6 @@ static const int kEmptyValue = -1;
 	[jsonConnection performAsynchronousRequestWithParser:nil]; 
 	[jsonConnection release];
 	
-	[self rebuildNearbyLocationList];
-	
-
-	
-}
-
-- (void) rebuildNearbyLocationList {
-	
-	//init a fresh nearby location list array
-	if(nearbyLocationsList != nil) {
-		[nearbyLocationsList release];
-	}
-	nearbyLocationsList = [[NSMutableArray alloc] initWithCapacity:5];
-	
-	NSEnumerator *locationsListEnumerator = [locationList objectEnumerator];
-	Location *location;
-	while (location = [locationsListEnumerator nextObject]) {
-		//check if the location is close to the player
-		if ([playerLocation distanceFromLocation:location.location] < location.error && 
-			(location.kind != NearbyObjectItem || location.qty > 0)) {
-				[nearbyLocationsList addObject:location];
-		}
-	}
-	
-	//Tell the rest of the app that the nearbyLocationList is fresh
-	NSNotification *nearbyLocationListNotification =  [NSNotification notificationWithName:@"ReceivedNearbyLocationList" object:nearbyLocationsList];
-	[[NSNotificationCenter defaultCenter] postNotification:nearbyLocationListNotification];
 }
 
 
@@ -556,7 +540,6 @@ static const int kEmptyValue = -1;
 	
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewLocationListReady" object:nil]];
 	
-	[self rebuildNearbyLocationList];
 }
 
 -(void)removeItemFromInventory:(Item*)item qtyToRemove:(int)qty {
