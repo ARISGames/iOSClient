@@ -19,10 +19,11 @@ typedef UInt32 nearbyObjectKind;
 
 
 @protocol NearbyObjectProtocol
-- (NSString *)name; 
-- (nearbyObjectKind)kind;
-- (BOOL)forcedDisplay;
-- (void)display;
-//- (CLLocation *) location;
+- (NSString *)			name; 
+- (nearbyObjectKind)	kind;
+- (BOOL)				forcedDisplay;
+- (void)				display;
+- (int)					iconMediaId;
+//- (CLLocation *)		location;
 
 @end

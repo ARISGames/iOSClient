@@ -29,6 +29,8 @@
 @property(copy, readwrite) NSString *greeting;
 @property(copy, readwrite) NSString *description;
 @property(readwrite, assign) int mediaId;
+@property(readonly) int iconMediaId;
+
 @property(readwrite, assign) BOOL forcedDisplay; //see note above
 
 

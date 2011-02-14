@@ -62,9 +62,6 @@
 - (IBAction)cameraButtonTouchAction {
 	NSLog(@"Camera Button Pressed");
 	
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	appDelegate.nearbyBar.hidden = YES;
-	
 	self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
 	self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePickerController.sourceType];
 	self.imagePickerController.allowsEditing = YES;
@@ -75,8 +72,6 @@
 
 - (IBAction)libraryButtonTouchAction {
 	NSLog(@"Library Button Pressed");
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	appDelegate.nearbyBar.hidden = YES;
 	
 	self.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
 	[self presentModalViewController:self.imagePickerController animated:YES];
@@ -121,8 +116,6 @@
 	NSLog(@"CameraVC: Back from form");
 	[titleAndDescForm.view removeFromSuperview];
 	
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	appDelegate.nearbyBar.hidden = NO;
 	
 	[appModel createItemAndGiveToPlayerFromFileData:self.mediaData 
 										   fileName:self.mediaFilename 
@@ -137,8 +130,6 @@
 	
 	[[picker parentViewController] dismissModalViewControllerAnimated:YES];
 	
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	appDelegate.nearbyBar.hidden = NO;
 }
 
 #pragma mark UINavigationControllerDelegate Protocol Methods

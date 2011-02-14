@@ -20,16 +20,21 @@
 
 @synthesize itemId;
 @synthesize mediaId;
+@synthesize iconMediaId;
 @synthesize locationId;
 @synthesize qty,maxQty;
 @synthesize description;
-@synthesize iconMediaId;
 
 @synthesize dropable;
 @synthesize	destroyable;
 
 -(nearbyObjectKind) kind {
 	return NearbyObjectItem;
+}
+
+-(int)iconMediaId {
+	if (iconMediaId == 0) return 2;
+	else return iconMediaId;
 }
 
 - (void) display{

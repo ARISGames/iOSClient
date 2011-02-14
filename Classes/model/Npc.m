@@ -32,6 +32,9 @@
     return self;	
 }
 
+- (int) iconMediaId {
+	return 1; 
+}
 
 
 - (void) display{

@@ -120,6 +120,8 @@ NSString *const kQuestsHtmlTemplate =
 	if (silenceNextServerUpdate == NO) {
 		self.tabBarItem.badgeValue = @"!";
 		
+		
+		
 		ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 		[appDelegate playAudioAlert:@"questChange" shouldVibrate:YES];
 				

@@ -34,6 +34,8 @@
 @property(copy, readwrite) NSString *objectType;
 @property(readonly) nearbyObjectKind kind;
 - (nearbyObjectKind) kind;
+@property(readonly) NSObject<NearbyObjectProtocol> *object;
+
 @property(readwrite) int objectId;
 @property(readwrite) bool hidden;
 @property(readwrite) bool forcedDisplay;

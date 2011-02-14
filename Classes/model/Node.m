@@ -12,7 +12,7 @@
 #import "NodeViewController.h"
 
 @implementation Node
-@synthesize nodeId, name, text, mediaId, kind, forcedDisplay, numberOfOptions, options;
+@synthesize nodeId, name, text, mediaId, iconMediaId, kind, forcedDisplay, numberOfOptions, options;
 @synthesize answerString, nodeIfCorrect, nodeIfIncorrect;
 
 -(nearbyObjectKind) kind { return NearbyObjectNode; }
@@ -26,6 +26,9 @@
     return self;	
 }
 
+- (int) iconMediaId {
+	return 3; 
+}
 
 - (void) display{
 	NSLog(@"Node: Display Self Requested");

@@ -1135,7 +1135,6 @@ static const int kEmptyValue = -1;
 		NSLog(@"AppModel: Hash is same as last location list update, continue");
 		return;
 	}
-	
 	 
 	//Save this hash for later comparisions
 	self.locationListHash = [jsonResult.hash copy];

@@ -135,8 +135,6 @@
 		A7A172950F4F273B0017E865 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = A7A172940F4F273B0017E865 /* Icon.icns */; };
 		A7A6235B0F841C99008E0DFD /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A6235A0F841C99008E0DFD /* Item.m */; };
 		A7BCBB3F0F8C236900C7A36C /* ItemDetailsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7BCBB3E0F8C236900C7A36C /* ItemDetailsView.xib */; };
-		A7C1F6000FC070690045F15D /* NearbyBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C1F5FC0FC070690045F15D /* NearbyBar.m */; };
-		A7C1F6010FC070690045F15D /* NearbyBarItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */; };
 		A7E32E9E0FD1CEFD0058EDB7 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E32E9D0FD1CEFD0058EDB7 /* Player.m */; };
 		A7E39EAD0F5F60D000826198 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E39EAC0F5F60D000826198 /* CameraViewController.m */; };
 		A7E39ECA0F5F655E00826198 /* Camera.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7E39EC90F5F655E00826198 /* Camera.xib */; };
@@ -183,6 +181,10 @@
 		AB6484971187842B00261315 /* ticktick.wav in Resources */ = {isa = PBXBuildFile; fileRef = AB6484961187842B00261315 /* ticktick.wav */; };
 		AB6484B51187860E00261315 /* drop.wav in Resources */ = {isa = PBXBuildFile; fileRef = AB6484B41187860E00261315 /* drop.wav */; };
 		AB6B775E10C9D6C900275650 /* ARViewViewControler.m in Sources */ = {isa = PBXBuildFile; fileRef = AB6B775D10C9D6C900275650 /* ARViewViewControler.m */; };
+		AB79D5BC1307E6EB004AE1C7 /* NearbyObjectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */; };
+		AB79D5BD1307E6EB004AE1C7 /* NearbyObjectsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB79D5BB1307E6EB004AE1C7 /* NearbyObjectsViewController.xib */; };
+		AB79D79A1308299E004AE1C7 /* NearbyObjectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AB79D7991308299E004AE1C7 /* NearbyObjectCell.m */; };
+		AB79D7A61308311C004AE1C7 /* NearbyObjectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB79D7A51308311C004AE1C7 /* NearbyObjectCell.xib */; };
 		AB7FB978115DBF1500DB81A6 /* clickToPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = AB7FB977115DBF1500DB81A6 /* clickToPlay.png */; };
 		AB82F79011F0EAA300B8E3DC /* microphoneForeground.png in Resources */ = {isa = PBXBuildFile; fileRef = AB82F78F11F0EAA300B8E3DC /* microphoneForeground.png */; };
 		AB8A3CCE104936F500422773 /* libiconv.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AB8A3CCD104936F500422773 /* libiconv.2.dylib */; };
@@ -405,10 +407,6 @@
 		A7A623590F841C99008E0DFD /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
 		A7A6235A0F841C99008E0DFD /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; };
 		A7BCBB3E0F8C236900C7A36C /* ItemDetailsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemDetailsView.xib; sourceTree = "<group>"; };
-		A7C1F5FB0FC070690045F15D /* NearbyBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyBar.h; sourceTree = "<group>"; };
-		A7C1F5FC0FC070690045F15D /* NearbyBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyBar.m; sourceTree = "<group>"; };
-		A7C1F5FD0FC070690045F15D /* NearbyBarItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyBarItemView.h; sourceTree = "<group>"; };
-		A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyBarItemView.m; sourceTree = "<group>"; };
 		A7E32E9C0FD1CEFD0058EDB7 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		A7E32E9D0FD1CEFD0058EDB7 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 		A7E39EAB0F5F60D000826198 /* CameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CameraViewController.h; path = Classes/CameraViewController.h; sourceTree = "<group>"; };
@@ -479,6 +477,12 @@
 		AB6B775410C9D64800275650 /* location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = location.png; sourceTree = "<group>"; };
 		AB6B775C10C9D6C900275650 /* ARViewViewControler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARViewViewControler.h; sourceTree = "<group>"; };
 		AB6B775D10C9D6C900275650 /* ARViewViewControler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARViewViewControler.m; sourceTree = "<group>"; };
+		AB79D5B91307E6EB004AE1C7 /* NearbyObjectsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyObjectsViewController.h; sourceTree = "<group>"; };
+		AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyObjectsViewController.m; sourceTree = "<group>"; };
+		AB79D5BB1307E6EB004AE1C7 /* NearbyObjectsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NearbyObjectsViewController.xib; sourceTree = "<group>"; };
+		AB79D7981308299E004AE1C7 /* NearbyObjectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyObjectCell.h; sourceTree = "<group>"; };
+		AB79D7991308299E004AE1C7 /* NearbyObjectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyObjectCell.m; sourceTree = "<group>"; };
+		AB79D7A51308311C004AE1C7 /* NearbyObjectCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NearbyObjectCell.xib; sourceTree = "<group>"; };
 		AB7FB977115DBF1500DB81A6 /* clickToPlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clickToPlay.png; sourceTree = "<group>"; };
 		AB82F78F11F0EAA300B8E3DC /* microphoneForeground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = microphoneForeground.png; sourceTree = "<group>"; };
 		AB8A3CCD104936F500422773 /* libiconv.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.2.dylib; path = ../../../../../../usr/lib/libiconv.2.dylib; sourceTree = SDKROOT; };
@@ -806,10 +810,12 @@
 				ABB925C810C8581B00B09506 /* page.png */,
 				ABB925C910C8581B00B09506 /* npc.png */,
 				A722CB5A0FBDFEA6009432DB /* NearbyObjectProtocol.h */,
-				A7C1F5FB0FC070690045F15D /* NearbyBar.h */,
-				A7C1F5FC0FC070690045F15D /* NearbyBar.m */,
-				A7C1F5FD0FC070690045F15D /* NearbyBarItemView.h */,
-				A7C1F5FE0FC070690045F15D /* NearbyBarItemView.m */,
+				AB79D7981308299E004AE1C7 /* NearbyObjectCell.h */,
+				AB79D7991308299E004AE1C7 /* NearbyObjectCell.m */,
+				AB79D7A51308311C004AE1C7 /* NearbyObjectCell.xib */,
+				AB79D5B91307E6EB004AE1C7 /* NearbyObjectsViewController.h */,
+				AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */,
+				AB79D5BB1307E6EB004AE1C7 /* NearbyObjectsViewController.xib */,
 			);
 			name = NearbyObjectBar;
 			sourceTree = "<group>";
@@ -1298,6 +1304,8 @@
 				AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */,
 				AB2FE579120A154B00758F8C /* LogoutButton.png in Resources */,
 				AB8E31F61228399B00C198C3 /* textFade.png in Resources */,
+				AB79D5BD1307E6EB004AE1C7 /* NearbyObjectsViewController.xib in Resources */,
+				AB79D7A61308311C004AE1C7 /* NearbyObjectCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1386,8 +1394,6 @@
 				289813C60FA7489B002ED288 /* TwoDDecoderResult.mm in Sources */,
 				289813EA0FA74E2E002ED288 /* Decoder.mm in Sources */,
 				A722C8C60FBCD92E009432DB /* SelfRegistrationViewController.m in Sources */,
-				A7C1F6000FC070690045F15D /* NearbyBar.m in Sources */,
-				A7C1F6010FC070690045F15D /* NearbyBarItemView.m in Sources */,
 				A79830140FCB1CD700C1C2E7 /* WaitingIndicatorViewController.m in Sources */,
 				A7E32E9E0FD1CEFD0058EDB7 /* Player.m in Sources */,
 				AB549EDF1047007B00A901EF /* NSObject+SBJSON.m in Sources */,
@@ -1432,6 +1438,8 @@
 				AB39C852117E4613007AD31F /* StartOverViewController.m in Sources */,
 				AB42A66911D69F1500FD6D4B /* ARISMoviePlayerViewController.m in Sources */,
 				ABEBF566123D916D00ECE66C /* WaitingIndicatorView.m in Sources */,
+				AB79D5BC1307E6EB004AE1C7 /* NearbyObjectsViewController.m in Sources */,
+				AB79D79A1308299E004AE1C7 /* NearbyObjectCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

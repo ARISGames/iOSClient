@@ -21,6 +21,7 @@
 @synthesize iconMediaId;
 @synthesize location;
 @synthesize error;
+@synthesize object;
 @synthesize objectType;
 @synthesize objectId;
 @synthesize hidden;
@@ -37,7 +38,14 @@
 	return returnValue;
 }
 
-- (void)display {
+- (int) iconMediaId{
+	if (iconMediaId != 0) return iconMediaId;
+	
+	NSObject<NearbyObjectProtocol> *o = [self object];
+	return [o iconMediaId];
+}
+
+- (NSObject<NearbyObjectProtocol>*)object {
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	AppModel *model = [appDelegate appModel];
 	
@@ -45,18 +53,22 @@
 		Item *item = [model itemForItemId:objectId]; 		
 		item.locationId = self.locationId;
 		item.qty = self.qty;
-		[item display];	
+		return item;
 	}
 	
 	if (self.kind == NearbyObjectNode) {
-		Node *node = [model nodeForNodeId: objectId]; 
-		[node display];	
+		return [model nodeForNodeId: objectId]; 
 	}
 	
 	if (self.kind == NearbyObjectNPC) {
-		Npc *npc = [model npcForNpcId: objectId]; 
-		[npc display];	
+		return [model npcForNpcId: objectId]; 
 	}
+	else return nil;
+	
+}
+
+- (void)display {
+	[self.object display];
 }
 
 - (void)dealloc {

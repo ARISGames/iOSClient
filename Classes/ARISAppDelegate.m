@@ -18,8 +18,10 @@
 @synthesize loginViewNavigationController;
 @synthesize gamePickerViewController;
 @synthesize gamePickerNavigationController;
-@synthesize nearbyBar;
+
+@synthesize nearbyObjectsNavigationController;
 @synthesize nearbyObjectNavigationController;
+
 @synthesize myCLController;
 @synthesize waitingIndicator,waitingIndicatorView;
 @synthesize networkAlert;
@@ -77,6 +79,14 @@
 	[dispatcher addObserver:self selector:@selector(performLogout:) name:@"LogoutRequested" object:nil];
 	[dispatcher addObserver:self selector:@selector(displayNearbyObjects:) name:@"NearbyButtonTouched" object:nil];
 
+	
+	//Setup NearbyObjects View
+	NearbyObjectsViewController *nearbyObjectsViewController = [[NearbyObjectsViewController alloc]initWithNibName:@"NearbyObjectsViewController" bundle:nil];
+	self.nearbyObjectsNavigationController = [[UINavigationController alloc] initWithRootViewController: nearbyObjectsViewController];
+	[nearbyObjectsViewController release];
+	self.nearbyObjectsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+
+	
 	//Setup ARView
 	//ARViewViewControler *arViewController = [[[ARViewViewControler alloc] initWithNibName:@"ARView" bundle:nil] autorelease];
 	//UINavigationController *arNavigationController = [[UINavigationController alloc] initWithRootViewController: arViewController];
@@ -143,9 +153,10 @@
 	[loginViewController retain]; //This view may be removed and readded to the window
 	
 	//Add the view controllers to a Tab Bar
-	tabBarController = [[UITabBarController alloc] init];
-	tabBarController.delegate = self;
-	tabBarController.viewControllers = [NSMutableArray arrayWithObjects: 
+	self.tabBarController = [[UITabBarController alloc] init];
+	self.tabBarController.delegate = self;
+	self.tabBarController.viewControllers = [NSMutableArray arrayWithObjects: 
+										nearbyObjectsNavigationController,
 										questsNavigationController, 
 										gpsNavigationController,
 										inventoryNavigationController,
@@ -158,8 +169,8 @@
 										startOverNavigationController,
 										//developerNavigationController,
 										nil];	
-	[tabBarController.view setFrame:UIScreen.mainScreen.applicationFrame];
-	[window addSubview:tabBarController.view];
+	[self.tabBarController.view setFrame:UIScreen.mainScreen.applicationFrame];
+	[window addSubview:self.tabBarController.view];
 
 	//Customize the 'more' nav controller on the tab bar
 	UINavigationController *moreNavController = tabBarController.moreNavigationController;
@@ -190,13 +201,6 @@
 		tabBarController.view.hidden = YES;
 		[window addSubview:loginViewNavigationController.view];
 	}
-	
-	//Inventory Bar, which is really a view
-	nearbyBar = [[NearbyBar alloc] initWithFrame:CGRectMake(UIScreen.mainScreen.applicationFrame.origin.x, 
-															UIScreen.mainScreen.applicationFrame.origin.y, 
-															UIScreen.mainScreen.applicationFrame.size.width, 
-															kNearbyBarExposedHeight)];
-	[window addSubview:nearbyBar];	
 	
 	if ([[UIScreen screens] count] > 1) {
 		NSLog(@"Found an external screen.");
@@ -271,40 +275,26 @@
 }
 
 
-- (void) showNearbyBar:(BOOL)yesOrNo {
-
-	CGRect newNearbyBarFrame;
-	CGRect newTabBarControllerFrame;
+- (void) showNearbyTab:(BOOL)yesOrNo {
+	NSMutableArray *tabs = [NSMutableArray arrayWithArray:tabBarController.viewControllers];
 	
 	if (yesOrNo) {
-		NSLog(@"AppDelegate: showNearbyBar: YES");
+		NSLog(@"AppDelegate: showNearbyTab: YES");
+		if (![tabs containsObject:self.nearbyObjectsNavigationController]) 
+				[tabs insertObject:self.nearbyObjectsNavigationController atIndex:0];
 
-		newNearbyBarFrame = CGRectMake(window.frame.origin.x,
-									   UIScreen.mainScreen.applicationFrame.origin.y,
-									   window.frame.size.width,
-									   kNearbyBarExposedHeight);
 	}
 	else {
-		NSLog(@"AppDelegate: showNearbyBar: NO");
-		newNearbyBarFrame = CGRectMake(window.frame.origin.x,
-									   UIScreen.mainScreen.applicationFrame.origin.y,
-									   window.frame.size.width,
-									   0);
+		NSLog(@"AppDelegate: showNearbyTab: NO");
+		
+		if ([tabs containsObject:self.nearbyObjectsNavigationController]) {
+			[tabs removeObject:self.nearbyObjectsNavigationController];
+		}
+		
 	}
 	
-	int bottomOfNearbyBarView = newNearbyBarFrame.origin.y + newNearbyBarFrame.size.height;
-	
-	newTabBarControllerFrame = CGRectMake(window.frame.origin.x, 
-								bottomOfNearbyBarView, 
-								window.frame.size.width,
-								UIScreen.mainScreen.applicationFrame.size.height - bottomOfNearbyBarView + 20);
-	
-	
-	//Do the transition
-	[UIView beginAnimations: nil context: nil ]; // Tell UIView we're ready to start animations.
-	tabBarController.view.frame = newTabBarControllerFrame;
-	nearbyBar.frame = newNearbyBarFrame;
-	[UIView commitAnimations];	
+	[self.tabBarController setViewControllers:tabs animated:YES];
+
 
 }
 
@@ -342,10 +332,7 @@
 	NSLog(@"%@", text);
 }
 
-- (void)displayNearbyObjectView:(UIViewController *)nearbyObjectViewController {
-	//Hide the nearby bar
-	[nearbyBar setHidden:YES];
-	
+- (void)displayNearbyObjectView:(UIViewController *)nearbyObjectViewController {	
 	nearbyObjectNavigationController = [[UINavigationController alloc] initWithRootViewController:nearbyObjectViewController];
 	nearbyObjectNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 		

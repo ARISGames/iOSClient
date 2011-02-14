@@ -147,12 +147,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	//Notify the server this item was displayed
 	[appModel updateServerItemViewed:item.itemId];
 	
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
 	
 	[self.navigationController popToRootViewControllerAnimated:YES];
 	[self dismissModalViewControllerAnimated:YES];
 	
-	appDelegate.nearbyBar.hidden = NO;
 	
 	
 }
@@ -315,7 +313,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	if (item.qty < 1) {
 		[self.navigationController popToRootViewControllerAnimated:YES];
 		[self dismissModalViewControllerAnimated:YES];
-		appDelegate.nearbyBar.hidden = NO;
 
 	}
 	

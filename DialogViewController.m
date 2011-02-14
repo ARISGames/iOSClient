@@ -184,7 +184,6 @@ NSString *const kDialogHtmlTemplate =
 	[appModel updateServerNpcViewed:currentNpc.npcId];
 	
 	[self dismissModalViewControllerAnimated:YES];
-	appDelegate.nearbyBar.hidden = NO;
 
 }
 
