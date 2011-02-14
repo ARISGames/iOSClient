@@ -9,6 +9,8 @@
 //General
 "NoConnectionTitleKey" = "Pas de connexion à Internet";
 "NoConnectionMessageKey" = "S.V.P, connectez-vous à internet et redémarrez ARIS";
+"NoLocationTitleKey" = "Location Service Error";
+"NoLocationMessageKey" = "Please enable location services for ARIS in iOS Settings-> General-> Location Services";
 "PoorConnectionTitleKey" = "Notification Réseau";
 "PoorConnectionMessageKey" = "Votre connexion à internet est lente ou désactivée";
 "LoginErrorTitleKey" = "Erreur de Login";
@@ -19,7 +21,7 @@
 "LoadingKey" = "Chargement...";
 "OkKey" = "Ok";
 "SaveKey" = "Sauver";
-"NearbyObjectsKey" = "Objets à Proximité:";
+"NearbyObjectsKey" = "Proximité:";
 
 //AR View
 "ARViewTitleKey" = "Vue AR";

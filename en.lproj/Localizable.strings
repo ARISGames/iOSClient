@@ -9,6 +9,8 @@
 //General
 "NoConnectionTitleKey" = "No connection to the Internet";
 "NoConnectionMessageKey" = "Please connect to the internet and restart ARIS";
+"NoLocationTitleKey" = "Location Service Error";
+"NoLocationMessageKey" = "Please enable location services for ARIS in iOS Settings-> General-> Location Services";
 "PoorConnectionTitleKey" = "Network Warning";
 "PoorConnectionMessageKey" = "Your internet connection is slow or unreliable";
 "LoginErrorTitleKey" = "Login Error";

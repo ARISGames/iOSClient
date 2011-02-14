@@ -84,6 +84,12 @@
 - (void)locationManager:(CLLocationManager *)manager
 	   didFailWithError:(NSError *)error
 {
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NoLocationTitleKey", nil)
+													message:NSLocalizedString(@"NoLocationMessageKey", nil)
+												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+	[alert show];	
+	[alert release];
+	
 	NSMutableString *errorString = [[[NSMutableString alloc] init] autorelease];
 	
 	if ([error domain] == kCLErrorDomain) {
@@ -115,6 +121,7 @@
 				//
 			default:
 				[errorString appendFormat:@"%@ %d\n", NSLocalizedString(@"GenericLocationError", nil), [error code]];
+				
 				break;
 		}
 	} else {
