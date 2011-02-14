@@ -281,13 +281,14 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>2</integer>
-									<integer>1</integer>
+									<integer>36</integer>
+									<integer>26</integer>
+									<integer>8</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 0}, {412, 756}}</string>
+							<string>{{0, 240}, {412, 718}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -299,7 +300,7 @@
 					<key>GeometryConfiguration</key>
 					<dict>
 						<key>Frame</key>
-						<string>{{0, 0}, {429, 774}}</string>
+						<string>{{0, 0}, {429, 736}}</string>
 						<key>GroupTreeTableConfiguration</key>
 						<array>
 							<string>SCMStatusColumn</string>
@@ -308,7 +309,7 @@
 							<real>390</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>16 63 1424 815 0 0 1440 878 </string>
+						<string>16 101 1072 777 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -336,7 +337,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>AB79DB7413091D58004AE1C7</string>
+										<string>AB79DBB113092512004AE1C7</string>
 										<key>history</key>
 										<array>
 											<string>ABB9262310C85AB000B09506</string>
@@ -498,14 +499,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {990, 447}}</string>
+								<string>{{0, 0}, {638, 90}}</string>
 								<key>RubberWindowFrame</key>
-								<string>16 63 1424 815 0 0 1440 878 </string>
+								<string>16 101 1072 777 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>447pt</string>
+							<string>90pt</string>
 						</dict>
 						<dict>
 							<key>BecomeActive</key>
@@ -527,7 +528,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>AB79DB7913091D58004AE1C7</string>
+										<string>AB79DBB213092512004AE1C7</string>
 										<key>history</key>
 										<array>
 											<string>ABB9262310C85AB000B09506</string>
@@ -590,7 +591,6 @@
 											<string>AB0A5D0712048B510065CE68</string>
 											<string>AB0A5D0812048B510065CE68</string>
 											<string>AB0A5D0912048B510065CE68</string>
-											<string>AB0A5D1D12052F960065CE68</string>
 											<string>AB0A5D1E12052F960065CE68</string>
 											<string>AB0A5D2012052F960065CE68</string>
 											<string>AB0A5D2112052F960065CE68</string>
@@ -646,7 +646,6 @@
 											<string>AB65553D1306C36D00F1FA0D</string>
 											<string>AB65553E1306C36D00F1FA0D</string>
 											<string>AB6555AC1306D25500F1FA0D</string>
-											<string>AB79D62613080E35004AE1C7</string>
 											<string>AB79D66D130812F2004AE1C7</string>
 											<string>AB79D68D130818A7004AE1C7</string>
 											<string>AB79D6C013081F62004AE1C7</string>
@@ -667,17 +666,20 @@
 											<string>AB79D8B1130840E9004AE1C7</string>
 											<string>AB79D8C61308431D004AE1C7</string>
 											<string>AB79D94C1308AEB1004AE1C7</string>
-											<string>AB79D9861308B63A004AE1C7</string>
 											<string>AB79D9AE1308B949004AE1C7</string>
-											<string>AB79D9E51308C3AA004AE1C7</string>
-											<string>AB79D9E61308C3AA004AE1C7</string>
 											<string>AB79DA261308CEA5004AE1C7</string>
 											<string>AB79DA2D1308CF4C004AE1C7</string>
 											<string>AB79DA391308D1A2004AE1C7</string>
 											<string>AB79DB7513091D58004AE1C7</string>
 											<string>AB79DB7613091D58004AE1C7</string>
 											<string>AB79DB7713091D58004AE1C7</string>
-											<string>AB79DB7813091D58004AE1C7</string>
+											<string>AB79DB9113092314004AE1C7</string>
+											<string>AB79DB9213092314004AE1C7</string>
+											<string>AB79DB9313092314004AE1C7</string>
+											<string>AB79DB9413092314004AE1C7</string>
+											<string>AB79DB9513092314004AE1C7</string>
+											<string>AB79DBA0130923D9004AE1C7</string>
+											<string>AB79DBA1130923D9004AE1C7</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -689,14 +691,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 452}, {990, 317}}</string>
+								<string>{{0, 95}, {638, 636}}</string>
 								<key>RubberWindowFrame</key>
-								<string>16 63 1424 815 0 0 1440 878 </string>
+								<string>16 101 1072 777 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>317pt</string>
+							<string>636pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -709,9 +711,9 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 774}, {990, 0}}</string>
+								<string>{{0, 736}, {638, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>16 63 1424 815 0 0 1440 878 </string>
+								<string>16 101 1072 777 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -720,7 +722,7 @@
 						</dict>
 					</array>
 					<key>Proportion</key>
-					<string>990pt</string>
+					<string>638pt</string>
 				</dict>
 			</array>
 			<key>Name</key>
@@ -875,7 +877,6 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>AB79DB7C13091D58004AE1C7</string>
 		<string>AB79DB7D13091D58004AE1C7</string>
 		<string>AB79DB7E13091D58004AE1C7</string>
 		<string>1C78EAAD065D492600B07095</string>
@@ -884,7 +885,7 @@
 		<string>/Users/djgagnon/Documents/Aris/svn-trunk/iPhoneClient/ARIS.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>16 63 1424 815 0 0 1440 878 </string>
+	<string>16 101 1072 777 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>

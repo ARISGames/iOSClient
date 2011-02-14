@@ -185,6 +185,7 @@
 		AB79D5BD1307E6EB004AE1C7 /* NearbyObjectsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB79D5BB1307E6EB004AE1C7 /* NearbyObjectsViewController.xib */; };
 		AB79D79A1308299E004AE1C7 /* NearbyObjectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AB79D7991308299E004AE1C7 /* NearbyObjectCell.m */; };
 		AB79D7A61308311C004AE1C7 /* NearbyObjectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB79D7A51308311C004AE1C7 /* NearbyObjectCell.xib */; };
+		AB79DB8C130922EF004AE1C7 /* nearby.png in Resources */ = {isa = PBXBuildFile; fileRef = AB79DB8B130922EF004AE1C7 /* nearby.png */; };
 		AB7FB978115DBF1500DB81A6 /* clickToPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = AB7FB977115DBF1500DB81A6 /* clickToPlay.png */; };
 		AB82F79011F0EAA300B8E3DC /* microphoneForeground.png in Resources */ = {isa = PBXBuildFile; fileRef = AB82F78F11F0EAA300B8E3DC /* microphoneForeground.png */; };
 		AB8A3CCE104936F500422773 /* libiconv.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AB8A3CCD104936F500422773 /* libiconv.2.dylib */; };
@@ -483,6 +484,7 @@
 		AB79D7981308299E004AE1C7 /* NearbyObjectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyObjectCell.h; sourceTree = "<group>"; };
 		AB79D7991308299E004AE1C7 /* NearbyObjectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NearbyObjectCell.m; sourceTree = "<group>"; };
 		AB79D7A51308311C004AE1C7 /* NearbyObjectCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NearbyObjectCell.xib; sourceTree = "<group>"; };
+		AB79DB8B130922EF004AE1C7 /* nearby.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nearby.png; sourceTree = "<group>"; };
 		AB7FB977115DBF1500DB81A6 /* clickToPlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = clickToPlay.png; sourceTree = "<group>"; };
 		AB82F78F11F0EAA300B8E3DC /* microphoneForeground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = microphoneForeground.png; sourceTree = "<group>"; };
 		AB8A3CCD104936F500422773 /* libiconv.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.2.dylib; path = ../../../../../../usr/lib/libiconv.2.dylib; sourceTree = SDKROOT; };
@@ -806,6 +808,7 @@
 		A760473F0FC0AA1E00219A53 /* NearbyObjectBar */ = {
 			isa = PBXGroup;
 			children = (
+				AB79DB8B130922EF004AE1C7 /* nearby.png */,
 				ABB925C710C8581B00B09506 /* item.png */,
 				ABB925C810C8581B00B09506 /* page.png */,
 				ABB925C910C8581B00B09506 /* npc.png */,
@@ -1306,6 +1309,7 @@
 				AB8E31F61228399B00C198C3 /* textFade.png in Resources */,
 				AB79D5BD1307E6EB004AE1C7 /* NearbyObjectsViewController.xib in Resources */,
 				AB79D7A61308311C004AE1C7 /* NearbyObjectCell.xib in Resources */,
+				AB79DB8C130922EF004AE1C7 /* nearby.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
