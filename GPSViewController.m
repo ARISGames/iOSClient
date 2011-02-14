@@ -36,7 +36,9 @@ static float INITIAL_SPAN = 0.001;
         self.title = NSLocalizedString(@"MapViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"gps.png"];
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
-		silenceNextServerUpdate = YES;
+		silenceNextServerUpdateCount = 1;
+		newItemsSinceLastView = 0;
+
 		tracking = YES;
 		playerTrackingButton.style = UIBarButtonItemStyleDone;
 
@@ -54,7 +56,7 @@ static float INITIAL_SPAN = 0.001;
 }
 
 - (void)silenceNextUpdate {
-	silenceNextServerUpdate = YES;
+	silenceNextServerUpdateCount++;
 }
 		
 - (IBAction)changeMapType: (id) sender {
@@ -200,17 +202,27 @@ static float INITIAL_SPAN = 0.001;
 	if (mapView) {
 		//only refresh if there's a mapview
 		NSLog(@"GPSViewController: Refreshing view from model");
-	
-	
-		//Add a badge if this is NOT the first time data has been loaded
-		if (silenceNextServerUpdate == NO) {
-			self.tabBarItem.badgeValue = @"!";
-			
-			//ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-			//[appDelegate playAudioAlert:@"mapChange" shouldVibrate:YES]; //this is a little annoying becasue it happens even when players move
-			
+		
+		if (silenceNextServerUpdateCount < 1) {
+			//Check if anything is new since last time
+			int newItems = 0;
+			NSArray *newLocationsArray = appModel.locationList;
+			for (Location *location in newLocationsArray) {		
+				BOOL match = NO;
+				for (Location *existingLocation in self.locations) {
+					if (existingLocation.locationId == location.locationId) match = YES;	
+				}
+				if (match == NO) {
+					newItems ++;;
+				}
+			}
+			if (newItems > 0) {
+				newItemsSinceLastView += newItems;
+				self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
+			}
+			else self.tabBarItem.badgeValue = nil;
 		}
-		else silenceNextServerUpdate = NO;
+		else if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
 	
 		//Blow away the old markers except for the player marker
 		NSEnumerator *existingAnnotationsEnumerator = [[[mapView annotations] copy] objectEnumerator];
@@ -219,7 +231,7 @@ static float INITIAL_SPAN = 0.001;
 			if (annotation != mapView.userLocation) [mapView removeAnnotation:annotation];
 		}
 	
-		locations = appModel.locationList;
+		self.locations = appModel.locationList;
 	
 		//Add the freshly loaded locations from the notification
 		for ( Location* location in locations ) {

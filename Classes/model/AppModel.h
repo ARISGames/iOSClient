@@ -98,6 +98,7 @@ extern NSDictionary *InventoryElements;
 - (void)forceUpdateOnNextLocationListFetch;
 - (void)resetAllPlayerLists;
 - (void)fetchAllGameLists;
+- (void)fetchAllPlayerLists;
 - (void)fetchInventory;
 - (void)fetchQuestList;
 - (void)fetchNpcConversations:(int)npcId afterViewingNode:(int)nodeId;

@@ -222,7 +222,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	//Setup
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate playAudioAlert:@"drop" shouldVibrate:YES];
-	[appModel silenceNextServerUpdate];
 	
 	//Determine the Quantity Effected based on the button touched
 	int quantity;

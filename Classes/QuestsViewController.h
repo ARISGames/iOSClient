@@ -18,7 +18,7 @@
 	NSMutableArray *questCells;
 	int cellsLoaded;
 	IBOutlet UITableView *tableView;
-	BOOL silenceNextServerUpdate;
+	int silenceNextServerUpdateCount;
 	int newItemsSinceLastView;
 }
 

@@ -56,7 +56,8 @@ NSString *const kQuestsHtmlTemplate =
         self.title = NSLocalizedString(@"QuestViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"quest.png"];
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
-		silenceNextServerUpdate = YES;
+		silenceNextServerUpdateCount = 1;
+		newItemsSinceLastView = 0;
 
 		cellsLoaded = 0;
 		
@@ -71,7 +72,7 @@ NSString *const kQuestsHtmlTemplate =
 }
 
 - (void)silenceNextUpdate {
-	silenceNextServerUpdate = YES;
+	silenceNextServerUpdateCount++;
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -116,17 +117,29 @@ NSString *const kQuestsHtmlTemplate =
 -(void)refreshViewFromModel {
 	NSLog(@"QuestsViewController: Refreshing view from model");
 	
-	//Add a badge if this is NOT the first time data has been loaded
-	if (silenceNextServerUpdate == NO) {
-		self.tabBarItem.badgeValue = @"!";
-		
-		
-		
-		ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-		[appDelegate playAudioAlert:@"questChange" shouldVibrate:YES];
+	//Update the badge
+	if (silenceNextServerUpdateCount < 1) {
+		//Check if anything is new since last time
+		int newItems = 0;
+		NSArray *newActiveQuestsArray = [appModel.questList objectForKey:@"active"];
+		for (Quest *quest in newActiveQuestsArray) {		
+			BOOL match = NO;
+			for (Quest *existingQuest in [self.quests objectAtIndex:ACTIVE_SECTION]) {
+				if (existingQuest.questId == quest.questId) match = YES;	
+			}
+			if (match == NO) {
+				newItems ++;;
+			}
+		}
+		if (newItems > 0) {
+			newItemsSinceLastView += newItems;
+			self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
+			
+		}
+		else self.tabBarItem.badgeValue = nil;
 				
 	}
-	else silenceNextServerUpdate = NO;
+	else if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
 	
 	//rebuild the list
 	NSArray *activeQuestsArray = [appModel.questList objectForKey:@"active"];

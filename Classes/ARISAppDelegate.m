@@ -397,8 +397,6 @@
 	
 	//Clear out the old game data
 	[appModel resetAllPlayerLists];
-
-	
 	
 	//Notify the Server
 	NSLog(@"AppDelegate: Game Selected. Notifying Server");
@@ -426,7 +424,7 @@
 	NSLog(@"AppDelegate: %@ selected",[visibleViewController title]);
 	
 	[appModel fetchAllGameLists];
-	[appModel fetchLocationList];
+	
 
 	
 	[self playAudioAlert:@"questChange" shouldVibrate:NO];

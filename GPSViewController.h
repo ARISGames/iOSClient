@@ -23,7 +23,9 @@
 	IBOutlet UIBarButtonItem *mapTypeButton;
 	IBOutlet UIBarButtonItem *playerTrackingButton;
 	IBOutlet UIToolbar *toolBar;
-	BOOL silenceNextServerUpdate;
+	int silenceNextServerUpdateCount;
+	int newItemsSinceLastView;
+
 	NSTimer *refreshTimer;
 
 }

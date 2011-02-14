@@ -24,7 +24,7 @@
         self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"inventory.png"];
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
-		silenceNextServerUpdate = YES;
+		silenceNextServerUpdateCount = 1;
 		
 		newItemsSinceLastView = 0;
 		
@@ -39,8 +39,10 @@
 }
 
 - (void)silenceNextUpdate {
+
 	NSLog(@"InventoryListViewController: silenceNextUpdate");
-	//silenceNextServerUpdate = YES;
+	silenceNextServerUpdateCount++;
+
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -86,9 +88,7 @@
 -(void)refreshViewFromModel {
 	NSLog(@"InventoryListViewController: Refresh View from Model");
 	
-	//Add a badge if this is NOT the first time data has been loaded
-	if (silenceNextServerUpdate == NO) {
-		
+	if (silenceNextServerUpdateCount < 1) {		
 		NSArray *newInventory = [appModel.inventory allValues];
 		//Check if anything is new since last time
 		int newItems = 0;
@@ -112,7 +112,7 @@
 		[appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
 		
 	}
-	else silenceNextServerUpdate = NO;
+	else if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
 	
 	self.inventory = [appModel.inventory allValues];
 	[inventoryTable reloadData];
