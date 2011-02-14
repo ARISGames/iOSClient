@@ -95,7 +95,7 @@ static NSString * const OPTION_CELL = @"option";
 		//Create movie player object
 		mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
 		[mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
-
+		mMoviePlayer.moviePlayer.shouldAutoplay = NO;
 		[mMoviePlayer.moviePlayer prepareToPlay];
 	}
 	
