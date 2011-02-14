@@ -172,6 +172,8 @@ static const int kEmptyValue = -1;
 #pragma mark Seters/Geters
 
 - (void)setPlayerLocation:(CLLocation *) newLocation{
+	NSLog(@"AppModel: setPlayerLocation");
+	
 	playerLocation = newLocation;
 	[playerLocation retain];
 	

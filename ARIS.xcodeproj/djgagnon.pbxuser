@@ -185,7 +185,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					399,
+					654,
 					20,
 					48,
 					43,
@@ -259,7 +259,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					711,
+					614,
 					60,
 					20,
 					48,
@@ -276,8 +276,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 319359663;
-			PBXWorkspaceStateSaveDate = 319359663;
+			PBXPerProjectTemplateStateSaveDate = 319371862;
+			PBXWorkspaceStateSaveDate = 319371862;
 		};
 		perUserProjectItems = {
 			AB0A5BAF120367620065CE68 = AB0A5BAF120367620065CE68 /* PlistBookmark */;
@@ -322,6 +322,11 @@
 			AB325BB3118B94D900FB8778 = AB325BB3118B94D900FB8778 /* PBXBookmark */;
 			AB325BB8118B94D900FB8778 = AB325BB8118B94D900FB8778 /* PBXTextBookmark */;
 			AB3735B012C284A3001D9A68 = AB3735B012C284A3001D9A68 /* PBXTextBookmark */;
+			AB39307A1309329100DE5B14 = AB39307A1309329100DE5B14 /* PBXTextBookmark */;
+			AB39307B1309329100DE5B14 = AB39307B1309329100DE5B14 /* PBXTextBookmark */;
+			AB39307C1309329100DE5B14 = AB39307C1309329100DE5B14 /* PBXTextBookmark */;
+			AB39307D1309329100DE5B14 = AB39307D1309329100DE5B14 /* PBXTextBookmark */;
+			AB39307E1309329100DE5B14 = AB39307E1309329100DE5B14 /* PBXTextBookmark */;
 			AB39C862117E4FB3007AD31F = AB39C862117E4FB3007AD31F /* PBXBookmark */;
 			AB4151E81159671C00DBA15F = AB4151E81159671C00DBA15F /* PBXBookmark */;
 			AB4151F6115969A700DBA15F = AB4151F6115969A700DBA15F /* PBXBookmark */;
@@ -1268,34 +1273,65 @@
 			AB79DA741308D62A004AE1C7 = AB79DA741308D62A004AE1C7 /* PBXTextBookmark */;
 			AB79DA781308D679004AE1C7 = AB79DA781308D679004AE1C7 /* PBXTextBookmark */;
 			AB79DA791308D679004AE1C7 = AB79DA791308D679004AE1C7 /* PBXTextBookmark */;
-			AB79DB3713090BC1004AE1C7 /* PBXTextBookmark */ = AB79DB3713090BC1004AE1C7 /* PBXTextBookmark */;
-			AB79DB3813090BC1004AE1C7 /* XCBuildMessageTextBookmark */ = AB79DB3813090BC1004AE1C7 /* XCBuildMessageTextBookmark */;
-			AB79DB3913090BC1004AE1C7 /* PBXTextBookmark */ = AB79DB3913090BC1004AE1C7 /* PBXTextBookmark */;
-			AB79DB4C13091AD0004AE1C7 /* PBXTextBookmark */ = AB79DB4C13091AD0004AE1C7 /* PBXTextBookmark */;
-			AB79DB7113091D58004AE1C7 /* PBXTextBookmark */ = AB79DB7113091D58004AE1C7 /* PBXTextBookmark */;
-			AB79DB7213091D58004AE1C7 /* PBXTextBookmark */ = AB79DB7213091D58004AE1C7 /* PBXTextBookmark */;
-			AB79DB7313091D58004AE1C7 /* PBXTextBookmark */ = AB79DB7313091D58004AE1C7 /* PBXTextBookmark */;
-			AB79DB7413091D58004AE1C7 /* PBXTextBookmark */ = AB79DB7413091D58004AE1C7 /* PBXTextBookmark */;
-			AB79DB7513091D58004AE1C7 /* PBXTextBookmark */ = AB79DB7513091D58004AE1C7 /* PBXTextBookmark */;
-			AB79DB7613091D58004AE1C7 /* PBXTextBookmark */ = AB79DB7613091D58004AE1C7 /* PBXTextBookmark */;
-			AB79DB7713091D58004AE1C7 /* PBXTextBookmark */ = AB79DB7713091D58004AE1C7 /* PBXTextBookmark */;
-			AB79DB7813091D58004AE1C7 /* PBXTextBookmark */ = AB79DB7813091D58004AE1C7 /* PBXTextBookmark */;
-			AB79DB7913091D58004AE1C7 /* PBXTextBookmark */ = AB79DB7913091D58004AE1C7 /* PBXTextBookmark */;
-			AB79DB8F13092314004AE1C7 /* PBXTextBookmark */ = AB79DB8F13092314004AE1C7 /* PBXTextBookmark */;
-			AB79DB9013092314004AE1C7 /* PBXTextBookmark */ = AB79DB9013092314004AE1C7 /* PBXTextBookmark */;
-			AB79DB9113092314004AE1C7 /* PBXTextBookmark */ = AB79DB9113092314004AE1C7 /* PBXTextBookmark */;
-			AB79DB9213092314004AE1C7 /* PBXTextBookmark */ = AB79DB9213092314004AE1C7 /* PBXTextBookmark */;
-			AB79DB9313092314004AE1C7 /* PBXTextBookmark */ = AB79DB9313092314004AE1C7 /* PBXTextBookmark */;
-			AB79DB9413092314004AE1C7 /* PBXTextBookmark */ = AB79DB9413092314004AE1C7 /* PBXTextBookmark */;
-			AB79DB9513092314004AE1C7 /* PBXTextBookmark */ = AB79DB9513092314004AE1C7 /* PBXTextBookmark */;
-			AB79DB9613092314004AE1C7 /* PBXTextBookmark */ = AB79DB9613092314004AE1C7 /* PBXTextBookmark */;
-			AB79DB9713092314004AE1C7 /* PBXTextBookmark */ = AB79DB9713092314004AE1C7 /* PBXTextBookmark */;
-			AB79DB9F130923D9004AE1C7 /* PBXTextBookmark */ = AB79DB9F130923D9004AE1C7 /* PBXTextBookmark */;
-			AB79DBA0130923D9004AE1C7 /* PBXTextBookmark */ = AB79DBA0130923D9004AE1C7 /* PBXTextBookmark */;
-			AB79DBA1130923D9004AE1C7 /* PBXTextBookmark */ = AB79DBA1130923D9004AE1C7 /* PBXTextBookmark */;
-			AB79DBA2130923D9004AE1C7 /* PBXTextBookmark */ = AB79DBA2130923D9004AE1C7 /* PBXTextBookmark */;
-			AB79DBB113092512004AE1C7 /* PBXTextBookmark */ = AB79DBB113092512004AE1C7 /* PBXTextBookmark */;
-			AB79DBB213092512004AE1C7 /* PBXTextBookmark */ = AB79DBB213092512004AE1C7 /* PBXTextBookmark */;
+			AB79DB3713090BC1004AE1C7 = AB79DB3713090BC1004AE1C7 /* PBXTextBookmark */;
+			AB79DB3813090BC1004AE1C7 = AB79DB3813090BC1004AE1C7 /* PBXTextBookmark */;
+			AB79DB3913090BC1004AE1C7 = AB79DB3913090BC1004AE1C7 /* PBXTextBookmark */;
+			AB79DB4C13091AD0004AE1C7 = AB79DB4C13091AD0004AE1C7 /* PBXTextBookmark */;
+			AB79DB7113091D58004AE1C7 = AB79DB7113091D58004AE1C7 /* PBXTextBookmark */;
+			AB79DB7213091D58004AE1C7 = AB79DB7213091D58004AE1C7 /* PBXTextBookmark */;
+			AB79DB7313091D58004AE1C7 = AB79DB7313091D58004AE1C7 /* PBXTextBookmark */;
+			AB79DB7413091D58004AE1C7 = AB79DB7413091D58004AE1C7 /* PBXTextBookmark */;
+			AB79DB7513091D58004AE1C7 = AB79DB7513091D58004AE1C7 /* PBXTextBookmark */;
+			AB79DB7613091D58004AE1C7 = AB79DB7613091D58004AE1C7 /* PBXTextBookmark */;
+			AB79DB7713091D58004AE1C7 = AB79DB7713091D58004AE1C7 /* PBXTextBookmark */;
+			AB79DB7813091D58004AE1C7 = AB79DB7813091D58004AE1C7 /* PBXTextBookmark */;
+			AB79DB7913091D58004AE1C7 = AB79DB7913091D58004AE1C7 /* PBXTextBookmark */;
+			AB79DB8F13092314004AE1C7 = AB79DB8F13092314004AE1C7 /* PBXTextBookmark */;
+			AB79DB9013092314004AE1C7 = AB79DB9013092314004AE1C7 /* PBXTextBookmark */;
+			AB79DB9113092314004AE1C7 = AB79DB9113092314004AE1C7 /* PBXTextBookmark */;
+			AB79DB9213092314004AE1C7 = AB79DB9213092314004AE1C7 /* PBXTextBookmark */;
+			AB79DB9313092314004AE1C7 = AB79DB9313092314004AE1C7 /* PBXTextBookmark */;
+			AB79DB9413092314004AE1C7 = AB79DB9413092314004AE1C7 /* PBXTextBookmark */;
+			AB79DB9513092314004AE1C7 = AB79DB9513092314004AE1C7 /* PBXTextBookmark */;
+			AB79DB9613092314004AE1C7 = AB79DB9613092314004AE1C7 /* PBXTextBookmark */;
+			AB79DB9713092314004AE1C7 = AB79DB9713092314004AE1C7 /* PBXTextBookmark */;
+			AB79DB9F130923D9004AE1C7 = AB79DB9F130923D9004AE1C7 /* PBXTextBookmark */;
+			AB79DBA0130923D9004AE1C7 = AB79DBA0130923D9004AE1C7 /* PBXTextBookmark */;
+			AB79DBA1130923D9004AE1C7 = AB79DBA1130923D9004AE1C7 /* PBXTextBookmark */;
+			AB79DBA2130923D9004AE1C7 = AB79DBA2130923D9004AE1C7 /* PBXTextBookmark */;
+			AB79DBB113092512004AE1C7 = AB79DBB113092512004AE1C7 /* PBXTextBookmark */;
+			AB79DBB213092512004AE1C7 = AB79DBB213092512004AE1C7 /* PBXTextBookmark */;
+			AB79DBB9130926F4004AE1C7 = AB79DBB9130926F4004AE1C7 /* PBXTextBookmark */;
+			AB79DBBA130926F4004AE1C7 = AB79DBBA130926F4004AE1C7 /* PBXTextBookmark */;
+			AB79DBBB130926F4004AE1C7 = AB79DBBB130926F4004AE1C7 /* PBXTextBookmark */;
+			AB79DBBC130926F4004AE1C7 = AB79DBBC130926F4004AE1C7 /* PBXTextBookmark */;
+			AB79DBBD130926F4004AE1C7 = AB79DBBD130926F4004AE1C7 /* PBXTextBookmark */;
+			AB79DBBE130926F4004AE1C7 = AB79DBBE130926F4004AE1C7 /* PBXTextBookmark */;
+			AB79DBC0130927E6004AE1C7 = AB79DBC0130927E6004AE1C7 /* PBXTextBookmark */;
+			AB79DBC1130927E6004AE1C7 = AB79DBC1130927E6004AE1C7 /* PBXTextBookmark */;
+			AB79DBC2130927E6004AE1C7 = AB79DBC2130927E6004AE1C7 /* PBXTextBookmark */;
+			AB79DBC3130927E6004AE1C7 = AB79DBC3130927E6004AE1C7 /* PBXTextBookmark */;
+			AB79DBC4130927E6004AE1C7 = AB79DBC4130927E6004AE1C7 /* PBXTextBookmark */;
+			AB79DBC5130927E6004AE1C7 = AB79DBC5130927E6004AE1C7 /* PBXTextBookmark */;
+			AB79DBC6130927E6004AE1C7 = AB79DBC6130927E6004AE1C7 /* PBXTextBookmark */;
+			AB79DBC7130927E6004AE1C7 = AB79DBC7130927E6004AE1C7 /* PBXTextBookmark */;
+			AB79DBC813092804004AE1C7 = AB79DBC813092804004AE1C7 /* PBXTextBookmark */;
+			AB79DBC913092804004AE1C7 = AB79DBC913092804004AE1C7 /* PBXTextBookmark */;
+			AB79DBCA13092804004AE1C7 = AB79DBCA13092804004AE1C7 /* PBXTextBookmark */;
+			AB79DBCB13092804004AE1C7 = AB79DBCB13092804004AE1C7 /* PBXTextBookmark */;
+			AB79DBCE13092822004AE1C7 = AB79DBCE13092822004AE1C7 /* PBXTextBookmark */;
+			AB79DBCF13092822004AE1C7 = AB79DBCF13092822004AE1C7 /* PBXTextBookmark */;
+			AB79DBD013092822004AE1C7 = AB79DBD013092822004AE1C7 /* PBXTextBookmark */;
+			AB79DBD113092822004AE1C7 = AB79DBD113092822004AE1C7 /* PBXTextBookmark */;
+			AB79DBD51309284E004AE1C7 = AB79DBD51309284E004AE1C7 /* PBXTextBookmark */;
+			AB79DBD61309284E004AE1C7 = AB79DBD61309284E004AE1C7 /* PBXTextBookmark */;
+			AB79DBDA13092884004AE1C7 = AB79DBDA13092884004AE1C7 /* PBXTextBookmark */;
+			AB79DBDB13092884004AE1C7 = AB79DBDB13092884004AE1C7 /* PBXTextBookmark */;
+			AB79DBE113092D2A004AE1C7 = AB79DBE113092D2A004AE1C7 /* PBXTextBookmark */;
+			AB79DBFC13092E63004AE1C7 = AB79DBFC13092E63004AE1C7 /* PBXTextBookmark */;
+			AB79DBFD13092E63004AE1C7 = AB79DBFD13092E63004AE1C7 /* PBXTextBookmark */;
+			AB79DBFE13092E63004AE1C7 = AB79DBFE13092E63004AE1C7 /* PBXTextBookmark */;
+			AB79DBFF13092E63004AE1C7 = AB79DBFF13092E63004AE1C7 /* PBXTextBookmark */;
 			AB7BB93911A5D2A1005D4D66 = AB7BB93911A5D2A1005D4D66 /* PBXTextBookmark */;
 			AB7C628B115C037E00D23EAA = AB7C628B115C037E00D23EAA /* PBXBookmark */;
 			AB7C628C115C037E00D23EAA = AB7C628C115C037E00D23EAA /* PBXBookmark */;
@@ -1400,7 +1436,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1173, 520}}";
 			sepNavSelRange = "{530, 28}";
-			sepNavVisRange = "{147, 765}";
+			sepNavVisRange = "{147, 771}";
 		};
 	};
 	2B3D12CD0F437AC60067FD3A /* QuestsViewController.m */ = {
@@ -1492,9 +1528,9 @@
 	};
 	2B3D18D50F4B25720067FD3A /* AppModel.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1006, 18889}}";
-			sepNavSelRange = "{43296, 0}";
-			sepNavVisRange = "{43033, 1656}";
+			sepNavIntBoundsRect = "{{0, 0}, {832, 18941}}";
+			sepNavSelRange = "{6496, 11}";
+			sepNavVisRange = "{6101, 507}";
 			sepNavWindowFrame = "{{26, 33}, {1168, 845}}";
 		};
 	};
@@ -1585,9 +1621,9 @@
 	};
 	A763B5240F4E283100FDCC55 /* MyCLController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1013, 1833}}";
-			sepNavSelRange = "{4251, 0}";
-			sepNavVisRange = "{3845, 1861}";
+			sepNavIntBoundsRect = "{{0, 0}, {832, 2080}}";
+			sepNavSelRange = "{5372, 0}";
+			sepNavVisRange = "{5143, 665}";
 		};
 	};
 	A79830120FCB1CD700C1C2E7 /* WaitingIndicatorViewController.h */ = {
@@ -1706,16 +1742,16 @@
 	};
 	AB0A5BA4120365420065CE68 /* en */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {810, 1716}}";
-			sepNavSelRange = "{342, 20}";
-			sepNavVisRange = "{0, 141}";
+			sepNavIntBoundsRect = "{{0, 0}, {832, 1677}}";
+			sepNavSelRange = "{775, 0}";
+			sepNavVisRange = "{502, 462}";
 		};
 	};
 	AB0A5BA61203665C0065CE68 /* es */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {929, 1716}}";
-			sepNavSelRange = "{873, 0}";
-			sepNavVisRange = "{0, 1388}";
+			sepNavIntBoundsRect = "{{0, 0}, {832, 1781}}";
+			sepNavSelRange = "{884, 0}";
+			sepNavVisRange = "{494, 585}";
 		};
 	};
 	AB0A5BAF120367620065CE68 /* PlistBookmark */ = {
@@ -1802,7 +1838,7 @@
 		fRef = AB0A5BA61203665C0065CE68 /* es */;
 		name = "Localizable.strings: 16";
 		rLen = 0;
-		rLoc = 4474;
+		rLoc = 4522;
 		rType = 0;
 		vrLen = 501;
 		vrLoc = 0;
@@ -2229,6 +2265,56 @@
 		vrLen = 3224;
 		vrLoc = 0;
 	};
+	AB39307A1309329100DE5B14 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A763B5240F4E283100FDCC55 /* MyCLController.m */;
+		name = "MyCLController.m: 117";
+		rLen = 0;
+		rLoc = 5290;
+		rType = 0;
+		vrLen = 750;
+		vrLoc = 5143;
+	};
+	AB39307B1309329100DE5B14 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB0A5BA4120365420065CE68 /* en */;
+		name = "Localizable.strings: 20";
+		rLen = 0;
+		rLoc = 775;
+		rType = 0;
+		vrLen = 462;
+		vrLoc = 502;
+	};
+	AB39307C1309329100DE5B14 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A763B5240F4E283100FDCC55 /* MyCLController.m */;
+		name = "MyCLController.m: 101";
+		rLen = 0;
+		rLoc = 4471;
+		rType = 0;
+		vrLen = 1380;
+		vrLoc = 3988;
+	};
+	AB39307D1309329100DE5B14 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
+		name = "NearbyObjectsViewController.m: 26";
+		rLen = 0;
+		rLoc = 887;
+		rType = 0;
+		vrLen = 1143;
+		vrLoc = 156;
+	};
+	AB39307E1309329100DE5B14 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
+		name = "NearbyObjectsViewController.m: 130";
+		rLen = 0;
+		rLoc = 4233;
+		rType = 0;
+		vrLen = 826;
+		vrLoc = 3690;
+	};
 	AB39C84F117E4613007AD31F /* StartOverViewController.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1143, 635}}";
@@ -2515,7 +2601,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 1017";
 		rLen = 0;
-		rLoc = 39173;
+		rLoc = 39215;
 		rType = 0;
 		vrLen = 674;
 		vrLoc = 38656;
@@ -3086,7 +3172,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 1030";
 		rLen = 0;
-		rLoc = 39173;
+		rLoc = 39215;
 		rType = 0;
 		vrLen = 341;
 		vrLoc = 38647;
@@ -3186,7 +3272,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 1030";
 		rLen = 0;
-		rLoc = 39173;
+		rLoc = 39215;
 		rType = 0;
 		vrLen = 984;
 		vrLoc = 23768;
@@ -3903,7 +3989,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 557";
 		rLen = 20;
-		rLoc = 21320;
+		rLoc = 21362;
 		rType = 0;
 		vrLen = 922;
 		vrLoc = 21220;
@@ -4040,7 +4126,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 176";
 		rLen = 0;
-		rLoc = 6327;
+		rLoc = 6369;
 		rType = 0;
 		vrLen = 1201;
 		vrLoc = 5520;
@@ -4070,7 +4156,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 518";
 		rLen = 0;
-		rLoc = 20540;
+		rLoc = 20582;
 		rType = 0;
 		vrLen = 1679;
 		vrLoc = 19943;
@@ -4130,7 +4216,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 495";
 		rLen = 38;
-		rLoc = 19584;
+		rLoc = 19626;
 		rType = 0;
 		vrLen = 902;
 		vrLoc = 20076;
@@ -4584,7 +4670,7 @@
 		comments = "'AppModel' may not respond to '-rebuildNearbyLocationList'";
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		rLen = 1;
-		rLoc = 542;
+		rLoc = 544;
 		rType = 1;
 	};
 	AB6555971306D13E00F1FA0D /* PBXTextBookmark */ = {
@@ -4592,7 +4678,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 541";
 		rLen = 0;
-		rLoc = 21356;
+		rLoc = 21398;
 		rType = 0;
 		vrLen = 1056;
 		vrLoc = 20816;
@@ -4602,7 +4688,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 541";
 		rLen = 0;
-		rLoc = 21356;
+		rLoc = 21398;
 		rType = 0;
 		vrLen = 1056;
 		vrLoc = 20816;
@@ -4669,7 +4755,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 176";
 		rLen = 0;
-		rLoc = 6212;
+		rLoc = 6254;
 		rType = 0;
 		vrLen = 960;
 		vrLoc = 5929;
@@ -4689,7 +4775,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 176";
 		rLen = 0;
-		rLoc = 6212;
+		rLoc = 6254;
 		rType = 0;
 		vrLen = 243;
 		vrLoc = 5944;
@@ -4719,7 +4805,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 496";
 		rLen = 38;
-		rLoc = 19584;
+		rLoc = 19626;
 		rType = 0;
 		vrLen = 1276;
 		vrLoc = 19871;
@@ -4749,7 +4835,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 176";
 		rLen = 0;
-		rLoc = 6212;
+		rLoc = 6254;
 		rType = 0;
 		vrLen = 271;
 		vrLoc = 5944;
@@ -4769,7 +4855,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 176";
 		rLen = 0;
-		rLoc = 6212;
+		rLoc = 6254;
 		rType = 0;
 		vrLen = 309;
 		vrLoc = 6017;
@@ -4819,7 +4905,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 176";
 		rLen = 0;
-		rLoc = 6212;
+		rLoc = 6254;
 		rType = 0;
 		vrLen = 253;
 		vrLoc = 6073;
@@ -4839,7 +4925,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 176";
 		rLen = 0;
-		rLoc = 6212;
+		rLoc = 6254;
 		rType = 0;
 		vrLen = 157;
 		vrLoc = 3;
@@ -4889,7 +4975,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 176";
 		rLen = 0;
-		rLoc = 6212;
+		rLoc = 6254;
 		rType = 0;
 		vrLen = 179;
 		vrLoc = 27;
@@ -4929,7 +5015,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 176";
 		rLen = 0;
-		rLoc = 6212;
+		rLoc = 6254;
 		rType = 0;
 		vrLen = 177;
 		vrLoc = 70;
@@ -4949,7 +5035,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 176";
 		rLen = 0;
-		rLoc = 6212;
+		rLoc = 6254;
 		rType = 0;
 		vrLen = 136;
 		vrLoc = 138;
@@ -4969,7 +5055,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 176";
 		rLen = 0;
-		rLoc = 6212;
+		rLoc = 6254;
 		rType = 0;
 		vrLen = 175;
 		vrLoc = 139;
@@ -4989,7 +5075,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 176";
 		rLen = 0;
-		rLoc = 6212;
+		rLoc = 6254;
 		rType = 0;
 		vrLen = 158;
 		vrLoc = 188;
@@ -5009,7 +5095,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 176";
 		rLen = 0;
-		rLoc = 6212;
+		rLoc = 6254;
 		rType = 0;
 		vrLen = 225;
 		vrLoc = 229;
@@ -5029,7 +5115,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 176";
 		rLen = 0;
-		rLoc = 6212;
+		rLoc = 6254;
 		rType = 0;
 		vrLen = 220;
 		vrLoc = 274;
@@ -5049,7 +5135,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 176";
 		rLen = 0;
-		rLoc = 6212;
+		rLoc = 6254;
 		rType = 0;
 		vrLen = 233;
 		vrLoc = 297;
@@ -5069,7 +5155,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 176";
 		rLen = 0;
-		rLoc = 6212;
+		rLoc = 6254;
 		rType = 0;
 		vrLen = 208;
 		vrLoc = 345;
@@ -5089,7 +5175,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 542";
 		rLen = 0;
-		rLoc = 21356;
+		rLoc = 21398;
 		rType = 0;
 		vrLen = 1056;
 		vrLoc = 20842;
@@ -5219,7 +5305,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 542";
 		rLen = 0;
-		rLoc = 21356;
+		rLoc = 21398;
 		rType = 0;
 		vrLen = 1056;
 		vrLoc = 20842;
@@ -5329,7 +5415,7 @@
 		fRef = AB0A5BA4120365420065CE68 /* en */;
 		name = "Localizable.strings: 109";
 		rLen = 1;
-		rLoc = 3755;
+		rLoc = 3802;
 		rType = 0;
 		vrLen = 407;
 		vrLoc = 2900;
@@ -5339,7 +5425,7 @@
 		fRef = AB0A5BA4120365420065CE68 /* en */;
 		name = "Localizable.strings: 22";
 		rLen = 0;
-		rLoc = 872;
+		rLoc = 875;
 		rType = 0;
 		vrLen = 339;
 		vrLoc = 509;
@@ -5359,7 +5445,7 @@
 		fRef = AB0A5BA4120365420065CE68 /* en */;
 		name = "Localizable.strings: 22";
 		rLen = 0;
-		rLoc = 872;
+		rLoc = 875;
 		rType = 0;
 		vrLen = 288;
 		vrLoc = 589;
@@ -5379,7 +5465,7 @@
 		fRef = AB0A5BA4120365420065CE68 /* en */;
 		name = "Localizable.strings: 22";
 		rLen = 0;
-		rLoc = 872;
+		rLoc = 875;
 		rType = 0;
 		vrLen = 277;
 		vrLoc = 644;
@@ -5399,7 +5485,7 @@
 		fRef = AB0A5BA4120365420065CE68 /* en */;
 		name = "Localizable.strings: 22";
 		rLen = 0;
-		rLoc = 872;
+		rLoc = 875;
 		rType = 0;
 		vrLen = 270;
 		vrLoc = 680;
@@ -5419,7 +5505,7 @@
 		fRef = AB0A5BA4120365420065CE68 /* en */;
 		name = "Localizable.strings: 22";
 		rLen = 0;
-		rLoc = 872;
+		rLoc = 875;
 		rType = 0;
 		vrLen = 285;
 		vrLoc = 721;
@@ -5439,7 +5525,7 @@
 		fRef = AB0A5BA4120365420065CE68 /* en */;
 		name = "Localizable.strings: 22";
 		rLen = 0;
-		rLoc = 872;
+		rLoc = 875;
 		rType = 0;
 		vrLen = 407;
 		vrLoc = 731;
@@ -5459,7 +5545,7 @@
 		fRef = AB0A5BA4120365420065CE68 /* en */;
 		name = "Localizable.strings: 22";
 		rLen = 0;
-		rLoc = 872;
+		rLoc = 875;
 		rType = 0;
 		vrLen = 519;
 		vrLoc = 762;
@@ -5479,7 +5565,7 @@
 		fRef = AB0A5BA4120365420065CE68 /* en */;
 		name = "Localizable.strings: 22";
 		rLen = 0;
-		rLoc = 872;
+		rLoc = 875;
 		rType = 0;
 		vrLen = 581;
 		vrLoc = 814;
@@ -5499,7 +5585,7 @@
 		fRef = AB0A5BA4120365420065CE68 /* en */;
 		name = "Localizable.strings: 22";
 		rLen = 0;
-		rLoc = 872;
+		rLoc = 875;
 		rType = 0;
 		vrLen = 565;
 		vrLoc = 876;
@@ -5519,7 +5605,7 @@
 		fRef = AB0A5BA4120365420065CE68 /* en */;
 		name = "Localizable.strings: 22";
 		rLen = 0;
-		rLoc = 872;
+		rLoc = 875;
 		rType = 0;
 		vrLen = 629;
 		vrLoc = 877;
@@ -5539,7 +5625,7 @@
 		fRef = AB0A5BA4120365420065CE68 /* en */;
 		name = "Localizable.strings: 22";
 		rLen = 0;
-		rLoc = 872;
+		rLoc = 875;
 		rType = 0;
 		vrLen = 631;
 		vrLoc = 921;
@@ -5559,7 +5645,7 @@
 		fRef = AB0A5BA4120365420065CE68 /* en */;
 		name = "Localizable.strings: 109";
 		rLen = 1;
-		rLoc = 3755;
+		rLoc = 3802;
 		rType = 0;
 		vrLen = 407;
 		vrLoc = 2900;
@@ -6100,9 +6186,9 @@
 	};
 	AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1139, 2808}}";
-			sepNavSelRange = "{748, 0}";
-			sepNavVisRange = "{91, 1570}";
+			sepNavIntBoundsRect = "{{0, 0}, {845, 2730}}";
+			sepNavSelRange = "{4233, 0}";
+			sepNavVisRange = "{3690, 826}";
 			sepNavWindowFrame = "{{0, 4}, {1440, 874}}";
 		};
 	};
@@ -6111,7 +6197,7 @@
 		comments = "'AppModel' undeclared (first use in this function)";
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		rLen = 1;
-		rLoc = 84;
+		rLoc = 85;
 		rType = 1;
 	};
 	AB79D5D01307E9D8004AE1C7 /* PBXTextBookmark */ = {
@@ -6119,7 +6205,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 118";
 		rLen = 0;
-		rLoc = 4235;
+		rLoc = 4384;
 		rType = 0;
 		vrLen = 682;
 		vrLoc = 3189;
@@ -6229,7 +6315,7 @@
 		comments = "'AppModel' undeclared (first use in this function)";
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		rLen = 1;
-		rLoc = 84;
+		rLoc = 85;
 		rType = 1;
 	};
 	AB79D5E51307E9F3004AE1C7 /* PBXTextBookmark */ = {
@@ -6237,7 +6323,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 70";
 		rLen = 98;
-		rLoc = 2475;
+		rLoc = 2556;
 		rType = 0;
 		vrLen = 1488;
 		vrLoc = 1277;
@@ -6257,7 +6343,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 70";
 		rLen = 98;
-		rLoc = 2475;
+		rLoc = 2556;
 		rType = 0;
 		vrLen = 1488;
 		vrLoc = 1277;
@@ -6267,7 +6353,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 118";
 		rLen = 0;
-		rLoc = 4235;
+		rLoc = 4384;
 		rType = 0;
 		vrLen = 1070;
 		vrLoc = 2765;
@@ -6307,7 +6393,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 118";
 		rLen = 0;
-		rLoc = 4235;
+		rLoc = 4384;
 		rType = 0;
 		vrLen = 633;
 		vrLoc = 3254;
@@ -6327,7 +6413,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 118";
 		rLen = 0;
-		rLoc = 4235;
+		rLoc = 4384;
 		rType = 0;
 		vrLen = 633;
 		vrLoc = 3254;
@@ -6337,7 +6423,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 120";
 		rLen = 0;
-		rLoc = 4235;
+		rLoc = 4384;
 		rType = 0;
 		vrLen = 638;
 		vrLoc = 3185;
@@ -6357,7 +6443,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 113";
 		rLen = 0;
-		rLoc = 3962;
+		rLoc = 4114;
 		rType = 0;
 		vrLen = 619;
 		vrLoc = 3254;
@@ -6377,7 +6463,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 113";
 		rLen = 0;
-		rLoc = 3956;
+		rLoc = 4108;
 		rType = 0;
 		vrLen = 611;
 		vrLoc = 3254;
@@ -6397,7 +6483,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 119";
 		rLen = 0;
-		rLoc = 4197;
+		rLoc = 4346;
 		rType = 0;
 		vrLen = 633;
 		vrLoc = 3254;
@@ -6417,7 +6503,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 119";
 		rLen = 0;
-		rLoc = 4197;
+		rLoc = 4346;
 		rType = 0;
 		vrLen = 667;
 		vrLoc = 3254;
@@ -6437,7 +6523,7 @@
 		fRef = AB0A5BA4120365420065CE68 /* en */;
 		name = "Localizable.strings: 109";
 		rLen = 1;
-		rLoc = 3755;
+		rLoc = 3802;
 		rType = 0;
 		vrLen = 725;
 		vrLoc = 2900;
@@ -6447,7 +6533,7 @@
 		fRef = AB0A5BA4120365420065CE68 /* en */;
 		name = "Localizable.strings: 22";
 		rLen = 0;
-		rLoc = 872;
+		rLoc = 875;
 		rType = 0;
 		vrLen = 677;
 		vrLoc = 292;
@@ -6457,7 +6543,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 119";
 		rLen = 0;
-		rLoc = 4197;
+		rLoc = 4346;
 		rType = 0;
 		vrLen = 667;
 		vrLoc = 3254;
@@ -6467,7 +6553,7 @@
 		fRef = AB0A5BA4120365420065CE68 /* en */;
 		name = "Localizable.strings: 22";
 		rLen = 0;
-		rLoc = 872;
+		rLoc = 875;
 		rType = 0;
 		vrLen = 620;
 		vrLoc = 417;
@@ -6477,7 +6563,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 115";
 		rLen = 0;
-		rLoc = 4000;
+		rLoc = 4152;
 		rType = 0;
 		vrLen = 667;
 		vrLoc = 3254;
@@ -6487,7 +6573,7 @@
 		fRef = AB0A5BA4120365420065CE68 /* en */;
 		name = "Localizable.strings: 109";
 		rLen = 1;
-		rLoc = 3755;
+		rLoc = 3802;
 		rType = 0;
 		vrLen = 872;
 		vrLoc = 2720;
@@ -6527,7 +6613,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 115";
 		rLen = 0;
-		rLoc = 4000;
+		rLoc = 4152;
 		rType = 0;
 		vrLen = 617;
 		vrLoc = 3254;
@@ -6537,7 +6623,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 117";
 		rLen = 0;
-		rLoc = 4085;
+		rLoc = 4234;
 		rType = 0;
 		vrLen = 499;
 		vrLoc = 3362;
@@ -6557,7 +6643,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 117";
 		rLen = 0;
-		rLoc = 4085;
+		rLoc = 4234;
 		rType = 0;
 		vrLen = 499;
 		vrLoc = 3362;
@@ -6577,7 +6663,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 117";
 		rLen = 0;
-		rLoc = 4085;
+		rLoc = 4234;
 		rType = 0;
 		vrLen = 499;
 		vrLoc = 3362;
@@ -6617,7 +6703,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 108";
 		rLen = 0;
-		rLoc = 3865;
+		rLoc = 3946;
 		rType = 0;
 		vrLen = 977;
 		vrLoc = 2884;
@@ -6627,7 +6713,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 152";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 1247;
 		vrLoc = 3773;
@@ -6647,7 +6733,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 114";
 		rLen = 0;
-		rLoc = 4000;
+		rLoc = 4152;
 		rType = 0;
 		vrLen = 538;
 		vrLoc = 3323;
@@ -6707,7 +6793,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 139";
 		rLen = 0;
-		rLoc = 5369;
+		rLoc = 5028;
 		rType = 0;
 		vrLen = 1247;
 		vrLoc = 3773;
@@ -6777,7 +6863,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 139";
 		rLen = 0;
-		rLoc = 5369;
+		rLoc = 5028;
 		rType = 0;
 		vrLen = 1247;
 		vrLoc = 3773;
@@ -6787,7 +6873,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 151";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 1316;
 		vrLoc = 3775;
@@ -6807,7 +6893,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 151";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 1403;
 		vrLoc = 3775;
@@ -6827,7 +6913,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 151";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 1401;
 		vrLoc = 3777;
@@ -6847,7 +6933,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 125";
 		rLen = 0;
-		rLoc = 4395;
+		rLoc = 4518;
 		rType = 0;
 		vrLen = 796;
 		vrLoc = 3254;
@@ -6887,7 +6973,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 162";
 		rLen = 0;
-		rLoc = 6551;
+		rLoc = 6210;
 		rType = 0;
 		vrLen = 960;
 		vrLoc = 4268;
@@ -6907,7 +6993,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 167";
 		rLen = 0;
-		rLoc = 6658;
+		rLoc = 6317;
 		rType = 0;
 		vrLen = 1025;
 		vrLoc = 4316;
@@ -6977,7 +7063,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 167";
 		rLen = 0;
-		rLoc = 6658;
+		rLoc = 6317;
 		rType = 0;
 		vrLen = 976;
 		vrLoc = 4365;
@@ -6987,7 +7073,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 158";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 959;
 		vrLoc = 4316;
@@ -7067,7 +7153,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 161";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 971;
 		vrLoc = 4316;
@@ -7087,7 +7173,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 161";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 912;
 		vrLoc = 4471;
@@ -7107,7 +7193,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 118";
 		rLen = 0;
-		rLoc = 4235;
+		rLoc = 4384;
 		rType = 0;
 		vrLen = 710;
 		vrLoc = 3192;
@@ -7117,7 +7203,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 158";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 827;
 		vrLoc = 4470;
@@ -7127,7 +7213,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 159";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 830;
 		vrLoc = 4471;
@@ -7217,7 +7303,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 155";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 714;
 		vrLoc = 4605;
@@ -7267,7 +7353,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 155";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 565;
 		vrLoc = 4757;
@@ -7277,7 +7363,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 158";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 952;
 		vrLoc = 4515;
@@ -7317,7 +7403,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 155";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 693;
 		vrLoc = 4779;
@@ -7336,7 +7422,7 @@
 		isa = PBXTextBookmark;
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		rLen = 0;
-		rLoc = 200;
+		rLoc = 187;
 		rType = 1;
 	};
 	AB79D6DE13082007004AE1C7 /* PBXTextBookmark */ = {
@@ -7344,7 +7430,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 158";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 847;
 		vrLoc = 4628;
@@ -7354,7 +7440,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 155";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 633;
 		vrLoc = 4842;
@@ -7364,7 +7450,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 158";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 807;
 		vrLoc = 4763;
@@ -7374,7 +7460,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 118";
 		rLen = 0;
-		rLoc = 4235;
+		rLoc = 4384;
 		rType = 0;
 		vrLen = 761;
 		vrLoc = 3012;
@@ -7384,7 +7470,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 155";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 643;
 		vrLoc = 4921;
@@ -7444,7 +7530,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 158";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 807;
 		vrLoc = 4763;
@@ -7454,7 +7540,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 158";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 837;
 		vrLoc = 4765;
@@ -7464,7 +7550,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 155";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 646;
 		vrLoc = 4954;
@@ -7474,7 +7560,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 158";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 835;
 		vrLoc = 4765;
@@ -7484,7 +7570,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 172";
 		rLen = 0;
-		rLoc = 6551;
+		rLoc = 6210;
 		rType = 0;
 		vrLen = 646;
 		vrLoc = 4954;
@@ -7534,7 +7620,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 158";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 821;
 		vrLoc = 4842;
@@ -7554,7 +7640,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 163";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 922;
 		vrLoc = 4763;
@@ -7624,7 +7710,7 @@
 		comments = "Request for member 'mediaId' in something not a structure or union";
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		rLen = 0;
-		rLoc = 200;
+		rLoc = 187;
 		rType = 1;
 	};
 	AB79D7141308221B004AE1C7 /* PBXTextBookmark */ = {
@@ -7632,7 +7718,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 159";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 1035;
 		vrLoc = 4628;
@@ -7642,7 +7728,7 @@
 		comments = "Request for member 'mediaId' in something not a structure or union";
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		rLen = 0;
-		rLoc = 200;
+		rLoc = 187;
 		rType = 1;
 	};
 	AB79D71C13082235004AE1C7 /* PBXTextBookmark */ = {
@@ -7650,7 +7736,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 159";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 936;
 		vrLoc = 4628;
@@ -7660,7 +7746,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 159";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 936;
 		vrLoc = 4628;
@@ -7746,7 +7832,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 159";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 1035;
 		vrLoc = 4628;
@@ -7826,7 +7912,7 @@
 		comments = "'NSObject' may not respond to '-mediaId'";
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		rLen = 0;
-		rLoc = 200;
+		rLoc = 187;
 		rType = 1;
 	};
 	AB79D733130822D7004AE1C7 /* PBXTextBookmark */ = {
@@ -7834,7 +7920,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 159";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 936;
 		vrLoc = 4628;
@@ -7853,7 +7939,7 @@
 		isa = PBXTextBookmark;
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		rLen = 0;
-		rLoc = 200;
+		rLoc = 187;
 		rType = 1;
 	};
 	AB79D73813082325004AE1C7 /* PBXTextBookmark */ = {
@@ -7861,7 +7947,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 155";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 717;
 		vrLoc = 4628;
@@ -7901,7 +7987,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 155";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 635;
 		vrLoc = 4763;
@@ -7930,7 +8016,7 @@
 		isa = PBXTextBookmark;
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		rLen = 0;
-		rLoc = 200;
+		rLoc = 187;
 		rType = 1;
 	};
 	AB79D7431308233B004AE1C7 /* PBXTextBookmark */ = {
@@ -7938,7 +8024,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 158";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 642;
 		vrLoc = 4757;
@@ -7948,7 +8034,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 158";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 635;
 		vrLoc = 4763;
@@ -7998,7 +8084,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 166";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 729;
 		vrLoc = 4765;
@@ -8018,7 +8104,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 158";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 652;
 		vrLoc = 4842;
@@ -8028,7 +8114,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 158";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 652;
 		vrLoc = 4842;
@@ -8038,7 +8124,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 166";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 729;
 		vrLoc = 4765;
@@ -8048,7 +8134,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 158";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 688;
 		vrLoc = 4844;
@@ -8058,7 +8144,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 158";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 729;
 		vrLoc = 4765;
@@ -8085,7 +8171,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 158";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 657;
 		vrLoc = 4952;
@@ -8095,7 +8181,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 158";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 753;
 		vrLoc = 4842;
@@ -8122,7 +8208,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 158";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 560;
 		vrLoc = 5052;
@@ -8132,7 +8218,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 158";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 690;
 		vrLoc = 4921;
@@ -8228,7 +8314,7 @@
 		isa = PBXTextBookmark;
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 	};
 	AB79D77B130825E0004AE1C7 /* PBXTextBookmark */ = {
@@ -8236,7 +8322,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 161";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 646;
 		vrLoc = 4952;
@@ -8286,7 +8372,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 160";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 198;
 		vrLoc = 5052;
@@ -8332,7 +8418,7 @@
 		isa = PBXTextBookmark;
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		rLen = 0;
-		rLoc = 200;
+		rLoc = 187;
 		rType = 1;
 	};
 	AB79D787130825EE004AE1C7 /* PBXTextBookmark */ = {
@@ -8340,7 +8426,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 160";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 632;
 		vrLoc = 4952;
@@ -8390,7 +8476,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 160";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 623;
 		vrLoc = 4765;
@@ -8400,7 +8486,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 161";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 677;
 		vrLoc = 4779;
@@ -8424,9 +8510,9 @@
 	};
 	AB79D7991308299E004AE1C7 /* NearbyObjectCell.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {878, 585}}";
-			sepNavSelRange = "{731, 0}";
-			sepNavVisRange = "{213, 554}";
+			sepNavIntBoundsRect = "{{0, 0}, {663, 585}}";
+			sepNavSelRange = "{487, 0}";
+			sepNavVisRange = "{0, 767}";
 		};
 	};
 	AB79D7AC1308339D004AE1C7 /* PBXTextBookmark */ = {
@@ -8444,7 +8530,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 162";
 		rLen = 154;
-		rLoc = 6131;
+		rLoc = 5790;
 		rType = 0;
 		vrLen = 1154;
 		vrLoc = 4544;
@@ -8482,7 +8568,7 @@
 		comments = "Request for member 'title' in something not a structure or union";
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		rLen = 1;
-		rLoc = 193;
+		rLoc = 180;
 		rType = 1;
 	};
 	AB79D7B4130833DF004AE1C7 /* PBXTextBookmark */ = {
@@ -8490,7 +8576,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 162";
 		rLen = 154;
-		rLoc = 6131;
+		rLoc = 5790;
 		rType = 0;
 		vrLen = 1154;
 		vrLoc = 4544;
@@ -8546,7 +8632,7 @@
 		rLen = 0;
 		rLoc = 232;
 		rType = 0;
-		vrLen = 774;
+		vrLen = 772;
 		vrLoc = 0;
 	};
 	AB79D7BD1308343B004AE1C7 /* PBXTextBookmark */ = {
@@ -8554,7 +8640,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 162";
 		rLen = 154;
-		rLoc = 6131;
+		rLoc = 5790;
 		rType = 0;
 		vrLen = 1840;
 		vrLoc = 4079;
@@ -8564,7 +8650,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 147";
 		rLen = 0;
-		rLoc = 5492;
+		rLoc = 5151;
 		rType = 0;
 		vrLen = 1795;
 		vrLoc = 4125;
@@ -8604,7 +8690,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 147";
 		rLen = 0;
-		rLoc = 5492;
+		rLoc = 5151;
 		rType = 0;
 		vrLen = 1795;
 		vrLoc = 4125;
@@ -8651,7 +8737,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 162";
 		rLen = 0;
-		rLoc = 6272;
+		rLoc = 5931;
 		rType = 0;
 		vrLen = 1820;
 		vrLoc = 4125;
@@ -8661,7 +8747,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 162";
 		rLen = 0;
-		rLoc = 6272;
+		rLoc = 5931;
 		rType = 0;
 		vrLen = 1729;
 		vrLoc = 4216;
@@ -8671,7 +8757,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 162";
 		rLen = 0;
-		rLoc = 6277;
+		rLoc = 5936;
 		rType = 0;
 		vrLen = 1312;
 		vrLoc = 4216;
@@ -8731,7 +8817,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 167";
 		rLen = 0;
-		rLoc = 6463;
+		rLoc = 6122;
 		rType = 0;
 		vrLen = 1178;
 		vrLoc = 4544;
@@ -8781,7 +8867,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 166";
 		rLen = 0;
-		rLoc = 6450;
+		rLoc = 6109;
 		rType = 0;
 		vrLen = 1178;
 		vrLoc = 4544;
@@ -8930,7 +9016,7 @@
 		isa = PBXTextBookmark;
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		rLen = 0;
-		rLoc = 197;
+		rLoc = 184;
 		rType = 1;
 	};
 	AB79D7FD1308386D004AE1C7 /* PBXTextBookmark */ = {
@@ -8938,7 +9024,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 163";
 		rLen = 0;
-		rLoc = 6144;
+		rLoc = 5803;
 		rType = 0;
 		vrLen = 653;
 		vrLoc = 5048;
@@ -9028,7 +9114,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 163";
 		rLen = 0;
-		rLoc = 6144;
+		rLoc = 5803;
 		rType = 0;
 		vrLen = 689;
 		vrLoc = 5049;
@@ -9048,7 +9134,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 163";
 		rLen = 0;
-		rLoc = 6231;
+		rLoc = 5890;
 		rType = 0;
 		vrLen = 724;
 		vrLoc = 5126;
@@ -9068,7 +9154,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 163";
 		rLen = 0;
-		rLoc = 6231;
+		rLoc = 5890;
 		rType = 0;
 		vrLen = 646;
 		vrLoc = 5203;
@@ -9088,7 +9174,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 163";
 		rLen = 0;
-		rLoc = 6231;
+		rLoc = 5890;
 		rType = 0;
 		vrLen = 529;
 		vrLoc = 5323;
@@ -9128,7 +9214,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 163";
 		rLen = 0;
-		rLoc = 6231;
+		rLoc = 5890;
 		rType = 0;
 		vrLen = 592;
 		vrLoc = 5357;
@@ -9148,7 +9234,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 163";
 		rLen = 0;
-		rLoc = 6231;
+		rLoc = 5890;
 		rType = 0;
 		vrLen = 592;
 		vrLoc = 5357;
@@ -9168,7 +9254,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 174";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 1159;
 		vrLoc = 4544;
@@ -9208,7 +9294,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 171";
 		rLen = 0;
-		rLoc = 6494;
+		rLoc = 6153;
 		rType = 0;
 		vrLen = 688;
 		vrLoc = 5359;
@@ -9228,7 +9314,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 164";
 		rLen = 0;
-		rLoc = 6272;
+		rLoc = 5931;
 		rType = 0;
 		vrLen = 981;
 		vrLoc = 4870;
@@ -9238,7 +9324,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 171";
 		rLen = 0;
-		rLoc = 6494;
+		rLoc = 6153;
 		rType = 0;
 		vrLen = 688;
 		vrLoc = 5359;
@@ -9286,7 +9372,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 164";
 		rLen = 0;
-		rLoc = 6272;
+		rLoc = 5931;
 		rType = 0;
 		vrLen = 1170;
 		vrLoc = 4680;
@@ -9374,7 +9460,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 174";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 737;
 		vrLoc = 4965;
@@ -9384,7 +9470,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 171";
 		rLen = 0;
-		rLoc = 6494;
+		rLoc = 6153;
 		rType = 0;
 		vrLen = 702;
 		vrLoc = 5043;
@@ -9404,7 +9490,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 169";
 		rLen = 0;
-		rLoc = 6463;
+		rLoc = 6122;
 		rType = 0;
 		vrLen = 726;
 		vrLoc = 5048;
@@ -9424,7 +9510,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 171";
 		rLen = 0;
-		rLoc = 6494;
+		rLoc = 6153;
 		rType = 0;
 		vrLen = 823;
 		vrLoc = 5063;
@@ -9444,7 +9530,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 176";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 966;
 		vrLoc = 4077;
@@ -9464,7 +9550,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 176";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 968;
 		vrLoc = 4080;
@@ -9484,7 +9570,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 176";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 847;
 		vrLoc = 4216;
@@ -9504,7 +9590,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 176";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 862;
 		vrLoc = 4341;
@@ -9524,7 +9610,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 176";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 862;
 		vrLoc = 4343;
@@ -9544,7 +9630,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 176";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 1010;
 		vrLoc = 4345;
@@ -9564,7 +9650,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 176";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 1010;
 		vrLoc = 4345;
@@ -9574,7 +9660,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 176";
 		rLen = 0;
-		rLoc = 6511;
+		rLoc = 6170;
 		rType = 0;
 		vrLen = 860;
 		vrLoc = 4499;
@@ -9604,7 +9690,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 173";
 		rLen = 0;
-		rLoc = 6495;
+		rLoc = 6154;
 		rType = 0;
 		vrLen = 745;
 		vrLoc = 5357;
@@ -9614,7 +9700,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 116";
 		rLen = 0;
-		rLoc = 4231;
+		rLoc = 4380;
 		rType = 0;
 		vrLen = 568;
 		vrLoc = 3391;
@@ -9624,7 +9710,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 154";
 		rLen = 0;
-		rLoc = 5937;
+		rLoc = 5596;
 		rType = 0;
 		vrLen = 1180;
 		vrLoc = 4499;
@@ -9654,7 +9740,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 116";
 		rLen = 0;
-		rLoc = 4231;
+		rLoc = 4380;
 		rType = 0;
 		vrLen = 570;
 		vrLoc = 3448;
@@ -9772,7 +9858,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 116";
 		rLen = 0;
-		rLoc = 4231;
+		rLoc = 4380;
 		rType = 0;
 		vrLen = 647;
 		vrLoc = 3453;
@@ -9782,7 +9868,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 111";
 		rLen = 0;
-		rLoc = 3992;
+		rLoc = 4144;
 		rType = 0;
 		vrLen = 374;
 		vrLoc = 3448;
@@ -9822,7 +9908,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 116";
 		rLen = 0;
-		rLoc = 4231;
+		rLoc = 4380;
 		rType = 0;
 		vrLen = 609;
 		vrLoc = 3494;
@@ -9851,7 +9937,7 @@
 		isa = PBXTextBookmark;
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		rLen = 13;
-		rLoc = 4214;
+		rLoc = 4363;
 		rType = 0;
 	};
 	AB79D8B4130840E9004AE1C7 /* PBXTextBookmark */ = {
@@ -9859,7 +9945,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 116";
 		rLen = 13;
-		rLoc = 4214;
+		rLoc = 4363;
 		rType = 0;
 		vrLen = 258;
 		vrLoc = 3596;
@@ -9869,7 +9955,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 116";
 		rLen = 0;
-		rLoc = 4231;
+		rLoc = 4380;
 		rType = 0;
 		vrLen = 118;
 		vrLoc = 3786;
@@ -9879,7 +9965,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 116";
 		rLen = 13;
-		rLoc = 4214;
+		rLoc = 4363;
 		rType = 0;
 		vrLen = 771;
 		vrLoc = 3596;
@@ -9889,7 +9975,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 496";
 		rLen = 38;
-		rLoc = 19584;
+		rLoc = 19626;
 		rType = 0;
 		vrLen = 802;
 		vrLoc = 20345;
@@ -9919,7 +10005,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 116";
 		rLen = 0;
-		rLoc = 4231;
+		rLoc = 4380;
 		rType = 0;
 		vrLen = 106;
 		vrLoc = 3821;
@@ -9939,7 +10025,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 127";
 		rLen = 0;
-		rLoc = 4862;
+		rLoc = 4521;
 		rType = 0;
 		vrLen = 702;
 		vrLoc = 3821;
@@ -10485,7 +10571,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 127";
 		rLen = 0;
-		rLoc = 4862;
+		rLoc = 4521;
 		rType = 0;
 		vrLen = 1169;
 		vrLoc = 3354;
@@ -10495,7 +10581,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 134";
 		rLen = 0;
-		rLoc = 4599;
+		rLoc = 4521;
 		rType = 0;
 		vrLen = 985;
 		vrLoc = 3829;
@@ -10545,7 +10631,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 136";
 		rLen = 0;
-		rLoc = 4705;
+		rLoc = 4521;
 		rType = 0;
 		vrLen = 986;
 		vrLoc = 3829;
@@ -10555,7 +10641,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 127";
 		rLen = 0;
-		rLoc = 4395;
+		rLoc = 4518;
 		rType = 0;
 		vrLen = 865;
 		vrLoc = 3854;
@@ -10575,7 +10661,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 28";
 		rLen = 0;
-		rLoc = 1118;
+		rLoc = 1199;
 		rType = 0;
 		vrLen = 1076;
 		vrLoc = 523;
@@ -10595,7 +10681,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 138";
 		rLen = 0;
-		rLoc = 4738;
+		rLoc = 4521;
 		rType = 0;
 		vrLen = 895;
 		vrLoc = 3956;
@@ -10615,7 +10701,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 143";
 		rLen = 0;
-		rLoc = 4862;
+		rLoc = 4521;
 		rType = 0;
 		vrLen = 885;
 		vrLoc = 3927;
@@ -10635,7 +10721,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 143";
 		rLen = 0;
-		rLoc = 4862;
+		rLoc = 4521;
 		rType = 0;
 		vrLen = 885;
 		vrLoc = 3927;
@@ -10645,9 +10731,9 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 195";
 		rLen = 0;
-		rLoc = 6551;
+		rLoc = 6210;
 		rType = 0;
-		vrLen = 867;
+		vrLen = 790;
 		vrLoc = 5641;
 	};
 	AB79D9701308B01A004AE1C7 /* PBXTextBookmark */ = {
@@ -10665,9 +10751,9 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 195";
 		rLen = 0;
-		rLoc = 6551;
+		rLoc = 6210;
 		rType = 0;
-		vrLen = 793;
+		vrLen = 711;
 		vrLoc = 5720;
 	};
 	AB79D9741308B029004AE1C7 /* PBXTextBookmark */ = {
@@ -10685,9 +10771,9 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 195";
 		rLen = 0;
-		rLoc = 6551;
+		rLoc = 6210;
 		rType = 0;
-		vrLen = 793;
+		vrLen = 711;
 		vrLoc = 5720;
 	};
 	AB79D9791308B066004AE1C7 /* PBXTextBookmark */ = {
@@ -10705,9 +10791,9 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 195";
 		rLen = 0;
-		rLoc = 6551;
+		rLoc = 6210;
 		rType = 0;
-		vrLen = 955;
+		vrLen = 873;
 		vrLoc = 5558;
 	};
 	AB79D97E1308B460004AE1C7 /* PBXTextBookmark */ = {
@@ -10715,7 +10801,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 185";
 		rLen = 0;
-		rLoc = 6495;
+		rLoc = 6154;
 		rType = 0;
 		vrLen = 1292;
 		vrLoc = 5059;
@@ -10735,7 +10821,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 77";
 		rLen = 0;
-		rLoc = 2341;
+		rLoc = 2422;
 		rType = 0;
 		vrLen = 1210;
 		vrLoc = 2182;
@@ -10775,7 +10861,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 81";
 		rLen = 28;
-		rLoc = 2399;
+		rLoc = 2480;
 		rType = 0;
 		vrLen = 1436;
 		vrLoc = 2182;
@@ -10785,7 +10871,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 81";
 		rLen = 28;
-		rLoc = 2399;
+		rLoc = 2480;
 		rType = 0;
 		vrLen = 1436;
 		vrLoc = 2182;
@@ -10815,7 +10901,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 68";
 		rLen = 0;
-		rLoc = 2086;
+		rLoc = 2167;
 		rType = 0;
 		vrLen = 1251;
 		vrLoc = 1943;
@@ -10835,7 +10921,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 1139";
 		rLen = 0;
-		rLoc = 43448;
+		rLoc = 43490;
 		rType = 0;
 		vrLen = 1159;
 		vrLoc = 42814;
@@ -10855,7 +10941,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 1139";
 		rLen = 0;
-		rLoc = 43448;
+		rLoc = 43490;
 		rType = 0;
 		vrLen = 1159;
 		vrLoc = 42814;
@@ -10864,7 +10950,7 @@
 		isa = PBXTextBookmark;
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		rLen = 0;
-		rLoc = 92;
+		rLoc = 93;
 		rType = 1;
 	};
 	AB79D99F1308B751004AE1C7 /* PBXTextBookmark */ = {
@@ -10872,7 +10958,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 92";
 		rLen = 0;
-		rLoc = 2873;
+		rLoc = 2954;
 		rType = 0;
 		vrLen = 1458;
 		vrLoc = 2027;
@@ -10902,7 +10988,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 92";
 		rLen = 0;
-		rLoc = 2873;
+		rLoc = 2954;
 		rType = 0;
 		vrLen = 1458;
 		vrLoc = 2027;
@@ -10912,7 +10998,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 1139";
 		rLen = 0;
-		rLoc = 43448;
+		rLoc = 43490;
 		rType = 0;
 		vrLen = 1111;
 		vrLoc = 42814;
@@ -10922,7 +11008,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 1133";
 		rLen = 0;
-		rLoc = 43296;
+		rLoc = 43338;
 		rType = 0;
 		vrLen = 1573;
 		vrLoc = 42972;
@@ -10952,7 +11038,7 @@
 		isa = PBXTextBookmark;
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		rLen = 0;
-		rLoc = 92;
+		rLoc = 93;
 		rType = 1;
 	};
 	AB79D9B01308B949004AE1C7 /* PBXTextBookmark */ = {
@@ -10960,7 +11046,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 92";
 		rLen = 0;
-		rLoc = 2873;
+		rLoc = 2954;
 		rType = 0;
 		vrLen = 449;
 		vrLoc = 2745;
@@ -11008,7 +11094,7 @@
 		fRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */;
 		name = "AppModel.m: 1133";
 		rLen = 0;
-		rLoc = 43296;
+		rLoc = 43338;
 		rType = 0;
 		vrLen = 1656;
 		vrLoc = 43033;
@@ -11058,7 +11144,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 104";
 		rLen = 0;
-		rLoc = 3485;
+		rLoc = 3566;
 		rType = 0;
 		vrLen = 954;
 		vrLoc = 2749;
@@ -11478,7 +11564,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 111";
 		rLen = 0;
-		rLoc = 3635;
+		rLoc = 3716;
 		rType = 0;
 		vrLen = 298;
 		vrLoc = 3547;
@@ -11823,11 +11909,10 @@
 		vrLen = 738;
 		vrLoc = 0;
 	};
-	AB79DB3813090BC1004AE1C7 /* XCBuildMessageTextBookmark */ = {
+	AB79DB3813090BC1004AE1C7 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		comments = "Duplicate member 'newItemsSinceLastView'";
 		fRef = 2B3D12CC0F437AC60067FD3A /* QuestsViewController.h */;
-		fallbackIsa = XCBuildMessageTextBookmark;
 		rLen = 1;
 		rLoc = 21;
 		rType = 1;
@@ -11967,7 +12052,7 @@
 		fRef = AB0A5BA4120365420065CE68 /* en */;
 		name = "Localizable.strings: 28";
 		rLen = 0;
-		rLoc = 916;
+		rLoc = 963;
 		rType = 0;
 		vrLen = 1480;
 		vrLoc = 0;
@@ -11977,7 +12062,7 @@
 		fRef = AB0A5BA61203665C0065CE68 /* es */;
 		name = "Localizable.strings: 24";
 		rLen = 0;
-		rLoc = 873;
+		rLoc = 865;
 		rType = 0;
 		vrLen = 1388;
 		vrLoc = 0;
@@ -11987,7 +12072,7 @@
 		fRef = ABD24F59120A5BAD00D792F5 /* fr */;
 		name = "Localizable.strings: 25";
 		rLen = 0;
-		rLoc = 914;
+		rLoc = 964;
 		rType = 0;
 		vrLen = 1725;
 		vrLoc = 35;
@@ -12017,7 +12102,7 @@
 		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
 		name = "NearbyObjectsViewController.m: 104";
 		rLen = 0;
-		rLoc = 3485;
+		rLoc = 3566;
 		rType = 0;
 		vrLen = 1569;
 		vrLoc = 2367;
@@ -12088,6 +12173,316 @@
 		rType = 0;
 		vrLen = 1861;
 		vrLoc = 3845;
+	};
+	AB79DBB9130926F4004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB0A5BA4120365420065CE68 /* en */;
+		name = "Localizable.strings: 13";
+		rLen = 20;
+		rLoc = 342;
+		rType = 0;
+		vrLen = 36;
+		vrLoc = 0;
+	};
+	AB79DBBA130926F4004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A763B5240F4E283100FDCC55 /* MyCLController.m */;
+		name = "MyCLController.m: 95";
+		rLen = 0;
+		rLoc = 4251;
+		rType = 0;
+		vrLen = 1905;
+		vrLoc = 3988;
+	};
+	AB79DBBB130926F4004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB79D7991308299E004AE1C7 /* NearbyObjectCell.m */;
+		name = "NearbyObjectCell.m: 24";
+		rLen = 0;
+		rLoc = 487;
+		rType = 0;
+		vrLen = 767;
+		vrLoc = 0;
+	};
+	AB79DBBC130926F4004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB79D5B91307E6EB004AE1C7 /* NearbyObjectsViewController.h */;
+		name = "NearbyObjectsViewController.h: 22";
+		rLen = 0;
+		rLoc = 501;
+		rType = 0;
+		vrLen = 507;
+		vrLoc = 0;
+	};
+	AB79DBBD130926F4004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
+		name = "NearbyObjectsViewController.m: 24";
+		rLen = 0;
+		rLoc = 748;
+		rType = 0;
+		vrLen = 1567;
+		vrLoc = 91;
+	};
+	AB79DBBE130926F4004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
+		name = "NearbyObjectsViewController.m: 26";
+		rLen = 0;
+		rLoc = 866;
+		rType = 0;
+		vrLen = 1561;
+		vrLoc = 156;
+	};
+	AB79DBC0130927E6004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB0A5BA4120365420065CE68 /* en */;
+		name = "Localizable.strings: 11";
+		rLen = 0;
+		rLoc = 264;
+		rType = 0;
+		vrLen = 917;
+		vrLoc = 0;
+	};
+	AB79DBC1130927E6004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
+		name = "NearbyObjectsViewController.m: 113";
+		rLen = 0;
+		rLoc = 3716;
+		rType = 0;
+		vrLen = 797;
+		vrLoc = 3293;
+	};
+	AB79DBC2130927E6004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
+		name = "NearbyObjectsViewController.m: 25";
+		rLen = 19;
+		rLoc = 791;
+		rType = 0;
+		vrLen = 1203;
+		vrLoc = 91;
+	};
+	AB79DBC3130927E6004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
+		name = "NearbyObjectsViewController.m: 26";
+		rLen = 0;
+		rLoc = 887;
+		rType = 0;
+		vrLen = 1586;
+		vrLoc = 156;
+	};
+	AB79DBC4130927E6004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB0A5BA4120365420065CE68 /* en */;
+		name = "Localizable.strings: 24";
+		rLen = 77;
+		rLoc = 844;
+		rType = 0;
+		vrLen = 750;
+		vrLoc = 214;
+	};
+	AB79DBC5130927E6004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB0A5BA61203665C0065CE68 /* es */;
+		name = "Localizable.strings: 25";
+		rLen = 0;
+		rLoc = 932;
+		rType = 0;
+		vrLen = 624;
+		vrLoc = 451;
+	};
+	AB79DBC6130927E6004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = ABD24F59120A5BAD00D792F5 /* fr */;
+		name = "Localizable.strings: 25";
+		rLen = 0;
+		rLoc = 964;
+		rType = 0;
+		vrLen = 579;
+		vrLoc = 503;
+	};
+	AB79DBC7130927E6004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = ABD24F59120A5BAD00D792F5 /* fr */;
+		name = "Localizable.strings: 25";
+		rLen = 0;
+		rLoc = 959;
+		rType = 0;
+		vrLen = 594;
+		vrLoc = 503;
+	};
+	AB79DBC813092804004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
+		name = "NearbyObjectsViewController.m: 25";
+		rLen = 19;
+		rLoc = 791;
+		rType = 0;
+		vrLen = 1203;
+		vrLoc = 91;
+	};
+	AB79DBC913092804004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = ABD24F59120A5BAD00D792F5 /* fr */;
+		name = "Localizable.strings: 24";
+		rLen = 0;
+		rLoc = 913;
+		rType = 0;
+		vrLen = 601;
+		vrLoc = 503;
+	};
+	AB79DBCA13092804004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB0A5BA61203665C0065CE68 /* es */;
+		name = "Localizable.strings: 25";
+		rLen = 0;
+		rLoc = 932;
+		rType = 0;
+		vrLen = 581;
+		vrLoc = 494;
+	};
+	AB79DBCB13092804004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB0A5BA61203665C0065CE68 /* es */;
+		name = "Localizable.strings: 25";
+		rLen = 0;
+		rLoc = 932;
+		rType = 0;
+		vrLen = 581;
+		vrLoc = 494;
+	};
+	AB79DBCE13092822004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
+		name = "NearbyObjectsViewController.m: 25";
+		rLen = 19;
+		rLoc = 791;
+		rType = 0;
+		vrLen = 1226;
+		vrLoc = 49;
+	};
+	AB79DBCF13092822004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB0A5BA61203665C0065CE68 /* es */;
+		name = "Localizable.strings: 24";
+		rLen = 0;
+		rLoc = 884;
+		rType = 0;
+		vrLen = 585;
+		vrLoc = 494;
+	};
+	AB79DBD013092822004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB0A5BA4120365420065CE68 /* en */;
+		name = "Localizable.strings: 24";
+		rLen = 77;
+		rLoc = 844;
+		rType = 0;
+		vrLen = 749;
+		vrLoc = 214;
+	};
+	AB79DBD113092822004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB0A5BA4120365420065CE68 /* en */;
+		name = "Localizable.strings: 20";
+		rLen = 0;
+		rLoc = 775;
+		rType = 0;
+		vrLen = 686;
+		vrLoc = 292;
+	};
+	AB79DBD51309284E004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
+		name = "NearbyObjectsViewController.m: 25";
+		rLen = 0;
+		rLoc = 807;
+		rType = 0;
+		vrLen = 1223;
+		vrLoc = 46;
+	};
+	AB79DBD61309284E004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB0A5BA4120365420065CE68 /* en */;
+		name = "Localizable.strings: 20";
+		rLen = 0;
+		rLoc = 775;
+		rType = 0;
+		vrLen = 594;
+		vrLoc = 456;
+	};
+	AB79DBDA13092884004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
+		name = "NearbyObjectsViewController.m: 25";
+		rLen = 0;
+		rLoc = 807;
+		rType = 0;
+		vrLen = 1163;
+		vrLoc = 37;
+	};
+	AB79DBDB13092884004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB0A5BA4120365420065CE68 /* en */;
+		name = "Localizable.strings: 20";
+		rLen = 0;
+		rLoc = 775;
+		rType = 0;
+		vrLen = 498;
+		vrLoc = 581;
+	};
+	AB79DBE113092D2A004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12CC0F437AC60067FD3A /* QuestsViewController.h */;
+		name = "QuestsViewController.h: 22";
+		rLen = 28;
+		rLoc = 530;
+		rType = 0;
+		vrLen = 771;
+		vrLoc = 147;
+	};
+	AB79DBFC13092E63004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */;
+		name = "NearbyObjectsViewController.m: 25";
+		rLen = 0;
+		rLoc = 807;
+		rType = 0;
+		vrLen = 1269;
+		vrLoc = 0;
+	};
+	AB79DBFD13092E63004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A763B5240F4E283100FDCC55 /* MyCLController.m */;
+		name = "MyCLController.m: 117";
+		rLen = 0;
+		rLoc = 5290;
+		rType = 0;
+		vrLen = 1305;
+		vrLoc = 4295;
+	};
+	AB79DBFE13092E63004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A763B5240F4E283100FDCC55 /* MyCLController.m */;
+		name = "MyCLController.m: 117";
+		rLen = 0;
+		rLoc = 5290;
+		rType = 0;
+		vrLen = 850;
+		vrLoc = 5143;
+	};
+	AB79DBFF13092E63004AE1C7 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB0A5BA4120365420065CE68 /* en */;
+		name = "Localizable.strings: 20";
+		rLen = 0;
+		rLoc = 775;
+		rType = 0;
+		vrLen = 382;
+		vrLoc = 581;
 	};
 	AB7BB93911A5D2A1005D4D66 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -12515,9 +12910,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 43;
-		modificationTime = 319366553.78551;
+		modificationTime = 319372285.607321;
 		originalNumberOfMultipleMatches = 1;
-		state = 0;
+		state = 1;
 	};
 	ABC399B0116B9209002185D4 /* AudioMeterViewController.m:21 */ = {
 		isa = PBXFileBreakpoint;
@@ -12532,9 +12927,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 21;
-		modificationTime = 319366553.785531;
+		modificationTime = 319372285.607344;
 		originalNumberOfMultipleMatches = 1;
-		state = 0;
+		state = 1;
 	};
 	ABC399CD116B9EBC002185D4 /* AudioMeter.h */ = {
 		uiCtxt = {
@@ -12575,9 +12970,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 78;
-		modificationTime = 319366553.785546;
+		modificationTime = 319372285.607357;
 		originalNumberOfMultipleMatches = 1;
-		state = 0;
+		state = 1;
 	};
 	ABC39B22116BD28F002185D4 /* TitleAndDecriptionFormViewController.h */ = {
 		uiCtxt = {
@@ -12634,9 +13029,9 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 34;
-		modificationTime = 319366553.785474;
+		modificationTime = 319372285.607374;
 		originalNumberOfMultipleMatches = 1;
-		state = 0;
+		state = 1;
 	};
 	ABCF16E31225C50200DE3FC4 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -12670,9 +13065,9 @@
 	};
 	ABD24F59120A5BAD00D792F5 /* fr */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {817, 1651}}";
-			sepNavSelRange = "{914, 0}";
-			sepNavVisRange = "{35, 1725}";
+			sepNavIntBoundsRect = "{{0, 0}, {832, 1729}}";
+			sepNavSelRange = "{913, 0}";
+			sepNavVisRange = "{503, 601}";
 		};
 	};
 	ABD5C4E7104F1A0E002EB824 /* Npc.h */ = {
@@ -12873,7 +13268,7 @@
 		fRef = AB0A5BA4120365420065CE68 /* en */;
 		name = "Localizable.strings: 108";
 		rLen = 1;
-		rLoc = 3755;
+		rLoc = 3802;
 		rType = 0;
 		vrLen = 1189;
 		vrLoc = 2901;

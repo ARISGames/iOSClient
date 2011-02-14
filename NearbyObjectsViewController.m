@@ -22,9 +22,10 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
 		self.tabBarItem.image = [UIImage imageNamed:@"nearby.png"];
-		self.title = NSLocalizedString(@"NearbyObjectsKey",@"");		
+		self.title = NSLocalizedString(@"NearbyObjectsTabKey",@"");	
+		self.navigationItem.title = NSLocalizedString(@"NearbyObjectsTitleKey",@"");
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"playerMoved" object:nil];		
+		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"PlayerMoved" object:nil];		
 		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewLocationListReady" object:nil];			
 		
 		self.oldNearbyLocationList = [NSMutableArray arrayWithCapacity:5];
@@ -121,11 +122,12 @@
 	}
 	
 	if ([nearbyLocationList count] == 0) { 
+		NSLog(@"NearbyBar: refreshViewFromModel: nearbyLocationList was 0");
 		self.navigationController.tabBarItem.badgeValue = nil;
 		[appDelegate showNearbyTab:NO];
 	}
 	else {
-		//for (Location *location in nearbyLocationList) [self addItem:location];
+		NSLog(@"NearbyBar: refreshViewFromModel: nearbyLocationList was > 0");
 		self.navigationController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",[nearbyLocationList count]];
 		[appDelegate showNearbyTab:YES];
 
@@ -138,23 +140,8 @@
 	//Refresh the table
 	[nearbyTable reloadData];
 	
-	//[self resizeTableView];
 } 
 
-/*
-- (void)resizeTableView {
-    CGFloat tableViewHeight = [self tableView:nearbyTable numberOfRowsInSection:0] * nearbyTable.rowHeight;
-	
-    // remember to check the height !!
-	
-    CGRect frame = nearbyTable.frame;
-    frame.size.height = tableViewHeight;
-    frame.origin.y = (self.view.frame.origin.y + self.view.frame.size.height)/2 - tableViewHeight;
-    [UIView animateWithDuration:0.3 animations:^{   
-        [nearbyTable setFrame:frame];
-    }];
-}
- */
 
 #pragma mark UITableView Data Source and Delegate Methods
 
