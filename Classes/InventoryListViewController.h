@@ -17,6 +17,7 @@
 	UITableView *inventoryTable;
 	NSArray *inventory;
 	BOOL silenceNextServerUpdate;
+	int newItemsSinceLastView;
 
 }
 

@@ -26,6 +26,8 @@
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
 		silenceNextServerUpdate = YES;
 		
+		newItemsSinceLastView = 0;
+		
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
 		[dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedInventory" object:nil];
@@ -37,7 +39,8 @@
 }
 
 - (void)silenceNextUpdate {
-	silenceNextServerUpdate = YES;
+	NSLog(@"InventoryListViewController: silenceNextUpdate");
+	//silenceNextServerUpdate = YES;
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -53,6 +56,7 @@
 	
 	//remove any existing badge
 	self.tabBarItem.badgeValue = nil;
+	newItemsSinceLastView = 0;
 	
 	NSLog(@"InventoryListViewController: view did appear");
 	
@@ -84,7 +88,25 @@
 	
 	//Add a badge if this is NOT the first time data has been loaded
 	if (silenceNextServerUpdate == NO) {
-		self.tabBarItem.badgeValue = @"!";
+		
+		NSArray *newInventory = [appModel.inventory allValues];
+		//Check if anything is new since last time
+		int newItems = 0;
+		for (Item *item in newInventory) {		
+			BOOL match = NO;
+			for (Item *existingItem in self.inventory) {
+				if (existingItem.itemId == item.itemId) match = YES;	
+			}
+			if (match == NO) {
+				newItems ++;;
+			}
+		}
+		if (newItems > 0) {
+			newItemsSinceLastView += newItems;
+			self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
+			
+		}
+		else self.tabBarItem.badgeValue = nil;
 
 		ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 		[appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];

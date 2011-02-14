@@ -19,6 +19,7 @@
 	int cellsLoaded;
 	IBOutlet UITableView *tableView;
 	BOOL silenceNextServerUpdate;
+	int newItemsSinceLastView;
 }
 
 @property(nonatomic, retain) NSMutableArray *quests;
