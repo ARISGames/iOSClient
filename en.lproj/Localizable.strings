@@ -21,7 +21,8 @@
 "LoadingKey" = "Loading...";
 "OkKey" = "Ok";
 "SaveKey" = "Save";
-"NearbyObjectsKey" = "Nearby";
+"NearbyObjectsTabKey" = "Nearby";
+"NearbyObjectsTitleKey" = "Nearby Objects";
 
 //AR View
 "ARViewTitleKey" = "AR View";
