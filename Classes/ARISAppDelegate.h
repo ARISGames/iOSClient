@@ -33,7 +33,7 @@
 #import "WaitingIndicatorView.h"
 #import "AudioToolbox/AudioToolbox.h"
 #import "Reachability.h"
-
+#import "TutorialPopupView.h"
 
 
 @interface ARISAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate> {
@@ -49,9 +49,9 @@
 	UINavigationController *nearbyObjectNavigationController;
 	WaitingIndicatorViewController *waitingIndicator;
 	WaitingIndicatorView *waitingIndicatorView;
-
-	UIAlertView *networkAlert;
 	
+	UIAlertView *networkAlert;
+	TutorialPopupView *tutorialPopupView; 
 	
 	UIWindow* tvOutWindow;
 	UIImageView *tvOutMirrorView;
@@ -74,6 +74,8 @@
 @property (nonatomic, retain) WaitingIndicatorView *waitingIndicatorView;
 
 @property (nonatomic, retain) UIAlertView *networkAlert;
+@property (nonatomic, retain) TutorialPopupView *tutorialPopupView; 
+
 
 - (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password;
 - (void) displayNearbyObjectView:(UIViewController *)nearbyObjectsNavigationController;
@@ -84,6 +86,8 @@
 - (void) showNetworkAlert;
 - (void) removeNetworkAlert;
 - (void) showNearbyTab: (BOOL) yesOrNo;
+- (void) showTutorialPopupPointingTo:(CGFloat)pointXpos withTitle:(NSString *)title andMessage:(NSString *)message;
+- (void) hideTutorialPopup;
 - (void) returnToHomeView;
 - (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate;
 - (void) startTVOut;

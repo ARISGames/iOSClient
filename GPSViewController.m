@@ -219,6 +219,17 @@ static float INITIAL_SPAN = 0.001;
 			if (newItems > 0) {
 				newItemsSinceLastView += newItems;
 				self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
+				
+				if (!appModel.hasSeenMapTabTutorial) {
+					//Put up the tutorial tab
+					ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+					int myTabIndex = [self.tabBarController.viewControllers indexOfObject:self.navigationController];
+					CGFloat myTabCenterXPos = 22.0 + myTabIndex * self.view.frame.size.width / 5;						
+					[appDelegate showTutorialPopupPointingTo:myTabCenterXPos
+												   withTitle:@"New GPS Location" 
+												  andMessage:@"You have a new place of interest on your GPS! Touch below to view the Map."];
+					appModel.hasSeenMapTabTutorial = YES;
+				}
 			}
 			else self.tabBarItem.badgeValue = nil;
 		}

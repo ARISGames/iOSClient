@@ -18,6 +18,7 @@
 @property(nonatomic,retain) NSMutableArray *oldNearbyLocationList;
 
 - (void)refreshViewFromModel;
+- (void)refresh;
 
 
 @end

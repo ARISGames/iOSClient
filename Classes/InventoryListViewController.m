@@ -59,7 +59,7 @@
 	//remove any existing badge
 	self.tabBarItem.badgeValue = nil;
 	newItemsSinceLastView = 0;
-	
+		
 	NSLog(@"InventoryListViewController: view did appear");
 	
 	
@@ -105,11 +105,25 @@
 			newItemsSinceLastView += newItems;
 			self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
 			
+			ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+			
+			//Vibrate and Play Sound
+			[appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
+			
+			//Put up the tutorial tab
+			if (!appModel.hasSeenInventoryTabTutorial){
+
+				int myTabIndex = [self.tabBarController.viewControllers indexOfObject:self.navigationController];
+				CGFloat myTabCenterXPos = 22.0 + myTabIndex * self.view.frame.size.width / 5;						
+				[appDelegate showTutorialPopupPointingTo:myTabCenterXPos
+											   withTitle:@"New Item" 
+											  andMessage:@"You have a new Item in your Inventory! Touch below to view your items now."];
+				appModel.hasSeenInventoryTabTutorial = YES;
+			}
+				
+			
 		}
 		else self.tabBarItem.badgeValue = nil;
-
-		ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-		[appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
 		
 	}
 	else if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;

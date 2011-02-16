@@ -47,6 +47,13 @@ extern NSDictionary *InventoryElements;
 	NSMutableDictionary *gameItemList;
 	NSMutableDictionary *gameNodeList;
 	NSMutableDictionary *gameNpcList;
+	
+	//Training Flags
+	BOOL hasSeenNearbyTabTutorial;
+	BOOL hasSeenQuestsTabTutorial;
+	BOOL hasSeenMapTabTutorial;
+	BOOL hasSeenInventoryTabTutorial;
+	BOOL hasSeenDecoderTabTutorial;
 
 }
 
@@ -77,6 +84,13 @@ extern NSDictionary *InventoryElements;
 @property(copy, readwrite) NSMutableDictionary *gameItemList;
 @property(copy, readwrite) NSMutableDictionary *gameNodeList;
 @property(copy, readwrite) NSMutableDictionary *gameNpcList;
+
+//Training Flags
+@property(readwrite) BOOL hasSeenNearbyTabTutorial;
+@property(readwrite) BOOL hasSeenQuestsTabTutorial;
+@property(readwrite) BOOL hasSeenMapTabTutorial;
+@property(readwrite) BOOL hasSeenInventoryTabTutorial;
+@property(readwrite) BOOL hasSeenDecoderTabTutorial;
 
 
 - (id)init;

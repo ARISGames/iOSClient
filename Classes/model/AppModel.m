@@ -38,6 +38,7 @@ static const int kEmptyValue = -1;
 @synthesize locationListHash, questListHash, inventoryHash;
 
 @synthesize nearbyLocationsList;
+@synthesize hasSeenNearbyTabTutorial,hasSeenQuestsTabTutorial,hasSeenMapTabTutorial,hasSeenInventoryTabTutorial,hasSeenDecoderTabTutorial;
 
 #pragma mark Init/dealloc
 -(id)init {
@@ -82,6 +83,23 @@ static const int kEmptyValue = -1;
 	self.gamePcMediaId = [defaults integerForKey:@"gamePcMediaId"];
 	self.loggedIn = [defaults boolForKey:@"loggedIn"];
 	
+	if ([defaults boolForKey:@"resetTutorial"]) {
+		self.hasSeenNearbyTabTutorial = NO;
+		self.hasSeenQuestsTabTutorial = NO;
+		self.hasSeenMapTabTutorial = NO;
+		self.hasSeenInventoryTabTutorial = NO;
+		self.hasSeenDecoderTabTutorial = NO;
+		[defaults setBool:NO forKey:@"resetTutorial"];
+
+	}
+	else {
+		self.hasSeenNearbyTabTutorial = [defaults boolForKey:@"hasSeenNearbyTabTutorial"];
+		self.hasSeenQuestsTabTutorial = [defaults boolForKey:@"hasSeenQuestsTabTutorial"];
+		self.hasSeenMapTabTutorial = [defaults boolForKey:@"hasSeenMapTabTutorial"];
+		self.hasSeenInventoryTabTutorial = [defaults boolForKey:@"hasSeenInventoryTabTutorial"];
+		self.hasSeenDecoderTabTutorial = [defaults boolForKey:@"hasSeenDecoderTabTutorial"];
+	}
+
 	if (loggedIn == YES) {
 		NSString *lastBaseAppURL = [defaults stringForKey:@"lastBaseAppURL"];
 		NSLog(@"AppModel: Last Base App URL:%@ Current:%@",lastBaseAppURL,self.baseAppURL);
@@ -133,6 +151,13 @@ static const int kEmptyValue = -1;
 	[defaults setObject:baseAppURL forKey:@"lastBaseAppURL"];
 	[defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"appVerison"];
 	[defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBuildNumber"] forKey:@"buildNum"];
+
+	[defaults setBool:hasSeenNearbyTabTutorial forKey:@"hasSeenNearbyTabTutorial"];
+	[defaults setBool:hasSeenQuestsTabTutorial forKey:@"hasSeenQuestsTabTutorial"];
+	[defaults setBool:hasSeenMapTabTutorial forKey:@"hasSeenMapTabTutorial"];
+	[defaults setBool:hasSeenInventoryTabTutorial forKey:@"hasSeenInventoryTabTutorial"];
+	[defaults setBool:hasSeenDecoderTabTutorial forKey:@"hasSeenDecoderTabTutorial"];
+
 
 }
 
@@ -1180,11 +1205,6 @@ static const int kEmptyValue = -1;
 	//Tell everyone
 	NSLog(@"AppModel: Finished fetching locations from server, model updated");
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewLocationListReady" object:nil]];
-	
-	//Force a location update
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-	[appDelegate.myCLController.locationManager stopUpdatingLocation];
-	[appDelegate.myCLController.locationManager startUpdatingLocation];
 	
 }
 

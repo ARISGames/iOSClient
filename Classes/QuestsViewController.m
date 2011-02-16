@@ -135,6 +135,16 @@ NSString *const kQuestsHtmlTemplate =
 			newItemsSinceLastView += newItems;
 			self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
 			
+			if (!appModel.hasSeenQuestsTabTutorial){
+			//Put up the tutorial tab
+				ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+				int myTabIndex = [self.tabBarController.viewControllers indexOfObject:self.navigationController];
+				CGFloat myTabCenterXPos = 22.0 + myTabIndex * self.view.frame.size.width / 5;						
+				[appDelegate showTutorialPopupPointingTo:myTabCenterXPos
+											   withTitle:@"New Quest" 
+											  andMessage:@"You have a new Quest! Touch here to see the current and completed quests."];
+				appModel.hasSeenQuestsTabTutorial = YES;
+			}
 		}
 		else self.tabBarItem.badgeValue = nil;
 				

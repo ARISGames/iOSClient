@@ -70,7 +70,7 @@
 - (void)viewDidAppear:(BOOL)animated {
 	
 	[self refresh];
-		
+			
 	NSLog(@"NearbyObjectsViewController: viewDidAppear");
 }
 
@@ -85,6 +85,11 @@
 	
 	AppModel *appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	
+	if (!appModel.playerLocation) {
+		NSLog(@"NearbyBar: Waiting for the player location before continuing to refresh. Returning");
+		return;
+	}
 	
 	NSMutableArray *nearbyLocationList = [NSMutableArray arrayWithCapacity:5];
 	NSObject <NearbyObjectProtocol> *forcedDisplayItem = nil;
@@ -114,6 +119,13 @@
 	//If we have something new, alert the user
 	if (newItem) {
 		[appDelegate playAudioAlert:@"nearbyObject" shouldVibrate:YES];
+		
+		if (!appModel.hasSeenNearbyTabTutorial) {
+			[appDelegate showTutorialPopupPointingTo:22.0 
+								withTitle:@"Something Nearby" 
+							   andMessage:@"There is something nearby! Touch below to see what it is."];
+			appModel.hasSeenNearbyTabTutorial = YES;
+		}
 	}
 	
 	//If we have a force display, do it

@@ -170,6 +170,7 @@
 		AB4151CB11595A2600DBA15F /* cameraBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AB4151CA11595A2600DBA15F /* cameraBackground.jpg */; };
 		AB4151DD115963D000DBA15F /* qrBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = AB4151DC115963D000DBA15F /* qrBackground.png */; };
 		AB42A66911D69F1500FD6D4B /* ARISMoviePlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB42A66811D69F1500FD6D4B /* ARISMoviePlayerViewController.m */; };
+		AB4FD854130BC5AE0034F666 /* TutorialPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4FD853130BC5AE0034F666 /* TutorialPopupView.m */; };
 		AB549EDF1047007B00A901EF /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = AB549ED41047007B00A901EF /* NSObject+SBJSON.m */; };
 		AB549EE01047007B00A901EF /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = AB549ED61047007B00A901EF /* NSString+SBJSON.m */; };
 		AB549EE11047007B00A901EF /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = AB549ED81047007B00A901EF /* SBJSON.m */; };
@@ -457,6 +458,8 @@
 		AB4151DC115963D000DBA15F /* qrBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qrBackground.png; sourceTree = "<group>"; };
 		AB42A66711D69F1500FD6D4B /* ARISMoviePlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISMoviePlayerViewController.h; sourceTree = "<group>"; };
 		AB42A66811D69F1500FD6D4B /* ARISMoviePlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISMoviePlayerViewController.m; sourceTree = "<group>"; };
+		AB4FD852130BC5AE0034F666 /* TutorialPopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialPopupView.h; sourceTree = "<group>"; };
+		AB4FD853130BC5AE0034F666 /* TutorialPopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialPopupView.m; sourceTree = "<group>"; };
 		AB549ED21047007B00A901EF /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		AB549ED31047007B00A901EF /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		AB549ED41047007B00A901EF /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -751,6 +754,7 @@
 				AB0A5BA3120365420065CE68 /* Localizable.strings */,
 				A7149F9C0FB89DC8008BAB5D /* Settings.bundle */,
 				A7986D6A0F8FEC7200A5469F /* Core App */,
+				A760473F0FC0AA1E00219A53 /* NearbyObjects */,
 				AB6B774810C9D61200275650 /* ARView */,
 				A7986D680F8FEC4900A5469F /* Quests */,
 				ABBEBBBF104D7CE400AA7285 /* Nodes */,
@@ -805,7 +809,7 @@
 			path = Classes/model;
 			sourceTree = "<group>";
 		};
-		A760473F0FC0AA1E00219A53 /* NearbyObjectBar */ = {
+		A760473F0FC0AA1E00219A53 /* NearbyObjects */ = {
 			isa = PBXGroup;
 			children = (
 				AB79DB8B130922EF004AE1C7 /* nearby.png */,
@@ -820,7 +824,7 @@
 				AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */,
 				AB79D5BB1307E6EB004AE1C7 /* NearbyObjectsViewController.xib */,
 			);
-			name = NearbyObjectBar;
+			name = NearbyObjects;
 			sourceTree = "<group>";
 		};
 		A798300A0FCB1C5900C1C2E7 /* Waiting Indicator */ = {
@@ -969,9 +973,9 @@
 				AB549ED11047007B00A901EF /* JSON Framework */,
 				ABF4A36C116847500043EB1C /* ASI Netrork Framework */,
 				AB37BC2E1184CDE600C5CE8B /* Sound Effects */,
-				A760473F0FC0AA1E00219A53 /* NearbyObjectBar */,
 				A798300A0FCB1C5900C1C2E7 /* Waiting Indicator */,
 				2B3D17040F49C9920067FD3A /* Model */,
+				AB4FD84F130BC5460034F666 /* Tutorial */,
 				A763B5230F4E283100FDCC55 /* MyCLController.h */,
 				A763B5240F4E283100FDCC55 /* MyCLController.m */,
 				AB42A66711D69F1500FD6D4B /* ARISMoviePlayerViewController.h */,
@@ -1034,6 +1038,15 @@
 				AB39C851117E4613007AD31F /* StartOverViewController.xib */,
 			);
 			name = "Start Over";
+			sourceTree = "<group>";
+		};
+		AB4FD84F130BC5460034F666 /* Tutorial */ = {
+			isa = PBXGroup;
+			children = (
+				AB4FD852130BC5AE0034F666 /* TutorialPopupView.h */,
+				AB4FD853130BC5AE0034F666 /* TutorialPopupView.m */,
+			);
+			name = Tutorial;
 			sourceTree = "<group>";
 		};
 		AB549ED11047007B00A901EF /* JSON Framework */ = {
@@ -1444,6 +1457,7 @@
 				ABEBF566123D916D00ECE66C /* WaitingIndicatorView.m in Sources */,
 				AB79D5BC1307E6EB004AE1C7 /* NearbyObjectsViewController.m in Sources */,
 				AB79D79A1308299E004AE1C7 /* NearbyObjectCell.m in Sources */,
+				AB4FD854130BC5AE0034F666 /* TutorialPopupView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

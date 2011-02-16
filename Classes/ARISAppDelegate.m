@@ -9,6 +9,8 @@
 #import "ARISAppDelegate.h"
 #import "Node.h"
 
+#import "TutorialPopupView.h"
+
 @implementation ARISAppDelegate
 
 @synthesize appModel;
@@ -25,6 +27,7 @@
 @synthesize myCLController;
 @synthesize waitingIndicator,waitingIndicatorView;
 @synthesize networkAlert;
+@synthesize tutorialPopupView;
 
 //@synthesize toolbarViewController;
 
@@ -56,8 +59,8 @@
 	
 	//Check for Internet conductivity
 	NSLog(@"AppDelegate: Verifying Connection to: %@",appModel.baseAppURL);
-//	Reachability *r = [Reachability reachabilityWithHostName:@"arisgames.org"];
-	Reachability *r = [Reachability reachabilityWithHostName:@"davembp.local"];
+	Reachability *r = [Reachability reachabilityWithHostName:@"arisgames.org"];
+	//Reachability *r = [Reachability reachabilityWithHostName:@"davembp.local"];
 	NetworkStatus internetStatus = [r currentReachabilityStatus];
 	BOOL connection = (internetStatus == ReachableViaWiFi) || (internetStatus == ReachableViaWWAN);
 	//connection = NO; //For debugging locally
@@ -85,7 +88,6 @@
 	self.nearbyObjectsNavigationController = [[UINavigationController alloc] initWithRootViewController: nearbyObjectsViewController];
 	[nearbyObjectsViewController release];
 	self.nearbyObjectsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-
 	
 	//Setup ARView
 	//ARViewViewControler *arViewController = [[[ARViewViewControler alloc] initWithNibName:@"ARView" bundle:nil] autorelease];
@@ -156,7 +158,6 @@
 	self.tabBarController = [[UITabBarController alloc] init];
 	self.tabBarController.delegate = self;
 	self.tabBarController.viewControllers = [NSMutableArray arrayWithObjects: 
-										nearbyObjectsNavigationController,
 										questsNavigationController, 
 										gpsNavigationController,
 										inventoryNavigationController,
@@ -179,7 +180,11 @@
 	
 	//Setup Location Manager
 	myCLController = [[MyCLController alloc] initWithAppModel:appModel];
-	[myCLController.locationManager startUpdatingLocation];
+	[NSTimer scheduledTimerWithTimeInterval:3.0 
+									 target:myCLController.locationManager 
+								   selector:@selector(startUpdatingLocation) 
+								   userInfo:nil 
+									repeats:NO];
 		
 	//Display the login screen if this user is not logged in
 	if (appModel.loggedIn == YES) {
@@ -191,7 +196,7 @@
 		else {
 			NSLog(@"Appdelegate: Player already logged in and they have a site selected. Go into the default module");
 			[appModel fetchAllGameLists];
-			[appModel fetchLocationList];
+			[appModel fetchAllPlayerLists];
 			
 			[self playAudioAlert:@"questChange" shouldVibrate:NO];
 		}
@@ -280,22 +285,51 @@
 	
 	if (yesOrNo) {
 		NSLog(@"AppDelegate: showNearbyTab: YES");
-		if (![tabs containsObject:self.nearbyObjectsNavigationController]) 
-				[tabs insertObject:self.nearbyObjectsNavigationController atIndex:0];
-
+		if (![tabs containsObject:self.nearbyObjectsNavigationController]) {
+			[tabs insertObject:self.nearbyObjectsNavigationController atIndex:0];
+		}
 	}
 	else {
 		NSLog(@"AppDelegate: showNearbyTab: NO");
 		
 		if ([tabs containsObject:self.nearbyObjectsNavigationController]) {
 			[tabs removeObject:self.nearbyObjectsNavigationController];
+
 		}
 		
 	}
 	
 	[self.tabBarController setViewControllers:tabs animated:YES];
+}
 
+- (void) showTutorialPopupPointingTo:(CGFloat)pointXpos 
+						   withTitle:(NSString *)title andMessage:(NSString *)message{
+	
+	NSLog(@"AppDelegate: showTutorialPopupPointingTo: %f withTitle: %@",pointXpos, title);
+	
+	if (!self.tutorialPopupView) 
+		self.tutorialPopupView = [[TutorialPopupView alloc]initWithFrame:CGRectMake(10.0, 295.0, 300.0, 140.0)];
+	self.tutorialPopupView.title = title;
+	self.tutorialPopupView.message = message;
+	self.tutorialPopupView.pointerXpos = pointXpos;
+	[self.tutorialPopupView setNeedsDisplay];
+	
+	self.tutorialPopupView.alpha = 0;
+	[window addSubview:self.tutorialPopupView];	
 
+	[UIView beginAnimations:@"tutorialPopup" context:nil];
+	[UIView setAnimationDuration:0.5];
+	self.tutorialPopupView.alpha = 1.0;
+	[UIView commitAnimations];
+}
+
+- (void) hideTutorialPopup{
+	if (self.tutorialPopupView){
+		[UIView beginAnimations:@"tutorialPopup" context:nil];
+		[UIView setAnimationDuration:0.5];
+		self.tutorialPopupView.alpha = 0;
+		[UIView commitAnimations];
+	}
 }
 
 
@@ -455,15 +489,23 @@
 }
 
 #pragma mark UITabBarControllerDelegate methods
+
 - (void)tabBarController:(UITabBarController *)tabBar didSelectViewController:(UIViewController *)viewController{
+	
+	//Automatically reset the more tab to a list. Causes problems with dynamic add/remove of nearby tab
+	
 	int selectedIndex = [tabBar.viewControllers indexOfObject:tabBar.selectedViewController];
 	NSLog(@"AppDelegate: didSelectViewController at index %d",selectedIndex);
-	if (selectedIndex > 3){
+	if (selectedIndex < 3){
 		NSLog(@"AppDelegate: didSelectViewController at index %d",selectedIndex);
 		[tabBar.moreNavigationController popToRootViewControllerAnimated:NO];
-		//tabBar.selectedViewController = tabBar.moreNavigationController;
 	}
+	
+	//Hide any popups
+	[self hideTutorialPopup];
+	 
 }
+
 
 
 #pragma mark TV Out Methods
