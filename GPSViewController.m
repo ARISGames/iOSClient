@@ -134,6 +134,7 @@ static float INITIAL_SPAN = 0.001;
 	
 	//remove any existing badge
 	self.tabBarItem.badgeValue = nil;
+	newItemsSinceLastView = 0;
 	
 	//create a time for automatic map refresh
 	NSLog(@"GPSViewController: Starting Refresh Timer");

@@ -89,6 +89,7 @@ NSString *const kQuestsHtmlTemplate =
 	
 	//remove any existing badge
 	self.tabBarItem.badgeValue = nil;
+	newItemsSinceLastView = 0;
 	
 	NSLog(@"QuestsViewController: Quests View Did Appear");
 }
