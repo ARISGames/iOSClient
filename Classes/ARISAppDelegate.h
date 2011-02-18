@@ -63,6 +63,7 @@
 @property (nonatomic, retain) MyCLController *myCLController;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
+
 @property (nonatomic, retain) IBOutlet LoginViewController *loginViewController;
 @property (nonatomic, retain) IBOutlet UINavigationController *loginViewNavigationController;
 @property (nonatomic, retain) IBOutlet GamePickerViewController *gamePickerViewController;

@@ -59,8 +59,8 @@
 	
 	//Check for Internet conductivity
 	NSLog(@"AppDelegate: Verifying Connection to: %@",appModel.baseAppURL);
-	Reachability *r = [Reachability reachabilityWithHostName:@"arisgames.org"];
-	//Reachability *r = [Reachability reachabilityWithHostName:@"davembp.local"];
+	//Reachability *r = [Reachability reachabilityWithHostName:@"arisgames.org"];
+	Reachability *r = [Reachability reachabilityWithHostName:@"davembp.local"];
 	NetworkStatus internetStatus = [r currentReachabilityStatus];
 	BOOL connection = (internetStatus == ReachableViaWiFi) || (internetStatus == ReachableViaWWAN);
 	//connection = NO; //For debugging locally
@@ -154,9 +154,12 @@
 	[loginViewNavigationController.view setFrame:UIScreen.mainScreen.applicationFrame];
 	[loginViewController retain]; //This view may be removed and readded to the window
 	
-	//Add the view controllers to a Tab Bar
+	//Setup a Tab Bar
 	self.tabBarController = [[UITabBarController alloc] init];
 	self.tabBarController.delegate = self;
+	UINavigationController *moreNavController = tabBarController.moreNavigationController;
+	moreNavController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+	moreNavController.delegate = self;
 	self.tabBarController.viewControllers = [NSMutableArray arrayWithObjects: 
 										questsNavigationController, 
 										gpsNavigationController,
@@ -172,11 +175,6 @@
 										nil];	
 	[self.tabBarController.view setFrame:UIScreen.mainScreen.applicationFrame];
 	[window addSubview:self.tabBarController.view];
-
-	//Customize the 'more' nav controller on the tab bar
-	UINavigationController *moreNavController = tabBarController.moreNavigationController;
-	moreNavController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-	moreNavController.delegate = self;
 	
 	//Setup Location Manager
 	myCLController = [[MyCLController alloc] initWithAppModel:appModel];
@@ -270,7 +268,7 @@
 	self.waitingIndicator.progressView.hidden = !displayProgressBar;
 	
 	//by adding a subview to window, we make sure it is put on top
-	if (appModel.loggedIn == YES) [self.window addSubview:self.waitingIndicator.view]; 
+	if (appModel.loggedIn == YES) [window addSubview:self.waitingIndicator.view]; 
 
 }
 
@@ -312,11 +310,9 @@
 	self.tutorialPopupView.title = title;
 	self.tutorialPopupView.message = message;
 	self.tutorialPopupView.pointerXpos = pointXpos;
-	[self.tutorialPopupView setNeedsDisplay];
 	
 	self.tutorialPopupView.alpha = 0;
 	[window addSubview:self.tutorialPopupView];	
-
 	[UIView beginAnimations:@"tutorialPopup" context:nil];
 	[UIView setAnimationDuration:0.5];
 	self.tutorialPopupView.alpha = 1.0;
@@ -458,15 +454,9 @@
 	NSLog(@"AppDelegate: %@ selected",[visibleViewController title]);
 	
 	[appModel fetchAllGameLists];
+	[appModel silenceNextServerUpdate];
+	[appModel fetchAllPlayerLists];
 	
-
-	
-	[self playAudioAlert:@"questChange" shouldVibrate:NO];
-	
-	//Use setModel to refresh the content
-	if([visibleViewController respondsToSelector:@selector(refresh)]) {
-		[visibleViewController performSelector:@selector(refresh) withObject:nil];
-	}
 }
 
 
@@ -500,7 +490,7 @@
 		NSLog(@"AppDelegate: didSelectViewController at index %d",selectedIndex);
 		[tabBar.moreNavigationController popToRootViewControllerAnimated:NO];
 	}
-	
+
 	//Hide any popups
 	[self hideTutorialPopup];
 	 

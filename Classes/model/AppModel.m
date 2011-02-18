@@ -1381,9 +1381,8 @@ static const int kEmptyValue = -1;
 
 -(void)parseStartOverFromJSON:(JSONResult *)jsonResult{
 	NSLog(@"AppModel: Parsing start over result and firing off fetches");
-	[self fetchInventory];
-	[self fetchQuestList];
-	[self fetchLocationList];
+	[self silenceNextServerUpdate];
+	[self fetchAllPlayerLists];
 }
 
 -(void)parseQuestListFromJSON: (JSONResult *)jsonResult{
