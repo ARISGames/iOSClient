@@ -60,6 +60,10 @@
 	self.tabBarItem.badgeValue = nil;
 	newItemsSinceLastView = 0;
 		
+	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate.tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindInventoryTab];
+	
+	
 	NSLog(@"InventoryListViewController: view did appear");
 	
 	
@@ -112,12 +116,10 @@
 			
 			//Put up the tutorial tab
 			if (!appModel.hasSeenInventoryTabTutorial){
-
-				int myTabIndex = [self.tabBarController.viewControllers indexOfObject:self.navigationController];
-				CGFloat myTabCenterXPos = 22.0 + myTabIndex * self.view.frame.size.width / 5;						
-				[appDelegate showTutorialPopupPointingTo:myTabCenterXPos
-											   withTitle:@"New Item" 
-											  andMessage:@"You have a new Item in your Inventory! Touch below to view your items now."];
+				[appDelegate.tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController  
+																							   type:tutorialPopupKindInventoryTab
+																							  title:@"New Item"  
+																							message:@"You have a new Item in your Inventory! Touch below to view your items now."];						
 				appModel.hasSeenInventoryTabTutorial = YES;
 			}
 				

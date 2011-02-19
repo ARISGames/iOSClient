@@ -91,7 +91,11 @@ NSString *const kQuestsHtmlTemplate =
 	self.tabBarItem.badgeValue = nil;
 	newItemsSinceLastView = 0;
 	
+	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate.tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindQuestsTab];
+	
 	NSLog(@"QuestsViewController: Quests View Did Appear");
+	
 }
 
 - (void)refresh {
@@ -139,11 +143,10 @@ NSString *const kQuestsHtmlTemplate =
 			if (!appModel.hasSeenQuestsTabTutorial){
 			//Put up the tutorial tab
 				ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-				int myTabIndex = [self.tabBarController.viewControllers indexOfObject:self.navigationController];
-				CGFloat myTabCenterXPos = 22.0 + myTabIndex * self.view.frame.size.width / 5;						
-				[appDelegate showTutorialPopupPointingTo:myTabCenterXPos
-											   withTitle:@"New Quest" 
-											  andMessage:@"You have a new Quest! Touch here to see the current and completed quests."];
+				[appDelegate.tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController 
+																							   type:tutorialPopupKindMapTab 
+																							  title:@"New Quest" 
+																							message:@"You have a new Quest! Touch here to see the current and completed quests."];						
 				appModel.hasSeenQuestsTabTutorial = YES;
 			}
 		}

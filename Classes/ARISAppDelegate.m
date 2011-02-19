@@ -27,7 +27,8 @@
 @synthesize myCLController;
 @synthesize waitingIndicator,waitingIndicatorView;
 @synthesize networkAlert;
-@synthesize tutorialPopupView;
+@synthesize tutorialViewController;
+
 
 //@synthesize toolbarViewController;
 
@@ -174,7 +175,14 @@
 										//developerNavigationController,
 										nil];	
 	[self.tabBarController.view setFrame:UIScreen.mainScreen.applicationFrame];
-	[window addSubview:self.tabBarController.view];
+	[self.window addSubview:self.tabBarController.view];
+	
+	self.tutorialViewController = [[TutorialViewController alloc]init];
+	self.tutorialViewController.view.frame = self.tabBarController.view.frame;
+	self.tutorialViewController.view.hidden = YES;
+	self.tutorialViewController.view.userInteractionEnabled = NO;
+	[self.tabBarController.view addSubview:self.tutorialViewController.view];
+	
 	
 	//Setup Location Manager
 	myCLController = [[MyCLController alloc] initWithAppModel:appModel];
@@ -298,35 +306,11 @@
 	}
 	
 	[self.tabBarController setViewControllers:tabs animated:YES];
+	
+	NSNotification *n = [NSNotification notificationWithName:@"TabBarItemsChanged" object:self userInfo:nil];
+	[[NSNotificationCenter defaultCenter] postNotification:n];
 }
 
-- (void) showTutorialPopupPointingTo:(CGFloat)pointXpos 
-						   withTitle:(NSString *)title andMessage:(NSString *)message{
-	
-	NSLog(@"AppDelegate: showTutorialPopupPointingTo: %f withTitle: %@",pointXpos, title);
-	
-	if (!self.tutorialPopupView) 
-		self.tutorialPopupView = [[TutorialPopupView alloc]initWithFrame:CGRectMake(10.0, 295.0, 300.0, 140.0)];
-	self.tutorialPopupView.title = title;
-	self.tutorialPopupView.message = message;
-	self.tutorialPopupView.pointerXpos = pointXpos;
-	
-	self.tutorialPopupView.alpha = 0;
-	[window addSubview:self.tutorialPopupView];	
-	[UIView beginAnimations:@"tutorialPopup" context:nil];
-	[UIView setAnimationDuration:0.5];
-	self.tutorialPopupView.alpha = 1.0;
-	[UIView commitAnimations];
-}
-
-- (void) hideTutorialPopup{
-	if (self.tutorialPopupView){
-		[UIView beginAnimations:@"tutorialPopup" context:nil];
-		[UIView setAnimationDuration:0.5];
-		self.tutorialPopupView.alpha = 0;
-		[UIView commitAnimations];
-	}
-}
 
 
 - (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate{
@@ -492,7 +476,7 @@
 	}
 
 	//Hide any popups
-	[self hideTutorialPopup];
+	//[self hideTutorialPopup];
 	 
 }
 

@@ -53,7 +53,6 @@ extern NSDictionary *InventoryElements;
 	BOOL hasSeenQuestsTabTutorial;
 	BOOL hasSeenMapTabTutorial;
 	BOOL hasSeenInventoryTabTutorial;
-	BOOL hasSeenDecoderTabTutorial;
 
 }
 
@@ -90,7 +89,6 @@ extern NSDictionary *InventoryElements;
 @property(readwrite) BOOL hasSeenQuestsTabTutorial;
 @property(readwrite) BOOL hasSeenMapTabTutorial;
 @property(readwrite) BOOL hasSeenInventoryTabTutorial;
-@property(readwrite) BOOL hasSeenDecoderTabTutorial;
 
 
 - (id)init;

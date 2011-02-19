@@ -171,6 +171,7 @@
 		AB4151DD115963D000DBA15F /* qrBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = AB4151DC115963D000DBA15F /* qrBackground.png */; };
 		AB42A66911D69F1500FD6D4B /* ARISMoviePlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB42A66811D69F1500FD6D4B /* ARISMoviePlayerViewController.m */; };
 		AB4FD854130BC5AE0034F666 /* TutorialPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4FD853130BC5AE0034F666 /* TutorialPopupView.m */; };
+		AB4FDC89130EB1120034F666 /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4FDC88130EB1120034F666 /* TutorialViewController.m */; };
 		AB549EDF1047007B00A901EF /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = AB549ED41047007B00A901EF /* NSObject+SBJSON.m */; };
 		AB549EE01047007B00A901EF /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = AB549ED61047007B00A901EF /* NSString+SBJSON.m */; };
 		AB549EE11047007B00A901EF /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = AB549ED81047007B00A901EF /* SBJSON.m */; };
@@ -460,6 +461,8 @@
 		AB42A66811D69F1500FD6D4B /* ARISMoviePlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISMoviePlayerViewController.m; sourceTree = "<group>"; };
 		AB4FD852130BC5AE0034F666 /* TutorialPopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialPopupView.h; sourceTree = "<group>"; };
 		AB4FD853130BC5AE0034F666 /* TutorialPopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialPopupView.m; sourceTree = "<group>"; };
+		AB4FDC87130EB1120034F666 /* TutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialViewController.h; sourceTree = "<group>"; };
+		AB4FDC88130EB1120034F666 /* TutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialViewController.m; sourceTree = "<group>"; };
 		AB549ED21047007B00A901EF /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		AB549ED31047007B00A901EF /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		AB549ED41047007B00A901EF /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -1045,6 +1048,8 @@
 			children = (
 				AB4FD852130BC5AE0034F666 /* TutorialPopupView.h */,
 				AB4FD853130BC5AE0034F666 /* TutorialPopupView.m */,
+				AB4FDC87130EB1120034F666 /* TutorialViewController.h */,
+				AB4FDC88130EB1120034F666 /* TutorialViewController.m */,
 			);
 			name = Tutorial;
 			sourceTree = "<group>";
@@ -1458,6 +1463,7 @@
 				AB79D5BC1307E6EB004AE1C7 /* NearbyObjectsViewController.m in Sources */,
 				AB79D79A1308299E004AE1C7 /* NearbyObjectCell.m in Sources */,
 				AB4FD854130BC5AE0034F666 /* TutorialPopupView.m in Sources */,
+				AB4FDC89130EB1120034F666 /* TutorialViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

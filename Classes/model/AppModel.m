@@ -38,7 +38,7 @@ static const int kEmptyValue = -1;
 @synthesize locationListHash, questListHash, inventoryHash;
 
 @synthesize nearbyLocationsList;
-@synthesize hasSeenNearbyTabTutorial,hasSeenQuestsTabTutorial,hasSeenMapTabTutorial,hasSeenInventoryTabTutorial,hasSeenDecoderTabTutorial;
+@synthesize hasSeenNearbyTabTutorial,hasSeenQuestsTabTutorial,hasSeenMapTabTutorial,hasSeenInventoryTabTutorial;
 
 #pragma mark Init/dealloc
 -(id)init {
@@ -88,7 +88,10 @@ static const int kEmptyValue = -1;
 		self.hasSeenQuestsTabTutorial = NO;
 		self.hasSeenMapTabTutorial = NO;
 		self.hasSeenInventoryTabTutorial = NO;
-		self.hasSeenDecoderTabTutorial = NO;
+		[defaults setBool:hasSeenNearbyTabTutorial forKey:@"hasSeenNearbyTabTutorial"];
+		[defaults setBool:hasSeenQuestsTabTutorial forKey:@"hasSeenQuestsTabTutorial"];
+		[defaults setBool:hasSeenMapTabTutorial forKey:@"hasSeenMapTabTutorial"];
+		[defaults setBool:hasSeenInventoryTabTutorial forKey:@"hasSeenInventoryTabTutorial"];
 		[defaults setBool:NO forKey:@"resetTutorial"];
 
 	}
@@ -97,7 +100,6 @@ static const int kEmptyValue = -1;
 		self.hasSeenQuestsTabTutorial = [defaults boolForKey:@"hasSeenQuestsTabTutorial"];
 		self.hasSeenMapTabTutorial = [defaults boolForKey:@"hasSeenMapTabTutorial"];
 		self.hasSeenInventoryTabTutorial = [defaults boolForKey:@"hasSeenInventoryTabTutorial"];
-		self.hasSeenDecoderTabTutorial = [defaults boolForKey:@"hasSeenDecoderTabTutorial"];
 	}
 
 	if (loggedIn == YES) {
@@ -156,7 +158,6 @@ static const int kEmptyValue = -1;
 	[defaults setBool:hasSeenQuestsTabTutorial forKey:@"hasSeenQuestsTabTutorial"];
 	[defaults setBool:hasSeenMapTabTutorial forKey:@"hasSeenMapTabTutorial"];
 	[defaults setBool:hasSeenInventoryTabTutorial forKey:@"hasSeenInventoryTabTutorial"];
-	[defaults setBool:hasSeenDecoderTabTutorial forKey:@"hasSeenDecoderTabTutorial"];
 
 
 }

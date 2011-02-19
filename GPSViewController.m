@@ -136,6 +136,9 @@ static float INITIAL_SPAN = 0.001;
 	self.tabBarItem.badgeValue = nil;
 	newItemsSinceLastView = 0;
 	
+	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate.tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindMapTab];
+	
 	//create a time for automatic map refresh
 	NSLog(@"GPSViewController: Starting Refresh Timer");
 	if (refreshTimer != nil && [refreshTimer isValid]) [refreshTimer invalidate];
@@ -224,11 +227,11 @@ static float INITIAL_SPAN = 0.001;
 				if (!appModel.hasSeenMapTabTutorial) {
 					//Put up the tutorial tab
 					ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-					int myTabIndex = [self.tabBarController.viewControllers indexOfObject:self.navigationController];
-					CGFloat myTabCenterXPos = 22.0 + myTabIndex * self.view.frame.size.width / 5;						
-					[appDelegate showTutorialPopupPointingTo:myTabCenterXPos
-												   withTitle:@"New GPS Location" 
-												  andMessage:@"You have a new place of interest on your GPS! Touch below to view the Map."];
+					[appDelegate.tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController 
+																								   type:tutorialPopupKindMapTab 
+																								  title:@"New GPS Location" 
+																								message:@"You have a new place of interest on your GPS! Touch below to view the Map."];						
+
 					appModel.hasSeenMapTabTutorial = YES;
 				}
 			}
