@@ -10,12 +10,14 @@
 #import "model/Game.h"
 #import "ARISAppDelegate.h"
 #import "GameDetails.h"
+#import "GamePickerCell.h"
 
 @implementation GamePickerViewController
 
 @synthesize gameTable;
-@synthesize nearGameList;
-@synthesize farGameList;
+@synthesize gameList;
+@synthesize filteredGameList;
+
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
@@ -25,6 +27,7 @@
         self.title = NSLocalizedString(@"GamePickerTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"game.png"];
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
+		self.filteredGameList = [[NSMutableArray alloc]initWithCapacity:1];
 		
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
@@ -45,8 +48,7 @@
 - (void)viewDidAppear:(BOOL)animated {
 	NSLog(@"GamePickerViewController: View Appeared");	
 	
-	self.nearGameList = [NSMutableArray arrayWithCapacity:1];
-	self.farGameList = [NSMutableArray arrayWithCapacity:1];
+	self.gameList = [NSMutableArray arrayWithCapacity:1];
 
 	[gameTable reloadData];
 	[self refresh];
@@ -83,41 +85,23 @@
 	
 	//Sort the game list
 	NSArray* sortedGameList = [appModel.gameList sortedArrayUsingSelector:@selector(compareDistanceFromPlayer:)];
-	NSMutableArray* tempNearArray = [[NSMutableArray alloc] initWithCapacity:10];
-	NSMutableArray* tempFarArray = [[NSMutableArray alloc] initWithCapacity:10];
-	
-	//Divide into two arrays
-	double maxDistanceForNearby = 10000; //in Meters
 
-	for (int i=0; i<[sortedGameList count]; i++) {
-		if ([[sortedGameList objectAtIndex:i] distanceFromPlayer] <= maxDistanceForNearby)  
-			[tempNearArray addObject:[sortedGameList objectAtIndex:i]];
-		else [tempFarArray addObject:[sortedGameList objectAtIndex:i]];
-
-	}
-
-	self.nearGameList = tempNearArray;
-	[tempNearArray release];
-	
-	self.farGameList = tempFarArray;
-	[tempFarArray release];
+	self.gameList = sortedGameList;
 
 	[gameTable reloadData];
 }
 
 #pragma mark Table view methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 1;
 }
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	int count;
-	if (section == 0) count = [self.nearGameList count];
-	else count = [self.farGameList count];
+	if (tableView == self.searchDisplayController.searchResultsTableView)
+		return [self.filteredGameList count];
+	else return [self.gameList count];
 
-	NSLog(@"GamePickerVC: %d rows in section %d",count,section);
-	return count;
 }
 
 // Customize the appearance of table view cells.
@@ -126,28 +110,43 @@
 
 	
 	static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    GamePickerCell *cell = (GamePickerCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+		// Create a temporary UIViewController to instantiate the custom cell.
+		UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"GamePickerCell" bundle:nil];
+		// Grab a pointer to the custom cell.
+		cell = (GamePickerCell *)temporaryController.view;
+		// Release the temporary UIViewController.
+		[temporaryController release];
     }
 	
 	Game *currentGame;
-	if (indexPath.section == 0) currentGame = [self.nearGameList objectAtIndex:indexPath.row];
-	else currentGame = [self.farGameList objectAtIndex:indexPath.row];
+	if (tableView == self.searchDisplayController.searchResultsTableView) 
+		currentGame = [self.filteredGameList objectAtIndex:indexPath.row];
+	else currentGame = [self.gameList objectAtIndex:indexPath.row];
 
-	cell.textLabel.text = currentGame.name;
+	cell.titleLabel.text = currentGame.name;
 	double dist = currentGame.distanceFromPlayer;
-	cell.detailTextLabel.text = [NSString stringWithFormat:@"%1.1f %@",  dist/1000, NSLocalizedString(@"KilometersKey", @"") ];
-	cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+	cell.distanceLabel.text = [NSString stringWithFormat:@"%1.1f %@",  dist/1000, NSLocalizedString(@"KilometersKey", @"") ];
+	cell.authorLabel.text = currentGame.authors;
+	cell.progressView.progress = (float)currentGame.completedQuests / (float)currentGame.totalQuests;
+	
+	if (currentGame.iconMediaId > 0) {
+		Media *iconMedia = [appModel mediaForMediaId: currentGame.iconMediaId];
+		[cell.iconView loadImageFromMedia:iconMedia];
+	}
+	else cell.iconView.image = [UIImage imageNamed:@"Icon.png"];
 
+	
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     //do select game notification;
 	Game *selectedGame;
-	if (indexPath.section == 0) selectedGame = [self.nearGameList objectAtIndex:indexPath.row];
-	else selectedGame = [self.farGameList objectAtIndex:indexPath.row];
+	if (tableView == self.searchDisplayController.searchResultsTableView)
+		selectedGame = [self.filteredGameList objectAtIndex:indexPath.row];
+	else selectedGame = [self.gameList objectAtIndex:indexPath.row];
 	
 	NSDictionary *dictionary = [NSDictionary dictionaryWithObject:selectedGame forKey:@"game"];
 	
@@ -159,13 +158,53 @@
 
 - (void)tableView:(UITableView *)aTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
 	Game *selectedGame;
-	if (indexPath.section == 0) selectedGame = [self.nearGameList objectAtIndex:indexPath.row];
-	else selectedGame = [self.farGameList objectAtIndex:indexPath.row];	
+	selectedGame = [self.gameList objectAtIndex:indexPath.row];
 	
 	GameDetails *gameDetailsVC = [[GameDetails alloc]initWithNibName:@"GameDetails" bundle:nil];
 	gameDetailsVC.game = selectedGame;
 	[self.navigationController pushViewController:gameDetailsVC animated:YES];
 	[gameDetailsVC release];	
+}
+
+-(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+	return 60;
+}
+
+#pragma mark -
+#pragma mark Content Filtering
+
+- (void)filterContentForSearchText:(NSString*)searchText{
+	[self.filteredGameList removeAllObjects]; // First clear the filtered array.
+	
+	for (Game *g in self.gameList) {
+		if ([[g.name lowercaseString] rangeOfString:[searchText lowercaseString]].location != NSNotFound) [self.filteredGameList addObject:g];
+		if ([[g.authors lowercaseString] rangeOfString:[searchText lowercaseString]].location != NSNotFound) [self.filteredGameList addObject:g]; 
+		if ([[g.description lowercaseString] rangeOfString:[searchText lowercaseString]].location != NSNotFound) [self.filteredGameList addObject:g]; 
+	}
+	NSLog(@"filting Complete");
+}
+
+
+
+
+#pragma mark -
+#pragma mark UISearchDisplayController Delegate Methods
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    [self filterContentForSearchText:searchString];
+    
+    // Return YES to cause the search result table view to be reloaded.
+    return YES;
+}
+
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
+{
+    [self filterContentForSearchText:[self.searchDisplayController.searchBar text]];
+    
+    // Return YES to cause the search result table view to be reloaded.
+    return YES;
 }
 
 
@@ -208,17 +247,9 @@
  }
  */
 
-- (NSString *)tableView:(UITableView *)view titleForHeaderInSection:(NSInteger)section {
-	if (nearGameList && section == 0 && [nearGameList count] == 0) return NSLocalizedString(@"GamePickerNoNearbyGamesKey",@"");
-	else if (section == 0) return NSLocalizedString(@"GamePickerNearbyGamesKey", @"");	
-	else if (section == 1) return NSLocalizedString(@"GamePickerOtherGamesKey", @"");
-	return @"";
-}
-
 
 - (void)dealloc {
-	[nearGameList release];
-	[farGameList release];
+	[gameList release];
 
     [super dealloc];
 }

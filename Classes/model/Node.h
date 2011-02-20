@@ -17,6 +17,7 @@
 	NSString			*name;
 	NSString			*text;
 	int					mediaId;
+	int					iconMediaId;
 
 	NSMutableArray		*options;
 	NSInteger			numberOfOptions;
@@ -34,7 +35,7 @@
 @property(copy, readwrite) NSString *name;
 @property(copy, readwrite) NSString *text;
 @property(readwrite, assign) int mediaId;
-@property(readonly) int iconMediaId;
+@property(readwrite, assign) int iconMediaId;
 
 @property(readonly) NSMutableArray *options;
 @property(readonly) NSInteger numberOfOptions;

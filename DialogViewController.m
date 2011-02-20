@@ -102,13 +102,16 @@ NSString *const kDialogHtmlTemplate =
 	//General Setup
 	lastPcId = 0;
 	currentNode = nil;
+	closingScriptPlaying = NO;
 	
 	//View Setup
+	/*
 	self.navigationItem.leftBarButtonItem = 
-	[[UIBarButtonItem alloc] initWithTitle:@"End Conversation"
+	[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"DialogEnd",@"");
 									 style: UIBarButtonItemStyleBordered
 									target:self 
-									action:@selector(backButtonTouchAction:)];		
+									action:@selector(backButtonTouchAction:)];	
+	 */
 	
 	npcImageScrollView.contentSize = [npcView frame].size;
 	pcImageScrollView.contentSize = [pcView frame].size;
@@ -134,9 +137,9 @@ NSString *const kDialogHtmlTemplate =
 	//Check if the game specifies a PC image
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
 	AppModel *appModel = appDelegate.appModel;
-	if (appModel.gamePcMediaId != 0) {
+	if (appModel.currentGame.pcMediaId != 0) {
 		//Load the image from the media Table
-		Media *pcMedia = [appModel mediaForMediaId:appModel.gamePcMediaId];
+		Media *pcMedia = [appModel mediaForMediaId:appModel.currentGame.pcMediaId];
 		[pcImage loadImageFromMedia: pcMedia];
 	}
 	else [pcImage updateViewWithNewImage:[UIImage imageNamed:@"defaultCharacter.png"]];
@@ -323,9 +326,29 @@ NSString *const kDialogHtmlTemplate =
 - (void) finishApplyingPlayerOptions:(NSArray*)options{
 	//Now our options are populated with node or conversation choices, display
 	if ([options count] == 0) {
-		nothingElseLabel.hidden = NO;
-		pcTableView.hidden = YES;
-		pcTableView.alpha = 0;
+		if (closingScriptPlaying == YES) {
+			[self backButtonTouchAction:nil];
+		}
+		
+		if ([currentNpc.closing length] < 1) {
+			NSLog(@"DialogViewController: No Closing Script Available");
+			
+			nothingElseLabel.hidden = NO;
+			pcTableView.hidden = YES;
+			pcTableView.alpha = 0;
+			
+			[self backButtonTouchAction:nil];
+		}
+		else {
+			NSLog(@"DialogViewController: Play Closing Script: %@",currentNpc.closing);
+			
+			closingScriptPlaying = YES;
+		
+			[self moveAllOutWithPostSelector:nil];
+			[self moveNpcIn];
+			[parser parseText:currentNpc.closing];
+		}
+		
 	}
 	else {
 		pcTableView.hidden = NO;
@@ -422,6 +445,13 @@ NSString *const kDialogHtmlTemplate =
 
 		cachedScrollView = pcImage;
 		continueButton = pcContinueButton;
+		
+		if (scriptIndex == [currentScript count]) {
+			//TODO: We are at the end, the next tap on the button is going to end the dialog
+			[pcContinueButton setTitle: NSLocalizedString(@"DialogEnd",@"") forState: UIControlStateNormal];
+			[pcContinueButton setTitle: NSLocalizedString(@"DialogEnd",@"") forState: UIControlStateHighlighted];	
+		}
+		
 	}
 	else {
 		self.title = currentNpc.name;
@@ -651,7 +681,7 @@ NSString *const kDialogHtmlTemplate =
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
 	if (section == 0) return [optionList count];
-	else return 1;
+	else return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -665,10 +695,10 @@ NSString *const kDialogHtmlTemplate =
 		NodeOption *option = [optionList objectAtIndex:indexPath.row];
 		cell.textLabel.text = option.text;
 	}
-	else {
+	else if (indexPath.row == 0) {
 		cell.textLabel.text = NSLocalizedString(@"DialogReview",@"");
 	}
-
+	else cell.textLabel.text = NSLocalizedString(@"DialogEnd",@""); 
 	
 	
 	cell.textLabel.textAlignment = UITextAlignmentCenter;
@@ -703,6 +733,12 @@ NSString *const kDialogHtmlTemplate =
 	//Check if it is the "review option"
 	if (indexPath.section == 1 && indexPath.row == 0) {
 		[self reviewScript];
+		return;
+	}
+
+	//Check if it is the "leave conversation" option
+	if (indexPath.section == 1 && indexPath.row == 1) {
+		[self backButtonTouchAction:nil];
 		return;
 	}
 	

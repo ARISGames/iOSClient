@@ -22,9 +22,7 @@ extern NSDictionary *InventoryElements;
 	NSString *serverName;
 	NSString *baseAppURL;
 	NSString *jsonServerBaseURL;
-	NSString *site;
-	int gameId;
-	int gamePcMediaId;
+	Game *currentGame;
 	UIViewController *currentModule;
 	UIAlertView *networkAlert;
 	
@@ -64,9 +62,8 @@ extern NSDictionary *InventoryElements;
 @property(copy, readwrite) NSString *password;
 @property(readwrite) int playerId;
 @property(copy, readwrite) UIViewController *currentModule;
-@property(copy, readwrite) NSString *site;
-@property(readwrite) int gameId;
-@property(readwrite) int gamePcMediaId;
+@property(nonatomic,retain) Game *currentGame;
+
 @property(copy, readwrite) NSMutableArray *gameList;	
 @property(nonatomic, retain) NSMutableArray *locationList;
 @property(nonatomic, retain) NSString *locationListHash;

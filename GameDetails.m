@@ -97,8 +97,7 @@ NSString *const kGameDetailsHtmlTemplate =
 		Media *iconMedia = [appModel mediaForMediaId: game.iconMediaId];
 		[iconView loadImageFromMedia:iconMedia];
 	}
-	else iconView.image = [UIImage imageNamed:@"Icon.png"];
-	
+
 	locationLabel.text = @"";
 	MKReverseGeocoder *reverseGeocoder = [[MKReverseGeocoder alloc] initWithCoordinate:self.game.location.coordinate];
 	reverseGeocoder.delegate = self;

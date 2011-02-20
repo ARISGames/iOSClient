@@ -9,18 +9,20 @@
 #import <UIKit/UIKit.h>
 #import "AppModel.h"
 
-@interface GamePickerViewController : UITableViewController {
+@interface GamePickerViewController : UITableViewController <UITableViewDelegate,UITableViewDataSource, UISearchDisplayDelegate, UISearchBarDelegate>{
 	AppModel *appModel;
-	NSMutableArray *nearGameList;
-	NSMutableArray *farGameList;
+	NSArray *gameList;
+	NSMutableArray *filteredGameList;
+
 	UITableView *gameTable;
 }
 
 -(void) refresh;
 -(void)showLoadingIndicator;
 
-@property (nonatomic, retain) NSMutableArray *nearGameList;
-@property (nonatomic, retain) NSMutableArray *farGameList;
+
+@property (nonatomic, retain) NSArray *gameList;
+@property (nonatomic, retain) NSMutableArray *filteredGameList;
 @property (nonatomic, retain) IBOutlet UITableView *gameTable;
 
 

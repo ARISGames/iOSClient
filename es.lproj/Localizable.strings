@@ -30,6 +30,7 @@
 //Dialog View
 "DialogContinue" = "Teclee para Continuar";
 "DialogReview" = "Teclee para ver de nuevo";
+"DialogEnd" = "Leave Conversation";
 "DialogPlayerName" = "Tu";
 
 

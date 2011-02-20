@@ -18,6 +18,8 @@
 	NSMutableArray *questCells;
 	int cellsLoaded;
 	IBOutlet UITableView *tableView;
+	IBOutlet UIProgressView *progressView;
+	IBOutlet UILabel *progressLabel;
 	int silenceNextServerUpdateCount;
 	int newItemsSinceLastView;
 }

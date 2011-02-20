@@ -14,9 +14,10 @@
 @implementation Npc
 @synthesize npcId;
 @synthesize name;
-@synthesize greeting;
+@synthesize greeting,closing;
 @synthesize description;
 @synthesize mediaId;
+@synthesize iconMediaId;
 @synthesize kind;
 @synthesize forcedDisplay;
 
@@ -35,7 +36,6 @@
 - (int) iconMediaId {
 	return 1; 
 }
-
 
 - (void) display{
 	NSLog(@"Npc: Display Self Requested");

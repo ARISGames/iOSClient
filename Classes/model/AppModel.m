@@ -32,7 +32,7 @@ static const int kEmptyValue = -1;
 @implementation AppModel
 @synthesize serverName, baseAppURL, jsonServerBaseURL, loggedIn;
 @synthesize username, password, playerId, currentModule;
-@synthesize site, gameId, gamePcMediaId, gameList, locationList, playerList;
+@synthesize currentGame, gameList, locationList, playerList;
 @synthesize playerLocation, inventory, questList, networkAlert;
 @synthesize gameMediaList, gameItemList, gameNodeList, gameNpcList;
 @synthesize locationListHash, questListHash, inventoryHash;
@@ -58,7 +58,6 @@ static const int kEmptyValue = -1;
 	[username release];
 	[password release];
 	[currentModule release];
-	[site release];
     [super dealloc];
 }
 
@@ -79,8 +78,12 @@ static const int kEmptyValue = -1;
 	self.serverName = [NSString stringWithFormat:@"http://%@:%d", [url host], 
 					   ([url port] ? [[url port] intValue] : 80)];
 	
-	self.gameId = [defaults integerForKey:@"gameId"];
-	self.gamePcMediaId = [defaults integerForKey:@"gamePcMediaId"];
+	self.currentGame = [[Game alloc]init];
+	self.currentGame.gameId = [defaults integerForKey:@"gameId"];
+	self.currentGame.pcMediaId = [defaults integerForKey:@"gamePcMediaId"];
+
+	
+	
 	self.loggedIn = [defaults boolForKey:@"loggedIn"];
 	
 	if ([defaults boolForKey:@"resetTutorial"]) {
@@ -107,6 +110,7 @@ static const int kEmptyValue = -1;
 		NSLog(@"AppModel: Last Base App URL:%@ Current:%@",lastBaseAppURL,self.baseAppURL);
 		if (![self.baseAppURL isEqualToString:lastBaseAppURL]) {
 			NSLog(@"Model: Server URL changed since last execution. Throw out Defaults and use server URL:%@", baseAppURL);
+			[self clearUserDefaults];
 			NSNotification *loginNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self userInfo:nil];
 			[[NSNotificationCenter defaultCenter] postNotification:loginNotification];
 		}
@@ -114,8 +118,8 @@ static const int kEmptyValue = -1;
 			self.username = [defaults stringForKey:@"username"];
 			self.password = [defaults stringForKey:@"password"];
 			self.playerId = [defaults integerForKey:@"playerId"];
-			NSLog(@"Model: Defaults Found. Use URL: '%@' User: '%@' Password: '%@' PlayerId: '%d' GameId: '%d' Site: '%@'", 
-				  baseAppURL, username, password, playerId, gameId, site);
+			NSLog(@"Model: Defaults Found. Use URL: '%@' User: '%@' Password: '%@' PlayerId: '%d' GameId: '%d'", 
+				  baseAppURL, username, password, playerId, self.currentGame.gameId);
 		}
 	}
 	else NSLog(@"Model: Player was not logged in, Initing with Defaults");
@@ -148,8 +152,8 @@ static const int kEmptyValue = -1;
 	[defaults setObject:username forKey:@"username"];
 	[defaults setObject:password forKey:@"password"];
 	[defaults setInteger:playerId forKey:@"playerId"];
-	[defaults setInteger:gameId forKey:@"gameId"];
-	[defaults setInteger:gamePcMediaId forKey:@"gamePcMediaId"];
+	[defaults setInteger:self.currentGame.pcMediaId forKey:@"gamePcMediaId"];
+	[defaults setInteger:self.currentGame.gameId forKey:@"gameId"];
 	[defaults setObject:baseAppURL forKey:@"lastBaseAppURL"];
 	[defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"appVerison"];
 	[defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBuildNumber"] forKey:@"buildNum"];
@@ -244,7 +248,7 @@ static const int kEmptyValue = -1;
 	NSLog(@"Model: Node %d Viewed, update server", nodeId);
 	
 	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.gameId],
+	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",playerId],
 						  [NSString stringWithFormat:@"%d",nodeId],
 						  nil];
@@ -261,7 +265,7 @@ static const int kEmptyValue = -1;
 	
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects:
-						  [NSString stringWithFormat:@"%d",self.gameId],
+						  [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",playerId],
 						  [NSString stringWithFormat:@"%d",itemId],
 						  nil];
@@ -278,7 +282,7 @@ static const int kEmptyValue = -1;
 	NSLog(@"Model: Npc %d Viewed, update server", npcId);
 	
 	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.gameId],
+	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",playerId],
 						  [NSString stringWithFormat:@"%d",npcId],
 						  nil];
@@ -293,12 +297,12 @@ static const int kEmptyValue = -1;
 
 
 - (void)updateServerGameSelected{
-	NSLog(@"Model: Game %d Selected, update server", gameId);
+	NSLog(@"Model: Game %d Selected, update server", self.currentGame.gameId);
 	
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects: 
 						  [NSString stringWithFormat:@"%d",self.playerId],
-						  [NSString stringWithFormat:@"%d",gameId],
+						  [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
 																	andServiceName:@"players" 
@@ -314,7 +318,7 @@ static const int kEmptyValue = -1;
 	
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects:
-						  [NSString stringWithFormat:@"%d",self.gameId],
+						  [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",playerId],
 						  nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
@@ -331,7 +335,7 @@ static const int kEmptyValue = -1;
 	
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects:
-						  [NSString stringWithFormat:@"%d",self.gameId],
+						  [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",playerId],
 						  nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
@@ -348,7 +352,7 @@ static const int kEmptyValue = -1;
 	
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects:
-						  [NSString stringWithFormat:@"%d",self.gameId],
+						  [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",playerId],
 						  nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
@@ -367,7 +371,7 @@ static const int kEmptyValue = -1;
 	
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects:
-						  [NSString stringWithFormat:@"%d",self.gameId],
+						  [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",playerId],
 						  nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
@@ -384,7 +388,7 @@ static const int kEmptyValue = -1;
 	NSLog(@"Model: Informing the Server the player picked up item");
 	
 	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.gameId],
+	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",playerId],
 						  [NSString stringWithFormat:@"%d",itemId],
 						  [NSString stringWithFormat:@"%d",locationId],
@@ -404,7 +408,7 @@ static const int kEmptyValue = -1;
 	NSLog(@"Model: Informing the Server the player dropped an item");
 	
 	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.gameId],
+	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",playerId],
 						  [NSString stringWithFormat:@"%d",itemId],
 						  [NSString stringWithFormat:@"%f",playerLocation.coordinate.latitude],
@@ -425,7 +429,7 @@ static const int kEmptyValue = -1;
 	NSLog(@"Model: Informing the Server the player destroyed an item");
 	
 	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.gameId],
+	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",playerId],
 						  [NSString stringWithFormat:@"%d",itemId],
 						  [NSString stringWithFormat:@"%d",qty],
@@ -448,7 +452,7 @@ static const int kEmptyValue = -1;
 	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
 	request.timeOutSeconds = 60;
 	
-	NSString *gameID = [NSString stringWithFormat:@"%d", self.gameId];
+	NSString *gameID = [NSString stringWithFormat:@"%d", self.currentGame.gameId];
  	[request setPostValue:gameID forKey:@"gameID"];	 
 	[request setPostValue:fileName forKey:@"fileName"];
 	[request setData:fileData forKey:@"file"];
@@ -488,7 +492,7 @@ static const int kEmptyValue = -1;
 	
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects:
-						  [NSString stringWithFormat:@"%d",self.gameId],
+						  [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",self.playerId],
 						  [title stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
 						  [description stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
@@ -532,7 +536,7 @@ static const int kEmptyValue = -1;
 	
 	//Update the server with the new Player Location
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.playerId],
-						  [NSString stringWithFormat:@"%f",self.gameId],
+						  [NSString stringWithFormat:@"%f",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%f",playerLocation.coordinate.latitude],
 						  [NSString stringWithFormat:@"%f",playerLocation.coordinate.longitude],
 						  nil];
@@ -678,7 +682,7 @@ static const int kEmptyValue = -1;
 
 -(Item *)fetchItem:(int)itemId{
 	NSLog(@"Model: Fetch Requested for Item %d", itemId);
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.gameId],
+	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",itemId],
 						  nil];
 
@@ -688,7 +692,7 @@ static const int kEmptyValue = -1;
 
 -(Node *)fetchNode:(int)nodeId{
 	NSLog(@"Model: Fetch Requested for Node %d", nodeId);
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.gameId],
+	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",nodeId],
 						  nil];
 	
@@ -698,7 +702,7 @@ static const int kEmptyValue = -1;
 
 -(Npc *)fetchNpc:(int)npcId{
 	NSLog(@"Model: Fetch Requested for Npc %d", npcId);
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.gameId],
+	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",npcId],
 						  [NSString stringWithFormat:@"%d",self.playerId],
 						  nil];
@@ -764,7 +768,7 @@ static const int kEmptyValue = -1;
 	NSLog(@"Model: Fetch Requested for QRCode Code: %@", code);
 	
 	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.gameId],
+	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%@",code],
 						  [NSString stringWithFormat:@"%d",self.playerId],
 						  nil];
@@ -783,7 +787,7 @@ static const int kEmptyValue = -1;
 
 -(void)fetchNpcConversations:(int)npcId afterViewingNode:(int)nodeId{
 	NSLog(@"Model: Fetch Requested for Npc %d Conversations after Viewing node %d", npcId, nodeId);
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.gameId],
+	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",npcId],
 						  [NSString stringWithFormat:@"%d",self.playerId],
 						  [NSString stringWithFormat:@"%d",nodeId],
@@ -802,7 +806,7 @@ static const int kEmptyValue = -1;
 - (void)fetchGameNpcListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
 	NSLog(@"AppModel: Fetching Npc List");
 	
-	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",self.gameId], nil];
+	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",self.currentGame.gameId], nil];
 	
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
 																	andServiceName:@"npcs"
@@ -821,7 +825,7 @@ static const int kEmptyValue = -1;
 - (void)fetchGameMediaListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
 	NSLog(@"AppModel: Fetching Media List");
 	
-	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",self.gameId], nil];
+	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",self.currentGame.gameId], nil];
 		
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
 																	andServiceName:@"media"
@@ -839,7 +843,7 @@ static const int kEmptyValue = -1;
 - (void)fetchGameItemListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
 	NSLog(@"AppModel: Fetching Item List");
 	
-	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",self.gameId], nil];
+	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",self.currentGame.gameId], nil];
 	
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
 																	andServiceName:@"items"
@@ -858,7 +862,7 @@ static const int kEmptyValue = -1;
 - (void)fetchGameNodeListAsynchronously:(BOOL)YesForAsyncOrNoForSync  {
 	NSLog(@"AppModel: Fetching Node List");
 	
-	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",self.gameId], nil];
+	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",self.currentGame.gameId], nil];
 	
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
 																	andServiceName:@"nodes"
@@ -882,7 +886,7 @@ static const int kEmptyValue = -1;
 		return;
 	}
 			
-	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", self.gameId],
+	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",self.playerId], 
 						  nil];
 	
@@ -902,7 +906,7 @@ static const int kEmptyValue = -1;
 - (void)fetchInventory {
 	NSLog(@"Model: Inventory Fetch Requested");
 	
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.gameId],
+	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",self.playerId],
 						  nil];
 	
@@ -920,7 +924,7 @@ static const int kEmptyValue = -1;
 	NSLog(@"Model: Fetch Requested for Quests");
 	
 	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.gameId],
+	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",playerId],
 						  nil];
 	
@@ -937,10 +941,16 @@ static const int kEmptyValue = -1;
 - (void)fetchGameList {
 	NSLog(@"AppModel: Fetch Requested for Game List.");
 		
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.playerId],
+						  [NSString stringWithFormat:@"%f",self.playerLocation.coordinate.latitude],
+						  [NSString stringWithFormat:@"%f",self.playerLocation.coordinate.longitude],
+						  nil];
+	
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
 																	andServiceName:@"games"
 																	 andMethodName:@"getGamesWithDetails"
-																	  andArguments:nil];
+																	  andArguments:arguments];
 	
 	[jsonConnection performAsynchronousRequestWithParser:@selector(parseGameListFromJSON:)]; 
 	[jsonConnection release];
@@ -985,6 +995,7 @@ static const int kEmptyValue = -1;
 	node.text = [nodeDictionary valueForKey:@"text"];
 	NSLog(@"%@", [nodeDictionary valueForKey:@"media_id"]);
 	node.mediaId = [self validIntForKey:@"media_id" inDictionary:nodeDictionary];
+	node.iconMediaId = [self validIntForKey:@"icon_media_id" inDictionary:nodeDictionary];
 	node.answerString = [self validObjectForKey:@"require_answer_string" inDictionary:nodeDictionary];
 	node.nodeIfCorrect = [self validIntForKey:@"require_answer_correct_node_id" inDictionary:nodeDictionary];
 	node.nodeIfIncorrect = [self validIntForKey:@"require_answer_incorrect_node_id" inDictionary:nodeDictionary];
@@ -1025,8 +1036,13 @@ static const int kEmptyValue = -1;
 	npc.npcId = [[npcDictionary valueForKey:@"npc_id"] intValue];
 	npc.name = [npcDictionary valueForKey:@"name"];
 	npc.greeting = [npcDictionary valueForKey:@"text"];
+	
+	npc.closing = [npcDictionary valueForKey:@"closing"];
+	if ((NSNull *)npc.closing == [NSNull null]) npc.closing = @"";
+
 	npc.description = [npcDictionary valueForKey:@"description"];
 	npc.mediaId = [[npcDictionary valueForKey:@"media_id"] intValue];
+	npc.iconMediaId = [[npcDictionary valueForKey:@"icon_media_id"] intValue];
 
 	return npc;	
 }
@@ -1117,24 +1133,50 @@ static const int kEmptyValue = -1;
 	
 		game.gameId = [[gameDictionary valueForKey:@"game_id"] intValue];
 		NSLog(@"AppModel: Parsing Game: %d", game.gameId);		
-		game.name = [gameDictionary valueForKey:@"name"];
-		game.description = [gameDictionary valueForKey:@"description"];
-
-		//parse out the trailing _ in the prefix
-		NSString *prefix = [gameDictionary valueForKey:@"prefix"];
-		game.site = [prefix substringToIndex:[prefix length] - 1];
 		
+		game.name = [gameDictionary valueForKey:@"name"];
+		if ((NSNull *)game.name == [NSNull null]) game.name = @"";
+
+		game.description = [gameDictionary valueForKey:@"description"];
+		if ((NSNull *)game.description == [NSNull null]) game.description = @"";
+
 		NSString *pc_media_id = [gameDictionary valueForKey:@"pc_media_id"];
-		if (pc_media_id) game.pcMediaId = [pc_media_id intValue];
+		if ((NSNull *)pc_media_id != [NSNull null]) game.pcMediaId = [pc_media_id intValue];
 		else game.pcMediaId = 0;
 		
-		game.location = [[[CLLocation alloc] initWithLatitude:[[gameDictionary valueForKey:@"latitude"] doubleValue]
-												   longitude:[[gameDictionary valueForKey:@"longitude"] doubleValue]] autorelease];
+		NSString *distance = [gameDictionary valueForKey:@"distance"];
+		if ((NSNull *)distance != [NSNull null]) game.distanceFromPlayer = [distance doubleValue];
+		else game.distanceFromPlayer = 999999999;
 		
-		
+		NSString *latitude = [gameDictionary valueForKey:@"latitude"];
+		NSString *longitude = [gameDictionary valueForKey:@"longitude"];
+		if ((NSNull *)latitude != [NSNull null] && (NSNull *)longitude != [NSNull null] )
+			game.location = [[[CLLocation alloc] initWithLatitude:[latitude doubleValue]
+												   longitude:[longitude doubleValue]] autorelease];
+		else game.location = [[CLLocation alloc] init];
+				
 		game.authors = [gameDictionary valueForKey:@"editors"];
-		game.numPlayers = [[gameDictionary valueForKey:@"numPlayers"] intValue];
-		game.iconMediaId = [[gameDictionary valueForKey:@"icon_media_id"] intValue];
+		if ((NSNull *)game.authors == [NSNull null]) game.authors = @"";
+
+		NSString *numPlayers = [gameDictionary valueForKey:@"numPlayers"];
+		if ((NSNull *)numPlayers != [NSNull null]) game.numPlayers = [numPlayers intValue];
+		else game.numPlayers = 0;
+
+		NSString *icon_media_id = [gameDictionary valueForKey:@"icon_media_id"];
+		if ((NSNull *)icon_media_id != [NSNull null]) game.iconMediaId = [icon_media_id intValue];
+		else game.iconMediaId = 0;
+		
+		NSString *completedQuests = [gameDictionary valueForKey:@"completedQuests"];	
+		if ((NSNull *)completedQuests != [NSNull null]) game.completedQuests = [completedQuests intValue];
+		else game.completedQuests = 0;
+		
+		NSString *totalQuests = [gameDictionary valueForKey:@"totalQuests"];
+		if ((NSNull *)totalQuests != [NSNull null]) game.totalQuests = [totalQuests intValue];
+		else game.totalQuests = 1;
+		
+		NSString *on_launch_node_id = [gameDictionary valueForKey:@"on_launch_node_id"];
+		if ((NSNull *)on_launch_node_id != [NSNull null]) game.launchNodeId = [on_launch_node_id intValue];
+		else game.launchNodeId = 0;
 		
 		
 		NSLog(@"Model: Adding Game: %@", game.name);
@@ -1405,8 +1447,8 @@ static const int kEmptyValue = -1;
 	self.questListHash = [jsonResult.hash copy];
 	
 	//Continue parsing
+
 	NSDictionary *questListDictionary = (NSDictionary *)jsonResult.data;	
-	
 	
 	//parse out the active quests into quest objects
 	NSMutableArray *activeQuestObjects = [[NSMutableArray alloc] init];
@@ -1443,11 +1485,20 @@ static const int kEmptyValue = -1;
 	//Package the two object arrays in a Dictionary
 	NSMutableDictionary *tmpQuestList = [[NSMutableDictionary alloc] init];
 	[tmpQuestList setObject:activeQuestObjects forKey:@"active"];
-	[tmpQuestList setObject:completedQuestObjects forKey:@"completed"];
+	[tmpQuestList setObject:completedQuestObjects forKey:@"completed"];	
+	self.questList = tmpQuestList;
+	
+	//Update Game Object
+	self.currentGame.completedQuests = [completedQuestObjects count];
+	
+	NSString *totalQuests = [questListDictionary valueForKey:@"totalQuests"];
+	if ((NSNull *)totalQuests != [NSNull null]) self.currentGame.totalQuests = [totalQuests intValue];
+	else self.currentGame.totalQuests = 1;
+	
 	[activeQuestObjects release];
 	[completedQuestObjects release];
-	self.questList = tmpQuestList;
 	[tmpQuestList release];
+
 	
 	//Sound the alarm
 	NSLog(@"AppModel: Finished fetching quests from server, model updated");

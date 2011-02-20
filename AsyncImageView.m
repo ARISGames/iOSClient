@@ -38,7 +38,8 @@
 	
 	if (connection!=nil) { [connection release]; }
     if (data!=nil) { [self.data release]; }
-    NSURLRequest* request = [NSURLRequest requestWithURL:[[NSURL alloc]initWithString:media.url]
+	NSLog(@"AsyncImageView: Loading Image at %@",self.media.url);
+    NSURLRequest* request = [NSURLRequest requestWithURL:[[NSURL alloc]initWithString:self.media.url]
 											 cachePolicy:NSURLRequestUseProtocolCachePolicy
 										 timeoutInterval:60.0];
     self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];

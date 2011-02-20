@@ -194,7 +194,7 @@
 		
 	//Display the login screen if this user is not logged in
 	if (appModel.loggedIn == YES) {
-		if (!appModel.gameId || appModel.gameId == 0 ) {
+		if (!appModel.currentGame) {
 			NSLog(@"Appdelegate: Player already logged in, but a site has not been selected. Display site picker");
 			tabBarController.view.hidden = YES;
 			[window addSubview:gamePickerNavigationController.view];
@@ -399,14 +399,12 @@
 	NSDictionary *userInfo = notification.userInfo;
 	Game *selectedGame = [userInfo objectForKey:@"game"];
 
-	NSLog(@"AppDelegate: Game Selected. '%@' game was selected using '%@' as it's site", selectedGame.name, selectedGame.site);
+	NSLog(@"AppDelegate: Game Selected. '%@' game was selected", selectedGame.name);
 
 	[gamePickerNavigationController.view removeFromSuperview];
 	
 	//Set the model to this game
-	appModel.site = selectedGame.site;
-	appModel.gameId = selectedGame.gameId;
-	appModel.gamePcMediaId = selectedGame.pcMediaId;
+	appModel.currentGame = selectedGame;
 	[appModel saveUserDefaults];
 	
 	//Clear out the old game data
@@ -438,8 +436,13 @@
 	NSLog(@"AppDelegate: %@ selected",[visibleViewController title]);
 	
 	[appModel fetchAllGameLists];
-	[appModel silenceNextServerUpdate];
 	[appModel fetchAllPlayerLists];
+	
+	//Display the Intro Node
+	if (appModel.currentGame.launchNodeId != 0) {
+		Node *launchNode = [appModel nodeForNodeId:appModel.currentGame.launchNodeId];
+		[launchNode display];
+	}
 	
 }
 

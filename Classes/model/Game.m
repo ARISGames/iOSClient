@@ -15,16 +15,18 @@
 @synthesize gameId;
 @synthesize name;
 @synthesize description;
-@synthesize site;
 @synthesize pcMediaId;
 @synthesize iconMediaId;
 @synthesize numPlayers;
 @synthesize location;
+@synthesize distanceFromPlayer;
 @synthesize authors;
+@synthesize launchNodeId;
+@synthesize completedQuests;
+@synthesize totalQuests;
 
 - (void)dealloc {
 	[name release];
-	[site release];
 	[description release];
 	[authors release];
 	[location release];	
@@ -36,12 +38,5 @@
 	else if (self.distanceFromPlayer > otherGame.distanceFromPlayer) return NSOrderedDescending;
 	else return NSOrderedSame;
 }
-
-- (double)distanceFromPlayer {
-	AppModel *appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
-	if (appModel.playerLocation) return [self.location distanceFromLocation:appModel.playerLocation];
-	else return 0;
-}
-
 
 @end

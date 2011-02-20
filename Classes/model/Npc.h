@@ -16,8 +16,10 @@
 	int npcId;
 	NSString *name;
 	NSString *greeting;
+	NSString *closing;
 	NSString *description;
 	int	mediaId;
+	int iconMediaId;
 	CLLocation *location;
 	BOOL forcedDisplay; //We only need this for the proto, might be good to define a new one
 }
@@ -27,9 +29,10 @@
 @property(readwrite, assign) int npcId;
 @property(copy, readwrite) NSString *name;
 @property(copy, readwrite) NSString *greeting;
+@property(copy, readwrite) NSString *closing;
 @property(copy, readwrite) NSString *description;
 @property(readwrite, assign) int mediaId;
-@property(readonly) int iconMediaId;
+@property(readwrite, assign) int iconMediaId;
 
 @property(readwrite, assign) BOOL forcedDisplay; //see note above
 

@@ -24,8 +24,7 @@
         self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"inventory.png"];
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
-		silenceNextServerUpdateCount = 1;
-		
+		silenceNextServerUpdateCount = 0;
 		newItemsSinceLastView = 0;
 		
 		//register for notifications
@@ -87,10 +86,13 @@
 
 -(void)removeLoadingIndicator{
 	[[self navigationItem] setRightBarButtonItem:nil];
+	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
 }
 
 -(void)refreshViewFromModel {
 	NSLog(@"InventoryListViewController: Refresh View from Model");
+	
+	NSLog(@"GPSViewController: refreshViewFromModel: silenceNextServerUpdateCount = %d", silenceNextServerUpdateCount);
 	
 	if (silenceNextServerUpdateCount < 1) {		
 		NSArray *newInventory = [appModel.inventory allValues];
@@ -128,7 +130,6 @@
 		else self.tabBarItem.badgeValue = nil;
 		
 	}
-	else if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
 	
 	self.inventory = [appModel.inventory allValues];
 	[inventoryTable reloadData];

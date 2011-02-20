@@ -30,6 +30,7 @@
 //Dialog View
 "DialogContinue" = "Tap to Continue";
 "DialogReview" = "Tap to Review";
+"DialogEnd" = "Leave Conversation";
 "DialogPlayerName" = "You";
 
 //Item Details View

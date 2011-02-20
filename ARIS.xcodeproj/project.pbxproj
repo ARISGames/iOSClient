@@ -197,11 +197,13 @@
 		AB8FD00D117BCF61004F8B9B /* GameDetails.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB8FD00B117BCF61004F8B9B /* GameDetails.xib */; };
 		AB9A7C1710AA173F002FD9BC /* ARISURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AB9A7C1610AA173F002FD9BC /* ARISURLConnection.m */; };
 		ABA104C710CA0E3E008538D0 /* ARView.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABA104C610CA0E3E008538D0 /* ARView.xib */; };
+		ABAA644B130FD5410004D64C /* GamePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ABAA644A130FD5410004D64C /* GamePickerCell.m */; };
+		ABAA644F130FD5610004D64C /* GamePickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABAA644E130FD5610004D64C /* GamePickerCell.xib */; };
 		ABB925C410C857D800B09506 /* defaultAudioIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB925C110C857D800B09506 /* defaultAudioIcon.png */; };
 		ABB925C510C857D800B09506 /* defaultImageIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB925C210C857D800B09506 /* defaultImageIcon.png */; };
 		ABB925C610C857D800B09506 /* defaultVideoIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB925C310C857D800B09506 /* defaultVideoIcon.png */; };
 		ABB925CA10C8581B00B09506 /* item.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB925C710C8581B00B09506 /* item.png */; };
-		ABB925CB10C8581B00B09506 /* page.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB925C810C8581B00B09506 /* page.png */; };
+		ABB925CB10C8581B00B09506 /* plaque.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB925C810C8581B00B09506 /* plaque.png */; };
 		ABB925CC10C8581B00B09506 /* npc.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB925C910C8581B00B09506 /* npc.png */; };
 		ABB925DD10C8587200B09506 /* camera.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB925DC10C8587200B09506 /* camera.png */; };
 		ABB925DF10C8589100B09506 /* developer.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB925DE10C8589100B09506 /* developer.png */; };
@@ -503,11 +505,14 @@
 		AB9A7C1510AA173F002FD9BC /* ARISURLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISURLConnection.h; sourceTree = "<group>"; };
 		AB9A7C1610AA173F002FD9BC /* ARISURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISURLConnection.m; sourceTree = "<group>"; };
 		ABA104C610CA0E3E008538D0 /* ARView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ARView.xib; sourceTree = "<group>"; };
+		ABAA6449130FD5410004D64C /* GamePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerCell.h; sourceTree = "<group>"; };
+		ABAA644A130FD5410004D64C /* GamePickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerCell.m; sourceTree = "<group>"; };
+		ABAA644E130FD5610004D64C /* GamePickerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GamePickerCell.xib; sourceTree = "<group>"; };
 		ABB925C110C857D800B09506 /* defaultAudioIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultAudioIcon.png; sourceTree = "<group>"; };
 		ABB925C210C857D800B09506 /* defaultImageIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultImageIcon.png; sourceTree = "<group>"; };
 		ABB925C310C857D800B09506 /* defaultVideoIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultVideoIcon.png; sourceTree = "<group>"; };
 		ABB925C710C8581B00B09506 /* item.png */ = {isa = PBXFileReference; explicitFileType = image.png; path = item.png; sourceTree = "<group>"; };
-		ABB925C810C8581B00B09506 /* page.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page.png; sourceTree = "<group>"; };
+		ABB925C810C8581B00B09506 /* plaque.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plaque.png; sourceTree = "<group>"; };
 		ABB925C910C8581B00B09506 /* npc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = npc.png; sourceTree = "<group>"; };
 		ABB925DC10C8587200B09506 /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
 		ABB925DE10C8589100B09506 /* developer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = developer.png; sourceTree = "<group>"; };
@@ -817,7 +822,7 @@
 			children = (
 				AB79DB8B130922EF004AE1C7 /* nearby.png */,
 				ABB925C710C8581B00B09506 /* item.png */,
-				ABB925C810C8581B00B09506 /* page.png */,
+				ABB925C810C8581B00B09506 /* plaque.png */,
 				ABB925C910C8581B00B09506 /* npc.png */,
 				A722CB5A0FBDFEA6009432DB /* NearbyObjectProtocol.h */,
 				AB79D7981308299E004AE1C7 /* NearbyObjectCell.h */,
@@ -883,6 +888,9 @@
 				AB8FD009117BCF61004F8B9B /* GameDetails.h */,
 				AB8FD00A117BCF61004F8B9B /* GameDetails.m */,
 				AB8FD00B117BCF61004F8B9B /* GameDetails.xib */,
+				ABAA6449130FD5410004D64C /* GamePickerCell.h */,
+				ABAA644A130FD5410004D64C /* GamePickerCell.m */,
+				ABAA644E130FD5610004D64C /* GamePickerCell.xib */,
 			);
 			name = "Game Picker";
 			sourceTree = "<group>";
@@ -1284,7 +1292,7 @@
 				ABB925C510C857D800B09506 /* defaultImageIcon.png in Resources */,
 				ABB925C610C857D800B09506 /* defaultVideoIcon.png in Resources */,
 				ABB925CA10C8581B00B09506 /* item.png in Resources */,
-				ABB925CB10C8581B00B09506 /* page.png in Resources */,
+				ABB925CB10C8581B00B09506 /* plaque.png in Resources */,
 				ABB925CC10C8581B00B09506 /* npc.png in Resources */,
 				ABB925DD10C8587200B09506 /* camera.png in Resources */,
 				ABB925DF10C8589100B09506 /* developer.png in Resources */,
@@ -1328,6 +1336,7 @@
 				AB79D5BD1307E6EB004AE1C7 /* NearbyObjectsViewController.xib in Resources */,
 				AB79D7A61308311C004AE1C7 /* NearbyObjectCell.xib in Resources */,
 				AB79DB8C130922EF004AE1C7 /* nearby.png in Resources */,
+				ABAA644F130FD5610004D64C /* GamePickerCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1464,6 +1473,7 @@
 				AB79D79A1308299E004AE1C7 /* NearbyObjectCell.m in Sources */,
 				AB4FD854130BC5AE0034F666 /* TutorialPopupView.m in Sources */,
 				AB4FDC89130EB1120034F666 /* TutorialViewController.m in Sources */,
+				ABAA644B130FD5410004D64C /* GamePickerCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -21,7 +21,6 @@
 
 - (void) dismissTutorialPopupWithType:(tutorialPopupType)type;
 
-- (void) updatePointerForPopup:(TutorialPopupView*)tv pointingToViewController:(UIViewController*)vc;
 
 
 @end

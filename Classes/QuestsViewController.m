@@ -56,7 +56,7 @@ NSString *const kQuestsHtmlTemplate =
         self.title = NSLocalizedString(@"QuestViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"quest.png"];
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
-		silenceNextServerUpdateCount = 1;
+		silenceNextServerUpdateCount = 0;
 		newItemsSinceLastView = 0;
 
 		cellsLoaded = 0;
@@ -117,10 +117,17 @@ NSString *const kQuestsHtmlTemplate =
 
 -(void)removeLoadingIndicator{
 	[[self navigationItem] setRightBarButtonItem:nil];
+	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
+
 }
 
 -(void)refreshViewFromModel {
 	NSLog(@"QuestsViewController: Refreshing view from model");
+	
+	progressLabel.text = [NSString stringWithFormat:@"%d of %d Quests Complete", appModel.currentGame.completedQuests, appModel.currentGame.totalQuests];
+	progressView.progress = (float)appModel.currentGame.completedQuests / (float)appModel.currentGame.totalQuests;
+	
+	NSLog(@"QuestsViewController: refreshViewFromModel: silenceNextServerUpdateCount = %d", silenceNextServerUpdateCount);
 	
 	//Update the badge
 	if (silenceNextServerUpdateCount < 1) {
@@ -153,7 +160,6 @@ NSString *const kQuestsHtmlTemplate =
 		else self.tabBarItem.badgeValue = nil;
 				
 	}
-	else if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
 	
 	//rebuild the list
 	NSArray *activeQuestsArray = [appModel.questList objectForKey:@"active"];

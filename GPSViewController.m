@@ -36,7 +36,7 @@ static float INITIAL_SPAN = 0.001;
         self.title = NSLocalizedString(@"MapViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"gps.png"];
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
-		silenceNextServerUpdateCount = 1;
+		silenceNextServerUpdateCount = 0;
 		newItemsSinceLastView = 0;
 
 		tracking = YES;
@@ -199,55 +199,65 @@ static float INITIAL_SPAN = 0.001;
 
 -(void)removeLoadingIndicator{
 	[[self navigationItem] setRightBarButtonItem:nil];
+	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
+	NSLog(@"GPSViewController: removeLoadingIndicator: silenceNextServerUpdateCount = %d", silenceNextServerUpdateCount);
+
+
 }
 
 
 - (void)refreshViewFromModel {
-	if (mapView) {
-		//only refresh if there's a mapview
-		NSLog(@"GPSViewController: Refreshing view from model");
-		
-		if (silenceNextServerUpdateCount < 1) {
-			//Check if anything is new since last time
-			int newItems = 0;
-			NSArray *newLocationsArray = appModel.locationList;
-			for (Location *location in newLocationsArray) {		
-				BOOL match = NO;
-				for (Location *existingLocation in self.locations) {
-					if (existingLocation.locationId == location.locationId) match = YES;	
-				}
-				if (match == NO) {
-					newItems ++;;
-				}
-			}
-			if (newItems > 0) {
-				newItemsSinceLastView += newItems;
-				self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
-				
-				if (!appModel.hasSeenMapTabTutorial) {
-					//Put up the tutorial tab
-					ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-					[appDelegate.tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController 
-																								   type:tutorialPopupKindMapTab 
-																								  title:@"New GPS Location" 
-																								message:@"You have a new place of interest on your GPS! Touch below to view the Map."];						
-
-					appModel.hasSeenMapTabTutorial = YES;
-				}
-			}
-			else self.tabBarItem.badgeValue = nil;
-		}
-		else if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
+	NSLog(@"GPSViewController: Refreshing view from model");
 	
+	NSLog(@"GPSViewController: refreshViewFromModel: silenceNextServerUpdateCount = %d", silenceNextServerUpdateCount);
+
+	
+	if (silenceNextServerUpdateCount < 1) {
+		//Check if anything is new since last time
+		int newItems = 0;
+		NSArray *newLocationsArray = appModel.locationList;
+		for (Location *location in newLocationsArray) {		
+			BOOL match = NO;
+			for (Location *existingLocation in self.locations) {
+				if (existingLocation.locationId == location.locationId) match = YES;	
+			}
+			if (match == NO) {
+				newItems ++;;
+			}
+		}
+		
+		if (newItems > 0) {
+			newItemsSinceLastView += newItems;
+			self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
+			
+			if (!appModel.hasSeenMapTabTutorial) {
+				//Put up the tutorial tab
+				ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+				[appDelegate.tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController 
+																							   type:tutorialPopupKindMapTab 
+																							  title:@"New GPS Location" 
+																							message:@"You have a new place of interest on your GPS! Touch below to view the Map."];						
+
+				appModel.hasSeenMapTabTutorial = YES;
+			}
+		}
+		else {
+			self.tabBarItem.badgeValue = nil;
+			newItemsSinceLastView = 0;
+		}
+		
+	}
+	
+	if (mapView) {
 		//Blow away the old markers except for the player marker
 		NSEnumerator *existingAnnotationsEnumerator = [[[mapView annotations] copy] objectEnumerator];
 		NSObject <MKAnnotation> *annotation;
 		while (annotation = [existingAnnotationsEnumerator nextObject]) {
 			if (annotation != mapView.userLocation) [mapView removeAnnotation:annotation];
 		}
-	
+
 		self.locations = appModel.locationList;
-	
+
 		//Add the freshly loaded locations from the notification
 		for ( Location* location in locations ) {
 			NSLog(@"GPSViewController: Adding location annotation for:%@ id:%d", location.name, location.locationId);
@@ -286,9 +296,8 @@ static float INITIAL_SPAN = 0.001;
 			[mapView addAnnotation:aPlayer];
 			[aPlayer release];
 		} 
-	} else {
-		NSLog(@"GPSViewController: Refresh requested but ignored, as mapview is nil.");
 	}
+	
 }
 
 
