@@ -301,7 +301,12 @@
 		
 		if ([tabs containsObject:self.nearbyObjectsNavigationController]) {
 			[tabs removeObject:self.nearbyObjectsNavigationController];
-
+			//Hide any popups
+			UIViewController *vc = [self.nearbyObjectsNavigationController performSelector:@selector(visibleViewController)];
+			if ([vc respondsToSelector:@selector(dismissTutorial)]) {
+				[vc performSelector:@selector(dismissTutorial)];
+			}
+			
 		}
 		
 	}
@@ -410,6 +415,7 @@
 	
 	//Clear out the old game data
 	[appModel resetAllPlayerLists];
+	[tutorialViewController dismissAllTutorials];
 	
 	//Notify the Server
 	NSLog(@"AppDelegate: Game Selected. Notifying Server");
@@ -441,8 +447,13 @@
 	[appModel silenceNextServerUpdate];
 	[appModel fetchAllPlayerLists];
 	
-	//Display the Intro Node
-	if (appModel.currentGame.launchNodeId != 0) {
+	//Display the Intro or Complete Node
+	if (appModel.currentGame.completedQuests == appModel.currentGame.totalQuests &&
+		appModel.currentGame.completedQuests != 0) {
+		Node *completeNode = [appModel nodeForNodeId:appModel.currentGame.completeNodeId];
+		[completeNode display];
+	}
+	else if (appModel.currentGame.launchNodeId != 0) {
 		Node *launchNode = [appModel nodeForNodeId:appModel.currentGame.launchNodeId];
 		[launchNode display];
 	}
@@ -457,6 +468,9 @@
 	[appModel clearUserDefaults];
 	[appModel loadUserDefaults];
 	[appModel resetAllPlayerLists];
+	
+	//clear the tutorial popups
+	[tutorialViewController dismissAllTutorials];
 	
 	//(re)load the login view
 	tabBarController.view.hidden = YES;
@@ -482,7 +496,13 @@
 	}
 
 	//Hide any popups
-	//[self hideTutorialPopup];
+	if ([viewController respondsToSelector:@selector(visibleViewController)]) {
+		UIViewController *vc = [viewController performSelector:@selector(visibleViewController)];
+		if ([vc respondsToSelector:@selector(dismissTutorial)]) {
+			[vc performSelector:@selector(dismissTutorial)];
+		}
+	}
+
 	 
 }
 

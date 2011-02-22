@@ -21,6 +21,7 @@
 	int pcMediaId;
 	int iconMediaId;
 	int launchNodeId;
+	int completeNodeId;
 	int completedQuests;
 	int totalQuests;
 }
@@ -37,6 +38,7 @@
 @property(readwrite, assign) int iconMediaId;
 @property(readwrite, assign) int numPlayers;
 @property(readwrite, assign) int launchNodeId;
+@property(readwrite, assign) int completeNodeId;
 @property(readwrite, assign) int completedQuests;
 @property(readwrite, assign) int totalQuests;
 

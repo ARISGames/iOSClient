@@ -133,10 +133,7 @@ static float INITIAL_SPAN = 0.001;
 	self.tabBarItem.badgeValue = nil;
 	newItemsSinceLastView = 0;
 	silenceNextServerUpdateCount = 0;
-	
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate.tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindMapTab];
-	
+		
 	//create a time for automatic map refresh
 	NSLog(@"GPSViewController: Starting Refresh Timer");
 	if (refreshTimer != nil && [refreshTimer isValid]) [refreshTimer invalidate];
@@ -152,6 +149,11 @@ static float INITIAL_SPAN = 0.001;
 		[refreshTimer invalidate];
 		refreshTimer = nil;
 	}
+}
+
+-(void)dismissTutorial{
+	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate.tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindMapTab];
 }
 
 

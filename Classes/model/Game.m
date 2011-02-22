@@ -22,6 +22,7 @@
 @synthesize distanceFromPlayer;
 @synthesize authors;
 @synthesize launchNodeId;
+@synthesize completeNodeId;
 @synthesize completedQuests;
 @synthesize totalQuests;
 

@@ -191,6 +191,7 @@ static NSString * const OPTION_CELL = @"option";
 		NSLog(@"NodeViewController: Playthrough OK Load State");
 		[mediaPlaybackButton setTitle:NSLocalizedString(@"TouchToPlayKey",@"") forState:UIControlStateNormal];
 		mediaPlaybackButton.enabled = YES;	
+		[self playMovie:nil];
 	} 
 	if( state & MPMovieLoadStateStalled ) {
 		NSLog(@"NodeViewController: Stalled Load State");

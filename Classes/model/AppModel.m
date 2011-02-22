@@ -367,6 +367,9 @@ static const int kEmptyValue = -1;
 - (void)startOverGame{
 	NSLog(@"Model: Start Over");
 	[self resetAllPlayerLists];
+	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate.tutorialViewController dismissAllTutorials];
+
 	
 	
 	//Call server service
@@ -380,7 +383,17 @@ static const int kEmptyValue = -1;
 																	  andArguments:arguments];
 	[jsonConnection performAsynchronousRequestWithParser:@selector(parseStartOverFromJSON:)]; 
 	[jsonConnection release];
-
+	
+	//Display the Intro or Complete Node
+	if (self.currentGame.completedQuests == self.currentGame.totalQuests &&
+		self.currentGame.completedQuests != 0) {
+		Node *completeNode = [self nodeForNodeId:self.currentGame.completeNodeId];
+		[completeNode display];
+	}
+	else if (self.currentGame.launchNodeId != 0) {
+		Node *launchNode = [self nodeForNodeId:self.currentGame.launchNodeId];
+		[launchNode display];
+	}
 }
 
 
@@ -1178,6 +1191,9 @@ static const int kEmptyValue = -1;
 		if ((NSNull *)on_launch_node_id != [NSNull null]) game.launchNodeId = [on_launch_node_id intValue];
 		else game.launchNodeId = 0;
 		
+		NSString *game_complete_node_id = [gameDictionary valueForKey:@"game_complete_node_id"];
+		if ((NSNull *)game_complete_node_id != [NSNull null]) game.completeNodeId = [game_complete_node_id intValue];
+		else game.completeNodeId = 0;		
 		
 		NSLog(@"Model: Adding Game: %@", game.name);
 		[tempGameList addObject:game]; 

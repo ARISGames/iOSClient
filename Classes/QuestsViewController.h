@@ -31,6 +31,7 @@
 - (void)refresh;
 - (void)showLoadingIndicator;
 - (void)removeLoadingIndicator;
+-(void)dismissTutorial;
 - (void)constructCells;
 - (UITableViewCell*) getCellContentViewForQuest:(Quest*)quest inSection:(int)section;
 - (void)updateCellSize:(UITableViewCell*)cell;

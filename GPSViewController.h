@@ -33,6 +33,8 @@
 -(void) refresh;
 -(void) zoomAndCenterMap;
 -(void) showLoadingIndicator;
+-(void)dismissTutorial;
+
 
 
 @property (nonatomic, retain) MKMapView *mapView;

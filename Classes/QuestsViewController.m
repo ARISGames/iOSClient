@@ -91,12 +91,14 @@ NSString *const kQuestsHtmlTemplate =
 	self.tabBarItem.badgeValue = nil;
 	newItemsSinceLastView = 0;
 	silenceNextServerUpdateCount = 0;
-	
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate.tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindQuestsTab];
-	
+		
 	NSLog(@"QuestsViewController: Quests View Did Appear");
 	
+}
+
+-(void)dismissTutorial{
+	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate.tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindQuestsTab];
 }
 
 - (void)refresh {
@@ -127,6 +129,13 @@ NSString *const kQuestsHtmlTemplate =
 	progressLabel.text = [NSString stringWithFormat:@"%d of %d Quests Complete", appModel.currentGame.completedQuests, appModel.currentGame.totalQuests];
 	progressView.progress = (float)appModel.currentGame.completedQuests / (float)appModel.currentGame.totalQuests;
 	
+	//Display the Complete Node
+	if (appModel.currentGame.completedQuests == appModel.currentGame.totalQuests &&
+		appModel.currentGame.completedQuests != 0) {
+		Node *completeNode = [appModel nodeForNodeId:appModel.currentGame.completeNodeId];
+		[completeNode display];
+	}
+	
 	NSLog(@"QuestsViewController: refreshViewFromModel: silenceNextServerUpdateCount = %d", silenceNextServerUpdateCount);
 	
 	//Update the badge
@@ -151,7 +160,7 @@ NSString *const kQuestsHtmlTemplate =
 			//Put up the tutorial tab
 				ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 				[appDelegate.tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController 
-																							   type:tutorialPopupKindMapTab 
+																							   type:tutorialPopupKindQuestsTab 
 																							  title:@"New Quest" 
 																							message:@"You have a new Quest! Touch here to see the current and completed quests."];						
 				appModel.hasSeenQuestsTabTutorial = YES;

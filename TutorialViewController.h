@@ -21,6 +21,6 @@
 
 - (void) dismissTutorialPopupWithType:(tutorialPopupType)type;
 
-
+- (void) dismissAllTutorials;
 
 @end

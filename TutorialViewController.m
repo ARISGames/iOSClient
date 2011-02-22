@@ -77,15 +77,21 @@
 	[UIView commitAnimations];
 }
 
+- (void) dismissAllTutorials {
+	NSArray *popups = self.view.subviews;
+	for(TutorialPopupView *tpv in popups) [tpv removeFromSuperview];
+}
+
 
 - (void) dismissTutorialPopupWithType:(tutorialPopupType)type{
 	//Find it
-	for(TutorialPopupView *tpv in self.view.subviews) {
+	NSArray *popups = self.view.subviews;
+	for(TutorialPopupView *tpv in popups) {
 		if (tpv.type == type) {
 			[tpv removeFromSuperview];
 		}
 	}
-	[self.view setNeedsLayout];
+	[self.view setNeedsDisplay];
 	
 }
 
