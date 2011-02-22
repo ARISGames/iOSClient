@@ -13,6 +13,8 @@
 "NoLocationMessageKey" = "Please enable location services for ARIS in iOS Settings-> General-> Location Services";
 "PoorConnectionTitleKey" = "Notification Réseau";
 "PoorConnectionMessageKey" = "Votre connexion à internet est lente ou désactivée";
+"BadServerResponseTitleKey" = "Bad Response From Server";
+"BadServerResponseMessageKey" = "There was an error with the server or the server URL is not correct";
 "LoginErrorTitleKey" = "Erreur de Login";
 "LoginErrorMessageKey" = "Nom d’utilisateur/mot de passe inconnu";
 "PreparingToPlayKey" = "Préparation du Jeu";

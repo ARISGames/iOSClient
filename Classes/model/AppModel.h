@@ -52,7 +52,6 @@ extern NSDictionary *InventoryElements;
 
 }
 
-@property(copy) NSString *serverName;
 @property(nonatomic, retain) NSURL *serverURL;
 
 @property(readwrite) BOOL loggedIn;

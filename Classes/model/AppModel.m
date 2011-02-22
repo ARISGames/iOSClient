@@ -94,26 +94,26 @@ static const int kEmptyValue = -1;
 	}
 
 	if (loggedIn) {
-		NSURL *lastServerURL = [NSURL URLWithString:[defaults objectForKey:@"lastServerString"]];
-
-		NSLog(@"AppModel: Last Base Server URL:%@ Current:%@",lastServerURL,self.serverURL);
-		
-		if (![self.serverURL isEqual:lastServerURL]) {
-			NSLog(@"Model: Server URL changed since last execution. Throw out Defaults and use server URL:%@", serverURL);
-			[self clearUserDefaults];
-			NSNotification *loginNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self userInfo:nil];
-			[[NSNotificationCenter defaultCenter] postNotification:loginNotification];
-		}
-		else {
-			self.username = [defaults stringForKey:@"username"];
-			self.password = [defaults stringForKey:@"password"];
-			self.playerId = [defaults integerForKey:@"playerId"];
-			NSLog(@"Model: Defaults Found. Use URL: '%@' User: '%@' Password: '%@' PlayerId: '%d' GameId: '%d'", 
-				  serverURL, username, password, playerId, self.currentGame.gameId);
-		}
+		self.username = [defaults stringForKey:@"username"];
+		self.password = [defaults stringForKey:@"password"];
+		self.playerId = [defaults integerForKey:@"playerId"];
+		NSLog(@"Model: Player Was logged in and defaults were found. Use URL: '%@' User: '%@' Password: '%@' PlayerId: '%d' GameId: '%d'", 
+			  serverURL, username, password, playerId, self.currentGame.gameId);
 	}
-	else NSLog(@"Model: Player was not logged in, Initing with Defaults");
+	
+	NSURL *lastServerURL = [NSURL URLWithString:[defaults objectForKey:@"lastServerString"]];
+	NSLog(@"AppModel: Last Base Server URL:%@ Current:%@",lastServerURL,self.serverURL);
+	if (![[self.serverURL absoluteString] isEqualToString:[lastServerURL absoluteString]]) {
+		NSLog(@"Model: Server URL changed since last execution. Throw out Defaults and use server URL:%@", serverURL);
+		
+		[defaults setObject:[self.serverURL absoluteString]  forKey:@"lastServerString"];
+		[defaults synchronize];		
+		
+		NSNotification *loginNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self userInfo:nil];
+		[[NSNotificationCenter defaultCenter] postNotification:loginNotification];
 
+	}
+	
 }
 
 
@@ -127,6 +127,7 @@ static const int kEmptyValue = -1;
 	[defaults removeObjectForKey:@"gameId"];
 	[defaults removeObjectForKey:@"gamePcMediaId"];
 	
+	[defaults synchronize];		
 	//Don't clear the baseAppURL
 }
 
@@ -1070,9 +1071,18 @@ static const int kEmptyValue = -1;
 -(void)parseLoginResponseFromJSON: (JSONResult *)jsonResult{
 	NSLog(@"AppModel: parseLoginResponseFromJSON");
 	
+	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate removeNewWaitingIndicator];
+	
 	if (!jsonResult) {
 		self.loggedIn = NO;
-		[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewLoginResponseReady" object:nil]];
+		
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"BadServerResponseTitleKey",@"")
+														message:NSLocalizedString(@"BadServerResponseMessageKey",@"")
+													   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+		[alert show];
+		
+		return;
 	}
 
 	//handle login response
@@ -1080,8 +1090,7 @@ static const int kEmptyValue = -1;
 	NSLog(@"AppModel: Login Result Code: %d", returnCode);
 	if(returnCode == 0) {
 		self.loggedIn = YES;
-		loggedIn = YES;
-		playerId = [((NSDecimalNumber*)jsonResult.data) intValue];
+		self.playerId = [((NSDecimalNumber*)jsonResult.data) intValue];
 	}
 	else {
 		self.loggedIn = NO;	

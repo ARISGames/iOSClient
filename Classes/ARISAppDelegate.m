@@ -376,9 +376,7 @@
 
 - (void)finishLoginAttempt:(NSNotification *)notification {
 	NSLog(@"AppDelegate: Finishing Login Attempt");
-	
-	[self removeNewWaitingIndicator];
-	
+		
 	//handle login response
 	if(appModel.loggedIn) {
 		NSLog(@"AppDelegate: Login Success");
