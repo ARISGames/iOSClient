@@ -20,7 +20,7 @@
 			<key>Title</key>
 			<string>Server URL</string>
 			<key>Key</key>
-			<string>baseAppURL</string>
+			<string>baseServerString</string>
 			<key>DefaultValue</key>
 			<string>http://arisgames.org/server1</string>
 			<key>IsSecure</key>

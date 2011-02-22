@@ -30,8 +30,8 @@ static const int kEmptyValue = -1;
 
 
 @implementation AppModel
-@synthesize serverName, baseAppURL, jsonServerBaseURL, loggedIn;
-@synthesize username, password, playerId, currentModule;
+@synthesize serverURL;
+@synthesize loggedIn, username, password, playerId, currentModule;
 @synthesize currentGame, gameList, locationList, playerList;
 @synthesize playerLocation, inventory, questList, networkAlert;
 @synthesize gameMediaList, gameItemList, gameNodeList, gameNpcList;
@@ -54,7 +54,7 @@ static const int kEmptyValue = -1;
 - (void)dealloc {
 	[gameMediaList release];
 	[gameList release];
-	[baseAppURL release];
+	[serverURL release];
 	[username release];
 	[password release];
 	[currentModule release];
@@ -66,24 +66,12 @@ static const int kEmptyValue = -1;
 	[defaults synchronize];
 	
 	//Load the base App URL
-	self.baseAppURL = [defaults stringForKey:@"baseAppURL"];
-	
-	//Make sure it has a trailing slash (needed in some places)
-	int length = [self.baseAppURL length];
-	unichar lastChar = [self.baseAppURL characterAtIndex:length-1];
-	NSString *lastCharString = [ NSString stringWithCharacters:&lastChar length:1 ];
-	if (![lastCharString isEqualToString:@"/"]) self.baseAppURL = [[NSString alloc] initWithFormat:@"%@/",self.baseAppURL];
-	
-	NSURL *url = [NSURL URLWithString:self.baseAppURL];
-	self.serverName = [NSString stringWithFormat:@"http://%@:%d", [url host], 
-					   ([url port] ? [[url port] intValue] : 80)];
+	NSString *baseServerString = [defaults stringForKey:@"baseServerString"];
+	self.serverURL = [NSURL URLWithString: baseServerString ];
 	
 	self.currentGame = [[Game alloc]init];
 	self.currentGame.gameId = [defaults integerForKey:@"gameId"];
 	self.currentGame.pcMediaId = [defaults integerForKey:@"gamePcMediaId"];
-
-	
-	
 	self.loggedIn = [defaults boolForKey:@"loggedIn"];
 	
 	if ([defaults boolForKey:@"resetTutorial"]) {
@@ -105,11 +93,13 @@ static const int kEmptyValue = -1;
 		self.hasSeenInventoryTabTutorial = [defaults boolForKey:@"hasSeenInventoryTabTutorial"];
 	}
 
-	if (loggedIn == YES) {
-		NSString *lastBaseAppURL = [defaults stringForKey:@"lastBaseAppURL"];
-		NSLog(@"AppModel: Last Base App URL:%@ Current:%@",lastBaseAppURL,self.baseAppURL);
-		if (![self.baseAppURL isEqualToString:lastBaseAppURL]) {
-			NSLog(@"Model: Server URL changed since last execution. Throw out Defaults and use server URL:%@", baseAppURL);
+	if (loggedIn) {
+		NSURL *lastServerURL = [NSURL URLWithString:[defaults objectForKey:@"lastServerString"]];
+
+		NSLog(@"AppModel: Last Base Server URL:%@ Current:%@",lastServerURL,self.serverURL);
+		
+		if (![self.serverURL isEqual:lastServerURL]) {
+			NSLog(@"Model: Server URL changed since last execution. Throw out Defaults and use server URL:%@", serverURL);
 			[self clearUserDefaults];
 			NSNotification *loginNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self userInfo:nil];
 			[[NSNotificationCenter defaultCenter] postNotification:loginNotification];
@@ -119,16 +109,11 @@ static const int kEmptyValue = -1;
 			self.password = [defaults stringForKey:@"password"];
 			self.playerId = [defaults integerForKey:@"playerId"];
 			NSLog(@"Model: Defaults Found. Use URL: '%@' User: '%@' Password: '%@' PlayerId: '%d' GameId: '%d'", 
-				  baseAppURL, username, password, playerId, self.currentGame.gameId);
+				  serverURL, username, password, playerId, self.currentGame.gameId);
 		}
 	}
 	else NSLog(@"Model: Player was not logged in, Initing with Defaults");
 
-	
-	self.jsonServerBaseURL = [NSString stringWithFormat:@"%@%@",
-						 baseAppURL, @"json.php/aris"];
-	
-	NSLog(@"AppModel: jsonServerURL is %@",jsonServerBaseURL);
 }
 
 
@@ -146,7 +131,7 @@ static const int kEmptyValue = -1;
 }
 
 -(void)saveUserDefaults {
-	NSLog(@"Model: Saving User Defaults. lastBaseAppURL will be %@",baseAppURL);
+	NSLog(@"Model: Saving User Defaults");
 	
 	[defaults setBool:loggedIn forKey:@"loggedIn"];
 	[defaults setObject:username forKey:@"username"];
@@ -154,7 +139,7 @@ static const int kEmptyValue = -1;
 	[defaults setInteger:playerId forKey:@"playerId"];
 	[defaults setInteger:self.currentGame.pcMediaId forKey:@"gamePcMediaId"];
 	[defaults setInteger:self.currentGame.gameId forKey:@"gameId"];
-	[defaults setObject:baseAppURL forKey:@"lastBaseAppURL"];
+	[defaults setObject:[serverURL absoluteString]  forKey:@"lastServerString"];
 	[defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"appVerison"];
 	[defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBuildNumber"] forKey:@"buildNum"];
 
@@ -183,7 +168,7 @@ static const int kEmptyValue = -1;
 		NSString *keyValueStr = [prefItem objectForKey:@"Key"];
 		id defaultValue = [prefItem objectForKey:@"DefaultValue"];
 		
-		if ([keyValueStr isEqualToString:@"baseAppURL"])
+		if ([keyValueStr isEqualToString:@"baseServerString"])
 		{
 			baseAppURLDefault = defaultValue;
 		}
@@ -192,7 +177,7 @@ static const int kEmptyValue = -1;
 	
 	// since no default values have been set (i.e. no preferences file created), create it here
 	NSDictionary *appDefaults = [NSDictionary dictionaryWithObjectsAndKeys: 
-								 baseAppURLDefault,  @"baseAppURL", 
+								 baseAppURLDefault,  @"baseServerString", 
 								 nil];
 	
 	[[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
@@ -219,7 +204,7 @@ static const int kEmptyValue = -1;
 - (void)login {
 	NSLog(@"AppModel: Login Requested");
 	NSArray *arguments = [NSArray arrayWithObjects:self.username, self.password, nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithArisJSONServer:jsonServerBaseURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithServer:self.serverURL 
 																	andServiceName: @"players" 
 																	andMethodName:@"login"
 																	andArguments:arguments]; 
@@ -234,7 +219,7 @@ static const int kEmptyValue = -1;
 	NSLog(@"AppModel: New User Registration Requested");
 	//createPlayer($strNewUserName, $strPassword, $strFirstName, $strLastName, $strEmail)
 	NSArray *arguments = [NSArray arrayWithObjects:userName, pass, firstName, lastName, email, nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithArisJSONServer:jsonServerBaseURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithServer:self.serverURL 
 																	 andServiceName: @"players" 
 																	  andMethodName:@"createPlayer"
 																	   andArguments:arguments]; 
@@ -252,7 +237,7 @@ static const int kEmptyValue = -1;
 						  [NSString stringWithFormat:@"%d",playerId],
 						  [NSString stringWithFormat:@"%d",nodeId],
 						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:self.serverURL 
 																	andServiceName:@"players" 
 																	 andMethodName:@"nodeViewed" 
 																	  andArguments:arguments];
@@ -269,7 +254,7 @@ static const int kEmptyValue = -1;
 						  [NSString stringWithFormat:@"%d",playerId],
 						  [NSString stringWithFormat:@"%d",itemId],
 						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:self.serverURL 
 																	andServiceName:@"players" 
 																	 andMethodName:@"itemViewed" 
 																	  andArguments:arguments];
@@ -286,7 +271,7 @@ static const int kEmptyValue = -1;
 						  [NSString stringWithFormat:@"%d",playerId],
 						  [NSString stringWithFormat:@"%d",npcId],
 						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:self.serverURL 
 																	andServiceName:@"players" 
 																	 andMethodName:@"npcViewed" 
 																	  andArguments:arguments];
@@ -304,7 +289,7 @@ static const int kEmptyValue = -1;
 						  [NSString stringWithFormat:@"%d",self.playerId],
 						  [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:self.serverURL 
 																	andServiceName:@"players" 
 																	 andMethodName:@"updatePlayerLastGame" 
 																	  andArguments:arguments];
@@ -321,7 +306,7 @@ static const int kEmptyValue = -1;
 						  [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",playerId],
 						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:self.serverURL 
 																	andServiceName:@"players" 
 																	 andMethodName:@"mapViewed" 
 																	  andArguments:arguments];
@@ -338,7 +323,7 @@ static const int kEmptyValue = -1;
 						  [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",playerId],
 						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:self.serverURL 
 																	andServiceName:@"players" 
 																	 andMethodName:@"questsViewed" 
 																	  andArguments:arguments];
@@ -355,7 +340,7 @@ static const int kEmptyValue = -1;
 						  [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",playerId],
 						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:self.serverURL 
 																	andServiceName:@"players" 
 																	 andMethodName:@"inventoryViewed" 
 																	  andArguments:arguments];
@@ -377,7 +362,7 @@ static const int kEmptyValue = -1;
 						  [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",playerId],
 						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:self.serverURL 
 																	andServiceName:@"players" 
 																	 andMethodName:@"startOverGameForPlayer" 
 																	  andArguments:arguments];
@@ -407,7 +392,7 @@ static const int kEmptyValue = -1;
 						  [NSString stringWithFormat:@"%d",locationId],
 						  [NSString stringWithFormat:@"%d",qty],
 						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:self.serverURL 
 																	andServiceName:@"players" 
 																	 andMethodName:@"pickupItemFromLocation" 
 																	  andArguments:arguments];
@@ -428,7 +413,7 @@ static const int kEmptyValue = -1;
 						  [NSString stringWithFormat:@"%f",playerLocation.coordinate.longitude],
 						  [NSString stringWithFormat:@"%d",qty],
 						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:self.serverURL 
 																	andServiceName:@"players" 
 																	 andMethodName:@"dropItem" 
 																	  andArguments:arguments];
@@ -447,7 +432,7 @@ static const int kEmptyValue = -1;
 						  [NSString stringWithFormat:@"%d",itemId],
 						  [NSString stringWithFormat:@"%d",qty],
 						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:self.serverURL 
 																	andServiceName:@"players" 
 																	 andMethodName:@"destroyItem" 
 																	  andArguments:arguments];
@@ -460,13 +445,11 @@ static const int kEmptyValue = -1;
 										title:(NSString *)title description:(NSString*)description {
 
 	// setting up the request object now
-	NSString *urlString = [NSString stringWithFormat:@"%@services/aris/uploadHandler.php",self.baseAppURL];
-	NSURL *url = [NSURL URLWithString:urlString];
+	NSURL *url = [self.serverURL URLByAppendingPathComponent:@"services/aris/uploadHandler.php"];
 	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
 	request.timeOutSeconds = 60;
 	
-	NSString *gameID = [NSString stringWithFormat:@"%d", self.currentGame.gameId];
- 	[request setPostValue:gameID forKey:@"gameID"];	 
+ 	[request setPostValue:[NSString stringWithFormat:@"%d", self.currentGame.gameId] forKey:@"gameID"];	 
 	[request setPostValue:fileName forKey:@"fileName"];
 	[request setData:fileData forKey:@"file"];
 	[request setDidFinishSelector:@selector(uploadItemRequestFinished:)];
@@ -477,7 +460,7 @@ static const int kEmptyValue = -1;
 	NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:title, @"title", description, @"description", nil];
 	[request setUserInfo:userInfo];
 	
-	NSLog(@"Model: Uploading File. gameID:%@ fileName:%@ title:%@ description:%@",gameID,fileName,title,description );
+	NSLog(@"Model: Uploading File. gameID:%d fileName:%@ title:%@ description:%@",self.currentGame.gameId,fileName,title,description );
 	
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate showWaitingIndicator:@"Uploading" displayProgressBar:YES];
@@ -515,7 +498,7 @@ static const int kEmptyValue = -1;
 						  [NSString stringWithFormat:@"%f",playerLocation.coordinate.latitude],
 						  [NSString stringWithFormat:@"%f",playerLocation.coordinate.longitude],
 						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:self.serverURL 
 																	andServiceName:@"items" 
 																	 andMethodName:@"createItemAndGiveToPlayer" 
 																	  andArguments:arguments];
@@ -553,7 +536,7 @@ static const int kEmptyValue = -1;
 						  [NSString stringWithFormat:@"%f",playerLocation.coordinate.latitude],
 						  [NSString stringWithFormat:@"%f",playerLocation.coordinate.longitude],
 						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithArisJSONServer:self.jsonServerBaseURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithServer:self.serverURL 
 																	 andServiceName:@"players" 
 																	  andMethodName:@"updatePlayerLocation" 
 																	   andArguments:arguments];
@@ -676,7 +659,7 @@ static const int kEmptyValue = -1;
 {
 	NSLog(@"JSON://%@/%@/%@", aService, aMethod, arguments);
 	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:self.serverURL 
 																	andServiceName:aService
 																	 andMethodName:aMethod
 																	  andArguments:arguments];
@@ -789,7 +772,7 @@ static const int kEmptyValue = -1;
 	return [self fetchFromService:@"qrcodes" usingMethod:@"getQRCodeObjectForPlayer"
 						 withArgs:arguments usingParser:@selector(parseQRCodeObjectFromDictionary:)];
 	*/
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:self.serverURL 
 																	andServiceName:@"qrcodes"
 																	 andMethodName:@"getQRCodeObjectForPlayer"
 																	  andArguments:arguments];
@@ -806,7 +789,7 @@ static const int kEmptyValue = -1;
 						  [NSString stringWithFormat:@"%d",nodeId],
 						  nil];
 	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:self.serverURL 
 																	andServiceName:@"npcs"
 																	 andMethodName:@"getNpcConversationsForPlayerAfterViewingNode"
 																	  andArguments:arguments];
@@ -821,7 +804,7 @@ static const int kEmptyValue = -1;
 	
 	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",self.currentGame.gameId], nil];
 	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:self.serverURL 
 																	andServiceName:@"npcs"
 																	 andMethodName:@"getNpcs"
 																	  andArguments:arguments];
@@ -840,7 +823,7 @@ static const int kEmptyValue = -1;
 	
 	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",self.currentGame.gameId], nil];
 		
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:self.serverURL 
 																	andServiceName:@"media"
 																	 andMethodName:@"getMedia"
 																	  andArguments:arguments];
@@ -858,7 +841,7 @@ static const int kEmptyValue = -1;
 	
 	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",self.currentGame.gameId], nil];
 	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:self.serverURL 
 																	andServiceName:@"items"
 																	 andMethodName:@"getItems"
 																	  andArguments:arguments];
@@ -877,7 +860,7 @@ static const int kEmptyValue = -1;
 	
 	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",self.currentGame.gameId], nil];
 	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:self.serverURL 
 																	andServiceName:@"nodes"
 																	 andMethodName:@"getNodes"
 																	  andArguments:arguments];
@@ -903,7 +886,7 @@ static const int kEmptyValue = -1;
 						  [NSString stringWithFormat:@"%d",self.playerId], 
 						  nil];
 	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:self.serverURL 
 																	andServiceName:@"locations"
 																	 andMethodName:@"getLocationsForPlayer"
 																	  andArguments:arguments];
@@ -923,7 +906,7 @@ static const int kEmptyValue = -1;
 						  [NSString stringWithFormat:@"%d",self.playerId],
 						  nil];
 	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:self.serverURL 
 																	andServiceName:@"items"
 																	 andMethodName:@"getItemsForPlayer"
 																	  andArguments:arguments];
@@ -941,7 +924,7 @@ static const int kEmptyValue = -1;
 						  [NSString stringWithFormat:@"%d",playerId],
 						  nil];
 	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:self.serverURL 
 																	andServiceName:@"quests"
 																	 andMethodName:@"getQuestsForPlayer"
 																	  andArguments:arguments];
@@ -960,7 +943,7 @@ static const int kEmptyValue = -1;
 						  [NSString stringWithFormat:@"%f",self.playerLocation.coordinate.longitude],
 						  nil];
 	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithArisJSONServer:self.jsonServerBaseURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:self.serverURL 
 																	andServiceName:@"games"
 																	 andMethodName:@"getGamesWithDetails"
 																	  andArguments:arguments];

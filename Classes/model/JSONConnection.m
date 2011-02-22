@@ -14,44 +14,42 @@
 
 @implementation JSONConnection
 
-@synthesize jsonServerBaseURL;
+@synthesize jsonServerURL;
 @synthesize serviceName;
 @synthesize methodName;
 @synthesize arguments;
+@synthesize completeRequestURL;
 
-- (JSONConnection*)initWithArisJSONServer:(NSString *)server
+- (JSONConnection*)initWithServer:(NSURL *)server
 			   andServiceName:(NSString *)service 
 				andMethodName:(NSString *)method
 				 andArguments:(NSArray *)args{
 	
-	self.jsonServerBaseURL = server;
+	self.jsonServerURL = server;
 	self.serviceName = service;
 	self.methodName = method;	
 	self.arguments = args;	
 
+	//Compute the Arguments
+	NSMutableString *requestParameters = [NSMutableString stringWithFormat:@"json.php/aris.%@.%@", self.serviceName, self.methodName];	
+	NSEnumerator *argumentsEnumerator = [self.arguments objectEnumerator];
+	NSString *argument;
+	while (argument = [argumentsEnumerator nextObject]) {
+		[requestParameters appendString:@"/"];
+		[requestParameters appendString:argument];
+	}
+	
+	//Convert into a NSURLRequest
+	self.completeRequestURL = [server URLByAppendingPathComponent:requestParameters];
+	NSLog(@"JSONConnection: complete URL is : %@", self.completeRequestURL);
+
+	
 	return self;
 }
 
 - (JSONResult*) performSynchronousRequest{
-	//Build the base URL string
-	NSMutableString *requestString = [[NSMutableString alloc] initWithFormat:@"%@.%@.%@", 
-							   self.jsonServerBaseURL, self.serviceName, self.methodName];
 	
-	//Add the Arguments
-	NSEnumerator *argumentsEnumerator = [self.arguments objectEnumerator];
-	NSString *argument;
-	while (argument = [argumentsEnumerator nextObject]) {
-		[requestString appendString:@"/"];
-		[requestString appendString:argument];
-	}
-
-	NSLog(@"JSONConnection: JSON URL for sync request is : %@", requestString);
-	
-	//Convert into a NSURLRequest
-	NSURL *url = [NSURL URLWithString:requestString];
-	[requestString release];
-	
-	ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+	ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:self.completeRequestURL];
 	[request setNumberOfTimesToRetryOnTimeout: 2];
 
 	
@@ -84,25 +82,8 @@
 }
 
 - (void) performAsynchronousRequestWithParser: (SEL)parser{
-	//Build the base URL string
-	NSMutableString *requestString = [[NSMutableString alloc] initWithFormat:@"%@.%@.%@", 
-									  self.jsonServerBaseURL, self.serviceName, self.methodName];
 	
-	//Add the Arguments
-	NSEnumerator *argumentsEnumerator = [self.arguments objectEnumerator];
-	NSString *argument;
-	while (argument = [argumentsEnumerator nextObject]) {
-		[requestString appendString:@"/"];
-		[requestString appendString:argument];
-	}
-	
-	NSLog(@"JSONConnection: Begining Async request.  %@", requestString);
-	
-	//Convert into a NSURLRequest
-	NSURL *requestURL = [NSURL URLWithString:requestString];
-	[requestString release];
-	
-	ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:requestURL];
+	ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:self.completeRequestURL];
 	[request setNumberOfTimesToRetryOnTimeout:2];
 	[request setDelegate:self];
 	[request setTimeOutSeconds:60];
@@ -162,7 +143,7 @@
 
 
 - (void)dealloc {
-	[jsonServerBaseURL release];
+	[jsonServerURL release];
 	[serviceName release];
 	[methodName release];
 	[arguments release];

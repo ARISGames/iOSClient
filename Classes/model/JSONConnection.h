@@ -11,19 +11,22 @@
 
 
 @interface JSONConnection : NSObject{
-	NSString *jsonServerBaseURL;
+	NSURL *jsonServerURL;
 	NSString *serviceName;
 	NSString *methodName;
 	NSArray *arguments;
 	NSMutableData *asyncData;
+	NSURL *completeRequestURL;
 }
 
-@property(copy, readwrite) NSString *jsonServerBaseURL;
-@property(copy, readwrite) NSString *serviceName;
-@property(copy, readwrite) NSString *methodName;
-@property(copy, readwrite) NSArray *arguments;
+@property(nonatomic, retain) NSURL *jsonServerURL;
+@property(nonatomic, retain) NSString *serviceName;
+@property(nonatomic, retain) NSString *methodName;
+@property(nonatomic, retain) NSArray *arguments;
+@property(nonatomic, retain) NSURL *completeRequestURL;
 
-- (JSONConnection*)initWithArisJSONServer: (NSString *)server
+
+- (JSONConnection*)initWithServer: (NSURL *)server
 					andServiceName:(NSString *)serviceName 
 					andMethodName:(NSString *)methodName
 					andArguments:(NSArray *)arguments;

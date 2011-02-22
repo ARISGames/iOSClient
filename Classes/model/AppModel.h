@@ -19,9 +19,7 @@ extern NSDictionary *InventoryElements;
 
 @interface AppModel : NSObject {
 	NSUserDefaults *defaults;
-	NSString *serverName;
-	NSString *baseAppURL;
-	NSString *jsonServerBaseURL;
+	NSURL *serverURL;
 	Game *currentGame;
 	UIViewController *currentModule;
 	UIAlertView *networkAlert;
@@ -55,8 +53,8 @@ extern NSDictionary *InventoryElements;
 }
 
 @property(copy) NSString *serverName;
-@property(copy, readwrite) NSString *baseAppURL;
-@property(copy, readwrite) NSString *jsonServerBaseURL;
+@property(nonatomic, retain) NSURL *serverURL;
+
 @property(readwrite) BOOL loggedIn;
 @property(copy, readwrite) NSString *username;
 @property(copy, readwrite) NSString *password;
