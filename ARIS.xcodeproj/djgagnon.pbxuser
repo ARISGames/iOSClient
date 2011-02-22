@@ -349,6 +349,21 @@
 			AB03B0C21313B01B004741A8 /* PBXTextBookmark */ = AB03B0C21313B01B004741A8 /* PBXTextBookmark */;
 			AB03B0C61313B05E004741A8 /* PBXTextBookmark */ = AB03B0C61313B05E004741A8 /* PBXTextBookmark */;
 			AB03B0C71313B05E004741A8 /* PBXTextBookmark */ = AB03B0C71313B05E004741A8 /* PBXTextBookmark */;
+			AB03B0CB1313B2C1004741A8 /* PBXTextBookmark */ = AB03B0CB1313B2C1004741A8 /* PBXTextBookmark */;
+			AB03B0CC1313B2C1004741A8 /* PBXTextBookmark */ = AB03B0CC1313B2C1004741A8 /* PBXTextBookmark */;
+			AB03B0D21313B2E4004741A8 /* PBXTextBookmark */ = AB03B0D21313B2E4004741A8 /* PBXTextBookmark */;
+			AB03B0D31313B2E4004741A8 /* PBXTextBookmark */ = AB03B0D31313B2E4004741A8 /* PBXTextBookmark */;
+			AB03B0D41313B2E4004741A8 /* PBXTextBookmark */ = AB03B0D41313B2E4004741A8 /* PBXTextBookmark */;
+			AB03B0D81313B37D004741A8 /* PBXTextBookmark */ = AB03B0D81313B37D004741A8 /* PBXTextBookmark */;
+			AB03B0D91313B37D004741A8 /* PBXTextBookmark */ = AB03B0D91313B37D004741A8 /* PBXTextBookmark */;
+			AB03B0DA1313B37D004741A8 /* PBXTextBookmark */ = AB03B0DA1313B37D004741A8 /* PBXTextBookmark */;
+			AB03B0DB1313B37D004741A8 /* PBXTextBookmark */ = AB03B0DB1313B37D004741A8 /* PBXTextBookmark */;
+			AB03B0DF1313B3BF004741A8 /* PBXTextBookmark */ = AB03B0DF1313B3BF004741A8 /* PBXTextBookmark */;
+			AB03B0E01313B3BF004741A8 /* PBXTextBookmark */ = AB03B0E01313B3BF004741A8 /* PBXTextBookmark */;
+			AB03B0E11313B3BF004741A8 /* PBXTextBookmark */ = AB03B0E11313B3BF004741A8 /* PBXTextBookmark */;
+			AB03B0E21313B3BF004741A8 /* PBXTextBookmark */ = AB03B0E21313B3BF004741A8 /* PBXTextBookmark */;
+			AB03B0E61313B53F004741A8 /* PBXTextBookmark */ = AB03B0E61313B53F004741A8 /* PBXTextBookmark */;
+			AB03B0E71313B53F004741A8 /* PBXTextBookmark */ = AB03B0E71313B53F004741A8 /* PBXTextBookmark */;
 			AB07883B130F75690067BABC = AB07883B130F75690067BABC /* PBXTextBookmark */;
 			AB07883F130F75690067BABC = AB07883F130F75690067BABC /* PBXTextBookmark */;
 			AB07884D130F77FC0067BABC = AB07884D130F77FC0067BABC /* PBXTextBookmark */;
@@ -843,9 +858,9 @@
 	};
 	2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1412, 3627}}";
-			sepNavSelRange = "{4252, 62}";
-			sepNavVisRange = "{4236, 1233}";
+			sepNavIntBoundsRect = "{{0, 0}, {1412, 3640}}";
+			sepNavSelRange = "{4267, 0}";
+			sepNavVisRange = "{4012, 495}";
 		};
 	};
 	2B3D12EA0F4382070067FD3A /* LogoutViewController.h */ = {
@@ -1401,7 +1416,7 @@
 		fRef = 2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */;
 		name = "InventoryListViewController.m: 132";
 		rLen = 0;
-		rLoc = 4314;
+		rLoc = 4345;
 		rType = 0;
 		vrLen = 819;
 		vrLoc = 3817;
@@ -1421,7 +1436,7 @@
 		fRef = 2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */;
 		name = "InventoryListViewController.m: 133";
 		rLen = 0;
-		rLoc = 4314;
+		rLoc = 4345;
 		rType = 0;
 		vrLen = 724;
 		vrLoc = 3994;
@@ -1441,7 +1456,7 @@
 		fRef = 2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */;
 		name = "InventoryListViewController.m: 133";
 		rLen = 0;
-		rLoc = 4314;
+		rLoc = 4345;
 		rType = 0;
 		vrLen = 926;
 		vrLoc = 1739;
@@ -1461,7 +1476,7 @@
 		fRef = 2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */;
 		name = "InventoryListViewController.m: 133";
 		rLen = 0;
-		rLoc = 4314;
+		rLoc = 4345;
 		rType = 0;
 		vrLen = 926;
 		vrLoc = 1739;
@@ -1541,7 +1556,7 @@
 		fRef = 2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */;
 		name = "InventoryListViewController.m: 133";
 		rLen = 0;
-		rLoc = 4314;
+		rLoc = 4345;
 		rType = 0;
 		vrLen = 1260;
 		vrLoc = 1638;
@@ -1661,7 +1676,7 @@
 		fRef = 2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */;
 		name = "InventoryListViewController.m: 142";
 		rLen = 0;
-		rLoc = 4471;
+		rLoc = 4502;
 		rType = 0;
 		vrLen = 1150;
 		vrLoc = 4177;
@@ -1691,7 +1706,7 @@
 		fRef = 2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */;
 		name = "InventoryListViewController.m: 142";
 		rLen = 0;
-		rLoc = 4471;
+		rLoc = 4502;
 		rType = 0;
 		vrLen = 308;
 		vrLoc = 1232;
@@ -1701,7 +1716,7 @@
 		fRef = 2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */;
 		name = "InventoryListViewController.m: 138";
 		rLen = 68;
-		rLoc = 4402;
+		rLoc = 4433;
 		rType = 0;
 		vrLen = 511;
 		vrLoc = 4250;
@@ -1731,7 +1746,7 @@
 		fRef = ABDA40AD10506AF400823A94 /* GPSViewController.m */;
 		name = "GPSViewController.m: 278";
 		rLen = 0;
-		rLoc = 8365;
+		rLoc = 8463;
 		rType = 0;
 		vrLen = 1089;
 		vrLoc = 7917;
@@ -1741,7 +1756,7 @@
 		fRef = ABDA40AD10506AF400823A94 /* GPSViewController.m */;
 		name = "GPSViewController.m: 298";
 		rLen = 0;
-		rLoc = 9098;
+		rLoc = 9196;
 		rType = 0;
 		vrLen = 802;
 		vrLoc = 11798;
@@ -1751,7 +1766,7 @@
 		fRef = 2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */;
 		name = "InventoryListViewController.m: 131";
 		rLen = 62;
-		rLoc = 4252;
+		rLoc = 4283;
 		rType = 0;
 		vrLen = 1190;
 		vrLoc = 4191;
@@ -1761,7 +1776,7 @@
 		fRef = ABDA40AD10506AF400823A94 /* GPSViewController.m */;
 		name = "GPSViewController.m: 245";
 		rLen = 0;
-		rLoc = 7244;
+		rLoc = 7386;
 		rType = 0;
 		vrLen = 50;
 		vrLoc = 7185;
@@ -1771,7 +1786,7 @@
 		fRef = 2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */;
 		name = "InventoryListViewController.m: 131";
 		rLen = 62;
-		rLoc = 4252;
+		rLoc = 4283;
 		rType = 0;
 		vrLen = 1233;
 		vrLoc = 4236;
@@ -1781,10 +1796,157 @@
 		fRef = ABDA40AD10506AF400823A94 /* GPSViewController.m */;
 		name = "GPSViewController.m: 245";
 		rLen = 0;
-		rLoc = 7244;
+		rLoc = 7386;
 		rType = 0;
 		vrLen = 44;
 		vrLoc = 7198;
+	};
+	AB03B0CB1313B2C1004741A8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */;
+		name = "InventoryListViewController.m: 130";
+		rLen = 75;
+		rLoc = 4273;
+		rType = 0;
+		vrLen = 465;
+		vrLoc = 4012;
+	};
+	AB03B0CC1313B2C1004741A8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = ABDA40AD10506AF400823A94 /* GPSViewController.m */;
+		name = "GPSViewController.m: 247";
+		rLen = 0;
+		rLoc = 7386;
+		rType = 0;
+		vrLen = 691;
+		vrLoc = 5841;
+	};
+	AB03B0D21313B2E4004741A8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */;
+		name = "InventoryListViewController.m: 130";
+		rLen = 75;
+		rLoc = 4273;
+		rType = 0;
+		vrLen = 370;
+		vrLoc = 4177;
+	};
+	AB03B0D31313B2E4004741A8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = ABDA40AD10506AF400823A94 /* GPSViewController.m */;
+		name = "GPSViewController.m: 247";
+		rLen = 0;
+		rLoc = 7386;
+		rType = 0;
+		vrLen = 786;
+		vrLoc = 5634;
+	};
+	AB03B0D41313B2E4004741A8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = ABDA40AD10506AF400823A94 /* GPSViewController.m */;
+		name = "GPSViewController.m: 247";
+		rLen = 0;
+		rLoc = 7386;
+		rType = 0;
+		vrLen = 725;
+		vrLoc = 5717;
+	};
+	AB03B0D81313B37D004741A8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */;
+		name = "InventoryListViewController.m: 130";
+		rLen = 75;
+		rLoc = 4273;
+		rType = 0;
+		vrLen = 453;
+		vrLoc = 4187;
+	};
+	AB03B0D91313B37D004741A8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = ABDA40AD10506AF400823A94 /* GPSViewController.m */;
+		name = "GPSViewController.m: 217";
+		rLen = 0;
+		rLoc = 6284;
+		rType = 0;
+		vrLen = 799;
+		vrLoc = 7233;
+	};
+	AB03B0DA1313B37D004741A8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = ABDA40AC10506AF400823A94 /* GPSViewController.h */;
+		name = "GPSViewController.h: 20";
+		rLen = 0;
+		rLoc = 430;
+		rType = 0;
+		vrLen = 562;
+		vrLoc = 36;
+	};
+	AB03B0DB1313B37D004741A8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = ABDA40AC10506AF400823A94 /* GPSViewController.h */;
+		name = "GPSViewController.h: 20";
+		rLen = 0;
+		rLoc = 430;
+		rType = 0;
+		vrLen = 504;
+		vrLoc = 598;
+	};
+	AB03B0DF1313B3BF004741A8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */;
+		name = "InventoryListViewController.m: 130";
+		rLen = 75;
+		rLoc = 4273;
+		rType = 0;
+		vrLen = 547;
+		vrLoc = 4195;
+	};
+	AB03B0E01313B3BF004741A8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = ABDA40AC10506AF400823A94 /* GPSViewController.h */;
+		name = "GPSViewController.h: 20";
+		rLen = 0;
+		rLoc = 430;
+		rType = 0;
+		vrLen = 504;
+		vrLoc = 598;
+	};
+	AB03B0E11313B3BF004741A8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = ABDA40AD10506AF400823A94 /* GPSViewController.m */;
+		rLen = 0;
+		rLoc = 206;
+		rType = 1;
+	};
+	AB03B0E21313B3BF004741A8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = ABDA40AD10506AF400823A94 /* GPSViewController.m */;
+		name = "GPSViewController.m: 250";
+		rLen = 0;
+		rLoc = 7386;
+		rType = 0;
+		vrLen = 748;
+		vrLoc = 8248;
+	};
+	AB03B0E61313B53F004741A8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */;
+		name = "InventoryListViewController.m: 128";
+		rLen = 0;
+		rLoc = 4267;
+		rType = 0;
+		vrLen = 495;
+		vrLoc = 4012;
+	};
+	AB03B0E71313B53F004741A8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = ABDA40AD10506AF400823A94 /* GPSViewController.m */;
+		name = "GPSViewController.m: 233";
+		rLen = 0;
+		rLoc = 6823;
+		rType = 0;
+		vrLen = 873;
+		vrLoc = 6472;
 	};
 	AB07883B130F75690067BABC /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -2528,7 +2690,7 @@
 		fRef = ABDA40AD10506AF400823A94 /* GPSViewController.m */;
 		name = "GPSViewController.m: 278";
 		rLen = 0;
-		rLoc = 8365;
+		rLoc = 8463;
 		rType = 0;
 		vrLen = 1260;
 		vrLoc = 7917;
@@ -6318,7 +6480,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 43;
-		modificationTime = 320057437.209234;
+		modificationTime = 320058684.687219;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -6335,7 +6497,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 21;
-		modificationTime = 320057437.209194;
+		modificationTime = 320058684.68718;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -6378,7 +6540,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 78;
-		modificationTime = 320057437.209248;
+		modificationTime = 320058684.687236;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -6437,7 +6599,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 34;
-		modificationTime = 320057437.209219;
+		modificationTime = 320058684.687207;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
@@ -6489,17 +6651,17 @@
 	};
 	ABDA40AC10506AF400823A94 /* GPSViewController.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1049, 676}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1049, 650}}";
 			sepNavSelRange = "{430, 0}";
-			sepNavVisRange = "{36, 697}";
+			sepNavVisRange = "{598, 504}";
 			sepNavWindowFrame = "{{0, 33}, {1440, 845}}";
 		};
 	};
 	ABDA40AD10506AF400823A94 /* GPSViewController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1412, 5785}}";
-			sepNavSelRange = "{7244, 0}";
-			sepNavVisRange = "{7198, 44}";
+			sepNavIntBoundsRect = "{{0, 0}, {1412, 5850}}";
+			sepNavSelRange = "{6823, 0}";
+			sepNavVisRange = "{6472, 873}";
 		};
 	};
 	ABDA40B010506AF400823A94 /* Annotation.h */ = {

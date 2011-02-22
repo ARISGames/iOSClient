@@ -238,11 +238,15 @@ static float INITIAL_SPAN = 0.001;
 				appModel.hasSeenMapTabTutorial = YES;
 			}
 		}
-		else {
-			self.tabBarItem.badgeValue = nil;
-		}
+		else if (newItemsSinceLastView < 1) self.tabBarItem.badgeValue = nil;
 		
 	}
+	else {
+		newItemsSinceLastView = 0;
+		self.tabBarItem.badgeValue = nil;
+	}
+	
+	self.locations = appModel.locationList;
 	
 	if (mapView) {
 		//Blow away the old markers except for the player marker
@@ -251,8 +255,6 @@ static float INITIAL_SPAN = 0.001;
 		while (annotation = [existingAnnotationsEnumerator nextObject]) {
 			if (annotation != mapView.userLocation) [mapView removeAnnotation:annotation];
 		}
-
-		self.locations = appModel.locationList;
 
 		//Add the freshly loaded locations from the notification
 		for ( Location* location in locations ) {
