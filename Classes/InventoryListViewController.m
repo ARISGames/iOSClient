@@ -24,8 +24,6 @@
         self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"inventory.png"];
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
-		silenceNextServerUpdateCount = 0;
-		newItemsSinceLastView = 0;
 		
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
@@ -38,9 +36,8 @@
 }
 
 - (void)silenceNextUpdate {
-
-	NSLog(@"InventoryListViewController: silenceNextUpdate");
 	silenceNextServerUpdateCount++;
+	NSLog(@"InventoryListViewController: silenceNextUpdate. Count is %d",silenceNextServerUpdateCount);
 
 }
 
@@ -55,9 +52,9 @@
 	
 	[self refresh];		
 	
-	//remove any existing badge
 	self.tabBarItem.badgeValue = nil;
 	newItemsSinceLastView = 0;
+	silenceNextServerUpdateCount = 0;
 		
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate.tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindInventoryTab];
@@ -85,14 +82,14 @@
 }
 
 -(void)removeLoadingIndicator{
+	//Do this now in case refreshViewFromModel isn't called due to == hash
+
 	[[self navigationItem] setRightBarButtonItem:nil];
-	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
+	NSLog(@"InventoryListViewController: removeLoadingIndicator. silenceCount = %d",silenceNextServerUpdateCount);
 }
 
 -(void)refreshViewFromModel {
 	NSLog(@"InventoryListViewController: Refresh View from Model");
-	
-	NSLog(@"GPSViewController: refreshViewFromModel: silenceNextServerUpdateCount = %d", silenceNextServerUpdateCount);
 	
 	if (silenceNextServerUpdateCount < 1) {		
 		NSArray *newInventory = [appModel.inventory allValues];
@@ -130,14 +127,16 @@
 		else self.tabBarItem.badgeValue = nil;
 		
 	}
+	else {
+		newItemsSinceLastView = 0;
+		self.tabBarItem.badgeValue = nil;
+	}
 	
 	self.inventory = [appModel.inventory allValues];
 	[inventoryTable reloadData];
 	
-	//Stop Waiting Indicator
-	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeWaitingIndicator];
-	
-	
+	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
+
 	
 }
 

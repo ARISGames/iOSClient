@@ -904,7 +904,7 @@ static const int kEmptyValue = -1;
 }
 
 - (void)fetchInventory {
-	NSLog(@"Model: Inventory Fetch Requested");
+	NSLog(@"Model: fetchInventory");
 	
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",self.playerId],

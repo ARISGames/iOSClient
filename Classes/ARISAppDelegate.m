@@ -202,6 +202,7 @@
 		else {
 			NSLog(@"Appdelegate: Player already logged in and they have a site selected. Go into the default module");
 			[appModel fetchAllGameLists];
+			[appModel silenceNextServerUpdate];
 			[appModel fetchAllPlayerLists];
 			
 			[self playAudioAlert:@"questChange" shouldVibrate:NO];
@@ -436,6 +437,8 @@
 	NSLog(@"AppDelegate: %@ selected",[visibleViewController title]);
 	
 	[appModel fetchAllGameLists];
+	
+	[appModel silenceNextServerUpdate];
 	[appModel fetchAllPlayerLists];
 	
 	//Display the Intro Node

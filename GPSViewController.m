@@ -36,8 +36,6 @@ static float INITIAL_SPAN = 0.001;
         self.title = NSLocalizedString(@"MapViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"gps.png"];
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
-		silenceNextServerUpdateCount = 0;
-		newItemsSinceLastView = 0;
 
 		tracking = YES;
 		playerTrackingButton.style = UIBarButtonItemStyleDone;
@@ -132,9 +130,9 @@ static float INITIAL_SPAN = 0.001;
 	
 	[self refresh];		
 	
-	//remove any existing badge
 	self.tabBarItem.badgeValue = nil;
 	newItemsSinceLastView = 0;
+	silenceNextServerUpdateCount = 0;
 	
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate.tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindMapTab];
@@ -199,7 +197,6 @@ static float INITIAL_SPAN = 0.001;
 
 -(void)removeLoadingIndicator{
 	[[self navigationItem] setRightBarButtonItem:nil];
-	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
 	NSLog(@"GPSViewController: removeLoadingIndicator: silenceNextServerUpdateCount = %d", silenceNextServerUpdateCount);
 
 
@@ -243,7 +240,6 @@ static float INITIAL_SPAN = 0.001;
 		}
 		else {
 			self.tabBarItem.badgeValue = nil;
-			newItemsSinceLastView = 0;
 		}
 		
 	}
@@ -298,6 +294,8 @@ static float INITIAL_SPAN = 0.001;
 		} 
 	}
 	
+	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
+
 }
 
 
