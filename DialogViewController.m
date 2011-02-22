@@ -234,8 +234,10 @@ NSString *const kDialogHtmlTemplate =
 - (void)applyNPCWithGreeting{
 	self.title = currentNpc.name;
 	[self loadNPCImage:currentNpc.mediaId];
-	[npcWebView loadHTMLString:[NSString stringWithFormat:kDialogHtmlTemplate, [currentNpc greeting]] baseURL:nil];
+	//[npcWebView loadHTMLString:[NSString stringWithFormat:kDialogHtmlTemplate, [currentNpc greeting]] baseURL:nil];
 	[self moveNpcIn];
+	[parser parseText:currentNpc.greeting];
+
 }
 
 - (void) beginWithNPC:(Npc *)aNpc {
@@ -326,12 +328,13 @@ NSString *const kDialogHtmlTemplate =
 - (void) finishApplyingPlayerOptions:(NSArray*)options{
 	//Now our options are populated with node or conversation choices, display
 	if ([options count] == 0) {
-		if (closingScriptPlaying == YES) {
+		if (closingScriptPlaying) { 
+			NSLog(@"DialogViewController: Closing Script complete. This conversation is over");
 			[self backButtonTouchAction:nil];
 		}
 		
-		if ([currentNpc.closing length] < 1) {
-			NSLog(@"DialogViewController: No Closing Script Available");
+		else if ([currentNpc.closing length] < 1) {
+			NSLog(@"DialogViewController: No Closing Script Available, closing the dialog");
 			
 			nothingElseLabel.hidden = NO;
 			pcTableView.hidden = YES;
@@ -339,11 +342,11 @@ NSString *const kDialogHtmlTemplate =
 			
 			[self backButtonTouchAction:nil];
 		}
+		
 		else {
 			NSLog(@"DialogViewController: Play Closing Script: %@",currentNpc.closing);
 			
-			closingScriptPlaying = YES;
-		
+			closingScriptPlaying = YES; 		
 			[self moveAllOutWithPostSelector:nil];
 			[self moveNpcIn];
 			[parser parseText:currentNpc.closing];
@@ -351,6 +354,7 @@ NSString *const kDialogHtmlTemplate =
 		
 	}
 	else {
+		NSLog(@"DialogViewController: Player options exist, put them on the screen");
 		pcTableView.hidden = NO;
 		pcWebView.hidden = YES;
 		pcAnswerView.hidden = YES;
@@ -446,8 +450,8 @@ NSString *const kDialogHtmlTemplate =
 		cachedScrollView = pcImage;
 		continueButton = pcContinueButton;
 		
-		if (scriptIndex == [currentScript count]) {
-			//TODO: We are at the end, the next tap on the button is going to end the dialog
+		if (scriptIndex == [currentScript count] && closingScriptPlaying ) {
+			//We are at the end of the script and no conversations exist, the next tap on the button is going to end the dialog
 			[pcContinueButton setTitle: NSLocalizedString(@"DialogEnd",@"") forState: UIControlStateNormal];
 			[pcContinueButton setTitle: NSLocalizedString(@"DialogEnd",@"") forState: UIControlStateHighlighted];	
 		}
