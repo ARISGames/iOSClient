@@ -95,7 +95,7 @@
 	//UINavigationController *arNavigationController = [[UINavigationController alloc] initWithRootViewController: arViewController];
 	//arNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 	
-	//Setup Tasks View
+	//Setup Quests View
 	QuestsViewController *questsViewController = [[[QuestsViewController alloc] initWithNibName:@"Quests" bundle:nil] autorelease];
 	UINavigationController *questsNavigationController = [[UINavigationController alloc] initWithRootViewController: questsViewController];
 	questsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
@@ -173,7 +173,7 @@
 										logoutNavigationController,
 										startOverNavigationController,
 										//developerNavigationController,
-										nil];	
+										nil];
 	[self.tabBarController.view setFrame:UIScreen.mainScreen.applicationFrame];
 	[self.window addSubview:self.tabBarController.view];
 	

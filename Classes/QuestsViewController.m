@@ -56,8 +56,6 @@ NSString *const kQuestsHtmlTemplate =
         self.title = NSLocalizedString(@"QuestViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"quest.png"];
 		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
-		silenceNextServerUpdateCount = 0;
-		newItemsSinceLastView = 0;
 
 		cellsLoaded = 0;
 		
@@ -68,18 +66,21 @@ NSString *const kQuestsHtmlTemplate =
 		[dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
 
     }
+	
     return self;
 }
 
 - (void)silenceNextUpdate {
 	silenceNextServerUpdateCount++;
+	NSLog(@"QuestsViewController: silenceNextUpdate. Count is %d",silenceNextServerUpdateCount );
+
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	[self refresh];		
 	NSLog(@"QuestsViewController: Quests View Loaded");
+	
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -87,9 +88,9 @@ NSString *const kQuestsHtmlTemplate =
 	
 	[self refresh];
 	
-	//remove any existing badge
 	self.tabBarItem.badgeValue = nil;
 	newItemsSinceLastView = 0;
+	silenceNextServerUpdateCount = 0;
 	
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate.tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindQuestsTab];
@@ -117,8 +118,7 @@ NSString *const kQuestsHtmlTemplate =
 
 -(void)removeLoadingIndicator{
 	[[self navigationItem] setRightBarButtonItem:nil];
-	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
-
+	NSLog(@"QuestsViewController: removeLoadingIndicator");
 }
 
 -(void)refreshViewFromModel {
@@ -157,9 +157,14 @@ NSString *const kQuestsHtmlTemplate =
 				appModel.hasSeenQuestsTabTutorial = YES;
 			}
 		}
-		else self.tabBarItem.badgeValue = nil;
-				
+		else if (newItemsSinceLastView < 1) self.tabBarItem.badgeValue = nil;
+	
 	}
+	else {
+		newItemsSinceLastView = 0;
+		self.tabBarItem.badgeValue = nil;
+	}
+	
 	
 	//rebuild the list
 	NSArray *activeQuestsArray = [appModel.questList objectForKey:@"active"];
@@ -170,6 +175,9 @@ NSString *const kQuestsHtmlTemplate =
 	[self.quests retain];
 
 	[self constructCells];
+	
+	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
+
 }
 
 -(void)constructCells{

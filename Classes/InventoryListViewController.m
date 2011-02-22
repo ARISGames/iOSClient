@@ -124,7 +124,7 @@
 				
 			
 		}
-		else self.tabBarItem.badgeValue = nil;
+		else if (newItemsSinceLastView < 1) self.tabBarItem.badgeValue = nil;
 		
 	}
 	else {
