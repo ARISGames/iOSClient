@@ -499,16 +499,15 @@
 	NSLog(@"AppDelegate: AlertView clickedButtonAtIndex: %d",buttonIndex);
 	
 	if (buttonIndex == 1) {
-		NSLog(@"AppDelegate: AlertView button wants to send an email");
+		NSLog(@"AppDelegate: AlertView button wants to send an email" );
 		//Send an Email
 		NSString *body = [NSString stringWithFormat:@"%@",alertView.message];
-		ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 		MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
 		controller.mailComposeDelegate = self;
 		[controller setToRecipients: [NSMutableArray arrayWithObjects: @"arisgames-dev@googlegroups.com",nil]];
 		[controller setSubject:@"ARIS Error Report"];
 		[controller setMessageBody:body isHTML:NO]; 
-		if (controller) [appDelegate.tabBarController presentModalViewController:controller animated:YES];
+		if (controller) [self.tabBarController presentModalViewController:controller animated:YES];
 		[controller release];
 	}
 	
