@@ -107,6 +107,7 @@
 	
 	//end the loading and spinner UI indicators
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeNetworkAlert];	
 	
 	NSString *jsonString = [[NSString alloc] initWithData:[request responseData] 
 												 encoding:NSUTF8StringEncoding];
@@ -135,7 +136,6 @@
           [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
 	
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-	//[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeWaitingIndicator];
 	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showNetworkAlert];	
 	
 }

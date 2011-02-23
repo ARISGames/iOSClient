@@ -34,9 +34,11 @@
 #import "AudioToolbox/AudioToolbox.h"
 #import "Reachability.h"
 #import "TutorialViewController.h"
+#import <MessageUI/MFMailComposeViewController.h>
 
 
-@interface ARISAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate> {
+
+@interface ARISAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate> {
 	AppModel *appModel;
 	UIWindow *window;
     UITabBarController *tabBarController;
@@ -84,6 +86,7 @@
 - (void) displayNearbyObjectView:(UIViewController *)nearbyObjectsNavigationController;
 - (void) showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)yesOrNo;
 - (void) showNewWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar;
+- (void) showErrorWithEmail:(NSString *)title message:(NSString *)message details:(NSString*)detail;
 - (void) removeWaitingIndicator;
 - (void) removeNewWaitingIndicator;
 - (void) showNetworkAlert;

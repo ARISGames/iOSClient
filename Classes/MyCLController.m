@@ -84,11 +84,6 @@
 - (void)locationManager:(CLLocationManager *)manager
 	   didFailWithError:(NSError *)error
 {
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NoLocationTitleKey", nil)
-													message:NSLocalizedString(@"NoLocationMessageKey", nil)
-												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-	[alert show];	
-	[alert release];
 	
 	NSMutableString *errorString = [[[NSMutableString alloc] init] autorelease];
 	
@@ -97,6 +92,12 @@
 		// We handle CoreLocation-related errors here
 		
 		switch ([error code]) {
+				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NoLocationTitleKey", nil)
+																message:NSLocalizedString(@"NoLocationMessageKey", nil)
+															   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+				[alert show];	
+				[alert release];
+				
 				// This error code is usually returned whenever user taps "Don't Allow" in response to
 				// being told your app wants to access the current location. Once this happens, you cannot
 				// attempt to get the location again until the app has quit and relaunched.

@@ -11,6 +11,7 @@
 
 #import "TutorialPopupView.h"
 
+
 @implementation ARISAppDelegate
 
 @synthesize appModel;
@@ -75,6 +76,7 @@
 	} else {
 		NSLog(@"AppDelegate: Internet Connection Functional");
 	}
+	
 	
 	
 	//register for notifications from views
@@ -348,6 +350,14 @@
 }
 
 
+- (void) showErrorWithEmail:(NSString *)title message:(NSString *)message details:(NSString*)detail{
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+													message:[NSString stringWithFormat:@"%@\n\nDetails:\n%@", message, detail]
+												   delegate:self cancelButtonTitle:@"Ignore" otherButtonTitles: @"Report",nil];
+	[alert show];	
+	[alert release];	
+}
+
 
 - (void)newError: (NSString *)text {
 	NSLog(@"%@", text);
@@ -479,6 +489,41 @@
 - (void) returnToHomeView{
 	NSLog(@"AppDelegate: Returning to Home View - Tab Bar Index 0");
 	[tabBarController setSelectedIndex:0];	
+}
+
+
+#pragma mark AlertView Delegate Methods
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+	//Since only the error alert with email ever uses this, we know who we are dealing with
+	NSLog(@"AppDelegate: AlertView clickedButtonAtIndex: %d",buttonIndex);
+	
+	if (buttonIndex == 1) {
+		NSLog(@"AppDelegate: AlertView button wants to send an email");
+		//Send an Email
+		NSString *body = [NSString stringWithFormat:@"%@",alertView.message];
+		ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+		MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
+		controller.mailComposeDelegate = self;
+		[controller setToRecipients: [NSMutableArray arrayWithObjects: @"arisgames-dev@googlegroups.com",nil]];
+		[controller setSubject:@"ARIS Error Report"];
+		[controller setMessageBody:body isHTML:NO]; 
+		if (controller) [appDelegate.tabBarController presentModalViewController:controller animated:YES];
+		[controller release];
+	}
+	
+}
+
+#pragma mark MFMailComposeViewController Delegate
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller  
+          didFinishWithResult:(MFMailComposeResult)result 
+                        error:(NSError*)error;
+{
+	if (result == MFMailComposeResultSent) {
+		NSLog(@"AppDelegate: mailComposeController result == MFMailComposeResultSent");
+	}
+	[tabBarController dismissModalViewControllerAnimated:YES];
 }
 
 #pragma mark UITabBarControllerDelegate methods

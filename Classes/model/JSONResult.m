@@ -32,22 +32,29 @@
 
 	if (jsonError.code) {
 		NSLog(@"JSONResult: SERVER RESPONSE ERROR - Error %d parsing JSON String: %@. There must be a problem with the server",jsonError.code, JSONString);
-		//[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showServerAlert]; //This is not technically a network issue.
-		return nil;
+
+		ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+		[appDelegate showErrorWithEmail:NSLocalizedString(@"BadServerResponseTitleKey",@"")
+							message:NSLocalizedString(@"BadServerResponseMessageKey",@"")
+							  details:[NSString stringWithFormat:@"JSONResult: Error Parsing String:\n\n%@]",JSONString]];
 	}
 	self.returnCode = [[resultDictionary objectForKey:@"returnCode"]intValue];
 	self.returnCodeDescription = [resultDictionary objectForKey:@"returnCodeDescription"];
 
 	NSObject *dataObject = [resultDictionary objectForKey:@"data"];
-	
-	//NSLog(@"PARSER data: %@", dataObject);
-	
+		
 	if (self.returnCode == 0) {
 		NSLog(@"JSONResult: The return code was 0, continue to parse out the data");
 		self.data = [self parseJSONData:dataObject];
 	}
-	else NSLog(@"JSONResult: SERVER RESPONSE ERROR - The return code was NOT 0, do not parse out the data. Return Code Description: %@",self.returnCodeDescription);
-	//Todo: Better communication back to the rest of the program when this happens
+	else {
+		NSLog(@"JSONResult: SERVER RESPONSE ERROR - Return Code != 0",jsonError.code, JSONString);
+		
+		ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+		[appDelegate showErrorWithEmail:NSLocalizedString(@"BadServerResponseTitleKey",@"")
+							message:NSLocalizedString(@"BadServerResponseMessageKey",@"")
+								details:[NSString stringWithFormat:@"JSONResult: Error Parsing String:\n\n%@]",JSONString]];
+	}
 		
 	return self;
 }
@@ -93,6 +100,9 @@
 	}
 	return dictionaryArray;
 }
+
+
+
 
 
 

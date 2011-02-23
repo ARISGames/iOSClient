@@ -69,11 +69,12 @@ static const int kEmptyValue = -1;
 	NSString *baseServerString = [defaults stringForKey:@"baseServerString"];
 	self.serverURL = [NSURL URLWithString: baseServerString ];
 	
-	self.currentGame = [[Game alloc]init];
-	self.currentGame.gameId = [defaults integerForKey:@"gameId"];
-	self.currentGame.pcMediaId = [defaults integerForKey:@"gamePcMediaId"];
-	self.loggedIn = [defaults boolForKey:@"loggedIn"];
-	
+	if ([defaults integerForKey:@"gameId"] > 0) {
+		self.currentGame = [[Game alloc]init];
+		self.currentGame.gameId = [defaults integerForKey:@"gameId"];
+		self.currentGame.pcMediaId = [defaults integerForKey:@"gamePcMediaId"];
+	}
+		
 	if ([defaults boolForKey:@"resetTutorial"]) {
 		self.hasSeenNearbyTabTutorial = NO;
 		self.hasSeenQuestsTabTutorial = NO;
@@ -93,6 +94,7 @@ static const int kEmptyValue = -1;
 		self.hasSeenInventoryTabTutorial = [defaults boolForKey:@"hasSeenInventoryTabTutorial"];
 	}
 
+	self.loggedIn = [defaults boolForKey:@"loggedIn"];
 	if (loggedIn) {
 		self.username = [defaults stringForKey:@"username"];
 		self.password = [defaults stringForKey:@"password"];
@@ -370,13 +372,8 @@ static const int kEmptyValue = -1;
 	[jsonConnection performAsynchronousRequestWithParser:@selector(parseStartOverFromJSON:)]; 
 	[jsonConnection release];
 	
-	//Display the Intro or Complete Node
-	if (self.currentGame.completedQuests == self.currentGame.totalQuests &&
-		self.currentGame.completedQuests != 0) {
-		Node *completeNode = [self nodeForNodeId:self.currentGame.completeNodeId];
-		[completeNode display];
-	}
-	else if (self.currentGame.launchNodeId != 0) {
+	//Display the Intro
+	if (self.currentGame.launchNodeId != 0) {
 		Node *launchNode = [self nodeForNodeId:self.currentGame.launchNodeId];
 		[launchNode display];
 	}
@@ -491,8 +488,8 @@ static const int kEmptyValue = -1;
 	NSArray *arguments = [NSArray arrayWithObjects:
 						  [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",self.playerId],
-						  [title stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
-						  [description stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+						  title, //[title stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+						  description, //[description stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
 						  newFileName,
 						  @"1", //dropable
 						  @"1", //destroyable
