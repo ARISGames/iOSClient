@@ -19,6 +19,7 @@
 
 - (void)refreshViewFromModel;
 - (void)refresh;
+- (void)dismissTutorial;
 
 
 @end

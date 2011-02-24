@@ -77,6 +77,11 @@
 	NSLog(@"NearbyObjectsViewController: viewDidAppear");
 }
 
+-(void)dismissTutorial{
+	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate.tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindNearbyTab];
+}
+
 - (void)refresh {
 	NSLog(@"NearbyObjectsViewController: refresh requested");
 	AppModel *appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
