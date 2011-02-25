@@ -1401,26 +1401,29 @@ static const int kEmptyValue = -1;
 
 -(void)parseQRCodeObjectFromJSON: (JSONResult *)jsonResult {
 
-	NSDictionary *qrCodeObjectDictionary = (NSDictionary *)jsonResult.data;
-	
-	NSString *latitude = [qrCodeObjectDictionary valueForKey:@"latitude"];
-	NSString *longitude = [qrCodeObjectDictionary valueForKey:@"longitude"];
-	NSLog(@"AppModel-parseQRCodeObjectFromDictionary: Lat:%@ Lng:%@",latitude,longitude);
-
-	CLLocation *location = [[CLLocation alloc] initWithLatitude:[latitude doubleValue]
-													  longitude:[longitude doubleValue]];
-	
-	self.playerLocation = [location copy];
-	[location release];
-	
-	NSString *type = [qrCodeObjectDictionary valueForKey:@"type"];
-	NSLog(@"AppModel-parseQRCodeObjectFromDictionary: QRCode type is: %@",type);
-
 	NSObject<QRCodeProtocol> *qrCodeObject = nil;
-	if ([type isEqualToString:@"Node"]) qrCodeObject = [self parseNodeFromDictionary:qrCodeObjectDictionary];
-	if ([type isEqualToString:@"Item"]) qrCodeObject = [self parseItemFromDictionary:qrCodeObjectDictionary];
-	if ([type isEqualToString:@"Npc"]) qrCodeObject = [self parseNpcFromDictionary:qrCodeObjectDictionary];
 
+	if ((NSNull*)jsonResult.data != [NSNull null]) {
+		NSDictionary *qrCodeObjectDictionary = (NSDictionary *)jsonResult.data;
+
+		/*
+		NSString *latitude = [qrCodeObjectDictionary valueForKey:@"latitude"];
+		NSString *longitude = [qrCodeObjectDictionary valueForKey:@"longitude"];
+		NSLog(@"AppModel-parseQRCodeObjectFromDictionary: Lat:%@ Lng:%@",latitude,longitude);
+
+		CLLocation *location = [[CLLocation alloc] initWithLatitude:[latitude doubleValue]
+														  longitude:[longitude doubleValue]];
+		
+		self.playerLocation = [location copy];
+		[location release];
+		 */
+		
+		NSString *type = [qrCodeObjectDictionary valueForKey:@"type"];
+		if ([type isEqualToString:@"Node"]) qrCodeObject = [self parseNodeFromDictionary:qrCodeObjectDictionary];
+		if ([type isEqualToString:@"Item"]) qrCodeObject = [self parseItemFromDictionary:qrCodeObjectDictionary];
+		if ([type isEqualToString:@"Npc"]) qrCodeObject = [self parseNpcFromDictionary:qrCodeObjectDictionary];
+	}
+	
 	[[NSNotificationCenter defaultCenter] postNotification: [NSNotification notificationWithName:@"QRCodeObjectReady" object:qrCodeObject]];
 
 	
