@@ -195,9 +195,14 @@ NSString *const kDialogHtmlTemplate =
 }
 
 - (void)reviewScript {
-	if (currentScript != nil && scriptIndex > [currentScript count]) {
+	if (currentScript != nil && scriptIndex <= [currentScript count]) {
 		//We are midscript, go back one step
 		scriptIndex = [currentScript count] - 1;
+		[self continueScript];
+	}
+	else if (currentScript != nil && scriptIndex > [currentScript count]) {
+		//We finished a script, replay from the begining
+		scriptIndex = 0;
 		[self continueScript];
 	}
 	else {
@@ -232,10 +237,7 @@ NSString *const kDialogHtmlTemplate =
 
 
 - (void)applyNPCWithGreeting{
-	self.title = currentNpc.name;
-	[self loadNPCImage:currentNpc.mediaId];
-	//[npcWebView loadHTMLString:[NSString stringWithFormat:kDialogHtmlTemplate, [currentNpc greeting]] baseURL:nil];
-	[self moveNpcIn];
+
 	[parser parseText:currentNpc.greeting];
 
 }
@@ -286,6 +288,7 @@ NSString *const kDialogHtmlTemplate =
 	
 	pcWebView.hidden = YES;
 	pcContinueButton.hidden = YES;
+	pcTableView.hidden = YES;
 	
 	cachedScrollView = pcImage;
 	[pcImageScrollView zoomToRect:[pcImage frame] animated:NO];
@@ -300,9 +303,6 @@ NSString *const kDialogHtmlTemplate =
 		pcAnswerView.hidden = NO;
 	}
 	else {
-		pcTableView.hidden = NO;
-		pcAnswerView.hidden = YES;
-		
 		if (currentNode.numberOfOptions > 0) {
 			//There are node options
 			[self finishApplyingPlayerOptions:currentNode.options];
@@ -314,10 +314,7 @@ NSString *const kDialogHtmlTemplate =
 			[self showWaitingIndicatorForPlayerOptions];
 		}
 	}
-	
-	[self moveAllOutWithPostSelector:nil];
-	[self movePcIn];
-	
+		
 }
 
 - (void) optionsRecievedFromNotification:(NSNotification*) notification{
@@ -326,37 +323,36 @@ NSString *const kDialogHtmlTemplate =
 }
 
 - (void) finishApplyingPlayerOptions:(NSArray*)options{
+	pcWebView.hidden = YES;
+	pcTableView.hidden = YES;
+	
 	//Now our options are populated with node or conversation choices, display
 	if ([options count] == 0) {
 		if (closingScriptPlaying) { 
-			NSLog(@"DialogViewController: Closing Script complete. This conversation is over");
+			NSLog(@"DialogViewController: Closing Script complete. This conversation is over");	
 			[self backButtonTouchAction:nil];
 		}
 		
 		else if ([currentNpc.closing length] < 1) {
 			NSLog(@"DialogViewController: No Closing Script Available, closing the dialog");
-			
+			[self moveAllOutWithPostSelector:nil];
+			[self movePcIn];
 			nothingElseLabel.hidden = NO;
-			pcTableView.hidden = YES;
-			pcTableView.alpha = 0;
-			
-			[self backButtonTouchAction:nil];
 		}
 		
 		else {
 			NSLog(@"DialogViewController: Play Closing Script: %@",currentNpc.closing);
-			
+			pcWebView.hidden = YES;
 			closingScriptPlaying = YES; 		
-			[self moveAllOutWithPostSelector:nil];
-			[self moveNpcIn];
 			[parser parseText:currentNpc.closing];
 		}
 		
 	}
 	else {
 		NSLog(@"DialogViewController: Player options exist, put them on the screen");
+		[self moveAllOutWithPostSelector:nil];
+		[self movePcIn];
 		pcTableView.hidden = NO;
-		pcWebView.hidden = YES;
 		pcAnswerView.hidden = YES;
 		optionList = options;
 		[optionList retain];
@@ -486,6 +482,7 @@ NSString *const kDialogHtmlTemplate =
 	
 	NSString *dialogString = [NSString stringWithFormat:kDialogHtmlTemplate, cachedScene.text];
 	[characterWebView loadHTMLString:dialogString baseURL:nil];
+	characterWebView.hidden = YES;
 	
 	continueButton.hidden = NO;
 	
@@ -537,11 +534,13 @@ NSString *const kDialogHtmlTemplate =
 	
 	if (webView == npcWebView) {
 		NSLog(@"DialogViewController: NPC WebView loaded: Update Sizes");
+		npcWebView.hidden = NO;
 		continueButton = npcContinueButton;
 		scrollView = npcScrollView;
 	}
 	else {
 		NSLog(@"DialogViewController: PC WebView loaded: Update Sizes");
+		pcWebView.hidden = NO;
 		continueButton = pcContinueButton;
 		scrollView = pcScrollView;
 
@@ -736,6 +735,8 @@ NSString *const kDialogHtmlTemplate =
 	
 	//Check if it is the "review option"
 	if (indexPath.section == 1 && indexPath.row == 0) {
+		pcWebView.hidden = YES;
+		pcTableView.hidden = YES;
 		[self reviewScript];
 		return;
 	}
@@ -763,7 +764,8 @@ NSString *const kDialogHtmlTemplate =
 - (void) didFinishParsing {
 	// Load the next scene
 	pcTableView.hidden = YES;
-	pcWebView.hidden = NO;
+	pcWebView.hidden = YES;
+	pcContinueButton.hidden = YES;
 	pcAnswerView.hidden = YES;
 	currentCharacter = kPcIndex;
 	
