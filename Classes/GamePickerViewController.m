@@ -178,8 +178,8 @@
 	
 	for (Game *g in self.gameList) {
 		if ([[g.name lowercaseString] rangeOfString:[searchText lowercaseString]].location != NSNotFound) [self.filteredGameList addObject:g];
-		if ([[g.authors lowercaseString] rangeOfString:[searchText lowercaseString]].location != NSNotFound) [self.filteredGameList addObject:g]; 
-		if ([[g.description lowercaseString] rangeOfString:[searchText lowercaseString]].location != NSNotFound) [self.filteredGameList addObject:g]; 
+		else if ([[g.authors lowercaseString] rangeOfString:[searchText lowercaseString]].location != NSNotFound) [self.filteredGameList addObject:g]; 
+		else if ([[g.description lowercaseString] rangeOfString:[searchText lowercaseString]].location != NSNotFound) [self.filteredGameList addObject:g]; 
 	}
 	NSLog(@"filting Complete");
 }
