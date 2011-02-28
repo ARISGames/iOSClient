@@ -60,7 +60,7 @@
 	if (self != nil) {
 		self.locationManager = [[[CLLocationManager alloc] init] autorelease];
 		self.locationManager.delegate = self; // Tells the location manager to send updates to this object
-		self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+		self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
 		self.locationManager.distanceFilter = 5; //Minimum change of 5 meters for update
 		appModel = model;
 	}
