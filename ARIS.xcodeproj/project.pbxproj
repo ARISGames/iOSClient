@@ -220,6 +220,7 @@
 		ABC39B25116BD28F002185D4 /* TitleAndDecriptionFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABC39B23116BD28F002185D4 /* TitleAndDecriptionFormViewController.m */; };
 		ABC39B26116BD28F002185D4 /* TitleAndDecriptionFormViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABC39B24116BD28F002185D4 /* TitleAndDecriptionFormViewController.xib */; };
 		ABC3C14311FCF2A400E59FAC /* locateMe.png in Resources */ = {isa = PBXBuildFile; fileRef = ABC3C14211FCF2A400E59FAC /* locateMe.png */; };
+		ABCA372E131D31D80074254B /* textToggle.png in Resources */ = {isa = PBXBuildFile; fileRef = ABCA372D131D31D80074254B /* textToggle.png */; };
 		ABD5C4E9104F1A0E002EB824 /* Npc.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD5C4E8104F1A0E002EB824 /* Npc.m */; };
 		ABD6226110D6FBB400D3B747 /* QuestActiveIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = ABD6225F10D6FBB400D3B747 /* QuestActiveIcon.png */; };
 		ABD6226210D6FBB400D3B747 /* QuestCompleteIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = ABD6226010D6FBB400D3B747 /* QuestCompleteIcon.png */; };
@@ -534,6 +535,7 @@
 		ABC39B23116BD28F002185D4 /* TitleAndDecriptionFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitleAndDecriptionFormViewController.m; sourceTree = "<group>"; };
 		ABC39B24116BD28F002185D4 /* TitleAndDecriptionFormViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TitleAndDecriptionFormViewController.xib; sourceTree = "<group>"; };
 		ABC3C14211FCF2A400E59FAC /* locateMe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = locateMe.png; sourceTree = "<group>"; };
+		ABCA372D131D31D80074254B /* textToggle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textToggle.png; sourceTree = "<group>"; };
 		ABD24F59120A5BAD00D792F5 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ABD5C4E7104F1A0E002EB824 /* Npc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Npc.h; sourceTree = "<group>"; };
 		ABD5C4E8104F1A0E002EB824 /* Npc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Npc.m; sourceTree = "<group>"; };
@@ -768,7 +770,8 @@
 				A760473F0FC0AA1E00219A53 /* NearbyObjects */,
 				AB6B774810C9D61200275650 /* ARView */,
 				A7986D680F8FEC4900A5469F /* Quests */,
-				ABBEBBBF104D7CE400AA7285 /* Nodes */,
+				D42432501107734300E58147 /* NPC Dialog */,
+				ABBEBBBF104D7CE400AA7285 /* Plaques */,
 				ABDA40A910506AF400823A94 /* GPS */,
 				A7986D660F8FEC2100A5469F /* Inventory */,
 				ABC39C5F116C428C002185D4 /* Title and Description Form */,
@@ -1108,15 +1111,14 @@
 			name = ARView;
 			sourceTree = "<group>";
 		};
-		ABBEBBBF104D7CE400AA7285 /* Nodes */ = {
+		ABBEBBBF104D7CE400AA7285 /* Plaques */ = {
 			isa = PBXGroup;
 			children = (
-				D42432501107734300E58147 /* Dialog */,
 				ABBEBBC4104D7DAB00AA7285 /* Node.xib */,
 				ABBEBBC0104D7CF900AA7285 /* NodeViewController.h */,
 				ABBEBBC1104D7CF900AA7285 /* NodeViewController.m */,
 			);
-			name = Nodes;
+			name = Plaques;
 			sourceTree = "<group>";
 		};
 		ABC39C5F116C428C002185D4 /* Title and Description Form */ = {
@@ -1169,9 +1171,10 @@
 			path = Classes/model;
 			sourceTree = "<group>";
 		};
-		D42432501107734300E58147 /* Dialog */ = {
+		D42432501107734300E58147 /* NPC Dialog */ = {
 			isa = PBXGroup;
 			children = (
+				ABCA372D131D31D80074254B /* textToggle.png */,
 				AB8E31F51228399B00C198C3 /* textFade.png */,
 				D4243267110773EB00E58147 /* Dialog.xib */,
 				D4D366AA111B65E0009C4D00 /* AudioStreamer.h */,
@@ -1184,7 +1187,7 @@
 				D424324C1107730E00E58147 /* SceneParser.m */,
 				D4DE6B8A110A00D7008BFE38 /* defaultCharacter.png */,
 			);
-			name = Dialog;
+			name = "NPC Dialog";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1341,6 +1344,7 @@
 				AB79D7A61308311C004AE1C7 /* NearbyObjectCell.xib in Resources */,
 				AB79DB8C130922EF004AE1C7 /* nearby.png in Resources */,
 				ABAA644F130FD5610004D64C /* GamePickerCell.xib in Resources */,
+				ABCA372E131D31D80074254B /* textToggle.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

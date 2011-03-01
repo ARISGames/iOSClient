@@ -60,7 +60,7 @@ NSString *const kDialogHtmlTemplate =
 @implementation DialogViewController
 @synthesize npcImage, pcImage, npcWebView, pcWebView, pcTableView;
 @synthesize npcScrollView, pcScrollView, npcImageScrollView, pcImageScrollView, pcActivityIndicator;
-@synthesize npcContinueButton, pcContinueButton;
+@synthesize npcContinueButton, pcContinueButton, textSizeButton;
 @synthesize pcAnswerView, mainView, npcView, pcView, nothingElseLabel;
 
 
@@ -103,6 +103,7 @@ NSString *const kDialogHtmlTemplate =
 	lastPcId = 0;
 	currentNode = nil;
 	closingScriptPlaying = NO;
+	inFullScreenTextMode = NO;
 	
 	//View Setup
 	/*
@@ -126,6 +127,9 @@ NSString *const kDialogHtmlTemplate =
 	[npcContinueButton setTitle: NSLocalizedString(@"DialogContinue",@"") forState: UIControlStateHighlighted];	
 	[pcContinueButton setTitle: NSLocalizedString(@"DialogContinue",@"") forState: UIControlStateNormal];
 	[pcContinueButton setTitle: NSLocalizedString(@"DialogContinue",@"") forState: UIControlStateHighlighted];	
+	
+	self.textSizeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"textToggle.png"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleFullScreenTextMode)];      
+	self.navigationItem.rightBarButtonItem = self.textSizeButton;
 	
 	npcWebView.hidden = NO;
 	pcAnswerView.hidden = YES;
@@ -159,7 +163,29 @@ NSString *const kDialogHtmlTemplate =
 */
 }
 
-
+-(void)toggleFullScreenTextMode{
+	NSLog(@"DialogViewController: toggleTextSize");
+	
+	CGRect newTextFrame;
+	if (inFullScreenTextMode) {
+		//Switch to small mode
+		newTextFrame = CGRectMake(0, self.view.bounds.size.height-128, self.view.bounds.size.width, 128);
+	}
+	else {
+		//switch to full screen mode
+		newTextFrame = self.view.bounds;
+	}
+	
+	[UIView beginAnimations:@"toggleTextSize" context:nil];
+	[UIView setAnimationDuration:0.5];
+	self.pcScrollView.frame = newTextFrame;
+	self.pcTableView.frame = self.pcScrollView.bounds;
+	self.npcScrollView.frame = newTextFrame;
+	[UIView commitAnimations];
+	
+	inFullScreenTextMode = !inFullScreenTextMode;
+	
+}
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.

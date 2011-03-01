@@ -29,6 +29,7 @@
 	IBOutlet	UILabel		*nothingElseLabel;
 	IBOutlet	UIButton	*pcContinueButton;
 	IBOutlet	UIButton	*npcContinueButton;
+	UIBarButtonItem	*textSizeButton;
 	
 	IBOutlet	UIView	*mainView;
 	IBOutlet	UIView	*npcView;
@@ -55,6 +56,7 @@
 	NSArray			*optionList;
 	
 	BOOL			closingScriptPlaying;
+	BOOL			inFullScreenTextMode;
 }
 
 
@@ -68,6 +70,7 @@
 @property(nonatomic, retain) IBOutlet UILabel		*nothingElseLabel;
 @property(nonatomic, retain) IBOutlet UIButton *npcContinueButton;
 @property(nonatomic, retain) IBOutlet UIButton *pcContinueButton;
+@property(nonatomic, retain) IBOutlet UIBarButtonItem *textSizeButton;
 
 @property(nonatomic, retain) IBOutlet UIScrollView	*npcScrollView;
 @property(nonatomic, retain) IBOutlet UIScrollView	*pcScrollView;
