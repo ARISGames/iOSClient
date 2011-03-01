@@ -310,7 +310,9 @@ NSString *const kDialogHtmlTemplate =
 	}
 }
 
-- (void) applyPlayerOptions{
+- (void) applyPlayerOptions{	
+	[self moveAllOutWithPostSelector:nil];
+	[self movePcIn];
 	
 	pcWebView.hidden = YES;
 	pcContinueButton.hidden = YES;
@@ -353,24 +355,14 @@ NSString *const kDialogHtmlTemplate =
 	pcTableView.hidden = YES;
 	
 	//Now our options are populated with node or conversation choices, display
-	if ([options count] == 0 && [currentNpc.closing length] > 1) {
-		if (closingScriptPlaying) { 
-			NSLog(@"DialogViewController: Closing Script complete. This conversation is over");	
-			[self backButtonTouchAction:nil];
-		}
-
-		else {
+	if ([options count] == 0 && [currentNpc.closing length] > 1 && !closingScriptPlaying) {
 			NSLog(@"DialogViewController: Play Closing Script: %@",currentNpc.closing);
 			pcWebView.hidden = YES;
 			closingScriptPlaying = YES; 		
 			[parser parseText:currentNpc.closing];
-		}
-		
 	}
 	else {
 		NSLog(@"DialogViewController: Player options exist or no closing script exists, put them on the screen");
-		[self moveAllOutWithPostSelector:nil];
-		[self movePcIn];
 		pcTableView.hidden = NO;
 		pcAnswerView.hidden = YES;
 		optionList = options;
