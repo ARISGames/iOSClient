@@ -47,6 +47,11 @@
 		NSLog(@"JSONResult: The return code was 0, continue to parse out the data");
 		self.data = [self parseJSONData:dataObject];
 	}
+	else if (self.returnCode == 1){
+		NSLog(@"JSONResult: The return code was 1, we have a bad game id");
+		NSNotification *n = [NSNotification notificationWithName:@"LogoutRequested" object:self userInfo:nil];
+		[[NSNotificationCenter defaultCenter] postNotification:n];
+	}
 	else {
 		NSLog(@"JSONResult: SERVER RESPONSE ERROR - Return Code != 0",jsonError.code, JSONString);
 		

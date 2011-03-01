@@ -209,7 +209,7 @@ static const int kEmptyValue = -1;
 	NSArray *arguments = [NSArray arrayWithObjects:self.username, self.password, nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithServer:self.serverURL 
 																	andServiceName: @"players" 
-																	andMethodName:@"login"
+																	andMethodName:@"loginPlayer"
 																	andArguments:arguments]; 
 
 	[jsonConnection performAsynchronousRequestWithParser:@selector(parseLoginResponseFromJSON:)]; 
@@ -1070,22 +1070,8 @@ static const int kEmptyValue = -1;
 	
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate removeNewWaitingIndicator];
-	
-	if (!jsonResult) {
-		self.loggedIn = NO;
 		
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"BadServerResponseTitleKey",@"")
-														message:NSLocalizedString(@"BadServerResponseMessageKey",@"")
-													   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-		[alert show];
-		
-		return;
-	}
-
-	//handle login response
-	int returnCode = jsonResult.returnCode;
-	NSLog(@"AppModel: Login Result Code: %d", returnCode);
-	if(returnCode == 0) {
+	if ((NSNull *)jsonResult.data != [NSNull null] && jsonResult.data != nil) {
 		self.loggedIn = YES;
 		self.playerId = [((NSDecimalNumber*)jsonResult.data) intValue];
 	}
