@@ -52,7 +52,28 @@
 
 	[gameTable reloadData];
 	[self refresh];
+	
+	//create a time for automatic refresh
+	NSLog(@"GamePickerViewController: Starting Refresh Timer");
+	if (refreshTimer != nil && [refreshTimer isValid]) [refreshTimer invalidate];
+	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
+	
+	
+	NSLog(@"GamePickerViewController: view did appear");
+
 }
+
+
+
+- (void)viewWillDisappear:(BOOL)animated {
+	NSLog(@"GamePickerViewController: Stopping Refresh Timer");
+	if (refreshTimer) {
+		[refreshTimer invalidate];
+		refreshTimer = nil;
+	}
+}
+
+
 
 -(void)refresh {
 	NSLog(@"GamePickerViewController: Refresh Requested");

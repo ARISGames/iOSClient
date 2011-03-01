@@ -15,6 +15,8 @@
 	NSMutableArray *filteredGameList;
 
 	UITableView *gameTable;
+	NSTimer *refreshTimer;
+
 }
 
 -(void) refresh;
