@@ -477,7 +477,6 @@
 	//Clear any user realated info in appModel (except server)
 	[appModel clearUserDefaults];
 	[appModel loadUserDefaults];
-	[appModel resetAllPlayerLists];
 	
 	//clear the tutorial popups
 	[tutorialViewController dismissAllTutorials];
