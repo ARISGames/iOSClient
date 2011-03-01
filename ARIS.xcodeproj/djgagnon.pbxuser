@@ -9,9 +9,9 @@
 	};
 	1D3623250D0F684500981E51 /* ARISAppDelegate.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {935, 8983}}";
-			sepNavSelRange = "{11400, 0}";
-			sepNavVisRange = "{10733, 1514}";
+			sepNavIntBoundsRect = "{{0, 0}, {935, 9048}}";
+			sepNavSelRange = "{20779, 0}";
+			sepNavVisRange = "{19651, 1607}";
 			sepNavWindowFrame = "{{259, 40}, {1181, 838}}";
 		};
 	};
@@ -600,6 +600,16 @@
 			ABCA359F131CEB780074254B /* PBXTextBookmark */ = ABCA359F131CEB780074254B /* PBXTextBookmark */;
 			ABCA35A0131CEC450074254B /* PBXTextBookmark */ = ABCA35A0131CEC450074254B /* PBXTextBookmark */;
 			ABCA35A1131CEC450074254B /* PBXTextBookmark */ = ABCA35A1131CEC450074254B /* PBXTextBookmark */;
+			ABCA35A4131CEC710074254B /* PBXTextBookmark */ = ABCA35A4131CEC710074254B /* PBXTextBookmark */;
+			ABCA35A5131CEC710074254B /* PBXTextBookmark */ = ABCA35A5131CEC710074254B /* PBXTextBookmark */;
+			ABCA35A9131CEC900074254B /* PBXTextBookmark */ = ABCA35A9131CEC900074254B /* PBXTextBookmark */;
+			ABCA35AA131CEC900074254B /* PBXTextBookmark */ = ABCA35AA131CEC900074254B /* PBXTextBookmark */;
+			ABCA35AB131CEC900074254B /* PBXTextBookmark */ = ABCA35AB131CEC900074254B /* PBXTextBookmark */;
+			ABCA35AC131CEC9C0074254B /* PBXTextBookmark */ = ABCA35AC131CEC9C0074254B /* PBXTextBookmark */;
+			ABCA35AD131CEC9C0074254B /* PBXTextBookmark */ = ABCA35AD131CEC9C0074254B /* PBXTextBookmark */;
+			ABCA35B0131CECFE0074254B /* PBXTextBookmark */ = ABCA35B0131CECFE0074254B /* PBXTextBookmark */;
+			ABCA35B1131CED040074254B /* PBXTextBookmark */ = ABCA35B1131CED040074254B /* PBXTextBookmark */;
+			ABCA35B2131CED040074254B /* PBXTextBookmark */ = ABCA35B2131CED040074254B /* PBXTextBookmark */;
 			ABCF16E41225C50200DE3FC4 = ABCF16E41225C50200DE3FC4 /* PBXTextBookmark */;
 			ABD6229B10DAFAE200D3B747 = ABD6229B10DAFAE200D3B747 /* PBXBookmark */;
 			ABDA2FDD12411ED800D89A18 = ABDA2FDD12411ED800D89A18 /* PBXTextBookmark */;
@@ -2893,7 +2903,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 309";
 		rLen = 0;
-		rLoc = 13965;
+		rLoc = 14079;
 		rType = 0;
 		vrLen = 845;
 		vrLoc = 13007;
@@ -2903,7 +2913,7 @@
 		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
 		name = "ARISAppDelegate.m: 300";
 		rLen = 1;
-		rLoc = 13635;
+		rLoc = 13749;
 		rType = 0;
 		vrLen = 847;
 		vrLoc = 13005;
@@ -3248,7 +3258,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 43;
-		modificationTime = 320662257.637165;
+		modificationTime = 320662642.57221;
 		originalNumberOfMultipleMatches = 1;
 		state = 0;
 	};
@@ -3265,7 +3275,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 21;
-		modificationTime = 320662257.637194;
+		modificationTime = 320662642.572225;
 		originalNumberOfMultipleMatches = 1;
 		state = 0;
 	};
@@ -3308,7 +3318,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 78;
-		modificationTime = 320662257.637229;
+		modificationTime = 320662642.572239;
 		originalNumberOfMultipleMatches = 1;
 		state = 0;
 	};
@@ -4566,6 +4576,106 @@
 		vrLen = 1514;
 		vrLoc = 10733;
 	};
+	ABCA35A4131CEC710074254B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB54A0B91047301E00A901EF /* JSONResult.m */;
+		name = "JSONResult.m: 54";
+		rLen = 0;
+		rLoc = 1822;
+		rType = 0;
+		vrLen = 79;
+		vrLoc = 457;
+	};
+	ABCA35A5131CEC710074254B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 516";
+		rLen = 0;
+		rLoc = 20779;
+		rType = 0;
+		vrLen = 1605;
+		vrLoc = 19653;
+	};
+	ABCA35A9131CEC900074254B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB54A0B91047301E00A901EF /* JSONResult.m */;
+		name = "JSONResult.m: 54";
+		rLen = 0;
+		rLoc = 1822;
+		rType = 0;
+		vrLen = 79;
+		vrLoc = 457;
+	};
+	ABCA35AA131CEC900074254B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 516";
+		rLen = 0;
+		rLoc = 20779;
+		rType = 0;
+		vrLen = 1605;
+		vrLoc = 19653;
+	};
+	ABCA35AB131CEC900074254B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 516";
+		rLen = 0;
+		rLoc = 20779;
+		rType = 0;
+		vrLen = 1607;
+		vrLoc = 19651;
+	};
+	ABCA35AC131CEC9C0074254B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB54A0B91047301E00A901EF /* JSONResult.m */;
+		name = "JSONResult.m: 54";
+		rLen = 0;
+		rLoc = 1822;
+		rType = 0;
+		vrLen = 79;
+		vrLoc = 457;
+	};
+	ABCA35AD131CEC9C0074254B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 516";
+		rLen = 0;
+		rLoc = 20779;
+		rType = 0;
+		vrLen = 1607;
+		vrLoc = 19651;
+	};
+	ABCA35B0131CECFE0074254B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 240";
+		rLen = 0;
+		rLoc = 11291;
+		rType = 0;
+		vrLen = 821;
+		vrLoc = 10665;
+	};
+	ABCA35B1131CED040074254B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AB54A0B91047301E00A901EF /* JSONResult.m */;
+		name = "JSONResult.m: 54";
+		rLen = 0;
+		rLoc = 1822;
+		rType = 0;
+		vrLen = 79;
+		vrLoc = 457;
+	};
+	ABCA35B2131CED040074254B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */;
+		name = "ARISAppDelegate.m: 516";
+		rLen = 0;
+		rLoc = 20779;
+		rType = 0;
+		vrLen = 1607;
+		vrLoc = 19651;
+	};
 	ABCA5D821044618F004DA60D /* InventoryParserDelegate.m:34 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
@@ -4579,7 +4689,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 34;
-		modificationTime = 320662257.637112;
+		modificationTime = 320662642.57215;
 		originalNumberOfMultipleMatches = 1;
 		state = 0;
 	};
@@ -5035,7 +5145,7 @@
 		ignoreCount = 0;
 		lineNumber = 205;
 		location = ARIS;
-		modificationTime = 320662257.637253;
+		modificationTime = 320662642.572616;
 		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};

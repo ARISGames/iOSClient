@@ -238,6 +238,10 @@
 													   delegate:self cancelButtonTitle:@"Ignore" otherButtonTitles: @"Report",nil];
 		[self.serverAlert show];	
  	}
+	else {
+		NSLog(@"AppDelegate: showServerAlertWithEmail was called, but a server alert was already present");
+	}
+
 }
 
 - (void) showNetworkAlert{
@@ -507,10 +511,9 @@
 		if (controller) [self.tabBarController presentModalViewController:controller animated:YES];
 		[controller release];
 	}
-	else if (buttonIndex == 0) {
-		[self.serverAlert release];
-		self.serverAlert = nil;
-	}
+	
+	[self.serverAlert release];
+	self.serverAlert = nil;
 	
 	
 }
