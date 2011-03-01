@@ -34,7 +34,13 @@
 }
 
 - (int) iconMediaId {
-	return 1; 
+	if (iconMediaId < 1) return 1;
+	else return iconMediaId;
+}
+
+- (int) mediaId {
+	if (mediaId < 1) return 1; 
+	else return mediaId;
 }
 
 - (void) display{
