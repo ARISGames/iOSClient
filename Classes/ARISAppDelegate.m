@@ -27,7 +27,7 @@
 
 @synthesize myCLController;
 @synthesize waitingIndicator,waitingIndicatorView;
-@synthesize networkAlert;
+@synthesize networkAlert,serverAlert;
 @synthesize tutorialViewController;
 
 
@@ -230,6 +230,16 @@
 }
 
 
+- (void) showServerAlertWithEmail:(NSString *)title message:(NSString *)message details:(NSString*)detail{
+	
+	if (!self.serverAlert){
+		self.serverAlert = [[UIAlertView alloc] initWithTitle:title
+														message:[NSString stringWithFormat:@"%@\n\nDetails:\n%@", message, detail]
+													   delegate:self cancelButtonTitle:@"Ignore" otherButtonTitles: @"Report",nil];
+		[self.serverAlert show];	
+ 	}
+}
+
 - (void) showNetworkAlert{
 	NSLog (@"AppDelegate: Showing Network Alert");
 	
@@ -238,7 +248,6 @@
 											message: NSLocalizedString(@"PoorConnectionMessageKey", @"")
 												 delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 	}
-	
 	if (self.networkAlert.visible == NO) [networkAlert show];
 		
 }
@@ -249,8 +258,6 @@
 	if (self.networkAlert != nil) {
 		[self.networkAlert dismissWithClickedButtonIndex:0 animated:YES];
 	}
-	
-
 }
 
 
@@ -348,16 +355,6 @@
 - (void) vibrate {
 	AudioServicesPlaySystemSound (kSystemSoundID_Vibrate);  
 }
-
-
-- (void) showErrorWithEmail:(NSString *)title message:(NSString *)message details:(NSString*)detail{
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-													message:[NSString stringWithFormat:@"%@\n\nDetails:\n%@", message, detail]
-												   delegate:self cancelButtonTitle:@"Ignore" otherButtonTitles: @"Report",nil];
-	[alert show];	
-	[alert release];	
-}
-
 
 - (void)newError: (NSString *)text {
 	NSLog(@"%@", text);
@@ -495,7 +492,7 @@
 #pragma mark AlertView Delegate Methods
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-	//Since only the error alert with email ever uses this, we know who we are dealing with
+	//Since only the server error alert with email ever uses this, we know who we are dealing with
 	NSLog(@"AppDelegate: AlertView clickedButtonAtIndex: %d",buttonIndex);
 	
 	if (buttonIndex == 1) {
@@ -510,6 +507,11 @@
 		if (controller) [self.tabBarController presentModalViewController:controller animated:YES];
 		[controller release];
 	}
+	else if (buttonIndex == 0) {
+		[self.serverAlert release];
+		self.serverAlert = nil;
+	}
+	
 	
 }
 

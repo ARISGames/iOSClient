@@ -55,6 +55,7 @@
 	WaitingIndicatorView *waitingIndicatorView;
 	
 	UIAlertView *networkAlert;
+	UIAlertView *serverAlert;
 	TutorialPopupView *tutorialPopupView; 
 	
 	UIWindow* tvOutWindow;
@@ -80,13 +81,14 @@
 @property (nonatomic, retain) WaitingIndicatorView *waitingIndicatorView;
 
 @property (nonatomic, retain) UIAlertView *networkAlert;
+@property (nonatomic, retain) UIAlertView *serverAlert;
 
 
 - (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password;
 - (void) displayNearbyObjectView:(UIViewController *)nearbyObjectsNavigationController;
 - (void) showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)yesOrNo;
 - (void) showNewWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar;
-- (void) showErrorWithEmail:(NSString *)title message:(NSString *)message details:(NSString*)detail;
+- (void) showServerAlertWithEmail:(NSString *)title message:(NSString *)message details:(NSString*)detail;
 - (void) removeWaitingIndicator;
 - (void) removeNewWaitingIndicator;
 - (void) showNetworkAlert;

@@ -34,7 +34,7 @@
 		NSLog(@"JSONResult: SERVER RESPONSE ERROR - Error %d parsing JSON String: %@. There must be a problem with the server",jsonError.code, JSONString);
 
 		ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-		[appDelegate showErrorWithEmail:NSLocalizedString(@"BadServerResponseTitleKey",@"")
+		[appDelegate showServerAlertWithEmail:NSLocalizedString(@"BadServerResponseTitleKey",@"")
 							message:NSLocalizedString(@"BadServerResponseMessageKey",@"")
 							  details:[NSString stringWithFormat:@"JSONResult: Error Parsing String:\n\n%@]",JSONString]];
 	}
@@ -51,7 +51,7 @@
 		NSLog(@"JSONResult: SERVER RESPONSE ERROR - Return Code != 0",jsonError.code, JSONString);
 		
 		ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-		[appDelegate showErrorWithEmail:NSLocalizedString(@"BadServerResponseTitleKey",@"")
+		[appDelegate showServerAlertWithEmail:NSLocalizedString(@"BadServerResponseTitleKey",@"")
 							message:NSLocalizedString(@"BadServerResponseMessageKey",@"")
 								details:[NSString stringWithFormat:@"JSONResult: Error Parsing String:\n\n%@]",JSONString]];
 	}

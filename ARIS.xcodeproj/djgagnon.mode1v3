@@ -276,14 +276,13 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>29</integer>
-									<integer>24</integer>
+									<integer>63</integer>
 									<integer>5</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 306}, {271, 738}}</string>
+							<string>{{0, 534}, {271, 738}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -315,6 +314,8 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -332,7 +333,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>ABCA3574131CDEC70074254B</string>
+										<string>ABCA35A0131CEC450074254B</string>
 										<key>history</key>
 										<array>
 											<string>ABB9262310C85AB000B09506</string>
@@ -476,7 +477,6 @@
 											<string>ABFCAE6613145EFF00CC962C</string>
 											<string>AB70F3131315257200BD06CD</string>
 											<string>AB70F3CA1315AF5C00BD06CD</string>
-											<string>AB70F3CB1315AF5C00BD06CD</string>
 											<string>ABA802B41316802D00BCCBE5</string>
 											<string>ABA802C2131680DA00BCCBE5</string>
 											<string>ABA802C4131680DA00BCCBE5</string>
@@ -488,7 +488,8 @@
 											<string>ABA8031213168A2C00BCCBE5</string>
 											<string>ABCA34571317A1300074254B</string>
 											<string>ABCA348A1317A2BE0074254B</string>
-											<string>ABCA348B1317A2BE0074254B</string>
+											<string>ABCA357D131CEA5D0074254B</string>
+											<string>ABCA357E131CEA5D0074254B</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -500,24 +501,22 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {996, 156}}</string>
+								<string>{{0, 0}, {996, 75}}</string>
 								<key>RubberWindowFrame</key>
 								<string>0 81 1289 797 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>156pt</string>
+							<string>75pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>Npc.m</string>
+								<string>ARISAppDelegate.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -525,11 +524,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>Npc.m</string>
+										<string>ARISAppDelegate.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>ABCA3575131CDEC70074254B</string>
+										<string>ABCA35A1131CEC450074254B</string>
 										<key>history</key>
 										<array>
 											<string>ABB9262310C85AB000B09506</string>
@@ -674,10 +673,8 @@
 											<string>AB70F3BF1315ADB600BD06CD</string>
 											<string>AB70F3CF1315AF5C00BD06CD</string>
 											<string>AB70F3FA1315B09500BD06CD</string>
-											<string>AB70F4041315B4D500BD06CD</string>
 											<string>ABA802C7131680DA00BCCBE5</string>
 											<string>ABA802C8131680DA00BCCBE5</string>
-											<string>ABA802F11316861C00BCCBE5</string>
 											<string>ABCA345A1317A1300074254B</string>
 											<string>ABCA349713180FFA0074254B</string>
 											<string>ABCA349813180FFA0074254B</string>
@@ -688,7 +685,9 @@
 											<string>ABCA354A131C07FB0074254B</string>
 											<string>ABCA3568131CDE3B0074254B</string>
 											<string>ABCA3569131CDE3B0074254B</string>
-											<string>ABCA356A131CDE3B0074254B</string>
+											<string>ABCA3580131CEA5D0074254B</string>
+											<string>ABCA3581131CEA5D0074254B</string>
+											<string>ABCA359E131CEB780074254B</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -700,14 +699,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 161}, {996, 590}}</string>
+								<string>{{0, 80}, {996, 671}}</string>
 								<key>RubberWindowFrame</key>
 								<string>0 81 1289 797 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>590pt</string>
+							<string>671pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -886,7 +885,7 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>ABCA3576131CDEC70074254B</string>
+		<string>ABCA359A131CEAF00074254B</string>
 		<string>ABCA344F13179F9E0074254B</string>
 		<string>ABCA345013179F9E0074254B</string>
 		<string>1C78EAAD065D492600B07095</string>
@@ -911,12 +910,14 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string></string>
+								<string>ARISAppDelegate.m</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
