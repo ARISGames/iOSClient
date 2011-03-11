@@ -36,13 +36,13 @@
 }
 
 - (void)dealloc {
-    [super dealloc];
 	[titleLabel release];
 	[distanceLabel release];
 	[authorLabel release];
 	[percentCompleteLabel release];
 	[iconView release];
 	[progressView release];
+    [super dealloc];
 }
 
 

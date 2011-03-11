@@ -17,6 +17,7 @@
 @synthesize gameTable;
 @synthesize gameList;
 @synthesize filteredGameList;
+@synthesize refreshButton;
 
 
 //Override init for passing title and icon to tab bar
@@ -42,6 +43,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
+    self.refreshButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh)];
+    
+    self.navigationItem.rightBarButtonItem = self.refreshButton;
+    
 	NSLog(@"GamePickerViewController: View Loaded");
 }
 
@@ -52,27 +57,10 @@
 
 	[gameTable reloadData];
 	[self refresh];
-	
-	//create a time for automatic refresh
-	NSLog(@"GamePickerViewController: Starting Refresh Timer");
-	if (refreshTimer != nil && [refreshTimer isValid]) [refreshTimer invalidate];
-	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
-	
-	
+		
 	NSLog(@"GamePickerViewController: view did appear");
 
 }
-
-
-
-- (void)viewWillDisappear:(BOOL)animated {
-	NSLog(@"GamePickerViewController: Stopping Refresh Timer");
-	if (refreshTimer) {
-		[refreshTimer invalidate];
-		refreshTimer = nil;
-	}
-}
-
 
 
 -(void)refresh {
@@ -98,7 +86,7 @@
 }
 
 -(void)removeLoadingIndicator{
-	[[self navigationItem] setRightBarButtonItem:nil];
+	[[self navigationItem] setRightBarButtonItem:self.refreshButton];
 }
 
 - (void)refreshViewFromModel {
@@ -151,6 +139,8 @@
 	cell.distanceLabel.text = [NSString stringWithFormat:@"%1.1f %@",  dist/1000, NSLocalizedString(@"KilometersKey", @"") ];
 	cell.authorLabel.text = currentGame.authors;
 	cell.progressView.progress = (float)currentGame.completedQuests / (float)currentGame.totalQuests;
+    cell.percentCompleteLabel.text = NSLocalizedString(@"PercentCompleteKey", @"");
+
 	
 	if (currentGame.iconMediaId > 0) {
 		Media *iconMedia = [appModel mediaForMediaId: currentGame.iconMediaId];
@@ -271,7 +261,7 @@
 
 - (void)dealloc {
 	[gameList release];
-
+    [refreshButton release];
     [super dealloc];
 }
 

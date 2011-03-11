@@ -15,7 +15,7 @@
 	NSMutableArray *filteredGameList;
 
 	UITableView *gameTable;
-	NSTimer *refreshTimer;
+    UIBarButtonItem *refreshButton;
 
 }
 
@@ -26,6 +26,7 @@
 @property (nonatomic, retain) NSArray *gameList;
 @property (nonatomic, retain) NSMutableArray *filteredGameList;
 @property (nonatomic, retain) IBOutlet UITableView *gameTable;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *refreshButton;
 
 
 @end

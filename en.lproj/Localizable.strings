@@ -95,6 +95,7 @@
 //Game Picker
 "GamePickerTitleKey" = "Select Game";
 "KilometersKey" = "Kilometers";
+"PercentCompleteKey" = "% Complete";
 "GamePickerNoNearbyGamesKey" = "No Nearby Games Found";
 "GamePickerNearbyGamesKey" = "Nearby Games";
 "GamePickerOtherGamesKey" = "Other Games";
