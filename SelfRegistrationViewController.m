@@ -64,8 +64,9 @@
 	
 	if (appModel.networkAlert) NSLog(@"SelfRegistration: Network is down, skip alert");
 	else{
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Either this name has been taken or you didn't fill out all the required information."
-													   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
+                                                        message:@"Either this name has been taken or you didn't fill out all the required information."
+													   delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
 		[alert show];	
 		[alert release];
 	}	
@@ -79,8 +80,9 @@
 	
 	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeNewWaitingIndicator];
 
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Your new User was Created. Please login."
-												   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" 
+                                                    message:@"Your new User was Created. Please login."
+												   delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
 	[alert show];	
 	[alert release];
 
