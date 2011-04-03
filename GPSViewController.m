@@ -401,7 +401,7 @@ static float INITIAL_SPAN = 0.001;
 }
 
 
-- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
+- (void)mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view {
 	Location *location = ((Annotation*)view.annotation).location;
 	NSLog(@"GPSViewController: didSelectAnnotationView for location: %@",location.name);
 	
@@ -431,8 +431,8 @@ static float INITIAL_SPAN = 0.001;
 	}
 	
 	[actionSheet showInView:view];
-	
-	
+    
+    
 	
 }
 
@@ -443,7 +443,10 @@ static float INITIAL_SPAN = 0.001;
 	Annotation *currentAnnotation = [mapView.selectedAnnotations lastObject];
 	
 	if (buttonIndex == actionSheet.cancelButtonIndex) [mapView deselectAnnotation:currentAnnotation animated:YES]; 
-	else [currentAnnotation.location display];
+	else {
+        [currentAnnotation.location display];
+        [mapView deselectAnnotation:currentAnnotation animated:YES];
+    }
 
 }
 
