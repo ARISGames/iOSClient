@@ -49,6 +49,16 @@ extern NSDictionary *InventoryElements;
 	BOOL hasSeenQuestsTabTutorial;
 	BOOL hasSeenMapTabTutorial;
 	BOOL hasSeenInventoryTabTutorial;
+    
+    //Fetcher Flags
+    BOOL currentlyFetchingLocationList;
+    BOOL currentlyFetchingInventory;
+    BOOL currentlyFetchingQuestList;
+    BOOL currentlyUpdatingServerWithPlayerLocation;
+    BOOL currentlyUpdatingServerWithMapViewed;
+    BOOL currentlyUpdatingServerWithQuestsViewed;
+    BOOL currentlyUpdatingServerWithInventoryViewed;
+
 
 }
 
@@ -84,6 +94,14 @@ extern NSDictionary *InventoryElements;
 @property(readwrite) BOOL hasSeenMapTabTutorial;
 @property(readwrite) BOOL hasSeenInventoryTabTutorial;
 
+//Fetcher Flags
+@property(readwrite) BOOL currentlyFetchingLocationList;
+@property(readwrite) BOOL currentlyFetchingInventory;
+@property(readwrite) BOOL currentlyFetchingQuestList;
+@property(readwrite) BOOL currentlyUpdatingServerWithPlayerLocation;
+@property(readwrite) BOOL currentlyUpdatingServerWithMapViewed;
+@property(readwrite) BOOL currentlyUpdatingServerWithQuestsViewed;
+@property(readwrite) BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (id)init;
 - (void)setPlayerLocation:(CLLocation *) newLocation;	

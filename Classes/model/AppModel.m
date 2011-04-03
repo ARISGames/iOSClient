@@ -39,10 +39,13 @@ static const int kEmptyValue = -1;
 
 @synthesize nearbyLocationsList;
 @synthesize hasSeenNearbyTabTutorial,hasSeenQuestsTabTutorial,hasSeenMapTabTutorial,hasSeenInventoryTabTutorial;
+@synthesize currentlyFetchingLocationList, currentlyFetchingInventory, currentlyFetchingQuestList, currentlyUpdatingServerWithPlayerLocation;
+@synthesize currentlyUpdatingServerWithMapViewed, currentlyUpdatingServerWithQuestsViewed, currentlyUpdatingServerWithInventoryViewed;
 
 #pragma mark Init/dealloc
 -(id)init {
-    if (self = [super init]) {
+    self = [super init];
+    if (self) {
 		//Init USerDefaults
 		defaults = [NSUserDefaults standardUserDefaults];
 		gameMediaList = [[NSMutableDictionary alloc] initWithCapacity:kDefaultCapacity];
@@ -527,7 +530,13 @@ static const int kEmptyValue = -1;
 		return;
 	}
 	
-	
+	if (self.currentlyUpdatingServerWithPlayerLocation) {
+        NSLog(@"AppModel: Currently Updating server with player location, skipping this update");
+        return;
+    }
+    
+    self.currentlyUpdatingServerWithPlayerLocation = YES;
+    
 	//Update the server with the new Player Location
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.playerId],
 						  [NSString stringWithFormat:@"%f",self.currentGame.gameId],
@@ -538,7 +547,7 @@ static const int kEmptyValue = -1;
 																	 andServiceName:@"players" 
 																	  andMethodName:@"updatePlayerLocation" 
 																	   andArguments:arguments];
-	[jsonConnection performAsynchronousRequestWithParser:nil]; 
+	[jsonConnection performAsynchronousRequestWithParser:@selector(parseUpdateServerWithPlayerLocationFromJSON:)]; 
 	[jsonConnection release];
 	
 }
@@ -879,6 +888,13 @@ static const int kEmptyValue = -1;
 		NSLog(@"AppModel: Player Not logged in yet, skip the location fetch");	
 		return;
 	}
+    
+    if (self.currentlyFetchingLocationList) {
+        NSLog(@"AppModel: Already fetching location list, skipping");
+        return;
+    }
+    
+    self.currentlyFetchingLocationList = YES;
 			
 	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",self.playerId], 
@@ -899,6 +915,13 @@ static const int kEmptyValue = -1;
 
 - (void)fetchInventory {
 	NSLog(@"Model: fetchInventory");
+    
+    if (self.currentlyFetchingInventory) {
+        NSLog(@"AppModel: Already fetching inventory, skipping");
+        return;
+    }
+    
+    self.currentlyFetchingInventory = YES;
 	
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",self.playerId],
@@ -916,6 +939,13 @@ static const int kEmptyValue = -1;
 
 -(void)fetchQuestList {
 	NSLog(@"Model: Fetch Requested for Quests");
+    
+    if (self.currentlyFetchingQuestList) {
+        NSLog(@"AppModel: Already fetching quest list, skipping");
+        return;
+    }
+    
+    self.currentlyFetchingQuestList = YES;
 	
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",self.currentGame.gameId],
@@ -1092,8 +1122,9 @@ static const int kEmptyValue = -1;
 		[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"SelfRegistrationFailed" object:nil]];
 	}
 
-	int returnCode = jsonResult.returnCode;
-	if (returnCode == 0) {
+    int newId = [(NSDecimalNumber*)jsonResult.data intValue];
+    
+	if (newId > 0) {
 		NSLog(@"AppModel: Result from new user request successfull");
 		[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"SelfRegistrationSucceeded" object:nil]];
 	}
@@ -1186,6 +1217,8 @@ static const int kEmptyValue = -1;
 
 	NSLog(@"AppModel: Parsing Location List");
 	
+    self.currentlyFetchingLocationList = NO;
+    
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedLocationList" object:nil]];
 
 	//Check for an error
@@ -1340,6 +1373,9 @@ static const int kEmptyValue = -1;
 	
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedInventory" object:nil]];
 
+    self.currentlyFetchingInventory = NO;
+
+    
 	//Check for an error
 	
 	//Compare this hash to the last one. If the same, stop hee	
@@ -1422,9 +1458,17 @@ static const int kEmptyValue = -1;
 	[self fetchAllPlayerLists];
 }
 
+
+-(void)parseUpdateServerWithPlayerLocationFromJSON:(JSONResult *)jsonResult{
+    NSLog(@"AppModel: parseUpdateServerWithPlayerLocationFromJSON");
+    self.currentlyUpdatingServerWithPlayerLocation = NO;
+}
+
 -(void)parseQuestListFromJSON: (JSONResult *)jsonResult{
 
 	NSLog(@"AppModel: Parsing Quests");
+    
+    self.currentlyFetchingQuestList = NO;
 	
 	//Check for an error
 	
