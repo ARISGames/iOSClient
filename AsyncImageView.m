@@ -24,6 +24,11 @@
 		[self updateViewWithNewImage:self.media.image];
 		return;
 	}
+    
+    if (!self.media.url) {
+        NSLog(@"AsyncImageView: loadImageFromMedia with null url! ImageId:%@", self.media.uid);
+        return;
+    }
 	
 	//set up indicators
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
