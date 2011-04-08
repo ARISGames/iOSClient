@@ -136,6 +136,7 @@
           [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
 	
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeNewWaitingIndicator];	
 	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showNetworkAlert];	
 	
 }
