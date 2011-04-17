@@ -876,6 +876,8 @@ static const int kEmptyValue = -1;
 		[jsonConnection release];
 	}
 	else [self parseGameNodeListFromJSON: [jsonConnection performSynchronousRequest]];
+    
+    self.gameNodeList = nil;
 
 	
 }

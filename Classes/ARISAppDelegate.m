@@ -39,46 +39,23 @@
 	application.idleTimerDisabled = YES;
 	
 	//init app model
-	appModel = [[AppModel alloc] init];
+	self.appModel = [[AppModel alloc] init];
 	
 	//Init keys in UserDefaults in case the user has not visited the ARIS Settings page
 	//To set these defaults, edit Settings.bundle->Root.plist 
-	[appModel initUserDefaults];
+	[self.appModel initUserDefaults];
 	
 	//Load defaults from UserDefaults
-	[appModel loadUserDefaults];
-	[appModel retain];
+	[self.appModel loadUserDefaults];
 	
-	//Log the current Language
+    //Log the current Language
 	NSArray *languages = [[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"];
 	NSString *currentLanguage = [languages objectAtIndex:0];
 	NSLog(@"Current Locale: %@", [[NSLocale currentLocale] localeIdentifier]);
 	NSLog(@"Current language: %@", currentLanguage);
 	[languages release];
 	[currentLanguage release];
-	
-	
-	
-	//Check for Internet conductivity
-	NSURL *serverURL = appModel.serverURL;
-	NSString *host = [serverURL host];
-	NSLog(@"AppDelegate: Verifying Connection to: %@",host);
-	Reachability *r = [Reachability reachabilityWithHostName:host];
-	NetworkStatus internetStatus = [r currentReachabilityStatus];
-	BOOL connection = (internetStatus == ReachableViaWiFi) || (internetStatus == ReachableViaWWAN);
-	//connection = NO; //For debugging locally
-	if (!connection) {
-		NSLog(@"AppDelegate: Internet Connection Failed");
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"NoConnectionTitleKey", @"") message: NSLocalizedString(@"NoConnectionMessageKey",@"") delegate: self cancelButtonTitle: nil otherButtonTitles: nil];
-		[alert show];
-		[alert release];
-		return;
-	} else {
-		NSLog(@"AppDelegate: Internet Connection Functional");
-	}
-	
-	
-	
+    
 	//register for notifications from views
 	NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
 	[dispatcher addObserver:self selector:@selector(finishLoginAttempt:) name:@"NewLoginResponseReady" object:nil];
@@ -228,6 +205,7 @@
 	NSLog(@"AppDelegate: applicationDidBecomeActive");
 	[appModel loadUserDefaults];
 }
+
 
 
 - (void) showServerAlertWithEmail:(NSString *)title message:(NSString *)message details:(NSString*)detail{

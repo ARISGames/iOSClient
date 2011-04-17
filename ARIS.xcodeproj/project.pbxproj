@@ -52,49 +52,6 @@
 		289811F40FA1101C002ED288 /* Result.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811C70FA1101C002ED288 /* Result.cpp */; };
 		289811F50FA1101C002ED288 /* ResultPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811C90FA1101C002ED288 /* ResultPoint.cpp */; };
 		289811F60FA1101C002ED288 /* TransformingMonochromeBitmapSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811CB0FA1101C002ED288 /* TransformingMonochromeBitmapSource.cpp */; };
-		289812020FA1115E002ED288 /* BarcodeFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811740FA1101C002ED288 /* BarcodeFormat.cpp */; };
-		289812030FA1115E002ED288 /* BlackPointEstimationMethod.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811760FA1101C002ED288 /* BlackPointEstimationMethod.cpp */; };
-		289812040FA1115E002ED288 /* Array.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811790FA1101C002ED288 /* Array.cpp */; };
-		289812050FA1115E002ED288 /* BitArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2898117B0FA1101C002ED288 /* BitArray.cpp */; };
-		289812060FA1115E002ED288 /* BitMatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2898117D0FA1101C002ED288 /* BitMatrix.cpp */; };
-		289812070FA1115E002ED288 /* BitSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2898117F0FA1101C002ED288 /* BitSource.cpp */; };
-		289812080FA1115E002ED288 /* BlackPointEstimator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811810FA1101C002ED288 /* BlackPointEstimator.cpp */; };
-		289812090FA1115E002ED288 /* Counted.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811830FA1101C002ED288 /* Counted.cpp */; };
-		2898120A0FA1115E002ED288 /* DecoderResult.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811850FA1101C002ED288 /* DecoderResult.cpp */; };
-		2898120B0FA1115E002ED288 /* DetectorResult.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811870FA1101C002ED288 /* DetectorResult.cpp */; };
-		2898120C0FA1115E002ED288 /* GridSampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811890FA1101C002ED288 /* GridSampler.cpp */; };
-		2898120D0FA1115E002ED288 /* IllegalArgumentException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2898118B0FA1101C002ED288 /* IllegalArgumentException.cpp */; };
-		2898120E0FA1115E002ED288 /* PerspectiveTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2898118D0FA1101C002ED288 /* PerspectiveTransform.cpp */; };
-		2898120F0FA1115E002ED288 /* GF256.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811900FA1101C002ED288 /* GF256.cpp */; };
-		289812100FA1115E002ED288 /* GF256Poly.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811920FA1101C002ED288 /* GF256Poly.cpp */; };
-		289812110FA1115E002ED288 /* ReedSolomonDecoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811940FA1101C002ED288 /* ReedSolomonDecoder.cpp */; };
-		289812120FA1115E002ED288 /* ReedSolomonException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811960FA1101C002ED288 /* ReedSolomonException.cpp */; };
-		289812130FA1115E002ED288 /* Str.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811980FA1101C002ED288 /* Str.cpp */; };
-		289812140FA1115E002ED288 /* Exception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2898119A0FA1101C002ED288 /* Exception.cpp */; };
-		289812150FA1115E002ED288 /* GrayBytesMonochromeBitmapSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2898119C0FA1101C002ED288 /* GrayBytesMonochromeBitmapSource.cpp */; };
-		289812160FA1115E002ED288 /* MonochromeBitmapSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2898119E0FA1101C002ED288 /* MonochromeBitmapSource.cpp */; };
-		289812170FA1115E002ED288 /* BitMatrixParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811A20FA1101C002ED288 /* BitMatrixParser.cpp */; };
-		289812180FA1115E002ED288 /* DataBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811A40FA1101C002ED288 /* DataBlock.cpp */; };
-		289812190FA1115E002ED288 /* DataMask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811A60FA1101C002ED288 /* DataMask.cpp */; };
-		2898121A0FA1115E002ED288 /* DecodedBitStreamParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811A80FA1101C002ED288 /* DecodedBitStreamParser.cpp */; };
-		2898121B0FA1115E002ED288 /* Decoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811AA0FA1101C002ED288 /* Decoder.cpp */; };
-		2898121C0FA1115E002ED288 /* ErrorCorrectionLevel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811AC0FA1101C002ED288 /* ErrorCorrectionLevel.cpp */; };
-		2898121D0FA1115E002ED288 /* FormatInformation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811AE0FA1101C002ED288 /* FormatInformation.cpp */; };
-		2898121E0FA1115E002ED288 /* Mode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811B00FA1101C002ED288 /* Mode.cpp */; };
-		2898121F0FA1115E002ED288 /* Version.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811B20FA1101C002ED288 /* Version.cpp */; };
-		289812200FA1115E002ED288 /* QRCodeReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811C10FA1101C002ED288 /* QRCodeReader.cpp */; };
-		289812210FA1115E002ED288 /* Reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811C30FA1101C002ED288 /* Reader.cpp */; };
-		289812220FA1115E002ED288 /* ReaderException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811C50FA1101C002ED288 /* ReaderException.cpp */; };
-		289812230FA1115E002ED288 /* Result.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811C70FA1101C002ED288 /* Result.cpp */; };
-		289812240FA1115E002ED288 /* ResultPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811C90FA1101C002ED288 /* ResultPoint.cpp */; };
-		289812250FA1115E002ED288 /* TransformingMonochromeBitmapSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811CB0FA1101C002ED288 /* TransformingMonochromeBitmapSource.cpp */; };
-		289812260FA1118C002ED288 /* AlignmentPattern.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811B50FA1101C002ED288 /* AlignmentPattern.cpp */; };
-		289812270FA1118C002ED288 /* AlignmentPatternFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811B70FA1101C002ED288 /* AlignmentPatternFinder.cpp */; };
-		289812280FA1118C002ED288 /* Detector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811B90FA1101C002ED288 /* Detector.cpp */; };
-		289812290FA1118C002ED288 /* FinderPattern.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811BB0FA1101C002ED288 /* FinderPattern.cpp */; };
-		2898122A0FA1118C002ED288 /* FinderPatternFinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811BD0FA1101C002ED288 /* FinderPatternFinder.cpp */; };
-		2898122B0FA1118C002ED288 /* FinderPatternInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 289811BF0FA1101C002ED288 /* FinderPatternInfo.cpp */; };
-		2898123F0FA1143B002ED288 /* libzxingcore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 289811FD0FA1105E002ED288 /* libzxingcore.a */; };
 		289813C60FA7489B002ED288 /* TwoDDecoderResult.mm in Sources */ = {isa = PBXBuildFile; fileRef = 289813C50FA7489B002ED288 /* TwoDDecoderResult.mm */; };
 		289813EA0FA74E2E002ED288 /* Decoder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 289813E80FA74E2E002ED288 /* Decoder.mm */; };
 		28AD73880D9D96C1002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD73870D9D96C1002E5188 /* MainWindow.xib */; };
@@ -252,16 +209,6 @@
 		D4DE6B8B110A00D7008BFE38 /* defaultCharacter.png in Resources */ = {isa = PBXBuildFile; fileRef = D4DE6B8A110A00D7008BFE38 /* defaultCharacter.png */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		289812400FA1144C002ED288 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 289811FC0FA1105E002ED288;
-			remoteInfo = zxingcore;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		1D3623240D0F684500981E51 /* ARISAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ARISAppDelegate.h; path = Classes/ARISAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* ARISAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ARISAppDelegate.m; path = Classes/ARISAppDelegate.m; sourceTree = "<group>"; };
@@ -350,7 +297,6 @@
 		289811CA0FA1101C002ED288 /* ResultPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultPoint.h; sourceTree = "<group>"; };
 		289811CB0FA1101C002ED288 /* TransformingMonochromeBitmapSource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransformingMonochromeBitmapSource.cpp; sourceTree = "<group>"; };
 		289811CC0FA1101C002ED288 /* TransformingMonochromeBitmapSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransformingMonochromeBitmapSource.h; sourceTree = "<group>"; };
-		289811FD0FA1105E002ED288 /* libzxingcore.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libzxingcore.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		289813C40FA7489A002ED288 /* TwoDDecoderResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwoDDecoderResult.h; sourceTree = "<group>"; };
 		289813C50FA7489B002ED288 /* TwoDDecoderResult.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = TwoDDecoderResult.mm; sourceTree = "<group>"; };
 		289813E70FA74E2E002ED288 /* Decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Decoder.h; sourceTree = "<group>"; };
@@ -591,7 +537,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2898123F0FA1143B002ED288 /* libzxingcore.a in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				A78FD8B00F4B7E9400820FEA /* Foundation.framework in Frameworks */,
 				A78FD8B20F4B7EA200820FEA /* CoreGraphics.framework in Frameworks */,
@@ -611,13 +556,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		289811FB0FA1105E002ED288 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -625,7 +563,6 @@
 			isa = PBXGroup;
 			children = (
 				A7A172720F4F26280017E865 /* ARIS.app */,
-				289811FD0FA1105E002ED288 /* libzxingcore.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1192,16 +1129,6 @@
 		};
 /* End PBXGroup section */
 
-/* Begin PBXHeadersBuildPhase section */
-		289811F90FA1105E002ED288 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
 /* Begin PBXNativeTarget section */
 		1D6058900D05DD3D006BFB54 /* ARIS */ = {
 			isa = PBXNativeTarget;
@@ -1215,29 +1142,11 @@
 			buildRules = (
 			);
 			dependencies = (
-				289812410FA1144C002ED288 /* PBXTargetDependency */,
 			);
 			name = ARIS;
 			productName = ARIS;
 			productReference = A7A172720F4F26280017E865 /* ARIS.app */;
 			productType = "com.apple.product-type.application";
-		};
-		289811FC0FA1105E002ED288 /* zxingcore */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 289812000FA1107C002ED288 /* Build configuration list for PBXNativeTarget "zxingcore" */;
-			buildPhases = (
-				289811F90FA1105E002ED288 /* Headers */,
-				289811FA0FA1105E002ED288 /* Sources */,
-				289811FB0FA1105E002ED288 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = zxingcore;
-			productName = zxingcore;
-			productReference = 289811FD0FA1105E002ED288 /* libzxingcore.a */;
-			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
 
@@ -1262,7 +1171,6 @@
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* ARIS */,
-				289811FC0FA1105E002ED288 /* zxingcore */,
 			);
 		};
 /* End PBXProject section */
@@ -1485,64 +1393,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		289811FA0FA1105E002ED288 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				289812260FA1118C002ED288 /* AlignmentPattern.cpp in Sources */,
-				289812270FA1118C002ED288 /* AlignmentPatternFinder.cpp in Sources */,
-				289812280FA1118C002ED288 /* Detector.cpp in Sources */,
-				289812290FA1118C002ED288 /* FinderPattern.cpp in Sources */,
-				2898122A0FA1118C002ED288 /* FinderPatternFinder.cpp in Sources */,
-				2898122B0FA1118C002ED288 /* FinderPatternInfo.cpp in Sources */,
-				289812020FA1115E002ED288 /* BarcodeFormat.cpp in Sources */,
-				289812030FA1115E002ED288 /* BlackPointEstimationMethod.cpp in Sources */,
-				289812040FA1115E002ED288 /* Array.cpp in Sources */,
-				289812050FA1115E002ED288 /* BitArray.cpp in Sources */,
-				289812060FA1115E002ED288 /* BitMatrix.cpp in Sources */,
-				289812070FA1115E002ED288 /* BitSource.cpp in Sources */,
-				289812080FA1115E002ED288 /* BlackPointEstimator.cpp in Sources */,
-				289812090FA1115E002ED288 /* Counted.cpp in Sources */,
-				2898120A0FA1115E002ED288 /* DecoderResult.cpp in Sources */,
-				2898120B0FA1115E002ED288 /* DetectorResult.cpp in Sources */,
-				2898120C0FA1115E002ED288 /* GridSampler.cpp in Sources */,
-				2898120D0FA1115E002ED288 /* IllegalArgumentException.cpp in Sources */,
-				2898120E0FA1115E002ED288 /* PerspectiveTransform.cpp in Sources */,
-				2898120F0FA1115E002ED288 /* GF256.cpp in Sources */,
-				289812100FA1115E002ED288 /* GF256Poly.cpp in Sources */,
-				289812110FA1115E002ED288 /* ReedSolomonDecoder.cpp in Sources */,
-				289812120FA1115E002ED288 /* ReedSolomonException.cpp in Sources */,
-				289812130FA1115E002ED288 /* Str.cpp in Sources */,
-				289812140FA1115E002ED288 /* Exception.cpp in Sources */,
-				289812150FA1115E002ED288 /* GrayBytesMonochromeBitmapSource.cpp in Sources */,
-				289812160FA1115E002ED288 /* MonochromeBitmapSource.cpp in Sources */,
-				289812170FA1115E002ED288 /* BitMatrixParser.cpp in Sources */,
-				289812180FA1115E002ED288 /* DataBlock.cpp in Sources */,
-				289812190FA1115E002ED288 /* DataMask.cpp in Sources */,
-				2898121A0FA1115E002ED288 /* DecodedBitStreamParser.cpp in Sources */,
-				2898121B0FA1115E002ED288 /* Decoder.cpp in Sources */,
-				2898121C0FA1115E002ED288 /* ErrorCorrectionLevel.cpp in Sources */,
-				2898121D0FA1115E002ED288 /* FormatInformation.cpp in Sources */,
-				2898121E0FA1115E002ED288 /* Mode.cpp in Sources */,
-				2898121F0FA1115E002ED288 /* Version.cpp in Sources */,
-				289812200FA1115E002ED288 /* QRCodeReader.cpp in Sources */,
-				289812210FA1115E002ED288 /* Reader.cpp in Sources */,
-				289812220FA1115E002ED288 /* ReaderException.cpp in Sources */,
-				289812230FA1115E002ED288 /* Result.cpp in Sources */,
-				289812240FA1115E002ED288 /* ResultPoint.cpp in Sources */,
-				289812250FA1115E002ED288 /* TransformingMonochromeBitmapSource.cpp in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		289812410FA1144C002ED288 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 289811FC0FA1105E002ED288 /* zxingcore */;
-			targetProxy = 289812400FA1144C002ED288 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		AB0A5BA3120365420065CE68 /* Localizable.strings */ = {
@@ -1582,27 +1433,6 @@
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
-		};
-		289811FE0FA1105E002ED288 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PREBINDING = NO;
-				PRODUCT_NAME = zxingcore;
-			};
-			name = Debug;
-		};
-		289811FF0FA1105E002ED288 /* Enterprise Distribution */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				PREBINDING = NO;
-				PRODUCT_NAME = zxingcore;
-			};
-			name = "Enterprise Distribution";
 		};
 		A759A4B90F4F2599004279E0 /* Enterprise Distribution */ = {
 			isa = XCBuildConfiguration;
@@ -1690,15 +1520,6 @@
 			};
 			name = "AppStore Distribution";
 		};
-		AB5089DE1190CE0C0002FCFA /* AppStore Distribution */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				PREBINDING = NO;
-				PRODUCT_NAME = zxingcore;
-			};
-			name = "AppStore Distribution";
-		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1725,16 +1546,6 @@
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				A759A4BA0F4F2599004279E0 /* Enterprise Distribution */,
 				AB5089DD1190CE0C0002FCFA /* AppStore Distribution */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		289812000FA1107C002ED288 /* Build configuration list for PBXNativeTarget "zxingcore" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				289811FE0FA1105E002ED288 /* Debug */,
-				289811FF0FA1105E002ED288 /* Enterprise Distribution */,
-				AB5089DE1190CE0C0002FCFA /* AppStore Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
