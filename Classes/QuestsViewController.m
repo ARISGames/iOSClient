@@ -128,14 +128,7 @@ NSString *const kQuestsHtmlTemplate =
 	
 	progressLabel.text = [NSString stringWithFormat:@"%d of %d Quests Complete", appModel.currentGame.completedQuests, appModel.currentGame.totalQuests];
 	progressView.progress = (float)appModel.currentGame.completedQuests / (float)appModel.currentGame.totalQuests;
-	
-	//Display the Complete Node
-	if (appModel.currentGame.completedQuests == appModel.currentGame.totalQuests &&
-		appModel.currentGame.completedQuests != 0) {
-		Node *completeNode = [appModel nodeForNodeId:appModel.currentGame.completeNodeId];
-		[completeNode display];
-	}
-	
+		
 	NSLog(@"QuestsViewController: refreshViewFromModel: silenceNextServerUpdateCount = %d", silenceNextServerUpdateCount);
 	
 	//Update the badge

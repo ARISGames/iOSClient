@@ -43,7 +43,7 @@
 
 -(IBAction)startOverButtonPressed: (id) sender{
 	NSLog(@"StartOverVC: Button Pressed");
-	
+	    
 	[[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel] startOverGame];
 	
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"StartOverResetAlertTitleKey", @"")
@@ -53,6 +53,7 @@
 	[alert release];
 	
 	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] returnToHomeView];
+    
 
 }
 

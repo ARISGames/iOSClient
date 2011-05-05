@@ -53,7 +53,7 @@
 		[[NSNotificationCenter defaultCenter] postNotification:n];
 	}
 	else {
-		NSLog(@"JSONResult: SERVER RESPONSE ERROR - Return Code != 0",jsonError.code, JSONString);
+		NSLog(@"JSONResult: SERVER RESPONSE ERROR - Return Code != 0 for Json String %@",JSONString);
 		
 		ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 		[appDelegate showServerAlertWithEmail:NSLocalizedString(@"BadServerResponseTitleKey",@"")

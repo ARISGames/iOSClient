@@ -9,11 +9,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/model/AppModel.m"
-         timestampString = "323505255.120414"
+         timestampString = "326067441.129627"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1127"
-         endingLineNumber = "1127"
+         startingLineNumber = "1142"
+         endingLineNumber = "1142"
          landmarkName = "-parseSelfRegistrationResponseFromJSON:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -30,6 +30,20 @@
          endingLineNumber = "405"
          landmarkName = "-mapView:didSelectAnnotationView:"
          landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Classes/ARISAppDelegate.h"
+         timestampString = "326070355.974896"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "96"
+         endingLineNumber = "96"
+         landmarkName = "-showNearbyTab:"
+         landmarkType = "4">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

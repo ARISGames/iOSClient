@@ -96,6 +96,7 @@
 - (void) showNearbyTab: (BOOL) yesOrNo;
 - (void) returnToHomeView;
 - (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate;
-- (void) startTVOut;
+- (void) checkForDisplayCompleteNode;
+- (void) displayIntroNode;
 
 @end

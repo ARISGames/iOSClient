@@ -923,6 +923,7 @@
 				A79202630F8E717C0049F990 /* MediaPlayer.framework */,
 				ABDA40DD10506CB300823A94 /* MapKit.framework */,
 				ABF4A3B0116847F50043EB1C /* MobileCoreServices.framework */,
+				AB70F39313153BB500BD06CD /* MessageUI.framework */,
 				ABF4A3B41168480C0043EB1C /* libz.1.2.3.dylib */,
 				AB549ED11047007B00A901EF /* JSON Framework */,
 				ABF4A36C116847500043EB1C /* ASI Netrork Framework */,
@@ -946,7 +947,6 @@
 				A7A1728B0F4F27120017E865 /* Default.png */,
 				A7A172940F4F273B0017E865 /* Icon.icns */,
 				A7A1728A0F4F27120017E865 /* Icon.png */,
-				AB70F39313153BB500BD06CD /* MessageUI.framework */,
 			);
 			name = "Core App";
 			sourceTree = "<group>";

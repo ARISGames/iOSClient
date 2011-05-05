@@ -122,6 +122,7 @@ extern NSDictionary *InventoryElements;
 - (void)forceUpdateOnNextLocationListFetch;
 - (void)resetAllPlayerLists;
 - (void)fetchAllGameLists;
+- (void)resetAllGameLists;
 - (void)fetchAllPlayerLists;
 - (void)fetchInventory;
 - (void)fetchQuestList;

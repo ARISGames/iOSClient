@@ -357,29 +357,30 @@ static const int kEmptyValue = -1;
 
 - (void)startOverGame{
 	NSLog(@"Model: Start Over");
-	[self resetAllPlayerLists];
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate.tutorialViewController dismissAllTutorials];
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	
+    [appDelegate displayIntroNode];
+    
+    [self resetAllPlayerLists];
 
-	
-	
+    [self resetAllGameLists];
+
+    [appDelegate.tutorialViewController dismissAllTutorials];
+    
+
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects:
 						  [NSString stringWithFormat:@"%d",self.currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",playerId],
 						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:self.serverURL 
-																	andServiceName:@"players" 
-																	 andMethodName:@"startOverGameForPlayer" 
-																	  andArguments:arguments];
-	[jsonConnection performAsynchronousRequestWithParser:@selector(parseStartOverFromJSON:)]; 
+	JSONConnection *jsonConnection = [[JSONConnection alloc]
+                                      initWithServer:self.serverURL
+                                      andServiceName:@"players"
+                                      andMethodName:@"startOverGameForPlayer"
+                                      andArguments:arguments];
+	[jsonConnection performAsynchronousRequestWithParser:
+        @selector(parseStartOverFromJSON:)]; 
 	[jsonConnection release];
-	
-	//Display the Intro
-	if (self.currentGame.launchNodeId != 0) {
-		Node *launchNode = [self nodeForNodeId:self.currentGame.launchNodeId];
-		[launchNode display];
-	}
 }
 
 
@@ -724,6 +725,19 @@ static const int kEmptyValue = -1;
 	[self fetchGameMediaListAsynchronously:YES];
 }
 
+- (void)resetAllGameLists {
+	NSLog(@"AppModel: resetAllGameLists");
+    
+	//Clear them out
+	self.gameItemList = [[NSMutableDictionary alloc] 
+                         initWithCapacity:0];
+	self.gameNodeList = [[NSMutableDictionary alloc] 
+                         initWithCapacity:0];
+    self.gameNpcList = [[NSMutableDictionary alloc] 
+                        initWithCapacity:0];
+
+}
+
 - (void)fetchAllPlayerLists{
 	[self fetchLocationList];
 	[self fetchQuestList];
@@ -732,7 +746,6 @@ static const int kEmptyValue = -1;
 
 - (void)resetAllPlayerLists {
 	NSLog(@"AppModel: resetAllPlayerLists");
-
 
 	//Clear the Hashes
 	questListHash = @"";
@@ -875,10 +888,12 @@ static const int kEmptyValue = -1;
 		[jsonConnection performAsynchronousRequestWithParser:@selector(parseGameNodeListFromJSON:)]; 
 		[jsonConnection release];
 	}
-	else [self parseGameNodeListFromJSON: [jsonConnection performSynchronousRequest]];
     
-    self.gameNodeList = nil;
-
+	else {
+        JSONResult *result = [jsonConnection performSynchronousRequest];
+        [self parseGameNodeListFromJSON: result];
+    }
+    
 	
 }
 
@@ -1539,7 +1554,6 @@ static const int kEmptyValue = -1;
 	[completedQuestObjects release];
 	[tmpQuestList release];
 
-	
 	//Sound the alarm
 	NSLog(@"AppModel: Finished fetching quests from server, model updated");
 	[[NSNotificationCenter defaultCenter] postNotification: [NSNotification notificationWithName:@"NewQuestListReady" object:nil]];
