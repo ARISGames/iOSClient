@@ -11,6 +11,7 @@
 #import "TwoDDecoderResult.h"
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
+#import "AppServices.h"
 
 
 @implementation QRScannerViewController 
@@ -129,7 +130,7 @@
 	//Fetch the coresponding object from the server
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate showNewWaitingIndicator:NSLocalizedString(@"LoadingKey",@"") displayProgressBar:NO];
-	[[AppModel sharedAppModel] fetchQRCode:code];
+	[[AppServices sharedAppServices] fetchQRCode:code];
 }
 
 -(void) finishLoadingResult:(NSNotification*) notification{

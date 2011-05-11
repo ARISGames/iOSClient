@@ -8,6 +8,7 @@
 
 #import "GPSViewController.h"
 #import "AppModel.h"
+#import "AppServices.h"
 #import "Location.h"
 #import "Player.h"
 #import "ARISAppDelegate.h"
@@ -115,7 +116,7 @@ static float INITIAL_SPAN = 0.001;
 
 	
 	//Force an update of the locations
-	[[AppModel sharedAppModel] forceUpdateOnNextLocationListFetch];
+	[[AppServices sharedAppServices] forceUpdateOnNextLocationListFetch];
 	
 	[self refresh];	
 	
@@ -125,7 +126,7 @@ static float INITIAL_SPAN = 0.001;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-	[[AppModel sharedAppModel] updateServerMapViewed];
+	[[AppServices sharedAppServices] updateServerMapViewed];
 	
 	[self refresh];		
 	
@@ -161,7 +162,7 @@ static float INITIAL_SPAN = 0.001;
 	if (mapView) {
 		NSLog(@"GPSViewController: refresh requested");	
 	
-		if ([AppModel sharedAppModel].loggedIn) [[AppModel sharedAppModel] fetchLocationList];
+		if ([AppModel sharedAppModel].loggedIn) [[AppServices sharedAppServices] fetchLocationList];
 		[self showLoadingIndicator];
 
 		//Zoom and Center

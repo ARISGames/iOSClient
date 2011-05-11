@@ -9,6 +9,7 @@
 #import "NearbyObjectsViewController.h"
 #import "AppModel.h"
 #import "ARISAppDelegate.h"
+#import "AppServices.h"
 #import "NearbyObjectCell.h"
 
 
@@ -84,7 +85,7 @@
 
 - (void)refresh {
 	NSLog(@"NearbyObjectsViewController: refresh requested");
-	if ([AppModel sharedAppModel].loggedIn) [[AppModel sharedAppModel] fetchLocationList];
+	if ([AppModel sharedAppModel].loggedIn) [[AppServices sharedAppServices] fetchLocationList];
 }
 
 - (void)refreshViewFromModel{

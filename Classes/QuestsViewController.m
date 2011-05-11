@@ -8,6 +8,7 @@
 
 #import "QuestsViewController.h"
 #import "ARISAppDelegate.h"
+#import "AppServices.h"
 #import "Quest.h"
 #import "Media.h"
 #import "AsyncImageView.h"
@@ -83,7 +84,7 @@ NSString *const kQuestsHtmlTemplate =
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-	[[AppModel sharedAppModel] updateServerQuestsViewed];
+	[[AppServices sharedAppServices] updateServerQuestsViewed];
 	
 	[self refresh];
 	
@@ -102,7 +103,7 @@ NSString *const kQuestsHtmlTemplate =
 
 - (void)refresh {
 	NSLog(@"QuestsViewController: refresh requested");
-	if ([AppModel sharedAppModel].loggedIn) [[AppModel sharedAppModel] fetchQuestList];
+	if ([AppModel sharedAppModel].loggedIn) [[AppServices sharedAppServices] fetchQuestList];
 	[self showLoadingIndicator];
 }
 

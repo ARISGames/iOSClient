@@ -7,6 +7,7 @@
 //
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
+#import "AppServices.h"
 #import "AsyncImageView.h"
 #import "AudioStreamer.h"
 #import "DialogViewController.h"
@@ -66,7 +67,7 @@ NSString *const kDialogHtmlTemplate =
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(optionsRecievedFromNotification:)
@@ -139,7 +140,6 @@ NSString *const kDialogHtmlTemplate =
 
 	
 	//Check if the game specifies a PC image
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
 	if ([AppModel sharedAppModel].currentGame.pcMediaId != 0) {
 		//Load the image from the media Table
 		Media *pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId];
@@ -207,7 +207,7 @@ NSString *const kDialogHtmlTemplate =
 	NSLog(@"DialogViewController: Notify server of NPC view and Dismiss view");
 	
 	//tell the server
-	[[AppModel sharedAppModel] updateServerNpcViewed:currentNpc.npcId];
+	[[AppServices sharedAppServices] updateServerNpcViewed:currentNpc.npcId];
 	
 	[self dismissModalViewControllerAnimated:YES];
 
@@ -331,7 +331,7 @@ NSString *const kDialogHtmlTemplate =
 		}
 		else {
 			//No node options, load the conversations
-			[[AppModel sharedAppModel] fetchNpcConversations:currentNpc.npcId afterViewingNode:currentNode.nodeId];
+			[[AppServices sharedAppServices] fetchNpcConversations:currentNpc.npcId afterViewingNode:currentNode.nodeId];
 			[self showWaitingIndicatorForPlayerOptions];
 		}
 	}

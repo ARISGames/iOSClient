@@ -9,6 +9,7 @@
 #import "JSONConnection.h"
 #import "AppModel.h"
 #import "ARISAppDelegate.h"
+#import "AppServices.h"
 #import "ARISURLConnection.h"
 #import "ASIHTTPRequest.h"
 
@@ -119,7 +120,7 @@
 	SEL parser = NSSelectorFromString([[request userInfo] objectForKey:@"parser"]);   
 
 	if (parser) {
-		[[AppModel sharedAppModel] performSelector:parser withObject:jsonResult];
+		[[AppServices sharedAppServices] performSelector:parser withObject:jsonResult];
 	}
 	
 	[jsonResult release];

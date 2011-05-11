@@ -7,6 +7,7 @@
 //
 
 #import "InventoryListViewController.h"
+#import "AppServices.h"
 #import "Media.h"
 #import "AsyncImageView.h"
 
@@ -47,7 +48,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-	[[AppModel sharedAppModel] updateServerInventoryViewed];
+	[[AppServices sharedAppServices] updateServerInventoryViewed];
 	
 	[self refresh];		
 	
@@ -67,7 +68,7 @@
 
 -(void)refresh {
 	NSLog(@"InventoryListViewController: Refresh Requested");
-	[[AppModel sharedAppModel] fetchInventory];
+	[[AppServices sharedAppServices] fetchInventory];
 	[self showLoadingIndicator];
 }
 

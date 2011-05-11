@@ -8,6 +8,7 @@
 
 #import "ItemDetailsViewController.h"
 #import "ARISAppDelegate.h"
+#import "AppServices.h"
 #import "Media.h"
 #import "Item.h"
 
@@ -35,7 +36,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(movieFinishedCallback:)
@@ -144,7 +145,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	NSLog(@"ItemDetailsViewController: Notify server of Item view and Dismiss Item Details View");
 	
 	//Notify the server this item was displayed
-	[[AppModel sharedAppModel] updateServerItemViewed:item.itemId];
+	[[AppServices sharedAppServices] updateServerItemViewed:item.itemId];
 	
 	
 	[self.navigationController popToRootViewControllerAnimated:YES];
@@ -231,7 +232,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	//Do the action based on the mode of the VC
 	if (mode == kItemDetailsDropping) {
 		NSLog(@"ItemDetailsVC: Dropping %d",quantity);
-		[[AppModel sharedAppModel] updateServerDropItemHere:item.itemId qty:quantity];
+		[[AppServices sharedAppServices] updateServerDropItemHere:item.itemId qty:quantity];
 		[[AppModel sharedAppModel] removeItemFromInventory:item qtyToRemove:quantity];
 
 		/*
@@ -244,7 +245,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	}
 	else if (mode == kItemDetailsDestroying) {
 		NSLog(@"ItemDetailsVC: Destroying %d",quantity);
-		[[AppModel sharedAppModel] updateServerDestroyItem:self.item.itemId qty:quantity];
+		[[AppServices sharedAppServices] updateServerDestroyItem:self.item.itemId qty:quantity];
 		[[AppModel sharedAppModel] removeItemFromInventory:item qtyToRemove:quantity];
 		
 		/*
@@ -287,7 +288,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 		}
 
 		if (quantity > 0) {
-			[[AppModel sharedAppModel] updateServerPickupItem:self.item.itemId fromLocation:self.item.locationId qty:quantity];
+			[[AppServices sharedAppServices] updateServerPickupItem:self.item.itemId fromLocation:self.item.locationId qty:quantity];
 			[[AppModel sharedAppModel] modifyQuantity:-quantity forLocationId:self.item.locationId];
 			item.qty -= quantity; //the above line does not give us an update, only the map
 			

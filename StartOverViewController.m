@@ -8,6 +8,7 @@
 
 #import "StartOverViewController.h"
 #import "ARISAppDelegate.h"
+#import "AppServices.h"
 #import "AppModel.h"
 
 @implementation StartOverViewController
@@ -44,7 +45,7 @@
 -(IBAction)startOverButtonPressed: (id) sender{
 	NSLog(@"StartOverVC: Button Pressed");
 	    
-	[[AppModel sharedAppModel] startOverGame];
+	[[AppServices sharedAppServices] startOverGame];
 	
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"StartOverResetAlertTitleKey", @"")
 													message: NSLocalizedString(@"StartOverResetAlertMessageKey", @"")

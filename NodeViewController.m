@@ -7,9 +7,10 @@
 //
 
 #import "NodeViewController.h"
+#import "AppModel.h"
+#import "AppServices.h"
 #import "NodeOption.h"
 #import "ARISAppDelegate.h"
-#import "AppModel.h"
 #import "Media.h"
 #import "AsyncImageView.h"
 
@@ -20,7 +21,7 @@ static NSString * const OPTION_CELL = @"option";
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(movieFinishedCallback:)
@@ -126,7 +127,7 @@ static NSString * const OPTION_CELL = @"option";
 	NSLog(@"NodeViewController: Notify server of Node view and Dismiss view");
 	
 	//Notify the server this item was displayed
-	[[AppModel sharedAppModel] updateServerNodeViewed:node.nodeId];
+	[[AppServices sharedAppServices] updateServerNodeViewed:node.nodeId];
 	
 	
 	//[self.view removeFromSuperview];

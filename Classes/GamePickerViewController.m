@@ -7,7 +7,8 @@
 //
 
 #import "GamePickerViewController.h"
-#import "model/Game.h"
+#import "AppServices.h"
+#import "Game.h"
 #import "ARISAppDelegate.h"
 #import "GameDetails.h"
 #import "GamePickerCell.h"
@@ -64,7 +65,7 @@
 
 -(void)refresh {
 	NSLog(@"GamePickerViewController: Refresh Requested");
-	[[AppModel sharedAppModel] fetchGameList];
+	[[AppServices sharedAppServices] fetchGameList];
 	[self showLoadingIndicator];
 }
 
@@ -160,7 +161,7 @@
 	
 	NSDictionary *dictionary = [NSDictionary dictionaryWithObject:selectedGame forKey:@"game"];
 	
-	[[AppModel sharedAppModel] silenceNextServerUpdate];
+	[[AppServices sharedAppServices] silenceNextServerUpdate];
 	NSNotification *gameSelectNotification = [NSNotification notificationWithName:@"SelectGame" object:self userInfo:dictionary];
 	[[NSNotificationCenter defaultCenter] postNotification:gameSelectNotification];
 	

@@ -9,6 +9,7 @@
 #import "SelfRegistrationViewController.h"
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
+#import "AppServices.h"
 
 @implementation SelfRegistrationViewController
 
@@ -49,8 +50,7 @@
 - (IBAction)submitButtonTouched: (id) sender{
 	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showNewWaitingIndicator:@"Creating a New User" displayProgressBar:NO];
 
-	
-	[[AppModel sharedAppModel] registerNewUser:self.userName.text password:self.password.text 
+	[[AppServices sharedAppServices] registerNewUser:self.userName.text password:self.password.text 
 					firstName:@"" lastName:@"" email:self.email.text]; 
 }
 	

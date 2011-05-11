@@ -7,8 +7,8 @@
 //
 
 #import "ARISAppDelegate.h"
+#import "AppServices.h"
 #import "Node.h"
-
 #import "TutorialPopupView.h"
 
 
@@ -178,9 +178,9 @@
 		}
 		else {
 			NSLog(@"Appdelegate: Player already logged in and they have a site selected. Go into the default module");
-			[[AppModel sharedAppModel] fetchAllGameLists];
-			[[AppModel sharedAppModel] silenceNextServerUpdate];
-			[[AppModel sharedAppModel] fetchAllPlayerLists];
+			[[AppServices sharedAppServices] fetchAllGameLists];
+			[[AppServices sharedAppServices] silenceNextServerUpdate];
+			[[AppServices sharedAppServices] fetchAllPlayerLists];
 			
 			[self playAudioAlert:@"questChange" shouldVibrate:NO];
 		}
@@ -352,7 +352,7 @@
 	[AppModel sharedAppModel].password = password;
 
 	[self showNewWaitingIndicator:@"Logging In..." displayProgressBar:NO];
-	[[AppModel sharedAppModel] login];
+	[[AppServices sharedAppServices] login];
 }
 
 - (void)finishLoginAttempt:(NSNotification *)notification {
@@ -394,13 +394,13 @@
 	[[AppModel sharedAppModel] saveUserDefaults];
 	
 	//Clear out the old game data
-	[[AppModel sharedAppModel] resetAllPlayerLists];
-    [[AppModel sharedAppModel] resetAllGameLists];
+	[[AppServices sharedAppServices] resetAllPlayerLists];
+    [[AppServices sharedAppServices] resetAllGameLists];
 	[tutorialViewController dismissAllTutorials];
 	
 	//Notify the Server
 	NSLog(@"AppDelegate: Game Selected. Notifying Server");
-	[[AppModel sharedAppModel] updateServerGameSelected];
+	[[AppServices sharedAppServices] updateServerGameSelected];
 	
 	//Set tabBar to the first item
 	tabBarController.selectedIndex = 0;
@@ -422,8 +422,8 @@
 	}
 	
     //Start loading all the data
-    [[AppModel sharedAppModel] fetchAllGameLists];
-	[[AppModel sharedAppModel] fetchAllPlayerLists];
+    [[AppServices sharedAppServices] fetchAllGameLists];
+	[[AppServices sharedAppServices] fetchAllPlayerLists];
     
     //Display the intro node
     if ([AppModel sharedAppModel].currentGame.completedQuests < 1) [self displayIntroNode];

@@ -8,7 +8,8 @@
 
 #import "AudioRecorderViewController.h"
 #import "ARISAppDelegate.h"
-#import "TitleAndDecriptionFormViewController.h";
+#import "AppServices.h"
+#import "TitleAndDecriptionFormViewController.h"
 
 
 @implementation AudioRecorderViewController
@@ -22,7 +23,7 @@
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
         self.title = NSLocalizedString(@"AudioRecorderTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"microphone.png"];
     }
@@ -227,7 +228,7 @@
 	[titleAndDescForm.view removeFromSuperview];
 	
 	
-	[[AppModel sharedAppModel] createItemAndGiveToPlayerFromFileData:self.audioData 
+	[[AppServices sharedAppServices] createItemAndGiveToPlayerFromFileData:self.audioData 
 										   fileName:@"audio.caf" 
 											  title:titleAndDescForm.titleField.text 
 										description:titleAndDescForm.descriptionField.text];

@@ -9,6 +9,7 @@
 #import "CameraViewController.h"
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
+#import "AppServices.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "TitleAndDecriptionFormViewController.h"
 
@@ -22,7 +23,7 @@
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle {
-    if (self = [super initWithNibName:nibName bundle:nibBundle]) {
+    if ((self = [super initWithNibName:nibName bundle:nibBundle])) {
         self.title = NSLocalizedString(@"CameraTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"camera.png"];
     }
@@ -114,7 +115,7 @@
 	[titleAndDescForm.view removeFromSuperview];
 	
 	
-	[[AppModel sharedAppModel] createItemAndGiveToPlayerFromFileData:self.mediaData 
+	[[AppServices sharedAppServices] createItemAndGiveToPlayerFromFileData:self.mediaData 
 										   fileName:self.mediaFilename 
 											  title:titleAndDescForm.titleField.text 
 										description:titleAndDescForm.descriptionField.text];
