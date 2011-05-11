@@ -21,7 +21,6 @@ typedef enum {
 
 
 @interface AudioRecorderViewController : UIViewController <AVAudioSessionDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate> {
-	AppModel *appModel;	
 	
 	AudioMeter *meter;
 	AVAudioRecorder *soundRecorder;

@@ -8,12 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "ARISAppDelegate.h";
-#import "model/AppModel.h";
+#import "AppModel.h";
 #import "Quest.h"
 
 
 @interface QuestsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate, UIWebViewDelegate> {
-	AppModel *appModel;
 	NSMutableArray *quests;
 	NSMutableArray *questCells;
 	int cellsLoaded;

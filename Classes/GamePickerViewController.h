@@ -10,7 +10,6 @@
 #import "AppModel.h"
 
 @interface GamePickerViewController : UITableViewController <UITableViewDelegate,UITableViewDataSource, UISearchDisplayDelegate, UISearchBarDelegate>{
-	AppModel *appModel;
 	NSArray *gameList;
 	NSMutableArray *filteredGameList;
 

@@ -25,9 +25,6 @@
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         self.title = NSLocalizedString(@"AudioRecorderTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"microphone.png"];
-		
-		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
-		
     }
     return self;
 }
@@ -230,7 +227,7 @@
 	[titleAndDescForm.view removeFromSuperview];
 	
 	
-	[appModel createItemAndGiveToPlayerFromFileData:self.audioData 
+	[[AppModel sharedAppModel] createItemAndGiveToPlayerFromFileData:self.audioData 
 										   fileName:@"audio.caf" 
 											  title:titleAndDescForm.titleField.text 
 										description:titleAndDescForm.descriptionField.text];

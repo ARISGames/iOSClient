@@ -42,14 +42,12 @@
 	
 	//Create a reference to the delegate using the application singleton.
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-	AppModel *appModel = appDelegate.appModel;
 		
 	ItemDetailsViewController *itemDetailsViewController = [[ItemDetailsViewController alloc] 
 															initWithNibName:@"ItemDetailsView" bundle:[NSBundle mainBundle]];
 	itemDetailsViewController.item = self;
 	itemDetailsViewController.navigationItem.title = name;
 	itemDetailsViewController.inInventory = NO;
-	itemDetailsViewController.appModel = appModel;
 
 	//Have AppDelegate display
 	[appDelegate displayNearbyObjectView:itemDetailsViewController];

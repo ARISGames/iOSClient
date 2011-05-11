@@ -42,6 +42,12 @@ static const int kEmptyValue = -1;
 @synthesize currentlyFetchingLocationList, currentlyFetchingInventory, currentlyFetchingQuestList, currentlyUpdatingServerWithPlayerLocation;
 @synthesize currentlyUpdatingServerWithMapViewed, currentlyUpdatingServerWithQuestsViewed, currentlyUpdatingServerWithInventoryViewed;
 
+
+
+SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
+
+
+
 #pragma mark Init/dealloc
 -(id)init {
     self = [super init];
@@ -76,6 +82,8 @@ static const int kEmptyValue = -1;
 		self.currentGame = [[Game alloc]init];
 		self.currentGame.gameId = [defaults integerForKey:@"gameId"];
 		self.currentGame.pcMediaId = [defaults integerForKey:@"gamePcMediaId"];
+        self.currentGame.launchNodeId = [defaults integerForKey:@"gameLaunchNodeId"];
+        self.currentGame.completeNodeId = [defaults integerForKey:@"gameCompleteNodeId"];
 	}
 		
 	if ([defaults boolForKey:@"resetTutorial"]) {
@@ -131,6 +139,8 @@ static const int kEmptyValue = -1;
 	[defaults removeObjectForKey:@"playerId"];
 	[defaults removeObjectForKey:@"gameId"];
 	[defaults removeObjectForKey:@"gamePcMediaId"];
+    [defaults removeObjectForKey:@"gameLaunchNodeId"];
+    [defaults removeObjectForKey:@"gameCompleteNodeId"];
 	
 	[defaults synchronize];		
 	//Don't clear the baseAppURL
@@ -143,8 +153,10 @@ static const int kEmptyValue = -1;
 	[defaults setObject:username forKey:@"username"];
 	[defaults setObject:password forKey:@"password"];
 	[defaults setInteger:playerId forKey:@"playerId"];
-	[defaults setInteger:self.currentGame.pcMediaId forKey:@"gamePcMediaId"];
 	[defaults setInteger:self.currentGame.gameId forKey:@"gameId"];
+    [defaults setInteger:self.currentGame.pcMediaId forKey:@"gamePcMediaId"];
+	[defaults setInteger:self.currentGame.pcMediaId forKey:@"gameLaunchNodeId"];
+    [defaults setInteger:self.currentGame.pcMediaId forKey:@"gameCompleteNodeId"];
 	[defaults setObject:[serverURL absoluteString]  forKey:@"lastServerString"];
 	[defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"appVerison"];
 	[defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBuildNumber"] forKey:@"buildNum"];
@@ -381,6 +393,9 @@ static const int kEmptyValue = -1;
 	[jsonConnection performAsynchronousRequestWithParser:
         @selector(parseStartOverFromJSON:)]; 
 	[jsonConnection release];
+    
+    [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] returnToHomeView];
+
 }
 
 
@@ -1154,7 +1169,8 @@ static const int kEmptyValue = -1;
 
 
 -(void)parseGameListFromJSON: (JSONResult *)jsonResult{
-	
+    NSLog(@"AppModel: parseGameListFromJSON Beginning");		
+    
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RecievedGameList" object:nil]];
 
 	NSArray *gameListArray = (NSArray *)jsonResult.data;
@@ -1168,7 +1184,7 @@ static const int kEmptyValue = -1;
 		Game *game = [[Game alloc] init];
 	
 		game.gameId = [[gameDictionary valueForKey:@"game_id"] intValue];
-		NSLog(@"AppModel: Parsing Game: %d", game.gameId);		
+		//NSLog(@"AppModel: Parsing Game: %d", game.gameId);		
 		
 		game.name = [gameDictionary valueForKey:@"name"];
 		if ((NSNull *)game.name == [NSNull null]) game.name = @"";
@@ -1218,13 +1234,16 @@ static const int kEmptyValue = -1;
 		if ((NSNull *)game_complete_node_id != [NSNull null]) game.completeNodeId = [game_complete_node_id intValue];
 		else game.completeNodeId = 0;		
 		
-		NSLog(@"Model: Adding Game: %@", game.name);
+		//NSLog(@"Model: Adding Game: %@", game.name);
 		[tempGameList addObject:game]; 
 		[game release];
 	}
 
 	self.gameList = tempGameList;
 	[tempGameList release];
+    
+    NSLog(@"AppModel: parseGameListFromJSON Complete, sending notification");		
+
 	
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewGameListReady" object:nil]];
 

@@ -23,7 +23,6 @@
     if (self) {
         self.title = NSLocalizedString(@"ARViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"camera.png"];
-		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
     }
     return self;
 }
@@ -43,7 +42,7 @@
 	NSMutableArray *tempLocationArray = [[NSMutableArray alloc] initWithCapacity:10];
 	
 	NearbyObjectARCoordinate *tempCoordinate;
-	for ( Location *nearbyLocation in appModel.nearbyLocationsList ) {		
+	for ( Location *nearbyLocation in [AppModel sharedAppModel].nearbyLocationsList ) {		
 		tempCoordinate = [NearbyObjectARCoordinate coordinateWithNearbyLocation: nearbyLocation];
 		[tempLocationArray addObject:tempCoordinate];
 		NSLog(@"ARViewViewController: Added %@", tempCoordinate.title);
@@ -62,7 +61,7 @@
 	
 	[ARviewController addCoordinates:tempLocationArray];
 	
-	ARviewController.centerLocation = appModel.playerLocation;
+	ARviewController.centerLocation = [AppModel sharedAppModel].playerLocation;
 	[ARviewController startListening];
 	
 	[[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] window] addSubview:ARviewController.view];
@@ -116,7 +115,7 @@
 	AsyncImageView *imageView = [[AsyncImageView alloc] initWithFrame:CGRectZero];
 	imageView.frame = CGRectMake((int)(BOX_WIDTH / 2.0 - 300 / 2.0), 20, 300, 300);
 	if (coordinate.mediaId != 0) {
-		Media *imageMedia = [appModel mediaForMediaId: coordinate.mediaId];
+		Media *imageMedia = [[AppModel sharedAppModel] mediaForMediaId: coordinate.mediaId];
 		[imageView loadImageFromMedia:imageMedia];
 	}
 	else imageView.image = [UIImage imageNamed:@"location.png"];

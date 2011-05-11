@@ -27,7 +27,6 @@
     if (self) {
         self.title = NSLocalizedString(@"GamePickerTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"game.png"];
-		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
 		self.filteredGameList = [[NSMutableArray alloc]initWithCapacity:1];
 		
 		//register for notifications
@@ -65,7 +64,7 @@
 
 -(void)refresh {
 	NSLog(@"GamePickerViewController: Refresh Requested");
-	[appModel fetchGameList];
+	[[AppModel sharedAppModel] fetchGameList];
 	[self showLoadingIndicator];
 }
 
@@ -93,7 +92,7 @@
 	NSLog(@"GamePickerViewController: Refresh View from Model");
 	
 	//Sort the game list
-	NSArray* sortedGameList = [appModel.gameList sortedArrayUsingSelector:@selector(compareDistanceFromPlayer:)];
+	NSArray* sortedGameList = [[AppModel sharedAppModel].gameList sortedArrayUsingSelector:@selector(compareDistanceFromPlayer:)];
 
 	self.gameList = sortedGameList;
 
@@ -115,7 +114,7 @@
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSLog(@"GamePickerVC: Cell requested for section: %d row: %d",indexPath.section,indexPath.row);
+	//NSLog(@"GamePickerVC: Cell requested for section: %d row: %d",indexPath.section,indexPath.row);
 
 	
 	static NSString *CellIdentifier = @"Cell";
@@ -143,7 +142,7 @@
 
 	
 	if (currentGame.iconMediaId > 0) {
-		Media *iconMedia = [appModel mediaForMediaId: currentGame.iconMediaId];
+		Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: currentGame.iconMediaId];
 		[cell.iconView loadImageFromMedia:iconMedia];
 	}
 	else cell.iconView.image = [UIImage imageNamed:@"Icon.png"];
@@ -161,7 +160,7 @@
 	
 	NSDictionary *dictionary = [NSDictionary dictionaryWithObject:selectedGame forKey:@"game"];
 	
-	[appModel silenceNextServerUpdate];
+	[[AppModel sharedAppModel] silenceNextServerUpdate];
 	NSNotification *gameSelectNotification = [NSNotification notificationWithName:@"SelectGame" object:self userInfo:dictionary];
 	[[NSNotificationCenter defaultCenter] postNotification:gameSelectNotification];
 	

@@ -14,6 +14,7 @@
 #import "Npc.h"
 #import "Media.h"
 #import "JSONResult.h"
+#import "SynthesizeSingleton.h"
 
 extern NSDictionary *InventoryElements;
 
@@ -62,6 +63,7 @@ extern NSDictionary *InventoryElements;
 
 }
 
+
 @property(nonatomic, retain) NSURL *serverURL;
 
 @property(readwrite) BOOL loggedIn;
@@ -103,9 +105,11 @@ extern NSDictionary *InventoryElements;
 @property(readwrite) BOOL currentlyUpdatingServerWithQuestsViewed;
 @property(readwrite) BOOL currentlyUpdatingServerWithInventoryViewed;
 
+
++ (AppModel *)sharedAppModel;
+
 - (id)init;
 - (void)setPlayerLocation:(CLLocation *) newLocation;	
-
 
 - (void)loadUserDefaults;
 - (void)clearUserDefaults;

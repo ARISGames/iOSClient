@@ -32,7 +32,6 @@
 													 name:@"QRCodeObjectReady"
 												   object:nil];
 		
-		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
     }
     return self;
 }
@@ -130,7 +129,7 @@
 	//Fetch the coresponding object from the server
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate showNewWaitingIndicator:NSLocalizedString(@"LoadingKey",@"") displayProgressBar:NO];
-	[appModel fetchQRCode:code];
+	[[AppModel sharedAppModel] fetchQRCode:code];
 }
 
 -(void) finishLoadingResult:(NSNotification*) notification{

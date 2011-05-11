@@ -23,7 +23,6 @@
     if (self) {
         self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"inventory.png"];
-		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
 		
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
@@ -48,7 +47,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-	[appModel updateServerInventoryViewed];
+	[[AppModel sharedAppModel] updateServerInventoryViewed];
 	
 	[self refresh];		
 	
@@ -68,7 +67,7 @@
 
 -(void)refresh {
 	NSLog(@"InventoryListViewController: Refresh Requested");
-	[appModel fetchInventory];
+	[[AppModel sharedAppModel] fetchInventory];
 	[self showLoadingIndicator];
 }
 
@@ -93,7 +92,7 @@
 	NSLog(@"InventoryListViewController: Refresh View from Model");
 	
 	if (silenceNextServerUpdateCount < 1) {		
-		NSArray *newInventory = [appModel.inventory allValues];
+		NSArray *newInventory = [[AppModel sharedAppModel].inventory allValues];
 		//Check if anything is new since last time
 		int newItems = 0;
 		for (Item *item in newInventory) {		
@@ -115,12 +114,12 @@
 			[appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
 			
 			//Put up the tutorial tab
-			if (!appModel.hasSeenInventoryTabTutorial){
+			if (![AppModel sharedAppModel].hasSeenInventoryTabTutorial){
 				[appDelegate.tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController  
 																							   type:tutorialPopupKindInventoryTab
 																							  title:@"New Item"  
 																							message:@"You have a new Item in your Inventory! Touch below to view your items now."];						
-				appModel.hasSeenInventoryTabTutorial = YES;
+				[AppModel sharedAppModel].hasSeenInventoryTabTutorial = YES;
 			}
 				
 			
@@ -133,7 +132,7 @@
 		self.tabBarItem.badgeValue = nil;
 	}
 	
-	self.inventory = [appModel.inventory allValues];
+	self.inventory = [[AppModel sharedAppModel].inventory allValues];
 	[inventoryTable reloadData];
 	
 	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
@@ -214,10 +213,10 @@
 	
 	AsyncImageView *iconView = (AsyncImageView *)[cell viewWithTag:3];
 	
-	Media *media = [appModel mediaForMediaId: item.mediaId];
+	Media *media = [[AppModel sharedAppModel] mediaForMediaId: item.mediaId];
 
 	if (item.iconMediaId != 0) {
-		Media *iconMedia = [appModel mediaForMediaId: item.iconMediaId];
+		Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: item.iconMediaId];
 		[iconView loadImageFromMedia:iconMedia];
 	}
 	else {
@@ -253,7 +252,6 @@
 	
 	ItemDetailsViewController *itemDetailsViewController = [[ItemDetailsViewController alloc] 
 															initWithNibName:@"ItemDetailsView" bundle:[NSBundle mainBundle]];
-	itemDetailsViewController.appModel = appModel;
 	itemDetailsViewController.item = selectedItem;
 	itemDetailsViewController.navigationItem.title = selectedItem.name;
 	itemDetailsViewController.inInventory = YES;
@@ -273,7 +271,6 @@
 }
 
 - (void)dealloc {
-	[appModel release];
     [super dealloc];
 }
 @end

@@ -93,8 +93,7 @@ NSString *const kGameDetailsHtmlTemplate =
 	authorsLabel.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"AuthorsKey",@""),game.authors];
 	
 	if (game.iconMediaId != 0) {
-		AppModel *appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
-		Media *iconMedia = [appModel mediaForMediaId: game.iconMediaId];
+		Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: game.iconMediaId];
 		[iconView loadImageFromMedia:iconMedia];
 	}
 

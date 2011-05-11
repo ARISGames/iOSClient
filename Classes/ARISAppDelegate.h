@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "model/AppModel.h";
+#import "AppModel.h";
 
 #import "LoginViewController.h";
 #import "MyCLController.h"
@@ -39,7 +39,6 @@
 
 
 @interface ARISAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate> {
-	AppModel *appModel;
 	UIWindow *window;
     UITabBarController *tabBarController;
     TutorialViewController *tutorialViewController;
@@ -64,7 +63,6 @@
 	
 }
 
-@property (nonatomic, retain) AppModel *appModel;
 @property (nonatomic, retain) MyCLController *myCLController;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;

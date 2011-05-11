@@ -16,12 +16,11 @@
 static NSString * const OPTION_CELL = @"option";
 
 @implementation NodeViewController
-@synthesize appModel, node, tableView, scrollView;
+@synthesize node, tableView, scrollView;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(movieFinishedCallback:)
@@ -63,7 +62,7 @@ static NSString * const OPTION_CELL = @"option";
 		[subview removeFromSuperview];
 	}
 	
-	Media *media = [appModel mediaForMediaId: self.node.mediaId];
+	Media *media = [[AppModel sharedAppModel] mediaForMediaId: self.node.mediaId];
 
 	if ([media.type isEqualToString: @"Image"] && media.url) {
 		NSLog(@"ItemDetailsViewController: Image Layout Selected");
@@ -127,7 +126,7 @@ static NSString * const OPTION_CELL = @"option";
 	NSLog(@"NodeViewController: Notify server of Node view and Dismiss view");
 	
 	//Notify the server this item was displayed
-	[appModel updateServerNodeViewed:node.nodeId];
+	[[AppModel sharedAppModel] updateServerNodeViewed:node.nodeId];
 	
 	
 	//[self.view removeFromSuperview];
@@ -273,8 +272,7 @@ static NSString * const OPTION_CELL = @"option";
 	NSLog(@"Displaying option ``%@''", selectedOption.text);
 	
 	int newNodeId = selectedOption.nodeId;
-	//Node *newNode = [appModel fetchNode:newNodeId];
-	Node *newNode = [appModel nodeForNodeId: newNodeId];
+	Node *newNode = [[AppModel sharedAppModel] nodeForNodeId: newNodeId];
 	self.node = newNode;
 	[self refreshView];
 }

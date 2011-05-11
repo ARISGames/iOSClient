@@ -31,12 +31,11 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
 
 @implementation ItemDetailsViewController
-@synthesize appModel, item, inInventory,mode;
+@synthesize item, inInventory,mode;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(movieFinishedCallback:)
@@ -98,7 +97,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	NSString *htmlDescription = [NSString stringWithFormat:kItemDetailsDescriptionHtmlTemplate, item.description];
 	[itemDescriptionView loadHTMLString:htmlDescription baseURL:nil];
 
-	Media *media = [appModel mediaForMediaId: item.mediaId];
+	Media *media = [[AppModel sharedAppModel] mediaForMediaId: item.mediaId];
 
 	if ([media.type isEqualToString: @"Image"] && media.url) {
 		NSLog(@"ItemDetailsViewController: Image Layout Selected");
@@ -145,7 +144,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	NSLog(@"ItemDetailsViewController: Notify server of Item view and Dismiss Item Details View");
 	
 	//Notify the server this item was displayed
-	[appModel updateServerItemViewed:item.itemId];
+	[[AppModel sharedAppModel] updateServerItemViewed:item.itemId];
 	
 	
 	[self.navigationController popToRootViewControllerAnimated:YES];
@@ -232,8 +231,8 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	//Do the action based on the mode of the VC
 	if (mode == kItemDetailsDropping) {
 		NSLog(@"ItemDetailsVC: Dropping %d",quantity);
-		[appModel updateServerDropItemHere:item.itemId qty:quantity];
-		[appModel removeItemFromInventory:item qtyToRemove:quantity];
+		[[AppModel sharedAppModel] updateServerDropItemHere:item.itemId qty:quantity];
+		[[AppModel sharedAppModel] removeItemFromInventory:item qtyToRemove:quantity];
 
 		/*
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"ItemDroppedTitleKey",@"")
@@ -245,8 +244,8 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	}
 	else if (mode == kItemDetailsDestroying) {
 		NSLog(@"ItemDetailsVC: Destroying %d",quantity);
-		[appModel updateServerDestroyItem:self.item.itemId qty:quantity];
-		[appModel removeItemFromInventory:item qtyToRemove:quantity];
+		[[AppModel sharedAppModel] updateServerDestroyItem:self.item.itemId qty:quantity];
+		[[AppModel sharedAppModel] removeItemFromInventory:item qtyToRemove:quantity];
 		
 		/*
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"ItemDestroyedTitleKey", @"")
@@ -259,7 +258,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	else if (mode == kItemDetailsPickingUp) {
 		
 		//Determine if this item can be picked up
-		Item *itemInInventory  = [appModel.inventory objectForKey:[NSString stringWithFormat:@"%d",item.itemId]];
+		Item *itemInInventory  = [[AppModel sharedAppModel].inventory objectForKey:[NSString stringWithFormat:@"%d",item.itemId]];
 		if (itemInInventory.qty + quantity > item.maxQty && item.maxQty != -1) {
 		
 			[appDelegate playAudioAlert:@"error" shouldVibrate:YES];
@@ -288,8 +287,8 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 		}
 
 		if (quantity > 0) {
-			[appModel updateServerPickupItem:self.item.itemId fromLocation:self.item.locationId qty:quantity];
-			[appModel modifyQuantity:-quantity forLocationId:self.item.locationId];
+			[[AppModel sharedAppModel] updateServerPickupItem:self.item.itemId fromLocation:self.item.locationId qty:quantity];
+			[[AppModel sharedAppModel] modifyQuantity:-quantity forLocationId:self.item.locationId];
 			item.qty -= quantity; //the above line does not give us an update, only the map
 			
 			/*

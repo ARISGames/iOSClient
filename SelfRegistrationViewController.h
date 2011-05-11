@@ -12,7 +12,6 @@
 
 
 @interface SelfRegistrationViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate> {
-	AppModel *appModel;
 	IBOutlet UITextField *userName;
 	IBOutlet UITextField *password;
 	IBOutlet UITextField *email;

@@ -35,7 +35,6 @@ static float INITIAL_SPAN = 0.001;
     if (self) {
         self.title = NSLocalizedString(@"MapViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"gps.png"];
-		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
 
 		tracking = YES;
 		playerTrackingButton.style = UIBarButtonItemStyleDone;
@@ -116,7 +115,7 @@ static float INITIAL_SPAN = 0.001;
 
 	
 	//Force an update of the locations
-	[appModel forceUpdateOnNextLocationListFetch];
+	[[AppModel sharedAppModel] forceUpdateOnNextLocationListFetch];
 	
 	[self refresh];	
 	
@@ -126,7 +125,7 @@ static float INITIAL_SPAN = 0.001;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-	[appModel updateServerMapViewed];
+	[[AppModel sharedAppModel] updateServerMapViewed];
 	
 	[self refresh];		
 	
@@ -162,7 +161,7 @@ static float INITIAL_SPAN = 0.001;
 	if (mapView) {
 		NSLog(@"GPSViewController: refresh requested");	
 	
-		if (appModel.loggedIn) [appModel fetchLocationList];
+		if ([AppModel sharedAppModel].loggedIn) [[AppModel sharedAppModel] fetchLocationList];
 		[self showLoadingIndicator];
 
 		//Zoom and Center
@@ -180,7 +179,7 @@ static float INITIAL_SPAN = 0.001;
 	
 	//Center the map on the player
 	MKCoordinateRegion region = mapView.region;
-	region.center = appModel.playerLocation.coordinate;
+	region.center = [AppModel sharedAppModel].playerLocation.coordinate;
 	region.span = MKCoordinateSpanMake(INITIAL_SPAN, INITIAL_SPAN);
 
 	[mapView setRegion:region animated:YES];
@@ -214,7 +213,7 @@ static float INITIAL_SPAN = 0.001;
 	if (silenceNextServerUpdateCount < 1) {
 		//Check if anything is new since last time
 		int newItems = 0;
-		NSArray *newLocationsArray = appModel.locationList;
+		NSArray *newLocationsArray = [AppModel sharedAppModel].locationList;
 		for (Location *location in newLocationsArray) {		
 			BOOL match = NO;
 			for (Location *existingLocation in self.locations) {
@@ -229,7 +228,7 @@ static float INITIAL_SPAN = 0.001;
 			newItemsSinceLastView += newItems;
 			self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
 			
-			if (!appModel.hasSeenMapTabTutorial) {
+			if (![AppModel sharedAppModel].hasSeenMapTabTutorial) {
 				//Put up the tutorial tab
 				ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 				[appDelegate.tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController 
@@ -237,7 +236,7 @@ static float INITIAL_SPAN = 0.001;
 																							  title:@"New GPS Location" 
 																							message:@"You have a new place of interest on your GPS! Touch below to view the Map."];						
 
-				appModel.hasSeenMapTabTutorial = YES;
+				[AppModel sharedAppModel].hasSeenMapTabTutorial = YES;
 			}
 		}
 		else if (newItemsSinceLastView < 1) self.tabBarItem.badgeValue = nil;
@@ -248,7 +247,7 @@ static float INITIAL_SPAN = 0.001;
 		self.tabBarItem.badgeValue = nil;
 	}
 	
-	self.locations = appModel.locationList;
+	self.locations = [AppModel sharedAppModel].locationList;
 	
 	if (mapView) {
 		//Blow away the old markers except for the player marker
@@ -287,7 +286,7 @@ static float INITIAL_SPAN = 0.001;
 		}
 		
 		//Add the freshly loaded players from the notification
-		for ( Player *player in appModel.playerList ) {
+		for ( Player *player in [AppModel sharedAppModel].playerList ) {
 			if (player.hidden == YES) continue;
 			CLLocationCoordinate2D locationLatLong = player.location.coordinate;
 

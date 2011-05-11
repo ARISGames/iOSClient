@@ -7,13 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "model/AppModel.h";
+#import "AppModel.h";
 #import "ARISAppDelegate.h";
 #import "Item.h";
 #import "ItemDetailsViewController.h";
 
 @interface InventoryListViewController : UIViewController {
-	AppModel *appModel;	
 	UITableView *inventoryTable;
 	NSArray *inventory;
 	int silenceNextServerUpdateCount;

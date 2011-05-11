@@ -84,18 +84,15 @@
 
 - (void)refresh {
 	NSLog(@"NearbyObjectsViewController: refresh requested");
-	AppModel *appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
-	if (appModel.loggedIn) [appModel fetchLocationList];
+	if ([AppModel sharedAppModel].loggedIn) [[AppModel sharedAppModel] fetchLocationList];
 }
 
 - (void)refreshViewFromModel{
 	NSLog(@"NearbyBar: refreshViewFromModel");
 	
-	AppModel *appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	
-	
-	if (!appModel.playerLocation) {
+	if (![AppModel sharedAppModel].playerLocation) {
 		NSLog(@"NearbyBar: Waiting for the player location before continuing to refresh. Returning");
 		return;
 	}
@@ -105,8 +102,8 @@
 	
 	
 	//Filter out the locations that meet some basic requirements
-	for(Location *location in appModel.locationList) {
-		if ([appModel.playerLocation distanceFromLocation:location.location] > location.error) continue;
+	for(Location *location in [AppModel sharedAppModel].locationList) {
+		if ([[AppModel sharedAppModel].playerLocation distanceFromLocation:location.location] > location.error) continue;
 		else if (location.kind == NearbyObjectItem && location.qty < 1 ) continue;
 		else if (location.kind == NearbyObjectPlayer) continue;
 		else [nearbyLocationList addObject:location];
@@ -129,14 +126,14 @@
 	if (newItem) {
 		[appDelegate playAudioAlert:@"nearbyObject" shouldVibrate:YES];
 		
-		if (!appModel.hasSeenNearbyTabTutorial) {
+		if (![AppModel sharedAppModel].hasSeenNearbyTabTutorial) {
 			ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 
 			[appDelegate.tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController  
 												type:tutorialPopupKindNearbyTab 
 												title:@"Something Nearby"  
 												message:@"There is something nearby! Touch below to see what it is."];
-			appModel.hasSeenNearbyTabTutorial = YES;
+			[AppModel sharedAppModel].hasSeenNearbyTabTutorial = YES;
 		}
 	}
 	
@@ -203,9 +200,7 @@
 	if (l.kind == NearbyObjectItem && l.qty > 1) cell.title.text = [NSString stringWithFormat:@"%@ (x%d)",l.name,l.qty];
 	else cell.title.text = l.name;
 	
-	
-	AppModel *appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
-	Media *iconMedia = [appModel mediaForMediaId: l.iconMediaId];
+	Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: l.iconMediaId];
 	[cell.iconView loadImageFromMedia:iconMedia];
 	
 	return cell;

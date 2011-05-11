@@ -119,9 +119,7 @@
 	SEL parser = NSSelectorFromString([[request userInfo] objectForKey:@"parser"]);   
 
 	if (parser) {
-		ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-		AppModel *appModel = appDelegate.appModel;		
-		[appModel performSelector:parser withObject:jsonResult];
+		[[AppModel sharedAppModel] performSelector:parser withObject:jsonResult];
 	}
 	
 	[jsonResult release];

@@ -47,18 +47,17 @@
  */
 #import <CoreLocation/CoreLocation.h>
 #import <CoreLocation/CLLocationManagerDelegate.h>
-#import "model/AppModel.h"
+#import "AppModel.h"
 
 
 // Class definition
 @interface MyCLController : NSObject <CLLocationManagerDelegate> {
 	CLLocationManager *locationManager;
-	AppModel *appModel;
 }
 
 @property (nonatomic, retain) CLLocationManager *locationManager;
 
--(MyCLController*) initWithAppModel:(AppModel *)model;
+-(MyCLController*) init;
 
 - (void)locationManager:(CLLocationManager *)manager
 	didUpdateToLocation:(CLLocation *)newLocation

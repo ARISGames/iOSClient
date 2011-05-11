@@ -27,9 +27,7 @@
 	adjustedLocationCoordinate2D.latitude = aNearbyLocation.location.coordinate.latitude;
 	adjustedLocationCoordinate2D.longitude = aNearbyLocation.location.coordinate.longitude;
 	
-	AppModel *appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
-	
-	float adjustedAltitude = appModel.playerLocation.altitude - 10;
+	float adjustedAltitude = [AppModel sharedAppModel].playerLocation.altitude - 10;
 	NSLog(@"NearbyObjectARCoordinate: Adjusted Altitude: %f",adjustedAltitude);
 	
 	CLLocation *tempLocation = [[CLLocation alloc] initWithCoordinate: adjustedLocationCoordinate2D altitude: adjustedAltitude horizontalAccuracy:1.0 verticalAccuracy:1.0 timestamp:[NSDate date]];

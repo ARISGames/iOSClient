@@ -22,7 +22,6 @@
 		kind = NearbyObjectNode;
 		options = [[NSMutableArray alloc] init];
     }
-	
     return self;	
 }
 
@@ -35,11 +34,9 @@
 	
 	//Create a reference to the delegate using the application singleton.
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-	AppModel *appModel = appDelegate.appModel;
 
 	NodeViewController *nodeViewController = [[NodeViewController alloc] initWithNibName:@"Node" bundle: [NSBundle mainBundle]];
 	nodeViewController.node = self; //currentNode;
-	nodeViewController.appModel = appModel;
 	
 	[appDelegate displayNearbyObjectView:nodeViewController];
 	[nodeViewController release];

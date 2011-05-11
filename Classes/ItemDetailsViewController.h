@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "model/AppModel.h";
+#import "AppModel.h";
 #import "Item.h";
 #import "ARISMoviePlayerViewController.h"
 #import "AsyncImageView.h"
@@ -21,7 +21,6 @@ typedef enum {
 
 
 @interface ItemDetailsViewController : UIViewController <UIActionSheetDelegate> {
-	AppModel *appModel;
 	Item *item;
 	//ARISMoviePlayerViewController *mMoviePlayer; //only used if item is a video
 	MPMoviePlayerViewController *mMoviePlayer; //only used if item is a video
@@ -42,7 +41,6 @@ typedef enum {
 
 }
 
-@property(readwrite, retain) AppModel *appModel;
 @property(readwrite, retain) Item *item;
 @property(readwrite) bool inInventory;
 @property(readwrite) ItemDetailsModeType mode;

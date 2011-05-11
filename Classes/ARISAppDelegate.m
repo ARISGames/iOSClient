@@ -14,7 +14,6 @@
 
 @implementation ARISAppDelegate
 
-@synthesize appModel;
 @synthesize window;
 @synthesize tabBarController;
 @synthesize loginViewController;
@@ -37,16 +36,13 @@
 		
 	//Don't sleep
 	application.idleTimerDisabled = YES;
-	
-	//init app model
-	self.appModel = [[AppModel alloc] init];
-	
+		
 	//Init keys in UserDefaults in case the user has not visited the ARIS Settings page
 	//To set these defaults, edit Settings.bundle->Root.plist 
-	[self.appModel initUserDefaults];
+	[[AppModel sharedAppModel] initUserDefaults];
 	
 	//Load defaults from UserDefaults
-	[self.appModel loadUserDefaults];
+	[[AppModel sharedAppModel] loadUserDefaults];
 	
     //Log the current Language
 	NSArray *languages = [[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"];
@@ -166,7 +162,7 @@
 	
 	
 	//Setup Location Manager
-	myCLController = [[MyCLController alloc] initWithAppModel:appModel];
+	myCLController = [[MyCLController alloc] init];
 	[NSTimer scheduledTimerWithTimeInterval:3.0 
 									 target:myCLController.locationManager 
 								   selector:@selector(startUpdatingLocation) 
@@ -174,17 +170,17 @@
 									repeats:NO];
 		
 	//Display the login screen if this user is not logged in
-	if (appModel.loggedIn == YES) {
-		if (!appModel.currentGame) {
+	if ([AppModel sharedAppModel].loggedIn == YES) {
+		if (![AppModel sharedAppModel].currentGame) {
 			NSLog(@"Appdelegate: Player already logged in, but a site has not been selected. Display site picker");
 			tabBarController.view.hidden = YES;
 			[window addSubview:gamePickerNavigationController.view];
 		}
 		else {
 			NSLog(@"Appdelegate: Player already logged in and they have a site selected. Go into the default module");
-			[appModel fetchAllGameLists];
-			[appModel silenceNextServerUpdate];
-			[appModel fetchAllPlayerLists];
+			[[AppModel sharedAppModel] fetchAllGameLists];
+			[[AppModel sharedAppModel] silenceNextServerUpdate];
+			[[AppModel sharedAppModel] fetchAllPlayerLists];
 			
 			[self playAudioAlert:@"questChange" shouldVibrate:NO];
 		}
@@ -199,7 +195,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application{
 	NSLog(@"AppDelegate: applicationDidBecomeActive");
-	[appModel loadUserDefaults];
+	[[AppModel sharedAppModel] loadUserDefaults];
 }
 
 
@@ -265,7 +261,7 @@
 	self.waitingIndicator.progressView.hidden = !displayProgressBar;
 	
 	//by adding a subview to window, we make sure it is put on top
-	if (appModel.loggedIn == YES) [window addSubview:self.waitingIndicator.view]; 
+	if ([AppModel sharedAppModel].loggedIn == YES) [window addSubview:self.waitingIndicator.view]; 
 
 }
 
@@ -352,21 +348,21 @@
 
 - (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password {	
 	NSLog(@"AppDelegate: Attempt Login for: %@ Password: %@", userName, password);
-	appModel.username = userName;
-	appModel.password = password;
+	[AppModel sharedAppModel].username = userName;
+	[AppModel sharedAppModel].password = password;
 
 	[self showNewWaitingIndicator:@"Logging In..." displayProgressBar:NO];
-	[appModel login];
+	[[AppModel sharedAppModel] login];
 }
 
 - (void)finishLoginAttempt:(NSNotification *)notification {
 	NSLog(@"AppDelegate: Finishing Login Attempt");
 		
 	//handle login response
-	if(appModel.loggedIn) {
+	if([AppModel sharedAppModel].loggedIn) {
 		NSLog(@"AppDelegate: Login Success");
 		[loginViewNavigationController.view removeFromSuperview];
-		[appModel saveUserDefaults];
+		[[AppModel sharedAppModel] saveUserDefaults];
 		if ([window.subviews containsObject:gamePickerNavigationController.view])
 			[gamePickerNavigationController.view removeFromSuperview];
 		[window addSubview:gamePickerNavigationController.view]; //This will automatically load it's own data		
@@ -394,17 +390,17 @@
 	[gamePickerNavigationController.view removeFromSuperview];
 	
 	//Set the model to this game
-	appModel.currentGame = selectedGame;
-	[appModel saveUserDefaults];
+	[AppModel sharedAppModel].currentGame = selectedGame;
+	[[AppModel sharedAppModel] saveUserDefaults];
 	
 	//Clear out the old game data
-	[appModel resetAllPlayerLists];
-    [appModel resetAllGameLists];
+	[[AppModel sharedAppModel] resetAllPlayerLists];
+    [[AppModel sharedAppModel] resetAllGameLists];
 	[tutorialViewController dismissAllTutorials];
 	
 	//Notify the Server
 	NSLog(@"AppDelegate: Game Selected. Notifying Server");
-	[appModel updateServerGameSelected];
+	[[AppModel sharedAppModel] updateServerGameSelected];
 	
 	//Set tabBar to the first item
 	tabBarController.selectedIndex = 0;
@@ -426,11 +422,11 @@
 	}
 	
     //Start loading all the data
-    [appModel fetchAllGameLists];
-	[appModel fetchAllPlayerLists];
+    [[AppModel sharedAppModel] fetchAllGameLists];
+	[[AppModel sharedAppModel] fetchAllPlayerLists];
     
     //Display the intro node
-    if (appModel.currentGame.completedQuests < 1) [self displayIntroNode];
+    if ([AppModel sharedAppModel].currentGame.completedQuests < 1) [self displayIntroNode];
     
 	NSLog(@"AppDelegate: %@ selected",[visibleViewController title]);
 	
@@ -441,9 +437,9 @@
 - (void)performLogout:(NSNotification *)notification {
     NSLog(@"Performing Logout: Clearing NSUserDefaults and Displaying Login Screen");
 	
-	//Clear any user realated info in appModel (except server)
-	[appModel clearUserDefaults];
-	[appModel loadUserDefaults];
+	//Clear any user realated info in AppModel (except server)
+	[[AppModel sharedAppModel] clearUserDefaults];
+	[[AppModel sharedAppModel] loadUserDefaults];
 	
 	//clear the tutorial popups
 	[tutorialViewController dismissAllTutorials];
@@ -459,17 +455,22 @@
 }
 
 - (void) checkForDisplayCompleteNode{
-    if (appModel.currentGame.completedQuests == appModel.currentGame.totalQuests && appModel.currentGame.completedQuests > 0) {
+    if ([AppModel sharedAppModel].currentGame.completedQuests == [AppModel sharedAppModel].currentGame.totalQuests &&
+            [AppModel sharedAppModel].currentGame.completedQuests > 0) {
         NSLog(@"AppDelegate: checkForIntroOrCompleteNodeDisplay: Displaying Complete Node");
-		Node *completeNode = [appModel nodeForNodeId:appModel.currentGame.completeNodeId];
+		Node *completeNode = [[AppModel sharedAppModel] nodeForNodeId:[AppModel sharedAppModel].currentGame.completeNodeId];
 		[completeNode display];
 	}
 }
 
 - (void) displayIntroNode{
-    NSLog(@"AppDelegate: checkForIntroOrCompleteNodeDisplay: Displaying Complete Node");
-    Node *launchNode = [appModel nodeForNodeId:appModel.currentGame.launchNodeId];
-    [launchNode display];
+    int nodeId = [AppModel sharedAppModel].currentGame.launchNodeId;
+    if (nodeId && nodeId != 0) {
+        NSLog(@"AppDelegate: displayIntroNode");
+        Node *launchNode = [[AppModel sharedAppModel] nodeForNodeId:[AppModel sharedAppModel].currentGame.launchNodeId];
+        [launchNode display];
+    }
+    else NSLog(@"AppDelegate: displayIntroNode: Game did not specify an intro node, skipping");
 }
 
 #pragma mark AlertView Delegate Methods
@@ -537,17 +538,16 @@
 #pragma mark Memory Management
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-	NSLog(@"AppModel: Begin Application Resign Active");
-	[appModel saveUserDefaults];
+	NSLog(@"AppDelegate: Begin Application Resign Active");
+	[[AppModel sharedAppModel] saveUserDefaults];
 }
 
 -(void) applicationWillTerminate:(UIApplication *)application {
-	NSLog(@"AppModel: Begin Application Termination");
-	[appModel saveUserDefaults];
+	NSLog(@"AppDelegate: Begin Application Termination");
+	[[AppModel sharedAppModel] saveUserDefaults];
 }
 
 - (void)dealloc {
-	[appModel release];
 	[super dealloc];
 }
 @end

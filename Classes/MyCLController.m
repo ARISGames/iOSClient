@@ -55,14 +55,13 @@
 
 @synthesize locationManager;
 
-- (MyCLController*) initWithAppModel:(AppModel *)model {
+- (MyCLController*) init{
 	self = [super init];
 	if (self != nil) {
 		self.locationManager = [[[CLLocationManager alloc] init] autorelease];
 		self.locationManager.delegate = self; // Tells the location manager to send updates to this object
 		self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
 		self.locationManager.distanceFilter = 5; //Minimum change of 5 meters for update
-		appModel = model;
 	}
 	return self;
 		
@@ -76,7 +75,7 @@
 		  newLocation.coordinate.longitude,  newLocation.horizontalAccuracy, newLocation.verticalAccuracy );
 	
 	//Update the Model
-		appModel.playerLocation = newLocation;
+		[AppModel sharedAppModel].playerLocation = newLocation;
 			
 }
 

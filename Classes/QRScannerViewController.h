@@ -11,7 +11,6 @@
 #import "DecoderDelegate.h"
 
 @interface QRScannerViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, DecoderDelegate> {
-	AppModel *appModel;
 	IBOutlet UIButton *scanButton;
 	IBOutlet UITextField *manualCode;
     UIImagePickerController *imagePickerController;

@@ -7,12 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "model/AppModel.h";
+#import "AppModel.h";
 #import "Location.h";
 
-@interface DeveloperViewController : UIViewController {
-	AppModel *appModel;	
-	
+@interface DeveloperViewController : UIViewController {	
 	UITableView *locationTable;
 	NSMutableArray *locationTableData;
 	UIButton *clearEventsButton;

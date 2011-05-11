@@ -15,7 +15,6 @@
 
 
 @interface GPSViewController : UIViewController <MKMapViewDelegate, UIActionSheetDelegate> {
-	AppModel *appModel;
 	IBOutlet MKMapView *mapView;
 	NSArray *locations;
 	BOOL tracking;

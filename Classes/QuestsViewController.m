@@ -55,7 +55,6 @@ NSString *const kQuestsHtmlTemplate =
     if (self) {
         self.title = NSLocalizedString(@"QuestViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"quest.png"];
-		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
 
 		cellsLoaded = 0;
 		
@@ -84,7 +83,7 @@ NSString *const kQuestsHtmlTemplate =
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-	[appModel updateServerQuestsViewed];
+	[[AppModel sharedAppModel] updateServerQuestsViewed];
 	
 	[self refresh];
 	
@@ -103,7 +102,7 @@ NSString *const kQuestsHtmlTemplate =
 
 - (void)refresh {
 	NSLog(@"QuestsViewController: refresh requested");
-	if (appModel.loggedIn) [appModel fetchQuestList];
+	if ([AppModel sharedAppModel].loggedIn) [[AppModel sharedAppModel] fetchQuestList];
 	[self showLoadingIndicator];
 }
 
@@ -126,8 +125,8 @@ NSString *const kQuestsHtmlTemplate =
 -(void)refreshViewFromModel {
 	NSLog(@"QuestsViewController: Refreshing view from model");
 	
-	progressLabel.text = [NSString stringWithFormat:@"%d of %d Quests Complete", appModel.currentGame.completedQuests, appModel.currentGame.totalQuests];
-	progressView.progress = (float)appModel.currentGame.completedQuests / (float)appModel.currentGame.totalQuests;
+	progressLabel.text = [NSString stringWithFormat:@"%d of %d Quests Complete", [AppModel sharedAppModel].currentGame.completedQuests, [AppModel sharedAppModel].currentGame.totalQuests];
+	progressView.progress = (float)[AppModel sharedAppModel].currentGame.completedQuests / (float)[AppModel sharedAppModel].currentGame.totalQuests;
 		
 	NSLog(@"QuestsViewController: refreshViewFromModel: silenceNextServerUpdateCount = %d", silenceNextServerUpdateCount);
 	
@@ -135,7 +134,7 @@ NSString *const kQuestsHtmlTemplate =
 	if (silenceNextServerUpdateCount < 1) {
 		//Check if anything is new since last time
 		int newItems = 0;
-		NSArray *newActiveQuestsArray = [appModel.questList objectForKey:@"active"];
+		NSArray *newActiveQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"active"];
 		for (Quest *quest in newActiveQuestsArray) {		
 			BOOL match = NO;
 			for (Quest *existingQuest in [self.quests objectAtIndex:ACTIVE_SECTION]) {
@@ -149,14 +148,14 @@ NSString *const kQuestsHtmlTemplate =
 			newItemsSinceLastView += newItems;
 			self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
 			
-			if (!appModel.hasSeenQuestsTabTutorial){
+			if (![AppModel sharedAppModel].hasSeenQuestsTabTutorial){
 			//Put up the tutorial tab
 				ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 				[appDelegate.tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController 
 																							   type:tutorialPopupKindQuestsTab 
 																							  title:@"New Quest" 
 																							message:@"You have a new Quest! Touch here to see the current and completed quests."];						
-				appModel.hasSeenQuestsTabTutorial = YES;
+				[AppModel sharedAppModel].hasSeenQuestsTabTutorial = YES;
 			}
 		}
 		else if (newItemsSinceLastView < 1) self.tabBarItem.badgeValue = nil;
@@ -169,8 +168,8 @@ NSString *const kQuestsHtmlTemplate =
 	
 	
 	//rebuild the list
-	NSArray *activeQuestsArray = [appModel.questList objectForKey:@"active"];
-	NSArray *completedQuestsArray = [appModel.questList objectForKey:@"completed"];
+	NSArray *activeQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"active"];
+	NSArray *completedQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"completed"];
 	
 	if (self.quests) [self.quests release];
 	self.quests = [NSArray arrayWithObjects:activeQuestsArray, completedQuestsArray, nil];
@@ -338,7 +337,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	
 	//Set the icon
 	if (quest.iconMediaId > 0) {
-		Media *iconMedia = [appModel mediaForMediaId:quest.iconMediaId];
+		Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId:quest.iconMediaId];
 		[iconView loadImageFromMedia:iconMedia];
 	}
 	else {

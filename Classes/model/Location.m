@@ -46,22 +46,20 @@
 }
 
 - (NSObject<NearbyObjectProtocol>*)object {
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	AppModel *model = [appDelegate appModel];
 	
 	if (self.kind == NearbyObjectItem) {
-		Item *item = [model itemForItemId:objectId]; 		
+		Item *item = [[AppModel sharedAppModel] itemForItemId:objectId]; 		
 		item.locationId = self.locationId;
 		item.qty = self.qty;
 		return item;
 	}
 	
 	if (self.kind == NearbyObjectNode) {
-		return [model nodeForNodeId: objectId]; 
+		return [[AppModel sharedAppModel] nodeForNodeId: objectId]; 
 	}
 	
 	if (self.kind == NearbyObjectNPC) {
-		return [model npcForNpcId: objectId]; 
+		return [[AppModel sharedAppModel] npcForNpcId: objectId]; 
 	}
 	else return nil;
 	

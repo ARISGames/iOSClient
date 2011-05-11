@@ -140,10 +140,9 @@ NSString *const kDialogHtmlTemplate =
 	
 	//Check if the game specifies a PC image
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-	AppModel *appModel = appDelegate.appModel;
-	if (appModel.currentGame.pcMediaId != 0) {
+	if ([AppModel sharedAppModel].currentGame.pcMediaId != 0) {
 		//Load the image from the media Table
-		Media *pcMedia = [appModel mediaForMediaId:appModel.currentGame.pcMediaId];
+		Media *pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId];
 		[pcImage loadImageFromMedia: pcMedia];
 	}
 	else [pcImage updateViewWithNewImage:[UIImage imageNamed:@"defaultCharacter.png"]];
@@ -208,9 +207,7 @@ NSString *const kDialogHtmlTemplate =
 	NSLog(@"DialogViewController: Notify server of NPC view and Dismiss view");
 	
 	//tell the server
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-	AppModel *appModel = appDelegate.appModel;
-	[appModel updateServerNpcViewed:currentNpc.npcId];
+	[[AppModel sharedAppModel] updateServerNpcViewed:currentNpc.npcId];
 	
 	[self dismissModalViewControllerAnimated:YES];
 
@@ -287,10 +284,7 @@ NSString *const kDialogHtmlTemplate =
 {
 	if (mediaId == *priorId) return;
 	
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-	AppModel *appModel = appDelegate.appModel;
-	
-	Media *characterMedia = [appModel mediaForMediaId:mediaId];
+	Media *characterMedia = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
 	[aView loadImageFromMedia:characterMedia];
 	[aView setNeedsDisplay];
 	*priorId = mediaId;
@@ -337,8 +331,7 @@ NSString *const kDialogHtmlTemplate =
 		}
 		else {
 			//No node options, load the conversations
-			AppModel *appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
-			[appModel fetchNpcConversations:currentNpc.npcId afterViewingNode:currentNode.nodeId];
+			[[AppModel sharedAppModel] fetchNpcConversations:currentNpc.npcId afterViewingNode:currentNode.nodeId];
 			[self showWaitingIndicatorForPlayerOptions];
 		}
 	}
@@ -627,10 +620,8 @@ NSString *const kDialogHtmlTemplate =
 
 #pragma mark Audio
 - (void) playSound:(int)soundId asBackground:(BOOL)yesOrNo {
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-	AppModel *appModel = appDelegate.appModel;
 	
-	Media *audioMedia = [appModel mediaForMediaId:soundId];
+	Media *audioMedia = [[AppModel sharedAppModel] mediaForMediaId:soundId];
 	
 	if (!audioMedia) return;
 	NSURL *url = [[NSURL alloc] initWithString:audioMedia.url];
@@ -669,11 +660,7 @@ NSString *const kDialogHtmlTemplate =
 	}
 	else targetNode = currentNode.nodeIfIncorrect;
 		
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-	AppModel *appModel = appDelegate.appModel;
-
-
-	Node *newNode = [appModel nodeForNodeId: targetNode];
+	Node *newNode = [[AppModel sharedAppModel] nodeForNodeId: targetNode];
 
 	// TODO: This might need to check for answer string
 		
@@ -760,9 +747,8 @@ NSString *const kDialogHtmlTemplate =
 	
 	NodeOption *selectedOption = [optionList objectAtIndex:[indexPath row]];
 	NSLog(@"Going to node #%d for prompt '%@'", selectedOption.nodeId, selectedOption.text);
-	
-	AppModel *appModel = [(ARISAppDelegate *) [[UIApplication sharedApplication] delegate] appModel];	
-	Node *newNode = [appModel nodeForNodeId:selectedOption.nodeId];
+		
+	Node *newNode = [[AppModel sharedAppModel] nodeForNodeId:selectedOption.nodeId];
 
 	if (currentNode) [currentNode release];
 	currentNode = newNode;

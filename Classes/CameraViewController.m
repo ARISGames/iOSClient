@@ -25,9 +25,6 @@
     if (self = [super initWithNibName:nibName bundle:nibBundle]) {
         self.title = NSLocalizedString(@"CameraTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"camera.png"];
-		
-		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
-
     }
     return self;
 }
@@ -117,7 +114,7 @@
 	[titleAndDescForm.view removeFromSuperview];
 	
 	
-	[appModel createItemAndGiveToPlayerFromFileData:self.mediaData 
+	[[AppModel sharedAppModel] createItemAndGiveToPlayerFromFileData:self.mediaData 
 										   fileName:self.mediaFilename 
 											  title:titleAndDescForm.titleField.text 
 										description:titleAndDescForm.descriptionField.text];

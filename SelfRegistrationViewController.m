@@ -25,8 +25,6 @@
     if (self) {
         self.title = NSLocalizedString(@"SelfRegistrationTitleKey", @"");
 
-		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
-
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selfRegistrationFailure)  name:@"SelfRegistrationFailed" object:nil];  
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selfRegistrationSuccess)  name:@"SelfRegistrationSucceeded" object:nil];  
     
@@ -52,7 +50,7 @@
 	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showNewWaitingIndicator:@"Creating a New User" displayProgressBar:NO];
 
 	
-	[appModel registerNewUser:self.userName.text password:self.password.text 
+	[[AppModel sharedAppModel] registerNewUser:self.userName.text password:self.password.text 
 					firstName:@"" lastName:@"" email:self.email.text]; 
 }
 	
@@ -62,7 +60,7 @@
 
 	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeNewWaitingIndicator];
 	
-	if (appModel.networkAlert) NSLog(@"SelfRegistration: Network is down, skip alert");
+	if ([AppModel sharedAppModel].networkAlert) NSLog(@"SelfRegistration: Network is down, skip alert");
 	else{
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
                                                         message:@"Either this name has been taken or you didn't fill out all the required information."

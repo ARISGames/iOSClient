@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "model/AppModel.h";
+#import "AppModel.h";
 
 
 @interface CameraViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
-	AppModel *appModel;	
 	IBOutlet UIButton *cameraButton;
 	IBOutlet UIButton *libraryButton;
 

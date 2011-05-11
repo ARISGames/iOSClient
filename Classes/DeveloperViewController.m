@@ -25,7 +25,6 @@
     if (self) {
         self.title = @"Developer";
         self.tabBarItem.image = [UIImage imageNamed:@"developer.png"];
-		appModel = [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] appModel];
 		
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
@@ -56,22 +55,22 @@
 -(void) refresh {	
 	NSLog(@"DeveloperViewController: Refresh Began");
 
-	//[appModel fetchLocationList];
+	//[[AppModel sharedAppModel] fetchLocationList];
 }
 
 -(void) refreshViewFromModel {
 	NSLog(@"DeveloperViewController: Model Updated, refreshing view");
 	
-	locationTableData = appModel.locationList;
+	locationTableData = [AppModel sharedAppModel].locationList;
 	[locationTable reloadData];
 	
 	//Init Accuracy Label
 	accuracyLabelValue.text = [NSString stringWithFormat:@"+/-%1.2f Meters", 
-							   appModel.playerLocation.horizontalAccuracy]; 
+							   [AppModel sharedAppModel].playerLocation.horizontalAccuracy]; 
 }
 
 -(void) updateAccuracy{
-	accuracyLabelValue.text = [NSString stringWithFormat:@"+/-%1.2f Meters",appModel.playerLocation.horizontalAccuracy]; 
+	accuracyLabelValue.text = [NSString stringWithFormat:@"+/-%1.2f Meters",[AppModel sharedAppModel].playerLocation.horizontalAccuracy]; 
 }
 
 #pragma mark IB Button Actions
@@ -79,7 +78,7 @@
 -(IBAction)clearEventsButtonTouched: (id) sender{
 	/*
 	//Fire off a request to the REST Module and display an alert when it is successfull
-	NSString *baseURL = [appModel getURLStringForModule:moduleName];
+	NSString *baseURL = [[AppModel sharedAppModel] getURLStringForModule:moduleName];
 	NSString *URLparams = @"&event=deleteAllEvents";
 	NSString *fullURL = [ NSString stringWithFormat:@"%@%@", baseURL, URLparams];
 	
@@ -98,7 +97,7 @@
 -(IBAction)clearItemsButtonTouched: (id) sender{
 	/*
 	//Fire off a request to the REST Module and display an alert when it is successfull
-	NSString *baseURL = [appModel getURLStringForModule:moduleName];
+	NSString *baseURL = [[AppModel sharedAppModel] getURLStringForModule:moduleName];
 	NSString *URLparams = @"&event=deleteAllItems";
 	NSString *fullURL = [ NSString stringWithFormat:@"%@%@", baseURL, URLparams];
 
@@ -148,8 +147,8 @@
 	
 	if (tableView == locationTable) {
 		Location *selectedLocation = [locationTableData objectAtIndex:[indexPath row]];
-		NSLog(@"DeveloperViewController: Location Selected. Forcing appModel to Latitude: %1.2f Longitude: %1.2f", selectedLocation.location.coordinate.latitude, selectedLocation.location.coordinate.longitude);
-		appModel.playerLocation = [selectedLocation.location copy];
+		NSLog(@"DeveloperViewController: Location Selected. Forcing AppModel to Latitude: %1.2f Longitude: %1.2f", selectedLocation.location.coordinate.latitude, selectedLocation.location.coordinate.longitude);
+		[AppModel sharedAppModel].playerLocation = [selectedLocation.location copy];
 	}
 }
 
@@ -162,7 +161,6 @@
 }
 
 - (void)dealloc {
-	[appModel release];
     [super dealloc];
 }
 

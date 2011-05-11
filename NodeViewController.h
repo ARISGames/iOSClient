@@ -13,7 +13,6 @@
 
 @interface NodeViewController : UIViewController 
 {
-	AppModel *appModel;
 	Node *node;
 	MPMoviePlayerViewController *mMoviePlayer; //only used if item is a video
 	CGSize imageSize;
@@ -22,7 +21,6 @@
 	IBOutlet UIScrollView *scrollView;
 }
 
-@property(readwrite, retain) AppModel *appModel;
 @property(readwrite, retain) Node *node;
 @property(nonatomic, retain) IBOutlet UITableView *tableView;
 @property(nonatomic, retain) IBOutlet UIScrollView *scrollView;
