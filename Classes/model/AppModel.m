@@ -53,6 +53,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
     [super dealloc];
 }
 
+
+#pragma mark User Defaults
+
 -(void)loadUserDefaults {
 	NSLog(@"Model: Loading User Defaults");
 	[defaults synchronize];
@@ -61,14 +64,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
 	NSString *baseServerString = [defaults stringForKey:@"baseServerString"];
 	self.serverURL = [NSURL URLWithString: baseServerString ];
 	
-	if ([defaults integerForKey:@"gameId"] > 0) {
-		self.currentGame = [[Game alloc]init];
-		self.currentGame.gameId = [defaults integerForKey:@"gameId"];
-		self.currentGame.pcMediaId = [defaults integerForKey:@"gamePcMediaId"];
-        self.currentGame.launchNodeId = [defaults integerForKey:@"gameLaunchNodeId"];
-        self.currentGame.completeNodeId = [defaults integerForKey:@"gameCompleteNodeId"];
-	}
-		
 	if ([defaults boolForKey:@"resetTutorial"]) {
 		self.hasSeenNearbyTabTutorial = NO;
 		self.hasSeenQuestsTabTutorial = NO;
@@ -88,59 +83,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
 		self.hasSeenInventoryTabTutorial = [defaults boolForKey:@"hasSeenInventoryTabTutorial"];
 	}
 
-	self.loggedIn = [defaults boolForKey:@"loggedIn"];
-	if (loggedIn) {
-		self.username = [defaults stringForKey:@"username"];
-		self.password = [defaults stringForKey:@"password"];
-		self.playerId = [defaults integerForKey:@"playerId"];
-		NSLog(@"Model: Player Was logged in and defaults were found. Use URL: '%@' User: '%@' Password: '%@' PlayerId: '%d' GameId: '%d'", 
-			  serverURL, username, password, playerId, self.currentGame.gameId);
-	}
-	
-	NSURL *lastServerURL = [NSURL URLWithString:[defaults objectForKey:@"lastServerString"]];
-	NSLog(@"AppModel: Last Base Server URL:%@ Current:%@",lastServerURL,self.serverURL);
-	if (![[self.serverURL absoluteString] isEqualToString:[lastServerURL absoluteString]]) {
-		NSLog(@"Model: Server URL changed since last execution. Throw out Defaults and use server URL:%@", serverURL);
-		
-		[defaults setObject:[self.serverURL absoluteString]  forKey:@"lastServerString"];
-		[defaults synchronize];		
-		
-		NSNotification *loginNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self userInfo:nil];
-		[[NSNotificationCenter defaultCenter] postNotification:loginNotification];
-
-	}
-	
 }
 
 
 -(void)clearUserDefaults {
-	NSLog(@"Model: Clearing User Defaults");
-	
-	[defaults removeObjectForKey:@"loggedIn"];	
-	[defaults removeObjectForKey:@"username"];
-	[defaults removeObjectForKey:@"password"];
-	[defaults removeObjectForKey:@"playerId"];
-	[defaults removeObjectForKey:@"gameId"];
-	[defaults removeObjectForKey:@"gamePcMediaId"];
-    [defaults removeObjectForKey:@"gameLaunchNodeId"];
-    [defaults removeObjectForKey:@"gameCompleteNodeId"];
-	
+	NSLog(@"Model: Clearing User Defaults");		
 	[defaults synchronize];		
-	//Don't clear the baseAppURL
 }
 
 -(void)saveUserDefaults {
 	NSLog(@"Model: Saving User Defaults");
 	
-	[defaults setBool:loggedIn forKey:@"loggedIn"];
-	[defaults setObject:username forKey:@"username"];
-	[defaults setObject:password forKey:@"password"];
-	[defaults setInteger:playerId forKey:@"playerId"];
-	[defaults setInteger:self.currentGame.gameId forKey:@"gameId"];
-    [defaults setInteger:self.currentGame.pcMediaId forKey:@"gamePcMediaId"];
-	[defaults setInteger:self.currentGame.pcMediaId forKey:@"gameLaunchNodeId"];
-    [defaults setInteger:self.currentGame.pcMediaId forKey:@"gameCompleteNodeId"];
-	[defaults setObject:[serverURL absoluteString]  forKey:@"lastServerString"];
 	[defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"appVerison"];
 	[defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBuildNumber"] forKey:@"buildNum"];
 
