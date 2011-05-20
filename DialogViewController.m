@@ -261,8 +261,14 @@ NSString *const kDialogHtmlTemplate =
 
 - (void)applyNPCWithGreeting{
 
+    NSString *string1 = currentNpc.greeting;
+    NSString *trimmedString = [string1 stringByReplacingOccurrencesOfString:@" " withString:@""]; //remove whitespace
+    if([trimmedString length] == 0)[self applyPlayerOptions]; //if no greeting entered then go to closing screen
+    if([trimmedString length] == 1) 
+    currentNpc.greeting =   [trimmedString stringByAppendingString: @"\r"];
 	[parser parseText:currentNpc.greeting];
-
+    
+    
 }
 
 - (void) beginWithNPC:(Npc *)aNpc {
@@ -346,8 +352,11 @@ NSString *const kDialogHtmlTemplate =
 - (void) finishApplyingPlayerOptions:(NSArray*)options{
 	pcWebView.hidden = YES;
 	pcTableView.hidden = YES;
-	
-	//Now our options are populated with node or conversation choices, display
+    NSString *string1 = currentNpc.closing;
+    NSString *trimmedString = [string1 stringByReplacingOccurrencesOfString:@" " withString:@""]; //remove whitespace
+    if([trimmedString length] == 1) 
+        currentNpc.closing =   [trimmedString stringByAppendingString: @"\r"];
+    	//Now our options are populated with node or conversation choices, display
 	if ([options count] == 0 && [currentNpc.closing length] > 1 && !closingScriptPlaying) {
 			NSLog(@"DialogViewController: Play Closing Script: %@",currentNpc.closing);
 			pcWebView.hidden = YES;
@@ -753,7 +762,7 @@ NSString *const kDialogHtmlTemplate =
 	if (currentNode) [currentNode release];
 	currentNode = newNode;
 	[currentNode retain];
-
+if(newNode.text.length == 0)[self applyPlayerOptions];
 	[parser parseText:newNode.text];
 }
 
