@@ -199,13 +199,33 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	mode = kItemDetailsPickingUp;
 	
 	//Create and Display Action Sheet
-	UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil
+	/*UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil
 															delegate:self 
 												   cancelButtonTitle:@"Cancel" 
 											  destructiveButtonTitle:nil 
 												   otherButtonTitles:@"Pickup 1",@"Pickup All",nil];
 	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-	[actionSheet showInView:self.view];
+	[actionSheet showInView:self.view];*/
+    
+    if(self.item.qty > 1){
+        UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil
+                                                                delegate:self 
+                                                       cancelButtonTitle:@"Cancel" 
+                                                  destructiveButtonTitle:nil 
+                                                       otherButtonTitles:@"Pickup 1",@"Pickup All",nil];
+        actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+        [actionSheet showInView:self.view];
+    }
+    else {
+        UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil
+                                                                delegate:self 
+                                                       cancelButtonTitle:@"Cancel" 
+                                                  destructiveButtonTitle:nil 
+                                                       otherButtonTitles:@"Pickup 1",nil,nil];
+        actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+        [actionSheet showInView:self.view];
+    }
+
 }
 
 
