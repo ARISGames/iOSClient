@@ -13,33 +13,36 @@ enum soundConstants {
 	kStopSound = -2
 };
 
+
 @interface Scene : NSObject {
+	NSString*   text;
 	Boolean		isPc;
-	
-	NSString	*text;
-	int			characterId;
-	CGRect		zoomRect;
+	int			imageMediaId;
+	CGRect		imageRect;
 	float		zoomTime;
-	
-	int			bgSound;
-	int			fgSound;
+	int			foreSoundMediaId;	
+	int			backSoundMediaId;
+    NSString*   exitToTabWithTitle;
 }
 
-@property(readonly) Boolean		isPc;
-@property(readonly)	NSString	*text;
-@property(readonly) int			characterId;
-@property(readonly) CGRect		zoomRect;
-@property(readonly) float		zoomTime;
-@property(readonly) int			bgSound;
-@property(readonly) int			fgSound;
+@property(nonatomic, retain) NSString* text;
+@property(readwrite) Boolean isPc;
+@property(readwrite) int imageMediaId;
+@property(readwrite) CGRect	imageRect;
+@property(readwrite) float zoomTime;
+@property(readwrite) int foreSoundMediaId;	
+@property(readwrite) int backSoundMediaId;
+@property(nonatomic, retain) NSString* exitToTabWithTitle;
 
 
-- (id) initWithText:(NSString *)aText 
-			andIsPc:(Boolean)isPcYorN
-	   andCharacter:(int)aCharacterId 
-			andZoom:(CGRect)aRect
-		andZoomTime:(float)zoomSeconds
-	  withForeSound:(int)aFgSound 
-	   andBackSound:(int)aBgSound;
+- (id) initWithText:(NSString *)text 
+               isPc:(Boolean)isPc 
+       imageMediaId:(int)imageMediaId 
+          imageRect:(CGRect)imageRect 
+           zoomTime:(float)seconds
+   foreSoundMediaId:(int)fgMediaId 
+   backSoundMediaId:(int)bgMediaId
+   exitToTabWithTitle:(NSString*)tabTitle;
+
 
 @end

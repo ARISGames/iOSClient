@@ -10,21 +10,34 @@
 
 
 @implementation Scene
-@synthesize isPc, text, characterId, zoomRect, zoomTime, fgSound, bgSound;
 
-- (id) initWithText:(NSString *)aText andIsPc:(Boolean)isPcYorN andCharacter:(int)aCharacterId 
-			andZoom:(CGRect)aRect andZoomTime:(float)zoomSeconds
-	  withForeSound:(int)aFgSound andBackSound:(int)aBgSound{
+@synthesize text;
+@synthesize isPc;
+@synthesize imageMediaId;
+@synthesize imageRect;
+@synthesize zoomTime;
+@synthesize foreSoundMediaId;	
+@synthesize backSoundMediaId;
+@synthesize exitToTabWithTitle;
+
+- (id) initWithText:(NSString *)theText 
+               isPc:(Boolean)isPcYorN 
+       imageMediaId:(int)iMediaId 
+          imageRect:(CGRect)rect 
+           zoomTime:(float)seconds
+          foreSoundMediaId:(int)fgMediaId 
+       backSoundMediaId:(int)bgMediaId
+   exitToTabWithTitle:(NSString*)tabTitle {
 	
-	if (self = [super init]) {
-		isPc = isPcYorN;
-		text = [[aText copy] retain];
-		characterId = aCharacterId;
-		zoomRect = aRect;
-		zoomTime = zoomSeconds;
-		
-		fgSound = aFgSound;
-		bgSound = aBgSound;
+	if ((self = [super init])) {
+        self.text = theText;
+        self.isPc = isPcYorN;
+        self.imageMediaId = iMediaId;
+        self.imageRect = rect;
+        self.zoomTime = seconds;
+        self.foreSoundMediaId = fgMediaId;	
+        self.backSoundMediaId = bgMediaId;
+        self.exitToTabWithTitle = tabTitle;
 	}
 	return self;
 }

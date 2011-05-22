@@ -301,7 +301,7 @@ NSString *const kDialogHtmlTemplate =
 
 		Scene *currentScene = [currentScript objectAtIndex:scriptIndex];
 		[self applyScene:currentScene];
-		currentCharacter = currentScene.characterId;
+		currentCharacter = currentScene.imageMediaId;
 		++scriptIndex;
 	}
 	else { 	//End of Script. Display Player Options
@@ -393,17 +393,17 @@ NSString *const kDialogHtmlTemplate =
 	cachedScene = [aScene retain];
 	
 	// Sounds
-	if (aScene.bgSound == kStopSound) {
+	if (aScene.backSoundMediaId == kStopSound) {
 		[bgPlayer stop];
 		[bgPlayer release];
 		bgPlayer = nil;
 	}
-	else if (aScene.bgSound != kEmptySound) {
-		[self playSound:[aScene bgSound] asBackground:YES];
+	else if (aScene.backSoundMediaId != kEmptySound) {
+		[self playSound:[aScene backSoundMediaId] asBackground:YES];
 	}
 	
-	if (aScene.fgSound != kEmptySound) {
-		[self playSound:[aScene fgSound] asBackground:NO];
+	if (aScene.foreSoundMediaId != kEmptySound) {
+		[self playSound:[aScene foreSoundMediaId] asBackground:NO];
 	}
 	else {
 		[fgPlayer stop];
@@ -415,7 +415,7 @@ NSString *const kDialogHtmlTemplate =
 	characterScrollView = aScene.isPc ? pcScrollView : npcScrollView;
 	characterImageScrollView = aScene.isPc ? pcImageScrollView : npcImageScrollView;
 
-	isCurrentlyDisplayed = currentCharacter == aScene.characterId;
+	isCurrentlyDisplayed = currentCharacter == aScene.imageMediaId;
 	
 	if (isCurrentlyDisplayed) {
 		[UIView beginAnimations:@"dialog" context:nil];
@@ -476,7 +476,7 @@ NSString *const kDialogHtmlTemplate =
 		currentCharacterImageScrollView = npcImageScrollView;		
 
 		continueButton = npcContinueButton;
-		[self loadNPCImage:cachedScene.characterId];
+		[self loadNPCImage:cachedScene.imageMediaId];
 		cachedScrollView = npcImage;
 
 	}
@@ -516,8 +516,8 @@ NSString *const kDialogHtmlTemplate =
 	NSLog(@"Moving Camera From Ofset: (%g, %g) Zoom: %g To Rect: %g, %g, %g, %g",
 		  currentCharacterImageScrollView.contentOffset.x,currentCharacterImageScrollView.contentOffset.y,
 		  currentCharacterScrollView.zoomScale,
-		  cachedScene.zoomRect.origin.x,cachedScene.zoomRect.origin.y, 
-		  cachedScene.zoomRect.size.width,cachedScene.zoomRect.size.height);
+		  cachedScene.imageRect.origin.x,cachedScene.imageRect.origin.y, 
+		  cachedScene.imageRect.size.width,cachedScene.imageRect.size.height);
 	
 	
 	[UIView beginAnimations:@"cameraMove" context:nil];
@@ -527,13 +527,13 @@ NSString *const kDialogHtmlTemplate =
 	float imageScrollViewWidth = currentCharacterImageScrollView.contentSize.width;
 	float imageScrollViewHeight = currentCharacterImageScrollView.contentSize.height;
 	
-	CGFloat horizScale = imageScrollViewWidth / cachedScene.zoomRect.size.width;
-	CGFloat vertScale  = imageScrollViewHeight / cachedScene.zoomRect.size.height;
+	CGFloat horizScale = imageScrollViewWidth / cachedScene.imageRect.size.width;
+	CGFloat vertScale  = imageScrollViewHeight / cachedScene.imageRect.size.height;
 	
 	CGAffineTransform transformation = CGAffineTransformMakeScale(horizScale, vertScale);
 	transformation = CGAffineTransformTranslate(transformation, 
-												(imageScrollViewWidth/2 - (cachedScene.zoomRect.origin.x + cachedScene.zoomRect.size.width / 2.0)),
-												(imageScrollViewHeight/2 - (cachedScene.zoomRect.origin.y + cachedScene.zoomRect.size.height / 2.0)));
+                    (imageScrollViewWidth/2 - (cachedScene.imageRect.origin.x + cachedScene.imageRect.size.width / 2.0)),
+                    (imageScrollViewHeight/2 - (cachedScene.imageRect.origin.y + cachedScene.imageRect.size.height / 2.0)));
 	[currentCharacterImageScrollView setTransform:transformation];
 	[UIView commitAnimations];
 

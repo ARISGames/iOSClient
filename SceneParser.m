@@ -13,29 +13,30 @@ const float kDefaultZoomTime = 1.0;
 
 NSString *const kTagPc = @"pc";
 NSString *const kTagNpc = @"npc";
-NSString *const kTagId = @"id";
-
+NSString *const kTagDialog = @"dialog";
+NSString *const kTagImageMediaId = @"imageMediaId";
+NSString *const kTagBgSoundMediaId = @"bgSoundMediaId";
+NSString *const kTagFgSoundMediaId = @"fgSoundMediaId";
+NSString *const kTagExitToTab = @"exitToTab";
 NSString *const kTagZoomX = @"zoomX";
 NSString *const kTagZoomY = @"zoomY";
 NSString *const kTagZoomWidth = @"zoomWidth";
 NSString *const kTagZoomHeight = @"zoomHeight";
 NSString *const kTagZoomTime = @"zoomTime";
 
-NSString *const kTagSoundBg = @"bgSound";
-NSString *const kTagSoundFg = @"fgSound";
 
 @implementation SceneParser
-@synthesize delegate, script;
+@synthesize currentText, sourceText, exitToTabWithTitle, delegate, script;
 
 #pragma mark Init/dealloc
-- (id) initWithDefaultNpcId:(NSInteger)anNpcId {
-	if (self = [super init]) {
-		defaultNpcId = anNpcId;
-		currentText = [[NSMutableString alloc] init];
+- (id) initWithDefaultNpcId:(NSInteger)imageMediaId {
+	if ((self = [super init])) {
+		defaultImageMediaId = imageMediaId;
+		self.currentText = [[NSMutableString alloc] init];
 		parser = nil;
-		sourceText = nil;
-		script = [[NSMutableArray alloc] init];
-		delegate = nil;
+		self.sourceText = nil;
+		self.script = [[NSMutableArray alloc] init];
+		self.delegate = nil;
 	}
 	return self;
 }
@@ -45,12 +46,13 @@ NSString *const kTagSoundFg = @"fgSound";
 	[sourceText release];
 	[currentText release];
 	[parser release];
+    [exitToTabWithTitle release];
 	[super dealloc];
 }
 
 #pragma mark XML Parsing
 - (void) parseText:(NSString *)text {
-	sourceText = [text retain];
+	self.sourceText = text;
 	[script removeAllObjects];
 	
 	NSData *data = [text dataUsingEncoding:NSUTF8StringEncoding];
@@ -64,66 +66,67 @@ NSString *const kTagSoundFg = @"fgSound";
 - (void) parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI 
   qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict 
 {
-	NSLog(@"Started %@", elementName);
-	if ([elementName isEqualToString:kTagPc]) {
-		isPc = YES;
-		if ([[attributeDict objectForKey:kTagId] respondsToSelector:@selector(intValue)]) {
-			currentCharacterId = [[attributeDict objectForKey:kTagId] intValue];
-		}
-		else currentCharacterId = kDefaultPc;
-	}
-	else if ([elementName isEqualToString:kTagNpc]) {
-		isPc = NO;
-		if ([[attributeDict objectForKey:kTagId] respondsToSelector:@selector(intValue)]) {
-			currentCharacterId = [[attributeDict objectForKey:kTagId] intValue];
-		}
-		else currentCharacterId = defaultNpcId;
-	}
+	NSLog(@"SceneParser: Starting Element %@", elementName);
 	
-	zoomRect = CGRectMake(0, 0, 320, 416);
-	zoomRect.origin.x = [attributeDict objectForKey:kTagZoomX]
-		? [[attributeDict objectForKey:kTagZoomX] floatValue] : zoomRect.origin.x;
-	zoomRect.origin.y = [attributeDict objectForKey:kTagZoomX]
-		? [[attributeDict objectForKey:kTagZoomY] floatValue] : zoomRect.origin.y;
-	zoomRect.size.width = [attributeDict objectForKey:kTagZoomX]
-		? [[attributeDict objectForKey:kTagZoomWidth] floatValue] : zoomRect.size.width;
-	zoomRect.size.height = [attributeDict objectForKey:kTagZoomX]
-		? [[attributeDict objectForKey:kTagZoomHeight] floatValue] : zoomRect.size.height;
-
-	zoomTime = [attributeDict objectForKey:kTagZoomTime]
-	? [[attributeDict objectForKey:kTagZoomTime] floatValue] : kDefaultZoomTime;
+    if ([elementName isEqualToString:kTagPc]) isPc = YES;
+	else if ([elementName isEqualToString:kTagNpc]) isPc = NO;
+    else if ([elementName isEqualToString:kTagDialog]){
+        exitToTabWithTitle = [attributeDict objectForKey:kTagExitToTab] ?
+        [attributeDict objectForKey:kTagExitToTab] : nil;   
+    }
 	
-	fgSound = [attributeDict objectForKey:kTagSoundFg]
-		? [[attributeDict objectForKey:kTagSoundFg] intValue] : kEmptySound;
-	bgSound = [attributeDict objectForKey:kTagSoundBg]
-		? [[attributeDict objectForKey:kTagSoundBg] intValue] : kEmptySound;
+	imageRect = CGRectMake(0, 0, 320, 416);
+	imageRect.origin.x = [attributeDict objectForKey:kTagZoomX] ?
+        [[attributeDict objectForKey:kTagZoomX] floatValue] : 
+        imageRect.origin.x;
+	imageRect.origin.y = [attributeDict objectForKey:kTagZoomX] ?
+        [[attributeDict objectForKey:kTagZoomY] floatValue] :
+        imageRect.origin.y;
+	imageRect.size.width = [attributeDict objectForKey:kTagZoomX] ? [[attributeDict objectForKey:kTagZoomWidth] floatValue] : 
+        imageRect.size.width;
+	imageRect.size.height = [attributeDict objectForKey:kTagZoomX] ? [[attributeDict objectForKey:kTagZoomHeight] floatValue] :
+        imageRect.size.height;
 
-	[currentText setString:@""];
+	resizeTime = [attributeDict objectForKey:kTagZoomTime] ? 
+        [[attributeDict objectForKey:kTagZoomTime] floatValue] :
+        kDefaultZoomTime;
+	
+	fgSoundMediaId = [attributeDict objectForKey:kTagFgSoundMediaId] ?
+        [[attributeDict objectForKey: kTagFgSoundMediaId] intValue] :
+        kEmptySound;
+	bgSoundMediaId = [attributeDict objectForKey:kTagBgSoundMediaId] ?
+        [[attributeDict objectForKey:kTagBgSoundMediaId] intValue] :
+        kEmptySound;
+    
+	[self.currentText setString:@""];
 }
 
 - (void) parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName 
-   namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName 
-{
-	NSLog(@"Ended %@", elementName);
-	if ([elementName isEqualToString:kTagPc] 
-		|| [elementName isEqualToString:kTagNpc])
+   namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
+	
+    NSLog(@"SceneParser: Ended Element %@", elementName);
+	
+    if ([elementName isEqualToString:kTagPc] 
+        || [elementName isEqualToString:kTagNpc])
 	{
-		Scene *newScene = [[Scene alloc] initWithText:currentText
-											  andIsPc:isPc
-										 andCharacter:currentCharacterId
-											  andZoom:zoomRect
-										  andZoomTime:zoomTime
-										withForeSound:fgSound
-										 andBackSound:bgSound];
-		[script addObject:newScene];
+        Scene *newScene = [[Scene alloc] initWithText:currentText 
+                                          isPc:isPc 
+                                  imageMediaId:currentCharacterId
+                                     imageRect:imageRect
+                                      zoomTime:resizeTime
+                              foreSoundMediaId:fgSoundMediaId
+                              backSoundMediaId:bgSoundMediaId
+                              exitToTabWithTitle:exitToTabWithTitle]; 
+
+		[self.script addObject:newScene];
 		[newScene release];
 	}
 }
 
 - (void) parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
 	// Not wrapped in CDATA, so hope for the best and add to it
-	[currentText appendString:string];
-	NSLog(@"WARNING: No CDATA used for %@", string);
+	[self.currentText appendString:string];
+	NSLog(@"SceneParser: WARNING: No CDATA used for %@", string);
 }
 
 - (void) parser:(NSXMLParser *)parser foundCDATA:(NSData *)CDATABlock {
@@ -131,33 +134,35 @@ NSString *const kTagSoundFg = @"fgSound";
 	
 	NSString *text = [[NSString alloc] initWithData:CDATABlock
 										   encoding:NSUTF8StringEncoding];
-	[currentText appendString:text];
+	[self.currentText appendString:text];
 	[text release];
 }
 
 - (void) parserDidEndDocument:(NSXMLParser *)parser {
-	NSLog(@"Ended.");
+	NSLog(@"SceneParser: parserDidEndDocument");
 	if ([script count] == 0) {
-		// No parsing happened; use raw text.
-		Scene *defaultScene = [[Scene alloc] initWithText:sourceText
-												  andIsPc:NO
-											 andCharacter:defaultNpcId
-												  andZoom:CGRectMake(0, 0, 320, 416)
-												andZoomTime:kDefaultZoomTime
-											withForeSound:kEmptySound
-											 andBackSound:kEmptySound];
-		[script addObject:defaultScene];
-		[defaultScene release];
+		// No parsing happened; use raw text
+        Scene *s = [[Scene alloc] initWithText:sourceText 
+                                          isPc:NO 
+                                  imageMediaId:defaultImageMediaId
+                                     imageRect:CGRectMake(0, 0, 320, 416)
+                                      zoomTime:kDefaultZoomTime
+                              foreSoundMediaId:kEmptySound
+                              backSoundMediaId:kEmptySound
+                              exitToTabWithTitle:nil];        
+		
+		[self.script addObject:s];
+		[s release];
 	}
 	
-	[sourceText release];
-	sourceText = nil;
+	[self.sourceText release];
+	self.sourceText = nil;
 	
-	NSLog(@"Calling.");
-	if (delegate) [delegate didFinishParsing];
+	NSLog(@"SceneParser: didFinishParsing");
+	if (self.delegate) [self.delegate didFinishParsing];
 }
 
 - (void) parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
-	NSLog(@"Fatal error: %@", parseError);
+	NSLog(@"SceneParser: Fatal error: %@", parseError);
 }
 @end

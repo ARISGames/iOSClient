@@ -17,23 +17,26 @@
 @interface SceneParser : NSObject <NSXMLParserDelegate> {
 	Boolean			isPc;
 	NSInteger		currentCharacterId;
-	NSMutableString	*currentText;
-	NSInteger		defaultNpcId;
-	
-	NSXMLParser		*parser;
-	
+	NSMutableString *currentText;
+	NSInteger		defaultImageMediaId;
+    int				fgSoundMediaId;
+	int				bgSoundMediaId;
 	NSMutableArray	*script;
 	NSString		*sourceText;
-	CGRect			zoomRect;
-	float			zoomTime;
-	
-	int				fgSound;
-	int				bgSound;
-	
+	CGRect			imageRect;
+	float			resizeTime;
+    NSString        *exitToTabWithTitle;
+    NSXMLParser		*parser;
 	id<SceneParserDelegate> delegate;
 }
+
+@property (nonatomic, retain) NSMutableString *currentText;
+@property (nonatomic, retain) NSMutableArray *script;
+@property (nonatomic, retain) NSString *sourceText;
+@property (nonatomic, retain) NSString *exitToTabWithTitle;
 @property (readwrite, retain) id<SceneParserDelegate> delegate;
-@property (readonly) NSArray *script;
+
+
 
 - (id) initWithDefaultNpcId:(NSInteger)anNpcId;
 
