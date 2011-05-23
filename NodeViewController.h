@@ -18,15 +18,17 @@
 	CGSize imageSize;
 	UITableView *tableView;
 	UIButton *mediaPlaybackButton;
+    UIButton *contineuButton;
 	IBOutlet UIScrollView *scrollView;
+    
 }
 
 @property(readwrite, retain) Node *node;
 @property(nonatomic, retain) IBOutlet UITableView *tableView;
 @property(nonatomic, retain) IBOutlet UIScrollView *scrollView;
+@property(nonatomic, retain) IBOutlet UIButton *continueButton;
 
 - (void) refreshView;
 - (int) calculateTextHeight:(NSString *)text;
-
 @end
 

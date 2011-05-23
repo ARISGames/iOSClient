@@ -3,7 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CFBuildNumber</key>
+<<<<<<< .mine
+	<string>1631:1636M</string>
+=======
 	<string>1617:1619M</string>
+>>>>>>> .r1640
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDisplayName</key>

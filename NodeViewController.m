@@ -18,6 +18,7 @@ static NSString * const OPTION_CELL = @"option";
 
 @implementation NodeViewController
 @synthesize node, tableView, scrollView;
+@synthesize continueButton;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -43,14 +44,22 @@ static NSString * const OPTION_CELL = @"option";
 	
 	
 	//Create a close button
-	self.navigationItem.leftBarButtonItem = 
+	/*self.navigationItem.leftBarButtonItem = 
 	[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey",@"")
 									 style: UIBarButtonItemStyleBordered
 									target:self 
-									action:@selector(backButtonTouchAction:)];	
-	 
-	
-	[self refreshView];
+									action:@selector(backButtonTouchAction:)];*/
+
+    //Create continue button
+    [continueButton setTitle: NSLocalizedString(@"DialogContinue",@"") forState: UIControlStateNormal];
+	[continueButton setTitle: NSLocalizedString(@"DialogContinue",@"") forState: UIControlStateHighlighted];	
+    [continueButton addTarget:self action:@selector(continueButtonTouchAction:) forControlEvents:UIControlEventTouchUpInside];
+   
+    [self.view addSubview:continueButton];
+
+    
+    
+    [self refreshView];
     [super viewDidLoad];
 }
 
@@ -133,6 +142,17 @@ static NSString * const OPTION_CELL = @"option";
 	//[self.view removeFromSuperview];
 	[self dismissModalViewControllerAnimated:YES];
 
+}
+
+- (IBAction)continueButtonTouchAction:(id) sender{
+    NSLog(@"NodeViewController: Notify server of Node view and Dismiss view");
+	
+	//Notify the server this item was displayed
+	[[AppServices sharedAppServices] updateServerNodeViewed:node.nodeId];
+	
+	
+	//[self.view removeFromSuperview];
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 -(IBAction)playMovie:(id)sender {
