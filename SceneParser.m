@@ -52,7 +52,7 @@ NSString *const kTagZoomTime = @"zoomTime";
 
 #pragma mark XML Parsing
 - (void) parseText:(NSString *)text {
-	self.sourceText = text;
+	self.sourceText = [text retain];
 	[script removeAllObjects];
 	
 	NSData *data = [text dataUsingEncoding:NSUTF8StringEncoding];
