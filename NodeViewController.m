@@ -42,22 +42,6 @@ static NSString * const OPTION_CELL = @"option";
 - (void)viewDidLoad {
 	NSLog(@"NodeViewController: Displaying Node '%@'",self.node.name);
 	
-	
-	//Create a close button
-	/*self.navigationItem.leftBarButtonItem = 
-	[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey",@"")
-									 style: UIBarButtonItemStyleBordered
-									target:self 
-									action:@selector(backButtonTouchAction:)];*/
-
-    //Create continue button
-    [continueButton setTitle: NSLocalizedString(@"DialogContinue",@"") forState: UIControlStateNormal];
-	[continueButton setTitle: NSLocalizedString(@"DialogContinue",@"") forState: UIControlStateHighlighted];	
-    [continueButton addTarget:self action:@selector(continueButtonTouchAction:) forControlEvents:UIControlEventTouchUpInside];
-   
-    [self.view addSubview:continueButton];
-
-    
     
     [self refreshView];
     [super viewDidLoad];
@@ -123,11 +107,24 @@ static NSString * const OPTION_CELL = @"option";
 	nodeTextView.lineBreakMode = UILineBreakModeWordWrap;
 	nodeTextView.numberOfLines = 0;
 	[scrollView setContentSize:CGSizeMake(320, nodeTextView.frame.origin.y
-										  + nodeTextView.frame.size.height)];
+										  + nodeTextView.frame.size.height + continueButton.frame.size.height+40)];
 	//Add the text to the scroller
 	[scrollView addSubview:nodeTextView];
 	[nodeTextView release];
 	
+    //Create continue button
+    [continueButton setTitle: NSLocalizedString(@"DialogContinue",@"") forState: UIControlStateNormal];
+	[continueButton setTitle: NSLocalizedString(@"DialogContinue",@"") forState: UIControlStateHighlighted];	
+    [continueButton addTarget:self action:@selector(continueButtonTouchAction:) forControlEvents:UIControlEventTouchUpInside];
+    
+    CGRect continueButtonFrame = [continueButton frame];	
+    if(scrollView.contentSize.height > scrollView.frame.size.height)
+	continueButtonFrame.origin = CGPointMake(continueButtonFrame.origin.x, scrollView.contentSize.height-continueButton.frame.size.height-20);
+    else
+    continueButtonFrame.origin = CGPointMake(continueButtonFrame.origin.x, scrollView.frame.size.height-continueButton.frame.size.height-20);
+	[continueButton setFrame:continueButtonFrame];
+    [scrollView addSubview:continueButton];
+    
 	//Refresh the tableView
 	[tableView reloadData];
 }
@@ -183,6 +180,7 @@ static NSString * const OPTION_CELL = @"option";
 	[tableView release];
 	[scrollView release];
 	[mediaPlaybackButton release];
+    [continueButton release];
 	
 	//remove listeners
 	[[NSNotificationCenter defaultCenter] removeObserver:self
