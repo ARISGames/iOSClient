@@ -263,7 +263,7 @@ NSString *const kDialogHtmlTemplate =
 
     NSString *string1 = currentNpc.greeting;
     NSString *trimmedString = [string1 stringByReplacingOccurrencesOfString:@" " withString:@""]; //remove whitespace
-    if([trimmedString length] == 0)[self applyPlayerOptions]; //if no greeting entered then go to closing screen
+    if([trimmedString length] == 0)[self continueScript]; //if no greeting entered then go to closing screen
     if([trimmedString length] == 1) 
     currentNpc.greeting =   [trimmedString stringByAppendingString: @"\r"];
 	[parser parseText:currentNpc.greeting];
@@ -350,6 +350,7 @@ NSString *const kDialogHtmlTemplate =
 }
 
 - (void) finishApplyingPlayerOptions:(NSArray*)options{
+    currentNode = nil;
 	pcWebView.hidden = YES;
 	pcTableView.hidden = YES;
     NSString *string1 = currentNpc.closing;
@@ -672,7 +673,7 @@ NSString *const kDialogHtmlTemplate =
 	Node *newNode = [[AppModel sharedAppModel] nodeForNodeId: targetNode];
 
 	// TODO: This might need to check for answer string
-		
+    
 	if (currentNode) [currentNode release];
 	currentNode = newNode;
 	[currentNode retain];
@@ -762,7 +763,7 @@ NSString *const kDialogHtmlTemplate =
 	if (currentNode) [currentNode release];
 	currentNode = newNode;
 	[currentNode retain];
-if(newNode.text.length == 0)[self applyPlayerOptions];
+if(newNode.text.length == 0)[self continueScript];
 	[parser parseText:newNode.text];
 }
 
