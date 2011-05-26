@@ -30,7 +30,7 @@
    exitToTabWithTitle:(NSString*)tabTitle {
 	
 	if ((self = [super init])) {
-        self.text = theText;
+        self.text = [[theText copy] retain];
         self.isPc = isPcYorN;
         self.imageMediaId = iMediaId;
         self.imageRect = rect;

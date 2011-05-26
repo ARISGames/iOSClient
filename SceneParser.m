@@ -67,13 +67,34 @@ NSString *const kTagZoomTime = @"zoomTime";
   qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict 
 {
 	NSLog(@"SceneParser: Starting Element %@", elementName);
-	
-    if ([elementName isEqualToString:kTagPc]) isPc = YES;
-	else if ([elementName isEqualToString:kTagNpc]) isPc = NO;
-    else if ([elementName isEqualToString:kTagDialog]){
+/*	
+    if ([elementName isEqualToString:kTagPc]) {
+		isPc = YES;
+		if ([[attributeDict objectForKey:kTagId] respondsToSelector:@selector(intValue)]) {
+			currentCharacterId = [[attributeDict objectForKey:kTagId] intValue];
+		}
+		else currentCharacterId = kDefaultPc;
+	}
+	else if ([elementName isEqualToString:kTagNpc]) {
+		isPc = NO;
+		if ([[attributeDict objectForKey:kTagId] respondsToSelector:@selector(intValue)]) {
+			currentCharacterId = [[attributeDict objectForKey:kTagId] intValue];
+		}
+		else currentCharacterId = defaultNpcId;
+	}
+*/
+    if ([elementName isEqualToString:kTagPc]) {
+		isPc = YES;
+        currentCharacterId = kDefaultPc;
+    }
+	else if ([elementName isEqualToString:kTagNpc]){ 
+        isPc = NO;
+        currentCharacterId = defaultImageMediaId;
+}    
+else if ([elementName isEqualToString:kTagDialog]){
         exitToTabWithTitle = [attributeDict objectForKey:kTagExitToTab] ?
         [attributeDict objectForKey:kTagExitToTab] : nil;   
-    }
+        }
 	
 	imageRect = CGRectMake(0, 0, 320, 416);
 	imageRect.origin.x = [attributeDict objectForKey:kTagZoomX] ?
