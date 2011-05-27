@@ -67,22 +67,7 @@ NSString *const kTagZoomTime = @"zoomTime";
   qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict 
 {
 	NSLog(@"SceneParser: Starting Element %@", elementName);
-/*	
-    if ([elementName isEqualToString:kTagPc]) {
-		isPc = YES;
-		if ([[attributeDict objectForKey:kTagId] respondsToSelector:@selector(intValue)]) {
-			currentCharacterId = [[attributeDict objectForKey:kTagId] intValue];
-		}
-		else currentCharacterId = kDefaultPc;
-	}
-	else if ([elementName isEqualToString:kTagNpc]) {
-		isPc = NO;
-		if ([[attributeDict objectForKey:kTagId] respondsToSelector:@selector(intValue)]) {
-			currentCharacterId = [[attributeDict objectForKey:kTagId] intValue];
-		}
-		else currentCharacterId = defaultNpcId;
-	}
-*/
+
     if ([elementName isEqualToString:kTagPc]) {
 		isPc = YES;
         currentCharacterId = kDefaultPc;

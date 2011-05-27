@@ -59,7 +59,7 @@ NSString *const kDialogHtmlTemplate =
 
 
 @implementation DialogViewController
-@synthesize npcImage, pcImage, npcWebView, pcWebView, pcTableView;
+@synthesize npcImage, pcImage, npcWebView, pcWebView, pcTableView,exitToTabVal;
 @synthesize npcScrollView, pcScrollView, npcImageScrollView, pcImageScrollView, pcActivityIndicator;
 @synthesize npcContinueButton, pcContinueButton, textSizeButton;
 @synthesize pcAnswerView, mainView, npcView, pcView, nothingElseLabel;
@@ -105,7 +105,7 @@ NSString *const kDialogHtmlTemplate =
 	currentNode = nil;
 	closingScriptPlaying = NO;
 	inFullScreenTextMode = NO;
-	
+    self.exitToTabVal = nil;
 	//View Setup
 	/*
 	self.navigationItem.leftBarButtonItem = 
@@ -300,11 +300,31 @@ NSString *const kDialogHtmlTemplate =
 	if (scriptIndex < [currentScript count]) { //Load up this scene of the script
 
 		Scene *currentScene = [currentScript objectAtIndex:scriptIndex];
-		[self applyScene:currentScene];
+        [self applyScene:currentScene];
 		currentCharacter = currentScene.imageMediaId;
 		++scriptIndex;
 	}
 	else { 	//End of Script. Display Player Options
+        
+        //check for exitToTab tag
+        if(cachedScene.exitToTabWithTitle != nil) self.exitToTabVal = cachedScene.exitToTabWithTitle;
+        if(closingScriptPlaying==YES && (self.exitToTabVal != nil)) {
+            [[AppServices sharedAppServices] updateServerNpcViewed:currentNpc.npcId];
+            [self dismissModalViewControllerAnimated:YES];
+            ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+            int selectedIndex;
+            
+            if([self.exitToTabVal caseInsensitiveCompare:@"nearby"] == NSOrderedSame) selectedIndex = 0;
+            else if([self.exitToTabVal caseInsensitiveCompare:@"quests"]== NSOrderedSame) selectedIndex = 1;
+            else if([self.exitToTabVal caseInsensitiveCompare:@"map"]== NSOrderedSame) selectedIndex = 2;
+            else if([self.exitToTabVal caseInsensitiveCompare:@"inventory"]== NSOrderedSame) selectedIndex = 3;
+            else selectedIndex = 2;
+           NSInteger bVal =  [appDelegate.tabBarController.customizableViewControllers count];
+            if(bVal < 10) selectedIndex--;
+            appDelegate.tabBarController.selectedIndex = selectedIndex;
+            
+            
+        }
 		[self stopAllAudio];
 		[self applyPlayerOptions];
 	}
@@ -765,6 +785,10 @@ NSString *const kDialogHtmlTemplate =
 	[currentNode retain];
 if(newNode.text.length == 0)[self continueScript];
 	[parser parseText:newNode.text];
+    if(parser.exitToTabWithTitle != nil) {
+        self.exitToTabVal = (NSString*)parser.exitToTabWithTitle;
+    }
+    if(parser.currentText.length == 0) [self continueScript];
 }
 
 #pragma mark XML Parsing

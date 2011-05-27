@@ -44,7 +44,7 @@
 	NSInteger		lastNpcId;
 	NSInteger		currentCharacter;
 	Scene			*cachedScene;
-
+    NSString        *exitToTabVal;
 	UIView			*cachedScrollView;
 	SceneParser		*parser;
 	
@@ -71,6 +71,8 @@
 @property(nonatomic, retain) IBOutlet UIButton *npcContinueButton;
 @property(nonatomic, retain) IBOutlet UIButton *pcContinueButton;
 @property(nonatomic, retain) IBOutlet UIBarButtonItem *textSizeButton;
+
+@property(nonatomic, retain) IBOutlet NSString *exitToTabVal;
 
 @property(nonatomic, retain) IBOutlet UIScrollView	*npcScrollView;
 @property(nonatomic, retain) IBOutlet UIScrollView	*pcScrollView;
