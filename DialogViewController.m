@@ -318,9 +318,11 @@ NSString *const kDialogHtmlTemplate =
             else if([self.exitToTabVal caseInsensitiveCompare:@"quests"]== NSOrderedSame) selectedIndex = 1;
             else if([self.exitToTabVal caseInsensitiveCompare:@"map"]== NSOrderedSame) selectedIndex = 2;
             else if([self.exitToTabVal caseInsensitiveCompare:@"inventory"]== NSOrderedSame) selectedIndex = 3;
-            else selectedIndex = 2;
+            else if([self.exitToTabVal caseInsensitiveCompare:@"decoder"]== NSOrderedSame) selectedIndex = 4;
+            else if([self.exitToTabVal caseInsensitiveCompare:@"camera"]== NSOrderedSame) selectedIndex = 5;
+            else if([self.exitToTabVal caseInsensitiveCompare:@"recorder"]== NSOrderedSame) selectedIndex = 6;
            NSInteger bVal =  [appDelegate.tabBarController.customizableViewControllers count];
-            if(bVal < 10) selectedIndex--;
+            if(bVal < 10 && selectedIndex != 0) selectedIndex--;
             appDelegate.tabBarController.selectedIndex = selectedIndex;
             
             
