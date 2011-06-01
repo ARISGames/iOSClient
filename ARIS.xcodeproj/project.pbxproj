@@ -1277,7 +1277,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\n/usr/libexec/PlistBuddy -c \"Set :CFBuildNumber `svnversion -n`\" \"${INFOPLIST_FILE}\"\n\n";
+			shellScript = "";
 		};
 /* End PBXShellScriptBuildPhase section */
 
