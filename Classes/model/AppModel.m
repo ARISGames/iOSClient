@@ -62,6 +62,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
 	
 	//Load the base App URL
 	NSString *baseServerString = [defaults stringForKey:@"baseServerString"];
+    NSURL *currServ = [NSURL URLWithString: baseServerString ];
+   
+    if (![currServ isEqual:self.serverURL] || (self.serverURL == nil)) {
+        NSNotification *logoutRequestNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self];
+        [[NSNotificationCenter defaultCenter] postNotification:logoutRequestNotification];
+    }
 	self.serverURL = [NSURL URLWithString: baseServerString ];
 	
 	if ([defaults boolForKey:@"resetTutorial"]) {

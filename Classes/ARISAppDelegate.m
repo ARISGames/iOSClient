@@ -437,7 +437,7 @@
 	
 	//Clear any user realated info in AppModel (except server)
 	[[AppModel sharedAppModel] clearUserDefaults];
-	[[AppModel sharedAppModel] loadUserDefaults];
+	//[[AppModel sharedAppModel] loadUserDefaults];
 	
 	//clear the tutorial popups
 	[tutorialViewController dismissAllTutorials];
@@ -538,7 +538,8 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application {
 	NSLog(@"AppDelegate: Begin Application Resign Active");
-    //[tabBarController dismissModalViewControllerAnimated:NO];
+   [tabBarController dismissModalViewControllerAnimated:NO];
+
 	[[AppModel sharedAppModel] saveUserDefaults];
 }
 
