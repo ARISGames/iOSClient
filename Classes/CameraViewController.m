@@ -82,7 +82,7 @@
 {
 	NSLog(@"CameraViewController: User Selected an Image or Video");
 		
-	[[picker parentViewController] dismissModalViewControllerAnimated:YES];
+	[[picker parentViewController] dismissModalViewControllerAnimated:NO];
 
 	//Get the data for the selected image or video
 	NSString* mediaType = [info objectForKey:UIImagePickerControllerMediaType];
@@ -126,7 +126,7 @@
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
 	
-	[[picker parentViewController] dismissModalViewControllerAnimated:YES];
+	[[picker parentViewController] dismissModalViewControllerAnimated:NO];
 	
 }
 

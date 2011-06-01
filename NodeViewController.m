@@ -137,7 +137,7 @@ static NSString * const OPTION_CELL = @"option";
 	
 	
 	//[self.view removeFromSuperview];
-	[self dismissModalViewControllerAnimated:YES];
+	[self dismissModalViewControllerAnimated:NO];
 
 }
 
@@ -149,7 +149,14 @@ static NSString * const OPTION_CELL = @"option";
 	
 	
 	//[self.view removeFromSuperview];
-	[self dismissModalViewControllerAnimated:YES];
+	[self dismissModalViewControllerAnimated:NO];
+    if((node.nodeId == [AppModel sharedAppModel].currentGame.completeNodeId) && ([AppModel sharedAppModel].currentGame.completeNodeId != 0)){
+        ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+        if([appDelegate.tabBarController.customizableViewControllers count] < 10)
+        appDelegate.tabBarController.selectedIndex = 8;
+    else
+         appDelegate.tabBarController.selectedIndex = 9;
+    }
 }
 
 -(IBAction)playMovie:(id)sender {

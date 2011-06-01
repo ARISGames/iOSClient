@@ -453,8 +453,9 @@
 }
 
 - (void) checkForDisplayCompleteNode{
+    int nodeID = [AppModel sharedAppModel].currentGame.completeNodeId;
     if ([AppModel sharedAppModel].currentGame.completedQuests == [AppModel sharedAppModel].currentGame.totalQuests &&
-            [AppModel sharedAppModel].currentGame.completedQuests > 0) {
+            [AppModel sharedAppModel].currentGame.completedQuests > 0  && nodeID != 0) {
         NSLog(@"AppDelegate: checkForIntroOrCompleteNodeDisplay: Displaying Complete Node");
 		Node *completeNode = [[AppModel sharedAppModel] nodeForNodeId:[AppModel sharedAppModel].currentGame.completeNodeId];
 		[completeNode display];
@@ -537,6 +538,7 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application {
 	NSLog(@"AppDelegate: Begin Application Resign Active");
+    //[tabBarController dismissModalViewControllerAnimated:NO];
 	[[AppModel sharedAppModel] saveUserDefaults];
 }
 

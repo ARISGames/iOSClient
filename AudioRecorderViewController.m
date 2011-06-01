@@ -234,7 +234,7 @@
 										description:titleAndDescForm.descriptionField.text];
 	
 	[[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryAmbient error: nil];
-	[self dismissModalViewControllerAnimated:YES];
+	[self dismissModalViewControllerAnimated:NO];
 }
 
 - (IBAction) discardButtonAction: (id) sender{

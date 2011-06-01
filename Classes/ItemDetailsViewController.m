@@ -149,7 +149,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	
 	
 	[self.navigationController popToRootViewControllerAnimated:YES];
-	[self dismissModalViewControllerAnimated:YES];
+	[self dismissModalViewControllerAnimated:NO];
 	
 	
 	
@@ -331,7 +331,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	//Possibly Dismiss Item Details View
 	if (item.qty < 1) {
 		[self.navigationController popToRootViewControllerAnimated:YES];
-		[self dismissModalViewControllerAnimated:YES];
+		[self dismissModalViewControllerAnimated:NO];
 
 	}
 	

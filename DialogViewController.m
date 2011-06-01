@@ -209,7 +209,7 @@ NSString *const kDialogHtmlTemplate =
 	//tell the server
 	[[AppServices sharedAppServices] updateServerNpcViewed:currentNpc.npcId];
 	
-	[self dismissModalViewControllerAnimated:YES];
+	[self dismissModalViewControllerAnimated:NO];
 
 }
 
@@ -310,7 +310,7 @@ NSString *const kDialogHtmlTemplate =
         if(cachedScene.exitToTabWithTitle != nil) self.exitToTabVal = cachedScene.exitToTabWithTitle;
         if(closingScriptPlaying==YES && (self.exitToTabVal != nil)) {
             [[AppServices sharedAppServices] updateServerNpcViewed:currentNpc.npcId];
-            [self dismissModalViewControllerAnimated:YES];
+            [self dismissModalViewControllerAnimated:NO];
             ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
             int selectedIndex;
             
