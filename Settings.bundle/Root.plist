@@ -2,72 +2,62 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Title</key>
-	<string>ARIS</string>
-	<key>StringsTable</key>
-	<string>Root</string>
 	<key>PreferenceSpecifiers</key>
 	<array>
 		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
 			<key>Title</key>
 			<string>Advanced Settings</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSTextFieldSpecifier</string>
-			<key>Title</key>
-			<string>Server URL</string>
-			<key>Key</key>
-			<string>baseServerString</string>
-			<key>DefaultValue</key>
-			<string>http://arisgames.org/server1</string>
-			<key>IsSecure</key>
-			<false/>
-			<key>KeyboardType</key>
-			<string>URL</string>
 			<key>AutocapitalizationType</key>
 			<string>None</string>
 			<key>AutocorrectionType</key>
 			<string>No</string>
+			<key>DefaultValue</key>
+			<string>http://arisgames.org/server1</string>
+			<key>IsSecure</key>
+			<false/>
+			<key>Key</key>
+			<string>baseServerString</string>
+			<key>KeyboardType</key>
+			<string>URL</string>
+			<key>Title</key>
+			<string>Server URL</string>
+			<key>Type</key>
+			<string>PSTextFieldSpecifier</string>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-			<key>Title</key>
-			<string>Reset Tutorial</string>
-			<key>Key</key>
-			<string>resetTutorial</string>
 			<key>DefaultValue</key>
 			<false/>
+			<key>Key</key>
+			<string>resetTutorial</string>
+			<key>Title</key>
+			<string>Reset Tutorial</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
 			<key>Title</key>
 			<string>About ARIS</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSTitleValueSpecifier</string>
-			<key>Title</key>
-			<string>Version</string>
 			<key>DefaultValue</key>
 			<string>Run ARIS to update</string>
 			<key>Key</key>
 			<string>appVerison</string>
-		</dict>
-		<dict>
+			<key>Title</key>
+			<string>Version</string>
 			<key>Type</key>
 			<string>PSTitleValueSpecifier</string>
-			<key>Title</key>
-			<string>Build</string>
-			<key>Key</key>
-			<string>buildNum</string>
-			<key>DefaultValue</key>
-			<string>Run ARIS to Update</string>
 		</dict>
 	</array>
+	<key>StringsTable</key>
+	<string>Root</string>
+	<key>Title</key>
+	<string>ARIS</string>
 </dict>
 </plist>
