@@ -93,6 +93,7 @@
 - (void)parseGameNpcListFromJSON: (JSONResult *)jsonResult;
 - (void)parseGameItemListFromJSON: (JSONResult *)jsonResult;
 - (void)parseGameNodeListFromJSON: (JSONResult *)jsonResult;
+-(Location*)parseLocationFromDictionary: (NSDictionary *)locationDictionary;
 - (Item *)parseItemFromDictionary: (NSDictionary *)itemDictionary;
 - (Node *)parseNodeFromDictionary: (NSDictionary *)nodeDictionary;
 - (Npc *)parseNpcFromDictionary: (NSDictionary *)npcDictionary;

@@ -523,7 +523,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
      */
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
                                                             andServiceName:@"qrcodes"
-                                                             andMethodName:@"getQRCodeObjectForPlayer"
+                                                             andMethodName:@"getQRCodeNearbyObjectForPlayer"
                                                               andArguments:arguments];
 	[jsonConnection performAsynchronousRequestWithParser:@selector(parseQRCodeObjectFromJSON:)]; 
 	[jsonConnection release];
@@ -993,25 +993,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	NSMutableArray *tempLocationsList = [[NSMutableArray alloc] init];
 	NSEnumerator *locationsEnumerator = [locationsArray objectEnumerator];	
 	NSDictionary *locationDictionary;
-	while (locationDictionary = [locationsEnumerator nextObject]) {
+	while ((locationDictionary = [locationsEnumerator nextObject])) {
 		//create a new location
-		Location *location = [[Location alloc] init];
-		location.locationId = [[locationDictionary valueForKey:@"location_id"] intValue];
-		location.name = [locationDictionary valueForKey:@"name"];
-		location.iconMediaId = [[locationDictionary valueForKey:@"icon_media_id"] intValue];
-		CLLocation *tmpLocation = [[CLLocation alloc] initWithLatitude:[[locationDictionary valueForKey:@"latitude"] doubleValue]
-                                                             longitude:[[locationDictionary valueForKey:@"longitude"] doubleValue]];
-		location.location = tmpLocation;
-		[tmpLocation release];
-		location.error = [[locationDictionary valueForKey:@"error"] doubleValue];
-		location.objectType = [locationDictionary valueForKey:@"type"];
-		location.objectId = [[locationDictionary valueForKey:@"type_id"] intValue];
-		location.hidden = [[locationDictionary valueForKey:@"hidden"] boolValue];
-		location.forcedDisplay = [[locationDictionary valueForKey:@"force_view"] boolValue];
-		location.allowsQuickTravel = [[locationDictionary valueForKey:@"allow_quick_travel"] boolValue];
-		location.qty = [[locationDictionary valueForKey:@"item_qty"] intValue];
+        Location *location = [self parseLocationFromDictionary:locationDictionary];
 		
-		NSLog(@"Model: Adding Location: %@ - Type:%@ Id:%d Hidden:%d ForceDisp:%d QuickTravel:%d Qty:%d", 
+		NSLog(@"AppServices: Adding Location: %@ - Type:%@ Id:%d Hidden:%d ForceDisp:%d QuickTravel:%d Qty:%d", 
 			  location.name, location.objectType, location.objectId, 
 			  location.hidden, location.forcedDisplay, location.allowsQuickTravel, location.qty);
 		[tempLocationsList addObject:location];
@@ -1022,9 +1008,32 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[tempLocationsList release];
 	
 	//Tell everyone
-	NSLog(@"AppModel: Finished fetching locations from server, model updated");
+	NSLog(@"AppServices: Finished fetching locations from server, model updated");
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewLocationListReady" object:nil]];
 	
+}
+
+
+-(Location*)parseLocationFromDictionary: (NSDictionary*)locationDictionary {
+    NSLog(@"AppServices: parseLocationFromDictionary");
+
+    Location *location = [[Location alloc] init];
+    location.locationId = [[locationDictionary valueForKey:@"location_id"] intValue];
+    location.name = [locationDictionary valueForKey:@"name"];
+    location.iconMediaId = [[locationDictionary valueForKey:@"icon_media_id"] intValue];
+    CLLocation *tmpLocation = [[CLLocation alloc] initWithLatitude:[[locationDictionary valueForKey:@"latitude"] doubleValue]
+                                                         longitude:[[locationDictionary valueForKey:@"longitude"] doubleValue]];
+    location.location = tmpLocation;
+    [tmpLocation release];
+    location.error = [[locationDictionary valueForKey:@"error"] doubleValue];
+    location.objectType = [locationDictionary valueForKey:@"type"];
+    location.objectId = [[locationDictionary valueForKey:@"type_id"] intValue];
+    location.hidden = [[locationDictionary valueForKey:@"hidden"] boolValue];
+    location.forcedDisplay = [[locationDictionary valueForKey:@"force_view"] boolValue];
+    location.allowsQuickTravel = [[locationDictionary valueForKey:@"allow_quick_travel"] boolValue];
+    location.qty = [[locationDictionary valueForKey:@"item_qty"] intValue];
+    
+    return location;
 }
 
 
@@ -1178,24 +1187,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	NSObject<QRCodeProtocol> *qrCodeObject = nil;
     
 	if ((NSNull*)jsonResult.data != [NSNull null]) {
-		NSDictionary *qrCodeObjectDictionary = (NSDictionary *)jsonResult.data;
-        
-		/*
-         NSString *latitude = [qrCodeObjectDictionary valueForKey:@"latitude"];
-         NSString *longitude = [qrCodeObjectDictionary valueForKey:@"longitude"];
-         NSLog(@"AppModel-parseQRCodeObjectFromDictionary: Lat:%@ Lng:%@",latitude,longitude);
-         
-         CLLocation *location = [[CLLocation alloc] initWithLatitude:[latitude doubleValue]
-         longitude:[longitude doubleValue]];
-         
-         [AppModel sharedAppModel].playerLocation = [location copy];
-         [location release];
-		 */
-		
-		NSString *type = [qrCodeObjectDictionary valueForKey:@"type"];
-		if ([type isEqualToString:@"Node"]) qrCodeObject = [self parseNodeFromDictionary:qrCodeObjectDictionary];
-		if ([type isEqualToString:@"Item"]) qrCodeObject = [self parseItemFromDictionary:qrCodeObjectDictionary];
-		if ([type isEqualToString:@"Npc"]) qrCodeObject = [self parseNpcFromDictionary:qrCodeObjectDictionary];
+		NSDictionary *qrCodeDictionary = (NSDictionary *)jsonResult.data;
+        NSString *type = [qrCodeDictionary valueForKey:@"link_type"];
+        NSDictionary *objectDictionary = [qrCodeDictionary valueForKey:@"object"];
+
+		if ([type isEqualToString:@"Location"]) qrCodeObject = [self parseLocationFromDictionary:objectDictionary];
+
 	}
 	
 	[[NSNotificationCenter defaultCenter] postNotification: [NSNotification notificationWithName:@"QRCodeObjectReady" object:qrCodeObject]];
