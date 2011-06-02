@@ -312,7 +312,7 @@ NSString *const kDialogHtmlTemplate =
             [[AppServices sharedAppServices] updateServerNpcViewed:currentNpc.npcId];
             [self dismissModalViewControllerAnimated:NO];
             ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-            int selectedIndex;
+            /*int selectedIndex;
             
             if([self.exitToTabVal caseInsensitiveCompare:@"nearby"] == NSOrderedSame) selectedIndex = 0;
             else if([self.exitToTabVal caseInsensitiveCompare:@"quests"]== NSOrderedSame) selectedIndex = 1;
@@ -323,8 +323,18 @@ NSString *const kDialogHtmlTemplate =
             else if([self.exitToTabVal caseInsensitiveCompare:@"recorder"]== NSOrderedSame) selectedIndex = 6;
            NSInteger bVal =  [appDelegate.tabBarController.customizableViewControllers count];
             if(bVal < 10 && selectedIndex != 0) selectedIndex--;
-            appDelegate.tabBarController.selectedIndex = selectedIndex;
-            
+            appDelegate.tabBarController.selectedIndex = selectedIndex;*/
+            NSString *tab;
+            for(int i = 0;i < [appDelegate.tabBarController.customizableViewControllers count];i++)
+            {
+                tab = [[appDelegate.tabBarController.customizableViewControllers objectAtIndex:i] title];
+                tab = [tab lowercaseString];
+                self.exitToTabVal = [self.exitToTabVal lowercaseString];
+                if([self.exitToTabVal isEqualToString:tab])
+                {
+                    appDelegate.tabBarController.selectedIndex = i;
+                }
+            }
             
         }
 		[self stopAllAudio];
