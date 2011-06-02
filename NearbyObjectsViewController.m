@@ -125,8 +125,13 @@
 	
 	//If we have something new, alert the user
 	if (newItem) {
-		[appDelegate playAudioAlert:@"nearbyObject" shouldVibrate:YES];
-		
+        if(appDelegate.modalPresent==NO)
+        {
+            //alert only if u are on quest,map,inventory, or nearby objects screen
+
+            [appDelegate playAudioAlert:@"nearbyObject" shouldVibrate:YES]; 
+		}
+        
 		if (![AppModel sharedAppModel].hasSeenNearbyTabTutorial) {
 			ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 

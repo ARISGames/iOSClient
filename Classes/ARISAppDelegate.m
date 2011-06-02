@@ -28,6 +28,7 @@
 @synthesize waitingIndicator,waitingIndicatorView;
 @synthesize networkAlert,serverAlert;
 @synthesize tutorialViewController;
+@synthesize modalPresent;
 
 
 //@synthesize toolbarViewController;

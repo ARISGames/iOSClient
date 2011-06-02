@@ -41,7 +41,8 @@ static NSString * const OPTION_CELL = @"option";
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
 	NSLog(@"NodeViewController: Displaying Node '%@'",self.node.name);
-	
+	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.modalPresent = YES;
     
     [self refreshView];
     [super viewDidLoad];
@@ -138,6 +139,8 @@ static NSString * const OPTION_CELL = @"option";
 	
 	//[self.view removeFromSuperview];
 	[self dismissModalViewControllerAnimated:NO];
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.modalPresent=NO;
 
 }
 
@@ -152,11 +155,13 @@ static NSString * const OPTION_CELL = @"option";
 	[self dismissModalViewControllerAnimated:NO];
     if((node.nodeId == [AppModel sharedAppModel].currentGame.completeNodeId) && ([AppModel sharedAppModel].currentGame.completeNodeId != 0)){
         ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+        appDelegate.modalPresent=NO;
         if([appDelegate.tabBarController.customizableViewControllers count] < 10)
         appDelegate.tabBarController.selectedIndex = 8;
     else
          appDelegate.tabBarController.selectedIndex = 9;
     }
+
 }
 
 -(IBAction)playMovie:(id)sender {

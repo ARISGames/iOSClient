@@ -100,6 +100,8 @@ NSString *const kDialogHtmlTemplate =
 	assert(npcView && @"npcView not connected.");
 	assert(pcView && @"pcView not connected.");
 	
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.modalPresent = YES;
 	//General Setup
 	lastPcId = 0;
 	currentNode = nil;
@@ -208,7 +210,8 @@ NSString *const kDialogHtmlTemplate =
 	
 	//tell the server
 	[[AppServices sharedAppServices] updateServerNpcViewed:currentNpc.npcId];
-	
+	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.modalPresent = NO;
 	[self dismissModalViewControllerAnimated:NO];
 
 }
@@ -312,6 +315,7 @@ NSString *const kDialogHtmlTemplate =
             [[AppServices sharedAppServices] updateServerNpcViewed:currentNpc.npcId];
             [self dismissModalViewControllerAnimated:NO];
             ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+            appDelegate.modalPresent = NO;
             /*int selectedIndex;
             
             if([self.exitToTabVal caseInsensitiveCompare:@"nearby"] == NSOrderedSame) selectedIndex = 0;

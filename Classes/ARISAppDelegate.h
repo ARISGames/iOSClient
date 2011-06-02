@@ -52,6 +52,7 @@
 	UINavigationController *nearbyObjectNavigationController;
 	WaitingIndicatorViewController *waitingIndicator;
 	WaitingIndicatorView *waitingIndicatorView;
+
 	
 	UIAlertView *networkAlert;
 	UIAlertView *serverAlert;
@@ -60,6 +61,7 @@
 	UIWindow* tvOutWindow;
 	UIImageView *tvOutMirrorView;
 	BOOL tvOutDone;
+    BOOL modalPresent;
 	
 }
 
@@ -81,6 +83,7 @@
 @property (nonatomic, retain) UIAlertView *networkAlert;
 @property (nonatomic, retain) UIAlertView *serverAlert;
 
+@property (readwrite) BOOL modalPresent;
 
 - (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password;
 - (void) displayNearbyObjectView:(UIViewController *)nearbyObjectsNavigationController;

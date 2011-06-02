@@ -58,7 +58,8 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	//[NSThread detachNewThreadSelector: @selector(showWaitingIndicator:) toTarget: (ARISAppDelegate *)[[UIApplication sharedApplication] delegate] withObject: @"Loading..."];	
 	//[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate]showWaitingIndicator:NSLocalizedString(@"LoadingKey",@"") displayProgressBar:NO];
 	
-	
+	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.modalPresent = YES;
 	//Setup the Toolbar Buttons
 	dropButton.title = NSLocalizedString(@"ItemDropKey", @"");
 	pickupButton.title = NSLocalizedString(@"ItemPickupKey", @"");
@@ -151,7 +152,8 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	[self.navigationController popToRootViewControllerAnimated:YES];
 	[self dismissModalViewControllerAnimated:NO];
 	
-	
+	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.modalPresent = NO;
 	
 }
 
@@ -332,7 +334,8 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	if (item.qty < 1) {
 		[self.navigationController popToRootViewControllerAnimated:YES];
 		[self dismissModalViewControllerAnimated:NO];
-
+ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+        appDelegate.modalPresent = NO;
 	}
 	
 	
