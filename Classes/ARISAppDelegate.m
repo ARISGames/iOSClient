@@ -538,6 +538,7 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application {
 	NSLog(@"AppDelegate: Begin Application Resign Active");
+    
    [tabBarController dismissModalViewControllerAnimated:NO];
 
 	[[AppModel sharedAppModel] saveUserDefaults];

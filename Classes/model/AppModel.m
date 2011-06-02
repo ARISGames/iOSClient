@@ -93,7 +93,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
 
 
 -(void)clearUserDefaults {
-	NSLog(@"Model: Clearing User Defaults");		
+	NSLog(@"Model: Clearing User Defaults");	
+	[AppModel sharedAppModel].currentGame.gameId = 0;
 	[defaults synchronize];		
 }
 
