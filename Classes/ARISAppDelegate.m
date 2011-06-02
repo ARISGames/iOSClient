@@ -295,7 +295,7 @@
 		
 	}
 	
-	[self.tabBarController setViewControllers:tabs animated:YES];
+	[self.tabBarController setViewControllers:tabs animated:NO];
 	
 	NSNotification *n = [NSNotification notificationWithName:@"TabBarItemsChanged" object:self userInfo:nil];
 	[[NSNotificationCenter defaultCenter] postNotification:n];
