@@ -12,7 +12,7 @@
 #import "AppModel.h"
 
 @implementation StartOverViewController
-
+@synthesize alert;
 
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -47,15 +47,17 @@
 	    
 	[[AppServices sharedAppServices] startOverGame];
 	
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"StartOverResetAlertTitleKey", @"")
+	self.alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"StartOverResetAlertTitleKey", @"")
 													message: NSLocalizedString(@"StartOverResetAlertMessageKey", @"")
 												   delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
-	[alert show];
-	[alert release];
-
+	[self.alert show];
+    [self performSelector:@selector(dismissAlert) withObject:nil afterDelay:5.0];
 }
 
-
+-(void)dismissAlert{
+    [self.alert dismissWithClickedButtonIndex:0 animated:YES];
+    [self.alert release];
+}
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
