@@ -166,7 +166,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	NSLog(@"ItemDetailsVC: Drop Button Pressed");
 	
 	mode = kItemDetailsDropping;
-	
+	if(self.item.qty > 1){
 	//Create and Display Action Sheet
 	UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil
 															delegate:self 
@@ -174,7 +174,18 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 											  destructiveButtonTitle:nil 
 												   otherButtonTitles:@"Drop 1",@"Drop All",nil];
 	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-	[actionSheet showInView:self.view];
+        [actionSheet showInView:self.view];
+    }
+    else {
+            //Create and Display Action Sheet
+            UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil
+                                                                    delegate:self 
+                                                           cancelButtonTitle:@"Cancel" 
+                                                      destructiveButtonTitle:nil 
+                                                           otherButtonTitles:@"Drop 1",nil,nil];
+            actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+            [actionSheet showInView:self.view];
+    }
 	
 }
 
@@ -183,7 +194,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
 	
 	mode = kItemDetailsDestroying;
-	
+	if(self.item.qty > 1){
 	//Create and Display Action Sheet
 	UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil
 															delegate:self 
@@ -192,6 +203,17 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 												   otherButtonTitles:@"Destroy 1",@"Destroy All",nil];
 	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
 	[actionSheet showInView:self.view];
+    }
+    else {
+      	//Create and Display Action Sheet
+        UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil
+                                                                delegate:self 
+                                                       cancelButtonTitle:@"Cancel" 
+                                                  destructiveButtonTitle:nil 
+                                                       otherButtonTitles:@"Destroy 1",nil,nil];
+        actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+        [actionSheet showInView:self.view];  
+    }
 }
 
 - (IBAction)pickupButtonTouchAction: (id) sender{
