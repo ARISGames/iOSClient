@@ -153,19 +153,21 @@ static NSString * const OPTION_CELL = @"option";
 	
 	//[self.view removeFromSuperview];
 	[self dismissModalViewControllerAnimated:NO];
-    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-
-    NSString *tab;
-    for(int i = 0;i < [appDelegate.tabBarController.customizableViewControllers count];i++)
-    {
-        tab = [[appDelegate.tabBarController.customizableViewControllers objectAtIndex:i] title];
-        tab = [tab lowercaseString];
-      
-        if([tab isEqualToString:@"start over"])
+    if((node.nodeId == [AppModel sharedAppModel].currentGame.completeNodeId) && ([AppModel sharedAppModel].currentGame.completeNodeId != 0)){
+        ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+        
+        NSString *tab;
+        for(int i = 0;i < [appDelegate.tabBarController.customizableViewControllers count];i++)
         {
-            appDelegate.tabBarController.selectedIndex = i;
-        }
-    }
+            tab = [[appDelegate.tabBarController.customizableViewControllers objectAtIndex:i] title];
+            tab = [tab lowercaseString];
+            
+            if([tab isEqualToString:@"start over"])
+            {
+                appDelegate.tabBarController.selectedIndex = i;
+            }
+        }    }
+
 }
 
 -(IBAction)playMovie:(id)sender {
