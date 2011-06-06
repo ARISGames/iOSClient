@@ -65,7 +65,7 @@
 
 -(void)refresh {
 	NSLog(@"GamePickerViewController: Refresh Requested");
-	[[AppServices sharedAppServices] fetchGameList];
+	[[AppServices sharedAppServices] fetchGameListWithDistanceFilter:10000.0];
 	[self showLoadingIndicator];
 }
 
@@ -142,8 +142,8 @@
     cell.percentCompleteLabel.text = NSLocalizedString(@"PercentCompleteKey", @"");
 
 	
-	if (currentGame.iconMediaId > 0) {
-		Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: currentGame.iconMediaId];
+	if ([currentGame.iconMediaUrl length] > 0) {
+		Media *iconMedia = [[Media alloc] initWithId:1 andUrlString:currentGame.iconMediaUrl ofType:@"Icon"];
 		[cell.iconView loadImageFromMedia:iconMedia];
 	}
 	else cell.iconView.image = [UIImage imageNamed:@"Icon.png"];

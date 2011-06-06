@@ -20,6 +20,8 @@
 	int numPlayers;
 	int pcMediaId;
 	int iconMediaId;
+    NSString *iconMediaUrl;
+    NSString *mediaUrl;
 	int launchNodeId;
 	int completeNodeId;
 	int completedQuests;
@@ -27,15 +29,14 @@
 }
 
 @property(readwrite, assign) int gameId;
-@property(copy, readwrite) NSString *name;
-@property(copy, readwrite) NSString *description;
-@property(copy, readwrite) NSString *authors;
+@property(nonatomic, retain) NSString *name;
+@property(nonatomic, retain) NSString *description;
+@property(nonatomic, retain) NSString *authors;
 @property(readwrite, assign) double distanceFromPlayer;
-
-
-@property(copy, readwrite) CLLocation *location;
+@property(nonatomic, retain) CLLocation *location;
 @property(readwrite, assign) int pcMediaId;
-@property(readwrite, assign) int iconMediaId;
+@property(nonatomic, retain) NSString *iconMediaUrl;
+@property(nonatomic, retain) NSString *mediaUrl;
 @property(readwrite, assign) int numPlayers;
 @property(readwrite, assign) int launchNodeId;
 @property(readwrite, assign) int completeNodeId;

@@ -51,7 +51,7 @@
 - (id) fetchFromService:(NSString *)aService usingMethod:(NSString *)aMethod 
 			   withArgs:(NSArray *)arguments usingParser:(SEL)aSelector;
 
-- (void)fetchGameList;
+- (void)fetchGameListWithDistanceFilter: (float)distanceInMeters;
 - (void)fetchLocationList;
 - (void)forceUpdateOnNextLocationListFetch;
 - (void)resetAllPlayerLists;

@@ -710,7 +710,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	
 }
 
-- (void)fetchGameList {
+- (void)fetchGameListWithDistanceFilter: (float)distanceInMeters {
 	NSLog(@"AppModel: Fetch Requested for Game List.");
     
 	//Call server service
@@ -718,11 +718,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
 						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.latitude],
 						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.longitude],
+                          [NSString stringWithFormat:@"%f",distanceInMeters],
 						  nil];
 	
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
                                                             andServiceName:@"games"
-                                                             andMethodName:@"getGamesWithDetails"
+                                                             andMethodName:@"getGamesForPlayerAtLocation"
                                                               andArguments:arguments];
 	
 	[jsonConnection performAsynchronousRequestWithParser:@selector(parseGameListFromJSON:)]; 
@@ -930,10 +931,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 		if ((NSNull *)numPlayers != [NSNull null]) game.numPlayers = [numPlayers intValue];
 		else game.numPlayers = 0;
         
-		NSString *icon_media_id = [gameDictionary valueForKey:@"icon_media_id"];
-		if ((NSNull *)icon_media_id != [NSNull null]) game.iconMediaId = [icon_media_id intValue];
-		else game.iconMediaId = 0;
-		
+		game.iconMediaUrl = [gameDictionary valueForKey:@"icon_media_url"];
+
+		game.mediaUrl = [gameDictionary valueForKey:@"media_url"];	
+        
 		NSString *completedQuests = [gameDictionary valueForKey:@"completedQuests"];	
 		if ((NSNull *)completedQuests != [NSNull null]) game.completedQuests = [completedQuests intValue];
 		else game.completedQuests = 0;

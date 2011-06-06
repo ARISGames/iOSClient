@@ -32,7 +32,9 @@
 	self.arguments = args;	
 
 	//Compute the Arguments
-	NSMutableString *requestParameters = [NSMutableString stringWithFormat:@"json.php/aris.%@.%@", self.serviceName, self.methodName];	
+    NSString *servicePackage = @"aris_1_4";
+
+	NSMutableString *requestParameters = [NSMutableString stringWithFormat:@"json.php/%@.%@.%@", servicePackage, self.serviceName, self.methodName];	
 	NSEnumerator *argumentsEnumerator = [self.arguments objectEnumerator];
 	NSString *argument;
 	while (argument = [argumentsEnumerator nextObject]) {

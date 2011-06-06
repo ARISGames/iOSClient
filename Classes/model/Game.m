@@ -16,7 +16,8 @@
 @synthesize name;
 @synthesize description;
 @synthesize pcMediaId;
-@synthesize iconMediaId;
+@synthesize mediaUrl;
+@synthesize iconMediaUrl;
 @synthesize numPlayers;
 @synthesize location;
 @synthesize distanceFromPlayer;

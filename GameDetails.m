@@ -92,10 +92,12 @@ NSString *const kGameDetailsHtmlTemplate =
 	playersLabel.text = [NSString stringWithFormat:@"%@: %d", NSLocalizedString(@"PlayersKey",@""),game.numPlayers];
 	authorsLabel.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"AuthorsKey",@""),game.authors];
 	
+    /*
 	if (game.iconMediaId != 0) {
 		Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: game.iconMediaId];
 		[iconView loadImageFromMedia:iconMedia];
 	}
+     */
 
 	locationLabel.text = @"";
 	MKReverseGeocoder *reverseGeocoder = [[MKReverseGeocoder alloc] initWithCoordinate:self.game.location.coordinate];
