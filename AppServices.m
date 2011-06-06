@@ -710,7 +710,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	
 }
 
-- (void)fetchGameListWithDistanceFilter: (float)distanceInMeters {
+- (void)fetchGameListWithDistanceFilter: (int)distanceInMeters locational:(BOOL)locationalOrNonLocational {
 	NSLog(@"AppModel: Fetch Requested for Game List.");
     
 	//Call server service
@@ -718,7 +718,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
 						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.latitude],
 						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.longitude],
-                          [NSString stringWithFormat:@"%f",distanceInMeters],
+                          [NSString stringWithFormat:@"%d",distanceInMeters],
+                          [NSString stringWithFormat:@"%d",locationalOrNonLocational],
+                          @"1", //games in development
 						  nil];
 	
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 

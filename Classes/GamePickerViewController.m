@@ -66,7 +66,28 @@
 
 -(void)refresh {
 	NSLog(@"GamePickerViewController: Refresh Requested");
-	[[AppServices sharedAppServices] fetchGameListWithDistanceFilter:10000.0];
+    
+    //Calculate locational control value
+    BOOL locational;
+    if (locationalControl.selectedSegmentIndex == 0) locational = YES;
+    else locational = NO;
+	
+    //Calculate distance filer controll value
+    int distanceFilter;
+    switch (distanceControl.selectedSegmentIndex) {
+        case 0:
+            distanceFilter = 100;
+            break;
+        case 1:
+            distanceFilter = 1000;
+            break;
+        case 2:
+            distanceFilter = 50000;
+            break;
+    
+    }
+    
+    [[AppServices sharedAppServices] fetchGameListWithDistanceFilter:distanceFilter locational:locational];
 	[self showLoadingIndicator];
 }
 
@@ -100,6 +121,14 @@
 
 	[gameTable reloadData];
 }
+
+#pragma mark Control Callbacks
+-(IBAction)controlChanged:(id)sender{
+        
+    [self refresh];
+
+}
+
 
 #pragma mark Table view methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

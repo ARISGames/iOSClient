@@ -20,8 +20,9 @@
 
 }
 
--(void) refresh;
+-(void)refresh;
 -(void)showLoadingIndicator;
+-(IBAction)controlChanged:(id)sender;
 
 
 @property (nonatomic, retain) NSArray *gameList;
