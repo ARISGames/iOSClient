@@ -121,6 +121,7 @@
 																							  title:@"New Item"  
 																							message:@"You have a new Item in your Inventory! Touch below to view your items now."];						
 				[AppModel sharedAppModel].hasSeenInventoryTabTutorial = YES;
+                [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
 			}
 				
 			

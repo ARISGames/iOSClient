@@ -157,6 +157,7 @@ NSString *const kQuestsHtmlTemplate =
 																							  title:@"New Quest" 
 																							message:@"You have a new Quest! Touch here to see the current and completed quests."];						
 				[AppModel sharedAppModel].hasSeenQuestsTabTutorial = YES;
+                [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
 			}
 		}
 		else if (newItemsSinceLastView < 1) self.tabBarItem.badgeValue = nil;

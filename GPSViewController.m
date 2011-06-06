@@ -238,6 +238,7 @@ static float INITIAL_SPAN = 0.001;
 																							message:@"You have a new place of interest on your GPS! Touch below to view the Map."];						
 
 				[AppModel sharedAppModel].hasSeenMapTabTutorial = YES;
+                [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
 			}
 		}
 		else if (newItemsSinceLastView < 1) self.tabBarItem.badgeValue = nil;
