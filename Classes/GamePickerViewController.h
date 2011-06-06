@@ -13,8 +13,8 @@
 	NSArray *gameList;
 	NSMutableArray *filteredGameList;
 
-    UISegmentedControl *distanceControl;
-    UISegmentedControl *locationalControl;
+    IBOutlet UISegmentedControl *distanceControl;
+    IBOutlet UISegmentedControl *locationalControl;
 	UITableView *gameTable;
     UIBarButtonItem *refreshButton;
 
@@ -29,8 +29,6 @@
 @property (nonatomic, retain) NSMutableArray *filteredGameList;
 @property (nonatomic, retain) IBOutlet UITableView *gameTable;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *refreshButton;
-@property (nonatomic, retain) IBOutlet UISegmentedControl *distanceControl;
-@property (nonatomic, retain) IBOutlet UISegmentedControl *locationalControl;
 
 
 

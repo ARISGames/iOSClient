@@ -19,7 +19,6 @@
 @synthesize gameList;
 @synthesize filteredGameList;
 @synthesize refreshButton;
-@synthesize locationalControl, distanceControl;
 
 
 //Override init for passing title and icon to tab bar
@@ -125,10 +124,12 @@
 #pragma mark Control Callbacks
 -(IBAction)controlChanged:(id)sender{
         
+    if (sender == locationalControl || 
+        locationalControl.selectedSegmentIndex == 0) 
     [self refresh];
 
 }
-
+    
 
 #pragma mark Table view methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
