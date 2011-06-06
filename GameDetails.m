@@ -7,8 +7,10 @@
 //
 
 #import "GameDetails.h"
+#import "AppServices.h"
 #import "AppModel.h"
 #import "ARISAppDelegate.h"
+#import "commentsViewController.h"
 #import <MapKit/MKReverseGeocoder.h>
 
 NSString *const kGameDetailsHtmlTemplate = 
@@ -35,18 +37,15 @@ NSString *const kGameDetailsHtmlTemplate =
 
 @implementation GameDetails
 
-@synthesize map;
 @synthesize descriptionWebView;
 @synthesize game;
 @synthesize titleLabel;
-@synthesize playersLabel;
 @synthesize authorsLabel;
 @synthesize descriptionLabel;
-@synthesize mapLabel;
 @synthesize locationLabel;
 @synthesize iconView;
 @synthesize scrollView;
-@synthesize contentView;
+@synthesize contentView, playButton, rateButton;
 
 
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -58,55 +57,39 @@ NSString *const kGameDetailsHtmlTemplate =
 }
 
 
-
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-	[super viewDidLoad];
+	
+    self.title = self.game.name;
+    self.authorsLabel.textAlignment = UITextAlignmentLeft;
+    self.authorsLabel.text = @"Author(s): ";
+    self.authorsLabel.text = [self.authorsLabel.text stringByAppendingString:self.game.authors];
+    self.descriptionLabel.text = @"Description: ";
+    //self.descriptionLabel.text = [self.descriptionLabel.text stringByAppendingString:self.game.description];
 	[descriptionWebView setBackgroundColor:[UIColor clearColor]];
+    [super viewDidLoad];
 
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 	NSLog(@"GameDetails: View Will Appear, Refresh");
-	self.title = NSLocalizedString(@"GameDetailsTitleKey",@"");
 	
-	descriptionLabel.text = NSLocalizedString(@"DescriptionKey",@"");
-	mapLabel.text = NSLocalizedString(@"MapKey",@"");
-
 	
 	scrollView.contentSize = CGSizeMake(contentView.frame.size.width,contentView.frame.size.height);
 	
+
+    
 	NSString *htmlDescription = [NSString stringWithFormat:kGameDetailsHtmlTemplate, self.game.description];
 	NSLog(@"GameDetails: HTML Description: %@", htmlDescription);
 	descriptionWebView.delegate = self;
 	[descriptionWebView loadHTMLString:htmlDescription baseURL:nil];
-	
-	
-	MKCoordinateRegion region = map.region;
-	region.center = self.game.location.coordinate;
-	region.span.latitudeDelta=0.1;
-	region.span.longitudeDelta=0.1;
-	[map setRegion:region animated:YES];
-	[map regionThatFits:region];
-	
-	playersLabel.text = [NSString stringWithFormat:@"%@: %d", NSLocalizedString(@"PlayersKey",@""),game.numPlayers];
-	authorsLabel.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"AuthorsKey",@""),game.authors];
-	
-    /*
-	if (game.iconMediaId != 0) {
-		Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: game.iconMediaId];
-		[iconView loadImageFromMedia:iconMedia];
+    
+    if ([self.game.mediaUrl length] > 0) {
+		Media *splashMedia = [[Media alloc] initWithId:1 andUrlString:self.game.mediaUrl ofType:@"Splash"];
+		[self.iconView loadImageFromMedia:splashMedia];
 	}
-     */
-
-	locationLabel.text = @"";
-	MKReverseGeocoder *reverseGeocoder = [[MKReverseGeocoder alloc] initWithCoordinate:self.game.location.coordinate];
-	reverseGeocoder.delegate = self;
-	[reverseGeocoder start];
-	[reverseGeocoder release];
-	
-	titleLabel.text = game.name;
-	
+	else self.iconView.image = [UIImage imageNamed:@"Icon.png"];
+     	
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)descriptionView {
@@ -125,21 +108,27 @@ NSString *const kGameDetailsHtmlTemplate =
 		  descriptionFrame.size.width,
 		  descriptionFrame.size.height);
 	
-	//Move the Map Title and Map Down
-	CGRect originalMapLabelFrame = mapLabel.frame;
-	CGRect originalMapFrame = map.frame;
-	float margin = 25;
-	float newMapLabelYPosition = descriptionFrame.origin.y + descriptionFrame.size.height + margin;
-	float newMapYPosition = newMapLabelYPosition + originalMapLabelFrame.size.height + margin;
 	
-	[mapLabel setFrame:CGRectMake(originalMapLabelFrame.origin.x, newMapLabelYPosition, 
-								  originalMapLabelFrame.size.width, originalMapLabelFrame.size.height)];
-	
-	[map setFrame:CGRectMake(originalMapFrame.origin.x, newMapYPosition, 
-							 originalMapFrame.size.width, originalMapFrame.size.height)];
 }
 
+- (IBAction)playButtonTouchAction:(id) sender{
+   
+     NSDictionary *dictionary = [NSDictionary dictionaryWithObject:self.game
+        forKey:@"game"];
+     
+     [[AppServices sharedAppServices] silenceNextServerUpdate];
+     NSNotification *gameSelectNotification = [NSNotification notificationWithName:@"SelectGame" object:self userInfo:dictionary];
+     [[NSNotificationCenter defaultCenter] postNotification:gameSelectNotification];
+    [self.navigationController popViewControllerAnimated:NO];
+}
 
+- (IBAction)rateButtonTouchAction:(id) sender{
+	
+	commentsViewController *commentsVC = [[commentsViewController alloc]initWithNibName:@"commentsView" bundle:nil];
+	commentsVC.game = self.game;
+	[self.navigationController pushViewController:commentsVC animated:YES];
+	[commentsVC release];
+   }
 - (BOOL)webView:(UIWebView *)webView  
       shouldStartLoadWithRequest:(NSURLRequest *)request  
       navigationType:(UIWebViewNavigationType)navigationType; {  
@@ -168,14 +157,6 @@ NSString *const kGameDetailsHtmlTemplate =
 }
 */
 
-#pragma mark MKReverseGeocoderDelegate
-- (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFindPlacemark:(MKPlacemark *)placemark {
-	locationLabel.text = [NSString stringWithFormat:@"%@, %@",placemark.locality,placemark.administrativeArea];
-}
-
-
-- (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFailWithError:(NSError *)error {
-}
 
 
 - (void)didReceiveMemoryWarning {
@@ -193,6 +174,16 @@ NSString *const kGameDetailsHtmlTemplate =
 
 
 - (void)dealloc {
+    [descriptionWebView release];
+    [game release];
+    [authorsLabel release];
+    [descriptionLabel release];
+    [locationLabel release];
+    [iconView release];
+    [scrollView release];
+    [contentView release];
+    [playButton release];
+    [rateButton release];
     [super dealloc];
 }
 

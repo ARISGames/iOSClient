@@ -177,24 +177,20 @@
 		[cell.iconView loadImageFromMedia:iconMedia];
 	}
 	else cell.iconView.image = [UIImage imageNamed:@"Icon.png"];
-
 	
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     //do select game notification;
-	Game *selectedGame;
-	if (tableView == self.searchDisplayController.searchResultsTableView)
-		selectedGame = [self.filteredGameList objectAtIndex:indexPath.row];
-	else selectedGame = [self.gameList objectAtIndex:indexPath.row];
+    Game *selectedGame;
+	selectedGame = [self.gameList objectAtIndex:indexPath.row];
 	
-	NSDictionary *dictionary = [NSDictionary dictionaryWithObject:selectedGame forKey:@"game"];
-	
-	[[AppServices sharedAppServices] silenceNextServerUpdate];
-	NSNotification *gameSelectNotification = [NSNotification notificationWithName:@"SelectGame" object:self userInfo:dictionary];
-	[[NSNotificationCenter defaultCenter] postNotification:gameSelectNotification];
-	
+	GameDetails *gameDetailsVC = [[GameDetails alloc]initWithNibName:@"GameDetails" bundle:nil];
+	gameDetailsVC.game = selectedGame;
+	[self.navigationController pushViewController:gameDetailsVC animated:YES];
+	[gameDetailsVC release];	
+		
 }
 
 - (void)tableView:(UITableView *)aTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{

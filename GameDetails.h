@@ -12,33 +12,32 @@
 #import "AsyncImageView.h"
 
 
-@interface GameDetails : UIViewController <MKMapViewDelegate, UITextViewDelegate, MKReverseGeocoderDelegate, UIWebViewDelegate>{
+@interface GameDetails : UIViewController <UITextViewDelegate,  UIWebViewDelegate>{
 	Game *game; 
-	IBOutlet MKMapView *map;
-	IBOutlet UILabel *mapLabel;
 	IBOutlet UIWebView *descriptionWebView;
 	IBOutlet UILabel *titleLabel;
 	IBOutlet UILabel *descriptionLabel;
-	IBOutlet UILabel *playersLabel;
 	IBOutlet UILabel *authorsLabel;
 	IBOutlet UILabel *locationLabel;
-	IBOutlet AsyncImageView *iconView;
+    AsyncImageView *iconView;
 	IBOutlet UIScrollView *scrollView;
 	IBOutlet UIView *contentView;
+    UIButton *playButton;
+    UIButton *rateButton;
 }
 
 @property (nonatomic, retain) Game *game;
-@property (nonatomic, retain) IBOutlet MKMapView *map;
-@property (nonatomic, retain) IBOutlet UILabel *mapLabel;
 @property (nonatomic, retain) IBOutlet UIWebView *descriptionWebView;
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
-@property (nonatomic, retain) IBOutlet UILabel *playersLabel;
 @property (nonatomic, retain) IBOutlet UILabel *authorsLabel;
 @property (nonatomic, retain) IBOutlet UILabel *locationLabel;
 @property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
 @property (nonatomic, retain) IBOutlet AsyncImageView *iconView;
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, retain) IBOutlet UIView *contentView;
+@property(nonatomic, retain) IBOutlet UIButton *playButton;
+@property(nonatomic, retain) IBOutlet UIButton *rateButton;
 
-
+- (IBAction)playButtonTouchAction:(id) sender;
+- (IBAction)rateButtonTouchAction:(id) sender;
 @end
