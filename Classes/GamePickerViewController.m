@@ -19,6 +19,7 @@
 @synthesize gameList;
 @synthesize filteredGameList;
 @synthesize refreshButton;
+@synthesize locationalControl, distanceControl;
 
 
 //Override init for passing title and icon to tab bar
