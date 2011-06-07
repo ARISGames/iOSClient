@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AsyncImageView.h"
+#import "SCRRatingView.h"
 
 @interface GamePickerCell : UITableViewCell {
 	UILabel *titleLabel;
@@ -16,7 +17,7 @@
 	UILabel *percentCompleteLabel;
 	UILabel *numReviewsLabel;
 	AsyncImageView *iconView;
-	UIView *starView;
+	SCRRatingView *starView;
 }
 
 @property(nonatomic,retain) IBOutlet UILabel *titleLabel;
@@ -25,6 +26,6 @@
 @property(nonatomic,retain) IBOutlet UILabel *percentCompleteLabel;
 @property(nonatomic,retain) IBOutlet UILabel *numReviewsLabel;
 @property(nonatomic,retain) IBOutlet AsyncImageView *iconView;
-@property(nonatomic,retain) IBOutlet UIView *starView;
+@property(nonatomic,retain) IBOutlet SCRRatingView *starView;
 
 @end

@@ -12,6 +12,7 @@
 #import "ARISAppDelegate.h"
 #import "GameDetails.h"
 #import "GamePickerCell.h"
+#include <QuartzCore/QuartzCore.h>
 
 @implementation GamePickerViewController
 
@@ -170,13 +171,30 @@
 	cell.distanceLabel.text = [NSString stringWithFormat:@"%1.1f %@",  dist/1000, NSLocalizedString(@"km", @"") ];
 	cell.authorLabel.text = currentGame.authors;
 	cell.numReviewsLabel.text = [NSString stringWithFormat:@"%@%@", [[NSNumber numberWithInt:currentGame.numReviews] stringValue], @" reviews"];
+    cell.starView.rating = currentGame.rating;
 	
+    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-halfselected.png"]
+                               forState:kSCRatingViewHalfSelected];
+    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
+                               forState:kSCRatingViewHighlighted];
+    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
+                               forState:kSCRatingViewHot];
+    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
+                               forState:kSCRatingViewNonSelected];
+    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]
+                               forState:kSCRatingViewSelected];
+    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
+                               forState:kSCRatingViewUserSelected];
+    
+    
 	if ([currentGame.iconMediaUrl length] > 0) {
 		Media *iconMedia = [[Media alloc] initWithId:1 andUrlString:currentGame.iconMediaUrl ofType:@"Icon"];
 		[cell.iconView loadImageFromMedia:iconMedia];
 	}
 	else cell.iconView.image = [UIImage imageNamed:@"Icon.png"];
-	
+    cell.iconView.layer.masksToBounds = YES;
+    cell.iconView.layer.cornerRadius = 10.0;
+    
     return cell;
 }
 
