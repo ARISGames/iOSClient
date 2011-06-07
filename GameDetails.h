@@ -22,8 +22,7 @@
     AsyncImageView *iconView;
 	IBOutlet UIScrollView *scrollView;
 	IBOutlet UIView *contentView;
-    UIButton *playButton;
-    UIButton *rateButton;
+    IBOutlet UISegmentedControl *segmentedControl;
 }
 
 @property (nonatomic, retain) Game *game;
@@ -35,9 +34,9 @@
 @property (nonatomic, retain) IBOutlet AsyncImageView *iconView;
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, retain) IBOutlet UIView *contentView;
-@property(nonatomic, retain) IBOutlet UIButton *playButton;
-@property(nonatomic, retain) IBOutlet UIButton *rateButton;
+@property (nonatomic, retain) IBOutlet UISegmentedControl *segmentedControl;
 
-- (IBAction)playButtonTouchAction:(id) sender;
-- (IBAction)rateButtonTouchAction:(id) sender;
+
+- (IBAction)segmentedControlChanged:(id) sender;
+
 @end

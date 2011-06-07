@@ -45,7 +45,8 @@ NSString *const kGameDetailsHtmlTemplate =
 @synthesize locationLabel;
 @synthesize iconView;
 @synthesize scrollView;
-@synthesize contentView, playButton, rateButton;
+@synthesize contentView;
+@synthesize segmentedControl;
 
 
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -77,8 +78,6 @@ NSString *const kGameDetailsHtmlTemplate =
 	
 	scrollView.contentSize = CGSizeMake(contentView.frame.size.width,contentView.frame.size.height);
 	
-
-    
 	NSString *htmlDescription = [NSString stringWithFormat:kGameDetailsHtmlTemplate, self.game.description];
 	NSLog(@"GameDetails: HTML Description: %@", htmlDescription);
 	descriptionWebView.delegate = self;
@@ -111,24 +110,30 @@ NSString *const kGameDetailsHtmlTemplate =
 	
 }
 
-- (IBAction)playButtonTouchAction:(id) sender{
-   
-     NSDictionary *dictionary = [NSDictionary dictionaryWithObject:self.game
-        forKey:@"game"];
-     
-     [[AppServices sharedAppServices] silenceNextServerUpdate];
-     NSNotification *gameSelectNotification = [NSNotification notificationWithName:@"SelectGame" object:self userInfo:dictionary];
-     [[NSNotificationCenter defaultCenter] postNotification:gameSelectNotification];
-    [self.navigationController popViewControllerAnimated:NO];
+- (IBAction)segmentedControlChanged:(id) sender{
+    
+    if (segmentedControl.selectedSegmentIndex == 0) {
+        commentsViewController *commentsVC = [[commentsViewController alloc]initWithNibName:@"commentsView" bundle:nil];
+        commentsVC.game = self.game;
+        [self.navigationController pushViewController:commentsVC animated:YES];
+        [commentsVC release];
+    }
+    else if (segmentedControl.selectedSegmentIndex == 1) {
+
+        NSDictionary *dictionary = [NSDictionary dictionaryWithObject:self.game
+                                                               forKey:@"game"];
+        
+        [[AppServices sharedAppServices] silenceNextServerUpdate];
+        NSNotification *gameSelectNotification = [NSNotification notificationWithName:@"SelectGame" object:self userInfo:dictionary];
+        [[NSNotificationCenter defaultCenter] postNotification:gameSelectNotification];
+        [self.navigationController popViewControllerAnimated:NO];
+    }
+
 }
 
-- (IBAction)rateButtonTouchAction:(id) sender{
-	
-	commentsViewController *commentsVC = [[commentsViewController alloc]initWithNibName:@"commentsView" bundle:nil];
-	commentsVC.game = self.game;
-	[self.navigationController pushViewController:commentsVC animated:YES];
-	[commentsVC release];
-   }
+
+
+
 - (BOOL)webView:(UIWebView *)webView  
       shouldStartLoadWithRequest:(NSURLRequest *)request  
       navigationType:(UIWebViewNavigationType)navigationType; {  
@@ -182,8 +187,6 @@ NSString *const kGameDetailsHtmlTemplate =
     [iconView release];
     [scrollView release];
     [contentView release];
-    [playButton release];
-    [rateButton release];
     [super dealloc];
 }
 
