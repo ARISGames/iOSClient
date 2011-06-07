@@ -13,11 +13,9 @@
 
 @interface commentsViewController :UIViewController <UITableViewDelegate,UITableViewDataSource> {
 	UITableView *commentsTable;
-	NSArray *commentsList;
     Game *game;
 }
 -(void)showLoadingIndicator;
 @property(nonatomic, retain) IBOutlet UITableView *commentsTable;
-@property(nonatomic, retain) NSArray *commentsList;
 @property(nonatomic, retain) Game *game;
 @end

@@ -15,22 +15,33 @@
 @synthesize gameId;
 @synthesize name;
 @synthesize description;
+@synthesize distanceFromPlayer;
+@synthesize rating;
+@synthesize comments;
+@synthesize authors;
 @synthesize pcMediaId;
 @synthesize mediaUrl;
 @synthesize iconMediaUrl;
 @synthesize numPlayers;
 @synthesize location;
-@synthesize distanceFromPlayer;
-@synthesize authors;
 @synthesize launchNodeId;
 @synthesize completeNodeId;
 @synthesize completedQuests;
 @synthesize totalQuests;
 
+- (id) init{
+	if ((self = [super init])) {
+		self.comments = [NSMutableArray arrayWithCapacity:5];
+	}
+	return self;
+}
+
+
 - (void)dealloc {
 	[name release];
 	[description release];
 	[authors release];
+    [comments release];
 	[location release];	
     [super dealloc];
 }

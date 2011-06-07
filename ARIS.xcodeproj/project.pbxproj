@@ -154,6 +154,8 @@
 		AB8E31F61228399B00C198C3 /* textFade.png in Resources */ = {isa = PBXBuildFile; fileRef = AB8E31F51228399B00C198C3 /* textFade.png */; };
 		AB8FD00C117BCF61004F8B9B /* GameDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8FD00A117BCF61004F8B9B /* GameDetails.m */; };
 		AB8FD00D117BCF61004F8B9B /* GameDetails.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB8FD00B117BCF61004F8B9B /* GameDetails.xib */; };
+		AB997482139D93C40087E387 /* commentsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB99747F139D93C30087E387 /* commentsView.xib */; };
+		AB997483139D93C40087E387 /* commentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB997481139D93C30087E387 /* commentsViewController.m */; };
 		AB9A7C1710AA173F002FD9BC /* ARISURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AB9A7C1610AA173F002FD9BC /* ARISURLConnection.m */; };
 		ABA104C710CA0E3E008538D0 /* ARView.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABA104C610CA0E3E008538D0 /* ARView.xib */; };
 		ABAA644B130FD5410004D64C /* GamePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ABAA644A130FD5410004D64C /* GamePickerCell.m */; };
@@ -455,6 +457,9 @@
 		AB8FD009117BCF61004F8B9B /* GameDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameDetails.h; sourceTree = "<group>"; };
 		AB8FD00A117BCF61004F8B9B /* GameDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GameDetails.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		AB8FD00B117BCF61004F8B9B /* GameDetails.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GameDetails.xib; sourceTree = "<group>"; };
+		AB99747F139D93C30087E387 /* commentsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = commentsView.xib; sourceTree = "<group>"; };
+		AB997480139D93C30087E387 /* commentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = commentsViewController.h; sourceTree = "<group>"; };
+		AB997481139D93C30087E387 /* commentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = commentsViewController.m; sourceTree = "<group>"; };
 		AB9A7C1510AA173F002FD9BC /* ARISURLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISURLConnection.h; sourceTree = "<group>"; };
 		AB9A7C1610AA173F002FD9BC /* ARISURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISURLConnection.m; sourceTree = "<group>"; };
 		ABA104C610CA0E3E008538D0 /* ARView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ARView.xib; sourceTree = "<group>"; };
@@ -830,6 +835,9 @@
 		A7986D640F8FEBFA00A5469F /* Game Picker */ = {
 			isa = PBXGroup;
 			children = (
+				AB99747F139D93C30087E387 /* commentsView.xib */,
+				AB997480139D93C30087E387 /* commentsViewController.h */,
+				AB997481139D93C30087E387 /* commentsViewController.m */,
 				ABB925E010C858A600B09506 /* game.png */,
 				2B3D14600F45EBAA0067FD3A /* GamePickerViewController.h */,
 				2B3D14610F45EBAA0067FD3A /* GamePickerViewController.m */,
@@ -1260,6 +1268,7 @@
 				AB79DB8C130922EF004AE1C7 /* nearby.png in Resources */,
 				ABAA644F130FD5610004D64C /* GamePickerCell.xib in Resources */,
 				ABCA372E131D31D80074254B /* textToggle.png in Resources */,
+				AB997482139D93C40087E387 /* commentsView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1398,6 +1407,7 @@
 				AB4FDC89130EB1120034F666 /* TutorialViewController.m in Sources */,
 				ABAA644B130FD5410004D64C /* GamePickerCell.m in Sources */,
 				AB18AEBA137B249A00382826 /* AppServices.m in Sources */,
+				AB997483139D93C40087E387 /* commentsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

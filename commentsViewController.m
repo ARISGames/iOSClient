@@ -13,9 +13,10 @@
 #import "commentsViewController.h"
 
 @implementation commentsViewController
-@synthesize commentsList;
 @synthesize commentsTable;
 @synthesize game;
+
+
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
@@ -23,7 +24,6 @@
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
         self.title = @"Comments";
-		self.commentsList = [[NSMutableArray alloc]initWithCapacity:1];
     }
     return self;
 }
@@ -38,9 +38,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
 	NSLog(@"commentsViewController: View Appeared");	
-	
-	self.commentsList = [NSMutableArray arrayWithCapacity:1];
-    
+	    
 	[commentsTable reloadData];
     
 	NSLog(@"commentsViewController: view did appear");
@@ -83,12 +81,22 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 0;
+    return [game.comments count];
 }
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	}
+    static NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+    }
+    
+    cell.textLabel.text = [game.comments objectAtIndex:indexPath.row];
+    
+    return cell;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     //do select game notification;

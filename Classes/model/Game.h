@@ -15,6 +15,8 @@
 	NSString *name;
 	NSString *description;
 	NSString *authors;
+    int rating;
+    NSMutableArray *comments;
 	double distanceFromPlayer;
 	CLLocation *location;	
 	int numPlayers;
@@ -32,6 +34,8 @@
 @property(nonatomic, retain) NSString *name;
 @property(nonatomic, retain) NSString *description;
 @property(nonatomic, retain) NSString *authors;
+@property(readwrite, assign) int rating;
+@property(nonatomic, retain) NSMutableArray *comments;
 @property(readwrite, assign) double distanceFromPlayer;
 @property(nonatomic, retain) CLLocation *location;
 @property(readwrite, assign) int pcMediaId;

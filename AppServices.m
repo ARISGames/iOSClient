@@ -911,6 +911,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 		game.description = [gameDictionary valueForKey:@"description"];
 		if ((NSNull *)game.description == [NSNull null]) game.description = @"";
         
+        NSString *rating = [gameDictionary valueForKey:@"rating"];
+		if ((NSNull *)rating != [NSNull null]) game.rating = [rating intValue];
+		else game.rating = 0;
+        
 		NSString *pc_media_id = [gameDictionary valueForKey:@"pc_media_id"];
 		if ((NSNull *)pc_media_id != [NSNull null]) game.pcMediaId = [pc_media_id intValue];
 		else game.pcMediaId = 0;
@@ -951,8 +955,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 		
 		NSString *game_complete_node_id = [gameDictionary valueForKey:@"game_complete_node_id"];
 		if ((NSNull *)game_complete_node_id != [NSNull null]) game.completeNodeId = [game_complete_node_id intValue];
-		else game.completeNodeId = 0;		
+		else game.completeNodeId = 0;
 		
+		NSArray *comments = [gameDictionary valueForKey:@"comments"];
+        for (NSDictionary *comment in comments) {
+            //This is returning an object with playerId,tex, and rating. Right now, we just want the text
+            //TODO: Create a Comments object
+            [game.comments addObject:[comment objectForKey:@"text"]];
+        }
+        
+    
 		//NSLog(@"Model: Adding Game: %@", game.name);
 		[tempGameList addObject:game]; 
 		[game release];

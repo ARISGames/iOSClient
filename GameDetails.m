@@ -62,12 +62,13 @@ NSString *const kGameDetailsHtmlTemplate =
 - (void)viewDidLoad {
 	
     self.title = self.game.name;
-    self.authorsLabel.textAlignment = UITextAlignmentLeft;
-    self.authorsLabel.text = @"Author(s): ";
+    self.authorsLabel.text = @"Author(s): "; 
     self.authorsLabel.text = [self.authorsLabel.text stringByAppendingString:self.game.authors];
-    self.descriptionLabel.text = @"Description: ";
+    self.descriptionLabel.text = @"Description: "; 
     //self.descriptionLabel.text = [self.descriptionLabel.text stringByAppendingString:self.game.description];
 	[descriptionWebView setBackgroundColor:[UIColor clearColor]];
+    [self.segmentedControl setTitle:[NSString stringWithFormat: @"Rating: %d",game.rating] forSegmentAtIndex:0];
+    
     [super viewDidLoad];
 
 }
