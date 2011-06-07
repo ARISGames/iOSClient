@@ -12,6 +12,10 @@
 #import "ARISAppDelegate.h"
 #import "commentsViewController.h"
 #import <MapKit/MKReverseGeocoder.h>
+#import "RatingCell.h"
+
+#include <QuartzCore/QuartzCore.h>
+
 
 NSString *const kGameDetailsHtmlTemplate = 
 @"<html>"
@@ -39,11 +43,11 @@ NSString *const kGameDetailsHtmlTemplate =
 
 @synthesize descriptionWebView;
 @synthesize game;
+@synthesize tableView;
 @synthesize titleLabel;
 @synthesize authorsLabel;
 @synthesize descriptionLabel;
 @synthesize locationLabel;
-@synthesize iconView;
 @synthesize scrollView;
 @synthesize contentView;
 @synthesize segmentedControl;
@@ -84,12 +88,6 @@ NSString *const kGameDetailsHtmlTemplate =
 	descriptionWebView.delegate = self;
 	[descriptionWebView loadHTMLString:htmlDescription baseURL:nil];
     
-    if ([self.game.mediaUrl length] > 0) {
-		Media *splashMedia = [[Media alloc] initWithId:1 andUrlString:self.game.mediaUrl ofType:@"Splash"];
-		[self.iconView loadImageFromMedia:splashMedia];
-	}
-	else self.iconView.image = [UIImage imageNamed:@"Icon.png"];
-     	
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)descriptionView {
@@ -111,30 +109,6 @@ NSString *const kGameDetailsHtmlTemplate =
 	
 }
 
-- (IBAction)segmentedControlChanged:(id) sender{
-    
-    if (segmentedControl.selectedSegmentIndex == 0) {
-        commentsViewController *commentsVC = [[commentsViewController alloc]initWithNibName:@"commentsView" bundle:nil];
-        commentsVC.game = self.game;
-        [self.navigationController pushViewController:commentsVC animated:YES];
-        [commentsVC release];
-    }
-    else if (segmentedControl.selectedSegmentIndex == 1) {
-
-        NSDictionary *dictionary = [NSDictionary dictionaryWithObject:self.game
-                                                               forKey:@"game"];
-        
-        [[AppServices sharedAppServices] silenceNextServerUpdate];
-        NSNotification *gameSelectNotification = [NSNotification notificationWithName:@"SelectGame" object:self userInfo:dictionary];
-        [[NSNotificationCenter defaultCenter] postNotification:gameSelectNotification];
-        [self.navigationController popViewControllerAnimated:NO];
-    }
-
-}
-
-
-
-
 - (BOOL)webView:(UIWebView *)webView  
       shouldStartLoadWithRequest:(NSURLRequest *)request  
       navigationType:(UIWebViewNavigationType)navigationType; {  
@@ -154,6 +128,124 @@ NSString *const kGameDetailsHtmlTemplate =
      return YES;  
 } 
 
+#pragma mark -
+#pragma mark Table view methods
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 3;
+}
+
+// Customize the number of rows in the table view.
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    switch (section){
+        case 0:
+            return 1;
+            break;
+        case 1:
+            return 2;
+            break;
+        case 2:
+            return 1;
+            break;
+    }
+    return 0; //Should never get here
+    
+}
+
+// Customize the appearance of table view cells.
+- (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	//NSLog(@"GamePickerVC: Cell requested for section: %d row: %d",indexPath.section,indexPath.row);
+    
+	static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+		// Create a temporary UIViewController to instantiate the custom cell.
+		UITableViewCell *tempCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault 
+                                                           reuseIdentifier:CellIdentifier] autorelease];
+        cell = tempCell;
+    }
+	
+    if (indexPath.section == 0 && indexPath.row == 0) {
+        AsyncImageView *mediaImageView = [[AsyncImageView alloc]init];
+        if ([self.game.mediaUrl length] > 0) {
+            Media *splashMedia = [[Media alloc] initWithId:1 andUrlString:self.game.mediaUrl ofType:@"Splash"];
+            [mediaImageView loadImageFromMedia:splashMedia];
+        }
+        else mediaImageView.image = [UIImage imageNamed:@"Default.png"];
+        
+        CGRect frame = CGRectMake(0, 0, 320, 200);
+        [mediaImageView setFrame:frame];
+
+        cell.backgroundView = mediaImageView;
+        cell.backgroundView.layer.masksToBounds = YES;
+        cell.backgroundView.layer.cornerRadius = 10.0;
+        cell.userInteractionEnabled = NO;
+    }
+    else if (indexPath.section == 1 && indexPath.row == 1) {
+        UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"RatingCell" bundle:nil];
+		// Grab a pointer to the custom cell
+		cell = (RatingCell *)temporaryController.view;
+		// Release the temporary UIViewController.
+		[temporaryController release];
+        RatingCell *ratingCell = (RatingCell *)cell;
+        ratingCell.ratingView.rating = self.game.rating;
+        ratingCell.reviewsLabel.text = [NSString stringWithFormat:@"%d Reviews"];
+        [ratingCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+        
+        [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-halfselected.png"]
+                             forState:kSCRatingViewHalfSelected];
+        [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
+                             forState:kSCRatingViewHighlighted];
+        [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
+                             forState:kSCRatingViewHot];
+        [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
+                             forState:kSCRatingViewNonSelected];
+        [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]
+                             forState:kSCRatingViewSelected];
+        [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
+                             forState:kSCRatingViewUserSelected];
+        ratingCell.ratingView.userInteractionEnabled = NO;
+        
+    }
+    else {
+        cell.textLabel.text = @"TEST";
+        cell.detailTextLabel.text = @"Desc";
+    }
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 1 && indexPath.row == 1) {
+        commentsViewController *commentsVC = [[commentsViewController alloc]initWithNibName:@"commentsView" bundle:nil];
+        commentsVC.game = self.game;
+        [self.navigationController pushViewController:commentsVC animated:YES];
+        [commentsVC release];
+    }
+    else if  (indexPath.section == 1 && indexPath.row == 0) {
+        NSDictionary *dictionary = [NSDictionary dictionaryWithObject:self.game
+                                                               forKey:@"game"];
+        
+        [[AppServices sharedAppServices] silenceNextServerUpdate];
+        NSNotification *gameSelectNotification = [NSNotification notificationWithName:@"SelectGame" object:self userInfo:dictionary];
+        [[NSNotificationCenter defaultCenter] postNotification:gameSelectNotification];
+        [self.navigationController popViewControllerAnimated:NO];
+    }
+}
+
+- (void)tableView:(UITableView *)aTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
+		
+}
+
+-(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0 && indexPath.row == 0) return 200;
+    else return 60;
+}
+
+
+
+
+
+
 
 /*
 // Override to allow orientations other than the default portrait orientation.
@@ -163,7 +255,8 @@ NSString *const kGameDetailsHtmlTemplate =
 }
 */
 
-
+#pragma mark -
+#pragma mark Memory Management
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
@@ -185,7 +278,6 @@ NSString *const kGameDetailsHtmlTemplate =
     [authorsLabel release];
     [descriptionLabel release];
     [locationLabel release];
-    [iconView release];
     [scrollView release];
     [contentView release];
     [super dealloc];
