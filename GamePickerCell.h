@@ -14,15 +14,17 @@
 	UILabel *distanceLabel;
 	UILabel *authorLabel;
 	UILabel *percentCompleteLabel;
+	UILabel *numReviewsLabel;
 	AsyncImageView *iconView;
-	UIProgressView *progressView;
+	UIView *starView;
 }
 
 @property(nonatomic,retain) IBOutlet UILabel *titleLabel;
 @property(nonatomic,retain) IBOutlet UILabel *distanceLabel;
 @property(nonatomic,retain) IBOutlet UILabel *authorLabel;
 @property(nonatomic,retain) IBOutlet UILabel *percentCompleteLabel;
+@property(nonatomic,retain) IBOutlet UILabel *numReviewsLabel;
 @property(nonatomic,retain) IBOutlet AsyncImageView *iconView;
-@property(nonatomic,retain) IBOutlet UIProgressView *progressView;
+@property(nonatomic,retain) IBOutlet UIView *starView;
 
 @end

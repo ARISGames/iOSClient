@@ -28,6 +28,7 @@
 @synthesize completeNodeId;
 @synthesize completedQuests;
 @synthesize totalQuests;
+@synthesize numReviews;
 
 - (id) init{
 	if ((self = [super init])) {

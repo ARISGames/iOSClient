@@ -167,11 +167,9 @@
 
 	cell.titleLabel.text = currentGame.name;
 	double dist = currentGame.distanceFromPlayer;
-	cell.distanceLabel.text = [NSString stringWithFormat:@"%1.1f %@",  dist/1000, NSLocalizedString(@"KilometersKey", @"") ];
+	cell.distanceLabel.text = [NSString stringWithFormat:@"%1.1f %@",  dist/1000, NSLocalizedString(@"km", @"") ];
 	cell.authorLabel.text = currentGame.authors;
-	cell.progressView.progress = (float)currentGame.completedQuests / (float)currentGame.totalQuests;
-    cell.percentCompleteLabel.text = NSLocalizedString(@"PercentCompleteKey", @"");
-
+	cell.numReviewsLabel.text = [NSString stringWithFormat:@"%@%@", [[NSNumber numberWithInt:currentGame.numReviews] stringValue], @" reviews"];
 	
 	if ([currentGame.iconMediaUrl length] > 0) {
 		Media *iconMedia = [[Media alloc] initWithId:1 andUrlString:currentGame.iconMediaUrl ofType:@"Icon"];

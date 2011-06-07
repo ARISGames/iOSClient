@@ -15,8 +15,9 @@
 @synthesize distanceLabel;
 @synthesize authorLabel;
 @synthesize percentCompleteLabel;
+@synthesize numReviewsLabel;
 @synthesize iconView;
-@synthesize progressView;
+@synthesize starView;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     
@@ -40,8 +41,9 @@
 	[distanceLabel release];
 	[authorLabel release];
 	[percentCompleteLabel release];
+	[numReviewsLabel release];
 	[iconView release];
-	[progressView release];
+	[starView release];
     [super dealloc];
 }
 
