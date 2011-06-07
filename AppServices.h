@@ -20,6 +20,7 @@
 #import "JSON.h"
 #import "ASIFormDataRequest.h"
 #import "ARISAppDelegate.h"
+#import "Comment.h"
 
 
 

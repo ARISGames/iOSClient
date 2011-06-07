@@ -967,7 +967,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
         for (NSDictionary *comment in comments) {
             //This is returning an object with playerId,tex, and rating. Right now, we just want the text
             //TODO: Create a Comments object
-            [game.comments addObject:[comment objectForKey:@"text"]];
+            Comment *c = [[Comment alloc] init];
+            c.text = [comment objectForKey:@"text"];
+            c.playerName = [comment objectForKey:@"username"];
+            NSString *cRating = [comment objectForKey:@"rating"];
+            if ((NSNull *)cRating != [NSNull null]) c.rating = [cRating intValue];
+            [game.comments addObject:c];
         }
         
     
