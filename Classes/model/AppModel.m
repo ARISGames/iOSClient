@@ -15,7 +15,7 @@
 
 
 @implementation AppModel
-@synthesize serverURL;
+@synthesize serverURL,showGamesInDevelopment;
 @synthesize loggedIn, username, password, playerId, currentModule;
 @synthesize currentGame, gameList, locationList, playerList;
 @synthesize playerLocation, inventory, questList, networkAlert;
@@ -68,8 +68,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
         NSNotification *logoutRequestNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self];
         [[NSNotificationCenter defaultCenter] postNotification:logoutRequestNotification];
     }
-	self.serverURL = [NSURL URLWithString: baseServerString ];
 	
+    self.serverURL = [NSURL URLWithString: baseServerString ];
+    self.showGamesInDevelopment = [defaults boolForKey:@"showGamesInDevelopment"];
+
+    
 	if ([defaults boolForKey:@"resetTutorial"]) {
 		self.hasSeenNearbyTabTutorial = NO;
 		self.hasSeenQuestsTabTutorial = NO;

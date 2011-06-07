@@ -20,6 +20,7 @@ extern NSDictionary *InventoryElements;
 @interface AppModel : NSObject {
 	NSUserDefaults *defaults;
 	NSURL *serverURL;
+    BOOL showGamesInDevelopment;
 	Game *currentGame;
 	UIViewController *currentModule;
 	UIAlertView *networkAlert;
@@ -54,8 +55,10 @@ extern NSDictionary *InventoryElements;
 
 
 @property(nonatomic, retain) NSURL *serverURL;
-
 @property(readwrite) BOOL loggedIn;
+@property(readwrite) BOOL showGamesInDevelopment;
+
+
 @property(copy, readwrite) NSString *username;
 @property(copy, readwrite) NSString *password;
 @property(readwrite) int playerId;

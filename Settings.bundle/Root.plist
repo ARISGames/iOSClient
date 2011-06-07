@@ -32,9 +32,19 @@
 			<key>DefaultValue</key>
 			<false/>
 			<key>Key</key>
+			<string>showGamesInDevelopment</string>
+			<key>Title</key>
+			<string>Authoring Mode</string>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+		</dict>
+        <dict>
+			<key>DefaultValue</key>
+			<false/>
+			<key>Key</key>
 			<string>resetTutorial</string>
 			<key>Title</key>
-			<string>Reset Tutorial</string>
+			<string>Reset Tutorial Popups</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>

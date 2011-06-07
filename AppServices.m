@@ -720,7 +720,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.longitude],
                           [NSString stringWithFormat:@"%d",distanceInMeters],
                           [NSString stringWithFormat:@"%d",locationalOrNonLocational],
-                          @"1", //games in development
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],
 						  nil];
 	
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
