@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AppModel.h"
+#import "Comment.h"
 
 @interface GamePickerViewController : UIViewController <UITableViewDelegate,UITableViewDataSource, UISearchDisplayDelegate, UISearchBarDelegate>{
 	NSArray *gameList;

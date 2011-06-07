@@ -93,6 +93,20 @@
                                                             reuseIdentifier:CellIdentifier] autorelease];
         cell = tempCell;
     }
+    cell.textLabel.backgroundColor = [UIColor clearColor]; 
+    cell.detailTextLabel.backgroundColor = [UIColor clearColor]; 
+    
+    if (indexPath.row % 2 == 0){  
+        cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0  
+                                                           green:233.0/255.0  
+                                                            blue:233.0/255.0  
+                                                           alpha:1.0];  
+    } else {  
+        cell.contentView.backgroundColor = [UIColor colorWithRed:200.0/255.0  
+                                                           green:200.0/255.0  
+                                                            blue:200.0/255.0  
+                                                           alpha:1.0];  
+    } 
 	
     if (indexPath.row == 0) {
         UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"CommentsFormCell" bundle:nil];
@@ -117,7 +131,7 @@
                                    forState:kSCRatingViewUserSelected];
     }
     else {
-        cell.textLabel.text = [game.comments objectAtIndex:indexPath.row-1];
+        cell.textLabel.text = ((Comment *)[game.comments objectAtIndex:indexPath.row-1]).text;
         cell.detailTextLabel.text = @"Desc"; //Make this the author
     }
     
