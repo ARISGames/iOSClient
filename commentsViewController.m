@@ -11,9 +11,10 @@
 #import "AppModel.h"
 #import "ARISAppDelegate.h"
 #import "commentsViewController.h"
+#import "CommentsFormCell.h"
 
 @implementation commentsViewController
-@synthesize commentsTable;
+@synthesize tableView;
 @synthesize game;
 
 
@@ -31,16 +32,12 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    
    	NSLog(@"commentsPickerViewController: View Loaded");
 }
 
 - (void)viewDidAppear:(BOOL)animated {
 	NSLog(@"commentsViewController: View Appeared");	
-	    
-	[commentsTable reloadData];
-    
+	[tableView reloadData];
 	NSLog(@"commentsViewController: view did appear");
     
 }
@@ -67,45 +64,79 @@
 }
 
 - (void)refreshViewFromModel {
-
-    
-	[commentsTable reloadData];
+	[tableView reloadData];
 }
 
 
 
 #pragma mark Table view methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return 2;
 }
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [game.comments count];
+    switch (section) {
+        case 0:
+            return 1;
+            break;
+        case 1:
+            return [game.comments count];
+            break;
+        default:
+            //Should never get here
+            return 0;
+            break;
+    }
 }
 
 // Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"Cell";
+- (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	//NSLog(@"GamePickerVC: Cell requested for section: %d row: %d",indexPath.section,indexPath.row);
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		// Create a temporary UIViewController to instantiate the custom cell.
+		UITableViewCell *tempCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault 
+                                                            reuseIdentifier:CellIdentifier] autorelease];
+        cell = tempCell;
     }
-    
-    cell.textLabel.text = [game.comments objectAtIndex:indexPath.row];
+	
+    if (indexPath.section == 0 && indexPath.row == 0) {
+        UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"CommentsFormCell" bundle:nil];
+		// Grab a pointer to the custom cell
+		cell = (CommentsFormCell *)temporaryController.view;
+		// Release the temporary UIViewController.
+		[temporaryController release];
+        
+        CommentsFormCell *commentsFormCell = (CommentsFormCell *)cell;
+                
+        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-halfselected.png"]
+                                   forState:kSCRatingViewHalfSelected];
+        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-highlighted.png"]
+                                   forState:kSCRatingViewHighlighted];
+        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-hot.png"]
+                                   forState:kSCRatingViewHot];
+        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-highlighted.png"]
+                                   forState:kSCRatingViewNonSelected];
+        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-selected.png"]
+                                   forState:kSCRatingViewSelected];
+        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-hot.png"]
+                                   forState:kSCRatingViewUserSelected];
+    }
+    else {
+        cell.textLabel.text = [game.comments objectAtIndex:indexPath.row];
+        cell.detailTextLabel.text = @"Desc";
+    }
     
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //do select game notification;
-       
-}
-
 
 -(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 60;
+	if (indexPath.section == 0) return 200;
+    else return 60;
 }
 
 

@@ -12,10 +12,10 @@
 #import "ARISAppDelegate.h"
 
 @interface commentsViewController :UIViewController <UITableViewDelegate,UITableViewDataSource> {
-	UITableView *commentsTable;
+	UITableView *tableView;
     Game *game;
 }
 -(void)showLoadingIndicator;
-@property(nonatomic, retain) IBOutlet UITableView *commentsTable;
+@property(nonatomic, retain) IBOutlet UITableView *tableView;
 @property(nonatomic, retain) Game *game;
 @end
