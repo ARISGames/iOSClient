@@ -956,6 +956,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 		NSString *game_complete_node_id = [gameDictionary valueForKey:@"game_complete_node_id"];
 		if ((NSNull *)game_complete_node_id != [NSNull null]) game.completeNodeId = [game_complete_node_id intValue];
 		else game.completeNodeId = 0;
+        
+        NSString *calculatedScore = [gameDictionary valueForKey:@"calculatedScore"];
+        if ((NSNull *)calculatedScore != [NSNull null]) game.calculatedScore = [game_complete_node_id intValue];
+        
+        NSString *numComments = [gameDictionary valueForKey:@"numComments"];
+        if ((NSNull *)numComments != [NSNull null]) game.numReviews = [numComments intValue];
 		
 		NSArray *comments = [gameDictionary valueForKey:@"comments"];
         for (NSDictionary *comment in comments) {

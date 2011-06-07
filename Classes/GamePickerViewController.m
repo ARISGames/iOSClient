@@ -172,6 +172,7 @@
 	cell.authorLabel.text = currentGame.authors;
 	cell.numReviewsLabel.text = [NSString stringWithFormat:@"%@%@", [[NSNumber numberWithInt:currentGame.numReviews] stringValue], @" reviews"];
     cell.starView.rating = currentGame.rating;
+    cell.starView.backgroundColor = [UIColor clearColor];
 	
     [cell.starView setStarImage:[UIImage imageNamed:@"small-star-halfselected.png"]
                                forState:kSCRatingViewHalfSelected];
@@ -194,6 +195,18 @@
 	else cell.iconView.image = [UIImage imageNamed:@"Icon.png"];
     cell.iconView.layer.masksToBounds = YES;
     cell.iconView.layer.cornerRadius = 10.0;
+    
+    if (indexPath.row % 2 == 0){  
+        cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0  
+                                                           green:233.0/255.0  
+                                                            blue:233.0/255.0  
+                                                           alpha:1.0];  
+    } else {  
+        cell.contentView.backgroundColor = [UIColor colorWithRed:200.0/255.0  
+                                                           green:200.0/255.0  
+                                                            blue:200.0/255.0  
+                                                           alpha:1.0];  
+    } 
     
     return cell;
 }

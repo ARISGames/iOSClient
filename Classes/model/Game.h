@@ -29,6 +29,7 @@
 	int completedQuests;
 	int totalQuests;
 	int numReviews;
+    int calculatedScore;
 }
 
 @property(readwrite, assign) int gameId;
@@ -48,6 +49,7 @@
 @property(readwrite, assign) int completedQuests;
 @property(readwrite, assign) int totalQuests;
 @property(readwrite, assign) int numReviews;
+@property(readwrite, assign) int calculatedScore;
 
 - (NSComparisonResult)compareDistanceFromPlayer:(Game*)otherGame;
 

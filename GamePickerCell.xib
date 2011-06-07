@@ -2,7 +2,7 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1056</int>
-		<string key="IBDocument.SystemVersion">10J4139</string>
+		<string key="IBDocument.SystemVersion">10J4138</string>
 		<string key="IBDocument.InterfaceBuilderVersion">1306</string>
 		<string key="IBDocument.AppKitVersion">1038.35</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
@@ -14,8 +14,8 @@
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<string>IBUITableViewCell</string>
 			<string>IBUIImageView</string>
-			<string>IBUIView</string>
 			<string>IBUILabel</string>
+			<string>IBUIView</string>
 			<string>IBProxyObject</string>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
@@ -62,7 +62,7 @@
 							<object class="IBUILabel" id="359715100">
 								<reference key="NSNextResponder" ref="99106133"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{63, 17}, {175, 23}}</string>
+								<string key="NSFrame">{{68, 17}, {175, 23}}</string>
 								<reference key="NSSuperview" ref="99106133"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="321881153"/>
@@ -119,7 +119,7 @@
 							<object class="IBUILabel" id="321881153">
 								<reference key="NSNextResponder" ref="99106133"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{128, 38}, {116, 19}}</string>
+								<string key="NSFrame">{{147, 36}, {116, 19}}</string>
 								<reference key="NSSuperview" ref="99106133"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="349778686"/>
@@ -128,7 +128,7 @@
 								<int key="IBUIContentMode">7</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<string key="IBUIText">3,402 Reviews</string>
+								<string key="IBUIText">3,402 reviews</string>
 								<object class="NSFont" key="IBUIFont">
 									<string key="NSName">Helvetica</string>
 									<double key="NSSize">10</double>
@@ -143,7 +143,7 @@
 							<object class="IBUILabel" id="412601291">
 								<reference key="NSNextResponder" ref="99106133"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{63, 3}, {175, 19}}</string>
+								<string key="NSFrame">{{68, 3}, {175, 19}}</string>
 								<reference key="NSSuperview" ref="99106133"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="359715100"/>
@@ -167,10 +167,9 @@
 							<object class="IBUIView" id="941618783">
 								<reference key="NSNextResponder" ref="99106133"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{63, 40}, {60, 12}}</string>
+								<string key="NSFrame">{{68, 40}, {71, 12}}</string>
 								<reference key="NSSuperview" ref="99106133"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MQA</bytes>
@@ -226,31 +225,10 @@
 					<int key="NSfFlags">16</int>
 				</object>
 			</object>
-			<object class="IBUIView" id="792364941">
-				<reference key="NSNextResponder"/>
-				<int key="NSvFlags">292</int>
-				<string key="NSFrameSize">{320, 460}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView"/>
-				<object class="NSColor" key="IBUIBackgroundColor">
-					<int key="NSColorSpace">3</int>
-					<bytes key="NSWhite">MQA</bytes>
-				</object>
-				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<object class="NSMutableArray" key="connectionRecords">
 				<bool key="EncodedWithXMLCoder">YES</bool>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">backgroundView</string>
-						<reference key="source" ref="911598832"/>
-						<reference key="destination" ref="792364941"/>
-					</object>
-					<int key="connectionID">19</int>
-				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">view</string>
@@ -329,12 +307,6 @@
 						<reference key="parent" ref="0"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">2</int>
-						<reference key="object" ref="792364941"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">Background</string>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">3</int>
 						<reference key="object" ref="911598832"/>
 						<object class="NSMutableArray" key="children">
@@ -394,8 +366,6 @@
 					<string>-2.CustomClassName</string>
 					<string>12.IBPluginDependency</string>
 					<string>12.IBViewBoundsToFrameTransform</string>
-					<string>2.IBEditorWindowLastContentRect</string>
-					<string>2.IBPluginDependency</string>
 					<string>27.IBPluginDependency</string>
 					<string>27.IBViewBoundsToFrameTransform</string>
 					<string>3.CustomClassName</string>
@@ -421,8 +391,6 @@
 					<object class="NSAffineTransform">
 						<bytes key="NSTransformStruct">P4AAAL+AAABCigAAwYgAAA</bytes>
 					</object>
-					<string>{{345, 385}, {320, 460}}</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSAffineTransform">
 						<bytes key="NSTransformStruct">P4AAAL+AAABDJgAAwlgAAA</bytes>
@@ -500,7 +468,7 @@
 							<string>AsyncImageView</string>
 							<string>UILabel</string>
 							<string>UILabel</string>
-							<string>UIView</string>
+							<string>SCRRatingView</string>
 							<string>UILabel</string>
 						</object>
 					</object>
@@ -540,7 +508,7 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">starView</string>
-								<string key="candidateClassName">UIView</string>
+								<string key="candidateClassName">SCRRatingView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">titleLabel</string>

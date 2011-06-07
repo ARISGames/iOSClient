@@ -29,6 +29,7 @@
 @synthesize completedQuests;
 @synthesize totalQuests;
 @synthesize numReviews;
+@synthesize calculatedScore;
 
 - (id) init{
 	if ((self = [super init])) {
