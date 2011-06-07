@@ -25,6 +25,7 @@
 	IBOutlet UIScrollView *scrollView;
 	IBOutlet UIView *contentView;
     IBOutlet UISegmentedControl *segmentedControl;
+    CGFloat newHeight;
 }
 
 @property (nonatomic, retain) Game *game;
@@ -38,8 +39,7 @@
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, retain) IBOutlet UIView *contentView;
 @property (nonatomic, retain) IBOutlet UISegmentedControl *segmentedControl;
+@property (nonatomic, assign) CGFloat  newHeight;
 
-
-- (IBAction)segmentedControlChanged:(id) sender;
 
 @end

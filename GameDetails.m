@@ -24,7 +24,7 @@ NSString *const kGameDetailsHtmlTemplate =
 @"	<style type='text/css'><!--"
 @"	body {"
 @"		background-color: transparent;"
-@"		color: #FFFFFF;"
+@"		color: #000000;"
 @"		font-size: 17px;"
 @"		font-family: Helvetia, Sans-Serif;"
 @"		margin: 0px;"
@@ -50,7 +50,7 @@ NSString *const kGameDetailsHtmlTemplate =
 @synthesize locationLabel;
 @synthesize scrollView;
 @synthesize contentView;
-@synthesize segmentedControl;
+@synthesize segmentedControl, newHeight;
 
 
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -86,6 +86,7 @@ NSString *const kGameDetailsHtmlTemplate =
 	NSString *htmlDescription = [NSString stringWithFormat:kGameDetailsHtmlTemplate, self.game.description];
 	NSLog(@"GameDetails: HTML Description: %@", htmlDescription);
 	descriptionWebView.delegate = self;
+    descriptionWebView.hidden = NO;
 	[descriptionWebView loadHTMLString:htmlDescription baseURL:nil];
     
 }
@@ -93,8 +94,8 @@ NSString *const kGameDetailsHtmlTemplate =
 - (void)webViewDidFinishLoad:(UIWebView *)descriptionView {
 	//Content Loaded, now we can resize
 	
-	float newHeight = [[descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
-	
+	float nHeight = [[descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
+	self.newHeight = nHeight;
 	NSLog(@"GameDetails: Description View Calculated Height is: %f",newHeight);
 	
 	CGRect descriptionFrame = [descriptionView frame];	
@@ -105,28 +106,44 @@ NSString *const kGameDetailsHtmlTemplate =
 		  descriptionFrame.origin.y, 
 		  descriptionFrame.size.width,
 		  descriptionFrame.size.height);
+    [tableView reloadData];
 	
 	
 }
 
-- (BOOL)webView:(UIWebView *)webView  
-      shouldStartLoadWithRequest:(NSURLRequest *)request  
-      navigationType:(UIWebViewNavigationType)navigationType; {  
-   
-    NSURL *requestURL = [ [ request URL ] retain ];  
-     // Check to see what protocol/scheme the requested URL is.  
-     if ( ( [ [ requestURL scheme ] isEqualToString: @"http" ]  
-         || [ [ requestURL scheme ] isEqualToString: @"https" ] )  
-         && ( navigationType == UIWebViewNavigationTypeLinkClicked ) ) {  
-         return ![ [ UIApplication sharedApplication ] openURL: [ requestURL autorelease ] ];  
-     }  
-     // Auto release  
-     [ requestURL release ];  
-     // If request url is something other than http or https it will open  
-     // in UIWebView. You could also check for the other following  
-     // protocols: tel, mailto and sms  
-     return YES;  
-} 
+//////////////////////////////////////////////////////////////////////////////////
+ 
+
+ 
+ - (BOOL)webView:(UIWebView *)webView  
+ shouldStartLoadWithRequest:(NSURLRequest *)request  
+ navigationType:(UIWebViewNavigationType)navigationType; {  
+ 
+ NSURL *requestURL = [ [ request URL ] retain ];  
+ // Check to see what protocol/scheme the requested URL is.  
+ if ( ( [ [ requestURL scheme ] isEqualToString: @"http" ]  
+ || [ [ requestURL scheme ] isEqualToString: @"https" ] )  
+ && ( navigationType == UIWebViewNavigationTypeLinkClicked ) ) {  
+ return ![ [ UIApplication sharedApplication ] openURL: [ requestURL autorelease ] ];  
+ }  
+ // Auto release  
+ [ requestURL release ];  
+ // If request url is something other than http or https it will open  
+ // in UIWebView. You could also check for the other following  
+ // protocols: tel, mailto and sms  
+ return YES;  
+ } 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+//////////////////////////////////////////////////////////////////////////////////
+
 
 #pragma mark -
 #pragma mark Table view methods
@@ -150,7 +167,15 @@ NSString *const kGameDetailsHtmlTemplate =
     return 0; //Should never get here
     
 }
-
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+  
+    
+    if(section == 2) {
+        return  @"Description";
+    }
+     
+    return @""; 
+}
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	//NSLog(@"GamePickerVC: Cell requested for section: %d row: %d",indexPath.section,indexPath.row);
@@ -206,9 +231,16 @@ NSString *const kGameDetailsHtmlTemplate =
         ratingCell.ratingView.userInteractionEnabled = NO;
         
     }
+    else if (indexPath.section == 1 && indexPath.row ==0) {
+        cell.textLabel.text = @"PLAY";
+        cell.textLabel.textAlignment = UITextAlignmentCenter;
+    }
     else {
-        cell.textLabel.text = @"TEST";
-        cell.detailTextLabel.text = @"Desc";
+        CGRect descriptionFrame = [descriptionWebView frame];	
+        descriptionFrame.origin.x = 15;
+        descriptionFrame.origin.y = 15;
+        [descriptionWebView setFrame:descriptionFrame];
+        [cell.contentView addSubview:descriptionWebView];
     }
     
     return cell;
@@ -238,6 +270,10 @@ NSString *const kGameDetailsHtmlTemplate =
 
 -(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0 && indexPath.row == 0) return 200;
+    else if(indexPath.section ==2 && indexPath.row ==0){
+        if(self.newHeight) return self.newHeight+30;
+        else return 60;
+    }
     else return 60;
 }
 
