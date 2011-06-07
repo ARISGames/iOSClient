@@ -213,7 +213,7 @@ NSString *const kGameDetailsHtmlTemplate =
 		[temporaryController release];
         RatingCell *ratingCell = (RatingCell *)cell;
         ratingCell.ratingView.rating = self.game.rating;
-        ratingCell.reviewsLabel.text = [NSString stringWithFormat:@"%d Reviews"];
+        ratingCell.reviewsLabel.text = [NSString stringWithFormat:@"%d Reviews",self.game.numReviews];
         [ratingCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
         
         [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-halfselected.png"]
