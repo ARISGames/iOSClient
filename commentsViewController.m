@@ -71,23 +71,14 @@
 
 #pragma mark Table view methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 1;
 }
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    switch (section) {
-        case 0:
-            return 1;
-            break;
-        case 1:
-            return [game.comments count];
-            break;
-        default:
-            //Should never get here
-            return 0;
-            break;
-    }
+
+    return [game.comments count] + 1;
+
 }
 
 // Customize the appearance of table view cells.
@@ -98,12 +89,12 @@
     UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
 		// Create a temporary UIViewController to instantiate the custom cell.
-		UITableViewCell *tempCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault 
+		UITableViewCell *tempCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle 
                                                             reuseIdentifier:CellIdentifier] autorelease];
         cell = tempCell;
     }
 	
-    if (indexPath.section == 0 && indexPath.row == 0) {
+    if (indexPath.row == 0) {
         UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"CommentsFormCell" bundle:nil];
 		// Grab a pointer to the custom cell
 		cell = (CommentsFormCell *)temporaryController.view;
@@ -126,8 +117,8 @@
                                    forState:kSCRatingViewUserSelected];
     }
     else {
-        cell.textLabel.text = [game.comments objectAtIndex:indexPath.row];
-        cell.detailTextLabel.text = @"Desc";
+        cell.textLabel.text = [game.comments objectAtIndex:indexPath.row-1];
+        cell.detailTextLabel.text = @"Desc"; //Make this the author
     }
     
     return cell;
@@ -135,7 +126,7 @@
 
 
 -(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.section == 0) return 200;
+	if (indexPath.row == 0) return 160;
     else return 60;
 }
 
