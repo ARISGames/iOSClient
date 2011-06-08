@@ -24,7 +24,7 @@
 -(IBAction)controlChanged:(id)sender;
 
 
-@property (nonatomic, retain) NSArray *gameList;
+@property (nonatomic, copy) NSArray *gameList;
 @property (nonatomic, retain) IBOutlet UITableView *gameTable;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *refreshButton;
 

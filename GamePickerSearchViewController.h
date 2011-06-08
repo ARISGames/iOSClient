@@ -24,7 +24,7 @@
 - (void)searchBar:(UISearchBar *)searchBar activate:(BOOL) active;
 
 @property(retain) UIView *disableViewOverlay;
-@property (nonatomic, retain) NSArray *gameList;
+@property (nonatomic, copy) NSArray *gameList;
 @property (nonatomic, retain) NSString *searchText;
 @property (nonatomic, retain) IBOutlet UITableView *gameTable;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *refreshButton;

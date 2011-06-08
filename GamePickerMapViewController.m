@@ -15,7 +15,7 @@
 #import <MapKit/MapKit.h>
 
 
-static float INITIAL_SPAN = 100;
+static float INITIAL_SPAN = 1000;
 
 @implementation GamePickerMapViewController
 
@@ -30,7 +30,7 @@ static float INITIAL_SPAN = 100;
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"Map View";
+        self.title = @"Map";
         self.tabBarItem.image = [UIImage imageNamed:@"gps.png"];
         tracking = YES;
 		playerTrackingButton.style = UIBarButtonItemStyleDone;
@@ -61,7 +61,7 @@ static float INITIAL_SPAN = 100;
     // Do any additional setup after loading the view from its nib.
     
 	NSLog(@"Begin Loading GPS View");
-	mapView.showsUserLocation = NO;
+	mapView.showsUserLocation = YES;
 	[mapView setDelegate:self];
 	[self.view addSubview:mapView];
 	NSLog(@"GPSViewController: Mapview inited and added to view");
@@ -74,14 +74,11 @@ static float INITIAL_SPAN = 100;
 	playerTrackingButton.action = @selector(refreshButtonAction:);
 	playerTrackingButton.style = UIBarButtonItemStyleDone;
     
-	
+
     //register for notifications
     NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
     [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedGameList" object:nil];
     [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
-   
-    
-    
     
 	//Force an update of the locations
 	[[AppServices sharedAppServices] fetchMiniGamesListLocations];
@@ -118,7 +115,9 @@ static float INITIAL_SPAN = 100;
 	
 	NSLog(@"GPSViewController: refreshViewFromModel: silenceNextServerUpdateCount = %d", silenceNextServerUpdateCount);
     
-	
+    //unregister for notifications
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
 	self.locations = [AppModel sharedAppModel].gameList;
 	
 	if (mapView) {

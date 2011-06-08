@@ -27,13 +27,7 @@
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
         self.title = @"Nearby";
-        self.tabBarItem.image = [UIImage imageNamed:@"game.png"];
-		
-		//register for notifications
-		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
-		[dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
-		
+        self.tabBarItem.image = [UIImage imageNamed:@"game.png"];		
     }
     return self;
 }
@@ -52,7 +46,7 @@
 - (void)viewDidAppear:(BOOL)animated {
 	NSLog(@"GamePickerViewController: View Appeared");	
 	
-	self.gameList = [NSMutableArray arrayWithCapacity:1];
+	//self.gameList = [NSMutableArray arrayWithCapacity:1];
 
 	[gameTable reloadData];
 	[self refresh];
@@ -94,6 +88,11 @@
     
     }
     
+    //register for notifications
+    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+    [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
+    [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
+    
     [[AppServices sharedAppServices] fetchGameListWithDistanceFilter:distanceFilter locational:locational];
 	[self showLoadingIndicator];
 }
@@ -121,6 +120,9 @@
 - (void)refreshViewFromModel {
 	NSLog(@"GamePickerViewController: Refresh View from Model");
 	
+    //unregister for notifications
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
 	//Sort the game list
 	NSArray* sortedGameList = [[AppModel sharedAppModel].gameList sortedArrayUsingSelector:@selector(compareCalculatedScore:)];
 	self.gameList = sortedGameList;
@@ -187,7 +189,6 @@
     [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
                                forState:kSCRatingViewUserSelected];
     
-    
     //Set up the Icon
 	if ([currentGame.iconMediaUrl length] > 0) {
 		Media *iconMedia = [[Media alloc] initWithId:1 andUrlString:currentGame.iconMediaUrl ofType:@"Icon"];
@@ -197,21 +198,23 @@
     cell.iconView.layer.masksToBounds = YES;
     cell.iconView.layer.cornerRadius = 10.0;
     
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     //Color the backgrounds
     if (indexPath.row % 2 == 0){  
-        cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0  
-                                                           green:233.0/255.0  
-                                                            blue:233.0/255.0  
-                                                           alpha:1.0];  
+        cell.backgroundColor = [UIColor colorWithRed:233.0/255.0  
+                                               green:233.0/255.0  
+                                                blue:233.0/255.0  
+                                               alpha:1.0];  
     } else {  
-        cell.contentView.backgroundColor = [UIColor colorWithRed:200.0/255.0  
-                                                           green:200.0/255.0  
-                                                            blue:200.0/255.0  
-                                                           alpha:1.0];  
+        cell.backgroundColor = [UIColor colorWithRed:200.0/255.0  
+                                               green:200.0/255.0  
+                                                blue:200.0/255.0  
+                                               alpha:1.0];  
     } 
-    
-    return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

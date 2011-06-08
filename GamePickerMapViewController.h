@@ -48,7 +48,7 @@
 
 
 @property (nonatomic, retain) MKMapView *mapView;
-@property (nonatomic, retain) NSArray *locations;
+@property (nonatomic, copy) NSArray *locations;
 
 @property BOOL tracking;
 

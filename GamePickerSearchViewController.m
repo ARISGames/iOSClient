@@ -28,11 +28,6 @@
     if (self) {
         self.title = @"Search";
 		self.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemSearch tag:0];
-
-		//register for notifications
-		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
-		[dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
     }
     return self;
 }
@@ -63,7 +58,7 @@
 	NSLog(@"GamePickerViewController: View Appeared");	
     
     //Clear the List
-    self.gameList = [NSArray array];
+    //self.gameList = [NSArray array];
     [gameTable reloadData];
 
     [self.theSearchBar becomeFirstResponder]; //Bring up the keyboard right away
@@ -74,6 +69,11 @@
 
 -(void)refresh {
 	NSLog(@"GamePickerViewController: Refresh Requested");
+    
+    //register for notifications
+    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+    [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
+    [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
     
     [[AppServices sharedAppServices] fetchGameListBySearch: self.searchText];
 	[self showLoadingIndicator];
@@ -104,6 +104,9 @@
 - (void)refreshViewFromModel {
 	NSLog(@"GamePickerViewController: Refresh View from Model");
 	
+    //unregister for notifications
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
 	//Sort the game list
 	NSArray* sortedGameList = [[AppModel sharedAppModel].gameList sortedArrayUsingSelector:@selector(compareTitle:)];
     
@@ -172,21 +175,23 @@
     cell.iconView.layer.masksToBounds = YES;
     cell.iconView.layer.cornerRadius = 10.0;
     
-    
-    
-    if (indexPath.row % 2 == 0){  
-        cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0  
-                                                           green:233.0/255.0  
-                                                            blue:233.0/255.0  
-                                                           alpha:1.0];  
-    } else {  
-        cell.contentView.backgroundColor = [UIColor colorWithRed:200.0/255.0  
-                                                           green:200.0/255.0  
-                                                            blue:200.0/255.0  
-                                                           alpha:1.0];  
-    } 
-    
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    //Color the backgrounds
+    if (indexPath.row % 2 == 0){  
+        cell.backgroundColor = [UIColor colorWithRed:233.0/255.0  
+                                               green:233.0/255.0  
+                                                blue:233.0/255.0  
+                                               alpha:1.0];  
+    } else {  
+        cell.backgroundColor = [UIColor colorWithRed:200.0/255.0  
+                                               green:200.0/255.0  
+                                                blue:200.0/255.0  
+                                               alpha:1.0];  
+    } 
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
