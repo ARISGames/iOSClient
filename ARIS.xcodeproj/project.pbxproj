@@ -70,6 +70,8 @@
 		2B3D18D60F4B25720067FD3A /* AppModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */; };
 		4A504945139EC7010061A1A5 /* sideArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A504944139EC7010061A1A5 /* sideArrow.png */; };
 		4A92FB0B139EDFEA00B41218 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A92FB0A139EDFEA00B41218 /* Comment.m */; };
+		4A92FB0F139EEA2A00B41218 /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A92FB0D139EEA2A00B41218 /* CommentCell.m */; };
+		4A92FB10139EEA2A00B41218 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A92FB0E139EEA2A00B41218 /* CommentCell.xib */; };
 		A7149F9D0FB89DC8008BAB5D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A7149F9C0FB89DC8008BAB5D /* Settings.bundle */; };
 		A722C8C00FBCD8D0009432DB /* SelfRegistration.xib in Resources */ = {isa = PBXBuildFile; fileRef = A722C8BF0FBCD8D0009432DB /* SelfRegistration.xib */; };
 		A722C8C60FBCD92E009432DB /* SelfRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */; };
@@ -350,6 +352,9 @@
 		4A504944139EC7010061A1A5 /* sideArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sideArrow.png; sourceTree = "<group>"; };
 		4A92FB09139EDF1B00B41218 /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
 		4A92FB0A139EDFEA00B41218 /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
+		4A92FB0C139EEA2A00B41218 /* CommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCell.h; sourceTree = "<group>"; };
+		4A92FB0D139EEA2A00B41218 /* CommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentCell.m; sourceTree = "<group>"; };
+		4A92FB0E139EEA2A00B41218 /* CommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		A7149F9C0FB89DC8008BAB5D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		A722C8BF0FBCD8D0009432DB /* SelfRegistration.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelfRegistration.xib; sourceTree = "<group>"; };
@@ -899,6 +904,9 @@
 				AB99443E139EB24100C0878B /* RatingCell.h */,
 				AB99443F139EB24100C0878B /* RatingCell.m */,
 				AB994440139EB24100C0878B /* RatingCell.xib */,
+				4A92FB0C139EEA2A00B41218 /* CommentCell.h */,
+				4A92FB0D139EEA2A00B41218 /* CommentCell.m */,
+				4A92FB0E139EEA2A00B41218 /* CommentCell.xib */,
 			);
 			name = "Game Picker";
 			sourceTree = "<group>";
@@ -1355,6 +1363,7 @@
 				AB628D1E139ED1C700769663 /* star-nonselected.png in Resources */,
 				AB628D1F139ED1C700769663 /* star-selected.png in Resources */,
 				AB628D20139ED1C700769663 /* star-userselected.png in Resources */,
+				4A92FB10139EEA2A00B41218 /* CommentCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1498,6 +1507,7 @@
 				AB994441139EB24100C0878B /* RatingCell.m in Sources */,
 				AB628D13139ECCD500769663 /* CommentsFormCell.m in Sources */,
 				4A92FB0B139EDFEA00B41218 /* Comment.m in Sources */,
+				4A92FB0F139EEA2A00B41218 /* CommentCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

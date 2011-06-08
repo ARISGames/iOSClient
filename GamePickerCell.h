@@ -14,7 +14,6 @@
 	UILabel *titleLabel;
 	UILabel *distanceLabel;
 	UILabel *authorLabel;
-	UILabel *percentCompleteLabel;
 	UILabel *numReviewsLabel;
 	AsyncImageView *iconView;
 	SCRRatingView *starView;

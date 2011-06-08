@@ -14,7 +14,6 @@
 @synthesize titleLabel;
 @synthesize distanceLabel;
 @synthesize authorLabel;
-@synthesize percentCompleteLabel;
 @synthesize numReviewsLabel;
 @synthesize iconView;
 @synthesize starView;
@@ -40,7 +39,6 @@
 	[titleLabel release];
 	[distanceLabel release];
 	[authorLabel release];
-	[percentCompleteLabel release];
 	[numReviewsLabel release];
 	[iconView release];
 	[starView release];

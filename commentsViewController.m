@@ -93,6 +93,63 @@
                                                             reuseIdentifier:CellIdentifier] autorelease];
         cell = tempCell;
     }
+	
+    if (indexPath.row == 0) {
+        UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"CommentsFormCell" bundle:nil];
+		// Grab a pointer to the custom cell
+		cell = (CommentsFormCell *)temporaryController.view;
+        //cell.userInteractionEnabled = NO;
+
+		// Release the temporary UIViewController.
+		[temporaryController release];
+        
+        CommentsFormCell *commentsFormCell = (CommentsFormCell *)cell;
+        commentsFormCell.ratingView.backgroundColor = [UIColor clearColor];
+
+                
+        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-halfselected.png"]
+                                   forState:kSCRatingViewHalfSelected];
+        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-highlighted.png"]
+                                   forState:kSCRatingViewHighlighted];
+        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-hot.png"]
+                                   forState:kSCRatingViewHot];
+        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-highlighted.png"]
+                                   forState:kSCRatingViewNonSelected];
+        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-selected.png"]
+                                   forState:kSCRatingViewSelected];
+        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-hot.png"]
+                                   forState:kSCRatingViewUserSelected];
+        
+
+        commentsFormCell.contentView.backgroundColor = [UIColor colorWithRed:200.0/255.0  
+                                                           green:200.0/255.0  
+                                                            blue:200.0/255.0  
+                                                           alpha:1.0];  
+    }
+    else {
+        CommentCell *cell = [[CommentCell alloc] init]; //? WithNibName:@"CommentCell" bundle:nil];
+        
+                
+        cell.commentLabel.text = ((Comment *)[game.comments objectAtIndex:indexPath.row-1]).text;
+        cell.authorLabel.text = ((Comment *)[game.comments objectAtIndex:indexPath.row-1]).playerName;
+        
+        cell.starView.rating = ((Comment *)[game.comments objectAtIndex:indexPath.row-1]).rating;
+        cell.starView.backgroundColor = [UIColor clearColor];
+        
+        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-halfselected.png"]
+                           forState:kSCRatingViewHalfSelected];
+        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
+                           forState:kSCRatingViewHighlighted];
+        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
+                           forState:kSCRatingViewHot];
+        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
+                           forState:kSCRatingViewNonSelected];
+        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]
+                           forState:kSCRatingViewSelected];
+        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
+                           forState:kSCRatingViewUserSelected];
+    }
+    
     cell.textLabel.backgroundColor = [UIColor clearColor]; 
     cell.detailTextLabel.backgroundColor = [UIColor clearColor]; 
     
@@ -107,33 +164,6 @@
                                                             blue:200.0/255.0  
                                                            alpha:1.0];  
     } 
-	
-    if (indexPath.row == 0) {
-        UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"CommentsFormCell" bundle:nil];
-		// Grab a pointer to the custom cell
-		cell = (CommentsFormCell *)temporaryController.view;
-		// Release the temporary UIViewController.
-		[temporaryController release];
-        
-        CommentsFormCell *commentsFormCell = (CommentsFormCell *)cell;
-                
-        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-halfselected.png"]
-                                   forState:kSCRatingViewHalfSelected];
-        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-highlighted.png"]
-                                   forState:kSCRatingViewHighlighted];
-        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-hot.png"]
-                                   forState:kSCRatingViewHot];
-        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-highlighted.png"]
-                                   forState:kSCRatingViewNonSelected];
-        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-selected.png"]
-                                   forState:kSCRatingViewSelected];
-        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-hot.png"]
-                                   forState:kSCRatingViewUserSelected];
-    }
-    else {
-        cell.textLabel.text = ((Comment *)[game.comments objectAtIndex:indexPath.row-1]).text;
-        cell.detailTextLabel.text = @"Desc"; //Make this the author
-    }
     
     return cell;
 }

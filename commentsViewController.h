@@ -10,6 +10,8 @@
 #import "AppModel.h"
 #import "Game.h"
 #import "ARISAppDelegate.h"
+#import "CommentCell.h"
+#import "Comment.h"
 
 @interface commentsViewController :UIViewController <UITableViewDelegate,UITableViewDataSource> {
 	UITableView *tableView;
