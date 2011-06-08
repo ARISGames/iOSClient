@@ -27,8 +27,8 @@
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
         self.title = @"Search";
-        self.tabBarItem.image = [UIImage imageNamed:@"game.png"];
-		
+		self.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemSearch tag:0];
+
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
 		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];

@@ -27,7 +27,8 @@
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
         self.title = @"Recent Games";
-        self.tabBarItem.image = [UIImage imageNamed:@"game.png"];
+
+        self.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemRecents tag:0];
 
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];

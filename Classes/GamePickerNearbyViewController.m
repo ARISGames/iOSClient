@@ -26,7 +26,7 @@
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
-        self.title = @"Nearby Games";
+        self.title = @"Nearby";
         self.tabBarItem.image = [UIImage imageNamed:@"game.png"];
 		
 		//register for notifications
