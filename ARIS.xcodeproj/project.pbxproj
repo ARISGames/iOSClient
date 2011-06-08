@@ -182,6 +182,8 @@
 		ABAA644F130FD5610004D64C /* GamePickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABAA644E130FD5610004D64C /* GamePickerCell.xib */; };
 		ABB60F23139F2F1700EEDA08 /* GamePickerSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB60F21139F2F1600EEDA08 /* GamePickerSearchViewController.m */; };
 		ABB60F24139F2F1700EEDA08 /* GamePickerSearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABB60F22139F2F1600EEDA08 /* GamePickerSearchViewController.xib */; };
+		ABB60F28139F352500EEDA08 /* GamePickerRecentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB60F26139F352500EEDA08 /* GamePickerRecentViewController.m */; };
+		ABB60F29139F352500EEDA08 /* GamePickerRecentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABB60F27139F352500EEDA08 /* GamePickerRecentViewController.xib */; };
 		ABB925C410C857D800B09506 /* defaultAudioIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB925C110C857D800B09506 /* defaultAudioIcon.png */; };
 		ABB925C510C857D800B09506 /* defaultImageIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB925C210C857D800B09506 /* defaultImageIcon.png */; };
 		ABB925C610C857D800B09506 /* defaultVideoIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB925C310C857D800B09506 /* defaultVideoIcon.png */; };
@@ -519,6 +521,9 @@
 		ABB60F20139F2F1600EEDA08 /* GamePickerSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerSearchViewController.h; sourceTree = "<group>"; };
 		ABB60F21139F2F1600EEDA08 /* GamePickerSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerSearchViewController.m; sourceTree = "<group>"; };
 		ABB60F22139F2F1600EEDA08 /* GamePickerSearchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GamePickerSearchViewController.xib; sourceTree = "<group>"; };
+		ABB60F25139F352400EEDA08 /* GamePickerRecentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerRecentViewController.h; sourceTree = "<group>"; };
+		ABB60F26139F352500EEDA08 /* GamePickerRecentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerRecentViewController.m; sourceTree = "<group>"; };
+		ABB60F27139F352500EEDA08 /* GamePickerRecentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GamePickerRecentViewController.xib; sourceTree = "<group>"; };
 		ABB925C110C857D800B09506 /* defaultAudioIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultAudioIcon.png; sourceTree = "<group>"; };
 		ABB925C210C857D800B09506 /* defaultImageIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultImageIcon.png; sourceTree = "<group>"; };
 		ABB925C310C857D800B09506 /* defaultVideoIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultVideoIcon.png; sourceTree = "<group>"; };
@@ -907,6 +912,9 @@
 				ABB60F20139F2F1600EEDA08 /* GamePickerSearchViewController.h */,
 				ABB60F21139F2F1600EEDA08 /* GamePickerSearchViewController.m */,
 				ABB60F22139F2F1600EEDA08 /* GamePickerSearchViewController.xib */,
+				ABB60F25139F352400EEDA08 /* GamePickerRecentViewController.h */,
+				ABB60F26139F352500EEDA08 /* GamePickerRecentViewController.m */,
+				ABB60F27139F352500EEDA08 /* GamePickerRecentViewController.xib */,
 				ABAA6449130FD5410004D64C /* GamePickerCell.h */,
 				ABAA644A130FD5410004D64C /* GamePickerCell.m */,
 				ABAA644E130FD5610004D64C /* GamePickerCell.xib */,
@@ -1398,6 +1406,7 @@
 				4A92FB10139EEA2A00B41218 /* CommentCell.xib in Resources */,
 				ABFF13A9139F28C2002B5CC6 /* GamePickerMapViewController.xib in Resources */,
 				ABB60F24139F2F1700EEDA08 /* GamePickerSearchViewController.xib in Resources */,
+				ABB60F29139F352500EEDA08 /* GamePickerRecentViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1544,6 +1553,7 @@
 				4A92FB0F139EEA2A00B41218 /* CommentCell.m in Sources */,
 				ABFF13A8139F28C2002B5CC6 /* GamePickerMapViewController.m in Sources */,
 				ABB60F23139F2F1700EEDA08 /* GamePickerSearchViewController.m in Sources */,
+				ABB60F28139F352500EEDA08 /* GamePickerRecentViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

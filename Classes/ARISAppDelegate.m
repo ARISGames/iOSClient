@@ -14,6 +14,7 @@
 
 #import "GamePickerMapViewController.h"
 #import "GamePickerSearchViewController.h"
+#import "GamePickerRecentViewController.h"
 
 
 @implementation ARISAppDelegate
@@ -171,11 +172,15 @@
     UINavigationController *gamePickerSearchNC = [[UINavigationController alloc] initWithRootViewController:gamePickerSearchVC];
     gamePickerSearchNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
 
+    GamePickerRecentViewController *gamePickerRecentVC = [[GamePickerRecentViewController alloc]initWithNibName:@"GamePickerRecentViewController" bundle:nil];
+    UINavigationController *gamePickerRecentNC = [[UINavigationController alloc] initWithRootViewController:gamePickerRecentVC];
+    gamePickerRecentNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     self.gameSelectionTabBarController.viewControllers = [NSMutableArray arrayWithObjects:
                                                           gamePickerNearbyNavigationController,
                                                           gamePickerMapNC,
                                                           gamePickerSearchNC,
+                                                          gamePickerRecentNC,
                                                           nil];
     [self.gameSelectionTabBarController.view setFrame:UIScreen.mainScreen.applicationFrame];
     
