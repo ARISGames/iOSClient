@@ -54,4 +54,10 @@
 	else return NSOrderedSame;
 }
 
+- (NSComparisonResult)compareCalculatedScore:(Game*)otherGame{
+	if (self.calculatedScore > otherGame.calculatedScore) return NSOrderedAscending;
+	else if (self.calculatedScore < otherGame.calculatedScore) return NSOrderedDescending;
+	else return NSOrderedSame;    
+}
+
 @end

@@ -18,7 +18,6 @@
 
 @synthesize gameTable;
 @synthesize gameList;
-@synthesize filteredGameList;
 @synthesize refreshButton;
 
 
@@ -29,7 +28,6 @@
     if (self) {
         self.title = @"Nearby Games";
         self.tabBarItem.image = [UIImage imageNamed:@"game.png"];
-		self.filteredGameList = [[NSMutableArray alloc]initWithCapacity:1];
 		
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
@@ -115,8 +113,7 @@
 	NSLog(@"GamePickerViewController: Refresh View from Model");
 	
 	//Sort the game list
-	NSArray* sortedGameList = [[AppModel sharedAppModel].gameList sortedArrayUsingSelector:@selector(compareDistanceFromPlayer:)];
-
+	NSArray* sortedGameList = [[AppModel sharedAppModel].gameList sortedArrayUsingSelector:@selector(compareCalculatedScore:)];
 	self.gameList = sortedGameList;
 
 	[gameTable reloadData];
@@ -139,9 +136,7 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	if (tableView == self.searchDisplayController.searchResultsTableView)
-		return [self.filteredGameList count];
-	else return [self.gameList count];
+	return [self.gameList count];
 
 }
 
@@ -149,7 +144,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	//NSLog(@"GamePickerVC: Cell requested for section: %d row: %d",indexPath.section,indexPath.row);
 
-	
 	static NSString *CellIdentifier = @"Cell";
     GamePickerCell *cell = (GamePickerCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -161,10 +155,7 @@
 		[temporaryController release];
     }
 	
-	Game *currentGame;
-	if (tableView == self.searchDisplayController.searchResultsTableView) 
-		currentGame = [self.filteredGameList objectAtIndex:indexPath.row];
-	else currentGame = [self.gameList objectAtIndex:indexPath.row];
+	Game *currentGame = [self.gameList objectAtIndex:indexPath.row];
 
 	cell.titleLabel.text = currentGame.name;
 	double dist = currentGame.distanceFromPlayer;
@@ -188,6 +179,7 @@
                                forState:kSCRatingViewUserSelected];
     
     
+    //Set up the Icon
 	if ([currentGame.iconMediaUrl length] > 0) {
 		Media *iconMedia = [[Media alloc] initWithId:1 andUrlString:currentGame.iconMediaUrl ofType:@"Icon"];
 		[cell.iconView loadImageFromMedia:iconMedia];
@@ -196,6 +188,8 @@
     cell.iconView.layer.masksToBounds = YES;
     cell.iconView.layer.cornerRadius = 10.0;
     
+    
+    //Color the backgrounds
     if (indexPath.row % 2 == 0){  
         cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0  
                                                            green:233.0/255.0  
@@ -235,43 +229,6 @@
 
 -(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	return 60;
-}
-
-#pragma mark -
-#pragma mark Content Filtering
-
-- (void)filterContentForSearchText:(NSString*)searchText{
-	[self.filteredGameList removeAllObjects]; // First clear the filtered array.
-	
-	for (Game *g in self.gameList) {
-		if ([[g.name lowercaseString] rangeOfString:[searchText lowercaseString]].location != NSNotFound) [self.filteredGameList addObject:g];
-		else if ([[g.authors lowercaseString] rangeOfString:[searchText lowercaseString]].location != NSNotFound) [self.filteredGameList addObject:g]; 
-		else if ([[g.description lowercaseString] rangeOfString:[searchText lowercaseString]].location != NSNotFound) [self.filteredGameList addObject:g]; 
-	}
-	NSLog(@"filting Complete");
-}
-
-
-
-
-#pragma mark -
-#pragma mark UISearchDisplayController Delegate Methods
-
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
-{
-    [self filterContentForSearchText:searchString];
-    
-    // Return YES to cause the search result table view to be reloaded.
-    return YES;
-}
-
-
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
-{
-    [self filterContentForSearchText:[self.searchDisplayController.searchBar text]];
-    
-    // Return YES to cause the search result table view to be reloaded.
-    return YES;
 }
 
 

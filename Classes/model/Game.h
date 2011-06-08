@@ -54,5 +54,7 @@
 @property(readwrite, assign) int calculatedScore;
 
 - (NSComparisonResult)compareDistanceFromPlayer:(Game*)otherGame;
+- (NSComparisonResult)compareCalculatedScore:(Game*)otherGame;
+
 
 @end

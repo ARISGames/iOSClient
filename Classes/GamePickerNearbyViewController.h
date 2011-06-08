@@ -10,10 +10,8 @@
 #import "AppModel.h"
 #import "Comment.h"
 
-@interface GamePickerNearbyViewController : UIViewController <UITableViewDelegate,UITableViewDataSource, UISearchDisplayDelegate, UISearchBarDelegate>{
+@interface GamePickerNearbyViewController : UIViewController <UITableViewDelegate,UITableViewDataSource>{
 	NSArray *gameList;
-	NSMutableArray *filteredGameList;
-
     IBOutlet UISegmentedControl *distanceControl;
     IBOutlet UISegmentedControl *locationalControl;
 	UITableView *gameTable;
@@ -27,7 +25,6 @@
 
 
 @property (nonatomic, retain) NSArray *gameList;
-@property (nonatomic, retain) NSMutableArray *filteredGameList;
 @property (nonatomic, retain) IBOutlet UITableView *gameTable;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *refreshButton;
 
