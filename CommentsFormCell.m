@@ -7,12 +7,14 @@
 //
 
 #import "CommentsFormCell.h"
+#import "AppServices.h"
 
 
 @implementation CommentsFormCell
 @synthesize ratingView;
 @synthesize textField;
 @synthesize saveButton;
+@synthesize game;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     
@@ -29,6 +31,10 @@
     //[super setSelected:selected animated:animated];
     
     // Configure the view for the selected state.
+}
+
+- (IBAction)saveComment:(id)sender {
+    [[AppServices sharedAppServices] saveComment:self.textField.text game:self.game.gameId starRating:self.ratingView.userRating];
 }
 
 

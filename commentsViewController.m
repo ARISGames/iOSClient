@@ -106,7 +106,8 @@
 		// Release the temporary UIViewController.
 		[temporaryController release];
         
-        CommentsFormCell *commentsFormCell = (CommentsFormCell *)cell;
+        CommentsFormCell *commentsFormCell = (CommentsFormCell *)cell; 
+        commentsFormCell.game = self.game;
         commentsFormCell.ratingView.backgroundColor = [UIColor clearColor];
 
                 
@@ -132,6 +133,7 @@
         UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"CommentCell" bundle:nil];
 		// Grab a pointer to the custom cell
 		cell = (CommentCell *)temporaryController.view;
+        cell.userInteractionEnabled = NO;
 
 		// Release the temporary UIViewController.
 		[temporaryController release];

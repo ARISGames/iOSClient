@@ -94,10 +94,13 @@
 - (void)parseGameNpcListFromJSON: (JSONResult *)jsonResult;
 - (void)parseGameItemListFromJSON: (JSONResult *)jsonResult;
 - (void)parseGameNodeListFromJSON: (JSONResult *)jsonResult;
--(Location*)parseLocationFromDictionary: (NSDictionary *)locationDictionary;
+- (Location*)parseLocationFromDictionary: (NSDictionary *)locationDictionary;
 - (Item *)parseItemFromDictionary: (NSDictionary *)itemDictionary;
 - (Node *)parseNodeFromDictionary: (NSDictionary *)nodeDictionary;
 - (Npc *)parseNpcFromDictionary: (NSDictionary *)npcDictionary;
 - (void)updateServerGameSelected;
 - (void)fetchQRCode:(NSString*)QRcodeId;
+- (void)saveComment:(NSString*)comment game:(int)gameId starRating:(int)rating;
+- (void)parseSaveCommentResponseFromJSON: (JSONResult *)jsonResult;
+
 @end

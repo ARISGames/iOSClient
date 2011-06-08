@@ -22,7 +22,6 @@
 @property(nonatomic,retain) IBOutlet UILabel *titleLabel;
 @property(nonatomic,retain) IBOutlet UILabel *distanceLabel;
 @property(nonatomic,retain) IBOutlet UILabel *authorLabel;
-@property(nonatomic,retain) IBOutlet UILabel *percentCompleteLabel;
 @property(nonatomic,retain) IBOutlet UILabel *numReviewsLabel;
 @property(nonatomic,retain) IBOutlet AsyncImageView *iconView;
 @property(nonatomic,retain) IBOutlet SCRRatingView *starView;

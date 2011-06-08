@@ -831,7 +831,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	NSEnumerator *conversationOptionsEnumerator = [conversationOptionsArray objectEnumerator];
 	NSDictionary *conversationDictionary;
 	
-	while (conversationDictionary = [conversationOptionsEnumerator nextObject]) {	
+	while ((conversationDictionary = [conversationOptionsEnumerator nextObject])) {	
 		//Make the Node Option and add it to the Npc
 		int optionNodeId = [[conversationDictionary valueForKey:@"node_id"] intValue];
 		NSString *text = [conversationDictionary valueForKey:@"text"]; 
@@ -898,7 +898,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	
 	NSEnumerator *gameListEnumerator = [gameListArray objectEnumerator];	
 	NSDictionary *gameDictionary;
-	while (gameDictionary = [gameListEnumerator nextObject]) {
+	while ((gameDictionary = [gameListEnumerator nextObject])) {
 		//create a new game
 		Game *game = [[Game alloc] init];
         
@@ -991,7 +991,32 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
     
 }
 
--(void)parseLocationListFromJSON: (JSONResult *)jsonResult{
+- (void)saveComment:(NSString*)comment game:(int)gameId starRating:(int)rating{
+	NSLog(@"AppModel: Save Comment Requested");
+	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].playerId], [NSString stringWithFormat:@"%d", gameId], [NSString stringWithFormat:@"%d", rating], comment, nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithServer:[AppModel sharedAppModel].serverURL 
+                                                             andServiceName: @"games" 
+                                                              andMethodName:@"saveComment"
+                                                               andArguments:arguments]; 
+	
+	[jsonConnection performAsynchronousRequestWithParser:@selector(parseSaveCommentResponseFromJSON:)]; 
+	[jsonConnection release];
+	
+}
+
+- (void)parseSaveCommentResponseFromJSON: (JSONResult *)jsonResult{
+	
+	if (!jsonResult) {
+		NSLog(@"AppModel saveComment: No result Data, return");
+		[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"SaveCommentFailed" object:nil]];
+	}
+	else { 
+		NSLog(@"AppModel: Result from save comment request unsuccessfull");
+		[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"SaveCommentFailed" object:nil]];
+	}
+}
+
+- (void)parseLocationListFromJSON: (JSONResult *)jsonResult{
     
 	NSLog(@"AppModel: Parsing Location List");
 	
