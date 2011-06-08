@@ -50,7 +50,6 @@
 						<string key="NSFrame">{{10, 115}, {280, 37}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
@@ -77,7 +76,7 @@
 					</object>
 					<object class="IBUIView" id="879433662">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">292</int>
+						<int key="NSvFlags">290</int>
 						<string key="NSFrame">{{10, 9}, {280, 47}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
@@ -221,10 +220,10 @@
 						<reference key="object" ref="191373211"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="879433662"/>
 							<reference ref="522171255"/>
 							<reference ref="566760924"/>
 							<reference ref="471390574"/>
+							<reference ref="879433662"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">CommentsFormCell</string>

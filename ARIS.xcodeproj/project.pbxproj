@@ -63,8 +63,8 @@
 		2B3D12DB0F437E690067FD3A /* InventoryList.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B3D12DA0F437E690067FD3A /* InventoryList.xib */; };
 		2B3D12EC0F4382070067FD3A /* LogoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D12EB0F4382070067FD3A /* LogoutViewController.m */; };
 		2B3D12EE0F4382A00067FD3A /* Logout.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B3D12ED0F4382A00067FD3A /* Logout.xib */; };
-		2B3D14620F45EBAA0067FD3A /* GamePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D14610F45EBAA0067FD3A /* GamePickerViewController.m */; };
-		2B3D16660F4628C70067FD3A /* GamePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B3D16650F4628C70067FD3A /* GamePicker.xib */; };
+		2B3D14620F45EBAA0067FD3A /* GamePickerNearbyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D14610F45EBAA0067FD3A /* GamePickerNearbyViewController.m */; };
+		2B3D16660F4628C70067FD3A /* GamePickerNearbyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B3D16650F4628C70067FD3A /* GamePickerNearbyViewController.xib */; };
 		2B3D17070F49C99B0067FD3A /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D17060F49C99B0067FD3A /* Game.m */; };
 		2B3D175A0F49D18D0067FD3A /* DeveloperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D17590F49D18D0067FD3A /* DeveloperViewController.m */; };
 		2B3D18D60F4B25720067FD3A /* AppModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */; };
@@ -180,6 +180,8 @@
 		ABA104C710CA0E3E008538D0 /* ARView.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABA104C610CA0E3E008538D0 /* ARView.xib */; };
 		ABAA644B130FD5410004D64C /* GamePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ABAA644A130FD5410004D64C /* GamePickerCell.m */; };
 		ABAA644F130FD5610004D64C /* GamePickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABAA644E130FD5610004D64C /* GamePickerCell.xib */; };
+		ABB60F23139F2F1700EEDA08 /* GamePickerSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB60F21139F2F1600EEDA08 /* GamePickerSearchViewController.m */; };
+		ABB60F24139F2F1700EEDA08 /* GamePickerSearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABB60F22139F2F1600EEDA08 /* GamePickerSearchViewController.xib */; };
 		ABB925C410C857D800B09506 /* defaultAudioIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB925C110C857D800B09506 /* defaultAudioIcon.png */; };
 		ABB925C510C857D800B09506 /* defaultImageIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB925C210C857D800B09506 /* defaultImageIcon.png */; };
 		ABB925C610C857D800B09506 /* defaultVideoIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB925C310C857D800B09506 /* defaultVideoIcon.png */; };
@@ -222,6 +224,8 @@
 		ABF4A3AD116847E50043EB1C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF4A3AC116847E40043EB1C /* SystemConfiguration.framework */; };
 		ABF4A3B1116847F50043EB1C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF4A3B0116847F50043EB1C /* MobileCoreServices.framework */; };
 		ABF4A3B51168480C0043EB1C /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF4A3B41168480C0043EB1C /* libz.1.2.3.dylib */; };
+		ABFF13A8139F28C2002B5CC6 /* GamePickerMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFF13A6139F28C2002B5CC6 /* GamePickerMapViewController.m */; };
+		ABFF13A9139F28C2002B5CC6 /* GamePickerMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABFF13A7139F28C2002B5CC6 /* GamePickerMapViewController.xib */; };
 		D424324D1107730E00E58147 /* Scene.m in Sources */ = {isa = PBXBuildFile; fileRef = D424324A1107730E00E58147 /* Scene.m */; };
 		D424324E1107730E00E58147 /* SceneParser.m in Sources */ = {isa = PBXBuildFile; fileRef = D424324C1107730E00E58147 /* SceneParser.m */; };
 		D42432631107735800E58147 /* DialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D42432621107735800E58147 /* DialogViewController.m */; };
@@ -340,9 +344,9 @@
 		2B3D12EA0F4382070067FD3A /* LogoutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogoutViewController.h; path = Classes/LogoutViewController.h; sourceTree = "<group>"; };
 		2B3D12EB0F4382070067FD3A /* LogoutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LogoutViewController.m; path = Classes/LogoutViewController.m; sourceTree = "<group>"; };
 		2B3D12ED0F4382A00067FD3A /* Logout.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Logout.xib; sourceTree = "<group>"; };
-		2B3D14600F45EBAA0067FD3A /* GamePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = GamePickerViewController.h; path = Classes/GamePickerViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		2B3D14610F45EBAA0067FD3A /* GamePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = GamePickerViewController.m; path = Classes/GamePickerViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		2B3D16650F4628C70067FD3A /* GamePicker.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GamePicker.xib; sourceTree = "<group>"; };
+		2B3D14600F45EBAA0067FD3A /* GamePickerNearbyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = GamePickerNearbyViewController.h; path = Classes/GamePickerNearbyViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		2B3D14610F45EBAA0067FD3A /* GamePickerNearbyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = GamePickerNearbyViewController.m; path = Classes/GamePickerNearbyViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		2B3D16650F4628C70067FD3A /* GamePickerNearbyViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GamePickerNearbyViewController.xib; sourceTree = "<group>"; };
 		2B3D17050F49C99B0067FD3A /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
 		2B3D17060F49C99B0067FD3A /* Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Game.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		2B3D17580F49D18D0067FD3A /* DeveloperViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = DeveloperViewController.h; path = Classes/DeveloperViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -512,6 +516,9 @@
 		ABAA6449130FD5410004D64C /* GamePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerCell.h; sourceTree = "<group>"; };
 		ABAA644A130FD5410004D64C /* GamePickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerCell.m; sourceTree = "<group>"; };
 		ABAA644E130FD5610004D64C /* GamePickerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GamePickerCell.xib; sourceTree = "<group>"; };
+		ABB60F20139F2F1600EEDA08 /* GamePickerSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerSearchViewController.h; sourceTree = "<group>"; };
+		ABB60F21139F2F1600EEDA08 /* GamePickerSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerSearchViewController.m; sourceTree = "<group>"; };
+		ABB60F22139F2F1600EEDA08 /* GamePickerSearchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GamePickerSearchViewController.xib; sourceTree = "<group>"; };
 		ABB925C110C857D800B09506 /* defaultAudioIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultAudioIcon.png; sourceTree = "<group>"; };
 		ABB925C210C857D800B09506 /* defaultImageIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultImageIcon.png; sourceTree = "<group>"; };
 		ABB925C310C857D800B09506 /* defaultVideoIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultVideoIcon.png; sourceTree = "<group>"; };
@@ -572,6 +579,9 @@
 		ABF4A3AC116847E40043EB1C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		ABF4A3B0116847F50043EB1C /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		ABF4A3B41168480C0043EB1C /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = usr/lib/libz.1.2.3.dylib; sourceTree = SDKROOT; };
+		ABFF13A5139F28C2002B5CC6 /* GamePickerMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerMapViewController.h; sourceTree = "<group>"; };
+		ABFF13A6139F28C2002B5CC6 /* GamePickerMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerMapViewController.m; sourceTree = "<group>"; };
+		ABFF13A7139F28C2002B5CC6 /* GamePickerMapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GamePickerMapViewController.xib; sourceTree = "<group>"; };
 		D42432491107730E00E58147 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
 		D424324A1107730E00E58147 /* Scene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scene.m; sourceTree = "<group>"; };
 		D424324B1107730E00E58147 /* SceneParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneParser.h; sourceTree = "<group>"; };
@@ -883,30 +893,23 @@
 		A7986D640F8FEBFA00A5469F /* Game Picker */ = {
 			isa = PBXGroup;
 			children = (
-				4A504944139EC7010061A1A5 /* sideArrow.png */,
+				ABB60F1F139F2E0E00EEDA08 /* Game Comments */,
 				AB994443139EBD0C00C0878B /* RatingView */,
-				AB99747F139D93C30087E387 /* commentsView.xib */,
-				AB997480139D93C30087E387 /* commentsViewController.h */,
-				AB997481139D93C30087E387 /* commentsViewController.m */,
-				AB628D10139ECCD500769663 /* CommentsFormCell.h */,
-				AB628D11139ECCD500769663 /* CommentsFormCell.m */,
-				AB628D12139ECCD500769663 /* CommentsFormCell.xib */,
+				ABB60F1E139F2DDC00EEDA08 /* Game Details */,
+				4A504944139EC7010061A1A5 /* sideArrow.png */,
 				ABB925E010C858A600B09506 /* game.png */,
-				2B3D14600F45EBAA0067FD3A /* GamePickerViewController.h */,
-				2B3D14610F45EBAA0067FD3A /* GamePickerViewController.m */,
-				2B3D16650F4628C70067FD3A /* GamePicker.xib */,
-				AB8FD009117BCF61004F8B9B /* GameDetails.h */,
-				AB8FD00A117BCF61004F8B9B /* GameDetails.m */,
-				AB8FD00B117BCF61004F8B9B /* GameDetails.xib */,
+				2B3D14600F45EBAA0067FD3A /* GamePickerNearbyViewController.h */,
+				2B3D14610F45EBAA0067FD3A /* GamePickerNearbyViewController.m */,
+				2B3D16650F4628C70067FD3A /* GamePickerNearbyViewController.xib */,
+				ABFF13A5139F28C2002B5CC6 /* GamePickerMapViewController.h */,
+				ABFF13A6139F28C2002B5CC6 /* GamePickerMapViewController.m */,
+				ABFF13A7139F28C2002B5CC6 /* GamePickerMapViewController.xib */,
+				ABB60F20139F2F1600EEDA08 /* GamePickerSearchViewController.h */,
+				ABB60F21139F2F1600EEDA08 /* GamePickerSearchViewController.m */,
+				ABB60F22139F2F1600EEDA08 /* GamePickerSearchViewController.xib */,
 				ABAA6449130FD5410004D64C /* GamePickerCell.h */,
 				ABAA644A130FD5410004D64C /* GamePickerCell.m */,
 				ABAA644E130FD5610004D64C /* GamePickerCell.xib */,
-				AB99443E139EB24100C0878B /* RatingCell.h */,
-				AB99443F139EB24100C0878B /* RatingCell.m */,
-				AB994440139EB24100C0878B /* RatingCell.xib */,
-				4A92FB0C139EEA2A00B41218 /* CommentCell.h */,
-				4A92FB0D139EEA2A00B41218 /* CommentCell.m */,
-				4A92FB0E139EEA2A00B41218 /* CommentCell.xib */,
 			);
 			name = "Game Picker";
 			sourceTree = "<group>";
@@ -1143,6 +1146,35 @@
 			name = RatingView;
 			sourceTree = "<group>";
 		};
+		ABB60F1E139F2DDC00EEDA08 /* Game Details */ = {
+			isa = PBXGroup;
+			children = (
+				AB8FD009117BCF61004F8B9B /* GameDetails.h */,
+				AB8FD00A117BCF61004F8B9B /* GameDetails.m */,
+				AB8FD00B117BCF61004F8B9B /* GameDetails.xib */,
+				AB99443E139EB24100C0878B /* RatingCell.h */,
+				AB99443F139EB24100C0878B /* RatingCell.m */,
+				AB994440139EB24100C0878B /* RatingCell.xib */,
+			);
+			name = "Game Details";
+			sourceTree = "<group>";
+		};
+		ABB60F1F139F2E0E00EEDA08 /* Game Comments */ = {
+			isa = PBXGroup;
+			children = (
+				AB99747F139D93C30087E387 /* commentsView.xib */,
+				AB997480139D93C30087E387 /* commentsViewController.h */,
+				AB997481139D93C30087E387 /* commentsViewController.m */,
+				AB628D10139ECCD500769663 /* CommentsFormCell.h */,
+				AB628D11139ECCD500769663 /* CommentsFormCell.m */,
+				AB628D12139ECCD500769663 /* CommentsFormCell.xib */,
+				4A92FB0C139EEA2A00B41218 /* CommentCell.h */,
+				4A92FB0D139EEA2A00B41218 /* CommentCell.m */,
+				4A92FB0E139EEA2A00B41218 /* CommentCell.xib */,
+			);
+			name = "Game Comments";
+			sourceTree = "<group>";
+		};
 		ABBEBBBF104D7CE400AA7285 /* Plaques */ = {
 			isa = PBXGroup;
 			children = (
@@ -1280,7 +1312,7 @@
 				2B3D12D00F437AF90067FD3A /* Quests.xib in Resources */,
 				2B3D12DB0F437E690067FD3A /* InventoryList.xib in Resources */,
 				2B3D12EE0F4382A00067FD3A /* Logout.xib in Resources */,
-				2B3D16660F4628C70067FD3A /* GamePicker.xib in Resources */,
+				2B3D16660F4628C70067FD3A /* GamePickerNearbyViewController.xib in Resources */,
 				A7A172830F4F26A60017E865 /* Entitlements.plist in Resources */,
 				A7A1728C0F4F27120017E865 /* Icon.png in Resources */,
 				A7A1728D0F4F27120017E865 /* Default.png in Resources */,
@@ -1364,6 +1396,8 @@
 				AB628D1F139ED1C700769663 /* star-selected.png in Resources */,
 				AB628D20139ED1C700769663 /* star-userselected.png in Resources */,
 				4A92FB10139EEA2A00B41218 /* CommentCell.xib in Resources */,
+				ABFF13A9139F28C2002B5CC6 /* GamePickerMapViewController.xib in Resources */,
+				ABB60F24139F2F1700EEDA08 /* GamePickerSearchViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1397,7 +1431,7 @@
 				2B3D12CE0F437AC60067FD3A /* QuestsViewController.m in Sources */,
 				2B3D12D90F437D6E0067FD3A /* InventoryListViewController.m in Sources */,
 				2B3D12EC0F4382070067FD3A /* LogoutViewController.m in Sources */,
-				2B3D14620F45EBAA0067FD3A /* GamePickerViewController.m in Sources */,
+				2B3D14620F45EBAA0067FD3A /* GamePickerNearbyViewController.m in Sources */,
 				2B3D17070F49C99B0067FD3A /* Game.m in Sources */,
 				2B3D175A0F49D18D0067FD3A /* DeveloperViewController.m in Sources */,
 				2B3D18D60F4B25720067FD3A /* AppModel.m in Sources */,
@@ -1508,6 +1542,8 @@
 				AB628D13139ECCD500769663 /* CommentsFormCell.m in Sources */,
 				4A92FB0B139EDFEA00B41218 /* Comment.m in Sources */,
 				4A92FB0F139EEA2A00B41218 /* CommentCell.m in Sources */,
+				ABFF13A8139F28C2002B5CC6 /* GamePickerMapViewController.m in Sources */,
+				ABB60F23139F2F1700EEDA08 /* GamePickerSearchViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

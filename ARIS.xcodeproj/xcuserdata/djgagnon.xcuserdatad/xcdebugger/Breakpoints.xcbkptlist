@@ -23,11 +23,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/ARISAppDelegate.h"
-         timestampString = "326836050.505326"
+         timestampString = "329181564.115659"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "94"
-         endingLineNumber = "94"
+         startingLineNumber = "97"
+         endingLineNumber = "97"
          landmarkName = "-showNearbyTab:"
          landmarkType = "4">
       </FileBreakpoint>

@@ -1,5 +1,5 @@
 //
-//  GamePickerViewController.h
+//  GamePickerNEarbyViewController.h
 //  ARIS
 //
 //  Created by Ben Longoria on 2/13/09.
@@ -10,7 +10,7 @@
 #import "AppModel.h"
 #import "Comment.h"
 
-@interface GamePickerViewController : UIViewController <UITableViewDelegate,UITableViewDataSource, UISearchDisplayDelegate, UISearchBarDelegate>{
+@interface GamePickerNearbyViewController : UIViewController <UITableViewDelegate,UITableViewDataSource, UISearchDisplayDelegate, UISearchBarDelegate>{
 	NSArray *gameList;
 	NSMutableArray *filteredGameList;
 

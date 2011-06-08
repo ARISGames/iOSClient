@@ -1,12 +1,12 @@
 //
-//  GamePickerViewController.m
+//  GamePickerNearbyViewController.m
 //  ARIS
 //
 //  Created by Ben Longoria on 2/13/09.
 //  Copyright 2009 University of Wisconsin. All rights reserved.
 //
 
-#import "GamePickerViewController.h"
+#import "GamePickerNearbyViewController.h"
 #import "AppServices.h"
 #import "Game.h"
 #import "ARISAppDelegate.h"
@@ -14,7 +14,7 @@
 #import "GamePickerCell.h"
 #include <QuartzCore/QuartzCore.h>
 
-@implementation GamePickerViewController
+@implementation GamePickerNearbyViewController
 
 @synthesize gameTable;
 @synthesize gameList;
@@ -27,7 +27,7 @@
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
-        self.title = NSLocalizedString(@"GamePickerTitleKey",@"");
+        self.title = @"Nearby Games";
         self.tabBarItem.image = [UIImage imageNamed:@"game.png"];
 		self.filteredGameList = [[NSMutableArray alloc]initWithCapacity:1];
 		

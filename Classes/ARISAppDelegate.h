@@ -25,7 +25,6 @@
 #import "AudioRecorderViewController.h"
 #import "ARViewViewControler.h"
 #import "QRScannerViewController.h"
-#import "GamePickerViewController.h"
 #import "LogoutViewController.h"
 #import "StartOverViewController.h"
 #import "DeveloperViewController.h"
@@ -36,19 +35,21 @@
 #import "TutorialViewController.h"
 #import <MessageUI/MFMailComposeViewController.h>
 
+#import "GamePickerNearbyViewController.h"
 
 
 @interface ARISAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate> {
 	UIWindow *window;
     UITabBarController *tabBarController;
+    UITabBarController *gameSelectionTabBarController;
     TutorialViewController *tutorialViewController;
 
 	UINavigationController *nearbyObjectsNavigationController;
 	MyCLController *myCLController;
 	LoginViewController *loginViewController;
 	UINavigationController *loginViewNavigationController;
-	GamePickerViewController *gamePickerViewController;
-	UINavigationController *gamePickerNavigationController;
+	GamePickerNearbyViewController *gamePickerNearbyViewController;
+	UINavigationController *gamePickerNearbyNavigationController;
 	UINavigationController *nearbyObjectNavigationController;
 	WaitingIndicatorViewController *waitingIndicator;
 	WaitingIndicatorView *waitingIndicatorView;
@@ -68,12 +69,14 @@
 @property (nonatomic, retain) MyCLController *myCLController;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
+@property (nonatomic, retain) IBOutlet UITabBarController *gameSelectionTabBarController;
+
 @property (nonatomic, retain) IBOutlet TutorialViewController *tutorialViewController;
 
 @property (nonatomic, retain) IBOutlet LoginViewController *loginViewController;
 @property (nonatomic, retain) IBOutlet UINavigationController *loginViewNavigationController;
-@property (nonatomic, retain) IBOutlet GamePickerViewController *gamePickerViewController;
-@property (nonatomic, retain) IBOutlet UINavigationController *gamePickerNavigationController;
+@property (nonatomic, retain) IBOutlet GamePickerNearbyViewController *gamePickerNearbyViewController;
+@property (nonatomic, retain) IBOutlet UINavigationController *gamePickerNearbyNavigationController;
 @property (nonatomic, retain) IBOutlet UINavigationController *nearbyObjectsNavigationController;
 
 @property (nonatomic, retain) IBOutlet UINavigationController *nearbyObjectNavigationController;
