@@ -141,9 +141,7 @@
     //unregister for notifications
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-	//Sort the game list
-	NSArray* sortedGameList = [[AppModel sharedAppModel].gameList sortedArrayUsingSelector:@selector(compareCalculatedScore:)];
-	self.gameList = sortedGameList;
+	self.gameList = [AppModel sharedAppModel].gameList;
 
 	[gameTable reloadData];
 }
