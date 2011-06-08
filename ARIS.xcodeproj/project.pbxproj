@@ -68,7 +68,6 @@
 		2B3D17070F49C99B0067FD3A /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D17060F49C99B0067FD3A /* Game.m */; };
 		2B3D175A0F49D18D0067FD3A /* DeveloperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D17590F49D18D0067FD3A /* DeveloperViewController.m */; };
 		2B3D18D60F4B25720067FD3A /* AppModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */; };
-		4A504945139EC7010061A1A5 /* sideArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A504944139EC7010061A1A5 /* sideArrow.png */; };
 		4A9181BA139FDF1600D236CC /* GamesMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9181B9139FDF1600D236CC /* GamesMapAnnotation.m */; };
 		4A92FB0B139EDFEA00B41218 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A92FB0A139EDFEA00B41218 /* Comment.m */; };
 		4A92FB0F139EEA2A00B41218 /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A92FB0D139EEA2A00B41218 /* CommentCell.m */; };
@@ -356,7 +355,6 @@
 		2B3D17590F49D18D0067FD3A /* DeveloperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = DeveloperViewController.m; path = Classes/DeveloperViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		2B3D18D40F4B25720067FD3A /* AppModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = AppModel.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		2B3D18D50F4B25720067FD3A /* AppModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppModel.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		4A504944139EC7010061A1A5 /* sideArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sideArrow.png; sourceTree = "<group>"; };
 		4A9181B8139FDF1600D236CC /* GamesMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamesMapAnnotation.h; sourceTree = "<group>"; };
 		4A9181B9139FDF1600D236CC /* GamesMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamesMapAnnotation.m; sourceTree = "<group>"; };
 		4A92FB09139EDF1B00B41218 /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
@@ -904,7 +902,6 @@
 				ABB60F1F139F2E0E00EEDA08 /* Game Comments */,
 				AB994443139EBD0C00C0878B /* RatingView */,
 				ABB60F1E139F2DDC00EEDA08 /* Game Details */,
-				4A504944139EC7010061A1A5 /* sideArrow.png */,
 				ABB925E010C858A600B09506 /* game.png */,
 				2B3D14600F45EBAA0067FD3A /* GamePickerNearbyViewController.h */,
 				2B3D14610F45EBAA0067FD3A /* GamePickerNearbyViewController.m */,
@@ -1400,7 +1397,6 @@
 				AB99444B139EBD1F00C0878B /* small-star-hot.png in Resources */,
 				AB99444C139EBD1F00C0878B /* small-star-nonselected.png in Resources */,
 				AB99444D139EBD1F00C0878B /* small-star-selected.png in Resources */,
-				4A504945139EC7010061A1A5 /* sideArrow.png in Resources */,
 				AB628D14139ECCD500769663 /* CommentsFormCell.xib in Resources */,
 				AB628D1B139ED1C700769663 /* star-halfselected.png in Resources */,
 				AB628D1C139ED1C700769663 /* star-highlighted.png in Resources */,

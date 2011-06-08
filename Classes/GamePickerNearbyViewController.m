@@ -27,17 +27,8 @@
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
         self.title = @"Nearby";
-<<<<<<< .mine
         self.tabBarItem.image = [UIImage imageNamed:@"game.png"];
 		self.count = 0;
-		//register for notifications
-		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
-		[dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
-		
-=======
-        self.tabBarItem.image = [UIImage imageNamed:@"game.png"];		
->>>>>>> .r1772
     }
     return self;
 }
