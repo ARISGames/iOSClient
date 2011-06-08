@@ -57,6 +57,7 @@
 
 - (void)fetchLocationList;
 - (void)forceUpdateOnNextLocationListFetch;
+- (void)fetchGameListBySearch: (NSString *) searchText;
 - (void)resetAllPlayerLists;
 - (void)fetchAllGameLists;
 - (void)resetAllGameLists;

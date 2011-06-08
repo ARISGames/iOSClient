@@ -684,6 +684,24 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	
 }
 
+-(void)fetchGameListBySearch:(NSString *)searchText{
+    NSLog(@"AppModel: Fetch Requested for Game List.");
+    
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects: 
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+						  searchText,
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],
+						  nil];
+	
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"games"
+                                                             andMethodName:@"getGamesContainingText"
+                                                              andArguments:arguments];
+	
+	[jsonConnection performAsynchronousRequestWithParser:@selector(parseGameListFromJSON:)]; 
+	[jsonConnection release];
+}
 
 -(void)fetchQuestList {
 	NSLog(@"Model: Fetch Requested for Quests");
