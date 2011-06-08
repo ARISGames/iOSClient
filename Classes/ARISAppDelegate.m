@@ -252,8 +252,12 @@
 	Game *selectedGame = [userInfo objectForKey:@"game"];
     
 	NSLog(@"AppDelegate: Game Selected. '%@' game was selected", selectedGame.name);
-    
-	[gameSelectionTabBarController.view removeFromSuperview];
+    //tabBarController.tabBar.hidden = NO;
+	//[gameSelectionTabBarController.view removeFromSuperview];
+    tabBarController.view.hidden = NO;
+    tabBarController.tabBar.hidden = NO;
+    gameSelectionTabBarController.tabBar.hidden = YES;
+    gameSelectionTabBarController.view.hidden = YES;
     [window addSubview:self.tabBarController.view];
 	
 	//Set the model to this game

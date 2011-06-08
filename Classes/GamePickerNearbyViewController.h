@@ -16,6 +16,7 @@
     IBOutlet UISegmentedControl *locationalControl;
 	UITableView *gameTable;
     UIBarButtonItem *refreshButton;
+    NSInteger count;
 
 }
 
@@ -27,7 +28,6 @@
 @property (nonatomic, copy) NSArray *gameList;
 @property (nonatomic, retain) IBOutlet UITableView *gameTable;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *refreshButton;
-
-
+@property (assign) NSInteger count;
 
 @end

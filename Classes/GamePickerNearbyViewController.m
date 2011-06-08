@@ -18,7 +18,7 @@
 
 @synthesize gameTable;
 @synthesize gameList;
-@synthesize refreshButton;
+@synthesize refreshButton,count;
 
 
 //Override init for passing title and icon to tab bar
@@ -27,7 +27,17 @@
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
         self.title = @"Nearby";
+<<<<<<< .mine
+        self.tabBarItem.image = [UIImage imageNamed:@"game.png"];
+		self.count = 0;
+		//register for notifications
+		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
+		[dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
+		
+=======
         self.tabBarItem.image = [UIImage imageNamed:@"game.png"];		
+>>>>>>> .r1772
     }
     return self;
 }
@@ -39,7 +49,8 @@
     self.refreshButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh)];
     
     self.navigationItem.rightBarButtonItem = self.refreshButton;
-    
+  
+
 	NSLog(@"GamePickerViewController: View Loaded");
 }
 
@@ -47,10 +58,20 @@
 	NSLog(@"GamePickerViewController: View Appeared");	
 	
 	//self.gameList = [NSMutableArray arrayWithCapacity:1];
-
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[gameTable reloadData];
 	[self refresh];
-		
+    if(self.count == 0){
+    
+        appDelegate.tabBarController.tabBar.hidden = YES;
+        appDelegate.gameSelectionTabBarController.view.hidden = NO;
+        appDelegate.gameSelectionTabBarController.tabBar.hidden = NO;
+        self.count++;
+    }
+    else {count--;
+        appDelegate.tabBarController.view.hidden = NO;
+        appDelegate.tabBarController.tabBar.hidden = NO;
+        appDelegate.gameSelectionTabBarController.tabBar.hidden = YES;}
 	NSLog(@"GamePickerViewController: view did appear");
 
 }
@@ -58,8 +79,7 @@
 
 -(void)refresh {
 	NSLog(@"GamePickerViewController: Refresh Requested");
-    
-    //Calculate locational control value
+        //Calculate locational control value
     BOOL locational;
     if (locationalControl.selectedSegmentIndex == 0) {
      locational = YES;  
@@ -111,15 +131,22 @@
 	[[self navigationItem] setRightBarButtonItem:barButton];
 	[barButton release];
 	[activityIndicator startAnimating];
-}
 
+
+}
+-(void) viewWillAppear:(BOOL)animated{
+    
+
+    
+    
+}
 -(void)removeLoadingIndicator{
 	[[self navigationItem] setRightBarButtonItem:self.refreshButton];
 }
 
 - (void)refreshViewFromModel {
 	NSLog(@"GamePickerViewController: Refresh View from Model");
-	
+
     //unregister for notifications
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
