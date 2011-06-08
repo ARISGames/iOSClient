@@ -132,6 +132,9 @@ static float INITIAL_SPAN = 100;
 		//Add the freshly loaded locations from the notification
 		for (Game* game in locations ) {
             GamesMapAnnotation *annotation = [[GamesMapAnnotation alloc] initWithTitle:game.name andCoordinate:game.location.coordinate];
+            annotation.gameId = game.gameId;
+            annotation.rating = game.rating;
+            annotation.calculatedScore = game.calculatedScore;
             [mapView addAnnotation:annotation];
         }
 	}
@@ -233,6 +236,10 @@ static float INITIAL_SPAN = 100;
 	//annView.pinColor = MKPinAnnotationColorGreen;  
 	//annView.calloutOffset = CGPointMake(-5, 5);  
 	return annView;  
+}
+
+- (IBAction)gotoGame:(id)sender {
+    
 }
 
 

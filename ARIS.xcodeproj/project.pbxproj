@@ -73,7 +73,6 @@
 		4A92FB0B139EDFEA00B41218 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A92FB0A139EDFEA00B41218 /* Comment.m */; };
 		4A92FB0F139EEA2A00B41218 /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A92FB0D139EEA2A00B41218 /* CommentCell.m */; };
 		4A92FB10139EEA2A00B41218 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A92FB0E139EEA2A00B41218 /* CommentCell.xib */; };
-		4AA71E75139FF83800D436A2 /* GamesMapAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AA71E74139FF83800D436A2 /* GamesMapAnnotationView.m */; };
 		A7149F9D0FB89DC8008BAB5D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A7149F9C0FB89DC8008BAB5D /* Settings.bundle */; };
 		A722C8C00FBCD8D0009432DB /* SelfRegistration.xib in Resources */ = {isa = PBXBuildFile; fileRef = A722C8BF0FBCD8D0009432DB /* SelfRegistration.xib */; };
 		A722C8C60FBCD92E009432DB /* SelfRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */; };
@@ -365,8 +364,6 @@
 		4A92FB0C139EEA2A00B41218 /* CommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCell.h; sourceTree = "<group>"; };
 		4A92FB0D139EEA2A00B41218 /* CommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentCell.m; sourceTree = "<group>"; };
 		4A92FB0E139EEA2A00B41218 /* CommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
-		4AA71E73139FF83800D436A2 /* GamesMapAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamesMapAnnotationView.h; sourceTree = "<group>"; };
-		4AA71E74139FF83800D436A2 /* GamesMapAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamesMapAnnotationView.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		A7149F9C0FB89DC8008BAB5D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		A722C8BF0FBCD8D0009432DB /* SelfRegistration.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelfRegistration.xib; sourceTree = "<group>"; };
@@ -926,8 +923,6 @@
 				ABAA644E130FD5610004D64C /* GamePickerCell.xib */,
 				4A9181B8139FDF1600D236CC /* GamesMapAnnotation.h */,
 				4A9181B9139FDF1600D236CC /* GamesMapAnnotation.m */,
-				4AA71E73139FF83800D436A2 /* GamesMapAnnotationView.h */,
-				4AA71E74139FF83800D436A2 /* GamesMapAnnotationView.m */,
 			);
 			name = "Game Picker";
 			sourceTree = "<group>";
@@ -1565,7 +1560,6 @@
 				ABB60F23139F2F1700EEDA08 /* GamePickerSearchViewController.m in Sources */,
 				ABB60F28139F352500EEDA08 /* GamePickerRecentViewController.m in Sources */,
 				4A9181BA139FDF1600D236CC /* GamesMapAnnotation.m in Sources */,
-				4AA71E75139FF83800D436A2 /* GamesMapAnnotationView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

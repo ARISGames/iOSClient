@@ -783,6 +783,29 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 }
 
 
+- (void)fetchOneGame:(int)gameId {
+    NSLog(@"AppModel: Fetch Requested for a single Game (as a Game List)");
+    
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects: 
+                          [NSString stringWithFormat:@"%d",gameId],
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+                          [NSString stringWithFormat:@"%d",1],
+                          [NSString stringWithFormat:@"%d",9999999999],
+						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.latitude],
+						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.longitude],
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],
+						  nil];
+	
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"games"
+                                                             andMethodName:@"getOneGame"
+                                                              andArguments:arguments];
+	
+	[jsonConnection performAsynchronousRequestWithParser:@selector(parseGameListFromJSON:)]; 
+	[jsonConnection release];
+}
+
 
 - (void)fetchRecentGameListForPlayer  {
 	NSLog(@"AppModel: Fetch Requested for Game List.");
