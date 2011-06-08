@@ -36,7 +36,7 @@
 					<object class="IBUISegmentedControl" id="786905012">
 						<reference key="NSNextResponder" ref="515779282"/>
 						<int key="NSvFlags">290</int>
-						<string key="NSFrame">{{5, 3}, {310, 30}}</string>
+						<string key="NSFrame">{{0, 2}, {320, 30}}</string>
 						<reference key="NSSuperview" ref="515779282"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="194965248"/>
@@ -73,10 +73,9 @@
 					<object class="IBUISegmentedControl" id="216603225">
 						<reference key="NSNextResponder" ref="515779282"/>
 						<int key="NSvFlags">266</int>
-						<string key="NSFrame">{{5, 425}, {310, 30}}</string>
+						<string key="NSFrame">{{0, 428}, {320, 30}}</string>
 						<reference key="NSSuperview" ref="515779282"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBSegmentControlStyle">2</int>
