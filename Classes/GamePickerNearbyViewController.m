@@ -67,8 +67,17 @@
     
     //Calculate locational control value
     BOOL locational;
-    if (locationalControl.selectedSegmentIndex == 0) locational = YES;
-    else locational = NO;
+    if (locationalControl.selectedSegmentIndex == 0) {
+     locational = YES;  
+        distanceControl.enabled = YES;
+        distanceControl.alpha = 1;
+    }
+    else
+    {
+      locational = NO;
+        distanceControl.alpha = .2;
+        distanceControl.enabled = NO;
+    }
 	
     //Calculate distance filer controll value
     int distanceFilter;
