@@ -18,6 +18,7 @@
     if (self) {
         // Custom initialization
         self.title = @"Select Another Game";
+        self.tabBarItem.image = [UIImage imageNamed:@"game.png"];
     }
     return self;
 }
