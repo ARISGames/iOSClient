@@ -18,7 +18,6 @@ static const int kEmptyValue = -1;
 
 @end
 
-
 @implementation AppServices
 
 @synthesize currentlyFetchingLocationList, currentlyFetchingInventory, currentlyFetchingQuestList, currentlyUpdatingServerWithPlayerLocation;
@@ -712,14 +711,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 
 
 
--(void)fetchMiniGamesListLocations:(NSString *)searchText{
+-(void)fetchMiniGamesListLocations{
     NSLog(@"AppModel: Fetch Requested for Game List.");
     
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects: 
                           [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.latitude],
 						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.longitude],
-						  searchText,
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],
 						  nil];
 	
@@ -728,7 +726,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
                                                              andMethodName:@"getGamesWithLocations"
                                                               andArguments:arguments];
 	
-	[jsonConnection performAsynchronousRequestWithParser:@selector(parseGameListWithLocationsFromJSON:)]; 
+	[jsonConnection performAsynchronousRequestWithParser:@selector(parseGameListFromJSON:)]; 
 	[jsonConnection release];
 }
 
@@ -1071,53 +1069,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 }
 
 
--(void)parseGameListWithLocationsFromJSON: (JSONResult *)jsonResult{
-    NSLog(@"AppModel: parseGameListFromJSON Beginning");		
-    
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RecievedGameListWithLocations" object:nil]];
-    
-	NSArray *gameListArray = (NSArray *)jsonResult.data;
-	
-	NSMutableArray *tempGameList = [[NSMutableArray alloc] init];
-	
-	NSEnumerator *gameListEnumerator = [gameListArray objectEnumerator];	
-	NSDictionary *gameDictionary;
-	while ((gameDictionary = [gameListEnumerator nextObject])) {
-		//create a new game
-		Game *game = [[Game alloc] init];
-        
-		game.gameId = [[gameDictionary valueForKey:@"game_id"] intValue];
-		//NSLog(@"AppModel: Parsing Game: %d", game.gameId);		
-		
-        NSString *rating = [gameDictionary valueForKey:@"rating"];
-		if ((NSNull *)rating != [NSNull null]) game.rating = [rating intValue];
-		else game.rating = 0;
-        
-		NSString *latitude = [gameDictionary valueForKey:@"latitude"];
-		NSString *longitude = [gameDictionary valueForKey:@"longitude"];
-		if ((NSNull *)latitude != [NSNull null] && (NSNull *)longitude != [NSNull null] )
-			game.location = [[[CLLocation alloc] initWithLatitude:[latitude doubleValue]
-                                                        longitude:[longitude doubleValue]] autorelease];
-		else game.location = [[CLLocation alloc] init];
-        
-        
-		//NSLog(@"Model: Adding Game: %@", game.name);
-		[tempGameList addObject:game]; 
-		[game release];
-	}
-    
-	[AppModel sharedAppModel].gameLocationList = tempGameList;
-	[tempGameList release];
-    
-    NSLog(@"AppModel: parseGameListWithLocationsFromJSON Complete, sending notification");		
-    
-	
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewGameListWithLocationsReady" object:nil]];
-    
-}
-
-
-
 
 - (void)saveComment:(NSString*)comment game:(int)gameId starRating:(int)rating{
 	NSLog(@"AppModel: Save Comment Requested");
@@ -1223,7 +1174,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	NSMutableDictionary *tempMediaList = [[NSMutableDictionary alloc] init];
 	NSEnumerator *enumerator = [mediaListArray objectEnumerator];
 	NSDictionary *dict;
-	while (dict = [enumerator nextObject]) {
+	while ((dict = [enumerator nextObject])) {
 		NSInteger uid = [[dict valueForKey:@"media_id"] intValue];
 		NSString *fileName = [dict valueForKey:@"file_name"];
 		NSString *urlPath = [dict valueForKey:@"url_path"];
@@ -1263,7 +1214,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	NSMutableDictionary *tempItemList = [[NSMutableDictionary alloc] init];
 	NSEnumerator *enumerator = [itemListArray objectEnumerator];
 	NSDictionary *dict;
-	while (dict = [enumerator nextObject]) {
+	while ((dict = [enumerator nextObject])) {
 		Item *tmpItem = [self parseItemFromDictionary:dict];
 		
 		[tempItemList setObject:tmpItem forKey:[NSNumber numberWithInt:tmpItem.itemId]];
@@ -1279,7 +1230,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	NSMutableDictionary *tempNodeList = [[NSMutableDictionary alloc] init];
 	NSEnumerator *enumerator = [nodeListArray objectEnumerator];
 	NSDictionary *dict;
-	while (dict = [enumerator nextObject]) {
+	while ((dict = [enumerator nextObject])) {
 		Node *tmpNode = [self parseNodeFromDictionary:dict];
 		
 		[tempNodeList setObject:tmpNode forKey:[NSNumber numberWithInt:tmpNode.nodeId]];
@@ -1297,7 +1248,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	NSMutableDictionary *tempNpcList = [[NSMutableDictionary alloc] init];
 	NSEnumerator *enumerator = [((NSArray *)npcListArray) objectEnumerator];
 	NSDictionary *dict;
-	while (dict = [enumerator nextObject]) {
+	while ((dict = [enumerator nextObject])) {
 		Npc *tmpNpc = [self parseNpcFromDictionary:dict];
 		
 		[tempNpcList setObject:tmpNpc forKey:[NSNumber numberWithInt:tmpNpc.npcId]];
@@ -1335,7 +1286,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	NSMutableDictionary *tempInventory = [[NSMutableDictionary alloc] initWithCapacity:10];
 	NSEnumerator *inventoryEnumerator = [((NSArray *)inventoryArray) objectEnumerator];	
 	NSDictionary *itemDictionary;
-	while (itemDictionary = [inventoryEnumerator nextObject]) {
+	while ((itemDictionary = [inventoryEnumerator nextObject])) {
 		Item *item = [[Item alloc] init];
 		item.itemId = [[itemDictionary valueForKey:@"item_id"] intValue];
 		item.name = [itemDictionary valueForKey:@"name"];
@@ -1421,7 +1372,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	NSArray *activeQuests = [questListDictionary objectForKey:@"active"];
 	NSEnumerator *activeQuestsEnumerator = [activeQuests objectEnumerator];
 	NSDictionary *activeQuest;
-	while (activeQuest = [activeQuestsEnumerator nextObject]) {
+	while ((activeQuest = [activeQuestsEnumerator nextObject])) {
 		//We have a quest, parse it into a quest abject and add it to the activeQuestObjects array
 		Quest *quest = [[Quest alloc] init];
 		quest.questId = [[activeQuest objectForKey:@"quest_id"] intValue];
@@ -1437,7 +1388,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	NSArray *completedQuests = [questListDictionary objectForKey:@"completed"];
 	NSEnumerator *completedQuestsEnumerator = [completedQuests objectEnumerator];
 	NSDictionary *completedQuest;
-	while (completedQuest = [completedQuestsEnumerator nextObject]) {
+	while ((completedQuest = [completedQuestsEnumerator nextObject])) {
 		//We have a quest, parse it into a quest abject and add it to the completedQuestObjects array
 		Quest *quest = [[Quest alloc] init];
 		quest.questId = [[completedQuest objectForKey:@"quest_id"] intValue];

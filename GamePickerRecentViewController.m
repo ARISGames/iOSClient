@@ -215,6 +215,10 @@
 	return 60;
 }
 
+-(void)controlChanged:(id)sender{
+    //Do nothing...
+}
+
 
 
 - (void)viewDidUnload

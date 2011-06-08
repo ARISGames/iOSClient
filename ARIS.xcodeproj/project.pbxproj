@@ -69,6 +69,7 @@
 		2B3D175A0F49D18D0067FD3A /* DeveloperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D17590F49D18D0067FD3A /* DeveloperViewController.m */; };
 		2B3D18D60F4B25720067FD3A /* AppModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */; };
 		4A504945139EC7010061A1A5 /* sideArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A504944139EC7010061A1A5 /* sideArrow.png */; };
+		4A9181BA139FDF1600D236CC /* GamesMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9181B9139FDF1600D236CC /* GamesMapAnnotation.m */; };
 		4A92FB0B139EDFEA00B41218 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A92FB0A139EDFEA00B41218 /* Comment.m */; };
 		4A92FB0F139EEA2A00B41218 /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A92FB0D139EEA2A00B41218 /* CommentCell.m */; };
 		4A92FB10139EEA2A00B41218 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A92FB0E139EEA2A00B41218 /* CommentCell.xib */; };
@@ -356,6 +357,8 @@
 		2B3D18D40F4B25720067FD3A /* AppModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = AppModel.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		2B3D18D50F4B25720067FD3A /* AppModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppModel.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		4A504944139EC7010061A1A5 /* sideArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sideArrow.png; sourceTree = "<group>"; };
+		4A9181B8139FDF1600D236CC /* GamesMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamesMapAnnotation.h; sourceTree = "<group>"; };
+		4A9181B9139FDF1600D236CC /* GamesMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamesMapAnnotation.m; sourceTree = "<group>"; };
 		4A92FB09139EDF1B00B41218 /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
 		4A92FB0A139EDFEA00B41218 /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
 		4A92FB0C139EEA2A00B41218 /* CommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCell.h; sourceTree = "<group>"; };
@@ -918,6 +921,8 @@
 				ABAA6449130FD5410004D64C /* GamePickerCell.h */,
 				ABAA644A130FD5410004D64C /* GamePickerCell.m */,
 				ABAA644E130FD5610004D64C /* GamePickerCell.xib */,
+				4A9181B8139FDF1600D236CC /* GamesMapAnnotation.h */,
+				4A9181B9139FDF1600D236CC /* GamesMapAnnotation.m */,
 			);
 			name = "Game Picker";
 			sourceTree = "<group>";
@@ -1554,6 +1559,7 @@
 				ABFF13A8139F28C2002B5CC6 /* GamePickerMapViewController.m in Sources */,
 				ABB60F23139F2F1700EEDA08 /* GamePickerSearchViewController.m in Sources */,
 				ABB60F28139F352500EEDA08 /* GamePickerRecentViewController.m in Sources */,
+				4A9181BA139FDF1600D236CC /* GamesMapAnnotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

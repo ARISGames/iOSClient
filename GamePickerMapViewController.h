@@ -27,10 +27,23 @@
     
 }
 
--(void) refresh;
--(void) zoomAndCenterMap;
--(void) showLoadingIndicator;
-
+- (void) refresh;
+- (void)refreshViewFromModel;
+- (void) zoomAndCenterMap;
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
+- (void)dealloc;
+- (void)didReceiveMemoryWarning;
+- (void)viewDidLoad;
+- (void)showLoadingIndicator;
+- (void)removeLoadingIndicator;
+- (void)viewWillDisappear:(BOOL)animated;
+- (void)viewDidUnload;
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation;
+- (IBAction)changeMapType: (id) sender;
+- (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated;
+- (MKAnnotationView *)mapView:(MKMapView *)myMapView viewForAnnotation:(id <MKAnnotation>)annotation;
+- (void)mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view;
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;
 
 
 

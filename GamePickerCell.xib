@@ -113,7 +113,7 @@
 								</object>
 								<reference key="IBUIHighlightedColor" ref="10751904"/>
 								<int key="IBUIBaselineAdjustment">1</int>
-								<float key="IBUIMinimumFontSize">11</float>
+								<float key="IBUIMinimumFontSize">4</float>
 								<int key="IBUITextAlignment">2</int>
 							</object>
 							<object class="IBUILabel" id="321881153">
@@ -170,6 +170,7 @@
 								<string key="NSFrame">{{68, 40}, {71, 12}}</string>
 								<reference key="NSSuperview" ref="99106133"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MQA</bytes>
@@ -457,7 +458,6 @@
 							<string>distanceLabel</string>
 							<string>iconView</string>
 							<string>numReviewsLabel</string>
-							<string>percentCompleteLabel</string>
 							<string>starView</string>
 							<string>titleLabel</string>
 						</object>
@@ -466,7 +466,6 @@
 							<string>UILabel</string>
 							<string>UILabel</string>
 							<string>AsyncImageView</string>
-							<string>UILabel</string>
 							<string>UILabel</string>
 							<string>SCRRatingView</string>
 							<string>UILabel</string>
@@ -480,7 +479,6 @@
 							<string>distanceLabel</string>
 							<string>iconView</string>
 							<string>numReviewsLabel</string>
-							<string>percentCompleteLabel</string>
 							<string>starView</string>
 							<string>titleLabel</string>
 						</object>
@@ -500,10 +498,6 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">numReviewsLabel</string>
-								<string key="candidateClassName">UILabel</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">percentCompleteLabel</string>
 								<string key="candidateClassName">UILabel</string>
 							</object>
 							<object class="IBToOneOutletInfo">

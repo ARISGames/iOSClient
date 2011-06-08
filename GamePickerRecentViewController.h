@@ -21,6 +21,7 @@
 
 -(void)refresh;
 -(void)showLoadingIndicator;
+-(void)controlChanged:(id)sender;
 
 
 @property (nonatomic, retain) NSArray *gameList;

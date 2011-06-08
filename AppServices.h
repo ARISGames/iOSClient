@@ -54,7 +54,7 @@
 
 - (void)fetchGameListWithDistanceFilter: (int)distanceInMeters locational:(BOOL)locationalOrNonLocational;
 - (void)fetchRecentGameListForPlayer;
-- (void)fetchMiniGamesListLocations:(NSString *)searchText;
+- (void)fetchMiniGamesListLocations;
 
 - (void)fetchLocationList;
 - (void)forceUpdateOnNextLocationListFetch;
@@ -94,7 +94,6 @@
 - (void)registerNewUser:(NSString*)userName password:(NSString*)pass 
 			  firstName:(NSString*)firstName lastName:(NSString*)lastName email:(NSString*)email;
 - (void)parseGameListFromJSON: (JSONResult *)jsonResult;
-- (void)parseGameListWithLocationsFromJSON: (JSONResult *)jsonResult;
 - (void)parseGameMediaListFromJSON: (JSONResult *)jsonResult;
 - (void)parseGameNpcListFromJSON: (JSONResult *)jsonResult;
 - (void)parseGameItemListFromJSON: (JSONResult *)jsonResult;
