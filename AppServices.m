@@ -690,6 +690,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects: 
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+                          [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.latitude],
+						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.longitude],
 						  searchText,
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],
 						  nil];
@@ -758,6 +760,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects: 
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+                          [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.latitude],
+						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.longitude],
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],
 						  nil];
 	
