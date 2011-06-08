@@ -11,7 +11,7 @@
 #import "Node.h"
 #import "TutorialPopupView.h"
 
-
+#import "BogusSelectGameViewController.h"
 #import "GamePickerMapViewController.h"
 #import "GamePickerSearchViewController.h"
 #import "GamePickerRecentViewController.h"
@@ -23,12 +23,8 @@
 @synthesize tabBarController, gameSelectionTabBarController;
 @synthesize loginViewController;
 @synthesize loginViewNavigationController;
-@synthesize gamePickerNearbyViewController;
-@synthesize gamePickerNearbyNavigationController;
-
 @synthesize nearbyObjectsNavigationController;
 @synthesize nearbyObjectNavigationController;
-
 @synthesize myCLController;
 @synthesize waitingIndicator,waitingIndicatorView;
 @synthesize networkAlert,serverAlert;
@@ -124,20 +120,19 @@
 	developerNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 	
 	
-	//Game Picker View
-	gamePickerNearbyViewController = [[[GamePickerNearbyViewController alloc] initWithNibName:@"GamePickerNearbyViewController" bundle:nil] autorelease];
-	gamePickerNearbyNavigationController = [[UINavigationController alloc] initWithRootViewController: gamePickerNearbyViewController];
-	gamePickerNearbyNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-	[gamePickerNearbyNavigationController.view setFrame:UIScreen.mainScreen.applicationFrame];
-	[loginViewController retain]; //This view may be removed and readded to the window
+	//Bogus Game Picker View
+    BogusSelectGameViewController *bogusSelectGameViewController = [[BogusSelectGameViewController alloc] init];
+
 
 	//Login View
 	loginViewController = [[[LoginViewController alloc] initWithNibName:@"Login" bundle:nil] autorelease];
 	loginViewNavigationController = [[UINavigationController alloc] initWithRootViewController: loginViewController];
 	loginViewNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 	[loginViewNavigationController.view setFrame:UIScreen.mainScreen.applicationFrame];
-	[loginViewController retain]; //This view may be removed and readded to the window
-	
+    [window addSubview:loginViewNavigationController.view];
+
+    
+    
 	//Setup the Main Tab Bar
 	self.tabBarController = [[UITabBarController alloc] init];
 	self.tabBarController.delegate = self;
@@ -152,18 +147,23 @@
 										//arNavigationController,
 										cameraNavigationController,
 										audioRecorderNavigationController,
-										gamePickerNearbyNavigationController,
+										bogusSelectGameViewController,
 										logoutNavigationController,
 										startOverNavigationController,
 										//developerNavigationController,
 										nil];
-	[self.tabBarController.view setFrame:UIScreen.mainScreen.applicationFrame];
-
+	//[self.tabBarController.view setFrame:UIScreen.mainScreen.applicationFrame];
+    [window addSubview:self.tabBarController.view];
     
     
     //Setup the Game Selection Tab Bar
     
     self.gameSelectionTabBarController = [[UITabBarController alloc] init];
+    
+    GamePickerMapViewController *gamePickerNearbyViewController = [[[GamePickerNearbyViewController alloc] initWithNibName:@"GamePickerNearbyViewController" bundle:nil] autorelease];
+	UINavigationController *gamePickerNearbyNC = [[UINavigationController alloc] initWithRootViewController: gamePickerNearbyViewController];
+	gamePickerNearbyNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    
     GamePickerMapViewController *gamePickerMapVC = [[GamePickerMapViewController alloc]initWithNibName:@"GamePickerMapViewController" bundle:nil];
     UINavigationController *gamePickerMapNC = [[UINavigationController alloc] initWithRootViewController:gamePickerMapVC];
     gamePickerMapNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
@@ -177,13 +177,14 @@
     gamePickerRecentNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     self.gameSelectionTabBarController.viewControllers = [NSMutableArray arrayWithObjects:
-                                                          gamePickerNearbyNavigationController,
+                                                          gamePickerNearbyNC,
                                                           gamePickerMapNC,
                                                           gamePickerSearchNC,
                                                           gamePickerRecentNC,
                                                           nil];
-    [self.gameSelectionTabBarController.view setFrame:UIScreen.mainScreen.applicationFrame];
-    
+    //[self.gameSelectionTabBarController.view setFrame:UIScreen.mainScreen.applicationFrame];
+    [window addSubview:self.gameSelectionTabBarController.view];
+
     
     
     //Setup The Tutorial View Controller
@@ -202,14 +203,13 @@
 								   selector:@selector(startUpdatingLocation) 
 								   userInfo:nil 
 									repeats:NO];
+    
 		
-	//Display the login screen
-    NSLog(@"Appdelegate: Player already logged in and they have a site selected. Go into the default module");
-    [[AppServices sharedAppServices] fetchAllGameLists];
-    [[AppServices sharedAppServices] silenceNextServerUpdate];
-    [[AppServices sharedAppServices] fetchAllPlayerLists];
+    self.loginViewNavigationController.view.hidden = NO;
+    self.tabBarController.view.hidden = YES;
+    self.gameSelectionTabBarController.view.hidden = YES;
 
-    [window addSubview:loginViewNavigationController.view];
+
 }
 
 
@@ -229,9 +229,12 @@
 	//handle login response
 	if([AppModel sharedAppModel].loggedIn) {
 		NSLog(@"AppDelegate: Login Success");
-		[[AppModel sharedAppModel] saveUserDefaults];
-        [loginViewNavigationController.view removeFromSuperview];
-		[window addSubview:self.gameSelectionTabBarController.view];		
+
+        self.tabBarController.view.hidden = YES;
+        self.gameSelectionTabBarController.view.hidden = NO;
+        self.loginViewNavigationController.view.hidden = YES;
+        
+        
 	} else {
 		NSLog(@"AppDelegate: Login Failed, check for a network issue");
 		if (self.networkAlert) NSLog(@"AppDelegate: Network is down, skip login alert");
@@ -246,19 +249,24 @@
 	
 }
 
+- (void) showGameSelectionTabBarAndHideOthers {
+    self.tabBarController.selectedIndex = 0;
+    self.tabBarController.view.hidden = YES;
+    self.gameSelectionTabBarController.view.hidden = NO;
+    self.loginViewNavigationController.view.hidden = YES;
+}
+
 - (void)selectGame:(NSNotification *)notification {
     //NSDictionary *loginObject = [notification object];
 	NSDictionary *userInfo = notification.userInfo;
 	Game *selectedGame = [userInfo objectForKey:@"game"];
     
 	NSLog(@"AppDelegate: Game Selected. '%@' game was selected", selectedGame.name);
-    //tabBarController.tabBar.hidden = NO;
-	//[gameSelectionTabBarController.view removeFromSuperview];
-    tabBarController.view.hidden = NO;
-    tabBarController.tabBar.hidden = NO;
-    gameSelectionTabBarController.tabBar.hidden = YES;
-    gameSelectionTabBarController.view.hidden = YES;
-    [window addSubview:self.tabBarController.view];
+	
+    self.tabBarController.selectedIndex = 0;
+    self.tabBarController.view.hidden = NO;
+    self.gameSelectionTabBarController.view.hidden = YES;
+    self.loginViewNavigationController.view.hidden = YES;
 	
 	//Set the model to this game
 	[AppModel sharedAppModel].currentGame = selectedGame;
@@ -275,9 +283,6 @@
 	
 	//Set tabBar to the first item
 	tabBarController.selectedIndex = 0;
-	
-	//Display the tabBar (and it's content)
-	tabBarController.view.hidden = NO;
 	
 	UINavigationController *navigationController;
 	UIViewController *visibleViewController;
@@ -316,15 +321,10 @@
 	[tutorialViewController dismissAllTutorials];
 	
 	//(re)load the login view
-	tabBarController.view.hidden = YES;
-	[window addSubview:loginViewNavigationController.view];
+	self.tabBarController.view.hidden = YES;
+    self.loginViewNavigationController.view.hidden = NO;
+    self.gameSelectionTabBarController.view.hidden = YES;
 }
-
-
-
-
-
-
 
 
 

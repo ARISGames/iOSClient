@@ -28,7 +28,6 @@
     if (self) {
         self.title = @"Nearby";
         self.tabBarItem.image = [UIImage imageNamed:@"game.png"];
-		self.count = 0;
     }
     return self;
 }
@@ -52,17 +51,7 @@
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[gameTable reloadData];
 	[self refresh];
-    if(self.count == 0){
     
-        appDelegate.tabBarController.tabBar.hidden = YES;
-        appDelegate.gameSelectionTabBarController.view.hidden = NO;
-        appDelegate.gameSelectionTabBarController.tabBar.hidden = NO;
-        self.count++;
-    }
-    else {count--;
-        appDelegate.tabBarController.view.hidden = NO;
-        appDelegate.tabBarController.tabBar.hidden = NO;
-        appDelegate.gameSelectionTabBarController.tabBar.hidden = YES;}
 	NSLog(@"GamePickerViewController: view did appear");
 
 }

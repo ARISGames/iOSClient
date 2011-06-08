@@ -48,8 +48,6 @@
 	MyCLController *myCLController;
 	LoginViewController *loginViewController;
 	UINavigationController *loginViewNavigationController;
-	GamePickerNearbyViewController *gamePickerNearbyViewController;
-	UINavigationController *gamePickerNearbyNavigationController;
 	UINavigationController *nearbyObjectNavigationController;
 	WaitingIndicatorViewController *waitingIndicator;
 	WaitingIndicatorView *waitingIndicatorView;
@@ -72,13 +70,9 @@
 @property (nonatomic, retain) IBOutlet UITabBarController *gameSelectionTabBarController;
 
 @property (nonatomic, retain) IBOutlet TutorialViewController *tutorialViewController;
-
 @property (nonatomic, retain) IBOutlet LoginViewController *loginViewController;
 @property (nonatomic, retain) IBOutlet UINavigationController *loginViewNavigationController;
-@property (nonatomic, retain) IBOutlet GamePickerNearbyViewController *gamePickerNearbyViewController;
-@property (nonatomic, retain) IBOutlet UINavigationController *gamePickerNearbyNavigationController;
 @property (nonatomic, retain) IBOutlet UINavigationController *nearbyObjectsNavigationController;
-
 @property (nonatomic, retain) IBOutlet UINavigationController *nearbyObjectNavigationController;
 @property (nonatomic, retain) WaitingIndicatorViewController *waitingIndicator;
 @property (nonatomic, retain) WaitingIndicatorView *waitingIndicatorView;
@@ -99,6 +93,7 @@
 - (void) removeNetworkAlert;
 - (void) showNearbyTab: (BOOL) yesOrNo;
 - (void) returnToHomeView;
+- (void) showGameSelectionTabBarAndHideOthers;
 - (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate;
 - (void) checkForDisplayCompleteNode;
 - (void) displayIntroNode;

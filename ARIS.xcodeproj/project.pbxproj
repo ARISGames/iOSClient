@@ -180,6 +180,7 @@
 		ABA104C710CA0E3E008538D0 /* ARView.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABA104C610CA0E3E008538D0 /* ARView.xib */; };
 		ABAA644B130FD5410004D64C /* GamePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ABAA644A130FD5410004D64C /* GamePickerCell.m */; };
 		ABAA644F130FD5610004D64C /* GamePickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABAA644E130FD5610004D64C /* GamePickerCell.xib */; };
+		ABB5767613A01FD100AD39D5 /* BogusSelectGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB5767513A01FD100AD39D5 /* BogusSelectGameViewController.m */; };
 		ABB60F23139F2F1700EEDA08 /* GamePickerSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB60F21139F2F1600EEDA08 /* GamePickerSearchViewController.m */; };
 		ABB60F24139F2F1700EEDA08 /* GamePickerSearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABB60F22139F2F1600EEDA08 /* GamePickerSearchViewController.xib */; };
 		ABB60F28139F352500EEDA08 /* GamePickerRecentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB60F26139F352500EEDA08 /* GamePickerRecentViewController.m */; };
@@ -519,6 +520,8 @@
 		ABAA6449130FD5410004D64C /* GamePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerCell.h; sourceTree = "<group>"; };
 		ABAA644A130FD5410004D64C /* GamePickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerCell.m; sourceTree = "<group>"; };
 		ABAA644E130FD5610004D64C /* GamePickerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GamePickerCell.xib; sourceTree = "<group>"; };
+		ABB5767413A01FD100AD39D5 /* BogusSelectGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BogusSelectGameViewController.h; sourceTree = "<group>"; };
+		ABB5767513A01FD100AD39D5 /* BogusSelectGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BogusSelectGameViewController.m; sourceTree = "<group>"; };
 		ABB60F20139F2F1600EEDA08 /* GamePickerSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerSearchViewController.h; sourceTree = "<group>"; };
 		ABB60F21139F2F1600EEDA08 /* GamePickerSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerSearchViewController.m; sourceTree = "<group>"; };
 		ABB60F22139F2F1600EEDA08 /* GamePickerSearchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GamePickerSearchViewController.xib; sourceTree = "<group>"; };
@@ -920,6 +923,8 @@
 				ABAA644E130FD5610004D64C /* GamePickerCell.xib */,
 				4A9181B8139FDF1600D236CC /* GamesMapAnnotation.h */,
 				4A9181B9139FDF1600D236CC /* GamesMapAnnotation.m */,
+				ABB5767413A01FD100AD39D5 /* BogusSelectGameViewController.h */,
+				ABB5767513A01FD100AD39D5 /* BogusSelectGameViewController.m */,
 			);
 			name = "Game Picker";
 			sourceTree = "<group>";
@@ -1556,6 +1561,7 @@
 				ABB60F23139F2F1700EEDA08 /* GamePickerSearchViewController.m in Sources */,
 				ABB60F28139F352500EEDA08 /* GamePickerRecentViewController.m in Sources */,
 				4A9181BA139FDF1600D236CC /* GamesMapAnnotation.m in Sources */,
+				ABB5767613A01FD100AD39D5 /* BogusSelectGameViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
