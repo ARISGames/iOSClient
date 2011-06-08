@@ -252,11 +252,15 @@ static float INITIAL_SPAN = 20;
 
 - (void) goToGame {
     NSLog(@"GamePickerMapViewController goToGame");
-        Game *selectedGame = [[[AppModel sharedAppModel] gameList] objectAtIndex:0];	
-        GameDetails *gameDetailsVC = [[GameDetails alloc]initWithNibName:@"GameDetails" bundle:nil];
-        gameDetailsVC.game = selectedGame;
-        [self.navigationController pushViewController:gameDetailsVC animated:YES];
-        [gameDetailsVC release];
+    
+    //unregister for notifications
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    Game *selectedGame = [[[AppModel sharedAppModel] gameList] objectAtIndex:0];	
+    GameDetails *gameDetailsVC = [[GameDetails alloc]initWithNibName:@"GameDetails" bundle:nil];
+    gameDetailsVC.game = selectedGame;
+    [self.navigationController pushViewController:gameDetailsVC animated:YES];
+    [gameDetailsVC release];
 }
 
 - (void)mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view {
