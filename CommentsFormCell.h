@@ -17,7 +17,7 @@
     UIButton *saveButton;
     Game *game;
 
-    commentsViewController *commentsCV;
+    commentsViewController *commentsVC;
 
     UIAlertView *alert;
 
@@ -27,7 +27,7 @@
 @property(nonatomic,retain) IBOutlet SCRRatingView *ratingView;
 @property(nonatomic,retain) IBOutlet UITextField *textField;
 @property(nonatomic,retain) IBOutlet UIButton *saveButton;
-@property(nonatomic,retain) commentsViewController *commmentsCV;
+@property(nonatomic,retain) commentsViewController *commentsVC;
 @property(nonatomic,retain) Game *game;
 
 - (IBAction)saveComment:(id)sender;

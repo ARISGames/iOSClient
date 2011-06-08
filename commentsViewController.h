@@ -15,10 +15,12 @@
 
 @interface commentsViewController :UIViewController <UITableViewDelegate,UITableViewDataSource> {
 	UITableView *tableView;
+    int defaultRating;
     Game *game;
 }
 -(void)showLoadingIndicator;
 -(void)addComment: (Comment *) comment;
 @property(nonatomic, retain) IBOutlet UITableView *tableView;
+@property(nonatomic) int defaultRating;
 @property(nonatomic, retain) Game *game;
 @end

@@ -16,6 +16,7 @@
 @implementation commentsViewController
 @synthesize tableView;
 @synthesize game;
+@synthesize defaultRating;
 
 
 //Override init for passing title and icon to tab bar
@@ -32,6 +33,7 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+    defaultRating = 3;
    	NSLog(@"commentsPickerViewController: View Loaded");
 }
 
@@ -106,10 +108,12 @@
         
         CommentsFormCell *commentsFormCell = (CommentsFormCell *)cell; 
         commentsFormCell.game = self.game;
-        commentsFormCell.commmentsCV = self;
+        commentsFormCell.commentsVC = self;
         commentsFormCell.ratingView.backgroundColor = [UIColor clearColor];
+        
+        commentsFormCell.ratingView.userRating = defaultRating;
+        commentsFormCell.ratingView.rating = defaultRating;
 
-                
         [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-halfselected.png"]
                                    forState:kSCRatingViewHalfSelected];
         [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-highlighted.png"]

@@ -9,12 +9,11 @@
 #import "CommentsFormCell.h"
 #import "AppServices.h"
 
-
 @implementation CommentsFormCell
 @synthesize ratingView;
 @synthesize textField;
 @synthesize saveButton;
-@synthesize game,commmentsCV;
+@synthesize game,commentsVC;
 @synthesize alert;
 
 
@@ -41,36 +40,35 @@
                                                 message: NSLocalizedString(@"Please add a comment", @"")
                                                delegate: self cancelButtonTitle: NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
         [self.alert show];
+        [self.alert release];
     }
     else if(self.ratingView.userRating == 0){
         self.alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Error", @"")
                                                 message: NSLocalizedString(@"Please give this game a rating of one through five stars", @"")
                                                delegate: self cancelButtonTitle: NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
         [self.alert show];
+        [self.alert release];
     }
     else{
-        self.alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Success!", @"")
+        self.alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Success!", @"a")
                                                 message: NSLocalizedString(@"Comment Successfully Posted", @"")
                                                delegate: self cancelButtonTitle: NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
         [self.alert show];
+        [self.alert release];
         [[AppServices sharedAppServices] saveComment:self.textField.text game:self.game.gameId starRating:self.ratingView.userRating];
         
-        //Add comment client side
+        self.commentsVC.defaultRating = self.ratingView.userRating;
         
+        //Add comment client side
         Comment *comment = [[Comment alloc]init];
         comment.text = self.textField.text;
         comment.rating = self.ratingView.userRating;
         comment.playerName = @"You";
-        [self.commmentsCV addComment:comment];
-        //[self.commmentsCV.tableView reloadData];
-        
+        [self.commentsVC addComment:comment];
+        [self.commentsVC.tableView reloadData];
+        [comment release];
         //End client side manipulation
-
-        
-        self.textField.text = @"";
-        self.ratingView.rating = self.ratingView.userRating;
     }
-    [self.alert release];
 }
 
 
