@@ -32,7 +32,7 @@ static float INITIAL_SPAN = 100;
     if (self) {
         self.title = @"Map View";
         self.tabBarItem.image = [UIImage imageNamed:@"gps.png"];
-        tracking = NO;
+        tracking = YES;
 		playerTrackingButton.style = UIBarButtonItemStyleDone;
         
     }
@@ -92,6 +92,17 @@ static float INITIAL_SPAN = 100;
     
 	NSLog(@"GPSViewController: View Loaded");
 }
+
+- (IBAction)refreshButtonAction: (id) sender{
+	tracking = YES;
+	playerTrackingButton.style = UIBarButtonItemStyleDone;
+    
+	//Rerfresh all contents
+	[self refresh];
+    
+}
+
+
 - (void) refresh {
 	if (mapView) {
         //Zoom and Center
@@ -223,7 +234,7 @@ static float INITIAL_SPAN = 100;
     
 	if (!appSetNextRegionChange) {
 		NSLog(@"GPSVC: regionDidChange without appSetNextRegionChange, it must have been the user");
-		tracking = NO;
+		tracking = YES;
 		playerTrackingButton.style = UIBarButtonItemStyleBordered;
 	}
 	

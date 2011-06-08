@@ -44,7 +44,7 @@
 - (MKAnnotationView *)mapView:(MKMapView *)myMapView viewForAnnotation:(id <MKAnnotation>)annotation;
 - (void)mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view;
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;
-
+- (IBAction)refreshButtonAction: (id) sender;
 
 
 @property (nonatomic, retain) MKMapView *mapView;
