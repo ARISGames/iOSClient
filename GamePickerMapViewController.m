@@ -79,7 +79,7 @@ static float INITIAL_SPAN = 100;
     NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
     [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedGameList" object:nil];
     [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
-    [dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
+   
     
     
     
