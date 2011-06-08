@@ -236,6 +236,7 @@ NSString *const kGameDetailsHtmlTemplate =
         cell.textLabel.textAlignment = UITextAlignmentCenter;
     }
     else {
+        cell.userInteractionEnabled = NO;
         CGRect descriptionFrame = [descriptionWebView frame];	
         descriptionFrame.origin.x = 15;
         descriptionFrame.origin.y = 15;

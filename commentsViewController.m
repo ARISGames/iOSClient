@@ -99,7 +99,10 @@
 		// Grab a pointer to the custom cell
 		cell = (CommentsFormCell *)temporaryController.view;
         //cell.userInteractionEnabled = NO;
-
+        cell.contentView.backgroundColor = [UIColor colorWithRed:200.0/255.0  
+                                                           green:200.0/255.0  
+                                                            blue:200.0/255.0  
+                                                           alpha:1.0];  
 		// Release the temporary UIViewController.
 		[temporaryController release];
         
@@ -121,32 +124,39 @@
                                    forState:kSCRatingViewUserSelected];
         
 
-        commentsFormCell.contentView.backgroundColor = [UIColor colorWithRed:200.0/255.0  
-                                                           green:200.0/255.0  
-                                                            blue:200.0/255.0  
-                                                           alpha:1.0];  
+        
     }
     else {
-        CommentCell *cell = [[CommentCell alloc] init]; //? WithNibName:@"CommentCell" bundle:nil];
+        //CommentCell *cell = [[CommentCell alloc] init]; //? WithNibName:@"CommentCell" bundle:nil];
+        
+        UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"CommentCell" bundle:nil];
+		// Grab a pointer to the custom cell
+		cell = (CommentCell *)temporaryController.view;
+
+		// Release the temporary UIViewController.
+		[temporaryController release];
+
+        CommentCell *commentCell = (CommentCell *)cell;
+
         
                 
-        cell.commentLabel.text = ((Comment *)[game.comments objectAtIndex:indexPath.row-1]).text;
-        cell.authorLabel.text = ((Comment *)[game.comments objectAtIndex:indexPath.row-1]).playerName;
+        commentCell.commentLabel.text = ((Comment *)[game.comments objectAtIndex:indexPath.row-1]).text;
+        commentCell.authorLabel.text = ((Comment *)[game.comments objectAtIndex:indexPath.row-1]).playerName;
         
-        cell.starView.rating = ((Comment *)[game.comments objectAtIndex:indexPath.row-1]).rating;
-        cell.starView.backgroundColor = [UIColor clearColor];
+        commentCell.starView.rating = ((Comment *)[game.comments objectAtIndex:indexPath.row-1]).rating;
+        commentCell.starView.backgroundColor = [UIColor clearColor];
         
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-halfselected.png"]
+        [commentCell.starView setStarImage:[UIImage imageNamed:@"small-star-halfselected.png"]
                            forState:kSCRatingViewHalfSelected];
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
+        [commentCell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
                            forState:kSCRatingViewHighlighted];
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
+        [commentCell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
                            forState:kSCRatingViewHot];
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
+        [commentCell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
                            forState:kSCRatingViewNonSelected];
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]
+        [commentCell.starView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]
                            forState:kSCRatingViewSelected];
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
+        [commentCell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
                            forState:kSCRatingViewUserSelected];
     }
     
