@@ -705,6 +705,38 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[jsonConnection release];
 }
 
+
+
+
+
+
+
+
+-(void)fetchMiniGamesListLocations:(NSString *)searchText{
+    NSLog(@"AppModel: Fetch Requested for Game List.");
+    
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects: 
+                          [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.latitude],
+						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.longitude],
+						  searchText,
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],
+						  nil];
+	
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"games"
+                                                             andMethodName:@"getGamesWithLocations"
+                                                              andArguments:arguments];
+	
+	[jsonConnection performAsynchronousRequestWithParser:@selector(parseGameListWithLocationsFromJSON:)]; 
+	[jsonConnection release];
+}
+
+
+
+
+
+
 -(void)fetchQuestList {
 	NSLog(@"Model: Fetch Requested for Quests");
     
@@ -1037,6 +1069,55 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewGameListReady" object:nil]];
     
 }
+
+
+-(void)parseGameListWithLocationsFromJSON: (JSONResult *)jsonResult{
+    NSLog(@"AppModel: parseGameListFromJSON Beginning");		
+    
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RecievedGameListWithLocations" object:nil]];
+    
+	NSArray *gameListArray = (NSArray *)jsonResult.data;
+	
+	NSMutableArray *tempGameList = [[NSMutableArray alloc] init];
+	
+	NSEnumerator *gameListEnumerator = [gameListArray objectEnumerator];	
+	NSDictionary *gameDictionary;
+	while ((gameDictionary = [gameListEnumerator nextObject])) {
+		//create a new game
+		Game *game = [[Game alloc] init];
+        
+		game.gameId = [[gameDictionary valueForKey:@"game_id"] intValue];
+		//NSLog(@"AppModel: Parsing Game: %d", game.gameId);		
+		
+        NSString *rating = [gameDictionary valueForKey:@"rating"];
+		if ((NSNull *)rating != [NSNull null]) game.rating = [rating intValue];
+		else game.rating = 0;
+        
+		NSString *latitude = [gameDictionary valueForKey:@"latitude"];
+		NSString *longitude = [gameDictionary valueForKey:@"longitude"];
+		if ((NSNull *)latitude != [NSNull null] && (NSNull *)longitude != [NSNull null] )
+			game.location = [[[CLLocation alloc] initWithLatitude:[latitude doubleValue]
+                                                        longitude:[longitude doubleValue]] autorelease];
+		else game.location = [[CLLocation alloc] init];
+        
+        
+		//NSLog(@"Model: Adding Game: %@", game.name);
+		[tempGameList addObject:game]; 
+		[game release];
+	}
+    
+	[AppModel sharedAppModel].gameLocationList = tempGameList;
+	[tempGameList release];
+    
+    NSLog(@"AppModel: parseGameListWithLocationsFromJSON Complete, sending notification");		
+    
+	
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewGameListWithLocationsReady" object:nil]];
+    
+}
+
+
+
 
 - (void)saveComment:(NSString*)comment game:(int)gameId starRating:(int)rating{
 	NSLog(@"AppModel: Save Comment Requested");

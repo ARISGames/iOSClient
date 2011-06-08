@@ -17,7 +17,7 @@
 @implementation AppModel
 @synthesize serverURL,showGamesInDevelopment;
 @synthesize loggedIn, username, password, playerId, currentModule;
-@synthesize currentGame, gameList, locationList, playerList;
+@synthesize currentGame, gameList, gameLocationList, locationList, playerList;
 @synthesize playerLocation, inventory, questList, networkAlert;
 @synthesize gameMediaList, gameItemList, gameNodeList, gameNpcList;
 @synthesize locationListHash, questListHash, inventoryHash;
@@ -46,6 +46,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
 - (void)dealloc {
 	[gameMediaList release];
 	[gameList release];
+    [gameLocationList release];
 	[serverURL release];
 	[username release];
 	[password release];
