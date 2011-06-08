@@ -15,7 +15,7 @@
 #import <MapKit/MapKit.h>
 
 
-static float INITIAL_SPAN = 100;
+static float INITIAL_SPAN = 20;
 
 @implementation GamePickerMapViewController
 
@@ -25,6 +25,7 @@ static float INITIAL_SPAN = 100;
 @synthesize mapTypeButton;
 @synthesize playerTrackingButton;
 @synthesize toolBar;
+@synthesize refreshButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -42,6 +43,8 @@ static float INITIAL_SPAN = 100;
 - (void)dealloc
 {
     [mapView release];
+    [refreshButton release];
+
     [super dealloc];
 }
 
@@ -60,6 +63,10 @@ static float INITIAL_SPAN = 100;
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    self.refreshButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh)];
+    self.navigationItem.rightBarButtonItem = self.refreshButton;
+
+    
 	NSLog(@"Begin Loading GPS View");
 	mapView.showsUserLocation = YES;
 	[mapView setDelegate:self];
@@ -73,34 +80,31 @@ static float INITIAL_SPAN = 100;
 	playerTrackingButton.target = self; 
 	playerTrackingButton.action = @selector(refreshButtonAction:);
 	playerTrackingButton.style = UIBarButtonItemStyleDone;
-    
-
-    //register for notifications
-    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-    [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedGameList" object:nil];
-    [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
-    
-	//Force an update of the locations
-	[[AppServices sharedAppServices] fetchMiniGamesListLocations];
-	
-    [self zoomAndCenterMap];
+    	
+    [self refresh];
 	
     
 	NSLog(@"GPSViewController: View Loaded");
 }
 
-- (IBAction)refreshButtonAction: (id) sender{
-	tracking = YES;
-	playerTrackingButton.style = UIBarButtonItemStyleDone;
-    
-	//Rerfresh all contents
-	[self refresh];
-    
+-(void)removeLoadingIndicator{
+	[[self navigationItem] setRightBarButtonItem:self.refreshButton];
 }
-
 
 - (void) refresh {
 	if (mapView) {
+        
+        //register for notifications
+        //register for notifications
+        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+        [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
+        [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
+        
+        //Force an update of the locations
+        [[AppServices sharedAppServices] fetchMiniGamesListLocations];
+        
+        [self showLoadingIndicator];
+        
         //Zoom and Center
 		if (tracking) [self zoomAndCenterMap];
         
@@ -151,11 +155,6 @@ static float INITIAL_SPAN = 100;
 	[[self navigationItem] setRightBarButtonItem:barButton];
 	[barButton release];
 	[activityIndicator startAnimating];
-}
-
--(void)removeLoadingIndicator{
-	[[self navigationItem] setRightBarButtonItem:nil];
-	NSLog(@"GPSViewController: removeLoadingIndicator: silenceNextServerUpdateCount = %d", silenceNextServerUpdateCount);
 }
 
 

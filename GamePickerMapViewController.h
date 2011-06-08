@@ -20,6 +20,7 @@
 	IBOutlet UIBarButtonItem *mapTypeButton;
 	IBOutlet UIBarButtonItem *playerTrackingButton;
 	IBOutlet UIToolbar *toolBar;
+    IBOutlet UIBarButtonItem *refreshButton;
 	int silenceNextServerUpdateCount;
 	int newItemsSinceLastView;
     
@@ -49,13 +50,12 @@
 
 @property (nonatomic, retain) MKMapView *mapView;
 @property (nonatomic, copy) NSArray *locations;
-
 @property BOOL tracking;
-
-
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *mapTypeButton;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *playerTrackingButton;
 @property (nonatomic, retain) IBOutlet UIToolbar *toolBar;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *refreshButton;
+
 
 
 @end
