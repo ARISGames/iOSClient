@@ -16,8 +16,10 @@
     UITextField *textField;
     UIButton *saveButton;
     Game *game;
+    UIAlertView *alert;
 }
 
+@property (nonatomic, retain) UIAlertView *alert;
 @property(nonatomic,retain) IBOutlet SCRRatingView *ratingView;
 @property(nonatomic,retain) IBOutlet UITextField *textField;
 @property(nonatomic,retain) IBOutlet UIButton *saveButton;

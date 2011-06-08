@@ -15,6 +15,8 @@
 @synthesize textField;
 @synthesize saveButton;
 @synthesize game;
+@synthesize alert;
+
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     
@@ -34,7 +36,28 @@
 }
 
 - (IBAction)saveComment:(id)sender {
-    [[AppServices sharedAppServices] saveComment:self.textField.text game:self.game.gameId starRating:self.ratingView.userRating];
+    if([self.textField.text length] == 0){
+        self.alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Error", @"")
+                                                message: NSLocalizedString(@"Please add a comment", @"")
+                                               delegate: self cancelButtonTitle: NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+        [self.alert show];
+    }
+    else if(self.ratingView.userRating == 0){
+        self.alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Error", @"")
+                                                message: NSLocalizedString(@"Please give this game a rating of one through five stars", @"")
+                                               delegate: self cancelButtonTitle: NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+        [self.alert show];
+    }
+    else{
+        self.alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Success!", @"")
+                                                message: NSLocalizedString(@"Comment Successfully Posted", @"")
+                                               delegate: self cancelButtonTitle: NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+        [self.alert show];
+        [[AppServices sharedAppServices] saveComment:self.textField.text game:self.game.gameId starRating:self.ratingView.userRating];
+        self.textField.text = @"";
+        self.ratingView.rating = self.ratingView.userRating;
+    }
+    [self.alert release];
 }
 
 
