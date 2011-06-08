@@ -232,7 +232,7 @@ NSString *const kGameDetailsHtmlTemplate =
         
     }
     else if (indexPath.section == 1 && indexPath.row ==0) {
-        cell.textLabel.text = @"PLAY";
+        cell.textLabel.text = @"Play Now";
         cell.textLabel.textAlignment = UITextAlignmentCenter;
     }
     else {
@@ -245,6 +245,10 @@ NSString *const kGameDetailsHtmlTemplate =
     }
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 1 && indexPath.row ==0) cell.backgroundColor = [UIColor colorWithRed:182/255.0 green:230/255.0 blue:154/255.0 alpha:1.0];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -273,9 +277,9 @@ NSString *const kGameDetailsHtmlTemplate =
     if (indexPath.section == 0 && indexPath.row == 0) return 200;
     else if(indexPath.section ==2 && indexPath.row ==0){
         if(self.newHeight) return self.newHeight+30;
-        else return 60;
+        else return 40;
     }
-    else return 60;
+    else return 40;
 }
 
 
