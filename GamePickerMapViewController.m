@@ -228,6 +228,8 @@ static float INITIAL_SPAN = 100;
 
 - (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>) annotation{ 
 	
+    if ([annotation isKindOfClass:[MKUserLocation class]]) return nil;
+    
 	MKPinAnnotationView *annView=[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"MyPin"];
 	annView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
 	annView.animatesDrop=TRUE;  
