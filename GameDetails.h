@@ -30,7 +30,6 @@
 
 @property (nonatomic, retain) Game *game;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
-
 @property (nonatomic, retain) IBOutlet UIWebView *descriptionWebView;
 @property (nonatomic, retain) IBOutlet UILabel *titleLabel;
 @property (nonatomic, retain) IBOutlet UILabel *authorsLabel;

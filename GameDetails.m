@@ -196,9 +196,9 @@ NSString *const kGameDetailsHtmlTemplate =
             [mediaImageView loadImageFromMedia:splashMedia];
         }
         else mediaImageView.image = [UIImage imageNamed:@"Default.png"];
-        
         CGRect frame = CGRectMake(0, 0, 320, 200);
         [mediaImageView setFrame:frame];
+        mediaImageView.contentMode = UIViewContentModeScaleAspectFill;
 
         cell.backgroundView = mediaImageView;
         cell.backgroundView.layer.masksToBounds = YES;
