@@ -240,7 +240,7 @@ static float INITIAL_SPAN = 20;
 }
 
 - (IBAction)gotoGame:(id)sender {
-    
+    [[AppServices sharedAppServices] fetchOneGame:(((GamesMapAnnotation *)sender).gameId)];
 }
 
 

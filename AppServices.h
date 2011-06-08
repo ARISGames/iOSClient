@@ -55,6 +55,7 @@
 - (void)fetchGameListWithDistanceFilter: (int)distanceInMeters locational:(BOOL)locationalOrNonLocational;
 - (void)fetchRecentGameListForPlayer;
 - (void)fetchMiniGamesListLocations;
+- (void)fetchOneGame:(int)gameId;
 
 - (void)fetchLocationList;
 - (void)forceUpdateOnNextLocationListFetch;

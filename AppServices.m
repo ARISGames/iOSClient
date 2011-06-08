@@ -1045,7 +1045,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
     else game.completeNodeId = 0;
     
     NSString *calculatedScore = [gameSource valueForKey:@"calculatedScore"];
-    if ((NSNull *)calculatedScore != [NSNull null]) game.calculatedScore = [game_complete_node_id intValue];
+    if ((NSNull *)calculatedScore != [NSNull null]) game.calculatedScore = [calculatedScore intValue];
     
     NSString *numComments = [gameSource valueForKey:@"numComments"];
     if ((NSNull *)numComments != [NSNull null]) game.numReviews = [numComments intValue];
