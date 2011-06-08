@@ -27,9 +27,9 @@
 - (void)dealloc
 {
     [super dealloc];
-    [commentLabel dealloc];
-    [authorLabel dealloc];
-    [starView dealloc];
+    [commentLabel release];
+    [authorLabel release];
+    [starView release];
 }
 
 @end
