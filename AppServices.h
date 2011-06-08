@@ -94,6 +94,7 @@
 - (void)registerNewUser:(NSString*)userName password:(NSString*)pass 
 			  firstName:(NSString*)firstName lastName:(NSString*)lastName email:(NSString*)email;
 - (void)parseGameListFromJSON: (JSONResult *)jsonResult;
+- (Game *)parseGame:(NSDictionary *)gameSource;
 - (void)parseGameMediaListFromJSON: (JSONResult *)jsonResult;
 - (void)parseGameNpcListFromJSON: (JSONResult *)jsonResult;
 - (void)parseGameItemListFromJSON: (JSONResult *)jsonResult;

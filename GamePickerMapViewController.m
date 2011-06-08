@@ -86,8 +86,7 @@ static float INITIAL_SPAN = 100;
 	//Force an update of the locations
 	[[AppServices sharedAppServices] fetchMiniGamesListLocations];
 	
-	[self refresh];	
-	
+    [self zoomAndCenterMap];
 	
     
 	NSLog(@"GPSViewController: View Loaded");
@@ -113,6 +112,7 @@ static float INITIAL_SPAN = 100;
 		
 	}
 }
+
 - (void)refreshViewFromModel {
 	NSLog(@"GPSViewController: Refreshing view from model");
 	
@@ -132,28 +132,9 @@ static float INITIAL_SPAN = 100;
         
 		//Add the freshly loaded locations from the notification
 		for (Game* game in locations ) {
-            GamesMapAnnotation *annotation = [[Annotation alloc]initWithCoordinate:game.location.coordinate];
+            GamesMapAnnotation *annotation = [[GamesMapAnnotation alloc] initWithTitle:game.name andCoordinate:game.location.coordinate];
             [mapView addAnnotation:annotation];
-            /*
-			NSLog(@"GPSViewController: Adding location annotation for:%@ id:%d", location.name, location.locationId);
-
-			CLLocationCoordinate2D locationLatLong = location.location.coordinate;
-			
-			Annotation *annotation = [[Annotation alloc]initWithCoordinate:locationLatLong];
-			annotation.location = location;
-			
-			
-			annotation.title = location.name;
-			            
-			[mapView addAnnotation:annotation];
-			if (!mapView) {
-				NSLog(@"GPSViewController: Just added an annotation to a null mapview!");
-			}
-			
-			[annotation release];
-             */
-		}
-		
+        }
 	}
 	
 	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
@@ -243,16 +224,22 @@ static float INITIAL_SPAN = 100;
     
 }
 
-- (MKAnnotationView *)mapView:(MKMapView *)myMapView viewForAnnotation:(id <MKAnnotation>)annotation{
-	NSLog(@"GPSViewController: In viewForAnnotation");
-    
-    return nil;
+- (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>) annotation{ 
+	
+	MKPinAnnotationView *annView=[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"MyPin"];
+	annView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+	annView.animatesDrop=TRUE;  
+	annView.canShowCallout = YES;  
+	[annView setSelected:YES];  
+	//annView.pinColor = MKPinAnnotationColorGreen;  
+	//annView.calloutOffset = CGPointMake(-5, 5);  
+	return annView;  
 }
 
 
 - (void)mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view {
-	Location *location = ((Annotation*)view.annotation).location;
-	NSLog(@"GPSViewController: didSelectAnnotationView for location: %@",location.name);
+	//Location *location = ((Annotation*)view.annotation).location;
+	//NSLog(@"GPSViewController: didSelectAnnotationView for location: %@",location.name);
 	
 }
 

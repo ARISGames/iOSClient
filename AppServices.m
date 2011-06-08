@@ -957,7 +957,92 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	}
 }
 
-
+- (Game *)parseGame:(NSDictionary *)gameSource {
+    //create a new game
+    Game *game = [[[Game alloc] init]autorelease];
+    
+    game.gameId = [[gameSource valueForKey:@"game_id"] intValue];
+    //NSLog(@"AppModel: Parsing Game: %d", game.gameId);		
+    
+    game.name = [gameSource valueForKey:@"name"];
+    if ((NSNull *)game.name == [NSNull null]) game.name = @"";
+    
+    NSString *isLocational = [gameSource valueForKey:@"is_locational"];
+    if ((NSNull *)isLocational != [NSNull null]) game.isLocational = [isLocational boolValue];
+    else game.isLocational = NO;
+    
+    
+    game.description = [gameSource valueForKey:@"description"];
+    if ((NSNull *)game.description == [NSNull null]) game.description = @"";
+    
+    NSString *rating = [gameSource valueForKey:@"rating"];
+    if ((NSNull *)rating != [NSNull null]) game.rating = [rating intValue];
+    else game.rating = 0;
+    
+    NSString *pc_media_id = [gameSource valueForKey:@"pc_media_id"];
+    if ((NSNull *)pc_media_id != [NSNull null]) game.pcMediaId = [pc_media_id intValue];
+    else game.pcMediaId = 0;
+    
+    NSString *distance = [gameSource valueForKey:@"distance"];
+    if ((NSNull *)distance != [NSNull null]) game.distanceFromPlayer = [distance doubleValue];
+    else game.distanceFromPlayer = 999999999;
+    
+    NSString *latitude = [gameSource valueForKey:@"latitude"];
+    NSString *longitude = [gameSource valueForKey:@"longitude"];
+    if ((NSNull *)latitude != [NSNull null] && (NSNull *)longitude != [NSNull null] )
+        game.location = [[[CLLocation alloc] initWithLatitude:[latitude doubleValue]
+                                                    longitude:[longitude doubleValue]] autorelease];
+    else game.location = [[CLLocation alloc] init];
+    
+    game.authors = [gameSource valueForKey:@"editors"];
+    if ((NSNull *)game.authors == [NSNull null]) game.authors = @"";
+    
+    NSString *numPlayers = [gameSource valueForKey:@"numPlayers"];
+    if ((NSNull *)numPlayers != [NSNull null]) game.numPlayers = [numPlayers intValue];
+    else game.numPlayers = 0;
+    
+    game.iconMediaUrl = [gameSource valueForKey:@"icon_media_url"];
+    
+    game.mediaUrl = [gameSource valueForKey:@"media_url"];	
+    
+    NSString *completedQuests = [gameSource valueForKey:@"completedQuests"];	
+    if ((NSNull *)completedQuests != [NSNull null]) game.completedQuests = [completedQuests intValue];
+    else game.completedQuests = 0;
+    
+    NSString *totalQuests = [gameSource valueForKey:@"totalQuests"];
+    if ((NSNull *)totalQuests != [NSNull null]) game.totalQuests = [totalQuests intValue];
+    else game.totalQuests = 1;
+    
+    NSString *on_launch_node_id = [gameSource valueForKey:@"on_launch_node_id"];
+    if ((NSNull *)on_launch_node_id != [NSNull null]) game.launchNodeId = [on_launch_node_id intValue];
+    else game.launchNodeId = 0;
+    
+    NSString *game_complete_node_id = [gameSource valueForKey:@"game_complete_node_id"];
+    if ((NSNull *)game_complete_node_id != [NSNull null]) game.completeNodeId = [game_complete_node_id intValue];
+    else game.completeNodeId = 0;
+    
+    NSString *calculatedScore = [gameSource valueForKey:@"calculatedScore"];
+    if ((NSNull *)calculatedScore != [NSNull null]) game.calculatedScore = [game_complete_node_id intValue];
+    
+    NSString *numComments = [gameSource valueForKey:@"numComments"];
+    if ((NSNull *)numComments != [NSNull null]) game.numReviews = [numComments intValue];
+    
+    NSArray *comments = [gameSource valueForKey:@"comments"];
+    for (NSDictionary *comment in comments) {
+        //This is returning an object with playerId,tex, and rating. Right now, we just want the text
+        //TODO: Create a Comments object
+        Comment *c = [[Comment alloc] init];
+        c.text = [comment objectForKey:@"text"];
+        c.playerName = [comment objectForKey:@"username"];
+        NSString *cRating = [comment objectForKey:@"rating"];
+        if ((NSNull *)cRating != [NSNull null]) c.rating = [cRating intValue];
+        [game.comments addObject:c];
+    }
+    
+    
+    //NSLog(@"Model: Adding Game: %@", game.name);
+    return game;
+}
 
 -(void)parseGameListFromJSON: (JSONResult *)jsonResult{
     NSLog(@"AppModel: parseGameListFromJSON Beginning");		
@@ -971,91 +1056,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	NSEnumerator *gameListEnumerator = [gameListArray objectEnumerator];	
 	NSDictionary *gameDictionary;
 	while ((gameDictionary = [gameListEnumerator nextObject])) {
-		//create a new game
-		Game *game = [[Game alloc] init];
-        
-		game.gameId = [[gameDictionary valueForKey:@"game_id"] intValue];
-		//NSLog(@"AppModel: Parsing Game: %d", game.gameId);		
-		
-		game.name = [gameDictionary valueForKey:@"name"];
-		if ((NSNull *)game.name == [NSNull null]) game.name = @"";
-        
-        NSString *isLocational = [gameDictionary valueForKey:@"is_locational"];
-		if ((NSNull *)isLocational != [NSNull null]) game.isLocational = [isLocational boolValue];
-		else game.isLocational = NO;
-
-        
-		game.description = [gameDictionary valueForKey:@"description"];
-		if ((NSNull *)game.description == [NSNull null]) game.description = @"";
-        
-        NSString *rating = [gameDictionary valueForKey:@"rating"];
-		if ((NSNull *)rating != [NSNull null]) game.rating = [rating intValue];
-		else game.rating = 0;
-        
-		NSString *pc_media_id = [gameDictionary valueForKey:@"pc_media_id"];
-		if ((NSNull *)pc_media_id != [NSNull null]) game.pcMediaId = [pc_media_id intValue];
-		else game.pcMediaId = 0;
-		
-		NSString *distance = [gameDictionary valueForKey:@"distance"];
-		if ((NSNull *)distance != [NSNull null]) game.distanceFromPlayer = [distance doubleValue];
-		else game.distanceFromPlayer = 999999999;
-		
-		NSString *latitude = [gameDictionary valueForKey:@"latitude"];
-		NSString *longitude = [gameDictionary valueForKey:@"longitude"];
-		if ((NSNull *)latitude != [NSNull null] && (NSNull *)longitude != [NSNull null] )
-			game.location = [[[CLLocation alloc] initWithLatitude:[latitude doubleValue]
-                                                        longitude:[longitude doubleValue]] autorelease];
-		else game.location = [[CLLocation alloc] init];
-        
-		game.authors = [gameDictionary valueForKey:@"editors"];
-		if ((NSNull *)game.authors == [NSNull null]) game.authors = @"";
-        
-		NSString *numPlayers = [gameDictionary valueForKey:@"numPlayers"];
-		if ((NSNull *)numPlayers != [NSNull null]) game.numPlayers = [numPlayers intValue];
-		else game.numPlayers = 0;
-        
-		game.iconMediaUrl = [gameDictionary valueForKey:@"icon_media_url"];
-
-		game.mediaUrl = [gameDictionary valueForKey:@"media_url"];	
-        
-		NSString *completedQuests = [gameDictionary valueForKey:@"completedQuests"];	
-		if ((NSNull *)completedQuests != [NSNull null]) game.completedQuests = [completedQuests intValue];
-		else game.completedQuests = 0;
-		
-		NSString *totalQuests = [gameDictionary valueForKey:@"totalQuests"];
-		if ((NSNull *)totalQuests != [NSNull null]) game.totalQuests = [totalQuests intValue];
-		else game.totalQuests = 1;
-		
-		NSString *on_launch_node_id = [gameDictionary valueForKey:@"on_launch_node_id"];
-		if ((NSNull *)on_launch_node_id != [NSNull null]) game.launchNodeId = [on_launch_node_id intValue];
-		else game.launchNodeId = 0;
-		
-		NSString *game_complete_node_id = [gameDictionary valueForKey:@"game_complete_node_id"];
-		if ((NSNull *)game_complete_node_id != [NSNull null]) game.completeNodeId = [game_complete_node_id intValue];
-		else game.completeNodeId = 0;
-        
-        NSString *calculatedScore = [gameDictionary valueForKey:@"calculatedScore"];
-        if ((NSNull *)calculatedScore != [NSNull null]) game.calculatedScore = [game_complete_node_id intValue];
-        
-        NSString *numComments = [gameDictionary valueForKey:@"numComments"];
-        if ((NSNull *)numComments != [NSNull null]) game.numReviews = [numComments intValue];
-		
-		NSArray *comments = [gameDictionary valueForKey:@"comments"];
-        for (NSDictionary *comment in comments) {
-            //This is returning an object with playerId,tex, and rating. Right now, we just want the text
-            //TODO: Create a Comments object
-            Comment *c = [[Comment alloc] init];
-            c.text = [comment objectForKey:@"text"];
-            c.playerName = [comment objectForKey:@"username"];
-            NSString *cRating = [comment objectForKey:@"rating"];
-            if ((NSNull *)cRating != [NSNull null]) c.rating = [cRating intValue];
-            [game.comments addObject:c];
-        }
-        
-    
-		//NSLog(@"Model: Adding Game: %@", game.name);
-		[tempGameList addObject:game]; 
-		[game release];
+		[tempGameList addObject:[self parseGame:(gameDictionary)]]; 
 	}
     
 	[AppModel sharedAppModel].gameList = tempGameList;
