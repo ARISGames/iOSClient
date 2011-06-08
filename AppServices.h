@@ -53,6 +53,8 @@
 			   withArgs:(NSArray *)arguments usingParser:(SEL)aSelector;
 
 - (void)fetchGameListWithDistanceFilter: (int)distanceInMeters locational:(BOOL)locationalOrNonLocational;
+- (void)fetchRecentGameListForPlayer;
+
 - (void)fetchLocationList;
 - (void)forceUpdateOnNextLocationListFetch;
 - (void)resetAllPlayerLists;

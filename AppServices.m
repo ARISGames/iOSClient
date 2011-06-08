@@ -734,6 +734,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 
 
 
+- (void)fetchRecentGameListForPlayer  {
+	NSLog(@"AppModel: Fetch Requested for Game List.");
+    
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects: 
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],
+						  nil];
+	
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"games"
+                                                             andMethodName:@"getRecentGamesForPlayer"
+                                                              andArguments:arguments];
+	
+	[jsonConnection performAsynchronousRequestWithParser:@selector(parseGameListFromJSON:)]; 
+	[jsonConnection release];
+}
+
+
+
 #pragma mark Parsers
 - (NSInteger) validIntForKey:(NSString *const)aKey inDictionary:(NSDictionary *const)aDictionary {
 	id theObject = [aDictionary valueForKey:aKey];

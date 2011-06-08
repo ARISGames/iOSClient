@@ -76,7 +76,7 @@
 -(void)refresh {
 	NSLog(@"GamePickerViewController: Refresh Requested");
     
-    [[AppServices sharedAppServices] fetchGameListWithDistanceFilter:10000 locational:1];
+    [[AppServices sharedAppServices] fetchRecentGameListForPlayer];
 	[self showLoadingIndicator];
 }
 
