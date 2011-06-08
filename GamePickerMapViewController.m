@@ -12,6 +12,7 @@
 #import "ARISAppDelegate.h"
 #import <UIKit/UIActionSheet.h>
 #import "GamesMapAnnotation.h"
+#import "GameDetails.h"
 #import <MapKit/MapKit.h>
 
 
@@ -78,7 +79,7 @@ static float INITIAL_SPAN = 20;
 	mapTypeButton.title = NSLocalizedString(@"MapTypeKey",@"");
 	
 	playerTrackingButton.target = self; 
-	playerTrackingButton.action = @selector(refreshButtonAction:);
+	playerTrackingButton.action = @selector(refresh);
 	playerTrackingButton.style = UIBarButtonItemStyleDone;
     	
     [self refresh];
@@ -99,6 +100,7 @@ static float INITIAL_SPAN = 20;
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
         [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
+        [dispatcher addObserver:self selector:@selector(goToGame) name:@"NewGameListReady" object:nil];
         
         //Force an update of the locations
         [[AppServices sharedAppServices] fetchMiniGamesListLocations];
@@ -230,7 +232,9 @@ static float INITIAL_SPAN = 20;
     if ([annotation isKindOfClass:[MKUserLocation class]]) return nil;
     
 	MKPinAnnotationView *annView=[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"MyPin"];
-	annView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+	UIButton *actionButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    annView.rightCalloutAccessoryView = actionButton;
+    [actionButton addTarget:self action:@selector(gameWasSelected:) forControlEvents:UIControlEventTouchUpInside];
 	annView.animatesDrop=TRUE;  
 	annView.canShowCallout = YES;  
 	[annView setSelected:YES];  
@@ -239,17 +243,26 @@ static float INITIAL_SPAN = 20;
 	return annView;  
 }
 
-- (IBAction)gotoGame:(id)sender {
-    [[AppServices sharedAppServices] fetchOneGame:(((GamesMapAnnotation *)sender).gameId)];
+- (IBAction)gameWasSelected:(id)sender {
+    GamesMapAnnotation *selected = [self.mapView.selectedAnnotations objectAtIndex:0];
+    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+    [dispatcher addObserver:self selector:@selector(goToGame) name:@"NewGameListReady" object:nil];
+    [[AppServices sharedAppServices] fetchOneGame:selected.gameId];
 }
 
+- (void) goToGame {
+    NSLog(@"GamePickerMapViewController goToGame");
+        Game *selectedGame = [[[AppModel sharedAppModel] gameList] objectAtIndex:0];	
+        GameDetails *gameDetailsVC = [[GameDetails alloc]initWithNibName:@"GameDetails" bundle:nil];
+        gameDetailsVC.game = selectedGame;
+        [self.navigationController pushViewController:gameDetailsVC animated:YES];
+        [gameDetailsVC release];
+}
 
 - (void)mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view {
 	//Location *location = ((Annotation*)view.annotation).location;
 	//NSLog(@"GPSViewController: didSelectAnnotationView for location: %@",location.name);
-	
 }
-
 
 #pragma mark UIActionSheet Delegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -263,5 +276,6 @@ static float INITIAL_SPAN = 20;
         [mapView deselectAnnotation:currentAnnotation animated:YES];
     }
 }
+
 
 @end

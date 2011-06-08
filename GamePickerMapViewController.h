@@ -46,7 +46,8 @@
 - (void)mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view;
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex;
 - (IBAction)refreshButtonAction: (id) sender;
-
+- (void) goToGame;
+- (IBAction)gameWasSelected:(id)sender;
 
 @property (nonatomic, retain) MKMapView *mapView;
 @property (nonatomic, copy) NSArray *locations;
