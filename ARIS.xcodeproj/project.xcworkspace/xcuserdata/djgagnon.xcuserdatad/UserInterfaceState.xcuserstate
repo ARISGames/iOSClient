@@ -19073,9 +19073,9 @@
 				</dict>
 			</array>
 		</dict>
-		<real>329255932.667382</real>
-		<string>{0, 952}</string>
-		<string>{395, 0}</string>
+		<real>329255985.56247997</real>
+		<string>{0, 951}</string>
+		<string>{394, 0}</string>
 		<dict>
 			<key>$class</key>
 			<dict>
@@ -25663,7 +25663,7 @@
 				<integer>1699</integer>
 			</dict>
 			<key>NS.time</key>
-			<real>329255928.53321898</real>
+			<real>329255983.18656999</real>
 		</dict>
 		<dict>
 			<key>$classes</key>
@@ -25674,7 +25674,7 @@
 			<key>$classname</key>
 			<string>NSDate</string>
 		</dict>
-		<string>Today at 2:58 PM</string>
+		<string>Today at 2:59 PM</string>
 		<integer>106</integer>
 		<string>ARIS</string>
 		<dict>
@@ -79009,9 +79009,9 @@
 				</dict>
 			</array>
 		</dict>
-		<real>329255932.67003298</real>
-		<string>{0, 952}</string>
-		<string>{395, 0}</string>
+		<real>329255985.56439698</real>
+		<string>{0, 951}</string>
+		<string>{394, 0}</string>
 		<string>Xcode.IDEKit.EditorDocument.SourceCode</string>
 		<dict>
 			<key>$class</key>
@@ -80439,7 +80439,7 @@
 				</dict>
 				<dict>
 					<key>CF$UID</key>
-					<integer>4525</integer>
+					<integer>4522</integer>
 				</dict>
 				<dict>
 					<key>CF$UID</key>

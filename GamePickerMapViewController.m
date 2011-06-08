@@ -15,7 +15,7 @@
 #import <MapKit/MapKit.h>
 
 
-static float INITIAL_SPAN = 1000;
+static float INITIAL_SPAN = 100;
 
 @implementation GamePickerMapViewController
 
