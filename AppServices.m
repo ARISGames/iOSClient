@@ -908,6 +908,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 		game.name = [gameDictionary valueForKey:@"name"];
 		if ((NSNull *)game.name == [NSNull null]) game.name = @"";
         
+        NSString *isLocational = [gameDictionary valueForKey:@"is_locational"];
+		if ((NSNull *)isLocational != [NSNull null]) game.isLocational = [isLocational boolValue];
+		else game.isLocational = NO;
+
+        
 		game.description = [gameDictionary valueForKey:@"description"];
 		if ((NSNull *)game.description == [NSNull null]) game.description = @"";
         

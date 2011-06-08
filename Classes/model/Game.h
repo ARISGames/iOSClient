@@ -30,6 +30,7 @@
 	int totalQuests;
 	int numReviews;
     int calculatedScore;
+    BOOL isLocational;
 }
 
 @property(readwrite, assign) int gameId;
@@ -49,6 +50,7 @@
 @property(readwrite, assign) int completedQuests;
 @property(readwrite, assign) int totalQuests;
 @property(readwrite, assign) int numReviews;
+@property (readwrite) BOOL isLocational;
 @property(readwrite, assign) int calculatedScore;
 
 - (NSComparisonResult)compareDistanceFromPlayer:(Game*)otherGame;

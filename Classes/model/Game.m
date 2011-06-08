@@ -29,7 +29,7 @@
 @synthesize completedQuests;
 @synthesize totalQuests;
 @synthesize numReviews;
-@synthesize calculatedScore;
+@synthesize calculatedScore,isLocational;
 
 - (id) init{
 	if ((self = [super init])) {

@@ -18,6 +18,7 @@
     Game *game;
 }
 -(void)showLoadingIndicator;
+-(void)addComment: (Comment *) comment;
 @property(nonatomic, retain) IBOutlet UITableView *tableView;
 @property(nonatomic, retain) Game *game;
 @end

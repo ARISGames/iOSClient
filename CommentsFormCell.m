@@ -14,7 +14,7 @@
 @synthesize ratingView;
 @synthesize textField;
 @synthesize saveButton;
-@synthesize game;
+@synthesize game,commmentsCV;
 @synthesize alert;
 
 
@@ -58,15 +58,22 @@
         self.ratingView.rating = self.ratingView.userRating;
     }
     [self.alert release];
+    Comment *comment = [[Comment alloc]init];
+    comment.text = self.textField.text;
+    comment.rating = self.ratingView.userRating;
+    comment.playerName = @"You";
+    [self.commmentsCV addComment:comment];
+    [self.commmentsCV.tableView reloadData];
 }
 
 
 - (void)dealloc
 {
-    [super dealloc];
     [ratingView release];
     [textField release];
     [saveButton release];
+    [super dealloc];
+
 }
 
 

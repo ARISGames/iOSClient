@@ -108,6 +108,7 @@
         
         CommentsFormCell *commentsFormCell = (CommentsFormCell *)cell; 
         commentsFormCell.game = self.game;
+        commentsFormCell.commmentsCV = self;
         commentsFormCell.ratingView.backgroundColor = [UIColor clearColor];
 
                 
@@ -186,7 +187,9 @@
     else return 60;
 }
 
-
+-(void)addComment:(Comment *)comment{
+    [game.comments addObject:comment];
+}
 
 
 - (void)dealloc {
