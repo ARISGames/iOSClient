@@ -12,9 +12,8 @@
 @interface GamePickerSearchViewController : UIViewController <UITableViewDelegate,UITableViewDataSource, UISearchDisplayDelegate, UISearchBarDelegate>{
     
 	NSArray *gameList;
-	NSMutableArray *filteredGameList;
     UISearchBar *theSearchBar;
-UIView *disableViewOverlay;
+    UIView *disableViewOverlay;
 	UITableView *gameTable;
     UIBarButtonItem *refreshButton;
     NSString *searchText;
@@ -22,15 +21,13 @@ UIView *disableViewOverlay;
 
 -(void)refresh;
 -(void)showLoadingIndicator;
-
 - (void)searchBar:(UISearchBar *)searchBar activate:(BOOL) active;
+
 @property(retain) UIView *disableViewOverlay;
 @property (nonatomic, retain) NSArray *gameList;
 @property (nonatomic, retain) NSString *searchText;
-@property (nonatomic, retain) NSMutableArray *filteredGameList;
 @property (nonatomic, retain) IBOutlet UITableView *gameTable;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *refreshButton;
-
 @property (nonatomic, retain) IBOutlet UISearchBar *theSearchBar;
 
 @end

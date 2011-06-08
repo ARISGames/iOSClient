@@ -65,6 +65,10 @@
 - (void)viewDidAppear:(BOOL)animated {
 	NSLog(@"GamePickerViewController: View Appeared");	
 	    
+    //Clear the List
+    self.gameList = [NSArray array];
+    [gameTable reloadData];
+    
 	[self refresh];
     
 	NSLog(@"GamePickerViewController: view did appear");

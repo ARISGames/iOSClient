@@ -18,7 +18,6 @@
 
 @synthesize gameTable;
 @synthesize gameList;
-@synthesize filteredGameList;
 @synthesize refreshButton,theSearchBar;
 @synthesize disableViewOverlay,searchText;
 
@@ -29,13 +28,11 @@
     if (self) {
         self.title = @"Search";
         self.tabBarItem.image = [UIImage imageNamed:@"game.png"];
-		self.filteredGameList = [[NSMutableArray alloc]initWithCapacity:1];
 		
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
 		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
 		[dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
-		
     }
     return self;
 }
@@ -58,18 +55,19 @@
     
     self.navigationItem.rightBarButtonItem = self.refreshButton;
     
+    
 	NSLog(@"GamePickerViewController: View Loaded");
 }
 
 - (void)viewDidAppear:(BOOL)animated {
 	NSLog(@"GamePickerViewController: View Appeared");	
-    [self.theSearchBar becomeFirstResponder];
-	self.gameList = [NSMutableArray arrayWithCapacity:1];
     
-	[gameTable reloadData];
-	//[self refresh];
-    
-	NSLog(@"GamePickerViewController: view did appear");
+    //Clear the List
+    self.gameList = [NSArray array];
+    [gameTable reloadData];
+
+    [self.theSearchBar becomeFirstResponder]; //Bring up the keyboard right away
+        
     [super viewDidAppear:animated];
 }
 
@@ -107,7 +105,7 @@
 	NSLog(@"GamePickerViewController: Refresh View from Model");
 	
 	//Sort the game list
-	NSArray* sortedGameList = [[AppModel sharedAppModel].gameList sortedArrayUsingSelector:@selector(compareDistanceFromPlayer:)];
+	NSArray* sortedGameList = [[AppModel sharedAppModel].gameList sortedArrayUsingSelector:@selector(compareTitle:)];
     
 	self.gameList = sortedGameList;
     
@@ -123,10 +121,7 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	if (tableView == self.searchDisplayController.searchResultsTableView)
-		return [self.filteredGameList count];
-	else return [self.gameList count];
-    
+	return [self.gameList count];
 }
 
 // Customize the appearance of table view cells.
@@ -145,10 +140,7 @@
 		[temporaryController release];
     }
 	
-	Game *currentGame;
-	if (tableView == self.searchDisplayController.searchResultsTableView) 
-		currentGame = [self.filteredGameList objectAtIndex:indexPath.row];
-	else currentGame = [self.gameList objectAtIndex:indexPath.row];
+	Game *currentGame = [self.gameList objectAtIndex:indexPath.row];
     
 	cell.titleLabel.text = currentGame.name;
 	double dist = currentGame.distanceFromPlayer;
@@ -179,6 +171,8 @@
 	else cell.iconView.image = [UIImage imageNamed:@"Icon.png"];
     cell.iconView.layer.masksToBounds = YES;
     cell.iconView.layer.cornerRadius = 10.0;
+    
+    
     
     if (indexPath.row % 2 == 0){  
         cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0  
