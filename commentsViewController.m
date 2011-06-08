@@ -68,17 +68,15 @@
 }
 
 
-
 #pragma mark Table view methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
+
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
     return [game.comments count] + 1;
-
 }
 
 // Customize the appearance of table view cells.
@@ -124,9 +122,7 @@
                                    forState:kSCRatingViewSelected];
         [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-hot.png"]
                                    forState:kSCRatingViewUserSelected];
-        
-
-        
+                
     }
     else {
         //CommentCell *cell = [[CommentCell alloc] init]; //? WithNibName:@"CommentCell" bundle:nil];

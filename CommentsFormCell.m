@@ -54,16 +54,22 @@
                                                delegate: self cancelButtonTitle: NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
         [self.alert show];
         [[AppServices sharedAppServices] saveComment:self.textField.text game:self.game.gameId starRating:self.ratingView.userRating];
+        
+        //Add comment client side
+        Comment *comment = [[Comment alloc]init];
+        comment.text = self.textField.text;
+        comment.rating = self.ratingView.userRating;
+        comment.playerName = @"You";
+        [self.commmentsCV addComment:comment];
+        [self.commmentsCV.tableView reloadData];
+        
+        [comment release];
+        //End client side manipulation
+        
         self.textField.text = @"";
         self.ratingView.rating = self.ratingView.userRating;
     }
     [self.alert release];
-    Comment *comment = [[Comment alloc]init];
-    comment.text = self.textField.text;
-    comment.rating = self.ratingView.userRating;
-    comment.playerName = @"You";
-    [self.commmentsCV addComment:comment];
-    [self.commmentsCV.tableView reloadData];
 }
 
 
