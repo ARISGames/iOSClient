@@ -60,4 +60,9 @@
 	else return NSOrderedSame;    
 }
 
+- (NSComparisonResult)compareTitle:(Game*)otherGame{
+    return [self.name compare:otherGame.name]; 
+}
+
+
 @end

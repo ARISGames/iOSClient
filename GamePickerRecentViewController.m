@@ -18,7 +18,6 @@
 
 @synthesize gameTable;
 @synthesize gameList;
-@synthesize filteredGameList;
 @synthesize refreshButton;
 
 
@@ -29,8 +28,7 @@
     if (self) {
         self.title = @"Recent Games";
         self.tabBarItem.image = [UIImage imageNamed:@"game.png"];
-		self.filteredGameList = [[NSMutableArray alloc]initWithCapacity:1];
-		
+
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
 		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
@@ -43,6 +41,9 @@
 - (void)dealloc {
 	[gameList release];
     [refreshButton release];
+    [distanceControl release];
+    [locationalControl release];
+	[gameTable release];
     [super dealloc];
 }
 
@@ -63,10 +64,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
 	NSLog(@"GamePickerViewController: View Appeared");	
-	
-	self.gameList = [NSMutableArray arrayWithCapacity:1];
-    
-	[gameTable reloadData];
+	    
 	[self refresh];
     
 	NSLog(@"GamePickerViewController: view did appear");
@@ -106,8 +104,7 @@
 	NSLog(@"GamePickerViewController: Refresh View from Model");
 	
 	//Sort the game list
-	NSArray* sortedGameList = [[AppModel sharedAppModel].gameList sortedArrayUsingSelector:@selector(compareDistanceFromPlayer:)];
-    
+	NSArray* sortedGameList = [[AppModel sharedAppModel].gameList sortedArrayUsingSelector:@selector(compareTitle:)];
 	self.gameList = sortedGameList;
     
 	[gameTable reloadData];
@@ -122,10 +119,7 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	if (tableView == self.searchDisplayController.searchResultsTableView)
-		return [self.filteredGameList count];
-	else return [self.gameList count];
-    
+	return [self.gameList count];
 }
 
 // Customize the appearance of table view cells.
@@ -144,10 +138,7 @@
 		[temporaryController release];
     }
 	
-	Game *currentGame;
-	if (tableView == self.searchDisplayController.searchResultsTableView) 
-		currentGame = [self.filteredGameList objectAtIndex:indexPath.row];
-	else currentGame = [self.gameList objectAtIndex:indexPath.row];
+	Game *currentGame = [self.gameList objectAtIndex:indexPath.row];
     
 	cell.titleLabel.text = currentGame.name;
 	double dist = currentGame.distanceFromPlayer;

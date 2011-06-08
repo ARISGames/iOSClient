@@ -12,8 +12,6 @@
 @interface GamePickerRecentViewController : UIViewController <UITableViewDelegate,UITableViewDataSource, UISearchDisplayDelegate, UISearchBarDelegate>{
 
 	NSArray *gameList;
-	NSMutableArray *filteredGameList;
-    
     IBOutlet UISegmentedControl *distanceControl;
     IBOutlet UISegmentedControl *locationalControl;
 	UITableView *gameTable;
@@ -23,11 +21,9 @@
 
 -(void)refresh;
 -(void)showLoadingIndicator;
--(IBAction)controlChanged:(id)sender;
 
 
 @property (nonatomic, retain) NSArray *gameList;
-@property (nonatomic, retain) NSMutableArray *filteredGameList;
 @property (nonatomic, retain) IBOutlet UITableView *gameTable;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *refreshButton;
 
