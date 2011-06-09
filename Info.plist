@@ -32,7 +32,7 @@
 	<key>CFBundleURLTypes</key>
 	<array/>
 	<key>CFBundleVersion</key>
-	<string>1.4 Alpha</string>
+	<string>1.4</string>
 	<key>Copyright (human-readable)</key>
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
