@@ -25,7 +25,12 @@
 
 - (void) viewWillAppear:(BOOL)animated {
     ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-    [appDelegate showGameSelectionTabBarAndHideOthers  ];
+    [appDelegate showGameSelectionTabBarAndHideOthers];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [self.navigationController popToRootViewControllerAnimated:NO];
+
 }
 
 - (void)dealloc
@@ -50,13 +55,13 @@
 }
 */
 
-/*
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 }
-*/
+
 
 - (void)viewDidUnload
 {

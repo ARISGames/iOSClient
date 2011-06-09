@@ -41,9 +41,9 @@
 @interface ARISAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate> {
 	UIWindow *window;
     UITabBarController *tabBarController;
+    UIViewController *defaultViewControllerForMainTabBar;
     UITabBarController *gameSelectionTabBarController;
     TutorialViewController *tutorialViewController;
-
 	UINavigationController *nearbyObjectsNavigationController;
 	MyCLController *myCLController;
 	LoginViewController *loginViewController;
@@ -67,8 +67,8 @@
 @property (nonatomic, retain) MyCLController *myCLController;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
+@property (nonatomic, retain) UIViewController *defaultViewControllerForMainTabBar;
 @property (nonatomic, retain) IBOutlet UITabBarController *gameSelectionTabBarController;
-
 @property (nonatomic, retain) IBOutlet TutorialViewController *tutorialViewController;
 @property (nonatomic, retain) IBOutlet LoginViewController *loginViewController;
 @property (nonatomic, retain) IBOutlet UINavigationController *loginViewNavigationController;

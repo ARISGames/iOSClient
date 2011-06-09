@@ -21,6 +21,7 @@
 
 @synthesize window;
 @synthesize tabBarController, gameSelectionTabBarController;
+@synthesize defaultViewControllerForMainTabBar;
 @synthesize loginViewController;
 @synthesize loginViewNavigationController;
 @synthesize nearbyObjectsNavigationController;
@@ -152,7 +153,7 @@
 										startOverNavigationController,
 										//developerNavigationController,
 										nil];
-	//[self.tabBarController.view setFrame:UIScreen.mainScreen.applicationFrame];
+    self.defaultViewControllerForMainTabBar = questsNavigationController;
     [window addSubview:self.tabBarController.view];
     
     
@@ -250,7 +251,7 @@
 }
 
 - (void) showGameSelectionTabBarAndHideOthers {
-    self.tabBarController.selectedIndex = 0;
+    [self returnToHomeView];
     self.tabBarController.view.hidden = YES;
     self.gameSelectionTabBarController.view.hidden = NO;
     self.loginViewNavigationController.view.hidden = YES;
@@ -263,10 +264,11 @@
     
 	NSLog(@"AppDelegate: Game Selected. '%@' game was selected", selectedGame.name);
 	
-    self.tabBarController.selectedIndex = 0;
     self.tabBarController.view.hidden = NO;
     self.gameSelectionTabBarController.view.hidden = YES;
     self.loginViewNavigationController.view.hidden = YES;
+    
+    [self returnToHomeView];
 	
 	//Set the model to this game
 	[AppModel sharedAppModel].currentGame = selectedGame;
@@ -281,8 +283,6 @@
 	NSLog(@"AppDelegate: Game Selected. Notifying Server");
 	[[AppServices sharedAppServices] updateServerGameSelected];
 	
-	//Set tabBar to the first item
-	tabBarController.selectedIndex = 0;
 	
 	UINavigationController *navigationController;
 	UIViewController *visibleViewController;
@@ -303,10 +303,7 @@
     
     //Display the intro node
     if ([AppModel sharedAppModel].currentGame.completedQuests < 1) [self displayIntroNode];
-    
-	NSLog(@"AppDelegate: %@ selected",[visibleViewController title]);
-	
-    
+    	
 }
 
 
@@ -480,8 +477,9 @@
 
 
 - (void) returnToHomeView{
-	NSLog(@"AppDelegate: Returning to Home View - Tab Bar Index 0");
-	[tabBarController setSelectedIndex:0];	
+	NSLog(@"AppDelegate: Returning to Home View and Popping More Nav Controller");
+    [self.tabBarController.moreNavigationController popToRootViewControllerAnimated:NO];
+	[self.tabBarController setSelectedViewController:self.defaultViewControllerForMainTabBar];	
 }
 
 - (void) checkForDisplayCompleteNode{
@@ -544,16 +542,8 @@
 #pragma mark UITabBarControllerDelegate methods
 
 - (void)tabBarController:(UITabBarController *)tabBar didSelectViewController:(UIViewController *)viewController{
-	
-	//Automatically reset the more tab to a list. Causes problems with dynamic add/remove of nearby tab
-	
-	int selectedIndex = [tabBar.viewControllers indexOfObject:tabBar.selectedViewController];
-	NSLog(@"AppDelegate: didSelectViewController at index %d",selectedIndex);
-	if (selectedIndex < 3){
-		NSLog(@"AppDelegate: didSelectViewController at index %d",selectedIndex);
-		[tabBar.moreNavigationController popToRootViewControllerAnimated:NO];
-	}
-
+    NSLog(@"AppDelegate: tabBarController didSelectViewController");	
+    
 	//Hide any popups
 	if ([viewController respondsToSelector:@selector(visibleViewController)]) {
 		UIViewController *vc = [viewController performSelector:@selector(visibleViewController)];
