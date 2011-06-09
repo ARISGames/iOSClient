@@ -184,7 +184,9 @@
 
 -(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (indexPath.row == 0) return 160;
-    else return 60;
+    else{
+        return (([((Comment *) [game.comments objectAtIndex:indexPath.row-1]).text length]/40)+2)*30;
+    }
 }
 
 -(void)addComment:(Comment *)comment{

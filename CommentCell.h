@@ -10,12 +10,12 @@
 #import "SCRRatingView.h"
 
 @interface CommentCell : UITableViewCell {
-	UILabel *commentLabel;
+	UITextView *commentLabel;
 	UILabel *authorLabel;
 	SCRRatingView *starView;
 }
 
-@property(nonatomic,retain) IBOutlet UILabel *commentLabel;
+@property(nonatomic,retain) IBOutlet UITextView *commentLabel;
 @property(nonatomic,retain) IBOutlet UILabel *authorLabel;
 @property(nonatomic,retain) IBOutlet SCRRatingView *starView;
 
