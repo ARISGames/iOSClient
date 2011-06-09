@@ -24,15 +24,15 @@ NSString *const kQuestsHtmlTemplate =
 @"	<title>Aris</title>"
 @"	<style type='text/css'><!--"
 @"	body {"
-@"		background-color: #000000;"
-@"		color: #FFFFFF;"
+@"		background-color: #E9E9E9;"
+@"		color: #000000;"
 @"		font-size: 14px;"
 @"		font-family: Helvetia, Sans-Serif;"
 @"		margin: 0;"
 @"	}"
 @"	h1 {"
-@"		background-color: #000000;"
-@"		color: #CCCCCC;"
+@"		background-color: #E9E9E9;"
+@"		color: #000000;"
 @"		font-size: 18px;"
 @"		font-style: bold;"
 @"		font-family: Helvetia, Sans-Serif;"
@@ -396,27 +396,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	else if (section == COMPLETED_SECTION) return NSLocalizedString(@"QuestsCompleteTitleKey",@"");
 	return @"Quests";
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
