@@ -48,6 +48,7 @@ NSString *const kQuestsHtmlTemplate =
 @implementation QuestsViewController
 
 @synthesize quests,questCells;
+@synthesize activeQuestsSwitch;
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
@@ -64,10 +65,14 @@ NSString *const kQuestsHtmlTemplate =
 		[dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedQuestList" object:nil];
 		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewQuestListReady" object:nil];
 		[dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
-
     }
 	
     return self;
+}
+
+- (IBAction)filterQuests {
+    NSLog([NSString stringWithFormat:@"%d", activeQuestsSwitch.selectedSegmentIndex]);
+    [self refreshViewFromModel];
 }
 
 - (void)silenceNextUpdate {
@@ -194,16 +199,18 @@ NSString *const kQuestsHtmlTemplate =
 	NSEnumerator *e;
 	Quest *quest;
 	
-	e = [activeQuests objectEnumerator];
-	while ( (quest = (Quest*)[e nextObject]) ) {
-		[activeQuestCells addObject: [self getCellContentViewForQuest:quest inSection:ACTIVE_SECTION]];
-	}
+    NSLog(@"QuestsVC: Active Quests Selected");
+    e = [activeQuests objectEnumerator];
+    while ( (quest = (Quest*)[e nextObject]) ) {
+        [activeQuestCells addObject: [self getCellContentViewForQuest:quest inSection:ACTIVE_SECTION]];
+    }
+    e = [completedQuests objectEnumerator];
+    NSLog(@"QuestsVC: Completed Quests Selected");
+    while ( (quest = (Quest*)[e nextObject]) ) {
+        [completedQuestCells addObject:[self getCellContentViewForQuest:quest inSection:COMPLETED_SECTION]];
+    }
 	
-	e = [completedQuests objectEnumerator];
-	while ( (quest = (Quest*)[e nextObject]) ) {
-		[completedQuestCells addObject:[self getCellContentViewForQuest:quest inSection:COMPLETED_SECTION]];
-	}
-	
+    
 	self.questCells = [NSArray arrayWithObjects:activeQuestCells,completedQuestCells, nil];
 	[self.questCells retain];
 	
@@ -355,33 +362,57 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    int num = [questCells count]; 
-	NSLog(@"QuestsVC: %d sections in table", num);
-	return num;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	NSArray *array = [questCells objectAtIndex:section];
-	int num = [array count];
-	NSLog(@"QuestsVC: %d rows in section %d",num,section);
-	return num;
+    int num = 0;
+    if(activeQuestsSwitch.selectedSegmentIndex == 0){
+        NSArray *array = [questCells objectAtIndex:ACTIVE_SECTION];
+        num = [array count];
+        NSLog(@"QuestsVC: %d rows ",num);
+    }
+    else {
+        NSArray *array = [questCells objectAtIndex:COMPLETED_SECTION];
+        num = [array count];
+        NSLog(@"QuestsVC: %d rows ",num);
+    }
+    return num;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)nibTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {	
-	NSArray *sectionArray = [questCells objectAtIndex:indexPath.section];
-	UITableViewCell *cell = [sectionArray objectAtIndex:indexPath.row];
-	NSLog(@"QuestsVC: Returning a cell for section: %d row: %d",indexPath.section,indexPath.row);
-
-	return cell;
+    if(activeQuestsSwitch.selectedSegmentIndex == 0){
+        NSArray *sectionArray = [questCells objectAtIndex:ACTIVE_SECTION];
+        UITableViewCell *cell = [sectionArray objectAtIndex:indexPath.row];
+        NSLog(@"QuestsVC: Returning a cell for row: %d",indexPath.row);
+        
+        return cell;
+    }
+    else {
+        NSArray *sectionArray = [questCells objectAtIndex:COMPLETED_SECTION];
+        UITableViewCell *cell = [sectionArray objectAtIndex:indexPath.row];
+        NSLog(@"QuestsVC: Returning a cell for row: %d",indexPath.row);
+        
+        return cell;
+    }
 }
 
 
 // Customize the height of each row
 -(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	UITableViewCell *cell = [[questCells objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-	int height = cell.frame.size.height;
-	NSLog(@"QuestsVC: Height for Cell: %d",height);
-	return height;
+    if(activeQuestsSwitch.selectedSegmentIndex == 0){
+        UITableViewCell *cell = [[questCells objectAtIndex:ACTIVE_SECTION] objectAtIndex:indexPath.row];
+        int height = cell.frame.size.height;
+        NSLog(@"QuestsVC: Height for Cell: %d",height);
+        return height;
+    }
+    else {
+        UITableViewCell *cell = [[questCells objectAtIndex:COMPLETED_SECTION] objectAtIndex:indexPath.row];
+        int height = cell.frame.size.height;
+        NSLog(@"QuestsVC: Height for Cell: %d",height);
+        return height;
+    }
+	
 }
 
 /*
@@ -391,11 +422,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 }
 */
 
-- (NSString *)tableView:(UITableView *)view titleForHeaderInSection:(NSInteger)section {
-	if (section == ACTIVE_SECTION) return NSLocalizedString(@"QuestsActiveTitleKey",@"");	
-	else if (section == COMPLETED_SECTION) return NSLocalizedString(@"QuestsCompleteTitleKey",@"");
-	return @"Quests";
-}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
