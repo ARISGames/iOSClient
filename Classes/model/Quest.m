@@ -15,6 +15,7 @@
 @synthesize name;
 @synthesize description;
 @synthesize iconMediaId;
+@synthesize isNullQuest;
 
 
 - (void) dealloc {

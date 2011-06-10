@@ -14,11 +14,13 @@
 	NSString *name;
 	NSString *description;
 	int iconMediaId;
+    BOOL isNullQuest;
 }
 
 @property(readwrite, assign) int questId;
 @property(copy, readwrite) NSString *name;
 @property(copy, readwrite) NSString *description;
 @property(readwrite, assign) int iconMediaId;
+@property(readwrite, assign) BOOL isNullQuest;
 
 @end

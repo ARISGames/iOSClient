@@ -191,6 +191,8 @@ NSString *const kQuestsHtmlTemplate =
 -(void)constructCells{
 	NSLog(@"QuestsVC: Constructing Cells");
 	//Iterate through each element in quests and save the cell into questCells
+    BOOL activeQuestsEmpty = NO;
+    BOOL completedQuestsEmpty = NO;
 	NSMutableArray *activeQuestCells = [NSMutableArray arrayWithCapacity:10];
 	NSMutableArray *completedQuestCells = [NSMutableArray arrayWithCapacity:10];
 	
@@ -204,17 +206,53 @@ NSString *const kQuestsHtmlTemplate =
     while ( (quest = (Quest*)[e nextObject]) ) {
         [activeQuestCells addObject: [self getCellContentViewForQuest:quest inSection:ACTIVE_SECTION]];
     }
+    
+    /*
+     This adds a "No new quests" quest to the quest list. Commented out for sizing issues to be dealt with later.
+    if([activeQuestCells count] == 0){
+        activeQuestsEmpty = YES;
+        Quest *nullQuest = [[Quest alloc] init];
+        nullQuest.isNullQuest = true;
+        nullQuest.questId = -1;
+        nullQuest.name = @"Empty";
+        nullQuest.description = @"(there are no quests available at this time)";
+        NSMutableArray *activeQuestsMutable = [[NSMutableArray alloc] initWithArray: activeQuests];
+        [activeQuestsMutable addObject: nullQuest];
+        activeQuests = (NSArray *)activeQuestsMutable;
+        [activeQuestCells addObject: [self getCellContentViewForQuest:nullQuest inSection:ACTIVE_SECTION]];
+        //[self updateCellSize: [activeQuestCells objectAtIndex:0]];
+
+    }
+    */ 
+    
     e = [completedQuests objectEnumerator];
     NSLog(@"QuestsVC: Completed Quests Selected");
     while ( (quest = (Quest*)[e nextObject]) ) {
         [completedQuestCells addObject:[self getCellContentViewForQuest:quest inSection:COMPLETED_SECTION]];
     }
-	
+    /*
+     This adds a "No new quests" quest to the quest list. Commented out for sizing issues to be dealt with later.
+     if([completedQuestCells count] == 0){
+        completedQuestsEmpty = YES;
+
+        Quest *nullQuest = [[Quest alloc] init];
+        nullQuest.isNullQuest = true;
+        nullQuest.questId = -1;
+        nullQuest.name = @"Empty";
+        nullQuest.description = @"(you have not completed any quests)";
+        NSMutableArray *activeQuestsMutable = [[NSMutableArray alloc] initWithArray: activeQuests];
+        [activeQuestsMutable addObject: nullQuest];
+        activeQuests = (NSArray *)activeQuestsMutable;
+        [completedQuestCells addObject: [self getCellContentViewForQuest:nullQuest inSection:COMPLETED_SECTION]];
+       // [self updateCellSize: [completedQuestCells objectAtIndex:0]];
+    }
+    */
     
 	self.questCells = [NSArray arrayWithObjects:activeQuestCells,completedQuestCells, nil];
 	[self.questCells retain];
 	
-	if ([activeQuestCells count] == 0 && [completedQuestCells count] == 0) [tableView reloadData];
+	//if (activeQuestsEmpty && completedQuestsEmpty) 
+    [tableView reloadData];
 	
 	NSLog(@"QuestsVC: Cells created and stored in questCells");
 
@@ -350,8 +388,10 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 		[iconView loadImageFromMedia:iconMedia];
 	}
 	else {
-		if (section == ACTIVE_SECTION) iconView.image = [UIImage imageNamed:@"QuestActiveIcon.png"];
-		if (section == COMPLETED_SECTION) iconView.image = [UIImage imageNamed:@"QuestCompleteIcon.png"];
+        if(!quest.isNullQuest){
+            if(activeQuestsSwitch.selectedSegmentIndex == 0) iconView.image = [UIImage imageNamed:@"QuestActiveIcon.png"];
+            if(activeQuestsSwitch.selectedSegmentIndex == 1) iconView.image = [UIImage imageNamed:@"QuestCompleteIcon.png"];
+        }
 		
 	}
 	[cell.contentView addSubview:iconView];
@@ -368,12 +408,12 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     int num = 0;
     if(activeQuestsSwitch.selectedSegmentIndex == 0){
-        NSArray *array = [questCells objectAtIndex:ACTIVE_SECTION];
+        NSMutableArray *array = [questCells objectAtIndex:ACTIVE_SECTION];
         num = [array count];
         NSLog(@"QuestsVC: %d rows ",num);
     }
     else {
-        NSArray *array = [questCells objectAtIndex:COMPLETED_SECTION];
+        NSMutableArray *array = [questCells objectAtIndex:COMPLETED_SECTION];
         num = [array count];
         NSLog(@"QuestsVC: %d rows ",num);
     }

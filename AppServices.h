@@ -29,6 +29,7 @@
     BOOL currentlyFetchingLocationList;
     BOOL currentlyFetchingInventory;
     BOOL currentlyFetchingQuestList;
+    BOOL currentlyFetchingGamesList;
     BOOL currentlyUpdatingServerWithPlayerLocation;
     BOOL currentlyUpdatingServerWithMapViewed;
     BOOL currentlyUpdatingServerWithQuestsViewed;
@@ -39,6 +40,7 @@
 @property(readwrite) BOOL currentlyFetchingLocationList;
 @property(readwrite) BOOL currentlyFetchingInventory;
 @property(readwrite) BOOL currentlyFetchingQuestList;
+@property(readwrite) BOOL currentlyFetchingGamesList;
 @property(readwrite) BOOL currentlyUpdatingServerWithPlayerLocation;
 @property(readwrite) BOOL currentlyUpdatingServerWithMapViewed;
 @property(readwrite) BOOL currentlyUpdatingServerWithQuestsViewed;

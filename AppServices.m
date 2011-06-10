@@ -20,7 +20,7 @@ static const int kEmptyValue = -1;
 
 @implementation AppServices
 
-@synthesize currentlyFetchingLocationList, currentlyFetchingInventory, currentlyFetchingQuestList, currentlyUpdatingServerWithPlayerLocation;
+@synthesize currentlyFetchingLocationList, currentlyFetchingInventory, currentlyFetchingQuestList, currentlyFetchingGamesList, currentlyUpdatingServerWithPlayerLocation;
 @synthesize currentlyUpdatingServerWithMapViewed, currentlyUpdatingServerWithQuestsViewed, currentlyUpdatingServerWithInventoryViewed;
 
 
@@ -686,6 +686,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 -(void)fetchGameListBySearch:(NSString *)searchText{
     NSLog(@"AppModel: Fetch Requested for Game List.");
     
+    if (currentlyFetchingGamesList) {
+        NSLog(@"AppModel: Already fetching Games list, skipping");
+        return;
+    }
+    
+    currentlyFetchingGamesList = YES;
+    
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects: 
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
@@ -713,6 +720,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 
 -(void)fetchMiniGamesListLocations{
     NSLog(@"AppModel: Fetch Requested for Game List.");
+    
+    if (currentlyFetchingGamesList) {
+        NSLog(@"AppModel: Already fetching Games list, skipping");
+        return;
+    }
+    
+    currentlyFetchingGamesList = YES;
     
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects: 
@@ -763,6 +777,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 - (void)fetchGameListWithDistanceFilter: (int)distanceInMeters locational:(BOOL)locationalOrNonLocational {
 	NSLog(@"AppModel: Fetch Requested for Game List.");
     
+    if (currentlyFetchingGamesList) {
+        NSLog(@"AppModel: Already fetching Games list, skipping");
+        return;
+    }
+    
+    currentlyFetchingGamesList = YES;
+    
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects: 
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
@@ -784,7 +805,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 
 
 - (void)fetchOneGame:(int)gameId {
-    NSLog(@"AppModel: Fetch Requested for a single Game (as a Game List)");
+    NSLog(@"AppModel: Fetch Requested for a single game (as Game List).");
+    
+    if (currentlyFetchingGamesList) {
+        NSLog(@"AppModel: Already fetching Games list, skipping");
+        return;
+    }
+    
+    currentlyFetchingGamesList = YES;
     
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects: 
@@ -809,6 +837,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 
 - (void)fetchRecentGameListForPlayer  {
 	NSLog(@"AppModel: Fetch Requested for Game List.");
+    
+    if (currentlyFetchingGamesList) {
+        NSLog(@"AppModel: Already fetching Games list, skipping");
+        return;
+    }
+    
+    currentlyFetchingGamesList = YES;
     
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects: 
@@ -1085,10 +1120,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[AppModel sharedAppModel].gameList = tempGameList;
 	[tempGameList release];
     
-    NSLog(@"AppModel: parseGameListFromJSON Complete, sending notification");		
+    NSLog(@"AppModel: parseGameListFromJSON Complete, sending notification");
     
 	
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewGameListReady" object:nil]];
+    currentlyFetchingGamesList = NO;
+
     
 }
 
