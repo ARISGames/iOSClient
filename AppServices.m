@@ -1324,11 +1324,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 		[tempInventory setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]]; 
 		[item release];
 	}
-    if([[AppModel sharedAppModel].inventory count] > [tempInventory count])
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ItemRemovedNotification" object:nil]];
+    
     
     if([[AppModel sharedAppModel].inventory count] < [tempInventory count])
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ItemRecievedNotification" object:nil]];
+    
     
 	[AppModel sharedAppModel].inventory = tempInventory;
 	[tempInventory release];
@@ -1428,7 +1428,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 		[quest release];
 	}
     
-    if([[AppModel sharedAppModel].questList count]  < ([activeQuests count] + [completedQuests count]))
+    if([AppModel sharedAppModel].currentGame.activeQuests  < [activeQuests count])
         [[NSNotificationCenter defaultCenter] postNotification: [NSNotification notificationWithName:@"NewActiveQuestNotification" object:nil]];
 
 	//Package the two object arrays in a Dictionary
@@ -1443,7 +1443,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
     
          //Update Game Object   
 	[AppModel sharedAppModel].currentGame.completedQuests = [completedQuestObjects count];
-	
+	[AppModel sharedAppModel].currentGame.activeQuests = [activeQuestObjects count];
 	NSString *totalQuests = [questListDictionary valueForKey:@"totalQuests"];
 	if ((NSNull *)totalQuests != [NSNull null]) [AppModel sharedAppModel].currentGame.totalQuests = [totalQuests intValue];
 	else [AppModel sharedAppModel].currentGame.totalQuests = 1;

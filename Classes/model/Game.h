@@ -27,6 +27,7 @@
 	int launchNodeId;
 	int completeNodeId;
 	int completedQuests;
+    int activeQuests;
 	int totalQuests;
 	int numReviews;
     int calculatedScore;
@@ -48,6 +49,7 @@
 @property(readwrite, assign) int launchNodeId;
 @property(readwrite, assign) int completeNodeId;
 @property(readwrite, assign) int completedQuests;
+@property(readwrite, assign) int activeQuests;
 @property(readwrite, assign) int totalQuests;
 @property(readwrite, assign) int numReviews;
 @property (readwrite) BOOL isLocational;

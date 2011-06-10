@@ -189,7 +189,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
     
 	NSNotification *notification = [NSNotification notificationWithName:@"NewInventoryReady" object:nil];
 	[[NSNotificationCenter defaultCenter] postNotification:notification];
-    
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ItemRemovedNotification" object:nil]];
 }
 
 -(void)addItemToInventory: (Item*)item {
@@ -198,6 +198,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
 	[self.inventory setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]];
 	NSNotification *notification = [NSNotification notificationWithName:@"NewInventoryReady" object:nil];
 	[[NSNotificationCenter defaultCenter] postNotification:notification];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ItemRecievedNotification" object:nil]];
+    
+
 }
 
 -(Media *)mediaForMediaId: (int)mId {

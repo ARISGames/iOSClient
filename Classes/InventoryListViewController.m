@@ -100,6 +100,9 @@
 			BOOL match = NO;
 			for (Item *existingItem in self.inventory) {
 				if (existingItem.itemId == item.itemId) match = YES;	
+                if (existingItem.qty != item.qty)
+                    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ItemRecievedNotification" object:nil]];
+
 			}
 			if (match == NO) {
 				newItems ++;;
