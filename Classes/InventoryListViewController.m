@@ -109,13 +109,13 @@
 
                     [appDelegate displayNotificationTitle:@"Item Recieved!" andPrompt:[NSString stringWithFormat:@"%d %@ added to inventory",item.qty - existingItem.qty,item.name]];
                 }
-                if ((existingItem.itemId == item.itemId) && (existingItem.qty > item.qty)){
+                /*if ((existingItem.itemId == item.itemId) && (existingItem.qty > item.qty)){
                     if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
                         [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
 
                     [appDelegate displayNotificationTitle:@"Lost Item!" andPrompt:[NSString stringWithFormat:@"%d %@ removed from inventory",existingItem.qty - item.qty,item.name]];
                     
-                }
+                }*/
                 
 			}
 			if (match == NO) {

@@ -215,7 +215,7 @@
 - (void)displayNotificationTitle:(NSString *) title andPrompt: (NSString *) prompt{
     UINavigationController *tempNC= (UINavigationController *)self.tabBarController.selectedViewController;
     
-    if(self.modalPresent)
+    if(self.tabBarController.modalViewController)
     {
         tempNC = (UINavigationController *)self.tabBarController.modalViewController;
     }
@@ -224,8 +224,8 @@
     NSMutableDictionary *navBarTitlePromptAndColorDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:title,@"title",prompt,@"prompt",[UIColor grayColor],@"color", tempNC,@"navbar", nil];
 
     //tempNC.topViewController.title = @"Quest was Completed!";
-    [self performSelector:@selector(changeNavTitle:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease]  afterDelay:(0+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(0+2.5*(self.notificationCount-1))];
+    [self performSelector:@selector(changeNavTitle:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease]  afterDelay:(0.05+2.5*(self.notificationCount-1))];
+    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(0.05+2.5*(self.notificationCount-1))];
     
     [navBarTitlePromptAndColorDict setValue:[UIColor lightGrayColor] forKey:@"color"];    
     [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(.5+2.5*(self.notificationCount-1))];
@@ -244,7 +244,7 @@
     
     [navBarTitlePromptAndColorDict setValue:origTitle forKey:@"title"];
     [navBarTitlePromptAndColorDict setValue:nil forKey:@"prompt"];
-    [self performSelector:@selector(changeNavTitle:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(2.5+2.5*(self.notificationCount-1))];
+    [self performSelector:@selector(changeNavTitle:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(2.55+2.5*(self.notificationCount-1))];
 
       
     [origTitle release];
