@@ -91,29 +91,45 @@
 
 -(void)refreshViewFromModel {
 	NSLog(@"InventoryListViewController: Refresh View from Model");
-	
+    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+
 	if (silenceNextServerUpdateCount < 1) {		
 		NSArray *newInventory = [[AppModel sharedAppModel].inventory allValues];
 		//Check if anything is new since last time
 		int newItems = 0;
+        UIViewController *topViewController =  [[self navigationController] topViewController];
+
 		for (Item *item in newInventory) {		
 			BOOL match = NO;
 			for (Item *existingItem in self.inventory) {
 				if (existingItem.itemId == item.itemId) match = YES;	
-                if (existingItem.qty != item.qty)
-                    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ItemRecievedNotification" object:nil]];
+                if ((existingItem.itemId == item.itemId) && (existingItem.qty < item.qty)){
+                   if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
+                       [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
 
+                    [appDelegate displayNotificationTitle:@"Item Recieved!" andPrompt:[NSString stringWithFormat:@"%d %@ added to inventory",item.qty - existingItem.qty,item.name]];
+                }
+                if ((existingItem.itemId == item.itemId) && (existingItem.qty > item.qty)){
+                    if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
+                        [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
+
+                    [appDelegate displayNotificationTitle:@"Lost Item!" andPrompt:[NSString stringWithFormat:@"%d %@ removed from inventory",existingItem.qty - item.qty,item.name]];
+                    
+                }
+                
 			}
 			if (match == NO) {
+                if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
+                    [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
+                [appDelegate displayNotificationTitle:@"Item Recieved!" andPrompt:[NSString stringWithFormat:@"%d %@ added to inventory",item.qty,item.name]];
+
 				newItems ++;;
 			}
 		}
 		if (newItems > 0) {
 			newItemsSinceLastView += newItems;
 			self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
-			
-			ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-			
+						
 			//Vibrate and Play Sound
 			[appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
 			

@@ -954,6 +954,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 
 
 -(void)parseConversationNodeOptionsFromJSON: (JSONResult *)jsonResult {
+    [self fetchInventory];
+    [self fetchQuestList];
 	NSArray *conversationOptionsArray = (NSArray *)jsonResult.data;
 	
 	NSMutableArray *conversationNodeOptions = [[NSMutableArray alloc] initWithCapacity:3];
@@ -1363,10 +1365,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	}
     
     
-    if([[AppModel sharedAppModel].inventory count] < [tempInventory count])
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ItemRecievedNotification" object:nil]];
-    
-    
+        
 	[AppModel sharedAppModel].inventory = tempInventory;
 	[tempInventory release];
 	

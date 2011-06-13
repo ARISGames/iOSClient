@@ -360,7 +360,7 @@ ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplicat
         appDelegate.modalPresent = NO;
 	}
 	
-	
+	//[self dismissModalViewControllerAnimated:NO];
 }
 
 

@@ -30,7 +30,7 @@
 @synthesize waitingIndicator,waitingIndicatorView;
 @synthesize networkAlert,serverAlert;
 @synthesize tutorialViewController;
-@synthesize modalPresent,notificationCount,origTitle,newTitle;
+@synthesize modalPresent,notificationCount;
 
 
 //@synthesize toolbarViewController;
@@ -63,10 +63,6 @@
 	[dispatcher addObserver:self selector:@selector(performLogout:) name:@"LogoutRequested" object:nil];
 	[dispatcher addObserver:self selector:@selector(displayNearbyObjects:) name:@"NearbyButtonTouched" object:nil];
 	[dispatcher addObserver:self selector:@selector(checkForDisplayCompleteNode) name:@"NewQuestListReady" object:nil];
-    [dispatcher addObserver:self selector:@selector(questCompleted) name:@"QuestCompletedNotification" object:nil];
-    [dispatcher addObserver:self selector:@selector(newActiveQuest) name:@"NewActiveQuestNotification" object:nil];
-    [dispatcher addObserver:self selector:@selector(itemRecieved) name:@"ItemRecievedNotification" object:nil];
-    [dispatcher addObserver:self selector:@selector(itemRemoved) name:@"ItemRemovedNotification" object:nil];
     
 	//Setup NearbyObjects View
 	NearbyObjectsViewController *nearbyObjectsViewController = [[NearbyObjectsViewController alloc]initWithNibName:@"NearbyObjectsViewController" bundle:nil];
@@ -216,117 +212,80 @@
 
 
 }
-- (void)questCompleted{
+- (void)displayNotificationTitle:(NSString *) title andPrompt: (NSString *) prompt{
   UINavigationController *tempNC= (UINavigationController *)self.tabBarController.selectedViewController;
+    NSString *origTitle = [[tempNC.topViewController.navigationItem.title copy] retain];
     self.notificationCount++;
-
+    NSMutableDictionary *navBarTitlePromptAndColorDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:title,@"title",prompt,@"prompt",[UIColor grayColor],@"color", tempNC,@"navbar", nil];
 
     //tempNC.topViewController.title = @"Quest was Completed!";
-    [self performSelector:@selector(setNewTitle:) withObject:@"Quest was Completed!"  afterDelay:(0+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(changeNavTitle:) withObject:tempNC  afterDelay:(0+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(changeNavColor:) withObject:tempNC afterDelay:(0+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(revertNavColor:) withObject:tempNC afterDelay:(.5+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(changeNavColor:) withObject:tempNC afterDelay:(1+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(revertNavColor:) withObject:tempNC afterDelay:(1.5+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(changeNavColor:) withObject:tempNC afterDelay:(2+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(revertNavColor:) withObject:tempNC afterDelay:(2.5+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(revertNavTitle:) withObject:tempNC afterDelay:(2.5+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(updateCount) withObject:nil afterDelay:(2.5+2.5*(self.notificationCount-1))];
-}
-
-- (void)newActiveQuest{   
-   
-  UINavigationController *tempNC= (UINavigationController *)self.tabBarController.selectedViewController;
-
-    self.notificationCount++;
- 
-    [self performSelector:@selector(setNewTitle:) withObject:@"New Quest Available!"  afterDelay:(0+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(changeNavTitle:) withObject:tempNC  afterDelay:(0+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(changeNavColor:) withObject:tempNC afterDelay:(0+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(revertNavColor:) withObject:tempNC afterDelay:(.5+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(changeNavColor:) withObject:tempNC afterDelay:(1+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(revertNavColor:) withObject:tempNC afterDelay:(1.5+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(changeNavColor:) withObject:tempNC afterDelay:(2+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(revertNavColor:) withObject:tempNC afterDelay:(2.5+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(revertNavTitle:) withObject:tempNC afterDelay:(2.5+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(updateCount) withObject:nil afterDelay:(2.5+2.5*(self.notificationCount-1))];
-
-}
-
-- (void)itemRecieved{
-
-  UINavigationController *tempNC= (UINavigationController *)self.tabBarController.selectedViewController;
-
-    self.notificationCount++;
-
-    [self performSelector:@selector(setNewTitle:) withObject:@"Item Recieved!"  afterDelay:(0+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(changeNavTitle:) withObject:tempNC  afterDelay:(0+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(changeNavColor:) withObject:tempNC afterDelay:(0+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(revertNavColor:) withObject:tempNC afterDelay:(.5+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(changeNavColor:) withObject:tempNC afterDelay:(1+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(revertNavColor:) withObject:tempNC afterDelay:(1.5+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(changeNavColor:) withObject:tempNC afterDelay:(2+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(revertNavColor:) withObject:tempNC afterDelay:(2.5+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(revertNavTitle:) withObject:tempNC afterDelay:(2.5+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(updateCount) withObject:nil afterDelay:(2.5+2.5*(self.notificationCount-1))];
-}
-
-- (void) itemRemoved{
-  UINavigationController *tempNC= (UINavigationController *)self.tabBarController.selectedViewController;
-
-    self.notificationCount++;
-       
-    [self performSelector:@selector(setNewTitle:) withObject:@"Lost Item!"  afterDelay:(0+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(changeNavTitle:) withObject:tempNC  afterDelay:(0+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(changeNavColor:) withObject:tempNC afterDelay:(0+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(revertNavColor:) withObject:tempNC afterDelay:(.5+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(changeNavColor:) withObject:tempNC afterDelay:(1+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(revertNavColor:) withObject:tempNC afterDelay:(1.5+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(changeNavColor:) withObject:tempNC afterDelay:(2+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(revertNavColor:) withObject:tempNC afterDelay:(2.5+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(revertNavTitle:) withObject:tempNC afterDelay:(2.5+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(updateCount) withObject:nil afterDelay:(2.5+2.5*(self.notificationCount-1))];
-
-
-}
-
-- (void) revertNavColor: (UINavigationController *) tempNC {
+    [self performSelector:@selector(changeNavTitle:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease]  afterDelay:(0+2.5*(self.notificationCount-1))];
+    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(0+2.5*(self.notificationCount-1))];
     
-     
-    [UIView beginAnimations:@"revertNavColor" context:nil];
-    [UIView setAnimationDuration:0.5];
-     tempNC.topViewController.navigationController.navigationBar.tintColor = [UIColor blackColor];
-    [UIView commitAnimations];
+    [navBarTitlePromptAndColorDict setValue:[UIColor lightGrayColor] forKey:@"color"];    
+    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(.5+2.5*(self.notificationCount-1))];
+    
+    [navBarTitlePromptAndColorDict setValue:[UIColor grayColor] forKey:@"color"];    
+    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(1+2.5*(self.notificationCount-1))];
+    
+    [navBarTitlePromptAndColorDict setValue:[UIColor lightGrayColor] forKey:@"color"];
+    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(1.5+2.5*(self.notificationCount-1))];
+    
+    [navBarTitlePromptAndColorDict setValue:[UIColor grayColor] forKey:@"color"];    
+    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(2+2.5*(self.notificationCount-1))];
+    
+    [navBarTitlePromptAndColorDict setValue:[UIColor blackColor] forKey:@"color"];
+    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(2.5+2.5*(self.notificationCount-1))];
+    
+    [navBarTitlePromptAndColorDict setValue:origTitle forKey:@"title"];
+    [navBarTitlePromptAndColorDict setValue:nil forKey:@"prompt"];
+    [self performSelector:@selector(changeNavTitle:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(2.5+2.5*(self.notificationCount-1))];
 
+      
+    [origTitle release];
+    [self performSelector:@selector(decrementNotificationCount) withObject:nil afterDelay:(2.5+2.5*(self.notificationCount-1))];
 }
 
-- (void) changeNavColor: (UINavigationController *) tempNC {
-    
+- (void) changeNavColor: (NSDictionary *) navBarAndColorDict {
+    UINavigationController *tempNC = [navBarAndColorDict objectForKey:@"navbar"];
+    UIColor *color = [navBarAndColorDict objectForKey:@"color"];
     [UIView beginAnimations:@"changeNavColor" context:nil];
     [UIView setAnimationDuration:0.5];
-    tempNC.topViewController.navigationController.navigationBar.tintColor = [UIColor blueColor];
+    tempNC.topViewController.navigationController.navigationBar.tintColor = color;
     [UIView commitAnimations];
-    
-    
-}
--(void) revertNavTitle: (UINavigationController *) tempNC {
-
-    
-    tempNC.topViewController.navigationItem.title = self.origTitle;
-    
 }
 
--(void) updateCount {
+-(void) decrementNotificationCount {
     self.notificationCount--;
 }
 
--(void) changeNavTitle: (UINavigationController *) tempNC {
-   
-    self.origTitle = tempNC.topViewController.navigationItem.title;
-    tempNC.topViewController.navigationItem.title = self.newTitle;
+-(void) changeNavTitle: (NSDictionary *) navBarTitleAndPromptDict {
+        UINavigationController *tempNC = [navBarTitleAndPromptDict objectForKey:@"navbar"];
+     NSString *topViewTitle = [(UINavigationController *) self.tabBarController.selectedViewController topViewController].navigationItem.title ;
+    NSString *origTitle = [navBarTitleAndPromptDict objectForKey:@"title"];
+
+
+    
+    
+    if(![topViewTitle isEqualToString:origTitle]){        
+        NSMutableDictionary *navBarTitlePromptAndColorDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:tempNC.topViewController.navigationItem.title,@"title",nil,@"prompt", nil];
+       [(UINavigationController *) self.tabBarController.selectedViewController topViewController].navigationItem.title = origTitle;
+        [self performSelector:@selector(changeNavTitle:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(0)];
+        
+    }
+    else {
+        tempNC.topViewController.navigationItem.title = [navBarTitleAndPromptDict objectForKey:@"title"];
+        tempNC.topViewController.navigationItem.prompt = [navBarTitleAndPromptDict objectForKey:@"prompt"];
+    }
+
    
 }
 
+/*-(void) revertNavTitle: (NSDictionary *) navBarOriginalTitleDict {
+    UINavigationController *tempNC = (UINavigationController *)self.tabBarController.selectedViewController;
+   
+
+}*/
 - (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password {	
 	NSLog(@"AppDelegate: Attempt Login for: %@ Password: %@", userName, password);
 	[AppModel sharedAppModel].username = userName;

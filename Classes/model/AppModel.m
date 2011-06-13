@@ -183,13 +183,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
 
 -(void)removeItemFromInventory:(Item*)item qtyToRemove:(int)qty {
 	NSLog(@"AppModel: removing an item from the local inventory");
-	
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+
 	item.qty -=qty; 
 	if (item.qty < 1) [self.inventory removeObjectForKey:[NSString stringWithFormat:@"%d",item.itemId]];
     
+    if([[(UINavigationController *) appDelegate.tabBarController.selectedViewController topViewController] respondsToSelector:@selector(updateQuantityDisplay)])
+        [[(UINavigationController *)appDelegate.tabBarController.selectedViewController topViewController] performSelector:@selector(updateQuantityDisplay)];
+    [appDelegate displayNotificationTitle:@"Lost Item!" andPrompt:[NSString stringWithFormat:@"%d %@ removed from inventory",qty,item.name]];
+
+    
 	NSNotification *notification = [NSNotification notificationWithName:@"NewInventoryReady" object:nil];
 	[[NSNotificationCenter defaultCenter] postNotification:notification];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ItemRemovedNotification" object:nil]];
+
 }
 
 -(void)addItemToInventory: (Item*)item {
@@ -198,8 +204,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
 	[self.inventory setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]];
 	NSNotification *notification = [NSNotification notificationWithName:@"NewInventoryReady" object:nil];
 	[[NSNotificationCenter defaultCenter] postNotification:notification];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ItemRecievedNotification" object:nil]];
-    
+    //[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ItemRecievedNotification" object:nil]];
+    //self.itemPrompt = item;
 
 }
 

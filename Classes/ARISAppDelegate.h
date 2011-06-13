@@ -62,8 +62,7 @@
 	BOOL tvOutDone;
     BOOL modalPresent;
     NSInteger notificationCount;
-	NSString *origTitle;
-    NSString *newTitle;
+
 }
 
 @property (nonatomic, retain) MyCLController *myCLController;
@@ -84,8 +83,7 @@
 
 @property (readwrite) BOOL modalPresent;
 @property (readwrite) NSInteger notificationCount;
-@property (nonatomic, retain) NSString *origTitle;
-@property (nonatomic, retain) NSString *newTitle;
+
 
 - (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password;
 - (void) displayNearbyObjectView:(UIViewController *)nearbyObjectsNavigationController;
@@ -102,14 +100,8 @@
 - (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate;
 - (void) checkForDisplayCompleteNode;
 - (void) displayIntroNode;
-- (void) newActiveQuest;
-- (void) questCompleted;
-- (void) itemRecieved;
-- (void) itemRemoved;
-- (void) revertNavColor: (UINavigationController*) tempNC;
-- (void) changeNavColor:(UINavigationController*) tempNC;
-- (void) revertNavTitle: (UINavigationController*) tempNC;
-- (void) updateCount;
-- (void) changeNavTitle:(UINavigationController*) tempNC;
+- (void)displayNotificationTitle:(NSString *) title andPrompt: (NSString *) prompt;
+- (void) changeNavColor: (NSDictionary *) navBarAndColorDict;
+- (void) changeNavTitle: (NSDictionary *) navBarTitleAndPromptDict;
 
 @end

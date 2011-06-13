@@ -44,7 +44,7 @@ extern NSDictionary *InventoryElements;
 	NSMutableDictionary *gameItemList;
 	NSMutableDictionary *gameNodeList;
 	NSMutableDictionary *gameNpcList;
-	
+
 	//Training Flags
 	BOOL hasSeenNearbyTabTutorial;
 	BOOL hasSeenQuestsTabTutorial;
@@ -61,6 +61,7 @@ extern NSDictionary *InventoryElements;
 
 @property(copy, readwrite) NSString *username;
 @property(copy, readwrite) NSString *password;
+@property(nonatomic,retain) Item *itemPrompt;
 @property(readwrite) int playerId;
 @property(copy, readwrite) UIViewController *currentModule;
 @property(nonatomic,retain) Game *currentGame;
@@ -88,7 +89,8 @@ extern NSDictionary *InventoryElements;
 @property(readwrite) BOOL hasSeenMapTabTutorial;
 @property(readwrite) BOOL hasSeenInventoryTabTutorial;
 
-
+@property(readwrite) BOOL itemReceivedB;
+@property(readwrite) BOOL itemRemovedB;
 
 
 + (AppModel *)sharedAppModel;
