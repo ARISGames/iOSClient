@@ -115,7 +115,6 @@
 								<string key="NSFrame">{{216, 40}, {94, 16}}</string>
 								<reference key="NSSuperview" ref="557044962"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<reference key="IBUIBackgroundColor" ref="1060033268"/>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -144,37 +143,6 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 				<int key="IBUISeparatorStyle">1</int>
 				<reference key="IBUIContentView" ref="557044962"/>
-			</object>
-			<object class="IBUILabel" id="573623359">
-				<reference key="NSNextResponder"/>
-				<int key="NSvFlags">306</int>
-				<string key="NSFrameSize">{301, 33}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView"/>
-				<reference key="IBUIBackgroundColor" ref="1060033268"/>
-				<bool key="IBUIOpaque">NO</bool>
-				<bool key="IBUIClipsSubviews">YES</bool>
-				<int key="IBUIContentMode">7</int>
-				<bool key="IBUIUserInteractionEnabled">NO</bool>
-				<object class="IBUIAccessibilityConfiguration" key="IBUIAccessibilityConfiguration">
-					<integer value="320" key="IBUIAccessibilityTraits"/>
-				</object>
-				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-				<string key="IBUIText">This game was GREAT!</string>
-				<object class="NSFont" key="IBUIFont">
-					<string key="NSName">Helvetica</string>
-					<double key="NSSize">17</double>
-					<int key="NSfFlags">16</int>
-				</object>
-				<object class="NSColor" key="IBUITextColor">
-					<int key="NSColorSpace">1</int>
-					<bytes key="NSRGB">MCAwIDAAA</bytes>
-				</object>
-				<nil key="IBUIHighlightedColor"/>
-				<int key="IBUIBaselineAdjustment">1</int>
-				<float key="IBUIMinimumFontSize">10</float>
-				<int key="IBUINumberOfLines">7</int>
 			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -259,11 +227,6 @@
 						<reference key="object" ref="660207013"/>
 						<reference key="parent" ref="366155156"/>
 					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">47</int>
-						<reference key="object" ref="573623359"/>
-						<reference key="parent" ref="0"/>
-					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -274,7 +237,6 @@
 					<string>-2.CustomClassName</string>
 					<string>46.CustomClassName</string>
 					<string>46.IBPluginDependency</string>
-					<string>47.IBPluginDependency</string>
 					<string>48.IBPluginDependency</string>
 					<string>49.CustomClassName</string>
 					<string>49.IBPluginDependency</string>
@@ -286,7 +248,6 @@
 					<string>UIViewController</string>
 					<string>UIResponder</string>
 					<string>CommentCell</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>SCRRatingView</string>

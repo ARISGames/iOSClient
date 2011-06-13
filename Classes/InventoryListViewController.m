@@ -179,7 +179,7 @@
 	//Initialize Label with tag 1.
 	lblTemp = [[UILabel alloc] initWithFrame:Label1Frame];
 	lblTemp.tag = 1;
-	lblTemp.textColor = [UIColor whiteColor];
+	//lblTemp.textColor = [UIColor whiteColor];
 	lblTemp.backgroundColor = [UIColor clearColor];
 	[cell.contentView addSubview:lblTemp];
 	[lblTemp release];
@@ -188,7 +188,7 @@
 	lblTemp = [[UILabel alloc] initWithFrame:Label2Frame];
 	lblTemp.tag = 2;
 	lblTemp.font = [UIFont boldSystemFontOfSize:12];
-	lblTemp.textColor = [UIColor lightGrayColor];
+	lblTemp.textColor = [UIColor darkGrayColor];
 	lblTemp.backgroundColor = [UIColor clearColor];
 	[cell.contentView addSubview:lblTemp];
 	[lblTemp release];
@@ -196,7 +196,7 @@
 	//Init Icon with tag 3
 	iconViewTemp = [[AsyncImageView alloc] initWithFrame:IconFrame];
 	iconViewTemp.tag = 3;
-	iconViewTemp.backgroundColor = [UIColor blackColor];
+	iconViewTemp.backgroundColor = [UIColor clearColor]; 
 	[cell.contentView addSubview:iconViewTemp];
 	[iconViewTemp release];
 
@@ -226,7 +226,7 @@
 	Item *item = [inventory objectAtIndex: [indexPath row]];
 	
 	UILabel *lblTemp1 = (UILabel *)[cell viewWithTag:1];
-	lblTemp1.text = item.name;								   
+	lblTemp1.text = item.name;	
 	
 	UILabel *lblTemp2 = (UILabel *)[cell viewWithTag:2];
 	if (item.qty > 1) lblTemp2.text = [NSString stringWithFormat:@"x %d ",item.qty];
@@ -246,6 +246,22 @@
 		if ([media.type isEqualToString: @"Audio"]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultAudioIcon.png"]];
 		if ([media.type isEqualToString: @"Video"]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultVideoIcon.png"]];
 	}
+    
+    
+    cell.textLabel.backgroundColor = [UIColor clearColor]; 
+    cell.detailTextLabel.backgroundColor = [UIColor clearColor]; 
+    
+    if (indexPath.row % 2 == 0){  
+        cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0  
+                                                           green:233.0/255.0  
+                                                            blue:233.0/255.0  
+                                                           alpha:1.0];  
+    } else {  
+        cell.contentView.backgroundColor = [UIColor colorWithRed:200.0/255.0  
+                                                           green:200.0/255.0  
+                                                            blue:200.0/255.0  
+                                                           alpha:1.0];  
+    } 
 	
 	return cell;
 }
