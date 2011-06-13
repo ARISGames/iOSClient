@@ -68,7 +68,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
         NSNotification *logoutRequestNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self];
         [[NSNotificationCenter defaultCenter] postNotification:logoutRequestNotification];
     }
-	
+
+    
+    //Old versions of the server URL are depricated. Migrate to the new version
+    if ([[currServ absoluteString] isEqual:@"http://arisgames.org/server1"] || 
+        [[currServ absoluteString]  isEqual:@"http://arisgames.org/server1/"] || 
+        [[currServ absoluteString]  isEqual:@"http://arisgames.org/stagingserver1"] ||
+        [[currServ absoluteString]  isEqual:@"http://arisgames.org/stagingserver1/"]) {
+        
+        NSLog(@"AppModel: SERVER NEEDS TO BE CHANGED");
+        
+        NSString *updatedURL = @"http://arisgames.org/server";
+        currServ = [NSURL URLWithString: updatedURL];
+        [defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:updatedURL] forKey:@"baseServerString"]; 
+        
+        [defaults synchronize];		
+        NSNotification *logoutRequestNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self];
+        [[NSNotificationCenter defaultCenter] postNotification:logoutRequestNotification];
+    }
+
+    
     self.serverURL = [NSURL URLWithString: baseServerString ];
     self.showGamesInDevelopment = [defaults boolForKey:@"showGamesInDevelopment"];
 
