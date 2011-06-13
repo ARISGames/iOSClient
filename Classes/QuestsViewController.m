@@ -131,6 +131,7 @@ NSString *const kQuestsHtmlTemplate =
 -(void)refreshViewFromModel {
 	NSLog(@"QuestsViewController: Refreshing view from model");
 	
+    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	progressLabel.text = [NSString stringWithFormat:@"%d of %d Quests Complete", [AppModel sharedAppModel].currentGame.completedQuests, [AppModel sharedAppModel].currentGame.totalQuests];
 	progressView.progress = (float)[AppModel sharedAppModel].currentGame.completedQuests / (float)[AppModel sharedAppModel].currentGame.totalQuests;
 		
@@ -148,8 +149,24 @@ NSString *const kQuestsHtmlTemplate =
 			}
 			if (match == NO) {
 				newItems ++;;
+                [appDelegate displayNotificationTitle:@"New Quest Available!" andPrompt:quest.name];
 			}
 		}
+        
+        NSArray *newCompletedQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"completed"];
+
+        for (Quest *quest in newCompletedQuestsArray) {		
+			BOOL match = NO;
+			for (Quest *existingQuest in [self.quests objectAtIndex:COMPLETED_SECTION]) {
+				if (existingQuest.questId == quest.questId) match = YES;	
+			}
+			if (match == NO) {
+                [appDelegate displayNotificationTitle:@"Quest Completed!" andPrompt:quest.name];
+			}
+		}
+
+        
+        
 		if (newItems > 0) {
 			newItemsSinceLastView += newItems;
 			self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];

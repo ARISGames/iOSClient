@@ -1463,19 +1463,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 		[completedQuestObjects addObject:quest];
 		[quest release];
 	}
-    
-    if([AppModel sharedAppModel].currentGame.activeQuests  < [activeQuests count])
-        [[NSNotificationCenter defaultCenter] postNotification: [NSNotification notificationWithName:@"NewActiveQuestNotification" object:nil]];
+  
 
 	//Package the two object arrays in a Dictionary
 	NSMutableDictionary *tmpQuestList = [[NSMutableDictionary alloc] init];
 	[tmpQuestList setObject:activeQuestObjects forKey:@"active"];
 	[tmpQuestList setObject:completedQuestObjects forKey:@"completed"];	
 	[AppModel sharedAppModel].questList = tmpQuestList;
-	
-	//Send out quest completed notification
-    if([AppModel sharedAppModel].currentGame.completedQuests < [completedQuests count])
-      [[NSNotificationCenter defaultCenter] postNotification: [NSNotification notificationWithName:@"QuestCompletedNotification" object:nil]];  
+
     
          //Update Game Object   
 	[AppModel sharedAppModel].currentGame.completedQuests = [completedQuestObjects count];
