@@ -83,6 +83,7 @@
 		else if (annotation.kind == NearbyObjectNode) iconView.image = [UIImage imageNamed:@"page.png"];
 		else if (annotation.kind == NearbyObjectNPC) iconView.image = [UIImage imageNamed:@"npc.png"];
 		else if (annotation.kind == NearbyObjectPlayer) iconView.image = [UIImage imageNamed:@"player.png"];
+        else if (annotation.kind == NearbyObjectWebPage) iconView.image = [UIImage imageNamed:@"page.png"];
 		self.opaque = NO;
 	}
 	return self;

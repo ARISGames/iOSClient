@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1122C0B613A7D124004F0392 /* webpageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1122C0B413A7D124004F0392 /* webpageViewController.m */; };
+		1122C0B713A7D124004F0392 /* webpageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1122C0B513A7D124004F0392 /* webpageViewController.xib */; };
+		1122C0C113A7DE80004F0392 /* WebPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1122C0C013A7DE7F004F0392 /* WebPage.m */; };
 		1D3623260D0F684500981E51 /* ARISAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -240,6 +243,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1122C0B313A7D124004F0392 /* webpageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = webpageViewController.h; sourceTree = "<group>"; };
+		1122C0B413A7D124004F0392 /* webpageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = webpageViewController.m; sourceTree = "<group>"; };
+		1122C0B513A7D124004F0392 /* webpageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = webpageViewController.xib; sourceTree = "<group>"; };
+		1122C0BF13A7DE7F004F0392 /* WebPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPage.h; sourceTree = "<group>"; };
+		1122C0C013A7DE7F004F0392 /* WebPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebPage.m; sourceTree = "<group>"; };
 		1D3623240D0F684500981E51 /* ARISAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = ARISAppDelegate.h; path = Classes/ARISAppDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		1D3623250D0F684500981E51 /* ARISAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = ARISAppDelegate.m; path = Classes/ARISAppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -633,6 +641,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1122C0B113A7D063004F0392 /* Webpage */ = {
+			isa = PBXGroup;
+			children = (
+				1122C0B313A7D124004F0392 /* webpageViewController.h */,
+				1122C0B413A7D124004F0392 /* webpageViewController.m */,
+				1122C0B513A7D124004F0392 /* webpageViewController.xib */,
+			);
+			name = Webpage;
+			sourceTree = "<group>";
+		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -795,6 +813,7 @@
 				A7986D610F8FEBB200A5469F /* Developer */,
 				A7986D650F8FEC1100A5469F /* Login */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				1122C0B113A7D063004F0392 /* Webpage */,
 			);
 			name = ARIS;
 			sourceTree = "<group>";
@@ -819,6 +838,8 @@
 				2B3D18D50F4B25720067FD3A /* AppModel.m */,
 				AB18AEB8137B249A00382826 /* AppServices.h */,
 				AB18AEB9137B249A00382826 /* AppServices.m */,
+				1122C0BF13A7DE7F004F0392 /* WebPage.h */,
+				1122C0C013A7DE7F004F0392 /* WebPage.m */,
 				2B3D17050F49C99B0067FD3A /* Game.h */,
 				2B3D17060F49C99B0067FD3A /* Game.m */,
 				A722E7130F57425B004B04D2 /* Location.h */,
@@ -1413,6 +1434,7 @@
 				ABFF13A9139F28C2002B5CC6 /* GamePickerMapViewController.xib in Resources */,
 				ABB60F24139F2F1700EEDA08 /* GamePickerSearchViewController.xib in Resources */,
 				ABB60F29139F352500EEDA08 /* GamePickerRecentViewController.xib in Resources */,
+				1122C0B713A7D124004F0392 /* webpageViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1562,6 +1584,8 @@
 				ABB60F28139F352500EEDA08 /* GamePickerRecentViewController.m in Sources */,
 				4A9181BA139FDF1600D236CC /* GamesMapAnnotation.m in Sources */,
 				ABB5767613A01FD100AD39D5 /* BogusSelectGameViewController.m in Sources */,
+				1122C0B613A7D124004F0392 /* webpageViewController.m in Sources */,
+				1122C0C113A7DE80004F0392 /* WebPage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

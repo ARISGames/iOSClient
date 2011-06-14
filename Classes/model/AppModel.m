@@ -19,7 +19,7 @@
 @synthesize loggedIn, username, password, playerId, currentModule;
 @synthesize currentGame, gameList, locationList, playerList;
 @synthesize playerLocation, inventory, questList, networkAlert;
-@synthesize gameMediaList, gameItemList, gameNodeList, gameNpcList;
+@synthesize gameMediaList, gameItemList, gameNodeList, gameNpcList,gameWebPageList;
 @synthesize locationListHash, questListHash, inventoryHash;
 
 @synthesize nearbyLocationsList;
@@ -274,6 +274,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
 	}
 	return node;
 }
+
+- (WebPage *)webPageForWebPageID: (int)mId {
+	WebPage *page = [self.gameWebPageList objectForKey:[NSNumber numberWithInt:mId]];
+	
+	if (!page) {
+
+		
+		[[AppServices sharedAppServices] fetchGameWebpageListAsynchronously:NO];
+		
+		page = [self.gameWebPageList objectForKey:[NSNumber numberWithInt:mId]];
+
+	}
+	return page;
+}
+
 
 -(Item *)itemForItemId: (int)mId {
 	Item *item = [self.gameItemList objectForKey:[NSNumber numberWithInt:mId]];

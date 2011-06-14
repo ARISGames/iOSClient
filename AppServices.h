@@ -73,6 +73,7 @@
 - (void)fetchGameMediaListAsynchronously:(BOOL)YesForAsyncOrNoForSync;
 - (void)fetchGameItemListAsynchronously:(BOOL)YesForAsyncOrNoForSync;
 - (void)fetchGameNodeListAsynchronously:(BOOL)YesForAsyncOrNoForSync;
+- (void)fetchGameWebpageListAsynchronously:(BOOL)YesForAsyncOrNoForSync;
 - (Item *)fetchItem:(int)itemId;
 - (Node *)fetchNode:(int)nodeId;
 - (Npc *)fetchNpc:(int)npcId;
@@ -102,10 +103,12 @@
 - (void)parseGameNpcListFromJSON: (JSONResult *)jsonResult;
 - (void)parseGameItemListFromJSON: (JSONResult *)jsonResult;
 - (void)parseGameNodeListFromJSON: (JSONResult *)jsonResult;
+- (void)parseGameWebPageListFromJSON: (JSONResult *)jsonResult;
 - (Location*)parseLocationFromDictionary: (NSDictionary *)locationDictionary;
 - (Item *)parseItemFromDictionary: (NSDictionary *)itemDictionary;
 - (Node *)parseNodeFromDictionary: (NSDictionary *)nodeDictionary;
 - (Npc *)parseNpcFromDictionary: (NSDictionary *)npcDictionary;
+-(WebPage *)parseWebPageFromDictionary: (NSDictionary *)webPageDictionary;
 - (void)updateServerGameSelected;
 - (void)fetchQRCode:(NSString*)QRcodeId;
 - (void)saveComment:(NSString*)comment game:(int)gameId starRating:(int)rating;

@@ -14,6 +14,7 @@
 #import "Node.h"
 #import "Npc.h"
 #import "Media.h"
+#import "WebPage.h"
 
 extern NSDictionary *InventoryElements;
 
@@ -44,6 +45,7 @@ extern NSDictionary *InventoryElements;
 	NSMutableDictionary *gameItemList;
 	NSMutableDictionary *gameNodeList;
 	NSMutableDictionary *gameNpcList;
+    NSMutableDictionary *gameWebPageList;
 
 	//Training Flags
 	BOOL hasSeenNearbyTabTutorial;
@@ -61,7 +63,6 @@ extern NSDictionary *InventoryElements;
 
 @property(copy, readwrite) NSString *username;
 @property(copy, readwrite) NSString *password;
-@property(nonatomic,retain) Item *itemPrompt;
 @property(readwrite) int playerId;
 @property(copy, readwrite) UIViewController *currentModule;
 @property(nonatomic,retain) Game *currentGame;
@@ -82,15 +83,14 @@ extern NSDictionary *InventoryElements;
 @property(copy, readwrite) NSMutableDictionary *gameItemList;
 @property(copy, readwrite) NSMutableDictionary *gameNodeList;
 @property(copy, readwrite) NSMutableDictionary *gameNpcList;
+@property(copy, readwrite) NSMutableDictionary *gameWebPageList;
+
 
 //Training Flags
 @property(readwrite) BOOL hasSeenNearbyTabTutorial;
 @property(readwrite) BOOL hasSeenQuestsTabTutorial;
 @property(readwrite) BOOL hasSeenMapTabTutorial;
 @property(readwrite) BOOL hasSeenInventoryTabTutorial;
-
-@property(readwrite) BOOL itemReceivedB;
-@property(readwrite) BOOL itemRemovedB;
 
 
 + (AppModel *)sharedAppModel;
@@ -109,6 +109,6 @@ extern NSDictionary *InventoryElements;
 - (Item *)itemForItemId: (int)mId;
 - (Node *)nodeForNodeId: (int)mId;
 - (Npc *)npcForNpcId: (int)mId;
-
+- (WebPage *)webPageForWebPageID: (int)mId;
 
 @end

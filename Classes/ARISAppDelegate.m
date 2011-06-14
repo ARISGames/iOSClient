@@ -218,14 +218,18 @@
     if(self.tabBarController.modalViewController)
     {
         tempNC = (UINavigationController *)self.tabBarController.modalViewController;
+        self.modalPresent = YES;
     }
+    
     NSString *origTitle = [[tempNC.topViewController.navigationItem.title copy] retain];
     self.notificationCount++;
+    
     NSMutableDictionary *navBarTitlePromptAndColorDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:title,@"title",prompt,@"prompt",[UIColor grayColor],@"color", tempNC,@"navbar", nil];
-
+    
+       
     //tempNC.topViewController.title = @"Quest was Completed!";
-    [self performSelector:@selector(changeNavTitle:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease]  afterDelay:(0.05+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(0.05+2.5*(self.notificationCount-1))];
+    [self performSelector:@selector(changeNavTitle:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease]  afterDelay:(0.1+2.5*(self.notificationCount-1))];
+    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(0.1+2.5*(self.notificationCount-1))];
     
     [navBarTitlePromptAndColorDict setValue:[UIColor lightGrayColor] forKey:@"color"];    
     [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(.5+2.5*(self.notificationCount-1))];
@@ -244,9 +248,7 @@
     
     [navBarTitlePromptAndColorDict setValue:origTitle forKey:@"title"];
     [navBarTitlePromptAndColorDict setValue:nil forKey:@"prompt"];
-    [self performSelector:@selector(changeNavTitle:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(2.55+2.5*(self.notificationCount-1))];
-
-      
+    [self performSelector:@selector(changeNavTitle:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(2.6+2.5*(self.notificationCount-1))];
     [origTitle release];
     [self performSelector:@selector(decrementNotificationCount) withObject:nil afterDelay:(2.5+2.5*(self.notificationCount-1))];
 }
@@ -266,33 +268,15 @@
 
 -(void) changeNavTitle: (NSDictionary *) navBarTitleAndPromptDict {
         UINavigationController *tempNC = [navBarTitleAndPromptDict objectForKey:@"navbar"];
-     NSString *topViewTitle = [(UINavigationController *) self.tabBarController.selectedViewController topViewController].navigationItem.title ;
-    NSString *origTitle = [navBarTitleAndPromptDict objectForKey:@"title"];
-
-
-    
-    
-   /* if(![topViewTitle isEqualToString:origTitle]){        
-        NSMutableDictionary *navBarTitlePromptAndColorDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:tempNC.topViewController.navigationItem.title,@"title",nil,@"prompt", nil];
-       [(UINavigationController *) self.tabBarController.selectedViewController topViewController].navigationItem.title = origTitle;
-        [self performSelector:@selector(changeNavTitle:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(0)];
-        
-    }
-    else {
-        tempNC.topViewController.navigationItem.title = [navBarTitleAndPromptDict objectForKey:@"title"];
-        tempNC.topViewController.navigationItem.prompt = [navBarTitleAndPromptDict objectForKey:@"prompt"];
-    }
-*/
+   
     tempNC.topViewController.navigationItem.title = [navBarTitleAndPromptDict objectForKey:@"title"];
     tempNC.topViewController.navigationItem.prompt = [navBarTitleAndPromptDict objectForKey:@"prompt"];
-
+    
+    
+   
 }
 
-/*-(void) revertNavTitle: (NSDictionary *) navBarOriginalTitleDict {
-    UINavigationController *tempNC = (UINavigationController *)self.tabBarController.selectedViewController;
-   
 
-}*/
 - (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password {	
 	NSLog(@"AppDelegate: Attempt Login for: %@ Password: %@", userName, password);
 	[AppModel sharedAppModel].username = userName;

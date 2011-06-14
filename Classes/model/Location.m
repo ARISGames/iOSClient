@@ -35,6 +35,7 @@
 	if ([self.objectType isEqualToString:@"Npc"]) returnValue = NearbyObjectNPC;
 	if ([self.objectType isEqualToString:@"Item"]) returnValue = NearbyObjectItem;
 	if ([self.objectType isEqualToString:@"Player"]) returnValue = NearbyObjectPlayer;
+    if ([self.objectType isEqualToString:@"WebPage"]) returnValue = NearbyObjectWebPage;
 	return returnValue;
 }
 
@@ -56,6 +57,9 @@
 	
 	if (self.kind == NearbyObjectNode) {
 		return [[AppModel sharedAppModel] nodeForNodeId: objectId]; 
+	}
+    if (self.kind == NearbyObjectWebPage) {
+		return [[AppModel sharedAppModel] webPageForWebPageID: objectId]; 
 	}
 	
 	if (self.kind == NearbyObjectNPC) {

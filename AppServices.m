@@ -566,6 +566,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 }
 
 
+- (void)fetchGameWebpageListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
+	NSLog(@"AppModel: Fetching Webpage List");
+	
+	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
+	
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"webpages"
+                                                             andMethodName:@"getWebPages"
+                                                              andArguments:arguments];
+	if (YesForAsyncOrNoForSync){
+		[jsonConnection performAsynchronousRequestWithParser:@selector(parseGameWebPageListFromJSON:)]; 
+		[jsonConnection release];
+	}
+	else [self parseGameWebPageListFromJSON: [jsonConnection performSynchronousRequest]];
+    
+	
+}
+
+
 - (void)fetchGameMediaListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
 	NSLog(@"AppModel: Fetching Media List");
 	
@@ -953,6 +972,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 }
 
 
+-(WebPage *)parseWebPageFromDictionary: (NSDictionary *)webPageDictionary {
+	WebPage *webPage = [[[WebPage alloc] init] autorelease];
+	webPage.webPageId = [[webPageDictionary valueForKey:@"web_page_id"] intValue];
+	webPage.name = [webPageDictionary valueForKey:@"name"];
+	webPage.url = [webPageDictionary valueForKey:@"url"];    
+	webPage.iconMediaId = [[webPageDictionary valueForKey:@"icon_media_id"] intValue];
+    
+	return webPage;	
+}
+
+
 -(void)parseConversationNodeOptionsFromJSON: (JSONResult *)jsonResult {
     [self fetchInventory];
     [self fetchQuestList];
@@ -1319,6 +1349,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	
 	[AppModel sharedAppModel].gameNpcList = tempNpcList;
 	[tempNpcList release];
+}
+
+-(void)parseGameWebPageListFromJSON: (JSONResult *)jsonResult{
+	NSArray *webpageListArray = (NSArray *)jsonResult.data;
+	
+	NSMutableDictionary *tempWebPageList = [[NSMutableDictionary alloc] init];
+	NSEnumerator *enumerator = [((NSArray *)webpageListArray) objectEnumerator];
+	NSDictionary *dict;
+	while ((dict = [enumerator nextObject])) {
+		WebPage *tmpWebpage = [self parseWebPageFromDictionary:dict];
+		
+		[tempWebPageList setObject:tmpWebpage forKey:[NSNumber numberWithInt:tmpWebpage.webPageId]];
+	}
+	
+	[AppModel sharedAppModel].gameWebPageList = tempWebPageList;
+	[tempWebPageList release];
 }
 
 
