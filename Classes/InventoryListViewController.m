@@ -106,8 +106,11 @@
                 if ((existingItem.itemId == item.itemId) && (existingItem.qty < item.qty)){
                    if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
                        [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
-
-                    [appDelegate displayNotificationTitle:@"Item Recieved!" andPrompt:[NSString stringWithFormat:@"%d %@ added to inventory",item.qty - existingItem.qty,item.name]];
+                    
+                    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Item Recieved",@"title",[NSString stringWithFormat:@"%d %@ added to inventory",item.qty - existingItem.qty,item.name],@"prompt", nil];
+                    
+                    [appDelegate performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
+                 
                 }
                 /*if ((existingItem.itemId == item.itemId) && (existingItem.qty > item.qty)){
                     if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
@@ -121,7 +124,10 @@
 			if (match == NO) {
                 if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
                     [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
-                [appDelegate displayNotificationTitle:@"Item Recieved!" andPrompt:[NSString stringWithFormat:@"%d %@ added to inventory",item.qty,item.name]];
+                
+                NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Item Recieved",@"title",[NSString stringWithFormat:@"%d %@ added to inventory",item.qty,item.name],@"prompt", nil];
+                
+                [appDelegate performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
 
 				newItems ++;;
 			}

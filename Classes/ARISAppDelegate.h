@@ -100,7 +100,7 @@
 - (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate;
 - (void) checkForDisplayCompleteNode;
 - (void) displayIntroNode;
-- (void)displayNotificationTitle:(NSString *) title andPrompt: (NSString *) prompt;
+- (void) displayNotificationTitle:(NSDictionary *) titleAndPrompt;
 - (void) changeNavColor: (NSDictionary *) navBarAndColorDict;
 - (void) changeNavTitle: (NSDictionary *) navBarTitleAndPromptDict;
 

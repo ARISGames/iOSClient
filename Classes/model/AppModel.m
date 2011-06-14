@@ -209,7 +209,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
     
     if([[(UINavigationController *) appDelegate.tabBarController.selectedViewController topViewController] respondsToSelector:@selector(updateQuantityDisplay)])
         [[(UINavigationController *)appDelegate.tabBarController.selectedViewController topViewController] performSelector:@selector(updateQuantityDisplay)];
-    [appDelegate displayNotificationTitle:@"Lost Item!" andPrompt:[NSString stringWithFormat:@"%d %@ removed from inventory",qty,item.name]];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Item Lost",@"title",[NSString stringWithFormat:@"%d %@ removed from inventory",qty,item.name],@"prompt", nil];
+
+    
+    [appDelegate performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
 
     
 	NSNotification *notification = [NSNotification notificationWithName:@"NewInventoryReady" object:nil];

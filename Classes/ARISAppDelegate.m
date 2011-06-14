@@ -212,9 +212,10 @@
 
 
 }
-- (void)displayNotificationTitle:(NSString *) title andPrompt: (NSString *) prompt{
+- (void)displayNotificationTitle:(NSMutableDictionary *) titleAndPrompt{
     UINavigationController *tempNC= (UINavigationController *)self.tabBarController.selectedViewController;
-    
+    NSString *title = [titleAndPrompt objectForKey:@"title"];
+    NSString *prompt = [titleAndPrompt objectForKey:@"prompt"];
     if(self.tabBarController.modalViewController)
     {
         tempNC = (UINavigationController *)self.tabBarController.modalViewController;
@@ -248,7 +249,7 @@
     
     [navBarTitlePromptAndColorDict setValue:origTitle forKey:@"title"];
     [navBarTitlePromptAndColorDict setValue:nil forKey:@"prompt"];
-    [self performSelector:@selector(changeNavTitle:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(2.6+2.5*(self.notificationCount-1))];
+    [self performSelector:@selector(changeNavTitle:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(2.5+2.5*(self.notificationCount-1))];
     [origTitle release];
     [self performSelector:@selector(decrementNotificationCount) withObject:nil afterDelay:(2.5+2.5*(self.notificationCount-1))];
 }

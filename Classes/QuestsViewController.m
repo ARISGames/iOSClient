@@ -149,7 +149,11 @@ NSString *const kQuestsHtmlTemplate =
 			}
 			if (match == NO) {
 				newItems ++;;
-                [appDelegate displayNotificationTitle:@"New Quest Available!" andPrompt:quest.name];
+                
+                NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"New Quest Available",@"title",quest.name,@"prompt", nil];
+                
+                [appDelegate performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
+                
 			}
 		}
         
@@ -161,7 +165,11 @@ NSString *const kQuestsHtmlTemplate =
 				if (existingQuest.questId == quest.questId) match = YES;	
 			}
 			if (match == NO) {
-                [appDelegate displayNotificationTitle:@"Quest Completed!" andPrompt:quest.name];
+                
+                NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Quest Completed",@"title",quest.name,@"prompt", nil];
+                
+                [appDelegate performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
+
 			}
 		}
 
