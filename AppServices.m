@@ -72,6 +72,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[jsonConnection release];
 }
 
+- (void)updateServerWebPageViewed: (int)webPageId {
+	NSLog(@"Model: WebPage %d Viewed, update server", webPageId);
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects:
+						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+						  [NSString stringWithFormat:@"%d",webPageId],
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"players" 
+                                                             andMethodName:@"webPageViewed" 
+                                                              andArguments:arguments];
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; 
+	[jsonConnection release];
+    
+}
+
+
 - (void)updateServerItemViewed: (int)itemId {
 	NSLog(@"Model: Item %d Viewed, update server", itemId);
 	

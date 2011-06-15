@@ -87,6 +87,7 @@
 - (void)updateServerWithPlayerLocation;
 - (void)updateServerNodeViewed: (int)nodeId;
 - (void)updateServerItemViewed: (int)itemId;
+- (void)updateServerWebPageViewed: (int)webPageId;
 - (void)updateServerNpcViewed: (int)npcId;
 - (void)updateServerMapViewed;
 - (void)updateServerQuestsViewed;

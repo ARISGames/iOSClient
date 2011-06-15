@@ -72,7 +72,7 @@
 	NSLog(@"NodeViewController: Notify server of Node view and Dismiss view");
 	
 	//Notify the server this item was displayed
-	//[[AppServices sharedAppServices] updateServerNodeViewed:node.nodeId];
+	[[AppServices sharedAppServices] updateServerWebPageViewed:webPage.webPageId];
 	
 	
 	//[self.view removeFromSuperview];
