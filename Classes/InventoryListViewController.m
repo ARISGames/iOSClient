@@ -170,8 +170,9 @@
 - (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier {
 	CGRect CellFrame = CGRectMake(0, 0, 320, 60);
 	CGRect IconFrame = CGRectMake(5, 5, 50, 50);
-	CGRect Label1Frame = CGRectMake(70, 10, 240, 25);
-	CGRect Label2Frame = CGRectMake(70, 33, 240, 25);
+	CGRect Label1Frame = CGRectMake(70, 22, 240, 20);
+	CGRect Label2Frame = CGRectMake(70, 39, 240, 20);
+    CGRect Label3Frame = CGRectMake(70, 5, 240, 20);
 	UILabel *lblTemp;
 	UIImageView *iconViewTemp;
 	
@@ -193,7 +194,7 @@
 	//Initialize Label with tag 2.
 	lblTemp = [[UILabel alloc] initWithFrame:Label2Frame];
 	lblTemp.tag = 2;
-	lblTemp.font = [UIFont boldSystemFontOfSize:12];
+	lblTemp.font = [UIFont systemFontOfSize:11];
 	lblTemp.textColor = [UIColor darkGrayColor];
 	lblTemp.backgroundColor = [UIColor clearColor];
 	[cell.contentView addSubview:lblTemp];
@@ -206,6 +207,16 @@
 	[cell.contentView addSubview:iconViewTemp];
 	[iconViewTemp release];
 
+    //Init Icon with tag 4
+    lblTemp = [[UILabel alloc] initWithFrame:Label3Frame];
+	lblTemp.tag = 4;
+	lblTemp.font = [UIFont boldSystemFontOfSize:11];
+	lblTemp.textColor = [UIColor darkGrayColor];
+	lblTemp.backgroundColor = [UIColor clearColor];
+    //lblTemp.textAlignment = UITextAlignmentRight;
+	[cell.contentView addSubview:lblTemp];
+	[lblTemp release];
+    
 	return cell;
 }
 
@@ -233,12 +244,14 @@
 	
 	UILabel *lblTemp1 = (UILabel *)[cell viewWithTag:1];
 	lblTemp1.text = item.name;	
-	
-	UILabel *lblTemp2 = (UILabel *)[cell viewWithTag:2];
-	if (item.qty > 1) lblTemp2.text = [NSString stringWithFormat:@"x %d ",item.qty];
-	else lblTemp2.text = @"";
-	
+    lblTemp1.font = [UIFont boldSystemFontOfSize:18.0];
+        
+    UILabel *lblTemp2 = (UILabel *)[cell viewWithTag:2];
+    lblTemp2.text = item.description;
 	AsyncImageView *iconView = (AsyncImageView *)[cell viewWithTag:3];
+    
+    UILabel *lblTemp3 = (UILabel *)[cell viewWithTag:4];
+    lblTemp3.text = [NSString stringWithFormat:@"Quantity: %d",item.qty];
 	
 	Media *media = [[AppModel sharedAppModel] mediaForMediaId: item.mediaId];
 

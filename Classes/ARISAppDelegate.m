@@ -213,6 +213,7 @@
 
 }
 - (void)displayNotificationTitle:(NSMutableDictionary *) titleAndPrompt{
+     self.notificationCount++;
     UINavigationController *tempNC= (UINavigationController *)self.tabBarController.selectedViewController;
     NSString *title = [titleAndPrompt objectForKey:@"title"];
     NSString *prompt = [titleAndPrompt objectForKey:@"prompt"];
@@ -229,7 +230,7 @@
         tempNC.topViewController.navigationItem.backBarButtonItem.enabled = NO;
     
     NSString *origTitle = [[tempNC.topViewController.navigationItem.title copy] retain];
-    self.notificationCount++;
+   
     
     NSMutableDictionary *navBarTitlePromptAndColorDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:title,@"title",prompt,@"prompt",[UIColor grayColor],@"color", tempNC,@"navbar", nil];
     
