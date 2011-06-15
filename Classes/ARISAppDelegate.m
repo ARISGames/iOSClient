@@ -221,6 +221,12 @@
         tempNC = (UINavigationController *)self.tabBarController.modalViewController;
         self.modalPresent = YES;
     }
+    if(tempNC.topViewController.navigationItem.leftBarButtonItem)
+        tempNC.topViewController.navigationItem.leftBarButtonItem.enabled = NO;
+    if(tempNC.topViewController.navigationItem.rightBarButtonItem)
+        tempNC.topViewController.navigationItem.rightBarButtonItem.enabled = NO;
+    if(tempNC.topViewController.navigationItem.backBarButtonItem)
+        tempNC.topViewController.navigationItem.backBarButtonItem.enabled = NO;
     
     NSString *origTitle = [[tempNC.topViewController.navigationItem.title copy] retain];
     self.notificationCount++;
@@ -251,7 +257,7 @@
     [navBarTitlePromptAndColorDict setValue:nil forKey:@"prompt"];
     [self performSelector:@selector(changeNavTitle:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(2.5+2.5*(self.notificationCount-1))];
     [origTitle release];
-    [self performSelector:@selector(decrementNotificationCount) withObject:nil afterDelay:(2.5+2.5*(self.notificationCount-1))];
+    [self performSelector:@selector(decrementNotificationCount:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(2.5+2.5*(self.notificationCount-1))];
 }
 
 - (void) changeNavColor: (NSDictionary *) navBarAndColorDict {
@@ -263,8 +269,16 @@
     [UIView commitAnimations];
 }
 
--(void) decrementNotificationCount {
+-(void) decrementNotificationCount: (NSDictionary *) navBarDict {
     self.notificationCount--;
+    UINavigationController *tempNC = [navBarDict objectForKey:@"navbar"];
+
+    if(tempNC.topViewController.navigationItem.leftBarButtonItem)
+        tempNC.topViewController.navigationItem.leftBarButtonItem.enabled = YES;
+    if(tempNC.topViewController.navigationItem.rightBarButtonItem)
+        tempNC.topViewController.navigationItem.rightBarButtonItem.enabled = YES;
+    if(tempNC.topViewController.navigationItem.backBarButtonItem)
+        tempNC.topViewController.navigationItem.backBarButtonItem.enabled = YES;
 }
 
 -(void) changeNavTitle: (NSDictionary *) navBarTitleAndPromptDict {

@@ -103,5 +103,6 @@
 - (void) displayNotificationTitle:(NSDictionary *) titleAndPrompt;
 - (void) changeNavColor: (NSDictionary *) navBarAndColorDict;
 - (void) changeNavTitle: (NSDictionary *) navBarTitleAndPromptDict;
+- (void) decrementNotificationCount: (NSDictionary *) navBarDict; 
 
 @end
