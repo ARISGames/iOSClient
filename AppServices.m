@@ -267,6 +267,29 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
     
 }
 
+- (void)uploadImageForMatching:(NSData *)fileData{
+
+   	// setting up the request object now
+	NSURL *url = [[AppModel sharedAppModel].serverURL URLByAppendingPathComponent:@"services/aris/uploadHandler.php"];
+	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+	request.timeOutSeconds = 60;
+	
+ 	[request setPostValue:[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].currentGame.gameId] forKey:@"gameID"];	 
+	[request setPostValue:@"upload.png" forKey:@"fileName"];
+	[request setData:fileData forKey:@"file"];
+	[request setDidFinishSelector:@selector(uploadImageForMatchingRequestFinished:)];
+	[request setDidFailSelector:@selector(uploadRequestFailed:)];
+	[request setDelegate:self];
+		
+	NSLog(@"Model: Uploading File. gameID:%d",[AppModel sharedAppModel].currentGame.gameId);
+	
+	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate showWaitingIndicator:@"Uploading" displayProgressBar:YES];
+	[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
+	[request startAsynchronous];
+}
+
+
 - (void)createItemAndGiveToPlayerFromFileData:(NSData *)fileData fileName:(NSString *)fileName 
 										title:(NSString *)title description:(NSString*)description {
     
@@ -293,6 +316,39 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
 	[request startAsynchronous];
 }
+
+
+
+- (void)uploadImageForMatchingRequestFinished:(ASIFormDataRequest *)request
+{
+	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate removeWaitingIndicator];
+	
+	NSString *response = [request responseString];
+    
+	NSLog(@"Model: uploadImageForMatchingRequestFinished: Upload Media Request Finished. Response: %@", response);
+        
+	NSString *newFileName = [request responseString];
+    
+	NSLog(@"AppModel: uploadImageForMatchingRequestFinished: Trying to Match:%@",newFileName);
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects:
+						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+						  newFileName,
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"qrcodes" 
+                                                             andMethodName:@"getBestImageMatchNearbyObjectForPlayer" 
+                                                              andArguments:arguments];
+	[jsonConnection performAsynchronousRequestWithParser:@selector(parseQRCodeObjectFromJSON:)]; 
+	[jsonConnection release];
+    
+}
+
+
+
 
 - (void)uploadItemRequestFinished:(ASIFormDataRequest *)request
 {
@@ -333,12 +389,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
     
 }
 
-- (void)uploadItemRequestFailed:(ASIHTTPRequest *)request
+- (void)uploadRequestFailed:(ASIHTTPRequest *)request
 {
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate removeWaitingIndicator];
 	NSError *error = [request error];
-	NSLog(@"Model: uploadItemRequestFailed: %@",[error localizedDescription]);
+	NSLog(@"Model: uploadRequestFailed: %@",[error localizedDescription]);
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message: @"An network error occured while uploading the file" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
 	
 	[alert show];
@@ -984,9 +1040,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 
 
 -(void)parseConversationNodeOptionsFromJSON: (JSONResult *)jsonResult {
+	
     [self fetchInventory];
     [self fetchQuestList];
-	NSArray *conversationOptionsArray = (NSArray *)jsonResult.data;
+    
+    NSArray *conversationOptionsArray = (NSArray *)jsonResult.data;
 	
 	NSMutableArray *conversationNodeOptions = [[NSMutableArray alloc] initWithCapacity:3];
 	
@@ -1422,6 +1480,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	
 }
 
+/*
+- (void)parseGetBestImageMatchFromJSON: (JSONResult *)jsonResult {
+    
+    NSLog(@"AppModel: parseGetBestImageMatchFromJSON");
+		
+	//Continue parsing
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Data from Server" 
+                                                   message:(NSString *)jsonResult.data 
+                                                  delegate:nil 
+                                         cancelButtonTitle:nil 
+                                         otherButtonTitles: nil];
+    
+    [alert show];
+    [alert release];
+    
+}
+*/
 
 -(void)parseQRCodeObjectFromJSON: (JSONResult *)jsonResult {
     

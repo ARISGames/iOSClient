@@ -16,8 +16,8 @@
 
 @implementation QRScannerViewController 
 
-@synthesize imagePickerController;
-@synthesize scanButton;
+@synthesize qrImagePickerController, imageMatchingImagePickerController;
+@synthesize qrScanButton,imageScanButton;
 @synthesize manualCode;
 
 //Override init for passing title and icon to tab bar
@@ -42,31 +42,46 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 		
-	[scanButton setTitle:NSLocalizedString(@"ScanUsingCameraKey",@"") forState:UIControlStateNormal];
+	//[self.qrScanButton setTitle:NSLocalizedString(@"ScanUsingCameraKey",@"") forState:UIControlStateNormal];
 	manualCode.placeholder = NSLocalizedString(@"EnterCodeKey",@"");
 	
-	self.imagePickerController = [[UIImagePickerController alloc] init];
-	self.imagePickerController.delegate = self;
+	self.qrImagePickerController = [[UIImagePickerController alloc] init];
+	self.qrImagePickerController.delegate = self;
+    
+	self.imageMatchingImagePickerController = [[UIImagePickerController alloc] init];
+	self.imageMatchingImagePickerController.delegate = self;
 	
 	if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-		self.scanButton.enabled = YES;
-		self.scanButton.alpha = 1.0;
+		self.qrScanButton.enabled = YES;
+		self.qrScanButton.alpha = 1.0;
+        self.imageScanButton.enabled = YES;
+		self.imageScanButton.alpha = 1.0;
 	}
 	else {
-		self.scanButton.enabled = NO;
-		self.scanButton.alpha = 0.6;
+		self.qrScanButton.enabled = NO;
+		self.qrScanButton.alpha = 0.6;
+        self.imageScanButton.enabled = NO;
+		self.imageScanButton.alpha = 0.6;
 	}
 	
 	
 	NSLog(@"QRScannerViewController: Loaded");
 }
 
-- (IBAction)scanButtonTouchAction: (id) sender{
-	NSLog(@"QRScannerViewController: Scan Button Pressed");
+- (IBAction)qrScanButtonTouchAction: (id) sender{
+	NSLog(@"QRScannerViewController: QR Scan Button Pressed");
 	
-	self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-	[self presentModalViewController:self.imagePickerController animated:YES];
+	self.qrImagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+	[self presentModalViewController:self.qrImagePickerController animated:YES];
 	 
+}
+
+- (IBAction)imageScanButtonTouchAction: (id) sender{
+    NSLog(@"QRScannerViewController: Image Scan Button Pressed");
+	
+	self.imageMatchingImagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+	[self presentModalViewController:self.imageMatchingImagePickerController animated:YES];
+    
 }
 
 
@@ -89,20 +104,27 @@
 
 #pragma mark UIImagePickerControllerDelegate Protocol Methods
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingImage:(UIImage *)img editingInfo:(NSDictionary *)editInfo {
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary  *)info{
+
 	[[picker parentViewController] dismissModalViewControllerAnimated:NO];
-	CGRect cropRect;
-	//if ([editInfo objectForKey:UIImagePickerControllerCropRect]) {  //do we have a user specified cropRect?
-	//	cropRect = [[editInfo objectForKey:UIImagePickerControllerCropRect] CGRectValue];
-	//} else { //No user-specified croprect, so set cropRect to use entire image
-		cropRect = CGRectMake(0.0, 0.0, img.size.width, img.size.height);
-	//}
 	
-	//Now to decode
-	Decoder *imageDecoder = [[Decoder alloc] init]; //create a decoder
-	[imageDecoder setDelegate:self];  //we get told about the scan, 
-	[imageDecoder decodeImage:img cropRect:cropRect]; //start the decode. When done, our delegate method will be called.
-	
+    UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
+    if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];                 
+    
+    if (picker == self.qrImagePickerController) {
+        NSLog(@"QRScannerVC: qr imagePickerController didFinishPickingImage" );
+        //Now to decode
+        Decoder *imageDecoder = [[Decoder alloc] init]; //create a decoder
+        [imageDecoder setDelegate:self];  //we get told about the scan, 
+        CGRect cropRect = CGRectMake(0.0, 0.0, image.size.width, image.size.height);
+        [imageDecoder decodeImage:image cropRect:cropRect]; //start the decode. When done, our delegate method will be called.
+    }
+    else if (picker == self.imageMatchingImagePickerController) {
+        NSLog(@"QRScannerVC: image matching imagePickerController didFinishPickingImage" );
+        
+        NSData *imageData = UIImageJPEGRepresentation(image, .8);
+        [[AppServices sharedAppServices] uploadImageForMatching:imageData];
+    }	
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {

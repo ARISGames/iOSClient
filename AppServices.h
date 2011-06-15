@@ -82,6 +82,8 @@
 - (void)createItemAndGiveToPlayerFromFileData:(NSData *)fileData fileName:(NSString *)fileName 
 										title:(NSString *)title description:(NSString*)description;
 
+- (void)uploadImageForMatching:(NSData *)fileData;
+
 - (void)updateServerWithPlayerLocation;
 - (void)updateServerNodeViewed: (int)nodeId;
 - (void)updateServerItemViewed: (int)itemId;

@@ -135,6 +135,7 @@
 		AB4151CB11595A2600DBA15F /* cameraBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AB4151CA11595A2600DBA15F /* cameraBackground.jpg */; };
 		AB4151DD115963D000DBA15F /* qrBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = AB4151DC115963D000DBA15F /* qrBackground.png */; };
 		AB42A66911D69F1500FD6D4B /* ARISMoviePlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB42A66811D69F1500FD6D4B /* ARISMoviePlayerViewController.m */; };
+		AB4A8E8913A82C2F000328AA /* camera_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = AB4A8E8813A82C2F000328AA /* camera_icon.png */; };
 		AB4FD854130BC5AE0034F666 /* TutorialPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4FD853130BC5AE0034F666 /* TutorialPopupView.m */; };
 		AB4FDC89130EB1120034F666 /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB4FDC88130EB1120034F666 /* TutorialViewController.m */; };
 		AB549EDF1047007B00A901EF /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = AB549ED41047007B00A901EF /* NSObject+SBJSON.m */; };
@@ -204,6 +205,7 @@
 		ABBEBBAD104D7CC800AA7285 /* NodeOption.m in Sources */ = {isa = PBXBuildFile; fileRef = ABBEBBAC104D7CC800AA7285 /* NodeOption.m */; };
 		ABBEBBC2104D7CF900AA7285 /* NodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABBEBBC1104D7CF900AA7285 /* NodeViewController.m */; };
 		ABBEBBC5104D7DAB00AA7285 /* Node.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABBEBBC4104D7DAB00AA7285 /* Node.xib */; };
+		ABC2A64013A82A01003500AF /* qrcode_big.png in Resources */ = {isa = PBXBuildFile; fileRef = ABC2A63F13A82A01003500AF /* qrcode_big.png */; };
 		ABC399CF116B9EBC002185D4 /* AudioMeter.m in Sources */ = {isa = PBXBuildFile; fileRef = ABC399CE116B9EBC002185D4 /* AudioMeter.m */; };
 		ABC39B25116BD28F002185D4 /* TitleAndDecriptionFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABC39B23116BD28F002185D4 /* TitleAndDecriptionFormViewController.m */; };
 		ABC39B26116BD28F002185D4 /* TitleAndDecriptionFormViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABC39B24116BD28F002185D4 /* TitleAndDecriptionFormViewController.xib */; };
@@ -457,6 +459,7 @@
 		AB4151DC115963D000DBA15F /* qrBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qrBackground.png; sourceTree = "<group>"; };
 		AB42A66711D69F1500FD6D4B /* ARISMoviePlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISMoviePlayerViewController.h; sourceTree = "<group>"; };
 		AB42A66811D69F1500FD6D4B /* ARISMoviePlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISMoviePlayerViewController.m; sourceTree = "<group>"; };
+		AB4A8E8813A82C2F000328AA /* camera_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_icon.png; sourceTree = "<group>"; };
 		AB4FD852130BC5AE0034F666 /* TutorialPopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialPopupView.h; sourceTree = "<group>"; };
 		AB4FD853130BC5AE0034F666 /* TutorialPopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialPopupView.m; sourceTree = "<group>"; };
 		AB4FDC87130EB1120034F666 /* TutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialViewController.h; sourceTree = "<group>"; };
@@ -554,6 +557,7 @@
 		ABBEBBC0104D7CF900AA7285 /* NodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NodeViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		ABBEBBC1104D7CF900AA7285 /* NodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = NodeViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		ABBEBBC4104D7DAB00AA7285 /* Node.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Node.xib; sourceTree = "<group>"; };
+		ABC2A63F13A82A01003500AF /* qrcode_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qrcode_big.png; sourceTree = "<group>"; };
 		ABC399CD116B9EBC002185D4 /* AudioMeter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMeter.h; sourceTree = "<group>"; };
 		ABC399CE116B9EBC002185D4 /* AudioMeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioMeter.m; sourceTree = "<group>"; };
 		ABC39B22116BD28F002185D4 /* TitleAndDecriptionFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleAndDecriptionFormViewController.h; sourceTree = "<group>"; };
@@ -915,6 +919,8 @@
 				A72C02150F7985FF00D00602 /* QRScannerViewController.h */,
 				A72C02160F7985FF00D00602 /* QRScannerViewController.mm */,
 				A72C02130F7985EF00D00602 /* QRScanner.xib */,
+				ABC2A63F13A82A01003500AF /* qrcode_big.png */,
+				AB4A8E8813A82C2F000328AA /* camera_icon.png */,
 				AB4151DC115963D000DBA15F /* qrBackground.png */,
 			);
 			name = "QR Scanner";
@@ -1435,6 +1441,8 @@
 				ABB60F24139F2F1700EEDA08 /* GamePickerSearchViewController.xib in Resources */,
 				ABB60F29139F352500EEDA08 /* GamePickerRecentViewController.xib in Resources */,
 				1122C0B713A7D124004F0392 /* webpageViewController.xib in Resources */,
+				ABC2A64013A82A01003500AF /* qrcode_big.png in Resources */,
+				AB4A8E8913A82C2F000328AA /* camera_icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

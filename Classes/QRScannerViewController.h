@@ -10,23 +10,25 @@
 #import "AppModel.h"
 #import "DecoderDelegate.h"
 
-@interface QRScannerViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, DecoderDelegate> {
-	IBOutlet UIButton *scanButton;
+@interface QRScannerViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, DecoderDelegate>{
+	IBOutlet UIButton *qrScanButton;
+    IBOutlet UIButton *imageScanButton;
 	IBOutlet UITextField *manualCode;
-    UIImagePickerController *imagePickerController;
+    UIImagePickerController *qrImagePickerController;
+    UIImagePickerController *imageMatchingImagePickerController;
 }
 
-
-- (void) qrParserDidFinish:(id<QRCodeProtocol>)qrcode;
-
-@property (nonatomic, retain) IBOutlet UIButton *scanButton;
+@property (nonatomic, retain) IBOutlet UIButton *qrScanButton;
+@property (nonatomic, retain) IBOutlet UIButton *imageScanButton;
 @property (nonatomic, retain) IBOutlet UITextField *manualCode;
-@property (nonatomic, retain) UIImagePickerController *imagePickerController;
+@property (nonatomic, retain) UIImagePickerController *qrImagePickerController;
+@property (nonatomic, retain) UIImagePickerController *imageMatchingImagePickerController;
 
 
-- (IBAction)scanButtonTouchAction: (id) sender;
-
--(void) loadResult:(NSString *)result;
+- (IBAction)qrScanButtonTouchAction: (id) sender;
+- (IBAction)imageScanButtonTouchAction: (id) sender;
+- (void) qrParserDidFinish:(id<QRCodeProtocol>)qrcode;
+- (void) loadResult:(NSString *)result;
 
 
 @end
