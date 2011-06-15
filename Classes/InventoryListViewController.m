@@ -10,6 +10,7 @@
 #import "AppServices.h"
 #import "Media.h"
 #import "AsyncImageView.h"
+#import "AppModel.h"
 
 
 @implementation InventoryListViewController
@@ -99,7 +100,8 @@
 		int newItems = 0;
         UIViewController *topViewController =  [[self navigationController] topViewController];
 
-		for (Item *item in newInventory) {		
+		for (Item *item in newInventory) {	
+    
 			BOOL match = NO;
 			for (Item *existingItem in self.inventory) {
 				if (existingItem.itemId == item.itemId) match = YES;	
@@ -122,6 +124,11 @@
                 
 			}
 			if (match == NO) {
+                if([AppModel sharedAppModel].profilePic)
+                {
+                    [AppModel sharedAppModel].profilePic = NO;
+                    [AppModel sharedAppModel].currentGame.pcMediaId = item.mediaId;
+                }
                 if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
                     [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
                 

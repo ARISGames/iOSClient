@@ -52,13 +52,15 @@ extern NSDictionary *InventoryElements;
 	BOOL hasSeenQuestsTabTutorial;
 	BOOL hasSeenMapTabTutorial;
 	BOOL hasSeenInventoryTabTutorial;
-    
+    BOOL profilePic;
 }
 
 
 @property(nonatomic, retain) NSURL *serverURL;
 @property(readwrite) BOOL loggedIn;
 @property(readwrite) BOOL showGamesInDevelopment;
+@property(readwrite) BOOL profilePic;
+
 
 
 @property(copy, readwrite) NSString *username;

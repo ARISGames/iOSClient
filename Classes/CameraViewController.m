@@ -20,6 +20,7 @@
 @synthesize libraryButton;
 @synthesize mediaData;
 @synthesize mediaFilename;
+@synthesize profileButton;
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle {
@@ -41,14 +42,20 @@
 	
 	[cameraButton setTitle: NSLocalizedString(@"CameraCameraButtonTitleKey",@"") forState: UIControlStateNormal];
 	[cameraButton setTitle: NSLocalizedString(@"CameraCameraButtonTitleKey",@"") forState: UIControlStateHighlighted];	
+    [profileButton setTitle:@"Take Profile Picture" forState:UIControlStateNormal];
+    [profileButton setTitle:@"Take Profile Picture" forState:UIControlStateHighlighted];    
 		
 	if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
 		self.cameraButton.enabled = YES;
 		self.cameraButton.alpha = 1.0;
+        self.profileButton.enabled = YES;
+        self.profileButton.alpha  = 1.0;
 	}
 	else {
 		self.cameraButton.enabled = NO;
 		self.cameraButton.alpha = 0.6;
+        self.profileButton.enabled = NO;
+        self.profileButton.alpha = 0.6;
 	}
 	
 	self.imagePickerController.delegate = self;
@@ -75,6 +82,16 @@
 	[self presentModalViewController:self.imagePickerController animated:YES];
 }
 
+- (IBAction)profileButtonTouchAction {
+	NSLog(@"Profile Button Pressed");
+	
+	self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+	self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePickerController.sourceType];
+	self.imagePickerController.allowsEditing = YES;
+	self.imagePickerController.showsCameraControls = YES;
+	[self presentModalViewController:self.imagePickerController animated:YES];
+    [AppModel sharedAppModel].profilePic = YES;
+}
 
 #pragma mark UIImagePickerControllerDelegate Protocol Methods
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary  *)info
@@ -150,6 +167,9 @@
 
 - (void)dealloc {
 	[imagePickerController release];
+    [profileButton release];
+    [cameraButton release];
+    [libraryButton release];
     [super dealloc];
 }
 

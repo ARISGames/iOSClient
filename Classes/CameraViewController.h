@@ -13,6 +13,7 @@
 @interface CameraViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
 	IBOutlet UIButton *cameraButton;
 	IBOutlet UIButton *libraryButton;
+    IBOutlet UIButton *profileButton;
 
     UIImagePickerController *imagePickerController;
 	NSData *mediaData;
@@ -20,6 +21,7 @@
 }
 
 @property (nonatomic, retain) IBOutlet UIButton *cameraButton;
+@property (nonatomic, retain) IBOutlet UIButton *profileButton;
 @property (nonatomic, retain) IBOutlet UIButton *libraryButton;
 @property (nonatomic, retain) UIImagePickerController *imagePickerController;
 @property (nonatomic, retain) NSData *mediaData;
@@ -29,6 +31,7 @@
 
 - (IBAction)cameraButtonTouchAction;
 - (IBAction)libraryButtonTouchAction;
+- (IBAction)profileButtonTouchAction;
 
 
 @end
