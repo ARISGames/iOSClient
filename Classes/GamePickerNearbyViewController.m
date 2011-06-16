@@ -48,7 +48,6 @@
 	NSLog(@"GamePickerViewController: View Appeared");	
 	
 	//self.gameList = [NSMutableArray arrayWithCapacity:1];
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[gameTable reloadData];
 	[self refresh];
     
@@ -59,6 +58,14 @@
 
 -(void)refresh {
 	NSLog(@"GamePickerViewController: Refresh Requested");
+    
+    if (![AppModel sharedAppModel].playerLocation) {
+		NSLog(@"NearbyBar: Waiting for the player location before continuing to refresh. Returning");
+        
+		[self performSelector:@selector(refresh) withObject:nil afterDelay:1];
+        return;
+	}
+    
         //Calculate locational control value
     BOOL locational;
     if (locationalControl.selectedSegmentIndex == 0) {
@@ -126,7 +133,7 @@
 
 - (void)refreshViewFromModel {
 	NSLog(@"GamePickerViewController: Refresh View from Model");
-
+    
     //unregister for notifications
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
