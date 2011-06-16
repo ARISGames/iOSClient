@@ -50,25 +50,25 @@
     
     self.navigationItem.rightBarButtonItem = self.refreshButton;
     
-    
-	NSLog(@"GamePickerViewController: View Loaded");
+     [self.theSearchBar becomeFirstResponder]; //Bring up the keyboard right away
+	NSLog(@"SearchVC: View Loaded");
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-	NSLog(@"GamePickerViewController: View Appeared");	
+	NSLog(@"SearchVC: View Appeared");	
     
     //Clear the List
     //self.gameList = [NSArray array];
     [gameTable reloadData];
 
-    [self.theSearchBar becomeFirstResponder]; //Bring up the keyboard right away
+   
         
     [super viewDidAppear:animated];
 }
 
 
 -(void)refresh {
-	NSLog(@"GamePickerViewController: Refresh Requested");
+	NSLog(@"SearchVC: Refresh Requested");
     
     //register for notifications
     NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
@@ -102,7 +102,7 @@
 
 
 - (void)refreshViewFromModel {
-	NSLog(@"GamePickerViewController: Refresh View from Model");
+	NSLog(@"SearchVC: Refresh View from Model");
 	
     //unregister for notifications
     [[NSNotificationCenter defaultCenter] removeObserver:self];
