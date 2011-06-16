@@ -258,6 +258,7 @@
 	AsyncImageView *iconView = (AsyncImageView *)[cell viewWithTag:3];
     
     UILabel *lblTemp3 = (UILabel *)[cell viewWithTag:4];
+    if(item.qty >1)
     lblTemp3.text = [NSString stringWithFormat:@"Quantity: %d",item.qty];
 	
 	Media *media = [[AppModel sharedAppModel] mediaForMediaId: item.mediaId];
