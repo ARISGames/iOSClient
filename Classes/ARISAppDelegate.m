@@ -623,6 +623,9 @@
 - (void)tabBarController:(UITabBarController *)tabBar didSelectViewController:(UIViewController *)viewController{
     NSLog(@"AppDelegate: tabBarController didSelectViewController");	
     
+
+        [tabBar.moreNavigationController popToRootViewControllerAnimated:NO];
+    
 	//Hide any popups
 	if ([viewController respondsToSelector:@selector(visibleViewController)]) {
 		UIViewController *vc = [viewController performSelector:@selector(visibleViewController)];
