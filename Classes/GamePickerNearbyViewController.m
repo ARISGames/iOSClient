@@ -17,7 +17,7 @@
 @implementation GamePickerNearbyViewController
 
 @synthesize gameTable;
-@synthesize gameList;
+@synthesize gameList, gameIcons;
 @synthesize refreshButton,count;
 
 
@@ -28,6 +28,7 @@
     if (self) {
         self.title = @"Nearby";
         self.tabBarItem.image = [UIImage imageNamed:@"game.png"];
+        self.gameIcons = [NSMutableArray arrayWithCapacity:[[AppModel sharedAppModel].gameList count]];
     }
     return self;
 }
@@ -48,6 +49,7 @@
 	NSLog(@"GamePickerViewController: View Appeared");	
 	
 	//self.gameList = [NSMutableArray arrayWithCapacity:1];
+
 	[gameTable reloadData];
 	[self refresh];
     
@@ -138,7 +140,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
 	self.gameList = [[AppModel sharedAppModel].gameList sortedArrayUsingSelector:@selector(compareCalculatedScore:)];
-
+    
 	[gameTable reloadData];
 }
 
@@ -204,9 +206,17 @@
     //Set up the Icon
 	if ([currentGame.iconMediaUrl length] > 0) {
 		Media *iconMedia = [[Media alloc] initWithId:1 andUrlString:currentGame.iconMediaUrl ofType:@"Icon"];
+        currentGame.iconMedia = iconMedia;
+        currentGame.iconMediaUrl = nil;
 		[cell.iconView loadImageFromMedia:iconMedia];
 	}
-	else cell.iconView.image = [UIImage imageNamed:@"Icon.png"];
+	else
+    {
+        if(currentGame.iconMedia)
+            cell.iconView.image = currentGame.iconMedia.image;
+        else
+            cell.iconView.image = [UIImage imageNamed:@"Icon.png"];
+    }
     cell.iconView.layer.masksToBounds = YES;
     cell.iconView.layer.cornerRadius = 10.0;
     

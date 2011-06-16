@@ -166,9 +166,16 @@
     
 	if ([currentGame.iconMediaUrl length] > 0) {
 		Media *iconMedia = [[Media alloc] initWithId:1 andUrlString:currentGame.iconMediaUrl ofType:@"Icon"];
+        currentGame.iconMedia = iconMedia;
+        currentGame.iconMediaUrl = nil;
 		[cell.iconView loadImageFromMedia:iconMedia];
 	}
-	else cell.iconView.image = [UIImage imageNamed:@"Icon.png"];
+    else{
+        if(currentGame.iconMedia)
+            cell.iconView.image = currentGame.iconMedia.image;
+        else 
+            cell.iconView.image = [UIImage imageNamed:@"Icon.png"];
+    }
     cell.iconView.layer.masksToBounds = YES;
     cell.iconView.layer.cornerRadius = 10.0;
     

@@ -17,7 +17,7 @@
 	UITableView *gameTable;
     UIBarButtonItem *refreshButton;
     NSInteger count;
-
+    NSArray *gameIcons;
 }
 
 -(void)refresh;
@@ -28,6 +28,7 @@
 @property (nonatomic, copy) NSArray *gameList;
 @property (nonatomic, retain) IBOutlet UITableView *gameTable;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *refreshButton;
+@property (nonatomic, retain) NSArray *gameIcons;
 @property (assign) NSInteger count;
 
 @end

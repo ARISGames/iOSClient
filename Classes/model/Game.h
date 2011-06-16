@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import "Media.h"
+#import "AsyncImageView.h"
 
 
 @interface Game : NSObject {
@@ -32,6 +34,7 @@
 	int numReviews;
     int calculatedScore;
     BOOL isLocational;
+    Media *iconMedia;
 }
 
 @property(readwrite, assign) int gameId;
@@ -54,6 +57,8 @@
 @property(readwrite, assign) int numReviews;
 @property (readwrite) BOOL isLocational;
 @property(readwrite, assign) int calculatedScore;
+@property(nonatomic, retain) Media *iconMedia;
+
 
 - (NSComparisonResult)compareDistanceFromPlayer:(Game*)otherGame;
 - (NSComparisonResult)compareCalculatedScore:(Game*)otherGame;

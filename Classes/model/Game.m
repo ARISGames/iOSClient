@@ -30,7 +30,7 @@
 @synthesize totalQuests;
 @synthesize numReviews;
 @synthesize calculatedScore,isLocational, activeQuests;
-
+@synthesize iconMedia;
 - (id) init{
 	if ((self = [super init])) {
 		self.comments = [NSMutableArray arrayWithCapacity:5];
