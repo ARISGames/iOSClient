@@ -260,6 +260,8 @@
     UILabel *lblTemp3 = (UILabel *)[cell viewWithTag:4];
     if(item.qty >1)
     lblTemp3.text = [NSString stringWithFormat:@"Quantity: %d",item.qty];
+    else
+        lblTemp3.text = nil;
 	
 	Media *media = [[AppModel sharedAppModel] mediaForMediaId: item.mediaId];
 
