@@ -220,20 +220,25 @@
     UINavigationController *tempNC;
     
     int x = 0;
+    
+    //Loop through every viewController and display the notification 
     while (x < [self.tabBarController.customizableViewControllers count])
         {
+            //the 7th viewController is "bogusViewController which we want to ignore
+            //but it is also then a good spot to check if a modal is on screen
             if(x==7) {
                 if(self.tabBarController.modalViewController)
                 {
+                    //set tempNC to the modalView if there is a modal up
                     tempNC = (UINavigationController *)self.tabBarController.modalViewController;
                     self.modalPresent = YES;
                 }
                 else
-                    x++;
+                    x++; //if there isnt a modal on screen skip the bogus viewController and go to the next
                 
             }
             
-            if (x!=7)tempNC = (UINavigationController *)[self.tabBarController.customizableViewControllers objectAtIndex:x];
+    if (x!=7)tempNC = (UINavigationController *)[self.tabBarController.customizableViewControllers objectAtIndex:x];
     NSString *title = [titleAndPrompt objectForKey:@"title"];
     NSString *prompt = [titleAndPrompt objectForKey:@"prompt"];
     
@@ -295,6 +300,7 @@
     tempNC.topViewController.navigationItem.title = [navBarTitleAndPromptDict objectForKey:@"title"];
     tempNC.topViewController.navigationItem.prompt = [navBarTitleAndPromptDict objectForKey:@"prompt"];
     
+    //Code below just disables the buttons when a notification is up
     if(tempNC.topViewController.navigationItem.leftBarButtonItem) 
     {
         if (tempNC.topViewController.navigationItem.leftBarButtonItem.enabled) {
