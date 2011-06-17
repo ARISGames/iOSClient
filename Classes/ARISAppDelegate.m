@@ -214,30 +214,40 @@
 }
 - (void)displayNotificationTitle:(NSMutableDictionary *) titleAndPrompt{
      self.notificationCount++;
-    UINavigationController *tempNC= (UINavigationController *)self.tabBarController.selectedViewController;
+    
+    NSMutableDictionary *navBarTitlePromptAndColorDict;
+    
+    UINavigationController *tempNC;
+    
+    int x = 0;
+    while (x < [self.tabBarController.customizableViewControllers count])
+        {
+            if(x==7) {
+                if(self.tabBarController.modalViewController)
+                {
+                    tempNC = (UINavigationController *)self.tabBarController.modalViewController;
+                    self.modalPresent = YES;
+                }
+                else
+                    x++;
+                
+            }
+            
+            if (x!=7)tempNC = (UINavigationController *)[self.tabBarController.customizableViewControllers objectAtIndex:x];
     NSString *title = [titleAndPrompt objectForKey:@"title"];
     NSString *prompt = [titleAndPrompt objectForKey:@"prompt"];
-    if(self.tabBarController.modalViewController)
-    {
-        tempNC = (UINavigationController *)self.tabBarController.modalViewController;
-        self.modalPresent = YES;
-    }
-    if(tempNC.topViewController.navigationItem.leftBarButtonItem)
-        tempNC.topViewController.navigationItem.leftBarButtonItem.enabled = NO;
-    if(tempNC.topViewController.navigationItem.rightBarButtonItem)
-        tempNC.topViewController.navigationItem.rightBarButtonItem.enabled = NO;
-    if(tempNC.topViewController.navigationItem.backBarButtonItem)
-        tempNC.topViewController.navigationItem.backBarButtonItem.enabled = NO;
+    
+
     
     NSString *origTitle = [[tempNC.topViewController.navigationItem.title copy] retain];
-   
+
     
-    NSMutableDictionary *navBarTitlePromptAndColorDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:title,@"title",prompt,@"prompt",[UIColor grayColor],@"color", tempNC,@"navbar", nil];
+    navBarTitlePromptAndColorDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:title,@"title",prompt,@"prompt",[UIColor grayColor],@"color", tempNC,@"navbar", nil];
     
        
     //tempNC.topViewController.title = @"Quest was Completed!";
-    [self performSelector:@selector(changeNavTitle:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease]  afterDelay:(0.1+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(0.1+2.5*(self.notificationCount-1))];
+    [self performSelector:@selector(changeNavTitle:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease]  afterDelay:(0+2.5*(self.notificationCount-1))];
+    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(0+2.5*(self.notificationCount-1))];
     
     [navBarTitlePromptAndColorDict setValue:[UIColor lightGrayColor] forKey:@"color"];    
     [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(.5+2.5*(self.notificationCount-1))];
@@ -258,7 +268,11 @@
     [navBarTitlePromptAndColorDict setValue:nil forKey:@"prompt"];
     [self performSelector:@selector(changeNavTitle:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(2.5+2.5*(self.notificationCount-1))];
     [origTitle release];
+
+            x++;
+        }
     [self performSelector:@selector(decrementNotificationCount:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(2.5+2.5*(self.notificationCount-1))];
+    
 }
 
 - (void) changeNavColor: (NSDictionary *) navBarAndColorDict {
@@ -272,14 +286,7 @@
 
 -(void) decrementNotificationCount: (NSDictionary *) navBarDict {
     self.notificationCount--;
-    UINavigationController *tempNC = [navBarDict objectForKey:@"navbar"];
-
-    if(tempNC.topViewController.navigationItem.leftBarButtonItem)
-        tempNC.topViewController.navigationItem.leftBarButtonItem.enabled = YES;
-    if(tempNC.topViewController.navigationItem.rightBarButtonItem)
-        tempNC.topViewController.navigationItem.rightBarButtonItem.enabled = YES;
-    if(tempNC.topViewController.navigationItem.backBarButtonItem)
-        tempNC.topViewController.navigationItem.backBarButtonItem.enabled = YES;
+    
 }
 
 -(void) changeNavTitle: (NSDictionary *) navBarTitleAndPromptDict {
@@ -288,6 +295,20 @@
     tempNC.topViewController.navigationItem.title = [navBarTitleAndPromptDict objectForKey:@"title"];
     tempNC.topViewController.navigationItem.prompt = [navBarTitleAndPromptDict objectForKey:@"prompt"];
     
+    if(tempNC.topViewController.navigationItem.leftBarButtonItem) 
+    {
+        if (tempNC.topViewController.navigationItem.leftBarButtonItem.enabled) {
+            tempNC.topViewController.navigationItem.leftBarButtonItem.enabled = NO;  
+        }
+        else tempNC.topViewController.navigationItem.leftBarButtonItem.enabled = YES;
+    }
+    if(tempNC.topViewController.navigationItem.rightBarButtonItem)
+    {
+        if (tempNC.topViewController.navigationItem.rightBarButtonItem.enabled) {
+            tempNC.topViewController.navigationItem.rightBarButtonItem.enabled = NO;  
+        }    
+        else tempNC.topViewController.navigationItem.rightBarButtonItem.enabled = YES; 
+    }
     
    
 }
