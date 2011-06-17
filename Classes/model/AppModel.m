@@ -292,6 +292,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
 	return page;
 }
 
+- (Panoramic *)panoramicForPanoramicId:(int)mId {
+    Panoramic *pan = [self.gamePanoramicList objectForKey:[NSNumber numberWithInt:mId]];
+	
+	if (!pan) {
+        
+		
+		[[AppServices sharedAppServices] fetchGamePanoramicListAsynchronously:NO];
+		
+		pan = [self.gamePanoramicList objectForKey:[NSNumber numberWithInt:mId]];
+        
+	}
+	return pan;
+
+}
 
 -(Item *)itemForItemId: (int)mId {
 	Item *item = [self.gameItemList objectForKey:[NSNumber numberWithInt:mId]];

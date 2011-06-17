@@ -15,6 +15,7 @@
 #import "Npc.h"
 #import "Media.h"
 #import "WebPage.h"
+#import "Panoramic.h"
 
 extern NSDictionary *InventoryElements;
 
@@ -46,6 +47,7 @@ extern NSDictionary *InventoryElements;
 	NSMutableDictionary *gameNodeList;
 	NSMutableDictionary *gameNpcList;
     NSMutableDictionary *gameWebPageList;
+    NSMutableDictionary *gamePanoramicList;
 
 	//Training Flags
 	BOOL hasSeenNearbyTabTutorial;
@@ -86,7 +88,7 @@ extern NSDictionary *InventoryElements;
 @property(copy, readwrite) NSMutableDictionary *gameNodeList;
 @property(copy, readwrite) NSMutableDictionary *gameNpcList;
 @property(copy, readwrite) NSMutableDictionary *gameWebPageList;
-
+@property(copy, readwrite) NSMutableDictionary *gamePanoramicList;
 
 //Training Flags
 @property(readwrite) BOOL hasSeenNearbyTabTutorial;
@@ -112,5 +114,6 @@ extern NSDictionary *InventoryElements;
 - (Node *)nodeForNodeId: (int)mId;
 - (Npc *)npcForNpcId: (int)mId;
 - (WebPage *)webPageForWebPageID: (int)mId;
+- (Panoramic *)panoramicForPanoramicId: (int)mId;
 
 @end

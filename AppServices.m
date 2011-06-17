@@ -90,6 +90,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
     
 }
 
+- (void)updateServerPanoramicViewed: (int)panoramicId {
+	NSLog(@"Model: Panoramic %d Viewed, update server", panoramicId);
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects:
+						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+						  [NSString stringWithFormat:@"%d",panoramicId],
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"players" 
+                                                             andMethodName:@"augBubbleViewed" 
+                                                              andArguments:arguments];
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; 
+	[jsonConnection release];
+    
+}
 
 - (void)updateServerItemViewed: (int)itemId {
 	NSLog(@"Model: Item %d Viewed, update server", itemId);
@@ -658,8 +675,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
     
 	
 }
-
-
 - (void)fetchGameMediaListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
 	NSLog(@"AppModel: Fetching Media List");
 	
@@ -672,6 +687,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	
 	if (YesForAsyncOrNoForSync){
 		[jsonConnection performAsynchronousRequestWithParser:@selector(parseGameMediaListFromJSON:)];
+		[jsonConnection release];
+	}
+	else [self parseGameMediaListFromJSON: [jsonConnection performSynchronousRequest]];
+}
+
+- (void)fetchGamePanoramicListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
+	NSLog(@"AppModel: Fetching Panoramic List");
+	
+	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
+    
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"augbubbles"
+                                                             andMethodName:@"getAugBubbles"
+                                                              andArguments:arguments];
+	
+	if (YesForAsyncOrNoForSync){
+		[jsonConnection performAsynchronousRequestWithParser:@selector(parseGamePanoramicListFromJSON:)];
 		[jsonConnection release];
 	}
 	else [self parseGameMediaListFromJSON: [jsonConnection performSynchronousRequest]];
@@ -1057,6 +1089,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	return webPage;	
 }
 
+-(Panoramic *)parsePanoramicFromDictionary: (NSDictionary *)panoramicDictionary {
+	Panoramic *pan = [[[Panoramic alloc] init] autorelease];
+    pan.panoramicId  = [[panoramicDictionary valueForKey:@"aug_bubble_id"] intValue];
+    pan.name = [panoramicDictionary valueForKey:@"name"];
+	pan.description = [panoramicDictionary valueForKey:@"description"];    
+    pan.mediaId = [[panoramicDictionary valueForKey:@"media_id"] intValue];
+    pan.alignMediaId = [[panoramicDictionary valueForKey:@"alignment_media_id"] intValue];
+    pan.iconMediaId = [[panoramicDictionary valueForKey:@"icon_media_id"] intValue];
+    
+	return pan;	
+}
 
 -(void)parseConversationNodeOptionsFromJSON: (JSONResult *)jsonResult {
 	
@@ -1442,6 +1485,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	
 	[AppModel sharedAppModel].gameWebPageList = tempWebPageList;
 	[tempWebPageList release];
+}
+
+-(void)parseGamePanoramicListFromJSON: (JSONResult *)jsonResult{
+	NSArray *panListArray = (NSArray *)jsonResult.data;
+	
+	NSMutableDictionary *tempPanoramicList = [[NSMutableDictionary alloc] init];
+	NSEnumerator *enumerator = [((NSArray *)panListArray) objectEnumerator];
+	NSDictionary *dict;
+	while ((dict = [enumerator nextObject])) {
+		Panoramic *tmpPan = [self parsePanoramicFromDictionary:dict];
+		
+		[tempPanoramicList setObject:tmpPan forKey:[NSNumber numberWithInt:tmpPan.panoramicId]];
+	}
+	
+	[AppModel sharedAppModel].gamePanoramicList = tempPanoramicList;
+	[tempPanoramicList release];
 }
 
 

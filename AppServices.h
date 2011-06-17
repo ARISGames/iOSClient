@@ -14,6 +14,8 @@
 #import "Node.h"
 #import "Npc.h"
 #import "Media.h"
+#import "WebPage.h"
+#import "Panoramic.h"
 #import "JSONResult.h"
 #import "JSONConnection.h"
 #import "JSONResult.h"
@@ -74,6 +76,7 @@
 - (void)fetchGameItemListAsynchronously:(BOOL)YesForAsyncOrNoForSync;
 - (void)fetchGameNodeListAsynchronously:(BOOL)YesForAsyncOrNoForSync;
 - (void)fetchGameWebpageListAsynchronously:(BOOL)YesForAsyncOrNoForSync;
+- (void)fetchGamePanoramicListAsynchronously:(BOOL)YesForAsyncOrNoForSync;
 - (Item *)fetchItem:(int)itemId;
 - (Node *)fetchNode:(int)nodeId;
 - (Npc *)fetchNpc:(int)npcId;
@@ -88,6 +91,7 @@
 - (void)updateServerNodeViewed: (int)nodeId;
 - (void)updateServerItemViewed: (int)itemId;
 - (void)updateServerWebPageViewed: (int)webPageId;
+- (void)updateServerPanoramicViewed: (int)panoramicId;
 - (void)updateServerNpcViewed: (int)npcId;
 - (void)updateServerMapViewed;
 - (void)updateServerQuestsViewed;
@@ -112,6 +116,7 @@
 - (Node *)parseNodeFromDictionary: (NSDictionary *)nodeDictionary;
 - (Npc *)parseNpcFromDictionary: (NSDictionary *)npcDictionary;
 -(WebPage *)parseWebPageFromDictionary: (NSDictionary *)webPageDictionary;
+-(Panoramic *)parsePanoramicFromDictionary: (NSDictionary *)webPageDictionary;
 - (void)updateServerGameSelected;
 - (void)fetchQRCode:(NSString*)QRcodeId;
 - (void)saveComment:(NSString*)comment game:(int)gameId starRating:(int)rating;
