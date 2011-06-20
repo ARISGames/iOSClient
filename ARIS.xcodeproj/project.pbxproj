@@ -10,6 +10,10 @@
 		1122C0B613A7D124004F0392 /* webpageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1122C0B413A7D124004F0392 /* webpageViewController.m */; };
 		1122C0B713A7D124004F0392 /* webpageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1122C0B513A7D124004F0392 /* webpageViewController.xib */; };
 		1122C0C113A7DE80004F0392 /* WebPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1122C0C013A7DE7F004F0392 /* WebPage.m */; };
+		1139BA4F13ABC2B7008BF268 /* Panoramic.m in Sources */ = {isa = PBXBuildFile; fileRef = 1139BA4E13ABC2B7008BF268 /* Panoramic.m */; };
+		1139BA5513ABC6CB008BF268 /* PanoramicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1139BA5313ABC6CB008BF268 /* PanoramicViewController.m */; };
+		1139BA5613ABC6CB008BF268 /* PanoramicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1139BA5413ABC6CB008BF268 /* PanoramicViewController.xib */; };
+		1139BA5C13ABF3EB008BF268 /* vr5_script in Resources */ = {isa = PBXBuildFile; fileRef = 1139BA5B13ABF3EB008BF268 /* vr5_script */; };
 		1D3623260D0F684500981E51 /* ARISAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -250,6 +254,12 @@
 		1122C0B513A7D124004F0392 /* webpageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = webpageViewController.xib; sourceTree = "<group>"; };
 		1122C0BF13A7DE7F004F0392 /* WebPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPage.h; sourceTree = "<group>"; };
 		1122C0C013A7DE7F004F0392 /* WebPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebPage.m; sourceTree = "<group>"; };
+		1139BA4D13ABC2B7008BF268 /* Panoramic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Panoramic.h; sourceTree = "<group>"; };
+		1139BA4E13ABC2B7008BF268 /* Panoramic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Panoramic.m; sourceTree = "<group>"; };
+		1139BA5213ABC6CB008BF268 /* PanoramicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PanoramicViewController.h; sourceTree = "<group>"; };
+		1139BA5313ABC6CB008BF268 /* PanoramicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PanoramicViewController.m; sourceTree = "<group>"; };
+		1139BA5413ABC6CB008BF268 /* PanoramicViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PanoramicViewController.xib; sourceTree = "<group>"; };
+		1139BA5B13ABF3EB008BF268 /* vr5_script */ = {isa = PBXFileReference; lastKnownFileType = folder; name = vr5_script; path = ../../Downloads/vr5/vr5_script; sourceTree = "<group>"; };
 		1D3623240D0F684500981E51 /* ARISAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = ARISAppDelegate.h; path = Classes/ARISAppDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		1D3623250D0F684500981E51 /* ARISAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = ARISAppDelegate.m; path = Classes/ARISAppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -655,6 +665,17 @@
 			name = Webpage;
 			sourceTree = "<group>";
 		};
+		1139BA5113ABC6A2008BF268 /* Panoramic */ = {
+			isa = PBXGroup;
+			children = (
+				1139BA5B13ABF3EB008BF268 /* vr5_script */,
+				1139BA5213ABC6CB008BF268 /* PanoramicViewController.h */,
+				1139BA5313ABC6CB008BF268 /* PanoramicViewController.m */,
+				1139BA5413ABC6CB008BF268 /* PanoramicViewController.xib */,
+			);
+			name = Panoramic;
+			sourceTree = "<group>";
+		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -817,6 +838,7 @@
 				A7986D610F8FEBB200A5469F /* Developer */,
 				A7986D650F8FEC1100A5469F /* Login */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				1139BA5113ABC6A2008BF268 /* Panoramic */,
 				1122C0B113A7D063004F0392 /* Webpage */,
 			);
 			name = ARIS;
@@ -842,6 +864,8 @@
 				2B3D18D50F4B25720067FD3A /* AppModel.m */,
 				AB18AEB8137B249A00382826 /* AppServices.h */,
 				AB18AEB9137B249A00382826 /* AppServices.m */,
+				1139BA4D13ABC2B7008BF268 /* Panoramic.h */,
+				1139BA4E13ABC2B7008BF268 /* Panoramic.m */,
 				1122C0BF13A7DE7F004F0392 /* WebPage.h */,
 				1122C0C013A7DE7F004F0392 /* WebPage.m */,
 				2B3D17050F49C99B0067FD3A /* Game.h */,
@@ -1443,6 +1467,8 @@
 				1122C0B713A7D124004F0392 /* webpageViewController.xib in Resources */,
 				ABC2A64013A82A01003500AF /* qrcode_big.png in Resources */,
 				AB4A8E8913A82C2F000328AA /* camera_icon.png in Resources */,
+				1139BA5613ABC6CB008BF268 /* PanoramicViewController.xib in Resources */,
+				1139BA5C13ABF3EB008BF268 /* vr5_script in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1594,6 +1620,8 @@
 				ABB5767613A01FD100AD39D5 /* BogusSelectGameViewController.m in Sources */,
 				1122C0B613A7D124004F0392 /* webpageViewController.m in Sources */,
 				1122C0C113A7DE80004F0392 /* WebPage.m in Sources */,
+				1139BA4F13ABC2B7008BF268 /* Panoramic.m in Sources */,
+				1139BA5513ABC6CB008BF268 /* PanoramicViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

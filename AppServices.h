@@ -111,6 +111,7 @@
 - (void)parseGameItemListFromJSON: (JSONResult *)jsonResult;
 - (void)parseGameNodeListFromJSON: (JSONResult *)jsonResult;
 - (void)parseGameWebPageListFromJSON: (JSONResult *)jsonResult;
+- (void)parseGamePanoramicListFromJSON: (JSONResult *)jsonResult;
 - (Location*)parseLocationFromDictionary: (NSDictionary *)locationDictionary;
 - (Item *)parseItemFromDictionary: (NSDictionary *)itemDictionary;
 - (Node *)parseNodeFromDictionary: (NSDictionary *)nodeDictionary;

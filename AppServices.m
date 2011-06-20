@@ -706,7 +706,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 		[jsonConnection performAsynchronousRequestWithParser:@selector(parseGamePanoramicListFromJSON:)];
 		[jsonConnection release];
 	}
-	else [self parseGameMediaListFromJSON: [jsonConnection performSynchronousRequest]];
+	else [self parseGamePanoramicListFromJSON: [jsonConnection performSynchronousRequest]];
 }
 
 

@@ -19,7 +19,7 @@
 @synthesize loggedIn, username, password, playerId, currentModule;
 @synthesize currentGame, gameList, locationList, playerList;
 @synthesize playerLocation, inventory, questList, networkAlert;
-@synthesize gameMediaList, gameItemList, gameNodeList, gameNpcList,gameWebPageList;
+@synthesize gameMediaList, gameItemList, gameNodeList, gameNpcList,gameWebPageList,gamePanoramicList;
 @synthesize locationListHash, questListHash, inventoryHash,profilePic;
 
 @synthesize nearbyLocationsList;

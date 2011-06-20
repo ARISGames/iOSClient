@@ -32,7 +32,7 @@
 	//Create a reference to the delegate using the application singleton.
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
     
-	PanoramicViewController *panoramicViewController = [[panoramicViewController alloc] initWithNibName:@"PanoramicViewController" bundle: [NSBundle mainBundle]];
+	PanoramicViewController *panoramicViewController = [[PanoramicViewController alloc] initWithNibName:@"PanoramicViewController" bundle: [NSBundle mainBundle]];
 	panoramicViewController.panoramic = self;
 	[appDelegate displayNearbyObjectView:panoramicViewController];
 	[panoramicViewController release];
