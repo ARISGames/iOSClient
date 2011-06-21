@@ -15,7 +15,7 @@
 #import "AsyncImageView.h"
 
 @implementation PanoramicViewController
-@synthesize panoramic,plView,viewImageContainer;
+@synthesize panoramic,plView,viewImageContainer,connection,data,media;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -61,7 +61,11 @@
 	plView.isInertiaEnabled = NO;
     
 	plView.type = PLViewTypeSpherical;
-	[self loadImage:@"photo2"];
+    
+    Media *aMedia = [[AppModel sharedAppModel] mediaForMediaId: self.panoramic.mediaId];
+
+    [self loadImageFromMedia:aMedia];
+	
 
     
     [super viewDidLoad];
@@ -87,14 +91,66 @@
     // e.g. self.myOutlet = nil;
 }
 
-- (void)loadImage:(NSString *)name
+- (void)loadImage
 {
 	[plView stopAnimation];
 	[plView removeAllTextures];
-	[plView addTextureAndRelease:[PLTexture textureWithPath:[[NSBundle mainBundle] pathForResource:name ofType:@"jpg"]]];
+    
+    if(self.media.image)
+	[plView addTextureAndRelease:[PLTexture textureWithImage:self.media.image]];
 	[plView reset];
 	[plView drawView];
 }
+
+- (void)loadImageFromMedia:(Media *) aMedia {
+	self.media = aMedia;
+	//check if the media already as the image, if so, just grab it
+
+    if (!aMedia.url) {
+        return;
+    }
+	
+	//set up indicators
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+	
+		
+	if (connection!=nil) { [connection release]; }
+    NSURLRequest* request = [NSURLRequest requestWithURL:[[NSURL alloc]initWithString:aMedia.url]
+											 cachePolicy:NSURLRequestUseProtocolCachePolicy
+										 timeoutInterval:60.0];
+    self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+}
+
+- (void)connection:(NSURLConnection *)theConnection didReceiveData:(NSData *)incrementalData {
+    if (self.data==nil) {
+		self.data = [[NSMutableData alloc] initWithCapacity:2048];
+    }
+    [self.data appendData:incrementalData];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection*)theConnection {
+	//end the UI indicator
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	
+	//throw out the connection
+    [self.connection release];
+    self.connection=nil;
+	
+	//turn the data into an image
+	UIImage* image = [UIImage imageWithData:data];
+	
+	//throw out the data
+	[self.data release];
+    self.data=nil;
+	
+	//Save the image in the media
+	self.media.image = image;
+	[self.media.image retain];
+    [self loadImage];
+	
+	}
+
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 	CGRect frame = plView.frame;
