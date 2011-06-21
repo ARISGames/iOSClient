@@ -15,7 +15,7 @@
 #import "AsyncImageView.h"
 
 @implementation PanoramicViewController
-@synthesize panoramic,webView;
+@synthesize panoramic,plView,viewImageContainer;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -27,8 +27,10 @@
 
 - (void)dealloc
 {
-    [panoramic release];
-    [webView release];
+	if(viewImageContainer)
+		[viewImageContainer release];
+	if(plView)
+		[plView release];
     [super dealloc];
 }
 
@@ -53,11 +55,15 @@
 									action:@selector(backButtonTouchAction:)];	
     
     
- 
+    plView.isDeviceOrientationEnabled = NO;
+	plView.isAccelerometerEnabled = NO;
+	plView.isScrollingEnabled = NO;
+	plView.isInertiaEnabled = NO;
     
-    //Load the request in the UIWebView.
-    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"index" ofType:@"html"
-    inDirectory:@"vr5_script"]isDirectory:NO]]];
+	plView.type = PLViewTypeSpherical;
+	[self loadImage:@"photo2"];
+
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 }
@@ -81,10 +87,37 @@
     // e.g. self.myOutlet = nil;
 }
 
+- (void)loadImage:(NSString *)name
+{
+	[plView stopAnimation];
+	[plView removeAllTextures];
+	[plView addTextureAndRelease:[PLTexture textureWithPath:[[NSBundle mainBundle] pathForResource:name ofType:@"jpg"]]];
+	[plView reset];
+	[plView drawView];
+}
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
+	CGRect frame = plView.frame;
+	switch (interfaceOrientation) 
+	{
+		case UIInterfaceOrientationPortrait:
+		case UIInterfaceOrientationPortraitUpsideDown:
+			viewImageContainer.hidden = NO;
+			frame.size.width = 320;
+			frame.size.height = 340;
+			plView.frame = frame;
+			break;
+		case UIInterfaceOrientationLandscapeLeft:
+		case UIInterfaceOrientationLandscapeRight:
+			viewImageContainer.hidden = YES;
+			frame.size.width = 480;
+			frame.size.height = 320;
+			plView.frame = frame;
+			break;
+	}
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
+
 }
 
 

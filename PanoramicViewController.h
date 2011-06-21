@@ -8,12 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import "Panoramic.h"
+#import "PLView.h"
 
 @interface PanoramicViewController : UIViewController {
     Panoramic *panoramic;
-    IBOutlet	UIWebView	*webView;
+    IBOutlet UIView *viewImageContainer;
+    IBOutlet	PLView	*plView;
 }
 
 @property (nonatomic,retain)Panoramic *panoramic;
-@property(nonatomic, retain) IBOutlet UIWebView	*webView;
+@property(nonatomic, retain) IBOutlet PLView	*plView;
+@property(nonatomic, retain) IBOutlet UIView	*viewImageContainer;
+
+- (void)loadImage:(NSString *)name;
 @end
