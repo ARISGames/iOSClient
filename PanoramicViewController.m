@@ -15,7 +15,7 @@
 #import "AsyncImageView.h"
 
 @implementation PanoramicViewController
-@synthesize panoramic,plView,viewImageContainer,connection,data,media;
+@synthesize panoramic,plView,viewImageContainer,connection,data,media,imagePickerController,overlayMedia,didLoadOverlay,finishedAlignment;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -46,6 +46,7 @@
 
 - (void)viewDidLoad
 {
+    self.imagePickerController = [[UIImagePickerController alloc] init];
     
     //Create a close button
 	self.navigationItem.leftBarButtonItem = 
@@ -62,9 +63,23 @@
     
 	plView.type = PLViewTypeSpherical;
     
-    Media *aMedia = [[AppModel sharedAppModel] mediaForMediaId: self.panoramic.mediaId];
+    
 
-    [self loadImageFromMedia:aMedia];
+	
+	if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+        self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePickerController.sourceType];
+        self.imagePickerController.allowsEditing = NO;
+        self.imagePickerController.showsCameraControls = NO;
+
+        
+
+	}
+	else {
+
+	}
+	
+	self.imagePickerController.delegate = self;
 	
 
     
@@ -83,7 +98,12 @@
     
 }
 
+-(void) viewDidAppear:(BOOL)animated {
+    Media *aMedia = [[AppModel sharedAppModel] mediaForMediaId: self.panoramic.mediaId];
+if(!finishedAlignment)
+    [self loadImageFromMedia:aMedia];
 
+}
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -93,15 +113,39 @@
 
 - (void)loadImage
 {
-	[plView stopAnimation];
-	[plView removeAllTextures];
-    
-    if(self.media.image)
-	[plView addTextureAndRelease:[PLTexture textureWithImage:self.media.image]];
-	[plView reset];
-	[plView drawView];
-}
 
+    
+    if(self.media.image && !didLoadOverlay){
+        [plView stopAnimation];
+        [plView removeAllTextures];
+    	[plView addTextureAndRelease:[PLTexture textureWithImage:self.media.image]];
+        [plView reset];
+        [plView drawView];
+            Media *oMedia = [[AppModel sharedAppModel] mediaForMediaId: self.panoramic.alignMediaId];
+            [self loadImageFromMedia:oMedia];
+        didLoadOverlay = YES;
+
+    }
+    if(didLoadOverlay && !finishedAlignment){
+        UIImageView *overlay = [[UIImageView alloc] initWithImage:self.media.image];
+        overlay.frame = self.plView.frame;
+        overlay.contentMode = UIViewContentModeScaleAspectFill;            
+        overlay.alpha = .5;
+        self.imagePickerController.cameraOverlayView = overlay;
+        UIButton *touchScreen = [UIButton buttonWithType:UIButtonTypeCustom];
+        touchScreen.frame = self.view.frame;
+        [self.imagePickerController.view addSubview:touchScreen];
+        [touchScreen addTarget:self action:@selector(touchScreen) forControlEvents:UIControlEventTouchUpInside];
+        [self presentModalViewController:self.imagePickerController animated:NO];
+        self.media.image = nil;
+    }
+
+}
+-(IBAction) touchScreen {
+    [self dismissModalViewControllerAnimated:YES];
+    didLoadOverlay = NO;
+    finishedAlignment = YES;
+}
 - (void)loadImageFromMedia:(Media *) aMedia {
 	self.media = aMedia;
 	//check if the media already as the image, if so, just grab it
