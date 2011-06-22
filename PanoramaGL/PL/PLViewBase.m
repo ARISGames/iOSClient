@@ -63,6 +63,9 @@
 - (void)loadControls;
 - (void)changeControlsOrientation;
 
+-(void) enableGyro;
+-(void)getDeviceGLRotationMatrix;
+
 @end
 
 @implementation PLViewBase
@@ -74,7 +77,7 @@
 @synthesize deviceOrientation;
 @synthesize deviceOrientationSupported;
 
-@synthesize isAccelerometerEnabled, isAccelerometerLeftRightEnabled, isAccelerometerUpDownEnabled;
+@synthesize isAccelerometerEnabled, isAccelerometerLeftRightEnabled, isAccelerometerUpDownEnabled,isGyroEnabled;
 @synthesize accelerometerSensitivity;
 @synthesize accelerometerInterval;
 
@@ -89,6 +92,8 @@
 @synthesize isResetEnabled, isShakeResetEnabled;
 
 @synthesize controlTypeSupported;
+
+@synthesize motionManager, referenceAttitude;
 
 @synthesize delegate;
 
@@ -121,9 +126,13 @@
 {
 	animationInterval = kDefaultAnimationTimerInterval;
 	
+    motionManager = [[CMMotionManager alloc] init];
+    referenceAttitude = nil;
+    
 	isAccelerometerEnabled = NO;
 	isAccelerometerLeftRightEnabled = YES;
 	isAccelerometerUpDownEnabled = NO;
+    isGyroEnabled = NO;
 	accelerometerSensitivity = kDefaultAccelerometerSensitivity;
 	accelerometerInterval = kDefaultAccelerometerInterval;
 	
@@ -144,8 +153,8 @@
 	
 	controlTypeSupported = PLControlTypeSupportedAll;
 	controlsArray = [[NSMutableArray array] retain];
-	[self createControls];
-	[self loadControls];
+	//[self createControls];
+	//[self loadControls];
 	
 	[self reset];
 }
@@ -693,6 +702,30 @@
 			[delegate view:self didAccelerate:acceleration withAccelerometer:accelerometer];
 	}
 }
+#pragma mark -
+#pragma mark gyro methods
+
+-(void) enableGyro{
+    CMDeviceMotion *deviceMotion = motionManager.deviceMotion;      
+    CMAttitude *attitude = deviceMotion.attitude;
+    referenceAttitude = [attitude retain];
+    [motionManager startGyroUpdates];
+}
+
+GLfloat rotMatrix[16];
+
+-(void) getDeviceGLRotationMatrix 
+{
+    CMDeviceMotion *deviceMotion = motionManager.deviceMotion;      
+    CMAttitude *attitude = deviceMotion.attitude;
+    
+    if (referenceAttitude != nil) [attitude multiplyByInverseOfAttitude:referenceAttitude];
+    CMRotationMatrix rot=attitude.rotationMatrix;
+    rotMatrix[0]=rot.m11; rotMatrix[1]=rot.m21; rotMatrix[2]=rot.m31;  rotMatrix[3]=0;
+    rotMatrix[4]=rot.m12; rotMatrix[5]=rot.m22; rotMatrix[6]=rot.m32;  rotMatrix[7]=0;
+    rotMatrix[8]=rot.m13; rotMatrix[9]=rot.m23; rotMatrix[10]=rot.m33; rotMatrix[11]=0;
+    rotMatrix[12]=0;      rotMatrix[13]=0;      rotMatrix[14]=0;       rotMatrix[15]=1;
+}
 
 #pragma mark -
 #pragma mark orientation methods
@@ -972,6 +1005,10 @@
 		[scene release];
     if(renderer)
 		[renderer release];
+    if(motionManager)
+        [motionManager release];
+    if(referenceAttitude)
+        [referenceAttitude release];
 	[super dealloc];
 }
 				

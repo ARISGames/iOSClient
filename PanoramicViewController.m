@@ -58,8 +58,9 @@
     
     plView.isDeviceOrientationEnabled = NO;
 	plView.isAccelerometerEnabled = NO;
-	plView.isScrollingEnabled = NO;
-	plView.isInertiaEnabled = NO;
+	plView.isScrollingEnabled = YES;
+	plView.isInertiaEnabled = YES;
+    plView.isGyroEnabled = YES;
     
 	plView.type = PLViewTypeSpherical;
     

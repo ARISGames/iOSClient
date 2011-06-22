@@ -25,6 +25,7 @@
 #import <OpenGLES/EAGL.h>
 #import <OpenGLES/EAGLDrawable.h>
 #import <QuartzCore/QuartzCore.h>
+#import <CoreMotion/CoreMotion.h>
 
 #import "PLEnums.h"
 #import "PLMath.h"
@@ -43,6 +44,9 @@
 	PLRenderer * renderer;
 	PLScene * scene;
 	
+    CMMotionManager *motionManager;
+    CMAttitude *referenceAttitude;
+    
     NSTimer *animationTimer;
     NSTimeInterval animationInterval;
 	
@@ -55,7 +59,7 @@
 	UIDeviceOrientation deviceOrientation;
 	PLOrientationSupported deviceOrientationSupported;
 	
-	BOOL isAccelerometerEnabled, isAccelerometerLeftRightEnabled, isAccelerometerUpDownEnabled;
+	BOOL isAccelerometerEnabled, isAccelerometerLeftRightEnabled, isAccelerometerUpDownEnabled,isGyroEnabled;
 	float accelerometerSensitivity;
 	NSTimeInterval accelerometerInterval;
 	
@@ -87,7 +91,7 @@
 @property(nonatomic) UIDeviceOrientation deviceOrientation;
 @property(nonatomic) PLOrientationSupported deviceOrientationSupported;
 
-@property(nonatomic) BOOL isAccelerometerEnabled, isAccelerometerLeftRightEnabled, isAccelerometerUpDownEnabled;
+@property(nonatomic) BOOL isAccelerometerEnabled, isAccelerometerLeftRightEnabled, isAccelerometerUpDownEnabled,isGyroEnabled;
 @property(nonatomic) float accelerometerSensitivity;
 @property(nonatomic) NSTimeInterval accelerometerInterval;
 
@@ -104,6 +108,9 @@
 @property(nonatomic) PLControlTypeSupported controlTypeSupported;
 
 @property(nonatomic, assign) NSObject<PLViewDelegate> *delegate;
+
+@property(nonatomic, retain) CMMotionManager *motionManager;
+@property(nonatomic, retain) CMAttitude *referenceAttitude;
 
 - (PLCamera *)getCamera;
 
