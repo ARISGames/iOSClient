@@ -127,6 +127,7 @@
 	animationInterval = kDefaultAnimationTimerInterval;
 	
     motionManager = [[CMMotionManager alloc] init];
+    if (motionManager.gyroAvailable) [self enableGyro];
     referenceAttitude = nil;
     
 	isAccelerometerEnabled = NO;
@@ -155,6 +156,8 @@
 	controlsArray = [[NSMutableArray array] retain];
 	//[self createControls];
 	//[self loadControls];
+    
+    
 	
 	[self reset];
 }
@@ -709,22 +712,31 @@
     CMDeviceMotion *deviceMotion = motionManager.deviceMotion;      
     CMAttitude *attitude = deviceMotion.attitude;
     referenceAttitude = [attitude retain];
+    [motionManager startDeviceMotionUpdates];
     [motionManager startGyroUpdates];
+    [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(getDeviceGLRotationMatrix) userInfo:nil repeats:YES];
 }
 
-GLfloat rotMatrix[16];
 
 -(void) getDeviceGLRotationMatrix 
 {
-    CMDeviceMotion *deviceMotion = motionManager.deviceMotion;      
-    CMAttitude *attitude = deviceMotion.attitude;
+    NSLog(@"PLViewBase: getDeviceGLRotationMatrix");
+    if (!self.isGyroEnabled )return;
     
-    if (referenceAttitude != nil) [attitude multiplyByInverseOfAttitude:referenceAttitude];
-    CMRotationMatrix rot=attitude.rotationMatrix;
-    rotMatrix[0]=rot.m11; rotMatrix[1]=rot.m21; rotMatrix[2]=rot.m31;  rotMatrix[3]=0;
-    rotMatrix[4]=rot.m12; rotMatrix[5]=rot.m22; rotMatrix[6]=rot.m32;  rotMatrix[7]=0;
-    rotMatrix[8]=rot.m13; rotMatrix[9]=rot.m23; rotMatrix[10]=rot.m33; rotMatrix[11]=0;
-    rotMatrix[12]=0;      rotMatrix[13]=0;      rotMatrix[14]=0;       rotMatrix[15]=1;
+    NSLog(@"PLViewBase: getDeviceGLRotationMatrix: Camera Started at roll: %f pitch: %f yaw: %f",scene.currentCamera.roll,scene.currentCamera.pitch,scene.currentCamera.yaw);
+    
+    CMAttitude *attitude = motionManager.deviceMotion.attitude;
+    NSLog(@"PLViewBase: getDeviceGLRotationMatrix: roll: %f pitch: %f yaw: %f",attitude.roll,attitude.pitch,attitude.yaw);
+    
+    scene.currentCamera.isRollEnabled = YES;
+    scene.currentCamera.isPitchEnabled= YES;
+    scene.currentCamera.isYawEnabled = YES;
+    
+    [scene.currentCamera rotateWithPitch:(attitude.roll * 180/M_PI) yaw:(attitude.pitch * 180/M_PI) roll: (attitude.yaw * 180/M_PI)];
+    
+    NSLog(@"PLViewBase: getDeviceGLRotationMatrix: Camear is now at roll: %f pitch: %f yaw: %f",scene.currentCamera.roll,scene.currentCamera.pitch,scene.currentCamera.yaw);
+
+    [renderer render];
 }
 
 #pragma mark -
