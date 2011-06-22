@@ -99,10 +99,19 @@
 }
 
 -(void) viewDidAppear:(BOOL)animated {
-    Media *aMedia = [[AppModel sharedAppModel] mediaForMediaId: self.panoramic.mediaId];
-if(!finishedAlignment)
+   
+if(!finishedAlignment && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+{
+     Media *aMedia = [[AppModel sharedAppModel] mediaForMediaId: self.panoramic.alignMediaId];
     [self loadImageFromMedia:aMedia];
-
+}
+    else
+    {
+        Media *aMedia = [[AppModel sharedAppModel] mediaForMediaId: self.panoramic.mediaId];
+        [self loadImageFromMedia:aMedia];
+        finishedAlignment = YES;
+        didLoadOverlay = YES;
+    }
 }
 - (void)viewDidUnload
 {
@@ -115,30 +124,33 @@ if(!finishedAlignment)
 {
 
     
-    if(self.media.image && !didLoadOverlay){
-        [plView stopAnimation];
-        [plView removeAllTextures];
-    	[plView addTextureAndRelease:[PLTexture textureWithImage:self.media.image]];
-        [plView reset];
-        [plView drawView];
-            Media *oMedia = [[AppModel sharedAppModel] mediaForMediaId: self.panoramic.alignMediaId];
-            [self loadImageFromMedia:oMedia];
-        didLoadOverlay = YES;
-
-    }
-    if(didLoadOverlay && !finishedAlignment){
+    if(self.media.image && !didLoadOverlay && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
+        
         UIImageView *overlay = [[UIImageView alloc] initWithImage:self.media.image];
         overlay.frame = self.plView.frame;
         overlay.contentMode = UIViewContentModeScaleAspectFill;            
         overlay.alpha = .5;
         self.imagePickerController.cameraOverlayView = overlay;
         UIButton *touchScreen = [UIButton buttonWithType:UIButtonTypeCustom];
-        touchScreen.frame = self.view.frame;
+        touchScreen.frame = self.plView.frame;
         [self.imagePickerController.view addSubview:touchScreen];
         [touchScreen addTarget:self action:@selector(touchScreen) forControlEvents:UIControlEventTouchUpInside];
         [self presentModalViewController:self.imagePickerController animated:NO];
         self.media.image = nil;
+        
+        didLoadOverlay = YES;
+
     }
+    if(didLoadOverlay && finishedAlignment && self.media.image){
+        [plView stopAnimation];
+        [plView removeAllTextures];
+    	[plView addTextureAndRelease:[PLTexture textureWithImage:self.media.image]];
+        [plView reset];
+        [plView drawView];
+        Media *oMedia = [[AppModel sharedAppModel] mediaForMediaId: self.panoramic.alignMediaId];
+        [self loadImageFromMedia:oMedia];
+        finishedAlignment = NO;
+           }
 
 }
 -(IBAction) touchScreen {
@@ -204,7 +216,7 @@ if(!finishedAlignment)
 		case UIInterfaceOrientationPortraitUpsideDown:
 			viewImageContainer.hidden = NO;
 			frame.size.width = 320;
-			frame.size.height = 340;
+			frame.size.height = 416;
 			plView.frame = frame;
 			break;
 		case UIInterfaceOrientationLandscapeLeft:
