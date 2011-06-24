@@ -57,11 +57,20 @@
     
     
     plView.isDeviceOrientationEnabled = NO;
-	plView.isAccelerometerEnabled = NO;
-	plView.isScrollingEnabled = YES;
-	plView.isInertiaEnabled = YES;
+
+    if([plView.motionManager isGyroAvailable])
+    {
     plView.isGyroEnabled = YES;
-    
+    plView.isAccelerometerEnabled = NO;
+	plView.isScrollingEnabled = NO;
+        plView.isInertiaEnabled = NO;
+    }
+    else {
+        plView.isGyroEnabled = NO;
+        plView.isAccelerometerEnabled = NO;
+        plView.isScrollingEnabled = YES;
+        plView.isInertiaEnabled = YES;
+    }
 	plView.type = PLViewTypeSpherical;
     
     
@@ -120,7 +129,10 @@ if(!finishedAlignment && [UIImagePickerController isSourceTypeAvailable:UIImageP
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
-
+-(void) viewDidDisappear:(BOOL)animated {
+    [self.plView.motionManager stopGyroUpdates];
+    self.plView.isGyroEnabled = NO;
+}
 - (void)loadImage
 {
 
@@ -145,12 +157,25 @@ if(!finishedAlignment && [UIImagePickerController isSourceTypeAvailable:UIImageP
     if(didLoadOverlay && finishedAlignment && self.media.image){
         [plView stopAnimation];
         [plView removeAllTextures];
-    	[plView addTextureAndRelease:[PLTexture textureWithImage:self.media.image]];
+        [plView addTextureAndRelease:[PLTexture textureWithImage:self.media.image]];
+        
+        //cubic example
+        /*
+        [plView addTextureAndRelease:[PLTexture textureWithPath:[[NSBundle mainBundle] pathForResource:@"front" ofType:@"PNG"]]];
+        [plView addTextureAndRelease:[PLTexture textureWithPath:[[NSBundle mainBundle] pathForResource:@"back" ofType:@"PNG"]]];
+        [plView addTextureAndRelease:[PLTexture textureWithPath:[[NSBundle mainBundle] pathForResource:@"left" ofType:@"PNG"]]];
+        [plView addTextureAndRelease:[PLTexture textureWithPath:[[NSBundle mainBundle] pathForResource:@"right" ofType:@"PNG"]]];
+        [plView addTextureAndRelease:[PLTexture textureWithPath:[[NSBundle mainBundle] pathForResource:@"top" ofType:@"PNG"]]];
+        [plView addTextureAndRelease:[PLTexture textureWithPath:[[NSBundle mainBundle] pathForResource:@"bottom" ofType:@"PNG"]]];
+        */
+        
         [plView reset];
         [plView drawView];
         Media *oMedia = [[AppModel sharedAppModel] mediaForMediaId: self.panoramic.alignMediaId];
         [self loadImageFromMedia:oMedia];
         finishedAlignment = NO;
+        
+        if (self.plView.motionManager.gyroAvailable) [self.plView enableGyro] ;
            }
 
 }
@@ -210,27 +235,7 @@ if(!finishedAlignment && [UIImagePickerController isSourceTypeAvailable:UIImageP
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-	CGRect frame = plView.frame;
-	switch (interfaceOrientation) 
-	{
-		case UIInterfaceOrientationPortrait:
-		case UIInterfaceOrientationPortraitUpsideDown:
-			viewImageContainer.hidden = NO;
-			frame.size.width = 320;
-			frame.size.height = 416;
-			plView.frame = frame;
-			break;
-		case UIInterfaceOrientationLandscapeLeft:
-		case UIInterfaceOrientationLandscapeRight:
-			viewImageContainer.hidden = YES;
-			frame.size.width = 480;
-			frame.size.height = 320;
-			plView.frame = frame;
-			break;
-	}
-    // Return YES for supported orientations
-    return YES;
-
+	 return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 

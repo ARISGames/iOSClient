@@ -51,7 +51,7 @@
     NSTimeInterval animationInterval;
 	
 	CGPoint startPoint, endPoint;
-	
+	float initPitch, initRoll, initYaw;
 	BOOL isValidForFov;
 	float fovDistance;
 	
@@ -59,7 +59,7 @@
 	UIDeviceOrientation deviceOrientation;
 	PLOrientationSupported deviceOrientationSupported;
 	
-	BOOL isAccelerometerEnabled, isAccelerometerLeftRightEnabled, isAccelerometerUpDownEnabled,isGyroEnabled;
+	BOOL isAccelerometerEnabled, isAccelerometerLeftRightEnabled, isAccelerometerUpDownEnabled,isGyroEnabled,gyroInit;
 	float accelerometerSensitivity;
 	NSTimeInterval accelerometerInterval;
 	
@@ -74,7 +74,7 @@
 	BOOL isResetEnabled, isShakeResetEnabled;
 	
 	PLShakeData shakeData;
-	
+
 	BOOL isValidForTouch;
 	
 	NSMutableArray *controlsArray;
@@ -91,8 +91,8 @@
 @property(nonatomic) UIDeviceOrientation deviceOrientation;
 @property(nonatomic) PLOrientationSupported deviceOrientationSupported;
 
-@property(nonatomic) BOOL isAccelerometerEnabled, isAccelerometerLeftRightEnabled, isAccelerometerUpDownEnabled,isGyroEnabled;
-@property(nonatomic) float accelerometerSensitivity;
+@property(nonatomic) BOOL isAccelerometerEnabled, isAccelerometerLeftRightEnabled, isAccelerometerUpDownEnabled,isGyroEnabled,gyroInit;
+@property(nonatomic) float accelerometerSensitivity,initPitch,initRoll,initYaw;
 @property(nonatomic) NSTimeInterval accelerometerInterval;
 
 @property(nonatomic) CGPoint startPoint, endPoint;
@@ -118,6 +118,9 @@
 
 - (void)drawView;
 - (void)drawViewNTimes:(NSUInteger)times;
+
+- (void)enableGyro;
+- (void) getDeviceGLRotationMatrix;
 
 - (void)startAnimation;
 - (void)stopAnimation;
