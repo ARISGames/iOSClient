@@ -56,24 +56,7 @@
 									action:@selector(backButtonTouchAction:)];	
     
     
-    plView.isDeviceOrientationEnabled = NO;
-
-    if([plView.motionManager isGyroAvailable])
-    {
-    plView.isGyroEnabled = YES;
-    plView.isAccelerometerEnabled = NO;
-	plView.isScrollingEnabled = NO;
-        plView.isInertiaEnabled = NO;
-    }
-    else {
-        plView.isGyroEnabled = NO;
-        plView.isAccelerometerEnabled = NO;
-        plView.isScrollingEnabled = YES;
-        plView.isInertiaEnabled = YES;
-    }
-	plView.type = PLViewTypeSpherical;
-    
-    
+        
 
 	
 	if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
@@ -109,6 +92,25 @@
 }
 
 -(void) viewDidAppear:(BOOL)animated {
+    
+    plView.isDeviceOrientationEnabled = NO;
+    
+    if([plView.motionManager isGyroAvailable])
+    {
+        plView.isGyroEnabled = YES;
+        plView.isAccelerometerEnabled = NO;
+        plView.isScrollingEnabled = NO;
+        plView.isInertiaEnabled = NO;
+    }
+    else {
+        plView.isGyroEnabled = NO;
+        plView.isAccelerometerEnabled = NO;
+        plView.isScrollingEnabled = YES;
+        plView.isInertiaEnabled = YES;
+    }
+	plView.type = PLViewTypeSpherical;
+    
+
    
 if(!finishedAlignment && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
 {
@@ -138,13 +140,19 @@ if(!finishedAlignment && [UIImagePickerController isSourceTypeAvailable:UIImageP
 
     
     if(self.media.image && !didLoadOverlay && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
+        CGAffineTransform translate = CGAffineTransformMakeTranslation(0.0, 27.0);
+        imagePickerController.cameraViewTransform = translate;
+        CGAffineTransform scale = CGAffineTransformScale(translate, 1, 1.25);
         
+        imagePickerController.cameraViewTransform = scale;
         UIImageView *overlay = [[UIImageView alloc] initWithImage:self.media.image];
         overlay.frame = self.plView.frame;
         overlay.contentMode = UIViewContentModeScaleAspectFill;            
         overlay.alpha = .5;
         self.imagePickerController.cameraOverlayView = overlay;
         UIButton *touchScreen = [UIButton buttonWithType:UIButtonTypeCustom];
+        [touchScreen setTitle:@"Touch Screen To Continue" forState:UIControlStateNormal];
+        touchScreen.titleLabel.font = [UIFont systemFontOfSize:24];
         touchScreen.frame = self.plView.frame;
         [self.imagePickerController.view addSubview:touchScreen];
         [touchScreen addTarget:self action:@selector(touchScreen) forControlEvents:UIControlEventTouchUpInside];
