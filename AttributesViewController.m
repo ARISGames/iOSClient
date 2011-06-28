@@ -13,7 +13,7 @@
 #import "AppModel.h"
 
 @implementation AttributesViewController
-@synthesize attributes,attributesTable;
+@synthesize attributes,attributesTable,pcImage,nameLabel,groupLabel,addGroupButton;
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
@@ -44,7 +44,8 @@
 - (void)viewDidAppear:(BOOL)animated {
 	
 	[self refresh];		
-	
+	self.nameLabel.text = [NSString stringWithFormat:@"Name: %@",[AppModel sharedAppModel].username];
+    self.groupLabel.text = @"Group: N/A";
 	silenceNextServerUpdateCount = 0;
     if ([AppModel sharedAppModel].currentGame.pcMediaId != 0) {
 		//Load the image from the media Table
@@ -87,6 +88,9 @@
 	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
     
 	
+}
+-(IBAction)groupButtonPressed {
+  
 }
 
 - (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier {

@@ -16,14 +16,22 @@
     int silenceNextServerUpdateCount;
 	UITableView *attributesTable;
 	NSArray *attributes;
-    IBOutlet	AsyncImageView	*pcImage;
+    AsyncImageView	*pcImage;
+    UIButton *addGroupButton;
+    UILabel *nameLabel;
+    UILabel *groupLabel;
 
 }
 @property(nonatomic, retain) IBOutlet UITableView *attributesTable;
 @property(nonatomic, retain) NSArray *attributes;
 @property(nonatomic, retain) IBOutlet AsyncImageView	*pcImage;
+@property(nonatomic, retain) IBOutlet UIButton  *addGroupButton;
+@property(nonatomic, retain) IBOutlet UILabel *nameLabel;
+@property(nonatomic, retain) IBOutlet UILabel *groupLabel;
+
 
 - (void) refresh;
 - (void)showLoadingIndicator;
+-(IBAction)groupButtonPressed;
 
 @end
