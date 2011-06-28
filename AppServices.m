@@ -1011,6 +1011,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	item.dropable = [[itemDictionary valueForKey:@"dropable"] boolValue];
 	item.destroyable = [[itemDictionary valueForKey:@"destroyable"] boolValue];
 	item.maxQty = [[itemDictionary valueForKey:@"max_qty_in_inventory"] intValue];
+    item.isAttribute = [[itemDictionary valueForKey:@"is_attribute"] boolValue];
 	
 	NSLog(@"\tadded item %@", item.name);
 	
@@ -1529,6 +1530,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	NSArray *inventoryArray = (NSArray *)jsonResult.data;
 	
 	NSMutableDictionary *tempInventory = [[NSMutableDictionary alloc] initWithCapacity:10];
+    NSMutableDictionary *tempAttributes = [[NSMutableDictionary alloc] initWithCapacity:10];
+
 	NSEnumerator *inventoryEnumerator = [((NSArray *)inventoryArray) objectEnumerator];	
 	NSDictionary *itemDictionary;
 	while ((itemDictionary = [inventoryEnumerator nextObject])) {
@@ -1541,14 +1544,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 		item.dropable = [[itemDictionary valueForKey:@"dropable"] boolValue];
 		item.destroyable = [[itemDictionary valueForKey:@"destroyable"] boolValue];
 		item.qty = [[itemDictionary valueForKey:@"qty"] intValue];
+        item.isAttribute = [[itemDictionary valueForKey:@"is_attribute"] boolValue];
 		NSLog(@"Model: Adding Item: %@", item.name);
-		[tempInventory setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]]; 
+        if(item.isAttribute)[tempAttributes setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]]; 
+            else [tempInventory setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]]; 
 		[item release];
 	}
     
     
         
 	[AppModel sharedAppModel].inventory = tempInventory;
+    [AppModel sharedAppModel].attributes = tempAttributes;
+    [tempAttributes release];
 	[tempInventory release];
 	
 	NSLog(@"AppModel: Finished fetching inventory from server, model updated");

@@ -89,7 +89,12 @@
 	InventoryListViewController *inventoryListViewController = [[[InventoryListViewController alloc] initWithNibName:@"InventoryList" bundle:nil] autorelease];
 	UINavigationController *inventoryNavigationController = [[UINavigationController alloc] initWithRootViewController: inventoryListViewController];
 	inventoryNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-	
+    
+	//Setup Attributes View
+    AttributesViewController *attributesViewController = [[[AttributesViewController alloc] initWithNibName:@"AttributesViewController" bundle:nil] autorelease];
+	UINavigationController *attributesNavigationController = [[UINavigationController alloc] initWithRootViewController: attributesViewController];
+	attributesNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    
 	//Setup Camera View
 	CameraViewController *cameraViewController = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
 	UINavigationController *cameraNavigationController = [[UINavigationController alloc] initWithRootViewController: cameraViewController];
@@ -146,6 +151,7 @@
 										inventoryNavigationController,
 										qrScannerNavigationController,
 										//arNavigationController,
+                                        attributesNavigationController,
 										cameraNavigationController,
 										audioRecorderNavigationController,
 										bogusSelectGameViewController,
@@ -226,7 +232,7 @@
         {
             //the 7th viewController is "bogusViewController which we want to ignore
             //but it is also then a good spot to check if a modal is on screen
-            if(x==7) {
+            if([[self.tabBarController.customizableViewControllers objectAtIndex:x] isKindOfClass:[BogusSelectGameViewController class]]) {
                 if(self.tabBarController.modalViewController)
                 {
                     //set tempNC to the modalView if there is a modal up
@@ -238,7 +244,8 @@
                 
             }
             
-    if (x!=7)tempNC = (UINavigationController *)[self.tabBarController.customizableViewControllers objectAtIndex:x];
+            else tempNC = (UINavigationController *)[self.tabBarController.customizableViewControllers objectAtIndex:x];
+
     NSString *title = [titleAndPrompt objectForKey:@"title"];
     NSString *prompt = [titleAndPrompt objectForKey:@"prompt"];
     

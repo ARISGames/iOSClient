@@ -26,7 +26,7 @@
 @synthesize description;
 
 @synthesize dropable;
-@synthesize	destroyable;
+@synthesize	destroyable,isAttribute;
 
 -(nearbyObjectKind) kind {
 	return NearbyObjectItem;

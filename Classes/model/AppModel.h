@@ -39,6 +39,8 @@ extern NSDictionary *InventoryElements;
 	NSMutableArray *playerList;
 	NSMutableArray *nearbyLocationsList;
 	NSMutableDictionary *inventory;
+    NSMutableDictionary *attributes;
+
 	NSString *inventoryHash; 
 	NSMutableDictionary *questList;
 	NSString *questListHash;
@@ -80,6 +82,8 @@ extern NSDictionary *InventoryElements;
 @property(copy, readwrite) NSMutableArray *nearbyLocationsList;	
 @property(nonatomic, retain) CLLocation *playerLocation;	
 @property(nonatomic, retain) NSMutableDictionary *inventory;
+@property(nonatomic, retain) NSMutableDictionary *attributes;
+
 @property(nonatomic, retain) NSString *inventoryHash;
 @property(retain) UIAlertView *networkAlert;
 

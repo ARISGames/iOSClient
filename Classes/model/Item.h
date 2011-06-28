@@ -19,6 +19,7 @@
 	int qty;
 	int maxQty;
 	NSString *description;	
+    BOOL isAttribute;
 	BOOL forcedDisplay;
 	BOOL dropable;
 	BOOL destroyable;
@@ -39,6 +40,8 @@
 @property(readwrite, assign) int iconMediaId;
 @property (readwrite, assign) BOOL dropable;
 @property (readwrite, assign) BOOL destroyable;
+@property (readwrite, assign) BOOL isAttribute;
+
 
 - (void) display;
 
