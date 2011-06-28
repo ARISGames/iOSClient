@@ -19,7 +19,7 @@
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
-        self.title = @"Profile";		
+        self.title = @"Attributes";		
         self.tabBarItem.image = [UIImage imageNamed:@"inventory.png"];
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
