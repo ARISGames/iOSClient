@@ -47,14 +47,17 @@
 	self.nameLabel.text = [NSString stringWithFormat:@"Name: %@",[AppModel sharedAppModel].username];
     self.groupLabel.text = @"Group: N/A";
 	silenceNextServerUpdateCount = 0;
+    pcImage.frame = CGRectMake(5, 5, 150, 150);
     if ([AppModel sharedAppModel].currentGame.pcMediaId != 0) {
 		//Load the image from the media Table
 		Media *pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId];
 		[pcImage loadImageFromMedia: pcMedia];
         
 	}
-	else [pcImage updateViewWithNewImage:[UIImage imageNamed:@"defaultCharacter.png"]];	
-    pcImage.contentMode = UIViewContentModeScaleToFill;
+	else [pcImage updateViewWithNewImage:[UIImage imageNamed:@"profile.png"]];	
+    
+    pcImage.contentMode = UIViewContentModeScaleAspectFill;
+    NSLog(@"PCImage frame: x:%f y:%f w:%f h:%f",pcImage.frame.origin.x,pcImage.frame.origin.y,pcImage.frame.size.width,pcImage.frame.size.height);
 }
 
 -(void)refresh {
@@ -98,7 +101,6 @@
 	CGRect IconFrame = CGRectMake(5, 5, 50, 50);
 	CGRect Label1Frame = CGRectMake(70, 22, 170, 20);
 	CGRect Label2Frame = CGRectMake(180, 22, 125, 20);
-    CGRect Label3Frame = CGRectMake(70, 5, 240, 20);
 	UILabel *lblTemp;
 	UIImageView *iconViewTemp;
 	
@@ -132,16 +134,7 @@
 	iconViewTemp.backgroundColor = [UIColor clearColor]; 
 	[cell.contentView addSubview:iconViewTemp];
 	[iconViewTemp release];
-    
-    //Init Icon with tag 4
-    lblTemp = [[UILabel alloc] initWithFrame:Label3Frame];
-	lblTemp.tag = 4;
-	lblTemp.font = [UIFont boldSystemFontOfSize:11];
-	lblTemp.textColor = [UIColor darkGrayColor];
-	lblTemp.backgroundColor = [UIColor clearColor];
-    //lblTemp.textAlignment = UITextAlignmentRight;
-	[cell.contentView addSubview:lblTemp];
-	[lblTemp release];
+
     
 	return cell;
 }
