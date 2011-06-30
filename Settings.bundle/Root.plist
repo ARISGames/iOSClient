@@ -34,7 +34,7 @@
 			<key>Key</key>
 			<string>showGamesInDevelopment</string>
 			<key>Title</key>
-			<string>Authoring Mode</string>
+			<string>Show Games in Devel</string>
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
