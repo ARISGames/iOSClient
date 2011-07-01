@@ -62,7 +62,12 @@
 
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate attemptLoginWithUserName:usernameField.text andPassword:passwordField.text]; 
-		
+    UINavigationController *tempNC;
+    for(int i = 0; i < [appDelegate.gameSelectionTabBarController.viewControllers count];i++)
+    {
+	tempNC = [appDelegate.gameSelectionTabBarController.viewControllers objectAtIndex:i];	
+        [[tempNC.viewControllers objectAtIndex:0] refresh];
+    }
 	[usernameField resignFirstResponder];
 	[passwordField resignFirstResponder];
 }

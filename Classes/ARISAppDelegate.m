@@ -47,6 +47,7 @@
 	
 	//Load defaults from UserDefaults
 	[[AppModel sharedAppModel] loadUserDefaults];
+   
 	
     //Log the current Language
 	NSArray *languages = [[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"];
@@ -215,6 +216,7 @@
     self.loginViewNavigationController.view.hidden = NO;
     self.tabBarController.view.hidden = YES;
     self.gameSelectionTabBarController.view.hidden = YES;
+
 
 
 }
@@ -425,7 +427,7 @@
 	
 	//Clear any user realated info in AppModel (except server)
 	[[AppModel sharedAppModel] clearUserDefaults];
-	//[[AppModel sharedAppModel] loadUserDefaults];
+	
 	
 	//clear the tutorial popups
 	[tutorialViewController dismissAllTutorials];

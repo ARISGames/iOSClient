@@ -59,16 +59,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
 -(void)loadUserDefaults {
 	NSLog(@"Model: Loading User Defaults");
 	[defaults synchronize];
-	
+
 	//Load the base App URL
 	NSString *baseServerString = [defaults stringForKey:@"baseServerString"];
     NSURL *currServ = [NSURL URLWithString: baseServerString ];
    
+    
+    if(!loggedIn &&(self.showGamesInDevelopment == [defaults boolForKey:@"showGamesInDevelopment"])&&(!(![currServ isEqual:self.serverURL] || (self.serverURL == nil)))) {
+        username = [defaults objectForKey:@"username"];
+        password = [defaults objectForKey:@"password"];
+        if(username && password)
+            [[AppServices sharedAppServices] login];
+    }
     if (![currServ isEqual:self.serverURL] || (self.serverURL == nil)) {
         NSNotification *logoutRequestNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self];
         [[NSNotificationCenter defaultCenter] postNotification:logoutRequestNotification];
     }
-
+    
     
     //Old versions of the server URL are depricated. Migrate to the new version
     if ([[currServ absoluteString] isEqual:@"http://arisgames.org/server1"] || 
@@ -89,8 +96,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
 
     
     self.serverURL = [NSURL URLWithString: baseServerString ];
+    if(self.showGamesInDevelopment != [defaults boolForKey:@"showGamesInDevelopment"])
+    {
     self.showGamesInDevelopment = [defaults boolForKey:@"showGamesInDevelopment"];
-
+    NSNotification *logoutRequestNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self];
+    [[NSNotificationCenter defaultCenter] postNotification:logoutRequestNotification];
+    }
     
 	if ([defaults boolForKey:@"resetTutorial"]) {
 		self.hasSeenNearbyTabTutorial = NO;
@@ -130,6 +141,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
 	[defaults setBool:hasSeenQuestsTabTutorial forKey:@"hasSeenQuestsTabTutorial"];
 	[defaults setBool:hasSeenMapTabTutorial forKey:@"hasSeenMapTabTutorial"];
 	[defaults setBool:hasSeenInventoryTabTutorial forKey:@"hasSeenInventoryTabTutorial"];
+    [defaults setValue:username forKey:@"username"];
+    [defaults setValue:password forKey:@"password"];
 
 
 }

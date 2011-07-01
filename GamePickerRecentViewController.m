@@ -60,7 +60,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
 	NSLog(@"GamePickerViewController: View Appeared");	
-    
+    [gameTable reloadData];
 	[self refresh];
     
 	NSLog(@"GamePickerViewController: view did appear");
@@ -69,7 +69,13 @@
 
 -(void)refresh {
 	NSLog(@"GamePickerViewController: Refresh Requested");
-    
+    if (![AppModel sharedAppModel].playerLocation) {
+		NSLog(@"NearbyBar: Waiting for the player location before continuing to refresh. Returning");
+        
+		[self performSelector:@selector(refresh) withObject:nil afterDelay:1];
+        return;
+	}
+
     //register for notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
