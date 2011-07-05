@@ -14,6 +14,7 @@
 @synthesize connection;
 @synthesize data;
 @synthesize media;
+@synthesize delegate;
 
 
 - (void)loadImageFromMedia:(Media *) aMedia {
@@ -112,6 +113,10 @@
 	[UIView setAnimationDuration:0.25];
 	self.alpha = 1.0;
 	[UIView commitAnimations];
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(imageFinishedLoading)]){
+        [delegate imageFinishedLoading];
+    }
 
 }
 

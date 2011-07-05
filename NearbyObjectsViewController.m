@@ -85,7 +85,7 @@
 
 - (void)refresh {
 	NSLog(@"NearbyObjectsViewController: refresh requested");
-	if ([AppModel sharedAppModel].loggedIn) [[AppServices sharedAppServices] fetchLocationList];
+	if ([AppModel sharedAppModel].loggedIn && ([AppModel sharedAppModel].currentGame.gameId != 0 && [AppModel sharedAppModel].playerId != 0)) [[AppServices sharedAppServices] fetchLocationList];
 }
 
 - (void)refreshViewFromModel{

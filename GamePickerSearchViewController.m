@@ -75,7 +75,8 @@
     [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
     [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
     
-    [[AppServices sharedAppServices] fetchGameListBySearch: self.searchText];
+    [[AppServices sharedAppServices] fetchGameListBySearch: [self.searchText stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+    NSLog(@"URL encoded search string: %@", [self.searchText stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]);
 	[self showLoadingIndicator];
 }
 

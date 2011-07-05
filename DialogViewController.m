@@ -84,7 +84,6 @@ NSString *const kDialogHtmlTemplate =
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	
 	assert(npcImage && @"npcImage not connected.");
 	assert(pcImage && @"pcImage not connected.");
 	assert(npcWebView && @"npcWebView not connected.");
@@ -144,13 +143,15 @@ NSString *const kDialogHtmlTemplate =
 	//Check if the game specifies a PC image
 	if ([AppModel sharedAppModel].currentGame.pcMediaId != 0) {
 		//Load the image from the media Table
+        self.pcImage.delegate = self;
+
 		Media *pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId];
 		[pcImage loadImageFromMedia: pcMedia];
 	}
-	else [pcImage updateViewWithNewImage:[UIImage imageNamed:@"defaultCharacter.png"]];
-
-	[self applyNPCWithGreeting];
-	
+	else {
+        [pcImage updateViewWithNewImage:[UIImage imageNamed:@"defaultCharacter.png"]];
+        [self applyNPCWithGreeting];
+	}
 /*  SAMPLE DIALOG FORMAT
 	NSString *xmlData = 
 	@"<dialog>"
@@ -162,6 +163,10 @@ NSString *const kDialogHtmlTemplate =
 	@"<npc id='2' zoomX='150' zoomY='50' zoomWidth='100' zoomHeight='100'><![CDATA[<p><strong>OUCH!</strong></p><p>Ha ha ha!</p>]]></npc>"
 	@"</dialog>";
 */
+}
+
+-(void)imageFinishedLoading{
+    [self applyNPCWithGreeting];
 }
 
 -(void)toggleFullScreenTextMode{

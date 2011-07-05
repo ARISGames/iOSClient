@@ -98,6 +98,7 @@
 - (void) showWaitingIndicatorForPlayerOptions;
 - (void) dismissWaitingIndicatorForPlayerOptions;
 - (void) stopAllAudio;
+- (void) imageFinishedLoading;
 
 @end
 
