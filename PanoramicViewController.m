@@ -112,11 +112,11 @@
     
 
    
-if(!finishedAlignment && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-{
-     Media *aMedia = [[AppModel sharedAppModel] mediaForMediaId: self.panoramic.alignMediaId];
-    [self loadImageFromMedia:aMedia];
-}
+    if(!finishedAlignment && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+    {
+        Media *aMedia = [[AppModel sharedAppModel] mediaForMediaId: self.panoramic.alignMediaId];
+        [self loadImageFromMedia:aMedia];
+    }
     else
     {
         Media *aMedia = [[AppModel sharedAppModel] mediaForMediaId: self.panoramic.mediaId];
