@@ -122,7 +122,7 @@
     else if (picker == self.imageMatchingImagePickerController) {
         NSLog(@"QRScannerVC: image matching imagePickerController didFinishPickingImage" );
         
-        NSData *imageData = UIImageJPEGRepresentation(image, .8);
+        NSData *imageData = UIImageJPEGRepresentation(image, .4);
         [[AppServices sharedAppServices] uploadImageForMatching:imageData];
     }	
 }
