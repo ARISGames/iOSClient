@@ -23,7 +23,6 @@
         self.tabBarItem.image = [UIImage imageNamed:@"inventory.png"];
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-		[dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedInventory" object:nil];
 		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewInventoryReady" object:nil];
 		[dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
         
@@ -62,23 +61,6 @@
 
 -(void)refresh {
 	[[AppServices sharedAppServices] fetchInventory];
-	[self showLoadingIndicator];
-}
-
--(void)showLoadingIndicator{
-	UIActivityIndicatorView *activityIndicator = 
-	[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
-	[activityIndicator release];
-	[[self navigationItem] setRightBarButtonItem:barButton];
-	[barButton release];
-	[activityIndicator startAnimating];
-}
-
--(void)removeLoadingIndicator{
-	//Do this now in case refreshViewFromModel isn't called due to == hash
-    
-	[[self navigationItem] setRightBarButtonItem:nil];
 }
 
 -(void)refreshViewFromModel {
@@ -200,7 +182,7 @@
                                                             blue:200.0/255.0  
                                                            alpha:1.0];  
     } 
-	
+	cell.userInteractionEnabled = NO;
 	return cell;
 }
 
