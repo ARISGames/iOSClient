@@ -86,7 +86,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
         NSLog(@"AppModel: SERVER NEEDS TO BE CHANGED");
         
         NSString *updatedURL = @"http://arisgames.org/server";
-        currServ = [NSURL URLWithString: updatedURL];
         [defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:updatedURL] forKey:@"baseServerString"]; 
         
         [defaults synchronize];		

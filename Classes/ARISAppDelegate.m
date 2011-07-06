@@ -399,17 +399,15 @@
 	[[AppServices sharedAppServices] updateServerGameSelected];
 	
 	
-	UINavigationController *navigationController;
-	UIViewController *visibleViewController;
+	UINavigationController *navigationController
+    ;
 	
 	//Get the naviation controller and visible view controller
 	if ([tabBarController.selectedViewController isKindOfClass:[UINavigationController class]]) {
 		navigationController = (UINavigationController*)tabBarController.selectedViewController;
-		visibleViewController = [navigationController visibleViewController];
 	}
 	else {
 		navigationController = nil;
-		visibleViewController = tabBarController.selectedViewController;
 	}
 	
     //Start loading all the data

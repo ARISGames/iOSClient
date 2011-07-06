@@ -36,7 +36,7 @@
 	webpageViewController *webPageViewController = [[webpageViewController alloc] initWithNibName:@"webpageViewController" bundle: [NSBundle mainBundle]];
 	webPageViewController.webPage = self;
 	[appDelegate displayNearbyObjectView:webPageViewController];
-	[webpageViewController release];
+	[webPageViewController release];
 }
 
 

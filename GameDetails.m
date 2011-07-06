@@ -190,9 +190,9 @@ NSString *const kGameDetailsHtmlTemplate =
     }
 	
     if (indexPath.section == 0 && indexPath.row == 0) {
-        AsyncImageView *mediaImageView = [[AsyncImageView alloc]init];
+        AsyncImageView *mediaImageView = [[[AsyncImageView alloc]init] autorelease];
         if ([self.game.mediaUrl length] > 0) {
-            Media *splashMedia = [[Media alloc] initWithId:1 andUrlString:self.game.mediaUrl ofType:@"Splash"];
+            Media *splashMedia = [[[Media alloc] initWithId:1 andUrlString:self.game.mediaUrl ofType:@"Splash"]autorelease];
             [mediaImageView loadImageFromMedia:splashMedia];
         }
         else mediaImageView.image = [UIImage imageNamed:@"Default.png"];

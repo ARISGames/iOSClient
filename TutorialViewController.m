@@ -75,6 +75,7 @@
 	[UIView setAnimationDuration:0.5];
 	popup.alpha = 1.0;
 	[UIView commitAnimations];
+    [popup release];
 }
 
 - (void) dismissAllTutorials {

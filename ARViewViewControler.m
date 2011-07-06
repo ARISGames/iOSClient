@@ -80,6 +80,7 @@
 	
 	
 	[super viewDidLoad];
+    [tempLocationArray release];
 	NSLog(@"ARView Loaded");
 }
 
