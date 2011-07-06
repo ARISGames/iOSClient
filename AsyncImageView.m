@@ -76,7 +76,6 @@
 	
 	//Save the image in the media
 	self.media.image = image;
-	[self.media.image retain];
 	
 	[self updateViewWithNewImage:image];
 }
@@ -94,7 +93,7 @@
     }
 		
 	//create the image view
-    UIImageView* imageView = [[[UIImageView alloc] initWithImage:image] autorelease];
+    UIImageView* imageView = [[UIImageView alloc] initWithImage:image];
 	
     imageView.contentMode = UIViewContentModeScaleAspectFit;
 	
@@ -113,7 +112,7 @@
 	[UIView setAnimationDuration:0.25];
 	self.alpha = 1.0;
 	[UIView commitAnimations];
-    
+    [imageView release];
     if (self.delegate && [self.delegate respondsToSelector:@selector(imageFinishedLoading)]){
         [delegate imageFinishedLoading];
     }
