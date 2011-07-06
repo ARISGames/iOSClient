@@ -115,6 +115,7 @@
 - (PLCamera *)getCamera;
 
 - (void)reset;
+- (UIImage *) getSnapshot;//Take a UIImage Snapshot of the view
 
 - (void)drawView;
 - (void)drawViewNTimes:(NSUInteger)times;

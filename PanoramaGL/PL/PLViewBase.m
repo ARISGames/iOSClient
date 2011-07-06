@@ -195,6 +195,44 @@
 #pragma mark -
 #pragma mark draw methods 
 
+-(UIImage *) getSnapshot {
+    NSInteger myDataLength = 320 * 480 * 4;
+    
+    // allocate array and read pixels into it.
+    GLubyte *buffer = (GLubyte *) malloc(myDataLength);
+    glReadPixels(0, 0, 320, 480, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+    
+    // gl renders "upside down" so swap top to bottom into new array.
+    // there's gotta be a better way, but this works.
+    GLubyte *buffer2 = (GLubyte *) malloc(myDataLength);
+    for(int y = 0; y < 480; y++)
+    {
+        for(int x = 0; x < 320 * 4; x++)
+        {
+            buffer2[(479 - y) * 320 * 4 + x] = buffer[y * 4 * 320 + x];
+        }
+    }
+    
+    // make data provider with data.
+    CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, buffer2, myDataLength, NULL);
+    
+    // prep the ingredients
+    int bitsPerComponent = 8;
+    int bitsPerPixel = 32;
+    int bytesPerRow = 4 * 320;
+    CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
+    CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault;
+    CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;
+    
+    // make the cgimage
+    CGImageRef imageRef = CGImageCreate(320, 480, bitsPerComponent, bitsPerPixel, bytesPerRow, colorSpaceRef, bitmapInfo, provider, NULL, NO, renderingIntent);
+    
+    // then make the uiimage from that
+    UIImage *myImage = [UIImage imageWithCGImage:imageRef];
+    return myImage;
+}
+
+
 - (void)drawView
 {
 	if(isScrolling && delegate && [delegate respondsToSelector:@selector(view:shouldScroll:endPoint:)] && ![delegate view:self shouldScroll:startPoint endPoint:endPoint])
@@ -736,7 +774,7 @@
         referenceAttitude = [attitude retain];
     }
     
-    NSLog(@"PLViewBase: getDeviceGLRotationMatrix: roll: %f pitch: %f yaw: %f",attitude.roll* 180/M_PI,attitude.pitch* 180/M_PI,attitude.yaw* 180/M_PI);
+    //NSLog(@"PLViewBase: getDeviceGLRotationMatrix: roll: %f pitch: %f yaw: %f",attitude.roll* 180/M_PI,attitude.pitch* 180/M_PI,attitude.yaw* 180/M_PI);
     
     scene.currentCamera.isRollEnabled = YES;
     scene.currentCamera.isPitchEnabled= YES;
@@ -747,7 +785,7 @@
     else sign =  1;
        [scene.currentCamera rotateWithPitch:(sign*ABS(attitude.pitch - referenceAttitude.pitch)* 180/M_PI) yaw:((attitude.yaw - referenceAttitude.yaw) * 180/M_PI) roll:((attitude.roll - referenceAttitude.roll)*180/M_PI)];
     
-   NSLog(@"PLViewBase: getDeviceGLRotationMatrix: Camera is now at pitch: %f yaw: %f roll: %f",(scene.currentCamera.pitch) ,(scene.currentCamera.yaw),scene.currentCamera.roll);
+   //NSLog(@"PLViewBase: getDeviceGLRotationMatrix: Camera is now at pitch: %f yaw: %f roll: %f",(scene.currentCamera.pitch) ,(scene.currentCamera.yaw),scene.currentCamera.roll);
 
     [self drawView];
 }

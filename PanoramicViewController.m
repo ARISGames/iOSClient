@@ -92,9 +92,7 @@
 }
 
 -(void) viewDidAppear:(BOOL)animated {
-    
-    plView.isDeviceOrientationEnabled = NO;
-    
+
     if([plView.motionManager isGyroAvailable])
     {
         plView.isGyroEnabled = YES;
@@ -108,10 +106,12 @@
         plView.isScrollingEnabled = YES;
         plView.isInertiaEnabled = YES;
     }
-	plView.type = PLViewTypeSpherical;
     
+    plView.isDeviceOrientationEnabled = NO;
 
-   
+
+	plView.type = PLViewTypeSpherical;
+       
     if(!finishedAlignment && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
         Media *aMedia = [[AppModel sharedAppModel] mediaForMediaId: self.panoramic.alignMediaId];
@@ -143,52 +143,70 @@
         CGAffineTransform translate = CGAffineTransformMakeTranslation(0.0, 27.0);
         imagePickerController.cameraViewTransform = translate;
         CGAffineTransform scale = CGAffineTransformScale(translate, 1, 1.25);
-        
         imagePickerController.cameraViewTransform = scale;
-        UIImageView *overlay = [[UIImageView alloc] initWithImage:self.media.image];
-        overlay.frame = self.plView.frame;
-        overlay.contentMode = UIViewContentModeScaleAspectFill;            
-        overlay.alpha = .5;
-        self.imagePickerController.cameraOverlayView = overlay;
+        
+        
+        /*
+        //Load the alignment image from the server
+        UIImageView *alignmentImageView = [[UIImageView alloc] initWithImage:self.media.image];
+        alignmentImageView.frame = self.plView.frame;
+        alignmentImageView.contentMode = UIViewContentModeScaleAspectFill;            
+        alignmentImageView.alpha = .5;
+        self.imagePickerController.cameraOverlayView = alignmentImageView; 
+        [alignmentImageView release];
+         */
+        
+        //Capture a static alignment image from the plView
+        UIImageView *alignmentImageView = [[UIImageView alloc] initWithImage:[plView getSnapshot]];
+        alignmentImageView.alpha = .5;
+        self.imagePickerController.cameraOverlayView = alignmentImageView; 
+        [alignmentImageView release];
+        
+
         UIButton *touchScreen = [UIButton buttonWithType:UIButtonTypeCustom];
         [touchScreen setTitle:@"Touch Screen To Continue" forState:UIControlStateNormal];
         touchScreen.titleLabel.font = [UIFont systemFontOfSize:24];
         touchScreen.frame = self.plView.frame;
         [self.imagePickerController.view addSubview:touchScreen];
         [touchScreen addTarget:self action:@selector(touchScreen) forControlEvents:UIControlEventTouchUpInside];
+        
+        
         [self presentModalViewController:self.imagePickerController animated:NO];
         self.media.image = nil;
-        
         didLoadOverlay = YES;
 
     }
     if(didLoadOverlay && finishedAlignment && self.media.image){
+        [self.view addSubview:plView];
         [plView stopAnimation];
         [plView removeAllTextures];
         [plView addTextureAndRelease:[PLTexture textureWithImage:self.media.image]];
         
-        //cubic example
+        
         /*
+        //cubic example
         [plView addTextureAndRelease:[PLTexture textureWithPath:[[NSBundle mainBundle] pathForResource:@"front" ofType:@"PNG"]]];
         [plView addTextureAndRelease:[PLTexture textureWithPath:[[NSBundle mainBundle] pathForResource:@"back" ofType:@"PNG"]]];
         [plView addTextureAndRelease:[PLTexture textureWithPath:[[NSBundle mainBundle] pathForResource:@"left" ofType:@"PNG"]]];
         [plView addTextureAndRelease:[PLTexture textureWithPath:[[NSBundle mainBundle] pathForResource:@"right" ofType:@"PNG"]]];
         [plView addTextureAndRelease:[PLTexture textureWithPath:[[NSBundle mainBundle] pathForResource:@"top" ofType:@"PNG"]]];
-        [plView addTextureAndRelease:[PLTexture textureWithPath:[[NSBundle mainBundle] pathForResource:@"bottom" ofType:@"PNG"]]];
+        [plView addTextureAndRelease:[PLTexture textureWithPath:[[NSBundle mainBundle] pathForResource:@"bottom" ofType:@"PNG"]];
         */
         
         [plView reset];
         [plView drawView];
         Media *oMedia = [[AppModel sharedAppModel] mediaForMediaId: self.panoramic.alignMediaId];
         [self loadImageFromMedia:oMedia];
-        finishedAlignment = NO;
-        
-        if (self.plView.motionManager.gyroAvailable) [self.plView enableGyro] ;
-           }
+        finishedAlignment = NO;        
+    }
 
 }
 -(IBAction) touchScreen {
     [self dismissModalViewControllerAnimated:YES];
+    
+    if (self.plView.motionManager.gyroAvailable) [self.plView enableGyro] ;
+
+    
     didLoadOverlay = NO;
     finishedAlignment = YES;
 }
