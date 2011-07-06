@@ -130,6 +130,7 @@
     [connection release];
     [data release];
 	[media release];
+    [delegate release];
     [super dealloc];
 }
 

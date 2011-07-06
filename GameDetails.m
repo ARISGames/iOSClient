@@ -321,6 +321,8 @@ NSString *const kGameDetailsHtmlTemplate =
     [locationLabel release];
     [scrollView release];
     [contentView release];
+    [tableView release];
+    [segmentedControl release];
     [super dealloc];
 }
 
