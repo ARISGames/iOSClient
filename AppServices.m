@@ -320,7 +320,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	NSLog(@"Model: Uploading File. gameID:%d",[AppModel sharedAppModel].currentGame.gameId);
 	
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate showWaitingIndicator:@"Uploading" displayProgressBar:YES];
+	[appDelegate showNewWaitingIndicator:@"Uploading" displayProgressBar:YES];
 	[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
 	[request startAsynchronous];
 }
@@ -348,7 +348,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	NSLog(@"Model: Uploading File. gameID:%d fileName:%@ title:%@ description:%@",[AppModel sharedAppModel].currentGame.gameId,fileName,title,description );
 	
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate showWaitingIndicator:@"Uploading" displayProgressBar:YES];
+	[appDelegate showNewWaitingIndicator:@"Uploading" displayProgressBar:YES];
 	[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
 	[request startAsynchronous];
 }
@@ -358,7 +358,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 - (void)uploadImageForMatchingRequestFinished:(ASIFormDataRequest *)request
 {
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate removeWaitingIndicator];
+	[appDelegate removeNewWaitingIndicator];
+    
+    [appDelegate showNewWaitingIndicator:@"Decoding Image" displayProgressBar:NO];
 	
 	NSString *response = [request responseString];
     
@@ -389,7 +391,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 - (void)uploadItemRequestFinished:(ASIFormDataRequest *)request
 {
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate removeWaitingIndicator];
+	[appDelegate removeNewWaitingIndicator];
 	
 	NSString *response = [request responseString];
     
@@ -428,7 +430,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 - (void)uploadRequestFailed:(ASIHTTPRequest *)request
 {
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate removeWaitingIndicator];
+	[appDelegate removeNewWaitingIndicator];
 	NSError *error = [request error];
 	NSLog(@"Model: uploadRequestFailed: %@",[error localizedDescription]);
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message: @"An network error occured while uploading the file" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
@@ -1611,6 +1613,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 */
 
 -(void)parseQRCodeObjectFromJSON: (JSONResult *)jsonResult {
+    
+    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate removeNewWaitingIndicator];
     
 	NSObject<QRCodeProtocol> *qrCodeObject = nil;
     
