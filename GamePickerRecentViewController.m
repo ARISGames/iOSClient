@@ -34,7 +34,9 @@
 }
 
 - (void)dealloc {
-	[gameList release];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+
+    [gameList release];
     [refreshButton release];
     [distanceControl release];
     [locationalControl release];

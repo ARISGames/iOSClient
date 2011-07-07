@@ -43,6 +43,7 @@ static float INITIAL_SPAN = 20;
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [mapView release];
     [refreshButton release];
 

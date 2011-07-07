@@ -257,6 +257,7 @@ NSString *const kDialogHtmlTemplate =
 }
 
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 	[currentNpc release];
 	[currentNode release];
 	[parser release];

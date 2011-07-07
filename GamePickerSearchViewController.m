@@ -33,7 +33,9 @@
 }
 
 - (void)dealloc {
-	[gameList release];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+
+    [gameList release];
     [refreshButton release];
     [super dealloc];
 }

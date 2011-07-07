@@ -201,12 +201,8 @@ static NSString * const OPTION_CELL = @"option";
     [continueButton release];
 	
 	//remove listeners
-	[[NSNotificationCenter defaultCenter] removeObserver:self
-													name:MPMoviePlayerPlaybackDidFinishNotification
-												  object:mMoviePlayer];
-	[[NSNotificationCenter defaultCenter] removeObserver:self
-													name:MPMoviePlayerLoadStateDidChangeNotification
-												  object:mMoviePlayer];	
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+
 	
     [super dealloc];
 }

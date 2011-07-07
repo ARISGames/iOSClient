@@ -310,7 +310,9 @@ static float INITIAL_SPAN = 0.001;
 }
 
 - (void)dealloc {
-	[mapView release];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+
+    [mapView release];
     [super dealloc];
 }
 
