@@ -109,7 +109,7 @@
                    if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
                        [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
                     
-                    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Item Recieved",@"title",[NSString stringWithFormat:@"%d %@ added to inventory",item.qty - existingItem.qty,item.name],@"prompt", nil];
+                    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Item Received",@"title",[NSString stringWithFormat:@"%d %@ added to inventory",item.qty - existingItem.qty,item.name],@"prompt", nil];
                     
                     [appDelegate performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
                  
@@ -132,7 +132,7 @@
                 if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
                     [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
                 
-                NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Item Recieved",@"title",[NSString stringWithFormat:@"%d %@ added to inventory",item.qty,item.name],@"prompt", nil];
+                NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Item Received",@"title",[NSString stringWithFormat:@"%d %@ added to inventory",item.qty,item.name],@"prompt", nil];
                 
                 [appDelegate performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
 
