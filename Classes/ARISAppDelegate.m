@@ -31,6 +31,7 @@
 @synthesize networkAlert,serverAlert;
 @synthesize tutorialViewController;
 @synthesize modalPresent,notificationCount;
+@synthesize titleLabel,descLabel;
 
 
 //@synthesize toolbarViewController;
@@ -64,6 +65,10 @@
 	[dispatcher addObserver:self selector:@selector(performLogout:) name:@"LogoutRequested" object:nil];
 	[dispatcher addObserver:self selector:@selector(displayNearbyObjects:) name:@"NearbyButtonTouched" object:nil];
 	[dispatcher addObserver:self selector:@selector(checkForDisplayCompleteNode) name:@"NewQuestListReady" object:nil];
+    
+    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, 320, 20)];
+    self.descLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 40, 320, 15)];
+
     
 	//Setup NearbyObjects View
 	NearbyObjectsViewController *nearbyObjectsViewController = [[NearbyObjectsViewController alloc]initWithNibName:@"NearbyObjectsViewController" bundle:nil];
@@ -290,11 +295,12 @@
 }
 
 - (void) changeNavColor: (NSDictionary *) navBarAndColorDict {
-    UINavigationController *tempNC = [navBarAndColorDict objectForKey:@"navbar"];
     UIColor *color = [navBarAndColorDict objectForKey:@"color"];
     [UIView beginAnimations:@"changeNavColor" context:nil];
     [UIView setAnimationDuration:0.5];
-    tempNC.topViewController.navigationController.navigationBar.tintColor = color;
+    self.titleLabel.backgroundColor = color;
+    self.descLabel.backgroundColor = color;
+    
     [UIView commitAnimations];
 }
 
@@ -304,12 +310,43 @@
 }
 
 -(void) changeNavTitle: (NSDictionary *) navBarTitleAndPromptDict {
-        UINavigationController *tempNC = [navBarTitleAndPromptDict objectForKey:@"navbar"];
-   
-    tempNC.topViewController.navigationItem.title = [navBarTitleAndPromptDict objectForKey:@"title"];
-    tempNC.topViewController.navigationItem.prompt = [navBarTitleAndPromptDict objectForKey:@"prompt"];
+    UINavigationController *tempNC = [navBarTitleAndPromptDict objectForKey:@"navbar"];
+
+    
+    //tempNC.topViewController.navigationItem.title = [navBarTitleAndPromptDict objectForKey:@"title"];
+    if ([navBarTitleAndPromptDict objectForKey:@"prompt"])
+    {
+        [UIView beginAnimations:@"changeNotificationTitle" context:nil];
+        [UIView setAnimationDuration:0.5];
+        self.titleLabel.hidden = NO;
+        self.descLabel.hidden = NO;
+        tempNC.topViewController.navigationItem.prompt = @" ";
+        self.titleLabel.text = [navBarTitleAndPromptDict objectForKey:@"title"];
+        self.titleLabel.font = [UIFont boldSystemFontOfSize:18];
+        self.titleLabel.textAlignment = UITextAlignmentCenter;
+        self.titleLabel.textColor = [UIColor whiteColor];
+        self.titleLabel.backgroundColor = [UIColor clearColor];
+        [tempNC.topViewController.navigationController.navigationBar.window performSelector:@selector(addSubview:) withObject:self.titleLabel afterDelay:.6];
+        
+        self.descLabel.text = [navBarTitleAndPromptDict objectForKey:@"prompt"];
+        self.descLabel.font = [UIFont systemFontOfSize:14];
+        self.descLabel.textAlignment = UITextAlignmentCenter;
+        self.descLabel.textColor = [UIColor whiteColor];
+        self.descLabel.backgroundColor = [UIColor clearColor];
+        [tempNC.topViewController.navigationController.navigationBar.window performSelector:@selector(addSubview:) withObject:self.descLabel afterDelay:.6];
+        [UIView commitAnimations];
+    }
+    else
+    {
+        if(self.notificationCount <= 1)
+        tempNC.topViewController.navigationItem.prompt = nil;
+        [self.titleLabel removeFromSuperview];
+        [self.descLabel removeFromSuperview];
+
+    }
     
     //Code below just disables the buttons when a notification is up
+    /*
     if(tempNC.topViewController.navigationItem.leftBarButtonItem) 
     {
         if (tempNC.topViewController.navigationItem.leftBarButtonItem.enabled) {
@@ -324,7 +361,7 @@
         }    
         else tempNC.topViewController.navigationItem.rightBarButtonItem.enabled = YES; 
     }
-    
+    */
    
 }
 

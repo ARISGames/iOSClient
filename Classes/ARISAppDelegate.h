@@ -63,6 +63,8 @@
 	BOOL tvOutDone;
     BOOL modalPresent;
     NSInteger notificationCount;
+    UILabel *titleLabel;
+    UILabel *descLabel;
 
 }
 
@@ -84,6 +86,9 @@
 
 @property (readwrite) BOOL modalPresent;
 @property (readwrite) NSInteger notificationCount;
+
+@property(nonatomic, retain) IBOutlet UILabel *titleLabel;
+@property(nonatomic, retain) IBOutlet UILabel *descLabel;
 
 
 - (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password;
