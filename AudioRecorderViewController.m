@@ -221,18 +221,18 @@
 															  initWithNibName:@"TitleAndDecriptionFormViewController" bundle:nil];
 	titleAndDescForm.delegate = self;
 	[self.view addSubview:titleAndDescForm.view];
-    [titleAndDescForm release];
 }	
 
 - (void)titleAndDescriptionFormDidFinish:(TitleAndDecriptionFormViewController*)titleAndDescForm{
 	NSLog(@"CameraVC: Back from form");
 	[titleAndDescForm.view removeFromSuperview];
-	
-	
+		
 	[[AppServices sharedAppServices] createItemAndGiveToPlayerFromFileData:self.audioData 
 										   fileName:@"audio.caf" 
 											  title:titleAndDescForm.titleField.text 
 										description:titleAndDescForm.descriptionField.text];
+    [titleAndDescForm release];
+
 	
 	[[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryAmbient error: nil];
 	[self dismissModalViewControllerAnimated:NO];
