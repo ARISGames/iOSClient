@@ -107,10 +107,13 @@
 	if ([mediaType isEqualToString:@"public.image"]){
 		UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
         if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];             
-		
 		NSLog(@"CameraViewController: Found an Image");
 		self.mediaData = UIImageJPEGRepresentation(image, .8);
 		self.mediaFilename = @"image.jpg";
+        UIImageWriteToSavedPhotosAlbum(image, 
+                                       self, 
+                                       @selector(image:didFinishSavingWithError:contextInfo:), 
+                                       nil );
 	}	
 	else if ([mediaType isEqualToString:@"public.movie"]){
 		NSLog(@"CameraViewController: Found a Movie");
@@ -118,21 +121,28 @@
 		self.mediaData = [NSData dataWithContentsOfURL:videoURL];
 		self.mediaFilename = @"video.mp4";
 	}	
-	
-	TitleAndDecriptionFormViewController *titleAndDescForm = [[TitleAndDecriptionFormViewController alloc] 
-													   initWithNibName:@"TitleAndDecriptionFormViewController" bundle:nil];
+	[self displayTitleandDescriptionForm];
+
+}
+
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
+    NSLog(@"Finished saving image with error: %@", error);
+}
+
+- (void)displayTitleandDescriptionForm {
+    TitleAndDecriptionFormViewController *titleAndDescForm = [[TitleAndDecriptionFormViewController alloc] 
+                                                              initWithNibName:@"TitleAndDecriptionFormViewController" bundle:nil];
 	
 	titleAndDescForm.delegate = self;
 	[self.view addSubview:titleAndDescForm.view];
-    [titleAndDescForm release];
+    //[titleAndDescForm release];
 }
-
 
 - (void)titleAndDescriptionFormDidFinish:(TitleAndDecriptionFormViewController*)titleAndDescForm{
 	NSLog(@"CameraVC: Back from form");
 	[titleAndDescForm.view removeFromSuperview];
 	
-	
+    
 	[[AppServices sharedAppServices] createItemAndGiveToPlayerFromFileData:self.mediaData 
 										   fileName:self.mediaFilename 
 											  title:titleAndDescForm.titleField.text 
