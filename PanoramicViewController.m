@@ -110,6 +110,8 @@
 - (void)panoImageDidFinishLoading{
     NSLog(@"PanoVC: panoImageDidFinishLoading");
     
+    NSLog(@"PanoVC: panoImageDidFinishLoading: Max Texture Size on this Device: %d", GL_MAX_TEXTURE_SIZE);
+
 
     [plView stopAnimation];
     [plView removeAllTextures];
@@ -118,7 +120,7 @@
     [plView drawView];
     
     if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
-        
+                
         //Setup the UIImagePickerVC for aligning
         self.imagePickerController = [[UIImagePickerController alloc] init];
         self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
@@ -152,7 +154,7 @@
         
         //Put a button on screen
         UIButton *touchScreen = [UIButton buttonWithType:UIButtonTypeCustom];
-        [touchScreen setTitle:@"Line up the views, then\nTouch Screen To Continue" forState:UIControlStateNormal];
+        [touchScreen setTitle:@"Line Up Views, Then\nTouch Screen To Continue" forState:UIControlStateNormal];
         touchScreen.titleLabel.font = [UIFont systemFontOfSize:24];
         touchScreen.titleLabel.lineBreakMode = UILineBreakModeWordWrap;
         touchScreen.titleLabel.textAlignment = UITextAlignmentCenter;
