@@ -15,13 +15,18 @@
 @interface InventoryListViewController : UIViewController {
 	UITableView *inventoryTable;
 	NSArray *inventory;
-	int silenceNextServerUpdateCount;
+	NSMutableArray *iconCache;
+    NSMutableArray *mediaCache;
+    int silenceNextServerUpdateCount;
 	int newItemsSinceLastView;
+    
 
 }
 
 @property(nonatomic, retain) IBOutlet UITableView *inventoryTable;
 @property(nonatomic, retain) NSArray *inventory;
+@property(nonatomic, retain) NSMutableArray *iconCache;
+@property(nonatomic, retain) NSMutableArray *mediaCache;
 
 - (void) refresh;
 - (unsigned int) indexOf:(char) searchChar inString:(NSString *)searchString;

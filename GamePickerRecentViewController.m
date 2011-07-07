@@ -56,7 +56,7 @@
     
     self.navigationItem.rightBarButtonItem = self.refreshButton;
     self.gameList = [NSArray array];
-    
+    [self refresh];
 	NSLog(@"GamePickerViewController: View Loaded");
 }
 
@@ -65,12 +65,12 @@
     [gameTable reloadData];
 	[self refresh];
     
-	NSLog(@"GamePickerViewController: view did appear");
+	NSLog(@"GamePickerRecentViewController: view did appear");
 }
 
 
 -(void)refresh {
-	NSLog(@"GamePickerViewController: Refresh Requested");
+	NSLog(@"GamePickerRecentViewController: Refresh Requested");
     if (![AppModel sharedAppModel].playerLocation) {
 		NSLog(@"NearbyBar: Waiting for the player location before continuing to refresh. Returning");
         

@@ -13,7 +13,7 @@
 #import "AppModel.h"
 
 @implementation AttributesViewController
-@synthesize attributes,attributesTable,pcImage,nameLabel,groupLabel,addGroupButton;
+@synthesize attributes,iconCache,attributesTable,pcImage,nameLabel,groupLabel,addGroupButton;
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
@@ -21,6 +21,7 @@
     if (self) {
         self.title = @"Player";		
         self.tabBarItem.image = [UIImage imageNamed:@"inventory.png"];
+        self.iconCache = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].attributes count]];
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
 		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewInventoryReady" object:nil];
@@ -153,18 +154,19 @@
 	AsyncImageView *iconView = (AsyncImageView *)[cell viewWithTag:3];
     
     
-	
-	Media *media = [[AppModel sharedAppModel] mediaForMediaId: item.mediaId];
-    
 	if (item.iconMediaId != 0) {
-		Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: item.iconMediaId];
+        Media *iconMedia;
+        if([self.iconCache count] > indexPath.row){
+            iconMedia = [self.iconCache objectAtIndex:indexPath.row];
+        }
+        else{
+            iconMedia = [[AppModel sharedAppModel] mediaForMediaId: item.iconMediaId];
+            [self.iconCache  addObject:iconMedia];
+        }
 		[iconView loadImageFromMedia:iconMedia];
 	}
 	else {
-		//Load the Default
-		if ([media.type isEqualToString: @"Image"]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultImageIcon.png"]];
-		if ([media.type isEqualToString: @"Audio"]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultAudioIcon.png"]];
-		if ([media.type isEqualToString: @"Video"]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultVideoIcon.png"]];
+		[iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultImageIcon.png"]];
 	}
     
     
@@ -205,5 +207,6 @@
 }
 
 - (void)dealloc {
+    [iconCache release];
     [super dealloc];
 }@end

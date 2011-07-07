@@ -93,11 +93,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/InventoryListViewController.m"
-         timestampString = "329340704.639452"
+         timestampString = "331770749.449604"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "211"
-         endingLineNumber = "211"
+         startingLineNumber = "215"
+         endingLineNumber = "215"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -107,11 +107,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/InventoryListViewController.m"
-         timestampString = "329340704.639452"
+         timestampString = "331770749.449604"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "276"
-         endingLineNumber = "276"
+         startingLineNumber = "296"
+         endingLineNumber = "296"
          landmarkName = "-tableView:didSelectRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -158,7 +158,7 @@
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
@@ -186,7 +186,7 @@
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
@@ -197,6 +197,20 @@
          startingLineNumber = "173"
          endingLineNumber = "173"
          landmarkName = "-refresh"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Classes/InventoryListViewController.m"
+         timestampString = "331770749.449604"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "294"
+         endingLineNumber = "294"
+         landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

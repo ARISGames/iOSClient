@@ -17,6 +17,8 @@
 
 @synthesize inventoryTable;
 @synthesize inventory;
+@synthesize iconCache;
+@synthesize mediaCache;
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
@@ -25,6 +27,8 @@
     if (self) {
         self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"inventory.png"];
+        self.iconCache = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].inventory count]];
+        self.mediaCache = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].inventory count]];
 		
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
@@ -262,11 +266,27 @@
     lblTemp3.text = [NSString stringWithFormat:@"Quantity: %d",item.qty];
     else
         lblTemp3.text = nil;
-	
-	Media *media = [[AppModel sharedAppModel] mediaForMediaId: item.mediaId];
 
+    Media *media;
+    if (item.mediaId != 0) {
+        if([self.mediaCache count] > indexPath.row){
+            media = [self.mediaCache objectAtIndex:indexPath.row];
+        }
+        else{
+            media = [[AppModel sharedAppModel] mediaForMediaId: item.mediaId];
+            [self.mediaCache  addObject:media];
+        }
+	}
+    
 	if (item.iconMediaId != 0) {
-		Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: item.iconMediaId];
+        Media *iconMedia;
+        if([self.iconCache count] < indexPath.row){
+            iconMedia = [self.iconCache objectAtIndex:indexPath.row];
+        }
+        else{
+            iconMedia = [[AppModel sharedAppModel] mediaForMediaId: item.iconMediaId];
+            [self.iconCache  addObject:iconMedia];
+        }
 		[iconView loadImageFromMedia:iconMedia];
 	}
 	else {
@@ -338,7 +358,8 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-
+    [iconCache release];
+    [mediaCache release];
     [super dealloc];
 }
 @end
