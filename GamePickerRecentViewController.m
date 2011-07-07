@@ -79,7 +79,7 @@
 	}
 
     //register for notifications
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewRecentGameListReady" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
     
     [[AppServices sharedAppServices] fetchRecentGameListForPlayer];
@@ -115,7 +115,7 @@
     //unregister for notifications
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-	self.gameList = [AppModel sharedAppModel].gameList;
+	self.gameList = [AppModel sharedAppModel].recentGameList;
     
 	[gameTable reloadData];
 }

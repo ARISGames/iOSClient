@@ -34,6 +34,7 @@ extern NSDictionary *InventoryElements;
 	CLLocation *playerLocation;
 
 	NSMutableArray *gameList;
+    NSMutableArray *recentGamelist;
 	NSMutableArray *locationList;
 	NSString *locationListHash;
 	NSMutableArray *playerList;
@@ -73,7 +74,9 @@ extern NSDictionary *InventoryElements;
 @property(copy, readwrite) UIViewController *currentModule;
 @property(nonatomic,retain) Game *currentGame;
 
-@property(copy, readwrite) NSMutableArray *gameList;	
+@property(copy, readwrite) NSMutableArray *gameList;
+@property(copy, readwrite) NSMutableArray *recentGameList;	
+
 @property(nonatomic, retain) NSMutableArray *locationList;
 @property(nonatomic, retain) NSString *locationListHash;
 @property(copy, readwrite) NSMutableArray *playerList;

@@ -984,7 +984,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
                                                              andMethodName:@"getRecentGamesForPlayer"
                                                               andArguments:arguments];
 	
-	[jsonConnection performAsynchronousRequestWithParser:@selector(parseGameListFromJSON:)]; 
+	[jsonConnection performAsynchronousRequestWithParser:@selector(parseRecentGameListFromJSON:)]; 
 	[jsonConnection release];
 }
 
@@ -1279,6 +1279,33 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewGameListReady" object:nil]];
     currentlyFetchingGamesList = NO;
 
+    
+}
+
+-(void)parseRecentGameListFromJSON: (JSONResult *)jsonResult{
+    NSLog(@"AppModel: parseGameListFromJSON Beginning");		
+    
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RecievedGameList" object:nil]];
+    
+	NSArray *gameListArray = (NSArray *)jsonResult.data;
+	
+	NSMutableArray *tempGameList = [[NSMutableArray alloc] init];
+	
+	NSEnumerator *gameListEnumerator = [gameListArray objectEnumerator];	
+	NSDictionary *gameDictionary;
+	while ((gameDictionary = [gameListEnumerator nextObject])) {
+		[tempGameList addObject:[self parseGame:(gameDictionary)]]; 
+	}
+    
+	[AppModel sharedAppModel].recentGameList = tempGameList;
+	[tempGameList release];
+    
+    NSLog(@"AppModel: parseGameListFromJSON Complete, sending notification");
+    
+	
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewRecentGameListReady" object:nil]];
+    currentlyFetchingGamesList = NO;
+    
     
 }
 
