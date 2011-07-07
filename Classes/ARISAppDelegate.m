@@ -226,7 +226,11 @@
 
 }
 - (void)displayNotificationTitle:(NSMutableDictionary *) titleAndPrompt{
-     self.notificationCount++;
+    self.notificationCount++;
+    
+    
+    float secBetweenStages = 1;
+    float totalTime = secBetweenStages*5;
     
     NSMutableDictionary *navBarTitlePromptAndColorDict;
     
@@ -263,34 +267,43 @@
     
     navBarTitlePromptAndColorDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:title,@"title",prompt,@"prompt",[UIColor grayColor],@"color", tempNC,@"navbar", nil];
     
-       
+                   
     //tempNC.topViewController.title = @"Quest was Completed!";
-    [self performSelector:@selector(changeNavTitle:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease]  afterDelay:(0+2.5*(self.notificationCount-1))];
-    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(0+2.5*(self.notificationCount-1))];
+    [self performSelector:@selector(changeNavTitle:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease]  
+               afterDelay:(0*secBetweenStages+totalTime*(self.notificationCount-1))];
+    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] 
+               afterDelay:(0*secBetweenStages+totalTime*(self.notificationCount-1))];
     
     [navBarTitlePromptAndColorDict setValue:[UIColor lightGrayColor] forKey:@"color"];    
-    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(.5+2.5*(self.notificationCount-1))];
+    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] 
+               afterDelay:(1*secBetweenStages+totalTime*(self.notificationCount-1))];
     
     [navBarTitlePromptAndColorDict setValue:[UIColor grayColor] forKey:@"color"];    
-    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(1+2.5*(self.notificationCount-1))];
+    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] 
+               afterDelay:(2*secBetweenStages+totalTime*(self.notificationCount-1))];
     
     [navBarTitlePromptAndColorDict setValue:[UIColor lightGrayColor] forKey:@"color"];
-    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(1.5+2.5*(self.notificationCount-1))];
+    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] 
+               afterDelay:(3*secBetweenStages+totalTime*(self.notificationCount-1))];
     
     [navBarTitlePromptAndColorDict setValue:[UIColor grayColor] forKey:@"color"];    
-    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(2+2.5*(self.notificationCount-1))];
+    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] 
+               afterDelay:(4*secBetweenStages+totalTime*(self.notificationCount-1))];
     
     [navBarTitlePromptAndColorDict setValue:[UIColor blackColor] forKey:@"color"];
-    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(2.5+2.5*(self.notificationCount-1))];
+    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] 
+               afterDelay:(5*secBetweenStages+totalTime*(self.notificationCount-1))];
     
     [navBarTitlePromptAndColorDict setValue:origTitle forKey:@"title"];
     [navBarTitlePromptAndColorDict setValue:nil forKey:@"prompt"];
-    [self performSelector:@selector(changeNavTitle:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(2.5+2.5*(self.notificationCount-1))];
+    [self performSelector:@selector(changeNavTitle:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] 
+               afterDelay:(5*secBetweenStages+totalTime*(self.notificationCount-1))];
     [origTitle release];
 
             x++;
         }
-    [self performSelector:@selector(decrementNotificationCount:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] afterDelay:(2.5+2.5*(self.notificationCount-1))];
+    [self performSelector:@selector(decrementNotificationCount:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] 
+               afterDelay:(5*secBetweenStages+totalTime*(self.notificationCount-1))];
     
 }
 
