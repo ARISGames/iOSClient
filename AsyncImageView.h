@@ -20,7 +20,7 @@
 @property (nonatomic, retain) NSURLConnection* connection;
 @property (nonatomic, retain) NSMutableData* data;
 @property (nonatomic, retain) Media *media;
-@property (nonatomic, retain) NSObject *delegate;
+@property (nonatomic, assign) NSObject *delegate;
 
 
 - (void) loadImageFromMedia:(Media *) aMedia;
