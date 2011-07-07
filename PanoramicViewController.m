@@ -152,6 +152,13 @@
         [self.imagePickerController.cameraOverlayView addSubview:alignmentImageView]; 
         [alignmentImageView release];
         
+        if (self.plView.motionManager.gyroAvailable) {
+
+        [self.plView.motionManager startDeviceMotionUpdates];
+        [self.plView.motionManager startGyroUpdates];
+            
+        }
+        
         //Put a button on screen
         UIButton *touchScreen = [UIButton buttonWithType:UIButtonTypeCustom];
         [touchScreen setTitle:@"Line Up Views, Then\nTouch Screen To Continue" forState:UIControlStateNormal];

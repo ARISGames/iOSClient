@@ -32,4 +32,5 @@
 
 - (void)loadImageFromMedia:(Media *) aMedia;
 -(IBAction) touchScreen;
+- (void)showPanoView;
 @end

@@ -752,8 +752,6 @@
     CMDeviceMotion *deviceMotion = motionManager.deviceMotion;      
     //CMAttitude *attitude = deviceMotion.attitude;
     //referenceAttitude = [attitude retain];
-    [motionManager startDeviceMotionUpdates];
-    [motionManager startGyroUpdates];
     [NSTimer scheduledTimerWithTimeInterval:.03 target:self selector:@selector(getDeviceGLRotationMatrix) userInfo:nil repeats:YES];
 }
 
