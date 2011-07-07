@@ -150,6 +150,7 @@
 	[methodName release];
 	[arguments release];
 	[asyncData release];
+    [completeRequestURL release];
     [super dealloc];
 }
  

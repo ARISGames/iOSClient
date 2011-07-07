@@ -112,8 +112,9 @@
 
 
 - (void)dealloc {
-	[returnCodeDescription release];
+    [returnCodeDescription release];
 	[data release];
+    [hash release];
     [super dealloc];
 }
 
