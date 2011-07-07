@@ -15,9 +15,10 @@
 
 @property(nonatomic, retain) UIProgressView *progressView;
 @property(nonatomic, copy) NSString *waitingMessage;
+
 -(void) setWaitingMessage: (NSString*) newMessage;
 
-- (id)initWithWaitingMessage: (NSString*)m showProgressBar:(bool)showProgress;
+- (id)initWithWaitingMessage: (NSString*)m showProgressBar:(BOOL)showProgress;
 - (void)show;
 - (void)dismiss;
 

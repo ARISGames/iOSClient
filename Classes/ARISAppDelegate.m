@@ -544,6 +544,7 @@
 - (void) removeNewWaitingIndicator {
 	NSLog (@"AppDelegate: Removing Waiting Indicator");
 	if (self.waitingIndicatorView != nil) [self.waitingIndicatorView dismiss];
+    self.waitingIndicatorView = nil;
 }
 
 
