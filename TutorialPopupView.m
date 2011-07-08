@@ -16,7 +16,7 @@
 
 
 - (id)init{
-    self = [super initWithFrame:CGRectMake(10.0, 250.0, 300.0, 140.0)];
+    self = [super initWithFrame:CGRectMake(10.0, 290.0, 300.0, 140.0)];
     if (self) {
 		self.opaque = NO;
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePointerPosition) name:@"TabBarItemsChanged" object:nil];
