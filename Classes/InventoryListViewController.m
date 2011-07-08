@@ -57,13 +57,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    self.weightCap = [AppModel sharedAppModel].currentGame.inventoryWeightCap;
-    if(self.weightCap == 0){
-        [capBar setHidden:YES];
-        [capLabel setHidden:YES];
-        inventoryTable.frame = CGRectMake(0, 0, 320, 367);
-    }
-    [capBar setProgress:0];
+
     [[AppServices sharedAppServices] updateServerInventoryViewed];
 	[self refresh];		
 	
@@ -83,6 +77,21 @@
 
 -(void)refresh {
 	NSLog(@"InventoryListViewController: Refresh Requested");
+    self.weightCap = [AppModel sharedAppModel].currentGame.inventoryWeightCap;
+    self.currentWeight = [AppModel sharedAppModel].currentGame.currentWeight;
+    if(self.weightCap == 0){
+        [capBar setHidden:YES];
+        [capLabel setHidden:YES];
+        inventoryTable.frame = CGRectMake(0, 0, 320, 367);
+    }
+    else {
+        [capBar setHidden:NO];
+        [capLabel setHidden:NO];
+        inventoryTable.frame = CGRectMake(0, 42, 320, 325);
+            capBar.progress = (float)((float) currentWeight/(float)weightCap);
+            capLabel.text = [NSString stringWithFormat: @"Weight Capacity: %d/%d", currentWeight, weightCap];
+    }
+    [capBar setProgress:0];
 	[[AppServices sharedAppServices] fetchInventory];
     [self refreshViewFromModel];
 	[self showLoadingIndicator];
@@ -115,11 +124,10 @@
         UIViewController *topViewController =  [[self navigationController] topViewController];
         self.currentWeight = 0;
 		for (Item *item in newInventory) {	
-            if(weightCap != 0){
-                self.currentWeight += item.weight*item.qty;
-                capBar.progress = (float)((float)currentWeight/(float)weightCap);
-                capLabel.text = [NSString stringWithFormat: @"Weight Capacity: %d/%d", currentWeight, weightCap];
-            }
+            self.currentWeight += item.weight*item.qty;
+            capBar.progress = (float)((float)currentWeight/(float)weightCap);
+            capLabel.text = [NSString stringWithFormat: @"Weight Capacity: %d/%d", currentWeight, weightCap];
+
 			BOOL match = NO;
 			for (Item *existingItem in self.inventory) {
 				if (existingItem.itemId == item.itemId) match = YES;	
@@ -141,7 +149,7 @@
                 }*/
                 
 			}
-            [AppModel sharedAppModel].currentWeight = self.currentWeight;
+            [AppModel sharedAppModel].currentGame.currentWeight = self.currentWeight;
 
 			if (match == NO) {
                 if([AppModel sharedAppModel].profilePic)
@@ -380,6 +388,8 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [iconCache release];
     [mediaCache release];
+    [capBar release];
+    [capLabel release];
     [super dealloc];
 }
 @end

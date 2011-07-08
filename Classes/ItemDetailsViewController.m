@@ -274,7 +274,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 				quantity = item.maxQty - itemInInventory.qty;
                 
                 if([AppModel sharedAppModel].currentGame.inventoryWeightCap != 0){
-                while((quantity*item.weight + [AppModel sharedAppModel].currentWeight) > [AppModel sharedAppModel].currentGame.inventoryWeightCap){
+                while((quantity*item.weight + [AppModel sharedAppModel].currentGame.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryWeightCap){
                     quantity--;
                 }
                 }
@@ -298,8 +298,8 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
             
             
 		}
-        else if (((quantity*item.weight +[AppModel sharedAppModel].currentWeight) > [AppModel sharedAppModel].currentGame.inventoryWeightCap)&&([AppModel sharedAppModel].currentGame.inventoryWeightCap != 0)){
-            while ((quantity*item.weight + [AppModel sharedAppModel].currentWeight) > [AppModel sharedAppModel].currentGame.inventoryWeightCap) {
+        else if (((quantity*item.weight +[AppModel sharedAppModel].currentGame.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryWeightCap)&&([AppModel sharedAppModel].currentGame.inventoryWeightCap != 0)){
+            while ((quantity*item.weight + [AppModel sharedAppModel].currentGame.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryWeightCap) {
                 quantity--;
             }
             errorMessage = [NSString stringWithFormat:@"Too Heavy! Only %d picked up",quantity];

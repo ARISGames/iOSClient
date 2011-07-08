@@ -15,6 +15,8 @@
 @interface Game : NSObject {
 	int gameId;
     int inventoryWeightCap;
+    int currentWeight;
+
 	NSString *name;
 	NSString *description;
 	NSString *authors;
@@ -39,6 +41,8 @@
 }
 
 @property(readwrite, assign) int inventoryWeightCap;
+@property(readwrite, assign) int currentWeight;
+
 @property(readwrite, assign) int gameId;
 @property(nonatomic, retain) NSString *name;
 @property(nonatomic, retain) NSString *description;

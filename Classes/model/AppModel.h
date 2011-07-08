@@ -29,7 +29,6 @@ extern NSDictionary *InventoryElements;
 	
 	BOOL loggedIn;
 	int playerId;
-    int currentWeight;
 	NSString *username;
 	NSString *password;
 	CLLocation *playerLocation;
@@ -72,7 +71,6 @@ extern NSDictionary *InventoryElements;
 @property(copy, readwrite) NSString *username;
 @property(copy, readwrite) NSString *password;
 @property(readwrite) int playerId;
-@property(readwrite) int currentWeight;
 
 @property(copy, readwrite) UIViewController *currentModule;
 @property(nonatomic,retain) Game *currentGame;
