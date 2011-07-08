@@ -8477,9 +8477,9 @@
 				</dict>
 			</array>
 		</dict>
-		<real>331850277.16991103</real>
-		<string>{9608, 1335}</string>
-		<string>{10449, 0}</string>
+		<real>331852931.72788697</real>
+		<string>{1085, 1366}</string>
+		<string>{2284, 0}</string>
 		<dict>
 			<key>$class</key>
 			<dict>
@@ -17960,7 +17960,7 @@
 				<integer>1315</integer>
 			</dict>
 			<key>NS.time</key>
-			<real>331849230.37870997</real>
+			<real>331852927.19209498</real>
 		</dict>
 		<dict>
 			<key>$classes</key>
@@ -17971,7 +17971,7 @@
 			<key>$classname</key>
 			<string>NSDate</string>
 		</dict>
-		<string>Today at 3:20 PM</string>
+		<string>Today at 4:22 PM</string>
 		<integer>106</integer>
 		<string>ZXingWidget</string>
 		<dict>
@@ -18059,7 +18059,7 @@
 				<integer>1323</integer>
 			</dict>
 		</dict>
-		<string>file://localhost/Users/Phil/Documents/ARIS/svn/iPhoneClient/Classes/InventoryListViewController.h</string>
+		<string>file://localhost/Users/Phil/Documents/ARIS/svn/iPhoneClient/InventoryList.xib</string>
 		<dict>
 			<key>$class</key>
 			<dict>
@@ -18077,7 +18077,7 @@
 				<integer>1325</integer>
 			</dict>
 		</dict>
-		<string>file://localhost/Users/Phil/Documents/ARIS/svn/iPhoneClient/InventoryList.xib</string>
+		<string>file://localhost/Users/Phil/Documents/ARIS/svn/iPhoneClient/Classes/InventoryListViewController.h</string>
 		<dict>
 			<key>$class</key>
 			<dict>
@@ -37319,10 +37319,10 @@
 				</dict>
 			</array>
 		</dict>
-		<real>331850277.17042398</real>
-		<string>{9608, 1335}</string>
-		<string>{10449, 0}</string>
-		<string>-tableView:cellForRowAtIndexPath:</string>
+		<real>331852931.72860402</real>
+		<string>{1085, 1366}</string>
+		<string>{2284, 0}</string>
+		<string>-viewDidAppear:</string>
 		<string>Xcode.IDEKit.EditorDocument.SourceCode</string>
 		<dict>
 			<key>$class</key>

@@ -58,6 +58,11 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     self.weightCap = [AppModel sharedAppModel].currentGame.inventoryWeightCap;
+    if(self.weightCap == 0){
+        [capBar setHidden:YES];
+        [capLabel setHidden:YES];
+        inventoryTable.frame = CGRectMake(0, 0, 320, 367);
+    }
     [capBar setProgress:0];
     [[AppServices sharedAppServices] updateServerInventoryViewed];
 	[self refresh];		
@@ -271,8 +276,12 @@
 	AsyncImageView *iconView = (AsyncImageView *)[cell viewWithTag:3];
     
     UILabel *lblTemp3 = (UILabel *)[cell viewWithTag:4];
-    if(item.qty >1)
-    lblTemp3.text = [NSString stringWithFormat:@"Quantity: %d",item.qty];
+    if(item.qty >1 && item.weight > 1)
+    lblTemp3.text = [NSString stringWithFormat:@"Quantity: %d, Weight: %d",item.qty,item.weight];
+    else if(item.weight > 1)
+        lblTemp3.text = [NSString stringWithFormat:@"Weight: %d",item.weight];
+    else if(item.qty > 1)
+        lblTemp3.text = [NSString stringWithFormat:@"Quantity: %d",item.qty];
     else
         lblTemp3.text = nil;
 

@@ -44,13 +44,13 @@
 				<int key="NSvFlags">292</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<object class="IBUIProgressView" id="381767726">
+					<object class="IBUIProgressView" id="788704804">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{0, 32}, {320, 9}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<object class="NSColor" key="IBUIBackgroundColor" id="13008541">
+						<object class="NSColor" key="IBUIBackgroundColor" id="969689865">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MCAwIDAAA</bytes>
 						</object>
@@ -79,7 +79,7 @@
 						<float key="IBUISectionHeaderHeight">22</float>
 						<float key="IBUISectionFooterHeight">22</float>
 					</object>
-					<object class="IBUILabel" id="725679956">
+					<object class="IBUILabel" id="81812110">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{0, 3}, {320, 21}}</string>
@@ -110,7 +110,7 @@
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="279225897"/>
-				<reference key="IBUIBackgroundColor" ref="13008541"/>
+				<reference key="IBUIBackgroundColor" ref="969689865"/>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics">
 					<int key="IBUIStatusBarStyle">2</int>
 				</object>
@@ -161,7 +161,7 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">capLabel</string>
 						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="725679956"/>
+						<reference key="destination" ref="81812110"/>
 					</object>
 					<int key="connectionID">32</int>
 				</object>
@@ -169,7 +169,7 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">capBar</string>
 						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="381767726"/>
+						<reference key="destination" ref="788704804"/>
 					</object>
 					<int key="connectionID">33</int>
 				</object>
@@ -199,8 +199,8 @@
 						<reference key="object" ref="191373211"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="725679956"/>
-							<reference ref="381767726"/>
+							<reference ref="81812110"/>
+							<reference ref="788704804"/>
 							<reference ref="279225897"/>
 						</object>
 						<reference key="parent" ref="0"/>
@@ -215,12 +215,12 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">29</int>
-						<reference key="object" ref="725679956"/>
+						<reference key="object" ref="81812110"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">27</int>
-						<reference key="object" ref="381767726"/>
+						<reference key="object" ref="788704804"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
 				</object>
