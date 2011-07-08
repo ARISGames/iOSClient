@@ -18,6 +18,7 @@
 	int locationId; //null if in the player's inventory
 	int qty;
 	int maxQty;
+    int weight;
 	NSString *description;	
     BOOL isAttribute;
 	BOOL forcedDisplay;
@@ -34,6 +35,7 @@
 @property(readwrite, assign) int locationId;
 @property(readwrite, assign) int mediaId;
 
+@property(readwrite, assign) int weight;
 @property(readwrite, assign) int qty;
 @property(readwrite, assign) int maxQty;
 @property(copy, readwrite) NSString *description;

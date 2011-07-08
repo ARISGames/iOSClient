@@ -1014,6 +1014,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	item.destroyable = [[itemDictionary valueForKey:@"destroyable"] boolValue];
 	item.maxQty = [[itemDictionary valueForKey:@"max_qty_in_inventory"] intValue];
     item.isAttribute = [[itemDictionary valueForKey:@"is_attribute"] boolValue];
+    item.weight = [[itemDictionary valueForKey:@"weight"] intValue];
 	
 	NSLog(@"\tadded item %@", item.name);
 	
@@ -1184,6 +1185,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
     if ((NSNull *)isLocational != [NSNull null]) game.isLocational = [isLocational boolValue];
     else game.isLocational = NO;
     
+    NSString *inventoryWC = [gameSource valueForKey:@"inventory_weight_cap"];
+    if ((NSNull *)inventoryWC != [NSNull null]) game.inventoryWeightCap = [inventoryWC intValue];
+    else game.inventoryWeightCap = 0;
     
     game.description = [gameSource valueForKey:@"description"];
     if ((NSNull *)game.description == [NSNull null]) game.description = @"";
@@ -1574,6 +1578,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 		item.destroyable = [[itemDictionary valueForKey:@"destroyable"] boolValue];
 		item.qty = [[itemDictionary valueForKey:@"qty"] intValue];
         item.isAttribute = [[itemDictionary valueForKey:@"is_attribute"] boolValue];
+        item.weight = [[itemDictionary valueForKey:@"weight"] intValue];
 		NSLog(@"Model: Adding Item: %@", item.name);
         if(item.isAttribute)[tempAttributes setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]]; 
             else [tempInventory setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]]; 

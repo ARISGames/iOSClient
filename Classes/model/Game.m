@@ -13,6 +13,7 @@
 @implementation Game
 
 @synthesize gameId;
+@synthesize inventoryWeightCap;
 @synthesize name;
 @synthesize description;
 @synthesize distanceFromPlayer;
