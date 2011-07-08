@@ -8,15 +8,16 @@
 
 #import "QRScannerViewController.h"
 #import "Decoder.h"
-#import "TwoDDecoderResult.h"
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
 #import "AppServices.h"
+#import <QRCodeReader.h>
+
 
 
 @implementation QRScannerViewController 
 
-@synthesize qrImagePickerController, imageMatchingImagePickerController;
+@synthesize imageMatchingImagePickerController;
 @synthesize qrScanButton,imageScanButton;
 @synthesize manualCode;
 
@@ -44,10 +45,7 @@
 		
 	//[self.qrScanButton setTitle:NSLocalizedString(@"ScanUsingCameraKey",@"") forState:UIControlStateNormal];
 	manualCode.placeholder = NSLocalizedString(@"EnterCodeKey",@"");
-	
-	self.qrImagePickerController = [[UIImagePickerController alloc] init];
-	self.qrImagePickerController.delegate = self;
-    
+	    
 	self.imageMatchingImagePickerController = [[UIImagePickerController alloc] init];
 	self.imageMatchingImagePickerController.delegate = self;
 	
@@ -71,8 +69,19 @@
 - (IBAction)qrScanButtonTouchAction: (id) sender{
 	NSLog(@"QRScannerViewController: QR Scan Button Pressed");
 	
-	self.qrImagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-	[self presentModalViewController:self.qrImagePickerController animated:YES];
+    ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO];
+    QRCodeReader* qrcodeReader = [[QRCodeReader alloc] init];
+    NSSet *readers = [[NSSet alloc ] initWithObjects:qrcodeReader,nil];
+    [qrcodeReader release];
+    widController.readers = readers;
+    [readers release];
+    /*
+    NSBundle *mainBundle = [NSBundle mainBundle];
+    widController.soundToPlay =
+    [NSURL fileURLWithPath:[mainBundle pathForResource:@"beep-beep" ofType:@"aiff"] isDirectory:NO];
+     */
+    [self presentModalViewController:widController animated:YES];
+    [widController release];
 	 
 }
 
@@ -111,6 +120,7 @@
     UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
     if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];                 
     
+    /*
     if (picker == self.qrImagePickerController) {
         NSLog(@"QRScannerVC: qr imagePickerController didFinishPickingImage" );
         //Now to decode
@@ -119,7 +129,8 @@
         CGRect cropRect = CGRectMake(0.0, 0.0, image.size.width, image.size.height);
         [imageDecoder decodeImage:image cropRect:cropRect]; //start the decode. When done, our delegate method will be called.
     }
-    else if (picker == self.imageMatchingImagePickerController) {
+    */
+    if (picker == self.imageMatchingImagePickerController) {
         NSLog(@"QRScannerVC: image matching imagePickerController didFinishPickingImage" );
         
         NSData *imageData = UIImageJPEGRepresentation(image, .4);
@@ -131,8 +142,24 @@
 	[[picker parentViewController] dismissModalViewControllerAnimated:NO];
 }
 
-#pragma mark QRCScan delegate methods
 
+#pragma mark -
+#pragma mark ZXingDelegateMethods
+- (void)zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)resultString {
+    [self dismissModalViewControllerAnimated:YES];
+
+    NSLog(@"QRScannerViewController: Scan result: %@",resultString);
+    [self loadResult:resultString];
+    
+}
+
+- (void)zxingControllerDidCancel:(ZXingWidgetController*)controller {
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+
+#pragma mark QRCScan delegate methods
+/*
 - (void)decoder:(Decoder *)decoder didDecodeImage:(UIImage *)image usingSubset:(UIImage *)subset withResult:(TwoDDecoderResult *)twoDResult {
 	//Stop Waiting Indicator
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
@@ -146,7 +173,48 @@
 	NSLog(@"QRScannerViewController: Decode Complete. QR Code ID = %@", encodedText);
 	
 	[self loadResult:encodedText];
-}	
+}
+ 
+ - (void)decoder:(Decoder *)decoder decodingImage:(UIImage *)image usingSubset:(UIImage *)subset progress:(NSString *)message {
+ NSLog(@"Decoding image");
+ }
+ 
+ - (void)decoder:(Decoder *)decoder failedToDecodeImage:(UIImage *)image usingSubset:(UIImage *)subset reason:(NSString *)reason {
+ NSLog(@"Failed to decode image");
+ [decoder release];
+ 
+ //Stop Waiting Indicator
+ ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
+ [appDelegate removeNewWaitingIndicator];
+ [appDelegate playAudioAlert:@"error" shouldVibrate:YES];
+ 
+ UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"QRScannerDecodingErrorTitleKey", @"")
+ message:NSLocalizedString(@"QRScannerDecodingErrorMessageKey", @"")
+ delegate:self 
+ cancelButtonTitle:NSLocalizedString(@"OkKey", @"")
+ otherButtonTitles:nil];
+ [alert show];	
+ [alert release];
+ }
+ 
+ - (void) qrParserDidFinish:(id<QRCodeProtocol>)qrcode {
+ NSLog(@"Not implemented.");
+ assert(false);
+ }
+ 
+ - (void)decoder:(Decoder *)decoder willDecodeImage:(UIImage *)image usingSubset:(UIImage *)subset {
+ NSLog(@"QR: Will decode image");
+ 
+ //Start Waiting Indicator
+ ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
+ [appDelegate showNewWaitingIndicator:NSLocalizedString(@"QRScannerDecodingKey",@"") displayProgressBar:NO];
+ 
+ }
+ 
+
+*/
+
+
 
 -(void) loadResult:(NSString *)code {
 	//Fetch the coresponding object from the server
@@ -181,41 +249,6 @@
 	}
 }
 
-- (void)decoder:(Decoder *)decoder decodingImage:(UIImage *)image usingSubset:(UIImage *)subset progress:(NSString *)message {
-	NSLog(@"Decoding image");
-}
-
-- (void)decoder:(Decoder *)decoder failedToDecodeImage:(UIImage *)image usingSubset:(UIImage *)subset reason:(NSString *)reason {
-	NSLog(@"Failed to decode image");
-	[decoder release];
-	
-	//Stop Waiting Indicator
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-	[appDelegate removeNewWaitingIndicator];
-	[appDelegate playAudioAlert:@"error" shouldVibrate:YES];
-	
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"QRScannerDecodingErrorTitleKey", @"")
-													message:NSLocalizedString(@"QRScannerDecodingErrorMessageKey", @"")
-												   delegate:self 
-										  cancelButtonTitle:NSLocalizedString(@"OkKey", @"")
-										  otherButtonTitles:nil];
-	[alert show];	
-	[alert release];
-}
-
-- (void) qrParserDidFinish:(id<QRCodeProtocol>)qrcode {
-	NSLog(@"Not implemented.");
-	assert(false);
-}
-
-- (void)decoder:(Decoder *)decoder willDecodeImage:(UIImage *)image usingSubset:(UIImage *)subset {
-	NSLog(@"QR: Will decode image");
-	
-	//Start Waiting Indicator
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-	[appDelegate showNewWaitingIndicator:NSLocalizedString(@"QRScannerDecodingKey",@"") displayProgressBar:NO];
-	
-}
 
 #pragma mark UINavigationControllerDelegate Protocol Methods
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
@@ -225,8 +258,6 @@
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
 	//nada
 }
-
-
 
 
 #pragma mark Memory Management

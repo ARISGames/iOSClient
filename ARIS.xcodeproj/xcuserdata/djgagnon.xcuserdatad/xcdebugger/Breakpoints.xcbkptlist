@@ -9,11 +9,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "GPSViewController.m"
-         timestampString = "326842763.72276"
+         timestampString = "331704288.686869"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "405"
-         endingLineNumber = "405"
+         startingLineNumber = "407"
+         endingLineNumber = "407"
          landmarkName = "-mapView:didSelectAnnotationView:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -85,6 +85,20 @@
          startingLineNumber = "199"
          endingLineNumber = "199"
          landmarkName = "-constructCells"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "PanoramicViewController.m"
+         timestampString = "331764974.424568"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "113"
+         endingLineNumber = "113"
+         landmarkName = "-panoImageDidFinishLoading"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
