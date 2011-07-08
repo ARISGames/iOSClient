@@ -43,7 +43,7 @@
 	[self addSubview:spinner];
 	
 	if (connection!=nil) { [connection release]; }
-    if (data!=nil) { [self.data release]; }
+    //if (data!=nil) { [self.data release]; }
 	NSLog(@"AsyncImageView: Loading Image at %@",self.media.url);
     NSURLRequest* request = [NSURLRequest requestWithURL:[[NSURL alloc]initWithString:self.media.url]
 											 cachePolicy:NSURLRequestUseProtocolCachePolicy
