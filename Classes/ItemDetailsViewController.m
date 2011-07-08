@@ -226,7 +226,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
         pickupOneButton.width = 150.0;
 		pickupAllButton.width = 150.0;
+        itemImageView.frame = CGRectMake(0, 0, 320, 300);
         
+        Media *media = [[AppModel sharedAppModel] mediaForMediaId: item.mediaId];
+        [itemImageView loadImageFromMedia:media];
 		[toolBar setItems:[NSMutableArray arrayWithObjects: pickupOneButton,pickupAllButton, nil] animated:YES];
         
     }
@@ -259,23 +262,30 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 		
 	}
 	else if (mode == kItemDetailsPickingUp) {
-		
+        NSString *errorMessage;
+
 		//Determine if this item can be picked up
 		Item *itemInInventory  = [[AppModel sharedAppModel].inventory objectForKey:[NSString stringWithFormat:@"%d",item.itemId]];
 		if (itemInInventory.qty + quantity > item.maxQty && item.maxQty != -1) {
             
 			[appDelegate playAudioAlert:@"error" shouldVibrate:YES];
 			
-			NSString *errorMessage;
 			if (itemInInventory.qty < item.maxQty) {
 				quantity = item.maxQty - itemInInventory.qty;
-				errorMessage = [NSString stringWithFormat:@"You can only carry %d of this item. Only %d picked up",item.maxQty,quantity];
+                
+                if([AppModel sharedAppModel].currentGame.inventoryWeightCap != 0){
+                while((quantity*item.weight + [AppModel sharedAppModel].currentWeight) > [AppModel sharedAppModel].currentGame.inventoryWeightCap){
+                    quantity--;
+                }
+                }
+				errorMessage = [NSString stringWithFormat:@"You can't carry that much. Only %d picked up",quantity];
+
 			}
 			else if (item.maxQty == 0) {
 				errorMessage = @"This item cannot be picked up.";
 				quantity = 0;
 			}
-			else {
+            else {
 				errorMessage = @"You cannot carry any more of this item.";
 				quantity = 0;
 			}
@@ -288,7 +298,18 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
             
             
 		}
-        
+        else if (((quantity*item.weight +[AppModel sharedAppModel].currentWeight) > [AppModel sharedAppModel].currentGame.inventoryWeightCap)&&([AppModel sharedAppModel].currentGame.inventoryWeightCap != 0)){
+            while ((quantity*item.weight + [AppModel sharedAppModel].currentWeight) > [AppModel sharedAppModel].currentGame.inventoryWeightCap) {
+                quantity--;
+            }
+            errorMessage = [NSString stringWithFormat:@"Too Heavy! Only %d picked up",quantity];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Inventory over Limit"
+															message: errorMessage
+														   delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
+			[alert show];
+			[alert release];
+        }
+
 		if (quantity > 0) {
 			[[AppServices sharedAppServices] updateServerPickupItem:self.item.itemId fromLocation:self.item.locationId qty:quantity];
 			[[AppModel sharedAppModel] modifyQuantity:-quantity forLocationId:self.item.locationId];

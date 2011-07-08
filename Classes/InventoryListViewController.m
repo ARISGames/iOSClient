@@ -116,7 +116,7 @@
         self.currentWeight = 0;
 		for (Item *item in newInventory) {	
             if(weightCap != 0){
-                self.currentWeight += item.weight;
+                self.currentWeight += item.weight*item.qty;
                 capBar.progress = (float)((float)currentWeight/(float)weightCap);
                 capLabel.text = [NSString stringWithFormat: @"Weight Capacity: %d/%d", currentWeight, weightCap];
             }
@@ -141,6 +141,8 @@
                 }*/
                 
 			}
+            [AppModel sharedAppModel].currentWeight = self.currentWeight;
+
 			if (match == NO) {
                 if([AppModel sharedAppModel].profilePic)
                 {
