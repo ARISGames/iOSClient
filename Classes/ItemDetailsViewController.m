@@ -32,7 +32,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
 
 @implementation ItemDetailsViewController
-@synthesize item, inInventory,mode;
+@synthesize item, inInventory,mode,itemImageView;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -65,6 +65,12 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	pickupButton.title = NSLocalizedString(@"ItemPickupKey", @"");
 	deleteButton.title = NSLocalizedString(@"ItemDeleteKey",@"");
 	detailButton.title = NSLocalizedString(@"ItemDetailKey", @"");
+    pickupOneButton.title = @"Pickup 1";
+    pickupAllButton.title = @"Pickup All";
+    dropOneButton.title = @"Drop 1";
+    dropAllButton.title = @"Drop All";
+    deleteOneButton.title = @"Destroy 1";
+    deleteAllButton.title = @"Destroy All";
 	
 	if (inInventory == YES) {		
 		dropButton.width = 75.0;
@@ -166,28 +172,18 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	NSLog(@"ItemDetailsVC: Drop Button Pressed");
 	
 	mode = kItemDetailsDropping;
-	if(self.item.qty > 1){
-	//Create and Display Action Sheet
-	UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil
-															delegate:self 
-												   cancelButtonTitle:@"Cancel" 
-											  destructiveButtonTitle:nil 
-												   otherButtonTitles:@"Drop 1",@"Drop All",nil];
-	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-        [actionSheet showInView:self.view];
+	if(self.item.qty > 1)
+    {
+        
+        dropOneButton.width = 150.0;
+		dropAllButton.width = 150.0;
+        
+		[toolBar setItems:[NSMutableArray arrayWithObjects: dropOneButton,dropAllButton, nil] animated:YES];
     }
-    else {
-        NSLog(@"ItemDetailsVC: Dropping %d",1);
-		[[AppServices sharedAppServices] updateServerDropItemHere:item.itemId qty:1];
-		[[AppModel sharedAppModel] removeItemFromInventory:item qtyToRemove:1];   
-        if (item.qty < 1) {
-            [self.navigationController popToRootViewControllerAnimated:YES];
-            [self dismissModalViewControllerAnimated:NO];
-            ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-            appDelegate.modalPresent = NO;
-        }    
-
-    }
+    else 
+    {
+        [self doActionWithMode:mode quantity:1];
+    }    
 	
 }
 
@@ -196,30 +192,28 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
 	
 	mode = kItemDetailsDestroying;
-	if(self.item.qty > 1){
-	//Create and Display Action Sheet
-	UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil
-															delegate:self 
-												   cancelButtonTitle:@"Cancel" 
-											  destructiveButtonTitle:nil 
-												   otherButtonTitles:@"Destroy 1",@"Destroy All",nil];
-	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-	[actionSheet showInView:self.view];
+	if(self.item.qty > 1)
+    {
+        
+        deleteOneButton.width = 150.0;
+		deleteAllButton.width = 150.0;
+        
+		[toolBar setItems:[NSMutableArray arrayWithObjects: deleteOneButton,deleteAllButton, nil] animated:YES];
+        
     }
-    else {
-        NSLog(@"ItemDetailsVC: Destroying %d",1);
-		[[AppServices sharedAppServices] updateServerDestroyItem:self.item.itemId qty:1];
-		[[AppModel sharedAppModel] removeItemFromInventory:item qtyToRemove:1];
-        if (item.qty < 1) {
-            [self.navigationController popToRootViewControllerAnimated:YES];
-            [self dismissModalViewControllerAnimated:NO];
-            ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-            appDelegate.modalPresent = NO;
-        }    
-
+    else 
+    {
+        
+        [self doActionWithMode:mode quantity:1];
     }
 }
+- (IBAction)leftButtonTouchAction: (id) sender{
+    [self doActionWithMode:mode quantity:1];
+}
+- (IBAction)rightButtonTouchAction: (id) sender{
+    [self doActionWithMode:mode quantity:item.qty];
 
+}
 - (IBAction)pickupButtonTouchAction: (id) sender{
 	NSLog(@"ItemDetailsViewController: pickupButtonTouched");
 
@@ -227,20 +221,46 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	mode = kItemDetailsPickingUp;
 	
     
-    if(self.item.qty > 1){
-        UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil
-                                                                delegate:self 
-                                                       cancelButtonTitle:@"Cancel" 
-                                                  destructiveButtonTitle:nil 
-                                                       otherButtonTitles:@"Pickup 1",@"Pickup All",nil];
-        actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-        [actionSheet showInView:self.view];
-    }
-    else {
-        //Determine if this item can be picked up
-        int quantity = 1;
-        ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    if(self.item.qty > 1)
+    {
 
+        pickupOneButton.width = 150.0;
+		pickupAllButton.width = 150.0;
+        
+		[toolBar setItems:[NSMutableArray arrayWithObjects: pickupOneButton,pickupAllButton, nil] animated:YES];
+        
+    }
+    else 
+    {
+        [self doActionWithMode:mode quantity:1];
+    }
+}
+
+
+-(void)doActionWithMode: (ItemDetailsModeType) itemMode quantity: (int) quantity {
+    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate playAudioAlert:@"drop" shouldVibrate:YES];
+	
+	//Determine the Quantity Effected based on the button touched
+
+	
+	
+	//Do the action based on the mode of the VC
+	if (mode == kItemDetailsDropping) {
+		NSLog(@"ItemDetailsVC: Dropping %d",quantity);
+		[[AppServices sharedAppServices] updateServerDropItemHere:item.itemId qty:quantity];
+		[[AppModel sharedAppModel] removeItemFromInventory:item qtyToRemove:quantity];
+        
+			}
+	else if (mode == kItemDetailsDestroying) {
+		NSLog(@"ItemDetailsVC: Destroying %d",quantity);
+		[[AppServices sharedAppServices] updateServerDestroyItem:self.item.itemId qty:quantity];
+		[[AppModel sharedAppModel] removeItemFromInventory:item qtyToRemove:quantity];
+		
+	}
+	else if (mode == kItemDetailsPickingUp) {
+		
+		//Determine if this item can be picked up
 		Item *itemInInventory  = [[AppModel sharedAppModel].inventory objectForKey:[NSString stringWithFormat:@"%d",item.itemId]];
 		if (itemInInventory.qty + quantity > item.maxQty && item.maxQty != -1) {
             
@@ -273,8 +293,8 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 			[[AppServices sharedAppServices] updateServerPickupItem:self.item.itemId fromLocation:self.item.locationId qty:quantity];
 			[[AppModel sharedAppModel] modifyQuantity:-quantity forLocationId:self.item.locationId];
 			item.qty -= quantity; //the above line does not give us an update, only the map
-    
-		}
+			
+            }
 		
 	}
 	
@@ -286,122 +306,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 		[self dismissModalViewControllerAnimated:NO];
         ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
         appDelegate.modalPresent = NO;
-	}    
+	}
+	
 
 }
-
-
-
-#pragma mark UIActionSheet Delegate
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-	NSLog(@"GPSViewController: action sheet button %d was clicked",buttonIndex);
-
-	//Was it just a cancel?
-	if (buttonIndex == actionSheet.cancelButtonIndex) {
-		return;
-	}
-	
-	//Setup
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate playAudioAlert:@"drop" shouldVibrate:YES];
-	
-	//Determine the Quantity Effected based on the button touched
-	int quantity;
-	if (buttonIndex == 0) quantity = 1;
-	if (buttonIndex == 1) quantity = item.qty; 
-	
-	
-	//Do the action based on the mode of the VC
-	if (mode == kItemDetailsDropping) {
-		NSLog(@"ItemDetailsVC: Dropping %d",quantity);
-		[[AppServices sharedAppServices] updateServerDropItemHere:item.itemId qty:quantity];
-		[[AppModel sharedAppModel] removeItemFromInventory:item qtyToRemove:quantity];
-
-		/*
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"ItemDroppedTitleKey",@"")
-														message: NSLocalizedString(@"ItemDroppedMessageKey",@"") 
-													   delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey",@"") otherButtonTitles: nil];
-		[alert show];
-		[alert release];
-		 */
-	}
-	else if (mode == kItemDetailsDestroying) {
-		NSLog(@"ItemDetailsVC: Destroying %d",quantity);
-		[[AppServices sharedAppServices] updateServerDestroyItem:self.item.itemId qty:quantity];
-		[[AppModel sharedAppModel] removeItemFromInventory:item qtyToRemove:quantity];
-		
-		/*
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"ItemDestroyedTitleKey", @"")
-														message: NSLocalizedString(@"ItemDestroyedMessageKey", @"")
-													   delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
-		[alert show];
-		[alert release];
-		 */
-	}
-	else if (mode == kItemDetailsPickingUp) {
-		
-		//Determine if this item can be picked up
-		Item *itemInInventory  = [[AppModel sharedAppModel].inventory objectForKey:[NSString stringWithFormat:@"%d",item.itemId]];
-		if (itemInInventory.qty + quantity > item.maxQty && item.maxQty != -1) {
-		
-			[appDelegate playAudioAlert:@"error" shouldVibrate:YES];
-			
-			NSString *errorMessage;
-			if (itemInInventory.qty < item.maxQty) {
-				quantity = item.maxQty - itemInInventory.qty;
-				errorMessage = [NSString stringWithFormat:@"You can only carry %d of this item. Only %d picked up",item.maxQty,quantity];
-			}
-			else if (item.maxQty == 0) {
-				errorMessage = @"This item cannot be picked up.";
-				quantity = 0;
-			}
-			else {
-				errorMessage = @"You cannot carry any more of this item.";
-				quantity = 0;
-			}
-
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Inventory over Limit"
-															message: errorMessage
-														   delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
-			[alert show];
-			[alert release];
-			 
-
-		}
-
-		if (quantity > 0) {
-			[[AppServices sharedAppServices] updateServerPickupItem:self.item.itemId fromLocation:self.item.locationId qty:quantity];
-			[[AppModel sharedAppModel] modifyQuantity:-quantity forLocationId:self.item.locationId];
-			item.qty -= quantity; //the above line does not give us an update, only the map
-			
-			/*
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"ItemPickedUpTitleKey", @"")
-															message: NSLocalizedString(@"ItemPickedUpMessageKey", @"") 
-														   delegate: self 
-												cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
-			 
-			
-			[alert show];
-			[alert release];
-			 */
-		}
-		
-	}
-	
-	[self updateQuantityDisplay];
-	
-	//Possibly Dismiss Item Details View
-	if (item.qty < 1) {
-		[self.navigationController popToRootViewControllerAnimated:YES];
-		[self dismissModalViewControllerAnimated:NO];
-ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-        appDelegate.modalPresent = NO;
-	}
-	
-	//[self dismissModalViewControllerAnimated:NO];
-}
-
-
 
 #pragma mark MPMoviePlayerController Notification Handlers
 

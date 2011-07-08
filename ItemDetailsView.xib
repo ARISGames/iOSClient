@@ -98,6 +98,42 @@
 								<reference key="IBUIToolbar" ref="256850548"/>
 								<int key="IBUISystemItemIdentifier">5</int>
 							</object>
+							<object class="IBUIBarButtonItem" id="498470472">
+								<string key="IBUITitle">itemPickupKey</string>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<int key="IBUIStyle">1</int>
+								<reference key="IBUIToolbar" ref="256850548"/>
+							</object>
+							<object class="IBUIBarButtonItem" id="951663935">
+								<string key="IBUITitle">itemPickupKey</string>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<int key="IBUIStyle">1</int>
+								<reference key="IBUIToolbar" ref="256850548"/>
+							</object>
+							<object class="IBUIBarButtonItem" id="1010640509">
+								<string key="IBUITitle">itemPickupKey</string>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<int key="IBUIStyle">1</int>
+								<reference key="IBUIToolbar" ref="256850548"/>
+							</object>
+							<object class="IBUIBarButtonItem" id="747332700">
+								<string key="IBUITitle">itemPickupKey</string>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<int key="IBUIStyle">1</int>
+								<reference key="IBUIToolbar" ref="256850548"/>
+							</object>
+							<object class="IBUIBarButtonItem" id="931056933">
+								<string key="IBUITitle">itemPickupKey</string>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<int key="IBUIStyle">1</int>
+								<reference key="IBUIToolbar" ref="256850548"/>
+							</object>
+							<object class="IBUIBarButtonItem" id="844272236">
+								<string key="IBUITitle">itemPickupKey</string>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<int key="IBUIStyle">1</int>
+								<reference key="IBUIToolbar" ref="256850548"/>
+							</object>
 							<object class="IBUIBarButtonItem" id="296761232">
 								<string key="IBUITitle">itemPickupKey</string>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -262,6 +298,102 @@
 					</object>
 					<int key="connectionID">67</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">pickupOneButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="498470472"/>
+					</object>
+					<int key="connectionID">88</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">pickupAllButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="951663935"/>
+					</object>
+					<int key="connectionID">89</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">deleteOneButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="931056933"/>
+					</object>
+					<int key="connectionID">92</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">deleteAllButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="844272236"/>
+					</object>
+					<int key="connectionID">93</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">dropAllButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="747332700"/>
+					</object>
+					<int key="connectionID">95</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">dropOneButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="1010640509"/>
+					</object>
+					<int key="connectionID">96</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">leftButtonTouchAction:</string>
+						<reference key="source" ref="498470472"/>
+						<reference key="destination" ref="372490531"/>
+					</object>
+					<int key="connectionID">97</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">rightButtonTouchAction:</string>
+						<reference key="source" ref="951663935"/>
+						<reference key="destination" ref="372490531"/>
+					</object>
+					<int key="connectionID">98</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">leftButtonTouchAction:</string>
+						<reference key="source" ref="1010640509"/>
+						<reference key="destination" ref="372490531"/>
+					</object>
+					<int key="connectionID">99</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">rightButtonTouchAction:</string>
+						<reference key="source" ref="747332700"/>
+						<reference key="destination" ref="372490531"/>
+					</object>
+					<int key="connectionID">100</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">leftButtonTouchAction:</string>
+						<reference key="source" ref="931056933"/>
+						<reference key="destination" ref="372490531"/>
+					</object>
+					<int key="connectionID">101</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">rightButtonTouchAction:</string>
+						<reference key="source" ref="844272236"/>
+						<reference key="destination" ref="372490531"/>
+					</object>
+					<int key="connectionID">102</int>
+				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -320,6 +452,12 @@
 							<reference ref="296761232"/>
 							<reference ref="514003617"/>
 							<reference ref="922476646"/>
+							<reference ref="498470472"/>
+							<reference ref="951663935"/>
+							<reference ref="1010640509"/>
+							<reference ref="747332700"/>
+							<reference ref="931056933"/>
+							<reference ref="844272236"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -353,6 +491,42 @@
 						<reference key="object" ref="922476646"/>
 						<reference key="parent" ref="256850548"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">72</int>
+						<reference key="object" ref="498470472"/>
+						<reference key="parent" ref="256850548"/>
+						<string key="objectName">Pickup 1</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">74</int>
+						<reference key="object" ref="951663935"/>
+						<reference key="parent" ref="256850548"/>
+						<string key="objectName">Pickup All</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">76</int>
+						<reference key="object" ref="1010640509"/>
+						<reference key="parent" ref="256850548"/>
+						<string key="objectName">Drop 1</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">77</int>
+						<reference key="object" ref="747332700"/>
+						<reference key="parent" ref="256850548"/>
+						<string key="objectName">Drop All</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">80</int>
+						<reference key="object" ref="931056933"/>
+						<reference key="parent" ref="256850548"/>
+						<string key="objectName">Destroy 1</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">81</int>
+						<reference key="object" ref="844272236"/>
+						<reference key="parent" ref="256850548"/>
+						<string key="objectName">Destroy All</string>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -370,12 +544,18 @@
 				<string key="54.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="68.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="69.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="72.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="74.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="76.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="77.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="80.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="81.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">69</int>
+			<int key="maxID">102</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -394,8 +574,10 @@
 						<string key="backButtonTouchAction:">id</string>
 						<string key="deleteButtonTouchAction:">id</string>
 						<string key="dropButtonTouchAction:">id</string>
+						<string key="leftButtonTouchAction:">id</string>
 						<string key="pickupButtonTouchAction:">id</string>
 						<string key="playMovie:">id</string>
+						<string key="rightButtonTouchAction:">id</string>
 						<string key="toggleDescription:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -411,12 +593,20 @@
 							<string key="name">dropButtonTouchAction:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="leftButtonTouchAction:">
+							<string key="name">leftButtonTouchAction:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="pickupButtonTouchAction:">
 							<string key="name">pickupButtonTouchAction:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="playMovie:">
 							<string key="name">playMovie:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="rightButtonTouchAction:">
+							<string key="name">rightButtonTouchAction:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="toggleDescription:">
@@ -426,12 +616,18 @@
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="backButton">UIButton</string>
+						<string key="deleteAllButton">UIBarButtonItem</string>
 						<string key="deleteButton">UIBarButtonItem</string>
+						<string key="deleteOneButton">UIBarButtonItem</string>
 						<string key="detailButton">UIBarButtonItem</string>
+						<string key="dropAllButton">UIBarButtonItem</string>
 						<string key="dropButton">UIBarButtonItem</string>
+						<string key="dropOneButton">UIBarButtonItem</string>
 						<string key="itemDescriptionView">UIWebView</string>
 						<string key="itemImageView">AsyncImageView</string>
+						<string key="pickupAllButton">UIBarButtonItem</string>
 						<string key="pickupButton">UIBarButtonItem</string>
+						<string key="pickupOneButton">UIBarButtonItem</string>
 						<string key="scrollView">UIScrollView</string>
 						<string key="toolBar">UIToolbar</string>
 					</dictionary>
@@ -440,16 +636,32 @@
 							<string key="name">backButton</string>
 							<string key="candidateClassName">UIButton</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="deleteAllButton">
+							<string key="name">deleteAllButton</string>
+							<string key="candidateClassName">UIBarButtonItem</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="deleteButton">
 							<string key="name">deleteButton</string>
+							<string key="candidateClassName">UIBarButtonItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="deleteOneButton">
+							<string key="name">deleteOneButton</string>
 							<string key="candidateClassName">UIBarButtonItem</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="detailButton">
 							<string key="name">detailButton</string>
 							<string key="candidateClassName">UIBarButtonItem</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="dropAllButton">
+							<string key="name">dropAllButton</string>
+							<string key="candidateClassName">UIBarButtonItem</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="dropButton">
 							<string key="name">dropButton</string>
+							<string key="candidateClassName">UIBarButtonItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="dropOneButton">
+							<string key="name">dropOneButton</string>
 							<string key="candidateClassName">UIBarButtonItem</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="itemDescriptionView">
@@ -460,8 +672,16 @@
 							<string key="name">itemImageView</string>
 							<string key="candidateClassName">AsyncImageView</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="pickupAllButton">
+							<string key="name">pickupAllButton</string>
+							<string key="candidateClassName">UIBarButtonItem</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="pickupButton">
 							<string key="name">pickupButton</string>
+							<string key="candidateClassName">UIBarButtonItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="pickupOneButton">
+							<string key="name">pickupOneButton</string>
 							<string key="candidateClassName">UIBarButtonItem</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="scrollView">
