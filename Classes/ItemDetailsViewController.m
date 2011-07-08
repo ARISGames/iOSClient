@@ -177,14 +177,16 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         [actionSheet showInView:self.view];
     }
     else {
-            //Create and Display Action Sheet
-            UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil
-                                                                    delegate:self 
-                                                           cancelButtonTitle:@"Cancel" 
-                                                      destructiveButtonTitle:nil 
-                                                           otherButtonTitles:@"Drop 1",nil,nil];
-            actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-            [actionSheet showInView:self.view];
+        NSLog(@"ItemDetailsVC: Dropping %d",1);
+		[[AppServices sharedAppServices] updateServerDropItemHere:item.itemId qty:1];
+		[[AppModel sharedAppModel] removeItemFromInventory:item qtyToRemove:1];   
+        if (item.qty < 1) {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            [self dismissModalViewControllerAnimated:NO];
+            ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+            appDelegate.modalPresent = NO;
+        }    
+
     }
 	
 }
@@ -205,14 +207,16 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	[actionSheet showInView:self.view];
     }
     else {
-      	//Create and Display Action Sheet
-        UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil
-                                                                delegate:self 
-                                                       cancelButtonTitle:@"Cancel" 
-                                                  destructiveButtonTitle:nil 
-                                                       otherButtonTitles:@"Destroy 1",nil,nil];
-        actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-        [actionSheet showInView:self.view];  
+        NSLog(@"ItemDetailsVC: Destroying %d",1);
+		[[AppServices sharedAppServices] updateServerDestroyItem:self.item.itemId qty:1];
+		[[AppModel sharedAppModel] removeItemFromInventory:item qtyToRemove:1];
+        if (item.qty < 1) {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            [self dismissModalViewControllerAnimated:NO];
+            ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+            appDelegate.modalPresent = NO;
+        }    
+
     }
 }
 
@@ -222,14 +226,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	
 	mode = kItemDetailsPickingUp;
 	
-	//Create and Display Action Sheet
-	/*UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil
-															delegate:self 
-												   cancelButtonTitle:@"Cancel" 
-											  destructiveButtonTitle:nil 
-												   otherButtonTitles:@"Pickup 1",@"Pickup All",nil];
-	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-	[actionSheet showInView:self.view];*/
     
     if(self.item.qty > 1){
         UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil
@@ -241,14 +237,56 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         [actionSheet showInView:self.view];
     }
     else {
-        UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil
-                                                                delegate:self 
-                                                       cancelButtonTitle:@"Cancel" 
-                                                  destructiveButtonTitle:nil 
-                                                       otherButtonTitles:@"Pickup 1",nil,nil];
-        actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-        [actionSheet showInView:self.view];
-    }
+        //Determine if this item can be picked up
+        int quantity = 1;
+        ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+
+		Item *itemInInventory  = [[AppModel sharedAppModel].inventory objectForKey:[NSString stringWithFormat:@"%d",item.itemId]];
+		if (itemInInventory.qty + quantity > item.maxQty && item.maxQty != -1) {
+            
+			[appDelegate playAudioAlert:@"error" shouldVibrate:YES];
+			
+			NSString *errorMessage;
+			if (itemInInventory.qty < item.maxQty) {
+				quantity = item.maxQty - itemInInventory.qty;
+				errorMessage = [NSString stringWithFormat:@"You can only carry %d of this item. Only %d picked up",item.maxQty,quantity];
+			}
+			else if (item.maxQty == 0) {
+				errorMessage = @"This item cannot be picked up.";
+				quantity = 0;
+			}
+			else {
+				errorMessage = @"You cannot carry any more of this item.";
+				quantity = 0;
+			}
+            
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Inventory over Limit"
+															message: errorMessage
+														   delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
+			[alert show];
+			[alert release];
+            
+            
+		}
+        
+		if (quantity > 0) {
+			[[AppServices sharedAppServices] updateServerPickupItem:self.item.itemId fromLocation:self.item.locationId qty:quantity];
+			[[AppModel sharedAppModel] modifyQuantity:-quantity forLocationId:self.item.locationId];
+			item.qty -= quantity; //the above line does not give us an update, only the map
+    
+		}
+		
+	}
+	
+	[self updateQuantityDisplay];
+	
+	//Possibly Dismiss Item Details View
+	if (item.qty < 1) {
+		[self.navigationController popToRootViewControllerAnimated:YES];
+		[self dismissModalViewControllerAnimated:NO];
+        ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+        appDelegate.modalPresent = NO;
+	}    
 
 }
 
