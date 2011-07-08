@@ -19,10 +19,16 @@
     NSMutableArray *mediaCache;
     int silenceNextServerUpdateCount;
 	int newItemsSinceLastView;
-    
-
+    UIProgressView *capBar;
+    UILabel *capLabel;
+    int weightCap;
+    int currentWeight;
 }
 
+@property(readwrite, assign) int weightCap;
+@property(readwrite, assign) int currentWeight;
+@property(nonatomic, retain) IBOutlet UIProgressView *capBar;
+@property(nonatomic, retain) IBOutlet UILabel *capLabel;
 @property(nonatomic, retain) IBOutlet UITableView *inventoryTable;
 @property(nonatomic, retain) NSArray *inventory;
 @property(nonatomic, retain) NSMutableArray *iconCache;
@@ -32,6 +38,7 @@
 - (unsigned int) indexOf:(char) searchChar inString:(NSString *)searchString;
 - (void)showLoadingIndicator;
 - (void)dismissTutorial;
+- (void)refreshViewFromModel;
 
 
 @end

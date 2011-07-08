@@ -19,6 +19,9 @@
 @synthesize inventory;
 @synthesize iconCache;
 @synthesize mediaCache;
+@synthesize capBar;
+@synthesize capLabel;
+@synthesize weightCap, currentWeight;
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
@@ -29,6 +32,7 @@
         self.tabBarItem.image = [UIImage imageNamed:@"inventory.png"];
         self.iconCache = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].inventory count]];
         self.mediaCache = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].inventory count]];
+        
 		
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
@@ -53,8 +57,9 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-	[[AppServices sharedAppServices] updateServerInventoryViewed];
-	
+    self.weightCap = [AppModel sharedAppModel].currentGame.inventoryWeightCap;
+    [capBar setProgress:0];
+    [[AppServices sharedAppServices] updateServerInventoryViewed];
 	[self refresh];		
 	
 	self.tabBarItem.badgeValue = nil;
@@ -74,6 +79,7 @@
 -(void)refresh {
 	NSLog(@"InventoryListViewController: Refresh Requested");
 	[[AppServices sharedAppServices] fetchInventory];
+    [self refreshViewFromModel];
 	[self showLoadingIndicator];
 }
 
@@ -89,7 +95,6 @@
 
 -(void)removeLoadingIndicator{
 	//Do this now in case refreshViewFromModel isn't called due to == hash
-
 	[[self navigationItem] setRightBarButtonItem:nil];
 	NSLog(@"InventoryListViewController: removeLoadingIndicator. silenceCount = %d",silenceNextServerUpdateCount);
 }
@@ -103,9 +108,13 @@
 		//Check if anything is new since last time
 		int newItems = 0;
         UIViewController *topViewController =  [[self navigationController] topViewController];
-
+        self.currentWeight = 0;
 		for (Item *item in newInventory) {	
-    
+            if(weightCap != 0){
+                self.currentWeight += item.weight;
+                capBar.progress = (float)((float)currentWeight/(float)weightCap);
+                capLabel.text = [NSString stringWithFormat: @"Weight Capacity: %d/%d", currentWeight, weightCap];
+            }
 			BOOL match = NO;
 			for (Item *existingItem in self.inventory) {
 				if (existingItem.itemId == item.itemId) match = YES;	
