@@ -1550,6 +1550,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	
 	//Compare this hash to the last one. If the same, stop hee	
 	
+    
 	if ([jsonResult.hash isEqualToString:[AppModel sharedAppModel].inventoryHash]) {
 		NSLog(@"AppModel: Hash is same as last inventory listy update, continue");
 		return;

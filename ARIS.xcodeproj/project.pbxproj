@@ -116,6 +116,7 @@
 		AB0DE80D11559D1200A6EC3E /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */; };
 		AB15EC1510B49F8A00EEC11F /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AB15EC1410B49F8A00EEC11F /* AsyncImageView.m */; };
 		AB18AEBA137B249A00382826 /* AppServices.m in Sources */ = {isa = PBXBuildFile; fileRef = AB18AEB9137B249A00382826 /* AppServices.m */; };
+		AB1CA8B813C7CDAE00131F81 /* libZXingWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB1CA8B713C7CDAE00131F81 /* libZXingWidget.a */; };
 		AB2223F510502CD800A4255E /* Quest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB2223F410502CD800A4255E /* Quest.m */; };
 		AB2FE579120A154B00758F8C /* LogoutButton.png in Resources */ = {isa = PBXBuildFile; fileRef = AB2FE578120A154B00758F8C /* LogoutButton.png */; };
 		AB37BC441184CE0F00C5CE8B /* nearbyObject.wav in Resources */ = {isa = PBXBuildFile; fileRef = AB37BC431184CE0F00C5CE8B /* nearbyObject.wav */; };
@@ -187,7 +188,6 @@
 		ABA104C710CA0E3E008538D0 /* ARView.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABA104C610CA0E3E008538D0 /* ARView.xib */; };
 		ABAA644B130FD5410004D64C /* GamePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ABAA644A130FD5410004D64C /* GamePickerCell.m */; };
 		ABAA644F130FD5610004D64C /* GamePickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABAA644E130FD5610004D64C /* GamePickerCell.xib */; };
-		ABB2CDC013C748F600F051E4 /* libZXingWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB2CDBF13C748F600F051E4 /* libZXingWidget.a */; };
 		ABB2CDC413C7497500F051E4 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB2CDC313C7497400F051E4 /* CoreVideo.framework */; };
 		ABB2CDC613C7498A00F051E4 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB2CDC513C7498A00F051E4 /* AddressBook.framework */; };
 		ABB5767613A01FD100AD39D5 /* BogusSelectGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB5767513A01FD100AD39D5 /* BogusSelectGameViewController.m */; };
@@ -249,6 +249,23 @@
 		D4D366DF111B6789009C4D00 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D366DE111B6789009C4D00 /* CFNetwork.framework */; };
 		D4DE6B8B110A00D7008BFE38 /* defaultCharacter.png in Resources */ = {isa = PBXBuildFile; fileRef = D4DE6B8A110A00D7008BFE38 /* defaultCharacter.png */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AB1CA8B213C7CCBF00131F81 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB1CA8AB13C7CCBE00131F81 /* ZXingWidget.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC07E0554694100DB518D;
+			remoteInfo = ZXingWidget;
+		};
+		AB1CA8B413C7CCDD00131F81 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AB1CA8AB13C7CCBE00131F81 /* ZXingWidget.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC07D0554694100DB518D;
+			remoteInfo = ZXingWidget;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		1122C0B313A7D124004F0392 /* webpageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = webpageViewController.h; sourceTree = "<group>"; };
@@ -442,6 +459,8 @@
 		AB18AEAA137B178800382826 /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesizeSingleton.h; sourceTree = "<group>"; };
 		AB18AEB8137B249A00382826 /* AppServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppServices.h; path = ../../AppServices.h; sourceTree = "<group>"; };
 		AB18AEB9137B249A00382826 /* AppServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppServices.m; path = ../../AppServices.m; sourceTree = "<group>"; };
+		AB1CA8AB13C7CCBE00131F81 /* ZXingWidget.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZXingWidget.xcodeproj; path = thirdParty/zxing/iphone/ZXingWidget/ZXingWidget.xcodeproj; sourceTree = "<group>"; };
+		AB1CA8B713C7CDAE00131F81 /* libZXingWidget.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libZXingWidget.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB2223F310502CD800A4255E /* Quest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quest.h; sourceTree = "<group>"; };
 		AB2223F410502CD800A4255E /* Quest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Quest.m; sourceTree = "<group>"; };
 		AB2FE578120A154B00758F8C /* LogoutButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LogoutButton.png; sourceTree = "<group>"; };
@@ -541,8 +560,6 @@
 		ABAA6449130FD5410004D64C /* GamePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerCell.h; sourceTree = "<group>"; };
 		ABAA644A130FD5410004D64C /* GamePickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerCell.m; sourceTree = "<group>"; };
 		ABAA644E130FD5610004D64C /* GamePickerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GamePickerCell.xib; sourceTree = "<group>"; };
-		ABB2CDB613C748D300F051E4 /* ZXingWidget.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZXingWidget.xcodeproj; path = thirdParty/zxing/iphone/ZXingWidget/ZXingWidget.xcodeproj; sourceTree = SOURCE_ROOT; };
-		ABB2CDBF13C748F600F051E4 /* libZXingWidget.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libZXingWidget.a; sourceTree = SOURCE_ROOT; };
 		ABB2CDC313C7497400F051E4 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		ABB2CDC513C7498A00F051E4 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		ABB5767413A01FD100AD39D5 /* BogusSelectGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BogusSelectGameViewController.h; sourceTree = "<group>"; };
@@ -637,11 +654,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB1CA8B813C7CDAE00131F81 /* libZXingWidget.a in Frameworks */,
 				AB7D277A13C7559800F10AD5 /* CoreMedia.framework in Frameworks */,
 				AB7D277813C7556100F10AD5 /* AddressBookUI.framework in Frameworks */,
 				ABB2CDC613C7498A00F051E4 /* AddressBook.framework in Frameworks */,
 				ABB2CDC413C7497500F051E4 /* CoreVideo.framework in Frameworks */,
-				ABB2CDC013C748F600F051E4 /* libZXingWidget.a in Frameworks */,
 				11BE77A713B26515000D037B /* CoreMotion.framework in Frameworks */,
 				11BE779F13B0FCC7000D037B /* OpenGLES.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
@@ -820,30 +837,7 @@
 		29B97314FDCFA39411CA2CEA /* ARIS */ = {
 			isa = PBXGroup;
 			children = (
-				AB7D277913C7559800F10AD5 /* CoreMedia.framework */,
-				AB7D277713C7556100F10AD5 /* AddressBookUI.framework */,
-				ABB2CDC513C7498A00F051E4 /* AddressBook.framework */,
-				ABB2CDC313C7497400F051E4 /* CoreVideo.framework */,
-				ABB2CDBF13C748F600F051E4 /* libZXingWidget.a */,
-				ABB2CDB613C748D300F051E4 /* ZXingWidget.xcodeproj */,
-				ABF4A3AC116847E40043EB1C /* SystemConfiguration.framework */,
-				D4D366DE111B6789009C4D00 /* CFNetwork.framework */,
-				AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */,
-				AB0DE80811559D0500A6EC3E /* AVFoundation.framework */,
-				A7E4C88B0F54C4D000C6D9E8 /* QuartzCore.framework */,
-				A78FD8B10F4B7EA200820FEA /* CoreGraphics.framework */,
-				A78FD8AF0F4B7E9400820FEA /* Foundation.framework */,
-				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
-				A7E4C8980F54C5E300C6D9E8 /* CoreLocation.framework */,
-				A7955B920F73E095005148E4 /* AudioToolbox.framework */,
-				A79202630F8E717C0049F990 /* MediaPlayer.framework */,
-				ABDA40DD10506CB300823A94 /* MapKit.framework */,
-				ABF4A3B0116847F50043EB1C /* MobileCoreServices.framework */,
-				AB70F39313153BB500BD06CD /* MessageUI.framework */,
-				ABF4A3B41168480C0043EB1C /* libz.1.2.3.dylib */,
-				AB8A3CCD104936F500422773 /* libiconv.2.dylib */,
-				11BE77A613B26515000D037B /* CoreMotion.framework */,
-				11BE779E13B0FCC7000D037B /* OpenGLES.framework */,
+				AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */,
 				AB0A5BA3120365420065CE68 /* Localizable.strings */,
 				A7149F9C0FB89DC8008BAB5D /* Settings.bundle */,
 				A7986D6A0F8FEC7200A5469F /* Core App */,
@@ -1114,6 +1108,45 @@
 			name = "Audio Recorder";
 			sourceTree = "<group>";
 		};
+		AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */ = {
+			isa = PBXGroup;
+			children = (
+				AB1CA8AB13C7CCBE00131F81 /* ZXingWidget.xcodeproj */,
+				AB7D277913C7559800F10AD5 /* CoreMedia.framework */,
+				AB7D277713C7556100F10AD5 /* AddressBookUI.framework */,
+				ABB2CDC513C7498A00F051E4 /* AddressBook.framework */,
+				ABB2CDC313C7497400F051E4 /* CoreVideo.framework */,
+				ABF4A3AC116847E40043EB1C /* SystemConfiguration.framework */,
+				D4D366DE111B6789009C4D00 /* CFNetwork.framework */,
+				AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */,
+				AB0DE80811559D0500A6EC3E /* AVFoundation.framework */,
+				A7E4C88B0F54C4D000C6D9E8 /* QuartzCore.framework */,
+				A78FD8B10F4B7EA200820FEA /* CoreGraphics.framework */,
+				A78FD8AF0F4B7E9400820FEA /* Foundation.framework */,
+				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
+				A7E4C8980F54C5E300C6D9E8 /* CoreLocation.framework */,
+				A7955B920F73E095005148E4 /* AudioToolbox.framework */,
+				A79202630F8E717C0049F990 /* MediaPlayer.framework */,
+				ABDA40DD10506CB300823A94 /* MapKit.framework */,
+				ABF4A3B0116847F50043EB1C /* MobileCoreServices.framework */,
+				AB70F39313153BB500BD06CD /* MessageUI.framework */,
+				11BE77A613B26515000D037B /* CoreMotion.framework */,
+				11BE779E13B0FCC7000D037B /* OpenGLES.framework */,
+				ABF4A3B41168480C0043EB1C /* libz.1.2.3.dylib */,
+				AB8A3CCD104936F500422773 /* libiconv.2.dylib */,
+				AB1CA8B713C7CDAE00131F81 /* libZXingWidget.a */,
+			);
+			name = "Frameworks and Dependancies";
+			sourceTree = "<group>";
+		};
+		AB1CA8AC13C7CCBE00131F81 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB1CA8B313C7CCBF00131F81 /* libZXingWidget.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		AB37BC2E1184CDE600C5CE8B /* Sound Effects */ = {
 			isa = PBXGroup;
 			children = (
@@ -1340,6 +1373,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				AB1CA8B513C7CCDD00131F81 /* PBXTargetDependency */,
 			);
 			name = ARIS;
 			productName = ARIS;
@@ -1366,12 +1400,28 @@
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* ARIS */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = AB1CA8AC13C7CCBE00131F81 /* Products */;
+					ProjectRef = AB1CA8AB13C7CCBE00131F81 /* ZXingWidget.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* ARIS */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		AB1CA8B313C7CCBF00131F81 /* libZXingWidget.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libZXingWidget.a;
+			remoteRef = AB1CA8B213C7CCBF00131F81 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1D60588D0D05DD3D006BFB54 /* Resources */ = {
@@ -1627,6 +1677,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		AB1CA8B513C7CCDD00131F81 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ZXingWidget;
+			targetProxy = AB1CA8B413C7CCDD00131F81 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		AB0A5BA3120365420065CE68 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
@@ -1650,6 +1708,7 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1660,7 +1719,10 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/**",
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = ARIS;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -1669,7 +1731,7 @@
 			};
 			name = Debug;
 		};
-		A759A4B90F4F2599004279E0 /* Enterprise Distribution */ = {
+		A759A4B90F4F2599004279E0 /* Distribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
@@ -1686,9 +1748,9 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D14C3F02-C8B2-42ED-B71D-FC92CB362494";
 				SDKROOT = iphoneos;
 			};
-			name = "Enterprise Distribution";
+			name = Distribution;
 		};
-		A759A4BA0F4F2599004279E0 /* Enterprise Distribution */ = {
+		A759A4BA0F4F2599004279E0 /* Distribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1696,6 +1758,7 @@
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_IDENTITY = "";
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ARIS_Prefix.pch;
 				HEADER_SEARCH_PATHS = (
@@ -1704,21 +1767,24 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/**",
+				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = ARIS;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
-			name = "Enterprise Distribution";
+			name = Distribution;
 		};
-		AB5089DC1190CE0C0002FCFA /* AppStore Distribution */ = {
+		AB1CA8BB13C7D2B700131F81 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: David Gagnon";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: David Gagnon";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: UW Division of Information Technology";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: UW Division of Information Technology";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1726,21 +1792,21 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PREBINDING = NO;
-				PROVISIONING_PROFILE = "A68C61C9-B01F-4138-94A8-211BA1CB620A";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A68C61C9-B01F-4138-94A8-211BA1CB620A";
+				PROVISIONING_PROFILE = "D14C3F02-C8B2-42ED-B71D-FC92CB362494";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D14C3F02-C8B2-42ED-B71D-FC92CB362494";
 				SDKROOT = iphoneos;
 			};
-			name = "AppStore Distribution";
+			name = Release;
 		};
-		AB5089DD1190CE0C0002FCFA /* AppStore Distribution */ = {
+		AB1CA8BC13C7D2B700131F81 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ARIS_Prefix.pch;
 				HEADER_SEARCH_PATHS = (
@@ -1749,15 +1815,17 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/**",
+				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = ARIS;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
-			name = "AppStore Distribution";
+			name = Release;
 		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1783,8 +1851,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
-				A759A4BA0F4F2599004279E0 /* Enterprise Distribution */,
-				AB5089DD1190CE0C0002FCFA /* AppStore Distribution */,
+				A759A4BA0F4F2599004279E0 /* Distribution */,
+				AB1CA8BC13C7D2B700131F81 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -1793,8 +1861,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
-				A759A4B90F4F2599004279E0 /* Enterprise Distribution */,
-				AB5089DC1190CE0C0002FCFA /* AppStore Distribution */,
+				A759A4B90F4F2599004279E0 /* Distribution */,
+				AB1CA8BB13C7D2B700131F81 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
