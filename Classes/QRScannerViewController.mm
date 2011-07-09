@@ -146,7 +146,7 @@
 #pragma mark -
 #pragma mark ZXingDelegateMethods
 - (void)zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)resultString {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissModalViewControllerAnimated:NO];
 
     NSLog(@"QRScannerViewController: Scan result: %@",resultString);
     [self loadResult:resultString];
