@@ -314,26 +314,20 @@ NSString *const kDialogHtmlTemplate =
 		++scriptIndex;
 	}
 	else { 	//End of Script. Display Player Options
-        
-        //check for exitToTab tag
+
+        ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];        
         if(cachedScene.exitToTabWithTitle != nil) self.exitToTabVal = cachedScene.exitToTabWithTitle;
-        if(closingScriptPlaying==YES && (self.exitToTabVal != nil)) {
+        
+        //Check if this is a closing script or we are shutting down
+        if(closingScriptPlaying==YES || (self.exitToTabVal != nil)) {
             [[AppServices sharedAppServices] updateServerNpcViewed:currentNpc.npcId];
             [self dismissModalViewControllerAnimated:NO];
-            ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
             appDelegate.modalPresent = NO;
-            /*int selectedIndex;
-            
-            if([self.exitToTabVal caseInsensitiveCompare:@"nearby"] == NSOrderedSame) selectedIndex = 0;
-            else if([self.exitToTabVal caseInsensitiveCompare:@"quests"]== NSOrderedSame) selectedIndex = 1;
-            else if([self.exitToTabVal caseInsensitiveCompare:@"map"]== NSOrderedSame) selectedIndex = 2;
-            else if([self.exitToTabVal caseInsensitiveCompare:@"inventory"]== NSOrderedSame) selectedIndex = 3;
-            else if([self.exitToTabVal caseInsensitiveCompare:@"decoder"]== NSOrderedSame) selectedIndex = 4;
-            else if([self.exitToTabVal caseInsensitiveCompare:@"camera"]== NSOrderedSame) selectedIndex = 5;
-            else if([self.exitToTabVal caseInsensitiveCompare:@"recorder"]== NSOrderedSame) selectedIndex = 6;
-           NSInteger bVal =  [appDelegate.tabBarController.customizableViewControllers count];
-            if(bVal < 10 && selectedIndex != 0) selectedIndex--;
-            appDelegate.tabBarController.selectedIndex = selectedIndex;*/
+        }
+        
+        //Check for exitToTab
+        if (self.exitToTabVal != nil) {
+            //TODO: Move this code into an app delegate method
             NSString *tab;
             for(int i = 0;i < [appDelegate.tabBarController.customizableViewControllers count];i++)
             {
@@ -345,7 +339,6 @@ NSString *const kDialogHtmlTemplate =
                     appDelegate.tabBarController.selectedIndex = i;
                 }
             }
-            
         }
 		[self stopAllAudio];
 		[self applyPlayerOptions];
