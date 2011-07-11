@@ -127,7 +127,7 @@
 	
 	//If we have something new, alert the user
 	if (newItem) {
-        if(appDelegate.modalPresent==NO)
+        if(!appDelegate.tabBarController.modalViewController)
         {
             //alert only if u are on quest,map,inventory, or nearby objects screen
 
