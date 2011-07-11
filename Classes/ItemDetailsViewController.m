@@ -11,6 +11,7 @@
 #import "AppServices.h"
 #import "Media.h"
 #import "Item.h"
+#import "ItemActionViewController.h"
 
 
 NSString *const kItemDetailsDescriptionHtmlTemplate = 
@@ -65,12 +66,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	pickupButton.title = NSLocalizedString(@"ItemPickupKey", @"");
 	deleteButton.title = NSLocalizedString(@"ItemDeleteKey",@"");
 	detailButton.title = NSLocalizedString(@"ItemDetailKey", @"");
-    pickupOneButton.title = @"Pickup 1";
-    pickupAllButton.title = @"Pickup All";
-    dropOneButton.title = @"Drop 1";
-    dropAllButton.title = @"Drop All";
-    deleteOneButton.title = @"Destroy 1";
-    deleteAllButton.title = @"Destroy All";
 	
 	if (inInventory == YES) {		
 		dropButton.width = 75.0;
@@ -174,11 +169,15 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	mode = kItemDetailsDropping;
 	if(self.item.qty > 1)
     {
-        
-        dropOneButton.width = 150.0;
-		dropAllButton.width = 150.0;
-        
-		[toolBar setItems:[NSMutableArray arrayWithObjects: dropOneButton,dropAllButton, nil] animated:YES];
+        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc]initWithNibName:@"ItemActionViewController" bundle:nil];
+        itemActionVC.mode = mode;
+        itemActionVC.item = item;
+        itemActionVC.delegate = self;
+        itemActionVC.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
+        [[self navigationController] pushViewController:itemActionVC animated:YES];
+        [itemActionVC release];	
+        [self updateQuantityDisplay];
+
     }
     else 
     {
@@ -195,10 +194,16 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	if(self.item.qty > 1)
     {
         
-        deleteOneButton.width = 150.0;
-		deleteAllButton.width = 150.0;
-        
-		[toolBar setItems:[NSMutableArray arrayWithObjects: deleteOneButton,deleteAllButton, nil] animated:YES];
+        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc]initWithNibName:@"ItemActionViewController" bundle:nil];
+        itemActionVC.mode = mode;
+        itemActionVC.item = item;
+        itemActionVC.delegate = self;
+
+        itemActionVC.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
+        [[self navigationController] pushViewController:itemActionVC animated:YES];
+        [itemActionVC release];	
+        [self updateQuantityDisplay];
+
         
     }
     else 
@@ -207,13 +212,8 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         [self doActionWithMode:mode quantity:1];
     }
 }
-- (IBAction)leftButtonTouchAction: (id) sender{
-    [self doActionWithMode:mode quantity:1];
-}
-- (IBAction)rightButtonTouchAction: (id) sender{
-    [self doActionWithMode:mode quantity:item.qty];
 
-}
+
 - (IBAction)pickupButtonTouchAction: (id) sender{
 	NSLog(@"ItemDetailsViewController: pickupButtonTouched");
 
@@ -224,13 +224,16 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     if(self.item.qty > 1)
     {
 
-        pickupOneButton.width = 150.0;
-		pickupAllButton.width = 150.0;
-        itemImageView.frame = CGRectMake(0, 0, 320, 300);
-        
-        Media *media = [[AppModel sharedAppModel] mediaForMediaId: item.mediaId];
-        [itemImageView loadImageFromMedia:media];
-		[toolBar setItems:[NSMutableArray arrayWithObjects: pickupOneButton,pickupAllButton, nil] animated:YES];
+        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc]initWithNibName:@"ItemActionViewController" bundle:nil];
+        itemActionVC.mode = mode;
+        itemActionVC.item = item;
+        itemActionVC.delegate = self;
+
+        itemActionVC.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
+        [[self navigationController] pushViewController:itemActionVC animated:YES];
+        [itemActionVC release];	
+        [self updateQuantityDisplay];
+
         
     }
     else 

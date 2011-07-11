@@ -11,13 +11,8 @@
 #import "Item.h";
 #import "ARISMoviePlayerViewController.h"
 #import "AsyncImageView.h"
+#import "itemDetailsMode.h"
 
-typedef enum {
-	kItemDetailsViewing,
-	kItemDetailsDropping,
-	kItemDetailsDestroying,
-	kItemDetailsPickingUp
-} ItemDetailsModeType;
 
 
 @interface ItemDetailsViewController : UIViewController  {
@@ -31,12 +26,6 @@ typedef enum {
 	IBOutlet UIBarButtonItem *dropButton;
 	IBOutlet UIBarButtonItem *deleteButton;
 	IBOutlet UIBarButtonItem *pickupButton;
-    IBOutlet UIBarButtonItem *dropOneButton;
-	IBOutlet UIBarButtonItem *deleteOneButton;
-	IBOutlet UIBarButtonItem *pickupOneButton;
-    IBOutlet UIBarButtonItem *dropAllButton;
-	IBOutlet UIBarButtonItem *deleteAllButton;
-	IBOutlet UIBarButtonItem *pickupAllButton;
 	IBOutlet UIBarButtonItem *detailButton;
     
 	IBOutlet UIButton *backButton;
@@ -58,8 +47,6 @@ typedef enum {
 - (IBAction)deleteButtonTouchAction: (id) sender;
 - (IBAction)backButtonTouchAction: (id) sender;
 - (IBAction)pickupButtonTouchAction: (id) sender;
-- (IBAction)leftButtonTouchAction: (id) sender;
-- (IBAction)rightButtonTouchAction: (id) sender;
 - (IBAction)playMovie:(id)sender;
 - (IBAction)toggleDescription:(id)sender;
 -(void)doActionWithMode: (ItemDetailsModeType) itemMode quantity: (int) quantity;
