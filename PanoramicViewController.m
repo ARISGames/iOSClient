@@ -13,6 +13,8 @@
 #import "ARISAppDelegate.h"
 #import "Media.h"
 #import "AsyncImageView.h"
+#import "UIImage+Scale.h"
+#import "UIDevice+Hardware.h"
 
 @implementation PanoramicViewController
 
@@ -265,7 +267,15 @@
 	
 	//turn the data into an image
 	UIImage* image = [UIImage imageWithData:data];
-	
+    if([[[UIDevice currentDevice] platform] isEqualToString:@"iPhone2,1"]  || [[[UIDevice currentDevice] platform] isEqualToString:@"iPhone3,1"] || [[[UIDevice currentDevice] platform] isEqualToString:@"iPad2,1"]){
+        image = [image scaleToSize:CGSizeMake(2048, 2048)];
+        NSLog([NSString stringWithFormat:@"iOS version- %@ Scaled to 2048", [[UIDevice currentDevice] platform]]);
+    }
+    else{
+        image = [image scaleToSize:CGSizeMake(1024, 1024)];
+        NSLog([NSString stringWithFormat:@"iOS version- %@ Scaled to 1024", [[UIDevice currentDevice] platform]]);
+    }
+    
 	//throw out the data
 	[self.data release];
     self.data=nil;

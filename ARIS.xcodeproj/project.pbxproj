@@ -76,6 +76,8 @@
 		4A92FB0B139EDFEA00B41218 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A92FB0A139EDFEA00B41218 /* Comment.m */; };
 		4A92FB0F139EEA2A00B41218 /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A92FB0D139EEA2A00B41218 /* CommentCell.m */; };
 		4A92FB10139EEA2A00B41218 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A92FB0E139EEA2A00B41218 /* CommentCell.xib */; };
+		4ADE919C13CB7CB80009F4AF /* UIImage+Scale.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ADE919B13CB7CB80009F4AF /* UIImage+Scale.m */; };
+		4ADE919F13CB84B80009F4AF /* UIDevice+Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ADE919E13CB84B80009F4AF /* UIDevice+Hardware.m */; };
 		A7149F9D0FB89DC8008BAB5D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A7149F9C0FB89DC8008BAB5D /* Settings.bundle */; };
 		A722C8C00FBCD8D0009432DB /* SelfRegistration.xib in Resources */ = {isa = PBXBuildFile; fileRef = A722C8BF0FBCD8D0009432DB /* SelfRegistration.xib */; };
 		A722C8C60FBCD92E009432DB /* SelfRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */; };
@@ -398,6 +400,10 @@
 		4A92FB0C139EEA2A00B41218 /* CommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCell.h; sourceTree = "<group>"; };
 		4A92FB0D139EEA2A00B41218 /* CommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentCell.m; sourceTree = "<group>"; };
 		4A92FB0E139EEA2A00B41218 /* CommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
+		4ADE919A13CB7CB80009F4AF /* UIImage+Scale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Scale.h"; sourceTree = "<group>"; };
+		4ADE919B13CB7CB80009F4AF /* UIImage+Scale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Scale.m"; sourceTree = "<group>"; };
+		4ADE919D13CB84B80009F4AF /* UIDevice+Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Hardware.h"; sourceTree = "<group>"; };
+		4ADE919E13CB84B80009F4AF /* UIDevice+Hardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+Hardware.m"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		A7149F9C0FB89DC8008BAB5D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		A722C8BF0FBCD8D0009432DB /* SelfRegistration.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelfRegistration.xib; sourceTree = "<group>"; };
@@ -1089,6 +1095,10 @@
 				A7A1728B0F4F27120017E865 /* Default.png */,
 				A7A172940F4F273B0017E865 /* Icon.icns */,
 				A7A1728A0F4F27120017E865 /* Icon.png */,
+				4ADE919A13CB7CB80009F4AF /* UIImage+Scale.h */,
+				4ADE919B13CB7CB80009F4AF /* UIImage+Scale.m */,
+				4ADE919D13CB84B80009F4AF /* UIDevice+Hardware.h */,
+				4ADE919E13CB84B80009F4AF /* UIDevice+Hardware.m */,
 			);
 			name = "Core App";
 			sourceTree = "<group>";
@@ -1672,6 +1682,8 @@
 				11BE779C13B0FB2D000D037B /* tess.c in Sources */,
 				11BE779D13B0FB2D000D037B /* tessmono.c in Sources */,
 				118669AB13BB8EAC004B4EC8 /* AttributesViewController.m in Sources */,
+				4ADE919C13CB7CB80009F4AF /* UIImage+Scale.m in Sources */,
+				4ADE919F13CB84B80009F4AF /* UIDevice+Hardware.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
