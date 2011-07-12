@@ -709,7 +709,7 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/ARISAppDelegate.m"
-         timestampString = "331754135.757304"
+         timestampString = "332102694.486959"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "299"
@@ -723,7 +723,7 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/ARISAppDelegate.m"
-         timestampString = "331753691.907146"
+         timestampString = "332102694.486959"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "296"
@@ -751,7 +751,7 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/ARISAppDelegate.m"
-         timestampString = "331754135.757304"
+         timestampString = "332102694.486959"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "298"
@@ -919,7 +919,7 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/ARISAppDelegate.m"
-         timestampString = "331755284.258026"
+         timestampString = "332102694.486959"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "624"
@@ -933,11 +933,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PanoramicViewController.m"
-         timestampString = "331767846.752806"
+         timestampString = "332203273.866653"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "241"
-         endingLineNumber = "241"
+         startingLineNumber = "303"
+         endingLineNumber = "303"
          landmarkName = "-loadImage"
          landmarkType = "5">
       </FileBreakpoint>
@@ -947,11 +947,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PanoramicViewController.m"
-         timestampString = "331767846.752806"
+         timestampString = "332203273.866653"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "226"
-         endingLineNumber = "226"
+         startingLineNumber = "288"
+         endingLineNumber = "288"
          landmarkName = "-loadImage"
          landmarkType = "5">
       </FileBreakpoint>
@@ -961,39 +961,81 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PanoramicViewController.m"
-         timestampString = "331767846.752806"
+         timestampString = "332203273.866653"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "349"
+         endingLineNumber = "349"
+         landmarkName = "-connectionDidFinishLoading:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "PanoramicViewController.m"
+         timestampString = "332203273.866653"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "355"
+         endingLineNumber = "355"
+         landmarkName = "-connectionDidFinishLoading:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "PanoramicViewController.m"
+         timestampString = "332203273.866653"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "302"
+         endingLineNumber = "302"
+         landmarkName = "-loadImage"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "PanoramicViewController.m"
+         timestampString = "332203273.866653"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "303"
+         endingLineNumber = "303"
+         landmarkName = "-loadImage"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "PanoramicViewController.m"
+         timestampString = "332203273.866653"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "180"
+         endingLineNumber = "180"
+         landmarkName = "-viewDidAppear:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "PanoramicViewController.m"
+         timestampString = "332203273.866653"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "287"
          endingLineNumber = "287"
-         landmarkName = "-connectionDidFinishLoading:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "PanoramicViewController.m"
-         timestampString = "331767846.752806"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "293"
-         endingLineNumber = "293"
-         landmarkName = "-connectionDidFinishLoading:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "PanoramicViewController.m"
-         timestampString = "331767846.752806"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "240"
-         endingLineNumber = "240"
          landmarkName = "-loadImage"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1003,11 +1045,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PanoramicViewController.m"
-         timestampString = "331767846.752806"
+         timestampString = "332203273.866653"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "241"
-         endingLineNumber = "241"
+         startingLineNumber = "265"
+         endingLineNumber = "265"
          landmarkName = "-loadImage"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1017,11 +1059,25 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PanoramicViewController.m"
-         timestampString = "331235020.111172"
+         timestampString = "332203273.866653"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "127"
-         endingLineNumber = "127"
+         startingLineNumber = "295"
+         endingLineNumber = "295"
+         landmarkName = "-loadImage"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "PanoramicViewController.m"
+         timestampString = "332203273.866653"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "184"
+         endingLineNumber = "184"
          landmarkName = "-viewDidAppear:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1031,67 +1087,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PanoramicViewController.m"
-         timestampString = "331767846.752806"
+         timestampString = "332203273.866653"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "225"
-         endingLineNumber = "225"
-         landmarkName = "-loadImage"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "PanoramicViewController.m"
-         timestampString = "331767846.752806"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "212"
-         endingLineNumber = "212"
-         landmarkName = "-loadImage"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "PanoramicViewController.m"
-         timestampString = "331767846.752806"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "233"
-         endingLineNumber = "233"
-         landmarkName = "-loadImage"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "PanoramicViewController.m"
-         timestampString = "331235020.111172"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "131"
-         endingLineNumber = "131"
-         landmarkName = "-viewDidAppear:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "PanoramicViewController.m"
-         timestampString = "331235020.111172"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "126"
-         endingLineNumber = "126"
+         startingLineNumber = "179"
+         endingLineNumber = "179"
          landmarkName = "-viewDidAppear:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1115,11 +1115,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PanoramicViewController.m"
-         timestampString = "331767846.752806"
+         timestampString = "332203273.866653"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "240"
-         endingLineNumber = "240"
+         startingLineNumber = "302"
+         endingLineNumber = "302"
          landmarkName = "-loadImage"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1185,11 +1185,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PanoramicViewController.m"
-         timestampString = "331235020.111172"
+         timestampString = "332203273.866653"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "101"
-         endingLineNumber = "101"
+         startingLineNumber = "154"
+         endingLineNumber = "154"
          landmarkName = "-viewDidAppear:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1199,11 +1199,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PanoramicViewController.m"
-         timestampString = "331235020.111172"
+         timestampString = "332203273.866653"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "108"
-         endingLineNumber = "108"
+         startingLineNumber = "161"
+         endingLineNumber = "161"
          landmarkName = "-viewDidAppear:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1213,11 +1213,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PanoramicViewController.m"
-         timestampString = "331235020.111172"
+         timestampString = "332203273.866653"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "125"
-         endingLineNumber = "125"
+         startingLineNumber = "178"
+         endingLineNumber = "178"
          landmarkName = "-viewDidAppear:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1227,11 +1227,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PanoramicViewController.m"
-         timestampString = "331235020.111172"
+         timestampString = "332203273.866653"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "125"
-         endingLineNumber = "125"
+         startingLineNumber = "178"
+         endingLineNumber = "178"
          landmarkName = "-viewDidAppear:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1241,11 +1241,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PanoramicViewController.m"
-         timestampString = "331767846.752806"
+         timestampString = "332203273.866653"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "206"
-         endingLineNumber = "206"
+         startingLineNumber = "259"
+         endingLineNumber = "259"
          landmarkName = "-loadImage"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1255,11 +1255,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PanoramicViewController.m"
-         timestampString = "331767846.752806"
+         timestampString = "332203273.866653"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "244"
-         endingLineNumber = "244"
+         startingLineNumber = "306"
+         endingLineNumber = "306"
          landmarkName = "-touchScreen"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1269,11 +1269,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PanoramicViewController.m"
-         timestampString = "331235020.111172"
+         timestampString = "332203273.866653"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "119"
-         endingLineNumber = "119"
+         startingLineNumber = "172"
+         endingLineNumber = "172"
          landmarkName = "-viewDidAppear:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1283,11 +1283,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PanoramicViewController.m"
-         timestampString = "331767846.752806"
+         timestampString = "332203273.866653"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "207"
-         endingLineNumber = "207"
+         startingLineNumber = "260"
+         endingLineNumber = "260"
          landmarkName = "-loadImage"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1395,11 +1395,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PanoramicViewController.m"
-         timestampString = "331235020.111172"
+         timestampString = "332203273.866653"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "122"
-         endingLineNumber = "122"
+         startingLineNumber = "175"
+         endingLineNumber = "175"
          landmarkName = "-viewDidAppear:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1409,11 +1409,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PanoramicViewController.m"
-         timestampString = "331767846.752806"
+         timestampString = "332203273.866653"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "176"
-         endingLineNumber = "176"
+         startingLineNumber = "229"
+         endingLineNumber = "229"
          landmarkName = "-loadImage"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1423,11 +1423,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PanoramicViewController.m"
-         timestampString = "331235020.111172"
+         timestampString = "332203273.866653"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "97"
-         endingLineNumber = "97"
+         startingLineNumber = "139"
+         endingLineNumber = "139"
          landmarkName = "-viewDidAppear:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1437,35 +1437,7 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PanoramicViewController.m"
-         timestampString = "331767846.752806"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "177"
-         endingLineNumber = "177"
-         landmarkName = "-loadImage"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "PanoramicViewController.m"
-         timestampString = "331767846.752806"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "156"
-         endingLineNumber = "156"
-         landmarkName = "-loadImage"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "PanoramicViewController.m"
-         timestampString = "331767846.752806"
+         timestampString = "332203273.866653"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "230"
@@ -1479,11 +1451,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PanoramicViewController.m"
-         timestampString = "331744052.452523"
+         timestampString = "332203273.866653"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "151"
-         endingLineNumber = "151"
+         startingLineNumber = "209"
+         endingLineNumber = "209"
          landmarkName = "-loadImage"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1493,11 +1465,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PanoramicViewController.m"
-         timestampString = "331767846.752806"
+         timestampString = "332203273.866653"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "175"
-         endingLineNumber = "175"
+         startingLineNumber = "292"
+         endingLineNumber = "292"
          landmarkName = "-loadImage"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1507,11 +1479,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PanoramicViewController.m"
-         timestampString = "331767846.752806"
+         timestampString = "332203273.866653"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "188"
-         endingLineNumber = "188"
+         startingLineNumber = "204"
+         endingLineNumber = "204"
          landmarkName = "-loadImage"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1521,11 +1493,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PanoramicViewController.m"
-         timestampString = "331767846.752806"
+         timestampString = "332203273.866653"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "184"
-         endingLineNumber = "184"
+         startingLineNumber = "228"
+         endingLineNumber = "228"
          landmarkName = "-loadImage"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1535,11 +1507,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PanoramicViewController.m"
-         timestampString = "331767846.752806"
+         timestampString = "332203273.866653"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "181"
-         endingLineNumber = "181"
+         startingLineNumber = "241"
+         endingLineNumber = "241"
          landmarkName = "-loadImage"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1549,11 +1521,39 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PanoramicViewController.m"
-         timestampString = "331767846.752806"
+         timestampString = "332203273.866653"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "236"
-         endingLineNumber = "236"
+         startingLineNumber = "237"
+         endingLineNumber = "237"
+         landmarkName = "-loadImage"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "PanoramicViewController.m"
+         timestampString = "332203273.866653"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "234"
+         endingLineNumber = "234"
+         landmarkName = "-loadImage"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "PanoramicViewController.m"
+         timestampString = "332203273.866653"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "298"
+         endingLineNumber = "298"
          landmarkName = "-loadImage"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1591,11 +1591,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "PanoramicViewController.m"
-         timestampString = "331767846.752806"
+         timestampString = "332203273.866653"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "178"
-         endingLineNumber = "178"
+         startingLineNumber = "231"
+         endingLineNumber = "231"
          landmarkName = "-loadImage"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1605,7 +1605,7 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/ARISAppDelegate.m"
-         timestampString = "331754135.757304"
+         timestampString = "332102694.486959"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "323"
@@ -1619,7 +1619,7 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/ARISAppDelegate.m"
-         timestampString = "331755284.258026"
+         timestampString = "332102694.486959"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "344"
@@ -1633,7 +1633,7 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/ARISAppDelegate.m"
-         timestampString = "331754135.757304"
+         timestampString = "332102694.486959"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "336"
@@ -1647,97 +1647,13 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/ItemDetailsViewController.m"
-         timestampString = "331846462.434961"
+         timestampString = "332111809.094747"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "225"
-         endingLineNumber = "225"
-         landmarkName = "-pickupButtonTouchAction:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "Classes/ItemDetailsViewController.m"
-         timestampString = "331855783.578733"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "337"
-         endingLineNumber = "337"
+         startingLineNumber = "348"
+         endingLineNumber = "348"
          landmarkName = "@implementation ItemDetailsViewController"
          landmarkType = "3">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "Classes/ItemDetailsViewController.m"
-         timestampString = "331844490.461754"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "152"
-         endingLineNumber = "152"
-         landmarkName = "-backButtonTouchAction:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "Classes/ItemDetailsViewController.m"
-         timestampString = "331855783.578733"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "288"
-         endingLineNumber = "288"
-         landmarkName = "-doActionWithMode:quantity:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "Classes/ItemDetailsViewController.m"
-         timestampString = "331855377.149367"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "269"
-         endingLineNumber = "269"
-         landmarkName = "-doActionWithMode:quantity:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "Classes/ItemDetailsViewController.m"
-         timestampString = "331855783.578733"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "301"
-         endingLineNumber = "301"
-         landmarkName = "-doActionWithMode:quantity:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "Classes/ItemDetailsViewController.m"
-         timestampString = "331855989.713242"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "273"
-         endingLineNumber = "273"
-         landmarkName = "-doActionWithMode:quantity:"
-         landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -1751,6 +1667,146 @@
          startingLineNumber = "81"
          endingLineNumber = "81"
          landmarkName = "-refresh"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "ItemActionViewController.m"
+         timestampString = "332112170.620523"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "106"
+         endingLineNumber = "106"
+         landmarkName = "-viewDidAppear:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "ItemActionViewController.m"
+         timestampString = "332112170.620523"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "135"
+         endingLineNumber = "135"
+         landmarkName = "-actionButtonTouchAction:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "ItemActionViewController.m"
+         timestampString = "332112170.620523"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "118"
+         endingLineNumber = "118"
+         landmarkName = "-viewDidAppear:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "ItemActionViewController.m"
+         timestampString = "332112170.620523"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "160"
+         endingLineNumber = "160"
+         landmarkName = "-pickerView:didSelectRow:inComponent:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "ItemActionViewController.m"
+         timestampString = "332112170.620523"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "117"
+         endingLineNumber = "117"
+         landmarkName = "-viewDidAppear:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "ItemActionViewController.m"
+         timestampString = "332112170.620523"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "146"
+         endingLineNumber = "146"
+         landmarkName = "-pickerView:numberOfRowsInComponent:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "PanoramicViewController.h"
+         timestampString = "332195068.371612"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "30"
+         endingLineNumber = "30"
+         landmarkName = "data"
+         landmarkType = "19">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Classes/model/Panoramic.m"
+         timestampString = "332195068.371612"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "22"
+         endingLineNumber = "22"
+         landmarkName = "-init"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "PanoramicViewController.m"
+         timestampString = "332203273.866653"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "274"
+         endingLineNumber = "274"
+         landmarkName = "-sliderValueChanged:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "PanoramicViewController.m"
+         timestampString = "332203256.77092"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "73"
+         endingLineNumber = "73"
+         landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

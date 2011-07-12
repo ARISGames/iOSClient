@@ -12,7 +12,7 @@
 #import "PanoramicViewController.h"
 
 @implementation Panoramic
-@synthesize name,description,mediaId,iconMediaId,alignMediaId,kind,panoramicId;
+@synthesize name,description,mediaId,iconMediaId,alignMediaId,kind,panoramicId,textureArray;
 -(nearbyObjectKind) kind { return NearbyObjectPanoramic; }
 
 - (Panoramic *) init {
@@ -46,9 +46,7 @@
 	[super dealloc];
 }
 
-- (NSString *) name {
-    return self.name;
-}
+
 
 - (int)	iconMediaId {
     return 5; 

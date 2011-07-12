@@ -17,10 +17,12 @@
     int alignMediaId;
     int panoramicId;
     nearbyObjectKind kind;
+    NSArray *textureArray;
 }
 
 @property(nonatomic, retain) NSString *name;
 @property(nonatomic, retain) NSString *description;
+@property(nonatomic, retain) NSArray *textureArray;
 @property(readwrite, assign) int iconMediaId;
 @property(readwrite, assign) int mediaId;
 @property(readwrite, assign) int alignMediaId;
