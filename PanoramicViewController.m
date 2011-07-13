@@ -61,6 +61,7 @@
     NSLog(@"PanoVC: viewDidLoad");
 
        [super viewDidLoad];
+    self.slider.hidden = YES;
     self.slider.value = 1;
     self.slider.continuous = NO;
     //Setup the PLView
@@ -99,7 +100,7 @@
             [self.plView.motionManager startGyroUpdates];
             
         }
-
+        self.slider.hidden = NO;
         self.slider.minimumValue = 1;
         self.slider.maximumValue = self.numTextures;
         plView.frame = CGRectMake(plView.frame.origin.x, plView.frame.origin.y, plView.frame.size.width, plView.frame.size.height - 60);
@@ -139,9 +140,11 @@
         if([self.panoramic.textureArray count] < 2){
         Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: self.panoramic.mediaId];
         [self loadImageFromMedia:panoMedia];
+            self.slider.hidden = YES;
         }
         else 
         {
+            self.slider.hidden = NO;
             [plView stopAnimation];
             [plView removeAllTextures];
             [plView addTextureAndRelease:[PLTexture textureWithImage:[self.panoramic.textureArray objectAtIndex: (int)(self.slider.value-1)]]];
@@ -178,6 +181,7 @@
                 
         //Setup the UIImagePickerVC for aligning
         self.imagePickerController = [[UIImagePickerController alloc] init];
+
         self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
         self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePickerController.sourceType];
         self.imagePickerController.allowsEditing = NO;
