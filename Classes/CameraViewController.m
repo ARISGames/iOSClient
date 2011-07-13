@@ -108,7 +108,7 @@
 		UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
         if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];             
 		NSLog(@"CameraViewController: Found an Image");
-		self.mediaData = UIImageJPEGRepresentation(image, .8);
+		self.mediaData = UIImageJPEGRepresentation(image, 0.4);
 		self.mediaFilename = @"image.jpg";
         UIImageWriteToSavedPhotosAlbum(image, 
                                        self, 
