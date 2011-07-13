@@ -89,6 +89,13 @@ NSString *const kQuestsHtmlTemplate =
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    NSLog(@"QuestsViewController: viewDidAppear");
+    
+    if (![AppModel sharedAppModel].loggedIn || [AppModel sharedAppModel].currentGame.gameId==0) {
+        NSLog(@"QuestsVC: Player is not logged in, don't refresh");
+        return;
+    }
+    
 	[[AppServices sharedAppServices] updateServerQuestsViewed];
 	
 	[self refresh];
@@ -97,7 +104,7 @@ NSString *const kQuestsHtmlTemplate =
 	newItemsSinceLastView = 0;
 	silenceNextServerUpdateCount = 0;
 		
-	NSLog(@"QuestsViewController: Quests View Did Appear");
+	
 	
 }
 

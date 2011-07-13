@@ -166,6 +166,7 @@
 										//developerNavigationController,
 										nil];
     self.defaultViewControllerForMainTabBar = questsNavigationController;
+    self.tabBarController.view.hidden = YES;
     [window addSubview:self.tabBarController.view];
     
     
@@ -724,6 +725,14 @@
 
 
 #pragma mark Memory Management
+
+- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
+    NSLog(@"AppDelegate: LOW MEMORY WARNING RECIEVED");
+    
+    [[AppServices sharedAppServices]fetchGameMediaListAsynchronously:YES];
+    
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application {
 	NSLog(@"AppDelegate: Begin Application Resign Active");

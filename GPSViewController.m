@@ -126,6 +126,14 @@ static float INITIAL_SPAN = 0.001;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    NSLog(@"GPSViewController: view did appear");
+
+    
+    if (![AppModel sharedAppModel].loggedIn || [AppModel sharedAppModel].currentGame.gameId==0) {
+        NSLog(@"GPSViewController: Player is not logged in, don't refresh");
+        return;
+    }
+    
 	[[AppServices sharedAppServices] updateServerMapViewed];
 	
 	[self refresh];		
@@ -138,9 +146,6 @@ static float INITIAL_SPAN = 0.001;
 	NSLog(@"GPSViewController: Starting Refresh Timer");
 	if (refreshTimer != nil && [refreshTimer isValid]) [refreshTimer invalidate];
 	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
-
-	
-	NSLog(@"GPSViewController: view did appear");
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
