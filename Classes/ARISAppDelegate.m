@@ -217,11 +217,19 @@
 								   selector:@selector(startUpdatingLocation) 
 								   userInfo:nil 
 									repeats:NO];
-    
-		
-    self.loginViewNavigationController.view.hidden = NO;
-    self.tabBarController.view.hidden = YES;
-    self.gameSelectionTabBarController.view.hidden = YES;
+    [[AppModel sharedAppModel] loadUserDefaults];
+    if ([AppModel sharedAppModel].playerId == 0) {
+        self.loginViewNavigationController.view.hidden = NO;
+        self.tabBarController.view.hidden = YES;
+        self.gameSelectionTabBarController.view.hidden = YES;
+    }
+    else {
+        [AppModel sharedAppModel].loggedIn = YES;
+        self.loginViewNavigationController.view.hidden = YES;
+        self.tabBarController.view.hidden = YES;
+        self.gameSelectionTabBarController.view.hidden = NO;
+    }
+
 
 
 

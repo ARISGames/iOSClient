@@ -67,11 +67,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
    
     
     if(!loggedIn &&(self.showGamesInDevelopment == [defaults boolForKey:@"showGamesInDevelopment"])&&(!(![currServ isEqual:self.serverURL] || (self.serverURL == nil)))) {
-        username = [defaults objectForKey:@"username"];
+       /* username = [defaults objectForKey:@"username"];
         password = [defaults objectForKey:@"password"];
         if(username && password)
-            [[AppServices sharedAppServices] login];
+            [[AppServices sharedAppServices] login];*/
+        playerId = [defaults integerForKey:@"playerId"];
     }
+    
     if (![currServ isEqual:self.serverURL] || (self.serverURL == nil)) {
         NSNotification *logoutRequestNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self];
         [[NSNotificationCenter defaultCenter] postNotification:logoutRequestNotification];
@@ -144,7 +146,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
 	[defaults setBool:hasSeenInventoryTabTutorial forKey:@"hasSeenInventoryTabTutorial"];
     [defaults setValue:username forKey:@"username"];
     [defaults setValue:password forKey:@"password"];
-
+    [defaults setInteger:playerId forKey:@"playerId"];
 
 }
 
