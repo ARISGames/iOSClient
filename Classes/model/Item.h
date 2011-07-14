@@ -25,6 +25,7 @@
 	BOOL dropable;
 	BOOL destroyable;
 	nearbyObjectKind kind;
+    NSString *url;
 }
 
 @property(copy, readwrite) NSString *name;
@@ -43,6 +44,8 @@
 @property (readwrite, assign) BOOL dropable;
 @property (readwrite, assign) BOOL destroyable;
 @property (readwrite, assign) BOOL isAttribute;
+
+@property (nonatomic, retain) NSString *url;
 
 
 - (void) display;

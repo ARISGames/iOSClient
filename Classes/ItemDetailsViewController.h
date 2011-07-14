@@ -31,6 +31,7 @@
 	IBOutlet UIButton *backButton;
 	IBOutlet AsyncImageView *itemImageView;
 	IBOutlet UIWebView *itemDescriptionView;
+    IBOutlet UIWebView *itemWebView;
 	IBOutlet UIScrollView *scrollView;
 	UIButton *mediaPlaybackButton;
 	ItemDetailsModeType mode;
@@ -41,6 +42,7 @@
 @property(readwrite) bool inInventory;
 @property(readwrite) ItemDetailsModeType mode;
 @property(nonatomic,retain)	IBOutlet AsyncImageView *itemImageView;
+@property(nonatomic,retain) IBOutlet UIWebView *itemWebView;
 
 
 - (IBAction)dropButtonTouchAction: (id) sender;

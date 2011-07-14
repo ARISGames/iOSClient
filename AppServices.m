@@ -1015,6 +1015,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	item.maxQty = [[itemDictionary valueForKey:@"max_qty_in_inventory"] intValue];
     item.isAttribute = [[itemDictionary valueForKey:@"is_attribute"] boolValue];
     item.weight = [[itemDictionary valueForKey:@"weight"] intValue];
+    item.url = [itemDictionary valueForKey:@"url"];
 	
 	NSLog(@"\tadded item %@", item.name);
 	
@@ -1580,6 +1581,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 		item.qty = [[itemDictionary valueForKey:@"qty"] intValue];
         item.isAttribute = [[itemDictionary valueForKey:@"is_attribute"] boolValue];
         item.weight = [[itemDictionary valueForKey:@"weight"] intValue];
+        item.url = [itemDictionary valueForKey:@"url"];
 		NSLog(@"Model: Adding Item: %@", item.name);
         if(item.isAttribute)[tempAttributes setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]]; 
             else [tempInventory setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]]; 

@@ -33,7 +33,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
 
 @implementation ItemDetailsViewController
-@synthesize item, inInventory,mode,itemImageView;
+@synthesize item, inInventory,mode,itemImageView, itemWebView;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -134,7 +134,23 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	//Stop Waiting Indicator
 	//[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeWaitingIndicator];
 	[self updateQuantityDisplay];
-	
+
+    if (self.item.url && (![self.item.url isEqualToString: @"0"])) {
+        self.itemWebView.hidden = NO;
+        NSString *urlAddress = [self.item.url stringByAppendingString: [NSString stringWithFormat: @"?playerId=%d&gameId=%d",[AppModel sharedAppModel].playerId,[AppModel sharedAppModel].currentGame.gameId]];
+        
+        
+        //Create a URL object.
+        NSURL *url = [NSURL URLWithString:urlAddress];
+        
+        //URL Requst Object
+        NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
+        
+        //Load the request in the UIWebView.
+        [itemWebView loadRequest:requestObj];
+
+    }
+    else itemWebView.hidden = YES;
 	[super viewDidLoad];
 }
 
