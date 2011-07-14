@@ -15,7 +15,6 @@
 	<key>CFBundleIconFiles</key>
 	<array>
 		<string>Icon.png</string>
-		<string>Icon.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
 	<string>org.arisgames.qaclient</string>
