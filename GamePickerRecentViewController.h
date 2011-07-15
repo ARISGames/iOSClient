@@ -22,7 +22,7 @@
 -(void)refresh;
 -(void)showLoadingIndicator;
 -(void)controlChanged:(id)sender;
-
+- (void)refreshViewFromModel;
 
 @property (nonatomic, copy) NSArray *gameList;
 @property (nonatomic, retain) IBOutlet UITableView *gameTable;
