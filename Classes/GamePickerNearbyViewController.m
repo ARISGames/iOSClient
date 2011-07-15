@@ -41,6 +41,7 @@
     
     self.navigationItem.rightBarButtonItem = self.refreshButton;
   
+    [self refresh];
 
 	NSLog(@"GamePickerViewController: View Loaded");
 }
@@ -130,7 +131,6 @@
     
 }
 -(void)removeLoadingIndicator{
-    [self refresh];
 	[[self navigationItem] setRightBarButtonItem:self.refreshButton];
 }
 

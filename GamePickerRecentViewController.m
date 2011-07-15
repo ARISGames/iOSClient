@@ -105,7 +105,7 @@
 }
 
 -(void)removeLoadingIndicator{
-    [self refresh];
+    
 	[[self navigationItem] setRightBarButtonItem:self.refreshButton];
     
 }

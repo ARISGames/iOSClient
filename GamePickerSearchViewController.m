@@ -51,7 +51,7 @@
     self.refreshButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh)];
     
     self.navigationItem.rightBarButtonItem = self.refreshButton;
-    
+    [self refresh];
      [self.theSearchBar becomeFirstResponder]; //Bring up the keyboard right away
 	NSLog(@"SearchVC: View Loaded");
 }
