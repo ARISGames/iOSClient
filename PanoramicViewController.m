@@ -263,7 +263,7 @@
 	[[AppServices sharedAppServices] updateServerPanoramicViewed:self.panoramic.panoramicId];
 	
 	//[self.view removeFromSuperview];
-	[self dismissModalViewControllerAnimated:NO];
+	[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 -(IBAction) touchScreen {

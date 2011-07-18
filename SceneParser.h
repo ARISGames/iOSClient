@@ -26,6 +26,8 @@
 	CGRect			imageRect;
 	float			resizeTime;
     NSString        *exitToTabWithTitle;
+    int             videoId;
+    int             panoId;
     NSXMLParser		*parser;
 	id<SceneParserDelegate> delegate;
 }

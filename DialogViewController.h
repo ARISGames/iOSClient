@@ -54,7 +54,7 @@
 	Npc				*currentNpc;
 	Node			*currentNode;
 	NSArray			*optionList;
-	
+
 	BOOL			closingScriptPlaying;
 	BOOL			inFullScreenTextMode;
 }

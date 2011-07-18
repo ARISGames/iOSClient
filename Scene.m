@@ -18,7 +18,7 @@
 @synthesize zoomTime;
 @synthesize foreSoundMediaId;	
 @synthesize backSoundMediaId;
-@synthesize exitToTabWithTitle;
+@synthesize exitToTabWithTitle,videoId,panoId;
 
 - (id) initWithText:(NSString *)theText 
                isPc:(Boolean)isPcYorN 
@@ -27,7 +27,9 @@
            zoomTime:(float)seconds
           foreSoundMediaId:(int)fgMediaId 
        backSoundMediaId:(int)bgMediaId
-   exitToTabWithTitle:(NSString*)tabTitle {
+   exitToTabWithTitle:(NSString*)tabTitle 
+videoId:(int)vidId
+panoramicId:(int)pId{
 	
 	if ((self = [super init])) {
         self.text = [[theText copy] retain];
@@ -38,6 +40,8 @@
         self.foreSoundMediaId = fgMediaId;	
         self.backSoundMediaId = bgMediaId;
         self.exitToTabWithTitle = tabTitle;
+        self.videoId = vidId;
+        self.panoId = pId;
 	}
 	return self;
 }

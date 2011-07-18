@@ -23,6 +23,9 @@ NSString *const kTagZoomY = @"zoomY";
 NSString *const kTagZoomWidth = @"zoomWidth";
 NSString *const kTagZoomHeight = @"zoomHeight";
 NSString *const kTagZoomTime = @"zoomTime";
+NSString *const kTagVideo = @"video";
+NSString *const kTagId = @"id";
+NSString *const kTagPanoramic = @"panoramic";
 
 
 @implementation SceneParser
@@ -80,7 +83,13 @@ else if ([elementName isEqualToString:kTagDialog]){
         exitToTabWithTitle = [attributeDict objectForKey:kTagExitToTab] ?
         [attributeDict objectForKey:kTagExitToTab] : nil;   
         }
-	
+else if ([elementName isEqualToString:kTagVideo]){
+    videoId = [attributeDict objectForKey:kTagId] ? [[attributeDict objectForKey:kTagId]intValue] : 0;
+}
+
+else if ([elementName isEqualToString:kTagPanoramic]) {
+    panoId = [attributeDict objectForKey:kTagId] ? [[attributeDict objectForKey:kTagId]intValue] : 0;
+}
 	imageRect = CGRectMake(0, 0, 320, 416);
 	imageRect.origin.x = [attributeDict objectForKey:kTagZoomX] ?
         [[attributeDict objectForKey:kTagZoomX] floatValue] : 
@@ -113,7 +122,9 @@ else if ([elementName isEqualToString:kTagDialog]){
     NSLog(@"SceneParser: Ended Element %@", elementName);
 	
     if ([elementName isEqualToString:kTagPc] 
-        || [elementName isEqualToString:kTagNpc])
+        || [elementName isEqualToString:kTagNpc] 
+        || [elementName isEqualToString:kTagPanoramic] 
+        || [elementName isEqualToString:kTagVideo])
 	{
         Scene *newScene = [[Scene alloc] initWithText:currentText 
                                           isPc:isPc 
@@ -122,10 +133,14 @@ else if ([elementName isEqualToString:kTagDialog]){
                                       zoomTime:resizeTime
                               foreSoundMediaId:fgSoundMediaId
                               backSoundMediaId:bgSoundMediaId
-                              exitToTabWithTitle:exitToTabWithTitle]; 
+                                   exitToTabWithTitle:exitToTabWithTitle
+                                              videoId:videoId
+                                          panoramicId:panoId]; 
 
 		[self.script addObject:newScene];
 		[newScene release];
+        panoId = 0;
+        videoId = 0;
 	}
 }
 
@@ -155,7 +170,8 @@ else if ([elementName isEqualToString:kTagDialog]){
                                       zoomTime:kDefaultZoomTime
                               foreSoundMediaId:kEmptySound
                               backSoundMediaId:kEmptySound
-                              exitToTabWithTitle:nil];        
+                              exitToTabWithTitle:nil
+                    videoId:0 panoramicId:0];        
 		
 		[self.script addObject:s];
 		[s release];

@@ -14,6 +14,9 @@
 #import "Media.h"
 #import "Node.h"
 #import "Scene.h"
+#import "ARISMoviePlayerViewController.h"
+#import "Panoramic.h"
+#import "PanoramicViewController.h"
 
 const NSInteger kStartingIndex = 0;
 const NSInteger kPcIndex = 0;
@@ -305,10 +308,34 @@ NSString *const kDialogHtmlTemplate =
 	*priorId = mediaId;
 }
 
+
 - (void) continueScript {
 	if (scriptIndex < [currentScript count]) { //Load up this scene of the script
 
 		Scene *currentScene = [currentScript objectAtIndex:scriptIndex];
+        if (currentScene.videoId !=0) {
+            //Setup the Button
+	
+            Media *media = [[Media alloc] init];
+            media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.videoId];
+            
+            //Create movie player object
+            ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+            [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
+            mMoviePlayer.moviePlayer.shouldAutoplay = NO;
+            [mMoviePlayer.moviePlayer prepareToPlay];		
+            [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
+            [mMoviePlayer release];
+        }
+        else if(currentScene.panoId !=0) {
+          Panoramic *pano = [[AppModel sharedAppModel] panoramicForPanoramicId:currentScene.panoId];
+	PanoramicViewController *panoramicViewController = [[PanoramicViewController alloc] initWithNibName:@"PanoramicViewController" bundle: [NSBundle mainBundle]];    
+            panoramicViewController.panoramic = pano;
+            
+            [self.navigationController pushViewController:panoramicViewController animated:YES];
+            [panoramicViewController release];
+        }
+        
         [self applyScene:currentScene];
 		currentCharacter = currentScene.imageMediaId;
 		++scriptIndex;
@@ -316,7 +343,7 @@ NSString *const kDialogHtmlTemplate =
 	else { 	//End of Script. Display Player Options
 
         ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];        
-        if(cachedScene.exitToTabWithTitle != nil) self.exitToTabVal = cachedScene.exitToTabWithTitle;
+        if(cachedScene.exitToTabWithTitle) self.exitToTabVal = cachedScene.exitToTabWithTitle;
         
         //Check if this is a closing script or we are shutting down
         if(closingScriptPlaying==YES || (self.exitToTabVal != nil)) {
