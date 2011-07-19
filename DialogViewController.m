@@ -270,6 +270,7 @@ NSString *const kDialogHtmlTemplate =
 	[currentScript release];
 	[resourcePath release];
 	[pcTableViewController release];
+    [cachedScene release];
     [super dealloc];
 }
 
@@ -353,7 +354,7 @@ NSString *const kDialogHtmlTemplate =
 	else { 	//End of Script. Display Player Options
 
         ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];        
-        if(cachedScene.exitToTabWithTitle) self.exitToTabVal = cachedScene.exitToTabWithTitle;
+      if(cachedScene.exitToTabWithTitle) self.exitToTabVal = cachedScene.exitToTabWithTitle;
         
         //Check if this is a closing script or we are shutting down
         if(closingScriptPlaying==YES || (self.exitToTabVal != nil)) {
@@ -652,7 +653,7 @@ NSString *const kDialogHtmlTemplate =
 	[UIView commitAnimations];
 
 	
-	[cachedScene release];
+	//[cachedScene release];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {	
