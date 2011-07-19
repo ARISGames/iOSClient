@@ -58,7 +58,8 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	//Show waiting Indicator in own thread so it appears on time
 	//[NSThread detachNewThreadSelector: @selector(showWaitingIndicator:) toTarget: (ARISAppDelegate *)[[UIApplication sharedApplication] delegate] withObject: @"Loading..."];	
 	//[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate]showWaitingIndicator:NSLocalizedString(@"LoadingKey",@"") displayProgressBar:NO];
-	
+
+	self.itemWebView.delegate = self;
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.modalPresent = YES;
 	//Setup the Toolbar Buttons
@@ -134,7 +135,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	//Stop Waiting Indicator
 	//[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeWaitingIndicator];
 	[self updateQuantityDisplay];
-
     if (self.item.url && (![self.item.url isEqualToString: @"0"])) {
         self.itemWebView.hidden = NO;
         NSString *urlAddress = [self.item.url stringByAppendingString: [NSString stringWithFormat: @"?playerId=%d&gameId=%d",[AppModel sharedAppModel].playerId,[AppModel sharedAppModel].currentGame.gameId]];
@@ -382,10 +382,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 }
 
 
-
-
-
-
 #pragma mark Zooming delegate methods
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
@@ -448,7 +444,19 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 		descriptionShowing = YES;
 	}
 }
-
+#pragma mark WebViewDelegate 
+- (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType { 
+    
+    if ([[[req URL] absoluteString] hasPrefix:@"aris://closeMe"]) {
+        [self dismissModalViewControllerAnimated:NO];
+        return NO; 
+    }  
+    else if ([[[req URL] absoluteString] hasPrefix:@"aris://refreshStuff"]) {
+        [[AppServices sharedAppServices] fetchAllPlayerLists];
+        return NO; 
+    }   
+    return YES;
+}
 
 
 #pragma mark Memory Management

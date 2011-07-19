@@ -15,7 +15,7 @@
 
 
 
-@interface ItemDetailsViewController : UIViewController  {
+@interface ItemDetailsViewController : UIViewController <UIWebViewDelegate> {
 	Item *item;
 	//ARISMoviePlayerViewController *mMoviePlayer; //only used if item is a video
 	MPMoviePlayerViewController *mMoviePlayer; //only used if item is a video
@@ -54,5 +54,6 @@
 -(void)doActionWithMode: (ItemDetailsModeType) itemMode quantity: (int) quantity;
 - (void)updateQuantityDisplay;
 
+- (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType;
 
 @end

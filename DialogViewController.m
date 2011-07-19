@@ -67,7 +67,7 @@ NSString *const kDialogHtmlTemplate =
 @synthesize npcImage, pcImage, npcWebView, pcWebView, pcTableView,exitToTabVal;
 @synthesize npcScrollView, pcScrollView, npcImageScrollView, pcImageScrollView, pcActivityIndicator;
 @synthesize npcContinueButton, pcContinueButton, textSizeButton;
-@synthesize pcAnswerView, mainView, npcView, pcView, nothingElseLabel,lbl;
+@synthesize pcAnswerView, mainView, npcView, pcView, nothingElseLabel,lbl,currentNpc,currentNode;
 
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -342,7 +342,8 @@ NSString *const kDialogHtmlTemplate =
         else if(currentScene.webId != 0) {
        
             webpageViewController *webPageViewController = [[webpageViewController alloc] initWithNibName:@"webpageViewController" bundle: [NSBundle mainBundle]];
-            webPageViewController.webPage = [[AppModel sharedAppModel] webPageForWebPageID:currentScene.webId];;
+            webPageViewController.webPage = [[AppModel sharedAppModel] webPageForWebPageID:currentScene.webId];
+            webPageViewController.delegate = self;
             [self.navigationController pushViewController:webPageViewController animated:YES];
             [webPageViewController release];
         }

@@ -13,10 +13,10 @@
 #import "ARISAppDelegate.h"
 #import "Media.h"
 #import "AsyncImageView.h"
-
+#import "DialogViewController.h"
 
 @implementation webpageViewController
-@synthesize webView,webPage;
+@synthesize webView,webPage,delegate;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -46,7 +46,7 @@
 - (void)viewDidLoad
 {
     webView.delegate = self;
-    
+
     //Create a close button
 	self.navigationItem.leftBarButtonItem = 
 	[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey",@"")
@@ -58,13 +58,15 @@
     NSString *urlAddress = self.webPage.url;
     
     //Create a URL object.
-    NSURL *url = [NSURL URLWithString:urlAddress];
     
+    urlAddress = [self.webPage.url stringByAppendingString: [NSString stringWithFormat: @"?playerId=%d&gameId=%d",[AppModel sharedAppModel].playerId,[AppModel sharedAppModel].currentGame.gameId]];
+NSURL *url = [NSURL URLWithString:urlAddress];
     //URL Requst Object
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
     
     //Load the request in the UIWebView.
     [webView loadRequest:requestObj];
+
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 }
@@ -98,11 +100,16 @@
 - (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType { 
 
     if ([[[req URL] absoluteString] hasPrefix:@"aris://closeMe"]) {
-        [self dismissModalViewControllerAnimated:NO];
+        [self.navigationController popToRootViewControllerAnimated:YES];
         return NO; 
     }  
     else if ([[[req URL] absoluteString] hasPrefix:@"aris://refreshStuff"]) {
-        //REFRESH CODEZ
+        [[AppServices sharedAppServices] fetchAllPlayerLists];
+        if([self.delegate isKindOfClass:[DialogViewController class]]){
+            DialogViewController *temp = (DialogViewController *)self.delegate;
+            [[AppServices sharedAppServices] fetchNpcConversations:temp.currentNpc.npcId afterViewingNode:temp.currentNode.nodeId];
+            [temp showWaitingIndicatorForPlayerOptions];
+        }
         return NO; 
     }   
     return YES;

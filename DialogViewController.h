@@ -81,6 +81,8 @@
 @property(nonatomic, retain) IBOutlet UIScrollView	*pcImageScrollView;
 @property(nonatomic, retain) IBOutlet UIActivityIndicatorView *pcActivityIndicator;
 
+@property(nonatomic,retain) Npc *currentNpc;
+@property(nonatomic,retain) Node *currentNode;
 
 @property(nonatomic, retain) IBOutlet UIView		*mainView;
 @property(nonatomic, retain) IBOutlet UIView		*npcView;

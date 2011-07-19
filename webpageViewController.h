@@ -13,10 +13,12 @@
 @interface webpageViewController : UIViewController <UIWebViewDelegate>{
     IBOutlet	UIWebView	*webView;
     WebPage     *webPage;
+    NSObject *delegate;
 }
 
 @property(nonatomic, retain) IBOutlet UIWebView		*webView;
 @property(nonatomic,retain) WebPage *webPage;
+@property(nonatomic,retain) NSObject  *delegate;
 
 - (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType;
 
