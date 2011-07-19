@@ -17,6 +17,8 @@
 #import "ARISMoviePlayerViewController.h"
 #import "Panoramic.h"
 #import "PanoramicViewController.h"
+#import "WebPage.h"
+#import "webpageViewController.h"
 
 const NSInteger kStartingIndex = 0;
 const NSInteger kPcIndex = 0;
@@ -335,6 +337,13 @@ NSString *const kDialogHtmlTemplate =
             
             [self.navigationController pushViewController:panoramicViewController animated:YES];
             [panoramicViewController release];
+        }
+        else if(currentScene.webId != 0) {
+       
+            webpageViewController *webPageViewController = [[webpageViewController alloc] initWithNibName:@"webpageViewController" bundle: [NSBundle mainBundle]];
+            webPageViewController.webPage = [[AppModel sharedAppModel] webPageForWebPageID:currentScene.webId];;
+            [self.navigationController pushViewController:webPageViewController animated:YES];
+            [webPageViewController release];
         }
         
         [self applyScene:currentScene];

@@ -76,7 +76,7 @@
 	
 	
 	//[self.view removeFromSuperview];
-	[self dismissModalViewControllerAnimated:NO];
+	[self.navigationController popToRootViewControllerAnimated:YES];
     
 }
 

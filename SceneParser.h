@@ -28,6 +28,7 @@
     NSString        *exitToTabWithTitle;
     int             videoId;
     int             panoId;
+    int             webId;
     NSXMLParser		*parser;
 	id<SceneParserDelegate> delegate;
 }

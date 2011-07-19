@@ -26,6 +26,8 @@ NSString *const kTagZoomTime = @"zoomTime";
 NSString *const kTagVideo = @"video";
 NSString *const kTagId = @"id";
 NSString *const kTagPanoramic = @"panoramic";
+NSString *const kTagWebpage = @"webpage";
+
 
 
 @implementation SceneParser
@@ -90,6 +92,9 @@ else if ([elementName isEqualToString:kTagVideo]){
 else if ([elementName isEqualToString:kTagPanoramic]) {
     panoId = [attributeDict objectForKey:kTagId] ? [[attributeDict objectForKey:kTagId]intValue] : 0;
 }
+else if ([elementName isEqualToString:kTagWebpage]) {
+    webId = [attributeDict objectForKey:kTagId] ? [[attributeDict objectForKey:kTagId]intValue] : 0;
+}
 	imageRect = CGRectMake(0, 0, 320, 416);
 	imageRect.origin.x = [attributeDict objectForKey:kTagZoomX] ?
         [[attributeDict objectForKey:kTagZoomX] floatValue] : 
@@ -124,7 +129,8 @@ else if ([elementName isEqualToString:kTagPanoramic]) {
     if ([elementName isEqualToString:kTagPc] 
         || [elementName isEqualToString:kTagNpc] 
         || [elementName isEqualToString:kTagPanoramic] 
-        || [elementName isEqualToString:kTagVideo])
+        || [elementName isEqualToString:kTagVideo]
+        || [elementName isEqualToString:kTagWebpage])
 	{
         Scene *newScene = [[Scene alloc] initWithText:currentText 
                                           isPc:isPc 
@@ -135,12 +141,14 @@ else if ([elementName isEqualToString:kTagPanoramic]) {
                               backSoundMediaId:bgSoundMediaId
                                    exitToTabWithTitle:exitToTabWithTitle
                                               videoId:videoId
-                                          panoramicId:panoId]; 
+                                          panoramicId:panoId
+                                            webpageId:webId]; 
 
 		[self.script addObject:newScene];
 		[newScene release];
         panoId = 0;
         videoId = 0;
+        webId = 0;
 	}
 }
 
@@ -171,7 +179,7 @@ else if ([elementName isEqualToString:kTagPanoramic]) {
                               foreSoundMediaId:kEmptySound
                               backSoundMediaId:kEmptySound
                               exitToTabWithTitle:nil
-                    videoId:0 panoramicId:0];        
+                    videoId:0 panoramicId:0 webpageId:0];        
 		
 		[self.script addObject:s];
 		[s release];
