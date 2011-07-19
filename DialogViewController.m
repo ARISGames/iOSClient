@@ -65,7 +65,7 @@ NSString *const kDialogHtmlTemplate =
 @synthesize npcImage, pcImage, npcWebView, pcWebView, pcTableView,exitToTabVal;
 @synthesize npcScrollView, pcScrollView, npcImageScrollView, pcImageScrollView, pcActivityIndicator;
 @synthesize npcContinueButton, pcContinueButton, textSizeButton;
-@synthesize pcAnswerView, mainView, npcView, pcView, nothingElseLabel;
+@synthesize pcAnswerView, mainView, npcView, pcView, nothingElseLabel,lbl;
 
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -207,7 +207,8 @@ NSString *const kDialogHtmlTemplate =
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
 }
-
+-(void)viewDidAppear:(BOOL)animated{
+}
 - (void) viewDidDisappear:(BOOL)animated {
 	NSLog(@"DialogViewController: View Did Disapear");
 	[self stopAllAudio];
@@ -373,29 +374,44 @@ NSString *const kDialogHtmlTemplate =
 }
 
 - (void) applyPlayerOptions{	
-	[self moveAllOutWithPostSelector:nil];
-	[self movePcIn];
 	
-	pcWebView.hidden = YES;
-	pcContinueButton.hidden = YES;
-	pcTableView.hidden = YES;
 	
-	cachedScrollView = pcImage;
-	[pcImageScrollView zoomToRect:[pcImage frame] animated:NO];
 	
-	currentCharacter = 0;
-	self.title = NSLocalizedString(@"DialogPlayerName",@"");
 	++scriptIndex;
 	
 	// Display the appropriate question for the PC
 	if ([currentNode.answerString length] > 0) {
+        [self moveAllOutWithPostSelector:nil];
+        [self movePcIn];
+        pcWebView.hidden = YES;
+        pcContinueButton.hidden = YES;
+        pcTableView.hidden = YES;
+        
+        cachedScrollView = pcImage;
+        [pcImageScrollView zoomToRect:[pcImage frame] animated:NO];
+        
+        currentCharacter = 0;
+        self.title = NSLocalizedString(@"DialogPlayerName",@"");
 		pcTableView.hidden = YES;
 		pcAnswerView.hidden = NO;
 	}
 	else {
 		if (currentNode.numberOfOptions > 0) {
 			//There are node options
-			[self finishApplyingPlayerOptions:currentNode.options];
+            [self moveAllOutWithPostSelector:nil];
+            [self movePcIn];
+            
+            pcWebView.hidden = YES;
+            pcContinueButton.hidden = YES;
+            pcTableView.hidden = YES;
+            
+            cachedScrollView = pcImage;
+            [pcImageScrollView zoomToRect:[pcImage frame] animated:NO];
+            
+            currentCharacter = 0;
+            self.title = NSLocalizedString(@"DialogPlayerName",@"");
+            [self finishApplyingPlayerOptions:currentNode.options];
+
 		}
 		else {
 			//No node options, load the conversations
@@ -427,6 +443,18 @@ NSString *const kDialogHtmlTemplate =
 			[parser parseText:currentNpc.closing];
 	}
 	else {
+        [self moveAllOutWithPostSelector:nil];
+        [self movePcIn];
+        
+        pcWebView.hidden = YES;
+        pcContinueButton.hidden = YES;
+        pcTableView.hidden = YES;
+        
+        cachedScrollView = pcImage;
+        [pcImageScrollView zoomToRect:[pcImage frame] animated:NO];
+        
+        currentCharacter = 0;
+        self.title = NSLocalizedString(@"DialogPlayerName",@"");
 		NSLog(@"DialogViewController: Player options exist or no closing script exists, put them on the screen");
 		pcTableView.hidden = NO;
 		pcAnswerView.hidden = YES;
@@ -439,12 +467,26 @@ NSString *const kDialogHtmlTemplate =
 - (void) showWaitingIndicatorForPlayerOptions{
 	pcTableViewController.view.hidden = YES;
 	pcActivityIndicator.hidden = NO;
+    pcActivityIndicator.frame = CGRectMake(130, 300,50 , 50);
+    pcScrollView.hidden = YES;
+    npcScrollView.hidden = YES;
+    lbl  = [[UILabel alloc] initWithFrame:pcScrollView.frame];
+    lbl.hidden = NO;
+    lbl.backgroundColor = [UIColor blackColor];
+    lbl.alpha = .7;
+    
+    [self.view addSubview:lbl];
+    [self.view addSubview:pcActivityIndicator];
+    [lbl release];
 	[pcActivityIndicator startAnimating];
 }
 - (void) dismissWaitingIndicatorForPlayerOptions{
 	pcTableViewController.view.hidden = NO;	
+    lbl.hidden = YES;
 	pcActivityIndicator.hidden = YES;
+  
 	[pcActivityIndicator stopAnimating];
+   
 }
 
 - (void) applyScene:(Scene *)aScene {	
@@ -663,12 +705,14 @@ NSString *const kDialogHtmlTemplate =
 
 - (void) movePcIn {
 	NSLog(@"DialogViewController: Move PC view to Main View X:%f Y:%f Width:%f Height:%f",mainView.frame.origin.x,mainView.frame.origin.y,mainView.frame.size.width,mainView.frame.size.height );
+    pcScrollView.hidden = NO;
 	[self movePcTo:[mainView frame] withAlpha:1.0
 		  andNpcTo:[npcView frame] withAlpha:[npcView alpha] withPostSelector:nil];
 }
 
 - (void) moveNpcIn {
 	NSLog(@"DialogViewController: Move NPC view to Main View X:%f Y:%f Width:%f Height:%f",mainView.frame.origin.x,mainView.frame.origin.y,mainView.frame.size.width,mainView.frame.size.height );
+    npcScrollView.hidden = NO;
 
 	[self movePcTo:[pcView frame] withAlpha:[pcView alpha]
 		  andNpcTo:[mainView frame] withAlpha:1.0 withPostSelector:nil];	

@@ -55,12 +55,13 @@
 	Node			*currentNode;
 	NSArray			*optionList;
 
+    UILabel         *lbl;
 	BOOL			closingScriptPlaying;
 	BOOL			inFullScreenTextMode;
 }
 
 
-
+@property(nonatomic,retain)UILabel *lbl;
 @property(nonatomic, retain) IBOutlet AsyncImageView	*npcImage;
 @property(nonatomic, retain) IBOutlet AsyncImageView	*pcImage;
 @property(nonatomic, retain) IBOutlet UIWebView		*npcWebView;
