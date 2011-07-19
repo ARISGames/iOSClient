@@ -45,6 +45,7 @@
 
 - (void)viewDidLoad
 {
+    webView.delegate = self;
     
     //Create a close button
 	self.navigationItem.leftBarButtonItem = 
@@ -92,6 +93,15 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType { 
+
+    if ([[[req URL] absoluteString] hasPrefix:@"aris://closeMe"]) {
+        [self dismissModalViewControllerAnimated:NO];
+        return NO; 
+    }   
+    return YES;
 }
 
 @end
