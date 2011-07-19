@@ -100,6 +100,10 @@
     if ([[[req URL] absoluteString] hasPrefix:@"aris://closeMe"]) {
         [self dismissModalViewControllerAnimated:NO];
         return NO; 
+    }  
+    else if ([[[req URL] absoluteString] hasPrefix:@"aris://refreshStuff"]) {
+        //REFRESH CODEZ
+        return NO; 
     }   
     return YES;
 }
