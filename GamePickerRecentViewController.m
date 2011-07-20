@@ -107,7 +107,7 @@
 -(void)removeLoadingIndicator{
     
 	[[self navigationItem] setRightBarButtonItem:self.refreshButton];
-    
+    [gameTable reloadData];
 }
 
 
