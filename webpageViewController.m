@@ -64,6 +64,10 @@ NSURL *url = [NSURL URLWithString:urlAddress];
     //URL Requst Object
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
     
+    //Config the webView
+    webView.allowsInlineMediaPlayback = YES;
+    webView.mediaPlaybackRequiresUserAction = NO;
+    
     //Load the request in the UIWebView.
     [webView loadRequest:requestObj];
 

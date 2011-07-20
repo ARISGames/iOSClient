@@ -136,9 +136,13 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	//[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeWaitingIndicator];
 	[self updateQuantityDisplay];
     if (self.item.url && (![self.item.url isEqualToString: @"0"])) {
-        self.itemWebView.hidden = NO;
-        NSString *urlAddress = [self.item.url stringByAppendingString: [NSString stringWithFormat: @"?playerId=%d&gameId=%d",[AppModel sharedAppModel].playerId,[AppModel sharedAppModel].currentGame.gameId]];
         
+        //Config the webView
+        self.itemWebView.allowsInlineMediaPlayback = YES;
+        self.itemWebView.mediaPlaybackRequiresUserAction = NO;
+        
+        
+        NSString *urlAddress = [self.item.url stringByAppendingString: [NSString stringWithFormat: @"?playerId=%d&gameId=%d",[AppModel sharedAppModel].playerId,[AppModel sharedAppModel].currentGame.gameId]];
         
         //Create a URL object.
         NSURL *url = [NSURL URLWithString:urlAddress];
@@ -148,6 +152,9 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         
         //Load the request in the UIWebView.
         [itemWebView loadRequest:requestObj];
+        
+        self.itemWebView.hidden = NO;
+
 
     }
     else itemWebView.hidden = YES;
