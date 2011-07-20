@@ -135,7 +135,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	//Stop Waiting Indicator
 	//[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeWaitingIndicator];
 	[self updateQuantityDisplay];
-    if (self.item.url && (![self.item.url isEqualToString: @"0"])) {
+    if (self.item.url && (![self.item.url isEqualToString: @"0"]) &&(![self.item.url isEqualToString:@""])) {
         
         //Config the webView
         self.itemWebView.allowsInlineMediaPlayback = YES;
