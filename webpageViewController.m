@@ -83,7 +83,10 @@ NSURL *url = [NSURL URLWithString:urlAddress];
 	
 	
 	//[self.view removeFromSuperview];
-	[self.navigationController popToRootViewControllerAnimated:YES];
+	if([self.delegate isKindOfClass:[DialogViewController class]])
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    else
+        [self dismissModalViewControllerAnimated:YES];
     
 }
 

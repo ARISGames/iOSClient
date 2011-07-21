@@ -22,9 +22,11 @@
     BOOL viewHasAlreadyAppeared;
     int numTextures;
     int lblSpacing;
+    NSObject *delegate;
 }
 
 @property (nonatomic,retain) Panoramic *panoramic;
+@property (nonatomic, retain) NSObject *delegate;
 @property(nonatomic, retain) IBOutlet PLView *plView;
 @property (nonatomic, retain) NSURLConnection *connection;
 @property (nonatomic, retain) NSMutableData* data;

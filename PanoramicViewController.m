@@ -15,10 +15,11 @@
 #import "AsyncImageView.h"
 #import "UIImage+Scale.h"
 #import "UIDevice+Hardware.h"
+#import "DialogViewController.h"
 
 @implementation PanoramicViewController
 
-@synthesize panoramic,plView,connection,data,media,imagePickerController,viewHasAlreadyAppeared,slider,numTextures,lblSpacing;
+@synthesize panoramic,plView,connection,data,media,imagePickerController,viewHasAlreadyAppeared,slider,numTextures,lblSpacing,delegate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -263,7 +264,10 @@
 	[[AppServices sharedAppServices] updateServerPanoramicViewed:self.panoramic.panoramicId];
 	
 	//[self.view removeFromSuperview];
+    if([self.delegate isKindOfClass:[DialogViewController class]])
 	[self.navigationController popToRootViewControllerAnimated:YES];
+    else
+        [self dismissModalViewControllerAnimated:YES];
 }
 
 -(IBAction) touchScreen {
