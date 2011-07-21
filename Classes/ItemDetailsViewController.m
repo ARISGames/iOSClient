@@ -33,7 +33,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
 
 @implementation ItemDetailsViewController
-@synthesize item, inInventory,mode,itemImageView, itemWebView;
+@synthesize item, inInventory,mode,itemImageView, itemWebView,activityIndicator;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -131,7 +131,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	else {
 		NSLog(@"ItemDetailsVC: Error Loading Media ID: %d. It etiher doesn't exist or is not of a valid type.", item.mediaId);
 	}
-
+    self.itemWebView.hidden = YES;
 	//Stop Waiting Indicator
 	//[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeWaitingIndicator];
 	[self updateQuantityDisplay];
@@ -152,9 +152,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         
         //Load the request in the UIWebView.
         [itemWebView loadRequest:requestObj];
-        
-        self.itemWebView.hidden = NO;
-
 
     }
     else itemWebView.hidden = YES;
@@ -463,6 +460,21 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         return NO; 
     }   
     return YES;
+}
+
+-(void)webViewDidFinishLoad:(UIWebView *)webView {
+    self.itemWebView.hidden = NO;
+    [self dismissWaitingIndicator];
+}
+-(void)webViewDidStartLoad:(UIWebView *)webView {
+    [self showWaitingIndicator];
+}
+-(void)showWaitingIndicator {
+    [self.activityIndicator startAnimating];
+}
+
+-(void)dismissWaitingIndicator {
+    [self.activityIndicator stopAnimating];
 }
 
 

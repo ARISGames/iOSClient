@@ -35,6 +35,7 @@
 	IBOutlet UIScrollView *scrollView;
 	UIButton *mediaPlaybackButton;
 	ItemDetailsModeType mode;
+    IBOutlet UIActivityIndicatorView *activityIndicator;
 
 }
 
@@ -43,6 +44,7 @@
 @property(readwrite) ItemDetailsModeType mode;
 @property(nonatomic,retain)	IBOutlet AsyncImageView *itemImageView;
 @property(nonatomic,retain) IBOutlet UIWebView *itemWebView;
+@property(nonatomic, retain) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 
 - (IBAction)dropButtonTouchAction: (id) sender;
@@ -55,5 +57,6 @@
 - (void)updateQuantityDisplay;
 
 - (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType;
-
+- (void) showWaitingIndicator;
+- (void) dismissWaitingIndicator;
 @end

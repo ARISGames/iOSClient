@@ -16,7 +16,7 @@
 #import "DialogViewController.h"
 
 @implementation webpageViewController
-@synthesize webView,webPage,delegate;
+@synthesize webView,webPage,delegate,activityIndicator,blackView;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -46,7 +46,7 @@
 - (void)viewDidLoad
 {
     webView.delegate = self;
-
+    webView.hidden = YES;
     //Create a close button
 	self.navigationItem.leftBarButtonItem = 
 	[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey",@"")
@@ -104,6 +104,25 @@ NSURL *url = [NSURL URLWithString:urlAddress];
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+-(void)webViewDidFinishLoad:(UIWebView *)webView {
+    self.webView.hidden = NO;
+    self.blackView.hidden = YES;
+    [self dismissWaitingIndicator];
+}
+-(void)webViewDidStartLoad:(UIWebView *)webView {
+    [self showWaitingIndicator];
+}
+-(void)showWaitingIndicator {
+    [self.activityIndicator startAnimating];
+     }
+     
+-(void)dismissWaitingIndicator {
+    [self.activityIndicator stopAnimating];
+     }
+-(void)viewDidAppear:(BOOL)animated{
+    self.webView.hidden = YES;
+    self.blackView.hidden = NO;
+}
 - (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType { 
 
     if ([[[req URL] absoluteString] hasPrefix:@"aris://closeMe"]) {
