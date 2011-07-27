@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -176,7 +176,6 @@
 		AB7D277A13C7559800F10AD5 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB7D277913C7559800F10AD5 /* CoreMedia.framework */; };
 		AB7FB978115DBF1500DB81A6 /* clickToPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = AB7FB977115DBF1500DB81A6 /* clickToPlay.png */; };
 		AB82F79011F0EAA300B8E3DC /* microphoneForeground.png in Resources */ = {isa = PBXBuildFile; fileRef = AB82F78F11F0EAA300B8E3DC /* microphoneForeground.png */; };
-		AB8A3CCE104936F500422773 /* libiconv.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AB8A3CCD104936F500422773 /* libiconv.2.dylib */; };
 		AB8A42A0104C7F8C00422773 /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8A429F104C7F8C00422773 /* Node.m */; };
 		AB8E31F61228399B00C198C3 /* textFade.png in Resources */ = {isa = PBXBuildFile; fileRef = AB8E31F51228399B00C198C3 /* textFade.png */; };
 		AB8FD00C117BCF61004F8B9B /* GameDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8FD00A117BCF61004F8B9B /* GameDetails.m */; };
@@ -192,6 +191,9 @@
 		AB997482139D93C40087E387 /* commentsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB99747F139D93C30087E387 /* commentsView.xib */; };
 		AB997483139D93C40087E387 /* commentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB997481139D93C30087E387 /* commentsViewController.m */; };
 		AB9A7C1710AA173F002FD9BC /* ARISURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AB9A7C1610AA173F002FD9BC /* ARISURLConnection.m */; };
+		AB9BA24913DFBAB1007470E3 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AB9BA24813DFBAB1007470E3 /* libz.dylib */; };
+		AB9BA24F13DFBB88007470E3 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AB9BA24E13DFBB88007470E3 /* libiconv.dylib */; };
+		AB9BA25413DFBE3A007470E3 /* PanoramicMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = AB9BA25313DFBE3A007470E3 /* PanoramicMedia.m */; };
 		ABA104C710CA0E3E008538D0 /* ARView.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABA104C610CA0E3E008538D0 /* ARView.xib */; };
 		ABAA644B130FD5410004D64C /* GamePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ABAA644A130FD5410004D64C /* GamePickerCell.m */; };
 		ABAA644F130FD5610004D64C /* GamePickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABAA644E130FD5610004D64C /* GamePickerCell.xib */; };
@@ -244,7 +246,6 @@
 		ABF4A392116847900043EB1C /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = ABF4A391116847900043EB1C /* Reachability.m */; };
 		ABF4A3AD116847E50043EB1C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF4A3AC116847E40043EB1C /* SystemConfiguration.framework */; };
 		ABF4A3B1116847F50043EB1C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF4A3B0116847F50043EB1C /* MobileCoreServices.framework */; };
-		ABF4A3B51168480C0043EB1C /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF4A3B41168480C0043EB1C /* libz.1.2.3.dylib */; };
 		ABFF13A8139F28C2002B5CC6 /* GamePickerMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABFF13A6139F28C2002B5CC6 /* GamePickerMapViewController.m */; };
 		ABFF13A9139F28C2002B5CC6 /* GamePickerMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABFF13A7139F28C2002B5CC6 /* GamePickerMapViewController.xib */; };
 		D424324D1107730E00E58147 /* Scene.m in Sources */ = {isa = PBXBuildFile; fileRef = D424324A1107730E00E58147 /* Scene.m */; };
@@ -574,6 +575,11 @@
 		AB997481139D93C30087E387 /* commentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = commentsViewController.m; sourceTree = "<group>"; };
 		AB9A7C1510AA173F002FD9BC /* ARISURLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISURLConnection.h; sourceTree = "<group>"; };
 		AB9A7C1610AA173F002FD9BC /* ARISURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISURLConnection.m; sourceTree = "<group>"; };
+		AB9BA24813DFBAB1007470E3 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		AB9BA24E13DFBB88007470E3 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
+		AB9BA25013DFBBAD007470E3 /* libc++abi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++abi.dylib"; path = "usr/lib/libc++abi.dylib"; sourceTree = SDKROOT; };
+		AB9BA25213DFBE3A007470E3 /* PanoramicMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PanoramicMedia.h; sourceTree = "<group>"; };
+		AB9BA25313DFBE3A007470E3 /* PanoramicMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PanoramicMedia.m; sourceTree = "<group>"; };
 		ABA104C610CA0E3E008538D0 /* ARView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ARView.xib; sourceTree = "<group>"; };
 		ABAA6449130FD5410004D64C /* GamePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerCell.h; sourceTree = "<group>"; };
 		ABAA644A130FD5410004D64C /* GamePickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerCell.m; sourceTree = "<group>"; };
@@ -648,7 +654,6 @@
 		ABF4A391116847900043EB1C /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		ABF4A3AC116847E40043EB1C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		ABF4A3B0116847F50043EB1C /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		ABF4A3B41168480C0043EB1C /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = usr/lib/libz.1.2.3.dylib; sourceTree = SDKROOT; };
 		ABFF13A5139F28C2002B5CC6 /* GamePickerMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerMapViewController.h; sourceTree = "<group>"; };
 		ABFF13A6139F28C2002B5CC6 /* GamePickerMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerMapViewController.m; sourceTree = "<group>"; };
 		ABFF13A7139F28C2002B5CC6 /* GamePickerMapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GamePickerMapViewController.xib; sourceTree = "<group>"; };
@@ -672,6 +677,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB9BA24F13DFBB88007470E3 /* libiconv.dylib in Frameworks */,
+				AB9BA24913DFBAB1007470E3 /* libz.dylib in Frameworks */,
 				AB1CA8B813C7CDAE00131F81 /* libZXingWidget.a in Frameworks */,
 				AB7D277A13C7559800F10AD5 /* CoreMedia.framework in Frameworks */,
 				AB7D277813C7556100F10AD5 /* AddressBookUI.framework in Frameworks */,
@@ -686,14 +693,12 @@
 				A7E4C8990F54C5E300C6D9E8 /* CoreLocation.framework in Frameworks */,
 				A7955B930F73E095005148E4 /* AudioToolbox.framework in Frameworks */,
 				A79202640F8E717C0049F990 /* MediaPlayer.framework in Frameworks */,
-				AB8A3CCE104936F500422773 /* libiconv.2.dylib in Frameworks */,
 				ABDA40DE10506CB300823A94 /* MapKit.framework in Frameworks */,
 				D4D366DF111B6789009C4D00 /* CFNetwork.framework in Frameworks */,
 				AB0DE80911559D0500A6EC3E /* AVFoundation.framework in Frameworks */,
 				AB0DE80D11559D1200A6EC3E /* CoreAudio.framework in Frameworks */,
 				ABF4A3AD116847E50043EB1C /* SystemConfiguration.framework in Frameworks */,
 				ABF4A3B1116847F50043EB1C /* MobileCoreServices.framework in Frameworks */,
-				ABF4A3B51168480C0043EB1C /* libz.1.2.3.dylib in Frameworks */,
 				AB70F39413153BB500BD06CD /* MessageUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -858,6 +863,8 @@
 		29B97314FDCFA39411CA2CEA /* ARIS */ = {
 			isa = PBXGroup;
 			children = (
+				AB9BA25013DFBBAD007470E3 /* libc++abi.dylib */,
+				AB9BA24E13DFBB88007470E3 /* libiconv.dylib */,
 				AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */,
 				AB0A5BA3120365420065CE68 /* Localizable.strings */,
 				A7149F9C0FB89DC8008BAB5D /* Settings.bundle */,
@@ -908,6 +915,8 @@
 				AB18AEB9137B249A00382826 /* AppServices.m */,
 				1139BA4D13ABC2B7008BF268 /* Panoramic.h */,
 				1139BA4E13ABC2B7008BF268 /* Panoramic.m */,
+				AB9BA25213DFBE3A007470E3 /* PanoramicMedia.h */,
+				AB9BA25313DFBE3A007470E3 /* PanoramicMedia.m */,
 				1122C0BF13A7DE7F004F0392 /* WebPage.h */,
 				1122C0C013A7DE7F004F0392 /* WebPage.m */,
 				2B3D17050F49C99B0067FD3A /* Game.h */,
@@ -1161,7 +1170,7 @@
 				AB70F39313153BB500BD06CD /* MessageUI.framework */,
 				11BE77A613B26515000D037B /* CoreMotion.framework */,
 				11BE779E13B0FCC7000D037B /* OpenGLES.framework */,
-				ABF4A3B41168480C0043EB1C /* libz.1.2.3.dylib */,
+				AB9BA24813DFBAB1007470E3 /* libz.dylib */,
 				AB8A3CCD104936F500422773 /* libiconv.2.dylib */,
 				AB1CA8B713C7CDAE00131F81 /* libZXingWidget.a */,
 			);
@@ -1414,8 +1423,11 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "ARIS" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -1708,6 +1720,7 @@
 				4ADE919C13CB7CB80009F4AF /* UIImage+Scale.m in Sources */,
 				4ADE919F13CB84B80009F4AF /* UIDevice+Hardware.m in Sources */,
 				11A02DA213CBA419007C084C /* ItemActionViewController.m in Sources */,
+				AB9BA25413DFBE3A007470E3 /* PanoramicMedia.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1749,6 +1762,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ARIS_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				HEADER_SEARCH_PATHS = (
 					"thirdParty/zxing/iphone/ZXingWidget/Classes/**",
 					thirdParty/zxing/cpp/core/src/,
@@ -1779,7 +1793,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				ONLY_ACTIVE_ARCH = NO;
-				PREBINDING = NO;
 				PROVISIONING_PROFILE = "D14C3F02-C8B2-42ED-B71D-FC92CB362494";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D14C3F02-C8B2-42ED-B71D-FC92CB362494";
 				SDKROOT = iphoneos;
@@ -1798,6 +1811,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ARIS_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				HEADER_SEARCH_PATHS = (
 					"thirdParty/zxing/iphone/ZXingWidget/Classes/**",
 					thirdParty/zxing/cpp/core/src/,
@@ -1829,7 +1843,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				ONLY_ACTIVE_ARCH = NO;
-				PREBINDING = NO;
 				PROVISIONING_PROFILE = "D14C3F02-C8B2-42ED-B71D-FC92CB362494";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D14C3F02-C8B2-42ED-B71D-FC92CB362494";
 				SDKROOT = iphoneos;
@@ -1848,6 +1861,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ARIS_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				HEADER_SEARCH_PATHS = (
 					"thirdParty/zxing/iphone/ZXingWidget/Classes/**",
 					thirdParty/zxing/cpp/core/src/,
@@ -1878,7 +1892,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				ONLY_ACTIVE_ARCH = NO;
-				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A862388F-9251-40BD-8769-49CC59D42E01";
 				SDKROOT = iphoneos;
 			};

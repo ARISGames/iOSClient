@@ -16,6 +16,7 @@
 #import "Media.h"
 #import "WebPage.h"
 #import "Panoramic.h"
+#import "PanoramicMedia.h"
 #import "JSONResult.h"
 #import "JSONConnection.h"
 #import "JSONResult.h"

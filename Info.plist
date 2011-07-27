@@ -5,9 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDisplayName</key>
-	<string>ARIS QA1930</string>
-	<key>CFBundleDocumentTypes</key>
-	<array/>
+	<string>ARIS QA1971</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleGetInfoString</key>
@@ -25,13 +23,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.5 QA Rev 1930</string>
+	<string>1.5 QA Rev 1971</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleURLTypes</key>
-	<array/>
 	<key>CFBundleVersion</key>
-	<string>1.5 QA Rev 1930</string>
+	<string>1.5 QA Rev 1971</string>
 	<key>Copyright (human-readable)</key>
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
@@ -47,10 +43,7 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>UTExportedTypeDeclarations</key>
-	<array/>
-	<key>UTImportedTypeDeclarations</key>
-	<array/>
 </dict>
 </plist>

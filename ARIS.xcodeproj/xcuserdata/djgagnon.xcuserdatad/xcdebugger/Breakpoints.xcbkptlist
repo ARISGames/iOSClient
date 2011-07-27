@@ -9,26 +9,12 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "GPSViewController.m"
-         timestampString = "331704288.686869"
+         timestampString = "332290831.626372"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "407"
-         endingLineNumber = "407"
+         startingLineNumber = "412"
+         endingLineNumber = "412"
          landmarkName = "-mapView:didSelectAnnotationView:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "SceneParser.m"
-         timestampString = "327446278.445116"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "75"
-         endingLineNumber = "75"
-         landmarkName = "-parser:didStartElement:namespaceURI:qualifiedName:attributes:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -51,11 +37,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/QuestsViewController.m"
-         timestampString = "329438727.925334"
+         timestampString = "332290706.947876"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "181"
-         endingLineNumber = "181"
+         startingLineNumber = "188"
+         endingLineNumber = "188"
          landmarkName = "-refreshViewFromModel"
          landmarkType = "5">
       </FileBreakpoint>
@@ -65,11 +51,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/QuestsViewController.m"
-         timestampString = "329438933.441561"
+         timestampString = "332290706.947876"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "199"
-         endingLineNumber = "199"
+         startingLineNumber = "206"
+         endingLineNumber = "206"
          landmarkName = "-constructCells"
          landmarkType = "5">
       </FileBreakpoint>
@@ -78,13 +64,13 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
-         filePath = "PanoramicViewController.m"
-         timestampString = "331764974.424568"
+         filePath = "Classes/ARISAppDelegate.m"
+         timestampString = "332290330.482017"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "113"
-         endingLineNumber = "113"
-         landmarkName = "-panoImageDidFinishLoading"
+         startingLineNumber = "635"
+         endingLineNumber = "635"
+         landmarkName = "-vibrate"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -92,13 +78,55 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
-         filePath = "Classes/ARISAppDelegate.m"
-         timestampString = "331864847.74812"
+         filePath = "DialogViewController.m"
+         timestampString = "331924329.671073"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "634"
-         endingLineNumber = "634"
-         landmarkName = "-displayNearbyObjectView:"
+         startingLineNumber = "319"
+         endingLineNumber = "319"
+         landmarkName = "-continueScript"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Classes/model/PanoramicMedia.h"
+         timestampString = "333430778.844895"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "16"
+         endingLineNumber = "16"
+         landmarkName = "text"
+         landmarkType = "19">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "AppServices.m"
+         timestampString = "333431554.12529"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "1103"
+         endingLineNumber = "1103"
+         landmarkName = "-parsePanoramicFromDictionary:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "AppServices.m"
+         timestampString = "333435884.246357"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "1127"
+         endingLineNumber = "1127"
+         landmarkName = "-parsePanoramicFromDictionary:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

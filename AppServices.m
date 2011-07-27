@@ -1083,7 +1083,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	return npc;	
 }
 
-
+ 
 -(WebPage *)parseWebPageFromDictionary: (NSDictionary *)webPageDictionary {
 	WebPage *webPage = [[[WebPage alloc] init] autorelease];
 	webPage.webPageId = [[webPageDictionary valueForKey:@"web_page_id"] intValue];
@@ -1099,10 +1099,45 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
     pan.panoramicId  = [[panoramicDictionary valueForKey:@"aug_bubble_id"] intValue];
     pan.name = [panoramicDictionary valueForKey:@"name"];
 	pan.description = [panoramicDictionary valueForKey:@"description"];    
-    pan.mediaId = [[panoramicDictionary valueForKey:@"media_id"] intValue];
     pan.alignMediaId = [[panoramicDictionary valueForKey:@"alignment_media_id"] intValue];
     pan.iconMediaId = [[panoramicDictionary valueForKey:@"icon_media_id"] intValue];
     
+    
+    
+    /*NSMutableArray *activeQuestObjects = [[NSMutableArray alloc] init];
+     NSArray *activeQuests = [questListDictionary objectForKey:@"active"];
+     NSEnumerator *activeQuestsEnumerator = [activeQuests objectEnumerator];
+     NSDictionary *activeQuest;
+     while ((activeQuest = [activeQuestsEnumerator nextObject])) {
+     //We have a quest, parse it into a quest abject and add it to the activeQuestObjects array
+     Quest *quest = [[Quest alloc] init];
+     quest.questId = [[activeQuest objectForKey:@"quest_id"] intValue];
+     quest.name = [activeQuest objectForKey:@"name"];
+     quest.description = [activeQuest objectForKey:@"description"];
+     quest.iconMediaId = [[activeQuest objectForKey:@"icon_media_id"] intValue];
+     [activeQuestObjects addObject:quest];
+     [quest release];
+     }
+     */
+    
+    
+    //parse out the active quests into quest objects
+	NSMutableArray *media = [[NSMutableArray alloc] init];
+	NSArray *incomingPanMediaArray = [panoramicDictionary objectForKey:@"media"];
+	NSEnumerator *incomingPanMediaEnumerator = [incomingPanMediaArray objectEnumerator];
+    NSDictionary* currentPanMediaDictionary;
+	while (currentPanMediaDictionary = (NSDictionary*)[incomingPanMediaEnumerator nextObject]) {
+        PanoramicMedia *pm = [[PanoramicMedia alloc]init];
+        pm.text = [currentPanMediaDictionary objectForKey:@"text"];
+        if ([currentPanMediaDictionary objectForKey:@"media_id"] != [NSNull null] && [[currentPanMediaDictionary objectForKey:@"media_id"] intValue] > 0)
+            pm.mediaId = [[currentPanMediaDictionary objectForKey:@"media_id"] intValue];
+		[media addObject:pm];
+		[pm release];
+	}
+    
+    pan.media = [NSArray arrayWithArray: media];
+    [media release];
+
 	return pan;	
 }
 

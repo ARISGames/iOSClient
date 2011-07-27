@@ -89,20 +89,20 @@ NSString *const kDialogHtmlTemplate =
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	assert(npcImage && @"npcImage not connected.");
-	assert(pcImage && @"pcImage not connected.");
-	assert(npcWebView && @"npcWebView not connected.");
-	assert(pcWebView && @"pcWebView not connected.");
-	assert(npcScrollView && @"npcScrollView not connected.");
-	assert(pcScrollView && @"pcScrollView not connected.");
-	assert(npcImageScrollView && @"npcImageScrollView not connected.");
-	assert(pcImageScrollView && @"pcImageScrollView not connected.");
+	//assert(npcImage && @"npcImage not connected.");
+	//assert(pcImage && @"pcImage not connected.");
+	//assert(npcWebView && @"npcWebView not connected.");
+	//assert(pcWebView && @"pcWebView not connected.");
+	//assert(npcScrollView && @"npcScrollView not connected.");
+	//assert(pcScrollView && @"pcScrollView not connected.");
+	//assert(npcImageScrollView && @"npcImageScrollView not connected.");
+	//assert(pcImageScrollView && @"pcImageScrollView not connected.");
 
-	assert(pcTableView && @"pcTableView not connected.");
-	assert(pcAnswerView && @"pcAnswerView not connected.");
-	assert(mainView && @"mainView not connected.");
-	assert(npcView && @"npcView not connected.");
-	assert(pcView && @"pcView not connected.");
+	//assert(pcTableView && @"pcTableView not connected.");
+	//assert(pcAnswerView && @"pcAnswerView not connected.");
+	//assert(mainView && @"mainView not connected.");
+	//assert(npcView && @"npcView not connected.");
+	//assert(pcView && @"pcView not connected.");
 	
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.modalPresent = YES;

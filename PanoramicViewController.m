@@ -7,6 +7,7 @@
 //
 
 #import "PanoramicViewController.h"
+#import "PanoramicMedia.h"
 #import "AppModel.h"
 #import "AppServices.h"
 #import "NodeOption.h"
@@ -139,7 +140,7 @@
     //Only do this the first time the view appears
     if (!self.viewHasAlreadyAppeared) {
         if([self.panoramic.textureArray count] < 2){
-        Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: self.panoramic.mediaId];
+        Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [self.panoramic.media objectAtIndex:0]]; //TODO: This should be a bit more developed
         [self loadImageFromMedia:panoMedia];
             self.slider.hidden = YES;
         }
