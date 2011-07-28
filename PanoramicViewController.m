@@ -20,7 +20,7 @@
 
 @implementation PanoramicViewController
 
-@synthesize panoramic,plView,connection,data,media,imagePickerController,viewHasAlreadyAppeared,slider,numTextures,lblSpacing,delegate;
+@synthesize panoramic,plView,connection,data,media,imagePickerController,viewHasAlreadyAppeared,slider,numTextures,lblSpacing,delegate,showedAlignment;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -63,20 +63,22 @@
     NSLog(@"PanoVC: viewDidLoad");
 
        [super viewDidLoad];
+    self.panoramic.textureArray = [[NSArray alloc] init];
+    
     self.slider.hidden = YES;
     self.slider.value = 1;
     self.slider.continuous = NO;
     //Setup the PLView
     plView.isDeviceOrientationEnabled = NO;
 	plView.type = PLViewTypeSpherical;
-    UIImage *image1 = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"garden_frame1" ofType:@"jpg"]];
+    /*UIImage *image1 = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"garden_frame1" ofType:@"jpg"]];
     UIImage *image2 = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"garden_frame2" ofType:@"jpg"]];
-    UIImage *image3 = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"garden_frame3" ofType:@"jpg"]];
+    UIImage *image3 = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"garden_frame3" ofType:@"jpg"]];*/
     
-    if ([self.panoramic.name isEqualToString: @"Garden Time Panoramic"]) {
+   /* if ([self.panoramic.name isEqualToString: @"Garden Time Panoramic"]) {
         self.panoramic.textureArray = [NSArray arrayWithObjects:image1,image2,image3, nil];
 
-    } 
+    } */
     
     if([plView.motionManager isGyroAvailable]){
         plView.isGyroEnabled = YES;
@@ -91,7 +93,7 @@
         plView.isInertiaEnabled = YES;
     }
     
-    self.numTextures = [self.panoramic.textureArray count];
+    self.numTextures = [self.panoramic.media count];
         //[self loadImageFromMedia:[self.panoramic.textureArray objectAtIndex:(x-1)]];
         
     
@@ -109,10 +111,10 @@
         self.slider.frame = CGRectMake(15, plView.frame.origin.y + plView.frame.size.height + 5, 290, 20);
 
         self.lblSpacing = self.slider.frame.size.width/(self.numTextures-1);
-        for(int x = self.numTextures;x > 0; x--)
+        for(int x = 0;x < self.numTextures; x++)
         {
-            UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(self.slider.frame.origin.x + lblSpacing*(x-1) - 25, self.slider.frame.origin.y + 10, 50, 70)];
-            lbl.text = [NSString stringWithFormat:@"%dBC",5000-x*1000];
+            UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(self.slider.frame.origin.x + lblSpacing*x - 25, self.slider.frame.origin.y + 10, 50, 70)];
+            lbl.text = [[self.panoramic.media objectAtIndex:x] text];
             lbl.textAlignment = UITextAlignmentLeft;
             lbl.transform = CGAffineTransformMakeRotation( M_PI/2 );
             lbl.textColor = [UIColor whiteColor];
@@ -121,6 +123,8 @@
             [self.view addSubview:lbl];
             [lbl release];
             
+Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.media objectAtIndex:x] mediaId]]; 
+          self.panoramic.textureArray = [self.panoramic.textureArray arrayByAddingObject:panoMedia];
         }
     }
 
@@ -133,27 +137,20 @@
 									action:@selector(backButtonTouchAction:)];	
     
     self.viewHasAlreadyAppeared = NO;
+    self.showedAlignment = NO;
 }
 
 -(void) viewDidAppear:(BOOL)animated{
     NSLog(@"PanoVC: viewDidAppear");
     //Only do this the first time the view appears
     if (!self.viewHasAlreadyAppeared) {
-        if([self.panoramic.textureArray count] < 2){
-        Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [self.panoramic.media objectAtIndex:0]]; //TODO: This should be a bit more developed
-        [self loadImageFromMedia:panoMedia];
+
+        [self loadImageFromMedia:[self.panoramic.textureArray objectAtIndex:0]];
+        if([self.panoramic.media count] < 2){
+        
             self.slider.hidden = YES;
         }
-        else 
-        {
-            self.slider.hidden = NO;
-            [plView stopAnimation];
-            [plView removeAllTextures];
-            [plView addTextureAndRelease:[PLTexture textureWithImage:[self.panoramic.textureArray objectAtIndex: (int)(self.slider.value-1)]]];
-            [plView reset];
-            [plView drawView];
-            [self showPanoView];
-        }
+        else self.slider.hidden = NO;
         }
     
         
@@ -179,7 +176,7 @@
     [plView reset];
     [plView drawView];
     
-    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] && !self.showedAlignment){
                 
         //Setup the UIImagePickerVC for aligning
         self.imagePickerController = [[UIImagePickerController alloc] init];
@@ -232,6 +229,7 @@
         [touchScreen addTarget:self action:@selector(touchScreen) forControlEvents:UIControlEventTouchUpInside];
         
         [self presentModalViewController:self.imagePickerController animated:NO];
+        self.showedAlignment = YES;
     }
     else {
         [self showPanoView];
@@ -281,12 +279,7 @@
 
 -(IBAction) sliderValueChanged: (id) sender{
     [self.slider setValue:roundf(self.slider.value) animated:YES];
-    [plView stopAnimation];
-    [plView removeAllTextures];
-    [plView addTextureAndRelease:[PLTexture textureWithImage:[self.panoramic.textureArray objectAtIndex: (int)(self.slider.value-1)]]];
-    [plView reset];
-    [plView drawView];
-    //[self loadImageFromMedia: [self.panoramic.textureArray objectAtIndex: (int)self.slider.value]];
+    [self loadImageFromMedia: [self.panoramic.textureArray objectAtIndex: (int)self.slider.value-1]];
 }
 #pragma mark -
 #pragma mark PLView Delegate

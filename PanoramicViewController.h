@@ -23,6 +23,7 @@
     int numTextures;
     int lblSpacing;
     NSObject *delegate;
+    BOOL showedAlignment;
 }
 
 @property (nonatomic,retain) Panoramic *panoramic;
@@ -33,6 +34,7 @@
 @property (nonatomic, retain) Media *media;
 @property (nonatomic, retain) UIImagePickerController *imagePickerController;
 @property (readwrite,assign) BOOL viewHasAlreadyAppeared;
+@property (readwrite,assign) BOOL showedAlignment;
 @property (nonatomic,retain) IBOutlet UISlider *slider;
 @property (readwrite,assign) int numTextures;
 @property (readwrite,assign) int lblSpacing;
