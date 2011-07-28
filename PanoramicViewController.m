@@ -232,7 +232,9 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
         self.showedAlignment = YES;
     }
     else {
+        if(!self.showedAlignment)
         [self showPanoView];
+       
     }
 }
 
