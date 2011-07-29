@@ -176,10 +176,10 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
     [plView reset];
     [plView drawView];
     
-    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera] && !self.showedAlignment){
+    if( !self.showedAlignment){
                 
         //Setup the UIImagePickerVC for aligning
-        self.imagePickerController = [[UIImagePickerController alloc] init];
+        /*self.imagePickerController = [[UIImagePickerController alloc] init];
 
         self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
         self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePickerController.sourceType];
@@ -193,7 +193,7 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
         CGAffineTransform scale = CGAffineTransformScale(translate, 1, 1.25);
         imagePickerController.cameraViewTransform = scale;
         
-        
+        */
         /*
         //Load the alignment image from the server
         UIImageView *alignmentImageView = [[UIImageView alloc] initWithImage:self.media.image];
@@ -205,10 +205,10 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
          */
         
         //Capture a static alignment image from the plView
-        UIImageView *alignmentImageView = [[UIImageView alloc] initWithImage:[plView getSnapshot]];
+       /* UIImageView *alignmentImageView = [[UIImageView alloc] initWithImage:[plView getSnapshot]];
         alignmentImageView.alpha = .5;
         [self.imagePickerController.cameraOverlayView addSubview:alignmentImageView]; 
-        [alignmentImageView release];
+        [alignmentImageView release];*/
         
         if (self.plView.motionManager.gyroAvailable) {
 
@@ -218,7 +218,7 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
         }
         
         //Put a button on screen
-        UIButton *touchScreen = [UIButton buttonWithType:UIButtonTypeCustom];
+       /* UIButton *touchScreen = [UIButton buttonWithType:UIButtonTypeCustom];
         [touchScreen setTitle:@"Line Up Views, Then\nTouch Screen To Continue" forState:UIControlStateNormal];
         touchScreen.titleLabel.font = [UIFont systemFontOfSize:24];
         touchScreen.titleLabel.lineBreakMode = UILineBreakModeWordWrap;
@@ -228,8 +228,10 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
         [self.imagePickerController.view addSubview:touchScreen];
         [touchScreen addTarget:self action:@selector(touchScreen) forControlEvents:UIControlEventTouchUpInside];
         
-        [self presentModalViewController:self.imagePickerController animated:NO];
+        [self presentModalViewController:self.imagePickerController animated:NO];*/
         self.showedAlignment = YES;
+        [self showPanoView];
+
     }
     else {
         if(!self.showedAlignment)

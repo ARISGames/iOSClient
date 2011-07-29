@@ -772,7 +772,7 @@
         referenceAttitude = [attitude retain];
     }
     
-    //NSLog(@"PLViewBase: getDeviceGLRotationMatrix: roll: %f pitch: %f yaw: %f",attitude.roll* 180/M_PI,attitude.pitch* 180/M_PI,attitude.yaw* 180/M_PI);
+   // NSLog(@"PLViewBase: getDeviceGLRotationMatrix: roll: %f pitch: %f yaw: %f\n",attitude.roll* 180/M_PI,attitude.pitch* 180/M_PI,attitude.yaw* 180/M_PI);
     
     scene.currentCamera.isRollEnabled = YES;
     scene.currentCamera.isPitchEnabled= YES;
@@ -781,9 +781,9 @@
     int sign = 1;
     if(ABS(attitude.roll* 180/M_PI)>90) sign = -1;
     else sign =  1;
-       [scene.currentCamera rotateWithPitch:(sign*ABS(attitude.pitch - referenceAttitude.pitch)* 180/M_PI) yaw:((attitude.yaw - referenceAttitude.yaw) * 180/M_PI) roll:((attitude.roll - referenceAttitude.roll)*180/M_PI)];
+       [scene.currentCamera rotateWithPitch:(sign*ABS(attitude.pitch - M_PI/2)* 180/M_PI) yaw:((attitude.yaw - referenceAttitude.yaw) * 180/M_PI) roll:((attitude.roll - referenceAttitude.roll)*180/M_PI)];
     
-   //NSLog(@"PLViewBase: getDeviceGLRotationMatrix: Camera is now at pitch: %f yaw: %f roll: %f",(scene.currentCamera.pitch) ,(scene.currentCamera.yaw),scene.currentCamera.roll);
+  // NSLog(@"PLViewBase: getDeviceGLRotationMatrix: Camera is now at pitch: %f yaw: %f roll: %f\n",(scene.currentCamera.pitch) ,(scene.currentCamera.yaw),scene.currentCamera.roll);
 
     [self drawView];
 }
