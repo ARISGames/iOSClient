@@ -125,6 +125,7 @@
             
 Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.media objectAtIndex:x] mediaId]]; 
           self.panoramic.textureArray = [self.panoramic.textureArray arrayByAddingObject:panoMedia];
+            //[panoMedia release];
         }
     }
 
@@ -169,6 +170,8 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
 
 -(void) viewDidDisappear:(BOOL)animated {
     NSLog(@"PanoVC: viewDidDisappear");
+    [(Media *)[self.panoramic.textureArray objectAtIndex:0] setImage:nil];
+   
 }
 
 
