@@ -809,7 +809,7 @@ NSString *const kDialogHtmlTemplate =
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
 	if (section == 0) return [optionList count];
-	else return 2;
+	else return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -824,9 +824,8 @@ NSString *const kDialogHtmlTemplate =
 		cell.textLabel.text = option.text;
 	}
 	else if (indexPath.row == 0) {
-		cell.textLabel.text = NSLocalizedString(@"DialogReview",@"");
+		cell.textLabel.text = NSLocalizedString(@"DialogEnd",@"");
 	}
-	else cell.textLabel.text = NSLocalizedString(@"DialogEnd",@""); 
 	
 	
 	cell.textLabel.textAlignment = UITextAlignmentCenter;
@@ -858,16 +857,8 @@ NSString *const kDialogHtmlTemplate =
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	
-	//Check if it is the "review option"
-	if (indexPath.section == 1 && indexPath.row == 0) {
-		pcWebView.hidden = YES;
-		pcTableView.hidden = YES;
-		[self reviewScript];
-		return;
-	}
-
 	//Check if it is the "leave conversation" option
-	if (indexPath.section == 1 && indexPath.row == 1) {
+	if (indexPath.section == 1 && indexPath.row == 0) {
 		[self backButtonTouchAction:nil];
 		return;
 	}
