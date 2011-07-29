@@ -153,7 +153,15 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
         else self.slider.hidden = NO;
         }
     
+    if (self.plView.motionManager.gyroAvailable) {
         
+        [self.plView.motionManager startDeviceMotionUpdates];
+        [self.plView.motionManager startGyroUpdates];
+        NSLog(@"PanoVC: enable Gyro");
+        [self.plView enableGyro] ;
+        
+    }
+  
     self.viewHasAlreadyAppeared = YES;
 
 }
@@ -163,93 +171,6 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
     NSLog(@"PanoVC: viewDidDisappear");
 }
 
-
-- (void)panoImageDidFinishLoading{
-    NSLog(@"PanoVC: panoImageDidFinishLoading");
-    
-    NSLog(@"PanoVC: panoImageDidFinishLoading: Max Texture Size on this Device: %d", GL_MAX_TEXTURE_SIZE);
-
-
-    [plView stopAnimation];
-    [plView removeAllTextures];
-    [plView addTextureAndRelease:[PLTexture textureWithImage:self.media.image]];
-    [plView reset];
-    [plView drawView];
-    
-    if( !self.showedAlignment){
-                
-        //Setup the UIImagePickerVC for aligning
-        /*self.imagePickerController = [[UIImagePickerController alloc] init];
-
-        self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-        self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePickerController.sourceType];
-        self.imagePickerController.allowsEditing = NO;
-        self.imagePickerController.showsCameraControls = NO;
-        self.imagePickerController.delegate = self;
-        
-        
-        CGAffineTransform translate = CGAffineTransformMakeTranslation(0.0, 27.0);
-        imagePickerController.cameraViewTransform = translate;
-        CGAffineTransform scale = CGAffineTransformScale(translate, 1, 1.25);
-        imagePickerController.cameraViewTransform = scale;
-        
-        */
-        /*
-        //Load the alignment image from the server
-        UIImageView *alignmentImageView = [[UIImageView alloc] initWithImage:self.media.image];
-        alignmentImageView.frame = self.plView.frame;
-        alignmentImageView.contentMode = UIViewContentModeScaleAspectFill;            
-        alignmentImageView.alpha = .5;
-        self.imagePickerController.cameraOverlayView = alignmentImageView; 
-        [alignmentImageView release];
-         */
-        
-        //Capture a static alignment image from the plView
-       /* UIImageView *alignmentImageView = [[UIImageView alloc] initWithImage:[plView getSnapshot]];
-        alignmentImageView.alpha = .5;
-        [self.imagePickerController.cameraOverlayView addSubview:alignmentImageView]; 
-        [alignmentImageView release];*/
-        
-        if (self.plView.motionManager.gyroAvailable) {
-
-        [self.plView.motionManager startDeviceMotionUpdates];
-        [self.plView.motionManager startGyroUpdates];
-            
-        }
-        
-        //Put a button on screen
-       /* UIButton *touchScreen = [UIButton buttonWithType:UIButtonTypeCustom];
-        [touchScreen setTitle:@"Line Up Views, Then\nTouch Screen To Continue" forState:UIControlStateNormal];
-        touchScreen.titleLabel.font = [UIFont systemFontOfSize:24];
-        touchScreen.titleLabel.lineBreakMode = UILineBreakModeWordWrap;
-        touchScreen.titleLabel.textAlignment = UITextAlignmentCenter;
-        touchScreen.titleLabel.numberOfLines = 2;
-        touchScreen.frame = self.plView.frame;
-        [self.imagePickerController.view addSubview:touchScreen];
-        [touchScreen addTarget:self action:@selector(touchScreen) forControlEvents:UIControlEventTouchUpInside];
-        
-        [self presentModalViewController:self.imagePickerController animated:NO];*/
-        self.showedAlignment = YES;
-        [self showPanoView];
-
-    }
-    else {
-        if(!self.showedAlignment)
-        [self showPanoView];
-       
-    }
-}
-
-
-- (void)showPanoView{
-    NSLog(@"PanoVC: showPanoView");
-
-    if (self.plView.motionManager.gyroAvailable) {
-        NSLog(@"PanoVC: enable Gyro");
-        [self.plView enableGyro] ;
-    }    
-    [self.view addSubview:plView];
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -273,13 +194,6 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
         [self dismissModalViewControllerAnimated:YES];
 }
 
--(IBAction) touchScreen {
-    NSLog(@"PanoVC: touchScreen");
-    
-    [self dismissModalViewControllerAnimated:YES];
-
-    [self showPanoView];
-}
 
 -(IBAction) sliderValueChanged: (id) sender{
     [self.slider setValue:roundf(self.slider.value) animated:YES];
@@ -302,7 +216,7 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
 - (void)loadImageFromMedia:(Media *) aMedia {
 	self.media = aMedia;
 	//check if the media already as the image, if so, just grab it
-    if(self.media.image) [self panoImageDidFinishLoading];
+    if(self.media.image) [self showPanoView];;
     if (!aMedia.url) {
         return;
     }
@@ -351,9 +265,20 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
 	//Save the image in the media
 	self.media.image = image;
 	[self.media.image retain];
-    [self panoImageDidFinishLoading];
+    [self showPanoView];
 	
 	}
+- (void)showPanoView{
+    NSLog(@"PanoVC: showPanoView");
+    
+    [plView stopAnimation];
+    [plView removeAllTextures];
+    [plView addTextureAndRelease:[PLTexture textureWithImage:self.media.image]];
+    [plView reset];
+    [plView drawView];
+ 
+    [self.view addSubview:plView];
+}
 
 
 @end
