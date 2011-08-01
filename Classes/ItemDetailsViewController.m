@@ -452,6 +452,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 - (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType { 
     
     if ([[[req URL] absoluteString] hasPrefix:@"aris://closeMe"]) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
         [self dismissModalViewControllerAnimated:NO];
         return NO; 
     }  
