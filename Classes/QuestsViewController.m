@@ -48,7 +48,7 @@ NSString *const kQuestsHtmlTemplate =
 @implementation QuestsViewController
 
 @synthesize quests,questCells;
-@synthesize activeQuestsSwitch;
+@synthesize activeQuestsSwitch,activeSort;
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
@@ -57,7 +57,7 @@ NSString *const kQuestsHtmlTemplate =
     if (self) {
         self.title = NSLocalizedString(@"QuestViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"quest.png"];
-
+        activeSort = 1;
 		cellsLoaded = 0;
 		
 		//register for notifications
@@ -156,7 +156,8 @@ NSString *const kQuestsHtmlTemplate =
 			}
 			if (match == NO) {
 				newItems ++;;
-                
+                quest.sortNum = activeSort;
+                activeSort++;
                 NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"New Quest Available",@"title",quest.name,@"prompt", nil];
                 
                 [appDelegate performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
@@ -232,7 +233,13 @@ NSString *const kQuestsHtmlTemplate =
 	NSArray *completedQuests = [self.quests objectAtIndex:COMPLETED_SECTION];
 	NSEnumerator *e;
 	Quest *quest;
-	
+	NSSortDescriptor *sortDescriptor;
+    sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"sortNum"
+                                                  ascending:NO] autorelease];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    
+    activeQuests = [activeQuests sortedArrayUsingDescriptors:sortDescriptors];
+
     NSLog(@"QuestsVC: Active Quests Selected");
     e = [activeQuests objectEnumerator];
     while ( (quest = (Quest*)[e nextObject]) ) {

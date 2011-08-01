@@ -20,7 +20,7 @@
 	IBOutlet UIProgressView *progressView;
 	IBOutlet UILabel *progressLabel;
     IBOutlet UISegmentedControl *activeQuestsSwitch;
-
+    int activeSort;
 	int silenceNextServerUpdateCount;
 	int newItemsSinceLastView;
 }
@@ -28,7 +28,7 @@
 @property(nonatomic, retain) NSMutableArray *quests;
 @property(nonatomic, retain) NSMutableArray *questCells;
 @property(nonatomic, retain) UISegmentedControl *activeQuestsSwitch;
-
+@property(readwrite, assign) int activeSort;
 
 - (void)refresh;
 - (void)showLoadingIndicator;

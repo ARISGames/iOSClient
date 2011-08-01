@@ -14,6 +14,7 @@
 	NSString *name;
 	NSString *description;
 	int iconMediaId;
+    int sortNum;
     BOOL isNullQuest;
 }
 
@@ -21,6 +22,7 @@
 @property(copy, readwrite) NSString *name;
 @property(copy, readwrite) NSString *description;
 @property(readwrite, assign) int iconMediaId;
+@property(readwrite, assign) int sortNum;
 @property(readwrite, assign) BOOL isNullQuest;
 
 @end
