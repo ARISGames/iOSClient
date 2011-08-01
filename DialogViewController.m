@@ -219,8 +219,6 @@ NSString *const kDialogHtmlTemplate =
 - (IBAction)backButtonTouchAction: (id) sender{
 	NSLog(@"DialogViewController: Notify server of NPC view and Dismiss view");
 	
-	//tell the server
-	[[AppServices sharedAppServices] updateServerNpcViewed:currentNpc.npcId];
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.modalPresent = NO;
 	[self dismissModalViewControllerAnimated:NO];
@@ -277,6 +275,9 @@ NSString *const kDialogHtmlTemplate =
 
 - (void)applyNPCWithGreeting{
 
+    //tell the server
+	[[AppServices sharedAppServices] updateServerNpcViewed:currentNpc.npcId];
+    
     NSString *string1 = currentNpc.greeting;
     NSString *trimmedString = [string1 stringByReplacingOccurrencesOfString:@" " withString:@""]; //remove whitespace
     if([trimmedString length] == 0)[self continueScript]; //if no greeting entered then go to closing screen
@@ -359,7 +360,6 @@ NSString *const kDialogHtmlTemplate =
         
         //Check if this is a closing script or we are shutting down
         if(closingScriptPlaying==YES || (self.exitToTabVal != nil)) {
-            [[AppServices sharedAppServices] updateServerNpcViewed:currentNpc.npcId];
             [self dismissModalViewControllerAnimated:NO];
             appDelegate.modalPresent = NO;
         }
