@@ -128,7 +128,8 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
             //[panoMedia release];
         }
     }
-
+    else {Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.media objectAtIndex:0] mediaId]]; 
+        self.panoramic.textureArray = [self.panoramic.textureArray arrayByAddingObject:panoMedia]; }
     
     //Create a close button
 	self.navigationItem.leftBarButtonItem = 
