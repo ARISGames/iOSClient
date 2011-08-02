@@ -469,7 +469,12 @@ NSString *const kDialogHtmlTemplate =
 		NSLog(@"DialogViewController: Player options exist or no closing script exists, put them on the screen");
 		pcTableView.hidden = NO;
 		pcAnswerView.hidden = YES;
-		optionList = options;
+        NSSortDescriptor *sortDescriptor;
+        sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"hasViewed"
+                                                      ascending:YES] autorelease];
+        NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+        
+        optionList = [options sortedArrayUsingDescriptors:sortDescriptors];
 		[optionList retain];
 		[pcTableView reloadData];
 	}
@@ -822,15 +827,23 @@ NSString *const kDialogHtmlTemplate =
 	if (indexPath.section == 0) {
 		NodeOption *option = [optionList objectAtIndex:indexPath.row];
 		cell.textLabel.text = option.text;
+        if(option.hasViewed){ 
+            cell.backgroundColor = [UIColor colorWithRed:233.0/255.0  
+                                                                    green:233.0/255.0  
+                                                                     blue:233.0/255.0 alpha:1.0];
+         cell.textLabel.textColor = [UIColor colorWithRed:(100.0/255.0) green:(129.0/255.0) blue:(183.0/255.0) alpha:1];                                                           
+        }
+        else cell.textLabel.textColor = [UIColor colorWithRed:(50.0/255.0) green:(79.0/255.0) blue:(133.0/255.0) alpha:1];
 	}
 	else if (indexPath.row == 0) {
 		cell.textLabel.text = NSLocalizedString(@"DialogEnd",@"");
+        cell.textLabel.textColor = [UIColor colorWithRed:(50.0/255.0) green:(79.0/255.0) blue:(133.0/255.0) alpha:1];
 	}
 	
 	
 	cell.textLabel.textAlignment = UITextAlignmentCenter;
 	cell.textLabel.minimumFontSize = kOptionsFontSize;
-	cell.textLabel.textColor = [UIColor colorWithRed:(50.0/255.0) green:(79.0/255.0) blue:(133.0/255.0) alpha:1];
+	
 	cell.textLabel.numberOfLines = 0;
 	[cell.textLabel sizeToFit];
 	

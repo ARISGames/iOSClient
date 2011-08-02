@@ -9,12 +9,13 @@
 #import "NodeOption.h"
 
 @implementation NodeOption
-@synthesize text, nodeId;
+@synthesize text, nodeId, hasViewed;
 
-- (NodeOption *) initWithText:(NSString *)optionText andNodeId: (int)optionNodeId {
+- (NodeOption *) initWithText:(NSString *)optionText andNodeId: (int)optionNodeId andHasViewed:(BOOL)hasViewedB{
 	if (self = [super init]) {
 		self.text = optionText;
 		self.nodeId = optionNodeId;
+        self.hasViewed = hasViewedB;
 	}
 	return self;
 }
