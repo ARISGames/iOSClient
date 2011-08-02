@@ -1157,7 +1157,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 		//Make the Node Option and add it to the Npc
 		int optionNodeId = [[conversationDictionary valueForKey:@"node_id"] intValue];
 		NSString *text = [conversationDictionary valueForKey:@"text"]; 
-		NodeOption *option = [[NodeOption alloc] initWithText:text andNodeId: optionNodeId];
+        BOOL hasViewed = [[conversationDictionary valueForKey:@"has_viewed"] boolValue];
+		NodeOption *option = [[NodeOption alloc] initWithText:text andNodeId: optionNodeId andHasViewed:hasViewed];
 		[conversationNodeOptions addObject:option];
 		[option release];
 	}
