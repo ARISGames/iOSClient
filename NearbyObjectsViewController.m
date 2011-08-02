@@ -107,7 +107,7 @@
 	//Filter out the locations that meet some basic requirements
 	for(Location *location in [AppModel sharedAppModel].locationList) {
 		if ([[AppModel sharedAppModel].playerLocation distanceFromLocation:location.location] > location.error) continue;
-		else if (location.kind == NearbyObjectItem && location.qty < 1 ) continue;
+		else if (location.kind == NearbyObjectItem && location.qty ==0 ) continue;
 		else if (location.kind == NearbyObjectPlayer) continue;
 		else [nearbyLocationList addObject:location];
 	}
