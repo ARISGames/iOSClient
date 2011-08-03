@@ -12,7 +12,8 @@
 #import "Quest.h"
 #import "Media.h"
 #import "AsyncImageView.h"
-
+#import "WebPage.h"
+#import "webpageViewController.h"
 
 static NSString * const OPTION_CELL = @"quest";
 static int const ACTIVE_SECTION = 0;
@@ -38,7 +39,6 @@ NSString *const kQuestsHtmlTemplate =
 @"		font-family: Helvetia, Sans-Serif;"
 @"		margin: 0 0 10 0;"
 @"	}"
-@"	a {color: #FFFFFF; text-decoration: underline; }"
 @"	--></style>"
 @"</head>"
 @"<body><h1>%@</h1>%@</body>"
@@ -47,7 +47,7 @@ NSString *const kQuestsHtmlTemplate =
 
 @implementation QuestsViewController
 
-@synthesize quests,questCells;
+@synthesize quests,questCells,isLink;
 @synthesize activeQuestsSwitch,activeSort;
 
 //Override init for passing title and icon to tab bar
@@ -59,7 +59,7 @@ NSString *const kQuestsHtmlTemplate =
         self.tabBarItem.image = [UIImage imageNamed:@"quest.png"];
         activeSort = 1;
 		cellsLoaded = 0;
-		
+		self.isLink = NO;
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
 		[dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedQuestList" object:nil];
@@ -301,19 +301,35 @@ NSString *const kQuestsHtmlTemplate =
 shouldStartLoadWithRequest:(NSURLRequest *)request  
  navigationType:(UIWebViewNavigationType)navigationType; {  
 	
-    NSURL *requestURL = [ [ request URL ] retain ];  
-	// Check to see what protocol/scheme the requested URL is.  
-	if ( ( [ [ requestURL scheme ] isEqualToString: @"http" ]  
+   /* NSURL *requestURL = [ [ request URL ] retain ];
+    if ( ( [ [ requestURL scheme ] isEqualToString: @"http" ]  
 		  || [ [ requestURL scheme ] isEqualToString: @"https" ] )  
 		&& ( navigationType == UIWebViewNavigationTypeLinkClicked ) ) {  
 		return ![ [ UIApplication sharedApplication ] openURL: [ requestURL autorelease ] ];  
-	}  
+	}  */
+    if(self.isLink && ![[[request URL]absoluteString] isEqualToString:@"about:blank"]) {
+        webpageViewController *webPageViewController = [[webpageViewController alloc] initWithNibName:@"webpageViewController" bundle: [NSBundle mainBundle]];
+        WebPage *temp = [[WebPage alloc]init];
+        temp.url = [[request URL]absoluteString];
+        webPageViewController.webPage = temp;
+        webPageViewController.delegate = self;
+        [self.navigationController pushViewController:webPageViewController animated:NO];
+        [webPageViewController release];
+        
+        return NO;
+    }
+    else{
+        self.isLink = YES;
+        return YES;}
+
+	// Check to see what protocol/scheme the requested URL is.  
+	
 	// Auto release  
-	[ requestURL release ];  
+	//[ requestURL release ];  
 	// If request url is something other than http or https it will open  
 	// in UIWebView. You could also check for the other following  
 	// protocols: tel, mailto and sms  
-	return YES;  
+	//return YES;  
 } 
 
 

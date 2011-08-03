@@ -36,8 +36,10 @@
 	UIButton *mediaPlaybackButton;
 	ItemDetailsModeType mode;
     IBOutlet UIActivityIndicatorView *activityIndicator;
+    BOOL isLink;
 
 }
+@property(readwrite, assign) BOOL isLink;
 
 @property(readwrite, retain) Item *item;
 @property(readwrite) bool inInventory;

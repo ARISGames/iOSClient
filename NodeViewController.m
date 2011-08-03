@@ -13,11 +13,31 @@
 #import "ARISAppDelegate.h"
 #import "Media.h"
 #import "AsyncImageView.h"
+#import "webpageViewController.h"
+#import "WebPage.h"
 
 static NSString * const OPTION_CELL = @"option";
 
+NSString *const kPlaqueDescriptionHtmlTemplate = 
+@"<html>"
+@"<head>"
+@"	<title>Aris</title>"
+@"	<style type='text/css'><!--"
+@"	body {"
+@"		background-color: #000000;"
+@"		color: #FFFFFF;"
+@"		font-size: 17px;"
+@"		font-family: Helvetia, Sans-Serif;"
+@"	}"
+@"	a {color: #9999FF; text-decoration: underline; }"
+@"	--></style>"
+@"</head>"
+@"<body>%@</body>"
+@"</html>";
+
+
 @implementation NodeViewController
-@synthesize node, tableView, scrollView;
+@synthesize node, tableView, scrollView,aWebView,isLink;
 @synthesize continueButton;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -32,6 +52,7 @@ static NSString * const OPTION_CELL = @"option";
 												 selector:@selector(movieLoadStateChanged:) 
 													 name:MPMoviePlayerLoadStateDidChangeNotification 
 												   object:nil];
+        self.isLink=NO;
     }
 
     return self;
@@ -43,11 +64,38 @@ static NSString * const OPTION_CELL = @"option";
 	NSLog(@"NodeViewController: Displaying Node '%@'",self.node.name);
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.modalPresent = YES;
-    
+    self.aWebView.delegate = self;
     [self refreshView];
     [super viewDidLoad];
 }
-
+-(void)viewDidDisappear:(BOOL)animated{
+   // self.isLink= NO;
+}
+-(void)webViewDidFinishLoad:(UIWebView *)webView{
+    if (!self.isLink){
+        CGRect aWebViewFrame = [aWebView frame];	
+        float newHeight = [[aWebView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
+        aWebViewFrame.size = CGSizeMake(aWebViewFrame.size.width, newHeight);
+        [aWebView setFrame:aWebViewFrame];
+        [[[aWebView subviews] lastObject] setScrollEnabled:NO];
+    }
+}
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+    if(self.isLink) {
+        webpageViewController *webPageViewController = [[webpageViewController alloc] initWithNibName:@"webpageViewController" bundle: [NSBundle mainBundle]];
+        WebPage *temp = [[WebPage alloc]init];
+        temp.url = [[request URL]absoluteString];
+        webPageViewController.webPage = temp;
+        webPageViewController.delegate = self;
+        [self.navigationController pushViewController:webPageViewController animated:NO];
+        [webPageViewController release];
+        
+        return NO;
+    }
+    else{
+    self.isLink = YES;
+        return YES;}
+}
 - (void) refreshView {
 	self.title = self.node.name;
 	int topMargin = 10;
@@ -109,20 +157,26 @@ static NSString * const OPTION_CELL = @"option";
 	nodeTextView.numberOfLines = 0;
 	[scrollView setContentSize:CGSizeMake(320, nodeTextView.frame.origin.y
 										  + nodeTextView.frame.size.height + continueButton.frame.size.height+40)];
+    
 	//Add the text to the scroller
 	[scrollView addSubview:nodeTextView];
+    aWebView.backgroundColor =[UIColor blackColor];
+    NSString *htmlDescription = [NSString stringWithFormat:kPlaqueDescriptionHtmlTemplate, self.node.text];
+    aWebView.frame = CGRectMake(sideMargin, imageSize.height + topMargin,320 - (2 * sideMargin),aWebView.frame.size.height);
+	[aWebView loadHTMLString:htmlDescription baseURL:nil];
+    [scrollView addSubview:aWebView];
 	[nodeTextView release];
 	
     //Create continue button
     [continueButton setTitle: NSLocalizedString(@"DialogContinue",@"") forState: UIControlStateNormal];
 	[continueButton setTitle: NSLocalizedString(@"DialogContinue",@"") forState: UIControlStateHighlighted];	
     [continueButton addTarget:self action:@selector(continueButtonTouchAction:) forControlEvents:UIControlEventTouchUpInside];
-    
+    scrollView.frame = CGRectMake(scrollView.frame.origin.x, scrollView.frame.origin.y, scrollView.frame.size.width, scrollView.frame.size.height-20);
     CGRect continueButtonFrame = [continueButton frame];	
     if(scrollView.contentSize.height > scrollView.frame.size.height)
-	continueButtonFrame.origin = CGPointMake(continueButtonFrame.origin.x, scrollView.contentSize.height-continueButton.frame.size.height-20);
+	continueButtonFrame.origin = CGPointMake(continueButtonFrame.origin.x, scrollView.contentSize.height-continueButton.frame.size.height);
     else
-    continueButtonFrame.origin = CGPointMake(continueButtonFrame.origin.x, scrollView.frame.size.height-continueButton.frame.size.height-20);
+    continueButtonFrame.origin = CGPointMake(continueButtonFrame.origin.x, scrollView.frame.size.height-continueButton.frame.size.height);
 	[continueButton setFrame:continueButtonFrame];
     [scrollView addSubview:continueButton];
     

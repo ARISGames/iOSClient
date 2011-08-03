@@ -14,6 +14,9 @@
 #import "Media.h"
 #import "AsyncImageView.h"
 #import "DialogViewController.h"
+#import "NodeViewController.h"
+#import "QuestsViewController.h"
+#import "ItemDetailsViewController.h"
 
 @implementation webpageViewController
 @synthesize webView,webPage,delegate,activityIndicator,blackView;
@@ -83,7 +86,8 @@ NSURL *url = [NSURL URLWithString:urlAddress];
 	
 	
 	//[self.view removeFromSuperview];
-	if([self.delegate isKindOfClass:[DialogViewController class]])
+	if([self.delegate isKindOfClass:[DialogViewController class]] || [self.delegate isKindOfClass:[NodeViewController class]]
+       || [self.delegate isKindOfClass:[QuestsViewController class]] || [self.delegate isKindOfClass:[ItemDetailsViewController class]])
         [self.navigationController popToRootViewControllerAnimated:YES];
     else
         [self dismissModalViewControllerAnimated:YES];

@@ -12,7 +12,8 @@
 #import "Media.h"
 #import "Item.h"
 #import "ItemActionViewController.h"
-
+#import "WebPage.h"
+#import "webpageViewController.h"
 
 NSString *const kItemDetailsDescriptionHtmlTemplate = 
 @"<html>"
@@ -24,6 +25,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 @"		color: #FFFFFF;"
 @"		font-size: 17px;"
 @"		font-family: Helvetia, Sans-Serif;"
+@"      a:link {COLOR: #0000FF;}"
 @"	}"
 @"	--></style>"
 @"</head>"
@@ -33,7 +35,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
 
 @implementation ItemDetailsViewController
-@synthesize item, inInventory,mode,itemImageView, itemWebView,activityIndicator;
+@synthesize item, inInventory,mode,itemImageView, itemWebView,activityIndicator,isLink;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -439,11 +441,11 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
 	
 	if (descriptionShowing) { //description is showing, so hide
-		[self hideView:itemDescriptionView];
+		[itemDescriptionView removeFromSuperview];
 		//[notesButton setStyle:UIBarButtonItemStyleBordered]; //set button style
 		descriptionShowing = NO;
 	} else {  //description is not showing, so show
-		[self showView:itemDescriptionView];
+		[self.view addSubview:itemDescriptionView];
 		//[notesButton setStyle:UIBarButtonItemStyleDone];
 		descriptionShowing = YES;
 	}
@@ -460,7 +462,23 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         [[AppServices sharedAppServices] fetchAllPlayerLists];
         return NO; 
     }   
-    return YES;
+    else {
+        if(self.isLink && ![[[req URL]absoluteString] isEqualToString:@"about:blank"]) {
+            webpageViewController *webPageViewController = [[webpageViewController alloc] initWithNibName:@"webpageViewController" bundle: [NSBundle mainBundle]];
+            WebPage *temp = [[WebPage alloc]init];
+            temp.url = [[req URL]absoluteString];
+            webPageViewController.webPage = temp;
+            webPageViewController.delegate = self;
+            [self.navigationController pushViewController:webPageViewController animated:NO];
+            [webPageViewController release];
+            
+            return NO;
+        }
+        else{
+            self.isLink = YES;
+            return YES;}
+
+    }
 }
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView {

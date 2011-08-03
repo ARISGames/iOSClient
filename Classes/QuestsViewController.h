@@ -23,8 +23,9 @@
     int activeSort;
 	int silenceNextServerUpdateCount;
 	int newItemsSinceLastView;
+    BOOL isLink;
 }
-
+@property(readwrite, assign) BOOL isLink;
 @property(nonatomic, retain) NSMutableArray *quests;
 @property(nonatomic, retain) NSMutableArray *questCells;
 @property(nonatomic, retain) UISegmentedControl *activeQuestsSwitch;
