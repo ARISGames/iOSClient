@@ -38,6 +38,8 @@
 	<array>
 		<string>location-services</string>
 	</array>
+	<key>UIRequiresPersistentWiFi</key>
+	<true/>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleOpaqueBlack</string>
 	<key>UISupportedInterfaceOrientations</key>
