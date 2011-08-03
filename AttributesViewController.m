@@ -44,7 +44,7 @@
 - (void)viewDidAppear:(BOOL)animated {
 	
 	[self refresh];		
-	self.nameLabel.text = [NSString stringWithFormat:@"Name: %@",[AppModel sharedAppModel].username];
+	self.nameLabel.text = [NSString stringWithFormat:@"Name: %@",[AppModel sharedAppModel].userName];
     self.groupLabel.text = @"Group: N/A";
 	silenceNextServerUpdateCount = 0;
     pcImage.frame = CGRectMake(5, 5, 150, 150);

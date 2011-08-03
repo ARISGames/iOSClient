@@ -16,7 +16,7 @@
 
 @implementation AppModel
 @synthesize serverURL,showGamesInDevelopment;
-@synthesize loggedIn, username, password, playerId, currentModule;
+@synthesize loggedIn, userName, password, playerId;
 @synthesize currentGame, gameList, locationList, playerList,recentGameList;
 @synthesize playerLocation, inventory, questList, networkAlert;
 @synthesize gameMediaList, gameItemList, gameNodeList, gameNpcList,gameWebPageList,gamePanoramicList;
@@ -48,9 +48,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
 	[gameList release];
     [recentGameList release];
 	[serverURL release];
-	[username release];
+	[userName release];
 	[password release];
-	[currentModule release];
     [super dealloc];
 }
 
@@ -67,11 +66,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
    
     
     if(!loggedIn &&(self.showGamesInDevelopment == [defaults boolForKey:@"showGamesInDevelopment"])&&(!(![currServ isEqual:self.serverURL] || (self.serverURL == nil)))) {
-       /* username = [defaults objectForKey:@"username"];
-        password = [defaults objectForKey:@"password"];
-        if(username && password)
-            [[AppServices sharedAppServices] login];*/
-        playerId = [defaults integerForKey:@"playerId"];
+        self.userName = [defaults objectForKey:@"userName"];
+        self.playerId = [defaults integerForKey:@"playerId"];
     }
     
     if (![currServ isEqual:self.serverURL] || (self.serverURL == nil)) {
@@ -144,8 +140,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
 	[defaults setBool:hasSeenQuestsTabTutorial forKey:@"hasSeenQuestsTabTutorial"];
 	[defaults setBool:hasSeenMapTabTutorial forKey:@"hasSeenMapTabTutorial"];
 	[defaults setBool:hasSeenInventoryTabTutorial forKey:@"hasSeenInventoryTabTutorial"];
-    [defaults setValue:username forKey:@"username"];
-    [defaults setValue:password forKey:@"password"];
+    [defaults setValue:userName forKey:@"userName"];
     [defaults setInteger:playerId forKey:@"playerId"];
 
 }

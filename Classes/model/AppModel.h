@@ -24,12 +24,11 @@ extern NSDictionary *InventoryElements;
 	NSURL *serverURL;
     BOOL showGamesInDevelopment;
 	Game *currentGame;
-	UIViewController *currentModule;
 	UIAlertView *networkAlert;
 	
 	BOOL loggedIn;
 	int playerId;
-	NSString *username;
+	NSString *userName;
 	NSString *password;
 	CLLocation *playerLocation;
 
@@ -68,35 +67,36 @@ extern NSDictionary *InventoryElements;
 
 
 
-@property(copy, readwrite) NSString *username;
-@property(copy, readwrite) NSString *password;
+@property(nonatomic, retain) NSString *userName;
+@property(nonatomic, retain) NSString *password;
 @property(readwrite) int playerId;
 
-@property(copy, readwrite) UIViewController *currentModule;
 @property(nonatomic,retain) Game *currentGame;
 
-@property(copy, readwrite) NSMutableArray *gameList;
-@property(copy, readwrite) NSMutableArray *recentGameList;	
-
+@property(nonatomic, retain) NSMutableArray *gameList;
+@property(nonatomic, retain) NSMutableArray *recentGameList;	
 @property(nonatomic, retain) NSMutableArray *locationList;
 @property(nonatomic, retain) NSString *locationListHash;
-@property(copy, readwrite) NSMutableArray *playerList;
-@property(copy, readwrite) NSMutableDictionary *questList;
+@property(nonatomic, retain) NSMutableArray *playerList;
+@property(nonatomic, retain) NSMutableDictionary *questList;
 @property(nonatomic, retain) NSString *questListHash;
-@property(copy, readwrite) NSMutableArray *nearbyLocationsList;	
-@property(nonatomic, retain) CLLocation *playerLocation;	
+@property(nonatomic, retain) NSMutableArray *nearbyLocationsList;	
+@property(nonatomic, retain) CLLocation *playerLocation;
+@property(nonatomic, retain) NSString *inventoryHash;
 @property(nonatomic, retain) NSMutableDictionary *inventory;
 @property(nonatomic, retain) NSMutableDictionary *attributes;
 
-@property(nonatomic, retain) NSString *inventoryHash;
-@property(retain) UIAlertView *networkAlert;
 
-@property(copy, readwrite) NSMutableDictionary *gameMediaList;
-@property(copy, readwrite) NSMutableDictionary *gameItemList;
-@property(copy, readwrite) NSMutableDictionary *gameNodeList;
-@property(copy, readwrite) NSMutableDictionary *gameNpcList;
-@property(copy, readwrite) NSMutableDictionary *gameWebPageList;
-@property(copy, readwrite) NSMutableDictionary *gamePanoramicList;
+@property(nonatomic, retain) NSMutableDictionary *gameMediaList;
+@property(nonatomic, retain) NSMutableDictionary *gameItemList;
+@property(nonatomic, retain) NSMutableDictionary *gameNodeList;
+@property(nonatomic, retain) NSMutableDictionary *gameNpcList;
+@property(nonatomic, retain) NSMutableDictionary *gameWebPageList;
+@property(nonatomic, retain) NSMutableDictionary *gamePanoramicList;
+
+
+@property(nonatomic, retain) UIAlertView *networkAlert;
+
 
 //Training Flags
 @property(readwrite) BOOL hasSeenNearbyTabTutorial;

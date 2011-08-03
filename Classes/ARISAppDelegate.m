@@ -391,7 +391,7 @@
 
 - (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password {	
 	NSLog(@"AppDelegate: Attempt Login for: %@ Password: %@", userName, password);
-	[AppModel sharedAppModel].username = userName;
+	[AppModel sharedAppModel].userName = userName;
 	[AppModel sharedAppModel].password = password;
     
 	[self showNewWaitingIndicator:@"Logging In..." displayProgressBar:NO];

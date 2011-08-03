@@ -30,7 +30,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 #pragma mark Communication with Server
 - (void)login {
 	NSLog(@"AppModel: Login Requested");
-	NSArray *arguments = [NSArray arrayWithObjects:[AppModel sharedAppModel].username, [AppModel sharedAppModel].password, nil];
+	NSArray *arguments = [NSArray arrayWithObjects:[AppModel sharedAppModel].userName, [AppModel sharedAppModel].password, nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithServer:[AppModel sharedAppModel].serverURL 
                                                              andServiceName: @"players" 
                                                               andMethodName:@"loginPlayer"
