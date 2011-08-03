@@ -428,10 +428,19 @@
 }
 
 - (void) showGameSelectionTabBarAndHideOthers {
-    [self returnToHomeView];
+    
+    //Put it onscreen
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [UIView beginAnimations:nil context:context];
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:window cache:YES];
     self.tabBarController.view.hidden = YES;
     self.gameSelectionTabBarController.view.hidden = NO;
     self.loginViewNavigationController.view.hidden = YES;
+    [UIView commitAnimations];
+    
+    
+    [self returnToHomeView];
+
 }
 
 - (void)selectGame:(NSNotification *)notification {
@@ -441,9 +450,17 @@
     
 	NSLog(@"AppDelegate: Game Selected. '%@' game was selected", selectedGame.name);
 	
+
+    //Put it onscreen
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [UIView beginAnimations:nil context:context];
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:window cache:YES];
     self.tabBarController.view.hidden = NO;
     self.gameSelectionTabBarController.view.hidden = YES;
     self.loginViewNavigationController.view.hidden = YES;
+    [UIView commitAnimations];
+    
+    
     
     [self returnToHomeView];
 	
