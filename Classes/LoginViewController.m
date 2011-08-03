@@ -66,7 +66,8 @@
     for(int i = 0; i < [appDelegate.gameSelectionTabBarController.viewControllers count];i++)
     {
 	tempNC = [appDelegate.gameSelectionTabBarController.viewControllers objectAtIndex:i];	
-        [[tempNC.viewControllers objectAtIndex:0] refresh];
+        UIViewController *vc = [tempNC.viewControllers objectAtIndex:0];
+        if ([vc respondsToSelector:@selector(refresh)]) [vc performSelector:@selector(refresh)];
     }
 	[usernameField resignFirstResponder];
 	[passwordField resignFirstResponder];

@@ -195,6 +195,7 @@
                                                           gamePickerMapNC,
                                                           gamePickerSearchNC,
                                                           gamePickerRecentNC,
+                                                          logoutNavigationController,
                                                           nil];
     //[self.gameSelectionTabBarController.view setFrame:UIScreen.mainScreen.applicationFrame];
     [window addSubview:self.gameSelectionTabBarController.view];
@@ -408,6 +409,8 @@
         self.tabBarController.view.hidden = YES;
         self.gameSelectionTabBarController.view.hidden = NO;
         self.loginViewNavigationController.view.hidden = YES;
+        
+        self.gameSelectionTabBarController.selectedIndex = 0;
         
         
 	} else {
