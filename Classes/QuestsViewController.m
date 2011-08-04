@@ -27,7 +27,6 @@ NSString *const kQuestsHtmlTemplate =
 @"	body {"
 @"		background-color: #E9E9E9;"
 @"		color: #000000;"
-@"		font-size: 14px;"
 @"		font-family: Helvetia, Sans-Serif;"
 @"		margin: 0;"
 @"	}"
