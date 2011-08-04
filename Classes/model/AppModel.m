@@ -156,22 +156,27 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
 	
 	//Find the Defaults
 	NSString *baseAppURLDefault = [NSString stringWithString:@"Unknown Default"];
+    NSNumber *showGamesInDevelopmentDefault;
 	NSDictionary *prefItem;
 	for (prefItem in prefSpecifierArray)
 	{
 		NSString *keyValueStr = [prefItem objectForKey:@"Key"];
-		id defaultValue = [prefItem objectForKey:@"DefaultValue"];
 		
 		if ([keyValueStr isEqualToString:@"baseServerString"])
 		{
-			baseAppURLDefault = defaultValue;
+            baseAppURLDefault = [prefItem objectForKey:@"DefaultValue"];
+		}
+        if ([keyValueStr isEqualToString:@"showGamesInDevelopment"])
+		{
+			showGamesInDevelopmentDefault = [prefItem objectForKey:@"DefaultValue"];
 		}
 		//More defaults would go here
 	}
 	
 	// since no default values have been set (i.e. no preferences file created), create it here
 	NSDictionary *appDefaults = [NSDictionary dictionaryWithObjectsAndKeys: 
-								 baseAppURLDefault,  @"baseServerString", 
+								 baseAppURLDefault,  @"baseServerString",
+                                 showGamesInDevelopmentDefault , @"showGamesInDevelopment",
 								 nil];
 	
 	[[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
