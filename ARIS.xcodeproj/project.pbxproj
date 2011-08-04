@@ -133,6 +133,7 @@
 		AB37BC4F1184D0F700C5CE8B /* click.wav in Resources */ = {isa = PBXBuildFile; fileRef = AB37BC491184D0F700C5CE8B /* click.wav */; };
 		AB37BC501184D0F700C5CE8B /* swish.wav in Resources */ = {isa = PBXBuildFile; fileRef = AB37BC4A1184D0F700C5CE8B /* swish.wav */; };
 		AB37BC651184D54900C5CE8B /* mapChange.wav in Resources */ = {isa = PBXBuildFile; fileRef = AB37BC641184D54900C5CE8B /* mapChange.wav */; };
+		AB38DB3C13E4A1DE001EFF52 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AB38DB3B13E4A1DE001EFF52 /* libiconv.dylib */; };
 		AB39C820117E4009007AD31F /* microphone.png in Resources */ = {isa = PBXBuildFile; fileRef = AB39C81F117E4009007AD31F /* microphone.png */; };
 		AB39C852117E4613007AD31F /* StartOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB39C850117E4613007AD31F /* StartOverViewController.m */; };
 		AB39C853117E4613007AD31F /* StartOverViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB39C851117E4613007AD31F /* StartOverViewController.xib */; };
@@ -192,7 +193,6 @@
 		AB997483139D93C40087E387 /* commentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB997481139D93C30087E387 /* commentsViewController.m */; };
 		AB9A7C1710AA173F002FD9BC /* ARISURLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = AB9A7C1610AA173F002FD9BC /* ARISURLConnection.m */; };
 		AB9BA24913DFBAB1007470E3 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AB9BA24813DFBAB1007470E3 /* libz.dylib */; };
-		AB9BA24F13DFBB88007470E3 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AB9BA24E13DFBB88007470E3 /* libiconv.dylib */; };
 		AB9BA25413DFBE3A007470E3 /* PanoramicMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = AB9BA25313DFBE3A007470E3 /* PanoramicMedia.m */; };
 		ABA104C710CA0E3E008538D0 /* ARView.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABA104C610CA0E3E008538D0 /* ARView.xib */; };
 		ABAA644B130FD5410004D64C /* GamePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ABAA644A130FD5410004D64C /* GamePickerCell.m */; };
@@ -490,6 +490,7 @@
 		AB37BC491184D0F700C5CE8B /* click.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click.wav; sourceTree = "<group>"; };
 		AB37BC4A1184D0F700C5CE8B /* swish.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = swish.wav; sourceTree = "<group>"; };
 		AB37BC641184D54900C5CE8B /* mapChange.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = mapChange.wav; sourceTree = "<group>"; };
+		AB38DB3B13E4A1DE001EFF52 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		AB39C81F117E4009007AD31F /* microphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = microphone.png; sourceTree = "<group>"; };
 		AB39C84F117E4613007AD31F /* StartOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartOverViewController.h; sourceTree = "<group>"; };
 		AB39C850117E4613007AD31F /* StartOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = StartOverViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -576,8 +577,6 @@
 		AB9A7C1510AA173F002FD9BC /* ARISURLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISURLConnection.h; sourceTree = "<group>"; };
 		AB9A7C1610AA173F002FD9BC /* ARISURLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISURLConnection.m; sourceTree = "<group>"; };
 		AB9BA24813DFBAB1007470E3 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		AB9BA24E13DFBB88007470E3 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
-		AB9BA25013DFBBAD007470E3 /* libc++abi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++abi.dylib"; path = "usr/lib/libc++abi.dylib"; sourceTree = SDKROOT; };
 		AB9BA25213DFBE3A007470E3 /* PanoramicMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PanoramicMedia.h; sourceTree = "<group>"; };
 		AB9BA25313DFBE3A007470E3 /* PanoramicMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PanoramicMedia.m; sourceTree = "<group>"; };
 		ABA104C610CA0E3E008538D0 /* ARView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ARView.xib; sourceTree = "<group>"; };
@@ -677,7 +676,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB9BA24F13DFBB88007470E3 /* libiconv.dylib in Frameworks */,
+				AB38DB3C13E4A1DE001EFF52 /* libiconv.dylib in Frameworks */,
 				AB9BA24913DFBAB1007470E3 /* libz.dylib in Frameworks */,
 				AB1CA8B813C7CDAE00131F81 /* libZXingWidget.a in Frameworks */,
 				AB7D277A13C7559800F10AD5 /* CoreMedia.framework in Frameworks */,
@@ -730,7 +729,7 @@
 			name = Panoramic;
 			sourceTree = "<group>";
 		};
-		118669AF13BB8EC1004B4EC8 /* Attributes */ = {
+		118669AF13BB8EC1004B4EC8 /* Player Profile / Attributes */ = {
 			isa = PBXGroup;
 			children = (
 				118669A713BB8EAC004B4EC8 /* AttributesViewController.h */,
@@ -738,7 +737,7 @@
 				118669A913BB8EAC004B4EC8 /* AttributesViewController.xib */,
 				118669AA13BB8EAC004B4EC8 /* profile.png */,
 			);
-			name = Attributes;
+			name = "Player Profile / Attributes";
 			sourceTree = "<group>";
 		};
 		11BE76FD13B0F9BE000D037B /* PanoramaGL */ = {
@@ -863,8 +862,7 @@
 		29B97314FDCFA39411CA2CEA /* ARIS */ = {
 			isa = PBXGroup;
 			children = (
-				AB9BA25013DFBBAD007470E3 /* libc++abi.dylib */,
-				AB9BA24E13DFBB88007470E3 /* libiconv.dylib */,
+				AB38DB3B13E4A1DE001EFF52 /* libiconv.dylib */,
 				AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */,
 				AB0A5BA3120365420065CE68 /* Localizable.strings */,
 				A7149F9C0FB89DC8008BAB5D /* Settings.bundle */,
@@ -886,7 +884,7 @@
 				A7986D610F8FEBB200A5469F /* Developer */,
 				A7986D650F8FEC1100A5469F /* Login */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				118669AF13BB8EC1004B4EC8 /* Attributes */,
+				118669AF13BB8EC1004B4EC8 /* Player Profile / Attributes */,
 				1139BA5113ABC6A2008BF268 /* Panoramic */,
 				1122C0B113A7D063004F0392 /* Webpage */,
 			);
