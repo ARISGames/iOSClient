@@ -35,7 +35,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
 
 @implementation ItemDetailsViewController
-@synthesize item, inInventory,mode,itemImageView, itemWebView,activityIndicator,isLink;
+@synthesize item, inInventory,mode,itemImageView, itemWebView,activityIndicator,isLink,itemDescriptionView;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -62,6 +62,8 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	//[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate]showWaitingIndicator:NSLocalizedString(@"LoadingKey",@"") displayProgressBar:NO];
 
 	self.itemWebView.delegate = self;
+    self.itemDescriptionView.delegate = self;
+    
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.modalPresent = YES;
 	//Setup the Toolbar Buttons
@@ -441,32 +443,33 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
 	
 	if (descriptionShowing) { //description is showing, so hide
-		[itemDescriptionView removeFromSuperview];
+		[self hideView:self.itemDescriptionView];
 		//[notesButton setStyle:UIBarButtonItemStyleBordered]; //set button style
 		descriptionShowing = NO;
 	} else {  //description is not showing, so show
-		[self.view addSubview:itemDescriptionView];
+		[self showView:self.itemDescriptionView];
 		//[notesButton setStyle:UIBarButtonItemStyleDone];
 		descriptionShowing = YES;
 	}
 }
 #pragma mark WebViewDelegate 
-- (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType { 
-    
-    if ([[[req URL] absoluteString] hasPrefix:@"aris://closeMe"]) {
+
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+    if(webView == self.itemWebView){
+    if ([[[request URL] absoluteString] hasPrefix:@"aris://closeMe"]) {
         [self.navigationController popToRootViewControllerAnimated:YES];
         [self dismissModalViewControllerAnimated:NO];
         return NO; 
     }  
-    else if ([[[req URL] absoluteString] hasPrefix:@"aris://refreshStuff"]) {
+    else if ([[[request URL] absoluteString] hasPrefix:@"aris://refreshStuff"]) {
         [[AppServices sharedAppServices] fetchAllPlayerLists];
         return NO; 
     }   
-    else {
-        if(self.isLink && ![[[req URL]absoluteString] isEqualToString:@"about:blank"]) {
+    }else{
+        if(self.isLink && ![[[request URL]absoluteString] isEqualToString:@"about:blank"]) {
             webpageViewController *webPageViewController = [[webpageViewController alloc] initWithNibName:@"webpageViewController" bundle: [NSBundle mainBundle]];
             WebPage *temp = [[WebPage alloc]init];
-            temp.url = [[req URL]absoluteString];
+            temp.url = [[request URL]absoluteString];
             webPageViewController.webPage = temp;
             webPageViewController.delegate = self;
             [self.navigationController pushViewController:webPageViewController animated:NO];
@@ -479,14 +482,17 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
             return YES;}
 
     }
+    return YES;
 }
+ 
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView {
+    if(webView == self.itemWebView){
     self.itemWebView.hidden = NO;
-    [self dismissWaitingIndicator];
+        [self dismissWaitingIndicator];}
 }
 -(void)webViewDidStartLoad:(UIWebView *)webView {
-    [self showWaitingIndicator];
+    if(webView == self.itemWebView)[self showWaitingIndicator];
 }
 -(void)showWaitingIndicator {
     [self.activityIndicator startAnimating];

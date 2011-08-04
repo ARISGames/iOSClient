@@ -47,7 +47,7 @@
 @property(nonatomic,retain)	IBOutlet AsyncImageView *itemImageView;
 @property(nonatomic,retain) IBOutlet UIWebView *itemWebView;
 @property(nonatomic, retain) IBOutlet UIActivityIndicatorView *activityIndicator;
-
+@property(nonatomic,retain)IBOutlet UIWebView *itemDescriptionView;;
 
 - (IBAction)dropButtonTouchAction: (id) sender;
 - (IBAction)deleteButtonTouchAction: (id) sender;
@@ -58,7 +58,7 @@
 -(void)doActionWithMode: (ItemDetailsModeType) itemMode quantity: (int) quantity;
 - (void)updateQuantityDisplay;
 
-- (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType;
+
 - (void) showWaitingIndicator;
 - (void) dismissWaitingIndicator;
 @end
