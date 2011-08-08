@@ -31,7 +31,6 @@ NSString *const kQuestsHtmlTemplate =
 @"		margin: 0;"
 @"	}"
 @"	h1 {"
-@"		background-color: #E9E9E9;"
 @"		color: #000000;"
 @"		font-size: 18px;"
 @"		font-style: bold;"
@@ -40,7 +39,7 @@ NSString *const kQuestsHtmlTemplate =
 @"	}"
 @"	--></style>"
 @"</head>"
-@"<body><div style = \"padding-left:9px;\"><h1>%@</h1></div><div style=\"position:relative; top:-5px; background-color:#DDDDDD; border-style:ridge; border-width:3px; border-radius:11px; border-color:#888888;padding:15px;\">%@</div></body>"
+@"<body></div><div style=\"position:relative; top:0px; background-color:#DDDDDD; border-style:ridge; border-width:3px; border-radius:11px; border-color:#888888;padding:15px;\"><h1>%@</h1>%@</div></body>"
 @"</html>";
 
 
