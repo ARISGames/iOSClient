@@ -70,7 +70,9 @@
         //End client side manipulation
     }
 }
-
+-(void)textViewDidBeginEditing:(UITextView *)textView{
+    [textView setText:@""];
+}
 
 - (void)dealloc
 {

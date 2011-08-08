@@ -11,9 +11,9 @@
 #import "Game.h"
 #import "commentsViewController.h"
 
-@interface CommentsFormCell : UITableViewCell {
+@interface CommentsFormCell : UITableViewCell <UITextViewDelegate>{
     SCRRatingView *ratingView;
-    UITextField *textField;
+    UITextView *textField;
     UIButton *saveButton;
     Game *game;
 
@@ -25,7 +25,7 @@
 
 @property (nonatomic, retain) UIAlertView *alert;
 @property(nonatomic,retain) IBOutlet SCRRatingView *ratingView;
-@property(nonatomic,retain) IBOutlet UITextField *textField;
+@property(nonatomic,retain) IBOutlet UITextView *textField;
 @property(nonatomic,retain) IBOutlet UIButton *saveButton;
 @property(nonatomic,retain) commentsViewController *commentsVC;
 @property(nonatomic,retain) Game *game;
