@@ -411,6 +411,7 @@ static float INITIAL_SPAN = 0.001;
 
 - (void)mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view {
 	Location *location = ((Annotation*)view.annotation).location;
+    if(view.annotation == aMapView.userLocation) return;
 	NSLog(@"GPSViewController: didSelectAnnotationView for location: %@",location.name);
 	
 	//Set up buttons
