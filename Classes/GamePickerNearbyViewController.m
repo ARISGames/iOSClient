@@ -141,6 +141,11 @@
     
 	self.gameList = [[AppModel sharedAppModel].gameList sortedArrayUsingSelector:@selector(compareCalculatedScore:)];
     
+    if([self.gameList count] == 0){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No Games Found" message:@"You should make one!" delegate:self cancelButtonTitle:@"Ok I will!" otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }
 	[gameTable reloadData];
 }
 
