@@ -147,6 +147,19 @@
 										description:titleAndDescForm.descriptionField.text];
     
     [titleAndDescForm release];	
+    NSString *tab;
+    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];        
+
+    for(int i = 0;i < [appDelegate.tabBarController.customizableViewControllers count];i++)
+    {
+        tab = [[appDelegate.tabBarController.customizableViewControllers objectAtIndex:i] title];
+        tab = [tab lowercaseString];
+        if([tab isEqualToString:@"inventory"])
+        {
+            appDelegate.tabBarController.selectedIndex = i;
+        }
+    }
+
 }
 
 
