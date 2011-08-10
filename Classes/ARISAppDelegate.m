@@ -101,6 +101,10 @@
 	UINavigationController *attributesNavigationController = [[UINavigationController alloc] initWithRootViewController: attributesViewController];
 	attributesNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
+    //Setup Notes View
+    NoteViewController *notesViewController = [[[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil] autorelease];
+	UINavigationController *notesNavigationController = [[UINavigationController alloc] initWithRootViewController: notesViewController];
+	notesNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 	//Setup Camera View
 	CameraViewController *cameraViewController = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
 	UINavigationController *cameraNavigationController = [[UINavigationController alloc] initWithRootViewController: cameraViewController];
@@ -158,6 +162,7 @@
 										qrScannerNavigationController,
 										//arNavigationController,
                                         attributesNavigationController,
+                                        notesNavigationController,
 										cameraNavigationController,
 										audioRecorderNavigationController,
 										bogusSelectGameViewController,

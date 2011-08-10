@@ -16,6 +16,7 @@ enum {
 	NearbyObjectPlayer		= 4,
     NearbyObjectWebPage     = 5,
     NearbyObjectPanoramic   = 6,
+    NearbyObjectNote        = 7,
 };
 typedef UInt32 nearbyObjectKind;
 

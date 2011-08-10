@@ -16,6 +16,7 @@
 #import "Media.h"
 #import "WebPage.h"
 #import "Panoramic.h"
+#import "Note.h"
 
 extern NSDictionary *InventoryElements;
 
@@ -50,6 +51,8 @@ extern NSDictionary *InventoryElements;
 	NSMutableDictionary *gameNpcList;
     NSMutableDictionary *gameWebPageList;
     NSMutableDictionary *gamePanoramicList;
+    NSMutableDictionary *gameNoteList;
+
 
 	//Training Flags
 	BOOL hasSeenNearbyTabTutorial;
@@ -92,6 +95,8 @@ extern NSDictionary *InventoryElements;
 @property(nonatomic, retain) NSMutableDictionary *gameNodeList;
 @property(nonatomic, retain) NSMutableDictionary *gameNpcList;
 @property(nonatomic, retain) NSMutableDictionary *gameWebPageList;
+@property(nonatomic, retain) NSMutableDictionary *gameNoteList;
+
 @property(nonatomic, retain) NSMutableDictionary *gamePanoramicList;
 
 
@@ -123,5 +128,6 @@ extern NSDictionary *InventoryElements;
 - (Npc *)npcForNpcId: (int)mId;
 - (WebPage *)webPageForWebPageID: (int)mId;
 - (Panoramic *)panoramicForPanoramicId: (int)mId;
+- (Note *)noteForNoteId: (int)mId;
 
 @end
