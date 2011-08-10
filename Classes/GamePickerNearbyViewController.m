@@ -122,12 +122,11 @@
 
 
 }
--(void) viewWillAppear:(BOOL)animated{
-    
 
-    
-    
+-(void) viewWillAppear:(BOOL)animated{
+
 }
+
 -(void)removeLoadingIndicator{
 	[[self navigationItem] setRightBarButtonItem:self.refreshButton];
     [gameTable reloadData];
@@ -140,13 +139,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
 	self.gameList = [[AppModel sharedAppModel].gameList sortedArrayUsingSelector:@selector(compareCalculatedScore:)];
-    
-    if([self.gameList count] == 0){
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No Games Found" message:@"You should make one!" delegate:self cancelButtonTitle:@"Ok I will!" otherButtonTitles:nil];
-        [alert show];
-        [alert release];
-    }
-	[gameTable reloadData];
+    [gameTable reloadData];
 }
 
 #pragma mark Control Callbacks
@@ -166,8 +159,8 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if([self.gameList count] == 0 && [AppModel sharedAppModel].playerLocation) return 1;
 	return [self.gameList count];
-
 }
 
 // Customize the appearance of table view cells.
@@ -175,7 +168,20 @@
 	//NSLog(@"GamePickerVC: Cell requested for section: %d row: %d",indexPath.section,indexPath.row);
 
 	static NSString *CellIdentifier = @"Cell";
-    GamePickerCell *cell = (GamePickerCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    if([self.gameList count] == 0){
+        UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        cell.textLabel.text = @"No Games Found";
+        cell.detailTextLabel.text = @"You should make one at arisgames.org!";
+        return cell;
+    }
+    
+    UITableViewCell *tempCell = (GamePickerCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (![tempCell respondsToSelector:@selector(starView)]){
+        //[tempCell release];
+        tempCell = nil;
+    }
+    GamePickerCell *cell = (GamePickerCell *)tempCell;
     if (cell == nil) {
 		// Create a temporary UIViewController to instantiate the custom cell.
 		UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"GamePickerCell" bundle:nil];
@@ -245,6 +251,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if([self.gameList count] == 0) return;
     //do select game notification;
     Game *selectedGame;
 	selectedGame = [self.gameList objectAtIndex:indexPath.row];
