@@ -236,10 +236,8 @@
         self.gameSelectionTabBarController.view.hidden = NO;
     }
 
-
-
-
 }
+
 - (void)displayNotificationTitle:(NSMutableDictionary *) titleAndPrompt{
     self.notificationCount++;
     
@@ -764,6 +762,11 @@
     
     [[AppServices sharedAppServices]fetchGameMediaListAsynchronously:YES];
     
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Low Memory Warning"
+                                                    message:@"The device you are using does not currently have enough free memory to reliably run ARIS. Please close out of some of the other running programs and restart ARIS"
+                                                   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [alert show];	
+    [alert release];
 }
 
 
