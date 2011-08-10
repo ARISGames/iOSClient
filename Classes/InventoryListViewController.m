@@ -29,7 +29,7 @@
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
         self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");
-        self.tabBarItem.image = [UIImage imageNamed:@"inventory.png"];
+        self.tabBarItem.image = [UIImage imageNamed:@"inventoryicon.png"];
         self.iconCache = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].inventory count]];
         self.mediaCache = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].inventory count]];
         
