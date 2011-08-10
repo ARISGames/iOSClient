@@ -185,7 +185,7 @@
 -(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (indexPath.row == 0) return 160;
     else{
-        return ((([((Comment *) [game.comments objectAtIndex:indexPath.row-1]).text length]/32))*18)+60;
+        return [self calculateTextHeight:((Comment *) [game.comments objectAtIndex:indexPath.row-1]).text]+30;
     }
 }
 
@@ -193,7 +193,15 @@
     [game.comments addObject:comment];
 }
 
-
+- (int) calculateTextHeight:(NSString *)text {
+	CGRect frame = CGRectMake(0, 0, self.view.bounds.size.width, 200000);
+	CGSize calcSize = [text sizeWithFont:[UIFont systemFontOfSize:18.0]
+					   constrainedToSize:frame.size lineBreakMode:UILineBreakModeWordWrap];
+	frame.size = calcSize;
+	frame.size.height += 0;
+	NSLog(@"Found height of %f", frame.size.height);
+	return frame.size.height;
+}
 - (void)dealloc {
     [super dealloc];
 }
