@@ -20,7 +20,7 @@
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
         self.title = @"Player";		
-        self.tabBarItem.image = [UIImage imageNamed:@"inventory.png"];
+        self.tabBarItem.image = [UIImage imageNamed:@"playericon.png"];
         self.iconCache = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].attributes count]];
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
