@@ -27,6 +27,7 @@
 	nearbyObjectKind kind;
     NSString *url;
     NSString *type;
+    int creatorId;
 }
 
 @property(copy, readwrite) NSString *name;
@@ -36,6 +37,8 @@
 - (nearbyObjectKind) kind;
 @property(readwrite, assign) BOOL forcedDisplay;
 @property(readwrite, assign) int itemId;
+@property(readwrite, assign) int creatorId;
+
 @property(readwrite, assign) int locationId;
 @property(readwrite, assign) int mediaId;
 

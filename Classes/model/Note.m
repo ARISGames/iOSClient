@@ -13,7 +13,7 @@
 
 
 @implementation Note
-@synthesize iconMediaId,noteId,name,text,kind;
+@synthesize iconMediaId,creatorId,name,text,kind;
 -(nearbyObjectKind) kind { return NearbyObjectWebPage; }
 
 - (Note *) init {

@@ -13,14 +13,13 @@
 
 @interface Note : NSObject<NearbyObjectProtocol> {
     nearbyObjectKind	kind;
-    int noteId;
+    int creatorId;
 	NSString *text;
     NSString *name;
 	int iconMediaId; 
-    
 }
 
-@property(readwrite, assign) int noteId;
+@property(readwrite, assign) int creatorId;
 @property(nonatomic, retain) NSString *text;
 @property(nonatomic, retain) NSString *name;
 

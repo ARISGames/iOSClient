@@ -48,6 +48,7 @@
     self.title = self.note.name;
     UIBarButtonItem *hideKeyboardButton = [[UIBarButtonItem alloc] initWithTitle:@"Hide Keyboard" style:UIBarButtonItemStylePlain target:self action:@selector(hideKeyboard)];      
 	self.navigationItem.rightBarButtonItem = hideKeyboardButton;
+    if(self.note && ([AppModel sharedAppModel].playerId != self.note.creatorId)) self.textBox.userInteractionEnabled = NO;
 }
 
 - (void)viewDidUnload

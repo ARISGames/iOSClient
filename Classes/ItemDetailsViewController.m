@@ -62,6 +62,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         Note *aNote = [[Note alloc]init];
         aNote.name = self.item.name;
         aNote.text = self.item.description;
+        aNote.creatorId = self.item.creatorId;
         NoteViewController *notesViewController = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle: [NSBundle mainBundle]];
         notesViewController.note = aNote;
         [self.navigationController pushViewController:notesViewController animated:NO];

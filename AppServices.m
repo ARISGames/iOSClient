@@ -1017,6 +1017,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
     item.weight = [[itemDictionary valueForKey:@"weight"] intValue];
     item.url = [itemDictionary valueForKey:@"url"];
 	item.type = [itemDictionary valueForKey:@"type"];
+    item.creatorId = [itemDictionary valueForKey:@"creator_player_id"];
 	NSLog(@"\tadded item %@", item.name);
 	
 	return item;	
@@ -1618,6 +1619,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
         item.weight = [[itemDictionary valueForKey:@"weight"] intValue];
         item.url = [itemDictionary valueForKey:@"url"];
         item.type = [itemDictionary valueForKey:@"type"];
+        item.creatorId = [itemDictionary valueForKey:@"creator_player_id"];
 		NSLog(@"Model: Adding Item: %@", item.name);
         if(item.isAttribute)[tempAttributes setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]]; 
             else [tempInventory setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]]; 

@@ -15,7 +15,7 @@
 @implementation Item
 
 @synthesize name,url;
-@synthesize kind;
+@synthesize kind,creatorId;
 @synthesize forcedDisplay;
 
 @synthesize itemId;

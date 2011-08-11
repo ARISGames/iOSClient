@@ -7,6 +7,7 @@
 //
 
 #import "TitleAndDecriptionFormViewController.h"
+#import "NoteViewController.h"
 
 @implementation TitleAndDecriptionFormViewController
 
@@ -29,7 +30,7 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	
+
 	self.titleField = [[UITextField alloc]initWithFrame:CGRectMake(10, 10, 290, 30) ];
 	self.titleField.placeholder = NSLocalizedString(@"TitleAndDescriptionTitlePrompt",@"");
 	self.titleField.returnKeyType =  UIReturnKeyDone;
@@ -101,6 +102,9 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
+    if([self.delegate isKindOfClass:[NoteViewController class]]){
+        return 1;
+    }
     return 2;
 }
 
