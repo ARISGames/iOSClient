@@ -105,6 +105,7 @@
     NoteViewController *notesViewController = [[[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil] autorelease];
 	UINavigationController *notesNavigationController = [[UINavigationController alloc] initWithRootViewController: notesViewController];
 	notesNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    
 	//Setup Camera View
 	CameraViewController *cameraViewController = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
 	UINavigationController *cameraNavigationController = [[UINavigationController alloc] initWithRootViewController: cameraViewController];

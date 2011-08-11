@@ -16,7 +16,6 @@
 #import "Media.h"
 #import "WebPage.h"
 #import "Panoramic.h"
-#import "Note.h"
 
 extern NSDictionary *InventoryElements;
 
@@ -128,6 +127,5 @@ extern NSDictionary *InventoryElements;
 - (Npc *)npcForNpcId: (int)mId;
 - (WebPage *)webPageForWebPageID: (int)mId;
 - (Panoramic *)panoramicForPanoramicId: (int)mId;
-- (Note *)noteForNoteId: (int)mId;
 
 @end

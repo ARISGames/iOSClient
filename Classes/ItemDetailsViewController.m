@@ -14,7 +14,6 @@
 #import "ItemActionViewController.h"
 #import "WebPage.h"
 #import "webpageViewController.h"
-#import "Note.h"
 #import "NoteViewController.h"
 
 NSString *const kItemDetailsDescriptionHtmlTemplate = 
@@ -37,7 +36,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
 
 @implementation ItemDetailsViewController
-@synthesize item, inInventory,mode,itemImageView, itemWebView,activityIndicator,isLink,itemDescriptionView;
+@synthesize item, inInventory,mode,itemImageView, itemWebView,activityIndicator,isLink,itemDescriptionView,textBox,saveButton;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -57,18 +56,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     return self;
 }
 -(void)viewWillAppear:(BOOL)animated{
-    if([self.item.type isEqualToString: @"NOTE"])
-    {
-        Note *aNote = [[Note alloc]init];
-        aNote.name = self.item.name;
-        aNote.text = self.item.description;
-        aNote.creatorId = self.item.creatorId;
-        NoteViewController *notesViewController = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle: [NSBundle mainBundle]];
-        notesViewController.note = aNote;
-        [self.navigationController pushViewController:notesViewController animated:NO];
-        [notesViewController release];
 
-    }
 }
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
@@ -171,12 +159,26 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         
         //Load the request in the UIWebView.
         [itemWebView loadRequest:requestObj];
-
     }
     else itemWebView.hidden = YES;
+    if([self.item.type isEqualToString: @"NOTE"])
+    {
+        UIBarButtonItem *hideKeyboardButton = [[UIBarButtonItem alloc] initWithTitle:@"Hide Keyboard" style:UIBarButtonItemStylePlain target:self action:@selector(hideKeyboard)];      
+        self.navigationItem.rightBarButtonItem = hideKeyboardButton;
+        saveButton.frame = CGRectMake(0, 335, 320, 37);
+        textBox.text = item.description;
+        [scrollView addSubview:textBox];
+        [scrollView addSubview:saveButton];
+        if(([AppModel sharedAppModel].playerId != self.item.creatorId)) {
+         self.textBox.userInteractionEnabled = NO;
+            [saveButton removeFromSuperview];
+        }
+    }
+
 	[super viewDidLoad];
 }
-
+-(void)viewDidAppear:(BOOL)animated{
+        }
 - (void)updateQuantityDisplay {
 	if (item.qty > 1) self.title = [NSString stringWithFormat:@"%@ x%d",item.name,item.qty];
 	else self.title = item.name;
@@ -515,6 +517,45 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
 -(void)dismissWaitingIndicator {
     [self.activityIndicator stopAnimating];
+}
+#pragma mark Note functions
+-(void)textViewDidBeginEditing:(UITextView *)textView{
+    if([self.textBox.text isEqualToString:@"Write note here..."])
+        [self.textBox setText:@""];
+    self.textBox.frame = CGRectMake(0, 0, 320, 230);
+}
+-(void)hideKeyboard {
+    [self.textBox resignFirstResponder];
+    self.textBox.frame = CGRectMake(0, 0, 320, 330);
+}
+
+-(void)saveButtonTouchAction{
+    [self.saveButton setBackgroundColor:[UIColor lightGrayColor]];
+    [self displayTitleandDescriptionForm];
+}
+
+- (void)displayTitleandDescriptionForm {
+    TitleAndDecriptionFormViewController *titleAndDescForm = [[TitleAndDecriptionFormViewController alloc] 
+                                                              initWithNibName:@"TitleAndDecriptionFormViewController" bundle:nil];
+	
+	titleAndDescForm.delegate = self;
+	[self.view addSubview:titleAndDescForm.view];
+}
+
+- (void)titleAndDescriptionFormDidFinish:(TitleAndDecriptionFormViewController*)titleAndDescForm{
+	NSLog(@"NoteVC: Back from form");
+	[titleAndDescForm.view removeFromSuperview];
+    item.name = titleAndDescForm.titleField.text;
+    item.description = textBox.text;
+        [[AppServices sharedAppServices] updateItem:self.item];
+    
+        [titleAndDescForm release];	
+     
+    [self.navigationController popToRootViewControllerAnimated:YES];
+	[self dismissModalViewControllerAnimated:NO];
+	
+
+        
 }
 
 

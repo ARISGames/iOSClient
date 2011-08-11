@@ -18,7 +18,6 @@
 		1147E15913F32260000E4BC2 /* noteicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1147E15513F32260000E4BC2 /* noteicon.png */; };
 		1147E15A13F32260000E4BC2 /* NoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1147E15713F32260000E4BC2 /* NoteViewController.m */; };
 		1147E15B13F32260000E4BC2 /* NoteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1147E15813F32260000E4BC2 /* NoteViewController.xib */; };
-		1147E15F13F322C8000E4BC2 /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = 1147E15E13F322C8000E4BC2 /* Note.m */; };
 		1147E16113F3234B000E4BC2 /* inventoryicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1147E16013F3234B000E4BC2 /* inventoryicon.png */; };
 		118669AB13BB8EAC004B4EC8 /* AttributesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 118669A813BB8EAC004B4EC8 /* AttributesViewController.m */; };
 		118669AC13BB8EAC004B4EC8 /* AttributesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 118669A913BB8EAC004B4EC8 /* AttributesViewController.xib */; };
@@ -297,8 +296,6 @@
 		1147E15613F32260000E4BC2 /* NoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteViewController.h; sourceTree = "<group>"; };
 		1147E15713F32260000E4BC2 /* NoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteViewController.m; sourceTree = "<group>"; };
 		1147E15813F32260000E4BC2 /* NoteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteViewController.xib; sourceTree = "<group>"; };
-		1147E15D13F322C8000E4BC2 /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Note.h; sourceTree = "<group>"; };
-		1147E15E13F322C8000E4BC2 /* Note.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Note.m; sourceTree = "<group>"; };
 		1147E16013F3234B000E4BC2 /* inventoryicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inventoryicon.png; sourceTree = "<group>"; };
 		118669A713BB8EAC004B4EC8 /* AttributesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributesViewController.h; sourceTree = "<group>"; };
 		118669A813BB8EAC004B4EC8 /* AttributesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributesViewController.m; sourceTree = "<group>"; };
@@ -941,8 +938,6 @@
 				AB9BA25313DFBE3A007470E3 /* PanoramicMedia.m */,
 				1122C0BF13A7DE7F004F0392 /* WebPage.h */,
 				1122C0C013A7DE7F004F0392 /* WebPage.m */,
-				1147E15D13F322C8000E4BC2 /* Note.h */,
-				1147E15E13F322C8000E4BC2 /* Note.m */,
 				2B3D17050F49C99B0067FD3A /* Game.h */,
 				2B3D17060F49C99B0067FD3A /* Game.m */,
 				A722E7130F57425B004B04D2 /* Location.h */,
@@ -1750,7 +1745,6 @@
 				11A02DA213CBA419007C084C /* ItemActionViewController.m in Sources */,
 				AB9BA25413DFBE3A007470E3 /* PanoramicMedia.m in Sources */,
 				1147E15A13F32260000E4BC2 /* NoteViewController.m in Sources */,
-				1147E15F13F322C8000E4BC2 /* Note.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

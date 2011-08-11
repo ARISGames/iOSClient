@@ -307,19 +307,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
 	}
 	return page;
 }
-- (Note *)noteForNoteId:(int)mId{
-	Note *aNote = [self.gameNoteList objectForKey:[NSNumber numberWithInt:mId]];
-	
-	if (!aNote) {
-        
-		
-		[[AppServices sharedAppServices] fetchGameNoteListAsynchronously:NO];
-		
-		aNote = [self.gameNoteList objectForKey:[NSNumber numberWithInt:mId]];
-        
-	}
-	return aNote;
-}
+
 
 - (Panoramic *)panoramicForPanoramicId:(int)mId {
     Panoramic *pan = [self.gamePanoramicList objectForKey:[NSNumber numberWithInt:mId]];

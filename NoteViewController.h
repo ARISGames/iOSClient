@@ -7,18 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Note.h"
+#import "Item.h"
 #import "TitleAndDecriptionFormViewController.h"
 
 
 @interface NoteViewController : UIViewController <UITextViewDelegate>{
     IBOutlet UITextView *textBox;
     IBOutlet UIButton *saveButton;
-    Note *note;
+    Item *note;
+    id delegate;
 }
 @property(nonatomic,retain) IBOutlet UITextView *textBox;
 @property(nonatomic, retain) IBOutlet UIButton *saveButton;
-@property(nonatomic,retain) Note *note;
+@property(nonatomic,retain) Item *note;
+@property(nonatomic,retain) id delegate;
 - (IBAction)saveButtonTouchAction;
 - (void) hideKeyboard;
 - (void)titleAndDescriptionFormDidFinish:(TitleAndDecriptionFormViewController*)titleAndDescForm;

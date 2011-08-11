@@ -24,8 +24,6 @@
 #import "ASIFormDataRequest.h"
 #import "ARISAppDelegate.h"
 #import "Comment.h"
-#import "Note.h"
-
 
 @interface AppServices : NSObject {
     //Fetcher Flags
@@ -82,10 +80,10 @@
 - (Node *)fetchNode:(int)nodeId;
 - (Npc *)fetchNpc:(int)npcId;
 
-
+- (void)updateItem:(Item *) item;
 - (void)createItemAndGiveToPlayerFromFileData:(NSData *)fileData fileName:(NSString *)fileName 
 										title:(NSString *)title description:(NSString*)description;
-
+-(void)createItemAndGivetoPlayer: (Item *) item;
 - (void)uploadImageForMatching:(NSData *)fileData;
 
 - (void)updateServerWithPlayerLocation;

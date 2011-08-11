@@ -8,6 +8,7 @@
 
 #import "TitleAndDecriptionFormViewController.h"
 #import "NoteViewController.h"
+#import "ItemDetailsViewController.h"
 
 @implementation TitleAndDecriptionFormViewController
 
@@ -102,7 +103,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    if([self.delegate isKindOfClass:[NoteViewController class]]){
+    if([self.delegate isKindOfClass:[NoteViewController class]] || [self.delegate isKindOfClass:[ItemDetailsViewController class]]){
         return 1;
     }
     return 2;

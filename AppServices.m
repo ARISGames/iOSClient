@@ -323,7 +323,30 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
 	[request startAsynchronous];
 }
+-(void)createItemAndGivetoPlayer:(Item *)item {
+    NSLog(@"AppModel: Creating Note: %@",item.name);
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects:
+						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+                          item.name,
+						  item.description,
+                           @"note123",
+						  @"1", //dropable
+						  @"1", //destroyable
+						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.latitude],
+						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.longitude],
+                          @"NOTE",
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"items" 
+                                                             andMethodName:@"createItemAndGiveToPlayer" 
+                                                              andArguments:arguments];
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; 
+	[jsonConnection release];
 
+}
 
 - (void)createItemAndGiveToPlayerFromFileData:(NSData *)fileData fileName:(NSString *)fileName 
 										title:(NSString *)title description:(NSString*)description {
@@ -352,7 +375,32 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[request startAsynchronous];
 }
 
+-(void)updateItem:(Item *)item {
+    NSLog(@"Model: Updating Item");
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+						  [NSString stringWithFormat:@"%d",item.itemId],
+						  item.name,
+						  item.description,
+                          [NSString stringWithFormat:@"%d",item.iconMediaId],
+						  [NSString stringWithFormat:@"%d",item.mediaId],
+						  [NSString stringWithFormat:@"%d",item.dropable],
+                          [NSString stringWithFormat:@"%d",item.destroyable],
+						  [NSString stringWithFormat:@"%d",item.isAttribute],
+						  [NSString stringWithFormat:@"%d",item.maxQty],
+                          [NSString stringWithFormat:@"%d",item.weight],
+						  item.url,
+						  item.type,
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"items" 
+                                                             andMethodName:@"updateItem" 
+                                                              andArguments:arguments];
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After 
+	[jsonConnection release];
 
+}
 
 - (void)uploadImageForMatchingRequestFinished:(ASIFormDataRequest *)request
 {
@@ -416,6 +464,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 						  @"1", //destroyable
 						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.latitude],
 						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.longitude],
+                          @"NORMAL",
 						  nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
                                                             andServiceName:@"items" 
@@ -1017,7 +1066,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
     item.weight = [[itemDictionary valueForKey:@"weight"] intValue];
     item.url = [itemDictionary valueForKey:@"url"];
 	item.type = [itemDictionary valueForKey:@"type"];
-    item.creatorId = [itemDictionary valueForKey:@"creator_player_id"];
+    item.creatorId = [[itemDictionary valueForKey:@"creator_player_id"] intValue];
 	NSLog(@"\tadded item %@", item.name);
 	
 	return item;	
@@ -1619,7 +1668,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
         item.weight = [[itemDictionary valueForKey:@"weight"] intValue];
         item.url = [itemDictionary valueForKey:@"url"];
         item.type = [itemDictionary valueForKey:@"type"];
-        item.creatorId = [itemDictionary valueForKey:@"creator_player_id"];
+        item.creatorId = [[itemDictionary valueForKey:@"creator_player_id"] intValue];
 		NSLog(@"Model: Adding Item: %@", item.name);
         if(item.isAttribute)[tempAttributes setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]]; 
             else [tempInventory setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]]; 

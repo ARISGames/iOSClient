@@ -360,7 +360,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {	
 	Item *selectedItem = [inventory objectAtIndex:[indexPath row]];
 	NSLog(@"Displaying Detail View: %@", selectedItem.name);
-	
+
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
 	

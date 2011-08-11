@@ -7,13 +7,13 @@
 //
 
 #import "NoteViewController.h"
-#import "Note.h"
 #import "TitleAndDecriptionFormViewController.h"
 #import "ARISAppDelegate.h"
 #import "AppServices.h"
+#import "InventoryListViewController.h"
 
 @implementation NoteViewController
-@synthesize textBox,saveButton,note;
+@synthesize textBox,saveButton,note, delegate;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -44,12 +44,18 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    if(self.note)
-    self.title = self.note.name;
+
     UIBarButtonItem *hideKeyboardButton = [[UIBarButtonItem alloc] initWithTitle:@"Hide Keyboard" style:UIBarButtonItemStylePlain target:self action:@selector(hideKeyboard)];      
 	self.navigationItem.rightBarButtonItem = hideKeyboardButton;
-    if(self.note && ([AppModel sharedAppModel].playerId != self.note.creatorId)) self.textBox.userInteractionEnabled = NO;
+
 }
+-(void)viewWillDisappear:(BOOL)animated{
+    self.navigationController.navigationItem.title = @"Note";
+}
+-(void)viewDidAppear:(BOOL)animated{
+       
+        
+   }
 
 - (void)viewDidUnload
 {
@@ -89,12 +95,16 @@
 - (void)titleAndDescriptionFormDidFinish:(TitleAndDecriptionFormViewController*)titleAndDescForm{
 	NSLog(@"NoteVC: Back from form");
 	[titleAndDescForm.view removeFromSuperview];
-   
-	[[AppServices sharedAppServices] createItemAndGiveToPlayerFromFileData:nil 
-                                                                  fileName:@"note123"
-                                                                     title:titleAndDescForm.titleField.text 
-                                                            description:self.textBox.text];
-    
+    if(self.note){
+        [[AppServices sharedAppServices] updateItem:self.note];
+    }
+    else{
+        Item *item = [[Item alloc]init];
+        item.name = titleAndDescForm.titleField.text;
+        item.description = self.textBox.text;
+        [[AppServices sharedAppServices] createItemAndGivetoPlayer:item];
+        [item release];
+    }
     [titleAndDescForm release];	
     NSString *tab;
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];        
