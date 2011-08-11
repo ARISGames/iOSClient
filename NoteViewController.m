@@ -10,6 +10,7 @@
 #import "Note.h"
 #import "TitleAndDecriptionFormViewController.h"
 #import "ARISAppDelegate.h"
+#import "AppServices.h"
 
 @implementation NoteViewController
 @synthesize textBox,saveButton,note;
@@ -87,12 +88,12 @@
 - (void)titleAndDescriptionFormDidFinish:(TitleAndDecriptionFormViewController*)titleAndDescForm{
 	NSLog(@"NoteVC: Back from form");
 	[titleAndDescForm.view removeFromSuperview];
-    /* Add Server Call Here
-	[[AppServices sharedAppServices] createItemAndGiveToPlayerFromFileData:self.mediaData 
-                                                                  fileName:self.mediaFilename 
+   
+	[[AppServices sharedAppServices] createItemAndGiveToPlayerFromFileData:nil 
+                                                                  fileName:@"note123"
                                                                      title:titleAndDescForm.titleField.text 
-                                                               description:titleAndDescForm.descriptionField.text];
-    */
+                                                            description:self.textBox.text];
+    
     [titleAndDescForm release];	
     NSString *tab;
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];        

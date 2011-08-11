@@ -15,6 +15,11 @@
 		1129FA3813CD080500FE83B4 /* garden_frame1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1129FA3513CD080500FE83B4 /* garden_frame1.jpg */; };
 		1139BA4F13ABC2B7008BF268 /* Panoramic.m in Sources */ = {isa = PBXBuildFile; fileRef = 1139BA4E13ABC2B7008BF268 /* Panoramic.m */; };
 		1139BA5513ABC6CB008BF268 /* PanoramicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1139BA5313ABC6CB008BF268 /* PanoramicViewController.m */; };
+		1147E15913F32260000E4BC2 /* noteicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1147E15513F32260000E4BC2 /* noteicon.png */; };
+		1147E15A13F32260000E4BC2 /* NoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1147E15713F32260000E4BC2 /* NoteViewController.m */; };
+		1147E15B13F32260000E4BC2 /* NoteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1147E15813F32260000E4BC2 /* NoteViewController.xib */; };
+		1147E15F13F322C8000E4BC2 /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = 1147E15E13F322C8000E4BC2 /* Note.m */; };
+		1147E16113F3234B000E4BC2 /* inventoryicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1147E16013F3234B000E4BC2 /* inventoryicon.png */; };
 		118669AB13BB8EAC004B4EC8 /* AttributesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 118669A813BB8EAC004B4EC8 /* AttributesViewController.m */; };
 		118669AC13BB8EAC004B4EC8 /* AttributesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 118669A913BB8EAC004B4EC8 /* AttributesViewController.xib */; };
 		118669AD13BB8EAC004B4EC8 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 118669AA13BB8EAC004B4EC8 /* profile.png */; };
@@ -288,6 +293,13 @@
 		1139BA4E13ABC2B7008BF268 /* Panoramic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Panoramic.m; sourceTree = "<group>"; };
 		1139BA5213ABC6CB008BF268 /* PanoramicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PanoramicViewController.h; sourceTree = "<group>"; };
 		1139BA5313ABC6CB008BF268 /* PanoramicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PanoramicViewController.m; sourceTree = "<group>"; };
+		1147E15513F32260000E4BC2 /* noteicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noteicon.png; sourceTree = "<group>"; };
+		1147E15613F32260000E4BC2 /* NoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteViewController.h; sourceTree = "<group>"; };
+		1147E15713F32260000E4BC2 /* NoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteViewController.m; sourceTree = "<group>"; };
+		1147E15813F32260000E4BC2 /* NoteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteViewController.xib; sourceTree = "<group>"; };
+		1147E15D13F322C8000E4BC2 /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Note.h; sourceTree = "<group>"; };
+		1147E15E13F322C8000E4BC2 /* Note.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Note.m; sourceTree = "<group>"; };
+		1147E16013F3234B000E4BC2 /* inventoryicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inventoryicon.png; sourceTree = "<group>"; };
 		118669A713BB8EAC004B4EC8 /* AttributesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributesViewController.h; sourceTree = "<group>"; };
 		118669A813BB8EAC004B4EC8 /* AttributesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributesViewController.m; sourceTree = "<group>"; };
 		118669A913BB8EAC004B4EC8 /* AttributesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttributesViewController.xib; sourceTree = "<group>"; };
@@ -729,6 +741,17 @@
 			name = Panoramic;
 			sourceTree = "<group>";
 		};
+		1147E15C13F32273000E4BC2 /* Notes */ = {
+			isa = PBXGroup;
+			children = (
+				1147E15513F32260000E4BC2 /* noteicon.png */,
+				1147E15613F32260000E4BC2 /* NoteViewController.h */,
+				1147E15713F32260000E4BC2 /* NoteViewController.m */,
+				1147E15813F32260000E4BC2 /* NoteViewController.xib */,
+			);
+			name = Notes;
+			sourceTree = "<group>";
+		};
 		118669AF13BB8EC1004B4EC8 /* Player Profile / Attributes */ = {
 			isa = PBXGroup;
 			children = (
@@ -884,6 +907,7 @@
 				A7986D610F8FEBB200A5469F /* Developer */,
 				A7986D650F8FEC1100A5469F /* Login */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				1147E15C13F32273000E4BC2 /* Notes */,
 				118669AF13BB8EC1004B4EC8 /* Player Profile / Attributes */,
 				1139BA5113ABC6A2008BF268 /* Panoramic */,
 				1122C0B113A7D063004F0392 /* Webpage */,
@@ -917,6 +941,8 @@
 				AB9BA25313DFBE3A007470E3 /* PanoramicMedia.m */,
 				1122C0BF13A7DE7F004F0392 /* WebPage.h */,
 				1122C0C013A7DE7F004F0392 /* WebPage.m */,
+				1147E15D13F322C8000E4BC2 /* Note.h */,
+				1147E15E13F322C8000E4BC2 /* Note.m */,
 				2B3D17050F49C99B0067FD3A /* Game.h */,
 				2B3D17060F49C99B0067FD3A /* Game.m */,
 				A722E7130F57425B004B04D2 /* Location.h */,
@@ -1049,6 +1075,7 @@
 				ABB925C310C857D800B09506 /* defaultVideoIcon.png */,
 				AB7FB977115DBF1500DB81A6 /* clickToPlay.png */,
 				2B3D12D70F437D6E0067FD3A /* InventoryListViewController.h */,
+				1147E16013F3234B000E4BC2 /* inventoryicon.png */,
 				2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */,
 				2B3D12DA0F437E690067FD3A /* InventoryList.xib */,
 				A75AF2B70F86A47100F15535 /* ItemDetailsViewController.h */,
@@ -1570,6 +1597,9 @@
 				1129FA3613CD080500FE83B4 /* garden_frame3.jpg in Resources */,
 				1129FA3713CD080500FE83B4 /* garden_frame2.jpg in Resources */,
 				1129FA3813CD080500FE83B4 /* garden_frame1.jpg in Resources */,
+				1147E15913F32260000E4BC2 /* noteicon.png in Resources */,
+				1147E15B13F32260000E4BC2 /* NoteViewController.xib in Resources */,
+				1147E16113F3234B000E4BC2 /* inventoryicon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1719,6 +1749,8 @@
 				4ADE919F13CB84B80009F4AF /* UIDevice+Hardware.m in Sources */,
 				11A02DA213CBA419007C084C /* ItemActionViewController.m in Sources */,
 				AB9BA25413DFBE3A007470E3 /* PanoramicMedia.m in Sources */,
+				1147E15A13F32260000E4BC2 /* NoteViewController.m in Sources */,
+				1147E15F13F322C8000E4BC2 /* Note.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

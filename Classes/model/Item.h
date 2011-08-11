@@ -26,9 +26,12 @@
 	BOOL destroyable;
 	nearbyObjectKind kind;
     NSString *url;
+    NSString *type;
 }
 
 @property(copy, readwrite) NSString *name;
+@property(copy, readwrite) NSString *type;
+
 @property(readwrite, assign) nearbyObjectKind kind;
 - (nearbyObjectKind) kind;
 @property(readwrite, assign) BOOL forcedDisplay;

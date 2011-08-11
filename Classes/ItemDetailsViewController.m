@@ -14,6 +14,8 @@
 #import "ItemActionViewController.h"
 #import "WebPage.h"
 #import "webpageViewController.h"
+#import "Note.h"
+#import "NoteViewController.h"
 
 NSString *const kItemDetailsDescriptionHtmlTemplate = 
 @"<html>"
@@ -54,7 +56,19 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	
     return self;
 }
+-(void)viewWillAppear:(BOOL)animated{
+    if([self.item.type isEqualToString: @"NOTE"])
+    {
+        Note *aNote = [[Note alloc]init];
+        aNote.name = self.item.name;
+        aNote.text = self.item.description;
+        NoteViewController *notesViewController = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle: [NSBundle mainBundle]];
+        notesViewController.note = aNote;
+        [self.navigationController pushViewController:notesViewController animated:NO];
+        [notesViewController release];
 
+    }
+}
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
 	//Show waiting Indicator in own thread so it appears on time

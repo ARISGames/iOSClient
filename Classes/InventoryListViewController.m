@@ -296,7 +296,7 @@
         lblTemp3.text = nil;
 
     Media *media;
-    if (item.mediaId != 0) {
+    if (item.mediaId != 0 && ![item.type isEqualToString:@"NOTE"]) {
         if([self.mediaCache count] > indexPath.row){
             media = [self.mediaCache objectAtIndex:indexPath.row];
         }

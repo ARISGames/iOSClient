@@ -89,23 +89,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[jsonConnection release];
     
 }
-- (void)updateServerNoteViewed: (int)noteId {
-	NSLog(@"Model: Note %d Viewed, update server", noteId);
-	
-	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects:
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
-						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
-						  [NSString stringWithFormat:@"%d",noteId],
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
-                                                            andServiceName:@"players" 
-                                                             andMethodName:@"noteViewed" 
-                                                              andArguments:arguments];
-	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; 
-	[jsonConnection release];
-    
-}
 - (void)updateServerPanoramicViewed: (int)panoramicId {
 	NSLog(@"Model: Panoramic %d Viewed, update server", panoramicId);
 	
@@ -693,23 +676,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
     
 	
 }
-- (void)fetchGameNoteListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
-	NSLog(@"AppModel: Fetching Note List");
-	
-	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
-	
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
-                                                            andServiceName:@"items"
-                                                             andMethodName:@"getNotes"
-                                                              andArguments:arguments];
-	if (YesForAsyncOrNoForSync){
-		[jsonConnection performAsynchronousRequestWithParser:@selector(parseGameNoteListFromJSON:)]; 
-		[jsonConnection release];
-	}
-	else [self parseGameNoteListFromJSON: [jsonConnection performSynchronousRequest]];
-    
-	
-}
 
 - (void)fetchGameMediaListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
 	NSLog(@"AppModel: Fetching Media List");
@@ -1050,7 +1016,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
     item.isAttribute = [[itemDictionary valueForKey:@"is_attribute"] boolValue];
     item.weight = [[itemDictionary valueForKey:@"weight"] intValue];
     item.url = [itemDictionary valueForKey:@"url"];
-	
+	item.type = [itemDictionary valueForKey:@"type"];
 	NSLog(@"\tadded item %@", item.name);
 	
 	return item;	
@@ -1128,15 +1094,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	return webPage;	
 }
 
--(Note *)parseNoteFromDictionary: (NSDictionary *)noteDictionary {
-	Note *aNote = [[[Note alloc] init] autorelease];
-	aNote.noteId = [[noteDictionary valueForKey:@"note_id"] intValue];
-	aNote.name = [noteDictionary valueForKey:@"name"];
-	aNote.text = [noteDictionary valueForKey:@"text"];    
-	aNote.iconMediaId = [[noteDictionary valueForKey:@"icon_media_id"] intValue];
-    
-	return aNote;	
-}
 -(Panoramic *)parsePanoramicFromDictionary: (NSDictionary *)panoramicDictionary {
 	Panoramic *pan = [[[Panoramic alloc] init] autorelease];
     pan.panoramicId  = [[panoramicDictionary valueForKey:@"aug_bubble_id"] intValue];
@@ -1600,21 +1557,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[AppModel sharedAppModel].gameWebPageList = tempWebPageList;
 	[tempWebPageList release];
 }
--(void)parseGameNoteListFromJSON: (JSONResult *)jsonResult{
-	NSArray *noteListArray = (NSArray *)jsonResult.data;
-	
-	NSMutableDictionary *tempNoteList = [[NSMutableDictionary alloc] init];
-	NSEnumerator *enumerator = [((NSArray *)noteListArray) objectEnumerator];
-	NSDictionary *dict;
-	while ((dict = [enumerator nextObject])) {
-		Note *tmpNote = [self parseWebPageFromDictionary:dict];
-		
-		[tempNoteList setObject:tmpNote forKey:[NSNumber numberWithInt:tmpNote.noteId]];
-	}
-	
-	[AppModel sharedAppModel].gameNoteList = tempNoteList;
-	[tempNoteList release];
-}
 -(void)parseGamePanoramicListFromJSON: (JSONResult *)jsonResult{
 	NSArray *panListArray = (NSArray *)jsonResult.data;
 	
@@ -1675,6 +1617,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
         item.isAttribute = [[itemDictionary valueForKey:@"is_attribute"] boolValue];
         item.weight = [[itemDictionary valueForKey:@"weight"] intValue];
         item.url = [itemDictionary valueForKey:@"url"];
+        item.type = [itemDictionary valueForKey:@"type"];
 		NSLog(@"Model: Adding Item: %@", item.name);
         if(item.isAttribute)[tempAttributes setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]]; 
             else [tempInventory setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]]; 
