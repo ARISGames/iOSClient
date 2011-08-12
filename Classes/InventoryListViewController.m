@@ -11,7 +11,7 @@
 #import "Media.h"
 #import "AsyncImageView.h"
 #import "AppModel.h"
-
+#import "DataCollectionViewController.h"
 
 @implementation InventoryListViewController
 
@@ -264,7 +264,7 @@
 
 // returns the # of rows in each component..
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return [inventory count];
+	return [inventory count] + 1;
 }
 
 
@@ -272,9 +272,27 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	static NSString *CellIdentifier = @"Cell";
 	
+    
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];	
 	if(cell == nil) cell = [self getCellContentView:CellIdentifier];
-	
+    
+    cell.textLabel.backgroundColor = [UIColor clearColor]; 
+    cell.detailTextLabel.backgroundColor = [UIColor clearColor]; 
+    
+    if (indexPath.row % 2 == 0){  
+        cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0  
+                                                           green:233.0/255.0  
+                                                            blue:233.0/255.0  
+                                                           alpha:1.0];  
+    } else {  
+        cell.contentView.backgroundColor = [UIColor colorWithRed:200.0/255.0  
+                                                           green:200.0/255.0  
+                                                            blue:200.0/255.0  
+                                                           alpha:1.0];  
+    } 
+
+    
+	if([indexPath row] < [inventory count]){
 	Item *item = [inventory objectAtIndex: [indexPath row]];
 	
 	UILabel *lblTemp1 = (UILabel *)[cell viewWithTag:1];
@@ -323,23 +341,14 @@
 		if ([media.type isEqualToString: @"Audio"]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultAudioIcon.png"]];
 		if ([media.type isEqualToString: @"Video"]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultVideoIcon.png"]];
 	}
+    }
+    else{
+
+        cell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"plusCellButton.png"]];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
     
-    
-    cell.textLabel.backgroundColor = [UIColor clearColor]; 
-    cell.detailTextLabel.backgroundColor = [UIColor clearColor]; 
-    
-    if (indexPath.row % 2 == 0){  
-        cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0  
-                                                           green:233.0/255.0  
-                                                            blue:233.0/255.0  
-                                                           alpha:1.0];  
-    } else {  
-        cell.contentView.backgroundColor = [UIColor colorWithRed:200.0/255.0  
-                                                           green:200.0/255.0  
-                                                            blue:200.0/255.0  
-                                                           alpha:1.0];  
-    } 
-	
+    	
 	return cell;
 }
 
@@ -358,6 +367,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {	
+    if([indexPath row] < [inventory count]){
 	Item *selectedItem = [inventory objectAtIndex:[indexPath row]];
 	NSLog(@"Displaying Detail View: %@", selectedItem.name);
 
@@ -375,9 +385,16 @@
 	[[self navigationController] pushViewController:itemDetailsViewController animated:YES];
 	
 	[itemDetailsViewController release];
-	
+	}
+    else{
+        DataCollectionViewController *dataVC = [[DataCollectionViewController alloc] initWithNibName:@"DataCollectionViewController" bundle:nil];
+        [self.navigationController pushViewController:dataVC animated:YES];
+        [dataVC release];
+    }
 }
+-(IBAction) dataButtonTouchAction {
 
+}
 #pragma mark Memory Management
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview

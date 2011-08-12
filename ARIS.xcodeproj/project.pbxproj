@@ -64,6 +64,11 @@
 		11BE779F13B0FCC7000D037B /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11BE779E13B0FCC7000D037B /* OpenGLES.framework */; };
 		11BE77A313B10564000D037B /* PanoramicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11BE77A213B10564000D037B /* PanoramicViewController.xib */; };
 		11BE77A713B26515000D037B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11BE77A613B26515000D037B /* CoreMotion.framework */; };
+		11DD3D4D13F5AB430051AB76 /* DataCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11DD3D4B13F5AB430051AB76 /* DataCollectionViewController.m */; };
+		11DD3D4E13F5AB430051AB76 /* DataCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11DD3D4C13F5AB430051AB76 /* DataCollectionViewController.xib */; };
+		11DD3D5113F5B0EF0051AB76 /* playericon.png in Resources */ = {isa = PBXBuildFile; fileRef = 11DD3D4F13F5B0EF0051AB76 /* playericon.png */; };
+		11DD3D5213F5B0EF0051AB76 /* plusCellButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 11DD3D5013F5B0EF0051AB76 /* plusCellButton.png */; };
+		11DD3D5413F5B8F40051AB76 /* plusCellButton_Pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 11DD3D5313F5B8F40051AB76 /* plusCellButton_Pressed.png */; };
 		1D3623260D0F684500981E51 /* ARISAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.mm */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -388,6 +393,12 @@
 		11BE779E13B0FCC7000D037B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		11BE77A213B10564000D037B /* PanoramicViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PanoramicViewController.xib; sourceTree = "<group>"; };
 		11BE77A613B26515000D037B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		11DD3D4A13F5AB430051AB76 /* DataCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataCollectionViewController.h; sourceTree = "<group>"; };
+		11DD3D4B13F5AB430051AB76 /* DataCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataCollectionViewController.m; sourceTree = "<group>"; };
+		11DD3D4C13F5AB430051AB76 /* DataCollectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DataCollectionViewController.xib; sourceTree = "<group>"; };
+		11DD3D4F13F5B0EF0051AB76 /* playericon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playericon.png; sourceTree = "<group>"; };
+		11DD3D5013F5B0EF0051AB76 /* plusCellButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plusCellButton.png; sourceTree = "<group>"; };
+		11DD3D5313F5B8F40051AB76 /* plusCellButton_Pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plusCellButton_Pressed.png; sourceTree = "<group>"; };
 		1D3623240D0F684500981E51 /* ARISAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = ARISAppDelegate.h; path = Classes/ARISAppDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		1D3623250D0F684500981E51 /* ARISAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = ARISAppDelegate.m; path = Classes/ARISAppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -871,6 +882,16 @@
 			path = libtess;
 			sourceTree = "<group>";
 		};
+		11DD3D4913F5AAE80051AB76 /* Data Collection */ = {
+			isa = PBXGroup;
+			children = (
+				11DD3D4A13F5AB430051AB76 /* DataCollectionViewController.h */,
+				11DD3D4B13F5AB430051AB76 /* DataCollectionViewController.m */,
+				11DD3D4C13F5AB430051AB76 /* DataCollectionViewController.xib */,
+			);
+			name = "Data Collection";
+			sourceTree = "<group>";
+		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -904,6 +925,7 @@
 				A7986D610F8FEBB200A5469F /* Developer */,
 				A7986D650F8FEC1100A5469F /* Login */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				11DD3D4913F5AAE80051AB76 /* Data Collection */,
 				1147E15C13F32273000E4BC2 /* Notes */,
 				118669AF13BB8EC1004B4EC8 /* Player Profile / Attributes */,
 				1139BA5113ABC6A2008BF268 /* Panoramic */,
@@ -1061,6 +1083,8 @@
 			isa = PBXGroup;
 			children = (
 				11A02D9E13CBA419007C084C /* ItemActionViewController.h */,
+				11DD3D4F13F5B0EF0051AB76 /* playericon.png */,
+				11DD3D5013F5B0EF0051AB76 /* plusCellButton.png */,
 				11A02D9F13CBA419007C084C /* ItemActionViewController.m */,
 				11A02DA013CBA419007C084C /* ItemActionViewController.xib */,
 				11A02DA113CBA419007C084C /* itemDetailsMode.h */,
@@ -1071,6 +1095,7 @@
 				AB7FB977115DBF1500DB81A6 /* clickToPlay.png */,
 				2B3D12D70F437D6E0067FD3A /* InventoryListViewController.h */,
 				1147E16013F3234B000E4BC2 /* inventoryicon.png */,
+				11DD3D5313F5B8F40051AB76 /* plusCellButton_Pressed.png */,
 				2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */,
 				2B3D12DA0F437E690067FD3A /* InventoryList.xib */,
 				A75AF2B70F86A47100F15535 /* ItemDetailsViewController.h */,
@@ -1595,6 +1620,10 @@
 				1147E15913F32260000E4BC2 /* noteicon.png in Resources */,
 				1147E15B13F32260000E4BC2 /* NoteViewController.xib in Resources */,
 				1147E16113F3234B000E4BC2 /* inventoryicon.png in Resources */,
+				11DD3D4E13F5AB430051AB76 /* DataCollectionViewController.xib in Resources */,
+				11DD3D5113F5B0EF0051AB76 /* playericon.png in Resources */,
+				11DD3D5213F5B0EF0051AB76 /* plusCellButton.png in Resources */,
+				11DD3D5413F5B8F40051AB76 /* plusCellButton_Pressed.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1745,6 +1774,7 @@
 				11A02DA213CBA419007C084C /* ItemActionViewController.m in Sources */,
 				AB9BA25413DFBE3A007470E3 /* PanoramicMedia.m in Sources */,
 				1147E15A13F32260000E4BC2 /* NoteViewController.m in Sources */,
+				11DD3D4D13F5AB430051AB76 /* DataCollectionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
