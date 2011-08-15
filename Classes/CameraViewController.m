@@ -159,6 +159,7 @@
             appDelegate.tabBarController.selectedIndex = i;
         }
     }
+    [self.navigationController popToRootViewControllerAnimated:NO];
 
 }
 

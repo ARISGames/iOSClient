@@ -80,7 +80,6 @@
 }
 
 -(void)saveButtonTouchAction{
-    [self.saveButton setBackgroundColor:[UIColor lightGrayColor]];
     [self displayTitleandDescriptionForm];
 }
 
@@ -119,6 +118,7 @@
             appDelegate.tabBarController.selectedIndex = i;
         }
     }
+    [self.navigationController popToRootViewControllerAnimated:NO];
     
 }
 @end
