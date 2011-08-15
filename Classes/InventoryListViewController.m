@@ -312,7 +312,7 @@
         lblTemp3.text = [NSString stringWithFormat:@"Quantity: %d",item.qty];
     else
         lblTemp3.text = nil;
-
+        iconView.hidden = NO;
     Media *media;
     if (item.mediaId != 0 && ![item.type isEqualToString:@"NOTE"]) {
         if([self.mediaCache count] > indexPath.row){
@@ -339,11 +339,19 @@
 		//Load the Default
 		if ([media.type isEqualToString: @"Image"]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultImageIcon.png"]];
 		if ([media.type isEqualToString: @"Audio"]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultAudioIcon.png"]];
-		if ([media.type isEqualToString: @"Video"]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultVideoIcon.png"]];
-	}
+		if ([media.type isEqualToString: @"Video"]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultVideoIcon.png"]];	}
     }
     else{
-
+        UILabel *lblTemp1 = (UILabel *)[cell viewWithTag:1];
+        lblTemp1.text = @"";	
+        
+        UILabel *lblTemp2 = (UILabel *)[cell viewWithTag:2];
+        lblTemp2.text = @"";
+        AsyncImageView *iconView = (AsyncImageView *)[cell viewWithTag:3];
+        iconView.hidden = YES;
+        
+        UILabel *lblTemp3 = (UILabel *)[cell viewWithTag:4];
+        lblTemp3.text = @"";
         cell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"plusCellButton.png"]];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
