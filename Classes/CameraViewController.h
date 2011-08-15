@@ -18,6 +18,8 @@
     UIImagePickerController *imagePickerController;
 	NSData *mediaData;
 	NSString *mediaFilename;
+    
+    id delegate;
 }
 
 @property (nonatomic, retain) IBOutlet UIButton *cameraButton;
@@ -26,7 +28,7 @@
 @property (nonatomic, retain) UIImagePickerController *imagePickerController;
 @property (nonatomic, retain) NSData *mediaData;
 @property (nonatomic, retain) NSString *mediaFilename;
-
+@property (nonatomic, retain) id delegate;
 
 
 - (IBAction)cameraButtonTouchAction;

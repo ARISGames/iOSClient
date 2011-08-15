@@ -24,7 +24,7 @@
 	IBOutlet UIToolbar *toolBar;
 	int silenceNextServerUpdateCount;
 	int newItemsSinceLastView;
-
+    IBOutlet UIBarButtonItem *addMediaButton;
 	NSTimer *refreshTimer;
 
 }
@@ -43,6 +43,7 @@
 
 
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *mapTypeButton;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *addMediaButton;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *playerTrackingButton;
 @property (nonatomic, retain) IBOutlet UIToolbar *toolBar;
 

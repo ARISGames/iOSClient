@@ -388,6 +388,7 @@
 	}
     else{
         DataCollectionViewController *dataVC = [[DataCollectionViewController alloc] initWithNibName:@"DataCollectionViewController" bundle:nil];
+        dataVC.delegate = self;
         [self.navigationController pushViewController:dataVC animated:YES];
         [dataVC release];
     }

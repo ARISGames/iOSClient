@@ -34,7 +34,7 @@ typedef enum {
 	BOOL recording;
 	BOOL playing;
 	NSTimer *meterUpdateTimer;
-	
+	id delegate;
 }
 
 @property(readwrite, retain) AudioMeter *meter;
@@ -43,7 +43,7 @@ typedef enum {
 @property(readwrite, retain) AVAudioRecorder *soundRecorder;
 @property(readwrite, retain) AVAudioPlayer *soundPlayer;
 @property(readwrite, retain) NSTimer *meterUpdateTimer;
-
+@property(nonatomic, retain) id delegate;
 
 - (IBAction) recordStopOrPlayButtonAction: (id) sender;
 - (IBAction) uploadButtonAction: (id) sender;

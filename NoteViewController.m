@@ -11,6 +11,7 @@
 #import "ARISAppDelegate.h"
 #import "AppServices.h"
 #import "InventoryListViewController.h"
+#import "GPSViewController.h"
 
 @implementation NoteViewController
 @synthesize textBox,saveButton,note, delegate;
@@ -101,13 +102,19 @@
         Item *item = [[Item alloc]init];
         item.name = titleAndDescForm.titleField.text;
         item.description = self.textBox.text;
-        [[AppServices sharedAppServices] createItemAndGivetoPlayer:item];
+        if([self.delegate isKindOfClass:[GPSViewController class]]){
+            [[AppServices sharedAppServices] createItemAndPlaceOnMap:item];
+        }
+        else [[AppServices sharedAppServices] createItemAndGivetoPlayer:item];
         [item release];
     }
     [titleAndDescForm release];	
     NSString *tab;
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];        
-    
+    if ([self.delegate isKindOfClass:[GPSViewController class]]){
+        
+    }
+    else{
     //Exit to Inventory Tab
     for(int i = 0;i < [appDelegate.tabBarController.customizableViewControllers count];i++)
     {
@@ -117,6 +124,7 @@
         {
             appDelegate.tabBarController.selectedIndex = i;
         }
+    }
     }
     [self.navigationController popToRootViewControllerAnimated:NO];
     

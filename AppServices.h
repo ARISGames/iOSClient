@@ -79,6 +79,9 @@
 - (Item *)fetchItem:(int)itemId;
 - (Node *)fetchNode:(int)nodeId;
 - (Npc *)fetchNpc:(int)npcId;
+-(void)createItemAndPlaceOnMap:(Item *)item;
+- (void)createItemAndPlaceOnMapFromFileData:(NSData *)fileData fileName:(NSString *)fileName 
+                                      title:(NSString *)title description:(NSString*)description;
 
 - (void)updateItem:(Item *) item;
 - (void)createItemAndGiveToPlayerFromFileData:(NSData *)fileData fileName:(NSString *)fileName 

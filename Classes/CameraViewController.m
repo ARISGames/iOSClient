@@ -12,6 +12,7 @@
 #import "AppServices.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "TitleAndDecriptionFormViewController.h"
+#import "GPSViewController.h"
 
 @implementation CameraViewController
 
@@ -20,7 +21,7 @@
 @synthesize libraryButton;
 @synthesize mediaData;
 @synthesize mediaFilename;
-@synthesize profileButton;
+@synthesize profileButton, delegate;
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle {
@@ -140,27 +141,35 @@
 - (void)titleAndDescriptionFormDidFinish:(TitleAndDecriptionFormViewController*)titleAndDescForm{
 	NSLog(@"CameraVC: Back from form");
 	[titleAndDescForm.view removeFromSuperview];
-
+    if([self.delegate isKindOfClass:[GPSViewController class]]){
+        [[AppServices sharedAppServices] createItemAndPlaceOnMapFromFileData:self.mediaData fileName:self.mediaFilename title:titleAndDescForm.titleField.text description:titleAndDescForm.descriptionField.text];
+    }
+    else{
 	[[AppServices sharedAppServices] createItemAndGiveToPlayerFromFileData:self.mediaData 
 										   fileName:self.mediaFilename 
 											  title:titleAndDescForm.titleField.text 
 										description:titleAndDescForm.descriptionField.text];
-    
+    }
     [titleAndDescForm release];	
     NSString *tab;
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];        
 
-    for(int i = 0;i < [appDelegate.tabBarController.customizableViewControllers count];i++)
-    {
-        tab = [[appDelegate.tabBarController.customizableViewControllers objectAtIndex:i] title];
-        tab = [tab lowercaseString];
-        if([tab isEqualToString:@"inventory"])
+    if ([self.delegate isKindOfClass:[GPSViewController class]]){
+        
+    }
+    else{
+        //Exit to Inventory Tab
+        for(int i = 0;i < [appDelegate.tabBarController.customizableViewControllers count];i++)
         {
-            appDelegate.tabBarController.selectedIndex = i;
+            tab = [[appDelegate.tabBarController.customizableViewControllers objectAtIndex:i] title];
+            tab = [tab lowercaseString];
+            if([tab isEqualToString:@"inventory"])
+            {
+                appDelegate.tabBarController.selectedIndex = i;
+            }
         }
     }
     [self.navigationController popToRootViewControllerAnimated:NO];
-
 }
 
 

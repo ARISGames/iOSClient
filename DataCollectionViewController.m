@@ -12,7 +12,7 @@
 #import "NoteViewController.h"
 
 @implementation DataCollectionViewController
-@synthesize cameraButton,audioButton,noteButton,videoButton;
+@synthesize cameraButton,audioButton,noteButton,videoButton, delegate;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -59,21 +59,25 @@
 
 -(void)cameraButtonTouchAction{
     CameraViewController *cameraVC = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
+    cameraVC.delegate = self.delegate;
     [self.navigationController pushViewController:cameraVC animated:YES];
 }
 
 -(void)videoButtonTouchAction{
     CameraViewController *cameraVC = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
+    cameraVC.delegate = self.delegate;
     [self.navigationController pushViewController:cameraVC animated:YES];
 }
 
 -(void)audioButtonTouchAction{
     AudioRecorderViewController *audioVC = [[[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil] autorelease];
+    audioVC.delegate = self.delegate;
     [self.navigationController pushViewController:audioVC animated:YES];
 }
 
 -(void)noteButtonTouchAction{
     NoteViewController *noteVC = [[[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil] autorelease];
+    noteVC.delegate = self.delegate;
     [self.navigationController pushViewController:noteVC animated:YES];
 }
 

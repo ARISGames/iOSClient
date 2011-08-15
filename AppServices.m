@@ -323,6 +323,60 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
 	[request startAsynchronous];
 }
+
+-(void)createItemAndPlaceOnMap:(Item *)item {
+    NSLog(@"AppModel: Creating Note: %@",item.name);
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects:
+						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+                          item.name,
+						  item.description,
+                          @"note123",
+						  @"1", //dropable
+						  @"1", //destroyable
+						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.latitude],
+						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.longitude],
+                          @"NOTE",
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"items" 
+                                                             andMethodName:@"createItemAndPlaceOnMap" 
+                                                              andArguments:arguments];
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; 
+	[jsonConnection release];
+    
+}
+
+- (void)createItemAndPlaceOnMapFromFileData:(NSData *)fileData fileName:(NSString *)fileName 
+										title:(NSString *)title description:(NSString*)description {
+    
+	// setting up the request object now
+	NSURL *url = [[AppModel sharedAppModel].serverURL URLByAppendingPathComponent:@"services/aris/uploadHandler.php"];
+	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+	request.timeOutSeconds = 60;
+	
+ 	[request setPostValue:[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].currentGame.gameId] forKey:@"gameID"];	 
+	[request setPostValue:fileName forKey:@"fileName"];
+	[request setData:fileData forKey:@"file"];
+	[request setDidFinishSelector:@selector(uploadItemRequestFinished:)];
+	[request setDidFailSelector:@selector(uploadItemRequestFailed:)];
+	[request setDelegate:self];
+	
+	//We need these after the upload is complete to create the item on the server
+	NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:title, @"title", description, @"description", nil];
+	[request setUserInfo:userInfo];
+	
+	NSLog(@"Model: Uploading File. gameID:%d fileName:%@ title:%@ description:%@",[AppModel sharedAppModel].currentGame.gameId,fileName,title,description );
+	
+	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate showNewWaitingIndicator:@"Uploading" displayProgressBar:YES];
+	[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
+	[request startAsynchronous];
+}
+
+
 -(void)createItemAndGivetoPlayer:(Item *)item {
     NSLog(@"AppModel: Creating Note: %@",item.name);
 	
@@ -433,7 +487,57 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 }
 
 
+- (void)uploadItemForMapRequestFinished:(ASIFormDataRequest *)request
+{
+	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate removeNewWaitingIndicator];
+	
+	NSString *response = [request responseString];
+    
+	NSLog(@"Model: Upload Media Request Finished. Response: %@", response);
+	
+	NSString *title = [[request userInfo] objectForKey:@"title"];
+	NSString *description = [[request userInfo] objectForKey:@"description"];
+	
+	if (description == NULL) description = @""; 
+	
+	NSString *newFileName = [request responseString];
+    
+	NSLog(@"AppModel: Creating Item for Title:%@ Desc:%@ File:%@",title,description,newFileName);
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects:
+						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+						  title, //[title stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+						  description, //[description stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+						  newFileName,
+						  @"1", //dropable
+						  @"1", //destroyable
+						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.latitude],
+						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.longitude],
+                          @"NORMAL",
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"items" 
+                                                             andMethodName:@"createItemAndPlaceOnMap" 
+                                                              andArguments:arguments];
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; 
+	[jsonConnection release];
+    
+}
 
+- (void)uploadForMapRequestFailed:(ASIHTTPRequest *)request
+{
+	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate removeNewWaitingIndicator];
+	NSError *error = [request error];
+	NSLog(@"Model: uploadRequestFailed: %@",[error localizedDescription]);
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message: @"An network error occured while uploading the file" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+	
+	[alert show];
+	[alert release];
+}
 
 - (void)uploadItemRequestFinished:(ASIFormDataRequest *)request
 {
