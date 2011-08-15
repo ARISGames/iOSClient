@@ -21,7 +21,7 @@
 @synthesize libraryButton;
 @synthesize mediaData;
 @synthesize mediaFilename;
-@synthesize profileButton, delegate;
+@synthesize profileButton, delegate,showVid;
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle {
@@ -67,14 +67,32 @@
 
 - (IBAction)cameraButtonTouchAction {
 	NSLog(@"Camera Button Pressed");
-	
-	self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-	self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePickerController.sourceType];
-	self.imagePickerController.allowsEditing = YES;
+    if([self isVideoCameraAvailable] && self.showVid){
+        self.imagePickerController.mediaTypes = [NSArray arrayWithObject:(NSString *)kUTTypeMovie];
+
+    }
+    else {self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePickerController.sourceType];
+    }
+        self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+    
+		self.imagePickerController.allowsEditing = YES;
 	self.imagePickerController.showsCameraControls = YES;
 	[self presentModalViewController:self.imagePickerController animated:YES];
 }
 
+        
+- (BOOL) isVideoCameraAvailable{
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        NSArray *sourceTypes = [UIImagePickerController availableMediaTypesForSourceType:picker.sourceType];
+        [picker release];
+        
+        if (![sourceTypes containsObject:(NSString *)kUTTypeMovie ]){
+            
+            return NO;
+        }
+        
+        return YES;
+    }
 
 - (IBAction)libraryButtonTouchAction {
 	NSLog(@"Library Button Pressed");

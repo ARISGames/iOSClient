@@ -66,6 +66,7 @@
 -(void)videoButtonTouchAction{
     CameraViewController *cameraVC = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
     cameraVC.delegate = self.delegate;
+    cameraVC.showVid = YES;
     [self.navigationController pushViewController:cameraVC animated:YES];
 }
 
