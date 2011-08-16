@@ -486,19 +486,17 @@ NSString *const kDialogHtmlTemplate =
     pcActivityIndicator.frame = CGRectMake(130, 300,50 , 50);
     pcScrollView.hidden = YES;
     npcScrollView.hidden = YES;
-    lbl  = [[UILabel alloc] initWithFrame:pcScrollView.frame];
-    lbl.hidden = NO;
+    lbl.frame =  pcScrollView.frame;
     lbl.backgroundColor = [UIColor blackColor];
     lbl.alpha = .7;
     
     [self.view addSubview:lbl];
     [self.view addSubview:pcActivityIndicator];
-    [lbl release];
 	[pcActivityIndicator startAnimating];
 }
 - (void) dismissWaitingIndicatorForPlayerOptions{
 	pcTableViewController.view.hidden = NO;	
-    lbl.hidden = YES;
+    [lbl removeFromSuperview];
 	pcActivityIndicator.hidden = YES;
   
 	[pcActivityIndicator stopAnimating];
