@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AppModel.h";
-#import "Item.h";
+#import "AppModel.h"
+#import "Item.h"
 #import "ARISMoviePlayerViewController.h"
 #import "AsyncImageView.h"
 #import "itemDetailsMode.h"
@@ -63,6 +63,7 @@
 
 - (IBAction)saveButtonTouchAction;
 - (void) hideKeyboard;
+-(void) editButtonPressed;
 - (void)titleAndDescriptionFormDidFinish:(TitleAndDecriptionFormViewController*)titleAndDescForm;
 - (void)displayTitleandDescriptionForm;
 - (void) showWaitingIndicator;

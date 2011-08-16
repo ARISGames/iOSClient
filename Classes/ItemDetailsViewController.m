@@ -172,7 +172,12 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         if(([AppModel sharedAppModel].playerId != self.item.creatorId)) {
          self.textBox.userInteractionEnabled = NO;
             [saveButton removeFromSuperview];
+            self.navigationItem.rightBarButtonItem = nil;        
         }
+    }
+    else if (self.item.creatorId == [AppModel sharedAppModel].playerId) {
+        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(editButtonPressed)];
+        self.navigationItem.rightBarButtonItem = editButton;
     }
 
 	[super viewDidLoad];
@@ -182,6 +187,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 - (void)updateQuantityDisplay {
 	if (item.qty > 1) self.title = [NSString stringWithFormat:@"%@ x%d",item.name,item.qty];
 	else self.title = item.name;
+}
+
+-(void)editButtonPressed{
+    [self displayTitleandDescriptionForm];
 }
 
 - (IBAction)backButtonTouchAction: (id) sender{
@@ -526,7 +535,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 }
 -(void)hideKeyboard {
     [self.textBox resignFirstResponder];
-    self.textBox.frame = CGRectMake(0, 0, 320, 330);
+    self.textBox.frame = CGRectMake(0, 0, 320, 335);
 }
 
 -(void)saveButtonTouchAction{
@@ -538,6 +547,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     TitleAndDecriptionFormViewController *titleAndDescForm = [[TitleAndDecriptionFormViewController alloc] 
                                                               initWithNibName:@"TitleAndDecriptionFormViewController" bundle:nil];
 	
+    titleAndDescForm.item = self.item;
 	titleAndDescForm.delegate = self;
 	[self.view addSubview:titleAndDescForm.view];
 }
@@ -546,7 +556,9 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	NSLog(@"NoteVC: Back from form");
 	[titleAndDescForm.view removeFromSuperview];
     item.name = titleAndDescForm.titleField.text;
+    if([item.type isEqualToString: @"NOTE"])
     item.description = textBox.text;
+    else item.description = titleAndDescForm.descriptionField.text;
         [[AppServices sharedAppServices] updateItem:self.item];
     
         [titleAndDescForm release];	

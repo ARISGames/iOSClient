@@ -15,7 +15,7 @@
 @synthesize formTableView;
 @synthesize titleField;
 @synthesize descriptionField;
-@synthesize delegate;
+@synthesize delegate, item;
 
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -36,10 +36,12 @@
 	self.titleField.placeholder = NSLocalizedString(@"TitleAndDescriptionTitlePrompt",@"");
 	self.titleField.returnKeyType =  UIReturnKeyDone;
 	self.titleField.delegate = self;
+    self.titleField.text = self.item.name;
 	self.descriptionField = [[UITextField alloc]initWithFrame:CGRectMake(10, 10, 290, 30) ];
 	self.descriptionField.placeholder = NSLocalizedString(@"TitleAndDescriptionDescriptionPrompt",@"");;
 	self.descriptionField.returnKeyType =  UIReturnKeyDone;
 	self.descriptionField.delegate = self;
+    self.descriptionField.text = self.item.description;
 	
 	UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"SaveKey",@"") style: 
 							   UIBarButtonItemStyleDone target:self action:@selector(notifyDelegate)];
@@ -103,7 +105,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    if([self.delegate isKindOfClass:[NoteViewController class]] || [self.delegate isKindOfClass:[ItemDetailsViewController class]]){
+    if([self.item.type isEqualToString:@"NOTE"]){
         return 1;
     }
     return 2;
