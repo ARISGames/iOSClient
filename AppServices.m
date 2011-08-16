@@ -753,6 +753,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
     
 }
 
+-(void)fetchTabBarItemsForGame:(int)gameId {
+    NSLog(@"Fetching TabBar Items for game: %d",gameId);
+    NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+						  nil];
+    
+    JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"games"
+                                                             andMethodName:@"getTabBarItemsForGame"
+                                                              andArguments:arguments];
+	[jsonConnection performAsynchronousRequestWithParser:@selector(parseGameTabListFromJSON:)]; 
+	[jsonConnection release];
+
+}
 
 -(void)fetchQRCode:(NSString*)code{
 	NSLog(@"Model: Fetch Requested for QRCode Code: %@", code);
@@ -1237,7 +1250,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	return npc;	
 }
 
- 
+- (Tab *)parseTabFromDictionary:(NSDictionary *)tabDictionary{
+    Tab *tab = [[[Tab alloc] init] autorelease];
+    tab.tabName = [tabDictionary valueForKey:@"tab"];
+    tab.tabIndex = [[tabDictionary valueForKey:@"tab_index"] intValue];
+    return tab;
+}
+
 -(WebPage *)parseWebPageFromDictionary: (NSDictionary *)webPageDictionary {
 	WebPage *webPage = [[[WebPage alloc] init] autorelease];
 	webPage.webPageId = [[webPageDictionary valueForKey:@"web_page_id"] intValue];
@@ -1321,7 +1340,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ConversationNodeOptionsReady" object:conversationNodeOptions]];
 	
 }
-
 
 -(void)parseLoginResponseFromJSON: (JSONResult *)jsonResult{
 	NSLog(@"AppModel: parseLoginResponseFromJSON");
@@ -1663,6 +1681,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[tempItemList release];
 }
 
+
 -(void)parseGameNodeListFromJSON: (JSONResult *)jsonResult{
 	NSArray *nodeListArray = (NSArray *)jsonResult.data;
 	NSMutableDictionary *tempNodeList = [[NSMutableDictionary alloc] init];
@@ -1677,6 +1696,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	
 	[AppModel sharedAppModel].gameNodeList = tempNodeList;
 	[tempNodeList release];
+}
+
+-(void)parseGameTabListFromJSON: (JSONResult *)jsonResult{
+	NSArray *tabListArray = (NSArray *)jsonResult.data;
+	NSArray *tempTabList = [[NSArray alloc] init];
+	NSEnumerator *enumerator = [tabListArray objectEnumerator];
+	NSDictionary *dict;
+	while ((dict = [enumerator nextObject])) {
+		Tab *tmpTab = [self parseTabFromDictionary:dict];
+		tempTabList = [tempTabList arrayByAddingObject:tmpTab];
+		//[node release];
+	}
+	
+	[AppModel sharedAppModel].gameTabList = tempTabList;
+	[tempTabList release];
 }
 
 

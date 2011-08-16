@@ -10,6 +10,7 @@
 #import "SynthesizeSingleton.h"
 #import "AppModel.h"
 #import "Game.h"
+#import "Tab.h"
 #import "Item.h"
 #import "Node.h"
 #import "Npc.h"
@@ -60,6 +61,7 @@
 - (void)fetchMiniGamesListLocations;
 - (void)fetchOneGame:(int)gameId;
 
+-(void)fetchTabBarItemsForGame:(int)gameId;
 - (void)fetchLocationList;
 - (void)forceUpdateOnNextLocationListFetch;
 - (void)fetchGameListBySearch: (NSString *) searchText;
@@ -114,6 +116,7 @@
 - (void)parseGameNodeListFromJSON: (JSONResult *)jsonResult;
 - (void)parseGameWebPageListFromJSON: (JSONResult *)jsonResult;
 - (void)parseGamePanoramicListFromJSON: (JSONResult *)jsonResult;
+- (void)parseGameTabListFromJSON:(JSONResult *)jsonResult;
 -(void)parseRecentGameListFromJSON: (JSONResult *)jsonResult;
 - (Location*)parseLocationFromDictionary: (NSDictionary *)locationDictionary;
 - (Item *)parseItemFromDictionary: (NSDictionary *)itemDictionary;
@@ -121,9 +124,13 @@
 - (Npc *)parseNpcFromDictionary: (NSDictionary *)npcDictionary;
 -(WebPage *)parseWebPageFromDictionary: (NSDictionary *)webPageDictionary;
 -(Panoramic *)parsePanoramicFromDictionary: (NSDictionary *)webPageDictionary;
+-(Tab *)parseTabFromDictionary:(NSDictionary *)tabDictionary;
+
 - (void)updateServerGameSelected;
 - (void)fetchQRCode:(NSString*)QRcodeId;
 - (void)saveComment:(NSString*)comment game:(int)gameId starRating:(int)rating;
 - (void)parseSaveCommentResponseFromJSON: (JSONResult *)jsonResult;
+
+
 
 @end

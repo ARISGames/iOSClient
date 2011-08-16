@@ -475,6 +475,7 @@
 	//Clear out the old game data
 	[[AppServices sharedAppServices] resetAllPlayerLists];
     [[AppServices sharedAppServices] resetAllGameLists];
+    [[AppServices sharedAppServices] fetchTabBarItemsForGame: selectedGame.gameId];
 	[tutorialViewController dismissAllTutorials];
 	
 	//Notify the Server
