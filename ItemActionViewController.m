@@ -167,7 +167,7 @@
     else {
       self.numItems = row;
         if(self.mode == kItemDetailsPickingUp){
-        if((self.numItems + self.itemInInventory.qty) > self.max)
+        if((self.numItems) > self.max)
         {
             self.infoLabel.text = [NSString stringWithFormat:@"Can only carry %d of this item",self.max];
             self.badValLabel.hidden = NO;
