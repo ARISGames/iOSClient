@@ -52,7 +52,7 @@
 
 	//Have AppDelegate display
 	[appDelegate displayNearbyObjectView:itemDetailsViewController];
-	[itemDetailsViewController release];
+	//[itemDetailsViewController release];
 	
 }
 

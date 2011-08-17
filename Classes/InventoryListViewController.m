@@ -317,7 +317,9 @@
             media = [self.mediaCache objectAtIndex:indexPath.row];
         }
         else{
+            
             media = [[AppModel sharedAppModel] mediaForMediaId: item.mediaId];
+            if(media)
             [self.mediaCache  addObject:media];
         }
 	}
@@ -390,7 +392,7 @@
 	//Put the view on the screen
 	[[self navigationController] pushViewController:itemDetailsViewController animated:YES];
 	
-	[itemDetailsViewController release];
+	//[itemDetailsViewController release];
 	}
     else{
         DataCollectionViewController *dataVC = [[DataCollectionViewController alloc] initWithNibName:@"DataCollectionViewController" bundle:nil];
