@@ -825,6 +825,7 @@ NSString *const kDialogHtmlTemplate =
 	if (indexPath.section == 0) {
 		NodeOption *option = [optionList objectAtIndex:indexPath.row];
 		cell.textLabel.text = option.text;
+        [cell.textLabel setLineBreakMode:UILineBreakModeWordWrap];
         if(option.hasViewed){ 
             cell.backgroundColor = [UIColor colorWithRed:233.0/255.0  
                                                                     green:233.0/255.0  
