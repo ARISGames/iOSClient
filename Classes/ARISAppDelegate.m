@@ -172,7 +172,7 @@
     self.defaultViewControllerForMainTabBar = questsNavigationController;
     self.tabBarController.view.hidden = YES;
     [window addSubview:self.tabBarController.view];
-    
+    [AppModel sharedAppModel].defaultGameTabList = self.tabBarController.customizableViewControllers;
     
     //Setup the Game Selection Tab Bar
     
@@ -534,9 +534,9 @@
     }
     for(int y = 0; y < [newTabList count];y++){
         tmpTab = [newTabList objectAtIndex:y];
-    for(int x = 0; x < [self.tabBarController.customizableViewControllers count];x++){
+    for(int x = 0; x < [[AppModel sharedAppModel].defaultGameTabList count];x++){
         
-        tempNav = (UINavigationController *)[self.tabBarController.customizableViewControllers objectAtIndex:x];
+        tempNav = (UINavigationController *)[[AppModel sharedAppModel].defaultGameTabList objectAtIndex:x];
         if([tmpTab.tabName isEqualToString:@"Select Game"]){
             BogusSelectGameViewController *bogusSelectGameViewController = [[BogusSelectGameViewController alloc] init];
             newCustomVC = [newCustomVC arrayByAddingObject:bogusSelectGameViewController];
@@ -547,9 +547,9 @@
         if([tempNav.navigationItem.title isEqualToString:tmpTab.tabName]) newCustomVC = [newCustomVC arrayByAddingObject:tempNav];
             }
     }
-    self.tabBarController.viewControllers = newCustomVC;
+    self.tabBarController.viewControllers = [NSArray arrayWithArray: newCustomVC];
     //[newCustomVC release];
-    //[tempNav release];
+    [tempNav release];
 
     
 }

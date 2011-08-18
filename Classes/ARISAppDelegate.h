@@ -111,5 +111,6 @@
 - (void) changeNavColor: (NSDictionary *) navBarAndColorDict;
 - (void) changeNavTitle: (NSDictionary *) navBarTitleAndPromptDict;
 - (void) decrementNotificationCount: (NSDictionary *) navBarDict; 
+- (void) changeTabBar;
 
 @end

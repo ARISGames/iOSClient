@@ -1700,7 +1700,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 
 -(void)parseGameTabListFromJSON: (JSONResult *)jsonResult{
 	NSArray *tabListArray = (NSArray *)jsonResult.data;
-	NSArray *tempTabList = [[NSArray alloc] init];
+	NSArray *tempTabList = [[NSMutableArray alloc] initWithCapacity:10];
 	NSEnumerator *enumerator = [tabListArray objectEnumerator];
 	NSDictionary *dict;
 	while ((dict = [enumerator nextObject])) {
@@ -1710,7 +1710,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	}
 	
 	[AppModel sharedAppModel].gameTabList = tempTabList;
-	[tempTabList release];
+    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate changeTabBar];
+	//[tempTabList release];
 }
 
 
