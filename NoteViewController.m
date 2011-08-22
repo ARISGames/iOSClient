@@ -14,7 +14,7 @@
 #import "GPSViewController.h"
 
 @implementation NoteViewController
-@synthesize textBox,saveButton,note, delegate;
+@synthesize textBox,saveButton,note, delegate, hideKeyboardButton;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -46,9 +46,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 
-    UIBarButtonItem *hideKeyboardButton = [[UIBarButtonItem alloc] initWithTitle:@"Hide Keyboard" style:UIBarButtonItemStylePlain target:self action:@selector(hideKeyboard)];      
-	self.navigationItem.rightBarButtonItem = hideKeyboardButton;
-
 }
 -(void)viewWillDisappear:(BOOL)animated{
     self.navigationController.navigationItem.title = @"Note";
@@ -73,11 +70,11 @@
 -(void)textViewDidBeginEditing:(UITextView *)textView{
     if([self.textBox.text isEqualToString:@"Write note here..."])
     [self.textBox setText:@""];
-    self.textBox.frame = CGRectMake(0, 0, 320, 230);
+    self.hideKeyboardButton.hidden = NO;
 }
--(void)hideKeyboard {
+-(void)hideKeyboardTouchAction {
     [self.textBox resignFirstResponder];
-    self.textBox.frame = CGRectMake(0, 0, 320, 330);
+    self.hideKeyboardButton.hidden = YES;
 }
 
 -(void)saveButtonTouchAction{

@@ -9,23 +9,20 @@
 #import <UIKit/UIKit.h>
 
 
-@interface DataCollectionViewController : UIViewController {
-    IBOutlet UIButton *cameraButton;
-    IBOutlet UIButton *videoButton;
-    IBOutlet UIButton *audioButton;
-    IBOutlet UIButton *noteButton;
+@interface DataCollectionViewController : UIViewController <UIScrollViewDelegate> {
+    IBOutlet UIScrollView *scrollView;
+    IBOutlet UIPageControl *pageControl;
+    NSMutableArray *viewControllers;
     id delegate;
+    int pageNumber;
+    int numPages;
 }
 
-@property(nonatomic,retain)IBOutlet UIButton *cameraButton;
-@property(nonatomic,retain)IBOutlet UIButton *videoButton;
-@property(nonatomic,retain)IBOutlet UIButton *audioButton;
-@property(nonatomic,retain)IBOutlet UIButton *noteButton;
 @property(nonatomic, retain) id delegate;
+@property(nonatomic, retain) IBOutlet UIScrollView *scrollView;
+@property(nonatomic, retain) IBOutlet UIPageControl *pageControl;
+@property(nonatomic, retain) NSMutableArray *viewControllers;
 
--(IBAction)cameraButtonTouchAction;
--(IBAction)videoButtonTouchAction;
--(IBAction)audioButtonTouchAction;
--(IBAction)noteButtonTouchAction;
-
+-(IBAction)changePage:(id) sender;
+- (void)loadNewPageWithView:(NSString *)view;
 @end

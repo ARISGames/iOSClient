@@ -12,13 +12,14 @@
 #import "NoteViewController.h"
 
 @implementation DataCollectionViewController
-@synthesize cameraButton,audioButton,noteButton,videoButton, delegate;
+@synthesize scrollView,pageControl, delegate, viewControllers;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
         self.title = @"Add Media";
+        viewControllers = [[NSMutableArray alloc] initWithCapacity:10];
     }
     return self;
 }
@@ -42,8 +43,74 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    scrollView.pagingEnabled = YES;
+    scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * numPages, scrollView.frame.size.height);
+    scrollView.showsHorizontalScrollIndicator = NO;
+    //scrollView.showsVerticalScrollIndicator = NO;
+    //scrollView.scrollsToTop = NO;
+    scrollView.delegate = self;
+    pageControl.currentPage = 0;
+    pageControl.numberOfPages = numPages;
+
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [self loadNewPageWithView:@"note"];
+   // [self loadNewPageWithView:@"photo"];
+    [self loadNewPageWithView:@"audio"];
+
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)sender {
+
+    CGFloat pageWidth = scrollView.frame.size.width;
+    int page = floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+    pageControl.currentPage = page;
+    pageControl.numberOfPages = numPages;
+    
+   }
+- (void)loadNewPageWithView:(NSString *)view {
+
+    numPages++;
+    scrollView.contentSize = CGSizeMake(320 * numPages, scrollView.frame.size.height);
+    pageControl.numberOfPages = numPages;
+    if([view isEqualToString:@"note"]){
+      NoteViewController *controller = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
+        controller.delegate = self.delegate;
+        [viewControllers addObject:controller];
+        [controller release];
+        if (nil == controller.view.superview) {
+            CGRect frame = scrollView.frame;
+            frame.origin.x = frame.size.width * (numPages-1);
+            frame.origin.y = 0;
+            controller.view.frame = frame;
+            [scrollView addSubview:controller.view];}
+    }
+    else if([view isEqualToString:@"photo"]){
+            CameraViewController *controller = [[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil];
+        controller.delegate = self.delegate;
+            [viewControllers addObject:controller];
+            [controller release];
+            if (nil == controller.view.superview) {
+                CGRect frame = scrollView.frame;
+                frame.origin.x = frame.size.width * (numPages-1);
+                frame.origin.y = 0;
+                controller.view.frame = frame;
+                [scrollView addSubview:controller.view];}
+        }
+        else if([view isEqualToString:@"audio"]){
+                AudioRecorderViewController *controller = [[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil];
+            controller.delegate = self.delegate;
+                [viewControllers addObject:controller];
+                [controller release];
+                if (nil == controller.view.superview) {
+                    CGRect frame = scrollView.frame;
+                    frame.origin.x = frame.size.width * (numPages-1);
+                    frame.origin.y = 0;
+                    controller.view.frame = frame;
+                    [scrollView addSubview:controller.view];
+                }
+        }
+}
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -57,29 +124,8 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
--(void)cameraButtonTouchAction{
-    CameraViewController *cameraVC = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
-    cameraVC.delegate = self.delegate;
-    [self.navigationController pushViewController:cameraVC animated:YES];
-}
-
--(void)videoButtonTouchAction{
-    CameraViewController *cameraVC = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
-    cameraVC.delegate = self.delegate;
-    cameraVC.showVid = YES;
-    [self.navigationController pushViewController:cameraVC animated:YES];
-}
-
--(void)audioButtonTouchAction{
-    AudioRecorderViewController *audioVC = [[[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil] autorelease];
-    audioVC.delegate = self.delegate;
-    [self.navigationController pushViewController:audioVC animated:YES];
-}
-
--(void)noteButtonTouchAction{
-    NoteViewController *noteVC = [[[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil] autorelease];
-    noteVC.delegate = self.delegate;
-    [self.navigationController pushViewController:noteVC animated:YES];
+-(void)changePage:(id)sender{
+    
 }
 
 @end
