@@ -884,12 +884,17 @@ NSString *const kDialogHtmlTemplate =
 	if (currentNode) [currentNode release];
 	currentNode = newNode;
 	[currentNode retain];
-if(newNode.text.length == 0)[self continueScript];
+    if(newNode.text.length == 0){
+     [self continueScript];   
+    }
 	[parser parseText:newNode.text];
     if(parser.exitToTabWithTitle != nil) {
         self.exitToTabVal = (NSString*)parser.exitToTabWithTitle;
     }
-    if(parser.currentText.length == 0) [self continueScript];
+    if(parser.currentText.length == 0) 
+    {
+      //[self continueScript];  
+    }
 }
 
 #pragma mark XML Parsing
