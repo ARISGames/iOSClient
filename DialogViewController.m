@@ -23,7 +23,7 @@
 const NSInteger kStartingIndex = 0;
 const NSInteger kPcIndex = 0;
 const NSInteger kMaxOptions = 20;
-const NSInteger kOptionsFontSize = 15;
+const NSInteger kOptionsFontSize = 17;
 NSString *const kOutAnimation = @"out";
 NSString *const kInAnimation = @"in";
 
@@ -825,6 +825,7 @@ NSString *const kDialogHtmlTemplate =
 	if (indexPath.section == 0) {
 		NodeOption *option = [optionList objectAtIndex:indexPath.row];
 		cell.textLabel.text = option.text;
+        cell.textLabel.font = [UIFont boldSystemFontOfSize:kOptionsFontSize];
         [cell.textLabel setLineBreakMode:UILineBreakModeWordWrap];
         if(option.hasViewed){ 
             cell.backgroundColor = [UIColor colorWithRed:233.0/255.0  
@@ -860,7 +861,7 @@ NSString *const kDialogHtmlTemplate =
     CGFloat maxHeight = 9999;
     CGSize maximumLabelSize = CGSizeMake(maxWidth,maxHeight);
 	
-    CGSize expectedLabelSize = [option.text sizeWithFont:[UIFont systemFontOfSize:kOptionsFontSize] 
+    CGSize expectedLabelSize = [option.text sizeWithFont:[UIFont boldSystemFontOfSize:kOptionsFontSize] 
 									   constrainedToSize:maximumLabelSize lineBreakMode:UILineBreakModeWordWrap]; 
 	
 	return expectedLabelSize.height + 15;	
