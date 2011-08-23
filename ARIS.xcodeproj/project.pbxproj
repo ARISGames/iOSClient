@@ -19,6 +19,10 @@
 		1147E15A13F32260000E4BC2 /* NoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1147E15713F32260000E4BC2 /* NoteViewController.m */; };
 		1147E15B13F32260000E4BC2 /* NoteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1147E15813F32260000E4BC2 /* NoteViewController.xib */; };
 		1147E16113F3234B000E4BC2 /* inventoryicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1147E16013F3234B000E4BC2 /* inventoryicon.png */; };
+		118622DB14040E7200D4B738 /* buttonborder.png in Resources */ = {isa = PBXBuildFile; fileRef = 118622DA14040E7200D4B738 /* buttonborder.png */; };
+		118622DD14040F6600D4B738 /* buttonborder2.png in Resources */ = {isa = PBXBuildFile; fileRef = 118622DC14040F6600D4B738 /* buttonborder2.png */; };
+		118622E01404535300D4B738 /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = 118622DF1404535300D4B738 /* Note.m */; };
+		118622E314046A9B00D4B738 /* NoteMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 118622E214046A9900D4B738 /* NoteMedia.m */; };
 		118669AB13BB8EAC004B4EC8 /* AttributesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 118669A813BB8EAC004B4EC8 /* AttributesViewController.m */; };
 		118669AC13BB8EAC004B4EC8 /* AttributesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 118669A913BB8EAC004B4EC8 /* AttributesViewController.xib */; };
 		118669AD13BB8EAC004B4EC8 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 118669AA13BB8EAC004B4EC8 /* profile.png */; };
@@ -303,6 +307,12 @@
 		1147E15713F32260000E4BC2 /* NoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteViewController.m; sourceTree = "<group>"; };
 		1147E15813F32260000E4BC2 /* NoteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteViewController.xib; sourceTree = "<group>"; };
 		1147E16013F3234B000E4BC2 /* inventoryicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inventoryicon.png; sourceTree = "<group>"; };
+		118622DA14040E7200D4B738 /* buttonborder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = buttonborder.png; path = ../../../Desktop/buttonborder.png; sourceTree = "<group>"; };
+		118622DC14040F6600D4B738 /* buttonborder2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = buttonborder2.png; path = ../../../Desktop/buttonborder2.png; sourceTree = "<group>"; };
+		118622DE1404535200D4B738 /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Note.h; sourceTree = "<group>"; };
+		118622DF1404535300D4B738 /* Note.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Note.m; sourceTree = "<group>"; };
+		118622E114046A9800D4B738 /* NoteMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteMedia.h; sourceTree = "<group>"; };
+		118622E214046A9900D4B738 /* NoteMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteMedia.m; sourceTree = "<group>"; };
 		118669A713BB8EAC004B4EC8 /* AttributesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributesViewController.h; sourceTree = "<group>"; };
 		118669A813BB8EAC004B4EC8 /* AttributesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributesViewController.m; sourceTree = "<group>"; };
 		118669A913BB8EAC004B4EC8 /* AttributesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttributesViewController.xib; sourceTree = "<group>"; };
@@ -756,6 +766,8 @@
 			isa = PBXGroup;
 			children = (
 				1147E15513F32260000E4BC2 /* noteicon.png */,
+				118622DC14040F6600D4B738 /* buttonborder2.png */,
+				118622DA14040E7200D4B738 /* buttonborder.png */,
 				1147E15613F32260000E4BC2 /* NoteViewController.h */,
 				1147E15713F32260000E4BC2 /* NoteViewController.m */,
 				1147E15813F32260000E4BC2 /* NoteViewController.xib */,
@@ -965,6 +977,10 @@
 				AB9BA25313DFBE3A007470E3 /* PanoramicMedia.m */,
 				1122C0BF13A7DE7F004F0392 /* WebPage.h */,
 				1122C0C013A7DE7F004F0392 /* WebPage.m */,
+				118622DE1404535200D4B738 /* Note.h */,
+				118622DF1404535300D4B738 /* Note.m */,
+				118622E114046A9800D4B738 /* NoteMedia.h */,
+				118622E214046A9900D4B738 /* NoteMedia.m */,
 				2B3D17050F49C99B0067FD3A /* Game.h */,
 				2B3D17060F49C99B0067FD3A /* Game.m */,
 				A722E7130F57425B004B04D2 /* Location.h */,
@@ -1629,6 +1645,8 @@
 				11DD3D5113F5B0EF0051AB76 /* playericon.png in Resources */,
 				11DD3D5213F5B0EF0051AB76 /* plusCellButton.png in Resources */,
 				11DD3D5413F5B8F40051AB76 /* plusCellButton_Pressed.png in Resources */,
+				118622DB14040E7200D4B738 /* buttonborder.png in Resources */,
+				118622DD14040F6600D4B738 /* buttonborder2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1781,6 +1799,8 @@
 				1147E15A13F32260000E4BC2 /* NoteViewController.m in Sources */,
 				11DD3D4D13F5AB430051AB76 /* DataCollectionViewController.m in Sources */,
 				11A96CF413FB1DBA0020EFC5 /* Tab.m in Sources */,
+				118622E01404535300D4B738 /* Note.m in Sources */,
+				118622E314046A9B00D4B738 /* NoteMedia.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

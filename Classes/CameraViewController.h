@@ -35,4 +35,5 @@
 - (IBAction)libraryButtonTouchAction;
 - (IBAction)profileButtonTouchAction;
 - (BOOL) isVideoCameraAvailable;
+-(void) uploadMedia;
 @end

@@ -17,6 +17,7 @@
 #import "Annotation.h"
 #import <UIKit/UIActionSheet.h>
 #import "DataCollectionViewController.h"
+#import "NoteViewController.h"
 
 static float INITIAL_SPAN = 0.001;
 
@@ -95,11 +96,10 @@ static float INITIAL_SPAN = 0.001;
 }
 	
 - (IBAction)addMediaButtonAction: (id) sender{
-    DataCollectionViewController *dataVC = [[DataCollectionViewController alloc] initWithNibName:@"DataCollectionViewController" bundle:nil];
-    dataVC.delegate = self;
-    [self.navigationController pushViewController:dataVC animated:YES];
-    [dataVC release];
-
+    NoteViewController *noteVC = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
+    noteVC.delegate = self;
+    [self.navigationController pushViewController:noteVC animated:YES];
+    [noteVC release];
 }
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {

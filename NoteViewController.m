@@ -12,15 +12,18 @@
 #import "AppServices.h"
 #import "InventoryListViewController.h"
 #import "GPSViewController.h"
+#import "CameraViewController.h"
+#import "AudioRecorderViewController.h"
 
 @implementation NoteViewController
-@synthesize textBox,saveButton,note, delegate, hideKeyboardButton;
+@synthesize textBox,textField,note, delegate, hideKeyboardButton,libraryButton,cameraButton,audioButton, typeControl,viewControllers, scrollView,pageControl;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"Note";
         self.tabBarItem.image = [UIImage imageNamed:@"noteicon.png"];
+        viewControllers = [[NSMutableArray alloc] initWithCapacity:10];
 
     }
     return self;
@@ -30,7 +33,14 @@
 {
     [super dealloc];
 }
+-(void)viewWillAppear:(BOOL)animated{
+   // [self loadNewPageWithView:@"note"];
+    // [self loadNewPageWithView:@"photo"];
+        numPages = 1;
+    [self loadNewPageWithView:@"audio"];
 
+    
+}
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
@@ -45,6 +55,16 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    scrollView.pagingEnabled = YES;
+    scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * numPages, scrollView.frame.size.height);
+    scrollView.showsHorizontalScrollIndicator = NO;
+    //scrollView.showsVerticalScrollIndicator = NO;
+    //scrollView.scrollsToTop = NO;
+    scrollView.delegate = self;
+    pageControl.currentPage = 0;
+    pageControl.numberOfPages = numPages;
+    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(saveButtonTouchAction)];      
+	self.navigationItem.rightBarButtonItem = saveButton;
 
 }
 -(void)viewWillDisappear:(BOOL)animated{
@@ -61,6 +81,61 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
+- (void)scrollViewDidScroll:(UIScrollView *)sender {
+    
+    CGFloat pageWidth = scrollView.frame.size.width;
+    int page = floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+    pageControl.currentPage = page;
+    pageControl.numberOfPages = numPages;
+    
+}
+
+-(void)saveButtonTouchAction{
+    //[self displayTitleandDescriptionForm];
+}
+- (void)loadNewPageWithView:(NSString *)view {
+    
+    numPages++;
+    scrollView.contentSize = CGSizeMake(320 * numPages, scrollView.frame.size.height);
+    pageControl.numberOfPages = numPages;
+    if([view isEqualToString:@"note"]){
+        NoteViewController *controller = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
+        controller.delegate = self.delegate;
+        [viewControllers addObject:controller];
+        [controller release];
+        if (nil == controller.view.superview) {
+            CGRect frame = scrollView.frame;
+            frame.origin.x = frame.size.width * (numPages-1);
+            frame.origin.y = 0;
+            controller.view.frame = frame;
+            [scrollView addSubview:controller.view];}
+    }
+    else if([view isEqualToString:@"photo"]){
+        CameraViewController *controller = [[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil];
+        controller.delegate = self.delegate;
+        [viewControllers addObject:controller];
+        [controller release];
+        if (nil == controller.view.superview) {
+            CGRect frame = scrollView.frame;
+            frame.origin.x = frame.size.width * (numPages-1);
+            frame.origin.y = 0;
+            controller.view.frame = frame;
+            [scrollView addSubview:controller.view];}
+    }
+    else if([view isEqualToString:@"audio"]){
+        AudioRecorderViewController *controller = [[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil];
+        controller.delegate = self.delegate;
+        [viewControllers addObject:controller];
+        [controller release];
+        if (nil == controller.view.superview) {
+            CGRect frame = scrollView.frame;
+            frame.origin.x = frame.size.width * (numPages-1);
+            frame.origin.y = 0;
+            controller.view.frame = frame;
+            [scrollView addSubview:controller.view];
+        }
+    }
+}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -76,11 +151,44 @@
     [self.textBox resignFirstResponder];
     self.hideKeyboardButton.hidden = YES;
 }
-
--(void)saveButtonTouchAction{
-    [self displayTitleandDescriptionForm];
+-(void)cameraButtonTouchAction{
+    CameraViewController *cameraVC = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
+    cameraVC.delegate = self.delegate;
+    cameraVC.showVid = YES;
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:.5];
+    
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
+                           forView:self.navigationController.view cache:YES];
+    [self.navigationController pushViewController:cameraVC animated:NO];
+    //[cameraVC release];
+    [UIView commitAnimations];
 }
-
+-(void)audioButtonTouchAction{
+    AudioRecorderViewController *audioVC = [[[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil] autorelease];
+    audioVC.delegate = self.delegate;
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:.5];
+    
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
+                           forView:self.navigationController.view cache:YES];
+    [self.navigationController pushViewController:audioVC animated:NO];
+    //[audioVC release];
+    [UIView commitAnimations]; 
+}
+-(void)libraryButtonTouchAction{
+    CameraViewController *cameraVC = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
+    cameraVC.delegate = self.delegate;
+    cameraVC.showVid = NO;
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:.5];
+    
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
+                           forView:self.navigationController.view cache:YES];
+    [self.navigationController pushViewController:cameraVC animated:NO];
+    //[cameraVC release];
+    [UIView commitAnimations];
+}
 - (void)displayTitleandDescriptionForm {
     TitleAndDecriptionFormViewController *titleAndDescForm = [[TitleAndDecriptionFormViewController alloc] 
                                                               initWithNibName:@"TitleAndDecriptionFormViewController" bundle:nil];

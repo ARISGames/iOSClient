@@ -23,6 +23,7 @@
 @property(nonatomic, retain) IBOutlet UIPageControl *pageControl;
 @property(nonatomic, retain) NSMutableArray *viewControllers;
 
+- (IBAction)saveButtonTouchAction;
 -(IBAction)changePage:(id) sender;
 - (void)loadNewPageWithView:(NSString *)view;
 @end

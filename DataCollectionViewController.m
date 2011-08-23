@@ -51,6 +51,8 @@
     scrollView.delegate = self;
     pageControl.currentPage = 0;
     pageControl.numberOfPages = numPages;
+    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(saveButtonTouchAction)];      
+	self.navigationItem.rightBarButtonItem = saveButton;
 
 }
 -(void)viewWillAppear:(BOOL)animated{
@@ -68,6 +70,10 @@
     pageControl.numberOfPages = numPages;
     
    }
+
+-(void)saveButtonTouchAction{
+   //[self displayTitleandDescriptionForm];
+}
 - (void)loadNewPageWithView:(NSString *)view {
 
     numPages++;

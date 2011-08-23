@@ -401,7 +401,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[jsonConnection release];
 
 }
+-(void)createNoteWithTitle:(NSString *)title text:(NSString *)text shared:(BOOL)shared{
+    NSLog(@"AppModel: Creating Note: %@",title);
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects:
+						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+                          title,
+						  text,
+                          [NSString stringWithFormat:@"%d",shared],
 
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"notes" 
+                                                             andMethodName:@"createNote" 
+                                                              andArguments:arguments];
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; 
+	[jsonConnection release];
+}
 - (void)createItemAndGiveToPlayerFromFileData:(NSData *)fileData fileName:(NSString *)fileName 
 										title:(NSString *)title description:(NSString*)description {
     
@@ -823,6 +841,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
     
 	
 }
+- (void)fetchGameNoteListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
+	NSLog(@"AppModel: Fetching Note List");
+	
+	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
+	
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"notes"
+                                                             andMethodName:@"getNotesForGame"
+                                                              andArguments:arguments];
+	if (YesForAsyncOrNoForSync){
+		[jsonConnection performAsynchronousRequestWithParser:@selector(parseGameNoteListFromJSON:)]; 
+		[jsonConnection release];
+	}
+	else [self parseGameNoteListFromJSON: [jsonConnection performSynchronousRequest]];
+    
+	
+}
 
 
 - (void)fetchGameWebpageListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
@@ -1233,6 +1268,35 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	
 	return node;	
 }
+-(Note *)parseNoteFromDictionary: (NSDictionary *)noteDictionary {
+	Note *aNote = [[[Note alloc] init] autorelease];
+	aNote.noteId = [[noteDictionary valueForKey:@"note_id"] intValue];
+	aNote.title = [noteDictionary valueForKey:@"title"];
+	aNote.text = [noteDictionary valueForKey:@"text"];    
+    aNote.averageRating = [[noteDictionary valueForKey:@"ave_rating"] floatValue];
+    aNote.parentNoteId = [[noteDictionary valueForKey:@"parent_note_id"] intValue];
+    aNote.parentRating = [[noteDictionary valueForKey:@"parent_rating"]intValue];
+    aNote.numRatings = [[noteDictionary valueForKey:@"num_ratings"]intValue];
+    aNote.creatorId = [[noteDictionary valueForKey:@"owner_id"]intValue];
+    aNote.shared = [[noteDictionary valueForKey:@"shared"]boolValue];
+    
+    NSMutableArray *media = [[NSMutableArray alloc] init];
+	NSArray *incomingNoteMediaArray = [noteDictionary objectForKey:@"media"];
+	NSEnumerator *incomingNoteMediaEnumerator = [incomingNoteMediaArray objectEnumerator];
+    NSDictionary* currentNoteMediaDictionary;
+	while (currentNoteMediaDictionary = (NSDictionary*)[incomingNoteMediaEnumerator nextObject]) {
+        NoteMedia *noteMediaId;
+        noteMediaId.text = [currentNoteMediaDictionary objectForKey:@"text"];
+        if ([currentNoteMediaDictionary objectForKey:@"media_id"] != [NSNull null] && [[currentNoteMediaDictionary objectForKey:@"media_id"] intValue] > 0)
+            noteMediaId.mediaId = [[currentNoteMediaDictionary objectForKey:@"media_id"] intValue];
+		[media addObject:noteMediaId];
+		[noteMediaId release];
+	}
+    
+    aNote.mediaArray = [NSArray arrayWithArray: media];
+    [media release];
+	return aNote;	
+}
 
 -(Npc *)parseNpcFromDictionary: (NSDictionary *)npcDictionary {
 	Npc *npc = [[[Npc alloc] init] autorelease];
@@ -1312,6 +1376,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
     [media release];
 
 	return pan;	
+}
+-(void)parseGameNoteListFromJSON: (JSONResult *)jsonResult{
+	NSArray *noteListArray = (NSArray *)jsonResult.data;
+	
+	NSMutableDictionary *tempNoteList = [[NSMutableDictionary alloc] init];
+	NSEnumerator *enumerator = [((NSArray *)noteListArray) objectEnumerator];
+	NSDictionary *dict;
+	while ((dict = [enumerator nextObject])) {
+		Note *tmpNote = [self parseNoteFromDictionary:dict];
+		
+		[tempNoteList setObject:tmpNote forKey:[NSNumber numberWithInt:tmpNote.noteId]];
+	}
+	
+	[AppModel sharedAppModel].gameNoteList = tempNoteList;
+	[tempNoteList release];
 }
 
 -(void)parseConversationNodeOptionsFromJSON: (JSONResult *)jsonResult {

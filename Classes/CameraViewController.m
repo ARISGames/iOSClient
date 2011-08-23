@@ -64,15 +64,15 @@
 	NSLog(@"Camera Loaded");
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    if(showVid) [self cameraButtonTouchAction];
+    else [self libraryButtonTouchAction];
+}
 
 - (IBAction)cameraButtonTouchAction {
 	NSLog(@"Camera Button Pressed");
-    if([self isVideoCameraAvailable] && self.showVid){
-        self.imagePickerController.mediaTypes = [NSArray arrayWithObject:(NSString *)kUTTypeMovie];
-
-    }
-    else {self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePickerController.sourceType];
-    }
+self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePickerController.sourceType];
+    
         self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
     
 		self.imagePickerController.allowsEditing = YES;
@@ -140,7 +140,8 @@
 		self.mediaData = [NSData dataWithContentsOfURL:videoURL];
 		self.mediaFilename = @"video.mp4";
 	}	
-	[self displayTitleandDescriptionForm];
+    
+	[self uploadMedia];
 
 }
 
@@ -148,54 +149,22 @@
     NSLog(@"Finished saving image with error: %@", error);
 }
 
-- (void)displayTitleandDescriptionForm {
-    TitleAndDecriptionFormViewController *titleAndDescForm = [[TitleAndDecriptionFormViewController alloc] 
-                                                              initWithNibName:@"TitleAndDecriptionFormViewController" bundle:nil];
-	
-	titleAndDescForm.delegate = self;
-	[self.view addSubview:titleAndDescForm.view];
-    [titleAndDescForm release];
+-(void) uploadMedia {
+    //Do server call here
 }
-
-- (void)titleAndDescriptionFormDidFinish:(TitleAndDecriptionFormViewController*)titleAndDescForm{
-	NSLog(@"CameraVC: Back from form");
-	[titleAndDescForm.view removeFromSuperview];
-    if([self.delegate isKindOfClass:[GPSViewController class]]){
-        [[AppServices sharedAppServices] createItemAndPlaceOnMapFromFileData:self.mediaData fileName:self.mediaFilename title:titleAndDescForm.titleField.text description:titleAndDescForm.descriptionField.text];
-    }
-    else{
-	[[AppServices sharedAppServices] createItemAndGiveToPlayerFromFileData:self.mediaData 
-										   fileName:self.mediaFilename 
-											  title:titleAndDescForm.titleField.text 
-										description:titleAndDescForm.descriptionField.text];
-    }
-    [titleAndDescForm release];	
-    NSString *tab;
-    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];        
-
-    if ([self.delegate isKindOfClass:[GPSViewController class]]){
-        
-    }
-    else{
-        //Exit to Inventory Tab
-        for(int i = 0;i < [appDelegate.tabBarController.customizableViewControllers count];i++)
-        {
-            tab = [[appDelegate.tabBarController.customizableViewControllers objectAtIndex:i] title];
-            tab = [tab lowercaseString];
-            if([tab isEqualToString:@"inventory"])
-            {
-                appDelegate.tabBarController.selectedIndex = i;
-            }
-        }
-    }
-    [self.navigationController popToRootViewControllerAnimated:NO];
-}
-
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-	
-	[[picker parentViewController] dismissModalViewControllerAnimated:NO];
-	
+	[UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:.5];
+    
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight
+                           forView:self.navigationController.view cache:YES];
+    [[picker parentViewController] dismissModalViewControllerAnimated:NO];
+    [self.navigationController popViewControllerAnimated:NO];
+    
+    [UIView commitAnimations]; 
+
+		
 }
 
 #pragma mark UINavigationControllerDelegate Protocol Methods

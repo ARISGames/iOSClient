@@ -11,23 +11,41 @@
 #import "TitleAndDecriptionFormViewController.h"
 
 
-@interface NoteViewController : UIViewController <UITextViewDelegate>{
+@interface NoteViewController : UIViewController <UITextViewDelegate, UIScrollViewDelegate>{
     IBOutlet UITextView *textBox;
-    IBOutlet UIButton *saveButton;
+    IBOutlet UITextField *textField;
+    IBOutlet UIButton *cameraButton;
+    IBOutlet UIButton *audioButton;
+    IBOutlet UIButton *libraryButton;
     IBOutlet UIButton *hideKeyboardButton;
-
+    IBOutlet UISegmentedControl *typeControl;
     Item *note;
     id delegate;
+    IBOutlet UIScrollView *scrollView;
+    IBOutlet UIPageControl *pageControl;
+    NSMutableArray *viewControllers;
+    int pageNumber;
+    int numPages;
+
 }
 @property(nonatomic,retain) IBOutlet UITextView *textBox;
-@property(nonatomic, retain) IBOutlet UIButton *saveButton;
 @property(nonatomic, retain) IBOutlet UIButton *hideKeyboardButton;
-
+@property(nonatomic,retain) IBOutlet UISegmentedControl *typeControl;
 @property(nonatomic,retain) Item *note;
 @property(nonatomic,retain) id delegate;
-- (IBAction)saveButtonTouchAction;
-- (void) hideKeyboard;
+@property(nonatomic,retain)IBOutlet UIButton *cameraButton;
+@property(nonatomic,retain)IBOutlet UIButton *audioButton;
+@property(nonatomic,retain)IBOutlet UIButton *libraryButton;
+@property(nonatomic,retain)IBOutlet UITextField *textField;
+@property(nonatomic, retain) IBOutlet UIScrollView *scrollView;
+@property(nonatomic, retain) IBOutlet UIPageControl *pageControl;
+@property(nonatomic, retain) NSMutableArray *viewControllers;
 - (void)titleAndDescriptionFormDidFinish:(TitleAndDecriptionFormViewController*)titleAndDescForm;
 - (void)displayTitleandDescriptionForm;
 -(IBAction)hideKeyboardTouchAction;
+- (IBAction)saveButtonTouchAction;
+- (void)loadNewPageWithView:(NSString *)view;
+-(IBAction)cameraButtonTouchAction;
+-(IBAction)audioButtonTouchAction;
+-(IBAction)libraryButtonTouchAction;
 @end

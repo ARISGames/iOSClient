@@ -395,10 +395,10 @@
 	//[itemDetailsViewController release];
 	}
     else{
-        DataCollectionViewController *dataVC = [[DataCollectionViewController alloc] initWithNibName:@"DataCollectionViewController" bundle:nil];
-        dataVC.delegate = self;
-        [self.navigationController pushViewController:dataVC animated:YES];
-        [dataVC release];
+        NoteViewController *noteVC = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
+        noteVC.delegate = self;
+        [self.navigationController pushViewController:noteVC animated:YES];
+        [noteVC release];
     }
 }
 -(IBAction) dataButtonTouchAction {

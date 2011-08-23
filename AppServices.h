@@ -25,6 +25,7 @@
 #import "ASIFormDataRequest.h"
 #import "ARISAppDelegate.h"
 #import "Comment.h"
+#import "Note.h"
 
 @interface AppServices : NSObject {
     //Fetcher Flags
@@ -78,6 +79,8 @@
 - (void)fetchGameNodeListAsynchronously:(BOOL)YesForAsyncOrNoForSync;
 - (void)fetchGameWebpageListAsynchronously:(BOOL)YesForAsyncOrNoForSync;
 - (void)fetchGamePanoramicListAsynchronously:(BOOL)YesForAsyncOrNoForSync;
+- (void)fetchGameNoteListAsynchronously:(BOOL)YesForAsyncOrNoForSync;
+
 - (Item *)fetchItem:(int)itemId;
 - (Node *)fetchNode:(int)nodeId;
 - (Npc *)fetchNpc:(int)npcId;
@@ -98,6 +101,7 @@
 - (void)updateServerPanoramicViewed: (int)panoramicId;
 - (void)updateServerNpcViewed: (int)npcId;
 - (void)updateServerMapViewed;
+- (void)updateServerNoteViewed: (int)noteId;
 - (void)updateServerQuestsViewed;
 - (void)updateServerInventoryViewed;
 - (void)updateServerPickupItem: (int)itemId fromLocation: (int)locationId qty: (int)qty;
@@ -117,6 +121,8 @@
 - (void)parseGameWebPageListFromJSON: (JSONResult *)jsonResult;
 - (void)parseGamePanoramicListFromJSON: (JSONResult *)jsonResult;
 - (void)parseGameTabListFromJSON:(JSONResult *)jsonResult;
+- (void)parseGameNoteListFromJSON: (JSONResult *)jsonResult;
+
 -(void)parseRecentGameListFromJSON: (JSONResult *)jsonResult;
 - (Location*)parseLocationFromDictionary: (NSDictionary *)locationDictionary;
 - (Item *)parseItemFromDictionary: (NSDictionary *)itemDictionary;
@@ -125,6 +131,7 @@
 -(WebPage *)parseWebPageFromDictionary: (NSDictionary *)webPageDictionary;
 -(Panoramic *)parsePanoramicFromDictionary: (NSDictionary *)webPageDictionary;
 -(Tab *)parseTabFromDictionary:(NSDictionary *)tabDictionary;
+-(Note *)parseNoteFromDictionary: (NSDictionary *)noteDictionary;
 
 - (void)updateServerGameSelected;
 - (void)fetchQRCode:(NSString*)QRcodeId;
