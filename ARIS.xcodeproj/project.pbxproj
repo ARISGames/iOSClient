@@ -26,6 +26,9 @@
 		118669AB13BB8EAC004B4EC8 /* AttributesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 118669A813BB8EAC004B4EC8 /* AttributesViewController.m */; };
 		118669AC13BB8EAC004B4EC8 /* AttributesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 118669A913BB8EAC004B4EC8 /* AttributesViewController.xib */; };
 		118669AD13BB8EAC004B4EC8 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 118669AA13BB8EAC004B4EC8 /* profile.png */; };
+		11886635140570F20009E36F /* mappoint.png in Resources */ = {isa = PBXBuildFile; fileRef = 11886634140570F20009E36F /* mappoint.png */; };
+		1188663914057CF60009E36F /* TextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1188663714057CF60009E36F /* TextViewController.m */; };
+		1188663A14057CF60009E36F /* TextViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1188663814057CF60009E36F /* TextViewController.xib */; };
 		11A02DA213CBA419007C084C /* ItemActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A02D9F13CBA419007C084C /* ItemActionViewController.m */; };
 		11A02DA313CBA419007C084C /* ItemActionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11A02DA013CBA419007C084C /* ItemActionViewController.xib */; };
 		11A96CF413FB1DBA0020EFC5 /* Tab.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A96CF313FB1DB90020EFC5 /* Tab.m */; };
@@ -317,6 +320,10 @@
 		118669A813BB8EAC004B4EC8 /* AttributesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributesViewController.m; sourceTree = "<group>"; };
 		118669A913BB8EAC004B4EC8 /* AttributesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttributesViewController.xib; sourceTree = "<group>"; };
 		118669AA13BB8EAC004B4EC8 /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
+		11886634140570F20009E36F /* mappoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mappoint.png; path = ../../../Desktop/mappoint.png; sourceTree = "<group>"; };
+		1188663614057CF60009E36F /* TextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextViewController.h; sourceTree = "<group>"; };
+		1188663714057CF60009E36F /* TextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextViewController.m; sourceTree = "<group>"; };
+		1188663814057CF60009E36F /* TextViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextViewController.xib; sourceTree = "<group>"; };
 		11A02D9E13CBA419007C084C /* ItemActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemActionViewController.h; sourceTree = "<group>"; };
 		11A02D9F13CBA419007C084C /* ItemActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemActionViewController.m; sourceTree = "<group>"; };
 		11A02DA013CBA419007C084C /* ItemActionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemActionViewController.xib; sourceTree = "<group>"; };
@@ -767,10 +774,14 @@
 			children = (
 				1147E15513F32260000E4BC2 /* noteicon.png */,
 				118622DC14040F6600D4B738 /* buttonborder2.png */,
+				11886634140570F20009E36F /* mappoint.png */,
 				118622DA14040E7200D4B738 /* buttonborder.png */,
 				1147E15613F32260000E4BC2 /* NoteViewController.h */,
 				1147E15713F32260000E4BC2 /* NoteViewController.m */,
 				1147E15813F32260000E4BC2 /* NoteViewController.xib */,
+				1188663614057CF60009E36F /* TextViewController.h */,
+				1188663714057CF60009E36F /* TextViewController.m */,
+				1188663814057CF60009E36F /* TextViewController.xib */,
 			);
 			name = Notes;
 			sourceTree = "<group>";
@@ -1647,6 +1658,8 @@
 				11DD3D5413F5B8F40051AB76 /* plusCellButton_Pressed.png in Resources */,
 				118622DB14040E7200D4B738 /* buttonborder.png in Resources */,
 				118622DD14040F6600D4B738 /* buttonborder2.png in Resources */,
+				11886635140570F20009E36F /* mappoint.png in Resources */,
+				1188663A14057CF60009E36F /* TextViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1801,6 +1814,7 @@
 				11A96CF413FB1DBA0020EFC5 /* Tab.m in Sources */,
 				118622E01404535300D4B738 /* Note.m in Sources */,
 				118622E314046A9B00D4B738 /* NoteMedia.m in Sources */,
+				1188663914057CF60009E36F /* TextViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

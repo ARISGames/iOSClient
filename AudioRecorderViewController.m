@@ -9,7 +9,6 @@
 #import "AudioRecorderViewController.h"
 #import "ARISAppDelegate.h"
 #import "AppServices.h"
-#import "TitleAndDecriptionFormViewController.h"
 #import "GPSViewController.h"
 
 @implementation AudioRecorderViewController
@@ -18,7 +17,7 @@
 @synthesize soundPlayer;
 @synthesize meter;
 @synthesize meterUpdateTimer;
-@synthesize audioData, delegate;
+@synthesize audioData, delegate, noteId;
 
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -217,49 +216,18 @@
 	self.audioData = [NSData dataWithContentsOfURL:soundFileURL];
 	self.soundRecorder = nil;
 	
-	TitleAndDecriptionFormViewController *titleAndDescForm = [[TitleAndDecriptionFormViewController alloc] 
-															  initWithNibName:@"TitleAndDecriptionFormViewController" bundle:nil];
-	titleAndDescForm.delegate = self;
-	[self.view addSubview:titleAndDescForm.view];
-}	
-
-- (void)titleAndDescriptionFormDidFinish:(TitleAndDecriptionFormViewController*)titleAndDescForm{
-	NSLog(@"CameraVC: Back from form");
-	[titleAndDescForm.view removeFromSuperview];
+	//Do server call here
+    [[AppServices sharedAppServices] addContentToNoteFromFileData:self.audioData fileName:@"audio.caf" name:nil noteId:self.noteId];
     
-    if([self.delegate isKindOfClass:[GPSViewController class]]){
-        [[AppServices sharedAppServices] createItemAndPlaceOnMapFromFileData:self.audioData fileName:@"audio.caf" title:titleAndDescForm.titleField.text description:titleAndDescForm.descriptionField.text];   
-    }
-    else {
-	[[AppServices sharedAppServices] createItemAndGiveToPlayerFromFileData:self.audioData 
-										   fileName:@"audio.caf" 
-											  title:titleAndDescForm.titleField.text 
-										description:titleAndDescForm.descriptionField.text];
-    }
-    [titleAndDescForm release];
-
-	
-	[[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryAmbient error: nil];
-    NSString *tab;
-    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];        
-
-    if ([self.delegate isKindOfClass:[GPSViewController class]]){
-        
-    }
-    else{
-        //Exit to Inventory Tab
-        for(int i = 0;i < [appDelegate.tabBarController.customizableViewControllers count];i++)
-        {
-            tab = [[appDelegate.tabBarController.customizableViewControllers objectAtIndex:i] title];
-            tab = [tab lowercaseString];
-            if([tab isEqualToString:@"inventory"])
-            {
-                appDelegate.tabBarController.selectedIndex = i;
-            }
-        }
-    }
-    [self.navigationController popToRootViewControllerAnimated:NO];	
-}
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:.5];
+    
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight
+                           forView:self.navigationController.view cache:YES];
+    [self.navigationController popViewControllerAnimated:NO];
+    
+    [UIView commitAnimations]; 
+}	
 
 - (IBAction) discardButtonAction: (id) sender{
 	soundPlayer = nil;

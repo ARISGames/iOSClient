@@ -302,7 +302,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
 	if (!aNote) {
         
 		
-		[[AppServices sharedAppServices] fetchGameNoteListAsynchronously:NO];
+		[[AppServices sharedAppServices] getNoteById];
 		
 		aNote = [self.gameNoteList objectForKey:[NSNumber numberWithInt:mId]];
         

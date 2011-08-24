@@ -401,25 +401,121 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[jsonConnection release];
 
 }
--(void)createNoteWithTitle:(NSString *)title text:(NSString *)text shared:(BOOL)shared{
-    NSLog(@"AppModel: Creating Note: %@",title);
+
+-(int)createNote{
+    NSLog(@"AppModel: Creating New Note");
 	
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects:
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
-                          title,
+                          						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"notes" 
+                                                             andMethodName:@"createNewNote" 
+                                                              andArguments:arguments];
+	JSONResult *jsonResult = [jsonConnection performSynchronousRequest]; 
+	[jsonConnection release];
+	
+	
+	if (!jsonResult) {
+		NSLog(@"\tFailed.");
+		return nil;
+	}
+	
+	return [jsonResult.data intValue];
+}
+-(void) addContentToNoteWithText:(NSString *)text type:(NSString *) type mediaId:(int) mediaId andNoteId:(int)noteId{
+    NSLog(@"AppModel: Adding Text Content To Note: %@",noteId);
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects:
+						  [NSString stringWithFormat:@"%d",noteId],
+						  [NSString stringWithFormat:@"%d",mediaId],
+                          type,
 						  text,
-                          [NSString stringWithFormat:@"%d",shared],
-
 						  nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
                                                             andServiceName:@"notes" 
-                                                             andMethodName:@"createNote" 
+                                                             andMethodName:@"addContentToNote" 
                                                               andArguments:arguments];
 	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; 
 	[jsonConnection release];
+
 }
+-(void) addContentToNoteFromFileData:(NSData *)fileData fileName:(NSString *)fileName 
+                               name:(NSString *)name noteId:(int) noteId{
+    NSURL *url = [[AppModel sharedAppModel].serverURL URLByAppendingPathComponent:@"services/aris/uploadHandler.php"];
+	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+	request.timeOutSeconds = 60;
+	
+ 	[request setPostValue:[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].currentGame.gameId] forKey:@"gameID"];	 
+	[request setPostValue:fileName forKey:@"fileName"];
+	[request setData:fileData forKey:@"file"];
+	[request setDidFinishSelector:@selector(uploadNoteContentRequestFinished: )];
+	[request setDidFailSelector:@selector(uploadNoteRequestFailed:)];
+	[request setDelegate:self];
+    
+    
+	//We need these after the upload is complete to create the item on the server
+	NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:name, @"title", noteId, @"noteId", nil];
+	[request setUserInfo:userInfo];
+	
+	NSLog(@"Model: Uploading File. gameID:%d fileName:%@ title:%@ noteId:%d",[AppModel sharedAppModel].currentGame.gameId,fileName,name,noteId);
+	
+	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate showNewWaitingIndicator:@"Uploading" displayProgressBar:YES];
+	[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
+	[request startAsynchronous];
+
+
+}
+- (void)uploadNoteContentRequestFinished:(ASIFormDataRequest *)request
+{
+	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate removeNewWaitingIndicator];
+	
+	NSString *response = [request responseString];
+    
+	NSLog(@"Model: Upload Note Content Request Finished. Response: %@", response);
+	
+	NSString *title = [[request userInfo] objectForKey:@"title"];
+	//NSString *description = [[request userInfo] objectForKey:@"description"];
+	int noteId = [[[request userInfo] objectForKey:@"noteId"]intValue];
+	//if (description == NULL) description = @"filename"; 
+	
+	NSString *newFileName = [request responseString];
+    
+	NSLog(@"AppModel: Creating Note Content for Title:%@ File:%@",title,newFileName);
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects:
+						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+						  [NSString stringWithFormat:@"%d",noteId],
+						  newFileName,
+                          title,
+                          nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"notes" 
+                                                             andMethodName:@"addContentToNoteFromFileName" 
+                                                              andArguments:arguments];
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; 
+	[jsonConnection release];
+    
+}
+
+- (void)uploadNoteRequestFailed:(ASIHTTPRequest *)request
+{
+	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate removeNewWaitingIndicator];
+	NSError *error = [request error];
+	NSLog(@"Model: uploadRequestFailed: %@",[error localizedDescription]);
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message: @"A network error occured while uploading the file" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+	
+	[alert show];
+	[alert release];
+}
+
 - (void)createItemAndGiveToPlayerFromFileData:(NSData *)fileData fileName:(NSString *)fileName 
 										title:(NSString *)title description:(NSString*)description {
     
@@ -446,7 +542,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
 	[request startAsynchronous];
 }
+-(void)updateNoteWithNoteId:(int)noteId title:(NSString *)title andShared:(BOOL)shared{
+    NSLog(@"Model: Updating Note");
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",noteId],
+						  title,
+                          [NSString stringWithFormat:@"%d",shared],
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"notes" 
+                                                             andMethodName:@"updateNote" 
+                                                              andArguments:arguments];
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After 
+	[jsonConnection release];
 
+}
 -(void)updateItem:(Item *)item {
     NSLog(@"Model: Updating Item");
 	
@@ -695,7 +806,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	return [self fetchFromService:@"nodes" usingMethod:@"getNode" withArgs:arguments
 					  usingParser:@selector(parseNodeFromDictionary:)];
 }
+-(Note *)fetchNote:(int)noteId{
+    NSLog(@"AppModel: Fetching Note:%d",noteId);
+	
+	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",noteId], nil];
+	
+    return [self fetchFromService:@"notes" usingMethod:@"getNoteById" withArgs:arguments
+					  usingParser:@selector(parseNoteFromDictionary:)];
 
+}
 -(Npc *)fetchNpc:(int)npcId{
 	NSLog(@"Model: Fetch Requested for Npc %d", npcId);
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
@@ -1223,7 +1342,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	
 	return item;	
 }
-
 -(Node *)parseNodeFromDictionary: (NSDictionary *)nodeDictionary{
 	//Build the node
 	NSLog(@"%@", nodeDictionary);

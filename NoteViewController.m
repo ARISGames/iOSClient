@@ -14,9 +14,10 @@
 #import "GPSViewController.h"
 #import "CameraViewController.h"
 #import "AudioRecorderViewController.h"
+#import "TextViewController.h"
 
 @implementation NoteViewController
-@synthesize textBox,textField,note, delegate, hideKeyboardButton,libraryButton,cameraButton,audioButton, typeControl,viewControllers, scrollView,pageControl;
+@synthesize textBox,textField,note, delegate, hideKeyboardButton,libraryButton,cameraButton,audioButton, typeControl,viewControllers, scrollView,pageControl,publicButton,textButton,mapButton, tableView;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -24,6 +25,7 @@
         self.title = @"Note";
         self.tabBarItem.image = [UIImage imageNamed:@"noteicon.png"];
         viewControllers = [[NSMutableArray alloc] initWithCapacity:10];
+        self.note = [[Note alloc]init];
 
     }
     return self;
@@ -34,11 +36,9 @@
     [super dealloc];
 }
 -(void)viewWillAppear:(BOOL)animated{
-   // [self loadNewPageWithView:@"note"];
-    // [self loadNewPageWithView:@"photo"];
-        numPages = 1;
-    [self loadNewPageWithView:@"audio"];
-
+    if([self.delegate isKindOfClass:[InventoryListViewController class]]){
+        self.note.noteId = [[AppServices sharedAppServices] createNote];
+    }
     
 }
 - (void)didReceiveMemoryWarning
@@ -55,9 +55,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    scrollView.pagingEnabled = YES;
-    scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * numPages, scrollView.frame.size.height);
-    scrollView.showsHorizontalScrollIndicator = NO;
+    //scrollView.pagingEnabled = YES;
+    //scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * numPages, scrollView.frame.size.height);
+    //scrollView.showsHorizontalScrollIndicator = NO;
     //scrollView.showsVerticalScrollIndicator = NO;
     //scrollView.scrollsToTop = NO;
     scrollView.delegate = self;
@@ -65,15 +65,12 @@
     pageControl.numberOfPages = numPages;
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(saveButtonTouchAction)];      
 	self.navigationItem.rightBarButtonItem = saveButton;
+    
 
 }
 -(void)viewWillDisappear:(BOOL)animated{
     self.navigationController.navigationItem.title = @"Note";
 }
--(void)viewDidAppear:(BOOL)animated{
-       
-        
-   }
 
 - (void)viewDidUnload
 {
@@ -142,10 +139,11 @@
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
--(void)textViewDidBeginEditing:(UITextView *)textView{
-    if([self.textBox.text isEqualToString:@"Write note here..."])
-    [self.textBox setText:@""];
-    self.hideKeyboardButton.hidden = NO;
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
+}
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [self.textField resignFirstResponder];
+    return YES;
 }
 -(void)hideKeyboardTouchAction {
     [self.textBox resignFirstResponder];
@@ -155,6 +153,7 @@
     CameraViewController *cameraVC = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
     cameraVC.delegate = self.delegate;
     cameraVC.showVid = YES;
+    cameraVC.noteId = self.note.noteId;
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:.5];
     
@@ -167,6 +166,7 @@
 -(void)audioButtonTouchAction{
     AudioRecorderViewController *audioVC = [[[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil] autorelease];
     audioVC.delegate = self.delegate;
+    audioVC.noteId = self.note.noteId;
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:.5];
     
@@ -180,6 +180,7 @@
     CameraViewController *cameraVC = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
     cameraVC.delegate = self.delegate;
     cameraVC.showVid = NO;
+    cameraVC.noteId = self.note.noteId;
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:.5];
     
@@ -189,6 +190,26 @@
     //[cameraVC release];
     [UIView commitAnimations];
 }
+-(void)textButtonTouchAction{
+    TextViewController *textVC = [[[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil] autorelease];
+    textVC.noteId = self.note.noteId;
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:.5];
+    
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
+                           forView:self.navigationController.view cache:YES];
+    [self.navigationController pushViewController:textVC animated:NO];
+    [UIView commitAnimations];
+
+}
+
+-(void)mapButtonTouchAction{
+    
+}
+-(void)publicButtonTouchAction{
+    
+}
+
 - (void)displayTitleandDescriptionForm {
     TitleAndDecriptionFormViewController *titleAndDescForm = [[TitleAndDecriptionFormViewController alloc] 
                                                               initWithNibName:@"TitleAndDecriptionFormViewController" bundle:nil];

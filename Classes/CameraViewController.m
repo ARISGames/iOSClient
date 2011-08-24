@@ -11,7 +11,6 @@
 #import "AppModel.h"
 #import "AppServices.h"
 #import <MobileCoreServices/UTCoreTypes.h>
-#import "TitleAndDecriptionFormViewController.h"
 #import "GPSViewController.h"
 
 @implementation CameraViewController
@@ -21,7 +20,7 @@
 @synthesize libraryButton;
 @synthesize mediaData;
 @synthesize mediaFilename;
-@synthesize profileButton, delegate,showVid;
+@synthesize profileButton, delegate,showVid, noteId;
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle {
@@ -141,7 +140,17 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
 		self.mediaFilename = @"video.mp4";
 	}	
     
-	[self uploadMedia];
+    //Do server call here
+    [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId];
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:.5];
+    
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight
+                           forView:self.navigationController.view cache:YES];
+    [self.navigationController popViewControllerAnimated:NO];
+    
+    [UIView commitAnimations]; 
 
 }
 
@@ -150,8 +159,7 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
 }
 
 -(void) uploadMedia {
-    //Do server call here
-}
+    }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
 	[UIView beginAnimations:nil context:NULL];

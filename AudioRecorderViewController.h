@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
 #import <CoreAudio/CoreAudioTypes.h>
-#import "AppModel.h";
+#import "AppModel.h"
 #import "AudioMeter.h"
 
 typedef enum {
@@ -33,6 +33,7 @@ typedef enum {
 	AudioRecorderModeType mode;
 	BOOL recording;
 	BOOL playing;
+    int noteId;
 	NSTimer *meterUpdateTimer;
 	id delegate;
 }
@@ -44,6 +45,7 @@ typedef enum {
 @property(readwrite, retain) AVAudioPlayer *soundPlayer;
 @property(readwrite, retain) NSTimer *meterUpdateTimer;
 @property(nonatomic, retain) id delegate;
+@property(readwrite, assign) int noteId;
 
 - (IBAction) recordStopOrPlayButtonAction: (id) sender;
 - (IBAction) uploadButtonAction: (id) sender;

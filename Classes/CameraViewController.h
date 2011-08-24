@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AppModel.h";
+#import "AppModel.h"
 
 
 @interface CameraViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
@@ -20,6 +20,7 @@
 	NSString *mediaFilename;
     BOOL showVid;
     id delegate;
+    int noteId;
 }
 
 @property (nonatomic, retain) IBOutlet UIButton *cameraButton;
@@ -30,6 +31,8 @@
 @property (nonatomic, retain) NSString *mediaFilename;
 @property (nonatomic, retain) id delegate;
 @property(readwrite,assign) BOOL showVid;
+@property(readwrite,assign) int noteId;
+
 
 - (IBAction)cameraButtonTouchAction;
 - (IBAction)libraryButtonTouchAction;

@@ -9,17 +9,22 @@
 #import <UIKit/UIKit.h>
 #import "Item.h"
 #import "TitleAndDecriptionFormViewController.h"
+#import "Note.h"
 
 
-@interface NoteViewController : UIViewController <UITextViewDelegate, UIScrollViewDelegate>{
+@interface NoteViewController : UIViewController <UITextFieldDelegate, UIScrollViewDelegate>{
     IBOutlet UITextView *textBox;
     IBOutlet UITextField *textField;
     IBOutlet UIButton *cameraButton;
     IBOutlet UIButton *audioButton;
     IBOutlet UIButton *libraryButton;
+    IBOutlet UIButton *mapButton;
+    IBOutlet UIButton *publicButton;
+    IBOutlet UIButton *textButton;
     IBOutlet UIButton *hideKeyboardButton;
     IBOutlet UISegmentedControl *typeControl;
-    Item *note;
+    IBOutlet UITableView *tableView;
+    Note *note;
     id delegate;
     IBOutlet UIScrollView *scrollView;
     IBOutlet UIPageControl *pageControl;
@@ -31,10 +36,14 @@
 @property(nonatomic,retain) IBOutlet UITextView *textBox;
 @property(nonatomic, retain) IBOutlet UIButton *hideKeyboardButton;
 @property(nonatomic,retain) IBOutlet UISegmentedControl *typeControl;
-@property(nonatomic,retain) Item *note;
+@property(nonatomic,retain) Note *note;
 @property(nonatomic,retain) id delegate;
+@property(nonatomic,retain) IBOutlet UITableView *tableView;
 @property(nonatomic,retain)IBOutlet UIButton *cameraButton;
 @property(nonatomic,retain)IBOutlet UIButton *audioButton;
+@property(nonatomic,retain)IBOutlet UIButton *publicButton;
+@property(nonatomic,retain)IBOutlet UIButton *textButton;
+@property(nonatomic,retain)IBOutlet UIButton *mapButton;
 @property(nonatomic,retain)IBOutlet UIButton *libraryButton;
 @property(nonatomic,retain)IBOutlet UITextField *textField;
 @property(nonatomic, retain) IBOutlet UIScrollView *scrollView;
@@ -48,4 +57,7 @@
 -(IBAction)cameraButtonTouchAction;
 -(IBAction)audioButtonTouchAction;
 -(IBAction)libraryButtonTouchAction;
+-(IBAction)mapButtonTouchAction;
+-(IBAction)publicButtonTouchAction;
+-(IBAction)textButtonTouchAction;
 @end
