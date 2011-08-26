@@ -27,6 +27,7 @@
 #import "Comment.h"
 #import "Note.h"
 #import "NoteMedia.h"
+#import "NoteContent.h"
 
 @interface AppServices : NSObject {
     //Fetcher Flags
@@ -81,11 +82,13 @@
 - (void)fetchGameWebpageListAsynchronously:(BOOL)YesForAsyncOrNoForSync;
 - (void)fetchGamePanoramicListAsynchronously:(BOOL)YesForAsyncOrNoForSync;
 - (void)fetchGameNoteListAsynchronously:(BOOL)YesForAsyncOrNoForSync;
+- (void)fetchPlayerNoteListAsynchronously:(BOOL)YesForAsyncOrNoForSync;
 
 - (Item *)fetchItem:(int)itemId;
 - (Node *)fetchNode:(int)nodeId;
 - (Npc *)fetchNpc:(int)npcId;
 - (Note *)fetchNote:(int)noteId;
+- (NSMutableArray *)fetchNoteContents:(int)noteId;
 - (void)createItemAndPlaceOnMap:(Item *)item;
 - (void)createItemAndPlaceOnMapFromFileData:(NSData *)fileData fileName:(NSString *)fileName 
                                       title:(NSString *)title description:(NSString*)description;
@@ -97,10 +100,12 @@
 - (void)uploadImageForMatching:(NSData *)fileData;
 
 - (void) addContentToNoteFromFileData:(NSData *)fileData fileName:(NSString *)fileName 
-                                name:(NSString *)name noteId:(int) noteId;
+                                 name:(NSString *)name noteId:(int) noteId type:(NSString *)type;
 - (void) addContentToNoteWithText:(NSString *)text type:(NSString *) type mediaId:(int) mediaId andNoteId:(int)noteId;
 - (int)createNote;
 - (void)getNoteById: (int)noteId;
+- (void)deleteNoteContentWithContentId:(int) contentId;
+- (void)deleteNoteWithNoteId: (int) noteId;
 
 - (void)uploadNoteContentRequestFinished:(ASIFormDataRequest *)request;
 - (void)uploadNoteRequestFailed:(ASIHTTPRequest *)request;
@@ -133,6 +138,7 @@
 - (void)parseGamePanoramicListFromJSON: (JSONResult *)jsonResult;
 - (void)parseGameTabListFromJSON:(JSONResult *)jsonResult;
 - (void)parseGameNoteListFromJSON: (JSONResult *)jsonResult;
+- (void)parsePlayerNoteListFromJSON: (JSONResult *)jsonResult;
 
 - (void)parseRecentGameListFromJSON: (JSONResult *)jsonResult;
 - (Location*)parseLocationFromDictionary: (NSDictionary *)locationDictionary;
@@ -143,12 +149,14 @@
 - (Panoramic *)parsePanoramicFromDictionary: (NSDictionary *)webPageDictionary;
 - (Tab *)parseTabFromDictionary:(NSDictionary *)tabDictionary;
 - (Note *)parseNoteFromDictionary: (NSDictionary *)noteDictionary;
+- (NSMutableArray *)parseNoteContentsFromDictionary: (NSDictionary *)noteContentsDictionary;
 
 - (void)updateServerGameSelected;
 - (void)fetchQRCode:(NSString*)QRcodeId;
 - (void)saveComment:(NSString*)comment game:(int)gameId starRating:(int)rating;
 - (void)parseSaveCommentResponseFromJSON: (JSONResult *)jsonResult;
-
+- (void)sendNotificationToNoteViewer;
+- (void)sendNotificationToNotebookViewer;
 
 
 @end

@@ -48,7 +48,7 @@
 		self.data = [self parseJSONData:dataObject];
 	}
 	else if (self.returnCode == 1){
-		NSLog(@"JSONResult: The return code was 1, we have a bad game id");
+		NSLog(@"JSONResult: The return code was 1, we have a bad game id: id = %d",[AppModel sharedAppModel].currentGame.gameId);
 		NSNotification *n = [NSNotification notificationWithName:@"LogoutRequested" object:self userInfo:nil];
 		[[NSNotificationCenter defaultCenter] postNotification:n];
 	}

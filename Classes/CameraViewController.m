@@ -132,16 +132,15 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
                                        self, 
                                        @selector(image:didFinishSavingWithError:contextInfo:), 
                                        nil );
+        [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:@"PHOTO"];
 	}	
 	else if ([mediaType isEqualToString:@"public.movie"]){
 		NSLog(@"CameraViewController: Found a Movie");
 		NSURL *videoURL = [info objectForKey:UIImagePickerControllerMediaURL];
 		self.mediaData = [NSData dataWithContentsOfURL:videoURL];
 		self.mediaFilename = @"video.mp4";
+        [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:@"VIDEO"];
 	}	
-    
-    //Do server call here
-    [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId];
     
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:.5];

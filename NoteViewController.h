@@ -12,7 +12,7 @@
 #import "Note.h"
 
 
-@interface NoteViewController : UIViewController <UITextFieldDelegate, UIScrollViewDelegate>{
+@interface NoteViewController : UIViewController <UITextFieldDelegate, UITableViewDataSource,UITableViewDelegate>{
     IBOutlet UITextView *textBox;
     IBOutlet UITextField *textField;
     IBOutlet UIButton *cameraButton;
@@ -23,7 +23,7 @@
     IBOutlet UIButton *textButton;
     IBOutlet UIButton *hideKeyboardButton;
     IBOutlet UISegmentedControl *typeControl;
-    IBOutlet UITableView *tableView;
+    IBOutlet UITableView *contentTable;
     Note *note;
     id delegate;
     IBOutlet UIScrollView *scrollView;
@@ -38,7 +38,7 @@
 @property(nonatomic,retain) IBOutlet UISegmentedControl *typeControl;
 @property(nonatomic,retain) Note *note;
 @property(nonatomic,retain) id delegate;
-@property(nonatomic,retain) IBOutlet UITableView *tableView;
+@property (nonatomic, retain) IBOutlet UITableView *contentTable;
 @property(nonatomic,retain)IBOutlet UIButton *cameraButton;
 @property(nonatomic,retain)IBOutlet UIButton *audioButton;
 @property(nonatomic,retain)IBOutlet UIButton *publicButton;
@@ -60,4 +60,8 @@
 -(IBAction)mapButtonTouchAction;
 -(IBAction)publicButtonTouchAction;
 -(IBAction)textButtonTouchAction;
+-(void)refresh;
+-(void)showLoadingIndicator;
+//-(IBAction)controlChanged:(id)sender;
+- (void)refreshViewFromModel;
 @end

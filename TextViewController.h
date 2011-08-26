@@ -12,12 +12,16 @@
 @interface TextViewController : UIViewController <UITextViewDelegate>{
     IBOutlet UITextView *textBox;
     IBOutlet UIButton *saveButton;
+    IBOutlet UIButton *keyboardButton;
+
     int noteId;
 }
 @property(nonatomic,retain) IBOutlet UITextView *textBox;
 @property(nonatomic, retain) IBOutlet UIButton *saveButton;
+@property(nonatomic, retain) IBOutlet UIButton *keyboardButton;
+
 @property(readwrite, assign) int noteId;
 - (IBAction)saveButtonTouchAction;
-- (void) hideKeyboard;
+- (IBAction) hideKeyboard;
 
 @end

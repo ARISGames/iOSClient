@@ -217,7 +217,7 @@
 	self.soundRecorder = nil;
 	
 	//Do server call here
-    [[AppServices sharedAppServices] addContentToNoteFromFileData:self.audioData fileName:@"audio.caf" name:nil noteId:self.noteId];
+    [[AppServices sharedAppServices] addContentToNoteFromFileData:self.audioData fileName:@"audio.caf" name:nil noteId:self.noteId type:@"AUDIO"];
     
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:.5];

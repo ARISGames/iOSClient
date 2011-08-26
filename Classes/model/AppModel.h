@@ -51,7 +51,8 @@ extern NSDictionary *InventoryElements;
 	NSMutableDictionary *gameNpcList;
     NSMutableDictionary *gameWebPageList;
     NSMutableDictionary *gamePanoramicList;
-    NSMutableDictionary *gameNoteList;
+    NSMutableArray *gameNoteList;
+    NSMutableArray *playerNoteList;
 
     NSArray *gameTabList;
     NSArray *defaultGameTabList;
@@ -92,7 +93,8 @@ extern NSDictionary *InventoryElements;
 @property(nonatomic, retain) NSString *inventoryHash;
 @property(nonatomic, retain) NSMutableDictionary *inventory;
 @property(nonatomic, retain) NSMutableDictionary *attributes;
-@property(nonatomic, retain) NSMutableDictionary *gameNoteList;
+@property(nonatomic, retain) NSMutableArray *gameNoteList;
+@property(nonatomic, retain) NSMutableArray *playerNoteList;
 
 
 @property(nonatomic, retain) NSMutableDictionary *gameMediaList;

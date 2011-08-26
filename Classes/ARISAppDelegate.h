@@ -34,7 +34,7 @@
 #import "AudioToolbox/AudioToolbox.h"
 #import "Reachability.h"
 #import "TutorialViewController.h"
-#import "NoteViewController.h"
+#import "NotebookViewController.h"
 #import <MessageUI/MFMailComposeViewController.h>
 
 #import "GamePickerNearbyViewController.h"

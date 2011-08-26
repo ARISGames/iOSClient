@@ -262,7 +262,7 @@
 
 // returns the # of rows in each component..
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return [inventory count] + 1;
+	return [inventory count];
 }
 
 
@@ -290,7 +290,7 @@
     } 
 
     
-	if([indexPath row] < [inventory count]){
+	
 	Item *item = [inventory objectAtIndex: [indexPath row]];
 	
 	UILabel *lblTemp1 = (UILabel *)[cell viewWithTag:1];
@@ -340,22 +340,6 @@
 		if ([media.type isEqualToString: @"Image"]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultImageIcon.png"]];
 		if ([media.type isEqualToString: @"Audio"]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultAudioIcon.png"]];
 		if ([media.type isEqualToString: @"Video"]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultVideoIcon.png"]];	}
-    }
-    else{
-        UILabel *lblTemp1 = (UILabel *)[cell viewWithTag:1];
-        lblTemp1.text = @"";	
-        
-        UILabel *lblTemp2 = (UILabel *)[cell viewWithTag:2];
-        lblTemp2.text = @"";
-        AsyncImageView *iconView = (AsyncImageView *)[cell viewWithTag:3];
-        iconView.hidden = YES;
-        
-        UILabel *lblTemp3 = (UILabel *)[cell viewWithTag:4];
-        lblTemp3.text = @"";
-        cell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"plusCellButton.png"]];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
-    
     	
 	return cell;
 }
@@ -375,7 +359,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {	
-    if([indexPath row] < [inventory count]){
+    
 	Item *selectedItem = [inventory objectAtIndex:[indexPath row]];
 	NSLog(@"Displaying Detail View: %@", selectedItem.name);
 
@@ -393,17 +377,9 @@
 	[[self navigationController] pushViewController:itemDetailsViewController animated:YES];
 	
 	//[itemDetailsViewController release];
-	}
-    else{
-        NoteViewController *noteVC = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
-        noteVC.delegate = self;
-        [self.navigationController pushViewController:noteVC animated:YES];
-        [noteVC release];
+	
     }
-}
--(IBAction) dataButtonTouchAction {
 
-}
 #pragma mark Memory Management
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview

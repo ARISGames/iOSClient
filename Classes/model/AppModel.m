@@ -19,7 +19,7 @@
 @synthesize loggedIn, userName, password, playerId;
 @synthesize currentGame, gameList, locationList, playerList,recentGameList;
 @synthesize playerLocation, inventory, questList, networkAlert;
-@synthesize gameMediaList, gameItemList, gameNodeList, gameNpcList,gameWebPageList,gamePanoramicList,gameTabList, defaultGameTabList;
+@synthesize gameMediaList, gameItemList, gameNodeList, gameNpcList,gameWebPageList,gamePanoramicList,gameTabList, defaultGameTabList,gameNoteList,playerNoteList;
 @synthesize locationListHash, questListHash, inventoryHash,profilePic,attributes;
 
 @synthesize nearbyLocationsList;
@@ -52,6 +52,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
 	[userName release];
 	[password release];
     [gameTabList release];
+    [gameNoteList release];
+    [playerNoteList release];
     [super dealloc];
 }
 

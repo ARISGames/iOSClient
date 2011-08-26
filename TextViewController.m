@@ -13,13 +13,12 @@
 #import "AppServices.h"
 
 @implementation TextViewController
-@synthesize textBox,saveButton,noteId;
+@synthesize textBox,saveButton,noteId,keyboardButton;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"Note";
-        self.tabBarItem.image = [UIImage imageNamed:@"noteicon.png"];
+        self.title = @"Add Text";
     }
     return self;
 }
@@ -67,10 +66,12 @@
     if([self.textBox.text isEqualToString:@"Write note here..."])
     [self.textBox setText:@""];
     self.textBox.frame = CGRectMake(0, 0, 320, 230);
+    self.keyboardButton.hidden = NO;
 }
 -(void)hideKeyboard {
     [self.textBox resignFirstResponder];
     self.textBox.frame = CGRectMake(0, 0, 320, 330);
+    self.keyboardButton.hidden = YES;
 }
 
 -(void)saveButtonTouchAction{

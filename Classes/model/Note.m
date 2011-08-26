@@ -12,7 +12,7 @@
 #import "NoteViewController.h"
 
 @implementation Note
-@synthesize mediaArray, creatorId,noteId,parentNoteId,parentRating,shared,text,title,kind,averageRating,numRatings;
+@synthesize comments,contents, creatorId,noteId,parentNoteId,parentRating,shared,text,title,kind,averageRating,numRatings;
 
 -(nearbyObjectKind) kind { return NearbyObjectNote; }
 
@@ -21,6 +21,8 @@
     if (self) {
 		kind = NearbyObjectNote;
         iconMediaId = 36;
+        self.comments = [NSMutableArray arrayWithCapacity:5];
+        self.contents = [NSMutableArray arrayWithCapacity:5];
     }
     return self;	
 }
@@ -42,7 +44,8 @@
 
 
 - (void) dealloc {
-	[mediaArray release];
+	[comments release];
+    [contents release];
 	[text release];
     [title release];
 	[super dealloc];

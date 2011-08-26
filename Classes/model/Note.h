@@ -11,7 +11,8 @@
 
 
 @interface Note : NSObject <NearbyObjectProtocol>{
-    NSArray *mediaArray;
+    NSMutableArray *comments;
+    NSMutableArray *contents;
     int noteId;
     int creatorId;
     NSString *title;
@@ -26,7 +27,9 @@
 
 }
 
-@property(nonatomic,retain) NSArray *mediaArray;
+@property(nonatomic,retain) NSMutableArray *comments;
+@property(nonatomic,retain) NSMutableArray *contents;
+
 @property(nonatomic,retain) NSString *title;
 @property(nonatomic, retain) NSString *text;
 @property(readwrite,assign) int noteId;

@@ -17,7 +17,7 @@
 #import "TextViewController.h"
 
 @implementation NoteViewController
-@synthesize textBox,textField,note, delegate, hideKeyboardButton,libraryButton,cameraButton,audioButton, typeControl,viewControllers, scrollView,pageControl,publicButton,textButton,mapButton, tableView;
+@synthesize textBox,textField,note, delegate, hideKeyboardButton,libraryButton,cameraButton,audioButton, typeControl,viewControllers, scrollView,pageControl,publicButton,textButton,mapButton, contentTable;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -36,11 +36,15 @@
     [super dealloc];
 }
 -(void)viewWillAppear:(BOOL)animated{
-    if([self.delegate isKindOfClass:[InventoryListViewController class]]){
-        self.note.noteId = [[AppServices sharedAppServices] createNote];
+    if(self.note.noteId != 0){
+    self.textField.text = self.note.title;
+        self.navigationItem.title = self.textField.text;
     }
     
-}
+    
+    [self refresh];
+    [contentTable reloadData];
+   }
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
@@ -54,12 +58,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-    //scrollView.pagingEnabled = YES;
-    //scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * numPages, scrollView.frame.size.height);
-    //scrollView.showsHorizontalScrollIndicator = NO;
-    //scrollView.showsVerticalScrollIndicator = NO;
-    //scrollView.scrollsToTop = NO;
+    
+    if(self.note.noteId == 0){
+        self.note.noteId = [[AppServices sharedAppServices] createNote];
+    }
+    //self.contentTable.editing = YES;
     scrollView.delegate = self;
     pageControl.currentPage = 0;
     pageControl.numberOfPages = numPages;
@@ -78,60 +81,10 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
-- (void)scrollViewDidScroll:(UIScrollView *)sender {
-    
-    CGFloat pageWidth = scrollView.frame.size.width;
-    int page = floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
-    pageControl.currentPage = page;
-    pageControl.numberOfPages = numPages;
-    
-}
 
 -(void)saveButtonTouchAction{
     //[self displayTitleandDescriptionForm];
-}
-- (void)loadNewPageWithView:(NSString *)view {
-    
-    numPages++;
-    scrollView.contentSize = CGSizeMake(320 * numPages, scrollView.frame.size.height);
-    pageControl.numberOfPages = numPages;
-    if([view isEqualToString:@"note"]){
-        NoteViewController *controller = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
-        controller.delegate = self.delegate;
-        [viewControllers addObject:controller];
-        [controller release];
-        if (nil == controller.view.superview) {
-            CGRect frame = scrollView.frame;
-            frame.origin.x = frame.size.width * (numPages-1);
-            frame.origin.y = 0;
-            controller.view.frame = frame;
-            [scrollView addSubview:controller.view];}
-    }
-    else if([view isEqualToString:@"photo"]){
-        CameraViewController *controller = [[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil];
-        controller.delegate = self.delegate;
-        [viewControllers addObject:controller];
-        [controller release];
-        if (nil == controller.view.superview) {
-            CGRect frame = scrollView.frame;
-            frame.origin.x = frame.size.width * (numPages-1);
-            frame.origin.y = 0;
-            controller.view.frame = frame;
-            [scrollView addSubview:controller.view];}
-    }
-    else if([view isEqualToString:@"audio"]){
-        AudioRecorderViewController *controller = [[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil];
-        controller.delegate = self.delegate;
-        [viewControllers addObject:controller];
-        [controller release];
-        if (nil == controller.view.superview) {
-            CGRect frame = scrollView.frame;
-            frame.origin.x = frame.size.width * (numPages-1);
-            frame.origin.y = 0;
-            controller.view.frame = frame;
-            [scrollView addSubview:controller.view];
-        }
-    }
+    //[self.delegate refresh];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -143,12 +96,13 @@
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [self.textField resignFirstResponder];
+    [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text andShared:self.note.shared];
+    self.navigationItem.title = self.textField.text;
+    [self.delegate refresh];
+
     return YES;
 }
--(void)hideKeyboardTouchAction {
-    [self.textBox resignFirstResponder];
-    self.hideKeyboardButton.hidden = YES;
-}
+
 -(void)cameraButtonTouchAction{
     CameraViewController *cameraVC = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
     cameraVC.delegate = self.delegate;
@@ -210,49 +164,140 @@
     
 }
 
-- (void)displayTitleandDescriptionForm {
-    TitleAndDecriptionFormViewController *titleAndDescForm = [[TitleAndDecriptionFormViewController alloc] 
-                                                              initWithNibName:@"TitleAndDecriptionFormViewController" bundle:nil];
-	
-	titleAndDescForm.delegate = self;
-	[self.view addSubview:titleAndDescForm.view];
-}
-
-- (void)titleAndDescriptionFormDidFinish:(TitleAndDecriptionFormViewController*)titleAndDescForm{
-	NSLog(@"NoteVC: Back from form");
-	[titleAndDescForm.view removeFromSuperview];
-    if(self.note){
-        [[AppServices sharedAppServices] updateItem:self.note];
-    }
-    else{
-        Item *item = [[Item alloc]init];
-        item.name = titleAndDescForm.titleField.text;
-        item.description = self.textBox.text;
-        if([self.delegate isKindOfClass:[GPSViewController class]]){
-            [[AppServices sharedAppServices] createItemAndPlaceOnMap:item];
-        }
-        else [[AppServices sharedAppServices] createItemAndGivetoPlayer:item];
-        [item release];
-    }
-    [titleAndDescForm release];	
-    NSString *tab;
-    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];        
-    if ([self.delegate isKindOfClass:[GPSViewController class]]){
-        
-    }
-    else{
-    //Exit to Inventory Tab
-    for(int i = 0;i < [appDelegate.tabBarController.customizableViewControllers count];i++)
-    {
-        tab = [[appDelegate.tabBarController.customizableViewControllers objectAtIndex:i] title];
-        tab = [tab lowercaseString];
-        if([tab isEqualToString:@"inventory"])
-        {
-            appDelegate.tabBarController.selectedIndex = i;
-        }
-    }
-    }
-    [self.navigationController popToRootViewControllerAnimated:NO];
+- (void)viewDidAppear:(BOOL)animated {
+	NSLog(@"NoteViewController: View Appeared");	
     
 }
+
+
+-(void)refresh {
+	NSLog(@"NoteViewController: Refresh Requested");
+    
+    //register for notifications
+    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+    [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewContentListReady" object:nil];
+    [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"NewContentListReady" object:nil];
+    self.note =[[AppServices sharedAppServices]fetchNote:self.note.noteId];
+    ///Server Call here
+    [self showLoadingIndicator];
+}
+
+#pragma mark custom methods, logic
+-(void)showLoadingIndicator{
+	UIActivityIndicatorView *activityIndicator = 
+	[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
+	[activityIndicator release];
+	[[self navigationItem] setRightBarButtonItem:barButton];
+	[barButton release];
+	[activityIndicator startAnimating];    
+    
+}
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if([self.note.contents count] == 0 && indexPath.row == 0) return UITableViewCellEditingStyleNone;
+    return UITableViewCellEditingStyleDelete;
+}
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    [[AppServices sharedAppServices]deleteNoteContentWithContentId:[(NoteContent *)[self.note.contents objectAtIndex:indexPath.row] contentId]];
+    [self.note.contents removeObjectAtIndex:indexPath.row];
+    
+}
+
+-(void)removeLoadingIndicator{
+    [[self navigationItem] setRightBarButtonItem:nil];
+    [contentTable reloadData];
+}
+- (void)tableView:(UITableView *)tableView 
+
+didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+    [contentTable reloadData];
+}
+- (void)refreshViewFromModel {
+	NSLog(@"NoteViewController: Refresh View from Model");
+    self.note =[[AppServices sharedAppServices]fetchNote:self.note.noteId];
+
+    [contentTable reloadData];
+    //unregister for notifications
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+}
+
+#pragma mark Table view methods
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+// Customize the number of rows in the table view.
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if([self.note.contents count] == 0) return 1;
+	return [self.note.contents count];
+}
+
+// Customize the appearance of table view cells.
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	//NSLog(@"GamePickerVC: Cell requested for section: %d row: %d",indexPath.section,indexPath.row);
+    
+	static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+    if([self.note.contents count] == 0){
+        cell.textLabel.text = @"No Content Added";
+        cell.detailTextLabel.text = @"Press Buttons Below To Add Some!";
+        cell.userInteractionEnabled = NO;
+    }
+    else{
+        for(int i = 0; i < [self.note.contents count]; i++){
+            cell.textLabel.text = [(NoteContent *)[self.note.contents objectAtIndex:indexPath.row] type];
+            if([cell.textLabel.text isEqualToString:@"TEXT"]){
+             cell.imageView.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
+            }
+            else if([cell.textLabel.text isEqualToString:@"VIDEO"]){
+             cell.imageView.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]];                 
+            }
+            else if([cell.textLabel.text isEqualToString:@"PHOTO"]){
+             cell.imageView.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]];                 
+            }
+            else if([cell.textLabel.text isEqualToString:@"AUDIO"]){
+             cell.imageView.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]];                 
+            }
+        }
+    }
+    
+    
+    
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    //Color the backgrounds
+    if (indexPath.row % 2 == 0){  
+        cell.backgroundColor = [UIColor colorWithRed:233.0/255.0  
+                                               green:233.0/255.0  
+                                                blue:233.0/255.0  
+                                               alpha:1.0];  
+    } else {  
+        cell.backgroundColor = [UIColor colorWithRed:200.0/255.0  
+                                               green:200.0/255.0  
+                                                blue:200.0/255.0  
+                                               alpha:1.0];  
+    } 
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+        
+}
+
+- (void)tableView:(UITableView *)aTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
+	
+}
+
+-(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+	return 60;
+}
+
+
+
+
+
 @end

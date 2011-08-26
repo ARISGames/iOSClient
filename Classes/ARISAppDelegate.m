@@ -100,7 +100,7 @@
 	attributesNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Setup Notes View
-    NoteViewController *notesViewController = [[[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil] autorelease];
+    NotebookViewController *notesViewController = [[[NotebookViewController alloc] initWithNibName:@"NotebookViewController" bundle:nil] autorelease];
 	UINavigationController *notesNavigationController = [[UINavigationController alloc] initWithRootViewController: notesViewController];
 	notesNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
@@ -234,7 +234,7 @@
         self.tabBarController.view.hidden = YES;
         self.gameSelectionTabBarController.view.hidden = NO;
     }
-
+	self.waitingIndicatorView = [[WaitingIndicatorView alloc] init];
 }
 
 - (void)displayNotificationTitle:(NSMutableDictionary *) titleAndPrompt{
@@ -523,7 +523,7 @@
                 else if([tmpTab.tabName isEqualToString:@"PLAYER"]) tmpTab.tabName = @"Player";
                 else if([tmpTab.tabName isEqualToString:@"CAMERA"]) tmpTab.tabName = @"Camera";
                 else if([tmpTab.tabName isEqualToString:@"MICROPHONE"]) tmpTab.tabName = @"Recorder";
-                else if([tmpTab.tabName isEqualToString:@"NOTE"]) tmpTab.tabName = @"Note";
+                else if([tmpTab.tabName isEqualToString:@"NOTE"]) tmpTab.tabName = @"Notebook";
                 else if([tmpTab.tabName isEqualToString:@"LOGOUT"]) tmpTab.tabName = @"Logout";
                 else if([tmpTab.tabName isEqualToString:@"STARTOVER"]) tmpTab.tabName = @"Start Over";
                 else if([tmpTab.tabName isEqualToString:@"PICKGAME"]) tmpTab.tabName = @"Select Game";
@@ -617,9 +617,10 @@
 
 - (void) showNewWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar {
 	NSLog (@"AppDelegate: Showing Waiting Indicator");
-	if (self.waitingIndicatorView) [self.waitingIndicatorView release];
+	if (self.waitingIndicatorView) [self.waitingIndicatorView dismiss];
 	
-	self.waitingIndicatorView = [[WaitingIndicatorView alloc] initWithWaitingMessage:message showProgressBar:NO];
+    self.waitingIndicatorView.message = message;
+
 	[self.waitingIndicatorView show];
 	
 	[[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the activity indicator show before returning	
