@@ -218,6 +218,8 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
 
 #pragma mark Async Image Loading
 - (void)loadImageFromMedia:(Media *) aMedia {
+    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate showNewWaitingIndicator:@"Loading" displayProgressBar:YES];
 	self.media = aMedia;
 	//check if the media already as the image, if so, just grab it
     if(self.media.image) [self showPanoView];;
@@ -274,7 +276,8 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
 	}
 - (void)showPanoView{
     NSLog(@"PanoVC: showPanoView");
-    
+    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate removeNewWaitingIndicator];
     [plView stopAnimation];
     [plView removeAllTextures];
     [plView addTextureAndRelease:[PLTexture textureWithImage:self.media.image]];

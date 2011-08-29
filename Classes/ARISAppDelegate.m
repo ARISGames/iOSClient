@@ -234,7 +234,7 @@
         self.tabBarController.view.hidden = YES;
         self.gameSelectionTabBarController.view.hidden = NO;
     }
-	self.waitingIndicatorView = [[WaitingIndicatorView alloc] init];
+	//self.waitingIndicatorView = [[WaitingIndicatorView alloc] init];
 }
 
 - (void)displayNotificationTitle:(NSMutableDictionary *) titleAndPrompt{
@@ -617,11 +617,12 @@
 
 - (void) showNewWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar {
 	NSLog (@"AppDelegate: Showing Waiting Indicator");
-	if (self.waitingIndicatorView) [self.waitingIndicatorView dismiss];
+	//if (self.waitingIndicatorView) [self.waitingIndicatorView dismiss];
 	
-    self.waitingIndicatorView.message = message;
-
-	[self.waitingIndicatorView show];
+    if (self.waitingIndicatorView) [self.waitingIndicatorView release];
+	
+	self.waitingIndicatorView = [[WaitingIndicatorView alloc] initWithWaitingMessage:message showProgressBar:NO];
+        [self.waitingIndicatorView show];
 	
 	[[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the activity indicator show before returning	
 }
