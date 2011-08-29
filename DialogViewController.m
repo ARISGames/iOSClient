@@ -891,9 +891,9 @@ NSString *const kDialogHtmlTemplate =
     if(parser.exitToTabWithTitle != nil) {
         self.exitToTabVal = (NSString*)parser.exitToTabWithTitle;
     }
-    if(parser.currentText.length == 0) 
+    if(parser.currentText.length == 0 && !closingScriptPlaying) 
     {
-      //[self continueScript];  
+      [self continueScript];  
     }
 }
 
