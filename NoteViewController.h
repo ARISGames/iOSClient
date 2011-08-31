@@ -10,9 +10,10 @@
 #import "Item.h"
 #import "TitleAndDecriptionFormViewController.h"
 #import "Note.h"
+#import <AVFoundation/AVFoundation.h>
 
 
-@interface NoteViewController : UIViewController <UITextFieldDelegate, UITableViewDataSource,UITableViewDelegate>{
+@interface NoteViewController : UIViewController <AVAudioSessionDelegate,UITextFieldDelegate, UITableViewDataSource,UITableViewDelegate, AVAudioPlayerDelegate>{
     IBOutlet UITextView *textBox;
     IBOutlet UITextField *textField;
     IBOutlet UIButton *cameraButton;
@@ -31,6 +32,8 @@
     NSMutableArray *viewControllers;
     int pageNumber;
     int numPages;
+    AVPlayer *soundPlayer;
+    id timeObserver;
 
 }
 @property(nonatomic,retain) IBOutlet UITextView *textBox;
@@ -49,6 +52,8 @@
 @property(nonatomic, retain) IBOutlet UIScrollView *scrollView;
 @property(nonatomic, retain) IBOutlet UIPageControl *pageControl;
 @property(nonatomic, retain) NSMutableArray *viewControllers;
+@property(readwrite, retain) AVPlayer *soundPlayer;
+
 - (void)titleAndDescriptionFormDidFinish:(TitleAndDecriptionFormViewController*)titleAndDescForm;
 - (void)displayTitleandDescriptionForm;
 -(IBAction)hideKeyboardTouchAction;
@@ -62,6 +67,7 @@
 -(IBAction)textButtonTouchAction;
 -(void)refresh;
 -(void)showLoadingIndicator;
+- (void)updateTable;
 //-(IBAction)controlChanged:(id)sender;
 - (void)refreshViewFromModel;
 @end

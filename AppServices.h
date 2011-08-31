@@ -106,6 +106,7 @@
 - (void)getNoteById: (int)noteId;
 - (void)deleteNoteContentWithContentId:(int) contentId;
 - (void)deleteNoteWithNoteId: (int) noteId;
+- (void)updateNoteContent:(int)contentId text:(NSString *)text;
 
 - (void)uploadNoteContentRequestFinished:(ASIFormDataRequest *)request;
 - (void)uploadNoteRequestFailed:(ASIHTTPRequest *)request;

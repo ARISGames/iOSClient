@@ -10,6 +10,7 @@
 #import "ARISAppDelegate.h"
 #import "AppServices.h"
 #import "GPSViewController.h"
+#import "DataCollectionViewController.h"
 
 @implementation AudioRecorderViewController
 @synthesize soundFileURL;
@@ -17,7 +18,7 @@
 @synthesize soundPlayer;
 @synthesize meter;
 @synthesize meterUpdateTimer;
-@synthesize audioData, delegate, noteId;
+@synthesize audioData, delegate, noteId,previewMode;
 
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -51,14 +52,18 @@
 	NSString *tempDir = NSTemporaryDirectory ();
     NSString *soundFilePath =[tempDir stringByAppendingString: @"sound.caf"];
 	
+    if(!previewMode){
     NSURL *newURL = [[NSURL alloc] initFileURLWithPath: soundFilePath];
     self.soundFileURL = newURL;
     [newURL release];
+    mode = kAudioRecorderStarting; 
+       
+    [[AVAudioSession sharedInstance] setDelegate: self];
+	}
+    else mode = kAudioRecorderNoteMode;
 	
-	[[AVAudioSession sharedInstance] setDelegate: self];
-	
-	mode = kAudioRecorderStarting; 
-	[self updateButtonsForCurrentMode];
+	 [self updateButtonsForCurrentMode];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -112,10 +117,19 @@
 			uploadButton.hidden = YES;
 			discardButton.hidden = YES;
 			break;
+        case kAudioRecorderNoteMode:
+            [recordStopOrPlayButton setTitle: NSLocalizedString(@"PlayKey", @"") forState: UIControlStateNormal];
+            [recordStopOrPlayButton setTitle: NSLocalizedString(@"PlayKey", @"") forState: UIControlStateHighlighted];			
+            uploadButton.hidden = YES;
+            discardButton.hidden = YES;
+            mode = kAudioRecorderRecordingComplete;
+
+            break;
 		default:
+
 			break;
 	}
-}
+    }
 
 - (IBAction) recordStopOrPlayButtonAction: (id) sender{
 	
@@ -172,7 +186,11 @@
 			
 		case kAudioRecorderPlaying:
 			[self.soundPlayer stop];
-			mode = kAudioRecorderRecordingComplete;
+            if(!self.previewMode)
+                mode = kAudioRecorderRecordingComplete;
+            else
+                mode = kAudioRecorderNoteMode;
+                
 			[self updateButtonsForCurrentMode];
 			break;	
 			

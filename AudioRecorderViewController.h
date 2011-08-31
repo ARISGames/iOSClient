@@ -16,7 +16,8 @@ typedef enum {
 	kAudioRecorderStarting,
 	kAudioRecorderRecording,
 	kAudioRecorderRecordingComplete,
-	kAudioRecorderPlaying
+	kAudioRecorderPlaying,
+    kAudioRecorderNoteMode
 } AudioRecorderModeType;
 
 
@@ -33,6 +34,7 @@ typedef enum {
 	AudioRecorderModeType mode;
 	BOOL recording;
 	BOOL playing;
+    BOOL previewMode;
     int noteId;
 	NSTimer *meterUpdateTimer;
 	id delegate;
@@ -46,6 +48,8 @@ typedef enum {
 @property(readwrite, retain) NSTimer *meterUpdateTimer;
 @property(nonatomic, retain) id delegate;
 @property(readwrite, assign) int noteId;
+@property(readwrite, assign) BOOL previewMode;
+
 
 - (IBAction) recordStopOrPlayButtonAction: (id) sender;
 - (IBAction) uploadButtonAction: (id) sender;

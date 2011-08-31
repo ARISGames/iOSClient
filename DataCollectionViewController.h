@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "Note.h"
+#import "NoteContent.h"
 
 @interface DataCollectionViewController : UIViewController <UIScrollViewDelegate> {
     IBOutlet UIScrollView *scrollView;
@@ -16,14 +17,15 @@
     id delegate;
     int pageNumber;
     int numPages;
+    Note *note;
 }
 
 @property(nonatomic, retain) id delegate;
 @property(nonatomic, retain) IBOutlet UIScrollView *scrollView;
 @property(nonatomic, retain) IBOutlet UIPageControl *pageControl;
 @property(nonatomic, retain) NSMutableArray *viewControllers;
-
+@property(nonatomic,retain)Note *note;
 - (IBAction)saveButtonTouchAction;
 -(IBAction)changePage:(id) sender;
-- (void)loadNewPageWithView:(NSString *)view;
+- (void)loadNewPageWithContent:(NoteContent *)content;
 @end

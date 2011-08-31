@@ -10,9 +10,14 @@
 #import "CameraViewController.h"
 #import "AudioRecorderViewController.h"
 #import "NoteViewController.h"
+#import "NoteContent.h"
+#import "TextViewController.h"
+#import "AsyncImageView.h"
+#import "Media.h"
+#import "ARISMoviePlayerViewController.h"
 
 @implementation DataCollectionViewController
-@synthesize scrollView,pageControl, delegate, viewControllers;
+@synthesize scrollView,pageControl, delegate, viewControllers,note;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -51,15 +56,19 @@
     scrollView.delegate = self;
     pageControl.currentPage = 0;
     pageControl.numberOfPages = numPages;
-    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(saveButtonTouchAction)];      
-	self.navigationItem.rightBarButtonItem = saveButton;
 
 }
 -(void)viewWillAppear:(BOOL)animated{
-    [self loadNewPageWithView:@"note"];
-   // [self loadNewPageWithView:@"photo"];
-    [self loadNewPageWithView:@"audio"];
-
+    NoteContent *noteContent = [[NoteContent alloc] init];
+    if([self.note.contents count] == 0){
+        
+    }
+    else{
+        for(int x = 0; x < [self.note.contents count]; x++){
+            noteContent = [self.note.contents objectAtIndex:x];
+            [self loadNewPageWithContent:noteContent];
+            }
+    }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender {
@@ -74,14 +83,16 @@
 -(void)saveButtonTouchAction{
    //[self displayTitleandDescriptionForm];
 }
-- (void)loadNewPageWithView:(NSString *)view {
+- (void)loadNewPageWithContent:(NoteContent *)content{
 
     numPages++;
     scrollView.contentSize = CGSizeMake(320 * numPages, scrollView.frame.size.height);
     pageControl.numberOfPages = numPages;
-    if([view isEqualToString:@"note"]){
-      NoteViewController *controller = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
-        controller.delegate = self.delegate;
+    if([content.type isEqualToString:@"TEXT"]){
+      TextViewController *controller = [[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil];
+        controller.previewMode = YES;
+        controller.textToDisplay = content.text;
+        controller.title = self.note.title;
         [viewControllers addObject:controller];
         [controller release];
         if (nil == controller.view.superview) {
@@ -91,21 +102,27 @@
             controller.view.frame = frame;
             [scrollView addSubview:controller.view];}
     }
-    else if([view isEqualToString:@"photo"]){
-            CameraViewController *controller = [[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil];
-        controller.delegate = self.delegate;
+    else if([content.type isEqualToString:@"PHOTO"]){
+        AsyncImageView *controller = [[AsyncImageView alloc] init];
+        Media *m = [[Media alloc]init];
+        m = [[AppModel sharedAppModel] mediaForMediaId:content.mediaId];
+        [controller loadImageFromMedia:m];
             [viewControllers addObject:controller];
             [controller release];
-            if (nil == controller.view.superview) {
+            if (nil == controller.superview) {
                 CGRect frame = scrollView.frame;
                 frame.origin.x = frame.size.width * (numPages-1);
                 frame.origin.y = 0;
-                controller.view.frame = frame;
-                [scrollView addSubview:controller.view];}
+                controller.frame = frame;
+                [scrollView addSubview:controller];}
         }
-        else if([view isEqualToString:@"audio"]){
+        else if([content.type isEqualToString:@"AUDIO"]){
                 AudioRecorderViewController *controller = [[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil];
-            controller.delegate = self.delegate;
+            Media *m = [[Media alloc]init];
+            m = [[AppModel sharedAppModel] mediaForMediaId:content.mediaId];
+            controller.delegate = self;
+            controller.previewMode = YES;
+            controller.soundFileURL = [NSURL URLWithString:m.url];
                 [viewControllers addObject:controller];
                 [controller release];
                 if (nil == controller.view.superview) {
@@ -115,6 +132,27 @@
                     controller.view.frame = frame;
                     [scrollView addSubview:controller.view];
                 }
+        }
+        else if([content.type isEqualToString:@"VIDEO"]){
+            Media *media = [[Media alloc] init];
+            media = [[AppModel sharedAppModel] mediaForMediaId:content.mediaId];
+            
+            //Create movie player object
+            ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+            [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
+            mMoviePlayer.moviePlayer.shouldAutoplay = NO;
+            [mMoviePlayer.moviePlayer prepareToPlay];		
+            [viewControllers addObject:mMoviePlayer];
+            [mMoviePlayer release];
+
+            if (nil == mMoviePlayer.view.superview) {
+                CGRect frame = scrollView.frame;
+                frame.origin.x = frame.size.width * (numPages-1);
+                frame.origin.y = 0;
+                mMoviePlayer.view.frame = frame;
+                [scrollView addSubview:mMoviePlayer.view];
+            }
+
         }
 }
 - (void)viewDidUnload

@@ -78,6 +78,8 @@
 	self.media.image = image;
 	
 	[self updateViewWithNewImage:image];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ImageReady" object:nil]];
+
 }
 
 - (void) updateViewWithNewImage:(UIImage*)image {

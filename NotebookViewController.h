@@ -12,8 +12,9 @@
 
 @interface NotebookViewController : UIViewController<UITableViewDelegate,UITableViewDataSource> {
     NSMutableArray *noteList;
-    IBOutlet UISegmentedControl *distanceControl;
-    IBOutlet UISegmentedControl *locationalControl;
+    NSMutableArray *gameNoteList;
+
+    IBOutlet UISegmentedControl *noteControl;
 	UITableView *noteTable;
     NSInteger count;
 }
@@ -22,9 +23,11 @@
 -(void)showLoadingIndicator;
 -(IBAction)controlChanged:(id)sender;
 - (void)refreshViewFromModel;
-
+-(void)addNote;
 @property (nonatomic, retain) NSMutableArray *noteList;
+@property (nonatomic, retain) NSMutableArray *gameNoteList;
+
 @property (nonatomic, retain) IBOutlet UITableView *noteTable;
 
-
+@property(nonatomic,retain)IBOutlet UISegmentedControl *noteControl;
 @end

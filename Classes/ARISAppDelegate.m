@@ -616,10 +616,12 @@
 
 
 - (void) showNewWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar {
-	NSLog (@"AppDelegate: Showing Waiting Indicator");
+	NSLog (@"AppDelegate: Showing Waiting Indicator With Message:%@",message);
 	//if (self.waitingIndicatorView) [self.waitingIndicatorView dismiss];
 	
-    if (self.waitingIndicatorView) [self.waitingIndicatorView release];
+    if (self.waitingIndicatorView){ 
+        [self removeNewWaitingIndicator];
+        [self.waitingIndicatorView release];}
 	
 	self.waitingIndicatorView = [[WaitingIndicatorView alloc] initWithWaitingMessage:message showProgressBar:NO];
         [self.waitingIndicatorView show];

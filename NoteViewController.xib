@@ -56,10 +56,15 @@
 								<string key="NSFrame">{{0, 31}, {320, 230}}</string>
 								<reference key="NSSuperview" ref="943461201"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
-								<object class="NSColor" key="IBUIBackgroundColor" id="282704961">
-									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MQA</bytes>
+								<reference key="NSNextKeyView" ref="309905534"/>
+								<object class="NSColor" key="IBUIBackgroundColor">
+									<int key="NSColorSpace">6</int>
+									<string key="NSCatalogName">System</string>
+									<string key="NSColorName">gridColor</string>
+									<object class="NSColor" key="NSColor" id="542165163">
+										<int key="NSColorSpace">3</int>
+										<bytes key="NSWhite">MC41AA</bytes>
+									</object>
 								</object>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -78,7 +83,10 @@
 								<reference key="NSSuperview" ref="943461201"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="742607468"/>
-								<reference key="IBUIBackgroundColor" ref="282704961"/>
+								<object class="NSColor" key="IBUIBackgroundColor" id="282704961">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MQA</bytes>
+								</object>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -123,10 +131,7 @@
 								</object>
 								<reference key="IBUIHighlightedTitleColor" ref="282704961"/>
 								<reference key="IBUINormalTitleColor" ref="282704961"/>
-								<object class="NSColor" key="IBUINormalTitleShadowColor" id="542165163">
-									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MC41AA</bytes>
-								</object>
+								<reference key="IBUINormalTitleShadowColor" ref="542165163"/>
 								<object class="NSCustomResource" key="IBUIHighlightedImage" id="156067193">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">gps.png</string>
@@ -225,11 +230,13 @@
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
 								<reference key="IBUIFont" ref="514531838"/>
+								<string key="IBUISelectedTitle">Public</string>
 								<string key="IBUINormalTitle">Public</string>
-								<reference key="IBUIHighlightedTitleColor" ref="282704961"/>
+								<reference key="IBUIHighlightedTitleColor" ref="257753185"/>
+								<reference key="IBUISelectedTitleColor" ref="282704961"/>
 								<reference key="IBUINormalTitleColor" ref="257753185"/>
 								<reference key="IBUINormalTitleShadowColor" ref="542165163"/>
-								<reference key="IBUIHighlightedBackgroundImage" ref="424317164"/>
+								<reference key="IBUISelectedBackgroundImage" ref="424317164"/>
 								<reference key="IBUINormalBackgroundImage" ref="137224733"/>
 							</object>
 							<object class="IBUIButton" id="480158448">
@@ -238,7 +245,6 @@
 								<string key="NSFrame">{{212, 314}, {108, 53}}</string>
 								<reference key="NSSuperview" ref="943461201"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<reference key="IBUIBackgroundColor" ref="682685075"/>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
@@ -596,7 +602,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="1"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<real value="0.0"/>
+					<real value="2"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="1"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>

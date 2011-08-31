@@ -19,6 +19,10 @@
 		1147E15A13F32260000E4BC2 /* NoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1147E15713F32260000E4BC2 /* NoteViewController.m */; };
 		1147E15B13F32260000E4BC2 /* NoteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1147E15813F32260000E4BC2 /* NoteViewController.xib */; };
 		1147E16113F3234B000E4BC2 /* inventoryicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1147E16013F3234B000E4BC2 /* inventoryicon.png */; };
+		114F746E140D5231003421C6 /* NoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 114F746C140D5231003421C6 /* NoteCell.m */; };
+		114F746F140D5231003421C6 /* NoteCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 114F746D140D5231003421C6 /* NoteCell.xib */; };
+		114F7473140D92DF003421C6 /* ImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 114F7471140D92DF003421C6 /* ImageViewer.m */; };
+		114F7474140D92DF003421C6 /* ImageViewer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 114F7472140D92DF003421C6 /* ImageViewer.xib */; };
 		118622DB14040E7200D4B738 /* buttonborder.png in Resources */ = {isa = PBXBuildFile; fileRef = 118622DA14040E7200D4B738 /* buttonborder.png */; };
 		118622DD14040F6600D4B738 /* buttonborder2.png in Resources */ = {isa = PBXBuildFile; fileRef = 118622DC14040F6600D4B738 /* buttonborder2.png */; };
 		118622E01404535300D4B738 /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = 118622DF1404535300D4B738 /* Note.m */; };
@@ -315,6 +319,12 @@
 		1147E15713F32260000E4BC2 /* NoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteViewController.m; sourceTree = "<group>"; };
 		1147E15813F32260000E4BC2 /* NoteViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteViewController.xib; sourceTree = "<group>"; };
 		1147E16013F3234B000E4BC2 /* inventoryicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inventoryicon.png; sourceTree = "<group>"; };
+		114F746B140D5231003421C6 /* NoteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCell.h; sourceTree = "<group>"; };
+		114F746C140D5231003421C6 /* NoteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCell.m; sourceTree = "<group>"; };
+		114F746D140D5231003421C6 /* NoteCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteCell.xib; sourceTree = "<group>"; };
+		114F7470140D92DE003421C6 /* ImageViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewer.h; sourceTree = "<group>"; };
+		114F7471140D92DF003421C6 /* ImageViewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewer.m; sourceTree = "<group>"; };
+		114F7472140D92DF003421C6 /* ImageViewer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageViewer.xib; sourceTree = "<group>"; };
 		118622DA14040E7200D4B738 /* buttonborder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = buttonborder.png; path = ../../../Desktop/buttonborder.png; sourceTree = "<group>"; };
 		118622DC14040F6600D4B738 /* buttonborder2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = buttonborder2.png; path = ../../../Desktop/buttonborder2.png; sourceTree = "<group>"; };
 		118622DE1404535200D4B738 /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Note.h; sourceTree = "<group>"; };
@@ -798,6 +808,12 @@
 				1188663C1406B12B0009E36F /* NotebookViewController.h */,
 				1188663D1406B12B0009E36F /* NotebookViewController.m */,
 				1188663E1406B12B0009E36F /* NotebookViewController.xib */,
+				114F746B140D5231003421C6 /* NoteCell.h */,
+				114F746C140D5231003421C6 /* NoteCell.m */,
+				114F746D140D5231003421C6 /* NoteCell.xib */,
+				114F7470140D92DE003421C6 /* ImageViewer.h */,
+				114F7471140D92DF003421C6 /* ImageViewer.m */,
+				114F7472140D92DF003421C6 /* ImageViewer.xib */,
 			);
 			name = Notes;
 			sourceTree = "<group>";
@@ -1690,6 +1706,8 @@
 				118866401406B12B0009E36F /* NotebookViewController.xib in Resources */,
 				118866441406B54C0009E36F /* notebook.png in Resources */,
 				118866461406B69B0009E36F /* notebook2.png in Resources */,
+				114F746F140D5231003421C6 /* NoteCell.xib in Resources */,
+				114F7474140D92DF003421C6 /* ImageViewer.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1847,6 +1865,8 @@
 				1188663914057CF60009E36F /* TextViewController.m in Sources */,
 				1188663F1406B12B0009E36F /* NotebookViewController.m in Sources */,
 				118866491406BB830009E36F /* NoteContent.m in Sources */,
+				114F746E140D5231003421C6 /* NoteCell.m in Sources */,
+				114F7473140D92DF003421C6 /* ImageViewer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -432,6 +432,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	NSArray *arguments = [NSArray arrayWithObjects:
 						  [NSString stringWithFormat:@"%d",noteId],
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
 						  [NSString stringWithFormat:@"%d",mediaId],
                           type,
 						  text,
@@ -488,7 +489,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
 	request.timeOutSeconds = 60;
 	
- 	[request setPostValue:[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].currentGame.gameId] forKey:@"gameID"];	 
+ 	[request setPostValue:[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].currentGame.gameId] forKey:@"gameID"];
 	[request setPostValue:fileName forKey:@"fileName"];
 	[request setData:fileData forKey:@"file"];
 	[request setDidFinishSelector:@selector(uploadNoteContentRequestFinished: )];
@@ -537,6 +538,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	NSArray *arguments = [NSArray arrayWithObjects:
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",noteId],
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
 						  newFileName,
                           type,
                           title,
@@ -603,6 +605,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After 
 	[jsonConnection release];
 
+}
+
+-(void)updateNoteContent:(int)contentId text:(NSString *)text{
+    NSLog(@"Model: Updating Note Text Content");
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",contentId],
+						  text,
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"notes" 
+                                                             andMethodName:@"updateContent" 
+                                                              andArguments:arguments];
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After 
+	[jsonConnection release];
+    
 }
 -(void)updateItem:(Item *)item {
     NSLog(@"Model: Updating Item");

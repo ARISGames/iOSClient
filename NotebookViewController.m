@@ -8,12 +8,14 @@
 
 #import "NotebookViewController.h"
 #import "NoteViewController.h"
+#import "DataCollectionViewController.h"
 #import "AppServices.h"
+#import "NoteCell.h"
 #import "Note.h"
 #import "ARISAppDelegate.h"
 
 @implementation NotebookViewController
-@synthesize noteList,noteTable;
+@synthesize noteList,noteTable, noteControl,gameNoteList;
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
@@ -21,8 +23,12 @@
         self.title = @"Notebook";
         self.tabBarItem.image = [UIImage imageNamed:@"notebook2.png"]; 
         self.noteList = [[NSMutableArray alloc] initWithCapacity:10];
+        self.gameNoteList = [[NSMutableArray alloc] initWithCapacity:10];
+
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(refresh) name:@"NoteDeleted" object:nil];
+        [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNoteListReady" object:nil];
+        [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedNoteList" object:nil];
     }
     return self;
 }
@@ -31,7 +37,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-
+    UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNote)];
+    self.navigationItem.rightBarButtonItem = barButton;
   	[noteTable reloadData];
     
     [self refresh];
@@ -52,14 +59,10 @@
 
 -(void)refresh {
 	NSLog(@"NotebookViewController: Refresh Requested");
-    
-        //register for notifications
-        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-        [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNoteListReady" object:nil];
-        [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedNoteList" object:nil];
+            
         
     [[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:NO];
-    [self showLoadingIndicator];
+    //[self showLoadingIndicator];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -84,18 +87,30 @@
 }
 
 -(void)removeLoadingIndicator{
-    [[self navigationItem] setRightBarButtonItem:nil];
+    //[[self navigationItem] setRightBarButtonItem:nil];
     [noteTable reloadData];
 }
-
+-(void)addNote{
+    NoteViewController *noteVC = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
+    noteVC.delegate = self;
+    [self.navigationController pushViewController:noteVC animated:YES];
+    [noteVC release];
+    }
 - (void)refreshViewFromModel {
 	NSLog(@"NotebookViewController: Refresh View from Model");
-    
+    NSMutableArray *nList = [[NSMutableArray alloc] initWithCapacity:10];
         
 	self.noteList = [AppModel sharedAppModel].playerNoteList;
+    for(int x = 0; x < [[AppModel sharedAppModel].gameNoteList count]; x ++){
+        if([(Note *)[[AppModel sharedAppModel].gameNoteList objectAtIndex:x] shared]){
+            [nList addObject:[[AppModel sharedAppModel].gameNoteList objectAtIndex:x]];
+        }
+    }
+    self.gameNoteList = nList;
+    [nList release];
     [noteTable reloadData];
     //unregister for notifications
-                     [[NSNotificationCenter defaultCenter] removeObserver:self];
+                   //  [[NSNotificationCenter defaultCenter] removeObserver:self];
 
 }
 
@@ -106,30 +121,134 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if([self.noteList count] == 0) return 2;
-	return [self.noteList count]+1;
+
+     if(self.noteControl.selectedSegmentIndex == 0){ 
+        if([self.noteList count] == 0) return 1;
+        return [self.noteList count];}
+    else {
+        if([self.gameNoteList count] == 0) return 1;
+        return [self.gameNoteList count];
+    }
+
 }
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	//NSLog(@"GamePickerVC: Cell requested for section: %d row: %d",indexPath.section,indexPath.row);
-    
+
+    NSMutableArray *currentNoteList;
+    if(self.noteControl.selectedSegmentIndex == 0) currentNoteList = self.noteList;
+    else currentNoteList = self.gameNoteList;
 	static NSString *CellIdentifier = @"Cell";
-UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
-    if([self.noteList count] == 0 && indexPath.row == 0){
+    if([currentNoteList count] == 0 && indexPath.row == 0){
+        UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+
         cell.textLabel.text = @"No Notes";
         cell.detailTextLabel.text = @"Press Button Below To Add One!";
         cell.userInteractionEnabled = NO;
+        return cell;
     }
-    else{
-        if(indexPath.row == [self.noteList count] || (indexPath.row == 1 && [self.noteList count]==0)){
-            cell.contentView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"plusCellButton.png"]];}
-        else
-        cell.textLabel.text = [(Note *)[self.noteList objectAtIndex:indexPath.row] title];
+   
+    UITableViewCell *tempCell = (NoteCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (![tempCell respondsToSelector:@selector(mediaIcon1)]){
+        //[tempCell release];
+        tempCell = nil;
     }
+    NoteCell *cell = (NoteCell *)tempCell;
+   
+           
+            if (cell == nil) {
+                // Create a temporary UIViewController to instantiate the custom cell.
+                UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"NoteCell" bundle:nil];
+                // Grab a pointer to the custom cell.
+                cell = (NoteCell *)temporaryController.view;
+                // Release the temporary UIViewController.
+                [temporaryController release];
+            }
+            Note *currNote = (Note *)[currentNoteList objectAtIndex:indexPath.row];
+        cell.titleLabel.text = currNote.title;
+            for(int x = 0; x < [currNote.contents count];x++){
+                if([[[currNote.contents objectAtIndex:x] type] isEqualToString:@"TEXT"]){
+                    if (cell.mediaIcon1.image == nil) {
+                        cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
+
+                    }
+                    else if(cell.mediaIcon2.image == nil) {
+                        cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
+                        
+                    }
+                    else if(cell.mediaIcon3.image == nil) {
+                        cell.mediaIcon3.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
+                        
+                    }
+                    else if(cell.mediaIcon4.image == nil) {
+                        cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
+                        
+                    }
+
+
+                }
+                else if ([[[currNote.contents objectAtIndex:x] type] isEqualToString:@"PHOTO"]){
+                    if (cell.mediaIcon1.image == nil) {
+                        cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
+                        
+                    }
+                    else if(cell.mediaIcon2.image == nil) {
+                        cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
+                        
+                    }
+                    else if(cell.mediaIcon3.image == nil) {
+                        cell.mediaIcon3.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
+                        
+                    }
+                    else if(cell.mediaIcon4.image == nil) {
+                        cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
+                        
+                    }
+
+                }
+                else if([[[currNote.contents objectAtIndex:x] type] isEqualToString:@"AUDIO"]){
+                    if (cell.mediaIcon1.image == nil) {
+                        cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
+                        
+                    }
+                    else if(cell.mediaIcon2.image == nil) {
+                        cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
+                        
+                    }
+                    else if(cell.mediaIcon3.image == nil) {
+                        cell.mediaIcon3.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
+                        
+                    }
+                    else if(cell.mediaIcon4.image == nil) {
+                        cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
+                        
+                    }
+
+                }
+                else if([[[currNote.contents objectAtIndex:x] type] isEqualToString:@"VIDEO"]){
+                    if (cell.mediaIcon1.image == nil) {
+                        cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
+                        
+                    }
+                    else if(cell.mediaIcon2.image == nil) {
+                        cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
+                        
+                    }
+                    else if(cell.mediaIcon3.image == nil) {
+                        cell.mediaIcon3.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
+                        
+                    }
+                    else if(cell.mediaIcon4.image == nil) {
+                        cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
+                        
+                    }
+
+                }
+            }
+        
+    
     
    
-       
     return cell;
 }
 
@@ -150,20 +269,30 @@ UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellS
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if([indexPath row] < [self.noteList count]){
+    NSMutableArray *currentNoteList;
+    if(self.noteControl.selectedSegmentIndex == 0) currentNoteList = self.noteList;
+    else currentNoteList = self.gameNoteList;
+ 
+
+    if([(Note *)[currentNoteList objectAtIndex:indexPath.row] creatorId] == [AppModel sharedAppModel].playerId){
+  
     NoteViewController *noteVC = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
-    noteVC.note = [self.noteList objectAtIndex:indexPath.row];
+    noteVC.note = [currentNoteList objectAtIndex:indexPath.row];
     noteVC.delegate = self;
     [self.navigationController pushViewController:noteVC animated:YES];
     [noteVC release];
+    
+    
+    
     }
     else{
-        NoteViewController *noteVC = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
-        noteVC.delegate = self;
-        [self.navigationController pushViewController:noteVC animated:YES];
-        [noteVC release];
-    }
-
+            //open up note viewer
+        DataCollectionViewController *dataVC = [[DataCollectionViewController alloc] initWithNibName:@"DataCollectionViewController" bundle:nil];
+        dataVC.note = (Note *)[currentNoteList objectAtIndex:indexPath.row];
+        [self.navigationController pushViewController:dataVC animated:YES];
+        [dataVC release];
+        }
+    
 }
 
 - (void)tableView:(UITableView *)aTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
@@ -175,7 +304,7 @@ UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellS
 }
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if([self.noteList count] == 0 ||(indexPath.row == [self.noteList count])) return UITableViewCellEditingStyleNone;
+    if([self.noteList count] == 0 ||self.noteControl.selectedSegmentIndex==1) return UITableViewCellEditingStyleNone;
 
     return UITableViewCellEditingStyleDelete;
 }
@@ -193,7 +322,16 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     
 }
 
+-(void)controlChanged:(id)sender{
+    if (self.noteControl.selectedSegmentIndex ==0){
+        [[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:NO];
 
+    }
+    else {
+        [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:NO];
+
+    }
+}
 
 
 - (void)dealloc {    
