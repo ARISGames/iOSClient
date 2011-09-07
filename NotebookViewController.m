@@ -280,7 +280,7 @@
     noteVC.note = [currentNoteList objectAtIndex:indexPath.row];
     noteVC.delegate = self;
     [self.navigationController pushViewController:noteVC animated:YES];
-    [noteVC release];
+    //[noteVC release];
     
     
     
@@ -290,7 +290,7 @@
         DataCollectionViewController *dataVC = [[DataCollectionViewController alloc] initWithNibName:@"DataCollectionViewController" bundle:nil];
         dataVC.note = (Note *)[currentNoteList objectAtIndex:indexPath.row];
         [self.navigationController pushViewController:dataVC animated:YES];
-        [dataVC release];
+        //[dataVC release];
         }
     
 }

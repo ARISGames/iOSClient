@@ -12,6 +12,7 @@
 #import "AppServices.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "GPSViewController.h"
+#import "NoteCommentViewController.h"
 
 @implementation CameraViewController
 
@@ -134,6 +135,7 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
                                        @selector(image:didFinishSavingWithError:contextInfo:), 
                                        nil );
         [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:@"PHOTO"];
+        if([self.delegate isKindOfClass:[NoteCommentViewController class]]) [self.delegate addedPhoto];
 	}	
 	else if ([mediaType isEqualToString:@"public.movie"]){
 		NSLog(@"CameraViewController: Found a Movie");
@@ -141,6 +143,7 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
 		self.mediaData = [NSData dataWithContentsOfURL:videoURL];
 		self.mediaFilename = @"video.mp4";
         [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:@"VIDEO"];
+        if([self.delegate isKindOfClass:[NoteCommentViewController class]]) [self.delegate addedVideo];
 	}	
     
     [UIView beginAnimations:nil context:NULL];

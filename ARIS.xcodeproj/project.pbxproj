@@ -23,6 +23,8 @@
 		114F746F140D5231003421C6 /* NoteCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 114F746D140D5231003421C6 /* NoteCell.xib */; };
 		114F7473140D92DF003421C6 /* ImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 114F7471140D92DF003421C6 /* ImageViewer.m */; };
 		114F7474140D92DF003421C6 /* ImageViewer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 114F7472140D92DF003421C6 /* ImageViewer.xib */; };
+		11691A35140FEF71003E8998 /* NoteCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11691A33140FEF71003E8998 /* NoteCommentViewController.m */; };
+		11691A36140FEF71003E8998 /* NoteCommentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11691A34140FEF71003E8998 /* NoteCommentViewController.xib */; };
 		118622DB14040E7200D4B738 /* buttonborder.png in Resources */ = {isa = PBXBuildFile; fileRef = 118622DA14040E7200D4B738 /* buttonborder.png */; };
 		118622DD14040F6600D4B738 /* buttonborder2.png in Resources */ = {isa = PBXBuildFile; fileRef = 118622DC14040F6600D4B738 /* buttonborder2.png */; };
 		118622E01404535300D4B738 /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = 118622DF1404535300D4B738 /* Note.m */; };
@@ -38,6 +40,8 @@
 		118866441406B54C0009E36F /* notebook.png in Resources */ = {isa = PBXBuildFile; fileRef = 118866431406B54C0009E36F /* notebook.png */; };
 		118866461406B69B0009E36F /* notebook2.png in Resources */ = {isa = PBXBuildFile; fileRef = 118866451406B69B0009E36F /* notebook2.png */; };
 		118866491406BB830009E36F /* NoteContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 118866481406BB830009E36F /* NoteContent.m */; };
+		1193005314101B07005222F2 /* NoteCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1193005114101B07005222F2 /* NoteCommentCell.m */; };
+		1193005414101B07005222F2 /* NoteCommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1193005214101B07005222F2 /* NoteCommentCell.xib */; };
 		11A02DA213CBA419007C084C /* ItemActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A02D9F13CBA419007C084C /* ItemActionViewController.m */; };
 		11A02DA313CBA419007C084C /* ItemActionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11A02DA013CBA419007C084C /* ItemActionViewController.xib */; };
 		11A96CF413FB1DBA0020EFC5 /* Tab.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A96CF313FB1DB90020EFC5 /* Tab.m */; };
@@ -86,6 +90,10 @@
 		11DD3D5113F5B0EF0051AB76 /* playericon.png in Resources */ = {isa = PBXBuildFile; fileRef = 11DD3D4F13F5B0EF0051AB76 /* playericon.png */; };
 		11DD3D5213F5B0EF0051AB76 /* plusCellButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 11DD3D5013F5B0EF0051AB76 /* plusCellButton.png */; };
 		11DD3D5413F5B8F40051AB76 /* plusCellButton_Pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 11DD3D5313F5B8F40051AB76 /* plusCellButton_Pressed.png */; };
+		11F96D1D1417CB610003C78A /* AudioPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11F96D1B1417CB610003C78A /* AudioPlayerViewController.m */; };
+		11F96D1E1417CB610003C78A /* AudioPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11F96D1C1417CB610003C78A /* AudioPlayerViewController.xib */; };
+		11F96D211417CE820003C78A /* PauseButtonPreferred.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 11F96D1F1417CE820003C78A /* PauseButtonPreferred.jpg */; };
+		11F96D221417CE820003C78A /* silver-play-button-150x150.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 11F96D201417CE820003C78A /* silver-play-button-150x150.jpg */; };
 		1D3623260D0F684500981E51 /* ARISAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* ARISAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.mm */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -325,6 +333,9 @@
 		114F7470140D92DE003421C6 /* ImageViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewer.h; sourceTree = "<group>"; };
 		114F7471140D92DF003421C6 /* ImageViewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewer.m; sourceTree = "<group>"; };
 		114F7472140D92DF003421C6 /* ImageViewer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageViewer.xib; sourceTree = "<group>"; };
+		11691A32140FEF71003E8998 /* NoteCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCommentViewController.h; sourceTree = "<group>"; };
+		11691A33140FEF71003E8998 /* NoteCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCommentViewController.m; sourceTree = "<group>"; };
+		11691A34140FEF71003E8998 /* NoteCommentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteCommentViewController.xib; sourceTree = "<group>"; };
 		118622DA14040E7200D4B738 /* buttonborder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = buttonborder.png; path = ../../../Desktop/buttonborder.png; sourceTree = "<group>"; };
 		118622DC14040F6600D4B738 /* buttonborder2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = buttonborder2.png; path = ../../../Desktop/buttonborder2.png; sourceTree = "<group>"; };
 		118622DE1404535200D4B738 /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Note.h; sourceTree = "<group>"; };
@@ -346,6 +357,9 @@
 		118866451406B69B0009E36F /* notebook2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notebook2.png; sourceTree = "<group>"; };
 		118866471406BB830009E36F /* NoteContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteContent.h; sourceTree = "<group>"; };
 		118866481406BB830009E36F /* NoteContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteContent.m; sourceTree = "<group>"; };
+		1193005014101B06005222F2 /* NoteCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCommentCell.h; sourceTree = "<group>"; };
+		1193005114101B07005222F2 /* NoteCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCommentCell.m; sourceTree = "<group>"; };
+		1193005214101B07005222F2 /* NoteCommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteCommentCell.xib; sourceTree = "<group>"; };
 		11A02D9E13CBA419007C084C /* ItemActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemActionViewController.h; sourceTree = "<group>"; };
 		11A02D9F13CBA419007C084C /* ItemActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemActionViewController.m; sourceTree = "<group>"; };
 		11A02DA013CBA419007C084C /* ItemActionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemActionViewController.xib; sourceTree = "<group>"; };
@@ -441,6 +455,11 @@
 		11DD3D4F13F5B0EF0051AB76 /* playericon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playericon.png; sourceTree = "<group>"; };
 		11DD3D5013F5B0EF0051AB76 /* plusCellButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plusCellButton.png; sourceTree = "<group>"; };
 		11DD3D5313F5B8F40051AB76 /* plusCellButton_Pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plusCellButton_Pressed.png; sourceTree = "<group>"; };
+		11F96D1A1417CB610003C78A /* AudioPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioPlayerViewController.h; sourceTree = "<group>"; };
+		11F96D1B1417CB610003C78A /* AudioPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioPlayerViewController.m; sourceTree = "<group>"; };
+		11F96D1C1417CB610003C78A /* AudioPlayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioPlayerViewController.xib; sourceTree = "<group>"; };
+		11F96D1F1417CE820003C78A /* PauseButtonPreferred.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = PauseButtonPreferred.jpg; sourceTree = "<group>"; };
+		11F96D201417CE820003C78A /* silver-play-button-150x150.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "silver-play-button-150x150.jpg"; sourceTree = "<group>"; };
 		1D3623240D0F684500981E51 /* ARISAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = ARISAppDelegate.h; path = Classes/ARISAppDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		1D3623250D0F684500981E51 /* ARISAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = ARISAppDelegate.m; path = Classes/ARISAppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -811,9 +830,20 @@
 				114F746B140D5231003421C6 /* NoteCell.h */,
 				114F746C140D5231003421C6 /* NoteCell.m */,
 				114F746D140D5231003421C6 /* NoteCell.xib */,
+				1193005014101B06005222F2 /* NoteCommentCell.h */,
+				1193005114101B07005222F2 /* NoteCommentCell.m */,
+				1193005214101B07005222F2 /* NoteCommentCell.xib */,
 				114F7470140D92DE003421C6 /* ImageViewer.h */,
 				114F7471140D92DF003421C6 /* ImageViewer.m */,
 				114F7472140D92DF003421C6 /* ImageViewer.xib */,
+				11691A32140FEF71003E8998 /* NoteCommentViewController.h */,
+				11691A33140FEF71003E8998 /* NoteCommentViewController.m */,
+				11691A34140FEF71003E8998 /* NoteCommentViewController.xib */,
+				11F96D1A1417CB610003C78A /* AudioPlayerViewController.h */,
+				11F96D1B1417CB610003C78A /* AudioPlayerViewController.m */,
+				11F96D1C1417CB610003C78A /* AudioPlayerViewController.xib */,
+				11F96D1F1417CE820003C78A /* PauseButtonPreferred.jpg */,
+				11F96D201417CE820003C78A /* silver-play-button-150x150.jpg */,
 			);
 			name = Notes;
 			sourceTree = "<group>";
@@ -1708,6 +1738,11 @@
 				118866461406B69B0009E36F /* notebook2.png in Resources */,
 				114F746F140D5231003421C6 /* NoteCell.xib in Resources */,
 				114F7474140D92DF003421C6 /* ImageViewer.xib in Resources */,
+				11691A36140FEF71003E8998 /* NoteCommentViewController.xib in Resources */,
+				1193005414101B07005222F2 /* NoteCommentCell.xib in Resources */,
+				11F96D1E1417CB610003C78A /* AudioPlayerViewController.xib in Resources */,
+				11F96D211417CE820003C78A /* PauseButtonPreferred.jpg in Resources */,
+				11F96D221417CE820003C78A /* silver-play-button-150x150.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1867,6 +1902,9 @@
 				118866491406BB830009E36F /* NoteContent.m in Sources */,
 				114F746E140D5231003421C6 /* NoteCell.m in Sources */,
 				114F7473140D92DF003421C6 /* ImageViewer.m in Sources */,
+				11691A35140FEF71003E8998 /* NoteCommentViewController.m in Sources */,
+				1193005314101B07005222F2 /* NoteCommentCell.m in Sources */,
+				11F96D1D1417CB610003C78A /* AudioPlayerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

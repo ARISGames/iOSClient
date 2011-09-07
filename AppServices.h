@@ -107,6 +107,8 @@
 - (void)deleteNoteContentWithContentId:(int) contentId;
 - (void)deleteNoteWithNoteId: (int) noteId;
 - (void)updateNoteContent:(int)contentId text:(NSString *)text;
+- (int) addCommentToNoteWithId: (int)noteId andRating: (int)rating;
+- (void)fetchNoteCommentsWithId: (int)noteId;
 
 - (void)uploadNoteContentRequestFinished:(ASIFormDataRequest *)request;
 - (void)uploadNoteRequestFailed:(ASIHTTPRequest *)request;

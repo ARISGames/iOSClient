@@ -421,7 +421,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
         CMTime time = CMTimeMakeWithSeconds(1.0f, 1);
         
     timeObserver = [[self.soundPlayer addPeriodicTimeObserverForInterval:time queue:NULL usingBlock:^(CMTime time){ 
-           if(self.soundPlayer.currentTime.value != self.soundPlayer.currentItem.duration.value){  
+           if((self.soundPlayer.currentTime.value != self.soundPlayer.currentItem.duration.value) && self.soundPlayer.rate !=0.0f){  
                [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.text =[NSString stringWithFormat:@"%d:%d%d", (int)roundf(CMTimeGetSeconds(self.soundPlayer.currentTime))/60,((int)roundf(CMTimeGetSeconds(self.soundPlayer.currentTime))) % 60/10,(int)roundf(CMTimeGetSeconds(self.soundPlayer.currentTime))%10];
            }else {
                [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.text = nil;

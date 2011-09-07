@@ -15,6 +15,7 @@
 #import "AsyncImageView.h"
 #import "Media.h"
 #import "ARISMoviePlayerViewController.h"
+#import "NoteCommentViewController.h"
 
 @implementation DataCollectionViewController
 @synthesize scrollView,pageControl, delegate, viewControllers,note;
@@ -56,7 +57,7 @@
     scrollView.delegate = self;
     pageControl.currentPage = 0;
     pageControl.numberOfPages = numPages;
-
+	[self.navigationItem setRightBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:@"Comments" style:UIBarButtonItemStylePlain target:self action:@selector(showComments)] autorelease]];
 }
 -(void)viewWillAppear:(BOOL)animated{
     NoteContent *noteContent = [[NoteContent alloc] init];
@@ -70,7 +71,18 @@
             }
     }
 }
+-(void)showComments{
+    NoteCommentViewController *noteCommentVC = [[NoteCommentViewController alloc]initWithNibName:@"NoteCommentViewController" bundle:nil];
+    noteCommentVC.parentNote = self.note;
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:.5];
+    
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
+                           forView:self.navigationController.view cache:YES];
+    [self.navigationController pushViewController:noteCommentVC animated:NO];
+    [UIView commitAnimations]; 
 
+}
 - (void)scrollViewDidScroll:(UIScrollView *)sender {
 
     CGFloat pageWidth = scrollView.frame.size.width;

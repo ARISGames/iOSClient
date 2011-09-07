@@ -26,6 +26,7 @@
 @property(nonatomic, retain) NSMutableArray *viewControllers;
 @property(nonatomic,retain)Note *note;
 - (IBAction)saveButtonTouchAction;
--(IBAction)changePage:(id) sender;
+- (IBAction)changePage:(id) sender;
 - (void)loadNewPageWithContent:(NoteContent *)content;
+- (void)showComments;
 @end

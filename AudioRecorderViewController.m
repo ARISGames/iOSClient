@@ -11,6 +11,7 @@
 #import "AppServices.h"
 #import "GPSViewController.h"
 #import "DataCollectionViewController.h"
+#import "NoteCommentViewController.h"
 
 @implementation AudioRecorderViewController
 @synthesize soundFileURL;
@@ -236,7 +237,7 @@
 	
 	//Do server call here
     [[AppServices sharedAppServices] addContentToNoteFromFileData:self.audioData fileName:@"audio.caf" name:nil noteId:self.noteId type:@"AUDIO"];
-    
+    if([self.delegate isKindOfClass:[NoteCommentViewController class]]) [self.delegate addedAudio];
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:.5];
     

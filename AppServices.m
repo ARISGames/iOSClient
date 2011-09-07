@@ -401,7 +401,31 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[jsonConnection release];
 
 }
-
+-(int)addCommentToNoteWithId:(int)noteId andRating:(int)rating{
+    NSLog(@"AppModel: Adding Comment To Note");
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects:
+						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+                          [NSString stringWithFormat:@"%d",noteId],
+                           [NSString stringWithFormat:@"%d",rating],
+                          nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"notes" 
+                                                             andMethodName:@"addCommentToNote" 
+                                                              andArguments:arguments];
+	JSONResult *jsonResult = [jsonConnection performSynchronousRequest]; 
+	[jsonConnection release];
+	
+	
+	if (!jsonResult) {
+		NSLog(@"\tFailed.");
+		return nil;
+	}
+	
+	return [jsonResult.data intValue];
+}
 -(int)createNote{
     NSLog(@"AppModel: Creating New Note");
 	
@@ -1479,14 +1503,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
     aNote.shared = [[noteDictionary valueForKey:@"shared"]boolValue];
     
     NSArray *comments = [noteDictionary valueForKey:@"comments"];
-    for (NSDictionary *comment in comments) {
+    NSEnumerator *enumerator = [((NSArray *)comments) objectEnumerator];
+	NSDictionary *dict;
+    while ((dict = [enumerator nextObject])) {
         //This is returning an object with playerId,tex, and rating. Right now, we just want the text
         //TODO: Create a Comments object
-        Comment *c = [[Comment alloc] init];
-        c.text = [comment objectForKey:@"text"];
-        c.playerName = [comment objectForKey:@"username"];
-        NSString *cRating = [comment objectForKey:@"rating"];
-        if ((NSNull *)cRating != [NSNull null]) c.rating = [cRating intValue];
+        Note *c = [[Note alloc] init];
+        c = [self parseNoteFromDictionary:dict];
         [aNote.comments addObject:c];
     }
     
