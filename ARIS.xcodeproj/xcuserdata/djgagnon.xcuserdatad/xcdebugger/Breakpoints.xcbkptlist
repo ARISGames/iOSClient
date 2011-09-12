@@ -37,11 +37,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/QuestsViewController.m"
-         timestampString = "334104281.266372"
+         timestampString = "336498553.220372"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "186"
-         endingLineNumber = "186"
+         startingLineNumber = "185"
+         endingLineNumber = "185"
          landmarkName = "-refreshViewFromModel"
          landmarkType = "5">
       </FileBreakpoint>
@@ -51,12 +51,12 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Classes/QuestsViewController.m"
-         timestampString = "334104281.266372"
+         timestampString = "336498553.220372"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "204"
-         endingLineNumber = "204"
-         landmarkName = "-constructCells"
+         startingLineNumber = "203"
+         endingLineNumber = "203"
+         landmarkName = "-refreshViewFromModel"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -112,20 +112,6 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "1103"
          endingLineNumber = "1103"
-         landmarkName = "-parsePanoramicFromDictionary:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         isPathRelative = "1"
-         filePath = "AppServices.m"
-         timestampString = "333435884.246357"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1127"
-         endingLineNumber = "1127"
          landmarkName = "-parsePanoramicFromDictionary:"
          landmarkType = "5">
       </FileBreakpoint>
