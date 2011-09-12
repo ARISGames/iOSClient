@@ -173,6 +173,7 @@
     else{
     Note *currNote = [self.parentNote.comments objectAtIndex:(indexPath.row -1)];
     cell.titleLabel.text = currNote.title;
+        cell.userLabel.text = currNote.username;
         cell.starView.rating = currNote.parentRating;
     for(int x = 0; x < [currNote.contents count];x++){
                 if([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"TEXT"]){

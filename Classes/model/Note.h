@@ -24,12 +24,13 @@
     int parentRating;
     nearbyObjectKind	kind;
     int iconMediaId;
-
+    NSString *username;
+    id delegate;
 }
 
 @property(nonatomic,retain) NSMutableArray *comments;
 @property(nonatomic,retain) NSMutableArray *contents;
-
+@property(nonatomic,retain) NSString *username;
 @property(nonatomic,retain) NSString *title;
 @property(nonatomic, retain) NSString *text;
 @property(readwrite,assign) int noteId;
@@ -41,5 +42,5 @@
 @property(readwrite, assign) int parentRating;
 @property(readwrite, assign) nearbyObjectKind kind;
 @property(readwrite, assign) int iconMediaId;
-
+@property(nonatomic, retain) id delegate;
 @end

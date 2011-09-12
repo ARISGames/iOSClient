@@ -283,7 +283,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[jsonConnection release];
     
 }
-
+- (void)updateServerDropNoteHere: (int)noteId atCoordinate: (CLLocationCoordinate2D) coordinate{
+	NSLog(@"Model: Informing the Server the player dropped an item");
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+						  [NSString stringWithFormat:@"%d",noteId],
+						  [NSString stringWithFormat:@"%f",coordinate.latitude],
+						  [NSString stringWithFormat:@"%f",coordinate.longitude],
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"players" 
+                                                             andMethodName:@"dropNote" 
+                                                              andArguments:arguments];
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After 
+	[self forceUpdateOnNextLocationListFetch];
+	[jsonConnection release];
+    
+}
 - (void)updateServerDestroyItem: (int)itemId qty:(int)qty {
 	NSLog(@"Model: Informing the Server the player destroyed an item");
 	
@@ -1523,7 +1541,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
     aNote.numRatings = [[noteDictionary valueForKey:@"num_ratings"]intValue];
     aNote.creatorId = [[noteDictionary valueForKey:@"owner_id"]intValue];
     aNote.shared = [[noteDictionary valueForKey:@"shared"]boolValue];
-    
+    aNote.username = [noteDictionary valueForKey:@"username"];
     NSArray *comments = [noteDictionary valueForKey:@"comments"];
     NSEnumerator *enumerator = [((NSArray *)comments) objectEnumerator];
 	NSDictionary *dict;
@@ -1655,7 +1673,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
     tempNoteList = [tempNoteList sortedArrayUsingDescriptors:sortDescriptors];
 	[AppModel sharedAppModel].gameNoteList = tempNoteList;
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];	
-	[tempNoteList release];
+	//[tempNoteList release];
 }
 
 -(void)parsePlayerNoteListFromJSON: (JSONResult *)jsonResult{

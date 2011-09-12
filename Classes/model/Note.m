@@ -10,9 +10,11 @@
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
 #import "NoteViewController.h"
+#import "DataCollectionViewController.h"
+#import "NearbyObjectsViewController.h"
 
 @implementation Note
-@synthesize comments,contents, creatorId,noteId,parentNoteId,parentRating,shared,text,title,kind,averageRating,numRatings;
+@synthesize comments,contents, creatorId,noteId,parentNoteId,parentRating,shared,text,title,kind,averageRating,numRatings,username,delegate;
 
 -(nearbyObjectKind) kind { return NearbyObjectNote; }
 
@@ -20,7 +22,7 @@
     self = [super init];
     if (self) {
 		kind = NearbyObjectNote;
-        iconMediaId = 36;
+        iconMediaId = 71;
         self.comments = [NSMutableArray arrayWithCapacity:5];
         self.contents = [NSMutableArray arrayWithCapacity:5];
     }
@@ -35,10 +37,28 @@
 	//Create a reference to the delegate using the application singleton.
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
     
-	NoteViewController *notesViewController = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle: [NSBundle mainBundle]];
-	notesViewController.note = self;
-	[appDelegate displayNearbyObjectView:notesViewController];
-	[notesViewController release];
+    
+    if(self.creatorId == [AppModel sharedAppModel].playerId){
+        
+        NoteViewController *noteVC = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
+        noteVC.note = self;
+        noteVC.delegate = self;
+        if([self.delegate isKindOfClass:[NearbyObjectsViewController class]]) {
+            [[(NearbyObjectsViewController *)self.delegate navigationController]pushViewController:noteVC animated:YES]; 
+        }        [noteVC release];
+    }
+    else{
+        //open up note viewer
+        DataCollectionViewController *dataVC = [[DataCollectionViewController alloc] initWithNibName:@"DataCollectionViewController" bundle:nil];
+        dataVC.note = self;
+        dataVC.delegate = self;
+        if([self.delegate isKindOfClass:[NearbyObjectsViewController class]]) {
+            [[(NearbyObjectsViewController *)self.delegate navigationController]pushViewController:dataVC animated:YES]; 
+        }
+        [dataVC release];
+    }
+
+
 }
 
 
@@ -48,6 +68,7 @@
     [contents release];
 	[text release];
     [title release];
+    [username release];
 	[super dealloc];
 }
 
@@ -56,7 +77,7 @@
 }
 
 - (int)	iconMediaId {
-    return 36; 
+    return 71; 
 }
 
 @end

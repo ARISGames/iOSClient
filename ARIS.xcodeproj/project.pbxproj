@@ -90,6 +90,16 @@
 		11DD3D5113F5B0EF0051AB76 /* playericon.png in Resources */ = {isa = PBXBuildFile; fileRef = 11DD3D4F13F5B0EF0051AB76 /* playericon.png */; };
 		11DD3D5213F5B0EF0051AB76 /* plusCellButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 11DD3D5013F5B0EF0051AB76 /* plusCellButton.png */; };
 		11DD3D5413F5B8F40051AB76 /* plusCellButton_Pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 11DD3D5313F5B8F40051AB76 /* plusCellButton_Pressed.png */; };
+		11DD5422141E70D00007CD70 /* DropOnMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11DD5420141E70CC0007CD70 /* DropOnMapViewController.m */; };
+		11DD5423141E70D00007CD70 /* DropOnMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11DD5421141E70CD0007CD70 /* DropOnMapViewController.xib */; };
+		11DD5428141E79160007CD70 /* DDAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 11DD5425141E79150007CD70 /* DDAnnotation.m */; };
+		11DD5429141E79160007CD70 /* DDAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 11DD5427141E79160007CD70 /* DDAnnotationView.m */; };
+		11DD5430141E80D20007CD70 /* Pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 11DD542A141E80CB0007CD70 /* Pin.png */; };
+		11DD5431141E80D20007CD70 /* PinDown1.png in Resources */ = {isa = PBXBuildFile; fileRef = 11DD542B141E80CC0007CD70 /* PinDown1.png */; };
+		11DD5432141E80D20007CD70 /* PinDown2.png in Resources */ = {isa = PBXBuildFile; fileRef = 11DD542C141E80CD0007CD70 /* PinDown2.png */; };
+		11DD5433141E80D20007CD70 /* PinDown3.png in Resources */ = {isa = PBXBuildFile; fileRef = 11DD542D141E80CE0007CD70 /* PinDown3.png */; };
+		11DD5434141E80D20007CD70 /* PinFloating.png in Resources */ = {isa = PBXBuildFile; fileRef = 11DD542E141E80CF0007CD70 /* PinFloating.png */; };
+		11DD5435141E80D20007CD70 /* PinShadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 11DD542F141E80D00007CD70 /* PinShadow.png */; };
 		11F96D1D1417CB610003C78A /* AudioPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11F96D1B1417CB610003C78A /* AudioPlayerViewController.m */; };
 		11F96D1E1417CB610003C78A /* AudioPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11F96D1C1417CB610003C78A /* AudioPlayerViewController.xib */; };
 		11F96D211417CE820003C78A /* PauseButtonPreferred.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 11F96D1F1417CE820003C78A /* PauseButtonPreferred.jpg */; };
@@ -455,6 +465,19 @@
 		11DD3D4F13F5B0EF0051AB76 /* playericon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playericon.png; sourceTree = "<group>"; };
 		11DD3D5013F5B0EF0051AB76 /* plusCellButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plusCellButton.png; sourceTree = "<group>"; };
 		11DD3D5313F5B8F40051AB76 /* plusCellButton_Pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plusCellButton_Pressed.png; sourceTree = "<group>"; };
+		11DD541F141E70CB0007CD70 /* DropOnMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropOnMapViewController.h; sourceTree = "<group>"; };
+		11DD5420141E70CC0007CD70 /* DropOnMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropOnMapViewController.m; sourceTree = "<group>"; };
+		11DD5421141E70CD0007CD70 /* DropOnMapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DropOnMapViewController.xib; sourceTree = "<group>"; };
+		11DD5424141E79140007CD70 /* DDAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAnnotation.h; sourceTree = "<group>"; };
+		11DD5425141E79150007CD70 /* DDAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAnnotation.m; sourceTree = "<group>"; };
+		11DD5426141E79150007CD70 /* DDAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAnnotationView.h; sourceTree = "<group>"; };
+		11DD5427141E79160007CD70 /* DDAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAnnotationView.m; sourceTree = "<group>"; };
+		11DD542A141E80CB0007CD70 /* Pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pin.png; sourceTree = "<group>"; };
+		11DD542B141E80CC0007CD70 /* PinDown1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PinDown1.png; sourceTree = "<group>"; };
+		11DD542C141E80CD0007CD70 /* PinDown2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PinDown2.png; sourceTree = "<group>"; };
+		11DD542D141E80CE0007CD70 /* PinDown3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PinDown3.png; sourceTree = "<group>"; };
+		11DD542E141E80CF0007CD70 /* PinFloating.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PinFloating.png; sourceTree = "<group>"; };
+		11DD542F141E80D00007CD70 /* PinShadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PinShadow.png; sourceTree = "<group>"; };
 		11F96D1A1417CB610003C78A /* AudioPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioPlayerViewController.h; sourceTree = "<group>"; };
 		11F96D1B1417CB610003C78A /* AudioPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioPlayerViewController.m; sourceTree = "<group>"; };
 		11F96D1C1417CB610003C78A /* AudioPlayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioPlayerViewController.xib; sourceTree = "<group>"; };
@@ -814,8 +837,9 @@
 			isa = PBXGroup;
 			children = (
 				1188663B1406B0D00009E36F /* Text View */,
-				1147E15513F32260000E4BC2 /* noteicon.png */,
+				11DD3D4913F5AAE80051AB76 /* NoteViewer */,
 				118866431406B54C0009E36F /* notebook.png */,
+				1147E15513F32260000E4BC2 /* noteicon.png */,
 				118866451406B69B0009E36F /* notebook2.png */,
 				118622DC14040F6600D4B738 /* buttonborder2.png */,
 				11886634140570F20009E36F /* mappoint.png */,
@@ -825,6 +849,19 @@
 				1147E15613F32260000E4BC2 /* NoteViewController.h */,
 				1147E15713F32260000E4BC2 /* NoteViewController.m */,
 				1147E15813F32260000E4BC2 /* NoteViewController.xib */,
+				11DD541F141E70CB0007CD70 /* DropOnMapViewController.h */,
+				11DD5420141E70CC0007CD70 /* DropOnMapViewController.m */,
+				11DD5421141E70CD0007CD70 /* DropOnMapViewController.xib */,
+				11DD5424141E79140007CD70 /* DDAnnotation.h */,
+				11DD5425141E79150007CD70 /* DDAnnotation.m */,
+				11DD5426141E79150007CD70 /* DDAnnotationView.h */,
+				11DD5427141E79160007CD70 /* DDAnnotationView.m */,
+				11DD542A141E80CB0007CD70 /* Pin.png */,
+				11DD542B141E80CC0007CD70 /* PinDown1.png */,
+				11DD542C141E80CD0007CD70 /* PinDown2.png */,
+				11DD542D141E80CE0007CD70 /* PinDown3.png */,
+				11DD542E141E80CF0007CD70 /* PinFloating.png */,
+				11DD542F141E80D00007CD70 /* PinShadow.png */,
 				1188663C1406B12B0009E36F /* NotebookViewController.h */,
 				1188663D1406B12B0009E36F /* NotebookViewController.m */,
 				1188663E1406B12B0009E36F /* NotebookViewController.xib */,
@@ -981,14 +1018,14 @@
 			path = libtess;
 			sourceTree = "<group>";
 		};
-		11DD3D4913F5AAE80051AB76 /* Data Collection */ = {
+		11DD3D4913F5AAE80051AB76 /* NoteViewer */ = {
 			isa = PBXGroup;
 			children = (
 				11DD3D4A13F5AB430051AB76 /* DataCollectionViewController.h */,
 				11DD3D4B13F5AB430051AB76 /* DataCollectionViewController.m */,
 				11DD3D4C13F5AB430051AB76 /* DataCollectionViewController.xib */,
 			);
-			name = "Data Collection";
+			name = NoteViewer;
 			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
@@ -1024,7 +1061,6 @@
 				A7986D610F8FEBB200A5469F /* Developer */,
 				A7986D650F8FEC1100A5469F /* Login */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				11DD3D4913F5AAE80051AB76 /* Data Collection */,
 				1147E15C13F32273000E4BC2 /* Notes */,
 				118669AF13BB8EC1004B4EC8 /* Player Profile / Attributes */,
 				1139BA5113ABC6A2008BF268 /* Panoramic */,
@@ -1187,9 +1223,9 @@
 		A7986D660F8FEC2100A5469F /* Inventory */ = {
 			isa = PBXGroup;
 			children = (
-				11A02D9E13CBA419007C084C /* ItemActionViewController.h */,
 				11DD3D4F13F5B0EF0051AB76 /* playericon.png */,
 				11DD3D5013F5B0EF0051AB76 /* plusCellButton.png */,
+				11A02D9E13CBA419007C084C /* ItemActionViewController.h */,
 				11A02D9F13CBA419007C084C /* ItemActionViewController.m */,
 				11A02DA013CBA419007C084C /* ItemActionViewController.xib */,
 				11A02DA113CBA419007C084C /* itemDetailsMode.h */,
@@ -1743,6 +1779,13 @@
 				11F96D1E1417CB610003C78A /* AudioPlayerViewController.xib in Resources */,
 				11F96D211417CE820003C78A /* PauseButtonPreferred.jpg in Resources */,
 				11F96D221417CE820003C78A /* silver-play-button-150x150.jpg in Resources */,
+				11DD5423141E70D00007CD70 /* DropOnMapViewController.xib in Resources */,
+				11DD5430141E80D20007CD70 /* Pin.png in Resources */,
+				11DD5431141E80D20007CD70 /* PinDown1.png in Resources */,
+				11DD5432141E80D20007CD70 /* PinDown2.png in Resources */,
+				11DD5433141E80D20007CD70 /* PinDown3.png in Resources */,
+				11DD5434141E80D20007CD70 /* PinFloating.png in Resources */,
+				11DD5435141E80D20007CD70 /* PinShadow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1905,6 +1948,9 @@
 				11691A35140FEF71003E8998 /* NoteCommentViewController.m in Sources */,
 				1193005314101B07005222F2 /* NoteCommentCell.m in Sources */,
 				11F96D1D1417CB610003C78A /* AudioPlayerViewController.m in Sources */,
+				11DD5422141E70D00007CD70 /* DropOnMapViewController.m in Sources */,
+				11DD5428141E79160007CD70 /* DDAnnotation.m in Sources */,
+				11DD5429141E79160007CD70 /* DDAnnotationView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

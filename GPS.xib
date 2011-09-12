@@ -217,6 +217,7 @@
 						<int key="objectID">23</int>
 						<reference key="object" ref="426701314"/>
 						<reference key="parent" ref="191373211"/>
+						<string key="objectName">Map View</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">26</int>

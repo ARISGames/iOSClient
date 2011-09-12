@@ -299,17 +299,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
 }
 
 - (Note *)noteForNoteId:(int)mId{
-	Note *aNote = [self.gameNoteList objectForKey:[NSNumber numberWithInt:mId]];
+	Note *aNote = [[AppServices sharedAppServices]fetchNote:mId];
 	
-	if (!aNote) {
-        
-		
-		[[AppServices sharedAppServices] getNoteById];
-		
-		aNote = [self.gameNoteList objectForKey:[NSNumber numberWithInt:mId]];
-        
-	}
-	return aNote;
+		return aNote;
 }
 
 - (WebPage *)webPageForWebPageID: (int)mId {

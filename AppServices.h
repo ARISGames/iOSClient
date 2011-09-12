@@ -28,6 +28,7 @@
 #import "Note.h"
 #import "NoteMedia.h"
 #import "NoteContent.h"
+#import <MapKit/MapKit.h>
 
 @interface AppServices : NSObject {
     //Fetcher Flags
@@ -103,6 +104,7 @@
                                  name:(NSString *)name noteId:(int) noteId type:(NSString *)type;
 - (void) addContentToNoteWithText:(NSString *)text type:(NSString *) type mediaId:(int) mediaId andNoteId:(int)noteId;
 - (int)createNote;
+- (void)updateServerDropNoteHere: (int)noteId atCoordinate:(CLLocationCoordinate2D) coordinate;
 - (void)getNoteById: (int)noteId;
 - (void)deleteNoteContentWithContentId:(int) contentId;
 - (void)deleteNoteWithNoteId: (int) noteId;

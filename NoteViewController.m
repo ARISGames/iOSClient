@@ -19,6 +19,7 @@
 #import "Media.h"
 #import "ImageViewer.h"
 #import "ARISMoviePlayerViewController.h"
+#import "DropOnMapViewController.h"
 
 
 @implementation NoteViewController
@@ -175,7 +176,15 @@
 }
 
 -(void)mapButtonTouchAction{
+    DropOnMapViewController *mapVC = [[[DropOnMapViewController alloc] initWithNibName:@"DropOnMapViewController" bundle:nil] autorelease];
+    mapVC.noteId = self.note.noteId;
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:.5];
     
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
+                           forView:self.navigationController.view cache:YES];
+    [self.navigationController pushViewController:mapVC animated:NO];
+    [UIView commitAnimations];
 }
 -(void)publicButtonTouchAction{
     if(self.publicButton.selected){
