@@ -813,6 +813,7 @@
 		1147E15C13F32273000E4BC2 /* Notes */ = {
 			isa = PBXGroup;
 			children = (
+				1188663B1406B0D00009E36F /* Text View */,
 				1147E15513F32260000E4BC2 /* noteicon.png */,
 				118866431406B54C0009E36F /* notebook.png */,
 				118866451406B69B0009E36F /* notebook2.png */,
@@ -1023,7 +1024,6 @@
 				A7986D610F8FEBB200A5469F /* Developer */,
 				A7986D650F8FEC1100A5469F /* Login */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				1188663B1406B0D00009E36F /* Text View */,
 				11DD3D4913F5AAE80051AB76 /* Data Collection */,
 				1147E15C13F32273000E4BC2 /* Notes */,
 				118669AF13BB8EC1004B4EC8 /* Player Profile / Attributes */,

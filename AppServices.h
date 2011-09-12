@@ -109,6 +109,7 @@
 - (void)updateNoteContent:(int)contentId text:(NSString *)text;
 - (int) addCommentToNoteWithId: (int)noteId andRating: (int)rating;
 - (void)fetchNoteCommentsWithId: (int)noteId;
+- (void)updateCommentWithId: (int)noteId parentNoteId: (int)parentNoteId andRating: (int)rating;
 
 - (void)uploadNoteContentRequestFinished:(ASIFormDataRequest *)request;
 - (void)uploadNoteRequestFailed:(ASIHTTPRequest *)request;

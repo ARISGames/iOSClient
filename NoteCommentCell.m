@@ -10,7 +10,7 @@
 
 
 @implementation NoteCommentCell
-@synthesize titleLabel,mediaIcon1,mediaIcon2,mediaIcon3,mediaIcon4,userLabel;
+@synthesize titleLabel,mediaIcon2,mediaIcon3,mediaIcon4,userLabel,starView;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -34,7 +34,7 @@
     [mediaIcon4 release];
     [mediaIcon3 release];
     [mediaIcon2 release];
-    [mediaIcon1 release];
+    [starView release];
     [super dealloc];
 }
 

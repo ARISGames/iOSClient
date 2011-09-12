@@ -41,7 +41,6 @@
     self.navigationItem.rightBarButtonItem = barButton;
   	[noteTable reloadData];
     
-    [self refresh];
     
 	NSLog(@"NotebookViewController: View Loaded");
 }
@@ -60,8 +59,11 @@
 -(void)refresh {
 	NSLog(@"NotebookViewController: Refresh Requested");
             
-        
-    [[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:NO];
+        if(self.noteControl.selectedSegmentIndex == 0)
+    [[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:YES];
+    else
+        [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
+
     //[self showLoadingIndicator];
 }
 
@@ -166,6 +168,7 @@
             }
             Note *currNote = (Note *)[currentNoteList objectAtIndex:indexPath.row];
         cell.titleLabel.text = currNote.title;
+        if([currNote.contents count] == 0 && (currNote.creatorId != [AppModel sharedAppModel].playerId))cell.userInteractionEnabled = NO;
             for(int x = 0; x < [currNote.contents count];x++){
                 if([[[currNote.contents objectAtIndex:x] type] isEqualToString:@"TEXT"]){
                     if (cell.mediaIcon1.image == nil) {
@@ -324,11 +327,11 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
 
 -(void)controlChanged:(id)sender{
     if (self.noteControl.selectedSegmentIndex ==0){
-        [[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:NO];
+        [[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:YES];
 
     }
     else {
-        [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:NO];
+        [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
 
     }
 }

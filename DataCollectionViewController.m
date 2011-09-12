@@ -17,6 +17,7 @@
 #import "ARISMoviePlayerViewController.h"
 #import "NoteCommentViewController.h"
 
+
 @implementation DataCollectionViewController
 @synthesize scrollView,pageControl, delegate, viewControllers,note;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -26,6 +27,7 @@
         // Custom initialization
         self.title = @"Add Media";
         viewControllers = [[NSMutableArray alloc] initWithCapacity:10];
+        self.hidesBottomBarWhenPushed = YES;
     }
     return self;
 }
@@ -49,14 +51,15 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    scrollView.pagingEnabled = YES;
-    scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * numPages, scrollView.frame.size.height);
-    scrollView.showsHorizontalScrollIndicator = NO;
+    self.scrollView.pagingEnabled = YES;
+    self.scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * numPages, scrollView.frame.size.height);
+    self.scrollView.showsHorizontalScrollIndicator = NO;
     //scrollView.showsVerticalScrollIndicator = NO;
     //scrollView.scrollsToTop = NO;
     scrollView.delegate = self;
-    pageControl.currentPage = 0;
-    pageControl.numberOfPages = numPages;
+    self.pageControl.currentPage = 0;
+    self.pageControl.numberOfPages = 1;
+    self.pageControl.hidesForSinglePage = NO;
 	[self.navigationItem setRightBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:@"Comments" style:UIBarButtonItemStylePlain target:self action:@selector(showComments)] autorelease]];
 }
 -(void)viewWillAppear:(BOOL)animated{
@@ -70,6 +73,7 @@
             [self loadNewPageWithContent:noteContent];
             }
     }
+    self.pageControl.currentPage = 0;
 }
 -(void)showComments{
     NoteCommentViewController *noteCommentVC = [[NoteCommentViewController alloc]initWithNibName:@"NoteCommentViewController" bundle:nil];
@@ -85,7 +89,7 @@
 }
 - (void)scrollViewDidScroll:(UIScrollView *)sender {
 
-    CGFloat pageWidth = scrollView.frame.size.width;
+    int pageWidth = scrollView.frame.size.width;
     int page = floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
     pageControl.currentPage = page;
     pageControl.numberOfPages = numPages;
@@ -129,20 +133,22 @@
                 [scrollView addSubview:controller];}
         }
         else if([content.type isEqualToString:@"AUDIO"]){
-                AudioRecorderViewController *controller = [[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil];
-            Media *m = [[Media alloc]init];
-            m = [[AppModel sharedAppModel] mediaForMediaId:content.mediaId];
-            controller.delegate = self;
-            controller.previewMode = YES;
-            controller.soundFileURL = [NSURL URLWithString:m.url];
-                [viewControllers addObject:controller];
-                [controller release];
-                if (nil == controller.view.superview) {
+            Media *media = [[Media alloc] init];
+            media = [[AppModel sharedAppModel] mediaForMediaId:content.mediaId];
+            
+            //Create movie player object
+            ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+            [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
+            mMoviePlayer.moviePlayer.shouldAutoplay = NO;
+            [mMoviePlayer.moviePlayer prepareToPlay];		
+            [viewControllers addObject:mMoviePlayer];
+            [mMoviePlayer release];
+            if (nil == mMoviePlayer.view.superview) {
                     CGRect frame = scrollView.frame;
                     frame.origin.x = frame.size.width * (numPages-1);
                     frame.origin.y = 0;
-                    controller.view.frame = frame;
-                    [scrollView addSubview:controller.view];
+                    mMoviePlayer.view.frame = frame;
+                    [scrollView addSubview:mMoviePlayer.view];
                 }
         }
         else if([content.type isEqualToString:@"VIDEO"]){

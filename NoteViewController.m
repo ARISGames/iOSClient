@@ -34,6 +34,7 @@
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(updateTable) name:@"ImageReady" object:nil];
         self.soundPlayer = [[AVPlayer alloc] init];
+        self.hidesBottomBarWhenPushed = YES;
 
     }
     return self;

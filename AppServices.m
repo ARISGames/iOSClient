@@ -401,6 +401,28 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[jsonConnection release];
 
 }
+-(void)updateCommentWithId:(int)noteId parentNoteId:(int)parentNoteId andRating:(int)rating{
+    NSLog(@"AppModel: Updating Comment Rating");
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects:
+						  [NSString stringWithFormat:@"%d",noteId],
+						  [NSString stringWithFormat:@"%d",parentNoteId],
+                          [NSString stringWithFormat:@"%d",rating],
+                          nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"notes" 
+                                                             andMethodName:@"updateComment" 
+                                                              andArguments:arguments];
+	JSONResult *jsonResult = [jsonConnection performSynchronousRequest]; 
+	[jsonConnection release];
+	
+	
+	if (!jsonResult) {
+		NSLog(@"\tFailed.");
+		return nil;
+	} 
+}
 -(int)addCommentToNoteWithId:(int)noteId andRating:(int)rating{
     NSLog(@"AppModel: Adding Comment To Note");
 	
@@ -1526,7 +1548,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
         c.type = [content objectForKey:@"type"];
         [aNote.contents addObject:c];
     }
-	
+	NSSortDescriptor *sortDescriptor;
+    sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"noteId"
+                                                  ascending:NO] autorelease];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    
+    aNote.comments = [aNote.comments sortedArrayUsingDescriptors:sortDescriptors];
 	return aNote;	
 }
 
@@ -1620,8 +1647,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 
 		[tempNoteList addObject:tmpNote];
 	}
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];	
+    NSSortDescriptor *sortDescriptor;
+    sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"noteId"
+                                                  ascending:NO] autorelease];
+    NSMutableArray *sortDescriptors = [NSMutableArray arrayWithObject:sortDescriptor];
+    
+    tempNoteList = [tempNoteList sortedArrayUsingDescriptors:sortDescriptors];
 	[AppModel sharedAppModel].gameNoteList = tempNoteList;
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];	
 	[tempNoteList release];
 }
 
@@ -1637,8 +1670,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 		[tempNoteList addObject:tmpNote];
 	}
 
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
+
 	[AppModel sharedAppModel].playerNoteList = tempNoteList;
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
 	[tempNoteList release];
 }
 -(void)parseConversationNodeOptionsFromJSON: (JSONResult *)jsonResult {

@@ -42,7 +42,7 @@
 {
 
     [super viewDidLoad];
-    
+    self.saveButton.titleLabel.textAlignment = UITextAlignmentCenter;
     if(editMode){
     
         self.textBox.text = textToDisplay;
@@ -59,9 +59,10 @@
     if(self.previewMode)  {
         self.textBox.userInteractionEnabled = NO;
         self.textBox.text = self.textToDisplay;
+        self.saveButton.hidden = YES;
     }
 
-    self.saveButton.titleLabel.textAlignment = UITextAlignmentCenter;
+    
     // Do any additional setup after loading the view from its nib.
     /*if(self.note)
     self.title = self.note.name;
