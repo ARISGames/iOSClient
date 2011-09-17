@@ -340,6 +340,9 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
 - (void)dealloc {    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [noteList release];
+    [gameNoteList release];
+    [noteTable release];
+    [noteControl release];
     [super dealloc];
 }
 @end

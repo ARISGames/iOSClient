@@ -35,6 +35,10 @@
 - (void)dealloc
 {
     [super dealloc];
+    [scrollView release];
+    [pageControl release];
+    [viewControllers release];
+    [note release];
 }
 
 - (void)didReceiveMemoryWarning
@@ -125,6 +129,7 @@
         [controller loadImageFromMedia:m];
             [viewControllers addObject:controller];
             [controller release];
+            [m release];
             if (nil == controller.superview) {
                 CGRect frame = scrollView.frame;
                 frame.origin.x = frame.size.width * (numPages-1);

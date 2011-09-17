@@ -15,7 +15,7 @@
 #import "ARISAppDelegate.h"
 
 @implementation NoteCommentViewController
-@synthesize parentNote,commentNote,textBox,rating,commentTable,addAudioButton,addPhotoButton,addMediaFromAlbumButton,myIndexPath,commentValid,starView,addTextButton;
+@synthesize parentNote,commentNote,textBox,rating,commentTable,addAudioButton,addPhotoButton,addMediaFromAlbumButton,myIndexPath,commentValid,starView,addTextButton,commentsList;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -24,7 +24,7 @@
         self.parentNote = [[Note alloc]init];
         self.commentNote = [[Note alloc]init];
         self.title = @"Comments";
-        self.commentTable = [[NSMutableArray alloc] initWithCapacity:10];
+        self.commentsList = [[NSMutableArray alloc] initWithCapacity:10];
         self.hidesBottomBarWhenPushed = YES;
         commentValid = NO;
     }
@@ -33,7 +33,7 @@
 - (void)viewDidLoad
 {
     self.parentNote = [[AppServices sharedAppServices]fetchNote:self.parentNote.noteId];
-
+    self.commentsList = [self.parentNote.comments mutableCopy];
     UIBarButtonItem *hideKeyboardButton = [[UIBarButtonItem alloc] initWithTitle:@"Save Comment" style:UIBarButtonItemStylePlain target:self action:@selector(hideKeyboard)];      
     self.navigationItem.rightBarButtonItem = hideKeyboardButton;
     
@@ -122,7 +122,7 @@
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return [self.parentNote.comments count] + 1;
+    return [self.commentsList count] + 1;
     
 }
 
@@ -171,7 +171,7 @@
     }
 
     else{
-    Note *currNote = [self.parentNote.comments objectAtIndex:(indexPath.row -1)];
+    Note *currNote = [self.commentsList objectAtIndex:(indexPath.row -1)];
     cell.titleLabel.text = currNote.title;
         cell.userLabel.text = currNote.username;
         cell.starView.rating = currNote.parentRating;
@@ -252,10 +252,10 @@
     if(indexPath.row == 0){
         
     }
-    else if([[parentNote.comments objectAtIndex:(indexPath.row-1)] creatorId] == [AppModel sharedAppModel].playerId){
+    else if([[self.commentsList objectAtIndex:(indexPath.row-1)] creatorId] == [AppModel sharedAppModel].playerId){
         
         NoteViewController *noteVC = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
-        noteVC.note = [parentNote.comments objectAtIndex:indexPath.row];
+        noteVC.note = [self.commentsList objectAtIndex:indexPath.row-1];
         noteVC.delegate = self;
         [self.navigationController pushViewController:noteVC animated:YES];
         //[noteVC release];
@@ -266,7 +266,7 @@
     else{
         //open up note viewer
         DataCollectionViewController *dataVC = [[DataCollectionViewController alloc] initWithNibName:@"DataCollectionViewController" bundle:nil];
-        dataVC.note = [parentNote.comments objectAtIndex:indexPath.row];
+        dataVC.note = [self.commentsList objectAtIndex:indexPath.row-1];
         [self.navigationController pushViewController:dataVC animated:YES];
         //[dataVC release];
     }
@@ -283,7 +283,7 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.row > 0){
-       CGFloat textHeight = [self calculateTextHeight:[(Note *)[self.parentNote.comments objectAtIndex:(indexPath.row - 1)] title]] +35;
+       CGFloat textHeight = [self calculateTextHeight:[(Note *)[self.commentsList objectAtIndex:(indexPath.row - 1)] title]] +35;
     NSLog(@"Height for Row:%d is %f",indexPath.row,textHeight);
         if (textHeight < 60)return 60;
         else
@@ -401,9 +401,45 @@ self.commentValid = YES;
     }
 self.commentValid = YES;
 }
+
+
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if(indexPath.row == 0) return UITableViewCellEditingStyleNone;
+  if([[self.commentsList objectAtIndex:(indexPath.row-1)] creatorId] == [AppModel sharedAppModel].playerId){
+    
+      return UITableViewCellEditingStyleDelete;}
+  else return UITableViewCellEditingStyleNone;
+}
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    if([[self.commentsList objectAtIndex:(indexPath.row-1)] creatorId] == [AppModel sharedAppModel].playerId){
+    [[AppServices sharedAppServices]deleteNoteWithNoteId:[[self.commentsList objectAtIndex:(indexPath.row-1)] noteId]];
+    [self.commentsList removeObjectAtIndex:(indexPath.row - 1)];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView 
+
+didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [self.commentTable reloadData];
+    
+}
+
+
 - (void)dealloc
 {
     [super dealloc];
+    [parentNote release];
+    [commentNote release];
+    [textBox release];
+    [commentTable release];
+    [addAudioButton release];
+    [addPhotoButton release];
+    [addMediaFromAlbumButton release];
+    [myIndexPath release];
+    [starView release];
+    [addTextButton release];
+    [commentsList release];
 }
 
 - (void)didReceiveMemoryWarning

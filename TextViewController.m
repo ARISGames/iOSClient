@@ -11,9 +11,10 @@
 #import "TitleAndDecriptionFormViewController.h"
 #import "ARISAppDelegate.h"
 #import "AppServices.h"
+#import "NoteViewController.h"
 
 @implementation TextViewController
-@synthesize textBox,saveButton,noteId,keyboardButton,textToDisplay,editMode,contentId,previewMode;
+@synthesize textBox,saveButton,noteId,keyboardButton,textToDisplay,editMode,contentId,delegate,previewMode;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -26,6 +27,10 @@
 - (void)dealloc
 {
     [super dealloc];
+    [textBox release];
+    [saveButton release];
+    [keyboardButton release];
+    [textToDisplay release];
 }
 
 - (void)didReceiveMemoryWarning
@@ -124,7 +129,7 @@
     
 //Do server call here
     [[AppServices sharedAppServices] addContentToNoteWithText:self.textBox.text type:@"TEXT" mediaId:0 andNoteId:self.noteId];
-    
+    if([self.delegate isKindOfClass:[NoteViewController class]]) [self.delegate setNoteValid:YES];
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:.5];
     

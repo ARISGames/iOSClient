@@ -243,7 +243,6 @@
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{212, 363}, {108, 53}}</string>
 								<reference key="NSSuperview" ref="943461201"/>
-								<reference key="NSNextKeyView"/>
 								<reference key="IBUIBackgroundColor" ref="682685075"/>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
@@ -499,8 +498,8 @@
 							<reference ref="480158448"/>
 							<reference ref="309905534"/>
 							<reference ref="742607468"/>
-							<reference ref="247898916"/>
 							<reference ref="625831935"/>
+							<reference ref="247898916"/>
 						</object>
 						<reference key="parent" ref="191373211"/>
 					</object>

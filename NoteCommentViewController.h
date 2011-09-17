@@ -19,6 +19,7 @@
     IBOutlet UIButton *addMediaFromAlbumButton;
     IBOutlet UIButton *addTextButton;
     IBOutlet UITextView *textBox;
+    NSMutableArray *commentsList;
     Note *parentNote;
     Note *commentNote;
     int rating;
@@ -28,6 +29,7 @@
 
 }
 @property(nonatomic, retain)IBOutlet UITableView *commentTable;
+@property(nonatomic, retain)NSMutableArray *commentsList;
 @property(nonatomic, retain)IBOutlet UIButton *addPhotoButton;
 @property(nonatomic, retain)IBOutlet UIButton *addAudioButton;
 @property(nonatomic, retain)IBOutlet UIButton *addTextButton;

@@ -35,7 +35,11 @@ static float INITIAL_SPAN = 0.001;
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
+    [mapTypeButton release];
+    [dropButton release];
+    [locations release];
+    [toolBar release];
+    [myAnnotation release];
     [mapView release];
     [super dealloc];
 }

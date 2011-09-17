@@ -25,7 +25,8 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-
+    [imageView release];
+    [media release];
     [super dealloc];
 }
 -(void)updateImage{

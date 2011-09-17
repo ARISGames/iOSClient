@@ -2571,11 +2571,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "DataCollectionViewController.m"
-         timestampString = "337285959.731011"
+         timestampString = "337911143.008776"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "106"
-         endingLineNumber = "106"
+         startingLineNumber = "110"
+         endingLineNumber = "110"
          landmarkName = "-loadNewPageWithView:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2585,11 +2585,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "DataCollectionViewController.m"
-         timestampString = "337285959.731011"
+         timestampString = "337911143.008776"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "91"
-         endingLineNumber = "91"
+         startingLineNumber = "95"
+         endingLineNumber = "95"
          landmarkName = "-scrollViewDidScroll:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2641,11 +2641,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "NoteViewController.m"
-         timestampString = "337542171.345543"
+         timestampString = "337913311.845202"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "141"
-         endingLineNumber = "141"
+         startingLineNumber = "168"
+         endingLineNumber = "168"
          landmarkName = "-audioButtonTouchAction"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2655,11 +2655,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "AudioRecorderViewController.m"
-         timestampString = "336601921.336278"
+         timestampString = "337913261.152258"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "239"
-         endingLineNumber = "239"
+         startingLineNumber = "240"
+         endingLineNumber = "240"
          landmarkName = "-uploadButtonAction:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -2753,11 +2753,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "NoteViewController.m"
-         timestampString = "337542171.345543"
+         timestampString = "337913311.845202"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "75"
-         endingLineNumber = "75"
+         startingLineNumber = "91"
+         endingLineNumber = "91"
          landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3005,11 +3005,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "NoteViewController.m"
-         timestampString = "337542171.345543"
+         timestampString = "337913311.845202"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "52"
-         endingLineNumber = "52"
+         startingLineNumber = "68"
+         endingLineNumber = "68"
          landmarkName = "-viewWillAppear:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3019,11 +3019,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "NoteViewController.m"
-         timestampString = "337542171.345543"
+         timestampString = "337913311.845202"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "73"
-         endingLineNumber = "73"
+         startingLineNumber = "89"
+         endingLineNumber = "89"
          landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3313,11 +3313,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "NoteViewController.m"
-         timestampString = "337542171.345543"
+         timestampString = "337913311.845202"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "117"
-         endingLineNumber = "117"
+         startingLineNumber = "144"
+         endingLineNumber = "144"
          landmarkName = "-textFieldShouldReturn:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3355,11 +3355,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "NoteViewController.m"
-         timestampString = "337551017.223347"
+         timestampString = "337913311.845202"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "383"
-         endingLineNumber = "383"
+         startingLineNumber = "412"
+         endingLineNumber = "412"
          landmarkName = "-tableView:didSelectRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3369,11 +3369,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "TextViewController.m"
-         timestampString = "337285212.53388"
+         timestampString = "337913261.152258"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "110"
-         endingLineNumber = "110"
+         startingLineNumber = "115"
+         endingLineNumber = "115"
          landmarkName = "-textViewDidBeginEditing:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3383,11 +3383,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "TextViewController.m"
-         timestampString = "337285212.53388"
+         timestampString = "337913261.152258"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "66"
-         endingLineNumber = "66"
+         startingLineNumber = "71"
+         endingLineNumber = "71"
          landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3397,11 +3397,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "TextViewController.m"
-         timestampString = "336332914.289395"
+         timestampString = "337913261.152258"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "43"
-         endingLineNumber = "43"
+         startingLineNumber = "48"
+         endingLineNumber = "48"
          landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3439,11 +3439,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "NoteViewController.m"
-         timestampString = "337551017.223347"
+         timestampString = "337913311.845202"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "198"
-         endingLineNumber = "198"
+         startingLineNumber = "227"
+         endingLineNumber = "227"
          landmarkName = "-publicButtonTouchAction"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3453,11 +3453,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "NoteViewController.m"
-         timestampString = "337551017.223347"
+         timestampString = "337913311.845202"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "190"
-         endingLineNumber = "190"
+         startingLineNumber = "219"
+         endingLineNumber = "219"
          landmarkName = "-publicButtonTouchAction"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3523,11 +3523,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "DataCollectionViewController.m"
-         timestampString = "337285959.731011"
+         timestampString = "337911143.008776"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "124"
-         endingLineNumber = "124"
+         startingLineNumber = "128"
+         endingLineNumber = "128"
          landmarkName = "-loadNewPageWithView:andContent:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3551,11 +3551,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "DataCollectionViewController.m"
-         timestampString = "337285959.731011"
+         timestampString = "337911143.008776"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "110"
-         endingLineNumber = "110"
+         startingLineNumber = "114"
+         endingLineNumber = "114"
          landmarkName = "-loadNewPageWithView:andContent:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3565,11 +3565,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "AudioRecorderViewController.m"
-         timestampString = "336601921.336278"
+         timestampString = "337913261.152258"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "133"
-         endingLineNumber = "133"
+         startingLineNumber = "134"
+         endingLineNumber = "134"
          landmarkName = "-updateButtonsForCurrentMode"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3579,11 +3579,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "AudioRecorderViewController.m"
-         timestampString = "336601921.336278"
+         timestampString = "337913261.152258"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "139"
-         endingLineNumber = "139"
+         startingLineNumber = "140"
+         endingLineNumber = "140"
          landmarkName = "-recordStopOrPlayButtonAction:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3593,11 +3593,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "AudioRecorderViewController.m"
-         timestampString = "336601921.336278"
+         timestampString = "337913261.152258"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "67"
-         endingLineNumber = "67"
+         startingLineNumber = "68"
+         endingLineNumber = "68"
          landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3621,11 +3621,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "NoteViewController.m"
-         timestampString = "337551017.223347"
+         timestampString = "337913311.845202"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "319"
-         endingLineNumber = "319"
+         startingLineNumber = "348"
+         endingLineNumber = "348"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3635,11 +3635,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "NoteViewController.m"
-         timestampString = "337551017.223347"
+         timestampString = "337913311.845202"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "317"
-         endingLineNumber = "317"
+         startingLineNumber = "346"
+         endingLineNumber = "346"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3663,11 +3663,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "NoteViewController.m"
-         timestampString = "337542171.345543"
+         timestampString = "337913311.845202"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "113"
-         endingLineNumber = "113"
+         startingLineNumber = "139"
+         endingLineNumber = "139"
          landmarkName = "-updateTable"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3677,11 +3677,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "NoteViewController.m"
-         timestampString = "337551017.223347"
+         timestampString = "337913311.845202"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "295"
-         endingLineNumber = "295"
+         startingLineNumber = "324"
+         endingLineNumber = "324"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3691,11 +3691,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "NoteViewController.m"
-         timestampString = "337551017.223347"
+         timestampString = "337913311.845202"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "307"
-         endingLineNumber = "307"
+         startingLineNumber = "336"
+         endingLineNumber = "336"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3705,11 +3705,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "NoteViewController.m"
-         timestampString = "337551017.223347"
+         timestampString = "337913311.845202"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "400"
-         endingLineNumber = "400"
+         startingLineNumber = "429"
+         endingLineNumber = "429"
          landmarkName = "-tableView:didSelectRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3719,11 +3719,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "ImageViewer.m"
-         timestampString = "336434405.236865"
+         timestampString = "337911143.008776"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "32"
-         endingLineNumber = "32"
+         startingLineNumber = "33"
+         endingLineNumber = "33"
          landmarkName = "-updateImage"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3733,11 +3733,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "ImageViewer.m"
-         timestampString = "336434467.36321"
+         timestampString = "337911143.008776"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "48"
-         endingLineNumber = "48"
+         startingLineNumber = "49"
+         endingLineNumber = "49"
          landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3747,11 +3747,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "NoteViewController.m"
-         timestampString = "337551017.223347"
+         timestampString = "337913311.845202"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "417"
-         endingLineNumber = "417"
+         startingLineNumber = "446"
+         endingLineNumber = "446"
          landmarkName = "-tableView:didSelectRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3761,11 +3761,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "NoteViewController.m"
-         timestampString = "337551017.223347"
+         timestampString = "337913311.845202"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "478"
-         endingLineNumber = "478"
+         startingLineNumber = "507"
+         endingLineNumber = "507"
          landmarkName = "-audioPlayerDidFinishPlaying:successfully:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3775,11 +3775,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "NoteViewController.m"
-         timestampString = "337551017.223347"
+         timestampString = "337913311.845202"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "443"
-         endingLineNumber = "443"
+         startingLineNumber = "472"
+         endingLineNumber = "472"
          landmarkName = "-tableView:didSelectRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3789,11 +3789,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "NoteViewController.m"
-         timestampString = "337551017.223347"
+         timestampString = "337913311.845202"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "481"
-         endingLineNumber = "481"
+         startingLineNumber = "510"
+         endingLineNumber = "510"
          landmarkName = "-audioPlayerDecodeErrorDidOccur:error:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3803,11 +3803,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "NoteViewController.m"
-         timestampString = "337551017.223347"
+         timestampString = "337913311.845202"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "352"
-         endingLineNumber = "352"
+         startingLineNumber = "381"
+         endingLineNumber = "381"
          landmarkName = "-playTextAnimation:withCell:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3817,11 +3817,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "NoteViewController.m"
-         timestampString = "337551017.223347"
+         timestampString = "337913311.845202"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "433"
-         endingLineNumber = "433"
+         startingLineNumber = "462"
+         endingLineNumber = "462"
          landmarkName = "-tableView:didSelectRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -3957,11 +3957,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "DropOnMapViewController.m"
-         timestampString = "337548998.867395"
+         timestampString = "337911143.008776"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "64"
-         endingLineNumber = "64"
+         startingLineNumber = "68"
+         endingLineNumber = "68"
          landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
@@ -4019,6 +4019,48 @@
          startingLineNumber = "56"
          endingLineNumber = "56"
          landmarkName = "-display"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "AppServices.m"
+         timestampString = "337902860.561151"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "426"
+         endingLineNumber = "426"
+         landmarkName = "-updateCommentWithId:parentNoteId:andRating:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "AppServices.m"
+         timestampString = "337902865.977093"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "431"
+         endingLineNumber = "431"
+         landmarkName = "-updateCommentWithId:parentNoteId:andRating:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "DataCollectionViewController.m"
+         timestampString = "337911540.599725"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "129"
+         endingLineNumber = "129"
+         landmarkName = "-loadNewPageWithContent:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

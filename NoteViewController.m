@@ -20,10 +20,10 @@
 #import "ImageViewer.h"
 #import "ARISMoviePlayerViewController.h"
 #import "DropOnMapViewController.h"
-
+#import "NoteCommentViewController.h"
 
 @implementation NoteViewController
-@synthesize textBox,textField,note, delegate, hideKeyboardButton,libraryButton,cameraButton,audioButton, typeControl,viewControllers, scrollView,pageControl,publicButton,textButton,mapButton, contentTable,soundPlayer;
+@synthesize textBox,textField,note, delegate, hideKeyboardButton,libraryButton,cameraButton,audioButton, typeControl,viewControllers, scrollView,pageControl,publicButton,textButton,mapButton, contentTable,soundPlayer,noteValid;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -36,6 +36,7 @@
         [dispatcher addObserver:self selector:@selector(updateTable) name:@"ImageReady" object:nil];
         self.soundPlayer = [[AVPlayer alloc] init];
         self.hidesBottomBarWhenPushed = YES;
+        self.noteValid = NO;
 
     }
     return self;
@@ -44,7 +45,22 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-
+    [textBox release];
+    [textField release];
+    [note release];
+    [hideKeyboardButton release];
+    [libraryButton release];
+    [cameraButton release];
+    [audioButton release];
+    [typeControl release];
+    [viewControllers release];
+    [scrollView release];
+    [pageControl release];
+    [publicButton release];
+    [textButton release];
+    [mapButton release];
+    [contentTable release];
+    [soundPlayer release];
     [super dealloc];
     
 }
@@ -75,6 +91,7 @@
     if(self.note.noteId == 0){
         self.note.noteId = [[AppServices sharedAppServices] createNote];
     }
+    else self.noteValid = YES;
     //self.contentTable.editing = YES;
     scrollView.delegate = self;
     pageControl.currentPage = 0;
@@ -84,10 +101,19 @@
     
     [[AVAudioSession sharedInstance] setDelegate: self];
 
+    if([self.delegate isKindOfClass:[NoteCommentViewController class]]) {
+        self.publicButton.hidden = YES;
+        self.mapButton.hidden = YES;
+        self.textButton.frame = CGRectMake(self.textButton.frame.origin.x, self.textButton.frame.origin.y, self.textButton.frame.size.width*1.5, self.textButton.frame.size.height);
+        self.libraryButton.frame = CGRectMake(self.libraryButton.frame.origin.x, self.libraryButton.frame.origin.y, self.libraryButton.frame.size.width*1.5, self.libraryButton.frame.size.height);
+        self.audioButton.frame = CGRectMake(self.textButton.frame.size.width-2, self.audioButton.frame.origin.y, self.audioButton.frame.size.width*1.5, self.audioButton.frame.size.height);
+        self.cameraButton.frame = CGRectMake(self.textButton.frame.size.width-2, self.cameraButton.frame.origin.y, self.cameraButton.frame.size.width*1.5, self.cameraButton.frame.size.height);
+    }
 }
 -(void)viewWillDisappear:(BOOL)animated{
     self.navigationController.navigationItem.title = @"Note";
         [self.soundPlayer pause];
+    if(!self.noteValid) [[AppServices sharedAppServices]deleteNoteWithNoteId:self.note.noteId];
 }
 
 - (void)viewDidUnload
@@ -114,6 +140,7 @@
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [self.textField resignFirstResponder];
+    self.noteValid = YES;
     [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text andShared:self.note.shared];
     self.navigationItem.title = self.textField.text;
     [self.delegate refresh];
@@ -178,6 +205,7 @@
 -(void)mapButtonTouchAction{
     DropOnMapViewController *mapVC = [[[DropOnMapViewController alloc] initWithNibName:@"DropOnMapViewController" bundle:nil] autorelease];
     mapVC.noteId = self.note.noteId;
+    self.noteValid = YES;
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:.5];
     
@@ -187,6 +215,7 @@
     [UIView commitAnimations];
 }
 -(void)publicButtonTouchAction{
+    self.noteValid = YES;
     if(self.publicButton.selected){
     self.publicButton.selected = NO;
         self.note.shared = NO;

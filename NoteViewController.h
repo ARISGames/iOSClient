@@ -34,6 +34,7 @@
     int numPages;
     AVPlayer *soundPlayer;
     id timeObserver;
+    BOOL noteValid;
 
 }
 @property(nonatomic,retain) IBOutlet UITextView *textBox;
@@ -53,6 +54,7 @@
 @property(nonatomic, retain) IBOutlet UIPageControl *pageControl;
 @property(nonatomic, retain) NSMutableArray *viewControllers;
 @property(readwrite, retain) AVPlayer *soundPlayer;
+@property(readwrite, assign) BOOL noteValid;
 
 - (void)titleAndDescriptionFormDidFinish:(TitleAndDecriptionFormViewController*)titleAndDescForm;
 - (void)displayTitleandDescriptionForm;
