@@ -15,6 +15,7 @@
 #import "GamePickerMapViewController.h"
 #import "GamePickerSearchViewController.h"
 #import "GamePickerRecentViewController.h"
+#import "webpageViewController.h"
 
 
 @implementation ARISAppDelegate
@@ -723,7 +724,9 @@
 	nearbyObjectNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 		
 	//Display
-	[self.tabBarController presentModalViewController:nearbyObjectNavigationController animated:YES];
+    if([nearbyObjectViewController isKindOfClass:[webpageViewController class]])
+	[self.tabBarController presentModalViewController:nearbyObjectNavigationController animated:NO];
+    else 	[self.tabBarController presentModalViewController:nearbyObjectNavigationController animated:YES];
 	[nearbyObjectNavigationController release];
 }
 
