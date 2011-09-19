@@ -180,7 +180,7 @@ NSString *const kDialogHtmlTemplate =
 	CGRect newTextFrame;
 	if (inFullScreenTextMode) {
 		//Switch to small mode
-		newTextFrame = CGRectMake(0, self.view.bounds.size.height-128, self.view.bounds.size.width, 128);
+		newTextFrame = CGRectMake(0, 228, 320, 128);
 	}
 	else {
 		//switch to full screen mode
@@ -191,6 +191,7 @@ NSString *const kDialogHtmlTemplate =
 	[UIView setAnimationDuration:0.5];
 	self.pcScrollView.frame = newTextFrame;
 	self.pcTableView.frame = self.pcScrollView.bounds;
+    self.pcScrollView.contentSize = self.pcTableView.frame.size;
 	self.npcScrollView.frame = newTextFrame;
 	[UIView commitAnimations];
 	
