@@ -252,11 +252,11 @@
     int x = 0;
     
     //Loop through every viewController and display the notification 
-    while (x < [self.tabBarController.customizableViewControllers count])
+    while (x < [self.tabBarController.viewControllers count] + 1)
         {
             //the 7th viewController is "bogusViewController which we want to ignore
             //but it is also then a good spot to check if a modal is on screen
-            if([[self.tabBarController.customizableViewControllers objectAtIndex:x] isKindOfClass:[BogusSelectGameViewController class]]) {
+            if(x == [self.tabBarController.viewControllers count]) {
                 if(self.tabBarController.modalViewController)
                 {
                     //set tempNC to the modalView if there is a modal up
@@ -268,7 +268,7 @@
                 
             }
             
-            else tempNC = (UINavigationController *)[self.tabBarController.customizableViewControllers objectAtIndex:x];
+            else tempNC = (UINavigationController *)[self.tabBarController.viewControllers objectAtIndex:x];
 
     NSString *title = [titleAndPrompt objectForKey:@"title"];
     NSString *prompt = [titleAndPrompt objectForKey:@"prompt"];
