@@ -63,6 +63,7 @@
     
 }
 -(void)addPhotoButtonTouchAction{
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
     CameraViewController *cameraVC = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
     cameraVC.delegate = self;
     cameraVC.showVid = YES;
@@ -76,8 +77,11 @@
     [self.navigationController pushViewController:cameraVC animated:NO];
     //[cameraVC release];
     [UIView commitAnimations];
+    }
 }
 -(void)addAudioButtonTouchAction{
+    BOOL audioHWAvailable = [[AVAudioSession sharedInstance] inputIsAvailable];
+    if(audioHWAvailable){
     AudioRecorderViewController *audioVC = [[[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil] autorelease];
     audioVC.delegate = self;
     if(self.commentNote.noteId == 0)   self.commentNote.noteId = [[AppServices sharedAppServices]addCommentToNoteWithId:self.parentNote.noteId andRating:self.rating];
@@ -90,6 +94,7 @@
     [self.navigationController pushViewController:audioVC animated:NO];
     //[audioVC release];
     [UIView commitAnimations]; 
+    }
 
 }
 -(void)addTextButtonTouchAction{

@@ -149,6 +149,7 @@
 }
 
 -(void)cameraButtonTouchAction{
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
     CameraViewController *cameraVC = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
     cameraVC.delegate = self.delegate;
     cameraVC.showVid = YES;
@@ -161,8 +162,11 @@
     [self.navigationController pushViewController:cameraVC animated:NO];
     //[cameraVC release];
     [UIView commitAnimations];
+    }
 }
 -(void)audioButtonTouchAction{
+    BOOL audioHWAvailable = [[AVAudioSession sharedInstance] inputIsAvailable];
+    if(audioHWAvailable){
     AudioRecorderViewController *audioVC = [[[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil] autorelease];
     audioVC.delegate = self.delegate;
     audioVC.noteId = self.note.noteId;
@@ -173,7 +177,8 @@
                            forView:self.navigationController.view cache:YES];
     [self.navigationController pushViewController:audioVC animated:NO];
     //[audioVC release];
-    [UIView commitAnimations]; 
+        [UIView commitAnimations];
+    } 
 }
 -(void)libraryButtonTouchAction{
     CameraViewController *cameraVC = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
