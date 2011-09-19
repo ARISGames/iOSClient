@@ -176,8 +176,10 @@ static float INITIAL_SPAN = 0.001;
 	if (mapView) {
 		NSLog(@"GPSViewController: refresh requested");	
 	
-		if ([AppModel sharedAppModel].loggedIn && ([AppModel sharedAppModel].currentGame.gameId != 0 && [AppModel sharedAppModel].playerId != 0)) [[AppServices sharedAppServices] fetchLocationList];
-		[self showLoadingIndicator];
+		if ([AppModel sharedAppModel].loggedIn && ([AppModel sharedAppModel].currentGame.gameId != 0 && [AppModel sharedAppModel].playerId != 0)) {
+            [[AppServices sharedAppServices] fetchLocationList];
+            [self showLoadingIndicator];
+        }
 
 		//Zoom and Center
 		if (tracking) [self zoomAndCenterMap];
