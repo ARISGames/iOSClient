@@ -25,14 +25,11 @@
 		114F7474140D92DF003421C6 /* ImageViewer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 114F7472140D92DF003421C6 /* ImageViewer.xib */; };
 		11691A35140FEF71003E8998 /* NoteCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11691A33140FEF71003E8998 /* NoteCommentViewController.m */; };
 		11691A36140FEF71003E8998 /* NoteCommentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11691A34140FEF71003E8998 /* NoteCommentViewController.xib */; };
-		118622DB14040E7200D4B738 /* buttonborder.png in Resources */ = {isa = PBXBuildFile; fileRef = 118622DA14040E7200D4B738 /* buttonborder.png */; };
-		118622DD14040F6600D4B738 /* buttonborder2.png in Resources */ = {isa = PBXBuildFile; fileRef = 118622DC14040F6600D4B738 /* buttonborder2.png */; };
 		118622E01404535300D4B738 /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = 118622DF1404535300D4B738 /* Note.m */; };
 		118622E314046A9B00D4B738 /* NoteMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 118622E214046A9900D4B738 /* NoteMedia.m */; };
 		118669AB13BB8EAC004B4EC8 /* AttributesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 118669A813BB8EAC004B4EC8 /* AttributesViewController.m */; };
 		118669AC13BB8EAC004B4EC8 /* AttributesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 118669A913BB8EAC004B4EC8 /* AttributesViewController.xib */; };
 		118669AD13BB8EAC004B4EC8 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 118669AA13BB8EAC004B4EC8 /* profile.png */; };
-		11886635140570F20009E36F /* mappoint.png in Resources */ = {isa = PBXBuildFile; fileRef = 11886634140570F20009E36F /* mappoint.png */; };
 		1188663914057CF60009E36F /* TextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1188663714057CF60009E36F /* TextViewController.m */; };
 		1188663A14057CF60009E36F /* TextViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1188663814057CF60009E36F /* TextViewController.xib */; };
 		1188663F1406B12B0009E36F /* NotebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1188663D1406B12B0009E36F /* NotebookViewController.m */; };
@@ -346,8 +343,6 @@
 		11691A32140FEF71003E8998 /* NoteCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCommentViewController.h; sourceTree = "<group>"; };
 		11691A33140FEF71003E8998 /* NoteCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCommentViewController.m; sourceTree = "<group>"; };
 		11691A34140FEF71003E8998 /* NoteCommentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteCommentViewController.xib; sourceTree = "<group>"; };
-		118622DA14040E7200D4B738 /* buttonborder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = buttonborder.png; path = ../../../Desktop/buttonborder.png; sourceTree = "<group>"; };
-		118622DC14040F6600D4B738 /* buttonborder2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = buttonborder2.png; path = ../../../Desktop/buttonborder2.png; sourceTree = "<group>"; };
 		118622DE1404535200D4B738 /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Note.h; sourceTree = "<group>"; };
 		118622DF1404535300D4B738 /* Note.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Note.m; sourceTree = "<group>"; };
 		118622E114046A9800D4B738 /* NoteMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteMedia.h; sourceTree = "<group>"; };
@@ -356,7 +351,6 @@
 		118669A813BB8EAC004B4EC8 /* AttributesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributesViewController.m; sourceTree = "<group>"; };
 		118669A913BB8EAC004B4EC8 /* AttributesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AttributesViewController.xib; sourceTree = "<group>"; };
 		118669AA13BB8EAC004B4EC8 /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
-		11886634140570F20009E36F /* mappoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mappoint.png; path = ../../../Desktop/mappoint.png; sourceTree = "<group>"; };
 		1188663614057CF60009E36F /* TextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextViewController.h; sourceTree = "<group>"; };
 		1188663714057CF60009E36F /* TextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextViewController.m; sourceTree = "<group>"; };
 		1188663814057CF60009E36F /* TextViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextViewController.xib; sourceTree = "<group>"; };
@@ -841,9 +835,6 @@
 				118866431406B54C0009E36F /* notebook.png */,
 				1147E15513F32260000E4BC2 /* noteicon.png */,
 				118866451406B69B0009E36F /* notebook2.png */,
-				118622DC14040F6600D4B738 /* buttonborder2.png */,
-				11886634140570F20009E36F /* mappoint.png */,
-				118622DA14040E7200D4B738 /* buttonborder.png */,
 				118866471406BB830009E36F /* NoteContent.h */,
 				118866481406BB830009E36F /* NoteContent.m */,
 				1147E15613F32260000E4BC2 /* NoteViewController.h */,
@@ -1765,9 +1756,6 @@
 				11DD3D5113F5B0EF0051AB76 /* playericon.png in Resources */,
 				11DD3D5213F5B0EF0051AB76 /* plusCellButton.png in Resources */,
 				11DD3D5413F5B8F40051AB76 /* plusCellButton_Pressed.png in Resources */,
-				118622DB14040E7200D4B738 /* buttonborder.png in Resources */,
-				118622DD14040F6600D4B738 /* buttonborder2.png in Resources */,
-				11886635140570F20009E36F /* mappoint.png in Resources */,
 				1188663A14057CF60009E36F /* TextViewController.xib in Resources */,
 				118866401406B12B0009E36F /* NotebookViewController.xib in Resources */,
 				118866441406B54C0009E36F /* notebook.png in Resources */,
@@ -1985,7 +1973,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: David Gagnon (56YHU87885)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2005,7 +1993,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = ARIS;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "95392608-6996-4F76-9735-018B7BB24CFD";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -2025,8 +2013,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "D14C3F02-C8B2-42ED-B71D-FC92CB362494";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D14C3F02-C8B2-42ED-B71D-FC92CB362494";
+				PROVISIONING_PROFILE = "070A9037-D69F-46F7-9769-74B7B2F68318";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "070A9037-D69F-46F7-9769-74B7B2F68318";
 				SDKROOT = iphoneos;
 			};
 			name = Release;
@@ -2076,7 +2064,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				ONLY_ACTIVE_ARCH = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A862388F-9251-40BD-8769-49CC59D42E01";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "95392608-6996-4F76-9735-018B7BB24CFD";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
