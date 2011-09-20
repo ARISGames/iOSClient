@@ -252,69 +252,68 @@
     int x = 0;
     
     //Loop through every viewController and display the notification 
-    while (x < [self.tabBarController.viewControllers count] + 1)
-        {
-            //the 7th viewController is "bogusViewController which we want to ignore
-            //but it is also then a good spot to check if a modal is on screen
-            if(x == [self.tabBarController.viewControllers count]) {
-                if(self.tabBarController.modalViewController)
-                {
-                    //set tempNC to the modalView if there is a modal up
-                    tempNC = (UINavigationController *)self.tabBarController.modalViewController;
-                    self.modalPresent = YES;
-                }
-                else
-                    x++; //if there isnt a modal on screen skip the bogus viewController and go to the next
-                
-            }
-            
-            else tempNC = (UINavigationController *)[self.tabBarController.viewControllers objectAtIndex:x];
-
-    NSString *title = [titleAndPrompt objectForKey:@"title"];
-    NSString *prompt = [titleAndPrompt objectForKey:@"prompt"];
-    
-
-    
-    NSString *origTitle = [[tempNC.topViewController.navigationItem.title copy] retain];
-
-    
-    navBarTitlePromptAndColorDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:title,@"title",prompt,@"prompt",[UIColor grayColor],@"color", tempNC,@"navbar", nil];
-    
-                   
-    //tempNC.topViewController.title = @"Quest was Completed!";
-    [self performSelector:@selector(changeNavTitle:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease]  
-               afterDelay:(0*secBetweenStages+totalTime*(self.notificationCount-1))];
-    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] 
-               afterDelay:(0*secBetweenStages+totalTime*(self.notificationCount-1))];
-    
-    [navBarTitlePromptAndColorDict setValue:[UIColor lightGrayColor] forKey:@"color"];    
-    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] 
-               afterDelay:(1*secBetweenStages+totalTime*(self.notificationCount-1))];
-    
-    [navBarTitlePromptAndColorDict setValue:[UIColor grayColor] forKey:@"color"];    
-    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] 
-               afterDelay:(2*secBetweenStages+totalTime*(self.notificationCount-1))];
-    
-    [navBarTitlePromptAndColorDict setValue:[UIColor lightGrayColor] forKey:@"color"];
-    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] 
-               afterDelay:(3*secBetweenStages+totalTime*(self.notificationCount-1))];
-    
-    [navBarTitlePromptAndColorDict setValue:[UIColor grayColor] forKey:@"color"];    
-    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] 
-               afterDelay:(4*secBetweenStages+totalTime*(self.notificationCount-1))];
-    
-    [navBarTitlePromptAndColorDict setValue:[UIColor blackColor] forKey:@"color"];
-    [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] 
-               afterDelay:(5*secBetweenStages+totalTime*(self.notificationCount-1))];
-    
-    [navBarTitlePromptAndColorDict setValue:origTitle forKey:@"title"];
-    [navBarTitlePromptAndColorDict setValue:nil forKey:@"prompt"];
-    [self performSelector:@selector(changeNavTitle:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] 
-               afterDelay:(5*secBetweenStages+totalTime*(self.notificationCount-1))];
-    [origTitle release];
-
-            x++;
+    while (x <= [self.tabBarController.viewControllers count]) {
+        
+        //Do a little trick where we actually loop through one time more than the number of VCs so we can pickup any modals
+        if (x < [self.tabBarController.viewControllers count]) tempNC = (UINavigationController *)[self.tabBarController.viewControllers objectAtIndex:x];  
+        else if (self.tabBarController.modalViewController){
+            tempNC = (UINavigationController *)self.tabBarController.modalViewController;
+            self.modalPresent = YES;
         }
+        else {
+            x++;
+            continue;
+        }
+        
+        //Check if this VC will crash out script (like the bogusVC we use to go back to the game selection)
+        if (![tempNC respondsToSelector: @selector(topViewController)]) {
+            x++;
+            continue;
+        }
+
+       
+        NSString *title = [titleAndPrompt objectForKey:@"title"];
+        NSString *prompt = [titleAndPrompt objectForKey:@"prompt"];
+        
+        NSString *origTitle = [[tempNC.topViewController.navigationItem.title copy] retain];
+
+        navBarTitlePromptAndColorDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:title,@"title",prompt,@"prompt",[UIColor grayColor],@"color", tempNC,@"navbar", nil];        
+                       
+        //tempNC.topViewController.title = @"Quest was Completed!";
+        [self performSelector:@selector(changeNavTitle:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease]  
+                   afterDelay:(0*secBetweenStages+totalTime*(self.notificationCount-1))];
+        [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] 
+                   afterDelay:(0*secBetweenStages+totalTime*(self.notificationCount-1))];
+        
+        [navBarTitlePromptAndColorDict setValue:[UIColor lightGrayColor] forKey:@"color"];    
+        [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] 
+                   afterDelay:(1*secBetweenStages+totalTime*(self.notificationCount-1))];
+        
+        [navBarTitlePromptAndColorDict setValue:[UIColor grayColor] forKey:@"color"];    
+        [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] 
+                   afterDelay:(2*secBetweenStages+totalTime*(self.notificationCount-1))];
+        
+        [navBarTitlePromptAndColorDict setValue:[UIColor lightGrayColor] forKey:@"color"];
+        [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] 
+                   afterDelay:(3*secBetweenStages+totalTime*(self.notificationCount-1))];
+        
+        [navBarTitlePromptAndColorDict setValue:[UIColor grayColor] forKey:@"color"];    
+        [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] 
+                   afterDelay:(4*secBetweenStages+totalTime*(self.notificationCount-1))];
+        
+        [navBarTitlePromptAndColorDict setValue:[UIColor blackColor] forKey:@"color"];
+        [self performSelector:@selector(changeNavColor:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] 
+                   afterDelay:(5*secBetweenStages+totalTime*(self.notificationCount-1))];
+        
+        [navBarTitlePromptAndColorDict setValue:origTitle forKey:@"title"];
+        [navBarTitlePromptAndColorDict setValue:nil forKey:@"prompt"];
+        [self performSelector:@selector(changeNavTitle:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] 
+                   afterDelay:(5*secBetweenStages+totalTime*(self.notificationCount-1))];
+        [origTitle release];
+
+        x++;
+    }
+    
     [self performSelector:@selector(decrementNotificationCount:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] 
                afterDelay:(5*secBetweenStages+totalTime*(self.notificationCount-1))];
     
