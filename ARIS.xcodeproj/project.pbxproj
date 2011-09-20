@@ -1030,7 +1030,6 @@
 		29B97314FDCFA39411CA2CEA /* ARIS */ = {
 			isa = PBXGroup;
 			children = (
-				AB38DB3B13E4A1DE001EFF52 /* libiconv.dylib */,
 				AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */,
 				AB0A5BA3120365420065CE68 /* Localizable.strings */,
 				A7149F9C0FB89DC8008BAB5D /* Settings.bundle */,
@@ -1348,6 +1347,7 @@
 				11BE77A613B26515000D037B /* CoreMotion.framework */,
 				11BE779E13B0FCC7000D037B /* OpenGLES.framework */,
 				AB9BA24813DFBAB1007470E3 /* libz.dylib */,
+				AB38DB3B13E4A1DE001EFF52 /* libiconv.dylib */,
 				AB8A3CCD104936F500422773 /* libiconv.2.dylib */,
 				AB1CA8B713C7CDAE00131F81 /* libZXingWidget.a */,
 			);
