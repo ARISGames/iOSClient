@@ -129,7 +129,7 @@
         [controller loadImageFromMedia:m];
             [viewControllers addObject:controller];
             [controller release];
-            [m release];
+            //[m release];
             if (nil == controller.superview) {
                 CGRect frame = scrollView.frame;
                 frame.origin.x = frame.size.width * (numPages-1);

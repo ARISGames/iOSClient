@@ -112,5 +112,5 @@
 - (void) changeNavTitle: (NSDictionary *) navBarTitleAndPromptDict;
 - (void) decrementNotificationCount: (NSDictionary *) navBarDict; 
 - (void) changeTabBar;
-
+- (void) resetCurrentlyFetchingVars;
 @end

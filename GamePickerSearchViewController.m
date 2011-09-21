@@ -76,6 +76,8 @@
     NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
     [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
     [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
+    [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
+
     
     [[AppServices sharedAppServices] fetchGameListBySearch: [self.searchText stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
     NSLog(@"URL encoded search string: %@", [self.searchText stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]);

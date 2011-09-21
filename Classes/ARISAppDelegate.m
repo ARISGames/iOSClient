@@ -577,7 +577,16 @@
 	[[AppModel sharedAppModel] loadUserDefaults];
 }
 
-
+- (void) resetCurrentlyFetchingVars{
+    [AppServices sharedAppServices].currentlyFetchingGamesList = NO;
+    [AppServices sharedAppServices].currentlyFetchingInventory = NO;
+    [AppServices sharedAppServices].currentlyFetchingLocationList = NO;
+    [AppServices sharedAppServices].currentlyFetchingQuestList = NO;
+    [AppServices sharedAppServices].currentlyUpdatingServerWithInventoryViewed = NO;
+    [AppServices sharedAppServices].currentlyUpdatingServerWithMapViewed = NO;
+    [AppServices sharedAppServices].currentlyUpdatingServerWithPlayerLocation = NO;
+    [AppServices sharedAppServices].currentlyUpdatingServerWithQuestsViewed = NO;
+}
 
 - (void) showServerAlertWithEmail:(NSString *)title message:(NSString *)message details:(NSString*)detail{
 	

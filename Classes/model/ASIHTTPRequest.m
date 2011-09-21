@@ -1238,12 +1238,14 @@ static NSOperationQueue *sharedQueue = nil;
 		
 		// We have no body, or we've sent more than the upload buffer size,so we can safely time out here
 		if ([self postLength] == 0 || ([self uploadBufferSize] > 0 && [self totalBytesSent] > [self uploadBufferSize])) {
+            NSLog(@"REQUEST SHOULD TIMEOUT");
 			return YES;
 			
 		// ***Black magic warning***
 		// We have a body, but we've taken longer than timeOutSeconds to upload the first small chunk of data
 		// Since there's no reliable way to track upload progress for the first 32KB (iPhone) or 128KB (Mac) with CFNetwork, we'll be slightly more forgiving on the timeout, as there's a strong chance our connection is just very slow.
 		} else if (secondsSinceLastActivity > [self timeOutSeconds]*1.5) {
+            NSLog(@"REQUEST SHOULD TIMEOUT");
 			return YES;
 		}
 	}

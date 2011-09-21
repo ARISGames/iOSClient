@@ -101,6 +101,7 @@ static float INITIAL_SPAN = 20;
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
         [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
+        [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
         [dispatcher addObserver:self selector:@selector(goToGame) name:@"NewGameListReady" object:nil];
         
         //Force an update of the locations

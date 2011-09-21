@@ -89,7 +89,7 @@
 	ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:self.completeRequestURL];
 	[request setNumberOfTimesToRetryOnTimeout:2];
 	[request setDelegate:self];
-	[request setTimeOutSeconds:60];
+	[request setTimeOutSeconds:10];
 
 
 	//Store the parser in the request
@@ -130,12 +130,12 @@
 
 - (void)requestFailed:(ASIHTTPRequest *)request {	
 	NSError *error = [request error];
-	
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ConnectionLost" object:nil]];
 	// inform the user
     NSLog(@"*** JSONConnection: requestFailed: %@ %@",
           [error localizedDescription],
           [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
-	
+	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] resetCurrentlyFetchingVars];
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeNewWaitingIndicator];	
 	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showNetworkAlert];	
