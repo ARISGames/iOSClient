@@ -66,7 +66,7 @@ NSString *const kDialogHtmlTemplate =
 @implementation DialogViewController
 @synthesize npcImage, pcImage, npcWebView, pcWebView, pcTableView,exitToTabVal;
 @synthesize npcScrollView, pcScrollView, npcImageScrollView, pcImageScrollView, pcActivityIndicator;
-@synthesize npcContinueButton, pcContinueButton, textSizeButton;
+@synthesize npcContinueButton, pcContinueButton, textSizeButton, specialBackButton;
 @synthesize pcAnswerView, mainView, npcView, pcView, nothingElseLabel,lbl,currentNpc,currentNode;
 
 
@@ -211,6 +211,7 @@ NSString *const kDialogHtmlTemplate =
 	// e.g. self.myOutlet = nil;
 }
 -(void)viewDidAppear:(BOOL)animated{
+    self.navigationItem.leftBarButtonItem = self.navigationItem.backBarButtonItem;
 }
 - (void) viewDidDisappear:(BOOL)animated {
 	NSLog(@"DialogViewController: View Did Disapear");
@@ -346,6 +347,8 @@ NSString *const kDialogHtmlTemplate =
             webpageViewController *webPageViewController = [[webpageViewController alloc] initWithNibName:@"webpageViewController" bundle: [NSBundle mainBundle]];
             webPageViewController.webPage = [[AppModel sharedAppModel] webPageForWebPageID:currentScene.webId];
             webPageViewController.delegate = self;
+            self.specialBackButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(refresh)]; 
+            webPageViewController.navigationItem.backBarButtonItem = self.specialBackButton;
             [self.navigationController pushViewController:webPageViewController animated:YES];
             [webPageViewController release];
         }

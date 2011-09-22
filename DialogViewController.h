@@ -30,6 +30,7 @@
 	IBOutlet	UIButton	*pcContinueButton;
 	IBOutlet	UIButton	*npcContinueButton;
 	UIBarButtonItem	*textSizeButton;
+    UIBarButtonItem	*specialBackButton;
 	
 	IBOutlet	UIView	*mainView;
 	IBOutlet	UIView	*npcView;
@@ -72,6 +73,7 @@
 @property(nonatomic, retain) IBOutlet UIButton *npcContinueButton;
 @property(nonatomic, retain) IBOutlet UIButton *pcContinueButton;
 @property(nonatomic, retain) IBOutlet UIBarButtonItem *textSizeButton;
+@property(nonatomic, retain) IBOutlet UIBarButtonItem *specialBackButton;
 
 @property(nonatomic, retain) IBOutlet NSString *exitToTabVal;
 
