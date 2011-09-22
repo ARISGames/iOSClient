@@ -774,7 +774,8 @@
 	if (buttonIndex == 1) {
 		NSLog(@"AppDelegate: AlertView button wants to send an email" );
 		//Send an Email
-		NSString *body = [NSString stringWithFormat:@"%@",alertView.message];
+		//NSString *body = [NSString stringWithFormat:@"%@",alertView.message];
+        NSString * body = @"You may need to login to your Wifi connection from Safari. \nYou also may need to verify ARIS server settings in system preferences. \nIf the problem persists, please send us some debugging information";
 		MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
 		controller.mailComposeDelegate = self;
 		[controller setToRecipients: [NSMutableArray arrayWithObjects: @"arisgames-dev@googlegroups.com",nil]];
