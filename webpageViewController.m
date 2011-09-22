@@ -85,6 +85,7 @@ NSURL *url = [NSURL URLWithString:urlAddress];
 	[[AppServices sharedAppServices] updateServerWebPageViewed:webPage.webPageId];
 	
 	
+    if([self.delegate isKindOfClass:[DialogViewController class]]) [self refreshConvos];
 	//[self.view removeFromSuperview];
 	if([self.delegate isKindOfClass:[DialogViewController class]] || [self.delegate isKindOfClass:[NodeViewController class]]
        || [self.delegate isKindOfClass:[QuestsViewController class]] || [self.delegate isKindOfClass:[ItemDetailsViewController class]])

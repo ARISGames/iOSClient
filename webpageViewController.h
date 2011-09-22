@@ -27,4 +27,6 @@
 - (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType;
 - (void) showWaitingIndicator;
 - (void) dismissWaitingIndicator;
+- (void)refreshConvos;
+
 @end

@@ -347,8 +347,6 @@ NSString *const kDialogHtmlTemplate =
             webpageViewController *webPageViewController = [[webpageViewController alloc] initWithNibName:@"webpageViewController" bundle: [NSBundle mainBundle]];
             webPageViewController.webPage = [[AppModel sharedAppModel] webPageForWebPageID:currentScene.webId];
             webPageViewController.delegate = self;
-            self.specialBackButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(refresh)]; 
-            webPageViewController.navigationItem.backBarButtonItem = self.specialBackButton;
             [self.navigationController pushViewController:webPageViewController animated:YES];
             [webPageViewController release];
         }
