@@ -370,9 +370,9 @@ NSString *const kDialogHtmlTemplate =
         if (self.exitToTabVal != nil) {
             //TODO: Move this code into an app delegate method
             NSString *tab;
-            for(int i = 0;i < [appDelegate.tabBarController.customizableViewControllers count];i++)
+            for(int i = 0;i < [appDelegate.tabBarController.viewControllers count];i++)
             {
-                tab = [[appDelegate.tabBarController.customizableViewControllers objectAtIndex:i] title];
+                tab = [[appDelegate.tabBarController.viewControllers objectAtIndex:i] title];
                 tab = [tab lowercaseString];
                 self.exitToTabVal = [self.exitToTabVal lowercaseString];
                 if([self.exitToTabVal isEqualToString:tab])
