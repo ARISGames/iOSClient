@@ -11,7 +11,7 @@
 #import "Node.h"
 #import "ARISMoviePlayerViewController.h"
 
-@interface NodeViewController : UIViewController <UIWebViewDelegate>
+@interface NodeViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIWebViewDelegate>
 {
 	Node *node;
 	MPMoviePlayerViewController *mMoviePlayer; //only used if item is a video
@@ -22,14 +22,18 @@
 	IBOutlet UIScrollView *scrollView;
     IBOutlet UIWebView *aWebView;
     BOOL isLink;
-    
+    BOOL hasMedia;
+    CGFloat newHeight;
+
 }
 
 @property(readwrite, retain) Node *node;
 @property(readwrite, assign) BOOL isLink;
+@property(readwrite, assign) BOOL hasMedia;
 @property(nonatomic, retain) IBOutlet UITableView *tableView;
 @property(nonatomic, retain) IBOutlet UIScrollView *scrollView;
 @property(nonatomic, retain) IBOutlet UIWebView *aWebView;
+@property (nonatomic, assign) CGFloat  newHeight;
 
 @property(nonatomic, retain) IBOutlet UIButton *continueButton;
 

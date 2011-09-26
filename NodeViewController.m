@@ -37,7 +37,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 
 
 @implementation NodeViewController
-@synthesize node, tableView, scrollView,aWebView,isLink;
+@synthesize node, tableView, scrollView,aWebView,isLink,newHeight, hasMedia;
 @synthesize continueButton;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -65,20 +65,32 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.modalPresent = YES;
     self.aWebView.delegate = self;
-    [self refreshView];
+    self.aWebView.hidden = NO;
+    	NSString *htmlDescription = [NSString stringWithFormat:kPlaqueDescriptionHtmlTemplate, self.node.text];
+	[self.aWebView loadHTMLString:htmlDescription baseURL:nil];
+   aWebView.backgroundColor =[UIColor clearColor];
+    //[self refreshView];
     [super viewDidLoad];
 }
 -(void)viewDidDisappear:(BOOL)animated{
    // self.isLink= NO;
 }
 -(void)webViewDidFinishLoad:(UIWebView *)webView{
-    if (!self.isLink){
-        CGRect aWebViewFrame = [aWebView frame];	
-        float newHeight = [[aWebView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
-        aWebViewFrame.size = CGSizeMake(aWebViewFrame.size.width, newHeight);
-        [aWebView setFrame:aWebViewFrame];
-        [[[aWebView subviews] lastObject] setScrollEnabled:NO];
-    }
+    //if (!self.isLink){
+        float nHeight = [[self.aWebView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
+        self.newHeight = nHeight;
+        NSLog(@"GameDetails: Description View Calculated Height is: %f",newHeight);
+        
+        CGRect descriptionFrame = [self.aWebView frame];	
+        descriptionFrame.size = CGSizeMake(descriptionFrame.size.width,newHeight+5);
+        [self.aWebView setFrame:descriptionFrame];	
+        NSLog(@"GameDetails: description UIWebView frame set to {%f, %f, %f, %f}", 
+              descriptionFrame.origin.x, 
+              descriptionFrame.origin.y, 
+              descriptionFrame.size.width,
+              descriptionFrame.size.height);
+        [tableView reloadData];
+   // }
 }
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
     if(self.isLink) {
@@ -96,94 +108,6 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     self.isLink = YES;
         return YES;}
 }
-- (void) refreshView {
-	self.title = self.node.name;
-	int topMargin = 10;
-	
-	//Throw out an existing scroller subviews
-	for(UIView *subview in [self.scrollView subviews]) {
-		[subview removeFromSuperview];
-	}
-	
-	Media *media = [[AppModel sharedAppModel] mediaForMediaId: self.node.mediaId];
-
-	if ([media.type isEqualToString: @"Image"] && media.url) {
-		NSLog(@"ItemDetailsViewController: Image Layout Selected");
-		AsyncImageView* mediaImageView = [[AsyncImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 320)]; 
-		[mediaImageView loadImageFromMedia:media];
-				
-		//Add the image view to the scroller
-		[scrollView addSubview:mediaImageView];
-		imageSize = mediaImageView.frame.size;
-		[mediaImageView release];
-	}
-	else if (([media.type isEqualToString: @"Video"] || [media.type isEqualToString: @"Audio"]) && media.url) {
-		NSLog(@"ItemDetailsViewController:  Video Layout Selected");
-		
-		//Setup the Button
-		mediaPlaybackButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 320, 295)];
-		[mediaPlaybackButton addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
-		[mediaPlaybackButton setBackgroundImage:[UIImage imageNamed:@"clickToPlay.png"] forState:UIControlStateNormal];
-		[mediaPlaybackButton setTitle:NSLocalizedString(@"PreparingToPlayKey",@"") forState:UIControlStateNormal];
-		mediaPlaybackButton.enabled = NO;
-		mediaPlaybackButton.titleLabel.font = [UIFont boldSystemFontOfSize:24];
-		[mediaPlaybackButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
-		[mediaPlaybackButton setContentVerticalAlignment:UIControlContentVerticalAlignmentBottom];
-		[scrollView addSubview:mediaPlaybackButton];	
-		
-		imageSize = mediaPlaybackButton.frame.size;
-		topMargin = 50; 
-
-		//Create movie player object
-		mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
-		[mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
-		mMoviePlayer.moviePlayer.shouldAutoplay = NO;
-		[mMoviePlayer.moviePlayer prepareToPlay];
-	}
-	
-	else {
-		NSLog(@"ItemDetailsVC: Error Loading Media ID: %d. It etiher doesn't exist or is not of a valid type.", node.mediaId);
-	}
-	
-	
-	//Set Up Text Area
-	int sideMargin = 10;
-	UILabel *nodeTextView = [[UILabel alloc] initWithFrame:CGRectMake(sideMargin, imageSize.height + topMargin, 320 - (2 * sideMargin),
-																			 [self calculateTextHeight:self.node.text])];
-	nodeTextView.text = self.node.text;
-	nodeTextView.backgroundColor = [UIColor blackColor];
-	nodeTextView.textColor = [UIColor whiteColor];
-	nodeTextView.lineBreakMode = UILineBreakModeWordWrap;
-	nodeTextView.numberOfLines = 0;
-	[scrollView setContentSize:CGSizeMake(320, nodeTextView.frame.origin.y
-										  + nodeTextView.frame.size.height + continueButton.frame.size.height+40)];
-    
-	//Add the text to the scroller
-	[scrollView addSubview:nodeTextView];
-    aWebView.backgroundColor =[UIColor blackColor];
-    NSString *htmlDescription = [NSString stringWithFormat:kPlaqueDescriptionHtmlTemplate, self.node.text];
-    aWebView.frame = CGRectMake(sideMargin, imageSize.height + topMargin,320 - (2 * sideMargin),aWebView.frame.size.height);
-	[aWebView loadHTMLString:htmlDescription baseURL:nil];
-    [scrollView addSubview:aWebView];
-	[nodeTextView release];
-	
-    //Create continue button
-    [continueButton setTitle: NSLocalizedString(@"DialogContinue",@"") forState: UIControlStateNormal];
-	[continueButton setTitle: NSLocalizedString(@"DialogContinue",@"") forState: UIControlStateHighlighted];	
-    [continueButton addTarget:self action:@selector(continueButtonTouchAction:) forControlEvents:UIControlEventTouchUpInside];
-    scrollView.frame = CGRectMake(scrollView.frame.origin.x, scrollView.frame.origin.y, scrollView.frame.size.width, scrollView.frame.size.height-20);
-    CGRect continueButtonFrame = [continueButton frame];	
-    if(scrollView.contentSize.height > scrollView.frame.size.height)
-	continueButtonFrame.origin = CGPointMake(continueButtonFrame.origin.x, scrollView.contentSize.height-continueButton.frame.size.height);
-    else
-    continueButtonFrame.origin = CGPointMake(continueButtonFrame.origin.x, scrollView.frame.size.height-continueButton.frame.size.height);
-	[continueButton setFrame:continueButtonFrame];
-    [scrollView addSubview:continueButton];
-    
-	//Refresh the tableView
-	[tableView reloadData];
-}
-
 - (IBAction)backButtonTouchAction: (id) sender{
 	NSLog(@"NodeViewController: Notify server of Node view and Dismiss view");
 	
@@ -198,7 +122,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 
 }
 
-- (IBAction)continueButtonTouchAction:(id) sender{
+- (IBAction)continueButtonTouchAction{
     NSLog(@"NodeViewController: Notify server of Node view and Dismiss view");
 	
 	//Notify the server this item was displayed
@@ -292,81 +216,135 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 }
 
 
-
-
-
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
-
 #pragma mark PickerViewDelegate selectors
 
-- (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier {
-	CGRect cellFrame = CGRectMake(0, 0, 300, 45);
-	CGRect label1Frame = CGRectMake(10, 10, 290, 30);
-	UILabel *lblTemp;
-	
-	UITableViewCell *cell = [[[UITableViewCell alloc] initWithFrame:cellFrame 
-													reuseIdentifier:cellIdentifier] autorelease];
-	
-	//Setup Cell
-	UIView *transparentBackground = [[UIView alloc] initWithFrame:CGRectZero];
-    transparentBackground.backgroundColor = [UIColor clearColor];
-    cell.backgroundView = transparentBackground;
-	
-	//Initialize Label with tag 1.
-	lblTemp = [[UILabel alloc] initWithFrame:label1Frame];
-	lblTemp.tag = 1;
-	lblTemp.textColor = [UIColor whiteColor];
-	lblTemp.backgroundColor = [UIColor clearColor];
-	[cell.contentView addSubview:lblTemp];
-	[lblTemp release];
-	
-	return cell;
-}
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    Media *media = [[AppModel sharedAppModel] mediaForMediaId: self.node.mediaId];
+    if(([media.type isEqualToString: @"Video"] || [media.type isEqualToString: @"Audio"] || [media.type isEqualToString: @"Image"]) && media.url)
+    return 3;
+    else return 2;
 }
 
 // returns the # of rows in each component..
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return self.node.numberOfOptions;
+	return 1;
 }
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)nibTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {	
-	UITableViewCell *cell = [nibTableView dequeueReusableCellWithIdentifier:OPTION_CELL];	
-	if(cell == nil) cell = [self getCellContentView:OPTION_CELL];
-	
-	UILabel *optionText = (UILabel *)[cell viewWithTag:1];
-	optionText.text = [[self.node.options objectAtIndex:[indexPath row]] text];
+	static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell = (UITableViewCell *)[nibTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+		// Create a temporary UIViewController to instantiate the custom cell.
+		UITableViewCell *tempCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault 
+                                                            reuseIdentifier:CellIdentifier] autorelease];
+        cell = tempCell;
+    }
+    Media *media = [[AppModel sharedAppModel] mediaForMediaId: self.node.mediaId];
+
+    
+    if(([media.type isEqualToString: @"Video"] || [media.type isEqualToString: @"Audio"] || [media.type isEqualToString: @"Image"]) && media.url) hasMedia = YES;
+    else hasMedia = NO;
+
+    if (indexPath.section == 0 && indexPath.row == 0) {
+       if ([media.type isEqualToString: @"Image"] && media.url) {
+        AsyncImageView *mediaImageView = [[[AsyncImageView alloc]init] autorelease];
+
+        [mediaImageView loadImageFromMedia:media];
+           CGRect frame = CGRectMake(0, 0, 320, 200);
+           [mediaImageView setFrame:frame];
+           mediaImageView.contentMode = UIViewContentModeScaleAspectFill;
+           
+           cell.backgroundView = mediaImageView;
+           cell.backgroundView.layer.masksToBounds = YES;
+           cell.backgroundView.layer.cornerRadius = 10.0;
+           cell.userInteractionEnabled = NO;
+
+       }
+       else if(([media.type isEqualToString: @"Video"] || [media.type isEqualToString: @"Audio"])&& media.url)
+       {
+           //Setup the Button
+           mediaPlaybackButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 320, 295)];
+		[mediaPlaybackButton addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
+		[mediaPlaybackButton setBackgroundImage:[UIImage imageNamed:@"clickToPlay.png"] forState:UIControlStateNormal];
+		[mediaPlaybackButton setTitle:NSLocalizedString(@"PreparingToPlayKey",@"") forState:UIControlStateNormal];
+		mediaPlaybackButton.enabled = NO;
+		mediaPlaybackButton.titleLabel.font = [UIFont boldSystemFontOfSize:24];
+		[mediaPlaybackButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
+		[mediaPlaybackButton setContentVerticalAlignment:UIControlContentVerticalAlignmentBottom];
+			
 		
+		imageSize = mediaPlaybackButton.frame.size;
+		//topMargin = 50; 
+        
+		//Create movie player object
+		mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+		[mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
+		mMoviePlayer.moviePlayer.shouldAutoplay = NO;
+		[mMoviePlayer.moviePlayer prepareToPlay];
+           
+           cell.backgroundView = mediaPlaybackButton;
+           cell.backgroundView.layer.masksToBounds = YES;
+           cell.backgroundView.layer.cornerRadius = 10.0;
+           cell.userInteractionEnabled = YES;
+           cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+       else {
+           cell.userInteractionEnabled = NO;
+           CGRect descriptionFrame = [aWebView frame];	
+           descriptionFrame.origin.x = 15;
+           descriptionFrame.origin.y = 15;
+           [aWebView setFrame:descriptionFrame];
+           cell.backgroundView =aWebView;
+           cell.backgroundColor = [UIColor blackColor];
+
+       }
+            }
+    if (indexPath.section == 1 && indexPath.row == 0){
+        if(hasMedia){
+            cell.userInteractionEnabled = NO;
+            CGRect descriptionFrame = [aWebView frame];	
+            descriptionFrame.origin.x = 15;
+            descriptionFrame.origin.y = 15;
+            [aWebView setFrame:descriptionFrame];
+            cell.backgroundView =aWebView;
+            cell.backgroundColor = [UIColor blackColor];
+
+        }
+        else {
+            cell.textLabel.text = @"Tap To Continue";
+            cell.textLabel.textAlignment = UITextAlignmentCenter;
+        }
+    }
+    if(indexPath.section == 2) {
+        cell.textLabel.text = @"Tap To Continue";
+        cell.textLabel.textAlignment = UITextAlignmentCenter;
+    }
 	return cell;
 }
 
 // Customize the height of each row
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 44;
+    Media *media = [[AppModel sharedAppModel] mediaForMediaId: self.node.mediaId];
+    
+    
+    if(([media.type isEqualToString: @"Video"] || [media.type isEqualToString: @"Audio"] || [media.type isEqualToString: @"Image"]) && media.url) hasMedia = YES;
+    else hasMedia = NO;
+
+	if (indexPath.section == 0 && hasMedia) return 200;
+    if((indexPath.section == 0 && !hasMedia) || (indexPath.section == 1 && hasMedia)){if(self.newHeight) return self.newHeight+30;
+    else return 50;
+    }
+    
+     return 40;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	NodeOption *selectedOption = [self.node.options objectAtIndex:[indexPath row]];
-	NSLog(@"Displaying option ``%@''", selectedOption.text);
-	
-	int newNodeId = selectedOption.nodeId;
-	Node *newNode = [[AppModel sharedAppModel] nodeForNodeId: newNodeId];
-	self.node = newNode;
-	[self refreshView];
+    if(indexPath.section == 2 || (indexPath.section == 1 && !hasMedia)) [self continueButtonTouchAction];
+    else [self playMovie:nil];
 }
 
-- (NSString *)tableView:(UITableView *)view titleForHeaderInSection:(NSInteger)section {
-	return @"Options";
-}
+
 
 
 
