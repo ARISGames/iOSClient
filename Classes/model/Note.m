@@ -45,7 +45,7 @@
         noteVC.delegate = self;
         if([self.delegate isKindOfClass:[NearbyObjectsViewController class]]) {
             [[(NearbyObjectsViewController *)self.delegate navigationController]pushViewController:noteVC animated:YES]; 
-        }        [noteVC release];
+        }        //[noteVC release];
     }
     else{
         //open up note viewer
@@ -55,7 +55,7 @@
         if([self.delegate isKindOfClass:[NearbyObjectsViewController class]]) {
             [[(NearbyObjectsViewController *)self.delegate navigationController]pushViewController:dataVC animated:YES]; 
         }
-        [dataVC release];
+        //[dataVC release];
     }
 
 
