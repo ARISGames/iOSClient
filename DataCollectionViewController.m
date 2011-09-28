@@ -25,7 +25,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.title = @"Add Media";
+        
         viewControllers = [[NSMutableArray alloc] initWithCapacity:10];
         self.hidesBottomBarWhenPushed = YES;
     }
@@ -55,6 +55,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.title = self.note.title;
     self.scrollView.pagingEnabled = YES;
     self.scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * numPages, scrollView.frame.size.height);
     self.scrollView.showsHorizontalScrollIndicator = NO;
