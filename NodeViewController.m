@@ -37,7 +37,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 
 
 @implementation NodeViewController
-@synthesize node, tableView, scrollView,aWebView,isLink,newHeight, hasMedia;
+@synthesize node, tableView, scrollView,aWebView,isLink,newHeight, hasMedia, mediaImageView;
 @synthesize continueButton;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -53,6 +53,8 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 													 name:MPMoviePlayerLoadStateDidChangeNotification 
 												   object:nil];
         self.isLink=NO;
+        self.mediaImageView = [[AsyncImageView alloc]init];
+        self.mediaImageView.delegate = self;
     }
 
     return self;
@@ -70,6 +72,11 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 	[self.aWebView loadHTMLString:htmlDescription baseURL:nil];
    aWebView.backgroundColor =[UIColor clearColor];
     //[self refreshView];
+    
+  
+        CGRect frame = CGRectMake(0, 0, 320, 480);
+    [mediaImageView setFrame:frame];
+    mediaImageView.contentMode = UIViewContentModeScaleAspectFit;
     [super viewDidLoad];
 }
 -(void)viewDidDisappear:(BOOL)animated{
@@ -151,7 +158,16 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 -(IBAction)playMovie:(id)sender {
 	[self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
 }
+-(void)imageFinishedLoading{
+    NSLog(@"Size: %f, %f",self.mediaImageView.frame.size.width,self.mediaImageView.frame.size.height);
+    if(self.mediaImageView.image.size.width > 0){
+    [self.mediaImageView setContentScaleFactor:(float)(320/self.mediaImageView.image.size.width)];
+    self.mediaImageView.frame = CGRectMake(0, 0, 320, self.mediaImageView.contentScaleFactor*self.mediaImageView.image.size.height);
+        NSLog(@"NEWSize: %f, %f",self.mediaImageView.frame.size.width,self.mediaImageView.frame.size.height);
 
+    }
+    [self.tableView reloadData];
+}
 - (int) calculateTextHeight:(NSString *)text {
 	CGRect frame = CGRectMake(0, 0, self.view.bounds.size.width, 200000);
 	CGSize calcSize = [text sizeWithFont:[UIFont systemFontOfSize:18.0]
@@ -248,12 +264,9 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 
     if (indexPath.section == 0 && indexPath.row == 0) {
        if ([media.type isEqualToString: @"Image"] && media.url) {
-        AsyncImageView *mediaImageView = [[[AsyncImageView alloc]init] autorelease];
-
-        [mediaImageView loadImageFromMedia:media];
-           CGRect frame = CGRectMake(0, 0, 320, 200);
-           [mediaImageView setFrame:frame];
-           mediaImageView.contentMode = UIViewContentModeScaleAspectFill;
+           if(self.mediaImageView.media.image == nil)
+        [self.mediaImageView loadImageFromMedia:media];
+          
            
            cell.backgroundView = mediaImageView;
            cell.backgroundView.layer.masksToBounds = YES;
@@ -331,7 +344,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     if(([media.type isEqualToString: @"Video"] || [media.type isEqualToString: @"Audio"] || [media.type isEqualToString: @"Image"]) && media.url) hasMedia = YES;
     else hasMedia = NO;
 
-	if (indexPath.section == 0 && hasMedia) return 200;
+	if (indexPath.section == 0 && hasMedia) return self.mediaImageView.frame.size.height;
     if((indexPath.section == 0 && !hasMedia) || (indexPath.section == 1 && hasMedia)){if(self.newHeight) return self.newHeight+30;
     else return 50;
     }

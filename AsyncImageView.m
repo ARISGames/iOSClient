@@ -105,6 +105,8 @@
 	//NSLog(@"AsyncImageView: image frame is X:%f Y:%f Width:%f Height:%f",imageView.frame.origin.x,imageView.frame.origin.y,imageView.frame.size.width,imageView.frame.size.height );
 
 	self.image = image;
+    self.contentMode = UIViewContentModeScaleAspectFit;
+
     [imageView setNeedsLayout];
     [self setNeedsLayout];
 	[self.superview setNeedsLayout];

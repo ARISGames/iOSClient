@@ -10,6 +10,7 @@
 #import "AppModel.h"
 #import "Node.h"
 #import "ARISMoviePlayerViewController.h"
+#import "AsyncImageView.h"
 
 @interface NodeViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIWebViewDelegate>
 {
@@ -24,7 +25,7 @@
     BOOL isLink;
     BOOL hasMedia;
     CGFloat newHeight;
-
+    AsyncImageView *mediaImageView;
 }
 
 @property(readwrite, retain) Node *node;
@@ -34,9 +35,9 @@
 @property(nonatomic, retain) IBOutlet UIScrollView *scrollView;
 @property(nonatomic, retain) IBOutlet UIWebView *aWebView;
 @property (nonatomic, assign) CGFloat  newHeight;
-
+@property(nonatomic,retain)AsyncImageView *mediaImageView;
 @property(nonatomic, retain) IBOutlet UIButton *continueButton;
-
+-(void)imageFinishedLoading;
 - (void) refreshView;
 - (int) calculateTextHeight:(NSString *)text;
 @end
