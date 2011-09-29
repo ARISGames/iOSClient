@@ -64,6 +64,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
 	NSLog(@"NodeViewController: Displaying Node '%@'",self.node.name);
+    self.title = self.node.name;
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.modalPresent = YES;
     self.aWebView.delegate = self;
