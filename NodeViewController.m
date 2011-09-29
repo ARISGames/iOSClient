@@ -74,8 +74,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     //[self refreshView];
     
   
-        CGRect frame = CGRectMake(0, 0, 320, 480);
-    [mediaImageView setFrame:frame];
+       
     mediaImageView.contentMode = UIViewContentModeScaleAspectFit;
     [super viewDidLoad];
 }
@@ -86,16 +85,11 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     //if (!self.isLink){
         float nHeight = [[self.aWebView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
         self.newHeight = nHeight;
-        NSLog(@"GameDetails: Description View Calculated Height is: %f",newHeight);
         
         CGRect descriptionFrame = [self.aWebView frame];	
         descriptionFrame.size = CGSizeMake(descriptionFrame.size.width,newHeight+5);
         [self.aWebView setFrame:descriptionFrame];	
-        NSLog(@"GameDetails: description UIWebView frame set to {%f, %f, %f, %f}", 
-              descriptionFrame.origin.x, 
-              descriptionFrame.origin.y, 
-              descriptionFrame.size.width,
-              descriptionFrame.size.height);
+
         [tableView reloadData];
    // }
 }
@@ -344,7 +338,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     if(([media.type isEqualToString: @"Video"] || [media.type isEqualToString: @"Audio"] || [media.type isEqualToString: @"Image"]) && media.url) hasMedia = YES;
     else hasMedia = NO;
 
-	if (indexPath.section == 0 && hasMedia) return self.mediaImageView.frame.size.height;
+	if (indexPath.section == 0 && hasMedia) return [media.type isEqualToString: @"Image"]?self.mediaImageView.frame.size.height:295;
     if((indexPath.section == 0 && !hasMedia) || (indexPath.section == 1 && hasMedia)){if(self.newHeight) return self.newHeight+30;
     else return 50;
     }
