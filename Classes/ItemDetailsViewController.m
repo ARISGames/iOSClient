@@ -460,11 +460,11 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	CGRect superFrame = [aView superview].bounds;
 	CGRect viewFrame = [aView frame];
 	viewFrame.origin.y = superFrame.origin.y + superFrame.size.height - 175;
-    viewFrame.size.height = aView.frame.size.height - 75;
+    viewFrame.size.height = aView.frame.size.height;
 	[UIView beginAnimations:nil context:NULL]; //we animate the transition
 	[aView setFrame:viewFrame];
 	[UIView commitAnimations]; //run animation
-}
+        }
 
 - (void)hideView:(UIView *)aView {
 	CGRect superFrame = [aView superview].bounds;
@@ -473,7 +473,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	[UIView beginAnimations:nil context:NULL]; //we animate the transition
 	[aView setFrame:viewFrame];
 	[UIView commitAnimations]; //run animation
-}
+   }
 
 - (void)toggleDescription:(id)sender {
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
