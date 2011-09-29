@@ -63,6 +63,11 @@
 	//end the UI indicator
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	
+    //clear out the spinner
+    while ([[self subviews] count] > 0) {
+		[[[self subviews] lastObject] removeFromSuperview];
+    }
+    
 	//throw out the connection
     [self.connection release];
     self.connection=nil;
@@ -88,26 +93,9 @@
 	[UIView setAnimationDuration:0.1];
 	self.alpha = 0;
 	[UIView commitAnimations];
-	
-	//clear out the subviews
-    while ([[self subviews] count] > 0) {
-		[[[self subviews] lastObject] removeFromSuperview];
-    }
-		
-	//create the image view
-    UIImageView* imageView = [[UIImageView alloc] initWithImage:image];
-	
-    imageView.contentMode = UIViewContentModeScaleAspectFit;
-	
-    [self addSubview:imageView];
-    imageView.frame = self.bounds;
-	
-	//NSLog(@"AsyncImageView: image frame is X:%f Y:%f Width:%f Height:%f",imageView.frame.origin.x,imageView.frame.origin.y,imageView.frame.size.width,imageView.frame.size.height );
 
 	self.image = image;
     self.contentMode = UIViewContentModeScaleAspectFit;
-
-    [imageView setNeedsLayout];
     [self setNeedsLayout];
 	[self.superview setNeedsLayout];
 
@@ -116,7 +104,7 @@
 	[UIView setAnimationDuration:0.25];
 	self.alpha = 1.0;
 	[UIView commitAnimations];
-    [imageView release];
+
     if (self.delegate && [self.delegate respondsToSelector:@selector(imageFinishedLoading)]){
         [delegate imageFinishedLoading];
     }
