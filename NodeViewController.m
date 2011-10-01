@@ -243,14 +243,16 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)nibTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {	
-	static NSString *CellIdentifier = @"Cell";
+	NSString *CellIdentifier = [NSString stringWithFormat: @"Cell%d%d",indexPath.section,indexPath.row];
     UITableViewCell *cell = (UITableViewCell *)[nibTableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
     if (cell == nil) {
 		// Create a temporary UIViewController to instantiate the custom cell.
 		UITableViewCell *tempCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault 
                                                             reuseIdentifier:CellIdentifier] autorelease];
         cell = tempCell;
     }
+        
     Media *media = [[AppModel sharedAppModel] mediaForMediaId: self.node.mediaId];
 
     
