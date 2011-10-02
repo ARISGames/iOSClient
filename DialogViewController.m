@@ -141,8 +141,11 @@ NSString *const kDialogHtmlTemplate =
 	npcWebView.hidden = NO;
 	pcAnswerView.hidden = YES;
 	pcTableView.hidden = NO;
-	pcWebView.hidden = YES;
+	pcWebView.hidden = NO;
+    pcView.hidden = NO;
 	pcActivityIndicator.hidden = YES;
+    npcWebView.hidden = NO;
+    npcView.hidden = NO;
 
 	
 	//Check if the game specifies a PC image
@@ -317,7 +320,10 @@ NSString *const kDialogHtmlTemplate =
 
 
 - (void) continueScript {
+    NSLog(@"DialogVC: continueScript");
+    
 	if (scriptIndex < [currentScript count]) { //Load up this scene of the script
+        NSLog(@"DialogVC: continueScript: Scenes still exist, load the next one");
 
 		Scene *currentScene = [currentScript objectAtIndex:scriptIndex];
         if (currentScene.videoId !=0) {
@@ -336,7 +342,7 @@ NSString *const kDialogHtmlTemplate =
         }
         else if(currentScene.panoId !=0) {
           Panoramic *pano = [[AppModel sharedAppModel] panoramicForPanoramicId:currentScene.panoId];
-	PanoramicViewController *panoramicViewController = [[PanoramicViewController alloc] initWithNibName:@"PanoramicViewController" bundle: [NSBundle mainBundle]];    
+            PanoramicViewController *panoramicViewController = [[PanoramicViewController alloc] initWithNibName:@"PanoramicViewController" bundle: [NSBundle mainBundle]];    
             panoramicViewController.panoramic = pano;
             
             [self.navigationController pushViewController:panoramicViewController animated:YES];
@@ -356,6 +362,7 @@ NSString *const kDialogHtmlTemplate =
 		++scriptIndex;
 	}
 	else { 	//End of Script. Display Player Options
+        NSLog(@"DialogVC: continueScript: No more scenes left, Load player Options");
 
         ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];        
       if(cachedScene.exitToTabWithTitle) self.exitToTabVal = cachedScene.exitToTabWithTitle;
@@ -387,8 +394,7 @@ NSString *const kDialogHtmlTemplate =
 }
 
 - (void) applyPlayerOptions{	
-	
-	
+	NSLog(@"DialogVC: Apply Player Options");
 	
 	++scriptIndex;
 	
@@ -411,6 +417,8 @@ NSString *const kDialogHtmlTemplate =
 	else {
 		if (currentNode.numberOfOptions > 0) {
 			//There are node options
+            NSLog(@"DialogVC: Apply Player Options: Node Options Exist");
+
             [self moveAllOutWithPostSelector:nil];
             [self movePcIn];
             
@@ -428,7 +436,9 @@ NSString *const kDialogHtmlTemplate =
 		}
 		else {
 			//No node options, load the conversations
-			[[AppServices sharedAppServices] fetchNpcConversations:currentNpc.npcId afterViewingNode:currentNode.nodeId];
+            NSLog(@"DialogVC: Apply Player Options: Load Conversations");
+
+            [[AppServices sharedAppServices] fetchNpcConversations:currentNpc.npcId afterViewingNode:currentNode.nodeId];
 			[self showWaitingIndicatorForPlayerOptions];
 		}
 	}
@@ -441,6 +451,9 @@ NSString *const kDialogHtmlTemplate =
 }
 
 - (void) finishApplyingPlayerOptions:(NSArray*)options{
+    
+    NSLog(@"DialogVC: finishApplyingPlayerOptions");
+
     currentNode = nil;
 	pcWebView.hidden = YES;
 	pcTableView.hidden = YES;
@@ -498,6 +511,8 @@ NSString *const kDialogHtmlTemplate =
 }
 - (void) dismissWaitingIndicatorForPlayerOptions{
 	pcTableViewController.view.hidden = NO;	
+    pcScrollView.hidden = NO;
+    npcScrollView.hidden = NO;
     [lbl removeFromSuperview];
 	pcActivityIndicator.hidden = YES;
   
@@ -506,7 +521,8 @@ NSString *const kDialogHtmlTemplate =
 }
 
 - (void) applyScene:(Scene *)aScene {	
-	UIWebView *characterWebView;
+	UIView *characterView;
+    UIWebView *characterWebView;
 	UIScrollView *characterScrollView;
 	UIScrollView *characterImageScrollView;
 	
@@ -532,11 +548,12 @@ NSString *const kDialogHtmlTemplate =
 		fgPlayer = nil;		
 	}
 	
+    characterView = aScene.isPc ? pcView : npcView;
 	characterWebView = aScene.isPc ? pcWebView : npcWebView;
 	characterScrollView = aScene.isPc ? pcScrollView : npcScrollView;
 	characterImageScrollView = aScene.isPc ? pcImageScrollView : npcImageScrollView;
 
-	isCurrentlyDisplayed = currentCharacter == aScene.imageMediaId;
+	isCurrentlyDisplayed = characterView.frame.origin.x == 0;
 	
 	if (isCurrentlyDisplayed) {
 		[UIView beginAnimations:@"dialog" context:nil];
@@ -558,6 +575,8 @@ NSString *const kDialogHtmlTemplate =
 }
 
 - (void) finishScene {
+	NSLog(@"Dialog VC: finishScene");
+    UIView *characterView;
 	UIWebView *characterWebView;
 	UIScrollView *lastCharacterScrollView;
 	UIScrollView *lastCharacterImageScrollView;
@@ -569,8 +588,10 @@ NSString *const kDialogHtmlTemplate =
 	BOOL isCurrentlyDisplayed;
 		 
 	if (cachedScene.isPc) {
+        NSLog(@"Dialog VC: finishScene: This is the PC");
 		self.title = NSLocalizedString(@"DialogPlayerName",@"");
-		characterWebView = pcWebView;
+		characterView = pcView;
+        characterWebView = pcWebView;
 		lastCharacterScrollView = npcScrollView;
 		lastCharacterImageScrollView = npcImageScrollView;
 
@@ -588,8 +609,11 @@ NSString *const kDialogHtmlTemplate =
 		
 	}
 	else {
+        NSLog(@"Dialog VC: finishScene: This is the NPC");
+
 		self.title = currentNpc.name;
-		characterWebView = npcWebView;
+		characterView = npcView;
+        characterWebView = npcWebView;
 		lastCharacterScrollView = pcScrollView;
 		lastCharacterImageScrollView = pcImageScrollView;
 
@@ -610,31 +634,26 @@ NSString *const kDialogHtmlTemplate =
 	//Reset it's scroll view
 	[currentCharacterScrollView setContentOffset:CGPointMake(0, 0) animated:NO];
 
-	
-	isCurrentlyDisplayed = [characterWebView alpha] < 1;
-	NSLog(@"Character %d IsCurrentlyDisplayed: %d", currentCharacter, isCurrentlyDisplayed);
-	
-	NSString *dialogString = [NSString stringWithFormat:kDialogHtmlTemplate, cachedScene.text];
+    //Load content
+    NSString *dialogString = [NSString stringWithFormat:kDialogHtmlTemplate, cachedScene.text];
 	[characterWebView loadHTMLString:dialogString baseURL:nil];
-	characterWebView.hidden = YES;
+	characterWebView.hidden = YES; //It will have this turned back on once it has loaded
 	
-	continueButton.hidden = NO;
-	
-	if (isCurrentlyDisplayed) {
-		[currentCharacterScrollView setContentOffset:CGPointMake(0, 0) animated:NO];
-		[UIView beginAnimations:@"dialog" context:nil];
-		[UIView setAnimationCurve:UIViewAnimationCurveLinear];
-		[UIView setAnimationDuration:0.25];
-		characterWebView.alpha = 1;
-		[UIView commitAnimations];
-	}
-	
+    continueButton.hidden = NO;
+
+    //Either fade the text out/in or move the correct character onto the screen
+    isCurrentlyDisplayed = characterView.frame.origin.x == 0;
+	NSLog(@"Character %d IsCurrentlyDisplayed: %d", currentCharacter, isCurrentlyDisplayed);
+    
 	if (!isCurrentlyDisplayed) {
+        NSLog(@"Dialog VC: finishScene: The current caracter is not on screen, move them in");
+
 		if (cachedScene.isPc) [self movePcIn];
 		else [self moveNpcIn];
 	}
 	
-	NSLog(@"Moving Camera From Ofset: (%g, %g) Zoom: %g To Rect: %g, %g, %g, %g",
+    //Start the Camera Zoom if defined
+	NSLog(@"Dialog VC: finishScene: Moving Camera From Ofset: (%g, %g) Zoom: %g To Rect: %g, %g, %g, %g",
 		  currentCharacterImageScrollView.contentOffset.x,currentCharacterImageScrollView.contentOffset.y,
 		  currentCharacterScrollView.zoomScale,
 		  cachedScene.imageRect.origin.x,cachedScene.imageRect.origin.y, 
@@ -668,19 +687,15 @@ NSString *const kDialogHtmlTemplate =
 	
 	if (webView == npcWebView) {
 		NSLog(@"DialogViewController: NPC WebView loaded: Update Sizes");
-		npcWebView.hidden = NO;
 		continueButton = npcContinueButton;
 		scrollView = npcScrollView;
 	}
 	else {
 		NSLog(@"DialogViewController: PC WebView loaded: Update Sizes");
-		pcWebView.hidden = NO;
 		continueButton = pcContinueButton;
 		scrollView = pcScrollView;
-
 	}
 
-	
 	//Size the webView
 	CGRect webViewFrame = [webView frame];	
 	float newHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
@@ -698,17 +713,28 @@ NSString *const kDialogHtmlTemplate =
 	CGRect continueButtonFrame = [continueButton frame];	
 	continueButtonFrame.origin = CGPointMake(continueButtonFrame.origin.x, webViewFrame.origin.y+webViewFrame.size.height+5);
 	[continueButton setFrame:continueButtonFrame];
-	/*
+	
 	NSLog(@"DialogViewController: Continue Button frame set to {%f, %f, %f, %f}", 
 		  continueButtonFrame.origin.x, 
 		  continueButtonFrame.origin.y, 
 		  continueButtonFrame.size.width,
 		  continueButtonFrame.size.height);	
-	*/
+	
 	//Size the scroll view's content
 	scrollView.contentSize = CGSizeMake(scrollView.contentSize.width, continueButtonFrame.origin.y + continueButtonFrame.size.height + 30);
-	//NSLog(@"DialogViewController: ScrollView size set to {%f, %f}",scrollView.contentSize.width, scrollView.contentSize.height);
-	
+	NSLog(@"DialogViewController: ScrollView size set to {%f, %f}",scrollView.contentSize.width, scrollView.contentSize.height);
+    
+    //Fade in the WebView
+    [scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
+    [UIView beginAnimations:@"dialog" context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveLinear];
+    [UIView setAnimationDuration:0.25];
+    webView.alpha = 1;
+    [UIView commitAnimations];
+    
+    webView.hidden = NO;
+    scrollView.hidden = NO;
+    
 }
 
 
@@ -887,16 +913,11 @@ NSString *const kDialogHtmlTemplate =
 	currentNode = newNode;
 	[currentNode retain];
     if(newNode.text.length == 0){
-     [self continueScript];   
+        [self continueScript];
+        return;
     }
-	[parser parseText:newNode.text];
-    if(parser.exitToTabWithTitle != nil) {
-        self.exitToTabVal = (NSString*)parser.exitToTabWithTitle;
-    }
-    if(parser.currentText.length == 0 && !closingScriptPlaying) 
-    {
-      [self continueScript];  
-    }
+	
+    [parser parseText:newNode.text];
 }
 
 #pragma mark XML Parsing
@@ -911,7 +932,13 @@ NSString *const kDialogHtmlTemplate =
 	currentScript = parser.script;
 	scriptIndex = kStartingIndex;
 
-	[self continueScript];
+    if(parser.exitToTabWithTitle != nil) {
+        self.exitToTabVal = (NSString*)parser.exitToTabWithTitle;
+    }
+
+    [self continueScript];  
+    
+    
 }
 
 #pragma mark Scroll View
