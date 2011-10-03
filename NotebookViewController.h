@@ -10,6 +10,7 @@
 #import "AppModel.h"
 #import "Comment.h"
 
+
 @interface NotebookViewController : UIViewController<UITableViewDelegate,UITableViewDataSource> {
     NSMutableArray *noteList;
     NSMutableArray *gameNoteList;
@@ -26,7 +27,6 @@
 -(void)addNote;
 @property (nonatomic, retain) NSMutableArray *noteList;
 @property (nonatomic, retain) NSMutableArray *gameNoteList;
-
 @property (nonatomic, retain) IBOutlet UITableView *noteTable;
 
 @property(nonatomic,retain)IBOutlet UISegmentedControl *noteControl;

@@ -166,8 +166,27 @@
                 // Release the temporary UIViewController.
                 [temporaryController release];
             }
+    
+    cell.starView.backgroundColor = [UIColor clearColor];
+	
+    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-halfselected.png"]
+                       forState:kSCRatingViewHalfSelected];
+    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
+                       forState:kSCRatingViewHighlighted];
+    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
+                       forState:kSCRatingViewHot];
+    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
+                       forState:kSCRatingViewNonSelected];
+    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]
+                       forState:kSCRatingViewSelected];
+    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
+                       forState:kSCRatingViewUserSelected];
+    
             Note *currNote = (Note *)[currentNoteList objectAtIndex:indexPath.row];
+    
+    
         cell.titleLabel.text = currNote.title;
+    cell.starView.rating = currNote.averageRating;
         if([currNote.contents count] == 0 && (currNote.creatorId != [AppModel sharedAppModel].playerId))cell.userInteractionEnabled = NO;
             for(int x = 0; x < [currNote.contents count];x++){
                 if([[[currNote.contents objectAtIndex:x] type] isEqualToString:@"TEXT"]){
