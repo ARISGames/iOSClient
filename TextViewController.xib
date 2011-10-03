@@ -46,7 +46,7 @@
 					<object class="IBUITextView" id="126339617">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">274</int>
-						<string key="NSFrameSize">{320, 330}</string>
+						<string key="NSFrameSize">{320, 379}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSNextKeyView" ref="104603158"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
@@ -65,9 +65,8 @@
 					<object class="IBUIButton" id="979917797">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{0, 330}, {320, 37}}</string>
+						<string key="NSFrame">{{0, 379}, {320, 37}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
-						<reference key="NSNextKeyView"/>
 						<object class="NSColor" key="IBUIBackgroundColor" id="756005873">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MC4zMzMzMzMzMzMzAA</bytes>
@@ -113,7 +112,7 @@
 						<reference key="IBUINormalTitleShadowColor" ref="407503917"/>
 					</object>
 				</object>
-				<string key="NSFrame">{{0, 64}, {320, 367}}</string>
+				<string key="NSFrame">{{0, 64}, {320, 416}}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSNextKeyView" ref="126339617"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
@@ -127,7 +126,6 @@
 				<object class="IBUISimulatedNavigationBarMetrics" key="IBUISimulatedTopBarMetrics">
 					<bool key="IBUIPrompted">NO</bool>
 				</object>
-				<object class="IBUISimulatedTabBarMetrics" key="IBUISimulatedBottomBarMetrics"/>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 		</object>
@@ -198,9 +196,9 @@
 						<reference key="object" ref="191373211"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="979917797"/>
 							<reference ref="126339617"/>
 							<reference ref="104603158"/>
+							<reference ref="979917797"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">View</string>

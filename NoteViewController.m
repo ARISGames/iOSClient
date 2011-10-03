@@ -328,7 +328,8 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
                 Media *m = [[Media alloc]init];
                 m = [[AppModel sharedAppModel] mediaForMediaId:noteC.mediaId]; 
                 NSURL* contentURL = [NSURL URLWithString:m.url];
-              MPMoviePlayerController  *moviePlayerController = [[MPMoviePlayerController alloc] initWithContentURL:contentURL];
+              MPMoviePlayerController  *moviePlayerController = [[[MPMoviePlayerController alloc] initWithContentURL:contentURL] autorelease];
+                moviePlayerController.shouldAutoplay = NO;
                 UIImage *videoThumb = [[moviePlayerController thumbnailImageAtTime:(NSTimeInterval)1 timeOption:MPMovieTimeOptionNearestKeyFrame] retain];
                //Resize thumb
                 
@@ -339,6 +340,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
 
 
                 cell.imageView.image = newImage;
+               
                 //[m release];
 
             }

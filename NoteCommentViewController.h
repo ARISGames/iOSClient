@@ -26,6 +26,7 @@
     NSIndexPath *myIndexPath;
     BOOL commentValid;
     SCRRatingView *starView;
+    BOOL photoIconUsed, videoIconUsed, audioIconUsed,currNoteHasPhoto,currNoteHasAudio,currNoteHasVideo;
 
 }
 @property(nonatomic, retain)IBOutlet UITableView *commentTable;
@@ -40,6 +41,13 @@
 @property(nonatomic, retain)NSIndexPath *myIndexPath;
 @property(readwrite, assign)int rating;
 @property(readwrite, assign)BOOL commentValid;
+@property(readwrite,assign)BOOL photoIconUsed;
+@property(readwrite,assign)BOOL audioIconUsed;
+@property(readwrite,assign)BOOL videoIconUsed;
+@property(readwrite,assign)BOOL currNoteHasPhoto;
+@property(readwrite,assign)BOOL currNoteHasAudio;
+@property(readwrite,assign)BOOL currNoteHasVideo;
+
 @property(nonatomic,retain) IBOutlet SCRRatingView *starView;
 
 -(IBAction)addPhotoButtonTouchAction;

@@ -15,7 +15,7 @@
 #import "ARISAppDelegate.h"
 
 @implementation NoteCommentViewController
-@synthesize parentNote,commentNote,textBox,rating,commentTable,addAudioButton,addPhotoButton,addMediaFromAlbumButton,myIndexPath,commentValid,starView,addTextButton,commentsList;
+@synthesize parentNote,commentNote,textBox,rating,commentTable,addAudioButton,addPhotoButton,addMediaFromAlbumButton,myIndexPath,commentValid,starView,addTextButton,commentsList,videoIconUsed,photoIconUsed,audioIconUsed,currNoteHasAudio,currNoteHasPhoto,currNoteHasVideo;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -58,8 +58,10 @@
     [self.starView setStarImage:[UIImage imageNamed:@"star-hot.png"]
                        forState:kSCRatingViewUserSelected];
 }
--(void)viewWillDisappear:(BOOL)animated{
-
+-(void)viewWillAppear:(BOOL)animated{
+    self.videoIconUsed = NO;
+    self.photoIconUsed = NO;
+    self.audioIconUsed = NO;
     
 }
 -(void)addPhotoButtonTouchAction{
@@ -133,7 +135,9 @@
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    self.videoIconUsed = NO;
+    self.photoIconUsed = NO;
+    self.audioIconUsed = NO;
     static NSString *CellIdentifier = @"Cell";
  
     UITableViewCell *tempCell = (NoteCommentCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -172,6 +176,11 @@
         self.myIndexPath = indexPath;
         cell.starView.rating = self.starView.userRating;
         cell.userInteractionEnabled = NO;
+        
+        if(self.currNoteHasPhoto) cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
+        if(self.currNoteHasAudio) cell.mediaIcon3.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
+        if(self.currNoteHasVideo) cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
+        
         return cell;
     }
 
@@ -185,7 +194,8 @@
                 if([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"TEXT"]){
                     //Dont show icon for text since it is assumed to always be there
         }
-        else if ([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"PHOTO"]){
+        else if ([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"PHOTO"]&& !self.photoIconUsed){
+            self.photoIconUsed = YES;
             if(cell.mediaIcon2.image == nil) {
                 cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
                 
@@ -200,7 +210,8 @@
             }
             
         }
-        else if([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"AUDIO"]){
+        else if([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"AUDIO"] && !self.audioIconUsed){
+            self.audioIconUsed = YES;
            if(cell.mediaIcon2.image == nil) {
                 cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
                 
@@ -215,7 +226,8 @@
             }
             
         }
-        else if([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"VIDEO"]){
+        else if([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"VIDEO"] && !self.videoIconUsed){
+            self.videoIconUsed = YES;
           if(cell.mediaIcon2.image == nil) {
                 cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
                 
@@ -324,6 +336,7 @@
         // [self addedText];
         self.commentValid = YES;
         self.textBox.text = cell.titleLabel.text;
+
         [commentTable reloadData];
         
 
@@ -347,48 +360,28 @@
         cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
         
     }
-    else if(cell.mediaIcon3.image == nil) {
-        cell.mediaIcon3.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
-        
-    }
-    else if(cell.mediaIcon4.image == nil) {
-        cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
-        
-    }
-self.commentValid = YES;
+   self.commentValid = YES;
+    self.currNoteHasPhoto = YES;
 }
 -(void)addedAudio{
     NoteCommentCell *cell = (NoteCommentCell *)[self.commentTable cellForRowAtIndexPath:self.myIndexPath];
 
-  if(cell.mediaIcon2.image == nil) {
-        cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
-        
-    }
-    else if(cell.mediaIcon3.image == nil) {
+ 
+    if(cell.mediaIcon3.image == nil) {
         cell.mediaIcon3.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
         
     }
-    else if(cell.mediaIcon4.image == nil) {
-        cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
-        
-    }
- self.commentValid = YES;
+    self.commentValid = YES;
+    self.currNoteHasAudio = YES;
 }
 -(void)addedVideo{
     NoteCommentCell *cell = (NoteCommentCell *)[self.commentTable cellForRowAtIndexPath:self.myIndexPath];
-   if(cell.mediaIcon2.image == nil) {
-        cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
-        
-    }
-    else if(cell.mediaIcon3.image == nil) {
-        cell.mediaIcon3.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
-        
-    }
-    else if(cell.mediaIcon4.image == nil) {
+   if(cell.mediaIcon4.image == nil) {
         cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
         
     }
 self.commentValid = YES;
+    self.currNoteHasVideo = YES;
 }
 -(void)addedText{
     NoteCommentCell *cell = (NoteCommentCell *)[self.commentTable cellForRowAtIndexPath:self.myIndexPath];
@@ -426,7 +419,7 @@ self.commentValid = YES;
 - (void)tableView:(UITableView *)tableView 
 
 didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+
     [self.commentTable reloadData];
     
 }

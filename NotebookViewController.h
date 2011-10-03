@@ -18,6 +18,7 @@
     IBOutlet UISegmentedControl *noteControl;
 	UITableView *noteTable;
     NSInteger count;
+    BOOL textIconUsed, photoIconUsed, videoIconUsed, audioIconUsed;
 }
 
 -(void)refresh;
@@ -28,6 +29,10 @@
 @property (nonatomic, retain) NSMutableArray *noteList;
 @property (nonatomic, retain) NSMutableArray *gameNoteList;
 @property (nonatomic, retain) IBOutlet UITableView *noteTable;
+@property(readwrite,assign)BOOL textIconUsed;
+@property(readwrite,assign)BOOL photoIconUsed;
+@property(readwrite,assign)BOOL audioIconUsed;
+@property(readwrite,assign)BOOL videoIconUsed;
 
 @property(nonatomic,retain)IBOutlet UISegmentedControl *noteControl;
 @end

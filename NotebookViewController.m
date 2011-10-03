@@ -15,7 +15,7 @@
 #import "ARISAppDelegate.h"
 
 @implementation NotebookViewController
-@synthesize noteList,noteTable, noteControl,gameNoteList;
+@synthesize noteList,noteTable, noteControl,gameNoteList,textIconUsed,videoIconUsed,photoIconUsed,audioIconUsed;
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
@@ -39,6 +39,7 @@
 	
     UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNote)];
     self.navigationItem.rightBarButtonItem = barButton;
+
   	[noteTable reloadData];
     
     
@@ -85,11 +86,12 @@
 }
 
 -(void) viewWillAppear:(BOOL)animated{
-    
+
 }
 
 -(void)removeLoadingIndicator{
     //[[self navigationItem] setRightBarButtonItem:nil];
+
     [noteTable reloadData];
 }
 -(void)addNote{
@@ -110,6 +112,7 @@
     }
     self.gameNoteList = nList;
     [nList release];
+
     [noteTable reloadData];
     //unregister for notifications
                    //  [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -136,7 +139,10 @@
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    self.videoIconUsed = NO;
+    self.photoIconUsed = NO;
+    self.audioIconUsed = NO;
+    self.textIconUsed = NO;
     NSMutableArray *currentNoteList;
     if(self.noteControl.selectedSegmentIndex == 0) currentNoteList = self.noteList;
     else currentNoteList = self.gameNoteList;
@@ -189,7 +195,8 @@
     cell.starView.rating = currNote.averageRating;
         if([currNote.contents count] == 0 && (currNote.creatorId != [AppModel sharedAppModel].playerId))cell.userInteractionEnabled = NO;
             for(int x = 0; x < [currNote.contents count];x++){
-                if([[[currNote.contents objectAtIndex:x] type] isEqualToString:@"TEXT"]){
+                if([[[currNote.contents objectAtIndex:x] type] isEqualToString:@"TEXT"]&& !self.textIconUsed){
+                    self.textIconUsed = YES;
                     if (cell.mediaIcon1.image == nil) {
                         cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
 
@@ -209,7 +216,8 @@
 
 
                 }
-                else if ([[[currNote.contents objectAtIndex:x] type] isEqualToString:@"PHOTO"]){
+                else if ([[[currNote.contents objectAtIndex:x] type] isEqualToString:@"PHOTO"]&& !self.photoIconUsed){
+                    self.photoIconUsed = YES;
                     if (cell.mediaIcon1.image == nil) {
                         cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
                         
@@ -228,7 +236,8 @@
                     }
 
                 }
-                else if([[[currNote.contents objectAtIndex:x] type] isEqualToString:@"AUDIO"]){
+                else if([[[currNote.contents objectAtIndex:x] type] isEqualToString:@"AUDIO"] && !self.audioIconUsed){
+                    self.audioIconUsed = YES;
                     if (cell.mediaIcon1.image == nil) {
                         cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
                         
@@ -247,7 +256,8 @@
                     }
 
                 }
-                else if([[[currNote.contents objectAtIndex:x] type] isEqualToString:@"VIDEO"]){
+                else if([[[currNote.contents objectAtIndex:x] type] isEqualToString:@"VIDEO"] && !self.videoIconUsed){
+                    self.videoIconUsed = YES;
                     if (cell.mediaIcon1.image == nil) {
                         cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
                         
@@ -339,7 +349,7 @@
 - (void)tableView:(UITableView *)tableView 
 
 didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+
     [noteTable reloadData];
     
 }
