@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1117649A143A716600044812 /* buttonborder.png in Resources */ = {isa = PBXBuildFile; fileRef = 11176497143A715F00044812 /* buttonborder.png */; };
+		1117649B143A716600044812 /* buttonborder2.png in Resources */ = {isa = PBXBuildFile; fileRef = 11176498143A716200044812 /* buttonborder2.png */; };
+		1117649C143A716600044812 /* mappoint.png in Resources */ = {isa = PBXBuildFile; fileRef = 11176499143A716500044812 /* mappoint.png */; };
 		1122C0B613A7D124004F0392 /* webpageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1122C0B413A7D124004F0392 /* webpageViewController.m */; };
 		1122C0B713A7D124004F0392 /* webpageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1122C0B513A7D124004F0392 /* webpageViewController.xib */; };
 		1122C0C113A7DE80004F0392 /* WebPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1122C0C013A7DE7F004F0392 /* WebPage.m */; };
@@ -317,6 +320,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		11176497143A715F00044812 /* buttonborder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonborder.png; sourceTree = "<group>"; };
+		11176498143A716200044812 /* buttonborder2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonborder2.png; sourceTree = "<group>"; };
+		11176499143A716500044812 /* mappoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mappoint.png; sourceTree = "<group>"; };
 		1122C0B313A7D124004F0392 /* webpageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = webpageViewController.h; sourceTree = "<group>"; };
 		1122C0B413A7D124004F0392 /* webpageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = webpageViewController.m; sourceTree = "<group>"; };
 		1122C0B513A7D124004F0392 /* webpageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = webpageViewController.xib; sourceTree = "<group>"; };
@@ -839,6 +845,9 @@
 				118866481406BB830009E36F /* NoteContent.m */,
 				1147E15613F32260000E4BC2 /* NoteViewController.h */,
 				1147E15713F32260000E4BC2 /* NoteViewController.m */,
+				11176497143A715F00044812 /* buttonborder.png */,
+				11176498143A716200044812 /* buttonborder2.png */,
+				11176499143A716500044812 /* mappoint.png */,
 				1147E15813F32260000E4BC2 /* NoteViewController.xib */,
 				11DD541F141E70CB0007CD70 /* DropOnMapViewController.h */,
 				11DD5420141E70CC0007CD70 /* DropOnMapViewController.m */,
@@ -1774,6 +1783,9 @@
 				11DD5433141E80D20007CD70 /* PinDown3.png in Resources */,
 				11DD5434141E80D20007CD70 /* PinFloating.png in Resources */,
 				11DD5435141E80D20007CD70 /* PinShadow.png in Resources */,
+				1117649A143A716600044812 /* buttonborder.png in Resources */,
+				1117649B143A716600044812 /* buttonborder2.png in Resources */,
+				1117649C143A716600044812 /* mappoint.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
