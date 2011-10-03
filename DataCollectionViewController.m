@@ -66,8 +66,7 @@
     self.pageControl.numberOfPages = 1;
     self.pageControl.hidesForSinglePage = NO;
 	[self.navigationItem setRightBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:@"Comments" style:UIBarButtonItemStylePlain target:self action:@selector(showComments)] autorelease]];
-}
--(void)viewWillAppear:(BOOL)animated{
+    
     NoteContent *noteContent = [[NoteContent alloc] init];
     if([self.note.contents count] == 0){
         
@@ -76,9 +75,12 @@
         for(int x = 0; x < [self.note.contents count]; x++){
             noteContent = [self.note.contents objectAtIndex:x];
             [self loadNewPageWithContent:noteContent];
-            }
+        }
     }
     self.pageControl.currentPage = 0;
+}
+-(void)viewWillAppear:(BOOL)animated{
+   
 }
 -(void)showComments{
     NoteCommentViewController *noteCommentVC = [[NoteCommentViewController alloc]initWithNibName:@"NoteCommentViewController" bundle:nil];

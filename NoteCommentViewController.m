@@ -177,6 +177,7 @@
 
     else{
     Note *currNote = [self.commentsList objectAtIndex:(indexPath.row -1)];
+    if([currNote.contents count] == 0 && (currNote.creatorId != [AppModel sharedAppModel].playerId))cell.userInteractionEnabled = NO;
     cell.titleLabel.text = currNote.title;
         cell.userLabel.text = currNote.username;
         cell.starView.rating = currNote.parentRating;
