@@ -14,18 +14,23 @@
 @synthesize connection;
 @synthesize data;
 @synthesize media;
-@synthesize delegate;
+@synthesize delegate,isLoading,loaded;
 
 
 - (void)loadImageFromMedia:(Media *) aMedia {
 	self.media = aMedia;
-	
+	if(self.isLoading){
+        NSLog(@"AsyncImageView: Already loading another request...returning");
+     return;   
+    }
+    else self.isLoading = YES;
 	//check if the media already as the image, if so, just grab it
 	if (self.media.image) {
+        self.loaded = YES;
 		[self updateViewWithNewImage:self.media.image];
 		return;
 	}
-    
+    else self.loaded = NO;
     if (!self.media.url) {
         NSLog(@"AsyncImageView: loadImageFromMedia with null url! ImageId:%@", self.media.uid);
         return;
@@ -81,7 +86,8 @@
 	
 	//Save the image in the media
 	self.media.image = image;
-	
+    self.loaded = YES;
+	self.isLoading= NO;
 	[self updateViewWithNewImage:image];
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ImageReady" object:nil]];
 
@@ -111,10 +117,7 @@
 
 }
 
-- (UIImage*) getImage {
-    UIImageView* iv = [[self subviews] objectAtIndex:0];
-    return [iv image];
-}
+
 
 
 - (void)dealloc {

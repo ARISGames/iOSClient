@@ -25,6 +25,7 @@
     BOOL isLink;
     BOOL hasMedia;
     CGFloat newHeight;
+    CGFloat imageNewHeight;
     AsyncImageView *mediaImageView;
 }
 
@@ -35,6 +36,8 @@
 @property(nonatomic, retain) IBOutlet UIScrollView *scrollView;
 @property(nonatomic, retain) IBOutlet UIWebView *aWebView;
 @property (nonatomic, assign) CGFloat  newHeight;
+@property (nonatomic, assign) CGFloat  imageNewHeight;
+
 @property(nonatomic,retain)AsyncImageView *mediaImageView;
 @property(nonatomic, retain) IBOutlet UIButton *continueButton;
 -(void)imageFinishedLoading;

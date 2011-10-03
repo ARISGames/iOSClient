@@ -37,7 +37,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 
 
 @implementation NodeViewController
-@synthesize node, tableView, scrollView,aWebView,isLink,newHeight, hasMedia, mediaImageView;
+@synthesize node, tableView, scrollView,aWebView,isLink,newHeight, hasMedia, mediaImageView,imageNewHeight;
 @synthesize continueButton;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -158,6 +158,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     if(self.mediaImageView.image.size.width > 0){
     [self.mediaImageView setContentScaleFactor:(float)(320/self.mediaImageView.image.size.width)];
     self.mediaImageView.frame = CGRectMake(0, 0, 320, self.mediaImageView.contentScaleFactor*self.mediaImageView.image.size.height);
+        self.imageNewHeight = self.mediaImageView.frame.size.height;
         NSLog(@"NEWSize: %f, %f",self.mediaImageView.frame.size.width,self.mediaImageView.frame.size.height);
 
     }
@@ -261,7 +262,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 
     if (indexPath.section == 0 && indexPath.row == 0) {
        if ([media.type isEqualToString: @"Image"] && media.url) {
-           if(self.mediaImageView.media.image == nil)
+           if(!self.mediaImageView.loaded)
         [self.mediaImageView loadImageFromMedia:media];
           
            
@@ -341,7 +342,10 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     if(([media.type isEqualToString: @"Video"] || [media.type isEqualToString: @"Audio"] || [media.type isEqualToString: @"Image"]) && media.url) hasMedia = YES;
     else hasMedia = NO;
 
-	if (indexPath.section == 0 && hasMedia) return [media.type isEqualToString: @"Image"]?self.mediaImageView.frame.size.height:295;
+	if (indexPath.section == 0 && hasMedia){
+        NSLog(@"ACTUALHEIGHTFORCELL: %f",[media.type isEqualToString: @"Image"]?self.imageNewHeight:295);
+     return [media.type isEqualToString: @"Image"]?self.imageNewHeight:295;   
+    }
     if((indexPath.section == 0 && !hasMedia) || (indexPath.section == 1 && hasMedia)){if(self.newHeight) return self.newHeight+30;
     else return 50;
     }
