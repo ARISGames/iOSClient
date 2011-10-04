@@ -459,7 +459,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 - (void)showView:(UIView *)aView {
 	CGRect superFrame = [aView superview].bounds;
 	CGRect viewFrame = [aView frame];
-	viewFrame.origin.y = superFrame.origin.y + superFrame.size.height - 175;
+	viewFrame.origin.y = superFrame.origin.y + superFrame.size.height - aView.frame.size.height - toolBar.frame.size.height;
     viewFrame.size.height = aView.frame.size.height;
 	[UIView beginAnimations:nil context:NULL]; //we animate the transition
 	[aView setFrame:viewFrame];
