@@ -89,21 +89,7 @@ NSString *const kDialogHtmlTemplate =
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
 	[super viewDidLoad];
-	//assert(npcImage && @"npcImage not connected.");
-	//assert(pcImage && @"pcImage not connected.");
-	//assert(npcWebView && @"npcWebView not connected.");
-	//assert(pcWebView && @"pcWebView not connected.");
-	//assert(npcScrollView && @"npcScrollView not connected.");
-	//assert(pcScrollView && @"pcScrollView not connected.");
-	//assert(npcImageScrollView && @"npcImageScrollView not connected.");
-	//assert(pcImageScrollView && @"pcImageScrollView not connected.");
-
-	//assert(pcTableView && @"pcTableView not connected.");
-	//assert(pcAnswerView && @"pcAnswerView not connected.");
-	//assert(mainView && @"mainView not connected.");
-	//assert(npcView && @"npcView not connected.");
-	//assert(pcView && @"pcView not connected.");
-	
+		
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.modalPresent = YES;
 	//General Setup
@@ -112,15 +98,8 @@ NSString *const kDialogHtmlTemplate =
 	closingScriptPlaying = NO;
 	inFullScreenTextMode = NO;
     self.exitToTabVal = nil;
-	//View Setup
-	/*
-	self.navigationItem.leftBarButtonItem = 
-	[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"DialogEnd",@"");
-									 style: UIBarButtonItemStyleBordered
-									target:self 
-									action:@selector(backButtonTouchAction:)];	
-	 */
 	
+    //View Setup
 	npcImageScrollView.contentSize = [npcView frame].size;
 	pcImageScrollView.contentSize = [pcView frame].size;
 	
@@ -402,17 +381,18 @@ NSString *const kDialogHtmlTemplate =
 	if ([currentNode.answerString length] > 0) {
         [self moveAllOutWithPostSelector:nil];
         [self movePcIn];
+        
         pcWebView.hidden = YES;
         pcContinueButton.hidden = YES;
         pcTableView.hidden = YES;
+		pcAnswerView.hidden = NO;
         
         cachedScrollView = pcImage;
         [pcImageScrollView zoomToRect:[pcImage frame] animated:NO];
         
         currentCharacter = 0;
         self.title = NSLocalizedString(@"DialogPlayerName",@"");
-		pcTableView.hidden = YES;
-		pcAnswerView.hidden = NO;
+		
 	}
 	else {
 		if (currentNode.numberOfOptions > 0) {
@@ -446,7 +426,8 @@ NSString *const kDialogHtmlTemplate =
 }
 
 - (void) optionsRecievedFromNotification:(NSNotification*) notification{
-	[self dismissWaitingIndicatorForPlayerOptions];
+    NSLog(@"DialogVC: optionsRecievedFromNotification");
+    [self dismissWaitingIndicatorForPlayerOptions];
 	[self finishApplyingPlayerOptions: (NSArray*)[notification object]];
 }
 
@@ -457,11 +438,13 @@ NSString *const kDialogHtmlTemplate =
     currentNode = nil;
 	pcWebView.hidden = YES;
 	pcTableView.hidden = YES;
+    
     NSString *string1 = currentNpc.closing;
     NSString *trimmedString = [string1 stringByReplacingOccurrencesOfString:@" " withString:@""]; //remove whitespace
     if([trimmedString length] == 1) 
         currentNpc.closing =   [trimmedString stringByAppendingString: @"\r"];
-    	//Now our options are populated with node or conversation choices, display
+    
+    //Now our options are populated with node or conversation choices, display
 	if ([options count] == 0 && [currentNpc.closing length] > 1 && !closingScriptPlaying) {
 			NSLog(@"DialogViewController: Play Closing Script: %@",currentNpc.closing);
 			pcWebView.hidden = YES;
@@ -474,7 +457,8 @@ NSString *const kDialogHtmlTemplate =
         
         pcWebView.hidden = YES;
         pcContinueButton.hidden = YES;
-        pcTableView.hidden = YES;
+        pcTableView.hidden = NO;
+		pcAnswerView.hidden = YES;
         
         cachedScrollView = pcImage;
         [pcImageScrollView zoomToRect:[pcImage frame] animated:NO];
@@ -482,8 +466,7 @@ NSString *const kDialogHtmlTemplate =
         currentCharacter = 0;
         self.title = NSLocalizedString(@"DialogPlayerName",@"");
 		NSLog(@"DialogViewController: Player options exist or no closing script exists, put them on the screen");
-		pcTableView.hidden = NO;
-		pcAnswerView.hidden = YES;
+
         NSSortDescriptor *sortDescriptor;
         sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"hasViewed"
                                                       ascending:YES] autorelease];
@@ -510,9 +493,6 @@ NSString *const kDialogHtmlTemplate =
 	[pcActivityIndicator startAnimating];
 }
 - (void) dismissWaitingIndicatorForPlayerOptions{
-	pcTableViewController.view.hidden = NO;	
-    pcScrollView.hidden = NO;
-    npcScrollView.hidden = NO;
     [lbl removeFromSuperview];
 	pcActivityIndicator.hidden = YES;
   
