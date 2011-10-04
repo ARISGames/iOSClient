@@ -63,21 +63,23 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-	NSLog(@"NodeViewController: Displaying Node '%@'",self.node.name);
+	[super viewDidLoad];
+    
+    NSLog(@"NodeViewController: Displaying Node '%@'",self.node.name);
     self.title = self.node.name;
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.modalPresent = YES;
     self.aWebView.delegate = self;
     self.aWebView.hidden = NO;
-    	NSString *htmlDescription = [NSString stringWithFormat:kPlaqueDescriptionHtmlTemplate, self.node.text];
-	[self.aWebView loadHTMLString:htmlDescription baseURL:nil];
-   aWebView.backgroundColor =[UIColor clearColor];
-    //[self refreshView];
     
-  
-       
+    NSString *htmlDescription = [NSString stringWithFormat:kPlaqueDescriptionHtmlTemplate, self.node.text];
+	[self.aWebView loadHTMLString:htmlDescription baseURL:nil];
+    aWebView.backgroundColor =[UIColor clearColor];
+    
     mediaImageView.contentMode = UIViewContentModeScaleAspectFit;
-    [super viewDidLoad];
+    mediaImageView.frame = CGRectMake(0, 0, 320, 200);
+    self.imageNewHeight = mediaImageView.frame.size.height;
+    
 }
 -(void)viewDidDisappear:(BOOL)animated{
    // self.isLink= NO;
@@ -154,13 +156,12 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 	[self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
 }
 -(void)imageFinishedLoading{
-    NSLog(@"Size: %f, %f",self.mediaImageView.frame.size.width,self.mediaImageView.frame.size.height);
+    NSLog(@"NodeVC: imageFinishedLoading with size: %f, %f",self.mediaImageView.frame.size.width,self.mediaImageView.frame.size.height);
     if(self.mediaImageView.image.size.width > 0){
     [self.mediaImageView setContentScaleFactor:(float)(320/self.mediaImageView.image.size.width)];
     self.mediaImageView.frame = CGRectMake(0, 0, 320, self.mediaImageView.contentScaleFactor*self.mediaImageView.image.size.height);
         self.imageNewHeight = self.mediaImageView.frame.size.height;
         NSLog(@"NEWSize: %f, %f",self.mediaImageView.frame.size.width,self.mediaImageView.frame.size.height);
-
     }
     [self.tableView reloadData];
 }
@@ -262,10 +263,11 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 
     if (indexPath.section == 0 && indexPath.row == 0) {
        if ([media.type isEqualToString: @"Image"] && media.url) {
-           if(!self.mediaImageView.loaded)
-        [self.mediaImageView loadImageFromMedia:media];
-          
-           
+           NSLog(@"NodeVC: cellForRowAtIndexPath: This is an Image Plaque");
+           if(!self.mediaImageView.loaded) {
+               [self.mediaImageView loadImageFromMedia:media];
+           }
+        
            cell.backgroundView = mediaImageView;
            cell.backgroundView.layer.masksToBounds = YES;
            cell.backgroundView.layer.cornerRadius = 10.0;
@@ -274,33 +276,35 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
        }
        else if(([media.type isEqualToString: @"Video"] || [media.type isEqualToString: @"Audio"])&& media.url)
        {
+           NSLog(@"NodeVC: cellForRowAtIndexPath: This is an A/V Plaque");
+
            //Setup the Button
            mediaPlaybackButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 320, 295)];
-		[mediaPlaybackButton addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
-		[mediaPlaybackButton setBackgroundImage:[UIImage imageNamed:@"clickToPlay.png"] forState:UIControlStateNormal];
-		[mediaPlaybackButton setTitle:NSLocalizedString(@"PreparingToPlayKey",@"") forState:UIControlStateNormal];
-		mediaPlaybackButton.enabled = NO;
-		mediaPlaybackButton.titleLabel.font = [UIFont boldSystemFontOfSize:24];
-		[mediaPlaybackButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
-		[mediaPlaybackButton setContentVerticalAlignment:UIControlContentVerticalAlignmentBottom];
-			
-		
-		imageSize = mediaPlaybackButton.frame.size;
-		//topMargin = 50; 
+           [mediaPlaybackButton addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
+           [mediaPlaybackButton setBackgroundImage:[UIImage imageNamed:@"clickToPlay.png"] forState:UIControlStateNormal];
+           [mediaPlaybackButton setTitle:NSLocalizedString(@"PreparingToPlayKey",@"") forState:UIControlStateNormal];
+           mediaPlaybackButton.enabled = NO;
+           mediaPlaybackButton.titleLabel.font = [UIFont boldSystemFontOfSize:24];
+           [mediaPlaybackButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
+           [mediaPlaybackButton setContentVerticalAlignment:UIControlContentVerticalAlignmentBottom];
+           imageSize = mediaPlaybackButton.frame.size;
+           //topMargin = 50; 
         
-		//Create movie player object
-		mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
-		[mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
-		mMoviePlayer.moviePlayer.shouldAutoplay = NO;
-		[mMoviePlayer.moviePlayer prepareToPlay];
+           //Create movie player object
+           mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+           [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
+           mMoviePlayer.moviePlayer.shouldAutoplay = NO;
+           [mMoviePlayer.moviePlayer prepareToPlay];
            
            cell.backgroundView = mediaPlaybackButton;
            cell.backgroundView.layer.masksToBounds = YES;
            cell.backgroundView.layer.cornerRadius = 10.0;
            cell.userInteractionEnabled = YES;
            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
+       }
        else {
+           NSLog(@"NodeVC: cellForRowAtIndexPath: This is an text only Plaque");
+
            cell.userInteractionEnabled = NO;
            CGRect descriptionFrame = [aWebView frame];	
            descriptionFrame.origin.x = 15;
@@ -310,7 +314,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
            cell.backgroundColor = [UIColor blackColor];
 
        }
-            }
+    }
     if (indexPath.section == 1 && indexPath.row == 0){
         if(hasMedia){
             cell.userInteractionEnabled = NO;
@@ -343,8 +347,8 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     else hasMedia = NO;
 
 	if (indexPath.section == 0 && hasMedia){
-        NSLog(@"ACTUALHEIGHTFORCELL: %f",[media.type isEqualToString: @"Image"]?self.imageNewHeight:295);
-     return [media.type isEqualToString: @"Image"]?self.imageNewHeight:295;   
+        NSLog(@"heightForRowAtIndexPath: Height is %f",[media.type isEqualToString: @"Image"]?self.imageNewHeight:295);
+        return [media.type isEqualToString: @"Image"]?self.imageNewHeight:295;   
     }
     if((indexPath.section == 0 && !hasMedia) || (indexPath.section == 1 && hasMedia)){if(self.newHeight) return self.newHeight+30;
     else return 50;
