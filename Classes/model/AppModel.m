@@ -23,7 +23,7 @@
 @synthesize locationListHash, questListHash, inventoryHash,profilePic,attributes;
 
 @synthesize nearbyLocationsList;
-@synthesize hasSeenNearbyTabTutorial,hasSeenQuestsTabTutorial,hasSeenMapTabTutorial,hasSeenInventoryTabTutorial;
+@synthesize hasSeenNearbyTabTutorial,hasSeenQuestsTabTutorial,hasSeenMapTabTutorial,hasSeenInventoryTabTutorial, tabsReady;
 
 
 

@@ -64,7 +64,7 @@ extern NSDictionary *InventoryElements;
 	BOOL hasSeenQuestsTabTutorial;
 	BOOL hasSeenMapTabTutorial;
 	BOOL hasSeenInventoryTabTutorial;
-    BOOL profilePic;
+    BOOL profilePic,tabsReady;
 }
 
 
@@ -118,6 +118,8 @@ extern NSDictionary *InventoryElements;
 @property(readwrite) BOOL hasSeenQuestsTabTutorial;
 @property(readwrite) BOOL hasSeenMapTabTutorial;
 @property(readwrite) BOOL hasSeenInventoryTabTutorial;
+@property(readwrite) BOOL tabsReady;
+
 
 
 + (AppModel *)sharedAppModel;

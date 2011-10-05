@@ -152,7 +152,7 @@
 	//Setup the Main Tab Bar
 	self.tabBarController = [[UITabBarController alloc] init];
 	self.tabBarController.delegate = self;
-	UINavigationController *moreNavController = tabBarController.moreNavigationController;
+	UINavigationController *moreNavController = self.tabBarController.moreNavigationController;
 	moreNavController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 	moreNavController.delegate = self;
 	self.tabBarController.viewControllers = [NSMutableArray arrayWithObjects: 
@@ -485,8 +485,8 @@
     ;
 	
 	//Get the naviation controller and visible view controller
-	if ([tabBarController.selectedViewController isKindOfClass:[UINavigationController class]]) {
-		navigationController = (UINavigationController*)tabBarController.selectedViewController;
+	if ([self.tabBarController.selectedViewController isKindOfClass:[UINavigationController class]]) {
+		navigationController = (UINavigationController*)self.tabBarController.selectedViewController;
 	}
 	else {
 		navigationController = nil;
@@ -547,11 +547,14 @@
         if([tempNav.navigationItem.title isEqualToString:tmpTab.tabName]) newCustomVC = [newCustomVC arrayByAddingObject:tempNav];
             }
     }
+
     self.tabBarController.viewControllers = [NSArray arrayWithArray: newCustomVC];
     //[newCustomVC release];
-    [tempNav release];
+    //[newTabList release];
+    //[tmpTabList release];
+   // [tempNav release];
 
-    
+    [AppModel sharedAppModel].tabsReady = YES;
 }
 
 - (void)performLogout:(NSNotification *)notification {
@@ -665,7 +668,9 @@
 
 
 - (void) showNearbyTab:(BOOL)yesOrNo {
-	NSMutableArray *tabs = [NSMutableArray arrayWithArray:tabBarController.viewControllers];
+    if([AppModel sharedAppModel].tabsReady){
+        [AppModel sharedAppModel].tabsReady = NO;
+	NSMutableArray *tabs = [NSMutableArray arrayWithArray:self.tabBarController.viewControllers];
 	
 	if (yesOrNo) {
 		NSLog(@"AppDelegate: showNearbyTab: YES");
@@ -692,6 +697,7 @@
 	
 	NSNotification *n = [NSNotification notificationWithName:@"TabBarItemsChanged" object:self userInfo:nil];
 	[[NSNotificationCenter defaultCenter] postNotification:n];
+}
 }
 
 
@@ -841,7 +847,7 @@
 - (void)applicationWillResignActive:(UIApplication *)application {
 	NSLog(@"AppDelegate: Begin Application Resign Active");
     
-   [tabBarController dismissModalViewControllerAnimated:NO];
+   [self.tabBarController dismissModalViewControllerAnimated:NO];
 
 	[[AppModel sharedAppModel] saveUserDefaults];
 }
@@ -853,6 +859,23 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [tabBarController release];
+    [window release];
+    [tabBarController release];
+    [gameSelectionTabBarController release];
+    [defaultViewControllerForMainTabBar release];
+    [loginViewController release];
+    [loginViewNavigationController release];
+    [nearbyObjectsNavigationController release];
+    [nearbyObjectNavigationController release];
+    [myCLController release];
+    [waitingIndicator release];
+    [waitingIndicatorView release];
+    [networkAlert release];
+    [serverAlert release];
+    [tutorialViewController release];
+    [titleLabel release];
+    [descLabel release];
 	[super dealloc];
 }
 @end
