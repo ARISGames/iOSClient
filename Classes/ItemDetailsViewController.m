@@ -406,11 +406,12 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	}
 	if( state & MPMovieLoadStatePlayable ) {
 		NSLog(@"ItemDetailsViewController: Playable Load State");
+        [mediaPlaybackButton setTitle:NSLocalizedString(@"TouchToPlayKey",@"") forState:UIControlStateNormal];
+		mediaPlaybackButton.enabled = YES;	
 	} 
 	if( state & MPMovieLoadStatePlaythroughOK ) {
 		NSLog(@"ItemDetailsViewController: Playthrough OK Load State");
-		[mediaPlaybackButton setTitle:NSLocalizedString(@"TouchToPlayKey",@"") forState:UIControlStateNormal];
-		mediaPlaybackButton.enabled = YES;	
+
 	} 
 	if( state & MPMovieLoadStateStalled ) {
 		NSLog(@"ItemDetailsViewController: Stalled Load State");

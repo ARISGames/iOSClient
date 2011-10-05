@@ -209,12 +209,13 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 	}
 	if( state & MPMovieLoadStatePlayable ) {
 		NSLog(@"NodeViewController: Playable Load State");
+        [mediaPlaybackButton setTitle:NSLocalizedString(@"TouchToPlayKey",@"") forState:UIControlStateNormal];
+		mediaPlaybackButton.enabled = YES;	
+		[self playMovie:nil];
 	} 
 	if( state & MPMovieLoadStatePlaythroughOK ) {
 		NSLog(@"NodeViewController: Playthrough OK Load State");
-		[mediaPlaybackButton setTitle:NSLocalizedString(@"TouchToPlayKey",@"") forState:UIControlStateNormal];
-		mediaPlaybackButton.enabled = YES;	
-		[self playMovie:nil];
+
 	} 
 	if( state & MPMovieLoadStateStalled ) {
 		NSLog(@"NodeViewController: Stalled Load State");
@@ -288,14 +289,23 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
            [mediaPlaybackButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
            [mediaPlaybackButton setContentVerticalAlignment:UIControlContentVerticalAlignmentBottom];
            imageSize = mediaPlaybackButton.frame.size;
-           //topMargin = 50; 
-        
+
            //Create movie player object
            mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
            [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
            mMoviePlayer.moviePlayer.shouldAutoplay = NO;
            [mMoviePlayer.moviePlayer prepareToPlay];
+
+           //Create thumbnail for button
+           UIImage *videoThumb = [[mMoviePlayer.moviePlayer thumbnailImageAtTime:(NSTimeInterval)1.0 timeOption:MPMovieTimeOptionNearestKeyFrame] retain];
+           //Resize thumb
            
+           UIGraphicsBeginImageContext(CGSizeMake(320.0f, 295.0f));
+           [videoThumb drawInRect:CGRectMake(0, 0, 320.0f, 295.0f)];
+           UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();    
+           UIGraphicsEndImageContext();
+           [mediaPlaybackButton setBackgroundImage:newImage forState:UIControlStateNormal];
+
            cell.backgroundView = mediaPlaybackButton;
            cell.backgroundView.layer.masksToBounds = YES;
            cell.backgroundView.layer.cornerRadius = 10.0;
