@@ -26,6 +26,8 @@ enum soundConstants {
     int         videoId;
     int         panoId;
     int         webId;
+    int         plaqueId;
+    int         itemId;
 }
 
 @property(nonatomic, retain) NSString* text;
@@ -34,6 +36,8 @@ enum soundConstants {
 @property(readwrite) int panoId;
 @property(readwrite) int videoId;
 @property(readwrite) int webId;
+@property(readwrite) int plaqueId;
+@property(readwrite) int itemId;
 
 
 @property(readwrite) CGRect	imageRect;
@@ -53,7 +57,9 @@ enum soundConstants {
    exitToTabWithTitle:(NSString*)tabTitle
 videoId:(int)vidId
 panoramicId:(int)pId
-webpageId:(int)wId;
+webpageId:(int)wId
+plaqueId:(int)nodeId
+itemId:(int)iId;
 
 
 @end

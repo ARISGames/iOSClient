@@ -29,6 +29,8 @@
     int             videoId;
     int             panoId;
     int             webId;
+    int             plaqueId;
+    int             itemId;
     NSXMLParser		*parser;
 	id<SceneParserDelegate> delegate;
 }

@@ -19,6 +19,9 @@
 #import "PanoramicViewController.h"
 #import "WebPage.h"
 #import "webpageViewController.h"
+#import "Item.h"
+#import "NodeViewController.h"
+#import "ItemDetailsViewController.h"
 
 const NSInteger kStartingIndex = 0;
 const NSInteger kPcIndex = 0;
@@ -334,6 +337,18 @@ NSString *const kDialogHtmlTemplate =
             webPageViewController.delegate = self;
             [self.navigationController pushViewController:webPageViewController animated:YES];
             [webPageViewController release];
+        }
+        else if(currentScene.plaqueId != 0){
+            NodeViewController *nodeVC = [[NodeViewController alloc]initWithNibName:@"Node" bundle:[NSBundle mainBundle]];
+            nodeVC.node = [[AppModel sharedAppModel] nodeForNodeId:currentScene.plaqueId];
+            [self.navigationController pushViewController:nodeVC animated:YES];
+            [nodeVC release];
+        }
+        else if(currentScene.itemId != 0){
+            ItemDetailsViewController *itemVC = [[ItemDetailsViewController alloc]initWithNibName:@"ItemDetailsView" bundle:[NSBundle mainBundle]];
+            itemVC.item = [[AppModel sharedAppModel] itemForItemId:currentScene.itemId];
+            [self.navigationController pushViewController:itemVC animated:YES];
+            [itemVC release];           
         }
         
         [self applyScene:currentScene];

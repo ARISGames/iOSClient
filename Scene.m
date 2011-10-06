@@ -18,7 +18,7 @@
 @synthesize zoomTime;
 @synthesize foreSoundMediaId;	
 @synthesize backSoundMediaId;
-@synthesize exitToTabWithTitle,videoId,panoId,webId;
+@synthesize exitToTabWithTitle,videoId,panoId,webId,plaqueId,itemId;
 
 - (id) initWithText:(NSString *)theText 
                isPc:(Boolean)isPcYorN 
@@ -30,7 +30,7 @@
    exitToTabWithTitle:(NSString*)tabTitle 
 videoId:(int)vidId
 panoramicId:(int)pId
-webpageId:(int)wId{
+webpageId:(int)wId plaqueId:(int)nodeId itemId:(int)iId{
 	
 	if ((self = [super init])) {
         self.text = [[theText copy] retain];
@@ -44,6 +44,8 @@ webpageId:(int)wId{
         self.videoId = vidId;
         self.panoId = pId;
         self.webId = wId;
+        self.plaqueId = nodeId;
+        self.itemId = iId;
 	}
 	return self;
 }

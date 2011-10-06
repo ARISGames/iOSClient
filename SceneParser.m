@@ -27,6 +27,8 @@ NSString *const kTagVideo = @"video";
 NSString *const kTagId = @"id";
 NSString *const kTagPanoramic = @"panoramic";
 NSString *const kTagWebpage = @"webpage";
+NSString *const kTagPlaque = @"plaque";
+NSString *const kTagItem = @"item";
 
 
 
@@ -95,6 +97,13 @@ else if ([elementName isEqualToString:kTagPanoramic]) {
 else if ([elementName isEqualToString:kTagWebpage]) {
     webId = [attributeDict objectForKey:kTagId] ? [[attributeDict objectForKey:kTagId]intValue] : 0;
 }
+else if ([elementName isEqualToString:kTagPlaque]) {
+    plaqueId = [attributeDict objectForKey:kTagId] ? [[attributeDict objectForKey:kTagId]intValue] : 0;
+}
+else if ([elementName isEqualToString:kTagItem]) {
+    itemId = [attributeDict objectForKey:kTagId] ? [[attributeDict objectForKey:kTagId]intValue] : 0;
+}
+
 	imageRect = CGRectMake(0, 0, 320, 416);
 	imageRect.origin.x = [attributeDict objectForKey:kTagZoomX] ?
         [[attributeDict objectForKey:kTagZoomX] floatValue] : 
@@ -130,7 +139,9 @@ else if ([elementName isEqualToString:kTagWebpage]) {
         || [elementName isEqualToString:kTagNpc] 
         || [elementName isEqualToString:kTagPanoramic] 
         || [elementName isEqualToString:kTagVideo]
-        || [elementName isEqualToString:kTagWebpage])
+        || [elementName isEqualToString:kTagWebpage]
+        || [elementName isEqualToString:kTagPlaque]
+        || [elementName isEqualToString:kTagItem])
 	{
         Scene *newScene = [[Scene alloc] initWithText:currentText 
                                           isPc:isPc 
@@ -142,7 +153,7 @@ else if ([elementName isEqualToString:kTagWebpage]) {
                                    exitToTabWithTitle:exitToTabWithTitle
                                               videoId:videoId
                                           panoramicId:panoId
-                                            webpageId:webId]; 
+                                            webpageId:webId plaqueId:plaqueId itemId:itemId]; 
 
 		[self.script addObject:newScene];
 		[newScene release];
