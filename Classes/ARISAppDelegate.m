@@ -521,8 +521,8 @@
                 else if([tmpTab.tabName isEqualToString:@"INVENTORY"]) tmpTab.tabName = @"Inventory";
                 else if([tmpTab.tabName isEqualToString:@"QR"]) tmpTab.tabName = @"Decoder";
                 else if([tmpTab.tabName isEqualToString:@"PLAYER"]) tmpTab.tabName = @"Player";
-                else if([tmpTab.tabName isEqualToString:@"CAMERA"]) tmpTab.tabName = @"Camera";
-                else if([tmpTab.tabName isEqualToString:@"MICROPHONE"]) tmpTab.tabName = @"Recorder";
+                //else if([tmpTab.tabName isEqualToString:@"CAMERA"]) tmpTab.tabName = @"Camera";
+               // else if([tmpTab.tabName isEqualToString:@"MICROPHONE"]) tmpTab.tabName = @"Recorder";
                 else if([tmpTab.tabName isEqualToString:@"NOTE"]) tmpTab.tabName = @"Notebook";
                 else if([tmpTab.tabName isEqualToString:@"LOGOUT"]) tmpTab.tabName = @"Logout";
                 else if([tmpTab.tabName isEqualToString:@"STARTOVER"]) tmpTab.tabName = @"Start Over";
