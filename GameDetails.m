@@ -50,13 +50,15 @@ NSString *const kGameDetailsHtmlTemplate =
 @synthesize locationLabel;
 @synthesize scrollView;
 @synthesize contentView;
-@synthesize segmentedControl, newHeight;
+@synthesize segmentedControl, newHeight, mediaImageView, splashMedia;
 
 
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
         // Custom initialization
+        self.mediaImageView = [[[AsyncImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 200)] autorelease];
+        self.splashMedia = [[Media alloc] init];
     }
     return self;
 }
@@ -190,13 +192,14 @@ NSString *const kGameDetailsHtmlTemplate =
     }
 	
     if (indexPath.section == 0 && indexPath.row == 0) {
-        AsyncImageView *mediaImageView = [[[AsyncImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 200)] autorelease];
+        
         if ([self.game.mediaUrl length] > 0) {
-            Media *splashMedia = [[[Media alloc] initWithId:1 andUrlString:self.game.mediaUrl ofType:@"Splash"]autorelease];
-            [mediaImageView loadImageFromMedia:splashMedia];
+            [self.splashMedia initWithId:1 andUrlString:self.game.mediaUrl ofType:@"Splash"];
+            [self.mediaImageView loadImageFromMedia:splashMedia];
         }
-        else mediaImageView.image = [UIImage imageNamed:@"Default.png"];
-        mediaImageView.contentMode = UIViewContentModeScaleAspectFill;
+        else self.mediaImageView.image = [UIImage imageNamed:@"Default.png"];
+        self.mediaImageView.frame = CGRectMake(0, 0, 320, 200);
+        self.mediaImageView.contentMode = UIViewContentModeScaleAspectFill;
 
         cell.backgroundView = mediaImageView;
         cell.backgroundView.layer.masksToBounds = YES;

@@ -101,7 +101,7 @@
 	[UIView commitAnimations];
 
 	self.image = image;
-    self.contentMode = UIViewContentModeScaleAspectFit;
+   // self.contentMode = UIViewContentModeScaleAspectFit;
     [self setNeedsLayout];
 	[self.superview setNeedsLayout];
 

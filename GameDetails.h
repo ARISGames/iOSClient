@@ -10,6 +10,7 @@
 #import "Game.h"
 #import <MapKit/MapKit.h>
 #import "AsyncImageView.h"
+#import "Media.h"
 
 
 @interface GameDetails : UIViewController <UITableViewDataSource,UITableViewDelegate,
@@ -25,7 +26,9 @@
 	IBOutlet UIScrollView *scrollView;
 	IBOutlet UIView *contentView;
     IBOutlet UISegmentedControl *segmentedControl;
+    AsyncImageView *mediaImageView; 
     CGFloat newHeight;
+    Media *splashMedia;
 }
 
 @property (nonatomic, retain) Game *game;
@@ -39,6 +42,8 @@
 @property (nonatomic, retain) IBOutlet UIView *contentView;
 @property (nonatomic, retain) IBOutlet UISegmentedControl *segmentedControl;
 @property (nonatomic, assign) CGFloat  newHeight;
+@property (nonatomic,retain)AsyncImageView *mediaImageView;
+@property (nonatomic, retain)Media *splashMedia;
 
 
 @end
