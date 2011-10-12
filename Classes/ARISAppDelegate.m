@@ -178,6 +178,7 @@
     //Setup the Game Selection Tab Bar
     
     self.gameSelectionTabBarController = [[UITabBarController alloc] init];
+    self.gameSelectionTabBarController.delegate = self;
     
     GamePickerMapViewController *gamePickerNearbyViewController = [[[GamePickerNearbyViewController alloc] initWithNibName:@"GamePickerNearbyViewController" bundle:nil] autorelease];
 	UINavigationController *gamePickerNearbyNC = [[UINavigationController alloc] initWithRootViewController: gamePickerNearbyViewController];
@@ -195,12 +196,19 @@
     UINavigationController *gamePickerRecentNC = [[UINavigationController alloc] initWithRootViewController:gamePickerRecentVC];
     gamePickerRecentNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
+    
+	//Logout View
+	LogoutViewController *alogoutViewController = [[[LogoutViewController alloc] initWithNibName:@"Logout" bundle:nil] autorelease];
+	UINavigationController *alogoutNavigationController = [[UINavigationController alloc] initWithRootViewController: alogoutViewController];
+	alogoutNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+
+    
     self.gameSelectionTabBarController.viewControllers = [NSMutableArray arrayWithObjects:
                                                           gamePickerNearbyNC,
                                                           gamePickerMapNC,
                                                           gamePickerSearchNC,
                                                           gamePickerRecentNC,
-                                                          logoutNavigationController,
+                                                          alogoutNavigationController,
                                                           nil];
     //[self.gameSelectionTabBarController.view setFrame:UIScreen.mainScreen.applicationFrame];
     [window addSubview:self.gameSelectionTabBarController.view];
