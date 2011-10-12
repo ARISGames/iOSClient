@@ -37,7 +37,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 
 
 @implementation NodeViewController
-@synthesize node, tableView, scrollView,aWebView,isLink,newHeight, hasMedia, mediaImageView,imageNewHeight;
+@synthesize node, tableView, scrollView,aWebView,isLink,newHeight, hasMedia,spinner, mediaImageView,imageNewHeight;
 @synthesize continueButton;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -55,6 +55,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
         self.isLink=NO;
         self.mediaImageView = [[AsyncImageView alloc]init];
         self.mediaImageView.delegate = self;
+        self.spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     }
 
     return self;
@@ -70,7 +71,6 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.modalPresent = YES;
     self.aWebView.delegate = self;
-    self.aWebView.hidden = NO;
     
     NSString *htmlDescription = [NSString stringWithFormat:kPlaqueDescriptionHtmlTemplate, self.node.text];
 	[self.aWebView loadHTMLString:htmlDescription baseURL:nil];
@@ -79,6 +79,11 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     mediaImageView.contentMode = UIViewContentModeScaleAspectFit;
     mediaImageView.frame = CGRectMake(0, 0, 320, 200);
     self.imageNewHeight = mediaImageView.frame.size.height;
+    
+}
+-(void)viewWillAppear:(BOOL)animated{
+    
+
     
 }
 -(void)viewDidDisappear:(BOOL)animated{
@@ -94,6 +99,10 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
         [self.aWebView setFrame:descriptionFrame];	
 
         [tableView reloadData];
+    for(int x = 0; x < [webView.subviews count]; x ++){
+        if([[webView.subviews objectAtIndex:x] isKindOfClass:[UIActivityIndicatorView class]])
+            [[webView.subviews objectAtIndex:x] removeFromSuperview];
+    }
    // }
 }
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
@@ -109,7 +118,11 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
         return NO;
     }
     else{
-    self.isLink = YES;
+           self.isLink = YES;
+        [spinner startAnimating];
+        spinner.center = webView.center;
+        spinner.backgroundColor = [UIColor blackColor];
+        [webView addSubview:spinner];
         return YES;}
 }
 - (IBAction)backButtonTouchAction: (id) sender{

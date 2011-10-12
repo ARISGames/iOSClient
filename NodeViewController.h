@@ -27,6 +27,7 @@
     CGFloat newHeight;
     CGFloat imageNewHeight;
     AsyncImageView *mediaImageView;
+    UIActivityIndicatorView *spinner;
 }
 
 @property(readwrite, retain) Node *node;
@@ -37,7 +38,7 @@
 @property(nonatomic, retain) IBOutlet UIWebView *aWebView;
 @property (nonatomic, assign) CGFloat  newHeight;
 @property (nonatomic, assign) CGFloat  imageNewHeight;
-
+@property(nonatomic, retain)UIActivityIndicatorView *spinner;
 @property(nonatomic,retain)AsyncImageView *mediaImageView;
 @property(nonatomic, retain) IBOutlet UIButton *continueButton;
 -(void)imageFinishedLoading;
