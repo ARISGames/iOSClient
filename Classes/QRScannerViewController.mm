@@ -56,10 +56,9 @@
 		self.imageScanButton.alpha = 1.0;
 	}
 	else {
-		self.qrScanButton.enabled = NO;
-		self.qrScanButton.alpha = 0.6;
-        self.imageScanButton.enabled = NO;
-		self.imageScanButton.alpha = 0.6;
+		self.qrScanButton.hidden = YES;
+        self.imageScanButton.hidden = YES;
+        [self.manualCode becomeFirstResponder]; 
 	}
 	
 	
