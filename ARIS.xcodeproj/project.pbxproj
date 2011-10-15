@@ -26,6 +26,8 @@
 		114F746F140D5231003421C6 /* NoteCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 114F746D140D5231003421C6 /* NoteCell.xib */; };
 		114F7473140D92DF003421C6 /* ImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 114F7471140D92DF003421C6 /* ImageViewer.m */; };
 		114F7474140D92DF003421C6 /* ImageViewer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 114F7472140D92DF003421C6 /* ImageViewer.xib */; };
+		11566433144A414D006902C2 /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11566431144A414D006902C2 /* ChangePasswordViewController.m */; };
+		11566434144A414D006902C2 /* ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11566432144A414D006902C2 /* ChangePasswordViewController.xib */; };
 		11691A35140FEF71003E8998 /* NoteCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11691A33140FEF71003E8998 /* NoteCommentViewController.m */; };
 		11691A36140FEF71003E8998 /* NoteCommentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11691A34140FEF71003E8998 /* NoteCommentViewController.xib */; };
 		118622E01404535300D4B738 /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = 118622DF1404535300D4B738 /* Note.m */; };
@@ -346,6 +348,9 @@
 		114F7470140D92DE003421C6 /* ImageViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageViewer.h; sourceTree = "<group>"; };
 		114F7471140D92DF003421C6 /* ImageViewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageViewer.m; sourceTree = "<group>"; };
 		114F7472140D92DF003421C6 /* ImageViewer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageViewer.xib; sourceTree = "<group>"; };
+		11566430144A414D006902C2 /* ChangePasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePasswordViewController.h; sourceTree = "<group>"; };
+		11566431144A414D006902C2 /* ChangePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePasswordViewController.m; sourceTree = "<group>"; };
+		11566432144A414D006902C2 /* ChangePasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangePasswordViewController.xib; sourceTree = "<group>"; };
 		11691A32140FEF71003E8998 /* NoteCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCommentViewController.h; sourceTree = "<group>"; };
 		11691A33140FEF71003E8998 /* NoteCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCommentViewController.m; sourceTree = "<group>"; };
 		11691A34140FEF71003E8998 /* NoteCommentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteCommentViewController.xib; sourceTree = "<group>"; };
@@ -1212,6 +1217,9 @@
 				2B3D11AF0F4361940067FD3A /* LoginViewController.h */,
 				2B3D11B00F4361940067FD3A /* LoginViewController.m */,
 				2B3D11AC0F4361380067FD3A /* Login.xib */,
+				11566430144A414D006902C2 /* ChangePasswordViewController.h */,
+				11566431144A414D006902C2 /* ChangePasswordViewController.m */,
+				11566432144A414D006902C2 /* ChangePasswordViewController.xib */,
 				A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */,
 				A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */,
 				A722C8BF0FBCD8D0009432DB /* SelfRegistration.xib */,
@@ -1786,6 +1794,7 @@
 				1117649A143A716600044812 /* buttonborder.png in Resources */,
 				1117649B143A716600044812 /* buttonborder2.png in Resources */,
 				1117649C143A716600044812 /* mappoint.png in Resources */,
+				11566434144A414D006902C2 /* ChangePasswordViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1951,6 +1960,7 @@
 				11DD5422141E70D00007CD70 /* DropOnMapViewController.m in Sources */,
 				11DD5428141E79160007CD70 /* DDAnnotation.m in Sources */,
 				11DD5429141E79160007CD70 /* DDAnnotationView.m in Sources */,
+				11566433144A414D006902C2 /* ChangePasswordViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
