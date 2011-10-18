@@ -190,7 +190,7 @@ else if ([elementName isEqualToString:kTagItem]) {
                               foreSoundMediaId:kEmptySound
                               backSoundMediaId:kEmptySound
                               exitToTabWithTitle:nil
-                    videoId:0 panoramicId:0 webpageId:0];        
+                    videoId:0 panoramicId:0 webpageId:0 plaqueId:0 itemId:0];        
 		
 		[self.script addObject:s];
 		[s release];
