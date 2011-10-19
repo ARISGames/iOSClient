@@ -46,6 +46,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    if(!self.imageView.loaded)
     [self.imageView loadImageFromMedia:self.media];
 }
 

@@ -122,6 +122,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
 	if ([media.type isEqualToString: @"Image"] && media.url) {
 		NSLog(@"ItemDetailsViewController: Image Layout Selected");
+        if(!itemImageView.loaded)
 		[itemImageView loadImageFromMedia:media];
 	}
 	else if (([media.type isEqualToString: @"Video"] || [media.type isEqualToString: @"Audio"]) && media.url) {

@@ -173,6 +173,7 @@
 		Media *iconMedia = [[Media alloc] initWithId:1 andUrlString:currentGame.iconMediaUrl ofType:@"Icon"];
         currentGame.iconMedia = iconMedia;
         currentGame.iconMediaUrl = nil;
+        if(!cell.iconView.loaded)
 		[cell.iconView loadImageFromMedia:iconMedia];
 	}
     else{
