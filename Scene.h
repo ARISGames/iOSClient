@@ -23,6 +23,7 @@ enum soundConstants {
 	int			foreSoundMediaId;	
 	int			backSoundMediaId;
     NSString*   exitToTabWithTitle;
+    NSString*   exitToType;
     int         videoId;
     int         panoId;
     int         webId;
@@ -45,6 +46,8 @@ enum soundConstants {
 @property(readwrite) int foreSoundMediaId;	
 @property(readwrite) int backSoundMediaId;
 @property(nonatomic, retain) NSString* exitToTabWithTitle;
+@property(nonatomic, retain) NSString* exitToType;
+
 
 
 - (id) initWithText:(NSString *)text 
@@ -55,6 +58,7 @@ enum soundConstants {
    foreSoundMediaId:(int)fgMediaId 
    backSoundMediaId:(int)bgMediaId
    exitToTabWithTitle:(NSString*)tabTitle
+         exitToType:(NSString*)type
 videoId:(int)vidId
 panoramicId:(int)pId
 webpageId:(int)wId

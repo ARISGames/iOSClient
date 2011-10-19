@@ -18,6 +18,11 @@ NSString *const kTagImageMediaId = @"imageMediaId";
 NSString *const kTagBgSoundMediaId = @"bgSoundMediaId";
 NSString *const kTagFgSoundMediaId = @"fgSoundMediaId";
 NSString *const kTagExitToTab = @"exitToTab";
+NSString *const kTagExitToPlaque = @"exitToPlaque";
+NSString *const kTagExitToWebPage = @"exitToWebPage";
+NSString *const kTagExitToCharacter = @"exitToCharacter";
+NSString *const kTagExitToPanoramic = @"exitToPanoramic";
+NSString *const kTagExitToItem = @"exitToItem";
 NSString *const kTagZoomX = @"zoomX";
 NSString *const kTagZoomY = @"zoomY";
 NSString *const kTagZoomWidth = @"zoomWidth";
@@ -33,7 +38,7 @@ NSString *const kTagItem = @"item";
 
 
 @implementation SceneParser
-@synthesize currentText, sourceText, exitToTabWithTitle, delegate, script;
+@synthesize currentText, sourceText, exitToTabWithTitle, delegate, script, exitToType;
 
 #pragma mark Init/dealloc
 - (id) initWithDefaultNpcId:(NSInteger)imageMediaId {
@@ -84,8 +89,35 @@ NSString *const kTagItem = @"item";
         currentCharacterId = defaultImageMediaId;
 }    
 else if ([elementName isEqualToString:kTagDialog]){
-        exitToTabWithTitle = [attributeDict objectForKey:kTagExitToTab] ?
-        [attributeDict objectForKey:kTagExitToTab] : nil;   
+
+    if ([attributeDict objectForKey:kTagExitToTab]){
+        exitToType = @"tab";
+        exitToTabWithTitle = [attributeDict objectForKey:kTagExitToTab];
+    }
+    else if([attributeDict objectForKey:kTagExitToPlaque]){
+        exitToType = @"plaque";
+        exitToTabWithTitle = [attributeDict objectForKey:kTagExitToPlaque];
+    }
+    else if([attributeDict objectForKey:kTagExitToWebPage]){
+        exitToType = @"webpage";
+        exitToTabWithTitle = [attributeDict objectForKey:kTagExitToWebPage];
+    }
+    else if([attributeDict objectForKey:kTagExitToItem]){
+        exitToType = @"item";
+        exitToTabWithTitle = [attributeDict objectForKey:kTagExitToItem];
+    }
+    else if([attributeDict objectForKey:kTagExitToCharacter]){
+        exitToType = @"character";
+        exitToTabWithTitle = [attributeDict objectForKey:kTagExitToCharacter];
+    }
+    else if([attributeDict objectForKey:kTagExitToPanoramic]){
+        exitToType = @"panoramic";
+        exitToTabWithTitle = [attributeDict objectForKey:kTagExitToPanoramic];
+    }
+    else {
+        exitToType = nil;
+        exitToTabWithTitle = nil;
+    }
         }
 else if ([elementName isEqualToString:kTagVideo]){
     videoId = [attributeDict objectForKey:kTagId] ? [[attributeDict objectForKey:kTagId]intValue] : 0;
@@ -149,8 +181,9 @@ else if ([elementName isEqualToString:kTagItem]) {
                                      imageRect:imageRect
                                       zoomTime:resizeTime
                               foreSoundMediaId:fgSoundMediaId
-                              backSoundMediaId:bgSoundMediaId
-                                   exitToTabWithTitle:exitToTabWithTitle
+                              backSoundMediaId:bgSoundMediaId      
+                                            exitToTabWithTitle:exitToTabWithTitle
+                                           exitToType:exitToType
                                               videoId:videoId
                                           panoramicId:panoId
                                             webpageId:webId plaqueId:plaqueId itemId:itemId]; 
@@ -189,7 +222,7 @@ else if ([elementName isEqualToString:kTagItem]) {
                                       zoomTime:kDefaultZoomTime
                               foreSoundMediaId:kEmptySound
                               backSoundMediaId:kEmptySound
-                              exitToTabWithTitle:nil
+                              exitToTabWithTitle:nil exitToType:nil
                     videoId:0 panoramicId:0 webpageId:0 plaqueId:0 itemId:0];        
 		
 		[self.script addObject:s];

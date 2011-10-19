@@ -26,6 +26,7 @@
 	CGRect			imageRect;
 	float			resizeTime;
     NSString        *exitToTabWithTitle;
+    NSString        *exitToType;
     int             videoId;
     int             panoId;
     int             webId;
@@ -39,6 +40,8 @@
 @property (nonatomic, retain) NSMutableArray *script;
 @property (nonatomic, retain) NSString *sourceText;
 @property (nonatomic, retain) NSString *exitToTabWithTitle;
+@property (nonatomic, retain) NSString *exitToType;
+
 @property (readwrite, retain) id<SceneParserDelegate> delegate;
 
 
