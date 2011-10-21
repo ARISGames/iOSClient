@@ -257,6 +257,8 @@ NSString *const kDialogHtmlTemplate =
 	[resourcePath release];
 	[pcTableViewController release];
     [cachedScene release];
+    [pcWebView release];
+    [npcWebView release];
     [super dealloc];
 }
 
@@ -981,7 +983,6 @@ NSString *const kDialogHtmlTemplate =
     
     
 }
-
 #pragma mark Scroll View
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
 	return cachedScrollView;
