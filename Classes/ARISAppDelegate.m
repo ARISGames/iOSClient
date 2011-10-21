@@ -756,7 +756,7 @@
 - (void) returnToHomeView{
 	NSLog(@"AppDelegate: Returning to Home View and Popping More Nav Controller");
     [self.tabBarController.moreNavigationController popToRootViewControllerAnimated:NO];
-	[self.tabBarController setSelectedViewController:self.defaultViewControllerForMainTabBar];	
+	//[self.tabBarController setSelectedViewController:self.defaultViewControllerForMainTabBar];	
 }
 
 - (void) checkForDisplayCompleteNode{
