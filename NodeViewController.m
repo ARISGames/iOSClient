@@ -83,7 +83,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 }
 -(void)viewWillAppear:(BOOL)animated{
     
-
+    self.aWebView.hidden = YES;
     
 }
 -(void)viewDidDisappear:(BOOL)animated{
@@ -93,7 +93,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     //if (!self.isLink){
         float nHeight = [[self.aWebView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
         self.newHeight = nHeight;
-        
+    webView.hidden = NO;
         CGRect descriptionFrame = [self.aWebView frame];	
         descriptionFrame.size = CGSizeMake(descriptionFrame.size.width,newHeight+5);
         [self.aWebView setFrame:descriptionFrame];	
@@ -203,7 +203,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 	[scrollView release];
 	[mediaPlaybackButton release];
     [continueButton release];
-	
+	[aWebView release];
 	//remove listeners
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
@@ -333,7 +333,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
            descriptionFrame.origin.x = 15;
            descriptionFrame.origin.y = 15;
            [aWebView setFrame:descriptionFrame];
-           cell.backgroundView =aWebView;
+           cell.backgroundView = aWebView;
            cell.backgroundColor = [UIColor blackColor];
 
        }
