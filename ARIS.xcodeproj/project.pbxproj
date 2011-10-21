@@ -10,6 +10,8 @@
 		1117649A143A716600044812 /* buttonborder.png in Resources */ = {isa = PBXBuildFile; fileRef = 11176497143A715F00044812 /* buttonborder.png */; };
 		1117649B143A716600044812 /* buttonborder2.png in Resources */ = {isa = PBXBuildFile; fileRef = 11176498143A716200044812 /* buttonborder2.png */; };
 		1117649C143A716600044812 /* mappoint.png in Resources */ = {isa = PBXBuildFile; fileRef = 11176499143A716500044812 /* mappoint.png */; };
+		111CFA9314520EC700D56207 /* ForgotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 111CFA9114520EC700D56207 /* ForgotViewController.m */; };
+		111CFA9414520EC700D56207 /* ForgotViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 111CFA9214520EC700D56207 /* ForgotViewController.xib */; };
 		1122C0B613A7D124004F0392 /* webpageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1122C0B413A7D124004F0392 /* webpageViewController.m */; };
 		1122C0B713A7D124004F0392 /* webpageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1122C0B513A7D124004F0392 /* webpageViewController.xib */; };
 		1122C0C113A7DE80004F0392 /* WebPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1122C0C013A7DE7F004F0392 /* WebPage.m */; };
@@ -325,6 +327,9 @@
 		11176497143A715F00044812 /* buttonborder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonborder.png; sourceTree = "<group>"; };
 		11176498143A716200044812 /* buttonborder2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonborder2.png; sourceTree = "<group>"; };
 		11176499143A716500044812 /* mappoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mappoint.png; sourceTree = "<group>"; };
+		111CFA9014520EC700D56207 /* ForgotViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgotViewController.h; sourceTree = "<group>"; };
+		111CFA9114520EC700D56207 /* ForgotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgotViewController.m; sourceTree = "<group>"; };
+		111CFA9214520EC700D56207 /* ForgotViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ForgotViewController.xib; sourceTree = "<group>"; };
 		1122C0B313A7D124004F0392 /* webpageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = webpageViewController.h; sourceTree = "<group>"; };
 		1122C0B413A7D124004F0392 /* webpageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = webpageViewController.m; sourceTree = "<group>"; };
 		1122C0B513A7D124004F0392 /* webpageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = webpageViewController.xib; sourceTree = "<group>"; };
@@ -1217,6 +1222,9 @@
 				2B3D11AF0F4361940067FD3A /* LoginViewController.h */,
 				2B3D11B00F4361940067FD3A /* LoginViewController.m */,
 				2B3D11AC0F4361380067FD3A /* Login.xib */,
+				111CFA9014520EC700D56207 /* ForgotViewController.h */,
+				111CFA9114520EC700D56207 /* ForgotViewController.m */,
+				111CFA9214520EC700D56207 /* ForgotViewController.xib */,
 				11566430144A414D006902C2 /* ChangePasswordViewController.h */,
 				11566431144A414D006902C2 /* ChangePasswordViewController.m */,
 				11566432144A414D006902C2 /* ChangePasswordViewController.xib */,
@@ -1795,6 +1803,7 @@
 				1117649B143A716600044812 /* buttonborder2.png in Resources */,
 				1117649C143A716600044812 /* mappoint.png in Resources */,
 				11566434144A414D006902C2 /* ChangePasswordViewController.xib in Resources */,
+				111CFA9414520EC700D56207 /* ForgotViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1961,6 +1970,7 @@
 				11DD5428141E79160007CD70 /* DDAnnotation.m in Sources */,
 				11DD5429141E79160007CD70 /* DDAnnotationView.m in Sources */,
 				11566433144A414D006902C2 /* ChangePasswordViewController.m in Sources */,
+				111CFA9314520EC700D56207 /* ForgotViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

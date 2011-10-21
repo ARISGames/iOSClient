@@ -10,6 +10,7 @@
 #import "SelfRegistrationViewController.h"
 #import "ARISAppDelegate.h"
 #import "ChangePasswordViewController.h"
+#import "ForgotViewController.h"
 
 @implementation LoginViewController
 
@@ -68,12 +69,12 @@
 }
 -(void)changePassTouch{
     NSLog(@"Login: Change Password Button Touched");
-	ChangePasswordViewController *changePassViewController = [[ChangePasswordViewController alloc] 
-                                                                      initWithNibName:@"ChangePasswordViewController" bundle:[NSBundle mainBundle]];
+	ForgotViewController *forgotPassViewController = [[ForgotViewController alloc] 
+                                                                      initWithNibName:@"ForgotViewController" bundle:[NSBundle mainBundle]];
 	
 	//Put the view on the screen
-	[[self navigationController] pushViewController:changePassViewController animated:YES];
-	[changePassViewController release];
+	[[self navigationController] pushViewController:forgotPassViewController animated:YES];
+	[forgotPassViewController release];
 }
 -(IBAction)newAccountButtonTouched: (id) sender{
 	NSLog(@"Login: New User Button Touched");
