@@ -239,7 +239,9 @@ NSString *const kGameDetailsHtmlTemplate =
     }
     else {
         cell.userInteractionEnabled = NO;
-        CGRect descriptionFrame = [descriptionWebView frame];	
+        CGRect descriptionFrame = [descriptionWebView frame];
+        descriptionWebView.opaque = NO;
+        descriptionWebView.backgroundColor = [UIColor clearColor];
         descriptionFrame.origin.x = 15;
         descriptionFrame.origin.y = 15;
         [descriptionWebView setFrame:descriptionFrame];
