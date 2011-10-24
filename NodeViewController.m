@@ -79,11 +79,12 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     mediaImageView.contentMode = UIViewContentModeScaleAspectFit;
     mediaImageView.frame = CGRectMake(0, 0, 320, 200);
     self.imageNewHeight = mediaImageView.frame.size.height;
+    self.aWebView.hidden = YES;
+
     
 }
 -(void)viewWillAppear:(BOOL)animated{
     
-    self.aWebView.hidden = YES;
     
 }
 -(void)viewDidDisappear:(BOOL)animated{
@@ -166,6 +167,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 }
 
 -(IBAction)playMovie:(id)sender {
+    [mMoviePlayer.moviePlayer play];
 	[self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
 }
 -(void)imageFinishedLoading{
@@ -224,7 +226,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 		NSLog(@"NodeViewController: Playable Load State");
         [mediaPlaybackButton setTitle:NSLocalizedString(@"TouchToPlayKey",@"") forState:UIControlStateNormal];
 		mediaPlaybackButton.enabled = YES;	
-		[self playMovie:nil];
+		//[self playMovie:nil];
 	} 
 	if( state & MPMovieLoadStatePlaythroughOK ) {
 		NSLog(@"NodeViewController: Playthrough OK Load State");
@@ -293,7 +295,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
            NSLog(@"NodeVC: cellForRowAtIndexPath: This is an A/V Plaque");
 
            //Setup the Button
-           mediaPlaybackButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 320, 295)];
+           mediaPlaybackButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 320, 240)];
            [mediaPlaybackButton addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
            [mediaPlaybackButton setBackgroundImage:[UIImage imageNamed:@"clickToPlay.png"] forState:UIControlStateNormal];
            [mediaPlaybackButton setTitle:NSLocalizedString(@"PreparingToPlayKey",@"") forState:UIControlStateNormal];
@@ -313,8 +315,8 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
            UIImage *videoThumb = [[mMoviePlayer.moviePlayer thumbnailImageAtTime:(NSTimeInterval)1.0 timeOption:MPMovieTimeOptionNearestKeyFrame] retain];
            //Resize thumb
            
-           UIGraphicsBeginImageContext(CGSizeMake(320.0f, 295.0f));
-           [videoThumb drawInRect:CGRectMake(0, 0, 320.0f, 295.0f)];
+           UIGraphicsBeginImageContext(CGSizeMake(320.0f, 240.0f));
+           [videoThumb drawInRect:CGRectMake(0, 0, 320.0f, 240.0f)];
            UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();    
            UIGraphicsEndImageContext();
            [mediaPlaybackButton setBackgroundImage:newImage forState:UIControlStateNormal];
