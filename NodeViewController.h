@@ -21,13 +21,14 @@
 	UIButton *mediaPlaybackButton;
     UIButton *contineuButton;
 	IBOutlet UIScrollView *scrollView;
-    IBOutlet UIWebView *aWebView;
     BOOL isLink;
     BOOL hasMedia;
+    BOOL imageLoaded, webLoaded;
     CGFloat newHeight;
     CGFloat imageNewHeight;
     AsyncImageView *mediaImageView;
     UIActivityIndicatorView *spinner;
+    NSArray *cellArray;
 }
 
 @property(readwrite, retain) Node *node;
@@ -35,12 +36,12 @@
 @property(readwrite, assign) BOOL hasMedia;
 @property(nonatomic, retain) IBOutlet UITableView *tableView;
 @property(nonatomic, retain) IBOutlet UIScrollView *scrollView;
-@property(nonatomic, retain) IBOutlet UIWebView *aWebView;
 @property (nonatomic, assign) CGFloat  newHeight;
 @property (nonatomic, assign) CGFloat  imageNewHeight;
 @property(nonatomic, retain)UIActivityIndicatorView *spinner;
 @property(nonatomic,retain)AsyncImageView *mediaImageView;
 @property(nonatomic, retain) IBOutlet UIButton *continueButton;
+@property(nonatomic, retain)NSArray *cellArray;
 -(void)imageFinishedLoading;
 - (void) refreshView;
 - (int) calculateTextHeight:(NSString *)text;
