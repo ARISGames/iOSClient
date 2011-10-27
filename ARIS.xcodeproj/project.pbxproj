@@ -245,6 +245,10 @@
 		ABA104C710CA0E3E008538D0 /* ARView.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABA104C610CA0E3E008538D0 /* ARView.xib */; };
 		ABAA644B130FD5410004D64C /* GamePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ABAA644A130FD5410004D64C /* GamePickerCell.m */; };
 		ABAA644F130FD5610004D64C /* GamePickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABAA644E130FD5610004D64C /* GamePickerCell.xib */; };
+		ABAFBAC5145A0B810044491C /* Bascom Hill.gpx in Resources */ = {isa = PBXBuildFile; fileRef = ABAFBAC1145A0B810044491C /* Bascom Hill.gpx */; };
+		ABAFBAC6145A0B810044491C /* Engage Offices.gpx in Resources */ = {isa = PBXBuildFile; fileRef = ABAFBAC2145A0B810044491C /* Engage Offices.gpx */; };
+		ABAFBAC7145A0B810044491C /* Engineering Fountain.gpx in Resources */ = {isa = PBXBuildFile; fileRef = ABAFBAC3145A0B810044491C /* Engineering Fountain.gpx */; };
+		ABAFBAC8145A0B810044491C /* Institutes for Discovery.gpx in Resources */ = {isa = PBXBuildFile; fileRef = ABAFBAC4145A0B810044491C /* Institutes for Discovery.gpx */; };
 		ABB2CDC413C7497500F051E4 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB2CDC313C7497400F051E4 /* CoreVideo.framework */; };
 		ABB2CDC613C7498A00F051E4 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB2CDC513C7498A00F051E4 /* AddressBook.framework */; };
 		ABB5767613A01FD100AD39D5 /* BogusSelectGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB5767513A01FD100AD39D5 /* BogusSelectGameViewController.m */; };
@@ -697,6 +701,10 @@
 		ABAA6449130FD5410004D64C /* GamePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerCell.h; sourceTree = "<group>"; };
 		ABAA644A130FD5410004D64C /* GamePickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerCell.m; sourceTree = "<group>"; };
 		ABAA644E130FD5610004D64C /* GamePickerCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GamePickerCell.xib; sourceTree = "<group>"; };
+		ABAFBAC1145A0B810044491C /* Bascom Hill.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Bascom Hill.gpx"; sourceTree = "<group>"; };
+		ABAFBAC2145A0B810044491C /* Engage Offices.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Engage Offices.gpx"; sourceTree = "<group>"; };
+		ABAFBAC3145A0B810044491C /* Engineering Fountain.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Engineering Fountain.gpx"; sourceTree = "<group>"; };
+		ABAFBAC4145A0B810044491C /* Institutes for Discovery.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Institutes for Discovery.gpx"; sourceTree = "<group>"; };
 		ABB2CDC313C7497400F051E4 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		ABB2CDC513C7498A00F051E4 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		ABB5767413A01FD100AD39D5 /* BogusSelectGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BogusSelectGameViewController.h; sourceTree = "<group>"; };
@@ -1049,6 +1057,7 @@
 		29B97314FDCFA39411CA2CEA /* ARIS */ = {
 			isa = PBXGroup;
 			children = (
+				ABAFBAC9145A0B8D0044491C /* GPX Locations */,
 				AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */,
 				AB0A5BA3120365420065CE68 /* Localizable.strings */,
 				A7149F9C0FB89DC8008BAB5D /* Settings.bundle */,
@@ -1490,6 +1499,17 @@
 			name = RatingView;
 			sourceTree = "<group>";
 		};
+		ABAFBAC9145A0B8D0044491C /* GPX Locations */ = {
+			isa = PBXGroup;
+			children = (
+				ABAFBAC1145A0B810044491C /* Bascom Hill.gpx */,
+				ABAFBAC2145A0B810044491C /* Engage Offices.gpx */,
+				ABAFBAC3145A0B810044491C /* Engineering Fountain.gpx */,
+				ABAFBAC4145A0B810044491C /* Institutes for Discovery.gpx */,
+			);
+			name = "GPX Locations";
+			sourceTree = "<group>";
+		};
 		ABB60F1E139F2DDC00EEDA08 /* Game Details */ = {
 			isa = PBXGroup;
 			children = (
@@ -1804,6 +1824,10 @@
 				1117649C143A716600044812 /* mappoint.png in Resources */,
 				11566434144A414D006902C2 /* ChangePasswordViewController.xib in Resources */,
 				111CFA9414520EC700D56207 /* ForgotViewController.xib in Resources */,
+				ABAFBAC5145A0B810044491C /* Bascom Hill.gpx in Resources */,
+				ABAFBAC6145A0B810044491C /* Engage Offices.gpx in Resources */,
+				ABAFBAC7145A0B810044491C /* Engineering Fountain.gpx in Resources */,
+				ABAFBAC8145A0B810044491C /* Institutes for Discovery.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
