@@ -94,9 +94,10 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
         //Setup the cell as an image
         imageCell.backgroundView = mediaImageView;
         imageCell.backgroundView.layer.masksToBounds = YES;
-        imageCell.backgroundView.layer.cornerRadius = 10.0;
+        imageCell.backgroundView.layer.cornerRadius = 5.0;
         imageCell.userInteractionEnabled = NO;
         
+        //By forcing these sizes now, the asyncimageview spinner displays in the correct location
         imageCell.frame = CGRectMake(0, 0, 320, 200);
         self.mediaImageView.frame = CGRectMake(0, 0, 320, 200);
 
@@ -107,9 +108,8 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
         //Setup the Button
         mediaPlaybackButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 320, 240)];
         [mediaPlaybackButton addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
-        mediaPlaybackButton.enabled = NO;
         
-        
+                
         //Create movie player object
         mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
         [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
@@ -129,6 +129,11 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
         [videoThumb release];
         [videoThumbSized release];
         
+        UIImageView *playButonOverlay = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"play_button.png"]];
+        playButonOverlay.center = mediaPlaybackButton.center;
+        [mediaPlaybackButton addSubview:playButonOverlay]; 
+         
+        
         //Setup the cell as the video preview button
         imageCell.backgroundView = mediaPlaybackButton;
         imageCell.backgroundView.layer.masksToBounds = YES;
@@ -136,6 +141,8 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
         imageCell.userInteractionEnabled = YES;
         imageCell.selectionStyle = UITableViewCellSelectionStyleNone;
         imageCell.frame = mediaPlaybackButton.frame;
+        
+
     }
     
     //Setup the Description Webview and begin loading content
@@ -287,9 +294,6 @@ navigationType:(UIWebViewNavigationType)navigationType{
 	}
 	if( state & MPMovieLoadStatePlayable ) {
 		NSLog(@"NodeViewController: Playable Load State");
-        [mediaPlaybackButton setTitle:NSLocalizedString(@"TouchToPlayKey",@"") forState:UIControlStateNormal];
-		mediaPlaybackButton.enabled = YES;	
-		//[self playMovie:nil];
 	} 
 	if( state & MPMovieLoadStatePlaythroughOK ) {
 		NSLog(@"NodeViewController: Playthrough OK Load State");

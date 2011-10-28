@@ -272,6 +272,7 @@
 		ABBEBBAD104D7CC800AA7285 /* NodeOption.m in Sources */ = {isa = PBXBuildFile; fileRef = ABBEBBAC104D7CC800AA7285 /* NodeOption.m */; };
 		ABBEBBC2104D7CF900AA7285 /* NodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABBEBBC1104D7CF900AA7285 /* NodeViewController.m */; };
 		ABBEBBC5104D7DAB00AA7285 /* Node.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABBEBBC4104D7DAB00AA7285 /* Node.xib */; };
+		ABC14934145A83E400C164F5 /* play_button.png in Resources */ = {isa = PBXBuildFile; fileRef = ABC14933145A83E400C164F5 /* play_button.png */; };
 		ABC2A64013A82A01003500AF /* qrcode_big.png in Resources */ = {isa = PBXBuildFile; fileRef = ABC2A63F13A82A01003500AF /* qrcode_big.png */; };
 		ABC399CF116B9EBC002185D4 /* AudioMeter.m in Sources */ = {isa = PBXBuildFile; fileRef = ABC399CE116B9EBC002185D4 /* AudioMeter.m */; };
 		ABC39B25116BD28F002185D4 /* TitleAndDecriptionFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABC39B23116BD28F002185D4 /* TitleAndDecriptionFormViewController.m */; };
@@ -733,6 +734,7 @@
 		ABBEBBC0104D7CF900AA7285 /* NodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NodeViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		ABBEBBC1104D7CF900AA7285 /* NodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = NodeViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		ABBEBBC4104D7DAB00AA7285 /* Node.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Node.xib; sourceTree = "<group>"; };
+		ABC14933145A83E400C164F5 /* play_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play_button.png; sourceTree = "<group>"; };
 		ABC2A63F13A82A01003500AF /* qrcode_big.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qrcode_big.png; sourceTree = "<group>"; };
 		ABC399CD116B9EBC002185D4 /* AudioMeter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioMeter.h; sourceTree = "<group>"; };
 		ABC399CE116B9EBC002185D4 /* AudioMeter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioMeter.m; sourceTree = "<group>"; };
@@ -1542,6 +1544,7 @@
 		ABBEBBBF104D7CE400AA7285 /* Plaques */ = {
 			isa = PBXGroup;
 			children = (
+				ABC14933145A83E400C164F5 /* play_button.png */,
 				ABBEBBC4104D7DAB00AA7285 /* Node.xib */,
 				ABBEBBC0104D7CF900AA7285 /* NodeViewController.h */,
 				ABBEBBC1104D7CF900AA7285 /* NodeViewController.m */,
@@ -1828,6 +1831,7 @@
 				ABAFBAC6145A0B810044491C /* Engage Offices.gpx in Resources */,
 				ABAFBAC7145A0B810044491C /* Engineering Fountain.gpx in Resources */,
 				ABAFBAC8145A0B810044491C /* Institutes for Discovery.gpx in Resources */,
+				ABC14934145A83E400C164F5 /* play_button.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
