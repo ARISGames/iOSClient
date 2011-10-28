@@ -50,6 +50,7 @@
 @property(nonatomic, retain) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property(nonatomic,retain)IBOutlet UIWebView *itemDescriptionView;;
 @property(nonatomic,retain) IBOutlet UITextView *textBox;
+@property(nonatomic,retain)UIScrollView *scrollView;
 @property(nonatomic, retain) IBOutlet UIButton *saveButton;
 
 - (IBAction)dropButtonTouchAction: (id) sender;

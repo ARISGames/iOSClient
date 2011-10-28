@@ -15,6 +15,9 @@
 #import "WebPage.h"
 #import "webpageViewController.h"
 #import "NoteViewController.h"
+#import <AVFoundation/AVFoundation.h>
+#import "UIImage+Scale.h"
+
 
 NSString *const kItemDetailsDescriptionHtmlTemplate = 
 @"<html>"
@@ -36,7 +39,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
 
 @implementation ItemDetailsViewController
-@synthesize item, inInventory,mode,itemImageView, itemWebView,activityIndicator,isLink,itemDescriptionView,textBox,saveButton;
+@synthesize item, inInventory,mode,itemImageView, itemWebView,activityIndicator,isLink,itemDescriptionView,textBox,saveButton,scrollView;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -69,6 +72,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 }
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
+    [super viewDidLoad];
 	//Show waiting Indicator in own thread so it appears on time
 	//[NSThread detachNewThreadSelector: @selector(showWaitingIndicator:) toTarget: (ARISAppDelegate *)[[UIApplication sharedApplication] delegate] withObject: @"Loading..."];	
 	//[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate]showWaitingIndicator:NSLocalizedString(@"LoadingKey",@"") displayProgressBar:NO];
@@ -129,21 +133,29 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 		NSLog(@"ItemDetailsViewController:  AV Layout Selected");
 
 		//Setup the Button
-		mediaPlaybackButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 320, 295)];
-		[mediaPlaybackButton addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
-		[mediaPlaybackButton setBackgroundImage:[UIImage imageNamed:@"clickToPlay.png"] forState:UIControlStateNormal];
-		[mediaPlaybackButton setTitle:NSLocalizedString(@"PreparingToPlayKey",@"") forState:UIControlStateNormal];
-		mediaPlaybackButton.enabled = NO;
-		mediaPlaybackButton.titleLabel.font = [UIFont boldSystemFontOfSize:24];
-		[mediaPlaybackButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
+        mediaPlaybackButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 320, 240)];
+        [mediaPlaybackButton addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
+        [mediaPlaybackButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
 		[mediaPlaybackButton setContentVerticalAlignment:UIControlContentVerticalAlignmentBottom];
-		[scrollView addSubview:mediaPlaybackButton];	
-				
-		//Create movie player object
-		mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
-		[mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
-		mMoviePlayer.moviePlayer.shouldAutoplay = NO;
-		[mMoviePlayer.moviePlayer prepareToPlay];		
+        
+        //Create movie player object
+        mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+        [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
+        mMoviePlayer.moviePlayer.shouldAutoplay = NO;
+        [mMoviePlayer.moviePlayer prepareToPlay];
+        
+        //Syncronously Create a thumbnail for the button
+        UIImage *videoThumb = [mMoviePlayer.moviePlayer thumbnailImageAtTime:(NSTimeInterval)1.0 timeOption:MPMovieTimeOptionExact];
+        
+        NSLog(@"ItemDetailsVC: videoThumb frame size is : %f, %f", videoThumb.size.width, videoThumb.size.height);
+        UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(320, 240)];        
+        [mediaPlaybackButton setBackgroundImage:videoThumbSized forState:UIControlStateNormal];
+    
+        
+        UIImageView *playButonOverlay = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"play_button.png"]];
+        playButonOverlay.center = mediaPlaybackButton.center;
+        [mediaPlaybackButton addSubview:playButonOverlay];
+        [self.scrollView addSubview:mediaPlaybackButton];
 	}
 	
 	else {
@@ -178,8 +190,8 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         self.navigationItem.rightBarButtonItem = hideKeyboardButton;
         saveButton.frame = CGRectMake(0, 335, 320, 37);
         textBox.text = item.description;
-        [scrollView addSubview:textBox];
-        [scrollView addSubview:saveButton];
+        [self.scrollView addSubview:textBox];
+        [self.scrollView addSubview:saveButton];
         if(([AppModel sharedAppModel].playerId != self.item.creatorId)) {
          self.textBox.userInteractionEnabled = NO;
             [saveButton removeFromSuperview];
@@ -191,7 +203,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         self.navigationItem.rightBarButtonItem = editButton;
     }
 
-	[super viewDidLoad];
+	
 }
 -(void)viewDidAppear:(BOOL)animated{
         }
@@ -407,7 +419,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	}
 	if( state & MPMovieLoadStatePlayable ) {
 		NSLog(@"ItemDetailsViewController: Playable Load State");
-        [mediaPlaybackButton setTitle:NSLocalizedString(@"TouchToPlayKey",@"") forState:UIControlStateNormal];
+        
 		mediaPlaybackButton.enabled = YES;	
 	} 
 	if( state & MPMovieLoadStatePlaythroughOK ) {
