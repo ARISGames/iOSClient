@@ -16,6 +16,7 @@
 #import "webpageViewController.h"
 #import "WebPage.h"
 #import <AVFoundation/AVFoundation.h>
+#import "UIImage+Scale.h"
 
 static NSString * const OPTION_CELL = @"option";
 
@@ -117,17 +118,12 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
         [mMoviePlayer.moviePlayer prepareToPlay];
         
         //Syncronously Create a thumbnail for the button
-        UIImage *videoThumb = [[mMoviePlayer.moviePlayer thumbnailImageAtTime:(NSTimeInterval)1.0 timeOption:MPMovieTimeOptionExact] retain];
+        UIImage *videoThumb = [mMoviePlayer.moviePlayer thumbnailImageAtTime:(NSTimeInterval)1.0 timeOption:MPMovieTimeOptionExact];
         
-        imageLoaded = YES;
-        NSLog(@"NodeVC: videoThumb frame size is : %f, %f", videoThumb.size.width, videoThumb.size.height);
-        UIGraphicsBeginImageContext(CGSizeMake(320.0f, 240.0f));
-        [videoThumb drawInRect:CGRectMake(0, 0, 320.0f, 240.0f)];
-        UIImage *videoThumbSized = UIGraphicsGetImageFromCurrentImageContext();    
-        UIGraphicsEndImageContext();
+        NSLog(@"ItemDetailsVC: videoThumb frame size is : %f, %f", videoThumb.size.width, videoThumb.size.height);
+        UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(320, 240)];        
         [mediaPlaybackButton setBackgroundImage:videoThumbSized forState:UIControlStateNormal];
-        [videoThumb release];
-        [videoThumbSized release];
+        
         
         UIImageView *playButonOverlay = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"play_button.png"]];
         playButonOverlay.center = mediaPlaybackButton.center;
