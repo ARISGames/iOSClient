@@ -39,7 +39,7 @@
 	nodeViewController.node = self; //currentNode;
 	
 	[appDelegate displayNearbyObjectView:nodeViewController];
-	//[nodeViewController release];
+	[nodeViewController release];
 }
 
 - (NSInteger) numberOfOptions {

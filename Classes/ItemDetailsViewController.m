@@ -58,18 +58,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	
     return self;
 }
--(void)viewWillAppear:(BOOL)animated{
 
-}
-- (int) calculateTextHeight:(NSString *)text {
-	CGRect frame = CGRectMake(0, 0, self.view.bounds.size.width, 200000);
-	CGSize calcSize = [text sizeWithFont:[UIFont systemFontOfSize:18.0]
-					   constrainedToSize:frame.size lineBreakMode:UILineBreakModeWordWrap];
-	frame.size = calcSize;
-	frame.size.height += 0;
-	NSLog(@"Found height of %f", frame.size.height);
-	return frame.size.height;
-}
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -144,14 +133,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         mMoviePlayer.moviePlayer.shouldAutoplay = NO;
         [mMoviePlayer.moviePlayer prepareToPlay];
         
-        //Syncronously Create a thumbnail for the button
-        UIImage *videoThumb = [mMoviePlayer.moviePlayer thumbnailImageAtTime:(NSTimeInterval)1.0 timeOption:MPMovieTimeOptionExact];
-        
-        NSLog(@"ItemDetailsVC: videoThumb frame size is : %f, %f", videoThumb.size.width, videoThumb.size.height);
-        UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(320, 240)];        
-        [mediaPlaybackButton setBackgroundImage:videoThumbSized forState:UIControlStateNormal];
-    
-        
+        //Setup the overlay
         UIImageView *playButonOverlay = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"play_button.png"]];
         playButonOverlay.center = mediaPlaybackButton.center;
         [mediaPlaybackButton addSubview:playButonOverlay];
@@ -420,7 +402,12 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	if( state & MPMovieLoadStatePlayable ) {
 		NSLog(@"ItemDetailsViewController: Playable Load State");
         
-		mediaPlaybackButton.enabled = YES;	
+        //Create a thumbnail for the button
+        if (![mediaPlaybackButton backgroundImageForState:UIControlStateNormal]) {
+            UIImage *videoThumb = [mMoviePlayer.moviePlayer thumbnailImageAtTime:(NSTimeInterval)1.0 timeOption:MPMovieTimeOptionExact];            
+            UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(320, 240)];        
+            [mediaPlaybackButton setBackgroundImage:videoThumbSized forState:UIControlStateNormal];
+        }
 	} 
 	if( state & MPMovieLoadStatePlaythroughOK ) {
 		NSLog(@"ItemDetailsViewController: Playthrough OK Load State");
@@ -604,11 +591,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 }
 
 - (void)dealloc {
-    NSLog(@"Item Details View: Deallocating");
+    NSLog(@"Item Details View: Dealloc");
 	
 	// free our movie player
-    [mMoviePlayer release];
-	
+    if (mMoviePlayer) [mMoviePlayer release];
 	[mediaPlaybackButton release];
 	
 	//remove listeners

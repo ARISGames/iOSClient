@@ -741,15 +741,17 @@
 	NSLog(@"%@", text);
 }
 
-- (void)displayNearbyObjectView:(UIViewController *)nearbyObjectViewController {	
-	nearbyObjectNavigationController = [[UINavigationController alloc] initWithRootViewController:nearbyObjectViewController];
-	nearbyObjectNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+- (void)displayNearbyObjectView:(UIViewController *)nearbyObjectViewController {
+	
+	self.nearbyObjectNavigationController = [[UINavigationController alloc] initWithRootViewController:nearbyObjectViewController];
+	self.nearbyObjectNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 		
 	//Display
     if([nearbyObjectViewController isKindOfClass:[webpageViewController class]])
-	[self.tabBarController presentModalViewController:nearbyObjectNavigationController animated:NO];
-    else 	[self.tabBarController presentModalViewController:nearbyObjectNavigationController animated:YES];
-	[nearbyObjectNavigationController release];
+	[self.tabBarController presentModalViewController:self.nearbyObjectNavigationController animated:NO];
+    else [self.tabBarController presentModalViewController:self.nearbyObjectNavigationController animated:YES];
+    
+    [nearbyObjectNavigationController release];
 }
 
 

@@ -261,7 +261,7 @@ navigationType:(UIWebViewNavigationType)navigationType{
                 appDelegate.tabBarController.selectedIndex = i;
         }
     }
-    
+        
 }
 
 -(IBAction)playMovie:(id)sender {
@@ -283,11 +283,11 @@ navigationType:(UIWebViewNavigationType)navigationType{
 		NSLog(@"NodeViewController: Playable Load State");
         
         //Create a thumbnail for the button
-        UIImage *videoThumb = [mMoviePlayer.moviePlayer thumbnailImageAtTime:(NSTimeInterval)1.0 timeOption:MPMovieTimeOptionExact];
-        
-        NSLog(@"ItemDetailsVC: videoThumb frame size is : %f, %f", videoThumb.size.width, videoThumb.size.height);
-        UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(300, 240)];        
-        [mediaPlaybackButton setBackgroundImage:videoThumbSized forState:UIControlStateNormal];
+        if (![mediaPlaybackButton backgroundImageForState:UIControlStateNormal]){
+            UIImage *videoThumb = [mMoviePlayer.moviePlayer thumbnailImageAtTime:(NSTimeInterval)1.0 timeOption:MPMovieTimeOptionExact];        
+            UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(300, 240)];        
+            [mediaPlaybackButton setBackgroundImage:videoThumbSized forState:UIControlStateNormal];
+        }
         
 	} 
 	if( state & MPMovieLoadStatePlaythroughOK ) {
@@ -347,13 +347,13 @@ navigationType:(UIWebViewNavigationType)navigationType{
 - (void)dealloc {
 	NSLog(@"NodeViewController: Dealloc");
     
-	[mMoviePlayer release];
-	[node release];
+    [node release];
 	[tableView release];
 	[mediaPlaybackButton release];
-	//remove listeners
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	if (mMoviePlayer) [mMoviePlayer release];
     
+    //remove listeners
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
 }
 
