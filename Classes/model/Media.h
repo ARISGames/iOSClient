@@ -20,7 +20,7 @@
 @property(readonly) NSInteger	uid;
 @property(readonly)	NSString	*url;
 @property(readonly) NSString	*type;
-@property(retain, readwrite) UIImage	*image;
+@property(nonatomic, retain) UIImage	*image;
 
 
 - (id) initWithId:(NSInteger)anId andUrlString:(NSString *)aUrl ofType:(NSString *)aType;

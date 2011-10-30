@@ -360,77 +360,70 @@ NSString *const kDialogHtmlTemplate =
 		++scriptIndex;
 	}
 	else { 	//End of Script. Display Player Options
-        NSLog(@"DialogVC: continueScript: No more scenes left, Load player Options");
+        NSLog(@"DialogVC: continueScript: No more scenes left. Checking for exitTo tags before loading options");
 
         ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];        
-      if(cachedScene.exitToTabWithTitle) self.exitToTabVal = cachedScene.exitToTabWithTitle;
+        if(cachedScene.exitToTabWithTitle) self.exitToTabVal = cachedScene.exitToTabWithTitle;
         
         //Check if this is a closing script or we are shutting down
         if(closingScriptPlaying==YES || (self.exitToTabVal != nil)) {
             [self dismissModalViewControllerAnimated:NO];
             appDelegate.modalPresent = NO;
+            [[AppServices sharedAppServices] updateServerNodeViewed:self.currentNode.nodeId];
         }
         
         //Check for exitToTab
         if (self.exitToTabVal != nil) {
             //TODO: Move this code into an app delegate method
             if([cachedScene.exitToType isEqualToString:@"tab"]){
-            NSString *tab;
-            for(int i = 0;i < [appDelegate.tabBarController.viewControllers count];i++)
-            {
-                tab = [[appDelegate.tabBarController.viewControllers objectAtIndex:i] title];
-                tab = [tab lowercaseString];
-                self.exitToTabVal = [self.exitToTabVal lowercaseString];
-                if([self.exitToTabVal isEqualToString:tab])
-                {
-                    appDelegate.tabBarController.selectedIndex = i;
+                NSString *tab;
+                for(int i = 0;i < [appDelegate.tabBarController.viewControllers count];i++){
+                    tab = [[appDelegate.tabBarController.viewControllers objectAtIndex:i] title];
+                    tab = [tab lowercaseString];
+                    self.exitToTabVal = [self.exitToTabVal lowercaseString];
+                    if([self.exitToTabVal isEqualToString:tab]) {
+                        appDelegate.tabBarController.selectedIndex = i;
+                    }
                 }
             }
-        
-        }
-        else if([cachedScene.exitToType isEqualToString:@"plaque"]){
-            NodeViewController *nodeVC = [[NodeViewController alloc]initWithNibName:@"Node" bundle:[NSBundle mainBundle]];
-            nodeVC.node = [[AppModel sharedAppModel] nodeForNodeId:[cachedScene.exitToTabWithTitle intValue]];
-            [appDelegate displayNearbyObjectView:nodeVC];
-            [nodeVC release];
- 
-        }
-        else if([cachedScene.exitToType isEqualToString:@"webpage"]){
-            webpageViewController *webPageViewController = [[webpageViewController alloc] initWithNibName:@"webpageViewController" bundle: [NSBundle mainBundle]];
-            webPageViewController.webPage = [[AppModel sharedAppModel] webPageForWebPageID:[cachedScene.exitToTabWithTitle intValue]];
-            webPageViewController.delegate = self;
-            [appDelegate displayNearbyObjectView:webPageViewController];
-            
-            [webPageViewController release];
-        }
-        else if([cachedScene.exitToType isEqualToString:@"item"]){
-            ItemDetailsViewController *itemVC = [[ItemDetailsViewController alloc]initWithNibName:@"ItemDetailsView" bundle:[NSBundle mainBundle]];
-            
-            itemVC.item = [[AppModel sharedAppModel] itemForItemId:[cachedScene.exitToTabWithTitle intValue]];
-            
-            //[appDelegate.tabBarController dismissModalViewControllerAnimated:NO];
-            [appDelegate displayNearbyObjectView:itemVC];
-            [itemVC release];      
-        }
-        else if([cachedScene.exitToType isEqualToString:@"character"]){
-            DialogViewController *dialogVC = [[DialogViewController alloc] initWithNibName:@"Dialog" bundle:[NSBundle mainBundle]];
-            [dialogVC beginWithNPC:[[AppModel sharedAppModel] npcForNpcId:[cachedScene.exitToTabWithTitle intValue]]];
-            [appDelegate displayNearbyObjectView:dialogVC];
-            [dialogVC release];
-        }
-        else if([cachedScene.exitToType isEqualToString:@"panoramic"]){
-            Panoramic *pano = [[AppModel sharedAppModel] panoramicForPanoramicId:[cachedScene.exitToTabWithTitle intValue]];
-            PanoramicViewController *panoramicViewController = [[PanoramicViewController alloc] initWithNibName:@"PanoramicViewController" bundle: [NSBundle mainBundle]];    
-            panoramicViewController.panoramic = pano;
-            
-            [appDelegate displayNearbyObjectView:panoramicViewController];
-            [panoramicViewController release];
-   
-        }
+            else if([cachedScene.exitToType isEqualToString:@"plaque"]){
+                NodeViewController *nodeVC = [[NodeViewController alloc]initWithNibName:@"Node" bundle:[NSBundle mainBundle]];
+                nodeVC.node = [[AppModel sharedAppModel] nodeForNodeId:[cachedScene.exitToTabWithTitle intValue]];
+                [appDelegate displayNearbyObjectView:nodeVC];
+                [nodeVC release];
+     
+            }
+            else if([cachedScene.exitToType isEqualToString:@"webpage"]){
+                webpageViewController *webPageViewController = [[webpageViewController alloc] initWithNibName:@"webpageViewController" bundle: [NSBundle mainBundle]];
+                webPageViewController.webPage = [[AppModel sharedAppModel] webPageForWebPageID:[cachedScene.exitToTabWithTitle intValue]];
+                webPageViewController.delegate = self;
+                [appDelegate displayNearbyObjectView:webPageViewController];
+                
+                [webPageViewController release];
+            }
+            else if([cachedScene.exitToType isEqualToString:@"item"]){
+                ItemDetailsViewController *itemVC = [[ItemDetailsViewController alloc]initWithNibName:@"ItemDetailsView" bundle:[NSBundle mainBundle]];
+                itemVC.item = [[AppModel sharedAppModel] itemForItemId:[cachedScene.exitToTabWithTitle intValue]];                
+                [appDelegate displayNearbyObjectView:itemVC];
+                [itemVC release];      
+            }
+            else if([cachedScene.exitToType isEqualToString:@"character"]){
+                DialogViewController *dialogVC = [[DialogViewController alloc] initWithNibName:@"Dialog" bundle:[NSBundle mainBundle]];
+                [dialogVC beginWithNPC:[[AppModel sharedAppModel] npcForNpcId:[cachedScene.exitToTabWithTitle intValue]]];
+                [appDelegate displayNearbyObjectView:dialogVC];
+                [dialogVC release];
+            }
+            else if([cachedScene.exitToType isEqualToString:@"panoramic"]){
+                Panoramic *pano = [[AppModel sharedAppModel] panoramicForPanoramicId:[cachedScene.exitToTabWithTitle intValue]];
+                PanoramicViewController *panoramicViewController = [[PanoramicViewController alloc] initWithNibName:@"PanoramicViewController" bundle: [NSBundle mainBundle]];    
+                panoramicViewController.panoramic = pano;
+                [appDelegate displayNearbyObjectView:panoramicViewController];
+                [panoramicViewController release];
+            }
         }
         else{
-		[self stopAllAudio];
-		[self applyPlayerOptions];
+            [self stopAllAudio];
+            [self applyPlayerOptions];
         }
 	}
 }

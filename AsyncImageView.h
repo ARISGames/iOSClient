@@ -27,6 +27,7 @@
 
 - (void) loadImageFromMedia:(Media *) aMedia;
 - (UIImage*) getImage;
+- (void) setImage:(UIImage*) image;
 - (void) updateViewWithNewImage:(UIImage*)image;
 
 @end

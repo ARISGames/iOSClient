@@ -117,7 +117,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 		NSLog(@"ItemDetailsViewController: Image Layout Selected");
         if(!itemImageView.loaded)
 		[itemImageView loadImageFromMedia:media];
-        itemImageView.contentMode = UIViewContentModeScaleAspectFill;
+        itemImageView.contentMode = UIViewContentModeScaleAspectFit;
 	}
 	else if (([media.type isEqualToString: @"Video"] || [media.type isEqualToString: @"Audio"]) && media.url) {
 		NSLog(@"ItemDetailsViewController:  AV Layout Selected");

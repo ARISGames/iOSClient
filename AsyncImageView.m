@@ -20,22 +20,24 @@
 - (void)loadImageFromMedia:(Media *) aMedia {
 	self.media = aMedia;
 	if(self.isLoading){
-        NSLog(@"AsyncImageView: Already loading another request...returning");
-     return;   
+        NSLog(@"AsyncImageView: loadImageFromMedia: Already loading another request...returning");
+        return;   
     }
-    else self.isLoading = YES;
+    
 	//check if the media already as the image, if so, just grab it
 	if (self.media.image) {
-        self.loaded = YES;
 		[self updateViewWithNewImage:self.media.image];
 		return;
 	}
-    else self.loaded = NO;
+
     if (!self.media.url) {
         NSLog(@"AsyncImageView: loadImageFromMedia with null url! ImageId:%@", self.media.uid);
         return;
     }
 	
+    self.loaded = NO;
+    self.isLoading = YES;
+
 	//set up indicators
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 	
@@ -101,10 +103,6 @@
 	[UIView commitAnimations];
 
 	self.image = image;
-   // self.contentMode = UIViewContentModeScaleAspectFit;
-    [self setNeedsLayout];
-	[self.superview setNeedsLayout];
-
 	[UIView beginAnimations:@"async" context:nil];
 	[UIView setAnimationCurve:UIViewAnimationCurveLinear];
 	[UIView setAnimationDuration:0.25];
@@ -117,8 +115,11 @@
 
 }
 
-
-
+- (void) setImage:(UIImage*)image {
+    super.image = image;
+    [self setNeedsLayout];
+	[self.superview setNeedsLayout];
+}
 
 - (void)dealloc {
     [connection cancel];
