@@ -186,7 +186,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         self.navigationItem.rightBarButtonItem = editButton;
     }
 
-	
+	item.hasViewed = YES;
 }
 -(void)viewDidAppear:(BOOL)animated{
         }

@@ -198,6 +198,11 @@
 	[inventoryTable reloadData];
 	
 	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
+    NSSortDescriptor *sortDescriptor;
+    sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"hasViewed"
+                                                  ascending:YES] autorelease];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    self.inventory = [self.inventory sortedArrayUsingDescriptors:sortDescriptors];
 
 	
 }

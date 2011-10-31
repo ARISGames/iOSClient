@@ -24,6 +24,7 @@
 	BOOL forcedDisplay;
 	BOOL dropable;
 	BOOL destroyable;
+    BOOL hasViewed;
 	nearbyObjectKind kind;
     NSString *url;
     NSString *type;
@@ -36,6 +37,7 @@
 @property(readwrite, assign) nearbyObjectKind kind;
 - (nearbyObjectKind) kind;
 @property(readwrite, assign) BOOL forcedDisplay;
+@property(readwrite, assign) BOOL hasViewed;
 @property(readwrite, assign) int itemId;
 @property(readwrite, assign) int creatorId;
 
