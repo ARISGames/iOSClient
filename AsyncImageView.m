@@ -19,14 +19,20 @@
 
 - (void)loadImageFromMedia:(Media *) aMedia {
 	self.media = aMedia;
+    self.image = nil;
+
 	if(self.isLoading){
         NSLog(@"AsyncImageView: loadImageFromMedia: Already loading another request...returning");
-        return;   
+      //  [self.connection release];
+       // [self.data release];
+        //clear out the spinner
     }
-    
+    self.isLoading = YES;
+
 	//check if the media already as the image, if so, just grab it
 	if (self.media.image) {
 		[self updateViewWithNewImage:self.media.image];
+        self.loaded = YES;
 		return;
 	}
 
@@ -36,7 +42,6 @@
     }
 	
     self.loaded = NO;
-    self.isLoading = YES;
 
 	//set up indicators
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -52,7 +57,7 @@
 	if (connection!=nil) { [connection release]; }
     //if (data!=nil) { [self.data release]; }
 	NSLog(@"AsyncImageView: Loading Image at %@",self.media.url);
-    NSURLRequest* request = [NSURLRequest requestWithURL:[[NSURL alloc]initWithString:self.media.url]
+    NSURLRequest *request = [NSURLRequest requestWithURL:[[NSURL alloc]initWithString:self.media.url]
 											 cachePolicy:NSURLRequestUseProtocolCachePolicy
 										 timeoutInterval:60.0];
     self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
@@ -108,7 +113,7 @@
 	[UIView setAnimationDuration:0.25];
 	self.alpha = 1.0;
 	[UIView commitAnimations];
-
+    [self setNeedsDisplay];
     if (self.delegate && [self.delegate respondsToSelector:@selector(imageFinishedLoading)]){
         [delegate imageFinishedLoading];
     }
@@ -118,6 +123,7 @@
 - (void) setImage:(UIImage*)image {
     super.image = image;
     [self setNeedsLayout];
+    [self setNeedsDisplay];
 	[self.superview setNeedsLayout];
 }
 
