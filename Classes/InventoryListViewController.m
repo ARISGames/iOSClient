@@ -41,7 +41,6 @@
         [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
 
 		[dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
-
     }
     return self;
 }
@@ -340,7 +339,6 @@
             iconMedia = [[AppModel sharedAppModel] mediaForMediaId: item.iconMediaId];
             [self.iconCache  addObject:iconMedia];
         }
-        if(!iconView.loaded)
 		[iconView loadImageFromMedia:iconMedia];
 	}
 	else {
@@ -352,7 +350,6 @@
 	return cell;
 }
 
-					 
  - (unsigned int) indexOf:(char) searchChar inString:(NSString *)searchString {
 	NSRange searchRange;
 	searchRange.location = (unsigned int) searchChar;
