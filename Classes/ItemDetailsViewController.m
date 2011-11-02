@@ -115,7 +115,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
 	if ([media.type isEqualToString: @"Image"] && media.url) {
 		NSLog(@"ItemDetailsViewController: Image Layout Selected");
-        if(!itemImageView.loaded)
 		[itemImageView loadImageFromMedia:media];
         itemImageView.contentMode = UIViewContentModeScaleAspectFit;
 	}

@@ -51,7 +51,6 @@
     if ([AppModel sharedAppModel].currentGame.pcMediaId != 0) {
 		//Load the image from the media Table
 		Media *pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId];
-        if(!pcImage.loaded)
 		[pcImage loadImageFromMedia: pcMedia];
         
 	}

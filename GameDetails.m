@@ -195,7 +195,6 @@ NSString *const kGameDetailsHtmlTemplate =
         
         if ([self.game.mediaUrl length] > 0) {
             [self.splashMedia initWithId:1 andUrlString:self.game.mediaUrl ofType:@"Splash"];
-            if(!self.mediaImageView.loaded)
             [self.mediaImageView loadImageFromMedia:splashMedia];
         }
         else self.mediaImageView.image = [UIImage imageNamed:@"Default.png"];

@@ -129,7 +129,6 @@
         AsyncImageView *controller = [[AsyncImageView alloc] init];
         Media *m = [[Media alloc]init];
         m = [[AppModel sharedAppModel] mediaForMediaId:content.mediaId];
-        if(!controller.loaded)
         [controller loadImageFromMedia:m];
             [viewControllers addObject:controller];
             [controller release];

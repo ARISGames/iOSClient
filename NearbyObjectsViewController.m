@@ -211,9 +211,8 @@
 	else cell.title.text = l.name;
 	
 	Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: l.iconMediaId];
-    if(!cell.iconView.loaded) {
         [cell.iconView loadImageFromMedia:iconMedia];
-    }
+ 
 	
 	return cell;
 

@@ -136,7 +136,6 @@ NSString *const kDialogHtmlTemplate =
         self.pcImage.delegate = self;
 
 		Media *pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId];
-        if(!pcImage.loaded)
 		[pcImage loadImageFromMedia: pcMedia];
 	}
 	else {
@@ -298,7 +297,6 @@ NSString *const kDialogHtmlTemplate =
 	if (mediaId == *priorId) return;
 	
 	Media *characterMedia = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
-    if(!aView.loaded)
 	[aView loadImageFromMedia:characterMedia];
 	[aView setNeedsDisplay];
 	*priorId = mediaId;

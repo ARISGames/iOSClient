@@ -350,7 +350,6 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
                 m = [[AppModel sharedAppModel] mediaForMediaId:noteC.mediaId]; 
                 AsyncImageView *aView = [[AsyncImageView alloc]init];
                 aView.frame = cell.imageView.frame;
-                if(!aView.loaded)
                 [aView loadImageFromMedia:m];
                 if(m.image)
                 [cell.imageView setImage:m.image];
