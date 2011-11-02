@@ -173,7 +173,7 @@
     
     //Set up the Icon
     //Create a new iconView for each cell instead of reusing the same one
-    AsyncImageView *iconView = [[AsyncImageView alloc] initWithFrame:CGRectMake(9, 5, 50, 50)];
+    AsyncImageView *iconView = [[AsyncImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
 	if ([currentGame.iconMediaUrl length] > 0) {
         
 		Media *iconMedia = [[Media alloc] initWithId:1 andUrlString:currentGame.iconMediaUrl ofType:@"Icon"];

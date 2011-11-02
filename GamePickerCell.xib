@@ -313,12 +313,12 @@
 						<reference key="object" ref="911598832"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="668185899"/>
 							<reference ref="359715100"/>
 							<reference ref="412601291"/>
 							<reference ref="349778686"/>
 							<reference ref="941618783"/>
 							<reference ref="321881153"/>
+							<reference ref="668185899"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Game Picker Cell</string>
