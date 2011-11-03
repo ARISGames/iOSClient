@@ -174,21 +174,20 @@
     //Set up the Icon
     //Create a new iconView for each cell instead of reusing the same one
     AsyncImageView *iconView = [[AsyncImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-	if ([currentGame.iconMediaUrl length] > 0) {
-        
-		Media *iconMedia = [[Media alloc] initWithId:1 andUrlString:currentGame.iconMediaUrl ofType:@"Icon"];
-        currentGame.iconMedia = iconMedia;
-        [iconView loadImageFromMedia:iconMedia];
-        currentGame.iconMediaUrl = nil; //Clear out the URL so it will load from the iconMediaNextTime
-        [iconMedia release];
-	}
-	else
-    {
-        if(currentGame.iconMedia)
-            iconView.image = currentGame.iconMedia.image;
-        else
-            iconView.image =  [UIImage imageNamed:@"Icon.png"];
+    Media *iconMedia = [[Media alloc] initWithId:1 andUrlString:currentGame.iconMediaUrl ofType:@"Icon"];
+    
+    if(currentGame.iconMedia.image){
+        iconView.image = currentGame.iconMedia.image;
     }
+    else {
+        if([currentGame.iconMediaUrl length] == 0) iconView.image = [UIImage imageNamed:@"Icon.png"];
+        else{
+            currentGame.iconMedia = iconMedia;
+            [iconView loadImageFromMedia:iconMedia];
+            [iconMedia release];
+        }
+    }    
+    
     iconView.layer.masksToBounds = YES;
     iconView.layer.cornerRadius = 10.0;
     
