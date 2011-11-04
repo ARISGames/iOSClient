@@ -106,9 +106,9 @@
 	notesNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
 	//Setup Camera View
-	CameraViewController *cameraViewController = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
+	/*CameraViewController *cameraViewController = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
 	UINavigationController *cameraNavigationController = [[UINavigationController alloc] initWithRootViewController: cameraViewController];
-	cameraNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+	cameraNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;*/
 
 	//Setup Audio Recorder View
 	AudioRecorderViewController *audioRecorderViewController = [[[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil] autorelease];
@@ -163,8 +163,6 @@
 										//arNavigationController,
                                         attributesNavigationController,
                                         notesNavigationController,
-										cameraNavigationController,
-										audioRecorderNavigationController,
 										bogusSelectGameViewController,
 										logoutNavigationController,
 										startOverNavigationController,

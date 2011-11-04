@@ -167,7 +167,7 @@
 -(void)audioButtonTouchAction{
     BOOL audioHWAvailable = [[AVAudioSession sharedInstance] inputIsAvailable];
     if(audioHWAvailable){
-    AudioRecorderViewController *audioVC = [[[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil] autorelease];
+    AudioRecorderViewController *audioVC = [[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil];
     audioVC.delegate = self.delegate;
     audioVC.noteId = self.note.noteId;
     [UIView beginAnimations:nil context:NULL];
@@ -176,12 +176,12 @@
     [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
                            forView:self.navigationController.view cache:YES];
     [self.navigationController pushViewController:audioVC animated:NO];
-    //[audioVC release];
+    [audioVC release];
         [UIView commitAnimations];
     } 
 }
 -(void)libraryButtonTouchAction{
-    CameraViewController *cameraVC = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
+    CameraViewController *cameraVC = [[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil];
     cameraVC.delegate = self.delegate;
     cameraVC.showVid = NO;
     cameraVC.noteId = self.note.noteId;
@@ -191,11 +191,11 @@
     [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
                            forView:self.navigationController.view cache:YES];
     [self.navigationController pushViewController:cameraVC animated:NO];
-    //[cameraVC release];
+    [cameraVC release];
     [UIView commitAnimations];
 }
 -(void)textButtonTouchAction{
-    TextViewController *textVC = [[[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil] autorelease];
+    TextViewController *textVC = [[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil];
     textVC.noteId = self.note.noteId;
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:.5];
@@ -204,7 +204,7 @@
                            forView:self.navigationController.view cache:YES];
     [self.navigationController pushViewController:textVC animated:NO];
     [UIView commitAnimations];
-
+    [textVC release];
 }
 
 -(void)mapButtonTouchAction{

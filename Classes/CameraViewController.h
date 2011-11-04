@@ -21,6 +21,7 @@
     BOOL showVid;
     id delegate;
     int noteId;
+    BOOL bringUpCamera;
 }
 
 @property (nonatomic, retain) IBOutlet UIButton *cameraButton;

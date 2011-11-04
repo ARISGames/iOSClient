@@ -29,6 +29,7 @@
     if ((self = [super initWithNibName:nibName bundle:nibBundle])) {
         self.title = NSLocalizedString(@"CameraTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"camera.png"];
+        bringUpCamera = YES;
     }
     return self;
 }
@@ -65,9 +66,13 @@
 	NSLog(@"Camera Loaded");
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    if(showVid) [self cameraButtonTouchAction];
+-(void)viewDidAppear:(BOOL)animated{
+    if(bringUpCamera){
+        bringUpCamera = NO;
+
+   if(showVid) [self cameraButtonTouchAction];
     else [self libraryButtonTouchAction];
+    }
 }
 
 - (IBAction)cameraButtonTouchAction {
@@ -172,8 +177,8 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
     [UIView setAnimationDuration:.5];
     
     [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight
-                           forView:self.navigationController.view cache:YES];
-    [[picker parentViewController] dismissModalViewControllerAnimated:NO];
+                        forView:self.navigationController.view cache:YES];
+    [self dismissModalViewControllerAnimated:NO];
     [self.navigationController popViewControllerAnimated:NO];
     
     [UIView commitAnimations]; 
