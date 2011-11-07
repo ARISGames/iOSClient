@@ -14,7 +14,7 @@
 #import "NoteViewController.h"
 
 @implementation TextViewController
-@synthesize textBox,saveButton,noteId,keyboardButton,textToDisplay,editMode,contentId,delegate,previewMode;
+@synthesize textBox,noteId,keyboardButton,textToDisplay,editMode,contentId,delegate,previewMode;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -28,7 +28,6 @@
 {
     [super dealloc];
     [textBox release];
-    [saveButton release];
     [keyboardButton release];
     [textToDisplay release];
 }
@@ -47,26 +46,21 @@
 {
 
     [super viewDidLoad];
-    self.saveButton.titleLabel.textAlignment = UITextAlignmentCenter;
     if(editMode){
     
         self.textBox.text = textToDisplay;
-        [self.saveButton setTitle: @"Update Content" forState: UIControlStateNormal];
-        [self.saveButton setTitle: @"Update Content" forState: UIControlStateHighlighted];	
-        [self.saveButton addTarget:self action:@selector(updateContentTouchAction) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(updateContentTouchAction)];      
+        self.navigationItem.rightBarButtonItem = saveButton;
     }
     else{
-        [self.saveButton setTitle: @"Add Text To Note" forState: UIControlStateNormal];
-        [self.saveButton setTitle: @"Add Text To Note" forState: UIControlStateHighlighted];	
-        [self.saveButton addTarget:self action:@selector(saveButtonTouchAction) forControlEvents:UIControlEventTouchUpInside];
-        
+        UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(saveButtonTouchAction)];      
+        self.navigationItem.rightBarButtonItem = saveButton;        
     }
     if(self.previewMode)  {
         self.textBox.userInteractionEnabled = NO;
         self.textBox.text = self.textToDisplay;
-        self.saveButton.hidden = YES;
     }
-
+  
     
     // Do any additional setup after loading the view from its nib.
     /*if(self.note)
@@ -79,7 +73,6 @@
 -(void)viewWillAppear:(BOOL)animated{
     if(previewMode){
         self.textBox.userInteractionEnabled = NO;
-        self.saveButton.hidden= YES;
         self.textBox.text = textToDisplay;
         self.textBox.frame = CGRectMake(0, 0, 320, 367);
 

@@ -11,7 +11,6 @@
 
 @interface TextViewController : UIViewController <UITextViewDelegate>{
     IBOutlet UITextView *textBox;
-    IBOutlet UIButton *saveButton;
     IBOutlet UIButton *keyboardButton;
     NSString *textToDisplay;
     int noteId;
@@ -21,7 +20,6 @@
     int contentId;
 }
 @property(nonatomic,retain) IBOutlet UITextView *textBox;
-@property(nonatomic, retain) IBOutlet UIButton *saveButton;
 @property(nonatomic, retain) IBOutlet UIButton *keyboardButton;
 @property(nonatomic, retain) id delegate;
 @property(nonatomic,retain)NSString *textToDisplay;
