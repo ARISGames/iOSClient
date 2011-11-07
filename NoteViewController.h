@@ -59,7 +59,7 @@
 - (void)titleAndDescriptionFormDidFinish:(TitleAndDecriptionFormViewController*)titleAndDescForm;
 - (void)displayTitleandDescriptionForm;
 -(IBAction)hideKeyboardTouchAction;
-- (IBAction)saveButtonTouchAction;
+- (IBAction)previewButtonTouchAction;
 - (void)loadNewPageWithView:(NSString *)view;
 -(IBAction)cameraButtonTouchAction;
 -(IBAction)audioButtonTouchAction;

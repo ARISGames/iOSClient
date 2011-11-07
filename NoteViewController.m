@@ -21,6 +21,7 @@
 #import "ARISMoviePlayerViewController.h"
 #import "DropOnMapViewController.h"
 #import "NoteCommentViewController.h"
+#import "DataCollectionViewController.h"
 
 @implementation NoteViewController
 @synthesize textBox,textField,note, delegate, hideKeyboardButton,libraryButton,cameraButton,audioButton, typeControl,viewControllers, scrollView,pageControl,publicButton,textButton,mapButton, contentTable,soundPlayer,noteValid;
@@ -96,8 +97,8 @@
     scrollView.delegate = self;
     pageControl.currentPage = 0;
     pageControl.numberOfPages = numPages;
-    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(saveButtonTouchAction)];      
-	self.navigationItem.rightBarButtonItem = saveButton;
+    UIBarButtonItem *previewButton = [[UIBarButtonItem alloc] initWithTitle:@"Preview" style:UIBarButtonItemStylePlain target:self action:@selector(previewButtonTouchAction)];      
+	self.navigationItem.rightBarButtonItem = previewButton;
     
     [[AVAudioSession sharedInstance] setDelegate: self];
 
@@ -123,9 +124,11 @@
     // e.g. self.myOutlet = nil;
 }
 
--(void)saveButtonTouchAction{
-    //[self displayTitleandDescriptionForm];
-    //[self.delegate refresh];
+-(void)previewButtonTouchAction{
+
+    DataCollectionViewController *dataVC = [[[DataCollectionViewController alloc] initWithNibName:@"DataCollectionViewController" bundle:nil]autorelease];
+    dataVC.note = self.note;
+    [self.navigationController pushViewController:dataVC animated:YES];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

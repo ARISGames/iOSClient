@@ -319,7 +319,7 @@
     }
     else{
             //open up note viewer
-        DataCollectionViewController *dataVC = [[DataCollectionViewController alloc] initWithNibName:@"DataCollectionViewController" bundle:nil];
+        DataCollectionViewController *dataVC = [[[DataCollectionViewController alloc] initWithNibName:@"DataCollectionViewController" bundle:nil]autorelease];
         dataVC.note = (Note *)[currentNoteList objectAtIndex:indexPath.row];
         [self.navigationController pushViewController:dataVC animated:YES];
         //[dataVC release];

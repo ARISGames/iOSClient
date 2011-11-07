@@ -254,7 +254,7 @@
     }
     else if([[self.commentsList objectAtIndex:(indexPath.row-1)] creatorId] == [AppModel sharedAppModel].playerId){
         
-        NoteViewController *noteVC = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
+        NoteViewController *noteVC = [[[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil]autorelease];
         noteVC.note = [self.commentsList objectAtIndex:indexPath.row-1];
         noteVC.delegate = self;
         [self.navigationController pushViewController:noteVC animated:YES];
@@ -265,7 +265,7 @@
     }
     else{
         //open up note viewer
-        DataCollectionViewController *dataVC = [[DataCollectionViewController alloc] initWithNibName:@"DataCollectionViewController" bundle:nil];
+        DataCollectionViewController *dataVC = [[[DataCollectionViewController alloc] initWithNibName:@"DataCollectionViewController" bundle:nil]autorelease];
         dataVC.note = [self.commentsList objectAtIndex:indexPath.row-1];
         [self.navigationController pushViewController:dataVC animated:YES];
         //[dataVC release];
