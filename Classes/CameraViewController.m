@@ -88,9 +88,8 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
 
         
 - (BOOL) isVideoCameraAvailable{
-        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-        NSArray *sourceTypes = [UIImagePickerController availableMediaTypesForSourceType:picker.sourceType];
-        [picker release];
+       // UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        NSArray *sourceTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePickerController.sourceType];
         
         if (![sourceTypes containsObject:(NSString *)kUTTypeMovie ]){
             
@@ -104,7 +103,7 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
 	NSLog(@"Library Button Pressed");
 	
 	self.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-	[self presentModalViewController:self.imagePickerController animated:YES];
+	[self presentModalViewController:self.imagePickerController animated:NO];
 }
 
 - (IBAction)profileButtonTouchAction {
@@ -114,7 +113,7 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
 	self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePickerController.sourceType];
 	self.imagePickerController.allowsEditing = YES;
 	self.imagePickerController.showsCameraControls = YES;
-	[self presentModalViewController:self.imagePickerController animated:YES];
+	[self presentModalViewController:self.imagePickerController animated:NO];
     [AppModel sharedAppModel].profilePic = YES;
 }
 
@@ -154,14 +153,10 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
         if([self.delegate isKindOfClass:[NoteViewController class]]) [self.delegate setNoteValid:YES];
 	}	
     
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:.5];
+
+    [self.navigationController popViewControllerAnimated:YES];
     
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight
-                           forView:self.navigationController.view cache:YES];
-    [self.navigationController popViewControllerAnimated:NO];
-    
-    [UIView commitAnimations]; 
+
 
 }
 
@@ -173,17 +168,9 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
     }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-	[UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:.5];
-    
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight
-                        forView:self.navigationController.view cache:YES];
-    [self dismissModalViewControllerAnimated:NO];
-    [self.navigationController popViewControllerAnimated:NO];
-    
-    [UIView commitAnimations]; 
-
-		
+    [picker dismissModalViewControllerAnimated:NO];
+    [self.navigationController popViewControllerAnimated:YES];
+	
 }
 
 #pragma mark UINavigationControllerDelegate Protocol Methods

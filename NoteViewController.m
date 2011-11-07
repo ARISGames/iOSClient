@@ -154,14 +154,9 @@
     cameraVC.delegate = self.delegate;
     cameraVC.showVid = YES;
     cameraVC.noteId = self.note.noteId;
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:.5];
-    
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
-                           forView:self.navigationController.view cache:YES];
-    [self.navigationController pushViewController:cameraVC animated:NO];
+
+    [self.navigationController pushViewController:cameraVC animated:YES];
     //[cameraVC release];
-    [UIView commitAnimations];
     }
 }
 -(void)audioButtonTouchAction{
@@ -170,14 +165,9 @@
     AudioRecorderViewController *audioVC = [[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil];
     audioVC.delegate = self.delegate;
     audioVC.noteId = self.note.noteId;
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:.5];
-    
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
-                           forView:self.navigationController.view cache:YES];
-    [self.navigationController pushViewController:audioVC animated:NO];
+   
+    [self.navigationController pushViewController:audioVC animated:YES];
     [audioVC release];
-        [UIView commitAnimations];
     } 
 }
 -(void)libraryButtonTouchAction{
@@ -185,39 +175,25 @@
     cameraVC.delegate = self.delegate;
     cameraVC.showVid = NO;
     cameraVC.noteId = self.note.noteId;
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:.5];
-    
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
-                           forView:self.navigationController.view cache:YES];
-    [self.navigationController pushViewController:cameraVC animated:NO];
+   
+    [self.navigationController pushViewController:cameraVC animated:YES];
     [cameraVC release];
-    [UIView commitAnimations];
 }
 -(void)textButtonTouchAction{
     TextViewController *textVC = [[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil];
     textVC.noteId = self.note.noteId;
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:.5];
-    
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
-                           forView:self.navigationController.view cache:YES];
-    [self.navigationController pushViewController:textVC animated:NO];
-    [UIView commitAnimations];
+
+    [self.navigationController pushViewController:textVC animated:YES];
     [textVC release];
 }
 
 -(void)mapButtonTouchAction{
-    DropOnMapViewController *mapVC = [[[DropOnMapViewController alloc] initWithNibName:@"DropOnMapViewController" bundle:nil] autorelease];
+    DropOnMapViewController *mapVC = [[DropOnMapViewController alloc] initWithNibName:@"DropOnMapViewController" bundle:nil] ;
     mapVC.noteId = self.note.noteId;
     self.noteValid = YES;
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:.5];
-    
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
-                           forView:self.navigationController.view cache:YES];
-    [self.navigationController pushViewController:mapVC animated:NO];
-    [UIView commitAnimations];
+
+    [self.navigationController pushViewController:mapVC animated:YES];
+    [mapVC release];
 }
 -(void)publicButtonTouchAction{
     self.noteValid = YES;

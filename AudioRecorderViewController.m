@@ -240,14 +240,9 @@
     [[AppServices sharedAppServices] addContentToNoteFromFileData:self.audioData fileName:@"audio.caf" name:nil noteId:self.noteId type:@"AUDIO"];
     if([self.delegate isKindOfClass:[NoteCommentViewController class]]) [self.delegate addedAudio];
     if([self.delegate isKindOfClass:[NoteViewController class]]) [self.delegate setNoteValid:YES];
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:.5];
-    
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight
-                           forView:self.navigationController.view cache:YES];
-    [self.navigationController popViewControllerAnimated:NO];
-    
-    [UIView commitAnimations]; 
+
+    [self.navigationController popViewControllerAnimated:YES];
+
 }	
 
 - (IBAction) discardButtonAction: (id) sender{

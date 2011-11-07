@@ -94,15 +94,9 @@
 -(void)updateContentTouchAction{
     //server call here
     [[AppServices sharedAppServices]updateNoteContent:self.contentId text:self.textBox.text];
+
+    [self.navigationController popViewControllerAnimated:YES];
     
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:.5];
-    
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight
-                           forView:self.navigationController.view cache:YES];
-    [self.navigationController popViewControllerAnimated:NO];
-    
-    [UIView commitAnimations]; 
 }
 -(void)textViewDidBeginEditing:(UITextView *)textView{
     if([self.textBox.text isEqualToString:@"Write note here..."])

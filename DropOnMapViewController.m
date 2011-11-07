@@ -163,14 +163,8 @@ static float INITIAL_SPAN = 0.001;
 -(void)dropButtonAction:(id)sender{
     [[AppServices sharedAppServices]updateServerDropNoteHere:self.noteId atCoordinate:self.myAnnotation.coordinate];
     
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:.5];
+    [self.navigationController popViewControllerAnimated:YES];
     
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight
-                           forView:self.navigationController.view cache:YES];
-    [self.navigationController popViewControllerAnimated:NO];
-    
-    [UIView commitAnimations]; 
 }
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

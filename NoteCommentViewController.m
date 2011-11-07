@@ -71,14 +71,8 @@
     cameraVC.showVid = YES;
     if(self.commentNote.noteId == 0)   self.commentNote.noteId = [[AppServices sharedAppServices]addCommentToNoteWithId:self.parentNote.noteId andRating:self.rating];
     cameraVC.noteId = self.commentNote.noteId;
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:.5];
-    
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
-                           forView:self.navigationController.view cache:YES];
-    [self.navigationController pushViewController:cameraVC animated:NO];
-    //[cameraVC release];
-    [UIView commitAnimations];
+
+    [self.navigationController pushViewController:cameraVC animated:YES];
     }
 }
 -(void)addAudioButtonTouchAction{
@@ -88,14 +82,8 @@
     audioVC.delegate = self;
     if(self.commentNote.noteId == 0)   self.commentNote.noteId = [[AppServices sharedAppServices]addCommentToNoteWithId:self.parentNote.noteId andRating:self.rating];
     audioVC.noteId = self.commentNote.noteId;
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:.5];
-    
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
-                           forView:self.navigationController.view cache:YES];
-    [self.navigationController pushViewController:audioVC animated:NO];
-    //[audioVC release];
-    [UIView commitAnimations]; 
+
+    [self.navigationController pushViewController:audioVC animated:YES];
     }
 
 }
@@ -111,14 +99,8 @@
     cameraVC.showVid = NO;
     if(self.commentNote.noteId == 0)   self.commentNote.noteId = [[AppServices sharedAppServices]addCommentToNoteWithId:self.parentNote.noteId andRating:self.rating];
     cameraVC.noteId = self.commentNote.noteId;
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:.5];
-    
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
-                           forView:self.navigationController.view cache:YES];
-    [self.navigationController pushViewController:cameraVC animated:NO];
-    //[cameraVC release];
-    [UIView commitAnimations];
+
+    [self.navigationController pushViewController:cameraVC animated:YES];
 
 }
 #pragma mark Table view methods
