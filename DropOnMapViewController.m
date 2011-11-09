@@ -228,6 +228,16 @@ static float INITIAL_SPAN = 0.001;
 	
 	return draggablePinView;
 }
+- (void)mapView:(MKMapView *)mv didAddAnnotationViews:(NSArray *)views
+{
+	MKAnnotationView *annotationView = [views objectAtIndex:0];
+	id <MKAnnotation> mp = [annotationView annotation];
+    if([mp isKindOfClass:[DDAnnotation class]]){
+	MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance([mp coordinate], 1500, 1500);
+	[mv setRegion:region animated:YES];
+	[mv selectAnnotation:mp animated:YES];
+    }
+}
 
 
 @end
