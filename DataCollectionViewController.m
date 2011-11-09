@@ -146,15 +146,15 @@
             
             //Create movie player object
             ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
-            [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
             mMoviePlayer.moviePlayer.shouldAutoplay = NO;
-            [mMoviePlayer.moviePlayer prepareToPlay];		
+            //[mMoviePlayer.moviePlayer prepareToPlay];
+
             [viewControllers addObject:mMoviePlayer];
             [mMoviePlayer release];
             if (nil == mMoviePlayer.view.superview) {
                     CGRect frame = scrollView.frame;
                     frame.origin.x = frame.size.width * (numPages-1);
-                    frame.origin.y = 0;
+                    frame.origin.y = -20;
                     mMoviePlayer.view.frame = frame;
                     [scrollView addSubview:mMoviePlayer.view];
                 }
@@ -165,7 +165,6 @@
             
             //Create movie player object
             ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
-            [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
             mMoviePlayer.moviePlayer.shouldAutoplay = NO;
             [mMoviePlayer.moviePlayer prepareToPlay];		
             [viewControllers addObject:mMoviePlayer];
@@ -174,7 +173,7 @@
             if (nil == mMoviePlayer.view.superview) {
                 CGRect frame = scrollView.frame;
                 frame.origin.x = frame.size.width * (numPages-1);
-                frame.origin.y = 0;
+                frame.origin.y = -20;
                 mMoviePlayer.view.frame = frame;
                 [scrollView addSubview:mMoviePlayer.view];
             }
