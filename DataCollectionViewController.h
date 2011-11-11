@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Note.h"
 #import "NoteContent.h"
+#import "ARISMoviePlayerViewController.h"
 
 @interface DataCollectionViewController : UIViewController <UIScrollViewDelegate> {
     IBOutlet UIScrollView *scrollView;
@@ -17,6 +18,9 @@
     id delegate;
     int pageNumber;
     int numPages;
+   // UIButton *mediaPlaybackButton;
+
+    //ARISMoviePlayerViewController *mMoviePlayer;
     Note *note;
 }
 
@@ -24,9 +28,12 @@
 @property(nonatomic, retain) IBOutlet UIScrollView *scrollView;
 @property(nonatomic, retain) IBOutlet UIPageControl *pageControl;
 @property(nonatomic, retain) NSMutableArray *viewControllers;
+//@property(nonatomic, retain) ARISMoviePlayerViewController *mMoviePlayer;
 @property(nonatomic,retain)Note *note;
 - (IBAction)saveButtonTouchAction;
 - (IBAction)changePage:(id) sender;
 - (void)loadNewPageWithContent:(NoteContent *)content;
 - (void)showComments;
+- (IBAction)playMovie:(id)sender;
+
 @end

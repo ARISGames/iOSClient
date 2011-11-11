@@ -16,6 +16,7 @@
 #import "Media.h"
 #import "ARISMoviePlayerViewController.h"
 #import "NoteCommentViewController.h"
+#import "UIImage+Scale.h"
 
 
 @implementation DataCollectionViewController
@@ -100,9 +101,17 @@
     int page = floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
     pageControl.currentPage = page;
     pageControl.numberOfPages = numPages;
-    
    }
 
+-(IBAction)playMovie:(id)sender {
+	[self presentMoviePlayerViewControllerAnimated:[viewControllers objectAtIndex:[sender tag]]];
+}
+
+- (void)movieFinishedCallback:(NSNotification*) aNotification
+{
+	NSLog(@"ItemDetailsViewController: movieFinishedCallback");
+	[self dismissMoviePlayerViewControllerAnimated];
+}
 -(void)saveButtonTouchAction{
    //[self displayTitleandDescriptionForm];
 }
@@ -140,46 +149,55 @@
                 controller.frame = frame;
                 [scrollView addSubview:controller];}
         }
-        else if([content.type isEqualToString:@"AUDIO"]){
+        else if([content.type isEqualToString:@"AUDIO"] || [content.type isEqualToString:@"VIDEO"]){
+            //Setup the Button
             Media *media = [[Media alloc] init];
             media = [[AppModel sharedAppModel] mediaForMediaId:content.mediaId];
+            UIButton *mediaPlaybackButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 320, 240)];
+            mediaPlaybackButton.tag = [viewControllers count];//the tag of the button is now equal to the corresponding movieplayers index into the viewControllers array...used in playMovie:
+            [mediaPlaybackButton addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
+            [mediaPlaybackButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
+            [mediaPlaybackButton setContentVerticalAlignment:UIControlContentVerticalAlignmentBottom];
             
             //Create movie player object
-            ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+         ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+            [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
             mMoviePlayer.moviePlayer.shouldAutoplay = NO;
-            //[mMoviePlayer.moviePlayer prepareToPlay];
-
-            [viewControllers addObject:mMoviePlayer];
-            [mMoviePlayer release];
-            if (nil == mMoviePlayer.view.superview) {
-                    CGRect frame = scrollView.frame;
-                    frame.origin.x = frame.size.width * (numPages-1);
-                    frame.origin.y = -20;
-                    mMoviePlayer.view.frame = frame;
-                    [scrollView addSubview:mMoviePlayer.view];
-                }
-        }
-        else if([content.type isEqualToString:@"VIDEO"]){
-            Media *media = [[Media alloc] init];
-            media = [[AppModel sharedAppModel] mediaForMediaId:content.mediaId];
+            [mMoviePlayer.moviePlayer prepareToPlay];
             
-            //Create movie player object
-            ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
-            mMoviePlayer.moviePlayer.shouldAutoplay = NO;
-            [mMoviePlayer.moviePlayer prepareToPlay];		
+            //Setup the overlay
+            UIImageView *playButonOverlay = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"play_button.png"]];
+            playButonOverlay.center = mediaPlaybackButton.center;
             [viewControllers addObject:mMoviePlayer];
-            [mMoviePlayer release];
-
-            if (nil == mMoviePlayer.view.superview) {
+            
+            //Create a thumbnail for the button
+            if([content.type isEqualToString:@"VIDEO"]){
+            if (![mediaPlaybackButton backgroundImageForState:UIControlStateNormal]) {
+                UIImage *videoThumb = [mMoviePlayer.moviePlayer thumbnailImageAtTime:(NSTimeInterval)1.0 timeOption:MPMovieTimeOptionExact];            
+                UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(320, 240)];        
+                [mediaPlaybackButton setBackgroundImage:videoThumbSized forState:UIControlStateNormal];
+            }
+            }
+            else {
+                [mediaPlaybackButton setBackgroundImage:[UIImage imageNamed:@"microphoneBackground.jpg"] forState:UIControlStateNormal];
+                mediaPlaybackButton.contentMode = UIViewContentModeScaleAspectFill;
+            }
+            
+            if (nil == mediaPlaybackButton.superview) {
                 CGRect frame = scrollView.frame;
                 frame.origin.x = frame.size.width * (numPages-1);
-                frame.origin.y = -20;
-                mMoviePlayer.view.frame = frame;
-                [scrollView addSubview:mMoviePlayer.view];
+                frame.origin.y = 0;
+                mediaPlaybackButton.frame = CGRectMake(frame.origin.x, frame.origin.y, 320, playButonOverlay.frame.size.height);
+                [mediaPlaybackButton addSubview:playButonOverlay];
+                [scrollView addSubview:mediaPlaybackButton];
+                
+
             }
+
 
         }
 }
+
 - (void)viewDidUnload
 {
     [super viewDidUnload];
