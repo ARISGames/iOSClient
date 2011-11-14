@@ -104,6 +104,8 @@
    }
 
 -(IBAction)playMovie:(id)sender {
+    [[[viewControllers objectAtIndex:[sender tag]] moviePlayer] play];
+
 	[self presentMoviePlayerViewControllerAnimated:[viewControllers objectAtIndex:[sender tag]]];
 }
 
