@@ -469,12 +469,9 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
         [mMoviePlayer.moviePlayer prepareToPlay];		
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:.5];
-        
-        [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
-                               forView:self.navigationController.view cache:YES];
-        [self.navigationController pushViewController:mMoviePlayer
-                                             animated:NO];
-        [UIView commitAnimations];
+        mMoviePlayer.moviePlayer.shouldAutoplay = YES;
+
+        [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
 
 
     }
@@ -495,5 +492,9 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
 - (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error {
 	NSLog(@"AudioRecorder: Playback Error");
 }
-
+- (void)movieFinishedCallback:(NSNotification*) aNotification
+{
+	NSLog(@"ItemDetailsViewController: movieFinishedCallback");
+	[self dismissMoviePlayerViewControllerAnimated];
+}
 @end
