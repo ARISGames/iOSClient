@@ -70,7 +70,8 @@
     self.textField.text = self.note.title;
         self.navigationItem.title = self.textField.text;
     }
-    
+    if(self.note.shared == YES) self.publicButton.selected = YES;
+    else self.publicButton.selected = NO;
     if(self.noteChanged){
     self.noteChanged = NO;
     [self refresh];
@@ -154,6 +155,7 @@
     self.noteValid = YES;
     [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text andShared:self.note.shared];
     self.navigationItem.title = self.textField.text;
+    self.note.title = self.textField.text;
     [self.delegate refresh];
 
     return YES;
