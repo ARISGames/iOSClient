@@ -59,16 +59,15 @@
 					<object class="IBUIButton" id="1054013886">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{45, 73}, {237, 94}}</string>
+						<string key="NSFrame">{{20, 63}, {280, 94}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="361904302"/>
+						<reference key="NSNextKeyView" ref="1514334"/>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<int key="IBUIButtonType">1</int>
-						<string key="IBUINormalTitle">Scan QR Code</string>
 						<object class="NSColor" key="IBUIHighlightedTitleColor" id="703920892">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MQA</bytes>
@@ -100,16 +99,15 @@
 					<object class="IBUIButton" id="361904302">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{45, 167}, {237, 94}}</string>
+						<string key="NSFrame">{{20, 162}, {280, 94}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="1514334"/>
+						<reference key="NSNextKeyView" ref="1054013886"/>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<int key="IBUIButtonType">1</int>
-						<string key="IBUINormalTitle">Scan Barcode</string>
 						<reference key="IBUIHighlightedTitleColor" ref="703920892"/>
 						<object class="NSColor" key="IBUINormalTitleColor">
 							<int key="NSColorSpace">1</int>
@@ -118,7 +116,7 @@
 						<reference key="IBUINormalTitleShadowColor" ref="113074776"/>
 						<object class="NSCustomResource" key="IBUINormalImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">zbar-samples.png</string>
+							<string key="NSResourceName">upc.png</string>
 						</object>
 						<reference key="IBUIFontDescription" ref="928125377"/>
 						<reference key="IBUIFont" ref="1073445395"/>
@@ -126,7 +124,7 @@
 					<object class="IBUIButton" id="1514334">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{45, 261}, {237, 97}}</string>
+						<string key="NSFrame">{{20, 261}, {280, 97}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
@@ -135,7 +133,6 @@
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<int key="IBUIButtonType">1</int>
-						<string key="IBUINormalTitle">Match an Image</string>
 						<reference key="IBUIHighlightedTitleColor" ref="703920892"/>
 						<object class="NSColor" key="IBUINormalTitleColor">
 							<int key="NSColorSpace">1</int>
@@ -144,7 +141,7 @@
 						<reference key="IBUINormalTitleShadowColor" ref="113074776"/>
 						<object class="NSCustomResource" key="IBUINormalImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">camera_icon.png</string>
+							<string key="NSResourceName">painting.png</string>
 						</object>
 						<reference key="IBUIFontDescription" ref="928125377"/>
 						<reference key="IBUIFont" ref="1073445395"/>
@@ -152,10 +149,10 @@
 					<object class="IBUITextField" id="727500807">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{45, 34}, {237, 31}}</string>
+						<string key="NSFrame">{{20, 24}, {280, 31}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="1054013886"/>
+						<reference key="NSNextKeyView" ref="361904302"/>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentVerticalAlignment">0</int>
@@ -304,11 +301,11 @@
 						<reference key="object" ref="191373211"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="727500807"/>
 							<reference ref="757026584"/>
-							<reference ref="1514334"/>
-							<reference ref="361904302"/>
+							<reference ref="727500807"/>
 							<reference ref="1054013886"/>
+							<reference ref="361904302"/>
+							<reference ref="1514334"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -446,8 +443,6 @@
 							<string>imageScanButton</string>
 							<string>manualCode</string>
 							<string>qrScanButton</string>
-							<string>resultImage</string>
-							<string>resultText</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -455,8 +450,6 @@
 							<string>UIButton</string>
 							<string>UITextField</string>
 							<string>UIButton</string>
-							<string>UIImageView</string>
-							<string>UITextView</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -467,8 +460,6 @@
 							<string>imageScanButton</string>
 							<string>manualCode</string>
 							<string>qrScanButton</string>
-							<string>resultImage</string>
-							<string>resultText</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -487,14 +478,6 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">qrScanButton</string>
 								<string key="candidateClassName">UIButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">resultImage</string>
-								<string key="candidateClassName">UIImageView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">resultText</string>
-								<string key="candidateClassName">UITextView</string>
 							</object>
 						</object>
 					</object>
@@ -522,16 +505,16 @@
 			<object class="NSArray" key="dict.sortedKeys">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<string>cameraBackground.jpg</string>
-				<string>camera_icon.png</string>
+				<string>painting.png</string>
 				<string>qrcode_big.png</string>
-				<string>zbar-samples.png</string>
+				<string>upc.png</string>
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<string>{370, 500}</string>
+				<string>{60, 80}</string>
 				<string>{80, 80}</string>
 				<string>{80, 80}</string>
-				<string>{214, 96}</string>
 			</object>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">933</string>
