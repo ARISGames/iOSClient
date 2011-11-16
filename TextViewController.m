@@ -116,7 +116,10 @@
     
 //Do server call here
     [[AppServices sharedAppServices] addContentToNoteWithText:self.textBox.text type:@"TEXT" mediaId:0 andNoteId:self.noteId];
-    if([self.delegate isKindOfClass:[NoteViewController class]]) [self.delegate setNoteValid:YES];
+    if([self.delegate isKindOfClass:[NoteViewController class]]) {
+        [self.delegate setNoteValid:YES];
+        [self.delegate setNoteChanged:YES];
+    }
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:.5];
     

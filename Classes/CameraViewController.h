@@ -19,7 +19,7 @@
 	NSData *mediaData;
 	NSString *mediaFilename;
     BOOL showVid;
-    id delegate;
+    id delegate, parentDelegate;
     int noteId;
     BOOL bringUpCamera;
 }
@@ -31,6 +31,8 @@
 @property (nonatomic, retain) NSData *mediaData;
 @property (nonatomic, retain) NSString *mediaFilename;
 @property (nonatomic, retain) id delegate;
+@property (nonatomic, retain) id parentDelegate;
+
 @property(readwrite,assign) BOOL showVid;
 @property(readwrite,assign) int noteId;
 

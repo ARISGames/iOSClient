@@ -24,7 +24,7 @@
 #import "DataCollectionViewController.h"
 
 @implementation NoteViewController
-@synthesize textBox,textField,note, delegate, hideKeyboardButton,libraryButton,cameraButton,audioButton, typeControl,viewControllers, scrollView,pageControl,publicButton,textButton,mapButton, contentTable,soundPlayer,noteValid;
+@synthesize textBox,textField,note, delegate, hideKeyboardButton,libraryButton,cameraButton,audioButton, typeControl,viewControllers, scrollView,pageControl,publicButton,textButton,mapButton, contentTable,soundPlayer,noteValid,noteChanged;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -71,9 +71,11 @@
         self.navigationItem.title = self.textField.text;
     }
     
-    
+    if(self.noteChanged){
+    self.noteChanged = NO;
     [self refresh];
     [contentTable reloadData];
+    }
    }
 - (void)didReceiveMemoryWarning
 {
@@ -154,7 +156,8 @@
 -(void)cameraButtonTouchAction{
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
     CameraViewController *cameraVC = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
-    cameraVC.delegate = self.delegate;
+    cameraVC.delegate = self;
+    cameraVC.parentDelegate = self.delegate;
     cameraVC.showVid = YES;
     cameraVC.noteId = self.note.noteId;
 
@@ -166,7 +169,8 @@
     BOOL audioHWAvailable = [[AVAudioSession sharedInstance] inputIsAvailable];
     if(audioHWAvailable){
     AudioRecorderViewController *audioVC = [[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil];
-    audioVC.delegate = self.delegate;
+    audioVC.delegate = self;
+    audioVC.parentDelegate = self.delegate;
     audioVC.noteId = self.note.noteId;
    
     [self.navigationController pushViewController:audioVC animated:YES];
@@ -175,8 +179,9 @@
 }
 -(void)libraryButtonTouchAction{
     CameraViewController *cameraVC = [[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil];
-    cameraVC.delegate = self.delegate;
+    cameraVC.delegate = self;
     cameraVC.showVid = NO;
+    cameraVC.parentDelegate = self.delegate;
     cameraVC.noteId = self.note.noteId;
    
     [self.navigationController pushViewController:cameraVC animated:YES];
@@ -185,7 +190,7 @@
 -(void)textButtonTouchAction{
     TextViewController *textVC = [[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil];
     textVC.noteId = self.note.noteId;
-
+    textVC.delegate = self;
     [self.navigationController pushViewController:textVC animated:YES];
     [textVC release];
 }

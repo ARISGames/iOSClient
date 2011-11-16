@@ -20,7 +20,7 @@
 @synthesize soundPlayer;
 @synthesize meter;
 @synthesize meterUpdateTimer;
-@synthesize audioData, delegate, noteId,previewMode;
+@synthesize audioData, delegate,parentDelegate, noteId,previewMode;
 
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -238,9 +238,11 @@
 	
 	//Do server call here
     [[AppServices sharedAppServices] addContentToNoteFromFileData:self.audioData fileName:@"audio.caf" name:nil noteId:self.noteId type:@"AUDIO"];
-    if([self.delegate isKindOfClass:[NoteCommentViewController class]]) [self.delegate addedAudio];
-    if([self.delegate isKindOfClass:[NoteViewController class]]) [self.delegate setNoteValid:YES];
-
+    if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]) [self.parentDelegate addedAudio];
+    if([self.delegate isKindOfClass:[NoteViewController class]]) {
+        [self.delegate setNoteValid:YES];
+        [self.delegate setNoteChanged:YES];
+    }
     [self.navigationController popViewControllerAnimated:YES];
 
 }	

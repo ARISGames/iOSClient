@@ -22,7 +22,7 @@
 @synthesize libraryButton;
 @synthesize mediaData;
 @synthesize mediaFilename;
-@synthesize profileButton, delegate,showVid, noteId;
+@synthesize profileButton,parentDelegate, delegate,showVid, noteId;
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle {
@@ -141,8 +141,11 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
                                        @selector(image:didFinishSavingWithError:contextInfo:), 
                                        nil );
         [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:@"PHOTO"];
-        if([self.delegate isKindOfClass:[NoteCommentViewController class]]) [self.delegate addedPhoto];
-        if([self.delegate isKindOfClass:[NoteViewController class]]) [self.delegate setNoteValid:YES];
+        if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]) [self.parentDelegate addedPhoto];
+        if([self.delegate isKindOfClass:[NoteViewController class]]) {
+            [self.delegate setNoteValid:YES];
+            [self.delegate setNoteChanged:YES];
+        }
 	}	
 	else if ([mediaType isEqualToString:@"public.movie"]){
 		NSLog(@"CameraViewController: Found a Movie");
@@ -150,9 +153,11 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
 		self.mediaData = [NSData dataWithContentsOfURL:videoURL];
 		self.mediaFilename = @"video.mp4";
         [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:@"VIDEO"];
-        if([self.delegate isKindOfClass:[NoteCommentViewController class]]) [self.delegate addedVideo];
-        if([self.delegate isKindOfClass:[NoteViewController class]]) [self.delegate setNoteValid:YES];
-	}	
+        if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]) [self.parentDelegate addedVideo];
+        if([self.delegate isKindOfClass:[NoteViewController class]]) {
+            [self.delegate setNoteValid:YES];
+            [self.delegate setNoteChanged:YES];
+        }	}	
     
 
     [self.navigationController popViewControllerAnimated:NO];
