@@ -90,7 +90,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.navigationItem.leftBarButtonItem = 
+	[[UIBarButtonItem alloc] initWithTitle:@"Done"
+									 style: UIBarButtonItemStyleDone
+									target:self 
+									action:@selector(backButtonTouchAction:)];
     if(self.note.noteId == 0){
         self.note.noteId = [[AppServices sharedAppServices] createNote];
     }
@@ -116,9 +120,11 @@
 -(void)viewWillDisappear:(BOOL)animated{
     self.navigationController.navigationItem.title = @"Note";
         [self.soundPlayer pause];
-    if(!self.noteValid) [[AppServices sharedAppServices]deleteNoteWithNoteId:self.note.noteId];
 }
-
+- (IBAction)backButtonTouchAction: (id) sender{
+    if(!self.noteValid) [[AppServices sharedAppServices]deleteNoteWithNoteId:self.note.noteId];
+    [self.navigationController popViewControllerAnimated:YES];
+}
 - (void)viewDidUnload
 {
     [super viewDidUnload];
