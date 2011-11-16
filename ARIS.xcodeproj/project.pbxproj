@@ -296,7 +296,7 @@
 		ABDA40DE10506CB300823A94 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABDA40DD10506CB300823A94 /* MapKit.framework */; };
 		ABEBF566123D916D00ECE66C /* WaitingIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEBF565123D916D00ECE66C /* WaitingIndicatorView.m */; };
 		ABF41CAA14744DAC00B60D05 /* camera_roll.png in Resources */ = {isa = PBXBuildFile; fileRef = ABF41CA914744DAB00B60D05 /* camera_roll.png */; };
-		ABF41CBE14745B1A00B60D05 /* 112-group.png in Resources */ = {isa = PBXBuildFile; fileRef = ABF41CBD14745B1A00B60D05 /* 112-group.png */; };
+		ABF41CEF1474657800B60D05 /* public.png in Resources */ = {isa = PBXBuildFile; fileRef = ABF41CEE1474657800B60D05 /* public.png */; };
 		ABF4A38A116847640043EB1C /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = ABF4A37E116847640043EB1C /* ASIAuthenticationDialog.m */; };
 		ABF4A38B116847640043EB1C /* ASIFormDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = ABF4A380116847640043EB1C /* ASIFormDataRequest.m */; };
 		ABF4A38C116847640043EB1C /* ASIHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = ABF4A382116847640043EB1C /* ASIHTTPRequest.m */; };
@@ -793,7 +793,7 @@
 		ABEBF564123D916D00ECE66C /* WaitingIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitingIndicatorView.h; sourceTree = "<group>"; };
 		ABEBF565123D916D00ECE66C /* WaitingIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitingIndicatorView.m; sourceTree = "<group>"; };
 		ABF41CA914744DAB00B60D05 /* camera_roll.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_roll.png; sourceTree = "<group>"; };
-		ABF41CBD14745B1A00B60D05 /* 112-group.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "112-group.png"; sourceTree = "<group>"; };
+		ABF41CEE1474657800B60D05 /* public.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = public.png; sourceTree = "<group>"; };
 		ABF4A37D116847640043EB1C /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIAuthenticationDialog.h; sourceTree = "<group>"; };
 		ABF4A37E116847640043EB1C /* ASIAuthenticationDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIAuthenticationDialog.m; sourceTree = "<group>"; };
 		ABF4A37F116847640043EB1C /* ASIFormDataRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIFormDataRequest.h; sourceTree = "<group>"; };
@@ -891,7 +891,7 @@
 		1147E15C13F32273000E4BC2 /* Notes */ = {
 			isa = PBXGroup;
 			children = (
-				ABF41CBD14745B1A00B60D05 /* 112-group.png */,
+				ABF41CEE1474657800B60D05 /* public.png */,
 				ABF41CA914744DAB00B60D05 /* camera_roll.png */,
 				1188663B1406B0D00009E36F /* Text View */,
 				11DD3D4913F5AAE80051AB76 /* NoteViewer */,
@@ -1935,11 +1935,11 @@
 				ABAFBAC8145A0B810044491C /* Institutes for Discovery.gpx in Resources */,
 				ABC14934145A83E400C164F5 /* play_button.png in Resources */,
 				ABF41CAA14744DAC00B60D05 /* camera_roll.png in Resources */,
-				ABF41CBE14745B1A00B60D05 /* 112-group.png in Resources */,
 				11FDA7B4147462D000ACE17D /* zbar-back.png in Resources */,
 				11FDA7B5147462D000ACE17D /* zbar-help.html in Resources */,
 				11FDA7B6147462D000ACE17D /* zbar-helpicons.png in Resources */,
 				11FDA7B7147462D000ACE17D /* zbar-samples.png in Resources */,
+				ABF41CEF1474657800B60D05 /* public.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
