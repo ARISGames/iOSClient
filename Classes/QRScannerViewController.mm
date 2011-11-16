@@ -12,14 +12,14 @@
 #import "AppModel.h"
 #import "AppServices.h"
 #import <QRCodeReader.h>
-
+#import "ZBarReaderViewController.h"
 
 
 @implementation QRScannerViewController 
 
 @synthesize imageMatchingImagePickerController;
-@synthesize qrScanButton,imageScanButton;
-@synthesize manualCode;
+@synthesize qrScanButton,imageScanButton,barcodeButton;
+@synthesize manualCode,resultText;
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
@@ -33,7 +33,6 @@
 												 selector:@selector(finishLoadingResult:)
 													 name:@"QRCodeObjectReady"
 												   object:nil];
-		
     }
     return self;
 }
@@ -63,6 +62,26 @@
 	
 	
 	NSLog(@"QRScannerViewController: Loaded");
+}
+- (IBAction) scanButtonTapped
+{
+    // ADD: present a barcode reader that scans from the camera feed
+    ZBarReaderViewController *reader = [ZBarReaderViewController new];
+    reader.readerDelegate = self;
+    reader.supportedOrientationsMask = ZBarOrientationMaskAll;
+    
+    ZBarImageScanner *scanner = reader.scanner;
+    // TODO: (optional) additional reader configuration here
+    
+    // EXAMPLE: disable rarely used I2/5 to improve performance
+    [scanner setSymbology: ZBAR_I25
+                   config: ZBAR_CFG_ENABLE
+                       to: 0];
+    
+    // present and release the controller
+    [self presentModalViewController: reader
+                            animated: YES];
+    [reader release];
 }
 
 - (IBAction)qrScanButtonTouchAction: (id) sender{
@@ -119,16 +138,22 @@
     UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
     if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];                 
     
-    /*
-    if (picker == self.qrImagePickerController) {
-        NSLog(@"QRScannerVC: qr imagePickerController didFinishPickingImage" );
-        //Now to decode
-        Decoder *imageDecoder = [[Decoder alloc] init]; //create a decoder
-        [imageDecoder setDelegate:self];  //we get told about the scan, 
-        CGRect cropRect = CGRectMake(0.0, 0.0, image.size.width, image.size.height);
-        [imageDecoder decodeImage:image cropRect:cropRect]; //start the decode. When done, our delegate method will be called.
-    }
-    */
+    // ADD: get the decode results
+    id<NSFastEnumeration> results =
+    [info objectForKey: ZBarReaderControllerResults];
+    ZBarSymbol *symbol = nil;
+    for(symbol in results)
+        // EXAMPLE: just grab the first barcode
+        break;
+    
+    // EXAMPLE: do something useful with the barcode data
+    resultText = symbol.data;
+    
+
+    // ADD: dismiss the controller (NB dismiss from the *reader*!)
+    [picker dismissModalViewControllerAnimated: YES];
+    
+    
     if (picker == self.imageMatchingImagePickerController) {
         NSLog(@"QRScannerVC: image matching imagePickerController didFinishPickingImage" );
         
