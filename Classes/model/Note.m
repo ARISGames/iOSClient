@@ -40,7 +40,7 @@
     
     if(self.creatorId == [AppModel sharedAppModel].playerId){
         
-        NoteViewController *noteVC = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
+        NoteViewController *noteVC = [[[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil]autorelease];
         noteVC.note = self;
         noteVC.delegate = self;
         if([self.delegate isKindOfClass:[NearbyObjectsViewController class]]) {
@@ -49,7 +49,7 @@
     }
     else{
         //open up note viewer
-        DataCollectionViewController *dataVC = [[DataCollectionViewController alloc] initWithNibName:@"DataCollectionViewController" bundle:nil];
+        DataCollectionViewController *dataVC = [[[DataCollectionViewController alloc] initWithNibName:@"DataCollectionViewController" bundle:nil]autorelease];
         dataVC.note = self;
         dataVC.delegate = self;
         if([self.delegate isKindOfClass:[NearbyObjectsViewController class]]) {
