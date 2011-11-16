@@ -158,7 +158,7 @@
     cameraVC.showVid = YES;
     cameraVC.noteId = self.note.noteId;
 
-    [self.navigationController pushViewController:cameraVC animated:YES];
+    [self.navigationController pushViewController:cameraVC animated:NO];
     //[cameraVC release];
     }
 }

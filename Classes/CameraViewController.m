@@ -66,7 +66,7 @@
 	NSLog(@"Camera Loaded");
 }
 
--(void)viewDidAppear:(BOOL)animated{
+-(void)viewWillAppear:(BOOL)animated{
     if(bringUpCamera){
         bringUpCamera = NO;
 
@@ -83,7 +83,7 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
     
 		self.imagePickerController.allowsEditing = YES;
 	self.imagePickerController.showsCameraControls = YES;
-	[self presentModalViewController:self.imagePickerController animated:YES];
+	[self presentModalViewController:self.imagePickerController animated:NO];
 }
 
         
@@ -103,6 +103,7 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
 	NSLog(@"Library Button Pressed");
 	
 	self.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    
 	[self presentModalViewController:self.imagePickerController animated:NO];
 }
 
@@ -154,7 +155,7 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
 	}	
     
 
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:NO];
     
 
 
@@ -169,7 +170,7 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [picker dismissModalViewControllerAnimated:NO];
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:NO];
 	
 }
 
