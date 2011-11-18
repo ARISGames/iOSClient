@@ -34,7 +34,7 @@
     int numPages;
     AVPlayer *soundPlayer;
     id timeObserver;
-    BOOL noteValid, noteChanged;
+    BOOL noteValid, noteChanged, noteDropped;
 
 }
 @property(nonatomic,retain) IBOutlet UITextView *textBox;
@@ -56,6 +56,8 @@
 @property(readwrite, retain) AVPlayer *soundPlayer;
 @property(readwrite, assign) BOOL noteValid;
 @property(readwrite, assign) BOOL noteChanged;
+@property(readwrite, assign) BOOL noteDropped;
+
 
 
 - (void)titleAndDescriptionFormDidFinish:(TitleAndDecriptionFormViewController*)titleAndDescForm;

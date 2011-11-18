@@ -24,7 +24,7 @@
 #import "DataCollectionViewController.h"
 
 @implementation NoteViewController
-@synthesize textBox,textField,note, delegate, hideKeyboardButton,libraryButton,cameraButton,audioButton, typeControl,viewControllers, scrollView,pageControl,publicButton,textButton,mapButton, contentTable,soundPlayer,noteValid,noteChanged;
+@synthesize textBox,textField,note, delegate, hideKeyboardButton,libraryButton,cameraButton,audioButton, typeControl,viewControllers, scrollView,pageControl,publicButton,textButton,mapButton, contentTable,soundPlayer,noteValid,noteChanged, noteDropped;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -70,8 +70,12 @@
     self.textField.text = self.note.title;
         self.navigationItem.title = self.textField.text;
     }
-    if(self.note.shared == YES) self.publicButton.selected = YES;
-    else self.publicButton.selected = NO;
+    if(self.note.shared == YES) self.publicButton.highlighted = YES;
+    else self.publicButton.highlighted = NO;
+    
+    if(self.note.dropped)self.mapButton.highlighted = YES;   
+    else self.mapButton.highlighted = NO;
+    
     if(self.noteChanged){
     self.noteChanged = NO;
     [self refresh];
@@ -206,6 +210,7 @@
 -(void)mapButtonTouchAction{
     DropOnMapViewController *mapVC = [[DropOnMapViewController alloc] initWithNibName:@"DropOnMapViewController" bundle:nil] ;
     mapVC.noteId = self.note.noteId;
+    mapVC.delegate = self;
     self.noteValid = YES;
 
     [self.navigationController pushViewController:mapVC animated:YES];

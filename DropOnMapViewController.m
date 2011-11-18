@@ -17,7 +17,7 @@ static float INITIAL_SPAN = 0.001;
 
 
 @implementation DropOnMapViewController
-@synthesize mapView,mapTypeButton,dropButton,locations,tracking,toolBar,noteId,myAnnotation;
+@synthesize mapView,mapTypeButton,dropButton,locations,tracking,toolBar,noteId,myAnnotation,delegate,pickupButton;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -63,7 +63,7 @@ static float INITIAL_SPAN = 0.001;
 	[mapView setDelegate:self];
 	[self.view addSubview:mapView];
 	NSLog(@"DropOnMapViewController: Mapview inited and added to view");
-    
+
 	DDAnnotation *annotation = [[[DDAnnotation alloc] initWithCoordinate:[AppModel sharedAppModel].playerLocation.coordinate addressDictionary:nil] autorelease];
 	annotation.title = @"Drag to Move Note";
 	annotation.subtitle = [NSString	stringWithFormat:@"%f %f", annotation.coordinate.latitude, annotation.coordinate.longitude];
@@ -76,6 +76,9 @@ static float INITIAL_SPAN = 0.001;
 	
 	dropButton.target = self; 
 	dropButton.action = @selector(dropButtonAction:);
+    
+    pickupButton.target = self;
+    pickupButton.action = @selector(pickupButtonAction:);
 }
 -(void)viewDidAppear:(BOOL)animated{
     if (![AppModel sharedAppModel].loggedIn || [AppModel sharedAppModel].currentGame.gameId==0) {
@@ -162,9 +165,18 @@ static float INITIAL_SPAN = 0.001;
 */
 -(void)dropButtonAction:(id)sender{
     [[AppServices sharedAppServices]updateServerDropNoteHere:self.noteId atCoordinate:self.myAnnotation.coordinate];
-    
+    [self.delegate setNoteDropped:YES];
     [self.navigationController popViewControllerAnimated:YES];
     
+}
+
+-(void)pickupButtonAction:(id)sender{
+    [self.delegate setNoteDropped:NO];
+    //do server call to update dropped val of note
+    //do server call to deleteLocation of Note
+    [[AppServices sharedAppServices]deleteNoteLocationWithNoteId:self.noteId];
+    [self.navigationController popViewControllerAnimated:YES];
+ 
 }
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

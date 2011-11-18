@@ -108,6 +108,7 @@
 - (void)getNoteById: (int)noteId;
 - (void)deleteNoteContentWithContentId:(int) contentId;
 - (void)deleteNoteWithNoteId: (int) noteId;
+- (void)deleteNoteLocationWithNoteId: (int) noteId;
 - (void)updateNoteContent:(int)contentId text:(NSString *)text;
 - (int) addCommentToNoteWithId: (int)noteId andRating: (int)rating;
 - (void)fetchNoteCommentsWithId: (int)noteId;

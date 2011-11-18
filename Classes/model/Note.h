@@ -20,6 +20,8 @@
     int numRatings;
     float averageRating;
     BOOL shared;
+    BOOL dropped;
+
     int parentNoteId;
     int parentRating;
     nearbyObjectKind	kind;
@@ -38,6 +40,8 @@
 @property(readwrite, assign) int numRatings;
 @property(readwrite, assign) float averageRating;
 @property(readwrite, assign) BOOL shared;
+@property(readwrite, assign) BOOL dropped;
+
 @property(readwrite, assign) int parentNoteId;
 @property(readwrite, assign) int parentRating;
 @property(readwrite, assign) nearbyObjectKind kind;

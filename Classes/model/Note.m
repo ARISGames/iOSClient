@@ -14,7 +14,7 @@
 #import "NearbyObjectsViewController.h"
 
 @implementation Note
-@synthesize comments,contents, creatorId,noteId,parentNoteId,parentRating,shared,text,title,kind,averageRating,numRatings,username,delegate;
+@synthesize comments,contents, creatorId,noteId,parentNoteId,parentRating,shared,text,title,kind,averageRating,numRatings,username,delegate,dropped;
 
 -(nearbyObjectKind) kind { return NearbyObjectNote; }
 

@@ -524,7 +524,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[jsonConnection release];
 
 }
-
+-(void)deleteNoteLocationWithNoteId:(int)noteId{
+    NSLog(@"AppModel: Deleting Location of Note: %d",noteId);
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects:
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+                          @"PlayerNote",
+						  [NSString stringWithFormat:@"%d",noteId],
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"locations" 
+                                                             andMethodName:@"deleteLocationsForObject" 
+                                                              andArguments:arguments];
+    [jsonConnection performAsynchronousRequestWithParser:nil]; 
+	[jsonConnection release];
+	
+}
 -(void)deleteNoteWithNoteId:(int)noteId{
     NSLog(@"AppModel: Deleting Note: %d",noteId);
 	
