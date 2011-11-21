@@ -17,7 +17,8 @@
 @interface GPSViewController : UIViewController <MKMapViewDelegate, UIActionSheetDelegate> {
 	IBOutlet MKMapView *mapView;
 	NSArray *locations;
-	BOOL tracking;
+    NSMutableArray *route;
+	BOOL tracking,mapTrace;
 	BOOL appSetNextRegionChange;
 	IBOutlet UIBarButtonItem *mapTypeButton;
 	IBOutlet UIBarButtonItem *playerTrackingButton;
@@ -38,8 +39,12 @@
 
 @property (nonatomic, retain) MKMapView *mapView;
 @property (nonatomic, retain) NSArray *locations;
+@property (nonatomic, retain) NSMutableArray *route;
+
 
 @property BOOL tracking;
+@property BOOL mapTrace;
+
 
 
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *mapTypeButton;

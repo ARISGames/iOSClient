@@ -22,6 +22,7 @@
 #import "DropOnMapViewController.h"
 #import "NoteCommentViewController.h"
 #import "DataCollectionViewController.h"
+#import "AppModel.h"
 
 @implementation NoteViewController
 @synthesize textBox,textField,note, delegate, hideKeyboardButton,libraryButton,cameraButton,audioButton, typeControl,viewControllers, scrollView,pageControl,publicButton,textButton,mapButton, contentTable,soundPlayer,noteValid,noteChanged, noteDropped;
@@ -127,7 +128,10 @@
         [self.soundPlayer pause];
 }
 - (IBAction)backButtonTouchAction: (id) sender{
+    if([self.delegate isKindOfClass:[GPSViewController class]])
+        [[AppServices sharedAppServices]updateServerDropNoteHere:self.note.noteId atCoordinate:[AppModel sharedAppModel].playerLocation.coordinate];
     if(!self.noteValid) [[AppServices sharedAppServices]deleteNoteWithNoteId:self.note.noteId];
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)viewDidUnload

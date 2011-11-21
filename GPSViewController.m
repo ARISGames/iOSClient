@@ -23,9 +23,9 @@ static float INITIAL_SPAN = 0.001;
 
 @implementation GPSViewController
 
-@synthesize locations;
+@synthesize locations, route;
 @synthesize mapView;
-@synthesize tracking;
+@synthesize tracking,mapTrace;
 @synthesize mapTypeButton;
 @synthesize playerTrackingButton;
 @synthesize toolBar,addMediaButton;
@@ -40,7 +40,7 @@ static float INITIAL_SPAN = 0.001;
 
 		tracking = YES;
 		playerTrackingButton.style = UIBarButtonItemStyleDone;
-
+        route = [[NSMutableArray alloc]initWithCapacity:10];
 		
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
@@ -185,6 +185,12 @@ static float INITIAL_SPAN = 0.001;
 
 		//Zoom and Center
 		if (tracking) [self zoomAndCenterMap];
+       /* if(mapTrace){
+            [self.route addObject:[AppModel sharedAppModel].playerLocation];
+            MKPolyline *line = [[MKPolyline alloc]init];
+            line 
+            
+        }*/
 
 	} else {
 		NSLog(@"GPSViewController: refresh requested but ignored, as mapview is nil");	
@@ -421,7 +427,6 @@ static float INITIAL_SPAN = 0.001;
 	}
 }
 
-
 - (void)mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view {
 	Location *location = ((Annotation*)view.annotation).location;
     if(view.annotation == aMapView.userLocation) return;
@@ -454,8 +459,6 @@ static float INITIAL_SPAN = 0.001;
 	
 	[actionSheet showInView:view];
     
-    
-	
 }
 
 #pragma mark UIActionSheet Delegate
