@@ -122,14 +122,17 @@
         self.audioButton.frame = CGRectMake(self.textButton.frame.size.width-2, self.audioButton.frame.origin.y, self.audioButton.frame.size.width*1.5, self.audioButton.frame.size.height);
         self.cameraButton.frame = CGRectMake(self.textButton.frame.size.width-2, self.cameraButton.frame.origin.y, self.cameraButton.frame.size.width*1.5, self.cameraButton.frame.size.height);
     }
+    if([self.delegate isKindOfClass:[GPSViewController class]]){
+        [[AppServices sharedAppServices]updateServerDropNoteHere:self.note.noteId atCoordinate:[AppModel sharedAppModel].playerLocation.coordinate];
+        self.note.dropped = YES;   
+    }
 }
 -(void)viewWillDisappear:(BOOL)animated{
     self.navigationController.navigationItem.title = @"Note";
         [self.soundPlayer pause];
 }
 - (IBAction)backButtonTouchAction: (id) sender{
-    if([self.delegate isKindOfClass:[GPSViewController class]])
-        [[AppServices sharedAppServices]updateServerDropNoteHere:self.note.noteId atCoordinate:[AppModel sharedAppModel].playerLocation.coordinate];
+   
     if(!self.noteValid) [[AppServices sharedAppServices]deleteNoteWithNoteId:self.note.noteId];
     
     [self.navigationController popViewControllerAnimated:YES];
@@ -212,6 +215,14 @@
 }
 
 -(void)mapButtonTouchAction{
+    if(self.note.dropped){
+        
+        self.mapButton.selected = NO;
+        self.note.dropped = NO;
+        [[AppServices sharedAppServices]deleteNoteLocationWithNoteId:self.note.noteId];
+
+    }
+    else{
     DropOnMapViewController *mapVC = [[DropOnMapViewController alloc] initWithNibName:@"DropOnMapViewController" bundle:nil] ;
     mapVC.noteId = self.note.noteId;
     mapVC.delegate = self;
@@ -219,6 +230,7 @@
 
     [self.navigationController pushViewController:mapVC animated:YES];
     [mapVC release];
+    }
 }
 -(void)publicButtonTouchAction{
     self.noteValid = YES;

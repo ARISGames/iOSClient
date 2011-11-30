@@ -19,7 +19,6 @@
 	BOOL appSetNextRegionChange;
 	IBOutlet UIBarButtonItem *mapTypeButton;
 	IBOutlet UIBarButtonItem *dropButton;
-    IBOutlet UIBarButtonItem *pickupButton;
 
 	IBOutlet UIToolbar *toolBar;
     
@@ -37,7 +36,6 @@
 -(void)dismissTutorial;
 - (IBAction)changeMapType: (id) sender;
 - (IBAction)dropButtonAction: (id) sender;
-- (IBAction)pickupButtonAction: (id) sender;
 
 
 
@@ -51,7 +49,6 @@
 @property(nonatomic,retain)id delegate;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *mapTypeButton;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *dropButton;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *pickupButton;
 
 @property (nonatomic, retain) IBOutlet UIToolbar *toolBar;
 

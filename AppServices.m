@@ -1558,6 +1558,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
     aNote.creatorId = [[noteDictionary valueForKey:@"owner_id"]intValue];
     aNote.shared = [[noteDictionary valueForKey:@"shared"]boolValue];
     aNote.username = [noteDictionary valueForKey:@"username"];
+    aNote.dropped = [[noteDictionary valueForKey:@"dropped"]boolValue];
+    
     NSArray *comments = [noteDictionary valueForKey:@"comments"];
     NSEnumerator *enumerator = [((NSArray *)comments) objectEnumerator];
 	NSDictionary *dict;
