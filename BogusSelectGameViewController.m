@@ -25,8 +25,9 @@
 
 - (void) viewWillAppear:(BOOL)animated {
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewGameSelected" object:nil]];
-
+    
     ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
+    [appDelegate tabBarController].selectedIndex = 0;
     [appDelegate showGameSelectionTabBarAndHideOthers];
 }
 
