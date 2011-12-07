@@ -136,10 +136,13 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
 		NSLog(@"CameraViewController: Found an Image");
 		self.mediaData = UIImageJPEGRepresentation(image, 0.4);
 		self.mediaFilename = @"image.jpg";
+        if(showVid){
+            //if you are actually taking a photo or video then save it
         UIImageWriteToSavedPhotosAlbum(image, 
                                        self, 
                                        @selector(image:didFinishSavingWithError:contextInfo:), 
                                        nil );
+        }
         [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:@"PHOTO"];
         if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]) [self.parentDelegate addedPhoto];
         if([self.delegate isKindOfClass:[NoteViewController class]]) {
