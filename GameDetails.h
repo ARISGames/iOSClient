@@ -28,9 +28,10 @@
     IBOutlet UISegmentedControl *segmentedControl;
     AsyncImageView *mediaImageView; 
     CGFloat newHeight;
+    NSIndexPath *descriptionIndexPath;
     Media *splashMedia;
 }
-
+@property (nonatomic, retain) NSIndexPath *descriptionIndexPath;
 @property (nonatomic, retain) Game *game;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UIWebView *descriptionWebView;

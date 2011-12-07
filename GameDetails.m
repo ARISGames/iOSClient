@@ -38,9 +38,9 @@ NSString *const kGameDetailsHtmlTemplate =
 
 
 
-
 @implementation GameDetails
 
+@synthesize descriptionIndexPath;
 @synthesize descriptionWebView;
 @synthesize game;
 @synthesize tableView;
@@ -59,6 +59,7 @@ NSString *const kGameDetailsHtmlTemplate =
         // Custom initialization
         self.mediaImageView = [[[AsyncImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 200)] autorelease];
         self.splashMedia = [[Media alloc] init];
+        self.descriptionIndexPath = [[NSIndexPath alloc] init];
     }
     return self;
 }
@@ -108,7 +109,9 @@ NSString *const kGameDetailsHtmlTemplate =
 		  descriptionFrame.origin.y, 
 		  descriptionFrame.size.width,
 		  descriptionFrame.size.height);
-    [tableView reloadData];
+    NSArray *reloadArr = [[NSArray alloc] initWithObjects:self.descriptionIndexPath, nil];
+    [tableView reloadRowsAtIndexPaths: reloadArr   
+ withRowAnimation:UITableViewRowAnimationFade];
 	
 	
 }
@@ -237,6 +240,7 @@ NSString *const kGameDetailsHtmlTemplate =
         cell.textLabel.textAlignment = UITextAlignmentCenter;
     }
     else {
+        descriptionIndexPath = [indexPath copy];
         cell.userInteractionEnabled = NO;
         CGRect descriptionFrame = [descriptionWebView frame];
         descriptionWebView.opaque = NO;
