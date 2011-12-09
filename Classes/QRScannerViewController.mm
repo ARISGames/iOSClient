@@ -148,6 +148,7 @@
     
     // EXAMPLE: do something useful with the barcode data
     resultText = symbol.data;
+    NSLog(@"QRSCannerVC: barcode data = %@",resultText);
     [self loadResult:resultText];
 
     // ADD: dismiss the controller (NB dismiss from the *reader*!)
@@ -163,7 +164,7 @@
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-	[[picker parentViewController] dismissModalViewControllerAnimated:NO];
+    [self dismissModalViewControllerAnimated:YES];
 }
 
 
