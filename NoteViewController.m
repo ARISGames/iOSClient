@@ -23,9 +23,10 @@
 #import "NoteCommentViewController.h"
 #import "DataCollectionViewController.h"
 #import "AppModel.h"
+#import "UIImage+Scale.h"
 
 @implementation NoteViewController
-@synthesize textBox,textField,note, delegate, hideKeyboardButton,libraryButton,cameraButton,audioButton, typeControl,viewControllers, scrollView,pageControl,publicButton,textButton,mapButton, contentTable,soundPlayer,noteValid,noteChanged, noteDropped;
+@synthesize textBox,textField,note, delegate, hideKeyboardButton,libraryButton,cameraButton,audioButton, typeControl,viewControllers, scrollView,pageControl,publicButton,textButton,mapButton, contentTable,soundPlayer,noteValid,noteChanged, noteDropped, vidThumbs;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -36,9 +37,11 @@
         self.note = [[Note alloc]init];
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(updateTable) name:@"ImageReady" object:nil];
+        [dispatcher addObserver:self selector:@selector(movieLoadStateChanged:) name:MPMoviePlayerLoadStateDidChangeNotification object:nil];
         self.soundPlayer = [[AVPlayer alloc] init];
         self.hidesBottomBarWhenPushed = YES;
         self.noteValid = NO;
+        self.vidThumbs = [[NSMutableDictionary alloc] initWithCapacity:5];
 
     }
     return self;
@@ -142,6 +145,25 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+- (void)movieLoadStateChanged:(NSNotification*) aNotification{
+	MPMovieLoadState state = [(MPMoviePlayerController *) aNotification.object loadState];
+	MPMoviePlayerController *mMovie = (MPMoviePlayerController *)aNotification.object;
+    NSString *url = [mMovie.contentURL absoluteString];
+    
+
+	if( state & MPMovieLoadStatePlayable ) {
+        
+        //Create a thumbnail for the button
+        if (![self.vidThumbs valueForKey:url]) {
+            UIImage *videoThumb = [mMovie thumbnailImageAtTime:(NSTimeInterval)1.0 timeOption:MPMovieTimeOptionExact];            
+            UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(60, 60)];        
+            [self.vidThumbs setValue:videoThumbSized forKey:url];
+            [self.contentTable reloadRowsAtIndexPaths:[self.vidThumbs valueForKey:@"indexPath"]  withRowAnimation:UITableViewRowAnimationFade];
+        }
+	} 
+
+	
 }
 
 -(void)previewButtonTouchAction{
@@ -319,6 +341,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	//NSLog(@"GamePickerVC: Cell requested for section: %d row: %d",indexPath.section,indexPath.row);
+    NSArray *reloadArr = [[NSArray alloc]init];
     NoteContent *noteC = [[NoteContent alloc] init];
     if([self.note.contents count]>indexPath.row)
     noteC = [self.note.contents objectAtIndex:indexPath.row];
@@ -337,25 +360,25 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
                 cell.detailTextLabel.text = noteC.text;
             }
             else if([cell.textLabel.text isEqualToString:@"VIDEO"]){
-             cell.imageView.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]];   
+                reloadArr =[reloadArr arrayByAddingObject:indexPath];
+                [self.vidThumbs setValue:reloadArr forKey:@"indexPath"];
                 Media *m = [[Media alloc]init];
                 m = [[AppModel sharedAppModel] mediaForMediaId:noteC.mediaId]; 
                 NSURL* contentURL = [NSURL URLWithString:m.url];
-              MPMoviePlayerController  *moviePlayerController = [[[MPMoviePlayerController alloc] initWithContentURL:contentURL] autorelease];
-                moviePlayerController.shouldAutoplay = NO;
-                UIImage *videoThumb = [[moviePlayerController thumbnailImageAtTime:(NSTimeInterval)1 timeOption:MPMovieTimeOptionNearestKeyFrame] retain];
-               //Resize thumb
                 
-                UIGraphicsBeginImageContext(CGSizeMake(60.0f, 60.0f));
-                [videoThumb drawInRect:CGRectMake(0, 0, 60.0f, 60.0f)];
-                UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();    
-                UIGraphicsEndImageContext();
+                if(![self.vidThumbs valueForKey:m.url]){
+                    
+                    MPMoviePlayerController  *moviePlayerController = [[MPMoviePlayerController alloc] initWithContentURL:contentURL];
+                    moviePlayerController.shouldAutoplay = NO;
+                    [moviePlayerController prepareToPlay];
+                    cell.imageView.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]];    
 
 
-                cell.imageView.image = newImage;
-               
-                //[m release];
+                }
+                else{
+                    cell.imageView.image = [self.vidThumbs valueForKey:m.url];
 
+                }
             }
             else if([cell.textLabel.text isEqualToString:@"PHOTO"]){
                 cell.imageView.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]];    
@@ -378,7 +401,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     }
     
     
-    
+    [reloadArr release];
     return cell;
 }
 

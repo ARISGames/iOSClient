@@ -30,6 +30,7 @@
     IBOutlet UIScrollView *scrollView;
     IBOutlet UIPageControl *pageControl;
     NSMutableArray *viewControllers;
+    NSMutableDictionary *vidThumbs;
     int pageNumber;
     int numPages;
     AVPlayer *soundPlayer;
@@ -37,6 +38,7 @@
     BOOL noteValid, noteChanged, noteDropped;
 
 }
+@property(nonatomic,retain)    NSMutableDictionary *vidThumbs;
 @property(nonatomic,retain) IBOutlet UITextView *textBox;
 @property(nonatomic, retain) IBOutlet UIButton *hideKeyboardButton;
 @property(nonatomic,retain) IBOutlet UISegmentedControl *typeControl;
