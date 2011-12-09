@@ -148,7 +148,7 @@
     
     // EXAMPLE: do something useful with the barcode data
     resultText = symbol.data;
-    
+    [self loadResult:resultText];
 
     // ADD: dismiss the controller (NB dismiss from the *reader*!)
     [picker dismissModalViewControllerAnimated: YES];
