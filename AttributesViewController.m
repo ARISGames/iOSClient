@@ -19,7 +19,8 @@
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
-        self.title = @"Player";		
+        self.title = @"Attributes";	
+        self.navigationItem.title = @"You";
         self.tabBarItem.image = [UIImage imageNamed:@"playericon.png"];
         self.iconCache = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].attributes count]];
 		//register for notifications
@@ -47,17 +48,14 @@
 	self.nameLabel.text = [NSString stringWithFormat:@"Name: %@",[AppModel sharedAppModel].userName];
     self.groupLabel.text = @"Group: N/A";
 	silenceNextServerUpdateCount = 0;
-    pcImage.frame = CGRectMake(5, 5, 150, 150);
     if ([AppModel sharedAppModel].currentGame.pcMediaId != 0) {
 		//Load the image from the media Table
 		Media *pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId];
 		[pcImage loadImageFromMedia: pcMedia];
         
 	}
-	else [pcImage updateViewWithNewImage:[UIImage imageNamed:@"profile.png"]];	
-    
-    pcImage.contentMode = UIViewContentModeScaleAspectFill;
-    NSLog(@"PCImage frame: x:%f y:%f w:%f h:%f",pcImage.frame.origin.x,pcImage.frame.origin.y,pcImage.frame.size.width,pcImage.frame.size.height);
+	//else [pcImage updateViewWithNewImage:[UIImage imageNamed:@"profile.png"]];	
+
 }
 
 -(void)refresh {
