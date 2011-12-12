@@ -165,7 +165,7 @@ NSString *const kDialogHtmlTemplate =
 	CGRect newTextFrame;
 	if (inFullScreenTextMode) {
 		//Switch to small mode
-		newTextFrame = CGRectMake(0, 228, 320, 128);
+		newTextFrame = CGRectMake(0, 288, 320, 128);
 	}
 	else {
 		//switch to full screen mode
