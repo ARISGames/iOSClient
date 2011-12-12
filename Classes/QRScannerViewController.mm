@@ -133,8 +133,8 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary  *)info{
 
-	[[picker parentViewController] dismissModalViewControllerAnimated:NO];
-	
+	//[[picker parentViewController] dismissModalViewControllerAnimated:NO];
+	[self dismissModalViewControllerAnimated:NO];
     UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
     if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];                 
     
@@ -152,7 +152,7 @@
     [self loadResult:resultText];
 
     // ADD: dismiss the controller (NB dismiss from the *reader*!)
-    [picker dismissModalViewControllerAnimated: YES];
+   // [picker dismissModalViewControllerAnimated: YES];
     
     
     if (picker == self.imageMatchingImagePickerController) {
