@@ -74,11 +74,11 @@
     self.textField.text = self.note.title;
         self.navigationItem.title = self.textField.text;
     }
-    if(self.note.shared == YES) self.publicButton.highlighted = YES;
-    else self.publicButton.highlighted = NO;
+    if(self.note.shared == YES) self.publicButton.selected = YES;
+    else self.publicButton.selected = NO;
     
-    if(self.note.dropped)self.mapButton.highlighted = YES;   
-    else self.mapButton.highlighted = NO;
+    if(self.note.dropped)self.mapButton.selected = YES;   
+    else self.mapButton.selected = NO;
     
     if(self.noteChanged){
     self.noteChanged = NO;
