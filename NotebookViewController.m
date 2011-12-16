@@ -363,6 +363,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
         [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
 
     }
+    [noteTable reloadData];
 }
 
 
