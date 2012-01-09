@@ -40,6 +40,7 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {	
 	[super viewDidLoad];
+    self.pcImage.layer.cornerRadius = 10.0;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -124,11 +125,15 @@
 #pragma mark PickerViewDelegate selectors
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return 2;
 }
 
 // returns the # of rows in each component..
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if(section == 0){
+        return 1;
+    }
+    if(section == 1)
 	return [attributes count];
 }
 
@@ -138,11 +143,13 @@
 	static NSString *CellIdentifier = @"Cell";
 	
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];	
-	if(cell == nil) cell = [self getCellContentView:CellIdentifier];
-	
+		
+    if(indexPath.section == 1){
+        if(cell == nil) cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+
 	Item *item = [attributes objectAtIndex: [indexPath row]];
 	
-	UILabel *lblTemp1 = (UILabel *)[cell viewWithTag:1];
+	/*UILabel *lblTemp1 = (UILabel *)[cell viewWithTag:1];
 	lblTemp1.text = item.name;	
     lblTemp1.font = [UIFont boldSystemFontOfSize:24.0];
     
@@ -181,12 +188,43 @@
                                                            green:200.0/255.0  
                                                             blue:200.0/255.0  
                                                            alpha:1.0];  
-    } 
-	cell.userInteractionEnabled = NO;
+    } */
+        AsyncImageView *iconView = (AsyncImageView *)[cell viewWithTag:3];
+        
+        
+        if (item.iconMediaId != 0) {
+            Media *iconMedia;
+            if([self.iconCache count] > indexPath.row){
+                iconMedia = [self.iconCache objectAtIndex:indexPath.row];
+            }
+            else{
+                iconMedia = [[AppModel sharedAppModel] mediaForMediaId: item.iconMediaId];
+                [self.iconCache  addObject:iconMedia];
+            }
+            [iconView loadImageFromMedia:iconMedia];
+        }
+        else {
+            [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultImageIcon.png"]];
+        }
+
+        cell.textLabel.text = item.name;
+        cell.imageView.image = iconView.image;
+        cell.userInteractionEnabled = NO;
+    }
+    else{
+        if(cell == nil) cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+
+        cell.userInteractionEnabled = YES;
+        cell.textLabel.text = @"No Group";
+        cell.detailTextLabel.text = @"Tap to Find One";
+    }
 	return cell;
 }
 
-
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    if(section==0)return  @"Group";
+        else return  @"Stats";
+}
 
 // Customize the height of each row
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

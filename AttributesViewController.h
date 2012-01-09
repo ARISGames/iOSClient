@@ -12,7 +12,7 @@
 #import "Item.h"
 #import "ItemDetailsViewController.h"
 
-@interface AttributesViewController : UIViewController {
+@interface AttributesViewController : UIViewController<UITableViewDataSource,UITableViewDataSource> {
     int silenceNextServerUpdateCount;
 	UITableView *attributesTable;
 	NSArray *attributes;
