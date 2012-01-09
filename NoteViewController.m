@@ -26,7 +26,7 @@
 #import "UIImage+Scale.h"
 
 @implementation NoteViewController
-@synthesize textBox,textField,note, delegate, hideKeyboardButton,libraryButton,cameraButton,audioButton, typeControl,viewControllers, scrollView,pageControl,publicButton,textButton,mapButton, contentTable,soundPlayer,noteValid,noteChanged, noteDropped, vidThumbs;
+@synthesize textBox,textField,note, delegate, hideKeyboardButton,libraryButton,cameraButton,audioButton, typeControl,viewControllers, scrollView,pageControl,publicButton,textButton,mapButton, contentTable,soundPlayer,noteValid,noteChanged, noteDropped, vidThumbs,startWithView;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -42,7 +42,7 @@
         self.hidesBottomBarWhenPushed = YES;
         self.noteValid = NO;
         self.vidThumbs = [[NSMutableDictionary alloc] initWithCapacity:5];
-
+        startWithView = 0;
     }
     return self;
 }
@@ -69,7 +69,9 @@
     [super dealloc];
     
 }
+
 -(void)viewWillAppear:(BOOL)animated{
+    if(startWithView == 0){
     if(self.note.noteId != 0){
     self.textField.text = self.note.title;
         self.navigationItem.title = self.textField.text;
@@ -85,7 +87,19 @@
     [self refresh];
     [contentTable reloadData];
     }
+
    }
+    else if(startWithView == 1){
+        [self cameraButtonTouchAction];
+    }
+    else if(startWithView == 2){
+        [self textButtonTouchAction];
+    }
+    else if(startWithView == 3){
+        [self audioButtonTouchAction];
+    }
+    startWithView = 0;
+}
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
@@ -132,7 +146,8 @@
 -(void)viewWillDisappear:(BOOL)animated{
     self.navigationController.navigationItem.title = @"Note";
         [self.soundPlayer pause];
-    
+    startWithView = 0;
+
     if([self.delegate isKindOfClass:[GPSViewController class]]){
         [[AppServices sharedAppServices]updateServerDropNoteHere:self.note.noteId atCoordinate:[AppModel sharedAppModel].playerLocation.coordinate];
     }
@@ -218,7 +233,7 @@
     audioVC.parentDelegate = self.delegate;
     audioVC.noteId = self.note.noteId;
    
-    [self.navigationController pushViewController:audioVC animated:YES];
+    [self.navigationController pushViewController:audioVC animated:NO];
     [audioVC release];
     } 
 }
@@ -229,14 +244,14 @@
     cameraVC.parentDelegate = self.delegate;
     cameraVC.noteId = self.note.noteId;
    
-    [self.navigationController pushViewController:cameraVC animated:YES];
+    [self.navigationController pushViewController:cameraVC animated:NO];
     [cameraVC release];
 }
 -(void)textButtonTouchAction{
     TextViewController *textVC = [[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil];
     textVC.noteId = self.note.noteId;
     textVC.delegate = self;
-    [self.navigationController pushViewController:textVC animated:YES];
+    [self.navigationController pushViewController:textVC animated:NO];
     [textVC release];
 }
 
@@ -254,7 +269,7 @@
     mapVC.delegate = self;
     self.noteValid = YES;
 
-    [self.navigationController pushViewController:mapVC animated:YES];
+    [self.navigationController pushViewController:mapVC animated:NO];
     [mapVC release];
     }
 }

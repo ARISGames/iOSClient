@@ -136,23 +136,11 @@
         // Release the temporary UIViewController.
         [temporaryController release];
     }
-    
-    cell.starView.backgroundColor = [UIColor clearColor];
-	
-    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-halfselected.png"]
-                       forState:kSCRatingViewHalfSelected];
-    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
-                       forState:kSCRatingViewHighlighted];
-    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
-                       forState:kSCRatingViewHot];
-    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
-                       forState:kSCRatingViewNonSelected];
-    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]
-                       forState:kSCRatingViewSelected];
-    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
-                       forState:kSCRatingViewUserSelected];
+
 
     if(indexPath.row == 0){
+        cell.likesLabel.text = [NSString stringWithFormat:@"+%d",0];
+
         cell.titleLabel.text = self.textBox.text;
         cell.userLabel.text = [AppModel sharedAppModel].userName;
         self.myIndexPath = indexPath;
@@ -168,6 +156,8 @@
 
     else{
     Note *currNote = [self.commentsList objectAtIndex:(indexPath.row -1)];
+        cell.likesLabel.text = [NSString stringWithFormat:@"+%d",currNote.numRatings];
+
     if([currNote.contents count] == 0 && (currNote.creatorId != [AppModel sharedAppModel].playerId))cell.userInteractionEnabled = NO;
     cell.titleLabel.text = currNote.title;
         cell.userLabel.text = currNote.username;

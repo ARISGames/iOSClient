@@ -36,6 +36,7 @@
     AVPlayer *soundPlayer;
     id timeObserver;
     BOOL noteValid, noteChanged, noteDropped;
+    int startWithView;
 
 }
 @property(nonatomic,retain)    NSMutableDictionary *vidThumbs;
@@ -59,6 +60,7 @@
 @property(readwrite, assign) BOOL noteValid;
 @property(readwrite, assign) BOOL noteChanged;
 @property(readwrite, assign) BOOL noteDropped;
+@property(readwrite, assign) int startWithView;
 
 
 

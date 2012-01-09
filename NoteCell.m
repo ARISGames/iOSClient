@@ -10,7 +10,7 @@
 
 
 @implementation NoteCell
-@synthesize titleLabel,mediaIcon1,mediaIcon2,mediaIcon3,mediaIcon4,starView;
+@synthesize titleLabel,mediaIcon1,mediaIcon2,mediaIcon3,mediaIcon4,starView,commentsLbl,likesLbl;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];

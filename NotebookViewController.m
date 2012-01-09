@@ -13,9 +13,11 @@
 #import "NoteCell.h"
 #import "Note.h"
 #import "ARISAppDelegate.h"
-
+BOOL menuDown;
+int filSelected;
+int sortSelected;
 @implementation NotebookViewController
-@synthesize noteList,noteTable, noteControl,gameNoteList,textIconUsed,videoIconUsed,photoIconUsed,audioIconUsed;
+@synthesize noteList,noteTable, noteControl,gameNoteList,textIconUsed,videoIconUsed,photoIconUsed,audioIconUsed,menuView,sharedButton,mineButton,popularButton,tagButton,mineLbl,sharedLbl,popularLbl,tagLbl,dateLbl,dateButton,abcLbl,abcButton,toolBar,textButton,photoButton,audioButton;
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
@@ -37,20 +39,155 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-    UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addNote)];
+    UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(displayMenu)];
     self.navigationItem.rightBarButtonItem = barButton;
+    [self.menuView setFrame:CGRectMake(0, -80, 320, 80)];
+    [self.toolBar setFrame:CGRectMake(0, 0, 320, 44)];
 
+    [self.noteTable setFrame:CGRectMake(0, 44, 320, 324)];
+    self.mineButton.selected = YES;
+    self.dateButton.selected = YES;
   	[noteTable reloadData];
-    
+    filSelected = 0;
+    sortSelected = 0;
     
 	NSLog(@"NotebookViewController: View Loaded");
 }
+-(void)displayMenu{
+    menuDown = !menuDown;
+    if(menuDown){
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+    [UIView setAnimationDuration:.5];
+    [self.menuView setFrame:CGRectMake(0, 0, 320, 80)];
+        [self.toolBar setFrame:CGRectMake(0, 80, 320, 44)];
+        [self.noteTable setFrame:CGRectMake(0, 124, 320, 244)];
 
+    [UIView commitAnimations];
+    }
+    else{
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView setAnimationDuration:.5];
+        [self.menuView setFrame:CGRectMake(0, -80, 320, 80)];
+        [self.toolBar setFrame:CGRectMake(0, 0, 320, 44)];
+        [self.noteTable setFrame:CGRectMake(0, 44, 320, 324)];
+
+        [UIView commitAnimations];        
+    }
+}
+-(void)filterButtonTouchAction:(id)sender{
+    
+    switch ([sender tag]) {
+        case 0:
+            mineButton.selected = YES;
+            mineLbl.textColor = [UIColor lightGrayColor];
+            sharedButton.selected = NO;
+            sharedLbl.textColor = [UIColor blackColor];
+            break;
+        case 1:
+            sharedButton.selected = YES;
+            sharedLbl.textColor = [UIColor lightGrayColor];
+            mineButton.selected = NO;
+            mineLbl.textColor = [UIColor blackColor];
+            break;        
+            default:
+            break;
+    }
+    [noteTable reloadData];
+}
+
+-(void)sortButtonTouchAction:(id)sender{
+    switch ([sender tag]) {
+        case 0:
+        {
+            dateButton.selected = YES;
+            dateLbl.textColor = [UIColor lightGrayColor];
+            popularButton.selected = NO;
+            abcButton.selected = NO;
+            tagButton.selected = NO;
+            popularLbl.textColor = [UIColor blackColor];
+            abcLbl.textColor = [UIColor blackColor];
+            tagLbl.textColor = [UIColor blackColor];  
+            NSSortDescriptor *sortDescriptor;
+            sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"noteId"
+                                                          ascending:NO] autorelease];
+            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+            
+            self.noteList = [[[self.noteList sortedArrayUsingDescriptors:sortDescriptors] copy]autorelease];
+            self.gameNoteList = [[[self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors] copy]autorelease];
+            break;
+        }
+        case 1:
+        {
+            abcButton.selected = YES;
+            abcLbl.textColor = [UIColor lightGrayColor];
+            dateButton.selected = NO;
+            popularButton.selected = NO;
+            tagButton.selected = NO;
+            dateLbl.textColor = [UIColor blackColor];
+            popularLbl.textColor = [UIColor blackColor];
+            tagLbl.textColor = [UIColor blackColor];
+            NSSortDescriptor *sortDescriptor;
+            sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"title"
+                                                          ascending:YES] autorelease];
+            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+            
+            self.noteList = [[[self.noteList sortedArrayUsingDescriptors:sortDescriptors] copy]autorelease];
+            self.gameNoteList = [[[self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors] copy]autorelease];
+            break;  
+        }
+        case 2:
+        {
+            popularButton.selected = YES;
+            popularLbl.textColor = [UIColor lightGrayColor];
+            dateButton.selected = NO;
+            abcButton.selected = NO;
+            tagButton.selected = NO;
+            dateLbl.textColor = [UIColor blackColor];
+            abcLbl.textColor = [UIColor blackColor];
+            tagLbl.textColor = [UIColor blackColor];
+            NSSortDescriptor *sortDescriptor;
+            sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"numRatings"
+                                                          ascending:NO] autorelease];
+            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+            
+            self.noteList = [[[self.noteList sortedArrayUsingDescriptors:sortDescriptors] copy]autorelease];
+            self.gameNoteList = [[[self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors] copy]autorelease];
+            break; 
+        }
+        case 3:
+        {
+            tagButton.selected = YES;
+            tagLbl.textColor = [UIColor lightGrayColor];
+            dateButton.selected = NO;
+            popularButton.selected = NO;
+            abcButton.selected = NO;
+            dateLbl.textColor = [UIColor blackColor];
+            popularLbl.textColor = [UIColor blackColor];
+            abcLbl.textColor = [UIColor blackColor];
+            /*
+
+            NSSortDescriptor *sortDescriptor;
+            sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"numRatings"
+                                                          ascending:NO] autorelease];
+            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+            
+            self.noteList = [[[self.noteList sortedArrayUsingDescriptors:sortDescriptors] copy]autorelease];
+            self.gameNoteList = [[[self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors] copy]autorelease];
+             */
+            break; 
+        }
+        default:
+            break;
+    }
+    [noteTable reloadData];
+
+}
 - (void)viewDidAppear:(BOOL)animated {
 	NSLog(@"NotebookViewController: View Appeared");	
 	
     
-	[self refresh];
     
 	NSLog(@"NotebookViewController: view did appear");
     
@@ -87,6 +224,8 @@
 
 -(void) viewWillAppear:(BOOL)animated{
 
+    [self refresh];
+
 }
 
 -(void)removeLoadingIndicator{
@@ -94,10 +233,11 @@
 
     [noteTable reloadData];
 }
--(void)addNote{
+-(void)barButtonTouchAction:(id)sender{
     NoteViewController *noteVC = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
+    noteVC.startWithView = [sender tag] + 1;
     noteVC.delegate = self;
-    [self.navigationController pushViewController:noteVC animated:YES];
+    [self.navigationController pushViewController:noteVC animated:NO];
     [noteVC release];
     }
 - (void)refreshViewFromModel {
@@ -112,8 +252,14 @@
     }
     self.gameNoteList = nList;
     [nList release];
-
-    [noteTable reloadData];
+    
+    UIButton *b = [[[UIButton alloc]init]autorelease];
+    b.tag = filSelected;
+    [self sortButtonTouchAction:b];
+    UIButton *c = [[[UIButton alloc]init]autorelease];
+    c.tag = sortSelected;
+    [self filterButtonTouchAction:c];
+    //[noteTable reloadData];
     //unregister for notifications
                    //  [[NSNotificationCenter defaultCenter] removeObserver:self];
 
@@ -127,7 +273,7 @@
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-     if(self.noteControl.selectedSegmentIndex == 0){ 
+     if(self.mineButton.selected == YES){ 
         if([self.noteList count] == 0) return 1;
         return [self.noteList count];}
     else {
@@ -144,7 +290,7 @@
     self.audioIconUsed = NO;
     self.textIconUsed = NO;
     NSMutableArray *currentNoteList;
-    if(self.noteControl.selectedSegmentIndex == 0) currentNoteList = self.noteList;
+    if(self.mineButton.selected) currentNoteList = self.noteList;
     else currentNoteList = self.gameNoteList;
 	static NSString *CellIdentifier = @"Cell";
     if([currentNoteList count] == 0 && indexPath.row == 0){
@@ -172,27 +318,12 @@
                 // Release the temporary UIViewController.
                 [temporaryController release];
             }
-    
-    cell.starView.backgroundColor = [UIColor clearColor];
-	
-    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-halfselected.png"]
-                       forState:kSCRatingViewHalfSelected];
-    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
-                       forState:kSCRatingViewHighlighted];
-    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
-                       forState:kSCRatingViewHot];
-    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
-                       forState:kSCRatingViewNonSelected];
-    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]
-                       forState:kSCRatingViewSelected];
-    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
-                       forState:kSCRatingViewUserSelected];
-    
+        
             Note *currNote = (Note *)[currentNoteList objectAtIndex:indexPath.row];
     
-    
+    cell.commentsLbl.text = [NSString stringWithFormat:@"%d comments",[currNote.comments count]];
+    cell.likesLbl.text = [NSString stringWithFormat:@"+%d",currNote.numRatings];
         cell.titleLabel.text = currNote.title;
-    cell.starView.rating = currNote.averageRating;
         if([currNote.contents count] == 0 && (currNote.creatorId != [AppModel sharedAppModel].playerId))cell.userInteractionEnabled = NO;
             for(int x = 0; x < [currNote.contents count];x++){
                 if([[[currNote.contents objectAtIndex:x] type] isEqualToString:@"TEXT"]&& !self.textIconUsed){
@@ -343,6 +474,7 @@
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     [[AppServices sharedAppServices]deleteNoteWithNoteId:[(Note *)[self.noteList objectAtIndex:indexPath.row] noteId]];
+    self.noteList = [self.noteList mutableCopy];
     [self.noteList removeObjectAtIndex:indexPath.row];
 }
 

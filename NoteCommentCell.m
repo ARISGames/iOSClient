@@ -10,7 +10,7 @@
 
 
 @implementation NoteCommentCell
-@synthesize titleLabel,mediaIcon2,mediaIcon3,mediaIcon4,userLabel,starView;
+@synthesize titleLabel,mediaIcon2,mediaIcon3,mediaIcon4,userLabel,starView,likesLabel;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
