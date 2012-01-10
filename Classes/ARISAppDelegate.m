@@ -747,7 +747,7 @@
 	//Display
     if([nearbyObjectViewController isKindOfClass:[webpageViewController class]])
 	[self.tabBarController presentModalViewController:self.nearbyObjectNavigationController animated:NO];
-    else [self.tabBarController presentModalViewController:self.nearbyObjectNavigationController animated:YES];
+    else [self.tabBarController presentModalViewController:self.nearbyObjectNavigationController animated:NO];
     
     [nearbyObjectNavigationController release];
 }

@@ -26,7 +26,7 @@
 #import "UIImage+Scale.h"
 
 @implementation NoteViewController
-@synthesize textBox,textField,note, delegate, hideKeyboardButton,libraryButton,cameraButton,audioButton, typeControl,viewControllers, scrollView,pageControl,publicButton,textButton,mapButton, contentTable,soundPlayer,noteValid,noteChanged, noteDropped, vidThumbs,startWithView;
+@synthesize textBox,textField,note, delegate, hideKeyboardButton,libraryButton,cameraButton,audioButton, typeControl,viewControllers, scrollView,pageControl,publicButton,textButton,mapButton, contentTable,soundPlayer,noteValid,noteChanged, noteDropped, vidThumbs,startWithView,actionSheet,sharingLabel;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -43,6 +43,7 @@
         self.noteValid = NO;
         self.vidThumbs = [[NSMutableDictionary alloc] initWithCapacity:5];
         startWithView = 0;
+        actionSheet = [[UIActionSheet alloc]initWithTitle:@"Sharing" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"List Only",@"Map Only",@"Both",@"Don't Share", nil];
     }
     return self;
 }
@@ -66,6 +67,7 @@
     [mapButton release];
     [contentTable release];
     [soundPlayer release];
+    [actionSheet release];
     [super dealloc];
     
 }
@@ -99,6 +101,22 @@
         [self audioButtonTouchAction];
     }
     startWithView = 0;
+    if(!self.note.showOnMap && !self.note.showOnList){
+        self.sharingLabel.text = @"None";
+    }
+    else if(self.note.showOnMap && !self.note.showOnList){
+        self.sharingLabel.text = @"Map Only";
+
+    }
+    else if(!self.note.showOnMap && self.note.showOnList){
+        self.sharingLabel.text = @"List Only";
+
+    }
+    else if(self.note.showOnMap && self.note.showOnList){
+        
+    }        self.sharingLabel.text = @"List & Map";
+
+
 }
 - (void)didReceiveMemoryWarning
 {
@@ -142,6 +160,7 @@
     if([self.delegate isKindOfClass:[GPSViewController class]]){
         self.note.dropped = YES;   
     }
+    
 }
 -(void)viewWillDisappear:(BOOL)animated{
     self.navigationController.navigationItem.title = @"Note";
@@ -275,7 +294,10 @@
 }
 -(void)publicButtonTouchAction{
     self.noteValid = YES;
-    if(self.publicButton.selected){
+    
+    
+    [actionSheet showInView:self.view];
+   /* if(self.publicButton.selected){
     self.publicButton.selected = NO;
         self.note.shared = NO;
     }
@@ -283,9 +305,38 @@
         self.publicButton.selected = YES;
         self.note.shared = YES;}
     
-    [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text andShared:self.note.shared];
+    [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text andShared:self.note.shared];*/
 }
+-(void)willPresentActionSheet:(UIActionSheet *)actionSheet{
+   }
+-(void)actionSheet:(UIActionSheet *)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex{
+    switch (buttonIndex) {
+        case 0:
+            self.note.showOnList = YES;
+            self.note.showOnMap = NO;
+            self.sharingLabel.text = @"List Only";
+            break;
+        case 1:
+            self.note.showOnList = NO;
+            self.note.showOnMap = YES;
+            self.sharingLabel.text = @"Map Only";
+            break;
+        case 2:
+            self.note.showOnList = YES;
+            self.note.showOnMap = YES;
+            self.sharingLabel.text = @"List & Map";
 
+            break;
+        case 3:
+            self.note.showOnList = NO;
+            self.note.showOnMap = NO;
+            self.sharingLabel.text = @"None";
+            break;
+        default:
+            break;
+    }
+    
+    }
 - (void)viewDidAppear:(BOOL)animated {
 	NSLog(@"NoteViewController: View Appeared");	
     

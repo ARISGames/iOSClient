@@ -13,7 +13,7 @@
 #import <AVFoundation/AVFoundation.h>
 
 
-@interface NoteViewController : UIViewController <AVAudioSessionDelegate,UITextFieldDelegate, UITableViewDataSource,UITableViewDelegate, AVAudioPlayerDelegate>{
+@interface NoteViewController : UIViewController <AVAudioSessionDelegate,UITextFieldDelegate, UITableViewDataSource,UITableViewDelegate, AVAudioPlayerDelegate,UIActionSheetDelegate>{
     IBOutlet UITextView *textBox;
     IBOutlet UITextField *textField;
     IBOutlet UIButton *cameraButton;
@@ -37,7 +37,8 @@
     id timeObserver;
     BOOL noteValid, noteChanged, noteDropped;
     int startWithView;
-
+    UIActionSheet *actionSheet;
+    IBOutlet UILabel *sharingLabel;
 }
 @property(nonatomic,retain)    NSMutableDictionary *vidThumbs;
 @property(nonatomic,retain) IBOutlet UITextView *textBox;
@@ -45,6 +46,9 @@
 @property(nonatomic,retain) IBOutlet UISegmentedControl *typeControl;
 @property(nonatomic,retain) Note *note;
 @property(nonatomic,retain) id delegate;
+@property(nonatomic,retain)UIActionSheet *actionSheet;
+@property(nonatomic,retain)IBOutlet UILabel *sharingLabel;
+
 @property (nonatomic, retain) IBOutlet UITableView *contentTable;
 @property(nonatomic,retain)IBOutlet UIButton *cameraButton;
 @property(nonatomic,retain)IBOutlet UIButton *audioButton;

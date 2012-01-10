@@ -78,7 +78,7 @@
 @property (nonatomic, retain) IBOutlet LoginViewController *loginViewController;
 @property (nonatomic, retain) IBOutlet UINavigationController *loginViewNavigationController;
 @property (nonatomic, retain) IBOutlet UINavigationController *nearbyObjectsNavigationController;
-@property (nonatomic) IBOutlet UINavigationController *nearbyObjectNavigationController;
+@property (nonatomic, retain) IBOutlet UINavigationController *nearbyObjectNavigationController;
 @property (nonatomic, retain) WaitingIndicatorViewController *waitingIndicator;
 @property (nonatomic, retain) WaitingIndicatorView *waitingIndicatorView;
 
