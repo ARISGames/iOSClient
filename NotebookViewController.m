@@ -17,7 +17,7 @@ BOOL menuDown;
 int filSelected;
 int sortSelected;
 @implementation NotebookViewController
-@synthesize noteList,noteTable, noteControl,gameNoteList,textIconUsed,videoIconUsed,photoIconUsed,audioIconUsed,menuView,sharedButton,mineButton,popularButton,tagButton,mineLbl,sharedLbl,popularLbl,tagLbl,dateLbl,dateButton,abcLbl,abcButton,toolBar,textButton,photoButton,audioButton;
+@synthesize noteList,noteTable, noteControl,gameNoteList,textIconUsed,videoIconUsed,photoIconUsed,audioIconUsed,menuView,sharedButton,mineButton,popularButton,tagButton,mineLbl,sharedLbl,popularLbl,tagLbl,dateLbl,dateButton,abcLbl,abcButton,toolBar,textButton,photoButton,audioButton,isGameList;
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
@@ -290,8 +290,13 @@ int sortSelected;
     self.audioIconUsed = NO;
     self.textIconUsed = NO;
     NSMutableArray *currentNoteList;
-    if(self.mineButton.selected) currentNoteList = self.noteList;
-    else currentNoteList = self.gameNoteList;
+    if(self.mineButton.selected){ currentNoteList = self.noteList;
+        isGameList = NO;
+    }
+    else {
+      currentNoteList = self.gameNoteList;  
+        isGameList = YES;
+    }
 	static NSString *CellIdentifier = @"Cell";
     if([currentNoteList count] == 0 && indexPath.row == 0){
         UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
@@ -320,7 +325,9 @@ int sortSelected;
             }
         
             Note *currNote = (Note *)[currentNoteList objectAtIndex:indexPath.row];
-    
+    cell.note = currNote;
+    cell.delegate = self;
+    cell.index = indexPath.row;
     cell.commentsLbl.text = [NSString stringWithFormat:@"%d comments",[currNote.comments count]];
     cell.likesLbl.text = [NSString stringWithFormat:@"+%d",currNote.numRatings];
         cell.titleLabel.text = currNote.title;

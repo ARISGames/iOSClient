@@ -23,7 +23,7 @@
     IBOutlet UILabel *mineLbl,*sharedLbl,*popularLbl,*tagLbl;
     IBOutlet UIToolbar *toolBar;
     IBOutlet UIBarButtonItem *photoButton,*textButton,*audioButton;
-    
+    BOOL isGameList;
 }
 
 -(void)refresh;
@@ -57,6 +57,8 @@
 @property(readwrite,assign)BOOL photoIconUsed;
 @property(readwrite,assign)BOOL audioIconUsed;
 @property(readwrite,assign)BOOL videoIconUsed;
+@property(readwrite,assign)BOOL isGameList;
+
 
 @property(nonatomic,retain)IBOutlet UISegmentedControl *noteControl;
 -(void)displayMenu;

@@ -23,6 +23,7 @@
 #import "NoteCommentViewController.h"
 #import "DataCollectionViewController.h"
 #import "AppModel.h"
+#import "NoteContentCell.h"
 #import "UIImage+Scale.h"
 
 @implementation NoteViewController
@@ -78,9 +79,6 @@
     self.textField.text = self.note.title;
         self.navigationItem.title = self.textField.text;
     }
-    if(self.note.shared == YES) self.publicButton.selected = YES;
-    else self.publicButton.selected = NO;
-    
     if(self.note.dropped)self.mapButton.selected = YES;   
     else self.mapButton.selected = NO;
     
@@ -113,8 +111,8 @@
 
     }
     else if(self.note.showOnMap && self.note.showOnList){
-        
-    }        self.sharingLabel.text = @"List & Map";
+        self.sharingLabel.text = @"List & Map";
+    }        
 
 
 }
@@ -224,7 +222,7 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [self.textField resignFirstResponder];
     self.noteValid = YES;
-    [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text andShared:self.note.shared];
+    [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
     self.navigationItem.title = self.textField.text;
     self.note.title = self.textField.text;
     [self.delegate refresh];
@@ -294,9 +292,15 @@
 }
 -(void)publicButtonTouchAction{
     self.noteValid = YES;
-    
-    
+    if(actionSheet) [actionSheet release];
+    if(note.dropped){
+    actionSheet = [[UIActionSheet alloc]initWithTitle:@"Sharing" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"List Only",@"Map Only",@"Both",@"Don't Share", nil];
+    }
+    else{
+    actionSheet = [[UIActionSheet alloc]initWithTitle:@"Sharing" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"List Only",@"Don't Share", nil];    
+    }
     [actionSheet showInView:self.view];
+
    /* if(self.publicButton.selected){
     self.publicButton.selected = NO;
         self.note.shared = NO;
@@ -351,7 +355,7 @@
     [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewContentListReady" object:nil];
     [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"NewContentListReady" object:nil];
     self.note =[[AppServices sharedAppServices]fetchNote:self.note.noteId];
-    self.publicButton.selected = self.note.shared;
+    //self.publicButton.selected = self.note.shared;
     ///Server Call here
     //[self showLoadingIndicator];
 }
@@ -423,13 +427,35 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
         cell.userInteractionEnabled = NO;
     }
     else{
+        UITableViewCell *tempCell = (NoteContentCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (![tempCell respondsToSelector:@selector(mediaIcon1)]){
+            //[tempCell release];
+            tempCell = nil;
+        }
+        NoteContentCell *cell = (NoteContentCell *)tempCell;
+        
+        
+        if (cell == nil) {
+            // Create a temporary UIViewController to instantiate the custom cell.
+            UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"NoteContentCell" bundle:nil];
+            // Grab a pointer to the custom cell.
+            cell = (NoteContentCell *)temporaryController.view;
+            // Release the temporary UIViewController.
+            [temporaryController release];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
+
         for(int i = 0; i < [self.note.contents count]; i++){
-            cell.textLabel.text = [(NoteContent *)[self.note.contents objectAtIndex:indexPath.row] type];
-            if([cell.textLabel.text isEqualToString:@"TEXT"]){
+            NoteContent *noteC = (NoteContent *)[self.note.contents objectAtIndex:indexPath.row];
+            cell.index = indexPath.row;
+            cell.delegate = self;
+            cell.contentId = noteC.contentId;
+            cell.titleLbl.text = noteC.title;
+            if([[(NoteContent *)[self.note.contents objectAtIndex:indexPath.row] type] isEqualToString:@"TEXT"]){
              cell.imageView.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
-                cell.detailTextLabel.text = noteC.text;
+                cell.detailLbl.text = noteC.text;
             }
-            else if([cell.textLabel.text isEqualToString:@"VIDEO"]){
+            else if([[(NoteContent *)[self.note.contents objectAtIndex:indexPath.row] type] isEqualToString:@"VIDEO"]){
                 reloadArr =[reloadArr arrayByAddingObject:indexPath];
                 [self.vidThumbs setValue:reloadArr forKey:@"indexPath"];
                 Media *m = [[Media alloc]init];
@@ -450,7 +476,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
 
                 }
             }
-            else if([cell.textLabel.text isEqualToString:@"PHOTO"]){
+            else if([[(NoteContent *)[self.note.contents objectAtIndex:indexPath.row] type] isEqualToString:@"PHOTO"]){
                 cell.imageView.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]];    
                 Media *m = [[Media alloc]init];
                 m = [[AppModel sharedAppModel] mediaForMediaId:noteC.mediaId]; 
@@ -463,9 +489,11 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
                 [aView release];
                 //[m release];
             }
-            else if([cell.textLabel.text isEqualToString:@"AUDIO"]){
+            else if([[(NoteContent *)[self.note.contents objectAtIndex:indexPath.row] type] isEqualToString:@"AUDIO"]){
              cell.imageView.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]];                 
             }
+            cell.titleLbl.text = noteC.title;
+
             return cell;
         }
     }

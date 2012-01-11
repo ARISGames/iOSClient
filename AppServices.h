@@ -110,6 +110,8 @@
 - (void)deleteNoteWithNoteId: (int) noteId;
 - (void)deleteNoteLocationWithNoteId: (int) noteId;
 - (void)updateNoteContent:(int)contentId text:(NSString *)text;
+- (void)updateNoteContent:(int)contentId title:(NSString *)text;
+
 - (int) addCommentToNoteWithId: (int)noteId andRating: (int)rating;
 - (void)fetchNoteCommentsWithId: (int)noteId;
 - (void)updateCommentWithId: (int)noteId parentNoteId: (int)parentNoteId andRating: (int)rating;
@@ -129,7 +131,7 @@
 - (void)updateServerPickupItem: (int)itemId fromLocation: (int)locationId qty: (int)qty;
 - (void)updateServerDropItemHere: (int)itemId qty:(int)qty;
 - (void)updateServerDestroyItem: (int)itemId qty:(int)qty;
-- (void)updateNoteWithNoteId:(int)noteId title:(NSString *) title andShared:(BOOL)shared;
+- (void)updateNoteWithNoteId:(int)noteId title:(NSString *) title publicToMap:(BOOL)publicToMap publicToList:(BOOL)publicToList;
 - (void)startOverGame;
 - (void)silenceNextServerUpdate;
 

@@ -49,6 +49,8 @@
 		11A02DA213CBA419007C084C /* ItemActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A02D9F13CBA419007C084C /* ItemActionViewController.m */; };
 		11A02DA313CBA419007C084C /* ItemActionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11A02DA013CBA419007C084C /* ItemActionViewController.xib */; };
 		11A96CF413FB1DBA0020EFC5 /* Tab.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A96CF313FB1DB90020EFC5 /* Tab.m */; };
+		11B1222D14BDFA37002583AD /* NoteContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 11B1222B14BDFA37002583AD /* NoteContentCell.m */; };
+		11B1222E14BDFA37002583AD /* NoteContentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11B1222C14BDFA37002583AD /* NoteContentCell.xib */; };
 		11BE775213B0F9BE000D037B /* glues_error.c in Sources */ = {isa = PBXBuildFile; fileRef = 11BE770113B0F9BE000D037B /* glues_error.c */; };
 		11BE775313B0F9BE000D037B /* glues_mipmap.c in Sources */ = {isa = PBXBuildFile; fileRef = 11BE770313B0F9BE000D037B /* glues_mipmap.c */; };
 		11BE775413B0F9BE000D037B /* glues_project.c in Sources */ = {isa = PBXBuildFile; fileRef = 11BE770513B0F9BE000D037B /* glues_project.c */; };
@@ -400,6 +402,9 @@
 		11A02DA113CBA419007C084C /* itemDetailsMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = itemDetailsMode.h; sourceTree = "<group>"; };
 		11A96CF213FB1DB80020EFC5 /* Tab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tab.h; sourceTree = "<group>"; };
 		11A96CF313FB1DB90020EFC5 /* Tab.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tab.m; sourceTree = "<group>"; };
+		11B1222A14BDFA37002583AD /* NoteContentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteContentCell.h; sourceTree = "<group>"; };
+		11B1222B14BDFA37002583AD /* NoteContentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteContentCell.m; sourceTree = "<group>"; };
+		11B1222C14BDFA37002583AD /* NoteContentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteContentCell.xib; sourceTree = "<group>"; };
 		11BE76FF13B0F9BE000D037B /* glu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glu.h; sourceTree = "<group>"; };
 		11BE770013B0F9BE000D037B /* glues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glues.h; sourceTree = "<group>"; };
 		11BE770113B0F9BE000D037B /* glues_error.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glues_error.c; sourceTree = "<group>"; };
@@ -932,6 +937,9 @@
 				1193005014101B06005222F2 /* NoteCommentCell.h */,
 				1193005114101B07005222F2 /* NoteCommentCell.m */,
 				1193005214101B07005222F2 /* NoteCommentCell.xib */,
+				11B1222A14BDFA37002583AD /* NoteContentCell.h */,
+				11B1222B14BDFA37002583AD /* NoteContentCell.m */,
+				11B1222C14BDFA37002583AD /* NoteContentCell.xib */,
 				114F7470140D92DE003421C6 /* ImageViewer.h */,
 				114F7471140D92DF003421C6 /* ImageViewer.m */,
 				114F7472140D92DF003421C6 /* ImageViewer.xib */,
@@ -1948,6 +1956,7 @@
 				11FDA7EE1474690500ACE17D /* zbar-samples.png in Resources */,
 				AB96FBD114747572000F730D /* upc.png in Resources */,
 				AB96FBD314747585000F730D /* painting.png in Resources */,
+				11B1222E14BDFA37002583AD /* NoteContentCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2115,6 +2124,7 @@
 				11DD5429141E79160007CD70 /* DDAnnotationView.m in Sources */,
 				11566433144A414D006902C2 /* ChangePasswordViewController.m in Sources */,
 				111CFA9314520EC700D56207 /* ForgotViewController.m in Sources */,
+				11B1222D14BDFA37002583AD /* NoteContentCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2149,7 +2159,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Brian Thiel (P8BZ46FXTP)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2170,7 +2180,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = ARIS;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FEA8A513-18C9-467A-9C5C-9CF19550ABE6";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -2234,7 +2244,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: David Gagnon (56YHU87885)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Brian Thiel (P8BZ46FXTP)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
@@ -2242,7 +2252,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				ONLY_ACTIVE_ARCH = NO;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "95392608-6996-4F76-9735-018B7BB24CFD";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FEA8A513-18C9-467A-9C5C-9CF19550ABE6";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;

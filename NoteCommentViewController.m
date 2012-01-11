@@ -303,7 +303,7 @@
     }
     else{
         if(self.commentNote.noteId == 0)   self.commentNote.noteId = [[AppServices sharedAppServices]addCommentToNoteWithId:self.parentNote.noteId andRating:self.starView.userRating];
-        [[AppServices sharedAppServices]updateNoteWithNoteId:self.commentNote.noteId title:cell.titleLabel.text andShared:NO];
+        [[AppServices sharedAppServices]updateNoteWithNoteId:self.commentNote.noteId title:cell.titleLabel.text publicToMap:self.commentNote.showOnMap publicToList:self.commentNote.showOnList];
         [[AppServices sharedAppServices]updateCommentWithId:self.commentNote.noteId parentNoteId:self.parentNote.noteId andRating:self.starView.userRating];
         // [self addedText];
         self.commentValid = YES;

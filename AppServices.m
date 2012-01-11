@@ -670,13 +670,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
 	[request startAsynchronous];
 }
--(void)updateNoteWithNoteId:(int)noteId title:(NSString *)title andShared:(BOOL)shared{
+-(void)updateNoteWithNoteId:(int)noteId title:(NSString *)title publicToMap:(BOOL)publicToMap publicToList:(BOOL)publicToList{
     NSLog(@"Model: Updating Note");
 	
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",noteId],
 						  title,
-                          [NSString stringWithFormat:@"%d",shared],
+                          [NSString stringWithFormat:@"%d",publicToMap],
+                          [NSString stringWithFormat:@"%d",publicToList],
 						  nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
                                                             andServiceName:@"notes" 
@@ -685,6 +686,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After 
 	[jsonConnection release];
 
+}
+- (void)updateNoteContent:(int)contentId title:(NSString *)text;
+{
+    NSLog(@"Model: Updating Note Content Title");
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",contentId],
+						  text,
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"notes" 
+                                                             andMethodName:@"updateContentTitle" 
+                                                              andArguments:arguments];
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After 
+	[jsonConnection release];
+    
 }
 
 -(void)updateNoteContent:(int)contentId text:(NSString *)text{
@@ -1556,7 +1573,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
     aNote.parentRating = [[noteDictionary valueForKey:@"parent_rating"]intValue];
     aNote.numRatings = [[noteDictionary valueForKey:@"num_ratings"]intValue];
     aNote.creatorId = [[noteDictionary valueForKey:@"owner_id"]intValue];
-    aNote.shared = [[noteDictionary valueForKey:@"shared"]boolValue];
+    aNote.showOnMap = [[noteDictionary valueForKey:@"public_to_map"]boolValue];
+    aNote.showOnList = [[noteDictionary valueForKey:@"public_to_notebook"]boolValue];
+
     aNote.username = [noteDictionary valueForKey:@"username"];
     aNote.dropped = [[noteDictionary valueForKey:@"dropped"]boolValue];
     
