@@ -39,7 +39,7 @@ int sortSelected;
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-    UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(displayMenu)];
+    UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:@selector(displayMenu)];
     self.navigationItem.rightBarButtonItem = barButton;
     [self.menuView setFrame:CGRectMake(0, -80, 320, 80)];
     [self.toolBar setFrame:CGRectMake(0, 0, 320, 44)];
@@ -84,17 +84,19 @@ int sortSelected;
             mineLbl.textColor = [UIColor lightGrayColor];
             sharedButton.selected = NO;
             sharedLbl.textColor = [UIColor blackColor];
+            //[[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:YES];
             break;
         case 1:
             sharedButton.selected = YES;
             sharedLbl.textColor = [UIColor lightGrayColor];
             mineButton.selected = NO;
             mineLbl.textColor = [UIColor blackColor];
+           // [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
             break;        
             default:
             break;
     }
-    [noteTable reloadData];
+    [self refresh];
 }
 
 -(void)sortButtonTouchAction:(id)sender{
@@ -197,7 +199,7 @@ int sortSelected;
 -(void)refresh {
 	NSLog(@"NotebookViewController: Refresh Requested");
             
-        if(self.noteControl.selectedSegmentIndex == 0)
+if(self.sharedButton.selected == NO)
     [[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:YES];
     else
         [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
@@ -242,24 +244,15 @@ int sortSelected;
     }
 - (void)refreshViewFromModel {
 	NSLog(@"NotebookViewController: Refresh View from Model");
-    NSMutableArray *nList = [[NSMutableArray alloc] initWithCapacity:10];
         
 	self.noteList = [AppModel sharedAppModel].playerNoteList;
-    for(int x = 0; x < [[AppModel sharedAppModel].gameNoteList count]; x ++){
-        if([(Note *)[[AppModel sharedAppModel].gameNoteList objectAtIndex:x] shared]){
-            [nList addObject:[[AppModel sharedAppModel].gameNoteList objectAtIndex:x]];
-        }
-    }
-    self.gameNoteList = nList;
-    [nList release];
-    
+    self.gameNoteList = [AppModel sharedAppModel].gameNoteList;        
     UIButton *b = [[[UIButton alloc]init]autorelease];
     b.tag = filSelected;
     [self sortButtonTouchAction:b];
     UIButton *c = [[[UIButton alloc]init]autorelease];
     c.tag = sortSelected;
-    [self filterButtonTouchAction:c];
-    //[noteTable reloadData];
+    [noteTable reloadData];
     //unregister for notifications
                    //  [[NSNotificationCenter defaultCenter] removeObserver:self];
 
@@ -273,7 +266,7 @@ int sortSelected;
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-     if(self.mineButton.selected == YES){ 
+     if(self.sharedButton.selected == NO){ 
         if([self.noteList count] == 0) return 1;
         return [self.noteList count];}
     else {
@@ -290,7 +283,8 @@ int sortSelected;
     self.audioIconUsed = NO;
     self.textIconUsed = NO;
     NSMutableArray *currentNoteList;
-    if(self.mineButton.selected){ currentNoteList = self.noteList;
+    if(!self.sharedButton.selected){ 
+        currentNoteList = self.noteList;
         isGameList = NO;
     }
     else {
@@ -440,28 +434,18 @@ int sortSelected;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSMutableArray *currentNoteList;
-    if(self.noteControl.selectedSegmentIndex == 0) currentNoteList = self.noteList;
+    if(self.sharedButton.selected == NO) currentNoteList = self.noteList;
     else currentNoteList = self.gameNoteList;
  
 
-    if([(Note *)[currentNoteList objectAtIndex:indexPath.row] creatorId] == [AppModel sharedAppModel].playerId){
-  
-    NoteViewController *noteVC = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
-    noteVC.note = [currentNoteList objectAtIndex:indexPath.row];
-    noteVC.delegate = self;
-    [self.navigationController pushViewController:noteVC animated:YES];
-    //[noteVC release];
-    
-    
-    
-    }
-    else{
+
             //open up note viewer
         DataCollectionViewController *dataVC = [[[DataCollectionViewController alloc] initWithNibName:@"DataCollectionViewController" bundle:nil]autorelease];
+    dataVC.delegate = self;
         dataVC.note = (Note *)[currentNoteList objectAtIndex:indexPath.row];
         [self.navigationController pushViewController:dataVC animated:YES];
         //[dataVC release];
-        }
+        
     
 }
 
@@ -492,7 +476,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     [noteTable reloadData];
     
 }
-
+/*
 -(void)controlChanged:(id)sender{
     if (self.noteControl.selectedSegmentIndex ==0){
         [[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:YES];
@@ -504,7 +488,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     }
     [noteTable reloadData];
 }
-
+*/
 
 - (void)dealloc {    
     [[NSNotificationCenter defaultCenter] removeObserver:self];

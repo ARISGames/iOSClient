@@ -11,7 +11,7 @@
 #import "NotebookViewController.h"
 
 @implementation NoteCell
-@synthesize titleLabel,mediaIcon1,mediaIcon2,mediaIcon3,mediaIcon4,starView,commentsLbl,likesLbl,holdLbl,note,index,delegate;
+@synthesize titleLabel,mediaIcon1,mediaIcon2,mediaIcon3,mediaIcon4,commentsLbl,likesLbl,holdLbl,note,index,delegate;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -83,7 +83,6 @@
     [mediaIcon3 release];
     [mediaIcon2 release];
     [mediaIcon1 release];
-    [starView release];
     [super dealloc];
 }
 

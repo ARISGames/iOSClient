@@ -14,7 +14,7 @@
 #import "NearbyObjectsViewController.h"
 
 @implementation Note
-@synthesize comments,contents, creatorId,noteId,parentNoteId,parentRating,shared,text,title,kind,averageRating,numRatings,username,delegate,dropped,showOnMap,showOnList;
+@synthesize comments,contents, creatorId,noteId,parentNoteId,parentRating,shared,text,title,kind,averageRating,numRatings,username,delegate,dropped,showOnMap,showOnList,userLiked;
 
 -(nearbyObjectKind) kind { return NearbyObjectNote; }
 
@@ -35,7 +35,7 @@
 	NSLog(@"WebPage: Display Self Requested");
 	
 	//Create a reference to the delegate using the application singleton.
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
+
     
     
     if(self.creatorId == [AppModel sharedAppModel].playerId){

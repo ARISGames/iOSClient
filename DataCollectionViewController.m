@@ -17,10 +17,10 @@
 #import "ARISMoviePlayerViewController.h"
 #import "NoteCommentViewController.h"
 #import "UIImage+Scale.h"
-
+#import "AppServices.h"
 
 @implementation DataCollectionViewController
-@synthesize scrollView,pageControl, delegate, viewControllers,note;
+@synthesize scrollView,pageControl, delegate, viewControllers,note,commentLabel,likeButton;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -65,9 +65,11 @@
     scrollView.delegate = self;
     self.pageControl.currentPage = 0;
     self.pageControl.numberOfPages = 1;
-    self.pageControl.hidesForSinglePage = NO;
-	[self.navigationItem setRightBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:@"Comments" style:UIBarButtonItemStylePlain target:self action:@selector(showComments)] autorelease]];
-    
+    self.pageControl.hidesForSinglePage = YES;
+    if (self.note.creatorId == [AppModel sharedAppModel].playerId) {
+        
+    [self.navigationItem setRightBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleDone target:self action:@selector(editButtonTouched)] autorelease]];
+    }
     NoteContent *noteContent = [[NoteContent alloc] init];
     if([self.note.contents count] == 0){
         
@@ -80,12 +82,39 @@
     }
     self.pageControl.currentPage = 0;
 }
+-(void)editButtonTouched{
+    NoteViewController *noteVC = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
+    noteVC.note = self.note;
+    noteVC.delegate = self;
+    [self.navigationController pushViewController:noteVC animated:YES];
+
+}
 -(void)viewWillAppear:(BOOL)animated{
-   
+    self.commentLabel.text = [NSString stringWithFormat:@"%d",[self.note.comments count]];
+    if(self.note.userLiked) [self.likeButton setTintColor:[UIColor blueColor]];
+    else [self.likeButton setTintColor:[UIColor clearColor]];
+}
+-(void)commentButtonTouch{
+    [self showComments];
+}
+-(void)likeButtonTouch{
+    self.note.userLiked = !self.note.userLiked;
+    if(self.note.userLiked){
+        [[AppServices sharedAppServices]likeNote:self.note.noteId];
+        [self.likeButton setTintColor:[UIColor blueColor]];
+    }
+    else{
+        [[AppServices sharedAppServices]unLikeNote:self.note.noteId];
+        [self.likeButton setTintColor:[UIColor clearColor]];
+    }
+}
+-(void)shareButtonTouch{
+    
 }
 -(void)showComments{
     NoteCommentViewController *noteCommentVC = [[NoteCommentViewController alloc]initWithNibName:@"NoteCommentViewController" bundle:nil];
     noteCommentVC.parentNote = self.note;
+    noteCommentVC.delegate = self;
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:.5];
     

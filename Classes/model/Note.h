@@ -21,7 +21,7 @@
     float averageRating;
     BOOL shared;
     BOOL dropped;
-    BOOL showOnMap,showOnList;
+    BOOL showOnMap,showOnList,userLiked;
     int parentNoteId;
     int parentRating;
     nearbyObjectKind	kind;
@@ -43,6 +43,8 @@
 @property(readwrite, assign) BOOL dropped;
 @property(readwrite, assign) BOOL showOnMap;
 @property(readwrite, assign) BOOL showOnList;
+@property(readwrite, assign) BOOL userLiked;
+
 
 
 @property(readwrite, assign) int parentNoteId;

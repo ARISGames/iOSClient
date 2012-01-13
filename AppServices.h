@@ -112,10 +112,11 @@
 - (void)updateNoteContent:(int)contentId text:(NSString *)text;
 - (void)updateNoteContent:(int)contentId title:(NSString *)text;
 
-- (int) addCommentToNoteWithId: (int)noteId andRating: (int)rating;
+- (int) addCommentToNoteWithId: (int)noteId andTitle:(NSString *)title;
 - (void)fetchNoteCommentsWithId: (int)noteId;
-- (void)updateCommentWithId: (int)noteId parentNoteId: (int)parentNoteId andRating: (int)rating;
-
+- (void)updateCommentWithId: (int)noteId andTitle:(NSString *)title;
+- (void)likeNote:(int)noteId;
+-(void)unLikeNote:(int)noteId;
 - (void)uploadNoteContentRequestFinished:(ASIFormDataRequest *)request;
 - (void)uploadNoteRequestFailed:(ASIHTTPRequest *)request;
 - (void)updateServerWithPlayerLocation;

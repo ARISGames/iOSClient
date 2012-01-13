@@ -15,7 +15,7 @@
 #import "ARISAppDelegate.h"
 
 @implementation NoteCommentViewController
-@synthesize parentNote,commentNote,textBox,rating,commentTable,addAudioButton,addPhotoButton,addMediaFromAlbumButton,myIndexPath,commentValid,starView,addTextButton,commentsList,videoIconUsed,photoIconUsed,audioIconUsed,currNoteHasAudio,currNoteHasPhoto,currNoteHasVideo;
+@synthesize parentNote,commentNote,textBox,rating,commentTable,addAudioButton,addPhotoButton,addMediaFromAlbumButton,myIndexPath,commentValid,addTextButton,videoIconUsed,photoIconUsed,audioIconUsed,currNoteHasAudio,currNoteHasPhoto,currNoteHasVideo,inputView,hideKeyboardButton,addCommentButton,delegate;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -24,7 +24,6 @@
         self.parentNote = [[Note alloc]init];
         self.commentNote = [[Note alloc]init];
         self.title = @"Comments";
-        self.commentsList = [[NSMutableArray alloc] initWithCapacity:10];
         self.hidesBottomBarWhenPushed = YES;
         commentValid = NO;
     }
@@ -33,31 +32,21 @@
 - (void)viewDidLoad
 {
     self.parentNote = [[AppServices sharedAppServices]fetchNote:self.parentNote.noteId];
-    self.commentsList = [self.parentNote.comments mutableCopy];
-    UIBarButtonItem *hideKeyboardButton = [[UIBarButtonItem alloc] initWithTitle:@"Save Comment" style:UIBarButtonItemStylePlain target:self action:@selector(hideKeyboard)];      
-    self.navigationItem.rightBarButtonItem = hideKeyboardButton;
+    hideKeyboardButton = [[UIBarButtonItem alloc] initWithTitle:@"Save Comment" style:UIBarButtonItemStylePlain target:self action:@selector(hideKeyboard)];      
+    //self.navigationItem.rightBarButtonItem = hideKeyboardButton;
+    
+    addCommentButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showKeyboard)];     
+    self.navigationItem.rightBarButtonItem = addCommentButton;
+    
+
     
 
     
     self.myIndexPath = [[NSIndexPath alloc] init];
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.starView.rating = 0;
-    self.starView.backgroundColor = [UIColor clearColor];
-	
-    [self.starView setStarImage:[UIImage imageNamed:@"star-halfselected.png"]
-                       forState:kSCRatingViewHalfSelected];
-    [self.starView setStarImage:[UIImage imageNamed:@"star-highlighted.png"]
-                       forState:kSCRatingViewHighlighted];
-    [self.starView setStarImage:[UIImage imageNamed:@"star-hot.png"]
-                       forState:kSCRatingViewHot];
-    [self.starView setStarImage:[UIImage imageNamed:@"star-highlighted.png"]
-                       forState:kSCRatingViewNonSelected];
-    [self.starView setStarImage:[UIImage imageNamed:@"star-selected.png"]
-                       forState:kSCRatingViewSelected];
-    [self.starView setStarImage:[UIImage imageNamed:@"star-hot.png"]
-                       forState:kSCRatingViewUserSelected];
-}
+    }
+
 -(void)viewWillAppear:(BOOL)animated{
     self.videoIconUsed = NO;
     self.photoIconUsed = NO;
@@ -67,9 +56,9 @@
 -(void)addPhotoButtonTouchAction{
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
     CameraViewController *cameraVC = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
-    cameraVC.delegate = self;
+    cameraVC.parentDelegate = self;
     cameraVC.showVid = YES;
-    if(self.commentNote.noteId == 0)   self.commentNote.noteId = [[AppServices sharedAppServices]addCommentToNoteWithId:self.parentNote.noteId andRating:self.rating];
+    if(self.commentNote.noteId == 0)   self.commentNote.noteId = [[AppServices sharedAppServices]addCommentToNoteWithId:self.parentNote.noteId andTitle:self.textBox.text];
     cameraVC.noteId = self.commentNote.noteId;
 
     [self.navigationController pushViewController:cameraVC animated:YES];
@@ -79,8 +68,8 @@
     BOOL audioHWAvailable = [[AVAudioSession sharedInstance] inputIsAvailable];
     if(audioHWAvailable){
     AudioRecorderViewController *audioVC = [[[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil] autorelease];
-    audioVC.delegate = self;
-    if(self.commentNote.noteId == 0)   self.commentNote.noteId = [[AppServices sharedAppServices]addCommentToNoteWithId:self.parentNote.noteId andRating:self.rating];
+    audioVC.parentDelegate = self;
+    if(self.commentNote.noteId == 0)   self.commentNote.noteId = [[AppServices sharedAppServices]addCommentToNoteWithId:self.parentNote.noteId andTitle:self.textBox.text];
     audioVC.noteId = self.commentNote.noteId;
 
     [self.navigationController pushViewController:audioVC animated:YES];
@@ -88,16 +77,15 @@
 
 }
 -(void)addTextButtonTouchAction{
-    NoteCommentCell *cell = (NoteCommentCell *)[self.commentTable cellForRowAtIndexPath:self.myIndexPath];
-    cell.titleLabel.editable = YES;
-    cell.titleLabel.delegate = self;
-    [cell.titleLabel becomeFirstResponder];
+
 }
 -(void)addMediaFromAlbumButtonTouchAction{
     CameraViewController *cameraVC = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
     //cameraVC.delegate = self.delegate;
+    cameraVC.parentDelegate = self;
+
     cameraVC.showVid = NO;
-    if(self.commentNote.noteId == 0)   self.commentNote.noteId = [[AppServices sharedAppServices]addCommentToNoteWithId:self.parentNote.noteId andRating:self.rating];
+    if(self.commentNote.noteId == 0)   self.commentNote.noteId = [[AppServices sharedAppServices]addCommentToNoteWithId:self.parentNote.noteId andTitle:self.textBox.text];
     cameraVC.noteId = self.commentNote.noteId;
 
     [self.navigationController pushViewController:cameraVC animated:YES];
@@ -109,17 +97,16 @@
 }
 
 // Customize the number of rows in the table view.
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return [self.commentsList count] + 1;
+    return [self.parentNote.comments count];
     
 }
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    self.videoIconUsed = NO;
-    self.photoIconUsed = NO;
-    self.audioIconUsed = NO;
+
     static NSString *CellIdentifier = @"Cell";
  
     UITableViewCell *tempCell = (NoteCommentCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -136,32 +123,17 @@
         // Release the temporary UIViewController.
         [temporaryController release];
     }
+    self.photoIconUsed = NO;
+    self.videoIconUsed = NO;
+    self.audioIconUsed = NO;
 
-
-    if(indexPath.row == 0){
-        cell.likesLabel.text = [NSString stringWithFormat:@"+%d",0];
-
-        cell.titleLabel.text = self.textBox.text;
-        cell.userLabel.text = [AppModel sharedAppModel].userName;
-        self.myIndexPath = indexPath;
-        cell.starView.rating = self.starView.userRating;
-        cell.userInteractionEnabled = NO;
-        
-        if(self.currNoteHasPhoto) cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
-        if(self.currNoteHasAudio) cell.mediaIcon3.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
-        if(self.currNoteHasVideo) cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
-        
-        return cell;
-    }
-
-    else{
-    Note *currNote = [self.commentsList objectAtIndex:(indexPath.row -1)];
-        cell.likesLabel.text = [NSString stringWithFormat:@"+%d",currNote.numRatings];
+  
+    Note *currNote = [self.parentNote.comments objectAtIndex:(indexPath.row)];
+        cell.likesButton.titleLabel.text = [NSString stringWithFormat:@"+%d",currNote.numRatings];
 
     if([currNote.contents count] == 0 && (currNote.creatorId != [AppModel sharedAppModel].playerId))cell.userInteractionEnabled = NO;
     cell.titleLabel.text = currNote.title;
         cell.userLabel.text = currNote.username;
-        cell.starView.rating = currNote.parentRating;
     for(int x = 0; x < [currNote.contents count];x++){
                 if([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"TEXT"]){
                     //Dont show icon for text since it is assumed to always be there
@@ -215,9 +187,6 @@
             
         }
     }
-    }
-    
-    
     
     return cell;
 }
@@ -239,24 +208,12 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if(indexPath.row == 0){
-        
-    }
-    else if([[self.commentsList objectAtIndex:(indexPath.row-1)] creatorId] == [AppModel sharedAppModel].playerId){
-        
-        NoteViewController *noteVC = [[[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil]autorelease];
-        noteVC.note = [self.commentsList objectAtIndex:indexPath.row-1];
-        noteVC.delegate = self;
-        [self.navigationController pushViewController:noteVC animated:YES];
-        //[noteVC release];
-        
-        
-        
-    }
-    else{
+
+    if([[[self.parentNote.comments objectAtIndex:indexPath.row] contents] count] > 0){
         //open up note viewer
         DataCollectionViewController *dataVC = [[[DataCollectionViewController alloc] initWithNibName:@"DataCollectionViewController" bundle:nil]autorelease];
-        dataVC.note = [self.commentsList objectAtIndex:indexPath.row-1];
+        dataVC.delegate = self;
+        dataVC.note = [self.parentNote.comments objectAtIndex:indexPath.row];
         [self.navigationController pushViewController:dataVC animated:YES];
         //[dataVC release];
     }
@@ -272,46 +229,57 @@
 	return frame.size.height;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if(indexPath.row > 0){
-       CGFloat textHeight = [self calculateTextHeight:[(Note *)[self.commentsList objectAtIndex:(indexPath.row - 1)] title]] +35;
+       CGFloat textHeight = [self calculateTextHeight:[(Note *)[self.parentNote.comments objectAtIndex:(indexPath.row)] title]] +35;
     NSLog(@"Height for Row:%d is %f",indexPath.row,textHeight);
         if (textHeight < 60)return 60;
         else
-        return textHeight;}
-    else {CGFloat textHeight = [self calculateTextHeight:self.textBox.text] +35;
-        return textHeight;}
-}
+        return textHeight;
+   }
 #pragma mark Text view methods
+-(void)showKeyboard{
+    self.navigationItem.rightBarButtonItem = hideKeyboardButton;
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveLinear];
+    [UIView setAnimationDuration:.5];
+    [self.textBox setFrame:CGRectMake(0, 0, 320, 210)];
+    [self.inputView setFrame:CGRectMake(0, 150, 320, 52)];
+    [UIView commitAnimations];
+    [self.textBox becomeFirstResponder];
+}
 -(void)hideKeyboard{
-    UIAlertView *alert = [[UIAlertView alloc]init];
-    NoteCommentCell *cell = (NoteCommentCell *)[self.commentTable cellForRowAtIndexPath:self.myIndexPath];
-    [cell.titleLabel resignFirstResponder];
+   
 
-    if([cell.titleLabel.text length] == 0 || [cell.titleLabel.text isEqualToString:@"Write Comment..."]){
+    if([textBox.text length] == 0 || [textBox.text isEqualToString:@"Write Comment..."]){
+        UIAlertView *alert = [[UIAlertView alloc]init];
+
         alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Error", @"")
                                                 message: NSLocalizedString(@"Please add a comment", @"")
                                                delegate: self cancelButtonTitle: NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
         [alert show];
         [alert release];
     }
-    else if(self.starView.userRating == 0){
-        alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Error", @"")
-                                                message: NSLocalizedString(@"Please give this game a rating of one through five stars", @"")
-                                               delegate: self cancelButtonTitle: NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
-        [alert show];
-        [alert release];
-    }
     else{
-        if(self.commentNote.noteId == 0)   self.commentNote.noteId = [[AppServices sharedAppServices]addCommentToNoteWithId:self.parentNote.noteId andRating:self.starView.userRating];
-        [[AppServices sharedAppServices]updateNoteWithNoteId:self.commentNote.noteId title:cell.titleLabel.text publicToMap:self.commentNote.showOnMap publicToList:self.commentNote.showOnList];
-        [[AppServices sharedAppServices]updateCommentWithId:self.commentNote.noteId parentNoteId:self.parentNote.noteId andRating:self.starView.userRating];
+        self.navigationItem.rightBarButtonItem = addCommentButton;
+
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveLinear];
+        [UIView setAnimationDuration:.5];
+        [self.textBox setFrame:CGRectMake(0, -215, 320, 215)];
+        [self.inputView setFrame:CGRectMake(0, 416, 320, 52)];
+        [UIView commitAnimations];
+
+        [self.textBox resignFirstResponder];
+
+        if(self.commentNote.noteId == 0)   self.commentNote.noteId = [[AppServices sharedAppServices]addCommentToNoteWithId:self.parentNote.noteId andTitle:self.textBox.text];
+        else [[AppServices sharedAppServices]updateCommentWithId:self.commentNote.noteId andTitle:self.textBox.text];
+        
+        
+       self.parentNote = [[AppServices sharedAppServices]fetchNote:self.parentNote.noteId];
+        [self.delegate setNote:parentNote];
         // [self addedText];
         self.commentValid = YES;
-        self.textBox.text = cell.titleLabel.text;
-
-        [commentTable reloadData];
         
-
+        [commentTable reloadData];
     }
 
 }
@@ -321,42 +289,55 @@
     
 }
 - (void)textViewDidChange:(UITextView *)textView{
-        NoteCommentCell *cell = (NoteCommentCell *)[self.commentTable cellForRowAtIndexPath:self.myIndexPath];
+     /*   NoteCommentCell *cell = (NoteCommentCell *)[self.commentTable cellForRowAtIndexPath:self.myIndexPath];
     cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, [self calculateTextHeight:textView.text]+35);
-    NSArray *indexArr = [[NSArray alloc] initWithObjects:self.myIndexPath, nil];
+    NSArray *indexArr = [[NSArray alloc] initWithObjects:self.myIndexPath, nil];*/
     //[self.commentTable reloadRowsAtIndexPaths:indexArr withRowAnimation:nil];
 }
+
 -(void)addedPhoto{
-    NoteCommentCell *cell = (NoteCommentCell *)[self.commentTable cellForRowAtIndexPath:self.myIndexPath];
+   /* NoteCommentCell *cell = (NoteCommentCell *)[self.commentTable cellForRowAtIndexPath:self.myIndexPath];
      if(cell.mediaIcon2.image == nil) {
         cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
         
-    }
+    }*/
    self.commentValid = YES;
     self.currNoteHasPhoto = YES;
+    self.addPhotoButton.userInteractionEnabled = NO;
+    self.addPhotoButton.selected = YES;
+    self.addMediaFromAlbumButton.userInteractionEnabled = NO;
+    self.addMediaFromAlbumButton.selected = YES;
+    
 }
 -(void)addedAudio{
-    NoteCommentCell *cell = (NoteCommentCell *)[self.commentTable cellForRowAtIndexPath:self.myIndexPath];
+   /* NoteCommentCell *cell = (NoteCommentCell *)[self.commentTable cellForRowAtIndexPath:self.myIndexPath];
 
  
     if(cell.mediaIcon3.image == nil) {
         cell.mediaIcon3.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
         
-    }
+    }*/
     self.commentValid = YES;
     self.currNoteHasAudio = YES;
+    self.addAudioButton.userInteractionEnabled = NO;
+    self.addAudioButton.selected = YES;
+
 }
 -(void)addedVideo{
-    NoteCommentCell *cell = (NoteCommentCell *)[self.commentTable cellForRowAtIndexPath:self.myIndexPath];
+   /* NoteCommentCell *cell = (NoteCommentCell *)[self.commentTable cellForRowAtIndexPath:self.myIndexPath];
    if(cell.mediaIcon4.image == nil) {
         cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
         
-    }
+    }*/
 self.commentValid = YES;
     self.currNoteHasVideo = YES;
+    self.addPhotoButton.userInteractionEnabled = NO;
+    self.addPhotoButton.selected = YES;
+    self.addMediaFromAlbumButton.userInteractionEnabled = NO;
+    self.addMediaFromAlbumButton.selected = YES;
 }
 -(void)addedText{
-    NoteCommentCell *cell = (NoteCommentCell *)[self.commentTable cellForRowAtIndexPath:self.myIndexPath];
+   /* NoteCommentCell *cell = (NoteCommentCell *)[self.commentTable cellForRowAtIndexPath:self.myIndexPath];
 
     if(cell.mediaIcon2.image == nil) {
         cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
@@ -369,22 +350,22 @@ self.commentValid = YES;
     else if(cell.mediaIcon4.image == nil) {
         cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
         
-    }
+    }*/
 self.commentValid = YES;
 }
 
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if(indexPath.row == 0) return UITableViewCellEditingStyleNone;
-  if([[self.commentsList objectAtIndex:(indexPath.row-1)] creatorId] == [AppModel sharedAppModel].playerId){
+   // if(indexPath.row == 0) return UITableViewCellEditingStyleNone;
+  if([[self.parentNote.comments objectAtIndex:(indexPath.row)] creatorId] == [AppModel sharedAppModel].playerId){
     
       return UITableViewCellEditingStyleDelete;}
   else return UITableViewCellEditingStyleNone;
 }
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-    if([[self.commentsList objectAtIndex:(indexPath.row-1)] creatorId] == [AppModel sharedAppModel].playerId){
-    [[AppServices sharedAppServices]deleteNoteWithNoteId:[[self.commentsList objectAtIndex:(indexPath.row-1)] noteId]];
-    [self.commentsList removeObjectAtIndex:(indexPath.row - 1)];
+    if([[self.parentNote.comments objectAtIndex:(indexPath.row)] creatorId] == [AppModel sharedAppModel].playerId){
+    [[AppServices sharedAppServices]deleteNoteWithNoteId:[[self.parentNote.comments objectAtIndex:(indexPath.row)] noteId]];
+    [self.parentNote.comments removeObjectAtIndex:(indexPath.row)];
     }
 }
 
@@ -408,9 +389,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     [addPhotoButton release];
     [addMediaFromAlbumButton release];
     [myIndexPath release];
-    [starView release];
     [addTextButton release];
-    [commentsList release];
 }
 
 - (void)didReceiveMemoryWarning

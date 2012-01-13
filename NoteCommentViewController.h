@@ -19,18 +19,17 @@
     IBOutlet UIButton *addMediaFromAlbumButton;
     IBOutlet UIButton *addTextButton;
     IBOutlet UITextView *textBox;
-    NSMutableArray *commentsList;
     Note *parentNote;
     Note *commentNote;
     int rating;
     NSIndexPath *myIndexPath;
     BOOL commentValid;
-    SCRRatingView *starView;
     BOOL photoIconUsed, videoIconUsed, audioIconUsed,currNoteHasPhoto,currNoteHasAudio,currNoteHasVideo;
-
+    UIView *inputView;
+    UIBarButtonItem *hideKeyboardButton,*addCommentButton;
+    id delegate;
 }
 @property(nonatomic, retain)IBOutlet UITableView *commentTable;
-@property(nonatomic, retain)NSMutableArray *commentsList;
 @property(nonatomic, retain)IBOutlet UIButton *addPhotoButton;
 @property(nonatomic, retain)IBOutlet UIButton *addAudioButton;
 @property(nonatomic, retain)IBOutlet UIButton *addTextButton;
@@ -47,9 +46,10 @@
 @property(readwrite,assign)BOOL currNoteHasPhoto;
 @property(readwrite,assign)BOOL currNoteHasAudio;
 @property(readwrite,assign)BOOL currNoteHasVideo;
-
-@property(nonatomic,retain) IBOutlet SCRRatingView *starView;
-
+@property(nonatomic, retain)IBOutlet UIView *inputView;
+@property(nonatomic,retain)UIBarButtonItem *addCommentButton;
+@property(nonatomic,retain)UIBarButtonItem *hideKeyboardButton;
+@property(nonatomic,retain)id delegate;
 -(IBAction)addPhotoButtonTouchAction;
 -(IBAction)addAudioButtonTouchAction;
 -(IBAction)addTextButtonTouchAction;
@@ -58,4 +58,6 @@
 -(void)addedAudio;
 -(void)addedText;
 -(void)addedPhoto;
+-(void)showKeyboard;
+-(void)hideKeyboard;
 @end

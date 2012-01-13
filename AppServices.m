@@ -419,14 +419,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[jsonConnection release];
 
 }
--(void)updateCommentWithId:(int)noteId parentNoteId:(int)parentNoteId andRating:(int)rating{
+-(void)updateCommentWithId:(int)noteId andTitle:(NSString *)title{
     NSLog(@"AppModel: Updating Comment Rating");
 	
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects:
 						  [NSString stringWithFormat:@"%d",noteId],
-						  [NSString stringWithFormat:@"%d",parentNoteId],
-                          [NSString stringWithFormat:@"%d",rating],
+						title,
                           nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
                                                             andServiceName:@"notes" 
@@ -435,13 +434,37 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	JSONResult *jsonResult = [jsonConnection performSynchronousRequest]; 
 	[jsonConnection release];
 	
-	
-	if (!jsonResult) {
-		NSLog(@"\tFailed.");
-		return nil;
-	} 
 }
--(int)addCommentToNoteWithId:(int)noteId andRating:(int)rating{
+-(void)likeNote:(int)noteId{
+    NSLog(@"Liking Note: %d",noteId);
+    NSArray *arguments = [NSArray arrayWithObjects:
+						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+                          [NSString stringWithFormat:@"%d",noteId],
+                          nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"notes" 
+                                                             andMethodName:@"likeNote" 
+                                                              andArguments:arguments];
+	JSONResult *jsonResult = [jsonConnection performSynchronousRequest]; 
+	[jsonConnection release];
+
+}
+-(void)unLikeNote:(int)noteId{
+    NSLog(@"Unliking Note: %d",noteId);
+
+    NSArray *arguments = [NSArray arrayWithObjects:
+						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+                          [NSString stringWithFormat:@"%d",noteId],
+                          nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"notes" 
+                                                             andMethodName:@"unlikeNote" 
+                                                              andArguments:arguments];
+	JSONResult *jsonResult = [jsonConnection performSynchronousRequest]; 
+	[jsonConnection release];
+
+}
+-(int)addCommentToNoteWithId:(int)noteId andTitle:(NSString *)title{
     NSLog(@"AppModel: Adding Comment To Note");
 	
 	//Call server service
@@ -449,7 +472,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
                           [NSString stringWithFormat:@"%d",noteId],
-                           [NSString stringWithFormat:@"%d",rating],
+                          title,
                           nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
                                                             andServiceName:@"notes" 
@@ -970,7 +993,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 -(Note *)fetchNote:(int)noteId{
     NSLog(@"AppModel: Fetching Note:%d",noteId);
 	
-	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",noteId], nil];
+	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",noteId],[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId], nil];
 	
     return [self fetchFromService:@"notes" usingMethod:@"getNoteById" withArgs:arguments
 					  usingParser:@selector(parseNoteFromDictionary:)];
@@ -1124,7 +1147,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 - (void)fetchGameNoteListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
 	NSLog(@"AppModel: Fetching Note List");
 	
-	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
+	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],nil];
 	
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
                                                             andServiceName:@"notes"
@@ -1571,11 +1594,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
     aNote.averageRating = [[noteDictionary valueForKey:@"ave_rating"] floatValue];
     aNote.parentNoteId = [[noteDictionary valueForKey:@"parent_note_id"] intValue];
     aNote.parentRating = [[noteDictionary valueForKey:@"parent_rating"]intValue];
-    aNote.numRatings = [[noteDictionary valueForKey:@"num_ratings"]intValue];
+    aNote.numRatings = [[noteDictionary valueForKey:@"likes"]intValue];
     aNote.creatorId = [[noteDictionary valueForKey:@"owner_id"]intValue];
     aNote.showOnMap = [[noteDictionary valueForKey:@"public_to_map"]boolValue];
     aNote.showOnList = [[noteDictionary valueForKey:@"public_to_notebook"]boolValue];
-
+    aNote.userLiked = [[noteDictionary valueForKey:@"player_liked"]boolValue];
     aNote.username = [noteDictionary valueForKey:@"username"];
     aNote.dropped = [[noteDictionary valueForKey:@"dropped"]boolValue];
     
@@ -1608,7 +1631,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
                                                   ascending:NO] autorelease];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
     
-    aNote.comments = [aNote.comments sortedArrayUsingDescriptors:sortDescriptors];
+    aNote.comments = [[aNote.comments sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
 	return aNote;	
 }
 

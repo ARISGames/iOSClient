@@ -173,7 +173,9 @@
 - (IBAction)backButtonTouchAction: (id) sender{
    
     if(!self.noteValid) [[AppServices sharedAppServices]deleteNoteWithNoteId:self.note.noteId];
-    
+    if([self.delegate isKindOfClass:[DataCollectionViewController class]]){
+        [self.delegate setNote:self.note];
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)viewDidUnload
@@ -206,6 +208,7 @@
 
     DataCollectionViewController *dataVC = [[[DataCollectionViewController alloc] initWithNibName:@"DataCollectionViewController" bundle:nil]autorelease];
     dataVC.note = self.note;
+    dataVC.delegate = self;
     [self.navigationController pushViewController:dataVC animated:YES];
 }
 
@@ -339,7 +342,8 @@
         default:
             break;
     }
-    
+    [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
+
     }
 - (void)viewDidAppear:(BOOL)animated {
 	NSLog(@"NoteViewController: View Appeared");	
@@ -364,13 +368,14 @@
 -(void)showLoadingIndicator{
 	UIActivityIndicatorView *activityIndicator = 
 	[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
+	/*UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
 	[activityIndicator release];
 	[[self navigationItem] setRightBarButtonItem:barButton];
-	[barButton release];
+	[barButton release];*/
 	[activityIndicator startAnimating];    
     
 }
+
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
     if([self.note.contents count] == 0 && indexPath.row == 0) return UITableViewCellEditingStyleNone;
     return UITableViewCellEditingStyleDelete;

@@ -19,15 +19,17 @@
     int pageNumber;
     int numPages;
    // UIButton *mediaPlaybackButton;
-
+    IBOutlet UILabel *commentLabel;
     //ARISMoviePlayerViewController *mMoviePlayer;
     Note *note;
+    IBOutlet UIBarButtonItem *likeButton;
 }
-
+@property(nonatomic,retain)IBOutlet UIBarButtonItem *likeButton;;
 @property(nonatomic, retain) id delegate;
 @property(nonatomic, retain) IBOutlet UIScrollView *scrollView;
 @property(nonatomic, retain) IBOutlet UIPageControl *pageControl;
 @property(nonatomic, retain) NSMutableArray *viewControllers;
+@property(nonatomic,retain)IBOutlet UILabel *commentLabel;
 //@property(nonatomic, retain) ARISMoviePlayerViewController *mMoviePlayer;
 @property(nonatomic,retain)Note *note;
 - (IBAction)saveButtonTouchAction;
@@ -35,5 +37,9 @@
 - (void)loadNewPageWithContent:(NoteContent *)content;
 - (void)showComments;
 - (IBAction)playMovie:(id)sender;
+-(void)editButtonTouched;
+-(IBAction)shareButtonTouch;
+-(IBAction)commentButtonTouch;
+-(IBAction)likeButtonTouch;
 
 @end
