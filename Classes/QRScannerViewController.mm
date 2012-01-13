@@ -268,6 +268,19 @@
 		
 	}
 	else {	
+        if ([qrCodeObject isKindOfClass:[NSString class]]) {
+            [appDelegate playAudioAlert:@"error" shouldVibrate:NO];
+            
+            //Display an alert
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", @"")
+                                                            message:(NSString *)qrCodeObject
+                                                           delegate:self 
+                                                  cancelButtonTitle:NSLocalizedString(@"OkKey", @"")
+                                                  otherButtonTitles:nil];
+            [alert show];	
+            [alert release];
+            
+        }
 		[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];		
 		//Display the content
 		[qrCodeObject display];
