@@ -10,7 +10,7 @@
 #import "AppServices.h"
 
 @implementation NoteCommentCell
-@synthesize titleLabel,mediaIcon2,mediaIcon3,mediaIcon4,userLabel,likesButton,note;
+@synthesize titleLabel,mediaIcon2,mediaIcon3,mediaIcon4,userLabel,likesButton,note,likeLabel;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -19,14 +19,17 @@
     }
     return self;
 }
--(void)awakeFromNib{
-    likesButton.titleLabel.text = [NSString stringWithFormat:@"+%d",note.numRatings];
+-(void)initCell{
     if(self.note.userLiked){
         self.likesButton.selected = YES;
     }
     else{
         self.likesButton.selected = NO;
     }
+    likeLabel.text = [NSString stringWithFormat:@"%d",self.note.numRatings];  
+}
+-(void)awakeFromNib{
+
 }
 
 -(void)likeButtonTouched{
@@ -34,12 +37,13 @@
     self.note.userLiked = !self.note.userLiked;
     if(self.note.userLiked){
         [[AppServices sharedAppServices]likeNote:self.note.noteId];
+        self.note.numRatings++;
     }
     else{
         [[AppServices sharedAppServices]unLikeNote:self.note.noteId];
+        self.note.numRatings--;
     }
-
-    //do server call here;
+    likeLabel.text = [NSString stringWithFormat:@"%d",note.numRatings];
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     

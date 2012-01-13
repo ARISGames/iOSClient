@@ -20,7 +20,7 @@
 #import "AppServices.h"
 
 @implementation DataCollectionViewController
-@synthesize scrollView,pageControl, delegate, viewControllers,note,commentLabel,likeButton;
+@synthesize scrollView,pageControl, delegate, viewControllers,note,commentLabel,likeButton,likeLabel;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -91,6 +91,7 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     self.commentLabel.text = [NSString stringWithFormat:@"%d",[self.note.comments count]];
+    self.likeLabel.text = [NSString stringWithFormat:@"%d",self.note.numRatings];
     if(self.note.userLiked) [self.likeButton setTintColor:[UIColor blueColor]];
     else [self.likeButton setTintColor:[UIColor clearColor]];
 }
@@ -101,12 +102,16 @@
     self.note.userLiked = !self.note.userLiked;
     if(self.note.userLiked){
         [[AppServices sharedAppServices]likeNote:self.note.noteId];
+        self.note.numRatings++;
         [self.likeButton setTintColor:[UIColor blueColor]];
     }
     else{
         [[AppServices sharedAppServices]unLikeNote:self.note.noteId];
+        self.note.numRatings--;
         [self.likeButton setTintColor:[UIColor clearColor]];
     }
+    self.likeLabel.text = [NSString stringWithFormat:@"%d",self.note.numRatings];
+
 }
 -(void)shareButtonTouch{
     

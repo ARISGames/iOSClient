@@ -20,6 +20,8 @@
     int numPages;
    // UIButton *mediaPlaybackButton;
     IBOutlet UILabel *commentLabel;
+    IBOutlet UILabel *likeLabel;
+
     //ARISMoviePlayerViewController *mMoviePlayer;
     Note *note;
     IBOutlet UIBarButtonItem *likeButton;
@@ -30,6 +32,8 @@
 @property(nonatomic, retain) IBOutlet UIPageControl *pageControl;
 @property(nonatomic, retain) NSMutableArray *viewControllers;
 @property(nonatomic,retain)IBOutlet UILabel *commentLabel;
+@property(nonatomic,retain)IBOutlet UILabel *likeLabel;
+
 //@property(nonatomic, retain) ARISMoviePlayerViewController *mMoviePlayer;
 @property(nonatomic,retain)Note *note;
 - (IBAction)saveButtonTouchAction;

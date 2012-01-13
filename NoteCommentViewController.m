@@ -129,8 +129,8 @@
 
   
     Note *currNote = [self.parentNote.comments objectAtIndex:(indexPath.row)];
-        cell.likesButton.titleLabel.text = [NSString stringWithFormat:@"+%d",currNote.numRatings];
-
+    cell.note = currNote;
+    [cell initCell];
     if([currNote.contents count] == 0 && (currNote.creatorId != [AppModel sharedAppModel].playerId))cell.userInteractionEnabled = NO;
     cell.titleLabel.text = currNote.title;
         cell.userLabel.text = currNote.username;
