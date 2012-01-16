@@ -28,6 +28,8 @@
     int iconMediaId;
     NSString *username;
     id delegate;
+    BOOL hasImage;
+    BOOL hasAudio;
 }
 
 @property(nonatomic,retain) NSMutableArray *comments;
@@ -44,6 +46,9 @@
 @property(readwrite, assign) BOOL showOnMap;
 @property(readwrite, assign) BOOL showOnList;
 @property(readwrite, assign) BOOL userLiked;
+@property(readwrite, assign) BOOL hasImage;
+@property(readwrite, assign) BOOL hasAudio;
+
 
 
 

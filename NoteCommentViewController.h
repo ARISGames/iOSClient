@@ -12,7 +12,7 @@
 #import "AudioRecorderViewController.h"
 #import "SCRRatingView.h"
 
-@interface NoteCommentViewController : UIViewController <UITextViewDelegate,UITableViewDataSource,UITableViewDelegate>{
+@interface NoteCommentViewController : UIViewController <UITextViewDelegate,UITableViewDataSource,UITableViewDelegate,AVAudioPlayerDelegate>{
     IBOutlet UITableView *commentTable;
     IBOutlet UIButton *addPhotoButton;
     IBOutlet UIButton *addAudioButton;
@@ -30,6 +30,7 @@
     id delegate;
 }
 @property(nonatomic, retain)IBOutlet UITableView *commentTable;
+
 @property(nonatomic, retain)IBOutlet UIButton *addPhotoButton;
 @property(nonatomic, retain)IBOutlet UIButton *addAudioButton;
 @property(nonatomic, retain)IBOutlet UIButton *addTextButton;

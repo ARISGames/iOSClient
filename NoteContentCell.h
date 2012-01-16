@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-
 @interface NoteContentCell : UITableViewCell<UITextViewDelegate>{
     IBOutlet UITextView *titleLbl;
     IBOutlet UILabel *detailLbl;
@@ -24,5 +23,4 @@
 @property(nonatomic,retain)UIImageView *imageView;
 @property(readwrite,assign)int index;
 @property(readwrite,assign)id delegate;
-
 @end

@@ -13,6 +13,8 @@
 #import "AppServices.h"
 #import "NoteCommentCell.h"
 #import "ARISAppDelegate.h"
+#import "AudioRecorderViewController.h"
+#import "CustomAudioPlayer.h"
 
 @implementation NoteCommentViewController
 @synthesize parentNote,commentNote,textBox,rating,commentTable,addAudioButton,addPhotoButton,addMediaFromAlbumButton,myIndexPath,commentValid,addTextButton,videoIconUsed,photoIconUsed,audioIconUsed,currNoteHasAudio,currNoteHasPhoto,currNoteHasVideo,inputView,hideKeyboardButton,addCommentButton,delegate;
@@ -131,63 +133,76 @@
     Note *currNote = [self.parentNote.comments objectAtIndex:(indexPath.row)];
     cell.note = currNote;
     [cell initCell];
+    
     if([currNote.contents count] == 0 && (currNote.creatorId != [AppModel sharedAppModel].playerId))cell.userInteractionEnabled = NO;
     cell.titleLabel.text = currNote.title;
         cell.userLabel.text = currNote.username;
     for(int x = 0; x < [currNote.contents count];x++){
-                if([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"TEXT"]){
+        if([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"TEXT"]){
                     //Dont show icon for text since it is assumed to always be there
         }
-        else if ([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"PHOTO"]&& !self.photoIconUsed){
-            self.photoIconUsed = YES;
-            if(cell.mediaIcon2.image == nil) {
-                cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
-                
+        else if ([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"PHOTO"]){
+            AsyncImageView *aImageView = [[AsyncImageView alloc]init];
+            Media *media = [[AppModel sharedAppModel]mediaForMediaId:[(NoteContent *)[[currNote contents] objectAtIndex:x] mediaId]];
+            [aImageView loadImageFromMedia:media];
+            if(!currNote.hasAudio)
+            [aImageView setFrame:CGRectMake(10, 60, 300, 300)];
+            else
+                [aImageView setFrame:CGRectMake(10, 100, 300, 300)];
+
+            [cell addSubview:aImageView];
+            [aImageView release];
+        }
+        else if([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"VIDEO"]){
+            NoteContent *content =  (NoteContent *)[[currNote contents] objectAtIndex:x];
+            Media *media = [[Media alloc] init];
+            media = [[AppModel sharedAppModel] mediaForMediaId:content.mediaId];
+            UIButton *mediaPlayBackButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 320, 240)];
+            mediaPlayBackButton.tag = indexPath.row;//the tag of the button is now equal to the corresponding movieplayers index into the viewControllers array...used in playMovie:
+            [mediaPlayBackButton addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
+            [mediaPlayBackButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
+            [mediaPlayBackButton setContentVerticalAlignment:UIControlContentVerticalAlignmentBottom];
+            
+            //Create movie player object
+            ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+            [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
+            mMoviePlayer.moviePlayer.shouldAutoplay = NO;
+            [mMoviePlayer.moviePlayer prepareToPlay];
+            
+            //Setup the overlay
+            UIImageView *playButonOverlay = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"play_button.png"]];
+            playButonOverlay.center = mediaPlayBackButton.center;
+            
+            //Create a thumbnail for the button
+            if([content.type isEqualToString:@"VIDEO"]){
+                if (![mediaPlayBackButton backgroundImageForState:UIControlStateNormal]) {
+                    UIImage *videoThumb = [mMoviePlayer.moviePlayer thumbnailImageAtTime:(NSTimeInterval)1.0 timeOption:MPMovieTimeOptionExact];            
+                    UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(320, 240)];        
+                    [mediaPlayBackButton setBackgroundImage:videoThumbSized forState:UIControlStateNormal];
+                }
             }
-            else if(cell.mediaIcon3.image == nil) {
-                cell.mediaIcon3.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
-                
-            }
-            else if(cell.mediaIcon4.image == nil) {
-                cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
-                
+            else {
+                [mediaPlayBackButton setBackgroundImage:[UIImage imageNamed:@"microphoneBackground.jpg"] forState:UIControlStateNormal];
+                mediaPlayBackButton.contentMode = UIViewContentModeScaleAspectFill;
             }
             
-        }
-        else if([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"AUDIO"] && !self.audioIconUsed){
-            self.audioIconUsed = YES;
-           if(cell.mediaIcon2.image == nil) {
-                cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
-                
-            }
-            else if(cell.mediaIcon3.image == nil) {
-                cell.mediaIcon3.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
-                
-            }
-            else if(cell.mediaIcon4.image == nil) {
-                cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
-                
-            }
+            if(!currNote.hasAudio)
+                [mediaPlayBackButton setFrame:CGRectMake(10, 60, 300, 300)];
+            else
+                [mediaPlayBackButton setFrame:CGRectMake(10, 100, 300, 300)];
             
+            [cell addSubview:mediaPlayBackButton];
+            [mediaPlayBackButton release];
         }
-        else if([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"VIDEO"] && !self.videoIconUsed){
-            self.videoIconUsed = YES;
-          if(cell.mediaIcon2.image == nil) {
-                cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
-                
-            }
-            else if(cell.mediaIcon3.image == nil) {
-                cell.mediaIcon3.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
-                
-            }
-            else if(cell.mediaIcon4.image == nil) {
-                cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
-                
-            }
+        else if([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"AUDIO"]){
             
-        }
+            CustomAudioPlayer *player = [[CustomAudioPlayer alloc]initWithFrame:CGRectMake(10, 60, 300, 40) andMediaId:[(NoteContent *)[[currNote contents] objectAtIndex:x] mediaId]];
+            [player loadView];
+            [cell addSubview:player];
+            [player release];
+                   }
+
     }
-    
     return cell;
 }
 
@@ -209,7 +224,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    if([[[self.parentNote.comments objectAtIndex:indexPath.row] contents] count] > 0){
+    /*if([[[self.parentNote.comments objectAtIndex:indexPath.row] contents] count] > 0){
         //open up note viewer
         DataCollectionViewController *dataVC = [[[DataCollectionViewController alloc] initWithNibName:@"DataCollectionViewController" bundle:nil]autorelease];
         dataVC.delegate = self;
@@ -217,7 +232,7 @@
         [self.navigationController pushViewController:dataVC animated:YES];
         //[dataVC release];
     }
-    
+    */
 }
 - (int) calculateTextHeight:(NSString *)text {
 	CGRect frame = CGRectMake(0, 0, self.view.bounds.size.width, 200000);
@@ -229,11 +244,26 @@
 	return frame.size.height;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-       CGFloat textHeight = [self calculateTextHeight:[(Note *)[self.parentNote.comments objectAtIndex:(indexPath.row)] title]] +35;
+    Note *note = (Note *)[self.parentNote.comments objectAtIndex:(indexPath.row)];
+       CGFloat textHeight = [self calculateTextHeight:[note title]] +35;
     NSLog(@"Height for Row:%d is %f",indexPath.row,textHeight);
-        if (textHeight < 60)return 60;
-        else
-        return textHeight;
+        if (textHeight < 60)textHeight = 60;
+    BOOL hasImage = NO;
+    BOOL hasAudio = NO;
+    for(int i = 0; i < [[note contents] count];i++){
+        if([[(NoteContent *)[[note contents]objectAtIndex:i]type] isEqualToString:@"PHOTO"] || [[(NoteContent *)[[note contents]objectAtIndex:i]type] isEqualToString:@"VIDEO"]){
+            hasImage = YES;
+        }
+        else if([[(NoteContent *)[[note contents]objectAtIndex:i]type] isEqualToString:@"AUDIO"]){
+            hasAudio = YES;
+        }
+    }
+    [note setHasAudio:hasAudio];
+    [note setHasImage:hasImage];
+    if(hasImage) textHeight+=300;
+    if(hasAudio) textHeight += 40;
+    
+    return textHeight;
    }
 #pragma mark Text view methods
 -(void)showKeyboard{

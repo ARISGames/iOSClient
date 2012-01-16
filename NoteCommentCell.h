@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SCRRatingView.h"
 #import "Note.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 @interface NoteCommentCell : UITableViewCell {
     IBOutlet UITextView *titleLabel;

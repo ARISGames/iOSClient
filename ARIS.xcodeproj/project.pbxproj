@@ -55,6 +55,9 @@
 		11A96CF413FB1DBA0020EFC5 /* Tab.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A96CF313FB1DB90020EFC5 /* Tab.m */; };
 		11B1222D14BDFA37002583AD /* NoteContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 11B1222B14BDFA37002583AD /* NoteContentCell.m */; };
 		11B1222E14BDFA37002583AD /* NoteContentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11B1222C14BDFA37002583AD /* NoteContentCell.xib */; };
+		11B28B9614C4909700759BCD /* CustomAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 11B28B9514C4909700759BCD /* CustomAudioPlayer.m */; };
+		11B28B9914C4A49600759BCD /* stop_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 11B28B9714C4A49500759BCD /* stop_button.png */; };
+		11B28B9A14C4A49600759BCD /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = 11B28B9814C4A49600759BCD /* play.png */; };
 		11BE775213B0F9BE000D037B /* glues_error.c in Sources */ = {isa = PBXBuildFile; fileRef = 11BE770113B0F9BE000D037B /* glues_error.c */; };
 		11BE775313B0F9BE000D037B /* glues_mipmap.c in Sources */ = {isa = PBXBuildFile; fileRef = 11BE770313B0F9BE000D037B /* glues_mipmap.c */; };
 		11BE775413B0F9BE000D037B /* glues_project.c in Sources */ = {isa = PBXBuildFile; fileRef = 11BE770513B0F9BE000D037B /* glues_project.c */; };
@@ -112,8 +115,6 @@
 		11DD5435141E80D20007CD70 /* PinShadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 11DD542F141E80D00007CD70 /* PinShadow.png */; };
 		11F96D1D1417CB610003C78A /* AudioPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11F96D1B1417CB610003C78A /* AudioPlayerViewController.m */; };
 		11F96D1E1417CB610003C78A /* AudioPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11F96D1C1417CB610003C78A /* AudioPlayerViewController.xib */; };
-		11F96D211417CE820003C78A /* PauseButtonPreferred.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 11F96D1F1417CE820003C78A /* PauseButtonPreferred.jpg */; };
-		11F96D221417CE820003C78A /* silver-play-button-150x150.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 11F96D201417CE820003C78A /* silver-play-button-150x150.jpg */; };
 		11FDA7EB1474690500ACE17D /* zbar-back.png in Resources */ = {isa = PBXBuildFile; fileRef = 11FDA7E61474690500ACE17D /* zbar-back.png */; };
 		11FDA7EC1474690500ACE17D /* zbar-help.html in Resources */ = {isa = PBXBuildFile; fileRef = 11FDA7E71474690500ACE17D /* zbar-help.html */; };
 		11FDA7ED1474690500ACE17D /* zbar-helpicons.png in Resources */ = {isa = PBXBuildFile; fileRef = 11FDA7E81474690500ACE17D /* zbar-helpicons.png */; };
@@ -413,6 +414,10 @@
 		11B1222A14BDFA37002583AD /* NoteContentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteContentCell.h; sourceTree = "<group>"; };
 		11B1222B14BDFA37002583AD /* NoteContentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteContentCell.m; sourceTree = "<group>"; };
 		11B1222C14BDFA37002583AD /* NoteContentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteContentCell.xib; sourceTree = "<group>"; };
+		11B28B9414C4909700759BCD /* CustomAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAudioPlayer.h; sourceTree = "<group>"; };
+		11B28B9514C4909700759BCD /* CustomAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAudioPlayer.m; sourceTree = "<group>"; };
+		11B28B9714C4A49500759BCD /* stop_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stop_button.png; sourceTree = "<group>"; };
+		11B28B9814C4A49600759BCD /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play.png; sourceTree = "<group>"; };
 		11BE76FF13B0F9BE000D037B /* glu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glu.h; sourceTree = "<group>"; };
 		11BE770013B0F9BE000D037B /* glues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glues.h; sourceTree = "<group>"; };
 		11BE770113B0F9BE000D037B /* glues_error.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = glues_error.c; sourceTree = "<group>"; };
@@ -518,8 +523,6 @@
 		11F96D1A1417CB610003C78A /* AudioPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioPlayerViewController.h; sourceTree = "<group>"; };
 		11F96D1B1417CB610003C78A /* AudioPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioPlayerViewController.m; sourceTree = "<group>"; };
 		11F96D1C1417CB610003C78A /* AudioPlayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioPlayerViewController.xib; sourceTree = "<group>"; };
-		11F96D1F1417CE820003C78A /* PauseButtonPreferred.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = PauseButtonPreferred.jpg; sourceTree = "<group>"; };
-		11F96D201417CE820003C78A /* silver-play-button-150x150.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "silver-play-button-150x150.jpg"; sourceTree = "<group>"; };
 		11FDA7D01474690500ACE17D /* Decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Decoder.h; sourceTree = "<group>"; };
 		11FDA7D11474690500ACE17D /* Exception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Exception.h; sourceTree = "<group>"; };
 		11FDA7D21474690500ACE17D /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
@@ -914,6 +917,8 @@
 				1188663B1406B0D00009E36F /* Text View */,
 				11DD3D4913F5AAE80051AB76 /* NoteViewer */,
 				118866431406B54C0009E36F /* notebook.png */,
+				11B28B9714C4A49500759BCD /* stop_button.png */,
+				11B28B9814C4A49600759BCD /* play.png */,
 				119497ED14C0C9A1006564F9 /* thumbs_up_selected.png */,
 				119497EE14C0C9A1006564F9 /* thumbs_up_unselected.png */,
 				119497DD14BF79BF006564F9 /* comment.png */,
@@ -921,6 +926,8 @@
 				118866451406B69B0009E36F /* notebook2.png */,
 				118866471406BB830009E36F /* NoteContent.h */,
 				118866481406BB830009E36F /* NoteContent.m */,
+				11B28B9414C4909700759BCD /* CustomAudioPlayer.h */,
+				11B28B9514C4909700759BCD /* CustomAudioPlayer.m */,
 				1147E15613F32260000E4BC2 /* NoteViewController.h */,
 				1147E15713F32260000E4BC2 /* NoteViewController.m */,
 				1147E15813F32260000E4BC2 /* NoteViewController.xib */,
@@ -961,8 +968,6 @@
 				11F96D1A1417CB610003C78A /* AudioPlayerViewController.h */,
 				11F96D1B1417CB610003C78A /* AudioPlayerViewController.m */,
 				11F96D1C1417CB610003C78A /* AudioPlayerViewController.xib */,
-				11F96D1F1417CE820003C78A /* PauseButtonPreferred.jpg */,
-				11F96D201417CE820003C78A /* silver-play-button-150x150.jpg */,
 			);
 			name = Notes;
 			sourceTree = "<group>";
@@ -1941,8 +1946,6 @@
 				11691A36140FEF71003E8998 /* NoteCommentViewController.xib in Resources */,
 				1193005414101B07005222F2 /* NoteCommentCell.xib in Resources */,
 				11F96D1E1417CB610003C78A /* AudioPlayerViewController.xib in Resources */,
-				11F96D211417CE820003C78A /* PauseButtonPreferred.jpg in Resources */,
-				11F96D221417CE820003C78A /* silver-play-button-150x150.jpg in Resources */,
 				11DD5423141E70D00007CD70 /* DropOnMapViewController.xib in Resources */,
 				11DD5430141E80D20007CD70 /* Pin.png in Resources */,
 				11DD5431141E80D20007CD70 /* PinDown1.png in Resources */,
@@ -1973,6 +1976,8 @@
 				119497EC14C0BF90006564F9 /* thumbs_up.png in Resources */,
 				119497EF14C0C9A2006564F9 /* thumbs_up_selected.png in Resources */,
 				119497F014C0C9A2006564F9 /* thumbs_up_unselected.png in Resources */,
+				11B28B9914C4A49600759BCD /* stop_button.png in Resources */,
+				11B28B9A14C4A49600759BCD /* play.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2141,6 +2146,7 @@
 				11566433144A414D006902C2 /* ChangePasswordViewController.m in Sources */,
 				111CFA9314520EC700D56207 /* ForgotViewController.m in Sources */,
 				11B1222D14BDFA37002583AD /* NoteContentCell.m in Sources */,
+				11B28B9614C4909700759BCD /* CustomAudioPlayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
