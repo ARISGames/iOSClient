@@ -22,7 +22,7 @@
 @synthesize gameMediaList, gameItemList, gameNodeList, gameNpcList,gameWebPageList,gamePanoramicList,gameTabList, defaultGameTabList,gameNoteList,playerNoteList;
 @synthesize locationListHash, questListHash, inventoryHash,profilePic,attributes;
 
-@synthesize nearbyLocationsList;
+@synthesize nearbyLocationsList,gameTagList;
 @synthesize hasSeenNearbyTabTutorial,hasSeenQuestsTabTutorial,hasSeenMapTabTutorial,hasSeenInventoryTabTutorial, tabsReady;
 
 

@@ -15,9 +15,10 @@
 #import "ARISAppDelegate.h"
 #import "AudioRecorderViewController.h"
 #import "CustomAudioPlayer.h"
+#import "UIImage+Scale.h"
 
 @implementation NoteCommentViewController
-@synthesize parentNote,commentNote,textBox,rating,commentTable,addAudioButton,addPhotoButton,addMediaFromAlbumButton,myIndexPath,commentValid,addTextButton,videoIconUsed,photoIconUsed,audioIconUsed,currNoteHasAudio,currNoteHasPhoto,currNoteHasVideo,inputView,hideKeyboardButton,addCommentButton,delegate;
+@synthesize parentNote,commentNote,textBox,rating,commentTable,addAudioButton,addPhotoButton,addMediaFromAlbumButton,myIndexPath,commentValid,addTextButton,videoIconUsed,photoIconUsed,audioIconUsed,currNoteHasAudio,currNoteHasPhoto,currNoteHasVideo,inputView,hideKeyboardButton,addCommentButton,delegate,movieViews;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -25,6 +26,7 @@
         // Custom initialization
         self.parentNote = [[Note alloc]init];
         self.commentNote = [[Note alloc]init];
+        self.movieViews = [[NSMutableArray alloc]initWithCapacity:5];
         self.title = @"Comments";
         self.hidesBottomBarWhenPushed = YES;
         commentValid = NO;
@@ -157,8 +159,8 @@
             NoteContent *content =  (NoteContent *)[[currNote contents] objectAtIndex:x];
             Media *media = [[Media alloc] init];
             media = [[AppModel sharedAppModel] mediaForMediaId:content.mediaId];
-            UIButton *mediaPlayBackButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 320, 240)];
-            mediaPlayBackButton.tag = indexPath.row;//the tag of the button is now equal to the corresponding movieplayers index into the viewControllers array...used in playMovie:
+            UIButton *mediaPlayBackButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 0, 320, 240)];
+            mediaPlayBackButton.tag = [movieViews count];//the tag of the button is now equal to the corresponding movieplayers index into the viewControllers array...used in playMovie:
             [mediaPlayBackButton addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
             [mediaPlayBackButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
             [mediaPlayBackButton setContentVerticalAlignment:UIControlContentVerticalAlignmentBottom];
@@ -168,10 +170,9 @@
             [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
             mMoviePlayer.moviePlayer.shouldAutoplay = NO;
             [mMoviePlayer.moviePlayer prepareToPlay];
-            
+            [self.movieViews addObject:mMoviePlayer];
             //Setup the overlay
             UIImageView *playButonOverlay = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"play_button.png"]];
-            playButonOverlay.center = mediaPlayBackButton.center;
             
             //Create a thumbnail for the button
             if([content.type isEqualToString:@"VIDEO"]){
@@ -187,11 +188,14 @@
             }
             
             if(!currNote.hasAudio)
-                [mediaPlayBackButton setFrame:CGRectMake(10, 60, 300, 300)];
+                [mediaPlayBackButton setFrame:CGRectMake(10, 80, 300, 223)];
             else
-                [mediaPlayBackButton setFrame:CGRectMake(10, 100, 300, 300)];
+                [mediaPlayBackButton setFrame:CGRectMake(10, 120, 300, 223)];
             
+            playButonOverlay.frame = mediaPlayBackButton.frame;
+
             [cell addSubview:mediaPlayBackButton];
+            [cell addSubview:playButonOverlay];
             [mediaPlayBackButton release];
         }
         else if([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"AUDIO"]){
@@ -308,12 +312,15 @@
         [self.delegate setNote:parentNote];
         // [self addedText];
         self.commentValid = YES;
-        
+        [movieViews removeAllObjects];
         [commentTable reloadData];
     }
 
 }
+-(IBAction)playMovie:(id)sender {
 
+    	[self presentMoviePlayerViewControllerAnimated:[movieViews objectAtIndex:[sender tag]]];
+}
 -(void)textViewDidBeginEditing:(UITextView *)textView{
     if([textView.text isEqualToString:@"Write Comment..."]) textView.text = @"";
     
@@ -402,7 +409,7 @@ self.commentValid = YES;
 - (void)tableView:(UITableView *)tableView 
 
 didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    [movieViews removeAllObjects];
     [self.commentTable reloadData];
     
 }

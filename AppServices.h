@@ -29,6 +29,7 @@
 #import "NoteMedia.h"
 #import "NoteContent.h"
 #import <MapKit/MapKit.h>
+#import "Tag.h"
 
 @interface AppServices : NSObject {
     //Fetcher Flags
@@ -84,7 +85,7 @@
 - (void)fetchGamePanoramicListAsynchronously:(BOOL)YesForAsyncOrNoForSync;
 - (void)fetchGameNoteListAsynchronously:(BOOL)YesForAsyncOrNoForSync;
 - (void)fetchPlayerNoteListAsynchronously:(BOOL)YesForAsyncOrNoForSync;
-
+- (void)fetchGameTags;
 - (Item *)fetchItem:(int)itemId;
 - (Node *)fetchNode:(int)nodeId;
 - (Npc *)fetchNpc:(int)npcId;
@@ -112,6 +113,8 @@
 - (void)updateNoteContent:(int)contentId text:(NSString *)text;
 - (void)updateNoteContent:(int)contentId title:(NSString *)text;
 
+-(void)addTagToNote:(int)noteId tagName:(NSString *)tag;
+-(void)deleteTagFromNote:(int)noteId tagName:(NSString *)tag;
 - (int) addCommentToNoteWithId: (int)noteId andTitle:(NSString *)title;
 - (void)fetchNoteCommentsWithId: (int)noteId;
 - (void)updateCommentWithId: (int)noteId andTitle:(NSString *)title;
@@ -151,6 +154,8 @@
 - (void)parsePlayerNoteListFromJSON: (JSONResult *)jsonResult;
 
 - (void)parseRecentGameListFromJSON: (JSONResult *)jsonResult;
+- (void)parseGameTagsListFromJSON: (JSONResult *)jsonResult;
+
 - (Location*)parseLocationFromDictionary: (NSDictionary *)locationDictionary;
 - (Item *)parseItemFromDictionary: (NSDictionary *)itemDictionary;
 - (Node *)parseNodeFromDictionary: (NSDictionary *)nodeDictionary;

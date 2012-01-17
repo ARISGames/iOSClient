@@ -1145,7 +1145,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	
 }
 - (void)fetchGameNoteListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
-	NSLog(@"AppModel: Fetching Note List");
+	NSLog(@"AppModel: Fetching Game Note List");
 	
 	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],nil];
 	
@@ -1162,7 +1162,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	
 }
 - (void)fetchPlayerNoteListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
-	NSLog(@"AppModel: Fetching Note List");
+	NSLog(@"AppModel: Fetching Player Note List");
 	
 	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
 	
@@ -1272,7 +1272,68 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
     
 	
 }
+- (void)fetchGameTags{
+	NSLog(@"AppModel: Fetching TAG List");
+	
+	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
+	
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"notes"
+                                                             andMethodName:@"getAllTagsInGame"
+                                                              andArguments:arguments];
+    [jsonConnection performAsynchronousRequestWithParser:@selector(parseGameTagsListFromJSON:)]; 
+	[jsonConnection release];		
+}
+-(void)parseGameTagsListFromJSON:(JSONResult *)jsonResult{
+    NSLog(@"AppModel: parseGameTagListFromJSON Beginning");		
+    
+    NSArray *gameTagsArray = (NSArray *)jsonResult.data;
+	
+	NSMutableArray *tempTagsList = [[NSMutableArray alloc] initWithCapacity:10];
+	
+	NSEnumerator *gameTagEnumerator = [gameTagsArray objectEnumerator];	
+	NSDictionary *tagDictionary;
+	while ((tagDictionary = [gameTagEnumerator nextObject])) {
+        Tag *t = [[Tag alloc]init];
+        t.tagName = [tagDictionary objectForKey:@"tag"];
+        t.playerCreated = [[tagDictionary objectForKey:@"player_created"]boolValue];
+		[tempTagsList addObject:t]; 
+	}
+    
+	[AppModel sharedAppModel].gameTagList = tempTagsList;
+	[tempTagsList release];
+    
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];	
+    
 
+}
+-(void)addTagToNote:(int)noteId tagName:(NSString *)tag{
+    NSLog(@"AppModel: Adding Tag to note");
+	
+	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",noteId],[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],tag, nil];
+	
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"notes"
+                                                             andMethodName:@"addTagToNote"
+                                                              andArguments:arguments];
+    [jsonConnection performAsynchronousRequestWithParser:@selector(sendNotificationToNotebookViewer)]; 
+	[jsonConnection release];		
+
+}
+
+-(void)deleteTagFromNote:(int)noteId tagName:(NSString *)tag{
+    NSLog(@"AppModel: Deleting tag from note");
+	
+	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",noteId],tag, nil];
+	
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"notes"
+                                                             andMethodName:@"deleteTagFromNote"
+                                                              andArguments:arguments];
+    [jsonConnection performAsynchronousRequestWithParser:@selector(sendNotificationToNotebookViewer)]; 
+	[jsonConnection release];		
+
+}
 
 - (void)fetchLocationList {
 	NSLog(@"AppModel: Fetching Locations from Server");	
@@ -1626,6 +1687,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
         c.type = [content objectForKey:@"type"];
         [aNote.contents addObject:c];
     }
+    
+    NSArray *tags = [noteDictionary valueForKey:@"tags"];
+    for (NSDictionary *tagOb in tags) {
+        
+        Tag *tag = [[Tag alloc] init];
+        tag.tagName = [tagOb objectForKey:@"tag"];
+        tag.playerCreated = [[tagOb objectForKey:@"player_created"]boolValue];
+        [aNote.tags addObject:tag];
+    }
 	NSSortDescriptor *sortDescriptor;
     sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"noteId"
                                                   ascending:NO] autorelease];
@@ -1715,6 +1785,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	return pan;	
 }
 -(void)parseGameNoteListFromJSON: (JSONResult *)jsonResult{
+    NSLog(@"Parsing Game Note List");
+
 	NSArray *noteListArray = (NSArray *)jsonResult.data;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RecievedNoteList" object:nil]];
 	NSMutableArray *tempNoteList = [[NSMutableArray alloc] initWithCapacity:10];
@@ -1732,11 +1804,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
     
     tempNoteList = [tempNoteList sortedArrayUsingDescriptors:sortDescriptors];
 	[AppModel sharedAppModel].gameNoteList = tempNoteList;
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];	
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
+    NSLog(@"DONE Parsing Game Note List");
+
 	//[tempNoteList release];
 }
 
 -(void)parsePlayerNoteListFromJSON: (JSONResult *)jsonResult{
+    NSLog(@"Parsing Player Note List");
 	NSArray *noteListArray = (NSArray *)jsonResult.data;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RecievedNoteList" object:nil]];
 	NSMutableArray *tempNoteList = [[NSMutableArray alloc] initWithCapacity:10];
@@ -1752,6 +1827,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[AppModel sharedAppModel].playerNoteList = tempNoteList;
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
 	[tempNoteList release];
+    NSLog(@"DONE Parsing Player Note List");
+
 }
 -(void)parseConversationNodeOptionsFromJSON: (JSONResult *)jsonResult {
 	
@@ -1832,7 +1909,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
     NSString *isLocational = [gameSource valueForKey:@"is_locational"];
     if ((NSNull *)isLocational != [NSNull null]) game.isLocational = [isLocational boolValue];
     else game.isLocational = NO;
-    
+
     NSString *inventoryWC = [gameSource valueForKey:@"inventory_weight_cap"];
     if ((NSNull *)inventoryWC != [NSNull null]) game.inventoryWeightCap = [inventoryWC intValue];
     else game.inventoryWeightCap = 0;
@@ -1892,6 +1969,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
     NSString *numComments = [gameSource valueForKey:@"numComments"];
     if ((NSNull *)numComments != [NSNull null]) game.numReviews = [numComments intValue];
     
+    game.allowsPlayerTags = [[gameSource valueForKey:@"allow_player_tags"]boolValue];
+
     NSArray *comments = [gameSource valueForKey:@"comments"];
     for (NSDictionary *comment in comments) {
         //This is returning an object with playerId,tex, and rating. Right now, we just want the text

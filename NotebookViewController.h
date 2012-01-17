@@ -14,6 +14,14 @@
 @interface NotebookViewController : UIViewController<UITableViewDelegate,UITableViewDataSource> {
     NSMutableArray *noteList;
     NSMutableArray *gameNoteList;
+    NSMutableArray *tagList;
+    NSMutableArray *tagNoteList;
+    NSMutableArray *tagGameNoteList;
+    NSMutableArray *headerTitleList;
+    NSMutableArray *headerTitleGameList;
+
+
+
     IBOutlet UIView *menuView;
     IBOutlet UIButton *mineButton,*sharedButton,*popularButton,*tagButton,*dateButton,*abcButton;
     IBOutlet UISegmentedControl *noteControl;
@@ -33,6 +41,15 @@
 -(void)addNote;
 @property (nonatomic, retain) NSMutableArray *noteList;
 @property (nonatomic, retain) NSMutableArray *gameNoteList;
+@property (nonatomic, retain) NSMutableArray *tagList;
+@property (nonatomic, retain) NSMutableArray *tagNoteList;
+@property (nonatomic, retain) NSMutableArray *tagGameNoteList;
+@property (nonatomic, retain) NSMutableArray *headerTitleList;
+@property (nonatomic, retain) NSMutableArray *headerTitleGameList;
+
+
+
+
 @property (nonatomic, retain) IBOutlet UITableView *noteTable;
 @property(nonatomic, retain)IBOutlet UIButton *mineButton;
 @property(nonatomic, retain)IBOutlet UIButton *sharedButton;

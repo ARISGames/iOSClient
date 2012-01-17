@@ -14,7 +14,7 @@
 #import "NearbyObjectsViewController.h"
 
 @implementation Note
-@synthesize comments,contents, creatorId,noteId,parentNoteId,parentRating,shared,text,title,kind,averageRating,numRatings,username,delegate,dropped,showOnMap,showOnList,userLiked,hasImage,hasAudio;
+@synthesize comments,contents, creatorId,noteId,parentNoteId,parentRating,shared,text,title,kind,averageRating,numRatings,username,delegate,dropped,showOnMap,showOnList,userLiked,hasImage,hasAudio,tags,tagSection,tagName;
 
 -(nearbyObjectKind) kind { return NearbyObjectNote; }
 
@@ -25,6 +25,7 @@
         iconMediaId = 71;
         self.comments = [NSMutableArray arrayWithCapacity:5];
         self.contents = [NSMutableArray arrayWithCapacity:5];
+        self.tags = [NSMutableArray arrayWithCapacity:5];
     }
     return self;	
 }

@@ -25,6 +25,7 @@
 #import "AppModel.h"
 #import "NoteContentCell.h"
 #import "UIImage+Scale.h"
+#import "TagViewController.h"
 
 @implementation NoteViewController
 @synthesize textBox,textField,note, delegate, hideKeyboardButton,libraryButton,cameraButton,audioButton, typeControl,viewControllers, scrollView,pageControl,publicButton,textButton,mapButton, contentTable,soundPlayer,noteValid,noteChanged, noteDropped, vidThumbs,startWithView,actionSheet,sharingLabel;
@@ -32,8 +33,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"Note";
-        self.tabBarItem.image = [UIImage imageNamed:@"noteicon.png"];
         viewControllers = [[NSMutableArray alloc] initWithCapacity:10];
         self.note = [[Note alloc]init];
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
@@ -77,7 +76,6 @@
     if(startWithView == 0){
     if(self.note.noteId != 0){
     self.textField.text = self.note.title;
-        self.navigationItem.title = self.textField.text;
     }
     if(self.note.dropped)self.mapButton.selected = YES;   
     else self.mapButton.selected = NO;
@@ -143,7 +141,10 @@
     pageControl.currentPage = 0;
     pageControl.numberOfPages = numPages;
     UIBarButtonItem *previewButton = [[UIBarButtonItem alloc] initWithTitle:@"Preview" style:UIBarButtonItemStylePlain target:self action:@selector(previewButtonTouchAction)];      
-	self.navigationItem.rightBarButtonItem = previewButton;
+    
+    UIBarButtonItem *tagButton = [[UIBarButtonItem alloc] initWithTitle:@"Tag" style:UIBarButtonItemStylePlain target:self action:@selector(tagButtonTouchAction)]; 
+    [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:previewButton,tagButton, nil] animated:YES];
+
     
     [[AVAudioSession sharedInstance] setDelegate: self];
 
@@ -161,7 +162,6 @@
     
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    self.navigationController.navigationItem.title = @"Note";
         [self.soundPlayer pause];
     startWithView = 0;
 
@@ -169,6 +169,12 @@
         [[AppServices sharedAppServices]updateServerDropNoteHere:self.note.noteId atCoordinate:[AppModel sharedAppModel].playerLocation.coordinate];
     }
 
+}
+-(void)tagButtonTouchAction{
+    TagViewController *tagView = [[TagViewController alloc]initWithNibName:@"TagViewController" bundle:nil];
+    tagView.note = self.note;
+    [self.navigationController pushViewController:tagView animated:YES];
+    [tagView release];
 }
 - (IBAction)backButtonTouchAction: (id) sender{
    
@@ -226,9 +232,8 @@
     [self.textField resignFirstResponder];
     self.noteValid = YES;
     [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
-    self.navigationItem.title = self.textField.text;
     self.note.title = self.textField.text;
-    [self.delegate refresh];
+    //[self.delegate refresh];
 
     return YES;
 }

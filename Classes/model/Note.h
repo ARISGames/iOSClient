@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "NearbyObjectProtocol.h"
 
-
 @interface Note : NSObject <NearbyObjectProtocol>{
     NSMutableArray *comments;
     NSMutableArray *contents;
+    NSMutableArray *tags;
     int noteId;
     int creatorId;
     NSString *title;
@@ -30,12 +30,17 @@
     id delegate;
     BOOL hasImage;
     BOOL hasAudio;
+    NSString *tagName;
 }
 
 @property(nonatomic,retain) NSMutableArray *comments;
 @property(nonatomic,retain) NSMutableArray *contents;
+@property(nonatomic,retain) NSMutableArray *tags;
+@property(readwrite,assign)int tagSection;
 @property(nonatomic,retain) NSString *username;
 @property(nonatomic,retain) NSString *title;
+@property(nonatomic,retain) NSString *tagName;
+
 @property(nonatomic, retain) NSString *text;
 @property(readwrite,assign) int noteId;
 @property(readwrite, assign) int creatorId;

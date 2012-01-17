@@ -16,8 +16,9 @@
 BOOL menuDown;
 int filSelected;
 int sortSelected;
+BOOL tagFilter;
 @implementation NotebookViewController
-@synthesize noteList,noteTable, noteControl,gameNoteList,textIconUsed,videoIconUsed,photoIconUsed,audioIconUsed,menuView,sharedButton,mineButton,popularButton,tagButton,mineLbl,sharedLbl,popularLbl,tagLbl,dateLbl,dateButton,abcLbl,abcButton,toolBar,textButton,photoButton,audioButton,isGameList;
+@synthesize noteList,noteTable, noteControl,gameNoteList,textIconUsed,videoIconUsed,photoIconUsed,audioIconUsed,menuView,sharedButton,mineButton,popularButton,tagButton,mineLbl,sharedLbl,popularLbl,tagLbl,dateLbl,dateButton,abcLbl,abcButton,toolBar,textButton,photoButton,audioButton,isGameList,tagList,tagNoteList,tagGameNoteList,headerTitleList,headerTitleGameList;
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
@@ -26,6 +27,13 @@ int sortSelected;
         self.tabBarItem.image = [UIImage imageNamed:@"notebook2.png"]; 
         self.noteList = [[NSMutableArray alloc] initWithCapacity:10];
         self.gameNoteList = [[NSMutableArray alloc] initWithCapacity:10];
+        self.tagList = [[NSMutableArray alloc] initWithCapacity:10];
+        self.tagNoteList = [[NSMutableArray alloc] initWithCapacity:10];
+        self.tagGameNoteList = [[NSMutableArray alloc] initWithCapacity:10];
+        self.headerTitleList = [[NSMutableArray alloc] initWithCapacity:10];
+        self.headerTitleGameList = [[NSMutableArray alloc] initWithCapacity:10];
+
+
 
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(refresh) name:@"NoteDeleted" object:nil];
@@ -46,11 +54,15 @@ int sortSelected;
 
     [self.noteTable setFrame:CGRectMake(0, 44, 320, 324)];
     self.mineButton.selected = YES;
+    self.mineLbl.textColor = [UIColor lightGrayColor];
     self.dateButton.selected = YES;
-  	[noteTable reloadData];
+    self.dateLbl.textColor = [UIColor lightGrayColor];
+
+  	//[noteTable reloadData];
     filSelected = 0;
     sortSelected = 0;
-    
+    [self refresh];
+
 	NSLog(@"NotebookViewController: View Loaded");
 }
 -(void)displayMenu{
@@ -96,7 +108,7 @@ int sortSelected;
             default:
             break;
     }
-    [self refresh];
+    [noteTable reloadData];
 }
 
 -(void)sortButtonTouchAction:(id)sender{
@@ -118,6 +130,8 @@ int sortSelected;
             
             self.noteList = [[[self.noteList sortedArrayUsingDescriptors:sortDescriptors] copy]autorelease];
             self.gameNoteList = [[[self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors] copy]autorelease];
+            tagFilter = NO;
+
             break;
         }
         case 1:
@@ -137,6 +151,8 @@ int sortSelected;
             
             self.noteList = [[[self.noteList sortedArrayUsingDescriptors:sortDescriptors] copy]autorelease];
             self.gameNoteList = [[[self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors] copy]autorelease];
+            tagFilter = NO;
+
             break;  
         }
         case 2:
@@ -156,6 +172,8 @@ int sortSelected;
             
             self.noteList = [[[self.noteList sortedArrayUsingDescriptors:sortDescriptors] copy]autorelease];
             self.gameNoteList = [[[self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors] copy]autorelease];
+            tagFilter = NO;
+
             break; 
         }
         case 3:
@@ -168,16 +186,7 @@ int sortSelected;
             dateLbl.textColor = [UIColor blackColor];
             popularLbl.textColor = [UIColor blackColor];
             abcLbl.textColor = [UIColor blackColor];
-            /*
-
-            NSSortDescriptor *sortDescriptor;
-            sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"numRatings"
-                                                          ascending:NO] autorelease];
-            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-            
-            self.noteList = [[[self.noteList sortedArrayUsingDescriptors:sortDescriptors] copy]autorelease];
-            self.gameNoteList = [[[self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors] copy]autorelease];
-             */
+            tagFilter = YES;
             break; 
         }
         default:
@@ -192,18 +201,18 @@ int sortSelected;
     
     
 	NSLog(@"NotebookViewController: view did appear");
-    
+    [self refresh];
 }
 
 
 -(void)refresh {
 	NSLog(@"NotebookViewController: Refresh Requested");
             
-if(self.sharedButton.selected == NO)
-    [[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:YES];
-    else
-        [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
+   [[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:YES];
+    
+   [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
 
+   [[AppServices sharedAppServices]fetchGameTags];
     //[self showLoadingIndicator];
 }
 
@@ -226,7 +235,6 @@ if(self.sharedButton.selected == NO)
 
 -(void) viewWillAppear:(BOOL)animated{
 
-    [self refresh];
 
 }
 
@@ -246,13 +254,94 @@ if(self.sharedButton.selected == NO)
 	NSLog(@"NotebookViewController: Refresh View from Model");
         
 	self.noteList = [AppModel sharedAppModel].playerNoteList;
-    self.gameNoteList = [AppModel sharedAppModel].gameNoteList;        
-    UIButton *b = [[[UIButton alloc]init]autorelease];
-    b.tag = filSelected;
-    [self sortButtonTouchAction:b];
-    UIButton *c = [[[UIButton alloc]init]autorelease];
-    c.tag = sortSelected;
-    [noteTable reloadData];
+    self.gameNoteList = [AppModel sharedAppModel].gameNoteList;
+    
+    if([AppModel sharedAppModel].gameTagList){
+    self.tagList = [AppModel sharedAppModel].gameTagList;
+    NSSortDescriptor *sortDescriptor;
+    sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"tagName"
+                                                  ascending:YES] autorelease];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    
+    self.tagList = [[[self.tagList sortedArrayUsingDescriptors:sortDescriptors] copy]autorelease];
+        [tagGameNoteList removeAllObjects];
+        [headerTitleGameList removeAllObjects];
+    
+    for(int i = 0; i < [self.tagList count];i++){
+        NSString *tagName = [[self.tagList objectAtIndex:i] tagName];
+                    NSMutableArray *tempTagList = [[NSMutableArray alloc]initWithCapacity:5];
+        for(int x = 0; x < [self.gameNoteList count]; x++){
+
+            for(int y = 0; y < [[[self.gameNoteList objectAtIndex:x] tags] count]; y ++){
+                if ([[[[[self.gameNoteList objectAtIndex:x] tags] objectAtIndex:y] tagName] isEqualToString:tagName]) {
+                    Note *tempNote = [[Note alloc]init];
+                    tempNote = [self.gameNoteList objectAtIndex:x];
+                    [tempNote setTagName:tagName];
+                    NSLog(@"TAGNAME: %@",tagName);
+                    [tempTagList addObject:tempNote];
+                   // [tempNote release];
+                }
+            }
+           
+
+            }
+        if([tempTagList count] >0){
+            [self.tagGameNoteList addObject:tempTagList];
+            [self.headerTitleGameList addObject:tagName];
+        }
+        [tempTagList release];
+        }
+        
+        [tagNoteList removeAllObjects];
+        [headerTitleList removeAllObjects];
+        
+        for(int i = 0; i < [self.tagList count];i++){
+            NSString *tagName = [[self.tagList objectAtIndex:i] tagName];
+            NSMutableArray *tempTagList = [[NSMutableArray alloc]initWithCapacity:5];
+            for(int x = 0; x < [self.noteList count]; x++){
+                
+                for(int y = 0; y < [[[self.noteList objectAtIndex:x] tags] count]; y ++){
+                    if ([[[[[self.noteList objectAtIndex:x] tags] objectAtIndex:y] tagName] isEqualToString:tagName]) {
+                        Note *tempNote = [[Note alloc]init];
+                        tempNote = [self.noteList objectAtIndex:x];
+                        [tempNote setTagName:tagName];
+                        NSLog(@"TAGNAME: %@",tagName);
+                        [tempTagList addObject:tempNote];
+                        //[tempNote release];
+                    }
+                }
+                
+                
+            }
+            if([tempTagList count] >0){
+                [self.tagNoteList addObject:tempTagList];
+                [self.headerTitleList addObject:tagName];
+            }
+            [tempTagList release];
+        }
+
+        UIButton *b = [[[UIButton alloc]init]autorelease];
+        b.tag = filSelected;
+        [self sortButtonTouchAction:b];
+        UIButton *c = [[[UIButton alloc]init]autorelease];
+        c.tag = sortSelected;
+        //[noteTable reloadData];
+        }
+ /*
+    for(int i = 0; i < [self.tagList count];i++){
+        NSString *tagName = [[self.tagList objectAtIndex:i] tagName];
+        for(int x = 0; x < [self.noteList count]; x++){
+            for(int y = 0; y < [[[self.noteList objectAtIndex:x] tags] count]; y ++){
+                if ([[[[[self.noteList objectAtIndex:x] tags] objectAtIndex:y] tagName] isEqualToString:tagName]) {
+                    Note *tempNote = [self.noteList objectAtIndex:x];
+                    [tempNote setTagSection:i];
+                    [self.tagNoteList addObject:tempNote];
+                }
+            }
+        }
+    }
+*/
+    
     //unregister for notifications
                    //  [[NSNotificationCenter defaultCenter] removeObserver:self];
 
@@ -260,12 +349,21 @@ if(self.sharedButton.selected == NO)
 
 #pragma mark Table view methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    if(tagFilter){
+        if(!self.sharedButton.selected)
+            return [self.tagNoteList count];
+        else
+        return [self.tagGameNoteList count];
+        
+    }
+    else
     return 1;
 }
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
+    if(!tagFilter){
      if(self.sharedButton.selected == NO){ 
         if([self.noteList count] == 0) return 1;
         return [self.noteList count];}
@@ -273,7 +371,13 @@ if(self.sharedButton.selected == NO)
         if([self.gameNoteList count] == 0) return 1;
         return [self.gameNoteList count];
     }
-
+    }
+    else{
+        if(!sharedButton.selected)
+            return [[self.tagNoteList objectAtIndex:section] count]; 
+        else
+            return [[self.tagGameNoteList objectAtIndex:section] count]; 
+    }
 }
 
 // Customize the appearance of table view cells.
@@ -291,6 +395,14 @@ if(self.sharedButton.selected == NO)
       currentNoteList = self.gameNoteList;  
         isGameList = YES;
     }
+    
+    if(tagFilter){
+        if(!self.sharedButton.selected)
+            currentNoteList = self.tagNoteList;
+        else 
+        currentNoteList = self.tagGameNoteList;
+    }
+    
 	static NSString *CellIdentifier = @"Cell";
     if([currentNoteList count] == 0 && indexPath.row == 0){
         UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
@@ -318,7 +430,15 @@ if(self.sharedButton.selected == NO)
                 [temporaryController release];
             }
         
-            Note *currNote = (Note *)[currentNoteList objectAtIndex:indexPath.row];
+    Note *currNote;
+    if(!tagFilter){
+            currNote = (Note *)[currentNoteList objectAtIndex:indexPath.row];
+    }
+    else{
+    //tag stuff  
+        
+        currNote = (Note *)[[currentNoteList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    }
     cell.note = currNote;
     cell.delegate = self;
     cell.index = indexPath.row;
@@ -415,7 +535,23 @@ if(self.sharedButton.selected == NO)
    
     return cell;
 }
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    if(tagFilter){
+        if(!self.sharedButton.selected){
+            if([self.headerTitleList count] > section)
+                return [self.headerTitleList objectAtIndex:section];
+            else return @"";
 
+        }
+        else{
+            if([self.headerTitleGameList count] > section)
+                return [self.headerTitleGameList objectAtIndex:section];
+            else return @"";
+        }
+        
+    }
+    else return @"";
+}
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     //Color the backgrounds
@@ -434,8 +570,19 @@ if(self.sharedButton.selected == NO)
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSMutableArray *currentNoteList;
-    if(self.sharedButton.selected == NO) currentNoteList = self.noteList;
-    else currentNoteList = self.gameNoteList;
+    if(self.sharedButton.selected == NO) {
+        if(!tagFilter)
+        currentNoteList = self.noteList;
+        else
+            currentNoteList = [self.tagNoteList objectAtIndex:indexPath.section];
+        
+    }
+    else{ 
+        if(!tagFilter)
+        currentNoteList = self.gameNoteList;
+        else
+            currentNoteList = [self.tagGameNoteList objectAtIndex:indexPath.section];
+    }
  
 
 
@@ -458,6 +605,7 @@ if(self.sharedButton.selected == NO)
 }
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if(tagFilter) return UITableViewCellEditingStyleNone;
     if([self.noteList count] == 0 ||self.noteControl.selectedSegmentIndex==1) return UITableViewCellEditingStyleNone;
 
     return UITableViewCellEditingStyleDelete;
@@ -475,6 +623,10 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
 
     [noteTable reloadData];
     
+}
+
+-(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return  @"Delete Note";
 }
 /*
 -(void)controlChanged:(id)sender{

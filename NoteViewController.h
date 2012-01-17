@@ -84,4 +84,5 @@
 - (void)updateTable;
 //-(IBAction)controlChanged:(id)sender;
 - (void)refreshViewFromModel;
+-(void)tagButtonTouchAction;
 @end

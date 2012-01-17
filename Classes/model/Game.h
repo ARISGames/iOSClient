@@ -37,6 +37,7 @@
 	int numReviews;
     int calculatedScore;
     BOOL isLocational;
+    BOOL allowsPlayerTags;
     Media *iconMedia;
 }
 
@@ -62,6 +63,8 @@
 @property(readwrite, assign) int totalQuests;
 @property(readwrite, assign) int numReviews;
 @property (readwrite) BOOL isLocational;
+@property (readwrite) BOOL allowsPlayerTags;
+
 @property(readwrite, assign) int calculatedScore;
 @property(nonatomic, retain) Media *iconMedia;
 
