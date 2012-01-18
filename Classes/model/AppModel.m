@@ -138,8 +138,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
     [gameNpcList removeAllObjects];
     [gameWebPageList removeAllObjects];
     [gamePanoramicList removeAllObjects];
-    [gameNoteList removeAllObjects];
-    [playerNoteList removeAllObjects];
+    //[gameNoteList removeAllObjects];
+    //[playerNoteList removeAllObjects];
 }
 
 -(void)clearUserDefaults {
