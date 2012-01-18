@@ -293,6 +293,7 @@
     mapVC.noteId = self.note.noteId;
     mapVC.delegate = self;
     self.noteValid = YES;
+        self.mapButton.selected = YES;
 
     [self.navigationController pushViewController:mapVC animated:NO];
     [mapVC release];
@@ -322,6 +323,7 @@
 -(void)willPresentActionSheet:(UIActionSheet *)actionSheet{
    }
 -(void)actionSheet:(UIActionSheet *)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex{
+    if(note.dropped){
     switch (buttonIndex) {
         case 0:
             self.note.showOnList = YES;
@@ -346,6 +348,25 @@
             break;
         default:
             break;
+    }
+    }
+    else{
+        switch (buttonIndex) {
+            case 0:
+                self.note.showOnList = YES;
+                self.note.showOnMap = NO;
+                self.sharingLabel.text = @"List Only";
+                break;
+            case 1:
+                self.note.showOnList = NO;
+                self.note.showOnMap = NO;
+                self.sharingLabel.text = @"None";
+                break;
+            default:
+                break;
+        }
+
+
     }
     [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
 

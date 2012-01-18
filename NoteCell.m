@@ -36,6 +36,11 @@
    // [textView resignFirstResponder];
     return YES;
 }
+-(BOOL)textViewShouldBeginEditing:(UITextView *)textView{
+    if([textView.text isEqualToString:@"New Note"])
+        textView.text = @"";
+    return YES;
+}
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     if([text isEqualToString:@"\n"]){
        // [self.titleLabel setUserInteractionEnabled:NO];

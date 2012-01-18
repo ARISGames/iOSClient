@@ -55,7 +55,8 @@
     self.videoIconUsed = NO;
     self.photoIconUsed = NO;
     self.audioIconUsed = NO;
-    
+    if(self.textBox.frame.origin.y == 0)
+        [self.textBox becomeFirstResponder];
 }
 -(void)addPhotoButtonTouchAction{
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
