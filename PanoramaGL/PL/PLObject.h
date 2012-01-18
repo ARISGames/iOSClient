@@ -42,16 +42,16 @@
 
 @property(nonatomic) BOOL isXAxisEnabled, isYAxisEnabled, isZAxisEnabled;
 @property(nonatomic) PLPosition position;
-@property(nonatomic, getter=getX, setter=setX) float x;
-@property(nonatomic, getter=getY, setter=setY) float y;
-@property(nonatomic, getter=getZ, setter=setZ) float z;
+@property(readwrite,assign) float x;
+@property(readwrite,assign) float y;
+@property(readwrite,assign) float z;
 @property(nonatomic) PLRange xRange, yRange, zRange;
 
 @property(nonatomic) BOOL isPitchEnabled, isYawEnabled, isRollEnabled, isReverseRotation, isYZAxisInverseRotation;
 @property(nonatomic) PLRotation rotation;
-@property(nonatomic, getter=getPitch, setter=setPitch) float pitch;
-@property(nonatomic, getter=getYaw, setter=setYaw) float yaw;
-@property(nonatomic, getter=getRoll, setter=setRoll) float roll;
+@property(readwrite,assign) float pitch;
+@property(readwrite,assign) float yaw;
+@property(readwrite,assign) float roll;
 @property(nonatomic) PLRange pitchRange, yawRange, rollRange;
 @property(nonatomic) float rotateSensitivity;
 

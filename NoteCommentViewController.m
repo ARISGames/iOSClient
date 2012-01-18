@@ -139,7 +139,12 @@
     if([currNote.contents count] == 0 && (currNote.creatorId != [AppModel sharedAppModel].playerId))cell.userInteractionEnabled = NO;
     cell.titleLabel.text = currNote.title;
         cell.userLabel.text = currNote.username;
+    CGFloat height = [self calculateTextHeight:[currNote title]] +35;
+    if (height < 60)height = 60;
+    [cell.userLabel setFrame:CGRectMake(cell.userLabel.frame.origin.x, height-cell.userLabel.frame.size.height-5, cell.userLabel.frame.size.width, cell.userLabel.frame.size.height)];
     for(int x = 0; x < [currNote.contents count];x++){
+        
+
         if([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"TEXT"]){
                     //Dont show icon for text since it is assumed to always be there
         }
@@ -147,10 +152,10 @@
             AsyncImageView *aImageView = [[AsyncImageView alloc]init];
             Media *media = [[AppModel sharedAppModel]mediaForMediaId:[(NoteContent *)[[currNote contents] objectAtIndex:x] mediaId]];
             [aImageView loadImageFromMedia:media];
-            if(!currNote.hasAudio)
-            [aImageView setFrame:CGRectMake(10, 60, 300, 300)];
+                       if(!currNote.hasAudio)
+            [aImageView setFrame:CGRectMake(10, height, 300, 300)];
             else
-                [aImageView setFrame:CGRectMake(10, 100, 300, 300)];
+                [aImageView setFrame:CGRectMake(10, height+40, 300, 300)];
 
             [cell addSubview:aImageView];
             [aImageView release];
@@ -188,9 +193,9 @@
             }
             
             if(!currNote.hasAudio)
-                [mediaPlayBackButton setFrame:CGRectMake(10, 80, 300, 223)];
+                [mediaPlayBackButton setFrame:CGRectMake(10, height+20, 300, 223)];
             else
-                [mediaPlayBackButton setFrame:CGRectMake(10, 120, 300, 223)];
+                [mediaPlayBackButton setFrame:CGRectMake(10, height+60, 300, 223)];
             
             playButonOverlay.frame = mediaPlayBackButton.frame;
 
@@ -200,7 +205,7 @@
         }
         else if([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"AUDIO"]){
             
-            CustomAudioPlayer *player = [[CustomAudioPlayer alloc]initWithFrame:CGRectMake(10, 60, 300, 40) andMediaId:[(NoteContent *)[[currNote contents] objectAtIndex:x] mediaId]];
+            CustomAudioPlayer *player = [[CustomAudioPlayer alloc]initWithFrame:CGRectMake(10, height, 300, 40) andMediaId:[(NoteContent *)[[currNote contents] objectAtIndex:x] mediaId]];
             [player loadView];
             [cell addSubview:player];
             [player release];
@@ -239,8 +244,8 @@
     */
 }
 - (int) calculateTextHeight:(NSString *)text {
-	CGRect frame = CGRectMake(0, 0, self.view.bounds.size.width, 200000);
-	CGSize calcSize = [text sizeWithFont:[UIFont fontWithName:@"Helvetica" size:17.0]
+	CGRect frame = CGRectMake(0, 0, 235, 200000);
+	CGSize calcSize = [text sizeWithFont:[UIFont fontWithName:@"HelveticaNeue-CondensedBold" size:17.0]
 					   constrainedToSize:frame.size lineBreakMode:UILineBreakModeWordWrap];
 	frame.size = calcSize;
 	frame.size.height += 0;

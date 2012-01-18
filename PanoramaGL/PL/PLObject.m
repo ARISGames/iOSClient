@@ -40,6 +40,7 @@
 @synthesize rotation;
 @synthesize pitchRange, yawRange, rollRange;
 @synthesize rotateSensitivity;
+@synthesize x,y,z,yaw,pitch,roll;
 
 @synthesize orientation;
 
