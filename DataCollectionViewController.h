@@ -45,5 +45,5 @@
 -(IBAction)shareButtonTouch;
 -(IBAction)commentButtonTouch;
 -(IBAction)likeButtonTouch;
-
+-(void)backButtonTouch;
 @end

@@ -70,6 +70,10 @@
         
     [self.navigationItem setRightBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleDone target:self action:@selector(editButtonTouched)] autorelease]];
     }
+    if([self.delegate isKindOfClass:[Note class]]){
+        [self.navigationItem setLeftBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonTouch)] autorelease]];
+    }
+
     NoteContent *noteContent = [[NoteContent alloc] init];
     if([self.note.contents count] == 0){
         
@@ -81,6 +85,9 @@
         }
     }
     self.pageControl.currentPage = 0;
+}
+-(void)backButtonTouch{
+    [self dismissModalViewControllerAnimated:NO];
 }
 -(void)editButtonTouched{
     NoteViewController *noteVC = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];

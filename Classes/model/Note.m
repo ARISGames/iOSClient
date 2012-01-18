@@ -36,29 +36,16 @@
 	NSLog(@"WebPage: Display Self Requested");
 	
 	//Create a reference to the delegate using the application singleton.
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
+    
 
-    
-    
-    if(self.creatorId == [AppModel sharedAppModel].playerId){
-        
-        NoteViewController *noteVC = [[[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil]autorelease];
-        noteVC.note = self;
-        noteVC.delegate = self;
-        if([self.delegate isKindOfClass:[NearbyObjectsViewController class]]) {
-            [[(NearbyObjectsViewController *)self.delegate navigationController]pushViewController:noteVC animated:YES]; 
-        }        //[noteVC release];
-    }
-    else{
         //open up note viewer
         DataCollectionViewController *dataVC = [[[DataCollectionViewController alloc] initWithNibName:@"DataCollectionViewController" bundle:nil]autorelease];
         dataVC.note = self;
         dataVC.delegate = self;
-        if([self.delegate isKindOfClass:[NearbyObjectsViewController class]]) {
-            [[(NearbyObjectsViewController *)self.delegate navigationController]pushViewController:dataVC animated:YES]; 
-        }
-        //[dataVC release];
-    }
+    [appDelegate displayNearbyObjectView:dataVC];
 
+             //[dataVC release]
 
 }
 
