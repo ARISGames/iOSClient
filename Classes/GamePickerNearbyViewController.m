@@ -192,6 +192,23 @@
 		// Grab a pointer to the custom cell.
 		cell = (GamePickerCell *)temporaryController.view;
 		// Release the temporary UIViewController.
+        cell.starView.backgroundColor = [UIColor clearColor];
+        
+        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-halfselected.png"]
+                           forState:kSCRatingViewHalfSelected];
+        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
+                           forState:kSCRatingViewHighlighted];
+        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
+                           forState:kSCRatingViewHot];
+        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
+                           forState:kSCRatingViewNonSelected];
+        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]
+                           forState:kSCRatingViewSelected];
+        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
+                           forState:kSCRatingViewUserSelected];
+        
+        
+
 		[temporaryController release];
     }
 	Game *currentGame = [self.gameList objectAtIndex:indexPath.row];
@@ -202,23 +219,7 @@
 	cell.authorLabel.text = currentGame.authors;
 	cell.numReviewsLabel.text = [NSString stringWithFormat:@"%@%@", [[NSNumber numberWithInt:currentGame.numReviews] stringValue], @" reviews"];
     cell.starView.rating = currentGame.rating;
-    cell.starView.backgroundColor = [UIColor clearColor];
-	
-    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-halfselected.png"]
-                               forState:kSCRatingViewHalfSelected];
-    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
-                               forState:kSCRatingViewHighlighted];
-    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
-                               forState:kSCRatingViewHot];
-    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
-                               forState:kSCRatingViewNonSelected];
-    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]
-                               forState:kSCRatingViewSelected];
-    [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
-                               forState:kSCRatingViewUserSelected];
-    
-  
-    //Set up the Icon
+       //Set up the Icon
     //Create a new iconView for each cell instead of reusing the same one
     AsyncImageView *iconView = [[AsyncImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
 
