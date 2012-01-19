@@ -334,12 +334,13 @@
         Media *iconMedia;
         if([self.iconCache count] < indexPath.row){
             iconMedia = [self.iconCache objectAtIndex:indexPath.row];
+            [iconView updateViewWithNewImage:iconMedia.image];
         }
         else{
             iconMedia = [[AppModel sharedAppModel] mediaForMediaId: item.iconMediaId];
             [self.iconCache  addObject:iconMedia];
+            [iconView loadImageFromMedia:iconMedia];
         }
-		[iconView loadImageFromMedia:iconMedia];
 	}
 	else {
 		//Load the Default
