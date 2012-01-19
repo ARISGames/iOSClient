@@ -39,6 +39,16 @@
 			<string>PSToggleSwitchSpecifier</string>
 		</dict>
 		<dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Location Visible To Others</string>
+			<key>Key</key>
+			<string>showPlayerOnMap</string>
+			<key>DefaultValue</key>
+			<true/>
+		</dict>
+		<dict>
 			<key>DefaultValue</key>
 			<false/>
 			<key>Key</key>

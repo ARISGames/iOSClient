@@ -236,6 +236,7 @@
         self.gameSelectionTabBarController.view.hidden = YES;
     }
     else {
+        [[AppServices sharedAppServices]setShowPlayerOnMap];
         [AppModel sharedAppModel].loggedIn = YES;
         self.loginViewNavigationController.view.hidden = YES;
         self.tabBarController.view.hidden = YES;
@@ -584,6 +585,8 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application{
 	NSLog(@"AppDelegate: applicationDidBecomeActive");
 	[[AppModel sharedAppModel] loadUserDefaults];
+    [[AppServices sharedAppServices]setShowPlayerOnMap];
+
 }
 
 - (void) resetCurrentlyFetchingVars{

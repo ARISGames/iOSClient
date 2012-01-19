@@ -24,6 +24,7 @@ extern NSDictionary *InventoryElements;
 	NSUserDefaults *defaults;
 	NSURL *serverURL;
     BOOL showGamesInDevelopment;
+    BOOL showPlayerOnMap;
 	Game *currentGame;
 	UIAlertView *networkAlert;
 	
@@ -73,6 +74,8 @@ extern NSDictionary *InventoryElements;
 @property(nonatomic, retain) NSURL *serverURL;
 @property(readwrite) BOOL loggedIn;
 @property(readwrite) BOOL showGamesInDevelopment;
+@property(readwrite) BOOL showPlayerOnMap;
+
 @property(readwrite) BOOL profilePic;
 
 

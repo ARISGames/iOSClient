@@ -15,7 +15,7 @@
 
 
 @implementation AppModel
-@synthesize serverURL,showGamesInDevelopment;
+@synthesize serverURL,showGamesInDevelopment,showPlayerOnMap;
 @synthesize loggedIn, userName, password, playerId;
 @synthesize currentGame, gameList, locationList, playerList,recentGameList;
 @synthesize playerLocation, inventory, questList, networkAlert;
@@ -72,7 +72,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
 	NSString *baseServerString = [defaults stringForKey:@"baseServerString"];
     NSURL *currServ = [NSURL URLWithString: baseServerString ];
    
-    
+    self.showPlayerOnMap = [defaults boolForKey:@"showPlayerOnMap"];
     if(!loggedIn &&(self.showGamesInDevelopment == [defaults boolForKey:@"showGamesInDevelopment"])&&(!(![currServ isEqual:self.serverURL] || (self.serverURL == nil)))) {
         self.userName = [defaults objectForKey:@"userName"];
         self.playerId = [defaults integerForKey:@"playerId"];
@@ -175,7 +175,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
 	
 	//Find the Defaults
 	NSString *baseAppURLDefault = [NSString stringWithString:@"Unknown Default"];
-    NSNumber *showGamesInDevelopmentDefault;
+    NSNumber *showGamesInDevelopmentDefault,*showPlayerOnMapDefault;
 	NSDictionary *prefItem;
 	for (prefItem in prefSpecifierArray)
 	{
@@ -189,6 +189,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
 		{
 			showGamesInDevelopmentDefault = [prefItem objectForKey:@"DefaultValue"];
 		}
+        if ([keyValueStr isEqualToString:@"showPlayerOnMap"])
+		{
+			showPlayerOnMapDefault = [prefItem objectForKey:@"DefaultValue"];
+		}
+
 		//More defaults would go here
 	}
 	
@@ -196,6 +201,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppModel);
 	NSDictionary *appDefaults = [NSDictionary dictionaryWithObjectsAndKeys: 
 								 baseAppURLDefault,  @"baseServerString",
                                  showGamesInDevelopmentDefault , @"showGamesInDevelopment",
+                                 showPlayerOnMapDefault,@"showPlayerOnMapDefault",
 								 nil];
 	
 	[[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];

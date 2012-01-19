@@ -40,7 +40,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	[jsonConnection release];
 	
 }
-
+-(void)setShowPlayerOnMap{
+	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].playerId],[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].showPlayerOnMap], nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithServer:[AppModel sharedAppModel].serverURL 
+                                                             andServiceName: @"players" 
+                                                              andMethodName:@"setShowPlayerOnMap"
+                                                               andArguments:arguments]; 
+    
+	[jsonConnection performAsynchronousRequestWithParser:nil]; 
+	[jsonConnection release];
+}
 - (void)registerNewUser:(NSString*)userName password:(NSString*)pass 
 			  firstName:(NSString*)firstName lastName:(NSString*)lastName email:(NSString*)email {
 	NSLog(@"AppModel: New User Registration Requested");
@@ -1866,6 +1875,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AppServices);
 	if ((NSNull *)jsonResult.data != [NSNull null] && jsonResult.data != nil) {
 		[AppModel sharedAppModel].loggedIn = YES;
 		[AppModel sharedAppModel].playerId = [((NSDecimalNumber*)jsonResult.data) intValue];
+        [[AppServices sharedAppServices]setShowPlayerOnMap];
+
 	}
 	else {
 		[AppModel sharedAppModel].loggedIn = NO;	
