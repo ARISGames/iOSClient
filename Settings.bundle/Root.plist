@@ -42,7 +42,7 @@
 			<key>Type</key>
 			<string>PSToggleSwitchSpecifier</string>
 			<key>Title</key>
-			<string>Location Visible To Others</string>
+			<string>Loc Visible To Others</string>
 			<key>Key</key>
 			<string>showPlayerOnMap</string>
 			<key>DefaultValue</key>

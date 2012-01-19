@@ -100,7 +100,7 @@
     self.commentLabel.text = [NSString stringWithFormat:@"%d",[self.note.comments count]];
     self.likeLabel.text = [NSString stringWithFormat:@"%d",self.note.numRatings];
     if(self.note.userLiked) [self.likeButton setStyle:UIBarButtonItemStyleDone];
-    else [self.likeButton setStyle:UIBarButtonItemStylePlain];
+    else [self.likeButton setStyle:UIBarButtonItemStyleBordered];
 }
 -(void)commentButtonTouch{
     [self showComments];
@@ -115,7 +115,7 @@
     else{
         [[AppServices sharedAppServices]unLikeNote:self.note.noteId];
         self.note.numRatings--;
-        [self.likeButton setStyle:UIBarButtonItemStylePlain];
+        [self.likeButton setStyle:UIBarButtonItemStyleBordered];
     }
     self.likeLabel.text = [NSString stringWithFormat:@"%d",self.note.numRatings];
 
