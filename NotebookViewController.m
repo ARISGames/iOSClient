@@ -47,7 +47,7 @@ BOOL tagFilter;
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-    UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStylePlain target:self action:@selector(displayMenu)];
+    UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStyleBordered target:self action:@selector(displayMenu)];
     self.navigationItem.rightBarButtonItem = barButton;
     [self.menuView setFrame:CGRectMake(0, -80, 320, 80)];
     [self.toolBar setFrame:CGRectMake(0, 0, 320, 44)];
@@ -74,7 +74,7 @@ BOOL tagFilter;
     [self.menuView setFrame:CGRectMake(0, 0, 320, 80)];
         [self.toolBar setFrame:CGRectMake(0, 80, 320, 44)];
         [self.noteTable setFrame:CGRectMake(0, 124, 320, 244)];
-
+        [self.navigationItem.rightBarButtonItem setStyle:UIBarButtonItemStyleDone];
     [UIView commitAnimations];
     }
     else{
@@ -84,6 +84,7 @@ BOOL tagFilter;
         [self.menuView setFrame:CGRectMake(0, -80, 320, 80)];
         [self.toolBar setFrame:CGRectMake(0, 0, 320, 44)];
         [self.noteTable setFrame:CGRectMake(0, 44, 320, 324)];
+        [self.navigationItem.rightBarButtonItem setStyle:UIBarButtonItemStyleBordered];
 
         [UIView commitAnimations];        
     }
