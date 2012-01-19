@@ -44,7 +44,7 @@
 						<string key="NSFrameSize">{320, 416}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="501608022"/>
+						<reference key="NSNextKeyView"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC44IDAuOCAwLjgAA</bytes>
@@ -70,7 +70,7 @@
 								<string key="NSFrame">{{76, 7}, {160, 31}}</string>
 								<reference key="NSSuperview" ref="501608022"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
+								<reference key="NSNextKeyView" ref="517056198"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -107,6 +107,7 @@
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<int key="IBUIBarStyle">1</int>
 						<array class="NSMutableArray" key="IBUIItems">
 							<object class="IBUIBarButtonItem" id="926071231">
 								<string key="IBUITitle">Cancel</string>
@@ -124,22 +125,14 @@
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIStyle">2</int>
 								<reference key="IBUIToolbar" ref="501608022"/>
-								<object class="NSColor" key="IBUITintColor">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MCAwLjMyMDE5MjY3MjkgMC45NTkxODM2NzM1AA</bytes>
-								</object>
 							</object>
 						</array>
-						<object class="NSColor" key="IBUITintColor">
-							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MC4yMzkxMzA0MzQ4IDAuMjM5MTMwNDM0OCAwLjIzOTEzMDQzNDgAA</bytes>
-						</object>
 					</object>
 				</array>
 				<string key="NSFrame">{{0, 64}, {320, 416}}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView" ref="517056198"/>
+				<reference key="NSNextKeyView" ref="501608022"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
 					<bytes key="NSWhite">MQA</bytes>

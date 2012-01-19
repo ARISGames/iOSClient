@@ -10,8 +10,6 @@
 
 @interface TagCell : UITableViewCell{
     IBOutlet UILabel *nameLabel;
-    IBOutlet UIImageView *checkImage;
 }
 @property(nonatomic,retain)IBOutlet UILabel *nameLabel;
-@property(nonatomic,retain)IBOutlet UIImageView *checkImage;
 @end

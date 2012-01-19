@@ -99,8 +99,8 @@
 -(void)viewWillAppear:(BOOL)animated{
     self.commentLabel.text = [NSString stringWithFormat:@"%d",[self.note.comments count]];
     self.likeLabel.text = [NSString stringWithFormat:@"%d",self.note.numRatings];
-    if(self.note.userLiked) [self.likeButton setTintColor:[UIColor blueColor]];
-    else [self.likeButton setTintColor:[UIColor clearColor]];
+    if(self.note.userLiked) [self.likeButton setStyle:UIBarButtonItemStyleDone];
+    else [self.likeButton setStyle:UIBarButtonItemStylePlain];
 }
 -(void)commentButtonTouch{
     [self showComments];
@@ -110,12 +110,12 @@
     if(self.note.userLiked){
         [[AppServices sharedAppServices]likeNote:self.note.noteId];
         self.note.numRatings++;
-        [self.likeButton setTintColor:[UIColor blueColor]];
+        [self.likeButton setStyle:UIBarButtonItemStyleDone];
     }
     else{
         [[AppServices sharedAppServices]unLikeNote:self.note.noteId];
         self.note.numRatings--;
-        [self.likeButton setTintColor:[UIColor clearColor]];
+        [self.likeButton setStyle:UIBarButtonItemStylePlain];
     }
     self.likeLabel.text = [NSString stringWithFormat:@"%d",self.note.numRatings];
 

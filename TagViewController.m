@@ -126,7 +126,7 @@
 
     
     UITableViewCell *tempCell = (TagCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (![tempCell respondsToSelector:@selector(checkImage)]){
+    if (![tempCell respondsToSelector:@selector(nameLabel)]){
         //[tempCell release];
         tempCell = nil;
     }
@@ -150,7 +150,7 @@
     
     for(int i = 0; i < self.note.tags.count;i++){
         if([[(Tag *)[self.note.tags objectAtIndex:i] tagName] isEqualToString:cell.nameLabel.text]){
-            cell.checkImage.image = [UIImage imageNamed:@"check.png"];
+            [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
             break;
         }
     }
@@ -168,13 +168,13 @@
         [UIView commitAnimations];    }
     else{
         TagCell *cell = (TagCell *)[tableView cellForRowAtIndexPath:indexPath];
-        if(cell.checkImage.image){
-            cell.checkImage.image = nil;
+        if(cell.accessoryType == UITableViewCellAccessoryCheckmark){
+            [cell setAccessoryType:nil];
             //delete tag from note
             [[AppServices sharedAppServices]deleteTagFromNote:self.note.noteId tagName:cell.nameLabel.text];
         }
         else{
-            cell.checkImage.image = [UIImage imageNamed:@"check.png"];
+            [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
             //add tag to note;
             [[AppServices sharedAppServices]addTagToNote:self.note.noteId tagName:cell.nameLabel.text];
                    }

@@ -9,7 +9,7 @@
 #import "TagCell.h"
 
 @implementation TagCell
-@synthesize nameLabel,checkImage;
+@synthesize nameLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
