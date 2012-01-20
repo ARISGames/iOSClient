@@ -409,7 +409,7 @@ BOOL tagFilter;
         UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
 
         cell.textLabel.text = @"No Notes";
-        cell.detailTextLabel.text = @"Press Plus Button Above To Add One!";
+        cell.detailTextLabel.text = @"Press A Red Button Above To Add One!";
         cell.userInteractionEnabled = NO;
         return cell;
     }
