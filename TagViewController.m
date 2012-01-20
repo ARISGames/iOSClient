@@ -161,11 +161,21 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.section == 1){
         //create new tag
+        if([AppModel sharedAppModel].currentGame.allowsPlayerTags){
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
         [UIView setAnimationDuration:.5];
         [self.addTagToolBar setFrame:CGRectMake(addTagToolBar.frame.origin.x, 0, 320, 44)];
-        [UIView commitAnimations];    }
+            [UIView commitAnimations];  }
+        else{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Cannot Create New Tag" message: @"This game does not allow the use of player created tags!" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+            
+            [alert show];
+            [alert release];
+
+        }
+        
+        }
     else{
         TagCell *cell = (TagCell *)[tableView cellForRowAtIndexPath:indexPath];
         if(cell.accessoryType == UITableViewCellAccessoryCheckmark){
