@@ -45,11 +45,10 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBUITableView" id="663349892">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">274</int>
+						<int key="NSvFlags">306</int>
 						<string key="NSFrame">{{0, 124}, {320, 243}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">6</int>
 							<string key="NSCatalogName">System</string>
@@ -379,7 +378,7 @@
 					</object>
 					<object class="IBUIToolbar" id="442786970">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">266</int>
+						<int key="NSvFlags">290</int>
 						<string key="NSFrame">{{0, 80}, {320, 44}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
