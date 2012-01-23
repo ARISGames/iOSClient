@@ -722,15 +722,18 @@
 
 //Play a sound
 - (void) playAudio:(NSString*)wavFileName {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];  
 
-	
-	SystemSoundID alert;  
 	NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:wavFileName ofType:@"wav"]];
-	AudioServicesCreateSystemSoundID((CFURLRef)url, &alert);  
-	AudioServicesPlaySystemSound (alert);
-				  
-	[pool release];
+    NSLog(@"Appdelegate: Playing Audio: %@", url);
+    NSError* err;
+    AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithContentsOfURL: url error:&err];
+    
+    if( err ){
+        NSLog(@"Appdelegate: Playing Audio: Failed with reason: %@", [err localizedDescription]);
+    }
+    else{
+        [player play];
+    }
 }
 
 //Vibrate
