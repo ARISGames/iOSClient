@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
-#import "AppModel.h";
-#import "ARISAppDelegate.h";
+#import "AppModel.h"
+#import "ARISAppDelegate.h"
 #import "AsyncImageView.h"
 
 #define POINTER_LENGTH 10

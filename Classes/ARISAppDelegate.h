@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AppModel.h";
+#import "AppModel.h"
 
-#import "LoginViewController.h";
+#import "LoginViewController.h"
 #import "MyCLController.h"
 
 #import "model/Game.h"

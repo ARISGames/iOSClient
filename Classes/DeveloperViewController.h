@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AppModel.h";
-#import "Location.h";
+#import "AppModel.h"
+#import "Location.h"
 
 @interface DeveloperViewController : UIViewController {	
 	UITableView *locationTable;

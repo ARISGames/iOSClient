@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ARISAppDelegate.h";
-#import "AppModel.h";
+#import "ARISAppDelegate.h"
+#import "AppModel.h"
 #import "Quest.h"
 
 
