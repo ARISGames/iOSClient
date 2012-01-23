@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "SceneParser.h"
-
-@class AsyncImageView;
-@class AudioStreamer;
-@class AVAudioPlayer;
-@class Node;
+#import "AsyncImageView.h"
+#import "Node.h"
+#import "Npc.h"
+#import "Scene.h"
+#import "SceneParser.h"
 
 @interface DialogViewController : UIViewController<SceneParserDelegate, UIScrollViewDelegate, UITextFieldDelegate> {
 	IBOutlet	AsyncImageView	*npcImage;
@@ -48,10 +48,7 @@
     NSString        *exitToTabVal;
 	UIView			*cachedScrollView;
 	SceneParser		*parser;
-	
-	AudioStreamer	*bgPlayer;
-	AudioStreamer	*fgPlayer;
-	
+		
 	Npc				*currentNpc;
 	Node			*currentNode;
 	NSArray			*optionList;
@@ -102,7 +99,6 @@
 - (void) finishApplyingPlayerOptions:(NSArray*)options;
 - (void) showWaitingIndicatorForPlayerOptions;
 - (void) dismissWaitingIndicatorForPlayerOptions;
-- (void) stopAllAudio;
 - (void) imageFinishedLoading;
 
 @end

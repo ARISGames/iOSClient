@@ -9,7 +9,6 @@
 #import "AppModel.h"
 #import "AppServices.h"
 #import "AsyncImageView.h"
-#import "AudioStreamer.h"
 #import "DialogViewController.h"
 #import "Media.h"
 #import "Node.h"
@@ -108,8 +107,8 @@ NSString *const kDialogHtmlTemplate =
 	
 	[npcWebView setBackgroundColor:[UIColor clearColor]];	
 	[pcWebView setBackgroundColor:[UIColor clearColor]];
-	
-	pcTableViewController = [[UITableViewController alloc] initWithStyle:UITableViewCellStyleDefault];
+
+	pcTableViewController = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
 	pcTableViewController.view = pcTableView;
 
 	[npcContinueButton setTitle: NSLocalizedString(@"DialogContinue",@"") forState: UIControlStateNormal];
@@ -200,7 +199,6 @@ NSString *const kDialogHtmlTemplate =
 }
 - (void) viewDidDisappear:(BOOL)animated {
 	NSLog(@"DialogViewController: View Did Disapear");
-	[self stopAllAudio];
 }
 
 - (IBAction)backButtonTouchAction: (id) sender{
@@ -420,7 +418,6 @@ NSString *const kDialogHtmlTemplate =
             }
         }
         else{
-            [self stopAllAudio];
             [self applyPlayerOptions];
         }
 	}
@@ -563,25 +560,6 @@ NSString *const kDialogHtmlTemplate =
 	BOOL isCurrentlyDisplayed;
 	cachedScene = [aScene retain];
 	
-	// Sounds
-	if (aScene.backSoundMediaId == kStopSound) {
-		[bgPlayer stop];
-		[bgPlayer release];
-		bgPlayer = nil;
-	}
-	else if (aScene.backSoundMediaId != kEmptySound) {
-		[self playSound:[aScene backSoundMediaId] asBackground:YES];
-	}
-	
-	if (aScene.foreSoundMediaId != kEmptySound) {
-		[self playSound:[aScene foreSoundMediaId] asBackground:NO];
-	}
-	else {
-		[fgPlayer stop];
-		[fgPlayer release];
-		fgPlayer = nil;		
-	}
-	
     characterView = aScene.isPc ? pcView : npcView;
 	characterWebView = aScene.isPc ? pcWebView : npcWebView;
 	characterScrollView = aScene.isPc ? pcScrollView : npcScrollView;
@@ -599,13 +577,6 @@ NSString *const kDialogHtmlTemplate =
 		[UIView commitAnimations];
 	}
 	else [self moveAllOutWithPostSelector:@selector(finishScene)];
-}
-
-- (void) stopAllAudio {
-	NSLog(@"Dialog ViewController: Stoping all Audio");
-	
-	if (fgPlayer) [fgPlayer stop];
-	if (bgPlayer) [bgPlayer stop];
 }
 
 - (void) finishScene {
@@ -812,32 +783,6 @@ NSString *const kDialogHtmlTemplate =
 
 #pragma mark Audio
 - (void) playSound:(int)soundId asBackground:(BOOL)yesOrNo {
-	
-	Media *audioMedia = [[AppModel sharedAppModel] mediaForMediaId:soundId];
-	
-	if (!audioMedia) return;
-	NSURL *url = [[NSURL alloc] initWithString:audioMedia.url];
-	AudioStreamer *player = [[AudioStreamer alloc] initWithURL:url];
-	NSLog(@"Opening audio URL %@", [url path]);
-	[url release];
-	
-	if (yesOrNo) {
-		if (bgPlayer) {
-			[bgPlayer stop];
-			[bgPlayer release];
-			bgPlayer = nil;
-		}
-		bgPlayer = player;
-	}
-	else {
-		if (fgPlayer) {
-			[fgPlayer stop];
-			[fgPlayer release];
-			fgPlayer = nil;
-		}
-		fgPlayer = player;
-	}
-	[player start];
 }
 
 #pragma mark Answer Checking
