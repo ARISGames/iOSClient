@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CLLocation.h>
-#import "SynthesizeSingleton.h"
 #import "Game.h"
 #import "Item.h"
 #import "Node.h"

@@ -47,7 +47,6 @@
     UITabBarController *gameSelectionTabBarController;
     TutorialViewController *tutorialViewController;
 	UINavigationController *nearbyObjectsNavigationController;
-	MyCLController *myCLController;
 	LoginViewController *loginViewController;
 	UINavigationController *loginViewNavigationController;
 	UINavigationController *nearbyObjectNavigationController;
@@ -69,7 +68,6 @@
 
 }
 
-@property (nonatomic, retain) MyCLController *myCLController;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
 @property (nonatomic, retain) UIViewController *defaultViewControllerForMainTabBar;

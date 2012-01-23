@@ -328,7 +328,6 @@
 		D42432631107735800E58147 /* DialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D42432621107735800E58147 /* DialogViewController.m */; };
 		D4243268110773EB00E58147 /* Dialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4243267110773EB00E58147 /* Dialog.xib */; };
 		D43717DF106D62BB0020C515 /* Media.m in Sources */ = {isa = PBXBuildFile; fileRef = D43717DE106D62BB0020C515 /* Media.m */; };
-		D4D366AC111B65E0009C4D00 /* AudioStreamer.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D366AB111B65E0009C4D00 /* AudioStreamer.m */; };
 		D4D366DF111B6789009C4D00 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D366DE111B6789009C4D00 /* CFNetwork.framework */; };
 		D4DE6B8B110A00D7008BFE38 /* defaultCharacter.png in Resources */ = {isa = PBXBuildFile; fileRef = D4DE6B8A110A00D7008BFE38 /* defaultCharacter.png */; };
 /* End PBXBuildFile section */
@@ -659,7 +658,6 @@
 		AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		AB15EC1310B49F8A00EEC11F /* AsyncImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncImageView.h; sourceTree = "<group>"; };
 		AB15EC1410B49F8A00EEC11F /* AsyncImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncImageView.m; sourceTree = "<group>"; };
-		AB18AEAA137B178800382826 /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesizeSingleton.h; sourceTree = "<group>"; };
 		AB18AEB8137B249A00382826 /* AppServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppServices.h; path = ../../AppServices.h; sourceTree = "<group>"; };
 		AB18AEB9137B249A00382826 /* AppServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppServices.m; path = ../../AppServices.m; sourceTree = "<group>"; };
 		AB1CA8AB13C7CCBE00131F81 /* ZXingWidget.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZXingWidget.xcodeproj; path = thirdParty/zxing/iphone/ZXingWidget/ZXingWidget.xcodeproj; sourceTree = "<group>"; };
@@ -858,8 +856,6 @@
 		D4243267110773EB00E58147 /* Dialog.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Dialog.xib; sourceTree = "<group>"; };
 		D43717DD106D62BB0020C515 /* Media.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Media.h; sourceTree = "<group>"; };
 		D43717DE106D62BB0020C515 /* Media.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Media.m; sourceTree = "<group>"; };
-		D4D366AA111B65E0009C4D00 /* AudioStreamer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioStreamer.h; sourceTree = "<group>"; };
-		D4D366AB111B65E0009C4D00 /* AudioStreamer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioStreamer.m; sourceTree = "<group>"; };
 		D4D366DE111B6789009C4D00 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		D4DE6B8A110A00D7008BFE38 /* defaultCharacter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultCharacter.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1486,7 +1482,6 @@
 				1D3623240D0F684500981E51 /* ARISAppDelegate.h */,
 				1D3623250D0F684500981E51 /* ARISAppDelegate.m */,
 				28A0AB4B0D9B1048005BE974 /* ARIS_Prefix.pch */,
-				AB18AEAA137B178800382826 /* SynthesizeSingleton.h */,
 				29B97316FDCFA39411CA2CEA /* main.mm */,
 				A7A1728B0F4F27120017E865 /* Default.png */,
 				A7A172940F4F273B0017E865 /* Icon.icns */,
@@ -1765,8 +1760,6 @@
 				ABCA372D131D31D80074254B /* textToggle.png */,
 				AB8E31F51228399B00C198C3 /* textFade.png */,
 				D4243267110773EB00E58147 /* Dialog.xib */,
-				D4D366AA111B65E0009C4D00 /* AudioStreamer.h */,
-				D4D366AB111B65E0009C4D00 /* AudioStreamer.m */,
 				D42432611107735800E58147 /* DialogViewController.h */,
 				D42432621107735800E58147 /* DialogViewController.m */,
 				D42432491107730E00E58147 /* Scene.h */,
@@ -2074,7 +2067,6 @@
 				D424324D1107730E00E58147 /* Scene.m in Sources */,
 				D424324E1107730E00E58147 /* SceneParser.m in Sources */,
 				D42432631107735800E58147 /* DialogViewController.m in Sources */,
-				D4D366AC111B65E0009C4D00 /* AudioStreamer.m in Sources */,
 				AB0DE7B611556EC200A6EC3E /* ARCoordinate.m in Sources */,
 				AB0DE7B711556EC200A6EC3E /* ARGeoCoordinate.m in Sources */,
 				AB0DE7B811556EC200A6EC3E /* ARGeoViewController.m in Sources */,

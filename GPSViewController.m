@@ -89,8 +89,8 @@ static float INITIAL_SPAN = 0.001;
 
 	
 	//Force a location update
-	[appDelegate.myCLController.locationManager stopUpdatingLocation];
-	[appDelegate.myCLController.locationManager startUpdatingLocation];
+	[[MyCLController sharedMyCLController] stopUpdatingLocation];
+	[[MyCLController sharedMyCLController] startUpdatingLocation];
 
 	//Rerfresh all contents
 	[self refresh];

@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SynthesizeSingleton.h"
 #import "AppModel.h"
 #import "Game.h"
 #import "Tab.h"

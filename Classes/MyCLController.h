@@ -57,7 +57,7 @@
 
 @property (nonatomic, retain) CLLocationManager *locationManager;
 
--(MyCLController*) init;
++ (id)sharedMyCLController;
 
 - (void)locationManager:(CLLocationManager *)manager
 	didUpdateToLocation:(CLLocation *)newLocation

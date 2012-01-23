@@ -27,7 +27,6 @@
 @synthesize loginViewNavigationController;
 @synthesize nearbyObjectsNavigationController;
 @synthesize nearbyObjectNavigationController;
-@synthesize myCLController;
 @synthesize waitingIndicator,waitingIndicatorView;
 @synthesize networkAlert,serverAlert;
 @synthesize tutorialViewController;
@@ -223,9 +222,8 @@
                                               
     
 	//Setup Location Manager
-	myCLController = [[MyCLController alloc] init];
 	[NSTimer scheduledTimerWithTimeInterval:3.0 
-									 target:myCLController.locationManager 
+									 target:[[MyCLController sharedMyCLController]locationManager] 
 								   selector:@selector(startUpdatingLocation) 
 								   userInfo:nil 
 									repeats:NO];
@@ -881,7 +879,6 @@
     [loginViewNavigationController release];
     [nearbyObjectsNavigationController release];
     [nearbyObjectNavigationController release];
-    [myCLController release];
     [waitingIndicator release];
     [waitingIndicatorView release];
     [networkAlert release];
