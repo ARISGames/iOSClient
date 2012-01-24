@@ -23,8 +23,23 @@
 
 -(void)awakeFromNib{
     UILongPressGestureRecognizer *gesture = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(holdTextBox:)];
-    [holdLbl addGestureRecognizer:gesture];
-    [gesture release];
+    NotebookViewController *nVC = (NotebookViewController *)self.delegate;
+    if(nVC.isGameList){
+        if([(Note *)[nVC.gameNoteList objectAtIndex:self.index] creatorId] == [AppModel sharedAppModel].playerId){
+            [holdLbl addGestureRecognizer:gesture];
+            [gesture release];
+        }
+    }
+    else{
+        if([(Note *)[nVC.noteList objectAtIndex:self.index] creatorId] == [AppModel sharedAppModel].playerId){
+            [holdLbl addGestureRecognizer:gesture];
+            [gesture release];
+
+        }
+
+    }
+
+    //[holdLbl addGestureRecognizer:gesture];
     [self.titleLabel setUserInteractionEnabled:NO];
 
 }
