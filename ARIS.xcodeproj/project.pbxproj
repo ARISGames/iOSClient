@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		110EE63514CF0A2B0036360A /* mappoint_red.png in Resources */ = {isa = PBXBuildFile; fileRef = 110EE63414CF0A2B0036360A /* mappoint_red.png */; };
 		1117649A143A716600044812 /* buttonborder.png in Resources */ = {isa = PBXBuildFile; fileRef = 11176497143A715F00044812 /* buttonborder.png */; };
 		1117649B143A716600044812 /* buttonborder2.png in Resources */ = {isa = PBXBuildFile; fileRef = 11176498143A716200044812 /* buttonborder2.png */; };
 		1117649C143A716600044812 /* mappoint.png in Resources */ = {isa = PBXBuildFile; fileRef = 11176499143A716500044812 /* mappoint.png */; };
@@ -350,6 +351,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		110EE63414CF0A2B0036360A /* mappoint_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mappoint_red.png; sourceTree = "<group>"; };
 		11176497143A715F00044812 /* buttonborder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonborder.png; sourceTree = "<group>"; };
 		11176498143A716200044812 /* buttonborder2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonborder2.png; sourceTree = "<group>"; };
 		11176499143A716500044812 /* mappoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mappoint.png; sourceTree = "<group>"; };
@@ -945,6 +947,7 @@
 				11176497143A715F00044812 /* buttonborder.png */,
 				11176498143A716200044812 /* buttonborder2.png */,
 				11176499143A716500044812 /* mappoint.png */,
+				110EE63414CF0A2B0036360A /* mappoint_red.png */,
 				11DD541F141E70CB0007CD70 /* DropOnMapViewController.h */,
 				11DD5420141E70CC0007CD70 /* DropOnMapViewController.m */,
 				11DD5421141E70CD0007CD70 /* DropOnMapViewController.xib */,
@@ -1998,6 +2001,7 @@
 				1176F2AA14C5EF0900EA4512 /* TagViewController.xib in Resources */,
 				1176F2AF14C5F2B800EA4512 /* TagCell.xib in Resources */,
 				1176F2B114C6045100EA4512 /* check.png in Resources */,
+				110EE63514CF0A2B0036360A /* mappoint_red.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
