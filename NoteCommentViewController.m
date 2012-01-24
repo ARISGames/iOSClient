@@ -137,7 +137,7 @@
     cell.note = currNote;
     [cell initCell];
     
-    if([currNote.contents count] == 0 && (currNote.creatorId != [AppModel sharedAppModel].playerId))cell.userInteractionEnabled = NO;
+    cell.userInteractionEnabled = YES;
     cell.titleLabel.text = currNote.title;
         cell.userLabel.text = currNote.username;
     CGFloat height = [self calculateTextHeight:[currNote title]] +35;
@@ -400,13 +400,12 @@ self.commentValid = YES;
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
    // if(indexPath.row == 0) return UITableViewCellEditingStyleNone;
-  if([[self.parentNote.comments objectAtIndex:(indexPath.row)] creatorId] == [AppModel sharedAppModel].playerId){
-    
+  if([[self.parentNote.comments objectAtIndex:(indexPath.row)] creatorId] == [AppModel sharedAppModel].playerId ||[self.parentNote creatorId] == [AppModel sharedAppModel].playerId){
       return UITableViewCellEditingStyleDelete;}
   else return UITableViewCellEditingStyleNone;
 }
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-    if([[self.parentNote.comments objectAtIndex:(indexPath.row)] creatorId] == [AppModel sharedAppModel].playerId){
+    if([[self.parentNote.comments objectAtIndex:(indexPath.row)] creatorId] == [AppModel sharedAppModel].playerId ||[self.parentNote creatorId] == [AppModel sharedAppModel].playerId){
     [[AppServices sharedAppServices]deleteNoteWithNoteId:[[self.parentNote.comments objectAtIndex:(indexPath.row)] noteId]];
     [self.parentNote.comments removeObjectAtIndex:(indexPath.row)];
     }
