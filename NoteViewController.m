@@ -284,6 +284,8 @@
     TextViewController *textVC = [[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil];
     textVC.noteId = self.note.noteId;
     textVC.delegate = self;
+    textVC.index = [self.note.contents count];
+
     [self.navigationController pushViewController:textVC animated:NO];
     [textVC release];
 }
@@ -590,6 +592,8 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
         textVC.textToDisplay = noteC.text;
         textVC.editMode = YES;
         textVC.contentId = noteC.contentId;
+        textVC.delegate = self;
+        textVC.index = indexPath.row;
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:.5];
         

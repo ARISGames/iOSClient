@@ -14,7 +14,7 @@
 #import "NoteViewController.h"
 
 @implementation TextViewController
-@synthesize textBox,noteId,keyboardButton,textToDisplay,editMode,contentId,delegate,previewMode;
+@synthesize textBox,noteId,keyboardButton,textToDisplay,editMode,contentId,delegate,previewMode,index;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -60,8 +60,11 @@
         self.textBox.userInteractionEnabled = NO;
         self.textBox.text = self.textToDisplay;
     }
-  
-    
+    if([self.delegate isKindOfClass:[NoteViewController class]] || [self.delegate isKindOfClass:[NotebookViewController class]]) {
+
+    [self.textBox becomeFirstResponder];
+    }
+    else self.textBox.userInteractionEnabled = NO;
     // Do any additional setup after loading the view from its nib.
     /*if(self.note)
     self.title = self.note.name;
@@ -102,14 +105,14 @@
     if([self.textBox.text isEqualToString:@"Write note here..."])
     [self.textBox setText:@""];
     self.textBox.frame = CGRectMake(0, 0, 320, 230);
-    self.keyboardButton.hidden = NO;
+    //self.keyboardButton.hidden = NO;
 }
 -(void)hideKeyboard {
     [self.textBox resignFirstResponder];
     if(!previewMode)
     self.textBox.frame = CGRectMake(0, 0, 320, 330);
     else self.textBox.frame = CGRectMake(0, 0, 320, 367);
-    self.keyboardButton.hidden = YES;
+   // self.keyboardButton.hidden = YES;
 }
 
 -(void)saveButtonTouchAction{
@@ -119,6 +122,8 @@
     if([self.delegate isKindOfClass:[NoteViewController class]]) {
         [self.delegate setNoteValid:YES];
         [self.delegate setNoteChanged:YES];
+        [(NoteContent *)[[[self.delegate note] contents]objectAtIndex:self.index] setText:self.textBox.text];
+        [[self.delegate contentTable] reloadData];
     }
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:.5];
