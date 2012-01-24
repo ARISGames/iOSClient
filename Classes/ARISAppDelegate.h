@@ -65,9 +65,11 @@
     NSInteger notificationCount;
     UILabel *titleLabel;
     UILabel *descLabel;
+NSMutableArray *notifArray;
+    int tabShowY;
 
 }
-
+@property(readwrite,assign)int tabShowY;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
 @property (nonatomic, retain) UIViewController *defaultViewControllerForMainTabBar;
@@ -79,7 +81,7 @@
 @property (nonatomic, retain) IBOutlet UINavigationController *nearbyObjectNavigationController;
 @property (nonatomic, retain) WaitingIndicatorViewController *waitingIndicator;
 @property (nonatomic, retain) WaitingIndicatorView *waitingIndicatorView;
-
+@property(nonatomic,retain) NSMutableArray *notifArray;
 @property (nonatomic, retain) UIAlertView *networkAlert;
 @property (nonatomic, retain) UIAlertView *serverAlert;
 
@@ -111,4 +113,6 @@
 - (void) decrementNotificationCount: (NSDictionary *) navBarDict; 
 - (void) changeTabBar;
 - (void) resetCurrentlyFetchingVars;
+- (void) showNotifications;
+- (void) hideNotifications;
 @end

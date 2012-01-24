@@ -19,6 +19,7 @@
 #import "DataCollectionViewController.h"
 NSString *errorMessage, *errorDetail;
 
+BOOL isShowingNotification;
 @implementation ARISAppDelegate
 
 @synthesize window;
@@ -32,17 +33,17 @@ NSString *errorMessage, *errorDetail;
 @synthesize networkAlert,serverAlert;
 @synthesize tutorialViewController;
 @synthesize modalPresent,notificationCount;
-@synthesize titleLabel,descLabel;
+@synthesize titleLabel,descLabel,notifArray,tabShowY;
 
 
 //@synthesize toolbarViewController;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
-		
+	//[application setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];	
 	//Don't sleep
 	application.idleTimerDisabled = YES;
-		
     self.notificationCount = 0;
+    notifArray = [[NSMutableArray alloc]initWithCapacity:5];
 	//Init keys in UserDefaults in case the user has not visited the ARIS Settings page
 	//To set these defaults, edit Settings.bundle->Root.plist 
 	[[AppModel sharedAppModel] initUserDefaults];
@@ -50,7 +51,7 @@ NSString *errorMessage, *errorDetail;
 	//Load defaults from UserDefaults
 	[[AppModel sharedAppModel] loadUserDefaults];
    
-	
+    tabShowY = 20;
     //Log the current Language
 	NSArray *languages = [[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"];
 	NSString *currentLanguage = [languages objectAtIndex:0];
@@ -65,10 +66,18 @@ NSString *errorMessage, *errorDetail;
 	[dispatcher addObserver:self selector:@selector(displayNearbyObjects:) name:@"NearbyButtonTouched" object:nil];
 	[dispatcher addObserver:self selector:@selector(checkForDisplayCompleteNode) name:@"NewQuestListReady" object:nil];
     
-    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, 320, 20)];
-    self.descLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 40, 320, 15)];
-
-    
+    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
+    self.descLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 15)];
+    titleLabel.textColor = [UIColor whiteColor];
+    titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-CondensedBold" size:16];
+    titleLabel.textAlignment = UITextAlignmentCenter;
+    titleLabel.backgroundColor = [UIColor blackColor];
+    descLabel.textColor = [UIColor whiteColor];
+    descLabel.font = [UIFont fontWithName:@"HelveticaNeue-CondensedBold" size:12];
+    descLabel.textAlignment = UITextAlignmentCenter;
+    descLabel.backgroundColor = [UIColor blackColor];
+    [self.window addSubview:titleLabel];
+    [self.window addSubview:descLabel];
 	//Setup NearbyObjects View
 	NearbyObjectsViewController *nearbyObjectsViewController = [[NearbyObjectsViewController alloc]initWithNibName:@"NearbyObjectsViewController" bundle:nil];
 	self.nearbyObjectsNavigationController = [[UINavigationController alloc] initWithRootViewController: nearbyObjectsViewController];
@@ -242,9 +251,87 @@ NSString *errorMessage, *errorDetail;
         self.gameSelectionTabBarController.view.hidden = NO;
     }
 	//self.waitingIndicatorView = [[WaitingIndicatorView alloc] init];
+
 }
 
-- (void)displayNotificationTitle:(NSMutableDictionary *) titleAndPrompt{
+-(void)showNotifications{
+    
+    NSLog(@"AppDelegate: showNotifications");
+    
+    if([self.notifArray count]>0){
+        NSLog(@"AppDelegate: showNotifications: We have something to display");
+        if(!isShowingNotification){//lower frame into position if its not already there
+            isShowingNotification = YES;
+
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView setAnimationDuration:.5];
+            NSLog(@"AppDelegate: showNotifications: Begin Resizing");
+            NSLog(@"TabBC frame BEFORE origin: %f tabShowY %d",self.tabBarController.view.frame.origin.y,tabShowY);
+            if(self.tabBarController.modalViewController){
+                self.tabBarController.modalViewController.view.frame = CGRectMake(self.tabBarController.modalViewController.view.frame.origin.x,40+[UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y-20, self.tabBarController.modalViewController.view.frame.size.width, 440-[UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y+20); 
+            }
+           
+        self.tabBarController.view.frame = CGRectMake(self.tabBarController.view.frame.origin.x,40+[UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y-tabShowY, self.tabBarController.view.frame.size.width, 440-[UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y+tabShowY); 
+            [self.titleLabel setFrame:CGRectMake(0,[UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y, 320, 20)];
+            [self.descLabel setFrame:CGRectMake(0, [UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y +20, 320, 15)];
+        [UIView commitAnimations];
+        }
+        NSLog(@"TabBC frame AFTER origin: %f tabShowY %d",self.tabBarController.view.frame.origin.y,tabShowY);
+        NSLog(@"AppDelegate: showNotifications: Set Text and Init alpha");
+
+        titleLabel.alpha = 0.0;
+        descLabel.alpha = 0.0;
+        titleLabel.text = [[notifArray objectAtIndex:0] objectForKey:@"title"];
+        descLabel.text = [[notifArray objectAtIndex:0] objectForKey:@"prompt"];
+        
+        [UIView animateWithDuration:1.5 delay:0.0 options:UIViewAnimationCurveEaseIn animations:^{
+            NSLog(@"AppDelegate: showNotifications: Begin Fade in");
+            titleLabel.alpha = 1.0;
+            descLabel.alpha = 1.0;
+        }completion:^(BOOL finished){
+            if(finished){
+                NSLog(@"AppDelegate: showNotifications: Fade in Complete, Begin Fade Out");
+            [UIView animateWithDuration:1.5 delay:0.0 options:UIViewAnimationCurveEaseIn animations:^{
+                titleLabel.alpha = 0.0;
+                descLabel.alpha = 0.0;
+            }completion:^(BOOL finished){
+                if(finished){
+                    NSLog(@"AppDelegate: showNotifications: Fade Out Complete, Pop and Start over");
+                    if([notifArray count] > 0) [self.notifArray removeObjectAtIndex:0];
+                    [self showNotifications];
+                }
+            }];
+            }
+        }];
+            }
+    else{
+        [self hideNotifications];
+    }
+}
+
+-(void)hideNotifications{
+    
+    if(!tabBarController.view.hidden){
+    [UIView animateWithDuration:.5 delay:0.0 options:UIViewAnimationCurveEaseIn animations:^{
+        if(isShowingNotification){
+            if(self.tabBarController.modalViewController){
+                self.tabBarController.modalViewController.view.frame = CGRectMake(self.tabBarController.modalViewController.view.frame.origin.x, [UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y-20, self.tabBarController.modalViewController.view.frame.size.width, 480-[UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y+20);             }
+            
+        self.tabBarController.view.frame = CGRectMake(self.tabBarController.view.frame.origin.x, [UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y-tabShowY, self.tabBarController.view.frame.size.width, 480-[UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y+tabShowY); 
+            
+        [self.titleLabel setFrame:CGRectMake(0, -20, 320, 20)];
+        [self.descLabel setFrame:CGRectMake(0, -20, 320, 15)];
+        }
+    }completion:^(BOOL finished){
+        isShowingNotification = NO;
+    }];
+    }
+    
+    
+}
+
+/*- (void)displayNotificationTitle:(NSMutableDictionary *) titleAndPrompt{
     self.notificationCount++;
     
     
@@ -319,11 +406,11 @@ NSString *errorMessage, *errorDetail;
 
         x++;
     }
-    
+   
     [self performSelector:@selector(decrementNotificationCount:) withObject:[[navBarTitlePromptAndColorDict copy] autorelease] 
                afterDelay:(5*secBetweenStages+totalTime*(self.notificationCount-1))];
     
-}
+} 
 
 - (void) changeNavColor: (NSDictionary *) navBarAndColorDict {
     UIColor *color = [navBarAndColorDict objectForKey:@"color"];
@@ -339,7 +426,8 @@ NSString *errorMessage, *errorDetail;
     self.notificationCount--;
     
 }
-
+*/
+/*
 -(void) changeNavTitle: (NSDictionary *) navBarTitleAndPromptDict {
     UINavigationController *tempNC = [navBarTitleAndPromptDict objectForKey:@"navbar"];
 
@@ -375,7 +463,7 @@ NSString *errorMessage, *errorDetail;
         [self.descLabel removeFromSuperview];
 
     }
-    
+    */
     //Code below just disables the buttons when a notification is up
     /*
     if(tempNC.topViewController.navigationItem.leftBarButtonItem) 
@@ -394,7 +482,7 @@ NSString *errorMessage, *errorDetail;
     }
     */
    
-}
+//}
 
 
 - (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password {	
@@ -754,7 +842,6 @@ NSString *errorMessage, *errorDetail;
 	//Display
 
     [self.tabBarController presentModalViewController:self.nearbyObjectNavigationController animated:NO];
-    
     [nearbyObjectNavigationController release];
 }
 
@@ -839,7 +926,11 @@ NSString *errorMessage, *errorDetail;
 		}
 	}
 
-	 
+    if(isShowingNotification){
+        tabShowY = 0;
+
+        self.tabBarController.view.frame = CGRectMake(0, [UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y+40, 320, 420);
+    }
 }
 
 

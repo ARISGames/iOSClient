@@ -257,9 +257,11 @@
     if([[(UINavigationController *) appDelegate.tabBarController.selectedViewController topViewController] respondsToSelector:@selector(updateQuantityDisplay)])
         [[(UINavigationController *)appDelegate.tabBarController.selectedViewController topViewController] performSelector:@selector(updateQuantityDisplay)];
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Item Lost",@"title",[NSString stringWithFormat:@"%d %@ removed from inventory",qty,item.name],@"prompt", nil];
-
     
-    [appDelegate performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
+    [appDelegate.notifArray addObject:dict];
+    [appDelegate showNotifications];
+
+ //   [appDelegate performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
 
     
 	NSNotification *notification = [NSNotification notificationWithName:@"NewInventoryReady" object:nil];

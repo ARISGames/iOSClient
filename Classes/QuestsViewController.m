@@ -157,9 +157,12 @@ NSString *const kQuestsHtmlTemplate =
 				newItems ++;;
                 quest.sortNum = activeSort;
                 activeSort++;
-                NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"New Quest Available",@"title",quest.name,@"prompt", nil];
+               NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"New Quest Available",@"title",quest.name,@"prompt", nil];
                 
-                [appDelegate performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
+               [appDelegate.notifArray addObject:dict];
+                [appDelegate showNotifications];
+
+                //[appDelegate performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
                 
 			}
 		}
@@ -175,7 +178,10 @@ NSString *const kQuestsHtmlTemplate =
                 
                 NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Quest Completed",@"title",quest.name,@"prompt", nil];
                 
-                [appDelegate performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
+                [appDelegate.notifArray addObject:dict];
+                [appDelegate showNotifications];
+
+                //[appDelegate performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
 
 			}
 		}
