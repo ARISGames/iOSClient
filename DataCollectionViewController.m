@@ -56,7 +56,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.title = self.note.title;
+    //self.title = self.note.title;
     self.scrollView.pagingEnabled = YES;
     self.scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * numPages, scrollView.frame.size.height);
     self.scrollView.showsHorizontalScrollIndicator = NO;
@@ -74,17 +74,7 @@
         [self.navigationItem setLeftBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonTouch)] autorelease]];
     }
 
-    NoteContent *noteContent = [[NoteContent alloc] init];
-    if([self.note.contents count] == 0){
-        
-    }
-    else{
-        for(int x = 0; x < [self.note.contents count]; x++){
-            noteContent = [self.note.contents objectAtIndex:x];
-            [self loadNewPageWithContent:noteContent];
-        }
-    }
-    self.pageControl.currentPage = 0;
+       self.pageControl.currentPage = 0;
 }
 -(void)backButtonTouch{
     [self dismissModalViewControllerAnimated:NO];
@@ -101,6 +91,29 @@
     self.likeLabel.text = [NSString stringWithFormat:@"%d",self.note.numRatings];
     if(self.note.userLiked) [self.likeButton setStyle:UIBarButtonItemStyleDone];
     else [self.likeButton setStyle:UIBarButtonItemStyleBordered];
+    self.title = self.note.title;
+    
+    while([scrollView.subviews count]>0)
+    [[self.scrollView.subviews objectAtIndex:0] removeFromSuperview];
+    
+    self.pageControl.currentPage = 0;
+    self.pageControl.numberOfPages = 1;
+    self.pageControl.hidesForSinglePage = YES;
+    numPages = 0;
+    //self.scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * numPages, scrollView.frame.size.height);
+
+    NoteContent *noteContent = [[NoteContent alloc] init];
+    if([self.note.contents count] == 0){
+        
+    }
+    else{
+        for(int x = 0; x < [self.note.contents count]; x++){
+            noteContent = [self.note.contents objectAtIndex:x];
+            [self loadNewPageWithContent:noteContent];
+        }
+    }
+
+
 }
 -(void)commentButtonTouch{
     [self showComments];

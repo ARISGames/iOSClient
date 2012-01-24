@@ -180,6 +180,8 @@
    
     if(!self.noteValid) [[AppServices sharedAppServices]deleteNoteWithNoteId:self.note.noteId];
     if([self.delegate isKindOfClass:[DataCollectionViewController class]]){
+        [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
+        self.note.title = self.textField.text;
         [self.delegate setNote:self.note];
     }
     [self.navigationController popViewControllerAnimated:YES];
