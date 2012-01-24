@@ -343,9 +343,11 @@
    self.commentValid = YES;
     self.currNoteHasPhoto = YES;
     self.addPhotoButton.userInteractionEnabled = NO;
-    self.addPhotoButton.selected = YES;
+   // self.addPhotoButton.selected = YES;
     self.addMediaFromAlbumButton.userInteractionEnabled = NO;
-    self.addMediaFromAlbumButton.selected = YES;
+    //self.addMediaFromAlbumButton.selected = YES;
+    self.addPhotoButton.alpha = .3;
+    self.addMediaFromAlbumButton.alpha = .3;
     
 }
 -(void)addedAudio{
@@ -359,7 +361,8 @@
     self.commentValid = YES;
     self.currNoteHasAudio = YES;
     self.addAudioButton.userInteractionEnabled = NO;
-    self.addAudioButton.selected = YES;
+    //self.addAudioButton.selected = YES;
+    self.addAudioButton.alpha = .3;
 
 }
 -(void)addedVideo{
@@ -371,9 +374,12 @@
 self.commentValid = YES;
     self.currNoteHasVideo = YES;
     self.addPhotoButton.userInteractionEnabled = NO;
-    self.addPhotoButton.selected = YES;
+    //self.addPhotoButton.selected = YES;
     self.addMediaFromAlbumButton.userInteractionEnabled = NO;
-    self.addMediaFromAlbumButton.selected = YES;
+    //self.addMediaFromAlbumButton.selected = YES;
+    self.addPhotoButton.alpha = .3;
+    self.addMediaFromAlbumButton.alpha = .3;
+
 }
 -(void)addedText{
    /* NoteCommentCell *cell = (NoteCommentCell *)[self.commentTable cellForRowAtIndexPath:self.myIndexPath];
