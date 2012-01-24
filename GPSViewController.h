@@ -27,15 +27,15 @@
 	int newItemsSinceLastView;
     IBOutlet UIBarButtonItem *addMediaButton;
 	NSTimer *refreshTimer;
-
+    IBOutlet UIBarButtonItem *playerButton;
 }
 
 -(void) refresh;
 -(void) zoomAndCenterMap;
 -(void) showLoadingIndicator;
 -(void)dismissTutorial;
-
-
+-(IBAction)playerButtonTouch;
+- (void)refreshViewFromModel;
 
 @property (nonatomic, retain) MKMapView *mapView;
 @property (nonatomic, retain) NSArray *locations;
@@ -48,6 +48,8 @@
 
 
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *mapTypeButton;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *playerButton;
+
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *addMediaButton;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *playerTrackingButton;
 @property (nonatomic, retain) IBOutlet UIToolbar *toolBar;

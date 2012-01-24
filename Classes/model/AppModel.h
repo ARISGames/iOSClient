@@ -66,7 +66,7 @@ extern NSDictionary *InventoryElements;
 	BOOL hasSeenQuestsTabTutorial;
 	BOOL hasSeenMapTabTutorial;
 	BOOL hasSeenInventoryTabTutorial;
-    BOOL profilePic,tabsReady;
+    BOOL profilePic,tabsReady,hidePlayers;
 }
 
 
@@ -77,6 +77,7 @@ extern NSDictionary *InventoryElements;
 
 @property(readwrite) BOOL profilePic;
 
+@property(readwrite) BOOL hidePlayers;
 
 
 @property(nonatomic, retain) NSString *userName;

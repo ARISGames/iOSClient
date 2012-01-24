@@ -23,7 +23,7 @@
 @synthesize locationListHash, questListHash, inventoryHash,profilePic,attributes;
 
 @synthesize nearbyLocationsList,gameTagList;
-@synthesize hasSeenNearbyTabTutorial,hasSeenQuestsTabTutorial,hasSeenMapTabTutorial,hasSeenInventoryTabTutorial, tabsReady;
+@synthesize hasSeenNearbyTabTutorial,hasSeenQuestsTabTutorial,hasSeenMapTabTutorial,hasSeenInventoryTabTutorial, tabsReady,hidePlayers;
 
 
 + (id)sharedAppModel

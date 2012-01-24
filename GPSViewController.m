@@ -20,7 +20,6 @@
 #import "NoteViewController.h"
 
 static float INITIAL_SPAN = 0.001;
-
 @implementation GPSViewController
 
 @synthesize locations, route;
@@ -77,7 +76,7 @@ static float INITIAL_SPAN = 0.001;
 	}
 }
 
-- (IBAction)refreshButtonAction: (id) sender{
+- (IBAction)refreshButtonAction{
 	NSLog(@"GPSViewController: Refresh Button Touched");
 	
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -89,14 +88,31 @@ static float INITIAL_SPAN = 0.001;
 
 	
 	//Force a location update
-	[[MyCLController sharedMyCLController] stopUpdatingLocation];
-	[[MyCLController sharedMyCLController] startUpdatingLocation];
+	[[[MyCLController sharedMyCLController] locationManager] stopUpdatingLocation];
+	[[[MyCLController sharedMyCLController]locationManager] startUpdatingLocation];
 
 	//Rerfresh all contents
 	[self refresh];
 
 }
-	
+-(void)playerButtonTouch{
+    [AppModel sharedAppModel].hidePlayers = ![AppModel sharedAppModel].hidePlayers;
+    if([AppModel sharedAppModel].hidePlayers){
+        [playerButton setStyle:UIBarButtonItemStyleDone];
+        if (mapView) {
+            NSEnumerator *existingAnnotationsEnumerator = [[[mapView annotations] copy] objectEnumerator];
+            Annotation *annotation;
+            while (annotation = [existingAnnotationsEnumerator nextObject]) {
+                if (annotation != mapView.userLocation &&annotation.kind == NearbyObjectPlayer) [mapView removeAnnotation:annotation];
+            }
+        }
+    }
+    else{
+        [playerButton setStyle:UIBarButtonItemStyleBordered];
+        [self refreshViewFromModel];    
+    }
+    [self refreshButtonAction];
+}
 - (IBAction)addMediaButtonAction: (id) sender{
     NoteViewController *noteVC = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
     noteVC.delegate = self;
@@ -120,7 +136,7 @@ static float INITIAL_SPAN = 0.001;
 	mapTypeButton.title = NSLocalizedString(@"MapTypeKey",@"");
 	
 	playerTrackingButton.target = self; 
-	playerTrackingButton.action = @selector(refreshButtonAction:);
+	playerTrackingButton.action = @selector(refreshButtonAction);
 	playerTrackingButton.style = UIBarButtonItemStyleDone;
 
     addMediaButton.target = self;
@@ -285,6 +301,8 @@ static float INITIAL_SPAN = 0.001;
 
 		//Add the freshly loaded locations from the notification
 		for ( Location* location in locations ) {
+            
+
 			NSLog(@"GPSViewController: Adding location annotation for:%@ id:%d", location.name, location.locationId);
 			if (location.hidden == YES) 
 			{
@@ -309,6 +327,7 @@ static float INITIAL_SPAN = 0.001;
 			}
 			
 			[annotation release];
+            
 		}
 		
 		//Add the freshly loaded players from the notification
@@ -321,6 +340,7 @@ static float INITIAL_SPAN = 0.001;
 			[mapView addAnnotation:aPlayer];
 			[aPlayer release];
 		} 
+        
 	}
 	
 	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
@@ -423,6 +443,7 @@ static float INITIAL_SPAN = 0.001;
 	else {
 		NSLog(@"GPSViewController: Getting the annotation view for a game object: %@", annotation.title);
 		AnnotationView *annotationView=[[AnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
+        
 		return annotationView;
 	}
 }
