@@ -17,6 +17,7 @@
 #import "GamePickerRecentViewController.h"
 #import "webpageViewController.h"
 #import "DataCollectionViewController.h"
+NSString *errorMessage, *errorDetail;
 
 @implementation ARISAppDelegate
 
@@ -599,10 +600,12 @@
 }
 
 - (void) showServerAlertWithEmail:(NSString *)title message:(NSString *)message details:(NSString*)detail{
-	
+	errorMessage = message;
+    errorDetail = detail;
+
 	if (!self.serverAlert){
 		self.serverAlert = [[UIAlertView alloc] initWithTitle:title
-														message:[NSString stringWithFormat:@"%@\n\nDetails:\n%@", message, detail]
+														message:@"You may need to login to your Wifi connection from Safari. \nYou also may need to verify ARIS server settings in system preferences. \nIf the problem persists, please send us some debugging information"
 													   delegate:self cancelButtonTitle:@"Ignore" otherButtonTitles: @"Report",nil];
 		[self.serverAlert show];	
  	}
@@ -792,7 +795,7 @@
 		NSLog(@"AppDelegate: AlertView button wants to send an email" );
 		//Send an Email
 		//NSString *body = [NSString stringWithFormat:@"%@",alertView.message];
-        NSString * body = @"You may need to login to your Wifi connection from Safari. \nYou also may need to verify ARIS server settings in system preferences. \nIf the problem persists, please send us some debugging information";
+        NSString * body = [NSString stringWithFormat:@"%@\n\nDetails:\n%@", errorMessage, errorDetail];
 		MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
 		controller.mailComposeDelegate = self;
 		[controller setToRecipients: [NSMutableArray arrayWithObjects: @"arisgames-dev@googlegroups.com",nil]];
