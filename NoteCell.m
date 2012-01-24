@@ -11,7 +11,7 @@
 #import "NotebookViewController.h"
 
 @implementation NoteCell
-@synthesize titleLabel,mediaIcon1,mediaIcon2,mediaIcon3,mediaIcon4,commentsLbl,likesLbl,holdLbl,note,index,delegate;
+@synthesize titleLabel,mediaIcon1,mediaIcon2,mediaIcon3,mediaIcon4,commentsLbl,likeLabel,holdLbl,note,index,delegate,likesButton;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -42,6 +42,19 @@
     //[holdLbl addGestureRecognizer:gesture];
     [self.titleLabel setUserInteractionEnabled:NO];
 
+}
+-(void)likeButtonTouched{
+    self.likesButton.selected = !self.likesButton.selected;
+    self.note.userLiked = !self.note.userLiked;
+    if(self.note.userLiked){
+        [[AppServices sharedAppServices]likeNote:self.note.noteId];
+        self.note.numRatings++;
+    }
+    else{
+        [[AppServices sharedAppServices]unLikeNote:self.note.noteId];
+        self.note.numRatings--;
+    }
+    likeLabel.text = [NSString stringWithFormat:@"%d",note.numRatings];
 }
 -(void)textViewDidEndEditing:(UITextView *)textView{
     //[textView resignFirstResponder];

@@ -443,8 +443,19 @@ BOOL tagFilter;
     cell.note = currNote;
     cell.delegate = self;
     cell.index = indexPath.row;
+    if([currNote.comments count] == 0){
+      cell.commentsLbl.text = @"";
+        [cell.likesButton setFrame:CGRectMake(cell.likesButton.frame.origin.x,14,cell.likesButton.frame.size.width , cell.likesButton.frame.size.height)];
+        [cell.likeLabel setFrame:CGRectMake(cell.likeLabel.frame.origin.x,26,cell.likeLabel.frame.size.width , cell.likeLabel.frame.size.height)];
+    }
+    else{
     cell.commentsLbl.text = [NSString stringWithFormat:@"%d comments",[currNote.comments count]];
-    cell.likesLbl.text = [NSString stringWithFormat:@"+%d",currNote.numRatings];
+        [cell.likesButton setFrame:CGRectMake(cell.likesButton.frame.origin.x,2,cell.likesButton.frame.size.width , cell.likesButton.frame.size.height)];
+        [cell.likeLabel setFrame:CGRectMake(cell.likeLabel.frame.origin.x,14,cell.likeLabel.frame.size.width , cell.likeLabel.frame.size.height)];
+
+    }
+    cell.likeLabel.text = [NSString stringWithFormat:@"%d",currNote.numRatings];
+    if(currNote.userLiked)cell.likesButton.selected = YES;
         cell.titleLabel.text = currNote.title;
         if([currNote.contents count] == 0 && (currNote.creatorId != [AppModel sharedAppModel].playerId))cell.userInteractionEnabled = NO;
             for(int x = 0; x < [currNote.contents count];x++){

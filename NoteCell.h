@@ -16,7 +16,9 @@
     IBOutlet UIImageView *mediaIcon2;
     IBOutlet UIImageView *mediaIcon3;
     IBOutlet UIImageView *mediaIcon4;
-    IBOutlet UILabel *likesLbl;
+    IBOutlet UILabel *likeLabel;
+    
+    IBOutlet UIButton *likesButton;
     IBOutlet UILabel *commentsLbl;
     IBOutlet UILabel *holdLbl;
     Note *note;
@@ -25,7 +27,8 @@
     id delegate;
 }
 @property(nonatomic,retain)IBOutlet UITextView *titleLabel;
-@property(nonatomic,retain)IBOutlet UILabel *likesLbl;
+@property(nonatomic,retain)IBOutlet UILabel *likeLabel;
+@property(nonatomic,retain)IBOutlet UIButton *likesButton;
 @property(nonatomic,retain)IBOutlet UILabel *commentsLbl;
 @property(nonatomic,retain)IBOutlet UILabel *holdLbl;
 @property(nonatomic,retain)Note *note;
@@ -38,5 +41,6 @@
 @property(nonatomic,retain)IBOutlet UIImageView *mediaIcon3;
 @property(nonatomic,retain)IBOutlet UIImageView *mediaIcon4;
 @property(nonatomic,retain) IBOutlet SCRRatingView *starView;
+-(IBAction)likeButtonTouched;
 
 @end
