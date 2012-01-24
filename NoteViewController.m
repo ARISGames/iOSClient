@@ -140,11 +140,17 @@
     scrollView.delegate = self;
     pageControl.currentPage = 0;
     pageControl.numberOfPages = numPages;
-    UIBarButtonItem *previewButton = [[UIBarButtonItem alloc] initWithTitle:@"Preview" style:UIBarButtonItemStylePlain target:self action:@selector(previewButtonTouchAction)];      
     
     UIBarButtonItem *tagButton = [[UIBarButtonItem alloc] initWithTitle:@"Tag" style:UIBarButtonItemStylePlain target:self action:@selector(tagButtonTouchAction)]; 
-    [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:previewButton,tagButton, nil] animated:YES];
+    if(![self.delegate isKindOfClass:[DataCollectionViewController class]]){
+    UIBarButtonItem *previewButton = [[UIBarButtonItem alloc] initWithTitle:@"Preview" style:UIBarButtonItemStylePlain target:self action:@selector(previewButtonTouchAction)];      
+    
 
+    [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:previewButton,tagButton, nil] animated:YES];
+    }
+    else{
+        self.navigationItem.rightBarButtonItem = tagButton;
+    }
     
     [[AVAudioSession sharedInstance] setDelegate: self];
 
