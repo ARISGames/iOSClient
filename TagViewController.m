@@ -94,8 +94,8 @@
         cell.textLabel.text = @"No Game Tags";
         cell.detailTextLabel.text = @"No tags were created for this game";
         cell.userInteractionEnabled = NO;
-        cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-CondensedBold" size:17];
-        cell.detailTextLabel.font = [UIFont fontWithName:@"HelveticaNeue-CondensedBold" size:14];
+        cell.textLabel.font = [UIFont systemFontOfSize:17];
+        cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:14];
         cell.textLabel.textColor = [UIColor darkGrayColor];
         return cell;
     }
@@ -104,8 +104,8 @@
         
         cell.textLabel.text = @"No Tags";
         cell.detailTextLabel.text = @"You haven't created any tags";
-        cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-CondensedBold" size:17];
-        cell.detailTextLabel.font = [UIFont fontWithName:@"HelveticaNeue-CondensedBold" size:14];
+        cell.textLabel.font = [UIFont systemFontOfSize:17];
+        cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:14];
         cell.userInteractionEnabled = NO;
         cell.textLabel.textColor = [UIColor darkGrayColor];
 
@@ -117,7 +117,7 @@
         
         cell.textLabel.text = @"Create a New Tag";
         cell.userInteractionEnabled = YES;
-        cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-CondensedBold" size:17];
+        cell.textLabel.font = [UIFont systemFontOfSize:17];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         cell.textLabel.textColor = [UIColor darkGrayColor];
 

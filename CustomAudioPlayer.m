@@ -22,7 +22,7 @@
         self.soundPlayer = [[AVPlayer alloc] init];
         self.playButton = [UIButton buttonWithType:UIButtonTypeCustom];
         self.timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(60, 0, 40, 40)];
-        self.timeLabel.font = [UIFont fontWithName:@"HelveticaNeue-CondensedBold" size:18];
+        self.timeLabel.font = [UIFont boldSystemFontOfSize:18];
         self.timeLabel.textColor = [UIColor darkGrayColor];
            }
     return self;
