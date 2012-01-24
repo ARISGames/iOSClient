@@ -125,15 +125,17 @@
 #pragma mark PickerViewDelegate selectors
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+   // return 2;
+    return 1;
 }
 
 // returns the # of rows in each component..
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if(section == 0){
+    /*if(section == 0){
         return 1;
     }
-    if(section == 1)
+    if(section == 1)*/
+    if([attributes count] == 0) return 1;
 	return [attributes count];
 }
 
@@ -144,51 +146,13 @@
 	
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];	
 		
-    if(indexPath.section == 1){
+    //if(indexPath.section == 1){
         if(cell == nil) cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
 
+    if([attributes count] > 0){
 	Item *item = [attributes objectAtIndex: [indexPath row]];
 	
-	/*UILabel *lblTemp1 = (UILabel *)[cell viewWithTag:1];
-	lblTemp1.text = item.name;	
-    lblTemp1.font = [UIFont boldSystemFontOfSize:24.0];
-    
-    UILabel *lblTemp2 = (UILabel *)[cell viewWithTag:2];
-    lblTemp2.text = [NSString stringWithFormat:@"%d",item.qty];
-    lblTemp2.textAlignment = UITextAlignmentRight;
-	AsyncImageView *iconView = (AsyncImageView *)[cell viewWithTag:3];
-    
-    
-	if (item.iconMediaId != 0) {
-        Media *iconMedia;
-        if([self.iconCache count] > indexPath.row){
-            iconMedia = [self.iconCache objectAtIndex:indexPath.row];
-        }
-        else{
-            iconMedia = [[AppModel sharedAppModel] mediaForMediaId: item.iconMediaId];
-            [self.iconCache  addObject:iconMedia];
-        }
-		[iconView loadImageFromMedia:iconMedia];
-	}
-	else {
-		[iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultImageIcon.png"]];
-	}
-    
-    
-    cell.textLabel.backgroundColor = [UIColor clearColor]; 
-    cell.detailTextLabel.backgroundColor = [UIColor clearColor]; 
-    
-    if (indexPath.row % 2 == 0){  
-        cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0  
-                                                           green:233.0/255.0  
-                                                            blue:233.0/255.0  
-                                                           alpha:1.0];  
-    } else {  
-        cell.contentView.backgroundColor = [UIColor colorWithRed:200.0/255.0  
-                                                           green:200.0/255.0  
-                                                            blue:200.0/255.0  
-                                                           alpha:1.0];  
-    } */
+	
         AsyncImageView *iconView = (AsyncImageView *)[cell viewWithTag:3];
         
         
@@ -209,21 +173,27 @@
 
         cell.textLabel.text = item.name;
         cell.imageView.image = iconView.image;
-        cell.userInteractionEnabled = NO;
     }
     else{
+        cell.textLabel.text = @"No Attributes Currently Available";
+    }
+        cell.userInteractionEnabled = NO;
+        
+   // }
+    /*else{
         if(cell == nil) cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
 
         cell.userInteractionEnabled = YES;
         cell.textLabel.text = @"No Group";
         cell.detailTextLabel.text = @"Tap to Find One";
-    }
+    }*/
 	return cell;
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    if(section==0)return  @"Group";
-        else return  @"Stats";
+    //if(section==0)return  @"Group";
+       // else 
+            return  @"Attributes";
 }
 
 // Customize the height of each row
