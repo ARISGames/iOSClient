@@ -398,9 +398,9 @@
 								<float key="IBUIWidth">96</float>
 								<int key="IBUIStyle">1</int>
 								<reference key="IBUIToolbar" ref="442786970"/>
-								<object class="NSColor" key="IBUITintColor" id="354467546">
+								<object class="NSColor" key="IBUITintColor">
 									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MC44IDAgMAA</bytes>
+									<bytes key="NSRGB">MCAwLjIgMC42AA</bytes>
 								</object>
 							</object>
 							<object class="IBUIBarButtonItem" id="4496124">
@@ -417,7 +417,10 @@
 								<float key="IBUIWidth">96</float>
 								<int key="IBUIStyle">1</int>
 								<reference key="IBUIToolbar" ref="442786970"/>
-								<reference key="IBUITintColor" ref="354467546"/>
+								<object class="NSColor" key="IBUITintColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MCAwLjIgMC42AA</bytes>
+								</object>
 							</object>
 							<object class="IBUIBarButtonItem" id="818809264">
 								<int key="IBUITag">2</int>
@@ -433,7 +436,10 @@
 								<float key="IBUIWidth">96</float>
 								<int key="IBUIStyle">1</int>
 								<reference key="IBUIToolbar" ref="442786970"/>
-								<reference key="IBUITintColor" ref="354467546"/>
+								<object class="NSColor" key="IBUITintColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MCAwLjIgMC42AA</bytes>
+								</object>
 							</object>
 						</object>
 						<object class="NSColor" key="IBUITintColor">

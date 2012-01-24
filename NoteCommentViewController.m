@@ -42,10 +42,6 @@
     addCommentButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showKeyboard)];     
     self.navigationItem.rightBarButtonItem = addCommentButton;
     
-
-    
-
-    
     self.myIndexPath = [[NSIndexPath alloc] init];
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -310,8 +306,8 @@
 
         [self.textBox resignFirstResponder];
 
-        if(self.commentNote.noteId == 0)   self.commentNote.noteId = [[AppServices sharedAppServices]addCommentToNoteWithId:self.parentNote.noteId andTitle:self.textBox.text];
-        else [[AppServices sharedAppServices]updateCommentWithId:self.commentNote.noteId andTitle:self.textBox.text];
+        self.commentNote.noteId = [[AppServices sharedAppServices]addCommentToNoteWithId:self.parentNote.noteId andTitle:self.textBox.text];
+    //else [[AppServices sharedAppServices]updateCommentWithId:self.commentNote.noteId andTitle:self.textBox.text];
         
         
        self.parentNote = [[AppServices sharedAppServices]fetchNote:self.parentNote.noteId];
