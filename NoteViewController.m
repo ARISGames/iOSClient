@@ -491,6 +491,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
             cell.index = indexPath.row;
             cell.delegate = self;
             cell.contentId = noteC.contentId;
+            if([noteC.title length] >23)noteC.title = [noteC.title substringToIndex:23];
             cell.titleLbl.text = noteC.title;
             if([[(NoteContent *)[self.note.contents objectAtIndex:indexPath.row] type] isEqualToString:@"TEXT"]){
              cell.imageView.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 

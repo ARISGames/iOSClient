@@ -53,7 +53,7 @@
         
         return NO;
     }
-    if([textView.text length] > 24) textView.text = [textView.text substringToIndex:24];
+    if([textView.text length] > 23) textView.text = [textView.text substringToIndex:23];
     return YES;
 }
 -(void)holdTextBox:(UIPanGestureRecognizer *) gestureRecognizer{
