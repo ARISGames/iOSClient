@@ -79,6 +79,7 @@ static float INITIAL_SPAN = 0.001;
     
 }
 -(void)viewDidAppear:(BOOL)animated{
+    
     if (![AppModel sharedAppModel].loggedIn || [AppModel sharedAppModel].currentGame.gameId==0) {
         NSLog(@"DropOnMapViewController: Player is not logged in, don't refresh");
         return;

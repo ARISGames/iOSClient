@@ -312,13 +312,8 @@
 -(void)publicButtonTouchAction{
     self.noteValid = YES;
     if(actionSheet) [actionSheet release];
-    if(note.dropped){
     actionSheet = [[UIActionSheet alloc]initWithTitle:@"Sharing" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"List Only",@"Map Only",@"Both",@"Don't Share", nil];
-    }
-    else{
-    actionSheet = [[UIActionSheet alloc]initWithTitle:@"Sharing" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"List Only",@"Don't Share", nil];    
-    }
-    [actionSheet showInView:self.view];
+        [actionSheet showInView:self.view];
 
    /* if(self.publicButton.selected){
     self.publicButton.selected = NO;
@@ -333,7 +328,6 @@
 -(void)willPresentActionSheet:(UIActionSheet *)actionSheet{
    }
 -(void)actionSheet:(UIActionSheet *)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex{
-    if(note.dropped){
     switch (buttonIndex) {
         case 0:
             self.note.showOnList = YES;
@@ -341,16 +335,30 @@
             self.sharingLabel.text = @"List Only";
             break;
         case 1:
+        {
             self.note.showOnList = NO;
             self.note.showOnMap = YES;
             self.sharingLabel.text = @"Map Only";
+            if(!noteDropped){
+                [[AppServices sharedAppServices]updateServerDropNoteHere:self.note.noteId atCoordinate:[AppModel sharedAppModel].playerLocation.coordinate];
+                self.note.dropped = YES;
+                self.mapButton.selected = YES;
+            }
             break;
-        case 2:
+        }
+        case 2:{
             self.note.showOnList = YES;
             self.note.showOnMap = YES;
             self.sharingLabel.text = @"List & Map";
-
+            if(!noteDropped){
+                if(!noteDropped){
+                    [[AppServices sharedAppServices]updateServerDropNoteHere:self.note.noteId atCoordinate:[AppModel sharedAppModel].playerLocation.coordinate];
+                    self.note.dropped = YES;
+                    self.mapButton.selected = YES;
+                }
+            }
             break;
+        }
         case 3:
             self.note.showOnList = NO;
             self.note.showOnMap = NO;
@@ -358,25 +366,7 @@
             break;
         default:
             break;
-    }
-    }
-    else{
-        switch (buttonIndex) {
-            case 0:
-                self.note.showOnList = YES;
-                self.note.showOnMap = NO;
-                self.sharingLabel.text = @"List Only";
-                break;
-            case 1:
-                self.note.showOnList = NO;
-                self.note.showOnMap = NO;
-                self.sharingLabel.text = @"None";
-                break;
-            default:
-                break;
-        }
-
-
+   
     }
     [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
 
