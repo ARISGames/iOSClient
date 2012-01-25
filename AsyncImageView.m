@@ -101,7 +101,7 @@
 }
 
 - (void) updateViewWithNewImage:(UIImage*)image {
-	[UIView beginAnimations:@"async" context:nil];
+	/*[UIView beginAnimations:@"async" context:nil];
 	[UIView setAnimationCurve:UIViewAnimationCurveLinear];
 	[UIView setAnimationDuration:0.1];
 	self.alpha = 0;
@@ -112,8 +112,9 @@
 	[UIView setAnimationCurve:UIViewAnimationCurveLinear];
 	[UIView setAnimationDuration:0.25];
 	self.alpha = 1.0;
-	[UIView commitAnimations];
-    [self setNeedsDisplay];
+	[UIView commitAnimations];*/
+    self.alpha = 1.0;
+    [self setImage:image];
     if (self.delegate && [self.delegate respondsToSelector:@selector(imageFinishedLoading)]){
         [delegate imageFinishedLoading];
     }
