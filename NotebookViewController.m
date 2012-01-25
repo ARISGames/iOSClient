@@ -18,7 +18,7 @@ int filSelected;
 int sortSelected;
 BOOL tagFilter;
 @implementation NotebookViewController
-@synthesize noteList,noteTable, noteControl,gameNoteList,textIconUsed,videoIconUsed,photoIconUsed,audioIconUsed,menuView,sharedButton,mineButton,popularButton,tagButton,mineLbl,sharedLbl,popularLbl,tagLbl,dateLbl,dateButton,abcLbl,abcButton,toolBar,textButton,photoButton,audioButton,isGameList,tagList,tagNoteList,tagGameNoteList,headerTitleList,headerTitleGameList;
+@synthesize noteList,noteTable, filterControl,sortControl,gameNoteList,textIconUsed,videoIconUsed,photoIconUsed,audioIconUsed,isGameList,tagList,tagNoteList,tagGameNoteList,headerTitleList,headerTitleGameList,toolBar,filterToolBar,sortToolBar;
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
@@ -49,16 +49,12 @@ BOOL tagFilter;
 	
     UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStyleBordered target:self action:@selector(displayMenu)];
     self.navigationItem.rightBarButtonItem = barButton;
-    [self.menuView setFrame:CGRectMake(0, -80, 320, 80)];
+    [self.filterToolBar setFrame:CGRectMake(0, -44, 320, 44)];
+    [self.sortToolBar setFrame:CGRectMake(0, 416, 320, 44)];
     [self.toolBar setFrame:CGRectMake(0, 0, 320, 44)];
 
     [self.noteTable setFrame:CGRectMake(0, 44, 320, 324)];
-    self.mineButton.selected = YES;
-    self.mineLbl.textColor = [UIColor lightGrayColor];
-    self.dateButton.selected = YES;
-    self.dateLbl.textColor = [UIColor lightGrayColor];
-
-  	//[noteTable reloadData];
+     	//[noteTable reloadData];
     filSelected = 0;
     sortSelected = 0;
     [self refresh];
@@ -71,59 +67,38 @@ BOOL tagFilter;
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView setAnimationDuration:.5];
-    [self.menuView setFrame:CGRectMake(0, 0, 320, 80)];
-        [self.toolBar setFrame:CGRectMake(0, 80, 320, 44)];
-        [self.noteTable setFrame:CGRectMake(0, 124, 320, 244)];
+        [self.filterToolBar setFrame:CGRectMake(0, 0, 320, 44)];
+        [self.sortToolBar setFrame:CGRectMake(0, 323, 320, 44)];
+        [self.toolBar setFrame:CGRectMake(0, 44, 320, 44)];
+        [self.noteTable setFrame:CGRectMake(0, 88, 320, 235)];
         [self.navigationItem.rightBarButtonItem setStyle:UIBarButtonItemStyleDone];
     [UIView commitAnimations];
     }
     else{
-        [UIView beginAnimations:nil context:nil];
+       [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
         [UIView setAnimationDuration:.5];
-        [self.menuView setFrame:CGRectMake(0, -80, 320, 80)];
+        [self.filterToolBar setFrame:CGRectMake(0, -44, 320, 44)];
+        [self.sortToolBar setFrame:CGRectMake(0, 367, 320, 44)];
         [self.toolBar setFrame:CGRectMake(0, 0, 320, 44)];
-        [self.noteTable setFrame:CGRectMake(0, 44, 320, 324)];
+        [self.noteTable setFrame:CGRectMake(0, 44, 320, 323)];
         [self.navigationItem.rightBarButtonItem setStyle:UIBarButtonItemStyleBordered];
-
-        [UIView commitAnimations];        
+        [UIView commitAnimations];       
     }
 }
+
 -(void)filterButtonTouchAction:(id)sender{
     
-    switch ([sender tag]) {
-        case 0:
-            mineButton.selected = YES;
-            mineLbl.textColor = [UIColor lightGrayColor];
-            sharedButton.selected = NO;
-            sharedLbl.textColor = [UIColor blackColor];
-            //[[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:YES];
-            break;
-        case 1:
-            sharedButton.selected = YES;
-            sharedLbl.textColor = [UIColor lightGrayColor];
-            mineButton.selected = NO;
-            mineLbl.textColor = [UIColor blackColor];
-           // [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
-            break;        
-            default:
-            break;
-    }
     [noteTable reloadData];
 }
 
 -(void)sortButtonTouchAction:(id)sender{
+    if([sender isKindOfClass:[UISegmentedControl class]]){
+        [sender setTag:[(UISegmentedControl *)sender selectedSegmentIndex]];
+    }
     switch ([sender tag]) {
         case 0:
         {
-            dateButton.selected = YES;
-            dateLbl.textColor = [UIColor lightGrayColor];
-            popularButton.selected = NO;
-            abcButton.selected = NO;
-            tagButton.selected = NO;
-            popularLbl.textColor = [UIColor blackColor];
-            abcLbl.textColor = [UIColor blackColor];
-            tagLbl.textColor = [UIColor blackColor];  
             NSSortDescriptor *sortDescriptor;
             sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"noteId"
                                                           ascending:NO] autorelease];
@@ -137,14 +112,6 @@ BOOL tagFilter;
         }
         case 1:
         {
-            abcButton.selected = YES;
-            abcLbl.textColor = [UIColor lightGrayColor];
-            dateButton.selected = NO;
-            popularButton.selected = NO;
-            tagButton.selected = NO;
-            dateLbl.textColor = [UIColor blackColor];
-            popularLbl.textColor = [UIColor blackColor];
-            tagLbl.textColor = [UIColor blackColor];
             NSSortDescriptor *sortDescriptor;
             sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"title"
                                                           ascending:YES] autorelease];
@@ -158,14 +125,6 @@ BOOL tagFilter;
         }
         case 2:
         {
-            popularButton.selected = YES;
-            popularLbl.textColor = [UIColor lightGrayColor];
-            dateButton.selected = NO;
-            abcButton.selected = NO;
-            tagButton.selected = NO;
-            dateLbl.textColor = [UIColor blackColor];
-            abcLbl.textColor = [UIColor blackColor];
-            tagLbl.textColor = [UIColor blackColor];
             NSSortDescriptor *sortDescriptor;
             sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"numRatings"
                                                           ascending:NO] autorelease];
@@ -179,14 +138,6 @@ BOOL tagFilter;
         }
         case 3:
         {
-            tagButton.selected = YES;
-            tagLbl.textColor = [UIColor lightGrayColor];
-            dateButton.selected = NO;
-            popularButton.selected = NO;
-            abcButton.selected = NO;
-            dateLbl.textColor = [UIColor blackColor];
-            popularLbl.textColor = [UIColor blackColor];
-            abcLbl.textColor = [UIColor blackColor];
             tagFilter = YES;
             break; 
         }
@@ -351,7 +302,7 @@ BOOL tagFilter;
 #pragma mark Table view methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if(tagFilter){
-        if(!self.sharedButton.selected)
+        if(self.filterControl.selectedSegmentIndex == 0)
             return [self.tagNoteList count];
         else
         return [self.tagGameNoteList count];
@@ -365,7 +316,7 @@ BOOL tagFilter;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
     if(!tagFilter){
-     if(self.sharedButton.selected == NO){ 
+     if(self.filterControl.selectedSegmentIndex == 0){ 
         if([self.noteList count] == 0) return 1;
         return [self.noteList count];}
     else {
@@ -374,7 +325,7 @@ BOOL tagFilter;
     }
     }
     else{
-        if(!sharedButton.selected)
+        if(self.filterControl.selectedSegmentIndex == 0)
             return [[self.tagNoteList objectAtIndex:section] count]; 
         else
             return [[self.tagGameNoteList objectAtIndex:section] count]; 
@@ -388,7 +339,7 @@ BOOL tagFilter;
     self.audioIconUsed = NO;
     self.textIconUsed = NO;
     NSMutableArray *currentNoteList;
-    if(!self.sharedButton.selected){ 
+    if(self.filterControl.selectedSegmentIndex == 0){ 
         currentNoteList = self.noteList;
         isGameList = NO;
     }
@@ -398,7 +349,7 @@ BOOL tagFilter;
     }
     
     if(tagFilter){
-        if(!self.sharedButton.selected)
+        if(self.filterControl.selectedSegmentIndex == 0)
             currentNoteList = self.tagNoteList;
         else 
         currentNoteList = self.tagGameNoteList;
@@ -459,7 +410,7 @@ BOOL tagFilter;
         cell.titleLabel.text = currNote.title;
         if([currNote.contents count] == 0 && (currNote.creatorId != [AppModel sharedAppModel].playerId))cell.userInteractionEnabled = NO;
             for(int x = 0; x < [currNote.contents count];x++){
-                if([[[currNote.contents objectAtIndex:x] type] isEqualToString:@"TEXT"]&& !self.textIconUsed){
+                if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:@"TEXT"]&& !self.textIconUsed){
                     self.textIconUsed = YES;
                     if (cell.mediaIcon1.image == nil) {
                         cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
@@ -480,7 +431,7 @@ BOOL tagFilter;
 
 
                 }
-                else if ([[[currNote.contents objectAtIndex:x] type] isEqualToString:@"PHOTO"]&& !self.photoIconUsed){
+                else if ([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:@"PHOTO"]&& !self.photoIconUsed){
                     self.photoIconUsed = YES;
                     if (cell.mediaIcon1.image == nil) {
                         cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
@@ -500,7 +451,7 @@ BOOL tagFilter;
                     }
 
                 }
-                else if([[[currNote.contents objectAtIndex:x] type] isEqualToString:@"AUDIO"] && !self.audioIconUsed){
+                else if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:@"AUDIO"] && !self.audioIconUsed){
                     self.audioIconUsed = YES;
                     if (cell.mediaIcon1.image == nil) {
                         cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
@@ -520,7 +471,7 @@ BOOL tagFilter;
                     }
 
                 }
-                else if([[[currNote.contents objectAtIndex:x] type] isEqualToString:@"VIDEO"] && !self.videoIconUsed){
+                else if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:@"VIDEO"] && !self.videoIconUsed){
                     self.videoIconUsed = YES;
                     if (cell.mediaIcon1.image == nil) {
                         cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
@@ -549,7 +500,7 @@ BOOL tagFilter;
 }
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     if(tagFilter){
-        if(!self.sharedButton.selected){
+        if(self.filterControl.selectedSegmentIndex == 0){
             if([self.headerTitleList count] > section)
                 return [self.headerTitleList objectAtIndex:section];
             else return @"";
@@ -582,7 +533,7 @@ BOOL tagFilter;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSMutableArray *currentNoteList;
-    if(self.sharedButton.selected == NO) {
+    if(self.filterControl.selectedSegmentIndex == 0) {
         if(!tagFilter)
         currentNoteList = self.noteList;
         else
@@ -618,9 +569,17 @@ BOOL tagFilter;
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
     if(tagFilter) return UITableViewCellEditingStyleNone;
-    if([self.noteList count] == 0 ||self.noteControl.selectedSegmentIndex==1) return UITableViewCellEditingStyleNone;
+    if(self.isGameList){
+        if(([self.gameNoteList count] != 0) && [[self.gameNoteList objectAtIndex:indexPath.row] creatorId] == [AppModel sharedAppModel].playerId){
+            return UITableViewCellEditingStyleDelete;
+        }
+    }
+    else{
+        if([self.noteList count] != 0) return UITableViewCellEditingStyleDelete;
+  
+    }
 
-    return UITableViewCellEditingStyleDelete;
+    return UITableViewCellEditingStyleNone;
 }
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -629,9 +588,7 @@ BOOL tagFilter;
     [self.noteList removeObjectAtIndex:indexPath.row];
 }
 
-- (void)tableView:(UITableView *)tableView 
-
-didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
 
     [noteTable reloadData];
     
@@ -659,7 +616,10 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     [noteList release];
     [gameNoteList release];
     [noteTable release];
-    [noteControl release];
+    [filterControl release];
+    [sortControl release];
+    [sortToolBar release];
+    [filterToolBar release];
     [super dealloc];
 }
 @end

@@ -64,12 +64,6 @@
     if (self.kind == NearbyObjectWebPage) {
 		return [[AppModel sharedAppModel] webPageForWebPageID: objectId]; 
 	}
-    if (self.kind == NearbyObjectNote) {
-        Note *aNote = [[Note alloc]init];
-        aNote = [[AppModel sharedAppModel] noteForNoteId: objectId]; 
-        aNote.delegate=self.delegate;
-		return aNote;
-	}
     if (self.kind == NearbyObjectPanoramic) {
 		return [[AppModel sharedAppModel] panoramicForPanoramicId: objectId]; 
 	}
