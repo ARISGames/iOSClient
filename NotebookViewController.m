@@ -205,8 +205,8 @@ BOOL tagFilter;
 - (void)refreshViewFromModel {
 	NSLog(@"NotebookViewController: Refresh View from Model");
         
-	self.noteList = [AppModel sharedAppModel].playerNoteList;
-    self.gameNoteList = [AppModel sharedAppModel].gameNoteList;
+	self.noteList = [[[AppModel sharedAppModel].playerNoteList allValues] mutableCopy];
+    self.gameNoteList = [[[AppModel sharedAppModel].gameNoteList allValues] mutableCopy];
     
     if([AppModel sharedAppModel].gameTagList){
     self.tagList = [AppModel sharedAppModel].gameTagList;

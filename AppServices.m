@@ -1062,7 +1062,8 @@ static const int kEmptyValue = -1;
 	[AppModel sharedAppModel].questListHash = @"";
 	[AppModel sharedAppModel].inventoryHash = @"";
 	[AppModel sharedAppModel].locationListHash = @"";
-    
+    [AppModel sharedAppModel].playerNoteListHash = @"";
+    [AppModel sharedAppModel].gameNoteListHash = @"";
 	//Clear them out
 	[AppModel sharedAppModel].locationList = [[NSMutableArray alloc] initWithCapacity:0];
 	[AppModel sharedAppModel].nearbyLocationsList = [[NSMutableArray alloc] initWithCapacity:0];
@@ -1803,22 +1804,32 @@ static const int kEmptyValue = -1;
 -(void)parseGameNoteListFromJSON: (JSONResult *)jsonResult{
     NSLog(@"Parsing Game Note List");
 
+    if ([jsonResult.hash isEqualToString:[AppModel sharedAppModel].gameNoteListHash]) {
+		NSLog(@"AppModel: Hash is same as last game note list update, continue");
+		return;
+	}
+	
+	//Save this hash for later comparisions
+	[AppModel sharedAppModel].gameNoteListHash = [jsonResult.hash copy];
+    
+    
 	NSArray *noteListArray = (NSArray *)jsonResult.data;
+    NSMutableDictionary *tempNoteList = [[NSMutableDictionary alloc]init];
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RecievedNoteList" object:nil]];
-	NSMutableArray *tempNoteList = [[NSMutableArray alloc] initWithCapacity:10];
+	//NSMutableArray *tempNoteList = [[NSMutableArray alloc] initWithCapacity:10];
 	NSEnumerator *enumerator = [((NSArray *)noteListArray) objectEnumerator];
 	NSDictionary *dict;
 	while ((dict = [enumerator nextObject])) {
 		Note *tmpNote = [self parseNoteFromDictionary:dict];
 
-		[tempNoteList addObject:tmpNote];
+		[tempNoteList setObject:tmpNote forKey:[NSNumber numberWithInt:tmpNote.noteId]];
 	}
-    NSSortDescriptor *sortDescriptor;
+    /*NSSortDescriptor *sortDescriptor;
     sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"noteId"
                                                   ascending:NO] autorelease];
     NSMutableArray *sortDescriptors = [NSMutableArray arrayWithObject:sortDescriptor];
     
-    tempNoteList = [tempNoteList sortedArrayUsingDescriptors:sortDescriptors];
+    tempNoteList = [tempNoteList sortedArrayUsingDescriptors:sortDescriptors];*/
 	[AppModel sharedAppModel].gameNoteList = tempNoteList;
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
     NSLog(@"DONE Parsing Game Note List");
@@ -1828,15 +1839,23 @@ static const int kEmptyValue = -1;
 
 -(void)parsePlayerNoteListFromJSON: (JSONResult *)jsonResult{
     NSLog(@"Parsing Player Note List");
+    if ([jsonResult.hash isEqualToString:[AppModel sharedAppModel].playerNoteListHash]) {
+		NSLog(@"AppModel: Hash is same as last player note list update, continue");
+		return;
+	}
+	
+	//Save this hash for later comparisions
+	[AppModel sharedAppModel].playerNoteListHash = [jsonResult.hash copy];
+    
 	NSArray *noteListArray = (NSArray *)jsonResult.data;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RecievedNoteList" object:nil]];
-	NSMutableArray *tempNoteList = [[NSMutableArray alloc] initWithCapacity:10];
+	NSMutableDictionary *tempNoteList = [[NSMutableDictionary alloc] init];
 	NSEnumerator *enumerator = [((NSArray *)noteListArray) objectEnumerator];
 	NSDictionary *dict;
 	while ((dict = [enumerator nextObject])) {
 		Note *tmpNote = [self parseNoteFromDictionary:dict];
 		
-		[tempNoteList addObject:tmpNote];
+		[tempNoteList setObject:tmpNote forKey:[NSNumber numberWithInt:tmpNote.noteId]];
 	}
 
 

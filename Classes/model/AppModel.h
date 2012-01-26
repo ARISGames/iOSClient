@@ -42,7 +42,7 @@ extern NSDictionary *InventoryElements;
 	NSMutableDictionary *inventory;
     NSMutableDictionary *attributes;
 
-	NSString *inventoryHash; 
+	NSString *inventoryHash,*playerNoteListHash,*gameNoteListHash; 
 	NSMutableDictionary *questList;
 	NSString *questListHash;
 	NSMutableDictionary *gameMediaList;
@@ -51,8 +51,8 @@ extern NSDictionary *InventoryElements;
 	NSMutableDictionary *gameNpcList;
     NSMutableDictionary *gameWebPageList;
     NSMutableDictionary *gamePanoramicList;
-    NSMutableArray *gameNoteList;
-    NSMutableArray *playerNoteList;
+    NSMutableDictionary *gameNoteList;
+    NSMutableDictionary *playerNoteList;
     NSMutableArray *gameTagList;
 
 
@@ -96,10 +96,13 @@ extern NSDictionary *InventoryElements;
 @property(nonatomic, retain) NSMutableArray *nearbyLocationsList;	
 @property(nonatomic, retain) CLLocation *playerLocation;
 @property(nonatomic, retain) NSString *inventoryHash;
+@property(nonatomic, retain) NSString *playerNoteListHash;
+@property(nonatomic, retain) NSString *gameNoteListHash;
+
 @property(nonatomic, retain) NSMutableDictionary *inventory;
 @property(nonatomic, retain) NSMutableDictionary *attributes;
-@property(nonatomic, retain) NSMutableArray *gameNoteList;
-@property(nonatomic, retain) NSMutableArray *playerNoteList;
+@property(nonatomic, retain) NSMutableDictionary *gameNoteList;
+@property(nonatomic, retain) NSMutableDictionary *playerNoteList;
 @property(nonatomic, retain) NSMutableArray *gameTagList;
 
 

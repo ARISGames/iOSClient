@@ -20,7 +20,7 @@
 @synthesize currentGame, gameList, locationList, playerList,recentGameList;
 @synthesize playerLocation, inventory, questList, networkAlert;
 @synthesize gameMediaList, gameItemList, gameNodeList, gameNpcList,gameWebPageList,gamePanoramicList,gameTabList, defaultGameTabList,gameNoteList,playerNoteList;
-@synthesize locationListHash, questListHash, inventoryHash,profilePic,attributes;
+@synthesize locationListHash, questListHash, inventoryHash,profilePic,attributes,gameNoteListHash,playerNoteListHash;
 
 @synthesize nearbyLocationsList,gameTagList;
 @synthesize hasSeenNearbyTabTutorial,hasSeenQuestsTabTutorial,hasSeenMapTabTutorial,hasSeenInventoryTabTutorial, tabsReady,hidePlayers;
@@ -328,9 +328,18 @@
 }
 
 - (Note *)noteForNoteId:(int)mId{
-	Note *aNote = [[AppServices sharedAppServices]fetchNote:mId];
+	Note *note = [self.gameNoteList objectForKey:[NSNumber numberWithInt:mId]];
 	
-		return aNote;
+	if (!note) {
+		//Let's pause everything and do a lookup
+		NSLog(@"AppModel: Note not found in cached item list, refresh");
+		[[AppServices sharedAppServices] fetchGameNoteListAsynchronously:NO];
+		
+		note = [self.gameNoteList objectForKey:[NSNumber numberWithInt:mId]];
+		if (note) NSLog(@"AppModel: Note found after refresh");
+		else NSLog(@"AppModel: Note still NOT found after refresh");
+	}
+	return note;
 }
 
 - (WebPage *)webPageForWebPageID: (int)mId {

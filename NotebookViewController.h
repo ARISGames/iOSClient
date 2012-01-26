@@ -20,8 +20,6 @@
     NSMutableArray *headerTitleList;
     NSMutableArray *headerTitleGameList;
 
-
-
     IBOutlet UISegmentedControl *filterControl,*sortControl;
 	UITableView *noteTable;
     NSInteger count;
