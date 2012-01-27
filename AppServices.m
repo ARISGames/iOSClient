@@ -627,16 +627,19 @@ static const int kEmptyValue = -1;
 	NSLog(@"Model: Uploading File. gameID:%d fileName:%@ title:%@ noteId:%d",[AppModel sharedAppModel].currentGame.gameId,fileName,name,noteId);
 	
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate showNewWaitingIndicator:@"Uploading" displayProgressBar:YES];
+	//[appDelegate showNewWaitingIndicator:@"Uploading" displayProgressBar:YES];
 	[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
 	[request startAsynchronous];
 
 
 }
+-(void)fetchPlayerNoteListAsync{
+    [self fetchPlayerNoteListAsynchronously:YES];
+}
 - (void)uploadNoteContentRequestFinished:(ASIFormDataRequest *)request
 {
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate removeNewWaitingIndicator];
+	//[appDelegate removeNewWaitingIndicator];
 	
 	NSString *response = [request responseString];
     
@@ -666,7 +669,7 @@ static const int kEmptyValue = -1;
                                                             andServiceName:@"notes" 
                                                              andMethodName:@"addContentToNoteFromFileName" 
                                                               andArguments:arguments];
-	[jsonConnection performAsynchronousRequestWithParser:@selector(sendNotificationToNoteViewer)]; 
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchPlayerNoteListAsync)]; 
 	[jsonConnection release];
     
 }
@@ -674,7 +677,7 @@ static const int kEmptyValue = -1;
 - (void)uploadNoteRequestFailed:(ASIHTTPRequest *)request
 {
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate removeNewWaitingIndicator];
+	//[appDelegate removeNewWaitingIndicator];
 	NSError *error = [request error];
 	NSLog(@"Model: uploadRequestFailed: %@",[error localizedDescription]);
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message: @"A network error occured while uploading the file" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];

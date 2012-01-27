@@ -68,7 +68,7 @@
 		return [[AppModel sharedAppModel] panoramicForPanoramicId: objectId]; 
 	}
     if (self.kind == NearbyObjectNote) {
-        return  [[AppModel sharedAppModel] noteForNoteId:objectId];
+        return  [[AppModel sharedAppModel] noteForNoteId:objectId playerListYesGameListNo:NO];
     }
 	if (self.kind == NearbyObjectNPC) {
 		return [[AppModel sharedAppModel] npcForNpcId: objectId]; 

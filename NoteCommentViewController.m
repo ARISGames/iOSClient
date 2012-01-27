@@ -35,7 +35,7 @@
 }
 - (void)viewDidLoad
 {
-    self.parentNote = [[AppServices sharedAppServices]fetchNote:self.parentNote.noteId];
+    self.parentNote = [[AppModel sharedAppModel] noteForNoteId: self.parentNote.noteId playerListYesGameListNo:NO];
     hideKeyboardButton = [[UIBarButtonItem alloc] initWithTitle:@"Save Comment" style:UIBarButtonItemStylePlain target:self action:@selector(hideKeyboard)];      
     //self.navigationItem.rightBarButtonItem = hideKeyboardButton;
     
@@ -310,7 +310,7 @@
     //else [[AppServices sharedAppServices]updateCommentWithId:self.commentNote.noteId andTitle:self.textBox.text];
         
         
-       self.parentNote = [[AppServices sharedAppServices]fetchNote:self.parentNote.noteId];
+        self.parentNote = [[AppModel sharedAppModel] noteForNoteId: self.parentNote.noteId playerListYesGameListNo:NO];
         [self.delegate setNote:parentNote];
         // [self addedText];
         self.commentValid = YES;

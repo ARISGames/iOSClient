@@ -172,6 +172,6 @@
 - (void)parseSaveCommentResponseFromJSON: (JSONResult *)jsonResult;
 - (void)sendNotificationToNoteViewer;
 - (void)sendNotificationToNotebookViewer;
-
+-(void)fetchPlayerNoteListAsync;
 
 @end

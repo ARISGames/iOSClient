@@ -242,6 +242,11 @@
     if([self.delegate isKindOfClass:[NoteViewController class]]) {
         [self.delegate setNoteValid:YES];
         [self.delegate setNoteChanged:YES];
+        NoteContent *content = [[NoteContent alloc]init];
+        content.type = @"UPLOAD";
+        [[[self.delegate note] contents]addObject:content];
+        [content release];
+
     }
     [self.navigationController popViewControllerAnimated:YES];
 
