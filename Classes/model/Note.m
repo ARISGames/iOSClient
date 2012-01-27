@@ -12,7 +12,7 @@
 #import "NoteViewController.h"
 #import "DataCollectionViewController.h"
 #import "NearbyObjectsViewController.h"
-
+#import "NoteContent.h"
 @implementation Note
 @synthesize comments,contents, creatorId,noteId,parentNoteId,parentRating,shared,text,title,kind,averageRating,numRatings,username,delegate,dropped,showOnMap,showOnList,userLiked,hasImage,hasAudio,tags,tagSection,tagName;
 
@@ -49,7 +49,14 @@
 
 }
 
-
+-(BOOL)isUploading{
+    for (int i = 0;i < [self.contents count]; i++) {
+        if ([[(NoteContent *)[self.contents objectAtIndex:i]type] isEqualToString:@"UPLOAD"]) {
+            return  YES;
+        }
+    }
+    return  NO;
+}
 
 - (void) dealloc {
 	[comments release];
