@@ -616,12 +616,13 @@ static const int kEmptyValue = -1;
 	[request setDelegate:self];
     
     NSNumber *nId = [[NSNumber alloc]initWithInt:noteId];
-    
+    NSNumber *contentCount = [[NSNumber alloc]initWithInt:([[(Note *)[[AppModel sharedAppModel].playerNoteList objectForKey:[NSNumber numberWithInt:noteId]] contents] count]-1)];
 	//We need these after the upload is complete to create the item on the server
 	NSMutableDictionary *userInfo = [[NSMutableDictionary alloc]initWithObjectsAndKeys:name, @"title", nId, @"noteId", nil];
     [userInfo setValue:name forKey:@"title"];
     [userInfo setValue:nId forKey:@"noteId"];
     [userInfo setValue:type forKey: @"type"];
+    [userInfo setValue:contentCount forKey:@"contentCount"];
 	[request setUserInfo:userInfo];
 	
 	NSLog(@"Model: Uploading File. gameID:%d fileName:%@ title:%@ noteId:%d",[AppModel sharedAppModel].currentGame.gameId,fileName,name,noteId);
@@ -651,9 +652,12 @@ static const int kEmptyValue = -1;
     nId = [[request userInfo] objectForKey:@"noteId"];
 	//if (description == NULL) description = @"filename"; 
 	int noteId = [nId intValue];
+    
+    int contentIndex = [[(Note *)[[AppModel sharedAppModel].playerNoteList objectForKey:[NSNumber numberWithInt:noteId]] contents] count]-1;
     NSString *type = [[request userInfo] objectForKey:@"type"];
     NSString *newFileName = [request responseString];
-    
+   [[(Note *)[[AppModel sharedAppModel].playerNoteList objectForKey:[NSNumber numberWithInt:noteId]] contents]removeObjectAtIndex:contentIndex];
+
 	NSLog(@"AppModel: Creating Note Content for Title:%@ File:%@",title,newFileName);
 	
 	//Call server service
@@ -684,7 +688,15 @@ static const int kEmptyValue = -1;
 	
 	[alert show];
 	[alert release];
-}
+    
+    NSNumber *nId = [[NSNumber alloc]initWithInt:5];
+    nId = [[request userInfo] objectForKey:@"noteId"];
+	//if (description == NULL) description = @"filename"; 
+	int noteId = [nId intValue];
+    int contentIndex = [[(Note *)[[AppModel sharedAppModel].playerNoteList objectForKey:[NSNumber numberWithInt:noteId]] contents] count]-1;
+
+    [[(Note *)[[AppModel sharedAppModel].playerNoteList objectForKey:[NSNumber numberWithInt:noteId]] contents]removeObjectAtIndex:contentIndex];
+  }
 
 - (void)createItemAndGiveToPlayerFromFileData:(NSData *)fileData fileName:(NSString *)fileName 
 										title:(NSString *)title description:(NSString*)description {
@@ -1857,7 +1869,12 @@ static const int kEmptyValue = -1;
 	NSDictionary *dict;
 	while ((dict = [enumerator nextObject])) {
 		Note *tmpNote = [self parseNoteFromDictionary:dict];
-		
+		Note *oldNote = [[AppModel sharedAppModel].playerNoteList objectForKey:[NSNumber numberWithInt:tmpNote.noteId]];
+        for(int i = 0; i < oldNote.contents.count; i++){
+            if([[(NoteContent *)[oldNote.contents objectAtIndex:i] type] isEqualToString:@"UPLOAD"]){
+                [tmpNote.contents addObject:[oldNote.contents objectAtIndex:i]];
+            }
+        }
 		[tempNoteList setObject:tmpNote forKey:[NSNumber numberWithInt:tmpNote.noteId]];
 	}
 

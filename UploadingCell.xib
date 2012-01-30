@@ -11,8 +11,8 @@
 			<string key="NS.object.0">933</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
-			<string>IBUIProgressView</string>
 			<string>IBUITableViewCell</string>
+			<string>IBUIActivityIndicatorView</string>
 			<string>IBUILabel</string>
 			<string>IBProxyObject</string>
 		</array>
@@ -40,24 +40,13 @@
 						<reference key="NSNextResponder" ref="59590769"/>
 						<int key="NSvFlags">256</int>
 						<array class="NSMutableArray" key="NSSubviews">
-							<object class="IBUIProgressView" id="371942091">
-								<reference key="NSNextResponder" ref="334400353"/>
-								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{200, 25}, {100, 9}}</string>
-								<reference key="NSSuperview" ref="334400353"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
-								<bool key="IBUIOpaque">NO</bool>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<float key="IBUIProgress">0.5</float>
-							</object>
 							<object class="IBUILabel" id="747914496">
 								<reference key="NSNextResponder" ref="334400353"/>
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{20, 14}, {172, 32}}</string>
 								<reference key="NSSuperview" ref="334400353"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="371942091"/>
+								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -79,6 +68,22 @@
 									<string key="NSName">Helvetica-Bold</string>
 									<double key="NSSize">18</double>
 									<int key="NSfFlags">16</int>
+								</object>
+							</object>
+							<object class="IBUIActivityIndicatorView" id="998397637">
+								<reference key="NSNextResponder" ref="334400353"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{263, 11}, {37, 37}}</string>
+								<reference key="NSSuperview" ref="334400353"/>
+								<reference key="NSWindow"/>
+								<bool key="IBUIOpaque">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<bool key="IBUIHidesWhenStopped">NO</bool>
+								<bool key="IBUIAnimating">YES</bool>
+								<int key="IBUIStyle">0</int>
+								<object class="NSColor" key="IBUIColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MCAwLjIgMC42AA</bytes>
 								</object>
 							</object>
 						</array>
@@ -123,14 +128,6 @@
 					</object>
 					<int key="connectionID">8</int>
 				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">progressBar</string>
-						<reference key="source" ref="59590769"/>
-						<reference key="destination" ref="371942091"/>
-					</object>
-					<int key="connectionID">9</int>
-				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<array key="orderedObjects">
@@ -155,19 +152,19 @@
 						<int key="objectID">4</int>
 						<reference key="object" ref="59590769"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="371942091"/>
 							<reference ref="747914496"/>
+							<reference ref="998397637"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">6</int>
-						<reference key="object" ref="371942091"/>
+						<int key="objectID">7</int>
+						<reference key="object" ref="747914496"/>
 						<reference key="parent" ref="59590769"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">7</int>
-						<reference key="object" ref="747914496"/>
+						<int key="objectID">10</int>
+						<reference key="object" ref="998397637"/>
 						<reference key="parent" ref="59590769"/>
 					</object>
 				</array>
@@ -177,16 +174,16 @@
 				<string key="-1.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="-2.CustomClassName">UIResponder</string>
 				<string key="-2.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="10.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="4.CustomClassName">UploadingCell</string>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="7.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">9</int>
+			<int key="maxID">10</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

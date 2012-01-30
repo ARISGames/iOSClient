@@ -28,7 +28,9 @@
 }
 
 #pragma mark - View lifecycle
-
+-(void)awakeFromNib{
+    
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];

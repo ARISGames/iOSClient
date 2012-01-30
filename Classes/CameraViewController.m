@@ -143,7 +143,7 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
                                        @selector(image:didFinishSavingWithError:contextInfo:), 
                                        nil );
         }
-        [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:@"PHOTO"];
+        
         if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]) [self.parentDelegate addedPhoto];
         if([self.delegate isKindOfClass:[NoteViewController class]]) {
             [self.delegate setNoteValid:YES];
@@ -151,6 +151,7 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
             NoteContent *content = [[NoteContent alloc]init];
             content.type = @"UPLOAD";
             [[[self.delegate note] contents]addObject:content];
+            [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:@"PHOTO"];
             [content release];
         }
 	}	
@@ -159,14 +160,15 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
 		NSURL *videoURL = [info objectForKey:UIImagePickerControllerMediaURL];
 		self.mediaData = [NSData dataWithContentsOfURL:videoURL];
 		self.mediaFilename = @"video.mp4";
-        [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:@"VIDEO"];
-        if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]) [self.parentDelegate addedVideo];
+              if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]) [self.parentDelegate addedVideo];
         if([self.delegate isKindOfClass:[NoteViewController class]]) {
             [self.delegate setNoteValid:YES];
             [self.delegate setNoteChanged:YES];
             NoteContent *content = [[NoteContent alloc]init];
             content.type = @"UPLOAD";
             [[[self.delegate note] contents]addObject:content];
+            [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:@"VIDEO"];
+
             [content release];
 
         }	}	

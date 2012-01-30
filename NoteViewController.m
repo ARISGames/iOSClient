@@ -481,7 +481,8 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
                 // Release the temporary UIViewController.
                 [temporaryController release];
             }
-            cell.progressBar.progress = [[[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] waitingIndicator]progressView] progress];
+            [AppModel sharedAppModel].progressBar = cell.progressBar;
+            
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.userInteractionEnabled = NO;
   

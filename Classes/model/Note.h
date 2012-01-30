@@ -53,7 +53,6 @@
 @property(readwrite, assign) BOOL userLiked;
 @property(readwrite, assign) BOOL hasImage;
 @property(readwrite, assign) BOOL hasAudio;
-
 @property(readwrite, assign) int parentNoteId;
 @property(readwrite, assign) int parentRating;
 @property(readwrite, assign) nearbyObjectKind kind;

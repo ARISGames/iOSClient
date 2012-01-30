@@ -172,7 +172,7 @@
    //[self displayTitleandDescriptionForm];
 }
 - (void)loadNewPageWithContent:(NoteContent *)content{
-
+    if(![content.type isEqualToString:@"UPLOAD"]){
     numPages++;
     scrollView.contentSize = CGSizeMake(320 * numPages, scrollView.frame.size.height);
     pageControl.numberOfPages = numPages;
@@ -252,6 +252,7 @@
 
 
         }
+    }
 }
 
 - (void)viewDidUnload

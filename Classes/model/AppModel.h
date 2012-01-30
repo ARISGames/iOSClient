@@ -59,7 +59,7 @@ extern NSDictionary *InventoryElements;
     NSArray *gameTabList;
     NSArray *defaultGameTabList;
 
-
+    UIProgressView *progressBar;
 
 	//Training Flags
 	BOOL hasSeenNearbyTabTutorial;
@@ -121,7 +121,7 @@ extern NSDictionary *InventoryElements;
 
 
 @property(nonatomic, retain) UIAlertView *networkAlert;
-
+@property(nonatomic,retain)UIProgressView *progressBar;
 
 //Training Flags
 @property(readwrite) BOOL hasSeenNearbyTabTutorial;
