@@ -237,14 +237,18 @@
 	self.soundRecorder = nil;
 	
 	//Do server call here
-    [[AppServices sharedAppServices] addContentToNoteFromFileData:self.audioData fileName:@"audio.caf" name:nil noteId:self.noteId type:@"AUDIO"];
-    if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]) [self.parentDelegate addedAudio];
+   
+    if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]) {
+        [self.parentDelegate addedAudio];
+     [[AppServices sharedAppServices] addContentToNoteFromFileData:self.audioData fileName:@"audio.caf" name:nil noteId:self.noteId type:@"AUDIO"];
+    }
     if([self.delegate isKindOfClass:[NoteViewController class]]) {
         [self.delegate setNoteValid:YES];
         [self.delegate setNoteChanged:YES];
         NoteContent *content = [[NoteContent alloc]init];
         content.type = @"UPLOAD";
         [[[self.delegate note] contents]addObject:content];
+         [[AppServices sharedAppServices] addContentToNoteFromFileData:self.audioData fileName:@"audio.caf" name:nil noteId:self.noteId type:@"AUDIO"];
         [content release];
 
     }

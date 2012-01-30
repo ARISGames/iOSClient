@@ -144,7 +144,12 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
                                        nil );
         }
         
-        if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]) [self.parentDelegate addedPhoto];
+        if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]) {
+            [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:@"PHOTO"];
+
+            [self.parentDelegate addedPhoto];
+            
+        }
         if([self.delegate isKindOfClass:[NoteViewController class]]) {
             [self.delegate setNoteValid:YES];
             [self.delegate setNoteChanged:YES];
@@ -160,7 +165,12 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
 		NSURL *videoURL = [info objectForKey:UIImagePickerControllerMediaURL];
 		self.mediaData = [NSData dataWithContentsOfURL:videoURL];
 		self.mediaFilename = @"video.mp4";
-              if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]) [self.parentDelegate addedVideo];
+        if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]){ 
+            [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:@"VIDEO"];
+            
+
+            [self.parentDelegate addedVideo];
+        }
         if([self.delegate isKindOfClass:[NoteViewController class]]) {
             [self.delegate setNoteValid:YES];
             [self.delegate setNoteChanged:YES];

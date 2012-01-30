@@ -528,6 +528,7 @@ static const int kEmptyValue = -1;
 	
 	return [jsonResult.data intValue];
 }
+
 -(void) addContentToNoteWithText:(NSString *)text type:(NSString *) type mediaId:(int) mediaId andNoteId:(int)noteId{
     NSLog(@"AppModel: Adding Text Content To Note: %d",noteId);
 	
@@ -544,7 +545,7 @@ static const int kEmptyValue = -1;
                                                             andServiceName:@"notes" 
                                                              andMethodName:@"addContentToNote" 
                                                               andArguments:arguments];
-	[jsonConnection performAsynchronousRequestWithParser:@selector(sendNotificationToNoteViewer)]; 
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchPlayerNoteListAsync)]; 
 	[jsonConnection release];
 
 }

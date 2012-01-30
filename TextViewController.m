@@ -118,13 +118,13 @@
 -(void)saveButtonTouchAction{
     
 //Do server call here
-    [[AppServices sharedAppServices] addContentToNoteWithText:self.textBox.text type:@"TEXT" mediaId:0 andNoteId:self.noteId];
     if([self.delegate isKindOfClass:[NoteViewController class]]) {
         [self.delegate setNoteValid:YES];
         [self.delegate setNoteChanged:YES];
-        [(NoteContent *)[[[self.delegate note] contents]objectAtIndex:self.index] setText:self.textBox.text];
-        [[self.delegate contentTable] reloadData];
+         
     }
+    [[AppServices sharedAppServices] addContentToNoteWithText:self.textBox.text type:@"TEXT" mediaId:0 andNoteId:self.noteId];
+
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:.5];
     

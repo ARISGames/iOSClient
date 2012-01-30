@@ -42,6 +42,7 @@
         [dispatcher addObserver:self selector:@selector(movieLoadStateChanged:) name:
          MPMoviePlayerLoadStateDidChangeNotification object:nil];
         [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNoteListReady" object:nil];
+        
         self.soundPlayer = [[AVPlayer alloc] init];
         self.hidesBottomBarWhenPushed = YES;
         self.noteValid = NO;
