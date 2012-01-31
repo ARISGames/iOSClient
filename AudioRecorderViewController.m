@@ -240,7 +240,17 @@
    
     if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]) {
         [self.parentDelegate addedAudio];
-     [[AppServices sharedAppServices] addContentToNoteFromFileData:self.audioData fileName:@"audio.caf" name:nil noteId:self.noteId type:@"AUDIO"];
+        NoteContent *content = [[NoteContent alloc]init];
+        content.type = @"UPLOAD";
+    
+       
+        Note *parentNote = [[AppModel sharedAppModel]noteForNoteId:[[self.parentDelegate parentNote] noteId] playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
+        
+        [[[self.parentDelegate commentNote] contents]addObject:content];
+        
+        [[parentNote comments] insertObject:[self.parentDelegate commentNote] atIndex:0];     [[AppServices sharedAppServices] addContentToNoteFromFileData:self.audioData fileName:@"audio.caf" name:nil noteId:self.noteId type:@"AUDIO"];
+        [content release];
+
     }
     if([self.delegate isKindOfClass:[NoteViewController class]]) {
         [self.delegate setNoteValid:YES];

@@ -341,11 +341,11 @@ BOOL tagFilter;
     NSMutableArray *currentNoteList;
     if(self.filterControl.selectedSegmentIndex == 0){ 
         currentNoteList = self.noteList;
-        isGameList = NO;
+        [AppModel sharedAppModel].isGameNoteList  = NO;
     }
     else {
       currentNoteList = self.gameNoteList;  
-        isGameList = YES;
+        [AppModel sharedAppModel].isGameNoteList  = YES;
     }
     
     if(tagFilter){
@@ -569,7 +569,7 @@ BOOL tagFilter;
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
     if(tagFilter) return UITableViewCellEditingStyleNone;
-    if(self.isGameList){
+    if([AppModel sharedAppModel].isGameNoteList ){
         if(([self.gameNoteList count] != 0) && [[self.gameNoteList objectAtIndex:indexPath.row] creatorId] == [AppModel sharedAppModel].playerId){
             return UITableViewCellEditingStyleDelete;
         }

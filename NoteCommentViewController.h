@@ -65,4 +65,5 @@
 -(void)hideKeyboard;
 -(void)playMovie:(id)sender;
 - (int) calculateTextHeight:(NSString *)text;
+-(void)refreshViewFromModel;
 @end

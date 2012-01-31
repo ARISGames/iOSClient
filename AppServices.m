@@ -447,7 +447,7 @@ static const int kEmptyValue = -1;
                                                             andServiceName:@"notes" 
                                                              andMethodName:@"updateComment" 
                                                               andArguments:arguments];
-	JSONResult *jsonResult = [jsonConnection performSynchronousRequest]; 
+	[jsonConnection performAsynchronousRequestWithParser:nil]; 
 	[jsonConnection release];
 	
 }
@@ -607,7 +607,7 @@ static const int kEmptyValue = -1;
                                 name:(NSString *)name noteId:(int) noteId type: (NSString *)type{
     NSURL *url = [[AppModel sharedAppModel].serverURL URLByAppendingPathComponent:@"services/aris/uploadHandler.php"];
 	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
-	request.timeOutSeconds = 60;
+	request.timeOutSeconds = 300;
 	
  	[request setPostValue:[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].currentGame.gameId] forKey:@"gameID"];
 	[request setPostValue:fileName forKey:@"fileName"];
@@ -636,6 +636,9 @@ static const int kEmptyValue = -1;
 
 }
 -(void)fetchPlayerNoteListAsync{
+    if([AppModel sharedAppModel].isGameNoteList)
+    [self fetchGameNoteListAsynchronously:YES];
+    else
     [self fetchPlayerNoteListAsynchronously:YES];
 }
 - (void)uploadNoteContentRequestFinished:(ASIFormDataRequest *)request
@@ -1836,8 +1839,13 @@ static const int kEmptyValue = -1;
 	NSEnumerator *enumerator = [((NSArray *)noteListArray) objectEnumerator];
 	NSDictionary *dict;
 	while ((dict = [enumerator nextObject])) {
-		Note *tmpNote = [self parseNoteFromDictionary:dict];
-
+        Note *tmpNote = [self parseNoteFromDictionary:dict];
+		Note *oldNote = [[AppModel sharedAppModel].gameNoteList objectForKey:[NSNumber numberWithInt:tmpNote.noteId]];
+        for(int i = 0; i < oldNote.contents.count; i++){
+            if([[(NoteContent *)[oldNote.contents objectAtIndex:i] type] isEqualToString:@"UPLOAD"]){
+                [tmpNote.contents addObject:[oldNote.contents objectAtIndex:i]];
+            }
+        }
 		[tempNoteList setObject:tmpNote forKey:[NSNumber numberWithInt:tmpNote.noteId]];
 	}
     /*NSSortDescriptor *sortDescriptor;

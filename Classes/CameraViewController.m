@@ -145,10 +145,19 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
         }
         
         if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]) {
+            NoteContent *content = [[NoteContent alloc]init];
+            content.type = @"UPLOAD";
+           
+            Note *parentNote = [[AppModel sharedAppModel]noteForNoteId:[[self.parentDelegate parentNote] noteId] playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
+            
+            [[[self.parentDelegate commentNote] contents]addObject:content];
+            
+            [[parentNote comments] insertObject:[self.parentDelegate commentNote] atIndex:0];
             [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:@"PHOTO"];
 
             [self.parentDelegate addedPhoto];
-            
+            [content release];
+
         }
         if([self.delegate isKindOfClass:[NoteViewController class]]) {
             [self.delegate setNoteValid:YES];
@@ -166,10 +175,21 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
 		self.mediaData = [NSData dataWithContentsOfURL:videoURL];
 		self.mediaFilename = @"video.mp4";
         if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]){ 
+            NoteContent *content = [[NoteContent alloc]init];
+            content.type = @"UPLOAD";
+            Note *parentNote = [[AppModel sharedAppModel]noteForNoteId:[[self.parentDelegate parentNote] noteId] playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
+            
+            [[[self.parentDelegate commentNote] contents]addObject:content];
+            
+            [[parentNote comments] insertObject:[self.parentDelegate commentNote] atIndex:0];
+            
+
             [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:@"VIDEO"];
             
 
             [self.parentDelegate addedVideo];
+            [content release];
+
         }
         if([self.delegate isKindOfClass:[NoteViewController class]]) {
             [self.delegate setNoteValid:YES];
