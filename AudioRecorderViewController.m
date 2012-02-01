@@ -245,10 +245,11 @@
     
        
         Note *parentNote = [[AppModel sharedAppModel]noteForNoteId:[[self.parentDelegate parentNote] noteId] playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
+        Note *commentNote = [[AppModel sharedAppModel]noteForNoteId:[[self.parentDelegate commentNote] noteId] playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
+
+        [[commentNote contents]addObject:content];
         
-        [[[self.parentDelegate commentNote] contents]addObject:content];
-        
-        [[parentNote comments] insertObject:[self.parentDelegate commentNote] atIndex:0];     [[AppServices sharedAppServices] addContentToNoteFromFileData:self.audioData fileName:@"audio.caf" name:nil noteId:self.noteId type:@"AUDIO"];
+        [[parentNote comments] insertObject:commentNote atIndex:0];     [[AppServices sharedAppServices] addContentToNoteFromFileData:self.audioData fileName:@"audio.caf" name:nil noteId:self.noteId type:@"AUDIO"];
         [content release];
 
     }

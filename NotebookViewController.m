@@ -226,7 +226,7 @@ BOOL tagFilter;
 
             for(int y = 0; y < [[[self.gameNoteList objectAtIndex:x] tags] count]; y ++){
                 if ([[[[[self.gameNoteList objectAtIndex:x] tags] objectAtIndex:y] tagName] isEqualToString:tagName]) {
-                    Note *tempNote = [[Note alloc]init];
+                    Note *tempNote;
                     tempNote = [self.gameNoteList objectAtIndex:x];
                     [tempNote setTagName:tagName];
                     NSLog(@"TAGNAME: %@",tagName);
@@ -254,7 +254,7 @@ BOOL tagFilter;
                 
                 for(int y = 0; y < [[[self.noteList objectAtIndex:x] tags] count]; y ++){
                     if ([[[[[self.noteList objectAtIndex:x] tags] objectAtIndex:y] tagName] isEqualToString:tagName]) {
-                        Note *tempNote = [[Note alloc]init];
+                        Note *tempNote;
                         tempNote = [self.noteList objectAtIndex:x];
                         [tempNote setTagName:tagName];
                         NSLog(@"TAGNAME: %@",tagName);

@@ -26,7 +26,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.parentNote = [[Note alloc]init];
         self.commentNote = [[Note alloc]init];
         self.movieViews = [[NSMutableArray alloc]initWithCapacity:5];
         self.title = @"Comments";
@@ -44,6 +43,8 @@
 }
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
+
 self.parentNote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteId playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
 
     hideKeyboardButton = [[UIBarButtonItem alloc] initWithTitle:@"Save Comment" style:UIBarButtonItemStylePlain target:self action:@selector(hideKeyboard)];      
@@ -53,12 +54,20 @@ self.parentNote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteI
     self.navigationItem.rightBarButtonItem = addCommentButton;
     
     self.myIndexPath = [[NSIndexPath alloc] init];
-    [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     }
 -(void)viewWillDisappear:(BOOL)animated{
-    if([[self.commentNote contents] count] == 0 && [textBox.text isEqualToString:@""] && self.commentNote.noteId != 0)
+    if([[self.commentNote contents] count] == 0 && [textBox.text isEqualToString:@""] && self.commentNote.noteId != 0){
         [[AppServices sharedAppServices]deleteNoteWithNoteId:self.commentNote.noteId];
+        
+        if([AppModel sharedAppModel].isGameNoteList){
+            [[AppModel sharedAppModel].gameNoteList removeObjectForKey:[NSNumber numberWithInt:self.commentNote.noteId]];
+        }
+        else{
+            [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.commentNote.noteId]];
+        }
+
+    }
 }
 -(void)viewWillAppear:(BOOL)animated{
     self.videoIconUsed = NO;
@@ -322,6 +331,12 @@ self.parentNote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteI
     [self.textBox becomeFirstResponder];
     self.textBox.text = @"";
     self.commentNote.noteId = [[AppServices sharedAppServices]addCommentToNoteWithId:self.parentNote.noteId andTitle:@""];
+    if([AppModel sharedAppModel].isGameNoteList){
+        [[AppModel sharedAppModel].gameNoteList setObject:self.commentNote forKey:[NSNumber numberWithInt:self.commentNote.noteId]];
+    }
+    else{
+         [[AppModel sharedAppModel].playerNoteList setObject:self.commentNote forKey:[NSNumber numberWithInt:self.commentNote.noteId]];
+    }
     self.addAudioButton.userInteractionEnabled = YES;
     self.addAudioButton.alpha = 1;
     self.addPhotoButton.userInteractionEnabled = YES;

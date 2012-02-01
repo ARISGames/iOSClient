@@ -36,7 +36,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         viewControllers = [[NSMutableArray alloc] initWithCapacity:10];
-        self.note = [[Note alloc]init];
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(updateTable) name:@"ImageReady" object:nil];
         [dispatcher addObserver:self selector:@selector(movieLoadStateChanged:) name:
