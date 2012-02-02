@@ -46,4 +46,5 @@
 -(IBAction)commentButtonTouch;
 -(IBAction)likeButtonTouch;
 -(void)backButtonTouch;
+-(void)movieThumbDidFinish:(NSNotification*) aNotification;
 @end

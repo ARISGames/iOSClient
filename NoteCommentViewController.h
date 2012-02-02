@@ -66,4 +66,5 @@
 -(void)playMovie:(id)sender;
 - (int) calculateTextHeight:(NSString *)text;
 -(void)refreshViewFromModel;
+-(void)movieThumbDidFinish:(NSNotification*) aNotification;
 @end

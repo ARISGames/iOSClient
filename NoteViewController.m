@@ -38,8 +38,7 @@
         viewControllers = [[NSMutableArray alloc] initWithCapacity:10];
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(updateTable) name:@"ImageReady" object:nil];
-        [dispatcher addObserver:self selector:@selector(movieLoadStateChanged:) name:
-         MPMoviePlayerLoadStateDidChangeNotification object:nil];
+       
         [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNoteListReady" object:nil];
         
         self.soundPlayer = [[AVPlayer alloc] init];
@@ -203,7 +202,7 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
-- (void)movieLoadStateChanged:(NSNotification*) aNotification{
+/*- (void)movieLoadStateChanged:(NSNotification*) aNotification{
 	MPMovieLoadState state = [(MPMoviePlayerController *) aNotification.object loadState];
 	MPMoviePlayerController *mMovie = (MPMoviePlayerController *)aNotification.object;
     NSString *url = [mMovie.contentURL absoluteString];
@@ -221,6 +220,26 @@
 	} 
 
 	
+}*/
+-(void)movieThumbDidFinish:(NSNotification*) aNotification
+{
+    NSDictionary *userInfo = aNotification.userInfo;
+    UIImage *videoThumb = [userInfo objectForKey:MPMoviePlayerThumbnailImageKey];
+    NSError *e = [userInfo objectForKey:MPMoviePlayerThumbnailErrorKey];
+    NSNumber *time = [userInfo objectForKey:MPMoviePlayerThumbnailTimeKey];
+    MPMoviePlayerController *player = aNotification.object;
+    UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(60, 60)];        
+    
+    NSString *url = [player.contentURL absoluteString];
+    
+    
+        
+        //Create a thumbnail for the button
+        if (![self.vidThumbs valueForKey:url]) {
+            [self.vidThumbs setValue:videoThumbSized forKey:url];
+            [self.contentTable reloadRowsAtIndexPaths:[self.vidThumbs valueForKey:@"indexPath"]  withRowAnimation:UITableViewRowAnimationFade];
+        
+	} 
 }
 
 -(void)previewButtonTouchAction{
@@ -524,13 +543,18 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
                 NSURL* contentURL = [NSURL URLWithString:m.url];
                 
                 if(![self.vidThumbs valueForKey:m.url]){
-                    
                     MPMoviePlayerController  *moviePlayerController = [[MPMoviePlayerController alloc] initWithContentURL:contentURL];
                     moviePlayerController.shouldAutoplay = NO;
                     [moviePlayerController prepareToPlay];
                     cell.imageView.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]];    
 
-
+                    
+                    NSNumber *thumbTime = [NSNumber numberWithFloat:1.0f];
+                    NSArray *timeArray = [NSArray arrayWithObject:thumbTime];
+                    [moviePlayerController requestThumbnailImagesAtTimes:timeArray timeOption:MPMovieTimeOptionNearestKeyFrame];
+                    
+                    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+                    [dispatcher addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:nil];
                 }
                 else{
                     cell.imageView.image = [self.vidThumbs valueForKey:m.url];

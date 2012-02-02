@@ -9,7 +9,7 @@
 #import "ARISMoviePlayerViewController.h"
 
 @implementation ARISMoviePlayerViewController
-
+@synthesize mediaPlaybackButton;
 - (void)viewDidLoad
 {
 	self.view.backgroundColor = [UIColor blackColor];

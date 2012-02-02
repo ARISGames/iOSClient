@@ -78,6 +78,30 @@ self.parentNote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteI
     [self.commentTable reloadData];
     
 }
+-(void)movieThumbDidFinish:(NSNotification*) aNotification
+{
+    NSDictionary *userInfo = aNotification.userInfo;
+    UIImage *videoThumb = [userInfo objectForKey:MPMoviePlayerThumbnailImageKey];
+    NSError *e = [userInfo objectForKey:MPMoviePlayerThumbnailErrorKey];
+    NSNumber *time = [userInfo objectForKey:MPMoviePlayerThumbnailTimeKey];
+    MPMoviePlayerController *player = aNotification.object;
+    UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(320, 240)];        
+    
+    for(int i = 0; i < [self.movieViews count]; i++){
+        if([[self.movieViews objectAtIndex:i] isKindOfClass:[ARISMoviePlayerViewController class]]){
+            if( [[[self.movieViews objectAtIndex:i] moviePlayer] isEqual:player]){
+                
+                [[[self.movieViews objectAtIndex:i] mediaPlaybackButton] setBackgroundImage:videoThumbSized forState:UIControlStateNormal];
+                
+            }
+        }
+        
+    }
+    
+    if (e) {
+        //NSLog(@"MPMoviePlayerThumbnail ERROR: %@",e);
+    }
+}
 -(void)addPhotoButtonTouchAction{
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
     CameraViewController *cameraVC = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
@@ -227,10 +251,14 @@ self.parentNote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteI
             //Create a thumbnail for the button
             if([content.type isEqualToString:@"VIDEO"]){
                 if (![mediaPlayBackButton backgroundImageForState:UIControlStateNormal]) {
-                    UIImage *videoThumb = [mMoviePlayer.moviePlayer thumbnailImageAtTime:(NSTimeInterval)1.0 timeOption:MPMovieTimeOptionExact];            
-                    UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(320, 240)];        
-                    [mediaPlayBackButton setBackgroundImage:videoThumbSized forState:UIControlStateNormal];
+                    NSNumber *thumbTime = [NSNumber numberWithFloat:1.0f];
+                    NSArray *timeArray = [NSArray arrayWithObject:thumbTime];
+                    [mMoviePlayer.moviePlayer requestThumbnailImagesAtTimes:timeArray timeOption:MPMovieTimeOptionNearestKeyFrame];
+                    
+                    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+                    [dispatcher addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:nil];
                 }
+                
             }
             else {
                 [mediaPlayBackButton setBackgroundImage:[UIImage imageNamed:@"microphoneBackground.jpg"] forState:UIControlStateNormal];
@@ -246,6 +274,8 @@ self.parentNote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteI
 
             [cell addSubview:mediaPlayBackButton];
             [cell addSubview:playButonOverlay];
+            mMoviePlayer.mediaPlaybackButton = mediaPlayBackButton;
+
             [mediaPlayBackButton release];
         }
         else if([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"AUDIO"]){
