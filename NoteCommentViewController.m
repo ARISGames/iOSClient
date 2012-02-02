@@ -244,7 +244,7 @@ self.parentNote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteI
             [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
             mMoviePlayer.moviePlayer.shouldAutoplay = NO;
             [mMoviePlayer.moviePlayer prepareToPlay];
-            [self.movieViews addObject:mMoviePlayer];
+            //[self.movieViews addObject:mMoviePlayer];
             //Setup the overlay
             UIImageView *playButonOverlay = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"play_button.png"]];
             

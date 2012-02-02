@@ -245,7 +245,7 @@
          ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
             [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
             mMoviePlayer.moviePlayer.shouldAutoplay = NO;
-            [mMoviePlayer.moviePlayer prepareToPlay];
+           // [mMoviePlayer.moviePlayer prepareToPlay];
             
             //Setup the overlay
             UIImageView *playButonOverlay = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"play_button.png"]];

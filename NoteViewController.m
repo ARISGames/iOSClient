@@ -545,7 +545,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
                 if(![self.vidThumbs valueForKey:m.url]){
                     MPMoviePlayerController  *moviePlayerController = [[MPMoviePlayerController alloc] initWithContentURL:contentURL];
                     moviePlayerController.shouldAutoplay = NO;
-                    [moviePlayerController prepareToPlay];
+                    //[moviePlayerController prepareToPlay];
                     cell.imageView.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]];    
 
                     
