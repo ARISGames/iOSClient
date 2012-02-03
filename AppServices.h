@@ -117,7 +117,7 @@
 -(void)deleteTagFromNote:(int)noteId tagName:(NSString *)tag;
 - (int) addCommentToNoteWithId: (int)noteId andTitle:(NSString *)title;
 - (void)fetchNoteCommentsWithId: (int)noteId;
-- (void)updateCommentWithId: (int)noteId andTitle:(NSString *)title;
+- (void)updateCommentWithId: (int)noteId andTitle:(NSString *)title andRefresh:(BOOL)refresh;
 - (void)likeNote:(int)noteId;
 -(void)unLikeNote:(int)noteId;
 - (void)uploadNoteContentRequestFinished:(ASIFormDataRequest *)request;
@@ -172,6 +172,6 @@
 - (void)parseSaveCommentResponseFromJSON: (JSONResult *)jsonResult;
 - (void)sendNotificationToNoteViewer;
 - (void)sendNotificationToNotebookViewer;
-
+-(void)fetchPlayerNoteListAsync;
 
 @end

@@ -18,6 +18,7 @@
     return self;	
 }
 - (void) dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 	[type release];
 	[text release];
     [title release];

@@ -23,7 +23,7 @@
 @synthesize locationListHash, questListHash, inventoryHash,profilePic,attributes,gameNoteListHash,playerNoteListHash;
 
 @synthesize nearbyLocationsList,gameTagList;
-@synthesize hasSeenNearbyTabTutorial,hasSeenQuestsTabTutorial,hasSeenMapTabTutorial,hasSeenInventoryTabTutorial, tabsReady,hidePlayers;
+@synthesize hasSeenNearbyTabTutorial,hasSeenQuestsTabTutorial,hasSeenMapTabTutorial,hasSeenInventoryTabTutorial, tabsReady,hidePlayers,progressBar,isGameNoteList;
 
 
 + (id)sharedAppModel
@@ -327,16 +327,29 @@
 	return node;
 }
 
-- (Note *)noteForNoteId:(int)mId{
-	Note *note = [self.gameNoteList objectForKey:[NSNumber numberWithInt:mId]];
-	
+- (Note *)noteForNoteId:(int)mId playerListYesGameListNo:(BOOL)playerorGame{
+	Note *note;
+    if(!playerorGame)
+    note= [self.gameNoteList objectForKey:[NSNumber numberWithInt:mId]];
+	else
+        note= [self.playerNoteList objectForKey:[NSNumber numberWithInt:mId]];
+    
 	if (!note) {
 		//Let's pause everything and do a lookup
 		NSLog(@"AppModel: Note not found in cached item list, refresh");
-		[[AppServices sharedAppServices] fetchGameNoteListAsynchronously:NO];
 		
-		note = [self.gameNoteList objectForKey:[NSNumber numberWithInt:mId]];
-		if (note) NSLog(@"AppModel: Note found after refresh");
+        if(!playerorGame){
+            [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
+            //note= [[AppServices sharedAppServices]fetchNote:mId];
+
+        }
+        else{
+            [[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:YES];
+            //note= [[AppServices sharedAppServices]fetchNote:mId];
+
+        }
+            
+            if (note) NSLog(@"AppModel: Note found after refresh");
 		else NSLog(@"AppModel: Note still NOT found after refresh");
 	}
 	return note;

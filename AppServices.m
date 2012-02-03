@@ -435,7 +435,7 @@ static const int kEmptyValue = -1;
 	[jsonConnection release];
 
 }
--(void)updateCommentWithId:(int)noteId andTitle:(NSString *)title{
+-(void)updateCommentWithId:(int)noteId andTitle:(NSString *)title andRefresh:(BOOL)refresh{
     NSLog(@"AppModel: Updating Comment Rating");
 	
 	//Call server service
@@ -447,7 +447,12 @@ static const int kEmptyValue = -1;
                                                             andServiceName:@"notes" 
                                                              andMethodName:@"updateComment" 
                                                               andArguments:arguments];
-	JSONResult *jsonResult = [jsonConnection performSynchronousRequest]; 
+
+    if(refresh)
+        [jsonConnection performAsynchronousRequestWithParser:@selector(fetchPlayerNoteListAsync)]; 
+
+        else
+	[jsonConnection performAsynchronousRequestWithParser:nil]; 
 	[jsonConnection release];
 	
 }
@@ -528,6 +533,7 @@ static const int kEmptyValue = -1;
 	
 	return [jsonResult.data intValue];
 }
+
 -(void) addContentToNoteWithText:(NSString *)text type:(NSString *) type mediaId:(int) mediaId andNoteId:(int)noteId{
     NSLog(@"AppModel: Adding Text Content To Note: %d",noteId);
 	
@@ -544,7 +550,7 @@ static const int kEmptyValue = -1;
                                                             andServiceName:@"notes" 
                                                              andMethodName:@"addContentToNote" 
                                                               andArguments:arguments];
-	[jsonConnection performAsynchronousRequestWithParser:@selector(sendNotificationToNoteViewer)]; 
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchPlayerNoteListAsync)]; 
 	[jsonConnection release];
 
 }
@@ -606,7 +612,7 @@ static const int kEmptyValue = -1;
                                 name:(NSString *)name noteId:(int) noteId type: (NSString *)type{
     NSURL *url = [[AppModel sharedAppModel].serverURL URLByAppendingPathComponent:@"services/aris/uploadHandler.php"];
 	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
-	request.timeOutSeconds = 60;
+	request.timeOutSeconds = 300;
 	
  	[request setPostValue:[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].currentGame.gameId] forKey:@"gameID"];
 	[request setPostValue:fileName forKey:@"fileName"];
@@ -616,27 +622,34 @@ static const int kEmptyValue = -1;
 	[request setDelegate:self];
     
     NSNumber *nId = [[NSNumber alloc]initWithInt:noteId];
-    
+    NSNumber *contentCount = [[NSNumber alloc]initWithInt:([[(Note *)[[AppModel sharedAppModel].playerNoteList objectForKey:[NSNumber numberWithInt:noteId]] contents] count]-1)];
 	//We need these after the upload is complete to create the item on the server
 	NSMutableDictionary *userInfo = [[NSMutableDictionary alloc]initWithObjectsAndKeys:name, @"title", nId, @"noteId", nil];
     [userInfo setValue:name forKey:@"title"];
     [userInfo setValue:nId forKey:@"noteId"];
     [userInfo setValue:type forKey: @"type"];
+    [userInfo setValue:contentCount forKey:@"contentCount"];
 	[request setUserInfo:userInfo];
 	
 	NSLog(@"Model: Uploading File. gameID:%d fileName:%@ title:%@ noteId:%d",[AppModel sharedAppModel].currentGame.gameId,fileName,name,noteId);
 	
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate showNewWaitingIndicator:@"Uploading" displayProgressBar:YES];
+	//[appDelegate showNewWaitingIndicator:@"Uploading" displayProgressBar:YES];
 	[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
 	[request startAsynchronous];
 
 
 }
+-(void)fetchPlayerNoteListAsync{
+    if([AppModel sharedAppModel].isGameNoteList)
+    [self fetchGameNoteListAsynchronously:YES];
+    else
+    [self fetchPlayerNoteListAsynchronously:YES];
+}
 - (void)uploadNoteContentRequestFinished:(ASIFormDataRequest *)request
 {
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate removeNewWaitingIndicator];
+	//[appDelegate removeNewWaitingIndicator];
 	
 	NSString *response = [request responseString];
     
@@ -648,9 +661,12 @@ static const int kEmptyValue = -1;
     nId = [[request userInfo] objectForKey:@"noteId"];
 	//if (description == NULL) description = @"filename"; 
 	int noteId = [nId intValue];
+    
+    int contentIndex = [[(Note *)[[AppModel sharedAppModel].playerNoteList objectForKey:[NSNumber numberWithInt:noteId]] contents] count]-1;
     NSString *type = [[request userInfo] objectForKey:@"type"];
     NSString *newFileName = [request responseString];
-    
+   [[(Note *)[[AppModel sharedAppModel].playerNoteList objectForKey:[NSNumber numberWithInt:noteId]] contents]removeObjectAtIndex:contentIndex];
+
 	NSLog(@"AppModel: Creating Note Content for Title:%@ File:%@",title,newFileName);
 	
 	//Call server service
@@ -666,7 +682,7 @@ static const int kEmptyValue = -1;
                                                             andServiceName:@"notes" 
                                                              andMethodName:@"addContentToNoteFromFileName" 
                                                               andArguments:arguments];
-	[jsonConnection performAsynchronousRequestWithParser:@selector(sendNotificationToNoteViewer)]; 
+	[jsonConnection performAsynchronousRequestWithParser:@selector(fetchPlayerNoteListAsync)]; 
 	[jsonConnection release];
     
 }
@@ -674,14 +690,22 @@ static const int kEmptyValue = -1;
 - (void)uploadNoteRequestFailed:(ASIHTTPRequest *)request
 {
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate removeNewWaitingIndicator];
+	//[appDelegate removeNewWaitingIndicator];
 	NSError *error = [request error];
 	NSLog(@"Model: uploadRequestFailed: %@",[error localizedDescription]);
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message: @"A network error occured while uploading the file" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
 	
 	[alert show];
 	[alert release];
-}
+    
+    NSNumber *nId = [[NSNumber alloc]initWithInt:5];
+    nId = [[request userInfo] objectForKey:@"noteId"];
+	//if (description == NULL) description = @"filename"; 
+	int noteId = [nId intValue];
+    int contentIndex = [[(Note *)[[AppModel sharedAppModel].playerNoteList objectForKey:[NSNumber numberWithInt:noteId]] contents] count]-1;
+
+    [[(Note *)[[AppModel sharedAppModel].playerNoteList objectForKey:[NSNumber numberWithInt:noteId]] contents]removeObjectAtIndex:contentIndex];
+  }
 
 - (void)createItemAndGiveToPlayerFromFileData:(NSData *)fileData fileName:(NSString *)fileName 
 										title:(NSString *)title description:(NSString*)description {
@@ -1820,8 +1844,13 @@ static const int kEmptyValue = -1;
 	NSEnumerator *enumerator = [((NSArray *)noteListArray) objectEnumerator];
 	NSDictionary *dict;
 	while ((dict = [enumerator nextObject])) {
-		Note *tmpNote = [self parseNoteFromDictionary:dict];
-
+        Note *tmpNote = [self parseNoteFromDictionary:dict];
+		Note *oldNote = [[AppModel sharedAppModel].gameNoteList objectForKey:[NSNumber numberWithInt:tmpNote.noteId]];
+        for(int i = 0; i < oldNote.contents.count; i++){
+            if([[(NoteContent *)[oldNote.contents objectAtIndex:i] type] isEqualToString:@"UPLOAD"]){
+                [tmpNote.contents addObject:[oldNote.contents objectAtIndex:i]];
+            }
+        }
 		[tempNoteList setObject:tmpNote forKey:[NSNumber numberWithInt:tmpNote.noteId]];
 	}
     /*NSSortDescriptor *sortDescriptor;
@@ -1854,7 +1883,12 @@ static const int kEmptyValue = -1;
 	NSDictionary *dict;
 	while ((dict = [enumerator nextObject])) {
 		Note *tmpNote = [self parseNoteFromDictionary:dict];
-		
+		Note *oldNote = [[AppModel sharedAppModel].playerNoteList objectForKey:[NSNumber numberWithInt:tmpNote.noteId]];
+        for(int i = 0; i < oldNote.contents.count; i++){
+            if([[(NoteContent *)[oldNote.contents objectAtIndex:i] type] isEqualToString:@"UPLOAD"]){
+                [tmpNote.contents addObject:[oldNote.contents objectAtIndex:i]];
+            }
+        }
 		[tempNoteList setObject:tmpNote forKey:[NSNumber numberWithInt:tmpNote.noteId]];
 	}
 

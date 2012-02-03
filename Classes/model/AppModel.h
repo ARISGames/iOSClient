@@ -59,14 +59,14 @@ extern NSDictionary *InventoryElements;
     NSArray *gameTabList;
     NSArray *defaultGameTabList;
 
-
+    UIProgressView *progressBar;
 
 	//Training Flags
 	BOOL hasSeenNearbyTabTutorial;
 	BOOL hasSeenQuestsTabTutorial;
 	BOOL hasSeenMapTabTutorial;
 	BOOL hasSeenInventoryTabTutorial;
-    BOOL profilePic,tabsReady,hidePlayers;
+    BOOL profilePic,tabsReady,hidePlayers,isGameNoteList;
 }
 
 
@@ -78,6 +78,8 @@ extern NSDictionary *InventoryElements;
 @property(readwrite) BOOL profilePic;
 
 @property(readwrite) BOOL hidePlayers;
+@property(readwrite) BOOL isGameNoteList;
+
 
 
 @property(nonatomic, retain) NSString *userName;
@@ -121,7 +123,7 @@ extern NSDictionary *InventoryElements;
 
 
 @property(nonatomic, retain) UIAlertView *networkAlert;
-
+@property(nonatomic,retain)UIProgressView *progressBar;
 
 //Training Flags
 @property(readwrite) BOOL hasSeenNearbyTabTutorial;
@@ -150,7 +152,6 @@ extern NSDictionary *InventoryElements;
 - (Npc *)npcForNpcId: (int)mId;
 - (WebPage *)webPageForWebPageID: (int)mId;
 - (Panoramic *)panoramicForPanoramicId: (int)mId;
-- (Note *)noteForNoteId: (int)mId;
-
+- (Note *)noteForNoteId:(int)mId playerListYesGameListNo:(BOOL)playerorGame;
 
 @end

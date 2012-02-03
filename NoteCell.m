@@ -24,7 +24,7 @@
 -(void)awakeFromNib{
     UILongPressGestureRecognizer *gesture = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(holdTextBox:)];
     NotebookViewController *nVC = (NotebookViewController *)self.delegate;
-    if(nVC.isGameList){
+    if([AppModel sharedAppModel].isGameNoteList ){
         if([(Note *)[nVC.gameNoteList objectAtIndex:self.index] creatorId] == [AppModel sharedAppModel].playerId){
             [holdLbl addGestureRecognizer:gesture];
             [gesture release];
@@ -74,7 +74,7 @@
        // [self.titleLabel setUserInteractionEnabled:NO];
         [textView resignFirstResponder];  
         NotebookViewController *nVC = (NotebookViewController *)self.delegate;
-        if(nVC.isGameList){
+        if([AppModel sharedAppModel].isGameNoteList ){
             [(Note *)[nVC.gameNoteList objectAtIndex:self.index]setTitle:textView.text];
         }
         else{

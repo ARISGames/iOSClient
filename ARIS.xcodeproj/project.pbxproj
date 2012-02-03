@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1108419514D3269900478A9D /* UploadingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1108419314D3269800478A9D /* UploadingCell.m */; };
+		1108419614D3269900478A9D /* UploadingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1108419414D3269800478A9D /* UploadingCell.xib */; };
 		110EE63514CF0A2B0036360A /* mappoint_red.png in Resources */ = {isa = PBXBuildFile; fileRef = 110EE63414CF0A2B0036360A /* mappoint_red.png */; };
 		1117649A143A716600044812 /* buttonborder.png in Resources */ = {isa = PBXBuildFile; fileRef = 11176497143A715F00044812 /* buttonborder.png */; };
 		1117649B143A716600044812 /* buttonborder2.png in Resources */ = {isa = PBXBuildFile; fileRef = 11176498143A716200044812 /* buttonborder2.png */; };
@@ -351,6 +353,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1108419214D3269800478A9D /* UploadingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadingCell.h; sourceTree = "<group>"; };
+		1108419314D3269800478A9D /* UploadingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadingCell.m; sourceTree = "<group>"; };
+		1108419414D3269800478A9D /* UploadingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UploadingCell.xib; sourceTree = "<group>"; };
 		110EE63414CF0A2B0036360A /* mappoint_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mappoint_red.png; sourceTree = "<group>"; };
 		11176497143A715F00044812 /* buttonborder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonborder.png; sourceTree = "<group>"; };
 		11176498143A716200044812 /* buttonborder2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonborder2.png; sourceTree = "<group>"; };
@@ -394,8 +399,8 @@
 		1176F2AC14C5F2B800EA4512 /* TagCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagCell.m; sourceTree = "<group>"; };
 		1176F2AD14C5F2B800EA4512 /* TagCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagCell.xib; sourceTree = "<group>"; };
 		1176F2B014C6045100EA4512 /* check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = check.png; sourceTree = "<group>"; };
-		118622DE1404535200D4B738 /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Note.h; sourceTree = "<group>"; };
-		118622DF1404535300D4B738 /* Note.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Note.m; sourceTree = "<group>"; };
+		118622DE1404535200D4B738 /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Note.h; path = Classes/model/Note.h; sourceTree = "<group>"; };
+		118622DF1404535300D4B738 /* Note.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Note.m; path = Classes/model/Note.m; sourceTree = "<group>"; };
 		118622E114046A9800D4B738 /* NoteMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteMedia.h; sourceTree = "<group>"; };
 		118622E214046A9900D4B738 /* NoteMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteMedia.m; sourceTree = "<group>"; };
 		118669A713BB8EAC004B4EC8 /* AttributesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributesViewController.h; sourceTree = "<group>"; };
@@ -924,6 +929,8 @@
 		1147E15C13F32273000E4BC2 /* Notes */ = {
 			isa = PBXGroup;
 			children = (
+				118622DE1404535200D4B738 /* Note.h */,
+				118622DF1404535300D4B738 /* Note.m */,
 				ABF41CEE1474657800B60D05 /* public.png */,
 				ABF41CA914744DAB00B60D05 /* camera_roll.png */,
 				119497EB14C0BF90006564F9 /* thumbs_up.png */,
@@ -988,6 +995,9 @@
 				1176F2AB14C5F2B800EA4512 /* TagCell.h */,
 				1176F2AC14C5F2B800EA4512 /* TagCell.m */,
 				1176F2AD14C5F2B800EA4512 /* TagCell.xib */,
+				1108419214D3269800478A9D /* UploadingCell.h */,
+				1108419314D3269800478A9D /* UploadingCell.m */,
+				1108419414D3269800478A9D /* UploadingCell.xib */,
 				1176F2B014C6045100EA4512 /* check.png */,
 			);
 			name = Notes;
@@ -1268,8 +1278,6 @@
 				AB9BA25313DFBE3A007470E3 /* PanoramicMedia.m */,
 				1122C0BF13A7DE7F004F0392 /* WebPage.h */,
 				1122C0C013A7DE7F004F0392 /* WebPage.m */,
-				118622DE1404535200D4B738 /* Note.h */,
-				118622DF1404535300D4B738 /* Note.m */,
 				11B28B9B14C4AD1700759BCD /* Tag.h */,
 				11B28B9C14C4AD1700759BCD /* Tag.m */,
 				118622E114046A9800D4B738 /* NoteMedia.h */,
@@ -2002,6 +2010,7 @@
 				1176F2AF14C5F2B800EA4512 /* TagCell.xib in Resources */,
 				1176F2B114C6045100EA4512 /* check.png in Resources */,
 				110EE63514CF0A2B0036360A /* mappoint_red.png in Resources */,
+				1108419614D3269900478A9D /* UploadingCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2173,6 +2182,7 @@
 				11B28B9D14C4AD1700759BCD /* Tag.m in Sources */,
 				1176F2A914C5EF0900EA4512 /* TagViewController.m in Sources */,
 				1176F2AE14C5F2B800EA4512 /* TagCell.m in Sources */,
+				1108419514D3269900478A9D /* UploadingCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

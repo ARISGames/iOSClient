@@ -16,6 +16,8 @@
 #import "AudioRecorderViewController.h"
 #import "CustomAudioPlayer.h"
 #import "UIImage+Scale.h"
+#import "UploadingCell.h"
+
 
 @implementation NoteCommentViewController
 @synthesize parentNote,commentNote,textBox,rating,commentTable,addAudioButton,addPhotoButton,addMediaFromAlbumButton,myIndexPath,commentValid,addTextButton,videoIconUsed,photoIconUsed,audioIconUsed,currNoteHasAudio,currNoteHasPhoto,currNoteHasVideo,inputView,hideKeyboardButton,addCommentButton,delegate,movieViews;
@@ -24,18 +26,27 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.parentNote = [[Note alloc]init];
         self.commentNote = [[Note alloc]init];
         self.movieViews = [[NSMutableArray alloc]initWithCapacity:5];
         self.title = @"Comments";
         self.hidesBottomBarWhenPushed = YES;
         commentValid = NO;
+        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+        [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNoteListReady" object:nil];
+
     }
     return self;
 }
+-(void)refreshViewFromModel{
+    self.parentNote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteId playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
+    [self.commentTable reloadData];
+}
 - (void)viewDidLoad
 {
-    self.parentNote = [[AppServices sharedAppServices]fetchNote:self.parentNote.noteId];
+    [super viewDidLoad];
+
+self.parentNote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteId playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
+
     hideKeyboardButton = [[UIBarButtonItem alloc] initWithTitle:@"Save Comment" style:UIBarButtonItemStylePlain target:self action:@selector(hideKeyboard)];      
     //self.navigationItem.rightBarButtonItem = hideKeyboardButton;
     
@@ -43,23 +54,60 @@
     self.navigationItem.rightBarButtonItem = addCommentButton;
     
     self.myIndexPath = [[NSIndexPath alloc] init];
-    [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     }
+-(void)viewWillDisappear:(BOOL)animated{
+    if([[self.commentNote contents] count] == 0 && [textBox.text isEqualToString:@""] && self.commentNote.noteId != 0){
+        [[AppServices sharedAppServices]deleteNoteWithNoteId:self.commentNote.noteId];
+        
+        if([AppModel sharedAppModel].isGameNoteList){
+            [[AppModel sharedAppModel].gameNoteList removeObjectForKey:[NSNumber numberWithInt:self.commentNote.noteId]];
+        }
+        else{
+            [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.commentNote.noteId]];
+        }
 
+    }
+}
 -(void)viewWillAppear:(BOOL)animated{
     self.videoIconUsed = NO;
     self.photoIconUsed = NO;
     self.audioIconUsed = NO;
     if(self.textBox.frame.origin.y == 0)
         [self.textBox becomeFirstResponder];
+    [self.commentTable reloadData];
+    
+}
+-(void)movieThumbDidFinish:(NSNotification*) aNotification
+{
+    NSDictionary *userInfo = aNotification.userInfo;
+    UIImage *videoThumb = [userInfo objectForKey:MPMoviePlayerThumbnailImageKey];
+    NSError *e = [userInfo objectForKey:MPMoviePlayerThumbnailErrorKey];
+    NSNumber *time = [userInfo objectForKey:MPMoviePlayerThumbnailTimeKey];
+    MPMoviePlayerController *player = aNotification.object;
+    UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(320, 240)];        
+    
+    for(int i = 0; i < [self.movieViews count]; i++){
+        if([[self.movieViews objectAtIndex:i] isKindOfClass:[ARISMoviePlayerViewController class]]){
+            if( [[[self.movieViews objectAtIndex:i] moviePlayer] isEqual:player]){
+                
+                [[[self.movieViews objectAtIndex:i] mediaPlaybackButton] setBackgroundImage:videoThumbSized forState:UIControlStateNormal];
+                
+            }
+        }
+        
+    }
+    
+    if (e) {
+        //NSLog(@"MPMoviePlayerThumbnail ERROR: %@",e);
+    }
 }
 -(void)addPhotoButtonTouchAction{
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
     CameraViewController *cameraVC = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
     cameraVC.parentDelegate = self;
     cameraVC.showVid = YES;
-    if(self.commentNote.noteId == 0)   self.commentNote.noteId = [[AppServices sharedAppServices]addCommentToNoteWithId:self.parentNote.noteId andTitle:self.textBox.text];
+
     cameraVC.noteId = self.commentNote.noteId;
 
     [self.navigationController pushViewController:cameraVC animated:YES];
@@ -70,8 +118,7 @@
     if(audioHWAvailable){
     AudioRecorderViewController *audioVC = [[[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil] autorelease];
     audioVC.parentDelegate = self;
-    if(self.commentNote.noteId == 0)   self.commentNote.noteId = [[AppServices sharedAppServices]addCommentToNoteWithId:self.parentNote.noteId andTitle:self.textBox.text];
-    audioVC.noteId = self.commentNote.noteId;
+     audioVC.noteId = self.commentNote.noteId;
 
     [self.navigationController pushViewController:audioVC animated:YES];
     }
@@ -86,8 +133,7 @@
     cameraVC.parentDelegate = self;
 
     cameraVC.showVid = NO;
-    if(self.commentNote.noteId == 0)   self.commentNote.noteId = [[AppServices sharedAppServices]addCommentToNoteWithId:self.parentNote.noteId andTitle:self.textBox.text];
-    cameraVC.noteId = self.commentNote.noteId;
+       cameraVC.noteId = self.commentNote.noteId;
 
     [self.navigationController pushViewController:cameraVC animated:YES];
 
@@ -110,6 +156,7 @@
 
     static NSString *CellIdentifier = @"Cell";
  
+    
     UITableViewCell *tempCell = (NoteCommentCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (![tempCell respondsToSelector:@selector(mediaIcon2)]){
         //[tempCell release];
@@ -141,12 +188,37 @@
     [cell.userLabel setFrame:CGRectMake(cell.userLabel.frame.origin.x, height-cell.userLabel.frame.size.height-5, cell.userLabel.frame.size.width, cell.userLabel.frame.size.height)];
     for(int x = 0; x < [currNote.contents count];x++){
         
+        if([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"UPLOAD"]){
+            UITableViewCell *tempCell = (UploadingCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (![tempCell respondsToSelector:@selector(progressBar)]){
+                //[tempCell release];
+                tempCell = nil;
+            }
+            cell = nil;
+            UploadingCell *cell = (UploadingCell *)tempCell;
+            
+            
+            if (cell == nil) {
+                // Create a temporary UIViewController to instantiate the custom cell.
+                UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"UploadingCell" bundle:nil];
+                // Grab a pointer to the custom cell.
+                cell = (UploadingCell *)temporaryController.view;
+                // Release the temporary UIViewController.
+                [temporaryController release];
+            }
+            [AppModel sharedAppModel].progressBar = cell.progressBar;
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.userInteractionEnabled = NO;
+            
+            return  cell;
+        }
 
         if([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"TEXT"]){
                     //Dont show icon for text since it is assumed to always be there
         }
         else if ([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"PHOTO"]){
-            AsyncImageView *aImageView = [[AsyncImageView alloc]init];
+            AsyncImageView *aImageView = [[AsyncImageView alloc]initWithFrame:CGRectMake(10, height, 300, 300)];
             Media *media = [[AppModel sharedAppModel]mediaForMediaId:[(NoteContent *)[[currNote contents] objectAtIndex:x] mediaId]];
             [aImageView loadImageFromMedia:media];
                        if(!currNote.hasAudio)
@@ -179,10 +251,14 @@
             //Create a thumbnail for the button
             if([content.type isEqualToString:@"VIDEO"]){
                 if (![mediaPlayBackButton backgroundImageForState:UIControlStateNormal]) {
-                    UIImage *videoThumb = [mMoviePlayer.moviePlayer thumbnailImageAtTime:(NSTimeInterval)1.0 timeOption:MPMovieTimeOptionExact];            
-                    UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(320, 240)];        
-                    [mediaPlayBackButton setBackgroundImage:videoThumbSized forState:UIControlStateNormal];
+                    NSNumber *thumbTime = [NSNumber numberWithFloat:1.0f];
+                    NSArray *timeArray = [NSArray arrayWithObject:thumbTime];
+                    [mMoviePlayer.moviePlayer requestThumbnailImagesAtTimes:timeArray timeOption:MPMovieTimeOptionNearestKeyFrame];
+                    
+                    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+                    [dispatcher addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:nil];
                 }
+                
             }
             else {
                 [mediaPlayBackButton setBackgroundImage:[UIImage imageNamed:@"microphoneBackground.jpg"] forState:UIControlStateNormal];
@@ -198,6 +274,8 @@
 
             [cell addSubview:mediaPlayBackButton];
             [cell addSubview:playButonOverlay];
+            mMoviePlayer.mediaPlaybackButton = mediaPlayBackButton;
+
             [mediaPlayBackButton release];
         }
         else if([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"AUDIO"]){
@@ -281,6 +359,20 @@
     [self.inputView setFrame:CGRectMake(0, 150, 320, 52)];
     [UIView commitAnimations];
     [self.textBox becomeFirstResponder];
+    self.textBox.text = @"";
+    self.commentNote.noteId = [[AppServices sharedAppServices]addCommentToNoteWithId:self.parentNote.noteId andTitle:@""];
+    if([AppModel sharedAppModel].isGameNoteList){
+        [[AppModel sharedAppModel].gameNoteList setObject:self.commentNote forKey:[NSNumber numberWithInt:self.commentNote.noteId]];
+    }
+    else{
+         [[AppModel sharedAppModel].playerNoteList setObject:self.commentNote forKey:[NSNumber numberWithInt:self.commentNote.noteId]];
+    }
+    self.addAudioButton.userInteractionEnabled = YES;
+    self.addAudioButton.alpha = 1;
+    self.addPhotoButton.userInteractionEnabled = YES;
+    self.addPhotoButton.alpha = 1;
+    self.addMediaFromAlbumButton.userInteractionEnabled = YES;
+    self.addMediaFromAlbumButton.alpha = 1;
 }
 -(void)hideKeyboard{
    
@@ -305,16 +397,19 @@
         [UIView commitAnimations];
 
         [self.textBox resignFirstResponder];
+        commentNote.title = self.textBox.text;
+        [[parentNote comments] insertObject:commentNote atIndex:0];     
 
-        self.commentNote.noteId = [[AppServices sharedAppServices]addCommentToNoteWithId:self.parentNote.noteId andTitle:self.textBox.text];
-    //else [[AppServices sharedAppServices]updateCommentWithId:self.commentNote.noteId andTitle:self.textBox.text];
+            [[AppServices sharedAppServices]updateCommentWithId:self.commentNote.noteId andTitle:self.textBox.text andRefresh:NO];
         
         
-       self.parentNote = [[AppServices sharedAppServices]fetchNote:self.parentNote.noteId];
+        
+        //self.parentNote = [[AppServices sharedAppServices]fetchNote:self.parentNote.noteId];
         [self.delegate setNote:parentNote];
         // [self addedText];
         self.commentValid = YES;
         [movieViews removeAllObjects];
+
         [commentTable reloadData];
     }
 
@@ -416,7 +511,7 @@ self.commentValid = YES;
 - (void)tableView:(UITableView *)tableView 
 
 didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
-    [movieViews removeAllObjects];
+    //[movieViews removeAllObjects];
     [self.commentTable reloadData];
     
 }

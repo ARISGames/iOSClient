@@ -237,11 +237,32 @@
 	self.soundRecorder = nil;
 	
 	//Do server call here
-    [[AppServices sharedAppServices] addContentToNoteFromFileData:self.audioData fileName:@"audio.caf" name:nil noteId:self.noteId type:@"AUDIO"];
-    if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]) [self.parentDelegate addedAudio];
+   
+    if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]) {
+        [self.parentDelegate addedAudio];
+        NoteContent *content = [[NoteContent alloc]init];
+        content.type = @"UPLOAD";
+    
+       
+        Note *parentNote = [[AppModel sharedAppModel]noteForNoteId:[[self.parentDelegate parentNote] noteId] playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
+        Note *commentNote = [[AppModel sharedAppModel]noteForNoteId:[[self.parentDelegate commentNote] noteId] playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
+
+        [[commentNote contents]addObject:content];
+        
+        //[[parentNote comments] insertObject:commentNote atIndex:0];     
+        [[AppServices sharedAppServices] addContentToNoteFromFileData:self.audioData fileName:@"audio.caf" name:nil noteId:self.noteId type:@"AUDIO"];
+        [content release];
+
+    }
     if([self.delegate isKindOfClass:[NoteViewController class]]) {
         [self.delegate setNoteValid:YES];
         [self.delegate setNoteChanged:YES];
+        NoteContent *content = [[NoteContent alloc]init];
+        content.type = @"UPLOAD";
+        [[[self.delegate note] contents]addObject:content];
+         [[AppServices sharedAppServices] addContentToNoteFromFileData:self.audioData fileName:@"audio.caf" name:nil noteId:self.noteId type:@"AUDIO"];
+        [content release];
+
     }
     [self.navigationController popViewControllerAnimated:YES];
 

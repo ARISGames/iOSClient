@@ -26,7 +26,9 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        
+        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+        [dispatcher addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:nil];
+
         viewControllers = [[NSMutableArray alloc] initWithCapacity:10];
         self.hidesBottomBarWhenPushed = YES;
     }
@@ -115,6 +117,7 @@
 
 
 }
+
 -(void)commentButtonTouch{
     [self showComments];
 }
@@ -162,7 +165,30 @@
 
 	[self presentMoviePlayerViewControllerAnimated:[viewControllers objectAtIndex:[sender tag]]];
 }
+-(void)movieThumbDidFinish:(NSNotification*) aNotification
+{
+    NSDictionary *userInfo = aNotification.userInfo;
+    UIImage *videoThumb = [userInfo objectForKey:MPMoviePlayerThumbnailImageKey];
+    NSError *e = [userInfo objectForKey:MPMoviePlayerThumbnailErrorKey];
+    NSNumber *time = [userInfo objectForKey:MPMoviePlayerThumbnailTimeKey];
+    MPMoviePlayerController *player = aNotification.object;
+    UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(320, 240)];        
 
+    for(int i = 0; i < [self.viewControllers count]; i++){
+        if([[self.viewControllers objectAtIndex:i] isKindOfClass:[ARISMoviePlayerViewController class]]){
+            if( [[[self.viewControllers objectAtIndex:i] moviePlayer] isEqual:player]){
+                
+                [[[self.viewControllers objectAtIndex:i] mediaPlaybackButton] setBackgroundImage:videoThumbSized forState:UIControlStateNormal];
+
+            }
+        }
+                                                                                                         
+    }
+    
+      if (e) {
+        //NSLog(@"MPMoviePlayerThumbnail ERROR: %@",e);
+    }
+}
 - (void)movieFinishedCallback:(NSNotification*) aNotification
 {
 	NSLog(@"ItemDetailsViewController: movieFinishedCallback");
@@ -172,7 +198,7 @@
    //[self displayTitleandDescriptionForm];
 }
 - (void)loadNewPageWithContent:(NoteContent *)content{
-
+    if(![content.type isEqualToString:@"UPLOAD"]){
     numPages++;
     scrollView.contentSize = CGSizeMake(320 * numPages, scrollView.frame.size.height);
     pageControl.numberOfPages = numPages;
@@ -219,7 +245,7 @@
          ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
             [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
             mMoviePlayer.moviePlayer.shouldAutoplay = NO;
-            [mMoviePlayer.moviePlayer prepareToPlay];
+           // [mMoviePlayer.moviePlayer prepareToPlay];
             
             //Setup the overlay
             UIImageView *playButonOverlay = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"play_button.png"]];
@@ -229,9 +255,16 @@
             //Create a thumbnail for the button
             if([content.type isEqualToString:@"VIDEO"]){
             if (![mediaPlaybackButton backgroundImageForState:UIControlStateNormal]) {
-                UIImage *videoThumb = [mMoviePlayer.moviePlayer thumbnailImageAtTime:(NSTimeInterval)1.0 timeOption:MPMovieTimeOptionExact];            
+               /* UIImage *videoThumb = [mMoviePlayer.moviePlayer thumbnailImageAtTime:(NSTimeInterval)1.0 timeOption:MPMovieTimeOptionExact];            
                 UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(320, 240)];        
-                [mediaPlaybackButton setBackgroundImage:videoThumbSized forState:UIControlStateNormal];
+                [mediaPlaybackButton setBackgroundImage:videoThumbSized forState:UIControlStateNormal];*/
+                NSNumber *thumbTime = [NSNumber numberWithFloat:1.0f];
+                NSArray *timeArray = [NSArray arrayWithObject:thumbTime];
+                [mMoviePlayer.moviePlayer requestThumbnailImagesAtTimes:timeArray timeOption:MPMovieTimeOptionNearestKeyFrame];
+                
+                NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+                [dispatcher addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:nil];
+
             }
             }
             else {
@@ -250,8 +283,11 @@
 
             }
 
-
+            mMoviePlayer.mediaPlaybackButton = mediaPlaybackButton;
+            [mediaPlaybackButton release];
+            [playButonOverlay release];
         }
+    }
 }
 
 - (void)viewDidUnload

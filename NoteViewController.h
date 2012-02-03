@@ -85,4 +85,6 @@
 //-(IBAction)controlChanged:(id)sender;
 - (void)refreshViewFromModel;
 -(void)tagButtonTouchAction;
+-(void)movieThumbDidFinish:(NSNotification*) aNotification;
+
 @end
