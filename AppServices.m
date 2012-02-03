@@ -435,7 +435,7 @@ static const int kEmptyValue = -1;
 	[jsonConnection release];
 
 }
--(void)updateCommentWithId:(int)noteId andTitle:(NSString *)title{
+-(void)updateCommentWithId:(int)noteId andTitle:(NSString *)title andRefresh:(BOOL)refresh{
     NSLog(@"AppModel: Updating Comment Rating");
 	
 	//Call server service
@@ -447,6 +447,11 @@ static const int kEmptyValue = -1;
                                                             andServiceName:@"notes" 
                                                              andMethodName:@"updateComment" 
                                                               andArguments:arguments];
+
+    if(refresh)
+        [jsonConnection performAsynchronousRequestWithParser:@selector(fetchPlayerNoteListAsync)]; 
+
+        else
 	[jsonConnection performAsynchronousRequestWithParser:nil]; 
 	[jsonConnection release];
 	

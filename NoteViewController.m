@@ -136,7 +136,9 @@
 									 style: UIBarButtonItemStyleDone
 									target:self 
 									action:@selector(backButtonTouchAction:)];
+   
     if(self.note.noteId == 0){
+        self.note = [[Note alloc]init];
         self.note.noteId = [[AppServices sharedAppServices] createNote];
     }
     else self.noteValid = YES;

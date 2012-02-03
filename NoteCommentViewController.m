@@ -244,7 +244,7 @@ self.parentNote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteI
             [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
             mMoviePlayer.moviePlayer.shouldAutoplay = NO;
             [mMoviePlayer.moviePlayer prepareToPlay];
-            //[self.movieViews addObject:mMoviePlayer];
+            [self.movieViews addObject:mMoviePlayer];
             //Setup the overlay
             UIImageView *playButonOverlay = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"play_button.png"]];
             
@@ -398,7 +398,9 @@ self.parentNote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteI
 
         [self.textBox resignFirstResponder];
 
-         [[AppServices sharedAppServices]updateCommentWithId:self.commentNote.noteId andTitle:self.textBox.text];
+
+            [[AppServices sharedAppServices]updateCommentWithId:self.commentNote.noteId andTitle:self.textBox.text andRefresh:NO];
+        
         
         
         //self.parentNote = [[AppServices sharedAppServices]fetchNote:self.parentNote.noteId];
@@ -406,7 +408,7 @@ self.parentNote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteI
         // [self addedText];
         self.commentValid = YES;
         [movieViews removeAllObjects];
-        [[AppModel sharedAppModel]noteForNoteId:self.commentNote.noteId playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
+
         [commentTable reloadData];
     }
 
@@ -508,7 +510,7 @@ self.commentValid = YES;
 - (void)tableView:(UITableView *)tableView 
 
 didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
-    [movieViews removeAllObjects];
+    //[movieViews removeAllObjects];
     [self.commentTable reloadData];
     
 }
