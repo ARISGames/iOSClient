@@ -232,7 +232,7 @@
                 [scrollView addSubview:controller];}
         }
         else if([content.type isEqualToString:@"AUDIO"] || [content.type isEqualToString:@"VIDEO"]){
-            //Setup the Button
+           /* //Setup the Button
             Media *media = [[Media alloc] init];
             media = [[AppModel sharedAppModel] mediaForMediaId:content.mediaId];
             UIButton *mediaPlaybackButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 320, 240)];
@@ -255,9 +255,7 @@
             //Create a thumbnail for the button
             if([content.type isEqualToString:@"VIDEO"]){
             if (![mediaPlaybackButton backgroundImageForState:UIControlStateNormal]) {
-               /* UIImage *videoThumb = [mMoviePlayer.moviePlayer thumbnailImageAtTime:(NSTimeInterval)1.0 timeOption:MPMovieTimeOptionExact];            
-                UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(320, 240)];        
-                [mediaPlaybackButton setBackgroundImage:videoThumbSized forState:UIControlStateNormal];*/
+               
                 NSNumber *thumbTime = [NSNumber numberWithFloat:1.0f];
                 NSArray *timeArray = [NSArray arrayWithObject:thumbTime];
                 [mMoviePlayer.moviePlayer requestThumbnailImagesAtTimes:timeArray timeOption:MPMovieTimeOptionNearestKeyFrame];
@@ -286,6 +284,20 @@
             mMoviePlayer.mediaPlaybackButton = mediaPlaybackButton;
             [mediaPlaybackButton release];
             [playButonOverlay release];
+            */
+            
+            
+            CGRect frame = CGRectMake( scrollView.frame.size.width * (numPages-1), 0, scrollView.frame.size.width, scrollView.frame.size.height);
+            AsyncImageView *mediaImageView = [[AsyncImageView alloc]init];
+            [mediaImageView initWithMediaId:content.mediaId andFrame:CGRectMake(frame.origin.x, frame.origin.y, 320, 240) andDelegate:self];
+            [viewControllers addObject:mediaImageView];
+            
+            if(nil == mediaImageView.superview)
+            [scrollView addSubview:mediaImageView];
+            
+            [mediaImageView release];
+
+
         }
     }
 }
