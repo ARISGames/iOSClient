@@ -54,9 +54,10 @@ self.parentNote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteI
     self.navigationItem.rightBarButtonItem = addCommentButton;
     
     self.myIndexPath = [[NSIndexPath alloc] init];
+    [self.navigationItem.backBarButtonItem setAction:@selector(perform:)];
     // Do any additional setup after loading the view from its nib.
     }
--(void)viewWillDisappear:(BOOL)animated{
+-(void) perform:(id)sender{
     if([[self.commentNote contents] count] == 0 && [textBox.text isEqualToString:@""] && self.commentNote.noteId != 0){
         [[AppServices sharedAppServices]deleteNoteWithNoteId:self.commentNote.noteId];
         
@@ -68,7 +69,11 @@ self.parentNote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteI
         }
 
     }
+    [self.navigationController popViewControllerAnimated:NO];
+
 }
+
+
 -(void)viewWillAppear:(BOOL)animated{
     self.videoIconUsed = NO;
     self.photoIconUsed = NO;
@@ -400,7 +405,7 @@ self.parentNote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteI
         commentNote.title = self.textBox.text;
         [[parentNote comments] insertObject:commentNote atIndex:0];     
 
-            [[AppServices sharedAppServices]updateCommentWithId:self.commentNote.noteId andTitle:self.textBox.text andRefresh:NO];
+            [[AppServices sharedAppServices]updateCommentWithId:self.commentNote.noteId andTitle:self.textBox.text andRefresh:YES];
         
         
         
