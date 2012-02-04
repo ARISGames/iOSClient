@@ -1,5 +1,5 @@
 //
-//  NoteViewController.h
+//  NoteEditorViewController.h
 //  ARIS
 //
 //  Created by Brian Thiel on 8/9/11.
@@ -13,7 +13,7 @@
 #import <AVFoundation/AVFoundation.h>
 
 
-@interface NoteViewController : UIViewController <AVAudioSessionDelegate,UITextFieldDelegate, UITableViewDataSource,UITableViewDelegate, AVAudioPlayerDelegate,UIActionSheetDelegate>{
+@interface NoteEditorViewController : UIViewController <AVAudioSessionDelegate,UITextFieldDelegate, UITableViewDataSource,UITableViewDelegate, AVAudioPlayerDelegate,UIActionSheetDelegate>{
     IBOutlet UITextView *textBox;
     IBOutlet UITextField *textField;
     IBOutlet UIButton *cameraButton;

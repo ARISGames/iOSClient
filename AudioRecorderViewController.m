@@ -10,9 +10,9 @@
 #import "ARISAppDelegate.h"
 #import "AppServices.h"
 #import "GPSViewController.h"
-#import "DataCollectionViewController.h"
+#import "NoteDetailsViewController.h"
 #import "NoteCommentViewController.h"
-#import "NoteViewController.h"
+#import "NoteEditorViewController.h"
 
 @implementation AudioRecorderViewController
 @synthesize soundFileURL;
@@ -254,7 +254,7 @@
         [content release];
 
     }
-    if([self.delegate isKindOfClass:[NoteViewController class]]) {
+    if([self.delegate isKindOfClass:[NoteEditorViewController class]]) {
         [self.delegate setNoteValid:YES];
         [self.delegate setNoteChanged:YES];
         NoteContent *content = [[NoteContent alloc]init];

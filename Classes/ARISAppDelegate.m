@@ -16,7 +16,7 @@
 #import "GamePickerSearchViewController.h"
 #import "GamePickerRecentViewController.h"
 #import "webpageViewController.h"
-#import "DataCollectionViewController.h"
+#import "NoteDetailsViewController.h"
 NSString *errorMessage, *errorDetail;
 
 BOOL isShowingNotification;
@@ -38,7 +38,18 @@ BOOL isShowingNotification;
 
 //@synthesize toolbarViewController;
 
+- (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+    if (error != nil) {
+        NSLog(@"Error: %@", error);
+    }
+}
+
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
+    
+    NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/movie.m4v"]];
+    UISaveVideoAtPathToSavedPhotosAlbum(path, self, @selector(video:didFinishSavingWithError:contextInfo:), nil);
+    
+    
 	//[application setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];	
 	//Don't sleep
 	application.idleTimerDisabled = YES;

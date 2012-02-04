@@ -7,8 +7,8 @@
 //
 
 #import "NotebookViewController.h"
-#import "NoteViewController.h"
-#import "DataCollectionViewController.h"
+#import "NoteEditorViewController.h"
+#import "NoteDetailsViewController.h"
 #import "AppServices.h"
 #import "NoteCell.h"
 #import "Note.h"
@@ -196,7 +196,7 @@ BOOL tagFilter;
     [noteTable reloadData];
 }
 -(void)barButtonTouchAction:(id)sender{
-    NoteViewController *noteVC = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
+    NoteEditorViewController *noteVC = [[NoteEditorViewController alloc] initWithNibName:@"NoteEditorViewController" bundle:nil];
     noteVC.startWithView = [sender tag] + 1;
     noteVC.delegate = self;
     [self.navigationController pushViewController:noteVC animated:NO];
@@ -550,7 +550,7 @@ BOOL tagFilter;
 
 
             //open up note viewer
-        DataCollectionViewController *dataVC = [[[DataCollectionViewController alloc] initWithNibName:@"DataCollectionViewController" bundle:nil]autorelease];
+        NoteDetailsViewController *dataVC = [[[NoteDetailsViewController alloc] initWithNibName:@"NoteDetailsViewController" bundle:nil]autorelease];
     dataVC.delegate = self;
         dataVC.note = (Note *)[currentNoteList objectAtIndex:indexPath.row];
         [self.navigationController pushViewController:dataVC animated:YES];

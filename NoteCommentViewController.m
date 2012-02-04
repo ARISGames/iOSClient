@@ -8,8 +8,8 @@
 
 #import "NoteCommentViewController.h"
 #import "NotebookViewController.h"
-#import "NoteViewController.h"
-#import "DataCollectionViewController.h"
+#import "NoteEditorViewController.h"
+#import "NoteDetailsViewController.h"
 #import "AppServices.h"
 #import "NoteCommentCell.h"
 #import "ARISAppDelegate.h"
@@ -315,7 +315,7 @@ self.parentNote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteI
 
     /*if([[[self.parentNote.comments objectAtIndex:indexPath.row] contents] count] > 0){
         //open up note viewer
-        DataCollectionViewController *dataVC = [[[DataCollectionViewController alloc] initWithNibName:@"DataCollectionViewController" bundle:nil]autorelease];
+        DataCollectionViewController *dataVC = [[[DataCollectionViewController alloc] initWithNibName:@"NoteDetailsViewController" bundle:nil]autorelease];
         dataVC.delegate = self;
         dataVC.note = [self.parentNote.comments objectAtIndex:indexPath.row];
         [self.navigationController pushViewController:dataVC animated:YES];

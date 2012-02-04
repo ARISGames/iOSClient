@@ -9,8 +9,8 @@
 #import "Note.h"
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
-#import "NoteViewController.h"
-#import "DataCollectionViewController.h"
+#import "NoteEditorViewController.h"
+#import "NoteDetailsViewController.h"
 #import "NearbyObjectsViewController.h"
 #import "NoteContent.h"
 @implementation Note
@@ -40,7 +40,7 @@
     
 
         //open up note viewer
-        DataCollectionViewController *dataVC = [[[DataCollectionViewController alloc] initWithNibName:@"DataCollectionViewController" bundle:nil]autorelease];
+        NoteDetailsViewController *dataVC = [[[NoteDetailsViewController alloc] initWithNibName:@"NoteDetailsViewController" bundle:nil]autorelease];
         dataVC.note = self;
         dataVC.delegate = self;
     [appDelegate displayNearbyObjectView:dataVC];

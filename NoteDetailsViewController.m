@@ -6,10 +6,10 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "DataCollectionViewController.h"
+#import "NoteDetailsViewController.h"
 #import "CameraViewController.h"
 #import "AudioRecorderViewController.h"
-#import "NoteViewController.h"
+#import "NoteEditorViewController.h"
 #import "NoteContent.h"
 #import "TextViewController.h"
 #import "AsyncImageView.h"
@@ -19,7 +19,7 @@
 #import "UIImage+Scale.h"
 #import "AppServices.h"
 
-@implementation DataCollectionViewController
+@implementation NoteDetailsViewController
 @synthesize scrollView,pageControl, delegate, viewControllers,note,commentLabel,likeButton,likeLabel;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -82,7 +82,7 @@
     [self dismissModalViewControllerAnimated:NO];
 }
 -(void)editButtonTouched{
-    NoteViewController *noteVC = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
+    NoteEditorViewController *noteVC = [[NoteEditorViewController alloc] initWithNibName:@"NoteEditorViewController" bundle:nil];
     noteVC.note = self.note;
     noteVC.delegate = self;
     [self.navigationController pushViewController:noteVC animated:YES];

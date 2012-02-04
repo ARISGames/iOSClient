@@ -11,7 +11,7 @@
 #import "Media.h"
 #import "AsyncImageView.h"
 #import "AppModel.h"
-#import "DataCollectionViewController.h"
+#import "NoteDetailsViewController.h"
 
 @implementation InventoryListViewController
 

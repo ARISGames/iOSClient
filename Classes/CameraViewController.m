@@ -13,7 +13,7 @@
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "GPSViewController.h"
 #import "NoteCommentViewController.h"
-#import "NoteViewController.h"
+#import "NoteEditorViewController.h"
 
 @implementation CameraViewController
 
@@ -159,7 +159,7 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
             [content release];
 
         }
-        if([self.delegate isKindOfClass:[NoteViewController class]]) {
+        if([self.delegate isKindOfClass:[NoteEditorViewController class]]) {
             [self.delegate setNoteValid:YES];
             [self.delegate setNoteChanged:YES];
             NoteContent *content = [[NoteContent alloc]init];
@@ -191,7 +191,7 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
             [content release];
 
         }
-        if([self.delegate isKindOfClass:[NoteViewController class]]) {
+        if([self.delegate isKindOfClass:[NoteEditorViewController class]]) {
             [self.delegate setNoteValid:YES];
             [self.delegate setNoteChanged:YES];
             NoteContent *content = [[NoteContent alloc]init];

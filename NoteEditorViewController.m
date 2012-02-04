@@ -6,7 +6,7 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "NoteViewController.h"
+#import "NoteEditorViewController.h"
 #import "TitleAndDecriptionFormViewController.h"
 #import "ARISAppDelegate.h"
 #import "AppServices.h"
@@ -21,7 +21,7 @@
 #import "ARISMoviePlayerViewController.h"
 #import "DropOnMapViewController.h"
 #import "NoteCommentViewController.h"
-#import "DataCollectionViewController.h"
+#import "NoteDetailsViewController.h"
 #import "AppModel.h"
 #import "NoteContentCell.h"
 #import "UIImage+Scale.h"
@@ -29,7 +29,7 @@
 #import "UploadingCell.h"
 #import "ARISAppDelegate.h"
 
-@implementation NoteViewController
+@implementation NoteEditorViewController
 @synthesize textBox,textField,note, delegate, hideKeyboardButton,libraryButton,cameraButton,audioButton, typeControl,viewControllers, scrollView,pageControl,publicButton,textButton,mapButton, contentTable,soundPlayer,noteValid,noteChanged, noteDropped, vidThumbs,startWithView,actionSheet,sharingLabel;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -148,7 +148,7 @@
     pageControl.numberOfPages = numPages;
     
     UIBarButtonItem *tagButton = [[UIBarButtonItem alloc] initWithTitle:@"Tag" style:UIBarButtonItemStylePlain target:self action:@selector(tagButtonTouchAction)]; 
-    if(![self.delegate isKindOfClass:[DataCollectionViewController class]]){
+    if(![self.delegate isKindOfClass:[NoteDetailsViewController class]]){
     UIBarButtonItem *previewButton = [[UIBarButtonItem alloc] initWithTitle:@"Preview" style:UIBarButtonItemStylePlain target:self action:@selector(previewButtonTouchAction)];      
     
 
@@ -191,7 +191,7 @@
 - (IBAction)backButtonTouchAction: (id) sender{
    
     if(!self.noteValid) [[AppServices sharedAppServices]deleteNoteWithNoteId:self.note.noteId];
-    if([self.delegate isKindOfClass:[DataCollectionViewController class]]){
+    if([self.delegate isKindOfClass:[NoteDetailsViewController class]]){
         [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
         self.note.title = self.textField.text;
         [self.delegate setNote:self.note];
@@ -246,7 +246,7 @@
 
 -(void)previewButtonTouchAction{
 
-    DataCollectionViewController *dataVC = [[[DataCollectionViewController alloc] initWithNibName:@"DataCollectionViewController" bundle:nil]autorelease];
+    NoteDetailsViewController *dataVC = [[[NoteDetailsViewController alloc] initWithNibName:@"NoteDetailsViewController" bundle:nil]autorelease];
     dataVC.note = self.note;
     dataVC.delegate = self;
     [self.navigationController pushViewController:dataVC animated:YES];

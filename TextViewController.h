@@ -1,5 +1,5 @@
 //
-//  NoteViewController.h
+//  NoteEditorViewController.h
 //  ARIS
 //
 //  Created by Brian Thiel on 8/9/11.

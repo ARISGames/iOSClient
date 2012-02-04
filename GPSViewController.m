@@ -16,8 +16,8 @@
 #import "Media.h"
 #import "Annotation.h"
 #import <UIKit/UIActionSheet.h>
-#import "DataCollectionViewController.h"
-#import "NoteViewController.h"
+#import "NoteDetailsViewController.h"
+#import "NoteEditorViewController.h"
 
 static float INITIAL_SPAN = 0.001;
 @implementation GPSViewController
@@ -114,7 +114,7 @@ static float INITIAL_SPAN = 0.001;
     [self refreshButtonAction];
 }
 - (IBAction)addMediaButtonAction: (id) sender{
-    NoteViewController *noteVC = [[NoteViewController alloc] initWithNibName:@"NoteViewController" bundle:nil];
+    NoteEditorViewController *noteVC = [[NoteEditorViewController alloc] initWithNibName:@"NoteEditorViewController" bundle:nil];
     noteVC.delegate = self;
     [self.navigationController pushViewController:noteVC animated:YES];
     [noteVC release];

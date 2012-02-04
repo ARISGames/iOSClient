@@ -14,7 +14,7 @@
 #import "ItemActionViewController.h"
 #import "WebPage.h"
 #import "webpageViewController.h"
-#import "NoteViewController.h"
+#import "NoteEditorViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import "UIImage+Scale.h"
 

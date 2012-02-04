@@ -11,7 +11,7 @@
 #import "TitleAndDecriptionFormViewController.h"
 #import "ARISAppDelegate.h"
 #import "AppServices.h"
-#import "NoteViewController.h"
+#import "NoteEditorViewController.h"
 
 @implementation TextViewController
 @synthesize textBox,noteId,keyboardButton,textToDisplay,editMode,contentId,delegate,previewMode,index;
@@ -47,7 +47,7 @@
 
     [super viewDidLoad];
     if(editMode){
-    
+
         self.textBox.text = textToDisplay;
         UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(updateContentTouchAction)];      
         self.navigationItem.rightBarButtonItem = saveButton;
@@ -60,7 +60,7 @@
         self.textBox.userInteractionEnabled = NO;
         self.textBox.text = self.textToDisplay;
     }
-    if([self.delegate isKindOfClass:[NoteViewController class]] || [self.delegate isKindOfClass:[NotebookViewController class]]) {
+    if([self.delegate isKindOfClass:[NoteEditorViewController class]] || [self.delegate isKindOfClass:[NotebookViewController class]]) {
 
     [self.textBox becomeFirstResponder];
     }
@@ -118,7 +118,7 @@
 -(void)saveButtonTouchAction{
     
 //Do server call here
-    if([self.delegate isKindOfClass:[NoteViewController class]]) {
+    if([self.delegate isKindOfClass:[NoteEditorViewController class]]) {
         [self.delegate setNoteValid:YES];
         [self.delegate setNoteChanged:YES];
          

@@ -1,5 +1,5 @@
 //
-//  DataCollectionViewController.h
+//  NoteDetailsViewController.h
 //  ARIS
 //
 //  Created by Brian Thiel on 8/12/11.
@@ -11,7 +11,7 @@
 #import "NoteContent.h"
 #import "ARISMoviePlayerViewController.h"
 
-@interface DataCollectionViewController : UIViewController <UIScrollViewDelegate> {
+@interface NoteDetailsViewController : UIViewController <UIScrollViewDelegate> {
     IBOutlet UIScrollView *scrollView;
     IBOutlet UIPageControl *pageControl;
     NSMutableArray *viewControllers;

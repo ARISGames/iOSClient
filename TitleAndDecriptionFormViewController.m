@@ -7,7 +7,7 @@
 //
 
 #import "TitleAndDecriptionFormViewController.h"
-#import "NoteViewController.h"
+#import "NoteDetailsViewController.h"
 #import "ItemDetailsViewController.h"
 
 @implementation TitleAndDecriptionFormViewController

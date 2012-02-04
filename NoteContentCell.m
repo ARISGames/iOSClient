@@ -8,7 +8,7 @@
 
 #import "NoteContentCell.h"
 #import "AppServices.h"
-#import "NoteViewController.h"
+#import "NoteEditorViewController.h"
 
 @implementation NoteContentCell
 @synthesize titleLbl,detailLbl,imageView,holdLbl,contentId,index,delegate;
@@ -47,7 +47,7 @@
     if([text isEqualToString:@"\n"]){
         // [self.titleLabel setUserInteractionEnabled:NO];
         [textView resignFirstResponder];  
-        NoteViewController *nVC = (NoteViewController *)self.delegate;
+        NoteEditorViewController *nVC = (NoteEditorViewController *)self.delegate;
         [[nVC.note.contents objectAtIndex:self.index]setTitle:textView.text];
         [[AppServices sharedAppServices] updateNoteContent:self.contentId title:textView.text];
         
