@@ -9,7 +9,7 @@
 #import "AttributesViewController.h"
 #import "AppServices.h"
 #import "Media.h"
-#import "AsyncImageView.h"
+#import "AsyncMediaView.h"
 #import "AppModel.h"
 
 @implementation AttributesViewController
@@ -111,7 +111,7 @@
 	[lblTemp release];
 	
 	//Init Icon with tag 3
-	iconViewTemp = [[AsyncImageView alloc] initWithFrame:IconFrame];
+	iconViewTemp = [[AsyncMediaView alloc] initWithFrame:IconFrame];
 	iconViewTemp.tag = 3;
 	iconViewTemp.backgroundColor = [UIColor clearColor]; 
 	[cell.contentView addSubview:iconViewTemp];
@@ -153,7 +153,7 @@
 	Item *item = [attributes objectAtIndex: [indexPath row]];
 	
 	
-        AsyncImageView *iconView = (AsyncImageView *)[cell viewWithTag:3];
+        AsyncMediaView *iconView = (AsyncMediaView *)[cell viewWithTag:3];
         
         
         if (item.iconMediaId != 0) {

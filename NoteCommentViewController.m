@@ -223,7 +223,7 @@ self.parentNote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteI
                     //Dont show icon for text since it is assumed to always be there
         }
         else if ([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"PHOTO"]){
-            AsyncImageView *aImageView = [[AsyncImageView alloc]initWithFrame:CGRectMake(10, height, 300, 300)];
+            AsyncMediaView *aImageView = [[AsyncMediaView alloc]initWithFrame:CGRectMake(10, height, 300, 300)];
             Media *media = [[AppModel sharedAppModel]mediaForMediaId:[(NoteContent *)[[currNote contents] objectAtIndex:x] mediaId]];
             [aImageView loadImageFromMedia:media];
                        if(!currNote.hasAudio)

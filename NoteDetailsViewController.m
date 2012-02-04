@@ -12,7 +12,7 @@
 #import "NoteEditorViewController.h"
 #import "NoteContent.h"
 #import "TextViewController.h"
-#import "AsyncImageView.h"
+#import "AsyncMediaView.h"
 #import "Media.h"
 #import "ARISMoviePlayerViewController.h"
 #import "NoteCommentViewController.h"
@@ -217,7 +217,7 @@
             [scrollView addSubview:controller.view];}
     }
     else if([content.type isEqualToString:@"PHOTO"]){
-        AsyncImageView *controller = [[AsyncImageView alloc] init];
+        AsyncMediaView *controller = [[AsyncMediaView alloc] init];
         Media *m = [[Media alloc]init];
         m = [[AppModel sharedAppModel] mediaForMediaId:content.mediaId];
         [controller loadImageFromMedia:m];
@@ -288,7 +288,7 @@
             
             
             CGRect frame = CGRectMake( scrollView.frame.size.width * (numPages-1), 0, scrollView.frame.size.width, scrollView.frame.size.height);
-            AsyncImageView *mediaImageView = [[AsyncImageView alloc]init];
+            AsyncMediaView *mediaImageView = [[AsyncMediaView alloc]init];
             [mediaImageView initWithMediaId:content.mediaId andFrame:CGRectMake(frame.origin.x, frame.origin.y, 320, 240) andDelegate:self];
             [viewControllers addObject:mediaImageView];
             

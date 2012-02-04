@@ -9,7 +9,7 @@
 #import "InventoryListViewController.h"
 #import "AppServices.h"
 #import "Media.h"
-#import "AsyncImageView.h"
+#import "AsyncMediaView.h"
 #import "AppModel.h"
 #import "NoteDetailsViewController.h"
 
@@ -242,7 +242,7 @@
 	[lblTemp release];
 	
 	//Init Icon with tag 3
-	iconViewTemp = [[AsyncImageView alloc] initWithFrame:IconFrame];
+	iconViewTemp = [[AsyncMediaView alloc] initWithFrame:IconFrame];
 	iconViewTemp.tag = 3;
 	iconViewTemp.backgroundColor = [UIColor clearColor]; 
 	[cell.contentView addSubview:iconViewTemp];
@@ -307,7 +307,7 @@
         
     UILabel *lblTemp2 = (UILabel *)[cell viewWithTag:2];
     lblTemp2.text = item.description;
-	AsyncImageView *iconView = (AsyncImageView *)[cell viewWithTag:3];
+	AsyncMediaView *iconView = (AsyncMediaView *)[cell viewWithTag:3];
     
     UILabel *lblTemp3 = (UILabel *)[cell viewWithTag:4];
     if(item.qty >1 && item.weight > 1)

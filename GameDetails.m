@@ -57,7 +57,7 @@ NSString *const kGameDetailsHtmlTemplate =
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
         // Custom initialization
-        self.mediaImageView = [[[AsyncImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 200)] autorelease];
+        self.mediaImageView = [[[AsyncMediaView alloc]initWithFrame:CGRectMake(0, 0, 320, 200)] autorelease];
         self.splashMedia = [[Media alloc] init];
         self.descriptionIndexPath = [[NSIndexPath alloc] init];
     }

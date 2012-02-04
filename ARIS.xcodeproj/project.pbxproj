@@ -190,7 +190,7 @@
 		AB0DE80511559CF000A6EC3E /* AudioRecorderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB0DE80111559CF000A6EC3E /* AudioRecorderViewController.xib */; };
 		AB0DE80911559D0500A6EC3E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0DE80811559D0500A6EC3E /* AVFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		AB0DE80D11559D1200A6EC3E /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */; };
-		AB15EC1510B49F8A00EEC11F /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AB15EC1410B49F8A00EEC11F /* AsyncImageView.m */; };
+		AB15EC1510B49F8A00EEC11F /* AsyncMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = AB15EC1410B49F8A00EEC11F /* AsyncMediaView.m */; };
 		AB18AEBA137B249A00382826 /* AppServices.m in Sources */ = {isa = PBXBuildFile; fileRef = AB18AEB9137B249A00382826 /* AppServices.m */; };
 		AB1CA8B813C7CDAE00131F81 /* libZXingWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB1CA8B713C7CDAE00131F81 /* libZXingWidget.a */; };
 		AB2223F510502CD800A4255E /* Quest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB2223F410502CD800A4255E /* Quest.m */; };
@@ -663,8 +663,8 @@
 		AB0DE80111559CF000A6EC3E /* AudioRecorderViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AudioRecorderViewController.xib; sourceTree = "<group>"; };
 		AB0DE80811559D0500A6EC3E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
-		AB15EC1310B49F8A00EEC11F /* AsyncImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncImageView.h; sourceTree = "<group>"; };
-		AB15EC1410B49F8A00EEC11F /* AsyncImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncImageView.m; sourceTree = "<group>"; };
+		AB15EC1310B49F8A00EEC11F /* AsyncMediaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncMediaView.h; sourceTree = "<group>"; };
+		AB15EC1410B49F8A00EEC11F /* AsyncMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncMediaView.m; sourceTree = "<group>"; };
 		AB18AEB8137B249A00382826 /* AppServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppServices.h; path = ../../AppServices.h; sourceTree = "<group>"; };
 		AB18AEB9137B249A00382826 /* AppServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppServices.m; path = ../../AppServices.m; sourceTree = "<group>"; };
 		AB1CA8AB13C7CCBE00131F81 /* ZXingWidget.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZXingWidget.xcodeproj; path = thirdParty/zxing/iphone/ZXingWidget/ZXingWidget.xcodeproj; sourceTree = "<group>"; };
@@ -1433,8 +1433,8 @@
 				A763B5240F4E283100FDCC55 /* MyCLController.m */,
 				AB42A66711D69F1500FD6D4B /* ARISMoviePlayerViewController.h */,
 				AB42A66811D69F1500FD6D4B /* ARISMoviePlayerViewController.m */,
-				AB15EC1310B49F8A00EEC11F /* AsyncImageView.h */,
-				AB15EC1410B49F8A00EEC11F /* AsyncImageView.m */,
+				AB15EC1310B49F8A00EEC11F /* AsyncMediaView.h */,
+				AB15EC1410B49F8A00EEC11F /* AsyncMediaView.m */,
 				28AD73870D9D96C1002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				A7A172820F4F26A60017E865 /* Entitlements.plist */,
@@ -2107,7 +2107,7 @@
 				ABDA40C210506AF400823A94 /* AnnotationView.m in Sources */,
 				D43717DF106D62BB0020C515 /* Media.m in Sources */,
 				AB9A7C1710AA173F002FD9BC /* ARISURLConnection.m in Sources */,
-				AB15EC1510B49F8A00EEC11F /* AsyncImageView.m in Sources */,
+				AB15EC1510B49F8A00EEC11F /* AsyncMediaView.m in Sources */,
 				AB3F4E6E10CCC17400E6C9D7 /* NearbyObjectARCoordinate.m in Sources */,
 				D424324D1107730E00E58147 /* Scene.m in Sources */,
 				D424324E1107730E00E58147 /* SceneParser.m in Sources */,

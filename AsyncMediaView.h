@@ -1,5 +1,5 @@
 //
-//  AsyncImageView.h
+//  AsyncMediaView.h
 //  ARIS
 //
 //  Created by David J Gagnon on 11/18/09.
@@ -10,7 +10,7 @@
 #import "Media.h"
 #import "ARISMoviePlayerViewController.h"
 
-@interface AsyncImageView : UIImageView {
+@interface AsyncMediaView : UIImageView {
 	NSURLConnection* connection; //keep a reference to the connection so we can cancel download in dealloc
 	NSMutableData* data; //keep reference to the data so we can collect it as it downloads
 	Media *media; //keep a refrence so we can update the media with the data after it is loaded

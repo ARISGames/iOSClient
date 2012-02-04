@@ -47,7 +47,7 @@
 
     [super viewDidLoad];
     if(editMode){
-
+    
         self.textBox.text = textToDisplay;
         UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(updateContentTouchAction)];      
         self.navigationItem.rightBarButtonItem = saveButton;

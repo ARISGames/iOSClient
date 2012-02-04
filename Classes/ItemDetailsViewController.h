@@ -10,7 +10,7 @@
 #import "AppModel.h"
 #import "Item.h"
 #import "ARISMoviePlayerViewController.h"
-#import "AsyncImageView.h"
+#import "AsyncMediaView.h"
 #import "itemDetailsMode.h"
 #import "TitleAndDecriptionFormViewController.h"
 
@@ -30,7 +30,7 @@
     IBOutlet UITextView *textBox;
     IBOutlet UIButton *saveButton;
 	IBOutlet UIButton *backButton;
-	IBOutlet AsyncImageView *itemImageView;
+	IBOutlet AsyncMediaView *itemImageView;
 	IBOutlet UIWebView *itemDescriptionView;
     IBOutlet UIWebView *itemWebView;
 	IBOutlet UIScrollView *scrollView;
@@ -45,7 +45,7 @@
 @property(readwrite, retain) Item *item;
 @property(readwrite) bool inInventory;
 @property(readwrite) ItemDetailsModeType mode;
-@property(nonatomic,retain)	IBOutlet AsyncImageView *itemImageView;
+@property(nonatomic,retain)	IBOutlet AsyncMediaView *itemImageView;
 @property(nonatomic,retain) IBOutlet UIWebView *itemWebView;
 @property(nonatomic, retain) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property(nonatomic,retain)IBOutlet UIWebView *itemDescriptionView;;

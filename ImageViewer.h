@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AsyncImageView.h"
+#import "AsyncMediaView.h"
 #import "Media.h"
 @interface ImageViewer : UIViewController {
-    IBOutlet AsyncImageView *imageView;
+    IBOutlet AsyncMediaView *imageView;
     Media *media;
 }
-@property(nonatomic,retain)IBOutlet AsyncImageView *imageView;
+@property(nonatomic,retain)IBOutlet AsyncMediaView *imageView;
 @property(nonatomic,retain) Media *media;
 
 -(void)updateImage;

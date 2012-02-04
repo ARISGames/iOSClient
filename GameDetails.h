@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Game.h"
 #import <MapKit/MapKit.h>
-#import "AsyncImageView.h"
+#import "AsyncMediaView.h"
 #import "Media.h"
 
 
@@ -26,7 +26,7 @@
 	IBOutlet UIScrollView *scrollView;
 	IBOutlet UIView *contentView;
     IBOutlet UISegmentedControl *segmentedControl;
-    AsyncImageView *mediaImageView; 
+    AsyncMediaView *mediaImageView; 
     CGFloat newHeight;
     NSIndexPath *descriptionIndexPath;
     Media *splashMedia;
@@ -43,7 +43,7 @@
 @property (nonatomic, retain) IBOutlet UIView *contentView;
 @property (nonatomic, retain) IBOutlet UISegmentedControl *segmentedControl;
 @property (nonatomic, assign) CGFloat  newHeight;
-@property (nonatomic,retain)AsyncImageView *mediaImageView;
+@property (nonatomic,retain)AsyncMediaView *mediaImageView;
 @property (nonatomic, retain)Media *splashMedia;
 
 

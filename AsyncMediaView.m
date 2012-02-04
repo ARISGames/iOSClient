@@ -6,10 +6,10 @@
 //  Copyright 2009 University of Wisconsin - Madison. All rights reserved.
 //
 
-#import "AsyncImageView.h"
+#import "AsyncMediaView.h"
 #import "AppModel.h"
 #import "UIImage+Scale.h"
-@implementation AsyncImageView
+@implementation AsyncMediaView
 
 @synthesize connection;
 @synthesize data;

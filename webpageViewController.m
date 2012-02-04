@@ -12,7 +12,7 @@
 #import "NodeOption.h"
 #import "ARISAppDelegate.h"
 #import "Media.h"
-#import "AsyncImageView.h"
+#import "AsyncMediaView.h"
 #import "DialogViewController.h"
 #import "NodeViewController.h"
 #import "QuestsViewController.h"
