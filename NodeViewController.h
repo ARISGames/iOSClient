@@ -10,7 +10,7 @@
 #import "AppModel.h"
 #import "Node.h"
 #import "ARISMoviePlayerViewController.h"
-#import "AsyncMediaView.h"
+#import "AsyncMediaImageView.h"
 
 @interface NodeViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIWebViewDelegate>
 {
@@ -22,7 +22,7 @@
     BOOL hasMedia;
     BOOL imageLoaded, webLoaded;
     
-    AsyncMediaView *mediaImageView;
+    AsyncMediaImageView *mediaImageView;
     UIActivityIndicatorView *webViewSpinner;
     NSArray *cellArray;
 }
@@ -32,7 +32,7 @@
 @property(readwrite, assign) BOOL hasMedia;
 @property(nonatomic, retain) IBOutlet UITableView *tableView;
 @property(nonatomic, retain)UIActivityIndicatorView *webViewSpinner;
-@property(nonatomic,retain)AsyncMediaView *mediaImageView;
+@property(nonatomic,retain)AsyncMediaImageView *mediaImageView;
 @property(nonatomic, retain)NSArray *cellArray;
 
 @end

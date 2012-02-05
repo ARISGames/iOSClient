@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AsyncMediaView.h"
+#import "AsyncMediaImageView.h"
 #import "SCRRatingView.h"
 
 @interface GamePickerCell : UITableViewCell {
@@ -15,7 +15,7 @@
 	UILabel *distanceLabel;
 	UILabel *authorLabel;
 	UILabel *numReviewsLabel;
-	AsyncMediaView *iconView;
+	AsyncMediaImageView *iconView;
 	SCRRatingView *starView;
 }
 
@@ -23,7 +23,7 @@
 @property(nonatomic,retain) IBOutlet UILabel *distanceLabel;
 @property(nonatomic,retain) IBOutlet UILabel *authorLabel;
 @property(nonatomic,retain) IBOutlet UILabel *numReviewsLabel;
-@property(nonatomic,retain) IBOutlet AsyncMediaView *iconView;
+@property(nonatomic,retain) IBOutlet AsyncMediaImageView *iconView;
 @property(nonatomic,retain) IBOutlet SCRRatingView *starView;
 
 @end

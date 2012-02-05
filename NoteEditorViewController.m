@@ -15,7 +15,7 @@
 #import "CameraViewController.h"
 #import "AudioRecorderViewController.h"
 #import "TextViewController.h"
-#import "AsyncMediaView.h"
+#import "AsyncMediaImageView.h"
 #import "Media.h"
 #import "ImageViewer.h"
 #import "ARISMoviePlayerViewController.h"
@@ -567,7 +567,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
                 cell.imageView.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]];    
                 Media *m = [[Media alloc]init];
                 m = [[AppModel sharedAppModel] mediaForMediaId:noteC.mediaId]; 
-                AsyncMediaView *aView = [[AsyncMediaView alloc]init];
+                AsyncMediaImageView *aView = [[AsyncMediaImageView alloc]init];
                 aView.frame = cell.imageView.frame;
                 [aView loadImageFromMedia:m];
                 if(m.image)

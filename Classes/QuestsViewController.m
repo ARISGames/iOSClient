@@ -11,7 +11,7 @@
 #import "AppServices.h"
 #import "Quest.h"
 #import "Media.h"
-#import "AsyncMediaView.h"
+#import "AsyncMediaImageView.h"
 #import "WebPage.h"
 #import "webpageViewController.h"
 

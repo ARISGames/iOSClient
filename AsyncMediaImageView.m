@@ -6,90 +6,68 @@
 //  Copyright 2009 University of Wisconsin - Madison. All rights reserved.
 //
 
-#import "AsyncMediaView.h"
+#import "AsyncMediaImageView.h"
 #import "AppModel.h"
 #import "UIImage+Scale.h"
-@implementation AsyncMediaView
+@implementation AsyncMediaImageView
 
 @synthesize connection;
 @synthesize data;
 @synthesize media;
-@synthesize delegate,isLoading,loaded,mMoviePlayer,mediaPlayBackButton,aframe;
+@synthesize mMoviePlayer;
+@synthesize isLoading;
+@synthesize loaded;
+@synthesize delegate;
 
 
--(void)initWithMediaId:(int)mediaId andFrame:(CGRect)aFrame andDelegate:(id)delegateToPresentMoviePlayer{
-    self.aframe = aFrame;
-    self.delegate = delegateToPresentMoviePlayer;
-    if(!media){
-    media = [[Media alloc] init];
-    }
-    media = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
-
-    if([media.type isEqualToString:@"Image"]){
-        [self loadImageFromMedia:media];
-    }
-    else if([media.type isEqualToString:@"Video"] || [media.type isEqualToString:@"Audio"]){
-        self.userInteractionEnabled = YES;
-        self.superview.userInteractionEnabled = YES;
-        if(!mediaPlayBackButton){
-            mediaPlayBackButton = [[UIButton alloc] init];
-        }
+-(id)initWithFrame:(CGRect)aFrame andMediaId:(int)mediaId{        
+    if (self = [super initWithFrame:aFrame]) {
+        self.loaded = NO;
         
-        [mediaPlayBackButton setFrame:aframe];
-        mediaPlayBackButton.userInteractionEnabled = YES;
-        
-        if(!mMoviePlayer){
-            mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+        if(!media){
+            media = [[Media alloc] init];
         }
-        else{
-            [mMoviePlayer initWithContentURL:[NSURL URLWithString:media.url]];
+        else media = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
 
+        if([media.type isEqualToString:@"Image"]){
+            [self loadImageFromMedia:media];
         }
-        
-        //Create movie player object
-        mMoviePlayer.moviePlayer.shouldAutoplay = NO;
-        [mMoviePlayer.moviePlayer prepareToPlay];
-        //Setup the overlay
-        if([media.type isEqualToString:@"Video"]){
-            if (!media.image) {
-                /* UIImage *videoThumb = [mMoviePlayer.moviePlayer thumbnailImageAtTime:(NSTimeInterval)1.0 timeOption:MPMovieTimeOptionExact];            
-                 UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(320, 240)];        
-                 [mediaPlaybackButton setBackgroundImage:videoThumbSized forState:UIControlStateNormal];*/
+        else if([media.type isEqualToString:@"Video"] || [media.type isEqualToString:@"Audio"]){
+            
+            if (self.media.image) {
+                [self updateViewWithNewImage:self.media.image];
+                self.loaded = YES;
+            }
+            else if([media.type isEqualToString:@"Video"]){
+                NSLog(@"AsyncMediaImageView: Loading a still from a movie");
+                
                 NSNumber *thumbTime = [NSNumber numberWithFloat:1.0f];
                 NSArray *timeArray = [NSArray arrayWithObject:thumbTime];
-                [mMoviePlayer.moviePlayer requestThumbnailImagesAtTimes:timeArray timeOption:MPMovieTimeOptionNearestKeyFrame];
+                
+                //Create movie player object
+                if(!self.mMoviePlayer){
+                    self.mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+                }
+                else [self.mMoviePlayer initWithContentURL:[NSURL URLWithString:media.url]];
+            
+                self.mMoviePlayer.moviePlayer.shouldAutoplay = NO;
+                [self.mMoviePlayer.moviePlayer requestThumbnailImagesAtTimes:timeArray timeOption:MPMovieTimeOptionNearestKeyFrame];
                 
                 NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-                [dispatcher addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:mMoviePlayer.moviePlayer];
-                
+                [dispatcher addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:self.mMoviePlayer.moviePlayer];
+        
+                self.isLoading= YES;
             }
-            else {
-                [mediaPlayBackButton setBackgroundImage:media.image forState:UIControlStateNormal];
-                //mediaPlayBackButton.contentMode = UIViewContentModeScaleAspectFill;
-            }
-        }
-        else{
-            if(!media.image){
+            else if ([media.type isEqualToString:@"Audio"]){
                 media.image = [UIImage imageNamed:@"microphoneBackground.jpg"];
-                
+                [self updateViewWithNewImage:self.media.image];
+                self.loaded = YES;
             }
-            [mediaPlayBackButton setBackgroundImage:media.image forState:UIControlStateNormal];
-            mediaPlayBackButton.contentMode = UIViewContentModeScaleAspectFill;  
         }
-        
-        [mediaPlayBackButton setFrame:aframe];
-        [mediaPlayBackButton setImage:[UIImage imageNamed:@"play_button.png"] forState:UIControlStateNormal];
-        [mediaPlayBackButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
-        [mediaPlayBackButton setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
-        
-        [mediaPlayBackButton addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
-
-        [self addSubview:mediaPlayBackButton];
-
-        [mediaPlayBackButton release];
     }
-   
+    return self;
 }
+
 -(void)movieThumbDidFinish:(NSNotification*) aNotification
 {
     NSDictionary *userInfo = aNotification.userInfo;
@@ -97,20 +75,19 @@
     NSError *e = [userInfo objectForKey:MPMoviePlayerThumbnailErrorKey];
     NSNumber *time = [userInfo objectForKey:MPMoviePlayerThumbnailTimeKey];
     MPMoviePlayerController *player = aNotification.object;
-    UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(aframe.size.width,aframe.size.height)];        
-    
-     [mediaPlayBackButton setBackgroundImage:videoThumbSized forState:UIControlStateNormal];
-    media.image = videoThumbSized;        
+    UIImage *videoThumbSized = [videoThumb scaleToSize:self.frame.size];        
+    self.media.image = videoThumbSized;     
+    [self updateViewWithNewImage:self.media.image];
             
     if (e) {
         //NSLog(@"MPMoviePlayerThumbnail ERROR: %@",e);
     }
-}
--(void)playMovie:(id)sender {
-    if([self.delegate respondsToSelector:@selector(presentMoviePlayerViewControllerAnimated:)]){
-    [self.delegate presentMoviePlayerViewControllerAnimated:mMoviePlayer];
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(imageFinishedLoading)]){
+        [delegate imageFinishedLoading];
     }
 }
+
 
 - (void)loadImageFromMedia:(Media *) aMedia {
 	self.media = aMedia;
@@ -118,9 +95,9 @@
     
 	if(self.isLoading){
         NSLog(@"AsyncImageView: loadImageFromMedia: Already loading another request...returning");
-      //  [self.connection release];
-       // [self.data release];
-        //clear out the spinner
+        // [self.connection release];
+        // [self.data release];
+        // clear out the spinner
     }
     self.isLoading = YES;
 
@@ -232,8 +209,6 @@
     [data release];
 	//[media release];
     //[delegate release];
-    [mMoviePlayer release];
-    //[mediaPlayBackButton release];
 }
 
 

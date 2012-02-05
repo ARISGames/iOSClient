@@ -68,7 +68,7 @@
 		self.titleRect = localTitleRect;
 		self.subtitleRect = localSubtitleRect;
 		self.contentRect = localContentRect;
-		iconView = [[AsyncMediaView alloc] init];
+		iconView = [[AsyncMediaImageView alloc] init];
 		CGRect imageViewFrame = CGRectMake(self.bounds.origin.x + 5.0, CGRectGetMaxY(self.contentRect)+POINTER_LENGTH, self.bounds.size.width - 10.0, IMAGE_HEIGHT);
 		[iconView setFrame:imageViewFrame];
 		iconView.contentMode =  UIViewContentModeScaleAspectFit;

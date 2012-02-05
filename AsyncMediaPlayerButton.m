@@ -1,16 +1,16 @@
 //
-//  AsyncMoviePlayerButton.m
+//  AsyncMediaPlayerButton.m
 //  ARIS
 //
 //  Created by David Gagnon on 2/4/12.
 //  Copyright (c) 2012 University of Wisconsin. All rights reserved.
 //
 
-#import "AsyncMoviePlayerButton.h"
+#import "AsyncMediaPlayerButton.h"
 #import "AppModel.h"
 
 
-@implementation AsyncMoviePlayerButton
+@implementation AsyncMediaPlayerButton
 
 @synthesize media;
 @synthesize mMoviePlayer;

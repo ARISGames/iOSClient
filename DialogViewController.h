@@ -8,15 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "SceneParser.h"
-#import "AsyncMediaView.h"
+#import "AsyncMediaImageView.h"
 #import "Node.h"
 #import "Npc.h"
 #import "Scene.h"
 #import "SceneParser.h"
 
 @interface DialogViewController : UIViewController<SceneParserDelegate, UIScrollViewDelegate, UITextFieldDelegate> {
-	IBOutlet	AsyncMediaView	*npcImage;
-	IBOutlet	AsyncMediaView	*pcImage;
+	IBOutlet	AsyncMediaImageView	*npcImage;
+	IBOutlet	AsyncMediaImageView	*pcImage;
 	IBOutlet	UIWebView	*npcWebView;
 	IBOutlet	UIWebView	*pcWebView;
 	IBOutlet	UITableView	*pcTableView;
@@ -60,8 +60,8 @@
 
 
 @property(nonatomic,retain)UILabel *lbl;
-@property(nonatomic, retain) IBOutlet AsyncMediaView	*npcImage;
-@property(nonatomic, retain) IBOutlet AsyncMediaView	*pcImage;
+@property(nonatomic, retain) IBOutlet AsyncMediaImageView	*npcImage;
+@property(nonatomic, retain) IBOutlet AsyncMediaImageView	*pcImage;
 @property(nonatomic, retain) IBOutlet UIWebView		*npcWebView;
 @property(nonatomic, retain) IBOutlet UIWebView		*pcWebView;
 @property(nonatomic, retain) IBOutlet UITableView	*pcTableView;

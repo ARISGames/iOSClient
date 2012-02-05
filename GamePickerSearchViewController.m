@@ -172,7 +172,7 @@
     cell.starView.rating = currentGame.rating;
         //Set up the Icon
     //Create a new iconView for each cell instead of reusing the same one
-    AsyncMediaView *iconView = [[AsyncMediaView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+    AsyncMediaImageView *iconView = [[AsyncMediaImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
     
     Media *iconMedia = [[Media alloc] initWithId:1 andUrlString:currentGame.iconMediaUrl ofType:@"Icon"];
     if(currentGame.iconMedia.image){

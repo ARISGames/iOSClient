@@ -17,7 +17,7 @@
 	UITableView *attributesTable;
 	NSArray *attributes;
     NSMutableArray *iconCache;
-    AsyncMediaView	*pcImage;
+    AsyncMediaImageView	*pcImage;
     UIButton *addGroupButton;
     UILabel *nameLabel;
     UILabel *groupLabel;
@@ -26,7 +26,7 @@
 @property(nonatomic, retain) IBOutlet UITableView *attributesTable;
 @property(nonatomic, retain) NSArray *attributes;
 @property(nonatomic, retain) NSMutableArray *iconCache;
-@property(nonatomic, retain) IBOutlet AsyncMediaView	*pcImage;
+@property(nonatomic, retain) IBOutlet AsyncMediaImageView	*pcImage;
 @property(nonatomic, retain) IBOutlet UIButton  *addGroupButton;
 @property(nonatomic, retain) IBOutlet UILabel *nameLabel;
 @property(nonatomic, retain) IBOutlet UILabel *groupLabel;

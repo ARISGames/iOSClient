@@ -13,7 +13,7 @@
 #import "NodeOption.h"
 #import "ARISAppDelegate.h"
 #import "Media.h"
-#import "AsyncMediaView.h"
+#import "AsyncMediaImageView.h"
 #import "UIImage+Scale.h"
 #import "UIDevice+Hardware.h"
 #import "DialogViewController.h"

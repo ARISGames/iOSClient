@@ -7,15 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AsyncMediaView.h"
+#import "AsyncMediaImageView.h"
 
 @interface NearbyObjectCell : UITableViewCell {
 	UILabel *title;
 	UILabel *qty;
-	AsyncMediaView *iconView;
+	AsyncMediaImageView *iconView;
 }
 
 @property(nonatomic,retain) IBOutlet UILabel *title;
-@property(nonatomic,retain) IBOutlet AsyncMediaView *iconView;
+@property(nonatomic,retain) IBOutlet AsyncMediaImageView *iconView;
 
 @end

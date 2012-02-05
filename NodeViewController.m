@@ -12,7 +12,7 @@
 #import "NodeOption.h"
 #import "ARISAppDelegate.h"
 #import "Media.h"
-#import "AsyncMediaView.h"
+#import "AsyncMediaImageView.h"
 #import "webpageViewController.h"
 #import "WebPage.h"
 #import <AVFoundation/AVFoundation.h>
@@ -55,7 +55,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 													 name:MPMoviePlayerLoadStateDidChangeNotification 
 												   object:nil];
         self.isLink=NO;
-        self.mediaImageView = [[AsyncMediaView alloc]init];
+        self.mediaImageView = [[AsyncMediaImageView alloc]init];
         self.mediaImageView.delegate = self;
     }
     

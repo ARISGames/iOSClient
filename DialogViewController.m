@@ -8,7 +8,7 @@
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
 #import "AppServices.h"
-#import "AsyncMediaView.h"
+#import "AsyncMediaImageView.h"
 #import "DialogViewController.h"
 #import "Media.h"
 #import "Node.h"
@@ -52,7 +52,7 @@ NSString *const kDialogHtmlTemplate =
 
 @interface DialogViewController()
 - (void) loadCharacterImage:(NSInteger)mediaId withPriorId:(NSInteger *)priorId 
-					 inView:(AsyncMediaView *)aView;
+					 inView:(AsyncMediaImageView *)aView;
 - (void) movePcIn;
 - (void) moveNpcIn;
 - (void) moveAllOutWithPostSelector:(SEL)postSelector;
@@ -290,7 +290,7 @@ NSString *const kDialogHtmlTemplate =
 }
 
 - (void) loadCharacterImage:(NSInteger)mediaId withPriorId:(NSInteger *)priorId 
-					 inView:(AsyncMediaView *)aView 
+					 inView:(AsyncMediaImageView *)aView 
 {
 	if (mediaId == *priorId) return;
 	

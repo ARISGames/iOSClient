@@ -10,7 +10,7 @@
 #import <MapKit/MapKit.h>
 #import "AppModel.h"
 #import "ARISAppDelegate.h"
-#import "AsyncMediaView.h"
+#import "AsyncMediaImageView.h"
 
 #define POINTER_LENGTH 10
 #define IMAGE_HEIGHT 30
@@ -24,7 +24,7 @@
 	UIFont *subtitleFont;
 	NSMutableData *asyncData;
 	UIImage *icon;
-	AsyncMediaView *iconView;
+	AsyncMediaImageView *iconView;
 }
 
 @property (readwrite) CGRect titleRect;

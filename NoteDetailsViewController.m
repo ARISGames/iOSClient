@@ -12,12 +12,12 @@
 #import "NoteEditorViewController.h"
 #import "NoteContent.h"
 #import "TextViewController.h"
-#import "AsyncMediaView.h"
+#import "AsyncMediaImageView.h"
 #import "Media.h"
 #import "NoteCommentViewController.h"
 #import "UIImage+Scale.h"
 #import "AppServices.h"
-#import "AsyncMoviePlayerButton.h"
+#import "AsyncMediaPlayerButton.h"
 
 @implementation NoteDetailsViewController
 @synthesize scrollView,pageControl, delegate, viewControllers,note,commentLabel,likeButton,likeLabel;
@@ -184,7 +184,7 @@
             [scrollView addSubview:controller.view];}
     }
     else if([content.type isEqualToString:@"PHOTO"]){
-        AsyncMediaView *controller = [[AsyncMediaView alloc] init];
+        AsyncMediaImageView *controller = [[AsyncMediaImageView alloc] init];
         Media *m = [[Media alloc]init];
         m = [[AppModel sharedAppModel] mediaForMediaId:content.mediaId];
         [controller loadImageFromMedia:m];
@@ -204,7 +204,7 @@
                                       scrollView.frame.size.width, 
                                       scrollView.frame.size.height);
             
-            AsyncMoviePlayerButton *mediaButton = [[AsyncMoviePlayerButton alloc] 
+            AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] 
                                                    initWithFrame:frame 
                                                    mediaId:content.mediaId 
                                                    presentingController:self];
