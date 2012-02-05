@@ -39,30 +39,32 @@
         mMoviePlayer.moviePlayer.shouldAutoplay = NO;
         [mMoviePlayer.moviePlayer prepareToPlay];
         
-        if([media.type isEqualToString:@"Video"]){
-            NSLog(@"AsyncMoviePlayerButton: init: Media is Video");
+        
+        [self setImage:[UIImage imageNamed:@"play_button.png"] forState:UIControlStateNormal];
+        [self setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
+        [self setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
+        [self addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
+        
+        //Load the background
+        if (media.image) {
+            NSLog(@"AsyncMoviePlayerButton: init: thumbnail was in media.image cache");
+            [self setBackgroundImage:media.image forState:UIControlStateNormal];
+        }
+        
+        else if ([media.type isEqualToString:@"Video"]){
+            NSLog(@"AsyncMoviePlayerButton: fetching thumbnail for a video ");
 
-            if (!media.image) {
-                NSLog(@"AsyncMoviePlayerButton: init: fetching new thumbnail");
-
-                NSNumber *thumbTime = [NSNumber numberWithFloat:1.0f];
-                NSArray *timeArray = [NSArray arrayWithObject:thumbTime];
-                [mMoviePlayer.moviePlayer requestThumbnailImagesAtTimes:timeArray timeOption:MPMovieTimeOptionNearestKeyFrame];
-                
-                NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-                [dispatcher addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:mMoviePlayer.moviePlayer];
-                
-            }
-            else {
-                NSLog(@"AsyncMoviePlayerButton: init: thumbnail was in media.image cache");
-                [self setBackgroundImage:media.image forState:UIControlStateNormal];
-            }
-
+            NSNumber *thumbTime = [NSNumber numberWithFloat:1.0f];
+            NSArray *timeArray = [NSArray arrayWithObject:thumbTime];
+            [mMoviePlayer.moviePlayer requestThumbnailImagesAtTimes:timeArray timeOption:MPMovieTimeOptionNearestKeyFrame];
             
-            [self setImage:[UIImage imageNamed:@"play_button.png"] forState:UIControlStateNormal];
-            [self setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
-            [self setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
-            [self addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
+            NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+            [dispatcher addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:mMoviePlayer.moviePlayer];
+        }
+        
+        else if ([media.type isEqualToString:@"Audio"]){
+            media.image = [UIImage imageNamed:@"microphoneBackground.jpg"];
+            [self setBackgroundImage:media.image forState:UIControlStateNormal];
         }
     }
     NSLog(@"AsyncMoviePlayerButton: init complete");
@@ -94,8 +96,6 @@
         [self.presentingController presentMoviePlayerViewControllerAnimated:mMoviePlayer];
     }
     [mMoviePlayer.moviePlayer play];
-
-    
 }
 
 

@@ -200,7 +200,6 @@
         }
         else if([content.type isEqualToString:@"AUDIO"] || [content.type isEqualToString:@"VIDEO"]){
 
-            
             CGRect frame = CGRectMake( scrollView.frame.size.width * (numPages-1), 0, 
                                       scrollView.frame.size.width, 
                                       scrollView.frame.size.height);
@@ -212,15 +211,9 @@
                                                    
             
             [viewControllers addObject:mediaButton];
-
-            if(nil == mediaButton.superview) [scrollView addSubview:mediaButton];
-            scrollView.userInteractionEnabled = YES;
-            scrollView.exclusiveTouch = NO;
-            scrollView.canCancelContentTouches = YES;
-            scrollView.delaysContentTouches = YES;
-            
+            [scrollView addSubview:mediaButton];
+                
             [mediaButton release];
-
 
         }
     }
