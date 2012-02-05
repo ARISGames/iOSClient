@@ -29,12 +29,14 @@
         [self loadImageFromMedia:media];
     }
     else if([media.type isEqualToString:@"Video"] || [media.type isEqualToString:@"Audio"]){
-       self.userInteractionEnabled = YES;
+        self.userInteractionEnabled = YES;
+        self.superview.userInteractionEnabled = YES;
         if(!mediaPlayBackButton){
-        mediaPlayBackButton = [[UIButton alloc] init];
+            mediaPlayBackButton = [[UIButton alloc] init];
         }
         
-            [mediaPlayBackButton setFrame:aframe];
+        [mediaPlayBackButton setFrame:aframe];
+        mediaPlayBackButton.userInteractionEnabled = YES;
         
         if(!mMoviePlayer){
             mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
@@ -43,27 +45,28 @@
             [mMoviePlayer initWithContentURL:[NSURL URLWithString:media.url]];
 
         }
-                //Create movie player object
+        
+        //Create movie player object
         mMoviePlayer.moviePlayer.shouldAutoplay = NO;
         [mMoviePlayer.moviePlayer prepareToPlay];
         //Setup the overlay
-               if([media.type isEqualToString:@"Video"]){
-        if (!media.image) {
-            /* UIImage *videoThumb = [mMoviePlayer.moviePlayer thumbnailImageAtTime:(NSTimeInterval)1.0 timeOption:MPMovieTimeOptionExact];            
-             UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(320, 240)];        
-             [mediaPlaybackButton setBackgroundImage:videoThumbSized forState:UIControlStateNormal];*/
-            NSNumber *thumbTime = [NSNumber numberWithFloat:1.0f];
-            NSArray *timeArray = [NSArray arrayWithObject:thumbTime];
-            [mMoviePlayer.moviePlayer requestThumbnailImagesAtTimes:timeArray timeOption:MPMovieTimeOptionNearestKeyFrame];
-            
-            NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-            [dispatcher addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:mMoviePlayer.moviePlayer];
-            
-        }
-        else {
-            [mediaPlayBackButton setBackgroundImage:media.image forState:UIControlStateNormal];
-            //mediaPlayBackButton.contentMode = UIViewContentModeScaleAspectFill;
-        }
+        if([media.type isEqualToString:@"Video"]){
+            if (!media.image) {
+                /* UIImage *videoThumb = [mMoviePlayer.moviePlayer thumbnailImageAtTime:(NSTimeInterval)1.0 timeOption:MPMovieTimeOptionExact];            
+                 UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(320, 240)];        
+                 [mediaPlaybackButton setBackgroundImage:videoThumbSized forState:UIControlStateNormal];*/
+                NSNumber *thumbTime = [NSNumber numberWithFloat:1.0f];
+                NSArray *timeArray = [NSArray arrayWithObject:thumbTime];
+                [mMoviePlayer.moviePlayer requestThumbnailImagesAtTimes:timeArray timeOption:MPMovieTimeOptionNearestKeyFrame];
+                
+                NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+                [dispatcher addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:mMoviePlayer.moviePlayer];
+                
+            }
+            else {
+                [mediaPlayBackButton setBackgroundImage:media.image forState:UIControlStateNormal];
+                //mediaPlayBackButton.contentMode = UIViewContentModeScaleAspectFill;
+            }
         }
         else{
             if(!media.image){
@@ -74,14 +77,14 @@
             mediaPlayBackButton.contentMode = UIViewContentModeScaleAspectFill;  
         }
         
-            [mediaPlayBackButton setFrame:aframe];
+        [mediaPlayBackButton setFrame:aframe];
         [mediaPlayBackButton setImage:[UIImage imageNamed:@"play_button.png"] forState:UIControlStateNormal];
         [mediaPlayBackButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];
-        [mediaPlayBackButton setContentVerticalAlignment:UIControlContentVerticalAlignmentBottom];
+        [mediaPlayBackButton setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
         
         [mediaPlayBackButton addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
 
-             [self addSubview:mediaPlayBackButton];
+        [self addSubview:mediaPlayBackButton];
 
         [mediaPlayBackButton release];
     }

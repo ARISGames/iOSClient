@@ -64,6 +64,10 @@
     self.scrollView.showsHorizontalScrollIndicator = NO;
     //scrollView.showsVerticalScrollIndicator = NO;
     //scrollView.scrollsToTop = NO;
+    scrollView.userInteractionEnabled = YES;
+    scrollView.exclusiveTouch = NO;
+    scrollView.canCancelContentTouches = YES;
+    scrollView.delaysContentTouches = YES;
     scrollView.delegate = self;
     self.pageControl.currentPage = 0;
     self.pageControl.numberOfPages = 1;
@@ -289,9 +293,11 @@
             
             CGRect frame = CGRectMake( scrollView.frame.size.width * (numPages-1), 0, scrollView.frame.size.width, scrollView.frame.size.height);
             AsyncMediaView *mediaImageView = [[AsyncMediaView alloc]init];
-            [mediaImageView initWithMediaId:content.mediaId andFrame:CGRectMake(frame.origin.x, frame.origin.y, 320, 240) andDelegate:self];
-            [viewControllers addObject:mediaImageView];
+            [mediaImageView initWithMediaId:content.mediaId andFrame:CGRectMake(frame.origin.x, frame.origin.y, scrollView.frame.size.width, scrollView.frame.size.height) andDelegate:self];
             
+            [viewControllers addObject:mediaImageView];
+            mediaImageView.userInteractionEnabled = YES;
+
             if(nil == mediaImageView.superview)
             [scrollView addSubview:mediaImageView];
             
