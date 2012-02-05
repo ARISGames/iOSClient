@@ -48,7 +48,8 @@
         //Load the background
         if (media.image) {
             NSLog(@"AsyncMoviePlayerButton: init: thumbnail was in media.image cache");
-            [self setBackgroundImage:media.image forState:UIControlStateNormal];
+            UIImage *videoThumbSized = [media.image scaleToSize:self.frame.size];        
+            [self setBackgroundImage:videoThumbSized forState:UIControlStateNormal];
         }
         
         else if ([media.type isEqualToString:@"Video"]){
@@ -64,7 +65,8 @@
         
         else if ([media.type isEqualToString:@"Audio"]){
             media.image = [UIImage imageNamed:@"microphoneBackground.jpg"];
-            [self setBackgroundImage:media.image forState:UIControlStateNormal];
+            UIImage *videoThumbSized = [media.image scaleToSize:self.frame.size];        
+            [self setBackgroundImage:videoThumbSized forState:UIControlStateNormal];
         }
     }
     NSLog(@"AsyncMoviePlayerButton: init complete");
@@ -77,12 +79,12 @@
 {
     NSLog(@"AsyncMoviePlayerButton: movieThumbDidFinish");
     NSDictionary *userInfo = aNotification.userInfo;
-    UIImage *videoThumb = [userInfo objectForKey:MPMoviePlayerThumbnailImageKey];
+    media.image = [userInfo objectForKey:MPMoviePlayerThumbnailImageKey];
     NSError *e = [userInfo objectForKey:MPMoviePlayerThumbnailErrorKey];
-    UIImage *videoThumbSized = [videoThumb scaleToSize:self.frame.size];        
     
+    UIImage *videoThumbSized = [media.image scaleToSize:self.frame.size];        
     [self setBackgroundImage:videoThumbSized forState:UIControlStateNormal];
-    media.image = videoThumbSized;        
+       
     
     if (e) {
         NSLog(@"MPMoviePlayerThumbnail ERROR: %@",e);
