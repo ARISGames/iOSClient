@@ -104,6 +104,7 @@
     [mMoviePlayer release];
 	//[media release];
     [presentingController release];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 

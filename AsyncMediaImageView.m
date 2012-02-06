@@ -236,6 +236,7 @@
     [mMoviePlayer.moviePlayer cancelAllThumbnailImageRequests];
 	//[media release];
     //[delegate release];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 
