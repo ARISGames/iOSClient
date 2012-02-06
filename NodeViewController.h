@@ -12,7 +12,7 @@
 #import "ARISMoviePlayerViewController.h"
 #import "AsyncMediaImageView.h"
 
-@interface NodeViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIWebViewDelegate, AsyncMediaImageViewDelegate>
+@interface NodeViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIWebViewDelegate,  AsyncMediaImageViewDelegate>
 {
 	Node *node;
 	MPMoviePlayerViewController *mMoviePlayer; //only used if item is a video
