@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CLLocation.h>
+#import <CoreData/CoreData.h>
 #import "Game.h"
 #import "Item.h"
 #import "Node.h"
@@ -67,6 +68,11 @@ extern NSDictionary *InventoryElements;
 	BOOL hasSeenMapTabTutorial;
 	BOOL hasSeenInventoryTabTutorial;
     BOOL profilePic,tabsReady,hidePlayers,isGameNoteList;
+    
+    //CORE Data
+    NSManagedObjectModel *managedObjectModel;
+    NSManagedObjectContext *managedObjectContext;	    
+    NSPersistentStoreCoordinator *persistentStoreCoordinator;
 }
 
 
@@ -132,6 +138,10 @@ extern NSDictionary *InventoryElements;
 @property(readwrite) BOOL hasSeenInventoryTabTutorial;
 @property(readwrite) BOOL tabsReady;
 
+// CORE Data
+@property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
+@property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 
 + (AppModel *)sharedAppModel;
@@ -141,6 +151,7 @@ extern NSDictionary *InventoryElements;
 - (void)loadUserDefaults;
 - (void)clearUserDefaults;
 - (void)saveUserDefaults;
+- (void)saveCOREData;
 - (void)initUserDefaults;
 - (void)clearGameLists;
 - (void)modifyQuantity: (int)quantityModifier forLocationId: (int)locationId;

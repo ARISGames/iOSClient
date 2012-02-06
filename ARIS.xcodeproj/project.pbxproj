@@ -150,6 +150,10 @@
 		4A92FB0B139EDFEA00B41218 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A92FB0A139EDFEA00B41218 /* Comment.m */; };
 		4A92FB0F139EEA2A00B41218 /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A92FB0D139EEA2A00B41218 /* CommentCell.m */; };
 		4A92FB10139EEA2A00B41218 /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4A92FB0E139EEA2A00B41218 /* CommentCell.xib */; };
+		4AD5C40814E0661E00081B20 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AD5C40714E0661E00081B20 /* CoreData.framework */; };
+		4AD5C40F14E06E6D00081B20 /* UploadContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AD5C40E14E06E6D00081B20 /* UploadContent.m */; };
+		4AD5C41214E06E9200081B20 /* UploadContent.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4AD5C41014E06E9200081B20 /* UploadContent.xcdatamodeld */; };
+		4AD5C41514E0704F00081B20 /* UploadMan.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AD5C41414E0704F00081B20 /* UploadMan.m */; };
 		4ADE919C13CB7CB80009F4AF /* UIImage+Scale.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ADE919B13CB7CB80009F4AF /* UIImage+Scale.m */; };
 		4ADE919F13CB84B80009F4AF /* UIDevice+Hardware.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ADE919E13CB84B80009F4AF /* UIDevice+Hardware.m */; };
 		A7149F9D0FB89DC8008BAB5D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A7149F9C0FB89DC8008BAB5D /* Settings.bundle */; };
@@ -604,6 +608,13 @@
 		4A92FB0C139EEA2A00B41218 /* CommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCell.h; sourceTree = "<group>"; };
 		4A92FB0D139EEA2A00B41218 /* CommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentCell.m; sourceTree = "<group>"; };
 		4A92FB0E139EEA2A00B41218 /* CommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
+		4AD5C40714E0661E00081B20 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		4AD5C40D14E06E5300081B20 /* UploadContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadContent.h; sourceTree = "<group>"; };
+		4AD5C40E14E06E6D00081B20 /* UploadContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadContent.m; sourceTree = "<group>"; };
+		4AD5C41114E06E9200081B20 /* UploadContent.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UploadContent.xcdatamodel; sourceTree = "<group>"; };
+		4AD5C41314E0700D00081B20 /* UploadMan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadMan.h; sourceTree = "<group>"; };
+		4AD5C41414E0704F00081B20 /* UploadMan.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadMan.m; sourceTree = "<group>"; };
+		4AD5C41714E071EA00081B20 /* NoteContentProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NoteContentProtocol.h; path = ../../NoteContentProtocol.h; sourceTree = "<group>"; };
 		4ADE919A13CB7CB80009F4AF /* UIImage+Scale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Scale.h"; sourceTree = "<group>"; };
 		4ADE919B13CB7CB80009F4AF /* UIImage+Scale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Scale.m"; sourceTree = "<group>"; };
 		4ADE919D13CB84B80009F4AF /* UIDevice+Hardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Hardware.h"; sourceTree = "<group>"; };
@@ -875,6 +886,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4AD5C40814E0661E00081B20 /* CoreData.framework in Frameworks */,
 				11FDA7F01474706600ACE17D /* libzbar.a in Frameworks */,
 				AB38DB3C13E4A1DE001EFF52 /* libiconv.dylib in Frameworks */,
 				AB9BA24913DFBAB1007470E3 /* libz.dylib in Frameworks */,
@@ -1229,6 +1241,7 @@
 				11B28B9C14C4AD1700759BCD /* Tag.m */,
 				118622DE1404535200D4B738 /* Note.h */,
 				118622DF1404535300D4B738 /* Note.m */,
+				4AD5C41714E071EA00081B20 /* NoteContentProtocol.h */,
 				118866471406BB830009E36F /* NoteContent.h */,
 				118866481406BB830009E36F /* NoteContent.m */,
 				118622E114046A9800D4B738 /* NoteMedia.h */,
@@ -1247,6 +1260,11 @@
 				AB54A0B91047301E00A901EF /* JSONResult.m */,
 				D43717DD106D62BB0020C515 /* Media.h */,
 				D43717DE106D62BB0020C515 /* Media.m */,
+				4AD5C41314E0700D00081B20 /* UploadMan.h */,
+				4AD5C41414E0704F00081B20 /* UploadMan.m */,
+				4AD5C40D14E06E5300081B20 /* UploadContent.h */,
+				4AD5C40E14E06E6D00081B20 /* UploadContent.m */,
+				4AD5C41014E06E9200081B20 /* UploadContent.xcdatamodeld */,
 			);
 			name = Model;
 			path = Classes/model;
@@ -1478,6 +1496,7 @@
 			children = (
 				11FDA7CC1474690500ACE17D /* ZBarSDK */,
 				AB1CA8AB13C7CCBE00131F81 /* ZXingWidget.xcodeproj */,
+				4AD5C40714E0661E00081B20 /* CoreData.framework */,
 				AB7D277913C7559800F10AD5 /* CoreMedia.framework */,
 				AB7D277713C7556100F10AD5 /* AddressBookUI.framework */,
 				ABB2CDC513C7498A00F051E4 /* AddressBook.framework */,
@@ -2221,6 +2240,9 @@
 				1176F2AE14C5F2B800EA4512 /* TagCell.m in Sources */,
 				1108419514D3269900478A9D /* UploadingCell.m in Sources */,
 				AB9ECB4614DE4B5B00E5E74B /* AsyncMediaPlayerButton.m in Sources */,
+				4AD5C40F14E06E6D00081B20 /* UploadContent.m in Sources */,
+				4AD5C41214E06E9200081B20 /* UploadContent.xcdatamodeld in Sources */,
+				4AD5C41514E0704F00081B20 /* UploadMan.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2375,6 +2397,19 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		4AD5C41014E06E9200081B20 /* UploadContent.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4AD5C41114E06E9200081B20 /* UploadContent.xcdatamodel */,
+			);
+			currentVersion = 4AD5C41114E06E9200081B20 /* UploadContent.xcdatamodel */;
+			path = UploadContent.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
 }

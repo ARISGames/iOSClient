@@ -971,6 +971,7 @@ BOOL isShowingNotification;
 -(void) applicationWillTerminate:(UIApplication *)application {
 	NSLog(@"AppDelegate: Begin Application Termination");
 	[[AppModel sharedAppModel] saveUserDefaults];
+    [[AppModel sharedAppModel] saveCOREData];
 }
 
 - (void)dealloc {
