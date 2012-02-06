@@ -17,6 +17,37 @@
     }
     return self;	
 }
+
+- (NSString *) getTitle
+{
+    return [self title];
+}
+
+- (NSString *) getText
+{
+    return [self text];
+}
+
+- (Media *) getMedia
+{
+    return [[AppModel sharedAppModel] mediaForMediaId:[self mediaId]];
+}
+
+- (NSString *) getType
+{
+    return [self type];
+}
+
+- (int) getNoteId
+{
+    return [self noteId];
+}
+
+- (int) getContentId
+{
+    return [self contentId];
+}
+
 - (void) dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 	[type release];

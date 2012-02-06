@@ -7,9 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AppModel.h"
+#import "NoteContentProtocol.h"
 #import "Note.h"
 
-@interface NoteContent : NSObject {
+@interface NoteContent : NSObject <NoteContentProtocol> {
     int contentId;
     int mediaId;
     int noteId;
@@ -18,6 +20,7 @@
     NSString *title;
     NSString *type;
 }
+
 @property(readwrite,assign)int contentId;
 @property(readwrite,assign)int mediaId;
 @property(readwrite,assign)int noteId;

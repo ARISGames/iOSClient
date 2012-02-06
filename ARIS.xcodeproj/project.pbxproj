@@ -1242,6 +1242,8 @@
 				118622DE1404535200D4B738 /* Note.h */,
 				118622DF1404535300D4B738 /* Note.m */,
 				4AD5C41714E071EA00081B20 /* NoteContentProtocol.h */,
+				4AD5C40D14E06E5300081B20 /* UploadContent.h */,
+				4AD5C40E14E06E6D00081B20 /* UploadContent.m */,
 				118866471406BB830009E36F /* NoteContent.h */,
 				118866481406BB830009E36F /* NoteContent.m */,
 				118622E114046A9800D4B738 /* NoteMedia.h */,
@@ -1262,8 +1264,6 @@
 				D43717DE106D62BB0020C515 /* Media.m */,
 				4AD5C41314E0700D00081B20 /* UploadMan.h */,
 				4AD5C41414E0704F00081B20 /* UploadMan.m */,
-				4AD5C40D14E06E5300081B20 /* UploadContent.h */,
-				4AD5C40E14E06E6D00081B20 /* UploadContent.m */,
 				4AD5C41014E06E9200081B20 /* UploadContent.xcdatamodeld */,
 			);
 			name = Model;

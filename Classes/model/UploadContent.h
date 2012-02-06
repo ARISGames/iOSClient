@@ -9,12 +9,15 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 #include "NoteContentProtocol.h"
+#include "Media.h"
 
 
 @interface UploadContent : NSManagedObject <NoteContentProtocol>
 
+@property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSString * text;
-@property (nonatomic, retain) NSData * media;
+@property (nonatomic, retain) NSString * media;
+@property (nonatomic, retain) NSString * type;
 @property (nonatomic, retain) NSNumber * note_id;
 @property (nonatomic, retain) NSNumber * attemptfailed;
 
