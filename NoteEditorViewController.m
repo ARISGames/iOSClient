@@ -506,14 +506,26 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
                                     [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
             cell.detailLbl.text = noteC.text;
         }
-        else if([[noteC type] isEqualToString:@"PHOTO"] || 
-                [[noteC type] isEqualToString:@"AUDIO"] || 
-                [[noteC type] isEqualToString:@"VIDEO"]){
+        else if([[noteC type] isEqualToString:@"PHOTO"]){
             
             NSLog(@"NoteEditorVC: Cell requested is an %@", [noteC type]);
 
             AsyncMediaImageView *aView = [[AsyncMediaImageView alloc]initWithFrame:cell.imageView.frame andMediaId:noteC.mediaId];
             [cell addSubview:aView];
+            [aView release];
+        }
+        else if([[noteC type] isEqualToString:@"AUDIO"] || 
+                [[noteC type] isEqualToString:@"VIDEO"]){
+            
+            AsyncMediaImageView *aView = [[AsyncMediaImageView alloc]initWithFrame:cell.imageView.frame andMediaId:noteC.mediaId];
+            UIImageView *overlay = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"play_button.png"]];
+            overlay.frame = CGRectMake(aView.frame.origin.x, aView.frame.origin.y, aView.frame.size.width/2, aView.frame.size.height/2);
+            overlay.center = aView.center;
+
+            //overlay.alpha = .6;
+            [cell addSubview:aView];
+            [cell addSubview:overlay];
+            [overlay release];
             [aView release];
         }
 
