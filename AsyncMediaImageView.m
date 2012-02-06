@@ -19,6 +19,11 @@
 @synthesize loaded;
 @synthesize delegate;
 
+-(id)initWithFrame:(CGRect)aFrame andMedia:(Media *)aMedia{
+    
+    return [self initWithFrame:aFrame andMediaId:aMedia.uid];
+
+}
 
 -(id)initWithFrame:(CGRect)aFrame andMediaId:(int)mediaId{        
     if (self = [super initWithFrame:aFrame]) {

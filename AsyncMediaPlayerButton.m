@@ -17,6 +17,9 @@ BOOL isLoading;
 @synthesize mMoviePlayer;
 @synthesize presentingController;
 
+-(id)initWithFrame:(CGRect)frame media:(Media *)aMedia presentingController:(UIViewController *)aPresentingController{
+   return [self initWithFrame:frame mediaId:aMedia.uid presentingController:aPresentingController];
+}
 
 -(id)initWithFrame:(CGRect)frame mediaId:(int)mediaId presentingController:(UIViewController*)aPresentingController{    
     NSLog(@"AsyncMoviePlayerButton: initWithFrame,mediaId,presentingController");

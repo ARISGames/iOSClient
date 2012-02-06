@@ -16,6 +16,7 @@
     UIViewController *presentingController;
 }
 
+-(id)initWithFrame:(CGRect)frame media:(Media *)media presentingController:(UIViewController*)aPresentingController;
 
 -(id)initWithFrame:(CGRect)frame mediaId:(int)mediaId presentingController:(UIViewController*)aPresentingController;
     

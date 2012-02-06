@@ -36,7 +36,7 @@
 @property(readwrite,assign)BOOL isLoading;
 @property(readwrite,assign)BOOL loaded;
 
-
+- (id)initWithFrame:(CGRect)aFrame andMedia:(Media *)aMedia;     
 - (id)initWithFrame:(CGRect)aFrame andMediaId:(int)mediaId;     
 - (void) loadImageFromMedia:(Media *) aMedia;
 - (UIImage*) getImage;
