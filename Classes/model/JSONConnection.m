@@ -89,7 +89,7 @@
 	ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:self.completeRequestURL];
 	[request setNumberOfTimesToRetryOnTimeout:2];
 	[request setDelegate:self];
-	[request setTimeOutSeconds:10];
+	[request setTimeOutSeconds:30];
 
 
 	//Store the parser in the request
