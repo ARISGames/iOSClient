@@ -285,12 +285,12 @@
 	
 	if (!media) {
 		//Let's pause everything and do a lookup
-		NSLog(@"AppModel: Media not found in cached media List, refresh");
+		NSLog(@"AppModel: Media: %d not found in cached media List, refresh",mId);
 		[[AppServices sharedAppServices] fetchGameMediaListAsynchronously:NO];
 		
 		media = [self.gameMediaList objectForKey:[NSNumber numberWithInt:mId]];
 		if (media) NSLog(@"AppModel: Media found after refresh");
-		else NSLog(@"AppModel: Media still NOT found after refresh");
+		else NSLog(@"AppModel: Media: %d still NOT found after refresh",mId);
 	}
 	return media;
 }

@@ -22,6 +22,8 @@
 
 @implementation NoteCommentViewController
 @synthesize parentNote,commentNote,textBox,rating,commentTable,addAudioButton,addPhotoButton,addMediaFromAlbumButton,myIndexPath,commentValid,addTextButton,videoIconUsed,photoIconUsed,audioIconUsed,currNoteHasAudio,currNoteHasPhoto,currNoteHasVideo,inputView,hideKeyboardButton,addCommentButton,delegate,movieViews;
+@synthesize asyncMediaDict;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -29,6 +31,7 @@
         // Custom initialization
         self.commentNote = [[Note alloc]init];
         self.movieViews = [[NSMutableArray alloc]initWithCapacity:5];
+        self.asyncMediaDict = [[NSMutableDictionary alloc] initWithCapacity:5];
         self.title = @"Comments";
         self.hidesBottomBarWhenPushed = YES;
         commentValid = NO;
@@ -218,21 +221,29 @@
         else if([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"VIDEO"]){
             NoteContent *content =  (NoteContent *)[[currNote contents] objectAtIndex:x];
             
-            Media *media = [[AppModel sharedAppModel] mediaForMediaId:content.mediaId];
             CGRect frame = CGRectMake(10, 0, 320, 240);
             
-            AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] 
+            AsyncMediaPlayerButton *mediaButton;
+            
+            mediaButton = [asyncMediaDict objectForKey:[NSNumber numberWithInt:content.mediaId]];
+            if(!mediaButton){
+                
+            mediaButton = [[AsyncMediaPlayerButton alloc] 
                                                    initWithFrame:frame 
                                                    mediaId:content.mediaId 
                                                    presentingController:self];
             
+
             if(!currNote.hasAudio)
                 [mediaButton setFrame:CGRectMake(10, height+20, 300, 223)];
             else
                 [mediaButton setFrame:CGRectMake(10, height+60, 300, 223)];
+                
+            }
             
+            [asyncMediaDict setObject:mediaButton forKey:[NSNumber numberWithInt:content.mediaId]];
+
             [cell addSubview:mediaButton];
-            [mediaButton release];
         }
         else if([[[[currNote contents] objectAtIndex:x] type] isEqualToString:@"AUDIO"]){
             

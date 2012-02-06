@@ -29,6 +29,8 @@
     UIBarButtonItem *hideKeyboardButton,*addCommentButton;
     id delegate;
     NSMutableArray *movieViews;
+    NSMutableDictionary *asyncMediaDict;
+
 }
 @property(nonatomic, retain)IBOutlet UITableView *commentTable;
 
@@ -53,6 +55,8 @@
 @property(nonatomic,retain)UIBarButtonItem *hideKeyboardButton;
 @property(nonatomic,retain)id delegate;
 @property(nonatomic,retain)NSMutableArray *movieViews;
+@property (nonatomic, retain) NSMutableDictionary *asyncMediaDict;
+
 -(IBAction)addPhotoButtonTouchAction;
 -(IBAction)addAudioButtonTouchAction;
 -(IBAction)addTextButtonTouchAction;
