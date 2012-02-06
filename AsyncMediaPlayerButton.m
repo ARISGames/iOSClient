@@ -8,6 +8,7 @@
 
 #import "AsyncMediaPlayerButton.h"
 #import "AppModel.h"
+#import "UIImage+Scale.h"
 
 
 @implementation AsyncMediaPlayerButton
@@ -25,9 +26,6 @@
 
         self.presentingController = aPresentingController;
         
-        if(!media){
-            media = [[Media alloc] init];
-        }
         media = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
         
         //Create movie player object
@@ -99,6 +97,16 @@
     }
     [mMoviePlayer.moviePlayer play];
 }
+
+- (void)dealloc {
+    [super dealloc];
+    [mMoviePlayer.moviePlayer cancelAllThumbnailImageRequests];
+    [mMoviePlayer release];
+	//[media release];
+    [presentingController release];
+}
+
+
 
 
 

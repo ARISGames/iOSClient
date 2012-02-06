@@ -14,7 +14,7 @@
 	NSURLConnection* connection; //keep a reference to the connection so we can cancel download in dealloc
 	NSMutableData* data; //keep reference to the data so we can collect it as it downloads
 	Media *media; //keep a refrence so we can update the media with the data after it is loaded
-    ARISMoviePlayerViewController *mMoviePlayer;
+    ARISMoviePlayerViewController *mMoviePlayer; //In case we need to load a frame of a movie
     NSObject* delegate;
 	BOOL isLoading;
     BOOL loaded;

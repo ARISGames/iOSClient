@@ -22,19 +22,21 @@
 
 -(id)initWithFrame:(CGRect)aFrame andMediaId:(int)mediaId{        
     if (self = [super initWithFrame:aFrame]) {
+        NSLog(@"AsyncMediaImageView: initWithFrame and MediaId");
+
         self.loaded = NO;
         
-        if(!media){
-            media = [[Media alloc] init];
-        }
-        else media = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
+        media = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
 
         if([media.type isEqualToString:@"Image"]){
+            NSLog(@"AsyncMediaImageView: Load an Image");
             [self loadImageFromMedia:media];
         }
         else if([media.type isEqualToString:@"Video"] || [media.type isEqualToString:@"Audio"]){
             
             if (self.media.image) {
+                NSLog(@"AsyncMediaImageView: Loading from a cached image in media.image");
+
                 [self updateViewWithNewImage:self.media.image];
                 self.loaded = YES;
             }
@@ -56,9 +58,21 @@
                 NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
                 [dispatcher addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:self.mMoviePlayer.moviePlayer];
         
+                //set up indicators
+                [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+                
+                //put a spinner in the view
+                UIActivityIndicatorView *spinner = 
+                [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+                [spinner startAnimating];
+                
+                spinner.center = self.center;
+                [self addSubview:spinner];
+                
                 self.isLoading= YES;
             }
             else if ([media.type isEqualToString:@"Audio"]){
+                NSLog(@"AsyncMediaImageView: Loading the standard audio image");
                 media.image = [UIImage imageNamed:@"microphoneBackground.jpg"];
                 [self updateViewWithNewImage:self.media.image];
                 self.loaded = YES;
@@ -70,6 +84,7 @@
 
 -(void)movieThumbDidFinish:(NSNotification*) aNotification
 {
+    NSLog(@"AsyncMediaImageView: movieThumbDidFinish");
     NSDictionary *userInfo = aNotification.userInfo;
     UIImage *videoThumb = [userInfo objectForKey:MPMoviePlayerThumbnailImageKey];
     NSError *e = [userInfo objectForKey:MPMoviePlayerThumbnailErrorKey];
@@ -86,11 +101,23 @@
     if (self.delegate && [self.delegate respondsToSelector:@selector(imageFinishedLoading)]){
         [delegate imageFinishedLoading];
     }
+    
+    //end the UI indicator
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	
+    //clear out the spinner
+    while ([[self subviews] count] > 0) {
+		[[[self subviews] lastObject] removeFromSuperview];
+    }
+    
+    self.loaded = YES;
+    self.isLoading = NO;
 }
 
 
 - (void)loadImageFromMedia:(Media *) aMedia {
-	self.media = aMedia;
+    NSLog(@"AsyncImageView: loadImageFromMedia");
+    self.media = aMedia;
     self.image = nil;
     
 	if(self.isLoading){
@@ -203,10 +230,10 @@
 
 - (void)dealloc {
     [super dealloc];
-
     [connection cancel];
     [connection release];
     [data release];
+    [mMoviePlayer.moviePlayer cancelAllThumbnailImageRequests];
 	//[media release];
     //[delegate release];
 }

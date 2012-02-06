@@ -204,45 +204,7 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
-/*- (void)movieLoadStateChanged:(NSNotification*) aNotification{
-	MPMovieLoadState state = [(MPMoviePlayerController *) aNotification.object loadState];
-	MPMoviePlayerController *mMovie = (MPMoviePlayerController *)aNotification.object;
-    NSString *url = [mMovie.contentURL absoluteString];
-    
 
-	if( state & MPMovieLoadStatePlayable ) {
-        
-        //Create a thumbnail for the button
-        if (![self.vidThumbs valueForKey:url]) {
-            UIImage *videoThumb = [mMovie thumbnailImageAtTime:(NSTimeInterval)1.0 timeOption:MPMovieTimeOptionExact];            
-            UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(60, 60)];        
-            [self.vidThumbs setValue:videoThumbSized forKey:url];
-            [self.contentTable reloadRowsAtIndexPaths:[self.vidThumbs valueForKey:@"indexPath"]  withRowAnimation:UITableViewRowAnimationFade];
-        }
-	} 
-
-	
-}*/
--(void)movieThumbDidFinish:(NSNotification*) aNotification
-{
-    NSDictionary *userInfo = aNotification.userInfo;
-    UIImage *videoThumb = [userInfo objectForKey:MPMoviePlayerThumbnailImageKey];
-    NSError *e = [userInfo objectForKey:MPMoviePlayerThumbnailErrorKey];
-    NSNumber *time = [userInfo objectForKey:MPMoviePlayerThumbnailTimeKey];
-    MPMoviePlayerController *player = aNotification.object;
-    UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(60, 60)];        
-    
-    NSString *url = [player.contentURL absoluteString];
-    
-    
-        
-        //Create a thumbnail for the button
-        if (![self.vidThumbs valueForKey:url]) {
-            [self.vidThumbs setValue:videoThumbSized forKey:url];
-            [self.contentTable reloadRowsAtIndexPaths:[self.vidThumbs valueForKey:@"indexPath"]  withRowAnimation:UITableViewRowAnimationFade];
-        
-	} 
-}
 
 -(void)previewButtonTouchAction{
 
@@ -469,47 +431,51 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	//NSLog(@"GamePickerVC: Cell requested for section: %d row: %d",indexPath.section,indexPath.row);
+    NSLog(@"NoteEditorVC: Cell requested for section: %d row: %d",indexPath.section,indexPath.row);
+    
     NSArray *reloadArr = [[NSArray alloc]init];
-    NoteContent *noteC = [[NoteContent alloc] init];
-    if([self.note.contents count]>indexPath.row)
-    noteC = [self.note.contents objectAtIndex:indexPath.row];
+    
 	static NSString *CellIdentifier = @"Cell";
     
     if([self.note.contents count] == 0){
+        NSLog(@"NoteEditorVC: No note contents available, display standard message");
+
         UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
         cell.textLabel.text = @"No Content Added";
         cell.detailTextLabel.text = @"Press Buttons Below To Add Some!";
         cell.userInteractionEnabled = NO;
         return  cell;
     }
-    else{
-        NoteContent *noteC = (NoteContent *)[self.note.contents objectAtIndex:indexPath.row];
-        if([noteC.type isEqualToString:@"UPLOAD"]){
-            UITableViewCell *tempCell = (UploadingCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-            if (![tempCell respondsToSelector:@selector(progressBar)]){
-                //[tempCell release];
-                tempCell = nil;
-            }
-            UploadingCell *cell = (UploadingCell *)tempCell;
-            
-            
-            if (cell == nil) {
-                // Create a temporary UIViewController to instantiate the custom cell.
-                UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"UploadingCell" bundle:nil];
-                // Grab a pointer to the custom cell.
-                cell = (UploadingCell *)temporaryController.view;
-                // Release the temporary UIViewController.
-                [temporaryController release];
-            }
-            [AppModel sharedAppModel].progressBar = cell.progressBar;
-            
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.userInteractionEnabled = NO;
-  
-            return  cell;
+    
+    NoteContent *noteC = (NoteContent *)[self.note.contents objectAtIndex:indexPath.row];
+    if([noteC.type isEqualToString:@"UPLOAD"]){
+        NSLog(@"NoteEditorVC: Cell requested is an UPLOAD");
+
+        UITableViewCell *tempCell = (UploadingCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (![tempCell respondsToSelector:@selector(progressBar)]){
+            //[tempCell release];
+            tempCell = nil;
         }
-        else{
+        UploadingCell *cell = (UploadingCell *)tempCell;
+        
+        
+        if (cell == nil) {
+            // Create a temporary UIViewController to instantiate the custom cell.
+            UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"UploadingCell" bundle:nil];
+            // Grab a pointer to the custom cell.
+            cell = (UploadingCell *)temporaryController.view;
+            // Release the temporary UIViewController.
+            [temporaryController release];
+        }
+        [AppModel sharedAppModel].progressBar = cell.progressBar;
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.userInteractionEnabled = NO;
+        
+        return  cell;
+    }
+    else{
+        NSLog(@"NoteEditorVC: Cell requested was not an UPLOAD");
         UITableViewCell *tempCell = (NoteContentCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (![tempCell respondsToSelector:@selector(titleLbl)]){
             //[tempCell release];
@@ -527,65 +493,35 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
             [temporaryController release];
         }
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
-
-            cell.index = indexPath.row;
-            cell.delegate = self;
-            cell.contentId = noteC.contentId;
-            if([noteC.title length] >23)noteC.title = [noteC.title substringToIndex:23];
-            cell.titleLbl.text = noteC.title;
-            if([[(NoteContent *)[self.note.contents objectAtIndex:indexPath.row] type] isEqualToString:@"TEXT"]){
-             cell.imageView.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
-                cell.detailLbl.text = noteC.text;
-            }
-            else if([[noteC type] isEqualToString:@"VIDEO"]){
-                reloadArr =[reloadArr arrayByAddingObject:indexPath];
-                [self.vidThumbs setValue:reloadArr forKey:@"indexPath"];
-                Media *m = [[Media alloc]init];
-                m = [[AppModel sharedAppModel] mediaForMediaId:noteC.mediaId]; 
-                NSURL* contentURL = [NSURL URLWithString:m.url];
-                
-                if(![self.vidThumbs valueForKey:m.url]){
-                    MPMoviePlayerController  *moviePlayerController = [[MPMoviePlayerController alloc] initWithContentURL:contentURL];
-                    moviePlayerController.shouldAutoplay = NO;
-                    //[moviePlayerController prepareToPlay];
-                    cell.imageView.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]];    
-
-                    
-                    NSNumber *thumbTime = [NSNumber numberWithFloat:1.0f];
-                    NSArray *timeArray = [NSArray arrayWithObject:thumbTime];
-                    [moviePlayerController requestThumbnailImagesAtTimes:timeArray timeOption:MPMovieTimeOptionNearestKeyFrame];
-                    
-                    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-                    [dispatcher addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:nil];
-                }
-                else{
-                    cell.imageView.image = [self.vidThumbs valueForKey:m.url];
-
-                }
-            }
-            else if([[noteC type] isEqualToString:@"PHOTO"]){
-                cell.imageView.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]];    
-                Media *m = [[Media alloc]init];
-                m = [[AppModel sharedAppModel] mediaForMediaId:noteC.mediaId]; 
-                AsyncMediaImageView *aView = [[AsyncMediaImageView alloc]init];
-                aView.frame = cell.imageView.frame;
-                [aView loadImageFromMedia:m];
-                if(m.image)
-                [cell.imageView setImage:m.image];
-                [cell addSubview:aView];
-                [aView release];
-                //[m release];
-            }
-            else if([[noteC type] isEqualToString:@"AUDIO"]){
-             cell.imageView.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]];                 
-            }
-            cell.titleLbl.text = noteC.title;
-            return  cell;
-        }
         
+        cell.index = indexPath.row;
+        cell.delegate = self;
+        cell.contentId = noteC.contentId;
+        
+        if([noteC.title length] >23)noteC.title = [noteC.title substringToIndex:23];
+        cell.titleLbl.text = noteC.title;
+        
+        if([[(NoteContent *)[self.note.contents objectAtIndex:indexPath.row] type] isEqualToString:@"TEXT"]){
+            cell.imageView.image = [UIImage imageWithContentsOfFile: 
+                                    [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
+            cell.detailLbl.text = noteC.text;
+        }
+        else if([[noteC type] isEqualToString:@"PHOTO"] || 
+                [[noteC type] isEqualToString:@"AUDIO"] || 
+                [[noteC type] isEqualToString:@"VIDEO"]){
+            
+            NSLog(@"NoteEditorVC: Cell requested is an %@", [noteC type]);
+
+            AsyncMediaImageView *aView = [[AsyncMediaImageView alloc]initWithFrame:cell.imageView.frame andMediaId:noteC.mediaId];
+            [cell addSubview:aView];
+            [aView release];
+        }
+
+        cell.titleLbl.text = noteC.title;
+        return  cell;
     }
     
-    
+    //Should never get here
     [reloadArr release];
     return [[UITableViewCell alloc]autorelease];
 }
@@ -605,28 +541,11 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
                                                alpha:1.0];  
     } 
 }
-/*-(void)playTextAnimation:(AVPlayer *) player withCell:(UITableViewCell *)cell{
-    if(player.currentTime.value != player.currentItem.duration.value){
-    [UIView animateWithDuration:1 delay:1 options:nil animations:^{cell.detailTextLabel.text = @"Playing";} completion:^(BOOL finished){
-        [UIView animateWithDuration:1 delay:1 options:nil  animations:^{cell.detailTextLabel.text = @"Playing.";} completion:^(BOOL finished){
-            [UIView animateWithDuration:1 delay:1 options:nil  animations:^{cell.detailTextLabel.text = @"Playing..";} completion:^(BOOL finished){
-                [UIView animateWithDuration:1 delay:1 options:nil animations:^{cell.detailTextLabel.text = @"Playing...";} completion:^(BOOL finished){
-                    [self playTextAnimation:player withCell:cell];
-                }];
-            }];
-        }];
-    }];
-    }
-    else {
-        cell.detailTextLabel.text = nil;
-    }
-}
-*/
+
 -(void)removeObs{
     [self.soundPlayer removeTimeObserver:timeObserver];
-    
-
 }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NoteContent *noteC = [[NoteContent alloc] init];
    
@@ -703,21 +622,11 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     }
     else if([noteC.type isEqualToString:@"VIDEO"]){
                 //view video
-        Media *media = [[Media alloc] init];
-        media = [[AppModel sharedAppModel] mediaForMediaId:noteC.mediaId];
-        
+        Media *media = [[AppModel sharedAppModel] mediaForMediaId:noteC.mediaId];
         //Create movie player object
         ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
-        [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
-        mMoviePlayer.moviePlayer.shouldAutoplay = NO;
-        [mMoviePlayer.moviePlayer prepareToPlay];		
-        [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationDuration:.5];
         mMoviePlayer.moviePlayer.shouldAutoplay = YES;
-
         [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
-
-
     }
     }
     //[noteC release];
