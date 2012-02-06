@@ -14,7 +14,7 @@
 #import "Scene.h"
 #import "SceneParser.h"
 
-@interface DialogViewController : UIViewController<SceneParserDelegate, UIScrollViewDelegate, UITextFieldDelegate> {
+@interface DialogViewController : UIViewController<SceneParserDelegate, AsyncMediaImageViewDelegate, UIScrollViewDelegate, UITextFieldDelegate> {
 	IBOutlet	AsyncMediaImageView	*npcImage;
 	IBOutlet	AsyncMediaImageView	*pcImage;
 	IBOutlet	UIWebView	*npcWebView;
