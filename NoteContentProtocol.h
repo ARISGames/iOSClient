@@ -16,6 +16,5 @@
 - (Media *) getMedia;
 - (NSString *) getType;
 - (int) getNoteId;
-- (int) getUniqueId;
 - (int) getContentId;
 @end

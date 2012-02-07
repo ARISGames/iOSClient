@@ -59,14 +59,9 @@
     return [[self note_id] intValue];
 }
 
-- (int) getUniqueId
-{
-    return [[self unique_id] intValue];
-}
-
 - (int) getContentId
 {
-    return -1;
+    return [[self unique_id] intValue];
 }
 
 @end
