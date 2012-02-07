@@ -165,51 +165,38 @@
    //[self displayTitleandDescriptionForm];
 }
 - (void)loadNewPageWithContent:(NoteContent *)content{
-    if(![content.type isEqualToString:@"UPLOAD"]){
+    
+    if(![content.getType isEqualToString:@"UPLOAD"]){
     numPages++;
     scrollView.contentSize = CGSizeMake(320 * numPages, scrollView.frame.size.height);
     pageControl.numberOfPages = numPages;
-    if([content.type isEqualToString:@"TEXT"]){
+        CGRect frame = CGRectMake( scrollView.frame.size.width * (numPages-1), 0, 
+                                  scrollView.frame.size.width, 
+                                  scrollView.frame.size.height);
+    if([content.getType isEqualToString:@"TEXT"]){
       TextViewController *controller = [[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil];
         controller.previewMode = YES;
-        controller.textToDisplay = content.text;
+        controller.textToDisplay = content.getText;
         controller.title = self.note.title;
         [viewControllers addObject:controller];
-        [controller release];
-        if (nil == controller.view.superview) {
-            CGRect frame = scrollView.frame;
-            frame.origin.x = frame.size.width * (numPages-1);
-            frame.origin.y = 0;
             controller.view.frame = frame;
-            [scrollView addSubview:controller.view];}
-    }
-    else if([content.type isEqualToString:@"PHOTO"]){
-        AsyncMediaImageView *controller = [[AsyncMediaImageView alloc] init];
-        Media *m = [[Media alloc]init];
-        m = [[AppModel sharedAppModel] mediaForMediaId:content.mediaId];
-        [controller loadImageFromMedia:m];
-            [viewControllers addObject:controller];
-            [controller release];
-            //[m release];
-            if (nil == controller.superview) {
-                CGRect frame = scrollView.frame;
-                frame.origin.x = frame.size.width * (numPages-1);
-                frame.origin.y = 0;
-                controller.frame = frame;
-                [scrollView addSubview:controller];}
-        }
-        else if([content.type isEqualToString:@"AUDIO"] || [content.type isEqualToString:@"VIDEO"]){
+            [scrollView addSubview:controller.view];
+        [controller release];
 
-            CGRect frame = CGRectMake( scrollView.frame.size.width * (numPages-1), 0, 
-                                      scrollView.frame.size.width, 
-                                      scrollView.frame.size.height);
-            
-            AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] 
-                                                   initWithFrame:frame 
-                                                   mediaId:content.mediaId 
-                                                   presentingController:self];
+    }
+    else if([content.getType isEqualToString:@"PHOTO"]){
+        
+            AsyncMediaImageView *controller = [[AsyncMediaImageView alloc] initWithFrame:frame andMedia:content.getMedia];
+ 
+            [viewControllers addObject:controller];
+            [scrollView addSubview:controller];
+            [controller release];
+
+    }
+        else if([content.getType isEqualToString:@"AUDIO"] || [content.getType isEqualToString:@"VIDEO"]){
+
+            AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:frame media:content.getMedia presentingController:self];
                                                    
-            
             [viewControllers addObject:mediaButton];
             [scrollView addSubview:mediaButton];
                 
