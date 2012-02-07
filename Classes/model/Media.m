@@ -8,6 +8,9 @@
 
 #import "Media.h"
 
+NSString *const kMediaTypeVideo = @"Video";
+NSString *const kMediaTypeImage = @"Image";
+NSString *const kMediaTypeAudio = @"Audio";
 
 @implementation Media
 @synthesize uid, url, type, image;

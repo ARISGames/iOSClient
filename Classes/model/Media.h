@@ -7,6 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+extern NSString *const kMediaTypeVideo;
+extern NSString *const kMediaTypeImage;
+extern NSString *const kMediaTypeAudio;
 
 @interface Media : NSObject {
 	NSInteger	uid;

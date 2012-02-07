@@ -113,12 +113,12 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
 	Media *media = [[AppModel sharedAppModel] mediaForMediaId: item.mediaId];
 
-	if ([media.type isEqualToString: @"Image"] && media.url) {
+	if ([media.type isEqualToString: kMediaTypeImage] && media.url) {
 		NSLog(@"ItemDetailsViewController: Image Layout Selected");
 		[itemImageView loadImageFromMedia:media];
         itemImageView.contentMode = UIViewContentModeScaleAspectFit;
 	}
-	else if (([media.type isEqualToString: @"Video"] || [media.type isEqualToString: @"Audio"]) && media.url) {
+	else if (([media.type isEqualToString:kMediaTypeVideo] || [media.type isEqualToString: kMediaTypeAudio]) && media.url) {
 		NSLog(@"ItemDetailsViewController:  AV Layout Selected");
 
 		//Setup the Button

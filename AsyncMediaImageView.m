@@ -33,11 +33,11 @@
         
         media = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
 
-        if([media.type isEqualToString:@"Image"]){
+        if([media.type isEqualToString:kMediaTypeImage]){
             NSLog(@"AsyncMediaImageView: Load an Image");
             [self loadImageFromMedia:media];
         }
-        else if([media.type isEqualToString:@"Video"] || [media.type isEqualToString:@"Audio"]){
+        else if([media.type isEqualToString:kMediaTypeVideo] || [media.type isEqualToString:kMediaTypeAudio]){
             
             if (self.media.image) {
                 NSLog(@"AsyncMediaImageView: Loading from a cached image in media.image");
@@ -45,7 +45,7 @@
                 [self updateViewWithNewImage:self.media.image];
                 self.loaded = YES;
             }
-            else if([media.type isEqualToString:@"Video"]){
+            else if([media.type isEqualToString:kMediaTypeVideo]){
                 NSLog(@"AsyncMediaImageView: Loading a still from a movie");
                 
                 NSNumber *thumbTime = [NSNumber numberWithFloat:1.0f];
@@ -76,7 +76,7 @@
                 
                 self.isLoading= YES;
             }
-            else if ([media.type isEqualToString:@"Audio"]){
+            else if ([media.type isEqualToString:kMediaTypeAudio]){
                 NSLog(@"AsyncMediaImageView: Loading the standard audio image");
                 media.image = [UIImage imageNamed:@"microphoneBackground.jpg"];
                 [self updateViewWithNewImage:self.media.image];

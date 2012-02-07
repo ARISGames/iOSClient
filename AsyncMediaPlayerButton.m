@@ -53,7 +53,7 @@ BOOL isLoading;
             [self setBackgroundImage:videoThumbSized forState:UIControlStateNormal];
         }
         
-        else if ([media.type isEqualToString:@"Video"]){
+        else if ([media.type isEqualToString:kMediaTypeVideo]){
           //  if(!isLoading){
             NSLog(@"AsyncMoviePlayerButton: fetching thumbnail for a video ");
           //  isLoading = YES;
@@ -66,7 +66,7 @@ BOOL isLoading;
           //  }
         }
         
-        else if ([media.type isEqualToString:@"Audio"]){
+        else if ([media.type isEqualToString:kMediaTypeAudio]){
             media.image = [UIImage imageNamed:@"microphoneBackground.jpg"];
             UIImage *videoThumbSized = [media.image scaleToSize:self.frame.size];        
             [self setBackgroundImage:videoThumbSized forState:UIControlStateNormal];

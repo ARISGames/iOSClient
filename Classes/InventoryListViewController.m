@@ -346,9 +346,9 @@
 	}
 	else {
 		//Load the Default
-		if ([media.type isEqualToString: @"Image"]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultImageIcon.png"]];
-		if ([media.type isEqualToString: @"Audio"]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultAudioIcon.png"]];
-		if ([media.type isEqualToString: @"Video"]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultVideoIcon.png"]];	}
+		if ([media.type isEqualToString: kMediaTypeImage]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultImageIcon.png"]];
+		if ([media.type isEqualToString: kMediaTypeAudio]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultAudioIcon.png"]];
+		if ([media.type isEqualToString: kMediaTypeVideo]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultVideoIcon.png"]];	}
     	
 	return cell;
 }

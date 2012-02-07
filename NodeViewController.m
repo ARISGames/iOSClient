@@ -77,13 +77,13 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     Media *media = [[AppModel sharedAppModel] mediaForMediaId: self.node.mediaId];
     
     //Check if the plaque has media
-    if(([media.type isEqualToString: @"Video"] || [media.type isEqualToString: @"Audio"] || [media.type isEqualToString: @"Image"]) && media.url) hasMedia = YES;
+    if(([media.type isEqualToString: kMediaTypeVideo] || [media.type isEqualToString: kMediaTypeAudio] || [media.type isEqualToString: kMediaTypeImage]) && media.url) hasMedia = YES;
     else hasMedia = NO;
     
     //Create Image/AV Cell
     UITableViewCell *mediaCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"mediaCell"];
     
-    if ([media.type isEqualToString: @"Image"] && media.url) {
+    if ([media.type isEqualToString: kMediaTypeImage] && media.url) {
         NSLog(@"NodeVC: cellForRowAtIndexPath: This is an Image Plaque");
         
         self.mediaImageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -103,7 +103,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
         self.mediaImageView.frame = CGRectMake(0, 0, 300, 200);
 
     }
-    else if(([media.type isEqualToString: @"Video"] || [media.type isEqualToString: @"Audio"]) && media.url)
+    else if(([media.type isEqualToString: kMediaTypeVideo] || [media.type isEqualToString:kMediaTypeAudio]) && media.url)
     {
         NSLog(@"NodeVC: This is an A/V Plaque");
                 
