@@ -12,7 +12,7 @@
 
 @dynamic title;
 @dynamic text;
-@dynamic media;
+@dynamic fileURL;
 @dynamic type;
 @dynamic note_id;
 @dynamic attemptfailed;
@@ -27,9 +27,9 @@
     return [self text];
 }
 
-- (Media *) getMedia
+- (NSString *) getFileURL
 {
-    return [self media];
+    return [self fileURL];
 }
 
 - (NSString *) getType

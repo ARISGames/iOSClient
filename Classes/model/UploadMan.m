@@ -8,6 +8,7 @@
 
 #import "UploadMan.h"
 #import "UploadContent.h"
+#import "Media.h"
 
 @implementation UploadMan
 @synthesize uploadContents;
@@ -29,14 +30,16 @@
     [fetchRequest release];
 }
 
--(void)saveUploadContent:(NSNumber *)noteId withText:(NSString *)text andMedia:(NSData *)media
+-(void)saveUploadContent:(NSNumber *)noteId withTitle:(NSString *) title withText:(NSString *)text withType:(NSString *)type andFileURL:(NSString *)url
 {
     NSError *error;
     UploadContent *uploadContent = [NSEntityDescription
                                     insertNewObjectForEntityForName:@"UploadContent" 
                                     inManagedObjectContext:context];
     uploadContent.text = text;
-    uploadContent.media = media;
+    uploadContent.title = title;
+    uploadContent.type = type;
+    uploadContent.fileURL = url;
     uploadContent.note_id = noteId;
     uploadContent.attemptfailed = false;
     

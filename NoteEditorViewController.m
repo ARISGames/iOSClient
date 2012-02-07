@@ -507,7 +507,6 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
             cell.detailLbl.text = noteC.text;
         }
         else if([[noteC type] isEqualToString:@"PHOTO"]){
-            
             NSLog(@"NoteEditorVC: Cell requested is an %@", [noteC type]);
 
             AsyncMediaImageView *aView = [[AsyncMediaImageView alloc]initWithFrame:cell.imageView.frame andMediaId:noteC.mediaId];
