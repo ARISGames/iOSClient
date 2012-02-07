@@ -448,7 +448,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     }
     
     NoteContent *noteC = (NoteContent *)[self.note.contents objectAtIndex:indexPath.row];
-    if([noteC.type isEqualToString:@"UPLOAD"]){
+    if([noteC.getType isEqualToString:@"UPLOAD"]){
         NSLog(@"NoteEditorVC: Cell requested is an UPLOAD");
 
         UITableViewCell *tempCell = (UploadingCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -496,27 +496,27 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
         
         cell.index = indexPath.row;
         cell.delegate = self;
-        cell.contentId = noteC.contentId;
+        cell.contentId = noteC.getContentId;
         
-        if([noteC.title length] >23)noteC.title = [noteC.title substringToIndex:23];
-        cell.titleLbl.text = noteC.title;
+        if([noteC.getTitle length] >23)noteC.title = [noteC.getTitle substringToIndex:23];
+        cell.titleLbl.text = noteC.getTitle;
         
-        if([[(NoteContent *)[self.note.contents objectAtIndex:indexPath.row] type] isEqualToString:@"TEXT"]){
+        if([[(NoteContent *)[self.note.contents objectAtIndex:indexPath.row] getType] isEqualToString:@"TEXT"]){
             cell.imageView.image = [UIImage imageWithContentsOfFile: 
                                     [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
-            cell.detailLbl.text = noteC.text;
+            cell.detailLbl.text = noteC.getText;
         }
-        else if([[noteC type] isEqualToString:@"PHOTO"]){
-            NSLog(@"NoteEditorVC: Cell requested is an %@", [noteC type]);
+        else if([[noteC getType] isEqualToString:@"PHOTO"]){
+            NSLog(@"NoteEditorVC: Cell requested is an %@", [noteC getType]);
 
-            AsyncMediaImageView *aView = [[AsyncMediaImageView alloc]initWithFrame:cell.imageView.frame andMediaId:noteC.mediaId];
+            AsyncMediaImageView *aView = [[AsyncMediaImageView alloc]initWithFrame:cell.imageView.frame andMedia:noteC.getMedia];
             [cell addSubview:aView];
             [aView release];
         }
-        else if([[noteC type] isEqualToString:@"AUDIO"] || 
-                [[noteC type] isEqualToString:@"VIDEO"]){
+        else if([[noteC getType] isEqualToString:@"AUDIO"] || 
+                [[noteC getType] isEqualToString:@"VIDEO"]){
             
-            AsyncMediaImageView *aView = [[AsyncMediaImageView alloc]initWithFrame:cell.imageView.frame andMediaId:noteC.mediaId];
+            AsyncMediaImageView *aView = [[AsyncMediaImageView alloc]initWithFrame:cell.imageView.frame andMedia:noteC.getMedia];
             UIImageView *overlay = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"play_button.png"]];
             overlay.frame = CGRectMake(aView.frame.origin.x, aView.frame.origin.y, aView.frame.size.width/2, aView.frame.size.height/2);
             overlay.center = aView.center;
@@ -528,7 +528,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
             [aView release];
         }
 
-        cell.titleLbl.text = noteC.title;
+        cell.titleLbl.text = noteC.getTitle;
         return  cell;
     }
     
@@ -562,12 +562,12 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
    
     if([self.note.contents count]>indexPath.row){
         noteC = [self.note.contents objectAtIndex:indexPath.row];
-    if ([noteC.type isEqualToString:@"TEXT"]){
+    if ([noteC.getType isEqualToString:@"TEXT"]){
         TextViewController *textVC = [[[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil] autorelease];
         textVC.noteId = self.note.noteId;
-        textVC.textToDisplay = noteC.text;
+        textVC.textToDisplay = noteC.getText;
         textVC.editMode = YES;
-        textVC.contentId = noteC.contentId;
+        textVC.contentId = noteC.getContentId;
         textVC.delegate = self;
         textVC.index = indexPath.row;
         [UIView beginAnimations:nil context:NULL];
@@ -579,13 +579,11 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
         [UIView commitAnimations];
    
     }
-    else if([noteC.type isEqualToString:@"PHOTO"]){
+    else if([noteC.getType isEqualToString:@"PHOTO"]){
         //view photo
         ImageViewer *controller = [[ImageViewer alloc] initWithNibName:@"ImageViewer" bundle:nil];
-        Media *m = [[Media alloc]init];
-        m = [[AppModel sharedAppModel] mediaForMediaId:noteC.mediaId];
-        
-        controller.media = m;
+               
+        controller.media = noteC.getMedia;
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:.5];
         
@@ -595,11 +593,9 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
                                              animated:NO];
         [UIView commitAnimations];
     }
-    else if([noteC.type isEqualToString:@"AUDIO"]){
+    else if([noteC.getType isEqualToString:@"AUDIO"]){
           //listen to audio      
-        Media *media = [[Media alloc] init];
-        media = [[AppModel sharedAppModel] mediaForMediaId:noteC.mediaId];
-        [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];	
+               [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];	
         
         [[AVAudioSession sharedInstance] setActive: YES error: nil];
         
@@ -612,7 +608,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
             [tableView cellForRowAtIndexPath:indexPath].selected = NO;
         }
         else{
-            NSURL *url =  [NSURL URLWithString:media.url];
+            NSURL *url =  [NSURL URLWithString:noteC.getMedia.url];
             [self.soundPlayer initWithURL:url]; 
             [self.soundPlayer play];
         }
@@ -631,11 +627,9 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
         //[tableView cellForRowAtIndexPath:indexPath].detailTextLabel.text =[NSString stringWithFormat:@"%d:%d%d", [self.soundPlayer currentTime].value/60,([self.soundPlayer currentTime ].value%60)/10,[self.soundPlayer currentTime].value%10];
         //[self playTextAnimation:self.soundPlayer withCell:[tableView cellForRowAtIndexPath:indexPath]];
     }
-    else if([noteC.type isEqualToString:@"VIDEO"]){
-                //view video
-        Media *media = [[AppModel sharedAppModel] mediaForMediaId:noteC.mediaId];
+    else if([noteC.getType isEqualToString:@"VIDEO"]){
         //Create movie player object
-        ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+        ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:noteC.getMedia.url]];
         mMoviePlayer.moviePlayer.shouldAutoplay = YES;
         [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
     }
