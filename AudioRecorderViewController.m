@@ -250,7 +250,7 @@
         [[commentNote contents]addObject:content];
         
         //[[parentNote comments] insertObject:commentNote atIndex:0];     
-        [[AppServices sharedAppServices] addContentToNoteFromFileData:self.audioData fileName:@"audio.caf" name:nil noteId:self.noteId type:@"AUDIO"];
+        [[AppServices sharedAppServices] addContentToNoteFromFileData:self.audioData fileName:@"audio.caf" name:nil noteId:self.noteId type:kNoteContentTypeAudio];
         [content release];
 
     }
@@ -260,7 +260,7 @@
         NoteContent *content = [[NoteContent alloc]init];
         content.type = @"UPLOAD";
         [[[self.delegate note] contents]addObject:content];
-         [[AppServices sharedAppServices] addContentToNoteFromFileData:self.audioData fileName:@"audio.caf" name:nil noteId:self.noteId type:@"AUDIO"];
+         [[AppServices sharedAppServices] addContentToNoteFromFileData:self.audioData fileName:@"audio.caf" name:nil noteId:self.noteId type:kNoteContentTypeAudio];
         [content release];
 
     }

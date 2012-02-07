@@ -13,6 +13,12 @@
 #import "NoteDetailsViewController.h"
 #import "NearbyObjectsViewController.h"
 #import "NoteContent.h"
+
+ NSString *const kNoteContentTypeAudio = @"AUDIO";
+ NSString *const kNoteContentTypeVideo = @"VIDEO";
+ NSString *const kNoteContentTypePhoto = @"PHOTO";
+ NSString *const kNoteContentTypeText = @"TEXT";
+
 @implementation Note
 @synthesize comments,contents, creatorId,noteId,parentNoteId,parentRating,shared,text,title,kind,averageRating,numRatings,username,delegate,dropped,showOnMap,showOnList,userLiked,hasImage,hasAudio,tags,tagSection,tagName;
 

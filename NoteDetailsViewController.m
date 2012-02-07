@@ -173,7 +173,7 @@
         CGRect frame = CGRectMake( scrollView.frame.size.width * (numPages-1), 0, 
                                   scrollView.frame.size.width, 
                                   scrollView.frame.size.height);
-    if([content.getType isEqualToString:@"TEXT"]){
+    if([content.getType isEqualToString:kNoteContentTypeText]){
       TextViewController *controller = [[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil];
         controller.previewMode = YES;
         controller.textToDisplay = content.getText;
@@ -184,7 +184,7 @@
         [controller release];
 
     }
-    else if([content.getType isEqualToString:@"PHOTO"]){
+    else if([content.getType isEqualToString:kNoteContentTypePhoto]){
         
             AsyncMediaImageView *controller = [[AsyncMediaImageView alloc] initWithFrame:frame andMedia:content.getMedia];
  
@@ -193,7 +193,7 @@
             [controller release];
 
     }
-        else if([content.getType isEqualToString:@"AUDIO"] || [content.getType isEqualToString:@"VIDEO"]){
+        else if([content.getType isEqualToString:kNoteContentTypeAudio] || [content.getType isEqualToString:kNoteContentTypeVideo]){
 
             AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:frame media:content.getMedia presentingController:self];
                                                    

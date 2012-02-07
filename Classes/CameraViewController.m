@@ -155,7 +155,7 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
             [[[self.parentDelegate commentNote] contents]addObject:content];
             
             //[[parentNote comments] insertObject:[self.parentDelegate commentNote] atIndex:0];
-            [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:@"PHOTO"];
+            [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:kNoteContentTypePhoto];
 
             [self.parentDelegate addedPhoto];
             [content release];
@@ -167,7 +167,7 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
             NoteContent *content = [[NoteContent alloc]init];
             content.type = @"UPLOAD";
             [[[self.delegate note] contents]addObject:content];
-            [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:@"PHOTO"];
+            [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:kNoteContentTypePhoto];
             [content release];
         }
 	}	
@@ -186,7 +186,7 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
             //[[parentNote comments] insertObject:[self.parentDelegate commentNote] atIndex:0];
             
 
-            [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:@"VIDEO"];
+            [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:kNoteContentTypeVideo];
             
 
             [self.parentDelegate addedVideo];
@@ -199,7 +199,7 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
             NoteContent *content = [[NoteContent alloc]init];
             content.type = @"UPLOAD";
             [[[self.delegate note] contents]addObject:content];
-            [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:@"VIDEO"];
+            [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:kNoteContentTypeVideo];
 
             [content release];
 

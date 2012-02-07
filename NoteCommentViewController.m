@@ -202,10 +202,10 @@
             return  cell;
         }
         
-        if([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:@"TEXT"]){
+        if([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeText]){
             //Dont show icon for text since it is assumed to always be there
         }
-        else if ([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:@"PHOTO"]){
+        else if ([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypePhoto]){
             AsyncMediaImageView *aImageView = [[AsyncMediaImageView alloc]initWithFrame:CGRectMake(10, height, 300, 300) andMedia:[(NoteContent *)[[currNote contents] objectAtIndex:x] getMedia]];
             
             if(!currNote.hasAudio)
@@ -216,7 +216,7 @@
             [cell addSubview:aImageView];
             [aImageView release];
         }
-        else if([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:@"VIDEO"]){
+        else if([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeVideo]){
             NoteContent *content =  (NoteContent *)[[currNote contents] objectAtIndex:x];
             
             CGRect frame = CGRectMake(10, 0, 320, 240);
@@ -243,7 +243,7 @@
 
             [cell addSubview:mediaButton];
         }
-        else if([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:@"AUDIO"]){
+        else if([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeAudio]){
             
             CustomAudioPlayer *player = [[CustomAudioPlayer alloc]initWithFrame:CGRectMake(10, height, 300, 40) andMedia:[(NoteContent *)[[currNote contents] objectAtIndex:x] getMedia]];
             [player loadView];
@@ -292,10 +292,10 @@
     BOOL hasImage = NO;
     BOOL hasAudio = NO;
     for(int i = 0; i < [[note contents] count];i++){
-        if([[(NoteContent *)[[note contents]objectAtIndex:i]getType] isEqualToString:@"PHOTO"] || [[(NoteContent *)[[note contents]objectAtIndex:i]getType] isEqualToString:@"VIDEO"]){
+        if([[(NoteContent *)[[note contents]objectAtIndex:i]getType] isEqualToString:kNoteContentTypePhoto] || [[(NoteContent *)[[note contents]objectAtIndex:i]getType] isEqualToString:kNoteContentTypeVideo]){
             hasImage = YES;
         }
-        else if([[(NoteContent *)[[note contents]objectAtIndex:i]getType] isEqualToString:@"AUDIO"]){
+        else if([[(NoteContent *)[[note contents]objectAtIndex:i]getType] isEqualToString:kNoteContentTypeAudio]){
             hasAudio = YES;
         }
     }

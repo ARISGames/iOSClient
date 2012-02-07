@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "NearbyObjectProtocol.h"
+extern NSString *const kNoteContentTypeAudio;
+extern NSString *const kNoteContentTypeVideo;
+extern NSString *const kNoteContentTypePhoto;
+extern NSString *const kNoteContentTypeText;
 
 @interface Note : NSObject <NearbyObjectProtocol>{
     NSMutableArray *comments;

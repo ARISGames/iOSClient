@@ -410,7 +410,7 @@ BOOL tagFilter;
         cell.titleLabel.text = currNote.title;
         if([currNote.contents count] == 0 && (currNote.creatorId != [AppModel sharedAppModel].playerId))cell.userInteractionEnabled = NO;
             for(int x = 0; x < [currNote.contents count];x++){
-                if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:@"TEXT"]&& !self.textIconUsed){
+                if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:kNoteContentTypeText]&& !self.textIconUsed){
                     self.textIconUsed = YES;
                     if (cell.mediaIcon1.image == nil) {
                         cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
@@ -431,7 +431,7 @@ BOOL tagFilter;
 
 
                 }
-                else if ([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:@"PHOTO"]&& !self.photoIconUsed){
+                else if ([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:kNoteContentTypePhoto]&& !self.photoIconUsed){
                     self.photoIconUsed = YES;
                     if (cell.mediaIcon1.image == nil) {
                         cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
@@ -451,7 +451,7 @@ BOOL tagFilter;
                     }
 
                 }
-                else if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:@"AUDIO"] && !self.audioIconUsed){
+                else if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:kNoteContentTypeAudio] && !self.audioIconUsed){
                     self.audioIconUsed = YES;
                     if (cell.mediaIcon1.image == nil) {
                         cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
@@ -471,7 +471,7 @@ BOOL tagFilter;
                     }
 
                 }
-                else if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:@"VIDEO"] && !self.videoIconUsed){
+                else if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:kNoteContentTypeVideo] && !self.videoIconUsed){
                     self.videoIconUsed = YES;
                     if (cell.mediaIcon1.image == nil) {
                         cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 

@@ -501,20 +501,20 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
         if([noteC.getTitle length] >23)noteC.title = [noteC.getTitle substringToIndex:23];
         cell.titleLbl.text = noteC.getTitle;
         
-        if([[(NoteContent *)[self.note.contents objectAtIndex:indexPath.row] getType] isEqualToString:@"TEXT"]){
+        if([[(NoteContent *)[self.note.contents objectAtIndex:indexPath.row] getType] isEqualToString:kNoteContentTypeText]){
             cell.imageView.image = [UIImage imageWithContentsOfFile: 
                                     [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
             cell.detailLbl.text = noteC.getText;
         }
-        else if([[noteC getType] isEqualToString:@"PHOTO"]){
+        else if([[noteC getType] isEqualToString:kNoteContentTypePhoto]){
             NSLog(@"NoteEditorVC: Cell requested is an %@", [noteC getType]);
 
             AsyncMediaImageView *aView = [[AsyncMediaImageView alloc]initWithFrame:cell.imageView.frame andMedia:noteC.getMedia];
             [cell addSubview:aView];
             [aView release];
         }
-        else if([[noteC getType] isEqualToString:@"AUDIO"] || 
-                [[noteC getType] isEqualToString:@"VIDEO"]){
+        else if([[noteC getType] isEqualToString:kNoteContentTypeAudio] || 
+                [[noteC getType] isEqualToString:kNoteContentTypeVideo]){
             
             AsyncMediaImageView *aView = [[AsyncMediaImageView alloc]initWithFrame:cell.imageView.frame andMedia:noteC.getMedia];
             UIImageView *overlay = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"play_button.png"]];
@@ -562,7 +562,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
    
     if([self.note.contents count]>indexPath.row){
         noteC = [self.note.contents objectAtIndex:indexPath.row];
-    if ([noteC.getType isEqualToString:@"TEXT"]){
+    if ([noteC.getType isEqualToString:kNoteContentTypeText]){
         TextViewController *textVC = [[[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil] autorelease];
         textVC.noteId = self.note.noteId;
         textVC.textToDisplay = noteC.getText;
@@ -579,7 +579,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
         [UIView commitAnimations];
    
     }
-    else if([noteC.getType isEqualToString:@"PHOTO"]){
+    else if([noteC.getType isEqualToString:kNoteContentTypePhoto]){
         //view photo
         ImageViewer *controller = [[ImageViewer alloc] initWithNibName:@"ImageViewer" bundle:nil];
                
@@ -593,7 +593,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
                                              animated:NO];
         [UIView commitAnimations];
     }
-    else if([noteC.getType isEqualToString:@"AUDIO"]){
+    else if([noteC.getType isEqualToString:kNoteContentTypeAudio]){
           //listen to audio      
                [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];	
         
@@ -627,7 +627,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
         //[tableView cellForRowAtIndexPath:indexPath].detailTextLabel.text =[NSString stringWithFormat:@"%d:%d%d", [self.soundPlayer currentTime].value/60,([self.soundPlayer currentTime ].value%60)/10,[self.soundPlayer currentTime].value%10];
         //[self playTextAnimation:self.soundPlayer withCell:[tableView cellForRowAtIndexPath:indexPath]];
     }
-    else if([noteC.getType isEqualToString:@"VIDEO"]){
+    else if([noteC.getType isEqualToString:kNoteContentTypeVideo]){
         //Create movie player object
         ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:noteC.getMedia.url]];
         mMoviePlayer.moviePlayer.shouldAutoplay = YES;

@@ -123,7 +123,7 @@
         [self.delegate setNoteChanged:YES];
          
     }
-    [[AppServices sharedAppServices] addContentToNoteWithText:self.textBox.text type:@"TEXT" mediaId:0 andNoteId:self.noteId];
+    [[AppServices sharedAppServices] addContentToNoteWithText:self.textBox.text type:kNoteContentTypeText mediaId:0 andNoteId:self.noteId];
 
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:.5];
