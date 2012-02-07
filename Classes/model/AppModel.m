@@ -46,7 +46,6 @@
 		gameMediaList = [[NSMutableDictionary alloc] initWithCapacity:10];
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(clearGameLists) name:@"NewGameSelected" object:nil];
-        uploadManager = [[UploadMan alloc]init];
 	}
 			 
     return self;
@@ -234,6 +233,9 @@
 	
 	[[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
 	[[NSUserDefaults standardUserDefaults] synchronize];
+    
+    uploadManager = [[UploadMan alloc]init];
+
 }
 
 #pragma mark Seters/Geters
