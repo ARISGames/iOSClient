@@ -27,9 +27,11 @@
     return [self text];
 }
 
-- (NSString *) getFileURL
+- (Media *) getMedia
 {
-    return [self fileURL];
+    Media *media = [[[Media alloc]initWithId:-1 andUrlString:self.fileURL ofType:self.type]autorelease];
+    
+    return media;
 }
 
 - (NSString *) getType

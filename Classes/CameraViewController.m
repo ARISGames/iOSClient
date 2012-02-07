@@ -134,6 +134,8 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
 		UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
         if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];             
 		NSLog(@"CameraViewController: Found an Image");
+        NSURL *imageURL = [info objectForKey:UIImagePickerControllerMediaURL];
+        
 		self.mediaData = UIImageJPEGRepresentation(image, 0.4);
 		self.mediaFilename = @"image.jpg";
         if(showVid){
