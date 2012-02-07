@@ -10,13 +10,13 @@
 #import "Media.h"
 
 @interface UploadMan : NSObject {    
-    NSArray *uploadContents;
+    NSMutableDictionary *uploadContents;
     NSManagedObjectContext *context;    
 }
 
-@property (nonatomic, retain) NSArray *uploadContents;
+@property (nonatomic, retain) NSMutableDictionary *uploadContents;
 @property (nonatomic, retain) NSManagedObjectContext *context;
 
-- (void) uploadContent;
+- (void) uploadContentForNote:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSString *)url;
 
 @end

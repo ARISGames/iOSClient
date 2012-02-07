@@ -7,8 +7,9 @@
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="unique_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="UploadContent" positionX="160" positionY="192" width="128" height="135"/>
+        <element name="UploadContent" positionX="160" positionY="192" width="128" height="150"/>
     </elements>
 </model>

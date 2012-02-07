@@ -15,7 +15,22 @@
 @dynamic fileURL;
 @dynamic type;
 @dynamic note_id;
+@dynamic unique_id;
 @dynamic attemptfailed;
+
+- (id) initForNote:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSString *)url hasAttemptedUpload:(BOOL)attemptFailed andUniqueIdentifier:(int)uniqueId
+{
+    self = [super init];
+    self.title = title;
+    self.text = text;
+    self.type = type;
+    self.fileURL = url;
+    self.attemptfailed = [NSNumber numberWithBool:attemptFailed];
+    self.note_id = [NSNumber numberWithInt:noteId];
+    self.unique_id = [NSNumber numberWithInt:uniqueId];
+    
+    return self;
+}
 
 - (NSString *) getTitle
 {
@@ -42,6 +57,11 @@
 - (int) getNoteId
 {
     return [[self note_id] intValue];
+}
+
+- (int) getUniqueId
+{
+    return [[self unique_id] intValue];
 }
 
 - (int) getContentId

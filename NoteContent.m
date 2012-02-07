@@ -43,6 +43,11 @@
     return [self noteId];
 }
 
+- (int) getUniqueId
+{
+    return [self contentId];
+}
+
 - (int) getContentId
 {
     return [self contentId];
