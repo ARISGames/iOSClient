@@ -7,16 +7,14 @@
 //
 
 #import "UploadMan.h"
-#import "UploadContent.h"
-#import "Media.h"
 
 @implementation UploadMan
 @synthesize uploadContents;
 @synthesize context;
 
-- (id) uploadContent
+- (void) uploadContent
 {
-    return self;
+    
 }
 
 -(void)getSavedUploadContents
@@ -30,7 +28,7 @@
     [fetchRequest release];
 }
 
--(void)saveUploadContent:(NSNumber *)noteId withTitle:(NSString *) title withText:(NSString *)text withType:(NSString *)type andFileURL:(NSString *)url
+-(void)saveUploadContentForNote:(NSNumber *)noteId withTitle:(NSString *) title withText:(NSString *)text withType:(NSString *)type andFileURL:(NSString *)url
 {
     NSError *error;
     UploadContent *uploadContent = [NSEntityDescription
@@ -52,6 +50,7 @@
 {
     self = [super init];
     if (self) {
+        context = [AppModel sharedAppModel].managedObjectContext;
         [self getSavedUploadContents];
     }
     return self;

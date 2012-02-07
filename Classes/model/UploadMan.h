@@ -6,6 +6,10 @@
 //  Copyright (c) 2012 UW Madison. All rights reserved.
 //
 
+#import "AppModel.h"
+#import "UploadContent.h"
+#import "Media.h"
+
 @interface UploadMan : NSObject {    
     NSArray *uploadContents;
     NSManagedObjectContext *context;    
@@ -14,7 +18,6 @@
 @property (nonatomic, retain) NSArray *uploadContents;
 @property (nonatomic, retain) NSManagedObjectContext *context;
 
-
-- (id) uploadContent;
+- (void) uploadContent;
 
 @end
