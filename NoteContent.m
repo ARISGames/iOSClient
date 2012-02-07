@@ -28,9 +28,9 @@
     return [self text];
 }
 
-- (NSString *) getFileURL
+- (Media *) getMedia
 {
-    return [(Media *)[[AppModel sharedAppModel] mediaForMediaId:[self mediaId]] url];
+    return [[AppModel sharedAppModel] mediaForMediaId:[self mediaId]];
 }
 
 - (NSString *) getType

@@ -7,6 +7,7 @@
 //
 
 #import "UploadMan.h"
+#import "AppModel.h"
 
 @implementation UploadMan
 @synthesize uploadContents;

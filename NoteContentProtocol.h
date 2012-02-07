@@ -13,7 +13,7 @@
 @required
 - (NSString *) getTitle;
 - (NSString *) getText;
-- (NSString *) getFileURL;
+- (Media *) getMedia;
 - (NSString *) getType;
 - (int) getNoteId;
 - (int) getContentId;

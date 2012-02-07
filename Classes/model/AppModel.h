@@ -17,7 +17,7 @@
 #import "WebPage.h"
 #import "Panoramic.h"
 #import "Note.h"
-
+#import "UploadMan.h"
 extern NSDictionary *InventoryElements;
 
 @interface AppModel : NSObject {
@@ -73,6 +73,7 @@ extern NSDictionary *InventoryElements;
     NSManagedObjectModel *managedObjectModel;
     NSManagedObjectContext *managedObjectContext;	    
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
+    UploadMan *uploadManager;
 }
 
 
@@ -142,6 +143,7 @@ extern NSDictionary *InventoryElements;
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property(nonatomic,retain) UploadMan *uploadManager;
 
 
 + (AppModel *)sharedAppModel;

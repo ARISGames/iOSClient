@@ -6,7 +6,6 @@
 //  Copyright (c) 2012 UW Madison. All rights reserved.
 //
 
-#import "AppModel.h"
 #import "UploadContent.h"
 #import "Media.h"
 

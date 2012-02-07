@@ -23,7 +23,7 @@
 @synthesize locationListHash, questListHash, inventoryHash,profilePic,attributes,gameNoteListHash,playerNoteListHash;
 
 @synthesize nearbyLocationsList,gameTagList;
-@synthesize hasSeenNearbyTabTutorial,hasSeenQuestsTabTutorial,hasSeenMapTabTutorial,hasSeenInventoryTabTutorial, tabsReady,hidePlayers,progressBar,isGameNoteList;
+@synthesize hasSeenNearbyTabTutorial,hasSeenQuestsTabTutorial,hasSeenMapTabTutorial,hasSeenInventoryTabTutorial, tabsReady,hidePlayers,progressBar,isGameNoteList,uploadManager;
 
 
 + (id)sharedAppModel
@@ -46,6 +46,7 @@
 		gameMediaList = [[NSMutableDictionary alloc] initWithCapacity:10];
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(clearGameLists) name:@"NewGameSelected" object:nil];
+        uploadManager = [[UploadMan alloc]init];
 	}
 			 
     return self;
@@ -68,6 +69,7 @@
     [managedObjectContext release];
     [managedObjectModel release];
     [persistentStoreCoordinator release];
+    [uploadManager release];
     
     [super dealloc];
 }
