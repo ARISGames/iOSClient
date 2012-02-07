@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVFoundation.h>
-
+#import "Media.h"
 @interface CustomAudioPlayer : UIView<AVAudioSessionDelegate, AVAudioPlayerDelegate>{
     UIButton *playButton;
     UILabel *timeLabel;
@@ -21,6 +21,8 @@
 @property(readwrite, retain) AVPlayer *soundPlayer;
 @property(readwrite,assign)int mediaId;
 - (id)initWithFrame:(CGRect)frame andMediaId:(int)mediaID;
+- (id)initWithFrame:(CGRect)frame andMedia:(Media *)media;
+
 -(void)removeObs;
 -(void)playButtonTouch;
 -(void)loadView;

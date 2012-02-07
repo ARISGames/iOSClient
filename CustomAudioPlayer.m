@@ -12,6 +12,10 @@
 
 @implementation CustomAudioPlayer
 @synthesize timeLabel,playButton,soundPlayer,mediaId;
+- (id)initWithFrame:(CGRect)frame andMedia:(Media *)media{
+   return [self initWithFrame:frame andMediaId:media.uid];
+}
+
 - (id)initWithFrame:(CGRect)frame andMediaId:(int)mediaID
 {
     self = [super initWithFrame:frame];
