@@ -142,19 +142,19 @@
     
     if(text)
     {
-    [[AppServices sharedAppServices]addContentToNoteWithText:text type:type mediaId:0 andNoteId:noteId];
+    [[AppServices sharedAppServices]addContentToNoteWithText:text type:type mediaId:0 andNoteId:[noteId intValue]];
     }
     else
     {
-        [[AppServices sharedAppServices]addContentToNoteFromFileData:[NSData dataWithContentsOfURL:[NSURL URLWithString:aUrl]] fileName:aUrl name:nil noteId:noteId type:type];
+        [[AppServices sharedAppServices]addContentToNoteFromFileData:[NSData dataWithContentsOfURL:[NSURL URLWithString:aUrl]] fileName:aUrl name:nil noteId:[noteId intValue] type:type];
     }
     
 }
 
-- (void) deleteConentFromNote:(NSNumber *)noteId andFileURL:(NSString *)fileURL
+- (void) deleteContentFromNote:(NSNumber *)noteId andFileURL:(NSString *)fileURL
 {
     [self deleteUploadContentFromDictionaryFromNote:noteId andFileURL:fileURL];
-    [self deleteUploadContentFromCDFromNote:noteId andFileURL:fileURL];
+    [self deleteUploadContentFromCDFromNote:[noteId intValue] andFileURL:fileURL];
 }
 
 - (id)init

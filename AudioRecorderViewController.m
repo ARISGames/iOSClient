@@ -260,7 +260,7 @@
 
     }
     
-    [[[AppModel sharedAppModel]uploadManager] uploadContentForNote:self.noteId withTitle:nil withText:nil withType:kNoteContentTypeAudio withFileURL:[self.soundFileURL absoluteString]];
+    [[[AppModel sharedAppModel]uploadManager] uploadContentForNote:[NSNumber numberWithInt:self.noteId] withTitle:nil withText:nil withType:kNoteContentTypeAudio withFileURL:[self.soundFileURL absoluteString]];
     
     [self.navigationController popViewControllerAnimated:YES];
 

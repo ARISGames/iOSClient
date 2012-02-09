@@ -397,8 +397,7 @@
     [[AppServices sharedAppServices]deleteNoteContentWithContentId:[[self.note.contents objectAtIndex:indexPath.row] getContentId]];
     }
     else{
-        NSMutableDictionary *dict = [[AppModel sharedAppModel].uploadManager.uploadContents objectForKey:[NSNumber numberWithInt:self.note.noteId]];
-        [dict removeObjectForKey:[[[self.note.contents objectAtIndex:indexPath.row]getMedia] url]];
+            [[AppModel sharedAppModel].uploadManager deleteContentFromNote:[NSNumber numberWithInt:self.note.noteId] andFileURL:[[[self.note.contents objectAtIndex:indexPath.row]getMedia] url]];
 
     }
     [self.note.contents removeObjectAtIndex:indexPath.row];

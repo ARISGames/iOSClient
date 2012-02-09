@@ -18,6 +18,6 @@
 @property (nonatomic, retain) NSManagedObjectContext *context;
 
 - (void) uploadContentForNote:(NSNumber *)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSString *)url;
-- (void) deleteConentFromNote:(NSNumber *)noteId andFileURL:(NSString *)fileURL;
+- (void) deleteContentFromNote:(NSNumber *)noteId andFileURL:(NSString *)fileURL;
 
 @end

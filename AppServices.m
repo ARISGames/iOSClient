@@ -671,8 +671,7 @@ NSString *const kARISServerServicePackage = @"v1";
     NSString *newFileName = [request responseString];
     
     NSString *localUrl = [[request userInfo] objectForKey:@"url"];
-    NSMutableDictionary *dict = [[AppModel sharedAppModel].uploadManager.uploadContents objectForKey:nId];
-    [dict removeObjectForKey:localUrl];
+    [[AppModel sharedAppModel].uploadManager deleteContentFromNote:nId andFileURL:localUrl];
     
     
 
