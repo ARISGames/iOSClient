@@ -17,6 +17,7 @@
 @property (nonatomic, retain) NSMutableDictionary *uploadContents;
 @property (nonatomic, retain) NSManagedObjectContext *context;
 
-- (void) uploadContentForNote:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSString *)url;
+- (void) uploadContentForNote:(NSNumber *)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSString *)url;
+- (void) deleteConentFromNote:(NSNumber *)noteId andFileURL:(NSString *)fileURL;
 
 @end

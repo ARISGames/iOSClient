@@ -13,6 +13,26 @@
 @synthesize uploadContents;
 @synthesize context;
 
+- (void) deleteAllObjects: (NSString *) entityDescription  {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:entityDescription inManagedObjectContext:[AppModel sharedAppModel].managedObjectContext];
+    [fetchRequest setEntity:entity];
+    
+    NSError *error;
+    NSArray *items = [[AppModel sharedAppModel].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    [fetchRequest release];
+    
+    
+    for (NSManagedObject *managedObject in items) {
+        [[AppModel sharedAppModel].managedObjectContext deleteObject:managedObject];
+        NSLog(@"%@ object deleted",entityDescription);
+    }
+    if (![[AppModel sharedAppModel].managedObjectContext save:&error]) {
+        NSLog(@"Error deleting %@ - error:%@",entityDescription,error);
+    }
+    
+}
+
 -(void)insertUploadContentIntoDictionary:(UploadContent *)uploadContent
 {
     if(uploadContent.localFileURL !=nil){
@@ -66,9 +86,44 @@
     [fetchRequest release];
 }
 
-- (void) uploadContentForNote:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSString *)aUrl
+- (void) deleteUploadContentFromDictionaryFromNote:(NSNumber *)noteId andFileURL:(NSString *)fileURL
 {
-    UploadContent *uploadContent = [[UploadContent alloc] initForNote:noteId withTitle:title withText:text withType:type withFileURL:aUrl hasAttemptedUpload:NO andUniqueIdentifier:-1 andContext:context];
+    [(NSMutableDictionary *)[uploadContents objectForKey:noteId] removeObjectForKey:fileURL];
+    if([[(NSMutableDictionary *)[uploadContents objectForKey:noteId] allValues] count] == 0)
+    {
+        [uploadContents removeObjectForKey:noteId];
+    }
+}
+
+- (void) deleteUploadContentFromCDFromNote:(int)noteId andFileURL:(NSString *)fileURL
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"UploadContent" inManagedObjectContext:[AppModel sharedAppModel].managedObjectContext];
+    [fetchRequest setEntity:entity];
+    
+    NSError *error;
+    NSArray *items = [[AppModel sharedAppModel].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    [fetchRequest release];
+    
+    
+    for (NSManagedObject *managedObject in items) {
+        if([[(UploadContent *)managedObject localFileURL] isEqualToString:fileURL])
+        {
+            [[AppModel sharedAppModel].managedObjectContext deleteObject:managedObject];
+            NSLog(@"%@ object deleted",@"UploadContent");
+        }
+    }
+    if (![[AppModel sharedAppModel].managedObjectContext save:&error]) {
+        NSLog(@"Error deleting %@ - error:%@",@"UploadContent",error);
+    }
+
+}
+
+#pragma mark Header Implementations
+
+- (void) uploadContentForNote:(NSNumber *)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSString *)aUrl
+{
+    UploadContent *uploadContent = [[UploadContent alloc] initForNote:noteId withTitle:title withText:text withType:type withFileURL:aUrl hasAttemptedUpload:NO andContext:context];
     [self saveUploadContentToCD:uploadContent];
     [self insertUploadContentIntoDictionary:uploadContent];
     [uploadContent release];
@@ -95,25 +150,13 @@
     }
     
 }
-- (void) deleteAllObjects: (NSString *) entityDescription  {
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:entityDescription inManagedObjectContext:[AppModel sharedAppModel].managedObjectContext];
-    [fetchRequest setEntity:entity];
-    
-    NSError *error;
-    NSArray *items = [[AppModel sharedAppModel].managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    [fetchRequest release];
-    
-    
-    for (NSManagedObject *managedObject in items) {
-        [[AppModel sharedAppModel].managedObjectContext deleteObject:managedObject];
-        NSLog(@"%@ object deleted",entityDescription);
-    }
-    if (![[AppModel sharedAppModel].managedObjectContext save:&error]) {
-        NSLog(@"Error deleting %@ - error:%@",entityDescription,error);
-    }
-    
+
+- (void) deleteConentFromNote:(NSNumber *)noteId andFileURL:(NSString *)fileURL
+{
+    [self deleteUploadContentFromDictionaryFromNote:noteId andFileURL:fileURL];
+    [self deleteUploadContentFromCDFromNote:noteId andFileURL:fileURL];
 }
+
 - (id)init
 {
     self = [super init];

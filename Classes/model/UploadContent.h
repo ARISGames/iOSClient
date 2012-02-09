@@ -21,6 +21,6 @@
 @property (nonatomic, retain) NSNumber *note_id;
 @property (nonatomic, retain) NSNumber *attemptfailed;
 
-- (id) initForNote:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSString *)url hasAttemptedUpload:(BOOL)attemptFailed andUniqueIdentifier:(int)uniqueId andContext:(NSManagedObjectContext *)context;
+- (id) initForNote:(NSNumber *)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSString *)url hasAttemptedUpload:(BOOL)attemptFailed andContext:(NSManagedObjectContext *)context;
 
 @end

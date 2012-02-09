@@ -18,7 +18,7 @@
 @dynamic note_id;
 @dynamic attemptfailed;
 
-- (id) initForNote:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSString *)aUrl hasAttemptedUpload:(BOOL)attemptFailed andUniqueIdentifier:(int)uniqueId andContext:(NSManagedObjectContext *)context
+- (id) initForNote:(NSNumber *)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSString *)aUrl hasAttemptedUpload:(BOOL)attemptFailed andContext:(NSManagedObjectContext *)context
 {
     self = [super initWithEntity:[NSEntityDescription entityForName:@"UploadContent" inManagedObjectContext:context] insertIntoManagedObjectContext:context];
     if(self){
@@ -27,8 +27,7 @@
     self.type = type;
     self.localFileURL = aUrl;
     self.attemptfailed = [NSNumber numberWithBool:attemptFailed];
-    self.note_id = [NSNumber numberWithInt:noteId];
-    //self.unique_id = [NSNumber numberWithInt:uniqueId];
+    self.note_id = noteId;
     }
     return self;
     
