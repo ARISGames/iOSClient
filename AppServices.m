@@ -10,6 +10,8 @@
 
 static const int kDefaultCapacity = 10;
 static const int kEmptyValue = -1;
+NSString *const kARISServerServicePackage = @"v1";
+
 
 @interface AppServices()
 
@@ -610,7 +612,7 @@ static const int kEmptyValue = -1;
 }
 -(void) addContentToNoteFromFileData:(NSData *)fileData fileName:(NSString *)fileName 
                                 name:(NSString *)name noteId:(int) noteId type: (NSString *)type{
-    NSURL *url = [[AppModel sharedAppModel].serverURL URLByAppendingPathComponent:@"services/aris/uploadHandler.php"];
+    NSURL *url = [[AppModel sharedAppModel].serverURL URLByAppendingPathComponent:[NSString stringWithFormat: @"services/%@/uploadHandler.php",kARISServerServicePackage]];
 	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
 	request.timeOutSeconds = 300;
 	
@@ -711,7 +713,7 @@ static const int kEmptyValue = -1;
 										title:(NSString *)title description:(NSString*)description {
     
 	// setting up the request object now
-	NSURL *url = [[AppModel sharedAppModel].serverURL URLByAppendingPathComponent:@"services/aris/uploadHandler.php"];
+    NSURL *url = [[AppModel sharedAppModel].serverURL URLByAppendingPathComponent:[NSString stringWithFormat: @"services/%@/uploadHandler.php",kARISServerServicePackage]];
 	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
 	request.timeOutSeconds = 60;
 	

@@ -42,6 +42,8 @@
     BOOL currentlyUpdatingServerWithInventoryViewed;
 }
 
+extern NSString *const kARISServerServicePackage;
+
 //Fetcher Flags
 @property(readwrite) BOOL currentlyFetchingLocationList;
 @property(readwrite) BOOL currentlyFetchingInventory;

@@ -31,10 +31,8 @@
 	self.methodName = method;	
 	self.arguments = args;	
 
-	//Compute the Arguments
-    NSString *servicePackage = @"v1";
-
-	NSMutableString *requestParameters = [NSMutableString stringWithFormat:@"json.php/%@.%@.%@", servicePackage, self.serviceName, self.methodName];	
+	//Compute the Arguments 
+	NSMutableString *requestParameters = [NSMutableString stringWithFormat:@"json.php/%@.%@.%@", kARISServerServicePackage, self.serviceName, self.methodName];	
 	NSEnumerator *argumentsEnumerator = [self.arguments objectEnumerator];
 	NSString *argument;
 	while (argument = [argumentsEnumerator nextObject]) {
