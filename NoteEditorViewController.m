@@ -139,6 +139,7 @@
     if(self.note.noteId == 0){
         self.note = [[Note alloc]init];
         self.note.noteId = [[AppServices sharedAppServices] createNote];
+        [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];
     }
     else self.noteValid = YES;
     //self.contentTable.editing = YES;
