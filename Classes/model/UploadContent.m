@@ -51,9 +51,27 @@
     //if(!media)
     
     //THIS LEAKS AND SHOULD BE FIXED
-    media = [[Media alloc]initWithId:[self.localFileURL hash] andUrlString:self.localFileURL ofType:self.type];
-    if([self.type isEqualToString:kNoteContentTypePhoto])
-        media.image = [UIImage imageWithContentsOfFile:self.localFileURL];
+    NSString *mediaType;
+    if([self.type isEqualToString:kNoteContentTypePhoto]){
+        mediaType = kMediaTypeImage;
+    }
+    else if([self.type isEqualToString:kNoteContentTypeAudio]){
+        mediaType = kMediaTypeAudio;
+    }
+    else if([self.type isEqualToString:kNoteContentTypeVideo]){
+        mediaType = kMediaTypeVideo;
+    }
+    else{
+        mediaType = @"Text";
+    }
+    media = [[Media alloc]initWithId:[self.localFileURL hash] andUrlString:self.localFileURL ofType:mediaType];
+    if([self.type isEqualToString:kNoteContentTypePhoto]){
+        
+        NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.localFileURL]];
+        media.image = [UIImage imageWithData:imageData];
+            
+        
+        }
     NSLog(@"UploadContent: Returning media with ID: %d and type:%@",media.uid,media.type);
     return media;
 }

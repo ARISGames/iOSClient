@@ -341,8 +341,7 @@ NSString *const kARISServerServicePackage = @"v1";
 - (void)uploadImageForMatching:(NSData *)fileData{
 
    	// setting up the request object now
-	NSURL *url = [[AppModel sharedAppModel].serverURL URLByAppendingPathComponent:@"services/aris/uploadHandler.php"];
-	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+	    NSURL *url = [[AppModel sharedAppModel].serverURL URLByAppendingPathComponent:[NSString stringWithFormat: @"services/%@/uploadHandler.php",kARISServerServicePackage]];	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
 	request.timeOutSeconds = 60;
 	
  	[request setPostValue:[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].currentGame.gameId] forKey:@"gameID"];	 
@@ -389,7 +388,7 @@ NSString *const kARISServerServicePackage = @"v1";
 										title:(NSString *)title description:(NSString*)description {
     
 	// setting up the request object now
-	NSURL *url = [[AppModel sharedAppModel].serverURL URLByAppendingPathComponent:@"services/aris/uploadHandler.php"];
+	    NSURL *url = [[AppModel sharedAppModel].serverURL URLByAppendingPathComponent:[NSString stringWithFormat: @"services/%@/uploadHandler.php",kARISServerServicePackage]];
 	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
 	request.timeOutSeconds = 60;
 	
@@ -557,6 +556,7 @@ NSString *const kARISServerServicePackage = @"v1";
 
 }
 -(void)deleteNoteContentWithContentId:(int)contentId{
+    if(contentId != -1){
     NSLog(@"AppModel: Deleting Content From Note with contentId: %d",contentId);
 	
 	//Call server service
@@ -569,6 +569,7 @@ NSString *const kARISServerServicePackage = @"v1";
                                                               andArguments:arguments];
 	[jsonConnection performAsynchronousRequestWithParser:@selector(sendNotificationToNoteViewer)]; 
 	[jsonConnection release];
+    }
 
 }
 -(void)deleteNoteLocationWithNoteId:(int)noteId{
@@ -589,6 +590,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	
 }
 -(void)deleteNoteWithNoteId:(int)noteId{
+    if(noteId != 0){
     NSLog(@"AppModel: Deleting Note: %d",noteId);
 	
 	//Call server service
@@ -601,6 +603,10 @@ NSString *const kARISServerServicePackage = @"v1";
                                                               andArguments:arguments];
 	[jsonConnection performAsynchronousRequestWithParser:@selector(sendNotificationToNotebookViewer)]; 
 	[jsonConnection release];
+    }
+    else{
+        NSLog(@"Tried deleting note 0 and that's a no-no!");
+    }
 
 }
 
