@@ -123,8 +123,8 @@
         [self.delegate setNoteChanged:YES];
          
     }
-    [[AppServices sharedAppServices] addContentToNoteWithText:self.textBox.text type:kNoteContentTypeText mediaId:0 andNoteId:self.noteId];
-
+    [[[AppModel sharedAppModel] uploadManager]uploadContentForNote:self.noteId withTitle:nil withText:self.textBox.text withType:kNoteContentTypeText withFileURL:[NSString stringWithFormat:@"%@.txt",[NSDate date]]];
+    
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:.5];
     

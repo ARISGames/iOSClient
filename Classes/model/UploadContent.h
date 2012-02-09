@@ -16,12 +16,11 @@
 
 @property (nonatomic, retain) NSString *title;
 @property (nonatomic, retain) NSString *text;
-@property (nonatomic, retain) NSString *fileURL;
+@property (nonatomic, retain) NSString *localFileURL;
 @property (nonatomic, retain) NSString *type;
 @property (nonatomic, retain) NSNumber *note_id;
-@property (nonatomic, retain) NSNumber *unique_id;
 @property (nonatomic, retain) NSNumber *attemptfailed;
 
-- (id) initForNote:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSString *)url hasAttemptedUpload:(BOOL)attemptFailed andUniqueIdentifier:(int)uniqueId;
+- (id) initForNote:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSString *)url hasAttemptedUpload:(BOOL)attemptFailed andUniqueIdentifier:(int)uniqueId andContext:(NSManagedObjectContext *)context;
 
 @end

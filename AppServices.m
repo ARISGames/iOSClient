@@ -630,7 +630,7 @@ NSString *const kARISServerServicePackage = @"v1";
     [userInfo setValue:name forKey:@"title"];
     [userInfo setValue:nId forKey:@"noteId"];
     [userInfo setValue:type forKey: @"type"];
-    [userInfo setValue:contentCount forKey:@"contentCount"];
+    [userInfo setValue:fileName forKey:@"url"];
 	[request setUserInfo:userInfo];
 	
 	NSLog(@"Model: Uploading File. gameID:%d fileName:%@ title:%@ noteId:%d",[AppModel sharedAppModel].currentGame.gameId,fileName,name,noteId);
@@ -650,10 +650,7 @@ NSString *const kARISServerServicePackage = @"v1";
 }
 - (void)uploadNoteContentRequestFinished:(ASIFormDataRequest *)request
 {
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	//[appDelegate removeNewWaitingIndicator];
-	
-	NSString *response = [request responseString];
+    NSString *response = [request responseString];
     
 	NSLog(@"Model: Upload Note Content Request Finished. Response: %@", response);
 	
@@ -663,11 +660,15 @@ NSString *const kARISServerServicePackage = @"v1";
     nId = [[request userInfo] objectForKey:@"noteId"];
 	//if (description == NULL) description = @"filename"; 
 	int noteId = [nId intValue];
-    
-    int contentIndex = [[(Note *)[[AppModel sharedAppModel].playerNoteList objectForKey:[NSNumber numberWithInt:noteId]] contents] count]-1;
+
     NSString *type = [[request userInfo] objectForKey:@"type"];
     NSString *newFileName = [request responseString];
-   [[(Note *)[[AppModel sharedAppModel].playerNoteList objectForKey:[NSNumber numberWithInt:noteId]] contents]removeObjectAtIndex:contentIndex];
+    
+    NSString *localUrl = [[request userInfo] objectForKey:@"url"];
+    NSMutableDictionary *dict = [[AppModel sharedAppModel].uploadManager.uploadContents objectForKey:nId];
+    [dict removeObjectForKey:localUrl];
+    
+    
 
 	NSLog(@"AppModel: Creating Note Content for Title:%@ File:%@",title,newFileName);
 	
@@ -691,8 +692,6 @@ NSString *const kARISServerServicePackage = @"v1";
 
 - (void)uploadNoteRequestFailed:(ASIHTTPRequest *)request
 {
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	//[appDelegate removeNewWaitingIndicator];
 	NSError *error = [request error];
 	NSLog(@"Model: uploadRequestFailed: %@",[error localizedDescription]);
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message: @"A network error occured while uploading the file" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
@@ -703,10 +702,11 @@ NSString *const kARISServerServicePackage = @"v1";
     NSNumber *nId = [[NSNumber alloc]initWithInt:5];
     nId = [[request userInfo] objectForKey:@"noteId"];
 	//if (description == NULL) description = @"filename"; 
-	int noteId = [nId intValue];
-    int contentIndex = [[(Note *)[[AppModel sharedAppModel].playerNoteList objectForKey:[NSNumber numberWithInt:noteId]] contents] count]-1;
 
-    [[(Note *)[[AppModel sharedAppModel].playerNoteList objectForKey:[NSNumber numberWithInt:noteId]] contents]removeObjectAtIndex:contentIndex];
+    NSString *localUrl = [[request userInfo] objectForKey:@"url"];
+    UploadContent *uploadContent =[[AppModel sharedAppModel].uploadManager.uploadContents objectForKey:localUrl];
+    uploadContent.attemptfailed = [NSNumber numberWithBool:YES];
+    [self sendNotificationToNoteViewer];
   }
 
 - (void)createItemAndGiveToPlayerFromFileData:(NSData *)fileData fileName:(NSString *)fileName 
@@ -1847,13 +1847,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	NSDictionary *dict;
 	while ((dict = [enumerator nextObject])) {
         Note *tmpNote = [self parseNoteFromDictionary:dict];
-		Note *oldNote = [[AppModel sharedAppModel].gameNoteList objectForKey:[NSNumber numberWithInt:tmpNote.noteId]];
-        for(int i = 0; i < oldNote.contents.count; i++){
-            if([[(NoteContent *)[oldNote.contents objectAtIndex:i] type] isEqualToString:@"UPLOAD"]){
-                [tmpNote.contents addObject:[oldNote.contents objectAtIndex:i]];
-            }
-        }
-		[tempNoteList setObject:tmpNote forKey:[NSNumber numberWithInt:tmpNote.noteId]];
+        [tempNoteList setObject:tmpNote forKey:[NSNumber numberWithInt:tmpNote.noteId]];
 	}
     /*NSSortDescriptor *sortDescriptor;
     sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"noteId"
@@ -1885,12 +1879,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	NSDictionary *dict;
 	while ((dict = [enumerator nextObject])) {
 		Note *tmpNote = [self parseNoteFromDictionary:dict];
-		Note *oldNote = [[AppModel sharedAppModel].playerNoteList objectForKey:[NSNumber numberWithInt:tmpNote.noteId]];
-        for(int i = 0; i < oldNote.contents.count; i++){
-            if([[(NoteContent *)[oldNote.contents objectAtIndex:i] type] isEqualToString:@"UPLOAD"]){
-                [tmpNote.contents addObject:[oldNote.contents objectAtIndex:i]];
-            }
-        }
+		
 		[tempNoteList setObject:tmpNote forKey:[NSNumber numberWithInt:tmpNote.noteId]];
 	}
 

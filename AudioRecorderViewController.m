@@ -52,7 +52,7 @@
 	
 
 	NSString *tempDir = NSTemporaryDirectory ();
-    NSString *soundFilePath =[tempDir stringByAppendingString: @"sound.caf"];
+    NSString *soundFilePath =[tempDir stringByAppendingString: [NSString stringWithFormat:@"%@sound.caf",[NSDate date]]];
 	
     if(!previewMode){
     NSURL *newURL = [[NSURL alloc] initFileURLWithPath: soundFilePath];
@@ -240,30 +240,28 @@
    
     if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]) {
         [self.parentDelegate addedAudio];
-        NoteContent *content = [[NoteContent alloc]init];
+       /* NoteContent *content = [[NoteContent alloc]init];
         content.type = @"UPLOAD";
     
-       
-        Note *parentNote = [[AppModel sharedAppModel]noteForNoteId:[[self.parentDelegate parentNote] noteId] playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
         Note *commentNote = [[AppModel sharedAppModel]noteForNoteId:[[self.parentDelegate commentNote] noteId] playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
 
         [[commentNote contents]addObject:content];
         
-        //[[parentNote comments] insertObject:commentNote atIndex:0];     
-        [[AppServices sharedAppServices] addContentToNoteFromFileData:self.audioData fileName:@"audio.caf" name:nil noteId:self.noteId type:kNoteContentTypeAudio];
-        [content release];
+        [content release];*/
 
     }
     if([self.delegate isKindOfClass:[NoteEditorViewController class]]) {
         [self.delegate setNoteValid:YES];
         [self.delegate setNoteChanged:YES];
-        NoteContent *content = [[NoteContent alloc]init];
-        content.type = @"UPLOAD";
-        [[[self.delegate note] contents]addObject:content];
-         [[AppServices sharedAppServices] addContentToNoteFromFileData:self.audioData fileName:@"audio.caf" name:nil noteId:self.noteId type:kNoteContentTypeAudio];
-        [content release];
+       // NoteContent *content = [[NoteContent alloc]init];
+        //content.type = @"UPLOAD";
+        //[[[self.delegate note] contents]addObject:content];
+        //[content release];
 
     }
+    
+    [[[AppModel sharedAppModel]uploadManager] uploadContentForNote:self.noteId withTitle:nil withText:nil withType:kNoteContentTypeAudio withFileURL:[self.soundFileURL absoluteString]];
+    
     [self.navigationController popViewControllerAnimated:YES];
 
 }	

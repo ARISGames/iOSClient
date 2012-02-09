@@ -115,8 +115,7 @@
     else if(self.note.showOnMap && self.note.showOnList){
         self.sharingLabel.text = @"List & Map";
     }        
-
-
+    [self refreshViewFromModel];
 }
 - (void)didReceiveMemoryWarning
 {
@@ -394,9 +393,16 @@
 }
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-    [[AppServices sharedAppServices]deleteNoteContentWithContentId:[(NoteContent *)[self.note.contents objectAtIndex:indexPath.row] contentId]];
+    if(![[self.note.contents objectAtIndex:indexPath.row] isUploading]){
+    [[AppServices sharedAppServices]deleteNoteContentWithContentId:[[self.note.contents objectAtIndex:indexPath.row] getContentId]];
+    }
+    else{
+        NSMutableDictionary *dict = [[AppModel sharedAppModel].uploadManager.uploadContents objectForKey:[NSNumber numberWithInt:self.note.noteId]];
+        [dict removeObjectForKey:[[[self.note.contents objectAtIndex:indexPath.row]getMedia] url]];
+
+    }
     [self.note.contents removeObjectAtIndex:indexPath.row];
-    
+
 }
 
 -(void)removeLoadingIndicator{
@@ -410,14 +416,25 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 - (void)refreshViewFromModel {
 	NSLog(@"NoteViewController: Refresh View from Model");
-    self.note = [[AppModel sharedAppModel] noteForNoteId: self.note.noteId playerListYesGameListNo:YES];
-
-
+    [self addUploadsToNote];
     [contentTable reloadData];
     //unregister for notifications
     
 }
 
+-(void)addUploadsToNote{
+    self.note = [[AppModel sharedAppModel] noteForNoteId: self.note.noteId playerListYesGameListNo:YES];
+    for(int x = [self.note.contents count]-1; x >= 0; x--){
+        if([[self.note.contents objectAtIndex:x] isUploading])
+            [self.note.contents removeObjectAtIndex:x];
+    }
+    
+    NSMutableDictionary *uploads = [AppModel sharedAppModel].uploadManager.uploadContents;
+    NSArray *uploadContentForNote = [[uploads objectForKey:[NSNumber numberWithInt:self.note.noteId]]allValues];
+    [self.note.contents addObjectsFromArray:uploadContentForNote];
+    NSLog(@"Added upload content to note");
+
+}
 #pragma mark Table view methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -425,6 +442,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+
     if([self.note.contents count] == 0) return 1;
 	return [self.note.contents count];
 }
@@ -447,34 +465,8 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
         return  cell;
     }
     
-    NoteContent *noteC = (NoteContent *)[self.note.contents objectAtIndex:indexPath.row];
-    if([noteC.getType isEqualToString:@"UPLOAD"]){
-        NSLog(@"NoteEditorVC: Cell requested is an UPLOAD");
-
-        UITableViewCell *tempCell = (UploadingCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (![tempCell respondsToSelector:@selector(progressBar)]){
-            //[tempCell release];
-            tempCell = nil;
-        }
-        UploadingCell *cell = (UploadingCell *)tempCell;
-        
-        
-        if (cell == nil) {
-            // Create a temporary UIViewController to instantiate the custom cell.
-            UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"UploadingCell" bundle:nil];
-            // Grab a pointer to the custom cell.
-            cell = (UploadingCell *)temporaryController.view;
-            // Release the temporary UIViewController.
-            [temporaryController release];
-        }
-        [AppModel sharedAppModel].progressBar = cell.progressBar;
-        
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.userInteractionEnabled = NO;
-        
-        return  cell;
-    }
-    else{
+    NoteContent<NoteContentProtocol> *noteC = [self.note.contents objectAtIndex:indexPath.row];
+  
         NSLog(@"NoteEditorVC: Cell requested was not an UPLOAD");
         UITableViewCell *tempCell = (NoteContentCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (![tempCell respondsToSelector:@selector(titleLbl)]){
@@ -501,7 +493,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
         if([noteC.getTitle length] >23)noteC.title = [noteC.getTitle substringToIndex:23];
         cell.titleLbl.text = noteC.getTitle;
         
-        if([[(NoteContent *)[self.note.contents objectAtIndex:indexPath.row] getType] isEqualToString:kNoteContentTypeText]){
+        if([[[self.note.contents objectAtIndex:indexPath.row] getType] isEqualToString:kNoteContentTypeText]){
             cell.imageView.image = [UIImage imageWithContentsOfFile: 
                                     [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
             cell.detailLbl.text = noteC.getText;
@@ -528,9 +520,12 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
             [aView release];
         }
 
-        cell.titleLbl.text = noteC.getTitle;
+        if(noteC.isUploading)
+            cell.titleLbl.text = @"Your media is uploading";
+        else
+            cell.titleLbl.text = noteC.getTitle;
         return  cell;
-    }
+    
     
     //Should never get here
     [reloadArr release];
@@ -558,7 +553,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NoteContent *noteC = [[NoteContent alloc] init];
+    NoteContent<NoteContentProtocol> *noteC;
    
     if([self.note.contents count]>indexPath.row){
         noteC = [self.note.contents objectAtIndex:indexPath.row];

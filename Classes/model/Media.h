@@ -22,7 +22,7 @@ extern NSString *const kMediaTypeAudio;
 
 @property(readonly) NSInteger	uid;
 @property(readonly)	NSString	*url;
-@property(readonly) NSString	*type;
+@property(nonatomic, retain) NSString	*type;
 @property(nonatomic, retain) UIImage	*image;
 
 

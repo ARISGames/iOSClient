@@ -18,6 +18,7 @@
 #import "Panoramic.h"
 #import "Note.h"
 #import "UploadMan.h"
+
 extern NSDictionary *InventoryElements;
 
 @interface AppModel : NSObject {

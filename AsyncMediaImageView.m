@@ -20,7 +20,7 @@
 @synthesize delegate;
 
 -(id)initWithFrame:(CGRect)aFrame andMedia:(Media *)aMedia{
-    
+    self.media = aMedia;
     return [self initWithFrame:aFrame andMediaId:aMedia.uid];
 
 }
@@ -31,6 +31,7 @@
 
         self.loaded = NO;
         
+        if(!media)
         media = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
 
         if([media.type isEqualToString:kMediaTypeImage]){

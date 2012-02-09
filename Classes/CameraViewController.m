@@ -14,6 +14,7 @@
 #import "GPSViewController.h"
 #import "NoteCommentViewController.h"
 #import "NoteEditorViewController.h"
+#import "AssetsLibrary/AssetsLibrary.h"
 
 @implementation CameraViewController
 
@@ -134,42 +135,39 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
 		UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
         if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];             
 		NSLog(@"CameraViewController: Found an Image");
-        NSURL *imageURL = [info objectForKey:UIImagePickerControllerMediaURL];
         
 		self.mediaData = UIImageJPEGRepresentation(image, 0.4);
-		self.mediaFilename = @"image.jpg";
+		self.mediaFilename = [NSString stringWithFormat:@"%@image.jpg",[NSDate date]];
         if(showVid){
             //if you are actually taking a photo or video then save it
+            void *context;
         UIImageWriteToSavedPhotosAlbum(image, 
                                        self, 
                                        @selector(image:didFinishSavingWithError:contextInfo:), 
-                                       nil );
+                                       context );
+        }
+
+        NSString *newFilePath =[NSTemporaryDirectory() stringByAppendingString: [NSString stringWithFormat:@"%@image.jpg",[NSDate date]]];
+        
+            NSURL *imageURL = [[NSURL alloc] initFileURLWithPath: newFilePath];
+
+        
+        if (self.mediaData != nil) {
+            NSLog(@"HERE [%@]", newFilePath);
+            [mediaData writeToURL:imageURL atomically:YES];
         }
         
         if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]) {
-            NoteContent *content = [[NoteContent alloc]init];
-            content.type = @"UPLOAD";
-           
-            Note *parentNote = [[AppModel sharedAppModel]noteForNoteId:[[self.parentDelegate parentNote] noteId] playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
-            
-            [[[self.parentDelegate commentNote] contents]addObject:content];
-            
-            //[[parentNote comments] insertObject:[self.parentDelegate commentNote] atIndex:0];
-            [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:kNoteContentTypePhoto];
-
-            [self.parentDelegate addedPhoto];
-            [content release];
+                       [self.parentDelegate addedPhoto];
 
         }
+        
         if([self.delegate isKindOfClass:[NoteEditorViewController class]]) {
             [self.delegate setNoteValid:YES];
             [self.delegate setNoteChanged:YES];
-            NoteContent *content = [[NoteContent alloc]init];
-            content.type = @"UPLOAD";
-            [[[self.delegate note] contents]addObject:content];
-            [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:kNoteContentTypePhoto];
-            [content release];
-        }
+                  }
+        
+        [[[AppModel sharedAppModel] uploadManager]uploadContentForNote:self.noteId withTitle:nil withText:nil withType:kNoteContentTypePhoto withFileURL:[imageURL absoluteString]];
 	}	
 	else if ([mediaType isEqualToString:@"public.movie"]){
 		NSLog(@"CameraViewController: Found a Movie");
@@ -177,33 +175,17 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
 		self.mediaData = [NSData dataWithContentsOfURL:videoURL];
 		self.mediaFilename = @"video.mp4";
         if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]){ 
-            NoteContent *content = [[NoteContent alloc]init];
-            content.type = @"UPLOAD";
-            Note *parentNote = [[AppModel sharedAppModel]noteForNoteId:[[self.parentDelegate parentNote] noteId] playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
-            
-            [[[self.parentDelegate commentNote] contents]addObject:content];
-            
-            //[[parentNote comments] insertObject:[self.parentDelegate commentNote] atIndex:0];
-            
-
-            [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:kNoteContentTypeVideo];
-            
-
-            [self.parentDelegate addedVideo];
-            [content release];
+                       [self.parentDelegate addedVideo];
 
         }
         if([self.delegate isKindOfClass:[NoteEditorViewController class]]) {
             [self.delegate setNoteValid:YES];
             [self.delegate setNoteChanged:YES];
-            NoteContent *content = [[NoteContent alloc]init];
-            content.type = @"UPLOAD";
-            [[[self.delegate note] contents]addObject:content];
-            [[AppServices sharedAppServices] addContentToNoteFromFileData:self.mediaData fileName:self.mediaFilename name:nil noteId:self.noteId type:kNoteContentTypeVideo];
-
-            [content release];
-
-        }	}	
+                 }
+        
+  [[[AppModel sharedAppModel] uploadManager]uploadContentForNote:self.noteId withTitle:nil withText:nil withType:kNoteContentTypeVideo withFileURL:[videoURL absoluteString]];
+    
+    }	
     
 
     [self.navigationController popViewControllerAnimated:NO];

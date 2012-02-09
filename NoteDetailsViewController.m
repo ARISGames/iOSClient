@@ -90,6 +90,9 @@
 
 }
 -(void)viewWillAppear:(BOOL)animated{
+
+    [self addUploadsToNote];
+
     self.commentLabel.text = [NSString stringWithFormat:@"%d",[self.note.comments count]];
     self.likeLabel.text = [NSString stringWithFormat:@"%d",self.note.numRatings];
     if(self.note.userLiked) [self.likeButton setStyle:UIBarButtonItemStyleDone];
@@ -117,6 +120,20 @@
     }
 
 
+}
+
+-(void)addUploadsToNote{
+    self.note = [[AppModel sharedAppModel] noteForNoteId: self.note.noteId playerListYesGameListNo:YES];
+    for(int x = [self.note.contents count]-1; x >= 0; x--){
+        if([[self.note.contents objectAtIndex:x] isUploading])
+            [self.note.contents removeObjectAtIndex:x];
+    }
+    
+    NSMutableDictionary *uploads = [AppModel sharedAppModel].uploadManager.uploadContents;
+    NSArray *uploadContentForNote = [[uploads objectForKey:[NSNumber numberWithInt:self.note.noteId]]allValues];
+    [self.note.contents addObjectsFromArray:uploadContentForNote];
+    NSLog(@"Added upload content to note");
+    
 }
 
 -(void)commentButtonTouch{

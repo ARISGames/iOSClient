@@ -2,14 +2,13 @@
 <model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="872" systemVersion="10K549" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="UploadContent" representedClassName="UploadContent" syncable="YES">
         <attribute name="attemptfailed" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="fileURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="localFileURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="note_id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="unique_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="UploadContent" positionX="160" positionY="192" width="128" height="150"/>
+        <element name="UploadContent" positionX="160" positionY="192" width="128" height="135"/>
     </elements>
 </model>

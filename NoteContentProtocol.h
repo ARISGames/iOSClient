@@ -17,4 +17,5 @@
 - (NSString *) getType;
 - (int) getNoteId;
 - (int) getContentId;
+- (BOOL) isUploading;
 @end

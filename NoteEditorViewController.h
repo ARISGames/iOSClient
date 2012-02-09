@@ -86,5 +86,6 @@
 - (void)refreshViewFromModel;
 -(void)tagButtonTouchAction;
 -(void)movieThumbDidFinish:(NSNotification*) aNotification;
+-(void)addUploadsToNote;
 
 @end

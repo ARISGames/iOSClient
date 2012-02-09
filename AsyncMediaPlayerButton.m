@@ -18,6 +18,7 @@ BOOL isLoading;
 @synthesize presentingController;
 
 -(id)initWithFrame:(CGRect)frame media:(Media *)aMedia presentingController:(UIViewController *)aPresentingController{
+    self.media = aMedia;
    return [self initWithFrame:frame mediaId:aMedia.uid presentingController:aPresentingController];
 }
 
@@ -28,7 +29,7 @@ BOOL isLoading;
         NSLog(@"AsyncMoviePlayerButton: super init successful");
         
         self.presentingController = aPresentingController;
-        
+        if(!media)
         media = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
         
         //Create movie player object

@@ -7,29 +7,31 @@
 //
 
 #import "UploadContent.h"
+#import "AppModel.h"
 
 @implementation UploadContent
 
 @dynamic title;
 @dynamic text;
-@dynamic fileURL;
+@dynamic localFileURL;
 @dynamic type;
 @dynamic note_id;
-@dynamic unique_id;
 @dynamic attemptfailed;
 
-- (id) initForNote:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSString *)url hasAttemptedUpload:(BOOL)attemptFailed andUniqueIdentifier:(int)uniqueId
+- (id) initForNote:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSString *)aUrl hasAttemptedUpload:(BOOL)attemptFailed andUniqueIdentifier:(int)uniqueId andContext:(NSManagedObjectContext *)context
 {
-    self = [super init];
+    self = [super initWithEntity:[NSEntityDescription entityForName:@"UploadContent" inManagedObjectContext:context] insertIntoManagedObjectContext:context];
+    if(self){
     self.title = title;
     self.text = text;
     self.type = type;
-    self.fileURL = url;
+    self.localFileURL = aUrl;
     self.attemptfailed = [NSNumber numberWithBool:attemptFailed];
     self.note_id = [NSNumber numberWithInt:noteId];
-    self.unique_id = [NSNumber numberWithInt:uniqueId];
-    
+    //self.unique_id = [NSNumber numberWithInt:uniqueId];
+    }
     return self;
+    
 }
 
 - (NSString *) getTitle
@@ -44,8 +46,15 @@
 
 - (Media *) getMedia
 {
-    Media *media = [[[Media alloc]initWithId:-1 andUrlString:self.fileURL ofType:self.type]autorelease];
+    Media *media;
+    //media = [[AppModel sharedAppModel]mediaForMediaId:[self.localFileURL intValue]];
+    //if(!media)
     
+    //THIS LEAKS AND SHOULD BE FIXED
+    media = [[Media alloc]initWithId:[self.localFileURL hash] andUrlString:self.localFileURL ofType:self.type];
+    if([self.type isEqualToString:kNoteContentTypePhoto])
+        media.image = [UIImage imageWithContentsOfFile:self.localFileURL];
+    NSLog(@"UploadContent: Returning media with ID: %d and type:%@",media.uid,media.type);
     return media;
 }
 
@@ -61,7 +70,11 @@
 
 - (int) getContentId
 {
-    return [[self unique_id] intValue];
+    return -1;
+}
+
+-(BOOL)isUploading{
+    return YES;
 }
 
 @end

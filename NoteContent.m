@@ -48,6 +48,10 @@
     return [self contentId];
 }
 
+-(BOOL)isUploading{
+    return NO;
+}
+
 - (void) dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 	[type release];

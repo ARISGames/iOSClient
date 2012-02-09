@@ -47,4 +47,6 @@
 -(IBAction)likeButtonTouch;
 -(void)backButtonTouch;
 -(void)movieThumbDidFinish:(NSNotification*) aNotification;
+-(void)addUploadsToNote;
+
 @end

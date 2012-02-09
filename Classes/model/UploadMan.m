@@ -7,7 +7,7 @@
 //
 
 #import "UploadMan.h"
-#import "AppModel.h"
+#import "AppServices.h"
 
 @implementation UploadMan
 @synthesize uploadContents;
@@ -15,14 +15,17 @@
 
 -(void)insertUploadContentIntoDictionary:(UploadContent *)uploadContent
 {
+    if(uploadContent.localFileURL !=nil){
     if(![self.uploadContents objectForKey:[uploadContent note_id]])
     {
-        NSMutableArray *contentForNote = [[NSMutableArray alloc] initWithObjects:uploadContent, nil];
+        NSMutableDictionary *contentForNote = [[NSMutableDictionary alloc] initWithCapacity:1];
+        [contentForNote setObject:uploadContent forKey:uploadContent.localFileURL];
         [uploadContents setObject:contentForNote forKey:[uploadContent note_id]]; 
     }
     else
     {
-        [(NSMutableArray *)[self.uploadContents objectForKey:[uploadContent note_id]] addObject:uploadContent];
+        [(NSMutableDictionary *)[self.uploadContents objectForKey:[uploadContent note_id]] setObject:uploadContent forKey:uploadContent.localFileURL];
+    }
     }
 }
 
@@ -36,9 +39,9 @@
     uploadContentCD.text = uploadContentCD.text;
     uploadContentCD.title = uploadContentCD.title;
     uploadContentCD.type = uploadContentCD.type;
-    uploadContentCD.fileURL = uploadContentCD.fileURL;
+    uploadContentCD.localFileURL = uploadContentCD.localFileURL;
     uploadContentCD.note_id = uploadContentCD.note_id;
-    uploadContentCD.unique_id = uploadContentCD.note_id;
+    //uploadContentCD.unique_id = uploadContentCD.note_id;
     uploadContentCD.attemptfailed = uploadContentCD.attemptfailed;
     
     if (![context save:&error]) {
@@ -63,20 +66,61 @@
     [fetchRequest release];
 }
 
-- (void) uploadContentForNote:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSString *)url
+- (void) uploadContentForNote:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSString *)aUrl
 {
-    UploadContent *uploadContent = [[UploadContent alloc] initForNote:noteId withTitle:title withText:text withType:type withFileURL:url hasAttemptedUpload:false andUniqueIdentifier:-1];
+    UploadContent *uploadContent = [[UploadContent alloc] initForNote:noteId withTitle:title withText:text withType:type withFileURL:aUrl hasAttemptedUpload:NO andUniqueIdentifier:-1 andContext:context];
     [self saveUploadContentToCD:uploadContent];
     [self insertUploadContentIntoDictionary:uploadContent];
     [uploadContent release];
+    
+    
+   /* NSString *fileName;
+    if([type isEqualToString:kNoteContentTypeAudio])
+        fileName = [NSString stringWithFormat:@"%@audio.caf",[NSDate date]];
+    else if([type isEqualToString:kNoteContentTypePhoto]){
+        fileName = @"image.jpg";
+    }
+    else if([type isEqualToString:kNoteContentTypeVideo]){
+        fileName = @"video.mp4";   
+    }
+    else fileName = nil;*/
+    
+    if(text)
+    {
+    [[AppServices sharedAppServices]addContentToNoteWithText:text type:type mediaId:0 andNoteId:noteId];
+    }
+    else
+    {
+        [[AppServices sharedAppServices]addContentToNoteFromFileData:[NSData dataWithContentsOfURL:[NSURL URLWithString:aUrl]] fileName:aUrl name:nil noteId:noteId type:type];
+    }
+    
 }
-
+- (void) deleteAllObjects: (NSString *) entityDescription  {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:entityDescription inManagedObjectContext:[AppModel sharedAppModel].managedObjectContext];
+    [fetchRequest setEntity:entity];
+    
+    NSError *error;
+    NSArray *items = [[AppModel sharedAppModel].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    [fetchRequest release];
+    
+    
+    for (NSManagedObject *managedObject in items) {
+        [[AppModel sharedAppModel].managedObjectContext deleteObject:managedObject];
+        NSLog(@"%@ object deleted",entityDescription);
+    }
+    if (![[AppModel sharedAppModel].managedObjectContext save:&error]) {
+        NSLog(@"Error deleting %@ - error:%@",entityDescription,error);
+    }
+    
+}
 - (id)init
 {
     self = [super init];
     if (self) {
         uploadContents = [[NSMutableDictionary alloc] initWithCapacity:5];
         context = [AppModel sharedAppModel].managedObjectContext;
+        //[self deleteAllObjects:@"UploadContent"];
         [self getSavedUploadContents];
     }
     return self;
