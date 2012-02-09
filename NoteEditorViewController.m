@@ -190,7 +190,9 @@
 }
 - (IBAction)backButtonTouchAction: (id) sender{
    
-    if(!self.noteValid) [[AppServices sharedAppServices]deleteNoteWithNoteId:self.note.noteId];
+    if(!self.noteValid){ [[AppServices sharedAppServices]deleteNoteWithNoteId:self.note.noteId];
+             [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.note.noteId]];   
+    }
     if([self.delegate isKindOfClass:[NoteDetailsViewController class]]){
         [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
         self.note.title = self.textField.text;
