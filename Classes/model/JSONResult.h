@@ -13,16 +13,18 @@
 	int returnCode;
 	NSString *returnCodeDescription;
 	NSObject *data;
+    NSDictionary *userInfo;
 	NSString *hash;
 }
 
 @property(readwrite) int returnCode;
 @property(copy, readwrite) NSString *returnCodeDescription;
 @property(copy, readwrite) NSObject *data;
+@property(copy, readwrite) NSDictionary *userInfo;
 @property(copy, readwrite) NSString *hash;
 
 
-- (JSONResult*)initWithJSONString:(NSString *)JSONString;
+- (JSONResult*)initWithJSONString:(NSString *)JSONString andUserData:(NSDictionary *)userData;
 - (NSObject*) parseJSONData:(NSObject *)dictionary;
 
 

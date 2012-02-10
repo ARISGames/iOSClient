@@ -19,18 +19,20 @@
 @synthesize serviceName;
 @synthesize methodName;
 @synthesize arguments;
+@synthesize userInfo;
 @synthesize completeRequestURL;
 
 - (JSONConnection*)initWithServer:(NSURL *)server
                    andServiceName:(NSString *)service 
                     andMethodName:(NSString *)method
                      andArguments:(NSArray *)args
-                      andUserData:(NSObject *)userData{
+                      andUserData:(NSDictionary *)userData{
 	
 	self.jsonServerURL = server;
 	self.serviceName = service;
 	self.methodName = method;	
-	self.arguments = args;	
+	self.arguments = args;
+	self.userInfo = userData;
 
 	//Compute the Arguments 
 	NSMutableString *requestParameters = [NSMutableString stringWithFormat:@"json.php/%@.%@.%@", kARISServerServicePackage, self.serviceName, self.methodName];	
@@ -45,13 +47,13 @@
 	self.completeRequestURL = [server URLByAppendingPathComponent:requestParameters];
 	NSLog(@"JSONConnection: complete URL is : %@", self.completeRequestURL);
 
-	
 	return self;
 }
 
 - (JSONResult*) performSynchronousRequest{
 	
 	ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:self.completeRequestURL];
+    [request setUserInfo:self.userInfo];
 	[request setNumberOfTimesToRetryOnTimeout: 2];
 
 	
@@ -86,6 +88,7 @@
 - (void) performAsynchronousRequestWithHandler: (SEL)parser{
 	
 	ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:self.completeRequestURL];
+    [request setUserInfo:self.userInfo];
 	[request setNumberOfTimesToRetryOnTimeout:2];
 	[request setDelegate:self];
 	[request setTimeOutSeconds:30];
@@ -100,7 +103,6 @@
 	
 	//Set up indicators
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-
 }
 
 
@@ -115,7 +117,7 @@
 												 encoding:NSUTF8StringEncoding];
 	
 	//Get the JSONResult here
-	JSONResult *jsonResult = [[JSONResult alloc] initWithJSONString:jsonString];
+	JSONResult *jsonResult = [[JSONResult alloc] initWithJSONString:jsonString andUserData:[request userInfo]];
 	[jsonString release];
 	
 	SEL parser = NSSelectorFromString([[request userInfo] objectForKey:@"parser"]);   
@@ -141,8 +143,6 @@
 	
 }
 
-
-
 - (void)dealloc {
 	[jsonServerURL release];
 	[serviceName release];
@@ -153,7 +153,4 @@
     [super dealloc];
 }
  
-
-
-
 @end

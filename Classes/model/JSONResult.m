@@ -15,11 +15,12 @@
 @synthesize returnCode;
 @synthesize returnCodeDescription;
 @synthesize data;
+@synthesize userInfo;
 @synthesize hash;
 
 
 
-- (JSONResult*)initWithJSONString:(NSString *)JSONString{
+- (JSONResult*)initWithJSONString:(NSString *)JSONString andUserData:(NSDictionary *)userData{
 	
 	//Calculate the hash
 	self.hash = JSONString;
@@ -60,6 +61,8 @@
 							message:NSLocalizedString(@"BadServerResponseMessageKey",@"")
 								details:[NSString stringWithFormat:@"JSONResult: Error Parsing String:\n\n%@]",JSONString]];
 	}
+    
+    self.userInfo = userData;
 		
 	return self;
 }

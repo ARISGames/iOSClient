@@ -15,6 +15,7 @@
 	NSString *serviceName;
 	NSString *methodName;
 	NSArray *arguments;
+    NSDictionary *userInfo;
 	NSMutableData *asyncData;
 	NSURL *completeRequestURL;
 }
@@ -23,6 +24,7 @@
 @property(nonatomic, retain) NSString *serviceName;
 @property(nonatomic, retain) NSString *methodName;
 @property(nonatomic, retain) NSArray *arguments;
+@property(nonatomic, retain) NSDictionary *userInfo;
 @property(nonatomic, retain) NSURL *completeRequestURL;
 
 
