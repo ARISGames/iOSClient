@@ -22,9 +22,10 @@
 @synthesize completeRequestURL;
 
 - (JSONConnection*)initWithServer:(NSURL *)server
-			   andServiceName:(NSString *)service 
-				andMethodName:(NSString *)method
-				 andArguments:(NSArray *)args{
+                   andServiceName:(NSString *)service 
+                    andMethodName:(NSString *)method
+                     andArguments:(NSArray *)args
+                      andUserData:(NSObject *)userData{
 	
 	self.jsonServerURL = server;
 	self.serviceName = service;
@@ -82,13 +83,13 @@
 	return jsonResult;
 }
 
-- (void) performAsynchronousRequestWithParser: (SEL)parser{
+- (void) performAsynchronousRequestWithHandler: (SEL)parser{
 	
 	ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:self.completeRequestURL];
 	[request setNumberOfTimesToRetryOnTimeout:2];
 	[request setDelegate:self];
 	[request setTimeOutSeconds:30];
-
+    
 
 	//Store the parser in the request
 	if (parser) [request setUserInfo:[NSDictionary dictionaryWithObject:NSStringFromSelector(parser) forKey:@"parser"]]; 

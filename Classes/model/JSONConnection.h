@@ -29,9 +29,10 @@
 - (JSONConnection*)initWithServer: (NSURL *)server
 					andServiceName:(NSString *)serviceName 
 					andMethodName:(NSString *)methodName
-					andArguments:(NSArray *)arguments;
+					andArguments:(NSArray *)arguments
+                      andUserData:(NSObject *)userData;
 
 - (JSONResult*) performSynchronousRequest;
-- (void) performAsynchronousRequestWithParser: (SEL)parser;
+- (void) performAsynchronousRequestWithHandler: (SEL)parser;
 
 @end
