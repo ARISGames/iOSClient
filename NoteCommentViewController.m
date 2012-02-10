@@ -42,7 +42,8 @@
     return self;
 }
 -(void)refreshViewFromModel{
-    self.parentNote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteId playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
+    [self addUploadsToComments];
+
     [self.commentTable reloadData];
 }
 
@@ -244,6 +245,7 @@
         
         if ([[[currNote contents] objectAtIndex:x] isUploading]) {
             cell.titleLabel.text = @"Uploading Media";
+            cell.userLabel.text = [AppModel sharedAppModel].userName;
         }
     }
     return cell;
@@ -358,11 +360,18 @@
         
         //self.parentNote = [[AppServices sharedAppServices]fetchNote:self.parentNote.noteId];
         [self.delegate setNote:parentNote];
+        if([AppModel sharedAppModel].isGameNoteList){
+            [[AppModel sharedAppModel].gameNoteList setObject:self.parentNote forKey:[NSNumber numberWithInt:self.parentNote.noteId]];
+        }
+        else{
+            [[AppModel sharedAppModel].playerNoteList setObject:self.parentNote forKey:[NSNumber numberWithInt:self.parentNote.noteId]];
+        }
+
         // [self addedText];
         self.commentValid = YES;
         [movieViews removeAllObjects];
         
-        [commentTable reloadData];
+        [self refreshViewFromModel];
     }
     
 }

@@ -15,9 +15,11 @@
     AVPlayer *soundPlayer;
     id timeObserver;
     int mediaId;
+    Media *media;
 }
 @property(nonatomic,retain)UIButton *playButton;
 @property(nonatomic,retain)UILabel *timeLabel;
+@property(nonatomic,retain)Media *media;
 @property(readwrite, retain) AVPlayer *soundPlayer;
 @property(readwrite,assign)int mediaId;
 - (id)initWithFrame:(CGRect)frame andMediaId:(int)mediaID;

@@ -11,8 +11,9 @@
 #import "AppModel.h"
 
 @implementation CustomAudioPlayer
-@synthesize timeLabel,playButton,soundPlayer,mediaId;
-- (id)initWithFrame:(CGRect)frame andMedia:(Media *)media{
+@synthesize timeLabel,playButton,soundPlayer,mediaId,media;
+- (id)initWithFrame:(CGRect)frame andMedia:(Media *)aMedia{
+    self.media = aMedia;
    return [self initWithFrame:frame andMediaId:media.uid];
 }
 
@@ -48,8 +49,9 @@
 
 }
 -(void)playButtonTouch{
-    Media *media = [[Media alloc] init];
-    media = [[AppModel sharedAppModel] mediaForMediaId:self.mediaId];
+    if(!self.media){
+    self.media = [[AppModel sharedAppModel] mediaForMediaId:self.mediaId];
+    }
     [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];	
     
     [[AVAudioSession sharedInstance] setActive: YES error: nil];
