@@ -578,7 +578,7 @@ NSString *const kARISServerServicePackage = @"v1";
 						  text,
 						  nil];
     
-    NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:noteId, @"noteId", fileURL, @"localURL", nil];
+    NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:noteId], @"noteId", fileURL, @"localURL", nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
                                                             andServiceName:@"notes" 
                                                              andMethodName:@"addContentToNote" 

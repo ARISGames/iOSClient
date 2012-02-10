@@ -79,7 +79,7 @@
 	NSString *jsonString = [[NSString alloc] initWithData:[request responseData] encoding:NSUTF8StringEncoding];
 	
 	//Get the JSONResult here
-	JSONResult *jsonResult = [[[JSONResult alloc] initWithJSONString:jsonString] autorelease];
+	JSONResult *jsonResult = [[[JSONResult alloc] initWithJSONString:jsonString andUserData:self.userInfo] autorelease];
 	[jsonString release];
 	
 	return jsonResult;
