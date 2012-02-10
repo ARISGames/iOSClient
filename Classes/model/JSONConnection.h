@@ -15,7 +15,8 @@
 	NSString *serviceName;
 	NSString *methodName;
 	NSArray *arguments;
-    NSDictionary *userInfo;
+    NSString *handler;
+    NSMutableDictionary *userInfo;
 	NSMutableData *asyncData;
 	NSURL *completeRequestURL;
 }
@@ -24,7 +25,8 @@
 @property(nonatomic, retain) NSString *serviceName;
 @property(nonatomic, retain) NSString *methodName;
 @property(nonatomic, retain) NSArray *arguments;
-@property(nonatomic, retain) NSDictionary *userInfo;
+@property(nonatomic, retain) NSString *handler;
+@property(nonatomic, retain) NSMutableDictionary *userInfo;
 @property(nonatomic, retain) NSURL *completeRequestURL;
 
 
@@ -32,9 +34,9 @@
 					andServiceName:(NSString *)serviceName 
 					andMethodName:(NSString *)methodName
 					andArguments:(NSArray *)arguments
-                      andUserData:(NSObject *)userData;
+                      andUserInfo:(NSMutableDictionary *)userInfo;
 
 - (JSONResult*) performSynchronousRequest;
-- (void) performAsynchronousRequestWithHandler: (SEL)parser;
+- (void) performAsynchronousRequestWithHandler: (SEL)handler;
 
 @end

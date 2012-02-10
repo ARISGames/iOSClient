@@ -19,6 +19,7 @@
 @synthesize serviceName;
 @synthesize methodName;
 @synthesize arguments;
+@synthesize handler;
 @synthesize userInfo;
 @synthesize completeRequestURL;
 
@@ -26,13 +27,13 @@
                    andServiceName:(NSString *)service 
                     andMethodName:(NSString *)method
                      andArguments:(NSArray *)args
-                      andUserData:(NSDictionary *)userData{
+                      andUserInfo:(NSMutableDictionary *)auserInfo{
 	
 	self.jsonServerURL = server;
 	self.serviceName = service;
 	self.methodName = method;	
 	self.arguments = args;
-	self.userInfo = userData;
+	self.userInfo = auserInfo;
 
 	//Compute the Arguments 
 	NSMutableString *requestParameters = [NSMutableString stringWithFormat:@"json.php/%@.%@.%@", kARISServerServicePackage, self.serviceName, self.methodName];	
@@ -53,7 +54,6 @@
 - (JSONResult*) performSynchronousRequest{
 	
 	ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:self.completeRequestURL];
-    [request setUserInfo:self.userInfo];
 	[request setNumberOfTimesToRetryOnTimeout: 2];
 
 	
@@ -85,21 +85,16 @@
 	return jsonResult;
 }
 
-- (void) performAsynchronousRequestWithHandler: (SEL)parser{
-	
+- (void) performAsynchronousRequestWithHandler: (SEL)ahandler{
 	ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:self.completeRequestURL];
-    [request setUserInfo:self.userInfo];
+    if (ahandler) self.handler = NSStringFromSelector(ahandler);
 	[request setNumberOfTimesToRetryOnTimeout:2];
 	[request setDelegate:self];
 	[request setTimeOutSeconds:30];
-    
 
-	//Store the parser in the request
-	if (parser) [request setUserInfo:[NSDictionary dictionaryWithObject:NSStringFromSelector(parser) forKey:@"parser"]]; 
 	[self retain];
 	
 	[request startAsynchronous];
-	
 	
 	//Set up indicators
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -117,10 +112,10 @@
 												 encoding:NSUTF8StringEncoding];
 	
 	//Get the JSONResult here
-	JSONResult *jsonResult = [[JSONResult alloc] initWithJSONString:jsonString andUserData:[request userInfo]];
+	JSONResult *jsonResult = [[JSONResult alloc] initWithJSONString:jsonString andUserData:[self userInfo]];
 	[jsonString release];
 	
-	SEL parser = NSSelectorFromString([[request userInfo] objectForKey:@"parser"]);   
+	SEL parser = NSSelectorFromString(self.handler);   
 
 	if (parser) {
 		[[AppServices sharedAppServices] performSelector:parser withObject:jsonResult];
