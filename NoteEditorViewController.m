@@ -201,6 +201,7 @@
         [self.delegate setNote:self.note];
     }
     self.note.title = self.textField.text;
+        if(([note.title length] == 0)) note.title = @"New Note";
     [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   
     }
     [self.navigationController popViewControllerAnimated:YES];
@@ -234,9 +235,13 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [self.textField resignFirstResponder];
     self.noteValid = YES;
-    [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
+    
     self.note.title = self.textField.text;
+    if([note.title length] == 0) note.title = @"New Note";
+
+    [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.note.title publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
     //[self.delegate refresh];
+    [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];  
 
     return YES;
 }
