@@ -559,7 +559,13 @@ NSString *const kARISServerServicePackage = @"v1";
 	return [jsonResult.data intValue];
 }
 
--(void) addContentToNoteWithText:(NSString *)text type:(NSString *) type mediaId:(int) mediaId andNoteId:(int)noteId{
+-(void) contentAddedToNoteWithText:(JSONResult *)result
+{
+    [[AppModel sharedAppModel].uploadManager deleteContentFromNote:[result.userInfo objectForKey:@"noteId"] andFileURL:[result.userInfo objectForKey:@"localUrl"]];
+    [self fetchPlayerNoteListAsync];
+}
+
+-(void) addContentToNoteWithText:(NSString *)text type:(NSString *) type mediaId:(int) mediaId andNoteId:(int)noteId andFileURL:(NSString *)fileURL{
     NSLog(@"AppModel: Adding Text Content To Note: %d",noteId);
 	
 	//Call server service
@@ -571,12 +577,14 @@ NSString *const kARISServerServicePackage = @"v1";
                           type,
 						  text,
 						  nil];
+    
+    NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:noteId, @"noteId", fileURL, @"localURL", nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
                                                             andServiceName:@"notes" 
                                                              andMethodName:@"addContentToNote" 
                                                               andArguments:arguments 
-                                                               andUserData:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchPlayerNoteListAsync)]; 
+                                                               andUserData:userInfo];
+	[jsonConnection performAsynchronousRequestWithHandler:@selector(contentAddedToNoteWithText)]; 
 	[jsonConnection release];
 }
 

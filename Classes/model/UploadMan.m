@@ -142,7 +142,7 @@
     
     if(text)
     {
-    [[AppServices sharedAppServices]addContentToNoteWithText:text type:type mediaId:0 andNoteId:[noteId intValue]];
+    [[AppServices sharedAppServices]addContentToNoteWithText:text type:type mediaId:0 andNoteId:[noteId intValue] andFileURL:aUrl];
     }
     else
     {
