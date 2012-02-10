@@ -86,8 +86,24 @@
     self.audioIconUsed = NO;
     if(self.textBox.frame.origin.y == 0)
         [self.textBox becomeFirstResponder];
+    [self addUploadsToComments];
     [self.commentTable reloadData];
     
+}
+-(void)addUploadsToComments{
+    self.parentNote = [[AppModel sharedAppModel] noteForNoteId: self.parentNote.noteId playerListYesGameListNo:YES];
+    for(int i = 0; i < [self.parentNote.comments count];i++){
+    Note *currNote = [self.parentNote.comments objectAtIndex:i];
+    for(int x = [currNote.contents count]-1; x >= 0; x--){
+        if([[currNote.contents objectAtIndex:x] isUploading])
+            [currNote.contents removeObjectAtIndex:x];
+    }
+    
+    NSMutableDictionary *uploads = [AppModel sharedAppModel].uploadManager.uploadContents;
+    NSArray *uploadContentForNote = [[uploads objectForKey:[NSNumber numberWithInt:currNote.noteId]]allValues];
+    [currNote.contents addObjectsFromArray:uploadContentForNote];
+    NSLog(@"Added upload content to note");
+    }
 }
 
 -(void)addPhotoButtonTouchAction{
@@ -176,31 +192,6 @@
     [cell.userLabel setFrame:CGRectMake(cell.userLabel.frame.origin.x, height-cell.userLabel.frame.size.height-5, cell.userLabel.frame.size.width, cell.userLabel.frame.size.height)];
     for(int x = 0; x < [currNote.contents count];x++){
         
-        if([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:@"UPLOAD"]){
-            UITableViewCell *tempCell = (UploadingCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-            if (![tempCell respondsToSelector:@selector(progressBar)]){
-                //[tempCell release];
-                tempCell = nil;
-            }
-            cell = nil;
-            UploadingCell *cell = (UploadingCell *)tempCell;
-            
-            
-            if (cell == nil) {
-                // Create a temporary UIViewController to instantiate the custom cell.
-                UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"UploadingCell" bundle:nil];
-                // Grab a pointer to the custom cell.
-                cell = (UploadingCell *)temporaryController.view;
-                // Release the temporary UIViewController.
-                [temporaryController release];
-            }
-            [AppModel sharedAppModel].progressBar = cell.progressBar;
-            
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.userInteractionEnabled = NO;
-            
-            return  cell;
-        }
         
         if([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeText]){
             //Dont show icon for text since it is assumed to always be there
@@ -251,6 +242,9 @@
             [player release];
         }
         
+        if ([[[currNote contents] objectAtIndex:x] isUploading]) {
+            cell.titleLabel.text = @"Uploading Media";
+        }
     }
     return cell;
 }

@@ -71,4 +71,5 @@
 - (int) calculateTextHeight:(NSString *)text;
 -(void)refreshViewFromModel;
 -(void)movieThumbDidFinish:(NSNotification*) aNotification;
+-(void)addUploadsToComments;
 @end
