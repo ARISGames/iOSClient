@@ -501,7 +501,8 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
         cell.index = indexPath.row;
         cell.delegate = self;
         cell.contentId = noteC.getContentId;
-        
+    cell.content = noteC;
+    [cell checkForRetry];
         if([noteC.getTitle length] >23)noteC.title = [noteC.getTitle substringToIndex:23];
         cell.titleLbl.text = noteC.getTitle;
         
@@ -532,8 +533,9 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
             [aView release];
         }
 
-        if(noteC.isUploading)
+    if(noteC.isUploading){
             cell.titleLbl.text = @"Your media is uploading";
+          }
         else
             cell.titleLbl.text = noteC.getTitle;
         return  cell;
@@ -543,7 +545,9 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     [reloadArr release];
     return [[UITableViewCell alloc]autorelease];
 }
-
+-(void)retryUpload:(id)sender{
+    
+}
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     //Color the backgrounds

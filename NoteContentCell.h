@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NoteContent.h"
 @interface NoteContentCell : UITableViewCell<UITextViewDelegate>{
     IBOutlet UITextView *titleLbl;
     IBOutlet UILabel *detailLbl;
@@ -15,6 +16,8 @@
     int contentId;
     int index;
     id delegate;
+    NoteContent<NoteContentProtocol>*content;
+   IBOutlet UIButton *retryButton;
 }
 @property(readwrite, assign)int contentId;
 @property(nonatomic,retain)UITextView *titleLbl;
@@ -23,4 +26,8 @@
 @property(nonatomic,retain)UIImageView *imageView;
 @property(readwrite,assign)int index;
 @property(readwrite,assign)id delegate;
+@property(nonatomic, retain)NoteContent<NoteContentProtocol>*content;
+@property(nonatomic,retain)IBOutlet UIButton *retryButton;
+-(void)checkForRetry;
+-(IBAction)retryUpload;
 @end

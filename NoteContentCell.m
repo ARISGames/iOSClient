@@ -9,9 +9,10 @@
 #import "NoteContentCell.h"
 #import "AppServices.h"
 #import "NoteEditorViewController.h"
+#import "AppModel.h"
 
 @implementation NoteContentCell
-@synthesize titleLbl,detailLbl,imageView,holdLbl,contentId,index,delegate;
+@synthesize titleLbl,detailLbl,imageView,holdLbl,contentId,index,delegate,content,retryButton;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -34,6 +35,19 @@
     [gesture release];
     [self.titleLbl setUserInteractionEnabled:NO];
     
+}
+-(void)checkForRetry{
+    if (self.content.isUploading) {
+        if([(UploadContent *)self.content attemptfailed]){
+            retryButton.hidden = NO;
+        }
+        else retryButton.hidden = YES;
+    }
+    else retryButton.hidden = YES;
+}
+-(void)retryUpload{
+    [[AppModel sharedAppModel].uploadManager deleteContentFromNote:[NSNumber numberWithInt:self.content.getNoteId] andFileURL:self.content.getMedia.url];
+    [[AppModel sharedAppModel].uploadManager uploadContentForNote:[NSNumber numberWithInt:self.content.getNoteId] withTitle:self.content.getTitle withText:self.content.getText withType:self.content.getType withFileURL:self.content.getMedia.url];
 }
 -(void)textViewDidEndEditing:(UITextView *)textView{
     //[textView resignFirstResponder];
