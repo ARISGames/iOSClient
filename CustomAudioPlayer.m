@@ -65,8 +65,7 @@
         playButton.selected = NO;
     }
     else{
-        NSURL *url =  [NSURL URLWithString:media.url];
-        [self.soundPlayer initWithURL:url]; 
+        [self.soundPlayer initWithURL:media.url]; 
         [self.soundPlayer play];
         playButton.selected = YES;
 

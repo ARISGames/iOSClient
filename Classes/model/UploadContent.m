@@ -13,19 +13,19 @@
 
 @dynamic title;
 @dynamic text;
-@dynamic localFileURL;
 @dynamic type;
+@dynamic localFileURL;
 @dynamic note_id;
 @dynamic attemptfailed;
 
-- (id) initForNote:(NSNumber *)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSString *)aUrl hasAttemptedUpload:(BOOL)attemptFailed andContext:(NSManagedObjectContext *)context
+- (id) initForNote:(NSNumber *)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSURL *)aUrl hasAttemptedUpload:(BOOL)attemptFailed andContext:(NSManagedObjectContext *)context
 {
     self = [super initWithEntity:[NSEntityDescription entityForName:@"UploadContent" inManagedObjectContext:context] insertIntoManagedObjectContext:context];
     if(self){
     self.title = title;
     self.text = text;
     self.type = type;
-    self.localFileURL = aUrl;
+    self.localFileURL = [aUrl relativePath];
     self.attemptfailed = [NSNumber numberWithBool:attemptFailed];
     self.note_id = noteId;
     }
@@ -63,7 +63,7 @@
     else{
         mediaType = @"Text";
     }
-    media = [[Media alloc]initWithId:[self.localFileURL hash] andUrlString:self.localFileURL ofType:mediaType];
+    media = [[Media alloc]initWithId:[self.localFileURL hash] andUrl:[NSURL URLWithString: self.localFileURL] ofType:mediaType];
     if([self.type isEqualToString:kNoteContentTypePhoto]){
         
         NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.localFileURL]];
@@ -83,6 +83,10 @@
 - (int) getNoteId
 {
     return [[self note_id] intValue];
+}
+
+- (NSURL*) getLocalFileURL {
+    return [NSURL URLWithString:self.localFileURL];
 }
 
 - (int) getContentId

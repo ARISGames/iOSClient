@@ -108,7 +108,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
         NSLog(@"NodeVC: This is an A/V Plaque");
                 
         //Create movie player object
-        mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+        mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:media.url];
         [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
         mMoviePlayer.moviePlayer.shouldAutoplay = NO;
         [mMoviePlayer.moviePlayer prepareToPlay];

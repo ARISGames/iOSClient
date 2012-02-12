@@ -565,7 +565,7 @@ NSString *const kARISServerServicePackage = @"v1";
     [self fetchPlayerNoteListAsync];
 }
 
--(void) addContentToNoteWithText:(NSString *)text type:(NSString *) type mediaId:(int) mediaId andNoteId:(int)noteId andFileURL:(NSString *)fileURL{
+-(void) addContentToNoteWithText:(NSString *)text type:(NSString *) type mediaId:(int) mediaId andNoteId:(int)noteId andFileURL:(NSURL *)fileURL{
     NSLog(@"AppModel: Adding Text Content To Note: %d",noteId);
 	
 	//Call server service
@@ -588,6 +588,8 @@ NSString *const kARISServerServicePackage = @"v1";
 	[jsonConnection release];
 }
 
+
+
 -(void)deleteNoteContentWithContentId:(int)contentId{
     if(contentId != -1){
     NSLog(@"AppModel: Deleting Content From Note with contentId: %d",contentId);
@@ -606,6 +608,9 @@ NSString *const kARISServerServicePackage = @"v1";
     }
 
 }
+
+
+
 -(void)deleteNoteLocationWithNoteId:(int)noteId{
     NSLog(@"AppModel: Deleting Location of Note: %d",noteId);
 	
@@ -624,6 +629,9 @@ NSString *const kARISServerServicePackage = @"v1";
 	[jsonConnection release];
 	
 }
+
+
+
 -(void)deleteNoteWithNoteId:(int)noteId{
     if(noteId != 0){
     NSLog(@"AppModel: Deleting Note: %d",noteId);
@@ -646,24 +654,39 @@ NSString *const kARISServerServicePackage = @"v1";
 
 }
 
+
+
+
 -(void)sendNotificationToNoteViewer{
             [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewContentListReady" object:nil]];
 }
+
+
+
+
 -(void)sendNotificationToNotebookViewer{
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NoteDeleted" object:nil]];
 }
--(void) addContentToNoteFromFileData:(NSData *)fileData fileName:(NSString *)fileName 
-                                name:(NSString *)name noteId:(int) noteId type: (NSString *)type{
+
+
+
+
+
+-(void) uploadContentToNoteWithFileURL:(NSURL *)fileURL name:(NSString *)name noteId:(int) noteId type: (NSString *)type{
     NSURL *url = [[AppModel sharedAppModel].serverURL URLByAppendingPathComponent:[NSString stringWithFormat: @"services/%@/uploadHandler.php",kARISServerServicePackage]];
 	ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
 	request.timeOutSeconds = 300;
 	
  	[request setPostValue:[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].currentGame.gameId] forKey:@"gameID"];
-	[request setPostValue:fileName forKey:@"fileName"];
-	[request setData:fileData forKey:@"file"];
+    [request setFile:[fileURL relativePath] forKey:@"file"];
+    //[request setFile:localUrl withFileName:localUrl andContentType:@"audio/caf" forKey:@"file"];
+    
+
+    //[urlAsString release];
 	[request setDidFinishSelector:@selector(uploadNoteContentRequestFinished: )];
 	[request setDidFailSelector:@selector(uploadNoteRequestFailed:)];
 	[request setDelegate:self];
+
     
     NSNumber *nId = [[NSNumber alloc]initWithInt:noteId];
     //NSNumber *contentCount = [[NSNumber alloc]initWithInt:([[(Note *)[[AppModel sharedAppModel].playerNoteList objectForKey:[NSNumber numberWithInt:noteId]] contents] count]-1)];
@@ -672,10 +695,10 @@ NSString *const kARISServerServicePackage = @"v1";
     [userInfo setValue:name forKey:@"title"];
     [userInfo setValue:nId forKey:@"noteId"];
     [userInfo setValue:type forKey: @"type"];
-    [userInfo setValue:fileName forKey:@"url"];
+    [userInfo setValue:fileURL forKey:@"url"];
 	[request setUserInfo:userInfo];
 	
-	NSLog(@"Model: Uploading File. gameID:%d fileName:%@ title:%@ noteId:%d",[AppModel sharedAppModel].currentGame.gameId,fileName,name,noteId);
+	NSLog(@"Model: Uploading File. gameID:%d title:%@ noteId:%d",[AppModel sharedAppModel].currentGame.gameId,name,noteId);
 	
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	//[appDelegate showNewWaitingIndicator:@"Uploading" displayProgressBar:YES];
@@ -706,7 +729,7 @@ NSString *const kARISServerServicePackage = @"v1";
     NSString *type = [[request userInfo] objectForKey:@"type"];
     NSString *newFileName = [request responseString];
     
-    NSString *localUrl = [[request userInfo] objectForKey:@"url"];
+    NSURL *localUrl = [[request userInfo] objectForKey:@"url"];
     [[AppModel sharedAppModel].uploadManager deleteContentFromNote:nId andFileURL:localUrl];
     
     
@@ -2056,10 +2079,12 @@ NSString *const kARISServerServicePackage = @"v1";
     if ((NSNull *)numPlayers != [NSNull null]) game.numPlayers = [numPlayers intValue];
     else game.numPlayers = 0;
     
-    game.iconMediaUrl = [gameSource valueForKey:@"icon_media_url"];
-    
-    game.mediaUrl = [gameSource valueForKey:@"media_url"];	
-    
+    NSString *iconMediaUrl = [gameSource valueForKey:@"icon_media_url"];
+    if ((NSNull *)iconMediaUrl != [NSNull null] && [iconMediaUrl length]>0) game.iconMediaUrl = [NSURL URLWithString:iconMediaUrl];
+     
+    NSString *mediaUrl = [gameSource valueForKey:@"media_url"];
+    if ((NSNull *)mediaUrl != [NSNull null] && [iconMediaUrl length]>0) game.mediaUrl = [NSURL URLWithString:mediaUrl];
+        
     NSString *completedQuests = [gameSource valueForKey:@"completedQuests"];	
     if ((NSNull *)completedQuests != [NSNull null]) game.completedQuests = [completedQuests intValue];
     else game.completedQuests = 0;
@@ -2285,7 +2310,7 @@ NSString *const kARISServerServicePackage = @"v1";
 		NSString *fullUrl = [NSString stringWithFormat:@"%@%@", urlPath, fileName];
 		NSLog(@"AppModel fetchGameMediaList: Full URL: %@", fullUrl);
 		
-		Media *media = [[Media alloc] initWithId:uid andUrlString:fullUrl ofType:type];
+		Media *media = [[Media alloc] initWithId:uid andUrl:[NSURL URLWithString: fullUrl] ofType:type];
 		[tempMediaList setObject:media forKey:[NSNumber numberWithInt:uid]];
 		[media release];
 	}

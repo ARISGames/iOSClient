@@ -57,6 +57,7 @@ typedef enum {
 - (IBAction) uploadButtonAction: (id) sender;
 - (IBAction) discardButtonAction: (id) sender;
 - (void) updateButtonsForCurrentMode;
+- (NSString *)getUniqueId;
 
 
 

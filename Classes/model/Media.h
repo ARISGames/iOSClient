@@ -13,7 +13,7 @@ extern NSString *const kMediaTypeAudio;
 
 @interface Media : NSObject {
 	NSInteger	uid;
-	NSString	*url;
+	NSURL	*url;
 	NSString	*type;
 	
 	//Image Specific Vars
@@ -21,11 +21,11 @@ extern NSString *const kMediaTypeAudio;
 }
 
 @property(readonly) NSInteger	uid;
-@property(readonly)	NSString	*url;
+@property(readonly)	NSURL	*url;
 @property(nonatomic, retain) NSString	*type;
 @property(nonatomic, retain) UIImage	*image;
 
 
-- (id) initWithId:(NSInteger)anId andUrlString:(NSString *)aUrl ofType:(NSString *)aType;
+- (id) initWithId:(NSInteger)anId andUrl:(NSURL *)aUrl ofType:(NSString *)aType;
 
 @end

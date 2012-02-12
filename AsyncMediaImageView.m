@@ -54,9 +54,9 @@
                 
                 //Create movie player object
                 if(!self.mMoviePlayer){
-                    self.mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+                    self.mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:media.url];
                 }
-                else [self.mMoviePlayer initWithContentURL:[NSURL URLWithString:media.url]];
+                else [self.mMoviePlayer initWithContentURL:media.url];
             
                 self.mMoviePlayer.moviePlayer.shouldAutoplay = NO;
                 [self.mMoviePlayer.moviePlayer requestThumbnailImagesAtTimes:timeArray timeOption:MPMovieTimeOptionNearestKeyFrame];
@@ -142,7 +142,7 @@
 	}
 
     if (!self.media.url) {
-        NSLog(@"AsyncImageView: loadImageFromMedia with null url! ImageId:%@", self.media.uid);
+        NSLog(@"AsyncImageView: loadImageFromMedia with null url!");
         return;
     }
 	
@@ -162,7 +162,7 @@
 	if (connection!=nil) { [connection release]; }
     //if (data!=nil) { [self.data release]; }
 	NSLog(@"AsyncImageView: Loading Image at %@",self.media.url);
-    NSURLRequest *request = [NSURLRequest requestWithURL:[[NSURL alloc]initWithString:self.media.url]
+    NSURLRequest *request = [NSURLRequest requestWithURL:self.media.url
 											 cachePolicy:NSURLRequestUseProtocolCachePolicy
 										 timeoutInterval:60.0];
     self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];

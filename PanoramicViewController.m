@@ -232,7 +232,7 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
 	
 		
 	if (connection!=nil) { [connection release]; }
-    NSURLRequest* request = [NSURLRequest requestWithURL:[[NSURL alloc]initWithString:aMedia.url]
+    NSURLRequest* request = [NSURLRequest requestWithURL:aMedia.url
 											 cachePolicy:NSURLRequestUseProtocolCachePolicy
 										 timeoutInterval:60.0];
     self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];

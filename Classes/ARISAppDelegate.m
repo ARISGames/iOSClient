@@ -949,8 +949,7 @@ BOOL isShowingNotification;
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
     NSLog(@"AppDelegate: LOW MEMORY WARNING RECIEVED");
-    
-    [[AppServices sharedAppServices]fetchGameMediaListAsynchronously:YES];
+
    /* 
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Low Memory Warning"
                                                     message:@"The device you are using does not currently have enough free memory to reliably run ARIS. Please close out of some of the other running programs and restart ARIS"

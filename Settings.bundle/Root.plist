@@ -16,7 +16,7 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string>http://arisgames.org/qaserver</string>
+			<string>http://arisgames.org/devserver</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>Key</key>

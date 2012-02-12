@@ -315,7 +315,7 @@ NSString *const kDialogHtmlTemplate =
             media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.videoId];
             
             //Create movie player object
-            ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+            ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:media.url];
             [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
             mMoviePlayer.moviePlayer.shouldAutoplay = NO;
             [mMoviePlayer.moviePlayer prepareToPlay];		

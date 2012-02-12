@@ -40,6 +40,13 @@
  */
 
 
+- (NSString *)getUniqueId
+{
+    CFUUIDRef theUUID = CFUUIDCreate(NULL);
+    CFStringRef string = CFUUIDCreateString(NULL, theUUID);
+    CFRelease(theUUID);
+    return [(NSString *)string autorelease];
+}
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
@@ -52,7 +59,7 @@
 	
 
 	NSString *tempDir = NSTemporaryDirectory ();
-    NSString *soundFilePath =[tempDir stringByAppendingString: [NSString stringWithFormat:@"%@sound.caf",[NSDate date]]];
+    NSString *soundFilePath =[tempDir stringByAppendingString: [NSString stringWithFormat:@"%@.caf",[self getUniqueId]]];
 	
     if(!previewMode){
     NSURL *newURL = [[NSURL alloc] initFileURLWithPath: soundFilePath];
@@ -240,27 +247,14 @@
    
     if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]) {
         [self.parentDelegate addedAudio];
-       /* NoteContent *content = [[NoteContent alloc]init];
-        content.type = @"UPLOAD";
-    
-        Note *commentNote = [[AppModel sharedAppModel]noteForNoteId:[[self.parentDelegate commentNote] noteId] playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
-
-        [[commentNote contents]addObject:content];
-        
-        [content release];*/
 
     }
     if([self.delegate isKindOfClass:[NoteEditorViewController class]]) {
         [self.delegate setNoteValid:YES];
         [self.delegate setNoteChanged:YES];
-       // NoteContent *content = [[NoteContent alloc]init];
-        //content.type = @"UPLOAD";
-        //[[[self.delegate note] contents]addObject:content];
-        //[content release];
-
     }
     
-    [[[AppModel sharedAppModel]uploadManager] uploadContentForNote:[NSNumber numberWithInt:self.noteId] withTitle:nil withText:nil withType:kNoteContentTypeAudio withFileURL:[self.soundFileURL absoluteString]];
+    [[[AppModel sharedAppModel]uploadManager] uploadContentForNote:[NSNumber numberWithInt:self.noteId] withTitle:nil withText:nil withType:kNoteContentTypeAudio withFileURL:self.soundFileURL];
     
     [self.navigationController popViewControllerAnimated:YES];
 

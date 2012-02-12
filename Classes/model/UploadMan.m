@@ -121,24 +121,12 @@
 
 #pragma mark Header Implementations
 
-- (void) uploadContentForNote:(NSNumber *)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSString *)aUrl
+- (void) uploadContentForNote:(NSNumber *)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSURL *)aUrl
 {
     UploadContent *uploadContent = [[UploadContent alloc] initForNote:noteId withTitle:title withText:text withType:type withFileURL:aUrl hasAttemptedUpload:NO andContext:context];
     [self saveUploadContentToCD:uploadContent];
     [self insertUploadContentIntoDictionary:uploadContent];
     [uploadContent release];
-    
-    
-   /* NSString *fileName;
-    if([type isEqualToString:kNoteContentTypeAudio])
-        fileName = [NSString stringWithFormat:@"%@audio.caf",[NSDate date]];
-    else if([type isEqualToString:kNoteContentTypePhoto]){
-        fileName = @"image.jpg";
-    }
-    else if([type isEqualToString:kNoteContentTypeVideo]){
-        fileName = @"video.mp4";   
-    }
-    else fileName = nil;*/
     
     if(text)
     {
@@ -146,7 +134,7 @@
     }
     else
     {
-        [[AppServices sharedAppServices]addContentToNoteFromFileData:[NSData dataWithContentsOfURL:[NSURL URLWithString:aUrl]] fileName:aUrl name:nil noteId:[noteId intValue] type:type];
+        [[AppServices sharedAppServices]uploadContentToNoteWithFileURL:aUrl name:nil noteId:[noteId intValue] type:type];       
     }
     
 }

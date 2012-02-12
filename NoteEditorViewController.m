@@ -619,8 +619,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
             [tableView cellForRowAtIndexPath:indexPath].selected = NO;
         }
         else{
-            NSURL *url =  [NSURL URLWithString:noteC.getMedia.url];
-            [self.soundPlayer initWithURL:url]; 
+            [self.soundPlayer initWithURL:noteC.getMedia.url]; 
             [self.soundPlayer play];
         }
 
@@ -640,7 +639,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     }
     else if([noteC.getType isEqualToString:kNoteContentTypeVideo]){
         //Create movie player object
-        ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:noteC.getMedia.url]];
+        ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:noteC.getMedia.url];
         mMoviePlayer.moviePlayer.shouldAutoplay = YES;
         [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
     }

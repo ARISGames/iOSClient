@@ -34,9 +34,9 @@ BOOL isLoading;
         
         //Create movie player object
         if(!mMoviePlayer){
-            mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+            mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:media.url];
         }
-        else [mMoviePlayer initWithContentURL:[NSURL URLWithString:media.url]];
+        else [mMoviePlayer initWithContentURL:media.url];
         
         mMoviePlayer.moviePlayer.shouldAutoplay = NO;
         [mMoviePlayer.moviePlayer prepareToPlay];

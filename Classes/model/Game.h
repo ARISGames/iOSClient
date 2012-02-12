@@ -27,8 +27,8 @@
 	int numPlayers;
 	int pcMediaId;
 	int iconMediaId;
-    NSString *iconMediaUrl;
-    NSString *mediaUrl;
+    NSURL *iconMediaUrl;
+    NSURL *mediaUrl;
 	int launchNodeId;
 	int completeNodeId;
 	int completedQuests;
@@ -53,8 +53,8 @@
 @property(readwrite, assign) double distanceFromPlayer;
 @property(nonatomic, retain) CLLocation *location;
 @property(readwrite, assign) int pcMediaId;
-@property(nonatomic, retain) NSString *iconMediaUrl;
-@property(nonatomic, retain) NSString *mediaUrl;
+@property(nonatomic, retain) NSURL *iconMediaUrl;
+@property(nonatomic, retain) NSURL *mediaUrl;
 @property(readwrite, assign) int numPlayers;
 @property(readwrite, assign) int launchNodeId;
 @property(readwrite, assign) int completeNodeId;

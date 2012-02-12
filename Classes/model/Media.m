@@ -15,7 +15,7 @@ NSString *const kMediaTypeAudio = @"Audio";
 @implementation Media
 @synthesize uid, url, type, image;
 
-- (id) initWithId:(NSInteger)anId andUrlString:(NSString *)aUrl ofType:(NSString *)aType {
+- (id) initWithId:(NSInteger)anId andUrl:(NSURL *)aUrl ofType:(NSString *)aType {
 	//assert(anId > 0 && @"Non-natural ID.");
 	//assert(aUrl && [aUrl length] > 0 && @"Empty url string.");
 	//assert(aType && [aType length] > 0 && "@Empty type.");
@@ -28,6 +28,15 @@ NSString *const kMediaTypeAudio = @"Audio";
 	
 	return self;
 }
+
+- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
+    if (self.image) {
+        NSLog(@"Media: Low Memory Warning - Throwing out Cached Media");
+        [self.image release];
+        self.image = nil;
+    }
+}
+
 
 - (void)dealloc {
 	[url release];
