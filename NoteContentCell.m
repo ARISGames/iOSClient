@@ -41,10 +41,21 @@
 
         if([(UploadContent *)self.content attemptFailed]){
             retryButton.hidden = NO;
+            [self.titleLbl setFrame:CGRectMake(65, 4, 147, 30)];
         }
-        else retryButton.hidden = YES;
+        else {
+            
+            retryButton.hidden = YES;
+            [self.titleLbl setFrame:CGRectMake(65, 4, 235, 30)];
+
+        }
     }
-    else retryButton.hidden = YES;
+    else {
+        
+        retryButton.hidden = YES;
+        [self.titleLbl setFrame:CGRectMake(65, 4, 235, 30)];
+
+    }
 }
 -(void)retryUpload{
     [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:self.content.getNoteId andFileURL:self.content.getMedia.url];
@@ -68,7 +79,7 @@
         
         return NO;
     }
-    if([textView.text length] > 23) textView.text = [textView.text substringToIndex:23];
+    if([textView.text length] > 24) textView.text = [textView.text substringToIndex:24];
     return YES;
 }
 -(void)holdTextBox:(UIPanGestureRecognizer *) gestureRecognizer{

@@ -503,7 +503,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
         cell.contentId = noteC.getContentId;
     cell.content = noteC;
     [cell checkForRetry];
-        if([noteC.getTitle length] >23)noteC.title = [noteC.getTitle substringToIndex:23];
+        if([noteC.getTitle length] >24)noteC.title = [noteC.getTitle substringToIndex:24];
         cell.titleLbl.text = noteC.getTitle;
         
         if([[[self.note.contents objectAtIndex:indexPath.row] getType] isEqualToString:kNoteContentTypeText]){
