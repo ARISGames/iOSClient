@@ -410,7 +410,7 @@
     [[AppServices sharedAppServices]deleteNoteContentWithContentId:[[self.note.contents objectAtIndex:indexPath.row] getContentId]];
     }
     else{
-            [[AppModel sharedAppModel].uploadManager deleteContentFromNote:[NSNumber numberWithInt:self.note.noteId] andFileURL:[[[self.note.contents objectAtIndex:indexPath.row]getMedia] url]];
+            [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:self.note.noteId andFileURL:[[[self.note.contents objectAtIndex:indexPath.row]getMedia] url]];
 
     }
     [self.note.contents removeObjectAtIndex:indexPath.row];
@@ -444,7 +444,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     NSMutableDictionary *uploads = [AppModel sharedAppModel].uploadManager.uploadContents;
     NSArray *uploadContentForNote = [[uploads objectForKey:[NSNumber numberWithInt:self.note.noteId]]allValues];
     [self.note.contents addObjectsFromArray:uploadContentForNote];
-    NSLog(@"Added upload content to note");
+    NSLog(@"NoteEditorVC: Added %d upload content(s) to note",[uploadContentForNote count]);
 
 }
 #pragma mark Table view methods

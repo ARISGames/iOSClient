@@ -25,7 +25,6 @@
 #import "ARISAppDelegate.h"
 #import "Comment.h"
 #import "Note.h"
-#import "NoteMedia.h"
 #import "NoteContent.h"
 #import <MapKit/MapKit.h>
 #import "Tag.h"

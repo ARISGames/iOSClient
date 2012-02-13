@@ -14,24 +14,86 @@
 @dynamic title;
 @dynamic text;
 @dynamic type;
-@dynamic localFileURL;
-@dynamic note_id;
-@dynamic attemptfailed;
+@dynamic fileURL;
+@dynamic noteId;
+@dynamic attemptFailed;
 
-- (id) initForNote:(NSNumber *)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSURL *)aUrl hasAttemptedUpload:(BOOL)attemptFailed andContext:(NSManagedObjectContext *)context
+/*
+Through we provide a public NSURL interface, the underlying persistant store
+is an NSString.
+*/
+- (NSURL *)fileURL 
+{
+    NSString * tmpValue;
+    [self willAccessValueForKey:@"fileURL"];
+    tmpValue = [self primitiveFileURL];
+    [self didAccessValueForKey:@"fileURL"];
+    return [NSURL URLWithString: tmpValue];
+}
+
+- (void)setFileURL:(NSURL *)value 
+{
+    [self willChangeValueForKey:@"fileURL"];
+    [self setPrimitiveFileURL:[value relativePath]];
+    [self didChangeValueForKey:@"fileURL"];
+}
+ 
+/*
+ Through we provide a public int interface, the underlying persistant store
+ is an NSNumber.
+*/
+- (int)noteId 
+{
+    NSNumber * tmpValue;
+    [self willAccessValueForKey:@"noteId"];
+    tmpValue = [self primitiveNoteId];
+    [self didAccessValueForKey:@"noteId"];
+    return [tmpValue intValue];
+}
+- (void)setNoteId:(int)value 
+{
+    [self willChangeValueForKey:@"noteId"];
+    [self setPrimitiveNoteId:[NSNumber numberWithBool:value]];
+    [self didChangeValueForKey:@"noteId"];
+}
+
+/*
+ Through we provide a public BOOL interface, the underlying persistant store
+ is an NSNumber.
+ */
+- (BOOL)attemptFailed 
+{
+    NSNumber * tmpValue;
+    [self willAccessValueForKey:@"attemptFailed"];
+    tmpValue = [self primitiveAttemptFailed];
+    [self didAccessValueForKey:@"attemptFailed"];
+    return [tmpValue boolValue];
+}
+
+- (void)setAttemptFailed:(BOOL)value 
+{
+    [self willChangeValueForKey:@"attemptFailed"];
+    [self setPrimitiveAttemptFailed:[NSNumber numberWithBool: value]];
+    [self didChangeValueForKey:@"attemptFailed"];
+}
+
+
+
+- (id) initForNoteId:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSURL *)aUrl hasAttemptedUpload:(BOOL)attemptFailed andContext:(NSManagedObjectContext *)context
 {
     self = [super initWithEntity:[NSEntityDescription entityForName:@"UploadContent" inManagedObjectContext:context] insertIntoManagedObjectContext:context];
     if(self){
-    self.title = title;
-    self.text = text;
-    self.type = type;
-    self.localFileURL = [aUrl relativePath];
-    self.attemptfailed = [NSNumber numberWithBool:attemptFailed];
-    self.note_id = noteId;
+        self.title = title;
+        self.text = text;
+        self.type = type;
+        self.fileURL = aUrl;
+        self.attemptFailed = attemptFailed;
+        self.noteId = noteId;
     }
     return self;
     
 }
+
 
 - (NSString *) getTitle
 {
@@ -63,12 +125,11 @@
     else{
         mediaType = @"Text";
     }
-    media = [[Media alloc]initWithId:[self.localFileURL hash] andUrl:[NSURL URLWithString: self.localFileURL] ofType:mediaType];
+    media = [[Media alloc]initWithId:[self.fileURL hash] andUrl:self.fileURL ofType:mediaType];
     if([self.type isEqualToString:kNoteContentTypePhoto]){
         
-        NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.localFileURL]];
+        NSData *imageData = [NSData dataWithContentsOfURL:self.fileURL];
         media.image = [UIImage imageWithData:imageData];
-            
         
         }
     NSLog(@"UploadContent: Returning media with ID: %d and type:%@",media.uid,media.type);
@@ -80,13 +141,9 @@
     return [self type];
 }
 
-- (int) getNoteId
-{
-    return [[self note_id] intValue];
-}
-
-- (NSURL*) getLocalFileURL {
-    return [NSURL URLWithString:self.localFileURL];
+//THIS IS REALLY WEIRD AND SHOULD JUST BE USING THE DYNAMIC GETTER
+- (int) getNoteId {
+    return self.noteId;
 }
 
 - (int) getContentId

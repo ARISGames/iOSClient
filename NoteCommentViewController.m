@@ -94,16 +94,16 @@
 -(void)addUploadsToComments{
     self.parentNote = [[AppModel sharedAppModel] noteForNoteId: self.parentNote.noteId playerListYesGameListNo:YES];
     for(int i = 0; i < [self.parentNote.comments count];i++){
-    Note *currNote = [self.parentNote.comments objectAtIndex:i];
-    for(int x = [currNote.contents count]-1; x >= 0; x--){
-        if([[currNote.contents objectAtIndex:x] isUploading])
-            [currNote.contents removeObjectAtIndex:x];
-    }
-    
-    NSMutableDictionary *uploads = [AppModel sharedAppModel].uploadManager.uploadContents;
-    NSArray *uploadContentForNote = [[uploads objectForKey:[NSNumber numberWithInt:currNote.noteId]]allValues];
-    [currNote.contents addObjectsFromArray:uploadContentForNote];
-    NSLog(@"Added upload content to note");
+        Note *currNote = [self.parentNote.comments objectAtIndex:i];
+        for(int x = [currNote.contents count]-1; x >= 0; x--){
+            if([[currNote.contents objectAtIndex:x] isUploading])
+                [currNote.contents removeObjectAtIndex:x];
+        }
+        
+        NSMutableDictionary *uploads = [AppModel sharedAppModel].uploadManager.uploadContents;
+        NSArray *uploadContentForNote = [[uploads objectForKey:[NSNumber numberWithInt:currNote.noteId]]allValues];
+        [currNote.contents addObjectsFromArray:uploadContentForNote];
+        NSLog(@"NoteEditorVC: Added %d upload content(s) to note",[uploadContentForNote count]);
     }
 }
 

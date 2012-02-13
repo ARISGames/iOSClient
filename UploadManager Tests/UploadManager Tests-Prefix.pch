@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'UploadManager Tests' target in the 'UploadManager Tests' project
+//
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+#endif

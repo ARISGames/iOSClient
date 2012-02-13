@@ -132,7 +132,7 @@
     NSMutableDictionary *uploads = [AppModel sharedAppModel].uploadManager.uploadContents;
     NSArray *uploadContentForNote = [[uploads objectForKey:[NSNumber numberWithInt:self.note.noteId]]allValues];
     [self.note.contents addObjectsFromArray:uploadContentForNote];
-    NSLog(@"Added upload content to note");
+    NSLog(@"NoteEditorVC: Added %d upload content(s) to note",[uploadContentForNote count]);
     
 }
 

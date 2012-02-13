@@ -11,7 +11,7 @@
 #import "NotebookViewController.h"
 
 @implementation NoteCell
-@synthesize titleLabel,mediaIcon1,mediaIcon2,mediaIcon3,mediaIcon4,commentsLbl,likeLabel,holdLbl,note,index,delegate,likesButton;
+@synthesize titleLabel,mediaIcon1,mediaIcon2,mediaIcon3,mediaIcon4,starView,commentsLbl,likeLabel,holdLbl,note,index,delegate,likesButton;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];

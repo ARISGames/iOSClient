@@ -38,7 +38,7 @@
 }
 -(void)checkForRetry{
     if (self.content.isUploading) {
-        if([(UploadContent *)self.content attemptfailed]){
+        if([(UploadContent *)self.content attemptFailed]){
             retryButton.hidden = NO;
         }
         else retryButton.hidden = YES;
@@ -46,8 +46,8 @@
     else retryButton.hidden = YES;
 }
 -(void)retryUpload{
-    [[AppModel sharedAppModel].uploadManager deleteContentFromNote:[NSNumber numberWithInt:self.content.getNoteId] andFileURL:self.content.getMedia.url];
-    [[AppModel sharedAppModel].uploadManager uploadContentForNote:[NSNumber numberWithInt:self.content.getNoteId] withTitle:self.content.getTitle withText:self.content.getText withType:self.content.getType withFileURL:self.content.getMedia.url];
+    [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:self.content.getNoteId andFileURL:self.content.getMedia.url];
+    [[AppModel sharedAppModel].uploadManager uploadContentForNoteId:self.content.getNoteId withTitle:self.content.getTitle withText:self.content.getText withType:self.content.getType withFileURL:self.content.getMedia.url];
 }
 -(void)textViewDidEndEditing:(UITextView *)textView{
     //[textView resignFirstResponder];

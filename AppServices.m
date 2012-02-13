@@ -553,7 +553,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	
 	if (!jsonResult) {
 		NSLog(@"\tFailed.");
-		return nil;
+		return 0;
 	}
 	
 	return [jsonResult.data intValue];
@@ -561,7 +561,7 @@ NSString *const kARISServerServicePackage = @"v1";
 
 -(void) contentAddedToNoteWithText:(JSONResult *)result
 {
-    [[AppModel sharedAppModel].uploadManager deleteContentFromNote:[result.userInfo objectForKey:@"noteId"] andFileURL:[result.userInfo objectForKey:@"localURL"]];
+    [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:[[result.userInfo objectForKey:@"noteId"] intValue] andFileURL:[result.userInfo objectForKey:@"localURL"]];
     [self fetchPlayerNoteListAsync];
 }
 
@@ -679,9 +679,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	
  	[request setPostValue:[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].currentGame.gameId] forKey:@"gameID"];
     [request setFile:[fileURL relativePath] forKey:@"file"];
-    //[request setFile:localUrl withFileName:localUrl andContentType:@"audio/caf" forKey:@"file"];
     
-
     //[urlAsString release];
 	[request setDidFinishSelector:@selector(uploadNoteContentRequestFinished: )];
 	[request setDidFailSelector:@selector(uploadNoteRequestFailed:)];
@@ -721,8 +719,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	
 	NSString *title = [[request userInfo] objectForKey:@"title"];
 	//NSString *description = [[request userInfo] objectForKey:@"description"];
-	NSNumber *nId = [[NSNumber alloc]initWithInt:5];
-    nId = [[request userInfo] objectForKey:@"noteId"];
+    NSNumber *nId = [[request userInfo] objectForKey:@"noteId"];
 	//if (description == NULL) description = @"filename"; 
 	int noteId = [nId intValue];
 
@@ -730,7 +727,7 @@ NSString *const kARISServerServicePackage = @"v1";
     NSString *newFileName = [request responseString];
     
     NSURL *localUrl = [[request userInfo] objectForKey:@"url"];
-    [[AppModel sharedAppModel].uploadManager deleteContentFromNote:nId andFileURL:localUrl];
+    [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:[nId intValue] andFileURL:localUrl];
     
     
 
@@ -770,7 +767,7 @@ NSString *const kARISServerServicePackage = @"v1";
 
     NSString *localUrl = [[request userInfo] objectForKey:@"url"];
     UploadContent *uploadContent =[[AppModel sharedAppModel].uploadManager.uploadContents objectForKey:localUrl];
-    uploadContent.attemptfailed = [NSNumber numberWithBool:YES];
+    uploadContent.attemptFailed = YES;
     [self sendNotificationToNoteViewer];
   }
 
