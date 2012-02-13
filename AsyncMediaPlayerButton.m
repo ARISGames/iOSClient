@@ -18,7 +18,7 @@ BOOL isLoading;
 @synthesize presentingController;
 
 -(id)initWithFrame:(CGRect)frame media:(Media *)aMedia presentingController:(UIViewController *)aPresentingController{
-    self.media = aMedia;
+    self.media = [aMedia retain];
    return [self initWithFrame:frame mediaId:aMedia.uid presentingController:aPresentingController];
 }
 
@@ -110,7 +110,7 @@ BOOL isLoading;
     [super dealloc];
     [mMoviePlayer.moviePlayer cancelAllThumbnailImageRequests];
     [mMoviePlayer release];
-	//[media release];
+	[media release];
     [presentingController release];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }

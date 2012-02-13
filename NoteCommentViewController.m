@@ -198,7 +198,7 @@
             //Dont show icon for text since it is assumed to always be there
         }
         else if ([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypePhoto]){
-            AsyncMediaImageView *aImageView = [[AsyncMediaImageView alloc]initWithFrame:CGRectMake(10, height, 300, 300) andMedia:[(NoteContent *)[[currNote contents] objectAtIndex:x] getMedia]];
+            AsyncMediaImageView *aImageView = [[AsyncMediaImageView alloc]initWithFrame:CGRectMake(10, height, 300, 300) andMedia:[[[currNote contents] objectAtIndex:x] getMedia]];
             
             if(!currNote.hasAudio)
                 [aImageView setFrame:CGRectMake(10, height, 300, 300)];
@@ -237,7 +237,7 @@
         }
         else if([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeAudio]){
             
-            CustomAudioPlayer *player = [[CustomAudioPlayer alloc]initWithFrame:CGRectMake(10, height, 300, 40) andMedia:[(NoteContent *)[[currNote contents] objectAtIndex:x] getMedia]];
+            CustomAudioPlayer *player = [[CustomAudioPlayer alloc]initWithFrame:CGRectMake(10, height, 300, 40) andMedia:[[[currNote contents] objectAtIndex:x] getMedia]];
             [player loadView];
             [cell addSubview:player];
             [player release];

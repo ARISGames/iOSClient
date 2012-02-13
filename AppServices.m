@@ -2299,13 +2299,13 @@ NSString *const kARISServerServicePackage = @"v1";
 			continue;
 		}
 		if ([type length] < 1) {
-			NSLog(@"AppModel fetchGameMediaList: Empty type for media #%d", uid);
-			continue;
+			//NSLog(@"AppModel fetchGameMediaList: Empty type for media #%d", uid);
+			//continue;
 		}
 		
 		
 		NSString *fullUrl = [NSString stringWithFormat:@"%@%@", urlPath, fileName];
-		NSLog(@"AppModel fetchGameMediaList: Full URL: %@", fullUrl);
+		//NSLog(@"AppModel fetchGameMediaList: Full URL: %@", fullUrl);
 		
 		Media *media = [[Media alloc] initWithId:uid andUrl:[NSURL URLWithString: fullUrl] ofType:type];
 		[tempMediaList setObject:media forKey:[NSNumber numberWithInt:uid]];

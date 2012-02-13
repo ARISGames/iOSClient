@@ -34,7 +34,7 @@ is an NSString.
 - (void)setFileURL:(NSURL *)value 
 {
     [self willChangeValueForKey:@"fileURL"];
-    [self setPrimitiveFileURL:[value relativePath]];
+    [self setPrimitiveFileURL:[value absoluteString]];
     [self didChangeValueForKey:@"fileURL"];
 }
  
@@ -53,7 +53,7 @@ is an NSString.
 - (void)setNoteId:(int)value 
 {
     [self willChangeValueForKey:@"noteId"];
-    [self setPrimitiveNoteId:[NSNumber numberWithBool:value]];
+    [self setPrimitiveNoteId:[NSNumber numberWithInt:value]];
     [self didChangeValueForKey:@"noteId"];
 }
 

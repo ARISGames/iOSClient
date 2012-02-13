@@ -108,7 +108,7 @@
     numPages = 0;
     //self.scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * numPages, scrollView.frame.size.height);
 
-    NoteContent *noteContent = [[NoteContent alloc] init];
+    NoteContent<NoteContentProtocol> *noteContent = [[NoteContent alloc] init];
     if([self.note.contents count] == 0){
         
     }
@@ -181,7 +181,7 @@
 -(void)saveButtonTouchAction{
    //[self displayTitleandDescriptionForm];
 }
-- (void)loadNewPageWithContent:(NoteContent *)content{
+- (void)loadNewPageWithContent:(NoteContent<NoteContentProtocol> *)content{
     
     if(![content.getType isEqualToString:@"UPLOAD"]){
     numPages++;

@@ -38,6 +38,7 @@
 }
 -(void)checkForRetry{
     if (self.content.isUploading) {
+
         if([(UploadContent *)self.content attemptFailed]){
             retryButton.hidden = NO;
         }

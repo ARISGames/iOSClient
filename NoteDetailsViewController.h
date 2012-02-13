@@ -38,7 +38,7 @@
 @property(nonatomic,retain)Note *note;
 - (IBAction)saveButtonTouchAction;
 - (IBAction)changePage:(id) sender;
-- (void)loadNewPageWithContent:(NoteContent *)content;
+- (void)loadNewPageWithContent:(NoteContent<NoteContentProtocol> *)content;
 - (void)showComments;
 - (IBAction)playMovie:(id)sender;
 -(void)editButtonTouched;

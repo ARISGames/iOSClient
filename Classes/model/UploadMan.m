@@ -44,10 +44,13 @@
         NSMutableDictionary *contentForNote = [[NSMutableDictionary alloc] initWithCapacity:1];
         [contentForNote setObject:uploadContent forKey:uploadContent.fileURL];
         [uploadContents setObject:contentForNote forKey:[NSNumber numberWithInt:[uploadContent noteId]]]; 
+        NSLog(@"UploadMan: adding contentForKey:%@ to noteForKey:%d",uploadContent.fileURL,uploadContent.noteId);
     }
     else
     {
         [(NSMutableDictionary *)[self.uploadContents objectForKey:[NSNumber numberWithInt:[uploadContent noteId]]] setObject:uploadContent forKey:uploadContent.fileURL];
+        NSLog(@"UploadMan: adding contentForKey:%@ to noteForKey:%d",uploadContent.fileURL,uploadContent.noteId);
+
     }
     
 }
@@ -158,7 +161,7 @@
     if (self) {
         uploadContents = [[NSMutableDictionary alloc] initWithCapacity:5];
         context = [AppModel sharedAppModel].managedObjectContext;
-        //[self deleteAllObjects:@"UploadContent"];
+        //[self deleteAllObjects:@"UploadContent"]; //USE TO DELETE ALL CORE DATA STUFF
         [self getSavedUploadContents];
     }
     return self;

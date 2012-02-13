@@ -20,7 +20,7 @@
 @synthesize delegate;
 
 -(id)initWithFrame:(CGRect)aFrame andMedia:(Media *)aMedia{
-    self.media = aMedia;
+    self.media = [aMedia retain];
     return [self initWithFrame:aFrame andMediaId:aMedia.uid];
 
 }
@@ -240,7 +240,7 @@
     [connection release];
     [data release];
     [mMoviePlayer.moviePlayer cancelAllThumbnailImageRequests];
-	//[media release];
+	[media release];
     //[delegate release];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
