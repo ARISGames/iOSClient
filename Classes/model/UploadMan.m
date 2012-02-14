@@ -154,6 +154,16 @@
 {
     [self deleteUploadContentFromDictionaryFromNoteId:noteId andFileURL:fileURL];
     [self deleteUploadContentFromCDFromNoteId:noteId andFileURL:fileURL];
+    
+    // For error information
+    NSError *error;
+    
+    // Create file manager
+    NSFileManager *fileMgr = [NSFileManager defaultManager];
+    if ([fileMgr removeItemAtPath:[fileURL relativePath] error:&error] != YES)
+        NSLog(@"Unable to delete file: %@", [error localizedDescription]);
+    else
+        NSLog(@"File Successfully Deleted");
 }
 
 - (id)init
