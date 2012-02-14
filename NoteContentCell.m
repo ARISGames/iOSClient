@@ -42,9 +42,11 @@
         if([(UploadContent *)self.content attemptFailed]){
             retryButton.hidden = NO;
             [self.titleLbl setFrame:CGRectMake(65, 4, 147, 30)];
+            [self.titleLbl setText:@"Upload Failed"];
         }
         else {
-            
+            [self.titleLbl setText:@"Media Uploading"];
+
             retryButton.hidden = YES;
             [self.titleLbl setFrame:CGRectMake(65, 4, 235, 30)];
 
@@ -58,8 +60,11 @@
     }
 }
 -(void)retryUpload{
-    [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:self.content.getNoteId andFileURL:self.content.getMedia.url];
+    //[[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:self.content.getNoteId andFileURL:self.content.getMedia.url];
+     NSLog(@"Deleting Upload forNoteId:%d withFileURL:%@",self.content.getNoteId,self.content.getMedia.url);
     [[AppModel sharedAppModel].uploadManager uploadContentForNoteId:self.content.getNoteId withTitle:self.content.getTitle withText:self.content.getText withType:self.content.getType withFileURL:self.content.getMedia.url];
+     NSLog(@"Retrying Upload forNoteId:%d withTitle:%@ withText:%@ withType:%@ withFileURL:%@",self.content.getNoteId,self.content.getTitle,self.content.getText,self.content.getType,self.content.getMedia.url);
+    [self checkForRetry];
 }
 -(void)textViewDidEndEditing:(UITextView *)textView{
     //[textView resignFirstResponder];

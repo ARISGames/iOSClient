@@ -88,6 +88,7 @@
     for(int i = 0; i < allUploadContents.count; i++)
     {
         UploadContent *uploadContent = (UploadContent *)[allUploadContents objectAtIndex:i];
+        uploadContent.attemptFailed = YES;
         [self insertUploadContentIntoDictionary:uploadContent];
     }
     [allUploadContents release];

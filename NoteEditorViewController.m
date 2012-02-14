@@ -501,7 +501,9 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
         cell.index = indexPath.row;
         cell.delegate = self;
         cell.contentId = noteC.getContentId;
-    cell.content = noteC;
+        cell.content = noteC;
+    
+    
     [cell checkForRetry];
         if([noteC.getTitle length] >24)noteC.title = [noteC.getTitle substringToIndex:24];
         cell.titleLbl.text = noteC.getTitle;
@@ -532,13 +534,15 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
             [overlay release];
             [aView release];
         }
-
     if(noteC.isUploading){
-            cell.titleLbl.text = @"Your media is uploading";
-          }
+        if([(UploadContent *)noteC attemptFailed])
+        cell.titleLbl.text = @"Upload Failed";
         else
-            cell.titleLbl.text = noteC.getTitle;
-        return  cell;
+            cell.titleLbl.text = @"Media Uploading";
+    }
+    else
+        cell.titleLbl.text = noteC.getTitle;
+    return cell;
     
     
     //Should never get here
