@@ -12,7 +12,7 @@
 #import "AppModel.h"
 
 @implementation NoteContentCell
-@synthesize titleLbl,detailLbl,imageView,holdLbl,contentId,index,delegate,content,retryButton;
+@synthesize titleLbl,detailLbl,imageView,holdLbl,contentId,index,delegate,content,retryButton,spinner;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -41,6 +41,8 @@
 
         if([(UploadContent *)self.content attemptFailed]){
             retryButton.hidden = NO;
+            [spinner stopAnimating];
+            spinner.hidden = YES;
             [self.titleLbl setFrame:CGRectMake(65, 4, 147, 30)];
             [self.titleLbl setText:@"Upload Failed"];
         }
@@ -49,14 +51,16 @@
 
             retryButton.hidden = YES;
             [self.titleLbl setFrame:CGRectMake(65, 4, 235, 30)];
-
+            [spinner startAnimating];
+            spinner.hidden = NO;
         }
     }
     else {
         
         retryButton.hidden = YES;
         [self.titleLbl setFrame:CGRectMake(65, 4, 235, 30)];
-
+        [spinner stopAnimating];
+        spinner.hidden = YES;
     }
 }
 -(void)retryUpload{
@@ -64,7 +68,8 @@
     
     retryButton.hidden = YES;
     [self.titleLbl setFrame:CGRectMake(65, 4, 235, 30)];
-
+    [spinner startAnimating];
+    spinner.hidden = NO;
     //[[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:self.content.getNoteId andFileURL:self.content.getMedia.url];
      NSLog(@"Deleting Upload forNoteId:%d withFileURL:%@",self.content.getNoteId,self.content.getMedia.url);
     [[AppModel sharedAppModel].uploadManager uploadContentForNoteId:self.content.getNoteId withTitle:self.content.getTitle withText:self.content.getText withType:self.content.getType withFileURL:self.content.getMedia.url];

@@ -744,7 +744,7 @@ BOOL isShowingNotification;
         [self removeNewWaitingIndicator];
         [self.waitingIndicatorView release];}
 	
-	self.waitingIndicatorView = [[WaitingIndicatorView alloc] initWithWaitingMessage:message showProgressBar:NO];
+	self.waitingIndicatorView = [[WaitingIndicatorView alloc] initWithWaitingMessage:message showProgressBar:displayProgressBar];
         [self.waitingIndicatorView show];
 	
 	[[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the activity indicator show before returning	

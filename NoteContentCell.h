@@ -18,6 +18,7 @@
     id delegate;
     NoteContent<NoteContentProtocol>*content;
    IBOutlet UIButton *retryButton;
+    IBOutlet UIActivityIndicatorView *spinner;
 }
 @property(readwrite, assign)int contentId;
 @property(nonatomic,retain)UITextView *titleLbl;
@@ -28,6 +29,7 @@
 @property(readwrite,assign)id delegate;
 @property(nonatomic, retain)NoteContent<NoteContentProtocol>*content;
 @property(nonatomic,retain)IBOutlet UIButton *retryButton;
+@property(nonatomic,retain)IBOutlet UIActivityIndicatorView *spinner;
 -(void)checkForRetry;
 -(IBAction)retryUpload;
 @end
