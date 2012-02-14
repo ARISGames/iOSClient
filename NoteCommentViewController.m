@@ -87,8 +87,7 @@
     self.audioIconUsed = NO;
     if(self.textBox.frame.origin.y == 0)
         [self.textBox becomeFirstResponder];
-    [self addUploadsToComments];
-    [self.commentTable reloadData];
+    [self refreshViewFromModel];
     
 }
 -(void)addUploadsToComments{
@@ -105,6 +104,13 @@
         [currNote.contents addObjectsFromArray:uploadContentForNote];
         NSLog(@"NoteEditorVC: Added %d upload content(s) to note",[uploadContentForNote count]);
     }
+    if([AppModel sharedAppModel].isGameNoteList){
+        [[AppModel sharedAppModel].gameNoteList setObject:self.parentNote forKey:[NSNumber numberWithInt:self.parentNote.noteId]];
+    }
+    else{
+        [[AppModel sharedAppModel].playerNoteList setObject:self.parentNote forKey:[NSNumber numberWithInt:self.parentNote.noteId]];
+    }
+
 }
 
 -(void)addPhotoButtonTouchAction{
@@ -352,12 +358,28 @@
         
         [self.textBox resignFirstResponder];
         commentNote.title = self.textBox.text;
-        [[parentNote comments] insertObject:commentNote atIndex:0];     
+        commentNote.parentNoteId = parentNote.noteId;
+        commentNote.creatorId = [AppModel sharedAppModel].playerId;
+        commentNote.username = [AppModel sharedAppModel].userName;
         
-        [[AppServices sharedAppServices]updateCommentWithId:self.commentNote.noteId andTitle:self.textBox.text andRefresh:YES];
+        [[AppServices sharedAppServices]updateCommentWithId:self.commentNote.noteId andTitle:self.textBox.text andRefresh:NO];
         
-        
-        
+        if(parentNote.comments.count > 0){
+        if([[parentNote.comments objectAtIndex:0] noteId] == commentNote.noteId){
+            [[parentNote.comments objectAtIndex:0] setTitle:self.textBox.text];
+            [[parentNote.comments objectAtIndex:0] setParentNoteId:parentNote.noteId];
+            [[parentNote.comments objectAtIndex:0] setCreatorId:[AppModel sharedAppModel].playerId];
+            [[parentNote.comments objectAtIndex:0] setUsername:[AppModel sharedAppModel].userName];
+
+        }
+        else{
+            [parentNote.comments insertObject:commentNote atIndex:0];
+        }
+        }
+        else{
+            [parentNote.comments insertObject:commentNote atIndex:0];
+
+        }
         //self.parentNote = [[AppServices sharedAppServices]fetchNote:self.parentNote.noteId];
         [self.delegate setNote:parentNote];
         if([AppModel sharedAppModel].isGameNoteList){
