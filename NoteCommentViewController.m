@@ -215,7 +215,7 @@
             
             AsyncMediaPlayerButton *mediaButton;
             
-            mediaButton = [asyncMediaDict objectForKey:[NSNumber numberWithInt:content.mediaId]];
+            mediaButton = [asyncMediaDict objectForKey:content.getMedia.url];
             if(!mediaButton){
                 
             mediaButton = [[AsyncMediaPlayerButton alloc] 
@@ -231,7 +231,7 @@
                 
             }
             
-            [asyncMediaDict setObject:mediaButton forKey:[NSNumber numberWithInt:content.mediaId]];
+            [asyncMediaDict setObject:mediaButton forKey:content.getMedia.url];
 
             [cell addSubview:mediaButton];
         }
