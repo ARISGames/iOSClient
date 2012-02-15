@@ -22,7 +22,7 @@ NSString *const kARISServerServicePackage = @"v1";
 
 @implementation AppServices
 
-@synthesize currentlyFetchingLocationList, currentlyFetchingInventory, currentlyFetchingQuestList, currentlyFetchingGamesList, currentlyUpdatingServerWithPlayerLocation;
+@synthesize currentlyFetchingLocationList, currentlyFetchingInventory, currentlyFetchingQuestList, currentlyFetchingGamesList, currentlyUpdatingServerWithPlayerLocation,currentlyFetchingGameNoteList,currentlyFetchingPlayerNoteList;
 @synthesize currentlyUpdatingServerWithMapViewed, currentlyUpdatingServerWithQuestsViewed, currentlyUpdatingServerWithInventoryViewed;
 
 
@@ -1263,7 +1263,12 @@ NSString *const kARISServerServicePackage = @"v1";
 }
 - (void)fetchGameNoteListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
 	NSLog(@"AppModel: Fetching Game Note List");
-	
+    if (currentlyFetchingGameNoteList) {
+        NSLog(@"AppModel: Already fetching location list, skipping");
+        return;
+    }
+    
+    currentlyFetchingGameNoteList = YES;
 	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],nil];
 	
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
@@ -1280,7 +1285,14 @@ NSString *const kARISServerServicePackage = @"v1";
 }
 - (void)fetchPlayerNoteListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
 	NSLog(@"AppModel: Fetching Player Note List");
-	
+	if (currentlyFetchingPlayerNoteList) {
+        NSLog(@"AppModel: Already fetching location list, skipping");
+        return;
+    }
+    
+    currentlyFetchingPlayerNoteList = YES;
+    
+
 	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
 	
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
@@ -1932,7 +1944,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	[AppModel sharedAppModel].gameNoteList = tempNoteList;
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
     NSLog(@"DONE Parsing Game Note List");
-
+    self.currentlyFetchingGameNoteList = NO;
 	//[tempNoteList release];
 }
 
@@ -1962,6 +1974,7 @@ NSString *const kARISServerServicePackage = @"v1";
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
 	[tempNoteList release];
     NSLog(@"DONE Parsing Player Note List");
+    self.currentlyFetchingPlayerNoteList = NO;
 
 }
 -(void)parseConversationNodeOptionsFromJSON: (JSONResult *)jsonResult {

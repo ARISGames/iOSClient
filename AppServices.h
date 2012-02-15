@@ -31,7 +31,7 @@
 
 @interface AppServices : NSObject {
     //Fetcher Flags
-    BOOL currentlyFetchingLocationList;
+    BOOL currentlyFetchingLocationList,currentlyFetchingGameNoteList,currentlyFetchingPlayerNoteList;
     BOOL currentlyFetchingInventory;
     BOOL currentlyFetchingQuestList;
     BOOL currentlyFetchingGamesList;
@@ -46,6 +46,8 @@ extern NSString *const kARISServerServicePackage;
 //Fetcher Flags
 @property(readwrite) BOOL currentlyFetchingLocationList;
 @property(readwrite) BOOL currentlyFetchingInventory;
+@property(readwrite) BOOL currentlyFetchingGameNoteList;
+@property(readwrite) BOOL currentlyFetchingPlayerNoteList;
 @property(readwrite) BOOL currentlyFetchingQuestList;
 @property(readwrite) BOOL currentlyFetchingGamesList;
 @property(readwrite) BOOL currentlyUpdatingServerWithPlayerLocation;

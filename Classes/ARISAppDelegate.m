@@ -692,6 +692,8 @@ BOOL isShowingNotification;
     [AppServices sharedAppServices].currentlyFetchingInventory = NO;
     [AppServices sharedAppServices].currentlyFetchingLocationList = NO;
     [AppServices sharedAppServices].currentlyFetchingQuestList = NO;
+    [AppServices sharedAppServices].currentlyFetchingGameNoteList = NO;
+    [AppServices sharedAppServices].currentlyFetchingPlayerNoteList = NO;
     [AppServices sharedAppServices].currentlyUpdatingServerWithInventoryViewed = NO;
     [AppServices sharedAppServices].currentlyUpdatingServerWithMapViewed = NO;
     [AppServices sharedAppServices].currentlyUpdatingServerWithPlayerLocation = NO;
