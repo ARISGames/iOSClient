@@ -45,7 +45,7 @@
     CFUUIDRef theUUID = CFUUIDCreate(NULL);
     CFStringRef string = CFUUIDCreateString(NULL, theUUID);
     CFRelease(theUUID);
-    return [(NSString *)string autorelease];
+    return [(__bridge NSString *)string autorelease];
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -145,7 +145,7 @@
 	NSLog(@"AudioRecorder: Record/Play/Stop Button selected");
 	
 	switch (mode) {
-		case kAudioRecorderStarting:
+		case kAudioRecorderStarting:{
 			NSLog(@"AudioRecorder: Record/Play/Stop Button selected");
 			
 			[[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryRecord error: nil];	
@@ -190,10 +190,11 @@
 																	repeats:YES];
 			NSLog(@"Recording.");
 			mode = kAudioRecorderRecording;
-			[self updateButtonsForCurrentMode];						
-			break;
+			[self updateButtonsForCurrentMode];	
+        }
+        break;
 			
-		case kAudioRecorderPlaying:
+		case kAudioRecorderPlaying:{
 			[self.soundPlayer stop];
             if(!self.previewMode)
                 mode = kAudioRecorderRecordingComplete;
@@ -201,9 +202,10 @@
                 mode = kAudioRecorderNoteMode;
                 
 			[self updateButtonsForCurrentMode];
-			break;	
+        }
+        break;	
 			
-		case kAudioRecorderRecordingComplete:
+		case kAudioRecorderRecordingComplete:{
 			[[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];	
 			
 			[[AVAudioSession sharedInstance] setActive: YES error: nil];
@@ -221,16 +223,18 @@
 			[self updateButtonsForCurrentMode];
 			
 			[self.soundPlayer play];
-			break;
+        }
+        break;
 			
-		case kAudioRecorderRecording:
+		case kAudioRecorderRecording:{
 			[[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];	
 			
 			[soundRecorder stop];
 			self.soundRecorder = nil;
 			mode = kAudioRecorderRecordingComplete;			
 			[self updateButtonsForCurrentMode];
-			break;	
+        }
+        break;	
 			
 		default:
 			break;
