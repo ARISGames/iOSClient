@@ -10,7 +10,7 @@
 
 
 @implementation ChangePasswordViewController
-@synthesize userField,userLabel,newField,newLabel,prevField,prevLabel,submitButton;
+@synthesize userField,userLabel,requestedPasswordField,requestedPasswordLabel,prevPasswordField,prevPasswordLabel,submitButton;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

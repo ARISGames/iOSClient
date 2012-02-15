@@ -11,19 +11,19 @@
 
 @interface ChangePasswordViewController : UIViewController<UITextFieldDelegate> {
     IBOutlet UITextField *userField;
-    IBOutlet UITextField *prevField;
-    IBOutlet UITextField *newField;
+    IBOutlet UITextField *prevPasswordField;
+    IBOutlet UITextField *requestedPasswordField;
     IBOutlet UILabel *userLabel;
-    IBOutlet UILabel *prevLabel;
-    IBOutlet UILabel *newLabel;
+    IBOutlet UILabel *prevPasswordLabel;
+    IBOutlet UILabel *newPasswordLabel;
     IBOutlet UIButton *submitButton;
 }
 @property(nonatomic,retain)IBOutlet UITextField *userField;
-@property(nonatomic,retain)IBOutlet UITextField *prevField;
-@property(nonatomic,retain)IBOutlet UITextField *newField;
+@property(nonatomic,retain)IBOutlet UITextField *prevPasswordField;
+@property(nonatomic,retain)IBOutlet UITextField *requestedPasswordField;
 @property(nonatomic,retain)IBOutlet UILabel *userLabel;
-@property(nonatomic,retain)IBOutlet UILabel *prevLabel;
-@property(nonatomic,retain)IBOutlet UILabel *newLabel;
+@property(nonatomic,retain)IBOutlet UILabel *prevPasswordLabel;
+@property(nonatomic,retain)IBOutlet UILabel *requestedPasswordLabel;
 @property(nonatomic,retain)IBOutlet UIButton *submitButton;
 
 -(IBAction)submitButtonTouchAction;
