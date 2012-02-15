@@ -529,10 +529,10 @@ NSString *const kARISServerServicePackage = @"v1";
 	
 	if (!jsonResult) {
 		NSLog(@"\tFailed.");
-		return nil;
+		return 0;
 	}
 	
-	return [jsonResult.data intValue];
+	return [(NSDecimalNumber*)jsonResult.data intValue];
 }
 -(int)createNote{
     NSLog(@"AppModel: Creating New Note");
@@ -556,7 +556,7 @@ NSString *const kARISServerServicePackage = @"v1";
 		return 0;
 	}
 	
-	return [jsonResult.data intValue];
+	return [(NSDecimalNumber*)jsonResult.data intValue];
 }
 
 -(void) contentAddedToNoteWithText:(JSONResult *)result
