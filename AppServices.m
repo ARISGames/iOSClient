@@ -1742,21 +1742,21 @@ NSString *const kARISServerServicePackage = @"v1";
 	if ([nodeDictionary valueForKey:@"opt1_node_id"] != [NSNull null] && [[nodeDictionary valueForKey:@"opt1_node_id"] intValue] > 0) {
 		optionNodeId= [[nodeDictionary valueForKey:@"opt1_node_id"] intValue];
 		text = [nodeDictionary valueForKey:@"opt1_text"]; 
-		option = [[NodeOption alloc] initWithText:text andNodeId: optionNodeId];
+		option = [[NodeOption alloc] initWithText:text andNodeId: optionNodeId andHasViewed:NO];
 		[node addOption:option];
 		[option release];
 	}
 	if ([nodeDictionary valueForKey:@"opt2_node_id"] != [NSNull null] && [[nodeDictionary valueForKey:@"opt2_node_id"] intValue] > 0) {
 		optionNodeId = [[nodeDictionary valueForKey:@"opt2_node_id"] intValue];
 		text = [nodeDictionary valueForKey:@"opt2_text"]; 
-		option = [[NodeOption alloc] initWithText:text andNodeId: optionNodeId];
+		option = [[NodeOption alloc] initWithText:text andNodeId: optionNodeId andHasViewed:NO];
 		[node addOption:option];
 		[option release];
 	}
 	if ([nodeDictionary valueForKey:@"opt3_node_id"] != [NSNull null] && [[nodeDictionary valueForKey:@"opt3_node_id"] intValue] > 0) {
 		optionNodeId = [[nodeDictionary valueForKey:@"opt3_node_id"] intValue];
 		text = [nodeDictionary valueForKey:@"opt3_text"]; 
-		option = [[NodeOption alloc] initWithText:text andNodeId: optionNodeId];
+		option = [[NodeOption alloc] initWithText:text andNodeId: optionNodeId andHasViewed:NO];
 		[node addOption:option];
 		[option release];
 	}

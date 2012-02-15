@@ -11,7 +11,8 @@
 @implementation NodeOption
 @synthesize text, nodeId, hasViewed;
 
-- (NodeOption *) initWithText:(NSString *)optionText andNodeId: (int)optionNodeId andHasViewed:(BOOL)hasViewedB{
+- (NodeOption *) initWithText:(NSString *)optionText andNodeId: (int)optionNodeId 
+                 andHasViewed:(BOOL)hasViewedB{
 	if (self = [super init]) {
 		self.text = optionText;
 		self.nodeId = optionNodeId;

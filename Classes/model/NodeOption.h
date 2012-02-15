@@ -19,6 +19,6 @@
 @property(readwrite, assign) NSInteger nodeId;
 @property(readwrite, assign) BOOL hasViewed;
 
-- (NodeOption *) initWithText:(NSString *)text andNodeId: (int)nodeId andHasViewed:(BOOL)hasViewedB;
-
+- (NodeOption *) initWithText:(NSString *)optionText andNodeId: (int)optionNodeId
+                 andHasViewed:(BOOL)hasViewedB;
 @end
