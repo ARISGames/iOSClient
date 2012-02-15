@@ -241,9 +241,12 @@ CGImageRef CreateGradientImage(int pixelsWide, int pixelsHigh) {
 
 - (void)dealloc {
 	
-	SCR_RELEASE_SAFELY(_stateImageDictionary);
-	SCR_RELEASE_SAFELY(_starViews);
-	SCR_RELEASE_SAFELY(_reflectionViews);
+	[_stateImageDictionary release];
+    _stateImageDictionary = nil;
+	[_starViews release];
+    _starViews = nil;
+	[_reflectionViews release];
+    _reflectionViews = nil;
 	
 	[super dealloc];
 }
