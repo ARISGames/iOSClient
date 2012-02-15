@@ -240,7 +240,7 @@
     [connection release];
     [data release];
     [mMoviePlayer.moviePlayer cancelAllThumbnailImageRequests];
-	[media release];
+	//[media release];
     //[delegate release];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
