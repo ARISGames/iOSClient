@@ -40,7 +40,10 @@
         [dispatcher addObserver:self selector:@selector(updateTable) name:@"ImageReady" object:nil];
        
         [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNoteListReady" object:nil];
-        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(movieFinishedCallback:)
+													 name:MPMoviePlayerPlaybackDidFinishNotification
+												   object:nil];
         self.soundPlayer = [[AVPlayer alloc] init];
         self.hidesBottomBarWhenPushed = YES;
         self.noteValid = NO;

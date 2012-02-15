@@ -28,13 +28,23 @@
         // Custom initialization
         viewControllers = [[NSMutableArray alloc] initWithCapacity:10];
         self.hidesBottomBarWhenPushed = YES;
+        [[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(movieFinishedCallback:)
+													 name:MPMoviePlayerPlaybackDidFinishNotification
+												   object:nil];
     }
     return self;
 }
-
+- (void)movieFinishedCallback:(NSNotification*) aNotification
+{
+	NSLog(@"NoteDetailsViewController: movieFinishedCallback");
+	[self dismissMoviePlayerViewControllerAnimated];
+}
 - (void)dealloc
 {
     [super dealloc];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
     [scrollView release];
     [pageControl release];
     [viewControllers release];
