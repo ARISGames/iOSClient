@@ -101,40 +101,42 @@
 	if ([error domain] == kCLErrorDomain) {
 		
 		// We handle CoreLocation-related errors here
-		
-		switch ([error code]) {
-				UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NoLocationTitleKey", nil)
-																message:NSLocalizedString(@"NoLocationMessageKey", nil)
-															   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-				[alert show];	
-				[alert release];
+        if ([error code]) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NoLocationTitleKey", nil) message:NSLocalizedString(@"NoLocationMessageKey", nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alert show];	
+            [alert release];
+        }
+		switch ([error code]) {				
+            // This error code is usually returned whenever user taps "Don't Allow" in response to
+            // being told your app wants to access the current location. Once this happens, you cannot
+            // attempt to get the location again until the app has quit and relaunched.
+            //
+            // "Don't Allow" on two successive app launches is the same as saying "never allow". The user
+            // can reset this for all apps by going to Settings > General > Reset > Reset Location Warnings.
+            //
+			case kCLErrorDenied:{
+                [errorString appendFormat:@"%@\n", NSLocalizedString(@"LocationDenied", nil)];
+            }
+            break;
 				
-				// This error code is usually returned whenever user taps "Don't Allow" in response to
-				// being told your app wants to access the current location. Once this happens, you cannot
-				// attempt to get the location again until the app has quit and relaunched.
-				//
-				// "Don't Allow" on two successive app launches is the same as saying "never allow". The user
-				// can reset this for all apps by going to Settings > General > Reset > Reset Location Warnings.
-				//
-			case kCLErrorDenied:
-				[errorString appendFormat:@"%@\n", NSLocalizedString(@"LocationDenied", nil)];
-				break;
-				
-				// This error code is usually returned whenever the device has no data or WiFi connectivity,
-				// or when the location cannot be determined for some other reason.
-				//
-				// CoreLocation will keep trying, so you can keep waiting, or prompt the user.
-				//
-			case kCLErrorLocationUnknown:
-				[errorString appendFormat:@"%@\n", NSLocalizedString(@"LocationUnknown", nil)];
-				break;
+            // This error code is usually returned whenever the device has no data or WiFi connectivity,
+            // or when the location cannot be determined for some other reason.
+            //
+            // CoreLocation will keep trying, so you can keep waiting, or prompt the user.
+            //
+            
+			case kCLErrorLocationUnknown:{
+                    [errorString appendFormat:@"%@\n", NSLocalizedString(@"LocationUnknown", nil)];
+            }
+            break;
 				
 				// We shouldn't ever get an unknown error code, but just in case...
-				//
-			default:
-				[errorString appendFormat:@"%@ %d\n", NSLocalizedString(@"GenericLocationError", nil), [error code]];
+				//}
+			default:{
+                [errorString appendFormat:@"%@ %d\n", NSLocalizedString(@"GenericLocationError", nil), [error code]];
+            }
 				
-				break;
+            break;
 		}
 	} else {
 		// We handle all non-CoreLocation errors here
