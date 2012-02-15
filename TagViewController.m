@@ -49,6 +49,11 @@
 									 style: UIBarButtonItemStyleDone
 									target:self 
 									action:@selector(backButtonTouchAction:)];
+    [self refresh];
+    }
+-(void)refresh{
+    [playerTagList removeAllObjects];
+    [gameTagList removeAllObjects];
     for(int i = 0; i < [[AppModel sharedAppModel].gameTagList count];i++){
         if([(Tag *)[[AppModel sharedAppModel].gameTagList objectAtIndex:i] playerCreated]){
             [playerTagList addObject:[[AppModel sharedAppModel].gameTagList objectAtIndex:i]];
@@ -57,6 +62,7 @@
             [gameTagList addObject:[[AppModel sharedAppModel].gameTagList objectAtIndex:i]];
         }
     }
+    [tagTable reloadData];
 }
 -(void)backButtonTouchAction{
     [self.navigationController popViewControllerAnimated:YES];
@@ -83,7 +89,7 @@
     [self.playerTagList addObject:tempTag];
     [self.note.tags addObject:tempTag];
     [tempTag release];
-    [tagTable reloadData];
+    [self refresh];
     [self.tagTextField resignFirstResponder];
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -150,6 +156,7 @@
     
     for(int i = 0; i < self.note.tags.count;i++){
         if([[(Tag *)[self.note.tags objectAtIndex:i] tagName] isEqualToString:cell.nameLabel.text]){
+            
             [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
             break;
         }
@@ -179,18 +186,30 @@
     else{
         TagCell *cell = (TagCell *)[tableView cellForRowAtIndexPath:indexPath];
         if(cell.accessoryType == UITableViewCellAccessoryCheckmark){
-            [cell setAccessoryType:nil];
+            [cell setAccessoryType:UITableViewCellAccessoryNone];
+            
+                for(int i = 0; i < self.note.tags.count;i++){
+                    if([[(Tag *)[self.note.tags objectAtIndex:i] tagName] isEqualToString:cell.nameLabel.text]){
+                        [self.note.tags removeObjectAtIndex:i];
+                        break;
+                    }
+                }
+        
             //delete tag from note
             [[AppServices sharedAppServices]deleteTagFromNote:self.note.noteId tagName:cell.nameLabel.text];
         }
         else{
             [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
             //add tag to note;
+            Tag *tempTag =[[Tag alloc]init];
+            tempTag.tagName = cell.nameLabel.text;
+            [self.note.tags addObject:tempTag];
+            [tempTag release];
             [[AppServices sharedAppServices]addTagToNote:self.note.noteId tagName:cell.nameLabel.text];
                    }
     }
         
-        }
+    [self refresh]; }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 44;
