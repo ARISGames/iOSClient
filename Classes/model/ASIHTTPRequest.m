@@ -812,13 +812,20 @@ static NSOperationQueue *sharedQueue = nil;
 	[self setInProgress:YES];
 	[self performSelector:@selector(main) onThread:[[self class] threadForRequest:self] withObject:nil waitUntilDone:NO];
 }
-
-- (void)startAsynchronous
-{
+-(void)startAsynchronous{
 #if DEBUG_REQUEST_STATUS || DEBUG_THROTTLING
 	ASI_DEBUG_LOG(@"[STATUS] Starting asynchronous request %@",self);
 #endif
 	[sharedQueue addOperation:self];
+}
+- (void)startAsynchronousWithUpload:(BOOL)uploading
+{
+    if(uploading)
+        [sharedQueue setMaxConcurrentOperationCount:1];
+    else
+        [sharedQueue setMaxConcurrentOperationCount:4];
+
+    [self startAsynchronous];
 }
 
 #pragma mark concurrency

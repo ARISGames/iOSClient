@@ -608,6 +608,9 @@ typedef void (^ASIDataBlock)(NSData *data);
 // Run request in the background
 - (void)startAsynchronous;
 
+// Run request in the background, sets setMaxConcurrentOperationCount to 1 if YES
+- (void)startAsynchronousWithUpload:(BOOL)uploading;
+
 // Clears all delegates and blocks, then cancels the request
 - (void)clearDelegatesAndCancel;
 

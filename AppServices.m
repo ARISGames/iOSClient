@@ -373,7 +373,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate showNewWaitingIndicator:@"Uploading" displayProgressBar:YES];
 	[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
-	[request startAsynchronous];
+	[request startAsynchronousWithUpload:YES];
 }
 
 -(void)createItemAndPlaceOnMap:(Item *)item {
@@ -426,7 +426,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate showNewWaitingIndicator:@"Uploading" displayProgressBar:YES];
 	[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
-	[request startAsynchronous];
+	[request startAsynchronousWithUpload:YES];
 }
 
 
@@ -704,7 +704,7 @@ NSString *const kARISServerServicePackage = @"v1";
 
 	[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
 
-	[request startAsynchronous];
+	[request startAsynchronousWithUpload:YES];
 
 
 }
@@ -798,7 +798,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate showNewWaitingIndicator:@"Uploading" displayProgressBar:YES];
 	[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
-	[request startAsynchronous];
+	[request startAsynchronousWithUpload:YES];
 }
 -(void)updateNoteWithNoteId:(int)noteId title:(NSString *)title publicToMap:(BOOL)publicToMap publicToList:(BOOL)publicToList{
     NSLog(@"Model: Updating Note");

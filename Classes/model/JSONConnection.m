@@ -94,7 +94,7 @@
 
 	[self retain];
 	
-	[request startAsynchronous];
+	[request startAsynchronousWithUpload:NO];
 	
 	//Set up indicators
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
