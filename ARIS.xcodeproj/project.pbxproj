@@ -2420,8 +2420,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Brian Thiel (P8BZ46FXTP)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: David Gagnon (56YHU87885)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: David Gagnon (56YHU87885)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2442,6 +2442,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = ARIS;
+				PROVISIONING_PROFILE = "FEA8A513-18C9-467A-9C5C-9CF19550ABE6";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FEA8A513-18C9-467A-9C5C-9CF19550ABE6";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2453,6 +2454,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: David Gagnon (56YHU87885)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: David Gagnon (56YHU87885)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -2472,6 +2475,8 @@
 				INFOPLIST_FILE = "UploadManager Tests/UploadManager Tests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "FEA8A513-18C9-467A-9C5C-9CF19550ABE6";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FEA8A513-18C9-467A-9C5C-9CF19550ABE6";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
