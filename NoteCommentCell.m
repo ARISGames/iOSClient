@@ -54,11 +54,16 @@
 
 - (void)dealloc
 {
+    [super dealloc];
     [titleLabel release];
     [mediaIcon4 release];
     [mediaIcon3 release];
     [mediaIcon2 release];
-    [super dealloc];
+    [userLabel release];
+    [likeLabel release];
+    [likesButton release];
+    //[note release];
+    //[likeLabel release];
 }
 
 
