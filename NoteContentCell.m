@@ -22,9 +22,9 @@
     
 }
 -(void)checkForRetry{
-    if (self.content.isUploading) {
+    if (![[self.content getUploadState] isEqualToString:@"uploadStateDONE"]) {
 
-        if([(UploadContent *)self.content attemptFailed]){
+        if([[(UploadContent *)self.content getUploadState] isEqualToString:@"uploadStateFAILED"]){
             retryButton.hidden = NO;
             [spinner stopAnimating];
             spinner.hidden = YES;

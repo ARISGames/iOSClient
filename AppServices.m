@@ -731,7 +731,7 @@ NSString *const kARISServerServicePackage = @"v1";
     
     NSURL *localUrl = [[request userInfo] objectForKey:@"url"];
     [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:[nId intValue] andFileURL:localUrl];
-    
+    [[AppModel sharedAppModel].uploadManager contentFinishedUploading];
     
 
 	NSLog(@"AppModel: Creating Note Content for Title:%@ File:%@",title,newFileName);
@@ -768,9 +768,7 @@ NSString *const kARISServerServicePackage = @"v1";
     nId = [[request userInfo] objectForKey:@"noteId"];
 	//if (description == NULL) description = @"filename"; 
 
-    NSString *localUrl = [[request userInfo] objectForKey:@"url"];
-    UploadContent *uploadContent =[[AppModel sharedAppModel].uploadManager.uploadContents objectForKey:localUrl];
-    uploadContent.attemptFailed = YES;
+    [[AppModel sharedAppModel].uploadManager contentFailedUploading];
     [self sendNotificationToNoteViewer];
   }
 
@@ -1263,12 +1261,12 @@ NSString *const kARISServerServicePackage = @"v1";
 }
 - (void)fetchGameNoteListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
 	NSLog(@"AppModel: Fetching Game Note List");
-    if (currentlyFetchingGameNoteList) {
+    /*if (currentlyFetchingGameNoteList) {
         NSLog(@"AppModel: Already fetching location list, skipping");
         return;
     }
     
-    currentlyFetchingGameNoteList = YES;
+    currentlyFetchingGameNoteList = YES;*/
 	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],nil];
 	
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
@@ -1285,12 +1283,12 @@ NSString *const kARISServerServicePackage = @"v1";
 }
 - (void)fetchPlayerNoteListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
 	NSLog(@"AppModel: Fetching Player Note List");
-	if (currentlyFetchingPlayerNoteList) {
+	/*if (currentlyFetchingPlayerNoteList) {
         NSLog(@"AppModel: Already fetching location list, skipping");
         return;
     }
     
-    currentlyFetchingPlayerNoteList = YES;
+    currentlyFetchingPlayerNoteList = YES;*/
     
 
 	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];

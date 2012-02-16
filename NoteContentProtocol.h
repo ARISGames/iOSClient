@@ -15,7 +15,7 @@
 - (NSString *) getText;
 - (Media *) getMedia;
 - (NSString *) getType;
+- (NSString *) getUploadState; //uploadStateDONE, uploadStateUPLOADING, uploadStateQUEUED, uploadStateFAILED
 - (int) getNoteId;
 - (int) getContentId;
-- (BOOL) isUploading;
 @end

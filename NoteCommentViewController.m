@@ -100,7 +100,7 @@
     for(int i = 0; i < [self.parentNote.comments count];i++){
         Note *currNote = [self.parentNote.comments objectAtIndex:i];
         for(int x = [currNote.contents count]-1; x >= 0; x--){
-            if([[currNote.contents objectAtIndex:x] isUploading])
+            if(![[[currNote.contents objectAtIndex:x] getUploadState] isEqualToString:@"uploadStateDONE"])
                 [currNote.contents removeObjectAtIndex:x];
         }
         
@@ -254,7 +254,7 @@
             [player release];
         }
         
-        if ([[[currNote contents] objectAtIndex:x] isUploading]) {
+        if (![[[[currNote contents] objectAtIndex:x] getUploadState] isEqualToString:@"uploadStateDONE"]) {
             cell.titleLabel.text = @"Uploading Media";
             cell.userLabel.text = [AppModel sharedAppModel].userName;
         }

@@ -12,11 +12,11 @@
 @implementation UploadContent
 
 @dynamic title;
+@dynamic state;
 @dynamic text;
 @dynamic type;
 @dynamic fileURL;
 @dynamic noteId;
-@dynamic attemptFailed;
 
 /*
 Through we provide a public NSURL interface, the underlying persistant store
@@ -57,29 +57,8 @@ is an NSString.
     [self didChangeValueForKey:@"noteId"];
 }
 
-/*
- Through we provide a public BOOL interface, the underlying persistant store
- is an NSNumber.
- */
-- (BOOL)attemptFailed 
-{
-    NSNumber * tmpValue;
-    [self willAccessValueForKey:@"attemptFailed"];
-    tmpValue = [self primitiveAttemptFailed];
-    [self didAccessValueForKey:@"attemptFailed"];
-    return [tmpValue boolValue];
-}
 
-- (void)setAttemptFailed:(BOOL)value 
-{
-    [self willChangeValueForKey:@"attemptFailed"];
-    [self setPrimitiveAttemptFailed:[NSNumber numberWithBool: value]];
-    [self didChangeValueForKey:@"attemptFailed"];
-}
-
-
-
-- (id) initForNoteId:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSURL *)aUrl hasAttemptedUpload:(BOOL)attemptFailed andContext:(NSManagedObjectContext *)context
+- (id) initForNoteId:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSURL *)aUrl inState:(NSString *)state andContext:(NSManagedObjectContext *)context
 {
     self = [super initWithEntity:[NSEntityDescription entityForName:@"UploadContent" inManagedObjectContext:context] insertIntoManagedObjectContext:context];
     if(self){
@@ -87,7 +66,7 @@ is an NSString.
         self.text = text;
         self.type = type;
         self.fileURL = aUrl;
-        self.attemptFailed = attemptFailed;
+        self.state = state;
         self.noteId = noteId;
     }
     return self;
@@ -141,6 +120,11 @@ is an NSString.
     return [self type];
 }
 
+- (NSString *) getUploadState
+{
+    return [self state];
+}
+
 //THIS IS REALLY WEIRD AND SHOULD JUST BE USING THE DYNAMIC GETTER
 - (int) getNoteId {
     return self.noteId;
@@ -149,10 +133,6 @@ is an NSString.
 - (int) getContentId
 {
     return -1;
-}
-
--(BOOL)isUploading{
-    return YES;
 }
 
 @end

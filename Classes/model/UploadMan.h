@@ -11,14 +11,19 @@
 
 @interface UploadMan : NSObject {    
     NSMutableDictionary *uploadContents;
-    NSManagedObjectContext *context;    
+    NSManagedObjectContext *context;   
+    int currentUploadCount;
+    int maxUploadCount;
 }
 
 @property (nonatomic, retain) NSMutableDictionary *uploadContents;
 @property (nonatomic, retain) NSManagedObjectContext *context;
+@property (nonatomic) int currentUploadCount;
+@property (nonatomic) int maxUploadCount;
 
 - (void) uploadContentForNoteId:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSURL *)url;
-
+- (void) contentFinishedUploading;
+- (void) contentFailedUploading;
 - (void) deleteContentFromNoteId:(int)noteId andFileURL:(NSURL *)fileURL;
 
 @end

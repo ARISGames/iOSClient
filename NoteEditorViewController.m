@@ -409,7 +409,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-    if(![[self.note.contents objectAtIndex:indexPath.row] isUploading]){
+    if([[[self.note.contents objectAtIndex:indexPath.row] getUploadState] isEqualToString:@"uploadStateDONE"]){
     [[AppServices sharedAppServices]deleteNoteContentWithContentId:[[self.note.contents objectAtIndex:indexPath.row] getContentId]];
     }
     else{
@@ -440,7 +440,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
 -(void)addUploadsToNote{
     self.note = [[AppModel sharedAppModel] noteForNoteId: self.note.noteId playerListYesGameListNo:YES];
     for(int x = [self.note.contents count]-1; x >= 0; x--){
-        if([[self.note.contents objectAtIndex:x] isUploading])
+        if(![[[self.note.contents objectAtIndex:x] getUploadState] isEqualToString:@"uploadStateDONE"])
             [self.note.contents removeObjectAtIndex:x];
     }
     
@@ -537,8 +537,8 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
             [overlay release];
             [aView release];
         }
-    if(noteC.isUploading){
-        if([(UploadContent *)noteC attemptFailed])
+    if(![[noteC getUploadState] isEqualToString:@"uploadStateDONE"]){
+        if(![[(UploadContent *)noteC getUploadState] isEqualToString:@"uploadStateFAILED"])
         cell.titleLbl.text = @"Upload Failed";
         else
             cell.titleLbl.text = @"Media Uploading";

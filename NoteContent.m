@@ -38,6 +38,11 @@
     return [self type];
 }
 
+- (NSString *) getUploadState
+{
+    return @"uploadStateDONE";
+}
+
 - (int) getNoteId
 {
     return [self noteId];
@@ -46,10 +51,6 @@
 - (int) getContentId
 {
     return [self contentId];
-}
-
--(BOOL)isUploading{
-    return NO;
 }
 
 - (void) dealloc {

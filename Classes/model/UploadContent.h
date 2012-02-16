@@ -17,11 +17,11 @@
 @property (nonatomic, retain) NSString *title;
 @property (nonatomic, retain) NSString *text;
 @property (nonatomic, retain) NSString *type;
+@property (nonatomic, retain) NSString *state;
 @property (nonatomic, retain) NSURL *fileURL;
 @property int noteId;
-@property BOOL attemptFailed;
 
-- (id) initForNoteId:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSURL *)url hasAttemptedUpload:(BOOL)attemptFailed andContext:(NSManagedObjectContext *)context;
+- (id) initForNoteId:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSURL *)url inState:(NSString *)state andContext:(NSManagedObjectContext *)context;
 
 @end
 
@@ -34,8 +34,5 @@
 
 - (NSNumber *) primitiveNoteId;
 - (void) setPrimitiveNoteId:(NSNumber *)value;
-
-- (NSNumber *) primitiveAttemptFailed;
-- (void) setPrimitiveAttemptFailed:(NSNumber *)value;
 
 @end
