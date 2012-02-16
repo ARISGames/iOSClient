@@ -10,7 +10,6 @@
 		1108419514D3269900478A9D /* UploadingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1108419314D3269800478A9D /* UploadingCell.m */; };
 		1108419614D3269900478A9D /* UploadingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1108419414D3269800478A9D /* UploadingCell.xib */; };
 		110EE63514CF0A2B0036360A /* mappoint_red.png in Resources */ = {isa = PBXBuildFile; fileRef = 110EE63414CF0A2B0036360A /* mappoint_red.png */; };
-		110F1C9014E5B0B900D0FB6D /* retryButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 110F1C8F14E5B0B900D0FB6D /* retryButton.png */; };
 		1117649A143A716600044812 /* buttonborder.png in Resources */ = {isa = PBXBuildFile; fileRef = 11176497143A715F00044812 /* buttonborder.png */; };
 		1117649B143A716600044812 /* buttonborder2.png in Resources */ = {isa = PBXBuildFile; fileRef = 11176498143A716200044812 /* buttonborder2.png */; };
 		1117649C143A716600044812 /* mappoint.png in Resources */ = {isa = PBXBuildFile; fileRef = 11176499143A716500044812 /* mappoint.png */; };
@@ -203,6 +202,8 @@
 		AB1660CB14E8754B002C6ACB /* UploadManager_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = AB1660CA14E8754B002C6ACB /* UploadManager_Tests.m */; };
 		AB18AEBA137B249A00382826 /* AppServices.m in Sources */ = {isa = PBXBuildFile; fileRef = AB18AEB9137B249A00382826 /* AppServices.m */; };
 		AB1CA8B813C7CDAE00131F81 /* libZXingWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB1CA8B713C7CDAE00131F81 /* libZXingWidget.a */; };
+		AB21D30714ED9C9000DC016F /* blue_button.psd in Resources */ = {isa = PBXBuildFile; fileRef = AB21D30514ED9C9000DC016F /* blue_button.psd */; };
+		AB21D30814ED9C9000DC016F /* grey_button.psd in Resources */ = {isa = PBXBuildFile; fileRef = AB21D30614ED9C9000DC016F /* grey_button.psd */; };
 		AB2223F510502CD800A4255E /* Quest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB2223F410502CD800A4255E /* Quest.m */; };
 		AB2FE579120A154B00758F8C /* LogoutButton.png in Resources */ = {isa = PBXBuildFile; fileRef = AB2FE578120A154B00758F8C /* LogoutButton.png */; };
 		AB37BC441184CE0F00C5CE8B /* nearbyObject.wav in Resources */ = {isa = PBXBuildFile; fileRef = AB37BC431184CE0F00C5CE8B /* nearbyObject.wav */; };
@@ -257,6 +258,8 @@
 		AB7FB978115DBF1500DB81A6 /* clickToPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = AB7FB977115DBF1500DB81A6 /* clickToPlay.png */; };
 		AB82F79011F0EAA300B8E3DC /* microphoneForeground.png in Resources */ = {isa = PBXBuildFile; fileRef = AB82F78F11F0EAA300B8E3DC /* microphoneForeground.png */; };
 		AB8A42A0104C7F8C00422773 /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8A429F104C7F8C00422773 /* Node.m */; };
+		AB8DA9A614ED9BB60018E57B /* grey_button.png in Resources */ = {isa = PBXBuildFile; fileRef = AB8DA9A514ED9BB60018E57B /* grey_button.png */; };
+		AB8DA9A814ED9BBA0018E57B /* blue_button.png in Resources */ = {isa = PBXBuildFile; fileRef = AB8DA9A714ED9BBA0018E57B /* blue_button.png */; };
 		AB8E31F61228399B00C198C3 /* textFade.png in Resources */ = {isa = PBXBuildFile; fileRef = AB8E31F51228399B00C198C3 /* textFade.png */; };
 		AB8FD00C117BCF61004F8B9B /* GameDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = AB8FD00A117BCF61004F8B9B /* GameDetails.m */; };
 		AB8FD00D117BCF61004F8B9B /* GameDetails.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB8FD00B117BCF61004F8B9B /* GameDetails.xib */; };
@@ -371,7 +374,6 @@
 		1108419314D3269800478A9D /* UploadingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadingCell.m; sourceTree = "<group>"; };
 		1108419414D3269800478A9D /* UploadingCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UploadingCell.xib; sourceTree = "<group>"; };
 		110EE63414CF0A2B0036360A /* mappoint_red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mappoint_red.png; sourceTree = "<group>"; };
-		110F1C8F14E5B0B900D0FB6D /* retryButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = retryButton.png; sourceTree = "<group>"; };
 		11176497143A715F00044812 /* buttonborder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonborder.png; sourceTree = "<group>"; };
 		11176498143A716200044812 /* buttonborder2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buttonborder2.png; sourceTree = "<group>"; };
 		11176499143A716500044812 /* mappoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mappoint.png; sourceTree = "<group>"; };
@@ -699,6 +701,8 @@
 		AB18AEB9137B249A00382826 /* AppServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppServices.m; path = ../../AppServices.m; sourceTree = "<group>"; };
 		AB1CA8AB13C7CCBE00131F81 /* ZXingWidget.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZXingWidget.xcodeproj; path = thirdParty/zxing/iphone/ZXingWidget/ZXingWidget.xcodeproj; sourceTree = "<group>"; };
 		AB1CA8B713C7CDAE00131F81 /* libZXingWidget.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libZXingWidget.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB21D30514ED9C9000DC016F /* blue_button.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = blue_button.psd; sourceTree = "<group>"; };
+		AB21D30614ED9C9000DC016F /* grey_button.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = grey_button.psd; sourceTree = "<group>"; };
 		AB2223F310502CD800A4255E /* Quest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quest.h; sourceTree = "<group>"; };
 		AB2223F410502CD800A4255E /* Quest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Quest.m; sourceTree = "<group>"; };
 		AB2FE578120A154B00758F8C /* LogoutButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LogoutButton.png; sourceTree = "<group>"; };
@@ -775,6 +779,8 @@
 		AB8A3CCD104936F500422773 /* libiconv.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.2.dylib; path = ../../../../../../usr/lib/libiconv.2.dylib; sourceTree = SDKROOT; };
 		AB8A429E104C7F8C00422773 /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
 		AB8A429F104C7F8C00422773 /* Node.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Node.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		AB8DA9A514ED9BB60018E57B /* grey_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grey_button.png; sourceTree = "<group>"; };
+		AB8DA9A714ED9BBA0018E57B /* blue_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blue_button.png; sourceTree = "<group>"; };
 		AB8E31F51228399B00C198C3 /* textFade.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textFade.png; sourceTree = "<group>"; };
 		AB8FD009117BCF61004F8B9B /* GameDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameDetails.h; sourceTree = "<group>"; };
 		AB8FD00A117BCF61004F8B9B /* GameDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = GameDetails.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -1695,7 +1701,10 @@
 		AB88F72114DDBD5F009CFA55 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				110F1C8F14E5B0B900D0FB6D /* retryButton.png */,
+				AB21D30514ED9C9000DC016F /* blue_button.psd */,
+				AB21D30614ED9C9000DC016F /* grey_button.psd */,
+				AB8DA9A714ED9BBA0018E57B /* blue_button.png */,
+				AB8DA9A514ED9BB60018E57B /* grey_button.png */,
 				1176F2B014C6045100EA4512 /* check.png */,
 				11DD542A141E80CB0007CD70 /* Pin.png */,
 				11DD542B141E80CC0007CD70 /* PinDown1.png */,
@@ -2171,7 +2180,10 @@
 				1176F2B114C6045100EA4512 /* check.png in Resources */,
 				110EE63514CF0A2B0036360A /* mappoint_red.png in Resources */,
 				1108419614D3269900478A9D /* UploadingCell.xib in Resources */,
-				110F1C9014E5B0B900D0FB6D /* retryButton.png in Resources */,
+				AB8DA9A614ED9BB60018E57B /* grey_button.png in Resources */,
+				AB8DA9A814ED9BBA0018E57B /* blue_button.png in Resources */,
+				AB21D30714ED9C9000DC016F /* blue_button.psd in Resources */,
+				AB21D30814ED9C9000DC016F /* grey_button.psd in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
