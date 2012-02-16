@@ -20,7 +20,7 @@
 @synthesize soundPlayer;
 @synthesize meter;
 @synthesize meterUpdateTimer;
-@synthesize audioData, delegate,parentDelegate, noteId,previewMode;
+@synthesize audioData, backView,parentDelegate, noteId,previewMode,editView;
 
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -51,7 +51,11 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	
+	self.navigationItem.leftBarButtonItem = 
+	[[UIBarButtonItem alloc] initWithTitle:@"Back"
+									 style: UIBarButtonItemStyleBordered
+									target:self 
+									action:@selector(backButtonTouchAction)];
 	meter = [[AudioMeter alloc]initWithFrame:CGRectMake(0, 0, 320, 360)];
 	meter.alpha = 0.0;
 	[self.view addSubview:meter];
@@ -87,7 +91,13 @@
 	// e.g. self.myOutlet = nil;
 }
 
-
+-(void)backButtonTouchAction{
+    if([backView isKindOfClass:[NotebookViewController class]]){
+        [[AppServices sharedAppServices]deleteNoteWithNoteId:self.noteId];
+        [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.noteId]];   
+    }
+    [self.navigationController popToViewController:self.backView animated:NO];   
+}
 - (void)dealloc {
     [super dealloc];
 }
@@ -253,9 +263,9 @@
         [self.parentDelegate addedAudio];
 
     }
-    if([self.delegate isKindOfClass:[NoteEditorViewController class]]) {
-        [self.delegate setNoteValid:YES];
-        [self.delegate setNoteChanged:YES];
+    if([self.editView isKindOfClass:[NoteEditorViewController class]]) {
+        [self.editView setNoteValid:YES];
+        [self.editView setNoteChanged:YES];
     }
     
     [[[AppModel sharedAppModel]uploadManager] uploadContentForNoteId:self.noteId withTitle:nil withText:nil withType:kNoteContentTypeAudio withFileURL:self.soundFileURL];

@@ -57,7 +57,7 @@ BOOL tagFilter;
      	//[noteTable reloadData];
     filSelected = 0;
     sortSelected = 0;
-    [self refresh];
+    //[self refresh];
 
 	NSLog(@"NotebookViewController: View Loaded");
 }
@@ -89,7 +89,7 @@ BOOL tagFilter;
 
 -(void)filterButtonTouchAction:(id)sender{
     
-    [noteTable reloadData];
+    [self refresh];
 }
 
 -(void)sortButtonTouchAction:(id)sender{
@@ -159,12 +159,15 @@ BOOL tagFilter;
 
 -(void)refresh {
 	NSLog(@"NotebookViewController: Refresh Requested");
-            
+
+    if(filterControl.selectedSegmentIndex == 0)
    [[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:YES];
-    
+    else
    [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
 
    [[AppServices sharedAppServices]fetchGameTags];
+    [self refreshViewFromModel];
+    [noteTable reloadData];
     //[self showLoadingIndicator];
 }
 

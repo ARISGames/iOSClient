@@ -769,8 +769,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	//if (description == NULL) description = @"filename"; 
 
     [[AppModel sharedAppModel].uploadManager contentFailedUploading];
-    [self sendNotificationToNoteViewer];
-  }
+       [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];  }
 
 - (void)createItemAndGiveToPlayerFromFileData:(NSData *)fileData fileName:(NSString *)fileName 
 										title:(NSString *)title description:(NSString*)description {
@@ -1261,6 +1260,7 @@ NSString *const kARISServerServicePackage = @"v1";
 }
 - (void)fetchGameNoteListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
 	NSLog(@"AppModel: Fetching Game Note List");
+
     /*if (currentlyFetchingGameNoteList) {
         NSLog(@"AppModel: Already fetching location list, skipping");
         return;
@@ -1283,6 +1283,7 @@ NSString *const kARISServerServicePackage = @"v1";
 }
 - (void)fetchPlayerNoteListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
 	NSLog(@"AppModel: Fetching Player Note List");
+
 	/*if (currentlyFetchingPlayerNoteList) {
         NSLog(@"AppModel: Already fetching location list, skipping");
         return;
@@ -1290,7 +1291,6 @@ NSString *const kARISServerServicePackage = @"v1";
     
     currentlyFetchingPlayerNoteList = YES;*/
     
-
 	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
 	
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 

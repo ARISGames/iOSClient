@@ -23,7 +23,7 @@
 @synthesize libraryButton;
 @synthesize mediaData;
 @synthesize mediaFilename;
-@synthesize profileButton,parentDelegate, delegate,showVid, noteId;
+@synthesize profileButton,parentDelegate,backView,showVid, noteId,editView;
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle {
@@ -162,9 +162,9 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
 
         }
         
-        if([self.delegate isKindOfClass:[NoteEditorViewController class]]) {
-            [self.delegate setNoteValid:YES];
-            [self.delegate setNoteChanged:YES];
+        if([self.editView isKindOfClass:[NoteEditorViewController class]]) {
+            [self.editView setNoteValid:YES];
+            [self.editView setNoteChanged:YES];
                   }
         
         [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:nil withText:nil withType:kNoteContentTypePhoto withFileURL:imageURL];
@@ -178,9 +178,9 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
                        [self.parentDelegate addedVideo];
 
         }
-        if([self.delegate isKindOfClass:[NoteEditorViewController class]]) {
-            [self.delegate setNoteValid:YES];
-            [self.delegate setNoteChanged:YES];
+        if([self.editView isKindOfClass:[NoteEditorViewController class]]) {
+            [self.editView setNoteValid:YES];
+            [self.editView setNoteChanged:YES];
                  }
         
   [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:nil withText:nil withType:kNoteContentTypeVideo withFileURL:videoURL];
@@ -203,7 +203,11 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [picker dismissModalViewControllerAnimated:NO];
-    [self.navigationController popViewControllerAnimated:NO];
+    if([backView isKindOfClass:[NotebookViewController class]]){
+        [[AppServices sharedAppServices]deleteNoteWithNoteId:self.noteId];
+        [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.noteId]];   
+    }
+    [self.navigationController popToViewController:self.backView animated:NO];
 	
 }
 

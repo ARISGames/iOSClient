@@ -14,7 +14,7 @@
 #import "NoteEditorViewController.h"
 
 @implementation TextViewController
-@synthesize textBox,noteId,keyboardButton,textToDisplay,editMode,contentId,delegate,previewMode,index;
+@synthesize textBox,noteId,keyboardButton,textToDisplay,editMode,contentId,backView,previewMode,index,editView;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -46,6 +46,11 @@
 {
 
     [super viewDidLoad];
+    self.navigationItem.leftBarButtonItem = 
+	[[UIBarButtonItem alloc] initWithTitle:@"Back"
+									 style: UIBarButtonItemStyleBordered
+									target:self 
+									action:@selector(backButtonTouchAction)];
     if(editMode){
     
         self.textBox.text = textToDisplay;
@@ -60,7 +65,7 @@
         self.textBox.userInteractionEnabled = NO;
         self.textBox.text = self.textToDisplay;
     }
-    if([self.delegate isKindOfClass:[NoteEditorViewController class]] || [self.delegate isKindOfClass:[NotebookViewController class]]) {
+    if([self.backView isKindOfClass:[NoteEditorViewController class]] || [self.backView isKindOfClass:[NotebookViewController class]]) {
 
     [self.textBox becomeFirstResponder];
     }
@@ -72,6 +77,13 @@
 	self.navigationItem.rightBarButtonItem = hideKeyboardButton;
     if(self.note && ([AppModel sharedAppModel].playerId != self.note.creatorId)) self.textBox.userInteractionEnabled = NO;
      */
+}
+-(void)backButtonTouchAction{
+    if([backView isKindOfClass:[NotebookViewController class]]){
+    [[AppServices sharedAppServices]deleteNoteWithNoteId:self.noteId];
+    [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.noteId]];   
+    }
+    [self.navigationController popToViewController:self.backView animated:NO];   
 }
 -(void)viewWillAppear:(BOOL)animated{
     if(previewMode){
@@ -118,9 +130,9 @@
 -(void)saveButtonTouchAction{
     
 //Do server call here
-    if([self.delegate isKindOfClass:[NoteEditorViewController class]]) {
-        [self.delegate setNoteValid:YES];
-        [self.delegate setNoteChanged:YES];
+    if([self.editView isKindOfClass:[NoteEditorViewController class]]) {
+        [self.editView setNoteValid:YES];
+        [self.editView setNoteChanged:YES];
          
     }
     [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:nil withText:self.textBox.text withType:kNoteContentTypeText withFileURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@.txt",[NSDate date]]]];

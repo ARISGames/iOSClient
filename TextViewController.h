@@ -16,13 +16,16 @@
     int noteId;
     BOOL editMode;
     BOOL previewMode;
-    id delegate;
+    id backView;
+    id editView;
     int contentId;
     int index;
 }
 @property(nonatomic,retain) IBOutlet UITextView *textBox;
 @property(nonatomic, retain) IBOutlet UIButton *keyboardButton;
-@property(nonatomic, retain) id delegate;
+@property(nonatomic, retain) id backView;
+@property(nonatomic, retain) id editView;
+
 @property(nonatomic,retain)NSString *textToDisplay;
 @property(readwrite, assign) int noteId;
 @property(readwrite, assign) int contentId;

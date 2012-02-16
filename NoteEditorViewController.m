@@ -141,6 +141,8 @@
    
     if(self.note.noteId == 0){
         self.note = [[Note alloc]init];
+        self.note.creatorId = [AppModel sharedAppModel].playerId;
+        self.note.username = [AppModel sharedAppModel].userName;
         self.note.noteId = [[AppServices sharedAppServices] createNote];
         [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];
     }
@@ -151,15 +153,8 @@
     pageControl.numberOfPages = numPages;
     
     UIBarButtonItem *tagButton = [[UIBarButtonItem alloc] initWithTitle:@"Tag" style:UIBarButtonItemStylePlain target:self action:@selector(tagButtonTouchAction)]; 
-    if(![self.delegate isKindOfClass:[NoteDetailsViewController class]]){
-    UIBarButtonItem *previewButton = [[UIBarButtonItem alloc] initWithTitle:@"Preview" style:UIBarButtonItemStylePlain target:self action:@selector(previewButtonTouchAction)];      
+          self.navigationItem.rightBarButtonItem = tagButton;
     
-
-    [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:previewButton,tagButton, nil] animated:YES];
-    }
-    else{
-        self.navigationItem.rightBarButtonItem = tagButton;
-    }
     
     [[AVAudioSession sharedInstance] setDelegate: self];
 
@@ -252,9 +247,12 @@
 -(void)cameraButtonTouchAction{
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
     CameraViewController *cameraVC = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
-    cameraVC.delegate = self;
+    if(startWithView == 0)
+    cameraVC.backView = self;
+    else cameraVC.backView = self.delegate;
     cameraVC.parentDelegate = self.delegate;
     cameraVC.showVid = YES;
+        cameraVC.editView = self;
     cameraVC.noteId = self.note.noteId;
 
     [self.navigationController pushViewController:cameraVC animated:NO];
@@ -265,9 +263,12 @@
     BOOL audioHWAvailable = [[AVAudioSession sharedInstance] inputIsAvailable];
     if(audioHWAvailable){
     AudioRecorderViewController *audioVC = [[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil];
-    audioVC.delegate = self;
+        if(startWithView == 0)
+            audioVC.backView = self;
+        else audioVC.backView = self.delegate;
     audioVC.parentDelegate = self.delegate;
     audioVC.noteId = self.note.noteId;
+        audioVC.editView = self;
    
     [self.navigationController pushViewController:audioVC animated:NO];
     [audioVC release];
@@ -275,19 +276,26 @@
 }
 -(void)libraryButtonTouchAction{
     CameraViewController *cameraVC = [[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil];
-    cameraVC.delegate = self;
+    if(startWithView == 0)
+        cameraVC.backView = self;
+    else cameraVC.backView = self.delegate;
+
     cameraVC.showVid = NO;
     cameraVC.parentDelegate = self.delegate;
     cameraVC.noteId = self.note.noteId;
-   
+    cameraVC.editView = self;
+
     [self.navigationController pushViewController:cameraVC animated:NO];
     [cameraVC release];
 }
 -(void)textButtonTouchAction{
     TextViewController *textVC = [[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil];
     textVC.noteId = self.note.noteId;
-    textVC.delegate = self;
+    if(startWithView == 0)
+    textVC.backView = self;
+    else textVC.backView = self.delegate;
     textVC.index = [self.note.contents count];
+    textVC.editView = self;
 
     [self.navigationController pushViewController:textVC animated:NO];
     [textVC release];
@@ -586,7 +594,8 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
         textVC.textToDisplay = noteC.getText;
         textVC.editMode = YES;
         textVC.contentId = noteC.getContentId;
-        textVC.delegate = self;
+        textVC.editView = self;
+        textVC.backView = self;
         textVC.index = indexPath.row;
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:.5];
