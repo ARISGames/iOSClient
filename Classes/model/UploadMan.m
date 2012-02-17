@@ -92,25 +92,26 @@
 }
 
 
--(void)saveUploadContentToCD:(UploadContent *)uploadContent
+-(UploadContent *)saveUploadContentToCDWithTitle:(NSString *)title andText:(NSString *)text andType:(NSString *)type andNoteId:(int)noteId andFileURL:(NSURL *)fileURL inState:(NSString *)state
 {
-    //[self deleteUploadContentFromCDFromNoteId:uploadContent.noteId andFileURL:uploadContent.fileURL]; //Prevent Duplicates
+    [self deleteUploadContentFromCDFromNoteId:noteId andFileURL:fileURL]; //Prevent Duplicates
     NSLog(@"UploadMan:saveUploadContentToCD"); 
     NSError *error;
     UploadContent *uploadContentCD = [NSEntityDescription
                                       insertNewObjectForEntityForName:@"UploadContent" 
                                       inManagedObjectContext:context];
     
-    uploadContentCD.text = uploadContent.text;
-    uploadContentCD.title = uploadContent.title;
-    uploadContentCD.type = uploadContent.type;
-    uploadContentCD.noteId = uploadContent.noteId;
-    uploadContentCD.fileURL = uploadContent.fileURL;
-    uploadContentCD.state = uploadContent.state;
+    uploadContentCD.text = text;
+    uploadContentCD.title = title;
+    uploadContentCD.type = type;
+    uploadContentCD.noteId = noteId;
+    uploadContentCD.fileURL = fileURL;
+    uploadContentCD.state = state;
     
     if (![context save:&error]) {
         NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
     }
+    return uploadContentCD;
 }
 
 -(void)getSavedUploadContents
@@ -135,12 +136,10 @@
 #pragma mark Header Implementations
 
 - (void) uploadContentForNoteId:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSURL *)aUrl
-{
-    UploadContent *uploadContent = [[UploadContent alloc] initForNoteId:noteId withTitle:title withText:text withType:type withFileURL:aUrl inState:@"uploadStateQUEUED" andContext:context];
-    
-    [self saveUploadContentToCD:uploadContent];
-    [self insertUploadContentIntoDictionary:uploadContent];
-    [uploadContent release];
+{    
+    UploadContent * uc = [[self saveUploadContentToCDWithTitle:title andText:text andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateQUEUED"] retain];
+    [self insertUploadContentIntoDictionary:uc];
+    [uc release];
     
     if(text)
     {
@@ -151,11 +150,9 @@
         if(self.currentUploadCount < self.maxUploadCount)
         {
             [[AppServices sharedAppServices]uploadContentToNoteWithFileURL:aUrl name:nil noteId:noteId type:type]; 
-            UploadContent *uploadContent = [[UploadContent alloc] initForNoteId:noteId withTitle:title withText:text withType:type withFileURL:aUrl inState:@"uploadStateUPLOADING" andContext:context];
-            
-            [self saveUploadContentToCD:uploadContent];
-            [self insertUploadContentIntoDictionary:uploadContent];
-            [uploadContent release];
+            UploadContent * uc = [[self saveUploadContentToCDWithTitle:title andText:text andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateUPLOADING"] retain];
+            [self insertUploadContentIntoDictionary:uc];
+            [uc release];
             self.currentUploadCount++;
         }
     }
@@ -184,10 +181,12 @@
     for (int i=0; i < [keyArray count]; i++) {
         NSArray *tmp = [[self.uploadContents objectForKey:[ keyArray objectAtIndex:i]] allKeys];
         for (int j=0; j < [tmp count]; j++) {
-            UploadContent * uc = [self.uploadContents objectForKey:[ keyArray objectAtIndex:i]];
+            UploadContent * uc = [[self.uploadContents objectForKey:[ keyArray objectAtIndex:i]] retain];
             uc.state = @"uploadStateFAILED";
-            [self saveUploadContentToCD:uc];
-            [self insertUploadContentIntoDictionary:uc];
+            UploadContent * newuc = [[self saveUploadContentToCDWithTitle:[uc getTitle] andText:[uc getText] andType:[uc getType] andNoteId:[uc getNoteId] andFileURL:uc.fileURL inState:[uc getUploadState]] retain];
+            [self insertUploadContentIntoDictionary:newuc];
+            [uc release];
+            [newuc release];
         }
     }
     self.currentUploadCount = 0; //Resume Possibility of new uploads
