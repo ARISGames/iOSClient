@@ -94,12 +94,19 @@
 
 -(UploadContent *)saveUploadContentToCDWithTitle:(NSString *)title andText:(NSString *)text andType:(NSString *)type andNoteId:(int)noteId andFileURL:(NSURL *)fileURL inState:(NSString *)state
 {
+    //Retains input, as they may be pointers from an object that will get deleted
+    [title retain];
+    [text retain];
+    [type retain];
+    [fileURL retain];
+    [state retain];
+    
     [self deleteUploadContentFromCDFromNoteId:noteId andFileURL:fileURL]; //Prevent Duplicates
     NSLog(@"UploadMan:saveUploadContentToCD"); 
     NSError *error;
-    UploadContent *uploadContentCD = [NSEntityDescription
+    UploadContent *uploadContentCD = [[NSEntityDescription
                                       insertNewObjectForEntityForName:@"UploadContent" 
-                                      inManagedObjectContext:context];
+                                      inManagedObjectContext:context] retain];
     
     uploadContentCD.text = text;
     uploadContentCD.title = title;
@@ -108,10 +115,15 @@
     uploadContentCD.fileURL = fileURL;
     uploadContentCD.state = state;
     
+    [title release];
+    [text release];
+    [type release];
+    [fileURL release];
+    [state release];
     if (![context save:&error]) {
         NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
     }
-    return uploadContentCD;
+    return [uploadContentCD autorelease];
 }
 
 -(void)getSavedUploadContents
@@ -161,11 +173,11 @@
 - (void) contentFinishedUploading
 {
     self.currentUploadCount--;
-    NSArray *keyArray =  [self.uploadContents allKeys];
-    for (int i=0; i < [keyArray count]; i++) {
-        NSArray *tmp = [[self.uploadContents objectForKey:[ keyArray objectAtIndex:i]] allKeys];
-        for (int j=0; j < [tmp count]; j++) {
-            UploadContent * uc = [[self.uploadContents objectForKey:[ keyArray objectAtIndex:i]] objectForKey:[ keyArray objectAtIndex:i]];
+    NSArray *noteIdKeyArray =  [self.uploadContents allKeys];
+    for (int i=0; i < [noteIdKeyArray count]; i++) {
+        NSArray *contentIdKeyArray = [[self.uploadContents objectForKey:[noteIdKeyArray objectAtIndex:i]] allKeys];
+        for (int j=0; j < [contentIdKeyArray count]; j++) {
+            UploadContent * uc = [[self.uploadContents objectForKey:[ noteIdKeyArray objectAtIndex:i]] objectForKey:[ contentIdKeyArray objectAtIndex:j]];
             if([[uc getUploadState] isEqualToString:@"uploadStateQUEUED"])
             {
                 [self uploadContentForNoteId:uc.noteId withTitle:uc.title withText: uc.text withType:uc.type withFileURL:uc.fileURL];
