@@ -587,8 +587,12 @@ BOOL tagFilter;
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     [[AppServices sharedAppServices]deleteNoteWithNoteId:[(Note *)[self.noteList objectAtIndex:indexPath.row] noteId]];
-    self.noteList = [self.noteList mutableCopy];
-    [self.noteList removeObjectAtIndex:indexPath.row];
+    if([AppModel sharedAppModel].isGameNoteList)
+    [[AppModel sharedAppModel].gameNoteList removeObjectForKey:[NSNumber numberWithInt:[(Note *)[self.noteList objectAtIndex:indexPath.row] noteId]]];
+    else
+        [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:[(Note *)[self.noteList objectAtIndex:indexPath.row] noteId]]];
+    [self refreshViewFromModel];
+    
 }
 
 - (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
