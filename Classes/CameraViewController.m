@@ -167,7 +167,7 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
             [self.editView setNoteChanged:YES];
                   }
         
-        [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:nil withText:nil withType:kNoteContentTypePhoto withFileURL:imageURL];
+        [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:kNoteContentTypePhoto withFileURL:imageURL];
 	}	
 	else if ([mediaType isEqualToString:@"public.movie"]){
 		NSLog(@"CameraViewController: Found a Movie");
@@ -183,7 +183,7 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
             [self.editView setNoteChanged:YES];
                  }
         
-  [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:nil withText:nil withType:kNoteContentTypeVideo withFileURL:videoURL];
+  [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:kNoteContentTypeVideo withFileURL:videoURL];
     
     }	
     

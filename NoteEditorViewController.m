@@ -545,13 +545,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
             [overlay release];
             [aView release];
         }
-    if(![[noteC getUploadState] isEqualToString:@"uploadStateDONE"]){
-        if(![[(UploadContent *)noteC getUploadState] isEqualToString:@"uploadStateFAILED"])
-        cell.titleLbl.text = @"Upload Failed";
-        else
-            cell.titleLbl.text = @"Media Uploading";
-    }
-    else
+
         cell.titleLbl.text = noteC.getTitle;
     return cell;
     

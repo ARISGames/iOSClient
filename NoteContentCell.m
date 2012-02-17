@@ -23,21 +23,35 @@
 }
 -(void)checkForRetry{
     if (![[self.content getUploadState] isEqualToString:@"uploadStateDONE"]) {
+        
+        retryButton.hidden = NO;
+
+        [self.titleLbl setFrame:CGRectMake(65, 4, 147, 30)];
 
         if([[(UploadContent *)self.content getUploadState] isEqualToString:@"uploadStateFAILED"]){
-            retryButton.hidden = NO;
+            [self.retryButton setBackgroundImage:[UIImage imageNamed:@"blue_button.png"] forState:UIControlStateNormal];
+            [self.retryButton setTitle: @"Retry" forState: UIControlStateNormal];
+            self.retryButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+            [self.retryButton setFrame:CGRectMake(228, 15, 80, 30)];
             [spinner stopAnimating];
             spinner.hidden = YES;
-            [self.titleLbl setFrame:CGRectMake(65, 4, 147, 30)];
-            [self.titleLbl setText:@"Upload Failed"];
-        }
-        else {
-            [self.titleLbl setText:@"Media Uploading"];
 
-            retryButton.hidden = YES;
-            [self.titleLbl setFrame:CGRectMake(65, 4, 235, 30)];
+        }
+        else if([[self.content getUploadState] isEqualToString:@"uploadStateQUEUED"]){
+            [self.retryButton setBackgroundImage:[UIImage imageNamed:@"grey_button.png"] forState:UIControlStateNormal];
+            [self.retryButton setTitle: @"  Waiting" forState: UIControlStateNormal];
+            [self.retryButton setFrame:CGRectMake(208, 15, 100, 30)];
+            self.retryButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
             [spinner startAnimating];
             spinner.hidden = NO;
+        }
+        else {
+            [self.retryButton setBackgroundImage:[UIImage imageNamed:@"grey_button.png"] forState:UIControlStateNormal];
+            [self.retryButton setTitle: @"  Uploading" forState: UIControlStateNormal];
+            [self.retryButton setFrame:CGRectMake(187, 15, 121, 30)];
+            [spinner startAnimating];
+            spinner.hidden = NO;
+                        self.retryButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         }
     }
     else {
@@ -49,7 +63,6 @@
     }
 }
 -(void)retryUpload{
-    [self.titleLbl setText:@"Media Uploading"];
     
     retryButton.hidden = YES;
     [self.titleLbl setFrame:CGRectMake(65, 4, 235, 30)];
