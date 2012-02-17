@@ -135,7 +135,10 @@
         [self.editView setNoteChanged:YES];
          
     }
-    [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:self.textBox.text withType:kNoteContentTypeText withFileURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@.txt",[NSDate date]]]];
+    NSString *urlString = [NSString stringWithFormat:@"%@.txt",[NSDate date]];
+    urlString = [NSString stringWithFormat:@"%d.txt",urlString.hash];
+    NSURL *url = [NSURL URLWithString:urlString];
+    [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:self.textBox.text withType:kNoteContentTypeText withFileURL:url];
     
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:.5];

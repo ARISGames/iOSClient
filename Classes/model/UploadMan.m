@@ -158,16 +158,17 @@
         [[AppServices sharedAppServices]addContentToNoteWithText:text type:type mediaId:0 andNoteId:noteId andFileURL:aUrl];
     }
     else
+    {            [[AppServices sharedAppServices]uploadContentToNoteWithFileURL:aUrl name:nil noteId:noteId type:type]; 
+
+           }
+    if(self.currentUploadCount < self.maxUploadCount)
     {
-        if(self.currentUploadCount < self.maxUploadCount)
-        {
-            [[AppServices sharedAppServices]uploadContentToNoteWithFileURL:aUrl name:nil noteId:noteId type:type]; 
-            UploadContent * uc = [[self saveUploadContentToCDWithTitle:title andText:text andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateUPLOADING"] retain];
-            [self insertUploadContentIntoDictionary:uc];
-            [uc release];
-            self.currentUploadCount++;
-        }
+        UploadContent * uc = [[self saveUploadContentToCDWithTitle:title andText:text andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateUPLOADING"] retain];
+        [self insertUploadContentIntoDictionary:uc];
+        [uc release];
+        self.currentUploadCount++;
     }
+
 }
 
 - (void) contentFinishedUploading
@@ -189,11 +190,11 @@
 
 - (void) contentFailedUploading
 {
-    NSArray *keyArray =  [self.uploadContents allKeys];
-    for (int i=0; i < [keyArray count]; i++) {
-        NSArray *tmp = [[self.uploadContents objectForKey:[ keyArray objectAtIndex:i]] allKeys];
-        for (int j=0; j < [tmp count]; j++) {
-            UploadContent * uc = [[self.uploadContents objectForKey:[ keyArray objectAtIndex:i]] retain];
+    NSArray *noteIdKeyArray =  [self.uploadContents allKeys];
+    for (int i=0; i < [noteIdKeyArray count]; i++) {
+        NSArray *contentIdKeyArray = [[self.uploadContents objectForKey:[noteIdKeyArray objectAtIndex:i]] allKeys];
+        for (int j=0; j < [contentIdKeyArray count]; j++) {
+            UploadContent * uc = [[[self.uploadContents objectForKey:[ noteIdKeyArray objectAtIndex:i]] objectForKey:[ contentIdKeyArray objectAtIndex:j]] retain];
             uc.state = @"uploadStateFAILED";
             UploadContent * newuc = [[self saveUploadContentToCDWithTitle:[uc getTitle] andText:[uc getText] andType:[uc getType] andNoteId:[uc getNoteId] andFileURL:uc.fileURL inState:[uc getUploadState]] retain];
             [self insertUploadContentIntoDictionary:newuc];

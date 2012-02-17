@@ -72,7 +72,7 @@
      NSLog(@"Deleting Upload forNoteId:%d withFileURL:%@",self.content.getNoteId,self.content.getMedia.url);
     [[AppModel sharedAppModel].uploadManager uploadContentForNoteId:self.content.getNoteId withTitle:self.content.getTitle withText:self.content.getText withType:self.content.getType withFileURL:self.content.getMedia.url];
      NSLog(@"Retrying Upload forNoteId:%d withTitle:%@ withText:%@ withType:%@ withFileURL:%@",self.content.getNoteId,self.content.getTitle,self.content.getText,self.content.getType,self.content.getMedia.url);
-    //[self checkForRetry];
+    [self checkForRetry];
 }
 -(void)textViewDidEndEditing:(UITextView *)textView{
     //[textView resignFirstResponder];
