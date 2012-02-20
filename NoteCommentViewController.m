@@ -29,7 +29,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.commentNote = [[Note alloc]init];
         self.movieViews = [[NSMutableArray alloc]initWithCapacity:5];
         self.asyncMediaDict = [[NSMutableDictionary alloc] initWithCapacity:5];
         self.title = @"Comments";
@@ -70,9 +69,9 @@
 }
 
 -(void) perform:(id)sender{
-    if([[self.commentNote contents] count] == 0 && [textBox.text isEqualToString:@""] && self.commentNote.noteId != 0){
+   /* if([[self.commentNote contents] count] == 0 && [textBox.text isEqualToString:@""] && self.commentNote.noteId != 0){
         [[AppServices sharedAppServices]deleteNoteWithNoteId:self.commentNote.noteId];
-        
+        [self.parentNote.comments removeObjectAtIndex:0];
         if([AppModel sharedAppModel].isGameNoteList){
             [[AppModel sharedAppModel].gameNoteList removeObjectForKey:[NSNumber numberWithInt:self.commentNote.noteId]];
         }
@@ -80,7 +79,7 @@
             [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.commentNote.noteId]];
         }
         
-    }
+    }*/
     [self.navigationController popViewControllerAnimated:NO];
     
 }
@@ -195,7 +194,7 @@
     Note *currNote = [self.parentNote.comments objectAtIndex:(indexPath.row)];
     cell.note = currNote;
     [cell initCell];
-    
+    [cell checkForRetry];
     cell.userInteractionEnabled = YES;
     cell.titleLabel.text = currNote.title;
     cell.userLabel.text = currNote.username;
@@ -254,10 +253,10 @@
             [player release];
         }
         
-        if (![[[[currNote contents] objectAtIndex:x] getUploadState] isEqualToString:@"uploadStateDONE"]) {
+       /* if (![[[[currNote contents] objectAtIndex:x] getUploadState] isEqualToString:@"uploadStateDONE"]) {
             cell.titleLabel.text = @"Uploading Media";
             cell.userLabel.text = [AppModel sharedAppModel].userName;
-        }
+        }*/
     }
     return cell;
 }
@@ -325,12 +324,16 @@
     [UIView commitAnimations];
     [self.textBox becomeFirstResponder];
     self.textBox.text = @"";
+    self.commentNote = [[Note alloc]init];
+
     self.commentNote.noteId = [[AppServices sharedAppServices]addCommentToNoteWithId:self.parentNote.noteId andTitle:@""];
+    [self.parentNote.comments insertObject:self.commentNote atIndex:0];
     if([AppModel sharedAppModel].isGameNoteList){
-        [[AppModel sharedAppModel].gameNoteList setObject:self.commentNote forKey:[NSNumber numberWithInt:self.commentNote.noteId]];
+        [[AppModel sharedAppModel].gameNoteList setObject:self.parentNote forKey:[NSNumber numberWithInt:self.parentNote.noteId]];
+        
     }
     else{
-        [[AppModel sharedAppModel].playerNoteList setObject:self.commentNote forKey:[NSNumber numberWithInt:self.commentNote.noteId]];
+        [[AppModel sharedAppModel].playerNoteList setObject:self.parentNote forKey:[NSNumber numberWithInt:self.parentNote.noteId]];
     }
     self.addAudioButton.userInteractionEnabled = YES;
     self.addAudioButton.alpha = 1;
@@ -367,7 +370,11 @@
         commentNote.creatorId = [AppModel sharedAppModel].playerId;
         commentNote.username = [AppModel sharedAppModel].userName;
         
-        [[AppServices sharedAppServices]updateCommentWithId:self.commentNote.noteId andTitle:self.textBox.text andRefresh:NO];
+        if([[[parentNote.comments objectAtIndex:0] contents]count]>0)
+        [[AppServices sharedAppServices]updateCommentWithId:self.commentNote.noteId andTitle:self.textBox.text andRefresh:YES];
+        else
+            [[AppServices sharedAppServices]updateCommentWithId:self.commentNote.noteId andTitle:self.textBox.text andRefresh:NO];
+
         
         if(parentNote.comments.count > 0){
         if([[parentNote.comments objectAtIndex:0] noteId] == commentNote.noteId){
@@ -420,20 +427,25 @@
     self.commentValid = YES;
     self.currNoteHasPhoto = YES;
     self.addPhotoButton.userInteractionEnabled = NO;
-    // self.addPhotoButton.selected = YES;
     self.addMediaFromAlbumButton.userInteractionEnabled = NO;
-    //self.addMediaFromAlbumButton.selected = YES;
+    self.addAudioButton.userInteractionEnabled = NO;
+
     self.addPhotoButton.alpha = .3;
     self.addMediaFromAlbumButton.alpha = .3;
-    
+    self.addAudioButton.alpha = .3;
 }
 -(void)addedAudio{
 
     self.commentValid = YES;
     self.currNoteHasAudio = YES;
+    self.addPhotoButton.userInteractionEnabled = NO;
+    self.addMediaFromAlbumButton.userInteractionEnabled = NO;
     self.addAudioButton.userInteractionEnabled = NO;
-    //self.addAudioButton.selected = YES;
+    
+    self.addPhotoButton.alpha = .3;
+    self.addMediaFromAlbumButton.alpha = .3;
     self.addAudioButton.alpha = .3;
+
     
 }
 -(void)addedVideo{
@@ -441,11 +453,13 @@
     self.commentValid = YES;
     self.currNoteHasVideo = YES;
     self.addPhotoButton.userInteractionEnabled = NO;
-    //self.addPhotoButton.selected = YES;
     self.addMediaFromAlbumButton.userInteractionEnabled = NO;
-    //self.addMediaFromAlbumButton.selected = YES;
+    self.addAudioButton.userInteractionEnabled = NO;
+    
     self.addPhotoButton.alpha = .3;
     self.addMediaFromAlbumButton.alpha = .3;
+    self.addAudioButton.alpha = .3;
+
     
 }
 -(void)addedText{

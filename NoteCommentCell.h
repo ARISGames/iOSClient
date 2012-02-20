@@ -18,7 +18,8 @@
     IBOutlet UIImageView *mediaIcon4;
     IBOutlet UILabel *userLabel;
     IBOutlet UILabel *likeLabel;
-
+    IBOutlet UIButton *retryButton;
+    IBOutlet UIActivityIndicatorView *spinner;
     IBOutlet UIButton *likesButton;
     Note *note;
 }
@@ -31,6 +32,10 @@
 @property(nonatomic,retain)IBOutlet UIImageView *mediaIcon2;
 @property(nonatomic,retain)IBOutlet UIImageView *mediaIcon3;
 @property(nonatomic,retain)IBOutlet UIImageView *mediaIcon4;
+@property(nonatomic,retain)IBOutlet UIButton *retryButton;
+@property(nonatomic,retain)IBOutlet UIActivityIndicatorView *spinner;
+-(void)checkForRetry;
+-(IBAction)retryUpload;
 -(IBAction)likeButtonTouched;
 -(void)initCell;
 @end

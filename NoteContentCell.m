@@ -30,6 +30,7 @@
 
         if([[(UploadContent *)self.content getUploadState] isEqualToString:@"uploadStateFAILED"]){
             [self.retryButton setBackgroundImage:[UIImage imageNamed:@"blue_button.png"] forState:UIControlStateNormal];
+            self.retryButton.userInteractionEnabled = YES;
             [self.retryButton setTitle: @"Retry" forState: UIControlStateNormal];
             self.retryButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
             [self.retryButton setFrame:CGRectMake(228, 15, 80, 30)];
@@ -42,6 +43,7 @@
             [self.retryButton setTitle: @"  Waiting" forState: UIControlStateNormal];
             [self.retryButton setFrame:CGRectMake(208, 15, 100, 30)];
             self.retryButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+            self.retryButton.userInteractionEnabled = NO;
             [spinner startAnimating];
             spinner.hidden = NO;
         }
@@ -49,6 +51,8 @@
             [self.retryButton setBackgroundImage:[UIImage imageNamed:@"grey_button.png"] forState:UIControlStateNormal];
             [self.retryButton setTitle: @"  Uploading" forState: UIControlStateNormal];
             [self.retryButton setFrame:CGRectMake(187, 15, 121, 30)];
+            self.retryButton.userInteractionEnabled = NO;
+
             [spinner startAnimating];
             spinner.hidden = NO;
                         self.retryButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
