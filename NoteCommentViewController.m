@@ -95,7 +95,7 @@
     
 }
 -(void)addUploadsToComments{
-    self.parentNote = [[AppModel sharedAppModel] noteForNoteId: self.parentNote.noteId playerListYesGameListNo:YES];
+    self.parentNote = [[AppModel sharedAppModel] noteForNoteId: self.parentNote.noteId playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
     for(int i = 0; i < [self.parentNote.comments count];i++){
         Note *currNote = [self.parentNote.comments objectAtIndex:i];
         for(int x = [currNote.contents count]-1; x >= 0; x--){
@@ -207,10 +207,10 @@
     for(int x = 0; x < [currNote.contents count];x++){
         
         
-        if([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeText]){
+        if([[(NoteContent<NoteContentProtocol> *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeText]){
             //Dont show icon for text since it is assumed to always be there
         }
-        else if ([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypePhoto]){
+        else if ([[(NoteContent<NoteContentProtocol> *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypePhoto]){
             AsyncMediaImageView *aImageView = [[AsyncMediaImageView alloc]initWithFrame:CGRectMake(10, height, 300, 300) andMedia:[[[currNote contents] objectAtIndex:x] getMedia]];
             
             if(!currNote.hasAudio)
@@ -221,7 +221,7 @@
             [cell addSubview:aImageView];
             [aImageView release];
         }
-        else if([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeVideo]){
+        else if([[(NoteContent<NoteContentProtocol> *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeVideo]){
             NoteContent *content =  (NoteContent *)[[currNote contents] objectAtIndex:x];
             
             CGRect frame = CGRectMake(10, 0, 320, 240);
@@ -373,10 +373,10 @@
         commentNote.creatorId = [AppModel sharedAppModel].playerId;
         commentNote.username = [AppModel sharedAppModel].userName;
         
-        if([[[parentNote.comments objectAtIndex:0] contents]count]>0)
+        //if([[[parentNote.comments objectAtIndex:0] contents]count]>0)
         [[AppServices sharedAppServices]updateCommentWithId:self.commentNote.noteId andTitle:self.textBox.text andRefresh:YES];
-        else
-            [[AppServices sharedAppServices]updateCommentWithId:self.commentNote.noteId andTitle:self.textBox.text andRefresh:NO];
+       // else
+            //[[AppServices sharedAppServices]updateCommentWithId:self.commentNote.noteId andTitle:self.textBox.text andRefresh:NO];
 
         
         if(parentNote.comments.count > 0){
