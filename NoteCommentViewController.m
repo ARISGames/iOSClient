@@ -124,7 +124,8 @@
         cameraVC.showVid = YES;
         
         cameraVC.noteId = self.commentNote.noteId;
-        
+        cameraVC.backView = self;
+
         [self.navigationController pushViewController:cameraVC animated:YES];
     }
 }
@@ -135,7 +136,8 @@
         AudioRecorderViewController *audioVC = [[[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil] autorelease];
         audioVC.parentDelegate = self;
         audioVC.noteId = self.commentNote.noteId;
-        
+        audioVC.backView = self;
+
         [self.navigationController pushViewController:audioVC animated:YES];
     }
     
@@ -150,7 +152,8 @@
     
     cameraVC.showVid = NO;
     cameraVC.noteId = self.commentNote.noteId;
-    
+    cameraVC.backView = self;
+
     [self.navigationController pushViewController:cameraVC animated:YES];
     
 }
@@ -382,7 +385,6 @@
             [[parentNote.comments objectAtIndex:0] setParentNoteId:parentNote.noteId];
             [[parentNote.comments objectAtIndex:0] setCreatorId:[AppModel sharedAppModel].playerId];
             [[parentNote.comments objectAtIndex:0] setUsername:[AppModel sharedAppModel].userName];
-
         }
         else{
             [parentNote.comments insertObject:commentNote atIndex:0];
