@@ -17,6 +17,7 @@
 #import "GamePickerRecentViewController.h"
 #import "webpageViewController.h"
 #import "NoteDetailsViewController.h"
+
 NSString *errorMessage, *errorDetail;
 
 BOOL isShowingNotification;
@@ -34,6 +35,7 @@ BOOL isShowingNotification;
 @synthesize tutorialViewController;
 @synthesize modalPresent,notificationCount;
 @synthesize titleLabel,descLabel,notifArray,tabShowY;
+@synthesize client;
 
 
 //@synthesize toolbarViewController;
@@ -263,7 +265,50 @@ BOOL isShowingNotification;
     }
 	//self.waitingIndicatorView = [[WaitingIndicatorView alloc] init];
 
+    
+ /*   
+    //Setup Pusher Client
+    self.client = [PTPusher pusherWithKey:@"10582812642151b1b7a1" delegate:self];
+    [[NSNotificationCenter defaultCenter] 
+     addObserver:self 
+     selector:@selector(didReceiveEventNotification:) 
+     name:PTPusherEventReceivedNotification 
+     object:client];
+    
+    // bind to all events on a specific channel
+    PTPusherChannel *channel = [client subscribeToChannelNamed:@"aris"];
+    
+    [[NSNotificationCenter defaultCenter] 
+     addObserver:self 
+     selector:@selector(didReceiveChannelEventNotification:) 
+     name:PTPusherEventReceivedNotification 
+     object:channel];*/
 }
+/*
+- (void)didReceiveChannelEventNotification:(NSNotification *)note
+{
+    PTPusherEvent *event = [note.userInfo objectForKey:PTPusherEventUserInfoKey];
+    // do something with event
+    
+    NSLog(@"Received an event from Pusher!");
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:event.channel
+                                                    message:event.name
+                                                   delegate:self cancelButtonTitle:@"WOW" otherButtonTitles: nil];
+    [alert show];	
+    [alert release];
+}*/
+/*- (void)didReceiveEventNotification:(NSNotification *)note
+{
+   PTPusherEvent *event = [note.userInfo objectForKey:PTPusherEventUserInfoKey];
+    // do something with event
+    
+    NSLog(@"Received an event from Pusher!");
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Pusher Event"
+                                                    message:@"Yo Dawg!"
+                                                   delegate:self cancelButtonTitle:@"WOW" otherButtonTitles: nil];
+    [alert show];	
+    [alert release];
+}*/
 
 -(void)showNotifications{
     

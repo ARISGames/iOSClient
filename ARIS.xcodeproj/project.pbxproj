@@ -36,6 +36,7 @@
 		11566434144A414D006902C2 /* ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11566432144A414D006902C2 /* ChangePasswordViewController.xib */; };
 		11691A35140FEF71003E8998 /* NoteCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11691A33140FEF71003E8998 /* NoteCommentViewController.m */; };
 		11691A36140FEF71003E8998 /* NoteCommentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11691A34140FEF71003E8998 /* NoteCommentViewController.xib */; };
+		1174E6F214F4315C00026BAF /* libPusher-combined.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1174E6F114F4315C00026BAF /* libPusher-combined.a */; };
 		1176F2A914C5EF0900EA4512 /* TagViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1176F2A714C5EF0900EA4512 /* TagViewController.m */; };
 		1176F2AA14C5EF0900EA4512 /* TagViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1176F2A814C5EF0900EA4512 /* TagViewController.xib */; };
 		1176F2AE14C5F2B800EA4512 /* TagCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1176F2AC14C5F2B800EA4512 /* TagCell.m */; };
@@ -410,6 +411,19 @@
 		11691A32140FEF71003E8998 /* NoteCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCommentViewController.h; sourceTree = "<group>"; };
 		11691A33140FEF71003E8998 /* NoteCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCommentViewController.m; sourceTree = "<group>"; };
 		11691A34140FEF71003E8998 /* NoteCommentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteCommentViewController.xib; sourceTree = "<group>"; };
+		1174E6F114F4315C00026BAF /* libPusher-combined.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPusher-combined.a"; path = "../../../Desktop/libPusher/libPusher-combined.a"; sourceTree = "<group>"; };
+		1174E6F414F4333D00026BAF /* PTEventListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTEventListener.h; sourceTree = "<group>"; };
+		1174E6F514F4333D00026BAF /* PTPusher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPusher.h; sourceTree = "<group>"; };
+		1174E6F614F4333D00026BAF /* PTPusherAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPusherAPI.h; sourceTree = "<group>"; };
+		1174E6F714F4333D00026BAF /* PTPusherChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPusherChannel.h; sourceTree = "<group>"; };
+		1174E6F814F4333D00026BAF /* PTPusherConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPusherConnection.h; sourceTree = "<group>"; };
+		1174E6F914F4333D00026BAF /* PTPusherDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPusherDelegate.h; sourceTree = "<group>"; };
+		1174E6FA14F4333D00026BAF /* PTPusherErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPusherErrors.h; sourceTree = "<group>"; };
+		1174E6FB14F4333D00026BAF /* PTPusherEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPusherEvent.h; sourceTree = "<group>"; };
+		1174E6FC14F4333D00026BAF /* PTPusherEventDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPusherEventDispatcher.h; sourceTree = "<group>"; };
+		1174E6FD14F4333D00026BAF /* PTPusherEventPublisher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPusherEventPublisher.h; sourceTree = "<group>"; };
+		1174E6FE14F4333D00026BAF /* PTPusherPresenceChannelDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPusherPresenceChannelDelegate.h; sourceTree = "<group>"; };
+		1174E6FF14F4333D00026BAF /* ZTWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZTWebSocket.h; sourceTree = "<group>"; };
 		1176F2A614C5EF0900EA4512 /* TagViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagViewController.h; sourceTree = "<group>"; };
 		1176F2A714C5EF0900EA4512 /* TagViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagViewController.m; sourceTree = "<group>"; };
 		1176F2A814C5EF0900EA4512 /* TagViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagViewController.xib; sourceTree = "<group>"; };
@@ -917,6 +931,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1174E6F214F4315C00026BAF /* libPusher-combined.a in Frameworks */,
 				113F56DE14E4435300525BE6 /* AssetsLibrary.framework in Frameworks */,
 				4AD5C40814E0661E00081B20 /* CoreData.framework in Frameworks */,
 				11FDA7F01474706600ACE17D /* libzbar.a in Frameworks */,
@@ -996,6 +1011,26 @@
 				ABE3CFFC14DDC4670085C6D8 /* Note Editor */,
 			);
 			name = Notes;
+			sourceTree = "<group>";
+		};
+		1174E6F314F4333D00026BAF /* Pusher Framework */ = {
+			isa = PBXGroup;
+			children = (
+				1174E6F414F4333D00026BAF /* PTEventListener.h */,
+				1174E6F514F4333D00026BAF /* PTPusher.h */,
+				1174E6F614F4333D00026BAF /* PTPusherAPI.h */,
+				1174E6F714F4333D00026BAF /* PTPusherChannel.h */,
+				1174E6F814F4333D00026BAF /* PTPusherConnection.h */,
+				1174E6F914F4333D00026BAF /* PTPusherDelegate.h */,
+				1174E6FA14F4333D00026BAF /* PTPusherErrors.h */,
+				1174E6FB14F4333D00026BAF /* PTPusherEvent.h */,
+				1174E6FC14F4333D00026BAF /* PTPusherEventDispatcher.h */,
+				1174E6FD14F4333D00026BAF /* PTPusherEventPublisher.h */,
+				1174E6FE14F4333D00026BAF /* PTPusherPresenceChannelDelegate.h */,
+				1174E6FF14F4333D00026BAF /* ZTWebSocket.h */,
+			);
+			name = "Pusher Framework";
+			path = headers;
 			sourceTree = "<group>";
 		};
 		118669AF13BB8EC1004B4EC8 /* Player Profile / Attributes */ = {
@@ -1223,6 +1258,7 @@
 		29B97314FDCFA39411CA2CEA /* ARIS */ = {
 			isa = PBXGroup;
 			children = (
+				1174E6F114F4315C00026BAF /* libPusher-combined.a */,
 				11FDA7EF1474706600ACE17D /* libzbar.a */,
 				ABAFBAC9145A0B8D0044491C /* GPX Locations */,
 				AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */,
@@ -1487,6 +1523,7 @@
 		A7986D6A0F8FEC7200A5469F /* Core App */ = {
 			isa = PBXGroup;
 			children = (
+				1174E6F314F4333D00026BAF /* Pusher Framework */,
 				AB549ED11047007B00A901EF /* JSON Framework */,
 				ABF4A36C116847500043EB1C /* ASI Netrork Framework */,
 				AB37BC2E1184CDE600C5CE8B /* Sound Effects */,
@@ -2451,8 +2488,10 @@
 					"$(inherited)",
 					"$(SRCROOT)/**",
 					"\"$(SRCROOT)/ZBarSDK\"",
+					"\"$(SRCROOT)/../../../Desktop/libPusher\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = ARIS;
 				PROVISIONING_PROFILE = "FEA8A513-18C9-467A-9C5C-9CF19550ABE6";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FEA8A513-18C9-467A-9C5C-9CF19550ABE6";
@@ -2559,8 +2598,10 @@
 					"$(inherited)",
 					"$(SRCROOT)/**",
 					"\"$(SRCROOT)/ZBarSDK\"",
+					"\"$(SRCROOT)/../../../Desktop/libPusher\"",
 				);
 				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = ARIS;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;

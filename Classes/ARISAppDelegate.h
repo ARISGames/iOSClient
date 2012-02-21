@@ -36,11 +36,13 @@
 #import "TutorialViewController.h"
 #import "NotebookViewController.h"
 #import <MessageUI/MFMailComposeViewController.h>
-
+#import "PTPusherDelegate.h"
 #import "GamePickerNearbyViewController.h"
+#import "PTPusher.h"
+#import "PTPusherEvent.h"
 
 
-@interface ARISAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate> {
+@interface ARISAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate,PTPusherDelegate> {
 	UIWindow *window;
     UITabBarController *tabBarController;
     UIViewController *defaultViewControllerForMainTabBar;
@@ -67,7 +69,7 @@
     UILabel *descLabel;
 NSMutableArray *notifArray;
     int tabShowY;
-
+    PTPusher *client;
 }
 @property(readwrite,assign)int tabShowY;
 @property (nonatomic, retain) IBOutlet UIWindow *window;
@@ -84,6 +86,7 @@ NSMutableArray *notifArray;
 @property(nonatomic,retain) NSMutableArray *notifArray;
 @property (nonatomic, retain) UIAlertView *networkAlert;
 @property (nonatomic, retain) UIAlertView *serverAlert;
+@property(nonatomic, retain)PTPusher *client;
 
 @property (readwrite) BOOL modalPresent;
 @property (readwrite) NSInteger notificationCount;
