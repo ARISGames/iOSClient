@@ -216,7 +216,7 @@
             AsyncMediaImageView *aImageView = [[AsyncMediaImageView alloc]initWithFrame:CGRectMake(10, height, 300, 300) andMedia:[[[currNote contents] objectAtIndex:x] getMedia]];
             
             //if(!currNote.hasAudio)
-                [aImageView setFrame:CGRectMake(10, height, 300, 300)];
+                [aImageView setFrame:CGRectMake(10, height, 300, 450)];
             //else
                 //[aImageView setFrame:CGRectMake(10, height+40, 300, 300)];
             
@@ -240,7 +240,7 @@
             
 
             //if(!currNote.hasAudio)
-                [mediaButton setFrame:CGRectMake(10, height, 300, 300)];
+                [mediaButton setFrame:CGRectMake(10, height, 300, 450)];
             //else
               //  [mediaButton setFrame:CGRectMake(10, height+60, 300, 223)];
                 
@@ -312,7 +312,7 @@
     }
     //[note setHasAudio:hasAudio];
     [note setHasImage:hasImage];
-    if(hasImage) textHeight+=300;
+    if(hasImage) textHeight+=455;
    // if(hasAudio) textHeight += 40;
     
     return textHeight;

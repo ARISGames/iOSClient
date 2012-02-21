@@ -27,7 +27,8 @@ BOOL isLoading;
     
     if (self = [super initWithFrame:frame]) {
         NSLog(@"AsyncMoviePlayerButton: super init successful");
-        
+        self.imageView.contentMode = UIViewContentModeScaleAspectFill;
+        self.imageView.clipsToBounds = YES;
         self.presentingController = aPresentingController;
         if(!media)
         media = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
@@ -40,7 +41,6 @@ BOOL isLoading;
         
         mMoviePlayer.moviePlayer.shouldAutoplay = NO;
         [mMoviePlayer.moviePlayer prepareToPlay];
-        
         
         [self setImage:[UIImage imageNamed:@"play_button.png"] forState:UIControlStateNormal];
         [self setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];

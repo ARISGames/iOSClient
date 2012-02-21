@@ -82,7 +82,7 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
     
         self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
     
-		self.imagePickerController.allowsEditing = YES;
+		self.imagePickerController.allowsEditing = NO;
 	self.imagePickerController.showsCameraControls = YES;
 	[self presentModalViewController:self.imagePickerController animated:NO];
     [imagePickerController release];
@@ -115,7 +115,7 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
 	
 	self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
 	self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePickerController.sourceType];
-	self.imagePickerController.allowsEditing = YES;
+	self.imagePickerController.allowsEditing = NO;
 	self.imagePickerController.showsCameraControls = YES;
 	[self presentModalViewController:self.imagePickerController animated:NO];
     [AppModel sharedAppModel].profilePic = YES;
@@ -134,8 +134,8 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
 	NSString* mediaType = [info objectForKey:UIImagePickerControllerMediaType];
 	
 	if ([mediaType isEqualToString:@"public.image"]){
-		UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
-        if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];             
+		UIImage* image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        //if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];             
 		NSLog(@"CameraViewController: Found an Image");
         
 		self.mediaData = UIImageJPEGRepresentation(image, 0.4);
