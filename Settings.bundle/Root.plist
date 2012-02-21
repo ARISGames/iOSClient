@@ -16,7 +16,7 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 			<key>DefaultValue</key>
-			<string>http://arisgames.org/devserver</string>
+			<string>http://qa.arisgames.org/server</string>
 			<key>IsSecure</key>
 			<false/>
 			<key>Key</key>
@@ -30,7 +30,7 @@
 		</dict>
 		<dict>
 			<key>DefaultValue</key>
-			<true/>
+			<false/>
 			<key>Key</key>
 			<string>showGamesInDevelopment</string>
 			<key>Title</key>
