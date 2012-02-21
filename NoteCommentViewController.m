@@ -119,7 +119,7 @@
 
 -(void)addPhotoButtonTouchAction{
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        CameraViewController *cameraVC = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
+        CameraViewController *cameraVC = [[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil];
         cameraVC.parentDelegate = self;
         cameraVC.showVid = YES;
         
@@ -127,18 +127,20 @@
         cameraVC.backView = self;
 
         [self.navigationController pushViewController:cameraVC animated:YES];
+        [cameraVC release];
     }
 }
 
 -(void)addAudioButtonTouchAction{
     BOOL audioHWAvailable = [[AVAudioSession sharedInstance] inputIsAvailable];
     if(audioHWAvailable){
-        AudioRecorderViewController *audioVC = [[[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil] autorelease];
+        AudioRecorderViewController *audioVC = [[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil];
         audioVC.parentDelegate = self;
         audioVC.noteId = self.commentNote.noteId;
         audioVC.backView = self;
 
         [self.navigationController pushViewController:audioVC animated:YES];
+        [audioVC release];
     }
     
 }
@@ -146,7 +148,7 @@
     
 }
 -(void)addMediaFromAlbumButtonTouchAction{
-    CameraViewController *cameraVC = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
+    CameraViewController *cameraVC = [[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil];
     //cameraVC.delegate = self.delegate;
     cameraVC.parentDelegate = self;
     
@@ -155,7 +157,7 @@
     cameraVC.backView = self;
 
     [self.navigationController pushViewController:cameraVC animated:YES];
-    
+    [cameraVC release];
 }
 
 #pragma mark Table view methods
@@ -213,15 +215,15 @@
         else if ([[(NoteContent<NoteContentProtocol> *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypePhoto]){
             AsyncMediaImageView *aImageView = [[AsyncMediaImageView alloc]initWithFrame:CGRectMake(10, height, 300, 300) andMedia:[[[currNote contents] objectAtIndex:x] getMedia]];
             
-            if(!currNote.hasAudio)
+            //if(!currNote.hasAudio)
                 [aImageView setFrame:CGRectMake(10, height, 300, 300)];
-            else
-                [aImageView setFrame:CGRectMake(10, height+40, 300, 300)];
+            //else
+                //[aImageView setFrame:CGRectMake(10, height+40, 300, 300)];
             
             [cell addSubview:aImageView];
             [aImageView release];
         }
-        else if([[(NoteContent<NoteContentProtocol> *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeVideo]){
+        else if([[(NoteContent<NoteContentProtocol> *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeVideo] || [[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeAudio]){
             NoteContent *content =  (NoteContent *)[[currNote contents] objectAtIndex:x];
             
             CGRect frame = CGRectMake(10, 0, 320, 240);
@@ -237,10 +239,10 @@
                                                    presentingController:self];
             
 
-            if(!currNote.hasAudio)
-                [mediaButton setFrame:CGRectMake(10, height+20, 300, 223)];
-            else
-                [mediaButton setFrame:CGRectMake(10, height+60, 300, 223)];
+            //if(!currNote.hasAudio)
+                [mediaButton setFrame:CGRectMake(10, height, 300, 300)];
+            //else
+              //  [mediaButton setFrame:CGRectMake(10, height+60, 300, 223)];
                 
             }
             
@@ -248,13 +250,13 @@
 
             [cell addSubview:mediaButton];
         }
-        else if([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeAudio]){
+       /* else if([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeAudio]){
             
             CustomAudioPlayer *player = [[CustomAudioPlayer alloc]initWithFrame:CGRectMake(10, height, 300, 40) andMedia:[[[currNote contents] objectAtIndex:x] getMedia]];
             [player loadView];
             [cell addSubview:player];
             [player release];
-        }
+        }*/
         
        /* if (![[[[currNote contents] objectAtIndex:x] getUploadState] isEqualToString:@"uploadStateDONE"]) {
             cell.titleLabel.text = @"Uploading Media";
@@ -299,19 +301,19 @@
     NSLog(@"Height for Row:%d is %f",indexPath.row,textHeight);
     if (textHeight < 60)textHeight = 60;
     BOOL hasImage = NO;
-    BOOL hasAudio = NO;
+    //BOOL hasAudio = NO;
     for(int i = 0; i < [[note contents] count];i++){
-        if([[(NoteContent *)[[note contents]objectAtIndex:i]getType] isEqualToString:kNoteContentTypePhoto] || [[(NoteContent *)[[note contents]objectAtIndex:i]getType] isEqualToString:kNoteContentTypeVideo]){
+        if([[(NoteContent *)[[note contents]objectAtIndex:i]getType] isEqualToString:kNoteContentTypePhoto] || [[(NoteContent *)[[note contents]objectAtIndex:i]getType] isEqualToString:kNoteContentTypeVideo] || [[(NoteContent *)[[note contents]objectAtIndex:i]getType] isEqualToString:kNoteContentTypeAudio]){
             hasImage = YES;
         }
-        else if([[(NoteContent *)[[note contents]objectAtIndex:i]getType] isEqualToString:kNoteContentTypeAudio]){
+        /*else if([[(NoteContent *)[[note contents]objectAtIndex:i]getType] isEqualToString:kNoteContentTypeAudio]){
             hasAudio = YES;
-        }
+        }*/
     }
-    [note setHasAudio:hasAudio];
+    //[note setHasAudio:hasAudio];
     [note setHasImage:hasImage];
     if(hasImage) textHeight+=300;
-    if(hasAudio) textHeight += 40;
+   // if(hasAudio) textHeight += 40;
     
     return textHeight;
 }

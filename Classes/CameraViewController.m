@@ -85,6 +85,7 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
 		self.imagePickerController.allowsEditing = YES;
 	self.imagePickerController.showsCameraControls = YES;
 	[self presentModalViewController:self.imagePickerController animated:NO];
+    [imagePickerController release];
 }
 
         
@@ -106,6 +107,7 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
 	self.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     
 	[self presentModalViewController:self.imagePickerController animated:NO];
+    [imagePickerController release];
 }
 
 - (IBAction)profileButtonTouchAction {

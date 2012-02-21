@@ -261,7 +261,7 @@
 
 -(void)cameraButtonTouchAction{
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-    CameraViewController *cameraVC = [[[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil] autorelease];
+    CameraViewController *cameraVC = [[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil];
     if(startWithView == 0)
     cameraVC.backView = self;
     else cameraVC.backView = self.delegate;
@@ -271,7 +271,7 @@
     cameraVC.noteId = self.note.noteId;
 
     [self.navigationController pushViewController:cameraVC animated:NO];
-    //[cameraVC release];
+    [cameraVC release];
     }
 }
 -(void)audioButtonTouchAction{
