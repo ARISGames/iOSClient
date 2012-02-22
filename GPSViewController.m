@@ -111,8 +111,12 @@ static float INITIAL_SPAN = 0.001;
         [playerButton setStyle:UIBarButtonItemStyleBordered];
         [self refreshViewFromModel];    
     }
-    [self refreshButtonAction];
-}
+	[[[MyCLController sharedMyCLController] locationManager] stopUpdatingLocation];
+	[[[MyCLController sharedMyCLController]locationManager] startUpdatingLocation];
+    
+	//Rerfresh all contents
+    tracking = NO;
+	[self refresh];}
 - (IBAction)addMediaButtonAction: (id) sender{
     NoteEditorViewController *noteVC = [[NoteEditorViewController alloc] initWithNibName:@"NoteEditorViewController" bundle:nil];
     noteVC.delegate = self;
