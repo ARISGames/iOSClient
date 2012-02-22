@@ -332,6 +332,22 @@
     self.commentNote = [[Note alloc]init];
 
     self.commentNote.noteId = [[AppServices sharedAppServices]addCommentToNoteWithId:self.parentNote.noteId andTitle:@""];
+    if(self.commentNote.noteId == 0){
+        self.navigationItem.rightBarButtonItem = addCommentButton;
+        
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveLinear];
+        [UIView setAnimationDuration:.5];
+        [self.textBox setFrame:CGRectMake(0, -215, 320, 215)];
+        [self.inputView setFrame:CGRectMake(0, 416, 320, 52)];
+        [UIView commitAnimations];
+        
+        [self.textBox resignFirstResponder];
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Create Comment Failed" message:@"Cannot create a comment while offline" delegate:self.delegate cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert show];
+        [alert release];
+    }
+
     [self.parentNote.comments insertObject:self.commentNote atIndex:0];
     if([AppModel sharedAppModel].isGameNoteList){
         [[AppModel sharedAppModel].gameNoteList setObject:self.parentNote forKey:[NSNumber numberWithInt:self.parentNote.noteId]];

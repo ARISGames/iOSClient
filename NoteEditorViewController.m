@@ -144,6 +144,11 @@
         self.note.creatorId = [AppModel sharedAppModel].playerId;
         self.note.username = [AppModel sharedAppModel].userName;
         self.note.noteId = [[AppServices sharedAppServices] createNote];
+        if(self.note.noteId == 0){[self backButtonTouchAction:[[[UIButton alloc]init]autorelease]];
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Create Note Failed" message:@"Cannot create a note while offline" delegate:self.delegate cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alert show];
+            [alert release];
+        }
         if(![AppModel sharedAppModel].isGameNoteList)
         [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];
         else
