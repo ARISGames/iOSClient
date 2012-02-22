@@ -12,7 +12,7 @@
 #import "AppModel.h"
 
 @implementation NoteContentCell
-@synthesize titleLbl,detailLbl,imageView,holdLbl,contentId,index,delegate,content,retryButton,spinner;
+@synthesize titleLbl,detailLbl,imageView,holdLbl,contentId,index,delegate,content,retryButton,spinner,parentTableView,indexPath;
 
 -(void)awakeFromNib{
     UILongPressGestureRecognizer *gesture = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(holdTextBox:)];
@@ -84,7 +84,9 @@
 -(BOOL)textViewShouldEndEditing:(UITextView *)textView{
     //[self.titleLabel setUserInteractionEnabled:NO];
     // [textView resignFirstResponder];
+         [self.parentTableView setFrame:CGRectMake(self.parentTableView.frame.origin.x, self.parentTableView.frame.origin.y, self.parentTableView.frame.size.width, 261)];
     return YES;
+
 }
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     if([text isEqualToString:@"\n"]){
@@ -106,6 +108,8 @@
         [self.titleLbl setEditable:YES];
         //[self.titleLabel setUserInteractionEnabled:YES];
         [self.titleLbl becomeFirstResponder];
+        [self.parentTableView scrollToRowAtIndexPath:self.indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        [self.parentTableView setFrame:CGRectMake(self.parentTableView.frame.origin.x, self.parentTableView.frame.origin.y, self.parentTableView.frame.size.width, 160)];
     }
     else{
         [self.titleLbl setUserInteractionEnabled:NO];

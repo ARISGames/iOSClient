@@ -19,6 +19,8 @@
     NoteContent<NoteContentProtocol>*content;
    IBOutlet UIButton *retryButton;
     IBOutlet UIActivityIndicatorView *spinner;
+    UITableView *parentTableView;
+    NSIndexPath *indexPath;
 }
 @property(readwrite, assign)int contentId;
 @property(nonatomic,retain)UITextView *titleLbl;
@@ -30,6 +32,9 @@
 @property(nonatomic, retain)NoteContent<NoteContentProtocol>*content;
 @property(nonatomic,retain)IBOutlet UIButton *retryButton;
 @property(nonatomic,retain)IBOutlet UIActivityIndicatorView *spinner;
+@property(nonatomic,retain) UITableView *parentTableView;
+@property(nonatomic,retain)NSIndexPath *indexPath;
+
 -(void)checkForRetry;
 -(IBAction)retryUpload;
 @end

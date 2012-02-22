@@ -228,7 +228,6 @@
     // e.g. self.myOutlet = nil;
 }
 
-
 -(void)previewButtonTouchAction{
 
     NoteDetailsViewController *dataVC = [[[NoteDetailsViewController alloc] initWithNibName:@"NoteDetailsViewController" bundle:nil]autorelease];
@@ -533,7 +532,8 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
         cell.delegate = self;
         cell.contentId = noteC.getContentId;
         cell.content = noteC;
-    
+    cell.indexPath = indexPath;
+    cell.parentTableView = self.contentTable;
     
     [cell checkForRetry];
         if([noteC.getTitle length] >24)noteC.title = [noteC.getTitle substringToIndex:24];
