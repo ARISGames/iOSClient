@@ -537,6 +537,7 @@ BOOL tagFilter;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSMutableArray *currentNoteList;
     if(self.filterControl.selectedSegmentIndex == 0) {
+        [AppModel sharedAppModel].isGameNoteList = NO;
         if(!tagFilter)
         currentNoteList = self.noteList;
         else
@@ -544,6 +545,8 @@ BOOL tagFilter;
         
     }
     else{ 
+        [AppModel sharedAppModel].isGameNoteList = YES;
+
         if(!tagFilter)
         currentNoteList = self.gameNoteList;
         else

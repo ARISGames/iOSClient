@@ -133,7 +133,7 @@
 }
 
 -(void)addUploadsToNote{
-    self.note = [[AppModel sharedAppModel] noteForNoteId: self.note.noteId playerListYesGameListNo:YES];
+    self.note = [[AppModel sharedAppModel] noteForNoteId: self.note.noteId playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
     for(int x = [self.note.contents count]-1; x >= 0; x--){
         if(![[[self.note.contents objectAtIndex:x] getUploadState] isEqualToString:@"uploadStateDONE"])
             [self.note.contents removeObjectAtIndex:x];
