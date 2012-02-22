@@ -172,7 +172,8 @@ static float INITIAL_SPAN = 0.001;
 	self.tabBarItem.badgeValue = nil;
 	newItemsSinceLastView = 0;
 	silenceNextServerUpdateCount = 0;
-		
+    [AppModel sharedAppModel].hidePlayers = ![AppModel sharedAppModel].hidePlayers;
+    [self playerButtonTouch];
 	//create a time for automatic map refresh
 	NSLog(@"GPSViewController: Starting Refresh Timer");
 	if (refreshTimer != nil && [refreshTimer isValid]) [refreshTimer invalidate];
