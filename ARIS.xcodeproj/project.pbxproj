@@ -36,7 +36,6 @@
 		11566434144A414D006902C2 /* ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11566432144A414D006902C2 /* ChangePasswordViewController.xib */; };
 		11691A35140FEF71003E8998 /* NoteCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11691A33140FEF71003E8998 /* NoteCommentViewController.m */; };
 		11691A36140FEF71003E8998 /* NoteCommentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11691A34140FEF71003E8998 /* NoteCommentViewController.xib */; };
-		1174E6F214F4315C00026BAF /* libPusher-combined.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1174E6F114F4315C00026BAF /* libPusher-combined.a */; };
 		1176F2A914C5EF0900EA4512 /* TagViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1176F2A714C5EF0900EA4512 /* TagViewController.m */; };
 		1176F2AA14C5EF0900EA4512 /* TagViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1176F2A814C5EF0900EA4512 /* TagViewController.xib */; };
 		1176F2AE14C5F2B800EA4512 /* TagCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1176F2AC14C5F2B800EA4512 /* TagCell.m */; };
@@ -123,6 +122,7 @@
 		11DD5433141E80D20007CD70 /* PinDown3.png in Resources */ = {isa = PBXBuildFile; fileRef = 11DD542D141E80CE0007CD70 /* PinDown3.png */; };
 		11DD5434141E80D20007CD70 /* PinFloating.png in Resources */ = {isa = PBXBuildFile; fileRef = 11DD542E141E80CF0007CD70 /* PinFloating.png */; };
 		11DD5435141E80D20007CD70 /* PinShadow.png in Resources */ = {isa = PBXBuildFile; fileRef = 11DD542F141E80D00007CD70 /* PinShadow.png */; };
+		11F32EA314F5AD7000BF08E9 /* libPusher-combined.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 11F32EA214F5AD7000BF08E9 /* libPusher-combined.a */; };
 		11F96D1D1417CB610003C78A /* AudioPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11F96D1B1417CB610003C78A /* AudioPlayerViewController.m */; };
 		11F96D1E1417CB610003C78A /* AudioPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11F96D1C1417CB610003C78A /* AudioPlayerViewController.xib */; };
 		11FDA7EB1474690500ACE17D /* zbar-back.png in Resources */ = {isa = PBXBuildFile; fileRef = 11FDA7E61474690500ACE17D /* zbar-back.png */; };
@@ -411,7 +411,6 @@
 		11691A32140FEF71003E8998 /* NoteCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCommentViewController.h; sourceTree = "<group>"; };
 		11691A33140FEF71003E8998 /* NoteCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCommentViewController.m; sourceTree = "<group>"; };
 		11691A34140FEF71003E8998 /* NoteCommentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteCommentViewController.xib; sourceTree = "<group>"; };
-		1174E6F114F4315C00026BAF /* libPusher-combined.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPusher-combined.a"; path = "../../../Desktop/libPusher/libPusher-combined.a"; sourceTree = "<group>"; };
 		1174E6F414F4333D00026BAF /* PTEventListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTEventListener.h; sourceTree = "<group>"; };
 		1174E6F514F4333D00026BAF /* PTPusher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPusher.h; sourceTree = "<group>"; };
 		1174E6F614F4333D00026BAF /* PTPusherAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPusherAPI.h; sourceTree = "<group>"; };
@@ -571,6 +570,7 @@
 		11DD542D141E80CE0007CD70 /* PinDown3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PinDown3.png; sourceTree = "<group>"; };
 		11DD542E141E80CF0007CD70 /* PinFloating.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PinFloating.png; sourceTree = "<group>"; };
 		11DD542F141E80D00007CD70 /* PinShadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PinShadow.png; sourceTree = "<group>"; };
+		11F32EA214F5AD7000BF08E9 /* libPusher-combined.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libPusher-combined.a"; sourceTree = "<group>"; };
 		11F96D1A1417CB610003C78A /* AudioPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioPlayerViewController.h; sourceTree = "<group>"; };
 		11F96D1B1417CB610003C78A /* AudioPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioPlayerViewController.m; sourceTree = "<group>"; };
 		11F96D1C1417CB610003C78A /* AudioPlayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioPlayerViewController.xib; sourceTree = "<group>"; };
@@ -931,7 +931,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1174E6F214F4315C00026BAF /* libPusher-combined.a in Frameworks */,
 				113F56DE14E4435300525BE6 /* AssetsLibrary.framework in Frameworks */,
 				4AD5C40814E0661E00081B20 /* CoreData.framework in Frameworks */,
 				11FDA7F01474706600ACE17D /* libzbar.a in Frameworks */,
@@ -958,6 +957,7 @@
 				ABF4A3AD116847E50043EB1C /* SystemConfiguration.framework in Frameworks */,
 				ABF4A3B1116847F50043EB1C /* MobileCoreServices.framework in Frameworks */,
 				AB70F39413153BB500BD06CD /* MessageUI.framework in Frameworks */,
+				11F32EA314F5AD7000BF08E9 /* libPusher-combined.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1258,7 +1258,7 @@
 		29B97314FDCFA39411CA2CEA /* ARIS */ = {
 			isa = PBXGroup;
 			children = (
-				1174E6F114F4315C00026BAF /* libPusher-combined.a */,
+				11F32EA214F5AD7000BF08E9 /* libPusher-combined.a */,
 				11FDA7EF1474706600ACE17D /* libzbar.a */,
 				ABAFBAC9145A0B8D0044491C /* GPX Locations */,
 				AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */,
@@ -2489,6 +2489,7 @@
 					"$(SRCROOT)/**",
 					"\"$(SRCROOT)/ZBarSDK\"",
 					"\"$(SRCROOT)/../../../Desktop/libPusher\"",
+					"\"$(SRCROOT)\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-all_load";
@@ -2599,6 +2600,7 @@
 					"$(SRCROOT)/**",
 					"\"$(SRCROOT)/ZBarSDK\"",
 					"\"$(SRCROOT)/../../../Desktop/libPusher\"",
+					"\"$(SRCROOT)\"",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-all_load";
