@@ -86,7 +86,7 @@
     Tag *tempTag = [[Tag alloc]init];
     tempTag.tagName = self.tagTextField.text;
     tempTag.playerCreated = YES;
-    [self.playerTagList addObject:tempTag];
+    [[AppModel sharedAppModel].gameTagList addObject:tempTag];
     [self.note.tags addObject:tempTag];
     [tempTag release];
     [self refresh];
