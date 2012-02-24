@@ -35,7 +35,8 @@ BOOL isShowingNotification;
 @synthesize tutorialViewController;
 @synthesize modalPresent,notificationCount;
 @synthesize titleLabel,descLabel,notifArray,tabShowY;
-@synthesize client;
+@synthesize pubClient;
+@synthesize privClient;
 
 
 //@synthesize toolbarViewController;
@@ -264,27 +265,32 @@ BOOL isShowingNotification;
         self.gameSelectionTabBarController.view.hidden = NO;
     }
 	//self.waitingIndicatorView = [[WaitingIndicatorView alloc] init];
-
     
- /*   
+    /*
+    //PUSHER STUFF
     //Setup Pusher Client
-    self.client = [PTPusher pusherWithKey:@"10582812642151b1b7a1" delegate:self];
-    [[NSNotificationCenter defaultCenter] 
-     addObserver:self 
-     selector:@selector(didReceiveEventNotification:) 
-     name:PTPusherEventReceivedNotification 
-     object:client];
+    self.pubClient = [PTPusher pusherWithKey:@"79f6a265dbb7402a49c9" delegate:self];
+    self.privClient = [PTPusher pusherWithKey:@"79f6a265dbb7402a49c9" delegate:self];
+    self.privClient.authorizationURL = [NSURL URLWithString:@"http://www.arisgames.org/devserver/pusher/private_auth.php"];
+        
+    PTPusherChannel *pubChannel = [pubClient subscribeToChannelNamed:@"public-pusher_room_channel"];
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(didReceiveChannelEventNotification:)
+     name:PTPusherEventReceivedNotification
+     object:pubChannel];
     
-    // bind to all events on a specific channel
-    PTPusherChannel *channel = [client subscribeToChannelNamed:@"aris"];
-    
-    [[NSNotificationCenter defaultCenter] 
-     addObserver:self 
-     selector:@selector(didReceiveChannelEventNotification:) 
-     name:PTPusherEventReceivedNotification 
-     object:channel];*/
+    PTPusherPrivateChannel *privChannel = [privClient subscribeToPrivateChannelNamed:@"pusher_room_channel"];
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(didReceiveChannelEventNotification:)
+     name:PTPusherEventReceivedNotification
+     object:privChannel];
+     */
 }
+
 /*
+//PUSHER STUFF
 - (void)didReceiveChannelEventNotification:(NSNotification *)note
 {
     PTPusherEvent *event = [note.userInfo objectForKey:PTPusherEventUserInfoKey];
@@ -293,22 +299,11 @@ BOOL isShowingNotification;
     NSLog(@"Received an event from Pusher!");
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:event.channel
                                                     message:event.name
-                                                   delegate:self cancelButtonTitle:@"WOW" otherButtonTitles: nil];
+                                                   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];	
     [alert release];
-}*/
-/*- (void)didReceiveEventNotification:(NSNotification *)note
-{
-   PTPusherEvent *event = [note.userInfo objectForKey:PTPusherEventUserInfoKey];
-    // do something with event
-    
-    NSLog(@"Received an event from Pusher!");
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Pusher Event"
-                                                    message:@"Yo Dawg!"
-                                                   delegate:self cancelButtonTitle:@"WOW" otherButtonTitles: nil];
-    [alert show];	
-    [alert release];
-}*/
+}
+ */
 
 -(void)showNotifications{
     

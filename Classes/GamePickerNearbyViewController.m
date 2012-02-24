@@ -13,6 +13,8 @@
 #import "GameDetails.h"
 #import "GamePickerCell.h"
 #include <QuartzCore/QuartzCore.h>
+#include "PTPusher.h"
+#include "PTPusherChannel.h"
 #include "AsyncMediaImageView.h"
 
 @implementation GamePickerNearbyViewController
@@ -46,12 +48,30 @@
     self.refreshButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh)];
     
     self.navigationItem.rightBarButtonItem = self.refreshButton;
+    
+    /*
+    //PUSHER STUFF
+    //Create SendEvent button in left of navbar
+    UIBarButtonItem *sendEventButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(sendPusherEvent)];
+    self.navigationItem.leftBarButtonItem = sendEventButton;
+     */
+
   	[gameTable reloadData];
 
     [self refresh];
 
 	NSLog(@"GamePickerViewController: View Loaded");
 }
+
+/*
+//PUSHER STUFF
+-(void)sendPusherEvent{
+    //Do send event things
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    PTPusherPrivateChannel *pChannel = (PTPusherPrivateChannel *)[appDelegate.privClient channelNamed:@"private-pusher_room_channel"];
+    [pChannel triggerEventNamed:@"private-pusher_room_event" data:@"from the iPhone"];
+}
+ */
 
 - (void)viewDidAppear:(BOOL)animated {
 	NSLog(@"GamePickerViewController: View Appeared");	
@@ -64,11 +84,8 @@
 
 }
 
-
 -(void)refresh {
 	NSLog(@"GamePickerViewController: Refresh Requested");
-    
-
     
         //Calculate locational control value
     BOOL locational;

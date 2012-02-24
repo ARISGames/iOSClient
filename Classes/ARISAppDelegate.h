@@ -86,7 +86,8 @@ NSMutableArray *notifArray;
 @property(nonatomic,retain) NSMutableArray *notifArray;
 @property (nonatomic, retain) UIAlertView *networkAlert;
 @property (nonatomic, retain) UIAlertView *serverAlert;
-@property(nonatomic, retain)PTPusher *client;
+@property(nonatomic, retain)PTPusher *pubClient;
+@property(nonatomic, retain)PTPusher *privClient;
 
 @property (readwrite) BOOL modalPresent;
 @property (readwrite) NSInteger notificationCount;
