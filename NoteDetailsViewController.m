@@ -49,6 +49,10 @@
     [pageControl release];
     [viewControllers release];
     [note release];
+    [delegate release];
+    [commentLabel release];
+    [likeLabel release];
+    [likeButton release];
 }
 
 - (void)didReceiveMemoryWarning

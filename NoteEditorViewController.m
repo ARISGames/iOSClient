@@ -74,6 +74,11 @@
     [contentTable release];
     [soundPlayer release];
     [actionSheet release];
+    [delegate release];
+    [vidThumbs release];
+    [actionSheet release];
+    [sharingLabel release];
+    
     [super dealloc];
     
 }

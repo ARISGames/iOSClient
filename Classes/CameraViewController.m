@@ -236,6 +236,11 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
     [profileButton release];
     [cameraButton release];
     [libraryButton release];
+    [mediaData release];
+    [mediaFilename release];
+    [backView release];
+    [editView release];
+    [parentDelegate release];
     [super dealloc];
 }
 

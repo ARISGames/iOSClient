@@ -100,6 +100,19 @@
 }
 - (void)dealloc {
     [super dealloc];
+    [soundPlayer release];
+    [soundFileURL release];
+    [soundRecorder release];
+    [meter release];
+    [audioData release];
+    [recordStopOrPlayButton release];
+    [uploadButton release];
+    [discardButton release];
+    [meterUpdateTimer release];
+    [backView release];
+    [editView release];
+    [parentDelegate release];
+    
 }
 
 - (void)updateButtonsForCurrentMode{

@@ -30,6 +30,9 @@
     [textBox release];
     [keyboardButton release];
     [textToDisplay release];
+    [backView release];
+    [editView release];
+    
 }
 
 - (void)didReceiveMemoryWarning

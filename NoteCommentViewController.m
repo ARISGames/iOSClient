@@ -527,6 +527,13 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     [addMediaFromAlbumButton release];
     [myIndexPath release];
     [addTextButton release];
+    [inputView release];
+    [addCommentButton release];
+    [delegate release];
+    [movieViews release];
+    [asyncMediaDict release];
+    [hideKeyboardButton release];
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
 }
