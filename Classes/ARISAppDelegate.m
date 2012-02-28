@@ -83,11 +83,11 @@ BOOL isShowingNotification;
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
     self.descLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 15)];
     titleLabel.textColor = [UIColor whiteColor];
-    titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-CondensedBold" size:16];
+    titleLabel.font = [UIFont boldSystemFontOfSize:16];
     titleLabel.textAlignment = UITextAlignmentCenter;
     titleLabel.backgroundColor = [UIColor blackColor];
     descLabel.textColor = [UIColor whiteColor];
-    descLabel.font = [UIFont fontWithName:@"HelveticaNeue-CondensedBold" size:12];
+    descLabel.font = [UIFont systemFontOfSize:12];
     descLabel.textAlignment = UITextAlignmentCenter;
     descLabel.backgroundColor = [UIColor blackColor];
     [self.window addSubview:titleLabel];
@@ -266,11 +266,11 @@ BOOL isShowingNotification;
     }
 	//self.waitingIndicatorView = [[WaitingIndicatorView alloc] init];
     
-    /*
-    //PUSHER STUFF
+    
+    /*//PUSHER STUFF
     //Setup Pusher Client
-    self.pubClient = [PTPusher pusherWithKey:@"79f6a265dbb7402a49c9" delegate:self];
-    self.privClient = [PTPusher pusherWithKey:@"79f6a265dbb7402a49c9" delegate:self];
+    self.pubClient = [PTPusher pusherWithKey:@"7fe26fe9f55d4b78ea02" delegate:self];
+    self.privClient = [PTPusher pusherWithKey:@"7fe26fe9f55d4b78ea02" delegate:self];
     self.privClient.authorizationURL = [NSURL URLWithString:@"http://www.arisgames.org/devserver/pusher/private_auth.php"];
         
     PTPusherChannel *pubChannel = [pubClient subscribeToChannelNamed:@"public-pusher_room_channel"];
@@ -288,7 +288,6 @@ BOOL isShowingNotification;
      object:privChannel];
      */
 }
-
 /*
 //PUSHER STUFF
 - (void)didReceiveChannelEventNotification:(NSNotification *)note
@@ -302,8 +301,8 @@ BOOL isShowingNotification;
                                                    delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
     [alert show];	
     [alert release];
-}
- */
+}*/
+ 
 
 -(void)showNotifications{
     
