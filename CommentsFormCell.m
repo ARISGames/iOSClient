@@ -35,14 +35,14 @@
 }
 
 - (IBAction)saveComment:(id)sender {
-    if([self.textField.text length] == 0){
+/*    if([self.textField.text length] == 0){
         self.alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Error", @"")
                                                 message: NSLocalizedString(@"Please add a comment", @"")
                                                delegate: self cancelButtonTitle: NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
         [self.alert show];
         [self.alert release];
     }
-    else if(self.ratingView.userRating == 0){
+    else*/ if(self.ratingView.userRating == 0){
         self.alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Error", @"")
                                                 message: NSLocalizedString(@"Please give this game a rating of one through five stars", @"")
                                                delegate: self cancelButtonTitle: NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
@@ -61,7 +61,8 @@
         
         //Add comment client side
         Comment *comment = [[Comment alloc]init];
-        comment.text = self.textField.text;
+        if([self.textField.text isEqualToString:@"Comment"]) comment.text = @"";
+        else comment.text = self.textField.text;
         comment.rating = self.ratingView.userRating;
         comment.playerName = @"You";
         [self.commentsVC addComment:comment];
