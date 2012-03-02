@@ -231,7 +231,6 @@ navigationType:(UIWebViewNavigationType)navigationType{
 	
 	
 	//[self.view removeFromSuperview];
-	[self dismissModalViewControllerAnimated:NO];
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.modalPresent=NO;
     [appDelegate dismissNearbyObjectView:self];
