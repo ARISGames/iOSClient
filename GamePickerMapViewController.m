@@ -232,14 +232,31 @@ static float INITIAL_SPAN = 20;
 - (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>) annotation{ 
 	
     if ([annotation isKindOfClass:[MKUserLocation class]]) return nil;
-    
+    int rating = [(GamesMapAnnotation *)annotation rating];
+    int gameId = [(GamesMapAnnotation *)annotation gameId];
 	MKPinAnnotationView *annView=[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"MyPin"];
 	UIButton *actionButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
     annView.rightCalloutAccessoryView = actionButton;
     [actionButton addTarget:self action:@selector(gameWasSelected:) forControlEvents:UIControlEventTouchUpInside];
-	annView.animatesDrop=TRUE;  
+    if(gameId%3 == 0) annView.animatesDrop = YES;
+    else
+	annView.animatesDrop=NO;  
 	annView.canShowCallout = YES;  
 	[annView setSelected:YES];  
+    
+    switch (rating) {
+        case 0:
+        case 1:
+            annView.pinColor = MKPinAnnotationColorGreen;
+            break;
+        case 2:
+        case 3:
+            annView.pinColor = MKPinAnnotationColorPurple;
+            break;
+        default:
+            annView.pinColor = MKPinAnnotationColorRed;
+            break;
+    }
 	//annView.pinColor = MKPinAnnotationColorGreen;  
 	//annView.calloutOffset = CGPointMake(-5, 5);  
 	return annView;  
