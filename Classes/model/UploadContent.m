@@ -17,6 +17,7 @@
 @dynamic type;
 @dynamic fileURL;
 @dynamic noteId;
+@synthesize media;
 
 /*
 Through we provide a public NSURL interface, the underlying persistant store
@@ -86,11 +87,11 @@ is an NSString.
 
 - (Media *) getMedia
 {
-    Media *media;
     //media = [[AppModel sharedAppModel]mediaForMediaId:[self.localFileURL intValue]];
     //if(!media)
     
     //THIS LEAKS AND SHOULD BE FIXED
+    if(self.media == nil){
     NSString *mediaType;
     if([self.type isEqualToString:kNoteContentTypePhoto]){
         mediaType = kMediaTypeImage;
@@ -112,6 +113,7 @@ is an NSString.
         
         }
     NSLog(@"UploadContent: Returning media with ID: %d and type:%@",media.uid,media.type);
+    }
     return media;
 }
 
@@ -133,6 +135,12 @@ is an NSString.
 - (int) getContentId
 {
     return -1;
+}
+
+-(void)dealloc{
+    [super dealloc];
+    [media release];
+
 }
 
 @end

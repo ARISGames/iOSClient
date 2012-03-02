@@ -20,7 +20,7 @@
 @synthesize delegate;
 
 -(id)initWithFrame:(CGRect)aFrame andMedia:(Media *)aMedia{
-    self.media = [aMedia retain];
+    self.media = aMedia;
     return [self initWithFrame:aFrame andMediaId:aMedia.uid];
 
 }

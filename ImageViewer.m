@@ -24,10 +24,11 @@
 
 - (void)dealloc
 {
+    [super dealloc];
+
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [imageView release];
     [media release];
-    [super dealloc];
 }
 -(void)updateImage{
     self.imageView.image = self.media.image;

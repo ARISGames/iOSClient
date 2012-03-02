@@ -37,7 +37,7 @@
     if (self) {
         viewControllers = [[NSMutableArray alloc] initWithCapacity:10];
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-        [dispatcher addObserver:self selector:@selector(updateTable) name:@"ImageReady" object:nil];
+      /*  [dispatcher addObserver:self selector:@selector(updateTable) name:@"ImageReady" object:nil];*/
        
         [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNoteListReady" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -76,7 +76,6 @@
     [actionSheet release];
     [delegate release];
     [vidThumbs release];
-    [actionSheet release];
     [sharingLabel release];
     
     [super dealloc];
@@ -608,7 +607,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     if([self.note.contents count]>indexPath.row){
         noteC = [self.note.contents objectAtIndex:indexPath.row];
     if ([noteC.getType isEqualToString:kNoteContentTypeText]){
-        TextViewController *textVC = [[[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil] autorelease];
+        TextViewController *textVC = [[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil];
         textVC.noteId = self.note.noteId;
         textVC.textToDisplay = noteC.getText;
         textVC.editMode = YES;
@@ -623,6 +622,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
                                forView:self.navigationController.view cache:YES];
         [self.navigationController pushViewController:textVC animated:NO];
         [UIView commitAnimations];
+        [textVC release];
    
     }
     else if([noteC.getType isEqualToString:kNoteContentTypePhoto]){
@@ -638,6 +638,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
         [self.navigationController pushViewController:controller
                                              animated:NO];
         [UIView commitAnimations];
+        [controller release];
     }
     else if([noteC.getType isEqualToString:kNoteContentTypeAudio]){
           //listen to audio      
@@ -677,6 +678,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
         ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:noteC.getMedia.url];
         mMoviePlayer.moviePlayer.shouldAutoplay = YES;
         [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
+        [mMoviePlayer release];
     }
     }
     //[noteC release];

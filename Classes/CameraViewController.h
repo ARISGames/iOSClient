@@ -15,7 +15,7 @@
 	IBOutlet UIButton *libraryButton;
     IBOutlet UIButton *profileButton;
 
-    UIImagePickerController *imagePickerController;
+ //   UIImagePickerController *imagePickerController;
 	NSData *mediaData;
 	NSString *mediaFilename;
     BOOL showVid;
@@ -27,7 +27,7 @@
 @property (nonatomic, retain) IBOutlet UIButton *cameraButton;
 @property (nonatomic, retain) IBOutlet UIButton *profileButton;
 @property (nonatomic, retain) IBOutlet UIButton *libraryButton;
-@property (nonatomic, retain) UIImagePickerController *imagePickerController;
+//@property (nonatomic, retain) UIImagePickerController *imagePickerController;
 @property (nonatomic, retain) NSData *mediaData;
 @property (nonatomic, retain) NSString *mediaFilename;
 @property (nonatomic, retain) id backView;
@@ -42,6 +42,6 @@
 - (IBAction)cameraButtonTouchAction;
 - (IBAction)libraryButtonTouchAction;
 - (IBAction)profileButtonTouchAction;
-- (BOOL) isVideoCameraAvailable;
+//- (BOOL) isVideoCameraAvailable;
 -(void) uploadMedia;
 @end

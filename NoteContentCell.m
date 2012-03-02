@@ -118,13 +118,13 @@
 
 -(void)dealloc{
     [super dealloc];
-    /*[titleLbl release];
+    [titleLbl release];
     [detailLbl release];
     [imageView release];
     [holdLbl release];
-    [delegate release];
+    //[delegate release];
     [content release];
     [retryButton release];
-    [spinner release];*/
+    [spinner release];
 }
 @end

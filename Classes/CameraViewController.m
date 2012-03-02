@@ -18,7 +18,7 @@
 
 @implementation CameraViewController
 
-@synthesize imagePickerController;
+//@synthesize imagePickerController;
 @synthesize cameraButton;
 @synthesize libraryButton;
 @synthesize mediaData;
@@ -39,7 +39,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	self.imagePickerController = [[UIImagePickerController alloc] init];
+	//self.imagePickerController = [[UIImagePickerController alloc] init];
 	
 	[libraryButton setTitle: NSLocalizedString(@"CameraLibraryButtonTitleKey",@"") forState: UIControlStateNormal];
 	[libraryButton setTitle: NSLocalizedString(@"CameraLibraryButtonTitleKey",@"") forState: UIControlStateHighlighted];	
@@ -62,7 +62,7 @@
         self.profileButton.alpha = 0.6;
 	}
 	
-	self.imagePickerController.delegate = self;
+	//self.imagePickerController.delegate = self;
 	
 	NSLog(@"Camera Loaded");
 }
@@ -78,18 +78,20 @@
 
 - (IBAction)cameraButtonTouchAction {
 	NSLog(@"Camera Button Pressed");
-self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePickerController.sourceType];
+    UIImagePickerController *picker = [[UIImagePickerController alloc]init];
+    picker.delegate = self;
+picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:picker.sourceType];
     
-        self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
     
-		self.imagePickerController.allowsEditing = NO;
-	self.imagePickerController.showsCameraControls = YES;
-	[self presentModalViewController:self.imagePickerController animated:NO];
-    [imagePickerController release];
+		picker.allowsEditing = NO;
+	picker.showsCameraControls = YES;
+	[self presentModalViewController:picker animated:NO];
+    [picker release];
 }
 
         
-- (BOOL) isVideoCameraAvailable{
+/*- (BOOL) isVideoCameraAvailable{
        // UIImagePickerController *picker = [[UIImagePickerController alloc] init];
         NSArray *sourceTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePickerController.sourceType];
         
@@ -99,25 +101,29 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
         }
         
         return YES;
-    }
+    }*/
 
 - (IBAction)libraryButtonTouchAction {
 	NSLog(@"Library Button Pressed");
-	
-	self.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    UIImagePickerController *picker = [[UIImagePickerController alloc]init];
+    picker.delegate = self;
+	picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     
-	[self presentModalViewController:self.imagePickerController animated:NO];
-    [imagePickerController release];
+	[self presentModalViewController:picker animated:NO];
+    [picker release];
 }
 
 - (IBAction)profileButtonTouchAction {
 	NSLog(@"Profile Button Pressed");
-	
-	self.imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-	self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePickerController.sourceType];
-	self.imagePickerController.allowsEditing = NO;
-	self.imagePickerController.showsCameraControls = YES;
-	[self presentModalViewController:self.imagePickerController animated:NO];
+    UIImagePickerController *picker = [[UIImagePickerController alloc]init];
+    picker.delegate = self;
+
+	picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+	picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:picker.sourceType];
+	picker.allowsEditing = NO;
+	picker.showsCameraControls = YES;
+	[self presentModalViewController:picker animated:NO];
+    [picker release];
     [AppModel sharedAppModel].profilePic = YES;
 }
 
@@ -191,7 +197,7 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
     
 
     [self.navigationController popViewControllerAnimated:NO];
-    
+   
 
 
 }
@@ -226,13 +232,14 @@ self.imagePickerController.mediaTypes = [UIImagePickerController availableMediaT
 
 #pragma mark Memory Management
 - (void)didReceiveMemoryWarning {
+    NSLog(@"CAMERA DID RECEIVE MEMORY WARNING!");
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
     // Release anything that's not essential, such as cached data
 }
 
 
 - (void)dealloc {
-	[imagePickerController release];
+	//[imagePickerController release];
     [profileButton release];
     [cameraButton release];
     [libraryButton release];
