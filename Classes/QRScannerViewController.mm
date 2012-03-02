@@ -134,7 +134,9 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary  *)info{
 
 	//[[picker parentViewController] dismissModalViewControllerAnimated:NO];
-	[self dismissModalViewControllerAnimated:NO];
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.modalPresent=NO;
+    [appDelegate dismissNearbyObjectView:self];
     UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
     if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];                 
     
@@ -164,23 +166,27 @@
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [self dismissModalViewControllerAnimated:YES];
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.modalPresent=NO;
+    [appDelegate dismissNearbyObjectView:self];
 }
 
 
 #pragma mark -
 #pragma mark ZXingDelegateMethods
 - (void)zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)resultString {
-    [self dismissModalViewControllerAnimated:NO];
-
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.modalPresent=NO;
+    [appDelegate dismissNearbyObjectView:self];
     NSLog(@"QRScannerViewController: Scan result: %@",resultString);
     [self loadResult:resultString];
     
 }
 
 - (void)zxingControllerDidCancel:(ZXingWidgetController*)controller {
-    [self dismissModalViewControllerAnimated:YES];
-}
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.modalPresent=NO;
+    [appDelegate dismissNearbyObjectView:self];}
 
 
 #pragma mark QRCScan delegate methods

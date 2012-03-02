@@ -119,4 +119,5 @@ NSMutableArray *notifArray;
 - (void) resetCurrentlyFetchingVars;
 - (void) showNotifications;
 - (void) hideNotifications;
+- (void)dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController;
 @end

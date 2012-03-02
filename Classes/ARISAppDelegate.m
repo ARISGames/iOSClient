@@ -897,6 +897,16 @@ BOOL isShowingNotification;
     [nearbyObjectNavigationController release];
 }
 
+- (void)dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController{
+    
+    [nearbyObjectViewController dismissModalViewControllerAnimated:NO];
+    if(isShowingNotification){
+        tabShowY = 0;
+        
+        self.tabBarController.view.frame = CGRectMake(0, [UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y+40, 320, 420);
+    }
+
+}
 
 - (void) returnToHomeView{
 	NSLog(@"AppDelegate: Returning to Home View and Popping More Nav Controller");

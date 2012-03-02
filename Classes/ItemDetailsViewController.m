@@ -206,10 +206,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	
 	
 	[self.navigationController popToRootViewControllerAnimated:YES];
-	[self dismissModalViewControllerAnimated:NO];
-	
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    appDelegate.modalPresent = NO;
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.modalPresent=NO;
+    [appDelegate dismissNearbyObjectView:self];	
+
 	
 }
 
@@ -385,6 +385,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 		[self dismissModalViewControllerAnimated:NO];
         ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
         appDelegate.modalPresent = NO;
+        [appDelegate dismissNearbyObjectView:self];
 	}
 	
 
@@ -496,7 +497,9 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     if(webView == self.itemWebView){
     if ([[[request URL] absoluteString] hasPrefix:@"aris://closeMe"]) {
         [self.navigationController popToRootViewControllerAnimated:YES];
-        [self dismissModalViewControllerAnimated:NO];
+        ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+        appDelegate.modalPresent=NO;
+        [appDelegate dismissNearbyObjectView:self];
         return NO; 
     }  
     else if ([[[request URL] absoluteString] hasPrefix:@"aris://refreshStuff"]) {
@@ -576,8 +579,9 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         [titleAndDescForm release];	
      
     [self.navigationController popToRootViewControllerAnimated:YES];
-	[self dismissModalViewControllerAnimated:NO];
-	
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.modalPresent=NO;
+    [appDelegate dismissNearbyObjectView:self];	
 
         
 }

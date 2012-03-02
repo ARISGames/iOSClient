@@ -90,9 +90,11 @@ NSURL *url = [NSURL URLWithString:urlAddress];
 	if([self.delegate isKindOfClass:[DialogViewController class]] || [self.delegate isKindOfClass:[NodeViewController class]]
        || [self.delegate isKindOfClass:[QuestsViewController class]] || [self.delegate isKindOfClass:[ItemDetailsViewController class]])
         [self.navigationController popToRootViewControllerAnimated:YES];
-    else
-        [self dismissModalViewControllerAnimated:YES];
-    
+    else{
+        ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.modalPresent=NO;
+    [appDelegate dismissNearbyObjectView:self];    
+    }
 }
 
 

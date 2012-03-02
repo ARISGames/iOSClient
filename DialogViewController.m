@@ -206,7 +206,7 @@ NSString *const kDialogHtmlTemplate =
 	
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.modalPresent = NO;
-	[self dismissModalViewControllerAnimated:NO];
+	[appDelegate dismissNearbyObjectView:self];
 
 }
 
@@ -363,8 +363,8 @@ NSString *const kDialogHtmlTemplate =
         
         //Check if this is a closing script or we are shutting down
         if(closingScriptPlaying==YES || (self.exitToTabVal != nil)) {
-            [self dismissModalViewControllerAnimated:NO];
             appDelegate.modalPresent = NO;
+            [appDelegate dismissNearbyObjectView:self];
             [[AppServices sharedAppServices] updateServerNodeViewed:self.currentNode.nodeId];
         }
         

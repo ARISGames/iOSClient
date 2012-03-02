@@ -194,9 +194,12 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
 	//[self.view removeFromSuperview];
     if([self.delegate isKindOfClass:[DialogViewController class]])
 	[self.navigationController popToRootViewControllerAnimated:YES];
-    else
-        [self dismissModalViewControllerAnimated:YES];
-}
+    else{
+        ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.modalPresent=NO;
+        [appDelegate dismissNearbyObjectView:self];}
+    
+    }
 
 
 -(IBAction) sliderValueChanged: (id) sender{

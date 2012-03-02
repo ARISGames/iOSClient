@@ -234,6 +234,7 @@ navigationType:(UIWebViewNavigationType)navigationType{
 	[self dismissModalViewControllerAnimated:NO];
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.modalPresent=NO;
+    [appDelegate dismissNearbyObjectView:self];
     
 }
 
@@ -244,8 +245,9 @@ navigationType:(UIWebViewNavigationType)navigationType{
 	[[AppServices sharedAppServices] updateServerNodeViewed:node.nodeId];
 	
     //Remove thyself from the screen
-	[self dismissModalViewControllerAnimated:NO];
-    
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.modalPresent=NO;
+    [appDelegate dismissNearbyObjectView:self];    
     //Check if this was the game complete Node and if so, display the "Start Over" tab
     if((node.nodeId == [AppModel sharedAppModel].currentGame.completeNodeId) && 
        ([AppModel sharedAppModel].currentGame.completeNodeId != 0)){

@@ -94,8 +94,9 @@
        self.pageControl.currentPage = 0;
 }
 -(void)backButtonTouch{
-    [self dismissModalViewControllerAnimated:NO];
-}
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.modalPresent=NO;
+    [appDelegate dismissNearbyObjectView:self];}
 -(void)editButtonTouched{
     NoteEditorViewController *noteVC = [[NoteEditorViewController alloc] initWithNibName:@"NoteEditorViewController" bundle:nil];
     noteVC.note = self.note;
