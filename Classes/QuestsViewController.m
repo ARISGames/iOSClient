@@ -175,7 +175,8 @@ NSString *const kQuestsHtmlTemplate =
 				if (existingQuest.questId == quest.questId) match = YES;	
 			}
 			if (match == NO) {
-                
+                [appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
+
                 NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Quest Completed",@"title",quest.name,@"prompt", nil];
                 
                 [appDelegate.notifArray addObject:dict];
