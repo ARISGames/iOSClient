@@ -356,6 +356,15 @@ static float INITIAL_SPAN = 0.001;
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
     // Release anything that's not essential, such as cached data
+   
+    NSLog(@"GPSViewController: Releasing Memory");
+    //Blow away the old markers except for the player marker
+    NSEnumerator *existingAnnotationsEnumerator = [[[mapView annotations] copy] objectEnumerator];
+    NSObject <MKAnnotation> *annotation;
+    while (annotation = [existingAnnotationsEnumerator nextObject]) {
+        if (annotation != mapView.userLocation) [mapView removeAnnotation:annotation];
+    }
+    [existingAnnotationsEnumerator release];
 }
 
 - (void)dealloc {
