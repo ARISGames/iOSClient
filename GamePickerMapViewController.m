@@ -50,12 +50,18 @@ static float INITIAL_SPAN = 20;
     [super dealloc];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
+    // Release anything that's not essential, such as cached data
     
-    // Release any cached data, images, etc that aren't in use.
+    NSLog(@"GPSViewController: Releasing Memory");
+    //Blow away the old markers except for the player marker
+    NSEnumerator *existingAnnotationsEnumerator = [[[mapView annotations] copy] objectEnumerator];
+    NSObject <MKAnnotation> *annotation;
+    while (annotation = [existingAnnotationsEnumerator nextObject]) {
+        if (annotation != mapView.userLocation) [mapView removeAnnotation:annotation];
+    }
+    [existingAnnotationsEnumerator release];
 }
 
 #pragma mark - View lifecycle
