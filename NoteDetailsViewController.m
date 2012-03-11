@@ -20,13 +20,12 @@
 #import "AsyncMediaPlayerButton.h"
 
 @implementation NoteDetailsViewController
-@synthesize scrollView,pageControl, delegate, viewControllers,note,commentLabel,likeButton,likeLabel;
+@synthesize scrollView,pageControl, delegate,note,commentLabel,likeButton,likeLabel;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        viewControllers = [[NSMutableArray alloc] initWithCapacity:10];
         self.hidesBottomBarWhenPushed = YES;
         [[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(movieFinishedCallback:)
@@ -42,12 +41,12 @@
 }
 - (void)dealloc
 {
+    NSLog(@"NoteDetailsVC: Dealloc");
     [super dealloc];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-
+    scrollView.delegate = nil;
     [scrollView release];
     [pageControl release];
-    [viewControllers release];
     [note release];
     [delegate release];
     [commentLabel release];
@@ -85,29 +84,32 @@
     self.pageControl.hidesForSinglePage = YES;
     if (self.note.creatorId == [AppModel sharedAppModel].playerId) {
         
-    [self.navigationItem setRightBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleDone target:self action:@selector(editButtonTouched)] autorelease]];
+        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleDone target:self action:@selector(editButtonTouched)]];
     }
     if([self.delegate isKindOfClass:[Note class]]){
-        [self.navigationItem setLeftBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonTouch)] autorelease]];
+        [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonTouch)]];
     }
-
-       self.pageControl.currentPage = 0;
+    
+    self.pageControl.currentPage = 0;
 }
 -(void)backButtonTouch{
+    NSLog(@"NoteDetialsViewController: backButtonTouch");
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.modalPresent=NO;
-    [appDelegate dismissNearbyObjectView:self];}
+    [appDelegate dismissNearbyObjectView:self];
+}
 -(void)editButtonTouched{
     NoteEditorViewController *noteVC = [[NoteEditorViewController alloc] initWithNibName:@"NoteEditorViewController" bundle:nil];
     noteVC.note = self.note;
     noteVC.delegate = self;
     [self.navigationController pushViewController:noteVC animated:YES];
-
+    [noteVC release];
+    
 }
 -(void)viewWillAppear:(BOOL)animated{
-
+    
     [self addUploadsToNote];
-
+    
     self.commentLabel.text = [NSString stringWithFormat:@"%d",[self.note.comments count]];
     self.likeLabel.text = [NSString stringWithFormat:@"%d",self.note.numRatings];
     if(self.note.userLiked) [self.likeButton setStyle:UIBarButtonItemStyleDone];
@@ -115,15 +117,15 @@
     self.title = self.note.title;
     
     while([scrollView.subviews count]>0)
-    [[self.scrollView.subviews objectAtIndex:0] removeFromSuperview];
+        [[self.scrollView.subviews objectAtIndex:0] removeFromSuperview];
     
     self.pageControl.currentPage = 0;
     self.pageControl.numberOfPages = 1;
     self.pageControl.hidesForSinglePage = YES;
     numPages = 0;
     //self.scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * numPages, scrollView.frame.size.height);
-
-    NoteContent<NoteContentProtocol> *noteContent = [[NoteContent alloc] init];
+    
+    NoteContent<NoteContentProtocol> *noteContent;
     if([self.note.contents count] == 0){
         
     }
@@ -133,8 +135,8 @@
             [self loadNewPageWithContent:noteContent];
         }
     }
-
-
+    
+    
 }
 
 -(void)addUploadsToNote{
@@ -167,7 +169,7 @@
         [self.likeButton setStyle:UIBarButtonItemStyleBordered];
     }
     self.likeLabel.text = [NSString stringWithFormat:@"%d",self.note.numRatings];
-
+    
 }
 -(void)shareButtonTouch{
     
@@ -183,57 +185,55 @@
                            forView:self.navigationController.view cache:YES];
     [self.navigationController pushViewController:noteCommentVC animated:NO];
     [UIView commitAnimations]; 
-
+    [noteCommentVC release];
+    
 }
 - (void)scrollViewDidScroll:(UIScrollView *)sender {
-
+    
     int pageWidth = scrollView.frame.size.width;
     int page = floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
     pageControl.currentPage = page;
     pageControl.numberOfPages = numPages;
-   }
+}
 
 -(void)saveButtonTouchAction{
-   //[self displayTitleandDescriptionForm];
+    //[self displayTitleandDescriptionForm];
 }
 - (void)loadNewPageWithContent:(NoteContent<NoteContentProtocol> *)content{
     
     if(![content.getType isEqualToString:@"UPLOAD"]){
-    numPages++;
-    scrollView.contentSize = CGSizeMake(320 * numPages, scrollView.frame.size.height);
-    pageControl.numberOfPages = numPages;
+        numPages++;
+        scrollView.contentSize = CGSizeMake(320 * numPages, scrollView.frame.size.height);
+        pageControl.numberOfPages = numPages;
         CGRect frame = CGRectMake( scrollView.frame.size.width * (numPages-1), 0, 
                                   scrollView.frame.size.width, 
                                   scrollView.frame.size.height);
-    if([content.getType isEqualToString:kNoteContentTypeText]){
-      TextViewController *controller = [[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil];
-        controller.previewMode = YES;
-        controller.textToDisplay = content.getText;
-        controller.title = self.note.title;
-        [viewControllers addObject:controller];
+        if([content.getType isEqualToString:kNoteContentTypeText]){
+            TextViewController *controller = [[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil];
+            controller.previewMode = YES;
+            controller.textToDisplay = content.getText;
+            controller.title = self.note.title;
             controller.view.frame = frame;
             [scrollView addSubview:controller.view];
-        [controller release];
-
-    }
-    else if([content.getType isEqualToString:kNoteContentTypePhoto]){
-        
+            [controller release];
+            
+        }
+        else if([content.getType isEqualToString:kNoteContentTypePhoto]){
+            
             AsyncMediaImageView *controller = [[AsyncMediaImageView alloc] initWithFrame:frame andMedia:content.getMedia];
- 
-            [viewControllers addObject:controller];
+            
             [scrollView addSubview:controller];
             [controller release];
-
-    }
+            
+        }
         else if([content.getType isEqualToString:kNoteContentTypeAudio] || [content.getType isEqualToString:kNoteContentTypeVideo]){
-
+            
             AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:frame media:content.getMedia presentingController:self];
-                                                   
-            [viewControllers addObject:mediaButton];
+            
             [scrollView addSubview:mediaButton];
-                
+            
             [mediaButton release];
-
+            
         }
     }
 }
@@ -242,7 +242,7 @@
 {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    // e.g. self.myOutlet = nil;    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

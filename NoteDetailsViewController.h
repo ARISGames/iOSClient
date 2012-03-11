@@ -14,7 +14,6 @@
 @interface NoteDetailsViewController : UIViewController <UIScrollViewDelegate> {
     IBOutlet UIScrollView *scrollView;
     IBOutlet UIPageControl *pageControl;
-    NSMutableArray *viewControllers;
     id delegate;
     int pageNumber;
     int numPages;
@@ -30,11 +29,9 @@
 @property(nonatomic, retain) id delegate;
 @property(nonatomic, retain) IBOutlet UIScrollView *scrollView;
 @property(nonatomic, retain) IBOutlet UIPageControl *pageControl;
-@property(nonatomic, retain) NSMutableArray *viewControllers;
 @property(nonatomic,retain)IBOutlet UILabel *commentLabel;
 @property(nonatomic,retain)IBOutlet UILabel *likeLabel;
 
-//@property(nonatomic, retain) ARISMoviePlayerViewController *mMoviePlayer;
 @property(nonatomic,retain)Note *note;
 - (IBAction)saveButtonTouchAction;
 - (IBAction)changePage:(id) sender;

@@ -679,6 +679,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
         mMoviePlayer.moviePlayer.shouldAutoplay = YES;
         [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
         [mMoviePlayer release];
+        NSLog (@"NoteEditorVC: mMovePlayer return Count %@",[mMoviePlayer retainCount]);
     }
     }
     //[noteC release];

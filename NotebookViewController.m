@@ -96,44 +96,39 @@ BOOL tagFilter;
     if([sender isKindOfClass:[UISegmentedControl class]]){
         [sender setTag:[(UISegmentedControl *)sender selectedSegmentIndex]];
     }
+       
     switch ([sender tag]) {
         case 0:
         {
-            NSSortDescriptor *sortDescriptor;
-            sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"noteId"
-                                                          ascending:NO] autorelease];
+            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"noteId" ascending:NO];
             NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+            [sortDescriptor release];  
+            tagFilter = NO;   
             
-            self.noteList = [[[self.noteList sortedArrayUsingDescriptors:sortDescriptors] copy]autorelease];
-            self.gameNoteList = [[[self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors] copy]autorelease];
-            tagFilter = NO;
+            self.noteList = [self.noteList sortedArrayUsingDescriptors:sortDescriptors];
+            self.gameNoteList = [self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors];
 
             break;
         }
         case 1:
         {
-            NSSortDescriptor *sortDescriptor;
-            sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"title"
-                                                          ascending:YES] autorelease];
+            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
             NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+            tagFilter = NO;       
             
-            self.noteList = [[[self.noteList sortedArrayUsingDescriptors:sortDescriptors] copy]autorelease];
-            self.gameNoteList = [[[self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors] copy]autorelease];
-            tagFilter = NO;
-
+            self.noteList = [self.noteList sortedArrayUsingDescriptors:sortDescriptors];
+            self.gameNoteList = [self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors];
+            
             break;  
         }
         case 2:
         {
-            NSSortDescriptor *sortDescriptor;
-            sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"numRatings"
-                                                          ascending:NO] autorelease];
+            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"numRatings" ascending:NO];
             NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+            tagFilter = NO;  
             
-            self.noteList = [[[self.noteList sortedArrayUsingDescriptors:sortDescriptors] copy]autorelease];
-            self.gameNoteList = [[[self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors] copy]autorelease];
-            tagFilter = NO;
-
+            self.noteList = [self.noteList sortedArrayUsingDescriptors:sortDescriptors];
+            self.gameNoteList = [self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors];
             break; 
         }
         case 3:
@@ -144,6 +139,9 @@ BOOL tagFilter;
         default:
             break;
     }
+                              
+
+                              
     [noteTable reloadData];
 
 }
@@ -555,13 +553,12 @@ BOOL tagFilter;
  
 
 
-            //open up note viewer
-        NoteDetailsViewController *dataVC = [[[NoteDetailsViewController alloc] initWithNibName:@"NoteDetailsViewController" bundle:nil]autorelease];
+    //open up note viewer
+    NoteDetailsViewController *dataVC = [[NoteDetailsViewController alloc] initWithNibName:@"NoteDetailsViewController" bundle:nil];
     dataVC.delegate = self;
-        dataVC.note = (Note *)[currentNoteList objectAtIndex:indexPath.row];
-        [self.navigationController pushViewController:dataVC animated:YES];
-        //[dataVC release];
-        
+    dataVC.note = (Note *)[currentNoteList objectAtIndex:indexPath.row];
+    [self.navigationController pushViewController:dataVC animated:YES];
+    [dataVC release];
     
 }
 
