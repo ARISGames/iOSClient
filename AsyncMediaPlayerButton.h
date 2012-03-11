@@ -22,7 +22,7 @@
     
 @property (nonatomic, retain) Media *media;
 @property (nonatomic, retain) ARISMoviePlayerViewController *mMoviePlayer;
-@property (nonatomic, retain) UIViewController *presentingController;
+@property (nonatomic, assign) UIViewController *presentingController;
 
 
 @end
