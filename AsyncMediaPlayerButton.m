@@ -107,7 +107,7 @@ BOOL isLoading;
 }
 
 - (void)dealloc {
-    NSLog(@"AsyncMediaPlayerButton: Delloc");
+    NSLog(@"AsyncMediaPlayerButton: Dealloc");
     [super dealloc];
     [mMoviePlayer.moviePlayer cancelAllThumbnailImageRequests];
     [mMoviePlayer release];
