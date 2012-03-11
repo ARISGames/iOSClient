@@ -32,7 +32,7 @@
 @property(nonatomic, retain)NoteContent<NoteContentProtocol>*content;
 @property(nonatomic,retain)IBOutlet UIButton *retryButton;
 @property(nonatomic,retain)IBOutlet UIActivityIndicatorView *spinner;
-@property(nonatomic,retain) UITableView *parentTableView;
+@property(nonatomic,assign) UITableView *parentTableView;
 @property(nonatomic,retain)NSIndexPath *indexPath;
 
 -(void)checkForRetry;

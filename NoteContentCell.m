@@ -117,14 +117,17 @@
 }
 
 -(void)dealloc{
+    NSLog(@"NoteContentCell: Dealloc");
     [super dealloc];
     [titleLbl release];
     [detailLbl release];
     [imageView release];
     [holdLbl release];
-    //[delegate release];
     [content release];
     [retryButton release];
     [spinner release];
+    [indexPath release];
+    
+    
 }
 @end
