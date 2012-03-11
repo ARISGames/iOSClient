@@ -1796,8 +1796,7 @@ NSString *const kARISServerServicePackage = @"v1";
     while ((dict = [enumerator nextObject])) {
         //This is returning an object with playerId,tex, and rating. Right now, we just want the text
         //TODO: Create a Comments object
-        Note *c = [[Note alloc] init];
-        c = [self parseNoteFromDictionary:dict];
+        Note *c = [self parseNoteFromDictionary:dict];
         [aNote.comments addObject:c];
     }
     
