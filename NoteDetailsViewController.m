@@ -42,7 +42,6 @@
 - (void)dealloc
 {
     NSLog(@"NoteDetailsVC: Dealloc");
-    [super dealloc];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     scrollView.delegate = nil;
     [scrollView release];
@@ -51,6 +50,7 @@
     [commentLabel release];
     [likeLabel release];
     [likeButton release];
+    [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
