@@ -111,11 +111,20 @@
 
 - (void)dealloc
 {
+    NSLog(@"NoteCell: Dealloc");
     [titleLabel release];
-    [mediaIcon4 release];
-    [mediaIcon3 release];
-    [mediaIcon2 release];
+    [likeLabel release];
+    [likesButton release];
+    [commentsLbl release];
+    [holdLbl release];
+    [note release];
     [mediaIcon1 release];
+    [mediaIcon2 release];
+    [mediaIcon3 release];
+    [mediaIcon4 release];
+    [starView release]; 
+    
+               
     [super dealloc];
 }
 

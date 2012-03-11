@@ -32,7 +32,7 @@
 @property(nonatomic,retain)IBOutlet UILabel *commentsLbl;
 @property(nonatomic,retain)IBOutlet UILabel *holdLbl;
 @property(nonatomic,retain)Note *note;
-@property(nonatomic,retain)id delegate;
+@property(nonatomic,assign)id delegate;
 
 @property(readwrite, assign)int index;
 
