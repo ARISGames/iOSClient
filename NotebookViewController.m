@@ -367,14 +367,19 @@ BOOL tagFilter;
     }
     
     UITableViewCell *tempCell = (NoteCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
     if (![tempCell respondsToSelector:@selector(mediaIcon1)]){
+        NSLog(@"NotebookViewController: Throwing out dequeued cell");
         //[tempCell release];
         tempCell = nil;
     }
+    else NSLog(@"NotebookViewController: Reusing out dequeued cell");
+
     NoteCell *cell = (NoteCell *)tempCell;
     
     
     if (cell == nil) {
+        NSLog(@"NotebookViewController: Allocing a new cell");
         // Create a temporary UIViewController to instantiate the custom cell.
         UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"NoteCell" bundle:nil];
         // Grab a pointer to the custom cell.
