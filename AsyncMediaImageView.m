@@ -236,6 +236,7 @@
 }
 
 - (void)dealloc {
+    NSLog(@"AsyncMediaImageView: Dealloc");
     [super dealloc];
     [connection cancel];
     [connection release];
@@ -243,8 +244,6 @@
     [mMoviePlayer.moviePlayer cancelAllThumbnailImageRequests];
     if(media != nil)
 	[media release];
-    if(delegate !=nil)
-    [delegate release];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

@@ -31,7 +31,7 @@
 @property (nonatomic, retain) NSMutableData* data;
 @property (nonatomic, retain) Media *media;
 @property (nonatomic, retain) ARISMoviePlayerViewController *mMoviePlayer;
-@property (nonatomic, retain) id <AsyncMediaImageViewDelegate> delegate;
+@property (nonatomic, assign) id <AsyncMediaImageViewDelegate> delegate;
 
 @property(readwrite,assign)BOOL isLoading;
 @property(readwrite,assign)BOOL loaded;
