@@ -25,12 +25,12 @@
     Note *note;
     IBOutlet UIBarButtonItem *likeButton;
 }
-@property(nonatomic,retain)IBOutlet UIBarButtonItem *likeButton;;
-@property(nonatomic, retain) id delegate;
+@property(nonatomic, retain) IBOutlet UIBarButtonItem *likeButton;;
+@property(nonatomic, assign) id delegate;
 @property(nonatomic, retain) IBOutlet UIScrollView *scrollView;
 @property(nonatomic, retain) IBOutlet UIPageControl *pageControl;
-@property(nonatomic,retain)IBOutlet UILabel *commentLabel;
-@property(nonatomic,retain)IBOutlet UILabel *likeLabel;
+@property(nonatomic, retain) IBOutlet UILabel *commentLabel;
+@property(nonatomic, retain) IBOutlet UILabel *likeLabel;
 
 @property(nonatomic,retain)Note *note;
 - (IBAction)saveButtonTouchAction;

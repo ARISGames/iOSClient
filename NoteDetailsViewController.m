@@ -48,7 +48,6 @@
     [scrollView release];
     [pageControl release];
     [note release];
-    [delegate release];
     [commentLabel release];
     [likeLabel release];
     [likeButton release];
