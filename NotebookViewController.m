@@ -32,9 +32,9 @@ BOOL tagFilter;
         self.tagGameNoteList = [[NSMutableArray alloc] initWithCapacity:10];
         self.headerTitleList = [[NSMutableArray alloc] initWithCapacity:10];
         self.headerTitleGameList = [[NSMutableArray alloc] initWithCapacity:10];
-
-
-
+        
+        
+        
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(refresh) name:@"NoteDeleted" object:nil];
         [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNoteListReady" object:nil];
@@ -52,30 +52,30 @@ BOOL tagFilter;
     [self.filterToolBar setFrame:CGRectMake(0, -44, 320, 44)];
     [self.sortToolBar setFrame:CGRectMake(0, 416, 320, 44)];
     [self.toolBar setFrame:CGRectMake(0, 0, 320, 44)];
-
+    
     [self.noteTable setFrame:CGRectMake(0, 44, 320, 324)];
-     	//[noteTable reloadData];
+    //[noteTable reloadData];
     filSelected = 0;
     sortSelected = 0;
     //[self refresh];
-
+    
 	NSLog(@"NotebookViewController: View Loaded");
 }
 -(void)displayMenu{
     menuDown = !menuDown;
     if(menuDown){
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-    [UIView setAnimationDuration:.5];
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView setAnimationDuration:.5];
         [self.filterToolBar setFrame:CGRectMake(0, 0, 320, 44)];
         [self.sortToolBar setFrame:CGRectMake(0, 323, 320, 44)];
         [self.toolBar setFrame:CGRectMake(0, 44, 320, 44)];
         [self.noteTable setFrame:CGRectMake(0, 88, 320, 235)];
         [self.navigationItem.rightBarButtonItem setStyle:UIBarButtonItemStyleDone];
-    [UIView commitAnimations];
+        [UIView commitAnimations];
     }
     else{
-       [UIView beginAnimations:nil context:nil];
+        [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
         [UIView setAnimationDuration:.5];
         [self.filterToolBar setFrame:CGRectMake(0, -44, 320, 44)];
@@ -96,7 +96,7 @@ BOOL tagFilter;
     if([sender isKindOfClass:[UISegmentedControl class]]){
         [sender setTag:[(UISegmentedControl *)sender selectedSegmentIndex]];
     }
-       
+    
     switch ([sender tag]) {
         case 0:
         {
@@ -107,7 +107,7 @@ BOOL tagFilter;
             
             self.noteList = [self.noteList sortedArrayUsingDescriptors:sortDescriptors];
             self.gameNoteList = [self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors];
-
+            
             break;
         }
         case 1:
@@ -139,11 +139,11 @@ BOOL tagFilter;
         default:
             break;
     }
-                              
-
-                              
+    
+    
+    
     [noteTable reloadData];
-
+    
 }
 - (void)viewDidAppear:(BOOL)animated {
 	NSLog(@"NotebookViewController: View Appeared");	
@@ -157,13 +157,13 @@ BOOL tagFilter;
 
 -(void)refresh {
 	NSLog(@"NotebookViewController: Refresh Requested");
-
+    
     if(filterControl.selectedSegmentIndex == 0)
-   [[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:YES];
+        [[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:YES];
     else
-   [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
-
-   [[AppServices sharedAppServices]fetchGameTags];
+        [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
+    
+    [[AppServices sharedAppServices]fetchGameTags];
     [self refreshViewFromModel];
     [noteTable reloadData];
     //[self showLoadingIndicator];
@@ -187,13 +187,13 @@ BOOL tagFilter;
 }
 
 -(void) viewWillAppear:(BOOL)animated{
-
-
+    
+    
 }
 
 -(void)removeLoadingIndicator{
     //[[self navigationItem] setRightBarButtonItem:nil];
-
+    
     [noteTable reloadData];
 }
 -(void)barButtonTouchAction:(id)sender{
@@ -202,47 +202,47 @@ BOOL tagFilter;
     noteVC.delegate = self;
     [self.navigationController pushViewController:noteVC animated:NO];
     [noteVC release];
-    }
+}
 - (void)refreshViewFromModel {
 	NSLog(@"NotebookViewController: Refresh View from Model");
-        
+    
 	self.noteList = [[[AppModel sharedAppModel].playerNoteList allValues] mutableCopy];
     self.gameNoteList = [[[AppModel sharedAppModel].gameNoteList allValues] mutableCopy];
     
     if([AppModel sharedAppModel].gameTagList){
-    self.tagList = [AppModel sharedAppModel].gameTagList;
-    NSSortDescriptor *sortDescriptor;
-    sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"tagName"
-                                                  ascending:YES] autorelease];
-    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-    
-    self.tagList = [[[self.tagList sortedArrayUsingDescriptors:sortDescriptors] copy]autorelease];
+        self.tagList = [AppModel sharedAppModel].gameTagList;
+        NSSortDescriptor *sortDescriptor;
+        sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"tagName"
+                                                      ascending:YES] autorelease];
+        NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+        
+        self.tagList = [[[self.tagList sortedArrayUsingDescriptors:sortDescriptors] copy]autorelease];
         [tagGameNoteList removeAllObjects];
         [headerTitleGameList removeAllObjects];
-    
-    for(int i = 0; i < [self.tagList count];i++){
-        NSString *tagName = [[self.tagList objectAtIndex:i] tagName];
-                    NSMutableArray *tempTagList = [[NSMutableArray alloc]initWithCapacity:5];
-        for(int x = 0; x < [self.gameNoteList count]; x++){
-
-            for(int y = 0; y < [[[self.gameNoteList objectAtIndex:x] tags] count]; y ++){
-                if ([[[[[self.gameNoteList objectAtIndex:x] tags] objectAtIndex:y] tagName] isEqualToString:tagName]) {
-                    Note *tempNote;
-                    tempNote = [self.gameNoteList objectAtIndex:x];
-                    [tempNote setTagName:tagName];
-                    NSLog(@"TAGNAME: %@",tagName);
-                    [tempTagList addObject:tempNote];
-                   // [tempNote release];
+        
+        for(int i = 0; i < [self.tagList count];i++){
+            NSString *tagName = [[self.tagList objectAtIndex:i] tagName];
+            NSMutableArray *tempTagList = [[NSMutableArray alloc]initWithCapacity:5];
+            for(int x = 0; x < [self.gameNoteList count]; x++){
+                
+                for(int y = 0; y < [[[self.gameNoteList objectAtIndex:x] tags] count]; y ++){
+                    if ([[[[[self.gameNoteList objectAtIndex:x] tags] objectAtIndex:y] tagName] isEqualToString:tagName]) {
+                        Note *tempNote;
+                        tempNote = [self.gameNoteList objectAtIndex:x];
+                        [tempNote setTagName:tagName];
+                        NSLog(@"TAGNAME: %@",tagName);
+                        [tempTagList addObject:tempNote];
+                        // [tempNote release];
+                    }
                 }
+                
+                
             }
-           
-
+            if([tempTagList count] >0){
+                [self.tagGameNoteList addObject:tempTagList];
+                [self.headerTitleGameList addObject:tagName];
             }
-        if([tempTagList count] >0){
-            [self.tagGameNoteList addObject:tempTagList];
-            [self.headerTitleGameList addObject:tagName];
-        }
-        [tempTagList release];
+            [tempTagList release];
         }
         
         [tagNoteList removeAllObjects];
@@ -272,32 +272,32 @@ BOOL tagFilter;
             }
             [tempTagList release];
         }
-
+        
         UIButton *b = [[[UIButton alloc]init]autorelease];
         b.tag = filSelected;
         [self sortButtonTouchAction:b];
         UIButton *c = [[[UIButton alloc]init]autorelease];
         c.tag = sortSelected;
         //[noteTable reloadData];
-        }
- /*
-    for(int i = 0; i < [self.tagList count];i++){
-        NSString *tagName = [[self.tagList objectAtIndex:i] tagName];
-        for(int x = 0; x < [self.noteList count]; x++){
-            for(int y = 0; y < [[[self.noteList objectAtIndex:x] tags] count]; y ++){
-                if ([[[[[self.noteList objectAtIndex:x] tags] objectAtIndex:y] tagName] isEqualToString:tagName]) {
-                    Note *tempNote = [self.noteList objectAtIndex:x];
-                    [tempNote setTagSection:i];
-                    [self.tagNoteList addObject:tempNote];
-                }
-            }
-        }
     }
-*/
+    /*
+     for(int i = 0; i < [self.tagList count];i++){
+     NSString *tagName = [[self.tagList objectAtIndex:i] tagName];
+     for(int x = 0; x < [self.noteList count]; x++){
+     for(int y = 0; y < [[[self.noteList objectAtIndex:x] tags] count]; y ++){
+     if ([[[[[self.noteList objectAtIndex:x] tags] objectAtIndex:y] tagName] isEqualToString:tagName]) {
+     Note *tempNote = [self.noteList objectAtIndex:x];
+     [tempNote setTagSection:i];
+     [self.tagNoteList addObject:tempNote];
+     }
+     }
+     }
+     }
+     */
     
     //unregister for notifications
-                   //  [[NSNotificationCenter defaultCenter] removeObserver:self];
-
+    //  [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
 }
 
 #pragma mark Table view methods
@@ -306,24 +306,24 @@ BOOL tagFilter;
         if(self.filterControl.selectedSegmentIndex == 0)
             return [self.tagNoteList count];
         else
-        return [self.tagGameNoteList count];
+            return [self.tagGameNoteList count];
         
     }
     else
-    return 1;
+        return 1;
 }
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
+    
     if(!tagFilter){
-     if(self.filterControl.selectedSegmentIndex == 0){ 
-        if([self.noteList count] == 0) return 1;
-        return [self.noteList count];}
-    else {
-        if([self.gameNoteList count] == 0) return 1;
-        return [self.gameNoteList count];
-    }
+        if(self.filterControl.selectedSegmentIndex == 0){ 
+            if([self.noteList count] == 0) return 1;
+            return [self.noteList count];}
+        else {
+            if([self.gameNoteList count] == 0) return 1;
+            return [self.gameNoteList count];
+        }
     }
     else{
         if(self.filterControl.selectedSegmentIndex == 0)
@@ -345,7 +345,7 @@ BOOL tagFilter;
         [AppModel sharedAppModel].isGameNoteList  = NO;
     }
     else {
-      currentNoteList = self.gameNoteList;  
+        currentNoteList = self.gameNoteList;  
         [AppModel sharedAppModel].isGameNoteList  = YES;
     }
     
@@ -353,42 +353,42 @@ BOOL tagFilter;
         if(self.filterControl.selectedSegmentIndex == 0)
             currentNoteList = self.tagNoteList;
         else 
-        currentNoteList = self.tagGameNoteList;
+            currentNoteList = self.tagGameNoteList;
     }
     
 	static NSString *CellIdentifier = @"Cell";
     if([currentNoteList count] == 0 && indexPath.row == 0){
         UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
-
+        
         cell.textLabel.text = @"No Notes";
         cell.detailTextLabel.text = @"Press A Blue Button Above To Add One!";
         cell.userInteractionEnabled = NO;
         return cell;
     }
-   
+    
     UITableViewCell *tempCell = (NoteCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (![tempCell respondsToSelector:@selector(mediaIcon1)]){
         //[tempCell release];
         tempCell = nil;
     }
     NoteCell *cell = (NoteCell *)tempCell;
-   
-           
-            if (cell == nil) {
-                // Create a temporary UIViewController to instantiate the custom cell.
-                UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"NoteCell" bundle:nil];
-                // Grab a pointer to the custom cell.
-                cell = (NoteCell *)temporaryController.view;
-                // Release the temporary UIViewController.
-                [temporaryController release];
-            }
-        
+    
+    
+    if (cell == nil) {
+        // Create a temporary UIViewController to instantiate the custom cell.
+        UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"NoteCell" bundle:nil];
+        // Grab a pointer to the custom cell.
+        cell = (NoteCell *)temporaryController.view;
+        // Release the temporary UIViewController.
+        [temporaryController release];
+    }
+    
     Note *currNote;
     if(!tagFilter){
-            currNote = (Note *)[currentNoteList objectAtIndex:indexPath.row];
+        currNote = (Note *)[currentNoteList objectAtIndex:indexPath.row];
     }
     else{
-    //tag stuff  
+        //tag stuff  
         
         currNote = (Note *)[[currentNoteList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     }
@@ -396,107 +396,107 @@ BOOL tagFilter;
     cell.delegate = self;
     cell.index = indexPath.row;
     if([currNote.comments count] == 0){
-      cell.commentsLbl.text = @"";
+        cell.commentsLbl.text = @"";
         [cell.likesButton setFrame:CGRectMake(cell.likesButton.frame.origin.x,14,cell.likesButton.frame.size.width , cell.likesButton.frame.size.height)];
         [cell.likeLabel setFrame:CGRectMake(cell.likeLabel.frame.origin.x,26,cell.likeLabel.frame.size.width , cell.likeLabel.frame.size.height)];
     }
     else{
-    cell.commentsLbl.text = [NSString stringWithFormat:@"%d comments",[currNote.comments count]];
+        cell.commentsLbl.text = [NSString stringWithFormat:@"%d comments",[currNote.comments count]];
         [cell.likesButton setFrame:CGRectMake(cell.likesButton.frame.origin.x,2,cell.likesButton.frame.size.width , cell.likesButton.frame.size.height)];
         [cell.likeLabel setFrame:CGRectMake(cell.likeLabel.frame.origin.x,14,cell.likeLabel.frame.size.width , cell.likeLabel.frame.size.height)];
-
+        
     }
     cell.likeLabel.text = [NSString stringWithFormat:@"%d",currNote.numRatings];
     if(currNote.userLiked)cell.likesButton.selected = YES;
-        cell.titleLabel.text = currNote.title;
-        if([currNote.contents count] == 0 && (currNote.creatorId != [AppModel sharedAppModel].playerId))cell.userInteractionEnabled = NO;
-            for(int x = 0; x < [currNote.contents count];x++){
-                if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:kNoteContentTypeText]&& !self.textIconUsed){
-                    self.textIconUsed = YES;
-                    if (cell.mediaIcon1.image == nil) {
-                        cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
-
-                    }
-                    else if(cell.mediaIcon2.image == nil) {
-                        cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
-                        
-                    }
-                    else if(cell.mediaIcon3.image == nil) {
-                        cell.mediaIcon3.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
-                        
-                    }
-                    else if(cell.mediaIcon4.image == nil) {
-                        cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
-                        
-                    }
-
-
-                }
-                else if ([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:kNoteContentTypePhoto]&& !self.photoIconUsed){
-                    self.photoIconUsed = YES;
-                    if (cell.mediaIcon1.image == nil) {
-                        cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
-                        
-                    }
-                    else if(cell.mediaIcon2.image == nil) {
-                        cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
-                        
-                    }
-                    else if(cell.mediaIcon3.image == nil) {
-                        cell.mediaIcon3.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
-                        
-                    }
-                    else if(cell.mediaIcon4.image == nil) {
-                        cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
-                        
-                    }
-
-                }
-                else if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:kNoteContentTypeAudio] && !self.audioIconUsed){
-                    self.audioIconUsed = YES;
-                    if (cell.mediaIcon1.image == nil) {
-                        cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
-                        
-                    }
-                    else if(cell.mediaIcon2.image == nil) {
-                        cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
-                        
-                    }
-                    else if(cell.mediaIcon3.image == nil) {
-                        cell.mediaIcon3.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
-                        
-                    }
-                    else if(cell.mediaIcon4.image == nil) {
-                        cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
-                        
-                    }
-
-                }
-                else if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:kNoteContentTypeVideo] && !self.videoIconUsed){
-                    self.videoIconUsed = YES;
-                    if (cell.mediaIcon1.image == nil) {
-                        cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
-                        
-                    }
-                    else if(cell.mediaIcon2.image == nil) {
-                        cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
-                        
-                    }
-                    else if(cell.mediaIcon3.image == nil) {
-                        cell.mediaIcon3.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
-                        
-                    }
-                    else if(cell.mediaIcon4.image == nil) {
-                        cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
-                        
-                    }
-
-                }
+    cell.titleLabel.text = currNote.title;
+    if([currNote.contents count] == 0 && (currNote.creatorId != [AppModel sharedAppModel].playerId))cell.userInteractionEnabled = NO;
+    for(int x = 0; x < [currNote.contents count];x++){
+        if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:kNoteContentTypeText]&& !self.textIconUsed){
+            self.textIconUsed = YES;
+            if (cell.mediaIcon1.image == nil) {
+                cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
+                
             }
-        
+            else if(cell.mediaIcon2.image == nil) {
+                cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
+                
+            }
+            else if(cell.mediaIcon3.image == nil) {
+                cell.mediaIcon3.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
+                
+            }
+            else if(cell.mediaIcon4.image == nil) {
+                cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
+                
+            }
+            
+            
+        }
+        else if ([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:kNoteContentTypePhoto]&& !self.photoIconUsed){
+            self.photoIconUsed = YES;
+            if (cell.mediaIcon1.image == nil) {
+                cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
+                
+            }
+            else if(cell.mediaIcon2.image == nil) {
+                cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
+                
+            }
+            else if(cell.mediaIcon3.image == nil) {
+                cell.mediaIcon3.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
+                
+            }
+            else if(cell.mediaIcon4.image == nil) {
+                cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
+                
+            }
+            
+        }
+        else if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:kNoteContentTypeAudio] && !self.audioIconUsed){
+            self.audioIconUsed = YES;
+            if (cell.mediaIcon1.image == nil) {
+                cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
+                
+            }
+            else if(cell.mediaIcon2.image == nil) {
+                cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
+                
+            }
+            else if(cell.mediaIcon3.image == nil) {
+                cell.mediaIcon3.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
+                
+            }
+            else if(cell.mediaIcon4.image == nil) {
+                cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
+                
+            }
+            
+        }
+        else if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:kNoteContentTypeVideo] && !self.videoIconUsed){
+            self.videoIconUsed = YES;
+            if (cell.mediaIcon1.image == nil) {
+                cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
+                
+            }
+            else if(cell.mediaIcon2.image == nil) {
+                cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
+                
+            }
+            else if(cell.mediaIcon3.image == nil) {
+                cell.mediaIcon3.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
+                
+            }
+            else if(cell.mediaIcon4.image == nil) {
+                cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
+                
+            }
+            
+        }
+    }
     
     
-   
+    
+    
     return cell;
 }
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
@@ -505,7 +505,7 @@ BOOL tagFilter;
             if([self.headerTitleList count] > section)
                 return [self.headerTitleList objectAtIndex:section];
             else return @"";
-
+            
         }
         else{
             if([self.headerTitleGameList count] > section)
@@ -537,22 +537,22 @@ BOOL tagFilter;
     if(self.filterControl.selectedSegmentIndex == 0) {
         [AppModel sharedAppModel].isGameNoteList = NO;
         if(!tagFilter)
-        currentNoteList = self.noteList;
+            currentNoteList = self.noteList;
         else
             currentNoteList = [self.tagNoteList objectAtIndex:indexPath.section];
         
     }
     else{ 
         [AppModel sharedAppModel].isGameNoteList = YES;
-
+        
         if(!tagFilter)
-        currentNoteList = self.gameNoteList;
+            currentNoteList = self.gameNoteList;
         else
             currentNoteList = [self.tagGameNoteList objectAtIndex:indexPath.section];
     }
- 
-
-
+    
+    
+    
     //open up note viewer
     NoteDetailsViewController *dataVC = [[NoteDetailsViewController alloc] initWithNibName:@"NoteDetailsViewController" bundle:nil];
     dataVC.delegate = self;
@@ -579,16 +579,16 @@ BOOL tagFilter;
     }
     else{
         if([self.noteList count] != 0) return UITableViewCellEditingStyleDelete;
-  
+        
     }
-
+    
     return UITableViewCellEditingStyleNone;
 }
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     [[AppServices sharedAppServices]deleteNoteWithNoteId:[(Note *)[self.noteList objectAtIndex:indexPath.row] noteId]];
     if([AppModel sharedAppModel].isGameNoteList)
-    [[AppModel sharedAppModel].gameNoteList removeObjectForKey:[NSNumber numberWithInt:[(Note *)[self.noteList objectAtIndex:indexPath.row] noteId]]];
+        [[AppModel sharedAppModel].gameNoteList removeObjectForKey:[NSNumber numberWithInt:[(Note *)[self.noteList objectAtIndex:indexPath.row] noteId]]];
     else
         [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:[(Note *)[self.noteList objectAtIndex:indexPath.row] noteId]]];
     [self refreshViewFromModel];
@@ -596,7 +596,7 @@ BOOL tagFilter;
 }
 
 - (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    
     [noteTable reloadData];
     
 }
@@ -605,18 +605,18 @@ BOOL tagFilter;
     return  @"Delete Note";
 }
 /*
--(void)controlChanged:(id)sender{
-    if (self.noteControl.selectedSegmentIndex ==0){
-        [[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:YES];
-
-    }
-    else {
-        [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
-
-    }
-    [noteTable reloadData];
-}
-*/
+ -(void)controlChanged:(id)sender{
+ if (self.noteControl.selectedSegmentIndex ==0){
+ [[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:YES];
+ 
+ }
+ else {
+ [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
+ 
+ }
+ [noteTable reloadData];
+ }
+ */
 
 - (void)dealloc {    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
