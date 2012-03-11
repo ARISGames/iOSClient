@@ -230,9 +230,8 @@ BOOL tagFilter;
                         Note *tempNote;
                         tempNote = [self.gameNoteList objectAtIndex:x];
                         [tempNote setTagName:tagName];
-                        NSLog(@"TAGNAME: %@",tagName);
+                        //NSLog(@"TAGNAME: %@",tagName);
                         [tempTagList addObject:tempNote];
-                        // [tempNote release];
                     }
                 }
                 
@@ -258,9 +257,8 @@ BOOL tagFilter;
                         Note *tempNote;
                         tempNote = [self.noteList objectAtIndex:x];
                         [tempNote setTagName:tagName];
-                        NSLog(@"TAGNAME: %@",tagName);
+                        //NSLog(@"TAGNAME: %@",tagName);
                         [tempTagList addObject:tempNote];
-                        //[tempNote release];
                     }
                 }
                 
@@ -374,7 +372,7 @@ BOOL tagFilter;
         tempCell = nil;
     }
     else NSLog(@"NotebookViewController: Reusing out dequeued cell");
-
+    
     NoteCell *cell = (NoteCell *)tempCell;
     
     
