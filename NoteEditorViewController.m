@@ -37,8 +37,8 @@
     if (self) {
         viewControllers = [[NSMutableArray alloc] initWithCapacity:10];
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-      /*  [dispatcher addObserver:self selector:@selector(updateTable) name:@"ImageReady" object:nil];*/
-       
+        /*  [dispatcher addObserver:self selector:@selector(updateTable) name:@"ImageReady" object:nil];*/
+        
         [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNoteListReady" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(movieFinishedCallback:)
@@ -85,19 +85,19 @@
 -(void)viewWillAppear:(BOOL)animated{
     
     if(startWithView == 0){
-    if(self.note.noteId != 0){
-    self.textField.text = self.note.title;
+        if(self.note.noteId != 0){
+            self.textField.text = self.note.title;
+        }
+        if(self.note.dropped)self.mapButton.selected = YES;   
+        else self.mapButton.selected = NO;
+        
+        if(self.noteChanged){
+            self.noteChanged = NO;
+            // [self refresh];
+            [contentTable reloadData];
+        }
+        
     }
-    if(self.note.dropped)self.mapButton.selected = YES;   
-    else self.mapButton.selected = NO;
-    
-    if(self.noteChanged){
-    self.noteChanged = NO;
-   // [self refresh];
-    [contentTable reloadData];
-    }
-
-   }
     else if(startWithView == 1){
         [self cameraButtonTouchAction];
     }
@@ -113,11 +113,11 @@
     }
     else if(self.note.showOnMap && !self.note.showOnList){
         self.sharingLabel.text = @"Map Only";
-
+        
     }
     else if(!self.note.showOnMap && self.note.showOnList){
         self.sharingLabel.text = @"List Only";
-
+        
     }
     else if(self.note.showOnMap && self.note.showOnList){
         self.sharingLabel.text = @"List & Map";
@@ -142,7 +142,7 @@
 									 style: UIBarButtonItemStyleDone
 									target:self 
 									action:@selector(backButtonTouchAction:)];
-   
+    
     if(self.note.noteId == 0){
         self.note = [[Note alloc]init];
         self.note.creatorId = [AppModel sharedAppModel].playerId;
@@ -154,9 +154,9 @@
             [alert release];
         }
         if(![AppModel sharedAppModel].isGameNoteList)
-        [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];
+            [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];
         else
-               [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]]; 
+            [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]]; 
     }
     else self.noteValid = YES;
     //self.contentTable.editing = YES;
@@ -165,11 +165,11 @@
     pageControl.numberOfPages = numPages;
     
     UIBarButtonItem *tagButton = [[UIBarButtonItem alloc] initWithTitle:@"Tag" style:UIBarButtonItemStylePlain target:self action:@selector(tagButtonTouchAction)]; 
-          self.navigationItem.rightBarButtonItem = tagButton;
+    self.navigationItem.rightBarButtonItem = tagButton;
     
     
     [[AVAudioSession sharedInstance] setDelegate: self];
-
+    
     if([self.delegate isKindOfClass:[NoteCommentViewController class]]) {
         self.publicButton.hidden = YES;
         self.mapButton.hidden = YES;
@@ -184,13 +184,13 @@
     
 }
 -(void)viewWillDisappear:(BOOL)animated{
-        [self.soundPlayer pause];
+    [self.soundPlayer pause];
     startWithView = 0;
-
+    
     if([self.delegate isKindOfClass:[GPSViewController class]]){
         [[AppServices sharedAppServices]updateServerDropNoteHere:self.note.noteId atCoordinate:[AppModel sharedAppModel].playerLocation.coordinate];
     }
-
+    
 }
 -(void)tagButtonTouchAction{
     TagViewController *tagView = [[TagViewController alloc]initWithNibName:@"TagViewController" bundle:nil];
@@ -199,29 +199,29 @@
     [tagView release];
 }
 - (IBAction)backButtonTouchAction: (id) sender{
-   
+    
     if(!self.noteValid){ [[AppServices sharedAppServices]deleteNoteWithNoteId:self.note.noteId];
         if(![AppModel sharedAppModel].isGameNoteList)
-             [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.note.noteId]];  
+            [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.note.noteId]];  
         else
             [[AppModel sharedAppModel].gameNoteList removeObjectForKey:[NSNumber numberWithInt:self.note.noteId]];  
     }
     else{
-    if([self.delegate isKindOfClass:[NoteDetailsViewController class]]){
-        [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
+        if([self.delegate isKindOfClass:[NoteDetailsViewController class]]){
+            [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
+            self.note.title = self.textField.text;
+            if(![AppModel sharedAppModel].isGameNoteList)
+                [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   
+            else
+                [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   
+            [self.delegate setNote:self.note];
+        }
         self.note.title = self.textField.text;
-          if(![AppModel sharedAppModel].isGameNoteList)
-        [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   
+        if(([note.title length] == 0)) note.title = @"New Note";
+        if(![AppModel sharedAppModel].isGameNoteList)
+            [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   
         else
             [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   
-        [self.delegate setNote:self.note];
-    }
-    self.note.title = self.textField.text;
-        if(([note.title length] == 0)) note.title = @"New Note";
-          if(![AppModel sharedAppModel].isGameNoteList)
-    [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   
-          else
-              [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -233,7 +233,7 @@
 }
 
 -(void)previewButtonTouchAction{
-
+    
     NoteDetailsViewController *dataVC = [[[NoteDetailsViewController alloc] initWithNibName:@"NoteDetailsViewController" bundle:nil]autorelease];
     dataVC.note = self.note;
     dataVC.delegate = self;
@@ -256,45 +256,45 @@
     
     self.note.title = self.textField.text;
     if([note.title length] == 0) note.title = @"New Note";
-
+    
     [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.note.title publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
     //[self.delegate refresh];
     if(![AppModel sharedAppModel].isGameNoteList)
         [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];
     else
         [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]]; 
-
+    
     return YES;
 }
 
 -(void)cameraButtonTouchAction{
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-    CameraViewController *cameraVC = [[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil];
-    if(startWithView == 0)
-    cameraVC.backView = self;
-    else cameraVC.backView = self.delegate;
-    cameraVC.parentDelegate = self.delegate;
-    cameraVC.showVid = YES;
+        CameraViewController *cameraVC = [[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil];
+        if(startWithView == 0)
+            cameraVC.backView = self;
+        else cameraVC.backView = self.delegate;
+        cameraVC.parentDelegate = self.delegate;
+        cameraVC.showVid = YES;
         cameraVC.editView = self;
-    cameraVC.noteId = self.note.noteId;
-
-    [self.navigationController pushViewController:cameraVC animated:NO];
-    [cameraVC release];
+        cameraVC.noteId = self.note.noteId;
+        
+        [self.navigationController pushViewController:cameraVC animated:NO];
+        [cameraVC release];
     }
 }
 -(void)audioButtonTouchAction{
     BOOL audioHWAvailable = [[AVAudioSession sharedInstance] inputIsAvailable];
     if(audioHWAvailable){
-    AudioRecorderViewController *audioVC = [[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil];
+        AudioRecorderViewController *audioVC = [[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil];
         if(startWithView == 0)
             audioVC.backView = self;
         else audioVC.backView = self.delegate;
-    audioVC.parentDelegate = self.delegate;
-    audioVC.noteId = self.note.noteId;
+        audioVC.parentDelegate = self.delegate;
+        audioVC.noteId = self.note.noteId;
         audioVC.editView = self;
-   
-    [self.navigationController pushViewController:audioVC animated:NO];
-    [audioVC release];
+        
+        [self.navigationController pushViewController:audioVC animated:NO];
+        [audioVC release];
     } 
 }
 -(void)libraryButtonTouchAction{
@@ -302,12 +302,12 @@
     if(startWithView == 0)
         cameraVC.backView = self;
     else cameraVC.backView = self.delegate;
-
+    
     cameraVC.showVid = NO;
     cameraVC.parentDelegate = self.delegate;
     cameraVC.noteId = self.note.noteId;
     cameraVC.editView = self;
-
+    
     [self.navigationController pushViewController:cameraVC animated:NO];
     [cameraVC release];
 }
@@ -315,11 +315,11 @@
     TextViewController *textVC = [[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil];
     textVC.noteId = self.note.noteId;
     if(startWithView == 0)
-    textVC.backView = self;
+        textVC.backView = self;
     else textVC.backView = self.delegate;
     textVC.index = [self.note.contents count];
     textVC.editView = self;
-
+    
     [self.navigationController pushViewController:textVC animated:NO];
     [textVC release];
 }
@@ -330,37 +330,37 @@
         self.mapButton.selected = NO;
         self.note.dropped = NO;
         [[AppServices sharedAppServices]deleteNoteLocationWithNoteId:self.note.noteId];
-
+        
     }
     else{
-    DropOnMapViewController *mapVC = [[DropOnMapViewController alloc] initWithNibName:@"DropOnMapViewController" bundle:nil] ;
-    mapVC.noteId = self.note.noteId;
-    mapVC.delegate = self;
-    self.noteValid = YES;
+        DropOnMapViewController *mapVC = [[DropOnMapViewController alloc] initWithNibName:@"DropOnMapViewController" bundle:nil] ;
+        mapVC.noteId = self.note.noteId;
+        mapVC.delegate = self;
+        self.noteValid = YES;
         self.mapButton.selected = YES;
-
-    [self.navigationController pushViewController:mapVC animated:NO];
-    [mapVC release];
+        
+        [self.navigationController pushViewController:mapVC animated:NO];
+        [mapVC release];
     }
 }
 -(void)publicButtonTouchAction{
     self.noteValid = YES;
     if(actionSheet) [actionSheet release];
     actionSheet = [[UIActionSheet alloc]initWithTitle:@"Sharing" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"List Only",@"Map Only",@"Both",@"Don't Share", nil];
-        [actionSheet showInView:self.view];
-
-   /* if(self.publicButton.selected){
-    self.publicButton.selected = NO;
-        self.note.shared = NO;
-    }
-    else {
-        self.publicButton.selected = YES;
-        self.note.shared = YES;}
+    [actionSheet showInView:self.view];
     
-    [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text andShared:self.note.shared];*/
+    /* if(self.publicButton.selected){
+     self.publicButton.selected = NO;
+     self.note.shared = NO;
+     }
+     else {
+     self.publicButton.selected = YES;
+     self.note.shared = YES;}
+     
+     [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text andShared:self.note.shared];*/
 }
 -(void)willPresentActionSheet:(UIActionSheet *)actionSheet{
-   }
+}
 -(void)actionSheet:(UIActionSheet *)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex{
     switch (buttonIndex) {
         case 0:
@@ -400,14 +400,14 @@
             break;
         default:
             break;
-   
+            
     }
     [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
-
-    }
+    
+}
 - (void)viewDidAppear:(BOOL)animated {
 	NSLog(@"NoteViewController: View Appeared");	
-   // [self.contentTable reloadData];
+    // [self.contentTable reloadData];
 }
 
 
@@ -427,9 +427,9 @@
 	UIActivityIndicatorView *activityIndicator = 
 	[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
 	/*UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
-	[activityIndicator release];
-	[[self navigationItem] setRightBarButtonItem:barButton];
-	[barButton release];*/
+     [activityIndicator release];
+     [[self navigationItem] setRightBarButtonItem:barButton];
+     [barButton release];*/
 	[activityIndicator startAnimating];    
     
 }
@@ -441,14 +441,14 @@
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     if([[[self.note.contents objectAtIndex:indexPath.row] getUploadState] isEqualToString:@"uploadStateDONE"]){
-    [[AppServices sharedAppServices]deleteNoteContentWithContentId:[[self.note.contents objectAtIndex:indexPath.row] getContentId]];
+        [[AppServices sharedAppServices]deleteNoteContentWithContentId:[[self.note.contents objectAtIndex:indexPath.row] getContentId]];
     }
     else{
-            [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:self.note.noteId andFileURL:[[[self.note.contents objectAtIndex:indexPath.row]getMedia] url]];
-
+        [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:self.note.noteId andFileURL:[[[self.note.contents objectAtIndex:indexPath.row]getMedia] url]];
+        
     }
     [self.note.contents removeObjectAtIndex:indexPath.row];
-
+    
 }
 
 -(void)removeLoadingIndicator{
@@ -479,7 +479,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     NSArray *uploadContentForNote = [[uploads objectForKey:[NSNumber numberWithInt:self.note.noteId]]allValues];
     [self.note.contents addObjectsFromArray:uploadContentForNote];
     NSLog(@"NoteEditorVC: Added %d upload content(s) to note",[uploadContentForNote count]);
-
+    
 }
 #pragma mark Table view methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -488,7 +488,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
+    
     if([self.note.contents count] == 0) return 1;
 	return [self.note.contents count];
 }
@@ -503,7 +503,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if([self.note.contents count] == 0){
         NSLog(@"NoteEditorVC: No note contents available, display standard message");
-
+        
         UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
         cell.textLabel.text = @"No Content Added";
         cell.detailTextLabel.text = @"Press Buttons Below To Add Some!";
@@ -512,65 +512,65 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     }
     
     NoteContent<NoteContentProtocol> *noteC = [self.note.contents objectAtIndex:indexPath.row];
-  
-        NSLog(@"NoteEditorVC: Cell requested was not an UPLOAD");
-        UITableViewCell *tempCell = (NoteContentCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (![tempCell respondsToSelector:@selector(titleLbl)]){
-            //[tempCell release];
-            tempCell = nil;
-        }
-        NoteContentCell *cell = (NoteContentCell *)tempCell;
-        
-        
-        if (cell == nil) {
-            // Create a temporary UIViewController to instantiate the custom cell.
-            UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"NoteContentCell" bundle:nil];
-            // Grab a pointer to the custom cell.
-            cell = (NoteContentCell *)temporaryController.view;
-            // Release the temporary UIViewController.
-            [temporaryController release];
-        }
-        cell.selectionStyle = UITableViewCellSelectionStyleGray;
-        
-        cell.index = indexPath.row;
-        cell.delegate = self;
-        cell.contentId = noteC.getContentId;
-        cell.content = noteC;
+    
+    NSLog(@"NoteEditorVC: Cell requested was not an UPLOAD");
+    UITableViewCell *tempCell = (NoteContentCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (![tempCell respondsToSelector:@selector(titleLbl)]){
+        //[tempCell release];
+        tempCell = nil;
+    }
+    NoteContentCell *cell = (NoteContentCell *)tempCell;
+    
+    
+    if (cell == nil) {
+        // Create a temporary UIViewController to instantiate the custom cell.
+        UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"NoteContentCell" bundle:nil];
+        // Grab a pointer to the custom cell.
+        cell = (NoteContentCell *)temporaryController.view;
+        // Release the temporary UIViewController.
+        [temporaryController release];
+    }
+    cell.selectionStyle = UITableViewCellSelectionStyleGray;
+    
+    cell.index = indexPath.row;
+    cell.delegate = self;
+    cell.contentId = noteC.getContentId;
+    cell.content = noteC;
     cell.indexPath = indexPath;
     cell.parentTableView = self.contentTable;
     
     [cell checkForRetry];
-        if([noteC.getTitle length] >24)noteC.title = [noteC.getTitle substringToIndex:24];
-        cell.titleLbl.text = noteC.getTitle;
+    if([noteC.getTitle length] >24)noteC.title = [noteC.getTitle substringToIndex:24];
+    cell.titleLbl.text = noteC.getTitle;
+    
+    if([[[self.note.contents objectAtIndex:indexPath.row] getType] isEqualToString:kNoteContentTypeText]){
+        cell.imageView.image = [UIImage imageWithContentsOfFile: 
+                                [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
+        cell.detailLbl.text = noteC.getText;
+    }
+    else if([[noteC getType] isEqualToString:kNoteContentTypePhoto]){
+        NSLog(@"NoteEditorVC: Cell requested is an %@", [noteC getType]);
         
-        if([[[self.note.contents objectAtIndex:indexPath.row] getType] isEqualToString:kNoteContentTypeText]){
-            cell.imageView.image = [UIImage imageWithContentsOfFile: 
-                                    [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
-            cell.detailLbl.text = noteC.getText;
-        }
-        else if([[noteC getType] isEqualToString:kNoteContentTypePhoto]){
-            NSLog(@"NoteEditorVC: Cell requested is an %@", [noteC getType]);
-
-            AsyncMediaImageView *aView = [[AsyncMediaImageView alloc]initWithFrame:cell.imageView.frame andMedia:noteC.getMedia];
-            [cell addSubview:aView];
-            [aView release];
-        }
-        else if([[noteC getType] isEqualToString:kNoteContentTypeAudio] || 
-                [[noteC getType] isEqualToString:kNoteContentTypeVideo]){
-            
-            AsyncMediaImageView *aView = [[AsyncMediaImageView alloc]initWithFrame:cell.imageView.frame andMedia:noteC.getMedia];
-            UIImageView *overlay = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"play_button.png"]];
-            overlay.frame = CGRectMake(aView.frame.origin.x, aView.frame.origin.y, aView.frame.size.width/2, aView.frame.size.height/2);
-            overlay.center = aView.center;
-
-            //overlay.alpha = .6;
-            [cell addSubview:aView];
-            [cell addSubview:overlay];
-            [overlay release];
-            [aView release];
-        }
-
-        cell.titleLbl.text = noteC.getTitle;
+        AsyncMediaImageView *aView = [[AsyncMediaImageView alloc]initWithFrame:cell.imageView.frame andMedia:noteC.getMedia];
+        [cell addSubview:aView];
+        [aView release];
+    }
+    else if([[noteC getType] isEqualToString:kNoteContentTypeAudio] || 
+            [[noteC getType] isEqualToString:kNoteContentTypeVideo]){
+        
+        AsyncMediaImageView *aView = [[AsyncMediaImageView alloc]initWithFrame:cell.imageView.frame andMedia:noteC.getMedia];
+        UIImageView *overlay = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"play_button.png"]];
+        overlay.frame = CGRectMake(aView.frame.origin.x, aView.frame.origin.y, aView.frame.size.width/2, aView.frame.size.height/2);
+        overlay.center = aView.center;
+        
+        //overlay.alpha = .6;
+        [cell addSubview:aView];
+        [cell addSubview:overlay];
+        [overlay release];
+        [aView release];
+    }
+    
+    cell.titleLbl.text = noteC.getTitle;
     return cell;
     
     
@@ -603,84 +603,84 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NoteContent<NoteContentProtocol> *noteC;
-   
+    
     if([self.note.contents count]>indexPath.row){
         noteC = [self.note.contents objectAtIndex:indexPath.row];
-    if ([noteC.getType isEqualToString:kNoteContentTypeText]){
-        TextViewController *textVC = [[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil];
-        textVC.noteId = self.note.noteId;
-        textVC.textToDisplay = noteC.getText;
-        textVC.editMode = YES;
-        textVC.contentId = noteC.getContentId;
-        textVC.editView = self;
-        textVC.backView = self;
-        textVC.index = indexPath.row;
-        [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationDuration:.5];
-        
-        [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
-                               forView:self.navigationController.view cache:YES];
-        [self.navigationController pushViewController:textVC animated:NO];
-        [UIView commitAnimations];
-        [textVC release];
-   
-    }
-    else if([noteC.getType isEqualToString:kNoteContentTypePhoto]){
-        //view photo
-        ImageViewer *controller = [[ImageViewer alloc] initWithNibName:@"ImageViewer" bundle:nil];
-               
-        controller.media = noteC.getMedia;
-        [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationDuration:.5];
-        
-        [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
-                               forView:self.navigationController.view cache:YES];
-        [self.navigationController pushViewController:controller
-                                             animated:NO];
-        [UIView commitAnimations];
-        [controller release];
-    }
-    else if([noteC.getType isEqualToString:kNoteContentTypeAudio]){
-          //listen to audio      
-               [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];	
-        
-        [[AVAudioSession sharedInstance] setActive: YES error: nil];
-        
-        
-            //NSError *error;
-        if(self.soundPlayer.rate == 1.0f){
-            [self.soundPlayer pause];
-            [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.text = nil;
+        if ([noteC.getType isEqualToString:kNoteContentTypeText]){
+            TextViewController *textVC = [[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil];
+            textVC.noteId = self.note.noteId;
+            textVC.textToDisplay = noteC.getText;
+            textVC.editMode = YES;
+            textVC.contentId = noteC.getContentId;
+            textVC.editView = self;
+            textVC.backView = self;
+            textVC.index = indexPath.row;
+            [UIView beginAnimations:nil context:NULL];
+            [UIView setAnimationDuration:.5];
             
-            [tableView cellForRowAtIndexPath:indexPath].selected = NO;
+            [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
+                                   forView:self.navigationController.view cache:YES];
+            [self.navigationController pushViewController:textVC animated:NO];
+            [UIView commitAnimations];
+            [textVC release];
+            
         }
-        else{
-            [self.soundPlayer initWithURL:noteC.getMedia.url]; 
-            [self.soundPlayer play];
+        else if([noteC.getType isEqualToString:kNoteContentTypePhoto]){
+            //view photo
+            ImageViewer *controller = [[ImageViewer alloc] initWithNibName:@"ImageViewer" bundle:nil];
+            
+            controller.media = noteC.getMedia;
+            [UIView beginAnimations:nil context:NULL];
+            [UIView setAnimationDuration:.5];
+            
+            [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
+                                   forView:self.navigationController.view cache:YES];
+            [self.navigationController pushViewController:controller
+                                                 animated:NO];
+            [UIView commitAnimations];
+            [controller release];
         }
-
-        CMTime time = CMTimeMakeWithSeconds(1.0f, 1);
-        
-    timeObserver = [[self.soundPlayer addPeriodicTimeObserverForInterval:time queue:NULL usingBlock:^(CMTime time){ 
-           if((self.soundPlayer.currentTime.value != self.soundPlayer.currentItem.duration.value) && self.soundPlayer.rate !=0.0f){  
-               [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.text =[NSString stringWithFormat:@"%d:%d%d", (int)roundf(CMTimeGetSeconds(self.soundPlayer.currentTime))/60,((int)roundf(CMTimeGetSeconds(self.soundPlayer.currentTime))) % 60/10,(int)roundf(CMTimeGetSeconds(self.soundPlayer.currentTime))%10];
-           }else {
-               [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.text = nil;
-               [tableView cellForRowAtIndexPath:indexPath].selected = NO;
-               [self removeObs];
-                        }
-       } ] retain];
-        //[tableView cellForRowAtIndexPath:indexPath].detailTextLabel.text =[NSString stringWithFormat:@"%d:%d%d", [self.soundPlayer currentTime].value/60,([self.soundPlayer currentTime ].value%60)/10,[self.soundPlayer currentTime].value%10];
-        //[self playTextAnimation:self.soundPlayer withCell:[tableView cellForRowAtIndexPath:indexPath]];
-    }
-    else if([noteC.getType isEqualToString:kNoteContentTypeVideo]){
-        //Create movie player object
-        ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:noteC.getMedia.url];
-        mMoviePlayer.moviePlayer.shouldAutoplay = YES;
-        [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
-        [mMoviePlayer release];
-        NSLog (@"NoteEditorVC: mMovePlayer return Count %@",[mMoviePlayer retainCount]);
-    }
+        else if([noteC.getType isEqualToString:kNoteContentTypeAudio]){
+            //listen to audio      
+            [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];	
+            
+            [[AVAudioSession sharedInstance] setActive: YES error: nil];
+            
+            
+            //NSError *error;
+            if(self.soundPlayer.rate == 1.0f){
+                [self.soundPlayer pause];
+                [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.text = nil;
+                
+                [tableView cellForRowAtIndexPath:indexPath].selected = NO;
+            }
+            else{
+                [self.soundPlayer initWithURL:noteC.getMedia.url]; 
+                [self.soundPlayer play];
+            }
+            
+            CMTime time = CMTimeMakeWithSeconds(1.0f, 1);
+            
+            timeObserver = [[self.soundPlayer addPeriodicTimeObserverForInterval:time queue:NULL usingBlock:^(CMTime time){ 
+                if((self.soundPlayer.currentTime.value != self.soundPlayer.currentItem.duration.value) && self.soundPlayer.rate !=0.0f){  
+                    [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.text =[NSString stringWithFormat:@"%d:%d%d", (int)roundf(CMTimeGetSeconds(self.soundPlayer.currentTime))/60,((int)roundf(CMTimeGetSeconds(self.soundPlayer.currentTime))) % 60/10,(int)roundf(CMTimeGetSeconds(self.soundPlayer.currentTime))%10];
+                }else {
+                    [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.text = nil;
+                    [tableView cellForRowAtIndexPath:indexPath].selected = NO;
+                    [self removeObs];
+                }
+            } ] retain];
+            //[tableView cellForRowAtIndexPath:indexPath].detailTextLabel.text =[NSString stringWithFormat:@"%d:%d%d", [self.soundPlayer currentTime].value/60,([self.soundPlayer currentTime ].value%60)/10,[self.soundPlayer currentTime].value%10];
+            //[self playTextAnimation:self.soundPlayer withCell:[tableView cellForRowAtIndexPath:indexPath]];
+        }
+        else if([noteC.getType isEqualToString:kNoteContentTypeVideo]){
+            //Create movie player object
+            ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:noteC.getMedia.url];
+            mMoviePlayer.moviePlayer.shouldAutoplay = YES;
+            [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
+            [mMoviePlayer release];
+            NSLog (@"NoteEditorVC: mMovePlayer return Count %@",[mMoviePlayer retainCount]);
+        }
     }
     //[noteC release];
 }
