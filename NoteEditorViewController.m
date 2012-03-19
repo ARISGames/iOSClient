@@ -57,6 +57,7 @@
 - (void)dealloc
 {
     [super dealloc];
+    [[AVAudioSession sharedInstance] setDelegate: nil];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     if(textBox)
@@ -244,7 +245,7 @@
         else
             [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   
     }
-    [self.navigationController popViewControllerAnimated:NO];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)viewDidUnload
 {
@@ -536,7 +537,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSLog(@"NoteEditorVC: Cell requested was not an UPLOAD");
     UITableViewCell *tempCell = (NoteContentCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (![tempCell respondsToSelector:@selector(titleLbl)]){
+    if (tempCell && ![tempCell respondsToSelector:@selector(titleLbl)]){
         //[tempCell release];
         tempCell = nil;
     }

@@ -366,7 +366,7 @@ BOOL tagFilter;
     
     UITableViewCell *tempCell = (NoteCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    if (![tempCell respondsToSelector:@selector(mediaIcon1)]){
+    if (tempCell && ![tempCell respondsToSelector:@selector(mediaIcon1)]){
         NSLog(@"NotebookViewController: Throwing out dequeued cell");
         //[tempCell release];
         tempCell = nil;

@@ -238,9 +238,13 @@
 - (void)dealloc {
     NSLog(@"AsyncMediaImageView: Dealloc");
     [super dealloc];
+    if(connection){
     [connection cancel];
     [connection release];
+    }
+    if(data)
     [data release];
+    if(mMoviePlayer)
     [mMoviePlayer.moviePlayer cancelAllThumbnailImageRequests];
     if(media != nil)
 	[media release];

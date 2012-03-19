@@ -42,15 +42,22 @@
 - (void)dealloc
 {
     NSLog(@"NoteDetailsVC: Dealloc");
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    scrollView.delegate = nil;
-    [scrollView release];
-    [pageControl release];
-    [note release];
-    [commentLabel release];
-    [likeLabel release];
-    [likeButton release];
     [super dealloc];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    //scrollView.delegate = nil;
+    if(scrollView)
+    [scrollView release];
+    if(pageControl)
+    [pageControl release];
+    if(note)
+    [note release];
+    if(commentLabel)
+    [commentLabel release];
+    if (likeLabel) 
+    [likeLabel release];
+    if(likeButton)
+    [likeButton release];
 }
 
 - (void)didReceiveMemoryWarning
@@ -65,6 +72,7 @@
 
 - (void)viewDidLoad
 {
+    NSLog(@"NoteDetailsView ViewDidLoad");
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     //self.title = self.note.title;
@@ -106,7 +114,8 @@
     
 }
 -(void)viewWillAppear:(BOOL)animated{
-    
+    NSLog(@"NoteDetailsView ViewWillAppear");
+
     [self addUploadsToNote];
     
     self.commentLabel.text = [NSString stringWithFormat:@"%d",[self.note.comments count]];

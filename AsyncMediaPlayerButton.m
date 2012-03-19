@@ -100,7 +100,7 @@ BOOL isLoading;
 -(void)playMovie:(id)sender {
     NSLog(@"AsyncMoviePlayerButton: Pressed");
     
-    if ([self.presentingController respondsToSelector:@selector(presentMoviePlayerViewControllerAnimated:)]){
+    if (self.presentingController && [self.presentingController respondsToSelector:@selector(presentMoviePlayerViewControllerAnimated:)]){
         [self.presentingController presentMoviePlayerViewControllerAnimated:mMoviePlayer];
     }
     [mMoviePlayer.moviePlayer play];

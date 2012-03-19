@@ -100,6 +100,8 @@
 }
 - (void)dealloc {
     [super dealloc];
+    [[AVAudioSession sharedInstance] setDelegate: nil];
+
     [soundPlayer release];
     [soundFileURL release];
     [soundRecorder release];

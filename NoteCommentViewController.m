@@ -178,7 +178,7 @@
     
     
     UITableViewCell *tempCell = (NoteCommentCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (![tempCell respondsToSelector:@selector(mediaIcon2)]){
+    if (tempCell && ![tempCell respondsToSelector:@selector(mediaIcon2)]){
         //[tempCell release];
         tempCell = nil;
     }
