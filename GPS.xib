@@ -43,7 +43,6 @@
 						<string key="NSFrame">{{0, 323}, {320, 44}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -67,24 +66,15 @@
 								<int key="IBUIStyle">1</int>
 								<reference key="IBUIToolbar" ref="634123268"/>
 							</object>
-							<object class="IBUIBarButtonItem" id="591810749">
-								<string key="IBUITitle">Type</string>
-								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIStyle">1</int>
-								<reference key="IBUIToolbar" ref="634123268"/>
-							</object>
 							<object class="IBUIBarButtonItem" id="53330065">
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<reference key="IBUIToolbar" ref="634123268"/>
 								<int key="IBUISystemItemIdentifier">5</int>
 							</object>
-							<object class="IBUIBarButtonItem" id="178798281">
-								<object class="NSCustomResource" key="IBUIImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">notebook.png</string>
-								</object>
+							<object class="IBUIBarButtonItem" id="591810749">
+								<string key="IBUITitle">Type</string>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIStyle">2</int>
+								<int key="IBUIStyle">1</int>
 								<reference key="IBUIToolbar" ref="634123268"/>
 							</object>
 						</array>
@@ -165,14 +155,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">addMediaButton</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="178798281"/>
-					</object>
-					<int key="connectionID">27</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">playerButton</string>
 						<reference key="source" ref="372490531"/>
 						<reference key="destination" ref="713122114"/>
@@ -231,7 +213,6 @@
 							<reference ref="147185563"/>
 							<reference ref="713122114"/>
 							<reference ref="591810749"/>
-							<reference ref="178798281"/>
 							<reference ref="53330065"/>
 						</array>
 						<reference key="parent" ref="191373211"/>
@@ -251,12 +232,6 @@
 						<reference key="object" ref="426701314"/>
 						<reference key="parent" ref="191373211"/>
 						<string key="objectName">Map View</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">26</int>
-						<reference key="object" ref="178798281"/>
-						<reference key="parent" ref="634123268"/>
-						<string key="objectName">Bar Button Item - Add Media</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">28</int>
@@ -280,7 +255,6 @@
 				<string key="11.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="12.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="23.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-				<string key="26.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="28.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="32.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
@@ -349,15 +323,10 @@
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaTouchPlugin.iPhoneOS</string>
-			<real value="1280" key="NS.object.0"/>
-		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="locateMe.png">{20, 20}</string>
-			<string key="notebook.png">{30, 30}</string>
 			<string key="player.png">{20, 20}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">933</string>
