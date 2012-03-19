@@ -325,14 +325,14 @@
 }
 
 -(void)mapButtonTouchAction{
-    if(self.note.dropped){
+    /*if(self.note.dropped){
         
         self.mapButton.selected = NO;
         self.note.dropped = NO;
         [[AppServices sharedAppServices]deleteNoteLocationWithNoteId:self.note.noteId];
         
     }
-    else{
+    else{*/
         DropOnMapViewController *mapVC = [[DropOnMapViewController alloc] initWithNibName:@"DropOnMapViewController" bundle:nil] ;
         mapVC.noteId = self.note.noteId;
         mapVC.delegate = self;
@@ -341,7 +341,7 @@
         
         [self.navigationController pushViewController:mapVC animated:NO];
         [mapVC release];
-    }
+    //}
 }
 -(void)publicButtonTouchAction{
     self.noteValid = YES;

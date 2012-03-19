@@ -17,7 +17,8 @@ static float INITIAL_SPAN = 0.001;
 
 
 @implementation DropOnMapViewController
-@synthesize mapView,mapTypeButton,dropButton,locations,tracking,toolBar,noteId,myAnnotation,delegate;
+@synthesize mapView,mapTypeButton,dropButton,locations,tracking,toolBar,noteId,myAnnotation,delegate,pickupButton;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -34,14 +35,15 @@ static float INITIAL_SPAN = 0.001;
 
 - (void)dealloc
 {
+    [super dealloc];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [mapTypeButton release];
     [dropButton release];
+    [pickupButton release];
     [locations release];
     [toolBar release];
     [myAnnotation release];
     [mapView release];
-    [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
@@ -76,7 +78,9 @@ static float INITIAL_SPAN = 0.001;
 	
 	dropButton.target = self; 
 	dropButton.action = @selector(dropButtonAction:);
-    
+        
+    pickupButton.target = self; 
+	pickupButton.action = @selector(pickupButtonAction:);
 }
 -(void)viewDidAppear:(BOOL)animated{
     
@@ -162,6 +166,17 @@ static float INITIAL_SPAN = 0.001;
     
 }
 */
+-(void)pickupButtonAction:(id)sender{
+    [[self.delegate note] setDropped:NO];
+    //do server call to update dropped val of note
+    //do server call to deleteLocation of Note
+        Note *note = [[AppModel sharedAppModel] noteForNoteId:self.noteId playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
+    [note setDropped:NO];
+    [[AppServices sharedAppServices]deleteNoteLocationWithNoteId:self.noteId];
+    [self.navigationController popViewControllerAnimated:YES];
+    
+}
+
 -(void)dropButtonAction:(id)sender{
     [[AppServices sharedAppServices]updateServerDropNoteHere:self.noteId atCoordinate:self.myAnnotation.coordinate];
     [[self.delegate note] setDropped:YES];
