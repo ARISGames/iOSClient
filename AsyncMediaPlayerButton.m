@@ -109,8 +109,10 @@ BOOL isLoading;
 - (void)dealloc {
     NSLog(@"AsyncMediaPlayerButton: Dealloc");
     [super dealloc];
+    if(mMoviePlayer != nil){
     [mMoviePlayer.moviePlayer cancelAllThumbnailImageRequests];
     [mMoviePlayer release];
+    }
     if(media != nil)
 	[media release];
     [[NSNotificationCenter defaultCenter] removeObserver:self];

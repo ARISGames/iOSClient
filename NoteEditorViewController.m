@@ -56,29 +56,50 @@
 
 - (void)dealloc
 {
+    [super dealloc];
+
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    if(textBox)
     [textBox release];
+    if(textField)
     [textField release];
+    if(note)
     [note release];
+    if(hideKeyboardButton)
     [hideKeyboardButton release];
+    if(libraryButton)
     [libraryButton release];
+    if(cameraButton)
     [cameraButton release];
+    if(audioButton)
     [audioButton release];
+    if(typeControl)
     [typeControl release];
+    if(viewControllers)
     [viewControllers release];
+    if(scrollView)
     [scrollView release];
+    if(pageControl)
     [pageControl release];
+    if(publicButton)
     [publicButton release];
+    if(textButton)
     [textButton release];
+    if(mapButton)
     [mapButton release];
+    if(contentTable)
     [contentTable release];
+    if(soundPlayer)
     [soundPlayer release];
+    if(actionSheet)
     [actionSheet release];
+    if(delegate)
     [delegate release];
+    if(vidThumbs)
     [vidThumbs release];
+    if(sharingLabel)
     [sharingLabel release];
     
-    [super dealloc];
     
 }
 
@@ -223,7 +244,7 @@
         else
             [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   
     }
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:NO];
 }
 - (void)viewDidUnload
 {

@@ -119,13 +119,21 @@
 -(void)dealloc{
     NSLog(@"NoteContentCell: Dealloc");
     [super dealloc];
+    if(titleLbl)
     [titleLbl release];
+    if(detailLbl)
     [detailLbl release];
+    if(imageView)
     [imageView release];
+    if(holdLbl)
     [holdLbl release];
+    if(content)
     [content release];
+    if(retryButton)
     [retryButton release];
+    if(spinner)
     [spinner release];
+    if(indexPath)
     [indexPath release];
     
     
