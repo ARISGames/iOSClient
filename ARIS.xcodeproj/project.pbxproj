@@ -2477,7 +2477,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ARIS_Prefix.pch;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
 					"thirdParty/zxing/iphone/ZXingWidget/Classes/**",
 					thirdParty/zxing/cpp/core/src/,
@@ -2592,7 +2592,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ARIS_Prefix.pch;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = (
 					"thirdParty/zxing/iphone/ZXingWidget/Classes/**",
 					thirdParty/zxing/cpp/core/src/,
