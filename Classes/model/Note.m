@@ -46,12 +46,12 @@
     
 
         //open up note viewer
-        NoteDetailsViewController *dataVC = [[[NoteDetailsViewController alloc] initWithNibName:@"NoteDetailsViewController" bundle:nil]autorelease];
+        NoteDetailsViewController *dataVC = [[NoteDetailsViewController alloc] initWithNibName:@"NoteDetailsViewController" bundle:nil];
         dataVC.note = self;
         dataVC.delegate = self;
     [appDelegate displayNearbyObjectView:dataVC];
 
-             //[dataVC release]
+    [dataVC release];
 
 }
 
