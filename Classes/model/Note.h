@@ -60,7 +60,7 @@ extern NSString *const kNoteContentTypeText;
 @property(readwrite, assign) int parentNoteId;
 @property(readwrite, assign) int parentRating;
 @property(readwrite, assign) nearbyObjectKind kind;
-@property(nonatomic, retain) id delegate;
+@property(nonatomic, assign) id delegate;
 
 -(BOOL)isUploading;
 @end

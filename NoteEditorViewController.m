@@ -94,8 +94,8 @@
     [soundPlayer release];
     if(actionSheet)
     [actionSheet release];
-    if(delegate)
-    [delegate release];
+    //if(delegate)
+    //[delegate release];
     if(vidThumbs)
     [vidThumbs release];
     if(sharingLabel)

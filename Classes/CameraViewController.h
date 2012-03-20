@@ -30,9 +30,9 @@
 //@property (nonatomic, retain) UIImagePickerController *imagePickerController;
 @property (nonatomic, retain) NSData *mediaData;
 @property (nonatomic, retain) NSString *mediaFilename;
-@property (nonatomic, retain) id backView;
-@property (nonatomic, retain) id parentDelegate;
-@property (nonatomic, retain) id editView;
+@property (nonatomic, assign) id backView;
+@property (nonatomic, assign) id parentDelegate;
+@property (nonatomic, assign) id editView;
 
 
 @property(readwrite,assign) BOOL showVid;

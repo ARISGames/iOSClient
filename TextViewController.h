@@ -23,8 +23,8 @@
 }
 @property(nonatomic,retain) IBOutlet UITextView *textBox;
 @property(nonatomic, retain) IBOutlet UIButton *keyboardButton;
-@property(nonatomic, retain) id backView;
-@property(nonatomic, retain) id editView;
+@property(nonatomic, assign) id backView;
+@property(nonatomic, assign) id editView;
 
 @property(nonatomic,retain)NSString *textToDisplay;
 @property(readwrite, assign) int noteId;

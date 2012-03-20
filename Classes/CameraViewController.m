@@ -240,15 +240,24 @@ picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pi
 
 - (void)dealloc {
 	//[imagePickerController release];
-    [profileButton release];
-    [cameraButton release];
-    [libraryButton release];
-    [mediaData release];
-    [mediaFilename release];
-    [backView release];
-    [editView release];
-    [parentDelegate release];
     [super dealloc];
+    if(profileButton)
+    [profileButton release];
+    if(cameraButton)
+    [cameraButton release];
+    if(libraryButton)
+    [libraryButton release];
+    if(mediaData)
+    [mediaData release];
+    if(mediaFilename)
+    [mediaFilename release];
+    //if(backView)
+    //[backView release];
+    //if(editView)
+    //[editView release];
+    //if(parentDelegate)
+    //[parentDelegate release];
+    
 }
 
 

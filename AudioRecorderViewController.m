@@ -101,19 +101,30 @@
 - (void)dealloc {
     [super dealloc];
     [[AVAudioSession sharedInstance] setDelegate: nil];
-
+    if(soundPlayer)
     [soundPlayer release];
+    if(soundFileURL)
     [soundFileURL release];
+    if(soundRecorder)
     [soundRecorder release];
+    if(meter)
     [meter release];
+    if(audioData)
     [audioData release];
+    if(recordStopOrPlayButton)
     [recordStopOrPlayButton release];
+    if(uploadButton)
     [uploadButton release];
+    if(discardButton)
     [discardButton release];
+    if(meterUpdateTimer)
     [meterUpdateTimer release];
+   /* if(backView)
     [backView release];
+    if(editView)
     [editView release];
-    [parentDelegate release];
+    if(parentDelegate)
+    [parentDelegate release];*/
     
 }
 

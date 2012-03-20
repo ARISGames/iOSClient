@@ -46,9 +46,9 @@ typedef enum {
 @property(readwrite, retain) AVAudioRecorder *soundRecorder;
 @property(readwrite, retain) AVAudioPlayer *soundPlayer;
 @property(readwrite, retain) NSTimer *meterUpdateTimer;
-@property(nonatomic, retain) id backView;
-@property(nonatomic, retain) id parentDelegate;
-@property(nonatomic, retain) id editView;
+@property(nonatomic, assign) id backView;
+@property(nonatomic, assign) id parentDelegate;
+@property(nonatomic, assign) id editView;
 
 
 @property(readwrite, assign) int noteId;

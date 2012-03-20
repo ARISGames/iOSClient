@@ -53,7 +53,7 @@
 @property(nonatomic, retain)IBOutlet UIView *inputView;
 @property(nonatomic,retain)UIBarButtonItem *addCommentButton;
 @property(nonatomic,retain)UIBarButtonItem *hideKeyboardButton;
-@property(nonatomic,retain)id delegate;
+@property(readwrite,assign)id delegate;
 @property(nonatomic,retain)NSMutableArray *movieViews;
 @property (nonatomic, retain) NSMutableDictionary *asyncMediaDict;
 

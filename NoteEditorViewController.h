@@ -45,7 +45,7 @@
 @property(nonatomic, retain) IBOutlet UIButton *hideKeyboardButton;
 @property(nonatomic,retain) IBOutlet UISegmentedControl *typeControl;
 @property(nonatomic,retain) Note *note;
-@property(nonatomic,retain) id delegate;
+@property(nonatomic, assign) id delegate;
 @property(nonatomic,retain)UIActionSheet *actionSheet;
 @property(nonatomic,retain)IBOutlet UILabel *sharingLabel;
 

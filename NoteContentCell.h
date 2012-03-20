@@ -28,7 +28,7 @@
 @property(nonatomic,retain) IBOutlet UILabel *holdLbl;
 @property(nonatomic,retain)UIImageView *imageView;
 @property(readwrite,assign)int index;
-@property(readwrite,assign)id delegate;
+@property(nonatomic, assign)id delegate;
 @property(nonatomic, retain)NoteContent<NoteContentProtocol>*content;
 @property(nonatomic,retain)IBOutlet UIButton *retryButton;
 @property(nonatomic,retain)IBOutlet UIActivityIndicatorView *spinner;

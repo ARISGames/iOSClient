@@ -108,7 +108,7 @@
 -(void)editButtonTouched{
     NoteEditorViewController *noteVC = [[NoteEditorViewController alloc] initWithNibName:@"NoteEditorViewController" bundle:nil];
     noteVC.note = self.note;
-    noteVC.delegate = self;
+    noteVC.delegate = [self retain];
     [self.navigationController pushViewController:noteVC animated:YES];
     [noteVC release];
     
@@ -186,7 +186,7 @@
 -(void)showComments{
     NoteCommentViewController *noteCommentVC = [[NoteCommentViewController alloc]initWithNibName:@"NoteCommentViewController" bundle:nil];
     noteCommentVC.parentNote = self.note;
-    noteCommentVC.delegate = self;
+    noteCommentVC.delegate = [self retain];
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:.5];
     

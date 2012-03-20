@@ -27,11 +27,16 @@
 - (void)dealloc
 {
     [super dealloc];
+    if(textBox)
     [textBox release];
+    if(keyboardButton)
     [keyboardButton release];
+    if(textToDisplay)
     [textToDisplay release];
+   /* if(backView)
     [backView release];
-    [editView release];
+    if(editView)
+    [editView release];*/
     
 }
 
