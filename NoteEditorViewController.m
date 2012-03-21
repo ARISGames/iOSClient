@@ -98,8 +98,8 @@
     //[delegate release];
     if(vidThumbs)
     [vidThumbs release];
-    if(sharingLabel)
-    [sharingLabel release];
+   // if(sharingLabel)
+   // [sharingLabel release];
     
     
 }
@@ -256,10 +256,11 @@
 
 -(void)previewButtonTouchAction{
     
-    NoteDetailsViewController *dataVC = [[[NoteDetailsViewController alloc] initWithNibName:@"NoteDetailsViewController" bundle:nil]autorelease];
+    NoteDetailsViewController *dataVC = [[NoteDetailsViewController alloc] initWithNibName:@"NoteDetailsViewController" bundle:nil];
     dataVC.note = self.note;
     dataVC.delegate = self;
     [self.navigationController pushViewController:dataVC animated:YES];
+    [dataVC release];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
