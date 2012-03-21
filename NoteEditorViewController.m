@@ -396,7 +396,7 @@
             self.note.showOnList = NO;
             self.note.showOnMap = YES;
             self.sharingLabel.text = @"Map Only";
-            if(!noteDropped){
+            if(!self.note.dropped){
                 [[AppServices sharedAppServices]updateServerDropNoteHere:self.note.noteId atCoordinate:[AppModel sharedAppModel].playerLocation.coordinate];
                 self.note.dropped = YES;
                 self.mapButton.selected = YES;
@@ -407,8 +407,8 @@
             self.note.showOnList = YES;
             self.note.showOnMap = YES;
             self.sharingLabel.text = @"List & Map";
-            if(!noteDropped){
-                if(!noteDropped){
+            if(!self.note.dropped){
+                if(!self.note.dropped){
                     [[AppServices sharedAppServices]updateServerDropNoteHere:self.note.noteId atCoordinate:[AppModel sharedAppModel].playerLocation.coordinate];
                     self.note.dropped = YES;
                     self.mapButton.selected = YES;

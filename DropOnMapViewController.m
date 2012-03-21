@@ -179,6 +179,9 @@ static float INITIAL_SPAN = 0.001;
 
 -(void)dropButtonAction:(id)sender{
     [[AppServices sharedAppServices]updateServerDropNoteHere:self.noteId atCoordinate:self.myAnnotation.coordinate];
+    Note *note = [[AppModel sharedAppModel] noteForNoteId:self.noteId playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
+    [note setDropped:YES];
+
     [[self.delegate note] setDropped:YES];
     [self.navigationController popViewControllerAnimated:YES];
     
