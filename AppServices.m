@@ -2287,6 +2287,10 @@ NSString *const kARISServerServicePackage = @"v1";
     location.allowsQuickTravel = [[locationDictionary valueForKey:@"allow_quick_travel"] boolValue];
     location.qty = [[locationDictionary valueForKey:@"item_qty"] intValue];
     
+    if([location.objectType isEqualToString:@"PlayerNote"]){
+        Note *note = [[AppModel sharedAppModel]noteForNoteId:location.objectId playerListYesGameListNo:YES];
+        if(note)location.allowsQuickTravel = YES;
+    }
     return location;
 }
 
