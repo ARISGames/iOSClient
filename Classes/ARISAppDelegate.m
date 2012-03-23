@@ -201,7 +201,7 @@ BOOL isShowingNotification;
     self.gameSelectionTabBarController = [[UITabBarController alloc] init];
     self.gameSelectionTabBarController.delegate = self;
     
-    GamePickerMapViewController *gamePickerNearbyViewController = [[[GamePickerNearbyViewController alloc] initWithNibName:@"GamePickerNearbyViewController" bundle:nil] autorelease];
+    GamePickerNearbyViewController *gamePickerNearbyViewController = [[[GamePickerNearbyViewController alloc] initWithNibName:@"GamePickerNearbyViewController" bundle:nil] autorelease];
 	UINavigationController *gamePickerNearbyNC = [[UINavigationController alloc] initWithRootViewController: gamePickerNearbyViewController];
 	gamePickerNearbyNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
@@ -226,7 +226,7 @@ BOOL isShowingNotification;
     
     self.gameSelectionTabBarController.viewControllers = [NSMutableArray arrayWithObjects:
                                                           gamePickerNearbyNC,
-                                                          gamePickerMapNC,
+                                                          //gamePickerMapNC,
                                                           gamePickerSearchNC,
                                                           gamePickerRecentNC,
                                                           alogoutNavigationController,
