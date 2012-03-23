@@ -35,6 +35,9 @@ extern NSString *const kNoteContentTypeText;
     BOOL hasImage;
     BOOL hasAudio;
     NSString *tagName;
+    double latitude;
+    double longitude;
+
 }
 
 @property(nonatomic,retain) NSMutableArray *comments;
@@ -50,6 +53,9 @@ extern NSString *const kNoteContentTypeText;
 @property(readwrite, assign) int creatorId;
 @property(readwrite, assign) int numRatings;
 @property(readwrite, assign) float averageRating;
+@property(readwrite, assign) double latitude;
+@property(readwrite, assign) double longitude;
+
 @property(readwrite, assign) BOOL shared;
 @property(readwrite, assign) BOOL dropped;
 @property(readwrite, assign) BOOL showOnMap;

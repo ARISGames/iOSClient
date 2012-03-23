@@ -17,7 +17,7 @@ static float INITIAL_SPAN = 0.001;
 
 
 @implementation DropOnMapViewController
-@synthesize mapView,mapTypeButton,dropButton,locations,tracking,toolBar,noteId,myAnnotation,delegate,pickupButton;
+@synthesize mapView,mapTypeButton,dropButton,locations,tracking,toolBar,noteId,myAnnotation,delegate,pickupButton,note;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -44,6 +44,7 @@ static float INITIAL_SPAN = 0.001;
     [toolBar release];
     [myAnnotation release];
     [mapView release];
+    [note release];
 }
 
 - (void)didReceiveMemoryWarning
@@ -66,7 +67,16 @@ static float INITIAL_SPAN = 0.001;
 	[self.view addSubview:mapView];
 	NSLog(@"DropOnMapViewController: Mapview inited and added to view");
 
-	DDAnnotation *annotation = [[[DDAnnotation alloc] initWithCoordinate:[AppModel sharedAppModel].playerLocation.coordinate addressDictionary:nil] autorelease];
+	DDAnnotation *annotation;
+    note = [[AppModel sharedAppModel] noteForNoteId:self.noteId playerListYesGameListNo:YES];
+    if(note.latitude == 0 && note.longitude == 0)
+    annotation= [[[DDAnnotation alloc] initWithCoordinate:[AppModel sharedAppModel].playerLocation.coordinate addressDictionary:nil] autorelease];
+    else{
+        CLLocationCoordinate2D coord;
+        coord.latitude =  note.latitude;
+        coord.longitude = note.longitude;
+        annotation= [[[DDAnnotation alloc] initWithCoordinate:coord addressDictionary:nil] autorelease];
+    }
 	annotation.title = @"Drag to Move Note";
 	annotation.subtitle = [NSString	stringWithFormat:@"%f %f", annotation.coordinate.latitude, annotation.coordinate.longitude];
 	self.myAnnotation = annotation;
@@ -170,8 +180,10 @@ static float INITIAL_SPAN = 0.001;
     [[self.delegate note] setDropped:NO];
     //do server call to update dropped val of note
     //do server call to deleteLocation of Note
-        Note *note = [[AppModel sharedAppModel] noteForNoteId:self.noteId playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
+        
     [note setDropped:NO];
+    note.latitude = 0;
+    note.longitude = 0;
     [[AppServices sharedAppServices]deleteNoteLocationWithNoteId:self.noteId];
     [self.navigationController popViewControllerAnimated:YES];
     
@@ -179,9 +191,9 @@ static float INITIAL_SPAN = 0.001;
 
 -(void)dropButtonAction:(id)sender{
     [[AppServices sharedAppServices]updateServerDropNoteHere:self.noteId atCoordinate:self.myAnnotation.coordinate];
-    Note *note = [[AppModel sharedAppModel] noteForNoteId:self.noteId playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
-    [note setDropped:YES];
-
+        [note setDropped:YES];
+    note.latitude = myAnnotation.coordinate.latitude;
+    note.longitude = myAnnotation.coordinate.longitude;
     [[self.delegate note] setDropped:YES];
     [self.navigationController popViewControllerAnimated:YES];
     

@@ -1790,7 +1790,8 @@ NSString *const kARISServerServicePackage = @"v1";
     aNote.userLiked = [[noteDictionary valueForKey:@"player_liked"]boolValue];
     aNote.username = [noteDictionary valueForKey:@"username"];
     aNote.dropped = [[noteDictionary valueForKey:@"dropped"]boolValue];
-    
+    aNote.latitude = [[noteDictionary valueForKey:@"lat"]doubleValue];
+    aNote.longitude = [[noteDictionary valueForKey:@"lon"]doubleValue];
     NSArray *comments = [noteDictionary valueForKey:@"comments"];
     NSEnumerator *enumerator = [((NSArray *)comments) objectEnumerator];
 	NSDictionary *dict;

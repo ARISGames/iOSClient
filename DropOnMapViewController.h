@@ -29,6 +29,7 @@
     int noteId;
     DDAnnotation *myAnnotation;
     NoteEditorViewController *delegate;
+    Note *note;
 }
 
 -(void) refresh;
@@ -43,6 +44,7 @@
 @property (nonatomic, retain) NSArray *locations;
 @property (nonatomic, retain) DDAnnotation *myAnnotation;
 @property(readwrite,assign)int noteId;
+@property(nonatomic, retain) Note *note;
 
 @property BOOL tracking;
 
