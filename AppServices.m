@@ -750,6 +750,7 @@ NSString *const kARISServerServicePackage = @"v1";
                                                              andMethodName:@"addContentToNoteFromFileName" 
                                                               andArguments:arguments 
                                                                andUserInfo:nil];
+    [AppModel sharedAppModel].isGameNoteList = NO;
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchPlayerNoteListAsync)]; 
 	[jsonConnection release];
     

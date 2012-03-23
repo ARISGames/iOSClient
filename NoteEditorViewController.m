@@ -175,10 +175,10 @@
             [alert show];
             [alert release];
         }
-        if(![AppModel sharedAppModel].isGameNoteList)
+        //if(![AppModel sharedAppModel].isGameNoteList)
             [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];
-        else
-            [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]]; 
+      /*  else
+            [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]]; */
     }
     else self.noteValid = YES;
     //self.contentTable.editing = YES;
@@ -223,27 +223,27 @@
 - (IBAction)backButtonTouchAction: (id) sender{
     
     if(!self.noteValid){ [[AppServices sharedAppServices]deleteNoteWithNoteId:self.note.noteId];
-        if(![AppModel sharedAppModel].isGameNoteList)
+       // if(![AppModel sharedAppModel].isGameNoteList)
             [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.note.noteId]];  
-        else
-            [[AppModel sharedAppModel].gameNoteList removeObjectForKey:[NSNumber numberWithInt:self.note.noteId]];  
+      /*  else
+            [[AppModel sharedAppModel].gameNoteList removeObjectForKey:[NSNumber numberWithInt:self.note.noteId]]; */ 
     }
     else{
         if([self.delegate isKindOfClass:[NoteDetailsViewController class]]){
             [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
             self.note.title = self.textField.text;
-            if(![AppModel sharedAppModel].isGameNoteList)
+           // if(![AppModel sharedAppModel].isGameNoteList)
                 [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   
-            else
-                [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   
+            /*else
+                [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   */
             [self.delegate setNote:self.note];
         }
         self.note.title = self.textField.text;
         if(([note.title length] == 0)) note.title = @"New Note";
-        if(![AppModel sharedAppModel].isGameNoteList)
+       // if(![AppModel sharedAppModel].isGameNoteList)
             [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   
-        else
-            [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   
+        /*else
+            [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   */
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -282,10 +282,10 @@
     
     [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.note.title publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
     //[self.delegate refresh];
-    if(![AppModel sharedAppModel].isGameNoteList)
+    //if(![AppModel sharedAppModel].isGameNoteList)
         [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];
-    else
-        [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]]; 
+    /*else
+        [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]]; */
     
     return YES;
 }
