@@ -98,7 +98,7 @@ static float INITIAL_SPAN = 0.001;
 -(void)playerButtonTouch{
     [AppModel sharedAppModel].hidePlayers = ![AppModel sharedAppModel].hidePlayers;
     if([AppModel sharedAppModel].hidePlayers){
-        [playerButton setStyle:UIBarButtonItemStyleDone];
+        [playerButton setStyle:UIBarButtonItemStyleBordered];
         if (mapView) {
             NSEnumerator *existingAnnotationsEnumerator = [[[mapView annotations] copy] objectEnumerator];
             Annotation *annotation;
@@ -108,7 +108,7 @@ static float INITIAL_SPAN = 0.001;
         }
     }
     else{
-        [playerButton setStyle:UIBarButtonItemStyleBordered];
+        [playerButton setStyle:UIBarButtonItemStyleDone];
         [self refreshViewFromModel];    
     }
 	[[[MyCLController sharedMyCLController] locationManager] stopUpdatingLocation];

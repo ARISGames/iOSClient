@@ -63,7 +63,7 @@
 									<string key="NSResourceName">player.png</string>
 								</object>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIStyle">1</int>
+								<int key="IBUIStyle">2</int>
 								<reference key="IBUIToolbar" ref="634123268"/>
 							</object>
 							<object class="IBUIBarButtonItem" id="53330065">
