@@ -150,9 +150,7 @@
     
     // EXAMPLE: do something useful with the barcode data
     resultText = symbol.data;
-    NSLog(@"QRSCannerVC: barcode data = %@",resultText);
-    [self loadResult:resultText];
-
+   
     // ADD: dismiss the controller (NB dismiss from the *reader*!)
    // [picker dismissModalViewControllerAnimated: YES];
     
@@ -163,6 +161,11 @@
         NSData *imageData = UIImageJPEGRepresentation(image, .4);
         [[AppServices sharedAppServices] uploadImageForMatching:imageData];
     }	
+    else{
+        NSLog(@"QRSCannerVC: barcode data = %@",resultText);
+        [self loadResult:resultText];
+
+    }
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
