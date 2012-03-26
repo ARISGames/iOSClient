@@ -86,7 +86,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     if ([media.type isEqualToString: kMediaTypeImage] && media.url) {
         NSLog(@"NodeVC: cellForRowAtIndexPath: This is an Image Plaque");
         
-        self.mediaImageView.contentMode = UIViewContentModeScaleAspectFit;
+        //self.mediaImageView.contentMode = UIViewContentModeScaleAspectFit;
         
         if(!self.mediaImageView.loaded) {
             [self.mediaImageView loadImageFromMedia:media];
@@ -99,8 +99,8 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
         mediaCell.userInteractionEnabled = NO;
         
         //By forcing these sizes now, the asyncimageview spinner displays in the correct location
-        mediaCell.frame = CGRectMake(0, 0, 300, 200);
-        self.mediaImageView.frame = CGRectMake(0, 0, 300, 200);
+        mediaCell.frame = CGRectMake(0, 0, 320, 320);
+        self.mediaImageView.frame = CGRectMake(0, 0, 320, 320);
 
     }
     else if(([media.type isEqualToString: kMediaTypeVideo] || [media.type isEqualToString:kMediaTypeAudio]) && media.url)
@@ -209,7 +209,7 @@ navigationType:(UIWebViewNavigationType)navigationType{
 #pragma mark AsyncImageView Delegate Methods
 -(void)imageFinishedLoading{
     NSLog(@"NodeVC: imageFinishedLoading with size: %f, %f",self.mediaImageView.frame.size.width,self.mediaImageView.frame.size.height);
-    
+   /* 
     if(self.mediaImageView.image.size.width > 0){
         [self.mediaImageView setContentScaleFactor:(float)(320/self.mediaImageView.image.size.width)];
         self.mediaImageView.frame = CGRectMake(0, 0, 300, self.mediaImageView.contentScaleFactor*self.mediaImageView.image.size.height);
@@ -218,7 +218,7 @@ navigationType:(UIWebViewNavigationType)navigationType{
     }
     
     [tableView reloadData];
-        
+       */ 
 }
 
 
