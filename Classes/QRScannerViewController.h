@@ -21,6 +21,7 @@
 	IBOutlet UITextField *manualCode;
     NSString *resultText;
     UIImagePickerController *imageMatchingImagePickerController;
+    UIBarButtonItem *cancelButton;
 }
 
 @property (nonatomic, retain) IBOutlet UIButton *qrScanButton;
@@ -30,9 +31,10 @@
 @property (nonatomic, retain) IBOutlet UITextField *manualCode;
 @property (nonatomic, retain) UIImagePickerController *imageMatchingImagePickerController;
 @property (nonatomic, retain) NSString *resultText;
+@property (nonatomic, retain) UIBarButtonItem *cancelButton;
 
 - (IBAction) scanButtonTapped;
-
+- (void)cancelButtonTouch;
 - (IBAction)qrScanButtonTouchAction: (id) sender;
 - (IBAction)imageScanButtonTouchAction: (id) sender;
 - (void) loadResult:(NSString *)result;

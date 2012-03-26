@@ -19,7 +19,7 @@
 
 @synthesize imageMatchingImagePickerController;
 @synthesize qrScanButton,imageScanButton,barcodeButton;
-@synthesize manualCode,resultText;
+@synthesize manualCode,resultText,cancelButton;
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
@@ -48,7 +48,8 @@
 	self.imageMatchingImagePickerController = [[UIImagePickerController alloc] init];
 	self.imageMatchingImagePickerController.delegate = self;
 	
-	if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+    self.cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonTouch)];      
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
 		self.qrScanButton.enabled = YES;
 		self.qrScanButton.alpha = 1.0;
         self.imageScanButton.enabled = YES;
@@ -58,10 +59,16 @@
 		self.qrScanButton.hidden = YES;
         self.imageScanButton.hidden = YES;
         [self.manualCode becomeFirstResponder]; 
+
 	}
 	
 	
 	NSLog(@"QRScannerViewController: Loaded");
+}
+-(void)cancelButtonTouch{
+    [self.manualCode resignFirstResponder];
+    self.navigationItem.rightBarButtonItem = nil;	
+
 }
 - (IBAction) scanButtonTapped
 {
@@ -122,11 +129,17 @@
 	[[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the keyboard go away before loading the object
 	
 	[self loadResult:manualCode.text];
-	
+    self.navigationItem.rightBarButtonItem = nil;	
 	return YES;
 	
 }
 
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    
+    self.navigationItem.rightBarButtonItem = self.cancelButton;	
+    return YES;
+}
 
 
 #pragma mark UIImagePickerControllerDelegate Protocol Methods
