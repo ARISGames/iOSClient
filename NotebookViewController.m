@@ -276,11 +276,12 @@ BOOL tagFilter;
             [tempTagList release];
         }
         
-        UIButton *b = [[[UIButton alloc]init]autorelease];
+        UIButton *b = [[UIButton alloc]init];
         b.tag = filSelected;
         [self sortButtonTouchAction:b];
-        UIButton *c = [[[UIButton alloc]init]autorelease];
-        c.tag = sortSelected;
+        [b release];
+       // UIButton *c = [[[UIButton alloc]init]autorelease];
+       // c.tag = sortSelected;
         //[noteTable reloadData];
     }
     /*

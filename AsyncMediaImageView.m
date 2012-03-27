@@ -246,8 +246,6 @@
     [data release];
     if(mMoviePlayer)
     [mMoviePlayer.moviePlayer cancelAllThumbnailImageRequests];
-    if(media != nil)
-	[media release];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

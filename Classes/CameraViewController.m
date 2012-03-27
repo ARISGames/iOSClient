@@ -236,6 +236,12 @@ picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pi
     NSLog(@"CAMERA DID RECEIVE MEMORY WARNING!");
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
     // Release anything that's not essential, such as cached data
+    if (self.modalViewController.retainCount)
+    {
+        [self dismissModalViewControllerAnimated:NO];
+        [self.modalViewController release];
+    }
+
 }
 
 

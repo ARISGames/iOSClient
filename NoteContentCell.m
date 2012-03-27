@@ -133,8 +133,7 @@
     [retryButton release];
     if(spinner)
     [spinner release];
-    if(indexPath)
-    [indexPath release];
+   
     
 }
 @end
