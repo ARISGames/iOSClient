@@ -90,11 +90,14 @@
     self.pageControl.numberOfPages = 1;
     self.pageControl.hidesForSinglePage = YES;
     if (self.note.creatorId == [AppModel sharedAppModel].playerId) {
-        
-        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleDone target:self action:@selector(editButtonTouched)]];
+        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleDone target:self action:@selector(editButtonTouched)];
+        [self.navigationItem setRightBarButtonItem:editButton];
+        [editButton release];
     }
     if([self.delegate isKindOfClass:[Note class]]){
-        [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonTouch)]];
+        UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonTouch)];
+        [self.navigationItem setLeftBarButtonItem:backButton];
+        [backButton release];
     }
     
     self.pageControl.currentPage = 0;

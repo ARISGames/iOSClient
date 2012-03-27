@@ -29,8 +29,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.movieViews = [[NSMutableArray alloc]initWithCapacity:5];
-        self.asyncMediaDict = [[NSMutableDictionary alloc] initWithCapacity:5];
+        movieViews = [[NSMutableArray alloc]initWithCapacity:5];
+        asyncMediaDict = [[NSMutableDictionary alloc] initWithCapacity:5];
         self.title = @"Comments";
         self.hidesBottomBarWhenPushed = YES;
         commentValid = NO;
@@ -63,7 +63,7 @@
     addCommentButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showKeyboard)];     
     self.navigationItem.rightBarButtonItem = addCommentButton;
     
-    self.myIndexPath = [[NSIndexPath alloc] init];
+    myIndexPath = [[NSIndexPath alloc] init];
     [self.navigationItem.backBarButtonItem setAction:@selector(perform:)];
     // Do any additional setup after loading the view from its nib.
 }
@@ -237,10 +237,24 @@
                                initWithFrame:frame 
                                media:content.getMedia 
                                presentingController:self];
+                
+                
+                //if(!currNote.hasAudio)
+                [mediaButton setFrame:CGRectMake(10, height, 300, 450)];
+                //else
+                //  [mediaButton setFrame:CGRectMake(10, height+60, 300, 223)];
+                [asyncMediaDict setObject:mediaButton forKey:content.getMedia.url];
+                [cell addSubview:mediaButton];
+                [mediaButton release];
+                
             }
-            [asyncMediaDict setObject:mediaButton forKey:content.getMedia.url];
-            
-            [cell addSubview:mediaButton];
+            else{
+                [cell addSubview:mediaButton];
+                
+            }
+
+
+
         }
         /* else if([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeAudio]){
          
@@ -321,7 +335,7 @@
     [UIView commitAnimations];
     [self.textBox becomeFirstResponder];
     self.textBox.text = @"";
-    self.commentNote = [[Note alloc]init];
+    commentNote = [[Note alloc]init];
     
     self.commentNote.noteId = [[AppServices sharedAppServices]addCommentToNoteWithId:self.parentNote.noteId andTitle:@""];
     if(self.commentNote.noteId == 0){
@@ -359,7 +373,7 @@
 -(void)hideKeyboard{
     
     if([textBox.text length] == 0 || [textBox.text isEqualToString:@"Write Comment..."]){
-        UIAlertView *alert = [[UIAlertView alloc]init];
+        UIAlertView *alert;
         
         alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Error", @"")
                                            message: NSLocalizedString(@"Please add a comment", @"")

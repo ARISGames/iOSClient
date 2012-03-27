@@ -25,13 +25,13 @@ BOOL tagFilter;
     if (self) {
         self.title = @"Notebook";
         self.tabBarItem.image = [UIImage imageNamed:@"notebook2.png"]; 
-        self.noteList = [[NSMutableArray alloc] initWithCapacity:10];
-        self.gameNoteList = [[NSMutableArray alloc] initWithCapacity:10];
-        self.tagList = [[NSMutableArray alloc] initWithCapacity:10];
-        self.tagNoteList = [[NSMutableArray alloc] initWithCapacity:10];
-        self.tagGameNoteList = [[NSMutableArray alloc] initWithCapacity:10];
-        self.headerTitleList = [[NSMutableArray alloc] initWithCapacity:10];
-        self.headerTitleGameList = [[NSMutableArray alloc] initWithCapacity:10];
+        noteList = [[NSMutableArray alloc] initWithCapacity:10];
+        gameNoteList = [[NSMutableArray alloc] initWithCapacity:10];
+        tagList = [[NSMutableArray alloc] initWithCapacity:10];
+        tagNoteList = [[NSMutableArray alloc] initWithCapacity:10];
+        tagGameNoteList = [[NSMutableArray alloc] initWithCapacity:10];
+        headerTitleList = [[NSMutableArray alloc] initWithCapacity:10];
+        headerTitleGameList = [[NSMutableArray alloc] initWithCapacity:10];
         
         
         
@@ -49,6 +49,7 @@ BOOL tagFilter;
 	
     UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStyleBordered target:self action:@selector(displayMenu)];
     self.navigationItem.rightBarButtonItem = barButton;
+    [barButton release];
     [self.filterToolBar setFrame:CGRectMake(0, -44, 320, 44)];
     [self.sortToolBar setFrame:CGRectMake(0, 416, 320, 44)];
     [self.toolBar setFrame:CGRectMake(0, 0, 320, 44)];
@@ -102,11 +103,12 @@ BOOL tagFilter;
         {
             NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"noteId" ascending:NO];
             NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-            [sortDescriptor release];  
             tagFilter = NO;   
             
             self.noteList = [self.noteList sortedArrayUsingDescriptors:sortDescriptors];
             self.gameNoteList = [self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors];
+            [sortDescriptor release];
+
             
             break;
         }
@@ -118,6 +120,7 @@ BOOL tagFilter;
             
             self.noteList = [self.noteList sortedArrayUsingDescriptors:sortDescriptors];
             self.gameNoteList = [self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors];
+            [sortDescriptor release];
             
             break;  
         }
@@ -129,6 +132,8 @@ BOOL tagFilter;
             
             self.noteList = [self.noteList sortedArrayUsingDescriptors:sortDescriptors];
             self.gameNoteList = [self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors];
+            [sortDescriptor release];
+
             break; 
         }
         case 3:
@@ -206,8 +211,8 @@ BOOL tagFilter;
 - (void)refreshViewFromModel {
 	NSLog(@"NotebookViewController: Refresh View from Model");
     
-	self.noteList = [[[AppModel sharedAppModel].playerNoteList allValues] mutableCopy];
-    self.gameNoteList = [[[AppModel sharedAppModel].gameNoteList allValues] mutableCopy];
+	noteList = [[[AppModel sharedAppModel].playerNoteList allValues] mutableCopy];
+    gameNoteList = [[[AppModel sharedAppModel].gameNoteList allValues] mutableCopy];
     
     if([AppModel sharedAppModel].gameTagList){
         self.tagList = [AppModel sharedAppModel].gameTagList;

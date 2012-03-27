@@ -44,6 +44,7 @@
 			bar.backgroundColor = inactiveColor;
 			[self.barViews insertObject:bar atIndex:0];
 			[self addSubview:bar];
+            [bar release];
 		}
 		
     }

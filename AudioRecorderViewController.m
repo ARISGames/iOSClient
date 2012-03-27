@@ -51,12 +51,14 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	self.navigationItem.leftBarButtonItem = 
-	[[UIBarButtonItem alloc] initWithTitle:@"Back"
-									 style: UIBarButtonItemStyleBordered
-									target:self 
-									action:@selector(backButtonTouchAction)];
-	meter = [[AudioMeter alloc]initWithFrame:CGRectMake(0, 0, 320, 360)];
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back"
+                                                                   style: UIBarButtonItemStyleBordered
+                                                                  target:self 
+                                                                  action:@selector(backButtonTouchAction)];
+
+	self.navigationItem.leftBarButtonItem = backButton;
+    [backButton release];
+		meter = [[AudioMeter alloc]initWithFrame:CGRectMake(0, 0, 320, 360)];
 	meter.alpha = 0.0;
 	[self.view addSubview:meter];
 	[self.view sendSubviewToBack:meter];

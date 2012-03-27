@@ -45,10 +45,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib. 
-    [[UIBarButtonItem alloc] initWithTitle:@"Done"
-									 style: UIBarButtonItemStyleDone
-									target:self 
-									action:@selector(backButtonTouchAction:)];
+    
     [self refresh];
     }
 -(void)refresh{

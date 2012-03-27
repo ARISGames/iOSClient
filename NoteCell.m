@@ -27,15 +27,17 @@
     if([AppModel sharedAppModel].isGameNoteList ){
         if([(Note *)[nVC.gameNoteList objectAtIndex:self.index] creatorId] == [AppModel sharedAppModel].playerId){
             [holdLbl addGestureRecognizer:gesture];
-            [gesture release];
         }
+        [gesture release];
+
     }
     else{
         if([(Note *)[nVC.noteList objectAtIndex:self.index] creatorId] == [AppModel sharedAppModel].playerId){
             [holdLbl addGestureRecognizer:gesture];
-            [gesture release];
 
         }
+        [gesture release];
+
 
     }
 

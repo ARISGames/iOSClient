@@ -45,10 +45,10 @@
 	//[self.qrScanButton setTitle:NSLocalizedString(@"ScanUsingCameraKey",@"") forState:UIControlStateNormal];
 	manualCode.placeholder = NSLocalizedString(@"EnterCodeKey",@"");
 	    
-	self.imageMatchingImagePickerController = [[UIImagePickerController alloc] init];
+	imageMatchingImagePickerController = [[UIImagePickerController alloc] init];
 	self.imageMatchingImagePickerController.delegate = self;
 	
-    self.cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonTouch)];      
+    cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonTouch)];      
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
 		self.qrScanButton.enabled = YES;
 		self.qrScanButton.alpha = 1.0;

@@ -176,6 +176,7 @@ picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pi
                   }
         
         [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:kNoteContentTypePhoto withFileURL:imageURL];
+        [imageURL release];
 	}	
 	else if ([mediaType isEqualToString:@"public.movie"]){
 		NSLog(@"CameraViewController: Found a Movie");

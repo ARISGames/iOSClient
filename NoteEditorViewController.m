@@ -44,10 +44,10 @@
 												 selector:@selector(movieFinishedCallback:)
 													 name:MPMoviePlayerPlaybackDidFinishNotification
 												   object:nil];
-        self.soundPlayer = [[AVPlayer alloc] init];
+        soundPlayer = [[AVPlayer alloc] init];
         self.hidesBottomBarWhenPushed = YES;
         self.noteValid = NO;
-        self.vidThumbs = [[NSMutableDictionary alloc] initWithCapacity:5];
+        vidThumbs = [[NSMutableDictionary alloc] initWithCapacity:5];
         startWithView = 0;
         actionSheet = [[UIActionSheet alloc]initWithTitle:@"Sharing" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"List Only",@"Map Only",@"Both",@"Don't Share", nil];
     }
@@ -159,14 +159,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.leftBarButtonItem = 
-	[[UIBarButtonItem alloc] initWithTitle:@"Done"
-									 style: UIBarButtonItemStyleDone
-									target:self 
-									action:@selector(backButtonTouchAction:)];
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+                                                                   style: UIBarButtonItemStyleDone
+                                                                  target:self 
+                                                                  action:@selector(backButtonTouchAction:)];
+    self.navigationItem.leftBarButtonItem = doneButton;
+    [doneButton release];
+	
     
     if(self.note.noteId == 0){
-        self.note = [[Note alloc]init];
+        note = [[Note alloc]init];
         self.note.creatorId = [AppModel sharedAppModel].playerId;
         self.note.username = [AppModel sharedAppModel].userName;
         self.note.noteId = [[AppServices sharedAppServices] createNote];
@@ -177,6 +179,8 @@
         }
         //if(![AppModel sharedAppModel].isGameNoteList)
             [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];
+        
+        
       /*  else
             [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]]; */
     }
@@ -188,6 +192,7 @@
     
     UIBarButtonItem *tagButton = [[UIBarButtonItem alloc] initWithTitle:@"Tag" style:UIBarButtonItemStylePlain target:self action:@selector(tagButtonTouchAction)]; 
     self.navigationItem.rightBarButtonItem = tagButton;
+    [tagButton release];
     
     
     [[AVAudioSession sharedInstance] setDelegate: self];
@@ -446,16 +451,16 @@
 }
 
 #pragma mark custom methods, logic
--(void)showLoadingIndicator{
+/*-(void)showLoadingIndicator{
 	UIActivityIndicatorView *activityIndicator = 
 	[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-	/*UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
-     [activityIndicator release];
-     [[self navigationItem] setRightBarButtonItem:barButton];
-     [barButton release];*/
-	[activityIndicator startAnimating];    
+	//UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
+     //[activityIndicator release];
+    // [[self navigationItem] setRightBarButtonItem:barButton];
+     //[barButton release];
+	[activityIndicator startAnimating];
     
-}
+}*/
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
     if([self.note.contents count] == 0 && indexPath.row == 0) return UITableViewCellEditingStyleNone;
@@ -520,7 +525,6 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"NoteEditorVC: Cell requested for section: %d row: %d",indexPath.section,indexPath.row);
     
-    NSArray *reloadArr = [[NSArray alloc]init];
     
 	static NSString *CellIdentifier = @"Cell";
     
@@ -598,7 +602,6 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
     //Should never get here
-    [reloadArr release];
     return [[UITableViewCell alloc]autorelease];
 }
 -(void)retryUpload:(id)sender{
@@ -678,7 +681,9 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
                 [tableView cellForRowAtIndexPath:indexPath].selected = NO;
             }
             else{
-                [self.soundPlayer initWithURL:noteC.getMedia.url]; 
+                AVPlayer *player = [[AVPlayer alloc]initWithURL:noteC.getMedia.url];
+                self.soundPlayer = player;
+                [player release];
                 [self.soundPlayer play];
             }
             
