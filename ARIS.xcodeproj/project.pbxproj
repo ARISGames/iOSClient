@@ -2468,8 +2468,8 @@
 					armv6,
 				);
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer: David Gagnon (56YHU87885)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: David Gagnon (56YHU87885)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Brian Thiel (P8BZ46FXTP)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Brian Thiel (P8BZ46FXTP)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
 				GCC_DYNAMIC_NO_PIC = NO;
