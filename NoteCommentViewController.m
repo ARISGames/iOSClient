@@ -226,7 +226,7 @@
         else if([[(NoteContent<NoteContentProtocol> *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeVideo] || [[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeAudio]){
             NoteContent *content =  (NoteContent *)[[currNote contents] objectAtIndex:x];
             
-            CGRect frame = CGRectMake(10, 0, 320, 240);
+            CGRect frame = CGRectMake(10, height, 300, 450);
             
             AsyncMediaPlayerButton *mediaButton;
             
@@ -237,14 +237,6 @@
                                                    initWithFrame:frame 
                                                    media:content.getMedia 
                                                    presentingController:self];
-            
-
-            //if(!currNote.hasAudio)
-                [mediaButton setFrame:CGRectMake(10, height, 300, 450)];
-            //else
-              //  [mediaButton setFrame:CGRectMake(10, height+60, 300, 223)];
-                
-            }
             
             [asyncMediaDict setObject:mediaButton forKey:content.getMedia.url];
 
