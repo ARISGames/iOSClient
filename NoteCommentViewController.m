@@ -40,14 +40,14 @@
 												 selector:@selector(movieFinishedCallback:)
 													 name:MPMoviePlayerPlaybackDidFinishNotification
 												   object:nil];
-
+        
         
     }
     return self;
 }
 -(void)refreshViewFromModel{
     [self addUploadsToComments];
-
+    
     [self.commentTable reloadData];
 }
 
@@ -69,17 +69,17 @@
 }
 
 -(void) perform:(id)sender{
-   /* if([[self.commentNote contents] count] == 0 && [textBox.text isEqualToString:@""] && self.commentNote.noteId != 0){
-        [[AppServices sharedAppServices]deleteNoteWithNoteId:self.commentNote.noteId];
-        [self.parentNote.comments removeObjectAtIndex:0];
-        if([AppModel sharedAppModel].isGameNoteList){
-            [[AppModel sharedAppModel].gameNoteList removeObjectForKey:[NSNumber numberWithInt:self.commentNote.noteId]];
-        }
-        else{
-            [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.commentNote.noteId]];
-        }
-        
-    }*/
+    /* if([[self.commentNote contents] count] == 0 && [textBox.text isEqualToString:@""] && self.commentNote.noteId != 0){
+     [[AppServices sharedAppServices]deleteNoteWithNoteId:self.commentNote.noteId];
+     [self.parentNote.comments removeObjectAtIndex:0];
+     if([AppModel sharedAppModel].isGameNoteList){
+     [[AppModel sharedAppModel].gameNoteList removeObjectForKey:[NSNumber numberWithInt:self.commentNote.noteId]];
+     }
+     else{
+     [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.commentNote.noteId]];
+     }
+     
+     }*/
     [self.navigationController popViewControllerAnimated:NO];
     
 }
@@ -114,7 +114,7 @@
     else{
         [[AppModel sharedAppModel].playerNoteList setObject:self.parentNote forKey:[NSNumber numberWithInt:self.parentNote.noteId]];
     }
-
+    
 }
 
 -(void)addPhotoButtonTouchAction{
@@ -125,7 +125,7 @@
         
         cameraVC.noteId = self.commentNote.noteId;
         cameraVC.backView = self;
-
+        
         [self.navigationController pushViewController:cameraVC animated:YES];
         [cameraVC release];
     }
@@ -138,7 +138,7 @@
         audioVC.parentDelegate = self;
         audioVC.noteId = self.commentNote.noteId;
         audioVC.backView = self;
-
+        
         [self.navigationController pushViewController:audioVC animated:YES];
         [audioVC release];
     }
@@ -155,7 +155,7 @@
     cameraVC.showVid = NO;
     cameraVC.noteId = self.commentNote.noteId;
     cameraVC.backView = self;
-
+    
     [self.navigationController pushViewController:cameraVC animated:YES];
     [cameraVC release];
 }
@@ -216,9 +216,9 @@
             AsyncMediaImageView *aImageView = [[AsyncMediaImageView alloc]initWithFrame:CGRectMake(10, height, 300, 300) andMedia:[[[currNote contents] objectAtIndex:x] getMedia]];
             
             //if(!currNote.hasAudio)
-                [aImageView setFrame:CGRectMake(10, height, 300, 450)];
+            [aImageView setFrame:CGRectMake(10, height, 300, 450)];
             //else
-                //[aImageView setFrame:CGRectMake(10, height+40, 300, 300)];
+            //[aImageView setFrame:CGRectMake(10, height+40, 300, 300)];
             
             [cell addSubview:aImageView];
             [aImageView release];
@@ -233,27 +233,27 @@
             mediaButton = [asyncMediaDict objectForKey:content.getMedia.url];
             if(!mediaButton){
                 
-            mediaButton = [[AsyncMediaPlayerButton alloc] 
-                                                   initWithFrame:frame 
-                                                   media:content.getMedia 
-                                                   presentingController:self];
-            
+                mediaButton = [[AsyncMediaPlayerButton alloc] 
+                               initWithFrame:frame 
+                               media:content.getMedia 
+                               presentingController:self];
+            }
             [asyncMediaDict setObject:mediaButton forKey:content.getMedia.url];
-
+            
             [cell addSubview:mediaButton];
         }
-       /* else if([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeAudio]){
-            
-            CustomAudioPlayer *player = [[CustomAudioPlayer alloc]initWithFrame:CGRectMake(10, height, 300, 40) andMedia:[[[currNote contents] objectAtIndex:x] getMedia]];
-            [player loadView];
-            [cell addSubview:player];
-            [player release];
-        }*/
+        /* else if([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeAudio]){
+         
+         CustomAudioPlayer *player = [[CustomAudioPlayer alloc]initWithFrame:CGRectMake(10, height, 300, 40) andMedia:[[[currNote contents] objectAtIndex:x] getMedia]];
+         [player loadView];
+         [cell addSubview:player];
+         [player release];
+         }*/
         
-       /* if (![[[[currNote contents] objectAtIndex:x] getUploadState] isEqualToString:@"uploadStateDONE"]) {
-            cell.titleLabel.text = @"Uploading Media";
-            cell.userLabel.text = [AppModel sharedAppModel].userName;
-        }*/
+        /* if (![[[[currNote contents] objectAtIndex:x] getUploadState] isEqualToString:@"uploadStateDONE"]) {
+         cell.titleLabel.text = @"Uploading Media";
+         cell.userLabel.text = [AppModel sharedAppModel].userName;
+         }*/
     }
     return cell;
 }
@@ -299,13 +299,13 @@
             hasImage = YES;
         }
         /*else if([[(NoteContent *)[[note contents]objectAtIndex:i]getType] isEqualToString:kNoteContentTypeAudio]){
-            hasAudio = YES;
-        }*/
+         hasAudio = YES;
+         }*/
     }
     //[note setHasAudio:hasAudio];
     [note setHasImage:hasImage];
     if(hasImage) textHeight+=455;
-   // if(hasAudio) textHeight += 40;
+    // if(hasAudio) textHeight += 40;
     
     return textHeight;
 }
@@ -322,7 +322,7 @@
     [self.textBox becomeFirstResponder];
     self.textBox.text = @"";
     self.commentNote = [[Note alloc]init];
-
+    
     self.commentNote.noteId = [[AppServices sharedAppServices]addCommentToNoteWithId:self.parentNote.noteId andTitle:@""];
     if(self.commentNote.noteId == 0){
         self.navigationItem.rightBarButtonItem = addCommentButton;
@@ -339,7 +339,7 @@
         [alert show];
         [alert release];
     }
-
+    
     [self.parentNote.comments insertObject:self.commentNote atIndex:0];
     if([AppModel sharedAppModel].isGameNoteList){
         [[AppModel sharedAppModel].gameNoteList setObject:self.parentNote forKey:[NSNumber numberWithInt:self.parentNote.noteId]];
@@ -385,24 +385,24 @@
         
         //if([[[parentNote.comments objectAtIndex:0] contents]count]>0)
         [[AppServices sharedAppServices]updateCommentWithId:self.commentNote.noteId andTitle:self.textBox.text andRefresh:YES];
-       // else
-            //[[AppServices sharedAppServices]updateCommentWithId:self.commentNote.noteId andTitle:self.textBox.text andRefresh:NO];
-
+        // else
+        //[[AppServices sharedAppServices]updateCommentWithId:self.commentNote.noteId andTitle:self.textBox.text andRefresh:NO];
+        
         
         if(parentNote.comments.count > 0){
-        if([[parentNote.comments objectAtIndex:0] noteId] == commentNote.noteId){
-            [[parentNote.comments objectAtIndex:0] setTitle:self.textBox.text];
-            [[parentNote.comments objectAtIndex:0] setParentNoteId:parentNote.noteId];
-            [[parentNote.comments objectAtIndex:0] setCreatorId:[AppModel sharedAppModel].playerId];
-            [[parentNote.comments objectAtIndex:0] setUsername:[AppModel sharedAppModel].userName];
+            if([[parentNote.comments objectAtIndex:0] noteId] == commentNote.noteId){
+                [[parentNote.comments objectAtIndex:0] setTitle:self.textBox.text];
+                [[parentNote.comments objectAtIndex:0] setParentNoteId:parentNote.noteId];
+                [[parentNote.comments objectAtIndex:0] setCreatorId:[AppModel sharedAppModel].playerId];
+                [[parentNote.comments objectAtIndex:0] setUsername:[AppModel sharedAppModel].userName];
+            }
+            else{
+                [parentNote.comments insertObject:commentNote atIndex:0];
+            }
         }
         else{
             [parentNote.comments insertObject:commentNote atIndex:0];
-        }
-        }
-        else{
-            [parentNote.comments insertObject:commentNote atIndex:0];
-
+            
         }
         //self.parentNote = [[AppServices sharedAppServices]fetchNote:self.parentNote.noteId];
         [self.delegate setNote:parentNote];
@@ -412,7 +412,7 @@
         else{
             [[AppModel sharedAppModel].playerNoteList setObject:self.parentNote forKey:[NSNumber numberWithInt:self.parentNote.noteId]];
         }
-
+        
         // [self addedText];
         self.commentValid = YES;
         [movieViews removeAllObjects];
@@ -435,19 +435,19 @@
 }
 
 -(void)addedPhoto{
-
+    
     self.commentValid = YES;
     self.currNoteHasPhoto = YES;
     self.addPhotoButton.userInteractionEnabled = NO;
     self.addMediaFromAlbumButton.userInteractionEnabled = NO;
     self.addAudioButton.userInteractionEnabled = NO;
-
+    
     self.addPhotoButton.alpha = .3;
     self.addMediaFromAlbumButton.alpha = .3;
     self.addAudioButton.alpha = .3;
 }
 -(void)addedAudio{
-
+    
     self.commentValid = YES;
     self.currNoteHasAudio = YES;
     self.addPhotoButton.userInteractionEnabled = NO;
@@ -457,11 +457,11 @@
     self.addPhotoButton.alpha = .3;
     self.addMediaFromAlbumButton.alpha = .3;
     self.addAudioButton.alpha = .3;
-
+    
     
 }
 -(void)addedVideo{
-
+    
     self.commentValid = YES;
     self.currNoteHasVideo = YES;
     self.addPhotoButton.userInteractionEnabled = NO;
@@ -471,11 +471,11 @@
     self.addPhotoButton.alpha = .3;
     self.addMediaFromAlbumButton.alpha = .3;
     self.addAudioButton.alpha = .3;
-
+    
     
 }
 -(void)addedText{
-
+    
     self.commentValid = YES;
 }
 
@@ -527,7 +527,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     [hideKeyboardButton release];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-
+    
 }
 
 - (void)didReceiveMemoryWarning
