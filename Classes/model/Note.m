@@ -67,8 +67,6 @@
 - (void) dealloc {
     [super dealloc];
 
-	[comments release];
-    [contents release];
 	[text release];
     [title release];
     [username release];

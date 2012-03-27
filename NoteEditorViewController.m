@@ -706,7 +706,6 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
             ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:noteC.getMedia.url];
             mMoviePlayer.moviePlayer.shouldAutoplay = YES;
             [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
-            NSLog (@"NoteEditorVC: mMovePlayer return Count %@",[mMoviePlayer retainCount]);
             [mMoviePlayer release];
 
         }
