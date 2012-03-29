@@ -30,7 +30,7 @@
 #import "ARISAppDelegate.h"
 
 @implementation NoteEditorViewController
-@synthesize textBox,textField,note, delegate, hideKeyboardButton,libraryButton,cameraButton,audioButton, typeControl,viewControllers, scrollView,pageControl,publicButton,textButton,mapButton, contentTable,soundPlayer,noteValid,noteChanged, noteDropped, vidThumbs,startWithView,actionSheet,sharingLabel;
+@synthesize textBox,textField,note, delegate, hideKeyboardButton,libraryButton,cameraButton,audioButton, typeControl,viewControllers, scrollView,pageControl,publicButton,textButton,mapButton, contentTable,noteValid,noteChanged, noteDropped, vidThumbs,startWithView,actionSheet,sharingLabel;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -44,7 +44,6 @@
 												 selector:@selector(movieFinishedCallback:)
 													 name:MPMoviePlayerPlaybackDidFinishNotification
 												   object:nil];
-        soundPlayer = [[AVPlayer alloc] init];
         self.hidesBottomBarWhenPushed = YES;
         self.noteValid = NO;
         vidThumbs = [[NSMutableDictionary alloc] initWithCapacity:5];
@@ -90,8 +89,6 @@
     [mapButton release];
     if(contentTable)
     [contentTable release];
-    if(soundPlayer)
-    [soundPlayer release];
     if(actionSheet)
     [actionSheet release];
     //if(delegate)
@@ -211,7 +208,6 @@
     
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    [self.soundPlayer pause];
     startWithView = 0;
     
     if([self.delegate isKindOfClass:[GPSViewController class]]){
@@ -623,9 +619,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     } 
 }
 
--(void)removeObs{
-    [self.soundPlayer removeTimeObserver:timeObserver];
-}
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NoteContent<NoteContentProtocol> *noteC;
@@ -666,42 +660,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
             [UIView commitAnimations];
             [controller release];
         }
-        else if([noteC.getType isEqualToString:kNoteContentTypeAudio]){
-            //listen to audio      
-            [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];	
-            
-            [[AVAudioSession sharedInstance] setActive: YES error: nil];
-            
-            
-            //NSError *error;
-            if(self.soundPlayer.rate == 1.0f){
-                [self.soundPlayer pause];
-                [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.text = nil;
-                
-                [tableView cellForRowAtIndexPath:indexPath].selected = NO;
-            }
-            else{
-                AVPlayer *player = [[AVPlayer alloc]initWithURL:noteC.getMedia.url];
-                self.soundPlayer = player;
-                [player release];
-                [self.soundPlayer play];
-            }
-            
-            CMTime time = CMTimeMakeWithSeconds(1.0f, 1);
-            
-            timeObserver = [[self.soundPlayer addPeriodicTimeObserverForInterval:time queue:NULL usingBlock:^(CMTime time){ 
-                if((self.soundPlayer.currentTime.value != self.soundPlayer.currentItem.duration.value) && self.soundPlayer.rate !=0.0f){  
-                    [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.text =[NSString stringWithFormat:@"%d:%d%d", (int)roundf(CMTimeGetSeconds(self.soundPlayer.currentTime))/60,((int)roundf(CMTimeGetSeconds(self.soundPlayer.currentTime))) % 60/10,(int)roundf(CMTimeGetSeconds(self.soundPlayer.currentTime))%10];
-                }else {
-                    [tableView cellForRowAtIndexPath:indexPath].detailTextLabel.text = nil;
-                    [tableView cellForRowAtIndexPath:indexPath].selected = NO;
-                    [self removeObs];
-                }
-            } ] retain];
-            //[tableView cellForRowAtIndexPath:indexPath].detailTextLabel.text =[NSString stringWithFormat:@"%d:%d%d", [self.soundPlayer currentTime].value/60,([self.soundPlayer currentTime ].value%60)/10,[self.soundPlayer currentTime].value%10];
-            //[self playTextAnimation:self.soundPlayer withCell:[tableView cellForRowAtIndexPath:indexPath]];
-        }
-        else if([noteC.getType isEqualToString:kNoteContentTypeVideo]){
+        else if([noteC.getType isEqualToString:kNoteContentTypeVideo] || [noteC.getType isEqualToString:kNoteContentTypeAudio]){
             //Create movie player object
             ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:noteC.getMedia.url];
             mMoviePlayer.moviePlayer.shouldAutoplay = YES;
@@ -720,12 +679,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
 -(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	return 60;
 }
--(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
-    self.soundPlayer = nil;
-}
-- (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error {
-	NSLog(@"AudioRecorder: Playback Error");
-}
+
 - (void)movieFinishedCallback:(NSNotification*) aNotification
 {
 	NSLog(@"ItemDetailsViewController: movieFinishedCallback");

@@ -33,7 +33,6 @@
     NSMutableDictionary *vidThumbs;
     int pageNumber;
     int numPages;
-    AVPlayer *soundPlayer;
     id timeObserver;
     BOOL noteValid, noteChanged, noteDropped;
     int startWithView;
@@ -60,7 +59,6 @@
 @property(nonatomic, retain) IBOutlet UIScrollView *scrollView;
 @property(nonatomic, retain) IBOutlet UIPageControl *pageControl;
 @property(nonatomic, retain) NSMutableArray *viewControllers;
-@property(readwrite, retain) AVPlayer *soundPlayer;
 @property(readwrite, assign) BOOL noteValid;
 @property(readwrite, assign) BOOL noteChanged;
 @property(readwrite, assign) BOOL noteDropped;
