@@ -31,7 +31,7 @@
 @synthesize totalQuests;
 @synthesize numReviews;
 @synthesize calculatedScore,isLocational, activeQuests;
-@synthesize iconMedia,currentWeight,allowsPlayerTags;
+@synthesize iconMedia,currentWeight,allowsPlayerTags,splashMedia;
 - (id) init{
 	if ((self = [super init])) {
 		self.comments = [NSMutableArray arrayWithCapacity:5];

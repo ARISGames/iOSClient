@@ -235,7 +235,7 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
 	
 		
 	if (connection!=nil) { [connection release]; }
-    NSURLRequest* request = [NSURLRequest requestWithURL:aMedia.url
+    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:aMedia.url]
 											 cachePolicy:NSURLRequestUseProtocolCachePolicy
 										 timeoutInterval:60.0];
     self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
@@ -272,7 +272,7 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
     self.data=nil;
 	
 	//Save the image in the media
-	self.media.image = image;
+	self.media.image = UIImageJPEGRepresentation(image, 1.0);
 	[self.media.image retain];
     [self showPanoView];
 	
@@ -283,7 +283,7 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
 	[appDelegate removeNewWaitingIndicator];
     [plView stopAnimation];
     [plView removeAllTextures];
-    [plView addTextureAndRelease:[PLTexture textureWithImage:self.media.image]];
+    [plView addTextureAndRelease:[PLTexture textureWithImage:[UIImage imageWithData:self.media.image]]];
     [plView reset];
     [plView drawView];
  

@@ -16,8 +16,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-        [dispatcher addObserver:self selector:@selector(updateImage) name:@"ImageReady" object:nil];
+    //    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+    //    [dispatcher addObserver:self selector:@selector(updateImage) name:@"ImageReady" object:nil];
     }
     return self;
 }
@@ -33,7 +33,7 @@
     [media release];
 }
 -(void)updateImage{
-    self.imageView.image = self.media.image;
+//    self.imageView.image = [UIImage imageWithData: self.media.image];
 }
 - (void)didReceiveMemoryWarning
 {

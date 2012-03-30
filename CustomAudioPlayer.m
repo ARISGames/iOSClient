@@ -14,7 +14,7 @@
 @synthesize timeLabel,playButton,soundPlayer,mediaId,media;
 - (id)initWithFrame:(CGRect)frame andMedia:(Media *)aMedia{
     self.media = [aMedia retain];
-   return [self initWithFrame:frame andMediaId:media.uid];
+   return [self initWithFrame:frame andMediaId:[media.uid intValue]];
 }
 
 - (id)initWithFrame:(CGRect)frame andMediaId:(int)mediaID

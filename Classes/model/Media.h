@@ -7,25 +7,24 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
+
 extern NSString *const kMediaTypeVideo;
 extern NSString *const kMediaTypeImage;
 extern NSString *const kMediaTypeAudio;
 
-@interface Media : NSObject {
-	NSInteger	uid;
-	NSURL	*url;
-	NSString	*type;
-	
-	//Image Specific Vars
-	UIImage		*image; //cache of the image data	
+@interface Media : NSManagedObject {
+    NSString *url;
+    NSString *type;
+    NSNumber *uid;
+    NSData *image;
 }
+@property(nonatomic, retain) NSString	*url;
+@property(nonatomic, retain) NSString *type;
+@property(nonatomic, retain) NSData *image;
+@property(nonatomic, retain) NSNumber *uid;
 
-@property(readonly) NSInteger	uid;
-@property(readonly)	NSURL	*url;
-@property(nonatomic, retain) NSString	*type;
-@property(nonatomic, retain) UIImage	*image;
-
-
-- (id) initWithId:(NSInteger)anId andUrl:(NSURL *)aUrl ofType:(NSString *)aType;
 
 @end
+
+

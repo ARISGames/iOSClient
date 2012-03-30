@@ -50,7 +50,7 @@ NSString *const kGameDetailsHtmlTemplate =
 @synthesize locationLabel;
 @synthesize scrollView;
 @synthesize contentView;
-@synthesize segmentedControl, newHeight, mediaImageView, splashMedia;
+@synthesize segmentedControl, newHeight, mediaImageView;
 
 
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -58,7 +58,7 @@ NSString *const kGameDetailsHtmlTemplate =
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
         // Custom initialization
         self.mediaImageView = [[[AsyncMediaImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 200)] autorelease];
-        self.splashMedia = [[Media alloc] init];
+        //self.splashMedia = [[Media alloc] init];
         self.descriptionIndexPath = [[NSIndexPath alloc] init];
     }
     return self;
@@ -196,9 +196,8 @@ NSString *const kGameDetailsHtmlTemplate =
 	
     if (indexPath.section == 0 && indexPath.row == 0) {
         
-        if (self.game.mediaUrl) {
-            [self.splashMedia initWithId:1 andUrl:self.game.mediaUrl ofType:@"Splash"];
-            [self.mediaImageView loadImageFromMedia:splashMedia];
+        if (self.game.splashMedia) {
+            [self.mediaImageView loadImageFromMedia:self.game.splashMedia];
         }
         else self.mediaImageView.image = [UIImage imageNamed:@"Default.png"];
         self.mediaImageView.frame = CGRectMake(0, 0, 320, 200);

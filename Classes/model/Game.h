@@ -39,6 +39,8 @@
     BOOL isLocational;
     BOOL allowsPlayerTags;
     Media *iconMedia;
+    Media *splashMedia;
+
 }
 
 @property(readwrite, assign) int inventoryWeightCap;
@@ -67,6 +69,7 @@
 
 @property(readwrite, assign) int calculatedScore;
 @property(nonatomic, retain) Media *iconMedia;
+@property(nonatomic, retain) Media *splashMedia;
 
 
 - (NSComparisonResult)compareDistanceFromPlayer:(Game*)otherGame;

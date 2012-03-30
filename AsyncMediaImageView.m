@@ -21,7 +21,7 @@
 
 -(id)initWithFrame:(CGRect)aFrame andMedia:(Media *)aMedia{
     self.media = aMedia;
-    return [self initWithFrame:aFrame andMediaId:aMedia.uid];
+    return [self initWithFrame:aFrame andMediaId:[aMedia.uid intValue]];
 
 }
 
@@ -44,7 +44,7 @@
             if (self.media.image) {
                 NSLog(@"AsyncMediaImageView: Loading from a cached image in media.image");
 
-                [self updateViewWithNewImage:self.media.image];
+                [self updateViewWithNewImage:[UIImage imageWithData:self.media.image]];
                 self.loaded = YES;
             }
             else if([media.type isEqualToString:kMediaTypeVideo]){
@@ -55,9 +55,9 @@
                 
                 //Create movie player object
                 if(!self.mMoviePlayer){
-                    self.mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:media.url];
+                    self.mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString: media.url]];
                 }
-                else [self.mMoviePlayer initWithContentURL:media.url];
+                else [self.mMoviePlayer initWithContentURL:[NSURL URLWithString: media.url]];
             
                 self.mMoviePlayer.moviePlayer.shouldAutoplay = NO;
                 [self.mMoviePlayer.moviePlayer requestThumbnailImagesAtTimes:timeArray timeOption:MPMovieTimeOptionNearestKeyFrame];
@@ -80,8 +80,8 @@
             }
             else if ([media.type isEqualToString:kMediaTypeAudio]){
                 NSLog(@"AsyncMediaImageView: Loading the standard audio image");
-                media.image = [UIImage imageNamed:@"microphoneBackground.jpg"];
-                [self updateViewWithNewImage:self.media.image];
+                media.image = UIImageJPEGRepresentation([UIImage imageNamed:@"microphoneBackground.jpg"], 1.0);
+                [self updateViewWithNewImage:[UIImage imageNamed:@"microphoneBackground.jpg"]];
                 self.loaded = YES;
             }
         }
@@ -98,8 +98,8 @@
     NSNumber *time = [userInfo objectForKey:MPMoviePlayerThumbnailTimeKey];
     MPMoviePlayerController *player = aNotification.object;
     UIImage *videoThumbSized = [videoThumb scaleToSize:self.frame.size];        
-    self.media.image = videoThumbSized;     
-    [self updateViewWithNewImage:self.media.image];
+    self.media.image = UIImageJPEGRepresentation(videoThumbSized,1.0 ) ;     
+    [self updateViewWithNewImage:[UIImage imageWithData:self.media.image]];
             
     if (e) {
         //NSLog(@"MPMoviePlayerThumbnail ERROR: %@",e);
@@ -137,7 +137,7 @@
 
 	//check if the media already as the image, if so, just grab it
 	if (self.media.image) {
-		[self updateViewWithNewImage:self.media.image];
+        [self updateViewWithNewImage:[UIImage imageWithData:self.media.image]];
         self.loaded = YES;
 		return;
 	}
@@ -163,7 +163,7 @@
 	if (connection!=nil) { [connection release]; }
     //if (data!=nil) { [self.data release]; }
 	NSLog(@"AsyncImageView: Loading Image at %@",self.media.url);
-    NSURLRequest *request = [NSURLRequest requestWithURL:self.media.url
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString: self.media.url]
 											 cachePolicy:NSURLRequestUseProtocolCachePolicy
 										 timeoutInterval:60.0];
     self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
@@ -193,12 +193,13 @@
 	//turn the data into an image
 	UIImage* image = [UIImage imageWithData:data];
 	
-	//throw out the data
-	[self.data release];
-    self.data=nil;
+
 	
 	//Save the image in the media
-	self.media.image = image;
+	self.media.image =data;
+    //throw out the data
+	[self.data release];
+    self.data=nil;
     self.loaded = YES;
 	self.isLoading= NO;
 	[self updateViewWithNewImage:image];

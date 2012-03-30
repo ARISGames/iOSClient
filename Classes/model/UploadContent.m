@@ -109,7 +109,7 @@ is an NSString.
     if([self.type isEqualToString:kNoteContentTypePhoto]){
         
         NSData *imageData = [NSData dataWithContentsOfURL:self.fileURL];
-        media.image = [UIImage imageWithData:imageData];
+        media.image = imageData;
         
         }
     NSLog(@"UploadContent: Returning media with ID: %d and type:%@",media.uid,media.type);

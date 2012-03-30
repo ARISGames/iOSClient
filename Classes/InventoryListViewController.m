@@ -336,7 +336,7 @@
         Media *iconMedia;
         if([self.iconCache count] < indexPath.row){
             iconMedia = [self.iconCache objectAtIndex:indexPath.row];
-            [iconView updateViewWithNewImage:iconMedia.image];
+            [iconView updateViewWithNewImage:[UIImage imageWithData:iconMedia.image]];
         }
         else{
             iconMedia = [[AppModel sharedAppModel] mediaForMediaId: item.iconMediaId];

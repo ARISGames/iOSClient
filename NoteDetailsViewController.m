@@ -249,7 +249,9 @@
         }
     }
 }
-
+-(void)viewDidDisappear:(BOOL)animated{
+    while([[self.scrollView subviews]count]>0)[[self.scrollView.subviews objectAtIndex:0]removeFromSuperview];
+}
 - (void)viewDidUnload
 {
     [super viewDidUnload];

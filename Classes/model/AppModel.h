@@ -17,6 +17,7 @@
 #import "WebPage.h"
 #import "Panoramic.h"
 #import "Note.h"
+#import "MediaCache.h"
 #import "UploadMan.h"
 
 extern NSDictionary *InventoryElements;
@@ -75,6 +76,7 @@ extern NSDictionary *InventoryElements;
     NSManagedObjectContext *managedObjectContext;	    
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
     UploadMan *uploadManager;
+    MediaCache *mediaCache;
 }
 
 
@@ -145,6 +147,8 @@ extern NSDictionary *InventoryElements;
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property(nonatomic,retain) UploadMan *uploadManager;
+@property(nonatomic,retain) MediaCache *mediaCache;
+
 
 
 + (AppModel *)sharedAppModel;

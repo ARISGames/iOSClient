@@ -2092,10 +2092,16 @@ NSString *const kARISServerServicePackage = @"v1";
     else game.numPlayers = 0;
     
     NSString *iconMediaUrl = [gameSource valueForKey:@"icon_media_url"];
-    if ((NSNull *)iconMediaUrl != [NSNull null] && [iconMediaUrl length]>0) game.iconMediaUrl = [NSURL URLWithString:iconMediaUrl];
+    if ((NSNull *)iconMediaUrl != [NSNull null] && [iconMediaUrl length]>0) {
+        game.iconMediaUrl = [NSURL URLWithString:iconMediaUrl];
+        game.iconMedia = [[AppModel sharedAppModel].mediaCache mediaForUrl:game.iconMediaUrl];
+    }
      
     NSString *mediaUrl = [gameSource valueForKey:@"media_url"];
-    if ((NSNull *)mediaUrl != [NSNull null] && [iconMediaUrl length]>0) game.mediaUrl = [NSURL URLWithString:mediaUrl];
+    if ((NSNull *)mediaUrl != [NSNull null] && [iconMediaUrl length]>0){
+        game.mediaUrl = [NSURL URLWithString:mediaUrl];
+        game.splashMedia = [[AppModel sharedAppModel].mediaCache mediaForUrl:game.mediaUrl];
+    }
         
     NSString *completedQuests = [gameSource valueForKey:@"completedQuests"];	
     if ((NSNull *)completedQuests != [NSNull null]) game.completedQuests = [completedQuests intValue];
@@ -2326,13 +2332,16 @@ NSString *const kARISServerServicePackage = @"v1";
 		NSString *fullUrl = [NSString stringWithFormat:@"%@%@", urlPath, fileName];
 		//NSLog(@"AppModel fetchGameMediaList: Full URL: %@", fullUrl);
 		
-		Media *media = [[Media alloc] initWithId:uid andUrl:[NSURL URLWithString: fullUrl] ofType:type];
-		[tempMediaList setObject:media forKey:[NSNumber numberWithInt:uid]];
-		[media release];
+		//Media *media = [[Media alloc] initWithId:uid andUrl:[NSURL URLWithString: fullUrl] ofType:type];
+		//[tempMediaList setObject:media forKey:[NSNumber numberWithInt:uid]];
+		//[media release];
+       Media *media = [[AppModel sharedAppModel] mediaForMediaId:uid];
+        media.type = type;
+        media.url = fullUrl;
 	}
 	
-	[AppModel sharedAppModel].gameMediaList = tempMediaList;
-	[tempMediaList release];
+	//[AppModel sharedAppModel].gameMediaList = tempMediaList;
+	//[tempMediaList release];
 }
 
 

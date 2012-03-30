@@ -107,6 +107,7 @@
 		11BE779F13B0FCC7000D037B /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11BE779E13B0FCC7000D037B /* OpenGLES.framework */; };
 		11BE77A313B10564000D037B /* PanoramicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11BE77A213B10564000D037B /* PanoramicViewController.xib */; };
 		11BE77A713B26515000D037B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11BE77A613B26515000D037B /* CoreMotion.framework */; };
+		11D0ABE21524E6FA00FE4544 /* MediaCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D0ABE11524E6FA00FE4544 /* MediaCache.m */; };
 		11DD3D4D13F5AB430051AB76 /* NoteDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11DD3D4B13F5AB430051AB76 /* NoteDetailsViewController.m */; };
 		11DD3D4E13F5AB430051AB76 /* NoteDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11DD3D4C13F5AB430051AB76 /* NoteDetailsViewController.xib */; };
 		11DD3D5113F5B0EF0051AB76 /* playericon.png in Resources */ = {isa = PBXBuildFile; fileRef = 11DD3D4F13F5B0EF0051AB76 /* playericon.png */; };
@@ -551,6 +552,8 @@
 		11BE779E13B0FCC7000D037B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		11BE77A213B10564000D037B /* PanoramicViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PanoramicViewController.xib; sourceTree = "<group>"; };
 		11BE77A613B26515000D037B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		11D0ABE01524E6FA00FE4544 /* MediaCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaCache.h; sourceTree = "<group>"; };
+		11D0ABE11524E6FA00FE4544 /* MediaCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaCache.m; sourceTree = "<group>"; };
 		11DD3D4A13F5AB430051AB76 /* NoteDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteDetailsViewController.h; sourceTree = "<group>"; };
 		11DD3D4B13F5AB430051AB76 /* NoteDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteDetailsViewController.m; sourceTree = "<group>"; };
 		11DD3D4C13F5AB430051AB76 /* NoteDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteDetailsViewController.xib; sourceTree = "<group>"; };
@@ -1339,6 +1342,8 @@
 				AB54A0B91047301E00A901EF /* JSONResult.m */,
 				D43717DD106D62BB0020C515 /* Media.h */,
 				D43717DE106D62BB0020C515 /* Media.m */,
+				11D0ABE01524E6FA00FE4544 /* MediaCache.h */,
+				11D0ABE11524E6FA00FE4544 /* MediaCache.m */,
 				4AD5C41314E0700D00081B20 /* UploadMan.h */,
 				4AD5C41414E0704F00081B20 /* UploadMan.m */,
 				4AD5C41014E06E9200081B20 /* UploadContent.xcdatamodeld */,
@@ -2416,6 +2421,7 @@
 				ABE900EB14E72048005B537D /* ASIDataCompressor.m in Sources */,
 				ABE900EC14E72048005B537D /* ASIDataDecompressor.m in Sources */,
 				ABE900ED14E72048005B537D /* ASIDownloadCache.m in Sources */,
+				11D0ABE21524E6FA00FE4544 /* MediaCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

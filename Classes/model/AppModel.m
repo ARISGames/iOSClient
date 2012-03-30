@@ -23,7 +23,7 @@
 @synthesize locationListHash, questListHash, inventoryHash,profilePic,attributes,gameNoteListHash,playerNoteListHash;
 
 @synthesize nearbyLocationsList,gameTagList;
-@synthesize hasSeenNearbyTabTutorial,hasSeenQuestsTabTutorial,hasSeenMapTabTutorial,hasSeenInventoryTabTutorial, tabsReady,hidePlayers,progressBar,isGameNoteList,uploadManager;
+@synthesize hasSeenNearbyTabTutorial,hasSeenQuestsTabTutorial,hasSeenMapTabTutorial,hasSeenInventoryTabTutorial, tabsReady,hidePlayers,progressBar,isGameNoteList,uploadManager,mediaCache;
 
 
 + (id)sharedAppModel
@@ -69,7 +69,7 @@
     [managedObjectModel release];
     [persistentStoreCoordinator release];
     [uploadManager release];
-    
+    [mediaCache release];
     [super dealloc];
 }
 
@@ -235,6 +235,7 @@
 	[[NSUserDefaults standardUserDefaults] synchronize];
     
     uploadManager = [[UploadMan alloc]init];
+    mediaCache = [[MediaCache alloc]init];
 
 }
 
@@ -305,7 +306,7 @@
 }
 
 -(Media *)mediaForMediaId: (int)mId {
-	Media *media = [self.gameMediaList objectForKey:[NSNumber numberWithInt:mId]];
+/*	Media *media = [self.gameMediaList objectForKey:[NSNumber numberWithInt:mId]];
 	
 	if (!media) {
 		//Let's pause everything and do a lookup
@@ -315,8 +316,8 @@
 		media = [self.gameMediaList objectForKey:[NSNumber numberWithInt:mId]];
 		if (media) NSLog(@"AppModel: Media found after refresh");
 		else NSLog(@"AppModel: Media: %d still NOT found after refresh",mId);
-	}
-	return media;
+	}*/
+	return [mediaCache mediaForMediaId:mId];
 }
 
 -(Npc *)npcForNpcId: (int)mId {
@@ -454,9 +455,7 @@
     }
     managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];    
     return managedObjectModel;
-}
-
-/**
+}/**
  Returns the path to the application's Documents directory.
  */
 - (NSString *)applicationDocumentsDirectory {

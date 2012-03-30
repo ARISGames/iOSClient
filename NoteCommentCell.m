@@ -87,7 +87,7 @@
     //[[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:self.content.getNoteId andFileURL:self.content.getMedia.url];
     NoteContent<NoteContentProtocol> *noteC = [self.note.contents objectAtIndex:0];
     NSLog(@"Deleting Upload forNoteId:%d withFileURL:%@",noteC.getNoteId,noteC.getMedia.url);
-    [[AppModel sharedAppModel].uploadManager uploadContentForNoteId:noteC.getNoteId withTitle:noteC.getTitle withText:noteC.getText withType:noteC.getType withFileURL:noteC.getMedia.url];
+    [[AppModel sharedAppModel].uploadManager uploadContentForNoteId:noteC.getNoteId withTitle:noteC.getTitle withText:noteC.getText withType:noteC.getType withFileURL:[NSURL URLWithString:noteC.getMedia.url]];
     NSLog(@"Retrying Upload forNoteId:%d withTitle:%@ withText:%@ withType:%@ withFileURL:%@",noteC.getNoteId,noteC.getTitle,noteC.getText,noteC.getType,noteC.getMedia.url);
     [self checkForRetry];
 }

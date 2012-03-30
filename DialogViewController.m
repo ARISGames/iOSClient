@@ -311,11 +311,11 @@ NSString *const kDialogHtmlTemplate =
         if (currentScene.videoId !=0) {
             //Setup the Button
 	
-            Media *media = [[Media alloc] init];
-            media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.videoId];
+           // Media *media = [[Media alloc] init];
+            Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.videoId];
             
             //Create movie player object
-            ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:media.url];
+            ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
             [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
             mMoviePlayer.moviePlayer.shouldAutoplay = NO;
             [mMoviePlayer.moviePlayer prepareToPlay];		
