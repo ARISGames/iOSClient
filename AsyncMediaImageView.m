@@ -80,7 +80,7 @@
             }
             else if ([media.type isEqualToString:kMediaTypeAudio]){
                 NSLog(@"AsyncMediaImageView: Loading the standard audio image");
-                media.image = UIImageJPEGRepresentation([UIImage imageNamed:@"microphoneBackground.jpg"], 1.0);
+                self.media.image = UIImageJPEGRepresentation([UIImage imageNamed:@"microphoneBackground.jpg"], 1.0);
                 [self updateViewWithNewImage:[UIImage imageNamed:@"microphoneBackground.jpg"]];
                 self.loaded = YES;
             }
@@ -132,6 +132,7 @@
         // [self.connection release];
         // [self.data release];
         // clear out the spinner
+        return;
     }
     self.isLoading = YES;
 
@@ -196,36 +197,30 @@
 
 	
 	//Save the image in the media
+    if(image)
 	self.media.image =data;
     //throw out the data
-	[self.data release];
-    self.data=nil;
+
     self.loaded = YES;
 	self.isLoading= NO;
-	[self updateViewWithNewImage:image];
+	[self updateViewWithNewImage:[UIImage imageWithData:self.media.image]];
+    [data release];
+    self.data=nil;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ImageReady" object:nil]];
 
 }
 
 - (void) updateViewWithNewImage:(UIImage*)image {
-	/*[UIView beginAnimations:@"async" context:nil];
-	[UIView setAnimationCurve:UIViewAnimationCurveLinear];
-	[UIView setAnimationDuration:0.1];
-	self.alpha = 0;
-	[UIView commitAnimations];
 
-	self.image = image;
-	[UIView beginAnimations:@"async" context:nil];
-	[UIView setAnimationCurve:UIViewAnimationCurveLinear];
-	[UIView setAnimationDuration:0.25];
-	self.alpha = 1.0;
-	[UIView commitAnimations];*/
     self.alpha = 1.0;
+    if(image){
     [self setImage:image];
     if (self.delegate && [self.delegate respondsToSelector:@selector(imageFinishedLoading)]){
         [delegate imageFinishedLoading];
     }
-
+    }
+    self.isLoading = NO;
+    self.loaded = YES;
 }
 
 - (void) setImage:(UIImage*)image {
