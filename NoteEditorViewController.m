@@ -342,12 +342,20 @@
 -(void)actionSheet:(UIActionSheet *)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex{
     switch (buttonIndex) {
         case 0:
+              if([AppModel sharedAppModel].currentGame.allowShareNoteToList){
             self.note.showOnList = YES;
             self.note.showOnMap = NO;
             self.sharingLabel.text = @"List Only";
+              }
+            else{
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Not Allowed!" message: @"This game doesn't allow sharing to other people's lists" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+                
+                [alert show];
+            }
             break;
         case 1:
         {
+            if([AppModel sharedAppModel].currentGame.allowShareNoteToMap){
             self.note.showOnList = NO;
             self.note.showOnMap = YES;
             self.sharingLabel.text = @"Map Only";
@@ -356,9 +364,16 @@
                 self.note.dropped = YES;
                 self.mapButton.selected = YES;
             }
+            }
+            else{
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Not Allowed!" message: @"This game doesn't allow sharing to the map" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+                
+                [alert show];
+            }
             break;
         }
         case 2:{
+            if([AppModel sharedAppModel].currentGame.allowShareNoteToMap && ([AppModel sharedAppModel].currentGame.allowShareNoteToList)){
             self.note.showOnList = YES;
             self.note.showOnMap = YES;
             self.sharingLabel.text = @"List & Map";
@@ -368,6 +383,12 @@
                     self.note.dropped = YES;
                     self.mapButton.selected = YES;
                 }
+            }
+            }
+            else{
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Not Allowed!" message: @"This game doesn't allow one or more of these sharing options" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+                
+                [alert show];  
             }
             break;
         }

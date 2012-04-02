@@ -174,16 +174,17 @@
         TagCell *cell = (TagCell *)[tableView cellForRowAtIndexPath:indexPath];
         if(cell.accessoryType == UITableViewCellAccessoryCheckmark){
             [cell setAccessoryType:UITableViewCellAccessoryNone];
-            
+            int tagId;
                 for(int i = 0; i < self.note.tags.count;i++){
                     if([[(Tag *)[self.note.tags objectAtIndex:i] tagName] isEqualToString:cell.nameLabel.text]){
+                        tagId = [[self.note.tags objectAtIndex:i] tagId];
                         [self.note.tags removeObjectAtIndex:i];
                         break;
                     }
                 }
         
             //delete tag from note
-            [[AppServices sharedAppServices]deleteTagFromNote:self.note.noteId tagName:cell.nameLabel.text];
+            [[AppServices sharedAppServices]deleteTagFromNote:self.note.noteId tagId:tagId];
         }
         else{
             [cell setAccessoryType:UITableViewCellAccessoryCheckmark];

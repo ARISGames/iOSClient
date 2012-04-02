@@ -20,12 +20,16 @@
    // UIButton *mediaPlaybackButton;
     IBOutlet UILabel *commentLabel;
     IBOutlet UILabel *likeLabel;
-
+    
     //ARISMoviePlayerViewController *mMoviePlayer;
     Note *note;
     IBOutlet UIBarButtonItem *likeButton;
+    IBOutlet UIBarButtonItem *commentButton;
+
 }
-@property(nonatomic) IBOutlet UIBarButtonItem *likeButton;;
+@property(nonatomic) IBOutlet UIBarButtonItem *likeButton;
+@property(nonatomic) IBOutlet UIBarButtonItem *commentButton;;
+
 @property(nonatomic, unsafe_unretained) id delegate;
 @property(nonatomic) IBOutlet UIScrollView *scrollView;
 @property(nonatomic) IBOutlet UIPageControl *pageControl;

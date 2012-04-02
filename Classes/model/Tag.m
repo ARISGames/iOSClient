@@ -9,5 +9,5 @@
 #import "Tag.h"
 
 @implementation Tag
-@synthesize tagName,playerCreated;
+@synthesize tagName,playerCreated,tagId;
 @end

@@ -20,7 +20,7 @@
 #import "AsyncMediaPlayerButton.h"
 
 @implementation NoteDetailsViewController
-@synthesize scrollView,pageControl, delegate,note,commentLabel,likeButton,likeLabel;
+@synthesize scrollView,pageControl, delegate,note,commentLabel,likeButton,likeLabel,commentButton;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -86,6 +86,12 @@
     }
     
     self.pageControl.currentPage = 0;
+    if(![AppModel sharedAppModel].currentGame.allowNoteComments){
+        self.commentButton.style = UIBarButtonItemStylePlain;
+        self.commentButton.enabled = NO;
+        self.commentButton.image = nil;
+        self.commentLabel.hidden = YES;
+    }
 }
 -(void)backButtonTouch{
     NSLog(@"NoteDetialsViewController: backButtonTouch");

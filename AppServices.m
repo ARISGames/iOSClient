@@ -1203,6 +1203,7 @@ NSString *const kARISServerServicePackage = @"v1";
         Tag *t = [[Tag alloc]init];
         t.tagName = [tagDictionary objectForKey:@"tag"];
         t.playerCreated = [[tagDictionary objectForKey:@"player_created"]boolValue];
+        t.tagId = [[tagDictionary objectForKey:@"tag_id"]intValue];
 		[tempTagsList addObject:t]; 
 	}
     
@@ -1225,10 +1226,10 @@ NSString *const kARISServerServicePackage = @"v1";
 
 }
 
--(void)deleteTagFromNote:(int)noteId tagName:(NSString *)tag{
+-(void)deleteTagFromNote:(int)noteId tagId:(int)tagId{
     NSLog(@"AppModel: Deleting tag from note");
 	
-	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",noteId],tag, nil];
+	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",noteId],[NSString stringWithFormat:@"%d",tagId], nil];
 	
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
                                                             andServiceName:@"notes"
@@ -1598,6 +1599,7 @@ NSString *const kARISServerServicePackage = @"v1";
         Tag *tag = [[Tag alloc] init];
         tag.tagName = [tagOb objectForKey:@"tag"];
         tag.playerCreated = [[tagOb objectForKey:@"player_created"]boolValue];
+        tag.tagId = [[tagOb objectForKey:@"tag_id"]intValue];
         [aNote.tags addObject:tag];
     }
 	NSSortDescriptor *sortDescriptor;
@@ -1898,6 +1900,11 @@ NSString *const kARISServerServicePackage = @"v1";
     if ((NSNull *)numComments != [NSNull null]) game.numReviews = [numComments intValue];
     
     game.allowsPlayerTags = [[gameSource valueForKey:@"allow_player_tags"]boolValue];
+    
+    game.allowShareNoteToMap = [[gameSource valueForKey:@"allow_share_note_to_map"]boolValue];
+    game.allowShareNoteToList = [[gameSource valueForKey:@"allow_share_note_to_book"]boolValue];
+    game.allowNoteComments = [[gameSource valueForKey:@"allow_note_comments"]boolValue];
+
 
     NSArray *comments = [gameSource valueForKey:@"comments"];
     for (NSDictionary *comment in comments) {

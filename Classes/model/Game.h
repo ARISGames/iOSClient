@@ -38,6 +38,9 @@
     int calculatedScore;
     BOOL isLocational;
     BOOL allowsPlayerTags;
+    BOOL allowShareNoteToMap;
+    BOOL allowShareNoteToList;
+    BOOL allowNoteComments;
     Media *iconMedia;
     Media *splashMedia;
 
@@ -66,6 +69,10 @@
 @property(readwrite, assign) int numReviews;
 @property (readwrite) BOOL isLocational;
 @property (readwrite) BOOL allowsPlayerTags;
+@property (readwrite) BOOL allowShareNoteToMap;
+@property (readwrite) BOOL allowShareNoteToList;
+@property (readwrite) BOOL allowNoteComments;
+
 
 @property(readwrite, assign) int calculatedScore;
 @property(nonatomic) Media *iconMedia;

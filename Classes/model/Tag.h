@@ -11,7 +11,9 @@
 @interface Tag : NSObject{
     NSString *tagName;
     BOOL playerCreated;
+    int tagId;
 }
+@property(readwrite) int tagId;
 @property(nonatomic)NSString *tagName;
 @property(readwrite,assign)BOOL playerCreated;
 @end
