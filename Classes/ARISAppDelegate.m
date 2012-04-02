@@ -79,6 +79,8 @@ BOOL isShowingNotification;
 	[dispatcher addObserver:self selector:@selector(performLogout:) name:@"LogoutRequested" object:nil];
 	[dispatcher addObserver:self selector:@selector(displayNearbyObjects:) name:@"NearbyButtonTouched" object:nil];
 	[dispatcher addObserver:self selector:@selector(checkForDisplayCompleteNode) name:@"NewQuestListReady" object:nil];
+    [dispatcher addObserver:self selector:@selector(receivedMediaList) name:@"ReceivedMediaList" object:nil];
+
     
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
     self.descLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 15)];
@@ -485,9 +487,8 @@ BOOL isShowingNotification;
     //Start loading all the data
     [[AppServices sharedAppServices] fetchAllGameLists];
 	[[AppServices sharedAppServices] fetchAllPlayerLists];
-    
-    //Display the intro node
-    if ([AppModel sharedAppModel].currentGame.completedQuests < 1) [self displayIntroNode];
+    [AppModel sharedAppModel].hasReceivedMediaList = NO;
+
     	
 }
 
@@ -662,7 +663,12 @@ BOOL isShowingNotification;
 	if (self.waitingIndicator != nil) [self.waitingIndicator.view removeFromSuperview ];
 }
 
-
+-(void)receivedMediaList{
+    //Display the intro node
+    if ([AppModel sharedAppModel].currentGame.completedQuests < 1) [self displayIntroNode];
+    [AppModel sharedAppModel].hasReceivedMediaList = YES;
+    
+}
 - (void) showNearbyTab:(BOOL)yesOrNo {
     if([AppModel sharedAppModel].tabsReady){
         [AppModel sharedAppModel].tabsReady = NO;

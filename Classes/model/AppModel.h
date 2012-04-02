@@ -70,7 +70,8 @@ extern NSDictionary *InventoryElements;
 	BOOL hasSeenMapTabTutorial;
 	BOOL hasSeenInventoryTabTutorial;
     BOOL profilePic,tabsReady,hidePlayers,isGameNoteList;
-    
+    BOOL hasReceivedMediaList;
+
     //CORE Data
     NSManagedObjectModel *managedObjectModel;
     NSManagedObjectContext *managedObjectContext;	    
@@ -90,6 +91,7 @@ extern NSDictionary *InventoryElements;
 @property(readwrite) BOOL hidePlayers;
 @property(readwrite) BOOL isGameNoteList;
 
+@property(readwrite) BOOL hasReceivedMediaList;
 
 
 @property(nonatomic) NSString *userName;

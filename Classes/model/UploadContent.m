@@ -17,7 +17,6 @@
 @dynamic type;
 @dynamic fileURL;
 @dynamic noteId;
-@synthesize media;
 
 /*
 Through we provide a public NSURL interface, the underlying persistant store
@@ -91,7 +90,6 @@ is an NSString.
     //if(!media)
     
     //THIS LEAKS AND SHOULD BE FIXED
-    if(self.media == nil){
     NSString *mediaType;
     if([self.type isEqualToString:kNoteContentTypePhoto]){
         mediaType = kMediaTypeImage;
@@ -106,15 +104,17 @@ is an NSString.
         mediaType = @"Text";
     }
     //Just to get ARC working
-    //media = [[Media alloc]initWithId:[self.fileURL hash] andUrl:self.fileURL ofType:mediaType];
-    if([self.type isEqualToString:kNoteContentTypePhoto]){
+        Media  *media = [[AppModel sharedAppModel].mediaCache mediaForMediaId:[self.fileURL hash]];
+        media.url = [self.fileURL absoluteString];
+        media.type = mediaType;
+        if([self.type isEqualToString:kNoteContentTypePhoto]){
         
         NSData *imageData = [NSData dataWithContentsOfURL:self.fileURL];
         media.image = imageData;
         
         }
-    NSLog(@"UploadContent: Returning media with ID: %d and type:%@",media.uid,media.type);
-    }
+    NSLog(@"UploadContent: Returning media with ID: %d and type:%@",[media.uid intValue],media.type);
+    
     return media;
 }
 

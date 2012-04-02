@@ -49,7 +49,7 @@
 	
 #if !TARGET_IPHONE_SIMULATOR
 	
-	self.cameraController = [[[UIImagePickerController alloc] init] autorelease];
+	self.cameraController = [[UIImagePickerController alloc] init];
 	self.cameraController.sourceType = UIImagePickerControllerSourceTypeCamera;
 	
 	self.cameraController.cameraViewTransform = CGAffineTransformScale(self.cameraController.cameraViewTransform,

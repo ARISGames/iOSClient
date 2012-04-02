@@ -1577,7 +1577,19 @@ NSString *const kARISServerServicePackage = @"v1";
         c.noteId = [[content objectForKey:@"note_id"]intValue];
         c.sortIndex =[[content objectForKey:@"sort_index"]intValue];
         c.type = [content objectForKey:@"type"];
-        [aNote.contents addObject:c];
+        int returnCode = [[[content objectForKey:@"media"]objectForKey:@"returnCode"]intValue];
+        NSDictionary *m = [[content objectForKey:@"media"]objectForKey:@"data"];
+        if(returnCode == 0 && m){
+            
+            Media *media = [[AppModel sharedAppModel].mediaCache mediaForMediaId:c.mediaId];
+            NSString *fileName = [m objectForKey:@"file_name"];
+            NSString *urlPath = [m objectForKey:@"url_path"];
+            NSString *fullUrl = [NSString stringWithFormat:@"%@%@", urlPath, fileName];
+            media.url = fullUrl;
+            media.type = [m objectForKey:@"type"];
+        }
+        
+[aNote.contents addObject:c];
     }
     
     NSArray *tags = [noteDictionary valueForKey:@"tags"];
@@ -2093,7 +2105,8 @@ NSString *const kARISServerServicePackage = @"v1";
         media.type = type;
         media.url = fullUrl;
 	}
-	
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedMediaList" object:nil]];
+
 	//[AppModel sharedAppModel].gameMediaList = tempMediaList;
 	//[tempMediaList release];
 }

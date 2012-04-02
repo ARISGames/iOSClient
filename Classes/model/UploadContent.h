@@ -19,7 +19,6 @@
 @property (nonatomic) NSString *type;
 @property (nonatomic) NSString *state;
 @property (nonatomic) NSURL *fileURL;
-@property (nonatomic) Media *media;
 @property int noteId;
 
 - (id) initForNoteId:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSURL *)url inState:(NSString *)state andContext:(NSManagedObjectContext *)context;
