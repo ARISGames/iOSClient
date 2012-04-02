@@ -10,7 +10,7 @@
 #import "JSONResult.h"
 
 
-@interface JSONConnection : NSObject{
+@interface JSONConnection : NSObject  <NSURLConnectionDelegate>{
 	NSURL *jsonServerURL;
 	NSString *serviceName;
 	NSString *methodName;
@@ -19,6 +19,7 @@
     NSMutableDictionary *userInfo;
 	NSMutableData *asyncData;
 	NSURL *completeRequestURL;
+    NSURLConnection *connection;
 }
 
 @property(nonatomic, retain) NSURL *jsonServerURL;
@@ -28,6 +29,9 @@
 @property(nonatomic, retain) NSString *handler;
 @property(nonatomic, retain) NSMutableDictionary *userInfo;
 @property(nonatomic, retain) NSURL *completeRequestURL;
+@property(nonatomic, retain) NSMutableData *asyncData;
+@property(nonatomic, retain) NSURLConnection *connection;
+
 
 
 - (JSONConnection*)initWithServer: (NSURL *)server
@@ -38,5 +42,9 @@
 
 - (JSONResult*) performSynchronousRequest;
 - (void) performAsynchronousRequestWithHandler: (SEL)handler;
+- (void)connectionDidFinishLoading:(NSURLConnection*)theConnection;
+- (void)connection:(NSURLConnection *)theConnection didReceiveData:(NSData *)incrementalData;
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
+
 
 @end

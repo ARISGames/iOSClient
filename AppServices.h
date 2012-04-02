@@ -21,13 +21,14 @@
 #import "JSONConnection.h"
 #import "JSONResult.h"
 #import "JSON.h"
-#import "ASIFormDataRequest.h"
 #import "ARISAppDelegate.h"
 #import "Comment.h"
 #import "Note.h"
 #import "NoteContent.h"
 #import <MapKit/MapKit.h>
 #import "Tag.h"
+#import "ARISUploader.h"
+
 
 @interface AppServices : NSObject {
     //Fetcher Flags
@@ -95,14 +96,9 @@ extern NSString *const kARISServerServicePackage;
 - (Note *)fetchNote:(int)noteId;
 - (NSMutableArray *)fetchNoteContents:(int)noteId;
 - (void)createItemAndPlaceOnMap:(Item *)item;
-- (void)createItemAndPlaceOnMapFromFileData:(NSData *)fileData fileName:(NSString *)fileName 
-                                      title:(NSString *)title description:(NSString*)description;
-
 - (void)updateItem:(Item *) item;
-- (void)createItemAndGiveToPlayerFromFileData:(NSData *)fileData fileName:(NSString *)fileName 
-										title:(NSString *)title description:(NSString*)description;
 - (void)createItemAndGivetoPlayer: (Item *) item;
-- (void)uploadImageForMatching:(NSData *)fileData;
+- (void)uploadImageForMatching:(NSURL *)fileURL;
 
 -(void) uploadContentToNoteWithFileURL:(NSURL *)fileURL name:(NSString *)name noteId:(int) noteId type: (NSString *)type;
 - (void) addContentToNoteWithText:(NSString *)text type:(NSString *) type mediaId:(int) mediaId andNoteId:(int)noteId andFileURL:(NSURL *)fileURL;
@@ -122,8 +118,8 @@ extern NSString *const kARISServerServicePackage;
 - (void)updateCommentWithId: (int)noteId andTitle:(NSString *)title andRefresh:(BOOL)refresh;
 - (void)likeNote:(int)noteId;
 -(void)unLikeNote:(int)noteId;
-- (void)uploadNoteContentRequestFinished:(ASIFormDataRequest *)request;
-- (void)uploadNoteRequestFailed:(ASIHTTPRequest *)request;
+- (void)uploadNoteContentRequestFinished:(NSURLRequest *)request;
+- (void)uploadNoteRequestFailed:(NSURLRequest *)request;
 - (void)updateServerWithPlayerLocation;
 - (void)updateServerNodeViewed: (int)nodeId;
 - (void)updateServerItemViewed: (int)itemId;

@@ -3,7 +3,7 @@
  File: Reachability.m
  Abstract: Basic demonstration of how to use the SystemConfiguration Reachablity APIs.
  
- Version: 2.0
+ Version: 2.2
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple Inc.
  ("Apple") in consideration of your agreement to the following terms, and your
@@ -41,7 +41,7 @@
  CONTRACT, TORT (INCLUDING NEGLIGENCE), STRICT LIABILITY OR OTHERWISE, EVEN IF
  APPLE HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  
- Copyright (C) 2009 Apple Inc. All Rights Reserved.
+ Copyright (C) 2010 Apple Inc. All Rights Reserved.
  
 */
 
@@ -84,20 +84,20 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 {
 	#pragma unused (target, flags)
 	NSCAssert(info != NULL, @"info was NULL in ReachabilityCallback");
-	NSCAssert([(__bridge NSObject*) info isKindOfClass: [Reachability class]], @"info was wrong class in ReachabilityCallback");
+	NSCAssert([(NSObject*) info isKindOfClass: [Reachability class]], @"info was wrong class in ReachabilityCallback");
 
 	//We're on the main RunLoop, so an NSAutoreleasePool is not necessary, but is added defensively
 	// in case someon uses the Reachablity object in a different thread.
 	NSAutoreleasePool* myPool = [[NSAutoreleasePool alloc] init];
 	
-	Reachability* noteObject = (__bridge Reachability*) info;
+	Reachability* noteObject = (Reachability*) info;
 	// Post a notification to notify the client that the network reachability changed.
 	[[NSNotificationCenter defaultCenter] postNotificationName: kReachabilityChangedNotification object: noteObject];
 	
 	[myPool release];
 }
 
-- (BOOL) startNotifer
+- (BOOL) startNotifier
 {
 	BOOL retVal = NO;
 	SCNetworkReachabilityContext	context = {0, self, NULL, NULL, NULL};
@@ -111,7 +111,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 	return retVal;
 }
 
-- (void) stopNotifer
+- (void) stopNotifier
 {
 	if(reachabilityRef!= NULL)
 	{
@@ -121,7 +121,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 
 - (void) dealloc
 {
-	[self stopNotifer];
+	[self stopNotifier];
 	if(reachabilityRef!= NULL)
 	{
 		CFRelease(reachabilityRef);
@@ -172,7 +172,6 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 
 + (Reachability*) reachabilityForLocalWiFi;
 {
-	//[super init];
 	struct sockaddr_in localWifiAddress;
 	bzero(&localWifiAddress, sizeof(localWifiAddress));
 	localWifiAddress.sin_len = sizeof(localWifiAddress);

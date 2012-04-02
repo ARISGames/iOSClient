@@ -145,7 +145,7 @@
 #pragma mark UIImagePickerControllerDelegate Protocol Methods
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary  *)info{
-
+    
 	//[[picker parentViewController] dismissModalViewControllerAnimated:NO];
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.modalPresent=NO;
@@ -163,21 +163,28 @@
     
     // EXAMPLE: do something useful with the barcode data
     resultText = symbol.data;
-   
+    
     // ADD: dismiss the controller (NB dismiss from the *reader*!)
-   // [picker dismissModalViewControllerAnimated: YES];
+    // [picker dismissModalViewControllerAnimated: YES];
     
     
     if (picker == self.imageMatchingImagePickerController) {
         NSLog(@"QRScannerVC: image matching imagePickerController didFinishPickingImage" );
         
         NSData *imageData = UIImageJPEGRepresentation(image, .4);
-        [[AppServices sharedAppServices] uploadImageForMatching:imageData];
+        NSString *mediaFilename = [NSString stringWithString:@"imageToMatch.jpg"];
+        NSString *newFilePath =[NSTemporaryDirectory() stringByAppendingString: mediaFilename];
+        NSURL *imageURL = [[NSURL alloc] initFileURLWithPath: newFilePath];
+        
+        NSLog(@"Tempory File will be: %@", newFilePath);
+        [imageData writeToURL:imageURL atomically:YES];
+        [[AppServices sharedAppServices] uploadImageForMatching:imageURL];
+       
     }	
     else{
         NSLog(@"QRSCannerVC: barcode data = %@",resultText);
         [self loadResult:resultText];
-
+        
     }
 }
 
