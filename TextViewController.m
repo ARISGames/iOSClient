@@ -24,21 +24,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-    if(textBox)
-    [textBox release];
-    if(keyboardButton)
-    [keyboardButton release];
-    if(textToDisplay)
-    [textToDisplay release];
-   /* if(backView)
-    [backView release];
-    if(editView)
-    [editView release];*/
-    
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -60,18 +45,15 @@
                                                                   action:@selector(backButtonTouchAction)];
     
     self.navigationItem.leftBarButtonItem = backButton;
-    [backButton release];
 	    if(self.editMode){
     
         self.textBox.text = textToDisplay;
         UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(updateContentTouchAction)];      
         self.navigationItem.rightBarButtonItem = saveButton;
-        [saveButton release];
     }
     else{
         UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(saveButtonTouchAction)];      
         self.navigationItem.rightBarButtonItem = saveButton;    
-        [saveButton release];
     }
     if(self.previewMode)  {
         self.textBox.userInteractionEnabled = NO;

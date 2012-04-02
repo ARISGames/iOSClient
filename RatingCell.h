@@ -15,8 +15,8 @@
     UILabel *reviewsLabel;
 }
 
-@property (nonatomic,retain) IBOutlet SCRRatingView *ratingView;
-@property (nonatomic,retain) IBOutlet UILabel *reviewsLabel;
+@property (nonatomic) IBOutlet SCRRatingView *ratingView;
+@property (nonatomic) IBOutlet UILabel *reviewsLabel;
 
 
 @end

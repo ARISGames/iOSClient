@@ -19,20 +19,20 @@
 	NSData *mediaData;
 	NSString *mediaFilename;
     BOOL showVid;
-    id backView, parentDelegate,editView;
+    id backView, parentDelegate, editView;
     int noteId;
     BOOL bringUpCamera;
 }
 
-@property (nonatomic, retain) IBOutlet UIButton *cameraButton;
-@property (nonatomic, retain) IBOutlet UIButton *profileButton;
-@property (nonatomic, retain) IBOutlet UIButton *libraryButton;
+@property (nonatomic) IBOutlet UIButton *cameraButton;
+@property (nonatomic) IBOutlet UIButton *profileButton;
+@property (nonatomic) IBOutlet UIButton *libraryButton;
 //@property (nonatomic, retain) UIImagePickerController *imagePickerController;
-@property (nonatomic, retain) NSData *mediaData;
-@property (nonatomic, retain) NSString *mediaFilename;
-@property (nonatomic, assign) id backView;
-@property (nonatomic, assign) id parentDelegate;
-@property (nonatomic, assign) id editView;
+@property (nonatomic) NSData *mediaData;
+@property (nonatomic) NSString *mediaFilename;
+@property (nonatomic) id backView;
+@property (nonatomic) id parentDelegate;
+@property (nonatomic) id editView;
 
 
 @property(readwrite,assign) BOOL showVid;

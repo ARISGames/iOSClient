@@ -59,33 +59,33 @@
 }
 
 
-@property(nonatomic,retain)UILabel *lbl;
-@property(nonatomic, retain) IBOutlet AsyncMediaImageView	*npcImage;
-@property(nonatomic, retain) IBOutlet AsyncMediaImageView	*pcImage;
-@property(nonatomic, retain) IBOutlet UIWebView		*npcWebView;
-@property(nonatomic, retain) IBOutlet UIWebView		*pcWebView;
-@property(nonatomic, retain) IBOutlet UITableView	*pcTableView;
-@property(nonatomic, retain) IBOutlet UITextField	*pcAnswerView;
-@property(nonatomic, retain) IBOutlet UILabel		*nothingElseLabel;
-@property(nonatomic, retain) IBOutlet UIButton *npcContinueButton;
-@property(nonatomic, retain) IBOutlet UIButton *pcContinueButton;
-@property(nonatomic, retain) IBOutlet UIBarButtonItem *textSizeButton;
-@property(nonatomic, retain) IBOutlet UIBarButtonItem *specialBackButton;
+@property(nonatomic)UILabel *lbl;
+@property(nonatomic) IBOutlet AsyncMediaImageView	*npcImage;
+@property(nonatomic) IBOutlet AsyncMediaImageView	*pcImage;
+@property(nonatomic) IBOutlet UIWebView		*npcWebView;
+@property(nonatomic) IBOutlet UIWebView		*pcWebView;
+@property(nonatomic) IBOutlet UITableView	*pcTableView;
+@property(nonatomic) IBOutlet UITextField	*pcAnswerView;
+@property(nonatomic) IBOutlet UILabel		*nothingElseLabel;
+@property(nonatomic) IBOutlet UIButton *npcContinueButton;
+@property(nonatomic) IBOutlet UIButton *pcContinueButton;
+@property(nonatomic) IBOutlet UIBarButtonItem *textSizeButton;
+@property(nonatomic) IBOutlet UIBarButtonItem *specialBackButton;
 
-@property(nonatomic, retain) IBOutlet NSString *exitToTabVal;
+@property(nonatomic) IBOutlet NSString *exitToTabVal;
 
-@property(nonatomic, retain) IBOutlet UIScrollView	*npcScrollView;
-@property(nonatomic, retain) IBOutlet UIScrollView	*pcScrollView;
-@property(nonatomic, retain) IBOutlet UIScrollView	*npcImageScrollView;
-@property(nonatomic, retain) IBOutlet UIScrollView	*pcImageScrollView;
-@property(nonatomic, retain) IBOutlet UIActivityIndicatorView *pcActivityIndicator;
+@property(nonatomic) IBOutlet UIScrollView	*npcScrollView;
+@property(nonatomic) IBOutlet UIScrollView	*pcScrollView;
+@property(nonatomic) IBOutlet UIScrollView	*npcImageScrollView;
+@property(nonatomic) IBOutlet UIScrollView	*pcImageScrollView;
+@property(nonatomic) IBOutlet UIActivityIndicatorView *pcActivityIndicator;
 
-@property(nonatomic,retain) Npc *currentNpc;
-@property(nonatomic,retain) Node *currentNode;
+@property(nonatomic) Npc *currentNpc;
+@property(nonatomic) Node *currentNode;
 
-@property(nonatomic, retain) IBOutlet UIView		*mainView;
-@property(nonatomic, retain) IBOutlet UIView		*npcView;
-@property(nonatomic, retain) IBOutlet UIView		*pcView;
+@property(nonatomic) IBOutlet UIView		*mainView;
+@property(nonatomic) IBOutlet UIView		*npcView;
+@property(nonatomic) IBOutlet UIView		*pcView;
 
 - (IBAction)continueButtonTouchAction;
 - (IBAction)npcScrollerTouchAction;

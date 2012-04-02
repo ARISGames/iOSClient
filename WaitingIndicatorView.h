@@ -13,7 +13,7 @@
 	UIProgressView *progressView;
 }
 
-@property(nonatomic, retain) UIProgressView *progressView;
+@property(nonatomic) UIProgressView *progressView;
 @property(nonatomic, copy) NSString *waitingMessage;
 
 -(void) setWaitingMessage: (NSString*) newMessage;

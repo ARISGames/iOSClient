@@ -34,13 +34,6 @@
 }
 
 #pragma mark - View lifecycle
--(void)dealloc{
-    [tagTable release];
-    [gameTagList release];
-    [note release];
-    [playerTagList release];
-    [super dealloc];
-}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -85,14 +78,13 @@
     tempTag.playerCreated = YES;
     [[AppModel sharedAppModel].gameTagList addObject:tempTag];
     [self.note.tags addObject:tempTag];
-    [tempTag release];
     [self refresh];
     [self.tagTextField resignFirstResponder];
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *CellIdentifier = @"Cell";
     if([gameTagList count] == 0 && indexPath.row == 0 && indexPath.section == 0){
-        UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         
         cell.textLabel.text = @"No Game Tags";
         cell.detailTextLabel.text = @"No tags were created for this game";
@@ -103,7 +95,7 @@
         return cell;
     }
     if([playerTagList count] == 0 && indexPath.row == 0 && indexPath.section == 2){
-        UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         
         cell.textLabel.text = @"No Tags";
         cell.detailTextLabel.text = @"You haven't created any tags";
@@ -116,7 +108,7 @@
     }
 
     if(indexPath.row == 0 && indexPath.section == 1){
-        UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         
         cell.textLabel.text = @"Create a New Tag";
         cell.userInteractionEnabled = YES;
@@ -142,7 +134,6 @@
         // Grab a pointer to the custom cell.
         cell = (TagCell *)temporaryController.view;
         // Release the temporary UIViewController.
-        [temporaryController release];
     }
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 
@@ -175,7 +166,6 @@
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Cannot Create New Tag" message: @"This game does not allow the use of player created tags!" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
             
             [alert show];
-            [alert release];
 
         }
         
@@ -201,7 +191,6 @@
             Tag *tempTag =[[Tag alloc]init];
             tempTag.tagName = cell.nameLabel.text;
             [self.note.tags addObject:tempTag];
-            [tempTag release];
             [[AppServices sharedAppServices]addTagToNote:self.note.noteId tagName:cell.nameLabel.text];
                    }
     }

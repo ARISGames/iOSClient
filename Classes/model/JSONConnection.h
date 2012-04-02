@@ -22,15 +22,15 @@
     NSURLConnection *connection;
 }
 
-@property(nonatomic, retain) NSURL *jsonServerURL;
-@property(nonatomic, retain) NSString *serviceName;
-@property(nonatomic, retain) NSString *methodName;
-@property(nonatomic, retain) NSArray *arguments;
-@property(nonatomic, retain) NSString *handler;
-@property(nonatomic, retain) NSMutableDictionary *userInfo;
-@property(nonatomic, retain) NSURL *completeRequestURL;
-@property(nonatomic, retain) NSMutableData *asyncData;
-@property(nonatomic, retain) NSURLConnection *connection;
+@property(nonatomic) NSURL *jsonServerURL;
+@property(nonatomic) NSString *serviceName;
+@property(nonatomic) NSString *methodName;
+@property(nonatomic) NSArray *arguments;
+@property(nonatomic) NSString *handler;
+@property(nonatomic) NSMutableDictionary *userInfo;
+@property(nonatomic) NSURL *completeRequestURL;
+@property(nonatomic) NSMutableData *asyncData;
+@property(nonatomic) NSURLConnection *connection;
 
 
 

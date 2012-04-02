@@ -42,16 +42,16 @@
 }
 @property(readwrite, assign) BOOL isLink;
 
-@property(readwrite, retain) Item *item;
+@property(readwrite) Item *item;
 @property(readwrite) bool inInventory;
 @property(readwrite) ItemDetailsModeType mode;
-@property(nonatomic,retain)	IBOutlet AsyncMediaImageView *itemImageView;
-@property(nonatomic,retain) IBOutlet UIWebView *itemWebView;
-@property(nonatomic, retain) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property(nonatomic,retain)IBOutlet UIWebView *itemDescriptionView;;
-@property(nonatomic,retain) IBOutlet UITextView *textBox;
-@property(nonatomic,retain)UIScrollView *scrollView;
-@property(nonatomic, retain) IBOutlet UIButton *saveButton;
+@property(nonatomic)	IBOutlet AsyncMediaImageView *itemImageView;
+@property(nonatomic) IBOutlet UIWebView *itemWebView;
+@property(nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property(nonatomic)IBOutlet UIWebView *itemDescriptionView;;
+@property(nonatomic) IBOutlet UITextView *textBox;
+@property(nonatomic)UIScrollView *scrollView;
+@property(nonatomic) IBOutlet UIButton *saveButton;
 
 - (IBAction)dropButtonTouchAction: (id) sender;
 - (IBAction)deleteButtonTouchAction: (id) sender;

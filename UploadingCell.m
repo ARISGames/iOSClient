@@ -10,9 +10,4 @@
 
 @implementation UploadingCell
 @synthesize progressBar,updatingLabel;
--(void)dealloc{
-    [super dealloc];
-    [progressBar release];
-    [updatingLabel release];
-}
 @end

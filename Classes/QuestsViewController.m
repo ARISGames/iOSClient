@@ -123,9 +123,7 @@ NSString *const kQuestsHtmlTemplate =
 	UIActivityIndicatorView *activityIndicator = 
 		[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
 	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
-	[activityIndicator release];
 	[[self navigationItem] setRightBarButtonItem:barButton];
-	[barButton release];
 	[activityIndicator startAnimating];
 }
 
@@ -217,9 +215,9 @@ NSString *const kQuestsHtmlTemplate =
 	NSArray *activeQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"active"];
 	NSArray *completedQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"completed"];
 	
-	if (self.quests) [self.quests release];
+	if (self.quests) self.quests;
 	self.quests = [NSArray arrayWithObjects:activeQuestsArray, completedQuestsArray, nil];
-	[self.quests retain];
+	self.quests;
 
 	[self constructCells];
 	
@@ -240,8 +238,8 @@ NSString *const kQuestsHtmlTemplate =
 	NSEnumerator *e;
 	Quest *quest;
 	NSSortDescriptor *sortDescriptor;
-    sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"sortNum"
-                                                  ascending:NO] autorelease];
+    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sortNum"
+                                                  ascending:NO];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
     
     activeQuests = [activeQuests sortedArrayUsingDescriptors:sortDescriptors];
@@ -294,7 +292,7 @@ NSString *const kQuestsHtmlTemplate =
     */
     
 	self.questCells = [NSArray arrayWithObjects:activeQuestCells,completedQuestCells, nil];
-	[self.questCells retain];
+	self.questCells;
 	
 	//if (activeQuestsEmpty && completedQuestsEmpty) 
     [tableView reloadData];
@@ -320,7 +318,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
         webPageViewController.webPage = temp;
         webPageViewController.delegate = self;
         [self.navigationController pushViewController:webPageViewController animated:NO];
-        [webPageViewController release];
         
         return NO;
     }
@@ -420,7 +417,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	UIWebView *descriptionView;
 	//AsyncImageView *iconView;
 	
-	UITableViewCell *cell = [[[UITableViewCell alloc] initWithFrame:cellFrame] autorelease];
+	UITableViewCell *cell = [[UITableViewCell alloc] initWithFrame:cellFrame];
 	
 	//Setup Cell
 	UIView *transparentBackground = [[UIView alloc] initWithFrame:CGRectZero];
@@ -437,7 +434,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	NSString *htmlDescription = [NSString stringWithFormat:kQuestsHtmlTemplate, quest.name, quest.description];
 	[descriptionView loadHTMLString:htmlDescription baseURL:nil];
 	[cell.contentView addSubview:descriptionView];
-	[descriptionView release];
 	
 	//Init Icon
 	//iconView = [[AsyncImageView alloc] initWithFrame:iconFrame];
@@ -533,7 +529,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
-    [super dealloc];
 }
 
 @end

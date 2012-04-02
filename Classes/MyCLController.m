@@ -70,7 +70,7 @@
 - (MyCLController*) init{
 	self = [super init];
 	if (self != nil) {
-		self.locationManager = [[[CLLocationManager alloc] init] autorelease];
+		self.locationManager = [[CLLocationManager alloc] init];
 		self.locationManager.delegate = self; // Tells the location manager to send updates to this object
 		self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
 		self.locationManager.distanceFilter = 5; //Minimum change of 5 meters for update
@@ -96,7 +96,7 @@
 	   didFailWithError:(NSError *)error
 {
 	
-	NSMutableString *errorString = [[[NSMutableString alloc] init] autorelease];
+	NSMutableString *errorString = [[NSMutableString alloc] init];
 	
 	if ([error domain] == kCLErrorDomain) {
 		
@@ -104,7 +104,6 @@
         if ([error code]) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NoLocationTitleKey", nil) message:NSLocalizedString(@"NoLocationMessageKey", nil) delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
             [alert show];	
-            [alert release];
         }
 		switch ([error code]) {				
             // This error code is usually returned whenever user taps "Don't Allow" in response to
@@ -148,9 +147,5 @@
 	//Send the update somewhere?
 }
 
-- (void)dealloc {
-	[locationManager release];
-    [super dealloc];
-}
 
 @end

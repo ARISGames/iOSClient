@@ -20,11 +20,11 @@
     NSArray *textureArray;
 }
 
-@property(nonatomic, retain) NSString *name;
-@property(nonatomic, retain) NSString *description;
-@property(nonatomic, retain) NSArray *textureArray;
+@property(nonatomic) NSString *name;
+@property(nonatomic) NSString *description;
+@property(nonatomic) NSArray *textureArray;
 @property(readwrite, assign) int iconMediaId;
-@property(nonatomic, retain) NSArray *media;
+@property(nonatomic) NSArray *media;
 @property(readwrite, assign) int alignMediaId;
 @property(readwrite, assign) int panoramicId;
 @property(readwrite, assign) nearbyObjectKind kind;

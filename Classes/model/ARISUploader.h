@@ -31,8 +31,8 @@
              doneSelector: (SEL)doneSelector errorSelector: (SEL)errorSelector;
 - (void)upload;
 
-@property(nonatomic,retain) NSDictionary *userInfo;
-@property(nonatomic,retain) NSString *responseString;
-@property(nonatomic,retain) NSError *error;
+@property(nonatomic) NSDictionary *userInfo;
+@property(nonatomic) NSString *responseString;
+@property(nonatomic) NSError *error;
 
 @end

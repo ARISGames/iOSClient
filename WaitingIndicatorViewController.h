@@ -16,12 +16,12 @@
 
 }
 
-@property(assign) NSString *message;
+@property(unsafe_unretained) NSString *message;
 -(void) setMessage: (NSString*) newMessage;
 
-@property(nonatomic, retain) IBOutlet UIActivityIndicatorView *spinner;
-@property(nonatomic, retain) IBOutlet UIProgressView *progressView;
-@property(nonatomic, retain) IBOutlet UILabel *label;
+@property(nonatomic) IBOutlet UIActivityIndicatorView *spinner;
+@property(nonatomic) IBOutlet UIProgressView *progressView;
+@property(nonatomic) IBOutlet UILabel *label;
 
 
 @end

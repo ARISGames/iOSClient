@@ -37,9 +37,9 @@
 -(IBAction)playerButtonTouch;
 - (void)refreshViewFromModel;
 
-@property (nonatomic, retain) MKMapView *mapView;
-@property (nonatomic, retain) NSArray *locations;
-@property (nonatomic, retain) NSMutableArray *route;
+@property (nonatomic) MKMapView *mapView;
+@property (nonatomic) NSArray *locations;
+@property (nonatomic) NSMutableArray *route;
 
 
 @property BOOL tracking;
@@ -47,12 +47,12 @@
 
 
 
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *mapTypeButton;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *playerButton;
+@property (nonatomic) IBOutlet UIBarButtonItem *mapTypeButton;
+@property (nonatomic) IBOutlet UIBarButtonItem *playerButton;
 
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *addMediaButton;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *playerTrackingButton;
-@property (nonatomic, retain) IBOutlet UIToolbar *toolBar;
+@property (nonatomic) IBOutlet UIBarButtonItem *addMediaButton;
+@property (nonatomic) IBOutlet UIBarButtonItem *playerTrackingButton;
+@property (nonatomic) IBOutlet UIToolbar *toolBar;
 
 
 @end

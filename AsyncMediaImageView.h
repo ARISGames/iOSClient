@@ -22,16 +22,16 @@
 	NSMutableData* data; //keep reference to the data so we can collect it as it downloads
 	Media *media; //keep a refrence so we can update the media with the data after it is loaded
     ARISMoviePlayerViewController *mMoviePlayer; //In case we need to load a frame of a movie
-    id <AsyncMediaImageViewDelegate> delegate;
+    id <AsyncMediaImageViewDelegate> __unsafe_unretained delegate;
 	BOOL isLoading;
     BOOL loaded;
 }
 
-@property (nonatomic, retain) NSURLConnection* connection;
-@property (nonatomic, retain) NSMutableData* data;
-@property (nonatomic, retain) Media *media;
-@property (nonatomic, retain) ARISMoviePlayerViewController *mMoviePlayer;
-@property (nonatomic, assign) id <AsyncMediaImageViewDelegate> delegate;
+@property (nonatomic) NSURLConnection* connection;
+@property (nonatomic) NSMutableData* data;
+@property (nonatomic) Media *media;
+@property (nonatomic) ARISMoviePlayerViewController *mMoviePlayer;
+@property (nonatomic, unsafe_unretained) id <AsyncMediaImageViewDelegate> delegate;
 
 @property(readwrite,assign)BOOL isLoading;
 @property(readwrite,assign)BOOL loaded;

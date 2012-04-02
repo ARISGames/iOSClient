@@ -35,15 +35,9 @@
 	PanoramicViewController *panoramicViewController = [[PanoramicViewController alloc] initWithNibName:@"PanoramicViewController" bundle: [NSBundle mainBundle]];
 	panoramicViewController.panoramic = self;
 	[appDelegate displayNearbyObjectView:panoramicViewController];
-	[panoramicViewController release];
 }
 
 
 
-- (void) dealloc {
-	[name release];
-	[description release];
-	[super dealloc];
-}
 
 @end

@@ -22,7 +22,6 @@
     
     NSError *error;
     NSArray *items = [[AppModel sharedAppModel].managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    [fetchRequest release];
     
     
     for (NSManagedObject *managedObject in items) {
@@ -52,7 +51,6 @@
     
     NSError *error;
     NSArray *items = [[AppModel sharedAppModel].managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    [fetchRequest release];
     
     
     for (NSManagedObject *managedObject in items) {
@@ -95,18 +93,13 @@
 -(UploadContent *)saveUploadContentToCDWithTitle:(NSString *)title andText:(NSString *)text andType:(NSString *)type andNoteId:(int)noteId andFileURL:(NSURL *)fileURL inState:(NSString *)state
 {
     //Retains input, as they may be pointers from an object that will get deleted
-    [title retain];
-    [text retain];
-    [type retain];
-    [fileURL retain];
-    [state retain];
     
     [self deleteUploadContentFromCDFromNoteId:noteId andFileURL:fileURL]; //Prevent Duplicates
     NSLog(@"UploadMan:saveUploadContentToCD"); 
     NSError *error;
-    UploadContent *uploadContentCD = [[NSEntityDescription
+    UploadContent *uploadContentCD = [NSEntityDescription
                                       insertNewObjectForEntityForName:@"UploadContent" 
-                                      inManagedObjectContext:context] retain];
+                                      inManagedObjectContext:context];
     
     uploadContentCD.text = text;
     uploadContentCD.title = title;
@@ -115,15 +108,10 @@
     uploadContentCD.fileURL = fileURL;
     uploadContentCD.state = state;
     
-    [title release];
-    [text release];
-    [type release];
-    [fileURL release];
-    [state release];
     if (![context save:&error]) {
         NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
     }
-    return [uploadContentCD autorelease];
+    return uploadContentCD;
 }
 
 -(void)getSavedUploadContents
@@ -134,24 +122,21 @@
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"UploadContent" 
                                               inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
-    NSArray *allUploadContents = [[context executeFetchRequest:fetchRequest error:&error] retain];
+    NSArray *allUploadContents = [context executeFetchRequest:fetchRequest error:&error];
     for(int i = 0; i < allUploadContents.count; i++)
     {
         UploadContent *uploadContent = (UploadContent *)[allUploadContents objectAtIndex:i];
         uploadContent.state = @"uploadStateFAILED";
         [self insertUploadContentIntoDictionary:uploadContent];
     }
-    [allUploadContents release];
-    [fetchRequest release];
 }
 
 #pragma mark Header Implementations
 
 - (void) uploadContentForNoteId:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSURL *)aUrl
 {    
-    UploadContent * uc = [[self saveUploadContentToCDWithTitle:title andText:text andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateQUEUED"] retain];
+    UploadContent * uc = [self saveUploadContentToCDWithTitle:title andText:text andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateQUEUED"];
     [self insertUploadContentIntoDictionary:uc];
-    [uc release];
     
     if(text)
     {
@@ -163,9 +148,8 @@
            }
     if(self.currentUploadCount < self.maxUploadCount)
     {
-        UploadContent * uc = [[self saveUploadContentToCDWithTitle:title andText:text andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateUPLOADING"] retain];
+        UploadContent * uc = [self saveUploadContentToCDWithTitle:title andText:text andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateUPLOADING"];
         [self insertUploadContentIntoDictionary:uc];
-        [uc release];
         self.currentUploadCount++;
     }
 
@@ -194,12 +178,10 @@
     for (int i=0; i < [noteIdKeyArray count]; i++) {
         NSArray *contentIdKeyArray = [[self.uploadContents objectForKey:[noteIdKeyArray objectAtIndex:i]] allKeys];
         for (int j=0; j < [contentIdKeyArray count]; j++) {
-            UploadContent * uc = [[[self.uploadContents objectForKey:[ noteIdKeyArray objectAtIndex:i]] objectForKey:[ contentIdKeyArray objectAtIndex:j]] retain];
+            UploadContent * uc = [[self.uploadContents objectForKey:[ noteIdKeyArray objectAtIndex:i]] objectForKey:[ contentIdKeyArray objectAtIndex:j]];
             uc.state = @"uploadStateFAILED";
-            UploadContent * newuc = [[self saveUploadContentToCDWithTitle:[uc getTitle] andText:[uc getText] andType:[uc getType] andNoteId:[uc getNoteId] andFileURL:uc.fileURL inState:[uc getUploadState]] retain];
+            UploadContent * newuc = [self saveUploadContentToCDWithTitle:[uc getTitle] andText:[uc getText] andType:[uc getType] andNoteId:[uc getNoteId] andFileURL:uc.fileURL inState:[uc getUploadState]];
             [self insertUploadContentIntoDictionary:newuc];
-            [uc release];
-            [newuc release];
         }
     }
     self.currentUploadCount = 0; //Resume Possibility of new uploads
@@ -235,10 +217,5 @@
     return self;
 }
 
-- (void)dealloc {
-    [context release];
-    [uploadContents release];
-    [super dealloc];
-}
 
 @end

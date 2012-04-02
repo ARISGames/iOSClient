@@ -80,7 +80,7 @@ extern NSDictionary *InventoryElements;
 }
 
 
-@property(nonatomic, retain) NSURL *serverURL;
+@property(nonatomic) NSURL *serverURL;
 @property(readwrite) BOOL loggedIn;
 @property(readwrite) BOOL showGamesInDevelopment;
 @property(readwrite) BOOL showPlayerOnMap;
@@ -92,48 +92,48 @@ extern NSDictionary *InventoryElements;
 
 
 
-@property(nonatomic, retain) NSString *userName;
-@property(nonatomic, retain) NSString *password;
+@property(nonatomic) NSString *userName;
+@property(nonatomic) NSString *password;
 @property(readwrite) int playerId;
 
-@property(nonatomic,retain) Game *currentGame;
+@property(nonatomic) Game *currentGame;
 
-@property(nonatomic, retain) NSMutableArray *gameList;
-@property(nonatomic, retain) NSMutableArray *recentGameList;	
-@property(nonatomic, retain) NSMutableArray *locationList;
-@property(nonatomic, retain) NSString *locationListHash;
-@property(nonatomic, retain) NSMutableArray *playerList;
-@property(nonatomic, retain) NSMutableDictionary *questList;
-@property(nonatomic, retain) NSString *questListHash;
-@property(nonatomic, retain) NSMutableArray *nearbyLocationsList;	
-@property(nonatomic, retain) CLLocation *playerLocation;
-@property(nonatomic, retain) NSString *inventoryHash;
-@property(nonatomic, retain) NSString *playerNoteListHash;
-@property(nonatomic, retain) NSString *gameNoteListHash;
+@property(nonatomic) NSMutableArray *gameList;
+@property(nonatomic) NSMutableArray *recentGameList;	
+@property(nonatomic) NSMutableArray *locationList;
+@property(nonatomic) NSString *locationListHash;
+@property(nonatomic) NSMutableArray *playerList;
+@property(nonatomic) NSMutableDictionary *questList;
+@property(nonatomic) NSString *questListHash;
+@property(nonatomic) NSMutableArray *nearbyLocationsList;	
+@property(nonatomic) CLLocation *playerLocation;
+@property(nonatomic) NSString *inventoryHash;
+@property(nonatomic) NSString *playerNoteListHash;
+@property(nonatomic) NSString *gameNoteListHash;
 
-@property(nonatomic, retain) NSMutableDictionary *inventory;
-@property(nonatomic, retain) NSMutableDictionary *attributes;
-@property(nonatomic, retain) NSMutableDictionary *gameNoteList;
-@property(nonatomic, retain) NSMutableDictionary *playerNoteList;
-@property(nonatomic, retain) NSMutableArray *gameTagList;
-
-
-
-@property(nonatomic, retain) NSMutableDictionary *gameMediaList;
-@property(nonatomic, retain) NSMutableDictionary *gameItemList;
-@property(nonatomic, retain) NSMutableDictionary *gameNodeList;
-@property(nonatomic, retain) NSArray *gameTabList;
-@property(nonatomic, retain) NSArray *defaultGameTabList;
+@property(nonatomic) NSMutableDictionary *inventory;
+@property(nonatomic) NSMutableDictionary *attributes;
+@property(nonatomic) NSMutableDictionary *gameNoteList;
+@property(nonatomic) NSMutableDictionary *playerNoteList;
+@property(nonatomic) NSMutableArray *gameTagList;
 
 
-@property(nonatomic, retain) NSMutableDictionary *gameNpcList;
-@property(nonatomic, retain) NSMutableDictionary *gameWebPageList;
 
-@property(nonatomic, retain) NSMutableDictionary *gamePanoramicList;
+@property(nonatomic) NSMutableDictionary *gameMediaList;
+@property(nonatomic) NSMutableDictionary *gameItemList;
+@property(nonatomic) NSMutableDictionary *gameNodeList;
+@property(nonatomic) NSArray *gameTabList;
+@property(nonatomic) NSArray *defaultGameTabList;
 
 
-@property(nonatomic, retain) UIAlertView *networkAlert;
-@property(nonatomic,retain)UIProgressView *progressBar;
+@property(nonatomic) NSMutableDictionary *gameNpcList;
+@property(nonatomic) NSMutableDictionary *gameWebPageList;
+
+@property(nonatomic) NSMutableDictionary *gamePanoramicList;
+
+
+@property(nonatomic) UIAlertView *networkAlert;
+@property(nonatomic)UIProgressView *progressBar;
 
 //Training Flags
 @property(readwrite) BOOL hasSeenNearbyTabTutorial;
@@ -143,11 +143,11 @@ extern NSDictionary *InventoryElements;
 @property(readwrite) BOOL tabsReady;
 
 // CORE Data
-@property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
-@property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-@property(nonatomic,retain) UploadMan *uploadManager;
-@property(nonatomic,retain) MediaCache *mediaCache;
+@property (nonatomic, readonly) NSManagedObjectModel *managedObjectModel;
+@property (nonatomic, readonly) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property(nonatomic) UploadMan *uploadManager;
+@property(nonatomic) MediaCache *mediaCache;
 
 
 

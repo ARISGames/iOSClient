@@ -14,7 +14,7 @@
 	IBOutlet UILabel *warningLabel;
     UIAlertView *alert;
 }
-@property (nonatomic, retain) UIAlertView *alert;
+@property (nonatomic) UIAlertView *alert;
 -(IBAction)startOverButtonPressed: (id) sender;
 -(void)dismissAlert;
 @end

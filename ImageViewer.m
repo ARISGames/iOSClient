@@ -24,13 +24,8 @@
 
 - (void)dealloc
 {
-    [super dealloc];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    if(imageView)
-    [imageView release];
-    if(media)
-    [media release];
 }
 -(void)updateImage{
 //    self.imageView.image = [UIImage imageWithData: self.media.image];

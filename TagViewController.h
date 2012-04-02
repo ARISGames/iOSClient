@@ -17,12 +17,12 @@
     IBOutlet UITextField *tagTextField;
 }
 
-@property(nonatomic,retain)IBOutlet UITableView *tagTable;
-@property(nonatomic,retain)NSMutableArray *gameTagList;
-@property(nonatomic,retain)NSMutableArray *playerTagList;
-@property(nonatomic,retain)Note *note;
-@property(nonatomic,retain)IBOutlet UIToolbar *addTagToolBar;
-@property(nonatomic,retain)IBOutlet UITextField *tagTextField;
+@property(nonatomic)IBOutlet UITableView *tagTable;
+@property(nonatomic)NSMutableArray *gameTagList;
+@property(nonatomic)NSMutableArray *playerTagList;
+@property(nonatomic)Note *note;
+@property(nonatomic)IBOutlet UIToolbar *addTagToolBar;
+@property(nonatomic)IBOutlet UITextField *tagTextField;
 
 -(void)backButtonTouchAction;
 -(void)refresh;

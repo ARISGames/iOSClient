@@ -29,12 +29,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [webPage release];
-    [webView release];
-    [super dealloc];
-}
 
 - (void)didReceiveMemoryWarning
 {

@@ -49,13 +49,13 @@
 - (void) goToGame;
 - (IBAction)gameWasSelected:(id)sender;
 
-@property (nonatomic, retain) MKMapView *mapView;
+@property (nonatomic) MKMapView *mapView;
 @property (nonatomic, copy) NSArray *locations;
 @property BOOL tracking;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *mapTypeButton;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *playerTrackingButton;
-@property (nonatomic, retain) IBOutlet UIToolbar *toolBar;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *refreshButton;
+@property (nonatomic) IBOutlet UIBarButtonItem *mapTypeButton;
+@property (nonatomic) IBOutlet UIBarButtonItem *playerTrackingButton;
+@property (nonatomic) IBOutlet UIToolbar *toolBar;
+@property (nonatomic) IBOutlet UIBarButtonItem *refreshButton;
 
 
 

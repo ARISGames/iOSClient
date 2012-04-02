@@ -21,7 +21,7 @@
 -(void)showLoadingIndicator;
 -(void)addComment: (Comment *) comment;
 -(int)calculateTextHeight:(NSString *)text;
-@property(nonatomic, retain) IBOutlet UITableView *tableView;
+@property(nonatomic) IBOutlet UITableView *tableView;
 @property(nonatomic) int defaultRating;
-@property(nonatomic, retain) Game *game;
+@property(nonatomic) Game *game;
 @end

@@ -26,16 +26,16 @@
     BOOL showedAlignment;
 }
 
-@property (nonatomic,retain) Panoramic *panoramic;
-@property (nonatomic, retain) NSObject *delegate;
-@property(nonatomic, retain) IBOutlet PLView *plView;
-@property (nonatomic, retain) NSURLConnection *connection;
-@property (nonatomic, retain) NSMutableData* data;
-@property (nonatomic, retain) Media *media;
-@property (nonatomic, retain) UIImagePickerController *imagePickerController;
+@property (nonatomic) Panoramic *panoramic;
+@property (nonatomic) NSObject *delegate;
+@property(nonatomic) IBOutlet PLView *plView;
+@property (nonatomic) NSURLConnection *connection;
+@property (nonatomic) NSMutableData* data;
+@property (nonatomic) Media *media;
+@property (nonatomic) UIImagePickerController *imagePickerController;
 @property (readwrite,assign) BOOL viewHasAlreadyAppeared;
 @property (readwrite,assign) BOOL showedAlignment;
-@property (nonatomic,retain) IBOutlet UISlider *slider;
+@property (nonatomic) IBOutlet UISlider *slider;
 @property (readwrite,assign) int numTextures;
 @property (readwrite,assign) int lblSpacing;
 

@@ -27,21 +27,21 @@
     BOOL photoIconUsed, videoIconUsed, audioIconUsed,currNoteHasPhoto,currNoteHasAudio,currNoteHasVideo;
     UIView *inputView;
     UIBarButtonItem *hideKeyboardButton,*addCommentButton;
-    id delegate;
+    id __unsafe_unretained delegate;
     NSMutableArray *movieViews;
     NSMutableDictionary *asyncMediaDict;
 
 }
-@property(nonatomic, retain)IBOutlet UITableView *commentTable;
+@property(nonatomic)IBOutlet UITableView *commentTable;
 
-@property(nonatomic, retain)IBOutlet UIButton *addPhotoButton;
-@property(nonatomic, retain)IBOutlet UIButton *addAudioButton;
-@property(nonatomic, retain)IBOutlet UIButton *addTextButton;
-@property(nonatomic, retain)IBOutlet UIButton *addMediaFromAlbumButton;
-@property(nonatomic, retain)IBOutlet UITextView *textBox;
-@property(nonatomic, retain)Note *parentNote;
-@property(nonatomic, retain)Note *commentNote;
-@property(nonatomic, retain)NSIndexPath *myIndexPath;
+@property(nonatomic)IBOutlet UIButton *addPhotoButton;
+@property(nonatomic)IBOutlet UIButton *addAudioButton;
+@property(nonatomic)IBOutlet UIButton *addTextButton;
+@property(nonatomic)IBOutlet UIButton *addMediaFromAlbumButton;
+@property(nonatomic)IBOutlet UITextView *textBox;
+@property(nonatomic)Note *parentNote;
+@property(nonatomic)Note *commentNote;
+@property(nonatomic)NSIndexPath *myIndexPath;
 @property(readwrite, assign)int rating;
 @property(readwrite, assign)BOOL commentValid;
 @property(readwrite,assign)BOOL photoIconUsed;
@@ -50,12 +50,12 @@
 @property(readwrite,assign)BOOL currNoteHasPhoto;
 @property(readwrite,assign)BOOL currNoteHasAudio;
 @property(readwrite,assign)BOOL currNoteHasVideo;
-@property(nonatomic, retain)IBOutlet UIView *inputView;
-@property(nonatomic,retain)UIBarButtonItem *addCommentButton;
-@property(nonatomic,retain)UIBarButtonItem *hideKeyboardButton;
-@property(readwrite,assign)id delegate;
-@property(nonatomic,retain)NSMutableArray *movieViews;
-@property (nonatomic, retain) NSMutableDictionary *asyncMediaDict;
+@property(nonatomic)IBOutlet UIView *inputView;
+@property(nonatomic)UIBarButtonItem *addCommentButton;
+@property(nonatomic)UIBarButtonItem *hideKeyboardButton;
+@property(readwrite,unsafe_unretained)id delegate;
+@property(nonatomic)NSMutableArray *movieViews;
+@property (nonatomic) NSMutableDictionary *asyncMediaDict;
 
 -(IBAction)addPhotoButtonTouchAction;
 -(IBAction)addAudioButtonTouchAction;

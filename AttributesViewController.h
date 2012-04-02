@@ -23,13 +23,13 @@
     UILabel *groupLabel;
 
 }
-@property(nonatomic, retain) IBOutlet UITableView *attributesTable;
-@property(nonatomic, retain) NSArray *attributes;
-@property(nonatomic, retain) NSMutableArray *iconCache;
-@property(nonatomic, retain) IBOutlet AsyncMediaImageView	*pcImage;
-@property(nonatomic, retain) IBOutlet UIButton  *addGroupButton;
-@property(nonatomic, retain) IBOutlet UILabel *nameLabel;
-@property(nonatomic, retain) IBOutlet UILabel *groupLabel;
+@property(nonatomic) IBOutlet UITableView *attributesTable;
+@property(nonatomic) NSArray *attributes;
+@property(nonatomic) NSMutableArray *iconCache;
+@property(nonatomic) IBOutlet AsyncMediaImageView	*pcImage;
+@property(nonatomic) IBOutlet UIButton  *addGroupButton;
+@property(nonatomic) IBOutlet UILabel *nameLabel;
+@property(nonatomic) IBOutlet UILabel *groupLabel;
 
 
 - (void) refresh;

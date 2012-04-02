@@ -13,8 +13,8 @@
     IBOutlet AsyncMediaImageView *imageView;
     Media *media;
 }
-@property(nonatomic,retain)IBOutlet AsyncMediaImageView *imageView;
-@property(nonatomic,retain) Media *media;
+@property(nonatomic)IBOutlet AsyncMediaImageView *imageView;
+@property(nonatomic) Media *media;
 
 -(void)updateImage;
 @end

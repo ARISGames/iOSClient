@@ -27,12 +27,12 @@
 
 @property(readwrite, assign) int weightCap;
 @property(readwrite, assign) int currentWeight;
-@property(nonatomic, retain) IBOutlet UIProgressView *capBar;
-@property(nonatomic, retain) IBOutlet UILabel *capLabel;
-@property(nonatomic, retain) IBOutlet UITableView *inventoryTable;
-@property(nonatomic, retain) NSArray *inventory;
-@property(nonatomic, retain) NSMutableArray *iconCache;
-@property(nonatomic, retain) NSMutableArray *mediaCache;
+@property(nonatomic) IBOutlet UIProgressView *capBar;
+@property(nonatomic) IBOutlet UILabel *capLabel;
+@property(nonatomic) IBOutlet UITableView *inventoryTable;
+@property(nonatomic) NSArray *inventory;
+@property(nonatomic) NSMutableArray *iconCache;
+@property(nonatomic) NSMutableArray *mediaCache;
 
 - (void) refresh;
 - (unsigned int) indexOf:(char) searchChar inString:(NSString *)searchString;

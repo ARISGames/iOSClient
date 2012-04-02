@@ -15,8 +15,7 @@
 @synthesize centerLocation;
 
 - (void)setCenterLocation:(CLLocation *)newLocation {
-	[centerLocation release];
-	centerLocation = [newLocation retain];
+	centerLocation = newLocation;
 	
 	for (ARGeoCoordinate *geoLocation in self.coordinates) {
 		if ([geoLocation isKindOfClass:[ARGeoCoordinate class]]) {

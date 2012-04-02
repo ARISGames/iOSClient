@@ -72,28 +72,28 @@ NSMutableArray *notifArray;
     PTPusher *client;
 }
 @property(readwrite,assign)int tabShowY;
-@property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
-@property (nonatomic, retain) UIViewController *defaultViewControllerForMainTabBar;
-@property (nonatomic, retain) IBOutlet UITabBarController *gameSelectionTabBarController;
-@property (nonatomic, retain) IBOutlet TutorialViewController *tutorialViewController;
-@property (nonatomic, retain) IBOutlet LoginViewController *loginViewController;
-@property (nonatomic, retain) IBOutlet UINavigationController *loginViewNavigationController;
-@property (nonatomic, retain) IBOutlet UINavigationController *nearbyObjectsNavigationController;
-@property (nonatomic, retain) IBOutlet UINavigationController *nearbyObjectNavigationController;
-@property (nonatomic, retain) WaitingIndicatorViewController *waitingIndicator;
-@property (nonatomic, retain) WaitingIndicatorView *waitingIndicatorView;
-@property(nonatomic,retain) NSMutableArray *notifArray;
-@property (nonatomic, retain) UIAlertView *networkAlert;
-@property (nonatomic, retain) UIAlertView *serverAlert;
-@property(nonatomic, retain)PTPusher *pubClient;
-@property(nonatomic, retain)PTPusher *privClient;
+@property (nonatomic) IBOutlet UIWindow *window;
+@property (nonatomic) IBOutlet UITabBarController *tabBarController;
+@property (nonatomic) UIViewController *defaultViewControllerForMainTabBar;
+@property (nonatomic) IBOutlet UITabBarController *gameSelectionTabBarController;
+@property (nonatomic) IBOutlet TutorialViewController *tutorialViewController;
+@property (nonatomic) IBOutlet LoginViewController *loginViewController;
+@property (nonatomic) IBOutlet UINavigationController *loginViewNavigationController;
+@property (nonatomic) IBOutlet UINavigationController *nearbyObjectsNavigationController;
+@property (nonatomic) IBOutlet UINavigationController *nearbyObjectNavigationController;
+@property (nonatomic) WaitingIndicatorViewController *waitingIndicator;
+@property (nonatomic) WaitingIndicatorView *waitingIndicatorView;
+@property(nonatomic) NSMutableArray *notifArray;
+@property (nonatomic) UIAlertView *networkAlert;
+@property (nonatomic) UIAlertView *serverAlert;
+@property(nonatomic)PTPusher *pubClient;
+@property(nonatomic)PTPusher *privClient;
 
 @property (readwrite) BOOL modalPresent;
 @property (readwrite) NSInteger notificationCount;
 
-@property(nonatomic, retain) IBOutlet UILabel *titleLabel;
-@property(nonatomic, retain) IBOutlet UILabel *descLabel;
+@property(nonatomic) IBOutlet UILabel *titleLabel;
+@property(nonatomic) IBOutlet UILabel *descLabel;
 
 
 - (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password;

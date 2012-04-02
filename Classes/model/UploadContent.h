@@ -14,12 +14,12 @@
 
 @interface UploadContent : NSManagedObject <NoteContentProtocol>
 
-@property (nonatomic, retain) NSString *title;
-@property (nonatomic, retain) NSString *text;
-@property (nonatomic, retain) NSString *type;
-@property (nonatomic, retain) NSString *state;
-@property (nonatomic, retain) NSURL *fileURL;
-@property (nonatomic, retain) Media *media;
+@property (nonatomic) NSString *title;
+@property (nonatomic) NSString *text;
+@property (nonatomic) NSString *type;
+@property (nonatomic) NSString *state;
+@property (nonatomic) NSURL *fileURL;
+@property (nonatomic) Media *media;
 @property int noteId;
 
 - (id) initForNoteId:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSURL *)url inState:(NSString *)state andContext:(NSManagedObjectContext *)context;

@@ -23,12 +23,12 @@
 
 }
 
-@property (nonatomic, retain) UIAlertView *alert;
-@property(nonatomic,retain) IBOutlet SCRRatingView *ratingView;
-@property(nonatomic,retain) IBOutlet UITextView *textField;
-@property(nonatomic,retain) IBOutlet UIButton *saveButton;
-@property(nonatomic,retain) commentsViewController *commentsVC;
-@property(nonatomic,retain) Game *game;
+@property (nonatomic) UIAlertView *alert;
+@property(nonatomic) IBOutlet SCRRatingView *ratingView;
+@property(nonatomic) IBOutlet UITextView *textField;
+@property(nonatomic) IBOutlet UIButton *saveButton;
+@property(nonatomic) commentsViewController *commentsVC;
+@property(nonatomic) Game *game;
 
 - (IBAction)saveComment:(id)sender;
 

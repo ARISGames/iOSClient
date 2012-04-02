@@ -56,7 +56,7 @@
 	NSArray	*_reflectionViews;
 	NSMutableDictionary	*_stateImageDictionary;
 	
-	id<SCRRatingDelegate> _delegate;
+	id<SCRRatingDelegate> __unsafe_unretained _delegate;
 }
 
 /** Use 0 to specify that there is no rate yet. All the other values will be aligned to [1-5] range. */
@@ -74,7 +74,7 @@
  */
 @property (nonatomic, assign, getter=isHighlighted) BOOL highlighted;
 
-@property (nonatomic, assign) IBOutlet id<SCRRatingDelegate> delegate;
+@property (nonatomic, unsafe_unretained) IBOutlet id<SCRRatingDelegate> delegate;
 
 /**
  * Customizes standard star images to the custom ones you specify here.

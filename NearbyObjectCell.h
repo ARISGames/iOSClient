@@ -15,7 +15,7 @@
 	AsyncMediaImageView *iconView;
 }
 
-@property(nonatomic,retain) IBOutlet UILabel *title;
-@property(nonatomic,retain) IBOutlet AsyncMediaImageView *iconView;
+@property(nonatomic) IBOutlet UILabel *title;
+@property(nonatomic) IBOutlet AsyncMediaImageView *iconView;
 
 @end

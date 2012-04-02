@@ -31,7 +31,7 @@ extern NSString *const kNoteContentTypeText;
     nearbyObjectKind	kind;
     int iconMediaId;
     NSString *username;
-    id delegate;
+    id __unsafe_unretained delegate;
     BOOL hasImage;
     BOOL hasAudio;
     NSString *tagName;
@@ -40,15 +40,15 @@ extern NSString *const kNoteContentTypeText;
 
 }
 
-@property(nonatomic,retain) NSMutableArray *comments;
-@property(nonatomic,retain) NSMutableArray *contents;
-@property(nonatomic,retain) NSMutableArray *tags;
+@property(nonatomic) NSMutableArray *comments;
+@property(nonatomic) NSMutableArray *contents;
+@property(nonatomic) NSMutableArray *tags;
 @property(readwrite,assign)int tagSection;
-@property(nonatomic,retain) NSString *username;
-@property(nonatomic,retain) NSString *title;
-@property(nonatomic,retain) NSString *tagName;
+@property(nonatomic) NSString *username;
+@property(nonatomic) NSString *title;
+@property(nonatomic) NSString *tagName;
 
-@property(nonatomic, retain) NSString *text;
+@property(nonatomic) NSString *text;
 @property(readwrite,assign) int noteId;
 @property(readwrite, assign) int creatorId;
 @property(readwrite, assign) int numRatings;
@@ -66,7 +66,7 @@ extern NSString *const kNoteContentTypeText;
 @property(readwrite, assign) int parentNoteId;
 @property(readwrite, assign) int parentRating;
 @property(readwrite, assign) nearbyObjectKind kind;
-@property(nonatomic, assign) id delegate;
+@property(nonatomic, unsafe_unretained) id delegate;
 
 -(BOOL)isUploading;
 @end

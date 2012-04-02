@@ -18,11 +18,11 @@
 	UIColor *inactiveColor;
 }
 
-@property(readwrite, retain) NSMutableArray *barViews;
+@property(readwrite) NSMutableArray *barViews;
 @property(readwrite) int numberofBars;
 @property(readwrite) int spacingBetweenBars;
-@property(readwrite, retain) UIColor *activeColor;
-@property(readwrite, retain) UIColor *inactiveColor;
+@property(readwrite) UIColor *activeColor;
+@property(readwrite) UIColor *inactiveColor;
 
 
 - (void)updateLevel:(double)level;

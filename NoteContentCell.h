@@ -15,25 +15,25 @@
     IBOutlet UIImageView *imageView;
     int contentId;
     int index;
-    id delegate;
+    id __unsafe_unretained delegate;
     NoteContent<NoteContentProtocol>*content;
    IBOutlet UIButton *retryButton;
     IBOutlet UIActivityIndicatorView *spinner;
-    UITableView *parentTableView;
+    UITableView *__unsafe_unretained parentTableView;
     NSIndexPath *indexPath;
 }
 @property(readwrite, assign)int contentId;
-@property(nonatomic,retain)UITextView *titleLbl;
-@property(nonatomic,retain)UILabel *detailLbl;
-@property(nonatomic,retain) IBOutlet UILabel *holdLbl;
-@property(nonatomic,retain)UIImageView *imageView;
+@property(nonatomic)UITextView *titleLbl;
+@property(nonatomic)UILabel *detailLbl;
+@property(nonatomic) IBOutlet UILabel *holdLbl;
+@property(nonatomic)UIImageView *imageView;
 @property(readwrite,assign)int index;
-@property(nonatomic, assign)id delegate;
-@property(nonatomic, retain)NoteContent<NoteContentProtocol>*content;
-@property(nonatomic,retain)IBOutlet UIButton *retryButton;
-@property(nonatomic,retain)IBOutlet UIActivityIndicatorView *spinner;
-@property(nonatomic,assign) UITableView *parentTableView;
-@property(nonatomic,retain)NSIndexPath *indexPath;
+@property(nonatomic, unsafe_unretained)id delegate;
+@property(nonatomic)NoteContent<NoteContentProtocol>*content;
+@property(nonatomic)IBOutlet UIButton *retryButton;
+@property(nonatomic)IBOutlet UIActivityIndicatorView *spinner;
+@property(nonatomic,unsafe_unretained) UITableView *parentTableView;
+@property(nonatomic)NSIndexPath *indexPath;
 
 -(void)checkForRetry;
 -(IBAction)retryUpload;

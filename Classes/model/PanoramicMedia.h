@@ -13,7 +13,7 @@
     int mediaId;
 }
 
-@property(nonatomic, retain) NSString *text;
+@property(nonatomic) NSString *text;
 @property(readwrite, assign) int mediaId;
 
 @end

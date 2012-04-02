@@ -28,15 +28,15 @@
 @property(readwrite,assign) int max;
 
 @property(readwrite) ItemDetailsModeType mode;
-@property(nonatomic,retain)	IBOutlet UILabel *infoLabel;
-@property(nonatomic,retain)	IBOutlet UILabel *badValLabel;
+@property(nonatomic)	IBOutlet UILabel *infoLabel;
+@property(nonatomic)	IBOutlet UILabel *badValLabel;
 
-@property(nonatomic,retain) IBOutlet UIButton *backButton;
-@property(nonatomic,retain) IBOutlet UIButton *actionButton;
-@property(nonatomic,retain) Item *item;
-@property(nonatomic,retain) Item *itemInInventory;
+@property(nonatomic) IBOutlet UIButton *backButton;
+@property(nonatomic) IBOutlet UIButton *actionButton;
+@property(nonatomic) Item *item;
+@property(nonatomic) Item *itemInInventory;
 
-@property(nonatomic,retain)	id delegate;
+@property(nonatomic)	id delegate;
 
 
 -(void)doActionWithMode: (ItemDetailsModeType) itemMode quantity: (int) quantity;

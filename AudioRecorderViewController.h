@@ -37,18 +37,18 @@ typedef enum {
     BOOL previewMode;
     int noteId;
 	NSTimer *meterUpdateTimer;
-	id backView, parentDelegate,editView;
+	id backView, parentDelegate, editView;
 }
 
-@property(readwrite, retain) AudioMeter *meter;
-@property(readwrite, retain) NSURL *soundFileURL;
-@property(readwrite, retain) NSData *audioData;
-@property(readwrite, retain) AVAudioRecorder *soundRecorder;
-@property(readwrite, retain) AVAudioPlayer *soundPlayer;
-@property(readwrite, retain) NSTimer *meterUpdateTimer;
-@property(nonatomic, assign) id backView;
-@property(nonatomic, assign) id parentDelegate;
-@property(nonatomic, assign) id editView;
+@property(readwrite) AudioMeter *meter;
+@property(readwrite) NSURL *soundFileURL;
+@property(readwrite) NSData *audioData;
+@property(readwrite) AVAudioRecorder *soundRecorder;
+@property(readwrite) AVAudioPlayer *soundPlayer;
+@property(readwrite) NSTimer *meterUpdateTimer;
+@property(nonatomic) id backView;
+@property(nonatomic) id parentDelegate;
+@property(nonatomic) id editView;
 
 
 @property(readwrite, assign) int noteId;

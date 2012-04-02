@@ -31,7 +31,7 @@ enum soundConstants {
     int         itemId;
 }
 
-@property(nonatomic, retain) NSString* text;
+@property(nonatomic) NSString* text;
 @property(readwrite) Boolean isPc;
 @property(readwrite) int imageMediaId;
 @property(readwrite) int panoId;
@@ -45,8 +45,8 @@ enum soundConstants {
 @property(readwrite) float zoomTime;
 @property(readwrite) int foreSoundMediaId;	
 @property(readwrite) int backSoundMediaId;
-@property(nonatomic, retain) NSString* exitToTabWithTitle;
-@property(nonatomic, retain) NSString* exitToType;
+@property(nonatomic) NSString* exitToTabWithTitle;
+@property(nonatomic) NSString* exitToType;
 
 
 

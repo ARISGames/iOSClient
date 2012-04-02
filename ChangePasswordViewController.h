@@ -18,13 +18,13 @@
     IBOutlet UILabel *newPasswordLabel;
     IBOutlet UIButton *submitButton;
 }
-@property(nonatomic,retain)IBOutlet UITextField *userField;
-@property(nonatomic,retain)IBOutlet UITextField *prevPasswordField;
-@property(nonatomic,retain)IBOutlet UITextField *requestedPasswordField;
-@property(nonatomic,retain)IBOutlet UILabel *userLabel;
-@property(nonatomic,retain)IBOutlet UILabel *prevPasswordLabel;
-@property(nonatomic,retain)IBOutlet UILabel *requestedPasswordLabel;
-@property(nonatomic,retain)IBOutlet UIButton *submitButton;
+@property(nonatomic)IBOutlet UITextField *userField;
+@property(nonatomic)IBOutlet UITextField *prevPasswordField;
+@property(nonatomic)IBOutlet UITextField *requestedPasswordField;
+@property(nonatomic)IBOutlet UILabel *userLabel;
+@property(nonatomic)IBOutlet UILabel *prevPasswordLabel;
+@property(nonatomic)IBOutlet UILabel *requestedPasswordLabel;
+@property(nonatomic)IBOutlet UIButton *submitButton;
 
 -(IBAction)submitButtonTouchAction;
 

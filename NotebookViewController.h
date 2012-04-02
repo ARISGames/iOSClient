@@ -33,22 +33,22 @@
 -(void)refresh;
 -(void)showLoadingIndicator;
 -(void)refreshViewFromModel;
-@property (nonatomic, retain) NSMutableArray *noteList;
-@property (nonatomic, retain) NSMutableArray *gameNoteList;
-@property (nonatomic, retain) NSMutableArray *tagList;
-@property (nonatomic, retain) NSMutableArray *tagNoteList;
-@property (nonatomic, retain) NSMutableArray *tagGameNoteList;
-@property (nonatomic, retain) NSMutableArray *headerTitleList;
-@property (nonatomic, retain) NSMutableArray *headerTitleGameList;
+@property (nonatomic) NSMutableArray *noteList;
+@property (nonatomic) NSMutableArray *gameNoteList;
+@property (nonatomic) NSMutableArray *tagList;
+@property (nonatomic) NSMutableArray *tagNoteList;
+@property (nonatomic) NSMutableArray *tagGameNoteList;
+@property (nonatomic) NSMutableArray *headerTitleList;
+@property (nonatomic) NSMutableArray *headerTitleGameList;
 
 
 
 
-@property (nonatomic, retain) IBOutlet UITableView *noteTable;
+@property (nonatomic) IBOutlet UITableView *noteTable;
 
-@property(nonatomic,retain)IBOutlet UIToolbar *toolBar;
-@property(nonatomic,retain)IBOutlet UIToolbar *filterToolBar;
-@property(nonatomic,retain)IBOutlet UIToolbar *sortToolBar;
+@property(nonatomic)IBOutlet UIToolbar *toolBar;
+@property(nonatomic)IBOutlet UIToolbar *filterToolBar;
+@property(nonatomic)IBOutlet UIToolbar *sortToolBar;
 
 
 @property(readwrite,assign)BOOL textIconUsed;
@@ -58,8 +58,8 @@
 @property(readwrite,assign)BOOL isGameList;
 
 
-@property(nonatomic,retain)IBOutlet UISegmentedControl *filterControl;
-@property(nonatomic,retain)IBOutlet UISegmentedControl *sortControl;
+@property(nonatomic)IBOutlet UISegmentedControl *filterControl;
+@property(nonatomic)IBOutlet UISegmentedControl *sortControl;
 
 -(void)displayMenu;
 -(IBAction)filterButtonTouchAction:(id)sender;

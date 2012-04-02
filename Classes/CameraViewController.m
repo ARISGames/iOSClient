@@ -87,7 +87,6 @@ picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pi
 		picker.allowsEditing = NO;
 	picker.showsCameraControls = YES;
 	[self presentModalViewController:picker animated:NO];
-    [picker release];
 }
 
         
@@ -110,7 +109,6 @@ picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pi
 	picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     
 	[self presentModalViewController:picker animated:NO];
-    [picker release];
 }
 
 - (IBAction)profileButtonTouchAction {
@@ -123,7 +121,6 @@ picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pi
 	picker.allowsEditing = NO;
 	picker.showsCameraControls = YES;
 	[self presentModalViewController:picker animated:NO];
-    [picker release];
     [AppModel sharedAppModel].profilePic = YES;
 }
 
@@ -176,7 +173,6 @@ picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pi
                   }
         
         [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:kNoteContentTypePhoto withFileURL:imageURL];
-        [imageURL release];
 	}	
 	else if ([mediaType isEqualToString:@"public.movie"]){
 		NSLog(@"CameraViewController: Found a Movie");
@@ -235,37 +231,22 @@ picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pi
 - (void)didReceiveMemoryWarning {
     NSLog(@"CAMERA DID RECEIVE MEMORY WARNING!");
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
+    
     // Release anything that's not essential, such as cached data
+    
+    
+    /*
+     Try to let go of the camera to save a crash
     if (self.modalViewController.retainCount)
     {
         [self dismissModalViewControllerAnimated:NO];
         [self.modalViewController release];
     }
+    */
 
 }
 
 
-- (void)dealloc {
-	//[imagePickerController release];
-    [super dealloc];
-    if(profileButton)
-    [profileButton release];
-    if(cameraButton)
-    [cameraButton release];
-    if(libraryButton)
-    [libraryButton release];
-    if(mediaData)
-    [mediaData release];
-    if(mediaFilename)
-    [mediaFilename release];
-    //if(backView)
-    //[backView release];
-    //if(editView)
-    //[editView release];
-    //if(parentDelegate)
-    //[parentDelegate release];
-    
-}
 
 
 @end

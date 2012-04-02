@@ -24,14 +24,14 @@
     UIBarButtonItem *cancelButton;
 }
 
-@property (nonatomic, retain) IBOutlet UIButton *qrScanButton;
-@property (nonatomic, retain) IBOutlet UIButton *barcodeButton;
+@property (nonatomic) IBOutlet UIButton *qrScanButton;
+@property (nonatomic) IBOutlet UIButton *barcodeButton;
 
-@property (nonatomic, retain) IBOutlet UIButton *imageScanButton;
-@property (nonatomic, retain) IBOutlet UITextField *manualCode;
-@property (nonatomic, retain) UIImagePickerController *imageMatchingImagePickerController;
-@property (nonatomic, retain) NSString *resultText;
-@property (nonatomic, retain) UIBarButtonItem *cancelButton;
+@property (nonatomic) IBOutlet UIButton *imageScanButton;
+@property (nonatomic) IBOutlet UITextField *manualCode;
+@property (nonatomic) UIImagePickerController *imageMatchingImagePickerController;
+@property (nonatomic) NSString *resultText;
+@property (nonatomic) UIBarButtonItem *cancelButton;
 
 - (IBAction) scanButtonTapped;
 - (void)cancelButtonTouch;

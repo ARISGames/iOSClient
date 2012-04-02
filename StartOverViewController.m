@@ -56,7 +56,7 @@
 
 -(void)dismissAlert{
     [self.alert dismissWithClickedButtonIndex:0 animated:YES];
-    [self.alert release];
+    self.alert;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -73,9 +73,6 @@
 }
 
 
-- (void)dealloc {
-    [super dealloc];
-}
 
 
 @end

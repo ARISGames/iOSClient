@@ -223,7 +223,6 @@ CGImageRef CreateGradientImage(int pixelsWide, int pixelsHigh) {
 		starView.tag = MIN_RATING + i; /* Associated rating, which is from MIN_RATING to MAX_RATING. */
 		[starViewList addObject:starView];
 		[self addSubview:starView];
-		[starView release];
 
 		StarViewRef reflectionView = [[StarView alloc] initWithFrame:CGRectMake(i * starWidth, height * 0.5, starWidth, height * 0.5 * kDefaultReflectionFraction)];
 		reflectionView.clearsContextBeforeDrawing = YES;
@@ -232,7 +231,6 @@ CGImageRef CreateGradientImage(int pixelsWide, int pixelsHigh) {
 		reflectionView.alpha = kDefaultReflectionOpacity;
 		[reflectionViewList addObject:reflectionView];
 		[self addSubview:reflectionView];
-		[reflectionView release];
 	}
 	
 	_starViews = starViewList;
@@ -241,14 +239,10 @@ CGImageRef CreateGradientImage(int pixelsWide, int pixelsHigh) {
 
 - (void)dealloc {
 	
-	[_stateImageDictionary release];
     _stateImageDictionary = nil;
-	[_starViews release];
     _starViews = nil;
-	[_reflectionViews release];
     _reflectionViews = nil;
 	
-	[super dealloc];
 }
 
 #pragma mark Layout

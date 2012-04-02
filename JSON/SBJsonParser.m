@@ -323,7 +323,6 @@ static char ctrl[0x22];
                                             freeWhenDone:NO];
             if (t) {
                 [*o appendString:t];
-                [t release];
                 c += len;
             }
         }
@@ -359,7 +358,7 @@ static char ctrl[0x22];
                     return NO;
                     break;
             }
-            CFStringAppendCharacters((CFMutableStringRef)*o, &uc, 1);
+            CFStringAppendCharacters((__bridge CFMutableStringRef)*o, &uc, 1);
             c++;
             
         } else if (*c < 0x20) {
@@ -482,7 +481,6 @@ static char ctrl[0x22];
                                             length:c - ns
                                           encoding:NSUTF8StringEncoding
                                       freeWhenDone:NO];
-    [str autorelease];
     if (str && (*o = [NSDecimalNumber decimalNumberWithString:str]))
         return YES;
     

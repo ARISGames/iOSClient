@@ -45,7 +45,7 @@
     CFUUIDRef theUUID = CFUUIDCreate(NULL);
     CFStringRef string = CFUUIDCreateString(NULL, theUUID);
     CFRelease(theUUID);
-    return [(__bridge NSString *)string autorelease];
+    return (__bridge NSString *)string;
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -57,7 +57,6 @@
                                                                   action:@selector(backButtonTouchAction)];
 
 	self.navigationItem.leftBarButtonItem = backButton;
-    [backButton release];
 		meter = [[AudioMeter alloc]initWithFrame:CGRectMake(0, 0, 320, 360)];
 	meter.alpha = 0.0;
 	[self.view addSubview:meter];
@@ -70,7 +69,6 @@
     if(!previewMode){
     NSURL *newURL = [[NSURL alloc] initFileURLWithPath: soundFilePath];
     self.soundFileURL = newURL;
-    [newURL release];
     mode = kAudioRecorderStarting; 
        
     [[AVAudioSession sharedInstance] setDelegate: self];
@@ -101,26 +99,7 @@
     [self.navigationController popToViewController:self.backView animated:NO];   
 }
 - (void)dealloc {
-    [super dealloc];
     [[AVAudioSession sharedInstance] setDelegate: nil];
-    if(soundPlayer)
-    [soundPlayer release];
-    if(soundFileURL)
-    [soundFileURL release];
-    if(soundRecorder)
-    [soundRecorder release];
-    if(meter)
-    [meter release];
-    if(audioData)
-    [audioData release];
-    if(recordStopOrPlayButton)
-    [recordStopOrPlayButton release];
-    if(uploadButton)
-    [uploadButton release];
-    if(discardButton)
-    [discardButton release];
-    if(meterUpdateTimer)
-    [meterUpdateTimer release];
    /* if(backView)
     [backView release];
     if(editView)
@@ -196,9 +175,7 @@
 											nil];
 			
 			AVAudioRecorder *newRecorder = [[AVAudioRecorder alloc] initWithURL: soundFileURL settings: recordSettings error: nil];
-			[recordSettings release];
 			self.soundRecorder = newRecorder;
-			[newRecorder release];
 			
 			soundRecorder.delegate = self;
 			[soundRecorder setMeteringEnabled:YES];
@@ -214,7 +191,6 @@
 								 cancelButtonTitle: NSLocalizedString(@"OkKey",@"")
 								 otherButtonTitles:nil];
 				[cantRecordAlert show];
-				[cantRecordAlert release]; 
 				return;
 			}
 			
@@ -252,7 +228,6 @@
 				NSError *error;
 				AVAudioPlayer *newPlayer =[[AVAudioPlayer alloc] initWithContentsOfURL:self.soundFileURL error: &error];
 				self.soundPlayer = newPlayer;
-				[newPlayer release];
 				[self.soundPlayer prepareToPlay];
 				[self.soundPlayer setDelegate: self];
 			}	

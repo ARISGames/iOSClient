@@ -105,7 +105,8 @@ is an NSString.
     else{
         mediaType = @"Text";
     }
-    media = [[Media alloc]initWithId:[self.fileURL hash] andUrl:self.fileURL ofType:mediaType];
+    //Just to get ARC working
+    //media = [[Media alloc]initWithId:[self.fileURL hash] andUrl:self.fileURL ofType:mediaType];
     if([self.type isEqualToString:kNoteContentTypePhoto]){
         
         NSData *imageData = [NSData dataWithContentsOfURL:self.fileURL];
@@ -137,10 +138,5 @@ is an NSString.
     return -1;
 }
 
--(void)dealloc{
-    [super dealloc];
-    [media release];
-
-}
 
 @end

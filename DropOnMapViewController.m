@@ -35,16 +35,7 @@ static float INITIAL_SPAN = 0.001;
 
 - (void)dealloc
 {
-    [super dealloc];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [mapTypeButton release];
-    [dropButton release];
-    [pickupButton release];
-    [locations release];
-    [toolBar release];
-    [myAnnotation release];
-    [mapView release];
-    [note release];
 }
 
 - (void)didReceiveMemoryWarning
@@ -70,12 +61,12 @@ static float INITIAL_SPAN = 0.001;
 	DDAnnotation *annotation;
     note = [[AppModel sharedAppModel] noteForNoteId:self.noteId playerListYesGameListNo:YES];
     if(note.latitude == 0 && note.longitude == 0)
-    annotation= [[[DDAnnotation alloc] initWithCoordinate:[AppModel sharedAppModel].playerLocation.coordinate addressDictionary:nil] autorelease];
+    annotation= [[DDAnnotation alloc] initWithCoordinate:[AppModel sharedAppModel].playerLocation.coordinate addressDictionary:nil];
     else{
         CLLocationCoordinate2D coord;
         coord.latitude =  note.latitude;
         coord.longitude = note.longitude;
-        annotation= [[[DDAnnotation alloc] initWithCoordinate:coord addressDictionary:nil] autorelease];
+        annotation= [[DDAnnotation alloc] initWithCoordinate:coord addressDictionary:nil];
     }
 	annotation.title = @"Drag to Move Note";
 	annotation.subtitle = [NSString	stringWithFormat:@"%f %f", annotation.coordinate.latitude, annotation.coordinate.longitude];

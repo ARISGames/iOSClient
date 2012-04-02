@@ -31,7 +31,7 @@
 exitToType:(NSString *)type videoId:(int)vidId panoramicId:(int)pId webpageId:(int)wId plaqueId:(int)nodeId itemId:(int)iId {
 	
 	if ((self = [super init])) {
-        self.text = [[theText copy] retain];
+        self.text = [theText copy];
         self.isPc = isPcYorN;
         self.imageMediaId = iMediaId;
         self.imageRect = rect;
@@ -49,8 +49,4 @@ exitToType:(NSString *)type videoId:(int)vidId panoramicId:(int)pId webpageId:(i
 	return self;
 }
 
-- (void) dealloc {
-	[text release];
-	[super dealloc];
-}
 @end

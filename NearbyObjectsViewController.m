@@ -67,7 +67,6 @@
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
-    [super dealloc];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -199,7 +198,6 @@
 		// Grab a pointer to the custom cell.
 		cell = (NearbyObjectCell *)temporaryController.view;
 		// Release the temporary UIViewController.
-		[temporaryController release];
 	}
 	
 

@@ -24,12 +24,5 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-    [commentLabel release];
-    [authorLabel release];
-    [starView release];
-}
 
 @end

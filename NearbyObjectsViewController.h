@@ -15,7 +15,7 @@
 	IBOutlet UITableView *nearbyTable;
 }
 
-@property(nonatomic,retain) NSMutableArray *oldNearbyLocationList;
+@property(nonatomic) NSMutableArray *oldNearbyLocationList;
 
 - (void)refreshViewFromModel;
 - (void)refresh;

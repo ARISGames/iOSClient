@@ -25,8 +25,8 @@
 - (void)refreshViewFromModel;
 
 @property (nonatomic, copy) NSArray *gameList;
-@property (nonatomic, retain) IBOutlet UITableView *gameTable;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *refreshButton;
+@property (nonatomic) IBOutlet UITableView *gameTable;
+@property (nonatomic) IBOutlet UIBarButtonItem *refreshButton;
 
 
 

@@ -83,11 +83,5 @@
 	[self.object display];
 }
 
-- (void)dealloc {
-	[name release];
-	[location release];
-	[objectType release];
-    [super dealloc];
-}
 
 @end

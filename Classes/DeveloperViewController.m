@@ -133,7 +133,7 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier];
     }
 	cell.textLabel.textColor = [[UIColor alloc] initWithWhite:1.0 alpha:1.0]; 	
 
@@ -160,9 +160,6 @@
     // Release anything that's not essential, such as cached data
 }
 
-- (void)dealloc {
-    [super dealloc];
-}
 
 
 @end

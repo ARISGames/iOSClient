@@ -95,7 +95,6 @@ BOOL isShowingNotification;
 	//Setup NearbyObjects View
 	NearbyObjectsViewController *nearbyObjectsViewController = [[NearbyObjectsViewController alloc]initWithNibName:@"NearbyObjectsViewController" bundle:nil];
 	self.nearbyObjectsNavigationController = [[UINavigationController alloc] initWithRootViewController: nearbyObjectsViewController];
-	[nearbyObjectsViewController release];
 	self.nearbyObjectsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 	
 	//Setup ARView
@@ -104,27 +103,27 @@ BOOL isShowingNotification;
 	//arNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 	
 	//Setup Quests View
-	QuestsViewController *questsViewController = [[[QuestsViewController alloc] initWithNibName:@"Quests" bundle:nil] autorelease];
+	QuestsViewController *questsViewController = [[QuestsViewController alloc] initWithNibName:@"Quests" bundle:nil];
 	UINavigationController *questsNavigationController = [[UINavigationController alloc] initWithRootViewController: questsViewController];
 	questsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 	
 	//Setup GPS View
-	GPSViewController *gpsViewController = [[[GPSViewController alloc] initWithNibName:@"GPS" bundle:nil] autorelease];
+	GPSViewController *gpsViewController = [[GPSViewController alloc] initWithNibName:@"GPS" bundle:nil];
 	UINavigationController *gpsNavigationController = [[UINavigationController alloc] initWithRootViewController: gpsViewController];
 	gpsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 
 	//Setup Inventory View
-	InventoryListViewController *inventoryListViewController = [[[InventoryListViewController alloc] initWithNibName:@"InventoryList" bundle:nil] autorelease];
+	InventoryListViewController *inventoryListViewController = [[InventoryListViewController alloc] initWithNibName:@"InventoryList" bundle:nil];
 	UINavigationController *inventoryNavigationController = [[UINavigationController alloc] initWithRootViewController: inventoryListViewController];
 	inventoryNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
 	//Setup Attributes View
-    AttributesViewController *attributesViewController = [[[AttributesViewController alloc] initWithNibName:@"AttributesViewController" bundle:nil] autorelease];
+    AttributesViewController *attributesViewController = [[AttributesViewController alloc] initWithNibName:@"AttributesViewController" bundle:nil];
 	UINavigationController *attributesNavigationController = [[UINavigationController alloc] initWithRootViewController: attributesViewController];
 	attributesNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Setup Notes View
-    NotebookViewController *notesViewController = [[[NotebookViewController alloc] initWithNibName:@"NotebookViewController" bundle:nil] autorelease];
+    NotebookViewController *notesViewController = [[NotebookViewController alloc] initWithNibName:@"NotebookViewController" bundle:nil];
 	UINavigationController *notesNavigationController = [[UINavigationController alloc] initWithRootViewController: notesViewController];
 	notesNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
@@ -134,27 +133,27 @@ BOOL isShowingNotification;
 	cameraNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;*/
 
 	//Setup Audio Recorder View
-	AudioRecorderViewController *audioRecorderViewController = [[[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil] autorelease];
+	AudioRecorderViewController *audioRecorderViewController = [[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil];
 	UINavigationController *audioRecorderNavigationController = [[UINavigationController alloc] initWithRootViewController: audioRecorderViewController];
 	audioRecorderNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;	
 	
 	//QR Scanner Developer View
-	QRScannerViewController *qrScannerViewController = [[[QRScannerViewController alloc] initWithNibName:@"QRScanner" bundle:nil] autorelease];
+	QRScannerViewController *qrScannerViewController = [[QRScannerViewController alloc] initWithNibName:@"QRScanner" bundle:nil];
 	UINavigationController *qrScannerNavigationController = [[UINavigationController alloc] initWithRootViewController: qrScannerViewController];
 	qrScannerNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 	
 	//Logout View
-	LogoutViewController *logoutViewController = [[[LogoutViewController alloc] initWithNibName:@"Logout" bundle:nil] autorelease];
+	LogoutViewController *logoutViewController = [[LogoutViewController alloc] initWithNibName:@"Logout" bundle:nil];
 	UINavigationController *logoutNavigationController = [[UINavigationController alloc] initWithRootViewController: logoutViewController];
 	logoutNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 
 	//Start Over View
-	StartOverViewController *startOverViewController = [[[StartOverViewController alloc] initWithNibName:@"StartOverViewController" bundle:nil] autorelease];
+	StartOverViewController *startOverViewController = [[StartOverViewController alloc] initWithNibName:@"StartOverViewController" bundle:nil];
 	UINavigationController *startOverNavigationController = [[UINavigationController alloc] initWithRootViewController: startOverViewController];
 	startOverNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;	
 	
 	//Developer View
-	DeveloperViewController *developerViewController = [[[DeveloperViewController alloc] initWithNibName:@"Developer" bundle:nil] autorelease];
+	DeveloperViewController *developerViewController = [[DeveloperViewController alloc] initWithNibName:@"Developer" bundle:nil];
 	UINavigationController *developerNavigationController = [[UINavigationController alloc] initWithRootViewController: developerViewController];
 	developerNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 	
@@ -164,7 +163,7 @@ BOOL isShowingNotification;
 
 
 	//Login View
-	loginViewController = [[[LoginViewController alloc] initWithNibName:@"Login" bundle:nil] autorelease];
+	loginViewController = [[LoginViewController alloc] initWithNibName:@"Login" bundle:nil];
 	loginViewNavigationController = [[UINavigationController alloc] initWithRootViewController: loginViewController];
 	loginViewNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 	[loginViewNavigationController.view setFrame:UIScreen.mainScreen.applicationFrame];
@@ -201,7 +200,7 @@ BOOL isShowingNotification;
     self.gameSelectionTabBarController = [[UITabBarController alloc] init];
     self.gameSelectionTabBarController.delegate = self;
     
-    GamePickerNearbyViewController *gamePickerNearbyViewController = [[[GamePickerNearbyViewController alloc] initWithNibName:@"GamePickerNearbyViewController" bundle:nil] autorelease];
+    GamePickerNearbyViewController *gamePickerNearbyViewController = [[GamePickerNearbyViewController alloc] initWithNibName:@"GamePickerNearbyViewController" bundle:nil];
 	UINavigationController *gamePickerNearbyNC = [[UINavigationController alloc] initWithRootViewController: gamePickerNearbyViewController];
 	gamePickerNearbyNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
@@ -219,7 +218,7 @@ BOOL isShowingNotification;
     
     
 	//Logout View
-	LogoutViewController *alogoutViewController = [[[LogoutViewController alloc] initWithNibName:@"Logout" bundle:nil] autorelease];
+	LogoutViewController *alogoutViewController = [[LogoutViewController alloc] initWithNibName:@"Logout" bundle:nil];
 	UINavigationController *alogoutNavigationController = [[UINavigationController alloc] initWithRootViewController: alogoutViewController];
 	alogoutNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 
@@ -415,7 +414,6 @@ BOOL isShowingNotification;
 															message:NSLocalizedString(@"LoginErrorMessageKey",@"")
 														   delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
 			[alert show];	
-			[alert release];
 		}
 	}
 	
@@ -500,8 +498,8 @@ BOOL isShowingNotification;
     NSArray *tmpTabList = [[NSMutableArray alloc] initWithCapacity:11];
 
     NSSortDescriptor *sortDescriptor;
-    sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"tabIndex"
-                                                  ascending:YES] autorelease];
+    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"tabIndex"
+                                                  ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
     
     tmpTabList = [[AppModel sharedAppModel].gameTabList sortedArrayUsingDescriptors:sortDescriptors];
@@ -631,7 +629,7 @@ BOOL isShowingNotification;
 	
     if (self.waitingIndicatorView){ 
         [self removeNewWaitingIndicator];
-        [self.waitingIndicatorView release];}
+        self.waitingIndicatorView;}
 	
 	self.waitingIndicatorView = [[WaitingIndicatorView alloc] initWithWaitingMessage:message showProgressBar:displayProgressBar];
         [self.waitingIndicatorView show];
@@ -742,7 +740,6 @@ BOOL isShowingNotification;
 	//Display
 
     [self.tabBarController presentModalViewController:self.nearbyObjectNavigationController animated:NO];
-    [nearbyObjectNavigationController release];
 }
 
 - (void)dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController{
@@ -819,10 +816,9 @@ BOOL isShowingNotification;
 		[controller setSubject:@"ARIS Error Report"];
 		[controller setMessageBody:body isHTML:NO]; 
 		if (controller) [self.tabBarController presentModalViewController:controller animated:YES];
-		[controller release];
 	}
 	
-	[self.serverAlert release];
+	self.serverAlert;
 	self.serverAlert = nil;
 	
 	
@@ -889,23 +885,6 @@ BOOL isShowingNotification;
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [tabBarController release];
-    [window release];
-    [tabBarController release];
-    [gameSelectionTabBarController release];
-    [defaultViewControllerForMainTabBar release];
-    [loginViewController release];
-    [loginViewNavigationController release];
-    [nearbyObjectsNavigationController release];
-    [nearbyObjectNavigationController release];
-    [waitingIndicator release];
-    [waitingIndicatorView release];
-    [networkAlert release];
-    [serverAlert release];
-    [tutorialViewController release];
-    [titleLabel release];
-    [descLabel release];
-	[super dealloc];
 }
 @end
 

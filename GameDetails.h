@@ -31,20 +31,20 @@
     NSIndexPath *descriptionIndexPath;
     Media *splashMedia;
 }
-@property (nonatomic, retain) NSIndexPath *descriptionIndexPath;
-@property (nonatomic, retain) Game *game;
-@property (nonatomic, retain) IBOutlet UITableView *tableView;
-@property (nonatomic, retain) IBOutlet UIWebView *descriptionWebView;
-@property (nonatomic, retain) IBOutlet UILabel *titleLabel;
-@property (nonatomic, retain) IBOutlet UILabel *authorsLabel;
-@property (nonatomic, retain) IBOutlet UILabel *locationLabel;
-@property (nonatomic, retain) IBOutlet UILabel *descriptionLabel;
-@property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
-@property (nonatomic, retain) IBOutlet UIView *contentView;
-@property (nonatomic, retain) IBOutlet UISegmentedControl *segmentedControl;
+@property (nonatomic) NSIndexPath *descriptionIndexPath;
+@property (nonatomic) Game *game;
+@property (nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic) IBOutlet UIWebView *descriptionWebView;
+@property (nonatomic) IBOutlet UILabel *titleLabel;
+@property (nonatomic) IBOutlet UILabel *authorsLabel;
+@property (nonatomic) IBOutlet UILabel *locationLabel;
+@property (nonatomic) IBOutlet UILabel *descriptionLabel;
+@property (nonatomic) IBOutlet UIScrollView *scrollView;
+@property (nonatomic) IBOutlet UIView *contentView;
+@property (nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (nonatomic, assign) CGFloat  newHeight;
-@property (nonatomic,retain)AsyncMediaImageView *mediaImageView;
-@property (nonatomic, retain)Media *splashMedia;
+@property (nonatomic)AsyncMediaImageView *mediaImageView;
+@property (nonatomic)Media *splashMedia;
 
 
 @end

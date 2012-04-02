@@ -49,7 +49,6 @@ BOOL tagFilter;
 	
     UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStyleBordered target:self action:@selector(displayMenu)];
     self.navigationItem.rightBarButtonItem = barButton;
-    [barButton release];
     [self.filterToolBar setFrame:CGRectMake(0, -44, 320, 44)];
     [self.sortToolBar setFrame:CGRectMake(0, 416, 320, 44)];
     [self.toolBar setFrame:CGRectMake(0, 0, 320, 44)];
@@ -107,7 +106,6 @@ BOOL tagFilter;
             
             self.noteList = [self.noteList sortedArrayUsingDescriptors:sortDescriptors];
             self.gameNoteList = [self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors];
-            [sortDescriptor release];
 
             
             break;
@@ -120,7 +118,6 @@ BOOL tagFilter;
             
             self.noteList = [self.noteList sortedArrayUsingDescriptors:sortDescriptors];
             self.gameNoteList = [self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors];
-            [sortDescriptor release];
             
             break;  
         }
@@ -132,7 +129,6 @@ BOOL tagFilter;
             
             self.noteList = [self.noteList sortedArrayUsingDescriptors:sortDescriptors];
             self.gameNoteList = [self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors];
-            [sortDescriptor release];
 
             break; 
         }
@@ -184,9 +180,7 @@ BOOL tagFilter;
 	UIActivityIndicatorView *activityIndicator = 
 	[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
 	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
-	[activityIndicator release];
 	[[self navigationItem] setRightBarButtonItem:barButton];
-	[barButton release];
 	[activityIndicator startAnimating];    
     
 }
@@ -206,7 +200,6 @@ BOOL tagFilter;
     noteVC.startWithView = [sender tag] + 1;
     noteVC.delegate = self;
     [self.navigationController pushViewController:noteVC animated:NO];
-    [noteVC release];
 }
 - (void)refreshViewFromModel {
 	NSLog(@"NotebookViewController: Refresh View from Model");
@@ -217,11 +210,11 @@ BOOL tagFilter;
     if([AppModel sharedAppModel].gameTagList){
         self.tagList = [AppModel sharedAppModel].gameTagList;
         NSSortDescriptor *sortDescriptor;
-        sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"tagName"
-                                                      ascending:YES] autorelease];
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"tagName"
+                                                      ascending:YES];
         NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
         
-        self.tagList = [[[self.tagList sortedArrayUsingDescriptors:sortDescriptors] copy]autorelease];
+        self.tagList = [[self.tagList sortedArrayUsingDescriptors:sortDescriptors] copy];
         [tagGameNoteList removeAllObjects];
         [headerTitleGameList removeAllObjects];
         
@@ -246,7 +239,6 @@ BOOL tagFilter;
                 [self.tagGameNoteList addObject:tempTagList];
                 [self.headerTitleGameList addObject:tagName];
             }
-            [tempTagList release];
         }
         
         [tagNoteList removeAllObjects];
@@ -273,13 +265,11 @@ BOOL tagFilter;
                 [self.tagNoteList addObject:tempTagList];
                 [self.headerTitleList addObject:tagName];
             }
-            [tempTagList release];
         }
         
         UIButton *b = [[UIButton alloc]init];
         b.tag = filSelected;
         [self sortButtonTouchAction:b];
-        [b release];
        // UIButton *c = [[[UIButton alloc]init]autorelease];
        // c.tag = sortSelected;
         //[noteTable reloadData];
@@ -362,7 +352,7 @@ BOOL tagFilter;
     
 	static NSString *CellIdentifier = @"Cell";
     if([currentNoteList count] == 0 && indexPath.row == 0){
-        UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         
         cell.textLabel.text = @"No Notes";
         cell.detailTextLabel.text = @"Press A Blue Button Above To Add One!";
@@ -389,7 +379,6 @@ BOOL tagFilter;
         // Grab a pointer to the custom cell.
         cell = (NoteCell *)temporaryController.view;
         // Release the temporary UIViewController.
-        [temporaryController release];
     }
     
     Note *currNote;
@@ -567,7 +556,6 @@ BOOL tagFilter;
     dataVC.delegate = self;
     dataVC.note = (Note *)[currentNoteList objectAtIndex:indexPath.row];
     [self.navigationController pushViewController:dataVC animated:YES];
-    [dataVC release];
     
 }
 
@@ -629,18 +617,5 @@ BOOL tagFilter;
 
 - (void)dealloc {    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [noteList release];
-    [gameNoteList release];
-    [tagList release];
-    [tagNoteList release];
-    [headerTitleList release];
-    [headerTitleGameList release];
-    [toolBar release];
-    [noteTable release];
-    [filterControl release];
-    [sortControl release];
-    [sortToolBar release];
-    [filterToolBar release];
-    [super dealloc];
 }
 @end

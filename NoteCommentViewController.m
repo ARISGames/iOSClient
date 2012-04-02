@@ -127,7 +127,6 @@
         cameraVC.backView = self;
         
         [self.navigationController pushViewController:cameraVC animated:YES];
-        [cameraVC release];
     }
 }
 
@@ -140,7 +139,6 @@
         audioVC.backView = self;
         
         [self.navigationController pushViewController:audioVC animated:YES];
-        [audioVC release];
     }
     
 }
@@ -157,7 +155,6 @@
     cameraVC.backView = self;
     
     [self.navigationController pushViewController:cameraVC animated:YES];
-    [cameraVC release];
 }
 
 #pragma mark Table view methods
@@ -189,7 +186,6 @@
         // Grab a pointer to the custom cell.
         cell = (NoteCommentCell *)temporaryController.view;
         // Release the temporary UIViewController.
-        [temporaryController release];
     }
     self.photoIconUsed = NO;
     self.videoIconUsed = NO;
@@ -221,7 +217,6 @@
             //[aImageView setFrame:CGRectMake(10, height+40, 300, 300)];
             
             [cell addSubview:aImageView];
-            [aImageView release];
         }
         else if([[(NoteContent<NoteContentProtocol> *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeVideo] || [[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeAudio]){
             NoteContent *content =  (NoteContent *)[[currNote contents] objectAtIndex:x];
@@ -245,7 +240,6 @@
                 //  [mediaButton setFrame:CGRectMake(10, height+60, 300, 223)];
                 [asyncMediaDict setObject:mediaButton forKey:content.getMedia.url];
                 [cell addSubview:mediaButton];
-                [mediaButton release];
                 
             }
             else{
@@ -351,7 +345,6 @@
         [self.textBox resignFirstResponder];
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Create Comment Failed" message:@"Cannot create a comment while offline" delegate:self.delegate cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alert show];
-        [alert release];
     }
     
     [self.parentNote.comments insertObject:self.commentNote atIndex:0];
@@ -379,7 +372,6 @@
                                            message: NSLocalizedString(@"Please add a comment", @"")
                                           delegate: self cancelButtonTitle: NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
         [alert show];
-        [alert release];
     }
     else{
         self.navigationItem.rightBarButtonItem = addCommentButton;
@@ -523,22 +515,6 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 - (void)dealloc
 {
-    [super dealloc];
-    [parentNote release];
-    [commentNote release];
-    [textBox release];
-    [commentTable release];
-    [addAudioButton release];
-    [addPhotoButton release];
-    [addMediaFromAlbumButton release];
-    [myIndexPath release];
-    [addTextButton release];
-    [inputView release];
-    [addCommentButton release];
-    [delegate release];
-    [movieViews release];
-    [asyncMediaDict release];
-    [hideKeyboardButton release];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     

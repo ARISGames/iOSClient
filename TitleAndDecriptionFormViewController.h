@@ -17,11 +17,11 @@
     Item *item;
 }
 
-@property (nonatomic, retain) IBOutlet UITableView *formTableView;
-@property (nonatomic, retain) UITextField *titleField;
-@property (nonatomic, retain) UITextField *descriptionField;
-@property (nonatomic, retain) id delegate;
-@property (nonatomic, retain) Item *item;
+@property (nonatomic) IBOutlet UITableView *formTableView;
+@property (nonatomic) UITextField *titleField;
+@property (nonatomic) UITextField *descriptionField;
+@property (nonatomic) id delegate;
+@property (nonatomic) Item *item;
 
 
 -(void)notifyDelegate;

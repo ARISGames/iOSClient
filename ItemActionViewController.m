@@ -26,14 +26,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-    [backButton release];
-    [actionButton release];
-    [infoLabel release];
-    [item release];
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -243,7 +235,6 @@
 															message: errorMessage
 														   delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
 			[alert show];
-			[alert release];
             
             
 		}
@@ -256,7 +247,6 @@
 															message: errorMessage
 														   delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
 			[alert show];
-			[alert release];
         }
         
 		if (quantity > 0) {

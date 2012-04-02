@@ -39,7 +39,6 @@
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Email Sent" message: @"An email has been sent to you containing your password" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
 	
 	[alert show];
-	[alert release];
     return YES;
 }
 - (void)viewDidUnload

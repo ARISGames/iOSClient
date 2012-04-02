@@ -18,11 +18,11 @@
     IBOutlet	UIActivityIndicatorView *activityIndicator;
 }
 
-@property(nonatomic, retain) IBOutlet UIWebView		*webView;
-@property(nonatomic,retain) WebPage *webPage;
-@property(nonatomic,retain) NSObject  *delegate;
-@property(nonatomic, retain) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property(nonatomic,retain)IBOutlet UIView *blackView;
+@property(nonatomic) IBOutlet UIWebView		*webView;
+@property(nonatomic) WebPage *webPage;
+@property(nonatomic) NSObject  *delegate;
+@property(nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property(nonatomic)IBOutlet UIView *blackView;
 
 - (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType;
 - (void) showWaitingIndicator;

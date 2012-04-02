@@ -24,23 +24,23 @@
     Note *note;
     SCRRatingView *starView;
     int index;
-    id delegate;
+    id __unsafe_unretained delegate;
 }
-@property(nonatomic,retain)IBOutlet UITextView *titleLabel;
-@property(nonatomic,retain)IBOutlet UILabel *likeLabel;
-@property(nonatomic,retain)IBOutlet UIButton *likesButton;
-@property(nonatomic,retain)IBOutlet UILabel *commentsLbl;
-@property(nonatomic,retain)IBOutlet UILabel *holdLbl;
-@property(nonatomic,retain)Note *note;
-@property(nonatomic,assign)id delegate;
+@property(nonatomic)IBOutlet UITextView *titleLabel;
+@property(nonatomic)IBOutlet UILabel *likeLabel;
+@property(nonatomic)IBOutlet UIButton *likesButton;
+@property(nonatomic)IBOutlet UILabel *commentsLbl;
+@property(nonatomic)IBOutlet UILabel *holdLbl;
+@property(nonatomic)Note *note;
+@property(nonatomic,unsafe_unretained)id delegate;
 
 @property(readwrite, assign)int index;
 
-@property(nonatomic,retain)IBOutlet UIImageView *mediaIcon1;
-@property(nonatomic,retain)IBOutlet UIImageView *mediaIcon2;
-@property(nonatomic,retain)IBOutlet UIImageView *mediaIcon3;
-@property(nonatomic,retain)IBOutlet UIImageView *mediaIcon4;
-@property(nonatomic,retain) IBOutlet SCRRatingView *starView;
+@property(nonatomic)IBOutlet UIImageView *mediaIcon1;
+@property(nonatomic)IBOutlet UIImageView *mediaIcon2;
+@property(nonatomic)IBOutlet UIImageView *mediaIcon3;
+@property(nonatomic)IBOutlet UIImageView *mediaIcon4;
+@property(nonatomic) IBOutlet SCRRatingView *starView;
 -(IBAction)likeButtonTouched;
 
 @end

@@ -26,7 +26,7 @@
 	self.hash = JSONString;
 	
 	// Parse JSON into a resultObject
-	SBJSON *json = [[SBJSON new] autorelease];
+	SBJSON *json = [SBJSON new];
 	NSError *jsonError = nil;
 
 	NSDictionary *resultDictionary = [json objectWithString:JSONString error:&jsonError];
@@ -92,7 +92,7 @@
 	NSArray *columnsArray = [dataDictionary objectForKey:@"columns"];
 	NSArray *rowsArray = [dataDictionary objectForKey:@"rows"];
 	NSEnumerator *rowsEnumerator = [rowsArray objectEnumerator];
-	NSMutableArray *dictionaryArray = [[[NSMutableArray alloc] init] autorelease];
+	NSMutableArray *dictionaryArray = [[NSMutableArray alloc] init];
 	
 	//add each row as a dictionary to the dictionaryArray 
 	NSArray *rowArray;
@@ -104,7 +104,6 @@
 			[tempDictionary setObject:value forKey:key];
 		} 
 		[dictionaryArray addObject: tempDictionary];
-		[tempDictionary release];		
 	}
 	return dictionaryArray;
 }
@@ -114,12 +113,6 @@
 
 
 
-- (void)dealloc {
-    [returnCodeDescription release];
-	[data release];
-    [hash release];
-    [super dealloc];
-}
 
 
 

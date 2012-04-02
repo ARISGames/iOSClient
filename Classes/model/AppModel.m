@@ -54,23 +54,7 @@
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
-	[gameMediaList release];
-	[gameList release];
-    [defaultGameTabList release];
-    [recentGameList release];
-	[serverURL release];
-	[userName release];
-	[password release];
-    [gameTabList release];
-    [gameNoteList release];
-    [playerNoteList release];
     
-    [managedObjectContext release];
-    [managedObjectModel release];
-    [persistentStoreCoordinator release];
-    [uploadManager release];
-    [mediaCache release];
-    [super dealloc];
 }
 
 
@@ -245,7 +229,6 @@
 	NSLog(@"AppModel: setPlayerLocation");
 	
 	playerLocation = newLocation;
-	[playerLocation retain];
 	
 	//Tell the model to update the server and fetch any nearby locations
 	[[AppServices sharedAppServices] updateServerWithPlayerLocation];	
@@ -453,7 +436,7 @@
     if (managedObjectModel != nil) {
         return managedObjectModel;
     }
-    managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];    
+    managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];    
     return managedObjectModel;
 }/**
  Returns the path to the application's Documents directory.

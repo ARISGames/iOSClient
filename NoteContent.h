@@ -25,8 +25,8 @@
 @property(readwrite,assign)int mediaId;
 @property(readwrite,assign)int noteId;
 @property(readwrite,assign)int sortIndex;
-@property(nonatomic, retain)NSString *text;
-@property(nonatomic, retain)NSString *title;
-@property(nonatomic, retain)NSString *type;
+@property(nonatomic)NSString *text;
+@property(nonatomic)NSString *title;
+@property(nonatomic)NSString *type;
 
 @end

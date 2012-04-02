@@ -47,16 +47,16 @@
 @property(readwrite, assign) int currentWeight;
 
 @property(readwrite, assign) int gameId;
-@property(nonatomic, retain) NSString *name;
-@property(nonatomic, retain) NSString *description;
-@property(nonatomic, retain) NSString *authors;
+@property(nonatomic) NSString *name;
+@property(nonatomic) NSString *description;
+@property(nonatomic) NSString *authors;
 @property(readwrite, assign) int rating;
-@property(nonatomic, retain) NSMutableArray *comments;
+@property(nonatomic) NSMutableArray *comments;
 @property(readwrite, assign) double distanceFromPlayer;
-@property(nonatomic, retain) CLLocation *location;
+@property(nonatomic) CLLocation *location;
 @property(readwrite, assign) int pcMediaId;
-@property(nonatomic, retain) NSURL *iconMediaUrl;
-@property(nonatomic, retain) NSURL *mediaUrl;
+@property(nonatomic) NSURL *iconMediaUrl;
+@property(nonatomic) NSURL *mediaUrl;
 @property(readwrite, assign) int numPlayers;
 @property(readwrite, assign) int launchNodeId;
 @property(readwrite, assign) int completeNodeId;
@@ -68,8 +68,8 @@
 @property (readwrite) BOOL allowsPlayerTags;
 
 @property(readwrite, assign) int calculatedScore;
-@property(nonatomic, retain) Media *iconMedia;
-@property(nonatomic, retain) Media *splashMedia;
+@property(nonatomic) Media *iconMedia;
+@property(nonatomic) Media *splashMedia;
 
 
 - (NSComparisonResult)compareDistanceFromPlayer:(Game*)otherGame;

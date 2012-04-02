@@ -38,7 +38,7 @@
 	newCoordinate.title = aNearbyLocation.name;
 	newCoordinate.mediaId = aNearbyLocation.iconMediaId;
 	
-	return [newCoordinate autorelease];		
+	return newCoordinate;		
 }
 	
 	

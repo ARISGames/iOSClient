@@ -26,10 +26,10 @@ typedef UInt32 tutorialPopupType;
 }
 
 @property (readwrite) CGFloat pointerXpos;
-@property (nonatomic,retain) NSString *title;
-@property (nonatomic,retain) NSString *message;
+@property (nonatomic) NSString *title;
+@property (nonatomic) NSString *message;
 @property (readwrite) tutorialPopupType type;
-@property (nonatomic,retain) UIViewController *associatedViewController;
+@property (nonatomic) UIViewController *associatedViewController;
 
 -(void) updatePointerPosition;
 

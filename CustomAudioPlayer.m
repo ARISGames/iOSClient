@@ -13,7 +13,7 @@
 @implementation CustomAudioPlayer
 @synthesize timeLabel,playButton,soundPlayer,mediaId,media;
 - (id)initWithFrame:(CGRect)frame andMedia:(Media *)aMedia{
-    self.media = [aMedia retain];
+    self.media = aMedia;
    return [self initWithFrame:frame andMediaId:[media.uid intValue]];
 }
 
@@ -73,15 +73,15 @@
     
     CMTime time = CMTimeMakeWithSeconds(1.0f, 1);
     
-    timeObserver = [[self.soundPlayer addPeriodicTimeObserverForInterval:time queue:NULL usingBlock:^(CMTime time){ 
+    timeObserver = [self.soundPlayer addPeriodicTimeObserverForInterval:time queue:NULL usingBlock:^(CMTime time){ 
         if((self.soundPlayer.currentTime.value != self.soundPlayer.currentItem.duration.value) && self.soundPlayer.rate !=0.0f){  
             timeLabel.text =[NSString stringWithFormat:@"%d:%d%d", (int)roundf(CMTimeGetSeconds(self.soundPlayer.currentTime))/60,((int)roundf(CMTimeGetSeconds(self.soundPlayer.currentTime))) % 60/10,(int)roundf(CMTimeGetSeconds(self.soundPlayer.currentTime))%10];
         }else {
             timeLabel.text = nil;
             playButton.selected = NO;
-            [self removeObs];
+            //[self removeObs];
         }
-    } ] retain];
+    } ];
 }
 -(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
     self.soundPlayer = nil;

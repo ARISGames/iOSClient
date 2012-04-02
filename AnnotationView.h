@@ -30,9 +30,9 @@
 @property (readwrite) CGRect titleRect;
 @property (readwrite) CGRect subtitleRect;
 @property (readwrite) CGRect contentRect;
-@property (readwrite, retain) UIFont *titleFont;
-@property (readwrite, retain) UIFont *subtitleFont;
-@property (readwrite, retain) UIImage *icon;
+@property (readwrite) UIFont *titleFont;
+@property (readwrite) UIFont *subtitleFont;
+@property (readwrite) UIImage *icon;
 
 //- (void)setImageFromURL:(NSString *)imageURLString;
 

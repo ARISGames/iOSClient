@@ -21,9 +21,5 @@
 	return self;
 }
 
-- (void) dealloc {
-	[text release];
-	[super dealloc];
-}
 
 @end

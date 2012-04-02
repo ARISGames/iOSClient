@@ -23,11 +23,11 @@
 -(void)showLoadingIndicator;
 - (void)searchBar:(UISearchBar *)searchBar activate:(BOOL) active;
 
-@property(retain) UIView *disableViewOverlay;
+@property UIView *disableViewOverlay;
 @property (nonatomic, copy) NSArray *gameList;
-@property (nonatomic, retain) NSString *searchText;
-@property (nonatomic, retain) IBOutlet UITableView *gameTable;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *refreshButton;
-@property (nonatomic, retain) IBOutlet UISearchBar *theSearchBar;
+@property (nonatomic) NSString *searchText;
+@property (nonatomic) IBOutlet UITableView *gameTable;
+@property (nonatomic) IBOutlet UIBarButtonItem *refreshButton;
+@property (nonatomic) IBOutlet UISearchBar *theSearchBar;
 
 @end

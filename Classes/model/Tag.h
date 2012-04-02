@@ -12,6 +12,6 @@
     NSString *tagName;
     BOOL playerCreated;
 }
-@property(nonatomic,retain)NSString *tagName;
+@property(nonatomic)NSString *tagName;
 @property(readwrite,assign)BOOL playerCreated;
 @end

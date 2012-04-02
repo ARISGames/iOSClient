@@ -14,16 +14,12 @@
 @synthesize gameId, rating, calculatedScore;
 
 - (id)initWithTitle:(NSString *)ttl andCoordinate:(CLLocationCoordinate2D)c2d {
-	[super init];
+	self = [super init];
 	title = ttl;
 	coordinate = c2d;
 	return self;
 }
 
-- (void)dealloc {
-	[title release];
-	[super dealloc];
-}
 
 @end
 

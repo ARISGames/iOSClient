@@ -47,14 +47,14 @@
                                                 message: NSLocalizedString(@"Please give this game a rating of one through five stars", @"")
                                                delegate: self cancelButtonTitle: NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
         [self.alert show];
-        [self.alert release];
+        self.alert;
     }
     else{
         self.alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Success!", @"a")
                                                 message: NSLocalizedString(@"Comment Successfully Posted", @"")
                                                delegate: self cancelButtonTitle: NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
         [self.alert show];
-        [self.alert release];
+        self.alert;
         [[AppServices sharedAppServices] saveComment:self.textField.text game:self.game.gameId starRating:self.ratingView.userRating];
         
         self.commentsVC.defaultRating = self.ratingView.userRating;
@@ -67,7 +67,6 @@
         comment.playerName = @"You";
         [self.commentsVC addComment:comment];
         [self.commentsVC.tableView reloadData];
-        [comment release];
         //End client side manipulation
     }
 }
@@ -75,14 +74,6 @@
     [textView setText:@""];
 }
 
-- (void)dealloc
-{
-    [ratingView release];
-    [textField release];
-    [saveButton release];
-    [super dealloc];
-
-}
 
 
 @end

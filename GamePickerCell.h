@@ -19,11 +19,11 @@
 	SCRRatingView *starView;
 }
 
-@property(nonatomic,retain) IBOutlet UILabel *titleLabel;
-@property(nonatomic,retain) IBOutlet UILabel *distanceLabel;
-@property(nonatomic,retain) IBOutlet UILabel *authorLabel;
-@property(nonatomic,retain) IBOutlet UILabel *numReviewsLabel;
-@property(nonatomic,retain) IBOutlet AsyncMediaImageView *iconView;
-@property(nonatomic,retain) IBOutlet SCRRatingView *starView;
+@property(nonatomic) IBOutlet UILabel *titleLabel;
+@property(nonatomic) IBOutlet UILabel *distanceLabel;
+@property(nonatomic) IBOutlet UILabel *authorLabel;
+@property(nonatomic) IBOutlet UILabel *numReviewsLabel;
+@property(nonatomic) IBOutlet AsyncMediaImageView *iconView;
+@property(nonatomic) IBOutlet SCRRatingView *starView;
 
 @end

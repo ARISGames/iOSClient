@@ -74,7 +74,6 @@
 	
 	//Put the view on the screen
 	[[self navigationController] pushViewController:forgotPassViewController animated:YES];
-	[forgotPassViewController release];
 }
 -(IBAction)newAccountButtonTouched: (id) sender{
 	NSLog(@"Login: New User Button Touched");
@@ -83,19 +82,10 @@
 	
 	//Put the view on the screen
 	[[self navigationController] pushViewController:selfRegistrationViewController animated:YES];
-	[selfRegistrationViewController release];
 	
 }
 
 
-- (void)dealloc {
-	[usernameField release];
-	[passwordField release];
-	[loginButton release];
-	[newAccountMessageLabel release];
-	[newAccountButton release];
-    [super dealloc];
-}
 
 
 @end

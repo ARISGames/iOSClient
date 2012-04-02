@@ -230,7 +230,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         itemActionVC.delegate = self;
         itemActionVC.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
         [[self navigationController] pushViewController:itemActionVC animated:YES];
-        [itemActionVC release];	
         [self updateQuantityDisplay];
 
     }
@@ -256,7 +255,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
         itemActionVC.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
         [[self navigationController] pushViewController:itemActionVC animated:YES];
-        [itemActionVC release];	
         [self updateQuantityDisplay];
 
         
@@ -286,7 +284,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
         itemActionVC.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
         [[self navigationController] pushViewController:itemActionVC animated:YES];
-        [itemActionVC release];	
         [self updateQuantityDisplay];
 
         
@@ -352,7 +349,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 															message: errorMessage
 														   delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
 			[alert show];
-			[alert release];
             
             
 		}
@@ -365,7 +361,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 															message: errorMessage
 														   delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
 			[alert show];
-			[alert release];
         }
 
 		if (quantity > 0) {
@@ -513,7 +508,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
             webPageViewController.webPage = temp;
             webPageViewController.delegate = self;
             [self.navigationController pushViewController:webPageViewController animated:NO];
-            [webPageViewController release];
             
             return NO;
         }
@@ -575,7 +569,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     else item.description = titleAndDescForm.descriptionField.text;
         [[AppServices sharedAppServices] updateItem:self.item];
     
-        [titleAndDescForm release];	
      
     [self.navigationController popToRootViewControllerAnimated:YES];
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -597,13 +590,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     NSLog(@"Item Details View: Dealloc");
 	
 	// free our movie player
-    if (mMoviePlayer) [mMoviePlayer release];
-	[mediaPlaybackButton release];
 	
 	//remove listeners
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
-	[super dealloc];
 }
 
 

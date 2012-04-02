@@ -55,9 +55,7 @@
 	UIActivityIndicatorView *activityIndicator = 
 	[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
 	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
-	[activityIndicator release];
 	[[self navigationItem] setRightBarButtonItem:barButton];
-	[barButton release];
 	[activityIndicator startAnimating];
 }
 
@@ -89,8 +87,8 @@
     UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
 		// Create a temporary UIViewController to instantiate the custom cell.
-		UITableViewCell *tempCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle 
-                                                            reuseIdentifier:CellIdentifier] autorelease];
+		UITableViewCell *tempCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle 
+                                                            reuseIdentifier:CellIdentifier];
         cell = tempCell;
     }
 	
@@ -104,7 +102,6 @@
                                                             blue:200.0/255.0  
                                                            alpha:1.0];  
 		// Release the temporary UIViewController.
-		[temporaryController release];
         
         CommentsFormCell *commentsFormCell = (CommentsFormCell *)cell; 
         commentsFormCell.game = self.game;
@@ -137,7 +134,6 @@
         cell.userInteractionEnabled = NO;
 
 		// Release the temporary UIViewController.
-		[temporaryController release];
 
         CommentCell *commentCell = (CommentCell *)cell;
 
@@ -201,9 +197,6 @@
 	frame.size.height += 0;
 	NSLog(@"Found height of %f", frame.size.height);
 	return frame.size.height;
-}
-- (void)dealloc {
-    [super dealloc];
 }
 
 @end

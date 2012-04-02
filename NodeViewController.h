@@ -27,13 +27,13 @@
     NSArray *cellArray;
 }
 
-@property(readwrite, retain) Node *node;
+@property(readwrite) Node *node;
 @property(readwrite, assign) BOOL isLink;
 @property(readwrite, assign) BOOL hasMedia;
-@property(nonatomic, retain) IBOutlet UITableView *tableView;
-@property(nonatomic, retain)UIActivityIndicatorView *webViewSpinner;
-@property(nonatomic,retain)AsyncMediaImageView *mediaImageView;
-@property(nonatomic, retain)NSArray *cellArray;
+@property(nonatomic) IBOutlet UITableView *tableView;
+@property(nonatomic)UIActivityIndicatorView *webViewSpinner;
+@property(nonatomic)AsyncMediaImageView *mediaImageView;
+@property(nonatomic)NSArray *cellArray;
 
 @end
 

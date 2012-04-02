@@ -35,14 +35,14 @@
 @property(copy, readwrite) NSString *objectType;
 @property(readonly) nearbyObjectKind kind;
 - (nearbyObjectKind) kind;
-@property(readonly) NSObject<NearbyObjectProtocol> *object;
+@property(unsafe_unretained, readonly) NSObject<NearbyObjectProtocol> *object;
 
 @property(readwrite) int objectId;
 @property(readwrite) bool hidden;
 @property(readwrite) bool forcedDisplay;
 @property(readwrite) bool allowsQuickTravel;
 @property(readwrite) int qty;
-@property(nonatomic,retain)id delegate;
+@property(nonatomic)id delegate;
 - (void) display;
 
 @end

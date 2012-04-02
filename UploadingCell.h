@@ -13,6 +13,6 @@ IBOutlet UIProgressView *progressBar;
 IBOutlet UILabel *updatingLabel;
 }
 
-@property(nonatomic, retain)IBOutlet UIProgressView *progressBar;
-@property(nonatomic, retain)IBOutlet UILabel *updatingLabel;
+@property(nonatomic)IBOutlet UIProgressView *progressBar;
+@property(nonatomic)IBOutlet UILabel *updatingLabel;
 @end

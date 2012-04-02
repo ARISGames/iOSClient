@@ -15,8 +15,8 @@
 	SCRRatingView *starView;
 }
 
-@property(nonatomic,retain) IBOutlet UITextView *commentLabel;
-@property(nonatomic,retain) IBOutlet UILabel *authorLabel;
-@property(nonatomic,retain) IBOutlet SCRRatingView *starView;
+@property(nonatomic) IBOutlet UITextView *commentLabel;
+@property(nonatomic) IBOutlet UILabel *authorLabel;
+@property(nonatomic) IBOutlet SCRRatingView *starView;
 
 @end

@@ -88,7 +88,6 @@
     // present and release the controller
     [self presentModalViewController: reader
                             animated: YES];
-    [reader release];
 }
 
 - (IBAction)qrScanButtonTouchAction: (id) sender{
@@ -97,16 +96,13 @@
     ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO];
     QRCodeReader* qrcodeReader = [[QRCodeReader alloc] init];
     NSSet *readers = [[NSSet alloc ] initWithObjects:qrcodeReader,nil];
-    [qrcodeReader release];
     widController.readers = readers;
-    [readers release];
     /*
     NSBundle *mainBundle = [NSBundle mainBundle];
     widController.soundToPlay =
     [NSURL fileURLWithPath:[mainBundle pathForResource:@"beep-beep" ofType:@"aiff"] isDirectory:NO];
      */
     [self presentModalViewController:widController animated:YES];
-    [widController release];
 	 
 }
 
@@ -293,7 +289,6 @@
 											  cancelButtonTitle:NSLocalizedString(@"OkKey", @"")
 											  otherButtonTitles:nil];
 		[alert show];	
-		[alert release];
 		
 	}
 	else {	
@@ -307,7 +302,6 @@
                                                   cancelButtonTitle:NSLocalizedString(@"OkKey", @"")
                                                   otherButtonTitles:nil];
             [alert show];	
-            [alert release];
             
         }
 		[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];		
@@ -337,7 +331,6 @@
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
-    [super dealloc];
 }
 
 

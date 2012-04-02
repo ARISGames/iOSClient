@@ -199,7 +199,6 @@ navigationType:(UIWebViewNavigationType)navigationType{
         webPageViewController.webPage = temp;
         webPageViewController.delegate = self;
         [self.navigationController pushViewController:webPageViewController animated:NO];
-        [webPageViewController release];
         
         return NO;
     }
@@ -348,14 +347,9 @@ navigationType:(UIWebViewNavigationType)navigationType{
 - (void)dealloc {
 	NSLog(@"NodeViewController: Dealloc");
     
-    [node release];
-	[tableView release];
-	[mediaPlaybackButton release];
-	if (mMoviePlayer) [mMoviePlayer release];
     
     //remove listeners
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-    [super dealloc];
 }
 
 @end

@@ -11,5 +11,5 @@
 @interface TagCell : UITableViewCell{
     IBOutlet UILabel *nameLabel;
 }
-@property(nonatomic,retain)IBOutlet UILabel *nameLabel;
+@property(nonatomic)IBOutlet UILabel *nameLabel;
 @end

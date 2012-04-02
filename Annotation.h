@@ -26,7 +26,7 @@
 @property (nonatomic, copy) NSString *subtitle;
 @property(readwrite, assign) int iconMediaId;
 @property(readwrite, assign) nearbyObjectKind kind;
-@property (nonatomic, retain) Location *location;
+@property (nonatomic) Location *location;
 
 
 - (id)initWithCoordinate:(CLLocationCoordinate2D) coordinate;

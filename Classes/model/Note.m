@@ -51,7 +51,6 @@
         dataVC.delegate = self;
     [appDelegate displayNearbyObjectView:dataVC];
 
-    [dataVC release];
 
 }
 
@@ -64,13 +63,6 @@
     return  NO;
 }
 
-- (void) dealloc {
-    [super dealloc];
-
-	[text release];
-    [title release];
-    [username release];
-}
 
 - (NSString *) name {
     return self.name;

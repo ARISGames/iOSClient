@@ -15,7 +15,7 @@
     int maxMediaCount;
 }
 
-@property (nonatomic, retain) NSManagedObjectContext *context;
+@property (nonatomic) NSManagedObjectContext *context;
 @property (nonatomic) int mediaCount;
 @property (nonatomic) int maxMediaCount;
 

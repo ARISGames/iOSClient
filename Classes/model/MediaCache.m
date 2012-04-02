@@ -19,7 +19,6 @@
     
     NSError *error;
     NSArray *items = [[AppModel sharedAppModel].managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    [fetchRequest release];
     
     
     for (NSManagedObject *managedObject in items) {
@@ -40,7 +39,6 @@
     
     NSError *error;
     NSArray *items = [[AppModel sharedAppModel].managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    [fetchRequest release];
     
     
     for (NSManagedObject *managedObject in items) {
@@ -72,13 +70,12 @@
 if([allMedia count] != 0)
 {
         Media *media = (Media *)[allMedia objectAtIndex:0];
-            [fetchRequest autorelease];
             return media;
         
     }
     
     //Media Not found try fetching a new list and looking
-    Media *media = [[NSEntityDescription insertNewObjectForEntityForName:@"Media" inManagedObjectContext:context]retain];
+    Media *media = [NSEntityDescription insertNewObjectForEntityForName:@"Media" inManagedObjectContext:context];
     
     if (![context save:&error]) {
         NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
@@ -86,7 +83,7 @@ if([allMedia count] != 0)
     
     media.uid = [NSNumber numberWithInt: uid];   
     
-    return [media autorelease];
+    return media;
    
 }
 
@@ -104,13 +101,12 @@ if([allMedia count] != 0)
     if([allMedia count] != 0)
     {
         Media *media = (Media *)[allMedia objectAtIndex:0];
-            [fetchRequest autorelease];
             return media;
         
     }
     
     //Media Not found try fetching a new list and looking
-    Media *media = [[NSEntityDescription insertNewObjectForEntityForName:@"Media" inManagedObjectContext:context]retain];
+    Media *media = [NSEntityDescription insertNewObjectForEntityForName:@"Media" inManagedObjectContext:context];
     
     if (![context save:&error]) {
         NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
@@ -118,7 +114,7 @@ if([allMedia count] != 0)
     
     media.url = [url absoluteString];   
     
-    return [media autorelease];
+    return media;
 }
 #pragma mark Header Implementations
 
@@ -135,8 +131,4 @@ if([allMedia count] != 0)
     return self;
 }
 
-- (void)dealloc {
-    [context release];
-    [super dealloc];
-}
 @end

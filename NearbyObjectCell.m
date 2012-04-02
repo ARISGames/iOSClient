@@ -33,12 +33,6 @@
 }
 
 
-- (void)dealloc {
-	[title release];
-	[qty release];
-	[iconView release];
-    [super dealloc];
-}
 
 
 @end

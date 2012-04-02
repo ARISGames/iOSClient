@@ -26,9 +26,9 @@
 - (void)refreshViewFromModel;
 
 @property (nonatomic, copy) NSArray *gameList;
-@property (nonatomic, retain) IBOutlet UITableView *gameTable;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *refreshButton;
-@property (nonatomic, retain) NSArray *gameIcons;
+@property (nonatomic) IBOutlet UITableView *gameTable;
+@property (nonatomic) IBOutlet UIBarButtonItem *refreshButton;
+@property (nonatomic) NSArray *gameIcons;
 @property (assign) NSInteger count;
 
 @end

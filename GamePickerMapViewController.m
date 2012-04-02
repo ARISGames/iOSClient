@@ -44,10 +44,7 @@ static float INITIAL_SPAN = 20;
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [mapView release];
-    [refreshButton release];
 
-    [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,7 +58,6 @@ static float INITIAL_SPAN = 20;
     while (annotation = [existingAnnotationsEnumerator nextObject]) {
         if (annotation != mapView.userLocation) [mapView removeAnnotation:annotation];
     }
-    [existingAnnotationsEnumerator release];
 }
 
 #pragma mark - View lifecycle
@@ -161,9 +157,7 @@ static float INITIAL_SPAN = 20;
 	UIActivityIndicatorView *activityIndicator = 
 	[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
 	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
-	[activityIndicator release];
 	[[self navigationItem] setRightBarButtonItem:barButton];
-	[barButton release];
 	[activityIndicator startAnimating];
 }
 
@@ -285,7 +279,6 @@ static float INITIAL_SPAN = 20;
     GameDetails *gameDetailsVC = [[GameDetails alloc]initWithNibName:@"GameDetails" bundle:nil];
     gameDetailsVC.game = selectedGame;
     [self.navigationController pushViewController:gameDetailsVC animated:YES];
-    [gameDetailsVC release];
 }
 
 - (void)mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view {

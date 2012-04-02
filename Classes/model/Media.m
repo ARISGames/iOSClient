@@ -19,8 +19,5 @@ NSString *const kMediaTypeAudio = @"Audio";
 
 
 
-- (void)dealloc {
-    [super dealloc];
-}
 
 @end

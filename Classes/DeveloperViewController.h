@@ -18,11 +18,11 @@
 	UILabel *accuracyLabelValue;
 }
 
-@property(nonatomic, retain) IBOutlet UITableView *locationTable;
-@property(nonatomic, retain) IBOutlet NSMutableArray *locationTableData;
-@property(nonatomic, retain) IBOutlet UIButton *clearEventsButton;
-@property(nonatomic, retain) IBOutlet UIButton *clearItemsButton;
-@property(nonatomic, retain) IBOutlet UILabel *accuracyLabelValue;
+@property(nonatomic) IBOutlet UITableView *locationTable;
+@property(nonatomic) IBOutlet NSMutableArray *locationTableData;
+@property(nonatomic) IBOutlet UIButton *clearEventsButton;
+@property(nonatomic) IBOutlet UIButton *clearItemsButton;
+@property(nonatomic) IBOutlet UILabel *accuracyLabelValue;
 
 -(IBAction)clearEventsButtonTouched: (id) sender;
 -(IBAction)clearItemsButtonTouched: (id) sender;

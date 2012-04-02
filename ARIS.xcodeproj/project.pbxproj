@@ -72,25 +72,25 @@
 		11BE775413B0F9BE000D037B /* glues_project.c in Sources */ = {isa = PBXBuildFile; fileRef = 11BE770513B0F9BE000D037B /* glues_project.c */; };
 		11BE775513B0F9BE000D037B /* glues_quad.c in Sources */ = {isa = PBXBuildFile; fileRef = 11BE770713B0F9BE000D037B /* glues_quad.c */; };
 		11BE775613B0F9BE000D037B /* glues_registry.c in Sources */ = {isa = PBXBuildFile; fileRef = 11BE770913B0F9BE000D037B /* glues_registry.c */; };
-		11BE776413B0F9BE000D037B /* PLCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE772813B0F9BE000D037B /* PLCamera.m */; };
-		11BE776513B0F9BE000D037B /* PLControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE772B13B0F9BE000D037B /* PLControl.m */; };
-		11BE776613B0F9BE000D037B /* PLControlZoomIn.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE772E13B0F9BE000D037B /* PLControlZoomIn.m */; };
-		11BE776713B0F9BE000D037B /* PLControlZoomOut.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE773013B0F9BE000D037B /* PLControlZoomOut.m */; };
-		11BE776813B0F9BE000D037B /* PLCube.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE773213B0F9BE000D037B /* PLCube.m */; };
-		11BE776913B0F9BE000D037B /* PLCylinder.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE773413B0F9BE000D037B /* PLCylinder.m */; };
-		11BE776A13B0F9BE000D037B /* PLImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE773713B0F9BE000D037B /* PLImage.m */; };
-		11BE776B13B0F9BE000D037B /* PLMath.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE773913B0F9BE000D037B /* PLMath.m */; };
-		11BE776C13B0F9BE000D037B /* PLObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE773B13B0F9BE000D037B /* PLObject.m */; };
-		11BE776D13B0F9BE000D037B /* PLRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE773D13B0F9BE000D037B /* PLRenderer.m */; };
-		11BE776E13B0F9BE000D037B /* PLResources.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE773F13B0F9BE000D037B /* PLResources.m */; };
-		11BE776F13B0F9BE000D037B /* PLScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE774113B0F9BE000D037B /* PLScene.m */; };
-		11BE777013B0F9BE000D037B /* PLSceneElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE774313B0F9BE000D037B /* PLSceneElement.m */; };
-		11BE777113B0F9BE000D037B /* PLSceneElementBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE774513B0F9BE000D037B /* PLSceneElementBase.m */; };
-		11BE777213B0F9BE000D037B /* PLSphere.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE774713B0F9BE000D037B /* PLSphere.m */; };
-		11BE777313B0F9BE000D037B /* PLTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE774A13B0F9BE000D037B /* PLTexture.m */; };
-		11BE777413B0F9BE000D037B /* PLUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE774C13B0F9BE000D037B /* PLUtils.m */; };
-		11BE777513B0F9BE000D037B /* PLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE774E13B0F9BE000D037B /* PLView.m */; };
-		11BE777613B0F9BE000D037B /* PLViewBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE775013B0F9BE000D037B /* PLViewBase.m */; };
+		11BE776413B0F9BE000D037B /* PLCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE772813B0F9BE000D037B /* PLCamera.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		11BE776513B0F9BE000D037B /* PLControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE772B13B0F9BE000D037B /* PLControl.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		11BE776613B0F9BE000D037B /* PLControlZoomIn.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE772E13B0F9BE000D037B /* PLControlZoomIn.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		11BE776713B0F9BE000D037B /* PLControlZoomOut.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE773013B0F9BE000D037B /* PLControlZoomOut.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		11BE776813B0F9BE000D037B /* PLCube.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE773213B0F9BE000D037B /* PLCube.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		11BE776913B0F9BE000D037B /* PLCylinder.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE773413B0F9BE000D037B /* PLCylinder.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		11BE776A13B0F9BE000D037B /* PLImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE773713B0F9BE000D037B /* PLImage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		11BE776B13B0F9BE000D037B /* PLMath.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE773913B0F9BE000D037B /* PLMath.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		11BE776C13B0F9BE000D037B /* PLObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE773B13B0F9BE000D037B /* PLObject.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		11BE776D13B0F9BE000D037B /* PLRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE773D13B0F9BE000D037B /* PLRenderer.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		11BE776E13B0F9BE000D037B /* PLResources.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE773F13B0F9BE000D037B /* PLResources.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		11BE776F13B0F9BE000D037B /* PLScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE774113B0F9BE000D037B /* PLScene.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		11BE777013B0F9BE000D037B /* PLSceneElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE774313B0F9BE000D037B /* PLSceneElement.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		11BE777113B0F9BE000D037B /* PLSceneElementBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE774513B0F9BE000D037B /* PLSceneElementBase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		11BE777213B0F9BE000D037B /* PLSphere.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE774713B0F9BE000D037B /* PLSphere.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		11BE777313B0F9BE000D037B /* PLTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE774A13B0F9BE000D037B /* PLTexture.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		11BE777413B0F9BE000D037B /* PLUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE774C13B0F9BE000D037B /* PLUtils.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		11BE777513B0F9BE000D037B /* PLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE774E13B0F9BE000D037B /* PLView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		11BE777613B0F9BE000D037B /* PLViewBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 11BE775013B0F9BE000D037B /* PLViewBase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		11BE779113B0FB2D000D037B /* alg-outline in Resources */ = {isa = PBXBuildFile; fileRef = 11BE777813B0FB2D000D037B /* alg-outline */; };
 		11BE779213B0FB2D000D037B /* dict.c in Sources */ = {isa = PBXBuildFile; fileRef = 11BE777A13B0FB2D000D037B /* dict.c */; };
 		11BE779313B0FB2D000D037B /* geom.c in Sources */ = {isa = PBXBuildFile; fileRef = 11BE777C13B0FB2D000D037B /* geom.c */; };
@@ -2420,6 +2420,7 @@
 					armv7,
 					armv6,
 				);
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer: David Gagnon (56YHU87885)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: David Gagnon (56YHU87885)";
@@ -2429,7 +2430,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ARIS_Prefix.pch;
-				GCC_VERSION = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"thirdParty/zxing/iphone/ZXingWidget/Classes/**",
 					thirdParty/zxing/cpp/core/src/,
@@ -2547,7 +2548,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ARIS_Prefix.pch;
-				GCC_VERSION = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					"thirdParty/zxing/iphone/ZXingWidget/Classes/**",
 					thirdParty/zxing/cpp/core/src/,

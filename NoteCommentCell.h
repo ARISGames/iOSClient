@@ -23,17 +23,17 @@
     IBOutlet UIButton *likesButton;
     Note *note;
 }
-@property(nonatomic,retain)IBOutlet UITextView *titleLabel;
-@property(nonatomic,retain)IBOutlet UILabel *userLabel;
-@property(nonatomic,retain)IBOutlet UILabel *likeLabel;
+@property(nonatomic)IBOutlet UITextView *titleLabel;
+@property(nonatomic)IBOutlet UILabel *userLabel;
+@property(nonatomic)IBOutlet UILabel *likeLabel;
 
-@property(nonatomic,retain)IBOutlet UIButton *likesButton;
-@property(nonatomic,retain)Note *note;
-@property(nonatomic,retain)IBOutlet UIImageView *mediaIcon2;
-@property(nonatomic,retain)IBOutlet UIImageView *mediaIcon3;
-@property(nonatomic,retain)IBOutlet UIImageView *mediaIcon4;
-@property(nonatomic,retain)IBOutlet UIButton *retryButton;
-@property(nonatomic,retain)IBOutlet UIActivityIndicatorView *spinner;
+@property(nonatomic)IBOutlet UIButton *likesButton;
+@property(nonatomic)Note *note;
+@property(nonatomic)IBOutlet UIImageView *mediaIcon2;
+@property(nonatomic)IBOutlet UIImageView *mediaIcon3;
+@property(nonatomic)IBOutlet UIImageView *mediaIcon4;
+@property(nonatomic)IBOutlet UIButton *retryButton;
+@property(nonatomic)IBOutlet UIActivityIndicatorView *spinner;
 -(void)checkForRetry;
 -(IBAction)retryUpload;
 -(IBAction)likeButtonTouched;

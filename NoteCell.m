@@ -28,7 +28,6 @@
         if([(Note *)[nVC.gameNoteList objectAtIndex:self.index] creatorId] == [AppModel sharedAppModel].playerId){
             [holdLbl addGestureRecognizer:gesture];
         }
-        [gesture release];
 
     }
     else{
@@ -36,7 +35,6 @@
             [holdLbl addGestureRecognizer:gesture];
 
         }
-        [gesture release];
 
 
     }
@@ -114,20 +112,8 @@
 - (void)dealloc
 {
     NSLog(@"NoteCell: Dealloc");
-    [titleLabel release];
-    [likeLabel release];
-    [likesButton release];
-    [commentsLbl release];
-    [holdLbl release];
-    [note release];
-    [mediaIcon1 release];
-    [mediaIcon2 release];
-    [mediaIcon3 release];
-    [mediaIcon4 release];
-    [starView release]; 
     
                
-    [super dealloc];
 }
 
 

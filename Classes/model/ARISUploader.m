@@ -39,8 +39,8 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
         serverURL = [[AppModel sharedAppModel].serverURL 
                      URLByAppendingPathComponent:
                      [NSString stringWithFormat: @"services/%@/uploadHandler.php",kARISServerServicePackage]];
-        urlToUpload = [aUrlToUpload retain];
-        delegate = [aDelegate retain];
+        urlToUpload = aUrlToUpload;
+        delegate = aDelegate;
         doneSelector = aDoneSelector;
         errorSelector = anErrorSelector;        
     }
@@ -71,16 +71,12 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
 
 - (void)dealloc
 {
-    [serverURL release];
     serverURL = nil;
-    [urlToUpload release];
     urlToUpload = nil;
-    [delegate release];
     delegate = nil;
     doneSelector = NULL;
     errorSelector = NULL;
     
-    [super dealloc];
 }
 
 @end
@@ -155,13 +151,11 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     NSLog(@"ARISUploader: connectionDidFinishLoading");
-    [connection release];
     [self uploadSucceeded:uploadDidSucceed];
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)aError {
     NSLog(@"ARISUploader: connectiondidFailWithError %@", [[aError description] UTF8String]);
-    [connection release];
     [self uploadSucceeded:NO];
     self.error = aError;
 }
@@ -177,9 +171,8 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
 {
     NSLog(@"ARISUploader: connectiondidReceiveData");
     
-    NSString *reply = [[[NSString alloc] initWithData:data
-                                             encoding:NSUTF8StringEncoding]
-                       autorelease];
+    NSString *reply = [[NSString alloc] initWithData:data
+                                             encoding:NSUTF8StringEncoding];
     
     if ([reply hasPrefix:@"aris"]) {
         uploadDidSucceed = YES;
