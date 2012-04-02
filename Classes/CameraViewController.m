@@ -23,7 +23,7 @@
 @synthesize libraryButton;
 @synthesize mediaData;
 @synthesize mediaFilename;
-@synthesize profileButton,parentDelegate,backView,showVid, noteId,editView;
+@synthesize profileButton,parentDelegate,backView,showVid, noteId,editView,picker;
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle {
@@ -78,7 +78,7 @@
 
 - (IBAction)cameraButtonTouchAction {
 	NSLog(@"Camera Button Pressed");
-    UIImagePickerController *picker = [[UIImagePickerController alloc]init];
+    picker = [[UIImagePickerController alloc]init];
     picker.delegate = self;
 picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:picker.sourceType];
     
@@ -104,7 +104,7 @@ picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pi
 
 - (IBAction)libraryButtonTouchAction {
 	NSLog(@"Library Button Pressed");
-    UIImagePickerController *picker = [[UIImagePickerController alloc]init];
+    picker = [[UIImagePickerController alloc]init];
     picker.delegate = self;
 	picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     
@@ -113,7 +113,7 @@ picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pi
 
 - (IBAction)profileButtonTouchAction {
 	NSLog(@"Profile Button Pressed");
-    UIImagePickerController *picker = [[UIImagePickerController alloc]init];
+    picker = [[UIImagePickerController alloc]init];
     picker.delegate = self;
 
 	picker.sourceType = UIImagePickerControllerSourceTypeCamera;
@@ -125,13 +125,13 @@ picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pi
 }
 
 #pragma mark UIImagePickerControllerDelegate Protocol Methods
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary  *)info
+- (void)imagePickerController:(UIImagePickerController *)aPicker didFinishPickingMediaWithInfo:(NSDictionary  *)info
 
 {
 	NSLog(@"CameraViewController: User Selected an Image or Video");
 		
 	//[[picker parentViewController] dismissModalViewControllerAnimated:NO];
-    [picker dismissModalViewControllerAnimated:NO];
+    [aPicker dismissModalViewControllerAnimated:NO];
 
 	//Get the data for the selected image or video
 	NSString* mediaType = [info objectForKey:UIImagePickerControllerMediaType];
@@ -206,8 +206,8 @@ picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pi
 -(void) uploadMedia {
     }
 
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    [picker dismissModalViewControllerAnimated:NO];
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)aPicker {
+    [aPicker dismissModalViewControllerAnimated:NO];
     if([backView isKindOfClass:[NotebookViewController class]]){
         [[AppServices sharedAppServices]deleteNoteWithNoteId:self.noteId];
         [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.noteId]];   
@@ -233,8 +233,9 @@ picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pi
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
     
     // Release anything that's not essential, such as cached data
-    
-    
+    [self.picker dismissModalViewControllerAnimated:NO];
+    [self.navigationController popViewControllerAnimated:NO];
+
     /*
      Try to let go of the camera to save a crash
     if (self.modalViewController.retainCount)

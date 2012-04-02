@@ -22,6 +22,7 @@
     id backView, parentDelegate, editView;
     int noteId;
     BOOL bringUpCamera;
+    UIImagePickerController *picker;
 }
 
 @property (nonatomic) IBOutlet UIButton *cameraButton;
@@ -33,7 +34,7 @@
 @property (nonatomic) id backView;
 @property (nonatomic) id parentDelegate;
 @property (nonatomic) id editView;
-
+@property(nonatomic)UIImagePickerController *picker;
 
 @property(readwrite,assign) BOOL showVid;
 @property(readwrite,assign) int noteId;
