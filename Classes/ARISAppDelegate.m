@@ -782,6 +782,26 @@ BOOL isShowingNotification;
     else NSLog(@"AppDelegate: displayIntroNode: Game did not specify an intro node, skipping");
 }
 
+// handle opening ARIS using custom URL of form ARIS://game=5423 
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+   /* if (!url) {  return NO; }
+    
+    // parse URL for game id
+    NSString *gameIDQuery = [url query];
+    if (!gameIDQuery) {return NO;}
+    NSRange equalsSignRange = [gameIDQuery rangeOfString: @"="];
+    if (equalsSignRange.length == 0) {return NO;}
+    int equalsSignIndex = equalsSignRange.location;
+    NSString *gameID = [gameIDQuery substringFromIndex: equalsSignIndex+1];
+    
+    // open game with game id
+    
+    //[[NSUserDefaults standardUserDefaults] setObject:URLString forKey:@"url"];
+    //[[NSUserDefaults standardUserDefaults] synchronize];*/
+    return YES;
+}
+
 #pragma mark AlertView Delegate Methods
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
