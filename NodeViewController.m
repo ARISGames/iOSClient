@@ -16,6 +16,7 @@
 #import "webpageViewController.h"
 #import "WebPage.h"
 #import <AVFoundation/AVFoundation.h>
+#import "AsyncMediaPlayerButton.h"
 #import "UIImage+Scale.h"
 
 static NSString * const OPTION_CELL = @"option";
@@ -107,27 +108,13 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     {
         NSLog(@"NodeVC: This is an A/V Plaque");
                 
-        //Create movie player object
-        mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
-        [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
-        mMoviePlayer.moviePlayer.shouldAutoplay = NO;
-        [mMoviePlayer.moviePlayer prepareToPlay];
-                
-        //Setup the Button
-        mediaPlaybackButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 300, 240)];
-        [mediaPlaybackButton addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
-        mediaPlaybackButton.backgroundColor = [UIColor blackColor];
         
-        //Add the overlay
-        UIImageView *playButonOverlay = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"play_button.png"]];
-        playButonOverlay.center = mediaPlaybackButton.center;
-        playButonOverlay.contentMode = UIViewContentModeScaleToFill;
-        [mediaPlaybackButton addSubview:playButonOverlay]; 
+        AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(0, 0, 300, 240) media:media presentingController:self];
         
         //Setup the cell as the video preview button
         mediaCell.selectionStyle = UITableViewCellSelectionStyleNone;
-        mediaCell.frame = mediaPlaybackButton.frame;
-        mediaCell.backgroundView = mediaPlaybackButton;
+        mediaCell.frame = mediaButton.frame;
+        mediaCell.backgroundView = mediaButton;
 
     }
     

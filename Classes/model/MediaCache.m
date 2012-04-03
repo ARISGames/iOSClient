@@ -88,7 +88,6 @@ if([allMedia count] != 0)
 }
 
 -(Media *)addMediaToCache:(int) uid{
-    NSError *error;
 
     Media *media = [NSEntityDescription insertNewObjectForEntityForName:@"Media" inManagedObjectContext:context];
     
@@ -97,6 +96,7 @@ if([allMedia count] != 0)
     
     return media;
 }
+
 -(NSArray *)mediaForPredicate:(NSPredicate *)predicate{
     NSError *error;
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -131,10 +131,7 @@ if([allMedia count] != 0)
     //Media Not found try fetching a new list and looking
     Media *media = [NSEntityDescription insertNewObjectForEntityForName:@"Media" inManagedObjectContext:context];
     
-    if (![context save:&error]) {
-        NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
-    }
-    
+       
     media.url = [url absoluteString];   
     
     return media;

@@ -1939,7 +1939,11 @@ NSString *const kARISServerServicePackage = @"v1";
 	}
     
 	[AppModel sharedAppModel].gameList = tempGameList;
-    
+    NSError *error;
+    if (![[AppModel sharedAppModel].mediaCache.context save:&error]) {
+        NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+    }
+
     NSLog(@"AppModel: parseGameListFromJSON Complete, sending notification");
     
 	
@@ -1965,7 +1969,10 @@ NSString *const kARISServerServicePackage = @"v1";
 	}
     
 	[AppModel sharedAppModel].recentGameList = tempGameList;
-    
+    NSError *error;
+    if (![[AppModel sharedAppModel].mediaCache.context save:&error]) {
+        NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+    }
     NSLog(@"AppModel: parseGameListFromJSON Complete, sending notification");
     
 	

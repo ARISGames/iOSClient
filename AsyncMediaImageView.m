@@ -32,9 +32,10 @@
         self.loaded = NO;
         self.contentMode = UIViewContentModeScaleAspectFill;
         self.clipsToBounds = YES;
-        if(!media)
+        if(!media){
+            if(mediaId == 0) NSLog(@"mediaForID 0");
         media = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
-
+        }
         if([media.type isEqualToString:kMediaTypeImage]){
             NSLog(@"AsyncMediaImageView: Load an Image");
             [self loadImageFromMedia:media];
@@ -166,13 +167,13 @@
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString: self.media.url]
 											 cachePolicy:NSURLRequestUseProtocolCachePolicy
 										 timeoutInterval:60.0];
-    self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
 
 
 - (void)connection:(NSURLConnection *)theConnection didReceiveData:(NSData *)incrementalData {
     if (self.data==nil) {
-		self.data = [[NSMutableData alloc] initWithCapacity:2048];
+		data = [[NSMutableData alloc] initWithCapacity:2048];
     }
     [self.data appendData:incrementalData];
 }
@@ -187,7 +188,7 @@
     }
     
 	//throw out the connection
-    self.connection;
+    if(self.connection!=nil)
     self.connection=nil;
 	
 	//turn the data into an image
@@ -198,6 +199,7 @@
 	//Save the image in the media
     if(image)
 	self.media.image =data;
+    
     //throw out the data
 
     self.loaded = YES;
