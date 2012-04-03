@@ -110,6 +110,7 @@ NSMutableArray *notifArray;
 - (void) showGameSelectionTabBarAndHideOthers;
 - (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate;
 - (void) checkForDisplayCompleteNode;
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url;
 - (void) displayIntroNode;
 - (void) displayNotificationTitle:(NSDictionary *) titleAndPrompt;
 - (void) changeNavColor: (NSDictionary *) navBarAndColorDict;
@@ -120,4 +121,5 @@ NSMutableArray *notifArray;
 - (void) showNotifications;
 - (void) hideNotifications;
 - (void)dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController;
+- (void) handleOpenURLGamesListReady;
 @end

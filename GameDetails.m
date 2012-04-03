@@ -87,6 +87,7 @@ NSString *const kGameDetailsHtmlTemplate =
 	scrollView.contentSize = CGSizeMake(contentView.frame.size.width,contentView.frame.size.height);
 	
 	NSString *htmlDescription = [NSString stringWithFormat:kGameDetailsHtmlTemplate, self.game.description];
+    NSLog(@"Game ID = %i", self.game.gameId);
 	NSLog(@"GameDetails: HTML Description: %@", htmlDescription);
 	descriptionWebView.delegate = self;
     descriptionWebView.hidden = NO;
@@ -124,6 +125,8 @@ NSString *const kGameDetailsHtmlTemplate =
  shouldStartLoadWithRequest:(NSURLRequest *)request  
  navigationType:(UIWebViewNavigationType)navigationType; {  
  
+  NSLog(@"webView Called");
+     
  NSURL *requestURL = [ request URL ];  
  // Check to see what protocol/scheme the requested URL is.  
  if ( ( [ [ requestURL scheme ] isEqualToString: @"http" ]  

@@ -13,6 +13,7 @@
 #import "Media.h"
 
 
+
 @interface GameDetails : UIViewController <UITableViewDataSource,UITableViewDelegate,
                                         UITextViewDelegate,  UIWebViewDelegate>{
 	Game *game; 
@@ -30,6 +31,7 @@
     CGFloat newHeight;
     NSIndexPath *descriptionIndexPath;
     Media *splashMedia;
+
 }
 @property (nonatomic) NSIndexPath *descriptionIndexPath;
 @property (nonatomic) Game *game;

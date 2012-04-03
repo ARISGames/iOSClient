@@ -15,6 +15,7 @@
 #import "GamePickerMapViewController.h"
 #import "GamePickerSearchViewController.h"
 #import "GamePickerRecentViewController.h"
+#import "GameDetails.h"
 #import "webpageViewController.h"
 #import "NoteDetailsViewController.h"
 
@@ -785,25 +786,55 @@ BOOL isShowingNotification;
     else NSLog(@"AppDelegate: displayIntroNode: Game did not specify an intro node, skipping");
 }
 
-// handle opening ARIS using custom URL of form ARIS://game=5423 
+// handle opening ARIS using custom URL of form ARIS://?game=397 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-   /* if (!url) {  return NO; }
+    NSLog(@"ARIS opened from URL");
+    if (!url) {  return NO; }
+    NSLog(@"URL found");
     
     // parse URL for game id
-    NSString *gameIDQuery = [url query];
+    NSString *gameIDQuery = [[url query] lowercaseString];
+    NSLog(@"gameIDQuery = %@",gameIDQuery);
+    
     if (!gameIDQuery) {return NO;}
-    NSRange equalsSignRange = [gameIDQuery rangeOfString: @"="];
+    NSRange equalsSignRange = [gameIDQuery rangeOfString: @"game=" ];
     if (equalsSignRange.length == 0) {return NO;}
     int equalsSignIndex = equalsSignRange.location;
-    NSString *gameID = [gameIDQuery substringFromIndex: equalsSignIndex+1];
+    NSString *gameID = [gameIDQuery substringFromIndex: equalsSignIndex+equalsSignRange.length];
+    NSLog(@"gameID=: %@",gameID);
     
-    // open game with game id
-    
-    //[[NSUserDefaults standardUserDefaults] setObject:URLString forKey:@"url"];
-    //[[NSUserDefaults standardUserDefaults] synchronize];*/
+    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+    [dispatcher addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"NewGameListReady" object:nil];
+    [[AppServices sharedAppServices] fetchOneGame:[gameID intValue]];
+        
     return YES;
 }
+
+- (void) handleOpenURLGamesListReady {
+     NSLog(@"game opened");
+
+    //unregister for notifications
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    Game *selectedGame = [[[AppModel sharedAppModel] gameList] objectAtIndex:0];	
+    GameDetails *gameDetailsVC = [[GameDetails alloc]initWithNibName:@"GameDetails" bundle:nil];
+    gameDetailsVC.game = selectedGame;
+    
+    // show gameSelectionTabBarController
+    self.tabBarController.view.hidden = YES;
+    self.loginViewController.view.hidden = YES;
+    self.gameSelectionTabBarController.view.hidden = NO;
+    
+    NSLog(@"gameID= %i",selectedGame.gameId);
+    NSLog(@"game= %@",selectedGame.name);
+    NSLog(@"gameDetailsVC nib name = %@",gameDetailsVC.nibName); 
+    
+    // Push Game Detail View Controller
+    [(UINavigationController*)self.gameSelectionTabBarController.selectedViewController pushViewController:gameDetailsVC animated:YES];  
+
+}
+
 
 #pragma mark AlertView Delegate Methods
 
