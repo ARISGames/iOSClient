@@ -147,6 +147,30 @@ if([allMedia count] != 0)
         maxMediaCount = 100;
         self.context = [AppModel sharedAppModel].managedObjectContext;
        // [self clearCache];
+        /*NSArray *allStores = [[AppModel sharedAppModel].persistentStoreCoordinator persistentStores];
+        unsigned long long totalBytes = 0;
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        for (NSPersistentStore *store in allStores) {
+            if (![store.URL isFileURL]) continue; // only file URLs are compatible with NSFileManager
+            NSString *path = [[store URL] path];
+            // NSDictionary has a category to assist with NSFileManager attributes
+            totalBytes += [[fileManager attributesOfItemAtPath:path error:NULL] fileSize];
+        }*/
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        NSString *persistentStorePath = [documentsDirectory stringByAppendingPathComponent:@"UploadContent.sqlite"];
+        
+        NSError *error = nil;
+        NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:persistentStorePath error:&error];
+        NSLog(@"Persistent store size: %@ bytes", [fileAttributes objectForKey:NSFileSize]);
+        
+        NSDictionary *fileSystemAttributes = [[NSFileManager defaultManager] attributesOfFileSystemForPath:persistentStorePath error:&error];
+        NSLog(@"Free space on file system: %@ bytes", [fileSystemAttributes objectForKey:NSFileSystemFreeSize]);
+        float mBLeft = [[fileSystemAttributes objectForKey:NSFileSystemFreeSize] floatValue]/(float)1000000;
+        NSLog(@"Free space in MB: %f",mBLeft);
+        if (mBLeft <= 100) {
+            [self clearCache];
+        }
     }
     return self;
 }
