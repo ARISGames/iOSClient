@@ -2075,11 +2075,19 @@ NSString *const kARISServerServicePackage = @"v1";
 
 
 -(void)parseGameMediaListFromJSON: (JSONResult *)jsonResult{
+    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate showNewWaitingIndicator:@"Loading Game..." displayProgressBar:NO];
     
-	NSArray *mediaListArray = (NSArray *)jsonResult.data;
+    [self performSelector:@selector(startCachingMedia:) withObject:jsonResult afterDelay:.1];
     
-	NSMutableDictionary *tempMediaList = [[NSMutableDictionary alloc] init];
+	}
+
+-(void)startCachingMedia:(JSONResult *)jsonResult{
+    NSArray *mediaListArray = (NSArray *)jsonResult.data;
+    
 	NSEnumerator *enumerator = [mediaListArray objectEnumerator];
+    NSString *batch = @"";
+    NSMutableDictionary *unCachedMedia = [[NSMutableDictionary alloc]initWithCapacity:10];
 	NSDictionary *dict;
 	while ((dict = [enumerator nextObject])) {
 		NSInteger uid = [[dict valueForKey:@"media_id"] intValue];
@@ -2097,28 +2105,50 @@ NSString *const kARISServerServicePackage = @"v1";
 			continue;
 		}
 		if ([type length] < 1) {
-			//NSLog(@"AppModel fetchGameMediaList: Empty type for media #%d", uid);
-			//continue;
 		}
-		
-		
-		NSString *fullUrl = [NSString stringWithFormat:@"%@%@", urlPath, fileName];
-		//NSLog(@"AppModel fetchGameMediaList: Full URL: %@", fullUrl);
-		
-		//Media *media = [[Media alloc] initWithId:uid andUrl:[NSURL URLWithString: fullUrl] ofType:type];
-		//[tempMediaList setObject:media forKey:[NSNumber numberWithInt:uid]];
-		//[media release];
-       Media *media = [[AppModel sharedAppModel] mediaForMediaId:uid];
-        media.type = type;
-        media.url = fullUrl;
+        NSString *fullUrl = [NSString stringWithFormat:@"%@%@", urlPath, fileName];
+        NSString *urlAndType = [fullUrl stringByAppendingFormat:@"&%@",type];
+        
+		[unCachedMedia setObject:urlAndType forKey:[NSNumber numberWithInteger:uid]];
+		batch = [batch stringByAppendingFormat:@"(uid == %d) OR ",uid];
+        
+        /* Media *media = [[AppModel sharedAppModel] mediaForMediaId:uid];
+         media.type = type;
+         media.url = fullUrl;*/
 	}
+    batch = [batch substringToIndex:(batch.length - 4)];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:batch];
+    
+    NSLog(@"Batch Request: %@",batch);
+    NSArray *cachedMediaArray = [[AppModel sharedAppModel].mediaCache mediaForPredicate:predicate];
+    NSMutableDictionary *cachedMediaDict = [[NSMutableDictionary alloc]initWithCapacity:cachedMediaArray.count];
+    for(int i = 0; i < cachedMediaArray.count;i++){
+        [cachedMediaDict setObject:[[cachedMediaArray objectAtIndex:i] uid] forKey:[[cachedMediaArray objectAtIndex:i] uid]];
+    }
+    NSArray *unCachedMediaArray = unCachedMedia.allKeys;
+    for(int i = 0; i < unCachedMediaArray.count; i++){
+        NSNumber *mediaId = [cachedMediaDict objectForKey:[unCachedMediaArray objectAtIndex:i]];
+        if(!mediaId){
+            Media *media = [[AppModel sharedAppModel].mediaCache addMediaToCache:[[unCachedMediaArray objectAtIndex:i] intValue]];
+            NSString *urlAndType = [unCachedMedia objectForKey:[unCachedMediaArray objectAtIndex:i]];
+            NSArray *components = [urlAndType componentsSeparatedByCharactersInSet:
+                                   [NSCharacterSet characterSetWithCharactersInString:@"&"]];
+            media.type = [components objectAtIndex:1];
+            media.url = [components objectAtIndex:0];
+            NSLog(@"Cached Media: %d withType: %@ andURL: %@",[[unCachedMediaArray objectAtIndex:i] intValue],[components objectAtIndex:1],[components objectAtIndex:0]);
+        }
+    }
+    NSError *error;
+    if (![[AppModel sharedAppModel].mediaCache.context save:&error]) {
+        NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+    }
+    
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedMediaList" object:nil]];
+    
+    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate removeNewWaitingIndicator];
 
-	//[AppModel sharedAppModel].gameMediaList = tempMediaList;
-	//[tempMediaList release];
 }
-
-
 -(void)parseGameItemListFromJSON: (JSONResult *)jsonResult{
 	NSArray *itemListArray = (NSArray *)jsonResult.data;
     

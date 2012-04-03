@@ -21,4 +21,6 @@
 
 -(Media *)mediaForMediaId:(int)uid;
 -(Media *)mediaForUrl:(NSURL *)url;
+-(NSArray *)mediaForPredicate:(NSPredicate *)predicate;
+-(Media *)addMediaToCache:(int) uid;
 @end

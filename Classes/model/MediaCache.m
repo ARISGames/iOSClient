@@ -87,6 +87,29 @@ if([allMedia count] != 0)
    
 }
 
+-(Media *)addMediaToCache:(int) uid{
+    NSError *error;
+
+    Media *media = [NSEntityDescription insertNewObjectForEntityForName:@"Media" inManagedObjectContext:context];
+    
+       
+    media.uid = [NSNumber numberWithInt: uid];   
+    
+    return media;
+}
+-(NSArray *)mediaForPredicate:(NSPredicate *)predicate{
+    NSError *error;
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Media" 
+                                              inManagedObjectContext:context];
+    [fetchRequest setEntity:entity];
+    [fetchRequest setPredicate:predicate];
+    NSArray *allMedia = [context executeFetchRequest:fetchRequest error:&error] ;
+    
+    return allMedia;
+    
+}
+
 -(Media *)mediaForUrl:(NSURL *)url{
     NSLog(@"MediaCache:mediaForUrl");
     
