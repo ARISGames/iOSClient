@@ -154,14 +154,6 @@ picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pi
         
         
         self.mediaFilename = [NSString stringWithFormat:@"%@image.jpg",[NSDate date]];
-        if(showVid){
-            //if you are actually taking a photo or video then save it
-            void *context;
-            UIImageWriteToSavedPhotosAlbum(image, 
-                                       self, 
-                                       @selector(image:didFinishSavingWithError:contextInfo:), 
-                                       context );
-        }
 
         // Get metaData For Raw Image
         NSMutableDictionary *newMetadata = [[NSMutableDictionary alloc] initWithDictionary:[info objectForKey:UIImagePickerControllerMediaMetadata]];
