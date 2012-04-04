@@ -100,6 +100,7 @@ extern NSDictionary *InventoryElements;
 
 @property(nonatomic) Game *currentGame;
 
+@property(nonatomic) NSURL *fileToDeleteURL;
 @property(nonatomic) NSMutableArray *gameList;
 @property(nonatomic) NSMutableArray *recentGameList;	
 @property(nonatomic) NSMutableArray *locationList;
@@ -150,6 +151,8 @@ extern NSDictionary *InventoryElements;
 @property (nonatomic, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property(nonatomic) UploadMan *uploadManager;
 @property(nonatomic) MediaCache *mediaCache;
+
+
 
 
 

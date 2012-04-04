@@ -24,7 +24,7 @@
 
 @synthesize nearbyLocationsList,gameTagList;
 @synthesize hasSeenNearbyTabTutorial,hasSeenQuestsTabTutorial,hasSeenMapTabTutorial,hasSeenInventoryTabTutorial, tabsReady,hidePlayers,progressBar,isGameNoteList,uploadManager,mediaCache,hasReceivedMediaList;
-
+@synthesize fileToDeleteURL;
 
 + (id)sharedAppModel
 {

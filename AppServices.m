@@ -26,7 +26,6 @@ NSString *const kARISServerServicePackage = @"v1";
 @synthesize currentlyFetchingLocationList, currentlyFetchingInventory, currentlyFetchingQuestList, currentlyFetchingGamesList, currentlyUpdatingServerWithPlayerLocation,currentlyFetchingGameNoteList,currentlyFetchingPlayerNoteList;
 @synthesize currentlyUpdatingServerWithMapViewed, currentlyUpdatingServerWithQuestsViewed, currentlyUpdatingServerWithInventoryViewed;
 
-
 + (id)sharedAppServices
 {
     static dispatch_once_t pred = 0;
@@ -760,10 +759,13 @@ NSString *const kARISServerServicePackage = @"v1";
     
     NSLog(@"Model: Uploading File. gameID:%d",[AppModel sharedAppModel].currentGame.gameId);
     
+    [AppModel sharedAppModel].fileToDeleteURL = fileURL;
+    
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate showNewWaitingIndicator:@"Uploading" displayProgressBar:YES];
     //[uplaoder setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
     [uploader upload];
+    
 }
 
 
@@ -797,6 +799,15 @@ NSString *const kARISServerServicePackage = @"v1";
                                                                andUserInfo:nil];
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseQRCodeObjectFromJSON:)]; 
     
+    
+    
+    // delete temporary image file
+    NSError *error;
+    NSFileManager *fileMgr = [NSFileManager defaultManager];
+    
+    if ([fileMgr removeItemAtURL:[AppModel sharedAppModel].fileToDeleteURL error:&error] != YES)
+        NSLog(@"Unable to delete file: %@", [error localizedDescription]);
+    
 }
 
 
@@ -807,6 +818,13 @@ NSString *const kARISServerServicePackage = @"v1";
 	NSError *error = [uploader error];
 	NSLog(@"Model: uploadRequestFailed: %@",[error localizedDescription]);
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message: @"An network error occured while uploading the file" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+ 
+    // delete temporary image file
+    NSError *error2;
+    NSFileManager *fileMgr = [NSFileManager defaultManager];
+    
+    if ([fileMgr removeItemAtURL:[AppModel sharedAppModel].fileToDeleteURL error:&error2] != YES)
+        NSLog(@"Unable to delete file: %@", [error localizedDescription]);;
 	
 	[alert show];
 }
