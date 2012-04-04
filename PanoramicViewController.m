@@ -166,7 +166,8 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
 -(void) viewDidDisappear:(BOOL)animated {
     NSLog(@"PanoVC: viewDidDisappear");
     [(Media *)[self.panoramic.textureArray objectAtIndex:0] setImage:nil];
-   
+    [plView.motionManager stopGyroUpdates];
+    [plView.gyroTimer invalidate];
 }
 
 
@@ -231,12 +232,12 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:aMedia.url]
 											 cachePolicy:NSURLRequestUseProtocolCachePolicy
 										 timeoutInterval:60.0];
-    self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
 
 - (void)connection:(NSURLConnection *)theConnection didReceiveData:(NSData *)incrementalData {
     if (self.data==nil) {
-		self.data = [[NSMutableData alloc] initWithCapacity:2048];
+		data = [[NSMutableData alloc] initWithCapacity:2048];
     }
     [self.data appendData:incrementalData];
 }
@@ -246,7 +247,6 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	
 	//throw out the connection
-    self.connection;
     self.connection=nil;
 	
 	//turn the data into an image
@@ -261,12 +261,11 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
     }
     
 	//throw out the data
-	self.data;
     self.data=nil;
 	
 	//Save the image in the media
 	self.media.image = UIImageJPEGRepresentation(image, 1.0);
-	self.media.image;
+	if(self.media.image)
     [self showPanoView];
 	
 	}

@@ -72,7 +72,7 @@
 
 @implementation PLViewBase
 
-@synthesize animationTimer;
+@synthesize animationTimer,gyroTimer;
 @synthesize animationInterval;
 
 @synthesize isDeviceOrientationEnabled;
@@ -752,7 +752,7 @@
     CMDeviceMotion *deviceMotion = motionManager.deviceMotion;      
     //CMAttitude *attitude = deviceMotion.attitude;
     //referenceAttitude = [attitude retain];
-    [NSTimer scheduledTimerWithTimeInterval:.03 target:self selector:@selector(getDeviceGLRotationMatrix) userInfo:nil repeats:YES];
+    self.gyroTimer = [NSTimer scheduledTimerWithTimeInterval:.03 target:self selector:@selector(getDeviceGLRotationMatrix) userInfo:nil repeats:YES];
 }
 
 
@@ -764,7 +764,7 @@
    // NSLog(@"PLViewBase: getDeviceGLRotationMatrix: Camera Started at roll: %f pitch: %f yaw: %f",scene.currentCamera.roll,scene.currentCamera.pitch,scene.currentCamera.yaw);
     
     CMAttitude *attitude = motionManager.deviceMotion.attitude;
-    if (!gyroInit) {
+    if (!gyroInit && attitude) {
         gyroInit = YES;
         initPitch = attitude.pitch*180/M_PI;
         initRoll = attitude.roll*180/M_PI;
@@ -781,7 +781,13 @@
     int sign = 1;
     if(ABS(attitude.roll* 180/M_PI)>90) sign = -1;
     else sign =  1;
-       [scene.currentCamera rotateWithPitch:(sign*ABS(attitude.pitch - M_PI/2)* 180/M_PI) yaw:((attitude.yaw - referenceAttitude.yaw) * 180/M_PI) roll:((attitude.roll - referenceAttitude.roll)*180/M_PI)];
+    
+    float newPitch, newYaw, newRoll;
+    newYaw = ((attitude.yaw - referenceAttitude.yaw) * 180/M_PI);
+    newRoll = ((attitude.roll - referenceAttitude.roll)*180/M_PI);
+    newPitch = (sign*ABS(attitude.pitch - M_PI/2)* 180/M_PI);
+    NSLog(@"Pitch: %f  Yaw: %f Roll: %f",newPitch,newYaw,newRoll);
+       [scene.currentCamera rotateWithPitch:newPitch  yaw:newYaw roll:newRoll];
     
   // NSLog(@"PLViewBase: getDeviceGLRotationMatrix: Camera is now at pitch: %f yaw: %f roll: %f\n",(scene.currentCamera.pitch) ,(scene.currentCamera.yaw),scene.currentCamera.roll);
 

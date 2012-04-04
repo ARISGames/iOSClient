@@ -81,6 +81,7 @@
 	PLControlTypeSupported controlTypeSupported;
 	
 	NSObject<PLViewDelegate> *delegate;
+    NSTimer *gyroTimer;
 }
 
 @property(nonatomic, readonly, getter=getCamera) PLCamera * camera;
@@ -111,6 +112,7 @@
 
 @property(nonatomic, retain) CMMotionManager *motionManager;
 @property(nonatomic, retain) CMAttitude *referenceAttitude;
+@property(nonatomic, retain) NSTimer *gyroTimer;
 
 - (PLCamera *)getCamera;
 

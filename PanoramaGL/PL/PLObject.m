@@ -117,8 +117,8 @@
 
 - (void)rotateWithStartPoint:(CGPoint)startPoint endPoint:(CGPoint)endPoint sensitivity:(float)sensitivity
 {
-	self.pitch += (endPoint.y - startPoint.y) / sensitivity;
-	self.yaw += (startPoint.x - endPoint.x) / sensitivity;
+	//self.pitch += (endPoint.y - startPoint.y) / sensitivity;
+	//self.yaw += (startPoint.x - endPoint.x) / sensitivity;
 }
 
 #pragma mark -
