@@ -2332,7 +2332,7 @@ NSString *const kARISServerServicePackage = @"v1";
 */
 
 -(void)parseQRCodeObjectFromJSON: (JSONResult *)jsonResult {
-    
+    NSLog(@"ParseQRCodeObjectFromJSON: Coolio!");
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate removeNewWaitingIndicator];
     
@@ -2340,11 +2340,11 @@ NSString *const kARISServerServicePackage = @"v1";
     
 	if ((NSNull*)jsonResult.data != [NSNull null]) {
 		NSDictionary *qrCodeDictionary = (NSDictionary *)jsonResult.data;
+        if(![qrCodeDictionary isKindOfClass:[NSString class]]){
         NSString *type = [qrCodeDictionary valueForKey:@"link_type"];
         NSDictionary *objectDictionary = [qrCodeDictionary valueForKey:@"object"];
-
 		if ([type isEqualToString:@"Location"]) qrCodeObject = [self parseLocationFromDictionary:objectDictionary];
-
+        }
 	}
 	
 	[[NSNotificationCenter defaultCenter] postNotification: [NSNotification notificationWithName:@"QRCodeObjectReady" object:qrCodeObject]];
