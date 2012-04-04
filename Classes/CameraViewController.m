@@ -15,6 +15,10 @@
 #import "NoteCommentViewController.h"
 #import "NoteEditorViewController.h"
 #import "AssetsLibrary/AssetsLibrary.h"
+#import <ImageIO/CGImageSource.h>
+#import <ImageIO/CGImageProperties.h>
+#import "NSMutableDictionary+ImageMetadata.h"
+
 
 @implementation CameraViewController
 
@@ -24,6 +28,7 @@
 @synthesize mediaData;
 @synthesize mediaFilename;
 @synthesize profileButton,parentDelegate,backView,showVid, noteId,editView,picker;
+
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle {
@@ -125,7 +130,7 @@ picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pi
 }
 
 #pragma mark UIImagePickerControllerDelegate Protocol Methods
-- (void)imagePickerController:(UIImagePickerController *)aPicker didFinishPickingMediaWithInfo:(NSDictionary  *)info
+- (void)imagePickerController:(UIImagePickerController *)aPicker didFinishPickingMediaWithInfo:info
 
 {
 	NSLog(@"CameraViewController: User Selected an Image or Video");
@@ -137,48 +142,88 @@ picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pi
 	NSString* mediaType = [info objectForKey:UIImagePickerControllerMediaType];
 	
 	if ([mediaType isEqualToString:@"public.image"]){
+        
 		UIImage* image = [info objectForKey:UIImagePickerControllerOriginalImage];
         //if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];             
 		NSLog(@"CameraViewController: Found an Image");
         
 		self.mediaData = UIImageJPEGRepresentation(image, 0.4);
-		self.mediaFilename = [NSString stringWithFormat:@"%@image.jpg",[NSDate date]];
+
+        
+        
+        
+        
+        self.mediaFilename = [NSString stringWithFormat:@"%@image.jpg",[NSDate date]];
         if(showVid){
             //if you are actually taking a photo or video then save it
             void *context;
-        UIImageWriteToSavedPhotosAlbum(image, 
+            UIImageWriteToSavedPhotosAlbum(image, 
                                        self, 
                                        @selector(image:didFinishSavingWithError:contextInfo:), 
                                        context );
         }
 
-        NSString *newFilePath =[NSTemporaryDirectory() stringByAppendingString: [NSString stringWithFormat:@"%@image.jpg",[NSDate date]]];
+        // Get metaData For Raw Image
+        NSMutableDictionary *newMetadata = [[NSMutableDictionary alloc] initWithDictionary:[info objectForKey:UIImagePickerControllerMediaMetadata]];
         
-            NSURL *imageURL = [[NSURL alloc] initFileURLWithPath: newFilePath];
-
+        // Add current GPS location data to metaData
+        CLLocation * location = [AppModel sharedAppModel].playerLocation;   
+        [newMetadata setLocation:location];
+        
+        // Add game and player to metadata
+        NSString *gameName = [AppModel sharedAppModel].currentGame.name;
+        NSString *descript = [[NSString alloc] initWithFormat: @"Image Taken in ARIS. Game: %@. Player: %@", gameName, [[AppModel sharedAppModel] userName]];
+        [newMetadata setDescription: descript];
         
         if (self.mediaData != nil) {
-            NSLog(@"HERE [%@]", newFilePath);
-            [mediaData writeToURL:imageURL atomically:YES];
-        }
-        
-        if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]) {
-                       [self.parentDelegate addedPhoto];
+            
+            if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]) {
+                [self.parentDelegate addedPhoto];
+                
+            }
+            
+            if([self.editView isKindOfClass:[NoteEditorViewController class]]) {
+                [self.editView setNoteValid:YES];
+                [self.editView setNoteChanged:YES];
+            }
 
+            // Save image with metadata
+            ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
+            __block NSDate *date = [NSDate date];
+            [al writeImageDataToSavedPhotosAlbum:self.mediaData metadata:newMetadata completionBlock:^(NSURL *assetURL, NSError *error) {
+                NSLog(@"Saving Time: %g", [[NSDate date] timeIntervalSinceDate:date]);
+                
+                                
+                [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:kNoteContentTypePhoto withFileURL:assetURL];
+                
+                // Finished uploading.  Refresh Note Editor View
+                if([self.editView isKindOfClass:[NoteEditorViewController class]])
+                    [self.editView refreshViewFromModel];
+                
+            }];
+                        
         }
         
-        if([self.editView isKindOfClass:[NoteEditorViewController class]]) {
-            [self.editView setNoteValid:YES];
-            [self.editView setNoteChanged:YES];
-                  }
         
-        [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:kNoteContentTypePhoto withFileURL:imageURL];
 	}	
 	else if ([mediaType isEqualToString:@"public.movie"]){
 		NSLog(@"CameraViewController: Found a Movie");
 		NSURL *videoURL = [info objectForKey:UIImagePickerControllerMediaURL];
 		self.mediaData = [NSData dataWithContentsOfURL:videoURL];
 		self.mediaFilename = @"video.mp4";
+        
+        // Get metaData For Raw Image
+        NSMutableDictionary *newMetadata = [[NSMutableDictionary alloc] initWithDictionary:[info objectForKey:UIImagePickerControllerMediaMetadata]];
+        
+        // Add current GPS location data to metaData
+        CLLocation * location = [AppModel sharedAppModel].playerLocation;   
+        [newMetadata setLocation:location];
+
+        // Add game and player to metadata
+        NSString *gameName = [AppModel sharedAppModel].currentGame.name;
+        NSString *descript = [[NSString alloc] initWithFormat: @"Video Taken in ARIS. Game: %@. Player: %@", gameName, [[AppModel sharedAppModel] userName]];
+        [newMetadata setDescription: descript];
+        
         if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]){ 
                        [self.parentDelegate addedVideo];
 
@@ -186,9 +231,28 @@ picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pi
         if([self.editView isKindOfClass:[NoteEditorViewController class]]) {
             [self.editView setNoteValid:YES];
             [self.editView setNoteChanged:YES];
-                 }
+        }
         
-  [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:kNoteContentTypeVideo withFileURL:videoURL];
+        
+        // Save video with metadata if possible
+        ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
+        if ([al videoAtPathIsCompatibleWithSavedPhotosAlbum: videoURL]) {
+            __block NSDate *date = [NSDate date];
+            [al writeImageDataToSavedPhotosAlbum:self.mediaData metadata:newMetadata completionBlock:^(NSURL *assetURL, NSError *error) {
+                NSLog(@"Saving Time: %g", [[NSDate date] timeIntervalSinceDate:date]);
+                
+                
+                [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:kNoteContentTypePhoto withFileURL:assetURL];
+                
+                // Finished uploading.  Refresh Note Editor View
+                if([self.editView isKindOfClass:[NoteEditorViewController class]])
+                    [self.editView refreshViewFromModel];
+                
+            }];
+        } else {
+        
+            [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:kNoteContentTypeVideo withFileURL:videoURL];
+        }
     
     }	
     
@@ -198,6 +262,11 @@ picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pi
 
 
 }
+/*- handleImageLocation:(CLLocation *)location 
+//{
+    UIImage *image = [self.imageInfo objectForKey:UIImagePickerControllerOriginalImage];
+//    // Do something with the image and location data...
+}*/
 
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
     NSLog(@"Finished saving image with error: %@", error);

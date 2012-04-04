@@ -70,6 +70,7 @@
 NSMutableArray *notifArray;
     int tabShowY;
     PTPusher *client;
+    NSDictionary *imageInfo;
 }
 @property(readwrite,assign)int tabShowY;
 @property (nonatomic) IBOutlet UIWindow *window;
@@ -88,6 +89,7 @@ NSMutableArray *notifArray;
 @property (nonatomic) UIAlertView *serverAlert;
 @property(nonatomic)PTPusher *pubClient;
 @property(nonatomic)PTPusher *privClient;
+@property(nonatomic)NSDictionary *imageInfo;
 
 @property (readwrite) BOOL modalPresent;
 @property (readwrite) NSInteger notificationCount;

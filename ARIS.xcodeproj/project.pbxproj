@@ -148,6 +148,8 @@
 		2B3D17070F49C99B0067FD3A /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D17060F49C99B0067FD3A /* Game.m */; };
 		2B3D175A0F49D18D0067FD3A /* DeveloperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D17590F49D18D0067FD3A /* DeveloperViewController.m */; };
 		2B3D18D60F4B25720067FD3A /* AppModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */; };
+		3A29205D152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A29205C152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.m */; };
+		3AB24ACB152B8CE500B49876 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AB24ACA152B8CE500B49876 /* ImageIO.framework */; };
 		3AEB8F5315265E08006C12AF /* ARISUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AEB8F5215265E08006C12AF /* ARISUploader.m */; };
 		4A9181BA139FDF1600D236CC /* GamesMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9181B9139FDF1600D236CC /* GamesMapAnnotation.m */; };
 		4A92FB0B139EDFEA00B41218 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A92FB0A139EDFEA00B41218 /* Comment.m */; };
@@ -621,6 +623,9 @@
 		2B3D17590F49D18D0067FD3A /* DeveloperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = DeveloperViewController.m; path = Classes/DeveloperViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		2B3D18D40F4B25720067FD3A /* AppModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = AppModel.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		2B3D18D50F4B25720067FD3A /* AppModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppModel.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		3A29205B152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableDictionary+ImageMetadata.h"; path = "thirdParty/NSMutableDictionary+ImageMetadata.h"; sourceTree = "<group>"; };
+		3A29205C152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+ImageMetadata.m"; path = "thirdParty/NSMutableDictionary+ImageMetadata.m"; sourceTree = "<group>"; };
+		3AB24ACA152B8CE500B49876 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		3AEB8F5115265E08006C12AF /* ARISUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISUploader.h; sourceTree = "<group>"; };
 		3AEB8F5215265E08006C12AF /* ARISUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISUploader.m; sourceTree = "<group>"; };
 		4A9181B8139FDF1600D236CC /* GamesMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamesMapAnnotation.h; sourceTree = "<group>"; };
@@ -906,6 +911,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3AB24ACB152B8CE500B49876 /* ImageIO.framework in Frameworks */,
 				AB301DA2151BC37B00EFB79F /* libZXingWidget.a in Frameworks */,
 				113F56DE14E4435300525BE6 /* AssetsLibrary.framework in Frameworks */,
 				4AD5C40814E0661E00081B20 /* CoreData.framework in Frameworks */,
@@ -917,16 +923,16 @@
 				ABB2CDC613C7498A00F051E4 /* AddressBook.framework in Frameworks */,
 				ABB2CDC413C7497500F051E4 /* CoreVideo.framework in Frameworks */,
 				11BE77A713B26515000D037B /* CoreMotion.framework in Frameworks */,
-				11BE779F13B0FCC7000D037B /* OpenGLES.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				A78FD8B00F4B7E9400820FEA /* Foundation.framework in Frameworks */,
 				A78FD8B20F4B7EA200820FEA /* CoreGraphics.framework in Frameworks */,
 				A7E4C88C0F54C4D000C6D9E8 /* QuartzCore.framework in Frameworks */,
+				11BE779F13B0FCC7000D037B /* OpenGLES.framework in Frameworks */,
 				A7E4C8990F54C5E300C6D9E8 /* CoreLocation.framework in Frameworks */,
 				A7955B930F73E095005148E4 /* AudioToolbox.framework in Frameworks */,
 				A79202640F8E717C0049F990 /* MediaPlayer.framework in Frameworks */,
-				ABDA40DE10506CB300823A94 /* MapKit.framework in Frameworks */,
 				D4D366DF111B6789009C4D00 /* CFNetwork.framework in Frameworks */,
+				ABDA40DE10506CB300823A94 /* MapKit.framework in Frameworks */,
 				AB0DE80911559D0500A6EC3E /* AVFoundation.framework in Frameworks */,
 				AB0DE80D11559D1200A6EC3E /* CoreAudio.framework in Frameworks */,
 				ABF4A3AD116847E50043EB1C /* SystemConfiguration.framework in Frameworks */,
@@ -1591,6 +1597,9 @@
 		AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */ = {
 			isa = PBXGroup;
 			children = (
+				3A29205B152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.h */,
+				3A29205C152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.m */,
+				3AB24ACA152B8CE500B49876 /* ImageIO.framework */,
 				ABE0FD0D1524EA5D00A75D9E /* Reachability */,
 				113F56DD14E4435300525BE6 /* AssetsLibrary.framework */,
 				11FDA7CC1474690500ACE17D /* ZBarSDK */,
@@ -2369,6 +2378,7 @@
 				ABE0FD101524EA6E00A75D9E /* Reachability.m in Sources */,
 				3AEB8F5315265E08006C12AF /* ARISUploader.m in Sources */,
 				11D0ABE21524E6FA00FE4544 /* MediaCache.m in Sources */,
+				3A29205D152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2422,8 +2432,8 @@
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Brian Thiel (P8BZ46FXTP)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Brian Thiel (P8BZ46FXTP)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2447,8 +2457,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = ARIS;
-				PROVISIONING_PROFILE = "FEA8A513-18C9-467A-9C5C-9CF19550ABE6";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FEA8A513-18C9-467A-9C5C-9CF19550ABE6";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -2576,8 +2586,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Brian Thiel (P8BZ46FXTP)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Brian Thiel (P8BZ46FXTP)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
@@ -2585,8 +2595,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "FEA8A513-18C9-467A-9C5C-9CF19550ABE6";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FEA8A513-18C9-467A-9C5C-9CF19550ABE6";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
