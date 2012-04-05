@@ -51,10 +51,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 												 selector:@selector(movieFinishedCallback:)
 													 name:MPMoviePlayerPlaybackDidFinishNotification
 												   object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self 
-												 selector:@selector(movieLoadStateChanged:) 
-													 name:MPMoviePlayerLoadStateDidChangeNotification 
-												   object:nil];
+	
         self.isLink=NO;
         self.mediaImageView = [[AsyncMediaImageView alloc]init];
         self.mediaImageView.delegate = self;
@@ -109,12 +106,17 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
         NSLog(@"NodeVC: This is an A/V Plaque");
                 
         
-        AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(0, 0, 300, 240) media:media presentingController:self];
+        AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presentingController:self];
         
         //Setup the cell as the video preview button
         mediaCell.selectionStyle = UITableViewCellSelectionStyleNone;
-        mediaCell.frame = mediaButton.frame;
-        mediaCell.backgroundView = mediaButton;
+        mediaCell.frame =  CGRectMake(0, 0, 300, 240);
+        mediaCell.backgroundColor = [UIColor clearColor];
+        mediaCell.clipsToBounds = YES;
+        [mediaCell addSubview:mediaButton];
+        
+        mediaCell.userInteractionEnabled = YES;
+
 
     }
     
@@ -251,15 +253,15 @@ navigationType:(UIWebViewNavigationType)navigationType{
         
 }
 
--(IBAction)playMovie:(id)sender {
+/*-(IBAction)playMovie:(id)sender {
     [mMoviePlayer.moviePlayer play];
 	[self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
 }
-
+*/
 
 #pragma mark MPMoviePlayerController Notification Handlers
 
-
+/*
 - (void)movieLoadStateChanged:(NSNotification*) aNotification{
 	MPMovieLoadState state = [(MPMoviePlayerController *) aNotification.object loadState];
     
@@ -285,7 +287,7 @@ navigationType:(UIWebViewNavigationType)navigationType{
 		NSLog(@"NodeViewController: Stalled Load State");
 	} 
     
-}
+}*/
 
 
 - (void)movieFinishedCallback:(NSNotification*) aNotification
@@ -320,7 +322,7 @@ navigationType:(UIWebViewNavigationType)navigationType{
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if(indexPath.section == 2 || (indexPath.section == 1 && !hasMedia)) [self continueButtonTouchAction];
-    else [self playMovie:nil];
+   // else [self playMovie:nil];
 }
 
 
