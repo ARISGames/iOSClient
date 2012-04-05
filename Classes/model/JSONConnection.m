@@ -42,11 +42,26 @@
 	NSString *argument;
 	while (argument = [argumentsEnumerator nextObject]) {
 		[requestParameters appendString:@"/"];
-		[requestParameters appendString:argument];
+        // if argument is a URL, re-encode so that PHP doesn't think it's part of overall URL 
+		if ([argument rangeOfString:@"http://"].location != NSNotFound) {
+            argument= (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes( NULL,
+                                                                          (__bridge_retained CFStringRef)argument,
+                                                                          NULL,
+                                                                          (CFStringRef)@"!*'();:@&=+$,/?%#[]",
+                                                                          kCFStringEncodingUTF8 );
+            NSLog(@"argument: %@", argument);
+        }
+        [requestParameters appendString:argument];
 	}
 	
-	//Convert into a NSURLRequest
-	self.completeRequestURL = [server URLByAppendingPathComponent:requestParameters];
+	//Convert into a NSURLRequest                                       
+    NSMutableString *serverString = [[NSMutableString alloc] initWithString:[server absoluteString]];
+    [serverString appendString:@"/"];
+    [serverString appendString:requestParameters];
+    NSURL *url = [[NSURL alloc] initWithString: serverString];
+    self.completeRequestURL = url;
+    
+    
 	NSLog(@"JSONConnection: complete URL is : %@", self.completeRequestURL);
 
 	return self;
