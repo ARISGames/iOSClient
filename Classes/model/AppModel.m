@@ -77,6 +77,7 @@
     if (![currServ isEqual:self.serverURL] || (self.serverURL == nil)) {
         NSNotification *logoutRequestNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self];
         [[NSNotificationCenter defaultCenter] postNotification:logoutRequestNotification];
+        [[AppModel sharedAppModel].mediaCache clearCache];
     }
     
     
