@@ -77,9 +77,10 @@
     if (![currServ isEqual:self.serverURL] || (self.serverURL == nil)) {
         NSNotification *logoutRequestNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self];
         [[NSNotificationCenter defaultCenter] postNotification:logoutRequestNotification];
-        [[AppModel sharedAppModel].mediaCache clearCache];
     }
-    
+    if (![currServ isEqual:self.serverURL] && (self.serverURL != nil)) {
+    [[AppModel sharedAppModel].mediaCache clearCache];
+    }
     
     //Old versions of the server URL are depricated. Migrate to the new version
     if ([[currServ absoluteString] isEqual:@"http://arisgames.org/server1"] || 
