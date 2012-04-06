@@ -228,7 +228,21 @@ NSString *const kARISServerServicePackage = @"v1";
 	[jsonConnection performAsynchronousRequestWithHandler:nil]; 
     
 }
+-(void)resetAndEmailNewPassword:(NSString *)email{
+    NSLog(@"Resetting Email: %@",email);
+    NSArray *arguments = [NSArray arrayWithObjects:
+						 email,
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]
+                                      initWithServer:[AppModel sharedAppModel].serverURL
+                                      andServiceName:@"players"
+                                      andMethodName:@"resetAndEmailNewPassword"
+                                      andArguments:arguments 
+                                      andUserInfo:nil];
+	[jsonConnection performAsynchronousRequestWithHandler:
+     nil]; 
 
+}
 - (void)startOverGame{
 	NSLog(@"Model: Start Over");
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];

@@ -110,7 +110,7 @@ extern NSString *const kARISServerServicePackage;
 - (void)deleteNoteLocationWithNoteId: (int) noteId;
 - (void)updateNoteContent:(int)contentId text:(NSString *)text;
 - (void)updateNoteContent:(int)contentId title:(NSString *)text;
-
+-(void)resetAndEmailNewPassword:(NSString *)email;
 -(void)addTagToNote:(int)noteId tagName:(NSString *)tag;
 -(void)deleteTagFromNote:(int)noteId tagId:(int)tagId;
 - (int) addCommentToNoteWithId: (int)noteId andTitle:(NSString *)title;

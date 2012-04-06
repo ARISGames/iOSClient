@@ -7,7 +7,7 @@
 //
 
 #import "ForgotViewController.h"
-
+#import "AppServices.h"
 @implementation ForgotViewController
 @synthesize userField,userLabel;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -37,8 +37,8 @@
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Email Sent" message: @"An email has been sent to you containing your password" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
-	
 	[alert show];
+    [[AppServices sharedAppServices]resetAndEmailNewPassword:textField.text];
     return YES;
 }
 - (void)viewDidUnload
