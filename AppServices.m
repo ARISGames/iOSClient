@@ -1327,7 +1327,7 @@ NSString *const kARISServerServicePackage = @"v1";
 }
 
 -(void)fetchGameListBySearch:(NSString *)searchText{
-    NSLog(@"AppModel: Fetch Requested for Game List.");
+    NSLog(@"Searching with Text: %@",searchText);
     
     if (currentlyFetchingGamesList) {
         NSLog(@"AppModel: Already fetching Games list, skipping");

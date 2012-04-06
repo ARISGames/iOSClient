@@ -76,8 +76,7 @@
     [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
 
     
-    [[AppServices sharedAppServices] fetchGameListBySearch: [self.searchText stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
-    NSLog(@"URL encoded search string: %@", [self.searchText stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]);
+   
 	[self showLoadingIndicator];
 }
 
@@ -288,6 +287,9 @@
     self.searchText = searchBar.text;
 	
     [self searchBar:searchBar activate:NO];
+     [[AppServices sharedAppServices] fetchGameListBySearch: [self.searchText stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+    NSLog(@"URL encoded search string: %@", [self.searchText stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]);
+
 	[self refresh];
     }
 
