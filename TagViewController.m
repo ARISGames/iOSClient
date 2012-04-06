@@ -203,7 +203,11 @@
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    if([AppModel sharedAppModel].currentGame.allowsPlayerTags)
     return 3;
+    else{
+        return 1;
+    }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
