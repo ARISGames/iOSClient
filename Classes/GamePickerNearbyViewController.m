@@ -35,8 +35,8 @@
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];
         
-
-
+        
+        
     }
     return self;
 }
@@ -50,53 +50,53 @@
     self.navigationItem.rightBarButtonItem = self.refreshButton;
     
     /*
-    //PUSHER STUFF
-    //Create SendEvent button in left of navbar
-    UIBarButtonItem *sendEventButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(sendPusherEvent)];
-    self.navigationItem.leftBarButtonItem = sendEventButton;
+     //PUSHER STUFF
+     //Create SendEvent button in left of navbar
+     UIBarButtonItem *sendEventButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(sendPusherEvent)];
+     self.navigationItem.leftBarButtonItem = sendEventButton;
      */
-
+    
   	[gameTable reloadData];
-
+    
     [self refresh];
-
+    
 	NSLog(@"GamePickerViewController: View Loaded");
 }
 
 /*
-//PUSHER STUFF
--(void)sendPusherEvent{
-    //Do send event things
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    PTPusherPrivateChannel *pChannel = (PTPusherPrivateChannel *)[appDelegate.privClient channelNamed:@"private-pusher_room_channel"];
-    [pChannel triggerEventNamed:@"private-pusher_room_event" data:@"from the iPhone"];
-}
+ //PUSHER STUFF
+ -(void)sendPusherEvent{
+ //Do send event things
+ ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+ PTPusherPrivateChannel *pChannel = (PTPusherPrivateChannel *)[appDelegate.privClient channelNamed:@"private-pusher_room_channel"];
+ [pChannel triggerEventNamed:@"private-pusher_room_event" data:@"from the iPhone"];
+ }
  */
 
 - (void)viewDidAppear:(BOOL)animated {
 	NSLog(@"GamePickerViewController: View Appeared");	
 	
 	//self.gameList = [NSMutableArray arrayWithCapacity:1];
-
+    
 	[self refresh];
     
 	NSLog(@"GamePickerViewController: view did appear");
-
+    
 }
 
 -(void)refresh {
 	NSLog(@"GamePickerViewController: Refresh Requested");
     
-        //Calculate locational control value
+    //Calculate locational control value
     BOOL locational;
     if (locationalControl.selectedSegmentIndex == 0) {
-     locational = YES;  
+        locational = YES;  
         distanceControl.enabled = YES;
         distanceControl.alpha = 1;
     }
     else
     {
-      locational = NO;
+        locational = NO;
         distanceControl.alpha = .2;
         distanceControl.enabled = NO;
     }
@@ -113,17 +113,18 @@
         case 2:
             distanceFilter = 50000;
             break;
-    
+            
     }
     if([AppModel sharedAppModel].playerLocation){
-    //register for notifications
-    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-    [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
-    [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
+        //register for notifications
+        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+        [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
+        [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
         [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
-    
-    [[AppServices sharedAppServices] fetchGameListWithDistanceFilter:distanceFilter locational:locational];
-        [self showLoadingIndicator];}
+        
+        if ([[AppModel sharedAppModel] loggedIn]) [[AppServices sharedAppServices] fetchGameListWithDistanceFilter:distanceFilter locational:locational];
+        [self showLoadingIndicator];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -138,12 +139,12 @@
 	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
 	[[self navigationItem] setRightBarButtonItem:barButton];
 	[activityIndicator startAnimating];
-
-
+    
+    
 }
 
 -(void) viewWillAppear:(BOOL)animated{
-
+    
 }
 
 -(void)removeLoadingIndicator{
@@ -163,13 +164,13 @@
 
 #pragma mark Control Callbacks
 -(IBAction)controlChanged:(id)sender{
-        
+    
     if (sender == locationalControl || 
         locationalControl.selectedSegmentIndex == 0) 
-    [self refresh];
-
-}
+        [self refresh];
     
+}
+
 
 #pragma mark Table view methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -185,7 +186,7 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	//NSLog(@"GamePickerVC: Cell requested for section: %d row: %d",indexPath.section,indexPath.row);
-
+    
 	static NSString *CellIdentifier = @"Cell";
     
     if([self.gameList count] == 0){
@@ -223,41 +224,41 @@
                            forState:kSCRatingViewUserSelected];
         
         
-
+        
     }
 	Game *currentGame = [self.gameList objectAtIndex:indexPath.row];
-
+    
 	cell.titleLabel.text = currentGame.name;
 	double dist = currentGame.distanceFromPlayer;
 	cell.distanceLabel.text = [NSString stringWithFormat:@"%1.1f %@",  dist/1000, NSLocalizedString(@"km", @"") ];
 	cell.authorLabel.text = currentGame.authors;
 	cell.numReviewsLabel.text = [NSString stringWithFormat:@"%@%@", [[NSNumber numberWithInt:currentGame.numReviews] stringValue], @" reviews"];
     cell.starView.rating = currentGame.rating;
-       //Set up the Icon
+    //Set up the Icon
     //Create a new iconView for each cell instead of reusing the same one
     AsyncMediaImageView *iconView = [[AsyncMediaImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-
-        
+    
+    
     if(currentGame.iconMedia.image){
         iconView.image = [UIImage imageWithData: currentGame.iconMedia.image];
     }
     else {
         if(!currentGame.iconMedia) iconView.image = [UIImage imageNamed:@"Icon.png"];
         else{
-        [iconView loadImageFromMedia:currentGame.iconMedia];
+            [iconView loadImageFromMedia:currentGame.iconMedia];
         }
     }
-
+    
     iconView.layer.masksToBounds = YES;
     iconView.layer.cornerRadius = 10.0;
     
     //clear out icon view
     if([cell.iconView.subviews count]>0)
-    [[cell.iconView.subviews objectAtIndex:0] removeFromSuperview];
+        [[cell.iconView.subviews objectAtIndex:0] removeFromSuperview];
     
     
     [cell.iconView addSubview: iconView];
-   
+    
     return cell;
 }
 
@@ -286,7 +287,7 @@
 	GameDetails *gameDetailsVC = [[GameDetails alloc]initWithNibName:@"GameDetails" bundle:nil];
 	gameDetailsVC.game = selectedGame;
 	[self.navigationController pushViewController:gameDetailsVC animated:YES];
-		
+    
 }
 
 - (void)tableView:(UITableView *)aTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
