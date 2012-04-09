@@ -625,9 +625,9 @@ NSString *const kARISServerServicePackage = @"v1";
 
 }
 -(void)fetchPlayerNoteListAsync{
-    if([AppModel sharedAppModel].isGameNoteList)
+    ///if([AppModel sharedAppModel].isGameNoteList)
     [self fetchGameNoteListAsynchronously:YES];
-    else
+   // else
     [self fetchPlayerNoteListAsynchronously:YES];
 }
 
@@ -669,7 +669,7 @@ NSString *const kARISServerServicePackage = @"v1";
                                                              andMethodName:@"addContentToNoteFromFileName" 
                                                               andArguments:arguments 
                                                                andUserInfo:nil];
-    [AppModel sharedAppModel].isGameNoteList = NO;
+//[AppModel sharedAppModel].isGameNoteList = NO;
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchPlayerNoteListAsync)]; 
 }
 
@@ -1589,16 +1589,7 @@ NSString *const kARISServerServicePackage = @"v1";
     aNote.dropped = [[noteDictionary valueForKey:@"dropped"]boolValue];
     aNote.latitude = [[noteDictionary valueForKey:@"lat"]doubleValue];
     aNote.longitude = [[noteDictionary valueForKey:@"lon"]doubleValue];
-    NSArray *comments = [noteDictionary valueForKey:@"comments"];
-    NSEnumerator *enumerator = [((NSArray *)comments) objectEnumerator];
-	NSDictionary *dict;
-    while ((dict = [enumerator nextObject])) {
-        //This is returning an object with playerId,tex, and rating. Right now, we just want the text
-        //TODO: Create a Comments object
-        Note *c = [self parseNoteFromDictionary:dict];
-        [aNote.comments addObject:c];
-    }
-    
+       
     NSArray *contents = [noteDictionary valueForKey:@"contents"];
     for (NSDictionary *content in contents) {
  
@@ -1634,6 +1625,16 @@ NSString *const kARISServerServicePackage = @"v1";
         tag.tagId = [[tagOb objectForKey:@"tag_id"]intValue];
         [aNote.tags addObject:tag];
     }
+    NSArray *comments = [noteDictionary valueForKey:@"comments"];
+    NSEnumerator *enumerator = [((NSArray *)comments) objectEnumerator];
+	NSDictionary *dict;
+    while ((dict = [enumerator nextObject])) {
+        //This is returning an object with playerId,tex, and rating. Right now, we just want the text
+        //TODO: Create a Comments object
+        Note *c = [self parseNoteFromDictionary:dict];
+        [aNote.comments addObject:c];
+    }
+
 	NSSortDescriptor *sortDescriptor;
     sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"noteId"
                                                   ascending:NO];
