@@ -155,7 +155,7 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)aError {
-    NSLog(@"ARISUploader: connectiondidFailWithError %@", [[aError description] UTF8String]);
+    NSLog(@"ARISUploader: connectiondidFailWithError");
     [self uploadSucceeded:NO];
     self.error = aError;
 }
