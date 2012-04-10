@@ -209,7 +209,7 @@
     if (self) {
         currentUploadCount = 0;
         maxUploadCount = 1;
-        self.uploadContents = [[NSMutableDictionary alloc] initWithCapacity:5];
+        uploadContents = [[NSMutableDictionary alloc] initWithCapacity:5];
         self.context = [AppModel sharedAppModel].managedObjectContext;
         //[self deleteAllObjects:@"UploadContent"]; //USE TO DELETE ALL CORE DATA STUFF
         [self getSavedUploadContents];
