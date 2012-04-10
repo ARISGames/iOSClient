@@ -434,7 +434,7 @@ NSString *const kARISServerServicePackage = @"v1";
                                                              andMethodName:@"likeNote" 
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-	JSONResult *jsonResult = [jsonConnection performSynchronousRequest]; 
+	[jsonConnection performAsynchronousRequestWithHandler:nil]; 
 
 }
 -(void)unLikeNote:(int)noteId{
@@ -449,7 +449,7 @@ NSString *const kARISServerServicePackage = @"v1";
                                                              andMethodName:@"unlikeNote" 
                                                               andArguments:arguments 
                                                                andUserInfo:nil];
-	JSONResult *jsonResult = [jsonConnection performSynchronousRequest]; 
+	[jsonConnection performAsynchronousRequestWithHandler:nil]; 
 }
 
 -(int)addCommentToNoteWithId:(int)noteId andTitle:(NSString *)title{
