@@ -106,8 +106,7 @@
     //Make sure we were inited correctly
     if (!completeRequestURL) return;
     
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:completeRequestURL];
-    [request setTimeoutInterval:400];
+    NSURLRequest *request = [NSURLRequest requestWithURL:completeRequestURL];
     connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 	
 	[self.connection start];
