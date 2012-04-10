@@ -23,7 +23,6 @@
     NSError *error;
     NSArray *items = [[AppModel sharedAppModel].managedObjectContext executeFetchRequest:fetchRequest error:&error];
     
-    
     for (NSManagedObject *managedObject in items) {
         [[AppModel sharedAppModel].managedObjectContext deleteObject:managedObject];
         NSLog(@"%@ object deleted",entityDescription);
@@ -31,7 +30,6 @@
     if (![[AppModel sharedAppModel].managedObjectContext save:&error]) {
         NSLog(@"Error deleting %@ - error:%@",entityDescription,error);
     }
-    
 }
 
 - (void) deleteUploadContentFromDictionaryFromNoteId:(int)noteId andFileURL:(NSURL *)fileURL
@@ -52,7 +50,6 @@
     NSError *error;
     NSArray *items = [[AppModel sharedAppModel].managedObjectContext executeFetchRequest:fetchRequest error:&error];
     
-    
     for (NSManagedObject *managedObject in items) {
         NSURL *objectURL = [(UploadContent *)managedObject fileURL];
         if([[objectURL absoluteString] isEqualToString:[afileURL absoluteString]])
@@ -64,7 +61,6 @@
     if (![[AppModel sharedAppModel].managedObjectContext save:&error]) {
         NSLog(@"Error deleting %@ - error:%@",@"UploadContent",error);
     }
-
 }
 
 -(void)insertUploadContentIntoDictionary:(UploadContent *)uploadContent
@@ -78,17 +74,13 @@
         NSMutableDictionary *contentForNote = [[NSMutableDictionary alloc] initWithCapacity:1];
         [contentForNote setObject:uploadContent forKey:uploadContent.fileURL];
         [uploadContents setObject:contentForNote forKey:[NSNumber numberWithInt:[uploadContent noteId]]]; 
-        NSLog(@"UploadMan: adding contentForKey:%@ to noteForKey:%d",uploadContent.fileURL,uploadContent.noteId);
     }
     else
     {
         [(NSMutableDictionary *)[self.uploadContents objectForKey:[NSNumber numberWithInt:[uploadContent noteId]]] setObject:uploadContent forKey:uploadContent.fileURL];
-        NSLog(@"UploadMan: adding contentForKey:%@ to noteForKey:%d",uploadContent.fileURL,uploadContent.noteId);
-        
     }
-    
+    NSLog(@"UploadMan: adding contentForKey:%@ to noteForKey:%d",uploadContent.fileURL,uploadContent.noteId);
 }
-
 
 -(UploadContent *)saveUploadContentToCDWithTitle:(NSString *)title andText:(NSString *)text andType:(NSString *)type andNoteId:(int)noteId andFileURL:(NSURL *)fileURL inState:(NSString *)state
 {
@@ -132,25 +124,42 @@
 }
 
 #pragma mark Header Implementations
-
 - (void) uploadContentForNoteId:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSURL *)aUrl
 {    
-    UploadContent * uc = [self saveUploadContentToCDWithTitle:title andText:text andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateQUEUED"];
-    [self insertUploadContentIntoDictionary:uc];
+    BOOL youreNotOnWifi;
+    UploadContent *uc = [[uploadContents objectForKey:[NSNumber numberWithInt:noteId]]objectForKey:aUrl];
+    Reachability *wifiReach = [Reachability reachabilityForLocalWiFi];
+    NetworkStatus wifi = [wifiReach currentReachabilityStatus];
+    if(wifi == NotReachable)
+        youreNotOnWifi = YES;
+    NSData *fileData = [NSData dataWithContentsOfURL:aUrl];
+    NSUInteger bytes = fileData.length;
+    if (bytes>500000 && youreNotOnWifi && !uc) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Delayed" message: @"This item is over 500Kb. You should connect to a Wifi network to resume the upload." delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+        [alert show];
+        uc = [self saveUploadContentToCDWithTitle:title andText:text andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateFAILED"];
+        [self insertUploadContentIntoDictionary:uc];
+
+    }
+    else{
+        uc = [self saveUploadContentToCDWithTitle:title andText:text andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateQUEUED"];
+        [self insertUploadContentIntoDictionary:uc];
+
     
     if(text)
     {
         [[AppServices sharedAppServices]addContentToNoteWithText:text type:type mediaId:0 andNoteId:noteId andFileURL:aUrl];
     }
     else
-    {            [[AppServices sharedAppServices]uploadContentToNoteWithFileURL:aUrl name:nil noteId:noteId type:type]; 
-
-           }
+    {            
+        [[AppServices sharedAppServices]uploadContentToNoteWithFileURL:aUrl name:nil noteId:noteId type:type]; 
+    }
     if(self.currentUploadCount < self.maxUploadCount)
     {
-        UploadContent * uc = [self saveUploadContentToCDWithTitle:title andText:text andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateUPLOADING"];
+        uc = [self saveUploadContentToCDWithTitle:title andText:text andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateUPLOADING"];
         [self insertUploadContentIntoDictionary:uc];
         self.currentUploadCount++;
+    }
     }
 
 }
@@ -216,6 +225,5 @@
     }
     return self;
 }
-
 
 @end
