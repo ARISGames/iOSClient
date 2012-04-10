@@ -1254,7 +1254,7 @@ NSString *const kARISServerServicePackage = @"v1";
                                                             andServiceName:@"notes"
                                                              andMethodName:@"addTagToNote"
                                                               andArguments:arguments andUserInfo:nil];
-    [jsonConnection performAsynchronousRequestWithHandler:@selector(sendNotificationToNotebookViewer)]; 
+    [jsonConnection performAsynchronousRequestWithHandler:nil]; 
 
 }
 
@@ -1267,7 +1267,7 @@ NSString *const kARISServerServicePackage = @"v1";
                                                             andServiceName:@"notes"
                                                              andMethodName:@"deleteTagFromNote"
                                                               andArguments:arguments andUserInfo:nil];
-    [jsonConnection performAsynchronousRequestWithHandler:@selector(sendNotificationToNotebookViewer)]; 
+    [jsonConnection performAsynchronousRequestWithHandler:nil]; 
 
 }
 
