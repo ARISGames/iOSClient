@@ -38,27 +38,28 @@
 
 	//Compute the Arguments 
 	NSMutableString *requestParameters = [NSMutableString stringWithFormat:@"json.php/%@.%@.%@", kARISServerServicePackage, self.serviceName, self.methodName];	
+    NSLog(@"JSONConnection: requestParameters: %@",requestParameters);
 	NSEnumerator *argumentsEnumerator = [self.arguments objectEnumerator];
 	NSString *argument;
 	while (argument = [argumentsEnumerator nextObject]) {
 		[requestParameters appendString:@"/"];
         // if argument is a URL, re-encode so that PHP doesn't think it's part of overall URL 
 		if ([argument rangeOfString:@"http://"].location != NSNotFound) {
-            argument= (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes( NULL,
+            argument= (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes( kCFAllocatorDefault,
                                                                           (__bridge_retained CFStringRef)argument,
                                                                           NULL,
-                                                                          (CFStringRef)@"!*'();:@&=+$,/?%#[]",
+                                                                          NULL,
                                                                           kCFStringEncodingUTF8 );
             NSLog(@"argument: %@", argument);
         }
         [requestParameters appendString:argument];
 	}
-	
-	//Convert into a NSURLRequest                                       
-    NSMutableString *serverString = [[NSMutableString alloc] initWithString:[server absoluteString]];
+    NSMutableString *serverString = [NSMutableString stringWithString:[server absoluteString]];
     [serverString appendString:@"/"];
     [serverString appendString:requestParameters];
-    NSURL *url = [[NSURL alloc] initWithString: serverString];
+   NSString *removeSpaces = [serverString stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+    NSLog(@"JSONConnection: serverString: %@", serverString);
+    NSURL *url = [NSURL URLWithString:removeSpaces];
     self.completeRequestURL = url;
     
     
