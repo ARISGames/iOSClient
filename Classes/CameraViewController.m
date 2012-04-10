@@ -15,6 +15,7 @@
 #import "NoteCommentViewController.h"
 #import "NoteEditorViewController.h"
 #import "AssetsLibrary/AssetsLibrary.h"
+#import "UIImage+Scale.h"
 
 @implementation CameraViewController
 
@@ -140,7 +141,7 @@ picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pi
 		UIImage* image = [info objectForKey:UIImagePickerControllerOriginalImage];
         //if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];             
 		NSLog(@"CameraViewController: Found an Image");
-        
+       image = [image scaleToSize:CGSizeMake(640, 960)];
 		self.mediaData = UIImageJPEGRepresentation(image, 0.4);
 		self.mediaFilename = [NSString stringWithFormat:@"%@image.jpg",[NSDate date]];
         if(showVid){
