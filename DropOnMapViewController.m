@@ -17,7 +17,7 @@ static float INITIAL_SPAN = 0.001;
 
 
 @implementation DropOnMapViewController
-@synthesize mapView,mapTypeButton,dropButton,locations,tracking,toolBar,noteId,myAnnotation,delegate,pickupButton,note;
+@synthesize mapView,mapTypeButton,locations,tracking,toolBar,noteId,myAnnotation,delegate,pickupButton,note;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -57,6 +57,11 @@ static float INITIAL_SPAN = 0.001;
 	[mapView setDelegate:self];
 	[self.view addSubview:mapView];
 	NSLog(@"DropOnMapViewController: Mapview inited and added to view");
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+                                                                   style: UIBarButtonItemStyleDone
+                                                                  target:self 
+                                                                  action:@selector(backButtonTouchAction:)];
+    self.navigationItem.leftBarButtonItem = doneButton;
 
 	DDAnnotation *annotation;
     note = [[AppModel sharedAppModel] noteForNoteId:self.noteId playerListYesGameListNo:YES];
@@ -77,9 +82,6 @@ static float INITIAL_SPAN = 0.001;
 	mapTypeButton.target = self; 
 	mapTypeButton.action = @selector(changeMapType:);
 	
-	dropButton.target = self; 
-	dropButton.action = @selector(dropButtonAction:);
-        
     pickupButton.target = self; 
 	pickupButton.action = @selector(pickupButtonAction:);
 }
@@ -180,7 +182,7 @@ static float INITIAL_SPAN = 0.001;
     
 }
 
--(void)dropButtonAction:(id)sender{
+-(void)backButtonTouchAction:(id)sender{
     [[AppServices sharedAppServices]updateServerDropNoteHere:self.noteId atCoordinate:self.myAnnotation.coordinate];
         [note setDropped:YES];
     note.latitude = myAnnotation.coordinate.latitude;

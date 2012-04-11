@@ -19,7 +19,6 @@
 	BOOL tracking;
 	BOOL appSetNextRegionChange;
 	IBOutlet UIBarButtonItem *mapTypeButton;
-	IBOutlet UIBarButtonItem *dropButton;
     IBOutlet UIBarButtonItem *pickupButton;
 	IBOutlet UIToolbar *toolBar;
     
@@ -37,8 +36,8 @@
 -(void) showLoadingIndicator;
 -(void)dismissTutorial;
 - (IBAction)changeMapType: (id) sender;
-- (IBAction)dropButtonAction: (id) sender;
 - (IBAction)pickupButtonAction: (id) sender;
+- (IBAction)backButtonTouchAction: (id) sender;
 
 @property (nonatomic) MKMapView *mapView;
 @property (nonatomic) NSArray *locations;
@@ -50,7 +49,6 @@
 
 @property(readwrite,unsafe_unretained)id delegate;
 @property (nonatomic) IBOutlet UIBarButtonItem *mapTypeButton;
-@property (nonatomic) IBOutlet UIBarButtonItem *dropButton;
 @property (nonatomic) IBOutlet UIBarButtonItem *pickupButton;
 @property (nonatomic) IBOutlet UIToolbar *toolBar;
 
