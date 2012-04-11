@@ -34,7 +34,6 @@
 @property(nonatomic)IBOutlet UIActivityIndicatorView *spinner;
 @property(nonatomic,unsafe_unretained) UITableView *parentTableView;
 @property(nonatomic)NSIndexPath *indexPath;
-
 -(void)checkForRetry;
 -(IBAction)retryUpload;
 @end

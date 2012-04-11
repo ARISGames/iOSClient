@@ -24,9 +24,10 @@
     if (![[self.content getUploadState] isEqualToString:@"uploadStateDONE"]) {
         
         retryButton.hidden = NO;
-
+        self.titleLbl.userInteractionEnabled = NO;
+        self.holdLbl.userInteractionEnabled = NO;
         [self.titleLbl setFrame:CGRectMake(65, 4, 147, 30)];
-
+        self.titleLbl.hidden = YES;
         if([[(UploadContent *)self.content getUploadState] isEqualToString:@"uploadStateFAILED"]){
             [self.retryButton setBackgroundImage:[UIImage imageNamed:@"blue_button.png"] forState:UIControlStateNormal];
             self.retryButton.userInteractionEnabled = YES;
@@ -58,7 +59,10 @@
         }
     }
     else {
-        
+        self.titleLbl.hidden = NO;
+        self.titleLbl.userInteractionEnabled = YES;
+        self.holdLbl.userInteractionEnabled = YES;
+
         retryButton.hidden = YES;
         [self.titleLbl setFrame:CGRectMake(65, 4, 235, 30)];
         [spinner stopAnimating];
