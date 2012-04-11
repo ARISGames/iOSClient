@@ -175,7 +175,21 @@
     if([self.delegate isKindOfClass:[GPSViewController class]]){
         [[AppServices sharedAppServices]updateServerDropNoteHere:self.note.noteId atCoordinate:[AppModel sharedAppModel].playerLocation.coordinate];
     }
-    
+if([self.delegate isKindOfClass:[NoteDetailsViewController class]]){
+    [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
+    self.note.title = self.textField.text;
+    // if(![AppModel sharedAppModel].isGameNoteList)
+    [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   
+    /*else
+     [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   */
+    [self.delegate setNote:self.note];
+}
+self.note.title = self.textField.text;
+if(([note.title length] == 0)) note.title = @"New Note";
+// if(![AppModel sharedAppModel].isGameNoteList)
+[[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   
+/*else
+ [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   */
 }
 -(void)tagButtonTouchAction{
     TagViewController *tagView = [[TagViewController alloc]initWithNibName:@"TagViewController" bundle:nil];
@@ -191,21 +205,7 @@
             [[AppModel sharedAppModel].gameNoteList removeObjectForKey:[NSNumber numberWithInt:self.note.noteId]]; */ 
     }
     else{
-        if([self.delegate isKindOfClass:[NoteDetailsViewController class]]){
-            [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
-            self.note.title = self.textField.text;
-           // if(![AppModel sharedAppModel].isGameNoteList)
-                [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   
-            /*else
-                [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   */
-            [self.delegate setNote:self.note];
-        }
-        self.note.title = self.textField.text;
-        if(([note.title length] == 0)) note.title = @"New Note";
-       // if(![AppModel sharedAppModel].isGameNoteList)
-            [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   
-        /*else
-            [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   */
+
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
