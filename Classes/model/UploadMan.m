@@ -126,7 +126,7 @@
 #pragma mark Header Implementations
 - (void) uploadContentForNoteId:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSURL *)aUrl
 {    
-    BOOL youreNotOnWifi;
+    BOOL youreNotOnWifi =  NO;
     UploadContent *uc = [[uploadContents objectForKey:[NSNumber numberWithInt:noteId]]objectForKey:aUrl];
     Reachability *wifiReach = [Reachability reachabilityForLocalWiFi];
     NetworkStatus wifi = [wifiReach currentReachabilityStatus];
