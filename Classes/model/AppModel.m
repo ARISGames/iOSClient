@@ -144,6 +144,8 @@
 	NSLog(@"Model: Clearing User Defaults");	
 	[AppModel sharedAppModel].currentGame.gameId = 0;
     [AppModel sharedAppModel].playerId = 0;
+    [defaults setInteger:playerId forKey:@"playerId"];
+
 	[defaults synchronize];		
 }
 
@@ -159,6 +161,7 @@
 	[defaults setBool:hasSeenInventoryTabTutorial forKey:@"hasSeenInventoryTabTutorial"];
     [defaults setValue:userName forKey:@"userName"];
     [defaults setInteger:playerId forKey:@"playerId"];
+	[defaults synchronize];		
 
 }
 

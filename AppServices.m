@@ -1820,6 +1820,7 @@ NSString *const kARISServerServicePackage = @"v1";
 		[AppModel sharedAppModel].loggedIn = YES;
 		[AppModel sharedAppModel].playerId = [((NSDecimalNumber*)jsonResult.data) intValue];
         [[AppServices sharedAppServices]setShowPlayerOnMap];
+        [[AppModel sharedAppModel] saveUserDefaults];
 
 	}
 	else {
