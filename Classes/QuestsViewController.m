@@ -46,7 +46,7 @@ NSString *const kQuestsHtmlTemplate =
 @implementation QuestsViewController
 
 @synthesize quests,questCells,isLink;
-@synthesize activeSort,rightBar;
+@synthesize activeQuestsSwitch,activeSort;
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
@@ -70,7 +70,7 @@ NSString *const kQuestsHtmlTemplate =
 }
 
 - (IBAction)filterQuests {
-   
+    NSLog([NSString stringWithFormat:@"%d", activeQuestsSwitch.selectedSegmentIndex]);
     [self refreshViewFromModel];
 }
 
@@ -84,17 +84,9 @@ NSString *const kQuestsHtmlTemplate =
 - (void)viewDidLoad {
     [super viewDidLoad];
 	NSLog(@"QuestsViewController: Quests View Loaded");
-   rightBar = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"upc"] style:UIBarButtonItemStylePlain target:self action:@selector(questButtonTouch:)];
-    rightBar.tag = 0;
-	self.navigationItem.rightBarButtonItem = rightBar;
+	
 }
--(void)questButtonTouch:(UIBarButtonItem *)sender{
-    sender.tag = abs(sender.tag - 1);
-    if(sender.tag == 1)
-    sender.image = [UIImage imageNamed:@"Icon"];
-    else sender.image = [UIImage imageNamed:@"upc"];
-    [self filterQuests];
-}
+
 - (void)viewDidAppear:(BOOL)animated {
     NSLog(@"QuestsViewController: viewDidAppear");
     
@@ -136,7 +128,7 @@ NSString *const kQuestsHtmlTemplate =
 }
 
 -(void)removeLoadingIndicator{
-	[[self navigationItem] setRightBarButtonItem:rightBar];
+	[[self navigationItem] setRightBarButtonItem:nil];
 	NSLog(@"QuestsViewController: removeLoadingIndicator");
 }
 
@@ -472,7 +464,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     int num = 0;
-    if(rightBar.tag == 0){
+    if(activeQuestsSwitch.selectedSegmentIndex == 0){
         NSMutableArray *array = [questCells objectAtIndex:ACTIVE_SECTION];
         num = [array count];
         NSLog(@"QuestsVC: %d rows ",num);
@@ -486,7 +478,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 }
 
 - (UITableViewCell *)tableView:(UITableView *)nibTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {	
-    if(rightBar.tag == 0){
+    if(activeQuestsSwitch.selectedSegmentIndex == 0){
         NSArray *sectionArray = [questCells objectAtIndex:ACTIVE_SECTION];
         UITableViewCell *cell = [sectionArray objectAtIndex:indexPath.row];
         NSLog(@"QuestsVC: Returning a cell for row: %d",indexPath.row);
@@ -505,7 +497,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 
 // Customize the height of each row
 -(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if(rightBar.tag == 0){
+    if(activeQuestsSwitch.selectedSegmentIndex == 0){
         UITableViewCell *cell = [[questCells objectAtIndex:ACTIVE_SECTION] objectAtIndex:indexPath.row];
         int height = cell.frame.size.height;
         NSLog(@"QuestsVC: Height for Cell: %d",height);

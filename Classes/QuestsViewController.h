@@ -19,17 +19,18 @@
 	IBOutlet UITableView *tableView;
 	IBOutlet UIProgressView *progressView;
 	IBOutlet UILabel *progressLabel;
+    IBOutlet UISegmentedControl *activeQuestsSwitch;
     int activeSort;
 	int silenceNextServerUpdateCount;
 	int newItemsSinceLastView;
     BOOL isLink;
-    UIBarButtonItem *rightBar;
 }
 @property(readwrite, assign) BOOL isLink;
 @property(nonatomic) NSMutableArray *quests;
 @property(nonatomic) NSMutableArray *questCells;
+@property(nonatomic) UISegmentedControl *activeQuestsSwitch;
 @property(readwrite, assign) int activeSort;
-@property(nonatomic)UIBarButtonItem *rightBar;
+
 - (void)refresh;
 - (void)showLoadingIndicator;
 - (void)removeLoadingIndicator;
