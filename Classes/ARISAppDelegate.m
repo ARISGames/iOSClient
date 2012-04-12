@@ -18,6 +18,7 @@
 #import "GameDetails.h"
 #import "webpageViewController.h"
 #import "NoteDetailsViewController.h"
+#import "LoadingViewController.h"
 
 NSString *errorMessage, *errorDetail;
 
@@ -37,7 +38,7 @@ BOOL isShowingNotification;
 @synthesize modalPresent,notificationCount;
 @synthesize titleLabel,descLabel,notifArray,tabShowY;
 @synthesize pubClient;
-@synthesize privClient;
+@synthesize privClient,loadingVC;
 
 
 //@synthesize toolbarViewController;
@@ -447,13 +448,17 @@ BOOL isShowingNotification;
 	
 
     //Put it onscreen
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    [UIView beginAnimations:nil context:context];
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:window cache:YES];
+    //CGContextRef context = UIGraphicsGetCurrentContext();
+  //  [UIView beginAnimations:nil context:context];
+   // [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:window cache:YES];
     self.tabBarController.view.hidden = NO;
     self.gameSelectionTabBarController.view.hidden = YES;
     self.loginViewNavigationController.view.hidden = YES;
-    [UIView commitAnimations];
+    
+
+    
+    
+   // [UIView commitAnimations];
     
     
     
@@ -490,6 +495,10 @@ BOOL isShowingNotification;
 	[[AppServices sharedAppServices] fetchAllPlayerLists];
     [AppModel sharedAppModel].hasReceivedMediaList = NO;
 
+    
+   loadingVC = [[LoadingViewController alloc]initWithNibName:@"LoadingViewController" bundle:nil];
+    loadingVC.progressLabel.text = @"Fetching Game Lists...";
+    [self.tabBarController presentModalViewController:self.loadingVC animated:NO];
     	
 }
 
@@ -628,7 +637,7 @@ BOOL isShowingNotification;
 - (void) showNewWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar {
 	NSLog (@"AppDelegate: Showing Waiting Indicator With Message:%@",message);
 	//if (self.waitingIndicatorView) [self.waitingIndicatorView dismiss];
-	
+	if(!self.loadingVC){
     if (self.waitingIndicatorView){ 
         [self removeNewWaitingIndicator];
         self.waitingIndicatorView;}
@@ -637,6 +646,7 @@ BOOL isShowingNotification;
         [self.waitingIndicatorView show];
 	
 	[[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the activity indicator show before returning	
+    }
 }
 
 - (void) removeNewWaitingIndicator {
@@ -666,7 +676,7 @@ BOOL isShowingNotification;
 
 -(void)receivedMediaList{
     //Display the intro node
-    if ([AppModel sharedAppModel].currentGame.completedQuests < 1) [self displayIntroNode];
+ 
     [AppModel sharedAppModel].hasReceivedMediaList = YES;
     
 }

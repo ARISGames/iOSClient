@@ -108,6 +108,8 @@
 		11BE77A313B10564000D037B /* PanoramicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11BE77A213B10564000D037B /* PanoramicViewController.xib */; };
 		11BE77A713B26515000D037B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11BE77A613B26515000D037B /* CoreMotion.framework */; };
 		11D0ABE21524E6FA00FE4544 /* MediaCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D0ABE11524E6FA00FE4544 /* MediaCache.m */; };
+		11D7F9321537510D0046410F /* LoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D7F9301537510D0046410F /* LoadingViewController.m */; };
+		11D7F9331537510D0046410F /* LoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11D7F9311537510D0046410F /* LoadingViewController.xib */; };
 		11DD3D4D13F5AB430051AB76 /* NoteDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11DD3D4B13F5AB430051AB76 /* NoteDetailsViewController.m */; };
 		11DD3D4E13F5AB430051AB76 /* NoteDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11DD3D4C13F5AB430051AB76 /* NoteDetailsViewController.xib */; };
 		11DD3D5113F5B0EF0051AB76 /* playericon.png in Resources */ = {isa = PBXBuildFile; fileRef = 11DD3D4F13F5B0EF0051AB76 /* playericon.png */; };
@@ -548,6 +550,9 @@
 		11BE77A613B26515000D037B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		11D0ABE01524E6FA00FE4544 /* MediaCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaCache.h; sourceTree = "<group>"; };
 		11D0ABE11524E6FA00FE4544 /* MediaCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaCache.m; sourceTree = "<group>"; };
+		11D7F92F1537510D0046410F /* LoadingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingViewController.h; sourceTree = "<group>"; };
+		11D7F9301537510D0046410F /* LoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingViewController.m; sourceTree = "<group>"; };
+		11D7F9311537510D0046410F /* LoadingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingViewController.xib; sourceTree = "<group>"; };
 		11DD3D4A13F5AB430051AB76 /* NoteDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteDetailsViewController.h; sourceTree = "<group>"; };
 		11DD3D4B13F5AB430051AB76 /* NoteDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteDetailsViewController.m; sourceTree = "<group>"; };
 		11DD3D4C13F5AB430051AB76 /* NoteDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteDetailsViewController.xib; sourceTree = "<group>"; };
@@ -1536,6 +1541,9 @@
 				4ADE919B13CB7CB80009F4AF /* UIImage+Scale.m */,
 				4ADE919D13CB84B80009F4AF /* UIDevice+Hardware.h */,
 				4ADE919E13CB84B80009F4AF /* UIDevice+Hardware.m */,
+				11D7F92F1537510D0046410F /* LoadingViewController.h */,
+				11D7F9301537510D0046410F /* LoadingViewController.m */,
+				11D7F9311537510D0046410F /* LoadingViewController.xib */,
 			);
 			name = "Core App";
 			sourceTree = "<group>";
@@ -2186,6 +2194,7 @@
 				AB8DA9A814ED9BBA0018E57B /* blue_button.png in Resources */,
 				AB21D30714ED9C9000DC016F /* blue_button.psd in Resources */,
 				AB21D30814ED9C9000DC016F /* grey_button.psd in Resources */,
+				11D7F9331537510D0046410F /* LoadingViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2379,6 +2388,7 @@
 				3AEB8F5315265E08006C12AF /* ARISUploader.m in Sources */,
 				11D0ABE21524E6FA00FE4544 /* MediaCache.m in Sources */,
 				3A29205D152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.m in Sources */,
+				11D7F9321537510D0046410F /* LoadingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

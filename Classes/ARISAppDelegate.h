@@ -40,6 +40,7 @@
 #import "GamePickerNearbyViewController.h"
 #import "PTPusher.h"
 #import "PTPusherEvent.h"
+#import "LoadingViewController.h"
 
 
 @interface ARISAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate,PTPusherDelegate> {
@@ -55,7 +56,7 @@
 	WaitingIndicatorViewController *waitingIndicator;
 	WaitingIndicatorView *waitingIndicatorView;
 
-	
+	LoadingViewController *loadingVC;
 	UIAlertView *networkAlert;
 	UIAlertView *serverAlert;
 	TutorialPopupView *tutorialPopupView; 
@@ -84,6 +85,7 @@ NSMutableArray *notifArray;
 @property (nonatomic) IBOutlet UINavigationController *nearbyObjectNavigationController;
 @property (nonatomic) WaitingIndicatorViewController *waitingIndicator;
 @property (nonatomic) WaitingIndicatorView *waitingIndicatorView;
+@property(nonatomic)LoadingViewController *loadingVC;
 @property(nonatomic) NSMutableArray *notifArray;
 @property (nonatomic) UIAlertView *networkAlert;
 @property (nonatomic) UIAlertView *serverAlert;

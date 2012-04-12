@@ -957,18 +957,22 @@ NSString *const kARISServerServicePackage = @"v1";
 	[self fetchGameNpcListAsynchronously:YES];
 	[self fetchGameNodeListAsynchronously:YES];
 	[self fetchGameMediaListAsynchronously:YES];
+    [self fetchGamePanoramicListAsynchronously:YES];
+    [self fetchGameWebpageListAsynchronously:YES];
+    
 }
 
 - (void)resetAllGameLists {
 	NSLog(@"AppModel: resetAllGameLists");
     
 	//Clear them out
-	[AppModel sharedAppModel].gameItemList = [[NSMutableDictionary alloc] 
-                         initWithCapacity:0];
-	[AppModel sharedAppModel].gameNodeList = [[NSMutableDictionary alloc] 
-                         initWithCapacity:0];
-    [AppModel sharedAppModel].gameNpcList = [[NSMutableDictionary alloc] 
-                        initWithCapacity:0];
+	[[AppModel sharedAppModel].gameItemList removeAllObjects];
+	[[AppModel sharedAppModel].gameNodeList removeAllObjects];
+    [[AppModel sharedAppModel].gameNpcList removeAllObjects];
+    [[AppModel sharedAppModel].gameMediaList removeAllObjects];
+    [[AppModel sharedAppModel].gameWebPageList removeAllObjects];
+    [[AppModel sharedAppModel].gamePanoramicList removeAllObjects];
+    
     
 }
 
@@ -1828,6 +1832,13 @@ NSString *const kARISServerServicePackage = @"v1";
 	}
     
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewLoginResponseReady" object:nil]];
+    
+    
+    if(appDelegate.loadingVC){
+        appDelegate.loadingVC.progressLabel.text = @"Received Location List...";
+        appDelegate.loadingVC.receivedData++;
+    }
+
 }
 
 
@@ -1958,7 +1969,10 @@ NSString *const kARISServerServicePackage = @"v1";
 }
 
 -(void)parseGameListFromJSON: (JSONResult *)jsonResult{
-    NSLog(@"AppModel: parseGameListFromJSON Beginning");		
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+
+    if(appDelegate.gameSelectionTabBarController.view.hidden == NO){
+        NSLog(@"AppModel: parseGameListFromJSON Beginning");		
     
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RecievedGameList" object:nil]];
     
@@ -1984,11 +1998,14 @@ NSString *const kARISServerServicePackage = @"v1";
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewGameListReady" object:nil]];
     currentlyFetchingGamesList = NO;
 
-    
+    }
 }
 
 -(void)parseRecentGameListFromJSON: (JSONResult *)jsonResult{
-    NSLog(@"AppModel: parseGameListFromJSON Beginning");		
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    if(appDelegate.gameSelectionTabBarController.view.hidden == NO){
+ NSLog(@"AppModel: parseGameListFromJSON Beginning");		
     
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RecievedGameList" object:nil]];
     
@@ -2013,7 +2030,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewRecentGameListReady" object:nil]];
     currentlyFetchingGamesList = NO;
     
-    
+    }
 }
 
 
@@ -2116,9 +2133,18 @@ NSString *const kARISServerServicePackage = @"v1";
 
 
 -(void)parseGameMediaListFromJSON: (JSONResult *)jsonResult{
-    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate showNewWaitingIndicator:@"Loading Game..." displayProgressBar:NO];
+    //ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     
+    
+    [self startCachingMedia:jsonResult];
+   // [appDelegate showNewWaitingIndicator:@"Loading Game..." displayProgressBar:NO];
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    if(appDelegate.loadingVC){
+        appDelegate.loadingVC.progressLabel.text = @"Caching Game Media...";
+        appDelegate.loadingVC.receivedData++;
+    }
+
     [self performSelector:@selector(startCachingMedia:) withObject:jsonResult afterDelay:.1];
     
 	}
@@ -2188,6 +2214,12 @@ NSString *const kARISServerServicePackage = @"v1";
     
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate removeNewWaitingIndicator];
+    
+    if(appDelegate.loadingVC){
+        appDelegate.loadingVC.progressLabel.text = @"Starting Game.";
+        appDelegate.loadingVC.receivedData++;
+    }
+
 
 }
 -(void)parseGameItemListFromJSON: (JSONResult *)jsonResult{
@@ -2204,6 +2236,12 @@ NSString *const kARISServerServicePackage = @"v1";
 	}
 	
 	[AppModel sharedAppModel].gameItemList = tempItemList;
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+
+    if(appDelegate.loadingVC){
+        appDelegate.loadingVC.progressLabel.text = @"Received Game Item List...";
+        appDelegate.loadingVC.receivedData++;
+    }
 }
 
 
@@ -2220,6 +2258,13 @@ NSString *const kARISServerServicePackage = @"v1";
 	}
 	
 	[AppModel sharedAppModel].gameNodeList = tempNodeList;
+    
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    if(appDelegate.loadingVC){
+        appDelegate.loadingVC.progressLabel.text = @"Received Game Node List...";
+        appDelegate.loadingVC.receivedData++;
+    }
 }
 
 -(void)parseGameTabListFromJSON: (JSONResult *)jsonResult{
@@ -2237,6 +2282,12 @@ NSString *const kARISServerServicePackage = @"v1";
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate changeTabBar];
 	//[tempTabList release];
+    
+    if(appDelegate.loadingVC){
+        appDelegate.loadingVC.progressLabel.text = @"Received Game Tab List...";
+        appDelegate.loadingVC.receivedData++;
+    }
+
 }
 
 
@@ -2253,6 +2304,13 @@ NSString *const kARISServerServicePackage = @"v1";
 	}
 	
 	[AppModel sharedAppModel].gameNpcList = tempNpcList;
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    if(appDelegate.loadingVC){
+        appDelegate.loadingVC.progressLabel.text = @"Received Game NPC List...";
+        appDelegate.loadingVC.receivedData++;
+    }
+
 }
 
 -(void)parseGameWebPageListFromJSON: (JSONResult *)jsonResult{
@@ -2268,6 +2326,13 @@ NSString *const kARISServerServicePackage = @"v1";
 	}
 	
 	[AppModel sharedAppModel].gameWebPageList = tempWebPageList;
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    if(appDelegate.loadingVC){
+        appDelegate.loadingVC.progressLabel.text = @"Received Game Webpage List...";
+        appDelegate.loadingVC.receivedData++;
+    }
+
 }
 -(void)parseGamePanoramicListFromJSON: (JSONResult *)jsonResult{
 	NSArray *panListArray = (NSArray *)jsonResult.data;
@@ -2282,6 +2347,13 @@ NSString *const kARISServerServicePackage = @"v1";
 	}
 	
 	[AppModel sharedAppModel].gamePanoramicList = tempPanoramicList;
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    if(appDelegate.loadingVC){
+        appDelegate.loadingVC.progressLabel.text = @"Received Game Panoramic List...";
+        appDelegate.loadingVC.receivedData++;
+    }
+
 }
 
 
@@ -2344,7 +2416,13 @@ NSString *const kARISServerServicePackage = @"v1";
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewInventoryReady" object:nil]];
 	
 	//Note: The inventory list VC listener will add the badge now that it knows something is different
-	
+	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    if(appDelegate.loadingVC){
+        appDelegate.loadingVC.progressLabel.text = @"Received Inventory...";
+        appDelegate.loadingVC.receivedData++;
+    }
+
 }
 
 /*
@@ -2472,6 +2550,14 @@ NSString *const kARISServerServicePackage = @"v1";
 	//Sound the alarm
 	NSLog(@"AppModel: Finished fetching quests from server, model updated");
 	[[NSNotificationCenter defaultCenter] postNotification: [NSNotification notificationWithName:@"NewQuestListReady" object:nil]];
+    
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    if(appDelegate.loadingVC){
+        appDelegate.loadingVC.progressLabel.text = @"Received Quest List...";
+        appDelegate.loadingVC.receivedData++;
+    }
+
 }
 
 
