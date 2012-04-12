@@ -616,6 +616,8 @@ BOOL isShowingNotification;
 	NSLog (@"AppDelegate: Showing Network Alert");
 	if (self.loadingVC) {
         [self.loadingVC dismissModalViewControllerAnimated:NO];
+        [self tabBarController].selectedIndex = 0;
+        [self showGameSelectionTabBarAndHideOthers];
     }
 	if (!self.networkAlert) {
 		networkAlert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"PoorConnectionTitleKey", @"") 
