@@ -19,7 +19,7 @@
 @property(nonatomic)IBOutlet UIImageView *splashImage;
 @property(nonatomic)IBOutlet UIProgressView *progressBar;
 @property(nonatomic)IBOutlet UILabel *progressLabel;
-@property(nonatomic)float receivedData;
+@property(readwrite)float receivedData;
 
 - (void)moveProgressBar;
 @end
