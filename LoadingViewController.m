@@ -29,10 +29,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    if ([AppModel sharedAppModel].currentGame.splashMedia) {
-        self.splashImage.image = [UIImage imageWithData:[AppModel sharedAppModel].currentGame.splashMedia.image];
-    }
-    else self.splashImage.image = [UIImage imageNamed:@"Default.png"];
+   
     progressBar.progress = 0.0;
     [self performSelectorOnMainThread:@selector(moveProgressBar) withObject:nil waitUntilDone:YES];
 }
