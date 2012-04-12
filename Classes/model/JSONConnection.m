@@ -42,22 +42,26 @@
 	NSEnumerator *argumentsEnumerator = [self.arguments objectEnumerator];
 	NSString *argument;
 	while (argument = [argumentsEnumerator nextObject]) {
+        
+        
 		[requestParameters appendString:@"/"];
-        // if argument is a URL, re-encode so that PHP doesn't think it's part of overall URL 
-		if ([argument rangeOfString:@"http://"].location != NSNotFound) {
-            argument= (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes( kCFAllocatorDefault,
-                                                                          (__bridge_retained CFStringRef)argument,
-                                                                          NULL,
-                                                                          NULL,
-                                                                          kCFStringEncodingUTF8 );
-            NSLog(@"argument: %@", argument);
-        }
+        // replace special characters
+        argument = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes( kCFAllocatorDefault,
+                                                                                         (__bridge_retained CFStringRef)argument,
+                                                                                         NULL,
+                                                                                         (CFStringRef)@"!*'();:@&=+$,?%#",
+                                                                                         kCFStringEncodingUTF8 );
+        
+        // double encode slashes (CFURLCreateStringByAddingPercentEscapes doesn't handle them well)
+        // actions.php on server side decodes them once before sending these arguments on to their respective functions.
+        argument = [argument stringByReplacingOccurrencesOfString:@"/" withString:@"%252F"]; 
+        NSLog(@"argument: %@", argument);
         [requestParameters appendString:argument];
 	}
     NSMutableString *serverString = [NSMutableString stringWithString:[server absoluteString]];
     [serverString appendString:@"/"];
     [serverString appendString:requestParameters];
-   NSString *removeSpaces = [serverString stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+    NSString *removeSpaces = [serverString stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
     NSLog(@"JSONConnection: serverString: %@", serverString);
     NSURL *url = [NSURL URLWithString:removeSpaces];
     self.completeRequestURL = url;
