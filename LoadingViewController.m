@@ -14,12 +14,13 @@
 @end
 
 @implementation LoadingViewController
-@synthesize splashImage, progressBar,progressLabel,receivedData;
+@synthesize splashImage, progressBar,progressLabel,receivedData, timer;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        receivedData = 0;
     }
     return self;
 }
@@ -35,21 +36,31 @@
     progressBar.progress = 0.0;
     [self performSelectorOnMainThread:@selector(moveProgressBar) withObject:nil waitUntilDone:YES];
 }
-
+-(float)receivedData{
+    return receivedData;
+}
+-(void)setReceivedData:(float)r{
+    receivedData = r;
+    [self performSelectorOnMainThread:@selector(moveProgressBar) withObject:nil waitUntilDone:YES];
+}
 - (void)moveProgressBar {
     
     float actual = (receivedData/(float)11);
     if (actual < 1) {
         progressBar.progress =actual;
-
+        [progressBar setNeedsLayout];
+        [progressBar setNeedsDisplay];
+        [progressLabel setNeedsDisplay];
+        [progressLabel setNeedsLayout];
+       
     }
-    else{
+    else if(actual == 1){
                 ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
         
            if ([AppModel sharedAppModel].currentGame.completedQuests < 1)
                [appDelegate performSelector:@selector(displayIntroNode) withObject:nil afterDelay:.1];
         [self dismissModalViewControllerAnimated:NO];
-
+    
 } 
 }
 - (void)viewDidUnload
