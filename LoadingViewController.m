@@ -41,8 +41,6 @@
     float actual = (receivedData/(float)11);
     if (actual < 1) {
         progressBar.progress =actual;
-        [self performSelector:@selector(moveProgressBar) withObject:nil afterDelay:.1];
-        [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(moveProgressBar) userInfo:nil repeats:NO];
 
     }
     else{

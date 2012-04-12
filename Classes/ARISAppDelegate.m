@@ -614,7 +614,9 @@ BOOL isShowingNotification;
 
 - (void) showNetworkAlert{
 	NSLog (@"AppDelegate: Showing Network Alert");
-	
+	if (self.loadingVC) {
+        [self.loadingVC dismissModalViewControllerAnimated:NO];
+    }
 	if (!self.networkAlert) {
 		networkAlert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"PoorConnectionTitleKey", @"") 
 											message: NSLocalizedString(@"PoorConnectionMessageKey", @"")

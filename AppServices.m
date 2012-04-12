@@ -1837,6 +1837,8 @@ NSString *const kARISServerServicePackage = @"v1";
     if(appDelegate.loadingVC){
         appDelegate.loadingVC.progressLabel.text = @"Received Location List...";
         appDelegate.loadingVC.receivedData++;
+        [appDelegate.loadingVC performSelectorOnMainThread:@selector(moveProgressBar) withObject:nil waitUntilDone:YES];
+
     }
 
 }
@@ -2143,6 +2145,8 @@ NSString *const kARISServerServicePackage = @"v1";
     if(appDelegate.loadingVC){
         appDelegate.loadingVC.progressLabel.text = @"Caching Game Media...";
         appDelegate.loadingVC.receivedData++;
+        [appDelegate.loadingVC performSelectorOnMainThread:@selector(moveProgressBar) withObject:nil waitUntilDone:YES];
+
     }
 
     [self performSelector:@selector(startCachingMedia:) withObject:jsonResult afterDelay:.1];
@@ -2218,6 +2222,8 @@ NSString *const kARISServerServicePackage = @"v1";
     if(appDelegate.loadingVC){
         appDelegate.loadingVC.progressLabel.text = @"Starting Game.";
         appDelegate.loadingVC.receivedData++;
+        [appDelegate.loadingVC performSelectorOnMainThread:@selector(moveProgressBar) withObject:nil waitUntilDone:YES];
+
     }
 
 
@@ -2241,6 +2247,8 @@ NSString *const kARISServerServicePackage = @"v1";
     if(appDelegate.loadingVC){
         appDelegate.loadingVC.progressLabel.text = @"Received Game Item List...";
         appDelegate.loadingVC.receivedData++;
+        [appDelegate.loadingVC performSelectorOnMainThread:@selector(moveProgressBar) withObject:nil waitUntilDone:YES];
+
     }
 }
 
@@ -2264,6 +2272,8 @@ NSString *const kARISServerServicePackage = @"v1";
     if(appDelegate.loadingVC){
         appDelegate.loadingVC.progressLabel.text = @"Received Game Node List...";
         appDelegate.loadingVC.receivedData++;
+        [appDelegate.loadingVC performSelectorOnMainThread:@selector(moveProgressBar) withObject:nil waitUntilDone:YES];
+
     }
 }
 
@@ -2286,6 +2296,8 @@ NSString *const kARISServerServicePackage = @"v1";
     if(appDelegate.loadingVC){
         appDelegate.loadingVC.progressLabel.text = @"Received Game Tab List...";
         appDelegate.loadingVC.receivedData++;
+        [appDelegate.loadingVC performSelectorOnMainThread:@selector(moveProgressBar) withObject:nil waitUntilDone:YES];
+
     }
 
 }
@@ -2309,6 +2321,8 @@ NSString *const kARISServerServicePackage = @"v1";
     if(appDelegate.loadingVC){
         appDelegate.loadingVC.progressLabel.text = @"Received Game NPC List...";
         appDelegate.loadingVC.receivedData++;
+        [appDelegate.loadingVC performSelectorOnMainThread:@selector(moveProgressBar) withObject:nil waitUntilDone:YES];
+
     }
 
 }
@@ -2331,6 +2345,8 @@ NSString *const kARISServerServicePackage = @"v1";
     if(appDelegate.loadingVC){
         appDelegate.loadingVC.progressLabel.text = @"Received Game Webpage List...";
         appDelegate.loadingVC.receivedData++;
+        [appDelegate.loadingVC performSelectorOnMainThread:@selector(moveProgressBar) withObject:nil waitUntilDone:YES];
+
     }
 
 }
@@ -2352,6 +2368,8 @@ NSString *const kARISServerServicePackage = @"v1";
     if(appDelegate.loadingVC){
         appDelegate.loadingVC.progressLabel.text = @"Received Game Panoramic List...";
         appDelegate.loadingVC.receivedData++;
+        [appDelegate.loadingVC performSelectorOnMainThread:@selector(moveProgressBar) withObject:nil waitUntilDone:YES];
+
     }
 
 }
@@ -2421,6 +2439,8 @@ NSString *const kARISServerServicePackage = @"v1";
     if(appDelegate.loadingVC){
         appDelegate.loadingVC.progressLabel.text = @"Received Inventory...";
         appDelegate.loadingVC.receivedData++;
+        [appDelegate.loadingVC performSelectorOnMainThread:@selector(moveProgressBar) withObject:nil waitUntilDone:YES];
+
     }
 
 }
@@ -2556,6 +2576,8 @@ NSString *const kARISServerServicePackage = @"v1";
     if(appDelegate.loadingVC){
         appDelegate.loadingVC.progressLabel.text = @"Received Quest List...";
         appDelegate.loadingVC.receivedData++;
+        [appDelegate.loadingVC performSelectorOnMainThread:@selector(moveProgressBar) withObject:nil waitUntilDone:YES];
+
     }
 
 }
