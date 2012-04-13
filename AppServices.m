@@ -231,7 +231,7 @@ NSString *const kARISServerServicePackage = @"v1";
 -(void)resetAndEmailNewPassword:(NSString *)email{
     NSLog(@"Resetting Email: %@",email);
     NSArray *arguments = [NSArray arrayWithObjects:
-						 email,
+                          email,
 						  nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]
                                       initWithServer:[AppModel sharedAppModel].serverURL
@@ -241,7 +241,7 @@ NSString *const kARISServerServicePackage = @"v1";
                                       andUserInfo:nil];
 	[jsonConnection performAsynchronousRequestWithHandler:
      nil]; 
-
+    
 }
 - (void)startOverGame{
 	NSLog(@"Model: Start Over");
@@ -387,7 +387,7 @@ NSString *const kARISServerServicePackage = @"v1";
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
                           item.name,
 						  item.description,
-                           @"note123",
+                          @"note123",
 						  @"1", //dropable
 						  @"1", //destroyable
 						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.latitude],
@@ -400,7 +400,7 @@ NSString *const kARISServerServicePackage = @"v1";
                                                               andArguments:arguments 
                                                                andUserInfo:nil];
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)]; 
-
+    
 }
 -(void)updateCommentWithId:(int)noteId andTitle:(NSString *)title andRefresh:(BOOL)refresh{
     NSLog(@"AppModel: Updating Comment Rating");
@@ -408,19 +408,19 @@ NSString *const kARISServerServicePackage = @"v1";
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects:
 						  [NSString stringWithFormat:@"%d",noteId],
-						title,
+                          title,
                           nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
                                                             andServiceName:@"notes" 
                                                              andMethodName:@"updateComment" 
                                                               andArguments:arguments 
                                                                andUserInfo:nil];
-
+    
     if(refresh)
         [jsonConnection performAsynchronousRequestWithHandler:@selector(fetchPlayerNoteListAsync)]; 
-
-        else
-	[jsonConnection performAsynchronousRequestWithHandler:nil]; 
+    
+    else
+        [jsonConnection performAsynchronousRequestWithHandler:nil]; 
 	
 }
 -(void)likeNote:(int)noteId{
@@ -435,11 +435,11 @@ NSString *const kARISServerServicePackage = @"v1";
                                                               andArguments:arguments
                                                                andUserInfo:nil];
 	[jsonConnection performAsynchronousRequestWithHandler:nil]; 
-
+    
 }
 -(void)unLikeNote:(int)noteId{
     NSLog(@"Unliking Note: %d",noteId);
-
+    
     NSArray *arguments = [NSArray arrayWithObjects:
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
                           [NSString stringWithFormat:@"%d",noteId],
@@ -484,7 +484,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	NSArray *arguments = [NSArray arrayWithObjects:
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
-                          						  nil];
+                          nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
                                                             andServiceName:@"notes" 
                                                              andMethodName:@"createNewNote" 
@@ -533,20 +533,20 @@ NSString *const kARISServerServicePackage = @"v1";
 
 -(void)deleteNoteContentWithContentId:(int)contentId{
     if(contentId != -1){
-    NSLog(@"AppModel: Deleting Content From Note with contentId: %d",contentId);
-	
-	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects:
-						  [NSString stringWithFormat:@"%d",contentId],
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
-                                                            andServiceName:@"notes" 
-                                                             andMethodName:@"deleteNoteContent" 
-                                                              andArguments:arguments 
-                                                               andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(sendNotificationToNoteViewer)]; 
+        NSLog(@"AppModel: Deleting Content From Note with contentId: %d",contentId);
+        
+        //Call server service
+        NSArray *arguments = [NSArray arrayWithObjects:
+                              [NSString stringWithFormat:@"%d",contentId],
+                              nil];
+        JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                                andServiceName:@"notes" 
+                                                                 andMethodName:@"deleteNoteContent" 
+                                                                  andArguments:arguments 
+                                                                   andUserInfo:nil];
+        [jsonConnection performAsynchronousRequestWithHandler:@selector(sendNotificationToNoteViewer)]; 
     }
-
+    
 }
 
 
@@ -573,27 +573,27 @@ NSString *const kARISServerServicePackage = @"v1";
 
 -(void)deleteNoteWithNoteId:(int)noteId{
     if(noteId != 0){
-    NSLog(@"AppModel: Deleting Note: %d",noteId);
-	
-	//Call server service
-	NSArray *arguments = [NSArray arrayWithObjects:
-						  [NSString stringWithFormat:@"%d",noteId],
-						  nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
-                                                            andServiceName:@"notes" 
-                                                             andMethodName:@"deleteNote" 
-                                                              andArguments:arguments 
-                                                               andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(sendNotificationToNotebookViewer)]; 
+        NSLog(@"AppModel: Deleting Note: %d",noteId);
+        
+        //Call server service
+        NSArray *arguments = [NSArray arrayWithObjects:
+                              [NSString stringWithFormat:@"%d",noteId],
+                              nil];
+        JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                                andServiceName:@"notes" 
+                                                                 andMethodName:@"deleteNote" 
+                                                                  andArguments:arguments 
+                                                                   andUserInfo:nil];
+        [jsonConnection performAsynchronousRequestWithHandler:@selector(sendNotificationToNotebookViewer)]; 
     }
     else{
         NSLog(@"Tried deleting note 0 and that's a no-no!");
     }
-
+    
 }
 
 -(void)sendNotificationToNoteViewer{
-            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewContentListReady" object:nil]];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewContentListReady" object:nil]];
 }
 
 
@@ -605,8 +605,8 @@ NSString *const kARISServerServicePackage = @"v1";
 -(void) uploadContentToNoteWithFileURL:(NSURL *)fileURL name:(NSString *)name noteId:(int) noteId type: (NSString *)type{
     
     ARISUploader *uploader = [[ARISUploader alloc]initWithURLToUpload:fileURL delegate:self doneSelector:@selector(noteContentUploadDidfinish: ) errorSelector:@selector(uploadNoteContentDidFail:)];
-
-        NSNumber *nId = [[NSNumber alloc]initWithInt:noteId];
+    
+    NSNumber *nId = [[NSNumber alloc]initWithInt:noteId];
     
     NSMutableDictionary *userInfo = [[NSMutableDictionary alloc]initWithCapacity:4];                                     
     [userInfo setValue:name forKey:@"title"];
@@ -620,19 +620,19 @@ NSString *const kARISServerServicePackage = @"v1";
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     //[appDelegate showNewWaitingIndicator:@"Uploading" displayProgressBar:YES];
 	//[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
-
+    
 	[uploader upload];
-
+    
 }
 -(void)fetchPlayerNoteListAsync{
     ///if([AppModel sharedAppModel].isGameNoteList)
     [self fetchGameNoteListAsynchronously:YES];
-   // else
+    // else
     [self fetchPlayerNoteListAsynchronously:YES];
 }
 
 - (void)noteContentUploadDidfinish:(ARISUploader*)uploader {
-
+    
 	NSLog(@"Model: Upload Note Content Request Finished. Response: %@", [uploader responseString]);
 	
 	NSString *title = [[uploader userInfo] objectForKey:@"title"];
@@ -640,7 +640,7 @@ NSString *const kARISServerServicePackage = @"v1";
     NSNumber *nId = [[uploader userInfo] objectForKey:@"noteId"];
 	//if (description == NULL) description = @"filename"; 
 	int noteId = [nId intValue];
-
+    
     NSString *type = [[uploader userInfo] objectForKey:@"type"];
     NSString *newFileName = [uploader responseString];
     
@@ -652,7 +652,7 @@ NSString *const kARISServerServicePackage = @"v1";
     [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:[nId intValue] andFileURL:localUrl];
     [[AppModel sharedAppModel].uploadManager contentFinishedUploading];
     
-
+    
 	NSLog(@"AppModel: Creating Note Content for Title:%@ File:%@",title,newFileName);
 	
 	//Call server service
@@ -669,7 +669,7 @@ NSString *const kARISServerServicePackage = @"v1";
                                                              andMethodName:@"addContentToNoteFromFileName" 
                                                               andArguments:arguments 
                                                                andUserInfo:nil];
-//[AppModel sharedAppModel].isGameNoteList = NO;
+    //[AppModel sharedAppModel].isGameNoteList = NO;
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchPlayerNoteListAsync)]; 
 }
 
@@ -683,10 +683,10 @@ NSString *const kARISServerServicePackage = @"v1";
     NSNumber *nId = [[NSNumber alloc]initWithInt:5];
     nId = [[uploader userInfo] objectForKey:@"noteId"];
 	//if (description == NULL) description = @"filename"; 
-
+    
     [[AppModel sharedAppModel].uploadManager contentFailedUploading];
-       [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];  
- }
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];  
+}
 
 
 -(void)updateNoteWithNoteId:(int)noteId title:(NSString *)title publicToMap:(BOOL)publicToMap publicToList:(BOOL)publicToList{
@@ -704,7 +704,7 @@ NSString *const kARISServerServicePackage = @"v1";
                                                               andArguments:arguments 
                                                                andUserInfo:nil];
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After 
-
+    
 }
 - (void)updateNoteContent:(int)contentId title:(NSString *)text;
 {
@@ -762,7 +762,7 @@ NSString *const kARISServerServicePackage = @"v1";
                                                               andArguments:arguments 
                                                                andUserInfo:nil];
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After 
-
+    
 }
 
 
@@ -795,7 +795,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	NSString *response = [uploader responseString];
     
 	NSLog(@"Model: uploadImageForMatchingRequestFinished: Upload Media Request Finished. Response: %@", response);
-        
+    
 	NSString *newFileName = [uploader responseString];
     
 	NSLog(@"AppModel: uploadImageForMatchingRequestFinished: Trying to Match:%@",newFileName);
@@ -832,7 +832,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	NSError *error = [uploader error];
 	NSLog(@"Model: uploadRequestFailed: %@",[error localizedDescription]);
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message: @"An network error occured while uploading the file" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
- 
+    
     // delete temporary image file
     NSError *error2;
     NSFileManager *fileMgr = [NSFileManager defaultManager];
@@ -936,7 +936,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	
     return [self fetchFromService:@"notes" usingMethod:@"getNoteById" withArgs:arguments
 					  usingParser:@selector(parseNoteFromDictionary:)];
-
+    
 }
 -(Npc *)fetchNpc:(int)npcId{
 	NSLog(@"Model: Fetch Requested for Npc %d", npcId);
@@ -1025,7 +1025,7 @@ NSString *const kARISServerServicePackage = @"v1";
                                                              andMethodName:@"getTabBarItemsForGame"
                                                               andArguments:arguments andUserInfo:nil];
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameTabListFromJSON:)]; 
-
+    
 }
 
 -(void)fetchQRCode:(NSString*)code{
@@ -1083,13 +1083,13 @@ NSString *const kARISServerServicePackage = @"v1";
 }
 - (void)fetchGameNoteListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
 	NSLog(@"AppModel: Fetching Game Note List");
-
-    /*if (currentlyFetchingGameNoteList) {
-        NSLog(@"AppModel: Already fetching location list, skipping");
-        return;
-    }
     
-    currentlyFetchingGameNoteList = YES;*/
+    /*if (currentlyFetchingGameNoteList) {
+     NSLog(@"AppModel: Already fetching location list, skipping");
+     return;
+     }
+     
+     currentlyFetchingGameNoteList = YES;*/
 	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],nil];
 	
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
@@ -1105,13 +1105,13 @@ NSString *const kARISServerServicePackage = @"v1";
 }
 - (void)fetchPlayerNoteListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
 	NSLog(@"AppModel: Fetching Player Note List");
-
-	/*if (currentlyFetchingPlayerNoteList) {
-        NSLog(@"AppModel: Already fetching location list, skipping");
-        return;
-    }
     
-    currentlyFetchingPlayerNoteList = YES;*/
+	/*if (currentlyFetchingPlayerNoteList) {
+     NSLog(@"AppModel: Already fetching location list, skipping");
+     return;
+     }
+     
+     currentlyFetchingPlayerNoteList = YES;*/
     
 	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
 	
@@ -1247,7 +1247,7 @@ NSString *const kARISServerServicePackage = @"v1";
     
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];	
     
-
+    
 }
 -(void)addTagToNote:(int)noteId tagName:(NSString *)tag{
     NSLog(@"AppModel: Adding Tag to note");
@@ -1259,7 +1259,7 @@ NSString *const kARISServerServicePackage = @"v1";
                                                              andMethodName:@"addTagToNote"
                                                               andArguments:arguments andUserInfo:nil];
     [jsonConnection performAsynchronousRequestWithHandler:nil]; 
-
+    
 }
 
 -(void)deleteTagFromNote:(int)noteId tagId:(int)tagId{
@@ -1272,7 +1272,7 @@ NSString *const kARISServerServicePackage = @"v1";
                                                              andMethodName:@"deleteTagFromNote"
                                                               andArguments:arguments andUserInfo:nil];
     [jsonConnection performAsynchronousRequestWithHandler:nil]; 
-
+    
 }
 
 - (void)fetchLocationList {
@@ -1593,10 +1593,10 @@ NSString *const kARISServerServicePackage = @"v1";
     aNote.dropped = [[noteDictionary valueForKey:@"dropped"]boolValue];
     aNote.latitude = [[noteDictionary valueForKey:@"lat"]doubleValue];
     aNote.longitude = [[noteDictionary valueForKey:@"lon"]doubleValue];
-       
+    
     NSArray *contents = [noteDictionary valueForKey:@"contents"];
     for (NSDictionary *content in contents) {
- 
+        
         NoteContent *c = [[NoteContent alloc] init];
         c.text = [content objectForKey:@"text"];
         c.title = [content objectForKey:@"title"];
@@ -1617,7 +1617,7 @@ NSString *const kARISServerServicePackage = @"v1";
             media.type = [m objectForKey:@"type"];
         }
         
-[aNote.contents addObject:c];
+        [aNote.contents addObject:c];
     }
     
     NSArray *tags = [noteDictionary valueForKey:@"tags"];
@@ -1638,10 +1638,10 @@ NSString *const kARISServerServicePackage = @"v1";
         Note *c = [self parseNoteFromDictionary:dict];
         [aNote.comments addObject:c];
     }
-
+    
 	NSSortDescriptor *sortDescriptor;
     sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"noteId"
-                                                  ascending:NO];
+                                                 ascending:NO];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
     
     aNote.comments = [[aNote.comments sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
@@ -1722,12 +1722,12 @@ NSString *const kARISServerServicePackage = @"v1";
 	}
     
     pan.media = [NSArray arrayWithArray: media];
-
+    
 	return pan;	
 }
 -(void)parseGameNoteListFromJSON: (JSONResult *)jsonResult{
     NSLog(@"Parsing Game Note List");
-
+    
     if ([jsonResult.hash isEqualToString:[AppModel sharedAppModel].gameNoteListHash]) {
 		NSLog(@"AppModel: Hash is same as last game note list update, continue");
 		return;
@@ -1748,13 +1748,13 @@ NSString *const kARISServerServicePackage = @"v1";
         [tempNoteList setObject:tmpNote forKey:[NSNumber numberWithInt:tmpNote.noteId]];
 	}
     /*NSSortDescriptor *sortDescriptor;
-    sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"noteId"
-                                                  ascending:NO] autorelease];
-    NSMutableArray *sortDescriptors = [NSMutableArray arrayWithObject:sortDescriptor];
-    
-    tempNoteList = [tempNoteList sortedArrayUsingDescriptors:sortDescriptors];*/
+     sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"noteId"
+     ascending:NO] autorelease];
+     NSMutableArray *sortDescriptors = [NSMutableArray arrayWithObject:sortDescriptor];
+     
+     tempNoteList = [tempNoteList sortedArrayUsingDescriptors:sortDescriptors];*/
 	[AppModel sharedAppModel].gameNoteList = tempNoteList;
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
     NSLog(@"DONE Parsing Game Note List");
     self.currentlyFetchingGameNoteList = NO;
 	//[tempNoteList release];
@@ -1780,13 +1780,13 @@ NSString *const kARISServerServicePackage = @"v1";
 		
 		[tempNoteList setObject:tmpNote forKey:[NSNumber numberWithInt:tmpNote.noteId]];
 	}
-
-
+    
+    
 	[AppModel sharedAppModel].playerNoteList = tempNoteList;
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
     NSLog(@"DONE Parsing Player Note List");
     self.currentlyFetchingPlayerNoteList = NO;
-
+    
 }
 -(void)parseConversationNodeOptionsFromJSON: (JSONResult *)jsonResult {
 	
@@ -1825,7 +1825,7 @@ NSString *const kARISServerServicePackage = @"v1";
 		[AppModel sharedAppModel].playerId = [((NSDecimalNumber*)jsonResult.data) intValue];
         [[AppServices sharedAppServices]setShowPlayerOnMap];
         [[AppModel sharedAppModel] saveUserDefaults];
-
+        
 	}
 	else {
 		[AppModel sharedAppModel].loggedIn = NO;	
@@ -1837,9 +1837,9 @@ NSString *const kARISServerServicePackage = @"v1";
     if(appDelegate.loadingVC){
         appDelegate.loadingVC.progressLabel.text = @"Received Location List...";
         appDelegate.loadingVC.receivedData++;
-
+        
     }
-
+    
 }
 
 
@@ -1877,7 +1877,7 @@ NSString *const kARISServerServicePackage = @"v1";
     NSString *isLocational = [gameSource valueForKey:@"is_locational"];
     if ((NSNull *)isLocational != [NSNull null]) game.isLocational = [isLocational boolValue];
     else game.isLocational = NO;
-
+    
     NSString *inventoryWC = [gameSource valueForKey:@"inventory_weight_cap"];
     if ((NSNull *)inventoryWC != [NSNull null]) game.inventoryWeightCap = [inventoryWC intValue];
     else game.inventoryWeightCap = 0;
@@ -1901,7 +1901,7 @@ NSString *const kARISServerServicePackage = @"v1";
     NSString *longitude = [gameSource valueForKey:@"longitude"];
     if ((NSNull *)latitude != [NSNull null] && (NSNull *)longitude != [NSNull null] )
         game.location = [[CLLocation alloc] initWithLatitude:[latitude doubleValue]
-                                                    longitude:[longitude doubleValue]];
+                                                   longitude:[longitude doubleValue]];
     else game.location = [[CLLocation alloc] init];
     
     game.authors = [gameSource valueForKey:@"editors"];
@@ -1916,13 +1916,13 @@ NSString *const kARISServerServicePackage = @"v1";
         game.iconMediaUrl = [NSURL URLWithString:iconMediaUrl];
         game.iconMedia = [[AppModel sharedAppModel].mediaCache mediaForUrl:game.iconMediaUrl];
     }
-     
+    
     NSString *mediaUrl = [gameSource valueForKey:@"media_url"];
     if ((NSNull *)mediaUrl != [NSNull null] && [iconMediaUrl length]>0){
         game.mediaUrl = [NSURL URLWithString:mediaUrl];
         game.splashMedia = [[AppModel sharedAppModel].mediaCache mediaForUrl:game.mediaUrl];
     }
-        
+    
     NSString *completedQuests = [gameSource valueForKey:@"completedQuests"];	
     if ((NSNull *)completedQuests != [NSNull null]) game.completedQuests = [completedQuests intValue];
     else game.completedQuests = 0;
@@ -1950,8 +1950,8 @@ NSString *const kARISServerServicePackage = @"v1";
     game.allowShareNoteToMap = [[gameSource valueForKey:@"allow_share_note_to_map"]boolValue];
     game.allowShareNoteToList = [[gameSource valueForKey:@"allow_share_note_to_book"]boolValue];
     game.allowNoteComments = [[gameSource valueForKey:@"allow_note_comments"]boolValue];
-
-
+    
+    
     NSArray *comments = [gameSource valueForKey:@"comments"];
     for (NSDictionary *comment in comments) {
         //This is returning an object with playerId,tex, and rating. Right now, we just want the text
@@ -1971,66 +1971,62 @@ NSString *const kARISServerServicePackage = @"v1";
 
 -(void)parseGameListFromJSON: (JSONResult *)jsonResult{
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-
-    if(appDelegate.gameSelectionTabBarController.view.hidden == NO){
-        NSLog(@"AppModel: parseGameListFromJSON Beginning");		
-    
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RecievedGameList" object:nil]];
-    
-	NSArray *gameListArray = (NSArray *)jsonResult.data;
-	
-	NSMutableArray *tempGameList = [[NSMutableArray alloc] init];
-	
-	NSEnumerator *gameListEnumerator = [gameListArray objectEnumerator];	
-	NSDictionary *gameDictionary;
-	while ((gameDictionary = [gameListEnumerator nextObject])) {
-		[tempGameList addObject:[self parseGame:(gameDictionary)]]; 
-	}
-    
-	[AppModel sharedAppModel].gameList = tempGameList;
-    NSError *error;
-    if (![[AppModel sharedAppModel].mediaCache.context save:&error]) {
-        NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
-    }
-
-    NSLog(@"AppModel: parseGameListFromJSON Complete, sending notification");
-    
-	
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewGameListReady" object:nil]];
     currentlyFetchingGamesList = NO;
-
-    }
+        
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RecievedGameList" object:nil]];
+        
+        NSArray *gameListArray = (NSArray *)jsonResult.data;
+        
+        NSMutableArray *tempGameList = [[NSMutableArray alloc] init];
+        
+        NSEnumerator *gameListEnumerator = [gameListArray objectEnumerator];	
+        NSDictionary *gameDictionary;
+        while ((gameDictionary = [gameListEnumerator nextObject])) {
+            [tempGameList addObject:[self parseGame:(gameDictionary)]]; 
+        }
+        
+        [AppModel sharedAppModel].gameList = tempGameList;
+        NSError *error;
+        if (![[AppModel sharedAppModel].mediaCache.context save:&error]) {
+            NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+        }
+        
+        NSLog(@"AppModel: parseGameListFromJSON Complete, sending notification");
+        
+        
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewGameListReady" object:nil]];
+        
 }
 
 -(void)parseRecentGameListFromJSON: (JSONResult *)jsonResult{
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     if(appDelegate.gameSelectionTabBarController.view.hidden == NO){
- NSLog(@"AppModel: parseGameListFromJSON Beginning");		
-    
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RecievedGameList" object:nil]];
-    
-	NSArray *gameListArray = (NSArray *)jsonResult.data;
-	
-	NSMutableArray *tempGameList = [[NSMutableArray alloc] init];
-	
-	NSEnumerator *gameListEnumerator = [gameListArray objectEnumerator];	
-	NSDictionary *gameDictionary;
-	while ((gameDictionary = [gameListEnumerator nextObject])) {
-		[tempGameList addObject:[self parseGame:(gameDictionary)]]; 
-	}
-    
-	[AppModel sharedAppModel].recentGameList = tempGameList;
-    NSError *error;
-    if (![[AppModel sharedAppModel].mediaCache.context save:&error]) {
-        NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
-    }
-    NSLog(@"AppModel: parseGameListFromJSON Complete, sending notification");
-    
-	
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewRecentGameListReady" object:nil]];
-    currentlyFetchingGamesList = NO;
-    
+        NSLog(@"AppModel: parseGameListFromJSON Beginning");		
+        
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RecievedGameList" object:nil]];
+        
+        NSArray *gameListArray = (NSArray *)jsonResult.data;
+        
+        NSMutableArray *tempGameList = [[NSMutableArray alloc] init];
+        
+        NSEnumerator *gameListEnumerator = [gameListArray objectEnumerator];	
+        NSDictionary *gameDictionary;
+        while ((gameDictionary = [gameListEnumerator nextObject])) {
+            [tempGameList addObject:[self parseGame:(gameDictionary)]]; 
+        }
+        
+        [AppModel sharedAppModel].recentGameList = tempGameList;
+        NSError *error;
+        if (![[AppModel sharedAppModel].mediaCache.context save:&error]) {
+            NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+        }
+        NSLog(@"AppModel: parseGameListFromJSON Complete, sending notification");
+        
+        
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewRecentGameListReady" object:nil]];
+        currentlyFetchingGamesList = NO;
+        
     }
 }
 
@@ -2109,7 +2105,7 @@ NSString *const kARISServerServicePackage = @"v1";
 
 -(Location*)parseLocationFromDictionary: (NSDictionary*)locationDictionary {
     NSLog(@"AppServices: parseLocationFromDictionary");
-
+    
     Location *location = [[Location alloc] init];
     location.locationId = [[locationDictionary valueForKey:@"location_id"] intValue];
     location.name = [locationDictionary valueForKey:@"name"];
@@ -2138,18 +2134,18 @@ NSString *const kARISServerServicePackage = @"v1";
     
     
     [self startCachingMedia:jsonResult];
-   // [appDelegate showNewWaitingIndicator:@"Loading Game..." displayProgressBar:NO];
+    // [appDelegate showNewWaitingIndicator:@"Loading Game..." displayProgressBar:NO];
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     if(appDelegate.loadingVC){
         appDelegate.loadingVC.progressLabel.text = @"Caching Game Media...";
         appDelegate.loadingVC.receivedData++;
-
+        
     }
-
+    
     [self performSelector:@selector(startCachingMedia:) withObject:jsonResult afterDelay:.1];
     
-	}
+}
 
 -(void)startCachingMedia:(JSONResult *)jsonResult{
     NSArray *mediaListArray = (NSArray *)jsonResult.data;
@@ -2220,10 +2216,10 @@ NSString *const kARISServerServicePackage = @"v1";
     if(appDelegate.loadingVC){
         appDelegate.loadingVC.progressLabel.text = @"Starting Game.";
         appDelegate.loadingVC.receivedData++;
-
+        
     }
-
-
+    
+    
 }
 -(void)parseGameItemListFromJSON: (JSONResult *)jsonResult{
 	NSArray *itemListArray = (NSArray *)jsonResult.data;
@@ -2240,11 +2236,11 @@ NSString *const kARISServerServicePackage = @"v1";
 	
 	[AppModel sharedAppModel].gameItemList = tempItemList;
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-
+    
     if(appDelegate.loadingVC){
         appDelegate.loadingVC.progressLabel.text = @"Received Game Item List...";
         appDelegate.loadingVC.receivedData++;
-
+        
     }
 }
 
@@ -2268,7 +2264,7 @@ NSString *const kARISServerServicePackage = @"v1";
     if(appDelegate.loadingVC){
         appDelegate.loadingVC.progressLabel.text = @"Received Game Node List...";
         appDelegate.loadingVC.receivedData++;
-
+        
     }
 }
 
@@ -2291,9 +2287,9 @@ NSString *const kARISServerServicePackage = @"v1";
     if(appDelegate.loadingVC){
         appDelegate.loadingVC.progressLabel.text = @"Received Game Tab List...";
         appDelegate.loadingVC.receivedData++;
-
+        
     }
-
+    
 }
 
 
@@ -2315,9 +2311,9 @@ NSString *const kARISServerServicePackage = @"v1";
     if(appDelegate.loadingVC){
         appDelegate.loadingVC.progressLabel.text = @"Received Game NPC List...";
         appDelegate.loadingVC.receivedData++;
-
+        
     }
-
+    
 }
 
 -(void)parseGameWebPageListFromJSON: (JSONResult *)jsonResult{
@@ -2338,9 +2334,9 @@ NSString *const kARISServerServicePackage = @"v1";
     if(appDelegate.loadingVC){
         appDelegate.loadingVC.progressLabel.text = @"Received Game Webpage List...";
         appDelegate.loadingVC.receivedData++;
-
+        
     }
-
+    
 }
 -(void)parseGamePanoramicListFromJSON: (JSONResult *)jsonResult{
 	NSArray *panListArray = (NSArray *)jsonResult.data;
@@ -2360,9 +2356,9 @@ NSString *const kARISServerServicePackage = @"v1";
     if(appDelegate.loadingVC){
         appDelegate.loadingVC.progressLabel.text = @"Received Game Panoramic List...";
         appDelegate.loadingVC.receivedData++;
-
+        
     }
-
+    
 }
 
 
@@ -2393,7 +2389,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	
 	NSMutableDictionary *tempInventory = [[NSMutableDictionary alloc] initWithCapacity:10];
     NSMutableDictionary *tempAttributes = [[NSMutableDictionary alloc] initWithCapacity:10];
-
+    
 	NSEnumerator *inventoryEnumerator = [((NSArray *)inventoryArray) objectEnumerator];	
 	NSDictionary *itemDictionary;
 	while ((itemDictionary = [inventoryEnumerator nextObject])) {
@@ -2413,11 +2409,11 @@ NSString *const kARISServerServicePackage = @"v1";
         item.creatorId = [[itemDictionary valueForKey:@"creator_player_id"] intValue];
 		NSLog(@"Model: Adding Item: %@", item.name);
         if(item.isAttribute)[tempAttributes setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]]; 
-            else [tempInventory setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]]; 
+        else [tempInventory setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]]; 
 	}
     
     
-        
+    
 	[AppModel sharedAppModel].inventory = tempInventory;
     [AppModel sharedAppModel].attributes = tempAttributes;
 	
@@ -2430,28 +2426,28 @@ NSString *const kARISServerServicePackage = @"v1";
     if(appDelegate.loadingVC){
         appDelegate.loadingVC.progressLabel.text = @"Received Inventory...";
         appDelegate.loadingVC.receivedData++;
-
+        
     }
-
+    
 }
 
 /*
-- (void)parseGetBestImageMatchFromJSON: (JSONResult *)jsonResult {
-    
-    NSLog(@"AppModel: parseGetBestImageMatchFromJSON");
-		
-	//Continue parsing
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Data from Server" 
-                                                   message:(NSString *)jsonResult.data 
-                                                  delegate:nil 
-                                         cancelButtonTitle:nil 
-                                         otherButtonTitles: nil];
-    
-    [alert show];
-    [alert release];
-    
-}
-*/
+ - (void)parseGetBestImageMatchFromJSON: (JSONResult *)jsonResult {
+ 
+ NSLog(@"AppModel: parseGetBestImageMatchFromJSON");
+ 
+ //Continue parsing
+ UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Data from Server" 
+ message:(NSString *)jsonResult.data 
+ delegate:nil 
+ cancelButtonTitle:nil 
+ otherButtonTitles: nil];
+ 
+ [alert show];
+ [alert release];
+ 
+ }
+ */
 
 -(void)parseQRCodeObjectFromJSON: (JSONResult *)jsonResult {
     NSLog(@"ParseQRCodeObjectFromJSON: Coolio!");
@@ -2463,9 +2459,9 @@ NSString *const kARISServerServicePackage = @"v1";
 	if ((NSNull*)jsonResult.data != [NSNull null]) {
 		NSDictionary *qrCodeDictionary = (NSDictionary *)jsonResult.data;
         if(![qrCodeDictionary isKindOfClass:[NSString class]]){
-        NSString *type = [qrCodeDictionary valueForKey:@"link_type"];
-        NSDictionary *objectDictionary = [qrCodeDictionary valueForKey:@"object"];
-		if ([type isEqualToString:@"Location"]) qrCodeObject = [self parseLocationFromDictionary:objectDictionary];
+            NSString *type = [qrCodeDictionary valueForKey:@"link_type"];
+            NSDictionary *objectDictionary = [qrCodeDictionary valueForKey:@"object"];
+            if ([type isEqualToString:@"Location"]) qrCodeObject = [self parseLocationFromDictionary:objectDictionary];
         }
 	}
 	
@@ -2540,16 +2536,16 @@ NSString *const kARISServerServicePackage = @"v1";
 		quest.iconMediaId = [[completedQuest objectForKey:@"icon_media_id"] intValue];
 		[completedQuestObjects addObject:quest];
 	}
-  
-
+    
+    
 	//Package the two object arrays in a Dictionary
 	NSMutableDictionary *tmpQuestList = [[NSMutableDictionary alloc] init];
 	[tmpQuestList setObject:activeQuestObjects forKey:@"active"];
 	[tmpQuestList setObject:completedQuestObjects forKey:@"completed"];	
 	[AppModel sharedAppModel].questList = tmpQuestList;
-
     
-         //Update Game Object   
+    
+    //Update Game Object   
 	[AppModel sharedAppModel].currentGame.completedQuests = [completedQuestObjects count];
 	[AppModel sharedAppModel].currentGame.activeQuests = [activeQuestObjects count];
 	NSString *totalQuests = [questListDictionary valueForKey:@"totalQuests"];
@@ -2566,9 +2562,9 @@ NSString *const kARISServerServicePackage = @"v1";
     if(appDelegate.loadingVC){
         appDelegate.loadingVC.progressLabel.text = @"Received Quest List...";
         appDelegate.loadingVC.receivedData++;
-
+        
     }
-
+    
 }
 
 
