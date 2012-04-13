@@ -49,6 +49,10 @@ BOOL isShowingNotification;
     }
 }
 
+#pragma mark -
+#pragma mark Application State
+
+
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
     
     NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/movie.m4v"]];
@@ -305,7 +309,90 @@ BOOL isShowingNotification;
     [alert show];	
     [alert release];
 }*/
+
+- (void)applicationDidBecomeActive:(UIApplication *)application{
+	NSLog(@"AppDelegate: applicationDidBecomeActive");
+	[[AppModel sharedAppModel] loadUserDefaults];
+    [[AppServices sharedAppServices]setShowPlayerOnMap];
+    [self resetCurrentlyFetchingVars];
+    
+}
+
+- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
+    NSLog(@"AppDelegate: LOW MEMORY WARNING RECIEVED");
+    
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LowMemoryWarning" object:nil]];
+}
+
+
+- (void)applicationWillResignActive:(UIApplication *)application {
+	NSLog(@"AppDelegate: Begin Application Resign Active");
+    
+    [self.tabBarController dismissModalViewControllerAnimated:NO];
+    
+	[[AppModel sharedAppModel] saveUserDefaults];
+}
+
+-(void) applicationWillTerminate:(UIApplication *)application {
+	NSLog(@"AppDelegate: Begin Application Termination");
+	[[AppModel sharedAppModel] saveUserDefaults];
+    [[AppModel sharedAppModel] saveCOREData];
+}
+
+
+// handle opening ARIS using custom URL of form ARIS://?game=397 
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    NSLog(@"ARIS opened from URL");
+    if (!url) {  return NO; }
+    NSLog(@"URL found");
+    
+    // parse URL for game id
+    NSString *gameIDQuery = [[url query] lowercaseString];
+    NSLog(@"gameIDQuery = %@",gameIDQuery);
+    
+    if (!gameIDQuery) {return NO;}
+    NSRange equalsSignRange = [gameIDQuery rangeOfString: @"game=" ];
+    if (equalsSignRange.length == 0) {return NO;}
+    int equalsSignIndex = equalsSignRange.location;
+    NSString *gameID = [gameIDQuery substringFromIndex: equalsSignIndex+equalsSignRange.length];
+    NSLog(@"gameID=: %@",gameID);
+    
+    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+    [dispatcher addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"NewGameListReady" object:nil];
+    [[AppServices sharedAppServices] fetchOneGame:[gameID intValue]];
+    
+    return YES;
+}
+
+- (void) handleOpenURLGamesListReady {
+    NSLog(@"game opened");
+    
+    //unregister for notifications
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    Game *selectedGame = [[[AppModel sharedAppModel] gameList] objectAtIndex:0];	
+    GameDetails *gameDetailsVC = [[GameDetails alloc]initWithNibName:@"GameDetails" bundle:nil];
+    gameDetailsVC.game = selectedGame;
+    
+    // show gameSelectionTabBarController
+    self.tabBarController.view.hidden = YES;
+    self.loginViewController.view.hidden = YES;
+    self.gameSelectionTabBarController.view.hidden = NO;
+    
+    NSLog(@"gameID= %i",selectedGame.gameId);
+    NSLog(@"game= %@",selectedGame.name);
+    NSLog(@"gameDetailsVC nib name = %@",gameDetailsVC.nibName); 
+    
+    // Push Game Detail View Controller
+    [(UINavigationController*)self.gameSelectionTabBarController.selectedViewController pushViewController:gameDetailsVC animated:YES];  
+    
+}
+
  
+
+#pragma mark -
+#pragma mark Notifications, Warnings and Other Views
 
 -(void)showNotifications{
     
@@ -385,6 +472,226 @@ BOOL isShowingNotification;
 }
 
 
+- (void) showGameSelectionTabBarAndHideOthers {
+    
+    //Put it onscreen
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [UIView beginAnimations:nil context:context];
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:window cache:YES];
+    self.tabBarController.view.hidden = YES;
+    self.gameSelectionTabBarController.view.hidden = NO;
+    self.loginViewNavigationController.view.hidden = YES;
+    [UIView commitAnimations];
+    
+    
+    [self returnToHomeView];
+
+}
+
+
+
+- (void) showServerAlertWithEmail:(NSString *)title message:(NSString *)message details:(NSString*)detail{
+	errorMessage = message;
+    errorDetail = detail;
+    
+	if (!self.serverAlert){
+		self.serverAlert = [[UIAlertView alloc] initWithTitle:title
+                                                      message:@"You may need to login to your Wifi connection from Safari. \nYou also may need to verify ARIS server settings in system preferences. \nIf the problem persists, please send us some debugging information"
+                                                     delegate:self cancelButtonTitle:@"Ignore" otherButtonTitles: @"Report",nil];
+		[self.serverAlert show];	
+ 	}
+	else {
+		NSLog(@"AppDelegate: showServerAlertWithEmail was called, but a server alert was already present");
+	}
+    
+}
+
+- (void) showNetworkAlert{
+	NSLog (@"AppDelegate: Showing Network Alert");
+	if (self.loadingVC) {
+        [self.loadingVC dismissModalViewControllerAnimated:NO];
+        [self tabBarController].selectedIndex = 0;
+        [self showGameSelectionTabBarAndHideOthers];
+    }
+	if (!self.networkAlert) {
+		networkAlert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"PoorConnectionTitleKey", @"") 
+                                                  message: NSLocalizedString(@"PoorConnectionMessageKey", @"")
+												 delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+	}
+	if (self.networkAlert.visible == NO) [networkAlert show];
+    
+}
+
+- (void) removeNetworkAlert {
+	NSLog (@"AppDelegate: Removing Network Alert");
+	
+	if (self.networkAlert != nil) {
+		[self.networkAlert dismissWithClickedButtonIndex:0 animated:YES];
+	}
+}
+
+
+
+- (void) showNewWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar {
+	NSLog (@"AppDelegate: Showing Waiting Indicator With Message:%@",message);
+	//if (self.waitingIndicatorView) [self.waitingIndicatorView dismiss];
+	if(!self.loadingVC){
+        if (self.waitingIndicatorView){ 
+            [self removeNewWaitingIndicator];
+            self.waitingIndicatorView;}
+        
+        self.waitingIndicatorView = [[WaitingIndicatorView alloc] initWithWaitingMessage:message showProgressBar:displayProgressBar];
+        [self.waitingIndicatorView show];
+        
+        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the activity indicator show before returning	
+    }
+}
+
+- (void) removeNewWaitingIndicator {
+	NSLog (@"AppDelegate: Removing Waiting Indicator");
+	if (self.waitingIndicatorView != nil) [self.waitingIndicatorView dismiss];
+    self.waitingIndicatorView = nil;
+}
+
+
+- (void) showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar {
+	NSLog (@"AppDelegate: Showing Waiting Indicator");
+	if (!self.waitingIndicator) {
+		self.waitingIndicator = [[WaitingIndicatorViewController alloc] initWithNibName:@"WaitingIndicator" bundle:nil];
+	}
+	self.waitingIndicator.message = message;
+	self.waitingIndicator.progressView.hidden = !displayProgressBar;
+	
+	//by adding a subview to window, we make sure it is put on top
+	if ([AppModel sharedAppModel].loggedIn == YES) [window addSubview:self.waitingIndicator.view]; 
+    
+}
+
+- (void) removeWaitingIndicator {
+	NSLog (@"AppDelegate: Removing Waiting Indicator");
+	if (self.waitingIndicator != nil) [self.waitingIndicator.view removeFromSuperview ];
+}
+
+
+- (void)displayNearbyObjectView:(UIViewController *)nearbyObjectViewController {
+	
+	self.nearbyObjectNavigationController = [[UINavigationController alloc] initWithRootViewController:nearbyObjectViewController];
+	self.nearbyObjectNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    
+	//Display
+    
+    [self.tabBarController presentModalViewController:self.nearbyObjectNavigationController animated:NO];
+}
+
+- (void)dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController{
+    
+    [nearbyObjectViewController dismissModalViewControllerAnimated:NO];
+    if(isShowingNotification){
+        tabShowY = 0;
+        
+        self.tabBarController.view.frame = CGRectMake(0, [UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y+40, 320, 420);
+    }
+    
+}
+
+- (void) returnToHomeView{
+	NSLog(@"AppDelegate: Returning to Home View and Popping More Nav Controller");
+    [self.tabBarController.moreNavigationController popToRootViewControllerAnimated:NO];
+	//[self.tabBarController setSelectedViewController:self.defaultViewControllerForMainTabBar];	
+}
+
+- (void) checkForDisplayCompleteNode{
+    int nodeID = [AppModel sharedAppModel].currentGame.completeNodeId;
+    if ([AppModel sharedAppModel].currentGame.completedQuests == [AppModel sharedAppModel].currentGame.totalQuests &&
+        [AppModel sharedAppModel].currentGame.completedQuests > 0  && nodeID != 0) {
+        NSLog(@"AppDelegate: checkForIntroOrCompleteNodeDisplay: Displaying Complete Node");
+		Node *completeNode = [[AppModel sharedAppModel] nodeForNodeId:[AppModel sharedAppModel].currentGame.completeNodeId];
+		[completeNode display];
+	}
+}
+
+- (void) displayIntroNode{
+    int nodeId = [AppModel sharedAppModel].currentGame.launchNodeId;
+    if (nodeId && nodeId != 0) {
+        NSLog(@"AppDelegate: displayIntroNode");
+        Node *launchNode = [[AppModel sharedAppModel] nodeForNodeId:[AppModel sharedAppModel].currentGame.launchNodeId];
+        [launchNode display];
+    }
+    else NSLog(@"AppDelegate: displayIntroNode: Game did not specify an intro node, skipping");
+}
+
+- (void) showNearbyTab:(BOOL)yesOrNo {
+    if([AppModel sharedAppModel].tabsReady){
+        [AppModel sharedAppModel].tabsReady = NO;
+        NSMutableArray *tabs = [NSMutableArray arrayWithArray:self.tabBarController.viewControllers];
+        
+        if (yesOrNo) {
+            NSLog(@"AppDelegate: showNearbyTab: YES");
+            if (![tabs containsObject:self.nearbyObjectsNavigationController]) {
+                [tabs insertObject:self.nearbyObjectsNavigationController atIndex:0];
+            }
+        }
+        else {
+            NSLog(@"AppDelegate: showNearbyTab: NO");
+            
+            if ([tabs containsObject:self.nearbyObjectsNavigationController]) {
+                [tabs removeObject:self.nearbyObjectsNavigationController];
+                //Hide any popups
+                UIViewController *vc = [self.nearbyObjectsNavigationController performSelector:@selector(visibleViewController)];
+                if ([vc respondsToSelector:@selector(dismissTutorial)]) {
+                    [vc performSelector:@selector(dismissTutorial)];
+                }
+                
+            }
+            
+        }
+        
+        [self.tabBarController setViewControllers:tabs animated:NO];
+        
+        NSNotification *n = [NSNotification notificationWithName:@"TabBarItemsChanged" object:self userInfo:nil];
+        [[NSNotificationCenter defaultCenter] postNotification:n];
+    }
+}
+
+
+#pragma mark -
+
+- (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate{
+	NSLog(@"AppDelegate: Playing an audio Alert sound");
+	
+	//Vibrate
+	if (shouldVibrate == YES) [NSThread detachNewThreadSelector:@selector(vibrate) toTarget:self withObject:nil];	
+	//Play the sound on a background thread
+	[NSThread detachNewThreadSelector:@selector(playAudio:) toTarget:self withObject:wavFileName];
+}
+
+//Play a sound
+- (void) playAudio:(NSString*)wavFileName {
+    
+	NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:wavFileName ofType:@"wav"]];
+    NSLog(@"Appdelegate: Playing Audio: %@", url);
+    NSError* err;
+    AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithContentsOfURL: url error:&err];
+    
+    if( err ){
+        NSLog(@"Appdelegate: Playing Audio: Failed with reason: %@", [err localizedDescription]);
+    }
+    else{
+        [player play];
+    }
+}
+
+//Vibrate
+- (void) vibrate {
+	AudioServicesPlaySystemSound (kSystemSoundID_Vibrate);  
+}
+
+ 
+
+#pragma mark -
+#pragma mark Login and Game Selection
+
+
 
 - (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password {	
 	NSLog(@"AppDelegate: Attempt Login for: %@ Password: %@", userName, password);
@@ -402,7 +709,7 @@ BOOL isShowingNotification;
 	//handle login response
 	if([AppModel sharedAppModel].loggedIn) {
 		NSLog(@"AppDelegate: Login Success");
-
+        
         self.tabBarController.view.hidden = YES;
         self.gameSelectionTabBarController.view.hidden = NO;
         self.loginViewNavigationController.view.hidden = YES;
@@ -423,21 +730,6 @@ BOOL isShowingNotification;
 	
 }
 
-- (void) showGameSelectionTabBarAndHideOthers {
-    
-    //Put it onscreen
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    [UIView beginAnimations:nil context:context];
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:window cache:YES];
-    self.tabBarController.view.hidden = YES;
-    self.gameSelectionTabBarController.view.hidden = NO;
-    self.loginViewNavigationController.view.hidden = YES;
-    [UIView commitAnimations];
-    
-    
-    [self returnToHomeView];
-
-}
 
 - (void)selectGame:(NSNotification *)notification {
     //NSDictionary *loginObject = [notification object];
@@ -576,13 +868,6 @@ BOOL isShowingNotification;
 
 
 
-- (void)applicationDidBecomeActive:(UIApplication *)application{
-	NSLog(@"AppDelegate: applicationDidBecomeActive");
-	[[AppModel sharedAppModel] loadUserDefaults];
-    [[AppServices sharedAppServices]setShowPlayerOnMap];
-
-}
-
 - (void) resetCurrentlyFetchingVars{
     [AppServices sharedAppServices].currentlyFetchingGamesList = NO;
     [AppServices sharedAppServices].currentlyFetchingInventory = NO;
@@ -596,258 +881,18 @@ BOOL isShowingNotification;
     [AppServices sharedAppServices].currentlyUpdatingServerWithQuestsViewed = NO;
 }
 
-- (void) showServerAlertWithEmail:(NSString *)title message:(NSString *)message details:(NSString*)detail{
-	errorMessage = message;
-    errorDetail = detail;
-
-	if (!self.serverAlert){
-		self.serverAlert = [[UIAlertView alloc] initWithTitle:title
-														message:@"You may need to login to your Wifi connection from Safari. \nYou also may need to verify ARIS server settings in system preferences. \nIf the problem persists, please send us some debugging information"
-													   delegate:self cancelButtonTitle:@"Ignore" otherButtonTitles: @"Report",nil];
-		[self.serverAlert show];	
- 	}
-	else {
-		NSLog(@"AppDelegate: showServerAlertWithEmail was called, but a server alert was already present");
-	}
-
-}
-
-- (void) showNetworkAlert{
-	NSLog (@"AppDelegate: Showing Network Alert");
-	if (self.loadingVC) {
-        [self.loadingVC dismissModalViewControllerAnimated:NO];
-        [self tabBarController].selectedIndex = 0;
-        [self showGameSelectionTabBarAndHideOthers];
-    }
-	if (!self.networkAlert) {
-		networkAlert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"PoorConnectionTitleKey", @"") 
-											message: NSLocalizedString(@"PoorConnectionMessageKey", @"")
-												 delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-	}
-	if (self.networkAlert.visible == NO) [networkAlert show];
-		
-}
-
-- (void) removeNetworkAlert {
-	NSLog (@"AppDelegate: Removing Network Alert");
-	
-	if (self.networkAlert != nil) {
-		[self.networkAlert dismissWithClickedButtonIndex:0 animated:YES];
-	}
-}
-
-
-
-- (void) showNewWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar {
-	NSLog (@"AppDelegate: Showing Waiting Indicator With Message:%@",message);
-	//if (self.waitingIndicatorView) [self.waitingIndicatorView dismiss];
-	if(!self.loadingVC){
-    if (self.waitingIndicatorView){ 
-        [self removeNewWaitingIndicator];
-        self.waitingIndicatorView;}
-	
-	self.waitingIndicatorView = [[WaitingIndicatorView alloc] initWithWaitingMessage:message showProgressBar:displayProgressBar];
-        [self.waitingIndicatorView show];
-	
-	[[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the activity indicator show before returning	
-    }
-}
-
-- (void) removeNewWaitingIndicator {
-	NSLog (@"AppDelegate: Removing Waiting Indicator");
-	if (self.waitingIndicatorView != nil) [self.waitingIndicatorView dismiss];
-    self.waitingIndicatorView = nil;
-}
-
-
-- (void) showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar {
-	NSLog (@"AppDelegate: Showing Waiting Indicator");
-	if (!self.waitingIndicator) {
-		self.waitingIndicator = [[WaitingIndicatorViewController alloc] initWithNibName:@"WaitingIndicator" bundle:nil];
-	}
-	self.waitingIndicator.message = message;
-	self.waitingIndicator.progressView.hidden = !displayProgressBar;
-	
-	//by adding a subview to window, we make sure it is put on top
-	if ([AppModel sharedAppModel].loggedIn == YES) [window addSubview:self.waitingIndicator.view]; 
-
-}
-
-- (void) removeWaitingIndicator {
-	NSLog (@"AppDelegate: Removing Waiting Indicator");
-	if (self.waitingIndicator != nil) [self.waitingIndicator.view removeFromSuperview ];
-}
-
 -(void)receivedMediaList{
     //Display the intro node
  
     [AppModel sharedAppModel].hasReceivedMediaList = YES;
     
 }
-- (void) showNearbyTab:(BOOL)yesOrNo {
-    if([AppModel sharedAppModel].tabsReady){
-        [AppModel sharedAppModel].tabsReady = NO;
-	NSMutableArray *tabs = [NSMutableArray arrayWithArray:self.tabBarController.viewControllers];
-	
-	if (yesOrNo) {
-		NSLog(@"AppDelegate: showNearbyTab: YES");
-		if (![tabs containsObject:self.nearbyObjectsNavigationController]) {
-			[tabs insertObject:self.nearbyObjectsNavigationController atIndex:0];
-		}
-	}
-	else {
-		NSLog(@"AppDelegate: showNearbyTab: NO");
-		
-		if ([tabs containsObject:self.nearbyObjectsNavigationController]) {
-			[tabs removeObject:self.nearbyObjectsNavigationController];
-			//Hide any popups
-			UIViewController *vc = [self.nearbyObjectsNavigationController performSelector:@selector(visibleViewController)];
-			if ([vc respondsToSelector:@selector(dismissTutorial)]) {
-				[vc performSelector:@selector(dismissTutorial)];
-			}
-			
-		}
-		
-	}
-	
-	[self.tabBarController setViewControllers:tabs animated:NO];
-	
-	NSNotification *n = [NSNotification notificationWithName:@"TabBarItemsChanged" object:self userInfo:nil];
-	[[NSNotificationCenter defaultCenter] postNotification:n];
-}
-}
 
-
-
-- (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate{
-	NSLog(@"AppDelegate: Playing an audio Alert sound");
-	
-	//Vibrate
-	if (shouldVibrate == YES) [NSThread detachNewThreadSelector:@selector(vibrate) toTarget:self withObject:nil];	
-	//Play the sound on a background thread
-	[NSThread detachNewThreadSelector:@selector(playAudio:) toTarget:self withObject:wavFileName];
-}
-
-//Play a sound
-- (void) playAudio:(NSString*)wavFileName {
-
-	NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:wavFileName ofType:@"wav"]];
-    NSLog(@"Appdelegate: Playing Audio: %@", url);
-    NSError* err;
-    AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithContentsOfURL: url error:&err];
-    
-    if( err ){
-        NSLog(@"Appdelegate: Playing Audio: Failed with reason: %@", [err localizedDescription]);
-    }
-    else{
-        [player play];
-    }
-}
-
-//Vibrate
-- (void) vibrate {
-	AudioServicesPlaySystemSound (kSystemSoundID_Vibrate);  
-}
 
 - (void)newError: (NSString *)text {
 	NSLog(@"%@", text);
 }
 
-- (void)displayNearbyObjectView:(UIViewController *)nearbyObjectViewController {
-	
-	self.nearbyObjectNavigationController = [[UINavigationController alloc] initWithRootViewController:nearbyObjectViewController];
-	self.nearbyObjectNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-		
-	//Display
-
-    [self.tabBarController presentModalViewController:self.nearbyObjectNavigationController animated:NO];
-}
-
-- (void)dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController{
-    
-    [nearbyObjectViewController dismissModalViewControllerAnimated:NO];
-    if(isShowingNotification){
-        tabShowY = 0;
-        
-        self.tabBarController.view.frame = CGRectMake(0, [UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y+40, 320, 420);
-    }
-
-}
-
-- (void) returnToHomeView{
-	NSLog(@"AppDelegate: Returning to Home View and Popping More Nav Controller");
-    [self.tabBarController.moreNavigationController popToRootViewControllerAnimated:NO];
-	//[self.tabBarController setSelectedViewController:self.defaultViewControllerForMainTabBar];	
-}
-
-- (void) checkForDisplayCompleteNode{
-    int nodeID = [AppModel sharedAppModel].currentGame.completeNodeId;
-    if ([AppModel sharedAppModel].currentGame.completedQuests == [AppModel sharedAppModel].currentGame.totalQuests &&
-            [AppModel sharedAppModel].currentGame.completedQuests > 0  && nodeID != 0) {
-        NSLog(@"AppDelegate: checkForIntroOrCompleteNodeDisplay: Displaying Complete Node");
-		Node *completeNode = [[AppModel sharedAppModel] nodeForNodeId:[AppModel sharedAppModel].currentGame.completeNodeId];
-		[completeNode display];
-	}
-}
-
-- (void) displayIntroNode{
-    int nodeId = [AppModel sharedAppModel].currentGame.launchNodeId;
-    if (nodeId && nodeId != 0) {
-        NSLog(@"AppDelegate: displayIntroNode");
-        Node *launchNode = [[AppModel sharedAppModel] nodeForNodeId:[AppModel sharedAppModel].currentGame.launchNodeId];
-        [launchNode display];
-    }
-    else NSLog(@"AppDelegate: displayIntroNode: Game did not specify an intro node, skipping");
-}
-
-// handle opening ARIS using custom URL of form ARIS://?game=397 
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
-{
-    NSLog(@"ARIS opened from URL");
-    if (!url) {  return NO; }
-    NSLog(@"URL found");
-    
-    // parse URL for game id
-    NSString *gameIDQuery = [[url query] lowercaseString];
-    NSLog(@"gameIDQuery = %@",gameIDQuery);
-    
-    if (!gameIDQuery) {return NO;}
-    NSRange equalsSignRange = [gameIDQuery rangeOfString: @"game=" ];
-    if (equalsSignRange.length == 0) {return NO;}
-    int equalsSignIndex = equalsSignRange.location;
-    NSString *gameID = [gameIDQuery substringFromIndex: equalsSignIndex+equalsSignRange.length];
-    NSLog(@"gameID=: %@",gameID);
-    
-    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-    [dispatcher addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"NewGameListReady" object:nil];
-    [[AppServices sharedAppServices] fetchOneGame:[gameID intValue]];
-        
-    return YES;
-}
-
-- (void) handleOpenURLGamesListReady {
-     NSLog(@"game opened");
-
-    //unregister for notifications
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-    Game *selectedGame = [[[AppModel sharedAppModel] gameList] objectAtIndex:0];	
-    GameDetails *gameDetailsVC = [[GameDetails alloc]initWithNibName:@"GameDetails" bundle:nil];
-    gameDetailsVC.game = selectedGame;
-    
-    // show gameSelectionTabBarController
-    self.tabBarController.view.hidden = YES;
-    self.loginViewController.view.hidden = YES;
-    self.gameSelectionTabBarController.view.hidden = NO;
-    
-    NSLog(@"gameID= %i",selectedGame.gameId);
-    NSLog(@"game= %@",selectedGame.name);
-    NSLog(@"gameDetailsVC nib name = %@",gameDetailsVC.nibName); 
-    
-    // Push Game Detail View Controller
-    [(UINavigationController*)self.gameSelectionTabBarController.selectedViewController pushViewController:gameDetailsVC animated:YES];  
-
-}
 
 
 #pragma mark AlertView Delegate Methods
@@ -912,28 +957,6 @@ BOOL isShowingNotification;
 
 
 #pragma mark Memory Management
-
-- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
-    NSLog(@"AppDelegate: LOW MEMORY WARNING RECIEVED");
-
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LowMemoryWarning" object:nil]];
-}
-
-
-- (void)applicationWillResignActive:(UIApplication *)application {
-	NSLog(@"AppDelegate: Begin Application Resign Active");
-    
-   [self.tabBarController dismissModalViewControllerAnimated:NO];
-
-	[[AppModel sharedAppModel] saveUserDefaults];
-}
-
--(void) applicationWillTerminate:(UIApplication *)application {
-	NSLog(@"AppDelegate: Begin Application Termination");
-	[[AppModel sharedAppModel] saveUserDefaults];
-    [[AppModel sharedAppModel] saveCOREData];
-}
-
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
