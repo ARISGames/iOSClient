@@ -57,6 +57,7 @@
            if ([AppModel sharedAppModel].currentGame.completedQuests < 1)
                [appDelegate performSelector:@selector(displayIntroNode) withObject:nil afterDelay:.1];
         [self dismissModalViewControllerAnimated:NO];
+        appDelegate.loadingVC = nil;
     
 } 
 }
