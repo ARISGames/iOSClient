@@ -1970,64 +1970,61 @@ NSString *const kARISServerServicePackage = @"v1";
 }
 
 -(void)parseGameListFromJSON: (JSONResult *)jsonResult{
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     currentlyFetchingGamesList = NO;
-        
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RecievedGameList" object:nil]];
-        
-        NSArray *gameListArray = (NSArray *)jsonResult.data;
-        
-        NSMutableArray *tempGameList = [[NSMutableArray alloc] init];
-        
-        NSEnumerator *gameListEnumerator = [gameListArray objectEnumerator];	
-        NSDictionary *gameDictionary;
-        while ((gameDictionary = [gameListEnumerator nextObject])) {
-            [tempGameList addObject:[self parseGame:(gameDictionary)]]; 
-        }
-        
-        [AppModel sharedAppModel].gameList = tempGameList;
-        NSError *error;
-        if (![[AppModel sharedAppModel].mediaCache.context save:&error]) {
-            NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
-        }
-        
-        NSLog(@"AppModel: parseGameListFromJSON Complete, sending notification");
-        
-        
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewGameListReady" object:nil]];
-        
+    
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RecievedGameList" object:nil]];
+    
+    NSArray *gameListArray = (NSArray *)jsonResult.data;
+    
+    NSMutableArray *tempGameList = [[NSMutableArray alloc] init];
+    
+    NSEnumerator *gameListEnumerator = [gameListArray objectEnumerator];	
+    NSDictionary *gameDictionary;
+    while ((gameDictionary = [gameListEnumerator nextObject])) {
+        [tempGameList addObject:[self parseGame:(gameDictionary)]]; 
+    }
+    
+    [AppModel sharedAppModel].gameList = tempGameList;
+    NSError *error;
+    if (![[AppModel sharedAppModel].mediaCache.context save:&error]) {
+        NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+    }
+    
+    NSLog(@"AppModel: parseGameListFromJSON Complete, sending notification");
+    
+    
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewGameListReady" object:nil]];
+    
 }
 
 -(void)parseRecentGameListFromJSON: (JSONResult *)jsonResult{
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSLog(@"AppModel: parseRecentGameListFromJSON Beginning");		
     
-    if(appDelegate.gameSelectionTabBarController.view.hidden == NO){
-        NSLog(@"AppModel: parseGameListFromJSON Beginning");		
-        
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RecievedGameList" object:nil]];
-        
-        NSArray *gameListArray = (NSArray *)jsonResult.data;
-        
-        NSMutableArray *tempGameList = [[NSMutableArray alloc] init];
-        
-        NSEnumerator *gameListEnumerator = [gameListArray objectEnumerator];	
-        NSDictionary *gameDictionary;
-        while ((gameDictionary = [gameListEnumerator nextObject])) {
-            [tempGameList addObject:[self parseGame:(gameDictionary)]]; 
-        }
-        
-        [AppModel sharedAppModel].recentGameList = tempGameList;
-        NSError *error;
-        if (![[AppModel sharedAppModel].mediaCache.context save:&error]) {
-            NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
-        }
-        NSLog(@"AppModel: parseGameListFromJSON Complete, sending notification");
-        
-        
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewRecentGameListReady" object:nil]];
-        currentlyFetchingGamesList = NO;
-        
+    
+    currentlyFetchingGamesList = NO;
+    
+    
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RecievedGameList" object:nil]];
+    
+    NSArray *gameListArray = (NSArray *)jsonResult.data;
+    
+    NSMutableArray *tempGameList = [[NSMutableArray alloc] init];
+    
+    NSEnumerator *gameListEnumerator = [gameListArray objectEnumerator];	
+    NSDictionary *gameDictionary;
+    while ((gameDictionary = [gameListEnumerator nextObject])) {
+        [tempGameList addObject:[self parseGame:(gameDictionary)]]; 
     }
+    
+    [AppModel sharedAppModel].recentGameList = tempGameList;
+    NSError *error;
+    if (![[AppModel sharedAppModel].mediaCache.context save:&error]) {
+        NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+    }
+    NSLog(@"AppModel: parseGameListFromJSON Complete, sending notification");
+    
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewRecentGameListReady" object:nil]];
+    
 }
 
 
