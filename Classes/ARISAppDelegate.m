@@ -622,7 +622,7 @@ BOOL isShowingNotification;
 
 - (void) showNearbyTab:(BOOL)yesOrNo {
     if([AppModel sharedAppModel].tabsReady){
-        [AppModel sharedAppModel].tabsReady = NO;
+        //[AppModel sharedAppModel].tabsReady = NO;
         NSMutableArray *tabs = [NSMutableArray arrayWithArray:self.tabBarController.viewControllers];
         
         if (yesOrNo) {
