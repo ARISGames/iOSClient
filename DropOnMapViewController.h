@@ -33,8 +33,6 @@
 
 -(void) refresh;
 -(void) zoomAndCenterMap;
--(void) showLoadingIndicator;
--(void)dismissTutorial;
 - (IBAction)changeMapType: (id) sender;
 - (IBAction)pickupButtonAction: (id) sender;
 - (IBAction)backButtonTouchAction: (id) sender;

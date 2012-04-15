@@ -66,7 +66,6 @@
 
 
 
-- (void)titleAndDescriptionFormDidFinish:(TitleAndDecriptionFormViewController*)titleAndDescForm;
 - (void)displayTitleandDescriptionForm;
 -(IBAction)hideKeyboardTouchAction;
 - (IBAction)previewButtonTouchAction;
@@ -78,12 +77,10 @@
 -(IBAction)publicButtonTouchAction;
 -(IBAction)textButtonTouchAction;
 -(void)refresh;
--(void)showLoadingIndicator;
 - (void)updateTable;
 //-(IBAction)controlChanged:(id)sender;
 - (void)refreshViewFromModel;
 -(void)tagButtonTouchAction;
--(void)movieThumbDidFinish:(NSNotification*) aNotification;
 -(void)addUploadsToNote;
 - (IBAction)backButtonTouchAction: (id) sender;
 @end

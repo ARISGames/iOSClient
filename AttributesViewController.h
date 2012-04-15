@@ -33,7 +33,6 @@
 
 
 - (void) refresh;
-- (void)showLoadingIndicator;
 -(IBAction)groupButtonPressed;
 
 @end
