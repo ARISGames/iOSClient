@@ -255,6 +255,7 @@
 		AB6484B51187860E00261315 /* drop.wav in Resources */ = {isa = PBXBuildFile; fileRef = AB6484B41187860E00261315 /* drop.wav */; };
 		AB6B775E10C9D6C900275650 /* ARViewViewControler.m in Sources */ = {isa = PBXBuildFile; fileRef = AB6B775D10C9D6C900275650 /* ARViewViewControler.m */; };
 		AB70F39413153BB500BD06CD /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB70F39313153BB500BD06CD /* MessageUI.framework */; };
+		AB71AEB8153E0AEA009E9CFC /* DefaultGameSplash.png in Resources */ = {isa = PBXBuildFile; fileRef = AB71AEB7153E0AEA009E9CFC /* DefaultGameSplash.png */; };
 		AB79D5BC1307E6EB004AE1C7 /* NearbyObjectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */; };
 		AB79D5BD1307E6EB004AE1C7 /* NearbyObjectsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB79D5BB1307E6EB004AE1C7 /* NearbyObjectsViewController.xib */; };
 		AB79D79A1308299E004AE1C7 /* NearbyObjectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AB79D7991308299E004AE1C7 /* NearbyObjectCell.m */; };
@@ -785,6 +786,7 @@
 		AB6B775C10C9D6C900275650 /* ARViewViewControler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ARViewViewControler.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		AB6B775D10C9D6C900275650 /* ARViewViewControler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ARViewViewControler.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		AB70F39313153BB500BD06CD /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		AB71AEB7153E0AEA009E9CFC /* DefaultGameSplash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultGameSplash.png; sourceTree = "<group>"; };
 		AB79D5B91307E6EB004AE1C7 /* NearbyObjectsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NearbyObjectsViewController.h; sourceTree = "<group>"; };
 		AB79D5BA1307E6EB004AE1C7 /* NearbyObjectsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = NearbyObjectsViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		AB79D5BB1307E6EB004AE1C7 /* NearbyObjectsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NearbyObjectsViewController.xib; sourceTree = "<group>"; };
@@ -1797,6 +1799,7 @@
 		ABB60F1E139F2DDC00EEDA08 /* Game Details */ = {
 			isa = PBXGroup;
 			children = (
+				AB71AEB7153E0AEA009E9CFC /* DefaultGameSplash.png */,
 				AB8FD009117BCF61004F8B9B /* GameDetails.h */,
 				AB8FD00A117BCF61004F8B9B /* GameDetails.m */,
 				AB8FD00B117BCF61004F8B9B /* GameDetails.xib */,
@@ -2195,6 +2198,7 @@
 				AB21D30714ED9C9000DC016F /* blue_button.psd in Resources */,
 				AB21D30814ED9C9000DC016F /* grey_button.psd in Resources */,
 				11D7F9331537510D0046410F /* LoadingViewController.xib in Resources */,
+				AB71AEB8153E0AEA009E9CFC /* DefaultGameSplash.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

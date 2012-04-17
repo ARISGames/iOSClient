@@ -30,7 +30,7 @@
         NSLog(@"AsyncMediaImageView: initWithFrame and MediaId");
 
         self.loaded = NO;
-        self.contentMode = UIViewContentModeScaleAspectFill;
+        self.contentMode = UIViewContentModeScaleAspectFit;
         self.clipsToBounds = YES;
         if(!media){
             if(mediaId == 0) NSLog(@"mediaForID 0");
