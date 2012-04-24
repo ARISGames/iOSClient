@@ -278,7 +278,7 @@
 	NSObject<QRCodeProtocol> *qrCodeObject = notification.object;
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate removeNewWaitingIndicator];
-
+    
 	if (qrCodeObject == nil) {
 		[appDelegate playAudioAlert:@"error" shouldVibrate:NO];
 		
@@ -291,19 +291,19 @@
 		[alert show];	
 		
 	}
-	else {	
-        if ([qrCodeObject isKindOfClass:[NSString class]]) {
-            [appDelegate playAudioAlert:@"error" shouldVibrate:NO];
-            
-            //Display an alert
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", @"")
-                                                            message:(NSString *)qrCodeObject
-                                                           delegate:self 
-                                                  cancelButtonTitle:NSLocalizedString(@"OkKey", @"")
-                                                  otherButtonTitles:nil];
-            [alert show];	
-            
-        }
+	else if ([qrCodeObject isKindOfClass:[NSString class]]) {
+        [appDelegate playAudioAlert:@"error" shouldVibrate:NO];
+        
+        //Display an alert
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", @"")
+                                                        message:(NSString *)qrCodeObject
+                                                       delegate:self 
+                                              cancelButtonTitle:NSLocalizedString(@"OkKey", @"")
+                                              otherButtonTitles:nil];
+        [alert show];	
+        
+    }
+    else{
 		[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];		
 		//Display the content
 		[qrCodeObject display];

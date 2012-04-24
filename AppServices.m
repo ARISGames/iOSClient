@@ -2451,7 +2451,7 @@ NSString *const kARISServerServicePackage = @"v1";
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate removeNewWaitingIndicator];
     
-	NSObject<QRCodeProtocol> *qrCodeObject = nil;
+	NSObject<QRCodeProtocol> *qrCodeObject;
     
 	if ((NSNull*)jsonResult.data != [NSNull null]) {
 		NSDictionary *qrCodeDictionary = (NSDictionary *)jsonResult.data;
@@ -2460,6 +2460,7 @@ NSString *const kARISServerServicePackage = @"v1";
             NSDictionary *objectDictionary = [qrCodeDictionary valueForKey:@"object"];
             if ([type isEqualToString:@"Location"]) qrCodeObject = [self parseLocationFromDictionary:objectDictionary];
         }
+        else qrCodeObject = qrCodeDictionary;
 	}
 	
 	[[NSNotificationCenter defaultCenter] postNotification: [NSNotification notificationWithName:@"QRCodeObjectReady" object:qrCodeObject]];
