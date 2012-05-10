@@ -213,6 +213,10 @@
 		AB2223F510502CD800A4255E /* Quest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB2223F410502CD800A4255E /* Quest.m */; };
 		AB2FE579120A154B00758F8C /* LogoutButton.png in Resources */ = {isa = PBXBuildFile; fileRef = AB2FE578120A154B00758F8C /* LogoutButton.png */; };
 		AB301DA2151BC37B00EFB79F /* libZXingWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB1CA8B313C7CCBF00131F81 /* libZXingWidget.a */; };
+		AB35E034155C607900430AF7 /* 14-gear.png in Resources */ = {isa = PBXBuildFile; fileRef = AB35E032155C607900430AF7 /* 14-gear.png */; };
+		AB35E035155C607900430AF7 /* 14-gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB35E033155C607900430AF7 /* 14-gear@2x.png */; };
+		AB35E038155C60DA00430AF7 /* 16-tag.png in Resources */ = {isa = PBXBuildFile; fileRef = AB35E036155C60DA00430AF7 /* 16-tag.png */; };
+		AB35E039155C60DA00430AF7 /* 16-tag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB35E037155C60DA00430AF7 /* 16-tag@2x.png */; };
 		AB37BC441184CE0F00C5CE8B /* nearbyObject.wav in Resources */ = {isa = PBXBuildFile; fileRef = AB37BC431184CE0F00C5CE8B /* nearbyObject.wav */; };
 		AB37BC4B1184D0F700C5CE8B /* questChange.wav in Resources */ = {isa = PBXBuildFile; fileRef = AB37BC451184D0F700C5CE8B /* questChange.wav */; };
 		AB37BC4D1184D0F700C5CE8B /* harp.wav in Resources */ = {isa = PBXBuildFile; fileRef = AB37BC471184D0F700C5CE8B /* harp.wav */; };
@@ -727,6 +731,10 @@
 		AB2223F310502CD800A4255E /* Quest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quest.h; sourceTree = "<group>"; };
 		AB2223F410502CD800A4255E /* Quest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Quest.m; sourceTree = "<group>"; };
 		AB2FE578120A154B00758F8C /* LogoutButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LogoutButton.png; sourceTree = "<group>"; };
+		AB35E032155C607900430AF7 /* 14-gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "14-gear.png"; sourceTree = "<group>"; };
+		AB35E033155C607900430AF7 /* 14-gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "14-gear@2x.png"; sourceTree = "<group>"; };
+		AB35E036155C60DA00430AF7 /* 16-tag.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "16-tag.png"; sourceTree = "<group>"; };
+		AB35E037155C60DA00430AF7 /* 16-tag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "16-tag@2x.png"; sourceTree = "<group>"; };
 		AB37BC431184CE0F00C5CE8B /* nearbyObject.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = nearbyObject.wav; sourceTree = "<group>"; };
 		AB37BC451184D0F700C5CE8B /* questChange.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = questChange.wav; sourceTree = "<group>"; };
 		AB37BC471184D0F700C5CE8B /* harp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = harp.wav; sourceTree = "<group>"; };
@@ -1246,8 +1254,6 @@
 		29B97314FDCFA39411CA2CEA /* ARIS */ = {
 			isa = PBXGroup;
 			children = (
-				11F32EA214F5AD7000BF08E9 /* libPusher-combined.a */,
-				11FDA7EF1474706600ACE17D /* libzbar.a */,
 				ABAFBAC9145A0B8D0044491C /* GPX Locations */,
 				AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */,
 				AB0A5BA3120365420065CE68 /* Localizable.strings */,
@@ -1607,6 +1613,8 @@
 		AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */ = {
 			isa = PBXGroup;
 			children = (
+				11FDA7EF1474706600ACE17D /* libzbar.a */,
+				11F32EA214F5AD7000BF08E9 /* libPusher-combined.a */,
 				3A29205B152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.h */,
 				3A29205C152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.m */,
 				3AB24ACA152B8CE500B49876 /* ImageIO.framework */,
@@ -1734,6 +1742,10 @@
 		AB88F72114DDBD5F009CFA55 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				AB35E036155C60DA00430AF7 /* 16-tag.png */,
+				AB35E037155C60DA00430AF7 /* 16-tag@2x.png */,
+				AB35E032155C607900430AF7 /* 14-gear.png */,
+				AB35E033155C607900430AF7 /* 14-gear@2x.png */,
 				AB21D30514ED9C9000DC016F /* blue_button.psd */,
 				AB21D30614ED9C9000DC016F /* grey_button.psd */,
 				AB8DA9A714ED9BBA0018E57B /* blue_button.png */,
@@ -2199,6 +2211,10 @@
 				AB21D30814ED9C9000DC016F /* grey_button.psd in Resources */,
 				11D7F9331537510D0046410F /* LoadingViewController.xib in Resources */,
 				AB71AEB8153E0AEA009E9CFC /* DefaultGameSplash.png in Resources */,
+				AB35E034155C607900430AF7 /* 14-gear.png in Resources */,
+				AB35E035155C607900430AF7 /* 14-gear@2x.png in Resources */,
+				AB35E038155C60DA00430AF7 /* 16-tag.png in Resources */,
+				AB35E039155C60DA00430AF7 /* 16-tag@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

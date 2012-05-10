@@ -46,8 +46,10 @@ BOOL tagFilter;
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	
-    UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithTitle:@"Filter" style:UIBarButtonItemStyleBordered target:self action:@selector(displayMenu)];
+    
+    UIImage *barButtonImage = [UIImage imageNamed:@"14-gear"];
+    UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithImage:barButtonImage style:UIBarButtonItemStyleBordered target:self action:@selector(displayMenu)];
+
     self.navigationItem.rightBarButtonItem = barButton;
     [self.filterToolBar setFrame:CGRectMake(0, -44, 320, 44)];
     [self.sortToolBar setFrame:CGRectMake(0, 416, 320, 44)];
@@ -62,11 +64,14 @@ BOOL tagFilter;
 	NSLog(@"NotebookViewController: View Loaded");
 }
 -(void)displayMenu{
+    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
+    
     menuDown = !menuDown;
     if(menuDown){
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-        [UIView setAnimationDuration:.5];
+        [UIView setAnimationDuration:.2];
         [self.filterToolBar setFrame:CGRectMake(0, 0, 320, 44)];
         [self.sortToolBar setFrame:CGRectMake(0, 323, 320, 44)];
         [self.toolBar setFrame:CGRectMake(0, 44, 320, 44)];
@@ -77,7 +82,7 @@ BOOL tagFilter;
     else{
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-        [UIView setAnimationDuration:.5];
+        [UIView setAnimationDuration:.2];
         [self.filterToolBar setFrame:CGRectMake(0, -44, 320, 44)];
         [self.sortToolBar setFrame:CGRectMake(0, 367, 320, 44)];
         [self.toolBar setFrame:CGRectMake(0, 0, 320, 44)];
@@ -270,28 +275,7 @@ BOOL tagFilter;
         UIButton *b = [[UIButton alloc]init];
         b.tag = filSelected;
         [self sortButtonTouchAction:b];
-       // UIButton *c = [[[UIButton alloc]init]autorelease];
-       // c.tag = sortSelected;
-        //[noteTable reloadData];
     }
-    /*
-     for(int i = 0; i < [self.tagList count];i++){
-     NSString *tagName = [[self.tagList objectAtIndex:i] tagName];
-     for(int x = 0; x < [self.noteList count]; x++){
-     for(int y = 0; y < [[[self.noteList objectAtIndex:x] tags] count]; y ++){
-     if ([[[[[self.noteList objectAtIndex:x] tags] objectAtIndex:y] tagName] isEqualToString:tagName]) {
-     Note *tempNote = [self.noteList objectAtIndex:x];
-     [tempNote setTagSection:i];
-     [self.tagNoteList addObject:tempNote];
-     }
-     }
-     }
-     }
-     */
-    
-    //unregister for notifications
-    //  [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
 }
 
 #pragma mark Table view methods
@@ -601,19 +585,7 @@ BOOL tagFilter;
 -(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath{
     return  @"Delete Note";
 }
-/*
- -(void)controlChanged:(id)sender{
- if (self.noteControl.selectedSegmentIndex ==0){
- [[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:YES];
- 
- }
- else {
- [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
- 
- }
- [noteTable reloadData];
- }
- */
+
 
 - (void)dealloc {    
     [[NSNotificationCenter defaultCenter] removeObserver:self];

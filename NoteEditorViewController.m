@@ -150,7 +150,8 @@
     pageControl.currentPage = 0;
     pageControl.numberOfPages = numPages;
     
-    UIBarButtonItem *tagButton = [[UIBarButtonItem alloc] initWithTitle:@"Tag" style:UIBarButtonItemStylePlain target:self action:@selector(tagButtonTouchAction)]; 
+    UIImage *tagButtonImage = [UIImage imageNamed:@"16-tag"];
+    UIBarButtonItem * tagButton = [[UIBarButtonItem alloc] initWithImage:tagButtonImage style:UIBarButtonItemStyleBordered target:self action:@selector(tagButtonTouchAction)];
     self.navigationItem.rightBarButtonItem = tagButton;
     
     
