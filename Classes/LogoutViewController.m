@@ -18,7 +18,7 @@
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
         self.title = NSLocalizedString(@"LogoutTitleKey", @"");
-        self.tabBarItem.image = [UIImage imageNamed:@"logout.png"];
+        self.tabBarItem.image = [UIImage imageNamed:@"298-circlex"];
     }
     return self;
 }

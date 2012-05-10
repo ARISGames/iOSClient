@@ -22,7 +22,7 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-		self.tabBarItem.image = [UIImage imageNamed:@"nearby.png"];
+		self.tabBarItem.image = [UIImage imageNamed:@"73-radar"];
 		self.title = NSLocalizedString(@"NearbyObjectsTabKey",@"");	
 		self.navigationItem.title = NSLocalizedString(@"NearbyObjectsTitleKey",@"");
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];

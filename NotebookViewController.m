@@ -24,7 +24,7 @@ BOOL tagFilter;
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
         self.title = @"Notebook";
-        self.tabBarItem.image = [UIImage imageNamed:@"notebook2.png"]; 
+        self.tabBarItem.image = [UIImage imageNamed:@"96-book"]; 
         noteList = [[NSMutableArray alloc] initWithCapacity:10];
         gameNoteList = [[NSMutableArray alloc] initWithCapacity:10];
         tagList = [[NSMutableArray alloc] initWithCapacity:10];

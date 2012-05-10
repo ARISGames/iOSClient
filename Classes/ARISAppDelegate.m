@@ -12,7 +12,6 @@
 #import "TutorialPopupView.h"
 
 #import "BogusSelectGameViewController.h"
-#import "GamePickerMapViewController.h"
 #import "GamePickerSearchViewController.h"
 #import "GamePickerRecentViewController.h"
 #import "GameDetails.h"
@@ -212,10 +211,6 @@ BOOL isShowingNotification;
 	UINavigationController *gamePickerNearbyNC = [[UINavigationController alloc] initWithRootViewController: gamePickerNearbyViewController];
 	gamePickerNearbyNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
-    GamePickerMapViewController *gamePickerMapVC = [[GamePickerMapViewController alloc]initWithNibName:@"GamePickerMapViewController" bundle:nil];
-    UINavigationController *gamePickerMapNC = [[UINavigationController alloc] initWithRootViewController:gamePickerMapVC];
-    gamePickerMapNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
-
     GamePickerSearchViewController *gamePickerSearchVC = [[GamePickerSearchViewController alloc]initWithNibName:@"GamePickerSearchViewController" bundle:nil];
     UINavigationController *gamePickerSearchNC = [[UINavigationController alloc] initWithRootViewController:gamePickerSearchVC];
     gamePickerSearchNC.navigationBar.barStyle = UIBarStyleBlackOpaque;

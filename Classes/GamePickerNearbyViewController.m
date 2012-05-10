@@ -30,7 +30,8 @@
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
         self.title = @"Nearby";
-        self.tabBarItem.image = [UIImage imageNamed:@"game.png"];
+		self.navigationItem.title = @"Nearby Games";
+        self.tabBarItem.image = [UIImage imageNamed:@"193-location-arrow"];
         self.gameIcons = [NSMutableArray arrayWithCapacity:[[AppModel sharedAppModel].gameList count]];
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];

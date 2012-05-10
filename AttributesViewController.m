@@ -21,7 +21,7 @@
     if (self) {
         self.title = @"Attributes";	
         self.navigationItem.title = @"You";
-        self.tabBarItem.image = [UIImage imageNamed:@"playericon.png"];
+        self.tabBarItem.image = [UIImage imageNamed:@"123-id-card"];
         self.iconCache = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].attributes count]];
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];

@@ -54,7 +54,7 @@ NSString *const kQuestsHtmlTemplate =
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
         self.title = NSLocalizedString(@"QuestViewTitleKey",@"");
-        self.tabBarItem.image = [UIImage imageNamed:@"quest.png"];
+        self.tabBarItem.image = [UIImage imageNamed:@"117-todo"];
         activeSort = 1;
 		cellsLoaded = 0;
 		self.isLink = NO;

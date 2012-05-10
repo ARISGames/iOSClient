@@ -35,7 +35,7 @@ static float INITIAL_SPAN = 0.001;
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
         self.title = NSLocalizedString(@"MapViewTitleKey",@"");
-        self.tabBarItem.image = [UIImage imageNamed:@"gps.png"];
+        self.tabBarItem.image = [UIImage imageNamed:@"103-map"];
 
 		tracking = YES;
 		playerTrackingButton.style = UIBarButtonItemStyleDone;
