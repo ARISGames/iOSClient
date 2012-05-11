@@ -469,9 +469,13 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 
 -(void)addUploadsToNote{
-    self.note = [[AppModel sharedAppModel] noteForNoteId: self.note.noteId playerListYesGameListNo:YES];
+    self.note = [[AppModel sharedAppModel] noteForNoteId:self.note.noteId playerListYesGameListNo:YES];
     for(int x = [self.note.contents count]-1; x >= 0; x--){
-        if(![[[self.note.contents objectAtIndex:x] getUploadState] isEqualToString:@"uploadStateDONE"])
+        //Phil applied this bandaid 5/11/12
+        //[self.note.contents objectAtIndex:x] is reliably an UploadContent object, yet its data members are all nil. For some reason it crashes when 
+        //getUploadState is called. So I check to see if that Selector exists. 
+        //Also, this is only a problem in < iOS 5.1 Weird. 
+        if(![[self.note.contents objectAtIndex:x] respondsToSelector:@selector(getUploadState)] || ![[[self.note.contents objectAtIndex:x] getUploadState] isEqualToString:@"uploadStateDONE"])
             [self.note.contents removeObjectAtIndex:x];
     }
     
