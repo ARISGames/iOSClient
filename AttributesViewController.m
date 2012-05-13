@@ -19,8 +19,7 @@
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
-        self.title = @"Attributes";	
-        self.navigationItem.title = @"You";
+        self.title = NSLocalizedString(@"PlayerTitleKey",@"");	
         self.tabBarItem.image = [UIImage imageNamed:@"123-id-card"];
         self.iconCache = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].attributes count]];
 		//register for notifications

@@ -135,3 +135,9 @@
 "FirstNameKey" = "Nombre";
 "LastNameKey" = "Apellido";
 "CreateAccountKey" = "Crear Cuenta";
+
+//Notebook
+"NotebookTitleKey" = "Notebook";
+
+//Player Attributes
+"PlayerTitleKey" = "Player";

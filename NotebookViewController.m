@@ -23,7 +23,7 @@ BOOL tagFilter;
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
-        self.title = @"Notebook";
+        self.title = NSLocalizedString(@"NotebookTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"96-book"]; 
         noteList = [[NSMutableArray alloc] initWithCapacity:10];
         gameNoteList = [[NSMutableArray alloc] initWithCapacity:10];

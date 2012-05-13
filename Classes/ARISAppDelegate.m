@@ -804,17 +804,15 @@ BOOL isShowingNotification;
     Tab *tmpTab = [[Tab alloc] init];
     for(int y = 0; y < [tmpTabList count];y++){
         tmpTab = [tmpTabList objectAtIndex:y];
-                if ([tmpTab.tabName isEqualToString:@"QUESTS"]) tmpTab.tabName = @"Quests";
-                else if([tmpTab.tabName isEqualToString:@"GPS"]) tmpTab.tabName = @"Map";
-                else if([tmpTab.tabName isEqualToString:@"INVENTORY"]) tmpTab.tabName = @"Inventory";
-                else if([tmpTab.tabName isEqualToString:@"QR"]) tmpTab.tabName = @"Decoder";
-                else if([tmpTab.tabName isEqualToString:@"PLAYER"]) tmpTab.tabName = @"Attributes";
-                //else if([tmpTab.tabName isEqualToString:@"CAMERA"]) tmpTab.tabName = @"Camera";
-               // else if([tmpTab.tabName isEqualToString:@"MICROPHONE"]) tmpTab.tabName = @"Recorder";
-                else if([tmpTab.tabName isEqualToString:@"NOTE"]) tmpTab.tabName = @"Notebook";
-                else if([tmpTab.tabName isEqualToString:@"LOGOUT"]) tmpTab.tabName = @"Logout";
-                else if([tmpTab.tabName isEqualToString:@"STARTOVER"]) tmpTab.tabName = @"Start Over";
-                else if([tmpTab.tabName isEqualToString:@"PICKGAME"]) tmpTab.tabName = @"Select Game";
+                if ([tmpTab.tabName isEqualToString:@"QUESTS"]) tmpTab.tabName = NSLocalizedString(@"QuestViewTitleKey",@"");
+                else if([tmpTab.tabName isEqualToString:@"GPS"]) tmpTab.tabName = NSLocalizedString(@"MapViewTitleKey",@"");
+                else if([tmpTab.tabName isEqualToString:@"INVENTORY"]) tmpTab.tabName = NSLocalizedString(@"InventoryViewTitleKey",@"");
+                else if([tmpTab.tabName isEqualToString:@"QR"]) tmpTab.tabName = NSLocalizedString(@"QRScannerTitleKey",@"");
+                else if([tmpTab.tabName isEqualToString:@"PLAYER"]) tmpTab.tabName = NSLocalizedString(@"PlayerTitleKey",@"");
+                else if([tmpTab.tabName isEqualToString:@"NOTE"]) tmpTab.tabName = NSLocalizedString(@"NotebookTitleKey",@"");
+                else if([tmpTab.tabName isEqualToString:@"LOGOUT"]) tmpTab.tabName = NSLocalizedString(@"LogoutTitleKey",@"");
+                else if([tmpTab.tabName isEqualToString:@"STARTOVER"]) tmpTab.tabName = NSLocalizedString(@"StartOverTitleKey",@"");
+                else if([tmpTab.tabName isEqualToString:@"PICKGAME"]) tmpTab.tabName = NSLocalizedString(@"GamePickerTitleKey",@"");
         if(tmpTab.tabIndex != 0) {
             
         newTabList = [newTabList arrayByAddingObject:tmpTab];
@@ -825,7 +823,7 @@ BOOL isShowingNotification;
     for(int x = 0; x < [[AppModel sharedAppModel].defaultGameTabList count];x++){
         
         tempNav = (UINavigationController *)[[AppModel sharedAppModel].defaultGameTabList objectAtIndex:x];
-        if([tmpTab.tabName isEqualToString:@"Select Game"]){
+        if([tmpTab.tabName isEqualToString:NSLocalizedString(@"GamePickerTitleKey",@"")]){
             BogusSelectGameViewController *bogusSelectGameViewController = [[BogusSelectGameViewController alloc] init];
             newCustomVC = [newCustomVC arrayByAddingObject:bogusSelectGameViewController];
             //[bogusSelectGameViewController release];
@@ -837,11 +835,6 @@ BOOL isShowingNotification;
     }
 
     self.tabBarController.viewControllers = [NSArray arrayWithArray: newCustomVC];
-    //[newCustomVC release];
-    //[newTabList release];
-    //[tmpTabList release];
-   // [tempNav release];
-
     [AppModel sharedAppModel].tabsReady = YES;
 }
 
