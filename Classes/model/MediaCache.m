@@ -20,7 +20,6 @@
     NSError *error;
     NSArray *items = [[AppModel sharedAppModel].managedObjectContext executeFetchRequest:fetchRequest error:&error];
     
-    
     for (NSManagedObject *managedObject in items) {
         [[AppModel sharedAppModel].managedObjectContext deleteObject:managedObject];
         NSLog(@"Media object deleted");
@@ -28,9 +27,7 @@
     if (![[AppModel sharedAppModel].managedObjectContext save:&error]) {
         NSLog(@"Error deleting Media - error:%@",error);
     }
-    
 }
-
 
 -(void)deleteMediaFromCDWithId:(int)mediaId{
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -88,12 +85,8 @@ if([allMedia count] != 0)
 }
 
 -(Media *)addMediaToCache:(int) uid{
-
     Media *media = [NSEntityDescription insertNewObjectForEntityForName:@"Media" inManagedObjectContext:context];
-    
-       
     media.uid = [NSNumber numberWithInt: uid];   
-    
     return media;
 }
 
@@ -137,7 +130,6 @@ if([allMedia count] != 0)
     return media;
 }
 #pragma mark Header Implementations
-
 
 - (id)init
 {

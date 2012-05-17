@@ -1332,7 +1332,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	
 }
 
--(void)fetchGameListBySearch:(NSString *)searchText{
+-(void)fetchGameListBySearch:(NSString *)searchText onPage:(int)page {
     NSLog(@"Searching with Text: %@",searchText);
     
     if (currentlyFetchingGamesList) {
@@ -1349,13 +1349,13 @@ NSString *const kARISServerServicePackage = @"v1";
 						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.longitude],
 						  searchText,
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],
+                          [NSString stringWithFormat:@"%d", page],
 						  nil];
 	
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
                                                             andServiceName:@"games"
                                                              andMethodName:@"getGamesContainingText"
                                                               andArguments:arguments andUserInfo:nil];
-	
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameListFromJSON:)]; 
 }
 

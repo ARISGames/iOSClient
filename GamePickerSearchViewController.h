@@ -17,6 +17,9 @@
 	UITableView *gameTable;
     UIBarButtonItem *refreshButton;
     NSString *searchText;
+    int currentPage;
+    BOOL currentlyFetchingNextPage;
+    BOOL allResultsFound;
 }
 
 -(void)refresh;
@@ -29,5 +32,8 @@
 @property (nonatomic) IBOutlet UITableView *gameTable;
 @property (nonatomic) IBOutlet UIBarButtonItem *refreshButton;
 @property (nonatomic) IBOutlet UISearchBar *theSearchBar;
+@property (nonatomic) int currentPage;
+@property (nonatomic) BOOL currentlyFetchingNextPage;
+@property (nonatomic) BOOL allResultsFound;
 
 @end

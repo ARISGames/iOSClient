@@ -20,6 +20,9 @@
 @synthesize gameList;
 @synthesize refreshButton,theSearchBar;
 @synthesize disableViewOverlay,searchText;
+@synthesize currentPage;
+@synthesize currentlyFetchingNextPage;
+@synthesize allResultsFound;
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
@@ -29,16 +32,16 @@
         self.title = @"Search";
         self.navigationItem.title = @"Search for Games";
 		self.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemSearch tag:0];
+        self.currentPage = 0;
+        self.currentlyFetchingNextPage = NO;
+        self.allResultsFound = YES;
     }
     return self;
 }
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-
 }
-
-
 
 #pragma mark - View lifecycle
 
@@ -61,11 +64,8 @@
     //self.gameList = [NSArray array];
     [gameTable reloadData];
 
-   
-        
     [super viewDidAppear:animated];
 }
-
 
 -(void)refresh {
 	NSLog(@"SearchVC: Refresh Requested");
@@ -75,8 +75,6 @@
     [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
     [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
     [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
-
-    
    
 	[self showLoadingIndicator];
 }
@@ -106,9 +104,13 @@
 	
     //unregister for notifications
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-       
-	self.gameList = [AppModel sharedAppModel].gameList;
     
+    if(self.currentPage == 0) self.gameList = [AppModel sharedAppModel].gameList;
+    else self.gameList = [self.gameList arrayByAddingObjectsFromArray:[AppModel sharedAppModel].gameList];
+    
+    self.currentlyFetchingNextPage = NO;
+    self.currentPage++;
+    if([AppModel sharedAppModel].gameList.count == 0) self.allResultsFound = YES;
 	[gameTable reloadData];
 }
 
@@ -121,14 +123,28 @@
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return [self.gameList count];
+    if(self.allResultsFound) return [self.gameList count];
+    else return [self.gameList count]+1;
 }
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	//NSLog(@"GamePickerVC: Cell requested for section: %d row: %d",indexPath.section,indexPath.row);
     
-	
+    if(indexPath.row >= [self.gameList count])
+    {
+        if(!self.currentlyFetchingNextPage && !self.allResultsFound) {
+            [self performSearch:self.searchText];
+        }
+        static NSString *CellIdentifier = @"FetchCell";
+        UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    
+        if(!self.allResultsFound) cell.textLabel.text = @"Loading more results...";   
+        else cell.textLabel.text = @"No more results";
+        return cell;
+    }
+    
 	static NSString *CellIdentifier = @"Cell";
     GamePickerCell *cell = (GamePickerCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -151,9 +167,6 @@
                            forState:kSCRatingViewSelected];
         [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
                            forState:kSCRatingViewUserSelected];
-        
-        
-
     }
 	
 	Game *currentGame = [self.gameList objectAtIndex:indexPath.row];
@@ -164,7 +177,7 @@
 	cell.authorLabel.text = currentGame.authors;
 	cell.numReviewsLabel.text = [NSString stringWithFormat:@"%@%@", [[NSNumber numberWithInt:currentGame.numReviews] stringValue], @" reviews"];
     cell.starView.rating = currentGame.rating;
-        //Set up the Icon
+    //Set up the Icon
     //Create a new iconView for each cell instead of reusing the same one
     AsyncMediaImageView *iconView = [[AsyncMediaImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
     
@@ -231,8 +244,6 @@
 	return 60;
 }
 
-
-
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -288,11 +299,18 @@
     self.searchText = searchBar.text;
 	
     [self searchBar:searchBar activate:NO];
-     [[AppServices sharedAppServices] fetchGameListBySearch: [self.searchText stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
-    NSLog(@"URL encoded search string: %@", [self.searchText stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]);
-
-	[self refresh];
+    self.currentPage = 0;
+    [self performSearch:self.searchText];
     }
+
+- (void)performSearch:(NSString *)text
+{
+    [[AppServices sharedAppServices] fetchGameListBySearch: [text stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding] onPage: self.currentPage];
+    NSLog(@"URL encoded search string: %@ on page %d", [text stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding], self.currentPage);
+    self.currentlyFetchingNextPage = YES;
+    self.allResultsFound = NO;
+	[self refresh];
+}
 
 // We call this when we want to activate/deactivate the UISearchBar
 // Depending on active (YES/NO) we disable/enable selection and 
