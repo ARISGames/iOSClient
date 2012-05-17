@@ -17,7 +17,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.title = @"Select Another Game";
+        self.title = NSLocalizedString(@"BogusTitleKey", @"");
         self.tabBarItem.image = [UIImage imageNamed:@"game.png"];
     }
     return self;

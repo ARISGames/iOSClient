@@ -24,7 +24,7 @@ static float INITIAL_SPAN = 0.001;
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.title = @"Place Note On Map";
+        self.title = NSLocalizedString(@"DropOnMapTitleKey", @"");
         self.hidesBottomBarWhenPushed = YES;
         tracking = YES;
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];

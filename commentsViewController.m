@@ -25,7 +25,7 @@
     NSLog(@"commentsViewController Initialized");
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
-        self.title = @"Comments";
+        self.title = NSLocalizedString(@"CommentsTitleKey", @"");
     }
     return self;
 }

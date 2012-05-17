@@ -26,14 +26,40 @@
 "NearbyObjectsTabKey" = "Nearby";
 "NearbyObjectsTitleKey" = "Nearby Objects";
 
+//AppModel
+"AppModelItemLostKey" = "Item Lost";
+"AppModelItemRemovedKey" = "item removed from inventory";
+
+//Attributes View
+"AttributesViewNameKey" = "Name";
+"AttributesViewGroupKey" = "Group: N/A";
+"AttributesAttributesTitleKey" = "Attributes";
+
 //AR View
 "ARViewTitleKey" = "AR View";
+
+//Bogus Game
+"BogusTitleKey" = "Select Another Game";
+
+//Comments View
+"CommentsTitleKey" = "Comments";
+
+//Developer View
+"DeveloperTitleKey" = "Developer";
+"DevelopersMetersKey" = "Meters";
 
 //Dialog View
 "DialogContinue" = "Tap to Continue";
 "DialogReview" = "Tap to Review";
 "DialogEnd" = "Leave Conversation";
 "DialogPlayerName" = "You";
+
+//Drop On Map View
+"DropOnMapTitleKey" = "Place Note On Map";
+
+//Forgot View
+"ForgotEmailSentTitleKey" = "Email Sent";
+"ForgotMessageKey" = "An email has been sent to you containing your password";
 
 //Item Details View
 "ItemDropKey" = "Drop";
@@ -60,6 +86,7 @@
 
 //Inventory View
 "InventoryViewTitleKey" = "Inventory";
+"WeightCapacityKey" = "Weight Capacity"; 
 
 //Title and Description Form
 "TitleAndDescriptionTitleKey" = "Title";
@@ -70,6 +97,9 @@
 "CameraTitleKey" = "Camera";
 "CameraLibraryButtonTitleKey" = "Use Library";
 "CameraCameraButtonTitleKey" = "Use Camera";
+"CameraImageTakenKey" = "Image Taken in ARIS.";
+"CameraGameKey" = "Game";
+"CameraPlayerKey" = "Player";
 
 //Audio Recorder
 "AudioRecorderTitleKey" = "Recorder";

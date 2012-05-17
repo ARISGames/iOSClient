@@ -269,7 +269,7 @@
     
     if([[(UINavigationController *) appDelegate.tabBarController.selectedViewController topViewController] respondsToSelector:@selector(updateQuantityDisplay)])
         [[(UINavigationController *)appDelegate.tabBarController.selectedViewController topViewController] performSelector:@selector(updateQuantityDisplay)];
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Item Lost",@"title",[NSString stringWithFormat:@"%d %@ removed from inventory",qty,item.name],@"prompt", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"AppModelItemLostKey", @""),@"title",[NSString stringWithFormat:@"%d %@ %@",qty,item.name,NSLocalizedString(@"AppModelItemRemovedKey", @"")],@"prompt", nil];
     
     [appDelegate.notifArray addObject:dict];
     [appDelegate showNotifications];

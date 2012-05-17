@@ -36,7 +36,7 @@
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Email Sent" message: @"An email has been sent to you containing your password" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ForgotEmailSentTitleKey", @"") message:NSLocalizedString(@"ForgotMessageKey", @"") delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"")  otherButtonTitles: nil];
 	[alert show];
     [[AppServices sharedAppServices]resetAndEmailNewPassword:textField.text];
     return YES;

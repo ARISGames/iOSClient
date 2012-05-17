@@ -163,7 +163,7 @@ picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pi
         
         // Add game and player to metadata
         NSString *gameName = [AppModel sharedAppModel].currentGame.name;
-        NSString *descript = [[NSString alloc] initWithFormat: @"Image Taken in ARIS. Game: %@. Player: %@", gameName, [[AppModel sharedAppModel] userName]];
+        NSString *descript = [[NSString alloc] initWithFormat: @"%@ %@: %@. %@: %@", NSLocalizedString(@"CameraImageTakenKey", @""), NSLocalizedString(@"CameraGameKey", @""), gameName, NSLocalizedString(@"CameraPlayerKey", @""), [[AppModel sharedAppModel] userName]];
         [newMetadata setDescription: descript];
         
         if (self.mediaData != nil) {

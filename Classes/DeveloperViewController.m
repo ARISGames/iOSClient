@@ -23,7 +23,7 @@
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
-        self.title = @"Developer";
+        self.title = NSLocalizedString(@"DeveloperTitleKey", @"");
         self.tabBarItem.image = [UIImage imageNamed:@"developer.png"];
 		
 		//register for notifications
@@ -65,12 +65,12 @@
 	[locationTable reloadData];
 	
 	//Init Accuracy Label
-	accuracyLabelValue.text = [NSString stringWithFormat:@"+/-%1.2f Meters", 
-							   [AppModel sharedAppModel].playerLocation.horizontalAccuracy]; 
+	accuracyLabelValue.text = [NSString stringWithFormat:@"+/-%1.2f %@", 
+							   [AppModel sharedAppModel].playerLocation.horizontalAccuracy], NSLocalizedString(@"DevelopersMetersKey", @""); 
 }
 
 -(void) updateAccuracy{
-	accuracyLabelValue.text = [NSString stringWithFormat:@"+/-%1.2f Meters",[AppModel sharedAppModel].playerLocation.horizontalAccuracy]; 
+	accuracyLabelValue.text = [NSString stringWithFormat:@"+/-%1.2f %@",[AppModel sharedAppModel].playerLocation.horizontalAccuracy], NSLocalizedString(@"DevelopersMetersKey", @""); 
 }
 
 #pragma mark IB Button Actions

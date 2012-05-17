@@ -90,7 +90,7 @@
         [capLabel setHidden:NO];
         inventoryTable.frame = CGRectMake(0, 42, 320, 325);
             capBar.progress = (float)((float) currentWeight/(float)weightCap);
-            capLabel.text = [NSString stringWithFormat: @"Weight Capacity: %d/%d", currentWeight, weightCap];
+            capLabel.text = [NSString stringWithFormat: @"%@: %d/%d", NSLocalizedString(@"WeightCapacityKey", @""), currentWeight, weightCap];
     }
     [capBar setProgress:0];
 	[[AppServices sharedAppServices] fetchInventory];

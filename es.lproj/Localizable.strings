@@ -26,8 +26,27 @@
 "NearbyObjectsTabKey" = "Cercanos";
 "NearbyObjectsTitleKey" = "Objetos Cercanos";
 
+//AppModel
+"AppModelItemLostKey" = "Item Lost"; ##########################################
+"AppModelItemRemovedKey" = "item removed from inventory"; #####################
+
+//Attributes View
+"AttributesViewNameKey" = "Name"; #############################################
+"AttributesViewGroupKey" = "Group: N/A"; ######################################
+"AttributesAttributesTitleKey" = "Attributes"; ################################
+
 //AR View
 "ARViewTitleKey" = "Vista AR";
+
+//Bogus Game
+"BogusTitleKey" = "Select Another Game"; ######################################
+
+//Comments View
+"CommentsTitleKey" = "Comments"; ##############################################
+
+//Developer View
+"DeveloperTitleKey" = "Developer"; ############################################
+"DevelopersMetersKey" = "Meters"; #############################################
 
 //Dialog View
 "DialogContinue" = "Teclee para Continuar";
@@ -35,6 +54,12 @@
 "DialogEnd" = "Leave Conversation";
 "DialogPlayerName" = "Tu";
 
+//Drop On Map View
+"DropOnMapTitleKey" = "Place Note On Map"; ####################################
+
+//Forgot View
+"ForgotEmailSentTitleKey" = "Email Sent"; ##################################################
+"ForgotMessageKey" = "An email has been sent to you containing your password"; #############
 
 //Item Details View
 "ItemDropKey" = "Soltar";
@@ -62,6 +87,7 @@
 
 //Inventory View
 "InventoryViewTitleKey" = "Inventario";
+"WeightCapacityKey" = "Weight Capacity";  #############################################
 
 //Title and Description Form
 "TitleAndDescriptionTitleKey" = "Título";
@@ -72,6 +98,9 @@
 "CameraTitleKey" = "Cámara";
 "CameraLibraryButtonTitleKey" = "Usa la Librería";
 "CameraCameraButtonTitleKey" = "Usa la Cámara";
+"CameraImageTakenKey" = "Image Taken in ARIS."; #######################################
+"CameraGameKey" = "Game"; #############################################################
+"CameraPlayerKey" = "Player"; #########################################################
 
 //Audio Recorder
 "AudioRecorderTitleKey" = "Grabar";
