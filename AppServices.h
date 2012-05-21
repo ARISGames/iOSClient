@@ -73,7 +73,7 @@ extern NSString *const kARISServerServicePackage;
 - (void)fetchTabBarItemsForGame:(int)gameId;
 - (void)fetchLocationList;
 - (void)forceUpdateOnNextLocationListFetch;
-- (void)fetchGameListBySearch: (NSString *) searchText onPage:(int)page;
+- (void)fetchGameListBySearch: (NSString *) searchText;
 - (void)resetAllPlayerLists;
 - (void)fetchAllGameLists;
 - (void)resetAllGameLists;
@@ -100,7 +100,7 @@ extern NSString *const kARISServerServicePackage;
 - (void)createItemAndGivetoPlayer: (Item *) item;
 - (void)uploadImageForMatching:(NSURL *)fileURL;
 
-- (void) uploadContentToNoteWithFileURL:(NSURL *)fileURL name:(NSString *)name noteId:(int) noteId type: (NSString *)type;
+-(void) uploadContentToNoteWithFileURL:(NSURL *)fileURL name:(NSString *)name noteId:(int) noteId type: (NSString *)type;
 - (void) addContentToNoteWithText:(NSString *)text type:(NSString *) type mediaId:(int) mediaId andNoteId:(int)noteId andFileURL:(NSURL *)fileURL;
 - (int)createNote;
 - (void)updateServerDropNoteHere: (int)noteId atCoordinate:(CLLocationCoordinate2D) coordinate;
@@ -110,14 +110,14 @@ extern NSString *const kARISServerServicePackage;
 - (void)deleteNoteLocationWithNoteId: (int) noteId;
 - (void)updateNoteContent:(int)contentId text:(NSString *)text;
 - (void)updateNoteContent:(int)contentId title:(NSString *)text;
-- (void)resetAndEmailNewPassword:(NSString *)email;
-- (void)addTagToNote:(int)noteId tagName:(NSString *)tag;
-- (void)deleteTagFromNote:(int)noteId tagId:(int)tagId;
+
+-(void)addTagToNote:(int)noteId tagName:(NSString *)tag;
+-(void)deleteTagFromNote:(int)noteId tagName:(NSString *)tag;
 - (int) addCommentToNoteWithId: (int)noteId andTitle:(NSString *)title;
 - (void)fetchNoteCommentsWithId: (int)noteId;
 - (void)updateCommentWithId: (int)noteId andTitle:(NSString *)title andRefresh:(BOOL)refresh;
 - (void)likeNote:(int)noteId;
-- (void)unLikeNote:(int)noteId;
+-(void)unLikeNote:(int)noteId;
 - (void)uploadNoteContentRequestFinished:(NSURLRequest *)request;
 - (void)uploadNoteRequestFailed:(NSURLRequest *)request;
 - (void)updateServerWithPlayerLocation;
@@ -171,5 +171,6 @@ extern NSString *const kARISServerServicePackage;
 - (void)sendNotificationToNoteViewer;
 - (void)sendNotificationToNotebookViewer;
 -(void)fetchPlayerNoteListAsync;
+- (void)emailPlayerNewPasswordEmail:(NSString*)email;
 
 @end

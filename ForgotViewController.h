@@ -13,8 +13,8 @@
     IBOutlet UILabel *userLabel;
 
 }
-@property(nonatomic)IBOutlet UITextField *userField;
-@property(nonatomic)IBOutlet UILabel *userLabel;
+@property(nonatomic,retain)IBOutlet UITextField *userField;
+@property(nonatomic,retain)IBOutlet UILabel *userLabel;
 
 
 @end
