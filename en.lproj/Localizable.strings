@@ -44,7 +44,7 @@
 
 //AppModel
 "AppModelItemLostKey" = "Item Lost";
-"AppModelItemRemovedKey" = "item removed from inventory"; #Test this It's # item name then "item removed from inventory" which seems redundant
+"AppModelItemRemovedKey" = "item removed from inventory"; #Test this It's # item name then "item removed from #inventory" which seems redundant
 
 //AppServices
 "AppServicesReceivedQuestListKey" = "Received Quest List...";
