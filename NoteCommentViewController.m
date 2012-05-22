@@ -343,7 +343,7 @@
         [UIView commitAnimations];
         
         [self.textBox resignFirstResponder];
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Create Comment Failed" message:@"Cannot create a comment while offline" delegate:self.delegate cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"NoteCommentViewCreateFailedKey", @"") message:NSLocalizedString(@"NoteCommentViewCreateFailedMessageKey", @"") delegate:self.delegate cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
         [alert show];
     }
     

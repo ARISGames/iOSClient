@@ -39,6 +39,9 @@
 "DoneKey" = "Done"; ###########################################################
 "ErrorKey" = "Error"; #########################################################
 "PleaseAddCommentKey" = "Please add a comment"; ###############################
+"UploadFailedKey" = "Upload Failed"; ##########################################
+"IgnoreKey" = "Ignore"; #######################################################
+"ReportKey" = "Report"; #######################################################
 
 //AppModel
 "AppModelItemLostKey" = "Item Lost"; ##########################################
@@ -56,6 +59,7 @@
 "AppServicesReceivedGameWebpageListKey" = "Received Game Webpage List..."; ####
 "AppServicesReceivedGamePanoramicListKey" = "Received Game Panoramic List..."; ###########
 "AppServicesReceivedInventoryKey" = "Received Inventory..."; ##################
+"AppServicesUploadFailedMessageKey" = "A network error occured while uploading the file"; #######################
 
 //Attributes View
 "AttributesViewNameKey" = "Name"; ############################################
@@ -79,6 +83,7 @@
 
 //ARIS App Delegate
 "ARISAppDelegateFectchingGameListsKey" = "Fetching Game Lists..."; ############
+"ARISAppDelegateWIFIErrorMessageKey" = "You may need to login to your Wifi connection from Safari. \nYou also may need to verify ARIS server settings in system preferences. \nIf the problem persists, please send us some debugging information"; ###################################################
 
 //Bogus Game
 "BogusTitleKey" = "Select Another Game"; #####################################
@@ -90,6 +95,11 @@
 "CameraImageTakenKey" = "Image Taken in ARIS."; ########################################
 "CameraGameKey" = "Game"; ##############################################################
 "CameraPlayerKey" = "Player"; ##########################################################
+
+//Comments Form Cell
+"CommentsFormNumberOfStarsRatingKey" = "Please give this game a rating of one through five stars"; ###################
+"CommentsFormSuccessKey" = "Success!"; ################################################
+"CommentsFormSuccessMessageKey" = "Comment Successfully Posted"; ######################
 
 //Comments View
 "CommentsTitleKey" = "Comments"; ##############################################
@@ -162,6 +172,7 @@
 "ItemAcionCannotPickUpKey" = "This item cannot be picked up."; ################
 "ItemAcionCannotCarryMoreKey" = "You cannot carry any more of this item."; ####
 "ItemAcionTooHeavyKey" = "Too Heavy! Only"; ###################################
+"ItemAcionInventoryOverLimitKey" = "Inventory over Limit"; ####################
 
 //Item Details View
 "ItemDropKey" = "Déposer";
@@ -208,6 +219,8 @@
 
 //Note Comment View
 "NoteCommentViewTitleKey" = "Comments"; #######################################
+"NoteCommentViewCreateFailedKey" = "Create Comment Failed"; ###################
+"NoteCommentViewCreateFailedMessageKey" = "Cannot create a comment while offline"; ##############################
 
 //Note Editor View
 "NoteEditorNoContentAddedKey" = "No Content Added"; ###########################
@@ -243,6 +256,12 @@
 "QuestViewNewQuestKey" = "New Quest"; #########################################
 "QuestViewNewQuestMessageKey" = "You have a new Quest! Touch here to see the current and completed quests."; ####
 "QuestsComplete" = "Quests Complete"; #########################################
+"QuestsViewNewQuestsKey" = "New Quest Available"; #############################
+"QuestsViewQuestCompletedKey" = "Quest Completed"; ############################
+
+//Self Registration
+"SelfRegistrationErrorMessageKey" = "Either this name has been taken or you didn't fill out all the required information."; ##############################################################################################
+"SelfRegistrationSuccessMessageKey" = "Your new User was Created. Please login."; ###############################
 
 //Start Over
 "StartOverTitleKey" = "Recommencer";

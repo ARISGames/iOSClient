@@ -345,7 +345,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 				quantity = 0;
 			}
             
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Inventory over Limit"
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:  NSLocalizedString(@"ItemAcionInventoryOverLimitKey", @"")
 															message: errorMessage
 														   delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
 			[alert show];
@@ -357,7 +357,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
                 quantity--;
             }
             errorMessage = [NSString stringWithFormat:@"%@ %d %@",NSLocalizedString(@"ItemAcionTooHeavyKey", @""),quantity,NSLocalizedString(@"PickedUpKey", @"")];
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Inventory over Limit"
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:  NSLocalizedString(@"ItemAcionInventoryOverLimitKey", @"")
 															message: errorMessage
 														   delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
 			[alert show];

@@ -491,8 +491,8 @@ BOOL isShowingNotification;
     
 	if (!self.serverAlert){
 		self.serverAlert = [[UIAlertView alloc] initWithTitle:title
-                                                      message:@"You may need to login to your Wifi connection from Safari. \nYou also may need to verify ARIS server settings in system preferences. \nIf the problem persists, please send us some debugging information"
-                                                     delegate:self cancelButtonTitle:@"Ignore" otherButtonTitles: @"Report",nil];
+                                                      message:NSLocalizedString(@"ARISAppDelegateWIFIErrorMessageKey", @"")
+                                                     delegate:self cancelButtonTitle:NSLocalizedString(@"IgnoreKey", @"") otherButtonTitles:NSLocalizedString(@"ReportKey", @""),nil];
 		[self.serverAlert show];	
  	}
 	else {

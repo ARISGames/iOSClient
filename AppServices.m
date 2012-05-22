@@ -678,7 +678,7 @@ NSString *const kARISServerServicePackage = @"v1";
 - (void)uploadNoteContentDidFail:(ARISUploader *)uploader {
     NSError *error = uploader.error;
 	NSLog(@"Model: uploadRequestFailed: %@",[error localizedDescription]);
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message: @"A network error occured while uploading the file" delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"UploadFailedKey", @"") message: NSLocalizedString(@"AppServicesUploadFailedMessageKey", @"") delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
 	
 	[alert show];
     
@@ -833,7 +833,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	[appDelegate removeNewWaitingIndicator];
 	NSError *error = [uploader error];
 	NSLog(@"Model: uploadRequestFailed: %@",[error localizedDescription]);
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message: @"An network error occured while uploading the file" delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"UploadFailedKey", @"") message: NSLocalizedString(@"AppServicesUploadFailedMessageKey", @"") delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
     
     // delete temporary image file
     NSError *error2;

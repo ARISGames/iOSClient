@@ -155,7 +155,7 @@ NSString *const kQuestsHtmlTemplate =
 				newItems ++;;
                 quest.sortNum = activeSort;
                 activeSort++;
-               NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"New Quest Available",@"title",quest.name,@"prompt", nil];
+               NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"QuestsViewNewQuestsKey", @""),@"title",quest.name,@"prompt", nil];
                 
                [appDelegate.notifArray addObject:dict];
                 [appDelegate showNotifications];
@@ -175,7 +175,7 @@ NSString *const kQuestsHtmlTemplate =
 			if (match == NO) {
                 [appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
 
-                NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Quest Completed",@"title",quest.name,@"prompt", nil];
+                NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"QuestsViewQuestCompletedKey", @""),@"title",quest.name,@"prompt", nil];
                 
                 [appDelegate.notifArray addObject:dict];
                 [appDelegate showNotifications];
