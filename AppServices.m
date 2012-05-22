@@ -678,7 +678,7 @@ NSString *const kARISServerServicePackage = @"v1";
 - (void)uploadNoteContentDidFail:(ARISUploader *)uploader {
     NSError *error = uploader.error;
 	NSLog(@"Model: uploadRequestFailed: %@",[error localizedDescription]);
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message: @"A network error occured while uploading the file" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message: @"A network error occured while uploading the file" delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
 	
 	[alert show];
     
@@ -833,7 +833,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	[appDelegate removeNewWaitingIndicator];
 	NSError *error = [uploader error];
 	NSLog(@"Model: uploadRequestFailed: %@",[error localizedDescription]);
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message: @"An network error occured while uploading the file" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Failed" message: @"An network error occured while uploading the file" delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
     
     // delete temporary image file
     NSError *error2;
@@ -1837,7 +1837,7 @@ NSString *const kARISServerServicePackage = @"v1";
     
     
     if(appDelegate.loadingVC){
-        appDelegate.loadingVC.progressLabel.text = @"Received Location List...";
+        appDelegate.loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesRecievedLocationListKey", @"");
         appDelegate.loadingVC.receivedData++;
         
     }
@@ -2137,7 +2137,7 @@ NSString *const kARISServerServicePackage = @"v1";
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     if(appDelegate.loadingVC){
-        appDelegate.loadingVC.progressLabel.text = @"Caching Game Media...";
+        appDelegate.loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesCachingGameMediaKey", @"");
         appDelegate.loadingVC.receivedData++;
         
     }
@@ -2213,7 +2213,7 @@ NSString *const kARISServerServicePackage = @"v1";
     [appDelegate removeNewWaitingIndicator];
     
     if(appDelegate.loadingVC){
-        appDelegate.loadingVC.progressLabel.text = @"Starting Game.";
+        appDelegate.loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesStartingGameKey", @"");
         appDelegate.loadingVC.receivedData++;
         
     }
@@ -2237,7 +2237,7 @@ NSString *const kARISServerServicePackage = @"v1";
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     if(appDelegate.loadingVC){
-        appDelegate.loadingVC.progressLabel.text = @"Received Game Item List...";
+        appDelegate.loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGameItemListKey", @"");
         appDelegate.loadingVC.receivedData++;
         
     }
@@ -2261,7 +2261,7 @@ NSString *const kARISServerServicePackage = @"v1";
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     if(appDelegate.loadingVC){
-        appDelegate.loadingVC.progressLabel.text = @"Received Game Node List...";
+        appDelegate.loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGameNodeListKey", @"");
         appDelegate.loadingVC.receivedData++;
         
     }
@@ -2284,7 +2284,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	//[tempTabList release];
     
     if(appDelegate.loadingVC){
-        appDelegate.loadingVC.progressLabel.text = @"Received Game Tab List...";
+        appDelegate.loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGameNodeListKey", @"");
         appDelegate.loadingVC.receivedData++;
         
     }
@@ -2308,7 +2308,7 @@ NSString *const kARISServerServicePackage = @"v1";
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     if(appDelegate.loadingVC){
-        appDelegate.loadingVC.progressLabel.text = @"Received Game NPC List...";
+        appDelegate.loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGameNPCListKey", @"");
         appDelegate.loadingVC.receivedData++;
         
     }
@@ -2331,7 +2331,7 @@ NSString *const kARISServerServicePackage = @"v1";
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     if(appDelegate.loadingVC){
-        appDelegate.loadingVC.progressLabel.text = @"Received Game Webpage List...";
+        appDelegate.loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGameWebpageListKey", @"");
         appDelegate.loadingVC.receivedData++;
         
     }
@@ -2353,7 +2353,7 @@ NSString *const kARISServerServicePackage = @"v1";
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     if(appDelegate.loadingVC){
-        appDelegate.loadingVC.progressLabel.text = @"Received Game Panoramic List...";
+        appDelegate.loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGamePanoramicListKey", @"");
         appDelegate.loadingVC.receivedData++;
         
     }
@@ -2423,7 +2423,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     if(appDelegate.loadingVC){
-        appDelegate.loadingVC.progressLabel.text = @"Received Inventory...";
+        appDelegate.loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedInventoryKey", @"");
         appDelegate.loadingVC.receivedData++;
         
     }
@@ -2560,7 +2560,7 @@ NSString *const kARISServerServicePackage = @"v1";
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     if(appDelegate.loadingVC){
-        appDelegate.loadingVC.progressLabel.text = @"Received Quest List...";
+        appDelegate.loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedQuestListKey", @"");
         appDelegate.loadingVC.receivedData++;
         
     }

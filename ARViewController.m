@@ -92,7 +92,7 @@
 	if (self.debugMode) {
 		ar_debugView = [[UILabel alloc] initWithFrame:CGRectZero];
 		ar_debugView.textAlignment = UITextAlignmentCenter;
-		ar_debugView.text = @"Waiting...";
+		ar_debugView.text = NSLocalizedString(@"WaitingKey", @"");
 		
 		[ar_overlayView addSubview:ar_debugView];
 	}

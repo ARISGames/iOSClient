@@ -69,12 +69,12 @@ NSString *const kGameDetailsHtmlTemplate =
 - (void)viewDidLoad {
 	
     self.title = self.game.name;
-    self.authorsLabel.text = @"Author(s): "; 
+    self.authorsLabel.text = [NSString stringWithFormat: @"%@: ", NSLocalizedString(@"GameDetailsAuthorKey", @"")];
     self.authorsLabel.text = [self.authorsLabel.text stringByAppendingString:self.game.authors];
-    self.descriptionLabel.text = @"Description: "; 
+    self.descriptionLabel.text = [NSString stringWithFormat: @"%@: ", NSLocalizedString(@"DescriptionKey", @"")]; 
     //self.descriptionLabel.text = [self.descriptionLabel.text stringByAppendingString:self.game.description];
 	[descriptionWebView setBackgroundColor:[UIColor clearColor]];
-    [self.segmentedControl setTitle:[NSString stringWithFormat: @"Rating: %d",game.rating] forSegmentAtIndex:0];
+    [self.segmentedControl setTitle:[NSString stringWithFormat: @"%@: %d",NSLocalizedString(@"RatingKey", @""),game.rating] forSegmentAtIndex:0];
     
     [super viewDidLoad];
 
@@ -216,7 +216,7 @@ NSString *const kGameDetailsHtmlTemplate =
 		// Release the temporary UIViewController.
         RatingCell *ratingCell = (RatingCell *)cell;
         ratingCell.ratingView.rating = self.game.rating;
-        ratingCell.reviewsLabel.text = [NSString stringWithFormat:@"%d Reviews",self.game.numReviews];
+        ratingCell.reviewsLabel.text = [NSString stringWithFormat:@"%d %@",self.game.numReviews, NSLocalizedString(@"ReviewsKey", @"")];
         [ratingCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
         
         [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-halfselected.png"]
@@ -235,7 +235,7 @@ NSString *const kGameDetailsHtmlTemplate =
         
     }
     else if (indexPath.section == 1 && indexPath.row ==0) {
-        cell.textLabel.text = @"Play Now";
+        cell.textLabel.text = NSLocalizedString(@"GameDetailsPlayNowKey", @"");
         cell.textLabel.textAlignment = UITextAlignmentCenter;
     }
     else {

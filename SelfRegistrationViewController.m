@@ -62,9 +62,9 @@
 	
 	if ([AppModel sharedAppModel].networkAlert) NSLog(@"SelfRegistration: Network is down, skip alert");
 	else{
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ErrorKey", @"")
                                                         message:@"Either this name has been taken or you didn't fill out all the required information."
-													   delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+													   delegate:nil cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
 		[alert show];	
 	}	
 	
@@ -79,7 +79,7 @@
 
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Success" 
                                                     message:@"Your new User was Created. Please login."
-												   delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+												   delegate:nil cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
 	[alert show];	
 
 	[userName resignFirstResponder];

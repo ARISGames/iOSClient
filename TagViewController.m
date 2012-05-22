@@ -86,8 +86,8 @@
     if([gameTagList count] == 0 && indexPath.row == 0 && indexPath.section == 0){
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         
-        cell.textLabel.text = @"No Game Tags";
-        cell.detailTextLabel.text = @"No tags were created for this game";
+        cell.textLabel.text = NSLocalizedString(@"TagViewNoGameTagsKey", @"");
+        cell.detailTextLabel.text = NSLocalizedString(@"TagViewNoTagsCreatedKey", @"");
         cell.userInteractionEnabled = NO;
         cell.textLabel.font = [UIFont systemFontOfSize:17];
         cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:14];
@@ -97,8 +97,8 @@
     if([playerTagList count] == 0 && indexPath.row == 0 && indexPath.section == 2){
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         
-        cell.textLabel.text = @"No Tags";
-        cell.detailTextLabel.text = @"You haven't created any tags";
+        cell.textLabel.text = NSLocalizedString(@"TagViewNoTagsKey", @"");
+        cell.detailTextLabel.text = NSLocalizedString(@"TagViewNotCreatedKey", @"");
         cell.textLabel.font = [UIFont systemFontOfSize:17];
         cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:14];
         cell.userInteractionEnabled = NO;
@@ -110,7 +110,7 @@
     if(indexPath.row == 0 && indexPath.section == 1){
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         
-        cell.textLabel.text = @"Create a New Tag";
+        cell.textLabel.text = NSLocalizedString(@"TagViewCreateNewTagKey", @"");
         cell.userInteractionEnabled = YES;
         cell.textLabel.font = [UIFont systemFontOfSize:17];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -163,7 +163,7 @@
         [self.addTagToolBar setFrame:CGRectMake(addTagToolBar.frame.origin.x, 0, 320, 44)];
             [UIView commitAnimations];  }
         else{
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Cannot Create New Tag" message: @"This game does not allow the use of player created tags!" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"TagViewCannotCreateKey", @"") message: NSLocalizedString(@"TagViewNoPlayerCreatedTagsKey", @"")delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
             
             [alert show];
 

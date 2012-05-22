@@ -19,7 +19,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"Add Text";
+        self.title = NSLocalizedString(@"TextViewTitleKey", @"");
     }
     return self;
 }
@@ -39,7 +39,7 @@
 {
 
     [super viewDidLoad];
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back"
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey", @"")
                                                                    style: UIBarButtonItemStyleBordered
                                                                   target:self 
                                                                   action:@selector(backButtonTouchAction)];
@@ -48,11 +48,11 @@
 	    if(self.editMode){
     
         self.textBox.text = textToDisplay;
-        UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(updateContentTouchAction)];      
+        UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"SaveKey", @"" )style:UIBarButtonItemStylePlain target:self action:@selector(updateContentTouchAction)];      
         self.navigationItem.rightBarButtonItem = saveButton;
     }
     else{
-        UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(saveButtonTouchAction)];      
+        UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"SaveKey", @"") style:UIBarButtonItemStylePlain target:self action:@selector(saveButtonTouchAction)];      
         self.navigationItem.rightBarButtonItem = saveButton;    
     }
     if(self.previewMode)  {

@@ -144,7 +144,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 
     //Create continue button cell
     UITableViewCell *buttonCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"continueButtonCell"];
-    buttonCell.textLabel.text = @"Tap To Continue";
+    buttonCell.textLabel.text = NSLocalizedString(@"TapToContinueKey", @"");
     buttonCell.textLabel.textAlignment = UITextAlignmentCenter;
     
     //Setup the cellArray

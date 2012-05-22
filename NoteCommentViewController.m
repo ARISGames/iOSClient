@@ -31,7 +31,7 @@
         // Custom initialization
         movieViews = [[NSMutableArray alloc]initWithCapacity:5];
         asyncMediaDict = [[NSMutableDictionary alloc] initWithCapacity:5];
-        self.title = @"Comments";
+        self.title = NSLocalizedString(@"NoteCommentViewTitleKey", @"");
         self.hidesBottomBarWhenPushed = YES;
         commentValid = NO;
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
@@ -343,7 +343,7 @@
         [UIView commitAnimations];
         
         [self.textBox resignFirstResponder];
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Create Comment Failed" message:@"Cannot create a comment while offline" delegate:self.delegate cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Create Comment Failed" message:@"Cannot create a comment while offline" delegate:self.delegate cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
         [alert show];
     }
     
@@ -368,9 +368,9 @@
     if([textBox.text length] == 0 || [textBox.text isEqualToString:@"Write Comment..."]){
         UIAlertView *alert;
         
-        alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Error", @"")
-                                           message: NSLocalizedString(@"Please add a comment", @"")
-                                          delegate: self cancelButtonTitle: NSLocalizedString(@"OK", @"") otherButtonTitles: nil];
+        alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"ErrorKey", @"")
+                                           message: NSLocalizedString(@"PleaseAddCommentKey", @"")
+                                          delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
         [alert show];
     }
     else{

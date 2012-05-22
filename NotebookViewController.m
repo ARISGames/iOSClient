@@ -338,8 +338,8 @@ BOOL tagFilter;
     if([currentNoteList count] == 0 && indexPath.row == 0){
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         
-        cell.textLabel.text = @"No Notes";
-        cell.detailTextLabel.text = @"Press A Blue Button Above To Add One!";
+        cell.textLabel.text =NSLocalizedString(@"NotebookNoNotesKey", @"");
+        cell.detailTextLabel.text = NSLocalizedString(@"NotebooksPressToAddKey", @"");
         cell.userInteractionEnabled = NO;
         return cell;
     }
@@ -383,7 +383,7 @@ BOOL tagFilter;
         [cell.likeLabel setFrame:CGRectMake(cell.likeLabel.frame.origin.x,26,cell.likeLabel.frame.size.width , cell.likeLabel.frame.size.height)];
     }
     else{
-        cell.commentsLbl.text = [NSString stringWithFormat:@"%d comments",[currNote.comments count]];
+        cell.commentsLbl.text = [NSString stringWithFormat:@"%d %@",[currNote.comments count],NSLocalizedString(@"NotebookCommentsKey", @"")];
         [cell.likesButton setFrame:CGRectMake(cell.likesButton.frame.origin.x,2,cell.likesButton.frame.size.width , cell.likesButton.frame.size.height)];
         [cell.likeLabel setFrame:CGRectMake(cell.likeLabel.frame.origin.x,14,cell.likeLabel.frame.size.width , cell.likeLabel.frame.size.height)];
         

@@ -136,7 +136,7 @@ NSString *const kQuestsHtmlTemplate =
 	NSLog(@"QuestsViewController: Refreshing view from model");
 	
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	progressLabel.text = [NSString stringWithFormat:@"%d of %d Quests Complete", [AppModel sharedAppModel].currentGame.completedQuests, [AppModel sharedAppModel].currentGame.totalQuests];
+	progressLabel.text = [NSString stringWithFormat:@"%d %@ %d %@", [AppModel sharedAppModel].currentGame.completedQuests, NSLocalizedString(@"OfKey", @"Number of Number"), [AppModel sharedAppModel].currentGame.totalQuests, NSLocalizedString(@"QuestsCompleteKey", @"")];
 	progressView.progress = (float)[AppModel sharedAppModel].currentGame.completedQuests / (float)[AppModel sharedAppModel].currentGame.totalQuests;
 		
 	NSLog(@"QuestsViewController: refreshViewFromModel: silenceNextServerUpdateCount = %d", silenceNextServerUpdateCount);
@@ -195,9 +195,9 @@ NSString *const kQuestsHtmlTemplate =
 			//Put up the tutorial tab
 				ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 				[appDelegate.tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController 
-																							   type:tutorialPopupKindQuestsTab 
-																							  title:@"New Quest" 
-																							message:@"You have a new Quest! Touch here to see the current and completed quests."];						
+                        type:tutorialPopupKindQuestsTab 
+                                title:NSLocalizedString(@"QuestViewNewQuestKey", @"")
+                                message:NSLocalizedString(@"QuestViewNewQuestMessageKey", @"")];
 				[AppModel sharedAppModel].hasSeenQuestsTabTutorial = YES;
                 [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
 			}

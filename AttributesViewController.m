@@ -171,7 +171,7 @@
         cell.imageView.image = iconView.image;
     }
     else{
-        cell.textLabel.text = @"No Attributes Currently Available";
+        cell.textLabel.text = NSLocalizedString(@"AttributesNoCurrentlyKey", @"");
     }
         cell.userInteractionEnabled = NO;
         

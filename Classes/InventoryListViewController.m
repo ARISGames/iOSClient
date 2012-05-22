@@ -123,7 +123,7 @@
     [AppModel sharedAppModel].currentGame.currentWeight = self.currentWeight;
     }
     capBar.progress = (float)((float)currentWeight/(float)weightCap);
-    capLabel.text = [NSString stringWithFormat: @"Weight Capacity: %d/%d", currentWeight, weightCap];
+    capLabel.text = [NSString stringWithFormat: @"%@: %d/%d", NSLocalizedString(@"WeightCapacityKey", @""),currentWeight, weightCap];
     
 	if (silenceNextServerUpdateCount < 1) {		
 		NSArray *newInventory = [[AppModel sharedAppModel].inventory allValues];
@@ -140,7 +140,7 @@
                    if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
                        [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
                     
-                   NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Item Received",@"title",[NSString stringWithFormat:@"%d %@ added to inventory",item.qty - existingItem.qty,item.name],@"prompt", nil];
+                   NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Item Received",@"title",[NSString stringWithFormat:@"%d %@ %@",item.qty - existingItem.qty,item.name,NSLocalizedString(@"InventoryAddedToKey", @"")],@"prompt", nil];
                     [appDelegate.notifArray addObject:dict];
                     [appDelegate showNotifications];
                     //[appDelegate performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
@@ -158,7 +158,7 @@
                 if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
                     [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
                 
-                NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Item Received",@"title",[NSString stringWithFormat:@"%d %@ added to inventory",item.qty,item.name],@"prompt", nil];
+                NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Item Received",@"title",[NSString stringWithFormat:@"%d %@ %@",item.qty,item.name,NSLocalizedString(@"InventoryAddedToKey", @"")],@"prompt", nil];
               [appDelegate.notifArray addObject:dict];
                 [appDelegate showNotifications];
 
@@ -176,9 +176,9 @@
 			//Put up the tutorial tab
 			if (![AppModel sharedAppModel].hasSeenInventoryTabTutorial){
 				[appDelegate.tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController  
-																							   type:tutorialPopupKindInventoryTab
-																							  title:@"New Item"  
-																							message:@"You have a new Item in your Inventory! Touch below to view your items now."];						
+                        type:tutorialPopupKindInventoryTab
+                            title:NSLocalizedString(@"InventoryNewItemKey", @"")  
+                            message:NSLocalizedString(@"InventoryNewItemMessageKey", @"")];						
 				[AppModel sharedAppModel].hasSeenInventoryTabTutorial = YES;
                 [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
 			}
@@ -305,11 +305,11 @@
     
     UILabel *lblTemp3 = (UILabel *)[cell viewWithTag:4];
     if(item.qty >1 && item.weight > 1)
-    lblTemp3.text = [NSString stringWithFormat:@"Quantity: %d, Weight: %d",item.qty,item.weight];
+    lblTemp3.text = [NSString stringWithFormat:@"%@: %d, %@: %d",NSLocalizedString(@"QuantityKey", @""),item.qty,NSLocalizedString(@"WeightKey", @""),item.weight];
     else if(item.weight > 1)
-        lblTemp3.text = [NSString stringWithFormat:@"Weight: %d",item.weight];
+        lblTemp3.text = [NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"WeightKey", @""),item.weight];
     else if(item.qty > 1)
-        lblTemp3.text = [NSString stringWithFormat:@"Quantity: %d",item.qty];
+        lblTemp3.text = [NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"QuantityKey", @""),item.qty];
     else
         lblTemp3.text = nil;
         iconView.hidden = NO;

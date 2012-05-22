@@ -48,7 +48,7 @@
         self.noteValid = NO;
         vidThumbs = [[NSMutableDictionary alloc] initWithCapacity:5];
         startWithView = 0;
-        actionSheet = [[UIActionSheet alloc]initWithTitle:@"Sharing" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"List Only",@"Map Only",@"Both",@"Don't Share", nil];
+        actionSheet = [[UIActionSheet alloc]initWithTitle:NSLocalizedString(@"SharingKey", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"CancelKey", @"")destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"NoteEditorListOnlyKey", @""),NSLocalizedString(@"NoteEditorMapOnlyKey", @""),NSLocalizedString(@"BothKey", @""),NSLocalizedString(@"DontShareKey", @""), nil];
     }
     return self;
 }
@@ -93,18 +93,18 @@
     }
     startWithView = 0;
     if(!self.note.showOnMap && !self.note.showOnList){
-        self.sharingLabel.text = @"None";
+        self.sharingLabel.text = NSLocalizedString(@"NoneKey", @"");
     }
     else if(self.note.showOnMap && !self.note.showOnList){
-        self.sharingLabel.text = @"Map Only";
+        self.sharingLabel.text = NSLocalizedString(@"NoteEditorMapOnlyKey", @""); 
         
     }
     else if(!self.note.showOnMap && self.note.showOnList){
-        self.sharingLabel.text = @"List Only";
+        self.sharingLabel.text = NSLocalizedString(@"NoteEditorListOnlyKey", @"");
         
     }
     else if(self.note.showOnMap && self.note.showOnList){
-        self.sharingLabel.text = @"List & Map";
+        self.sharingLabel.text = NSLocalizedString(@"NoteEditorListAndMapKey", @"");
     }        
     [self refreshViewFromModel];
 }
@@ -121,7 +121,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"DoneKey", @"")
                                                                    style: UIBarButtonItemStyleDone
                                                                   target:self 
                                                                   action:@selector(backButtonTouchAction:)];
@@ -134,7 +134,7 @@
         self.note.username = [AppModel sharedAppModel].userName;
         self.note.noteId = [[AppServices sharedAppServices] createNote];
         if(self.note.noteId == 0){[self backButtonTouchAction:[[UIButton alloc]init]];
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Create Note Failed" message:@"Cannot create a note while offline" delegate:self.delegate cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"NoteEditorCreateNoteFailedKey", @"") message:(@"NoteEditorCreateNoteFailedMessageKey", @"") delegate:self.delegate cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
             [alert show];
         }
         //if(![AppModel sharedAppModel].isGameNoteList)
@@ -186,7 +186,7 @@ if([self.delegate isKindOfClass:[NoteDetailsViewController class]]){
     [self.delegate setNote:self.note];
 }
 self.note.title = self.textField.text;
-if(([note.title length] == 0)) note.title = @"New Note";
+if(([note.title length] == 0)) note.title = NSLocalizedString(@"NodeEditorNewNoteKey", @"");
 // if(![AppModel sharedAppModel].isGameNoteList)
 [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   
 /*else
@@ -240,7 +240,7 @@ if(([note.title length] == 0)) note.title = @"New Note";
     self.noteValid = YES;
     
     self.note.title = self.textField.text;
-    if([note.title length] == 0) note.title = @"New Note";
+    if([note.title length] == 0) note.title = NSLocalizedString(@"NodeEditorNewNoteKey", @"");
     
     [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.note.title publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
     //[self.delegate refresh];
@@ -325,7 +325,7 @@ if(([note.title length] == 0)) note.title = @"New Note";
 }
 -(void)publicButtonTouchAction{
     self.noteValid = YES;
-    actionSheet = [[UIActionSheet alloc]initWithTitle:@"Sharing" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"List Only",@"Map Only",@"Both",@"Don't Share", nil];
+    actionSheet = [[UIActionSheet alloc]initWithTitle:NSLocalizedString(@"SharingKey", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"CancelKey", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"NoteEditorListOnlyKey", @""),NSLocalizedString(@"NoteEditorMapOnlyKey", @""),NSLocalizedString(@"BothKey", @""),NSLocalizedString(@"DontShareKey", @""), nil];
     [actionSheet showInView:self.view];
     
     /* if(self.publicButton.selected){
@@ -346,10 +346,10 @@ if(([note.title length] == 0)) note.title = @"New Note";
               if([AppModel sharedAppModel].currentGame.allowShareNoteToList){
             self.note.showOnList = YES;
             self.note.showOnMap = NO;
-            self.sharingLabel.text = @"List Only";
+            self.sharingLabel.text = NSLocalizedString(@"NoteEditorListOnlyKey", @""); 
               }
             else{
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Not Allowed!" message: @"This game doesn't allow sharing to other people's lists" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"NoteEditorNotAllowedKey", @"") message: NSLocalizedString(@"NoteEditorNotAllowedSharingToListsMessageKey", @"") delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
                 
                 [alert show];
             }
@@ -359,7 +359,7 @@ if(([note.title length] == 0)) note.title = @"New Note";
             if([AppModel sharedAppModel].currentGame.allowShareNoteToMap){
             self.note.showOnList = NO;
             self.note.showOnMap = YES;
-            self.sharingLabel.text = @"Map Only";
+            self.sharingLabel.text = NSLocalizedString(@"NoteEditorMapOnlyKey", @""); 
             if(!self.note.dropped){
                 [[AppServices sharedAppServices]updateServerDropNoteHere:self.note.noteId atCoordinate:[AppModel sharedAppModel].playerLocation.coordinate];
                 self.note.dropped = YES;
@@ -367,7 +367,7 @@ if(([note.title length] == 0)) note.title = @"New Note";
             }
             }
             else{
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Not Allowed!" message: @"This game doesn't allow sharing to the map" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NoteEditorNotAllowedKey", @"") message:NSLocalizedString(@"NoteEditorNotAllowedSharingToMapMessageKey", @"") delegate: self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
                 
                 [alert show];
             }
@@ -377,7 +377,7 @@ if(([note.title length] == 0)) note.title = @"New Note";
             if([AppModel sharedAppModel].currentGame.allowShareNoteToMap && ([AppModel sharedAppModel].currentGame.allowShareNoteToList)){
             self.note.showOnList = YES;
             self.note.showOnMap = YES;
-            self.sharingLabel.text = @"List & Map";
+                self.sharingLabel.text = NSLocalizedString(@"NoteEditorListAndMapKey", @""); 
             if(!self.note.dropped){
                 if(!self.note.dropped){
                     [[AppServices sharedAppServices]updateServerDropNoteHere:self.note.noteId atCoordinate:[AppModel sharedAppModel].playerLocation.coordinate];
@@ -387,7 +387,7 @@ if(([note.title length] == 0)) note.title = @"New Note";
             }
             }
             else{
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Not Allowed!" message: @"This game doesn't allow one or more of these sharing options" delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NoteEditorNotAllowedKey", @"") message:NSLocalizedString(@"NoteEditorNotAllowedOneOrMoreMessageKey", @"") delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
                 
                 [alert show];  
             }
@@ -396,7 +396,7 @@ if(([note.title length] == 0)) note.title = @"New Note";
         case 3:
             self.note.showOnList = NO;
             self.note.showOnMap = NO;
-            self.sharingLabel.text = @"None";
+            self.sharingLabel.text = NSLocalizedString(@"NoneKey", @"");
             break;
         default:
             break;
@@ -508,8 +508,8 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
         NSLog(@"NoteEditorVC: No note contents available, display standard message");
         
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-        cell.textLabel.text = @"No Content Added";
-        cell.detailTextLabel.text = @"Press Buttons Below To Add Some!";
+        cell.textLabel.text = NSLocalizedString(@"NoteEditorNoContentAddedKey", @"");
+        cell.detailTextLabel.text = NSLocalizedString(@"NoteEditorPressButtonsKey", @"");
         cell.userInteractionEnabled = NO;
         return  cell;
     }

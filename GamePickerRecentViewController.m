@@ -26,8 +26,8 @@
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
-        self.title = @"Recent";
-		self.navigationItem.title = @"Recently Played Games";
+        self.title = NSLocalizedString(@"GamePickerRecentTitleKey", @"");
+		self.navigationItem.title = NSLocalizedString(@"GamePickeRecentPlayedKey", @"");
         self.tabBarItem.image = [UIImage imageNamed:@"78-stopwatch"];
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];
@@ -160,7 +160,7 @@
 	double dist = currentGame.distanceFromPlayer;
 	cell.distanceLabel.text = [NSString stringWithFormat:@"%1.1f %@",  dist/1000, NSLocalizedString(@"km", @"") ];
 	cell.authorLabel.text = currentGame.authors;
-	cell.numReviewsLabel.text = [NSString stringWithFormat:@"%@%@", [[NSNumber numberWithInt:currentGame.numReviews] stringValue], @" reviews"];
+	cell.numReviewsLabel.text = [NSString stringWithFormat:@"%@ %@", [[NSNumber numberWithInt:currentGame.numReviews] stringValue], NSLocalizedString(@"GamePickerRecentReviewsKey", @"")];
     cell.starView.rating = currentGame.rating;
        
     //Set up the Icon

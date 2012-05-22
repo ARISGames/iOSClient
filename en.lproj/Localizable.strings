@@ -25,21 +25,70 @@
 "SaveKey" = "Save";
 "NearbyObjectsTabKey" = "Nearby";
 "NearbyObjectsTitleKey" = "Nearby Objects";
+"SearchKey" = "Search";
+"WaitingKey" = "Waiting...";
+"ReviewsKey" = "Reviews";
+"TapToContinueKey" = "Tap To Continue";
+"OfKey" = "of";
+"NoneKey" = "None";
+"DontShareKey" = "Don't Share";
+"BothKey" = "Both";
+"CancelKey" = "Cancel";
+"SharingKey" = "Sharing";
+"DoneKey" = "Done";
+"ErrorKey" = "Error";
+"PleaseAddCommentKey" = "Please add a comment";
 
 //AppModel
 "AppModelItemLostKey" = "Item Lost";
 "AppModelItemRemovedKey" = "item removed from inventory";
 
+//AppServices
+"AppServicesReceivedQuestListKey" = "Received Quest List...";
+"AppServicesRecievedLocationListKey" = "Received Location List...";
+"AppServicesCachingGameMediaKey" = "Caching Game Media...";
+"AppServicesStartingGameKey" = "Starting Game.";
+"AppServicesReceivedGameItemListKey" = "Received Game Item List...";
+"AppServicesReceivedGameNodeListKey" = "Received Game Node List...";
+"AppServicesReceivedGameTabListKey" = "Received Game Tab List...";
+"AppServicesReceivedGameNPCListKey" = "Received Game NPC List...";
+"AppServicesReceivedGameWebpageListKey" = "Received Game Webpage List...";
+"AppServicesReceivedGamePanoramicListKey" = "Received Game Panoramic List...";
+"AppServicesReceivedInventoryKey" = "Received Inventory...";
+
 //Attributes View
 "AttributesViewNameKey" = "Name";
 "AttributesViewGroupKey" = "Group: N/A";
 "AttributesAttributesTitleKey" = "Attributes";
+"AttributesNoCurrentlyKey" = "No Attributes Currently Available";
+
+//Audio Recorder
+"AudioRecorderTitleKey" = "Recorder";
+"BeginRecordingKey" = "Begin Recording";
+"StopRecordingKey" = "Stop Recording";
+"PlayKey" = "Play";
+"StopKey" = "Stop";
+"UploadKey" = "Upload";
+"DiscardKey" = "Discard";
+"NoAudioHardwareAvailableTitleKey" = "Warning";
+"NoAudioHardwareAvailableMessageKey" = "Audio input hardware not available";
 
 //AR View
 "ARViewTitleKey" = "AR View";
 
+//ARIS App Delegate
+"ARISAppDelegateFectchingGameListsKey" = "Fetching Game Lists...";
+
 //Bogus Game
 "BogusTitleKey" = "Select Another Game";
+
+//Camera
+"CameraTitleKey" = "Camera";
+"CameraLibraryButtonTitleKey" = "Use Library";
+"CameraCameraButtonTitleKey" = "Use Camera";
+"CameraImageTakenKey" = "Image Taken in ARIS.";
+"CameraGameKey" = "Game";
+"CameraPlayerKey" = "Player";
 
 //Comments View
 "CommentsTitleKey" = "Comments";
@@ -61,66 +110,11 @@
 "ForgotEmailSentTitleKey" = "Email Sent";
 "ForgotMessageKey" = "An email has been sent to you containing your password";
 
-//Item Details View
-"ItemDropKey" = "Drop";
-"ItemDeleteKey" = "Destroy";
-"ItemPickupKey" = "Pickup";
-"ItemDetailKey" = "Detail";
-"ItemDroppedTitleKey" = "Item Dropped";
-"ItemDroppedMessageKey" = "Your Item was dropped here on the map for other players to see";
-"ItemDestroyedTitleKey" = "Item Destroyed";
-"ItemDestroyedMessageKey" = "This Item was removed from your inventory and permanently destroyed";
-"ItemDuplicateTitleKey" = "Duplicate Item";
-"ItemDuplicateMessageKey" = "You cannot carry any more of this item";
-"ItemPickedUpTitleKey" = "Picked up an Item";
-"ItemPickedUpMessageKey" = "It is available in your inventory";
-
-//Quests View
-"QuestViewTitleKey" = "Quests";
-"QuestsActiveTitleKey" = "Active Quests";
-"QuestsCompleteTitleKey" = "Completed Quests";
-
-//Map View
-"MapViewTitleKey" = "Map";
-"MapTypeKey" = "Map Type";
-
-//Inventory View
-"InventoryViewTitleKey" = "Inventory";
-"WeightCapacityKey" = "Weight Capacity"; 
-
-//Title and Description Form
-"TitleAndDescriptionTitleKey" = "Title";
-"TitleAndDescriptionTitlePrompt" = "Enter a Title";
-"TitleAndDescriptionDescriptionPrompt" = "Enter a Description";
-
-//Camera
-"CameraTitleKey" = "Camera";
-"CameraLibraryButtonTitleKey" = "Use Library";
-"CameraCameraButtonTitleKey" = "Use Camera";
-"CameraImageTakenKey" = "Image Taken in ARIS.";
-"CameraGameKey" = "Game";
-"CameraPlayerKey" = "Player";
-
-//Audio Recorder
-"AudioRecorderTitleKey" = "Recorder";
-"BeginRecordingKey" = "Begin Recording";
-"StopRecordingKey" = "Stop Recording";
-"PlayKey" = "Play";
-"StopKey" = "Stop";
-"UploadKey" = "Upload";
-"DiscardKey" = "Discard";
-"NoAudioHardwareAvailableTitleKey" = "Warning";
-"NoAudioHardwareAvailableMessageKey" = "Audio input hardware not available";
-
-//QR Scanner
-"QRScannerTitleKey" = "Decoder";
-"QRScannerErrorTitleKey" = "Scan Successful, But...";
-"QRScannerErrorMessageKey" = "This code doesn't mean anything right now. You should come back later";
-"QRScannerDecodingErrorTitleKey" = "Decoding Error";
-"QRScannerDecodingKey" = "Decoding...";
-"QRScannerDecodingErrorMessageKey" = "Try scanning the code again: Step back 2 feet and hold the camera as still as possible";
-"ScanUsingCameraKey" = "Scan Using Camera";
-"EnterCodeKey" = "Manually Type Code";
+//Game Details View
+"GameDetailsAuthorKey" = "Author(s)";
+"DescriptionKey" = "Description";
+"RatingKey" = "Rating";
+"GameDetailsPlayNowKey" = "Play Now";
 
 //Game Picker
 "GamePickerTitleKey" = "Select Game";
@@ -135,17 +129,52 @@
 "DescriptionKey" = "Description";
 "MapKey" = "Map";
 
-//Start Over
-"StartOverTitleKey" = "Start Over";
-"StartOverKey" = "Start Over";
-"StartOverWarningKey" = "This cannot be reversed";
-"StartOverResetAlertTitleKey" = "Success";
-"StartOverResetAlertMessageKey" = "You have reset your progress for this game";
+//Game Picker Nearby
+"GamePickerNoGamesKey" = "No Games Found";
+"GamePickerMakeOneGameKey" = "You should make one at arisgames.org!";
+"GamePickerNearbyGamesKey" = "Nearby Games";
 
-//Logout
-"LogoutTitleKey" = "Logout";
-"LogoutKey" = "Logout";
-"LogoutWarningKey" = "Are you sure you wish to Logout?";
+//Game Picker Recent
+"GamePickerRecentTitleKey" = "Recent";
+"GamePickeRecentPlayedKey" = "Recently Played Games";
+"GamePickerRecentReviewsKey" = "reviews";
+
+//Game Picker Search
+"GamePickerSearchGamesKey" = "Search for Games";
+"GamePickerSearchLoadingMoreKey" = "Loading more results...";
+"GamePickerSearchNoMoreKey" = "No more results";
+
+//Inventory View
+"InventoryAddedToKey" = "added to inventory";
+"InventoryNewItemKey" = "New Item";
+"InventoryNewItemMessageKey" = "You have a new Item in your Inventory! Touch below to view your items now.";
+"InventoryViewTitleKey" = "Inventory";
+"WeightCapacityKey" = "Weight Capacity"; 
+"QuantityKey" = "Quantity";
+"WeightKey" = "Weight";
+
+//Item Action View
+"ItemActionCanCarryKey" = "Can only carry";
+"ItemActionOfItemKey" = "of this item";
+"ItemAcionCarryThatMuchKey" = "You can't carry that much. Only";
+"PickedUpKey" = "picked up";
+"ItemAcionCannotPickUpKey" = "This item cannot be picked up.";
+"ItemAcionCannotCarryMoreKey" = "You cannot carry any more of this item.";
+"ItemAcionTooHeavyKey" = "Too Heavy! Only";
+
+//Item Details View
+"ItemDropKey" = "Drop";
+"ItemDeleteKey" = "Destroy";
+"ItemPickupKey" = "Pickup";
+"ItemDetailKey" = "Detail";
+"ItemDroppedTitleKey" = "Item Dropped";
+"ItemDroppedMessageKey" = "Your Item was dropped here on the map for other players to see";
+"ItemDestroyedTitleKey" = "Item Destroyed";
+"ItemDestroyedMessageKey" = "This Item was removed from your inventory and permanently destroyed";
+"ItemDuplicateTitleKey" = "Duplicate Item";
+"ItemDuplicateMessageKey" = "You cannot carry any more of this item";
+"ItemPickedUpTitleKey" = "Picked up an Item";
+"ItemPickedUpMessageKey" = "It is available in your inventory";
 
 //Login and
 "LoginTitleKey" = "Login to ARIS";
@@ -161,8 +190,83 @@
 "LastNameKey" = "Last Name";
 "CreateAccountKey" = "Create Account";
 
-//Notebook
+//Logout
+"LogoutTitleKey" = "Logout";
+"LogoutKey" = "Logout";
+"LogoutWarningKey" = "Are you sure you wish to Logout?";
+
+//Map View
+"MapViewTitleKey" = "Map";
+"MapTypeKey" = "Map Type";
+
+//Notebook View
 "NotebookTitleKey" = "Notebook";
+"NotebookNoNotesKey" = "No Notes";
+"NotebooksPressToAddKey" = "Press A Blue Button Above To Add One!";
+"NotebookCommentsKey" = "comments";
+
+//Note Comment View
+"NoteCommentViewTitleKey" = "Comments";
+
+//Note Editor View
+"NoteEditorNoContentAddedKey" = "No Content Added";
+"NoteEditorPressButtonsKey" = "Press Buttons Below To Add Some!";
+"NodeEditorNewNoteKey" = "New Note";
+"NoteEditorNotAllowedOneOrMoreMessageKey" = "This game doesn't allow one or more of these sharing options";
+"NoteEditorNotAllowedKey" = "Not Allowed!";
+"NoteEditorNotAllowedSharingToMapMessageKey" = "This game doesn't allow sharing to the map";
+"NoteEditorListAndMapKey" = "List & Map";
+"NoteEditorMapOnlyKey" = "Map Only";
+"NoteEditorNotAllowedSharingToListsMessageKey" = "This game doesn't allow sharing to other people's lists";
+"NoteEditorListOnlyKey" = "List Only";
+"NoteEditorCreateNoteFailedKey" = "Create Note Failed";
+"NoteEditorCreateNoteFailedMessageKey" = "Cannot create a note while offline";
 
 //Player Attributes
 "PlayerTitleKey" = "Player";
+
+//QR Scanner
+"QRScannerTitleKey" = "Decoder";
+"QRScannerErrorTitleKey" = "Scan Successful, But...";
+"QRScannerErrorMessageKey" = "This code doesn't mean anything right now. You should come back later";
+"QRScannerDecodingErrorTitleKey" = "Decoding Error";
+"QRScannerDecodingKey" = "Decoding...";
+"QRScannerDecodingErrorMessageKey" = "Try scanning the code again: Step back 2 feet and hold the camera as still as possible";
+"ScanUsingCameraKey" = "Scan Using Camera";
+"EnterCodeKey" = "Manually Type Code";
+
+//Quests View
+"QuestViewTitleKey" = "Quests";
+"QuestsActiveTitleKey" = "Active Quests";
+"QuestsCompleteTitleKey" = "Completed Quests";
+"QuestViewNewQuestKey" = "New Quest";
+"QuestViewNewQuestMessageKey" = "You have a new Quest! Touch here to see the current and completed quests.";
+"QuestsComplete" = "Quests Complete";
+
+//Start Over
+"StartOverTitleKey" = "Start Over";
+"StartOverKey" = "Start Over";
+"StartOverWarningKey" = "This cannot be reversed";
+"StartOverResetAlertTitleKey" = "Success";
+"StartOverResetAlertMessageKey" = "You have reset your progress for this game";
+
+//Tag View
+"TagViewCannotCreateKey" = "Cannot Create New Tag";
+"TagViewNoPlayerCreatedTagsKey" = "This game does not allow the use of player created tags!";
+"TagViewNoGameTagsKey" = "No Game Tags";
+"TagViewNoTagsCreatedKey" = "No tags were created for this game";
+"TagViewNoTagsKey" = "No Tags";
+"TagViewNotCreatedKey" = "You haven't created any tags";
+"TagViewCreateNewTagKey" = "Create a New Tag";
+
+//Text View
+"TextViewTitleKey" = "Add Text";
+
+//Title and Description Form
+"TitleAndDescriptionTitleKey" = "Title";
+"TitleAndDescriptionTitlePrompt" = "Enter a Title";
+"TitleAndDescriptionDescriptionPrompt" = "Enter a Description";
+
+//Upload Man
+"UploadManDelayedKey" = "Upload Delayed";
+"UploadManDelayedMessageKey" = "This item is over 500Kb. You should connect to a Wifi network to resume the upload.";

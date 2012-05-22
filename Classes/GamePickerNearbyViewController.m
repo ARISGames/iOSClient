@@ -29,8 +29,8 @@
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
-        self.title = @"Nearby";
-		self.navigationItem.title = @"Nearby Games";
+        self.title = NSLocalizedString(@"NearbyObjectsTabKey", @"");
+		self.navigationItem.title = [NSString stringWithFormat: @"%@", NSLocalizedString(@"GamePickerNearbyGamesKey", @"")];
         self.tabBarItem.image = [UIImage imageNamed:@"193-location-arrow"];
         self.gameIcons = [NSMutableArray arrayWithCapacity:[[AppModel sharedAppModel].gameList count]];
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
@@ -192,8 +192,8 @@
     
     if([self.gameList count] == 0){
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-        cell.textLabel.text = @"No Games Found";
-        cell.detailTextLabel.text = @"You should make one at arisgames.org!";
+        cell.textLabel.text = NSLocalizedString(@"GamePickerNoGamesKey", @"");
+        cell.detailTextLabel.text = NSLocalizedString(@"GamePickerMakeOneGameKey", @"");
         return cell;
     }
     
@@ -233,7 +233,7 @@
 	double dist = currentGame.distanceFromPlayer;
 	cell.distanceLabel.text = [NSString stringWithFormat:@"%1.1f %@",  dist/1000, NSLocalizedString(@"km", @"") ];
 	cell.authorLabel.text = currentGame.authors;
-	cell.numReviewsLabel.text = [NSString stringWithFormat:@"%@%@", [[NSNumber numberWithInt:currentGame.numReviews] stringValue], @" reviews"];
+	cell.numReviewsLabel.text = [NSString stringWithFormat:@"%@ %@", [[NSNumber numberWithInt:currentGame.numReviews] stringValue], NSLocalizedString(@"GamePickerRecentReviewsKey", @"")];
     cell.starView.rating = currentGame.rating;
     //Set up the Icon
     //Create a new iconView for each cell instead of reusing the same one

@@ -135,7 +135,7 @@
     NSData *fileData = [NSData dataWithContentsOfURL:aUrl];
     NSUInteger bytes = fileData.length;
     if (bytes>500000 && youreNotOnWifi && !uc) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Upload Delayed" message: @"This item is over 500Kb. You should connect to a Wifi network to resume the upload." delegate: self cancelButtonTitle: @"Ok" otherButtonTitles: nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"UploadManDelayedKey", @"")message:NSLocalizedString(@"UploadManDelayedMessageKey", @"") delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
         [alert show];
         uc = [self saveUploadContentToCDWithTitle:title andText:text andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateFAILED"];
         [self insertUploadContentIntoDictionary:uc];

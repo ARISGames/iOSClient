@@ -164,7 +164,7 @@
         if(self.mode == kItemDetailsPickingUp){
         if((self.numItems) > self.max)
         {
-            self.infoLabel.text = [NSString stringWithFormat:@"Can only carry %d of this item",self.max];
+            self.infoLabel.text = [NSString stringWithFormat:@"%@ %d %@",NSLocalizedString(@"ItemActionCanCarryKey", @""),self.max,NSLocalizedString(@"ItemActionOfItemKey", @"")];
             self.badValLabel.hidden = NO;
             self.actionButton.userInteractionEnabled = NO;
             self.actionButton.alpha = .7;
@@ -219,15 +219,15 @@
                         quantity--;
                     }
                 }
-				errorMessage = [NSString stringWithFormat:@"You can't carry that much. Only %d picked up",quantity];
+				errorMessage = [NSString stringWithFormat:@"%@ %d %@",NSLocalizedString(@"ItemAcionCarryThatMuchKey", @""),quantity,NSLocalizedString(@"PickedUpKey", @"")];
                 
 			}
 			else if (item.maxQty == 0) {
-				errorMessage = @"This item cannot be picked up.";
+				errorMessage = NSLocalizedString(@"ItemAcionCannotPickUpKey", @"");
 				quantity = 0;
 			}
             else {
-				errorMessage = @"You cannot carry any more of this item.";
+				errorMessage = NSLocalizedString(@"ItemAcionCannotCarryMoreKey", @"");
 				quantity = 0;
 			}
             
@@ -242,7 +242,7 @@
             while ((quantity*item.weight + [AppModel sharedAppModel].currentGame.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryWeightCap) {
                 quantity--;
             }
-            errorMessage = [NSString stringWithFormat:@"Too Heavy! Only %d picked up",quantity];
+            errorMessage = [NSString stringWithFormat:@"%@ %d %@",NSLocalizedString(@"ItemAcionTooHeavyKey", @""),quantity,NSLocalizedString(@"PickedUpKey", @"")];
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Inventory over Limit"
 															message: errorMessage
 														   delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];

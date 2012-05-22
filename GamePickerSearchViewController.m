@@ -29,8 +29,8 @@
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
-        self.title = @"Search";
-        self.navigationItem.title = @"Search for Games";
+        self.title = NSLocalizedString(@"SearchKey", @"");
+        self.navigationItem.title = NSLocalizedString(@"GamePickerSearchGamesKey", @"");
 		self.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemSearch tag:0];
         self.currentPage = 0;
         self.currentlyFetchingNextPage = NO;
@@ -140,8 +140,8 @@
         UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (cell == nil) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
-        if(!self.allResultsFound) cell.textLabel.text = @"Loading more results...";   
-        else cell.textLabel.text = @"No more results";
+        if(!self.allResultsFound) cell.textLabel.text = NSLocalizedString(@"GamePickerSearchLoadingMoreKey", @"");
+        else cell.textLabel.text = NSLocalizedString(@"GamePickerSearchNoMoreKey", @"");
         return cell;
     }
     
@@ -175,7 +175,7 @@
 	double dist = currentGame.distanceFromPlayer;
 	cell.distanceLabel.text = [NSString stringWithFormat:@"%1.1f %@",  dist/1000, NSLocalizedString(@"km", @"") ];
 	cell.authorLabel.text = currentGame.authors;
-	cell.numReviewsLabel.text = [NSString stringWithFormat:@"%@%@", [[NSNumber numberWithInt:currentGame.numReviews] stringValue], @" reviews"];
+	cell.numReviewsLabel.text = [NSString stringWithFormat:@"%@ %@", [[NSNumber numberWithInt:currentGame.numReviews] stringValue], NSLocalizedString(@"GamePickerRecentReviewsKey", @"")];
     cell.starView.rating = currentGame.rating;
     //Set up the Icon
     //Create a new iconView for each cell instead of reusing the same one

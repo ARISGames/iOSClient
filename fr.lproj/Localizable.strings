@@ -25,21 +25,71 @@
 "SaveKey" = "Sauver";
 "NearbyObjectsTabKey" = "Proximité";
 "NearbyObjectsTitleKey" = "Objets à Proximité";
+"GamePickerNearbyGamesKey" = "Games"; #########################################
+"SearchKey" = "Search"; #######################################################
+"WaitingKey" = "Waiting..."; ##################################################
+"ReviewsKey" = "Reviews"; #####################################################
+"TapToContinueKey" = "Tap To Continue"; #######################################
+"OfKey" = "of"; ###############################################################
+"NoneKey" = "None"; ###########################################################
+"DontShareKey" = "Don't Share"; ###############################################
+"BothKey" = "Both"; ###########################################################
+"CancelKey" = "Cancel"; #######################################################
+"SharingKey" = "Sharing"; #####################################################
+"DoneKey" = "Done"; ###########################################################
+"ErrorKey" = "Error"; #########################################################
+"PleaseAddCommentKey" = "Please add a comment"; ###############################
 
 //AppModel
-"AppModelItemLostKey" = "Item Lost" ##########################################
-"AppModelItemRemovedKey" = "item removed from inventory"; ####################
+"AppModelItemLostKey" = "Item Lost"; ##########################################
+"AppModelItemRemovedKey" = "item removed from inventory"; #####################
+
+//AppServices
+"AppServicesReceivedQuestListKey" = "Received Quest List..."; #################
+"AppServicesRecievedLocationListKey" = "Received Location List..."; ###########
+"AppServicesCachingGameMediaKey" = "Caching Game Media..."; ###################
+"AppServicesStartingGameKey" = "Starting Game."; ##############################
+"AppServicesReceivedGameItemListKey" = "Received Game Item List..."; ##########
+"AppServicesReceivedGameNodeListKey" = "Received Game Node List..."; ##########
+"AppServicesReceivedGameTabListKey" = "Received Game Tab List..."; ############
+"AppServicesReceivedGameNPCListKey" = "Received Game NPC List..."; ############
+"AppServicesReceivedGameWebpageListKey" = "Received Game Webpage List..."; ####
+"AppServicesReceivedGamePanoramicListKey" = "Received Game Panoramic List..."; ###########
+"AppServicesReceivedInventoryKey" = "Received Inventory..."; ##################
 
 //Attributes View
 "AttributesViewNameKey" = "Name"; ############################################
 "AttributesViewGroupKey" = "Group: N/A"; #####################################
 "AttributesAttributesTitleKey" = "Attributes"; ###############################
+"AttributesNoCurrentlyKey" = "No Attributes Currently Available"; ############
+
+//Audio Recorder
+"AudioRecorderTitleKey" = "Enregistreur";
+"BeginRecordingKey" = "Commencer l’Enregistrement";
+"StopRecordingKey" = "Arrêter l’Enregistrement";
+"PlayKey" = "Play";
+"StopKey" = "Stop";
+"UploadKey" = "Télécharger";
+"DiscardKey" = "Écarter";
+"NoAudioHardwareAvailableTitleKey" = "Avertissement";
+"NoAudioHardwareAvailableMessageKey" = "Entrée Audio non disponible";
 
 //AR View
 "ARViewTitleKey" = "Vue AR";
 
+//ARIS App Delegate
+"ARISAppDelegateFectchingGameListsKey" = "Fetching Game Lists..."; ############
+
 //Bogus Game
 "BogusTitleKey" = "Select Another Game"; #####################################
+
+//Camera
+"CameraTitleKey" = "Appareil Photo";
+"CameraLibraryButtonTitleKey" = "Utiliser la Librairie";
+"CameraCameraButtonTitleKey" = "Utiliser l’Appareil Photo";
+"CameraImageTakenKey" = "Image Taken in ARIS."; ########################################
+"CameraGameKey" = "Game"; ##############################################################
+"CameraPlayerKey" = "Player"; ##########################################################
 
 //Comments View
 "CommentsTitleKey" = "Comments"; ##############################################
@@ -61,67 +111,11 @@
 "ForgotEmailSentTitleKey" = "Email Sent"; ##################################################
 "ForgotMessageKey" = "An email has been sent to you containing your password"; #############
 
-//Item Details View
-"ItemDropKey" = "Déposer";
-"ItemDeleteKey" = "Détruire";
-"ItemPickupKey" = "Prendre";
-"ItemDetailKey" = "Détail";
-"ItemDroppedTitleKey" = "Élément déposé";
-"ItemDroppedMessageKey" = "Votre élément a été déposé ici sur la carte pour que d’autres joueurs puissent le voir";
-"ItemDestroyedTitleKey" = "Élément détruit";
-"ItemDestroyedMessageKey" = "Cet élément a été déplacé de votre inventaire et définitivement détruit";
-"ItemDuplicateTitleKey" = "Dupliquer l’Élément";
-"ItemDuplicateMessageKey" = "Tu ne peux plus emporter encore cet objet";
-"ItemPickedUpTitleKey" = "A pris un Élément";
-"ItemPickedUpMessageKey" = "C’est disponible dans votre inventaire";
-
-//Quests View
-"QuestViewTitleKey" = "Questions";
-"QuestsActiveTitleKey" = "Questions Actives";
-
-"QuestsCompleteTitleKey" = "Questions Résolues";
-
-//Map View
-"MapViewTitleKey" = "Carte";
-"MapTypeKey" = "Type de Carte";
-
-//Inventory View
-"InventoryViewTitleKey" = "Inventaire";
-"WeightCapacityKey" = "Weight Capacity";  #############################################
-
-//Title and Description Form
-"TitleAndDescriptionTitleKey" = "Titre";
-"TitleAndDescriptionTitlePrompt" = "Entrer un Titre";
-"TitleAndDescriptionDescriptionPrompt" = "Entrer une Description";
-
-//Camera
-"CameraTitleKey" = "Appareil Photo";
-"CameraLibraryButtonTitleKey" = "Utiliser la Librairie";
-"CameraCameraButtonTitleKey" = "Utiliser l’Appareil Photo";
-"CameraImageTakenKey" = "Image Taken in ARIS."; ########################################
-"CameraGameKey" = "Game"; ##############################################################
-"CameraPlayerKey" = "Player"; ##########################################################
-
-//Audio Recorder
-"AudioRecorderTitleKey" = "Enregistreur";
-"BeginRecordingKey" = "Commencer l’Enregistrement";
-"StopRecordingKey" = "Arrêter l’Enregistrement";
-"PlayKey" = "Play";
-"StopKey" = "Stop";
-"UploadKey" = "Télécharger";
-"DiscardKey" = "Écarter";
-"NoAudioHardwareAvailableTitleKey" = "Avertissement";
-"NoAudioHardwareAvailableMessageKey" = "Entrée Audio non disponible";
-
-//QR Scanner
-"QRScannerTitleKey" = "Décodeur";
-"QRScannerErrorTitleKey" = "Scan Réussi, Mais...";
-"QRScannerErrorMessageKey" = "Ce code ne veut rien dire pour le moment. Tu devrais revenir plus tard";
-"QRScannerDecodingErrorTitleKey" = "Erreur de Décodification";
-"QRScannerDecodingKey" = "Décodage...";
-"QRScannerDecodingErrorMessageKey" = "Essaye encore de scanner le code:Recule de deux pas et tiens l’appareil photo le plus immobile possible";
-"ScanUsingCameraKey" = "Numérisation à l'aide de l'appareil photo";
-"EnterCodeKey" = "Entrez le code manuellement";
+//Game Details View
+"GameDetailsAuthorKey" = "Author(s)"; #########################################
+"DescriptionKey" = "Description"; #############################################
+"RatingKey" = "Rating"; #######################################################
+"GameDetailsPlayNowKey" = "Play Now"; #########################################
 
 //Game Picker
 "GamePickerTitleKey" = "Choisir le Jeu";
@@ -136,17 +130,52 @@
 "DescriptionKey" = "Déscription";
 "MapKey" = "Carte";
 
-//Start Over
-"StartOverTitleKey" = "Recommencer";
-"StartOverKey" = "Recommencer";
-"StartOverWarningKey" = "C’est irréversible";
-"StartOverResetAlertTitleKey" = "Succès";
-"StartOverResetAlertMessageKey" = "Tu as réinitialisé ta progression pour ce jeu";
+//Game Picker Nearby
+"GamePickerNoGamesKey" = "No Games Found"; ####################################
+"GamePickerMakeOneGameKey" = "You should make one at arisgames.org!"; #########
+"GamePickerNearbyGamesKey" = "Nearby Games"; ##################################  
 
-//Logout
-"LogoutTitleKey" = "Logout";
-"LogoutKey" = "Logout";
-"LogoutWarningKey" = "Es-tu certain de vouloir réaliser un Logout?";
+//Game Picker Recent
+"GamePickerRecentTitleKey" = "Recent"; ########################################
+"GamePickeRecentPlayedKey" = "Recently Played Games"; #########################
+"GamePickerRecentReviewsKey" = "reviews"; #####################################
+
+//Game Picker Search
+"GamePickerSearchGamesKey" = "Search for Games"; ##############################
+"GamePickerSearchLoadingMoreKey" = "Loading more results..."; #################
+"GamePickerSearchNoMoreKey" = "No more results"; ##############################
+
+//Inventory View
+"InventoryViewTitleKey" = "Inventaire";
+"InventoryAddedToKey" = "added to inventory"; #################################
+"InventoryNewItemKey" = "New Item"; ###########################################
+"InventoryNewItemMessageKey" = "You have a new Item in your Inventory! Touch below to view your items now."; ####
+"WeightCapacityKey" = "Weight Capacity"; ######################################
+"QuantityKey" = "Quantity"; ###################################################
+"WeightKey" = "Weight"; #######################################################
+
+//Item Action View
+"ItemActionCanCarryKey" = "Can only carry"; ###################################
+"ItemActionOfItemKey" = "of this item"; #######################################
+"ItemAcionCarryThatMuchKey" = "You can't carry that much. Only"; ##############
+"PickedUpKey" = "picked up"; ##################################################
+"ItemAcionCannotPickUpKey" = "This item cannot be picked up."; ################
+"ItemAcionCannotCarryMoreKey" = "You cannot carry any more of this item."; ####
+"ItemAcionTooHeavyKey" = "Too Heavy! Only"; ###################################
+
+//Item Details View
+"ItemDropKey" = "Déposer";
+"ItemDeleteKey" = "Détruire";
+"ItemPickupKey" = "Prendre";
+"ItemDetailKey" = "Détail";
+"ItemDroppedTitleKey" = "Élément déposé";
+"ItemDroppedMessageKey" = "Votre élément a été déposé ici sur la carte pour que d’autres joueurs puissent le voir";
+"ItemDestroyedTitleKey" = "Élément détruit";
+"ItemDestroyedMessageKey" = "Cet élément a été déplacé de votre inventaire et définitivement détruit";
+"ItemDuplicateTitleKey" = "Dupliquer l’Élément";
+"ItemDuplicateMessageKey" = "Tu ne peux plus emporter encore cet objet";
+"ItemPickedUpTitleKey" = "A pris un Élément";
+"ItemPickedUpMessageKey" = "C’est disponible dans votre inventaire";
 
 //Login and
 "LoginTitleKey" = "Login de ARIS";
@@ -162,8 +191,83 @@
 "LastNameKey" = "Nom";
 "CreateAccountKey" = "Créer un Compte d’accès";
 
-//Notebook
-"NotebookTitleKey" = "Notebook";
+//Logout
+"LogoutTitleKey" = "Logout";
+"LogoutKey" = "Logout";
+"LogoutWarningKey" = "Es-tu certain de vouloir réaliser un Logout?";
+
+//Map View
+"MapViewTitleKey" = "Carte";
+"MapTypeKey" = "Type de Carte";
+
+//Notebook View
+"NotebookTitleKey" = "Notebook"; ##############################################
+"NotebookNoNotesKey" = "No Notes"; ############################################
+"NotebooksPressToAddKey" = "Press A Blue Button Above To Add One!"; ###########
+"NotebookCommentsKey" = "comments"; ###########################################
+
+//Note Comment View
+"NoteCommentViewTitleKey" = "Comments"; #######################################
+
+//Note Editor View
+"NoteEditorNoContentAddedKey" = "No Content Added"; ###########################
+"NoteEditorPressButtonsKey" = "Press Buttons Below To Add Some!"; #############
+"NodeEditorNewNoteKey" = "New Note"; ##########################################
+"NoteEditorNotAllowedOneOrMoreMessageKey" = "This game doesn't allow one or more of these sharing options"; #####
+"NoteEditorNotAllowedKey" = "Not Allowed!"; ################################### 
+"NoteEditorNotAllowedSharingToMapMessageKey" = "This game doesn't allow sharing to the map"; ####################
+"NoteEditorListAndMapKey" = "List & Map"; #####################################
+"NoteEditorMapOnlyKey" = "Map Only"; ##########################################
+"NoteEditorNotAllowedSharingToListsMessageKey" = "This game doesn't allow sharing to other people's lists"; #####
+"NoteEditorListOnlyKey" = "List Only"; ########################################
+"NoteEditorCreateNoteFailedKey" = "Create Note Failed"; #######################
+"NoteEditorCreateNoteFailedMessageKey" = "Cannot create a note while offline"; ##################################
 
 //Player Attributes
 "PlayerTitleKey" = "Player";
+
+//QR Scanner
+"QRScannerTitleKey" = "Décodeur";
+"QRScannerErrorTitleKey" = "Scan Réussi, Mais...";
+"QRScannerErrorMessageKey" = "Ce code ne veut rien dire pour le moment. Tu devrais revenir plus tard";
+"QRScannerDecodingErrorTitleKey" = "Erreur de Décodification";
+"QRScannerDecodingKey" = "Décodage...";
+"QRScannerDecodingErrorMessageKey" = "Essaye encore de scanner le code:Recule de deux pas et tiens l’appareil photo le plus immobile possible";
+"ScanUsingCameraKey" = "Numérisation à l'aide de l'appareil photo";
+"EnterCodeKey" = "Entrez le code manuellement";
+
+//Quests View
+"QuestViewTitleKey" = "Questions";
+"QuestsActiveTitleKey" = "Questions Actives";
+"QuestsCompleteTitleKey" = "Questions Résolues";
+"QuestViewNewQuestKey" = "New Quest"; #########################################
+"QuestViewNewQuestMessageKey" = "You have a new Quest! Touch here to see the current and completed quests."; ####
+"QuestsComplete" = "Quests Complete"; #########################################
+
+//Start Over
+"StartOverTitleKey" = "Recommencer";
+"StartOverKey" = "Recommencer";
+"StartOverWarningKey" = "C’est irréversible";
+"StartOverResetAlertTitleKey" = "Succès";
+"StartOverResetAlertMessageKey" = "Tu as réinitialisé ta progression pour ce jeu";
+
+//Tag View
+"TagViewCannotCreateKey" = "Cannot Create New Tag"; ###########################
+"TagViewNoPlayerCreatedTagsKey" = "This game does not allow the use of player created tags!"; ###################
+"TagViewNoGameTagsKey" = "No Game Tags"; ######################################
+"TagViewNoTagsCreatedKey" = "No tags were created for this game"; #############
+"TagViewNoTagsKey" = "No Tags"; ###############################################
+"TagViewNotCreatedKey" = "You haven't created any tags"; ######################
+"TagViewCreateNewTagKey" = "Create a New Tag"; ################################
+
+//Text View
+"TextViewTitleKey" = "Add Text"; ##############################################
+
+//Title and Description Form
+"TitleAndDescriptionTitleKey" = "Titre";
+"TitleAndDescriptionTitlePrompt" = "Entrer un Titre";
+"TitleAndDescriptionDescriptionPrompt" = "Entrer une Description";
+
+//Upload Man
+"UploadManDelayedKey" = "Upload Delayed"; ######################################
+"UploadManDelayedMessageKey" = "This item is over 500Kb. You should connect to a Wifi network to resume the upload."; ##################################################################
