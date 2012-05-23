@@ -1758,6 +1758,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	[AppModel sharedAppModel].gameNoteList = tempNoteList;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
     NSLog(@"DONE Parsing Game Note List");
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GameNoteListRefreshed" object:nil]];
     self.currentlyFetchingGameNoteList = NO;
 	//[tempNoteList release];
 }

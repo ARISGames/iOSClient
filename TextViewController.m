@@ -102,8 +102,9 @@
 }
 -(void)updateContentTouchAction{
     //server call here
+  //  [[AppModel sharedAppModel] noteForNoteId:self.noteId playerListYesGameListNo:true].text = self.textBox.text;
     [[AppServices sharedAppServices]updateNoteContent:self.contentId text:self.textBox.text];
-
+  //  [[AppServices sharedAppServices]fetchPlayerNoteListAsync];
     [self.navigationController popViewControllerAnimated:YES];
     
 }
