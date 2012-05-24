@@ -83,7 +83,6 @@ NSString *const kGameDetailsHtmlTemplate =
 - (void)viewWillAppear:(BOOL)animated {
 	NSLog(@"GameDetails: View Will Appear, Refresh");
 	
-	
 	scrollView.contentSize = CGSizeMake(contentView.frame.size.width,contentView.frame.size.height);
 	
 	NSString *htmlDescription = [NSString stringWithFormat:kGameDetailsHtmlTemplate, self.game.description];
@@ -155,7 +154,7 @@ NSString *const kGameDetailsHtmlTemplate =
 #pragma mark -
 #pragma mark Table view methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 3; //should changed to 4
 }
 
 // Customize the number of rows in the table view.
@@ -170,6 +169,9 @@ NSString *const kGameDetailsHtmlTemplate =
         case 2:
             return 1;
             break;
+     /*   case 3:
+            return 1; //changed
+            break; */
     }
     return 0; //Should never get here
     
@@ -236,8 +238,14 @@ NSString *const kGameDetailsHtmlTemplate =
     }
     else if (indexPath.section == 1 && indexPath.row ==0) {
         cell.textLabel.text = NSLocalizedString(@"GameDetailsPlayNowKey", @"");
+#pragma mark -
+#pragma mark Play Now Button
         cell.textLabel.textAlignment = UITextAlignmentCenter;
     }
+ /*   else if (indexPath.section == 3 && indexPath.row ==0){
+        cell.textLabel.text = NSLocalizedString(@"GameDetailsResetKey", @"");
+        cell.textLabel.textAlignment = UITextAlignmentCenter;
+    } */
     else {
         descriptionIndexPath = [indexPath copy];
         cell.userInteractionEnabled = NO;
