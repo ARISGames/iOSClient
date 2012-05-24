@@ -47,7 +47,7 @@
     self.navigationItem.leftBarButtonItem = backButton;
 	    if(self.editMode){
     
-        self.textBox.text = textToDisplay;
+        self.textBox.text = self.textToDisplay;
         UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"SaveKey", @"" )style:UIBarButtonItemStylePlain target:self action:@selector(updateContentTouchAction)];      
         self.navigationItem.rightBarButtonItem = saveButton;
     }
@@ -82,7 +82,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     if(previewMode){
         self.textBox.userInteractionEnabled = NO;
-        self.textBox.text = textToDisplay;
+        self.textBox.text = self.textToDisplay;
         self.textBox.frame = CGRectMake(0, 0, 320, 367);
 
     }
@@ -102,9 +102,15 @@
 }
 -(void)updateContentTouchAction{
     //server call here
-  //  [[AppModel sharedAppModel] noteForNoteId:self.noteId playerListYesGameListNo:true].text = self.textBox.text;
+   NSMutableArray *noteC = [[AppModel sharedAppModel] noteForNoteId:self.noteId playerListYesGameListNo:YES].contents;
+    for(int i = 0; i < noteC.count; i++){
+        if(((NoteContent *)[noteC objectAtIndex:i]).contentId == self.contentId){
+            NSLog(@"TextViewBefore: %@", ((NoteContent *)[noteC objectAtIndex:i]).text);
+            ((NoteContent *)[noteC objectAtIndex:i]).text = self.textBox.text;
+            NSLog(@"TextViewAfter: %@", ((NoteContent *)[noteC objectAtIndex:i]).text);
+        }
+    }
     [[AppServices sharedAppServices]updateNoteContent:self.contentId text:self.textBox.text];
-  //  [[AppServices sharedAppServices]fetchPlayerNoteListAsync];
     [self.navigationController popViewControllerAnimated:YES];
     
 }
