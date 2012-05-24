@@ -335,54 +335,7 @@ BOOL isShowingNotification;
 }
 
 
-// handle opening ARIS using custom URL of form ARIS://?game=397 
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
-{
-    NSLog(@"ARIS opened from URL");
-    if (!url) {  return NO; }
-    NSLog(@"URL found");
-    
-    // parse URL for game id
-    NSString *gameIDQuery = [[url query] lowercaseString];
-    NSLog(@"gameIDQuery = %@",gameIDQuery);
-    
-    if (!gameIDQuery) {return NO;}
-    NSRange equalsSignRange = [gameIDQuery rangeOfString: @"game=" ];
-    if (equalsSignRange.length == 0) {return NO;}
-    int equalsSignIndex = equalsSignRange.location;
-    NSString *gameID = [gameIDQuery substringFromIndex: equalsSignIndex+equalsSignRange.length];
-    NSLog(@"gameID=: %@",gameID);
-    
-    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-    [dispatcher addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"NewGameListReady" object:nil];
-    [[AppServices sharedAppServices] fetchOneGame:[gameID intValue]];
-    
-    return YES;
-}
 
-- (void) handleOpenURLGamesListReady {
-    NSLog(@"game opened");
-    
-    //unregister for notifications
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-    Game *selectedGame = [[[AppModel sharedAppModel] gameList] objectAtIndex:0];	
-    GameDetails *gameDetailsVC = [[GameDetails alloc]initWithNibName:@"GameDetails" bundle:nil];
-    gameDetailsVC.game = selectedGame;
-    
-    // show gameSelectionTabBarController
-    self.tabBarController.view.hidden = YES;
-    self.loginViewController.view.hidden = YES;
-    self.gameSelectionTabBarController.view.hidden = NO;
-    
-    NSLog(@"gameID= %i",selectedGame.gameId);
-    NSLog(@"game= %@",selectedGame.name);
-    NSLog(@"gameDetailsVC nib name = %@",gameDetailsVC.nibName); 
-    
-    // Push Game Detail View Controller
-    [(UINavigationController*)self.gameSelectionTabBarController.selectedViewController pushViewController:gameDetailsVC animated:YES];  
-    
-}
 
  
 
@@ -881,7 +834,68 @@ BOOL isShowingNotification;
 	NSLog(@"%@", text);
 }
 
+// handle opening ARIS using custom URL of form ARIS://?game=397 
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    NSLog(@"ARIS opened from URL");
+    if (!url) {  return NO; }
+    NSLog(@"URL found");
+    
+    // parse URL for game id
+    /*NSString *gameIDQuery = [[url query] lowercaseString];
+    NSLog(@"gameIDQuery = %@",gameIDQuery);
+    
+    if (!gameIDQuery) {return NO;}
+    NSRange equalsSignRange = [gameIDQuery rangeOfString: @"game=" ];
+    if (equalsSignRange.length == 0) {return NO;}
+    int equalsSignIndex = equalsSignRange.location;
+    NSString *gameID = [gameIDQuery substringFromIndex: equalsSignIndex+equalsSignRange.length];
+    NSLog(@"gameID=: %@",gameID);*/
+    
+    // parse URL for game id
 
+    // check that path is ARIS://games/
+    NSString *strPath = [[url host] lowercaseString];
+    NSLog(@"Path: %@", strPath);
+    
+    if ([strPath isEqualToString:@"games"] || [strPath isEqualToString:@"game"]) {
+        
+        // get GameID
+        NSString *gameID = [url lastPathComponent];
+        NSLog(@"gameID=: %@",gameID);
+        
+        
+        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+        [dispatcher addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"NewGameListReady" object:nil];
+        [[AppServices sharedAppServices] fetchOneGame:[gameID intValue]];
+    }
+    
+    return YES;
+}
+
+- (void) handleOpenURLGamesListReady {
+    NSLog(@"game opened");
+    
+    //unregister for notifications
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    Game *selectedGame = [[[AppModel sharedAppModel] gameList] objectAtIndex:0];	
+    GameDetails *gameDetailsVC = [[GameDetails alloc]initWithNibName:@"GameDetails" bundle:nil];
+    gameDetailsVC.game = selectedGame;
+    
+    // show gameSelectionTabBarController
+    self.tabBarController.view.hidden = YES;
+    self.loginViewController.view.hidden = YES;
+    self.gameSelectionTabBarController.view.hidden = NO;
+    
+    NSLog(@"gameID= %i",selectedGame.gameId);
+    NSLog(@"game= %@",selectedGame.name);
+    NSLog(@"gameDetailsVC nib name = %@",gameDetailsVC.nibName); 
+    
+    // Push Game Detail View Controller
+    [(UINavigationController*)self.gameSelectionTabBarController.selectedViewController pushViewController:gameDetailsVC animated:YES];  
+    
+}
 
 #pragma mark AlertView Delegate Methods
 
