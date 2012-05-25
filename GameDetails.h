@@ -18,7 +18,6 @@
                                         UITextViewDelegate,  UIWebViewDelegate>{
 	Game *game; 
     IBOutlet UITableView *tableView;
-    
     IBOutlet UIWebView *descriptionWebView;
 	IBOutlet UILabel *titleLabel;
 	IBOutlet UILabel *descriptionLabel;

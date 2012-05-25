@@ -274,6 +274,38 @@ NSString *const kARISServerServicePackage = @"v1";
     
 }
 
+- (void)startOverGame:(int)gameId{
+	NSLog(@"Model: Start Over");
+    NSLog(@"%d", gameId);
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	
+    [appDelegate displayIntroNode];
+    
+    [self resetAllPlayerLists];
+    
+    [self resetAllGameLists];
+    
+    [appDelegate.tutorialViewController dismissAllTutorials];
+    
+    
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects:
+						  [NSString stringWithFormat:@"%d", gameId],
+						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]
+                                      initWithServer:[AppModel sharedAppModel].serverURL
+                                      andServiceName:@"players"
+                                      andMethodName:@"startOverGameForPlayer"
+                                      andArguments:arguments 
+                                      andUserInfo:nil];
+	[jsonConnection performAsynchronousRequestWithHandler:
+     @selector(parseStartOverFromJSON:)]; 
+    
+//    [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] returnToHomeView];
+    
+}
+
 
 - (void)updateServerPickupItem: (int)itemId fromLocation: (int)locationId qty:(int)qty{
 	NSLog(@"Model: Informing the Server the player picked up item");

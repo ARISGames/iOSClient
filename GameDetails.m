@@ -154,7 +154,7 @@ NSString *const kGameDetailsHtmlTemplate =
 #pragma mark -
 #pragma mark Table view methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3; //should changed to 4
+    return 4; //should changed to 4
 }
 
 // Customize the number of rows in the table view.
@@ -169,9 +169,9 @@ NSString *const kGameDetailsHtmlTemplate =
         case 2:
             return 1;
             break;
-     /*   case 3:
+        case 3:
             return 1; //changed
-            break; */
+            break; 
     }
     return 0; //Should never get here
     
@@ -242,10 +242,10 @@ NSString *const kGameDetailsHtmlTemplate =
 #pragma mark Play Now Button
         cell.textLabel.textAlignment = UITextAlignmentCenter;
     }
- /*   else if (indexPath.section == 3 && indexPath.row ==0){
+    else if (indexPath.section == 3 && indexPath.row ==0){
         cell.textLabel.text = NSLocalizedString(@"GameDetailsResetKey", @"");
         cell.textLabel.textAlignment = UITextAlignmentCenter;
-    } */
+    } 
     else {
         descriptionIndexPath = [indexPath copy];
         cell.userInteractionEnabled = NO;
@@ -263,6 +263,7 @@ NSString *const kGameDetailsHtmlTemplate =
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 1 && indexPath.row ==0) cell.backgroundColor = [UIColor colorWithRed:182/255.0 green:230/255.0 blue:154/255.0 alpha:1.0];
+    else if (indexPath.section == 3 && indexPath.row ==0) cell.backgroundColor = [UIColor colorWithRed:230/255.0 green:153/255.0 blue:181/255.0 alpha:1.0];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -279,6 +280,27 @@ NSString *const kGameDetailsHtmlTemplate =
         NSNotification *gameSelectNotification = [NSNotification notificationWithName:@"SelectGame" object:self userInfo:dictionary];
         [[NSNotificationCenter defaultCenter] postNotification:gameSelectNotification];
         [self.navigationController popViewControllerAnimated:NO];
+    }
+    else if  (indexPath.section == 3 && indexPath.row == 0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"GameDetailsResetTitleKey", nil) message:NSLocalizedString(@"GameDetailsResetMessageKey", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"CancelKey", @"") otherButtonTitles: NSLocalizedString(@"OkKey", @""), nil];
+        [alert show];	
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	NSString *title = [alertView title];
+    NSLog(@"%@", title);
+    
+    if([title isEqualToString:NSLocalizedString(@"GameDetailsResetTitleKey", nil)]) {
+    if (buttonIndex == 1) {
+		NSLog(@"user pressed OK");
+        NSLog(@"%d", self.game.gameId);
+     //   [AppModel sharedAppModel].currentGame = self.game; May be necessary
+        [[AppServices sharedAppServices] startOverGame:self.game.gameId];
+	}
+	else {
+		NSLog(@"user pressed Cancel");
+	}
     }
 }
 

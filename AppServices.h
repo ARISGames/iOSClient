@@ -135,6 +135,7 @@ extern NSString *const kARISServerServicePackage;
 - (void)updateServerDestroyItem: (int)itemId qty:(int)qty;
 - (void)updateNoteWithNoteId:(int)noteId title:(NSString *) title publicToMap:(BOOL)publicToMap publicToList:(BOOL)publicToList;
 - (void)startOverGame;
+- (void)startOverGame:(int)gameId;
 - (void)silenceNextServerUpdate;
 
 - (void)registerNewUser:(NSString*)userName password:(NSString*)pass 
