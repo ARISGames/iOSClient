@@ -270,6 +270,7 @@ NSString *const kGameDetailsHtmlTemplate =
     if (indexPath.section == 1 && indexPath.row == 1) {
         commentsViewController *commentsVC = [[commentsViewController alloc]initWithNibName:@"commentsView" bundle:nil];
         commentsVC.game = self.game;
+        [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:NO];
         [self.navigationController pushViewController:commentsVC animated:YES];
     }
     else if  (indexPath.section == 1 && indexPath.row == 0) {
@@ -284,6 +285,7 @@ NSString *const kGameDetailsHtmlTemplate =
     else if  (indexPath.section == 3 && indexPath.row == 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"GameDetailsResetTitleKey", nil) message:NSLocalizedString(@"GameDetailsResetMessageKey", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"CancelKey", @"") otherButtonTitles: NSLocalizedString(@"OkKey", @""), nil];
         [alert show];	
+        [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:NO];
     }
 }
 
@@ -295,7 +297,6 @@ NSString *const kGameDetailsHtmlTemplate =
     if (buttonIndex == 1) {
 		NSLog(@"user pressed OK");
         NSLog(@"%d", self.game.gameId);
-     //   [AppModel sharedAppModel].currentGame = self.game; May be necessary
         [[AppServices sharedAppServices] startOverGame:self.game.gameId];
 	}
 	else {

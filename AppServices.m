@@ -268,7 +268,7 @@ NSString *const kARISServerServicePackage = @"v1";
                                       andArguments:arguments 
                                       andUserInfo:nil];
 	[jsonConnection performAsynchronousRequestWithHandler:
-     @selector(parseStartOverFromJSON:)]; 
+     @selector(parseStartOverFromJSONTemp:)]; 
     
     [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] returnToHomeView];
     
@@ -277,16 +277,10 @@ NSString *const kARISServerServicePackage = @"v1";
 - (void)startOverGame:(int)gameId{
 	NSLog(@"Model: Start Over");
     NSLog(@"%d", gameId);
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	
-    [appDelegate displayIntroNode];
     
     [self resetAllPlayerLists];
     
     [self resetAllGameLists];
-    
-    [appDelegate.tutorialViewController dismissAllTutorials];
-    
     
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects:
@@ -301,9 +295,6 @@ NSString *const kARISServerServicePackage = @"v1";
                                       andUserInfo:nil];
 	[jsonConnection performAsynchronousRequestWithHandler:
      @selector(parseStartOverFromJSON:)]; 
-    
-//    [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] returnToHomeView];
-    
 }
 
 
@@ -2507,7 +2498,12 @@ NSString *const kARISServerServicePackage = @"v1";
 -(void)parseStartOverFromJSON:(JSONResult *)jsonResult{
 	NSLog(@"AppModel: Parsing start over result and firing off fetches");
 	[self silenceNextServerUpdate];
-	[self fetchAllPlayerLists];
+}
+
+-(void)parseStartOverFromJSONTemp:(JSONResult *)jsonResult{
+	NSLog(@"AppModel: Parsing start over result and firing off fetches");
+	[self silenceNextServerUpdate];
+    [self fetchAllPlayerLists];
 }
 
 
