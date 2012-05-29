@@ -36,6 +36,7 @@
 	int totalQuests;
 	int numReviews;
     int calculatedScore;
+    BOOL hasBeenPlayed;
     BOOL isLocational;
     BOOL allowsPlayerTags;
     BOOL allowShareNoteToMap;
@@ -67,6 +68,7 @@
 @property(readwrite, assign) int activeQuests;
 @property(readwrite, assign) int totalQuests;
 @property(readwrite, assign) int numReviews;
+@property (readwrite) BOOL hasBeenPlayed;
 @property (readwrite) BOOL isLocational;
 @property (readwrite) BOOL allowsPlayerTags;
 @property (readwrite) BOOL allowShareNoteToMap;

@@ -154,7 +154,10 @@ NSString *const kGameDetailsHtmlTemplate =
 #pragma mark -
 #pragma mark Table view methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 4; //should changed to 4
+    if(self.game.hasBeenPlayed){
+    return 4;
+    }
+    return 3; //should changed to 4
 }
 
 // Customize the number of rows in the table view.
@@ -237,9 +240,12 @@ NSString *const kGameDetailsHtmlTemplate =
         
     }
     else if (indexPath.section == 1 && indexPath.row ==0) {
-        cell.textLabel.text = NSLocalizedString(@"GameDetailsPlayNowKey", @"");
-#pragma mark -
-#pragma mark Play Now Button
+        if(self.game.hasBeenPlayed){
+        cell.textLabel.text = NSLocalizedString(@"GameDetailsResumeKey", @"");
+        }
+        else{
+        cell.textLabel.text = NSLocalizedString(@"GameDetailsNewGameKey", @""); 
+        }
         cell.textLabel.textAlignment = UITextAlignmentCenter;
     }
     else if (indexPath.section == 3 && indexPath.row ==0){
@@ -298,6 +304,8 @@ NSString *const kGameDetailsHtmlTemplate =
 		NSLog(@"user pressed OK");
         NSLog(@"%d", self.game.gameId);
         [[AppServices sharedAppServices] startOverGame:self.game.gameId];
+        self.game.hasBeenPlayed = NO;
+        [tableView reloadData];
 	}
 	else {
 		NSLog(@"user pressed Cancel");

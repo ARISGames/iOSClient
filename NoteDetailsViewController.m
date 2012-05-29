@@ -1,5 +1,5 @@
 //
-//  DataCollectionViewController.m
+//  NoteDetailsViewController.m
 //  ARIS
 //
 //  Created by Brian Thiel on 8/12/11.

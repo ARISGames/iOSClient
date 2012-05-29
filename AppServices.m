@@ -1897,6 +1897,10 @@ NSString *const kARISServerServicePackage = @"v1";
     game.gameId = [[gameSource valueForKey:@"game_id"] intValue];
     //NSLog(@"AppModel: Parsing Game: %d", game.gameId);		
     
+    NSString *hasBeenPlayed = [gameSource valueForKey:@"has_been_played"];
+    if ((NSNull *)hasBeenPlayed != [NSNull null]) game.hasBeenPlayed = [hasBeenPlayed boolValue];
+    else game.hasBeenPlayed = NO;
+    
     game.name = [gameSource valueForKey:@"name"];
     if ((NSNull *)game.name == [NSNull null]) game.name = @"";
     

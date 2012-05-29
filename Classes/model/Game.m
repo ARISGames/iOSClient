@@ -13,6 +13,7 @@
 @implementation Game
 
 @synthesize gameId;
+@synthesize hasBeenPlayed;
 @synthesize inventoryWeightCap;
 @synthesize name;
 @synthesize description;
