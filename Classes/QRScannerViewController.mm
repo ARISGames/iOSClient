@@ -48,7 +48,7 @@
 	imageMatchingImagePickerController = [[UIImagePickerController alloc] init];
 	self.imageMatchingImagePickerController.delegate = self;
 	
-    cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonTouch)];      
+    cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"CancelKey",@"") style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonTouch)];      
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
 		self.qrScanButton.enabled = YES;
 		self.qrScanButton.alpha = 1.0;

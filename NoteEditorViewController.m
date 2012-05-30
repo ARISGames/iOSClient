@@ -350,7 +350,7 @@ if(([note.title length] == 0)) note.title = NSLocalizedString(@"NodeEditorNewNot
             self.sharingLabel.text = NSLocalizedString(@"NoteEditorListOnlyKey", @""); 
               }
             else{
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"NoteEditorNotAllowedKey", @"") message: NSLocalizedString(@"NoteEditorNotAllowedSharingToListsMessageKey", @"") delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NoteEditorNotAllowedKey", @"") message: NSLocalizedString(@"NoteEditorNotAllowedSharingToListsMessageKey", @"") delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
                 
                 [alert show];
             }

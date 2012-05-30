@@ -57,7 +57,7 @@ static float INITIAL_SPAN = 0.001;
 	[mapView setDelegate:self];
 	[self.view addSubview:mapView];
 	NSLog(@"DropOnMapViewController: Mapview inited and added to view");
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"DoneKey", @"")
                                                                    style: UIBarButtonItemStyleDone
                                                                   target:self 
                                                                   action:@selector(backButtonTouchAction:)];

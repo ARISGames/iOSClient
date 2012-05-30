@@ -168,7 +168,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     else itemWebView.hidden = YES;
     if([self.item.type isEqualToString: @"NOTE"])
     {
-        UIBarButtonItem *hideKeyboardButton = [[UIBarButtonItem alloc] initWithTitle:@"Hide Keyboard" style:UIBarButtonItemStylePlain target:self action:@selector(hideKeyboard)];      
+        UIBarButtonItem *hideKeyboardButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"HideKeyboardKey", @"") style:UIBarButtonItemStylePlain target:self action:@selector(hideKeyboard)];      
         self.navigationItem.rightBarButtonItem = hideKeyboardButton;
         saveButton.frame = CGRectMake(0, 335, 320, 37);
         textBox.text = item.description;
@@ -181,7 +181,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         }
     }
     else if (self.item.creatorId == [AppModel sharedAppModel].playerId) {
-        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(editButtonPressed)];
+        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"EditKey", @"") style:UIBarButtonItemStylePlain target:self action:@selector(editButtonPressed)];
         self.navigationItem.rightBarButtonItem = editButton;
     }
 
