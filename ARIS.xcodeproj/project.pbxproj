@@ -363,6 +363,8 @@
 		D43717DF106D62BB0020C515 /* Media.m in Sources */ = {isa = PBXBuildFile; fileRef = D43717DE106D62BB0020C515 /* Media.m */; };
 		D4D366DF111B6789009C4D00 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D366DE111B6789009C4D00 /* CFNetwork.framework */; };
 		D4DE6B8B110A00D7008BFE38 /* defaultCharacter.png in Resources */ = {isa = PBXBuildFile; fileRef = D4DE6B8A110A00D7008BFE38 /* defaultCharacter.png */; };
+		DBD381761576C00C0071BD18 /* 213-reply.png in Resources */ = {isa = PBXBuildFile; fileRef = DBD381751576C00C0071BD18 /* 213-reply.png */; };
+		DBD381781576C01E0071BD18 /* 213-reply@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DBD381771576C01E0071BD18 /* 213-reply@2x.png */; };
 		DBE78692156C034800A1E2ED /* About Stacks.lpdf in Resources */ = {isa = PBXBuildFile; fileRef = DBE78673156C034700A1E2ED /* About Stacks.lpdf */; };
 		DBE78693156C034800A1E2ED /* _2acceltest.ino in Resources */ = {isa = PBXBuildFile; fileRef = DBE78676156C034700A1E2ED /* _2acceltest.ino */; };
 		DBE78694156C034800A1E2ED /* Barman_Game.ino in Resources */ = {isa = PBXBuildFile; fileRef = DBE78678156C034700A1E2ED /* Barman_Game.ino */; };
@@ -953,6 +955,8 @@
 		D43717DE106D62BB0020C515 /* Media.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Media.m; sourceTree = "<group>"; };
 		D4D366DE111B6789009C4D00 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		D4DE6B8A110A00D7008BFE38 /* defaultCharacter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultCharacter.png; sourceTree = "<group>"; };
+		DBD381751576C00C0071BD18 /* 213-reply.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "213-reply.png"; path = "../../../Dropbox/ARIS files/GlyphishPro Icons/icons/icons-gray/213-reply.png"; sourceTree = "<group>"; };
+		DBD381771576C01E0071BD18 /* 213-reply@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "213-reply@2x.png"; path = "../../../Dropbox/ARIS files/GlyphishPro Icons/icons/icons-gray/213-reply@2x.png"; sourceTree = "<group>"; };
 		DBE78673156C034700A1E2ED /* About Stacks.lpdf */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "About Stacks.lpdf"; sourceTree = "<group>"; };
 		DBE78676156C034700A1E2ED /* _2acceltest.ino */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _2acceltest.ino; sourceTree = "<group>"; };
 		DBE78678156C034700A1E2ED /* Barman_Game.ino */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Barman_Game.ino; sourceTree = "<group>"; };
@@ -1461,6 +1465,8 @@
 		A7986D640F8FEBFA00A5469F /* Game Picker */ = {
 			isa = PBXGroup;
 			children = (
+				DBD381771576C01E0071BD18 /* 213-reply@2x.png */,
+				DBD381751576C00C0071BD18 /* 213-reply.png */,
 				ABB60F1F139F2E0E00EEDA08 /* Game Comments */,
 				AB994443139EBD0C00C0878B /* RatingView */,
 				ABB60F1E139F2DDC00EEDA08 /* Game Details */,
@@ -2443,6 +2449,8 @@
 				DBE7869E156C034800A1E2ED /* Polished_Choose_Video.ino in Resources */,
 				DBE7869F156C034800A1E2ED /* Potentiometer_Test.ino in Resources */,
 				DBE786A0156C034800A1E2ED /* Time_Test.ino in Resources */,
+				DBD381761576C00C0071BD18 /* 213-reply.png in Resources */,
+				DBD381781576C01E0071BD18 /* 213-reply@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -18,7 +18,7 @@
     if (self) {
         // Custom initialization
         self.title = NSLocalizedString(@"BogusTitleKey", @"");
-        self.tabBarItem.image = [UIImage imageNamed:@"game.png"];
+        self.tabBarItem.image = [UIImage imageNamed:@"213-reply.png"];
     }
     return self;
 }
