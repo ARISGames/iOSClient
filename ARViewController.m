@@ -52,9 +52,7 @@
 	self.cameraController = [[UIImagePickerController alloc] init];
 	self.cameraController.sourceType = UIImagePickerControllerSourceTypeCamera;
 	
-	self.cameraController.cameraViewTransform = CGAffineTransformScale(self.cameraController.cameraViewTransform,
-																	   1.13f,
-																	   1.13f);
+	self.cameraController.cameraViewTransform = CGAffineTransformScale(self.cameraController.cameraViewTransform,1.13f,1.13f);
 	
 	self.cameraController.showsCameraControls = NO;
 	self.cameraController.navigationBarHidden = YES;

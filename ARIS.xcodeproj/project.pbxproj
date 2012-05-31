@@ -62,7 +62,6 @@
 		11A96CF413FB1DBA0020EFC5 /* Tab.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A96CF313FB1DB90020EFC5 /* Tab.m */; };
 		11B1222D14BDFA37002583AD /* NoteContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 11B1222B14BDFA37002583AD /* NoteContentCell.m */; };
 		11B1222E14BDFA37002583AD /* NoteContentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11B1222C14BDFA37002583AD /* NoteContentCell.xib */; };
-		11B28B9614C4909700759BCD /* CustomAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 11B28B9514C4909700759BCD /* CustomAudioPlayer.m */; };
 		11B28B9914C4A49600759BCD /* stop_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 11B28B9714C4A49500759BCD /* stop_button.png */; };
 		11B28B9A14C4A49600759BCD /* play.png in Resources */ = {isa = PBXBuildFile; fileRef = 11B28B9814C4A49600759BCD /* play.png */; };
 		11B28B9D14C4AD1700759BCD /* Tag.m in Sources */ = {isa = PBXBuildFile; fileRef = 11B28B9C14C4AD1700759BCD /* Tag.m */; };
@@ -490,8 +489,6 @@
 		11B1222A14BDFA37002583AD /* NoteContentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteContentCell.h; sourceTree = "<group>"; };
 		11B1222B14BDFA37002583AD /* NoteContentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteContentCell.m; sourceTree = "<group>"; };
 		11B1222C14BDFA37002583AD /* NoteContentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteContentCell.xib; sourceTree = "<group>"; };
-		11B28B9414C4909700759BCD /* CustomAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAudioPlayer.h; sourceTree = "<group>"; };
-		11B28B9514C4909700759BCD /* CustomAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAudioPlayer.m; sourceTree = "<group>"; };
 		11B28B9714C4A49500759BCD /* stop_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stop_button.png; sourceTree = "<group>"; };
 		11B28B9814C4A49600759BCD /* play.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = play.png; sourceTree = "<group>"; };
 		11B28B9B14C4AD1700759BCD /* Tag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tag.h; sourceTree = "<group>"; };
@@ -1219,8 +1216,6 @@
 		11DD3D4913F5AAE80051AB76 /* Note Details Viewer */ = {
 			isa = PBXGroup;
 			children = (
-				11B28B9414C4909700759BCD /* CustomAudioPlayer.h */,
-				11B28B9514C4909700759BCD /* CustomAudioPlayer.m */,
 				11DD3D4A13F5AB430051AB76 /* NoteDetailsViewController.h */,
 				11DD3D4B13F5AB430051AB76 /* NoteDetailsViewController.m */,
 				11DD3D4C13F5AB430051AB76 /* NoteDetailsViewController.xib */,
@@ -2630,7 +2625,6 @@
 				11566433144A414D006902C2 /* ChangePasswordViewController.m in Sources */,
 				111CFA9314520EC700D56207 /* ForgotViewController.m in Sources */,
 				11B1222D14BDFA37002583AD /* NoteContentCell.m in Sources */,
-				11B28B9614C4909700759BCD /* CustomAudioPlayer.m in Sources */,
 				11B28B9D14C4AD1700759BCD /* Tag.m in Sources */,
 				1176F2A914C5EF0900EA4512 /* TagViewController.m in Sources */,
 				1176F2AE14C5F2B800EA4512 /* TagCell.m in Sources */,

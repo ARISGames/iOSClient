@@ -82,11 +82,9 @@
 	NSLog(@"Camera Button Pressed");
     picker = [[UIImagePickerController alloc]init];
     picker.delegate = self;
-picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:picker.sourceType];
-    
-        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-    
-		picker.allowsEditing = NO;
+    picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:picker.sourceType];
+    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    picker.allowsEditing = NO;
 	picker.showsCameraControls = YES;
 	[self presentModalViewController:picker animated:NO];
 }
@@ -140,11 +138,18 @@ picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pi
 	
 	if ([mediaType isEqualToString:@"public.image"]){
         
-        
+        // Get metaData For Raw Image
+        NSMutableDictionary *newMetadata = [[NSMutableDictionary alloc] initWithDictionary:[info objectForKey:UIImagePickerControllerMediaMetadata]];
         UIImage* image = [info objectForKey:UIImagePickerControllerOriginalImage];
-        //if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];             
-		NSLog(@"CameraViewController: Found an Image");
+        //if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage]; 
+        id orientation = [newMetadata objectForKey:@"Orientation"];
+        NSInteger orientationNumber = [orientation integerValue];
+        if(orientationNumber == 1 || orientationNumber == 3){
+        image = [image scaleToSize:CGSizeMake(960, 640)];
+        }
+        else{
         image = [image scaleToSize:CGSizeMake(640, 960)];
+        }
 		self.mediaData = UIImageJPEGRepresentation(image, 0.4);
         self.mediaFilename = [NSString stringWithFormat:@"%@image.jpg",[NSDate date]];
         
@@ -152,10 +157,6 @@ picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pi
         NSString *newFilePath =[NSTemporaryDirectory() stringByAppendingString: [NSString stringWithFormat:@"%@image.jpg",[NSDate date]]];
         
         NSURL *imageURL = [[NSURL alloc] initFileURLWithPath: newFilePath];
-        
-                       
-        // Get metaData For Raw Image
-        NSMutableDictionary *newMetadata = [[NSMutableDictionary alloc] initWithDictionary:[info objectForKey:UIImagePickerControllerMediaMetadata]];
         
         // Add current GPS location data to metaData
         CLLocation * location = [AppModel sharedAppModel].playerLocation;   

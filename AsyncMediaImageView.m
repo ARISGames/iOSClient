@@ -128,6 +128,8 @@
     self.media = aMedia;
     self.image = nil;
     
+    self.contentMode = UIViewContentModeScaleAspectFit;
+    
 	if(self.isLoading){
         NSLog(@"AsyncImageView: loadImageFromMedia: Already loading another request...returning");
         // [self.connection release];

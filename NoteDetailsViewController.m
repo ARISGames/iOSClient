@@ -221,7 +221,6 @@
         else if([content.getType isEqualToString:kNoteContentTypePhoto]){
             
             AsyncMediaImageView *controller = [[AsyncMediaImageView alloc] initWithFrame:frame andMedia:content.getMedia];
-            controller.contentMode = UIViewContentModeScaleAspectFit; //CHANGED FROM FILL TO FIT
             [scrollView addSubview:controller];
             
         }

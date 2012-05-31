@@ -624,7 +624,6 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
         else if([noteC.getType isEqualToString:kNoteContentTypePhoto]){
             //view photo
             ImageViewer *controller = [[ImageViewer alloc] initWithNibName:@"ImageViewer" bundle:nil];
-            
             controller.media = noteC.getMedia;
             [UIView beginAnimations:nil context:NULL];
             [UIView setAnimationDuration:.5];
