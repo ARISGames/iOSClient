@@ -27,7 +27,6 @@
 #import "ARViewViewControler.h"
 #import "QRScannerViewController.h"
 #import "LogoutViewController.h"
-#import "StartOverViewController.h"
 #import "DeveloperViewController.h"
 #import "WaitingIndicatorViewController.h"
 #import "WaitingIndicatorView.h"
