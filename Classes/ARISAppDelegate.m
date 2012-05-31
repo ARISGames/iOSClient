@@ -607,12 +607,13 @@ BOOL isShowingNotification;
 
 //Play a sound
 - (void) playAudio:(NSString*)wavFileName {
-    
 	NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:wavFileName ofType:@"wav"]];
     NSLog(@"Appdelegate: Playing Audio: %@", url);
+  //  [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];	
+ //   [[AVAudioSession sharedInstance] setActive: YES error: nil];
     NSError* err;
     AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithContentsOfURL: url error:&err];
-    
+  //  [player prepareToPlay];
     if( err ){
         NSLog(@"Appdelegate: Playing Audio: Failed with reason: %@", [err localizedDescription]);
     }
