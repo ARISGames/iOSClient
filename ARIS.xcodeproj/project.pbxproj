@@ -260,6 +260,8 @@
 		AB549EE31047007B00A901EF /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AB549EDC1047007B00A901EF /* SBJsonParser.m */; };
 		AB549EE41047007B00A901EF /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = AB549EDE1047007B00A901EF /* SBJsonWriter.m */; };
 		AB54A0BA1047301E00A901EF /* JSONResult.m in Sources */ = {isa = PBXBuildFile; fileRef = AB54A0B91047301E00A901EF /* JSONResult.m */; };
+		AB628B871578322500557BB1 /* 213-reply.png in Resources */ = {isa = PBXBuildFile; fileRef = AB628B851578322500557BB1 /* 213-reply.png */; };
+		AB628B881578322500557BB1 /* 213-reply@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB628B861578322500557BB1 /* 213-reply@2x.png */; };
 		AB628D13139ECCD500769663 /* CommentsFormCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AB628D11139ECCD500769663 /* CommentsFormCell.m */; };
 		AB628D14139ECCD500769663 /* CommentsFormCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AB628D12139ECCD500769663 /* CommentsFormCell.xib */; };
 		AB628D1B139ED1C700769663 /* star-halfselected.png in Resources */ = {isa = PBXBuildFile; fileRef = AB628D15139ED1C700769663 /* star-halfselected.png */; };
@@ -358,23 +360,6 @@
 		D43717DF106D62BB0020C515 /* Media.m in Sources */ = {isa = PBXBuildFile; fileRef = D43717DE106D62BB0020C515 /* Media.m */; };
 		D4D366DF111B6789009C4D00 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D366DE111B6789009C4D00 /* CFNetwork.framework */; };
 		D4DE6B8B110A00D7008BFE38 /* defaultCharacter.png in Resources */ = {isa = PBXBuildFile; fileRef = D4DE6B8A110A00D7008BFE38 /* defaultCharacter.png */; };
-		DBD381761576C00C0071BD18 /* 213-reply.png in Resources */ = {isa = PBXBuildFile; fileRef = DBD381751576C00C0071BD18 /* 213-reply.png */; };
-		DBD381781576C01E0071BD18 /* 213-reply@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DBD381771576C01E0071BD18 /* 213-reply@2x.png */; };
-		DBE78692156C034800A1E2ED /* About Stacks.lpdf in Resources */ = {isa = PBXBuildFile; fileRef = DBE78673156C034700A1E2ED /* About Stacks.lpdf */; };
-		DBE78693156C034800A1E2ED /* _2acceltest.ino in Resources */ = {isa = PBXBuildFile; fileRef = DBE78676156C034700A1E2ED /* _2acceltest.ino */; };
-		DBE78694156C034800A1E2ED /* Barman_Game.ino in Resources */ = {isa = PBXBuildFile; fileRef = DBE78678156C034700A1E2ED /* Barman_Game.ino */; };
-		DBE78695156C034800A1E2ED /* Choose_Video.ino in Resources */ = {isa = PBXBuildFile; fileRef = DBE7867A156C034700A1E2ED /* Choose_Video.ino */; };
-		DBE78696156C034800A1E2ED /* Choose_Video_Basic.ino in Resources */ = {isa = PBXBuildFile; fileRef = DBE7867C156C034700A1E2ED /* Choose_Video_Basic.ino */; };
-		DBE78697156C034800A1E2ED /* choose_video_minimalist.ino in Resources */ = {isa = PBXBuildFile; fileRef = DBE7867E156C034700A1E2ED /* choose_video_minimalist.ino */; };
-		DBE78698156C034800A1E2ED /* Drill_Game.ino in Resources */ = {isa = PBXBuildFile; fileRef = DBE78680156C034700A1E2ED /* Drill_Game.ino */; };
-		DBE78699156C034800A1E2ED /* Dynamite_Game.ino in Resources */ = {isa = PBXBuildFile; fileRef = DBE78682156C034800A1E2ED /* Dynamite_Game.ino */; };
-		DBE7869A156C034800A1E2ED /* EEPROM_Read.ino in Resources */ = {isa = PBXBuildFile; fileRef = DBE78684156C034800A1E2ED /* EEPROM_Read.ino */; };
-		DBE7869B156C034800A1E2ED /* GivenTest.ino in Resources */ = {isa = PBXBuildFile; fileRef = DBE78686156C034800A1E2ED /* GivenTest.ino */; };
-		DBE7869C156C034800A1E2ED /* MHSGamesCombined.ino in Resources */ = {isa = PBXBuildFile; fileRef = DBE78688156C034800A1E2ED /* MHSGamesCombined.ino */; };
-		DBE7869D156C034800A1E2ED /* MHSGamesCombined2accelNEW.ino in Resources */ = {isa = PBXBuildFile; fileRef = DBE7868A156C034800A1E2ED /* MHSGamesCombined2accelNEW.ino */; };
-		DBE7869E156C034800A1E2ED /* Polished_Choose_Video.ino in Resources */ = {isa = PBXBuildFile; fileRef = DBE7868C156C034800A1E2ED /* Polished_Choose_Video.ino */; };
-		DBE7869F156C034800A1E2ED /* Potentiometer_Test.ino in Resources */ = {isa = PBXBuildFile; fileRef = DBE7868E156C034800A1E2ED /* Potentiometer_Test.ino */; };
-		DBE786A0156C034800A1E2ED /* Time_Test.ino in Resources */ = {isa = PBXBuildFile; fileRef = DBE78690156C034800A1E2ED /* Time_Test.ino */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -812,6 +797,8 @@
 		AB549EDE1047007B00A901EF /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		AB54A0B81047301E00A901EF /* JSONResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONResult.h; sourceTree = "<group>"; };
 		AB54A0B91047301E00A901EF /* JSONResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONResult.m; sourceTree = "<group>"; };
+		AB628B851578322500557BB1 /* 213-reply.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "213-reply.png"; sourceTree = "<group>"; };
+		AB628B861578322500557BB1 /* 213-reply@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "213-reply@2x.png"; sourceTree = "<group>"; };
 		AB628D10139ECCD500769663 /* CommentsFormCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentsFormCell.h; sourceTree = "<group>"; };
 		AB628D11139ECCD500769663 /* CommentsFormCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentsFormCell.m; sourceTree = "<group>"; };
 		AB628D12139ECCD500769663 /* CommentsFormCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentsFormCell.xib; sourceTree = "<group>"; };
@@ -943,23 +930,6 @@
 		D43717DE106D62BB0020C515 /* Media.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Media.m; sourceTree = "<group>"; };
 		D4D366DE111B6789009C4D00 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		D4DE6B8A110A00D7008BFE38 /* defaultCharacter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultCharacter.png; sourceTree = "<group>"; };
-		DBD381751576C00C0071BD18 /* 213-reply.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "213-reply.png"; path = "../../../Dropbox/ARIS files/GlyphishPro Icons/icons/icons-gray/213-reply.png"; sourceTree = "<group>"; };
-		DBD381771576C01E0071BD18 /* 213-reply@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "213-reply@2x.png"; path = "../../../Dropbox/ARIS files/GlyphishPro Icons/icons/icons-gray/213-reply@2x.png"; sourceTree = "<group>"; };
-		DBE78673156C034700A1E2ED /* About Stacks.lpdf */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "About Stacks.lpdf"; sourceTree = "<group>"; };
-		DBE78676156C034700A1E2ED /* _2acceltest.ino */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = _2acceltest.ino; sourceTree = "<group>"; };
-		DBE78678156C034700A1E2ED /* Barman_Game.ino */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Barman_Game.ino; sourceTree = "<group>"; };
-		DBE7867A156C034700A1E2ED /* Choose_Video.ino */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Choose_Video.ino; sourceTree = "<group>"; };
-		DBE7867C156C034700A1E2ED /* Choose_Video_Basic.ino */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Choose_Video_Basic.ino; sourceTree = "<group>"; };
-		DBE7867E156C034700A1E2ED /* choose_video_minimalist.ino */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = choose_video_minimalist.ino; sourceTree = "<group>"; };
-		DBE78680156C034700A1E2ED /* Drill_Game.ino */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Drill_Game.ino; sourceTree = "<group>"; };
-		DBE78682156C034800A1E2ED /* Dynamite_Game.ino */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Dynamite_Game.ino; sourceTree = "<group>"; };
-		DBE78684156C034800A1E2ED /* EEPROM_Read.ino */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EEPROM_Read.ino; sourceTree = "<group>"; };
-		DBE78686156C034800A1E2ED /* GivenTest.ino */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = GivenTest.ino; sourceTree = "<group>"; };
-		DBE78688156C034800A1E2ED /* MHSGamesCombined.ino */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MHSGamesCombined.ino; sourceTree = "<group>"; };
-		DBE7868A156C034800A1E2ED /* MHSGamesCombined2accelNEW.ino */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MHSGamesCombined2accelNEW.ino; sourceTree = "<group>"; };
-		DBE7868C156C034800A1E2ED /* Polished_Choose_Video.ino */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Polished_Choose_Video.ino; sourceTree = "<group>"; };
-		DBE7868E156C034800A1E2ED /* Potentiometer_Test.ino */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Potentiometer_Test.ino; sourceTree = "<group>"; };
-		DBE78690156C034800A1E2ED /* Time_Test.ino */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Time_Test.ino; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1298,7 +1268,6 @@
 				ABAFBAC9145A0B8D0044491C /* GPX Locations */,
 				AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */,
 				AB0A5BA3120365420065CE68 /* Localizable.strings */,
-				DBE78671156C034700A1E2ED /* Documents */,
 				A7149F9C0FB89DC8008BAB5D /* Settings.bundle */,
 				A7986D6A0F8FEC7200A5469F /* Core App */,
 				A760473F0FC0AA1E00219A53 /* NearbyObjects */,
@@ -1450,8 +1419,8 @@
 		A7986D640F8FEBFA00A5469F /* Game Picker */ = {
 			isa = PBXGroup;
 			children = (
-				DBD381771576C01E0071BD18 /* 213-reply@2x.png */,
-				DBD381751576C00C0071BD18 /* 213-reply.png */,
+				AB628B851578322500557BB1 /* 213-reply.png */,
+				AB628B861578322500557BB1 /* 213-reply@2x.png */,
 				ABB60F1F139F2E0E00EEDA08 /* Game Comments */,
 				AB994443139EBD0C00C0878B /* RatingView */,
 				ABB60F1E139F2DDC00EEDA08 /* Game Details */,
@@ -1995,149 +1964,6 @@
 			name = "NPC Dialog";
 			sourceTree = "<group>";
 		};
-		DBE78671156C034700A1E2ED /* Documents */ = {
-			isa = PBXGroup;
-			children = (
-				DBE78673156C034700A1E2ED /* About Stacks.lpdf */,
-				DBE78674156C034700A1E2ED /* Arduino */,
-			);
-			name = Documents;
-			path = ../../../Documents;
-			sourceTree = "<group>";
-		};
-		DBE78674156C034700A1E2ED /* Arduino */ = {
-			isa = PBXGroup;
-			children = (
-				DBE78675156C034700A1E2ED /* _2acceltest */,
-				DBE78677156C034700A1E2ED /* Barman_Game */,
-				DBE78679156C034700A1E2ED /* Choose_Video */,
-				DBE7867B156C034700A1E2ED /* Choose_Video_Basic */,
-				DBE7867D156C034700A1E2ED /* choose_video_minimalist */,
-				DBE7867F156C034700A1E2ED /* Drill_Game */,
-				DBE78681156C034700A1E2ED /* Dynamite_Game */,
-				DBE78683156C034800A1E2ED /* EEPROM_Read */,
-				DBE78685156C034800A1E2ED /* GivenTest */,
-				DBE78687156C034800A1E2ED /* MHSGamesCombined */,
-				DBE78689156C034800A1E2ED /* MHSGamesCombined2accelNEW */,
-				DBE7868B156C034800A1E2ED /* Polished_Choose_Video */,
-				DBE7868D156C034800A1E2ED /* Potentiometer_Test */,
-				DBE7868F156C034800A1E2ED /* Time_Test */,
-			);
-			path = Arduino;
-			sourceTree = "<group>";
-		};
-		DBE78675156C034700A1E2ED /* _2acceltest */ = {
-			isa = PBXGroup;
-			children = (
-				DBE78676156C034700A1E2ED /* _2acceltest.ino */,
-			);
-			path = _2acceltest;
-			sourceTree = "<group>";
-		};
-		DBE78677156C034700A1E2ED /* Barman_Game */ = {
-			isa = PBXGroup;
-			children = (
-				DBE78678156C034700A1E2ED /* Barman_Game.ino */,
-			);
-			path = Barman_Game;
-			sourceTree = "<group>";
-		};
-		DBE78679156C034700A1E2ED /* Choose_Video */ = {
-			isa = PBXGroup;
-			children = (
-				DBE7867A156C034700A1E2ED /* Choose_Video.ino */,
-			);
-			path = Choose_Video;
-			sourceTree = "<group>";
-		};
-		DBE7867B156C034700A1E2ED /* Choose_Video_Basic */ = {
-			isa = PBXGroup;
-			children = (
-				DBE7867C156C034700A1E2ED /* Choose_Video_Basic.ino */,
-			);
-			path = Choose_Video_Basic;
-			sourceTree = "<group>";
-		};
-		DBE7867D156C034700A1E2ED /* choose_video_minimalist */ = {
-			isa = PBXGroup;
-			children = (
-				DBE7867E156C034700A1E2ED /* choose_video_minimalist.ino */,
-			);
-			path = choose_video_minimalist;
-			sourceTree = "<group>";
-		};
-		DBE7867F156C034700A1E2ED /* Drill_Game */ = {
-			isa = PBXGroup;
-			children = (
-				DBE78680156C034700A1E2ED /* Drill_Game.ino */,
-			);
-			path = Drill_Game;
-			sourceTree = "<group>";
-		};
-		DBE78681156C034700A1E2ED /* Dynamite_Game */ = {
-			isa = PBXGroup;
-			children = (
-				DBE78682156C034800A1E2ED /* Dynamite_Game.ino */,
-			);
-			path = Dynamite_Game;
-			sourceTree = "<group>";
-		};
-		DBE78683156C034800A1E2ED /* EEPROM_Read */ = {
-			isa = PBXGroup;
-			children = (
-				DBE78684156C034800A1E2ED /* EEPROM_Read.ino */,
-			);
-			path = EEPROM_Read;
-			sourceTree = "<group>";
-		};
-		DBE78685156C034800A1E2ED /* GivenTest */ = {
-			isa = PBXGroup;
-			children = (
-				DBE78686156C034800A1E2ED /* GivenTest.ino */,
-			);
-			path = GivenTest;
-			sourceTree = "<group>";
-		};
-		DBE78687156C034800A1E2ED /* MHSGamesCombined */ = {
-			isa = PBXGroup;
-			children = (
-				DBE78688156C034800A1E2ED /* MHSGamesCombined.ino */,
-			);
-			path = MHSGamesCombined;
-			sourceTree = "<group>";
-		};
-		DBE78689156C034800A1E2ED /* MHSGamesCombined2accelNEW */ = {
-			isa = PBXGroup;
-			children = (
-				DBE7868A156C034800A1E2ED /* MHSGamesCombined2accelNEW.ino */,
-			);
-			path = MHSGamesCombined2accelNEW;
-			sourceTree = "<group>";
-		};
-		DBE7868B156C034800A1E2ED /* Polished_Choose_Video */ = {
-			isa = PBXGroup;
-			children = (
-				DBE7868C156C034800A1E2ED /* Polished_Choose_Video.ino */,
-			);
-			path = Polished_Choose_Video;
-			sourceTree = "<group>";
-		};
-		DBE7868D156C034800A1E2ED /* Potentiometer_Test */ = {
-			isa = PBXGroup;
-			children = (
-				DBE7868E156C034800A1E2ED /* Potentiometer_Test.ino */,
-			);
-			path = Potentiometer_Test;
-			sourceTree = "<group>";
-		};
-		DBE7868F156C034800A1E2ED /* Time_Test */ = {
-			isa = PBXGroup;
-			children = (
-				DBE78690156C034800A1E2ED /* Time_Test.ino */,
-			);
-			path = Time_Test;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2404,23 +2230,8 @@
 				AB35E079155C729200430AF7 /* 123-id-card@2x.png in Resources */,
 				AB35E07C155C73AB00430AF7 /* 117-todo.png in Resources */,
 				AB35E07D155C73AB00430AF7 /* 117-todo@2x.png in Resources */,
-				DBE78692156C034800A1E2ED /* About Stacks.lpdf in Resources */,
-				DBE78693156C034800A1E2ED /* _2acceltest.ino in Resources */,
-				DBE78694156C034800A1E2ED /* Barman_Game.ino in Resources */,
-				DBE78695156C034800A1E2ED /* Choose_Video.ino in Resources */,
-				DBE78696156C034800A1E2ED /* Choose_Video_Basic.ino in Resources */,
-				DBE78697156C034800A1E2ED /* choose_video_minimalist.ino in Resources */,
-				DBE78698156C034800A1E2ED /* Drill_Game.ino in Resources */,
-				DBE78699156C034800A1E2ED /* Dynamite_Game.ino in Resources */,
-				DBE7869A156C034800A1E2ED /* EEPROM_Read.ino in Resources */,
-				DBE7869B156C034800A1E2ED /* GivenTest.ino in Resources */,
-				DBE7869C156C034800A1E2ED /* MHSGamesCombined.ino in Resources */,
-				DBE7869D156C034800A1E2ED /* MHSGamesCombined2accelNEW.ino in Resources */,
-				DBE7869E156C034800A1E2ED /* Polished_Choose_Video.ino in Resources */,
-				DBE7869F156C034800A1E2ED /* Potentiometer_Test.ino in Resources */,
-				DBE786A0156C034800A1E2ED /* Time_Test.ino in Resources */,
-				DBD381761576C00C0071BD18 /* 213-reply.png in Resources */,
-				DBD381781576C01E0071BD18 /* 213-reply@2x.png in Resources */,
+				AB628B871578322500557BB1 /* 213-reply.png in Resources */,
+				AB628B881578322500557BB1 /* 213-reply@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
