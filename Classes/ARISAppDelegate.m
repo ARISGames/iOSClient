@@ -22,6 +22,7 @@
 NSString *errorMessage, *errorDetail;
 
 BOOL isShowingNotification;
+
 @implementation ARISAppDelegate
 
 @synthesize window;
@@ -38,6 +39,7 @@ BOOL isShowingNotification;
 @synthesize titleLabel,descLabel,notifArray,tabShowY;
 @synthesize pubClient;
 @synthesize privClient,loadingVC;
+@synthesize player;
 
 
 //@synthesize toolbarViewController;
@@ -609,17 +611,23 @@ BOOL isShowingNotification;
 - (void) playAudio:(NSString*)wavFileName {
 	NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:wavFileName ofType:@"wav"]];
     NSLog(@"Appdelegate: Playing Audio: %@", url);
-  //  [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];	
- //   [[AVAudioSession sharedInstance] setActive: YES error: nil];
+    [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];	
+    [[AVAudioSession sharedInstance] setActive: YES error: nil];
     NSError* err;
-    AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithContentsOfURL: url error:&err];
-  //  [player prepareToPlay];
+    self.player = [[AVAudioPlayer alloc] initWithContentsOfURL: url error:&err];
+    [self.player setDelegate: self];
     if( err ){
         NSLog(@"Appdelegate: Playing Audio: Failed with reason: %@", [err localizedDescription]);
     }
     else{
-        [player play];
+        [self.player play];
     }
+}
+
+- (void) audioPlayerDidFinishPlaying: (AVAudioPlayer *) player
+                        successfully: (BOOL) flag {
+    NSLog(@"Appdelegate: Audio is done playing");
+    [[AVAudioSession sharedInstance] setActive: NO error: nil];
 }
 
 //Vibrate

@@ -255,7 +255,6 @@
 	
 }
 
-
 - (IBAction) uploadButtonAction: (id) sender{
 	self.audioData = [NSData dataWithContentsOfURL:soundFileURL];
 	self.soundRecorder = nil;
@@ -322,7 +321,8 @@
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
 	NSLog(@"audioPlayerDidFinishPlaying");
-	
+	[[AVAudioSession sharedInstance] setActive: NO error: nil];
+    
 	soundPlayer = nil;
 	
 	mode = kAudioRecorderRecordingComplete;
