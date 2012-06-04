@@ -47,13 +47,13 @@
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(clearGameLists) name:@"NewGameSelected" object:nil];
 	}
-			 
+    
     return self;
 }
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-
+    
     
 }
 
@@ -63,13 +63,13 @@
 -(void)loadUserDefaults {
 	NSLog(@"Model: Loading User Defaults");
 	[defaults synchronize];
-
+    
 	//Load the base App URL
 	NSString *baseServerString = [defaults stringForKey:@"baseServerString"];
     NSURL *currServ = [NSURL URLWithString: baseServerString ];
-   
+    
     self.showPlayerOnMap = [defaults boolForKey:@"showPlayerOnMap"];
-    if(!loggedIn &&(self.showGamesInDevelopment == [defaults boolForKey:@"showGamesInDevelopment"])&&(!(![currServ isEqual:self.serverURL] || (self.serverURL == nil)))) {
+    if(!loggedIn && (self.showGamesInDevelopment == [defaults boolForKey:@"showGamesInDevelopment"]) && [currServ isEqual:self.serverURL] && (self.serverURL != nil)) {
         self.userName = [defaults objectForKey:@"userName"];
         self.playerId = [defaults integerForKey:@"playerId"];
     }
@@ -79,7 +79,7 @@
         [[NSNotificationCenter defaultCenter] postNotification:logoutRequestNotification];
     }
     if (![currServ isEqual:self.serverURL] && (self.serverURL != nil)) {
-    [[AppModel sharedAppModel].mediaCache clearCache];
+        [[AppModel sharedAppModel].mediaCache clearCache];
     }
     
     //Old versions of the server URL are depricated. Migrate to the new version
@@ -97,14 +97,14 @@
         NSNotification *logoutRequestNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self];
         [[NSNotificationCenter defaultCenter] postNotification:logoutRequestNotification];
     }
-
+    
     
     self.serverURL = [NSURL URLWithString: baseServerString ];
     if(self.showGamesInDevelopment != [defaults boolForKey:@"showGamesInDevelopment"])
     {
-    self.showGamesInDevelopment = [defaults boolForKey:@"showGamesInDevelopment"];
-    NSNotification *logoutRequestNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self];
-    [[NSNotificationCenter defaultCenter] postNotification:logoutRequestNotification];
+        self.showGamesInDevelopment = [defaults boolForKey:@"showGamesInDevelopment"];
+        NSNotification *logoutRequestNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self];
+        [[NSNotificationCenter defaultCenter] postNotification:logoutRequestNotification];
     }
     
 	if ([defaults boolForKey:@"resetTutorial"]) {
@@ -117,7 +117,7 @@
 		[defaults setBool:hasSeenMapTabTutorial forKey:@"hasSeenMapTabTutorial"];
 		[defaults setBool:hasSeenInventoryTabTutorial forKey:@"hasSeenInventoryTabTutorial"];
 		[defaults setBool:NO forKey:@"resetTutorial"];
-
+        
 	}
 	else {
 		self.hasSeenNearbyTabTutorial = [defaults boolForKey:@"hasSeenNearbyTabTutorial"];
@@ -125,7 +125,7 @@
 		self.hasSeenMapTabTutorial = [defaults boolForKey:@"hasSeenMapTabTutorial"];
 		self.hasSeenInventoryTabTutorial = [defaults boolForKey:@"hasSeenInventoryTabTutorial"];
 	}
-
+    
 }
 
 -(void)clearGameLists{
@@ -145,7 +145,7 @@
 	[AppModel sharedAppModel].currentGame.gameId = 0;
     [AppModel sharedAppModel].playerId = 0;
     [defaults setInteger:playerId forKey:@"playerId"];
-
+    
 	[defaults synchronize];		
 }
 
@@ -154,7 +154,7 @@
 	
 	[defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"appVerison"];
 	[defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBuildNumber"] forKey:@"buildNum"];
-
+    
 	[defaults setBool:hasSeenNearbyTabTutorial forKey:@"hasSeenNearbyTabTutorial"];
 	[defaults setBool:hasSeenQuestsTabTutorial forKey:@"hasSeenQuestsTabTutorial"];
 	[defaults setBool:hasSeenMapTabTutorial forKey:@"hasSeenMapTabTutorial"];
@@ -162,7 +162,7 @@
     [defaults setValue:userName forKey:@"userName"];
     [defaults setInteger:playerId forKey:@"playerId"];
 	[defaults synchronize];		
-
+    
 }
 
 -(void)saveCOREData {
@@ -209,7 +209,7 @@
 		{
 			showPlayerOnMapDefault = [prefItem objectForKey:@"DefaultValue"];
 		}
-
+        
 		//More defaults would go here
 	}
 	
@@ -217,7 +217,7 @@
 	NSDictionary *appDefaults = [NSDictionary dictionaryWithObjectsAndKeys: 
 								 baseAppURLDefault,  @"baseServerString",
                                  showGamesInDevelopmentDefault , @"showGamesInDevelopment",
-                                 showPlayerOnMapDefault,@"showPlayerOnMapDefault",
+                                 showPlayerOnMapDefault,@"showPlayerOnMap",
 								 nil];
 	
 	[[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
@@ -225,7 +225,7 @@
     
     uploadManager = [[UploadMan alloc]init];
     mediaCache = [[MediaCache alloc]init];
-
+    
 }
 
 #pragma mark Seters/Geters
@@ -263,7 +263,7 @@
 -(void)removeItemFromInventory:(Item*)item qtyToRemove:(int)qty {
 	NSLog(@"AppModel: removing an item from the local inventory");
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-
+    
 	item.qty -=qty; 
 	if (item.qty < 1) [self.inventory removeObjectForKey:[NSString stringWithFormat:@"%d",item.itemId]];
     
@@ -273,13 +273,13 @@
     
     [appDelegate.notifArray addObject:dict];
     [appDelegate showNotifications];
-
- //   [appDelegate performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
-
+    
+    //   [appDelegate performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
+    
     
 	NSNotification *notification = [NSNotification notificationWithName:@"NewInventoryReady" object:nil];
 	[[NSNotificationCenter defaultCenter] postNotification:notification];
-
+    
 }
 
 -(void)addItemToInventory: (Item*)item {
@@ -290,21 +290,21 @@
 	[[NSNotificationCenter defaultCenter] postNotification:notification];
     //[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ItemRecievedNotification" object:nil]];
     //self.itemPrompt = item;
-
+    
 }
 
 -(Media *)mediaForMediaId: (int)mId {
-/*	Media *media = [self.gameMediaList objectForKey:[NSNumber numberWithInt:mId]];
-	
-	if (!media) {
-		//Let's pause everything and do a lookup
-		NSLog(@"AppModel: Media: %d not found in cached media List, refresh",mId);
-		[[AppServices sharedAppServices] fetchGameMediaListAsynchronously:NO];
-		
-		media = [self.gameMediaList objectForKey:[NSNumber numberWithInt:mId]];
-		if (media) NSLog(@"AppModel: Media found after refresh");
-		else NSLog(@"AppModel: Media: %d still NOT found after refresh",mId);
-	}*/
+    /*	Media *media = [self.gameMediaList objectForKey:[NSNumber numberWithInt:mId]];
+     
+     if (!media) {
+     //Let's pause everything and do a lookup
+     NSLog(@"AppModel: Media: %d not found in cached media List, refresh",mId);
+     [[AppServices sharedAppServices] fetchGameMediaListAsynchronously:NO];
+     
+     media = [self.gameMediaList objectForKey:[NSNumber numberWithInt:mId]];
+     if (media) NSLog(@"AppModel: Media found after refresh");
+     else NSLog(@"AppModel: Media: %d still NOT found after refresh",mId);
+     }*/
 	return [mediaCache mediaForMediaId:mId];
 }
 
@@ -343,7 +343,7 @@
 - (Note *)noteForNoteId:(int)mId playerListYesGameListNo:(BOOL)playerorGame{
 	Note *note;
     if(!playerorGame)
-    note= [self.gameNoteList objectForKey:[NSNumber numberWithInt:mId]];
+        note= [self.gameNoteList objectForKey:[NSNumber numberWithInt:mId]];
 	else
         note= [self.playerNoteList objectForKey:[NSNumber numberWithInt:mId]];
     
@@ -354,15 +354,15 @@
         if(!playerorGame){
             [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
             //note= [[AppServices sharedAppServices]fetchNote:mId];
-
+            
         }
         else{
             [[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:YES];
             //note= [[AppServices sharedAppServices]fetchNote:mId];
-
-        }
             
-            if (note) NSLog(@"AppModel: Note found after refresh");
+        }
+        
+        if (note) NSLog(@"AppModel: Note found after refresh");
 		else NSLog(@"AppModel: Note still NOT found after refresh");
 	}
 	return note;
@@ -372,12 +372,12 @@
 	WebPage *page = [self.gameWebPageList objectForKey:[NSNumber numberWithInt:mId]];
 	
 	if (!page) {
-
+        
 		
 		[[AppServices sharedAppServices] fetchGameWebpageListAsynchronously:NO];
 		
 		page = [self.gameWebPageList objectForKey:[NSNumber numberWithInt:mId]];
-
+        
 	}
 	return page;
 }
@@ -395,7 +395,7 @@
         
 	}
 	return pan;
-
+    
 }
 
 -(Item *)itemForItemId: (int)mId {
@@ -444,8 +444,8 @@
     managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];    
     return managedObjectModel;
 }/**
- Returns the path to the application's Documents directory.
- */
+  Returns the path to the application's Documents directory.
+  */
 - (NSString *)applicationDocumentsDirectory {
 	return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 }
@@ -462,7 +462,7 @@
 	
     NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"UploadContent.sqlite"]];
     NSError *error = nil;
-
+    
     NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
                              [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];

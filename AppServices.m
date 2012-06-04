@@ -44,10 +44,8 @@ NSString *const kARISServerServicePackage = @"v1";
                                                              andServiceName: @"players" 
                                                               andMethodName:@"loginPlayer"
                                                                andArguments:arguments
-                                                                andUserInfo:nil]; 
-    
+                                                                andUserInfo:nil];
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseLoginResponseFromJSON:)]; 
-	
 }
 -(void)setShowPlayerOnMap{
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].playerId],[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].showPlayerOnMap], nil];
