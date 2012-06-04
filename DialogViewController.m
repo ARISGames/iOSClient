@@ -535,7 +535,12 @@ NSString *const kDialogHtmlTemplate =
 	UIScrollView *characterImageScrollView;
 	
 	BOOL isCurrentlyDisplayed;
+    
 	cachedScene = aScene;
+    
+    // if no media id is specified for the scene, default to the current NPC's image
+    if (cachedScene.imageMediaId == 0)
+        cachedScene.imageMediaId = currentNpc.mediaId; 
 	
     characterView = aScene.isPc ? pcView : npcView;
 	characterWebView = aScene.isPc ? pcWebView : npcWebView;
@@ -603,6 +608,7 @@ NSString *const kDialogHtmlTemplate =
 		currentCharacterImageScrollView = npcImageScrollView;		
 
 		continueButton = npcContinueButton;
+        NSLog(@"ImageMediaID:%i",cachedScene.imageMediaId);
 		[self loadNPCImage:cachedScene.imageMediaId];
 		cachedScrollView = npcImage;
 
