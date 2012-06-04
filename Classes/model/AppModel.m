@@ -474,6 +474,4 @@
     return persistentStoreCoordinator;
 }
 
-
-
 @end

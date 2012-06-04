@@ -28,6 +28,7 @@
     
     ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
     [appDelegate tabBarController].selectedIndex = 0;
+    [appDelegate hideNotifications];
     [appDelegate showGameSelectionTabBarAndHideOthers];
 }
 
