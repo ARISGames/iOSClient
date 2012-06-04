@@ -182,46 +182,56 @@
             [self.editView setNoteChanged:YES];
         }
             
-        // Save image with metadata to photo album
-        ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
-        __block NSDate *date = [NSDate date];
-        [al writeImageDataToSavedPhotosAlbum:self.mediaData metadata:newMetadata completionBlock:^(NSURL *assetURL, NSError *error) {
-            NSLog(@"Saving Time: %g", [[NSDate date] timeIntervalSinceDate:date]);
-            NSLog(@"assert url: %@", assetURL);
-            
-            // once image is saved, get asset from assetURL
-            [al assetForURL:assetURL resultBlock:^(ALAsset *asset) {
-                if (asset) {
-                    // save image to temporary directory to be able to upload it
-                    ALAssetRepresentation *rep = [asset defaultRepresentation];
-                    CGImageRef iref = [rep fullResolutionImage];
-                    UIImage *image = [UIImage imageWithCGImage:iref];
-                    NSData *imageData = UIImagePNGRepresentation(image);
+        // If image not selected from camera roll, save image with metadata to camera roll
+        if ([info objectForKey:UIImagePickerControllerReferenceURL] == NULL) {
+            ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
+            __block NSDate *date = [NSDate date];
+            [al writeImageDataToSavedPhotosAlbum:self.mediaData metadata:newMetadata completionBlock:^(NSURL *assetURL, NSError *error) {
+                NSLog(@"Saving Time: %g", [[NSDate date] timeIntervalSinceDate:date]);
+                NSLog(@"assert url: %@", assetURL);
+                
+                // once image is saved, get asset from assetURL
+                [al assetForURL:assetURL resultBlock:^(ALAsset *asset) {
+                    if (asset) {
+                        // save image to temporary directory to be able to upload it
+                        ALAssetRepresentation *rep = [asset defaultRepresentation];
+                        CGImageRef iref = [rep fullResolutionImage];
+                        UIImage *image = [UIImage imageWithCGImage:iref];
+                        NSData *imageData = UIImagePNGRepresentation(image);
+                        
+                        NSString *newFilePath =[NSTemporaryDirectory() stringByAppendingString: [NSString stringWithFormat:@"%@image.jpg",[NSDate date]]];
+                        
+                        NSURL *imageURL = [[NSURL alloc] initFileURLWithPath: newFilePath];
+                        
+                        [imageData writeToURL:imageURL atomically:YES];
+                        
+                        [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:kNoteContentTypePhoto withFileURL:imageURL];
+                        
+                        
+                        // Finished uploading.  Refresh Note Editor View
+                        if([self.editView isKindOfClass:[NoteEditorViewController class]])
+                            [self.editView refreshViewFromModel];
+                        
+                        
+                    } else {
+                        
+                    }
+                } failureBlock:^(NSError *error) {
                     
-                    NSString *newFilePath =[NSTemporaryDirectory() stringByAppendingString: [NSString stringWithFormat:@"%@image.jpg",[NSDate date]]];
-                    
-                    NSURL *imageURL = [[NSURL alloc] initFileURLWithPath: newFilePath];
-                    
-                    [imageData writeToURL:imageURL atomically:YES];
-                    
-                    [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:kNoteContentTypePhoto withFileURL:imageURL];
-                    
-                    
-                    // Finished uploading.  Refresh Note Editor View
-                    if([self.editView isKindOfClass:[NoteEditorViewController class]])
-                        [self.editView refreshViewFromModel];
-                    
-                    
-                } else {
-                    
-                }
-            } failureBlock:^(NSError *error) {
+                }];
+                
                 
             }];
+        } else {
+            // image from camera roll
+            [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:kNoteContentTypePhoto withFileURL:imageURL];
             
             
-        }];
-            
+            // Finished uploading.  Refresh Note Editor View
+            if([self.editView isKindOfClass:[NoteEditorViewController class]])
+                [self.editView refreshViewFromModel];
+        }
+                                                                                                                                                                             
         
         
 	}	
