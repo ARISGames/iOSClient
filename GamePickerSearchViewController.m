@@ -52,31 +52,19 @@
     self.refreshButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh)];
     
     self.navigationItem.rightBarButtonItem = self.refreshButton;
-    [self refresh];
-     [self.theSearchBar becomeFirstResponder]; //Bring up the keyboard right away
+  //  [self refresh];
+    [self.theSearchBar becomeFirstResponder]; //Bring up the keyboard right away
 	NSLog(@"SearchVC: View Loaded");
 }
 
 - (void)viewDidAppear:(BOOL)animated {
 	NSLog(@"SearchVC: View Appeared");	
-    
+    [self refresh];
     //Clear the List
     //self.gameList = [NSArray array];
     [gameTable reloadData];
 
     [super viewDidAppear:animated];
-}
-
--(void)refresh {
-	NSLog(@"SearchVC: Refresh Requested");
-    
-    //register for notifications
-    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-    [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
-    [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
-    [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
-   
-	[self showLoadingIndicator];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -98,6 +86,10 @@
 	[[self navigationItem] setRightBarButtonItem:self.refreshButton];
 }
 
+-(void)refresh{
+    self.currentPage = 0;
+    [self performSearch:self.searchText];
+}
 
 - (void)refreshViewFromModel {
 	NSLog(@"SearchVC: Refresh View from Model");
@@ -305,11 +297,22 @@
 
 - (void)performSearch:(NSString *)text
 {
+    if(self.searchText != nil && self.searchText != @""){
     [[AppServices sharedAppServices] fetchGameListBySearch: [text stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding] onPage: self.currentPage];
     NSLog(@"URL encoded search string: %@ on page %d", [text stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding], self.currentPage);
     self.currentlyFetchingNextPage = YES;
     self.allResultsFound = NO;
-	[self refresh];
+    
+    NSLog(@"SearchVC: Refresh Requested");
+    
+    //register for notifications
+    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+    [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
+    [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
+    [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
+    
+	[self showLoadingIndicator];
+    }
 }
 
 // We call this when we want to activate/deactivate the UISearchBar
