@@ -92,6 +92,7 @@
         self.commentButton.image = nil;
         self.commentLabel.hidden = YES;
     }
+    
 }
 -(void)backButtonTouch{
     NSLog(@"NoteDetialsViewController: backButtonTouch");
@@ -108,7 +109,9 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     NSLog(@"NoteDetailsView ViewWillAppear");
-
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;  
+    self.scrollView.frame = self.navigationController.view.frame;
+    
     [self addUploadsToNote];
     
     self.commentLabel.text = [NSString stringWithFormat:@"%d",[self.note.comments count]];
@@ -177,6 +180,8 @@
     
 }
 -(void)showComments{
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;  
+
     NoteCommentViewController *noteCommentVC = [[NoteCommentViewController alloc]initWithNibName:@"NoteCommentViewController" bundle:nil];
     noteCommentVC.parentNote = self.note;
     noteCommentVC.delegate = self;
@@ -233,6 +238,10 @@
             
         }
     }
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;  
 }
 -(void)viewDidDisappear:(BOOL)animated{
     while([[self.scrollView subviews]count]>0)[[self.scrollView.subviews objectAtIndex:0]removeFromSuperview];
