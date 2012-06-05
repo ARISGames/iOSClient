@@ -667,7 +667,8 @@ NSString *const kARISServerServicePackage = @"v1";
                                                               andArguments:arguments 
                                                                andUserInfo:nil];
     //[AppModel sharedAppModel].isGameNoteList = NO;
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)]; 
+	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchPlayerNoteListAsync)];
+    [self fetchAllPlayerLists];
 }
 
 - (void)uploadNoteContentDidFail:(ARISUploader *)uploader {
