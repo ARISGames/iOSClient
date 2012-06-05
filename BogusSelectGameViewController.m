@@ -9,7 +9,6 @@
 #import "BogusSelectGameViewController.h"
 #import "ARISAppDelegate.h"
 
-
 @implementation BogusSelectGameViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -19,22 +18,18 @@
         // Custom initialization
         self.title = NSLocalizedString(@"BogusTitleKey", @"");
         self.tabBarItem.image = [UIImage imageNamed:@"213-reply.png"];
+        self.view.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewGameSelected" object:nil]];
     
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-    [appDelegate tabBarController].selectedIndex = 0;
-    [appDelegate hideNotifications];
-    [appDelegate showGameSelectionTabBarAndHideOthers];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
-    [self.navigationController popToRootViewControllerAnimated:NO];
-
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
+    [appDelegate showGameSelectionTabBarAndHideOthers];
 }
 
 

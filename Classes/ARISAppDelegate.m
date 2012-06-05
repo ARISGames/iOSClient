@@ -420,13 +420,12 @@ BOOL isShowingNotification;
     CGContextRef context = UIGraphicsGetCurrentContext();
     [UIView beginAnimations:nil context:context];
     [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:window cache:YES];
+    self.tabBarController.selectedIndex = 0;
+    [self hideNotifications];
     self.tabBarController.view.hidden = YES;
     self.gameSelectionTabBarController.view.hidden = NO;
     self.loginViewNavigationController.view.hidden = YES;
     [UIView commitAnimations];
-    
-    
-    [self returnToHomeView];
 
 }
 
@@ -778,14 +777,7 @@ BOOL isShowingNotification;
     for(int x = 0; x < [[AppModel sharedAppModel].defaultGameTabList count];x++){
         
         tempNav = (UINavigationController *)[[AppModel sharedAppModel].defaultGameTabList objectAtIndex:x];
-        if([tmpTab.tabName isEqualToString:NSLocalizedString(@"GamePickerTitleKey",@"")]){
-            BogusSelectGameViewController *bogusSelectGameViewController = [[BogusSelectGameViewController alloc] init];
-            newCustomVC = [newCustomVC arrayByAddingObject:bogusSelectGameViewController];
-            //[bogusSelectGameViewController release];
-            break;
-        }
-
-        if([tempNav.navigationItem.title isEqualToString:tmpTab.tabName]) newCustomVC = [newCustomVC arrayByAddingObject:tempNav];
+        if([tempNav.navigationItem.title isEqualToString:tmpTab.tabName])newCustomVC = [newCustomVC arrayByAddingObject:tempNav];
             }
     }
 
