@@ -19,9 +19,9 @@
 @dynamic noteId;
 
 /*
-Through we provide a public NSURL interface, the underlying persistant store
-is an NSString.
-*/
+ Through we provide a public NSURL interface, the underlying persistant store
+ is an NSString.
+ */
 - (NSURL *)fileURL 
 {
     NSString * tmpValue;
@@ -37,11 +37,11 @@ is an NSString.
     [self setPrimitiveFileURL:[value absoluteString]];
     [self didChangeValueForKey:@"fileURL"];
 }
- 
+
 /*
  Through we provide a public int interface, the underlying persistant store
  is an NSNumber.
-*/
+ */
 - (int)noteId 
 {
     NSNumber * tmpValue;
@@ -73,7 +73,6 @@ is an NSString.
     
 }
 
-
 - (NSString *) getTitle
 {
     return [self title];
@@ -89,7 +88,7 @@ is an NSString.
     //media = [[AppModel sharedAppModel]mediaForMediaId:[self.localFileURL intValue]];
     //if(!media)
     
-    //THIS LEAKS AND SHOULD BE FIXED
+    //THIS LEAKS AND SHOULD BE FIXED //<- How long ago was that comment created? -Phil 6/5
     NSString *mediaType;
     if([self.type isEqualToString:kNoteContentTypePhoto]){
         mediaType = kMediaTypeImage;
@@ -104,15 +103,15 @@ is an NSString.
         mediaType = @"Text";
     }
     //Just to get ARC working
-        Media  *media = [[AppModel sharedAppModel].mediaCache mediaForMediaId:[self.fileURL hash]];
-        media.url = [self.fileURL absoluteString];
-        media.type = mediaType;
-        if([self.type isEqualToString:kNoteContentTypePhoto]){
+    Media  *media = [[AppModel sharedAppModel].mediaCache mediaForMediaId:[self.fileURL hash]];
+    media.url = [self.fileURL absoluteString];
+    media.type = mediaType;
+    if([self.type isEqualToString:kNoteContentTypePhoto]){
         
         NSData *imageData = [NSData dataWithContentsOfURL:self.fileURL];
         media.image = imageData;
         
-        }
+    }
     NSLog(@"UploadContent: Returning media with ID: %d and type:%@",[media.uid intValue],media.type);
     
     return media;
@@ -128,7 +127,7 @@ is an NSString.
     return [self state];
 }
 
-//THIS IS REALLY WEIRD AND SHOULD JUST BE USING THE DYNAMIC GETTER
+//THIS IS REALLY WEIRD AND SHOULD JUST BE USING THE SYNTHESIZED GETTER
 - (int) getNoteId {
     return self.noteId;
 }

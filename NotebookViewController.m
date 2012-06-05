@@ -19,6 +19,7 @@ int sortSelected;
 BOOL tagFilter;
 @implementation NotebookViewController
 @synthesize noteList,noteTable, filterControl,sortControl,gameNoteList,textIconUsed,videoIconUsed,photoIconUsed,audioIconUsed,isGameList,tagList,tagNoteList,tagGameNoteList,headerTitleList,headerTitleGameList,toolBar,filterToolBar,sortToolBar;
+
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
@@ -32,8 +33,6 @@ BOOL tagFilter;
         tagGameNoteList = [[NSMutableArray alloc] initWithCapacity:10];
         headerTitleList = [[NSMutableArray alloc] initWithCapacity:10];
         headerTitleGameList = [[NSMutableArray alloc] initWithCapacity:10];
-        
-        
         
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(refresh) name:@"NoteDeleted" object:nil];
@@ -109,10 +108,9 @@ BOOL tagFilter;
             NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
             tagFilter = NO;   
             
-            self.noteList = [self.noteList sortedArrayUsingDescriptors:sortDescriptors];
-            self.gameNoteList = [self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors];
+            self.noteList = [NSMutableArray arrayWithArray:[self.noteList sortedArrayUsingDescriptors:sortDescriptors]];
+            self.gameNoteList = [NSMutableArray arrayWithArray:[self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors]];
 
-            
             break;
         }
         case 1:
@@ -121,8 +119,8 @@ BOOL tagFilter;
             NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
             tagFilter = NO;       
             
-            self.noteList = [self.noteList sortedArrayUsingDescriptors:sortDescriptors];
-            self.gameNoteList = [self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors];
+            self.noteList = [NSMutableArray arrayWithArray:[self.noteList sortedArrayUsingDescriptors:sortDescriptors]];
+            self.gameNoteList = [NSMutableArray arrayWithArray:[self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors]];
             
             break;  
         }
@@ -132,8 +130,8 @@ BOOL tagFilter;
             NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
             tagFilter = NO;  
             
-            self.noteList = [self.noteList sortedArrayUsingDescriptors:sortDescriptors];
-            self.gameNoteList = [self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors];
+            self.noteList = [NSMutableArray arrayWithArray:[self.noteList sortedArrayUsingDescriptors:sortDescriptors]];
+            self.gameNoteList = [NSMutableArray arrayWithArray:[self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors]];
 
             break; 
         }
@@ -146,20 +144,13 @@ BOOL tagFilter;
             break;
     }
     
-    
-    
     [noteTable reloadData];
     
 }
 - (void)viewDidAppear:(BOOL)animated {
-	NSLog(@"NotebookViewController: View Appeared");	
-	
-    
-    
-	NSLog(@"NotebookViewController: view did appear");
+	NSLog(@"NotebookViewController: View Did Appear");	
     [self refresh];
 }
-
 
 -(void)refresh {
 	NSLog(@"NotebookViewController: Refresh Requested");
@@ -187,25 +178,23 @@ BOOL tagFilter;
 	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
 	[[self navigationItem] setRightBarButtonItem:barButton];
 	[activityIndicator startAnimating];    
-    
 }
 
 -(void) viewWillAppear:(BOOL)animated{
-    
-    
 }
 
 -(void)removeLoadingIndicator{
     //[[self navigationItem] setRightBarButtonItem:nil];
-    
     [noteTable reloadData];
 }
+
 -(void)barButtonTouchAction:(id)sender{
     NoteEditorViewController *noteVC = [[NoteEditorViewController alloc] initWithNibName:@"NoteEditorViewController" bundle:nil];
     noteVC.startWithView = [sender tag] + 1;
     noteVC.delegate = self;
     [self.navigationController pushViewController:noteVC animated:NO];
 }
+
 - (void)refreshViewFromModel {
 	NSLog(@"NotebookViewController: Refresh View from Model");
     
@@ -271,7 +260,6 @@ BOOL tagFilter;
                 [self.headerTitleList addObject:tagName];
             }
         }
-        
         UIButton *b = [[UIButton alloc]init];
         b.tag = filSelected;
         [self sortButtonTouchAction:b];
@@ -285,7 +273,6 @@ BOOL tagFilter;
             return [self.tagNoteList count];
         else
             return [self.tagGameNoteList count];
-        
     }
     else
         return 1;
@@ -293,7 +280,6 @@ BOOL tagFilter;
 
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
     if(!tagFilter){
         if(self.filterControl.selectedSegmentIndex == 0){ 
             if([self.noteList count] == 0) return 1;
@@ -395,92 +381,53 @@ BOOL tagFilter;
     for(int x = 0; x < [currNote.contents count];x++){
         if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:kNoteContentTypeText]&& !self.textIconUsed){
             self.textIconUsed = YES;
-            if (cell.mediaIcon1.image == nil) {
+            if (cell.mediaIcon1.image == nil)
                 cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
-                
-            }
-            else if(cell.mediaIcon2.image == nil) {
+            else if(cell.mediaIcon2.image == nil)
                 cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
-                
-            }
-            else if(cell.mediaIcon3.image == nil) {
+            else if(cell.mediaIcon3.image == nil)
                 cell.mediaIcon3.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
-                
-            }
-            else if(cell.mediaIcon4.image == nil) {
+            else if(cell.mediaIcon4.image == nil)
                 cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
-                
-            }
-            
-            
         }
         else if ([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:kNoteContentTypePhoto]&& !self.photoIconUsed){
             self.photoIconUsed = YES;
-            if (cell.mediaIcon1.image == nil) {
+            if (cell.mediaIcon1.image == nil)
                 cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
-                
-            }
-            else if(cell.mediaIcon2.image == nil) {
+            else if(cell.mediaIcon2.image == nil)
                 cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
-                
-            }
-            else if(cell.mediaIcon3.image == nil) {
+            else if(cell.mediaIcon3.image == nil)
                 cell.mediaIcon3.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
-                
-            }
-            else if(cell.mediaIcon4.image == nil) {
+            else if(cell.mediaIcon4.image == nil)
                 cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
-                
-            }
-            
         }
         else if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:kNoteContentTypeAudio] && !self.audioIconUsed){
             self.audioIconUsed = YES;
-            if (cell.mediaIcon1.image == nil) {
+            if (cell.mediaIcon1.image == nil)
                 cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
-                
-            }
-            else if(cell.mediaIcon2.image == nil) {
+            else if(cell.mediaIcon2.image == nil)
                 cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
-                
-            }
-            else if(cell.mediaIcon3.image == nil) {
+            else if(cell.mediaIcon3.image == nil)
                 cell.mediaIcon3.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
-                
-            }
-            else if(cell.mediaIcon4.image == nil) {
+            else if(cell.mediaIcon4.image == nil)
                 cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
-                
-            }
-            
         }
         else if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:kNoteContentTypeVideo] && !self.videoIconUsed){
             self.videoIconUsed = YES;
-            if (cell.mediaIcon1.image == nil) {
+            if (cell.mediaIcon1.image == nil)
                 cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
-                
-            }
-            else if(cell.mediaIcon2.image == nil) {
+            else if(cell.mediaIcon2.image == nil)
                 cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
-                
-            }
-            else if(cell.mediaIcon3.image == nil) {
+            else if(cell.mediaIcon3.image == nil)
                 cell.mediaIcon3.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
-                
-            }
-            else if(cell.mediaIcon4.image == nil) {
+            else if(cell.mediaIcon4.image == nil)
                 cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
-                
-            }
-            
         }
     }
     
-    
-    
-    
     return cell;
 }
+
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     if(tagFilter){
         if(self.filterControl.selectedSegmentIndex == 0){
@@ -498,6 +445,7 @@ BOOL tagFilter;
     }
     else return @"";
 }
+
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     //Color the backgrounds
@@ -533,18 +481,14 @@ BOOL tagFilter;
             currentNoteList = [self.tagGameNoteList objectAtIndex:indexPath.section];
     }
     
-    
-    
     //open up note viewer
     NoteDetailsViewController *dataVC = [[NoteDetailsViewController alloc] initWithNibName:@"NoteDetailsViewController" bundle:nil];
     dataVC.delegate = self;
     dataVC.note = (Note *)[currentNoteList objectAtIndex:indexPath.row];
     [self.navigationController pushViewController:dataVC animated:YES];
-    
 }
 
 - (void)tableView:(UITableView *)aTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
-	
 }
 
 -(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -559,8 +503,7 @@ BOOL tagFilter;
         }
     }
     else{
-        if([self.noteList count] != 0) return UITableViewCellEditingStyleDelete;
-        
+        if([self.noteList count] != 0) return UITableViewCellEditingStyleDelete;        
     }
     
     return UITableViewCellEditingStyleNone;
@@ -577,17 +520,15 @@ BOOL tagFilter;
 }
 
 - (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     [noteTable reloadData];
-    
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath{
     return  @"Delete Note";
 }
 
-
 - (void)dealloc {    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
 @end

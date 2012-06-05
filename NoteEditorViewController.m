@@ -31,11 +31,11 @@
 
 @implementation NoteEditorViewController
 @synthesize textBox,textField,note, delegate, hideKeyboardButton,libraryButton,cameraButton,audioButton, typeControl,viewControllers, scrollView,pageControl,publicButton,textButton,mapButton, contentTable,noteValid,noteChanged, noteDropped, vidThumbs,startWithView,actionSheet,sharingLabel;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        
         viewControllers = [[NSMutableArray alloc] initWithCapacity:10];
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         /*  [dispatcher addObserver:self selector:@selector(updateTable) name:@"ImageReady" object:nil];*/
@@ -57,14 +57,12 @@
 - (void)dealloc
 {
     [[AVAudioSession sharedInstance] setDelegate: nil];
-
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     //if(delegate)
     //[delegate release];
-   // if(sharingLabel)
-   // [sharingLabel release];
-    
-    
+    // if(sharingLabel)
+    // [sharingLabel release];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -109,6 +107,7 @@
     }        
     [self refreshViewFromModel];
 }
+
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
@@ -127,23 +126,22 @@
                                                                   target:self 
                                                                   action:@selector(backButtonTouchAction:)];
     self.navigationItem.leftBarButtonItem = doneButton;
-	
-    
+	    
     if(self.note.noteId == 0){
         note = [[Note alloc]init];
         self.note.creatorId = [AppModel sharedAppModel].playerId;
         self.note.username = [AppModel sharedAppModel].userName;
         self.note.noteId = [[AppServices sharedAppServices] createNote];
-        if(self.note.noteId == 0){[self backButtonTouchAction:[[UIButton alloc]init]];
+        if(self.note.noteId == 0){
+            [self backButtonTouchAction:[[UIButton alloc] init]];
             UIAlertView *alert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"NoteEditorCreateNoteFailedKey", @"") message:(@"NoteEditorCreateNoteFailedMessageKey", @"") delegate:self.delegate cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
             [alert show];
         }
         //if(![AppModel sharedAppModel].isGameNoteList)
-            [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];
+        [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];
         
-        
-      /*  else
-            [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]]; */
+        /*  else
+         [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]]; */
     }
     else self.noteValid = YES;
     //self.contentTable.editing = YES;
@@ -171,46 +169,50 @@
     }
     
 }
+
 -(void)viewWillDisappear:(BOOL)animated{
     startWithView = 0;
     
     if([self.delegate isKindOfClass:[GPSViewController class]]){
         [[AppServices sharedAppServices]updateServerDropNoteHere:self.note.noteId atCoordinate:[AppModel sharedAppModel].playerLocation.coordinate];
     }
-if([self.delegate isKindOfClass:[NoteDetailsViewController class]]){
-    [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
+    if([self.delegate isKindOfClass:[NoteDetailsViewController class]]){
+        [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
+        self.note.title = self.textField.text;
+        // if(![AppModel sharedAppModel].isGameNoteList)
+        [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   
+        /*else
+         [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   */
+        [self.delegate setNote:self.note];
+    }
     self.note.title = self.textField.text;
+    if(([note.title length] == 0)) note.title = NSLocalizedString(@"NodeEditorNewNoteKey", @"");
     // if(![AppModel sharedAppModel].isGameNoteList)
     [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   
     /*else
      [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   */
-    [self.delegate setNote:self.note];
 }
-self.note.title = self.textField.text;
-if(([note.title length] == 0)) note.title = NSLocalizedString(@"NodeEditorNewNoteKey", @"");
-// if(![AppModel sharedAppModel].isGameNoteList)
-[[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   
-/*else
- [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   */
-}
+
 -(void)tagButtonTouchAction{
     TagViewController *tagView = [[TagViewController alloc]initWithNibName:@"TagViewController" bundle:nil];
     tagView.note = self.note;
     [self.navigationController pushViewController:tagView animated:YES];
 }
+
 - (IBAction)backButtonTouchAction: (id) sender{
     
     if(!self.noteValid){ [[AppServices sharedAppServices]deleteNoteWithNoteId:self.note.noteId];
-       // if(![AppModel sharedAppModel].isGameNoteList)
-            [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.note.noteId]];  
-      /*  else
-            [[AppModel sharedAppModel].gameNoteList removeObjectForKey:[NSNumber numberWithInt:self.note.noteId]]; */ 
+        // if(![AppModel sharedAppModel].isGameNoteList)
+        [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.note.noteId]];  
+        /*  else
+         [[AppModel sharedAppModel].gameNoteList removeObjectForKey:[NSNumber numberWithInt:self.note.noteId]]; */ 
     }
     else{
-
+        
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -231,11 +233,14 @@ if(([note.title length] == 0)) note.title = NSLocalizedString(@"NodeEditorNewNot
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
 -(void)textFieldDidBeginEditing:(UITextField *)textField{
 }
+
 -(void)updateTable{
     [contentTable reloadData];
 }
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [self.textField resignFirstResponder];
     self.noteValid = YES;
@@ -246,9 +251,9 @@ if(([note.title length] == 0)) note.title = NSLocalizedString(@"NodeEditorNewNot
     [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.note.title publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
     //[self.delegate refresh];
     //if(![AppModel sharedAppModel].isGameNoteList)
-        [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];
+    [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];
     /*else
-        [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]]; */
+     [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]]; */
     
     return YES;
 }
@@ -267,6 +272,7 @@ if(([note.title length] == 0)) note.title = NSLocalizedString(@"NodeEditorNewNot
         [self.navigationController pushViewController:cameraVC animated:NO];
     }
 }
+
 -(void)audioButtonTouchAction{
     BOOL audioHWAvailable = [[AVAudioSession sharedInstance] inputIsAvailable];
     if(audioHWAvailable){
@@ -281,6 +287,7 @@ if(([note.title length] == 0)) note.title = NSLocalizedString(@"NodeEditorNewNot
         [self.navigationController pushViewController:audioVC animated:NO];
     } 
 }
+
 -(void)libraryButtonTouchAction{
     CameraViewController *cameraVC = [[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil];
     if(startWithView == 0)
@@ -294,6 +301,7 @@ if(([note.title length] == 0)) note.title = NSLocalizedString(@"NodeEditorNewNot
     
     [self.navigationController pushViewController:cameraVC animated:NO];
 }
+
 -(void)textButtonTouchAction{
     TextViewController *textVC = [[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil];
     textVC.noteId = self.note.noteId;
@@ -308,22 +316,23 @@ if(([note.title length] == 0)) note.title = NSLocalizedString(@"NodeEditorNewNot
 
 -(void)mapButtonTouchAction{
     /*if(self.note.dropped){
-        
-        self.mapButton.selected = NO;
-        self.note.dropped = NO;
-        [[AppServices sharedAppServices]deleteNoteLocationWithNoteId:self.note.noteId];
-        
-    }
-    else{*/
-        DropOnMapViewController *mapVC = [[DropOnMapViewController alloc] initWithNibName:@"DropOnMapViewController" bundle:nil] ;
-        mapVC.noteId = self.note.noteId;
-        mapVC.delegate = self;
-        self.noteValid = YES;
-        self.mapButton.selected = YES;
-        
-        [self.navigationController pushViewController:mapVC animated:NO];
+     
+     self.mapButton.selected = NO;
+     self.note.dropped = NO;
+     [[AppServices sharedAppServices]deleteNoteLocationWithNoteId:self.note.noteId];
+     
+     }
+     else{*/
+    DropOnMapViewController *mapVC = [[DropOnMapViewController alloc] initWithNibName:@"DropOnMapViewController" bundle:nil] ;
+    mapVC.noteId = self.note.noteId;
+    mapVC.delegate = self;
+    self.noteValid = YES;
+    self.mapButton.selected = YES;
+    
+    [self.navigationController pushViewController:mapVC animated:NO];
     //}
 }
+
 -(void)publicButtonTouchAction{
     self.noteValid = YES;
     actionSheet = [[UIActionSheet alloc]initWithTitle:NSLocalizedString(@"SharingKey", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"CancelKey", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"NoteEditorListOnlyKey", @""),NSLocalizedString(@"NoteEditorMapOnlyKey", @""),NSLocalizedString(@"BothKey", @""),NSLocalizedString(@"DontShareKey", @""), nil];
@@ -339,16 +348,18 @@ if(([note.title length] == 0)) note.title = NSLocalizedString(@"NodeEditorNewNot
      
      [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text andShared:self.note.shared];*/
 }
+
 -(void)willPresentActionSheet:(UIActionSheet *)actionSheet{
 }
+
 -(void)actionSheet:(UIActionSheet *)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex{
     switch (buttonIndex) {
         case 0:
-              if([AppModel sharedAppModel].currentGame.allowShareNoteToList){
-            self.note.showOnList = YES;
-            self.note.showOnMap = NO;
-            self.sharingLabel.text = NSLocalizedString(@"NoteEditorListOnlyKey", @""); 
-              }
+            if([AppModel sharedAppModel].currentGame.allowShareNoteToList){
+                self.note.showOnList = YES;
+                self.note.showOnMap = NO;
+                self.sharingLabel.text = NSLocalizedString(@"NoteEditorListOnlyKey", @""); 
+            }
             else{
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NoteEditorNotAllowedKey", @"") message: NSLocalizedString(@"NoteEditorNotAllowedSharingToListsMessageKey", @"") delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
                 
@@ -358,14 +369,14 @@ if(([note.title length] == 0)) note.title = NSLocalizedString(@"NodeEditorNewNot
         case 1:
         {
             if([AppModel sharedAppModel].currentGame.allowShareNoteToMap){
-            self.note.showOnList = NO;
-            self.note.showOnMap = YES;
-            self.sharingLabel.text = NSLocalizedString(@"NoteEditorMapOnlyKey", @""); 
-            if(!self.note.dropped){
-                [[AppServices sharedAppServices]updateServerDropNoteHere:self.note.noteId atCoordinate:[AppModel sharedAppModel].playerLocation.coordinate];
-                self.note.dropped = YES;
-                self.mapButton.selected = YES;
-            }
+                self.note.showOnList = NO;
+                self.note.showOnMap = YES;
+                self.sharingLabel.text = NSLocalizedString(@"NoteEditorMapOnlyKey", @""); 
+                if(!self.note.dropped){
+                    [[AppServices sharedAppServices]updateServerDropNoteHere:self.note.noteId atCoordinate:[AppModel sharedAppModel].playerLocation.coordinate];
+                    self.note.dropped = YES;
+                    self.mapButton.selected = YES;
+                }
             }
             else{
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NoteEditorNotAllowedKey", @"") message:NSLocalizedString(@"NoteEditorNotAllowedSharingToMapMessageKey", @"") delegate: self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
@@ -376,16 +387,16 @@ if(([note.title length] == 0)) note.title = NSLocalizedString(@"NodeEditorNewNot
         }
         case 2:{
             if([AppModel sharedAppModel].currentGame.allowShareNoteToMap && ([AppModel sharedAppModel].currentGame.allowShareNoteToList)){
-            self.note.showOnList = YES;
-            self.note.showOnMap = YES;
+                self.note.showOnList = YES;
+                self.note.showOnMap = YES;
                 self.sharingLabel.text = NSLocalizedString(@"NoteEditorListAndMapKey", @""); 
-            if(!self.note.dropped){
                 if(!self.note.dropped){
-                    [[AppServices sharedAppServices]updateServerDropNoteHere:self.note.noteId atCoordinate:[AppModel sharedAppModel].playerLocation.coordinate];
-                    self.note.dropped = YES;
-                    self.mapButton.selected = YES;
+                    if(!self.note.dropped){
+                        [[AppServices sharedAppServices]updateServerDropNoteHere:self.note.noteId atCoordinate:[AppModel sharedAppModel].playerLocation.coordinate];
+                        self.note.dropped = YES;
+                        self.mapButton.selected = YES;
+                    }
                 }
-            }
             }
             else{
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NoteEditorNotAllowedKey", @"") message:NSLocalizedString(@"NoteEditorNotAllowedOneOrMoreMessageKey", @"") delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
@@ -406,11 +417,11 @@ if(([note.title length] == 0)) note.title = NSLocalizedString(@"NodeEditorNewNot
     [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
     
 }
+
 - (void)viewDidAppear:(BOOL)animated {
 	NSLog(@"NoteViewController: View Appeared");	
     // [self.contentTable reloadData];
 }
-
 
 -(void)refresh {
 	NSLog(@"NoteViewController: Refresh Requested");
@@ -425,15 +436,15 @@ if(([note.title length] == 0)) note.title = NSLocalizedString(@"NodeEditorNewNot
 
 #pragma mark custom methods, logic
 /*-(void)showLoadingIndicator{
-	UIActivityIndicatorView *activityIndicator = 
-	[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-	//UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
-     //[activityIndicator release];
-    // [[self navigationItem] setRightBarButtonItem:barButton];
-     //[barButton release];
-	[activityIndicator startAnimating];
-    
-}*/
+ UIActivityIndicatorView *activityIndicator = 
+ [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+ //UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
+ //[activityIndicator release];
+ // [[self navigationItem] setRightBarButtonItem:barButton];
+ //[barButton release];
+ [activityIndicator startAnimating];
+ 
+ }*/
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
     if([self.note.contents count] == 0 && indexPath.row == 0) return UITableViewCellEditingStyleNone;
@@ -476,6 +487,8 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
         //[self.note.contents objectAtIndex:x] is reliably an UploadContent object, yet its data members are all nil. For some reason it crashes when 
         //getUploadState is called. So I check to see if that Selector exists. 
         //Also, this is only a problem in < iOS 5.1 Weird. 
+        
+        //Removes note contents that are not done uploading
         if(![[self.note.contents objectAtIndex:x] respondsToSelector:@selector(getUploadState)] || ![[[self.note.contents objectAtIndex:x] getUploadState] isEqualToString:@"uploadStateDONE"])
             [self.note.contents removeObjectAtIndex:x];
     }
@@ -484,8 +497,8 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     NSArray *uploadContentForNote = [[uploads objectForKey:[NSNumber numberWithInt:self.note.noteId]]allValues];
     [self.note.contents addObjectsFromArray:uploadContentForNote];
     NSLog(@"NoteEditorVC: Added %d upload content(s) to note",[uploadContentForNote count]);
-    
 }
+
 #pragma mark Table view methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
@@ -639,7 +652,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
             ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:noteC.getMedia.url]];
             mMoviePlayer.moviePlayer.shouldAutoplay = YES;
             [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
-
+            
         }
     }
     //[noteC release];

@@ -83,9 +83,7 @@
 }
 
 -(UploadContent *)saveUploadContentToCDWithTitle:(NSString *)title andText:(NSString *)text andType:(NSString *)type andNoteId:(int)noteId andFileURL:(NSURL *)fileURL inState:(NSString *)state
-{
-    //Retains input, as they may be pointers from an object that will get deleted
-    
+{    
     [self deleteUploadContentFromCDFromNoteId:noteId andFileURL:fileURL]; //Prevent Duplicates
     NSLog(@"UploadMan:saveUploadContentToCD"); 
     NSError *error;
@@ -127,7 +125,7 @@
 - (void) uploadContentForNoteId:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSURL *)aUrl
 {    
     BOOL youreNotOnWifi =  NO;
-    UploadContent *uc = [[uploadContents objectForKey:[NSNumber numberWithInt:noteId]]objectForKey:aUrl];
+    UploadContent *uc = [[uploadContents objectForKey:[NSNumber numberWithInt:noteId]] objectForKey:aUrl];
     Reachability *wifiReach = [Reachability reachabilityForLocalWiFi];
     NetworkStatus wifi = [wifiReach currentReachabilityStatus];
     if(wifi == NotReachable)
@@ -139,29 +137,28 @@
         [alert show];
         uc = [self saveUploadContentToCDWithTitle:title andText:text andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateFAILED"];
         [self insertUploadContentIntoDictionary:uc];
-
+        
     }
     else{
         uc = [self saveUploadContentToCDWithTitle:title andText:text andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateQUEUED"];
         [self insertUploadContentIntoDictionary:uc];
-
-    
-    if(text)
-    {
-        [[AppServices sharedAppServices]addContentToNoteWithText:text type:type mediaId:0 andNoteId:noteId andFileURL:aUrl];
+        
+        
+        if(text)
+        {
+            [[AppServices sharedAppServices]addContentToNoteWithText:text type:type mediaId:0 andNoteId:noteId andFileURL:aUrl];
+        }
+        else
+        {            
+            [[AppServices sharedAppServices]uploadContentToNoteWithFileURL:aUrl name:nil noteId:noteId type:type]; 
+        }
+        if(self.currentUploadCount < self.maxUploadCount)
+        {
+            uc = [self saveUploadContentToCDWithTitle:title andText:text andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateUPLOADING"];
+            [self insertUploadContentIntoDictionary:uc];
+            self.currentUploadCount++;
+        }
     }
-    else
-    {            
-        [[AppServices sharedAppServices]uploadContentToNoteWithFileURL:aUrl name:nil noteId:noteId type:type]; 
-    }
-    if(self.currentUploadCount < self.maxUploadCount)
-    {
-        uc = [self saveUploadContentToCDWithTitle:title andText:text andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateUPLOADING"];
-        [self insertUploadContentIntoDictionary:uc];
-        self.currentUploadCount++;
-    }
-    }
-
 }
 
 - (void) contentFinishedUploading

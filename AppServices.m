@@ -485,7 +485,7 @@ NSString *const kARISServerServicePackage = @"v1";
                                                               andArguments:arguments 
                                                                andUserInfo:nil];
 	JSONResult *jsonResult = [jsonConnection performSynchronousRequest]; 
-    [jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After 
+    [self fetchAllPlayerLists]; //This is a cheat to make sure that the fetch Happens After 
 	if (!jsonResult) {
 		NSLog(@"\tFailed.");
 		return 0;
