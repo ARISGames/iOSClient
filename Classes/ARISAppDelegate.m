@@ -765,6 +765,9 @@ BOOL isShowingNotification;
                 else if([tmpTab.tabName isEqualToString:@"PLAYER"]) tmpTab.tabName = NSLocalizedString(@"PlayerTitleKey",@"");
                 else if([tmpTab.tabName isEqualToString:@"NOTE"]) tmpTab.tabName = NSLocalizedString(@"NotebookTitleKey",@"");
                 else if([tmpTab.tabName isEqualToString:@"PICKGAME"]) tmpTab.tabName = NSLocalizedString(@"GamePickerTitleKey",@"");
+                else{
+                    tmpTab.tabIndex = 0;
+                }
         if(tmpTab.tabIndex != 0) {
             
         newTabList = [newTabList arrayByAddingObject:tmpTab];

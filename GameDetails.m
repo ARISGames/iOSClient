@@ -92,6 +92,7 @@ NSString *const kGameDetailsHtmlTemplate =
     descriptionWebView.hidden = NO;
 	[descriptionWebView loadHTMLString:htmlDescription baseURL:nil];
     
+    [tableView reloadData];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)descriptionView {

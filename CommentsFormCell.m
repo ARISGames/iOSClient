@@ -64,6 +64,7 @@
         if([self.textField.text isEqualToString:@"Comment"]) comment.text = @"";
         else comment.text = self.textField.text;
         comment.rating = self.ratingView.userRating;
+        self.game.rating = self.ratingView.userRating;
         comment.playerName = @"You";
         [self.commentsVC addComment:comment];
         [self.commentsVC.tableView reloadData];

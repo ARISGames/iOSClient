@@ -17,7 +17,7 @@
 @synthesize tableView;
 @synthesize game;
 @synthesize defaultRating;
-
+@synthesize reviewed;
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
@@ -137,11 +137,13 @@
 
         CommentCell *commentCell = (CommentCell *)cell;
 
-        
-                
         commentCell.commentLabel.text = ((Comment *)[game.comments objectAtIndex:indexPath.row-1]).text;
         commentCell.authorLabel.text = ((Comment *)[game.comments objectAtIndex:indexPath.row-1]).playerName;
-        
+        NSString *a = [commentCell.authorLabel.text lowercaseString];
+        NSString *b = [[AppModel sharedAppModel].userName lowercaseString];
+        if([a isEqualToString: b]){
+            self.reviewed = YES;
+        }
         commentCell.starView.rating = ((Comment *)[game.comments objectAtIndex:indexPath.row-1]).rating;
         commentCell.starView.backgroundColor = [UIColor clearColor];
         
@@ -186,6 +188,9 @@
 }
 
 -(void)addComment:(Comment *)comment{
+    if(!self.reviewed){
+    self.game.numReviews += 1;
+    }
     [game.comments addObject:comment];
 }
 
