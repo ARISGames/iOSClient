@@ -58,7 +58,8 @@
     NSLog(@"PanoVC: viewDidLoad");
 
        [super viewDidLoad];
-    self.panoramic.textureArray = [[NSArray alloc] init];
+    NSArray *textureArrayAlloc = [[NSArray alloc] init];
+    self.panoramic.textureArray = textureArrayAlloc;
     
     self.slider.hidden = YES;
     self.slider.value = 1;
@@ -253,11 +254,11 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
 	UIImage* image = [UIImage imageWithData:data];
     if([[[UIDevice currentDevice] platform] isEqualToString:@"iPhone2,1"]  || [[[UIDevice currentDevice] platform] isEqualToString:@"iPhone3,1"] || [[[UIDevice currentDevice] platform] isEqualToString:@"iPad2,1"]){
         image = [image scaleToSize:CGSizeMake(2048, 2048)];
-        NSLog([NSString stringWithFormat:@"iOS version- %@ Scaled to 2048", [[UIDevice currentDevice] platform]]);
+        NSLog(@"iOS version- %@ Scaled to 2048", [[UIDevice currentDevice] platform]);
     }
     else{
         image = [image scaleToSize:CGSizeMake(1024, 1024)];
-        NSLog([NSString stringWithFormat:@"iOS version- %@ Scaled to 1024", [[UIDevice currentDevice] platform]]);
+        NSLog(@"iOS version- %@ Scaled to 1024", [[UIDevice currentDevice] platform]);
     }
     
 	//throw out the data

@@ -30,10 +30,11 @@
     if (self) {
         self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"36-toolbox"];
-        self.iconCache = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].inventory count]];
-        self.mediaCache = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].inventory count]];
+        NSMutableArray *iconCacheAlloc = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].inventory count]];
+        self.iconCache = iconCacheAlloc;
+         NSMutableArray *mediaCacheAlloc = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].inventory count]];
+        self.mediaCache = mediaCacheAlloc;
         
-		
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
 		[dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedInventory" object:nil];

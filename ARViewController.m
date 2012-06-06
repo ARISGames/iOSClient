@@ -176,7 +176,8 @@
 	//start our heading readings and our accelerometer readings.
 	
 	if (!self.locationManager) {
-		self.locationManager = [[CLLocationManager alloc] init];
+        CLLocationManager *locationManagerAlloc = [[CLLocationManager alloc] init];
+		self.locationManager = locationManagerAlloc;
 		
 		//we want every move.
 		self.locationManager.headingFilter = kCLHeadingFilterNone;

@@ -44,10 +44,12 @@ NSString *const kTagItem = @"item";
 - (id) initWithDefaultNpcId:(NSInteger)imageMediaId {
 	if ((self = [super init])) {
 		defaultImageMediaId = imageMediaId;
-		self.currentText = [[NSMutableString alloc] init];
+        NSMutableString *currentTextAlloc = [[NSMutableString alloc] init];
+		self.currentText = currentTextAlloc;
 		parser = nil;
 		self.sourceText = nil;
-		self.script = [[NSMutableArray alloc] init];
+        NSMutableArray *scriptAlloc = [[NSMutableArray alloc] init];
+		self.script = scriptAlloc;
 		self.delegate = nil;
 	}
 	return self;
@@ -216,9 +218,6 @@ else if ([elementName isEqualToString:kTagItem]) {
 		
 		[self.script addObject:s];
 	}
-	
-	self.sourceText;
-	self.sourceText = nil;
 	
 	NSLog(@"SceneParser: didFinishParsing");
 	if (self.delegate) [self.delegate didFinishParsing];

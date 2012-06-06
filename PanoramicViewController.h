@@ -41,7 +41,6 @@
 
 
 - (void)loadImageFromMedia:(Media *) aMedia;
--(IBAction) touchScreen;
 -(IBAction) sliderValueChanged: (id) sender;
 - (void)showPanoView;
 @end

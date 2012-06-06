@@ -70,7 +70,8 @@
 - (MyCLController*) init{
 	self = [super init];
 	if (self != nil) {
-		self.locationManager = [[CLLocationManager alloc] init];
+        CLLocationManager *locationManagerAlloc = [[CLLocationManager alloc] init];
+		self.locationManager = locationManagerAlloc;
 		self.locationManager.delegate = self; // Tells the location manager to send updates to this object
 		self.locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
 		self.locationManager.distanceFilter = 5; //Minimum change of 5 meters for update

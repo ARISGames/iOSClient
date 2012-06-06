@@ -70,7 +70,7 @@ NSString *const kQuestsHtmlTemplate =
 }
 
 - (IBAction)filterQuests {
-    NSLog([NSString stringWithFormat:@"%d", activeQuestsSwitch.selectedSegmentIndex]);
+    NSLog(@"%d", activeQuestsSwitch.selectedSegmentIndex);
     [self refreshViewFromModel];
 }
 
@@ -215,9 +215,7 @@ NSString *const kQuestsHtmlTemplate =
 	NSArray *activeQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"active"];
 	NSArray *completedQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"completed"];
 	
-	if (self.quests) self.quests;
 	self.quests = [NSArray arrayWithObjects:activeQuestsArray, completedQuestsArray, nil];
-	self.quests;
 
 	[self constructCells];
 	
@@ -228,8 +226,6 @@ NSString *const kQuestsHtmlTemplate =
 -(void)constructCells{
 	NSLog(@"QuestsVC: Constructing Cells");
 	//Iterate through each element in quests and save the cell into questCells
-    BOOL activeQuestsEmpty = NO;
-    BOOL completedQuestsEmpty = NO;
 	NSMutableArray *activeQuestCells = [NSMutableArray arrayWithCapacity:10];
 	NSMutableArray *completedQuestCells = [NSMutableArray arrayWithCapacity:10];
 	
@@ -292,7 +288,6 @@ NSString *const kQuestsHtmlTemplate =
     */
     
 	self.questCells = [NSArray arrayWithObjects:activeQuestCells,completedQuestCells, nil];
-	self.questCells;
 	
 	//if (activeQuestsEmpty && completedQuestsEmpty) 
     [tableView reloadData];

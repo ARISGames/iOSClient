@@ -16,7 +16,10 @@
 
 - (id)initWithWaitingMessage: (NSString*) m showProgressBar:(BOOL)showProgress {
 	if (self = [super initWithTitle:m message:nil delegate:self cancelButtonTitle:nil otherButtonTitles: nil]) {
-		if (showProgress) self.progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
+		if (showProgress){ 
+            UIProgressView *progressViewAlloc = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
+            self.progressView = progressViewAlloc;
+        }
 	}
 	return self;
 }

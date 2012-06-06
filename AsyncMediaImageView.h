@@ -39,7 +39,6 @@
 - (id)initWithFrame:(CGRect)aFrame andMedia:(Media *)aMedia;     
 - (id)initWithFrame:(CGRect)aFrame andMediaId:(int)mediaId;     
 - (void) loadImageFromMedia:(Media *) aMedia;
-- (UIImage*) getImage;
 - (void) setImage:(UIImage*) image;
 - (void) updateViewWithNewImage:(UIImage*)image;
 

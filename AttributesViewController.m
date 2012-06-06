@@ -21,7 +21,8 @@
     if (self) {
         self.title = NSLocalizedString(@"PlayerTitleKey",@"");	
         self.tabBarItem.image = [UIImage imageNamed:@"123-id-card"];
-        self.iconCache = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].attributes count]];
+        NSMutableArray *iconCacheAlloc = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].attributes count]];
+        self.iconCache = iconCacheAlloc;
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
 		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewInventoryReady" object:nil];

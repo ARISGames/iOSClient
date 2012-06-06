@@ -41,13 +41,11 @@
 - (IBAction)changePage:(id) sender;
 - (void)loadNewPageWithContent:(NoteContent<NoteContentProtocol> *)content;
 - (void)showComments;
-- (IBAction)playMovie:(id)sender;
 -(void)editButtonTouched;
 -(IBAction)shareButtonTouch;
 -(IBAction)commentButtonTouch;
 -(IBAction)likeButtonTouch;
 -(void)backButtonTouch;
--(void)movieThumbDidFinish:(NSNotification*) aNotification;
 -(void)addUploadsToNote;
 
 @end

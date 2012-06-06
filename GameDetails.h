@@ -29,7 +29,7 @@
     AsyncMediaImageView *mediaImageView; 
     CGFloat newHeight;
     NSIndexPath *descriptionIndexPath;
-    Media *splashMedia;
+  //  Media *splashMedia;
 
 }
 @property (nonatomic) NSIndexPath *descriptionIndexPath;
@@ -45,7 +45,7 @@
 @property (nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (nonatomic, assign) CGFloat  newHeight;
 @property (nonatomic)AsyncMediaImageView *mediaImageView;
-@property (nonatomic)Media *splashMedia;
+//@property (nonatomic)Media *splashMedia;
 
 
 @end

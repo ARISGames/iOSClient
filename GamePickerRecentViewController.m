@@ -50,7 +50,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-    self.refreshButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh)];
+    UIBarButtonItem *refreshButtonAlloc = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh)];
+    self.refreshButton = refreshButtonAlloc;
     
     self.navigationItem.rightBarButtonItem = self.refreshButton;
     self.gameList = [NSArray array];

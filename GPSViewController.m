@@ -28,6 +28,7 @@ static float INITIAL_SPAN = 0.001;
 @synthesize mapTypeButton;
 @synthesize playerTrackingButton;
 @synthesize toolBar,addMediaButton;
+@synthesize playerButton;
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle

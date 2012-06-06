@@ -612,7 +612,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	
 	NSLog(@"Model: Uploading File. gameID:%d title:%@ noteId:%d",[AppModel sharedAppModel].currentGame.gameId,name,noteId);
 	
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	//ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     //[appDelegate showNewWaitingIndicator:@"Uploading" displayProgressBar:YES];
 	//[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
     
@@ -990,8 +990,10 @@ NSString *const kARISServerServicePackage = @"v1";
     [AppModel sharedAppModel].playerNoteListHash = @"";
     [AppModel sharedAppModel].gameNoteListHash = @"";
 	//Clear them out
-	[AppModel sharedAppModel].locationList = [[NSMutableArray alloc] initWithCapacity:0];
-	[AppModel sharedAppModel].nearbyLocationsList = [[NSMutableArray alloc] initWithCapacity:0];
+    NSMutableArray *locationListAlloc = [[NSMutableArray alloc] initWithCapacity:0];
+	[AppModel sharedAppModel].locationList = locationListAlloc;
+    NSMutableArray *nearbyLocationListAlloc = [[NSMutableArray alloc] initWithCapacity:0];
+	[AppModel sharedAppModel].nearbyLocationsList = nearbyLocationListAlloc;
     
 	NSMutableArray *completedQuestObjects = [[NSMutableArray alloc] init];
 	NSMutableArray *activeQuestObjects = [[NSMutableArray alloc] init];
@@ -1000,8 +1002,8 @@ NSString *const kARISServerServicePackage = @"v1";
 	[tmpQuestList setObject:completedQuestObjects forKey:@"completed"];
 	[AppModel sharedAppModel].questList = tmpQuestList;
     
-	
-	[AppModel sharedAppModel].inventory = [[NSMutableDictionary alloc] initWithCapacity:10];
+	NSMutableDictionary *inventoryAlloc = [[NSMutableDictionary alloc] initWithCapacity:10];
+	[AppModel sharedAppModel].inventory = inventoryAlloc;
 	
 	//Tell the VCs
 	[self silenceNextServerUpdate];
@@ -1903,10 +1905,15 @@ NSString *const kARISServerServicePackage = @"v1";
     
     NSString *latitude = [gameSource valueForKey:@"latitude"];
     NSString *longitude = [gameSource valueForKey:@"longitude"];
-    if ((NSNull *)latitude != [NSNull null] && (NSNull *)longitude != [NSNull null] )
-        game.location = [[CLLocation alloc] initWithLatitude:[latitude doubleValue]
-                                                   longitude:[longitude doubleValue]];
-    else game.location = [[CLLocation alloc] init];
+    if ((NSNull *)latitude != [NSNull null] && (NSNull *)longitude != [NSNull null] ){
+        CLLocation *locationAlloc = [[CLLocation alloc] initWithLatitude:[latitude doubleValue]
+                                                               longitude:[longitude doubleValue]];
+        game.location = locationAlloc;
+    }
+    else{
+       CLLocation *locationAlloc = [[CLLocation alloc] init]; 
+       game.location = locationAlloc;
+    }
     
     game.authors = [gameSource valueForKey:@"editors"];
     if ((NSNull *)game.authors == [NSNull null]) game.authors = @"";

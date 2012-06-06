@@ -116,7 +116,8 @@ NSString *const kDialogHtmlTemplate =
 	[pcContinueButton setTitle: NSLocalizedString(@"DialogContinue",@"") forState: UIControlStateNormal];
 	[pcContinueButton setTitle: NSLocalizedString(@"DialogContinue",@"") forState: UIControlStateHighlighted];	
 	
-	self.textSizeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"textToggle.png"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleFullScreenTextMode)];      
+    UIBarButtonItem *textSizeButtonAlloc = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"textToggle.png"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleFullScreenTextMode)];  
+	self.textSizeButton = textSizeButtonAlloc; 
 	self.navigationItem.rightBarButtonItem = self.textSizeButton;
 	
 	npcWebView.hidden = NO;

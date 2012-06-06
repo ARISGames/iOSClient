@@ -122,7 +122,8 @@
 
 - (void)connection:(NSURLConnection *)theConnection didReceiveData:(NSData *)incrementalData {
     if (self.asyncData == nil) {
-        self.asyncData = [[NSMutableData alloc] initWithCapacity:2048];
+        NSMutableData *asyncDataAlloc = [[NSMutableData alloc] initWithCapacity:2048];
+        self.asyncData = asyncDataAlloc;
     }
     [self.asyncData appendData:incrementalData];
 }

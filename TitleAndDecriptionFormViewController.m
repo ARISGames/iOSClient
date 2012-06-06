@@ -32,12 +32,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-	self.titleField = [[UITextField alloc]initWithFrame:CGRectMake(10, 10, 290, 30) ];
+    UITextField *titleFieldAlloc = [[UITextField alloc]initWithFrame:CGRectMake(10, 10, 290, 30) ];
+	self.titleField = titleFieldAlloc;
 	self.titleField.placeholder = NSLocalizedString(@"TitleAndDescriptionTitlePrompt",@"");
 	self.titleField.returnKeyType =  UIReturnKeyDone;
 	self.titleField.delegate = self;
     self.titleField.text = self.item.name;
-	self.descriptionField = [[UITextField alloc]initWithFrame:CGRectMake(10, 10, 290, 30) ];
+    UITextField *descriptionFieldAlloc = [[UITextField alloc]initWithFrame:CGRectMake(10, 10, 290, 30) ];
+	self.descriptionField = descriptionFieldAlloc;
 	self.descriptionField.placeholder = NSLocalizedString(@"TitleAndDescriptionDescriptionPrompt",@"");;
 	self.descriptionField.returnKeyType =  UIReturnKeyDone;
 	self.descriptionField.delegate = self;

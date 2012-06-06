@@ -53,7 +53,8 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 												   object:nil];
 	
         self.isLink=NO;
-        self.mediaImageView = [[AsyncMediaImageView alloc]init];
+        AsyncMediaImageView *mediaImageViewAlloc = [[AsyncMediaImageView alloc]init];
+        self.mediaImageView = mediaImageViewAlloc;
         self.mediaImageView.delegate = self;
     }
     
@@ -136,7 +137,8 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     webCell.backgroundView = webView;
     webCell.backgroundColor = [UIColor clearColor];
     
-    self.webViewSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    UIActivityIndicatorView *webViewSpinnerAlloc = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    self.webViewSpinner = webViewSpinnerAlloc;
     self.webViewSpinner.center = webCell.center;
     [self.webViewSpinner startAnimating];
     self.webViewSpinner.backgroundColor = [UIColor clearColor];
@@ -148,8 +150,14 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     buttonCell.textLabel.textAlignment = UITextAlignmentCenter;
     
     //Setup the cellArray
-    if(hasMedia) self.cellArray = [[NSArray alloc] initWithObjects:mediaCell,webCell,buttonCell, nil];
-    else self.cellArray = [[NSArray alloc] initWithObjects:webCell,buttonCell, nil];
+    if(hasMedia){
+        NSArray *cellArrayAlloc = [[NSArray alloc] initWithObjects:mediaCell,webCell,buttonCell, nil];
+        self.cellArray = cellArrayAlloc;
+    }
+    else{
+        NSArray *cellArrayAlloc = [[NSArray alloc] initWithObjects:webCell,buttonCell, nil];
+        self.cellArray = cellArrayAlloc;
+    }
     
 }
 

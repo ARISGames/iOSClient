@@ -89,7 +89,8 @@
 		self.calloutOffset = CGPointMake(-8, 0);
 		self.canShowCallout = YES;
 		
-		self.pinShadow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"PinShadow.png"]];
+        UIImageView *pinShadowAlloc = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"PinShadow.png"]];
+		self.pinShadow = pinShadowAlloc;
 		self.pinShadow.frame = CGRectMake(0, 0, 32, 39);
 		self.pinShadow.hidden = YES;
 		[self addSubview:self.pinShadow];

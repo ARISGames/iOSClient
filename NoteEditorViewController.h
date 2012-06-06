@@ -66,10 +66,7 @@
 
 
 
-- (void)displayTitleandDescriptionForm;
--(IBAction)hideKeyboardTouchAction;
 - (IBAction)previewButtonTouchAction;
-- (void)loadNewPageWithView:(NSString *)view;
 -(IBAction)cameraButtonTouchAction;
 -(IBAction)audioButtonTouchAction;
 -(IBAction)libraryButtonTouchAction;

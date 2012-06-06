@@ -134,7 +134,7 @@
         self.note.noteId = [[AppServices sharedAppServices] createNote];
         if(self.note.noteId == 0){
             [self backButtonTouchAction:[[UIButton alloc] init]];
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"NoteEditorCreateNoteFailedKey", @"") message:(@"NoteEditorCreateNoteFailedMessageKey", @"") delegate:self.delegate cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle: NSLocalizedString(@"NoteEditorCreateNoteFailedKey", @"") message: NSLocalizedString(@"NoteEditorCreateNoteFailedMessageKey", @"") delegate:self.delegate cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
             [alert show];
         }
         //if(![AppModel sharedAppModel].isGameNoteList)

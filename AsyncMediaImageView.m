@@ -56,9 +56,12 @@
                 
                 //Create movie player object
                 if(!self.mMoviePlayer){
-                    self.mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString: media.url]];
+                    ARISMoviePlayerViewController *mMoviePlayerAlloc = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString: media.url]];
+                    self.mMoviePlayer = mMoviePlayerAlloc;
                 }
-                else [self.mMoviePlayer initWithContentURL:[NSURL URLWithString: media.url]];
+                else{
+                  [self.mMoviePlayer initWithContentURL:[NSURL URLWithString: media.url]];  
+                }
             
                 self.mMoviePlayer.moviePlayer.shouldAutoplay = NO;
                 [self.mMoviePlayer.moviePlayer requestThumbnailImagesAtTimes:timeArray timeOption:MPMovieTimeOptionNearestKeyFrame];
@@ -95,16 +98,16 @@
     NSLog(@"AsyncMediaImageView: movieThumbDidFinish");
     NSDictionary *userInfo = aNotification.userInfo;
     UIImage *videoThumb = [userInfo objectForKey:MPMoviePlayerThumbnailImageKey];
-    NSError *e = [userInfo objectForKey:MPMoviePlayerThumbnailErrorKey];
-    NSNumber *time = [userInfo objectForKey:MPMoviePlayerThumbnailTimeKey];
-    MPMoviePlayerController *player = aNotification.object;
+ //   NSError *e = [userInfo objectForKey:MPMoviePlayerThumbnailErrorKey];
+ //   NSNumber *time = [userInfo objectForKey:MPMoviePlayerThumbnailTimeKey];
+ //   MPMoviePlayerController *player = aNotification.object;
     UIImage *videoThumbSized = [videoThumb scaleToSize:self.frame.size];        
     self.media.image = UIImageJPEGRepresentation(videoThumbSized,1.0 ) ;     
     [self updateViewWithNewImage:[UIImage imageWithData:self.media.image]];
             
-    if (e) {
+ //   if (e) {
         //NSLog(@"MPMoviePlayerThumbnail ERROR: %@",e);
-    }
+  //  }
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(imageFinishedLoading)]){
         [delegate imageFinishedLoading];
