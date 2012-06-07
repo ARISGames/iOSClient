@@ -20,8 +20,6 @@ enum soundConstants {
 	int			imageMediaId;
 	CGRect		imageRect;
 	float		zoomTime;
-	int			foreSoundMediaId;	
-	int			backSoundMediaId;
     NSString*   exitToTabWithTitle;
     NSString*   exitToType;
     int         videoId;
@@ -29,6 +27,7 @@ enum soundConstants {
     int         webId;
     int         plaqueId;
     int         itemId;
+    int         mediaId;
 }
 
 @property(nonatomic) NSString* text;
@@ -39,12 +38,11 @@ enum soundConstants {
 @property(readwrite) int webId;
 @property(readwrite) int plaqueId;
 @property(readwrite) int itemId;
+@property(readwrite) int mediaId;
 
 
 @property(readwrite) CGRect	imageRect;
 @property(readwrite) float zoomTime;
-@property(readwrite) int foreSoundMediaId;	
-@property(readwrite) int backSoundMediaId;
 @property(nonatomic) NSString* exitToTabWithTitle;
 @property(nonatomic) NSString* exitToType;
 
@@ -52,18 +50,16 @@ enum soundConstants {
 
 - (id) initWithText:(NSString *)text 
                isPc:(Boolean)isPc 
-       imageMediaId:(int)imageMediaId 
           imageRect:(CGRect)imageRect 
            zoomTime:(float)seconds
-   foreSoundMediaId:(int)fgMediaId 
-   backSoundMediaId:(int)bgMediaId
    exitToTabWithTitle:(NSString*)tabTitle
          exitToType:(NSString*)type
 videoId:(int)vidId
 panoramicId:(int)pId
 webpageId:(int)wId
 plaqueId:(int)nodeId
-itemId:(int)iId;
+itemId:(int)iId
+mediaId:(int)mId;
 
 
 @end

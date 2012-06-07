@@ -23,7 +23,6 @@
 #import "ItemDetailsViewController.h"
 
 const NSInteger kStartingIndex = 0;
-const NSInteger kPcIndex = 0;
 const NSInteger kMaxOptions = 20;
 const NSInteger kOptionsFontSize = 17;
 NSString *const kOutAnimation = @"out";
@@ -269,7 +268,7 @@ NSString *const kDialogHtmlTemplate =
 - (void) beginWithNPC:(Npc *)aNpc {
 	currentNpc = aNpc;
 		
-	parser = [[SceneParser alloc] initWithDefaultNpcId:[aNpc mediaId]];
+	parser = [[SceneParser alloc] initWithDefaultNpcId];
 	parser.delegate = self;
 
 }
@@ -334,9 +333,25 @@ NSString *const kDialogHtmlTemplate =
             itemVC.item = [[AppModel sharedAppModel] itemForItemId:currentScene.itemId];
             [self.navigationController pushViewController:itemVC animated:YES];
         }
+        else if(currentScene.mediaId != 0){
+            Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.mediaId];
+            if(media.type = kMediaTypeVideo){
+                ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+                [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
+                mMoviePlayer.moviePlayer.shouldAutoplay = YES;
+                [mMoviePlayer.moviePlayer prepareToPlay];
+            }
+            else if(media.type = kMediaTypeImage){
+                currentScene.imageMediaId = currentScene.mediaId;
+            }
+            else if(media.type = kMediaTypeAudio){
+                ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+                [appDelegate playAudioFromMedia:media];
+                //Do this here for latency issues or later?
+            }
+        }
         
         [self applyScene:currentScene];
-		currentCharacter = currentScene.imageMediaId;
 		++scriptIndex;
 	}
 	else { 	//End of Script. Display Player Options
@@ -420,7 +435,7 @@ NSString *const kDialogHtmlTemplate =
         cachedScrollView = pcImage;
         [pcImageScrollView zoomToRect:[pcImage frame] animated:NO];
         
-        currentCharacter = 0;
+      //  currentCharacter = 0;
         self.title = NSLocalizedString(@"DialogPlayerName",@"");
 		
 	}
@@ -439,7 +454,7 @@ NSString *const kDialogHtmlTemplate =
             cachedScrollView = pcImage;
             [pcImageScrollView zoomToRect:[pcImage frame] animated:NO];
             
-            currentCharacter = 0;
+        //    currentCharacter = 0;
             self.title = NSLocalizedString(@"DialogPlayerName",@"");
             [self finishApplyingPlayerOptions:currentNode.options];
 
@@ -493,7 +508,7 @@ NSString *const kDialogHtmlTemplate =
         cachedScrollView = pcImage;
         [pcImageScrollView zoomToRect:[pcImage frame] animated:NO];
         
-        currentCharacter = 0;
+    //    currentCharacter = 0;
         self.title = NSLocalizedString(@"DialogPlayerName",@"");
 		NSLog(@"DialogViewController: Player options exist or no closing script exists, put them on the screen");
 
@@ -632,7 +647,7 @@ NSString *const kDialogHtmlTemplate =
 
     //Either fade the text out/in or move the correct character onto the screen
     isCurrentlyDisplayed = characterView.frame.origin.x == 0;
-	NSLog(@"Character %d IsCurrentlyDisplayed: %d", currentCharacter, isCurrentlyDisplayed);
+	NSLog(@"Character IsCurrentlyDisplayed: %d", isCurrentlyDisplayed);
     
 	if (!isCurrentlyDisplayed) {
         NSLog(@"Dialog VC: finishScene: The current caracter is not on screen, move them in");
@@ -665,9 +680,7 @@ NSString *const kDialogHtmlTemplate =
                     (imageScrollViewHeight/2 - (cachedScene.imageRect.origin.y + cachedScene.imageRect.size.height / 2.0)));
 	[currentCharacterImageScrollView setTransform:transformation];
 	[UIView commitAnimations];
-
-	
-	//[cachedScene release];
+    
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {	
@@ -885,7 +898,6 @@ NSString *const kDialogHtmlTemplate =
 	pcWebView.hidden = YES;
 	pcContinueButton.hidden = YES;
 	pcAnswerView.hidden = YES;
-	currentCharacter = kPcIndex;
 	
 	currentScript = parser.script;
 	scriptIndex = kStartingIndex;

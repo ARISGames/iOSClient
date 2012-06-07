@@ -43,7 +43,6 @@
 	NSInteger		scriptIndex;
 	NSInteger		lastPcId;
 	NSInteger		lastNpcId;
-	NSInteger		currentCharacter;
 	Scene			*cachedScene;
     NSString        *exitToTabVal;
 	UIView			*cachedScrollView;

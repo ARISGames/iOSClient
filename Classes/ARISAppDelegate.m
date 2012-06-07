@@ -630,6 +630,22 @@ BOOL isShowingNotification;
     }
 }
 
+- (void) playAudioFromMedia:(Media*)media {
+	NSURL* url = [NSURL URLWithString: media.url];
+    NSLog(@"Appdelegate: Playing Audio: %@", url);
+    [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];	
+    [[AVAudioSession sharedInstance] setActive: YES error: nil];
+    NSError* err;
+    self.player = [[AVAudioPlayer alloc] initWithContentsOfURL: url error:&err];
+    [self.player setDelegate: self];
+    if( err ){
+        NSLog(@"Appdelegate: Playing Audio: Failed with reason: %@", [err localizedDescription]);
+    }
+    else{
+        [self.player play];
+    }
+}
+
 - (void) audioPlayerDidFinishPlaying: (AVAudioPlayer *) player
                         successfully: (BOOL) flag {
     NSLog(@"Appdelegate: Audio is done playing");

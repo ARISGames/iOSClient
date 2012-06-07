@@ -18,9 +18,6 @@
 	Boolean			isPc;
 	NSInteger		currentCharacterId;
 	NSMutableString *currentText;
-	NSInteger		defaultImageMediaId;
-    int				fgSoundMediaId;
-	int				bgSoundMediaId;
 	NSMutableArray	*script;
 	NSString		*sourceText;
 	CGRect			imageRect;
@@ -32,6 +29,7 @@
     int             webId;
     int             plaqueId;
     int             itemId;
+    int             mediaId;
     NSXMLParser		*parser;
 	id<SceneParserDelegate> delegate;
 }
@@ -46,7 +44,7 @@
 
 
 
-- (id) initWithDefaultNpcId:(NSInteger)anNpcId;
+- (id) initWithDefaultNpcId;
 
 - (void) parseText:(NSString *)text;
 
