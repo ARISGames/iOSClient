@@ -217,10 +217,7 @@
         if([content.getType isEqualToString:kNoteContentTypeText]){
             TextViewController *controller = [[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil];
             controller.previewMode = YES;
-            NSString *textToDisplayShiftedDown = @"\n\n";
-            textToDisplayShiftedDown = [textToDisplayShiftedDown stringByAppendingFormat:
-             @"%@", content.getText];
-            controller.textToDisplay = textToDisplayShiftedDown;
+            controller.textToDisplay = content.getText;
             controller.title = self.note.title;
             controller.view.frame = frame;
             [scrollView addSubview:controller.view];
