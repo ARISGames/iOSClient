@@ -55,6 +55,8 @@
     UILabel         *lbl;
 	BOOL			closingScriptPlaying;
 	BOOL			inFullScreenTextMode;
+    
+    MPMoviePlayerController *moviePlayer;
 }
 
 
@@ -70,6 +72,7 @@
 @property(nonatomic) IBOutlet UIButton *pcContinueButton;
 @property(nonatomic) IBOutlet UIBarButtonItem *textSizeButton;
 @property(nonatomic) IBOutlet UIBarButtonItem *specialBackButton;
+@property (nonatomic, strong) MPMoviePlayerController *moviePlayer;
 
 @property(nonatomic) IBOutlet NSString *exitToTabVal;
 

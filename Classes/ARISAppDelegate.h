@@ -71,6 +71,7 @@
     UILabel *titleLabel;
     UILabel *descLabel;
 NSMutableArray *notifArray;
+    MPMoviePlayerController *moviePlayer;
     int tabShowY;
     PTPusher *client;
  //   NSDictionary *imageInfo;
@@ -102,6 +103,7 @@ NSMutableArray *notifArray;
 @property(nonatomic) IBOutlet UILabel *descLabel;
 
 @property (nonatomic, strong) AVAudioPlayer *player;
+@property (nonatomic, strong) MPMoviePlayerController *moviePlayer;
 
 - (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password;
 - (void) displayNearbyObjectView:(UIViewController *)nearbyObjectsNavigationController;

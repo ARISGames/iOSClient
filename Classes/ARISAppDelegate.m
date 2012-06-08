@@ -40,6 +40,7 @@ BOOL isShowingNotification;
 @synthesize pubClient;
 @synthesize privClient,loadingVC;
 @synthesize player;
+@synthesize moviePlayer;
 
 
 //@synthesize toolbarViewController;
@@ -631,18 +632,26 @@ BOOL isShowingNotification;
 }
 
 - (void) playAudioFromMedia:(Media*)media {
-	NSURL* url = [NSURL URLWithString: media.url];
-    NSLog(@"Appdelegate: Playing Audio: %@", url);
-    [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];	
-    [[AVAudioSession sharedInstance] setActive: YES error: nil];
-    NSError* err;
-    self.player = [[AVAudioPlayer alloc] initWithContentsOfURL: url error:&err];
-    [self.player setDelegate: self];
-    if( err ){
-        NSLog(@"Appdelegate: Playing Audio: Failed with reason: %@", [err localizedDescription]);
+    if(media.image != nil){
+        NSLog(@"Playing through AVAudioPlayer");
+        [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];	
+        [[AVAudioSession sharedInstance] setActive: YES error: nil];
+        NSError* err;
+        self.player = [[AVAudioPlayer alloc] initWithData: media.image error:&err];
+        [self.player setDelegate: self];
+        if( err ){
+            NSLog(@"Appdelegate: Playing Audio: Failed with reason: %@", [err localizedDescription]);
+        }
+        else{
+            [self.player play];
+        }
     }
     else{
-        [self.player play];
+        NSLog(@"Playing through MPMoviePlayerController");
+        self.moviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+        self.moviePlayer.movieSourceType = MPMovieSourceTypeUnknown;
+        self.moviePlayer.view.hidden = YES;
+        [self.moviePlayer play]; 
     }
 }
 

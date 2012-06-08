@@ -437,7 +437,6 @@ NSString *const kDialogHtmlTemplate =
             cachedScrollView = pcImage;
             [pcImageScrollView zoomToRect:[pcImage frame] animated:NO];
             
-        //    currentCharacter = 0;
             self.title = NSLocalizedString(@"DialogPlayerName",@"");
             [self finishApplyingPlayerOptions:currentNode.options];
 
@@ -542,10 +541,18 @@ NSString *const kDialogHtmlTemplate =
         NSLog(@"%@", media.type);
         if([media.type isEqualToString: kMediaTypeVideo]){
             NSLog(@"Gets to video");
-            ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+           /* ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
             [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
             mMoviePlayer.moviePlayer.shouldAutoplay = YES;
             [mMoviePlayer.moviePlayer prepareToPlay];
+            [mMoviePlayer.moviePlayer play]; */
+            NSLog(@"Playing through MPMoviePlayerController");
+            self.moviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+            self.moviePlayer.movieSourceType = MPMovieSourceTypeUnknown;
+            self.moviePlayer.view.hidden = NO;
+            self.moviePlayer.shouldAutoplay = YES;
+       //     [self.view addSubview:moviePlayer.view];
+            [self.moviePlayer play]; 
         }
         else if([media.type isEqualToString: kMediaTypeImage]){
             aScene.imageMediaId = aScene.mediaId;
