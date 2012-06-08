@@ -20,9 +20,9 @@
     [self.titleLbl setUserInteractionEnabled:NO];
     
 }
+
 -(void)checkForRetry{
-    if (![[self.content getUploadState] isEqualToString:@"uploadStateDONE"]) {
-        
+    if(![self.content respondsToSelector:@selector(getUploadState)] || ![[self.content getUploadState] isEqualToString:@"uploadStateDONE"]) {
         retryButton.hidden = NO;
         self.titleLbl.userInteractionEnabled = NO;
         self.holdLbl.userInteractionEnabled = NO;
@@ -36,7 +36,7 @@
             [self.retryButton setFrame:CGRectMake(228, 15, 80, 30)];
             [spinner stopAnimating];
             spinner.hidden = YES;
-
+            
         }
         else if([[self.content getUploadState] isEqualToString:@"uploadStateQUEUED"]){
             [self.retryButton setBackgroundImage:[UIImage imageNamed:@"grey_button.png"] forState:UIControlStateNormal];
@@ -52,45 +52,48 @@
             [self.retryButton setTitle: @"  Uploading" forState: UIControlStateNormal];
             [self.retryButton setFrame:CGRectMake(187, 15, 121, 30)];
             self.retryButton.userInteractionEnabled = NO;
-
+            
             [spinner startAnimating];
             spinner.hidden = NO;
-                        self.retryButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+            self.retryButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         }
     }
     else {
         self.titleLbl.hidden = NO;
         self.titleLbl.userInteractionEnabled = YES;
         self.holdLbl.userInteractionEnabled = YES;
-
+        
         retryButton.hidden = YES;
         [self.titleLbl setFrame:CGRectMake(65, 4, 235, 30)];
         [spinner stopAnimating];
         spinner.hidden = YES;
     }
 }
+
 -(void)retryUpload{
     
     retryButton.hidden = YES;
     [self.titleLbl setFrame:CGRectMake(65, 4, 235, 30)];
     [spinner startAnimating];
     spinner.hidden = NO;
-    //[[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:self.content.getNoteId andFileURL:self.content.getMedia.url];
-     NSLog(@"Deleting Upload forNoteId:%d withFileURL:%@",self.content.getNoteId,self.content.getMedia.url);
+    NSLog(@"Deleting Upload forNoteId:%d withFileURL:%@",self.content.getNoteId,self.content.getMedia.url);
     [[AppModel sharedAppModel].uploadManager uploadContentForNoteId:self.content.getNoteId withTitle:self.content.getTitle withText:self.content.getText withType:self.content.getType withFileURL:[NSURL URLWithString:self.content.getMedia.url]];
-     NSLog(@"Retrying Upload forNoteId:%d withTitle:%@ withText:%@ withType:%@ withFileURL:%@",self.content.getNoteId,self.content.getTitle,self.content.getText,self.content.getType,self.content.getMedia.url);
+    NSLog(@"Retrying Upload forNoteId:%d withTitle:%@ withText:%@ withType:%@ withFileURL:%@",self.content.getNoteId,self.content.getTitle,self.content.getText,self.content.getType,self.content.getMedia.url);
     [self checkForRetry];
 }
+
 -(void)textViewDidEndEditing:(UITextView *)textView{
     //[textView resignFirstResponder];
 }
+
 -(BOOL)textViewShouldEndEditing:(UITextView *)textView{
     //[self.titleLabel setUserInteractionEnabled:NO];
     // [textView resignFirstResponder];
-         [self.parentTableView setFrame:CGRectMake(self.parentTableView.frame.origin.x, self.parentTableView.frame.origin.y, self.parentTableView.frame.size.width, 261)];
+    [self.parentTableView setFrame:CGRectMake(self.parentTableView.frame.origin.x, self.parentTableView.frame.origin.y, self.parentTableView.frame.size.width, 261)];
     return YES;
-
+    
 }
+
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     if([text isEqualToString:@"\n"]){
         // [self.titleLabel setUserInteractionEnabled:NO];
@@ -104,6 +107,7 @@
     if([textView.text length] > 24) textView.text = [textView.text substringToIndex:24];
     return YES;
 }
+
 -(void)holdTextBox:(UIPanGestureRecognizer *) gestureRecognizer{
     
     if(gestureRecognizer.state == UIGestureRecognizerStateBegan || gestureRecognizer.state == UIGestureRecognizerStatePossible || gestureRecognizer.state == UIGestureRecognizerStateRecognized){
@@ -121,7 +125,7 @@
 
 -(void)dealloc{
     NSLog(@"NoteContentCell: Dealloc");
-   
+    
     
 }
 @end

@@ -22,13 +22,26 @@
  Through we provide a public NSURL interface, the underlying persistant store
  is an NSString.
  */
+- (NSString *)getUploadState 
+{
+    NSString * tmpValue;
+    [self willAccessValueForKey:@"state"];
+    tmpValue = [self primitiveState];
+    [self didAccessValueForKey:@"state"];
+    return tmpValue;
+}
+
+/*
+ Through we provide a public NSURL interface, the underlying persistant store
+ is an NSString.
+ */
 - (NSURL *)fileURL 
 {
     NSString * tmpValue;
     [self willAccessValueForKey:@"fileURL"];
     tmpValue = [self primitiveFileURL];
     [self didAccessValueForKey:@"fileURL"];
-    return [NSURL URLWithString: tmpValue];
+    return [NSURL URLWithString:tmpValue];
 }
 
 - (void)setFileURL:(NSURL *)value 
@@ -50,6 +63,7 @@
     [self didAccessValueForKey:@"noteId"];
     return [tmpValue intValue];
 }
+
 - (void)setNoteId:(int)value 
 {
     [self willChangeValueForKey:@"noteId"];
@@ -57,38 +71,8 @@
     [self didChangeValueForKey:@"noteId"];
 }
 
-
-- (id) initForNoteId:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSURL *)aUrl inState:(NSString *)state andContext:(NSManagedObjectContext *)context
-{
-    self = [super initWithEntity:[NSEntityDescription entityForName:@"UploadContent" inManagedObjectContext:context] insertIntoManagedObjectContext:context];
-    if(self){
-        self.title = title;
-        self.text = text;
-        self.type = type;
-        self.fileURL = aUrl;
-        self.state = state;
-        self.noteId = noteId;
-    }
-    return self;
-    
-}
-
-- (NSString *) getTitle
-{
-    return [self title];
-}
-
-- (NSString *) getText
-{
-    return [self text];
-}
-
 - (Media *) getMedia
 {
-    //media = [[AppModel sharedAppModel]mediaForMediaId:[self.localFileURL intValue]];
-    //if(!media)
-    
-    //THIS LEAKS AND SHOULD BE FIXED //<- How long ago was that comment created? -Phil 6/5
     NSString *mediaType;
     if([self.type isEqualToString:kNoteContentTypePhoto]){
         mediaType = kMediaTypeImage;
@@ -102,19 +86,27 @@
     else{
         mediaType = @"Text";
     }
-    //Just to get ARC working
+
     Media  *media = [[AppModel sharedAppModel].mediaCache mediaForMediaId:[self.fileURL hash]];
     media.url = [self.fileURL absoluteString];
     media.type = mediaType;
     if([self.type isEqualToString:kNoteContentTypePhoto]){
-        
         NSData *imageData = [NSData dataWithContentsOfURL:self.fileURL];
         media.image = imageData;
-        
     }
     NSLog(@"UploadContent: Returning media with ID: %d and type:%@",[media.uid intValue],media.type);
     
     return media;
+}
+
+- (NSString *) getTitle
+{
+    return [self title];
+}
+
+- (NSString *) getText
+{
+    return [self text];
 }
 
 - (NSString *) getType
@@ -122,20 +114,14 @@
     return [self type];
 }
 
-- (NSString *) getUploadState
+- (int) getNoteId
 {
-    return [self state];
-}
-
-//THIS IS REALLY WEIRD AND SHOULD JUST BE USING THE SYNTHESIZED GETTER
-- (int) getNoteId {
-    return self.noteId;
+    return [self noteId];
 }
 
 - (int) getContentId
 {
     return -1;
 }
-
 
 @end

@@ -24,6 +24,7 @@
 #import "NoteDetailsViewController.h"
 #import "AppModel.h"
 #import "NoteContentCell.h"
+#import "NoteContentProtocol.h"
 #import "UIImage+Scale.h"
 #import "TagViewController.h"
 #import "UploadingCell.h"
@@ -172,7 +173,8 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     startWithView = 0;
-    
+    if(!self.note) 
+        return;
     if([self.delegate isKindOfClass:[GPSViewController class]]){
         [[AppServices sharedAppServices]updateServerDropNoteHere:self.note.noteId atCoordinate:[AppModel sharedAppModel].playerLocation.coordinate];
     }
@@ -188,13 +190,13 @@
     self.note.title = self.textField.text;
     if(([note.title length] == 0)) note.title = NSLocalizedString(@"NodeEditorNewNoteKey", @"");
     // if(![AppModel sharedAppModel].isGameNoteList)
-    [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   
+    [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];
     /*else
      [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   */
 }
 
 -(void)tagButtonTouchAction{
-    TagViewController *tagView = [[TagViewController alloc]initWithNibName:@"TagViewController" bundle:nil];
+    TagViewController *tagView = [[TagViewController alloc] initWithNibName:@"TagViewController" bundle:nil];
     tagView.note = self.note;
     [self.navigationController pushViewController:tagView animated:YES];
 }
@@ -474,29 +476,23 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 - (void)refreshViewFromModel {
 	NSLog(@"NoteViewController: Refresh View from Model");
-    [self addUploadsToNote];
+    self.note = [[[AppModel sharedAppModel] playerNoteList] objectForKey:[NSNumber numberWithInt:self.note.noteId]];
+    [self addCDUploadsToNote];
     [contentTable reloadData];
     //unregister for notifications
-    
 }
 
--(void)addUploadsToNote{
-    self.note = [[AppModel sharedAppModel] noteForNoteId:self.note.noteId playerListYesGameListNo:YES];
-    for(int x = [self.note.contents count]-1; x >= 0; x--){
-        //Phil applied this bandaid 5/11/12
-        //[self.note.contents objectAtIndex:x] is reliably an UploadContent object, yet its data members are all nil. For some reason it crashes when 
-        //getUploadState is called. So I check to see if that Selector exists. 
-        //Also, this is only a problem in < iOS 5.1 Weird. 
-        
-        //Removes note contents that are not done uploading
-        if(![[self.note.contents objectAtIndex:x] respondsToSelector:@selector(getUploadState)] || ![[[self.note.contents objectAtIndex:x] getUploadState] isEqualToString:@"uploadStateDONE"])
+-(void)addCDUploadsToNote{
+    for(int x = [self.note.contents count]-1; x >= 0; x--){        
+        //Removes note contents that are not done uploading, because they will all be added again right after this loop
+        if((NSObject <NoteContentProtocol> *)[[self.note.contents objectAtIndex:x] managedObjectContext] == nil || 
+           ![[[self.note.contents objectAtIndex:x] getUploadState] isEqualToString:@"uploadStateDONE"])
             [self.note.contents removeObjectAtIndex:x];
     }
     
-    NSMutableDictionary *uploads = [AppModel sharedAppModel].uploadManager.uploadContents;
-    NSArray *uploadContentForNote = [[uploads objectForKey:[NSNumber numberWithInt:self.note.noteId]]allValues];
-    [self.note.contents addObjectsFromArray:uploadContentForNote];
-    NSLog(@"NoteEditorVC: Added %d upload content(s) to note",[uploadContentForNote count]);
+    NSArray *uploadContentsForNote = [[[AppModel sharedAppModel].uploadManager.uploadContentsForNotes objectForKey:[NSNumber numberWithInt:self.note.noteId]]allValues];
+    [self.note.contents addObjectsFromArray:uploadContentsForNote];
+    NSLog(@"NoteEditorVC: Added %d upload content(s) to note",[uploadContentsForNote count]);
 }
 
 #pragma mark Table view methods
@@ -528,7 +524,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
         return  cell;
     }
     
-    NoteContent<NoteContentProtocol> *noteC = [self.note.contents objectAtIndex:indexPath.row];
+    NoteContent *noteC = [self.note.contents objectAtIndex:indexPath.row];
     
     NSLog(@"NoteEditorVC: Cell requested was not an UPLOAD");
     UITableViewCell *tempCell = (NoteContentCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -612,7 +608,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NoteContent<NoteContentProtocol> *noteC;
+    NoteContent *noteC;
     
     if([self.note.contents count]>indexPath.row){
         noteC = [self.note.contents objectAtIndex:indexPath.row];

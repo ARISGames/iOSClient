@@ -78,6 +78,6 @@
 //-(IBAction)controlChanged:(id)sender;
 - (void)refreshViewFromModel;
 -(void)tagButtonTouchAction;
--(void)addUploadsToNote;
+-(void)addCDUploadsToNote;
 - (IBAction)backButtonTouchAction: (id) sender;
 @end
