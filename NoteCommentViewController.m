@@ -93,6 +93,7 @@
     [self refreshViewFromModel];
     
 }
+
 -(void)addUploadsToComments{
     self.parentNote = [[AppModel sharedAppModel] noteForNoteId: self.parentNote.noteId playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
     for(int i = 0; i < [self.parentNote.comments count];i++){
@@ -102,7 +103,7 @@
                 [currNote.contents removeObjectAtIndex:x];
         }
         
-        NSMutableDictionary *uploads = [AppModel sharedAppModel].uploadManager.uploadContents;
+        NSMutableDictionary *uploads = [AppModel sharedAppModel].uploadManager.uploadContentsForNotes;
         NSArray *uploadContentForNote = [[uploads objectForKey:[NSNumber numberWithInt:currNote.noteId]]allValues];
         [currNote.contents addObjectsFromArray:uploadContentForNote];
         NSLog(@"NoteEditorVC: Added %d upload content(s) to note",[uploadContentForNote count]);
@@ -190,7 +191,6 @@
     self.videoIconUsed = NO;
     self.audioIconUsed = NO;
     
-    
     Note *currNote = [self.parentNote.comments objectAtIndex:(indexPath.row)];
     cell.note = currNote;
     [cell initCell];
@@ -204,10 +204,10 @@
     for(int x = 0; x < [currNote.contents count];x++){
         
         
-        if([[(NoteContent<NoteContentProtocol> *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeText]){
+        if([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeText]){
             //Dont show icon for text since it is assumed to always be there
         }
-        else if ([[(NoteContent<NoteContentProtocol> *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypePhoto]){
+        else if ([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypePhoto]){
             AsyncMediaImageView *aImageView = [[AsyncMediaImageView alloc]initWithFrame:CGRectMake(10, height, 300, 300) andMedia:[[[currNote contents] objectAtIndex:x] getMedia]];
             
             //if(!currNote.hasAudio)
@@ -217,7 +217,7 @@
             
             [cell addSubview:aImageView];
         }
-        else if([[(NoteContent<NoteContentProtocol> *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeVideo] || [[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeAudio]){
+        else if([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeVideo] || [[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeAudio]){
             NoteContent *content =  (NoteContent *)[[currNote contents] objectAtIndex:x];
             
             CGRect frame = CGRectMake(10, height, 300, 450);
@@ -232,7 +232,6 @@
                                media:content.getMedia 
                                presentingController:self];
                 
-                
                 //if(!currNote.hasAudio)
                 [mediaButton setFrame:CGRectMake(10, height, 300, 450)];
                 //else
@@ -245,9 +244,6 @@
                 [cell addSubview:mediaButton];
                 
             }
-
-
-
         }
         /* else if([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeAudio]){
          

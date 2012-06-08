@@ -39,7 +39,7 @@
 @property(nonatomic)Note *note;
 - (IBAction)saveButtonTouchAction;
 - (IBAction)changePage:(id) sender;
-- (void)loadNewPageWithContent:(NoteContent<NoteContentProtocol> *)content;
+- (void)loadNewPageWithContent:(NoteContent *)content;
 - (void)showComments;
 -(void)editButtonTouched;
 -(IBAction)shareButtonTouch;

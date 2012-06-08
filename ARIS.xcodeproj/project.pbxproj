@@ -2485,7 +2485,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ARIS_Prefix.pch;
 				GCC_THUMB_SUPPORT = NO;
-				GCC_VERSION = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GENERATE_PROFILING_CODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"thirdParty/zxing/iphone/ZXingWidget/Classes/**",
 					thirdParty/zxing/cpp/core/src/,
@@ -2504,6 +2505,8 @@
 				PRODUCT_NAME = ARIS;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				RUN_CLANG_STATIC_ANALYZER = NO;
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -2605,7 +2608,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ARIS_Prefix.pch;
 				GCC_THUMB_SUPPORT = NO;
-				GCC_VERSION = "";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GENERATE_PROFILING_CODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"thirdParty/zxing/iphone/ZXingWidget/Classes/**",
 					thirdParty/zxing/cpp/core/src/,
@@ -2623,6 +2627,8 @@
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = ARIS;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "791840A2-257A-44CD-921A-06F186E23F24";
+				RUN_CLANG_STATIC_ANALYZER = NO;
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;

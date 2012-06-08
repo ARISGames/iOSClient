@@ -16,7 +16,7 @@
     int contentId;
     int index;
     id __unsafe_unretained delegate;
-    NoteContent<NoteContentProtocol>*content;
+    NoteContent *content;
    IBOutlet UIButton *retryButton;
     IBOutlet UIActivityIndicatorView *spinner;
     UITableView *__unsafe_unretained parentTableView;
@@ -29,7 +29,7 @@
 @property(nonatomic)UIImageView *imageView;
 @property(readwrite,assign)int index;
 @property(nonatomic, unsafe_unretained)id delegate;
-@property(nonatomic)NoteContent<NoteContentProtocol>*content;
+@property(nonatomic)NoteContent *content;
 @property(nonatomic)IBOutlet UIButton *retryButton;
 @property(nonatomic)IBOutlet UIActivityIndicatorView *spinner;
 @property(nonatomic,unsafe_unretained) UITableView *parentTableView;
