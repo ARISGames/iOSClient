@@ -40,7 +40,6 @@ NSString *const kTagMedia = @"mediaId";
 #pragma mark Init/dealloc
 - (id) initWithDefaultNpcId {
 	if ((self = [super init])) {
-	//	defaultImageMediaId = imageMediaId;
         NSMutableString *currentTextAlloc = [[NSMutableString alloc] init];
 		self.currentText = currentTextAlloc;
 		parser = nil;
@@ -75,7 +74,11 @@ NSString *const kTagMedia = @"mediaId";
     }
 	else if ([elementName isEqualToString:kTagNpc]){ 
         isPc = NO;
+        if ([attributeDict objectForKey:kTagMedia]) {
+            mediaId = [attributeDict objectForKey:kTagMedia] ? [[attributeDict objectForKey:kTagMedia]intValue] : 0;
+        }
 }    
+    
 else if ([elementName isEqualToString:kTagDialog]) {
 
     if ([attributeDict objectForKey:kTagExitToTab]){
@@ -123,9 +126,6 @@ else if ([elementName isEqualToString:kTagPlaque]) {
 else if ([elementName isEqualToString:kTagItem]) {
     itemId = [attributeDict objectForKey:kTagId] ? [[attributeDict objectForKey:kTagId]intValue] : 0;
 }
-else if ([elementName isEqualToString:kTagMedia]) {
-    mediaId = [attributeDict objectForKey:kTagMedia] ? [[attributeDict objectForKey:kTagMedia]intValue] : 0;
-}
 
 	imageRect = CGRectMake(0, 0, 320, 416);
 	imageRect.origin.x = [attributeDict objectForKey:kTagZoomX] ?
@@ -157,7 +157,7 @@ else if ([elementName isEqualToString:kTagMedia]) {
         || [elementName isEqualToString:kTagVideo]
         || [elementName isEqualToString:kTagWebpage]
         || [elementName isEqualToString:kTagPlaque]
-  //      || [elementName isEqualToString:kTagMedia]
+    //    || [elementName isEqualToString:kTagMedia]
         || [elementName isEqualToString:kTagItem])
 	{
         Scene *newScene = [[Scene alloc] initWithText:currentText 
@@ -169,7 +169,7 @@ else if ([elementName isEqualToString:kTagMedia]) {
                                               videoId:videoId
                                           panoramicId:panoId
                                             webpageId:webId plaqueId:plaqueId itemId:itemId mediaId: mediaId]; 
-
+        NSLog(@"MediaId in Scene is: %d", mediaId);
 		[self.script addObject:newScene];
         panoId = 0;
         videoId = 0;

@@ -333,23 +333,6 @@ NSString *const kDialogHtmlTemplate =
             itemVC.item = [[AppModel sharedAppModel] itemForItemId:currentScene.itemId];
             [self.navigationController pushViewController:itemVC animated:YES];
         }
-        else if(currentScene.mediaId != 0){
-            Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.mediaId];
-            if(media.type = kMediaTypeVideo){
-                ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
-                [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
-                mMoviePlayer.moviePlayer.shouldAutoplay = YES;
-                [mMoviePlayer.moviePlayer prepareToPlay];
-            }
-            else if(media.type = kMediaTypeImage){
-                currentScene.imageMediaId = currentScene.mediaId;
-            }
-            else if(media.type = kMediaTypeAudio){
-                ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-                [appDelegate playAudioFromMedia:media];
-                //Do this here for latency issues or later?
-            }
-        }
         
         [self applyScene:currentScene];
 		++scriptIndex;
@@ -508,7 +491,6 @@ NSString *const kDialogHtmlTemplate =
         cachedScrollView = pcImage;
         [pcImageScrollView zoomToRect:[pcImage frame] animated:NO];
         
-    //    currentCharacter = 0;
         self.title = NSLocalizedString(@"DialogPlayerName",@"");
 		NSLog(@"DialogViewController: Player options exist or no closing script exists, put them on the screen");
 
@@ -553,6 +535,29 @@ NSString *const kDialogHtmlTemplate =
 	BOOL isCurrentlyDisplayed;
     
 	cachedScene = aScene;
+    
+    if(aScene.mediaId != 0){
+        NSLog(@"mediaId gets here");
+        Media *media = [[AppModel sharedAppModel] mediaForMediaId:aScene.mediaId];
+        NSLog(@"%@", media.type);
+        if([media.type isEqualToString: kMediaTypeVideo]){
+            NSLog(@"Gets to video");
+            ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+            [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
+            mMoviePlayer.moviePlayer.shouldAutoplay = YES;
+            [mMoviePlayer.moviePlayer prepareToPlay];
+        }
+        else if([media.type isEqualToString: kMediaTypeImage]){
+            aScene.imageMediaId = aScene.mediaId;
+            NSLog(@"imageMediaId was overwritten");
+        }
+        else if([media.type isEqualToString: kMediaTypeAudio]){
+            ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+            [appDelegate playAudioFromMedia:media];
+            NSLog(@"Gets to audio");
+            //Do this here for latency issues or later?
+        }
+    }
     
     // if no media id is specified for the scene, default to the current NPC's image
     if (cachedScene.imageMediaId == 0)
