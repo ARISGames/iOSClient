@@ -70,8 +70,7 @@
     NSInteger notificationCount;
     UILabel *titleLabel;
     UILabel *descLabel;
-NSMutableArray *notifArray;
-    MPMoviePlayerController *moviePlayer;
+    NSMutableArray *notifArray;
     int tabShowY;
     PTPusher *client;
  //   NSDictionary *imageInfo;
@@ -103,7 +102,6 @@ NSMutableArray *notifArray;
 @property(nonatomic) IBOutlet UILabel *descLabel;
 
 @property (nonatomic, strong) AVAudioPlayer *player;
-@property (nonatomic, strong) MPMoviePlayerController *moviePlayer;
 
 - (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password;
 - (void) displayNearbyObjectView:(UIViewController *)nearbyObjectsNavigationController;
@@ -118,7 +116,6 @@ NSMutableArray *notifArray;
 - (void) returnToHomeView;
 - (void) showGameSelectionTabBarAndHideOthers;
 - (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate;
-- (void) playAudioFromMedia:(Media*)media;
 - (void) checkForDisplayCompleteNode;
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url;
 - (void) displayIntroNode;

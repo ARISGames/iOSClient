@@ -14,7 +14,7 @@
 #import "Scene.h"
 #import "SceneParser.h"
 
-@interface DialogViewController : UIViewController<SceneParserDelegate, AsyncMediaImageViewDelegate, UIScrollViewDelegate, UITextFieldDelegate> {
+@interface DialogViewController : UIViewController<AVAudioPlayerDelegate, SceneParserDelegate, AsyncMediaImageViewDelegate, UIScrollViewDelegate, UITextFieldDelegate> {
 	IBOutlet	AsyncMediaImageView	*npcImage;
 	IBOutlet	AsyncMediaImageView	*pcImage;
 	IBOutlet	UIWebView	*npcWebView;
@@ -55,8 +55,10 @@
     UILabel         *lbl;
 	BOOL			closingScriptPlaying;
 	BOOL			inFullScreenTextMode;
+    BOOL            isMovie;
     
-    MPMoviePlayerController *moviePlayer;
+    AVAudioPlayer *player;
+    ARISMoviePlayerViewController *ARISMoviePlayer;
 }
 
 
@@ -72,7 +74,11 @@
 @property(nonatomic) IBOutlet UIButton *pcContinueButton;
 @property(nonatomic) IBOutlet UIBarButtonItem *textSizeButton;
 @property(nonatomic) IBOutlet UIBarButtonItem *specialBackButton;
-@property (nonatomic, strong) MPMoviePlayerController *moviePlayer;
+@property (nonatomic, strong) AVAudioPlayer *player;
+@property (nonatomic, strong) ARISMoviePlayerViewController *ARISMoviePlayer;
+@property                     BOOL isMovie;
+@property                     BOOL closingScriptPlaying;
+@property                     BOOL inFullScreenTextMode;
 
 @property(nonatomic) IBOutlet NSString *exitToTabVal;
 
@@ -102,6 +108,7 @@
 - (void) showWaitingIndicatorForPlayerOptions;
 - (void) dismissWaitingIndicatorForPlayerOptions;
 - (void) imageFinishedLoading;
+- (void) playAudioOrVideoFromMedia:(Media*)media andHidden:(BOOL)hidden;
 
 @end
 

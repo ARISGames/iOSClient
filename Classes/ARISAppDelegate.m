@@ -40,7 +40,7 @@ BOOL isShowingNotification;
 @synthesize pubClient;
 @synthesize privClient,loadingVC;
 @synthesize player;
-@synthesize moviePlayer;
+//@synthesize ARISMoviePlayer;
 
 
 //@synthesize toolbarViewController;
@@ -630,31 +630,6 @@ BOOL isShowingNotification;
         [self.player play];
     }
 }
-
-- (void) playAudioFromMedia:(Media*)media {
-    if(media.image != nil){
-        NSLog(@"Playing through AVAudioPlayer");
-        [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];	
-        [[AVAudioSession sharedInstance] setActive: YES error: nil];
-        NSError* err;
-        self.player = [[AVAudioPlayer alloc] initWithData: media.image error:&err];
-        [self.player setDelegate: self];
-        if( err ){
-            NSLog(@"Appdelegate: Playing Audio: Failed with reason: %@", [err localizedDescription]);
-        }
-        else{
-            [self.player play];
-        }
-    }
-    else{
-        NSLog(@"Playing through MPMoviePlayerController");
-        self.moviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
-        self.moviePlayer.movieSourceType = MPMovieSourceTypeUnknown;
-        self.moviePlayer.view.hidden = YES;
-        [self.moviePlayer play]; 
-    }
-}
-
 - (void) audioPlayerDidFinishPlaying: (AVAudioPlayer *) player
                         successfully: (BOOL) flag {
     NSLog(@"Appdelegate: Audio is done playing");

@@ -69,6 +69,8 @@ NSString *const kDialogHtmlTemplate =
 @synthesize npcScrollView, pcScrollView, npcImageScrollView, pcImageScrollView, pcActivityIndicator;
 @synthesize npcContinueButton, pcContinueButton, textSizeButton, specialBackButton;
 @synthesize pcAnswerView, mainView, npcView, pcView, nothingElseLabel,lbl,currentNpc,currentNode;
+@synthesize player, ARISMoviePlayer;
+@synthesize isMovie, closingScriptPlaying, inFullScreenTextMode;;
 
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -96,8 +98,8 @@ NSString *const kDialogHtmlTemplate =
 	//General Setup
 	lastPcId = 0;
 	currentNode = nil;
-	closingScriptPlaying = NO;
-	inFullScreenTextMode = NO;
+	self.closingScriptPlaying = NO;
+	self.inFullScreenTextMode = NO;
     self.exitToTabVal = nil;
 	
     //View Setup
@@ -162,7 +164,7 @@ NSString *const kDialogHtmlTemplate =
 	NSLog(@"DialogViewController: toggleTextSize");
 	
 	CGRect newTextFrame;
-	if (inFullScreenTextMode) {
+	if (self.inFullScreenTextMode) {
 		//Switch to small mode
 		newTextFrame = CGRectMake(0, 288, 320, 128);
 	}
@@ -179,7 +181,7 @@ NSString *const kDialogHtmlTemplate =
 	self.npcScrollView.frame = newTextFrame;
 	[UIView commitAnimations];
 	
-	inFullScreenTextMode = !inFullScreenTextMode;
+	self.inFullScreenTextMode = !self.inFullScreenTextMode;
 	
 }
 
@@ -211,6 +213,10 @@ NSString *const kDialogHtmlTemplate =
 }
 
 - (IBAction)continueButtonTouchAction{
+    if(self.isMovie){
+    [ARISMoviePlayer.moviePlayer.view removeFromSuperview];
+  //  [self.view addSubview:npcImage];
+    }
 	[self continueScript];
 }
 
@@ -344,7 +350,7 @@ NSString *const kDialogHtmlTemplate =
         if(cachedScene.exitToTabWithTitle) self.exitToTabVal = cachedScene.exitToTabWithTitle;
         
         //Check if this is a closing script or we are shutting down
-        if(closingScriptPlaying==YES || (self.exitToTabVal != nil)) {
+        if(self.closingScriptPlaying==YES || (self.exitToTabVal != nil)) {
             appDelegate.modalPresent = NO;
             [appDelegate dismissNearbyObjectView:self];
             [[AppServices sharedAppServices] updateServerNodeViewed:self.currentNode.nodeId];
@@ -418,7 +424,6 @@ NSString *const kDialogHtmlTemplate =
         cachedScrollView = pcImage;
         [pcImageScrollView zoomToRect:[pcImage frame] animated:NO];
         
-      //  currentCharacter = 0;
         self.title = NSLocalizedString(@"DialogPlayerName",@"");
 		
 	}
@@ -472,10 +477,10 @@ NSString *const kDialogHtmlTemplate =
         currentNpc.closing =   [trimmedString stringByAppendingString: @"\r"];
     
     //Now our options are populated with node or conversation choices, display
-	if ([options count] == 0 && [currentNpc.closing length] > 1 && !closingScriptPlaying) {
+	if ([options count] == 0 && [currentNpc.closing length] > 1 && !self.closingScriptPlaying) {
 			NSLog(@"DialogViewController: Play Closing Script: %@",currentNpc.closing);
 			pcWebView.hidden = YES;
-			closingScriptPlaying = YES; 		
+			self.closingScriptPlaying = YES; 		
 			[parser parseText:currentNpc.closing];
 	}
 	else {
@@ -541,28 +546,24 @@ NSString *const kDialogHtmlTemplate =
         NSLog(@"%@", media.type);
         if([media.type isEqualToString: kMediaTypeVideo]){
             NSLog(@"Gets to video");
-           /* ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
-            [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
-            mMoviePlayer.moviePlayer.shouldAutoplay = YES;
-            [mMoviePlayer.moviePlayer prepareToPlay];
-            [mMoviePlayer.moviePlayer play]; */
-            NSLog(@"Playing through MPMoviePlayerController");
-            self.moviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
-            self.moviePlayer.movieSourceType = MPMovieSourceTypeUnknown;
-            self.moviePlayer.view.hidden = NO;
-            self.moviePlayer.shouldAutoplay = YES;
-       //     [self.view addSubview:moviePlayer.view];
-            [self.moviePlayer play]; 
+            NSLog(@"Playing through ARISMoviePlayerController");
+            self.isMovie = YES;
+            NSLog(@"Boolean at this point is: %d", self.isMovie);
+            [self playAudioOrVideoFromMedia:media andHidden:NO];
         }
         else if([media.type isEqualToString: kMediaTypeImage]){
+            self.isMovie = NO;
             aScene.imageMediaId = aScene.mediaId;
             NSLog(@"imageMediaId was overwritten");
         }
         else if([media.type isEqualToString: kMediaTypeAudio]){
-            ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-            [appDelegate playAudioFromMedia:media];
+            self.isMovie = NO;
+            [self playAudioOrVideoFromMedia:media andHidden:YES];
             NSLog(@"Gets to audio");
             //Do this here for latency issues or later?
+        }
+        else{
+            self.isMovie = NO;
         }
     }
     
@@ -616,7 +617,7 @@ NSString *const kDialogHtmlTemplate =
 		cachedScrollView = pcImage;
 		continueButton = pcContinueButton;
 		
-		if (scriptIndex == [currentScript count] && closingScriptPlaying ) {
+		if (scriptIndex == [currentScript count] && self.closingScriptPlaying ) {
 			//We are at the end of the script and no conversations exist, the next tap on the button is going to end the dialog
 			[pcContinueButton setTitle: NSLocalizedString(@"DialogEnd",@"") forState: UIControlStateNormal];
 			[pcContinueButton setTitle: NSLocalizedString(@"DialogEnd",@"") forState: UIControlStateHighlighted];	
@@ -637,9 +638,14 @@ NSString *const kDialogHtmlTemplate =
 
 		continueButton = npcContinueButton;
         NSLog(@"ImageMediaID:%i",cachedScene.imageMediaId);
-		[self loadNPCImage:cachedScene.imageMediaId];
-		cachedScrollView = npcImage;
-
+        if(!self.isMovie){
+		  [self loadNPCImage:cachedScene.imageMediaId];
+            NSLog(@"Issue with boolean");
+            cachedScrollView = npcImage;
+        }
+        else{
+       // [npcImage removeFromSuperview];
+        }
 	}
 	
 	//Try resetting the height to 0 each time for proper content height calculation
@@ -790,8 +796,51 @@ NSString *const kDialogHtmlTemplate =
 	[UIView commitAnimations];
 }
 
-#pragma mark Audio
-- (void) playSound:(int)soundId asBackground:(BOOL)yesOrNo {
+#pragma mark Audio and Video
+- (void) playAudioOrVideoFromMedia:(Media*)media andHidden:(BOOL)hidden{
+    if(media.image != nil){
+        NSLog(@"Playing through AVAudioPlayer");
+        [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];	
+        [[AVAudioSession sharedInstance] setActive: YES error: nil];
+        NSError* err;
+        self.player = [[AVAudioPlayer alloc] initWithData: media.image error:&err];
+        [self.player setDelegate: self];
+        if( err ){
+            NSLog(@"Appdelegate: Playing Audio: Failed with reason: %@", [err localizedDescription]);
+        }
+        else{
+            [self.player play];
+        }
+    }
+    else{
+        NSLog(@"Playing through MPMoviePlayerController");
+        if(self.player){
+            [self.player stop];
+        }
+        [self.ARISMoviePlayer.moviePlayer stop];
+        self.ARISMoviePlayer.moviePlayer.view.hidden = hidden; 
+        self.ARISMoviePlayer = [[ARISMoviePlayerViewController alloc] init];
+        self.ARISMoviePlayer.moviePlayer.movieSourceType = MPMovieSourceTypeStreaming;
+        [self.ARISMoviePlayer.moviePlayer setContentURL: [NSURL URLWithString:media.url]];
+        [self.ARISMoviePlayer.moviePlayer setControlStyle:MPMovieControlStyleNone];
+        [self.ARISMoviePlayer.moviePlayer setFullscreen:NO];
+        [self.ARISMoviePlayer.moviePlayer prepareToPlay];
+        [self.ARISMoviePlayer.moviePlayer play]; 
+        if(!hidden){
+            NSLog(@"Gets to not hidden");
+            [self.view addSubview:ARISMoviePlayer.moviePlayer.view];
+            self.ARISMoviePlayer.view.frame = CGRectMake(0,0,320,288);
+            // npcImage.mMoviePlayer = self.ARISMoviePlayer;
+            //   npcImage = [npcImage initWithFrame: npcImage.frame andMediaId: [media.uid intValue]];
+      //      [npcImage setNeedsDisplay];
+        }
+    }
+}
+
+- (void) audioPlayerDidFinishPlaying: (AVAudioPlayer *) player
+                        successfully: (BOOL) flag {
+    NSLog(@"Appdelegate: Audio is done playing");
+    [[AVAudioSession sharedInstance] setActive: NO error: nil];
 }
 
 #pragma mark Answer Checking
