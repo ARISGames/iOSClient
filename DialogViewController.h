@@ -35,6 +35,7 @@
 	IBOutlet	UIView	*mainView;
 	IBOutlet	UIView	*npcView;
 	IBOutlet	UIView	*pcView;
+    IBOutlet	UIView	*npcVideoView;
 	
 	IBOutlet	UITableViewController	*pcTableViewController;
 	NSString	*resourcePath;
@@ -94,6 +95,7 @@
 @property(nonatomic) IBOutlet UIView		*mainView;
 @property(nonatomic) IBOutlet UIView		*npcView;
 @property(nonatomic) IBOutlet UIView		*pcView;
+@property(nonatomic) IBOutlet UIView		*npcVideoView;
 
 - (IBAction)continueButtonTouchAction;
 - (IBAction)npcScrollerTouchAction;

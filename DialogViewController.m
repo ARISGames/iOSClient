@@ -68,7 +68,7 @@ NSString *const kDialogHtmlTemplate =
 @synthesize npcImage, pcImage, npcWebView, pcWebView, pcTableView,exitToTabVal;
 @synthesize npcScrollView, pcScrollView, npcImageScrollView, pcImageScrollView, pcActivityIndicator;
 @synthesize npcContinueButton, pcContinueButton, textSizeButton, specialBackButton;
-@synthesize pcAnswerView, mainView, npcView, pcView, nothingElseLabel,lbl,currentNpc,currentNode;
+@synthesize pcAnswerView, mainView, npcView, pcView, nothingElseLabel,lbl,currentNpc,currentNode, npcVideoView;
 @synthesize player, ARISMoviePlayer;
 @synthesize isMovie, closingScriptPlaying, inFullScreenTextMode;;
 
@@ -120,7 +120,9 @@ NSString *const kDialogHtmlTemplate =
     UIBarButtonItem *textSizeButtonAlloc = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"textToggle.png"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleFullScreenTextMode)];  
 	self.textSizeButton = textSizeButtonAlloc; 
 	self.navigationItem.rightBarButtonItem = self.textSizeButton;
-	
+    
+	self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    
 	npcWebView.hidden = NO;
 	pcAnswerView.hidden = YES;
 	pcTableView.hidden = NO;
@@ -213,10 +215,12 @@ NSString *const kDialogHtmlTemplate =
 }
 
 - (IBAction)continueButtonTouchAction{
-    if(self.isMovie){
-    [ARISMoviePlayer.moviePlayer.view removeFromSuperview];
+    if(self.isMovie) {
+    [self.ARISMoviePlayer.moviePlayer.view removeFromSuperview];
+    [self.ARISMoviePlayer.moviePlayer stop];
   //  [self.view addSubview:npcImage];
     }
+    [self.player stop];
 	[self continueScript];
 }
 
@@ -539,7 +543,8 @@ NSString *const kDialogHtmlTemplate =
 	BOOL isCurrentlyDisplayed;
     
 	cachedScene = aScene;
-    
+    self.npcVideoView.hidden = YES;
+    self.npcImage.hidden = NO;
     if(aScene.mediaId != 0){
         NSLog(@"mediaId gets here");
         Media *media = [[AppModel sharedAppModel] mediaForMediaId:aScene.mediaId];
@@ -638,14 +643,14 @@ NSString *const kDialogHtmlTemplate =
 
 		continueButton = npcContinueButton;
         NSLog(@"ImageMediaID:%i",cachedScene.imageMediaId);
-        if(!self.isMovie){
+       // if(!self.isMovie){
 		  [self loadNPCImage:cachedScene.imageMediaId];
             NSLog(@"Issue with boolean");
             cachedScrollView = npcImage;
-        }
-        else{
+     //   }
+   //     else{
        // [npcImage removeFromSuperview];
-        }
+     //   }
 	}
 	
 	//Try resetting the height to 0 each time for proper content height calculation
@@ -814,10 +819,10 @@ NSString *const kDialogHtmlTemplate =
     }
     else{
         NSLog(@"Playing through MPMoviePlayerController");
-        if(self.player){
+     /*   if(self.player){
             [self.player stop];
         }
-        [self.ARISMoviePlayer.moviePlayer stop];
+        [self.ARISMoviePlayer.moviePlayer stop]; */
         self.ARISMoviePlayer.moviePlayer.view.hidden = hidden; 
         self.ARISMoviePlayer = [[ARISMoviePlayerViewController alloc] init];
         self.ARISMoviePlayer.moviePlayer.movieSourceType = MPMovieSourceTypeStreaming;
@@ -828,11 +833,18 @@ NSString *const kDialogHtmlTemplate =
         [self.ARISMoviePlayer.moviePlayer play]; 
         if(!hidden){
             NSLog(@"Gets to not hidden");
-            [self.view addSubview:ARISMoviePlayer.moviePlayer.view];
-            self.ARISMoviePlayer.view.frame = CGRectMake(0,0,320,288);
-            // npcImage.mMoviePlayer = self.ARISMoviePlayer;
-            //   npcImage = [npcImage initWithFrame: npcImage.frame andMediaId: [media.uid intValue]];
-      //      [npcImage setNeedsDisplay];
+          //  [self.view addSubview:ARISMoviePlayer.moviePlayer.view];
+            self.ARISMoviePlayer.view.frame = npcVideoView.frame;
+            self.npcVideoView = self.ARISMoviePlayer.view;
+            self.npcVideoView.hidden = NO;
+            [self.view addSubview:npcVideoView];
+            [self.view bringSubviewToFront:npcScrollView];
+            [self.view bringSubviewToFront:npcWebView];
+            npcScrollView.hidden = NO;
+            self.npcImage.hidden = NO;
+            [npcVideoView setNeedsDisplay];
+            [npcScrollView setNeedsDisplay];
+            [npcWebView setNeedsDisplay];
         }
     }
 }
