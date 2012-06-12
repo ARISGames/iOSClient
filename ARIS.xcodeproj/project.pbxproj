@@ -146,13 +146,7 @@
 		2B3D17070F49C99B0067FD3A /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D17060F49C99B0067FD3A /* Game.m */; };
 		2B3D175A0F49D18D0067FD3A /* DeveloperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D17590F49D18D0067FD3A /* DeveloperViewController.m */; };
 		2B3D18D60F4B25720067FD3A /* AppModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */; };
-		3A1564351576B0AE000AA42B /* OverlayTiles1 in Resources */ = {isa = PBXBuildFile; fileRef = 3A1564321576B0AD000AA42B /* OverlayTiles1 */; };
-		3A1564361576B0AE000AA42B /* OverlayTiles2 in Resources */ = {isa = PBXBuildFile; fileRef = 3A1564331576B0AD000AA42B /* OverlayTiles2 */; };
-		3A1564391576B340000AA42B /* OverlayTiles0 in Resources */ = {isa = PBXBuildFile; fileRef = 3A1564381576B340000AA42B /* OverlayTiles0 */; };
 		3A29205D152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A29205C152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.m */; };
-		3A9F0DD7157E6DA300549D95 /* TileOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9F0DD4157E6DA300549D95 /* TileOverlay.m */; };
-		3A9F0DD8157E6DA300549D95 /* TileOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9F0DD6157E6DA300549D95 /* TileOverlayView.m */; };
-		3A9F0DDB157E985800549D95 /* Overlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9F0DDA157E985800549D95 /* Overlay.m */; };
 		3AB24ACB152B8CE500B49876 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AB24ACA152B8CE500B49876 /* ImageIO.framework */; };
 		3AEB8F5315265E08006C12AF /* ARISUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AEB8F5215265E08006C12AF /* ARISUploader.m */; };
 		4A9181BA139FDF1600D236CC /* GamesMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9181B9139FDF1600D236CC /* GamesMapAnnotation.m */; };
@@ -641,17 +635,8 @@
 		2B3D17590F49D18D0067FD3A /* DeveloperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = DeveloperViewController.m; path = Classes/DeveloperViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		2B3D18D40F4B25720067FD3A /* AppModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = AppModel.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		2B3D18D50F4B25720067FD3A /* AppModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppModel.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		3A1564321576B0AD000AA42B /* OverlayTiles1 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = OverlayTiles1; sourceTree = "<group>"; };
-		3A1564331576B0AD000AA42B /* OverlayTiles2 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = OverlayTiles2; sourceTree = "<group>"; };
-		3A1564381576B340000AA42B /* OverlayTiles0 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = OverlayTiles0; sourceTree = "<group>"; };
 		3A29205B152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableDictionary+ImageMetadata.h"; path = "thirdParty/NSMutableDictionary+ImageMetadata.h"; sourceTree = "<group>"; };
 		3A29205C152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+ImageMetadata.m"; path = "thirdParty/NSMutableDictionary+ImageMetadata.m"; sourceTree = "<group>"; };
-		3A9F0DD3157E6DA300549D95 /* TileOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileOverlay.h; sourceTree = "<group>"; };
-		3A9F0DD4157E6DA300549D95 /* TileOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TileOverlay.m; path = "../../../Desktop/ebinnion-iMustangs-Map-Custom-Overlay-851bd55/Classes/TileOverlay.m"; sourceTree = "<group>"; };
-		3A9F0DD5157E6DA300549D95 /* TileOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileOverlayView.h; sourceTree = "<group>"; };
-		3A9F0DD6157E6DA300549D95 /* TileOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileOverlayView.m; sourceTree = "<group>"; };
-		3A9F0DD9157E985800549D95 /* Overlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Overlay.h; sourceTree = "<group>"; };
-		3A9F0DDA157E985800549D95 /* Overlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Overlay.m; sourceTree = "<group>"; };
 		3AB24ACA152B8CE500B49876 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		3AEB8F5115265E08006C12AF /* ARISUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISUploader.h; sourceTree = "<group>"; };
 		3AEB8F5215265E08006C12AF /* ARISUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISUploader.m; sourceTree = "<group>"; };
@@ -1346,8 +1331,6 @@
 				4AD5C40E14E06E6D00081B20 /* UploadContent.m */,
 				118866471406BB830009E36F /* NoteContent.h */,
 				118866481406BB830009E36F /* NoteContent.m */,
-				3A9F0DD9157E985800549D95 /* Overlay.h */,
-				3A9F0DDA157E985800549D95 /* Overlay.m */,
 				2B3D17050F49C99B0067FD3A /* Game.h */,
 				2B3D17060F49C99B0067FD3A /* Game.m */,
 				A722E7130F57425B004B04D2 /* Location.h */,
@@ -1887,18 +1870,11 @@
 				AB35E042155C661900430AF7 /* 74-location.png */,
 				AB35E043155C661900430AF7 /* 74-location@2x.png */,
 				AB35E06A155C709F00430AF7 /* 103-map.png */,
-				3A9F0DD3157E6DA300549D95 /* TileOverlay.h */,
-				3A9F0DD4157E6DA300549D95 /* TileOverlay.m */,
-				3A9F0DD5157E6DA300549D95 /* TileOverlayView.h */,
-				3A9F0DD6157E6DA300549D95 /* TileOverlayView.m */,
 				AB35E06B155C709F00430AF7 /* 103-map@2x.png */,
 				ABDA40B510506AF400823A94 /* player.png */,
 				ABDA40AA10506AF400823A94 /* GPS.xib */,
 				ABDA40AC10506AF400823A94 /* GPSViewController.h */,
-				3A1564381576B340000AA42B /* OverlayTiles0 */,
 				ABDA40AD10506AF400823A94 /* GPSViewController.m */,
-				3A1564321576B0AD000AA42B /* OverlayTiles1 */,
-				3A1564331576B0AD000AA42B /* OverlayTiles2 */,
 				ABDA40B010506AF400823A94 /* Annotation.h */,
 				ABDA40B110506AF400823A94 /* Annotation.m */,
 				ABDA40B210506AF400823A94 /* AnnotationView.h */,
@@ -2254,14 +2230,8 @@
 				AB35E079155C729200430AF7 /* 123-id-card@2x.png in Resources */,
 				AB35E07C155C73AB00430AF7 /* 117-todo.png in Resources */,
 				AB35E07D155C73AB00430AF7 /* 117-todo@2x.png in Resources */,
-<<<<<<< .mine
-				3A1564351576B0AE000AA42B /* OverlayTiles1 in Resources */,
-				3A1564361576B0AE000AA42B /* OverlayTiles2 in Resources */,
-				3A1564391576B340000AA42B /* OverlayTiles0 in Resources */,
-=======
 				AB628B871578322500557BB1 /* 213-reply.png in Resources */,
 				AB628B881578322500557BB1 /* 213-reply@2x.png in Resources */,
->>>>>>> .r2964
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2453,9 +2423,6 @@
 				11D0ABE21524E6FA00FE4544 /* MediaCache.m in Sources */,
 				3A29205D152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.m in Sources */,
 				11D7F9321537510D0046410F /* LoadingViewController.m in Sources */,
-				3A9F0DD7157E6DA300549D95 /* TileOverlay.m in Sources */,
-				3A9F0DD8157E6DA300549D95 /* TileOverlayView.m in Sources */,
-				3A9F0DDB157E985800549D95 /* Overlay.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
