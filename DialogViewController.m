@@ -59,7 +59,6 @@ NSString *const kDialogHtmlTemplate =
 		 andNpcTo:(CGRect)npcRect withAlpha:(CGFloat)npcAlpha 
  withPostSelector:(SEL)aSelector;
 - (void) applyScene:(Scene *)aScene;
-- (void) playSound:(int)soundId asBackground:(BOOL)yesOrNo;
 
 @end
 
@@ -71,6 +70,7 @@ NSString *const kDialogHtmlTemplate =
 @synthesize pcAnswerView, mainView, npcView, pcView, nothingElseLabel,lbl,currentNpc,currentNode, npcVideoView;
 @synthesize player, ARISMoviePlayer;
 @synthesize isMovie, closingScriptPlaying, inFullScreenTextMode;;
+@synthesize waiting;
 
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -121,9 +121,8 @@ NSString *const kDialogHtmlTemplate =
 	self.textSizeButton = textSizeButtonAlloc; 
 	self.navigationItem.rightBarButtonItem = self.textSizeButton;
     
-	self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+	//self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     
-	npcWebView.hidden = NO;
 	pcAnswerView.hidden = YES;
 	pcTableView.hidden = NO;
 	pcWebView.hidden = NO;
@@ -215,12 +214,17 @@ NSString *const kDialogHtmlTemplate =
 }
 
 - (IBAction)continueButtonTouchAction{
-    if(self.isMovie) {
     [self.ARISMoviePlayer.moviePlayer.view removeFromSuperview];
+    [self.npcVideoView removeFromSuperview];
     [self.ARISMoviePlayer.moviePlayer stop];
-  //  [self.view addSubview:npcImage];
+    [self.waiting stopAnimating];
+    [self.waiting removeFromSuperview];
+    if(self.player.isPlaying){
+      [self.player stop];
     }
-    [self.player stop];
+    [[AVAudioSession sharedInstance] setActive: NO error: nil];
+    self.player = nil;
+    NSLog(@"Continue Button Pressed");
 	[self continueScript];
 }
 
@@ -541,10 +545,8 @@ NSString *const kDialogHtmlTemplate =
 	UIScrollView *characterImageScrollView;
 	
 	BOOL isCurrentlyDisplayed;
-    
+    self.npcImage.hidden = NO; 
 	cachedScene = aScene;
-    self.npcVideoView.hidden = YES;
-    self.npcImage.hidden = NO;
     if(aScene.mediaId != 0){
         NSLog(@"mediaId gets here");
         Media *media = [[AppModel sharedAppModel] mediaForMediaId:aScene.mediaId];
@@ -553,7 +555,6 @@ NSString *const kDialogHtmlTemplate =
             NSLog(@"Gets to video");
             NSLog(@"Playing through ARISMoviePlayerController");
             self.isMovie = YES;
-            NSLog(@"Boolean at this point is: %d", self.isMovie);
             [self playAudioOrVideoFromMedia:media andHidden:NO];
         }
         else if([media.type isEqualToString: kMediaTypeImage]){
@@ -631,7 +632,6 @@ NSString *const kDialogHtmlTemplate =
 	}
 	else {
         NSLog(@"Dialog VC: finishScene: This is the NPC");
-
 		self.title = currentNpc.name;
 		characterView = npcView;
         characterWebView = npcWebView;
@@ -643,14 +643,9 @@ NSString *const kDialogHtmlTemplate =
 
 		continueButton = npcContinueButton;
         NSLog(@"ImageMediaID:%i",cachedScene.imageMediaId);
-       // if(!self.isMovie){
-		  [self loadNPCImage:cachedScene.imageMediaId];
-            NSLog(@"Issue with boolean");
-            cachedScrollView = npcImage;
-     //   }
-   //     else{
-       // [npcImage removeFromSuperview];
-     //   }
+        
+        [self loadNPCImage:cachedScene.imageMediaId];
+        cachedScrollView = npcImage;
 	}
 	
 	//Try resetting the height to 0 each time for proper content height calculation
@@ -673,7 +668,7 @@ NSString *const kDialogHtmlTemplate =
 	NSLog(@"Character IsCurrentlyDisplayed: %d", isCurrentlyDisplayed);
     
 	if (!isCurrentlyDisplayed) {
-        NSLog(@"Dialog VC: finishScene: The current caracter is not on screen, move them in");
+        NSLog(@"Dialog VC: finishScene: The current character is not on screen, move them in");
 
 		if (cachedScene.isPc) [self movePcIn];
 		else [self moveNpcIn];
@@ -819,35 +814,50 @@ NSString *const kDialogHtmlTemplate =
     }
     else{
         NSLog(@"Playing through MPMoviePlayerController");
-     /*   if(self.player){
-            [self.player stop];
-        }
-        [self.ARISMoviePlayer.moviePlayer stop]; */
         self.ARISMoviePlayer.moviePlayer.view.hidden = hidden; 
         self.ARISMoviePlayer = [[ARISMoviePlayerViewController alloc] init];
+        [self.ARISMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
         self.ARISMoviePlayer.moviePlayer.movieSourceType = MPMovieSourceTypeStreaming;
         [self.ARISMoviePlayer.moviePlayer setContentURL: [NSURL URLWithString:media.url]];
         [self.ARISMoviePlayer.moviePlayer setControlStyle:MPMovieControlStyleNone];
         [self.ARISMoviePlayer.moviePlayer setFullscreen:NO];
         [self.ARISMoviePlayer.moviePlayer prepareToPlay];
-        [self.ARISMoviePlayer.moviePlayer play]; 
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(MPMoviePlayerLoadStateDidChangeNotification: ) name:MPMoviePlayerLoadStateDidChangeNotification object:self.ARISMoviePlayer.moviePlayer];
+        UIActivityIndicatorView *allocWaiting = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        self.waiting = allocWaiting;
+        self.waiting.center = self.view.center;
+        self.waiting.hidesWhenStopped = YES;
+        [self.view addSubview:waiting];
+        [self.waiting startAnimating];
         if(!hidden){
             NSLog(@"Gets to not hidden");
-          //  [self.view addSubview:ARISMoviePlayer.moviePlayer.view];
             self.ARISMoviePlayer.view.frame = npcVideoView.frame;
-            self.npcVideoView = self.ARISMoviePlayer.view;
+            self.npcVideoView = (UIScrollView *)self.ARISMoviePlayer.view;
             self.npcVideoView.hidden = NO;
-            [self.view addSubview:npcVideoView];
-            [self.view bringSubviewToFront:npcScrollView];
-            [self.view bringSubviewToFront:npcWebView];
-            npcScrollView.hidden = NO;
-            self.npcImage.hidden = NO;
-            [npcVideoView setNeedsDisplay];
-            [npcScrollView setNeedsDisplay];
-            [npcWebView setNeedsDisplay];
+            [self.npcView insertSubview:npcVideoView atIndex: 1];
+            self.npcImage.hidden = YES;
         }
     }
 }
+
+#pragma mark MPMoviePlayerController notifications
+
+- (void)MPMoviePlayerLoadStateDidChangeNotification:(NSNotification *)notif
+{
+    NSLog(@"loadState: %d", self.ARISMoviePlayer.moviePlayer.loadState);
+    if (self.ARISMoviePlayer.moviePlayer.loadState & MPMovieLoadStateStalled) {
+        [self.waiting startAnimating];
+        [self.ARISMoviePlayer.moviePlayer pause];
+    } else if (self.ARISMoviePlayer.moviePlayer.loadState & MPMovieLoadStatePlayable) {
+        [self.waiting stopAnimating];
+        NSLog(@"Load state changes");
+        [self.ARISMoviePlayer.moviePlayer play];
+        [self.waiting removeFromSuperview];
+        
+    }
+} 
+
+#pragma mark audioPlayerDone
 
 - (void) audioPlayerDidFinishPlaying: (AVAudioPlayer *) player
                         successfully: (BOOL) flag {

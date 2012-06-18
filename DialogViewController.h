@@ -35,7 +35,7 @@
 	IBOutlet	UIView	*mainView;
 	IBOutlet	UIView	*npcView;
 	IBOutlet	UIView	*pcView;
-    IBOutlet	UIView	*npcVideoView;
+    IBOutlet	UIScrollView	*npcVideoView;
 	
 	IBOutlet	UITableViewController	*pcTableViewController;
 	NSString	*resourcePath;
@@ -60,6 +60,8 @@
     
     AVAudioPlayer *player;
     ARISMoviePlayerViewController *ARISMoviePlayer;
+    
+    UIActivityIndicatorView *waiting;
 }
 
 
@@ -77,6 +79,7 @@
 @property(nonatomic) IBOutlet UIBarButtonItem *specialBackButton;
 @property (nonatomic, strong) AVAudioPlayer *player;
 @property (nonatomic, strong) ARISMoviePlayerViewController *ARISMoviePlayer;
+@property (nonatomic)         UIActivityIndicatorView *waiting;
 @property                     BOOL isMovie;
 @property                     BOOL closingScriptPlaying;
 @property                     BOOL inFullScreenTextMode;
@@ -95,7 +98,7 @@
 @property(nonatomic) IBOutlet UIView		*mainView;
 @property(nonatomic) IBOutlet UIView		*npcView;
 @property(nonatomic) IBOutlet UIView		*pcView;
-@property(nonatomic) IBOutlet UIView		*npcVideoView;
+@property(nonatomic) IBOutlet UIScrollView		*npcVideoView;
 
 - (IBAction)continueButtonTouchAction;
 - (IBAction)npcScrollerTouchAction;
@@ -111,6 +114,7 @@
 - (void) dismissWaitingIndicatorForPlayerOptions;
 - (void) imageFinishedLoading;
 - (void) playAudioOrVideoFromMedia:(Media*)media andHidden:(BOOL)hidden;
+- (void) MPMoviePlayerLoadStateDidChangeNotification:(NSNotification *)notif;
 
 @end
 
