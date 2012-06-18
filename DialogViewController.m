@@ -69,7 +69,7 @@ NSString *const kDialogHtmlTemplate =
 @synthesize npcContinueButton, pcContinueButton, textSizeButton, specialBackButton;
 @synthesize pcAnswerView, mainView, npcView, pcView, nothingElseLabel,lbl,currentNpc,currentNode, npcVideoView;
 @synthesize player, ARISMoviePlayer;
-@synthesize isMovie, closingScriptPlaying, inFullScreenTextMode;;
+@synthesize closingScriptPlaying, inFullScreenTextMode;;
 @synthesize waiting;
 
 
@@ -554,22 +554,16 @@ NSString *const kDialogHtmlTemplate =
         if([media.type isEqualToString: kMediaTypeVideo]){
             NSLog(@"Gets to video");
             NSLog(@"Playing through ARISMoviePlayerController");
-            self.isMovie = YES;
             [self playAudioOrVideoFromMedia:media andHidden:NO];
         }
         else if([media.type isEqualToString: kMediaTypeImage]){
-            self.isMovie = NO;
             aScene.imageMediaId = aScene.mediaId;
             NSLog(@"imageMediaId was overwritten");
         }
         else if([media.type isEqualToString: kMediaTypeAudio]){
-            self.isMovie = NO;
             [self playAudioOrVideoFromMedia:media andHidden:YES];
             NSLog(@"Gets to audio");
             //Do this here for latency issues or later?
-        }
-        else{
-            self.isMovie = NO;
         }
     }
     

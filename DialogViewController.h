@@ -56,7 +56,6 @@
     UILabel         *lbl;
 	BOOL			closingScriptPlaying;
 	BOOL			inFullScreenTextMode;
-    BOOL            isMovie;
     
     AVAudioPlayer *player;
     ARISMoviePlayerViewController *ARISMoviePlayer;
@@ -80,7 +79,6 @@
 @property (nonatomic, strong) AVAudioPlayer *player;
 @property (nonatomic, strong) ARISMoviePlayerViewController *ARISMoviePlayer;
 @property (nonatomic)         UIActivityIndicatorView *waiting;
-@property                     BOOL isMovie;
 @property                     BOOL closingScriptPlaying;
 @property                     BOOL inFullScreenTextMode;
 

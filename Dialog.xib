@@ -303,7 +303,7 @@
 										<string key="NSFrameSize">{320, 416}</string>
 										<reference key="NSSuperview" ref="528360346"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="687792649"/>
+										<reference key="NSNextKeyView" ref="769965998"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 										<int key="IBUIContentMode">2</int>
@@ -314,7 +314,7 @@
 								<string key="NSFrameSize">{320, 416}</string>
 								<reference key="NSSuperview" ref="133102362"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
+								<reference key="NSNextKeyView" ref="758704175"/>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -326,6 +326,7 @@
 								<string key="NSFrame">{{40, 144}, {240, 128}}</string>
 								<reference key="NSSuperview" ref="133102362"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="687792649"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -374,21 +375,6 @@
 										<reference key="IBUIFontDescription" ref="762653550"/>
 										<reference key="IBUIFont" ref="422332251"/>
 									</object>
-									<object class="IBUIImageView" id="984457617">
-										<reference key="NSNextResponder" ref="687792649"/>
-										<int key="NSvFlags">271</int>
-										<string key="NSFrame">{{-10, 110}, {320, 20}}</string>
-										<reference key="NSSuperview" ref="687792649"/>
-										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="629273398"/>
-										<bool key="IBUIOpaque">NO</bool>
-										<bool key="IBUIUserInteractionEnabled">NO</bool>
-										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-										<object class="NSCustomResource" key="IBUIImage">
-											<string key="NSClassName">NSImage</string>
-											<string key="NSResourceName">textFade.png</string>
-										</object>
-									</object>
 								</object>
 								<string key="NSFrame">{{0, 288}, {320, 128}}</string>
 								<reference key="NSSuperview" ref="133102362"/>
@@ -417,6 +403,21 @@
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<float key="IBUIAlpha">0.0</float>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+					</object>
+					<object class="IBUIImageView" id="984457617">
+						<reference key="NSNextResponder" ref="774585933"/>
+						<int key="NSvFlags">271</int>
+						<string key="NSFrame">{{0, 396}, {320, 20}}</string>
+						<reference key="NSSuperview" ref="774585933"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="629273398"/>
+						<bool key="IBUIOpaque">NO</bool>
+						<bool key="IBUIUserInteractionEnabled">NO</bool>
+						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<object class="NSCustomResource" key="IBUIImage">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">textFade.png</string>
+						</object>
 					</object>
 				</object>
 				<string key="NSFrame">{{0, 64}, {320, 416}}</string>
@@ -710,6 +711,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="629273398"/>
 							<reference ref="133102362"/>
+							<reference ref="984457617"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">View</string>
@@ -759,7 +761,6 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="211859721"/>
 							<reference ref="354571343"/>
-							<reference ref="984457617"/>
 						</object>
 						<reference key="parent" ref="133102362"/>
 						<string key="objectName">NPC Scroll View</string>
@@ -845,15 +846,18 @@
 						<string key="objectName">Large White Activity Indicator</string>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">59</int>
-						<reference key="object" ref="984457617"/>
-						<reference key="parent" ref="687792649"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">83</int>
 						<reference key="object" ref="769965998"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+						</object>
 						<reference key="parent" ref="133102362"/>
 						<string key="objectName">NPC Video Scroll View</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">59</int>
+						<reference key="object" ref="984457617"/>
+						<reference key="parent" ref="774585933"/>
 					</object>
 				</object>
 			</object>
@@ -1012,7 +1016,7 @@
 							<string>AsyncMediaImageView</string>
 							<string>UIScrollView</string>
 							<string>UIScrollView</string>
-							<string>UIView</string>
+							<string>UIScrollView</string>
 							<string>UIView</string>
 							<string>UIWebView</string>
 							<string>UIActivityIndicatorView</string>
@@ -1088,7 +1092,7 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">npcVideoView</string>
-								<string key="candidateClassName">UIView</string>
+								<string key="candidateClassName">UIScrollView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">npcView</string>
