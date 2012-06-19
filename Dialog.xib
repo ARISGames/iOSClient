@@ -53,7 +53,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBUIScrollView" id="205060251">
 								<reference key="NSNextResponder" ref="629273398"/>
-								<int key="NSvFlags">286</int>
+								<int key="NSvFlags">274</int>
 								<object class="NSMutableArray" key="NSSubviews">
 									<bool key="EncodedWithXMLCoder">YES</bool>
 									<object class="IBUIImageView" id="5728575">
@@ -81,7 +81,7 @@
 							</object>
 							<object class="IBUIScrollView" id="644584544">
 								<reference key="NSNextResponder" ref="629273398"/>
-								<int key="NSvFlags">286</int>
+								<int key="NSvFlags">274</int>
 								<object class="NSMutableArray" key="NSSubviews">
 									<bool key="EncodedWithXMLCoder">YES</bool>
 									<object class="IBUIWebView" id="411850233">
@@ -223,7 +223,7 @@
 									</object>
 									<object class="IBUITableView" id="1028266386">
 										<reference key="NSNextResponder" ref="644584544"/>
-										<int key="NSvFlags">287</int>
+										<int key="NSvFlags">271</int>
 										<string key="NSFrameSize">{320, 128}</string>
 										<reference key="NSSuperview" ref="644584544"/>
 										<reference key="NSWindow"/>
@@ -252,6 +252,7 @@
 										<string key="NSFrame">{{141, 42}, {37, 37}}</string>
 										<reference key="NSSuperview" ref="644584544"/>
 										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 										<bool key="IBUIHidesWhenStopped">NO</bool>
@@ -289,7 +290,7 @@
 					</object>
 					<object class="IBUIView" id="133102362">
 						<reference key="NSNextResponder" ref="774585933"/>
-						<int key="NSvFlags">268</int>
+						<int key="NSvFlags">286</int>
 						<object class="NSMutableArray" key="NSSubviews">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBUIScrollView" id="528360346">

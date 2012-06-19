@@ -105,6 +105,8 @@ NSString *const kDialogHtmlTemplate =
     //View Setup
 	npcImageScrollView.contentSize = [npcView frame].size;
 	pcImageScrollView.contentSize = [pcView frame].size;
+    
+    self.pcScrollView.frame = CGRectMake(0, 332, 320, 128);
 	
 	[npcWebView setBackgroundColor:[UIColor clearColor]];	
 	[pcWebView setBackgroundColor:[UIColor clearColor]];
@@ -121,7 +123,7 @@ NSString *const kDialogHtmlTemplate =
 	self.textSizeButton = textSizeButtonAlloc; 
 	self.navigationItem.rightBarButtonItem = self.textSizeButton;
     
-	//self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+	self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     
 	pcAnswerView.hidden = YES;
 	pcTableView.hidden = NO;
@@ -141,7 +143,7 @@ NSString *const kDialogHtmlTemplate =
 		[pcImage loadImageFromMedia: pcMedia];
 	}
 	else {
-        [pcImage updateViewWithNewImage:[UIImage imageNamed:@"defaultCharacter.png"]];
+        [pcImage updateViewWithNewImage:[UIImage imageNamed:@"defaultPCImage.png"]];
         [self applyNPCWithGreeting];
 	}
 /*  SAMPLE DIALOG FORMAT
@@ -163,21 +165,26 @@ NSString *const kDialogHtmlTemplate =
 
 -(void)toggleFullScreenTextMode{
 	NSLog(@"DialogViewController: toggleTextSize");
-	
-	CGRect newTextFrame;
-	if (self.inFullScreenTextMode) {
-		//Switch to small mode
-		newTextFrame = CGRectMake(0, 288, 320, 128);
+
+    CGRect newTextFrame;
+    NSInteger pixelShift = 0;
+    if(self.navigationController.navigationBar.barStyle == UIBarStyleBlackTranslucent){
+        pixelShift=44;
+    }	
+    NSLog(@"pixelShift: %d", pixelShift);
+    if (self.inFullScreenTextMode) {
+        newTextFrame = CGRectMake(0, 288+pixelShift, 320, 128);
 	}
 	else {
 		//switch to full screen mode
-		newTextFrame = self.view.bounds;
+		newTextFrame = CGRectMake(0, pixelShift, 320, 416);
 	}
 	
 	[UIView beginAnimations:@"toggleTextSize" context:nil];
 	[UIView setAnimationDuration:0.5];
 	self.pcScrollView.frame = newTextFrame;
-	self.pcTableView.frame = self.pcScrollView.bounds;
+	self.pcTableView.frame = self.pcScrollView.bounds; //used to be bounds
+    NSLog(@"The TableView: %f %f %f %f", self.pcTableView.frame.origin.x, self.pcTableView.frame.origin.y, self.pcTableView.frame.size.width, self.pcTableView.frame.size.height);
     self.pcScrollView.contentSize = self.pcTableView.frame.size;
 	self.npcScrollView.frame = newTextFrame;
 	[UIView commitAnimations];
@@ -201,6 +208,7 @@ NSString *const kDialogHtmlTemplate =
     self.navigationItem.leftBarButtonItem = self.navigationItem.backBarButtonItem;
 }
 - (void) viewDidDisappear:(BOOL)animated {
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 	NSLog(@"DialogViewController: View Did Disapear");
 }
 
@@ -298,6 +306,10 @@ NSString *const kDialogHtmlTemplate =
 	
 	Media *characterMedia = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
 	[aView loadImageFromMedia:characterMedia];
+    UIImage *currentImage = [UIImage imageWithData:aView.media.image];
+    if(currentImage.size.height == 416 && currentImage.size.width == 320){
+        self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    }
 	[aView setNeedsDisplay];
 	*priorId = mediaId;
 }
@@ -519,7 +531,7 @@ NSString *const kDialogHtmlTemplate =
 - (void) showWaitingIndicatorForPlayerOptions{
 	pcTableViewController.view.hidden = YES;
 	pcActivityIndicator.hidden = NO;
-    pcActivityIndicator.frame = CGRectMake(130, 300,50 , 50);
+    pcActivityIndicator.frame = CGRectMake(130, 300, 50, 50);
     pcScrollView.hidden = YES;
     npcScrollView.hidden = YES;
     lbl.frame =  pcScrollView.frame;
@@ -543,8 +555,9 @@ NSString *const kDialogHtmlTemplate =
     UIWebView *characterWebView;
 	UIScrollView *characterScrollView;
 	UIScrollView *characterImageScrollView;
-	
 	BOOL isCurrentlyDisplayed;
+    
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     self.npcImage.hidden = NO; 
 	cachedScene = aScene;
     if(aScene.mediaId != 0){
@@ -563,20 +576,19 @@ NSString *const kDialogHtmlTemplate =
         else if([media.type isEqualToString: kMediaTypeAudio]){
             [self playAudioOrVideoFromMedia:media andHidden:YES];
             NSLog(@"Gets to audio");
-            //Do this here for latency issues or later?
         }
     }
     
     // if no media id is specified for the scene, default to the current NPC's image
     if (cachedScene.imageMediaId == 0)
         cachedScene.imageMediaId = currentNpc.mediaId; 
-	
+    
     characterView = aScene.isPc ? pcView : npcView;
 	characterWebView = aScene.isPc ? pcWebView : npcWebView;
 	characterScrollView = aScene.isPc ? pcScrollView : npcScrollView;
 	characterImageScrollView = aScene.isPc ? pcImageScrollView : npcImageScrollView;
 
-	isCurrentlyDisplayed = characterView.frame.origin.x == 0;
+	isCurrentlyDisplayed = (characterView.frame.origin.x == 0);
 	
 	if (isCurrentlyDisplayed) {
 		[UIView beginAnimations:@"dialog" context:nil];
