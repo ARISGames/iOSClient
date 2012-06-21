@@ -56,11 +56,15 @@
     UILabel         *lbl;
 	BOOL			closingScriptPlaying;
 	BOOL			inFullScreenTextMode;
+    BOOL			areNotifications;
+    BOOL            movedForNotifications;
     
     AVAudioPlayer *player;
     ARISMoviePlayerViewController *ARISMoviePlayer;
     
     UIActivityIndicatorView *waiting;
+    
+    int             notificationBarHeight;
 }
 
 
@@ -81,6 +85,9 @@
 @property (nonatomic)         UIActivityIndicatorView *waiting;
 @property                     BOOL closingScriptPlaying;
 @property                     BOOL inFullScreenTextMode;
+@property                     BOOL areNotifications;
+@property                     BOOL movedForNotifications;
+@property (readwrite,assign)  int notificationBarHeight;
 
 @property(nonatomic) IBOutlet NSString *exitToTabVal;
 
