@@ -71,7 +71,7 @@ NSString *const kDialogHtmlTemplate =
 @synthesize player, ARISMoviePlayer;
 @synthesize closingScriptPlaying, inFullScreenTextMode;;
 @synthesize waiting, notificationBarHeight, areNotifications, movedForNotifications;
-
+@synthesize tempNpcFrame, tempPcFrame;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -126,6 +126,7 @@ NSString *const kDialogHtmlTemplate =
 	self.navigationItem.rightBarButtonItem = self.textSizeButton;
     
 	self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    self.navigationController.navigationBar.opaque = NO;
     
 	pcAnswerView.hidden = YES;
 	pcTableView.hidden = NO;
@@ -205,19 +206,23 @@ NSString *const kDialogHtmlTemplate =
 -(void)showNotifications:(NSNotification*) notification {
     if(!self.movedForNotifications){
     self.areNotifications = YES;
+    self.tempNpcFrame = self.npcImageScrollView.frame;
+    self.tempPcFrame =  self.pcImageScrollView.frame;
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     self.notificationBarHeight = appDelegate.notificationBarHeight;
     CGRect newTextFrame;
-    if (self.inFullScreenTextMode) {
     newTextFrame = CGRectMake(0, 44+self.notificationBarHeight, 320, 416);
-	[UIView beginAnimations:@"toggleTextSize" context:nil];
-	[UIView setAnimationDuration:0.5];
+    [UIView beginAnimations:@"toggleTextSize" context:nil];
+    [UIView setAnimationDuration:0.5];
+    if (self.inFullScreenTextMode) {
 	self.pcScrollView.frame = newTextFrame;
 	self.pcTableView.frame = self.pcScrollView.bounds;
     self.pcScrollView.contentSize = self.pcTableView.frame.size;
 	self.npcScrollView.frame = newTextFrame;
-	[UIView commitAnimations];
     }
+    self.pcImageScrollView.frame =  CGRectMake(0, 44, 320, 416);
+    self.npcImageScrollView.frame =  CGRectMake(0, 44, 320, 416);
+	[UIView commitAnimations];
   /*  else{
         newTextFrame = CGRectMake(0, 332-self.notificationBarHeight, 320, 416);
         [UIView beginAnimations:@"toggleTextSize" context:nil];
@@ -236,16 +241,18 @@ NSString *const kDialogHtmlTemplate =
     self.areNotifications = NO;
     self.movedForNotifications = NO;
     CGRect newTextFrame;
+    newTextFrame = CGRectMake(0, 44, 320, 416);
+    [UIView beginAnimations:@"toggleTextSize" context:nil];
+    [UIView setAnimationDuration:0.5];
+    self.pcImageScrollView.frame =  self.tempPcFrame;
+    self.npcImageScrollView.frame =  self.tempNpcFrame;
     if (self.inFullScreenTextMode) {
-        newTextFrame = CGRectMake(0, 44-self.notificationBarHeight, 320, 416);
-        [UIView beginAnimations:@"toggleTextSize" context:nil];
-        [UIView setAnimationDuration:0.5];
         self.pcScrollView.frame = newTextFrame;
         self.pcTableView.frame = self.pcScrollView.bounds;
         self.pcScrollView.contentSize = self.pcTableView.frame.size;
         self.npcScrollView.frame = newTextFrame;
-        [UIView commitAnimations];
     }
+    [UIView commitAnimations];
   /*  else{
         newTextFrame = CGRectMake(0, 332-self.notificationBarHeight, 320, 416);
         [UIView beginAnimations:@"toggleTextSize" context:nil];
@@ -752,7 +759,7 @@ NSString *const kDialogHtmlTemplate =
 		  cachedScene.imageRect.origin.x,cachedScene.imageRect.origin.y, 
 		  cachedScene.imageRect.size.width,cachedScene.imageRect.size.height);
 	
-	self.npcScrollView.frame = self.pcScrollView.frame;
+  	self.npcScrollView.frame = self.pcScrollView.frame;
     
 	[UIView beginAnimations:@"cameraMove" context:nil];
 	[UIView setAnimationCurve:UIViewAnimationCurveLinear];

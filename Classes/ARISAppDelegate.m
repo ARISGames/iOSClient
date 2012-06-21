@@ -344,7 +344,6 @@ BOOL isShowingNotification;
 #pragma mark Notifications, Warnings and Other Views
 
 -(void)showNotifications{
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
     NSNotification *showNotificationsNotification = [NSNotification notificationWithName:@"showNotifications" object:self];
     [[NSNotificationCenter defaultCenter] postNotification:showNotificationsNotification];
     NSLog(@"AppDelegate: showNotifications");
@@ -359,6 +358,9 @@ BOOL isShowingNotification;
         [UIView setAnimationDuration:.5];
             NSLog(@"AppDelegate: showNotifications: Begin Resizing");
             NSLog(@"TabBC frame BEFORE origin: %f notificationBarHeight %d",self.tabBarController.view.frame.origin.y,self.notificationBarHeight);
+            
+            [[UIApplication sharedApplication] setStatusBarHidden:YES];
+            
             if(self.tabBarController.modalViewController){
                 self.tabBarController.modalViewController.view.frame = CGRectMake(self.tabBarController.modalViewController.view.frame.origin.x,40+[UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y-20, self.tabBarController.modalViewController.view.frame.size.width, 440-[UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y+20); 
             }
@@ -402,20 +404,21 @@ BOOL isShowingNotification;
 }
 
 -(void)hideNotifications{
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     NSNotification *hideNotificationsNotification = [NSNotification notificationWithName:@"hideNotifications" object:self];
     [[NSNotificationCenter defaultCenter] postNotification:hideNotificationsNotification];
     
     if(!tabBarController.view.hidden){
     [UIView animateWithDuration:.5 delay:0.0 options:UIViewAnimationCurveEaseIn animations:^{
         if(isShowingNotification){
+            [[UIApplication sharedApplication] setStatusBarHidden:NO];
+            
             if(self.tabBarController.modalViewController){
                 self.tabBarController.modalViewController.view.frame = CGRectMake(self.tabBarController.modalViewController.view.frame.origin.x, [UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y-20, self.tabBarController.modalViewController.view.frame.size.width, 480-[UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y+20);             }
             
-        self.tabBarController.view.frame = CGRectMake(self.tabBarController.view.frame.origin.x, [UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y-notificationBarHeight, self.tabBarController.view.frame.size.width, 480-[UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y+notificationBarHeight); 
+            self.tabBarController.view.frame = CGRectMake(self.tabBarController.view.frame.origin.x, [UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y-notificationBarHeight, self.tabBarController.view.frame.size.width, 480-[UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y+notificationBarHeight); 
             
-        [self.titleLabel setFrame:CGRectMake(0, -20, 320, 20)];
-        [self.descLabel setFrame:CGRectMake(0, -20, 320, 15)];
+            [self.titleLabel setFrame:CGRectMake(0, -20, 320, 20)];
+            [self.descLabel setFrame:CGRectMake(0, -20, 320, 15)];
         }
     }completion:^(BOOL finished){
         isShowingNotification = NO;

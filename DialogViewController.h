@@ -59,6 +59,9 @@
     BOOL			areNotifications;
     BOOL            movedForNotifications;
     
+    CGRect          tempNpcFrame;
+    CGRect          tempPcFrame;
+    
     AVAudioPlayer *player;
     ARISMoviePlayerViewController *ARISMoviePlayer;
     
@@ -82,6 +85,8 @@
 @property(nonatomic) IBOutlet UIBarButtonItem *specialBackButton;
 @property (nonatomic, strong) AVAudioPlayer *player;
 @property (nonatomic, strong) ARISMoviePlayerViewController *ARISMoviePlayer;
+@property (nonatomic)         CGRect tempNpcFrame;
+@property (nonatomic)         CGRect tempPcFrame;
 @property (nonatomic)         UIActivityIndicatorView *waiting;
 @property                     BOOL closingScriptPlaying;
 @property                     BOOL inFullScreenTextMode;
