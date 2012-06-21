@@ -360,6 +360,7 @@
 		D43717DF106D62BB0020C515 /* Media.m in Sources */ = {isa = PBXBuildFile; fileRef = D43717DE106D62BB0020C515 /* Media.m */; };
 		D4D366DF111B6789009C4D00 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D366DE111B6789009C4D00 /* CFNetwork.framework */; };
 		D4DE6B8B110A00D7008BFE38 /* defaultCharacter.png in Resources */ = {isa = PBXBuildFile; fileRef = D4DE6B8A110A00D7008BFE38 /* defaultCharacter.png */; };
+		DBBCE9E115937704006994F9 /* DefaultPCImage.png in Resources */ = {isa = PBXBuildFile; fileRef = DBBCE9E015937704006994F9 /* DefaultPCImage.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -930,6 +931,7 @@
 		D43717DE106D62BB0020C515 /* Media.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Media.m; sourceTree = "<group>"; };
 		D4D366DE111B6789009C4D00 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		D4DE6B8A110A00D7008BFE38 /* defaultCharacter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultCharacter.png; sourceTree = "<group>"; };
+		DBBCE9E015937704006994F9 /* DefaultPCImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultPCImage.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1959,6 +1961,7 @@
 				D424324A1107730E00E58147 /* Scene.m */,
 				D424324B1107730E00E58147 /* SceneParser.h */,
 				D424324C1107730E00E58147 /* SceneParser.m */,
+				DBBCE9E015937704006994F9 /* DefaultPCImage.png */,
 				D4DE6B8A110A00D7008BFE38 /* defaultCharacter.png */,
 			);
 			name = "NPC Dialog";
@@ -2232,6 +2235,7 @@
 				AB35E07D155C73AB00430AF7 /* 117-todo@2x.png in Resources */,
 				AB628B871578322500557BB1 /* 213-reply.png in Resources */,
 				AB628B881578322500557BB1 /* 213-reply@2x.png in Resources */,
+				DBBCE9E115937704006994F9 /* DefaultPCImage.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

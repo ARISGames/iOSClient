@@ -23,7 +23,6 @@
 #import "ItemDetailsViewController.h"
 
 const NSInteger kStartingIndex = 0;
-const NSInteger kPcIndex = 0;
 const NSInteger kMaxOptions = 20;
 const NSInteger kOptionsFontSize = 17;
 NSString *const kOutAnimation = @"out";
@@ -60,7 +59,6 @@ NSString *const kDialogHtmlTemplate =
 		 andNpcTo:(CGRect)npcRect withAlpha:(CGFloat)npcAlpha 
  withPostSelector:(SEL)aSelector;
 - (void) applyScene:(Scene *)aScene;
-- (void) playSound:(int)soundId asBackground:(BOOL)yesOrNo;
 
 @end
 
@@ -69,8 +67,11 @@ NSString *const kDialogHtmlTemplate =
 @synthesize npcImage, pcImage, npcWebView, pcWebView, pcTableView,exitToTabVal;
 @synthesize npcScrollView, pcScrollView, npcImageScrollView, pcImageScrollView, pcActivityIndicator;
 @synthesize npcContinueButton, pcContinueButton, textSizeButton, specialBackButton;
-@synthesize pcAnswerView, mainView, npcView, pcView, nothingElseLabel,lbl,currentNpc,currentNode;
-
+@synthesize pcAnswerView, mainView, npcView, pcView, nothingElseLabel,lbl,currentNpc,currentNode, npcVideoView;
+@synthesize player, ARISMoviePlayer;
+@synthesize closingScriptPlaying, inFullScreenTextMode;;
+@synthesize waiting, notificationBarHeight, areNotifications, movedForNotifications;
+@synthesize tempNpcFrame, tempPcFrame;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -97,13 +98,17 @@ NSString *const kDialogHtmlTemplate =
 	//General Setup
 	lastPcId = 0;
 	currentNode = nil;
-	closingScriptPlaying = NO;
-	inFullScreenTextMode = NO;
+	self.closingScriptPlaying = NO;
+	self.inFullScreenTextMode = NO;
+    self.areNotifications = NO;
+    self.movedForNotifications = NO;
     self.exitToTabVal = nil;
 	
     //View Setup
 	npcImageScrollView.contentSize = [npcView frame].size;
 	pcImageScrollView.contentSize = [pcView frame].size;
+    
+    self.pcScrollView.frame = CGRectMake(0, 332, 320, 128);
 	
 	[npcWebView setBackgroundColor:[UIColor clearColor]];	
 	[pcWebView setBackgroundColor:[UIColor clearColor]];
@@ -119,8 +124,10 @@ NSString *const kDialogHtmlTemplate =
     UIBarButtonItem *textSizeButtonAlloc = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"textToggle.png"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleFullScreenTextMode)];  
 	self.textSizeButton = textSizeButtonAlloc; 
 	self.navigationItem.rightBarButtonItem = self.textSizeButton;
-	
-	npcWebView.hidden = NO;
+    
+	self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    self.navigationController.navigationBar.opaque = NO;
+    
 	pcAnswerView.hidden = YES;
 	pcTableView.hidden = NO;
 	pcWebView.hidden = NO;
@@ -139,9 +146,14 @@ NSString *const kDialogHtmlTemplate =
 		[pcImage loadImageFromMedia: pcMedia];
 	}
 	else {
-        [pcImage updateViewWithNewImage:[UIImage imageNamed:@"defaultCharacter.png"]];
+        [pcImage updateViewWithNewImage:[UIImage imageNamed:@"defaultPCImage.png"]];
         [self applyNPCWithGreeting];
 	}
+    
+    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+	[dispatcher addObserver:self selector:@selector(showNotifications:) name:@"showNotifications" object:nil];
+    [dispatcher addObserver:self selector:@selector(hideNotifications:) name:@"hideNotifications" object:nil];
+    
 /*  SAMPLE DIALOG FORMAT
 	NSString *xmlData = 
 	@"<dialog>"
@@ -161,17 +173,24 @@ NSString *const kDialogHtmlTemplate =
 
 -(void)toggleFullScreenTextMode{
 	NSLog(@"DialogViewController: toggleTextSize");
-	
-	CGRect newTextFrame;
-	if (inFullScreenTextMode) {
-		//Switch to small mode
-		newTextFrame = CGRectMake(0, 288, 320, 128);
+
+    CGRect newTextFrame;
+    if (self.inFullScreenTextMode) {
+        //switch to part of screen mode
+        int yValue = 332;
+        if(self.areNotifications){
+            yValue -= self.notificationBarHeight;
+        } 
+        newTextFrame = CGRectMake(0, yValue, 320, 128);
 	}
 	else {
 		//switch to full screen mode
-		newTextFrame = self.view.bounds;
+        int yValue = 44;
+        if(self.areNotifications){
+            yValue += self.notificationBarHeight;
+        } 
+		newTextFrame = CGRectMake(0, yValue, 320, 416);
 	}
-	
 	[UIView beginAnimations:@"toggleTextSize" context:nil];
 	[UIView setAnimationDuration:0.5];
 	self.pcScrollView.frame = newTextFrame;
@@ -180,8 +199,71 @@ NSString *const kDialogHtmlTemplate =
 	self.npcScrollView.frame = newTextFrame;
 	[UIView commitAnimations];
 	
-	inFullScreenTextMode = !inFullScreenTextMode;
+	self.inFullScreenTextMode = !self.inFullScreenTextMode;
 	
+}
+
+-(void)showNotifications:(NSNotification*) notification {
+    if(!self.movedForNotifications){
+    self.areNotifications = YES;
+    self.tempNpcFrame = self.npcImageScrollView.frame;
+    self.tempPcFrame =  self.pcImageScrollView.frame;
+    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    self.notificationBarHeight = appDelegate.notificationBarHeight;
+    CGRect newTextFrame;
+    newTextFrame = CGRectMake(0, 44+self.notificationBarHeight, 320, 416);
+    [UIView beginAnimations:@"toggleTextSize" context:nil];
+    [UIView setAnimationDuration:0.5];
+    if (self.inFullScreenTextMode) {
+	self.pcScrollView.frame = newTextFrame;
+	self.pcTableView.frame = self.pcScrollView.bounds;
+    self.pcScrollView.contentSize = self.pcTableView.frame.size;
+	self.npcScrollView.frame = newTextFrame;
+    }
+    self.pcImageScrollView.frame =  CGRectMake(0, 44, 320, 416);
+    self.npcImageScrollView.frame =  CGRectMake(0, 44, 320, 416);
+	[UIView commitAnimations];
+  /*  else{
+        newTextFrame = CGRectMake(0, 332-self.notificationBarHeight, 320, 416);
+        [UIView beginAnimations:@"toggleTextSize" context:nil];
+        [UIView setAnimationDuration:0.5];
+        self.pcScrollView.frame = newTextFrame;
+        self.pcTableView.frame = self.pcScrollView.bounds;
+        self.pcScrollView.contentSize = self.pcTableView.frame.size;
+        self.npcScrollView.frame = newTextFrame;
+        [UIView commitAnimations];   
+    }  */
+        self.movedForNotifications = YES;
+    } 
+}
+
+-(void)hideNotifications:(NSNotification*) notification {
+    self.areNotifications = NO;
+    self.movedForNotifications = NO;
+    CGRect newTextFrame;
+    newTextFrame = CGRectMake(0, 44, 320, 416);
+    [UIView beginAnimations:@"toggleTextSize" context:nil];
+    [UIView setAnimationDuration:0.5];
+    self.pcImageScrollView.frame =  self.tempPcFrame;
+    self.npcImageScrollView.frame =  self.tempNpcFrame;
+    if (self.inFullScreenTextMode) {
+        self.pcScrollView.frame = newTextFrame;
+        self.pcTableView.frame = self.pcScrollView.bounds;
+        self.pcScrollView.contentSize = self.pcTableView.frame.size;
+        self.npcScrollView.frame = newTextFrame;
+    }
+    [UIView commitAnimations];
+  /*  else{
+        newTextFrame = CGRectMake(0, 332-self.notificationBarHeight, 320, 416);
+        [UIView beginAnimations:@"toggleTextSize" context:nil];
+        [UIView setAnimationDuration:0.5];
+        self.pcScrollView.frame = newTextFrame;
+        self.pcTableView.frame = self.pcScrollView.bounds;
+        self.pcScrollView.contentSize = self.pcTableView.frame.size;
+        self.npcScrollView.frame = newTextFrame;
+        [UIView commitAnimations]; 
+    } */
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -199,6 +281,7 @@ NSString *const kDialogHtmlTemplate =
     self.navigationItem.leftBarButtonItem = self.navigationItem.backBarButtonItem;
 }
 - (void) viewDidDisappear:(BOOL)animated {
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 	NSLog(@"DialogViewController: View Did Disapear");
 }
 
@@ -212,6 +295,17 @@ NSString *const kDialogHtmlTemplate =
 }
 
 - (IBAction)continueButtonTouchAction{
+    [self.ARISMoviePlayer.moviePlayer.view removeFromSuperview];
+    [self.npcVideoView removeFromSuperview];
+    [self.ARISMoviePlayer.moviePlayer stop];
+    [self.waiting stopAnimating];
+    [self.waiting removeFromSuperview];
+    if(self.player.isPlaying){
+      [self.player stop];
+    }
+    [[AVAudioSession sharedInstance] setActive: NO error: nil];
+    self.player = nil;
+    NSLog(@"Continue Button Pressed");
 	[self continueScript];
 }
 
@@ -269,7 +363,7 @@ NSString *const kDialogHtmlTemplate =
 - (void) beginWithNPC:(Npc *)aNpc {
 	currentNpc = aNpc;
 		
-	parser = [[SceneParser alloc] initWithDefaultNpcId:[aNpc mediaId]];
+	parser = [[SceneParser alloc] initWithDefaultNpcId];
 	parser.delegate = self;
 
 }
@@ -285,6 +379,10 @@ NSString *const kDialogHtmlTemplate =
 	
 	Media *characterMedia = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
 	[aView loadImageFromMedia:characterMedia];
+  //  UIImage *currentImage = [UIImage imageWithData:aView.media.image];
+  //  if(currentImage.size.height == 416 && currentImage.size.width == 320){
+  //      aView.frame = CGRectMake(0, 44, aView.frame.size.width, aView.frame.size.height);
+  //  }
 	[aView setNeedsDisplay];
 	*priorId = mediaId;
 }
@@ -336,7 +434,6 @@ NSString *const kDialogHtmlTemplate =
         }
         
         [self applyScene:currentScene];
-		currentCharacter = currentScene.imageMediaId;
 		++scriptIndex;
 	}
 	else { 	//End of Script. Display Player Options
@@ -346,7 +443,7 @@ NSString *const kDialogHtmlTemplate =
         if(cachedScene.exitToTabWithTitle) self.exitToTabVal = cachedScene.exitToTabWithTitle;
         
         //Check if this is a closing script or we are shutting down
-        if(closingScriptPlaying==YES || (self.exitToTabVal != nil)) {
+        if(self.closingScriptPlaying==YES || (self.exitToTabVal != nil)) {
             appDelegate.modalPresent = NO;
             [appDelegate dismissNearbyObjectView:self];
             [[AppServices sharedAppServices] updateServerNodeViewed:self.currentNode.nodeId];
@@ -420,7 +517,6 @@ NSString *const kDialogHtmlTemplate =
         cachedScrollView = pcImage;
         [pcImageScrollView zoomToRect:[pcImage frame] animated:NO];
         
-        currentCharacter = 0;
         self.title = NSLocalizedString(@"DialogPlayerName",@"");
 		
 	}
@@ -439,7 +535,6 @@ NSString *const kDialogHtmlTemplate =
             cachedScrollView = pcImage;
             [pcImageScrollView zoomToRect:[pcImage frame] animated:NO];
             
-            currentCharacter = 0;
             self.title = NSLocalizedString(@"DialogPlayerName",@"");
             [self finishApplyingPlayerOptions:currentNode.options];
 
@@ -475,10 +570,10 @@ NSString *const kDialogHtmlTemplate =
         currentNpc.closing =   [trimmedString stringByAppendingString: @"\r"];
     
     //Now our options are populated with node or conversation choices, display
-	if ([options count] == 0 && [currentNpc.closing length] > 1 && !closingScriptPlaying) {
+	if ([options count] == 0 && [currentNpc.closing length] > 1 && !self.closingScriptPlaying) {
 			NSLog(@"DialogViewController: Play Closing Script: %@",currentNpc.closing);
 			pcWebView.hidden = YES;
-			closingScriptPlaying = YES; 		
+			self.closingScriptPlaying = YES; 		
 			[parser parseText:currentNpc.closing];
 	}
 	else {
@@ -493,7 +588,6 @@ NSString *const kDialogHtmlTemplate =
         cachedScrollView = pcImage;
         [pcImageScrollView zoomToRect:[pcImage frame] animated:NO];
         
-        currentCharacter = 0;
         self.title = NSLocalizedString(@"DialogPlayerName",@"");
 		NSLog(@"DialogViewController: Player options exist or no closing script exists, put them on the screen");
 
@@ -510,7 +604,7 @@ NSString *const kDialogHtmlTemplate =
 - (void) showWaitingIndicatorForPlayerOptions{
 	pcTableViewController.view.hidden = YES;
 	pcActivityIndicator.hidden = NO;
-    pcActivityIndicator.frame = CGRectMake(130, 300,50 , 50);
+    pcActivityIndicator.frame = CGRectMake(130, 300, 50, 50);
     pcScrollView.hidden = YES;
     npcScrollView.hidden = YES;
     lbl.frame =  pcScrollView.frame;
@@ -534,21 +628,39 @@ NSString *const kDialogHtmlTemplate =
     UIWebView *characterWebView;
 	UIScrollView *characterScrollView;
 	UIScrollView *characterImageScrollView;
-	
 	BOOL isCurrentlyDisplayed;
     
+    self.npcImage.hidden = NO; 
 	cachedScene = aScene;
+    if(aScene.mediaId != 0){
+        NSLog(@"mediaId gets here");
+        Media *media = [[AppModel sharedAppModel] mediaForMediaId:aScene.mediaId];
+        NSLog(@"%@", media.type);
+        if([media.type isEqualToString: kMediaTypeVideo]){
+            NSLog(@"Gets to video");
+            NSLog(@"Playing through ARISMoviePlayerController");
+            [self playAudioOrVideoFromMedia:media andHidden:NO];
+        }
+        else if([media.type isEqualToString: kMediaTypeImage]){
+            aScene.imageMediaId = aScene.mediaId;
+            NSLog(@"imageMediaId was overwritten");
+        }
+        else if([media.type isEqualToString: kMediaTypeAudio]){
+            [self playAudioOrVideoFromMedia:media andHidden:YES];
+            NSLog(@"Gets to audio");
+        }
+    }
     
     // if no media id is specified for the scene, default to the current NPC's image
     if (cachedScene.imageMediaId == 0)
         cachedScene.imageMediaId = currentNpc.mediaId; 
-	
+    
     characterView = aScene.isPc ? pcView : npcView;
 	characterWebView = aScene.isPc ? pcWebView : npcWebView;
 	characterScrollView = aScene.isPc ? pcScrollView : npcScrollView;
 	characterImageScrollView = aScene.isPc ? pcImageScrollView : npcImageScrollView;
 
-	isCurrentlyDisplayed = characterView.frame.origin.x == 0;
+	isCurrentlyDisplayed = (characterView.frame.origin.x == 0);
 	
 	if (isCurrentlyDisplayed) {
 		[UIView beginAnimations:@"dialog" context:nil];
@@ -589,7 +701,7 @@ NSString *const kDialogHtmlTemplate =
 		cachedScrollView = pcImage;
 		continueButton = pcContinueButton;
 		
-		if (scriptIndex == [currentScript count] && closingScriptPlaying ) {
+		if (scriptIndex == [currentScript count] && self.closingScriptPlaying ) {
 			//We are at the end of the script and no conversations exist, the next tap on the button is going to end the dialog
 			[pcContinueButton setTitle: NSLocalizedString(@"DialogEnd",@"") forState: UIControlStateNormal];
 			[pcContinueButton setTitle: NSLocalizedString(@"DialogEnd",@"") forState: UIControlStateHighlighted];	
@@ -598,7 +710,6 @@ NSString *const kDialogHtmlTemplate =
 	}
 	else {
         NSLog(@"Dialog VC: finishScene: This is the NPC");
-
 		self.title = currentNpc.name;
 		characterView = npcView;
         characterWebView = npcWebView;
@@ -610,9 +721,9 @@ NSString *const kDialogHtmlTemplate =
 
 		continueButton = npcContinueButton;
         NSLog(@"ImageMediaID:%i",cachedScene.imageMediaId);
-		[self loadNPCImage:cachedScene.imageMediaId];
-		cachedScrollView = npcImage;
-
+        
+        [self loadNPCImage:cachedScene.imageMediaId];
+        cachedScrollView = npcImage;
 	}
 	
 	//Try resetting the height to 0 each time for proper content height calculation
@@ -632,10 +743,10 @@ NSString *const kDialogHtmlTemplate =
 
     //Either fade the text out/in or move the correct character onto the screen
     isCurrentlyDisplayed = characterView.frame.origin.x == 0;
-	NSLog(@"Character %d IsCurrentlyDisplayed: %d", currentCharacter, isCurrentlyDisplayed);
+	NSLog(@"Character IsCurrentlyDisplayed: %d", isCurrentlyDisplayed);
     
 	if (!isCurrentlyDisplayed) {
-        NSLog(@"Dialog VC: finishScene: The current caracter is not on screen, move them in");
+        NSLog(@"Dialog VC: finishScene: The current character is not on screen, move them in");
 
 		if (cachedScene.isPc) [self movePcIn];
 		else [self moveNpcIn];
@@ -648,7 +759,8 @@ NSString *const kDialogHtmlTemplate =
 		  cachedScene.imageRect.origin.x,cachedScene.imageRect.origin.y, 
 		  cachedScene.imageRect.size.width,cachedScene.imageRect.size.height);
 	
-	
+  	self.npcScrollView.frame = self.pcScrollView.frame;
+    
 	[UIView beginAnimations:@"cameraMove" context:nil];
 	[UIView setAnimationCurve:UIViewAnimationCurveLinear];
 	[UIView setAnimationDuration:cachedScene.zoomTime];
@@ -665,9 +777,7 @@ NSString *const kDialogHtmlTemplate =
                     (imageScrollViewHeight/2 - (cachedScene.imageRect.origin.y + cachedScene.imageRect.size.height / 2.0)));
 	[currentCharacterImageScrollView setTransform:transformation];
 	[UIView commitAnimations];
-
-	
-	//[cachedScene release];
+    
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {	
@@ -765,8 +875,73 @@ NSString *const kDialogHtmlTemplate =
 	[UIView commitAnimations];
 }
 
-#pragma mark Audio
-- (void) playSound:(int)soundId asBackground:(BOOL)yesOrNo {
+#pragma mark Audio and Video
+- (void) playAudioOrVideoFromMedia:(Media*)media andHidden:(BOOL)hidden{
+    if(media.image != nil){
+        NSLog(@"Playing through AVAudioPlayer");
+        [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];	
+        [[AVAudioSession sharedInstance] setActive: YES error: nil];
+        NSError* err;
+        self.player = [[AVAudioPlayer alloc] initWithData: media.image error:&err];
+        [self.player setDelegate: self];
+        if( err ){
+            NSLog(@"Appdelegate: Playing Audio: Failed with reason: %@", [err localizedDescription]);
+        }
+        else{
+            [self.player play];
+        }
+    }
+    else{
+        NSLog(@"Playing through MPMoviePlayerController");
+        self.ARISMoviePlayer.moviePlayer.view.hidden = hidden; 
+        self.ARISMoviePlayer = [[ARISMoviePlayerViewController alloc] init];
+        [self.ARISMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
+        self.ARISMoviePlayer.moviePlayer.movieSourceType = MPMovieSourceTypeStreaming;
+        [self.ARISMoviePlayer.moviePlayer setContentURL: [NSURL URLWithString:media.url]];
+        [self.ARISMoviePlayer.moviePlayer setControlStyle:MPMovieControlStyleNone];
+        [self.ARISMoviePlayer.moviePlayer setFullscreen:NO];
+        [self.ARISMoviePlayer.moviePlayer prepareToPlay];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(MPMoviePlayerLoadStateDidChangeNotification: ) name:MPMoviePlayerLoadStateDidChangeNotification object:self.ARISMoviePlayer.moviePlayer];
+        UIActivityIndicatorView *allocWaiting = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        self.waiting = allocWaiting;
+        self.waiting.center = self.view.center;
+        self.waiting.hidesWhenStopped = YES;
+        [self.view addSubview:waiting];
+        [self.waiting startAnimating];
+        if(!hidden){
+            NSLog(@"Gets to not hidden");
+            self.ARISMoviePlayer.view.frame = npcVideoView.frame;
+            self.npcVideoView = (UIScrollView *)self.ARISMoviePlayer.view;
+            self.npcVideoView.hidden = NO;
+            [self.npcView insertSubview:npcVideoView atIndex: 1];
+            self.npcImage.hidden = YES;
+        }
+    }
+}
+
+#pragma mark MPMoviePlayerController notifications
+
+- (void)MPMoviePlayerLoadStateDidChangeNotification:(NSNotification *)notif
+{
+    NSLog(@"loadState: %d", self.ARISMoviePlayer.moviePlayer.loadState);
+    if (self.ARISMoviePlayer.moviePlayer.loadState & MPMovieLoadStateStalled) {
+        [self.waiting startAnimating];
+        [self.ARISMoviePlayer.moviePlayer pause];
+    } else if (self.ARISMoviePlayer.moviePlayer.loadState & MPMovieLoadStatePlayable) {
+        [self.waiting stopAnimating];
+        NSLog(@"Load state changes");
+        [self.ARISMoviePlayer.moviePlayer play];
+        [self.waiting removeFromSuperview];
+        
+    }
+} 
+
+#pragma mark audioPlayerDone
+
+- (void) audioPlayerDidFinishPlaying: (AVAudioPlayer *) player
+                        successfully: (BOOL) flag {
+    NSLog(@"Appdelegate: Audio is done playing");
+    [[AVAudioSession sharedInstance] setActive: NO error: nil];
 }
 
 #pragma mark Answer Checking
@@ -885,7 +1060,6 @@ NSString *const kDialogHtmlTemplate =
 	pcWebView.hidden = YES;
 	pcContinueButton.hidden = YES;
 	pcAnswerView.hidden = YES;
-	currentCharacter = kPcIndex;
 	
 	currentScript = parser.script;
 	scriptIndex = kStartingIndex;

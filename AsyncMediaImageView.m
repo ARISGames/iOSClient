@@ -28,10 +28,10 @@
 -(id)initWithFrame:(CGRect)aFrame andMediaId:(int)mediaId{        
     if (self = [super initWithFrame:aFrame]) {
         NSLog(@"AsyncMediaImageView: initWithFrame and MediaId");
-
         self.loaded = NO;
         self.contentMode = UIViewContentModeScaleAspectFit;
         self.clipsToBounds = YES;
+         NSLog(@"%@", media.type);
         if(!media){
             if(mediaId == 0) NSLog(@"mediaForID 0");
         media = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
@@ -60,12 +60,13 @@
                     self.mMoviePlayer = mMoviePlayerAlloc;
                 }
                 else{
-                  [self.mMoviePlayer initWithContentURL:[NSURL URLWithString: media.url]];  
+                  ARISMoviePlayerViewController *mMoviePlayerAlloc = [self.mMoviePlayer initWithContentURL:[NSURL URLWithString: media.url]]; 
+                  self.mMoviePlayer = mMoviePlayerAlloc; 
                 }
             
                 self.mMoviePlayer.moviePlayer.shouldAutoplay = NO;
                 [self.mMoviePlayer.moviePlayer requestThumbnailImagesAtTimes:timeArray timeOption:MPMovieTimeOptionNearestKeyFrame];
-                
+                 
                 NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
                 [dispatcher addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:self.mMoviePlayer.moviePlayer];
         

@@ -37,7 +37,10 @@ BOOL isLoading;
         if(!mMoviePlayer){
             mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
         }
-        else [mMoviePlayer initWithContentURL:[NSURL URLWithString:media.url]];
+        else{
+            ARISMoviePlayerViewController *mMoviePlayerAlloc = [self.mMoviePlayer initWithContentURL:[NSURL URLWithString: media.url]]; 
+            self.mMoviePlayer = mMoviePlayerAlloc; 
+        }
         
         self.mMoviePlayer.moviePlayer.shouldAutoplay = NO;
         [self.mMoviePlayer.moviePlayer prepareToPlay];

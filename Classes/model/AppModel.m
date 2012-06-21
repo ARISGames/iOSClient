@@ -350,7 +350,7 @@
 	if (!note) {
 		//Let's pause everything and do a lookup
 		NSLog(@"AppModel: Note not found in cached item list, refresh");
-		
+		 
         if(!playerorGame){
             [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
             //note= [[AppServices sharedAppServices]fetchNote:mId];

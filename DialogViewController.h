@@ -14,7 +14,7 @@
 #import "Scene.h"
 #import "SceneParser.h"
 
-@interface DialogViewController : UIViewController<SceneParserDelegate, AsyncMediaImageViewDelegate, UIScrollViewDelegate, UITextFieldDelegate> {
+@interface DialogViewController : UIViewController<AVAudioPlayerDelegate, SceneParserDelegate, AsyncMediaImageViewDelegate, UIScrollViewDelegate, UITextFieldDelegate> {
 	IBOutlet	AsyncMediaImageView	*npcImage;
 	IBOutlet	AsyncMediaImageView	*pcImage;
 	IBOutlet	UIWebView	*npcWebView;
@@ -35,6 +35,7 @@
 	IBOutlet	UIView	*mainView;
 	IBOutlet	UIView	*npcView;
 	IBOutlet	UIView	*pcView;
+    IBOutlet	UIScrollView	*npcVideoView;
 	
 	IBOutlet	UITableViewController	*pcTableViewController;
 	NSString	*resourcePath;
@@ -43,7 +44,6 @@
 	NSInteger		scriptIndex;
 	NSInteger		lastPcId;
 	NSInteger		lastNpcId;
-	NSInteger		currentCharacter;
 	Scene			*cachedScene;
     NSString        *exitToTabVal;
 	UIView			*cachedScrollView;
@@ -56,6 +56,18 @@
     UILabel         *lbl;
 	BOOL			closingScriptPlaying;
 	BOOL			inFullScreenTextMode;
+    BOOL			areNotifications;
+    BOOL            movedForNotifications;
+    
+    CGRect          tempNpcFrame;
+    CGRect          tempPcFrame;
+    
+    AVAudioPlayer *player;
+    ARISMoviePlayerViewController *ARISMoviePlayer;
+    
+    UIActivityIndicatorView *waiting;
+    
+    int             notificationBarHeight;
 }
 
 
@@ -71,6 +83,16 @@
 @property(nonatomic) IBOutlet UIButton *pcContinueButton;
 @property(nonatomic) IBOutlet UIBarButtonItem *textSizeButton;
 @property(nonatomic) IBOutlet UIBarButtonItem *specialBackButton;
+@property (nonatomic, strong) AVAudioPlayer *player;
+@property (nonatomic, strong) ARISMoviePlayerViewController *ARISMoviePlayer;
+@property (nonatomic)         CGRect tempNpcFrame;
+@property (nonatomic)         CGRect tempPcFrame;
+@property (nonatomic)         UIActivityIndicatorView *waiting;
+@property                     BOOL closingScriptPlaying;
+@property                     BOOL inFullScreenTextMode;
+@property                     BOOL areNotifications;
+@property                     BOOL movedForNotifications;
+@property (readwrite,assign)  int notificationBarHeight;
 
 @property(nonatomic) IBOutlet NSString *exitToTabVal;
 
@@ -86,6 +108,7 @@
 @property(nonatomic) IBOutlet UIView		*mainView;
 @property(nonatomic) IBOutlet UIView		*npcView;
 @property(nonatomic) IBOutlet UIView		*pcView;
+@property(nonatomic) IBOutlet UIScrollView		*npcVideoView;
 
 - (IBAction)continueButtonTouchAction;
 - (IBAction)npcScrollerTouchAction;
@@ -100,6 +123,8 @@
 - (void) showWaitingIndicatorForPlayerOptions;
 - (void) dismissWaitingIndicatorForPlayerOptions;
 - (void) imageFinishedLoading;
+- (void) playAudioOrVideoFromMedia:(Media*)media andHidden:(BOOL)hidden;
+- (void) MPMoviePlayerLoadStateDidChangeNotification:(NSNotification *)notif;
 
 @end
 

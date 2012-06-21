@@ -70,12 +70,12 @@
     NSInteger notificationCount;
     UILabel *titleLabel;
     UILabel *descLabel;
-NSMutableArray *notifArray;
-    int tabShowY;
+    NSMutableArray *notifArray;
+    int notificationBarHeight;
     PTPusher *client;
  //   NSDictionary *imageInfo;
 }
-@property(readwrite,assign)int tabShowY;
+@property(readwrite,assign)int notificationBarHeight;
 @property (nonatomic) IBOutlet UIWindow *window;
 @property (nonatomic) IBOutlet UITabBarController *tabBarController;
 @property (nonatomic) UIViewController *defaultViewControllerForMainTabBar;

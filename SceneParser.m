@@ -8,15 +8,11 @@
 
 #import "SceneParser.h"
 
-const NSInteger kDefaultPc = 0;
 const float kDefaultZoomTime = 1.0;
 
 NSString *const kTagPc = @"pc";
 NSString *const kTagNpc = @"npc";
 NSString *const kTagDialog = @"dialog";
-NSString *const kTagImageMediaId = @"imageMediaId";
-NSString *const kTagBgSoundMediaId = @"bgSoundMediaId";
-NSString *const kTagFgSoundMediaId = @"fgSoundMediaId";
 NSString *const kTagExitToTab = @"exitToTab";
 NSString *const kTagExitToPlaque = @"exitToPlaque";
 NSString *const kTagExitToWebPage = @"exitToWebPage";
@@ -34,6 +30,7 @@ NSString *const kTagPanoramic = @"panoramic";
 NSString *const kTagWebpage = @"webpage";
 NSString *const kTagPlaque = @"plaque";
 NSString *const kTagItem = @"item";
+NSString *const kTagMedia = @"mediaId";
 
 
 
@@ -41,9 +38,8 @@ NSString *const kTagItem = @"item";
 @synthesize currentText, sourceText, exitToTabWithTitle, delegate, script, exitToType;
 
 #pragma mark Init/dealloc
-- (id) initWithDefaultNpcId:(NSInteger)imageMediaId {
+- (id) initWithDefaultNpcId {
 	if ((self = [super init])) {
-		defaultImageMediaId = imageMediaId;
         NSMutableString *currentTextAlloc = [[NSMutableString alloc] init];
 		self.currentText = currentTextAlloc;
 		parser = nil;
@@ -75,13 +71,15 @@ NSString *const kTagItem = @"item";
 
     if ([elementName isEqualToString:kTagPc]) {
 		isPc = YES;
-        currentCharacterId = kDefaultPc;
     }
 	else if ([elementName isEqualToString:kTagNpc]){ 
         isPc = NO;
-        currentCharacterId = defaultImageMediaId;
+        if ([attributeDict objectForKey:kTagMedia]) {
+            mediaId = [attributeDict objectForKey:kTagMedia] ? [[attributeDict objectForKey:kTagMedia]intValue] : 0;
+        }
 }    
-else if ([elementName isEqualToString:kTagDialog]){
+    
+else if ([elementName isEqualToString:kTagDialog]) {
 
     if ([attributeDict objectForKey:kTagExitToTab]){
         exitToType = @"tab";
@@ -144,13 +142,6 @@ else if ([elementName isEqualToString:kTagItem]) {
 	resizeTime = [attributeDict objectForKey:kTagZoomTime] ? 
         [[attributeDict objectForKey:kTagZoomTime] floatValue] :
         kDefaultZoomTime;
-	
-	fgSoundMediaId = [attributeDict objectForKey:kTagFgSoundMediaId] ?
-        [[attributeDict objectForKey: kTagFgSoundMediaId] intValue] :
-        kEmptySound;
-	bgSoundMediaId = [attributeDict objectForKey:kTagBgSoundMediaId] ?
-        [[attributeDict objectForKey:kTagBgSoundMediaId] intValue] :
-        kEmptySound;
     
 	[self.currentText setString:@""];
 }
@@ -166,25 +157,24 @@ else if ([elementName isEqualToString:kTagItem]) {
         || [elementName isEqualToString:kTagVideo]
         || [elementName isEqualToString:kTagWebpage]
         || [elementName isEqualToString:kTagPlaque]
+    //    || [elementName isEqualToString:kTagMedia]
         || [elementName isEqualToString:kTagItem])
 	{
         Scene *newScene = [[Scene alloc] initWithText:currentText 
                                           isPc:isPc 
-                                  imageMediaId:currentCharacterId
                                      imageRect:imageRect
                                       zoomTime:resizeTime
-                              foreSoundMediaId:fgSoundMediaId
-                              backSoundMediaId:bgSoundMediaId      
                                             exitToTabWithTitle:exitToTabWithTitle
                                            exitToType:exitToType
                                               videoId:videoId
                                           panoramicId:panoId
-                                            webpageId:webId plaqueId:plaqueId itemId:itemId]; 
-
+                                            webpageId:webId plaqueId:plaqueId itemId:itemId mediaId: mediaId]; 
+        NSLog(@"MediaId in Scene is: %d", mediaId);
 		[self.script addObject:newScene];
         panoId = 0;
         videoId = 0;
         webId = 0;
+        //mediaId = 0;
 	}
 }
 
@@ -208,13 +198,10 @@ else if ([elementName isEqualToString:kTagItem]) {
 		// No parsing happened; use raw text
         Scene *s = [[Scene alloc] initWithText:sourceText 
                                           isPc:NO 
-                                  imageMediaId:defaultImageMediaId
                                      imageRect:CGRectMake(0, 0, 320, 416)
                                       zoomTime:kDefaultZoomTime
-                              foreSoundMediaId:kEmptySound
-                              backSoundMediaId:kEmptySound
                               exitToTabWithTitle:nil exitToType:nil
-                    videoId:0 panoramicId:0 webpageId:0 plaqueId:0 itemId:0];        
+                                       videoId:0 panoramicId:0 webpageId:0 plaqueId:0 itemId:0 mediaId:0];        
 		
 		[self.script addObject:s];
 	}
