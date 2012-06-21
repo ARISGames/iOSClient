@@ -160,7 +160,7 @@ NSString *const kGameDetailsHtmlTemplate =
     if(self.game.hasBeenPlayed){
     return 4;
     }
-    return 3; //should changed to 4
+    return 3;
 }
 
 // Customize the number of rows in the table view.
@@ -176,7 +176,7 @@ NSString *const kGameDetailsHtmlTemplate =
             return 1;
             break;
         case 3:
-            return 1; //changed
+            return 1;
             break; 
     }
     return 0; //Should never get here
@@ -283,6 +283,7 @@ NSString *const kGameDetailsHtmlTemplate =
         [self.navigationController pushViewController:commentsVC animated:YES];
     }
     else if  (indexPath.section == 1 && indexPath.row == 0) {
+        self.game.hasBeenPlayed = YES;
         NSDictionary *dictionary = [NSDictionary dictionaryWithObject:self.game
                                                                forKey:@"game"];
         
