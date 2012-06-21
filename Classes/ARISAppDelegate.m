@@ -344,6 +344,7 @@ BOOL isShowingNotification;
 #pragma mark Notifications, Warnings and Other Views
 
 -(void)showNotifications{
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
     NSNotification *showNotificationsNotification = [NSNotification notificationWithName:@"showNotifications" object:self];
     [[NSNotificationCenter defaultCenter] postNotification:showNotificationsNotification];
     NSLog(@"AppDelegate: showNotifications");
@@ -401,6 +402,7 @@ BOOL isShowingNotification;
 }
 
 -(void)hideNotifications{
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     NSNotification *hideNotificationsNotification = [NSNotification notificationWithName:@"hideNotifications" object:self];
     [[NSNotificationCenter defaultCenter] postNotification:hideNotificationsNotification];
     
