@@ -211,7 +211,8 @@ NSURL *url = [NSURL URLWithString:urlAddress];
     if (self.localARISMoviePlayer.moviePlayer.loadState & MPMovieLoadStateStalled) {
         [self showWaitingIndicator];
         [self.localARISMoviePlayer.moviePlayer pause];
-    } else if (self.localARISMoviePlayer.moviePlayer.loadState & MPMovieLoadStatePlayable) {
+    } 
+    else if (self.localARISMoviePlayer.moviePlayer.loadState & MPMovieLoadStatePlayable) {
         [self dismissWaitingIndicator];
         NSLog(@"Load state changes");
         [self.localARISMoviePlayer.moviePlayer play];
