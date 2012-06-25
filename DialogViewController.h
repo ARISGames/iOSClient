@@ -58,6 +58,7 @@
 	BOOL			inFullScreenTextMode;
     BOOL			areNotifications;
     BOOL            movedForNotifications;
+    BOOL            isPC;
     
     CGRect          tempNpcFrame;
     CGRect          tempPcFrame;
@@ -92,6 +93,7 @@
 @property                     BOOL inFullScreenTextMode;
 @property                     BOOL areNotifications;
 @property                     BOOL movedForNotifications;
+@property                     BOOL isPC;
 @property (readwrite,assign)  int notificationBarHeight;
 
 @property(nonatomic) IBOutlet NSString *exitToTabVal;

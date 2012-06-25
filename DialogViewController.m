@@ -71,7 +71,7 @@ NSString *const kDialogHtmlTemplate =
 @synthesize player, ARISMoviePlayer;
 @synthesize closingScriptPlaying, inFullScreenTextMode;;
 @synthesize waiting, notificationBarHeight, areNotifications, movedForNotifications;
-@synthesize tempNpcFrame, tempPcFrame;
+@synthesize tempNpcFrame, tempPcFrame, isPC;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -102,6 +102,7 @@ NSString *const kDialogHtmlTemplate =
 	self.inFullScreenTextMode = NO;
     self.areNotifications = NO;
     self.movedForNotifications = NO;
+    self.isPC = YES;
     self.exitToTabVal = nil;
 	
     //View Setup
@@ -206,7 +207,7 @@ NSString *const kDialogHtmlTemplate =
 -(void)showNotifications:(NSNotification*) notification {
     if(!self.movedForNotifications){
     self.areNotifications = YES;
-    self.tempNpcFrame = self.npcImageScrollView.frame;
+  //  self.tempNpcFrame = self.npcImageScrollView.frame;
     self.tempPcFrame =  self.pcImageScrollView.frame;
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     self.notificationBarHeight = appDelegate.notificationBarHeight;
@@ -221,7 +222,7 @@ NSString *const kDialogHtmlTemplate =
 	self.npcScrollView.frame = newTextFrame;
     }
     self.pcImageScrollView.frame =  CGRectMake(0, 44, 320, 416);
-    self.npcImageScrollView.frame =  CGRectMake(0, 44, 320, 416);
+   // self.npcImageScrollView.frame =  CGRectMake(0, 44, 320, 416);
 	[UIView commitAnimations];
   /*  else{
         newTextFrame = CGRectMake(0, 332-self.notificationBarHeight, 320, 416);
@@ -245,7 +246,7 @@ NSString *const kDialogHtmlTemplate =
     [UIView beginAnimations:@"toggleTextSize" context:nil];
     [UIView setAnimationDuration:0.5];
     self.pcImageScrollView.frame =  self.tempPcFrame;
-    self.npcImageScrollView.frame =  self.tempNpcFrame;
+  //  self.npcImageScrollView.frame =  self.tempNpcFrame;
     if (self.inFullScreenTextMode) {
         self.pcScrollView.frame = newTextFrame;
         self.pcTableView.frame = self.pcScrollView.bounds;
@@ -398,7 +399,6 @@ NSString *const kDialogHtmlTemplate =
         if (currentScene.videoId !=0) {
             //Setup the Button
 	
-           // Media *media = [[Media alloc] init];
             Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.videoId];
             
             //Create movie player object
@@ -501,7 +501,7 @@ NSString *const kDialogHtmlTemplate =
 
 - (void) applyPlayerOptions{	
 	NSLog(@"DialogVC: Apply Player Options");
-	
+	self.isPC = YES;
 	++scriptIndex;
 	
 	// Display the appropriate question for the PC
@@ -655,6 +655,8 @@ NSString *const kDialogHtmlTemplate =
     if (cachedScene.imageMediaId == 0)
         cachedScene.imageMediaId = currentNpc.mediaId; 
     
+    NSLog(@"isPc: %d", (int)aScene.isPc);
+    
     characterView = aScene.isPc ? pcView : npcView;
 	characterWebView = aScene.isPc ? pcWebView : npcWebView;
 	characterScrollView = aScene.isPc ? pcScrollView : npcScrollView;
@@ -688,6 +690,7 @@ NSString *const kDialogHtmlTemplate =
 	BOOL isCurrentlyDisplayed;
 		 
 	if (cachedScene.isPc) {
+        self.isPC = YES;
         NSLog(@"Dialog VC: finishScene: This is the PC");
 		self.title = NSLocalizedString(@"DialogPlayerName",@"");
 		characterView = pcView;
@@ -709,6 +712,7 @@ NSString *const kDialogHtmlTemplate =
 		
 	}
 	else {
+        self.isPC = NO;
         NSLog(@"Dialog VC: finishScene: This is the NPC");
 		self.title = currentNpc.name;
 		characterView = npcView;
