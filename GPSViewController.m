@@ -470,8 +470,6 @@ static float INITIAL_SPAN = 0.001;
 	[buttonTitles addObject: @"Cancel"];
 	
 	
-	
-	
 	//Create and Display Action Sheet
 	UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:location.name 
 															delegate:self 
@@ -487,6 +485,22 @@ static float INITIAL_SPAN = 0.001;
 	
 	[actionSheet showInView:view];
     
+}
+
+- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views { 
+    MKAnnotationView *aV; 
+    for (aV in views) {
+        CGRect endFrame = aV.frame;
+        
+        aV.frame = CGRectMake(aV.frame.origin.x, aV.frame.origin.y - 230.0, aV.frame.size.width, aV.frame.size.height);
+        
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:0.45];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+        [aV setFrame:endFrame];
+        [UIView commitAnimations];
+        
+    }
 }
 
 #pragma mark UIActionSheet Delegate
