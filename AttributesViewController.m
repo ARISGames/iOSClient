@@ -144,7 +144,7 @@
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];	
 		
     //if(indexPath.section == 1){
-        if(cell == nil) cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        if(cell == nil) cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
 
     if([attributes count] > 0){
 	Item *item = [attributes objectAtIndex: [indexPath row]];
@@ -169,6 +169,10 @@
         }
 
         cell.textLabel.text = item.name;
+        if(item.qty > 1){
+        cell.detailTextLabel.textColor = [UIColor blackColor];
+        cell.detailTextLabel.text = [NSString stringWithFormat: @"%d", item.qty];
+        }
         cell.imageView.image = iconView.image;
     }
     else{
