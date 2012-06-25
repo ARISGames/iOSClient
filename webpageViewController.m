@@ -53,12 +53,16 @@
 									action:@selector(backButtonTouchAction:)];	
 
     
+    //Create a URL object.
     NSString *urlAddress = self.webPage.url;
     
-    //Create a URL object.
-    
-    urlAddress = [self.webPage.url stringByAppendingString: [NSString stringWithFormat: @"?playerId=%d&gameId=%d",[AppModel sharedAppModel].playerId,[AppModel sharedAppModel].currentGame.gameId]];
-NSURL *url = [NSURL URLWithString:urlAddress];
+    //Check to prepend url query with '?' or '&'
+    if([self.webPage.url rangeOfString:@"?"].location == NSNotFound)
+        urlAddress = [self.webPage.url stringByAppendingString: [NSString stringWithFormat: @"?gameId=%d&webPageId=%d&playerId=%d",[AppModel sharedAppModel].currentGame.gameId, [AppModel sharedAppModel].playerId, webPage.webPageId]];
+    else       
+        urlAddress = [self.webPage.url stringByAppendingString: [NSString stringWithFormat: @"&gameId=%d&webPageId=%d&playerId=%d",[AppModel sharedAppModel].currentGame.gameId, [AppModel sharedAppModel].playerId, webPage.webPageId]];
+
+    NSURL *url = [NSURL URLWithString:urlAddress];
     //URL Requst Object
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
     
