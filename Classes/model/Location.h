@@ -47,5 +47,6 @@
 @property(readwrite) int deleteWhenViewed;
 @property(nonatomic)id delegate;
 - (void) display;
+- (BOOL)compareTo: (Location *)other;
 
 @end

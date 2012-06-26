@@ -104,7 +104,7 @@ static float INITIAL_SPAN = 0.001;
             NSEnumerator *existingAnnotationsEnumerator = [[[mapView annotations] copy] objectEnumerator];
             Annotation *annotation;
             while (annotation = [existingAnnotationsEnumerator nextObject]) {
-                if (annotation != mapView.userLocation &&annotation.kind == NearbyObjectPlayer) [mapView removeAnnotation:annotation];
+                if (annotation != mapView.userLocation && annotation.kind == NearbyObjectPlayer) [mapView removeAnnotation:annotation];
             }
         }
     }
@@ -117,12 +117,15 @@ static float INITIAL_SPAN = 0.001;
     
 	//Rerfresh all contents
     tracking = NO;
-	[self refresh];}
+	[self refresh];
+}
+
 - (IBAction)addMediaButtonAction: (id) sender{
     NoteEditorViewController *noteVC = [[NoteEditorViewController alloc] initWithNibName:@"NoteEditorViewController" bundle:nil];
     noteVC.delegate = self;
     [self.navigationController pushViewController:noteVC animated:YES];
 }
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -150,7 +153,6 @@ static float INITIAL_SPAN = 0.001;
 	[[AppServices sharedAppServices] forceUpdateOnNextLocationListFetch];
 	
 	[self refresh];	
-	
 	
 
 	NSLog(@"GPSViewController: View Loaded");
@@ -213,7 +215,8 @@ static float INITIAL_SPAN = 0.001;
             
         }*/
 
-	} else {
+	} 
+    else {
 		NSLog(@"GPSViewController: refresh requested but ignored, as mapview is nil");	
 		
 	}
@@ -249,28 +252,36 @@ static float INITIAL_SPAN = 0.001;
 
 
 - (void)refreshViewFromModel {
+    if (mapView) {
+    NSMutableArray *newLocationsArray;
+    Annotation *annotation;
 	NSLog(@"GPSViewController: Refreshing view from model");
 	
 	NSLog(@"GPSViewController: refreshViewFromModel: silenceNextServerUpdateCount = %d", silenceNextServerUpdateCount);
 
-	int newItems = 0;
-    NSArray *newLocationsArray = [AppModel sharedAppModel].locationList;
-    NSArray *oldLocationsArray = self.locations;
-
 	if (silenceNextServerUpdateCount < 1) {
-		//Check if anything is new since last time
-        for (Location *location in newLocationsArray) {		
-			BOOL match = NO;
-			for (Location *existingLocation in self.locations) {
-				if (existingLocation.locationId == location.locationId) {
-                    match = YES;	
-                }
+		//Check if anything is new since last time or item has disappeared
+		int newItems = 0;
+		newLocationsArray = [AppModel sharedAppModel].locationList;
+		for (int i = 0; i < [[mapView annotations] count]; i++) {
+            BOOL match = NO;
+			NSObject <MKAnnotation>  *testAnnotation = [[mapView annotations] objectAtIndex:i];
+            if([testAnnotation isKindOfClass: [Annotation class]]) {
+                annotation = (Annotation *)testAnnotation;
+            for (int j = 0; j < [newLocationsArray count]; j++) {
+				if ([annotation.location compareTo:[newLocationsArray objectAtIndex:j]]){
+                    [newLocationsArray removeObjectAtIndex:j];
+                    j--;
+                    match = YES;
+                }	
 			}
-			if (match == NO) {
-				newItems ++;;
+            if(!match){
+                [mapView removeAnnotation:annotation];
+                i--;
 			}
+            }
 		}
-		
+        
 		if (newItems > 0) {
 			newItemsSinceLastView += newItems;
 			self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
@@ -288,83 +299,41 @@ static float INITIAL_SPAN = 0.001;
 			}
 		}
 		else if (newItemsSinceLastView < 1) self.tabBarItem.badgeValue = nil;
-		
 	}
+    
 	else {
+        [newLocationsArray removeAllObjects];
 		newItemsSinceLastView = 0;
 		self.tabBarItem.badgeValue = nil;
 	}
 	
 	self.locations = [AppModel sharedAppModel].locationList;
-	
-	if (mapView) {
-		//Blow away the expired markers except for the player marker
-		NSEnumerator *existingAnnotationsEnumerator = [[[mapView annotations] copy] objectEnumerator];
-		Annotation *annotation;
-		while (annotation = [existingAnnotationsEnumerator nextObject]) {
-            //BOOL match = NO;
-            // delete any markers that don't exist anymore
-            //for ( Location* location in locations ) {
-             //   Location* annoLoc = annotation.location;
-               // if (annoLoc != NULL)
-                    //if (location.locationId == annoLoc.locationId) match = YES;
-            //}
-            
-            [mapView removeAnnotation:annotation];   //&& annotation != mapView.userLocation
-		}
 
 		//Add the freshly loaded locations from the notification
-		for ( Location* location in locations ) {
-            BOOL match = NO;
-            for (Location *oldLocation in oldLocationsArray) {
-				if (location.locationId == oldLocation.locationId) match = YES;
-            }
-            
-            if (match == YES) {  // old location. do nothing
-                
-            } else {  // add new location
-                
-                
-                NSLog(@"GPSViewController: Adding location annotation for:%@ id:%d", location.name, location.locationId);
-                if (location.hidden == YES) 
-                {
-                    NSLog(@"No I'm not, because this location is hidden.");
-                    continue;
-                }
-                CLLocationCoordinate2D locationLatLong = location.location.coordinate;
-                
-                Annotation *annotation = [[Annotation alloc]initWithCoordinate:locationLatLong];
-                annotation.location = location;
-                
-                
-                annotation.title = location.name;
-                if (location.kind == NearbyObjectItem && location.qty > 1) 
-                    annotation.subtitle = [NSString stringWithFormat:@"x %d",location.qty];
-                annotation.iconMediaId = location.iconMediaId;
-                annotation.kind = location.kind;
-                
-                [mapView addAnnotation:annotation];
-                if (!mapView) {
-                    NSLog(@"GPSViewController: Just added an annotation to a null mapview!");
-                }
-                
-            }
+		for ( Location* location in newLocationsArray ) {
+			NSLog(@"GPSViewController: Adding location annotation for:%@ id:%d", location.name, location.locationId);
+			if (location.hidden == YES) 
+			{
+				NSLog(@"No I'm not, because this location is hidden.");
+				continue;
+			}
+			CLLocationCoordinate2D locationLatLong = location.location.coordinate;
+			
+			Annotation *annotation = [[Annotation alloc]initWithCoordinate:locationLatLong];
+			annotation.location = location;
+			annotation.title = location.name;
+			if (location.kind == NearbyObjectItem && location.qty > 1) 
+				annotation.subtitle = [NSString stringWithFormat:@"x %d",location.qty];
+			annotation.iconMediaId = location.iconMediaId;
+			annotation.kind = location.kind;
+
+			[mapView addAnnotation:annotation];
+			if (!mapView) {
+				NSLog(@"GPSViewController: Just added an annotation to a null mapview!");
+			}
 		}
-		
-		//Add the freshly loaded players from the notification
-		for ( Player *player in [AppModel sharedAppModel].playerList ) {
-			if (player.hidden == YES) continue;
-			CLLocationCoordinate2D locationLatLong = player.location.coordinate;
-
-			Annotation *aPlayer = [[Annotation alloc]initWithCoordinate:locationLatLong];
-			aPlayer.title = player.name;
-			[mapView addAnnotation:aPlayer];
-		} 
-        
+     	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;   
 	}
-	
-	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
-
 }
 
 

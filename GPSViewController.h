@@ -16,7 +16,7 @@
 
 @interface GPSViewController : UIViewController <MKMapViewDelegate, UIActionSheetDelegate> {
 	IBOutlet MKMapView *mapView;
-	NSArray *locations;
+	NSMutableArray *locations;
     NSMutableArray *route;
 	BOOL tracking,mapTrace;
 	BOOL appSetNextRegionChange;
@@ -42,7 +42,7 @@
 - (void) wiggleWithAnnotationView:(MKAnnotationView *) aV;
 
 @property (nonatomic) MKMapView *mapView;
-@property (nonatomic) NSArray *locations;
+@property (nonatomic) NSMutableArray *locations;
 @property (nonatomic) NSMutableArray *route;
 
 

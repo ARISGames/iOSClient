@@ -94,5 +94,8 @@
 	[self.object display];
 }
 
+- (BOOL)compareTo: (Location *)other {
+    return self.locationId == other.locationId;
+}
 
 @end
