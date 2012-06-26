@@ -476,6 +476,7 @@ static float INITIAL_SPAN = 0.001;
 
 
 - (void)mapView:(MKMapView *)mV didAddAnnotationViews:(NSArray *)views { 
+
     
     // Step through all annotations
     Annotation *ann;
@@ -485,27 +486,36 @@ static float INITIAL_SPAN = 0.001;
         if (ann.title != NULL && ![ann.title isEqualToString:@"Current Location"]) {  // Skip if not a normal item that won't have a wiggle property
             MKAnnotationView* aV = [mapView viewForAnnotation: annotation];  // get annotationView for Annotation
             if (aV){
+                // step through added views and check if this is an added view 
+                BOOL bNewView = NO;
+                MKAnnotationView *addedView;
+                for (addedView in views) {
+                    if (aV == addedView) {
+                        bNewView = YES;
+                    }
+                }
                 // prepare drop animation
                 CGRect endFrame = aV.frame;        
-                aV.frame = CGRectMake(aV.frame.origin.x, aV.frame.origin.y - 230.0, aV.frame.size.width, aV.frame.size.height);
+                if (bNewView == YES) {
+                    aV.frame = CGRectMake(aV.frame.origin.x, aV.frame.origin.y - 230.0, aV.frame.size.width, aV.frame.size.height);
                 
-                // if annotation should wiggle, drop and wiggle
-                if (ann.location.wiggle == 1) {  
-                    [UIView animateWithDuration:0.45 delay:0.0 options:NULL animations:^{
-                        [aV setFrame:endFrame];
-                    } completion:^(BOOL finished) {
-                        if (finished) {
-                            [self wiggleWithAnnotationView:aV];
-                            //}
-                        }
-                    }];
-                    
-                //else, only drop
-                } else {  
-                    [UIView animateWithDuration:0.45 delay:0.0 options:NULL animations:^{
-                        [aV setFrame:endFrame];
-                    } completion:^(BOOL finished) {
-                    }];
+                    // if annotation should wiggle, drop and wiggle
+                    if (ann.location.wiggle == 1) {  
+                        [UIView animateWithDuration:0.45 delay:0.0 options:NULL animations:^{
+                            [aV setFrame:endFrame];
+                        } completion:^(BOOL finished) {
+                            if (finished) {
+                                [self wiggleWithAnnotationView:aV];
+                            }
+                        }];
+                        
+                    //else, only drop
+                    } else {  
+                        [UIView animateWithDuration:0.45 delay:0.0 options:NULL animations:^{
+                            [aV setFrame:endFrame];
+                        } completion:^(BOOL finished) {
+                        }];
+                    }
                 }
                 
             }
@@ -519,7 +529,7 @@ static float INITIAL_SPAN = 0.001;
     [aV setFrame:CGRectMake(aV.frame.origin.x, aV.frame.origin.y - 10.0, aV.frame.size.width, aV.frame.size.height)];
     } completion:^(BOOL finished) {
         if (finished) { 
-            [UIView animateWithDuration:0.45 delay:0.0 options:NULL animations:^{
+            [UIView animateWithDuration:0.35 delay:0.0 options:NULL animations:^{
                 [aV setFrame:CGRectMake(aV.frame.origin.x, aV.frame.origin.y + 10.0, aV.frame.size.width, aV.frame.size.height)];
             } completion:^(BOOL finished) {
                 if (finished) {
