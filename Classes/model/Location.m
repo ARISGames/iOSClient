@@ -30,6 +30,7 @@
 @synthesize allowsQuickTravel;
 @synthesize qty,delegate,wiggle,deleteWhenViewed;
 
+
 -(nearbyObjectKind) kind {
 	nearbyObjectKind returnValue = NearbyObjectNil;
 	if ([self.objectType isEqualToString:@"Node"]) returnValue = NearbyObjectNode;
@@ -65,19 +66,19 @@
 		return [[AppModel sharedAppModel] itemForItemId:objectId];
 	}
 	if (self.kind == NearbyObjectNode) {
-        [[AppModel sharedAppModel] nodeForNodeId: objectId].locationId = self.locationId;
+        //[[AppModel sharedAppModel] nodeForNodeId: objectId].locationId = self.locationId;
 		return [[AppModel sharedAppModel] nodeForNodeId: objectId]; 
 	}
     if (self.kind == NearbyObjectWebPage) {
-        [[AppModel sharedAppModel] webPageForWebPageID: objectId].locationId = self.locationId;
+        //[[AppModel sharedAppModel] webPageForWebPageID: objectId].locationId = self.locationId;
 		return [[AppModel sharedAppModel] webPageForWebPageID: objectId]; 
 	}
     if (self.kind == NearbyObjectPanoramic) {
-        [[AppModel sharedAppModel]panoramicForPanoramicId: objectId].locationId = self.locationId;
+        //[[AppModel sharedAppModel]panoramicForPanoramicId: objectId].locationId = self.locationId;
 		return [[AppModel sharedAppModel] panoramicForPanoramicId: objectId]; 
 	}
     if (self.kind == NearbyObjectNPC) {
-        [[AppModel sharedAppModel]npcForNpcId: objectId].locationId = self.locationId;
+       // [[AppModel sharedAppModel]npcForNpcId: objectId].locationId = self.locationId;
 		return [[AppModel sharedAppModel] npcForNpcId: objectId]; 
 	}
     if (self.kind == NearbyObjectNote) {
