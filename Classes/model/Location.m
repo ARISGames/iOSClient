@@ -28,7 +28,7 @@
 @synthesize hidden;
 @synthesize forcedDisplay;
 @synthesize allowsQuickTravel;
-@synthesize qty,delegate,wiggle;
+@synthesize qty,delegate,wiggle,deleteWhenViewed;
 
 -(nearbyObjectKind) kind {
 	nearbyObjectKind returnValue = NearbyObjectNil;
@@ -50,7 +50,16 @@
 }
 
 - (NSObject<NearbyObjectProtocol>*)object {
-	if (self.kind == NearbyObjectItem) {
+    if(deleteWhenViewed == 1)
+    {
+        NSMutableArray *locs = [[AppModel sharedAppModel] locationList];
+        for(int i = 0; i < locs.count; i++)
+        {
+            if(((Location *)[locs objectAtIndex:i]).locationId == self.locationId)
+                [[[AppModel sharedAppModel] locationList] removeObjectAtIndex:i];
+        }
+    }	
+    if (self.kind == NearbyObjectItem) {
         [[AppModel sharedAppModel] itemForItemId:objectId].locationId = self.locationId; 		
         [[AppModel sharedAppModel] itemForItemId:objectId].qty = self.qty;
 		return [[AppModel sharedAppModel] itemForItemId:objectId];

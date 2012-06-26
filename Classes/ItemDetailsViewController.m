@@ -55,7 +55,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 												   object:nil];
 		mode = kItemDetailsViewing;
     }
-	
     return self;
 }
 
@@ -186,8 +185,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
 	item.hasViewed = YES;
 }
+
 -(void)viewDidAppear:(BOOL)animated{
-        }
+}
+
 - (void)updateQuantityDisplay {
 	if (item.qty > 1) self.title = [NSString stringWithFormat:@"%@ x%d",item.name,item.qty];
 	else self.title = item.name;
@@ -207,9 +208,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	[self.navigationController popToRootViewControllerAnimated:YES];
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.modalPresent=NO;
-    [appDelegate dismissNearbyObjectView:self];	
-
-	
+    [appDelegate dismissNearbyObjectView:self];		
 }
 
 -(IBAction)playMovie:(id)sender {
