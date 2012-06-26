@@ -349,7 +349,7 @@ NSString *const kDialogHtmlTemplate =
 - (void)applyNPCWithGreeting{
 
     //tell the server
-	[[AppServices sharedAppServices] updateServerNpcViewed:currentNpc.npcId];
+	[[AppServices sharedAppServices] updateServerNpcViewed:currentNpc.npcId fromLocation:currentNpc.locationId];
     
     NSString *string1 = currentNpc.greeting;
     NSString *trimmedString = [string1 stringByReplacingOccurrencesOfString:@" " withString:@""]; //remove whitespace
@@ -446,7 +446,7 @@ NSString *const kDialogHtmlTemplate =
         if(self.closingScriptPlaying==YES || (self.exitToTabVal != nil)) {
             appDelegate.modalPresent = NO;
             [appDelegate dismissNearbyObjectView:self];
-            [[AppServices sharedAppServices] updateServerNodeViewed:self.currentNode.nodeId];
+            [[AppServices sharedAppServices] updateServerNodeViewed:self.currentNode.nodeId fromLocation:self.currentNode.locationId];
         }
         
         //Check for exitToTab

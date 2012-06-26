@@ -80,7 +80,7 @@
 	NSLog(@"ItemActionViewController: Notify server of Item view and Dismiss Item Details View");
 	
 	//Notify the server this item was displayed
-	[[AppServices sharedAppServices] updateServerItemViewed:item.itemId];
+	[[AppServices sharedAppServices] updateServerItemViewed:item.itemId fromLocation:item.locationId];
 	
 	
 	[self.navigationController popToRootViewControllerAnimated:YES];

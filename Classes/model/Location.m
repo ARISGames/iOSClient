@@ -50,31 +50,32 @@
 }
 
 - (NSObject<NearbyObjectProtocol>*)object {
-	
 	if (self.kind == NearbyObjectItem) {
-		Item *item = [[AppModel sharedAppModel] itemForItemId:objectId]; 		
-		item.locationId = self.locationId;
-		item.qty = self.qty;
-		return item;
+        [[AppModel sharedAppModel] itemForItemId:objectId].locationId = self.locationId; 		
+        [[AppModel sharedAppModel] itemForItemId:objectId].qty = self.qty;
+		return [[AppModel sharedAppModel] itemForItemId:objectId];
 	}
-	
 	if (self.kind == NearbyObjectNode) {
+        [[AppModel sharedAppModel] nodeForNodeId: objectId].locationId = self.locationId;
 		return [[AppModel sharedAppModel] nodeForNodeId: objectId]; 
 	}
     if (self.kind == NearbyObjectWebPage) {
+        [[AppModel sharedAppModel] webPageForWebPageID: objectId].locationId = self.locationId;
 		return [[AppModel sharedAppModel] webPageForWebPageID: objectId]; 
 	}
     if (self.kind == NearbyObjectPanoramic) {
+        [[AppModel sharedAppModel]panoramicForPanoramicId: objectId].locationId = self.locationId;
 		return [[AppModel sharedAppModel] panoramicForPanoramicId: objectId]; 
+	}
+    if (self.kind == NearbyObjectNPC) {
+        [[AppModel sharedAppModel]npcForNpcId: objectId].locationId = self.locationId;
+		return [[AppModel sharedAppModel] npcForNpcId: objectId]; 
 	}
     if (self.kind == NearbyObjectNote) {
         if([[AppModel sharedAppModel] noteForNoteId:objectId playerListYesGameListNo:NO])
             return  [[AppModel sharedAppModel] noteForNoteId:objectId playerListYesGameListNo:NO];
         else return  [[AppModel sharedAppModel] noteForNoteId:objectId playerListYesGameListNo:YES];
     }
-	if (self.kind == NearbyObjectNPC) {
-		return [[AppModel sharedAppModel] npcForNpcId: objectId]; 
-	}
 	else return nil;
 	
 }

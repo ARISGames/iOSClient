@@ -185,7 +185,7 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
     NSLog(@"PanoVC: backButtonTouchAction");
 
 	//Notify the server this item was displayed
-	[[AppServices sharedAppServices] updateServerPanoramicViewed:self.panoramic.panoramicId];
+	[[AppServices sharedAppServices] updateServerPanoramicViewed:self.panoramic.panoramicId fromLocation:self.panoramic.locationId];
 	
 	//[self.view removeFromSuperview];
     if([self.delegate isKindOfClass:[DialogViewController class]])

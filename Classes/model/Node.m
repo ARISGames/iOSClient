@@ -13,7 +13,7 @@
 
 @implementation Node
 @synthesize nodeId, name, text, mediaId, iconMediaId, kind, forcedDisplay, numberOfOptions, options;
-@synthesize answerString, nodeIfCorrect, nodeIfIncorrect;
+@synthesize answerString, nodeIfCorrect, nodeIfIncorrect, locationId;
 
 -(nearbyObjectKind) kind { return NearbyObjectNode; }
 

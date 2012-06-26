@@ -72,13 +72,14 @@ NSString *const kARISServerServicePackage = @"v1";
 	
 }
 
-- (void)updateServerNodeViewed: (int)nodeId {
+- (void)updateServerNodeViewed: (int)nodeId fromLocation:(int)locationId {
 	NSLog(@"Model: Node %d Viewed, update server", nodeId);
 	
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
 						  [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].playerId],
 						  [NSString stringWithFormat:@"%d", nodeId],
+                          [NSString stringWithFormat:@"%d",locationId],
 						  nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
                                                             andServiceName:@"players" 
@@ -88,7 +89,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)]; 
 }
 
-- (void)updateServerWebPageViewed: (int)webPageId {
+- (void)updateServerWebPageViewed: (int)webPageId fromLocation:(int)locationId {
 	NSLog(@"Model: WebPage %d Viewed, update server", webPageId);
 	
 	//Call server service
@@ -96,6 +97,7 @@ NSString *const kARISServerServicePackage = @"v1";
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
 						  [NSString stringWithFormat:@"%d",webPageId],
+                          [NSString stringWithFormat:@"%d",locationId],
 						  nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
                                                             andServiceName:@"players" 
@@ -105,7 +107,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)]; 
     
 }
-- (void)updateServerPanoramicViewed: (int)panoramicId {
+- (void)updateServerPanoramicViewed: (int)panoramicId fromLocation:(int)locationId{
 	NSLog(@"Model: Panoramic %d Viewed, update server", panoramicId);
 	
 	//Call server service
@@ -113,6 +115,7 @@ NSString *const kARISServerServicePackage = @"v1";
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
 						  [NSString stringWithFormat:@"%d",panoramicId],
+                          [NSString stringWithFormat:@"%d",locationId],
 						  nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
                                                             andServiceName:@"players" 
@@ -123,7 +126,7 @@ NSString *const kARISServerServicePackage = @"v1";
     
 }
 
-- (void)updateServerItemViewed: (int)itemId {
+- (void)updateServerItemViewed: (int)itemId fromLocation:(int)locationId{
 	NSLog(@"Model: Item %d Viewed, update server", itemId);
 	
 	//Call server service
@@ -131,6 +134,7 @@ NSString *const kARISServerServicePackage = @"v1";
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
 						  [NSString stringWithFormat:@"%d",itemId],
+                          [NSString stringWithFormat:@"%d",locationId],
 						  nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
                                                             andServiceName:@"players" 
@@ -141,13 +145,14 @@ NSString *const kARISServerServicePackage = @"v1";
     
 }
 
-- (void)updateServerNpcViewed: (int)npcId {
+- (void)updateServerNpcViewed: (int)npcId fromLocation:(int)locationId {
 	NSLog(@"Model: Npc %d Viewed, update server", npcId);
 	
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
 						  [NSString stringWithFormat:@"%d",npcId],
+						  [NSString stringWithFormat:@"%d",locationId],
 						  nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
                                                             andServiceName:@"players" 

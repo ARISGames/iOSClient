@@ -13,7 +13,7 @@
 
 
 @implementation WebPage
-@synthesize iconMediaId,webPageId,name,url,kind;
+@synthesize iconMediaId,webPageId,name,url,kind,locationId;
 -(nearbyObjectKind) kind { return NearbyObjectWebPage; }
 
 - (WebPage *) init {

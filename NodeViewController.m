@@ -223,7 +223,7 @@ navigationType:(UIWebViewNavigationType)navigationType{
 	NSLog(@"NodeViewController: Notify server of Node view and Dismiss view");
 	
 	//Notify the server this item was displayed
-	[[AppServices sharedAppServices] updateServerNodeViewed:node.nodeId];
+	[[AppServices sharedAppServices] updateServerNodeViewed:node.nodeId fromLocation:node.locationId];
 	
 	
 	//[self.view removeFromSuperview];
@@ -237,7 +237,7 @@ navigationType:(UIWebViewNavigationType)navigationType{
     NSLog(@"NodeViewController: Notify server of Node view and Dismiss view");
 	
 	//Notify the server this item was displayed
-	[[AppServices sharedAppServices] updateServerNodeViewed:node.nodeId];
+	[[AppServices sharedAppServices] updateServerNodeViewed:node.nodeId fromLocation:node.locationId];
 	
     //Remove thyself from the screen
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];

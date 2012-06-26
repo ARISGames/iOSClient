@@ -81,7 +81,7 @@
 	NSLog(@"NodeViewController: Notify server of Node view and Dismiss view");
 	
 	//Notify the server this item was displayed
-	[[AppServices sharedAppServices] updateServerWebPageViewed:webPage.webPageId];
+	[[AppServices sharedAppServices] updateServerWebPageViewed:webPage.webPageId fromLocation:webPage.locationId];
 	
 	
     if([self.delegate isKindOfClass:[DialogViewController class]]) [self refreshConvos];

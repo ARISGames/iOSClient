@@ -24,5 +24,6 @@
 @property(nonatomic) NSString *url;
 @property(readwrite, assign) int iconMediaId;
 @property(readwrite, assign) nearbyObjectKind kind;
+@property(readwrite, assign) int locationId;
 
 @end

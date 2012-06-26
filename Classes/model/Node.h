@@ -36,6 +36,8 @@
 @property(copy, readwrite) NSString *text;
 @property(readwrite, assign) int mediaId;
 @property(readwrite, assign) int iconMediaId;
+@property(readwrite, assign) int locationId;
+
 
 @property(readonly) NSMutableArray *options;
 @property(readonly) NSInteger numberOfOptions;

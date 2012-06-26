@@ -15,7 +15,7 @@
 	NSString *name;
 	int mediaId;
 	int iconMediaId;
-	int locationId; //null if in the player's inventory
+	//int locationId; //null if in the player's inventory
 	int qty;
 	int maxQty;
     int weight;

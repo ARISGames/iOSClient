@@ -28,5 +28,6 @@
 @property(readwrite, assign) int alignMediaId;
 @property(readwrite, assign) int panoramicId;
 @property(readwrite, assign) nearbyObjectKind kind;
+@property(readwrite, assign) int locationId;
 
 @end

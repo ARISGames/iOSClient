@@ -20,6 +20,7 @@
 @synthesize iconMediaId;
 @synthesize kind;
 @synthesize forcedDisplay;
+@synthesize locationId;
 
 
 -(nearbyObjectKind) kind {

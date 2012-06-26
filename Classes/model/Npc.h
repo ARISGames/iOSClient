@@ -33,6 +33,7 @@
 @property(copy, readwrite) NSString *description;
 @property(readwrite, assign) int mediaId;
 @property(readwrite, assign) int iconMediaId;
+@property(readwrite, assign) int locationId;
 
 @property(readwrite, assign) BOOL forcedDisplay; //see note above
 

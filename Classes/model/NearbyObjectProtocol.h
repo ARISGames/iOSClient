@@ -27,6 +27,11 @@ typedef UInt32 nearbyObjectKind;
 - (BOOL)				forcedDisplay;
 - (void)				display;
 - (int)					iconMediaId;
+- (int)                 fromLocationId;
+- (int)                 locationId;
 //- (CLLocation *)		location;
+
+- (void) setLocationId:(int) locationId;
+- (int) locationId;
 
 @end

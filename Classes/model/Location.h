@@ -11,7 +11,6 @@
 #import "NearbyObjectProtocol.h"
 
 @interface Location : NSObject <NearbyObjectProtocol> {
-	int locationId;
 	int iconMediaId;
 	NSString *name;
 	CLLocation *location;

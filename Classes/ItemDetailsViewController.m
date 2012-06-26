@@ -110,7 +110,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	NSString *htmlDescription = [NSString stringWithFormat:kItemDetailsDescriptionHtmlTemplate, item.description];
 	[itemDescriptionView loadHTMLString:htmlDescription baseURL:nil];
     
-
 	Media *media = [[AppModel sharedAppModel] mediaForMediaId: item.mediaId];
 
 	if ([media.type isEqualToString: kMediaTypeImage] && media.url) {
@@ -202,7 +201,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	NSLog(@"ItemDetailsViewController: Notify server of Item view and Dismiss Item Details View");
 	
 	//Notify the server this item was displayed
-	[[AppServices sharedAppServices] updateServerItemViewed:item.itemId];
+	[[AppServices sharedAppServices] updateServerItemViewed:item.itemId fromLocation:item.locationId];
 	
 	
 	[self.navigationController popToRootViewControllerAnimated:YES];
