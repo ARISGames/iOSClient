@@ -28,7 +28,7 @@
 @synthesize hidden;
 @synthesize forcedDisplay;
 @synthesize allowsQuickTravel;
-@synthesize qty,delegate;
+@synthesize qty,delegate,wiggle;
 
 -(nearbyObjectKind) kind {
 	nearbyObjectKind returnValue = NearbyObjectNil;

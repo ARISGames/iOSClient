@@ -23,6 +23,7 @@
 	bool allowsQuickTravel;
 	int qty;
     id delegate;
+    int wiggle;
 }
 
 @property(readwrite, assign) int locationId;
@@ -41,6 +42,7 @@
 @property(readwrite) bool forcedDisplay;
 @property(readwrite) bool allowsQuickTravel;
 @property(readwrite) int qty;
+@property(readwrite) int wiggle;
 @property(nonatomic)id delegate;
 - (void) display;
 
