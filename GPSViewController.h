@@ -28,6 +28,7 @@
     IBOutlet UIBarButtonItem *addMediaButton;
 	NSTimer *refreshTimer;
     IBOutlet UIBarButtonItem *playerButton;
+    
 }
 
 -(void) refresh;
@@ -36,6 +37,9 @@
 -(void)dismissTutorial;
 -(IBAction)playerButtonTouch;
 - (void)refreshViewFromModel;
+
+
+- (void) wiggleWithAnnotationView:(MKAnnotationView *) aV;
 
 @property (nonatomic) MKMapView *mapView;
 @property (nonatomic) NSArray *locations;

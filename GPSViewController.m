@@ -253,15 +253,18 @@ static float INITIAL_SPAN = 0.001;
 	
 	NSLog(@"GPSViewController: refreshViewFromModel: silenceNextServerUpdateCount = %d", silenceNextServerUpdateCount);
 
-	
+	int newItems = 0;
+    NSArray *newLocationsArray = [AppModel sharedAppModel].locationList;
+    NSArray *oldLocationsArray = self.locations;
+
 	if (silenceNextServerUpdateCount < 1) {
 		//Check if anything is new since last time
-		int newItems = 0;
-		NSArray *newLocationsArray = [AppModel sharedAppModel].locationList;
-		for (Location *location in newLocationsArray) {		
+        for (Location *location in newLocationsArray) {		
 			BOOL match = NO;
 			for (Location *existingLocation in self.locations) {
-				if (existingLocation.locationId == location.locationId) match = YES;	
+				if (existingLocation.locationId == location.locationId) {
+                    match = YES;	
+                }
 			}
 			if (match == NO) {
 				newItems ++;;
@@ -295,41 +298,57 @@ static float INITIAL_SPAN = 0.001;
 	self.locations = [AppModel sharedAppModel].locationList;
 	
 	if (mapView) {
-		//Blow away the old markers except for the player marker
+		//Blow away the expired markers except for the player marker
 		NSEnumerator *existingAnnotationsEnumerator = [[[mapView annotations] copy] objectEnumerator];
-		NSObject <MKAnnotation> *annotation;
+		Annotation *annotation;
 		while (annotation = [existingAnnotationsEnumerator nextObject]) {
-			if (annotation != mapView.userLocation) [mapView removeAnnotation:annotation];
+            //BOOL match = NO;
+            // delete any markers that don't exist anymore
+            //for ( Location* location in locations ) {
+             //   Location* annoLoc = annotation.location;
+               // if (annoLoc != NULL)
+                    //if (location.locationId == annoLoc.locationId) match = YES;
+            //}
+            
+            [mapView removeAnnotation:annotation];   //&& annotation != mapView.userLocation
 		}
 
 		//Add the freshly loaded locations from the notification
 		for ( Location* location in locations ) {
+            BOOL match = NO;
+            for (Location *oldLocation in oldLocationsArray) {
+				if (location.locationId == oldLocation.locationId) match = YES;
+            }
             
-
-			NSLog(@"GPSViewController: Adding location annotation for:%@ id:%d", location.name, location.locationId);
-			if (location.hidden == YES) 
-			{
-				NSLog(@"No I'm not, because this location is hidden.");
-				continue;
-			}
-			CLLocationCoordinate2D locationLatLong = location.location.coordinate;
-			
-			Annotation *annotation = [[Annotation alloc]initWithCoordinate:locationLatLong];
-			annotation.location = location;
-			
-			
-			annotation.title = location.name;
-			if (location.kind == NearbyObjectItem && location.qty > 1) 
-				annotation.subtitle = [NSString stringWithFormat:@"x %d",location.qty];
-			annotation.iconMediaId = location.iconMediaId;
-			annotation.kind = location.kind;
-
-			[mapView addAnnotation:annotation];
-			if (!mapView) {
-				NSLog(@"GPSViewController: Just added an annotation to a null mapview!");
-			}
-			
-            
+            if (match == YES) {  // old location. do nothing
+                
+            } else {  // add new location
+                
+                
+                NSLog(@"GPSViewController: Adding location annotation for:%@ id:%d", location.name, location.locationId);
+                if (location.hidden == YES) 
+                {
+                    NSLog(@"No I'm not, because this location is hidden.");
+                    continue;
+                }
+                CLLocationCoordinate2D locationLatLong = location.location.coordinate;
+                
+                Annotation *annotation = [[Annotation alloc]initWithCoordinate:locationLatLong];
+                annotation.location = location;
+                
+                
+                annotation.title = location.name;
+                if (location.kind == NearbyObjectItem && location.qty > 1) 
+                    annotation.subtitle = [NSString stringWithFormat:@"x %d",location.qty];
+                annotation.iconMediaId = location.iconMediaId;
+                annotation.kind = location.kind;
+                
+                [mapView addAnnotation:annotation];
+                if (!mapView) {
+                    NSLog(@"GPSViewController: Just added an annotation to a null mapview!");
+                }
+                
+            }
 		}
 		
 		//Add the freshly loaded players from the notification
@@ -432,7 +451,6 @@ static float INITIAL_SPAN = 0.001;
 	
 	appSetNextRegionChange = NO;
 
-
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)myMapView viewForAnnotation:(id <MKAnnotation>)annotation{
@@ -487,21 +505,65 @@ static float INITIAL_SPAN = 0.001;
     
 }
 
-- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views { 
-    MKAnnotationView *aV; 
-    for (aV in views) {
-        CGRect endFrame = aV.frame;
-        
-        aV.frame = CGRectMake(aV.frame.origin.x, aV.frame.origin.y - 230.0, aV.frame.size.width, aV.frame.size.height);
-        
-        [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationDuration:0.45];
-        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-        [aV setFrame:endFrame];
-        [UIView commitAnimations];
-        
+
+- (void)mapView:(MKMapView *)mV didAddAnnotationViews:(NSArray *)views { 
+    
+    // Step through all annotations
+    Annotation *ann;
+    for (id<MKAnnotation> annotation in mV.annotations){
+
+        ann = (Annotation *) annotation;
+        if (ann.title != NULL && ![ann.title isEqualToString:@"Current Location"]) {  // Skip if not a normal item that won't have a wiggle property
+            MKAnnotationView* aV = [mapView viewForAnnotation: annotation];  // get annotationView for Annotation
+            if (aV){
+                // prepare drop animation
+                CGRect endFrame = aV.frame;        
+                aV.frame = CGRectMake(aV.frame.origin.x, aV.frame.origin.y - 230.0, aV.frame.size.width, aV.frame.size.height);
+                
+                // if annotation should wiggle, drop and wiggle
+                if (ann.location.wiggle == 1) {  
+                    [UIView animateWithDuration:0.45 delay:0.0 options:NULL animations:^{
+                        [aV setFrame:endFrame];
+                    } completion:^(BOOL finished) {
+                        if (finished) {
+                            [self wiggleWithAnnotationView:aV];
+                            //}
+                        }
+                    }];
+                    
+                //else, only drop
+                } else {  
+                    [UIView animateWithDuration:0.45 delay:0.0 options:NULL animations:^{
+                        [aV setFrame:endFrame];
+                    } completion:^(BOOL finished) {
+                    }];
+                }
+                
+            }
+        }
     }
 }
+
+- (void) wiggleWithAnnotationView:(MKAnnotationView *) aV {
+    // wiggle annotation up and down repeatedly
+    [UIView animateWithDuration:0.35 delay:0.0 options:NULL animations:^{
+    [aV setFrame:CGRectMake(aV.frame.origin.x, aV.frame.origin.y - 10.0, aV.frame.size.width, aV.frame.size.height)];
+    } completion:^(BOOL finished) {
+        if (finished) { 
+            [UIView animateWithDuration:0.45 delay:0.0 options:NULL animations:^{
+                [aV setFrame:CGRectMake(aV.frame.origin.x, aV.frame.origin.y + 10.0, aV.frame.size.width, aV.frame.size.height)];
+            } completion:^(BOOL finished) {
+                if (finished) {
+                    [self wiggleWithAnnotationView:aV];
+                }
+            }];
+        }
+    }];
+}
+
+
+    
+
 
 #pragma mark UIActionSheet Delegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
