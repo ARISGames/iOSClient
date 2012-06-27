@@ -11,30 +11,29 @@
 #import "AppModel.h"
 #import "ARISMoviePlayerViewController.h"
 #import <Foundation/Foundation.h>
-#import <AVFoundation/AVAudioPlayer.h>
+#import <AVFoundation/AVFoundation.h>
 
 @interface webpageViewController : UIViewController <AVAudioPlayerDelegate, UIWebViewDelegate>{
     IBOutlet	UIWebView	*webView;
     WebPage     *webPage;
-    IBOutlet UIView  *blackView;
-    NSObject *delegate;
-    IBOutlet	UIActivityIndicatorView *activityIndicator;
-    NSMutableDictionary *mediaClips;
-    ARISMoviePlayerViewController *localARISMoviePlayer;
+    IBOutlet    UIView  *blackView;
+    NSObject    *delegate;
+    UIActivityIndicatorView *activityIndicator;
+    NSMutableDictionary *avPlayers;
+    AVPlayer *localPlayer;
 }
 
-@property(nonatomic) IBOutlet UIWebView		*webView;
+@property(nonatomic) IBOutlet UIWebView	*webView;
 @property(nonatomic) WebPage *webPage;
-@property(nonatomic) NSObject  *delegate;
+@property(nonatomic) NSObject *delegate;
 @property(nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property(nonatomic)IBOutlet UIView *blackView;
-@property(nonatomic) NSMutableDictionary *mediaClips;
-@property(nonatomic) ARISMoviePlayerViewController *localARISMoviePlayer;
+@property(nonatomic) IBOutlet UIView *blackView;
+@property(nonatomic, strong) NSMutableDictionary *audioPlayers;
 
 - (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType;
 - (void) showWaitingIndicator;
 - (void) dismissWaitingIndicator;
-- (void)refreshConvos;
+- (void) refreshConvos;
 - (void) loadAudioFromMediaId:(int)mediaId;
 - (void) playAudioFromMediaId:(int)mediaId;
 - (void) stopAudioFromMediaId:(int)mediaId;
