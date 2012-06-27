@@ -184,10 +184,10 @@ static float INITIAL_SPAN = 0.001;
 
 - (void)viewWillDisappear:(BOOL)animated {
 	NSLog(@"GPSViewController: Stopping Refresh Timer");
-	if (refreshTimer) {
+/*	if (refreshTimer) {
 		[refreshTimer invalidate];
 		refreshTimer = nil;
-	}
+	} */
 }
 
 -(void)dismissTutorial{
@@ -255,13 +255,13 @@ static float INITIAL_SPAN = 0.001;
     if (mapView) {
     NSMutableArray *newLocationsArray;
     Annotation *annotation;
+    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	NSLog(@"GPSViewController: Refreshing view from model");
 	
 	NSLog(@"GPSViewController: refreshViewFromModel: silenceNextServerUpdateCount = %d", silenceNextServerUpdateCount);
 
 	if (silenceNextServerUpdateCount < 1) {
 		//Check if anything is new since last time or item has disappeared
-		int newItems = 0;
 		newLocationsArray = [AppModel sharedAppModel].locationList;
 		for (int i = 0; i < [[mapView annotations] count]; i++) {
             BOOL match = NO;
@@ -276,14 +276,20 @@ static float INITIAL_SPAN = 0.001;
                 }	
 			}
             if(!match){
+                newItemsSinceLastView -= [newLocationsArray count];
+                if(newItemsSinceLastView < 0) newItemsSinceLastView = 0;
                 [mapView removeAnnotation:annotation];
                 i--;
 			}
             }
 		}
-        
-		if (newItems > 0) {
-			newItemsSinceLastView += newItems;
+        if(![appDelegate.tabBarController.selectedViewController.title isEqualToString:@"Map"]){
+            newItemsSinceLastView += [newLocationsArray count];
+        }
+        else{
+            newItemsSinceLastView = 0;
+        }
+		if (newItemsSinceLastView > 0) {
 			self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
 			
 			if (![AppModel sharedAppModel].hasSeenMapTabTutorial) {
@@ -306,9 +312,10 @@ static float INITIAL_SPAN = 0.001;
 		newItemsSinceLastView = 0;
 		self.tabBarItem.badgeValue = nil;
 	}
-	
-	self.locations = [AppModel sharedAppModel].locationList;
 
+	self.locations = [AppModel sharedAppModel].locationList;
+    
+    if([appDelegate.tabBarController.selectedViewController.title isEqualToString:@"Map"]){
 		//Add the freshly loaded locations from the notification
 		for ( Location* location in newLocationsArray ) {
 			NSLog(@"GPSViewController: Adding location annotation for:%@ id:%d", location.name, location.locationId);
@@ -332,6 +339,7 @@ static float INITIAL_SPAN = 0.001;
 				NSLog(@"GPSViewController: Just added an annotation to a null mapview!");
 			}
 		}
+        }
      	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;   
 	}
 }
