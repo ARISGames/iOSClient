@@ -109,13 +109,12 @@ static float INITIAL_SPAN = 0.001;
         }
     }
     else{
-        [playerButton setStyle:UIBarButtonItemStyleDone];
-        [self refreshViewFromModel];    
+        [playerButton setStyle:UIBarButtonItemStyleDone];  
     }
 	[[[MyCLController sharedMyCLController] locationManager] stopUpdatingLocation];
 	[[[MyCLController sharedMyCLController]locationManager] startUpdatingLocation];
     
-	//Rerfresh all contents
+	//Refresh all contents
     tracking = NO;
 	[self refresh];
 }
@@ -154,7 +153,6 @@ static float INITIAL_SPAN = 0.001;
 	
 	[self refresh];	
 	
-
 	NSLog(@"GPSViewController: View Loaded");
 }
 
@@ -183,11 +181,6 @@ static float INITIAL_SPAN = 0.001;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-	NSLog(@"GPSViewController: Stopping Refresh Timer");
-/*	if (refreshTimer) {
-		[refreshTimer invalidate];
-		refreshTimer = nil;
-	} */
 }
 
 -(void)dismissTutorial{
@@ -246,8 +239,7 @@ static float INITIAL_SPAN = 0.001;
 -(void)removeLoadingIndicator{
 	[[self navigationItem] setRightBarButtonItem:nil];
 	NSLog(@"GPSViewController: removeLoadingIndicator: silenceNextServerUpdateCount = %d", silenceNextServerUpdateCount);
-
-
+    [self refreshViewFromModel];
 }
 
 
@@ -262,6 +254,7 @@ static float INITIAL_SPAN = 0.001;
 
 	if (silenceNextServerUpdateCount < 1) {
 		//Check if anything is new since last time or item has disappeared
+        int annotationsRemoved = 0;
 		newLocationsArray = [AppModel sharedAppModel].locationList;
 		for (int i = 0; i < [[mapView annotations] count]; i++) {
             BOOL match = NO;
@@ -269,27 +262,28 @@ static float INITIAL_SPAN = 0.001;
             if([testAnnotation isKindOfClass: [Annotation class]]) {
                 annotation = (Annotation *)testAnnotation;
             for (int j = 0; j < [newLocationsArray count]; j++) {
+                NSLog(@"Compare to: %d, %d", annotation.location.locationId, ((Location *)[newLocationsArray objectAtIndex:j]).locationId);
 				if ([annotation.location compareTo:[newLocationsArray objectAtIndex:j]]){
                     [newLocationsArray removeObjectAtIndex:j];
                     j--;
                     match = YES;
+                    NSLog(@"Match");
                 }	
 			}
-            if(!match){
+            if(!match && [newLocationsArray count] != 0){
                 newItemsSinceLastView -= [newLocationsArray count];
                 if(newItemsSinceLastView < 0) newItemsSinceLastView = 0;
                 [mapView removeAnnotation:annotation];
+                annotationsRemoved++;
                 i--;
 			}
             }
 		}
-        if(![appDelegate.tabBarController.selectedViewController.title isEqualToString:@"Map"]){
-            newItemsSinceLastView += [newLocationsArray count];
-        }
-        else{
-            newItemsSinceLastView = 0;
-        }
-		if (newItemsSinceLastView > 0) {
+        
+        newItemsSinceLastView -= annotationsRemoved;
+        newItemsSinceLastView += [newLocationsArray count];
+
+		if (newItemsSinceLastView > 0 && ![appDelegate.tabBarController.selectedViewController.title isEqualToString:@"Map"]) {
 			self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
 			
 			if (![AppModel sharedAppModel].hasSeenMapTabTutorial) {
@@ -304,18 +298,15 @@ static float INITIAL_SPAN = 0.001;
                 [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
 			}
 		}
-		else if (newItemsSinceLastView < 1) self.tabBarItem.badgeValue = nil;
-	}
-    
-	else {
-        [newLocationsArray removeAllObjects];
-		newItemsSinceLastView = 0;
-		self.tabBarItem.badgeValue = nil;
+		else{
+           newItemsSinceLastView = 0;
+           self.tabBarItem.badgeValue = nil; 
+        }
 	}
 
 	self.locations = [AppModel sharedAppModel].locationList;
     
-    if([appDelegate.tabBarController.selectedViewController.title isEqualToString:@"Map"]){
+    if([appDelegate.tabBarController.selectedViewController.title isEqualToString:@"Map"]) {
 		//Add the freshly loaded locations from the notification
 		for ( Location* location in newLocationsArray ) {
 			NSLog(@"GPSViewController: Adding location annotation for:%@ id:%d", location.name, location.locationId);
