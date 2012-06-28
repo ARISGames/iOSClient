@@ -22,6 +22,7 @@
     bool hasBeenViewed;
 	bool forcedDisplay;	
 	bool allowsQuickTravel;
+    bool showTitle;
 	int qty;
     id delegate;
     int wiggle;
@@ -44,6 +45,7 @@
 @property(readwrite) bool hasBeenViewed;
 @property(readwrite) bool forcedDisplay;
 @property(readwrite) bool allowsQuickTravel;
+@property(readwrite) bool showTitle;
 @property(readwrite) int qty;
 @property(readwrite) int wiggle;
 @property(readwrite) int deleteWhenViewed;

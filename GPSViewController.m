@@ -259,7 +259,7 @@ static float INITIAL_SPAN = 0.001;
 		for (int i = 0; i < [[mapView annotations] count]; i++) {
             BOOL match = NO;
 			NSObject <MKAnnotation>  *testAnnotation = [[mapView annotations] objectAtIndex:i];
-            if([testAnnotation isKindOfClass: [Annotation class]]) {
+            if(![testAnnotation.title isEqualToString:@"Current Location"]) {
                 annotation = (Annotation *)testAnnotation;
                 if([appDelegate.tabBarController.selectedViewController.title isEqualToString:@"Map"]) {
                     annotation.location.hasBeenViewed = YES;
@@ -321,8 +321,8 @@ static float INITIAL_SPAN = 0.001;
 			Annotation *annotation = [[Annotation alloc]initWithCoordinate:locationLatLong];
 			annotation.location = location;
 			annotation.title = location.name;
-            if([annotation.title isEqualToString:@"None"]){
-                annotation.title = @"";
+            if([annotation.title isEqualToString:@"None"] || !location.showTitle){
+                annotation.title = nil;
             }
 			if (location.kind == NearbyObjectItem && location.qty > 1 && annotation.title != nil) 
 				annotation.subtitle = [NSString stringWithFormat:@"x %d",location.qty];

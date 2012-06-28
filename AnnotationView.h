@@ -26,6 +26,7 @@
 	NSMutableData *asyncData;
 	UIImage *icon;
 	AsyncMediaImageView *iconView;
+    bool showTitle;
 }
 
 @property (readwrite) CGRect titleRect;
@@ -34,6 +35,7 @@
 @property (readwrite) UIFont *titleFont;
 @property (readwrite) UIFont *subtitleFont;
 @property (readwrite) UIImage *icon;
+@property (readwrite) bool showTitle;
 
 //- (void)setImageFromURL:(NSString *)imageURLString;
 

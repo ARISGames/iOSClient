@@ -2127,8 +2127,11 @@ NSString *const kARISServerServicePackage = @"v1";
     location.allowsQuickTravel = [[locationDictionary valueForKey:@"allow_quick_travel"] boolValue];
     location.qty = [[locationDictionary valueForKey:@"item_qty"] intValue];
     location.hasBeenViewed = NO;
+    location.showTitle = YES;
     location.wiggle = [[locationDictionary valueForKey:@"wiggle"] intValue];
-    if (location.wiggle == nil) location.wiggle = 0;
+    NSNumber *num = [NSNumber numberWithInt:location.wiggle];
+    if(num == nil)  location.wiggle = 0;
+    //if(location.wiggle == nil)  location.wiggle = 0;
     location.deleteWhenViewed = [[locationDictionary valueForKey:@"delete_when_viewed"] intValue];
     
     if([location.objectType isEqualToString:@"PlayerNote"]){

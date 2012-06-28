@@ -28,7 +28,7 @@
 @synthesize hidden;
 @synthesize hasBeenViewed;
 @synthesize forcedDisplay;
-@synthesize allowsQuickTravel;
+@synthesize allowsQuickTravel, showTitle;
 @synthesize qty,delegate,wiggle,deleteWhenViewed;
 
 

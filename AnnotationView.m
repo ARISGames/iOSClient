@@ -20,15 +20,21 @@
 @synthesize titleFont;
 @synthesize subtitleFont;
 @synthesize icon;
+@synthesize showTitle;
 
 
-- (id)initWithAnnotation:(Annotation *)annotation reuseIdentifier:(NSString *)reuseIdentifier {
+- (id)initWithAnnotation:(Annotation *)annotation reuseIdentifier:(NSString *)reuseIdentifier{
 	UIFont *localTitleFont = [UIFont fontWithName:@"Arial" size:18];
 	UIFont *localSubtitleFont = [UIFont fontWithName:@"Arial" size:12];
 	CGRect localTitleRect;	//we use local copies until self is inited
 	CGRect localSubtitleRect;
 	CGRect localContentRect;
-	if (annotation.title && annotation.title != @"") {  //if we have a title, we compute a size for it
+    
+    self.showTitle = YES;
+    if (annotation.title == nil || annotation.title == @"") {
+        self.showTitle = NO;
+    }
+	if (self.showTitle) {  //if we have a title, we compute a size for it
 		CGSize titleSize = [annotation.title sizeWithFont:localTitleFont];
 		if (titleSize.width > 300) {
 			titleSize.width = 300;
@@ -52,12 +58,14 @@
 	//now set both rects to be the same width, as when we draw the text, we'll center it within each rect.
 	if (localTitleRect.size.width < localSubtitleRect.size.width) {
 		localTitleRect.size.width = localSubtitleRect.size.width;
-	} else {
+	} 
+    else {
 		localSubtitleRect.size.width = localTitleRect.size.width;
 	}
 	localContentRect=CGRectUnion(localTitleRect, localSubtitleRect);
 	localContentRect.size.width += 10.0;
 	localContentRect.size.height += 10.0;
+    
 	localTitleRect=CGRectOffset(localTitleRect, 5.0, 5.0);
 	localSubtitleRect=CGRectOffset(localSubtitleRect, 5.0, 5.0);
 	
@@ -96,7 +104,6 @@
             CGRect imageViewFrame = CGRectMake(0, 0, IMAGE_WIDTH + 10, IMAGE_HEIGHT + 10);
             [iconView setFrame:imageViewFrame];
             [self setFrame: iconView.frame];
-            self.contentRect = iconView.frame;
             iconView.contentMode =  UIViewContentModeScaleAspectFit;
             [self addSubview:iconView];
             
@@ -126,6 +133,7 @@
 
 
 - (void)drawRect:(CGRect)rect {
+   if (self.showTitle) {
 	CGMutablePathRef calloutPath = CGPathCreateMutable();
 	CGPoint pointerPoint = CGPointMake(self.contentRect.origin.x + 0.5 * self.contentRect.size.width,  self.contentRect.origin.y + self.contentRect.size.height + POINTER_LENGTH);
 	CGFloat radius = 7.0;
@@ -149,6 +157,7 @@
 	[self.annotation.subtitle drawInRect:self.subtitleRect withFont:self.subtitleFont lineBreakMode:UILineBreakModeMiddleTruncation alignment:UITextAlignmentCenter];
 	CGContextAddPath(UIGraphicsGetCurrentContext(), calloutPath);
 	CGContextStrokePath(UIGraphicsGetCurrentContext());
+   }
 }	
 
 @end
