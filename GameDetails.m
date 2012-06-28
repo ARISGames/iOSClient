@@ -284,6 +284,7 @@ NSString *const kGameDetailsHtmlTemplate =
     }
     else if  (indexPath.section == 1 && indexPath.row == 0) {
         self.game.hasBeenPlayed = YES;
+        [AppModel sharedAppModel].inGame = YES;
         
         NSDictionary *dictionary = [NSDictionary dictionaryWithObject:self.game
                                                                forKey:@"game"];

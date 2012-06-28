@@ -28,6 +28,7 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated {
+    [AppModel sharedAppModel].inGame = NO;
     ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
     [appDelegate showGameSelectionTabBarAndHideOthers];
 }

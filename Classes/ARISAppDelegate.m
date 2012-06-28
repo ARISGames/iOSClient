@@ -624,6 +624,7 @@ BOOL isShowingNotification;
 
 //Play a sound
 - (void) playAudio:(NSString*)wavFileName {
+    if([AppModel sharedAppModel].inGame){
 	NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:wavFileName ofType:@"wav"]];
     NSLog(@"Appdelegate: Playing Audio: %@", url);
     [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];	
@@ -636,6 +637,7 @@ BOOL isShowingNotification;
     }
     else{
         [self.player play];
+    }
     }
 }
 - (void) audioPlayerDidFinishPlaying: (AVAudioPlayer *) player

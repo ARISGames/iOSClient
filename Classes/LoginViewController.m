@@ -31,6 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 		
+    [AppModel sharedAppModel].inGame = NO;
 	usernameField.placeholder = NSLocalizedString(@"UsernameKey", @"");
 	passwordField.placeholder = NSLocalizedString(@"PasswordKey", @"");
 	[loginButton setTitle:NSLocalizedString(@"LoginKey",@"") forState:UIControlStateNormal];
