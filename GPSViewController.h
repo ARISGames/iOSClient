@@ -45,11 +45,8 @@
 @property (nonatomic) NSMutableArray *locations;
 @property (nonatomic) NSMutableArray *route;
 
-
 @property BOOL tracking;
 @property BOOL mapTrace;
-
-
 
 @property (nonatomic) IBOutlet UIBarButtonItem *mapTypeButton;
 @property (nonatomic) IBOutlet UIBarButtonItem *playerButton;

@@ -50,7 +50,6 @@ static float INITIAL_SPAN = 0.001;
 		[dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedLocationList" object:nil];
 		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewLocationListReady" object:nil];
 		[dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
-		
 	}
 	
     return self;
@@ -239,7 +238,6 @@ static float INITIAL_SPAN = 0.001;
 -(void)removeLoadingIndicator{
 	[[self navigationItem] setRightBarButtonItem:nil];
 	NSLog(@"GPSViewController: removeLoadingIndicator: silenceNextServerUpdateCount = %d", silenceNextServerUpdateCount);
-    [self refreshViewFromModel];
 }
 
 
@@ -279,6 +277,9 @@ static float INITIAL_SPAN = 0.001;
                 }	
 			}
             if(!match && [newLocationsArray count] != 0){
+                if(annotation.location.locationId == 1572){
+                    NSLog(@"Issue here"); 
+                }
                 [mapView removeAnnotation:annotation];
                 i--;
 			}

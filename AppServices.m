@@ -2069,18 +2069,6 @@ NSString *const kARISServerServicePackage = @"v1";
     currentlyFetchingLocationList = NO;
     
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedLocationList" object:nil]];
-    
-	//Check for an error
-	
-	//Compare this hash to the last one. If the same, stop hee
-	
-	if ([jsonResult.hash isEqualToString:[AppModel sharedAppModel].locationListHash]) {
-		NSLog(@"AppModel: Hash is same as last location list update, continue");
-		return;
-	}
-    
-	//Save this hash for later comparisions
-	[AppModel sharedAppModel].locationListHash = [jsonResult.hash copy];
 	
 	//Continue parsing
 	NSArray *locationsArray = (NSArray *)jsonResult.data;

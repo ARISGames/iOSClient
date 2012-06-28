@@ -101,7 +101,7 @@
 	}
         else{
             iconView = [[AsyncMediaImageView alloc] init];
-            CGRect imageViewFrame = CGRectMake(0, 0, IMAGE_WIDTH + 10, IMAGE_HEIGHT + 10);
+            CGRect imageViewFrame = CGRectMake(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
             [iconView setFrame:imageViewFrame];
             [self setFrame: iconView.frame];
             iconView.contentMode =  UIViewContentModeScaleAspectFit;
