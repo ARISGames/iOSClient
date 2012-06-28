@@ -1,4 +1,4 @@
-﻿//
+//
 //  ARISAppDelegate.m
 //  ARIS
 //
@@ -10,7 +10,6 @@
 #import "AppServices.h"
 #import "Node.h"
 #import "TutorialPopupView.h"
-
 #import "BogusSelectGameViewController.h"
 #import "GamePickerSearchViewController.h"
 #import "GamePickerRecentViewController.h"

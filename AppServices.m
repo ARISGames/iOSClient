@@ -287,8 +287,6 @@ NSString *const kARISServerServicePackage = @"v1";
                                                               andArguments:arguments 
                                                                andUserInfo:nil];
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After 
-	[self forceUpdateOnNextLocationListFetch];
-	
 }
 
 - (void)updateServerDropItemHere: (int)itemId qty:(int)qty{
@@ -308,8 +306,6 @@ NSString *const kARISServerServicePackage = @"v1";
                                                               andArguments:arguments 
                                                                andUserInfo:nil];
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After 
-	[self forceUpdateOnNextLocationListFetch];
-    
 }
 - (void)updateServerDropNoteHere: (int)noteId atCoordinate: (CLLocationCoordinate2D) coordinate{
 	NSLog(@"Model: Informing the Server the player dropped an item");
@@ -327,8 +323,6 @@ NSString *const kARISServerServicePackage = @"v1";
                                                               andArguments:arguments 
                                                                andUserInfo:nil];
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After 
-	[self forceUpdateOnNextLocationListFetch];
-    
 }
 - (void)updateServerDestroyItem: (int)itemId qty:(int)qty {
 	NSLog(@"Model: Informing the Server the player destroyed an item");
@@ -991,7 +985,6 @@ NSString *const kARISServerServicePackage = @"v1";
 	//Clear the Hashes
 	[AppModel sharedAppModel].questListHash = @"";
 	[AppModel sharedAppModel].inventoryHash = @"";
-	[AppModel sharedAppModel].locationListHash = @"";
     [AppModel sharedAppModel].playerNoteListHash = @"";
     [AppModel sharedAppModel].gameNoteListHash = @"";
 	//Clear them out
@@ -1306,10 +1299,6 @@ NSString *const kARISServerServicePackage = @"v1";
                                                               andArguments:arguments andUserInfo:nil];
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseLocationListFromJSON:)]; 
 	
-}
-
-- (void)forceUpdateOnNextLocationListFetch {
-	[AppModel sharedAppModel].locationListHash = @"";
 }
 
 - (void)fetchInventory {
@@ -2072,8 +2061,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	
 	//Continue parsing
 	NSArray *locationsArray = (NSArray *)jsonResult.data;
-	
-	
+    
 	//Build the location list
 	NSMutableArray *tempLocationsList = [[NSMutableArray alloc] init];
 	NSEnumerator *locationsEnumerator = [locationsArray objectEnumerator];	

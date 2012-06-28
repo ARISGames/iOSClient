@@ -72,7 +72,6 @@ extern NSString *const kARISServerServicePackage;
 
 - (void)fetchTabBarItemsForGame:(int)gameId;
 - (void)fetchLocationList;
-- (void)forceUpdateOnNextLocationListFetch;
 - (void)fetchGameListBySearch: (NSString *) searchText onPage:(int)page;
 - (void)resetAllPlayerLists;
 - (void)fetchAllGameLists;

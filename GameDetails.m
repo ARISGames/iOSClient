@@ -291,7 +291,7 @@ NSString *const kGameDetailsHtmlTemplate =
         [[AppServices sharedAppServices] silenceNextServerUpdate];
         NSNotification *gameSelectNotification = [NSNotification notificationWithName:@"SelectGame" object:self userInfo:dictionary];
         [[NSNotificationCenter defaultCenter] postNotification:gameSelectNotification];
-        [self.navigationController popViewControllerAnimated:NO];
+        [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:NO];
     }
     else if  (indexPath.section == 3 && indexPath.row == 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"GameDetailsResetTitleKey", nil) message:NSLocalizedString(@"GameDetailsResetMessageKey", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"CancelKey", @"") otherButtonTitles: NSLocalizedString(@"OkKey", @""), nil];

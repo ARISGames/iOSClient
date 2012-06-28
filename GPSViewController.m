@@ -147,9 +147,6 @@ static float INITIAL_SPAN = 0.001;
     addMediaButton.target = self;
     addMediaButton.action = @selector(addMediaButtonAction:);
 	
-	//Force an update of the locations
-	[[AppServices sharedAppServices] forceUpdateOnNextLocationListFetch];
-	
 	[self refresh];	
 	
 	NSLog(@"GPSViewController: View Loaded");
