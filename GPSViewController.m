@@ -268,18 +268,13 @@ static float INITIAL_SPAN = 0.001;
                     }
                 }
             for (int j = 0; j < [newLocationsArray count]; j++) {
-                NSLog(@"Compare to: %d, %d", annotation.location.locationId, ((Location *)[newLocationsArray objectAtIndex:j]).locationId);
 				if ([annotation.location compareTo:[newLocationsArray objectAtIndex:j]]){
                     [newLocationsArray removeObjectAtIndex:j];
                     j--;
                     match = YES;
-                    NSLog(@"Match");
                 }	
 			}
             if(!match && [newLocationsArray count] != 0){
-                if(annotation.location.locationId == 1572){
-                    NSLog(@"Issue here"); 
-                }
                 [mapView removeAnnotation:annotation];
                 i--;
 			}
