@@ -2127,7 +2127,7 @@ NSString *const kARISServerServicePackage = @"v1";
     location.allowsQuickTravel = [[locationDictionary valueForKey:@"allow_quick_travel"] boolValue];
     location.qty = [[locationDictionary valueForKey:@"item_qty"] intValue];
     location.hasBeenViewed = NO;
-    location.showTitle = YES;
+    location.showTitle = [[locationDictionary valueForKey:@"show_title"] boolValue];
     location.wiggle = [[locationDictionary valueForKey:@"wiggle"] intValue];
     NSNumber *num = [NSNumber numberWithInt:location.wiggle];
     if(num == nil)  location.wiggle = 0;
