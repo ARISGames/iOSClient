@@ -26,6 +26,7 @@
 @synthesize objectType;
 @synthesize objectId;
 @synthesize hidden;
+@synthesize hasBeenViewed;
 @synthesize forcedDisplay;
 @synthesize allowsQuickTravel;
 @synthesize qty,delegate,wiggle,deleteWhenViewed;

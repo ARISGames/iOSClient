@@ -254,13 +254,21 @@ static float INITIAL_SPAN = 0.001;
 
 	if (silenceNextServerUpdateCount < 1) {
 		//Check if anything is new since last time or item has disappeared
-        int annotationsRemoved = 0;
+        newItemsSinceLastView = 0;
 		newLocationsArray = [AppModel sharedAppModel].locationList;
 		for (int i = 0; i < [[mapView annotations] count]; i++) {
             BOOL match = NO;
 			NSObject <MKAnnotation>  *testAnnotation = [[mapView annotations] objectAtIndex:i];
             if([testAnnotation isKindOfClass: [Annotation class]]) {
                 annotation = (Annotation *)testAnnotation;
+                if([appDelegate.tabBarController.selectedViewController.title isEqualToString:@"Map"]) {
+                    annotation.location.hasBeenViewed = YES;
+                }
+                else{
+                    if(!annotation.location.hasBeenViewed){
+                    newItemsSinceLastView++;
+                    }
+                }
             for (int j = 0; j < [newLocationsArray count]; j++) {
                 NSLog(@"Compare to: %d, %d", annotation.location.locationId, ((Location *)[newLocationsArray objectAtIndex:j]).locationId);
 				if ([annotation.location compareTo:[newLocationsArray objectAtIndex:j]]){
@@ -271,17 +279,11 @@ static float INITIAL_SPAN = 0.001;
                 }	
 			}
             if(!match && [newLocationsArray count] != 0){
-                newItemsSinceLastView -= [newLocationsArray count];
-                if(newItemsSinceLastView < 0) newItemsSinceLastView = 0;
                 [mapView removeAnnotation:annotation];
-                annotationsRemoved++;
                 i--;
 			}
             }
 		}
-        
-        newItemsSinceLastView -= annotationsRemoved;
-        newItemsSinceLastView += [newLocationsArray count];
 
 		if (newItemsSinceLastView > 0 && ![appDelegate.tabBarController.selectedViewController.title isEqualToString:@"Map"]) {
 			self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
@@ -305,8 +307,7 @@ static float INITIAL_SPAN = 0.001;
 	}
 
 	self.locations = [AppModel sharedAppModel].locationList;
-    
-    if([appDelegate.tabBarController.selectedViewController.title isEqualToString:@"Map"]) {
+        
 		//Add the freshly loaded locations from the notification
 		for ( Location* location in newLocationsArray ) {
 			NSLog(@"GPSViewController: Adding location annotation for:%@ id:%d", location.name, location.locationId);
@@ -320,7 +321,10 @@ static float INITIAL_SPAN = 0.001;
 			Annotation *annotation = [[Annotation alloc]initWithCoordinate:locationLatLong];
 			annotation.location = location;
 			annotation.title = location.name;
-			if (location.kind == NearbyObjectItem && location.qty > 1) 
+            if([annotation.title isEqualToString:@"None"]){
+                annotation.title = @"";
+            }
+			if (location.kind == NearbyObjectItem && location.qty > 1 && annotation.title != nil) 
 				annotation.subtitle = [NSString stringWithFormat:@"x %d",location.qty];
 			annotation.iconMediaId = location.iconMediaId;
 			annotation.kind = location.kind;
@@ -329,7 +333,6 @@ static float INITIAL_SPAN = 0.001;
 			if (!mapView) {
 				NSLog(@"GPSViewController: Just added an annotation to a null mapview!");
 			}
-		}
         }
      	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;   
 	}

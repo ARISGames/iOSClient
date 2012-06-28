@@ -28,14 +28,15 @@
 	CGRect localTitleRect;	//we use local copies until self is inited
 	CGRect localSubtitleRect;
 	CGRect localContentRect;
-	if (annotation.title) {  //if we have a title, we compute a size for it
+	if (annotation.title && annotation.title != @"") {  //if we have a title, we compute a size for it
 		CGSize titleSize = [annotation.title sizeWithFont:localTitleFont];
 		if (titleSize.width > 300) {
 			titleSize.width = 300;
 		}
 		
 		localTitleRect = CGRectMake(0, 0, titleSize.width, titleSize.height);
-	} else {
+	} 
+    else {
 		localTitleRect = CGRectMake(0, 0, 0, 0);
 	}
 	if (annotation.subtitle) { //likewise for subtitle
@@ -44,7 +45,8 @@
 			subtitleSize.width = 300;
 		}
 		localSubtitleRect = CGRectMake(0, localTitleRect.origin.x + localTitleRect.size.height, subtitleSize.width, subtitleSize.height);
-	} else {
+	} 
+    else {
 		localSubtitleRect = CGRectMake(0, 0, 0, 0);
 	}
 	//now set both rects to be the same width, as when we draw the text, we'll center it within each rect.
@@ -54,12 +56,13 @@
 		localSubtitleRect.size.width = localTitleRect.size.width;
 	}
 	localContentRect=CGRectUnion(localTitleRect, localSubtitleRect);
-	localContentRect.size.width +=10;
+	localContentRect.size.width += 10.0;
 	localContentRect.size.height += 10.0;
 	localTitleRect=CGRectOffset(localTitleRect, 5.0, 5.0);
 	localSubtitleRect=CGRectOffset(localSubtitleRect, 5.0, 5.0);
 	
 	if (self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier]) {
+        if((annotation.title != nil && annotation.title != @"") || annotation.kind == NearbyObjectPlayer) {
 		//we have a view, so now we can set some instance variables
 		[self setFrame:CGRectMake(0.0, 0.0, localContentRect.size.width, localContentRect.size.height + POINTER_LENGTH + IMAGE_HEIGHT)];
 		self.centerOffset = CGPointMake(0.0, -(localContentRect.size.height+POINTER_LENGTH)/2.0);
@@ -88,7 +91,32 @@
 
 		self.opaque = NO;
 	}
-	return self;
+        else{
+            iconView = [[AsyncMediaImageView alloc] init];
+            CGRect imageViewFrame = CGRectMake(0, 0, IMAGE_WIDTH + 10, IMAGE_HEIGHT + 10);
+            [iconView setFrame:imageViewFrame];
+            [self setFrame: iconView.frame];
+            self.contentRect = iconView.frame;
+            iconView.contentMode =  UIViewContentModeScaleAspectFit;
+            [self addSubview:iconView];
+            
+            //Only load the icon media if it is > 0, otherwise, lets load a default
+            if (annotation.iconMediaId != 0) {
+                Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: annotation.iconMediaId];
+                [iconView loadImageFromMedia:iconMedia];
+            }
+            else if (annotation.kind == NearbyObjectItem) iconView.image = [UIImage imageNamed:@"item.png"];
+            else if (annotation.kind == NearbyObjectNode) iconView.image = [UIImage imageNamed:@"page.png"];
+            else if (annotation.kind == NearbyObjectNPC) iconView.image = [UIImage imageNamed:@"npc.png"];
+            else if (annotation.kind == NearbyObjectPlayer) iconView.image = [UIImage imageNamed:@"player.png"];
+            else if (annotation.kind == NearbyObjectWebPage) iconView.image = [UIImage imageNamed:@"page.png"];
+            else if (annotation.kind == NearbyObjectNote) iconView.image = [UIImage imageNamed:@"noteicon.png"];
+            
+            self.opaque = NO; 
+        }
+
+    }
+    return self;
 }
 
 - (void)dealloc {

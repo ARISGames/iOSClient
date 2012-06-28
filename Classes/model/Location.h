@@ -19,6 +19,7 @@
 	nearbyObjectKind kind; //for the protocol
 	int objectId;
 	bool hidden;
+    bool hasBeenViewed;
 	bool forcedDisplay;	
 	bool allowsQuickTravel;
 	int qty;
@@ -40,6 +41,7 @@
 
 @property(readwrite) int objectId;
 @property(readwrite) bool hidden;
+@property(readwrite) bool hasBeenViewed;
 @property(readwrite) bool forcedDisplay;
 @property(readwrite) bool allowsQuickTravel;
 @property(readwrite) int qty;
