@@ -52,7 +52,7 @@
 									 style: UIBarButtonItemStyleBordered
 									target:self 
 									action:@selector(backButtonTouchAction:)];	
-
+    
     
     //Create a URL object.
     NSString *urlAddress = self.webPage.url;
@@ -62,7 +62,7 @@
         urlAddress = [self.webPage.url stringByAppendingString: [NSString stringWithFormat: @"?gameId=%d&webPageId=%d&playerId=%d",[AppModel sharedAppModel].currentGame.gameId, [AppModel sharedAppModel].playerId, webPage.webPageId]];
     else       
         urlAddress = [self.webPage.url stringByAppendingString: [NSString stringWithFormat: @"&gameId=%d&webPageId=%d&playerId=%d",[AppModel sharedAppModel].currentGame.gameId, [AppModel sharedAppModel].playerId, webPage.webPageId]];
-
+    
     NSLog(@"WebPageVC: Loading URL: %@",urlAddress);
     NSURL *url = [NSURL URLWithString:urlAddress];
     //URL Requst Object
@@ -74,7 +74,7 @@
     
     //Load the request in the UIWebView.
     [webView loadRequest:requestObj];
-
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -89,7 +89,7 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-     NSLog(@"WebPageVC: viewWillDisapear");
+    NSLog(@"WebPageVC: viewWillDisapear");
     [self.audioPlayers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop){
         AVPlayer *player = obj;
         [player pause]; 
@@ -114,11 +114,11 @@
 }
 -(void)showWaitingIndicator {
     [self.activityIndicator startAnimating];
-     }
-     
+}
+
 -(void)dismissWaitingIndicator {
     [self.activityIndicator stopAnimating];
-     }
+}
 
 - (IBAction)backButtonTouchAction: (id) sender{
 	NSLog(@"NodeViewController: Notify server of Node view and Dismiss view");
@@ -143,7 +143,9 @@
 #pragma mark -
 #pragma mark ARIS/JavaScript Connections
 
-- (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType { 
+- (BOOL)webView:(UIWebView*)webViewFromMethod shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType { 
+    self.webView = webViewFromMethod;
+    [self.webView stringByEvaluatingJavaScriptFromString: @"isCurrentlyCalling();"];
     
     //Is this a special call from HTML back to ARIS?
     NSString* scheme = [[req URL] scheme];
@@ -152,16 +154,18 @@
     //What was it requesting?
     NSString* mainCommand = [[req URL] host];
     NSArray *components = [[req URL]pathComponents];
-
+    
     if ([mainCommand isEqualToString:@"closeMe"]) {
         NSLog(@"WebPageVC: aris://closeMe/ called");
         [self dismissModalViewControllerAnimated:NO];
+        [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
         return NO; 
     }  
     
     if ([mainCommand isEqualToString:@"refreshStuff"]) {
         NSLog(@"WebPageVC: aris://refreshStuff/ called");
         [self refreshConvos];
+        [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
         return NO; 
     }  
     
@@ -173,14 +177,16 @@
             int mediaId = [[components objectAtIndex:2] intValue];
             NSLog(@"WebPageVC: aris://media/prepare/ called from webpage with mediaId = %d",mediaId );
             [self loadAudioFromMediaId:mediaId];
+            [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
             return NO; 
         }  
-
+        
         if ([components count] > 2 && 
             [[components objectAtIndex:1] isEqualToString:@"play"]) {
             int mediaId = [[components objectAtIndex:2] intValue];
             NSLog(@"WebPageVC: aris://media/play/ called from webpage with mediaId = %d",mediaId );
             [self playAudioFromMediaId:mediaId];
+            [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
             return NO; 
         }  
         
@@ -189,6 +195,7 @@
             int mediaId = [[components objectAtIndex:2] intValue];
             NSLog(@"WebPageVC: aris://media/stop/ called from webpage with mediaId = %d",mediaId );
             [self stopAudioFromMediaId:mediaId];
+            [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
             return NO; 
         }  
         
@@ -198,11 +205,12 @@
             int volume = [[components objectAtIndex:3] floatValue];
             NSLog(@"WebPageVC: aris://media/setVolume/ called from webpage with mediaId = %d and volume =%d",mediaId,volume );
             [self setMediaId:mediaId volumeTo:volume];
+            [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
             return NO; 
         }  
         
     }
-             
+    
     //Shouldn't get here. 
     NSLog(@"WebPageVC: WARNING. An aris:// url was called with no handler");
     return YES;
@@ -229,9 +237,11 @@
 
 - (void) playAudioFromMediaId:(int)mediaId{
     AVPlayer *player = [audioPlayers objectForKey:[NSNumber numberWithInt:mediaId]];
+    CMTime zero = CMTimeMakeWithSeconds(0, 600);
+    [player seekToTime: zero];
     if (!player) {
         [self loadAudioFromMediaId:mediaId];
-         player = [audioPlayers objectForKey:[NSNumber numberWithInt:mediaId]];
+        player = [audioPlayers objectForKey:[NSNumber numberWithInt:mediaId]];
     }
     [player play];
 }
@@ -256,7 +266,7 @@
     
     AVMutableAudioMix *audioMix = [AVMutableAudioMix audioMix];
     [audioMix setInputParameters:allAudioParams];
-
+    
     player.currentItem.audioMix = audioMix;
     
 }
