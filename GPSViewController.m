@@ -187,6 +187,7 @@ static float INITIAL_SPAN = 0.001;
 
 // Updates the map to current data for player and locations from the server
 - (void) refresh {
+    if([AppModel sharedAppModel].inGame){
 	if (mapView) {
 		NSLog(@"GPSViewController: refresh requested");	
 	
@@ -209,6 +210,7 @@ static float INITIAL_SPAN = 0.001;
 		NSLog(@"GPSViewController: refresh requested but ignored, as mapview is nil");	
 		
 	}
+    }
 }
 
 -(void) zoomAndCenterMap {
