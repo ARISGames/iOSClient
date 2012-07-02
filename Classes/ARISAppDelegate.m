@@ -640,6 +640,13 @@ BOOL isShowingNotification;
     }
     }
 }
+
+- (void) stopAudio{
+    if(self.player){
+            [self.player stop];
+    }
+}
+
 - (void) audioPlayerDidFinishPlaying: (AVAudioPlayer *) player
                         successfully: (BOOL) flag {
     NSLog(@"Appdelegate: Audio is done playing");

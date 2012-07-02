@@ -116,6 +116,7 @@
 - (void) returnToHomeView;
 - (void) showGameSelectionTabBarAndHideOthers;
 - (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate;
+- (void) stopAudio;
 - (void) checkForDisplayCompleteNode;
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url;
 - (void) displayIntroNode;
