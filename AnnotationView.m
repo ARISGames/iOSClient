@@ -21,6 +21,8 @@
 @synthesize subtitleFont;
 @synthesize icon;
 @synthesize showTitle;
+@synthesize subView;
+@synthesize wiggle;
 
 
 - (id)initWithAnnotation:(Annotation *)annotation reuseIdentifier:(NSString *)reuseIdentifier{
@@ -29,6 +31,7 @@
 	CGRect localTitleRect;	//we use local copies until self is inited
 	CGRect localSubtitleRect;
 	CGRect localContentRect;
+    
     
     self.showTitle = YES;
     if (annotation.title == nil || annotation.title == @"") {
@@ -68,10 +71,15 @@
     
 	localTitleRect=CGRectOffset(localTitleRect, 5.0, 5.0);
 	localSubtitleRect=CGRectOffset(localSubtitleRect, 5.0, 5.0);
-	
+
+	if (annotation.location.wiggle == YES)
+        self.wiggle = YES;
+    
 	if (self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier]) {
         if((annotation.title != nil && annotation.title != @"") || annotation.kind == NearbyObjectPlayer) {
+            
 		//we have a view, so now we can set some instance variables
+        
 		[self setFrame:CGRectMake(0.0, 0.0, localContentRect.size.width, localContentRect.size.height + POINTER_LENGTH + IMAGE_HEIGHT)];
 		self.centerOffset = CGPointMake(0.0, -(localContentRect.size.height+POINTER_LENGTH)/2.0);
 		self.titleFont = localTitleFont;
@@ -83,7 +91,12 @@
 		CGRect imageViewFrame = CGRectMake(self.bounds.origin.x + 5.0, CGRectGetMaxY(self.contentRect)+POINTER_LENGTH, self.bounds.size.width - 10.0, IMAGE_HEIGHT);
 		[iconView setFrame:imageViewFrame];
 		iconView.contentMode =  UIViewContentModeScaleAspectFit;
-		[self addSubview:iconView];
+        subView = [[UIView alloc] init];
+        [subView setFrame: imageViewFrame];
+        [subView addSubview:iconView];
+        [self addSubview:subView];
+        iconView.userInteractionEnabled = NO;
+        subView.userInteractionEnabled = NO;
 		
 		//Only load the icon media if it is > 0, otherwise, lets load a default
 		if (annotation.iconMediaId != 0) {
@@ -98,6 +111,8 @@
         else if (annotation.kind == NearbyObjectNote) iconView.image = [UIImage imageNamed:@"noteicon.png"];
 
 		self.opaque = NO;
+
+
 	}
         else{
             iconView = [[AsyncMediaImageView alloc] init];
@@ -105,7 +120,12 @@
             [iconView setFrame:imageViewFrame];
             [self setFrame: iconView.frame];
             iconView.contentMode =  UIViewContentModeScaleAspectFit;
-            [self addSubview:iconView];
+            subView = [[UIView alloc] init];
+            [subView setFrame: imageViewFrame];
+            [subView addSubview:iconView];
+            [self addSubview:subView];
+            iconView.userInteractionEnabled = NO;
+            subView.userInteractionEnabled = NO;
             
             //Only load the icon media if it is > 0, otherwise, lets load a default
             if (annotation.iconMediaId != 0) {
@@ -120,6 +140,8 @@
             else if (annotation.kind == NearbyObjectNote) iconView.image = [UIImage imageNamed:@"noteicon.png"];
             
             self.opaque = NO; 
+            
+        
         }
 
     }
@@ -133,6 +155,7 @@
 
 
 - (void)drawRect:(CGRect)rect {
+    
    if (self.showTitle) {
 	CGMutablePathRef calloutPath = CGPathCreateMutable();
 	CGPoint pointerPoint = CGPointMake(self.contentRect.origin.x + 0.5 * self.contentRect.size.width,  self.contentRect.origin.y + self.contentRect.size.height + POINTER_LENGTH);
@@ -158,6 +181,39 @@
 	CGContextAddPath(UIGraphicsGetCurrentContext(), calloutPath);
 	CGContextStrokePath(UIGraphicsGetCurrentContext());
    }
+    
+  // wiggle if wiggleable
+  if (self.wiggle == YES) { 
+        [UIView animateWithDuration:0.20 delay:0.0 options:NULL animations:^{
+            
+            [subView setFrame:CGRectMake(subView.frame.origin.x, subView.frame.origin.y -50.0, subView.frame.size.width, subView.frame.size.height)];
+        } completion:^(BOOL finished) {
+            if (finished) {
+                [self wiggleWithView: subView];
+            }
+        }];
+  }
+  
+    
 }	
+
+- (void) wiggleWithView:(UIView *) aV {
+    
+    
+    [UIView animateWithDuration:0.45 delay:0.0 options:NULL animations:^{
+        
+        [aV setFrame:CGRectMake(aV.frame.origin.x, aV.frame.origin.y+ 10.0, aV.frame.size.width, aV.frame.size.height)];
+    } completion:^(BOOL finished) {
+        if (finished) { 
+            [UIView animateWithDuration:0.45 delay:0.0 options:NULL animations:^{
+                [aV setFrame:CGRectMake(aV.frame.origin.x, aV.frame.origin.y-10.0, aV.frame.size.width, aV.frame.size.height)];
+            } completion:^(BOOL finished) {
+                if (finished) {
+                    [self wiggleWithView:aV];
+                }
+            }];
+        }
+    }];
+}
 
 @end

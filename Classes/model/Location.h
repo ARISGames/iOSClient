@@ -25,7 +25,7 @@
     bool showTitle;
 	int qty;
     id delegate;
-    int wiggle;
+    bool wiggle;
     int deleteWhenViewed;
 }
 
@@ -47,7 +47,7 @@
 @property(readwrite) bool allowsQuickTravel;
 @property(readwrite) bool showTitle;
 @property(readwrite) int qty;
-@property(readwrite) int wiggle;
+@property(readwrite) bool wiggle;
 @property(readwrite) int deleteWhenViewed;
 @property(nonatomic)id delegate;
 - (void) display;

@@ -11,6 +11,8 @@
 #import "Location.h"
 #import <MapKit/MapKit.h>
 #import "Annotation.h"
+#import "TileOverlay.h"
+#import "TileOverlayView.h"
 
 
 
@@ -39,7 +41,7 @@
 - (void)refreshViewFromModel;
 
 
-- (void) wiggleWithAnnotationView:(MKAnnotationView *) aV;
+- (double)getZoomLevel:(MKMapView *) mV;
 
 @property (nonatomic) MKMapView *mapView;
 @property (nonatomic) NSMutableArray *locations;
@@ -47,6 +49,9 @@
 
 @property BOOL tracking;
 @property BOOL mapTrace;
+
+@property TileOverlay *overlay;
+@property NSMutableArray *overlayArray;
 
 @property (nonatomic) IBOutlet UIBarButtonItem *mapTypeButton;
 @property (nonatomic) IBOutlet UIBarButtonItem *playerButton;

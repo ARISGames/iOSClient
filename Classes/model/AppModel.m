@@ -21,6 +21,7 @@
 @synthesize playerLocation, inventory, questList, networkAlert;
 @synthesize gameMediaList, gameItemList, gameNodeList, gameNpcList,gameWebPageList,gamePanoramicList,gameTabList, defaultGameTabList,gameNoteList,playerNoteList;
 @synthesize questListHash, inventoryHash,profilePic,attributes,gameNoteListHash,playerNoteListHash;
+@synthesize overlayList;
 
 @synthesize nearbyLocationsList,gameTagList;
 @synthesize hasSeenNearbyTabTutorial,hasSeenQuestsTabTutorial,hasSeenMapTabTutorial,hasSeenInventoryTabTutorial, tabsReady,hidePlayers,progressBar,isGameNoteList,uploadManager,mediaCache,hasReceivedMediaList, inGame;
@@ -44,6 +45,7 @@
 		//Init USerDefaults
 		defaults = [NSUserDefaults standardUserDefaults];
 		gameMediaList = [[NSMutableDictionary alloc] initWithCapacity:10];
+        overlayList = [[NSMutableArray alloc] initWithCapacity:10];
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(clearGameLists) name:@"NewGameSelected" object:nil];
 	}

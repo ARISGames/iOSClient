@@ -27,6 +27,8 @@
 	UIImage *icon;
 	AsyncMediaImageView *iconView;
     bool showTitle;
+    UIView *subView;
+    bool wiggle;
 }
 
 @property (readwrite) CGRect titleRect;
@@ -35,8 +37,11 @@
 @property (readwrite) UIFont *titleFont;
 @property (readwrite) UIFont *subtitleFont;
 @property (readwrite) UIImage *icon;
+@property (readwrite) UIView *subView;
 @property (readwrite) bool showTitle;
+@property (readwrite) bool wiggle;
 
 //- (void)setImageFromURL:(NSString *)imageURLString;
+- (void)wiggleWithView:(UIView *)aV;
 
 @end

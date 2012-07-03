@@ -956,6 +956,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	[self fetchGameMediaListAsynchronously:YES];
     [self fetchGamePanoramicListAsynchronously:YES];
     [self fetchGameWebpageListAsynchronously:YES];
+    [self fetchOverlayListAsynchronously:YES];
     
 }
 
@@ -969,9 +970,102 @@ NSString *const kARISServerServicePackage = @"v1";
     [[AppModel sharedAppModel].gameMediaList removeAllObjects];
     [[AppModel sharedAppModel].gameWebPageList removeAllObjects];
     [[AppModel sharedAppModel].gamePanoramicList removeAllObjects];
+    [[AppModel sharedAppModel].overlayList removeAllObjects];
     
     
 }
+
+- (void)fetchOverlayListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
+	NSLog(@"AppModel: Fetching Map Overlay List");
+	
+	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
+    
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"overlays"
+                                                             andMethodName:@"getOverlays"
+                                                              andArguments:arguments andUserInfo:nil];
+	
+	if (YesForAsyncOrNoForSync){
+		[jsonConnection performAsynchronousRequestWithHandler:@selector(parseOverlayListFromJSON:)];
+	}
+	else [self parseOverlayListFromJSON: [jsonConnection performSynchronousRequest]];
+}
+
+-(void)parseOverlayListFromJSON: (JSONResult *)jsonResult{
+    currentlyFetchingGamesList = NO;
+    
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RecievedOverlayList" object:nil]];
+    
+    NSArray *overlayListArray = (NSArray *)jsonResult.data;
+    
+    NSMutableArray *tempOverlayList = [[NSMutableArray alloc] init];
+    Overlay *tempOverlay = [[Overlay alloc] init];
+    
+    NSEnumerator *overlayListEnumerator = [overlayListArray objectEnumerator];	
+    NSDictionary *overlayDictionary;
+    // step through results and create overlays
+    int currentOverlayID = -1;
+    while (overlayDictionary = [overlayListEnumerator nextObject]) {
+        // if new overlay in database
+        if (currentOverlayID != [[overlayDictionary valueForKey:@"overlay_id"] intValue]) {
+            // add previous overlay to overlay list
+            [tempOverlayList addObject:tempOverlay];
+            
+            // create new overlay
+            tempOverlay.overlayId = [[overlayDictionary valueForKey:@"game_overlay_id"] intValue];
+            tempOverlay.num_tiles = [[overlayDictionary valueForKey:@"num_tiles"] intValue];
+            tempOverlay.alpha = [[overlayDictionary valueForKey:@"alpha"] floatValue] ;
+            [tempOverlay.tileFileName addObject:[overlayDictionary valueForKey:@"file_name"]];
+            [tempOverlay.tileMediaID addObject:[overlayDictionary valueForKey:@"media_id"]];
+            [tempOverlay.tileX addObject:[overlayDictionary valueForKey:@"x"]];
+            [tempOverlay.tileY addObject:[overlayDictionary valueForKey:@"y"]];
+            [tempOverlay.tileZ addObject:[overlayDictionary valueForKey:@"zoom"]];
+            Media *media = [[AppModel sharedAppModel] mediaForMediaId:[[overlayDictionary valueForKey:@"media_id"] intValue]];
+            [tempOverlay.tileImage addObject:media];
+            currentOverlayID = tempOverlay.overlayId;
+            
+        } else { 
+            // add tiles to existing overlay
+            [tempOverlay.tileFileName addObject:[overlayDictionary valueForKey:@"file_name"]];
+            [tempOverlay.tileMediaID addObject:[overlayDictionary valueForKey:@"media_id"]];
+            [tempOverlay.tileX addObject:[overlayDictionary valueForKey:@"x"]];
+            [tempOverlay.tileY addObject:[overlayDictionary valueForKey:@"y"]];
+            [tempOverlay.tileZ addObject:[overlayDictionary valueForKey:@"zoom"]];
+            Media *media = [[AppModel sharedAppModel] mediaForMediaId:[[overlayDictionary valueForKey:@"media_id"] intValue]];
+            [tempOverlay.tileImage addObject:media];
+            currentOverlayID = tempOverlay.overlayId;
+        }
+        
+        
+    }
+    
+    [AppModel sharedAppModel].overlayList = tempOverlayList;
+    
+    for (int iOverlay=0; iOverlay < [[AppModel sharedAppModel].overlayList count]; iOverlay++) {
+        Overlay *currentOverlay = [[AppModel sharedAppModel].overlayList objectAtIndex:iOverlay];
+        int iTiles = [currentOverlay.tileX count];
+        for (int iTile = 0; iTile < iTiles; iTile++) {
+            
+            // step through tile list and update media with images
+            AsyncMediaImageView *aImageView = [[AsyncMediaImageView alloc] init ];
+            [aImageView loadImageFromMedia:[currentOverlay.tileImage objectAtIndex:iTile]];
+            
+        }        
+    }
+    
+    
+    NSError *error;
+    if (![[AppModel sharedAppModel].mediaCache.context save:&error]) {
+        NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+    }
+    
+    NSLog(@"AppModel: parsOverlayListFromJSON Complete, sending notification");
+    
+    
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewOverlayListReady" object:nil]];
+    
+}
+
 
 - (void)fetchAllPlayerLists{
 	[self fetchLocationList];
@@ -2104,7 +2198,7 @@ NSString *const kARISServerServicePackage = @"v1";
     location.qty = [[locationDictionary valueForKey:@"item_qty"] intValue];
     location.hasBeenViewed = NO;
     location.showTitle = [[locationDictionary valueForKey:@"show_title"] boolValue];
-    location.wiggle = [[locationDictionary valueForKey:@"wiggle"] intValue];
+    location.wiggle = [[locationDictionary valueForKey:@"wiggle"] boolValue];
     NSNumber *num = [NSNumber numberWithInt:location.wiggle];
     if(num == nil)  location.wiggle = 0;
     //if(location.wiggle == nil)  location.wiggle = 0;

@@ -82,6 +82,7 @@ extern NSString *const kARISServerServicePackage;
 - (void)fetchNpcConversations:(int)npcId afterViewingNode:(int)nodeId;
 - (void)fetchGameNpcListAsynchronously:(BOOL)YesForAsyncOrNoForSync;
 - (void)fetchGameMediaListAsynchronously:(BOOL)YesForAsyncOrNoForSync;
+- (void)fetchOverlayListAsynchronously:(BOOL)YesForAsyncOrNoForSync;
 - (void)fetchGameItemListAsynchronously:(BOOL)YesForAsyncOrNoForSync;
 - (void)fetchGameNodeListAsynchronously:(BOOL)YesForAsyncOrNoForSync;
 - (void)fetchGameWebpageListAsynchronously:(BOOL)YesForAsyncOrNoForSync;
