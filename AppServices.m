@@ -1591,6 +1591,34 @@ NSString *const kARISServerServicePackage = @"v1";
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseRecentGameListFromJSON:)]; 
 }
 
+- (void)fetchPopularGameListForTime: (int)time locational:(BOOL)locationalOrNonLocational {
+	NSLog(@"AppModel: Fetch Requested for Game List.");
+    
+    if (currentlyFetchingGamesList) {
+        NSLog(@"AppModel: Already fetching Games list, skipping");
+        return;
+    }
+    
+    currentlyFetchingGamesList = YES;
+    
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects: 
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.latitude],
+						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.longitude],
+                          [NSString stringWithFormat:@"%d",time],
+                          [NSString stringWithFormat:@"%d",locationalOrNonLocational],
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],
+						  nil];
+	
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"games"
+                                                             andMethodName:@"getPopularGames"
+                                                              andArguments:arguments andUserInfo:nil];
+	
+	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameListFromJSON:)]; 
+}
+
 #pragma mark Parsers
 - (NSInteger) validIntForKey:(NSString *const)aKey inDictionary:(NSDictionary *const)aDictionary {
 	id theObject = [aDictionary valueForKey:aKey];

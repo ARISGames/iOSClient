@@ -1,12 +1,12 @@
 //
-//  GamePickerNearbyViewController.m
+//  GamePickerPopularViewController.m
 //  ARIS
 //
-//  Created by Ben Longoria on 2/13/09.
-//  Copyright 2009 University of Wisconsin. All rights reserved.
+//  Created by Jacob Hanshaw on 7/3/12.
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "GamePickerNearbyViewController.h"
+#import "GamePickerPopularViewController.h"
 #import "AppServices.h"
 #import "Game.h"
 #import "ARISAppDelegate.h"
@@ -17,7 +17,7 @@
 #include "PTPusherChannel.h"
 #include "AsyncMediaImageView.h"
 
-@implementation GamePickerNearbyViewController
+@implementation GamePickerPopularViewController
 
 @synthesize gameTable;
 @synthesize gameList, gameIcons;
@@ -29,99 +29,65 @@
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
-        self.title = NSLocalizedString(@"NearbyObjectsTabKey", @"");
-		self.navigationItem.title = [NSString stringWithFormat: @"%@", NSLocalizedString(@"GamePickerNearbyGamesKey", @"")];
-        self.tabBarItem.image = [UIImage imageNamed:@"193-location-arrow"];
+        self.title = NSLocalizedString(@"GamePickerPopularTitleKey", @"");
+		self.navigationItem.title = NSLocalizedString(@"GamePickerPopularPlayedKey", @"");
         self.gameIcons = [NSMutableArray arrayWithCapacity:[[AppModel sharedAppModel].gameList count]];
+        self.tabBarItem.image = [UIImage imageNamed:@"85-trophy"];
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];
+        [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
         
     }
     return self;
 }
 
+- (void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark - View lifecycle
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-	UIBarButtonItem *refreshButtonAlloc = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh)];
+	
+    UIBarButtonItem *refreshButtonAlloc = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh)];
     self.refreshButton = refreshButtonAlloc;
     
     self.navigationItem.rightBarButtonItem = self.refreshButton;
-    
-    /*
-     //PUSHER STUFF
-     //Create SendEvent button in left of navbar
-     UIBarButtonItem *sendEventButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(sendPusherEvent)];
-     self.navigationItem.leftBarButtonItem = sendEventButton;
-     */
-    
-  	[gameTable reloadData];
-    
-    [self refresh];
-    
-	NSLog(@"GamePickerViewController: View Loaded");
-}
 
-/*
- //PUSHER STUFF
- -(void)sendPusherEvent{
- //Do send event things
- ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
- PTPusherPrivateChannel *pChannel = (PTPusherPrivateChannel *)[appDelegate.privClient channelNamed:@"private-pusher_room_channel"];
- [pChannel triggerEventNamed:@"private-pusher_room_event" data:@"from the iPhone"];
- }
- */
+    [self refresh];
+	NSLog(@"GamePickerPopularViewController: View Loaded");
+}
 
 - (void)viewDidAppear:(BOOL)animated {
-	NSLog(@"GamePickerViewController: View Appeared");	
-	
-	//self.gameList = [NSMutableArray arrayWithCapacity:1];
-    
+	NSLog(@"GamePickerPopularViewController: View Appeared");	
 	[self refresh];
-    
-	NSLog(@"GamePickerViewController: view did appear");
-    
 }
 
+
 -(void)refresh {
-	NSLog(@"GamePickerViewController: Refresh Requested");
+    NSLog(@"GamePickerViewController: Refresh Requested");
     
+    distanceControl.enabled = YES;
+    distanceControl.alpha = 1;
+   
     //Calculate locational control value
     BOOL locational;
-    if (locationalControl.selectedSegmentIndex == 0) {
-        locational = YES;  
-        distanceControl.enabled = YES;
-        distanceControl.alpha = 1;
-    }
-    else
-    {
-        locational = NO;
-        distanceControl.alpha = .2;
-        distanceControl.enabled = NO;
-    }
+    if (locationalControl.selectedSegmentIndex == 0) locational = YES;  
+    else locational = NO;
 	
     //Calculate distance filer controll value
-    int distanceFilter;
-    switch (distanceControl.selectedSegmentIndex) {
-        case 0:
-            distanceFilter = 100;
-            break;
-        case 1:
-            distanceFilter = 1000;
-            break;
-        case 2:
-            distanceFilter = 50000;
-            break;
-            
-    }
+    int time = distanceControl.selectedSegmentIndex;
+
     if([AppModel sharedAppModel].playerLocation){
         //register for notifications
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
         [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
-        [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
+        [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil]; 
         
-        if ([[AppModel sharedAppModel] loggedIn]) [[AppServices sharedAppServices] fetchGameListWithDistanceFilter:distanceFilter locational:locational];
+        if ([[AppModel sharedAppModel] loggedIn]) [[AppServices sharedAppServices] fetchGameListWithDistanceFilter:time locational:locational];
         [self showLoadingIndicator];
     }
 }
@@ -131,6 +97,7 @@
     // Release anything that's not essential, such as cached data
 }
 
+
 #pragma mark custom methods, logic
 -(void)showLoadingIndicator{
 	UIActivityIndicatorView *activityIndicator = 
@@ -138,27 +105,23 @@
 	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
 	[[self navigationItem] setRightBarButtonItem:barButton];
 	[activityIndicator startAnimating];
-    
-    
-}
-
--(void) viewWillAppear:(BOOL)animated{
-    
 }
 
 -(void)removeLoadingIndicator{
+    
 	[[self navigationItem] setRightBarButtonItem:self.refreshButton];
     [gameTable reloadData];
 }
 
+
 - (void)refreshViewFromModel {
-	NSLog(@"GamePickerViewController: Refresh View from Model");
-    
+	NSLog(@"GamePickerPopularViewController: Refresh View from Model");
+	
     //unregister for notifications
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-	self.gameList = [[AppModel sharedAppModel].gameList sortedArrayUsingSelector:@selector(compareCalculatedScore:)];
-    [gameTable reloadData];
+	self.gameList = [AppModel sharedAppModel].gameList;
+	[gameTable reloadData];
 }
 
 #pragma mark Control Callbacks
@@ -175,9 +138,10 @@
     return 1;
 }
 
+
 // Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if([self.gameList count] == 0 && [AppModel sharedAppModel].playerLocation) return 1;
+	if([self.gameList count] == 0 && [AppModel sharedAppModel].playerLocation) return 1;
 	return [self.gameList count];
 }
 
@@ -300,50 +264,17 @@
 	return 60;
 }
 
-
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
- 
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
- }   
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }   
- }
- */
-
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
- }
- */
-
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
-
-
-- (void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    // Return YES for supported orientations
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
 
 @end

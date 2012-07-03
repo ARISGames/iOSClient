@@ -13,6 +13,7 @@
 #import "BogusSelectGameViewController.h"
 #import "GamePickerSearchViewController.h"
 #import "GamePickerRecentViewController.h"
+#import "GamePickerPopularViewController.h"
 #import "GameDetails.h"
 #import "webpageViewController.h"
 #import "NoteDetailsViewController.h"
@@ -218,6 +219,10 @@ BOOL isShowingNotification;
     UINavigationController *gamePickerRecentNC = [[UINavigationController alloc] initWithRootViewController:gamePickerRecentVC];
     gamePickerRecentNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
+    GamePickerPopularViewController *gamePickerPopularVC = [[GamePickerPopularViewController alloc]initWithNibName:@"GamePickerPopularViewController" bundle:nil];
+    UINavigationController *gamePickerPopularNC = [[UINavigationController alloc] initWithRootViewController:gamePickerPopularVC];
+    gamePickerPopularNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    
     
 	//Logout View
 	LogoutViewController *alogoutViewController = [[LogoutViewController alloc] initWithNibName:@"Logout" bundle:nil];
@@ -229,6 +234,7 @@ BOOL isShowingNotification;
                                                           gamePickerNearbyNC,
                                                           //gamePickerMapNC,
                                                           gamePickerSearchNC,
+                                                          gamePickerPopularNC,
                                                           gamePickerRecentNC,
                                                           alogoutNavigationController,
                                                           nil];

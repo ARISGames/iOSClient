@@ -363,6 +363,8 @@
 		D43717DF106D62BB0020C515 /* Media.m in Sources */ = {isa = PBXBuildFile; fileRef = D43717DE106D62BB0020C515 /* Media.m */; };
 		D4D366DF111B6789009C4D00 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D366DE111B6789009C4D00 /* CFNetwork.framework */; };
 		D4DE6B8B110A00D7008BFE38 /* defaultCharacter.png in Resources */ = {isa = PBXBuildFile; fileRef = D4DE6B8A110A00D7008BFE38 /* defaultCharacter.png */; };
+		DB17C60615A3A8E9001F7A10 /* GamePickerPopularViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB17C60515A3A8E9001F7A10 /* GamePickerPopularViewController.xib */; };
+		DB17C60915A3A921001F7A10 /* GamePickerPopularViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB17C60815A3A921001F7A10 /* GamePickerPopularViewController.m */; };
 		DBBCE9E115937704006994F9 /* DefaultPCImage.png in Resources */ = {isa = PBXBuildFile; fileRef = DBBCE9E015937704006994F9 /* DefaultPCImage.png */; };
 /* End PBXBuildFile section */
 
@@ -940,6 +942,9 @@
 		D43717DE106D62BB0020C515 /* Media.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Media.m; sourceTree = "<group>"; };
 		D4D366DE111B6789009C4D00 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		D4DE6B8A110A00D7008BFE38 /* defaultCharacter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultCharacter.png; sourceTree = "<group>"; };
+		DB17C60515A3A8E9001F7A10 /* GamePickerPopularViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GamePickerPopularViewController.xib; sourceTree = "<group>"; };
+		DB17C60715A3A921001F7A10 /* GamePickerPopularViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GamePickerPopularViewController.h; path = Classes/GamePickerPopularViewController.h; sourceTree = "<group>"; };
+		DB17C60815A3A921001F7A10 /* GamePickerPopularViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GamePickerPopularViewController.m; path = Classes/GamePickerPopularViewController.m; sourceTree = "<group>"; };
 		DBBCE9E015937704006994F9 /* DefaultPCImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultPCImage.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1444,6 +1449,9 @@
 				AB35E057155C693700430AF7 /* 193-location-arrow@2x.png */,
 				2B3D14600F45EBAA0067FD3A /* GamePickerNearbyViewController.h */,
 				2B3D14610F45EBAA0067FD3A /* GamePickerNearbyViewController.m */,
+				DB17C60715A3A921001F7A10 /* GamePickerPopularViewController.h */,
+				DB17C60815A3A921001F7A10 /* GamePickerPopularViewController.m */,
+				DB17C60515A3A8E9001F7A10 /* GamePickerPopularViewController.xib */,
 				2B3D16650F4628C70067FD3A /* GamePickerNearbyViewController.xib */,
 				ABB60F20139F2F1600EEDA08 /* GamePickerSearchViewController.h */,
 				ABB60F21139F2F1600EEDA08 /* GamePickerSearchViewController.m */,
@@ -2251,6 +2259,7 @@
 				AB628B871578322500557BB1 /* 213-reply.png in Resources */,
 				AB628B881578322500557BB1 /* 213-reply@2x.png in Resources */,
 				DBBCE9E115937704006994F9 /* DefaultPCImage.png in Resources */,
+				DB17C60615A3A8E9001F7A10 /* GamePickerPopularViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2445,6 +2454,7 @@
 				3AA83345159E3FF3002CC61D /* TileOverlay.m in Sources */,
 				3AA83346159E3FF3002CC61D /* TileOverlayView.m in Sources */,
 				3AA83349159E4029002CC61D /* Overlay.m in Sources */,
+				DB17C60915A3A921001F7A10 /* GamePickerPopularViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
