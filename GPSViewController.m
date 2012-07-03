@@ -267,13 +267,14 @@ static float INITIAL_SPAN = 0.001;
                     }
                 }
             for (int j = 0; j < [newLocationsArray count]; j++) {
-				if ([annotation.location compareTo:[newLocationsArray objectAtIndex:j]]){
+                Location *newLocation = [newLocationsArray objectAtIndex:j];
+				if ([annotation.location compareTo:newLocation] && newLocation.location.coordinate.latitude == annotation.location.location.coordinate.latitude && newLocation.location.coordinate.longitude == annotation.location.location.coordinate.longitude){
                     [newLocationsArray removeObjectAtIndex:j];
                     j--;
                     match = YES;
                 }	
 			}
-            if(!match && [newLocationsArray count] != 0){
+            if(!match){
                 [mapView removeAnnotation:annotation];
                 i--;
 			}
