@@ -31,7 +31,6 @@
     if (self) {
         self.title = NSLocalizedString(@"GamePickerPopularTitleKey", @"");
 		self.navigationItem.title = NSLocalizedString(@"GamePickerPopularPlayedKey", @"");
-        self.gameIcons = [NSMutableArray arrayWithCapacity:[[AppModel sharedAppModel].gameList count]];
         self.tabBarItem.image = [UIImage imageNamed:@"85-trophy"];
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];
@@ -71,11 +70,6 @@
     
     distanceControl.enabled = YES;
     distanceControl.alpha = 1;
-   
-    //Calculate locational control value
-    BOOL locational;
-    if (locationalControl.selectedSegmentIndex == 0) locational = YES;  
-    else locational = NO;
 	
     //Calculate distance filer controll value
     int time = distanceControl.selectedSegmentIndex;
@@ -87,7 +81,7 @@
         [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
         [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil]; 
         
-        if ([[AppModel sharedAppModel] loggedIn]) [[AppServices sharedAppServices] fetchGameListWithDistanceFilter:time locational:locational];
+        if ([[AppModel sharedAppModel] loggedIn]) [[AppServices sharedAppServices] fetchPopularGameListForTime:time];
         [self showLoadingIndicator];
     }
 }

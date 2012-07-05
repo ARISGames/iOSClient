@@ -1591,7 +1591,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseRecentGameListFromJSON:)]; 
 }
 
-- (void)fetchPopularGameListForTime: (int)time locational:(BOOL)locationalOrNonLocational {
+- (void)fetchPopularGameListForTime: (int)time {
 	NSLog(@"AppModel: Fetch Requested for Game List.");
     
     if (currentlyFetchingGamesList) {
@@ -1604,10 +1604,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects: 
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
-						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.latitude],
-						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.longitude],
                           [NSString stringWithFormat:@"%d",time],
-                          [NSString stringWithFormat:@"%d",locationalOrNonLocational],
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],
 						  nil];
 	

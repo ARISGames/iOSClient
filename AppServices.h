@@ -67,7 +67,7 @@ extern NSString *const kARISServerServicePackage;
 
 - (void)fetchGameListWithDistanceFilter: (int)distanceInMeters locational:(BOOL)locationalOrNonLocational;
 - (void)fetchRecentGameListForPlayer;
-- (void)fetchPopularGameListForTime: (int)time locational:(BOOL)locationalOrNonLocational;
+- (void)fetchPopularGameListForTime: (int)time;
 - (void)fetchMiniGamesListLocations;
 - (void)fetchOneGame:(int)gameId;
 
