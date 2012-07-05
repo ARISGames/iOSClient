@@ -24,7 +24,8 @@
     NSMutableArray *comments;
 	double distanceFromPlayer;
 	CLLocation *location;	
-	int numPlayers;
+	int numPlayers;	
+    int playerCount;
 	int pcMediaId;
 	int iconMediaId;
     NSURL *iconMediaUrl;
@@ -62,6 +63,7 @@
 @property(nonatomic) NSURL *iconMediaUrl;
 @property(nonatomic) NSURL *mediaUrl;
 @property(readwrite, assign) int numPlayers;
+@property(readwrite, assign) int playerCount;
 @property(readwrite, assign) int launchNodeId;
 @property(readwrite, assign) int completeNodeId;
 @property(readwrite, assign) int completedQuests;

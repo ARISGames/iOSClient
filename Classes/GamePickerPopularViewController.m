@@ -185,8 +185,7 @@
 	Game *currentGame = [self.gameList objectAtIndex:indexPath.row];
     
 	cell.titleLabel.text = currentGame.name;
-	double dist = currentGame.distanceFromPlayer;
-	cell.distanceLabel.text = [NSString stringWithFormat:@"%1.1f %@",  dist/1000, NSLocalizedString(@"km", @"") ];
+	cell.distanceLabel.text = [NSString stringWithFormat:@"%d Players",currentGame.playerCount];
 	cell.authorLabel.text = currentGame.authors;
 	cell.numReviewsLabel.text = [NSString stringWithFormat:@"%@ %@", [[NSNumber numberWithInt:currentGame.numReviews] stringValue], NSLocalizedString(@"GamePickerRecentReviewsKey", @"")];
     cell.starView.rating = currentGame.rating;

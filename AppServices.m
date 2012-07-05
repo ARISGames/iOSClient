@@ -2028,6 +2028,10 @@ NSString *const kARISServerServicePackage = @"v1";
     if ((NSNull *)numPlayers != [NSNull null]) game.numPlayers = [numPlayers intValue];
     else game.numPlayers = 0;
     
+    NSString *playerCount = [gameSource valueForKey:@"count"];
+    if ((NSNull *)playerCount != [NSNull null]) game.playerCount = [playerCount intValue];
+    else game.playerCount = 0;
+    
     NSString *iconMediaUrl = [gameSource valueForKey:@"icon_media_url"];
     if ((NSNull *)iconMediaUrl != [NSNull null] && [iconMediaUrl length]>0) {
         game.iconMediaUrl = [NSURL URLWithString:iconMediaUrl];

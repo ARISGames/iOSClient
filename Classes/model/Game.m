@@ -25,6 +25,7 @@
 @synthesize mediaUrl;
 @synthesize iconMediaUrl;
 @synthesize numPlayers;
+@synthesize playerCount;
 @synthesize location;
 @synthesize launchNodeId;
 @synthesize completeNodeId;
