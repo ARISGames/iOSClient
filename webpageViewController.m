@@ -169,6 +169,13 @@
         return NO; 
     }  
     
+    if ([mainCommand isEqualToString:@"vibrate"]) {
+        NSLog(@"WebPageVC: aris://vibrate/ called");
+        [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] vibrate];
+        [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
+        return NO; 
+    } 
+    
     if ([mainCommand isEqualToString:@"media"]) {
         NSLog(@"WebPageVC: aris://media called");
         
@@ -186,6 +193,16 @@
             int mediaId = [[components objectAtIndex:2] intValue];
             NSLog(@"WebPageVC: aris://media/play/ called from webpage with mediaId = %d",mediaId );
             [self playAudioFromMediaId:mediaId];
+            [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
+            return NO; 
+        }  
+        
+        if ([components count] > 2 && 
+            [[components objectAtIndex:1] isEqualToString:@"playAndVibrate"]) {
+            int mediaId = [[components objectAtIndex:2] intValue];
+            NSLog(@"WebPageVC: aris://media/playAndVibrate/ called from webpage with mediaId = %d",mediaId );
+            [self playAudioFromMediaId:mediaId];
+            [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] vibrate];
             [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
             return NO; 
         }  

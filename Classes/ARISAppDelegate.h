@@ -115,6 +115,7 @@
 - (void) showNearbyTab: (BOOL) yesOrNo;
 - (void) returnToHomeView;
 - (void) showGameSelectionTabBarAndHideOthers;
+- (void) vibrate;
 - (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate;
 - (void) stopAudio;
 - (void) checkForDisplayCompleteNode;
