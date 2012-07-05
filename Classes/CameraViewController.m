@@ -17,6 +17,7 @@
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "UIImage+Scale.h"
 #import "NSMutableDictionary+ImageMetadata.h"
+#import <ImageIO/ImageIO.h>
 
 @implementation CameraViewController
 
@@ -144,6 +145,7 @@
         //if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage]; 
         id orientation = [newMetadata objectForKey:@"Orientation"];
         NSInteger orientationNumber = [orientation integerValue];
+        NSLog(@"Orientation Before: %d", orientationNumber);
         if(orientationNumber == 1 || orientationNumber == 3){
         image = [image scaleToSize:CGSizeMake(960, 640)];
         }
@@ -186,9 +188,16 @@
         if ([info objectForKey:UIImagePickerControllerReferenceURL] == NULL) {
             ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
             __block NSDate *date = [NSDate date];
+            id orientation2 = [newMetadata objectForKey:@"Orientation"];
+            NSInteger orientationNumber2 = [orientation2 integerValue];
+            NSLog(@"Orientation About to Write: %d", orientationNumber2);
             [al writeImageDataToSavedPhotosAlbum:self.mediaData metadata:newMetadata completionBlock:^(NSURL *assetURL, NSError *error) {
                 NSLog(@"Saving Time: %g", [[NSDate date] timeIntervalSinceDate:date]);
                 NSLog(@"assert url: %@", assetURL);
+                
+            id orientation3 = [newMetadata objectForKey:@"Orientation"];
+            NSInteger orientationNumber3 = [orientation3 integerValue];
+            NSLog(@"Orientation After: %d", orientationNumber3);
                 
                 // once image is saved, get asset from assetURL
                 [al assetForURL:assetURL resultBlock:^(ALAsset *asset) {
@@ -197,13 +206,16 @@
                         ALAssetRepresentation *rep = [asset defaultRepresentation];
                         CGImageRef iref = [rep fullResolutionImage];
                         UIImage *image = [UIImage imageWithCGImage:iref];
-                        NSData *imageData = UIImageJPEGRepresentation(image, 0.4);
+                        
+                        NSData *imageDataInit = UIImageJPEGRepresentation(image, 0.4);
+                        
+                        NSData *imageData = [self dataWithEXIFUsingData:imageDataInit];
                         
                         NSString *newFilePath =[NSTemporaryDirectory() stringByAppendingString: [NSString stringWithFormat:@"%@image.jpg",[NSDate date]]];
                         
                         NSURL *imageURL = [[NSURL alloc] initFileURLWithPath: newFilePath];
                         
-                        [imageData writeToURL:imageURL atomically:YES];
+                        [imageData writeToURL:imageURL atomically:YES]; 
                         
                         [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:kNoteContentTypePhoto withFileURL:imageURL];
                         
@@ -309,7 +321,54 @@
 
 }
 
-
+- (NSMutableData*)dataWithEXIFUsingData:(NSData*)originalJPEGData {	
+    NSMutableData* newJPEGData = [[NSMutableData alloc] init];
+    NSMutableDictionary* exifDict = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* locDict = [[NSMutableDictionary alloc] init];
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy:MM:dd HH:mm:ss"];
+	
+	
+    CGImageSourceRef img = CGImageSourceCreateWithData((__bridge CFDataRef)originalJPEGData, NULL);
+    CLLocationDegrees exifLatitude = [AppModel sharedAppModel].playerLocation.coordinate.latitude;
+    CLLocationDegrees exifLongitude = [AppModel sharedAppModel].playerLocation.coordinate.longitude;
+	
+    NSString* datetime = [dateFormatter stringFromDate:[AppModel sharedAppModel].playerLocation.timestamp];
+	
+    [exifDict setObject:datetime forKey:(NSString*)kCGImagePropertyExifDateTimeOriginal];
+    [exifDict setObject:datetime forKey:(NSString*)kCGImagePropertyExifDateTimeDigitized];
+	
+    [locDict setObject:[AppModel sharedAppModel].playerLocation.timestamp forKey:(NSString*)kCGImagePropertyGPSTimeStamp];
+	
+    if (exifLatitude <0.0){
+        exifLatitude = exifLatitude*(-1);
+        [locDict setObject:@"S" forKey:(NSString*)kCGImagePropertyGPSLatitudeRef];
+    }else{
+        [locDict setObject:@"N" forKey:(NSString*)kCGImagePropertyGPSLatitudeRef];
+    }
+    [locDict setObject:[NSNumber numberWithFloat:exifLatitude] forKey:(NSString*)kCGImagePropertyGPSLatitude];
+	
+    if (exifLongitude <0.0){
+        exifLongitude=exifLongitude*(-1);
+        [locDict setObject:@"W" forKey:(NSString*)kCGImagePropertyGPSLongitudeRef];
+    }else{
+        [locDict setObject:@"E" forKey:(NSString*)kCGImagePropertyGPSLongitudeRef];
+    }
+    [locDict setObject:[NSNumber numberWithFloat:exifLongitude] forKey:(NSString*) kCGImagePropertyGPSLongitude];
+	
+    NSDictionary * properties = [[NSDictionary alloc] initWithObjectsAndKeys:
+								 locDict, (NSString*)kCGImagePropertyGPSDictionary,
+								 exifDict, (NSString*)kCGImagePropertyExifDictionary, nil];
+    CGImageDestinationRef dest = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)newJPEGData, CGImageSourceGetType(img), 1, NULL);
+    CGImageDestinationAddImageFromSource(dest, img, 0, (__bridge CFDictionaryRef)properties);
+    CGImageDestinationFinalize(dest);
+	
+	
+    CFRelease(img);
+    CFRelease(dest);
+	
+    return newJPEGData;
+}
 
 
 @end
