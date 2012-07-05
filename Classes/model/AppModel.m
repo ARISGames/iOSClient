@@ -13,7 +13,6 @@
 #import "Quest.h"
 #import "AppServices.h"
 
-
 @implementation AppModel
 @synthesize serverURL,showGamesInDevelopment,showPlayerOnMap;
 @synthesize loggedIn, userName, password, playerId;

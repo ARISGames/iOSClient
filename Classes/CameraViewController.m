@@ -222,7 +222,8 @@
                 
                 
             }];
-        } else {
+        } 
+        else {
             // image from camera roll
             [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:kNoteContentTypePhoto withFileURL:imageURL];
             
