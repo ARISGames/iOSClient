@@ -13,8 +13,7 @@
 @interface GamePickerPopularViewController : UIViewController <UITableViewDelegate,UITableViewDataSource>{
     
 	NSArray *gameList;
-    IBOutlet UISegmentedControl *distanceControl;
-    IBOutlet UISegmentedControl *locationalControl;
+    IBOutlet UISegmentedControl *timeControl;
 	UITableView *gameTable;
     UIBarButtonItem *refreshButton;
     NSInteger count;

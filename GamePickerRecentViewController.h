@@ -13,8 +13,6 @@
 @interface GamePickerRecentViewController : UIViewController <UITableViewDelegate,UITableViewDataSource>{
 
 	NSArray *gameList;
-    IBOutlet UISegmentedControl *distanceControl;
-    IBOutlet UISegmentedControl *locationalControl;
 	UITableView *gameTable;
     UIBarButtonItem *refreshButton;
     

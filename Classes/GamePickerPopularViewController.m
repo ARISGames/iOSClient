@@ -32,6 +32,11 @@
         self.title = NSLocalizedString(@"GamePickerPopularTitleKey", @"");
 		self.navigationItem.title = NSLocalizedString(@"GamePickerPopularPlayedKey", @"");
         self.tabBarItem.image = [UIImage imageNamed:@"85-trophy"];
+        timeControl.enabled = YES;
+        timeControl.alpha = 1; 
+        [timeControl setTitle:NSLocalizedString(@"GamePickerPopularDayKey", @"") forSegmentAtIndex:0];
+        [timeControl setTitle:NSLocalizedString(@"GamePickerPopularWeekKey", @"") forSegmentAtIndex:1];
+        [timeControl setTitle:NSLocalizedString(@"GamePickerPopularMonthKey", @"") forSegmentAtIndex:2];
     }
     return self;
 }
@@ -63,12 +68,9 @@
 
 -(void)refresh {
     NSLog(@"GamePickerViewController: Refresh Requested");
-    
-    distanceControl.enabled = YES;
-    distanceControl.alpha = 1; 
 	
     //Calculate the time distance filer control value
-    int time = distanceControl.selectedSegmentIndex;
+    int time = timeControl.selectedSegmentIndex;
 
     //register for notifications
     NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
@@ -113,8 +115,8 @@
 #pragma mark Control Callbacks
 -(IBAction)controlChanged:(id)sender{
     
-    if (sender == locationalControl || 
-        locationalControl.selectedSegmentIndex == 0) 
+    if (sender == timeControl || 
+        timeControl.selectedSegmentIndex == 0) 
         [self refresh];
     
 }
