@@ -137,6 +137,7 @@ NSString *const kDialogHtmlTemplate =
     npcWebView.hidden = NO;
     npcView.hidden = NO;
 
+    NSLog(@"pcMediaId == %d", [AppModel sharedAppModel].currentGame.pcMediaId);
 	
 	//Check if the game specifies a PC image
 	if ([AppModel sharedAppModel].currentGame.pcMediaId != 0) {
@@ -147,7 +148,7 @@ NSString *const kDialogHtmlTemplate =
 		[pcImage loadImageFromMedia: pcMedia];
 	}
 	else {
-        [pcImage updateViewWithNewImage:[UIImage imageNamed:@"defaultPCImage.png"]];
+        [pcImage updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
         [self applyNPCWithGreeting];
 	}
     
