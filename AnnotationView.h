@@ -13,9 +13,9 @@
 #import "AsyncMediaImageView.h"
 
 #define POINTER_LENGTH 10
-#define WIGGLE_DISTANCE 5.0
-#define WIGGLE_SPEED 0.1
-#define WIGGLE_FRAMERATE 0.01 //<-The lower = the faster
+#define WIGGLE_DISTANCE 3.0
+#define WIGGLE_SPEED 0.3
+#define WIGGLE_FRAMELENGTH 0.05 //<-The lower = the faster
 #define ANNOTATION_MAX_WIDTH 300
 #define ANNOTATION_PADDING 5.0
 #define IMAGE_HEIGHT 30
