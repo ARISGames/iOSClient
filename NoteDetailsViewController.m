@@ -92,6 +92,13 @@
         self.commentButton.image = nil;
         self.commentLabel.hidden = YES;
     }
+    if(![AppModel sharedAppModel].currentGame.allowNoteLikes){
+        self.likeButton.style = UIBarButtonItemStylePlain;
+        self.likeButton.enabled = NO;
+        self.likeButton.image = nil;
+        self.likeLabel.hidden = YES;
+        self.likeButton = nil;
+    }
     
 }
 -(void)backButtonTouch{

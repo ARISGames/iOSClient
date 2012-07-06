@@ -425,6 +425,12 @@ BOOL tagFilter;
         }
     }
     
+    if(![AppModel sharedAppModel].currentGame.allowNoteLikes){
+        cell.likesButton.enabled = NO;
+        cell.likeLabel.hidden = YES;
+        cell.likesButton.hidden = YES;
+    }
+    
     return cell;
 }
 

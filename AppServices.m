@@ -2071,7 +2071,7 @@ NSString *const kARISServerServicePackage = @"v1";
     game.allowShareNoteToMap = [[gameSource valueForKey:@"allow_share_note_to_map"]boolValue];
     game.allowShareNoteToList = [[gameSource valueForKey:@"allow_share_note_to_book"]boolValue];
     game.allowNoteComments = [[gameSource valueForKey:@"allow_note_comments"]boolValue];
-    
+    game.allowNoteLikes = [[gameSource valueForKey:@"allow_note_likes"]boolValue];
     
     NSArray *comments = [gameSource valueForKey:@"comments"];
     for (NSDictionary *comment in comments) {

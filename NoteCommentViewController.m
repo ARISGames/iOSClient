@@ -258,6 +258,13 @@
          cell.userLabel.text = [AppModel sharedAppModel].userName;
          }*/
     }
+    
+    if(![AppModel sharedAppModel].currentGame.allowNoteLikes){
+        cell.likesButton.enabled = NO;
+        cell.likeLabel.hidden = YES;
+        cell.likesButton.hidden = YES;
+    }
+    
     return cell;
 }
 
