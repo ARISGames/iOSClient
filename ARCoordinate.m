@@ -41,13 +41,10 @@
 - (BOOL)isEqualToCoordinate:(ARCoordinate *)otherCoordinate {
     if (self == otherCoordinate) return YES;
     
-	BOOL equal = self.radialDistance == otherCoordinate.radialDistance;
-	equal = equal && self.inclination == otherCoordinate.inclination;
-	equal = equal && self.azimuth == otherCoordinate.azimuth;
+	BOOL equal = (self.radialDistance == otherCoordinate.radialDistance) && (self.inclination == otherCoordinate.inclination) && (self.azimuth == otherCoordinate.azimuth);
 		
-	if (self.title && otherCoordinate.title || self.title && !otherCoordinate.title || !self.title && otherCoordinate.title) {
+	if (self.title || otherCoordinate.title)
 		equal = equal && [self.title isEqualToString:otherCoordinate.title];
-	}
 	
 	return equal;
 }

@@ -13,6 +13,11 @@
 #import "AsyncMediaImageView.h"
 
 #define POINTER_LENGTH 10
+#define WIGGLE_DISTANCE 5.0
+#define WIGGLE_SPEED 0.1
+#define WIGGLE_FRAMERATE 0.01 //<-The lower = the faster
+#define ANNOTATION_MAX_WIDTH 300
+#define ANNOTATION_PADDING 5.0
 #define IMAGE_HEIGHT 30
 #define IMAGE_WIDTH 30
 
@@ -27,8 +32,10 @@
 	UIImage *icon;
 	AsyncMediaImageView *iconView;
     bool showTitle;
-    UIView *subView;
-    bool wiggle;
+    bool shouldWiggle;
+    float totalWiggleOffsetFromOriginalPosition;
+    float incrementalWiggleOffset;
+    float xOnSinWave;
 }
 
 @property (readwrite) CGRect titleRect;
@@ -37,11 +44,16 @@
 @property (readwrite) UIFont *titleFont;
 @property (readwrite) UIFont *subtitleFont;
 @property (readwrite) UIImage *icon;
-@property (readwrite) UIView *subView;
+@property (readwrite) AsyncMediaImageView *iconView;
 @property (readwrite) bool showTitle;
-@property (readwrite) bool wiggle;
+@property (readwrite) bool shouldWiggle;
+@property (readwrite) float totalWiggleOffsetFromOriginalPosition;
+@property (readwrite) float incrementalWiggleOffset;
+@property (readwrite) float xOnSinWave;
+
 
 //- (void)setImageFromURL:(NSString *)imageURLString;
-- (void)wiggleWithView:(UIView *)aV;
+- (void)startWiggling;
+- (void) wiggle;
 
 @end

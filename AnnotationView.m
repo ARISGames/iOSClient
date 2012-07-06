@@ -21,129 +21,80 @@
 @synthesize subtitleFont;
 @synthesize icon;
 @synthesize showTitle;
-@synthesize subView;
-@synthesize wiggle;
-
+@synthesize iconView;
+@synthesize shouldWiggle;
+@synthesize totalWiggleOffsetFromOriginalPosition;
+@synthesize incrementalWiggleOffset;
+@synthesize xOnSinWave;
 
 - (id)initWithAnnotation:(Annotation *)annotation reuseIdentifier:(NSString *)reuseIdentifier{
-	UIFont *localTitleFont = [UIFont fontWithName:@"Arial" size:18];
-	UIFont *localSubtitleFont = [UIFont fontWithName:@"Arial" size:12];
-	CGRect localTitleRect;	//we use local copies until self is inited
-	CGRect localSubtitleRect;
-	CGRect localContentRect;
-    
-    
-    self.showTitle = YES;
-    if (annotation.title == nil || annotation.title == @"") {
-        self.showTitle = NO;
-    }
-	if (self.showTitle) {  //if we have a title, we compute a size for it
-		CGSize titleSize = [annotation.title sizeWithFont:localTitleFont];
-		if (titleSize.width > 300) {
-			titleSize.width = 300;
-		}
-		
-		localTitleRect = CGRectMake(0, 0, titleSize.width, titleSize.height);
-	} 
-    else {
-		localTitleRect = CGRectMake(0, 0, 0, 0);
-	}
-	if (annotation.subtitle) { //likewise for subtitle
-		CGSize subtitleSize = [annotation.subtitle sizeWithFont:localSubtitleFont];
-		if (subtitleSize.width > 300) {
-			subtitleSize.width = 300;
-		}
-		localSubtitleRect = CGRectMake(0, localTitleRect.origin.x + localTitleRect.size.height, subtitleSize.width, subtitleSize.height);
-	} 
-    else {
-		localSubtitleRect = CGRectMake(0, 0, 0, 0);
-	}
-	//now set both rects to be the same width, as when we draw the text, we'll center it within each rect.
-	if (localTitleRect.size.width < localSubtitleRect.size.width) {
-		localTitleRect.size.width = localSubtitleRect.size.width;
-	} 
-    else {
-		localSubtitleRect.size.width = localTitleRect.size.width;
-	}
-	localContentRect=CGRectUnion(localTitleRect, localSubtitleRect);
-	localContentRect.size.width += 10.0;
-	localContentRect.size.height += 10.0;
-    
-	localTitleRect=CGRectOffset(localTitleRect, 5.0, 5.0);
-	localSubtitleRect=CGRectOffset(localSubtitleRect, 5.0, 5.0);
-
-	if (annotation.location.wiggle == YES)
-        self.wiggle = YES;
-    
 	if (self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier]) {
-        if((annotation.title != nil && annotation.title != @"") || annotation.kind == NearbyObjectPlayer) {
-            
-		//we have a view, so now we can set some instance variables
+        self.titleFont = [UIFont fontWithName:@"Arial" size:18];
+        self.subtitleFont = [UIFont fontWithName:@"Arial" size:12];
         
-		[self setFrame:CGRectMake(0.0, 0.0, localContentRect.size.width, localContentRect.size.height + POINTER_LENGTH + IMAGE_HEIGHT)];
-		self.centerOffset = CGPointMake(0.0, -(localContentRect.size.height+POINTER_LENGTH)/2.0);
-		self.titleFont = localTitleFont;
-		self.subtitleFont = localSubtitleFont;
-		self.titleRect = localTitleRect;
-		self.subtitleRect = localSubtitleRect;
-		self.contentRect = localContentRect;
-		iconView = [[AsyncMediaImageView alloc] init];
-		CGRect imageViewFrame = CGRectMake(self.bounds.origin.x + 5.0, CGRectGetMaxY(self.contentRect)+POINTER_LENGTH, self.bounds.size.width - 10.0, IMAGE_HEIGHT);
-		[iconView setFrame:imageViewFrame];
-		iconView.contentMode =  UIViewContentModeScaleAspectFit;
-        subView = [[UIView alloc] init];
-        [subView setFrame: imageViewFrame];
-        [subView addSubview:iconView];
-        [self addSubview:subView];
-        iconView.userInteractionEnabled = NO;
-        subView.userInteractionEnabled = NO;
-		
-		//Only load the icon media if it is > 0, otherwise, lets load a default
-		if (annotation.iconMediaId != 0) {
-			Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: annotation.iconMediaId];
-			[iconView loadImageFromMedia:iconMedia];
-		}
-		else if (annotation.kind == NearbyObjectItem) iconView.image = [UIImage imageNamed:@"item.png"];
-		else if (annotation.kind == NearbyObjectNode) iconView.image = [UIImage imageNamed:@"page.png"];
-		else if (annotation.kind == NearbyObjectNPC) iconView.image = [UIImage imageNamed:@"npc.png"];
-		else if (annotation.kind == NearbyObjectPlayer) iconView.image = [UIImage imageNamed:@"player.png"];
-        else if (annotation.kind == NearbyObjectWebPage) iconView.image = [UIImage imageNamed:@"page.png"];
-        else if (annotation.kind == NearbyObjectNote) iconView.image = [UIImage imageNamed:@"noteicon.png"];
+        self.showTitle = (annotation.location.showTitle && annotation.title != nil && annotation.title != @"") ? YES : NO;
+        self.shouldWiggle = annotation.location.wiggle;
+        self.totalWiggleOffsetFromOriginalPosition = 0;
+        self.incrementalWiggleOffset = 0;
+        self.xOnSinWave = 0;
 
-		self.opaque = NO;
-
-
-	}
-        else{
-            iconView = [[AsyncMediaImageView alloc] init];
-            CGRect imageViewFrame = CGRectMake(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
-            [iconView setFrame:imageViewFrame];
-            [self setFrame: iconView.frame];
-            iconView.contentMode =  UIViewContentModeScaleAspectFit;
-            subView = [[UIView alloc] init];
-            [subView setFrame: imageViewFrame];
-            [subView addSubview:iconView];
-            [self addSubview:subView];
-            iconView.userInteractionEnabled = NO;
-            subView.userInteractionEnabled = NO;
+        CGRect imageViewFrame;
+        if(self.showTitle || annotation.kind == NearbyObjectPlayer) {
+            //Find width of annotation
+            CGSize titleSize = [annotation.title sizeWithFont:titleFont];
+            CGSize subtitleSize = [annotation.subtitle sizeWithFont:subtitleFont];
+            int maxWidth = titleSize.width > subtitleSize.width ? titleSize.width : subtitleSize.width;
+            if(maxWidth > ANNOTATION_MAX_WIDTH) maxWidth = ANNOTATION_MAX_WIDTH;
             
-            //Only load the icon media if it is > 0, otherwise, lets load a default
-            if (annotation.iconMediaId != 0) {
-                Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: annotation.iconMediaId];
-                [iconView loadImageFromMedia:iconMedia];
-            }
-            else if (annotation.kind == NearbyObjectItem) iconView.image = [UIImage imageNamed:@"item.png"];
-            else if (annotation.kind == NearbyObjectNode) iconView.image = [UIImage imageNamed:@"page.png"];
-            else if (annotation.kind == NearbyObjectNPC) iconView.image = [UIImage imageNamed:@"npc.png"];
-            else if (annotation.kind == NearbyObjectPlayer) iconView.image = [UIImage imageNamed:@"player.png"];
-            else if (annotation.kind == NearbyObjectWebPage) iconView.image = [UIImage imageNamed:@"page.png"];
-            else if (annotation.kind == NearbyObjectNote) iconView.image = [UIImage imageNamed:@"noteicon.png"];
+            titleRect = CGRectMake(0, 0, maxWidth, titleSize.height);
+            if (annotation.subtitle)
+                subtitleRect = CGRectMake(0, titleRect.origin.y+titleRect.size.height, maxWidth, subtitleSize.height);
+            else
+                subtitleRect = CGRectMake(0,0,0,0);
             
-            self.opaque = NO; 
+            contentRect=CGRectUnion(titleRect, subtitleRect);
+            contentRect.size.width += ANNOTATION_PADDING*2;
+            contentRect.size.height += ANNOTATION_PADDING*2;
             
-        
+            titleRect=CGRectOffset(titleRect, ANNOTATION_PADDING, ANNOTATION_PADDING);
+            if(annotation.subtitle) subtitleRect=CGRectOffset(subtitleRect, ANNOTATION_PADDING, ANNOTATION_PADDING);
+            
+            imageViewFrame = CGRectMake((contentRect.size.width/2)-(IMAGE_WIDTH/2), 
+                                        contentRect.size.height+POINTER_LENGTH, 
+                                        IMAGE_WIDTH, 
+                                        IMAGE_HEIGHT);
+            self.centerOffset = CGPointMake(0, ((contentRect.size.height+POINTER_LENGTH+IMAGE_HEIGHT)/-2)+(IMAGE_HEIGHT/2));
         }
+        else
+        {
+            contentRect=CGRectMake(0,0,0,0);
+            imageViewFrame = CGRectMake(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
+            //self.centerOffset = CGPointMake(IMAGE_WIDTH/-2.0, IMAGE_HEIGHT/-2.0);
+        }
+        
+        [self setFrame: CGRectUnion(contentRect, imageViewFrame)];
 
+        iconView = [[AsyncMediaImageView alloc] init];
+        [iconView setFrame:imageViewFrame];
+        iconView.contentMode =  UIViewContentModeScaleAspectFit;
+        
+        [self addSubview:self.iconView];
+        
+        self.iconView.userInteractionEnabled = NO;
+        
+        //Only load the icon media if it is > 0, otherwise, lets load a default
+        if (annotation.iconMediaId != 0) {
+            Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: annotation.iconMediaId];
+            [self.iconView loadImageFromMedia:iconMedia];
+        }
+        else if (annotation.kind == NearbyObjectItem) self.iconView.image = [UIImage imageNamed:@"item.png"];
+        else if (annotation.kind == NearbyObjectNode) self.iconView.image = [UIImage imageNamed:@"page.png"];
+        else if (annotation.kind == NearbyObjectNPC) self.iconView.image = [UIImage imageNamed:@"npc.png"];
+        else if (annotation.kind == NearbyObjectPlayer) self.iconView.image = [UIImage imageNamed:@"player.png"];
+        else if (annotation.kind == NearbyObjectWebPage) self.iconView.image = [UIImage imageNamed:@"page.png"];
+        else if (annotation.kind == NearbyObjectNote) self.iconView.image = [UIImage imageNamed:@"noteicon.png"];
+        
+        self.opaque = NO; 
     }
     return self;
 }
@@ -153,67 +104,67 @@
 	[iconView removeFromSuperview];
 }
 
-
 - (void)drawRect:(CGRect)rect {
-    
-   if (self.showTitle) {
-	CGMutablePathRef calloutPath = CGPathCreateMutable();
-	CGPoint pointerPoint = CGPointMake(self.contentRect.origin.x + 0.5 * self.contentRect.size.width,  self.contentRect.origin.y + self.contentRect.size.height + POINTER_LENGTH);
-	CGFloat radius = 7.0;
-	CGPathMoveToPoint(calloutPath, NULL, CGRectGetMinX(self.contentRect) + radius, CGRectGetMinY(self.contentRect));
-    CGPathAddArc(calloutPath, NULL, CGRectGetMaxX(self.contentRect) - radius, CGRectGetMinY(self.contentRect) + radius, radius, 3 * M_PI / 2, 0, 0);
-    CGPathAddArc(calloutPath, NULL, CGRectGetMaxX(self.contentRect) - radius, CGRectGetMaxY(self.contentRect) - radius, radius, 0, M_PI / 2, 0);
-	
-	CGPathAddLineToPoint(calloutPath, NULL, pointerPoint.x + 10.0, CGRectGetMaxY(self.contentRect));
-	CGPathAddLineToPoint(calloutPath, NULL, pointerPoint.x, pointerPoint.y);
-	CGPathAddLineToPoint(calloutPath, NULL, pointerPoint.x - 10.0,  CGRectGetMaxY(self.contentRect));
-	
-    CGPathAddArc(calloutPath, NULL, CGRectGetMinX(self.contentRect) + radius, CGRectGetMaxY(self.contentRect) - radius, radius, M_PI / 2, M_PI, 0);
-    CGPathAddArc(calloutPath, NULL, CGRectGetMinX(self.contentRect) + radius, CGRectGetMinY(self.contentRect) + radius, radius, M_PI, 3 * M_PI / 2, 0);	
-    CGPathCloseSubpath(calloutPath);
-	
-	CGContextAddPath(UIGraphicsGetCurrentContext(), calloutPath);
-	[[UIColor colorWithRed:0.3 green:0.3 blue:0.3 alpha:0.8] set];
-	CGContextFillPath(UIGraphicsGetCurrentContext());
-	[[UIColor whiteColor] set];
-	[self.annotation.title drawInRect:self.titleRect withFont:self.titleFont lineBreakMode:UILineBreakModeMiddleTruncation alignment:UITextAlignmentCenter];
-	[self.annotation.subtitle drawInRect:self.subtitleRect withFont:self.subtitleFont lineBreakMode:UILineBreakModeMiddleTruncation alignment:UITextAlignmentCenter];
-	CGContextAddPath(UIGraphicsGetCurrentContext(), calloutPath);
-	CGContextStrokePath(UIGraphicsGetCurrentContext());
-   }
-    
-  // wiggle if wiggleable
-  if (self.wiggle == YES) { 
-        [UIView animateWithDuration:0.20 delay:0.0 options:NULL animations:^{
-            
-            [subView setFrame:CGRectMake(subView.frame.origin.x, subView.frame.origin.y -50.0, subView.frame.size.width, subView.frame.size.height)];
-        } completion:^(BOOL finished) {
-            if (finished) {
-                [self wiggleWithView: subView];
-            }
-        }];
-  }
-  
-    
-}	
-
-- (void) wiggleWithView:(UIView *) aV {
-    
-    
-    [UIView animateWithDuration:0.45 delay:0.0 options:NULL animations:^{
+    if (self.showTitle) {
+        CGMutablePathRef calloutPath = CGPathCreateMutable();
+        CGPoint pointerPoint = CGPointMake(self.contentRect.origin.x + 0.5 * self.contentRect.size.width,  self.contentRect.origin.y + self.contentRect.size.height + POINTER_LENGTH);
+        CGFloat radius = 7.0;
+        CGPathMoveToPoint(calloutPath, NULL, CGRectGetMinX(self.contentRect) + radius, CGRectGetMinY(self.contentRect));
+        CGPathAddArc(calloutPath, NULL, CGRectGetMaxX(self.contentRect) - radius, CGRectGetMinY(self.contentRect) + radius, radius, 3 * M_PI / 2, 0, 0);
+        CGPathAddArc(calloutPath, NULL, CGRectGetMaxX(self.contentRect) - radius, CGRectGetMaxY(self.contentRect) - radius, radius, 0, M_PI / 2, 0);
         
-        [aV setFrame:CGRectMake(aV.frame.origin.x, aV.frame.origin.y+ 10.0, aV.frame.size.width, aV.frame.size.height)];
-    } completion:^(BOOL finished) {
-        if (finished) { 
-            [UIView animateWithDuration:0.45 delay:0.0 options:NULL animations:^{
-                [aV setFrame:CGRectMake(aV.frame.origin.x, aV.frame.origin.y-10.0, aV.frame.size.width, aV.frame.size.height)];
-            } completion:^(BOOL finished) {
-                if (finished) {
-                    [self wiggleWithView:aV];
-                }
-            }];
-        }
-    }];
+        CGPathAddLineToPoint(calloutPath, NULL, pointerPoint.x + 10.0, CGRectGetMaxY(self.contentRect));
+        CGPathAddLineToPoint(calloutPath, NULL, pointerPoint.x, pointerPoint.y);
+        CGPathAddLineToPoint(calloutPath, NULL, pointerPoint.x - 10.0,  CGRectGetMaxY(self.contentRect));
+        
+        CGPathAddArc(calloutPath, NULL, CGRectGetMinX(self.contentRect) + radius, CGRectGetMaxY(self.contentRect) - radius, radius, M_PI / 2, M_PI, 0);
+        CGPathAddArc(calloutPath, NULL, CGRectGetMinX(self.contentRect) + radius, CGRectGetMinY(self.contentRect) + radius, radius, M_PI, 3 * M_PI / 2, 0);	
+        CGPathCloseSubpath(calloutPath);
+        
+        CGContextAddPath(UIGraphicsGetCurrentContext(), calloutPath);
+        [[UIColor colorWithRed:0.3 green:0.3 blue:0.3 alpha:0.8] set];
+        CGContextFillPath(UIGraphicsGetCurrentContext());
+        [[UIColor whiteColor] set];
+        [self.annotation.title drawInRect:self.titleRect withFont:self.titleFont lineBreakMode:UILineBreakModeMiddleTruncation alignment:UITextAlignmentCenter];
+        [self.annotation.subtitle drawInRect:self.subtitleRect withFont:self.subtitleFont lineBreakMode:UILineBreakModeMiddleTruncation alignment:UITextAlignmentCenter];
+        CGContextAddPath(UIGraphicsGetCurrentContext(), calloutPath);
+        CGContextStrokePath(UIGraphicsGetCurrentContext());
+    }
+    
+    if(self.shouldWiggle)
+    {
+        self.xOnSinWave += WIGGLE_SPEED;
+        float oldTotal = totalWiggleOffsetFromOriginalPosition;
+        self.totalWiggleOffsetFromOriginalPosition = sin(xOnSinWave) * WIGGLE_DISTANCE;
+        self.incrementalWiggleOffset = totalWiggleOffsetFromOriginalPosition-oldTotal;
+        self.iconView.frame = CGRectOffset(self.iconView.frame, 0.0f, self.incrementalWiggleOffset);
+        [self performSelector:@selector(setNeedsDisplay) withObject:nil afterDelay:WIGGLE_FRAMERATE];
+    }
+}	
+ 
+- (void) startWiggling
+{
+    if (self.shouldWiggle == YES) { 
+        [UIView animateWithDuration:0.20 delay:0.0 options:UIViewAnimationCurveEaseInOut animations:^{
+            [self.iconView setFrame:CGRectMake(self.iconView.frame.origin.x, self.iconView.frame.origin.y-(WIGGLE_DISTANCE/2), self.iconView.frame.size.width, self.iconView.frame.size.height)];
+        } completion:^(BOOL finished) { if(finished) [self wiggle]; }];
+        [UIView commitAnimations];
+    }
 }
+
+- (void) wiggle {
+    [UIView animateWithDuration:0.45 delay:0.0 options:UIViewAnimationCurveEaseInOut animations:^{
+        [self.iconView setFrame:CGRectMake(self.iconView.frame.origin.x, self.iconView.frame.origin.y+WIGGLE_DISTANCE, self.iconView.frame.size.width, self.iconView.frame.size.height)];
+    } completion:^(BOOL finished) {
+        if (finished)
+            [UIView animateWithDuration:0.45 delay:0.0 options:UIViewAnimationCurveEaseInOut animations:^{
+                [self.iconView setFrame:CGRectMake(self.iconView.frame.origin.x, self.iconView.frame.origin.y-WIGGLE_DISTANCE, self.iconView.frame.size.width, self.iconView.frame.size.height)];
+            } completion:^(BOOL finished) {if (finished) [self wiggle]; }];
+    }];
+    [UIView commitAnimations];
+
+}
+
+
 
 @end
