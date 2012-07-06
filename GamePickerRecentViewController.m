@@ -22,8 +22,7 @@
 
 
 //Override init for passing title and icon to tab bar
-- (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
-{
+- (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle {
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
         self.title = NSLocalizedString(@"GamePickerRecentTitleKey", @"");
@@ -73,7 +72,6 @@
     
     //register for notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewRecentGameListReady" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
     
     [[AppServices sharedAppServices] fetchRecentGameListForPlayer];
 	
@@ -96,9 +94,7 @@
 }
 
 -(void)removeLoadingIndicator{
-    
 	[[self navigationItem] setRightBarButtonItem:self.refreshButton];
-    [gameTable reloadData];
 }
 
 
@@ -111,6 +107,7 @@
 	self.gameList = [AppModel sharedAppModel].recentGameList;
     
 	[gameTable reloadData];
+    [self removeLoadingIndicator];
 }
 
 
@@ -236,16 +233,13 @@
 }
 
 
-
-- (void)viewDidUnload
-{
+- (void)viewDidUnload {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }

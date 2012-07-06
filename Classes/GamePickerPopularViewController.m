@@ -32,10 +32,6 @@
         self.title = NSLocalizedString(@"GamePickerPopularTitleKey", @"");
 		self.navigationItem.title = NSLocalizedString(@"GamePickerPopularPlayedKey", @"");
         self.tabBarItem.image = [UIImage imageNamed:@"85-trophy"];
-        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-        [dispatcher addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];
-        [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
-        
     }
     return self;
 }
@@ -69,21 +65,18 @@
     NSLog(@"GamePickerViewController: Refresh Requested");
     
     distanceControl.enabled = YES;
-    distanceControl.alpha = 1;
+    distanceControl.alpha = 1; 
 	
-    //Calculate distance filer controll value
+    //Calculate the time distance filer control value
     int time = distanceControl.selectedSegmentIndex;
 
-    if([AppModel sharedAppModel].playerLocation){
-        //register for notifications
-        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-        [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
-        [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
-        [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil]; 
+    //register for notifications
+    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+    [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
+    [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil]; 
         
-        if ([[AppModel sharedAppModel] loggedIn]) [[AppServices sharedAppServices] fetchPopularGameListForTime:time];
-        [self showLoadingIndicator];
-    }
+    if ([[AppModel sharedAppModel] loggedIn]) [[AppServices sharedAppServices] fetchPopularGameListForTime:time];
+    [self showLoadingIndicator];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -102,9 +95,7 @@
 }
 
 -(void)removeLoadingIndicator{
-    
 	[[self navigationItem] setRightBarButtonItem:self.refreshButton];
-    [gameTable reloadData];
 }
 
 
@@ -116,6 +107,7 @@
     
 	self.gameList = [AppModel sharedAppModel].gameList;
 	[gameTable reloadData];
+    [self removeLoadingIndicator];
 }
 
 #pragma mark Control Callbacks
@@ -153,10 +145,7 @@
     }
     
     UITableViewCell *tempCell = (GamePickerCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (![tempCell respondsToSelector:@selector(starView)]){
-        //[tempCell release];
-        tempCell = nil;
-    }
+    if (![tempCell respondsToSelector:@selector(starView)]) tempCell = nil;
     GamePickerCell *cell = (GamePickerCell *)tempCell;
     if (cell == nil) {
 		// Create a temporary UIViewController to instantiate the custom cell.
@@ -178,10 +167,9 @@
                            forState:kSCRatingViewSelected];
         [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
                            forState:kSCRatingViewUserSelected];
-        
-        
-        
+ 
     }
+    
 	Game *currentGame = [self.gameList objectAtIndex:indexPath.row];
     
 	cell.titleLabel.text = currentGame.name;
@@ -192,7 +180,6 @@
     //Set up the Icon
     //Create a new iconView for each cell instead of reusing the same one
     AsyncMediaImageView *iconView = [[AsyncMediaImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-    
     
     if(currentGame.iconMedia.image){
         iconView.image = [UIImage imageWithData: currentGame.iconMedia.image];
@@ -210,8 +197,7 @@
     //clear out icon view
     if([cell.iconView.subviews count]>0)
         [[cell.iconView.subviews objectAtIndex:0] removeFromSuperview];
-    
-    
+
     [cell.iconView addSubview: iconView];
     
     return cell;

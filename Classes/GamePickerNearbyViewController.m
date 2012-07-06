@@ -118,7 +118,6 @@
         //register for notifications
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
-        [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
         [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
         
         if ([[AppModel sharedAppModel] loggedIn]) [[AppServices sharedAppServices] fetchGameListWithDistanceFilter:distanceFilter locational:locational];
@@ -148,7 +147,6 @@
 
 -(void)removeLoadingIndicator{
 	[[self navigationItem] setRightBarButtonItem:self.refreshButton];
-    [gameTable reloadData];
 }
 
 - (void)refreshViewFromModel {
@@ -159,6 +157,8 @@
     
 	self.gameList = [[AppModel sharedAppModel].gameList sortedArrayUsingSelector:@selector(compareCalculatedScore:)];
     [gameTable reloadData];
+    
+    [self removeLoadingIndicator];
 }
 
 #pragma mark Control Callbacks
