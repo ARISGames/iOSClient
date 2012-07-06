@@ -342,7 +342,7 @@ static float INITIAL_SPAN = 0.001;
 		//Add the freshly loaded locations from the notification
 		for ( Location* location in newLocationsArray ) {
 			NSLog(@"GPSViewController: Adding location annotation for:%@ id:%d", location.name, location.locationId);
-			if (location.hidden == YES) 
+			if (location.hidden == YES || (location.kind == NearbyObjectPlayer && [AppModel sharedAppModel].hidePlayers)) 
 			{
 				NSLog(@"No I'm not, because this location is hidden.");
 				continue;
@@ -358,9 +358,9 @@ static float INITIAL_SPAN = 0.001;
 			if (location.kind == NearbyObjectItem && location.qty > 1 && annotation.title != nil) 
 				annotation.subtitle = [NSString stringWithFormat:@"x %d",location.qty];
 			annotation.iconMediaId = location.iconMediaId;
-			annotation.kind = location.kind;
-            
+
 			[mapView addAnnotation:annotation];
+                
 			if (!mapView) {
 				NSLog(@"GPSViewController: Just added an annotation to a null mapview!");
 			}
