@@ -51,7 +51,7 @@ static const CGFloat kPadding = 10;
     if (isCancelEnabled) {
       UIButton *butt = [UIButton buttonWithType:UIButtonTypeRoundedRect]; 
       self.cancelButton = butt;
-      [cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
+      [cancelButton setTitle:NSLocalizedString(@"CancelKey", @"") forState:UIControlStateNormal];
       if (oneDMode) {
         [cancelButton setTransform:CGAffineTransformMakeRotation(M_PI/2)];
         
@@ -135,7 +135,7 @@ static const CGFloat kPadding = 10;
 - (void)drawRect:(CGRect)rect {
 	[super drawRect:rect];
   if (displayedMessage == nil) {
-    self.displayedMessage = @"Place a barcode inside the viewfinder rectangle to scan it.";
+    self.displayedMessage = NSLocalizedString(@"OverLayViewPromptKey", @"");
   }
 	CGContextRef c = UIGraphicsGetCurrentContext();
   

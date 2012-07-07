@@ -34,9 +34,6 @@
         self.tabBarItem.image = [UIImage imageNamed:@"85-trophy"];
         timeControl.enabled = YES;
         timeControl.alpha = 1; 
-        [timeControl setTitle:NSLocalizedString(@"GamePickerPopularDayKey", @"") forSegmentAtIndex:0];
-        [timeControl setTitle:NSLocalizedString(@"GamePickerPopularWeekKey", @"") forSegmentAtIndex:1];
-        [timeControl setTitle:NSLocalizedString(@"GamePickerPopularMonthKey", @"") forSegmentAtIndex:2];
     }
     return self;
 }

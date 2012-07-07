@@ -86,9 +86,9 @@
 								<int key="IBNumberOfSegments">3</int>
 								<int key="IBSelectedSegmentIndex">1</int>
 								<array key="IBSegmentTitles">
-									<string>Day</string>
-									<string>Week</string>
-									<string>Month</string>
+									<string>Jour</string>
+									<string>Semaine</string>
+									<string>Mois</string>
 								</array>
 								<array class="NSMutableArray" key="IBSegmentWidths">
 									<real value="0.0"/>
@@ -324,7 +324,7 @@
 			<real value="1296" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<int key="IBDocument.defaultPropertyAccessControl">3</int>
+		<int key="IBDocument.defaultPropertyAccessControl">1</int>
 		<string key="IBCocoaTouchPluginVersion">1181</string>
 	</data>
 </archive>

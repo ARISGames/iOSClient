@@ -178,7 +178,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     
     if(section == 2) {
-        return  @"Description";
+        return  [NSString stringWithFormat: @"%@: ", NSLocalizedString(@"DescriptionKey", @"")];
     }
     
     return @""; 

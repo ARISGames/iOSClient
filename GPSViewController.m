@@ -291,8 +291,9 @@ static float INITIAL_SPAN = 0.001;
             for (int i = 0; i < [[mapView annotations] count]; i++) {
                 BOOL match = NO;
                 NSObject <MKAnnotation>  *testAnnotation = [[mapView annotations] objectAtIndex:i];
-                if(![testAnnotation.title isEqualToString:@"Current Location"]) {
+                if(![testAnnotation.title isEqualToString:@"Current Location"] ){
                     annotation = (Annotation *)testAnnotation;
+                    if([annotation.location respondsToSelector:@selector(hasBeenViewed)]){
                     if([appDelegate.tabBarController.selectedViewController.title isEqualToString:@"Map"]) {
                         annotation.location.hasBeenViewed = YES;
                     }
@@ -313,6 +314,7 @@ static float INITIAL_SPAN = 0.001;
                         [mapView removeAnnotation:annotation];
                         i--;
                     }
+                }
                 }
             }
             
@@ -476,10 +478,10 @@ static float INITIAL_SPAN = 0.001;
 	NSMutableArray *buttonTitles = [NSMutableArray arrayWithCapacity:1];
 	int cancelButtonIndex = 0;
 	if (location.allowsQuickTravel)	{
-		[buttonTitles addObject: @"Quick Travel"];
+		[buttonTitles addObject: NSLocalizedString(@"GPSViewQuickTravelKey", @"")];
 		cancelButtonIndex = 1;
 	}
-	[buttonTitles addObject: @"Cancel"];
+	[buttonTitles addObject: NSLocalizedString(@"CancelKey", @"")];
 	
 	
 	//Create and Display Action Sheet

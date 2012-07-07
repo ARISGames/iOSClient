@@ -26,7 +26,6 @@
 		113F56DE14E4435300525BE6 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 113F56DD14E4435300525BE6 /* AssetsLibrary.framework */; };
 		1147E15913F32260000E4BC2 /* noteicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1147E15513F32260000E4BC2 /* noteicon.png */; };
 		1147E15A13F32260000E4BC2 /* NoteEditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1147E15713F32260000E4BC2 /* NoteEditorViewController.m */; };
-		1147E15B13F32260000E4BC2 /* NoteEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1147E15813F32260000E4BC2 /* NoteEditorViewController.xib */; };
 		114F746E140D5231003421C6 /* NoteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 114F746C140D5231003421C6 /* NoteCell.m */; };
 		114F746F140D5231003421C6 /* NoteCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 114F746D140D5231003421C6 /* NoteCell.xib */; };
 		114F7473140D92DF003421C6 /* ImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 114F7471140D92DF003421C6 /* ImageViewer.m */; };
@@ -47,7 +46,6 @@
 		1188663914057CF60009E36F /* TextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1188663714057CF60009E36F /* TextViewController.m */; };
 		1188663A14057CF60009E36F /* TextViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1188663814057CF60009E36F /* TextViewController.xib */; };
 		1188663F1406B12B0009E36F /* NotebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1188663D1406B12B0009E36F /* NotebookViewController.m */; };
-		118866401406B12B0009E36F /* NotebookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1188663E1406B12B0009E36F /* NotebookViewController.xib */; };
 		118866441406B54C0009E36F /* notebook.png in Resources */ = {isa = PBXBuildFile; fileRef = 118866431406B54C0009E36F /* notebook.png */; };
 		118866461406B69B0009E36F /* notebook2.png in Resources */ = {isa = PBXBuildFile; fileRef = 118866451406B69B0009E36F /* notebook2.png */; };
 		118866491406BB830009E36F /* NoteContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 118866481406BB830009E36F /* NoteContent.m */; };
@@ -136,13 +134,11 @@
 		2B3D11AD0F4361380067FD3A /* Login.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B3D11AC0F4361380067FD3A /* Login.xib */; };
 		2B3D11B10F4361940067FD3A /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D11B00F4361940067FD3A /* LoginViewController.m */; };
 		2B3D12CE0F437AC60067FD3A /* QuestsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D12CD0F437AC60067FD3A /* QuestsViewController.m */; };
-		2B3D12D00F437AF90067FD3A /* Quests.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B3D12CF0F437AF90067FD3A /* Quests.xib */; };
 		2B3D12D90F437D6E0067FD3A /* InventoryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */; };
 		2B3D12DB0F437E690067FD3A /* InventoryList.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B3D12DA0F437E690067FD3A /* InventoryList.xib */; };
 		2B3D12EC0F4382070067FD3A /* LogoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D12EB0F4382070067FD3A /* LogoutViewController.m */; };
 		2B3D12EE0F4382A00067FD3A /* Logout.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B3D12ED0F4382A00067FD3A /* Logout.xib */; };
 		2B3D14620F45EBAA0067FD3A /* GamePickerNearbyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D14610F45EBAA0067FD3A /* GamePickerNearbyViewController.m */; };
-		2B3D16660F4628C70067FD3A /* GamePickerNearbyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B3D16650F4628C70067FD3A /* GamePickerNearbyViewController.xib */; };
 		2B3D17070F49C99B0067FD3A /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D17060F49C99B0067FD3A /* Game.m */; };
 		2B3D175A0F49D18D0067FD3A /* DeveloperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D17590F49D18D0067FD3A /* DeveloperViewController.m */; };
 		2B3D18D60F4B25720067FD3A /* AppModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */; };
@@ -363,8 +359,12 @@
 		D43717DF106D62BB0020C515 /* Media.m in Sources */ = {isa = PBXBuildFile; fileRef = D43717DE106D62BB0020C515 /* Media.m */; };
 		D4D366DF111B6789009C4D00 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D366DE111B6789009C4D00 /* CFNetwork.framework */; };
 		D4DE6B8B110A00D7008BFE38 /* defaultCharacter.png in Resources */ = {isa = PBXBuildFile; fileRef = D4DE6B8A110A00D7008BFE38 /* defaultCharacter.png */; };
-		DB17C60615A3A8E9001F7A10 /* GamePickerPopularViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB17C60515A3A8E9001F7A10 /* GamePickerPopularViewController.xib */; };
 		DB17C60915A3A921001F7A10 /* GamePickerPopularViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB17C60815A3A921001F7A10 /* GamePickerPopularViewController.m */; };
+		DB4C160E15A7B418005EF91B /* GamePickerPopularViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB4C161015A7B418005EF91B /* GamePickerPopularViewController.xib */; };
+		DB4C161315A7B4AF005EF91B /* NoteEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB4C161515A7B4AF005EF91B /* NoteEditorViewController.xib */; };
+		DB72A2C215A7AFA600A04B4C /* Quests.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB72A2C415A7AFA600A04B4C /* Quests.xib */; };
+		DB72A2C715A7B0C700A04B4C /* GamePickerNearbyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB72A2C915A7B0C700A04B4C /* GamePickerNearbyViewController.xib */; };
+		DB72A2CC15A7B1A200A04B4C /* NotebookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB72A2CE15A7B1A200A04B4C /* NotebookViewController.xib */; };
 		DBBCE9E115937704006994F9 /* DefaultPCImage.png in Resources */ = {isa = PBXBuildFile; fileRef = DBBCE9E015937704006994F9 /* DefaultPCImage.png */; };
 /* End PBXBuildFile section */
 
@@ -412,7 +412,6 @@
 		1147E15513F32260000E4BC2 /* noteicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noteicon.png; sourceTree = "<group>"; };
 		1147E15613F32260000E4BC2 /* NoteEditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteEditorViewController.h; sourceTree = "<group>"; };
 		1147E15713F32260000E4BC2 /* NoteEditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteEditorViewController.m; sourceTree = "<group>"; };
-		1147E15813F32260000E4BC2 /* NoteEditorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteEditorViewController.xib; sourceTree = "<group>"; };
 		114F746B140D5231003421C6 /* NoteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteCell.h; sourceTree = "<group>"; };
 		114F746C140D5231003421C6 /* NoteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteCell.m; sourceTree = "<group>"; };
 		114F746D140D5231003421C6 /* NoteCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoteCell.xib; sourceTree = "<group>"; };
@@ -455,7 +454,6 @@
 		1188663814057CF60009E36F /* TextViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextViewController.xib; sourceTree = "<group>"; };
 		1188663C1406B12B0009E36F /* NotebookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotebookViewController.h; sourceTree = "<group>"; };
 		1188663D1406B12B0009E36F /* NotebookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotebookViewController.m; sourceTree = "<group>"; };
-		1188663E1406B12B0009E36F /* NotebookViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotebookViewController.xib; sourceTree = "<group>"; };
 		118866431406B54C0009E36F /* notebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notebook.png; sourceTree = "<group>"; };
 		118866451406B69B0009E36F /* notebook2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notebook2.png; sourceTree = "<group>"; };
 		118866471406BB830009E36F /* NoteContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NoteContent.h; path = ../../NoteContent.h; sourceTree = "<group>"; };
@@ -625,7 +623,6 @@
 		2B3D11B00F4361940067FD3A /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = Classes/LoginViewController.m; sourceTree = "<group>"; };
 		2B3D12CC0F437AC60067FD3A /* QuestsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = QuestsViewController.h; path = Classes/QuestsViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		2B3D12CD0F437AC60067FD3A /* QuestsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = QuestsViewController.m; path = Classes/QuestsViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		2B3D12CF0F437AF90067FD3A /* Quests.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Quests.xib; sourceTree = "<group>"; };
 		2B3D12D70F437D6E0067FD3A /* InventoryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = InventoryListViewController.h; path = Classes/InventoryListViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = InventoryListViewController.m; path = Classes/InventoryListViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		2B3D12DA0F437E690067FD3A /* InventoryList.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InventoryList.xib; sourceTree = "<group>"; };
@@ -634,7 +631,6 @@
 		2B3D12ED0F4382A00067FD3A /* Logout.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Logout.xib; sourceTree = "<group>"; };
 		2B3D14600F45EBAA0067FD3A /* GamePickerNearbyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = GamePickerNearbyViewController.h; path = Classes/GamePickerNearbyViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		2B3D14610F45EBAA0067FD3A /* GamePickerNearbyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = GamePickerNearbyViewController.m; path = Classes/GamePickerNearbyViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		2B3D16650F4628C70067FD3A /* GamePickerNearbyViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GamePickerNearbyViewController.xib; sourceTree = "<group>"; };
 		2B3D17050F49C99B0067FD3A /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
 		2B3D17060F49C99B0067FD3A /* Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Game.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		2B3D17580F49D18D0067FD3A /* DeveloperViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = DeveloperViewController.h; path = Classes/DeveloperViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -942,9 +938,23 @@
 		D43717DE106D62BB0020C515 /* Media.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Media.m; sourceTree = "<group>"; };
 		D4D366DE111B6789009C4D00 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		D4DE6B8A110A00D7008BFE38 /* defaultCharacter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = defaultCharacter.png; sourceTree = "<group>"; };
-		DB17C60515A3A8E9001F7A10 /* GamePickerPopularViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GamePickerPopularViewController.xib; sourceTree = "<group>"; };
 		DB17C60715A3A921001F7A10 /* GamePickerPopularViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GamePickerPopularViewController.h; path = Classes/GamePickerPopularViewController.h; sourceTree = "<group>"; };
 		DB17C60815A3A921001F7A10 /* GamePickerPopularViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GamePickerPopularViewController.m; path = Classes/GamePickerPopularViewController.m; sourceTree = "<group>"; };
+		DB4C160F15A7B418005EF91B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/GamePickerPopularViewController.xib; sourceTree = "<group>"; };
+		DB4C161115A7B42A005EF91B /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/GamePickerPopularViewController.xib; sourceTree = "<group>"; };
+		DB4C161215A7B42D005EF91B /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/GamePickerPopularViewController.xib; sourceTree = "<group>"; };
+		DB4C161415A7B4AF005EF91B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/NoteEditorViewController.xib; sourceTree = "<group>"; };
+		DB4C161615A7B4B7005EF91B /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/NoteEditorViewController.xib; sourceTree = "<group>"; };
+		DB4C161715A7B4BA005EF91B /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/NoteEditorViewController.xib; sourceTree = "<group>"; };
+		DB72A2C315A7AFA600A04B4C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Quests.xib; sourceTree = "<group>"; };
+		DB72A2C515A7AFBD00A04B4C /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/Quests.xib; sourceTree = "<group>"; };
+		DB72A2C615A7AFC100A04B4C /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/Quests.xib; sourceTree = "<group>"; };
+		DB72A2C815A7B0C700A04B4C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/GamePickerNearbyViewController.xib; sourceTree = "<group>"; };
+		DB72A2CA15A7B0D100A04B4C /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/GamePickerNearbyViewController.xib; sourceTree = "<group>"; };
+		DB72A2CB15A7B0D400A04B4C /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/GamePickerNearbyViewController.xib; sourceTree = "<group>"; };
+		DB72A2CD15A7B1A200A04B4C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/NotebookViewController.xib; sourceTree = "<group>"; };
+		DB72A2CF15A7B1AB00A04B4C /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/NotebookViewController.xib; sourceTree = "<group>"; };
+		DB72A2D015A7B1AE00A04B4C /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/NotebookViewController.xib; sourceTree = "<group>"; };
 		DBBCE9E015937704006994F9 /* DefaultPCImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultPCImage.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1451,8 +1461,8 @@
 				2B3D14610F45EBAA0067FD3A /* GamePickerNearbyViewController.m */,
 				DB17C60715A3A921001F7A10 /* GamePickerPopularViewController.h */,
 				DB17C60815A3A921001F7A10 /* GamePickerPopularViewController.m */,
-				DB17C60515A3A8E9001F7A10 /* GamePickerPopularViewController.xib */,
-				2B3D16650F4628C70067FD3A /* GamePickerNearbyViewController.xib */,
+				DB4C161015A7B418005EF91B /* GamePickerPopularViewController.xib */,
+				DB72A2C915A7B0C700A04B4C /* GamePickerNearbyViewController.xib */,
 				ABB60F20139F2F1600EEDA08 /* GamePickerSearchViewController.h */,
 				ABB60F21139F2F1600EEDA08 /* GamePickerSearchViewController.m */,
 				ABB60F22139F2F1600EEDA08 /* GamePickerSearchViewController.xib */,
@@ -1537,7 +1547,7 @@
 				AB35E06F155C71B200430AF7 /* 85-trophy@2x.png */,
 				2B3D12CC0F437AC60067FD3A /* QuestsViewController.h */,
 				2B3D12CD0F437AC60067FD3A /* QuestsViewController.m */,
-				2B3D12CF0F437AF90067FD3A /* Quests.xib */,
+				DB72A2C415A7AFA600A04B4C /* Quests.xib */,
 			);
 			name = Quests;
 			sourceTree = "<group>";
@@ -1922,7 +1932,7 @@
 			children = (
 				1188663C1406B12B0009E36F /* NotebookViewController.h */,
 				1188663D1406B12B0009E36F /* NotebookViewController.m */,
-				1188663E1406B12B0009E36F /* NotebookViewController.xib */,
+				DB72A2CE15A7B1A200A04B4C /* NotebookViewController.xib */,
 				114F746B140D5231003421C6 /* NoteCell.h */,
 				114F746C140D5231003421C6 /* NoteCell.m */,
 				114F746D140D5231003421C6 /* NoteCell.xib */,
@@ -1948,7 +1958,7 @@
 			children = (
 				1147E15613F32260000E4BC2 /* NoteEditorViewController.h */,
 				1147E15713F32260000E4BC2 /* NoteEditorViewController.m */,
-				1147E15813F32260000E4BC2 /* NoteEditorViewController.xib */,
+				DB4C161515A7B4AF005EF91B /* NoteEditorViewController.xib */,
 				11B1222A14BDFA37002583AD /* NoteContentCell.h */,
 				11B1222B14BDFA37002583AD /* NoteContentCell.m */,
 				11B1222C14BDFA37002583AD /* NoteContentCell.xib */,
@@ -2084,10 +2094,10 @@
 			files = (
 				28AD73880D9D96C1002E5188 /* MainWindow.xib in Resources */,
 				2B3D11AD0F4361380067FD3A /* Login.xib in Resources */,
-				2B3D12D00F437AF90067FD3A /* Quests.xib in Resources */,
+				DB72A2C215A7AFA600A04B4C /* Quests.xib in Resources */,
 				2B3D12DB0F437E690067FD3A /* InventoryList.xib in Resources */,
 				2B3D12EE0F4382A00067FD3A /* Logout.xib in Resources */,
-				2B3D16660F4628C70067FD3A /* GamePickerNearbyViewController.xib in Resources */,
+				DB72A2C715A7B0C700A04B4C /* GamePickerNearbyViewController.xib in Resources */,
 				A7A172830F4F26A60017E865 /* Entitlements.plist in Resources */,
 				A7A1728C0F4F27120017E865 /* Icon.png in Resources */,
 				A7A1728D0F4F27120017E865 /* Default.png in Resources */,
@@ -2175,11 +2185,11 @@
 				1129FA3713CD080500FE83B4 /* garden_frame2.jpg in Resources */,
 				1129FA3813CD080500FE83B4 /* garden_frame1.jpg in Resources */,
 				1147E15913F32260000E4BC2 /* noteicon.png in Resources */,
-				1147E15B13F32260000E4BC2 /* NoteEditorViewController.xib in Resources */,
+				DB4C161315A7B4AF005EF91B /* NoteEditorViewController.xib in Resources */,
 				11DD3D4E13F5AB430051AB76 /* NoteDetailsViewController.xib in Resources */,
 				11DD3D5113F5B0EF0051AB76 /* playericon.png in Resources */,
 				1188663A14057CF60009E36F /* TextViewController.xib in Resources */,
-				118866401406B12B0009E36F /* NotebookViewController.xib in Resources */,
+				DB72A2CC15A7B1A200A04B4C /* NotebookViewController.xib in Resources */,
 				118866441406B54C0009E36F /* notebook.png in Resources */,
 				118866461406B69B0009E36F /* notebook2.png in Resources */,
 				114F746F140D5231003421C6 /* NoteCell.xib in Resources */,
@@ -2259,7 +2269,7 @@
 				AB628B871578322500557BB1 /* 213-reply.png in Resources */,
 				AB628B881578322500557BB1 /* 213-reply@2x.png in Resources */,
 				DBBCE9E115937704006994F9 /* DefaultPCImage.png in Resources */,
-				DB17C60615A3A8E9001F7A10 /* GamePickerPopularViewController.xib in Resources */,
+				DB4C160E15A7B418005EF91B /* GamePickerPopularViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2493,6 +2503,56 @@
 				AB1660C714E8754B002C6ACB /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		DB4C161015A7B418005EF91B /* GamePickerPopularViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DB4C160F15A7B418005EF91B /* en */,
+				DB4C161115A7B42A005EF91B /* es */,
+				DB4C161215A7B42D005EF91B /* fr */,
+			);
+			name = GamePickerPopularViewController.xib;
+			sourceTree = "<group>";
+		};
+		DB4C161515A7B4AF005EF91B /* NoteEditorViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DB4C161415A7B4AF005EF91B /* en */,
+				DB4C161615A7B4B7005EF91B /* es */,
+				DB4C161715A7B4BA005EF91B /* fr */,
+			);
+			name = NoteEditorViewController.xib;
+			sourceTree = "<group>";
+		};
+		DB72A2C415A7AFA600A04B4C /* Quests.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DB72A2C315A7AFA600A04B4C /* en */,
+				DB72A2C515A7AFBD00A04B4C /* es */,
+				DB72A2C615A7AFC100A04B4C /* fr */,
+			);
+			name = Quests.xib;
+			sourceTree = "<group>";
+		};
+		DB72A2C915A7B0C700A04B4C /* GamePickerNearbyViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DB72A2C815A7B0C700A04B4C /* en */,
+				DB72A2CA15A7B0D100A04B4C /* es */,
+				DB72A2CB15A7B0D400A04B4C /* fr */,
+			);
+			name = GamePickerNearbyViewController.xib;
+			sourceTree = "<group>";
+		};
+		DB72A2CE15A7B1A200A04B4C /* NotebookViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DB72A2CD15A7B1A200A04B4C /* en */,
+				DB72A2CF15A7B1AB00A04B4C /* es */,
+				DB72A2D015A7B1AE00A04B4C /* fr */,
+			);
+			name = NotebookViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

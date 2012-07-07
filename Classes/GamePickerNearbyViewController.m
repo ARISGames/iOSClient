@@ -20,7 +20,7 @@
 @implementation GamePickerNearbyViewController
 
 @synthesize gameTable;
-@synthesize gameList, gameIcons;
+@synthesize gameList;
 @synthesize refreshButton,count;
 
 
@@ -32,7 +32,6 @@
         self.title = NSLocalizedString(@"NearbyObjectsTabKey", @"");
 		self.navigationItem.title = [NSString stringWithFormat: @"%@", NSLocalizedString(@"GamePickerNearbyGamesKey", @"")];
         self.tabBarItem.image = [UIImage imageNamed:@"193-location-arrow"];
-        self.gameIcons = [NSMutableArray arrayWithCapacity:[[AppModel sharedAppModel].gameList count]];
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];
         
@@ -137,8 +136,6 @@
 	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
 	[[self navigationItem] setRightBarButtonItem:barButton];
 	[activityIndicator startAnimating];
-    
-    
 }
 
 -(void) viewWillAppear:(BOOL)animated{
