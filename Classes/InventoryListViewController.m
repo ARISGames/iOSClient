@@ -12,6 +12,7 @@
 #import "AsyncMediaImageView.h"
 #import "AppModel.h"
 #import "NoteDetailsViewController.h"
+#import "InventoryTradeViewController.h"
 
 @implementation InventoryListViewController
 
@@ -55,6 +56,11 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {	
 	[super viewDidLoad];
+    
+    UIBarButtonItem *tradeButtonAlloc = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"InventoryTradeViewTitleKey", @"") style:UIBarButtonItemStyleDone target:self action:@selector(tradeButtonTouched)];
+    self.tradeButton = tradeButtonAlloc;
+    [self.navigationItem setRightBarButtonItem:self.tradeButton];
+    
 	NSLog(@"Inventory View Loaded");
 }
 
@@ -70,6 +76,12 @@
 	NSLog(@"InventoryListViewController: view did appear");
 	
 	
+}
+
+-(void)tradeButtonTouched{
+    InventoryTradeViewController *tradeVC = [[InventoryTradeViewController alloc] initWithNibName:@"InventoryTradeViewController" bundle:nil];
+  //  tradeVC.delegate = self;
+    [self.navigationController pushViewController:tradeVC animated:YES];
 }
 
 -(void)dismissTutorial{
@@ -109,7 +121,7 @@
 
 -(void)removeLoadingIndicator{
 	//Do this now in case refreshViewFromModel isn't called due to == hash
-	[[self navigationItem] setRightBarButtonItem:nil];
+	[[self navigationItem] setRightBarButtonItem:self.tradeButton];
 	NSLog(@"InventoryListViewController: removeLoadingIndicator. silenceCount = %d",silenceNextServerUpdateCount);
 }
 
@@ -121,8 +133,8 @@
     self.currentWeight = 0;
     for (Item *item in [[AppModel sharedAppModel].inventory allValues]){
     self.currentWeight += item.weight*item.qty;
-    [AppModel sharedAppModel].currentGame.currentWeight = self.currentWeight;
     }
+    [AppModel sharedAppModel].currentGame.currentWeight = self.currentWeight;
     capBar.progress = (float)((float)currentWeight/(float)weightCap);
     capLabel.text = [NSString stringWithFormat: @"%@: %d/%d", NSLocalizedString(@"WeightCapacityKey", @""),currentWeight, weightCap];
     

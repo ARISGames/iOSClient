@@ -365,6 +365,8 @@
 		DB72A2C215A7AFA600A04B4C /* Quests.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB72A2C415A7AFA600A04B4C /* Quests.xib */; };
 		DB72A2C715A7B0C700A04B4C /* GamePickerNearbyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB72A2C915A7B0C700A04B4C /* GamePickerNearbyViewController.xib */; };
 		DB72A2CC15A7B1A200A04B4C /* NotebookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB72A2CE15A7B1A200A04B4C /* NotebookViewController.xib */; };
+		DB7EEF7B15AB40C2009369D4 /* InventoryTradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7EEF7915AB40C2009369D4 /* InventoryTradeViewController.m */; };
+		DB7EEF7C15AB40C2009369D4 /* InventoryTradeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB7EEF7A15AB40C2009369D4 /* InventoryTradeViewController.xib */; };
 		DBBCE9E115937704006994F9 /* DefaultPCImage.png in Resources */ = {isa = PBXBuildFile; fileRef = DBBCE9E015937704006994F9 /* DefaultPCImage.png */; };
 /* End PBXBuildFile section */
 
@@ -955,6 +957,9 @@
 		DB72A2CD15A7B1A200A04B4C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/NotebookViewController.xib; sourceTree = "<group>"; };
 		DB72A2CF15A7B1AB00A04B4C /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/NotebookViewController.xib; sourceTree = "<group>"; };
 		DB72A2D015A7B1AE00A04B4C /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/NotebookViewController.xib; sourceTree = "<group>"; };
+		DB7EEF7815AB40C2009369D4 /* InventoryTradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InventoryTradeViewController.h; path = Classes/InventoryTradeViewController.h; sourceTree = "<group>"; };
+		DB7EEF7915AB40C2009369D4 /* InventoryTradeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InventoryTradeViewController.m; path = Classes/InventoryTradeViewController.m; sourceTree = "<group>"; };
+		DB7EEF7A15AB40C2009369D4 /* InventoryTradeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InventoryTradeViewController.xib; path = Classes/InventoryTradeViewController.xib; sourceTree = "<group>"; };
 		DBBCE9E015937704006994F9 /* DefaultPCImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultPCImage.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1521,6 +1526,9 @@
 				A75AF2B70F86A47100F15535 /* ItemDetailsViewController.h */,
 				A75AF2B80F86A47100F15535 /* ItemDetailsViewController.m */,
 				A7BCBB3E0F8C236900C7A36C /* ItemDetailsView.xib */,
+				DB7EEF7815AB40C2009369D4 /* InventoryTradeViewController.h */,
+				DB7EEF7915AB40C2009369D4 /* InventoryTradeViewController.m */,
+				DB7EEF7A15AB40C2009369D4 /* InventoryTradeViewController.xib */,
 			);
 			name = Inventory;
 			sourceTree = "<group>";
@@ -2270,6 +2278,7 @@
 				AB628B881578322500557BB1 /* 213-reply@2x.png in Resources */,
 				DBBCE9E115937704006994F9 /* DefaultPCImage.png in Resources */,
 				DB4C160E15A7B418005EF91B /* GamePickerPopularViewController.xib in Resources */,
+				DB7EEF7C15AB40C2009369D4 /* InventoryTradeViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2465,6 +2474,7 @@
 				3AA83346159E3FF3002CC61D /* TileOverlayView.m in Sources */,
 				3AA83349159E4029002CC61D /* Overlay.m in Sources */,
 				DB17C60915A3A921001F7A10 /* GamePickerPopularViewController.m in Sources */,
+				DB7EEF7B15AB40C2009369D4 /* InventoryTradeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

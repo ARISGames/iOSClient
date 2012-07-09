@@ -17,6 +17,7 @@
 	NSArray *inventory;
 	NSMutableArray *iconCache;
     NSMutableArray *mediaCache;
+    UIBarButtonItem *tradeButton;
     int silenceNextServerUpdateCount;
 	int newItemsSinceLastView;
     UIProgressView *capBar;
@@ -30,6 +31,7 @@
 @property(nonatomic) IBOutlet UIProgressView *capBar;
 @property(nonatomic) IBOutlet UILabel *capLabel;
 @property(nonatomic) IBOutlet UITableView *inventoryTable;
+@property(nonatomic) IBOutlet UIBarButtonItem *tradeButton;
 @property(nonatomic) NSArray *inventory;
 @property(nonatomic) NSMutableArray *iconCache;
 @property(nonatomic) NSMutableArray *mediaCache;
