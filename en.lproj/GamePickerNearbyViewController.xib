@@ -86,8 +86,8 @@
 								<int key="IBNumberOfSegments">2</int>
 								<int key="IBSelectedSegmentIndex">0</int>
 								<array key="IBSegmentTitles">
-									<string>Lugar Específico</string>
-									<string>Cualquier Sitio</string>
+									<string>Location Specific</string>
+									<string>Playable Anywhere</string>
 								</array>
 								<array class="NSMutableArray" key="IBSegmentWidths">
 									<real value="0.0"/>
@@ -425,7 +425,7 @@
 			<real value="1296" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<int key="IBDocument.defaultPropertyAccessControl">1</int>
+		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<string key="IBCocoaTouchPluginVersion">1181</string>
 	</data>
 </archive>
