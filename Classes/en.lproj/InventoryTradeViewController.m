@@ -154,9 +154,10 @@
                                                             blue:200.0/255.0  
                                                            alpha:1.0];  
     } 
-	
-	Item *item = [self.inventory objectAtIndex: [indexPath row]];
-	
+	Item *item;
+	if(indexPath.section == 0) item = [self.itemsToTrade objectAtIndex: [indexPath row]];
+	else item = [self.inventory objectAtIndex: [indexPath row]];
+    
 	UILabel *lblTemp1 = (UILabel *)[cell viewWithTag:1];
 	lblTemp1.text = item.name;	
     lblTemp1.font = [UIFont boldSystemFontOfSize:18.0];
@@ -224,22 +225,60 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {	
     
-	Item *selectedItem = [inventory objectAtIndex:[indexPath row]];
-	NSLog(@"Displaying Detail View: %@", selectedItem.name);
+    if(indexPath.section == 0){
+        Item *selectedItem = [self.itemsToTrade objectAtIndex:[indexPath row]];
+        if(((Item *)[self.itemsToTrade objectAtIndex:[indexPath row]]).qty > 1) ((Item *)[self.itemsToTrade objectAtIndex:[indexPath row]]).qty--;
+        else [self.itemsToTrade removeObjectAtIndex:[indexPath row]];
+        
+        NSUInteger result = [self.inventory indexOfObjectPassingTest:
+                             ^ (id arrayItem, NSUInteger idx, BOOL *stop)
+                             {   
+                                 if (((Item *)arrayItem).itemId == selectedItem.itemId) {
+                                     return YES;
+                                 }
+                                 else
+                                     return NO;
+                             }];
+        
+        if (result == NSNotFound){
+            selectedItem.qty = 1;
+            [self.inventory addObject:selectedItem];
+        }
+        else ((Item *)[self.inventory objectAtIndex:result]).qty++;
+        
+   //     [self.tradeTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+      //  [self.tradeTableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+    }
+    
+    else{
+        Item *selectedItem = [self.inventory objectAtIndex:[indexPath row]];
+        if(((Item *)[self.inventory objectAtIndex:[indexPath row]]).qty > 1) ((Item *)[self.inventory objectAtIndex:[indexPath row]]).qty--;
+        else [self.inventory removeObjectAtIndex:[indexPath row]];
+            
+            NSUInteger result = [self.itemsToTrade indexOfObjectPassingTest:
+                                 ^ (id arrayItem, NSUInteger idx, BOOL *stop)
+                                 {   
+                                     if (((Item *)arrayItem).itemId == selectedItem.itemId) {
+                                         return YES;
+                                     }
+                                     else
+                                         return NO;
+                                 }];
+        
+        if (result == NSNotFound){
+            selectedItem.qty = 1;
+            [self.itemsToTrade addObject:selectedItem];
+        }
+        else ((Item *)[self.itemsToTrade objectAtIndex:result]).qty++;
+        
+       // [self.tradeTableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+    //    [self.tradeTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+    }
+  //  [self.tradeTableView reloadData];
+    [self.tradeTableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange (0, 2)] withRowAnimation:UITableViewRowAnimationFade];
     
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
-	
-	ItemDetailsViewController *itemDetailsViewController = [[ItemDetailsViewController alloc] 
-															initWithNibName:@"ItemDetailsView" bundle:[NSBundle mainBundle]];
-	itemDetailsViewController.item = selectedItem;
-	itemDetailsViewController.navigationItem.title = selectedItem.name;
-	itemDetailsViewController.inInventory = YES;
-	itemDetailsViewController.hidesBottomBarWhenPushed = YES;
-    
-	//Put the view on the screen
-	[[self navigationController] pushViewController:itemDetailsViewController animated:YES];
-	
 	
 }
 
