@@ -7,6 +7,7 @@
 //
 
 #import "InventoryTradeViewController.h"
+#import "BumpClient.h"
 
 @implementation InventoryTradeViewController
 
@@ -16,6 +17,46 @@
 @synthesize iconCache;
 @synthesize mediaCache;
 
+- (void) configureBump {
+    [BumpClient configureWithAPIKey:@"4ff1c7a0c2a84bb9938dafc3a1ac770cy" andUserID:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId]];
+    
+    [[BumpClient sharedClient] setMatchBlock:^(BumpChannelID channel) { 
+        NSLog(@"Matched with user: %@", [[BumpClient sharedClient] userIDForChannel:channel]); 
+        [[BumpClient sharedClient] confirmMatch:YES onChannel:channel];
+    }];
+    
+    [[BumpClient sharedClient] setChannelConfirmedBlock:^(BumpChannelID channel) {
+        NSLog(@"Channel with %@ confirmed.", [[BumpClient sharedClient] userIDForChannel:channel]);
+        [[BumpClient sharedClient] sendData:[[NSString stringWithFormat:@"Hello, world!"] dataUsingEncoding:NSUTF8StringEncoding]
+                                  toChannel:channel];
+    }];
+    
+    [[BumpClient sharedClient] setDataReceivedBlock:^(BumpChannelID channel, NSData *data) {
+        NSLog(@"Data received from %@: %@", 
+              [[BumpClient sharedClient] userIDForChannel:channel], 
+              [NSString stringWithCString:[data bytes] encoding:NSUTF8StringEncoding]);
+    }];
+    
+    [[BumpClient sharedClient] setConnectionStateChangedBlock:^(BOOL connected) {
+        if (connected) {
+            NSLog(@"Bump connected...");
+        } else {
+            NSLog(@"Bump disconnected...");
+        }
+    }];
+    
+    [[BumpClient sharedClient] setBumpEventBlock:^(bump_event event) {
+        switch(event) {
+            case BUMP_EVENT_BUMP:
+                NSLog(@"Bump detected.");
+                break;
+            case BUMP_EVENT_NO_MATCH:
+                NSLog(@"No match.");
+                break;
+        }
+    }];
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -24,6 +65,7 @@
         self.iconCache = iconCacheAlloc;
         NSMutableArray *mediaCacheAlloc = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].inventory count]];
         self.mediaCache = mediaCacheAlloc;
+        [self configureBump];
     }
     return self;
 }
