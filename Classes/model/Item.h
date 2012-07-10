@@ -57,6 +57,7 @@
 
 
 - (void) display;
+- (id)   copyItem;
 
 
 @end

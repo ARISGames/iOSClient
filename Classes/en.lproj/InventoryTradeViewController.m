@@ -34,8 +34,13 @@
     
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.modalPresent = YES;
-    NSMutableArray *inventoryAlloc = [[[AppModel sharedAppModel].inventory allValues] mutableCopy];
+    NSMutableArray *tempCopy = [[[AppModel sharedAppModel].inventory allValues] mutableCopy];
+    NSMutableArray *inventoryAlloc = [[NSMutableArray alloc] init];
 	self.inventory = inventoryAlloc;
+    for(int i = 0; i < [[[AppModel sharedAppModel].inventory allValues] count]; i++){
+        NSLog(@"%d", i);
+        [self.inventory addObject:[((Item *)[tempCopy objectAtIndex:i]) copyItem]];
+    }
     NSMutableArray *itemsToTradeAlloc = [[NSMutableArray alloc] init];
     self.itemsToTrade = itemsToTradeAlloc;
     [self.tradeTableView reloadData];
