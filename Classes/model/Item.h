@@ -57,7 +57,7 @@
 
 
 - (void) display;
-- (id)   copyItem;
+- (Item *)   copyItem;
 
 
 @end

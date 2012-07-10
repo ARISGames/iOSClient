@@ -67,8 +67,8 @@
 	return itemId;
 }
 
--(id)copyItem{
-    Item *itemCopy;
+-(Item *)copyItem{
+    Item *itemCopy = [[Item alloc] init];
     itemCopy.itemId = self.itemId;
 	itemCopy.name = self.name;
 	itemCopy.mediaId = self.mediaId;
