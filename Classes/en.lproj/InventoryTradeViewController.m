@@ -10,7 +10,7 @@
 
 @implementation InventoryTradeViewController
 
-@synthesize tableView;
+@synthesize tradeTableView;
 @synthesize inventory;
 @synthesize itemsToTrade;
 @synthesize iconCache;
@@ -38,7 +38,7 @@
 	self.inventory = inventoryAlloc;
     NSMutableArray *itemsToTradeAlloc = [[NSMutableArray alloc] init];
     self.itemsToTrade = itemsToTradeAlloc;
-    [tableView reloadData];
+    [self.tradeTableView reloadData];
     
     //Create a close button
 	self.navigationItem.leftBarButtonItem = 
@@ -49,7 +49,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    [tableView reloadData];
+    [self.tradeTableView reloadData];
 }
 
 - (IBAction)backButtonTouchAction: (id) sender{

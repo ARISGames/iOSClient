@@ -12,14 +12,14 @@
 #import "Item.h"
 
 @interface InventoryTradeViewController : UIViewController {
-	UITableView *tableView;
+	UITableView *tradeTableView;
 	NSMutableArray *inventory;
     NSMutableArray *itemsToTrade;
 	NSMutableArray *iconCache;
     NSMutableArray *mediaCache;
 }
 
-@property(nonatomic) IBOutlet UITableView *tableView;
+@property(nonatomic) IBOutlet UITableView *tradeTableView;
 @property(nonatomic) NSMutableArray *inventory;
 @property(nonatomic) NSMutableArray *itemsToTrade;
 @property(nonatomic) NSMutableArray *iconCache;

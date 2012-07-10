@@ -20,6 +20,7 @@
 @synthesize inventory;
 @synthesize iconCache;
 @synthesize mediaCache;
+@synthesize tradeButton;
 @synthesize capBar;
 @synthesize capLabel;
 @synthesize weightCap, currentWeight;
@@ -215,7 +216,6 @@
                                                   ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
     self.inventory = [self.inventory sortedArrayUsingDescriptors:sortDescriptors];
-
 	
 }
 
