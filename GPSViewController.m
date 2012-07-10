@@ -204,11 +204,6 @@ static float INITIAL_SPAN = 0.001;
 	if (refreshTimer != nil && [refreshTimer isValid]) [refreshTimer invalidate];
 	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
     
-    // step through visible annotations and wiggle them if wiggleable
-    for (Annotation* ann in [mapView annotations]) {
-        AnnotationView *av = (AnnotationView *)[self mapView:mapView viewForAnnotation:ann];
-        //[av startWiggling];
-    } 
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

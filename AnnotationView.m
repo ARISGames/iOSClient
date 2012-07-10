@@ -141,29 +141,6 @@
         [self performSelector:@selector(setNeedsDisplay) withObject:nil afterDelay:WIGGLE_FRAMELENGTH];
     }
 }	
- 
-- (void) startWiggling
-{
-    if (self.shouldWiggle == YES) { 
-        [UIView animateWithDuration:0.20 delay:0.0 options:UIViewAnimationCurveEaseInOut animations:^{
-            [self.iconView setFrame:CGRectMake(self.iconView.frame.origin.x, self.iconView.frame.origin.y-(WIGGLE_DISTANCE/2), self.iconView.frame.size.width, self.iconView.frame.size.height)];
-        } completion:^(BOOL finished) { if(finished) [self wiggle]; }];
-        [UIView commitAnimations];
-    }
-}
-
-- (void) wiggle {
-    [UIView animateWithDuration:0.45 delay:0.0 options:UIViewAnimationCurveEaseInOut animations:^{
-        [self.iconView setFrame:CGRectMake(self.iconView.frame.origin.x, self.iconView.frame.origin.y+WIGGLE_DISTANCE, self.iconView.frame.size.width, self.iconView.frame.size.height)];
-    } completion:^(BOOL finished) {
-        if (finished)
-            [UIView animateWithDuration:0.45 delay:0.0 options:UIViewAnimationCurveEaseInOut animations:^{
-                [self.iconView setFrame:CGRectMake(self.iconView.frame.origin.x, self.iconView.frame.origin.y-WIGGLE_DISTANCE, self.iconView.frame.size.width, self.iconView.frame.size.height)];
-            } completion:^(BOOL finished) {if (finished) [self wiggle]; }];
-    }];
-    [UIView commitAnimations];
-
-}
 
 
 
