@@ -53,7 +53,6 @@ static float INITIAL_SPAN = 0.001;
 		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewLocationListReady" object:nil];
 		[dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
 	}
-	
     return self;
 }
 
@@ -95,8 +94,8 @@ static float INITIAL_SPAN = 0.001;
     
 	//Rerfresh all contents
 	[self refresh];
-    
 }
+
 -(void)playerButtonTouch{
     [AppModel sharedAppModel].hidePlayers = ![AppModel sharedAppModel].hidePlayers;
     if([AppModel sharedAppModel].hidePlayers){
@@ -166,7 +165,6 @@ static float INITIAL_SPAN = 0.001;
 	//[[AppServices sharedAppServices] forceUpdateOnNextLocationListFetch];
     
     [self refresh];	
-	
     
 	NSLog(@"GPSViewController: View Loaded");
 }
@@ -294,27 +292,27 @@ static float INITIAL_SPAN = 0.001;
                 if(![testAnnotation.title isEqualToString:@"Current Location"] ){
                     annotation = (Annotation *)testAnnotation;
                     if([annotation.location respondsToSelector:@selector(hasBeenViewed)]){
-                    if([appDelegate.tabBarController.selectedViewController.title isEqualToString:@"Map"]) {
-                        annotation.location.hasBeenViewed = YES;
-                    }
-                    else{
-                        if(!annotation.location.hasBeenViewed){
-                            newItemsSinceLastView++;
+                        if([appDelegate.tabBarController.selectedViewController.title isEqualToString:@"Map"]) {
+                            annotation.location.hasBeenViewed = YES;
+                        }
+                        else{
+                            if(!annotation.location.hasBeenViewed){
+                                newItemsSinceLastView++;
+                            }
+                        }
+                        for (int j = 0; j < [newLocationsArray count]; j++) {
+                            Location *newLocation = [newLocationsArray objectAtIndex:j];
+                            if ([annotation.location compareTo:newLocation]){
+                                [newLocationsArray removeObjectAtIndex:j];
+                                j--;
+                                match = YES;
+                            }	
+                        }
+                        if(!match){
+                            [mapView removeAnnotation:annotation];
+                            i--;
                         }
                     }
-                    for (int j = 0; j < [newLocationsArray count]; j++) {
-                        Location *newLocation = [newLocationsArray objectAtIndex:j];
-                        if ([annotation.location compareTo:newLocation]){
-                            [newLocationsArray removeObjectAtIndex:j];
-                            j--;
-                            match = YES;
-                        }	
-                    }
-                    if(!match){
-                        [mapView removeAnnotation:annotation];
-                        i--;
-                    }
-                }
                 }
             }
             
@@ -360,9 +358,9 @@ static float INITIAL_SPAN = 0.001;
 			if (location.kind == NearbyObjectItem && location.qty > 1 && annotation.title != nil) 
 				annotation.subtitle = [NSString stringWithFormat:@"x %d",location.qty];
 			annotation.iconMediaId = location.iconMediaId;
-
+            
 			[mapView addAnnotation:annotation];
-                
+            
 			if (!mapView) {
 				NSLog(@"GPSViewController: Just added an annotation to a null mapview!");
 			}
@@ -534,7 +532,6 @@ static float INITIAL_SPAN = 0.001;
         [currentAnnotation.location display];
         [mapView deselectAnnotation:currentAnnotation animated:YES];
     }
-    
 }
 
 
