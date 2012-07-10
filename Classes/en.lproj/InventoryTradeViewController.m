@@ -79,10 +79,9 @@
     NSMutableArray *tempCopy = [[[AppModel sharedAppModel].inventory allValues] mutableCopy];
     NSMutableArray *inventoryAlloc = [[NSMutableArray alloc] init];
 	self.inventory = inventoryAlloc;
-    for(int i = 0; i < [[[AppModel sharedAppModel].inventory allValues] count]; i++){
-        NSLog(@"%d", i);
+    for(int i = 0; i < [tempCopy count]; i++){
         [self.inventory addObject:[((Item *)[tempCopy objectAtIndex:i]) copyItem]];
-    }
+    } 
     NSMutableArray *itemsToTradeAlloc = [[NSMutableArray alloc] init];
     self.itemsToTrade = itemsToTradeAlloc;
     [self.tradeTableView reloadData];
@@ -183,24 +182,16 @@
     
 	NSString *CellIdentifier = [NSString stringWithFormat: @"Cell%d%d",indexPath.section,indexPath.row];
     UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-
+    
 	if(cell == nil) cell = [self getCellContentView:CellIdentifier];
     
     cell.textLabel.backgroundColor = [UIColor clearColor]; 
     cell.detailTextLabel.backgroundColor = [UIColor clearColor]; 
     
-    if (indexPath.row % 2 == 0){  
-        cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0  
-                                                           green:233.0/255.0  
-                                                            blue:233.0/255.0  
-                                                           alpha:1.0];  
-    } 
-    else {  
-        cell.contentView.backgroundColor = [UIColor colorWithRed:200.0/255.0  
-                                                           green:200.0/255.0  
-                                                            blue:200.0/255.0  
-                                                           alpha:1.0];  
-    } 
+    cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0  
+                                                       green:233.0/255.0  
+                                                        blue:233.0/255.0  
+                                                       alpha:1.0];  
 	Item *item;
 	if(indexPath.section == 0) item = [self.itemsToTrade objectAtIndex: [indexPath row]];
 	else item = [self.inventory objectAtIndex: [indexPath row]];
@@ -288,40 +279,36 @@
                              }];
         
         if (result == NSNotFound){
-            selectedItem.qty = 1;
-            [self.inventory addObject:selectedItem];
+            Item *itemCopy = [selectedItem copyItem];
+            itemCopy.qty = 1;
+            [self.inventory addObject:itemCopy];
         }
         else ((Item *)[self.inventory objectAtIndex:result]).qty++;
-        
-   //     [self.tradeTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
-      //  [self.tradeTableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
     }
     
     else{
         Item *selectedItem = [self.inventory objectAtIndex:[indexPath row]];
         if(((Item *)[self.inventory objectAtIndex:[indexPath row]]).qty > 1) ((Item *)[self.inventory objectAtIndex:[indexPath row]]).qty--;
         else [self.inventory removeObjectAtIndex:[indexPath row]];
-            
-            NSUInteger result = [self.itemsToTrade indexOfObjectPassingTest:
-                                 ^ (id arrayItem, NSUInteger idx, BOOL *stop)
-                                 {   
-                                     if (((Item *)arrayItem).itemId == selectedItem.itemId) {
-                                         return YES;
-                                     }
-                                     else
-                                         return NO;
-                                 }];
+        
+        NSUInteger result = [self.itemsToTrade indexOfObjectPassingTest:
+                             ^ (id arrayItem, NSUInteger idx, BOOL *stop)
+                             {   
+                                 if (((Item *)arrayItem).itemId == selectedItem.itemId) {
+                                     return YES;
+                                 }
+                                 else
+                                     return NO;
+                             }];
         
         if (result == NSNotFound){
-            selectedItem.qty = 1;
-            [self.itemsToTrade addObject:selectedItem];
+            Item *itemCopy = [selectedItem copyItem];
+            itemCopy.qty = 1;
+            [self.itemsToTrade addObject:itemCopy];
         }
         else ((Item *)[self.itemsToTrade objectAtIndex:result]).qty++;
-        
-       // [self.tradeTableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
-    //    [self.tradeTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
     }
-  //  [self.tradeTableView reloadData];
+    
     [self.tradeTableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange (0, 2)] withRowAnimation:UITableViewRowAnimationFade];
     
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
