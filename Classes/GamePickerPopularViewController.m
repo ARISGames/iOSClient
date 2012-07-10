@@ -34,6 +34,9 @@
         self.tabBarItem.image = [UIImage imageNamed:@"85-trophy"];
         timeControl.enabled = YES;
         timeControl.alpha = 1; 
+        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+        [dispatcher addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];
+        [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil]; 
     }
     return self;
 }
@@ -69,13 +72,21 @@
     //Calculate the time distance filer control value
     int time = timeControl.selectedSegmentIndex;
 
+    if([AppModel sharedAppModel].playerLocation){
     //register for notifications
     NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+    [dispatcher addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];
     [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewGameListReady" object:nil];
     [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil]; 
         
     if ([[AppModel sharedAppModel] loggedIn]) [[AppServices sharedAppServices] fetchPopularGameListForTime:time];
     [self showLoadingIndicator];
+    }
+ /*   else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NoLocationTitleKey", @"") message:NSLocalizedString(@"NoLocationMessageKey", @"") delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
+        
+        [alert show];  
+    } */
 }
 
 - (void)didReceiveMemoryWarning {

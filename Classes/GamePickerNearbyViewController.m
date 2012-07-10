@@ -122,6 +122,11 @@
         if ([[AppModel sharedAppModel] loggedIn]) [[AppServices sharedAppServices] fetchGameListWithDistanceFilter:distanceFilter locational:locational];
         [self showLoadingIndicator];
     }
+ /*   else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NoLocationTitleKey", @"") message:NSLocalizedString(@"NoLocationMessageKey", @"") delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
+        
+        [alert show];  
+    }*/
 }
 
 - (void)didReceiveMemoryWarning {
