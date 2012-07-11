@@ -18,14 +18,18 @@
 @synthesize mediaCache;
 
 - (void) configureBump {
-    [BumpClient configureWithAPIKey:@"4ff1c7a0c2a84bb9938dafc3a1ac770cy" andUserID:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId]];
+    [BumpClient configureWithAPIKey:@"4ff1c7a0c2a84bb9938dafc3a1ac770c" andUserID:[[UIDevice currentDevice] name]];
     
     [[BumpClient sharedClient] setMatchBlock:^(BumpChannelID channel) { 
         NSLog(@"Matched with user: %@", [[BumpClient sharedClient] userIDForChannel:channel]); 
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bump Debug" message:[NSString stringWithFormat:@"Matched with user: %@", [[BumpClient sharedClient] userIDForChannel:channel]] delegate:self cancelButtonTitle:@"Kthxbi" otherButtonTitles: nil];
+        [alert show];
         [[BumpClient sharedClient] confirmMatch:YES onChannel:channel];
     }];
     
     [[BumpClient sharedClient] setChannelConfirmedBlock:^(BumpChannelID channel) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bump Debug" message:[NSString stringWithFormat:@"Channel with %@ confirmed.", [[BumpClient sharedClient] userIDForChannel:channel]] delegate:nil cancelButtonTitle:@"Kthxbi" otherButtonTitles: nil];
+        [alert show];
         NSLog(@"Channel with %@ confirmed.", [[BumpClient sharedClient] userIDForChannel:channel]);
         [[BumpClient sharedClient] sendData:[[NSString stringWithFormat:@"Hello, world!"] dataUsingEncoding:NSUTF8StringEncoding]
                                   toChannel:channel];
@@ -40,18 +44,30 @@
     [[BumpClient sharedClient] setConnectionStateChangedBlock:^(BOOL connected) {
         if (connected) {
             NSLog(@"Bump connected...");
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bump Debug" message:@"BumpConnected" delegate:nil cancelButtonTitle:@"Kthxbi" otherButtonTitles: nil];
+            [alert show];
         } else {
             NSLog(@"Bump disconnected...");
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bump Debug" message:@"BumpDisconnected" delegate:nil cancelButtonTitle:@"Kthxbi" otherButtonTitles: nil];
+            [alert show];
         }
     }];
     
     [[BumpClient sharedClient] setBumpEventBlock:^(bump_event event) {
+        if(event == BUMP_EVENT_BUMP)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bump Debug" message:@"Bump Detected!" delegate:nil cancelButtonTitle:@"Kthxbi" otherButtonTitles: nil];
+            [alert show];
+        }
         switch(event) {
             case BUMP_EVENT_BUMP:
                 NSLog(@"Bump detected.");
+                
                 break;
             case BUMP_EVENT_NO_MATCH:
                 NSLog(@"No match.");
+                UIAlertView *alert2 = [[UIAlertView alloc] initWithTitle:@"Bump Debug" message:@"Bump Detected- No Match!" delegate:nil cancelButtonTitle:@"Kthxbi" otherButtonTitles: nil];
+                [alert2 show];
                 break;
         }
     }];

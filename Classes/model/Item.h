@@ -55,9 +55,7 @@
 
 @property (nonatomic) NSString *url;
 
-
 - (void) display;
 - (Item *)   copyItem;
-
 
 @end
