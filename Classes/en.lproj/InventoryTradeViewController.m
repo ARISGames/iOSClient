@@ -33,8 +33,6 @@
     }];
     
     [[BumpClient sharedClient] setDataReceivedBlock:^(BumpChannelID channel, NSData *data) {
-        //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Got Stuff!" message:[NSString stringWithCString:[data bytes] encoding:NSUTF8StringEncoding] delegate:nil cancelButtonTitle:@"K" otherButtonTitles:nil];
-        //[alert show];
         int theirGameId;
         int gameIdStartPos;
         int gameIdEndPos;
@@ -48,19 +46,18 @@
         charFinder = [receipt rangeOfString:@"\"gameId\":"];
         if(charFinder.location != NSNotFound)
         {
-            gameIdStartPos = charFinder.location+9+1;
+            gameIdStartPos = charFinder.location+9;
             charFinder = [[receipt substringFromIndex:gameIdStartPos] rangeOfString:@","];
-            gameIdEndPos = charFinder.location;
+            gameIdEndPos = gameIdStartPos+charFinder.location+1;
             
             charFinder = [receipt rangeOfString:@"\"playerId\":"];
-            playerIdStartPos = charFinder.location+11+1;
+            playerIdStartPos = charFinder.location+11;
             charFinder = [[receipt substringFromIndex:gameIdStartPos] rangeOfString:@","];
-            playerIdEndPos = charFinder.location;
+            playerIdEndPos = playerIdStartPos+charFinder.location+1;
             
             theirGameId = [[receipt substringWithRange:NSMakeRange(gameIdStartPos,gameIdEndPos-gameIdStartPos)] intValue];
+            theirPlayerId = [[receipt substringWithRange:NSMakeRange(playerIdStartPos,playerIdEndPos-playerIdStartPos)] intValue];
             
-            NSLog(@"Found GameID:%d Found PlayerID:%d",theirGameId,theirPlayerId);
-
             if(theirGameId == [AppModel sharedAppModel].currentGame.gameId)
             {
                 if(theirPlayerId > [AppModel sharedAppModel].playerId)
@@ -73,6 +70,7 @@
                     //Do nothing- let lowest playerId Commit trade.
                     ; 
                 }
+                [self goBackToInventory];
             }
             else
             {
@@ -82,12 +80,9 @@
         }
         else
         {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bump Error" message:@"An error occurred." delegate:nil cancelButtonTitle:@"K" otherButtonTitles:nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bump Error" message:@"An error occurred." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
             [alert show];
         }
-        //NSLog(@"Data received from %@: %@", 
-              //[[BumpClient sharedClient] userIDForChannel:channel], 
-              //[NSString stringWithCString:[data bytes] encoding:NSUTF8StringEncoding]);
     }];
     
     [[BumpClient sharedClient] setConnectionStateChangedBlock:^(BOOL connected) {
@@ -107,6 +102,8 @@
                 break;
             case BUMP_EVENT_NO_MATCH:
                 NSLog(@"No match.");
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bump Failed" message:@"No trader was found" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+                [alert show];
                 break;
         }
     }];
@@ -154,14 +151,20 @@
     [self.tradeTableView reloadData];
 }
 
-- (IBAction)backButtonTouchAction: (id) sender{
-	NSLog(@"ItemTradeViewController: Dismiss Item Trade View");
-	
-	[self.navigationController popToRootViewControllerAnimated:YES];
+- (void)goBackToInventory
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.modalPresent=NO;
-    [appDelegate dismissNearbyObjectView:self];		
+    [appDelegate dismissNearbyObjectView:self];	
 }
+
+- (IBAction)backButtonTouchAction: (id) sender{
+	NSLog(@"ItemTradeViewController: Dismiss Item Trade View");
+	[self goBackToInventory];	
+}
+
+
 
 - (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier {
 	CGRect CellFrame = CGRectMake(0, 0, 320, 60);
