@@ -367,6 +367,8 @@
 		DB72A2C715A7B0C700A04B4C /* GamePickerNearbyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB72A2C915A7B0C700A04B4C /* GamePickerNearbyViewController.xib */; };
 		DB72A2CC15A7B1A200A04B4C /* NotebookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB72A2CE15A7B1A200A04B4C /* NotebookViewController.xib */; };
 		DBBCE9E115937704006994F9 /* DefaultPCImage.png in Resources */ = {isa = PBXBuildFile; fileRef = DBBCE9E015937704006994F9 /* DefaultPCImage.png */; };
+		DBC3441315ADEED200FA902F /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC3441115ADEED200FA902F /* RootViewController.m */; };
+		DBC3441415ADEED200FA902F /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DBC3441215ADEED200FA902F /* RootViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -959,6 +961,9 @@
 		DB72A2CF15A7B1AB00A04B4C /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/NotebookViewController.xib; sourceTree = "<group>"; };
 		DB72A2D015A7B1AE00A04B4C /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/NotebookViewController.xib; sourceTree = "<group>"; };
 		DBBCE9E015937704006994F9 /* DefaultPCImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultPCImage.png; sourceTree = "<group>"; };
+		DBC3441015ADEED200FA902F /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewController.h; path = Classes/RootViewController.h; sourceTree = "<group>"; };
+		DBC3441115ADEED200FA902F /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RootViewController.m; path = Classes/RootViewController.m; sourceTree = "<group>"; };
+		DBC3441215ADEED200FA902F /* RootViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RootViewController.xib; path = Classes/RootViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1295,6 +1300,9 @@
 		29B97314FDCFA39411CA2CEA /* ARIS */ = {
 			isa = PBXGroup;
 			children = (
+				DBC3441015ADEED200FA902F /* RootViewController.h */,
+				DBC3441115ADEED200FA902F /* RootViewController.m */,
+				DBC3441215ADEED200FA902F /* RootViewController.xib */,
 				ABAFBAC9145A0B8D0044491C /* GPX Locations */,
 				AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */,
 				AB0A5BA3120365420065CE68 /* Localizable.strings */,
@@ -2284,6 +2292,7 @@
 				AB628B881578322500557BB1 /* 213-reply@2x.png in Resources */,
 				DBBCE9E115937704006994F9 /* DefaultPCImage.png in Resources */,
 				DB4C160E15A7B418005EF91B /* GamePickerPopularViewController.xib in Resources */,
+				DBC3441415ADEED200FA902F /* RootViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2479,6 +2488,7 @@
 				3AA83346159E3FF3002CC61D /* TileOverlayView.m in Sources */,
 				3AA83349159E4029002CC61D /* Overlay.m in Sources */,
 				DB17C60915A3A921001F7A10 /* GamePickerPopularViewController.m in Sources */,
+				DBC3441315ADEED200FA902F /* RootViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -93,8 +93,7 @@ NSString *const kDialogHtmlTemplate =
 - (void)viewDidLoad {
 	[super viewDidLoad];
 		
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    appDelegate.modalPresent = YES;
+    [RootViewController sharedRootViewController].modalPresent = YES;
 	//General Setup
 	lastPcId = 0;
 	currentNode = nil;
@@ -210,8 +209,7 @@ NSString *const kDialogHtmlTemplate =
     self.areNotifications = YES;
   //  self.tempNpcFrame = self.npcImageScrollView.frame;
     self.tempPcFrame =  self.pcImageScrollView.frame;
-    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    self.notificationBarHeight = appDelegate.notificationBarHeight;
+    self.notificationBarHeight = [RootViewController sharedRootViewController].notificationBarHeight;
     CGRect newTextFrame;
     newTextFrame = CGRectMake(0, 44+self.notificationBarHeight, 320, 416);
     [UIView beginAnimations:@"toggleTextSize" context:nil];
@@ -290,10 +288,8 @@ NSString *const kDialogHtmlTemplate =
 - (IBAction)backButtonTouchAction: (id) sender{
 	NSLog(@"DialogViewController: Notify server of NPC view and Dismiss view");
 	
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    appDelegate.modalPresent = NO;
-	[appDelegate dismissNearbyObjectView:self];
-
+    [RootViewController sharedRootViewController].modalPresent = NO;
+	[[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
 }
 
 - (IBAction)continueButtonTouchAction{
@@ -439,14 +435,13 @@ NSString *const kDialogHtmlTemplate =
 	}
 	else { 	//End of Script. Display Player Options
         NSLog(@"DialogVC: continueScript: No more scenes left. Checking for exitTo tags before loading options");
-
-        ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];        
+  
         if(cachedScene.exitToTabWithTitle) self.exitToTabVal = cachedScene.exitToTabWithTitle;
         
         //Check if this is a closing script or we are shutting down
         if(self.closingScriptPlaying==YES || (self.exitToTabVal != nil)) {
-            appDelegate.modalPresent = NO;
-            [appDelegate dismissNearbyObjectView:self];
+            [RootViewController sharedRootViewController].modalPresent = NO;
+            [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
             [[AppServices sharedAppServices] updateServerNodeViewed:self.currentNode.nodeId fromLocation:self.currentNode.locationId];
         }
         
@@ -455,43 +450,43 @@ NSString *const kDialogHtmlTemplate =
             //TODO: Move this code into an app delegate method
             if([cachedScene.exitToType isEqualToString:@"tab"]){
                 NSString *tab;
-                for(int i = 0;i < [appDelegate.tabBarController.viewControllers count];i++){
-                    tab = [[appDelegate.tabBarController.viewControllers objectAtIndex:i] title];
+                for(int i = 0;i < [[RootViewController sharedRootViewController].tabBarController.viewControllers count];i++){
+                    tab = [[[RootViewController sharedRootViewController].tabBarController.viewControllers objectAtIndex:i] title];
                     tab = [tab lowercaseString];
                     self.exitToTabVal = [self.exitToTabVal lowercaseString];
                     if([self.exitToTabVal isEqualToString:tab]) {
-                        appDelegate.tabBarController.selectedIndex = i;
+                        [RootViewController sharedRootViewController].tabBarController.selectedIndex = i;
                     }
                 }
             }
             else if([cachedScene.exitToType isEqualToString:@"plaque"]){
                 NodeViewController *nodeVC = [[NodeViewController alloc]initWithNibName:@"Node" bundle:[NSBundle mainBundle]];
                 nodeVC.node = [[AppModel sharedAppModel] nodeForNodeId:[cachedScene.exitToTabWithTitle intValue]];
-                [appDelegate displayNearbyObjectView:nodeVC];
+                [[RootViewController sharedRootViewController]displayNearbyObjectView:nodeVC];
      
             }
             else if([cachedScene.exitToType isEqualToString:@"webpage"]){
                 webpageViewController *webPageViewController = [[webpageViewController alloc] initWithNibName:@"webpageViewController" bundle: [NSBundle mainBundle]];
                 webPageViewController.webPage = [[AppModel sharedAppModel] webPageForWebPageID:[cachedScene.exitToTabWithTitle intValue]];
                 webPageViewController.delegate = self;
-                [appDelegate displayNearbyObjectView:webPageViewController];
+                [[RootViewController sharedRootViewController] displayNearbyObjectView:webPageViewController];
                 
             }
             else if([cachedScene.exitToType isEqualToString:@"item"]){
                 ItemDetailsViewController *itemVC = [[ItemDetailsViewController alloc]initWithNibName:@"ItemDetailsView" bundle:[NSBundle mainBundle]];
                 itemVC.item = [[AppModel sharedAppModel] itemForItemId:[cachedScene.exitToTabWithTitle intValue]];                
-                [appDelegate displayNearbyObjectView:itemVC];
+                [[RootViewController sharedRootViewController] displayNearbyObjectView:itemVC];
             }
             else if([cachedScene.exitToType isEqualToString:@"character"]){
                 DialogViewController *dialogVC = [[DialogViewController alloc] initWithNibName:@"Dialog" bundle:[NSBundle mainBundle]];
                 [dialogVC beginWithNPC:[[AppModel sharedAppModel] npcForNpcId:[cachedScene.exitToTabWithTitle intValue]]];
-                [appDelegate displayNearbyObjectView:dialogVC];
+                [[RootViewController sharedRootViewController] displayNearbyObjectView:dialogVC];
             }
             else if([cachedScene.exitToType isEqualToString:@"panoramic"]){
                 Panoramic *pano = [[AppModel sharedAppModel] panoramicForPanoramicId:[cachedScene.exitToTabWithTitle intValue]];
                 PanoramicViewController *panoramicViewController = [[PanoramicViewController alloc] initWithNibName:@"PanoramicViewController" bundle: [NSBundle mainBundle]];    
                 panoramicViewController.panoramic = pano;
-                [appDelegate displayNearbyObjectView:panoramicViewController];
+                [[RootViewController sharedRootViewController] displayNearbyObjectView:panoramicViewController];
             }
         }
         else{

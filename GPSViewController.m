@@ -208,8 +208,7 @@ static float INITIAL_SPAN = 0.001;
 }
 
 -(void)dismissTutorial{
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate.tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindMapTab];
+	[[RootViewController sharedRootViewController].tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindMapTab];
 }
 
 // Updates the map to current data for player and locations from the server
@@ -272,7 +271,6 @@ static float INITIAL_SPAN = 0.001;
     if (mapView) {
         NSMutableArray *newLocationsArray;
         Annotation *annotation;
-        ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
         NSLog(@"GPSViewController: Refreshing view from model");
         
         NSLog(@"GPSViewController: refreshViewFromModel: silenceNextServerUpdateCount = %d", silenceNextServerUpdateCount);
@@ -287,7 +285,7 @@ static float INITIAL_SPAN = 0.001;
                 if(![testAnnotation.title isEqualToString:@"Current Location"] ){
                     annotation = (Annotation *)testAnnotation;
                     if([annotation.location respondsToSelector:@selector(hasBeenViewed)]){
-                        if([appDelegate.tabBarController.selectedViewController.title isEqualToString:@"Map"]) {
+                        if([[RootViewController sharedRootViewController].tabBarController.selectedViewController.title isEqualToString:@"Map"]) {
                             annotation.location.hasBeenViewed = YES;
                         }
                         else{
@@ -311,14 +309,13 @@ static float INITIAL_SPAN = 0.001;
                 }
             }
             
-            if (newItemsSinceLastView > 0 && ![appDelegate.tabBarController.selectedViewController.title isEqualToString:@"Map"]) 
+            if (newItemsSinceLastView > 0 && ![[RootViewController sharedRootViewController].tabBarController.selectedViewController.title isEqualToString:@"Map"]) 
             {
                 self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
                 if (![AppModel sharedAppModel].hasSeenMapTabTutorial) 
                 {
                     //Put up the tutorial tab
-                    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-                    [appDelegate.tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController 
+                    [[RootViewController sharedRootViewController].tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController 
                                                                                                    type:tutorialPopupKindMapTab 
                                                                                                   title:@"New GPS Location" 
                                                                                                 message:@"You have a new place of interest on your GPS! Touch below to view the Map."];
@@ -381,6 +378,16 @@ static float INITIAL_SPAN = 0.001;
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
+    //self.interfaceOrientation
+    if(toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation == UIInterfaceOrientationLandscapeRight) self.mapView.transform = CGAffineTransformMakeRotation(degreesToRadians(-90));
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    return (interfaceOrientation == UIInterfaceOrientationPortrait || interfaceOrientation == UIInterfaceOrientationLandscapeLeft || interfaceOrientation == UIInterfaceOrientationLandscapeRight);
+}
+
 
 -(UIImage *)addTitle:(NSString *)imageTitle quantity:(int)quantity toImage:(UIImage *)img {
     //I don't think this ever gets called... Might be depricated in favor of AnnotationView.drawRect. Then again, might not. just FYI. Phil 7/6/12

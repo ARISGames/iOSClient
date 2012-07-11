@@ -40,17 +40,12 @@
 
 - (void) display{
 	NSLog(@"WebPage: Display Self Requested");
-	
-	//Create a reference to the delegate using the application singleton.
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-    
 
         //open up note viewer
         NoteDetailsViewController *dataVC = [[NoteDetailsViewController alloc] initWithNibName:@"NoteDetailsViewController" bundle:nil];
         dataVC.note = self;
         dataVC.delegate = self;
-    [appDelegate displayNearbyObjectView:dataVC];
-
+    [[RootViewController sharedRootViewController] displayNearbyObjectView:dataVC];
 
 }
 

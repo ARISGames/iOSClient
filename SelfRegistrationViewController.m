@@ -48,7 +48,7 @@
  
 
 - (IBAction)submitButtonTouched: (id) sender{
-	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showNewWaitingIndicator:@"Creating a New User" displayProgressBar:NO];
+	[[RootViewController sharedRootViewController] showNewWaitingIndicator:@"Creating a New User" displayProgressBar:NO];
 
 	[[AppServices sharedAppServices] registerNewUser:self.userName.text password:self.password.text 
 					firstName:@"" lastName:@"" email:self.email.text]; 
@@ -58,7 +58,7 @@
 -(void)selfRegistrationFailure{
 	NSLog(@"SelfRegistration: Unsuccessfull registration attempt, check network before giving an alert");
 
-	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeNewWaitingIndicator];
+	[[RootViewController sharedRootViewController] removeNewWaitingIndicator];
 	
 	if ([AppModel sharedAppModel].networkAlert) NSLog(@"SelfRegistration: Network is down, skip alert");
 	else{
@@ -75,7 +75,7 @@
 -(void)selfRegistrationSuccess{
 	NSLog(@"SelfRegistration: New User Created Successfully");
 	
-	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeNewWaitingIndicator];
+	[[RootViewController sharedRootViewController] removeNewWaitingIndicator];
 
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"StartOverResetAlertTitleKey", @"")  
                                                     message:NSLocalizedString(@"SelfRegistrationSuccessMessageKey", @"")

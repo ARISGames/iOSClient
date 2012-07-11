@@ -68,8 +68,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     
     NSLog(@"NodeViewController: Displaying Node '%@'",self.node.name);
     self.title = self.node.name;
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    appDelegate.modalPresent = YES;
+    [RootViewController sharedRootViewController].modalPresent = YES;
     
     
     //Setup the Image View/Video Preview Image (if needed)
@@ -227,9 +226,8 @@ navigationType:(UIWebViewNavigationType)navigationType{
 	
 	
 	//[self.view removeFromSuperview];
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    appDelegate.modalPresent=NO;
-    [appDelegate dismissNearbyObjectView:self];
+    [RootViewController sharedRootViewController].modalPresent=NO;
+    [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
     
 }
 
@@ -240,22 +238,19 @@ navigationType:(UIWebViewNavigationType)navigationType{
 	[[AppServices sharedAppServices] updateServerNodeViewed:node.nodeId fromLocation:node.locationId];
 	
     //Remove thyself from the screen
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    appDelegate.modalPresent=NO;
-    [appDelegate dismissNearbyObjectView:self];    
+    [RootViewController sharedRootViewController].modalPresent=NO;
+    [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];    
     //Check if this was the game complete Node and if so, display the "Start Over" tab
     if((node.nodeId == [AppModel sharedAppModel].currentGame.completeNodeId) && 
        ([AppModel sharedAppModel].currentGame.completeNodeId != 0)){
         
-        ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-        
         NSString *tab;
-        for(int i = 0;i < [appDelegate.tabBarController.customizableViewControllers count];i++){
-            tab = [[appDelegate.tabBarController.customizableViewControllers objectAtIndex:i] title];
+        for(int i = 0;i < [[RootViewController sharedRootViewController].tabBarController.customizableViewControllers count];i++){
+            tab = [[[RootViewController sharedRootViewController].tabBarController.customizableViewControllers objectAtIndex:i] title];
             tab = [tab lowercaseString];
             
             if([tab isEqualToString:@"start over"])
-                appDelegate.tabBarController.selectedIndex = i;
+                [RootViewController sharedRootViewController].tabBarController.selectedIndex = i;
         }
     }
         

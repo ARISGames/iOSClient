@@ -7,7 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RootViewController.h"
 #import "AppModel.h"
+#import "MyCLController.h"
+#import "Location.h"
 #import "Game.h"
 #import "Tab.h"
 #import "Item.h"
@@ -149,8 +152,8 @@ extern NSString *const kARISServerServicePackage;
 - (void)parseRecentGameListFromJSON: (JSONResult *)jsonResult;
 - (void)parseGameTagsListFromJSON: (JSONResult *)jsonResult;
 
-- (Location*)parseLocationFromDictionary: (NSDictionary *)locationDictionary;
-- (Item *)parseItemFromDictionary: (NSDictionary *)itemDictionary;
+- (Location *)parseLocationFromDictionary:(NSDictionary *)locationDictionary;
+- (Item *)parseItemFromDictionary:(NSDictionary *)itemDictionary;
 - (Node *)parseNodeFromDictionary: (NSDictionary *)nodeDictionary;
 - (Npc *)parseNpcFromDictionary: (NSDictionary *)npcDictionary;
 - (WebPage *)parseWebPageFromDictionary: (NSDictionary *)webPageDictionary;

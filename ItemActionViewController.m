@@ -84,9 +84,8 @@
 	
 	
 	[self.navigationController popToRootViewControllerAnimated:YES];
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    appDelegate.modalPresent=NO;
-    [appDelegate dismissNearbyObjectView:self];	
+    [RootViewController sharedRootViewController].modalPresent=NO;
+    [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];	
 }
 -(void)viewDidAppear:(BOOL)animated{
     self.badValLabel.hidden = YES;
@@ -127,9 +126,8 @@
 - (IBAction)actionButtonTouchAction:(id)sender{
     [self doActionWithMode:self.mode quantity:self.numItems];
     [self.navigationController popToRootViewControllerAnimated:YES];
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    appDelegate.modalPresent=NO;
-    [appDelegate dismissNearbyObjectView:self];
+    [RootViewController sharedRootViewController].modalPresent=NO;
+    [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
     [delegate updateQuantityDisplay];
 }
 
@@ -261,9 +259,8 @@
 	//Possibly Dismiss Item Details View
 	if (item.qty < 1) {
 		[self.navigationController popToRootViewControllerAnimated:YES];
-        ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-        appDelegate.modalPresent = NO;
-        [appDelegate dismissNearbyObjectView:self];
+        [RootViewController sharedRootViewController].modalPresent = NO;
+        [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
 	}
 	
     

@@ -43,8 +43,6 @@
 	NSLog(@"Item: Display Self Requested");
 	
 	//Create a reference to the delegate using the application singleton.
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-		
 	ItemDetailsViewController *itemDetailsViewController = [[ItemDetailsViewController alloc] 
 															initWithNibName:@"ItemDetailsView" bundle:[NSBundle mainBundle]];
 	itemDetailsViewController.item = self;
@@ -52,7 +50,7 @@
 	itemDetailsViewController.inInventory = NO;
 
 	//Have AppDelegate display
-	[appDelegate displayNearbyObjectView:itemDetailsViewController];
+	[[RootViewController sharedRootViewController] displayNearbyObjectView:itemDetailsViewController];
 	
 }
 

@@ -28,13 +28,10 @@
 
 - (void) display{
 	NSLog(@"Panoramic: Display Self Requested");
-	
-	//Create a reference to the delegate using the application singleton.
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
     
 	PanoramicViewController *panoramicViewController = [[PanoramicViewController alloc] initWithNibName:@"PanoramicViewController" bundle: [NSBundle mainBundle]];
 	panoramicViewController.panoramic = self;
-	[appDelegate displayNearbyObjectView:panoramicViewController];
+	[[RootViewController sharedRootViewController] displayNearbyObjectView:panoramicViewController];
 }
 
 

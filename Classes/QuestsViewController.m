@@ -108,8 +108,7 @@ NSString *const kQuestsHtmlTemplate =
 }
 
 -(void)dismissTutorial{
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate.tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindQuestsTab];
+	[[RootViewController sharedRootViewController].tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindQuestsTab];
 }
 
 - (void)refresh {
@@ -157,10 +156,10 @@ NSString *const kQuestsHtmlTemplate =
                 activeSort++;
                NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"QuestsViewNewQuestsKey", @""),@"title",quest.name,@"prompt", nil];
                 
-               [appDelegate.notifArray addObject:dict];
-                [appDelegate showNotifications];
+                [[RootViewController sharedRootViewController].notifArray addObject:dict];
+                [[RootViewController sharedRootViewController] showNotifications];
 
-                //[appDelegate performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
+                //[[RootViewController sharedRootViewController] performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
                 
 			}
 		}
@@ -177,10 +176,10 @@ NSString *const kQuestsHtmlTemplate =
 
                 NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"QuestsViewQuestCompletedKey", @""),@"title",quest.name,@"prompt", nil];
                 
-                [appDelegate.notifArray addObject:dict];
-                [appDelegate showNotifications];
+                [[RootViewController sharedRootViewController].notifArray addObject:dict];
+                [[RootViewController sharedRootViewController] showNotifications];
 
-                //[appDelegate performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
+                //[[RootViewController sharedRootViewController] performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
 
 			}
 		}
@@ -193,8 +192,7 @@ NSString *const kQuestsHtmlTemplate =
 			
 			if (![AppModel sharedAppModel].hasSeenQuestsTabTutorial){
 			//Put up the tutorial tab
-				ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-				[appDelegate.tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController 
+				[[RootViewController sharedRootViewController].tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController 
                         type:tutorialPopupKindQuestsTab 
                                 title:NSLocalizedString(@"QuestViewNewQuestKey", @"")
                                 message:NSLocalizedString(@"QuestViewNewQuestMessageKey", @"")];

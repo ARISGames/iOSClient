@@ -66,8 +66,7 @@
 
 -(void) updatePointerPosition{
 	NSLog(@"TutorialPopupView: updatePointerPosition");
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	int tabIndex = [appDelegate.tabBarController.viewControllers indexOfObject:self.associatedViewController];
+	int tabIndex = [[RootViewController sharedRootViewController].tabBarController.viewControllers indexOfObject:self.associatedViewController];
 	self.pointerXpos = 22.0 + tabIndex * self.superview.frame.size.width / 5;	
 	[self setNeedsDisplay];  
 }

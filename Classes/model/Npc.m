@@ -49,8 +49,7 @@
 	DialogViewController *dialogController = [[DialogViewController alloc] initWithNibName:@"Dialog"
 																					bundle:[NSBundle mainBundle]];
 	[dialogController beginWithNPC:self];
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-	[appDelegate displayNearbyObjectView:dialogController];
+	[[RootViewController sharedRootViewController] displayNearbyObjectView:dialogController];
 }
 
 

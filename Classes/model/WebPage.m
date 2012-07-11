@@ -29,13 +29,10 @@
 
 - (void) display{
 	NSLog(@"WebPage: Display Self Requested");
-	
-	//Create a reference to the delegate using the application singleton.
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
     
 	webpageViewController *webPageViewController = [[webpageViewController alloc] initWithNibName:@"webpageViewController" bundle: [NSBundle mainBundle]];
 	webPageViewController.webPage = self;
-	[appDelegate displayNearbyObjectView:webPageViewController];
+	[[RootViewController sharedRootViewController] displayNearbyObjectView:webPageViewController];
 }
 
 

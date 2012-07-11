@@ -103,9 +103,8 @@
 }
 -(void)backButtonTouch{
     NSLog(@"NoteDetialsViewController: backButtonTouch");
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    appDelegate.modalPresent=NO;
-    [appDelegate dismissNearbyObjectView:self];
+    [RootViewController sharedRootViewController].modalPresent=NO;
+    [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
 }
 -(void)editButtonTouched{
     NoteEditorViewController *noteVC = [[NoteEditorViewController alloc] initWithNibName:@"NoteEditorViewController" bundle:nil];

@@ -134,9 +134,8 @@
        [self.delegate isKindOfClass:[ItemDetailsViewController class]])
         [self.navigationController popToRootViewControllerAnimated:YES];
     else{
-        ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-        appDelegate.modalPresent=NO;
-        [appDelegate dismissNearbyObjectView:self];    
+        [RootViewController sharedRootViewController].modalPresent=NO;
+        [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];    
     }
 }
 
@@ -144,6 +143,9 @@
 #pragma mark ARIS/JavaScript Connections
 
 - (BOOL)webView:(UIWebView*)webViewFromMethod shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType { 
+    
+    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
     self.webView = webViewFromMethod;
     [self.webView stringByEvaluatingJavaScriptFromString: @"isCurrentlyCalling();"];
     
@@ -171,7 +173,7 @@
     
     if ([mainCommand isEqualToString:@"vibrate"]) {
         NSLog(@"WebPageVC: aris://vibrate/ called");
-        [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] vibrate];
+        [appDelegate vibrate];
         [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
         return NO; 
     } 
@@ -202,7 +204,7 @@
             int mediaId = [[components objectAtIndex:2] intValue];
             NSLog(@"WebPageVC: aris://media/playAndVibrate/ called from webpage with mediaId = %d",mediaId );
             [self playAudioFromMediaId:mediaId];
-            [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] vibrate];
+            [appDelegate vibrate];
             [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
             return NO; 
         }  

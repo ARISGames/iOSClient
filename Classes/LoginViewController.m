@@ -62,8 +62,7 @@
 -(IBAction)loginButtonTouched: (id) sender {
 	NSLog(@"Login: Login Button Touched");
 
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate attemptLoginWithUserName:usernameField.text andPassword:passwordField.text]; 
+	[[RootViewController sharedRootViewController] attemptLoginWithUserName:usernameField.text andPassword:passwordField.text]; 
     
 	[usernameField resignFirstResponder];
 	[passwordField resignFirstResponder];

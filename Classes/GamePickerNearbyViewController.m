@@ -65,7 +65,7 @@
  //PUSHER STUFF
  -(void)sendPusherEvent{
  //Do send event things
- ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+ ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
  PTPusherPrivateChannel *pChannel = (PTPusherPrivateChannel *)[appDelegate.privClient channelNamed:@"private-pusher_room_channel"];
  [pChannel triggerEventNamed:@"private-pusher_room_event" data:@"from the iPhone"];
  }

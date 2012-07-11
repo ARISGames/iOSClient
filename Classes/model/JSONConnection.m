@@ -78,18 +78,18 @@
     
     // Make synchronous request
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showNewWaitingIndicator: @"Loading" displayProgressBar:NO];
+	[[RootViewController sharedRootViewController] showNewWaitingIndicator: @"Loading" displayProgressBar:NO];
     
     NSURLResponse *response = [[NSURLResponse alloc]init];
     NSError *error = [[NSError alloc]init];
     NSData* resultData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 	
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeNewWaitingIndicator];
+	[[RootViewController sharedRootViewController] removeNewWaitingIndicator];
 
 	if (!resultData) {
 		NSLog(@"JSONConnection: performSynchronousRequest Error");
-		[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showNetworkAlert];
+		[[RootViewController sharedRootViewController] showNetworkAlert];
 		return nil;		
 	}				
     
@@ -132,7 +132,7 @@
 - (void)connectionDidFinishLoading:(NSURLConnection*)theConnection {
     //end the UI indicator
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeNetworkAlert];	
+    [[RootViewController sharedRootViewController] removeNetworkAlert];	
     
     //throw out the connection
     self.connection=nil;
@@ -165,8 +165,8 @@
           [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
 	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] resetCurrentlyFetchingVars];
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeNewWaitingIndicator];	
-	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] showNetworkAlert];	
+    [[RootViewController sharedRootViewController] removeNewWaitingIndicator];	
+	[[RootViewController sharedRootViewController] showNetworkAlert];	
 	
 }
 

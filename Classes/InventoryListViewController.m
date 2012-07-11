@@ -73,8 +73,7 @@
 }
 
 -(void)dismissTutorial{
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate.tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindInventoryTab];
+	[[RootViewController sharedRootViewController].tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindInventoryTab];
 }
 
 -(void)refresh {
@@ -142,9 +141,9 @@
                        [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
                     
                    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Item Received",@"title",[NSString stringWithFormat:@"%d %@ %@",item.qty - existingItem.qty,item.name,NSLocalizedString(@"InventoryAddedToKey", @"")],@"prompt", nil];
-                    [appDelegate.notifArray addObject:dict];
-                    [appDelegate showNotifications];
-                    //[appDelegate performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
+                    [[RootViewController sharedRootViewController].notifArray addObject:dict];
+                    [[RootViewController sharedRootViewController] showNotifications];
+                    //[[RootViewController sharedRootViewController] performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
                  
                 }
                               
@@ -160,10 +159,10 @@
                     [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
                 
                 NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Item Received",@"title",[NSString stringWithFormat:@"%d %@ %@",item.qty,item.name,NSLocalizedString(@"InventoryAddedToKey", @"")],@"prompt", nil];
-              [appDelegate.notifArray addObject:dict];
-                [appDelegate showNotifications];
+                [[RootViewController sharedRootViewController].notifArray addObject:dict];
+                [[RootViewController sharedRootViewController] showNotifications];
 
-                //[appDelegate performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
+                //[[RootViewController sharedRootViewController] performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
 				newItems ++;;
 			}
 		}
@@ -176,7 +175,7 @@
 			
 			//Put up the tutorial tab
 			if (![AppModel sharedAppModel].hasSeenInventoryTabTutorial){
-				[appDelegate.tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController  
+				[[RootViewController sharedRootViewController].tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController  
                         type:tutorialPopupKindInventoryTab
                             title:NSLocalizedString(@"InventoryNewItemKey", @"")  
                             message:NSLocalizedString(@"InventoryNewItemMessageKey", @"")];						
