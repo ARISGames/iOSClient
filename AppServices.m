@@ -367,29 +367,12 @@ NSString *const kARISServerServicePackage = @"v1";
     
 }
 
-- (void)commitInventoryTrade:(int)gameId fromMe:(int)playerOneId toYou:(int)playerTwoId giving:(NSArray *)gifts receiving:(NSArray *)receipts
+- (void)commitInventoryTrade:(int)gameId fromMe:(int)playerOneId toYou:(int)playerTwoId giving:(NSString *)giftsJSON receiving:(NSString *)receiptsJSON
 {
     /*
      * Gifts/Receipts json should be of following format:
      * {"items":[{"item_id":1,"qtyDelta":3},{"item_id":2,"qtyDelta":4}]}
      */
-    
-    NSString *giftsJSON = @"{\"items\":[";
-    NSString *receiptsJSON = @"{\"items\":[";
-    for(int i = 0; i < gifts.count; i++)
-    {
-        giftsJSON = [NSString stringWithFormat:@"%@{\"item_id\":%d,\"qtyDelta\":%d}",giftsJSON,((Item *)[gifts objectAtIndex:i]).itemId, ((Item *)[gifts objectAtIndex:i]).qty];
-        if(i+1 < gifts.count)
-            giftsJSON = [NSString stringWithFormat:@"%@,",giftsJSON];
-    }
-    for(int i = 0; i < receipts.count; i++)
-    {
-        receiptsJSON = [NSString stringWithFormat:@"%@{\"item_id\":%d,\"qtyDelta\":%d}",receiptsJSON,((Item *)[gifts objectAtIndex:i]).itemId, ((Item *)[receipts objectAtIndex:i]).qty];
-        if(i+1 < receipts.count)
-            giftsJSON = [NSString stringWithFormat:@"%@,",receiptsJSON];
-    }
-    giftsJSON = [NSString stringWithFormat:@"%@]}",giftsJSON];
-    receiptsJSON = [NSString stringWithFormat:@"%@]}",giftsJSON];
     
     //Call server service
 	NSArray *arguments = [NSArray arrayWithObjects:
