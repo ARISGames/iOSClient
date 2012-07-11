@@ -44,6 +44,7 @@
         NSRange charFinder;
 
         NSString *receipt = [NSString stringWithCString:[data bytes] encoding:NSUTF8StringEncoding];
+        NSLog(@"Data received:\n%@",receipt);
         charFinder = [receipt rangeOfString:@"\"gameId\":"];
         if(charFinder.location != NSNotFound)
         {
@@ -58,6 +59,8 @@
             
             theirGameId = [[receipt substringWithRange:NSMakeRange(gameIdStartPos,gameIdEndPos-gameIdStartPos)] intValue];
             
+            NSLog(@"Found GameID:%d Found PlayerID:%d",theirGameId,theirPlayerId);
+
             if(theirGameId == [AppModel sharedAppModel].currentGame.gameId)
             {
                 if(theirPlayerId > [AppModel sharedAppModel].playerId)
