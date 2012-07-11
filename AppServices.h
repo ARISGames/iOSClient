@@ -96,7 +96,7 @@ extern NSString *const kARISServerServicePackage;
 - (Npc *)fetchNpc:(int)npcId;
 - (Note *)fetchNote:(int)noteId;
 - (void)createItemAndPlaceOnMap:(Item *)item;
-- (void)commitInventoryTrade:(int)gameId fromMe:(int)playerOneId toYou:(int)playerTwoId giving:(NSArray *)gifts receiving:(NSArray *)receipts;
+- (void)commitInventoryTrade:(int)gameId fromMe:(int)playerOneId toYou:(int)playerTwoId giving:(NSString *)giftsJSON receiving:(NSString *)receiptsJSON;
 - (void)updateItem:(Item *) item;
 - (void)createItemAndGivetoPlayer: (Item *) item;
 - (void)uploadImageForMatching:(NSURL *)fileURL;

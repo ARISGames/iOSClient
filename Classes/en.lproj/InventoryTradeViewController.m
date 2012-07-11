@@ -33,11 +33,58 @@
     }];
     
     [[BumpClient sharedClient] setDataReceivedBlock:^(BumpChannelID channel, NSData *data) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Got Stuff!" message:[NSString stringWithCString:[data bytes] encoding:NSUTF8StringEncoding] delegate:nil cancelButtonTitle:@"K" otherButtonTitles:nil];
-        [alert show];
-        NSLog(@"Data received from %@: %@", 
-              [[BumpClient sharedClient] userIDForChannel:channel], 
-              [NSString stringWithCString:[data bytes] encoding:NSUTF8StringEncoding]);
+        //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Got Stuff!" message:[NSString stringWithCString:[data bytes] encoding:NSUTF8StringEncoding] delegate:nil cancelButtonTitle:@"K" otherButtonTitles:nil];
+        //[alert show];
+        int theirGameId;
+        int gameIdStartPos;
+        int gameIdEndPos;
+        int theirPlayerId;
+        int playerIdStartPos;
+        int playerIdEndPos;
+        NSRange charFinder;
+
+        NSString *receipt = [NSString stringWithCString:[data bytes] encoding:NSUTF8StringEncoding];
+        charFinder = [receipt rangeOfString:@"\"gameId\":"];
+        if(charFinder.location != NSNotFound)
+        {
+            gameIdStartPos = charFinder.location+9+1;
+            charFinder = [[receipt substringFromIndex:gameIdStartPos] rangeOfString:@","];
+            gameIdEndPos = charFinder.location;
+            
+            charFinder = [receipt rangeOfString:@"\"playerId\":"];
+            playerIdStartPos = charFinder.location+11+1;
+            charFinder = [[receipt substringFromIndex:gameIdStartPos] rangeOfString:@","];
+            playerIdEndPos = charFinder.location;
+            
+            theirGameId = [[receipt substringWithRange:NSMakeRange(gameIdStartPos,gameIdEndPos-gameIdStartPos)] intValue];
+            
+            if(theirGameId == [AppModel sharedAppModel].currentGame.gameId)
+            {
+                if(theirPlayerId > [AppModel sharedAppModel].playerId)
+                {
+                    //You have the lower player Id. Commit the trade.
+                    [[AppServices sharedAppServices] commitInventoryTrade:[AppModel sharedAppModel].currentGame.gameId fromMe:[AppModel sharedAppModel].playerId toYou:theirPlayerId giving:[self generateTransactionJSON] receiving:receipt];
+                }
+                else
+                {
+                    //Do nothing- let lowest playerId Commit trade.
+                    ; 
+                }
+            }
+            else
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bump Error" message:[NSString stringWithFormat:@"You must both be in the same game to trade- %d",theirGameId] delegate:nil cancelButtonTitle:@"K" otherButtonTitles:nil];
+                [alert show];
+            }
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bump Error" message:@"An error occurred." delegate:nil cancelButtonTitle:@"K" otherButtonTitles:nil];
+            [alert show];
+        }
+        //NSLog(@"Data received from %@: %@", 
+              //[[BumpClient sharedClient] userIDForChannel:channel], 
+              //[NSString stringWithCString:[data bytes] encoding:NSUTF8StringEncoding]);
     }];
     
     [[BumpClient sharedClient] setConnectionStateChangedBlock:^(BOOL connected) {

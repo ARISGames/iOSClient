@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AppModel.h"
+#import "AppServices.h"
 #import "ARISAppDelegate.h"
 #import "Item.h"
 
