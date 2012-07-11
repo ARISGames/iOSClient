@@ -33,6 +33,8 @@
     }];
     
     [[BumpClient sharedClient] setDataReceivedBlock:^(BumpChannelID channel, NSData *data) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Got Stuff!" message:[NSString stringWithCString:[data bytes] encoding:NSUTF8StringEncoding] delegate:nil cancelButtonTitle:@"K" otherButtonTitles:nil];
+        [alert show];
         NSLog(@"Data received from %@: %@", 
               [[BumpClient sharedClient] userIDForChannel:channel], 
               [NSString stringWithCString:[data bytes] encoding:NSUTF8StringEncoding]);
