@@ -19,7 +19,7 @@
 
 @implementation GamePickerPopularViewController
 
-@synthesize gameTable;
+@synthesize gameTable, timeControl;
 @synthesize gameList, gameIcons;
 @synthesize refreshButton,count;
 
@@ -32,8 +32,8 @@
         self.title = NSLocalizedString(@"GamePickerPopularTitleKey", @"");
 		self.navigationItem.title = NSLocalizedString(@"GamePickerPopularPlayedKey", @"");
         self.tabBarItem.image = [UIImage imageNamed:@"85-trophy"];
-        timeControl.enabled = YES;
-        timeControl.alpha = 1; 
+        self.timeControl.enabled = YES;
+        self.timeControl.alpha = 1; 
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];
         [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil]; 
@@ -70,7 +70,7 @@
     NSLog(@"GamePickerViewController: Refresh Requested");
 	
     //Calculate the time distance filer control value
-    int time = timeControl.selectedSegmentIndex;
+    int time = self.timeControl.selectedSegmentIndex;
 
     if([AppModel sharedAppModel].playerLocation){
     //register for notifications
@@ -123,8 +123,8 @@
 #pragma mark Control Callbacks
 -(IBAction)controlChanged:(id)sender{
     
-    if (sender == timeControl || 
-        timeControl.selectedSegmentIndex == 0) 
+    if (sender == self.timeControl || 
+        self.timeControl.selectedSegmentIndex == 0) 
         [self refresh];
     
 }
