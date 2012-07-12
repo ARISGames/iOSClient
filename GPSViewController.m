@@ -282,16 +282,17 @@ static float INITIAL_SPAN = 0.001;
             for (int i = 0; i < [[mapView annotations] count]; i++) {
                 BOOL match = NO;
                 NSObject <MKAnnotation>  *testAnnotation = [[mapView annotations] objectAtIndex:i];
-                if(![testAnnotation.title isEqualToString:@"Current Location"] ){
+                if(![testAnnotation.title isEqualToString:@"Current Location"]){// && ![testAnnotation isKindOfClass:(MK Class)){
                     annotation = (Annotation *)testAnnotation;
-                    if([annotation.location respondsToSelector:@selector(hasBeenViewed)]){
-                        if([[RootViewController sharedRootViewController].tabBarController.selectedViewController.title isEqualToString:@"Map"]) {
+                        if([[RootViewController sharedRootViewController].tabBarController.selectedViewController.title isEqualToString:@"Map"] &&[annotation.location respondsToSelector:@selector(hasBeenViewed)]) {
                             annotation.location.hasBeenViewed = YES;
                         }
                         else{
+                        if([annotation.location respondsToSelector:@selector(hasBeenViewed)]) {
                             if(!annotation.location.hasBeenViewed){
                                 newItemsSinceLastView++;
                             }
+                        }
                         }
                         for (int j = 0; j < [newLocationsArray count]; j++) {
                             Location *newLocation = [newLocationsArray objectAtIndex:j];
@@ -305,7 +306,6 @@ static float INITIAL_SPAN = 0.001;
                             [mapView removeAnnotation:annotation];
                             i--;
                         }
-                    }
                 }
             }
             

@@ -1468,35 +1468,35 @@
 		A7986D640F8FEBFA00A5469F /* Game Picker */ = {
 			isa = PBXGroup;
 			children = (
-				AB628B851578322500557BB1 /* 213-reply.png */,
-				AB628B861578322500557BB1 /* 213-reply@2x.png */,
-				ABB60F1F139F2E0E00EEDA08 /* Game Comments */,
-				AB994443139EBD0C00C0878B /* RatingView */,
-				ABB60F1E139F2DDC00EEDA08 /* Game Details */,
-				ABB925E010C858A600B09506 /* game.png */,
-				AB35E05E155C6E5C00430AF7 /* 78-stopwatch.png */,
-				AB35E05F155C6E5C00430AF7 /* 78-stopwatch@2x.png */,
 				AB35E056155C693700430AF7 /* 193-location-arrow.png */,
 				AB35E057155C693700430AF7 /* 193-location-arrow@2x.png */,
-				2B3D14600F45EBAA0067FD3A /* GamePickerNearbyViewController.h */,
-				2B3D14610F45EBAA0067FD3A /* GamePickerNearbyViewController.m */,
-				DB17C60715A3A921001F7A10 /* GamePickerPopularViewController.h */,
-				DB17C60815A3A921001F7A10 /* GamePickerPopularViewController.m */,
-				DB4C161015A7B418005EF91B /* GamePickerPopularViewController.xib */,
-				DB72A2C915A7B0C700A04B4C /* GamePickerNearbyViewController.xib */,
-				ABB60F20139F2F1600EEDA08 /* GamePickerSearchViewController.h */,
-				ABB60F21139F2F1600EEDA08 /* GamePickerSearchViewController.m */,
-				ABB60F22139F2F1600EEDA08 /* GamePickerSearchViewController.xib */,
-				ABB60F25139F352400EEDA08 /* GamePickerRecentViewController.h */,
-				ABB60F26139F352500EEDA08 /* GamePickerRecentViewController.m */,
-				ABB60F27139F352500EEDA08 /* GamePickerRecentViewController.xib */,
+				AB628B851578322500557BB1 /* 213-reply.png */,
+				AB628B861578322500557BB1 /* 213-reply@2x.png */,
+				AB35E05E155C6E5C00430AF7 /* 78-stopwatch.png */,
+				AB35E05F155C6E5C00430AF7 /* 78-stopwatch@2x.png */,
+				ABB5767413A01FD100AD39D5 /* BogusSelectGameViewController.h */,
+				ABB5767513A01FD100AD39D5 /* BogusSelectGameViewController.m */,
+				ABB60F1F139F2E0E00EEDA08 /* Game Comments */,
+				ABB60F1E139F2DDC00EEDA08 /* Game Details */,
+				ABB925E010C858A600B09506 /* game.png */,
 				ABAA6449130FD5410004D64C /* GamePickerCell.h */,
 				ABAA644A130FD5410004D64C /* GamePickerCell.m */,
 				ABAA644E130FD5610004D64C /* GamePickerCell.xib */,
+				2B3D14600F45EBAA0067FD3A /* GamePickerNearbyViewController.h */,
+				2B3D14610F45EBAA0067FD3A /* GamePickerNearbyViewController.m */,
+				DB72A2C915A7B0C700A04B4C /* GamePickerNearbyViewController.xib */,
+				DB17C60715A3A921001F7A10 /* GamePickerPopularViewController.h */,
+				DB17C60815A3A921001F7A10 /* GamePickerPopularViewController.m */,
+				DB4C161015A7B418005EF91B /* GamePickerPopularViewController.xib */,
+				ABB60F25139F352400EEDA08 /* GamePickerRecentViewController.h */,
+				ABB60F26139F352500EEDA08 /* GamePickerRecentViewController.m */,
+				ABB60F27139F352500EEDA08 /* GamePickerRecentViewController.xib */,
+				ABB60F20139F2F1600EEDA08 /* GamePickerSearchViewController.h */,
+				ABB60F21139F2F1600EEDA08 /* GamePickerSearchViewController.m */,
+				ABB60F22139F2F1600EEDA08 /* GamePickerSearchViewController.xib */,
 				4A9181B8139FDF1600D236CC /* GamesMapAnnotation.h */,
 				4A9181B9139FDF1600D236CC /* GamesMapAnnotation.m */,
-				ABB5767413A01FD100AD39D5 /* BogusSelectGameViewController.h */,
-				ABB5767513A01FD100AD39D5 /* BogusSelectGameViewController.m */,
+				AB994443139EBD0C00C0878B /* RatingView */,
 			);
 			name = "Game Picker";
 			sourceTree = "<group>";
@@ -2592,8 +2592,8 @@
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jacob Hanshaw (33W5BX68TJ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jacob Hanshaw (33W5BX68TJ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2619,8 +2619,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = ARIS;
-				PROVISIONING_PROFILE = "2F906CAB-CAB4-4EF5-BBA1-8BC1FEFA0D0B";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2F906CAB-CAB4-4EF5-BBA1-8BC1FEFA0D0B";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = iphoneos;
@@ -2717,8 +2717,8 @@
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Jacob Hanshaw (33W5BX68TJ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jacob Hanshaw (33W5BX68TJ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2742,8 +2742,8 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = ARIS;
-				PROVISIONING_PROFILE = "2F906CAB-CAB4-4EF5-BBA1-8BC1FEFA0D0B";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2F906CAB-CAB4-4EF5-BBA1-8BC1FEFA0D0B";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = iphoneos;
