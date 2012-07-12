@@ -16,7 +16,7 @@
 
 @synthesize name,url;
 @synthesize kind,creatorId;
-@synthesize forcedDisplay, hasViewed;
+@synthesize forcedDisplay, hasViewed, isTradeable;
 
 @synthesize itemId;
 @synthesize mediaId;

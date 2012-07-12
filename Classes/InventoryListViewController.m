@@ -58,9 +58,12 @@
 - (void)viewDidLoad {	
 	[super viewDidLoad];
     
-    UIBarButtonItem *tradeButtonAlloc = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"InventoryTradeViewTitleKey", @"") style:UIBarButtonItemStyleDone target:self action:@selector(tradeButtonTouched)];
-    self.tradeButton = tradeButtonAlloc;
-    [self.navigationItem setRightBarButtonItem:self.tradeButton];
+    if([AppModel sharedAppModel].currentGame.allowTrading)
+    {
+        UIBarButtonItem *tradeButtonAlloc = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"InventoryTradeViewTitleKey", @"") style:UIBarButtonItemStyleDone target:self action:@selector(tradeButtonTouched)];
+        self.tradeButton = tradeButtonAlloc;
+        [self.navigationItem setRightBarButtonItem:self.tradeButton];
+    }
     
 	NSLog(@"Inventory View Loaded");
 }

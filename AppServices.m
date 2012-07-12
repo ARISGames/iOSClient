@@ -1660,6 +1660,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	item.destroyable = [[itemDictionary valueForKey:@"destroyable"] boolValue];
 	item.maxQty = [[itemDictionary valueForKey:@"max_qty_in_inventory"] intValue];
     item.isAttribute = [[itemDictionary valueForKey:@"is_attribute"] boolValue];
+    item.isTradeable = [[itemDictionary valueForKey:@"tradeable"] boolValue];
     item.weight = [[itemDictionary valueForKey:@"weight"] intValue];
     item.url = [itemDictionary valueForKey:@"url"];
 	item.type = [itemDictionary valueForKey:@"type"];
@@ -2094,6 +2095,7 @@ NSString *const kARISServerServicePackage = @"v1";
     game.allowShareNoteToList = [[gameSource valueForKey:@"allow_share_note_to_book"]boolValue];
     game.allowNoteComments = [[gameSource valueForKey:@"allow_note_comments"]boolValue];
     game.allowNoteLikes = [[gameSource valueForKey:@"allow_note_likes"]boolValue];
+    game.allowTrading = [[gameSource valueForKey:@"allow_trading"]boolValue];
     
     NSArray *comments = [gameSource valueForKey:@"comments"];
     for (NSDictionary *comment in comments) {
@@ -2537,6 +2539,7 @@ NSString *const kARISServerServicePackage = @"v1";
 		item.destroyable = [[itemDictionary valueForKey:@"destroyable"] boolValue];
 		item.qty = [[itemDictionary valueForKey:@"qty"] intValue];
         item.isAttribute = [[itemDictionary valueForKey:@"is_attribute"] boolValue];
+        item.isTradeable = [[itemDictionary valueForKey:@"tradeable"] boolValue];
         item.weight = [[itemDictionary valueForKey:@"weight"] intValue];
         item.url = [itemDictionary valueForKey:@"url"];
         item.type = [itemDictionary valueForKey:@"type"];

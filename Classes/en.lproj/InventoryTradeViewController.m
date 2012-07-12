@@ -71,12 +71,15 @@
                     //Do nothing- let lowest playerId Commit trade.
                     ; 
                 }
-                NSMutableDictionary *newInventory = [[NSMutableDictionary alloc] init];
-                for(int i = 0; i < self.inventory.count; i++)
+                for(int i = 0; i < [self.itemsToTrade count]; i++)
                 {
-                    [newInventory setObject:[self.inventory objectAtIndex:i ] forKey:[NSNumber numberWithInt:((Item *)[self.inventory objectAtIndex:i]).itemId]];   
+                    //Decrement qty of traded items
+                    Item *itemDelta = (Item *)[self.itemsToTrade objectAtIndex:i];
+                    NSNumber *itemId = [NSNumber numberWithInt:itemDelta.itemId];
+                    Item *itemToChange = (Item *)[[AppModel sharedAppModel].inventory objectForKey:itemId];
+                    itemToChange.qty -= ((Item *)[self.itemsToTrade objectAtIndex:i]).qty;
+                    if(itemToChange.qty < 1) [[AppModel sharedAppModel].inventory removeObjectForKey:itemId];
                 }
-                [AppModel sharedAppModel].inventory = newInventory;
                 if(self.delegate) [self.delegate refresh];
                 [self goBackToInventory];
             }
@@ -141,7 +144,8 @@
     NSMutableArray *inventoryAlloc = [[NSMutableArray alloc] init];
 	self.inventory = inventoryAlloc;
     for(int i = 0; i < [tempCopy count]; i++){
-        [self.inventory addObject:[((Item *)[tempCopy objectAtIndex:i]) copyItem]];
+        if(((Item *)[tempCopy objectAtIndex:i]).isTradeable)
+            [self.inventory addObject:[((Item *)[tempCopy objectAtIndex:i]) copyItem]];
     } 
     NSMutableArray *itemsToTradeAlloc = [[NSMutableArray alloc] init];
     self.itemsToTrade = itemsToTradeAlloc;
