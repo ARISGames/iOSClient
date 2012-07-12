@@ -379,13 +379,8 @@ static float INITIAL_SPAN = 0.001;
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration{
-    //self.interfaceOrientation
-    if(toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || toInterfaceOrientation == UIInterfaceOrientationLandscapeRight) self.mapView.transform = CGAffineTransformMakeRotation(degreesToRadians(-90));
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait || interfaceOrientation == UIInterfaceOrientationLandscapeLeft || interfaceOrientation == UIInterfaceOrientationLandscapeRight);
+    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
 
