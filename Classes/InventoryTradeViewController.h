@@ -19,6 +19,7 @@
 	NSMutableArray *iconCache;
     NSMutableArray *mediaCache;
     BOOL isConnectedToBump;
+    id delegate;
 }
 
 @property(nonatomic) IBOutlet UITableView *tradeTableView;
@@ -27,6 +28,7 @@
 @property(nonatomic) NSMutableArray *iconCache;
 @property(nonatomic) NSMutableArray *mediaCache;
 @property(nonatomic) BOOL isConnectedToBump;
+@property(nonatomic) id delegate;
 
 - (NSString *)generateTransactionJSON;
 @end

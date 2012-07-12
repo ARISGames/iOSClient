@@ -17,6 +17,7 @@
 @synthesize iconCache;
 @synthesize mediaCache;
 @synthesize isConnectedToBump;
+@synthesize delegate;
 
 - (void) configureBump {
     [BumpClient configureWithAPIKey:@"4ff1c7a0c2a84bb9938dafc3a1ac770c" andUserID:[[UIDevice currentDevice] name]];
@@ -70,6 +71,13 @@
                     //Do nothing- let lowest playerId Commit trade.
                     ; 
                 }
+                NSMutableDictionary *newInventory = [[NSMutableDictionary alloc] init];
+                for(int i = 0; i < self.inventory.count; i++)
+                {
+                    [newInventory setObject:[self.inventory objectAtIndex:i ] forKey:[NSNumber numberWithInt:((Item *)[self.inventory objectAtIndex:i]).itemId]];   
+                }
+                [AppModel sharedAppModel].inventory = newInventory;
+                if(self.delegate) [self.delegate refresh];
                 [self goBackToInventory];
             }
             else
@@ -149,10 +157,12 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [self.tradeTableView reloadData];
+    [BumpClient sharedClient].bumpable = YES;
 }
 
 - (void)goBackToInventory
 {
+    [BumpClient sharedClient].bumpable = NO;
     [self.navigationController popToRootViewControllerAnimated:YES];
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.modalPresent=NO;

@@ -81,7 +81,7 @@
 
 -(void)tradeButtonTouched{
     InventoryTradeViewController *tradeVC = [[InventoryTradeViewController alloc] initWithNibName:@"InventoryTradeViewController" bundle:nil];
-  //  tradeVC.delegate = self;
+    tradeVC.delegate = self;
     tradeVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:tradeVC animated:YES];
 }
