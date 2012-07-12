@@ -175,6 +175,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
     return 0; //Should never get here
     
 }
+
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     
     if(section == 2) {

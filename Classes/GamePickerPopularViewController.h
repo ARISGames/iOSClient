@@ -28,6 +28,7 @@
 @property (nonatomic, copy) NSArray *gameList;
 @property (nonatomic) IBOutlet UITableView *gameTable;
 @property (nonatomic) IBOutlet UIBarButtonItem *refreshButton;
+@property (nonatomic) IBOutlet UISegmentedControl *timeControl;
 @property (nonatomic) NSArray *gameIcons;
 @property (assign) NSInteger count;
 

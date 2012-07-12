@@ -367,6 +367,28 @@ NSString *const kARISServerServicePackage = @"v1";
     
 }
 
+- (void)commitInventoryTrade:(int)gameId fromMe:(int)playerOneId toYou:(int)playerTwoId giving:(NSString *)giftsJSON receiving:(NSString *)receiptsJSON
+{
+    /*
+     * Gifts/Receipts json should be of following format:
+     * {"items":[{"item_id":1,"qtyDelta":3},{"item_id":2,"qtyDelta":4}]}
+     */
+    
+    //Call server service
+	NSArray *arguments = [NSArray arrayWithObjects:
+						  [NSString stringWithFormat:@"%d",gameId],
+						  [NSString stringWithFormat:@"%d",playerOneId],
+						  [NSString stringWithFormat:@"%d",playerTwoId],
+                          giftsJSON,
+                          receiptsJSON,
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"items" 
+                                                             andMethodName:@"commitTradeTransaction" 
+                                                              andArguments:arguments 
+                                                               andUserInfo:nil];
+	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchInventory)]; 
+}
 
 -(void)createItemAndGivetoPlayer:(Item *)item {
     NSLog(@"AppModel: Creating Note: %@",item.name);

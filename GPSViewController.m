@@ -286,7 +286,8 @@ static float INITIAL_SPAN = 0.001;
                 NSObject <MKAnnotation>  *testAnnotation = [[mapView annotations] objectAtIndex:i];
                 if([testAnnotation respondsToSelector:@selector(title)] && ![testAnnotation.title isEqualToString:@"Current Location"]){
                     annotation = (Annotation *)testAnnotation;
-                        if([appDelegate.tabBarController.selectedViewController.title isEqualToString:@"Map"] &&[annotation.location respondsToSelector:@selector(hasBeenViewed)]) {
+                    if([annotation.location respondsToSelector:@selector(hasBeenViewed)]){
+                        if([appDelegate.tabBarController.selectedViewController.title isEqualToString:@"Map"]) {
                             annotation.location.hasBeenViewed = YES;
                         }
                         else{
@@ -308,6 +309,7 @@ static float INITIAL_SPAN = 0.001;
                             [mapView removeAnnotation:annotation];
                             i--;
                         }
+                    }
                 }
             }
             
