@@ -284,7 +284,7 @@ static float INITIAL_SPAN = 0.001;
             for (int i = 0; i < [[mapView annotations] count]; i++) {
                 BOOL match = NO;
                 NSObject <MKAnnotation>  *testAnnotation = [[mapView annotations] objectAtIndex:i];
-                if(![testAnnotation.title isEqualToString:@"Current Location"]){// && ![testAnnotation isKindOfClass:(MK Class)){
+                if(![testAnnotation.title isEqualToString:@"Current Location"] && [testAnnotation respondsToSelector:@selector(title)]){
                     annotation = (Annotation *)testAnnotation;
                         if([appDelegate.tabBarController.selectedViewController.title isEqualToString:@"Map"] &&[annotation.location respondsToSelector:@selector(hasBeenViewed)]) {
                             annotation.location.hasBeenViewed = YES;
