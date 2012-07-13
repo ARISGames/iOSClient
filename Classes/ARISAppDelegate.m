@@ -46,7 +46,7 @@
 	NSLog(@"Current Locale: %@", [[NSLocale currentLocale] localeIdentifier]);
 	NSLog(@"Current language: %@", currentLanguage);
 
-    [self.window addSubview:[[RootViewController sharedRootViewController] view]];
+    self.window.rootViewController = [RootViewController sharedRootViewController];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application{

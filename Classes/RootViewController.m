@@ -54,6 +54,8 @@ BOOL isShowingNotification;
 - (id)init {
     self = [super init];
     if (self) {
+        self.view.frame = CGRectMake(0,0,320,480);
+        [self.tabBarController setDelegate:self];
         self.notificationCount = 0;
         NSMutableArray* notifyArrayAlloc = [[NSMutableArray alloc]initWithCapacity:5];
         self.notifArray = notifyArrayAlloc;
@@ -80,8 +82,6 @@ BOOL isShowingNotification;
         self.descLabel.font = [UIFont systemFontOfSize:12];
         self.descLabel.textAlignment = UITextAlignmentCenter;
         self.descLabel.backgroundColor = [UIColor blackColor];
-        [self.view addSubview:titleLabel];
-        [self.view addSubview:descLabel];
         
         //Setup NearbyObjects View
         NearbyObjectsViewController *nearbyObjectsViewController = [[NearbyObjectsViewController alloc]initWithNibName:@"NearbyObjectsViewController" bundle:nil];
@@ -299,11 +299,15 @@ BOOL isShowingNotification;
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     if(self.tabBarController.modalViewController) return YES;
     else return NO;
+  //  return YES;
 }
 
 #pragma mark Notifications, Warnings and Other Views
 
 -(void)showNotifications{
+  //  self.notificationBarHeight = 20;
+    [self.view addSubview:self.titleLabel];
+    [self.view addSubview:self.descLabel];
     NSNotification *showNotificationsNotification = [NSNotification notificationWithName:@"showNotifications" object:self];
     [[NSNotificationCenter defaultCenter] postNotification:showNotificationsNotification];
     NSLog(@"AppDelegate: showNotifications");
@@ -321,13 +325,15 @@ BOOL isShowingNotification;
             
             [[UIApplication sharedApplication] setStatusBarHidden:YES];
             
+            //NOTES: While the status bar is hidden, the view still seems to be basing its origin on where the bottom of the status bar would be. Thus there is 20 pixels subtracted from all y-values to account for this.
             if(self.tabBarController.modalViewController){
-                self.tabBarController.modalViewController.view.frame = CGRectMake(self.tabBarController.modalViewController.view.frame.origin.x,40+[UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y-20, self.tabBarController.modalViewController.view.frame.size.width, 440-[UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y+20); 
+                self.tabBarController.modalViewController.view.frame = CGRectMake(0, 40, self.tabBarController.view.frame.size.width, 480-self.notificationBarHeight-20);
             }
             
-            self.tabBarController.view.frame = CGRectMake(self.tabBarController.view.frame.origin.x,40+[UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y-self.notificationBarHeight, self.tabBarController.view.frame.size.width, 440-[UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y+self.notificationBarHeight); 
-            [self.titleLabel setFrame:CGRectMake(0,[UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y, 320, 20)];
-            [self.descLabel setFrame:CGRectMake(0, [UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y +20, 320, 15)];
+            self.tabBarController.view.frame = CGRectMake(0, self.notificationBarHeight, self.tabBarController.view.frame.size.width, 480-self.notificationBarHeight-20);
+            [self.titleLabel setFrame:CGRectMake(0, -20, 320, 20)];
+            [self.descLabel setFrame:CGRectMake(0, 0, 320, 15)];
+            
             [UIView commitAnimations];
         }
         NSLog(@"TabBC frame AFTER origin: %f notificationBarHeight %d",self.tabBarController.view.frame.origin.y,notificationBarHeight);
@@ -375,17 +381,19 @@ BOOL isShowingNotification;
                 if(self.tabBarController.modalViewController){
                     self.tabBarController.modalViewController.view.frame = CGRectMake(self.tabBarController.modalViewController.view.frame.origin.x, [UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y-20, self.tabBarController.modalViewController.view.frame.size.width, 480-[UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y+20);             }
                 
-                self.tabBarController.view.frame = CGRectMake(self.tabBarController.view.frame.origin.x, [UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y-notificationBarHeight, self.tabBarController.view.frame.size.width, 480-[UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y+notificationBarHeight); 
+            /*    self.tabBarController.view.frame = CGRectMake(self.tabBarController.view.frame.origin.x, [UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y-self.notificationBarHeight, self.tabBarController.view.frame.size.width, 480-[UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y+notificationBarHeight); 
                 
                 [self.titleLabel setFrame:CGRectMake(0, -20, 320, 20)];
-                [self.descLabel setFrame:CGRectMake(0, -20, 320, 15)];
+                [self.descLabel setFrame:CGRectMake(0, -20, 320, 15)]; */
+                
+                self.tabBarController.view.frame = CGRectMake(self.tabBarController.view.frame.origin.x, 0, self.tabBarController.view.frame.size.width, 480-([UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y+self.notificationBarHeight)); 
             }
         }completion:^(BOOL finished){
             isShowingNotification = NO;
         }];
     }
-    
-    
+    [self.titleLabel removeFromSuperview];
+    [self.descLabel removeFromSuperview];
 }
 
 
@@ -505,9 +513,9 @@ BOOL isShowingNotification;
     
     [nearbyObjectViewController dismissModalViewControllerAnimated:NO];
     if(isShowingNotification){
-        notificationBarHeight = 0;
+       // notificationBarHeight = 0;
         
-        self.tabBarController.view.frame = CGRectMake(0, [UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y+40, 320, 420);
+        self.tabBarController.view.frame = CGRectMake(0, self.notificationBarHeight, self.tabBarController.view.frame.size.width, 480-self.notificationBarHeight-20);
     }
     
 }
@@ -652,8 +660,7 @@ BOOL isShowingNotification;
 	[[AppServices sharedAppServices] updateServerGameSelected];
 	
 	
-	UINavigationController *navigationController
-    ;
+	UINavigationController *navigationController;
 	
 	//Get the naviation controller and visible view controller
 	if ([self.tabBarController.selectedViewController isKindOfClass:[UINavigationController class]]) {
@@ -862,10 +869,10 @@ BOOL isShowingNotification;
 	}
     
     if(isShowingNotification){
-        notificationBarHeight = 0;
+      //  notificationBarHeight = 0;
         
-        self.tabBarController.view.frame = CGRectMake(0, [UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y+40, 320, 420);
-    }
+        self.tabBarController.view.frame = CGRectMake(0, self.notificationBarHeight, self.tabBarController.view.frame.size.width, 480-self.notificationBarHeight-20);
+    } 
 }
 
 
