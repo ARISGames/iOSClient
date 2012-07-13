@@ -59,9 +59,9 @@
     
     //Check to prepend url query with '?' or '&'
     if([self.webPage.url rangeOfString:@"?"].location == NSNotFound)
-        urlAddress = [self.webPage.url stringByAppendingString: [NSString stringWithFormat: @"?gameId=%d&webPageId=%d&playerId=%d",[AppModel sharedAppModel].currentGame.gameId, [AppModel sharedAppModel].playerId, webPage.webPageId]];
+        urlAddress = [self.webPage.url stringByAppendingString: [NSString stringWithFormat: @"?gameId=%d&webPageId=%d&playerId=%d",[AppModel sharedAppModel].currentGame.gameId, webPage.webPageId, [AppModel sharedAppModel].playerId]];
     else       
-        urlAddress = [self.webPage.url stringByAppendingString: [NSString stringWithFormat: @"&gameId=%d&webPageId=%d&playerId=%d",[AppModel sharedAppModel].currentGame.gameId, [AppModel sharedAppModel].playerId, webPage.webPageId]];
+        urlAddress = [self.webPage.url stringByAppendingString: [NSString stringWithFormat: @"&gameId=%d&webPageId=%d&playerId=%d",[AppModel sharedAppModel].currentGame.gameId, webPage.webPageId, [AppModel sharedAppModel].playerId]];
     
     NSLog(@"WebPageVC: Loading URL: %@",urlAddress);
     NSURL *url = [NSURL URLWithString:urlAddress];
