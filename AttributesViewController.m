@@ -61,19 +61,18 @@
 
 -(void)refresh {
 	[[AppServices sharedAppServices] fetchInventory];
+    [self refreshViewFromModel];
 }
 
 -(void)refreshViewFromModel {
 	NSLog(@"AttributesVC: Refresh View from Model");
-   	
 	
 	self.attributes = [[AppModel sharedAppModel].attributes allValues];
 	[attributesTable reloadData];
 	
 	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
-    
-	
 }
+
 -(IBAction)groupButtonPressed {
   
 }

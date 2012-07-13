@@ -150,6 +150,7 @@
 		3AEB8F5315265E08006C12AF /* ARISUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AEB8F5215265E08006C12AF /* ARISUploader.m */; };
 		4A373BD315ACABBE007D975C /* libBump.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A373BD115ACABBE007D975C /* libBump.a */; };
 		4A7F90F315B0773200988446 /* bump_logo_250x84.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A7F90F215B0773200988446 /* bump_logo_250x84.png */; };
+		4A7F910015B09FFC00988446 /* pingtone.wav in Resources */ = {isa = PBXBuildFile; fileRef = 4A7F90FF15B09FFC00988446 /* pingtone.wav */; };
 		4A9181BA139FDF1600D236CC /* GamesMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9181B9139FDF1600D236CC /* GamesMapAnnotation.m */; };
 		4A92FB0B139EDFEA00B41218 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A92FB0A139EDFEA00B41218 /* Comment.m */; };
 		4A92FB0F139EEA2A00B41218 /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A92FB0D139EEA2A00B41218 /* CommentCell.m */; };
@@ -655,6 +656,7 @@
 		4A373BD115ACABBE007D975C /* libBump.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBump.a; sourceTree = "<group>"; };
 		4A373BD215ACABBE007D975C /* BumpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BumpClient.h; sourceTree = "<group>"; };
 		4A7F90F215B0773200988446 /* bump_logo_250x84.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bump_logo_250x84.png; sourceTree = "<group>"; };
+		4A7F90FF15B09FFC00988446 /* pingtone.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pingtone.wav; sourceTree = "<group>"; };
 		4A9181B8139FDF1600D236CC /* GamesMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamesMapAnnotation.h; sourceTree = "<group>"; };
 		4A9181B9139FDF1600D236CC /* GamesMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamesMapAnnotation.m; sourceTree = "<group>"; };
 		4A92FB09139EDF1B00B41218 /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
@@ -1731,6 +1733,7 @@
 		AB37BC2E1184CDE600C5CE8B /* Sound Effects */ = {
 			isa = PBXGroup;
 			children = (
+				4A7F90FF15B09FFC00988446 /* pingtone.wav */,
 				AB6484B41187860E00261315 /* drop.wav */,
 				AB6484961187842B00261315 /* ticktick.wav */,
 				AB64848E118783BB00261315 /* error.wav */,
@@ -2297,6 +2300,7 @@
 				DB4C160E15A7B418005EF91B /* GamePickerPopularViewController.xib in Resources */,
 				DB7EEF7C15AB40C2009369D4 /* InventoryTradeViewController.xib in Resources */,
 				4A7F90F315B0773200988446 /* bump_logo_250x84.png in Resources */,
+				4A7F910015B09FFC00988446 /* pingtone.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
