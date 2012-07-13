@@ -305,7 +305,6 @@ BOOL isShowingNotification;
 #pragma mark Notifications, Warnings and Other Views
 
 -(void)showNotifications{
-  //  self.notificationBarHeight = 20;
     [self.view addSubview:self.titleLabel];
     [self.view addSubview:self.descLabel];
     NSNotification *showNotificationsNotification = [NSNotification notificationWithName:@"showNotifications" object:self];
@@ -378,8 +377,8 @@ BOOL isShowingNotification;
             if(isShowingNotification){
                 [[UIApplication sharedApplication] setStatusBarHidden:NO];
                 
-                if(self.tabBarController.modalViewController){
-                    self.tabBarController.modalViewController.view.frame = CGRectMake(self.tabBarController.modalViewController.view.frame.origin.x, [UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y-20, self.tabBarController.modalViewController.view.frame.size.width, 480-[UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y+20);             }
+                if(self.tabBarController.modalViewController) {
+                    self.tabBarController.modalViewController.view.frame = CGRectMake(self.tabBarController.view.frame.origin.x, 0, self.tabBarController.view.frame.size.width, 480-([UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y+self.notificationBarHeight));    }
                 
             /*    self.tabBarController.view.frame = CGRectMake(self.tabBarController.view.frame.origin.x, [UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y-self.notificationBarHeight, self.tabBarController.view.frame.size.width, 480-[UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y+notificationBarHeight); 
                 
