@@ -1300,9 +1300,6 @@
 		29B97314FDCFA39411CA2CEA /* ARIS */ = {
 			isa = PBXGroup;
 			children = (
-				DBC3441015ADEED200FA902F /* RootViewController.h */,
-				DBC3441115ADEED200FA902F /* RootViewController.m */,
-				DBC3441215ADEED200FA902F /* RootViewController.xib */,
 				ABAFBAC9145A0B8D0044491C /* GPX Locations */,
 				AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */,
 				AB0A5BA3120365420065CE68 /* Localizable.strings */,
@@ -1595,6 +1592,9 @@
 				A798300A0FCB1C5900C1C2E7 /* Waiting Indicator */,
 				2B3D17040F49C9920067FD3A /* Model */,
 				AB4FD84F130BC5460034F666 /* Tutorial */,
+				DBC3441015ADEED200FA902F /* RootViewController.h */,
+				DBC3441115ADEED200FA902F /* RootViewController.m */,
+				DBC3441215ADEED200FA902F /* RootViewController.xib */,
 				A763B5230F4E283100FDCC55 /* MyCLController.h */,
 				A763B5240F4E283100FDCC55 /* MyCLController.m */,
 				AB42A66711D69F1500FD6D4B /* ARISMoviePlayerViewController.h */,

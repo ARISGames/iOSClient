@@ -289,9 +289,17 @@ BOOL isShowingNotification;
     // e.g. self.myOutlet = nil;
 }
 
-/*- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return YES;
-} */
+- (void)viewWillAppear:(BOOL)animated{
+    [[UIApplication sharedApplication] setStatusBarOrientation:UIDeviceOrientationPortrait animated:NO];
+}
+
+
+
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    if(self.tabBarController.modalViewController) return YES;
+    else return NO;
+}
 
 #pragma mark Notifications, Warnings and Other Views
 
@@ -490,7 +498,7 @@ BOOL isShowingNotification;
     
 	//Display
     
-    [self.tabBarController presentModalViewController:self.nearbyObjectNavigationController animated:NO];
+    [self presentModalViewController:self.nearbyObjectNavigationController animated:NO];
 }
 
 - (void)dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController{
