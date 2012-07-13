@@ -113,8 +113,8 @@
                 break;
             case BUMP_EVENT_NO_MATCH:
                 NSLog(@"No match.");
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bump Failed" message:@"No trader was found" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-                [alert show];
+                //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bump Failed" message:@"No trader was found" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+                //[alert show];
                 break;
         }
     }];
