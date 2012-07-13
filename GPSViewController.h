@@ -39,6 +39,7 @@
 -(void)dismissTutorial;
 -(IBAction)playerButtonTouch;
 - (void)refreshViewFromModel;
+- (void)updateOverlays;
 
 
 - (double)getZoomLevel:(MKMapView *) mV;

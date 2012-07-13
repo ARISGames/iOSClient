@@ -978,7 +978,6 @@ NSString *const kARISServerServicePackage = @"v1";
 	[self fetchGameMediaListAsynchronously:YES];
     [self fetchGamePanoramicListAsynchronously:YES];
     [self fetchGameWebpageListAsynchronously:YES];
-    [self fetchOverlayListAsynchronously:YES];
     
 }
 
@@ -992,7 +991,6 @@ NSString *const kARISServerServicePackage = @"v1";
     [[AppModel sharedAppModel].gameMediaList removeAllObjects];
     [[AppModel sharedAppModel].gameWebPageList removeAllObjects];
     [[AppModel sharedAppModel].gamePanoramicList removeAllObjects];
-    [[AppModel sharedAppModel].overlayList removeAllObjects];
     
     
 }
@@ -1017,6 +1015,16 @@ NSString *const kARISServerServicePackage = @"v1";
     currentlyFetchingGamesList = NO;
     
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RecievedOverlayList" object:nil]];
+   
+    if ([jsonResult.hash isEqualToString:[[AppModel sharedAppModel] overlayListHash]]) {
+		NSLog(@"AppModel: Hash is same as last overlay list update, continue");
+		return;
+	}
+	
+	
+	//Save this hash for later comparisions
+	[AppModel sharedAppModel].overlayListHash = [jsonResult.hash copy];
+    
     
     NSArray *overlayListArray = (NSArray *)jsonResult.data;
     
@@ -1036,7 +1044,8 @@ NSString *const kARISServerServicePackage = @"v1";
             // create new overlay
             tempOverlay.overlayId = [[overlayDictionary valueForKey:@"game_overlay_id"] intValue];
             tempOverlay.num_tiles = [[overlayDictionary valueForKey:@"num_tiles"] intValue];
-            tempOverlay.alpha = [[overlayDictionary valueForKey:@"alpha"] floatValue] ;
+            //tempOverlay.alpha = [[overlayDictionary valueForKey:@"alpha"] floatValue] ;
+            tempOverlay.alpha = 1.0;
             [tempOverlay.tileFileName addObject:[overlayDictionary valueForKey:@"file_name"]];
             [tempOverlay.tileMediaID addObject:[overlayDictionary valueForKey:@"media_id"]];
             [tempOverlay.tileX addObject:[overlayDictionary valueForKey:@"x"]];
@@ -1093,6 +1102,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	[self fetchLocationList];
 	[self fetchQuestList];
 	[self fetchInventory];	
+    [self fetchOverlayListAsynchronously:YES];
 }
 
 - (void)resetAllPlayerLists {
@@ -1103,6 +1113,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	[AppModel sharedAppModel].inventoryHash = @"";
     [AppModel sharedAppModel].playerNoteListHash = @"";
     [AppModel sharedAppModel].gameNoteListHash = @"";
+    [AppModel sharedAppModel].overlayListHash = @"";
 	//Clear them out
     NSMutableArray *locationListAlloc = [[NSMutableArray alloc] initWithCapacity:0];
 	[AppModel sharedAppModel].locationList = locationListAlloc;
@@ -1115,6 +1126,8 @@ NSString *const kARISServerServicePackage = @"v1";
 	[tmpQuestList setObject:activeQuestObjects forKey:@"active"];
 	[tmpQuestList setObject:completedQuestObjects forKey:@"completed"];
 	[AppModel sharedAppModel].questList = tmpQuestList;
+    
+    [[AppModel sharedAppModel].overlayList removeAllObjects];
     
 	NSMutableDictionary *inventoryAlloc = [[NSMutableDictionary alloc] initWithCapacity:10];
 	[AppModel sharedAppModel].inventory = inventoryAlloc;

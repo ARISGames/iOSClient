@@ -19,7 +19,7 @@
 @synthesize currentGame, gameList, locationList, playerList,recentGameList;
 @synthesize playerLocation, inventory, questList, networkAlert;
 @synthesize gameMediaList, gameItemList, gameNodeList, gameNpcList,gameWebPageList,gamePanoramicList,gameTabList, defaultGameTabList,gameNoteList,playerNoteList;
-@synthesize questListHash, inventoryHash,profilePic,attributes,gameNoteListHash,playerNoteListHash;
+@synthesize questListHash, inventoryHash,profilePic,attributes,gameNoteListHash,playerNoteListHash, overlayListHash;
 @synthesize overlayList;
 
 @synthesize nearbyLocationsList,gameTagList;
