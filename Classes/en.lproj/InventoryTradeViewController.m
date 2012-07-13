@@ -77,7 +77,7 @@
                     Item *itemDelta = (Item *)[self.itemsToTrade objectAtIndex:i];
                     NSNumber *itemId = [NSNumber numberWithInt:itemDelta.itemId];
                     Item *itemToChange = (Item *)[[AppModel sharedAppModel].inventory objectForKey:itemId];
-                    itemToChange.qty -= ((Item *)[self.itemsToTrade objectAtIndex:i]).qty;
+                    itemToChange.qty -= itemDelta.qty;
                     if(itemToChange.qty < 1) [[AppModel sharedAppModel].inventory removeObjectForKey:itemId];
                 }
                 if(self.delegate) [self.delegate refresh];
@@ -137,7 +137,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
     ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.modalPresent = YES;
     NSMutableArray *tempCopy = [[[AppModel sharedAppModel].inventory allValues] mutableCopy];
@@ -398,6 +397,7 @@
             giftsJSON = [NSString stringWithFormat:@"%@,",giftsJSON];
     }
     giftsJSON = [NSString stringWithFormat:@"%@]}",giftsJSON];
+    NSLog(@"%@!",giftsJSON);
     return giftsJSON;
 }
 

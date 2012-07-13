@@ -192,7 +192,7 @@
     AsyncMediaImageView *iconView = [[AsyncMediaImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
     
     if(currentGame.iconMedia.image){
-        iconView.image = [UIImage imageWithData: currentGame.iconMedia.image];
+        iconView.image = [UIImage imageWithData:currentGame.iconMedia.image];
     }
     else {
         if(!currentGame.iconMedia) iconView.image = [UIImage imageNamed:@"Icon.png"];

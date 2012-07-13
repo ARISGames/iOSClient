@@ -2137,9 +2137,7 @@ NSString *const kARISServerServicePackage = @"v1";
     
     NSLog(@"AppModel: parseGameListFromJSON Complete, sending notification");
     
-    
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewGameListReady" object:nil]];
-    
 }
 
 -(void)parseRecentGameListFromJSON: (JSONResult *)jsonResult{
