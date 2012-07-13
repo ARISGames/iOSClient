@@ -42,7 +42,7 @@
         int playerIdEndPos;
         NSRange charFinder;
 
-        NSString *receipt = [NSString stringWithCString:[data bytes] encoding:NSUTF8StringEncoding];
+        NSString *receipt = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];//[NSString stringWithCString:[data bytes] encoding:NSUTF8StringEncoding];
         NSLog(@"Data received:\n%@",receipt);
         charFinder = [receipt rangeOfString:@"\"gameId\":"];
         if(charFinder.location != NSNotFound)
@@ -397,7 +397,7 @@
             giftsJSON = [NSString stringWithFormat:@"%@,",giftsJSON];
     }
     giftsJSON = [NSString stringWithFormat:@"%@]}",giftsJSON];
-    NSLog(@"%@!",giftsJSON);
+    NSLog(@"%@",giftsJSON);
     return giftsJSON;
 }
 
