@@ -160,7 +160,7 @@
 								<int key="IBSelectedSegmentIndex">0</int>
 								<object class="NSArray" key="IBSegmentTitles">
 									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>Mine</string>
+									<string>Personnel</string>
 									<string>Commun</string>
 								</object>
 								<object class="NSMutableArray" key="IBSegmentWidths">
@@ -213,7 +213,6 @@
 								<string key="NSFrame">{{6, 8}, {308, 30}}</string>
 								<reference key="NSSuperview" ref="697067318"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBSegmentControlStyle">2</int>

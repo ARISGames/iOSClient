@@ -110,8 +110,8 @@
 }
 
 - (void)updateButtonsForCurrentMode{
-	[uploadButton setTitle: @"Save" forState: UIControlStateNormal];
-	[uploadButton setTitle: @"Save" forState: UIControlStateHighlighted];			
+	[uploadButton setTitle: NSLocalizedString(@"SaveKey", @"") forState: UIControlStateNormal];
+	[uploadButton setTitle: NSLocalizedString(@"SaveKey", @"") forState: UIControlStateHighlighted];			
 
 	[discardButton setTitle: NSLocalizedString(@"DiscardKey", @"") forState: UIControlStateNormal];
 	[discardButton setTitle: NSLocalizedString(@"DiscardKey", @"") forState: UIControlStateHighlighted];			
