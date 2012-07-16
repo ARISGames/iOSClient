@@ -176,6 +176,54 @@
         return NO; 
     } 
     
+    if ([mainCommand isEqualToString:@"inventory"]) {
+        NSLog(@"WebPageVC: aris://inventory/ called");
+        
+        if ([components count] > 2 && 
+            [[components objectAtIndex:1] isEqualToString:@"get"]) {
+            int itemId = [[components objectAtIndex:2] intValue];
+            NSLog(@"WebPageVC: aris://inventory/get/ called from webpage with itemId = %d",itemId);
+            int qty = [self getQtyInInventoryOfItem:itemId];
+            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"syncQtyOfItem(%d,%d);",itemId,qty]];
+            [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
+            return NO; 
+        }  
+        
+        if ([components count] > 3 && 
+            [[components objectAtIndex:1] isEqualToString:@"set"]) {
+            int itemId = [[components objectAtIndex:2] intValue];
+            int qty = [[components objectAtIndex:3] intValue];
+            NSLog(@"WebPageVC: aris://inventory/set/ called from webpage with itemId = %d and qty = %d",itemId,qty);
+            int newQty = [self setQtyInInventoryOfItem:itemId toQty:qty];
+            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"syncQtyOfItem(%d,%d);",itemId,newQty]];
+            [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
+            return NO; 
+        } 
+        
+        if ([components count] > 3 && 
+            [[components objectAtIndex:1] isEqualToString:@"give"]) {
+            int itemId = [[components objectAtIndex:2] intValue];
+            int qty = [[components objectAtIndex:3] intValue];
+            NSLog(@"WebPageVC: aris://inventory/give/ called from webpage with itemId = %d and qty = %d",itemId,qty);
+            int newQty = [self giveQtyInInventoryToItem:itemId ofQty:qty];
+            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"syncQtyOfItem(%d,%d);",itemId,newQty]];
+            [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
+            return NO; 
+        } 
+        
+        if ([components count] > 3 && 
+            [[components objectAtIndex:1] isEqualToString:@"take"]) {
+            int itemId = [[components objectAtIndex:2] intValue];
+            int qty = [[components objectAtIndex:3] intValue];
+            NSLog(@"WebPageVC: aris://inventory/take/ called from webpage with itemId = %d and qty = %d",itemId,qty);
+            int newQty = [self takeQtyInInventoryFromItem:itemId ofQty:qty];
+            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"syncQtyOfItem(%d,%d);",itemId,newQty]];
+            [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
+            return NO; 
+        } 
+        
+    } 
+    
     if ([mainCommand isEqualToString:@"media"]) {
         NSLog(@"WebPageVC: aris://media called");
         
@@ -286,6 +334,116 @@
     
     player.currentItem.audioMix = audioMix;
     
+}
+
+- (int) getQtyInInventoryOfItem:(int)itemId
+{
+    Item *i = [[AppModel sharedAppModel].inventory objectForKey:[NSString stringWithFormat:@"%d",itemId]];
+    if(i)
+        return i.qty;
+    i = [[AppModel sharedAppModel].attributes objectForKey:[NSString stringWithFormat:@"%d",itemId]];
+    if(i)
+        return i.qty;
+    return 0;
+}
+
+- (int) setQtyInInventoryOfItem:(int)itemId toQty:(int)qty
+{
+    //If in inventory
+    Item *i = [[AppModel sharedAppModel].inventory objectForKey:[NSString stringWithFormat:@"%d",itemId]];
+    if(i)
+    {
+        i.qty = qty;
+        [[AppServices sharedAppServices] updateServerInventoryItem:itemId qty:qty];
+        return qty;
+    }
+    //If in attributes
+    i = [[AppModel sharedAppModel].attributes objectForKey:[NSString stringWithFormat:@"%d",itemId]];
+    if(i)
+    {
+        i.qty = qty;
+        [[AppServices sharedAppServices] updateServerInventoryItem:itemId qty:qty];
+        return qty;
+    }
+    
+    //If not yet in inventory/attributes
+    i = [[AppModel sharedAppModel] itemForItemId:itemId];
+    if(i)
+    {
+        i.qty = qty;
+        if(!i.isAttribute)
+            [[AppModel sharedAppModel].inventory setObject:i forKey:[NSString stringWithFormat:@"%d",itemId]];
+        else
+            [[AppModel sharedAppModel].attributes setObject:i forKey:[NSString stringWithFormat:@"%d",itemId]];
+        [[AppServices sharedAppServices] updateServerAddInventoryItem:itemId addQty:qty];
+        return qty;
+    }
+    return 0;
+}
+
+- (int) giveQtyInInventoryToItem:(int)itemId ofQty:(int)qty
+{
+    //If in inventory
+    Item *i = [[AppModel sharedAppModel].inventory objectForKey:[NSString stringWithFormat:@"%d",itemId]];
+    if(i)
+    {
+        i.qty += qty;
+        [[AppServices sharedAppServices] updateServerAddInventoryItem:itemId addQty:qty];
+        return i.qty;
+    }
+    //If in attributes
+    i = [[AppModel sharedAppModel].attributes objectForKey:[NSString stringWithFormat:@"%d",itemId]];
+    if(i)
+    {
+        i.qty += qty;
+        [[AppServices sharedAppServices] updateServerAddInventoryItem:itemId addQty:qty];
+        return i.qty;
+    }
+    
+    //If not yet in inventory/attributes
+    i = [[AppModel sharedAppModel] itemForItemId:itemId];
+    if(i)
+    {
+        i.qty = qty;
+        if(!i.isAttribute)
+            [[AppModel sharedAppModel].inventory setObject:i forKey:[NSString stringWithFormat:@"%d",itemId]];
+        else
+            [[AppModel sharedAppModel].attributes setObject:i forKey:[NSString stringWithFormat:@"%d",itemId]];
+        [[AppServices sharedAppServices] updateServerAddInventoryItem:itemId addQty:qty];
+        return qty;
+    }
+    return 0;
+}
+
+- (int) takeQtyInInventoryFromItem:(int)itemId ofQty:(int)qty
+{
+    //If in inventory
+    Item *i = [[AppModel sharedAppModel].inventory objectForKey:[NSString stringWithFormat:@"%d",itemId]];
+    if(i)
+    {
+        i.qty -= qty;
+        [[AppServices sharedAppServices] updateServerRemoveInventoryItem:itemId removeQty:qty];
+        if(i.qty < 1)
+        {
+            [[AppModel sharedAppModel].inventory removeObjectForKey:[NSString stringWithFormat:@"%d",itemId]];
+            return 0;
+        }
+        return i.qty;
+    }
+    //If in attributes
+    i = [[AppModel sharedAppModel].attributes objectForKey:[NSString stringWithFormat:@"%d",itemId]];
+    if(i)
+    {
+        i.qty -= qty;
+        [[AppServices sharedAppServices] updateServerRemoveInventoryItem:itemId removeQty:qty];
+        if(i.qty < 1)
+        {
+            [[AppModel sharedAppModel].attributes removeObjectForKey:[NSString stringWithFormat:@"%d",itemId]];
+            return 0;
+        }
+        return i.qty;
+    }
+    return 0;
 }
 
 @end

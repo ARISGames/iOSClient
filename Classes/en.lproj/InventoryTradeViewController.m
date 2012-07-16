@@ -75,7 +75,7 @@
                 {
                     //Decrement qty of traded items
                     Item *itemDelta = (Item *)[self.itemsToTrade objectAtIndex:i];
-                    NSNumber *itemId = [NSNumber numberWithInt:itemDelta.itemId];
+                    NSString *itemId = [NSString stringWithFormat:@"%d",itemDelta.itemId];
                     Item *itemToChange = (Item *)[[AppModel sharedAppModel].inventory objectForKey:itemId];
                     itemToChange.qty -= itemDelta.qty;
                     if(itemToChange.qty < 1) [[AppModel sharedAppModel].inventory removeObjectForKey:itemId];

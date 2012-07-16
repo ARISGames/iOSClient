@@ -130,7 +130,6 @@
         if(!appDelegate.tabBarController.modalViewController)
         {
             //alert only if u are on quest,map,inventory, or nearby objects screen
-
             [appDelegate playAudioAlert:@"pingtone" shouldVibrate:YES]; 
 		}
         

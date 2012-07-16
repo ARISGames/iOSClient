@@ -339,7 +339,63 @@ NSString *const kARISServerServicePackage = @"v1";
                                                               andArguments:arguments 
                                                                andUserInfo:nil];
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After 
-    
+}
+
+- (void)updateServerInventoryItem:(int)itemId qty:(int)qty
+{
+    NSLog(@"Model: Enforcing a qty of player inventory item on server");
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects: 
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+						  [NSString stringWithFormat:@"%d",itemId],
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+						  [NSString stringWithFormat:@"%d",qty],
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"players" 
+                                                             andMethodName:@"setItemCountForPlayer" 
+                                                              andArguments:arguments 
+                                                               andUserInfo:nil];
+	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After 
+}
+
+- (void)updateServerAddInventoryItem:(int)itemId addQty:(int)qty
+{
+    NSLog(@"Model: adds a qty of player inventory item on server");
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects: 
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+						  [NSString stringWithFormat:@"%d",itemId],
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+						  [NSString stringWithFormat:@"%d",qty],
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"players" 
+                                                             andMethodName:@"giveItemToPlayer" 
+                                                              andArguments:arguments 
+                                                               andUserInfo:nil];
+	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After 
+}
+
+- (void)updateServerRemoveInventoryItem:(int)itemId removeQty:(int)qty
+{
+    NSLog(@"Model: Enforcing a qty of player inventory item on server");
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects: 
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+						  [NSString stringWithFormat:@"%d",itemId],
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+						  [NSString stringWithFormat:@"%d",qty],
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"players" 
+                                                             andMethodName:@"takeItemFromPlayer" 
+                                                              andArguments:arguments 
+                                                               andUserInfo:nil];
+	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After 
 }
 
 -(void)createItemAndPlaceOnMap:(Item *)item {
