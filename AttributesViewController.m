@@ -77,7 +77,6 @@
 }
 
 - (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier {
-    CGRect CellFrame = CGRectMake(0, 0, 320, 60);
 	CGRect IconFrame = CGRectMake(5, 5, 50, 50);
 	CGRect Label1Frame = CGRectMake(70, 22, 240, 20);
 	CGRect Label2Frame = CGRectMake(70, 39, 240, 20);
@@ -85,7 +84,7 @@
 	UILabel *lblTemp;
 	UIImageView *iconViewTemp;
 	
-	UITableViewCell *cell = [[UITableViewCell alloc] initWithFrame:CellFrame reuseIdentifier:cellIdentifier];
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
 	
 	//Setup Cell
 	UIView *transparentBackground = [[UIView alloc] initWithFrame:CGRectZero];
@@ -145,18 +144,11 @@
     
     cell.textLabel.backgroundColor = [UIColor clearColor]; 
     cell.detailTextLabel.backgroundColor = [UIColor clearColor]; 
-    
-    if (indexPath.row % 2 == 0){  
-        cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0  
+            cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0  
                                                            green:233.0/255.0  
                                                             blue:233.0/255.0  
                                                            alpha:1.0];  
-    } else {  
-        cell.contentView.backgroundColor = [UIColor colorWithRed:200.0/255.0  
-                                                           green:200.0/255.0  
-                                                            blue:200.0/255.0  
-                                                           alpha:1.0];  
-    } 
+  
 	Item *item = [attributes objectAtIndex: [indexPath row]];
 	
 	UILabel *lblTemp1 = (UILabel *)[cell viewWithTag:1];
