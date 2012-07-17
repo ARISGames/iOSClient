@@ -286,7 +286,8 @@
 -(void)addItemToInventory: (Item*)item {
 	NSLog(@"AppModel: adding an item from the local inventory");
     
-	[self.inventory setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]];
+	if(!item.isAttribute)[self.inventory setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]];
+	else [self.attributes setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]];
 	NSNotification *notification = [NSNotification notificationWithName:@"NewInventoryReady" object:nil];
 	[[NSNotificationCenter defaultCenter] postNotification:notification];
     //[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ItemRecievedNotification" object:nil]];

@@ -1187,6 +1187,8 @@ NSString *const kARISServerServicePackage = @"v1";
     
 	NSMutableDictionary *inventoryAlloc = [[NSMutableDictionary alloc] initWithCapacity:10];
 	[AppModel sharedAppModel].inventory = inventoryAlloc;
+    NSMutableDictionary *attributesAlloc = [[NSMutableDictionary alloc] initWithCapacity:10];
+	[AppModel sharedAppModel].attributes = attributesAlloc;
 	
 	//Tell the VCs
 	[self silenceNextServerUpdate];
@@ -2616,8 +2618,6 @@ NSString *const kARISServerServicePackage = @"v1";
         else [tempInventory setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]]; 
 	}
     
-    
-    
 	[AppModel sharedAppModel].inventory = tempInventory;
     [AppModel sharedAppModel].attributes = tempAttributes;
 	
@@ -2630,9 +2630,7 @@ NSString *const kARISServerServicePackage = @"v1";
     if(appDelegate.loadingVC){
         appDelegate.loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedInventoryKey", @"");
         appDelegate.loadingVC.receivedData++;
-        
     }
-    
 }
 
 /*

@@ -182,9 +182,9 @@
         if ([components count] > 1 && 
             [[components objectAtIndex:1] isEqualToString:@"name"]) 
         {
-            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"setPlayerName(%@);",[AppModel sharedAppModel].userName]];
+            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"setPlayerName(\"%@\");",[AppModel sharedAppModel].userName]];
             [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
-            return NO; 
+            return NO;
         }
         if ([components count] > 1 && 
             [[components objectAtIndex:1] isEqualToString:@"id"]) 

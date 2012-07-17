@@ -32,9 +32,9 @@
     return self;
 }
 
-- (void)silenceNextUpdate {
+- (void)silenceNextUpdate 
+{
 	silenceNextServerUpdateCount++;
-    
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -56,7 +56,6 @@
         
 	}
 	//else [pcImage updateViewWithNewImage:[UIImage imageNamed:@"profile.png"]];	
-
 }
 
 -(void)refresh {
@@ -74,7 +73,7 @@
 }
 
 -(IBAction)groupButtonPressed {
-  
+    
 }
 
 - (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier {
@@ -112,7 +111,7 @@
 	iconViewTemp.tag = 3;
 	iconViewTemp.backgroundColor = [UIColor clearColor]; 
 	[cell.contentView addSubview:iconViewTemp];
-
+    
     
 	return cell;
 }
@@ -121,16 +120,16 @@
 #pragma mark PickerViewDelegate selectors
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-   // return 2;
+    // return 2;
     return 1;
 }
 
 // returns the # of rows in each component..
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     /*if(section == 0){
-        return 1;
-    }
-    if(section == 1)*/
+     return 1;
+     }
+     if(section == 1)*/
     if([attributes count] == 0) return 1;
 	return [attributes count];
 }
@@ -141,14 +140,14 @@
 	static NSString *CellIdentifier = @"Cell";
 	
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];	
-		
+    
     //if(indexPath.section == 1){
-        if(cell == nil) cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
-
+    if(cell == nil) cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+    
     if([attributes count] > 0){
-	Item *item = [attributes objectAtIndex: [indexPath row]];
-	
-	
+        Item *item = [attributes objectAtIndex: [indexPath row]];
+        
+        
         AsyncMediaImageView *iconView = (AsyncMediaImageView *)[cell viewWithTag:3];
         
         
@@ -166,34 +165,39 @@
         else {
             [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultImageIcon.png"]];
         }
-
+        
         cell.textLabel.text = item.name;
         if(item.qty > 1){
-        cell.detailTextLabel.textColor = [UIColor blackColor];
-        cell.detailTextLabel.text = [NSString stringWithFormat: @"%d", item.qty];
+            cell.detailTextLabel.textColor = [UIColor blackColor];
+            cell.detailTextLabel.text = [NSString stringWithFormat: @"%d", item.qty];
+        }
+        else 
+        {
+            cell.detailTextLabel.textColor = [UIColor blackColor];
+            cell.detailTextLabel.text = @"";
         }
         cell.imageView.image = iconView.image;
     }
     else{
         cell.textLabel.text = NSLocalizedString(@"AttributesNoCurrentlyKey", @"");
     }
-        cell.userInteractionEnabled = NO;
-        
-   // }
+    cell.userInteractionEnabled = NO;
+    
+    // }
     /*else{
-        if(cell == nil) cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-
-        cell.userInteractionEnabled = YES;
-        cell.textLabel.text = @"No Group";
-        cell.detailTextLabel.text = @"Tap to Find One";
-    }*/
+     if(cell == nil) cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+     
+     cell.userInteractionEnabled = YES;
+     cell.textLabel.text = @"No Group";
+     cell.detailTextLabel.text = @"Tap to Find One";
+     }*/
 	return cell;
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     //if(section==0)return  @"Group";
-       // else 
-            return NSLocalizedString(@"AttributesAttributesTitleKey", @"");
+    // else 
+    return NSLocalizedString(@"AttributesAttributesTitleKey", @"");
 }
 
 // Customize the height of each row
@@ -202,7 +206,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {	
-
+    
 	
 }
 
