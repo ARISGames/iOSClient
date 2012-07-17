@@ -77,10 +77,11 @@
 }
 
 - (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier {
-	CGRect CellFrame = CGRectMake(0, 0, 320, 60);
+    CGRect CellFrame = CGRectMake(0, 0, 320, 60);
 	CGRect IconFrame = CGRectMake(5, 5, 50, 50);
-	CGRect Label1Frame = CGRectMake(70, 22, 170, 20);
-	CGRect Label2Frame = CGRectMake(180, 22, 125, 20);
+	CGRect Label1Frame = CGRectMake(70, 22, 240, 20);
+	CGRect Label2Frame = CGRectMake(70, 39, 240, 20);
+    CGRect Label3Frame = CGRectMake(70, 5, 240, 20);
 	UILabel *lblTemp;
 	UIImageView *iconViewTemp;
 	
@@ -101,7 +102,7 @@
 	//Initialize Label with tag 2.
 	lblTemp = [[UILabel alloc] initWithFrame:Label2Frame];
 	lblTemp.tag = 2;
-	lblTemp.font = [UIFont boldSystemFontOfSize:24];
+	lblTemp.font = [UIFont systemFontOfSize:11];
 	lblTemp.textColor = [UIColor darkGrayColor];
 	lblTemp.backgroundColor = [UIColor clearColor];
 	[cell.contentView addSubview:lblTemp];
@@ -112,6 +113,14 @@
 	iconViewTemp.backgroundColor = [UIColor clearColor]; 
 	[cell.contentView addSubview:iconViewTemp];
     
+    //Init Icon with tag 4
+    lblTemp = [[UILabel alloc] initWithFrame:Label3Frame];
+	lblTemp.tag = 4;
+	lblTemp.font = [UIFont boldSystemFontOfSize:11];
+	lblTemp.textColor = [UIColor darkGrayColor];
+	lblTemp.backgroundColor = [UIColor clearColor];
+    //lblTemp.textAlignment = UITextAlignmentRight;
+	[cell.contentView addSubview:lblTemp];
     
 	return cell;
 }
@@ -126,71 +135,62 @@
 
 // returns the # of rows in each component..
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    /*if(section == 0){
-     return 1;
-     }
-     if(section == 1)*/
-    if([attributes count] == 0) return 1;
 	return [attributes count];
 }
 
-
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	static NSString *CellIdentifier = @"Cell";
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];	
+	if(cell == nil) cell = [self getCellContentView:@"Cell"];
+    
+    cell.textLabel.backgroundColor = [UIColor clearColor]; 
+    cell.detailTextLabel.backgroundColor = [UIColor clearColor]; 
+    
+    if (indexPath.row % 2 == 0){  
+        cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0  
+                                                           green:233.0/255.0  
+                                                            blue:233.0/255.0  
+                                                           alpha:1.0];  
+    } else {  
+        cell.contentView.backgroundColor = [UIColor colorWithRed:200.0/255.0  
+                                                           green:200.0/255.0  
+                                                            blue:200.0/255.0  
+                                                           alpha:1.0];  
+    } 
+	Item *item = [attributes objectAtIndex: [indexPath row]];
 	
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];	
+	UILabel *lblTemp1 = (UILabel *)[cell viewWithTag:1];
+	lblTemp1.text = item.name;	
+    lblTemp1.font = [UIFont boldSystemFontOfSize:18.0];
     
-    //if(indexPath.section == 1){
-    if(cell == nil) cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+    UILabel *lblTemp2 = (UILabel *)[cell viewWithTag:2];
+    lblTemp2.text = item.description;
+	AsyncMediaImageView *iconView = (AsyncMediaImageView *)[cell viewWithTag:3];
     
-    if([attributes count] > 0){
-        Item *item = [attributes objectAtIndex: [indexPath row]];
-        
-        
-        AsyncMediaImageView *iconView = (AsyncMediaImageView *)[cell viewWithTag:3];
-        
-        
-        if (item.iconMediaId != 0) {
-            Media *iconMedia;
-            if([self.iconCache count] > indexPath.row){
-                iconMedia = [self.iconCache objectAtIndex:indexPath.row];
-            }
-            else{
-                iconMedia = [[AppModel sharedAppModel] mediaForMediaId: item.iconMediaId];
-                [self.iconCache  addObject:iconMedia];
-            }
+    UILabel *lblTemp3 = (UILabel *)[cell viewWithTag:4];
+    if(item.qty >1 && item.weight > 1)
+        lblTemp3.text = [NSString stringWithFormat:@"%@: %d, %@: %d",NSLocalizedString(@"QuantityKey", @""),item.qty,NSLocalizedString(@"WeightKey", @""),item.weight];
+    else if(item.weight > 1)
+        lblTemp3.text = [NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"WeightKey", @""),item.weight];
+    else if(item.qty > 1)
+        lblTemp3.text = [NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"QuantityKey", @""),item.qty];
+    else
+        lblTemp3.text = nil;
+    iconView.hidden = NO;
+    
+	if (item.iconMediaId != 0) {
+        Media *iconMedia;
+        if([self.iconCache count] < indexPath.row){
+            iconMedia = [self.iconCache objectAtIndex:indexPath.row];
+            [iconView updateViewWithNewImage:[UIImage imageWithData:iconMedia.image]];
+        }
+        else{
+            iconMedia = [[AppModel sharedAppModel] mediaForMediaId: item.iconMediaId];
+            [self.iconCache  addObject:iconMedia];
             [iconView loadImageFromMedia:iconMedia];
         }
-        else {
-            [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultImageIcon.png"]];
-        }
-        
-        cell.textLabel.text = item.name;
-        if(item.qty > 1){
-            cell.detailTextLabel.textColor = [UIColor blackColor];
-            cell.detailTextLabel.text = [NSString stringWithFormat: @"%d", item.qty];
-        }
-        else 
-        {
-            cell.detailTextLabel.textColor = [UIColor blackColor];
-            cell.detailTextLabel.text = @"";
-        }
-        cell.imageView.image = iconView.image;
-    }
-    else{
-        cell.textLabel.text = NSLocalizedString(@"AttributesNoCurrentlyKey", @"");
-    }
+	}
     cell.userInteractionEnabled = NO;
-    
-    // }
-    /*else{
-     if(cell == nil) cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-     
-     cell.userInteractionEnabled = YES;
-     cell.textLabel.text = @"No Group";
-     cell.detailTextLabel.text = @"Tap to Find One";
-     }*/
 	return cell;
 }
 
