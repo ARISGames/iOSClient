@@ -176,6 +176,25 @@
         return NO; 
     } 
     
+    if ([mainCommand isEqualToString:@"player"]) {
+        NSLog(@"WebPageVC: aris://player/ called");
+        
+        if ([components count] > 1 && 
+            [[components objectAtIndex:1] isEqualToString:@"name"]) 
+        {
+            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"setPlayerName(%@);",[AppModel sharedAppModel].userName]];
+            [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
+            return NO; 
+        }
+        if ([components count] > 1 && 
+            [[components objectAtIndex:1] isEqualToString:@"id"]) 
+        {
+            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"setPlayerId(%@);",[AppModel sharedAppModel].playerId]];
+            [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
+            return NO; 
+        }
+    }
+    
     if ([mainCommand isEqualToString:@"inventory"]) {
         NSLog(@"WebPageVC: aris://inventory/ called");
         
@@ -184,7 +203,7 @@
             int itemId = [[components objectAtIndex:2] intValue];
             NSLog(@"WebPageVC: aris://inventory/get/ called from webpage with itemId = %d",itemId);
             int qty = [self getQtyInInventoryOfItem:itemId];
-            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"syncQtyOfItem(%d,%d);",itemId,qty]];
+            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"didUpdateItemQty(%d,%d);",itemId,qty]];
             [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
             return NO; 
         }  
@@ -195,7 +214,7 @@
             int qty = [[components objectAtIndex:3] intValue];
             NSLog(@"WebPageVC: aris://inventory/set/ called from webpage with itemId = %d and qty = %d",itemId,qty);
             int newQty = [self setQtyInInventoryOfItem:itemId toQty:qty];
-            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"syncQtyOfItem(%d,%d);",itemId,newQty]];
+            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"didUpdateItemQty(%d,%d);",itemId,newQty]];
             [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
             return NO; 
         } 
@@ -206,7 +225,7 @@
             int qty = [[components objectAtIndex:3] intValue];
             NSLog(@"WebPageVC: aris://inventory/give/ called from webpage with itemId = %d and qty = %d",itemId,qty);
             int newQty = [self giveQtyInInventoryToItem:itemId ofQty:qty];
-            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"syncQtyOfItem(%d,%d);",itemId,newQty]];
+            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"didUpdateItemQty(%d,%d);",itemId,newQty]];
             [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
             return NO; 
         } 
@@ -217,7 +236,7 @@
             int qty = [[components objectAtIndex:3] intValue];
             NSLog(@"WebPageVC: aris://inventory/take/ called from webpage with itemId = %d and qty = %d",itemId,qty);
             int newQty = [self takeQtyInInventoryFromItem:itemId ofQty:qty];
-            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"syncQtyOfItem(%d,%d);",itemId,newQty]];
+            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"didUpdateItemQty(%d,%d);",itemId,newQty]];
             [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
             return NO; 
         } 
