@@ -360,9 +360,6 @@ static float INITIAL_SPAN = 0.001;
 			annotation.location = location;
 			annotation.title = location.name;
             annotation.kind = location.kind;
-            if([annotation.title isEqualToString:@"None"] || (!location.showTitle && location.kind != NearbyObjectPlayer)){
-                annotation.title = nil;
-            }
 			if (location.kind == NearbyObjectItem && location.qty > 1 && annotation.title != nil) 
 				annotation.subtitle = [NSString stringWithFormat:@"x %d",location.qty];
 			annotation.iconMediaId = location.iconMediaId;
