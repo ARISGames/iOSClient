@@ -6,6 +6,12 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+#define SCREEN_HEIGHT 480
+#define SCREEN_WIDTH 320
+#define STATUS_BAR_HEIGHT 20
+#define NOTIFICATION_HEIGHT 40
+#define TRUE_ZERO_Y -20
+
 #import <UIKit/UIKit.h>
 #import "AppModel.h"
 
@@ -67,11 +73,11 @@
     UILabel *titleLabel;
     UILabel *descLabel;
     NSMutableArray *notifArray;
-    int notificationBarHeight;
+    //int notificationBarHeight;
     PTPusher *client;
     //   NSDictionary *imageInfo;
 }
-@property(readwrite,assign)int notificationBarHeight;
+//@property(readwrite,assign)int notificationBarHeight;
 @property (nonatomic) IBOutlet UITabBarController *tabBarController;
 @property (nonatomic) UIViewController *defaultViewControllerForMainTabBar;
 @property (nonatomic) IBOutlet UITabBarController *gameSelectionTabBarController;

@@ -205,11 +205,12 @@ NSString *const kDialogHtmlTemplate =
 }
 
 -(void)showNotifications:(NSNotification*) notification {
+    return;
     if(!self.movedForNotifications){
     self.areNotifications = YES;
   //  self.tempNpcFrame = self.npcImageScrollView.frame;
     self.tempPcFrame =  self.pcImageScrollView.frame;
-    self.notificationBarHeight = [RootViewController sharedRootViewController].notificationBarHeight;
+ //   self.notificationBarHeight = [RootViewController sharedRootViewController].notificationBarHeight;
     CGRect newTextFrame;
     newTextFrame = CGRectMake(0, 44+self.notificationBarHeight, 320, 416);
     [UIView beginAnimations:@"toggleTextSize" context:nil];
@@ -238,6 +239,7 @@ NSString *const kDialogHtmlTemplate =
 }
 
 -(void)hideNotifications:(NSNotification*) notification {
+    return;
     self.areNotifications = NO;
     self.movedForNotifications = NO;
     CGRect newTextFrame;

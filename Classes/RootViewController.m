@@ -35,7 +35,7 @@ BOOL isShowingNotification;
 @synthesize networkAlert,serverAlert;
 @synthesize tutorialViewController;
 @synthesize modalPresent,notificationCount;
-@synthesize titleLabel,descLabel,notifArray,notificationBarHeight;
+@synthesize titleLabel,descLabel,notifArray;
 @synthesize pubClient;
 @synthesize privClient,loadingVC;
 //@synthesize toolbarViewController;
@@ -59,7 +59,6 @@ BOOL isShowingNotification;
         self.notificationCount = 0;
         NSMutableArray* notifyArrayAlloc = [[NSMutableArray alloc]initWithCapacity:5];
         self.notifArray = notifyArrayAlloc;
-        self.notificationBarHeight = 20;
         
         //register for notifications from views
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
@@ -320,22 +319,24 @@ BOOL isShowingNotification;
             [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
             [UIView setAnimationDuration:.5];
             NSLog(@"AppDelegate: showNotifications: Begin Resizing");
-            NSLog(@"TabBC frame BEFORE origin: %f notificationBarHeight %d",self.tabBarController.view.frame.origin.y,self.notificationBarHeight);
+            NSLog(@"TabBC frame BEFORE origin: %f",self.tabBarController.view.frame.origin.y);
             
             [[UIApplication sharedApplication] setStatusBarHidden:YES];
             
             //NOTES: While the status bar is hidden, the view still seems to be basing its origin on where the bottom of the status bar would be. Thus there is 20 pixels subtracted from all y-values to account for this.
-            if(self.tabBarController.modalViewController){
-                self.tabBarController.modalViewController.view.frame = CGRectMake(0, 40, self.tabBarController.view.frame.size.width, 480-self.notificationBarHeight-20);
+            // 7/18/12
+            CGRect squishedVCFrame = CGRectMake(0, TRUE_ZERO_Y + NOTIFICATION_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NOTIFICATION_HEIGHT);
+            if(self.modalViewController){
+                self.modalViewController.view.frame = squishedVCFrame;
             }
             
-            self.tabBarController.view.frame = CGRectMake(0, self.notificationBarHeight, self.tabBarController.view.frame.size.width, 480-self.notificationBarHeight-20);
-            [self.titleLabel setFrame:CGRectMake(0, -20, 320, 20)];
-            [self.descLabel setFrame:CGRectMake(0, 0, 320, 15)];
+            self.tabBarController.view.frame = squishedVCFrame;
+            [self.titleLabel setFrame:CGRectMake(0, TRUE_ZERO_Y, SCREEN_WIDTH, 20)]; //20 is just the height of the 'title' of the notification
+            [self.descLabel setFrame:CGRectMake(0, TRUE_ZERO_Y + self.titleLabel.frame.size.height, SCREEN_WIDTH, 15)]; //15 '' '' '' 'description' '' ''
             
             [UIView commitAnimations];
         }
-        NSLog(@"TabBC frame AFTER origin: %f notificationBarHeight %d",self.tabBarController.view.frame.origin.y,notificationBarHeight);
+        NSLog(@"TabBC frame AFTER origin: %f",self.tabBarController.view.frame.origin.y);
         NSLog(@"AppDelegate: showNotifications: Set Text and Init alpha");
         
         titleLabel.alpha = 0.0;
@@ -343,16 +344,17 @@ BOOL isShowingNotification;
         titleLabel.text = [[notifArray objectAtIndex:0] objectForKey:@"title"];
         descLabel.text = [[notifArray objectAtIndex:0] objectForKey:@"prompt"];
         
+        
         [UIView animateWithDuration:1.5 delay:0.0 options:UIViewAnimationCurveEaseIn animations:^{
             NSLog(@"AppDelegate: showNotifications: Begin Fade in");
-            titleLabel.alpha = 1.0;
-            descLabel.alpha = 1.0;
+            self.titleLabel.alpha = 1.0;
+            self.descLabel.alpha = 1.0;
         }completion:^(BOOL finished){
             if(finished){
                 NSLog(@"AppDelegate: showNotifications: Fade in Complete, Begin Fade Out");
                 [UIView animateWithDuration:1.5 delay:0.0 options:UIViewAnimationCurveEaseIn animations:^{
-                    titleLabel.alpha = 0.0;
-                    descLabel.alpha = 0.0;
+                    self.titleLabel.alpha = 0.0;
+                    self.descLabel.alpha = 0.0;
                 }completion:^(BOOL finished){
                     if(finished){
                         NSLog(@"AppDelegate: showNotifications: Fade Out Complete, Pop and Start over");
@@ -377,15 +379,13 @@ BOOL isShowingNotification;
             if(isShowingNotification){
                 [[UIApplication sharedApplication] setStatusBarHidden:NO];
                 
-                if(self.tabBarController.modalViewController) {
-                    self.tabBarController.modalViewController.view.frame = CGRectMake(self.tabBarController.view.frame.origin.x, 0, self.tabBarController.view.frame.size.width, 480-([UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y+self.notificationBarHeight));    }
+                CGRect notSquishedVCFrame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-STATUS_BAR_HEIGHT);    
                 
-            /*    self.tabBarController.view.frame = CGRectMake(self.tabBarController.view.frame.origin.x, [UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y-self.notificationBarHeight, self.tabBarController.view.frame.size.width, 480-[UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y+notificationBarHeight); 
+                if(self.modalViewController) {
+                    self.modalViewController.view.frame = notSquishedVCFrame;    
+                }
                 
-                [self.titleLabel setFrame:CGRectMake(0, -20, 320, 20)];
-                [self.descLabel setFrame:CGRectMake(0, -20, 320, 15)]; */
-                
-                self.tabBarController.view.frame = CGRectMake(self.tabBarController.view.frame.origin.x, 0, self.tabBarController.view.frame.size.width, 480-([UIApplication sharedApplication].statusBarFrame.size.height+[UIApplication sharedApplication].statusBarFrame.origin.y+self.notificationBarHeight)); 
+                self.tabBarController.view.frame = notSquishedVCFrame; 
             }
         }completion:^(BOOL finished){
             isShowingNotification = NO;
@@ -511,11 +511,11 @@ BOOL isShowingNotification;
 - (void)dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController{
     
     [nearbyObjectViewController dismissModalViewControllerAnimated:NO];
-    if(isShowingNotification){
+  /*  if(isShowingNotification){
        // notificationBarHeight = 0;
         
         self.tabBarController.view.frame = CGRectMake(0, self.notificationBarHeight, self.tabBarController.view.frame.size.width, 480-self.notificationBarHeight-20);
-    }
+    } */
     
 }
 
@@ -867,11 +867,11 @@ BOOL isShowingNotification;
 		}
 	}
     
-    if(isShowingNotification){
+ /*   if(isShowingNotification){
       //  notificationBarHeight = 0;
         
         self.tabBarController.view.frame = CGRectMake(0, self.notificationBarHeight, self.tabBarController.view.frame.size.width, 480-self.notificationBarHeight-20);
-    } 
+    } */
 }
 
 
