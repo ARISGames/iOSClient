@@ -151,10 +151,6 @@ NSString *const kDialogHtmlTemplate =
         [self applyNPCWithGreeting];
 	}
     
-    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-	[dispatcher addObserver:self selector:@selector(showNotifications:) name:@"showNotifications" object:nil];
-    [dispatcher addObserver:self selector:@selector(hideNotifications:) name:@"hideNotifications" object:nil];
-    
 /*  SAMPLE DIALOG FORMAT
 	NSString *xmlData = 
 	@"<dialog>"
@@ -202,70 +198,6 @@ NSString *const kDialogHtmlTemplate =
 	
 	self.inFullScreenTextMode = !self.inFullScreenTextMode;
 	
-}
-
--(void)showNotifications:(NSNotification*) notification {
-    return;
-    if(!self.movedForNotifications){
-    self.areNotifications = YES;
-  //  self.tempNpcFrame = self.npcImageScrollView.frame;
-    self.tempPcFrame =  self.pcImageScrollView.frame;
- //   self.notificationBarHeight = [RootViewController sharedRootViewController].notificationBarHeight;
-    CGRect newTextFrame;
-    newTextFrame = CGRectMake(0, 44+self.notificationBarHeight, 320, 416);
-    [UIView beginAnimations:@"toggleTextSize" context:nil];
-    [UIView setAnimationDuration:0.5];
-    if (self.inFullScreenTextMode) {
-	self.pcScrollView.frame = newTextFrame;
-	self.pcTableView.frame = self.pcScrollView.bounds;
-    self.pcScrollView.contentSize = self.pcTableView.frame.size;
-	self.npcScrollView.frame = newTextFrame;
-    }
-    self.pcImageScrollView.frame =  CGRectMake(0, 44, 320, 416);
-   // self.npcImageScrollView.frame =  CGRectMake(0, 44, 320, 416);
-	[UIView commitAnimations];
-  /*  else{
-        newTextFrame = CGRectMake(0, 332-self.notificationBarHeight, 320, 416);
-        [UIView beginAnimations:@"toggleTextSize" context:nil];
-        [UIView setAnimationDuration:0.5];
-        self.pcScrollView.frame = newTextFrame;
-        self.pcTableView.frame = self.pcScrollView.bounds;
-        self.pcScrollView.contentSize = self.pcTableView.frame.size;
-        self.npcScrollView.frame = newTextFrame;
-        [UIView commitAnimations];   
-    }  */
-        self.movedForNotifications = YES;
-    } 
-}
-
--(void)hideNotifications:(NSNotification*) notification {
-    return;
-    self.areNotifications = NO;
-    self.movedForNotifications = NO;
-    CGRect newTextFrame;
-    newTextFrame = CGRectMake(0, 44, 320, 416);
-    [UIView beginAnimations:@"toggleTextSize" context:nil];
-    [UIView setAnimationDuration:0.5];
-    self.pcImageScrollView.frame =  self.tempPcFrame;
-  //  self.npcImageScrollView.frame =  self.tempNpcFrame;
-    if (self.inFullScreenTextMode) {
-        self.pcScrollView.frame = newTextFrame;
-        self.pcTableView.frame = self.pcScrollView.bounds;
-        self.pcScrollView.contentSize = self.pcTableView.frame.size;
-        self.npcScrollView.frame = newTextFrame;
-    }
-    [UIView commitAnimations];
-  /*  else{
-        newTextFrame = CGRectMake(0, 332-self.notificationBarHeight, 320, 416);
-        [UIView beginAnimations:@"toggleTextSize" context:nil];
-        [UIView setAnimationDuration:0.5];
-        self.pcScrollView.frame = newTextFrame;
-        self.pcTableView.frame = self.pcScrollView.bounds;
-        self.pcScrollView.contentSize = self.pcTableView.frame.size;
-        self.npcScrollView.frame = newTextFrame;
-        [UIView commitAnimations]; 
-    } */
-    
 }
 
 - (void)didReceiveMemoryWarning {

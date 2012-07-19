@@ -24,7 +24,7 @@
     AVAudioPlayer *player;
 }
 
-@property (nonatomic) IBOutlet UIWindow *window;
+@property (nonatomic) UIWindow *window;
 @property (nonatomic, strong) AVAudioPlayer *player;
 
 - (void) vibrate;

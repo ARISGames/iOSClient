@@ -34,8 +34,9 @@ BOOL isShowingNotification;
 @synthesize waitingIndicator,waitingIndicatorView;
 @synthesize networkAlert,serverAlert;
 @synthesize tutorialViewController;
-@synthesize modalPresent,notificationCount;
+@synthesize modalPresent;
 @synthesize titleLabel,descLabel,notifArray;
+@synthesize notSquishedVCFrame,squishedVCFrame;
 @synthesize pubClient;
 @synthesize privClient,loadingVC;
 //@synthesize toolbarViewController;
@@ -45,18 +46,17 @@ BOOL isShowingNotification;
     static dispatch_once_t pred = 0;
     __strong static id _sharedObject = nil;
     dispatch_once(&pred, ^{
-        _sharedObject = [[self alloc] init]; // or some other init method
+        _sharedObject = [[self alloc] initWithFrame:CGRectMake(0,0,SCREEN_WIDTH,SCREEN_HEIGHT)];//[UIScreen mainScreen].bounds]; // or some other init method
     });
     return _sharedObject;
 }
 
-
-- (id)init {
+- (id)initWithFrame:(CGRect)frame {
     self = [super init];
     if (self) {
-        self.view.frame = CGRectMake(0,0,320,480);
+        self.view.frame = frame;//[UIScreen mainScreen].bounds;//CGRectMake(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
         [self.tabBarController setDelegate:self];
-        self.notificationCount = 0;
+        
         NSMutableArray* notifyArrayAlloc = [[NSMutableArray alloc]initWithCapacity:5];
         self.notifArray = notifyArrayAlloc;
         
@@ -65,26 +65,30 @@ BOOL isShowingNotification;
         [dispatcher addObserver:self selector:@selector(finishLoginAttempt:) name:@"NewLoginResponseReady" object:nil];
         [dispatcher addObserver:self selector:@selector(selectGame:) name:@"SelectGame" object:nil];
         [dispatcher addObserver:self selector:@selector(performLogout:) name:@"LogoutRequested" object:nil];
-        [dispatcher addObserver:self selector:@selector(displayNearbyObjects:) name:@"NearbyButtonTouched" object:nil];
         [dispatcher addObserver:self selector:@selector(checkForDisplayCompleteNode) name:@"NewQuestListReady" object:nil];
         [dispatcher addObserver:self selector:@selector(receivedMediaList) name:@"ReceivedMediaList" object:nil];
         
-        UILabel *titleLabelAlloc = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
+        UILabel *titleLabelAlloc = [[UILabel alloc] initWithFrame:CGRectMake(0, TRUE_ZERO_Y, SCREEN_WIDTH, 20)];
         self.titleLabel = titleLabelAlloc;
-        UILabel *descLabelAlloc = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 15)];
-        self.descLabel = descLabelAlloc;
         self.titleLabel.textColor = [UIColor whiteColor];
         self.titleLabel.font = [UIFont boldSystemFontOfSize:16];
         self.titleLabel.textAlignment = UITextAlignmentCenter;
         self.titleLabel.backgroundColor = [UIColor blackColor];
+        
+        UILabel *descLabelAlloc = [[UILabel alloc] initWithFrame:CGRectMake(0, self.titleLabel.frame.origin.y + self.titleLabel.frame.size.height, SCREEN_WIDTH, 15)];
+        self.descLabel = descLabelAlloc;
         self.descLabel.textColor = [UIColor whiteColor];
         self.descLabel.font = [UIFont systemFontOfSize:12];
         self.descLabel.textAlignment = UITextAlignmentCenter;
         self.descLabel.backgroundColor = [UIColor blackColor];
         
+        notSquishedVCFrame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-STATUS_BAR_HEIGHT);    
+        squishedVCFrame = CGRectMake(0, TRUE_ZERO_Y + NOTIFICATION_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NOTIFICATION_HEIGHT);
+
+        
         //Setup NearbyObjects View
         NearbyObjectsViewController *nearbyObjectsViewController = [[NearbyObjectsViewController alloc]initWithNibName:@"NearbyObjectsViewController" bundle:nil];
-        UINavigationController *nearbyObjectsNavigationControllerAlloc = [[UINavigationController alloc] initWithRootViewController: nearbyObjectsViewController];
+        UINavigationController *nearbyObjectsNavigationControllerAlloc = [[UINavigationController alloc] initWithRootViewController:nearbyObjectsViewController];
         self.nearbyObjectsNavigationController = nearbyObjectsNavigationControllerAlloc;
         self.nearbyObjectsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
         
@@ -153,8 +157,6 @@ BOOL isShowingNotification;
         [loginViewNavigationController.view setFrame:UIScreen.mainScreen.applicationFrame];
         [self.view addSubview:loginViewNavigationController.view];
         
-        
-        
         //Setup the Main Tab Bar
         UITabBarController *tabBarControllerAlloc = [[UITabBarController alloc] init];
         self.tabBarController = tabBarControllerAlloc;
@@ -201,12 +203,10 @@ BOOL isShowingNotification;
         UINavigationController *gamePickerPopularNC = [[UINavigationController alloc] initWithRootViewController:gamePickerPopularVC];
         gamePickerPopularNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
         
-        
         //Logout View
         LogoutViewController *alogoutViewController = [[LogoutViewController alloc] initWithNibName:@"Logout" bundle:nil];
         UINavigationController *alogoutNavigationController = [[UINavigationController alloc] initWithRootViewController: alogoutViewController];
         alogoutNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-        
         
         self.gameSelectionTabBarController.viewControllers = [NSMutableArray arrayWithObjects:
                                                               gamePickerNearbyNC,
@@ -219,8 +219,6 @@ BOOL isShowingNotification;
         //[self.gameSelectionTabBarController.view setFrame:UIScreen.mainScreen.applicationFrame];
         [self.view addSubview:self.gameSelectionTabBarController.view];
         
-        
-        
         //Setup The Tutorial View Controller
         TutorialViewController *tutorialViewControllerAlloc = [[TutorialViewController alloc]init];
         self.tutorialViewController = tutorialViewControllerAlloc ;
@@ -228,8 +226,6 @@ BOOL isShowingNotification;
         self.tutorialViewController.view.hidden = YES;
         self.tutorialViewController.view.userInteractionEnabled = NO;
         [self.tabBarController.view addSubview:self.tutorialViewController.view];
-        
-        
         
         //Setup Location Manager
         [NSTimer scheduledTimerWithTimeInterval:3.0 
@@ -292,28 +288,27 @@ BOOL isShowingNotification;
     [[UIApplication sharedApplication] setStatusBarOrientation:UIDeviceOrientationPortrait animated:NO];
 }
 
-
-
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    if(self.tabBarController.modalViewController) return YES;
-    else return NO;
-  //  return YES;
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 #pragma mark Notifications, Warnings and Other Views
 
+-(void)enqueueNotificationWithTitle:(NSString *)title andPrompt:(NSString *)prompt
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:title,@"title",prompt,@"prompt", nil];
+    [self.notifArray addObject:dict];
+    if(!isShowingNotification && !self.presentedViewController)
+         [self showNotifications];
+}
 -(void)showNotifications{
-    [self.view addSubview:self.titleLabel];
-    [self.view addSubview:self.descLabel];
-    NSNotification *showNotificationsNotification = [NSNotification notificationWithName:@"showNotifications" object:self];
-    [[NSNotificationCenter defaultCenter] postNotification:showNotificationsNotification];
     NSLog(@"AppDelegate: showNotifications");
-    
-    if([self.notifArray count]>0){
+    if([self.notifArray count]>0) {
         NSLog(@"AppDelegate: showNotifications: We have something to display");
         if(!isShowingNotification){//lower frame into position if its not already there
             isShowingNotification = YES;
+            [self.view addSubview:self.titleLabel];
+            [self.view addSubview:self.descLabel];
             
             [UIView beginAnimations:nil context:nil];
             [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
@@ -322,18 +317,13 @@ BOOL isShowingNotification;
             NSLog(@"TabBC frame BEFORE origin: %f",self.tabBarController.view.frame.origin.y);
             
             [[UIApplication sharedApplication] setStatusBarHidden:YES];
-            
-            //NOTES: While the status bar is hidden, the view still seems to be basing its origin on where the bottom of the status bar would be. Thus there is 20 pixels subtracted from all y-values to account for this.
-            // 7/18/12
-            CGRect squishedVCFrame = CGRectMake(0, TRUE_ZERO_Y + NOTIFICATION_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NOTIFICATION_HEIGHT);
-            if(self.modalViewController){
-                self.modalViewController.view.frame = squishedVCFrame;
+
+            //NOTES: While the status bar is hidden, the view still is basing its origin on where the bottom of the status bar would be. Thus there is 20 pixels subtracted from all y-values to account for this.
+            if(self.presentedViewController){
+                self.presentedViewController.view.frame = squishedVCFrame;
             }
             
             self.tabBarController.view.frame = squishedVCFrame;
-            [self.titleLabel setFrame:CGRectMake(0, TRUE_ZERO_Y, SCREEN_WIDTH, 20)]; //20 is just the height of the 'title' of the notification
-            [self.descLabel setFrame:CGRectMake(0, TRUE_ZERO_Y + self.titleLabel.frame.size.height, SCREEN_WIDTH, 15)]; //15 '' '' '' 'description' '' ''
-            
             [UIView commitAnimations];
         }
         NSLog(@"TabBC frame AFTER origin: %f",self.tabBarController.view.frame.origin.y);
@@ -343,7 +333,6 @@ BOOL isShowingNotification;
         descLabel.alpha = 0.0;
         titleLabel.text = [[notifArray objectAtIndex:0] objectForKey:@"title"];
         descLabel.text = [[notifArray objectAtIndex:0] objectForKey:@"prompt"];
-        
         
         [UIView animateWithDuration:1.5 delay:0.0 options:UIViewAnimationCurveEaseIn animations:^{
             NSLog(@"AppDelegate: showNotifications: Begin Fade in");
@@ -379,10 +368,9 @@ BOOL isShowingNotification;
             if(isShowingNotification){
                 [[UIApplication sharedApplication] setStatusBarHidden:NO];
                 
-                CGRect notSquishedVCFrame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-STATUS_BAR_HEIGHT);    
                 
-                if(self.modalViewController) {
-                    self.modalViewController.view.frame = notSquishedVCFrame;    
+                if(self.presentedViewController) {
+                    self.presentedViewController.view.frame = notSquishedVCFrame;    
                 }
                 
                 self.tabBarController.view.frame = notSquishedVCFrame; 
@@ -397,7 +385,6 @@ BOOL isShowingNotification;
 
 
 - (void) showGameSelectionTabBarAndHideOthers {
-    
     //Put it onscreen
     CGContextRef context = UIGraphicsGetCurrentContext();
     [UIView beginAnimations:nil context:context];
@@ -408,7 +395,6 @@ BOOL isShowingNotification;
     self.gameSelectionTabBarController.view.hidden = NO;
     self.loginViewNavigationController.view.hidden = YES;
     [UIView commitAnimations];
-    
 }
 
 
@@ -477,7 +463,6 @@ BOOL isShowingNotification;
     self.waitingIndicatorView = nil;
 }
 
-
 - (void) showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar {
 	NSLog (@"AppDelegate: Showing Waiting Indicator");
 	if (!self.waitingIndicator) {
@@ -504,25 +489,19 @@ BOOL isShowingNotification;
 	self.nearbyObjectNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
 	//Display
-    
-    [self presentModalViewController:self.nearbyObjectNavigationController animated:NO];
+    [self presentViewController:self.nearbyObjectNavigationController animated:NO completion:nil];
 }
 
 - (void)dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController{
-    
-    [nearbyObjectViewController dismissModalViewControllerAnimated:NO];
-  /*  if(isShowingNotification){
-       // notificationBarHeight = 0;
-        
-        self.tabBarController.view.frame = CGRectMake(0, self.notificationBarHeight, self.tabBarController.view.frame.size.width, 480-self.notificationBarHeight-20);
-    } */
-    
+
+    if(!isShowingNotification && [self.notifArray count] > 0)
+        [self performSelector:@selector(showNotifications) withObject:nil afterDelay:0.1];
+    [nearbyObjectViewController dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void) returnToHomeView{
 	NSLog(@"AppDelegate: Returning to Home View and Popping More Nav Controller");
-    [self.tabBarController.moreNavigationController popToRootViewControllerAnimated:NO];
-	//[self.tabBarController setSelectedViewController:self.defaultViewControllerForMainTabBar];	
+    [self.tabBarController.moreNavigationController popToRootViewControllerAnimated:NO];	
 }
 
 - (void) checkForDisplayCompleteNode{
@@ -547,7 +526,6 @@ BOOL isShowingNotification;
 
 - (void) showNearbyTab:(BOOL)yesOrNo {
     if([AppModel sharedAppModel].tabsReady){
-        //[AppModel sharedAppModel].tabsReady = NO;
         NSMutableArray *tabs = [NSMutableArray arrayWithArray:self.tabBarController.viewControllers];
         
         if (yesOrNo) {

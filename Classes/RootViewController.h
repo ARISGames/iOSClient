@@ -66,12 +66,13 @@
 	LoadingViewController *loadingVC;
 	UIAlertView *networkAlert;
 	UIAlertView *serverAlert;
-	TutorialPopupView *tutorialPopupView; 
+	TutorialPopupView *tutorialPopupView;
 	
     BOOL modalPresent;
-    NSInteger notificationCount;
     UILabel *titleLabel;
     UILabel *descLabel;
+    CGRect squishedVCFrame;
+    CGRect notSquishedVCFrame;
     NSMutableArray *notifArray;
     //int notificationBarHeight;
     PTPusher *client;
@@ -97,11 +98,11 @@
 //@property(nonatomic)NSDictionary *imageInfo;
 
 @property (readwrite) BOOL modalPresent;
-@property (readwrite) NSInteger notificationCount;
 
 @property(nonatomic) IBOutlet UILabel *titleLabel;
 @property(nonatomic) IBOutlet UILabel *descLabel;
-
+@property(nonatomic) CGRect notSquishedVCFrame;
+@property(nonatomic) CGRect squishedVCFrame;
 
 + (RootViewController *)sharedRootViewController;
 
@@ -120,6 +121,7 @@
 - (void) checkForDisplayCompleteNode;
 - (void) displayIntroNode;
 - (void) changeTabBar;
+- (void) enqueueNotificationWithTitle:(NSString *)title andPrompt:(NSString *)prompt;
 - (void) showNotifications;
 - (void) hideNotifications;
 - (void) dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController;

@@ -269,14 +269,11 @@
     
     if([[(UINavigationController *) [RootViewController sharedRootViewController].tabBarController.selectedViewController topViewController] respondsToSelector:@selector(updateQuantityDisplay)])
         [[(UINavigationController *)[RootViewController sharedRootViewController].tabBarController.selectedViewController topViewController] performSelector:@selector(updateQuantityDisplay)];
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"AppModelItemLostKey", @""),@"title",[NSString stringWithFormat:@"%d %@ %@",qty,item.name,NSLocalizedString(@"AppModelItemRemovedKey", @"")],@"prompt", nil];
     
-    [[RootViewController sharedRootViewController].notifArray addObject:dict];
-    [[RootViewController sharedRootViewController] showNotifications];
-    
+    [[RootViewController sharedRootViewController] enqueueNotificationWithTitle:NSLocalizedString(@"AppModelItemLostKey", @"")
+                                                                      andPrompt:[NSString stringWithFormat:@"%d %@ %@",qty,item.name,NSLocalizedString(@"AppModelItemRemovedKey", @"")]];
 	NSNotification *notification = [NSNotification notificationWithName:@"NewInventoryReady" object:nil];
 	[[NSNotificationCenter defaultCenter] postNotification:notification];
-    
 }
 
 -(void)addItemToInventory: (Item*)item {
@@ -347,7 +344,7 @@
 	if (!note) {
 		//Let's pause everything and do a lookup
 		NSLog(@"AppModel: Note not found in cached item list, refresh");
-		 
+        
         if(!playerorGame){
             [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
             //note= [[AppServices sharedAppServices]fetchNote:mId];
