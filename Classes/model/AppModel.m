@@ -19,7 +19,7 @@
 @synthesize currentGame, gameList, locationList, playerList,recentGameList;
 @synthesize playerLocation, inventory, questList, networkAlert;
 @synthesize gameMediaList, gameItemList, gameNodeList, gameNpcList,gameWebPageList,gamePanoramicList,gameTabList, defaultGameTabList,gameNoteList,playerNoteList;
-@synthesize questListHash, inventoryHash,profilePic,attributes,gameNoteListHash,playerNoteListHash;
+@synthesize questListHash, inventoryHash,profilePic,attributes,gameNoteListHash,playerNoteListHash, overlayListHash;
 @synthesize overlayList;
 
 @synthesize nearbyLocationsList,gameTagList;
@@ -279,7 +279,8 @@
 -(void)addItemToInventory: (Item*)item {
 	NSLog(@"AppModel: adding an item from the local inventory");
     
-	[self.inventory setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]];
+	if(!item.isAttribute)[self.inventory setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]];
+	else [self.attributes setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]];
 	NSNotification *notification = [NSNotification notificationWithName:@"NewInventoryReady" object:nil];
 	[[NSNotificationCenter defaultCenter] postNotification:notification];
     //[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ItemRecievedNotification" object:nil]];

@@ -33,7 +33,7 @@
 @synthesize totalQuests;
 @synthesize numReviews;
 @synthesize calculatedScore,isLocational, activeQuests,iconMedia,currentWeight;
-@synthesize allowsPlayerTags,splashMedia,allowNoteComments,allowNoteLikes,allowShareNoteToMap,allowShareNoteToList;
+@synthesize allowsPlayerTags,splashMedia,allowNoteComments,allowNoteLikes,allowShareNoteToMap,allowShareNoteToList,allowTrading;
 
 - (id) init{
 	if ((self = [super init])) {

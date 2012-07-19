@@ -16,7 +16,7 @@
 
 @synthesize name,url;
 @synthesize kind,creatorId;
-@synthesize forcedDisplay, hasViewed;
+@synthesize forcedDisplay, hasViewed, isTradeable;
 
 @synthesize itemId;
 @synthesize mediaId;
@@ -65,7 +65,26 @@
 	return itemId;
 }
 
-
- 
+-(Item *)copyItem{
+    Item *itemCopy = [[Item alloc] init];
+    itemCopy.itemId = self.itemId;
+	itemCopy.name = self.name;
+	itemCopy.mediaId = self.mediaId;
+	itemCopy.iconMediaId = self.iconMediaId;
+	itemCopy.qty = self.qty;
+	itemCopy.maxQty = self.maxQty;
+    itemCopy.weight = self.weight;
+	itemCopy.description = self.description;	
+    itemCopy.isAttribute = self.isAttribute;
+	itemCopy.forcedDisplay = self.forcedDisplay;
+	itemCopy.dropable = self.dropable;
+	itemCopy.destroyable = self.destroyable;
+    itemCopy.hasViewed = self.hasViewed;
+	itemCopy.kind = self.kind;
+    itemCopy.url = self.url;
+    itemCopy.type = self.type;
+    itemCopy.creatorId = self.creatorId;
+    return itemCopy;
+}
 
 @end

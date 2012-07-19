@@ -25,6 +25,7 @@
 	BOOL dropable;
 	BOOL destroyable;
     BOOL hasViewed;
+    BOOL isTradeable;
 	nearbyObjectKind kind;
     NSString *url;
     NSString *type;
@@ -38,6 +39,7 @@
 - (nearbyObjectKind) kind;
 @property(readwrite, assign) BOOL forcedDisplay;
 @property(readwrite, assign) BOOL hasViewed;
+@property(readwrite, assign) BOOL isTradeable;
 @property(readwrite, assign) int itemId;
 @property(readwrite, assign) int creatorId;
 
@@ -55,8 +57,7 @@
 
 @property (nonatomic) NSString *url;
 
-
 - (void) display;
-
+- (Item *)   copyItem;
 
 @end

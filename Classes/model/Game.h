@@ -44,6 +44,7 @@
     BOOL allowShareNoteToList;
     BOOL allowNoteComments;
     BOOL allowNoteLikes;
+    BOOL allowTrading;
     Media *iconMedia;
     Media *splashMedia;
 
@@ -78,6 +79,7 @@
 @property (readwrite) BOOL allowShareNoteToList;
 @property (readwrite) BOOL allowNoteComments;
 @property (readwrite) BOOL allowNoteLikes;
+@property (readwrite) BOOL allowTrading;
 
 @property(readwrite, assign) int calculatedScore;
 @property(nonatomic) Media *iconMedia;

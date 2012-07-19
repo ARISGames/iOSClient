@@ -289,6 +289,9 @@ BOOL isShowingNotification;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    if(self.tabBarController.presentedViewController){
+        return YES;
+    }
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 

@@ -86,7 +86,7 @@
 								<int key="IBNumberOfSegments">2</int>
 								<int key="IBSelectedSegmentIndex">0</int>
 								<array key="IBSegmentTitles">
-									<string>Location Specific</string>
+									<string>Location Specifc</string>
 									<string>Playable Anywhere</string>
 								</array>
 								<array class="NSMutableArray" key="IBSegmentWidths">
@@ -133,6 +133,7 @@
 								<string key="NSFrame">{{6, 8}, {300, 30}}</string>
 								<reference key="NSSuperview" ref="230452768"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBSegmentControlStyle">2</int>

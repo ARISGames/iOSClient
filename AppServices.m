@@ -339,7 +339,63 @@ NSString *const kARISServerServicePackage = @"v1";
                                                               andArguments:arguments 
                                                                andUserInfo:nil];
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After 
-    
+}
+
+- (void)updateServerInventoryItem:(int)itemId qty:(int)qty
+{
+    NSLog(@"Model: Enforcing a qty of player inventory item on server");
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects: 
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+						  [NSString stringWithFormat:@"%d",itemId],
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+						  [NSString stringWithFormat:@"%d",qty],
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"players" 
+                                                             andMethodName:@"setItemCountForPlayer" 
+                                                              andArguments:arguments 
+                                                               andUserInfo:nil];
+	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After 
+}
+
+- (void)updateServerAddInventoryItem:(int)itemId addQty:(int)qty
+{
+    NSLog(@"Model: adds a qty of player inventory item on server");
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects: 
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+						  [NSString stringWithFormat:@"%d",itemId],
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+						  [NSString stringWithFormat:@"%d",qty],
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"players" 
+                                                             andMethodName:@"giveItemToPlayer" 
+                                                              andArguments:arguments 
+                                                               andUserInfo:nil];
+	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After 
+}
+
+- (void)updateServerRemoveInventoryItem:(int)itemId removeQty:(int)qty
+{
+    NSLog(@"Model: Enforcing a qty of player inventory item on server");
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects: 
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+						  [NSString stringWithFormat:@"%d",itemId],
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+						  [NSString stringWithFormat:@"%d",qty],
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"players" 
+                                                             andMethodName:@"takeItemFromPlayer" 
+                                                              andArguments:arguments 
+                                                               andUserInfo:nil];
+	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After 
 }
 
 -(void)createItemAndPlaceOnMap:(Item *)item {
@@ -367,6 +423,28 @@ NSString *const kARISServerServicePackage = @"v1";
     
 }
 
+- (void)commitInventoryTrade:(int)gameId fromMe:(int)playerOneId toYou:(int)playerTwoId giving:(NSString *)giftsJSON receiving:(NSString *)receiptsJSON
+{
+    /*
+     * Gifts/Receipts json should be of following format:
+     * {"items":[{"item_id":1,"qtyDelta":3},{"item_id":2,"qtyDelta":4}]}
+     */
+    
+    //Call server service
+	NSArray *arguments = [NSArray arrayWithObjects:
+						  [NSString stringWithFormat:@"%d",gameId],
+						  [NSString stringWithFormat:@"%d",playerOneId],
+						  [NSString stringWithFormat:@"%d",playerTwoId],
+                          giftsJSON,
+                          receiptsJSON,
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+                                                            andServiceName:@"items" 
+                                                             andMethodName:@"commitTradeTransaction" 
+                                                              andArguments:arguments 
+                                                               andUserInfo:nil];
+	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchInventory)]; 
+}
 
 -(void)createItemAndGivetoPlayer:(Item *)item {
     NSLog(@"AppModel: Creating Note: %@",item.name);
@@ -953,7 +1031,6 @@ NSString *const kARISServerServicePackage = @"v1";
 	[self fetchGameMediaListAsynchronously:YES];
     [self fetchGamePanoramicListAsynchronously:YES];
     [self fetchGameWebpageListAsynchronously:YES];
-    [self fetchOverlayListAsynchronously:YES];
     
 }
 
@@ -967,7 +1044,6 @@ NSString *const kARISServerServicePackage = @"v1";
     [[AppModel sharedAppModel].gameMediaList removeAllObjects];
     [[AppModel sharedAppModel].gameWebPageList removeAllObjects];
     [[AppModel sharedAppModel].gamePanoramicList removeAllObjects];
-    [[AppModel sharedAppModel].overlayList removeAllObjects];
     
     
 }
@@ -992,6 +1068,16 @@ NSString *const kARISServerServicePackage = @"v1";
     currentlyFetchingGamesList = NO;
     
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RecievedOverlayList" object:nil]];
+   
+    if ([jsonResult.hash isEqualToString:[[AppModel sharedAppModel] overlayListHash]]) {
+		NSLog(@"AppModel: Hash is same as last overlay list update, continue");
+		return;
+	}
+	
+	
+	//Save this hash for later comparisions
+	[AppModel sharedAppModel].overlayListHash = [jsonResult.hash copy];
+    
     
     NSArray *overlayListArray = (NSArray *)jsonResult.data;
     
@@ -1011,7 +1097,8 @@ NSString *const kARISServerServicePackage = @"v1";
             // create new overlay
             tempOverlay.overlayId = [[overlayDictionary valueForKey:@"game_overlay_id"] intValue];
             tempOverlay.num_tiles = [[overlayDictionary valueForKey:@"num_tiles"] intValue];
-            tempOverlay.alpha = [[overlayDictionary valueForKey:@"alpha"] floatValue] ;
+            //tempOverlay.alpha = [[overlayDictionary valueForKey:@"alpha"] floatValue] ;
+            tempOverlay.alpha = 1.0;
             [tempOverlay.tileFileName addObject:[overlayDictionary valueForKey:@"file_name"]];
             [tempOverlay.tileMediaID addObject:[overlayDictionary valueForKey:@"media_id"]];
             [tempOverlay.tileX addObject:[overlayDictionary valueForKey:@"x"]];
@@ -1068,6 +1155,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	[self fetchLocationList];
 	[self fetchQuestList];
 	[self fetchInventory];	
+    [self fetchOverlayListAsynchronously:YES];
 }
 
 - (void)resetAllPlayerLists {
@@ -1078,6 +1166,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	[AppModel sharedAppModel].inventoryHash = @"";
     [AppModel sharedAppModel].playerNoteListHash = @"";
     [AppModel sharedAppModel].gameNoteListHash = @"";
+    [AppModel sharedAppModel].overlayListHash = @"";
 	//Clear them out
     NSMutableArray *locationListAlloc = [[NSMutableArray alloc] initWithCapacity:0];
 	[AppModel sharedAppModel].locationList = locationListAlloc;
@@ -1091,8 +1180,12 @@ NSString *const kARISServerServicePackage = @"v1";
 	[tmpQuestList setObject:completedQuestObjects forKey:@"completed"];
 	[AppModel sharedAppModel].questList = tmpQuestList;
     
+    [[AppModel sharedAppModel].overlayList removeAllObjects];
+    
 	NSMutableDictionary *inventoryAlloc = [[NSMutableDictionary alloc] initWithCapacity:10];
 	[AppModel sharedAppModel].inventory = inventoryAlloc;
+    NSMutableDictionary *attributesAlloc = [[NSMutableDictionary alloc] initWithCapacity:10];
+	[AppModel sharedAppModel].attributes = attributesAlloc;
 	
 	//Tell the VCs
 	[self silenceNextServerUpdate];
@@ -1635,6 +1728,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	item.destroyable = [[itemDictionary valueForKey:@"destroyable"] boolValue];
 	item.maxQty = [[itemDictionary valueForKey:@"max_qty_in_inventory"] intValue];
     item.isAttribute = [[itemDictionary valueForKey:@"is_attribute"] boolValue];
+    item.isTradeable = [[itemDictionary valueForKey:@"tradeable"] boolValue];
     item.weight = [[itemDictionary valueForKey:@"weight"] intValue];
     item.url = [itemDictionary valueForKey:@"url"];
 	item.type = [itemDictionary valueForKey:@"type"];
@@ -2068,6 +2162,7 @@ NSString *const kARISServerServicePackage = @"v1";
     game.allowShareNoteToList = [[gameSource valueForKey:@"allow_share_note_to_book"]boolValue];
     game.allowNoteComments = [[gameSource valueForKey:@"allow_note_comments"]boolValue];
     game.allowNoteLikes = [[gameSource valueForKey:@"allow_note_likes"]boolValue];
+    game.allowTrading = [[gameSource valueForKey:@"allow_trading"]boolValue];
     
     NSArray *comments = [gameSource valueForKey:@"comments"];
     for (NSDictionary *comment in comments) {
@@ -2109,9 +2204,7 @@ NSString *const kARISServerServicePackage = @"v1";
     
     NSLog(@"AppModel: parseGameListFromJSON Complete, sending notification");
     
-    
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewGameListReady" object:nil]];
-    
 }
 
 -(void)parseRecentGameListFromJSON: (JSONResult *)jsonResult{
@@ -2499,6 +2592,7 @@ NSString *const kARISServerServicePackage = @"v1";
 		item.destroyable = [[itemDictionary valueForKey:@"destroyable"] boolValue];
 		item.qty = [[itemDictionary valueForKey:@"qty"] intValue];
         item.isAttribute = [[itemDictionary valueForKey:@"is_attribute"] boolValue];
+        item.isTradeable = [[itemDictionary valueForKey:@"tradeable"] boolValue];
         item.weight = [[itemDictionary valueForKey:@"weight"] intValue];
         item.url = [itemDictionary valueForKey:@"url"];
         item.type = [itemDictionary valueForKey:@"type"];
@@ -2507,8 +2601,6 @@ NSString *const kARISServerServicePackage = @"v1";
         if(item.isAttribute)[tempAttributes setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]]; 
         else [tempInventory setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]]; 
 	}
-    
-    
     
 	[AppModel sharedAppModel].inventory = tempInventory;
     [AppModel sharedAppModel].attributes = tempAttributes;
@@ -2522,7 +2614,6 @@ NSString *const kARISServerServicePackage = @"v1";
         [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedInventoryKey", @"");
         [RootViewController sharedRootViewController].loadingVC.receivedData++;
     }
-    
 }
 
 /*

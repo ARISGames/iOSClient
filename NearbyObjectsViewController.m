@@ -127,8 +127,7 @@
         if(![RootViewController sharedRootViewController].tabBarController.modalViewController)
         {
             //alert only if u are on quest,map,inventory, or nearby objects screen
-
-            [appDelegate playAudioAlert:@"nearbyObject" shouldVibrate:YES]; 
+            [appDelegate playAudioAlert:@"pingtone" shouldVibrate:YES]; 
 		}
         
 		if (![AppModel sharedAppModel].hasSeenNearbyTabTutorial) {

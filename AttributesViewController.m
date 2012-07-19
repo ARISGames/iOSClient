@@ -32,9 +32,9 @@
     return self;
 }
 
-- (void)silenceNextUpdate {
+- (void)silenceNextUpdate 
+{
 	silenceNextServerUpdateCount++;
-    
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -56,37 +56,35 @@
         
 	}
 	//else [pcImage updateViewWithNewImage:[UIImage imageNamed:@"profile.png"]];	
-
 }
 
 -(void)refresh {
 	[[AppServices sharedAppServices] fetchInventory];
+    [self refreshViewFromModel];
 }
 
 -(void)refreshViewFromModel {
 	NSLog(@"AttributesVC: Refresh View from Model");
-   	
 	
 	self.attributes = [[AppModel sharedAppModel].attributes allValues];
 	[attributesTable reloadData];
 	
 	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
-    
-	
 }
+
 -(IBAction)groupButtonPressed {
-  
+    
 }
 
 - (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier {
-	CGRect CellFrame = CGRectMake(0, 0, 320, 60);
 	CGRect IconFrame = CGRectMake(5, 5, 50, 50);
-	CGRect Label1Frame = CGRectMake(70, 22, 170, 20);
-	CGRect Label2Frame = CGRectMake(180, 22, 125, 20);
+	CGRect Label1Frame = CGRectMake(70, 22, 240, 20);
+	CGRect Label2Frame = CGRectMake(70, 39, 240, 20);
+    CGRect Label3Frame = CGRectMake(70, 5, 240, 20);
 	UILabel *lblTemp;
 	UIImageView *iconViewTemp;
 	
-	UITableViewCell *cell = [[UITableViewCell alloc] initWithFrame:CellFrame reuseIdentifier:cellIdentifier];
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
 	
 	//Setup Cell
 	UIView *transparentBackground = [[UIView alloc] initWithFrame:CGRectZero];
@@ -103,7 +101,7 @@
 	//Initialize Label with tag 2.
 	lblTemp = [[UILabel alloc] initWithFrame:Label2Frame];
 	lblTemp.tag = 2;
-	lblTemp.font = [UIFont boldSystemFontOfSize:24];
+	lblTemp.font = [UIFont systemFontOfSize:11];
 	lblTemp.textColor = [UIColor darkGrayColor];
 	lblTemp.backgroundColor = [UIColor clearColor];
 	[cell.contentView addSubview:lblTemp];
@@ -113,7 +111,15 @@
 	iconViewTemp.tag = 3;
 	iconViewTemp.backgroundColor = [UIColor clearColor]; 
 	[cell.contentView addSubview:iconViewTemp];
-
+    
+    //Init Icon with tag 4
+    lblTemp = [[UILabel alloc] initWithFrame:Label3Frame];
+	lblTemp.tag = 4;
+	lblTemp.font = [UIFont boldSystemFontOfSize:11];
+	lblTemp.textColor = [UIColor darkGrayColor];
+	lblTemp.backgroundColor = [UIColor clearColor];
+    //lblTemp.textAlignment = UITextAlignmentRight;
+	[cell.contentView addSubview:lblTemp];
     
 	return cell;
 }
@@ -122,79 +128,68 @@
 #pragma mark PickerViewDelegate selectors
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-   // return 2;
+    // return 2;
     return 1;
 }
 
 // returns the # of rows in each component..
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    /*if(section == 0){
-        return 1;
-    }
-    if(section == 1)*/
-    if([attributes count] == 0) return 1;
 	return [attributes count];
 }
 
-
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	static NSString *CellIdentifier = @"Cell";
-	
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];	
-		
-    //if(indexPath.section == 1){
-        if(cell == nil) cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
-
-    if([attributes count] > 0){
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];	
+	if(cell == nil) cell = [self getCellContentView:@"Cell"];
+    
+    cell.textLabel.backgroundColor = [UIColor clearColor]; 
+    cell.detailTextLabel.backgroundColor = [UIColor clearColor]; 
+            cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0  
+                                                           green:233.0/255.0  
+                                                            blue:233.0/255.0  
+                                                           alpha:1.0];  
+  
 	Item *item = [attributes objectAtIndex: [indexPath row]];
 	
-	
-        AsyncMediaImageView *iconView = (AsyncMediaImageView *)[cell viewWithTag:3];
-        
-        
-        if (item.iconMediaId != 0) {
-            Media *iconMedia;
-            if([self.iconCache count] > indexPath.row){
-                iconMedia = [self.iconCache objectAtIndex:indexPath.row];
-            }
-            else{
-                iconMedia = [[AppModel sharedAppModel] mediaForMediaId: item.iconMediaId];
-                [self.iconCache  addObject:iconMedia];
-            }
+	UILabel *lblTemp1 = (UILabel *)[cell viewWithTag:1];
+	lblTemp1.text = item.name;	
+    lblTemp1.font = [UIFont boldSystemFontOfSize:18.0];
+    
+    UILabel *lblTemp2 = (UILabel *)[cell viewWithTag:2];
+    lblTemp2.text = item.description;
+	AsyncMediaImageView *iconView = (AsyncMediaImageView *)[cell viewWithTag:3];
+    
+    UILabel *lblTemp3 = (UILabel *)[cell viewWithTag:4];
+    if(item.qty >1 && item.weight > 1)
+        lblTemp3.text = [NSString stringWithFormat:@"%@: %d, %@: %d",NSLocalizedString(@"QuantityKey", @""),item.qty,NSLocalizedString(@"WeightKey", @""),item.weight];
+    else if(item.weight > 1)
+        lblTemp3.text = [NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"WeightKey", @""),item.weight];
+    else if(item.qty > 1)
+        lblTemp3.text = [NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"QuantityKey", @""),item.qty];
+    else
+        lblTemp3.text = nil;
+    iconView.hidden = NO;
+    
+	if (item.iconMediaId != 0) {
+        Media *iconMedia;
+        if([self.iconCache count] < indexPath.row){
+            iconMedia = [self.iconCache objectAtIndex:indexPath.row];
+            [iconView updateViewWithNewImage:[UIImage imageWithData:iconMedia.image]];
+        }
+        else{
+            iconMedia = [[AppModel sharedAppModel] mediaForMediaId: item.iconMediaId];
+            [self.iconCache  addObject:iconMedia];
             [iconView loadImageFromMedia:iconMedia];
         }
-        else {
-            [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultImageIcon.png"]];
-        }
-
-        cell.textLabel.text = item.name;
-        if(item.qty > 1){
-        cell.detailTextLabel.textColor = [UIColor blackColor];
-        cell.detailTextLabel.text = [NSString stringWithFormat: @"%d", item.qty];
-        }
-        cell.imageView.image = iconView.image;
-    }
-    else{
-        cell.textLabel.text = NSLocalizedString(@"AttributesNoCurrentlyKey", @"");
-    }
-        cell.userInteractionEnabled = NO;
-        
-   // }
-    /*else{
-        if(cell == nil) cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-
-        cell.userInteractionEnabled = YES;
-        cell.textLabel.text = @"No Group";
-        cell.detailTextLabel.text = @"Tap to Find One";
-    }*/
+	}
+    cell.userInteractionEnabled = NO;
 	return cell;
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     //if(section==0)return  @"Group";
-       // else 
-            return NSLocalizedString(@"AttributesAttributesTitleKey", @"");
+    // else 
+    return NSLocalizedString(@"AttributesAttributesTitleKey", @"");
 }
 
 // Customize the height of each row
@@ -203,7 +198,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {	
-
+    
 	
 }
 

@@ -52,6 +52,7 @@ static float INITIAL_SPAN = 0.001;
 		[dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedLocationList" object:nil];
 		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewLocationListReady" object:nil];
 		[dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
+        [dispatcher addObserver:self selector:@selector(updateOverlays) name:@"NewOverlayListReady" object:nil];
 	}
     return self;
 }
@@ -135,19 +136,6 @@ static float INITIAL_SPAN = 0.001;
 	[self.view addSubview:mapView];
 	NSLog(@"GPSViewController: Mapview inited and added to view");
 	
-    // step through all overlays and add them
-    int iOverlays = [[AppModel sharedAppModel].overlayList count];
-    for (int i = 0; i < iOverlays; i++) {  // one of two places where dealing with multiple overlays will be handled
-        overlay = [[TileOverlay alloc] initWithOverlayID:i];
-        //NSString *tileFolderTitle = [NSString stringWithFormat:@"OverlayTiles%i",0];
-        //NSString *tileDirectory = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:tileFolderTitle];
-        //overlay = [[TileOverlay alloc] initWithTileDirectory:tileDirectory];
-        if (overlay != NULL) {
-            [overlayArray addObject:overlay];
-            [mapView addOverlay:overlay];
-        }
-    }
-	
 	//Setup the buttons
 	mapTypeButton.target = self; 
 	mapTypeButton.action = @selector(changeMapType:);
@@ -163,7 +151,8 @@ static float INITIAL_SPAN = 0.001;
     
 	//Force an update of the locations
 	//[[AppServices sharedAppServices] forceUpdateOnNextLocationListFetch];
-    
+
+    [self updateOverlays];
     [self refresh];	
     
 	NSLog(@"GPSViewController: View Loaded");
@@ -177,6 +166,28 @@ static float INITIAL_SPAN = 0.001;
     view.tileAlpha =  ovrly.alpha;
     
     return view;
+}
+
+- (void) updateOverlays{
+    
+    
+    // remove all overlays
+    [overlayArray removeAllObjects];
+    [mapView removeOverlays:[mapView overlays]];
+    
+    
+    // add all current overlays to display 
+    int iOverlays = [[AppModel sharedAppModel].overlayList count];
+    
+    for (int i = 0; i < iOverlays; i++) { 
+        overlay = [[TileOverlay alloc] initWithOverlayID: i];
+        if (overlay != NULL) {
+            [overlayArray addObject:overlay];
+            [mapView addOverlay:overlay];
+        }
+    }
+    
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -230,7 +241,6 @@ static float INITIAL_SPAN = 0.001;
              line 
              
              }*/
-            
             
         } 
         else {
@@ -306,7 +316,7 @@ static float INITIAL_SPAN = 0.001;
                             [mapView removeAnnotation:annotation];
                             i--;
                         }
-                }
+                    }
             }
             
             if (newItemsSinceLastView > 0 && ![[RootViewController sharedRootViewController].tabBarController.selectedViewController.title isEqualToString:@"Map"]) 
@@ -344,9 +354,7 @@ static float INITIAL_SPAN = 0.001;
 			Annotation *annotation = [[Annotation alloc]initWithCoordinate:locationLatLong];
 			annotation.location = location;
 			annotation.title = location.name;
-            if([annotation.title isEqualToString:@"None"] || !location.showTitle){
-                annotation.title = nil;
-            }
+            annotation.kind = location.kind;
 			if (location.kind == NearbyObjectItem && location.qty > 1 && annotation.title != nil) 
 				annotation.subtitle = [NSString stringWithFormat:@"x %d",location.qty];
 			annotation.iconMediaId = location.iconMediaId;

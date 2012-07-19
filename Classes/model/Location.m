@@ -55,7 +55,7 @@
     if(deleteWhenViewed == 1)
     {
         NSMutableArray *locs = [[AppModel sharedAppModel] locationList];
-        for(int i = 0; i < locs.count; i++)
+        for(int i = 0; i < [locs count]; i++)
         {
             if(((Location *)[locs objectAtIndex:i]).locationId == self.locationId)
                 [[[AppModel sharedAppModel] locationList] removeObjectAtIndex:i];
@@ -67,19 +67,19 @@
 		return [[AppModel sharedAppModel] itemForItemId:objectId];
 	}
 	if (self.kind == NearbyObjectNode) {
-        //[[AppModel sharedAppModel] nodeForNodeId: objectId].locationId = self.locationId;
+        [[AppModel sharedAppModel] nodeForNodeId: objectId].locationId = self.locationId;
 		return [[AppModel sharedAppModel] nodeForNodeId: objectId]; 
 	}
     if (self.kind == NearbyObjectWebPage) {
-        //[[AppModel sharedAppModel] webPageForWebPageID: objectId].locationId = self.locationId;
+        [[AppModel sharedAppModel] webPageForWebPageID: objectId].locationId = self.locationId;
 		return [[AppModel sharedAppModel] webPageForWebPageID: objectId]; 
 	}
     if (self.kind == NearbyObjectPanoramic) {
-        //[[AppModel sharedAppModel]panoramicForPanoramicId: objectId].locationId = self.locationId;
+        [[AppModel sharedAppModel]panoramicForPanoramicId: objectId].locationId = self.locationId;
 		return [[AppModel sharedAppModel] panoramicForPanoramicId: objectId]; 
 	}
     if (self.kind == NearbyObjectNPC) {
-       // [[AppModel sharedAppModel]npcForNpcId: objectId].locationId = self.locationId;
+        [[AppModel sharedAppModel]npcForNpcId: objectId].locationId = self.locationId;
 		return [[AppModel sharedAppModel] npcForNpcId: objectId]; 
 	}
     if (self.kind == NearbyObjectNote) {

@@ -149,6 +149,8 @@
 		3AB24ACB152B8CE500B49876 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AB24ACA152B8CE500B49876 /* ImageIO.framework */; };
 		3AEB8F5315265E08006C12AF /* ARISUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AEB8F5215265E08006C12AF /* ARISUploader.m */; };
 		4A373BD315ACABBE007D975C /* libBump.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A373BD115ACABBE007D975C /* libBump.a */; };
+		4A7F90F315B0773200988446 /* bump_logo_250x84.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A7F90F215B0773200988446 /* bump_logo_250x84.png */; };
+		4A7F910015B09FFC00988446 /* pingtone.wav in Resources */ = {isa = PBXBuildFile; fileRef = 4A7F90FF15B09FFC00988446 /* pingtone.wav */; };
 		4A9181BA139FDF1600D236CC /* GamesMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9181B9139FDF1600D236CC /* GamesMapAnnotation.m */; };
 		4A92FB0B139EDFEA00B41218 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A92FB0A139EDFEA00B41218 /* Comment.m */; };
 		4A92FB0F139EEA2A00B41218 /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A92FB0D139EEA2A00B41218 /* CommentCell.m */; };
@@ -363,9 +365,11 @@
 		DB17C60915A3A921001F7A10 /* GamePickerPopularViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB17C60815A3A921001F7A10 /* GamePickerPopularViewController.m */; };
 		DB4C160E15A7B418005EF91B /* GamePickerPopularViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB4C161015A7B418005EF91B /* GamePickerPopularViewController.xib */; };
 		DB4C161315A7B4AF005EF91B /* NoteEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB4C161515A7B4AF005EF91B /* NoteEditorViewController.xib */; };
+		DB6742C815AB96EA009964CD /* InventoryTradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6742CA15AB96EA009964CD /* InventoryTradeViewController.m */; };
 		DB72A2C215A7AFA600A04B4C /* Quests.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB72A2C415A7AFA600A04B4C /* Quests.xib */; };
 		DB72A2C715A7B0C700A04B4C /* GamePickerNearbyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB72A2C915A7B0C700A04B4C /* GamePickerNearbyViewController.xib */; };
 		DB72A2CC15A7B1A200A04B4C /* NotebookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB72A2CE15A7B1A200A04B4C /* NotebookViewController.xib */; };
+		DB7EEF7C15AB40C2009369D4 /* InventoryTradeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB7EEF7A15AB40C2009369D4 /* InventoryTradeViewController.xib */; };
 		DBBCE9E115937704006994F9 /* DefaultPCImage.png in Resources */ = {isa = PBXBuildFile; fileRef = DBBCE9E015937704006994F9 /* DefaultPCImage.png */; };
 		DBC3441315ADEED200FA902F /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC3441115ADEED200FA902F /* RootViewController.m */; };
 /* End PBXBuildFile section */
@@ -652,6 +656,8 @@
 		3AEB8F5215265E08006C12AF /* ARISUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISUploader.m; sourceTree = "<group>"; };
 		4A373BD115ACABBE007D975C /* libBump.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBump.a; sourceTree = "<group>"; };
 		4A373BD215ACABBE007D975C /* BumpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BumpClient.h; sourceTree = "<group>"; };
+		4A7F90F215B0773200988446 /* bump_logo_250x84.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bump_logo_250x84.png; sourceTree = "<group>"; };
+		4A7F90FF15B09FFC00988446 /* pingtone.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pingtone.wav; sourceTree = "<group>"; };
 		4A9181B8139FDF1600D236CC /* GamesMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamesMapAnnotation.h; sourceTree = "<group>"; };
 		4A9181B9139FDF1600D236CC /* GamesMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamesMapAnnotation.m; sourceTree = "<group>"; };
 		4A92FB09139EDF1B00B41218 /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
@@ -950,6 +956,7 @@
 		DB4C161415A7B4AF005EF91B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/NoteEditorViewController.xib; sourceTree = "<group>"; };
 		DB4C161615A7B4B7005EF91B /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/NoteEditorViewController.xib; sourceTree = "<group>"; };
 		DB4C161715A7B4BA005EF91B /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/NoteEditorViewController.xib; sourceTree = "<group>"; };
+		DB6742C915AB96EA009964CD /* en */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = en; path = en.lproj/InventoryTradeViewController.m; sourceTree = "<group>"; };
 		DB72A2C315A7AFA600A04B4C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Quests.xib; sourceTree = "<group>"; };
 		DB72A2C515A7AFBD00A04B4C /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/Quests.xib; sourceTree = "<group>"; };
 		DB72A2C615A7AFC100A04B4C /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/Quests.xib; sourceTree = "<group>"; };
@@ -959,6 +966,8 @@
 		DB72A2CD15A7B1A200A04B4C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/NotebookViewController.xib; sourceTree = "<group>"; };
 		DB72A2CF15A7B1AB00A04B4C /* es */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = es; path = es.lproj/NotebookViewController.xib; sourceTree = "<group>"; };
 		DB72A2D015A7B1AE00A04B4C /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = fr; path = fr.lproj/NotebookViewController.xib; sourceTree = "<group>"; };
+		DB7EEF7815AB40C2009369D4 /* InventoryTradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InventoryTradeViewController.h; path = Classes/InventoryTradeViewController.h; sourceTree = "<group>"; };
+		DB7EEF7A15AB40C2009369D4 /* InventoryTradeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InventoryTradeViewController.xib; path = Classes/InventoryTradeViewController.xib; sourceTree = "<group>"; };
 		DBBCE9E015937704006994F9 /* DefaultPCImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultPCImage.png; sourceTree = "<group>"; };
 		DBC3441015ADEED200FA902F /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewController.h; path = Classes/RootViewController.h; sourceTree = "<group>"; };
 		DBC3441115ADEED200FA902F /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RootViewController.m; path = Classes/RootViewController.m; sourceTree = "<group>"; };
@@ -1519,6 +1528,7 @@
 		A7986D660F8FEC2100A5469F /* Inventory */ = {
 			isa = PBXGroup;
 			children = (
+				4A7F90F215B0773200988446 /* bump_logo_250x84.png */,
 				AB35E072155C722600430AF7 /* 36-toolbox.png */,
 				AB35E073155C722700430AF7 /* 36-toolbox@2x.png */,
 				11DD3D4F13F5B0EF0051AB76 /* playericon.png */,
@@ -1537,6 +1547,9 @@
 				A75AF2B70F86A47100F15535 /* ItemDetailsViewController.h */,
 				A75AF2B80F86A47100F15535 /* ItemDetailsViewController.m */,
 				A7BCBB3E0F8C236900C7A36C /* ItemDetailsView.xib */,
+				DB7EEF7815AB40C2009369D4 /* InventoryTradeViewController.h */,
+				DB6742CA15AB96EA009964CD /* InventoryTradeViewController.m */,
+				DB7EEF7A15AB40C2009369D4 /* InventoryTradeViewController.xib */,
 			);
 			name = Inventory;
 			sourceTree = "<group>";
@@ -1725,6 +1738,7 @@
 		AB37BC2E1184CDE600C5CE8B /* Sound Effects */ = {
 			isa = PBXGroup;
 			children = (
+				4A7F90FF15B09FFC00988446 /* pingtone.wav */,
 				AB6484B41187860E00261315 /* drop.wav */,
 				AB6484961187842B00261315 /* ticktick.wav */,
 				AB64848E118783BB00261315 /* error.wav */,
@@ -2289,6 +2303,9 @@
 				AB628B881578322500557BB1 /* 213-reply@2x.png in Resources */,
 				DBBCE9E115937704006994F9 /* DefaultPCImage.png in Resources */,
 				DB4C160E15A7B418005EF91B /* GamePickerPopularViewController.xib in Resources */,
+				DB7EEF7C15AB40C2009369D4 /* InventoryTradeViewController.xib in Resources */,
+				4A7F90F315B0773200988446 /* bump_logo_250x84.png in Resources */,
+				4A7F910015B09FFC00988446 /* pingtone.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2485,6 +2502,7 @@
 				3AA83349159E4029002CC61D /* Overlay.m in Sources */,
 				DB17C60915A3A921001F7A10 /* GamePickerPopularViewController.m in Sources */,
 				DBC3441315ADEED200FA902F /* RootViewController.m in Sources */,
+				DB6742C815AB96EA009964CD /* InventoryTradeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2543,6 +2561,15 @@
 				DB4C161715A7B4BA005EF91B /* fr */,
 			);
 			name = NoteEditorViewController.xib;
+			sourceTree = "<group>";
+		};
+		DB6742CA15AB96EA009964CD /* InventoryTradeViewController.m */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DB6742C915AB96EA009964CD /* en */,
+			);
+			name = InventoryTradeViewController.m;
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		DB72A2C415A7AFA600A04B4C /* Quests.xib */ = {

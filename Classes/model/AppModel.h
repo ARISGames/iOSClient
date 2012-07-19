@@ -46,7 +46,7 @@ extern NSDictionary *InventoryElements;
 	NSMutableDictionary *inventory;
     NSMutableDictionary *attributes;
 
-	NSString *inventoryHash,*playerNoteListHash,*gameNoteListHash; 
+	NSString *inventoryHash,*playerNoteListHash,*gameNoteListHash, *overlayListHash; 
 	NSMutableDictionary *questList;
 	NSString *questListHash;
 	NSMutableDictionary *gameMediaList;
@@ -114,6 +114,7 @@ extern NSDictionary *InventoryElements;
 @property(nonatomic) NSString *inventoryHash;
 @property(nonatomic) NSString *playerNoteListHash;
 @property(nonatomic) NSString *gameNoteListHash;
+@property(nonatomic) NSString *overlayListHash;
 
 @property(nonatomic) NSMutableDictionary *inventory;
 @property(nonatomic) NSMutableDictionary *attributes;
