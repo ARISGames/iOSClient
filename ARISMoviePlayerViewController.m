@@ -25,12 +25,9 @@
 
 -(void) viewWillDisappear:(BOOL)animated{
         [RootViewController sharedRootViewController].isMovie = NO;
-    //[[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait];
 }
 
 -(void) viewDidDisappear:(BOOL)animated{
-    //[[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait];
-    [RootViewController sharedRootViewController].isMovie = NO;
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
 
     UIApplication* application = [UIApplication sharedApplication];
