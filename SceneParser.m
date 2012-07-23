@@ -31,11 +31,13 @@ NSString *const kTagWebpage = @"webpage";
 NSString *const kTagPlaque = @"plaque";
 NSString *const kTagItem = @"item";
 NSString *const kTagMedia = @"mediaId";
+NSString *const kTagTitle = @"title";
+
 
 
 
 @implementation SceneParser
-@synthesize currentText, sourceText, exitToTabWithTitle, delegate, script, exitToType;
+@synthesize currentText, sourceText, exitToTabWithTitle, delegate, script, exitToType, title;
 
 #pragma mark Init/dealloc
 - (id) initWithDefaultNpcId {
@@ -68,80 +70,85 @@ NSString *const kTagMedia = @"mediaId";
   qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict 
 {
 	NSLog(@"SceneParser: Starting Element %@", elementName);
-
+    
     if ([elementName isEqualToString:kTagPc]) {
 		isPc = YES;
     }
+    
 	else if ([elementName isEqualToString:kTagNpc]){ 
         isPc = NO;
         if ([attributeDict objectForKey:kTagMedia]) {
             mediaId = [attributeDict objectForKey:kTagMedia] ? [[attributeDict objectForKey:kTagMedia]intValue] : 0;
         }
-}    
+    }    
     
-else if ([elementName isEqualToString:kTagDialog]) {
-
-    if ([attributeDict objectForKey:kTagExitToTab]){
-        exitToType = @"tab";
-        exitToTabWithTitle = [attributeDict objectForKey:kTagExitToTab];
-    }
-    else if([attributeDict objectForKey:kTagExitToPlaque]){
-        exitToType = @"plaque";
-        exitToTabWithTitle = [attributeDict objectForKey:kTagExitToPlaque];
-    }
-    else if([attributeDict objectForKey:kTagExitToWebPage]){
-        exitToType = @"webpage";
-        exitToTabWithTitle = [attributeDict objectForKey:kTagExitToWebPage];
-    }
-    else if([attributeDict objectForKey:kTagExitToItem]){
-        exitToType = @"item";
-        exitToTabWithTitle = [attributeDict objectForKey:kTagExitToItem];
-    }
-    else if([attributeDict objectForKey:kTagExitToCharacter]){
-        exitToType = @"character";
-        exitToTabWithTitle = [attributeDict objectForKey:kTagExitToCharacter];
-    }
-    else if([attributeDict objectForKey:kTagExitToPanoramic]){
-        exitToType = @"panoramic";
-        exitToTabWithTitle = [attributeDict objectForKey:kTagExitToPanoramic];
-    }
-    else {
-        exitToType = nil;
-        exitToTabWithTitle = nil;
-    }
+    else if ([elementName isEqualToString:kTagDialog]) {
+        
+        if ([attributeDict objectForKey:kTagExitToTab]){
+            exitToType = @"tab";
+            exitToTabWithTitle = [attributeDict objectForKey:kTagExitToTab];
         }
-else if ([elementName isEqualToString:kTagVideo]){
-    videoId = [attributeDict objectForKey:kTagId] ? [[attributeDict objectForKey:kTagId]intValue] : 0;
-}
-
-else if ([elementName isEqualToString:kTagPanoramic]) {
-    panoId = [attributeDict objectForKey:kTagId] ? [[attributeDict objectForKey:kTagId]intValue] : 0;
-}
-else if ([elementName isEqualToString:kTagWebpage]) {
-    webId = [attributeDict objectForKey:kTagId] ? [[attributeDict objectForKey:kTagId]intValue] : 0;
-}
-else if ([elementName isEqualToString:kTagPlaque]) {
-    plaqueId = [attributeDict objectForKey:kTagId] ? [[attributeDict objectForKey:kTagId]intValue] : 0;
-}
-else if ([elementName isEqualToString:kTagItem]) {
-    itemId = [attributeDict objectForKey:kTagId] ? [[attributeDict objectForKey:kTagId]intValue] : 0;
-}
-
+        else if([attributeDict objectForKey:kTagExitToPlaque]){
+            exitToType = @"plaque";
+            exitToTabWithTitle = [attributeDict objectForKey:kTagExitToPlaque];
+        }
+        else if([attributeDict objectForKey:kTagExitToWebPage]){
+            exitToType = @"webpage";
+            exitToTabWithTitle = [attributeDict objectForKey:kTagExitToWebPage];
+        }
+        else if([attributeDict objectForKey:kTagExitToItem]){
+            exitToType = @"item";
+            exitToTabWithTitle = [attributeDict objectForKey:kTagExitToItem];
+        }
+        else if([attributeDict objectForKey:kTagExitToCharacter]){
+            exitToType = @"character";
+            exitToTabWithTitle = [attributeDict objectForKey:kTagExitToCharacter];
+        }
+        else if([attributeDict objectForKey:kTagExitToPanoramic]){
+            exitToType = @"panoramic";
+            exitToTabWithTitle = [attributeDict objectForKey:kTagExitToPanoramic];
+        }
+        else {
+            exitToType = nil;
+            exitToTabWithTitle = nil;
+        }
+    }
+    else if ([elementName isEqualToString:kTagVideo]){
+        videoId = [attributeDict objectForKey:kTagId] ? [[attributeDict objectForKey:kTagId]intValue] : 0;
+    }
+    
+    else if ([elementName isEqualToString:kTagPanoramic]) {
+        panoId = [attributeDict objectForKey:kTagId] ? [[attributeDict objectForKey:kTagId]intValue] : 0;
+    }
+    else if ([elementName isEqualToString:kTagWebpage]) {
+        webId = [attributeDict objectForKey:kTagId] ? [[attributeDict objectForKey:kTagId]intValue] : 0;
+    }
+    else if ([elementName isEqualToString:kTagPlaque]) {
+        plaqueId = [attributeDict objectForKey:kTagId] ? [[attributeDict objectForKey:kTagId]intValue] : 0;
+    }
+    else if ([elementName isEqualToString:kTagItem]) {
+        itemId = [attributeDict objectForKey:kTagId] ? [[attributeDict objectForKey:kTagId]intValue] : 0;
+    }
+   
+    if ([attributeDict objectForKey:kTagTitle]) {
+        title = [attributeDict objectForKey:kTagTitle] ? [attributeDict objectForKey:kTagTitle] : @"";
+    }
+    
 	imageRect = CGRectMake(0, 0, 320, 416);
 	imageRect.origin.x = [attributeDict objectForKey:kTagZoomX] ?
-        [[attributeDict objectForKey:kTagZoomX] floatValue] : 
-        imageRect.origin.x;
+    [[attributeDict objectForKey:kTagZoomX] floatValue] : 
+    imageRect.origin.x;
 	imageRect.origin.y = [attributeDict objectForKey:kTagZoomX] ?
-        [[attributeDict objectForKey:kTagZoomY] floatValue] :
-        imageRect.origin.y;
+    [[attributeDict objectForKey:kTagZoomY] floatValue] :
+    imageRect.origin.y;
 	imageRect.size.width = [attributeDict objectForKey:kTagZoomX] ? [[attributeDict objectForKey:kTagZoomWidth] floatValue] : 
-        imageRect.size.width;
+    imageRect.size.width;
 	imageRect.size.height = [attributeDict objectForKey:kTagZoomX] ? [[attributeDict objectForKey:kTagZoomHeight] floatValue] :
-        imageRect.size.height;
-
+    imageRect.size.height;
+    
 	resizeTime = [attributeDict objectForKey:kTagZoomTime] ? 
-        [[attributeDict objectForKey:kTagZoomTime] floatValue] :
-        kDefaultZoomTime;
+    [[attributeDict objectForKey:kTagZoomTime] floatValue] :
+    kDefaultZoomTime;
     
 	[self.currentText setString:@""];
 }
@@ -168,7 +175,7 @@ else if ([elementName isEqualToString:kTagItem]) {
                                            exitToType:exitToType
                                               videoId:videoId
                                           panoramicId:panoId
-                                            webpageId:webId plaqueId:plaqueId itemId:itemId mediaId: mediaId]; 
+                                            webpageId:webId plaqueId:plaqueId itemId:itemId mediaId: mediaId title: title]; 
         NSLog(@"MediaId in Scene is: %d", mediaId);
 		[self.script addObject:newScene];
         panoId = 0;
@@ -201,7 +208,7 @@ else if ([elementName isEqualToString:kTagItem]) {
                                      imageRect:CGRectMake(0, 0, 320, 416)
                                       zoomTime:kDefaultZoomTime
                               exitToTabWithTitle:nil exitToType:nil
-                                       videoId:0 panoramicId:0 webpageId:0 plaqueId:0 itemId:0 mediaId:0];        
+                                       videoId:0 panoramicId:0 webpageId:0 plaqueId:0 itemId:0 mediaId:0 title:@""];        
 		
 		[self.script addObject:s];
 	}

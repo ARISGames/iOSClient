@@ -30,6 +30,7 @@
     int             plaqueId;
     int             itemId;
     int             mediaId;
+    NSString        *title;
     NSXMLParser		*parser;
 	id<SceneParserDelegate> delegate;
 }
@@ -39,6 +40,7 @@
 @property (nonatomic) NSString *sourceText;
 @property (nonatomic) NSString *exitToTabWithTitle;
 @property (nonatomic) NSString *exitToType;
+@property(nonatomic) NSString *title;
 
 @property (readwrite) id<SceneParserDelegate> delegate;
 

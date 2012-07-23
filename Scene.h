@@ -28,6 +28,7 @@ enum soundConstants {
     int         plaqueId;
     int         itemId;
     int         mediaId;
+    NSString* title;
 }
 
 @property(nonatomic) NSString* text;
@@ -39,12 +40,13 @@ enum soundConstants {
 @property(readwrite) int plaqueId;
 @property(readwrite) int itemId;
 @property(readwrite) int mediaId;
-
+@property(nonatomic) NSString* title;
 
 @property(readwrite) CGRect	imageRect;
 @property(readwrite) float zoomTime;
 @property(nonatomic) NSString* exitToTabWithTitle;
 @property(nonatomic) NSString* exitToType;
+
 
 
 
@@ -59,7 +61,8 @@ panoramicId:(int)pId
 webpageId:(int)wId
 plaqueId:(int)nodeId
 itemId:(int)iId
-mediaId:(int)mId;
+mediaId:(int)mId 
+title:(NSString*)title;
 
 
 @end

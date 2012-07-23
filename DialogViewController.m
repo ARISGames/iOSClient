@@ -397,6 +397,12 @@ NSString *const kDialogHtmlTemplate =
         NSLog(@"DialogVC: continueScript: Scenes still exist, load the next one");
 
 		Scene *currentScene = [currentScript objectAtIndex:scriptIndex];
+        
+        // display title for scene if specified
+        if (![currentScene.title isEqualToString:@""] && (currentScene.title != nil)) {
+            self.navigationItem.title = currentScene.title;
+        }
+        
         if (currentScene.videoId !=0) {
             //Setup the Button
 	

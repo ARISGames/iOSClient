@@ -17,13 +17,14 @@
 @synthesize imageRect;
 @synthesize zoomTime;
 @synthesize exitToTabWithTitle,videoId,panoId,webId,plaqueId,itemId,exitToType, mediaId;
+@synthesize title;
 
 - (id) initWithText:(NSString *)theText 
                isPc:(Boolean)isPcYorN 
           imageRect:(CGRect)rect 
            zoomTime:(float)seconds
    exitToTabWithTitle:(NSString*)tabTitle 
-exitToType:(NSString *)type videoId:(int)vidId panoramicId:(int)pId webpageId:(int)wId plaqueId:(int)nodeId itemId:(int)iId mediaId:(int)mId{
+         exitToType:(NSString *)type videoId:(int)vidId panoramicId:(int)pId webpageId:(int)wId plaqueId:(int)nodeId itemId:(int)iId mediaId:(int)mId title: (NSString *)title{
 	
 	if ((self = [super init])) {
         self.text = [theText copy];
@@ -39,6 +40,7 @@ exitToType:(NSString *)type videoId:(int)vidId panoramicId:(int)pId webpageId:(i
         self.itemId = iId;
         self.mediaId = mId;
         self.exitToType = type;
+        self.title = title;
 	}
 	return self;
 }
