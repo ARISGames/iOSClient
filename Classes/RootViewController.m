@@ -34,6 +34,7 @@ BOOL isShowingNotification;
 @synthesize waitingIndicator,waitingIndicatorView;
 @synthesize networkAlert,serverAlert;
 @synthesize tutorialViewController;
+@synthesize isMovie;
 @synthesize modalPresent;
 @synthesize titleLabel,descLabel,notifArray;
 @synthesize notSquishedVCFrame,squishedVCFrame;
@@ -155,6 +156,7 @@ BOOL isShowingNotification;
         loginViewNavigationController = [[UINavigationController alloc] initWithRootViewController: loginViewController];
         loginViewNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
         [loginViewNavigationController.view setFrame:UIScreen.mainScreen.applicationFrame];
+        loginViewNavigationController.view.frame = self.view.frame;
         [self.view addSubview:loginViewNavigationController.view];
         
         //Setup the Main Tab Bar
@@ -289,7 +291,7 @@ BOOL isShowingNotification;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    if(self.tabBarController.presentedViewController){
+    if(self.isMovie){
         return YES;
     }
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
@@ -301,9 +303,10 @@ BOOL isShowingNotification;
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:title,@"title",prompt,@"prompt", nil];
     [self.notifArray addObject:dict];
-    if(!isShowingNotification && !self.presentedViewController)
+    if(!isShowingNotification)// && !self.presentedViewController)
          [self showNotifications];
 }
+
 -(void)showNotifications{
     NSLog(@"AppDelegate: showNotifications");
     if([self.notifArray count]>0) {
@@ -492,14 +495,22 @@ BOOL isShowingNotification;
 	self.nearbyObjectNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
 	//Display
-    [self presentViewController:self.nearbyObjectNavigationController animated:NO completion:nil];
+    //self.tabBarController.view.hidden = YES;
+    
+ //   nearbyObjectViewController.view.frame = tabBarController.view.bounds;
+    self.nearbyObjectNavigationController.view.frame = tabBarController.view.bounds;
+//    self.tabBarController.tabBar.hidden = YES;
+    
+  //  [((UINavigationController *)self.tabBarController.selectedViewController) pushViewController:nearbyObjectViewController animated:YES];
+    
+    [self.tabBarController.view addSubview: self.nearbyObjectNavigationController.view];
 }
 
 - (void)dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController{
-
-    if(!isShowingNotification && [self.notifArray count] > 0)
-        [self performSelector:@selector(showNotifications) withObject:nil afterDelay:0.1];
-    [nearbyObjectViewController dismissViewControllerAnimated:NO completion:nil];
+ //   [((UINavigationController *)self.tabBarController.selectedViewController) popViewControllerAnimated:YES];
+//    tabBarController.tabBar.hidden = NO;
+    
+    [self.nearbyObjectNavigationController.view removeFromSuperview];
 }
 
 - (void) returnToHomeView{

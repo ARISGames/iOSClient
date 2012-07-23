@@ -188,6 +188,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 -(void)viewDidAppear:(BOOL)animated{
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
 - (void)updateQuantityDisplay {
 	if (item.qty > 1) self.title = [NSString stringWithFormat:@"%@ x%d",item.name,item.qty];
 	else self.title = item.name;

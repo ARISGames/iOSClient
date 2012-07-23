@@ -69,6 +69,7 @@
 	TutorialPopupView *tutorialPopupView;
 	
     BOOL modalPresent;
+    BOOL isMovie;
     UILabel *titleLabel;
     UILabel *descLabel;
     CGRect squishedVCFrame;
@@ -98,6 +99,7 @@
 //@property(nonatomic)NSDictionary *imageInfo;
 
 @property (readwrite) BOOL modalPresent;
+@property (readwrite) BOOL isMovie;
 
 @property(nonatomic) IBOutlet UILabel *titleLabel;
 @property(nonatomic) IBOutlet UILabel *descLabel;

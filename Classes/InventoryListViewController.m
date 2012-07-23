@@ -387,7 +387,6 @@
 	//Put the view on the screen
 	[[self navigationController] pushViewController:itemDetailsViewController animated:YES];
 	
-	
 }
 
 #pragma mark Memory Management

@@ -160,6 +160,10 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
 #pragma mark UIWebViewDelegate Methods
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView{
