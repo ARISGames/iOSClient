@@ -633,7 +633,7 @@ BOOL isShowingNotification;
     if([AppModel sharedAppModel].inGame){
 	NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:wavFileName ofType:@"wav"]];
     NSLog(@"Appdelegate: Playing Audio: %@", url);
-    [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];	
+    [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategorySoloAmbient error: nil];	
     [[AVAudioSession sharedInstance] setActive: YES error: nil];
     NSError* err;
     self.player = [[AVAudioPlayer alloc] initWithContentsOfURL: url error:&err];
