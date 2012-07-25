@@ -7,7 +7,6 @@
 //
 
 #import "InventoryTradeViewController.h"
-#import "BumpClient.h"
 
 @implementation InventoryTradeViewController
 

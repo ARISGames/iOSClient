@@ -10,6 +10,7 @@
 #import "WebPage.h"
 #import "AppModel.h"
 #import "ARISMoviePlayerViewController.h"
+#import "BumpClient.h"
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 
@@ -21,6 +22,8 @@
     UIActivityIndicatorView *activityIndicator;
     NSMutableDictionary *avPlayers;
     AVPlayer *localPlayer;
+    NSString *bumpSendString;
+    bool isConnectedToBump;
 }
 
 @property(nonatomic) IBOutlet UIWebView	*webView;
@@ -29,6 +32,8 @@
 @property(nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property(nonatomic) IBOutlet UIView *blackView;
 @property(nonatomic, strong) NSMutableDictionary *audioPlayers;
+@property(nonatomic) NSString *bumpSendString;
+@property(nonatomic) bool isConnectedToBump;
 
 - (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType;
 - (void) showWaitingIndicator;

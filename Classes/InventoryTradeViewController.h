@@ -10,6 +10,7 @@
 #import "AppModel.h"
 #import "AppServices.h"
 #import "ARISAppDelegate.h"
+#import "BumpClient.h"
 #import "Item.h"
 
 @interface InventoryTradeViewController : UIViewController {

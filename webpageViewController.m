@@ -19,12 +19,14 @@
 #import "ItemDetailsViewController.h"
 
 @implementation webpageViewController
-@synthesize webView,webPage,delegate,activityIndicator,blackView, audioPlayers;
+@synthesize webView,webPage,delegate,activityIndicator,blackView, audioPlayers, bumpSendString, isConnectedToBump;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.isConnectedToBump = NO;
+        self.bumpSendString = @"";
     }
     return self;
 }
@@ -121,6 +123,8 @@
 }
 
 - (IBAction)backButtonTouchAction: (id) sender{
+    if(self.isConnectedToBump) [BumpClient sharedClient].bumpable = NO;
+
 	NSLog(@"NodeViewController: Notify server of Node view and Dismiss view");
 	
 	//Notify the server this item was displayed
@@ -291,9 +295,20 @@
             [self setMediaId:mediaId volumeTo:volume];
             [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
             return NO; 
-        }  
-        
+        }
     }
+    
+    if ([mainCommand isEqualToString:@"bump"]) {
+        NSLog(@"WebPageVC: aris://bump/ called");
+        if ([components count] > 1) 
+        {
+            self.bumpSendString = [components objectAtIndex:1];
+            [self configureBump];
+            [BumpClient sharedClient].bumpable = YES;
+            [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
+            return NO;
+        }
+    }  
     
     //Shouldn't get here. 
     NSLog(@"WebPageVC: WARNING. An aris:// url was called with no handler");
@@ -464,5 +479,49 @@
     }
     return 0;
 }
+
+- (void) configureBump {
+    if(self.isConnectedToBump) return;
+    [BumpClient configureWithAPIKey:@"4ff1c7a0c2a84bb9938dafc3a1ac770c" andUserID:[[UIDevice currentDevice] name]];
+    
+    [[BumpClient sharedClient] setMatchBlock:^(BumpChannelID channel) { 
+        NSLog(@"Matched with user: %@", [[BumpClient sharedClient] userIDForChannel:channel]); 
+        [[BumpClient sharedClient] confirmMatch:YES onChannel:channel];
+    }];
+    
+    [[BumpClient sharedClient] setChannelConfirmedBlock:^(BumpChannelID channel) {
+        NSLog(@"Channel with %@ confirmed.", [[BumpClient sharedClient] userIDForChannel:channel]);
+        [[BumpClient sharedClient] sendData:[self.bumpSendString dataUsingEncoding:NSUTF8StringEncoding]
+                                  toChannel:channel];
+    }];
+    
+    [[BumpClient sharedClient] setDataReceivedBlock:^(BumpChannelID channel, NSData *data) {
+        NSString *receipt = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSLog(@"Data received:\n%@",receipt);
+        [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"bumpReceived(%@);",receipt]];
+            }];
+    
+    [[BumpClient sharedClient] setConnectionStateChangedBlock:^(BOOL connected) {
+        if (connected) {
+            NSLog(@"Bump connected...");
+            self.isConnectedToBump = YES;
+        } else {
+            NSLog(@"Bump disconnected...");
+            self.isConnectedToBump = NO;
+        }
+    }];
+    
+    [[BumpClient sharedClient] setBumpEventBlock:^(bump_event event) {
+        switch(event) {
+            case BUMP_EVENT_BUMP:
+                NSLog(@"Bump detected.");
+                break;
+            case BUMP_EVENT_NO_MATCH:
+                NSLog(@"No match.");
+                break;
+        }
+    }];
+}
+
 
 @end
