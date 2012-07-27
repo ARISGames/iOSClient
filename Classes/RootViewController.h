@@ -70,6 +70,7 @@
 	
     BOOL modalPresent;
     BOOL isMovie;
+    BOOL isItemDetailsMovie; 
     UILabel *titleLabel;
     UILabel *descLabel;
     CGRect squishedVCFrame;
@@ -100,6 +101,7 @@
 
 @property (readwrite) BOOL modalPresent;
 @property (readwrite) BOOL isMovie;
+@property (readwrite) BOOL isItemDetailsMovie;
 
 @property(nonatomic) IBOutlet UILabel *titleLabel;
 @property(nonatomic) IBOutlet UILabel *descLabel;

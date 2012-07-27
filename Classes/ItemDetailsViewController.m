@@ -69,6 +69,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     self.itemDescriptionView.delegate = self;
     
     [RootViewController sharedRootViewController].modalPresent = YES;
+    [RootViewController sharedRootViewController].isItemDetailsMovie = NO;
 	//Setup the Toolbar Buttons
 	dropButton.title = NSLocalizedString(@"ItemDropKey", @"");
 	pickupButton.title = NSLocalizedString(@"ItemPickupKey", @"");
@@ -214,6 +215,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 }
 
 -(IBAction)playMovie:(id)sender {
+    [RootViewController sharedRootViewController].isItemDetailsMovie = YES;
 	[self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
 }
 

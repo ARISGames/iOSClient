@@ -35,6 +35,7 @@ BOOL isShowingNotification;
 @synthesize networkAlert,serverAlert;
 @synthesize tutorialViewController;
 @synthesize isMovie;
+@synthesize isItemDetailsMovie;
 @synthesize modalPresent;
 @synthesize titleLabel,descLabel,notifArray;
 @synthesize notSquishedVCFrame,squishedVCFrame;
@@ -272,6 +273,7 @@ BOOL isShowingNotification;
          object:privChannel];
          */
     }
+    self.isItemDetailsMovie = NO;
     return self;
 }
 
@@ -291,7 +293,7 @@ BOOL isShowingNotification;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    if(self.isMovie){
+    if(self.isMovie && !self.isItemDetailsMovie){
         return YES;
     }
     return (interfaceOrientation == UIInterfaceOrientationPortrait);

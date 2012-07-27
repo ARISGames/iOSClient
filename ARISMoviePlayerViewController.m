@@ -19,7 +19,6 @@
 
 -(void) viewWillAppear:(BOOL)animated{
     [RootViewController sharedRootViewController].isMovie = YES;  
- //   [[RootViewController sharedRootViewController] dismissNearbyObjectView:[RootViewController sharedRootViewController].nearbyObjectNavigationController.visibleViewController];
 }
 
 
@@ -37,11 +36,11 @@
         [[RootViewController sharedRootViewController] dismissModalViewControllerAnimated:NO];
     } 
     [RootViewController sharedRootViewController].nearbyObjectNavigationController.view.frame = [RootViewController sharedRootViewController].tabBarController.view.bounds;
-    [RootViewController sharedRootViewController].tabBarController.selectedViewController.view.frame = [RootViewController sharedRootViewController].tabBarController.view.bounds;
-    NSArray *childViewControllers = [RootViewController sharedRootViewController].tabBarController.selectedViewController.childViewControllers;
-    for(int i =0; i < [childViewControllers count]; i++){
-    //   ((UIViewController*)[childViewControllers objectAtIndex:i]).view.frame = [RootViewController sharedRootViewController].tabBarController.view.frame;
-    }
+   // [RootViewController sharedRootViewController].tabBarController.selectedViewController.view.frame = [RootViewController sharedRootViewController].tabBarController.view.bounds;
+ //   NSArray *childViewControllers = [RootViewController sharedRootViewController].tabBarController.selectedViewController.childViewControllers;
+  //  for(int i =0; i < [childViewControllers count]; i++){
+   //    ((UIViewController*)[childViewControllers objectAtIndex:i]).view.frame = [RootViewController sharedRootViewController].tabBarController.view.frame;
+   // }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
