@@ -31,14 +31,11 @@
 
 - (void) display{
 	NSLog(@"Node: Display Self Requested");
-	
-	//Create a reference to the delegate using the application singleton.
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
 
 	NodeViewController *nodeViewController = [[NodeViewController alloc] initWithNibName:@"Node" bundle: [NSBundle mainBundle]];
 	nodeViewController.node = self; //currentNode;
 	
-	[appDelegate displayNearbyObjectView:nodeViewController];
+	[[RootViewController sharedRootViewController] displayNearbyObjectView:nodeViewController];
 }
 
 - (NSInteger) numberOfOptions {

@@ -7,24 +7,43 @@
 //
 
 #import "ARISMoviePlayerViewController.h"
+#import "RootViewController.h"
 
 @implementation ARISMoviePlayerViewController
 @synthesize mediaPlaybackButton;
-- (void)viewDidLoad
-{
+
+- (void)viewDidLoad {
 	self.view.backgroundColor = [UIColor blackColor];
 	[super viewDidLoad];
 }
 
+-(void) viewWillAppear:(BOOL)animated{
+    [RootViewController sharedRootViewController].isMovie = YES;  
+}
+
+
+-(void) viewWillDisappear:(BOOL)animated{
+        [RootViewController sharedRootViewController].isMovie = NO;
+}
+
+-(void) viewDidDisappear:(BOOL)animated{
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
+
+    UIApplication* application = [UIApplication sharedApplication];
+    if (application.statusBarOrientation != UIInterfaceOrientationPortrait){
+        UIViewController *c = [[UIViewController alloc]init];
+        [[RootViewController sharedRootViewController] presentModalViewController:c animated:NO];
+        [[RootViewController sharedRootViewController] dismissModalViewControllerAnimated:NO];
+    } 
+    [RootViewController sharedRootViewController].nearbyObjectNavigationController.view.frame = [RootViewController sharedRootViewController].tabBarController.view.bounds;
+   // [RootViewController sharedRootViewController].tabBarController.selectedViewController.view.frame = [RootViewController sharedRootViewController].tabBarController.view.bounds;
+ //   NSArray *childViewControllers = [RootViewController sharedRootViewController].tabBarController.selectedViewController.childViewControllers;
+  //  for(int i =0; i < [childViewControllers count]; i++){
+   //    ((UIViewController*)[childViewControllers objectAtIndex:i]).view.frame = [RootViewController sharedRootViewController].tabBarController.view.frame;
+   // }
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	/*
-	if((interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
-	   || (interfaceOrientation == UIInterfaceOrientationLandscapeRight))
-		return YES;
-	else if((interfaceOrientation == UIInterfaceOrientationPortrait)
-			|| (interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown))
-		return NO;
-	 */
 	return YES;
 }
 

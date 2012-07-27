@@ -62,14 +62,14 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 - (void)viewDidLoad {
     [super viewDidLoad];
 	//Show waiting Indicator in own thread so it appears on time
-	//[NSThread detachNewThreadSelector: @selector(showWaitingIndicator:) toTarget: (ARISAppDelegate *)[[UIApplication sharedApplication] delegate] withObject: @"Loading..."];	
-	//[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate]showWaitingIndicator:NSLocalizedString(@"LoadingKey",@"") displayProgressBar:NO];
+	//[NSThread detachNewThreadSelector: @selector(showWaitingIndicator:) toTarget: [RootViewController sharedRootViewController] withObject: @"Loading..."];	
+	//[[RootViewController sharedRootViewController]showWaitingIndicator:NSLocalizedString(@"LoadingKey",@"") displayProgressBar:NO];
     
 	self.itemWebView.delegate = self;
     self.itemDescriptionView.delegate = self;
     
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    appDelegate.modalPresent = YES;
+    [RootViewController sharedRootViewController].modalPresent = YES;
+    [RootViewController sharedRootViewController].isItemDetailsMovie = NO;
 	//Setup the Toolbar Buttons
 	dropButton.title = NSLocalizedString(@"ItemDropKey", @"");
 	pickupButton.title = NSLocalizedString(@"ItemPickupKey", @"");
@@ -143,7 +143,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	}
     self.itemWebView.hidden = YES;
 	//Stop Waiting Indicator
-	//[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] removeWaitingIndicator];
+	//[[RootViewController sharedRootViewController] removeWaitingIndicator];
 	[self updateQuantityDisplay];
     if (self.item.url && (![self.item.url isEqualToString: @"0"]) &&(![self.item.url isEqualToString:@""])) {
         
@@ -189,6 +189,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 -(void)viewDidAppear:(BOOL)animated{
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
 - (void)updateQuantityDisplay {
 	if (item.qty > 1) self.title = [NSString stringWithFormat:@"%@ x%d",item.name,item.qty];
 	else self.title = item.name;
@@ -206,12 +210,12 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	
 	
 	[self.navigationController popToRootViewControllerAnimated:YES];
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    appDelegate.modalPresent=NO;
-    [appDelegate dismissNearbyObjectView:self];		
+    [RootViewController sharedRootViewController].modalPresent=NO;
+    [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];		
 }
 
 -(IBAction)playMovie:(id)sender {
+    [RootViewController sharedRootViewController].isItemDetailsMovie = YES;
 	[self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
 }
 
@@ -374,9 +378,8 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	//Possibly Dismiss Item Details View
 	if (item.qty < 1) {
 		[self.navigationController popToRootViewControllerAnimated:YES];
-        ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-        appDelegate.modalPresent = NO;
-        [appDelegate dismissNearbyObjectView:self];
+        [RootViewController sharedRootViewController].modalPresent = NO;
+        [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
 	}
 }
 
@@ -483,26 +486,19 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 #pragma mark WebViewDelegate 
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
-    if(webView == self.itemWebView)
-    {
-        if ([[[request URL] absoluteString] hasPrefix:@"aris://closeMe"]) 
-        {
-            [self.navigationController popToRootViewControllerAnimated:YES];
-            ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-            appDelegate.modalPresent=NO;
-            [appDelegate dismissNearbyObjectView:self];
-            return NO; 
-        }  
-        else if ([[[request URL] absoluteString] hasPrefix:@"aris://refreshStuff"]) 
-        {
-            [[AppServices sharedAppServices] fetchAllPlayerLists];
-            return NO; 
-        }   
-    }
-    else
-    {
-        if(self.isLink && ![[[request URL]absoluteString] isEqualToString:@"about:blank"]) 
-        {
+    if(webView == self.itemWebView){
+    if ([[[request URL] absoluteString] hasPrefix:@"aris://closeMe"]) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        [RootViewController sharedRootViewController].modalPresent=NO;
+        [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
+        return NO; 
+    }  
+    else if ([[[request URL] absoluteString] hasPrefix:@"aris://refreshStuff"]) {
+        [[AppServices sharedAppServices] fetchAllPlayerLists];
+        return NO; 
+    }   
+    }else{
+        if(self.isLink && ![[[request URL]absoluteString] isEqualToString:@"about:blank"]) {
             webpageViewController *webPageViewController = [[webpageViewController alloc] initWithNibName:@"webpageViewController" bundle: [NSBundle mainBundle]];
             WebPage *temp = [[WebPage alloc]init];
             temp.url = [[request URL]absoluteString];
@@ -574,9 +570,9 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     [[AppServices sharedAppServices] updateItem:self.item];
     
     [self.navigationController popToRootViewControllerAnimated:YES];
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    appDelegate.modalPresent=NO;
-    [appDelegate dismissNearbyObjectView:self];
+    [RootViewController sharedRootViewController].modalPresent=NO;
+    [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];	
+        
 }
 
 #pragma mark Memory Management

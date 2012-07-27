@@ -52,12 +52,10 @@
        
     }
     else if(actual == 1){
-                ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-        
            if ([AppModel sharedAppModel].currentGame.completedQuests < 1)
-               [appDelegate performSelector:@selector(displayIntroNode) withObject:nil afterDelay:.1];
+               [[RootViewController sharedRootViewController] performSelector:@selector(displayIntroNode) withObject:nil afterDelay:.1];
         [self dismissModalViewControllerAnimated:NO];
-        appDelegate.loadingVC = nil;
+        [RootViewController sharedRootViewController].loadingVC = nil;
     
 } 
 }

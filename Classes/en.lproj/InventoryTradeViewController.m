@@ -136,8 +136,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    appDelegate.modalPresent = YES;
     NSMutableArray *tempCopy = [[[AppModel sharedAppModel].inventory allValues] mutableCopy];
     NSMutableArray *inventoryAlloc = [[NSMutableArray alloc] init];
 	self.inventory = inventoryAlloc;
@@ -166,9 +164,7 @@
 {
     [BumpClient sharedClient].bumpable = NO;
     [self.navigationController popToRootViewControllerAnimated:YES];
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    appDelegate.modalPresent=NO;
-    [appDelegate dismissNearbyObjectView:self];	
+    [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];	
 }
 
 - (IBAction)backButtonTouchAction: (id) sender{

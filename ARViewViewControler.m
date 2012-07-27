@@ -64,7 +64,7 @@
 	ARviewController.centerLocation = [AppModel sharedAppModel].playerLocation;
 	[ARviewController startListening];
 	
-	[[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] window] addSubview:ARviewController.view];
+	[[[RootViewController sharedRootViewController] window] addSubview:ARviewController.view];
 	
 	//Add a close button
 	UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -75,7 +75,7 @@
 	
 	
     // Override point for customization after application launch
-    [[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] window] makeKeyAndVisible];	
+    [[[RootViewController sharedRootViewController] window] makeKeyAndVisible];	
 	
 	
 	

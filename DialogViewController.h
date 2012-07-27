@@ -56,19 +56,11 @@
     UILabel         *lbl;
 	BOOL			closingScriptPlaying;
 	BOOL			inFullScreenTextMode;
-    BOOL			areNotifications;
-    BOOL            movedForNotifications;
-    BOOL            isPC;
-    
-    CGRect          tempNpcFrame;
-    CGRect          tempPcFrame;
     
     AVAudioPlayer *player;
     ARISMoviePlayerViewController *ARISMoviePlayer;
     
     UIActivityIndicatorView *waiting;
-    
-    int             notificationBarHeight;
 }
 
 
@@ -86,15 +78,9 @@
 @property(nonatomic) IBOutlet UIBarButtonItem *specialBackButton;
 @property (nonatomic, strong) AVAudioPlayer *player;
 @property (nonatomic, strong) ARISMoviePlayerViewController *ARISMoviePlayer;
-@property (nonatomic)         CGRect tempNpcFrame;
-@property (nonatomic)         CGRect tempPcFrame;
 @property (nonatomic)         UIActivityIndicatorView *waiting;
 @property                     BOOL closingScriptPlaying;
 @property                     BOOL inFullScreenTextMode;
-@property                     BOOL areNotifications;
-@property                     BOOL movedForNotifications;
-@property                     BOOL isPC;
-@property (readwrite,assign)  int notificationBarHeight;
 
 @property(nonatomic) IBOutlet NSString *exitToTabVal;
 

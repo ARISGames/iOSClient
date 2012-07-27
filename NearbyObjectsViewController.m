@@ -70,18 +70,15 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-	
 	[self refresh];
 	
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate.tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindNearbyTab];
+	[[RootViewController sharedRootViewController].tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindNearbyTab];
 	
 	NSLog(@"NearbyObjectsViewController: viewDidAppear");
 }
 
 -(void)dismissTutorial{
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate.tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindNearbyTab];
+	[[RootViewController sharedRootViewController].tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindNearbyTab];
 }
 
 - (void)refresh {
@@ -92,7 +89,7 @@
 - (void)refreshViewFromModel{
 	NSLog(@"NearbyBar: refreshViewFromModel");
 	
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	
 	if (![AppModel sharedAppModel].playerLocation) {
 		NSLog(@"NearbyBar: Waiting for the player location before continuing to refresh. Returning");
@@ -127,16 +124,14 @@
 	
 	//If we have something new, alert the user
 	if (newItem) {
-        if(!appDelegate.tabBarController.modalViewController)
+        if(![RootViewController sharedRootViewController].tabBarController.modalViewController)
         {
             //alert only if u are on quest,map,inventory, or nearby objects screen
             [appDelegate playAudioAlert:@"pingtone" shouldVibrate:YES]; 
 		}
         
 		if (![AppModel sharedAppModel].hasSeenNearbyTabTutorial) {
-			ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-
-			[appDelegate.tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController  
+			[[RootViewController sharedRootViewController].tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController  
 												type:tutorialPopupKindNearbyTab 
 												title:@"Something Nearby"  
 												message:@"There is something nearby! Touch below to see what it is."];
@@ -153,12 +148,12 @@
 	if ([nearbyLocationList count] == 0) { 
 		NSLog(@"NearbyBar: refreshViewFromModel: nearbyLocationList was 0");
 		self.navigationController.tabBarItem.badgeValue = nil;
-		[appDelegate showNearbyTab:NO];
+		[[RootViewController sharedRootViewController] showNearbyTab:NO];
 	}
 	else {
 		NSLog(@"NearbyBar: refreshViewFromModel: nearbyLocationList was > 0");
 		self.navigationController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",[nearbyLocationList count]];
-		[appDelegate showNearbyTab:YES];
+		[[RootViewController sharedRootViewController] showNearbyTab:YES];
 
 	}
 	

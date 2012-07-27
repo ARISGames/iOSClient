@@ -34,7 +34,7 @@
         self.tabBarItem.image = [UIImage imageNamed:@"36-toolbox"];
         NSMutableArray *iconCacheAlloc = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].inventory count]];
         self.iconCache = iconCacheAlloc;
-         NSMutableArray *mediaCacheAlloc = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].inventory count]];
+        NSMutableArray *mediaCacheAlloc = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].inventory count]];
         self.mediaCache = mediaCacheAlloc;
         
 		//register for notifications
@@ -42,7 +42,7 @@
 		[dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedInventory" object:nil];
 		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewInventoryReady" object:nil];
         [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
-
+        
 		[dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
     }
     return self;
@@ -51,7 +51,7 @@
 - (void)silenceNextUpdate {
 	silenceNextServerUpdateCount++;
 	NSLog(@"InventoryListViewController: silenceNextUpdate. Count is %d",silenceNextServerUpdateCount);
-
+    
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -69,7 +69,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-
+    
     [[AppServices sharedAppServices] updateServerInventoryViewed];
 	[self refresh];		
 	
@@ -90,8 +90,7 @@
 }
 
 -(void)dismissTutorial{
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate.tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindInventoryTab];
+	[[RootViewController sharedRootViewController].tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindInventoryTab];
 }
 
 -(void)refresh {
@@ -107,8 +106,8 @@
         [capBar setHidden:NO];
         [capLabel setHidden:NO];
         inventoryTable.frame = CGRectMake(0, 42, 320, 325);
-            capBar.progress = (float)((float) currentWeight/(float)weightCap);
-            capLabel.text = [NSString stringWithFormat: @"%@: %d/%d", NSLocalizedString(@"WeightCapacityKey", @""), currentWeight, weightCap];
+        capBar.progress = (float)((float) currentWeight/(float)weightCap);
+        capLabel.text = [NSString stringWithFormat: @"%@: %d/%d", NSLocalizedString(@"WeightCapacityKey", @""), currentWeight, weightCap];
     }
     [capBar setProgress:0];
 	[[AppServices sharedAppServices] fetchInventory];
@@ -149,24 +148,20 @@
 		int newItems = 0;
         UIViewController *topViewController =  [[self navigationController] topViewController];
 		for (Item *item in newInventory) {	
-
-
+            
+            
 			BOOL match = NO;
 			for (Item *existingItem in self.inventory) {
 				if (existingItem.itemId == item.itemId) match = YES;	
                 if ((existingItem.itemId == item.itemId) && (existingItem.qty < item.qty)){
-                   if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
-                       [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
+                    if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
+                        [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
                     
-                   NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Item Received",@"title",[NSString stringWithFormat:@"%d %@ %@",item.qty - existingItem.qty,item.name,NSLocalizedString(@"InventoryAddedToKey", @"")],@"prompt", nil];
-                    [appDelegate.notifArray addObject:dict];
-                    [appDelegate showNotifications];
-                    //[appDelegate performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
-                 
+                    [[RootViewController sharedRootViewController] enqueueNotificationWithTitle:NSLocalizedString(@"AppModelItemReceivedKey", @"")
+                                                                                      andPrompt:[NSString stringWithFormat:@"%d %@ %@",item.qty - existingItem.qty,item.name,NSLocalizedString(@"InventoryAddedToKey", @"")]];
                 }
-                              
 			}
-
+            
 			if (match == NO) {
                 if([AppModel sharedAppModel].profilePic)
                 {
@@ -176,31 +171,28 @@
                 if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
                     [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
                 
-                NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Item Received",@"title",[NSString stringWithFormat:@"%d %@ %@",item.qty,item.name,NSLocalizedString(@"InventoryAddedToKey", @"")],@"prompt", nil];
-              [appDelegate.notifArray addObject:dict];
-                [appDelegate showNotifications];
-
-                //[appDelegate performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
+                [[RootViewController sharedRootViewController] enqueueNotificationWithTitle:NSLocalizedString(@"AppModelItemReceivedKey", @"")
+                                                                                  andPrompt:[NSString stringWithFormat:@"%d %@ %@",item.qty,item.name,NSLocalizedString(@"InventoryAddedToKey", @"")]];
 				newItems ++;;
 			}
 		}
 		if (newItems > 0) {
 			newItemsSinceLastView += newItems;
 			self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
-						
+            
 			//Vibrate and Play Sound
 			[appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
 			
 			//Put up the tutorial tab
 			if (![AppModel sharedAppModel].hasSeenInventoryTabTutorial){
-				[appDelegate.tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController  
-                        type:tutorialPopupKindInventoryTab
-                            title:NSLocalizedString(@"InventoryNewItemKey", @"")  
-                            message:NSLocalizedString(@"InventoryNewItemMessageKey", @"")];						
+				[[RootViewController sharedRootViewController].tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController  
+                                                                                                                                 type:tutorialPopupKindInventoryTab
+                                                                                                                                title:NSLocalizedString(@"InventoryNewItemKey", @"")  
+                                                                                                                              message:NSLocalizedString(@"InventoryNewItemMessageKey", @"")];						
 				[AppModel sharedAppModel].hasSeenInventoryTabTutorial = YES;
                 [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
 			}
-				
+            
 			
 		}
 		else if (newItemsSinceLastView < 1) self.tabBarItem.badgeValue = nil;
@@ -217,7 +209,7 @@
 	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
     NSSortDescriptor *sortDescriptor;
     sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"hasViewed"
-                                                  ascending:YES];
+                                                 ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
     self.inventory = [self.inventory sortedArrayUsingDescriptors:sortDescriptors];
 	
@@ -259,7 +251,7 @@
 	iconViewTemp.tag = 3;
 	iconViewTemp.backgroundColor = [UIColor clearColor]; 
 	[cell.contentView addSubview:iconViewTemp];
-
+    
     //Init Icon with tag 4
     lblTemp = [[UILabel alloc] initWithFrame:Label3Frame];
 	lblTemp.tag = 4;
@@ -307,7 +299,7 @@
                                                             blue:200.0/255.0  
                                                            alpha:1.0];  
     } 
-
+    
     
 	
 	Item *item = [inventory objectAtIndex: [indexPath row]];
@@ -315,21 +307,21 @@
 	UILabel *lblTemp1 = (UILabel *)[cell viewWithTag:1];
 	lblTemp1.text = item.name;	
     lblTemp1.font = [UIFont boldSystemFontOfSize:18.0];
-        
+    
     UILabel *lblTemp2 = (UILabel *)[cell viewWithTag:2];
     lblTemp2.text = item.description;
 	AsyncMediaImageView *iconView = (AsyncMediaImageView *)[cell viewWithTag:3];
     
     UILabel *lblTemp3 = (UILabel *)[cell viewWithTag:4];
     if(item.qty >1 && item.weight > 1)
-    lblTemp3.text = [NSString stringWithFormat:@"%@: %d, %@: %d",NSLocalizedString(@"QuantityKey", @""),item.qty,NSLocalizedString(@"WeightKey", @""),item.weight];
+        lblTemp3.text = [NSString stringWithFormat:@"%@: %d, %@: %d",NSLocalizedString(@"QuantityKey", @""),item.qty,NSLocalizedString(@"WeightKey", @""),item.weight];
     else if(item.weight > 1)
         lblTemp3.text = [NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"WeightKey", @""),item.weight];
     else if(item.qty > 1)
         lblTemp3.text = [NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"QuantityKey", @""),item.qty];
     else
         lblTemp3.text = nil;
-        iconView.hidden = NO;
+    iconView.hidden = NO;
     Media *media;
     if (item.mediaId != 0 && ![item.type isEqualToString:@"NOTE"]) {
         if([self.mediaCache count] > indexPath.row){
@@ -339,7 +331,7 @@
             
             media = [[AppModel sharedAppModel] mediaForMediaId: item.mediaId];
             if(media)
-            [self.mediaCache  addObject:media];
+                [self.mediaCache  addObject:media];
         }
 	}
     
@@ -360,11 +352,11 @@
 		if ([media.type isEqualToString: kMediaTypeImage]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultImageIcon.png"]];
 		if ([media.type isEqualToString: kMediaTypeAudio]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultAudioIcon.png"]];
 		if ([media.type isEqualToString: kMediaTypeVideo]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultVideoIcon.png"]];	}
-    	
+    
 	return cell;
 }
 
- - (unsigned int) indexOf:(char) searchChar inString:(NSString *)searchString {
+- (unsigned int) indexOf:(char) searchChar inString:(NSString *)searchString {
 	NSRange searchRange;
 	searchRange.location = (unsigned int) searchChar;
 	searchRange.length = 1;
@@ -381,7 +373,7 @@
     
 	Item *selectedItem = [inventory objectAtIndex:[indexPath row]];
 	NSLog(@"Displaying Detail View: %@", selectedItem.name);
-
+    
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
 	
@@ -391,10 +383,9 @@
 	itemDetailsViewController.navigationItem.title = selectedItem.name;
 	itemDetailsViewController.inInventory = YES;
 	itemDetailsViewController.hidesBottomBarWhenPushed = YES;
-
+    
 	//Put the view on the screen
 	[[self navigationController] pushViewController:itemDetailsViewController animated:YES];
-	
 	
 }
 

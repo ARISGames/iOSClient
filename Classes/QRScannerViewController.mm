@@ -143,9 +143,8 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary  *)info{
     
 	//[[picker parentViewController] dismissModalViewControllerAnimated:NO];
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    appDelegate.modalPresent=NO;
-    [appDelegate dismissNearbyObjectView:self];
+    [RootViewController sharedRootViewController].modalPresent=NO;
+    [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
     UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
     if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];                 
     
@@ -185,27 +184,23 @@
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    appDelegate.modalPresent=NO;
-    [appDelegate dismissNearbyObjectView:self];
+    [RootViewController sharedRootViewController].modalPresent=NO;
+    [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
 }
 
 
 #pragma mark -
 #pragma mark ZXingDelegateMethods
 - (void)zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)resultString {
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    appDelegate.modalPresent=NO;
-    [appDelegate dismissNearbyObjectView:self];
+    [RootViewController sharedRootViewController].modalPresent=NO;
+    [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
     NSLog(@"QRScannerViewController: Scan result: %@",resultString);
     [self loadResult:resultString];
-    
 }
 
 - (void)zxingControllerDidCancel:(ZXingWidgetController*)controller {
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    appDelegate.modalPresent=NO;
-    [appDelegate dismissNearbyObjectView:self];}
+    [RootViewController sharedRootViewController].modalPresent=NO;
+    [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];}
 
 
 #pragma mark QRCScan delegate methods
@@ -213,7 +208,7 @@
 - (void)decoder:(Decoder *)decoder didDecodeImage:(UIImage *)image usingSubset:(UIImage *)subset withResult:(TwoDDecoderResult *)twoDResult {
 	//Stop Waiting Indicator
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-	[appDelegate removeNewWaitingIndicator];
+	[[RootViewController sharedRootViewController] removeNewWaitingIndicator];
 	
 	//get the result
 	NSString *encodedText = twoDResult.text;
@@ -235,7 +230,7 @@
  
  //Stop Waiting Indicator
  ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
- [appDelegate removeNewWaitingIndicator];
+ [[RootViewController sharedRootViewController] removeNewWaitingIndicator];
  [appDelegate playAudioAlert:@"error" shouldVibrate:YES];
  
  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"QRScannerDecodingErrorTitleKey", @"")
@@ -257,7 +252,7 @@
  
  //Start Waiting Indicator
  ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
- [appDelegate showNewWaitingIndicator:NSLocalizedString(@"QRScannerDecodingKey",@"") displayProgressBar:NO];
+ [[[RootViewController sharedRootViewController] showNewWaitingIndicator:NSLocalizedString(@"QRScannerDecodingKey",@"") displayProgressBar:NO];
  
  }
  
@@ -268,8 +263,7 @@
 
 -(void) loadResult:(NSString *)code {
 	//Fetch the coresponding object from the server
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate showNewWaitingIndicator:NSLocalizedString(@"LoadingKey",@"") displayProgressBar:NO];
+	[[RootViewController sharedRootViewController] showNewWaitingIndicator:NSLocalizedString(@"LoadingKey",@"") displayProgressBar:NO];
 	[[AppServices sharedAppServices] fetchQRCode:code];
 }
 
@@ -277,7 +271,7 @@
 	
 	NSObject<QRCodeProtocol> *qrCodeObject = notification.object;
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate removeNewWaitingIndicator];
+	[[RootViewController sharedRootViewController] removeNewWaitingIndicator];
     
 	if (qrCodeObject == nil) {
 		[appDelegate playAudioAlert:@"error" shouldVibrate:NO];

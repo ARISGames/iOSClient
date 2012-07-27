@@ -77,7 +77,7 @@ NSString *const kQuestsHtmlTemplate =
 - (void)silenceNextUpdate {
 	silenceNextServerUpdateCount++;
 	NSLog(@"QuestsViewController: silenceNextUpdate. Count is %d",silenceNextServerUpdateCount );
-
+    
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -102,14 +102,13 @@ NSString *const kQuestsHtmlTemplate =
 	self.tabBarItem.badgeValue = nil;
 	newItemsSinceLastView = 0;
 	silenceNextServerUpdateCount = 0;
-		
+    
 	
 	
 }
 
 -(void)dismissTutorial{
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate.tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindQuestsTab];
+	[[RootViewController sharedRootViewController].tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindQuestsTab];
 }
 
 - (void)refresh {
@@ -121,7 +120,7 @@ NSString *const kQuestsHtmlTemplate =
 
 -(void)showLoadingIndicator{
 	UIActivityIndicatorView *activityIndicator = 
-		[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
 	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
 	[[self navigationItem] setRightBarButtonItem:barButton];
 	[activityIndicator startAnimating];
@@ -138,7 +137,7 @@ NSString *const kQuestsHtmlTemplate =
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	progressLabel.text = [NSString stringWithFormat:@"%d %@ %d %@", [AppModel sharedAppModel].currentGame.completedQuests, NSLocalizedString(@"OfKey", @"Number of Number"), [AppModel sharedAppModel].currentGame.totalQuests, NSLocalizedString(@"QuestsCompleteKey", @"")];
 	progressView.progress = (float)[AppModel sharedAppModel].currentGame.completedQuests / (float)[AppModel sharedAppModel].currentGame.totalQuests;
-		
+    
 	NSLog(@"QuestsViewController: refreshViewFromModel: silenceNextServerUpdateCount = %d", silenceNextServerUpdateCount);
 	
 	//Update the badge
@@ -155,18 +154,14 @@ NSString *const kQuestsHtmlTemplate =
 				newItems ++;;
                 quest.sortNum = activeSort;
                 activeSort++;
-               NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"QuestsViewNewQuestsKey", @""),@"title",quest.name,@"prompt", nil];
                 
-               [appDelegate.notifArray addObject:dict];
-                [appDelegate showNotifications];
-
-                //[appDelegate performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
-                
+                [[RootViewController sharedRootViewController] enqueueNotificationWithTitle:NSLocalizedString(@"QuestsViewNewQuestsKey", @"")
+                                                                                  andPrompt:quest.name];
 			}
 		}
         
         NSArray *newCompletedQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"completed"];
-
+        
         for (Quest *quest in newCompletedQuestsArray) {		
 			BOOL match = NO;
 			for (Quest *existingQuest in [self.quests objectAtIndex:COMPLETED_SECTION]) {
@@ -174,17 +169,12 @@ NSString *const kQuestsHtmlTemplate =
 			}
 			if (match == NO) {
                 [appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
-
-                NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"QuestsViewQuestCompletedKey", @""),@"title",quest.name,@"prompt", nil];
                 
-                [appDelegate.notifArray addObject:dict];
-                [appDelegate showNotifications];
-
-                //[appDelegate performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
-
+                [[RootViewController sharedRootViewController] enqueueNotificationWithTitle:NSLocalizedString(@"QuestsViewQuestCompletedKey", @"")
+                                                                                  andPrompt:quest.name];
 			}
 		}
-
+        
         
         
 		if (newItems > 0) {
@@ -192,18 +182,17 @@ NSString *const kQuestsHtmlTemplate =
 			self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
 			
 			if (![AppModel sharedAppModel].hasSeenQuestsTabTutorial){
-			//Put up the tutorial tab
-				ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-				[appDelegate.tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController 
-                        type:tutorialPopupKindQuestsTab 
-                                title:NSLocalizedString(@"QuestViewNewQuestKey", @"")
-                                message:NSLocalizedString(@"QuestViewNewQuestMessageKey", @"")];
+                //Put up the tutorial tab
+				[[RootViewController sharedRootViewController].tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController 
+                                                                                                                                 type:tutorialPopupKindQuestsTab 
+                                                                                                                                title:NSLocalizedString(@"QuestViewNewQuestKey", @"")
+                                                                                                                              message:NSLocalizedString(@"QuestViewNewQuestMessageKey", @"")];
 				[AppModel sharedAppModel].hasSeenQuestsTabTutorial = YES;
                 [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
 			}
 		}
 		else if (newItemsSinceLastView < 1) self.tabBarItem.badgeValue = nil;
-	
+        
 	}
 	else {
 		newItemsSinceLastView = 0;
@@ -216,11 +205,11 @@ NSString *const kQuestsHtmlTemplate =
 	NSArray *completedQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"completed"];
 	
 	self.quests = [NSArray arrayWithObjects:activeQuestsArray, completedQuestsArray, nil];
-
+    
 	[self constructCells];
 	
 	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
-
+    
 }
 
 -(void)constructCells{
@@ -235,11 +224,11 @@ NSString *const kQuestsHtmlTemplate =
 	Quest *quest;
 	NSSortDescriptor *sortDescriptor;
     sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sortNum"
-                                                  ascending:NO];
+                                                 ascending:NO];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
     
     activeQuests = [activeQuests sortedArrayUsingDescriptors:sortDescriptors];
-
+    
     NSLog(@"QuestsVC: Active Quests Selected");
     e = [activeQuests objectEnumerator];
     while ( (quest = (Quest*)[e nextObject]) ) {
@@ -248,21 +237,21 @@ NSString *const kQuestsHtmlTemplate =
     
     /*
      This adds a "No new quests" quest to the quest list. Commented out for sizing issues to be dealt with later.
-    if([activeQuestCells count] == 0){
-        activeQuestsEmpty = YES;
-        Quest *nullQuest = [[Quest alloc] init];
-        nullQuest.isNullQuest = true;
-        nullQuest.questId = -1;
-        nullQuest.name = @"Empty";
-        nullQuest.description = @"(there are no quests available at this time)";
-        NSMutableArray *activeQuestsMutable = [[NSMutableArray alloc] initWithArray: activeQuests];
-        [activeQuestsMutable addObject: nullQuest];
-        activeQuests = (NSArray *)activeQuestsMutable;
-        [activeQuestCells addObject: [self getCellContentViewForQuest:nullQuest inSection:ACTIVE_SECTION]];
-        //[self updateCellSize: [activeQuestCells objectAtIndex:0]];
-
-    }
-    */ 
+     if([activeQuestCells count] == 0){
+     activeQuestsEmpty = YES;
+     Quest *nullQuest = [[Quest alloc] init];
+     nullQuest.isNullQuest = true;
+     nullQuest.questId = -1;
+     nullQuest.name = @"Empty";
+     nullQuest.description = @"(there are no quests available at this time)";
+     NSMutableArray *activeQuestsMutable = [[NSMutableArray alloc] initWithArray: activeQuests];
+     [activeQuestsMutable addObject: nullQuest];
+     activeQuests = (NSArray *)activeQuestsMutable;
+     [activeQuestCells addObject: [self getCellContentViewForQuest:nullQuest inSection:ACTIVE_SECTION]];
+     //[self updateCellSize: [activeQuestCells objectAtIndex:0]];
+     
+     }
+     */ 
     
     e = [completedQuests objectEnumerator];
     NSLog(@"QuestsVC: Completed Quests Selected");
@@ -272,20 +261,20 @@ NSString *const kQuestsHtmlTemplate =
     /*
      This adds a "No new quests" quest to the quest list. Commented out for sizing issues to be dealt with later.
      if([completedQuestCells count] == 0){
-        completedQuestsEmpty = YES;
-
-        Quest *nullQuest = [[Quest alloc] init];
-        nullQuest.isNullQuest = true;
-        nullQuest.questId = -1;
-        nullQuest.name = @"Empty";
-        nullQuest.description = @"(you have not completed any quests)";
-        NSMutableArray *activeQuestsMutable = [[NSMutableArray alloc] initWithArray: activeQuests];
-        [activeQuestsMutable addObject: nullQuest];
-        activeQuests = (NSArray *)activeQuestsMutable;
-        [completedQuestCells addObject: [self getCellContentViewForQuest:nullQuest inSection:COMPLETED_SECTION]];
-       // [self updateCellSize: [completedQuestCells objectAtIndex:0]];
-    }
-    */
+     completedQuestsEmpty = YES;
+     
+     Quest *nullQuest = [[Quest alloc] init];
+     nullQuest.isNullQuest = true;
+     nullQuest.questId = -1;
+     nullQuest.name = @"Empty";
+     nullQuest.description = @"(you have not completed any quests)";
+     NSMutableArray *activeQuestsMutable = [[NSMutableArray alloc] initWithArray: activeQuests];
+     [activeQuestsMutable addObject: nullQuest];
+     activeQuests = (NSArray *)activeQuestsMutable;
+     [completedQuestCells addObject: [self getCellContentViewForQuest:nullQuest inSection:COMPLETED_SECTION]];
+     // [self updateCellSize: [completedQuestCells objectAtIndex:0]];
+     }
+     */
     
 	self.questCells = [NSArray arrayWithObjects:activeQuestCells,completedQuestCells, nil];
 	
@@ -293,19 +282,19 @@ NSString *const kQuestsHtmlTemplate =
     [tableView reloadData];
 	
 	NSLog(@"QuestsVC: Cells created and stored in questCells");
-
+    
 }
 
 - (BOOL)webView:(UIWebView *)webView  
 shouldStartLoadWithRequest:(NSURLRequest *)request  
  navigationType:(UIWebViewNavigationType)navigationType; {  
 	
-   /* NSURL *requestURL = [ [ request URL ] retain ];
-    if ( ( [ [ requestURL scheme ] isEqualToString: @"http" ]  
-		  || [ [ requestURL scheme ] isEqualToString: @"https" ] )  
-		&& ( navigationType == UIWebViewNavigationTypeLinkClicked ) ) {  
-		return ![ [ UIApplication sharedApplication ] openURL: [ requestURL autorelease ] ];  
-	}  */
+    /* NSURL *requestURL = [ [ request URL ] retain ];
+     if ( ( [ [ requestURL scheme ] isEqualToString: @"http" ]  
+     || [ [ requestURL scheme ] isEqualToString: @"https" ] )  
+     && ( navigationType == UIWebViewNavigationTypeLinkClicked ) ) {  
+     return ![ [ UIApplication sharedApplication ] openURL: [ requestURL autorelease ] ];  
+     }  */
     if(self.isLink && ![[[request URL]absoluteString] isEqualToString:@"about:blank"]) {
         webpageViewController *webPageViewController = [[webpageViewController alloc] initWithNibName:@"webpageViewController" bundle: [NSBundle mainBundle]];
         WebPage *temp = [[WebPage alloc]init];
@@ -319,7 +308,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
     else{
         self.isLink = YES;
         return YES;}
-
+    
 	// Check to see what protocol/scheme the requested URL is.  
 	
 	// Auto release  
@@ -337,10 +326,10 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	int cellTotal = [[self.quests objectAtIndex:ACTIVE_SECTION] count] + [[self.quests objectAtIndex:COMPLETED_SECTION] count];
 	
 	NSLog(@"QuestsViewController: VebView loaded: Cell Total:%d Current Cell Count:%d",cellTotal,cellsLoaded);
-
+    
 	
 	if(cellsLoaded == cellTotal)
-	
+        
 	{
 		cellsLoaded = 0;
 		[self performSelector:@selector(updateCellSizes) withObject:nil afterDelay:0.1];
@@ -349,7 +338,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 
 -(void)updateCellSizes{
 	//Loop through each object in quests and calculate the heights
-
+    
 	NSArray *activeQuestCells = [questCells objectAtIndex:ACTIVE_SECTION];
 	NSArray *completedQuestCells = [questCells objectAtIndex:COMPLETED_SECTION];
 	NSEnumerator *e;
@@ -370,12 +359,12 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 
 -(void)updateCellSize:(UITableViewCell*)cell {
 	NSLog(@"QuestViewController: Updating Cell Sizes");
-
+    
 	UIWebView *descriptionView = (UIWebView *)[cell viewWithTag:1];
 	float newHeight = [[descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
 	
 	NSLog(@"QuestViewController: Description View Calculated Height is: %f",newHeight);
-
+    
 	
 	CGRect descriptionFrame = [descriptionView frame];	
 	descriptionFrame.size = CGSizeMake(descriptionFrame.size.width,newHeight);
@@ -390,14 +379,14 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	CGRect cellFrame = [cell frame];
 	cellFrame.size = CGSizeMake(cell.frame.size.width,newHeight + 25);
 	[cell setFrame:cellFrame];
-
+    
 	NSLog(@"QuestViewController: cell frame set to {%f, %f, %f, %f}", 
 		  cell.frame.origin.x, 
 		  cell.frame.origin.y, 
 		  cell.frame.size.width,
 		  cell.frame.size.height);
 }
-	
+
 
 
 #pragma mark PickerViewDelegate selectors
@@ -419,7 +408,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
     transparentBackground.backgroundColor = [UIColor clearColor];
     cell.backgroundView = transparentBackground;
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
+    
 	
 	//Initialize Description with Tag 1
 	descriptionView = [[UIWebView alloc] initWithFrame:descriptionFrame];
@@ -436,19 +425,19 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	
 	//Set the icon
 	/*if (quest.iconMediaId > 0) {
-		Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId:quest.iconMediaId];
-		[iconView loadImageFromMedia:iconMedia];
-	}
-	else {
-        if(!quest.isNullQuest){
-            if(activeQuestsSwitch.selectedSegmentIndex == 0) iconView.image = [UIImage imageNamed:@"QuestActiveIcon.png"];
-            if(activeQuestsSwitch.selectedSegmentIndex == 1) iconView.image = [UIImage imageNamed:@"QuestCompleteIcon.png"];
-        }
-		
-	}
-	[cell.contentView addSubview:iconView];
-	[iconView release];
-	*/
+     Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId:quest.iconMediaId];
+     [iconView loadImageFromMedia:iconMedia];
+     }
+     else {
+     if(!quest.isNullQuest){
+     if(activeQuestsSwitch.selectedSegmentIndex == 0) iconView.image = [UIImage imageNamed:@"QuestActiveIcon.png"];
+     if(activeQuestsSwitch.selectedSegmentIndex == 1) iconView.image = [UIImage imageNamed:@"QuestCompleteIcon.png"];
+     }
+     
+     }
+     [cell.contentView addSubview:iconView];
+     [iconView release];
+     */
 	return cell;
 }
 
@@ -508,11 +497,11 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 }
 
 /*
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	//Don't do anything just yet
-	//We could add a long description area here
-}
-*/
+ - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+ //Don't do anything just yet
+ //We could add a long description area here
+ }
+ */
 
 
 
@@ -523,7 +512,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-
+    
 }
 
 @end

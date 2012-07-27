@@ -263,24 +263,17 @@
 
 -(void)removeItemFromInventory:(Item*)item qtyToRemove:(int)qty {
 	NSLog(@"AppModel: removing an item from the local inventory");
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     
 	item.qty -=qty; 
 	if (item.qty < 1) [self.inventory removeObjectForKey:[NSString stringWithFormat:@"%d",item.itemId]];
     
-    if([[(UINavigationController *) appDelegate.tabBarController.selectedViewController topViewController] respondsToSelector:@selector(updateQuantityDisplay)])
-        [[(UINavigationController *)appDelegate.tabBarController.selectedViewController topViewController] performSelector:@selector(updateQuantityDisplay)];
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:NSLocalizedString(@"AppModelItemLostKey", @""),@"title",[NSString stringWithFormat:@"%d %@ %@",qty,item.name,NSLocalizedString(@"AppModelItemRemovedKey", @"")],@"prompt", nil];
+    if([[(UINavigationController *) [RootViewController sharedRootViewController].tabBarController.selectedViewController topViewController] respondsToSelector:@selector(updateQuantityDisplay)])
+        [[(UINavigationController *)[RootViewController sharedRootViewController].tabBarController.selectedViewController topViewController] performSelector:@selector(updateQuantityDisplay)];
     
-    [appDelegate.notifArray addObject:dict];
-    [appDelegate showNotifications];
-    
-    //   [appDelegate performSelector:@selector(displayNotificationTitle:) withObject:dict afterDelay:.1];
-    
-    
+    [[RootViewController sharedRootViewController] enqueueNotificationWithTitle:NSLocalizedString(@"AppModelItemLostKey", @"")
+                                                                      andPrompt:[NSString stringWithFormat:@"%d %@ %@",qty,item.name,NSLocalizedString(@"AppModelItemRemovedKey", @"")]];
 	NSNotification *notification = [NSNotification notificationWithName:@"NewInventoryReady" object:nil];
 	[[NSNotificationCenter defaultCenter] postNotification:notification];
-    
 }
 
 -(void)addItemToInventory: (Item*)item {
@@ -352,7 +345,7 @@
 	if (!note) {
 		//Let's pause everything and do a lookup
 		NSLog(@"AppModel: Note not found in cached item list, refresh");
-		 
+        
         if(!playerorGame){
             [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
             //note= [[AppServices sharedAppServices]fetchNote:mId];

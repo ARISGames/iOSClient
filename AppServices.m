@@ -690,7 +690,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	NSLog(@"Model: Uploading File. gameID:%d title:%@ noteId:%d",[AppModel sharedAppModel].currentGame.gameId,name,noteId);
 	
 	//ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    //[appDelegate showNewWaitingIndicator:@"Uploading" displayProgressBar:YES];
+    //[[[RootViewController sharedRootViewController] showNewWaitingIndicator:@"Uploading" displayProgressBar:YES];
 	//[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
     
 	[uploader upload];
@@ -850,8 +850,7 @@ NSString *const kARISServerServicePackage = @"v1";
     
     [AppModel sharedAppModel].fileToDeleteURL = fileURL;
     
-    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate showNewWaitingIndicator:@"Uploading" displayProgressBar:YES];
+    [[RootViewController sharedRootViewController] showNewWaitingIndicator:@"Uploading" displayProgressBar:YES];
     //[uplaoder setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
     [uploader upload];
     
@@ -862,10 +861,9 @@ NSString *const kARISServerServicePackage = @"v1";
 
 - (void)uploadImageForMatchingDidFinish:(ARISUploader *)uploader
 {
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate removeNewWaitingIndicator];
+	[[RootViewController sharedRootViewController] removeNewWaitingIndicator];
     
-    [appDelegate showNewWaitingIndicator:@"Decoding Image" displayProgressBar:NO];
+    [[RootViewController sharedRootViewController] showNewWaitingIndicator:@"Decoding Image" displayProgressBar:NO];
 	
 	NSString *response = [uploader responseString];
     
@@ -902,8 +900,7 @@ NSString *const kARISServerServicePackage = @"v1";
 
 - (void)uploadImageForMatchingDidFail:(ARISUploader *)uploader
 {
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate removeNewWaitingIndicator];
+	[[RootViewController sharedRootViewController] removeNewWaitingIndicator];
 	NSError *error = [uploader error];
 	NSLog(@"Model: uploadRequestFailed: %@",[error localizedDescription]);
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"UploadFailedKey", @"") message: NSLocalizedString(@"AppServicesUploadFailedMessageKey", @"") delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
@@ -2019,8 +2016,7 @@ NSString *const kARISServerServicePackage = @"v1";
 -(void)parseLoginResponseFromJSON: (JSONResult *)jsonResult{
 	NSLog(@"AppModel: parseLoginResponseFromJSON");
 	
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate removeNewWaitingIndicator];
+	[[RootViewController sharedRootViewController] removeNewWaitingIndicator];
     
 	if ((NSNull *)jsonResult.data != [NSNull null] && jsonResult.data != nil) {
 		[AppModel sharedAppModel].loggedIn = YES;
@@ -2036,9 +2032,9 @@ NSString *const kARISServerServicePackage = @"v1";
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewLoginResponseReady" object:nil]];
     
     
-    if(appDelegate.loadingVC){
-        appDelegate.loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesRecievedLocationListKey", @"");
-        appDelegate.loadingVC.receivedData++;
+    if([RootViewController sharedRootViewController].loadingVC){
+        [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesRecievedLocationListKey", @"");
+        [RootViewController sharedRootViewController].loadingVC.receivedData++;
         
     }
     
@@ -2339,12 +2335,11 @@ NSString *const kARISServerServicePackage = @"v1";
     
     
     [self startCachingMedia:jsonResult];
-    // [appDelegate showNewWaitingIndicator:@"Loading Game..." displayProgressBar:NO];
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    // [[[RootViewController sharedRootViewController] showNewWaitingIndicator:@"Loading Game..." displayProgressBar:NO];
     
-    if(appDelegate.loadingVC){
-        appDelegate.loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesCachingGameMediaKey", @"");
-        appDelegate.loadingVC.receivedData++;
+    if([RootViewController sharedRootViewController].loadingVC){
+        [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesCachingGameMediaKey", @"");
+        [RootViewController sharedRootViewController].loadingVC.receivedData++;
         
     }
     
@@ -2415,12 +2410,11 @@ NSString *const kARISServerServicePackage = @"v1";
     
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedMediaList" object:nil]];
     
-    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate removeNewWaitingIndicator];
+    [[RootViewController sharedRootViewController] removeNewWaitingIndicator];
     
-    if(appDelegate.loadingVC){
-        appDelegate.loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesStartingGameKey", @"");
-        appDelegate.loadingVC.receivedData++;
+    if([RootViewController sharedRootViewController].loadingVC){
+        [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesStartingGameKey", @"");
+        [RootViewController sharedRootViewController].loadingVC.receivedData++;
         
     }
     
@@ -2440,11 +2434,10 @@ NSString *const kARISServerServicePackage = @"v1";
 	}
 	
 	[AppModel sharedAppModel].gameItemList = tempItemList;
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    if(appDelegate.loadingVC){
-        appDelegate.loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGameItemListKey", @"");
-        appDelegate.loadingVC.receivedData++;
+    if([RootViewController sharedRootViewController].loadingVC){
+        [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGameItemListKey", @"");
+        [RootViewController sharedRootViewController].loadingVC.receivedData++;
         
     }
 }
@@ -2464,11 +2457,9 @@ NSString *const kARISServerServicePackage = @"v1";
 	
 	[AppModel sharedAppModel].gameNodeList = tempNodeList;
     
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    
-    if(appDelegate.loadingVC){
-        appDelegate.loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGameNodeListKey", @"");
-        appDelegate.loadingVC.receivedData++;
+    if([RootViewController sharedRootViewController].loadingVC){
+        [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGameNodeListKey", @"");
+        [RootViewController sharedRootViewController].loadingVC.receivedData++;
         
     }
 }
@@ -2485,13 +2476,12 @@ NSString *const kARISServerServicePackage = @"v1";
 	}
 	
 	[AppModel sharedAppModel].gameTabList = tempTabList;
-    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate changeTabBar];
+    [[RootViewController sharedRootViewController] changeTabBar];
 	//[tempTabList release];
     
-    if(appDelegate.loadingVC){
-        appDelegate.loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGameNodeListKey", @"");
-        appDelegate.loadingVC.receivedData++;
+    if([RootViewController sharedRootViewController].loadingVC){
+        [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGameNodeListKey", @"");
+        [RootViewController sharedRootViewController].loadingVC.receivedData++;
         
     }
     
@@ -2511,12 +2501,10 @@ NSString *const kARISServerServicePackage = @"v1";
 	}
 	
 	[AppModel sharedAppModel].gameNpcList = tempNpcList;
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    if(appDelegate.loadingVC){
-        appDelegate.loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGameNPCListKey", @"");
-        appDelegate.loadingVC.receivedData++;
-        
+    if([RootViewController sharedRootViewController].loadingVC){
+        [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGameNPCListKey", @"");
+        [RootViewController sharedRootViewController].loadingVC.receivedData++;
     }
     
 }
@@ -2534,12 +2522,10 @@ NSString *const kARISServerServicePackage = @"v1";
 	}
 	
 	[AppModel sharedAppModel].gameWebPageList = tempWebPageList;
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    if(appDelegate.loadingVC){
-        appDelegate.loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGameWebpageListKey", @"");
-        appDelegate.loadingVC.receivedData++;
-        
+    if([RootViewController sharedRootViewController].loadingVC){
+        [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGameWebpageListKey", @"");
+        [RootViewController sharedRootViewController].loadingVC.receivedData++;
     }
     
 }
@@ -2556,12 +2542,10 @@ NSString *const kARISServerServicePackage = @"v1";
 	}
 	
 	[AppModel sharedAppModel].gamePanoramicList = tempPanoramicList;
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    if(appDelegate.loadingVC){
-        appDelegate.loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGamePanoramicListKey", @"");
-        appDelegate.loadingVC.receivedData++;
-        
+    if([RootViewController sharedRootViewController].loadingVC){
+        [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGamePanoramicListKey", @"");
+        [RootViewController sharedRootViewController].loadingVC.receivedData++;
     }
     
 }
@@ -2625,11 +2609,10 @@ NSString *const kARISServerServicePackage = @"v1";
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewInventoryReady" object:nil]];
 	
 	//Note: The inventory list VC listener will add the badge now that it knows something is different
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    if(appDelegate.loadingVC){
-        appDelegate.loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedInventoryKey", @"");
-        appDelegate.loadingVC.receivedData++;
+    if([RootViewController sharedRootViewController].loadingVC){
+        [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedInventoryKey", @"");
+        [RootViewController sharedRootViewController].loadingVC.receivedData++;
     }
 }
 
@@ -2653,8 +2636,7 @@ NSString *const kARISServerServicePackage = @"v1";
 
 -(void)parseQRCodeObjectFromJSON: (JSONResult *)jsonResult {
     NSLog(@"ParseQRCodeObjectFromJSON: Coolio!");
-    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate removeNewWaitingIndicator];
+    [[RootViewController sharedRootViewController] removeNewWaitingIndicator];
     
 	NSObject<QRCodeProtocol> *qrCodeObject;
     
@@ -2759,12 +2741,9 @@ NSString *const kARISServerServicePackage = @"v1";
 	NSLog(@"AppModel: Finished fetching quests from server, model updated");
 	[[NSNotificationCenter defaultCenter] postNotification: [NSNotification notificationWithName:@"NewQuestListReady" object:nil]];
     
-    ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    
-    if(appDelegate.loadingVC){
-        appDelegate.loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedQuestListKey", @"");
-        appDelegate.loadingVC.receivedData++;
-        
+    if([RootViewController sharedRootViewController].loadingVC){
+        [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedQuestListKey", @"");
+        [RootViewController sharedRootViewController].loadingVC.receivedData++;
     }
     
 }

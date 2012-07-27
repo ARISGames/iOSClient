@@ -191,9 +191,8 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
     if([self.delegate isKindOfClass:[DialogViewController class]])
 	[self.navigationController popToRootViewControllerAnimated:YES];
     else{
-        ARISAppDelegate *appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    appDelegate.modalPresent=NO;
-        [appDelegate dismissNearbyObjectView:self];}
+        [RootViewController sharedRootViewController].modalPresent=NO;
+        [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];}
     
     }
 
@@ -217,8 +216,7 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
 
 #pragma mark Async Image Loading
 - (void)loadImageFromMedia:(Media *) aMedia {
-    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate showNewWaitingIndicator:@"Loading" displayProgressBar:YES];
+	[[RootViewController sharedRootViewController] showNewWaitingIndicator:@"Loading" displayProgressBar:YES];
 	self.media = aMedia;
 	//check if the media already as the image, if so, just grab it
     if(self.media.image) [self showPanoView];;
@@ -272,8 +270,7 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
 	}
 - (void)showPanoView{
     NSLog(@"PanoVC: showPanoView");
-    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate removeNewWaitingIndicator];
+	[[RootViewController sharedRootViewController] removeNewWaitingIndicator];
     [plView stopAnimation];
     [plView removeAllTextures];
     [plView addTextureAndRelease:[PLTexture textureWithImage:[UIImage imageWithData:self.media.image]]];
