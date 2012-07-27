@@ -14,7 +14,7 @@
 #import "Scene.h"
 #import "SceneParser.h"
 
-@interface DialogViewController : UIViewController<AVAudioPlayerDelegate, SceneParserDelegate, AsyncMediaImageViewDelegate, UIScrollViewDelegate, UITextFieldDelegate> {
+@interface DialogViewController : UIViewController<SceneParserDelegate, AsyncMediaImageViewDelegate, UIScrollViewDelegate, UITextFieldDelegate, AVAudioPlayerDelegate> {
 	IBOutlet	AsyncMediaImageView	*npcImage;
 	IBOutlet	AsyncMediaImageView	*pcImage;
 	IBOutlet	UIWebView	*npcWebView;
@@ -56,6 +56,7 @@
     UILabel         *lbl;
 	BOOL			closingScriptPlaying;
 	BOOL			inFullScreenTextMode;
+    BOOL            hideLeaveConversationButton;
     
     AVAudioPlayer *player;
     ARISMoviePlayerViewController *ARISMoviePlayer;
@@ -81,6 +82,7 @@
 @property (nonatomic)         UIActivityIndicatorView *waiting;
 @property                     BOOL closingScriptPlaying;
 @property                     BOOL inFullScreenTextMode;
+@property                     BOOL            hideLeaveConversationButton;
 
 @property(nonatomic) IBOutlet NSString *exitToTabVal;
 

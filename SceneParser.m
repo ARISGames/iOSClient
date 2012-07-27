@@ -13,6 +13,7 @@ const float kDefaultZoomTime = 1.0;
 NSString *const kTagPc = @"pc";
 NSString *const kTagNpc = @"npc";
 NSString *const kTagDialog = @"dialog";
+NSString *const kTagHideLeaveConversationButton = @"hideLeaveConversationButton";
 NSString *const kTagExitToTab = @"exitToTab";
 NSString *const kTagExitToPlaque = @"exitToPlaque";
 NSString *const kTagExitToWebPage = @"exitToWebPage";
@@ -40,7 +41,7 @@ NSString *const kTagTitle = @"title";
 @synthesize currentText, sourceText, exitToTabWithTitle, delegate, script, exitToType, title;
 
 #pragma mark Init/dealloc
-- (id) initWithDefaultNpcId {
+- (id) initWithDefaultNpcIdWithDelegate:(id)inputDelegate {
 	if ((self = [super init])) {
         NSMutableString *currentTextAlloc = [[NSMutableString alloc] init];
 		self.currentText = currentTextAlloc;
@@ -48,7 +49,7 @@ NSString *const kTagTitle = @"title";
 		self.sourceText = nil;
         NSMutableArray *scriptAlloc = [[NSMutableArray alloc] init];
 		self.script = scriptAlloc;
-		self.delegate = nil;
+		self.delegate = inputDelegate;
 	}
 	return self;
 }
@@ -70,6 +71,10 @@ NSString *const kTagTitle = @"title";
   qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict 
 {
 	NSLog(@"SceneParser: Starting Element %@", elementName);
+    
+    if ([attributeDict objectForKey:kTagHideLeaveConversationButton]) {
+        [self.delegate setHideLeaveConversationButton: ([attributeDict objectForKey:kTagHideLeaveConversationButton] ? [[attributeDict objectForKey:kTagHideLeaveConversationButton]intValue] : 0)];
+    }
     
     if ([elementName isEqualToString:kTagPc]) {
 		isPc = YES;
@@ -164,7 +169,7 @@ NSString *const kTagTitle = @"title";
         || [elementName isEqualToString:kTagVideo]
         || [elementName isEqualToString:kTagWebpage]
         || [elementName isEqualToString:kTagPlaque]
-    //    || [elementName isEqualToString:kTagMedia]
+  //      || [elementName isEqualToString:kTagMedia]
         || [elementName isEqualToString:kTagItem])
 	{
         Scene *newScene = [[Scene alloc] initWithText:currentText 
@@ -181,7 +186,7 @@ NSString *const kTagTitle = @"title";
         panoId = 0;
         videoId = 0;
         webId = 0;
-        //mediaId = 0;
+        mediaId = 0;
 	}
 }
 

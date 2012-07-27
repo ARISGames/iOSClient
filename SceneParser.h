@@ -10,6 +10,8 @@
 #import "Scene.h"
 
 @protocol SceneParserDelegate
+- (void) setHideLeaveConversationButton:(BOOL) hide;
+- (BOOL) hideLeaveConversationButton;
 - (void) didFinishParsing;
 @end
 
@@ -46,7 +48,7 @@
 
 
 
-- (id) initWithDefaultNpcId;
+- (id) initWithDefaultNpcIdWithDelegate:(id)inputDelegate;
 
 - (void) parseText:(NSString *)text;
 

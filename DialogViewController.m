@@ -69,8 +69,8 @@ NSString *const kDialogHtmlTemplate =
 @synthesize npcContinueButton, pcContinueButton, textSizeButton, specialBackButton;
 @synthesize pcAnswerView, mainView, npcView, pcView, nothingElseLabel,lbl,currentNpc,currentNode, npcVideoView;
 @synthesize player, ARISMoviePlayer;
-@synthesize closingScriptPlaying, inFullScreenTextMode;;
-@synthesize waiting ;
+@synthesize closingScriptPlaying, inFullScreenTextMode;
+@synthesize waiting;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -97,6 +97,7 @@ NSString *const kDialogHtmlTemplate =
 	currentNode = nil;
 	self.closingScriptPlaying = NO;
 	self.inFullScreenTextMode = NO;
+    self.hideLeaveConversationButton = NO;
     self.exitToTabVal = nil;
 	
     //View Setup
@@ -172,13 +173,11 @@ NSString *const kDialogHtmlTemplate =
     CGRect newTextFrame;
     if (self.inFullScreenTextMode) {
         //switch to part of screen mode
-        int yValue = 332;
-        newTextFrame = CGRectMake(0, yValue, 320, 128);
+        newTextFrame = CGRectMake(0, 332, 320, 128);
 	}
 	else {
 		//switch to full screen mode
-        int yValue = 44;
-		newTextFrame = CGRectMake(0, yValue, 320, 416);
+		newTextFrame = CGRectMake(0, 44, 320, 416);
 	}
 	[UIView beginAnimations:@"toggleTextSize" context:nil];
 	[UIView setAnimationDuration:0.5];
@@ -302,9 +301,7 @@ NSString *const kDialogHtmlTemplate =
 - (void) beginWithNPC:(Npc *)aNpc {
 	currentNpc = aNpc;
 		
-	parser = [[SceneParser alloc] initWithDefaultNpcId];
-	parser.delegate = self;
-
+	parser = [[SceneParser alloc] initWithDefaultNpcIdWithDelegate: self];
 }
 
 - (void) loadNPCImage:(NSInteger)mediaId {
@@ -489,7 +486,6 @@ NSString *const kDialogHtmlTemplate =
 			[self showWaitingIndicatorForPlayerOptions];
 		}
 	}
-		
 }
 
 - (void) optionsRecievedFromNotification:(NSNotification*) notification{
@@ -648,9 +644,9 @@ NSString *const kDialogHtmlTemplate =
 		if (scriptIndex == [currentScript count] && self.closingScriptPlaying ) {
 			//We are at the end of the script and no conversations exist, the next tap on the button is going to end the dialog
 			[pcContinueButton setTitle: NSLocalizedString(@"DialogEnd",@"") forState: UIControlStateNormal];
-			[pcContinueButton setTitle: NSLocalizedString(@"DialogEnd",@"") forState: UIControlStateHighlighted];	
+			[pcContinueButton setTitle: NSLocalizedString(@"DialogEnd",@"") forState: UIControlStateHighlighted];
+
 		}
-		
 	}
 	else {
         NSLog(@"Dialog VC: finishScene: This is the NPC");
@@ -913,7 +909,8 @@ NSString *const kDialogHtmlTemplate =
 
 #pragma mark PC options table view
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return 2;
+    if(self.hideLeaveConversationButton) return 1;
+       return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
@@ -1012,10 +1009,17 @@ NSString *const kDialogHtmlTemplate =
         self.exitToTabVal = (NSString*)parser.exitToTabWithTitle;
     }
 
-    [self continueScript];  
-    
-    
+    [self continueScript]; 
 }
+
+- (void) setHideLeaveConversationButton:(BOOL)hide{
+    hideLeaveConversationButton = hide;
+}
+
+- (BOOL) hideLeaveConversationButton {
+    return hideLeaveConversationButton;
+}
+
 #pragma mark Scroll View
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
 	return cachedScrollView;
