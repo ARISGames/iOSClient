@@ -371,6 +371,7 @@
 		DB72A2CC15A7B1A200A04B4C /* NotebookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB72A2CE15A7B1A200A04B4C /* NotebookViewController.xib */; };
 		DB7EEF7C15AB40C2009369D4 /* InventoryTradeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB7EEF7A15AB40C2009369D4 /* InventoryTradeViewController.xib */; };
 		DBBCE9E115937704006994F9 /* DefaultPCImage.png in Resources */ = {isa = PBXBuildFile; fileRef = DBBCE9E015937704006994F9 /* DefaultPCImage.png */; };
+		DBC3441315ADEED200FA902F /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC3441115ADEED200FA902F /* RootViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -968,6 +969,8 @@
 		DB7EEF7815AB40C2009369D4 /* InventoryTradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InventoryTradeViewController.h; path = Classes/InventoryTradeViewController.h; sourceTree = "<group>"; };
 		DB7EEF7A15AB40C2009369D4 /* InventoryTradeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = InventoryTradeViewController.xib; path = Classes/InventoryTradeViewController.xib; sourceTree = "<group>"; };
 		DBBCE9E015937704006994F9 /* DefaultPCImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultPCImage.png; sourceTree = "<group>"; };
+		DBC3441015ADEED200FA902F /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewController.h; path = Classes/RootViewController.h; sourceTree = "<group>"; };
+		DBC3441115ADEED200FA902F /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RootViewController.m; path = Classes/RootViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1600,6 +1603,8 @@
 				A798300A0FCB1C5900C1C2E7 /* Waiting Indicator */,
 				2B3D17040F49C9920067FD3A /* Model */,
 				AB4FD84F130BC5460034F666 /* Tutorial */,
+				DBC3441015ADEED200FA902F /* RootViewController.h */,
+				DBC3441115ADEED200FA902F /* RootViewController.m */,
 				A763B5230F4E283100FDCC55 /* MyCLController.h */,
 				A763B5240F4E283100FDCC55 /* MyCLController.m */,
 				AB42A66711D69F1500FD6D4B /* ARISMoviePlayerViewController.h */,
@@ -2496,6 +2501,7 @@
 				3AA83346159E3FF3002CC61D /* TileOverlayView.m in Sources */,
 				3AA83349159E4029002CC61D /* Overlay.m in Sources */,
 				DB17C60915A3A921001F7A10 /* GamePickerPopularViewController.m in Sources */,
+				DBC3441315ADEED200FA902F /* RootViewController.m in Sources */,
 				DB6742C815AB96EA009964CD /* InventoryTradeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
