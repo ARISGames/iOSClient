@@ -404,7 +404,7 @@
     
     //If not yet in inventory/attributes
     i = [[AppModel sharedAppModel] itemForItemId:itemId];
-    if(i)
+    if(i && qty > 0)
     {
         i.qty = qty;
         if(!i.isAttribute)
