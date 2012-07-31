@@ -98,12 +98,12 @@
     //unregister for notifications
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    if(self.currentPage == 0) self.gameList = [AppModel sharedAppModel].gameList;
-    else self.gameList = [self.gameList arrayByAddingObjectsFromArray:[AppModel sharedAppModel].gameList];
+    if(self.currentPage == 0) self.gameList = [AppModel sharedAppModel].searchGameList;
+    else self.gameList = [self.gameList arrayByAddingObjectsFromArray:[AppModel sharedAppModel].searchGameList];
     
     self.currentlyFetchingNextPage = NO;
     self.currentPage++;
-    if([AppModel sharedAppModel].gameList.count == 0) self.allResultsFound = YES;
+    if([AppModel sharedAppModel].searchGameList.count == 0) self.allResultsFound = YES;
 	[gameTable reloadData];
 }
 

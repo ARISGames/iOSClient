@@ -23,7 +23,8 @@ NSString *const kARISServerServicePackage = @"v1";
 
 @implementation AppServices
 
-@synthesize currentlyFetchingLocationList, currentlyFetchingInventory, currentlyFetchingQuestList, currentlyFetchingGamesList, currentlyUpdatingServerWithPlayerLocation,currentlyFetchingGameNoteList,currentlyFetchingPlayerNoteList;
+@synthesize currentlyFetchingLocationList, currentlyFetchingInventory, currentlyFetchingQuestList, currentlyUpdatingServerWithPlayerLocation,currentlyFetchingGameNoteList,currentlyFetchingPlayerNoteList;
+@synthesize currentlyFetchingNearbyGamesList, currentlyFetchingPopularGamesList, currentlyFetchingRecentGamesList, currentlyFetchingSearchGamesList;
 @synthesize currentlyUpdatingServerWithMapViewed, currentlyUpdatingServerWithQuestsViewed, currentlyUpdatingServerWithInventoryViewed;
 
 + (id)sharedAppServices
@@ -1065,7 +1066,7 @@ NSString *const kARISServerServicePackage = @"v1";
 }
 
 -(void)parseOverlayListFromJSON: (JSONResult *)jsonResult{
-    currentlyFetchingGamesList = NO;
+ //   currentlyFetchingGamesList = NO; Is there a reason for this?
     
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RecievedOverlayList" object:nil]];
    
@@ -1119,7 +1120,6 @@ NSString *const kARISServerServicePackage = @"v1";
             [tempOverlay.tileImage addObject:media];
             currentOverlayID = tempOverlay.overlayId;
         }
-        
         
     }
     
@@ -1511,12 +1511,12 @@ NSString *const kARISServerServicePackage = @"v1";
 -(void)fetchGameListBySearch:(NSString *)searchText onPage:(int)page {
     NSLog(@"Searching with Text: %@",searchText);
     
-    if (currentlyFetchingGamesList) {
+    if (currentlyFetchingSearchGamesList) {
         NSLog(@"AppModel: Already fetching Games list, skipping");
         return;
     }
     
-    currentlyFetchingGamesList = YES;
+    currentlyFetchingSearchGamesList = YES;
     
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects: 
@@ -1532,25 +1532,19 @@ NSString *const kARISServerServicePackage = @"v1";
                                                             andServiceName:@"games"
                                                              andMethodName:@"getGamesContainingText"
                                                               andArguments:arguments andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameListFromJSON:)]; 
+	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseSearchGameListFromJSON:)]; 
 }
 
-
-
-
-
-
-
-
+//Currently Deprecated: Originally used to fetch locational data of games for use with the Map-based game selection view
 -(void)fetchMiniGamesListLocations{
     NSLog(@"AppModel: Fetch Requested for Game List.");
     
-    if (currentlyFetchingGamesList) {
+ /*   if (currentlyFetchingGamesList) {
         NSLog(@"AppModel: Already fetching Games list, skipping");
         return;
     }
     
-    currentlyFetchingGamesList = YES;
+    currentlyFetchingGamesList = YES; */
     
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects: 
@@ -1599,12 +1593,12 @@ NSString *const kARISServerServicePackage = @"v1";
 - (void)fetchGameListWithDistanceFilter: (int)distanceInMeters locational:(BOOL)locationalOrNonLocational {
 	NSLog(@"AppModel: Fetch Requested for Game List.");
     
-    if (currentlyFetchingGamesList) {
+    if (currentlyFetchingNearbyGamesList) {
         NSLog(@"AppModel: Already fetching Games list, skipping");
         return;
     }
     
-    currentlyFetchingGamesList = YES;
+    currentlyFetchingNearbyGamesList = YES;
     
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects: 
@@ -1621,19 +1615,19 @@ NSString *const kARISServerServicePackage = @"v1";
                                                              andMethodName:@"getGamesForPlayerAtLocation"
                                                               andArguments:arguments andUserInfo:nil];
 	
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameListFromJSON:)]; 
+	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseNearbyGameListFromJSON:)]; 
 }
 
-
+//Currently Deprecated: Originally used to fetch a single game after it was selected from the Map-based game selection view
 - (void)fetchOneGame:(int)gameId {
     NSLog(@"AppModel: Fetch Requested for a single game (as Game List).");
     
-    if (currentlyFetchingGamesList) {
+ /*   if (currentlyFetchingGamesList) {
         NSLog(@"AppModel: Already fetching Games list, skipping");
         return;
     }
     
-    currentlyFetchingGamesList = YES;
+    currentlyFetchingGamesList = YES; */
     
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects: 
@@ -1658,12 +1652,12 @@ NSString *const kARISServerServicePackage = @"v1";
 - (void)fetchRecentGameListForPlayer  {
 	NSLog(@"AppModel: Fetch Requested for Game List.");
     
-    if (currentlyFetchingGamesList) {
+    if (currentlyFetchingRecentGamesList) {
         NSLog(@"AppModel: Already fetching Games list, skipping");
         return;
     }
     
-    currentlyFetchingGamesList = YES;
+    currentlyFetchingRecentGamesList = YES;
     
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects: 
@@ -1684,12 +1678,12 @@ NSString *const kARISServerServicePackage = @"v1";
 - (void)fetchPopularGameListForTime: (int)time {
 	NSLog(@"AppModel: Fetch Requested for Game List.");
     
-    if (currentlyFetchingGamesList) {
+    if (currentlyFetchingPopularGamesList) {
         NSLog(@"AppModel: Already fetching Games list, skipping");
         return;
     }
     
-    currentlyFetchingGamesList = YES;
+    currentlyFetchingPopularGamesList = YES;
     
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects: 
@@ -1703,7 +1697,7 @@ NSString *const kARISServerServicePackage = @"v1";
                                                              andMethodName:@"getPopularGames"
                                                               andArguments:arguments andUserInfo:nil];
 	
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameListFromJSON:)]; 
+	[jsonConnection performAsynchronousRequestWithHandler:@selector(parsePopularGameListFromJSON:)]; 
 }
 
 #pragma mark Parsers
@@ -2181,8 +2175,7 @@ NSString *const kARISServerServicePackage = @"v1";
     return game;
 }
 
--(void)parseGameListFromJSON: (JSONResult *)jsonResult{
-    currentlyFetchingGamesList = NO;
+-(NSMutableArray *)parseGameListFromJSON: (JSONResult *)jsonResult{
     
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RecievedGameList" object:nil]];
     
@@ -2196,7 +2189,6 @@ NSString *const kARISServerServicePackage = @"v1";
         [tempGameList addObject:[self parseGame:(gameDictionary)]]; 
     }
     
-    [AppModel sharedAppModel].gameList = tempGameList;
     NSError *error;
     if (![[AppModel sharedAppModel].mediaCache.context save:&error]) {
         NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
@@ -2204,15 +2196,31 @@ NSString *const kARISServerServicePackage = @"v1";
     
     NSLog(@"AppModel: parseGameListFromJSON Complete, sending notification");
     
+    return tempGameList;
+}
+
+-(void)parseNearbyGameListFromJSON: (JSONResult *)jsonResult{
+    currentlyFetchingNearbyGamesList = NO;
+    [AppModel sharedAppModel].nearbyGameList = [self parseGameListFromJSON:jsonResult];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewGameListReady" object:nil]];
+}
+
+-(void)parseSearchGameListFromJSON: (JSONResult *)jsonResult{
+    currentlyFetchingSearchGamesList = NO;
+    [AppModel sharedAppModel].searchGameList = [self parseGameListFromJSON:jsonResult];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewGameListReady" object:nil]];
+}
+
+-(void)parsePopularGameListFromJSON: (JSONResult *)jsonResult{
+    currentlyFetchingPopularGamesList = NO;
+    [AppModel sharedAppModel].popularGameList = [self parseGameListFromJSON:jsonResult];
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewGameListReady" object:nil]];
 }
 
 -(void)parseRecentGameListFromJSON: (JSONResult *)jsonResult{
     NSLog(@"AppModel: parseRecentGameListFromJSON Beginning");		
     
-    
-    currentlyFetchingGamesList = NO;
-    
+    currentlyFetchingRecentGamesList = NO;    
     
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RecievedGameList" object:nil]];
     
@@ -2236,8 +2244,6 @@ NSString *const kARISServerServicePackage = @"v1";
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewRecentGameListReady" object:nil]];
     
 }
-
-
 
 - (void)saveComment:(NSString*)comment game:(int)gameId starRating:(int)rating{
 	NSLog(@"AppModel: Save Comment Requested");

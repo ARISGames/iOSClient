@@ -38,7 +38,9 @@ extern NSDictionary *InventoryElements;
 	NSString *password;
 	CLLocation *playerLocation;
 
-	NSMutableArray *gameList;
+	NSMutableArray *nearbyGameList;
+    NSMutableArray *searchGameList;
+    NSMutableArray *popularGameList;
     NSMutableArray *recentGamelist;
 	NSMutableArray *locationList;
 	NSMutableArray *playerList;
@@ -103,7 +105,9 @@ extern NSDictionary *InventoryElements;
 @property(nonatomic) Game *currentGame;
 
 @property(nonatomic) NSURL *fileToDeleteURL;
-@property(nonatomic) NSMutableArray *gameList;
+@property(nonatomic) NSMutableArray *nearbyGameList;
+@property(nonatomic) NSMutableArray *searchGameList;
+@property(nonatomic) NSMutableArray *popularGameList;
 @property(nonatomic) NSMutableArray *recentGameList;	
 @property(nonatomic) NSMutableArray *locationList;
 @property(nonatomic) NSMutableArray *playerList;

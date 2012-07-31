@@ -198,13 +198,13 @@ BOOL isShowingNotification;
         UINavigationController *gamePickerSearchNC = [[UINavigationController alloc] initWithRootViewController:gamePickerSearchVC];
         gamePickerSearchNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
         
-        GamePickerRecentViewController *gamePickerRecentVC = [[GamePickerRecentViewController alloc]initWithNibName:@"GamePickerRecentViewController" bundle:nil];
-        UINavigationController *gamePickerRecentNC = [[UINavigationController alloc] initWithRootViewController:gamePickerRecentVC];
-        gamePickerRecentNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
-        
         GamePickerPopularViewController *gamePickerPopularVC = [[GamePickerPopularViewController alloc]initWithNibName:@"GamePickerPopularViewController" bundle:nil];
         UINavigationController *gamePickerPopularNC = [[UINavigationController alloc] initWithRootViewController:gamePickerPopularVC];
         gamePickerPopularNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
+        
+        GamePickerRecentViewController *gamePickerRecentVC = [[GamePickerRecentViewController alloc]initWithNibName:@"GamePickerRecentViewController" bundle:nil];
+        UINavigationController *gamePickerRecentNC = [[UINavigationController alloc] initWithRootViewController:gamePickerRecentVC];
+        gamePickerRecentNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
         
         //Logout View
         LogoutViewController *alogoutViewController = [[LogoutViewController alloc] initWithNibName:@"Logout" bundle:nil];
@@ -790,8 +790,20 @@ BOOL isShowingNotification;
     
     //unregister for notifications
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-    Game *selectedGame = [[[AppModel sharedAppModel] gameList] objectAtIndex:0];	
+    Game *selectedGame;
+    if([self.gameSelectionTabBarController.selectedViewController.title isEqualToString:@"GamePickerNearbyViewController"]){
+        selectedGame = [[[AppModel sharedAppModel] nearbyGameList] objectAtIndex:0];	
+    }
+    else if([self.gameSelectionTabBarController.selectedViewController.title isEqualToString:@"GamePickerSearchViewController"]){
+        selectedGame = [[[AppModel sharedAppModel] searchGameList] objectAtIndex:0];	
+    }
+    else if([self.gameSelectionTabBarController.selectedViewController.title isEqualToString:@"GamePickerPopularViewController"]){
+        selectedGame = [[[AppModel sharedAppModel] popularGameList] objectAtIndex:0];	
+    }
+    else if([self.gameSelectionTabBarController.selectedViewController.title isEqualToString:@"GamePickerRecentViewController"]){
+        selectedGame = [[[AppModel sharedAppModel] recentGameList] objectAtIndex:0];	
+    }
+  //  Game *selectedGame = [[[AppModel sharedAppModel] gameList] objectAtIndex:0];	
     GameDetails *gameDetailsVC = [[GameDetails alloc]initWithNibName:@"GameDetails" bundle:nil];
     gameDetailsVC.game = selectedGame;
     

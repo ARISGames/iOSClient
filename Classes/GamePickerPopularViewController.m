@@ -115,7 +115,7 @@
     //unregister for notifications
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-	self.gameList = [AppModel sharedAppModel].gameList;
+	self.gameList = [AppModel sharedAppModel].popularGameList;
 	[gameTable reloadData];
     [self removeLoadingIndicator];
 }

@@ -131,7 +131,10 @@
 }
 
 - (void) resetCurrentlyFetchingVars{
-    [AppServices sharedAppServices].currentlyFetchingGamesList = NO;
+    [AppServices sharedAppServices].currentlyFetchingNearbyGamesList = NO;
+    [AppServices sharedAppServices].currentlyFetchingSearchGamesList = NO;
+    [AppServices sharedAppServices].currentlyFetchingPopularGamesList = NO;
+    [AppServices sharedAppServices].currentlyFetchingRecentGamesList = NO;
     [AppServices sharedAppServices].currentlyFetchingInventory = NO;
     [AppServices sharedAppServices].currentlyFetchingLocationList = NO;
     [AppServices sharedAppServices].currentlyFetchingQuestList = NO;
