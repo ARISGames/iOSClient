@@ -16,7 +16,7 @@
 @implementation AppModel
 @synthesize serverURL,showGamesInDevelopment,showPlayerOnMap;
 @synthesize loggedIn, userName, password, playerId;
-@synthesize nearbyGameList, searchGameList, popularGameList, recentGameList;
+@synthesize singleGameList, nearbyGameList, searchGameList, popularGameList, recentGameList;
 @synthesize currentGame, locationList, playerList;
 @synthesize playerLocation, inventory, questList, networkAlert;
 @synthesize gameMediaList, gameItemList, gameNodeList, gameNpcList,gameWebPageList,gamePanoramicList,gameTabList, defaultGameTabList,gameNoteList,playerNoteList;

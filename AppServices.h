@@ -38,6 +38,7 @@
     BOOL currentlyFetchingLocationList,currentlyFetchingGameNoteList,currentlyFetchingPlayerNoteList;
     BOOL currentlyFetchingInventory;
     BOOL currentlyFetchingQuestList;
+    BOOL currentlyFetchingOneGame;
     BOOL currentlyFetchingNearbyGamesList;
     BOOL currentlyFetchingPopularGamesList;
     BOOL currentlyFetchingSearchGamesList;
@@ -56,6 +57,7 @@ extern NSString *const kARISServerServicePackage;
 @property(readwrite) BOOL currentlyFetchingGameNoteList;
 @property(readwrite) BOOL currentlyFetchingPlayerNoteList;
 @property(readwrite) BOOL currentlyFetchingQuestList;
+@property(readwrite) BOOL currentlyFetchingOneGame;
 @property(readwrite) BOOL currentlyFetchingNearbyGamesList;
 @property(readwrite) BOOL currentlyFetchingPopularGamesList;
 @property(readwrite) BOOL currentlyFetchingSearchGamesList;

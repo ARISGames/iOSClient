@@ -778,7 +778,7 @@ BOOL isShowingNotification;
         
         
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-        [dispatcher addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"NewGameListReady" object:nil];
+        [dispatcher addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"OneGameReady" object:nil];
         [[AppServices sharedAppServices] fetchOneGame:[gameID intValue]];
     }
     
@@ -790,20 +790,7 @@ BOOL isShowingNotification;
     
     //unregister for notifications
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    Game *selectedGame;
-    if([self.gameSelectionTabBarController.selectedViewController.title isEqualToString:@"GamePickerNearbyViewController"]){
-        selectedGame = [[[AppModel sharedAppModel] nearbyGameList] objectAtIndex:0];	
-    }
-    else if([self.gameSelectionTabBarController.selectedViewController.title isEqualToString:@"GamePickerSearchViewController"]){
-        selectedGame = [[[AppModel sharedAppModel] searchGameList] objectAtIndex:0];	
-    }
-    else if([self.gameSelectionTabBarController.selectedViewController.title isEqualToString:@"GamePickerPopularViewController"]){
-        selectedGame = [[[AppModel sharedAppModel] popularGameList] objectAtIndex:0];	
-    }
-    else if([self.gameSelectionTabBarController.selectedViewController.title isEqualToString:@"GamePickerRecentViewController"]){
-        selectedGame = [[[AppModel sharedAppModel] recentGameList] objectAtIndex:0];	
-    }
-  //  Game *selectedGame = [[[AppModel sharedAppModel] gameList] objectAtIndex:0];	
+    Game *selectedGame = [[[AppModel sharedAppModel] singleGameList] objectAtIndex:0];	
     GameDetails *gameDetailsVC = [[GameDetails alloc]initWithNibName:@"GameDetails" bundle:nil];
     gameDetailsVC.game = selectedGame;
     

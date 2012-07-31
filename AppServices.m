@@ -24,7 +24,7 @@ NSString *const kARISServerServicePackage = @"v1";
 @implementation AppServices
 
 @synthesize currentlyFetchingLocationList, currentlyFetchingInventory, currentlyFetchingQuestList, currentlyUpdatingServerWithPlayerLocation,currentlyFetchingGameNoteList,currentlyFetchingPlayerNoteList;
-@synthesize currentlyFetchingNearbyGamesList, currentlyFetchingPopularGamesList, currentlyFetchingRecentGamesList, currentlyFetchingSearchGamesList;
+@synthesize currentlyFetchingOneGame, currentlyFetchingNearbyGamesList, currentlyFetchingPopularGamesList, currentlyFetchingRecentGamesList, currentlyFetchingSearchGamesList;
 @synthesize currentlyUpdatingServerWithMapViewed, currentlyUpdatingServerWithQuestsViewed, currentlyUpdatingServerWithInventoryViewed;
 
 + (id)sharedAppServices
@@ -1622,12 +1622,12 @@ NSString *const kARISServerServicePackage = @"v1";
 - (void)fetchOneGame:(int)gameId {
     NSLog(@"AppModel: Fetch Requested for a single game (as Game List).");
     
- /*   if (currentlyFetchingGamesList) {
+    if (currentlyFetchingOneGame) {
         NSLog(@"AppModel: Already fetching Games list, skipping");
         return;
     }
     
-    currentlyFetchingGamesList = YES; */
+    currentlyFetchingOneGame = YES; 
     
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects: 
@@ -1645,7 +1645,7 @@ NSString *const kARISServerServicePackage = @"v1";
                                                              andMethodName:@"getOneGame"
                                                               andArguments:arguments andUserInfo:nil];
 	
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameListFromJSON:)]; 
+	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseOneGameFromJSON:)]; 
 }
 
 
@@ -2199,22 +2199,28 @@ NSString *const kARISServerServicePackage = @"v1";
     return tempGameList;
 }
 
+-(void)parseOneGameFromJSON: (JSONResult *)jsonResult{
+    currentlyFetchingOneGame = NO;
+    [AppModel sharedAppModel].singleGameList = [self parseGameListFromJSON:jsonResult];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"OneGameReady" object:nil]];
+}
+
 -(void)parseNearbyGameListFromJSON: (JSONResult *)jsonResult{
     currentlyFetchingNearbyGamesList = NO;
     [AppModel sharedAppModel].nearbyGameList = [self parseGameListFromJSON:jsonResult];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewGameListReady" object:nil]];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNearbyGameListReady" object:nil]];
 }
 
 -(void)parseSearchGameListFromJSON: (JSONResult *)jsonResult{
     currentlyFetchingSearchGamesList = NO;
     [AppModel sharedAppModel].searchGameList = [self parseGameListFromJSON:jsonResult];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewGameListReady" object:nil]];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewSearchGameListReady" object:nil]];
 }
 
 -(void)parsePopularGameListFromJSON: (JSONResult *)jsonResult{
     currentlyFetchingPopularGamesList = NO;
     [AppModel sharedAppModel].popularGameList = [self parseGameListFromJSON:jsonResult];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewGameListReady" object:nil]];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewPopularGameListReady" object:nil]];
 }
 
 -(void)parseRecentGameListFromJSON: (JSONResult *)jsonResult{
