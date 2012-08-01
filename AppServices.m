@@ -1618,7 +1618,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseNearbyGameListFromJSON:)]; 
 }
 
-//Currently Deprecated: Originally used to fetch a single game after it was selected from the Map-based game selection view
+//Not Currently Deprecated: Currently used to fetch a game reached by url
 - (void)fetchOneGame:(int)gameId {
     NSLog(@"AppModel: Fetch Requested for a single game (as Game List).");
     

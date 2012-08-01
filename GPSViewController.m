@@ -133,6 +133,7 @@ static float INITIAL_SPAN = 0.001;
 	NSLog(@"Begin Loading GPS View");
 	mapView.showsUserLocation = YES;
 	[mapView setDelegate:self];
+    mapView.mapType=MKMapTypeHybrid;
 	[self.view addSubview:mapView];
 	NSLog(@"GPSViewController: Mapview inited and added to view");
 	
