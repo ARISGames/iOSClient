@@ -55,7 +55,7 @@
 
     UILabel         *lbl;
 	BOOL			closingScriptPlaying;
-	BOOL			inFullScreenTextMode;
+	int			    textboxSize;
     BOOL            hideLeaveConversationButton;
     
     AVAudioPlayer *player;
@@ -81,7 +81,7 @@
 @property (nonatomic, strong) ARISMoviePlayerViewController *ARISMoviePlayer;
 @property (nonatomic)         UIActivityIndicatorView *waiting;
 @property                     BOOL closingScriptPlaying;
-@property                     BOOL inFullScreenTextMode;
+@property                     int textboxSize;
 @property                     BOOL            hideLeaveConversationButton;
 
 @property(nonatomic) IBOutlet NSString *exitToTabVal;

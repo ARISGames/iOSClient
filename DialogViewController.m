@@ -69,7 +69,7 @@ NSString *const kDialogHtmlTemplate =
 @synthesize npcContinueButton, pcContinueButton, textSizeButton, specialBackButton;
 @synthesize pcAnswerView, mainView, npcView, pcView, nothingElseLabel,lbl,currentNpc,currentNode, npcVideoView;
 @synthesize player, ARISMoviePlayer;
-@synthesize closingScriptPlaying, inFullScreenTextMode;
+@synthesize closingScriptPlaying, textboxSize;
 @synthesize waiting;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -96,7 +96,7 @@ NSString *const kDialogHtmlTemplate =
 	lastPcId = 0;
 	currentNode = nil;
 	self.closingScriptPlaying = NO;
-	self.inFullScreenTextMode = NO;
+	self.textboxSize = 1;
     self.hideLeaveConversationButton = NO;
     self.exitToTabVal = nil;
 	
@@ -169,16 +169,27 @@ NSString *const kDialogHtmlTemplate =
 
 -(void)toggleFullScreenTextMode{
 	NSLog(@"DialogViewController: toggleTextSize");
-
+    
     CGRect newTextFrame;
-    if (self.inFullScreenTextMode) {
-        //switch to part of screen mode
-        newTextFrame = CGRectMake(0, 332, 320, 128);
-	}
-	else {
-		//switch to full screen mode
-		newTextFrame = CGRectMake(0, 44, 320, 416);
-	}
+    
+    switch(textboxSize){
+        case 0:
+           //text is off screen, move it on screen
+           newTextFrame = CGRectMake(0, 332, 320, 128);
+            break;
+        case 1:
+            //textbox is normal size, make it full screen
+            newTextFrame = CGRectMake(0, 44, 320, 416);
+            break;
+        case 2:
+            //text is full screen, move it off screen
+            newTextFrame = CGRectMake(0, 480, 320, 128);
+            break;
+        default:
+            //should never reach here
+            newTextFrame = CGRectMake(0, 332, 320, 128);
+            break;
+    }
 	[UIView beginAnimations:@"toggleTextSize" context:nil];
 	[UIView setAnimationDuration:0.5];
 	self.pcScrollView.frame = newTextFrame;
@@ -187,8 +198,8 @@ NSString *const kDialogHtmlTemplate =
 	self.npcScrollView.frame = newTextFrame;
 	[UIView commitAnimations];
 	
-	self.inFullScreenTextMode = !self.inFullScreenTextMode;
-	
+	if(self.textboxSize < 2) self.textboxSize++;
+    else self.textboxSize = 0;
 }
 
 -(void)hideNotifications:(NSNotification*) notification {
@@ -196,7 +207,7 @@ NSString *const kDialogHtmlTemplate =
     newTextFrame = CGRectMake(0, 44, 320, 416);
     [UIView beginAnimations:@"toggleTextSize" context:nil];
     [UIView setAnimationDuration:0.0];
-    if (self.inFullScreenTextMode) {
+    if (self.textboxSize == 2) {
         self.pcScrollView.frame = newTextFrame;
         self.pcTableView.frame = self.pcScrollView.bounds;
         self.pcScrollView.contentSize = self.pcTableView.frame.size;
