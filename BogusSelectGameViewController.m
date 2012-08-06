@@ -31,6 +31,8 @@
     [AppModel sharedAppModel].inGame = NO;
     ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
     [appDelegate stopAudio];
+    [[RootViewController sharedRootViewController].notifArray removeAllObjects];
+    [[RootViewController sharedRootViewController] hideNotifications];
     [[RootViewController sharedRootViewController] showGameSelectionTabBarAndHideOthers];
 }
 

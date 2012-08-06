@@ -397,8 +397,6 @@ BOOL isShowingNotification;
     [UIView beginAnimations:nil context:context];
     [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.view cache:YES];
     self.tabBarController.selectedIndex = 0;
-    [self.notifArray removeAllObjects];
-    [self hideNotifications];
     self.tabBarController.view.hidden = YES;
     self.gameSelectionTabBarController.view.hidden = NO;
     self.loginViewNavigationController.view.hidden = YES;
