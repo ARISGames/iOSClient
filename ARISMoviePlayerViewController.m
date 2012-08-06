@@ -34,6 +34,8 @@
         UIViewController *c = [[UIViewController alloc]init];
         [[RootViewController sharedRootViewController] presentModalViewController:c animated:NO];
         [[RootViewController sharedRootViewController] dismissModalViewControllerAnimated:NO];
+        NSNotification *notification = [NSNotification notificationWithName:@"MovieForcedRotationToPortrait" object:nil];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
     } 
     [RootViewController sharedRootViewController].nearbyObjectNavigationController.view.frame = [RootViewController sharedRootViewController].tabBarController.view.bounds;
    // [RootViewController sharedRootViewController].tabBarController.selectedViewController.view.frame = [RootViewController sharedRootViewController].tabBarController.view.bounds;

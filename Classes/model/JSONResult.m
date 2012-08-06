@@ -36,7 +36,7 @@
 
 		[[RootViewController sharedRootViewController] showServerAlertWithEmail:NSLocalizedString(@"BadServerResponseTitleKey",@"")
 							message:NSLocalizedString(@"BadServerResponseMessageKey",@"")
-							  details:[NSString stringWithFormat:@"JSONResult: Error Parsing String:\n\n%@]",JSONString]];
+							  details:[NSString stringWithFormat:@"JSONResult: Error Parsing String:\n\n%@",JSONString]];
 	}
 	self.returnCode = [[resultDictionary objectForKey:@"returnCode"]intValue];
 	self.returnCodeDescription = [resultDictionary objectForKey:@"returnCodeDescription"];
@@ -52,6 +52,10 @@
 		NSNotification *n = [NSNotification notificationWithName:@"LogoutRequested" object:self userInfo:nil];
 		[[NSNotificationCenter defaultCenter] postNotification:n];
 	}
+    else if (self.returnCode == 4)
+    {
+        NSLog(@"Player doesn't exist for forgot password");
+    }
 	else {
 		NSLog(@"JSONResult: SERVER RESPONSE ERROR - Return Code != 0 for Json String %@",JSONString);
 		
