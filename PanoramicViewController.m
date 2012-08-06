@@ -123,6 +123,12 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
             //[panoMedia release];
         }
     }
+    else if(self.numTextures == 0)
+    {
+        //Editor needs to add image to panoramic; put in default
+        Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId:364]; 
+        self.panoramic.textureArray = [self.panoramic.textureArray arrayByAddingObject:panoMedia];
+    }
     else {Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.media objectAtIndex:0] mediaId]]; 
         self.panoramic.textureArray = [self.panoramic.textureArray arrayByAddingObject:panoMedia]; }
     
