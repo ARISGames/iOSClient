@@ -86,8 +86,8 @@
                        to: 0];
     
     // present and release the controller
-    [self presentModalViewController: reader
-                            animated: YES];
+    [self presentModalViewController: reader animated: YES];
+//    [[RootViewController sharedRootViewController] displayNearbyObjectView:reader];
 }
 
 - (IBAction)qrScanButtonTouchAction: (id) sender{
@@ -103,6 +103,7 @@
     [NSURL fileURLWithPath:[mainBundle pathForResource:@"beep-beep" ofType:@"aiff"] isDirectory:NO];
      */
     [self presentModalViewController:widController animated:YES];
+   // [[RootViewController sharedRootViewController] displayNearbyObjectView:widController];
 	 
 }
 
@@ -110,6 +111,7 @@
     NSLog(@"QRScannerViewController: Image Scan Button Pressed");
 	
 	self.imageMatchingImagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+    //[[RootViewController sharedRootViewController] displayNearbyObjectView:self.imageMatchingImagePickerController];
 	[self presentModalViewController:self.imageMatchingImagePickerController animated:YES];
     
 }
@@ -200,7 +202,8 @@
 
 - (void)zxingControllerDidCancel:(ZXingWidgetController*)controller {
     [RootViewController sharedRootViewController].modalPresent=NO;
-    [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];}
+    [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
+}
 
 
 #pragma mark QRCScan delegate methods
