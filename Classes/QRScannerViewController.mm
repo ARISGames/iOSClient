@@ -135,9 +135,7 @@
 #pragma mark UIImagePickerControllerDelegate Protocol Methods
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary  *)info{
-    
     [picker dismissViewControllerAnimated:NO completion:nil];
-   // [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
     UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
     if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];                 
     
