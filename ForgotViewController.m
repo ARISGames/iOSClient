@@ -36,8 +36,8 @@
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ForgotEmailSentTitleKey", @"") message:NSLocalizedString(@"ForgotMessageKey", @"") delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"")  otherButtonTitles: nil];
-	[alert show];
+   // UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ForgotEmailSentTitleKey", @"") message:NSLocalizedString(@"ForgotMessageKey", @"") delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"")  otherButtonTitles: nil];
+//	[alert show];
     [[AppServices sharedAppServices]resetAndEmailNewPassword:textField.text];
     return YES;
 }

@@ -403,7 +403,10 @@ BOOL isShowingNotification;
     [UIView commitAnimations];
 }
 
-
+- (void) showAlert:(NSString *)title message:(NSString *)message {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
+    [alert show];
+}
 
 - (void) showServerAlertWithEmail:(NSString *)title message:(NSString *)message details:(NSString*)detail{
 	errorMessage = message;

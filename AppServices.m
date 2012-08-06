@@ -244,8 +244,16 @@ NSString *const kARISServerServicePackage = @"v1";
                                       andArguments:arguments 
                                       andUserInfo:nil];
 	[jsonConnection performAsynchronousRequestWithHandler:
-     nil]; 
-    
+     @selector(parseResetAndEmailNewPassword:)]; 
+}
+
+-(void)parseResetAndEmailNewPassword:(JSONResult *)jsonResult{
+    if(jsonResult == nil){
+    [[RootViewController sharedRootViewController] showAlert:NSLocalizedString(@"ForgotPasswordTitleKey", nil) message:NSLocalizedString(@"ForgotPasswordMessageKey", nil)];
+    }
+    else{
+    [[RootViewController sharedRootViewController] showAlert:NSLocalizedString(@"ForgotEmailSentTitleKey", @"") message:NSLocalizedString(@"ForgotMessageKey", @"")];
+    }
 }
 
 - (void)startOverGame:(int)gameId{

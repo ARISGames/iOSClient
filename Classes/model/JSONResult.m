@@ -55,6 +55,7 @@
     else if (self.returnCode == 4)
     {
         NSLog(@"Player doesn't exist for forgot password");
+        return nil;
     }
 	else {
 		NSLog(@"JSONResult: SERVER RESPONSE ERROR - Return Code != 0 for Json String %@",JSONString);
