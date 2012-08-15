@@ -341,7 +341,6 @@
 		ABC399CF116B9EBC002185D4 /* AudioMeter.m in Sources */ = {isa = PBXBuildFile; fileRef = ABC399CE116B9EBC002185D4 /* AudioMeter.m */; };
 		ABC39B25116BD28F002185D4 /* TitleAndDecriptionFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABC39B23116BD28F002185D4 /* TitleAndDecriptionFormViewController.m */; };
 		ABC39B26116BD28F002185D4 /* TitleAndDecriptionFormViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABC39B24116BD28F002185D4 /* TitleAndDecriptionFormViewController.xib */; };
-		ABCA372E131D31D80074254B /* textToggle.png in Resources */ = {isa = PBXBuildFile; fileRef = ABCA372D131D31D80074254B /* textToggle.png */; };
 		ABD5C4E9104F1A0E002EB824 /* Npc.m in Sources */ = {isa = PBXBuildFile; fileRef = ABD5C4E8104F1A0E002EB824 /* Npc.m */; };
 		ABDA40BD10506AF400823A94 /* GPS.xib in Resources */ = {isa = PBXBuildFile; fileRef = ABDA40AA10506AF400823A94 /* GPS.xib */; };
 		ABDA40BF10506AF400823A94 /* GPSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ABDA40AD10506AF400823A94 /* GPSViewController.m */; };
@@ -349,6 +348,7 @@
 		ABDA40C210506AF400823A94 /* AnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABDA40B310506AF400823A94 /* AnnotationView.m */; };
 		ABDA40C310506AF400823A94 /* player.png in Resources */ = {isa = PBXBuildFile; fileRef = ABDA40B510506AF400823A94 /* player.png */; };
 		ABDA40DE10506CB300823A94 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABDA40DD10506CB300823A94 /* MapKit.framework */; };
+		ABDF2CCB15DB4379008E8CA0 /* textToggle.png in Resources */ = {isa = PBXBuildFile; fileRef = ABDF2CCA15DB4379008E8CA0 /* textToggle.png */; };
 		ABE0FD101524EA6E00A75D9E /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = ABE0FD0F1524EA6E00A75D9E /* Reachability.m */; };
 		ABEBF566123D916D00ECE66C /* WaitingIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEBF565123D916D00ECE66C /* WaitingIndicatorView.m */; };
 		ABF41CAA14744DAC00B60D05 /* camera_roll.png in Resources */ = {isa = PBXBuildFile; fileRef = ABF41CA914744DAB00B60D05 /* camera_roll.png */; };
@@ -916,7 +916,6 @@
 		ABC39B22116BD28F002185D4 /* TitleAndDecriptionFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleAndDecriptionFormViewController.h; sourceTree = "<group>"; };
 		ABC39B23116BD28F002185D4 /* TitleAndDecriptionFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitleAndDecriptionFormViewController.m; sourceTree = "<group>"; };
 		ABC39B24116BD28F002185D4 /* TitleAndDecriptionFormViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TitleAndDecriptionFormViewController.xib; sourceTree = "<group>"; };
-		ABCA372D131D31D80074254B /* textToggle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textToggle.png; sourceTree = "<group>"; };
 		ABD24F59120A5BAD00D792F5 /* fr */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ABD5C4E7104F1A0E002EB824 /* Npc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Npc.h; sourceTree = "<group>"; };
 		ABD5C4E8104F1A0E002EB824 /* Npc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Npc.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -929,6 +928,7 @@
 		ABDA40B310506AF400823A94 /* AnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AnnotationView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		ABDA40B510506AF400823A94 /* player.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = player.png; sourceTree = "<group>"; };
 		ABDA40DD10506CB300823A94 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		ABDF2CCA15DB4379008E8CA0 /* textToggle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textToggle.png; sourceTree = "<group>"; };
 		ABE0FD0E1524EA6E00A75D9E /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		ABE0FD0F1524EA6E00A75D9E /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		ABEBF564123D916D00ECE66C /* WaitingIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitingIndicatorView.h; sourceTree = "<group>"; };
@@ -2018,7 +2018,7 @@
 		D42432501107734300E58147 /* NPC Dialog */ = {
 			isa = PBXGroup;
 			children = (
-				ABCA372D131D31D80074254B /* textToggle.png */,
+				ABDF2CCA15DB4379008E8CA0 /* textToggle.png */,
 				AB8E31F51228399B00C198C3 /* textFade.png */,
 				D4243267110773EB00E58147 /* Dialog.xib */,
 				D42432611107735800E58147 /* DialogViewController.h */,
@@ -2187,7 +2187,6 @@
 				AB79D5BD1307E6EB004AE1C7 /* NearbyObjectsViewController.xib in Resources */,
 				AB79D7A61308311C004AE1C7 /* NearbyObjectCell.xib in Resources */,
 				ABAA644F130FD5610004D64C /* GamePickerCell.xib in Resources */,
-				ABCA372E131D31D80074254B /* textToggle.png in Resources */,
 				AB997482139D93C40087E387 /* commentsView.xib in Resources */,
 				AB994442139EB24100C0878B /* RatingCell.xib in Resources */,
 				AB994449139EBD1F00C0878B /* small-star-halfselected.png in Resources */,
@@ -2306,6 +2305,7 @@
 				DB7EEF7C15AB40C2009369D4 /* InventoryTradeViewController.xib in Resources */,
 				4A7F90F315B0773200988446 /* bump_logo_250x84.png in Resources */,
 				4A7F910015B09FFC00988446 /* pingtone.wav in Resources */,
+				ABDF2CCB15DB4379008E8CA0 /* textToggle.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
