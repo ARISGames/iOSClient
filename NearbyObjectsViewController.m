@@ -26,7 +26,7 @@
 		self.title = NSLocalizedString(@"NearbyObjectsTabKey",@"");	
 		self.navigationItem.title = NSLocalizedString(@"NearbyObjectsTitleKey",@"");
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-	//	[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"PlayerMoved" object:nil];		
+		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"PlayerMoved" object:nil];		
 		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewLocationListReady" object:nil];			
 		
 		self.oldNearbyLocationList = [NSMutableArray arrayWithCapacity:5];

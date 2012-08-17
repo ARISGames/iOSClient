@@ -48,7 +48,7 @@ static float INITIAL_SPAN = 0.001;
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
         
-		[dispatcher addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];
+		[dispatcher addObserver:self selector:@selector(playerMoved) name:@"PlayerMoved" object:nil];
 		[dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedLocationList" object:nil];
 		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewLocationListReady" object:nil];
 		[dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
@@ -246,6 +246,21 @@ static float INITIAL_SPAN = 0.001;
         } 
         else {
             NSLog(@"GPSViewController: refresh requested but ignored, as mapview is nil");	
+            
+        }
+    }
+}
+
+- (void) playerMoved {
+    if([AppModel sharedAppModel].inGame) {
+        if (mapView && [AppModel sharedAppModel].loggedIn && [AppModel sharedAppModel].currentGame.gameId != 0 && [AppModel sharedAppModel].playerId != 0) {
+            NSLog(@"GPSViewController: player moved");	
+            
+            //Zoom and Center
+            if (tracking) [self zoomAndCenterMap];
+        } 
+        else {
+            NSLog(@"GPSViewController: player moved, but mapview is nil");	
             
         }
     }
