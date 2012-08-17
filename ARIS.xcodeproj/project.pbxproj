@@ -2834,7 +2834,7 @@
 				2D2C5D4715DED4770052C056 /* UploadContent1.7.xcdatamodel */,
 				4AD5C41114E06E9200081B20 /* UploadContent.xcdatamodel */,
 			);
-			currentVersion = 4AD5C41114E06E9200081B20 /* UploadContent.xcdatamodel */;
+			currentVersion = 2D2C5D4715DED4770052C056 /* UploadContent1.7.xcdatamodel */;
 			path = UploadContent.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
