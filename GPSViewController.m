@@ -304,7 +304,7 @@ static float INITIAL_SPAN = 0.001;
         if (silenceNextServerUpdateCount < 1) {
             //Check if anything is new since last time or item has disappeared
             newItemsSinceLastView = 0;
-            newLocationsArray = [AppModel sharedAppModel].locationList;
+            newLocationsArray = [[NSMutableArray alloc] initWithArray:[AppModel sharedAppModel].locationList];
             for (int i = 0; i < [[mapView annotations] count]; i++) {
                 BOOL match = NO;
                 NSObject <MKAnnotation>  *testAnnotation = [[mapView annotations] objectAtIndex:i];
