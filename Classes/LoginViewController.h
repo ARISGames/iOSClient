@@ -8,12 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "AppModel.h"
+#import <ZXingWidgetController.h>
+#import "ZBarReaderViewController.h"
 
-@interface LoginViewController : UIViewController {
+@interface LoginViewController : UIViewController <ZXingDelegate>{
 
 	IBOutlet UITextField *usernameField;
 	IBOutlet UITextField *passwordField;
 	IBOutlet UIButton *loginButton;
+    IBOutlet UIButton *qrButton;
 	IBOutlet UIButton *newAccountButton;
     IBOutlet UIButton *changePassButton;
 
@@ -22,6 +25,10 @@
 
 -(IBAction)newAccountButtonTouched: (id) sender;
 -(IBAction)loginButtonTouched: (id) sender;
+-(IBAction)QRButtonTouched: (id) sender;
 -(IBAction)changePassTouch;
+
+- (void)zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result;
+- (void)zxingControllerDidCancel:(ZXingWidgetController*)controller;
 
 @end
