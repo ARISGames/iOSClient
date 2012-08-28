@@ -56,10 +56,10 @@
     
     self.parentNote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteId playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
     
-    hideKeyboardButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"SaveCommentKey", @"") style:UIBarButtonItemStylePlain target:self action:@selector(hideKeyboard)];      
+    hideKeyboardButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"SaveCommentKey", @"") style:UIBarButtonItemStylePlain target:self action:@selector(hideKeyboard)];
     //self.navigationItem.rightBarButtonItem = hideKeyboardButton;
     
-    addCommentButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showKeyboard)];     
+    addCommentButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showKeyboard)];
     self.navigationItem.rightBarButtonItem = addCommentButton;
     
     myIndexPath = [[NSIndexPath alloc] init];
@@ -227,10 +227,10 @@
             mediaButton = [asyncMediaDict objectForKey:content.getMedia.url];
             if(!mediaButton){
                 
-                mediaButton = [[AsyncMediaPlayerButton alloc] 
-                               initWithFrame:frame 
-                               media:content.getMedia 
-                               presentingController:self];
+                mediaButton = [[AsyncMediaPlayerButton alloc]
+                               initWithFrame:frame
+                               media:content.getMedia
+                               presentingController:self preloadNow:NO];
                 
                 //if(!currNote.hasAudio)
                 [mediaButton setFrame:CGRectMake(10, height, 300, 450)];
@@ -271,17 +271,17 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     //Color the backgrounds
-    if (indexPath.row % 2 == 0){  
-        cell.backgroundColor = [UIColor colorWithRed:233.0/255.0  
-                                               green:233.0/255.0  
-                                                blue:233.0/255.0  
-                                               alpha:1.0];  
-    } else {  
-        cell.backgroundColor = [UIColor colorWithRed:200.0/255.0  
-                                               green:200.0/255.0  
-                                                blue:200.0/255.0  
-                                               alpha:1.0];  
-    } 
+    if (indexPath.row % 2 == 0){
+        cell.backgroundColor = [UIColor colorWithRed:233.0/255.0
+                                               green:233.0/255.0
+                                                blue:233.0/255.0
+                                               alpha:1.0];
+    } else {
+        cell.backgroundColor = [UIColor colorWithRed:200.0/255.0
+                                               green:200.0/255.0
+                                                blue:200.0/255.0
+                                               alpha:1.0];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -502,7 +502,7 @@
     }
 }
 
-- (void)tableView:(UITableView *)tableView 
+- (void)tableView:(UITableView *)tableView
 
 didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     //[movieViews removeAllObjects];

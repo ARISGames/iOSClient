@@ -21,7 +21,7 @@
 
 static NSString * const OPTION_CELL = @"option";
 
-NSString *const kPlaqueDescriptionHtmlTemplate = 
+NSString *const kPlaqueDescriptionHtmlTemplate =
 @"<html>"
 @"<head>"
 @"	<title>Aris</title>"
@@ -51,7 +51,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 												 selector:@selector(movieFinishedCallback:)
 													 name:MPMoviePlayerPlaybackDidFinishNotification
 												   object:nil];
-	
+        
         self.isLink=NO;
         AsyncMediaImageView *mediaImageViewAlloc = [[AsyncMediaImageView alloc]init];
         self.mediaImageView = mediaImageViewAlloc;
@@ -99,14 +99,14 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
         //By forcing these sizes now, the asyncimageview spinner displays in the correct location
         mediaCell.frame = CGRectMake(0, 0, 320, 320);
         self.mediaImageView.frame = CGRectMake(0, 0, 320, 320);
-
+        
     }
     else if(([media.type isEqualToString: kMediaTypeVideo] || [media.type isEqualToString:kMediaTypeAudio]) && media.url)
     {
         NSLog(@"NodeVC: This is an A/V Plaque");
-                
         
-        AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presentingController:self];
+        
+        AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presentingController:self preloadNow:NO];
         
         //Setup the cell as the video preview button
         mediaCell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -116,8 +116,8 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
         [mediaCell addSubview:mediaButton];
         
         mediaCell.userInteractionEnabled = YES;
-
-
+        
+        
     }
     
     //Setup the Description Webview and begin loading content
@@ -131,7 +131,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     //Create Description Web View Cell
     UITableViewCell *webCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"descriptionCell"];
     webCell.userInteractionEnabled = NO;
-    CGRect descriptionFrame = [webView frame];	
+    CGRect descriptionFrame = [webView frame];
     [webView setFrame:descriptionFrame];
     webCell.backgroundView = webView;
     webCell.backgroundColor = [UIColor clearColor];
@@ -142,7 +142,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     [self.webViewSpinner startAnimating];
     self.webViewSpinner.backgroundColor = [UIColor clearColor];
     [webCell addSubview:self.webViewSpinner];
-
+    
     //Create continue button cell
     UITableViewCell *buttonCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"continueButtonCell"];
     buttonCell.textLabel.text = NSLocalizedString(@"TapToContinueKey", @"");
@@ -172,9 +172,9 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     
     //Calculate the height of the web content
     float newHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
-    CGRect descriptionFrame = [webView frame];	
+    CGRect descriptionFrame = [webView frame];
     descriptionFrame.size = CGSizeMake(descriptionFrame.size.width,newHeight+5);
-    [webView setFrame:descriptionFrame];	
+    [webView setFrame:descriptionFrame];
     
     //Find the webCell spinner and remove it
     [webViewSpinner removeFromSuperview];
@@ -189,9 +189,9 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     [tableView reloadData];
     
 }
--(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request 
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
 navigationType:(UIWebViewNavigationType)navigationType{
-        
+    
     if(self.isLink) {
         webpageViewController *webPageViewController = [[webpageViewController alloc] initWithNibName:@"webpageViewController" bundle: [NSBundle mainBundle]];
         WebPage *temp = [[WebPage alloc]init];
@@ -208,16 +208,16 @@ navigationType:(UIWebViewNavigationType)navigationType{
 #pragma mark AsyncImageView Delegate Methods
 -(void)imageFinishedLoading{
     NSLog(@"NodeVC: imageFinishedLoading with size: %f, %f",self.mediaImageView.frame.size.width,self.mediaImageView.frame.size.height);
-   /* 
-    if(self.mediaImageView.image.size.width > 0){
-        [self.mediaImageView setContentScaleFactor:(float)(320/self.mediaImageView.image.size.width)];
-        self.mediaImageView.frame = CGRectMake(0, 0, 300, self.mediaImageView.contentScaleFactor*self.mediaImageView.image.size.height);
-        NSLog(@"NodeVC: Image resized to: %f, %f",self.mediaImageView.frame.size.width,self.mediaImageView.frame.size.height);
-        [(UITableViewCell *)[self.cellArray objectAtIndex:0] setFrame:mediaImageView.frame];
-    }
-    
-    [tableView reloadData];
-       */ 
+    /*
+     if(self.mediaImageView.image.size.width > 0){
+     [self.mediaImageView setContentScaleFactor:(float)(320/self.mediaImageView.image.size.width)];
+     self.mediaImageView.frame = CGRectMake(0, 0, 300, self.mediaImageView.contentScaleFactor*self.mediaImageView.image.size.height);
+     NSLog(@"NodeVC: Image resized to: %f, %f",self.mediaImageView.frame.size.width,self.mediaImageView.frame.size.height);
+     [(UITableViewCell *)[self.cellArray objectAtIndex:0] setFrame:mediaImageView.frame];
+     }
+     
+     [tableView reloadData];
+     */
 }
 
 
@@ -243,9 +243,9 @@ navigationType:(UIWebViewNavigationType)navigationType{
 	
     //Remove thyself from the screen
     [RootViewController sharedRootViewController].modalPresent=NO;
-    [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];    
+    [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
     //Check if this was the game complete Node and if so, display the "Start Over" tab
-    if((node.nodeId == [AppModel sharedAppModel].currentGame.completeNodeId) && 
+    if((node.nodeId == [AppModel sharedAppModel].currentGame.completeNodeId) &&
        ([AppModel sharedAppModel].currentGame.completeNodeId != 0)){
         
         NSString *tab;
@@ -257,44 +257,44 @@ navigationType:(UIWebViewNavigationType)navigationType{
                 [RootViewController sharedRootViewController].tabBarController.selectedIndex = i;
         }
     }
-        
+    
 }
 
 /*-(IBAction)playMovie:(id)sender {
-    [mMoviePlayer.moviePlayer play];
-	[self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
-}
-*/
+ [mMoviePlayer.moviePlayer play];
+ [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
+ }
+ */
 
 #pragma mark MPMoviePlayerController Notification Handlers
 
 /*
-- (void)movieLoadStateChanged:(NSNotification*) aNotification{
-	MPMovieLoadState state = [(MPMoviePlayerController *) aNotification.object loadState];
-    
-	if( state & MPMovieLoadStateUnknown ) {
-		NSLog(@"NodeViewController: Unknown Load State");
-	}
-	if( state & MPMovieLoadStatePlayable ) {
-		NSLog(@"NodeViewController: Playable Load State");
-        
-        //Create a thumbnail for the button
-        if (![mediaPlaybackButton backgroundImageForState:UIControlStateNormal]){
-            UIImage *videoThumb = [mMoviePlayer.moviePlayer thumbnailImageAtTime:(NSTimeInterval)1.0 timeOption:MPMovieTimeOptionExact];        
-            UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(300, 240)];        
-            [mediaPlaybackButton setBackgroundImage:videoThumbSized forState:UIControlStateNormal];
-        }
-        
-	} 
-	if( state & MPMovieLoadStatePlaythroughOK ) {
-		NSLog(@"NodeViewController: Playthrough OK Load State");
-        
-	} 
-	if( state & MPMovieLoadStateStalled ) {
-		NSLog(@"NodeViewController: Stalled Load State");
-	} 
-    
-}*/
+ - (void)movieLoadStateChanged:(NSNotification*) aNotification{
+ MPMovieLoadState state = [(MPMoviePlayerController *) aNotification.object loadState];
+ 
+ if( state & MPMovieLoadStateUnknown ) {
+ NSLog(@"NodeViewController: Unknown Load State");
+ }
+ if( state & MPMovieLoadStatePlayable ) {
+ NSLog(@"NodeViewController: Playable Load State");
+ 
+ //Create a thumbnail for the button
+ if (![mediaPlaybackButton backgroundImageForState:UIControlStateNormal]){
+ UIImage *videoThumb = [mMoviePlayer.moviePlayer thumbnailImageAtTime:(NSTimeInterval)1.0 timeOption:MPMovieTimeOptionExact];
+ UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(300, 240)];
+ [mediaPlaybackButton setBackgroundImage:videoThumbSized forState:UIControlStateNormal];
+ }
+ 
+ }
+ if( state & MPMovieLoadStatePlaythroughOK ) {
+ NSLog(@"NodeViewController: Playthrough OK Load State");
+ 
+ }
+ if( state & MPMovieLoadStateStalled ) {
+ NSLog(@"NodeViewController: Stalled Load State");
+ }
+ 
+ }*/
 
 
 - (void)movieFinishedCallback:(NSNotification*) aNotification
@@ -315,7 +315,7 @@ navigationType:(UIWebViewNavigationType)navigationType{
 }
 
 // Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)nibTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {	
+- (UITableViewCell *)tableView:(UITableView *)nibTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     return [self.cellArray objectAtIndex:indexPath.section];
     
@@ -329,7 +329,7 @@ navigationType:(UIWebViewNavigationType)navigationType{
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if(indexPath.section == 2 || (indexPath.section == 1 && !hasMedia)) [self continueButtonTouchAction];
-   // else [self playMovie:nil];
+    // else [self playMovie:nil];
 }
 
 

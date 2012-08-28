@@ -42,7 +42,7 @@
 - (void)dealloc
 {
     NSLog(@"NoteDetailsVC: Dealloc");
-
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     //scrollView.delegate = nil;
 }
@@ -115,7 +115,7 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     NSLog(@"NoteDetailsView ViewWillAppear");
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;  
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     self.scrollView.frame = self.navigationController.view.frame;
     
     [self addUploadsToNote];
@@ -149,7 +149,7 @@
 
 -(void)addUploadsToNote{
     if(![self.delegate isKindOfClass:[Note class]])
-    self.note = [[AppModel sharedAppModel] noteForNoteId: self.note.noteId playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
+        self.note = [[AppModel sharedAppModel] noteForNoteId: self.note.noteId playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
     for(int x = [self.note.contents count]-1; x >= 0; x--){
         if(![[[self.note.contents objectAtIndex:x] getUploadState] isEqualToString:@"uploadStateDONE"])
             [self.note.contents removeObjectAtIndex:x];
@@ -186,8 +186,8 @@
 }
 
 -(void)showComments{
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;  
-
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    
     NoteCommentViewController *noteCommentVC = [[NoteCommentViewController alloc]initWithNibName:@"NoteCommentViewController" bundle:nil];
     noteCommentVC.parentNote = self.note;
     noteCommentVC.delegate = self;
@@ -197,7 +197,7 @@
     [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
                            forView:self.navigationController.view cache:YES];
     [self.navigationController pushViewController:noteCommentVC animated:NO];
-    [UIView commitAnimations]; 
+    [UIView commitAnimations];
     
 }
 - (void)scrollViewDidScroll:(UIScrollView *)sender {
@@ -217,8 +217,8 @@
         numPages++;
         scrollView.contentSize = CGSizeMake(320 * numPages, scrollView.frame.size.height);
         pageControl.numberOfPages = numPages;
-        CGRect frame = CGRectMake( scrollView.frame.size.width * (numPages-1), 0, 
-                                  scrollView.frame.size.width, 
+        CGRect frame = CGRectMake( scrollView.frame.size.width * (numPages-1), 0,
+                                  scrollView.frame.size.width,
                                   scrollView.frame.size.height);
         if([content.getType isEqualToString:kNoteContentTypeText]){
             TextViewController *controller = [[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil];
@@ -237,7 +237,7 @@
         }
         else if([content.getType isEqualToString:kNoteContentTypeAudio] || [content.getType isEqualToString:kNoteContentTypeVideo]){
             
-            AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:frame media:content.getMedia presentingController:self];
+            AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:frame media:content.getMedia presentingController:self preloadNow:NO];
             
             [scrollView addSubview:mediaButton];
             
@@ -247,7 +247,7 @@
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;  
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 }
 -(void)viewDidDisappear:(BOOL)animated{
     while([[self.scrollView subviews]count]>0)[[self.scrollView.subviews objectAtIndex:0]removeFromSuperview];
@@ -256,7 +256,7 @@
 {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;    
+    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
