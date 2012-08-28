@@ -203,11 +203,7 @@
 	AsyncMediaImageView *iconView = (AsyncMediaImageView *)[cell viewWithTag:3];
     
     UILabel *lblTemp3 = (UILabel *)[cell viewWithTag:4];
-    if(item.qty >1 && item.weight > 1)
-        lblTemp3.text = [NSString stringWithFormat:@"%@: %d, %@: %d",NSLocalizedString(@"QuantityKey", @""),item.qty,NSLocalizedString(@"WeightKey", @""),item.weight];
-    else if(item.weight > 1)
-        lblTemp3.text = [NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"WeightKey", @""),item.weight];
-    else if(item.qty > 1)
+    if(item.qty > 1)
         lblTemp3.text = [NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"QuantityKey", @""),item.qty];
     else
         lblTemp3.text = nil;

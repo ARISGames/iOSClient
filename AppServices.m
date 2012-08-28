@@ -2342,7 +2342,7 @@ NSString *const kARISServerServicePackage = @"v1";
     //if(location.wiggle == nil)  location.wiggle = 0;
     location.deleteWhenViewed = [[locationDictionary valueForKey:@"delete_when_viewed"] intValue];
     
-    if([location.objectType isEqualToString:@"PlayerNote"]){
+    if(location.objectType &&[location.objectType isEqualToString:@"PlayerNote"]){
         Note *note = [[AppModel sharedAppModel]noteForNoteId:location.objectId playerListYesGameListNo:YES];
         if(note)location.allowsQuickTravel = YES;
     }
