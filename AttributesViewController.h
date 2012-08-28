@@ -21,6 +21,7 @@
     UIButton *addGroupButton;
     UILabel *nameLabel;
     UILabel *groupLabel;
+    int newAttrsSinceLastView;
 
 }
 @property(nonatomic) IBOutlet UITableView *attributesTable;
@@ -30,6 +31,7 @@
 @property(nonatomic) IBOutlet UIButton  *addGroupButton;
 @property(nonatomic) IBOutlet UILabel *nameLabel;
 @property(nonatomic) IBOutlet UILabel *groupLabel;
+@property(nonatomic) int newAttrsSinceLastView;
 
 
 - (void) refresh;

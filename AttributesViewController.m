@@ -13,13 +13,13 @@
 #import "AppModel.h"
 
 @implementation AttributesViewController
-@synthesize attributes,iconCache,attributesTable,pcImage,nameLabel,groupLabel,addGroupButton;
+@synthesize attributes,iconCache,attributesTable,pcImage,nameLabel,groupLabel,addGroupButton,newAttrsSinceLastView;
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
-        self.title = NSLocalizedString(@"PlayerTitleKey",@"");	
+        self.title = NSLocalizedString(@"PlayerTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"123-id-card"];
         NSMutableArray *iconCacheAlloc = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].attributes count]];
         self.iconCache = iconCacheAlloc;
@@ -32,20 +32,20 @@
     return self;
 }
 
-- (void)silenceNextUpdate 
+- (void)silenceNextUpdate
 {
 	silenceNextServerUpdateCount++;
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {	
+- (void)viewDidLoad {
 	[super viewDidLoad];
     self.pcImage.layer.cornerRadius = 10.0;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
 	
-	[self refresh];		
+	[self refresh];
 	self.nameLabel.text = [NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"AttributesViewNameKey", @""), [AppModel sharedAppModel].userName];
     self.groupLabel.text = NSLocalizedString(@"AttributesViewGroupKey", @"");
 	silenceNextServerUpdateCount = 0;
@@ -55,7 +55,7 @@
 		[pcImage loadImageFromMedia: pcMedia];
         
 	}
-	//else [pcImage updateViewWithNewImage:[UIImage imageNamed:@"profile.png"]];	
+	//else [pcImage updateViewWithNewImage:[UIImage imageNamed:@"profile.png"]];
 }
 
 -(void)refresh {
@@ -66,6 +66,49 @@
 -(void)refreshViewFromModel {
 	NSLog(@"AttributesVC: Refresh View from Model");
 	
+    if (silenceNextServerUpdateCount < 1) {
+        NSArray *newAttributes = [[AppModel sharedAppModel].attributes allValues];
+        //Check if anything is new since last time
+        int newAttrs = 0;
+        UIViewController *topViewController =  [[self navigationController] topViewController];
+        for (Item *attr in newAttributes) {
+            BOOL match = NO;
+            for (Item *existingAttr in self.attributes) {
+                if (existingAttr.itemId == attr.itemId) match = YES;
+                if ((existingAttr.itemId == attr.itemId) && (existingAttr.qty < attr.qty)){
+                    if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
+                        [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
+                    
+                    //NEEDS TO BE LOCALIZED \/
+                    [[RootViewController sharedRootViewController] enqueueNotificationWithTitle:@"Attribute Received"
+                                                                                      andPrompt:[NSString stringWithFormat:@"%d %@ %@",attr.qty - existingAttr.qty,attr.name,@" added"]];
+                }
+            }
+            
+            if (match == NO) {
+                if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
+                    [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
+                
+                //NEEDS TO BE LOCALIZED \/
+                [[RootViewController sharedRootViewController] enqueueNotificationWithTitle:@"Attribute Received"
+                                                                                  andPrompt:[NSString stringWithFormat:@"%d %@ %@",attr.qty,attr.name,@" added"]];
+                newAttrs++;
+            }
+        }
+        if (newAttrs > 0) {
+            newAttrsSinceLastView += newAttrs;
+            self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newAttrsSinceLastView];
+            
+            //Vibrate and Play Sound
+            //[((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
+        }
+        else if (newAttrsSinceLastView < 1) self.tabBarItem.badgeValue = nil;
+    }
+    else {
+        newAttrsSinceLastView = 0;
+        self.tabBarItem.badgeValue = nil;
+    }
+    
 	self.attributes = [[AppModel sharedAppModel].attributes allValues];
 	[attributesTable reloadData];
 	
@@ -109,7 +152,7 @@
 	//Init Icon with tag 3
 	iconViewTemp = [[AsyncMediaImageView alloc] initWithFrame:IconFrame];
 	iconViewTemp.tag = 3;
-	iconViewTemp.backgroundColor = [UIColor clearColor]; 
+	iconViewTemp.backgroundColor = [UIColor clearColor];
 	[cell.contentView addSubview:iconViewTemp];
     
     //Init Icon with tag 4
@@ -139,20 +182,20 @@
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];	
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
 	if(cell == nil) cell = [self getCellContentView:@"Cell"];
     
-    cell.textLabel.backgroundColor = [UIColor clearColor]; 
-    cell.detailTextLabel.backgroundColor = [UIColor clearColor]; 
-            cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0  
-                                                           green:233.0/255.0  
-                                                            blue:233.0/255.0  
-                                                           alpha:1.0];  
-  
+    cell.textLabel.backgroundColor = [UIColor clearColor];
+    cell.detailTextLabel.backgroundColor = [UIColor clearColor];
+    cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0
+                                                       green:233.0/255.0
+                                                        blue:233.0/255.0
+                                                       alpha:1.0];
+    
 	Item *item = [attributes objectAtIndex: [indexPath row]];
 	
 	UILabel *lblTemp1 = (UILabel *)[cell viewWithTag:1];
-	lblTemp1.text = item.name;	
+	lblTemp1.text = item.name;
     lblTemp1.font = [UIFont boldSystemFontOfSize:18.0];
     
     UILabel *lblTemp2 = (UILabel *)[cell viewWithTag:2];
@@ -188,7 +231,7 @@
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     //if(section==0)return  @"Group";
-    // else 
+    // else
     return NSLocalizedString(@"AttributesAttributesTitleKey", @"");
 }
 
@@ -197,7 +240,7 @@
 	return 60;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {	
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
 	
 }
