@@ -47,6 +47,7 @@
     BOOL currentlyUpdatingServerWithMapViewed;
     BOOL currentlyUpdatingServerWithQuestsViewed;
     BOOL currentlyUpdatingServerWithInventoryViewed;
+    BOOL currentlyInteractingWithObject;
 }
 
 extern NSString *const kARISServerServicePackage;
@@ -66,6 +67,7 @@ extern NSString *const kARISServerServicePackage;
 @property(readwrite) BOOL currentlyUpdatingServerWithMapViewed;
 @property(readwrite) BOOL currentlyUpdatingServerWithQuestsViewed;
 @property(readwrite) BOOL currentlyUpdatingServerWithInventoryViewed;  
+@property(readwrite) BOOL currentlyInteractingWithObject;  
 
 
 + (AppServices *)sharedAppServices;

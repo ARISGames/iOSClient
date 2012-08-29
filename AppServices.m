@@ -26,6 +26,7 @@ NSString *const kARISServerServicePackage = @"v1";
 @synthesize currentlyFetchingLocationList, currentlyFetchingInventory, currentlyFetchingQuestList, currentlyUpdatingServerWithPlayerLocation,currentlyFetchingGameNoteList,currentlyFetchingPlayerNoteList;
 @synthesize currentlyFetchingOneGame, currentlyFetchingNearbyGamesList, currentlyFetchingPopularGamesList, currentlyFetchingRecentGamesList, currentlyFetchingSearchGamesList;
 @synthesize currentlyUpdatingServerWithMapViewed, currentlyUpdatingServerWithQuestsViewed, currentlyUpdatingServerWithInventoryViewed;
+@synthesize currentlyInteractingWithObject;
 
 + (id)sharedAppServices
 {
@@ -1473,7 +1474,7 @@ NSString *const kARISServerServicePackage = @"v1";
 		return;
 	}
     
-    if (currentlyFetchingLocationList) {
+    if (currentlyFetchingLocationList || currentlyInteractingWithObject) {
         NSLog(@"AppModel: Already fetching location list, skipping");
         return;
     }

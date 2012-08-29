@@ -493,6 +493,7 @@ BOOL isShowingNotification;
 
 
 - (void)displayNearbyObjectView:(UIViewController *)nearbyObjectViewController {
+    [AppServices sharedAppServices].currentlyInteractingWithObject = YES;
 	UINavigationController *nearbyObjectNavigationControllerAlloc = [[UINavigationController alloc] initWithRootViewController:nearbyObjectViewController];
 	self.nearbyObjectNavigationController = nearbyObjectNavigationControllerAlloc;
 	self.nearbyObjectNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
@@ -502,6 +503,7 @@ BOOL isShowingNotification;
 }
 
 - (void)dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController{
+    [AppServices sharedAppServices].currentlyInteractingWithObject = NO;
     [self.nearbyObjectNavigationController.view removeFromSuperview];
 }
 
