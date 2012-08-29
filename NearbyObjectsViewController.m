@@ -124,7 +124,7 @@
 	
 	//If we have something new, alert the user
 	if (newItem) {
-        if(![RootViewController sharedRootViewController].tabBarController.modalViewController)
+        if(![AppServices sharedAppServices].currentlyInteractingWithObject)
         {
             //alert only if u are on quest,map,inventory, or nearby objects screen
             [appDelegate playAudioAlert:@"pingtone" shouldVibrate:YES]; 
@@ -141,7 +141,7 @@
 	}
 	
 	//If we have a force display, do it
-	if (forcedDisplayItem) {
+	if (forcedDisplayItem && ![AppServices sharedAppServices].currentlyInteractingWithObject) {
 		[forcedDisplayItem display];
 	}
 	
