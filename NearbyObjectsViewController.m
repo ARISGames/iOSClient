@@ -87,6 +87,7 @@
 }
 
 - (void)refreshViewFromModel{
+    if(![AppServices sharedAppServices].currentlyInteractingWithObject && [AppModel sharedAppModel].inGame){
 	NSLog(@"NearbyBar: refreshViewFromModel");
 	
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -124,11 +125,9 @@
 	
 	//If we have something new, alert the user
 	if (newItem) {
-        if(![AppServices sharedAppServices].currentlyInteractingWithObject)
-        {
             //alert only if u are on quest,map,inventory, or nearby objects screen
             [appDelegate playAudioAlert:@"pingtone" shouldVibrate:YES]; 
-		}
+
         
 		if (![AppModel sharedAppModel].hasSeenNearbyTabTutorial) {
 			[[RootViewController sharedRootViewController].tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController  
@@ -141,7 +140,7 @@
 	}
 	
 	//If we have a force display, do it
-	if (forcedDisplayItem && ![AppServices sharedAppServices].currentlyInteractingWithObject) {
+	if (forcedDisplayItem) {
 		[forcedDisplayItem display];
 	}
 	
@@ -163,7 +162,7 @@
 	
 	//Refresh the table
 	[nearbyTable reloadData];
-	
+	}
 } 
 
 

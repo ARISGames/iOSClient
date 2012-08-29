@@ -530,7 +530,10 @@ BOOL isShowingNotification;
         Node *launchNode = [[AppModel sharedAppModel] nodeForNodeId:[AppModel sharedAppModel].currentGame.launchNodeId];
         [launchNode display];
     }
-    else NSLog(@"AppDelegate: displayIntroNode: Game did not specify an intro node, skipping");
+    else{
+       NSLog(@"AppDelegate: displayIntroNode: Game did not specify an intro node, skipping");
+        [AppServices sharedAppServices].currentlyInteractingWithObject = NO;
+    }
 }
 
 - (void) showNearbyTab:(BOOL)yesOrNo {

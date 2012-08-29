@@ -263,6 +263,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
         if  (indexPath.row == 0) {
             self.game.hasBeenPlayed = YES;
             [AppModel sharedAppModel].inGame = YES;
+            [AppServices sharedAppServices].currentlyInteractingWithObject = YES;
             
             NSDictionary *dictionary = [NSDictionary dictionaryWithObject:self.game
                                                                    forKey:@"game"];
