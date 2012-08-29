@@ -505,6 +505,7 @@ BOOL isShowingNotification;
 - (void)dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController{
     [AppServices sharedAppServices].currentlyInteractingWithObject = NO;
     [self.nearbyObjectNavigationController.view removeFromSuperview];
+    [[AppServices sharedAppServices] fetchAllPlayerLists];
 }
 
 - (void) returnToHomeView{
