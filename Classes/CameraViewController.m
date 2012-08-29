@@ -147,10 +147,10 @@
         NSInteger orientationNumber = [orientation integerValue];
         NSLog(@"Orientation Before: %d", orientationNumber);
         if(orientationNumber == 1 || orientationNumber == 3){
-        image = [image scaleToSize:CGSizeMake(960, 640)];
+        image = [image scaleToSize:CGSizeMake(856, 640)];
         }
         else{
-        image = [image scaleToSize:CGSizeMake(640, 960)];
+        image = [image scaleToSize:CGSizeMake(640, 856)];
         }
 		self.mediaData = UIImageJPEGRepresentation(image, 0.4);
         self.mediaFilename = [NSString stringWithFormat:@"%@image.jpg",[NSDate date]];
