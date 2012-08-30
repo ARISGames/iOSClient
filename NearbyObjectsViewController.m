@@ -112,13 +112,24 @@
 	
 	//Check if anything is new since last time
 	BOOL newItem = NO;	//flag to see if at least one new item is in list
-	for (Location *location in nearbyLocationList) {		
-		BOOL match = NO;
+    BOOL hasFoundForcedDisplayItem = NO;
+        for (int i = 0; i < nearbyLocationList.count; i++) {		
+		Location *location = [nearbyLocationList objectAtIndex:i];
+        BOOL match = NO;
 		for (Location *oldLocation in oldNearbyLocationList) {
 			if (oldLocation.locationId == location.locationId) match = YES;	
 		}
 		if (match == NO) {
-			if (location.forcedDisplay) forcedDisplayItem = location; 
+			if (location.forcedDisplay){
+                if(!hasFoundForcedDisplayItem){
+                forcedDisplayItem = location;
+                hasFoundForcedDisplayItem = YES;
+                }
+                else{
+                  [nearbyLocationList removeObject:location];
+                    i--;
+                }
+            }
 			newItem = YES;
 		}
 	}
