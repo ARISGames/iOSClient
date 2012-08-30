@@ -102,9 +102,7 @@ NSString *const kQuestsHtmlTemplate =
 	self.tabBarItem.badgeValue = nil;
 	newItemsSinceLastView = 0;
 	silenceNextServerUpdateCount = 0;
-    
-	
-	
+
 }
 
 -(void)dismissTutorial{

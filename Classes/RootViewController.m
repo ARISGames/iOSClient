@@ -534,6 +534,10 @@ BOOL isShowingNotification;
        NSLog(@"AppDelegate: displayIntroNode: Game did not specify an intro node, skipping");
         [AppServices sharedAppServices].currentlyInteractingWithObject = NO;
     }
+   // [tabBarController.viewControllers makeObjectsPerformSelector:@selector(getView)];
+    for(UIViewController * viewController in  tabBarController.viewControllers){
+        viewController.view;
+    }
 }
 
 - (void) showNearbyTab:(BOOL)yesOrNo {

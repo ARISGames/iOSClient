@@ -79,8 +79,7 @@
                     if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
                         [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
                     
-                    //NEEDS TO BE LOCALIZED \/
-                    [[RootViewController sharedRootViewController] enqueueNotificationWithTitle:@"Attribute Received"
+                    [[RootViewController sharedRootViewController] enqueueNotificationWithTitle:NSLocalizedString(@"AttributeReceivedKey", @"")
                                                                                       andPrompt:[NSString stringWithFormat:@"%d %@ %@",attr.qty - existingAttr.qty,attr.name,@" added"]];
                 }
             }
@@ -89,8 +88,7 @@
                 if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
                     [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
                 
-                //NEEDS TO BE LOCALIZED \/
-                [[RootViewController sharedRootViewController] enqueueNotificationWithTitle:@"Attribute Received"
+                [[RootViewController sharedRootViewController] enqueueNotificationWithTitle: NSLocalizedString(@"AttributeReceivedKey", @"")
                                                                                   andPrompt:[NSString stringWithFormat:@"%d %@ %@",attr.qty,attr.name,@" added"]];
                 newAttrs++;
             }
