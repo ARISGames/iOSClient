@@ -27,7 +27,7 @@ const NSInteger kMaxOptions = 20;
 const NSInteger kOptionsFontSize = 17;
 NSString *const kOutAnimation = @"out";
 NSString *const kInAnimation = @"in";
-
+BOOL hasTitle;
 
 NSString *const kDialogHtmlTemplate = 
 @"<html>"
@@ -165,6 +165,7 @@ NSString *const kDialogHtmlTemplate =
 	@"<npc id='2' zoomX='150' zoomY='50' zoomWidth='100' zoomHeight='100'><![CDATA[<p><strong>OUCH!</strong></p><p>Ha ha ha!</p>]]></npc>"
 	@"</dialog>";
 */
+    hasTitle = NO;
 }
 
 -(void)imageFinishedLoading{
@@ -359,7 +360,8 @@ NSString *const kDialogHtmlTemplate =
         
         // display title for scene if specified
         if (![currentScene.title isEqualToString:@""] && (currentScene.title != nil)) {
-            self.navigationItem.title = currentScene.title;
+            self.title = currentScene.title;
+            hasTitle = YES;
         }
         
         if (currentScene.videoId !=0) {
@@ -675,8 +677,12 @@ NSString *const kDialogHtmlTemplate =
 	}
 	else {
         NSLog(@"Dialog VC: finishScene: This is the NPC");
-		self.title = currentNpc.name;
-		characterView = npcView;
+		if (!hasTitle) {
+        self.title = currentNpc.name;
+        }
+        hasTitle = NO;
+
+        characterView = npcView;
         characterWebView = npcWebView;
 		lastCharacterScrollView = pcScrollView;
 		lastCharacterImageScrollView = pcImageScrollView;
