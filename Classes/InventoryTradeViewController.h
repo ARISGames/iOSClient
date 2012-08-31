@@ -12,6 +12,7 @@
 #import "ARISAppDelegate.h"
 #import "BumpClient.h"
 #import "Item.h"
+#import "RoundedTableViewCell.h"
 
 @interface InventoryTradeViewController : UIViewController {
 	UITableView *tradeTableView;

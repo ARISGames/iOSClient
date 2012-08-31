@@ -175,7 +175,7 @@
 
 
 - (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier {
-	CGRect CellFrame = CGRectMake(0, 0, 320, 60);
+/*	CGRect CellFrame = CGRectMake(0, 0, 320, 60);
 	CGRect IconFrame = CGRectMake(5, 5, 50, 50);
 	CGRect Label1Frame = CGRectMake(70, 22, 240, 20);
 	CGRect Label2Frame = CGRectMake(70, 39, 240, 20);
@@ -218,10 +218,12 @@
 	lblTemp.textColor = [UIColor darkGrayColor];
 	lblTemp.backgroundColor = [UIColor clearColor];
     //lblTemp.textAlignment = UITextAlignmentRight;
-	[cell.contentView addSubview:lblTemp];
+	[cell.contentView addSubview:lblTemp]; 
+  */  
+    RoundedTableViewCell *cell = [[RoundedTableViewCell alloc] initWithStyle:UITableViewCellSelectionStyleNone reuseIdentifier:cellIdentifier forFile:@"InventoryTradeViewController"];
     
 	return cell;
-}
+} 
 
 
 #pragma mark PickerViewDelegate selectors
@@ -248,39 +250,48 @@
 	NSLog(@"GamePickerVC: Cell requested for section: %d row: %d",indexPath.section,indexPath.row);
     
 	NSString *CellIdentifier = [NSString stringWithFormat: @"Cell%d%d",indexPath.section,indexPath.row];
-    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    RoundedTableViewCell *cell = (RoundedTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[RoundedTableViewCell alloc] initWithStyle:UITableViewCellSelectionStyleNone reuseIdentifier:CellIdentifier forFile:@"InventoryTradeViewController.m"];
+    }
+
+    // Configure the cell.
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    // draw round top corners in first row
+    if(indexPath.row == 0){
+        [cell drawRoundTop];
+    }
+    // draw round corners in last row
+    if (indexPath.row == [tableView  numberOfRowsInSection:indexPath.section]-1) {
+        [cell drawRoundBottom];
+    }
     
-	if(cell == nil) cell = [self getCellContentView:CellIdentifier];
+  //  cell.textLabel.backgroundColor = [UIColor clearColor]; 
+   // cell.detailTextLabel.backgroundColor = [UIColor clearColor]; 
     
-    cell.textLabel.backgroundColor = [UIColor clearColor]; 
-    cell.detailTextLabel.backgroundColor = [UIColor clearColor]; 
-    
-    cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0  
-                                                       green:233.0/255.0  
-                                                        blue:233.0/255.0  
-                                                       alpha:1.0];  
+   // cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0  
+     //                                                  green:233.0/255.0  
+       //                                                 blue:233.0/255.0  
+         //                                              alpha:1.0];  
 	Item *item;
 	if(indexPath.section == 0) item = [self.itemsToTrade objectAtIndex: [indexPath row]];
 	else item = [self.inventory objectAtIndex: [indexPath row]];
     
-	UILabel *lblTemp1 = (UILabel *)[cell viewWithTag:1];
-	lblTemp1.text = item.name;	
-    lblTemp1.font = [UIFont boldSystemFontOfSize:18.0];
-    
-    UILabel *lblTemp2 = (UILabel *)[cell viewWithTag:2];
-    lblTemp2.text = item.description;
-	AsyncMediaImageView *iconView = (AsyncMediaImageView *)[cell viewWithTag:3];
-    
-    UILabel *lblTemp3 = (UILabel *)[cell viewWithTag:4];
+	cell.lbl1.text = item.name;	
+    cell.lbl1.font = [UIFont boldSystemFontOfSize:18.0];
+    [cell.lbl1 setNeedsDisplay];
+    cell.lbl2.text = item.description;
+    [cell.lbl2 setNeedsDisplay];
     if(item.qty >1 && item.weight > 1)
-        lblTemp3.text = [NSString stringWithFormat:@"%@: %d, %@: %d",NSLocalizedString(@"QuantityKey", @""),item.qty,NSLocalizedString(@"WeightKey", @""),item.weight];
+         cell.lbl4.text = [NSString stringWithFormat:@"%@: %d, %@: %d",NSLocalizedString(@"QuantityKey", @""),item.qty,NSLocalizedString(@"WeightKey", @""),item.weight];
     else if(item.weight > 1)
-        lblTemp3.text = [NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"WeightKey", @""),item.weight];
+        cell.lbl4.text = [NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"WeightKey", @""),item.weight];
     else if(item.qty > 1)
-        lblTemp3.text = [NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"QuantityKey", @""),item.qty];
+        cell.lbl4.text = [NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"QuantityKey", @""),item.qty];
     else
-        lblTemp3.text = nil;
-    iconView.hidden = NO;
+        cell.lbl4.text = nil;
+    cell.iconView.hidden = NO;
+    [cell.lbl4 setNeedsDisplay];
     Media *media;
     if (item.mediaId != 0 && ![item.type isEqualToString:@"NOTE"]) {
         if([self.mediaCache count] > indexPath.row){
@@ -298,19 +309,19 @@
         Media *iconMedia;
         if([self.iconCache count] < indexPath.row){
             iconMedia = [self.iconCache objectAtIndex:indexPath.row];
-            [iconView updateViewWithNewImage:[UIImage imageWithData:iconMedia.image]];
+            [cell.iconView updateViewWithNewImage:[UIImage imageWithData:iconMedia.image]];
         }
         else{
             iconMedia = [[AppModel sharedAppModel] mediaForMediaId: item.iconMediaId];
             [self.iconCache  addObject:iconMedia];
-            [iconView loadImageFromMedia:iconMedia];
+            [cell.iconView loadImageFromMedia:iconMedia];
         }
 	}
 	else {
 		//Load the Default
-		if ([media.type isEqualToString: kMediaTypeImage]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultImageIcon.png"]];
-		if ([media.type isEqualToString: kMediaTypeAudio]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultAudioIcon.png"]];
-		if ([media.type isEqualToString: kMediaTypeVideo]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultVideoIcon.png"]];	}
+		if ([media.type isEqualToString: kMediaTypeImage]) [cell.iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultImageIcon.png"]];
+		if ([media.type isEqualToString: kMediaTypeAudio]) [cell.iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultAudioIcon.png"]];
+		if ([media.type isEqualToString: kMediaTypeVideo]) [cell.iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultVideoIcon.png"]];	}
     
 	return cell;
 }

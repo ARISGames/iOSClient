@@ -373,6 +373,7 @@
 		DB7EEF7C15AB40C2009369D4 /* InventoryTradeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB7EEF7A15AB40C2009369D4 /* InventoryTradeViewController.xib */; };
 		DBBCE9E115937704006994F9 /* DefaultPCImage.png in Resources */ = {isa = PBXBuildFile; fileRef = DBBCE9E015937704006994F9 /* DefaultPCImage.png */; };
 		DBC3441315ADEED200FA902F /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC3441115ADEED200FA902F /* RootViewController.m */; };
+		DDC4ABDC15F117C500D525BA /* RoundedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC4ABDB15F117C500D525BA /* RoundedTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -974,6 +975,8 @@
 		DBBCE9E015937704006994F9 /* DefaultPCImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultPCImage.png; sourceTree = "<group>"; };
 		DBC3441015ADEED200FA902F /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewController.h; path = Classes/RootViewController.h; sourceTree = "<group>"; };
 		DBC3441115ADEED200FA902F /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RootViewController.m; path = Classes/RootViewController.m; sourceTree = "<group>"; };
+		DDC4ABDA15F117C500D525BA /* RoundedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RoundedTableViewCell.h; path = Classes/RoundedTableViewCell.h; sourceTree = "<group>"; };
+		DDC4ABDB15F117C500D525BA /* RoundedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RoundedTableViewCell.m; path = Classes/RoundedTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1532,6 +1535,8 @@
 		A7986D660F8FEC2100A5469F /* Inventory */ = {
 			isa = PBXGroup;
 			children = (
+				DDC4ABDA15F117C500D525BA /* RoundedTableViewCell.h */,
+				DDC4ABDB15F117C500D525BA /* RoundedTableViewCell.m */,
 				4A7F90F215B0773200988446 /* bump_logo_250x84.png */,
 				AB35E072155C722600430AF7 /* 36-toolbox.png */,
 				AB35E073155C722700430AF7 /* 36-toolbox@2x.png */,
@@ -2508,6 +2513,7 @@
 				DB17C60915A3A921001F7A10 /* GamePickerPopularViewController.m in Sources */,
 				DBC3441315ADEED200FA902F /* RootViewController.m in Sources */,
 				DB6742C815AB96EA009964CD /* InventoryTradeViewController.m in Sources */,
+				DDC4ABDC15F117C500D525BA /* RoundedTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
