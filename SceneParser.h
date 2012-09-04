@@ -18,6 +18,7 @@
 
 @interface SceneParser : NSObject <NSXMLParserDelegate> {
 	Boolean			isPc;
+    Boolean			vibrate;
 	NSInteger		currentCharacterId;
 	NSMutableString *currentText;
 	NSMutableArray	*script;
@@ -43,6 +44,8 @@
 @property (nonatomic) NSString *exitToTabWithTitle;
 @property (nonatomic) NSString *exitToType;
 @property(nonatomic) NSString *title;
+@property (readwrite) Boolean isPC;
+@property (readwrite) Boolean vibrate;
 
 @property (readwrite) id<SceneParserDelegate> delegate;
 

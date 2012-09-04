@@ -17,6 +17,7 @@ enum soundConstants {
 @interface Scene : NSObject {
 	NSString*   text;
 	Boolean		isPc;
+    Boolean		vibrate;
 	int			imageMediaId;
 	CGRect		imageRect;
 	float		zoomTime;
@@ -33,6 +34,7 @@ enum soundConstants {
 
 @property(nonatomic) NSString* text;
 @property(readwrite) Boolean isPc;
+@property(readwrite) Boolean vibrate;
 @property(readwrite) int imageMediaId;
 @property(readwrite) int panoId;
 @property(readwrite) int videoId;
@@ -52,6 +54,7 @@ enum soundConstants {
 
 - (id) initWithText:(NSString *)text 
                isPc:(Boolean)isPc 
+      shouldVibrate:(Boolean)shouldVibrate
           imageRect:(CGRect)imageRect 
            zoomTime:(float)seconds
    exitToTabWithTitle:(NSString*)tabTitle

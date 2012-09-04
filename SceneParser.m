@@ -33,12 +33,11 @@ NSString *const kTagPlaque = @"plaque";
 NSString *const kTagItem = @"item";
 NSString *const kTagMedia = @"mediaId";
 NSString *const kTagTitle = @"title";
-
-
+NSString *const kTagVibrate = @"vibrate";
 
 
 @implementation SceneParser
-@synthesize currentText, sourceText, exitToTabWithTitle, delegate, script, exitToType, title;
+@synthesize currentText, sourceText, exitToTabWithTitle, delegate, script, exitToType, title, isPC, vibrate;
 
 #pragma mark Init/dealloc
 - (id) initWithDefaultNpcIdWithDelegate:(id)inputDelegate {
@@ -71,7 +70,7 @@ NSString *const kTagTitle = @"title";
   qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict 
 {
 	NSLog(@"SceneParser: Starting Element %@", elementName);
-    
+    vibrate = NO;
     if ([attributeDict objectForKey:kTagHideLeaveConversationButton]) {
         [self.delegate setHideLeaveConversationButton: ([attributeDict objectForKey:kTagHideLeaveConversationButton] ? [[attributeDict objectForKey:kTagHideLeaveConversationButton]intValue] : 0)];
     }
@@ -84,6 +83,9 @@ NSString *const kTagTitle = @"title";
         isPc = NO;
         if ([attributeDict objectForKey:kTagMedia]) {
             mediaId = [attributeDict objectForKey:kTagMedia] ? [[attributeDict objectForKey:kTagMedia]intValue] : 0;
+        }
+        if ([attributeDict objectForKey:kTagVibrate]) {
+            vibrate = YES;
         }
     }    
     
@@ -169,11 +171,11 @@ NSString *const kTagTitle = @"title";
         || [elementName isEqualToString:kTagVideo]
         || [elementName isEqualToString:kTagWebpage]
         || [elementName isEqualToString:kTagPlaque]
-  //      || [elementName isEqualToString:kTagMedia]
         || [elementName isEqualToString:kTagItem])
 	{
         Scene *newScene = [[Scene alloc] initWithText:currentText 
-                                          isPc:isPc 
+                                          isPc:isPc
+                                 shouldVibrate:vibrate
                                      imageRect:imageRect
                                       zoomTime:resizeTime
                                             exitToTabWithTitle:exitToTabWithTitle
@@ -209,7 +211,8 @@ NSString *const kTagTitle = @"title";
 	if ([script count] == 0) {
 		// No parsing happened; use raw text
         Scene *s = [[Scene alloc] initWithText:sourceText 
-                                          isPc:NO 
+                                          isPc:NO
+                                 shouldVibrate:NO
                                      imageRect:CGRectMake(0, 0, 320, 416)
                                       zoomTime:kDefaultZoomTime
                               exitToTabWithTitle:nil exitToType:nil

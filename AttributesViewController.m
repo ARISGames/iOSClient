@@ -98,7 +98,7 @@
             self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newAttrsSinceLastView];
             
             //Vibrate and Play Sound
-            //[((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
+            [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
         }
         else if (newAttrsSinceLastView < 1) self.tabBarItem.badgeValue = nil;
     }

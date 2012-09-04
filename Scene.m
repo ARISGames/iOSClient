@@ -17,10 +17,11 @@
 @synthesize imageRect;
 @synthesize zoomTime;
 @synthesize exitToTabWithTitle,videoId,panoId,webId,plaqueId,itemId,exitToType, mediaId;
-@synthesize title;
+@synthesize title, vibrate;
 
 - (id) initWithText:(NSString *)theText 
                isPc:(Boolean)isPcYorN 
+      shouldVibrate:(Boolean)shouldVibrate
           imageRect:(CGRect)rect 
            zoomTime:(float)seconds
    exitToTabWithTitle:(NSString*)tabTitle 
@@ -29,6 +30,7 @@
 	if ((self = [super init])) {
         self.text = [theText copy];
         self.isPc = isPcYorN;
+        self.vibrate = shouldVibrate;
         self.imageMediaId = 0;
         self.imageRect = rect;
         self.zoomTime = seconds;

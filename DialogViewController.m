@@ -595,6 +595,8 @@ NSString *const kDialogHtmlTemplate =
 	UIScrollView *characterImageScrollView;
 	BOOL isCurrentlyDisplayed;
     
+    if(aScene.vibrate) [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) vibrate];
+    
     self.npcImage.hidden = NO; 
 	cachedScene = aScene;
     if(aScene.mediaId != 0){
