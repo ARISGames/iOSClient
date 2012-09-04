@@ -126,7 +126,7 @@
                 hasFoundForcedDisplayItem = YES;
                 }
                 else{
-                  [nearbyLocationList removeObject:location];
+                  [nearbyLocationList removeObjectAtIndex:i];
                     i--;
                 }
             }
