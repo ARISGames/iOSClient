@@ -24,11 +24,13 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
+    NSLog(@"YO");
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        return self;
     }
-    return self;
+    return nil;
 }
 
 - (void)dealloc
@@ -56,8 +58,8 @@
 - (void)viewDidLoad
 {
     NSLog(@"PanoVC: viewDidLoad");
-
-       [super viewDidLoad];
+    
+    [super viewDidLoad];
     NSArray *textureArrayAlloc = [[NSArray alloc] init];
     self.panoramic.textureArray = textureArrayAlloc;
     
@@ -68,13 +70,12 @@
     plView.isDeviceOrientationEnabled = NO;
 	plView.type = PLViewTypeSpherical;
     /*UIImage *image1 = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"garden_frame1" ofType:@"jpg"]];
-    UIImage *image2 = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"garden_frame2" ofType:@"jpg"]];
-    UIImage *image3 = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"garden_frame3" ofType:@"jpg"]];*/
+     UIImage *image2 = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"garden_frame2" ofType:@"jpg"]];
+     UIImage *image3 = [[UIImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"garden_frame3" ofType:@"jpg"]];*/
     
-   /* if ([self.panoramic.name isEqualToString: @"Garden Time Panoramic"]) {
-        self.panoramic.textureArray = [NSArray arrayWithObjects:image1,image2,image3, nil];
-
-    } */
+    /* if ([self.panoramic.name isEqualToString: @"Garden Time Panoramic"]) {
+     self.panoramic.textureArray = [NSArray arrayWithObjects:image1,image2,image3, nil];
+     } */
     
     if([plView.motionManager isGyroAvailable]){
         plView.isGyroEnabled = YES;
@@ -90,22 +91,19 @@
     }
     
     self.numTextures = [self.panoramic.media count];
-        //[self loadImageFromMedia:[self.panoramic.textureArray objectAtIndex:(x-1)]];
-        
+    //[self loadImageFromMedia:[self.panoramic.textureArray objectAtIndex:(x-1)]];
     
     if(self.numTextures > 1){
         if (self.plView.motionManager.gyroAvailable) {
-            
             [self.plView.motionManager startDeviceMotionUpdates];
             [self.plView.motionManager startGyroUpdates];
-            
         }
         self.slider.hidden = NO;
         self.slider.minimumValue = 1;
         self.slider.maximumValue = self.numTextures;
         plView.frame = CGRectMake(plView.frame.origin.x, plView.frame.origin.y, plView.frame.size.width, plView.frame.size.height - 60);
         self.slider.frame = CGRectMake(15, plView.frame.origin.y + plView.frame.size.height + 5, 290, 20);
-
+        
         self.lblSpacing = self.slider.frame.size.width/(self.numTextures-1);
         for(int x = 0;x < self.numTextures; x++)
         {
@@ -118,57 +116,56 @@
             lbl.backgroundColor = [UIColor clearColor];
             [self.view addSubview:lbl];
             
-Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.media objectAtIndex:x] mediaId]]; 
-          self.panoramic.textureArray = [self.panoramic.textureArray arrayByAddingObject:panoMedia];
+            Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.media objectAtIndex:x] mediaId]];
+            self.panoramic.textureArray = [self.panoramic.textureArray arrayByAddingObject:panoMedia];
             //[panoMedia release];
         }
     }
     else if(self.numTextures == 0)
     {
         //Editor needs to add image to panoramic; put in default
-        Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId:364]; 
+        Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId:364];
         self.panoramic.textureArray = [self.panoramic.textureArray arrayByAddingObject:panoMedia];
     }
-    else {Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.media objectAtIndex:0] mediaId]]; 
+    else {Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.media objectAtIndex:0] mediaId]];
         self.panoramic.textureArray = [self.panoramic.textureArray arrayByAddingObject:panoMedia]; }
     
     //Create a close button
-	self.navigationItem.leftBarButtonItem = 
+	self.navigationItem.leftBarButtonItem =
 	[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey",@"")
 									 style: UIBarButtonItemStyleBordered
-									target:self 
-									action:@selector(backButtonTouchAction:)];	
+									target:self
+									action:@selector(backButtonTouchAction:)];
     
     self.viewHasAlreadyAppeared = NO;
     self.showedAlignment = NO;
 }
 
+-(void) viewWillAppear:(BOOL)animated
+{
+    NSLog(@"It'll do it!");
+}
+
 -(void) viewDidAppear:(BOOL)animated{
     NSLog(@"PanoVC: viewDidAppear");
     //Only do this the first time the view appears
-    if (!self.viewHasAlreadyAppeared) {
-
+    if (!self.viewHasAlreadyAppeared)
+    {
         [self loadImageFromMedia:[self.panoramic.textureArray objectAtIndex:0]];
-        if([self.panoramic.media count] < 2){
-        
+        if([self.panoramic.media count] < 2)
             self.slider.hidden = YES;
-        }
-        else self.slider.hidden = NO;
-        }
+        else
+            self.slider.hidden = NO;
+    }
     
     if (self.plView.motionManager.gyroAvailable) {
-        
         [self.plView.motionManager startDeviceMotionUpdates];
         [self.plView.motionManager startGyroUpdates];
         NSLog(@"PanoVC: enable Gyro");
         [self.plView enableGyro] ;
-        
     }
-  
     self.viewHasAlreadyAppeared = YES;
-
 }
-
 
 -(void) viewDidDisappear:(BOOL)animated {
     NSLog(@"PanoVC: viewDidDisappear");
@@ -177,55 +174,51 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
     [plView.gyroTimer invalidate];
 }
 
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-
 
 #pragma mark -
 #pragma mark Button Handlers
 
 - (IBAction)backButtonTouchAction: (id) sender{
     NSLog(@"PanoVC: backButtonTouchAction");
-
+    
 	//Notify the server this item was displayed
 	[[AppServices sharedAppServices] updateServerPanoramicViewed:self.panoramic.panoramicId fromLocation:self.panoramic.locationId];
 	
 	//[self.view removeFromSuperview];
     if([self.delegate isKindOfClass:[DialogViewController class]])
-	[self.navigationController popToRootViewControllerAnimated:YES];
+        [self.navigationController popToRootViewControllerAnimated:YES];
     else{
         [RootViewController sharedRootViewController].modalPresent=NO;
         [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];}
-    
-    }
-
+}
 
 -(IBAction) sliderValueChanged: (id) sender{
     [self.slider setValue:roundf(self.slider.value) animated:YES];
     [self loadImageFromMedia: [self.panoramic.textureArray objectAtIndex: (int)self.slider.value-1]];
 }
+
 #pragma mark -
 #pragma mark PLView Delegate
 /*
-- (BOOL)viewShouldReset:(PLViewBase *)plView{
-    NSLog(@"PanoVC: viewShouldReset");
-    return YES;      
-}
-*/
+ - (BOOL)viewShouldReset:(PLViewBase *)plView{
+ NSLog(@"PanoVC: viewShouldReset");
+ return YES;
+ }
+ */
 - (void)viewDidReset:(PLViewBase *)plView{
-    NSLog(@"PanoVC: viewDidReset");    
+    NSLog(@"PanoVC: viewDidReset");
 }
-
 
 #pragma mark Async Image Loading
 - (void)loadImageFromMedia:(Media *) aMedia {
 	[[RootViewController sharedRootViewController] showNewWaitingIndicator:@"Loading" displayProgressBar:YES];
 	self.media = aMedia;
 	//check if the media already as the image, if so, just grab it
-    if(self.media.image) [self showPanoView];;
+    if(self.media.image) [self showPanoView];
     if (!aMedia.url) {
         return;
     }
@@ -233,7 +226,7 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
 	//set up indicators
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 	
-		
+    
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:aMedia.url]
 											 cachePolicy:NSURLRequestUseProtocolCachePolicy
 										 timeoutInterval:60.0];
@@ -271,9 +264,9 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
 	//Save the image in the media
 	self.media.image = UIImageJPEGRepresentation(image, 1.0);
 	if(self.media.image)
-    [self showPanoView];
+        [self showPanoView];
 	
-	}
+}
 - (void)showPanoView{
     NSLog(@"PanoVC: showPanoView");
 	[[RootViewController sharedRootViewController] removeNewWaitingIndicator];
@@ -282,7 +275,7 @@ Media *panoMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.panoramic.
     [plView addTextureAndRelease:[PLTexture textureWithImage:[UIImage imageWithData:self.media.image]]];
     [plView reset];
     [plView drawView];
- 
+    
     [self.view addSubview:plView];
 }
 
