@@ -44,7 +44,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-	
+	self.tabBarItem.badgeValue = nil;
 	[self refresh];
 	self.nameLabel.text = [NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"AttributesViewNameKey", @""), [AppModel sharedAppModel].userName];
     self.groupLabel.text = NSLocalizedString(@"AttributesViewGroupKey", @"");
@@ -81,6 +81,7 @@
                     
                     [[RootViewController sharedRootViewController] enqueueNotificationWithTitle:NSLocalizedString(@"AttributeReceivedKey", @"")
                                                                                       andPrompt:[NSString stringWithFormat:@"%d %@ %@",attr.qty - existingAttr.qty,attr.name,@" added"]];
+                    newAttrs++;
                 }
             }
             
@@ -94,7 +95,7 @@
             }
         }
         if (newAttrs > 0) {
-            newAttrsSinceLastView += newAttrs;
+            newAttrsSinceLastView = newAttrs;
             self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newAttrsSinceLastView];
             
             //Vibrate and Play Sound

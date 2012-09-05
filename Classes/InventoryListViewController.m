@@ -158,6 +158,7 @@
                     
                     [[RootViewController sharedRootViewController] enqueueNotificationWithTitle:NSLocalizedString(@"AppModelItemReceivedKey", @"")
                                                                                       andPrompt:[NSString stringWithFormat:@"%d %@ %@",item.qty - existingItem.qty,item.name,NSLocalizedString(@"InventoryAddedToKey", @"")]];
+                    newItems ++;
                 }
 			}
             
@@ -172,11 +173,11 @@
                 
                 [[RootViewController sharedRootViewController] enqueueNotificationWithTitle:NSLocalizedString(@"AppModelItemReceivedKey", @"")
                                                                                   andPrompt:[NSString stringWithFormat:@"%d %@ %@",item.qty,item.name,NSLocalizedString(@"InventoryAddedToKey", @"")]];
-				newItems ++;;
+				newItems ++;
 			}
 		}
 		if (newItems > 0) {
-			newItemsSinceLastView += newItems;
+			newItemsSinceLastView = newItems;
 			self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
             
 			//Vibrate and Play Sound

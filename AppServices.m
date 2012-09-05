@@ -2679,7 +2679,7 @@ NSString *const kARISServerServicePackage = @"v1";
 
 -(void)parseStartOverFromJSON:(JSONResult *)jsonResult{
 	NSLog(@"AppModel: Parsing start over result and firing off fetches");
-	[self silenceNextServerUpdate];
+	//[self silenceNextServerUpdate];
 }
 
 
