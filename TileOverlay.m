@@ -159,11 +159,11 @@ static NSInteger zoomScaleToZoomLevel(MKZoomScale scale) {
 }
 
 
-- (id)initWithOverlayID:(int)overlayID
+- (id)initWithIndex:(int)ov_index
 {
     if (self = [super init]) {
         // get all tiles for current overlay
-        Overlay *currentOverlay = [[AppModel sharedAppModel].overlayList objectAtIndex:overlayID];
+        Overlay *currentOverlay = [[AppModel sharedAppModel].overlayList objectAtIndex:ov_index];
         NSMutableArray* xArray = [[NSMutableArray alloc] init];
         NSMutableArray* yArray = [[NSMutableArray alloc] init];
         NSMutableArray* zArray = [[NSMutableArray alloc] init];
@@ -246,7 +246,7 @@ static NSInteger zoomScaleToZoomLevel(MKZoomScale scale) {
 }
 
 
-- (NSArray *)tilesInMapRect:(MKMapRect)rect zoomScale:(MKZoomScale)scale withOverlayID:(int)overlayID
+- (NSArray *)tilesInMapRect:(MKMapRect)rect zoomScale:(MKZoomScale)scale withIndex:(int)ov_index
 {
     NSInteger z = zoomScaleToZoomLevel(scale);
     
@@ -260,7 +260,7 @@ static NSInteger zoomScaleToZoomLevel(MKZoomScale scale) {
     
     NSMutableArray *tiles = nil;
     
-    Overlay *currentOverlay = [[AppModel sharedAppModel].overlayList objectAtIndex:overlayID];
+    Overlay *currentOverlay = [[AppModel sharedAppModel].overlayList objectAtIndex:ov_index];
     
     for (NSInteger x = minX; x <= maxX; x++) {
         for (NSInteger y = minY; y <= maxY; y++) {

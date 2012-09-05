@@ -163,8 +163,11 @@ static float INITIAL_SPAN = 0.001;
 {
     
     TileOverlayView *view = [[TileOverlayView alloc] initWithOverlay:ovrlay];
-    Overlay *ovrly =  [[AppModel sharedAppModel].overlayList objectAtIndex:0];
-    view.tileAlpha =  ovrly.alpha;
+    Overlay *ovrly =  [[AppModel sharedAppModel].overlayList objectAtIndex:0]; //GWS: need to fix this?
+    //view.tileAlpha =  ovrly.alpha;
+    view.tileAlpha = 1;
+    
+    [AppModel sharedAppModel].overlayIsVisible = true;
     
     return view;
 }
@@ -181,7 +184,7 @@ static float INITIAL_SPAN = 0.001;
     int iOverlays = [[AppModel sharedAppModel].overlayList count];
     
     for (int i = 0; i < iOverlays; i++) {
-        overlay = [[TileOverlay alloc] initWithOverlayID: i];
+        overlay = [[TileOverlay alloc] initWithIndex: i];
         if (overlay != NULL) {
             [overlayArray addObject:overlay];
             [mapView addOverlay:overlay];
@@ -231,6 +234,7 @@ static float INITIAL_SPAN = 0.001;
             
             if ([AppModel sharedAppModel].loggedIn && ([AppModel sharedAppModel].currentGame.gameId != 0 && [AppModel sharedAppModel].playerId != 0)) {
                 [[AppServices sharedAppServices] fetchLocationList];
+                [[AppServices sharedAppServices] fetchOverlayListAsynchronously:YES];
                 [self showLoadingIndicator];
             }
             

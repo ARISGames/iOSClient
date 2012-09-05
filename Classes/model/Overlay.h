@@ -13,6 +13,7 @@
 @interface Overlay : NSObject {
     
     int overlayId;
+    int index;
     NSString *name;
     NSString *description;
     CGFloat alpha;
@@ -29,6 +30,7 @@
 
 
 @property(readwrite, assign) int overlayId;
+@property(readwrite, assign) int index;
 @property(readwrite, assign) int sort_order;
 @property(readwrite, assign) int num_tiles;
 

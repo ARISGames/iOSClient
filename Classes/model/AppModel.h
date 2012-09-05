@@ -67,6 +67,8 @@ extern NSDictionary *InventoryElements;
     NSArray *defaultGameTabList;
 
     UIProgressView *progressBar;
+    
+    BOOL overlayIsVisible;
 
 	//Training Flags
 	BOOL hasSeenNearbyTabTutorial;
@@ -97,6 +99,8 @@ extern NSDictionary *InventoryElements;
 @property(readwrite) BOOL isGameNoteList;
 
 @property(readwrite) BOOL hasReceivedMediaList;
+
+@property(readwrite) BOOL overlayIsVisible;
 
 
 @property(nonatomic) NSString *userName;

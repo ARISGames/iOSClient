@@ -1,3 +1,26 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //
 //  AppServices.m
 //  ARIS
@@ -1061,11 +1084,12 @@ NSString *const kARISServerServicePackage = @"v1";
 - (void)fetchOverlayListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
 	NSLog(@"AppModel: Fetching Map Overlay List");
 	
-	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], nil];
+	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId], 
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId], nil];
     
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
                                                             andServiceName:@"overlays"
-                                                             andMethodName:@"getOverlays"
+                                                             andMethodName:@"getCurrentOverlaysForPlayer"
                                                               andArguments:arguments andUserInfo:nil];
 	
 	if (YesForAsyncOrNoForSync){
@@ -1079,13 +1103,15 @@ NSString *const kARISServerServicePackage = @"v1";
     
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RecievedOverlayList" object:nil]];
    
-    if ([jsonResult.hash isEqualToString:[[AppModel sharedAppModel] overlayListHash]]) {
+    if ([jsonResult.hash isEqualToString:[[AppModel sharedAppModel] overlayListHash]] && [AppModel sharedAppModel].overlayIsVisible ==true) {
 		NSLog(@"AppModel: Hash is same as last overlay list update, continue");
-		return;
+        
+        return;
 	}
 	
 	
 	//Save this hash for later comparisions
+    [AppModel sharedAppModel].overlayIsVisible = false;
 	[AppModel sharedAppModel].overlayListHash = [jsonResult.hash copy];
     
     
@@ -1098,6 +1124,7 @@ NSString *const kARISServerServicePackage = @"v1";
     NSDictionary *overlayDictionary;
     // step through results and create overlays
     int currentOverlayID = -1;
+    int i = 0;
     while (overlayDictionary = [overlayListEnumerator nextObject]) {
         // if new overlay in database
         if (currentOverlayID != [[overlayDictionary valueForKey:@"overlay_id"] intValue]) {
@@ -1105,7 +1132,8 @@ NSString *const kARISServerServicePackage = @"v1";
             [tempOverlayList addObject:tempOverlay];
             
             // create new overlay
-            tempOverlay.overlayId = [[overlayDictionary valueForKey:@"game_overlay_id"] intValue];
+            tempOverlay.index = i;
+            tempOverlay.overlayId = [[overlayDictionary valueForKey:@"overlay_id"] intValue];
             tempOverlay.num_tiles = [[overlayDictionary valueForKey:@"num_tiles"] intValue];
             //tempOverlay.alpha = [[overlayDictionary valueForKey:@"alpha"] floatValue] ;
             tempOverlay.alpha = 1.0;
@@ -1117,7 +1145,7 @@ NSString *const kARISServerServicePackage = @"v1";
             Media *media = [[AppModel sharedAppModel] mediaForMediaId:[[overlayDictionary valueForKey:@"media_id"] intValue]];
             [tempOverlay.tileImage addObject:media];
             currentOverlayID = tempOverlay.overlayId;
-            
+            i = i + 1;
         } else { 
             // add tiles to existing overlay
             [tempOverlay.tileFileName addObject:[overlayDictionary valueForKey:@"file_name"]];

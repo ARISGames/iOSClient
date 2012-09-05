@@ -11,6 +11,7 @@
 @implementation Overlay
 
 @synthesize overlayId;
+@synthesize index;
 @synthesize name;
 @synthesize description;
 @synthesize alpha;

@@ -70,11 +70,11 @@
 
 // Initialize the TileOverlay with a directory structure containing map tile images.
 // The directory structure must conform to the output of the gdal2tiles.py utility.
-- (id)initWithOverlayID:(int) overlayID;
+- (id)initWithIndex:(int) index;
 - (id)initWithTileDirectory:(NSString *)tileDirectory;
 
 // Return an array of ImageTile objects for the given MKMapRect and MKZoomScale
-- (NSArray *)tilesInMapRect:(MKMapRect)rect zoomScale:(MKZoomScale)scale withOverlayID:(int)overlayID;
+- (NSArray *)tilesInMapRect:(MKMapRect)rect zoomScale:(MKZoomScale)scale withIndex:(int)index;
 - (NSArray *)tilesInMapRect:(MKMapRect)rect zoomScale:(MKZoomScale)scale;
 
 @end

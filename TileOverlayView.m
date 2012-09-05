@@ -57,7 +57,7 @@
 - (id)initWithOverlay:(id <MKOverlay>)overlay
 {
     if (self = [super initWithOverlay:overlay]) {
-        tileAlpha = 0.75;
+        tileAlpha = 1;
     }
     return self;
 }
@@ -66,10 +66,18 @@
              zoomScale:(MKZoomScale)zoomScale
 {
     // Return YES only if there are some tiles in this mapRect and at this zoomScale.
+    
+    NSArray *tilesInRect;
+    int iOverlays = [[AppModel sharedAppModel].overlayList count];
     TileOverlay *tileOverlay = (TileOverlay *)self.overlay;
-    NSArray *tilesInRect = [tileOverlay tilesInMapRect:mapRect zoomScale:zoomScale withOverlayID:0];  // just zero now to get something to work.  need to change it later to have it be index of overlay object
-    //NSArray *tilesInRect = [tileOverlay tilesInMapRect:mapRect zoomScale:zoomScale];
-    return [tilesInRect count] > 0;    
+    for (int i = 0; i < iOverlays; i++) {
+        tilesInRect = [tileOverlay tilesInMapRect:mapRect zoomScale:zoomScale withIndex:i];
+        
+        if ([tilesInRect count] > 0)
+            return true;
+    }
+
+     return false;    
 }
 
 - (void)drawMapRect:(MKMapRect)mapRect
@@ -87,7 +95,7 @@
         //NSString *tileFolderTitle = [NSString stringWithFormat:@"OverlayTiles%i",0];
         //NSString *tileDirectory = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:tileFolderTitle];
         //overlay = [[TileOverlay alloc] initWithTileDirectory:tileDirectory];
-        tilesInRect = [tileOverlay tilesInMapRect:mapRect zoomScale:zoomScale withOverlayID:i];
+        tilesInRect = [tileOverlay tilesInMapRect:mapRect zoomScale:zoomScale withIndex:i];
         //NSArray *tilesInRect = [tileOverlay tilesInMapRect:mapRect zoomScale:zoomScale];
 
     }
