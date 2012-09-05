@@ -55,7 +55,6 @@
 									target:self 
 									action:@selector(backButtonTouchAction:)];	
     
-    
     //Create a URL object.
     NSString *urlAddress = self.webPage.url;
     
@@ -195,7 +194,7 @@
         if ([components count] > 1 && 
             [[components objectAtIndex:1] isEqualToString:@"id"]) 
         {
-            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"setPlayerId(%@);",[AppModel sharedAppModel].playerId]];
+            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"setPlayerId(%d);",[AppModel sharedAppModel].playerId]];
             [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
             return NO; 
         }
