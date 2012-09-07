@@ -31,14 +31,14 @@
 @synthesize completeNodeId;
 @synthesize completedQuests;
 @synthesize totalQuests;
-@synthesize numReviews;
+@synthesize numReviews, reviewedByUser;
 @synthesize calculatedScore,isLocational, activeQuests,iconMedia,currentWeight;
 @synthesize allowsPlayerTags,splashMedia,allowNoteComments,allowNoteLikes,allowShareNoteToMap,allowShareNoteToList,allowTrading;
 
 - (id) init{
 	if ((self = [super init])) {
 		self.comments = [NSMutableArray arrayWithCapacity:5];
-        
+        self.reviewedByUser = NO;
 	}
 	return self;
 }

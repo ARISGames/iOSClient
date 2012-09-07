@@ -24,5 +24,4 @@
 @property(nonatomic) IBOutlet UITableView *tableView;
 @property(nonatomic) int defaultRating;
 @property(nonatomic) Game *game;
-@property(nonatomic) BOOL reviewed;
 @end

@@ -65,7 +65,7 @@
         else comment.text = self.textField.text;
         comment.rating = self.ratingView.userRating;
         self.game.rating = self.ratingView.userRating;
-        comment.playerName = @"You";
+        comment.playerName = NSLocalizedString(@"DialogPlayerName", @"");
         [self.commentsVC addComment:comment];
         [self.commentsVC.tableView reloadData];
         //End client side manipulation
