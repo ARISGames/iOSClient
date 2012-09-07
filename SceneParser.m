@@ -85,7 +85,7 @@ NSString *const kTagVibrate = @"vibrate";
             mediaId = [attributeDict objectForKey:kTagMedia] ? [[attributeDict objectForKey:kTagMedia]intValue] : 0;
         }
         if ([attributeDict objectForKey:kTagVibrate]) {
-            vibrate = YES;
+            if([[attributeDict objectForKey:kTagMedia]intValue] > 0) vibrate = YES;
         }
     }    
     
