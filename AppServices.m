@@ -2378,7 +2378,8 @@ NSString *const kARISServerServicePackage = @"v1";
         if(!note) note = [[AppModel sharedAppModel]noteForNoteId:location.objectId playerListYesGameListNo:NO];
         if(!note)
             NSLog(@"this shouldn't happen");
-        if(note)location.allowsQuickTravel = YES;
+        if(note && note.showOnList)location.allowsQuickTravel = YES;
+        else location.allowsQuickTravel = NO;
     }
     return location;
 }
