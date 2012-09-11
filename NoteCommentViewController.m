@@ -53,11 +53,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.parentNote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteId playerListYesGameListNo:NO];
-    if(!self.parentNote) self.parentNote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteId playerListYesGameListNo:YES];
-    if(!self.parentNote)
+    Note *tnote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteId playerListYesGameListNo:NO];
+    if(!tnote) tnote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteId playerListYesGameListNo:YES];
+    if(!tnote)
         NSLog(@"this shouldn't happen");
+    self.parentNote = tnote;
     
     hideKeyboardButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"SaveCommentKey", @"") style:UIBarButtonItemStylePlain target:self action:@selector(hideKeyboard)];
     //self.navigationItem.rightBarButtonItem = hideKeyboardButton;
