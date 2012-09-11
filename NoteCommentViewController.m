@@ -54,7 +54,10 @@
 {
     [super viewDidLoad];
     
-    self.parentNote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteId playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
+    self.parentNote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteId playerListYesGameListNo:NO];
+    if(!self.parentNote) self.parentNote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteId playerListYesGameListNo:YES];
+    if(!self.parentNote)
+        NSLog(@"this shouldn't happen");
     
     hideKeyboardButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"SaveCommentKey", @"") style:UIBarButtonItemStylePlain target:self action:@selector(hideKeyboard)];
     //self.navigationItem.rightBarButtonItem = hideKeyboardButton;
@@ -95,7 +98,11 @@
 }
 
 -(void)addUploadsToComments{
-    self.parentNote = [[AppModel sharedAppModel] noteForNoteId: self.parentNote.noteId playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
+    Note *note = [[AppModel sharedAppModel] noteForNoteId: self.parentNote.noteId playerListYesGameListNo:YES];
+    if(!note) note = [[AppModel sharedAppModel] noteForNoteId: self.parentNote.noteId playerListYesGameListNo:NO];
+    if(!note)
+        NSLog(@"this shouldn't happen");
+    self.parentNote = note;
     for(int i = 0; i < [self.parentNote.comments count];i++){
         Note *currNote = [self.parentNote.comments objectAtIndex:i];
         for(int x = [currNote.contents count]-1; x >= 0; x--){

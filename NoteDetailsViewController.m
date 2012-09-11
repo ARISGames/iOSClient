@@ -149,7 +149,14 @@
 
 -(void)addUploadsToNote{
     if(![self.delegate isKindOfClass:[Note class]])
-        self.note = [[AppModel sharedAppModel] noteForNoteId: self.note.noteId playerListYesGameListNo:![AppModel sharedAppModel].isGameNoteList];
+    {
+        Note *tnote = [[AppModel sharedAppModel] noteForNoteId: self.note.noteId playerListYesGameListNo:YES];
+        if(!tnote)
+            tnote = [[AppModel sharedAppModel] noteForNoteId: self.note.noteId playerListYesGameListNo:NO];
+        if(!tnote)
+            NSLog(@"this shouldn't happen");
+        self.note = note;
+    }
     for(int x = [self.note.contents count]-1; x >= 0; x--){
         if(![[[self.note.contents objectAtIndex:x] getUploadState] isEqualToString:@"uploadStateDONE"])
             [self.note.contents removeObjectAtIndex:x];

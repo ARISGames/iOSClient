@@ -83,9 +83,11 @@
 		return [[AppModel sharedAppModel] npcForNpcId: objectId]; 
 	}
     if (self.kind == NearbyObjectNote) {
-        if([[AppModel sharedAppModel] noteForNoteId:objectId playerListYesGameListNo:NO])
-            return  [[AppModel sharedAppModel] noteForNoteId:objectId playerListYesGameListNo:NO];
-        else return  [[AppModel sharedAppModel] noteForNoteId:objectId playerListYesGameListNo:YES];
+        Note * note = [[AppModel sharedAppModel] noteForNoteId:objectId playerListYesGameListNo:NO];
+        if(!note) note = [[AppModel sharedAppModel] noteForNoteId:objectId playerListYesGameListNo:YES];
+        if(!note)
+            NSLog(@"this shouldn't happen");
+        return note;
     }
 	else return nil;
 	

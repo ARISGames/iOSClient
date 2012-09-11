@@ -1064,6 +1064,8 @@ NSString *const kARISServerServicePackage = @"v1";
 	[self fetchGameMediaListAsynchronously:YES];
     [self fetchGamePanoramicListAsynchronously:YES];
     [self fetchGameWebpageListAsynchronously:YES];
+    [self fetchPlayerNoteListAsynchronously:YES];
+    [self fetchGameNoteListAsynchronously:NO];
     
 }
 
@@ -1077,8 +1079,8 @@ NSString *const kARISServerServicePackage = @"v1";
     [[AppModel sharedAppModel].gameMediaList removeAllObjects];
     [[AppModel sharedAppModel].gameWebPageList removeAllObjects];
     [[AppModel sharedAppModel].gamePanoramicList removeAllObjects];
-    
-    
+    [[AppModel sharedAppModel].playerNoteList removeAllObjects];
+    [[AppModel sharedAppModel].gameNoteList removeAllObjects];
 }
 
 - (void)fetchOverlayListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
@@ -1964,7 +1966,7 @@ NSString *const kARISServerServicePackage = @"v1";
     
     if ([jsonResult.hash isEqualToString:[AppModel sharedAppModel].gameNoteListHash]) {
 		NSLog(@"AppModel: Hash is same as last game note list update, continue");
-		return;
+		//return;
 	}
 	
 	//Save this hash for later comparisions
@@ -1994,7 +1996,7 @@ NSString *const kARISServerServicePackage = @"v1";
     NSLog(@"Parsing Player Note List");
     if ([jsonResult.hash isEqualToString:[AppModel sharedAppModel].playerNoteListHash]) {
 		NSLog(@"AppModel: Hash is same as last player note list update, continue");
-		return;
+		//return;
 	}
 	
 	//Save this hash for later comparisions
@@ -2373,6 +2375,9 @@ NSString *const kARISServerServicePackage = @"v1";
     
     if(location.objectType &&[location.objectType isEqualToString:@"PlayerNote"]){
         Note *note = [[AppModel sharedAppModel]noteForNoteId:location.objectId playerListYesGameListNo:YES];
+        if(!note) note = [[AppModel sharedAppModel]noteForNoteId:location.objectId playerListYesGameListNo:NO];
+        if(!note)
+            NSLog(@"this shouldn't happen");
         if(note)location.allowsQuickTravel = YES;
     }
     return location;
