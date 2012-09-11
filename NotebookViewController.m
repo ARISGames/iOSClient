@@ -200,6 +200,14 @@ BOOL tagFilter;
     
 	noteList = [[[AppModel sharedAppModel].playerNoteList allValues] mutableCopy];
     gameNoteList = [[[AppModel sharedAppModel].gameNoteList allValues] mutableCopy];
+    for(int i = 0; i < [gameNoteList count]; i++)
+    {
+        if(!((Note *)[gameNoteList objectAtIndex:i]).showOnList)
+        {
+            [gameNoteList removeObjectAtIndex:i];
+            i--;
+        }
+    }
     
     if([AppModel sharedAppModel].gameTagList){
         self.tagList = [AppModel sharedAppModel].gameTagList;
