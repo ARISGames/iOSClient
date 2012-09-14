@@ -94,7 +94,7 @@
 - (void)drawViewInternally
 {
 	[super drawViewInternally];
-	if(!isValidForFov && !isValidForOrientation)
+	if(!isValidForFov && !isValidForOrientation && isScrollingEnabled)
 		[scene.currentCamera rotateWithStartPoint:startPoint endPoint:endPoint sensitivity:scene.currentCamera.rotateSensitivity];
 	[renderer render];
 }

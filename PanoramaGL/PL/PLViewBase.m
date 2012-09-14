@@ -143,7 +143,7 @@
 	deviceOrientationSupported = PLOrientationSupportedAll;
 	
 	isScrollingEnabled = NO;
-	minDistanceToEnableScrolling = kDefaultMinDistanceToEnableScrolling;
+	minDistanceToEnableScrolling = 100000;//kDefaultMinDistanceToEnableScrolling;
 	
 	isInertiaEnabled = YES;
 	inertiaInterval = kDefaultInertiaInterval;
@@ -321,7 +321,7 @@
 - (BOOL)calculateFov:(NSSet *)touches
 {
 	if(![self executeResetAction:touches] && [touches count] == 2)
-	{				
+	{
 		startPoint = [[[touches allObjects] objectAtIndex:0] locationInView:self];
 		endPoint = [[[touches allObjects] objectAtIndex:1] locationInView:self];
 		
@@ -350,6 +350,7 @@
 
 - (BOOL)executeDefaultAction:(NSSet *)touches
 {
+    return NO;
 	if(isValidForFov)
 		[self calculateFov:touches];
 	else
@@ -419,7 +420,7 @@
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event 
-{	
+{
 	if(isValidForFov)
 		return;
 	
@@ -477,7 +478,15 @@
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{ 	
+{
+    [self stopAnimationInternally];
+    isScrolling = NO;
+    
+    if(delegate && [delegate respondsToSelector:@selector(view:didEndScrolling:endPoint:)])
+        [delegate view:self didEndScrolling:startPoint endPoint:endPoint];
+    
+    return;
+
 	NSSet *eventTouches = [event allTouches];
 	
 	if(![self isTouchInView:eventTouches])
@@ -882,7 +891,7 @@
 
 - (BOOL)resetWithShake:(UIAcceleration *)acceleration
 {
-	if(!isShakeResetEnabled || !isResetEnabled || isValidForOrientation)
+	if(!isAccelerometerEnabled || !isShakeResetEnabled || !isResetEnabled || isValidForOrientation)
 		return NO;
 	
 	BOOL result = NO;

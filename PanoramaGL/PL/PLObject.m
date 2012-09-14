@@ -117,8 +117,12 @@
 
 - (void)rotateWithStartPoint:(CGPoint)startPoint endPoint:(CGPoint)endPoint sensitivity:(float)sensitivity
 {
-	//self.pitch += (endPoint.y - startPoint.y) / sensitivity;
-	//self.yaw += (startPoint.x - endPoint.x) / sensitivity;
+    //Note- uses setter functions to excecute actual changes in pitch rather than setting the variables 'pitch' and 'yaw'... tsk tsk tsk...
+    //NSLog(@"start:%f %f end:%f %f",startPoint.x,startPoint.y,endPoint.x,endPoint.y);
+	//self.pitch = (endPoint.y - startPoint.y) / sensitivity;
+	//self.yaw = (startPoint.x - endPoint.x) / sensitivity;
+    [self setScrollPitch:((endPoint.y - 208) / (sensitivity*3))];
+    [self setScrollYaw:((160 - endPoint.x) / (sensitivity*3))];
 }
 
 #pragma mark -
@@ -184,6 +188,12 @@
 	if(isPitchEnabled)
 		rotation.pitch = [PLMath normalizeAngle:value range:pitchRange];
 }
+
+- (void)setScrollPitch:(float)value
+{
+	if(isPitchEnabled)
+		rotation.pitch += [PLMath normalizeAngle:value range:pitchRange];
+}
 		
 - (float)getYaw
 {
@@ -194,6 +204,12 @@
 {
 	if(isYawEnabled)
 		rotation.yaw = [PLMath normalizeAngle:value range:PLRangeMake(-yawRange.max, -yawRange.min)];
+}
+
+- (void)setScrollYaw:(float)value
+{
+    if(isYawEnabled)
+		rotation.yaw += [PLMath normalizeAngle:value range:PLRangeMake(-yawRange.max, -yawRange.min)];
 }
 
 - (float)getRoll

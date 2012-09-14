@@ -87,7 +87,7 @@
         plView.isGyroEnabled = NO;
         plView.isAccelerometerEnabled = NO;
         plView.isScrollingEnabled = YES;
-        plView.isInertiaEnabled = YES;
+        plView.isInertiaEnabled = NO;
     }
     
     self.numTextures = [self.panoramic.media count];
