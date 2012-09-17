@@ -107,6 +107,7 @@
 	NSLog(@"Library Button Pressed");
     picker = [[UIImagePickerController alloc]init];
     picker.delegate = self;
+    picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
 	picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     
 	[self presentModalViewController:picker animated:NO];
