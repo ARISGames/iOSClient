@@ -617,10 +617,10 @@ BOOL isShowingNotification;
     //NSDictionary *loginObject = [notification object];
 	NSDictionary *userInfo = notification.userInfo;
 	Game *selectedGame = [userInfo objectForKey:@"game"];
+    [AppServices sharedAppServices].currentlyInteractingWithObject = NO;
     
 	NSLog(@"AppDelegate: Game Selected. '%@' game was selected", selectedGame.name);
 	
-    
     //Put it onscreen
     //CGContextRef context = UIGraphicsGetCurrentContext();
     //  [UIView beginAnimations:nil context:context];
@@ -629,12 +629,7 @@ BOOL isShowingNotification;
     self.gameSelectionTabBarController.view.hidden = YES;
     self.loginViewNavigationController.view.hidden = YES;
     
-    
-    
-    
     // [UIView commitAnimations];
-    
-    
     
     [self returnToHomeView];
 	
@@ -646,12 +641,12 @@ BOOL isShowingNotification;
     [[AppServices sharedAppServices] fetchTabBarItemsForGame: selectedGame.gameId];
 	[[AppServices sharedAppServices] resetAllPlayerLists];
     [[AppServices sharedAppServices] resetAllGameLists];
+    [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] resetCurrentlyFetchingVars];
 	[tutorialViewController dismissAllTutorials];
 	
 	//Notify the Server
 	NSLog(@"AppDelegate: Game Selected. Notifying Server");
 	[[AppServices sharedAppServices] updateServerGameSelected];
-	
 	
 	UINavigationController *navigationController;
 	
@@ -664,15 +659,13 @@ BOOL isShowingNotification;
 	}
 	
     //Start loading all the data
-    [[AppServices sharedAppServices] fetchAllGameLists];
-	[[AppServices sharedAppServices] fetchAllPlayerLists];
-    [AppModel sharedAppModel].hasReceivedMediaList = NO;
-    
-    
     loadingVC = [[LoadingViewController alloc]initWithNibName:@"LoadingViewController" bundle:nil];
     loadingVC.progressLabel.text = NSLocalizedString(@"ARISAppDelegateFectchingGameListsKey", @"");
     [self.tabBarController presentModalViewController:self.loadingVC animated:NO];
     
+    [[AppServices sharedAppServices] fetchAllGameLists];
+	[[AppServices sharedAppServices] fetchAllPlayerLists];
+    [AppModel sharedAppModel].hasReceivedMediaList = NO;
 }
 
 -(void)changeTabBar{
