@@ -89,6 +89,7 @@
 
 -(void)refresh{
     self.currentPage = 0;
+    self.theSearchBar.text = self.searchText;
     [self performSearch:self.searchText];
 }
 
