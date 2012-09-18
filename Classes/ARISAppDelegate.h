@@ -14,12 +14,13 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVAudioPlayer.h>
+#import <CoreMotion/CoreMotion.h>
 
 #import "Reachability.h"
 
 
 
-@interface ARISAppDelegate : NSObject <AVAudioPlayerDelegate,UIApplicationDelegate> {
+@interface ARISAppDelegate : NSObject <AVAudioPlayerDelegate,UIApplicationDelegate, UIAccelerometerDelegate> {
 	UIWindow *window;
     AVAudioPlayer *player;
 }
@@ -32,4 +33,5 @@
 - (void) stopAudio;
 - (BOOL) application:(UIApplication *)application handleOpenURL:(NSURL *)url;
 - (void) resetCurrentlyFetchingVars;
+- (void) startMyMotionDetect;
 @end

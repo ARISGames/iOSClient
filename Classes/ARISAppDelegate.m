@@ -10,6 +10,9 @@
 
 @implementation ARISAppDelegate
 
+int readingCountUpToOneHundredThousand = 0;
+int steps = 0;
+
 @synthesize window;
 @synthesize player;
 
@@ -45,6 +48,8 @@
 	NSString *currentLanguage = [languages objectAtIndex:0];
 	NSLog(@"Current Locale: %@", [[NSLocale currentLocale] localeIdentifier]);
 	NSLog(@"Current language: %@", currentLanguage);
+    
+    //[[UIAccelerometer sharedAccelerometer] setUpdateInterval:0.2];
 
     if([window respondsToSelector:@selector(setRootViewController:)])
         [window setRootViewController:[RootViewController sharedRootViewController]];
@@ -82,6 +87,55 @@
     [[AppModel sharedAppModel] saveCOREData];
 }
 
+- (void)startMyMotionDetect
+{
+    if(![AppModel sharedAppModel].motionManager.accelerometerAvailable) { 
+        NSLog(@"Accelerometer not available");
+    } else { 
+        [AppModel sharedAppModel].motionManager.accelerometerUpdateInterval = 0.2;
+        NSOperationQueue *motionQueue = [[NSOperationQueue alloc] init]; 
+        [[AppModel sharedAppModel].motionManager startAccelerometerUpdatesToQueue: motionQueue withHandler:
+         ^(CMAccelerometerData *data, NSError *error) { [self accelerometerData: data errorMessage: error];}
+         ];
+    }
+}
+
+- (void)accelerometerData:(CMAccelerometerData *)data errorMessage:(NSError *)error {
+    float minAccelX = 1.2;
+    float minAccelY = 1.2;
+    float minAccelZ = 1.2;
+    [AppModel sharedAppModel].averageAccelerometerReadingX = ([AppModel sharedAppModel].averageAccelerometerReadingX + data.acceleration.x)/2;
+    [AppModel sharedAppModel].averageAccelerometerReadingY = ([AppModel sharedAppModel].averageAccelerometerReadingY + data.acceleration.y)/2;
+    [AppModel sharedAppModel].averageAccelerometerReadingZ = ([AppModel sharedAppModel].averageAccelerometerReadingZ + data.acceleration.z)/2;
+    if(readingCountUpToOneHundredThousand >= 100000){
+        minAccelX = [AppModel sharedAppModel].averageAccelerometerReadingX * 2;
+        minAccelY = [AppModel sharedAppModel].averageAccelerometerReadingY * 2;
+        minAccelZ = [AppModel sharedAppModel].averageAccelerometerReadingZ * 2;
+    }
+    else readingCountUpToOneHundredThousand++;
+    static BOOL beenhere;
+    BOOL shake = FALSE;
+    if (beenhere) return;
+    beenhere = TRUE;
+    if (data.acceleration.x > minAccelX || data.acceleration.x < (-1* minAccelX)){
+        shake = TRUE;
+        NSLog(@"Shaken X: %f", data.acceleration.x);
+    }
+    if (data.acceleration.y > minAccelY || data.acceleration.y < (-1* minAccelY)){
+        shake = TRUE;
+        NSLog(@"Shaken Y: %f", data.acceleration.y);
+    }
+    if (data.acceleration.z > minAccelZ || data.acceleration.z < (-1* minAccelZ)){
+        shake = TRUE;
+            NSLog(@"Shaken Z: %f", data.acceleration.x);
+    }
+    if (shake) {
+        steps++;
+        [self playAudioAlert:@"pingtone" shouldVibrate:YES]; 
+    }
+    beenhere = false;
+    NSLog(@"Number of steps: %d", steps);
+} 
 
 #pragma mark - Audio
 

@@ -27,6 +27,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <CoreMotion/CoreMotion.h>
 
+#import "AppModel.h"
 #import "PLEnums.h"
 #import "PLMath.h"
 #import "PLScene.h"
@@ -43,8 +44,7 @@
 {
 	PLRenderer * renderer;
 	PLScene * scene;
-	
-    CMMotionManager *motionManager;
+    
     CMAttitude *referenceAttitude;
     
     NSTimer *animationTimer;
@@ -86,6 +86,8 @@
 
 @property(nonatomic, readonly, getter=getCamera) PLCamera * camera;
 
+@property(nonatomic, retain) CMAttitude *referenceAttitude;
+
 @property(nonatomic) NSTimeInterval animationInterval;
 
 @property(nonatomic) BOOL isDeviceOrientationEnabled;
@@ -110,8 +112,6 @@
 
 @property(nonatomic, assign) NSObject<PLViewDelegate> *delegate;
 
-@property(nonatomic, retain) CMMotionManager *motionManager;
-@property(nonatomic, retain) CMAttitude *referenceAttitude;
 @property(nonatomic, retain) NSTimer *gyroTimer;
 
 - (PLCamera *)getCamera;

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CLLocation.h>
+#import <CoreMotion/CoreMotion.h>
 #import <CoreData/CoreData.h>
 #import "Game.h"
 #import "Item.h"
@@ -23,7 +24,7 @@
 
 extern NSDictionary *InventoryElements;
 
-@interface AppModel : NSObject {
+@interface AppModel : NSObject <UIAccelerometerDelegate>{
 	NSUserDefaults *defaults;
 	NSURL *serverURL;
     BOOL showGamesInDevelopment;
@@ -31,6 +32,8 @@ extern NSDictionary *InventoryElements;
     BOOL inGame;
 	Game *currentGame;
 	UIAlertView *networkAlert;
+    
+    CMMotionManager *motionManager;
 	
 	BOOL loggedIn;
 	int playerId;
@@ -70,6 +73,11 @@ extern NSDictionary *InventoryElements;
     
     BOOL overlayIsVisible;
 
+    //Accelerometer Data
+    float averageAccelerometerReadingX;
+    float averageAccelerometerReadingY;
+    float averageAccelerometerReadingZ;
+    
 	//Training Flags
 	BOOL hasSeenNearbyTabTutorial;
 	BOOL hasSeenQuestsTabTutorial;
@@ -93,6 +101,8 @@ extern NSDictionary *InventoryElements;
 @property(readwrite) BOOL showPlayerOnMap;
 @property(readwrite) BOOL inGame;
 
+@property(nonatomic, retain) CMMotionManager *motionManager;
+
 @property(readwrite) BOOL profilePic;
 
 @property(readwrite) BOOL hidePlayers;
@@ -102,6 +112,9 @@ extern NSDictionary *InventoryElements;
 
 @property(readwrite) BOOL overlayIsVisible;
 
+@property(readwrite) float averageAccelerometerReadingX;
+@property(readwrite) float averageAccelerometerReadingY;
+@property(readwrite) float averageAccelerometerReadingZ;
 
 @property(nonatomic) NSString *userName;
 @property(nonatomic) NSString *password;

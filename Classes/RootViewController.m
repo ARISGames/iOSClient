@@ -310,9 +310,9 @@ BOOL isShowingNotification;
 }
 
 -(void)showNotifications{
-    NSLog(@"AppDelegate: showNotifications");
+    NSLog(@"RootViewController: showNotifications");
     if([self.notifArray count]>0) {
-        NSLog(@"AppDelegate: showNotifications: We have something to display");
+        NSLog(@"RootViewController: showNotifications: We have something to display");
         if(!isShowingNotification){//lower frame into position if its not already there
             isShowingNotification = YES;
             [self.view addSubview:self.titleLabel];
@@ -321,7 +321,7 @@ BOOL isShowingNotification;
             [UIView beginAnimations:nil context:nil];
             [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
             [UIView setAnimationDuration:.5];
-            NSLog(@"AppDelegate: showNotifications: Begin Resizing");
+            NSLog(@"RootViewController: showNotifications: Begin Resizing");
             NSLog(@"TabBC frame BEFORE origin: %f",self.tabBarController.view.frame.origin.y);
             
             [[UIApplication sharedApplication] setStatusBarHidden:YES];
@@ -335,7 +335,7 @@ BOOL isShowingNotification;
             [UIView commitAnimations];
         }
         NSLog(@"TabBC frame AFTER origin: %f",self.tabBarController.view.frame.origin.y);
-        NSLog(@"AppDelegate: showNotifications: Set Text and Init alpha");
+        NSLog(@"RootViewController: showNotifications: Set Text and Init alpha");
         
         titleLabel.alpha = 0.0;
         descLabel.alpha = 0.0;
@@ -343,18 +343,18 @@ BOOL isShowingNotification;
         descLabel.text = [[notifArray objectAtIndex:0] objectForKey:@"prompt"];
         
         [UIView animateWithDuration:1.5 delay:0.0 options:UIViewAnimationCurveEaseIn animations:^{
-            NSLog(@"AppDelegate: showNotifications: Begin Fade in");
+            NSLog(@"RootViewController: showNotifications: Begin Fade in");
             self.titleLabel.alpha = 1.0;
             self.descLabel.alpha = 1.0;
         }completion:^(BOOL finished){
             if(finished){
-                NSLog(@"AppDelegate: showNotifications: Fade in Complete, Begin Fade Out");
+                NSLog(@"RootViewController: showNotifications: Fade in Complete, Begin Fade Out");
                 [UIView animateWithDuration:1.5 delay:0.0 options:UIViewAnimationCurveEaseIn animations:^{
                     self.titleLabel.alpha = 0.0;
                     self.descLabel.alpha = 0.0;
                 }completion:^(BOOL finished){
                     if(finished){
-                        NSLog(@"AppDelegate: showNotifications: Fade Out Complete, Pop and Start over");
+                        NSLog(@"RootViewController: showNotifications: Fade Out Complete, Pop and Start over");
                         if([notifArray count] > 0) [self.notifArray removeObjectAtIndex:0];
                         [self showNotifications];
                     }
@@ -420,13 +420,13 @@ BOOL isShowingNotification;
 		[self.serverAlert show];	
  	}
 	else {
-		NSLog(@"AppDelegate: showServerAlertWithEmail was called, but a server alert was already present");
+		NSLog(@"RootViewController: showServerAlertWithEmail was called, but a server alert was already present");
 	}
     
 }
 
 - (void) showNetworkAlert{
-	NSLog (@"AppDelegate: Showing Network Alert");
+	NSLog (@"RootViewController: Showing Network Alert");
 	if (self.loadingVC) {
         [self.loadingVC dismissModalViewControllerAnimated:NO];
         [self tabBarController].selectedIndex = 0;
@@ -442,7 +442,7 @@ BOOL isShowingNotification;
 }
 
 - (void) removeNetworkAlert {
-	NSLog (@"AppDelegate: Removing Network Alert");
+	NSLog (@"RootViewController: Removing Network Alert");
 	
 	if (self.networkAlert != nil) {
 		[self.networkAlert dismissWithClickedButtonIndex:0 animated:YES];
@@ -452,7 +452,7 @@ BOOL isShowingNotification;
 
 
 - (void) showNewWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar {
-	NSLog (@"AppDelegate: Showing Waiting Indicator With Message:%@",message);
+	NSLog (@"RootViewController: Showing Waiting Indicator With Message:%@",message);
 	//if (self.waitingIndicatorView) [self.waitingIndicatorView dismiss];
 	if(!self.loadingVC){
         if (self.waitingIndicatorView){ 
@@ -467,13 +467,13 @@ BOOL isShowingNotification;
 }
 
 - (void) removeNewWaitingIndicator {
-	NSLog (@"AppDelegate: Removing Waiting Indicator");
+	NSLog (@"RootViewController Removing Waiting Indicator");
 	if (self.waitingIndicatorView != nil) [self.waitingIndicatorView dismiss];
     self.waitingIndicatorView = nil;
 }
 
 - (void) showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar {
-	NSLog (@"AppDelegate: Showing Waiting Indicator");
+	NSLog (@"RootViewController: Showing Waiting Indicator");
 	if (!self.waitingIndicator) {
         WaitingIndicatorViewController *waitingIndicatorAlloc = [[WaitingIndicatorViewController alloc] initWithNibName:@"WaitingIndicator" bundle:nil];
 		self.waitingIndicator = waitingIndicatorAlloc;
@@ -487,7 +487,7 @@ BOOL isShowingNotification;
 }
 
 - (void) removeWaitingIndicator {
-	NSLog (@"AppDelegate: Removing Waiting Indicator");
+	NSLog (@"RootViewController: Removing Waiting Indicator");
 	if (self.waitingIndicator != nil) [self.waitingIndicator.view removeFromSuperview ];
 }
 
@@ -509,7 +509,7 @@ BOOL isShowingNotification;
 }
 
 - (void) returnToHomeView{
-	NSLog(@"AppDelegate: Returning to Home View and Popping More Nav Controller");
+	NSLog(@"RootViewController: Returning to Home View and Popping More Nav Controller");
     [self.tabBarController.moreNavigationController popToRootViewControllerAnimated:NO];	
 }
 
@@ -517,7 +517,7 @@ BOOL isShowingNotification;
     int nodeID = [AppModel sharedAppModel].currentGame.completeNodeId;
     if ([AppModel sharedAppModel].currentGame.completedQuests == [AppModel sharedAppModel].currentGame.totalQuests &&
         [AppModel sharedAppModel].currentGame.completedQuests > 0  && nodeID != 0) {
-        NSLog(@"AppDelegate: checkForIntroOrCompleteNodeDisplay: Displaying Complete Node");
+        NSLog(@"RootViewController: checkForIntroOrCompleteNodeDisplay: Displaying Complete Node");
 		Node *completeNode = [[AppModel sharedAppModel] nodeForNodeId:[AppModel sharedAppModel].currentGame.completeNodeId];
 		[completeNode display];
 	}
@@ -526,12 +526,12 @@ BOOL isShowingNotification;
 - (void) displayIntroNode{
     int nodeId = [AppModel sharedAppModel].currentGame.launchNodeId;
     if (nodeId && nodeId != 0) {
-        NSLog(@"AppDelegate: displayIntroNode");
+        NSLog(@"RootViewController: displayIntroNode");
         Node *launchNode = [[AppModel sharedAppModel] nodeForNodeId:[AppModel sharedAppModel].currentGame.launchNodeId];
         [launchNode display];
     }
     else{
-       NSLog(@"AppDelegate: displayIntroNode: Game did not specify an intro node, skipping");
+       NSLog(@"RootViewController: displayIntroNode: Game did not specify an intro node, skipping");
         [AppServices sharedAppServices].currentlyInteractingWithObject = NO;
     }
    // [tabBarController.viewControllers makeObjectsPerformSelector:@selector(getView)];
@@ -545,13 +545,13 @@ BOOL isShowingNotification;
         NSMutableArray *tabs = [NSMutableArray arrayWithArray:self.tabBarController.viewControllers];
         
         if (yesOrNo) {
-            NSLog(@"AppDelegate: showNearbyTab: YES");
+            NSLog(@"RootViewController: showNearbyTab: YES");
             if (![tabs containsObject:self.nearbyObjectsNavigationController]) {
                 [tabs insertObject:self.nearbyObjectsNavigationController atIndex:0];
             }
         }
         else {
-            NSLog(@"AppDelegate: showNearbyTab: NO");
+            NSLog(@"RootViewController: showNearbyTab: NO");
             
             if ([tabs containsObject:self.nearbyObjectsNavigationController]) {
                 [tabs removeObject:self.nearbyObjectsNavigationController];
@@ -576,7 +576,7 @@ BOOL isShowingNotification;
 #pragma mark Login and Game Selection
 
 - (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password {	
-	NSLog(@"AppDelegate: Attempt Login for: %@ Password: %@", userName, password);
+	NSLog(@"RootViewController: Attempt Login for: %@ Password: %@", userName, password);
 	[AppModel sharedAppModel].userName = userName;
 	[AppModel sharedAppModel].password = password;
     
@@ -586,11 +586,11 @@ BOOL isShowingNotification;
 
 
 - (void)finishLoginAttempt:(NSNotification *)notification {
-	NSLog(@"AppDelegate: Finishing Login Attempt");
+	NSLog(@"RootViewController: Finishing Login Attempt");
     
 	//handle login response
 	if([AppModel sharedAppModel].loggedIn) {
-		NSLog(@"AppDelegate: Login Success");
+		NSLog(@"RootViewController: Login Success");
         
         self.tabBarController.view.hidden = YES;
         self.gameSelectionTabBarController.view.hidden = NO;
@@ -600,8 +600,8 @@ BOOL isShowingNotification;
         
         
 	} else {
-		NSLog(@"AppDelegate: Login Failed, check for a network issue");
-		if (self.networkAlert) NSLog(@"AppDelegate: Network is down, skip login alert");
+		NSLog(@"RootViewController: Login Failed, check for a network issue");
+		if (self.networkAlert) NSLog(@"RootViewController: Network is down, skip login alert");
 		else {
 			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"LoginErrorTitleKey",@"")
 															message:NSLocalizedString(@"LoginErrorMessageKey",@"")
@@ -619,7 +619,7 @@ BOOL isShowingNotification;
 	Game *selectedGame = [userInfo objectForKey:@"game"];
     [AppServices sharedAppServices].currentlyInteractingWithObject = NO;
     
-	NSLog(@"AppDelegate: Game Selected. '%@' game was selected", selectedGame.name);
+	NSLog(@"RootViewController: Game Selected. '%@' game was selected", selectedGame.name);
 	
     //Put it onscreen
     //CGContextRef context = UIGraphicsGetCurrentContext();
@@ -645,7 +645,7 @@ BOOL isShowingNotification;
 	[tutorialViewController dismissAllTutorials];
 	
 	//Notify the Server
-	NSLog(@"AppDelegate: Game Selected. Notifying Server");
+	NSLog(@"RootViewController: Game Selected. Notifying Server");
 	[[AppServices sharedAppServices] updateServerGameSelected];
 	
 	UINavigationController *navigationController;
@@ -806,10 +806,10 @@ BOOL isShowingNotification;
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
 	//Since only the server error alert with email ever uses this, we know who we are dealing with
-	NSLog(@"AppDelegate: AlertView clickedButtonAtIndex: %d",buttonIndex);
+	NSLog(@"RootViewController: AlertView clickedButtonAtIndex: %d",buttonIndex);
 	
 	if (buttonIndex == 1) {
-		NSLog(@"AppDelegate: AlertView button wants to send an email" );
+		NSLog(@"RootViewController: AlertView button wants to send an email" );
 		//Send an Email
 		//NSString *body = [NSString stringWithFormat:@"%@",alertView.message];
         NSString * body = [NSString stringWithFormat:@"%@\n\nDetails:\n%@", errorMessage, errorDetail];
@@ -832,7 +832,7 @@ BOOL isShowingNotification;
                         error:(NSError*)error;
 {
 	if (result == MFMailComposeResultSent) {
-		NSLog(@"AppDelegate: mailComposeController result == MFMailComposeResultSent");
+		NSLog(@"RootViewController: mailComposeController result == MFMailComposeResultSent");
 	}
 	[tabBarController dismissModalViewControllerAnimated:YES];
 }
@@ -840,7 +840,7 @@ BOOL isShowingNotification;
 #pragma mark UITabBarControllerDelegate methods
 
 - (void)tabBarController:(UITabBarController *)tabBar didSelectViewController:(UIViewController *)viewController{
-    NSLog(@"AppDelegate: tabBarController didSelectViewController");	
+    NSLog(@"RootViewController: tabBarController didSelectViewController");	
     
     
     [tabBar.moreNavigationController popToRootViewControllerAnimated:NO];

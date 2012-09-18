@@ -95,7 +95,7 @@
 
 @synthesize controlTypeSupported;
 
-@synthesize motionManager, referenceAttitude;
+@synthesize referenceAttitude;
 
 @synthesize delegate;
 
@@ -127,8 +127,6 @@
 - (void)initializeValues
 {
 	animationInterval = kDefaultAnimationTimerInterval;
-	
-    motionManager = [[CMMotionManager alloc] init];
     
     referenceAttitude = nil;
     
@@ -758,7 +756,7 @@
 #pragma mark gyro methods
 
 -(void) enableGyro{
-    CMDeviceMotion *deviceMotion = motionManager.deviceMotion;      
+    CMDeviceMotion *deviceMotion = [AppModel sharedAppModel].motionManager.deviceMotion;      
     //CMAttitude *attitude = deviceMotion.attitude;
     //referenceAttitude = [attitude retain];
     self.gyroTimer = [NSTimer scheduledTimerWithTimeInterval:.03 target:self selector:@selector(getDeviceGLRotationMatrix) userInfo:nil repeats:YES];
@@ -772,7 +770,7 @@
     
    // NSLog(@"PLViewBase: getDeviceGLRotationMatrix: Camera Started at roll: %f pitch: %f yaw: %f",scene.currentCamera.roll,scene.currentCamera.pitch,scene.currentCamera.yaw);
     
-    CMAttitude *attitude = motionManager.deviceMotion.attitude;
+    CMAttitude *attitude = [AppModel sharedAppModel].motionManager.deviceMotion.attitude;
     if (!gyroInit && attitude) {
         gyroInit = YES;
         initPitch = attitude.pitch*180/M_PI;
@@ -1081,8 +1079,6 @@
 		[scene release];
     if(renderer)
 		[renderer release];
-    if(motionManager)
-        [motionManager release];
     if(referenceAttitude)
         [referenceAttitude release];
 	[super dealloc];

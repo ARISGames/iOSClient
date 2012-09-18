@@ -26,6 +26,8 @@
 @synthesize nearbyLocationsList,gameTagList;
 @synthesize hasSeenNearbyTabTutorial,hasSeenQuestsTabTutorial,hasSeenMapTabTutorial,hasSeenInventoryTabTutorial, tabsReady,hidePlayers,progressBar,isGameNoteList,uploadManager,mediaCache,hasReceivedMediaList, inGame;
 @synthesize fileToDeleteURL;
+@synthesize averageAccelerometerReadingX, averageAccelerometerReadingY, averageAccelerometerReadingZ;
+@synthesize motionManager;
 
 + (id)sharedAppModel
 {
@@ -45,6 +47,7 @@
 		//Init USerDefaults
 		defaults = [NSUserDefaults standardUserDefaults];
 		gameMediaList = [[NSMutableDictionary alloc] initWithCapacity:10];
+        motionManager = [[CMMotionManager alloc] init];
         overlayList = [[NSMutableArray alloc] initWithCapacity:10];
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(clearGameLists) name:@"NewGameSelected" object:nil];

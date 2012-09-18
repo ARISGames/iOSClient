@@ -36,7 +36,7 @@
 - (void)dealloc
 {
     
-    [plView.motionManager stopGyroUpdates];
+    [[AppModel sharedAppModel].motionManager stopGyroUpdates];
     plView.isGyroEnabled = NO;
     [plView removeFromSuperview];
     [plView stopAnimation];
@@ -77,7 +77,7 @@
      self.panoramic.textureArray = [NSArray arrayWithObjects:image1,image2,image3, nil];
      } */
     
-    if([plView.motionManager isGyroAvailable]){
+    if([[AppModel sharedAppModel].motionManager isGyroAvailable]){
         plView.isGyroEnabled = YES;
         plView.isAccelerometerEnabled = NO;
         plView.isScrollingEnabled = NO;
@@ -94,9 +94,9 @@
     //[self loadImageFromMedia:[self.panoramic.textureArray objectAtIndex:(x-1)]];
     
     if(self.numTextures > 1){
-        if (self.plView.motionManager.gyroAvailable) {
-            [self.plView.motionManager startDeviceMotionUpdates];
-            [self.plView.motionManager startGyroUpdates];
+        if ([AppModel sharedAppModel].motionManager.gyroAvailable) {
+            [[AppModel sharedAppModel].motionManager startDeviceMotionUpdates];
+            [[AppModel sharedAppModel].motionManager startGyroUpdates];
         }
         self.slider.hidden = NO;
         self.slider.minimumValue = 1;
@@ -158,9 +158,9 @@
             self.slider.hidden = NO;
     }
     
-    if (self.plView.motionManager.gyroAvailable) {
-        [self.plView.motionManager startDeviceMotionUpdates];
-        [self.plView.motionManager startGyroUpdates];
+    if ([AppModel sharedAppModel].motionManager.gyroAvailable) {
+        [[AppModel sharedAppModel].motionManager startDeviceMotionUpdates];
+        [[AppModel sharedAppModel].motionManager startGyroUpdates];
         NSLog(@"PanoVC: enable Gyro");
         [self.plView enableGyro] ;
     }
@@ -170,7 +170,7 @@
 -(void) viewDidDisappear:(BOOL)animated {
     NSLog(@"PanoVC: viewDidDisappear");
     [(Media *)[self.panoramic.textureArray objectAtIndex:0] setImage:nil];
-    [plView.motionManager stopGyroUpdates];
+    [[AppModel sharedAppModel].motionManager stopGyroUpdates];
     [plView.gyroTimer invalidate];
 }
 
