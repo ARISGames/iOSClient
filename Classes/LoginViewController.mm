@@ -69,7 +69,7 @@
 -(IBAction)loginButtonTouched: (id) sender {
 	NSLog(@"Login: Login Button Touched");
 
-	[[RootViewController sharedRootViewController] attemptLoginWithUserName:usernameField.text andPassword:passwordField.text]; 
+	[[RootViewController sharedRootViewController] attemptLoginWithUserName:usernameField.text andPassword:passwordField.text andGameId:0];
     
 	[usernameField resignFirstResponder];
 	[passwordField resignFirstResponder];
@@ -110,7 +110,10 @@
         
         if([terms objectAtIndex:0]) usernameField.text = [terms objectAtIndex:0];
         if([terms objectAtIndex:1]) passwordField.text = [terms objectAtIndex:1];
-        [[RootViewController sharedRootViewController] attemptLoginWithUserName:usernameField.text andPassword:passwordField.text];
+        if([terms count] > 2)
+            [[RootViewController sharedRootViewController] attemptLoginWithUserName:usernameField.text andPassword:passwordField.text andGameId:[[terms objectAtIndex:2] intValue]];
+        else
+            [[RootViewController sharedRootViewController] attemptLoginWithUserName:usernameField.text andPassword:passwordField.text andGameId:0];
     }
 }
 

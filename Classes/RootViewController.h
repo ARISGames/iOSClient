@@ -25,7 +25,6 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVAudioPlayer.h>
 
-
 #import "Item.h"
 #import "Location.h"
 #import "ItemDetailsViewController.h"
@@ -111,7 +110,8 @@
 
 + (RootViewController *)sharedRootViewController;
 
-- (void) attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password;
+- (void)selectGame:(NSNotification *)notification;
+- (void) attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password andGameId:(int)gameId;
 - (void) displayNearbyObjectView:(UIViewController *)nearbyObjectsNavigationController;
 - (void) showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)yesOrNo;
 - (void) showNewWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar;

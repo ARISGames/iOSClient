@@ -454,7 +454,7 @@ BOOL isShowingNotification;
 - (void) showNewWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar {
 	NSLog (@"RootViewController: Showing Waiting Indicator With Message:%@",message);
 	//if (self.waitingIndicatorView) [self.waitingIndicatorView dismiss];
-	if(!self.loadingVC){
+	//if(!self.loadingVC){
         if (self.waitingIndicatorView){ 
             [self removeNewWaitingIndicator];
         }
@@ -463,7 +463,7 @@ BOOL isShowingNotification;
         [self.waitingIndicatorView show];
         
         [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the activity indicator show before returning	
-    }
+    //}
 }
 
 - (void) removeNewWaitingIndicator {
@@ -575,37 +575,49 @@ BOOL isShowingNotification;
 
 #pragma mark Login and Game Selection
 
-- (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password {	
+- (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password andGameId:(int)gameId{
 	NSLog(@"RootViewController: Attempt Login for: %@ Password: %@", userName, password);
 	[AppModel sharedAppModel].userName = userName;
 	[AppModel sharedAppModel].password = password;
-    
-	[self showNewWaitingIndicator:@"Logging In..." displayProgressBar:NO];
+    //[AppModel sharedAppModel].currentGame.gameId = gameId;
+    [self showNewWaitingIndicator:@"Logging In..." displayProgressBar:NO];
 	[[AppServices sharedAppServices] login];
+    
+    if(gameId != 0)
+    {
+        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+        [dispatcher addObserver:self
+                       selector:@selector(handleOpenURLGamesListReady)
+                           name:@"OneGameReady"
+                         object:nil];
+        [[AppServices sharedAppServices] fetchOneGame:gameId];
+    }
 }
 
 
 - (void)finishLoginAttempt:(NSNotification *)notification {
 	NSLog(@"RootViewController: Finishing Login Attempt");
-    
+
 	//handle login response
-	if([AppModel sharedAppModel].loggedIn) {
+	if([AppModel sharedAppModel].loggedIn)
+    {
 		NSLog(@"RootViewController: Login Success");
         
         self.tabBarController.view.hidden = YES;
         self.gameSelectionTabBarController.view.hidden = NO;
         self.loginViewNavigationController.view.hidden = YES;
-        
         self.gameSelectionTabBarController.selectedIndex = 0;
-        
-        
-	} else {
+    }
+    else
+    {
 		NSLog(@"RootViewController: Login Failed, check for a network issue");
 		if (self.networkAlert) NSLog(@"RootViewController: Network is down, skip login alert");
 		else {
 			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"LoginErrorTitleKey",@"")
-															message:NSLocalizedString(@"LoginErrorMessageKey",@"")
-														   delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"")otherButtonTitles: nil];
+                                                            message:NSLocalizedString(@"LoginErrorMessageKey",@"")
+                                                           delegate:self
+                                                  cancelButtonTitle:NSLocalizedString(@"OkKey", @"")
+                                                  otherButtonTitles:nil];
 			[alert show];	
 		}
 	}
@@ -623,8 +635,8 @@ BOOL isShowingNotification;
 	
     //Put it onscreen
     //CGContextRef context = UIGraphicsGetCurrentContext();
-    //  [UIView beginAnimations:nil context:context];
-    // [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:window cache:YES];
+    //[UIView beginAnimations:nil context:context];
+    //[UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:window cache:YES];
     self.tabBarController.view.hidden = NO;
     self.gameSelectionTabBarController.view.hidden = YES;
     self.loginViewNavigationController.view.hidden = YES;
@@ -727,14 +739,10 @@ BOOL isShowingNotification;
     self.gameSelectionTabBarController.view.hidden = YES;
 }
 
-
 -(void)receivedMediaList{
     //Display the intro node
-    
     [AppModel sharedAppModel].hasReceivedMediaList = YES;
-    
 }
-
 
 - (void)newError: (NSString *)text {
 	NSLog(@"%@", text);
@@ -765,25 +773,23 @@ BOOL isShowingNotification;
     NSLog(@"Path: %@", strPath);
     
     if ([strPath isEqualToString:@"games"] || [strPath isEqualToString:@"game"]) {
-        
-        // get GameID
+
         NSString *gameID = [url lastPathComponent];
         NSLog(@"gameID=: %@",gameID);
-        
         
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"OneGameReady" object:nil];
         [[AppServices sharedAppServices] fetchOneGame:[gameID intValue]];
     }
-    
     return YES;
 }
 
 - (void) handleOpenURLGamesListReady {
     NSLog(@"game opened");
     
-    //unregister for notifications
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    //unregister for notifications //<- Why? Phil 09/19/12 (I commented out the next line to get this to work)
+    //[[NSNotificationCenter defaultCenter] removeObserver:self];
+    
     Game *selectedGame = [[[AppModel sharedAppModel] singleGameList] objectAtIndex:0];	
     GameDetails *gameDetailsVC = [[GameDetails alloc]initWithNibName:@"GameDetails" bundle:nil];
     gameDetailsVC.game = selectedGame;
@@ -791,15 +797,17 @@ BOOL isShowingNotification;
     // show gameSelectionTabBarController
     self.tabBarController.view.hidden = YES;
     self.loginViewController.view.hidden = YES;
+    self.loginViewNavigationController.view.hidden = YES;
     self.gameSelectionTabBarController.view.hidden = NO;
-    
+    self.gameSelectionTabBarController.selectedIndex = 0;
+
     NSLog(@"gameID= %i",selectedGame.gameId);
     NSLog(@"game= %@",selectedGame.name);
-    NSLog(@"gameDetailsVC nib name = %@",gameDetailsVC.nibName); 
+    NSLog(@"gameDetailsVC nib name = %@",gameDetailsVC.nibName);
     
     // Push Game Detail View Controller
-    [(UINavigationController*)self.gameSelectionTabBarController.selectedViewController pushViewController:gameDetailsVC animated:YES];  
-    
+    [(UINavigationController*)self.gameSelectionTabBarController.selectedViewController pushViewController:gameDetailsVC animated:YES];
+    [self.navigationController pushViewController:gameDetailsVC animated:YES];
 }
 
 #pragma mark AlertView Delegate Methods
@@ -808,7 +816,8 @@ BOOL isShowingNotification;
 	//Since only the server error alert with email ever uses this, we know who we are dealing with
 	NSLog(@"RootViewController: AlertView clickedButtonAtIndex: %d",buttonIndex);
 	
-	if (buttonIndex == 1) {
+	if (buttonIndex == 1)
+    {
 		NSLog(@"RootViewController: AlertView button wants to send an email" );
 		//Send an Email
 		//NSString *body = [NSString stringWithFormat:@"%@",alertView.message];
@@ -818,11 +827,11 @@ BOOL isShowingNotification;
 		[controller setToRecipients: [NSMutableArray arrayWithObjects: @"arisgames-dev@googlegroups.com",nil]];
 		[controller setSubject:@"ARIS Error Report"];
 		[controller setMessageBody:body isHTML:NO]; 
-		if (controller) [self.tabBarController presentModalViewController:controller animated:YES];
+		if (controller)
+            [self.tabBarController presentModalViewController:controller animated:YES];
 	}
 	
 	self.serverAlert = nil;
-    
 }
 
 #pragma mark MFMailComposeViewController Delegate

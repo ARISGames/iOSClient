@@ -1673,7 +1673,7 @@ NSString *const kARISServerServicePackage = @"v1";
                           [NSString stringWithFormat:@"%d",gameId],
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
                           [NSString stringWithFormat:@"%d",1],
-                          [NSString stringWithFormat:@"%d",9999999999],
+                          [NSString stringWithFormat:@"%d",999999999],
 						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.latitude],
 						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.longitude],
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],
@@ -2055,14 +2055,14 @@ NSString *const kARISServerServicePackage = @"v1";
 		[AppModel sharedAppModel].playerId = [((NSDecimalNumber*)jsonResult.data) intValue];
         [[AppServices sharedAppServices]setShowPlayerOnMap];
         [[AppModel sharedAppModel] saveUserDefaults];
-        
-	}
+    }
 	else {
 		[AppModel sharedAppModel].loggedIn = NO;	
 	}
     
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewLoginResponseReady" object:nil]];
     
+    //Should never excecute following code... (why would loading vc be up now?) -Phil 9/18/12
     if([RootViewController sharedRootViewController].loadingVC){
         [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesRecievedLocationListKey", @"");
         [RootViewController sharedRootViewController].loadingVC.receivedData++;
