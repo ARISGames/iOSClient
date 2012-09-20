@@ -341,10 +341,8 @@
 
 - (Note *)noteForNoteId:(int)mId playerListYesGameListNo:(BOOL)playerorGame{
 	Note *note;
-    if(!playerorGame)
-        note= [self.gameNoteList objectForKey:[NSNumber numberWithInt:mId]];
-	else
-        note= [self.playerNoteList objectForKey:[NSNumber numberWithInt:mId]];
+    note= [self.gameNoteList objectForKey:[NSNumber numberWithInt:mId]];
+	if(!note) note= [self.playerNoteList objectForKey:[NSNumber numberWithInt:mId]];
     
 	if (!note) {
 		//Let's pause everything and do a lookup
