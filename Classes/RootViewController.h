@@ -37,6 +37,7 @@
 #import "ARViewViewControler.h"
 #import "QRScannerViewController.h"
 #import "LogoutViewController.h"
+#import "GlobalPlayerViewController.h"
 #import "DeveloperViewController.h"
 #import "WaitingIndicatorViewController.h"
 #import "WaitingIndicatorView.h"
@@ -59,6 +60,8 @@
 	UINavigationController *nearbyObjectsNavigationController;
 	LoginViewController *loginViewController;
 	UINavigationController *loginViewNavigationController;
+    GlobalPlayerViewController *globalPlayerViewController;
+    UINavigationController *globalPlayerViewNavigationController;
 	UINavigationController *nearbyObjectNavigationController;
 	WaitingIndicatorViewController *waitingIndicator;
 	WaitingIndicatorView *waitingIndicatorView;
@@ -87,6 +90,8 @@
 @property (nonatomic) IBOutlet TutorialViewController *tutorialViewController;
 @property (nonatomic) IBOutlet LoginViewController *loginViewController;
 @property (nonatomic) IBOutlet UINavigationController *loginViewNavigationController;
+@property (nonatomic) IBOutlet GlobalPlayerViewController *globalPlayerViewController;
+@property (nonatomic) IBOutlet UINavigationController *globalPlayerViewNavigationController;
 @property (nonatomic) IBOutlet UINavigationController *nearbyObjectsNavigationController;
 @property (nonatomic) IBOutlet UINavigationController *nearbyObjectNavigationController;
 @property (nonatomic) WaitingIndicatorViewController *waitingIndicator;
@@ -111,7 +116,7 @@
 + (RootViewController *)sharedRootViewController;
 
 - (void)selectGame:(NSNotification *)notification;
-- (void) attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password andGameId:(int)gameId;
+- (void) attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password andGameId:(int)gameId inMuseumMode:(BOOL)museumMode;
 - (void) displayNearbyObjectView:(UIViewController *)nearbyObjectsNavigationController;
 - (void) showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)yesOrNo;
 - (void) showNewWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar;

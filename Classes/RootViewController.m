@@ -29,6 +29,8 @@ BOOL isShowingNotification;
 @synthesize defaultViewControllerForMainTabBar;
 @synthesize loginViewController;
 @synthesize loginViewNavigationController;
+@synthesize globalPlayerViewController;
+@synthesize globalPlayerViewNavigationController;
 @synthesize nearbyObjectsNavigationController;
 @synthesize nearbyObjectNavigationController;
 @synthesize waitingIndicator,waitingIndicatorView;
@@ -160,6 +162,15 @@ BOOL isShowingNotification;
         loginViewNavigationController.view.frame = self.view.frame;
         [self.view addSubview:loginViewNavigationController.view];
         
+        //Global Player View
+        globalPlayerViewController = [[GlobalPlayerViewController alloc] initWithNibName:@"GlobalPlayerViewController" bundle:nil];
+        globalPlayerViewNavigationController = [[UINavigationController alloc] initWithRootViewController: globalPlayerViewController];
+        globalPlayerViewNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+        [globalPlayerViewNavigationController.view setFrame:UIScreen.mainScreen.applicationFrame];
+        globalPlayerViewNavigationController.view.frame = self.view.frame;
+        [self.view addSubview:globalPlayerViewNavigationController.view];
+        
+        
         //Setup the Main Tab Bar
         UITabBarController *tabBarControllerAlloc = [[UITabBarController alloc] init];
         self.tabBarController = tabBarControllerAlloc;
@@ -236,21 +247,33 @@ BOOL isShowingNotification;
                                        selector:@selector(startUpdatingLocation) 
                                        userInfo:nil 
                                         repeats:NO];
+        
+        //Set up visibility of views at top of heirarchy
         [[AppModel sharedAppModel] loadUserDefaults];
-        if ([AppModel sharedAppModel].playerId == 0) {
+        if ([AppModel sharedAppModel].playerId == 0)
+        {
             self.loginViewNavigationController.view.hidden = NO;
             self.tabBarController.view.hidden = YES;
             self.gameSelectionTabBarController.view.hidden = YES;
         }
-        else {
+        else
+        {
             [[AppServices sharedAppServices]setShowPlayerOnMap];
             [AppModel sharedAppModel].loggedIn = YES;
             self.loginViewNavigationController.view.hidden = YES;
             self.tabBarController.view.hidden = YES;
-            self.gameSelectionTabBarController.view.hidden = NO;
+            if([AppModel sharedAppModel].museumMode)
+            {
+                self.gameSelectionTabBarController.view.hidden = YES;
+                self.globalPlayerViewNavigationController.view.hidden = NO;
+            }
+            else
+            {
+                self.gameSelectionTabBarController.view.hidden = NO;
+                self.globalPlayerViewNavigationController.view.hidden = YES;
+            }
         }
         //self.waitingIndicatorView = [[WaitingIndicatorView alloc] init];
-        
         
         /*//PUSHER STUFF
          //Setup Pusher Client
@@ -400,6 +423,7 @@ BOOL isShowingNotification;
     self.tabBarController.view.hidden = YES;
     self.gameSelectionTabBarController.view.hidden = NO;
     self.loginViewNavigationController.view.hidden = YES;
+    self.globalPlayerViewNavigationController.view.hidden = YES;
     [UIView commitAnimations];
 }
 
@@ -575,11 +599,12 @@ BOOL isShowingNotification;
 
 #pragma mark Login and Game Selection
 
-- (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password andGameId:(int)gameId{
+- (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password andGameId:(int)gameId inMuseumMode:(BOOL)museumMode{
 	NSLog(@"RootViewController: Attempt Login for: %@ Password: %@", userName, password);
 	[AppModel sharedAppModel].userName = userName;
 	[AppModel sharedAppModel].password = password;
-    //[AppModel sharedAppModel].currentGame.gameId = gameId;
+	[AppModel sharedAppModel].museumMode = museumMode;
+
     [self showNewWaitingIndicator:@"Logging In..." displayProgressBar:NO];
 	[[AppServices sharedAppServices] login];
     
@@ -604,9 +629,18 @@ BOOL isShowingNotification;
 		NSLog(@"RootViewController: Login Success");
         
         self.tabBarController.view.hidden = YES;
-        self.gameSelectionTabBarController.view.hidden = NO;
         self.loginViewNavigationController.view.hidden = YES;
-        self.gameSelectionTabBarController.selectedIndex = 0;
+        if([AppModel sharedAppModel].museumMode)
+        {
+            self.gameSelectionTabBarController.view.hidden = YES;
+            self.globalPlayerViewNavigationController.view.hidden = NO;
+        }
+        else
+        {
+            self.globalPlayerViewNavigationController.view.hidden = YES;
+            self.gameSelectionTabBarController.view.hidden = NO;
+            self.gameSelectionTabBarController.selectedIndex = 0;
+        }
     }
     else
     {
@@ -640,6 +674,7 @@ BOOL isShowingNotification;
     self.tabBarController.view.hidden = NO;
     self.gameSelectionTabBarController.view.hidden = YES;
     self.loginViewNavigationController.view.hidden = YES;
+    self.globalPlayerViewNavigationController.view.hidden = YES;
     
     // [UIView commitAnimations];
     
@@ -735,8 +770,9 @@ BOOL isShowingNotification;
 	
 	//(re)load the login view
 	self.tabBarController.view.hidden = YES;
-    self.loginViewNavigationController.view.hidden = NO;
     self.gameSelectionTabBarController.view.hidden = YES;
+    self.globalPlayerViewNavigationController.view.hidden = YES;
+    self.loginViewNavigationController.view.hidden = NO;
 }
 
 -(void)receivedMediaList{
@@ -798,8 +834,17 @@ BOOL isShowingNotification;
     self.tabBarController.view.hidden = YES;
     self.loginViewController.view.hidden = YES;
     self.loginViewNavigationController.view.hidden = YES;
-    self.gameSelectionTabBarController.view.hidden = NO;
-    self.gameSelectionTabBarController.selectedIndex = 0;
+    if([AppModel sharedAppModel].museumMode)
+    {
+        self.gameSelectionTabBarController.view.hidden = YES;
+        self.globalPlayerViewNavigationController.view.hidden = NO;
+    }
+    else
+    {
+        self.globalPlayerViewNavigationController.view.hidden = YES;
+        self.gameSelectionTabBarController.view.hidden = NO;
+        self.gameSelectionTabBarController.selectedIndex = 0;
+    }
 
     NSLog(@"gameID= %i",selectedGame.gameId);
     NSLog(@"game= %@",selectedGame.name);

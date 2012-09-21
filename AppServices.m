@@ -72,6 +72,7 @@ NSString *const kARISServerServicePackage = @"v1";
                                                                 andUserInfo:nil];
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseLoginResponseFromJSON:)]; 
 }
+
 -(void)setShowPlayerOnMap{
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].playerId],[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].showPlayerOnMap], nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithServer:[AppModel sharedAppModel].serverURL 
@@ -2053,7 +2054,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	if ((NSNull *)jsonResult.data != [NSNull null] && jsonResult.data != nil) {
 		[AppModel sharedAppModel].loggedIn = YES;
 		[AppModel sharedAppModel].playerId = [((NSDecimalNumber*)jsonResult.data) intValue];
-        [[AppServices sharedAppServices]setShowPlayerOnMap];
+        [[AppServices sharedAppServices] setShowPlayerOnMap];
         [[AppModel sharedAppModel] saveUserDefaults];
     }
 	else {

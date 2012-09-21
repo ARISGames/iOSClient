@@ -142,6 +142,9 @@
 		2B3D17070F49C99B0067FD3A /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D17060F49C99B0067FD3A /* Game.m */; };
 		2B3D175A0F49D18D0067FD3A /* DeveloperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D17590F49D18D0067FD3A /* DeveloperViewController.m */; };
 		2B3D18D60F4B25720067FD3A /* AppModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */; };
+		2D73EA23160CD07600A1F570 /* GlobalPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D73EA21160CD07600A1F570 /* GlobalPlayerViewController.m */; };
+		2D73EA24160CD07600A1F570 /* GlobalPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D73EA22160CD07600A1F570 /* GlobalPlayerViewController.xib */; };
+		2D73EA27160CE0AA00A1F570 /* AsyncMediaTouchableImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D73EA26160CE0AA00A1F570 /* AsyncMediaTouchableImageView.m */; };
 		2DEE862315E6BEF500F506CE /* img.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DEE862215E6BEF500F506CE /* img.png */; };
 		3A29205D152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A29205C152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.m */; };
 		3AA83345159E3FF3002CC61D /* TileOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AA83342159E3FF3002CC61D /* TileOverlay.m */; };
@@ -646,6 +649,11 @@
 		2B3D18D40F4B25720067FD3A /* AppModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = AppModel.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		2B3D18D50F4B25720067FD3A /* AppModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppModel.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		2D2C5D4715DED4770052C056 /* UploadContent1.7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UploadContent1.7.xcdatamodel; sourceTree = "<group>"; };
+		2D73EA20160CD07600A1F570 /* GlobalPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalPlayerViewController.h; sourceTree = "<group>"; };
+		2D73EA21160CD07600A1F570 /* GlobalPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalPlayerViewController.m; sourceTree = "<group>"; };
+		2D73EA22160CD07600A1F570 /* GlobalPlayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GlobalPlayerViewController.xib; sourceTree = "<group>"; };
+		2D73EA25160CE0AA00A1F570 /* AsyncMediaTouchableImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncMediaTouchableImageView.h; sourceTree = "<group>"; };
+		2D73EA26160CE0AA00A1F570 /* AsyncMediaTouchableImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncMediaTouchableImageView.m; sourceTree = "<group>"; };
 		2DEE862215E6BEF500F506CE /* img.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img.png; sourceTree = "<group>"; };
 		3A29205B152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableDictionary+ImageMetadata.h"; path = "thirdParty/NSMutableDictionary+ImageMetadata.h"; sourceTree = "<group>"; };
 		3A29205C152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+ImageMetadata.m"; path = "thirdParty/NSMutableDictionary+ImageMetadata.m"; sourceTree = "<group>"; };
@@ -1325,15 +1333,16 @@
 				ABBEBBBF104D7CE400AA7285 /* Plaques */,
 				ABDA40A910506AF400823A94 /* GPS */,
 				A7986D660F8FEC2100A5469F /* Inventory */,
+				118669AF13BB8EC1004B4EC8 /* Player Profile / Attributes */,
 				ABC39C5F116C428C002185D4 /* Title and Description Form */,
 				A7986D620F8FEBD300A5469F /* QR Scanner */,
 				A7986D640F8FEBFA00A5469F /* Game Picker */,
-				A7986D670F8FEC3900A5469F /* Logout */,
 				A7986D610F8FEBB200A5469F /* Developer */,
+				2D73EA1F160CCFD900A1F570 /* Global Player */,
 				A7986D650F8FEC1100A5469F /* Login */,
+				A7986D670F8FEC3900A5469F /* Logout */,
 				AB1660BC14E8754A002C6ACB /* Frameworks */,
 				1147E15C13F32273000E4BC2 /* Notes */,
-				118669AF13BB8EC1004B4EC8 /* Player Profile / Attributes */,
 				1139BA5113ABC6A2008BF268 /* Panoramic */,
 				1122C0B113A7D063004F0392 /* Webpage */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -1405,6 +1414,18 @@
 			);
 			name = Model;
 			path = Classes/model;
+			sourceTree = "<group>";
+		};
+		2D73EA1F160CCFD900A1F570 /* Global Player */ = {
+			isa = PBXGroup;
+			children = (
+				2D73EA20160CD07600A1F570 /* GlobalPlayerViewController.h */,
+				2D73EA21160CD07600A1F570 /* GlobalPlayerViewController.m */,
+				2D73EA22160CD07600A1F570 /* GlobalPlayerViewController.xib */,
+				2D73EA25160CE0AA00A1F570 /* AsyncMediaTouchableImageView.h */,
+				2D73EA26160CE0AA00A1F570 /* AsyncMediaTouchableImageView.m */,
+			);
+			name = "Global Player";
 			sourceTree = "<group>";
 		};
 		4A373BD015ACABA8007D975C /* Bump API */ = {
@@ -2316,6 +2337,7 @@
 				4A7F910015B09FFC00988446 /* pingtone.wav in Resources */,
 				ABDF2CCB15DB4379008E8CA0 /* textToggle.png in Resources */,
 				2DEE862315E6BEF500F506CE /* img.png in Resources */,
+				2D73EA24160CD07600A1F570 /* GlobalPlayerViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2514,6 +2536,8 @@
 				DBC3441315ADEED200FA902F /* RootViewController.m in Sources */,
 				DB6742C815AB96EA009964CD /* InventoryTradeViewController.m in Sources */,
 				DDC4ABDC15F117C500D525BA /* RoundedTableViewCell.m in Sources */,
+				2D73EA23160CD07600A1F570 /* GlobalPlayerViewController.m in Sources */,
+				2D73EA27160CE0AA00A1F570 /* AsyncMediaTouchableImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

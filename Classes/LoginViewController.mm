@@ -69,11 +69,12 @@
 -(IBAction)loginButtonTouched: (id) sender {
 	NSLog(@"Login: Login Button Touched");
 
-	[[RootViewController sharedRootViewController] attemptLoginWithUserName:usernameField.text andPassword:passwordField.text andGameId:0];
+	[[RootViewController sharedRootViewController] attemptLoginWithUserName:usernameField.text andPassword:passwordField.text andGameId:0 inMuseumMode:false];
     
 	[usernameField resignFirstResponder];
 	[passwordField resignFirstResponder];
 }
+
 -(IBAction)QRButtonTouched:(id)sender
 {
     NSLog(@"LoginViewController: QR Scan Button Pressed");
@@ -107,13 +108,13 @@
     NSArray *terms  = [resultString componentsSeparatedByString:@","];
     if([terms count] > 1)
     {
-        
-        if([terms objectAtIndex:0]) usernameField.text = [terms objectAtIndex:0];
-        if([terms objectAtIndex:1]) passwordField.text = [terms objectAtIndex:1];
-        if([terms count] > 2)
-            [[RootViewController sharedRootViewController] attemptLoginWithUserName:usernameField.text andPassword:passwordField.text andGameId:[[terms objectAtIndex:2] intValue]];
-        else
-            [[RootViewController sharedRootViewController] attemptLoginWithUserName:usernameField.text andPassword:passwordField.text andGameId:0];
+        int gameId = 0;
+        bool museumMode = false;
+        if([terms objectAtIndex:0]) usernameField.text = [terms objectAtIndex:0]; //Username
+        if([terms objectAtIndex:1]) passwordField.text = [terms objectAtIndex:1]; //Password
+        if([terms objectAtIndex:2]) gameId = [[terms objectAtIndex:2] intValue];
+        if([terms objectAtIndex:3]) museumMode = [[terms objectAtIndex:3] boolValue];
+        [[RootViewController sharedRootViewController] attemptLoginWithUserName:usernameField.text andPassword:passwordField.text andGameId:gameId inMuseumMode:museumMode];
     }
 }
 

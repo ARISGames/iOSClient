@@ -39,7 +39,6 @@
     return _sharedObject;
 }
 
-
 #pragma mark Init/dealloc
 -(id)init {
     self = [super init];
@@ -51,17 +50,14 @@
         overlayList = [[NSMutableArray alloc] initWithCapacity:10];
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(clearGameLists) name:@"NewGameSelected" object:nil];
+        museumMode = NO;
 	}
-    
     return self;
 }
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-    
 }
-
 
 #pragma mark User Defaults
 
@@ -341,8 +337,8 @@
 
 - (Note *)noteForNoteId:(int)mId playerListYesGameListNo:(BOOL)playerorGame{
 	Note *note;
-    note= [self.gameNoteList objectForKey:[NSNumber numberWithInt:mId]];
-	if(!note) note= [self.playerNoteList objectForKey:[NSNumber numberWithInt:mId]];
+    note = [self.gameNoteList objectForKey:[NSNumber numberWithInt:mId]];
+	if(!note) note = [self.playerNoteList objectForKey:[NSNumber numberWithInt:mId]];
     
 	if (!note) {
 		//Let's pause everything and do a lookup
