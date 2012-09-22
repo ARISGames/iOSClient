@@ -106,6 +106,11 @@ BOOL isShowingNotification;
         UINavigationController *questsNavigationController = [[UINavigationController alloc] initWithRootViewController: questsViewController];
         questsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
         
+        //Setup Quests Icon View
+        IconQuestsViewController *iconQuestsViewController = [[IconQuestsViewController alloc] initWithNibName:@"IconQuestsViewController" bundle:nil];
+        UINavigationController *iconQuestsNavigationController = [[UINavigationController alloc] initWithRootViewController: iconQuestsViewController];
+        iconQuestsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+        
         //Setup GPS View
         GPSViewController *gpsViewController = [[GPSViewController alloc] initWithNibName:@"GPS" bundle:nil];
         UINavigationController *gpsNavigationController = [[UINavigationController alloc] initWithRootViewController: gpsViewController];
@@ -189,6 +194,7 @@ BOOL isShowingNotification;
                                                  bogusSelectGameViewController,
                                                  logoutNavigationController,
                                                  //developerNavigationController,
+                                                 iconQuestsNavigationController,
                                                  nil];
         self.defaultViewControllerForMainTabBar = questsNavigationController;
         self.tabBarController.view.hidden = YES;
@@ -745,6 +751,7 @@ BOOL isShowingNotification;
             newTabList = [newTabList arrayByAddingObject:tmpTab];
         }
     }
+
     for(int y = 0; y < [newTabList count];y++){
         tmpTab = [newTabList objectAtIndex:y];
         for(int x = 0; x < [[AppModel sharedAppModel].defaultGameTabList count];x++){
@@ -753,6 +760,9 @@ BOOL isShowingNotification;
             if([tempNav.navigationItem.title isEqualToString:tmpTab.tabName])newCustomVC = [newCustomVC arrayByAddingObject:tempNav];
         }
     }
+    
+ //   tempNav = (UINavigationController *)[[AppModel sharedAppModel].defaultGameTabList objectAtIndex:8];
+  //  newCustomVC = [newCustomVC arrayByAddingObject:tempNav];
     
     self.tabBarController.viewControllers = [NSArray arrayWithArray: newCustomVC];
     [AppModel sharedAppModel].tabsReady = YES;

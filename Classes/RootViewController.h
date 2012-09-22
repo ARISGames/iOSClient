@@ -29,6 +29,7 @@
 #import "Location.h"
 #import "ItemDetailsViewController.h"
 #import "QuestsViewController.h"
+#import "IconQuestsViewController.h"
 #import "GPSViewController.h"
 #import "InventoryListViewController.h"
 #import "AttributesViewController.h"
