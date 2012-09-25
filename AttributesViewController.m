@@ -83,6 +83,14 @@
                                                                                       andPrompt:[NSString stringWithFormat:@"%d %@ %@",attr.qty - existingAttr.qty,attr.name,@" added"]];
                     newAttrs++;
                 }
+                if((existingAttr.itemId == attr.itemId) && (existingAttr.qty > attr.qty)){
+                    if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
+                        [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
+                    
+                    [[RootViewController sharedRootViewController] enqueueNotificationWithTitle:NSLocalizedString(@"AttributeLostKey", @"")
+                                                                                      andPrompt:[NSString stringWithFormat:@"%d %@ %@",existingAttr.qty - attr.qty,attr.name,@" lost"]];
+                    newAttrs++;
+                }
             }
             
             if (match == NO) {
@@ -94,6 +102,23 @@
                 newAttrs++;
             }
         }
+        
+        for (Item *existingAttr in self.attributes) {
+            BOOL match = NO;
+            for (Item *attr in newAttributes) {
+                if (existingAttr.itemId == attr.itemId) match = YES;
+            }
+            if (match == NO) {
+                //We've completely lost an attribute
+                if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
+                    [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
+                
+                [[RootViewController sharedRootViewController] enqueueNotificationWithTitle:NSLocalizedString(@"AttributeLostKey", @"")
+                                                                                  andPrompt:[NSString stringWithFormat:@"%d %@ %@",existingAttr.qty,existingAttr.name,@" lost"]];
+                newAttrs++;
+            }
+        }
+        
         if (newAttrs > 0) {
             newAttrsSinceLastView = newAttrs;
             self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newAttrsSinceLastView];
@@ -202,7 +227,7 @@
 	AsyncMediaImageView *iconView = (AsyncMediaImageView *)[cell viewWithTag:3];
     
     UILabel *lblTemp3 = (UILabel *)[cell viewWithTag:4];
-    if(item.qty > 1)
+    if(item.qty > 1 || item.maxQty > 1)
         lblTemp3.text = [NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"QuantityKey", @""),item.qty];
     else
         lblTemp3.text = nil;

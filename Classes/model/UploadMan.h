@@ -22,6 +22,7 @@
 @property (nonatomic) int maxUploadCount;
 
 - (void) uploadContentForNoteId:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSURL *)url;
+- (void) uploadPlayerPicContentwithType:(NSString *)type withFileURL:(NSURL *)aUrl;
 - (void) contentFinishedUploading;
 - (void) contentFailedUploading;
 - (void) deleteContentFromNoteId:(int)noteId andFileURL:(NSURL *)fileURL;

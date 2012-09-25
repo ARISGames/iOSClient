@@ -730,8 +730,25 @@ NSString *const kARISServerServicePackage = @"v1";
 	[uploader upload];
     
     [self fetchAllPlayerLists];
-    
 }
+
+-(void) uploadPlayerPicMediaWithFileURL:(NSURL *)fileURL type:(NSString *)type{
+    ARISUploader *uploader = [[ARISUploader alloc]initWithURLToUpload:fileURL delegate:self doneSelector:@selector(playerPicUploadDidfinish: ) errorSelector:@selector(uploadPlayerPicDidFail:)];
+    
+    NSMutableDictionary *userInfo = [[NSMutableDictionary alloc]initWithCapacity:2];
+    [userInfo setValue:type forKey: @"type"];
+    [userInfo setValue:fileURL forKey:@"url"];
+	[uploader setUserInfo:userInfo];
+	
+	NSLog(@"Model: Uploading File. gameID:%d ",[AppModel sharedAppModel].currentGame.gameId);
+	
+	//ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    //[[[RootViewController sharedRootViewController] showNewWaitingIndicator:@"Uploading" displayProgressBar:YES];
+	//[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
+    
+	[uploader upload];
+}
+
 -(void)fetchPlayerNoteListAsync{
     ///if([AppModel sharedAppModel].isGameNoteList)
     [self fetchGameNoteListAsynchronously:YES];
@@ -795,6 +812,38 @@ NSString *const kARISServerServicePackage = @"v1";
     
     [[AppModel sharedAppModel].uploadManager contentFailedUploading];
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];  
+}
+
+- (void)playerPicUploadDidfinish:(ARISUploader*)uploader {
+	NSLog(@"Model: Upload Note Content Request Finished. Response: %@", [uploader responseString]);
+
+    //Call server service
+    /*
+    NSString *type = [[uploader userInfo] objectForKey:@"type"];
+    NSString *newFileName = [uploader responseString];
+    
+	NSArray *arguments = [NSArray arrayWithObjects:
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+						  newFileName,
+                          type,
+                          nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
+                                                            andServiceName:@"players"
+                                                             andMethodName:@"updatePlayerPic"
+                                                              andArguments:arguments
+                                                               andUserInfo:nil];
+     */
+    [[AppModel sharedAppModel].uploadManager contentFinishedUploading];
+}
+
+- (void)playerPicUploadDidFail:(ARISUploader *)uploader {
+    NSError *error = uploader.error;
+	NSLog(@"Model: uploadRequestFailed: %@",[error localizedDescription]);
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"UploadFailedKey", @"") message: NSLocalizedString(@"AppServicesUploadFailedMessageKey", @"") delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
+	
+	[alert show];
+    
+    [[AppModel sharedAppModel].uploadManager contentFailedUploading];
 }
 
 

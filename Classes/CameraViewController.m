@@ -266,20 +266,17 @@
   [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:kNoteContentTypeVideo withFileURL:videoURL];
     
     }	
-    
 
     [self.navigationController popViewControllerAnimated:NO];
-   
-
-
 }
 
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
     NSLog(@"Finished saving image with error: %@", error);
 }
 
--(void) uploadMedia {
-    }
+-(void) uploadMedia
+{
+}
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)aPicker {
     [aPicker dismissModalViewControllerAnimated:NO];
@@ -288,7 +285,6 @@
         [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.noteId]];   
     }
     [self.navigationController popToViewController:self.backView animated:NO];
-	
 }
 
 #pragma mark UINavigationControllerDelegate Protocol Methods

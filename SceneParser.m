@@ -216,8 +216,7 @@ NSString *const kTagVibrate = @"vibrate";
                                      imageRect:CGRectMake(0, 0, 320, 416)
                                       zoomTime:kDefaultZoomTime
                               exitToTabWithTitle:nil exitToType:nil
-                                       videoId:0 panoramicId:0 webpageId:0 plaqueId:0 itemId:0 mediaId:0 title:@""];        
-		
+                                       videoId:0 panoramicId:0 webpageId:0 plaqueId:0 itemId:0 mediaId:0 title:@""];
 		[self.script addObject:s];
 	}
 	

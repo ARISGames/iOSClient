@@ -8,10 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "AppModel.h"
-#import "ARISAppDelegate.h"
+#import "CameraViewController.h"
 #import "AsyncMediaTouchableImageView.h"
 
-@interface GlobalPlayerViewController : UIViewController <AsyncMediaImageViewDelegate> {
+#import <MobileCoreServices/UTCoreTypes.h>
+#import "AssetsLibrary/AssetsLibrary.h"
+#import "UIImage+Scale.h"
+#import <ImageIO/ImageIO.h>
+
+@interface GlobalPlayerViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, AsyncMediaImageViewDelegate, UITextFieldDelegate> {
 	IBOutlet AsyncMediaImageView *playerPic;
     IBOutlet UITextField *playerNameField;
     

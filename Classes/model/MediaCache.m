@@ -119,8 +119,6 @@ if([allMedia count] != 0)
         Media *media = (Media *)[allMedia objectAtIndex:0];
             return media;
             NSLog(@"MediaCache:mediaForUrl: Found a media, reusing");
-
-        
     }
     
     NSLog(@"MediaCache:mediaForUrl: Media Not Found, creating");
@@ -128,7 +126,6 @@ if([allMedia count] != 0)
     //Media Not found try fetching a new list and looking
     Media *media = [NSEntityDescription insertNewObjectForEntityForName:@"Media" inManagedObjectContext:context];
     
-       
     media.url = [url absoluteString];   
     
     return media;

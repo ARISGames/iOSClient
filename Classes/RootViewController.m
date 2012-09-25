@@ -167,14 +167,6 @@ BOOL isShowingNotification;
         loginViewNavigationController.view.frame = self.view.frame;
         [self.view addSubview:loginViewNavigationController.view];
         
-        //Global Player View
-        globalPlayerViewController = [[GlobalPlayerViewController alloc] initWithNibName:@"GlobalPlayerViewController" bundle:nil];
-        globalPlayerViewNavigationController = [[UINavigationController alloc] initWithRootViewController: globalPlayerViewController];
-        globalPlayerViewNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-        [globalPlayerViewNavigationController.view setFrame:UIScreen.mainScreen.applicationFrame];
-        globalPlayerViewNavigationController.view.frame = self.view.frame;
-        [self.view addSubview:globalPlayerViewNavigationController.view];
-        
         
         //Setup the Main Tab Bar
         UITabBarController *tabBarControllerAlloc = [[UITabBarController alloc] init];
@@ -238,6 +230,15 @@ BOOL isShowingNotification;
                                                               nil];
         //[self.gameSelectionTabBarController.view setFrame:UIScreen.mainScreen.applicationFrame];
         [self.view addSubview:self.gameSelectionTabBarController.view];
+        
+        //Global Player View
+        globalPlayerViewController = [[GlobalPlayerViewController alloc] initWithNibName:@"GlobalPlayerViewController" bundle:nil];
+        globalPlayerViewNavigationController = [[UINavigationController alloc] initWithRootViewController: globalPlayerViewController];
+        globalPlayerViewNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+        [globalPlayerViewNavigationController.view setFrame:UIScreen.mainScreen.applicationFrame];
+        globalPlayerViewNavigationController.view.frame = self.view.frame;
+        globalPlayerViewNavigationController.view.hidden = YES;
+        [self.view addSubview:globalPlayerViewNavigationController.view];
         
         //Setup The Tutorial View Controller
         TutorialViewController *tutorialViewControllerAlloc = [[TutorialViewController alloc]init];
@@ -638,8 +639,9 @@ BOOL isShowingNotification;
         self.loginViewNavigationController.view.hidden = YES;
         if([AppModel sharedAppModel].museumMode)
         {
-            self.gameSelectionTabBarController.view.hidden = YES;
             self.globalPlayerViewNavigationController.view.hidden = NO;
+            self.gameSelectionTabBarController.view.hidden = NO;
+            self.gameSelectionTabBarController.selectedIndex = 0;
         }
         else
         {
@@ -846,8 +848,9 @@ BOOL isShowingNotification;
     self.loginViewNavigationController.view.hidden = YES;
     if([AppModel sharedAppModel].museumMode)
     {
-        self.gameSelectionTabBarController.view.hidden = YES;
         self.globalPlayerViewNavigationController.view.hidden = NO;
+        self.gameSelectionTabBarController.view.hidden = NO;
+        self.gameSelectionTabBarController.selectedIndex = 0;
     }
     else
     {

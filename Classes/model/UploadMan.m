@@ -114,6 +114,30 @@
     return uploadContentCD;
 }
 
+-(UploadContent *)savePlayerPicUploadContentToCDWithType:(NSString *)type andFileURL:(NSURL *)fileURL inState:(NSString *)state
+{
+    //PHIL APPROVED
+    NSLog(@"UploadMan: Saving Upload Content to CoreData");
+    [self deleteUploadContentFromDictionaryFromNoteId:-1 andFileURL:fileURL];
+    [self deleteUploadContentFromCDFromNoteId:-1 andFileURL:fileURL]; //Prevent Duplicates
+    NSError *error;
+    UploadContent *uploadContentCD = [NSEntityDescription
+                                      insertNewObjectForEntityForName:@"UploadContent"
+                                      inManagedObjectContext:self.context];
+    
+    uploadContentCD.text = @"";
+    uploadContentCD.title = @"";
+    uploadContentCD.type = type;
+    uploadContentCD.noteId = -1;
+    uploadContentCD.fileURL = fileURL;
+    uploadContentCD.state = state;
+    
+    if (![context save:&error]) {
+        NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+    }
+    return uploadContentCD;
+}
+
 -(void)getSavedUploadContents
 {
     //PHIL APPROVED
@@ -174,6 +198,42 @@
         }
     }
 }
+
+- (void) uploadPlayerPicContentwithType:(NSString *)type withFileURL:(NSURL *)aUrl
+{
+    //PHIL APPROVED
+    NSLog(@"UploadMan: New (PlayerPic)UploadContent- Type:%@, URL:%@", type, aUrl);
+    BOOL youreOnWifi =  YES;
+    UploadContent *uc = [[uploadContentsForNotes objectForKey:[NSNumber numberWithInt:-1]] objectForKey:aUrl];
+    Reachability *wifiReach = [Reachability reachabilityForLocalWiFi];
+    NetworkStatus wifi = [wifiReach currentReachabilityStatus];
+    if(wifi == NotReachable)
+        youreOnWifi = NO;
+    NSData *fileData = [NSData dataWithContentsOfURL:aUrl];
+    NSUInteger bytes = fileData.length;
+    if (bytes>500000 && !youreOnWifi && !uc) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"UploadManDelayedKey", @"") message:NSLocalizedString(@"UploadManDelayedMessageKey", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
+        [alert show];
+        uc = [self savePlayerPicUploadContentToCDWithType:type andFileURL:aUrl inState:@"uploadStateFAILED"];
+        [self insertUploadContentIntoDictionary:uc];
+        
+    }
+    else{
+        if(self.currentUploadCount < self.maxUploadCount)
+        {
+            uc = [self savePlayerPicUploadContentToCDWithType:type andFileURL:aUrl inState:@"uploadStateUPLOADING"];
+            [self insertUploadContentIntoDictionary:uc];
+            self.currentUploadCount++;
+            
+            [[AppServices sharedAppServices] uploadPlayerPicMediaWithFileURL:aUrl type:type];
+        }
+        else {
+            uc = [self savePlayerPicUploadContentToCDWithType:type andFileURL:aUrl inState:@"uploadStateQUEUED"];
+            [self insertUploadContentIntoDictionary:uc];
+        }
+    }
+}
+
 
 - (void) contentFinishedUploading
 {
