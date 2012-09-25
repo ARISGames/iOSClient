@@ -142,6 +142,8 @@
 		2B3D17070F49C99B0067FD3A /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D17060F49C99B0067FD3A /* Game.m */; };
 		2B3D175A0F49D18D0067FD3A /* DeveloperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D17590F49D18D0067FD3A /* DeveloperViewController.m */; };
 		2B3D18D60F4B25720067FD3A /* AppModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */; };
+		2D367CD516122710001FC5C3 /* IconQuestsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D367CD316122710001FC5C3 /* IconQuestsViewController.m */; };
+		2D367CD616122710001FC5C3 /* IconQuestsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D367CD416122710001FC5C3 /* IconQuestsViewController.xib */; };
 		2D73EA23160CD07600A1F570 /* GlobalPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D73EA21160CD07600A1F570 /* GlobalPlayerViewController.m */; };
 		2D73EA24160CD07600A1F570 /* GlobalPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D73EA22160CD07600A1F570 /* GlobalPlayerViewController.xib */; };
 		2D73EA27160CE0AA00A1F570 /* AsyncMediaTouchableImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D73EA26160CE0AA00A1F570 /* AsyncMediaTouchableImageView.m */; };
@@ -649,6 +651,9 @@
 		2B3D18D40F4B25720067FD3A /* AppModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = AppModel.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		2B3D18D50F4B25720067FD3A /* AppModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppModel.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		2D2C5D4715DED4770052C056 /* UploadContent1.7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UploadContent1.7.xcdatamodel; sourceTree = "<group>"; };
+		2D367CD216122710001FC5C3 /* IconQuestsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IconQuestsViewController.h; path = Classes/IconQuestsViewController.h; sourceTree = "<group>"; };
+		2D367CD316122710001FC5C3 /* IconQuestsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IconQuestsViewController.m; path = Classes/IconQuestsViewController.m; sourceTree = "<group>"; };
+		2D367CD416122710001FC5C3 /* IconQuestsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = IconQuestsViewController.xib; path = Classes/IconQuestsViewController.xib; sourceTree = "<group>"; };
 		2D73EA20160CD07600A1F570 /* GlobalPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalPlayerViewController.h; sourceTree = "<group>"; };
 		2D73EA21160CD07600A1F570 /* GlobalPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalPlayerViewController.m; sourceTree = "<group>"; };
 		2D73EA22160CD07600A1F570 /* GlobalPlayerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GlobalPlayerViewController.xib; sourceTree = "<group>"; };
@@ -1600,6 +1605,9 @@
 		A7986D680F8FEC4900A5469F /* Quests */ = {
 			isa = PBXGroup;
 			children = (
+				2D367CD216122710001FC5C3 /* IconQuestsViewController.h */,
+				2D367CD316122710001FC5C3 /* IconQuestsViewController.m */,
+				2D367CD416122710001FC5C3 /* IconQuestsViewController.xib */,
 				AB35E07A155C73AB00430AF7 /* 117-todo.png */,
 				AB35E07B155C73AB00430AF7 /* 117-todo@2x.png */,
 				AB35E06E155C71B200430AF7 /* 85-trophy.png */,
@@ -2338,6 +2346,7 @@
 				ABDF2CCB15DB4379008E8CA0 /* textToggle.png in Resources */,
 				2DEE862315E6BEF500F506CE /* img.png in Resources */,
 				2D73EA24160CD07600A1F570 /* GlobalPlayerViewController.xib in Resources */,
+				2D367CD616122710001FC5C3 /* IconQuestsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2538,6 +2547,7 @@
 				DDC4ABDC15F117C500D525BA /* RoundedTableViewCell.m in Sources */,
 				2D73EA23160CD07600A1F570 /* GlobalPlayerViewController.m in Sources */,
 				2D73EA27160CE0AA00A1F570 /* AsyncMediaTouchableImageView.m in Sources */,
+				2D367CD516122710001FC5C3 /* IconQuestsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2671,7 +2681,6 @@
 					"$(inherited)",
 					"$(SRCROOT)/**",
 					"\"$(SRCROOT)/ZBarSDK\"",
-					"\"$(SRCROOT)/../../../Desktop/libPusher\"",
 					"\"$(SRCROOT)\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
@@ -2794,7 +2803,6 @@
 					"$(inherited)",
 					"$(SRCROOT)/**",
 					"\"$(SRCROOT)/ZBarSDK\"",
-					"\"$(SRCROOT)/../../../Desktop/libPusher\"",
 					"\"$(SRCROOT)\"",
 				);
 				ONLY_ACTIVE_ARCH = NO;
