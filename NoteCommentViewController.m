@@ -39,11 +39,10 @@
 												 selector:@selector(movieFinishedCallback:)
 													 name:MPMoviePlayerPlaybackDidFinishNotification
 												   object:nil];
-        
-        
     }
     return self;
 }
+
 -(void)refreshViewFromModel{
     [self addUploadsToComments];
     
@@ -121,7 +120,6 @@
     else{
         [[AppModel sharedAppModel].playerNoteList setObject:self.parentNote forKey:[NSNumber numberWithInt:self.parentNote.noteId]];
     }
-    
 }
 
 -(void)addPhotoButtonTouchAction{
@@ -176,18 +174,18 @@
 }
 
 // Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     static NSString *CellIdentifier = @"Cell";
     
-    
     UITableViewCell *tempCell = (NoteCommentCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (tempCell && ![tempCell respondsToSelector:@selector(mediaIcon2)]){
-        //[tempCell release];
+    if (tempCell && ![tempCell respondsToSelector:@selector(mediaIcon2)])
+    {
         tempCell = nil;
     }
     NoteCommentCell *cell = (NoteCommentCell *)tempCell;
-    if (cell == nil) {
+    if (cell == nil)
+    {
         // Create a temporary UIViewController to instantiate the custom cell.
         UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"NoteCommentCell" bundle:nil];
         // Grab a pointer to the custom cell.
@@ -203,67 +201,38 @@
     [cell initCell];
     [cell checkForRetry];
     cell.userInteractionEnabled = YES;
+    cell.titleLabel.contentInset = UIEdgeInsetsMake(0.0f,4.0f,0.0f,4.0f);
     cell.titleLabel.text = currNote.title;
     cell.userLabel.text = currNote.username;
-    CGFloat height = [self calculateTextHeight:[currNote title]] +35;
-    if (height < 60)height = 60;
-    [cell.userLabel setFrame:CGRectMake(cell.userLabel.frame.origin.x, height-cell.userLabel.frame.size.height-5, cell.userLabel.frame.size.width, cell.userLabel.frame.size.height)];
+    CGFloat textHeight = [self calculateTextHeight:[currNote title]] +35;
+    if (textHeight < 30) textHeight = 30;
+    [cell.userLabel setFrame:CGRectMake(cell.userLabel.frame.origin.x, textHeight+5, cell.userLabel.frame.size.width, cell.userLabel.frame.size.height)];
+    
     for(int x = 0; x < [currNote.contents count];x++){
-        
-        
-        if([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeText]){
-            //Dont show icon for text since it is assumed to always be there
-        }
-        else if ([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypePhoto]){
-            AsyncMediaImageView *aImageView = [[AsyncMediaImageView alloc]initWithFrame:CGRectMake(10, height, 300, 300) andMedia:[[[currNote contents] objectAtIndex:x] getMedia]];
-            
-            //if(!currNote.hasAudio)
-            [aImageView setFrame:CGRectMake(10, height, 300, 450)];
-            //else
-            //[aImageView setFrame:CGRectMake(10, height+40, 300, 300)];
+        if ([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypePhoto])
+        {
+            AsyncMediaImageView *aImageView = [[AsyncMediaImageView alloc]initWithFrame:CGRectMake(10, textHeight, 300, 300) andMedia:[[[currNote contents] objectAtIndex:x] getMedia]];
+            [cell.userLabel setFrame:CGRectMake(cell.userLabel.frame.origin.x, cell.frame.origin.y+(textHeight+300)+5, cell.userLabel.frame.size.width, cell.userLabel.frame.size.height)];
             
             [cell addSubview:aImageView];
         }
-        else if([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeVideo] || [[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeAudio]){
+        else if([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeVideo] || [[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeAudio])
+        {
             NoteContent *content =  (NoteContent *)[[currNote contents] objectAtIndex:x];
+            AsyncMediaPlayerButton *mediaButton = [asyncMediaDict objectForKey:content.getMedia.url];
             
-            CGRect frame = CGRectMake(10, height, 300, 450);
-            
-            AsyncMediaPlayerButton *mediaButton;
-            
-            mediaButton = [asyncMediaDict objectForKey:content.getMedia.url];
             if(!mediaButton){
-                
+                CGRect frame = CGRectMake(10, textHeight, 300, 450);
                 mediaButton = [[AsyncMediaPlayerButton alloc]
                                initWithFrame:frame
                                media:content.getMedia
                                presentingController:self preloadNow:NO];
-                
-                //if(!currNote.hasAudio)
-                [mediaButton setFrame:CGRectMake(10, height, 300, 450)];
-                //else
-                //  [mediaButton setFrame:CGRectMake(10, height+60, 300, 223)];
                 [asyncMediaDict setObject:mediaButton forKey:content.getMedia.url];
-                [cell addSubview:mediaButton];
-                
             }
-            else{
-                [cell addSubview:mediaButton];
-                
-            }
+            [cell.userLabel setFrame:CGRectMake(cell.userLabel.frame.origin.x, cell.frame.origin.y+(textHeight+300)+5, cell.userLabel.frame.size.width, cell.userLabel.frame.size.height)];
+
+            [cell addSubview:mediaButton];
         }
-        /* else if([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeAudio]){
-         
-         CustomAudioPlayer *player = [[CustomAudioPlayer alloc]initWithFrame:CGRectMake(10, height, 300, 40) andMedia:[[[currNote contents] objectAtIndex:x] getMedia]];
-         [player loadView];
-         [cell addSubview:player];
-         [player release];
-         }*/
-        
-        /* if (![[[[currNote contents] objectAtIndex:x] getUploadState] isEqualToString:@"uploadStateDONE"]) {
-         cell.titleLabel.text = @"Uploading Media";
-         cell.userLabel.text = [AppModel sharedAppModel].userName;
-         }*/
     }
     
     if(![AppModel sharedAppModel].currentGame.allowNoteLikes){
@@ -271,19 +240,21 @@
         cell.likeLabel.hidden = YES;
         cell.likesButton.hidden = YES;
     }
-    
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
     //Color the backgrounds
-    if (indexPath.row % 2 == 0){
+    if (indexPath.row % 2 == 0)
+    {
         cell.backgroundColor = [UIColor colorWithRed:233.0/255.0
                                                green:233.0/255.0
                                                 blue:233.0/255.0
                                                alpha:1.0];
-    } else {
+    }
+    else
+    {
         cell.backgroundColor = [UIColor colorWithRed:200.0/255.0
                                                green:200.0/255.0
                                                 blue:200.0/255.0
@@ -295,35 +266,26 @@
 }
 
 - (int) calculateTextHeight:(NSString *)text {
-	CGRect frame = CGRectMake(0, 0, 235, 200000);
-	CGSize calcSize = [text sizeWithFont:[UIFont systemFontOfSize:17]
-					   constrainedToSize:frame.size lineBreakMode:UILineBreakModeWordWrap];
-	frame.size = calcSize;
-	frame.size.height += 0;
-	//NSLog(@"Found height of %f", frame.size.height);
-	return frame.size.height;
+	CGSize calcSize = [text sizeWithFont:[UIFont boldSystemFontOfSize:17.0f] constrainedToSize:CGSizeMake(235-8, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
+	return calcSize.height;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     Note *note = (Note *)[self.parentNote.comments objectAtIndex:(indexPath.row)];
     CGFloat textHeight = [self calculateTextHeight:[note title]] +35;
-    NSLog(@"Height for Row:%d is %f",indexPath.row,textHeight);
-    if (textHeight < 60)textHeight = 60;
+    if (textHeight < 30)textHeight = 30;
     BOOL hasImage = NO;
-    //BOOL hasAudio = NO;
-    for(int i = 0; i < [[note contents] count];i++){
-        if([[(NoteContent *)[[note contents]objectAtIndex:i]getType] isEqualToString:kNoteContentTypePhoto] || [[(NoteContent *)[[note contents]objectAtIndex:i]getType] isEqualToString:kNoteContentTypeVideo] || [[(NoteContent *)[[note contents]objectAtIndex:i]getType] isEqualToString:kNoteContentTypeAudio]){
+    for(int i = 0; i < [[note contents] count];i++)
+    {
+        if([[(NoteContent *)[[note contents]objectAtIndex:i]getType] isEqualToString:kNoteContentTypePhoto] || [[(NoteContent *)[[note contents]objectAtIndex:i]getType] isEqualToString:kNoteContentTypeVideo] || [[(NoteContent *)[[note contents]objectAtIndex:i]getType] isEqualToString:kNoteContentTypeAudio])
+        {
             hasImage = YES;
         }
-        /*else if([[(NoteContent *)[[note contents]objectAtIndex:i]getType] isEqualToString:kNoteContentTypeAudio]){
-         hasAudio = YES;
-         }*/
     }
-    //[note setHasAudio:hasAudio];
     [note setHasImage:hasImage];
-    if(hasImage) textHeight+=455;
-    // if(hasAudio) textHeight += 40;
-    
+
+    if(hasImage) textHeight+=300;
+    textHeight += 21+5; // User Label
     return textHeight;
 }
 
