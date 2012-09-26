@@ -60,10 +60,6 @@
     [[AVAudioSession sharedInstance] setDelegate: nil];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    //if(delegate)
-    //[delegate release];
-    // if(sharingLabel)
-    // [sharingLabel release];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -80,7 +76,6 @@
             // [self refresh];
             [contentTable reloadData];
         }
-        
     }
     else if(startWithView == 1){
         [self cameraButtonTouchAction];
@@ -97,11 +92,9 @@
     }
     else if(self.note.showOnMap && !self.note.showOnList){
         self.sharingLabel.text = NSLocalizedString(@"NoteEditorMapOnlyKey", @""); 
-        
     }
     else if(!self.note.showOnMap && self.note.showOnList){
         self.sharingLabel.text = NSLocalizedString(@"NoteEditorListOnlyKey", @"");
-        
     }
     else if(self.note.showOnMap && self.note.showOnList){
         self.sharingLabel.text = NSLocalizedString(@"NoteEditorListAndMapKey", @"");

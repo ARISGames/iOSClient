@@ -147,16 +147,13 @@
         id orientation = [newMetadata objectForKey:@"Orientation"];
         NSInteger orientationNumber = [orientation integerValue];
         NSLog(@"Orientation Before: %d", orientationNumber);
-        if(orientationNumber == 1 || orientationNumber == 3){
-        image = [image scaleToSize:CGSizeMake(856, 640)];
-        }
-        else{
-        image = [image scaleToSize:CGSizeMake(640, 856)];
-        }
+        if(orientationNumber == 1 || orientationNumber == 3)
+            image = [image scaleToSize:CGSizeMake(856, 640)];
+        else
+            image = [image scaleToSize:CGSizeMake(640, 856)];
 		self.mediaData = UIImageJPEGRepresentation(image, 0.4);
         self.mediaFilename = [NSString stringWithFormat:@"%@image.jpg",[NSDate date]];
         
-
         NSString *newFilePath =[NSTemporaryDirectory() stringByAppendingString: [NSString stringWithFormat:@"%@image.jpg",[NSDate date]]];
         
         NSURL *imageURL = [[NSURL alloc] initFileURLWithPath: newFilePath];
@@ -189,16 +186,10 @@
         if ([info objectForKey:UIImagePickerControllerReferenceURL] == NULL) {
             ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
             __block NSDate *date = [NSDate date];
-            id orientation2 = [newMetadata objectForKey:@"Orientation"];
-            NSInteger orientationNumber2 = [orientation2 integerValue];
-            NSLog(@"Orientation About to Write: %d", orientationNumber2);
+            [newMetadata setObject:[NSNumber numberWithInt:1] forKey:@"Orientation"];
             [al writeImageDataToSavedPhotosAlbum:self.mediaData metadata:newMetadata completionBlock:^(NSURL *assetURL, NSError *error) {
                 NSLog(@"Saving Time: %g", [[NSDate date] timeIntervalSinceDate:date]);
                 NSLog(@"assert url: %@", assetURL);
-                
-            id orientation3 = [newMetadata objectForKey:@"Orientation"];
-            NSInteger orientationNumber3 = [orientation3 integerValue];
-            NSLog(@"Orientation After: %d", orientationNumber3);
                 
                 // once image is saved, get asset from assetURL
                 [al assetForURL:assetURL resultBlock:^(ALAsset *asset) {

@@ -15,7 +15,6 @@
 
 static float INITIAL_SPAN = 0.001;
 
-
 @implementation DropOnMapViewController
 @synthesize mapView,mapTypeButton,locations,tracking,toolBar,noteId,myAnnotation,delegate,pickupButton,note;
 
@@ -42,7 +41,6 @@ static float INITIAL_SPAN = 0.001;
 {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    
     // Release any cached data, images, etc that aren't in use.
 }
 
@@ -159,14 +157,12 @@ static float INITIAL_SPAN = 0.001;
 	//resume auto centering
 	tracking = YES;
     
-	
 	//Force a location update
 	[appDelegate.myCLController.locationManager stopUpdatingLocation];
 	[appDelegate.myCLController.locationManager startUpdatingLocation];
     
 	//Rerfresh all contents
 	[self refresh];
-    
 }
 */
 -(void)pickupButtonAction:(id)sender{
@@ -179,7 +175,6 @@ static float INITIAL_SPAN = 0.001;
     note.longitude = 0;
     [[AppServices sharedAppServices]deleteNoteLocationWithNoteId:self.noteId];
     [self.navigationController popViewControllerAnimated:YES];
-    
 }
 
 -(void)backButtonTouchAction:(id)sender{
@@ -189,9 +184,7 @@ static float INITIAL_SPAN = 0.001;
     note.longitude = myAnnotation.coordinate.longitude;
     [[self.delegate note] setDropped:YES];
     [self.navigationController popViewControllerAnimated:YES];
-    
 }
-
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -209,18 +202,13 @@ static float INITIAL_SPAN = 0.001;
 		NSLog(@"GPSVC: regionDidChange without appSetNextRegionChange, it must have been the user");
 		tracking = NO;
 	}
-	
 	appSetNextRegionChange = NO;
-    
-    
 }
 
 /*- (void)mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view {
 	Location *location = ((Annotation*)view.annotation).location;
     if(view.annotation == aMapView.userLocation) return;
 	NSLog(@"GPSViewController: didSelectAnnotationView for location: %@",location.name);
-	
-	
 }*/
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)annotationView didChangeDragState:(MKAnnotationViewDragState)newState fromOldState:(MKAnnotationViewDragState)oldState {
@@ -231,40 +219,30 @@ static float INITIAL_SPAN = 0.001;
 	}
 }
 
-- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
-	
-    if ([annotation isKindOfClass:[MKUserLocation class]]) {
-        return nil;		
-	}
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
+{	
+    if ([annotation isKindOfClass:[MKUserLocation class]]) return nil;
 	
 	static NSString * const kPinAnnotationIdentifier = @"PinIdentifier";
 	MKAnnotationView *draggablePinView = [self.mapView dequeueReusableAnnotationViewWithIdentifier:kPinAnnotationIdentifier];
 	
-	if (draggablePinView) {
+	if (draggablePinView)
 		draggablePinView.annotation = annotation;
-	} else {
-		// Use class method to create DDAnnotationView (on iOS 3) or built-in draggble MKPinAnnotationView (on iOS 4).
+    else
 		draggablePinView = [DDAnnotationView annotationViewWithAnnotation:annotation reuseIdentifier:kPinAnnotationIdentifier mapView:self.mapView];
-        
-		if ([draggablePinView isKindOfClass:[DDAnnotationView class]]) {
-			// draggablePinView is DDAnnotationView on iOS 3.
-		} else {
-			// draggablePinView instance will be built-in draggable MKPinAnnotationView when running on iOS 4.
-		}
-	}		
-	
+
 	return draggablePinView;
 }
 - (void)mapView:(MKMapView *)mv didAddAnnotationViews:(NSArray *)views
 {
 	MKAnnotationView *annotationView = [views objectAtIndex:0];
 	id <MKAnnotation> mp = [annotationView annotation];
-    if([mp isKindOfClass:[DDAnnotation class]]){
-	MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance([mp coordinate], 1500, 1500);
-	[mv setRegion:region animated:YES];
-	[mv selectAnnotation:mp animated:YES];
+    if([mp isKindOfClass:[DDAnnotation class]])
+    {
+        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance([mp coordinate], 1500, 1500);
+        [mv setRegion:region animated:YES];
+        [mv selectAnnotation:mp animated:YES];
     }
 }
-
 
 @end
