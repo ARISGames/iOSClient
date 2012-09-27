@@ -2452,7 +2452,15 @@ NSString *const kARISServerServicePackage = @"v1";
     NSString *batch = @"";
     NSMutableDictionary *unCachedMedia = [[NSMutableDictionary alloc]initWithCapacity:10];
 	NSDictionary *dict;
+    
+    int mediaLoaded = 0;
+    if([RootViewController sharedRootViewController].loadingVC){
+        [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesCachingGameMediaKey", @"");
+        [RootViewController sharedRootViewController].loadingVC.progressLabel.text = [[RootViewController sharedRootViewController].loadingVC.progressLabel.text stringByAppendingString:[NSString stringWithFormat:@" %d of %d", mediaLoaded,[mediaListArray count]]];
+    }
+    
 	while ((dict = [enumerator nextObject])) {
+        mediaLoaded++;
 		NSInteger uid = [[dict valueForKey:@"media_id"] intValue];
 		NSString *fileName = [dict valueForKey:@"file_name"];
 		NSString *urlPath = [dict valueForKey:@"url_path"];
@@ -2479,6 +2487,12 @@ NSString *const kARISServerServicePackage = @"v1";
         Media *media = [[AppModel sharedAppModel] mediaForMediaId:uid];           
         media.type = type;
         media.url = fullUrl;
+        
+        if([RootViewController sharedRootViewController].loadingVC){
+            [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesCachingGameMediaKey", @"");
+            [RootViewController sharedRootViewController].loadingVC.progressLabel.text = [[RootViewController sharedRootViewController].loadingVC.progressLabel.text stringByAppendingString:[NSString stringWithFormat:@" %d of %d", mediaLoaded,[mediaListArray count]]];
+        }
+        [[RootViewController sharedRootViewController].loadingVC.progressLabel setNeedsDisplay];
 	}
     batch = [batch substringToIndex:(batch.length - 4)];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:batch];
