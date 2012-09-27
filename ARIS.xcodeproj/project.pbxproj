@@ -378,6 +378,7 @@
 		DB7EEF7C15AB40C2009369D4 /* InventoryTradeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB7EEF7A15AB40C2009369D4 /* InventoryTradeViewController.xib */; };
 		DBBCE9E115937704006994F9 /* DefaultPCImage.png in Resources */ = {isa = PBXBuildFile; fileRef = DBBCE9E015937704006994F9 /* DefaultPCImage.png */; };
 		DBC3441315ADEED200FA902F /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC3441115ADEED200FA902F /* RootViewController.m */; };
+		DDBD616A1615127C00D492DB /* IconQuestsButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBD61691615127C00D492DB /* IconQuestsButton.m */; };
 		DDC4ABDC15F117C500D525BA /* RoundedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC4ABDB15F117C500D525BA /* RoundedTableViewCell.m */; };
 /* End PBXBuildFile section */
 
@@ -988,6 +989,8 @@
 		DBBCE9E015937704006994F9 /* DefaultPCImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultPCImage.png; sourceTree = "<group>"; };
 		DBC3441015ADEED200FA902F /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewController.h; path = Classes/RootViewController.h; sourceTree = "<group>"; };
 		DBC3441115ADEED200FA902F /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RootViewController.m; path = Classes/RootViewController.m; sourceTree = "<group>"; };
+		DDBD61681615127C00D492DB /* IconQuestsButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IconQuestsButton.h; sourceTree = "<group>"; };
+		DDBD61691615127C00D492DB /* IconQuestsButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IconQuestsButton.m; sourceTree = "<group>"; };
 		DDC4ABDA15F117C500D525BA /* RoundedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RoundedTableViewCell.h; path = Classes/RoundedTableViewCell.h; sourceTree = "<group>"; };
 		DDC4ABDB15F117C500D525BA /* RoundedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RoundedTableViewCell.m; path = Classes/RoundedTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1605,6 +1608,8 @@
 		A7986D680F8FEC4900A5469F /* Quests */ = {
 			isa = PBXGroup;
 			children = (
+				DDBD61681615127C00D492DB /* IconQuestsButton.h */,
+				DDBD61691615127C00D492DB /* IconQuestsButton.m */,
 				2D367CD216122710001FC5C3 /* IconQuestsViewController.h */,
 				2D367CD316122710001FC5C3 /* IconQuestsViewController.m */,
 				2D367CD416122710001FC5C3 /* IconQuestsViewController.xib */,
@@ -2548,6 +2553,7 @@
 				2D73EA23160CD07600A1F570 /* GlobalPlayerViewController.m in Sources */,
 				2D73EA27160CE0AA00A1F570 /* AsyncMediaTouchableImageView.m in Sources */,
 				2D367CD516122710001FC5C3 /* IconQuestsViewController.m in Sources */,
+				DDBD616A1615127C00D492DB /* IconQuestsButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2833,7 +2839,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos6.0;
 			};
 			name = Debug;
 		};

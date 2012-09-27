@@ -2783,7 +2783,21 @@ NSString *const kARISServerServicePackage = @"v1";
 	NSArray *activeQuests = [questListDictionary objectForKey:@"active"];
 	NSEnumerator *activeQuestsEnumerator = [activeQuests objectEnumerator];
 	NSDictionary *activeQuest;
+    
+    //parse out the completed quests into quest objects
+	NSMutableArray *completedQuestObjects = [[NSMutableArray alloc] init];
+	NSArray *completedQuests = [questListDictionary objectForKey:@"completed"];
+	NSEnumerator *completedQuestsEnumerator = [completedQuests objectEnumerator];
+	NSDictionary *completedQuest;
+    
+    int questsParsed = 0;
+    if([RootViewController sharedRootViewController].loadingVC){
+        [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedQuestListKey", @"");
+        [RootViewController sharedRootViewController].loadingVC.progressLabel.text = [[RootViewController sharedRootViewController].loadingVC.progressLabel.text stringByAppendingString:[NSString stringWithFormat:@" %d of %d", questsParsed,([activeQuests count] + [completedQuests count])]];
+    }
+    
 	while ((activeQuest = [activeQuestsEnumerator nextObject])) {
+        questsParsed++;
 		//We have a quest, parse it into a quest abject and add it to the activeQuestObjects array
 		Quest *quest = [[Quest alloc] init];
 		quest.questId = [[activeQuest objectForKey:@"quest_id"] intValue];
@@ -2791,21 +2805,27 @@ NSString *const kARISServerServicePackage = @"v1";
 		quest.description = [activeQuest objectForKey:@"description"];
 		quest.iconMediaId = [[activeQuest objectForKey:@"icon_media_id"] intValue];
 		[activeQuestObjects addObject:quest];
+        
+        if([RootViewController sharedRootViewController].loadingVC){
+            [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedQuestListKey", @"");
+            [RootViewController sharedRootViewController].loadingVC.progressLabel.text = [[RootViewController sharedRootViewController].loadingVC.progressLabel.text stringByAppendingString:[NSString stringWithFormat:@" %d of %d", questsParsed,([activeQuests count] + [completedQuests count])]];
+        }
 	}
     
-	//parse out the completed quests into quest objects	
-	NSMutableArray *completedQuestObjects = [[NSMutableArray alloc] init];
-	NSArray *completedQuests = [questListDictionary objectForKey:@"completed"];
-	NSEnumerator *completedQuestsEnumerator = [completedQuests objectEnumerator];
-	NSDictionary *completedQuest;
 	while ((completedQuest = [completedQuestsEnumerator nextObject])) {
-		//We have a quest, parse it into a quest abject and add it to the completedQuestObjects array
+        questsParsed++;
+		//We have a quest, parse it into a quest object and add it to the completedQuestObjects array
 		Quest *quest = [[Quest alloc] init];
 		quest.questId = [[completedQuest objectForKey:@"quest_id"] intValue];
 		quest.name = [completedQuest objectForKey:@"name"];
 		quest.description = [completedQuest objectForKey:@"text_when_complete"];
 		quest.iconMediaId = [[completedQuest objectForKey:@"icon_media_id"] intValue];
 		[completedQuestObjects addObject:quest];
+        
+        if([RootViewController sharedRootViewController].loadingVC){
+            [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedQuestListKey", @"");
+            [RootViewController sharedRootViewController].loadingVC.progressLabel.text = [[RootViewController sharedRootViewController].loadingVC.progressLabel.text stringByAppendingString:[NSString stringWithFormat:@" %d of %d", questsParsed,([activeQuests count] + [completedQuests count])]];
+        }
 	}
     
     
@@ -2829,7 +2849,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	[[NSNotificationCenter defaultCenter] postNotification: [NSNotification notificationWithName:@"NewQuestListReady" object:nil]];
     
     if([RootViewController sharedRootViewController].loadingVC){
-        [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedQuestListKey", @"");
+    //    [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedQuestListKey", @"");
         [RootViewController sharedRootViewController].loadingVC.receivedData++;
     }
 }
