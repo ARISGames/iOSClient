@@ -27,7 +27,6 @@ const NSInteger kMaxOptions = 20;
 const NSInteger kOptionsFontSize = 17;
 NSString *const kOutAnimation = @"out";
 NSString *const kInAnimation = @"in";
-BOOL hasTitle;
 
 NSString *const kDialogHtmlTemplate = 
 @"<html>"
@@ -165,7 +164,6 @@ NSString *const kDialogHtmlTemplate =
 	@"<npc id='2' zoomX='150' zoomY='50' zoomWidth='100' zoomHeight='100'><![CDATA[<p><strong>OUCH!</strong></p><p>Ha ha ha!</p>]]></npc>"
 	@"</dialog>";
 */
-    hasTitle = NO;
 }
 
 -(void)imageFinishedLoading{
@@ -359,10 +357,6 @@ NSString *const kDialogHtmlTemplate =
 		Scene *currentScene = [currentScript objectAtIndex:scriptIndex];
         
         // display title for scene if specified
-        if (![currentScene.title isEqualToString:@""] && (currentScene.title != nil)) {
-            self.title = currentScene.title;
-            hasTitle = YES;
-        }
         
         if (currentScene.videoId !=0) {
             //Setup the Button
@@ -658,7 +652,8 @@ NSString *const kDialogHtmlTemplate =
 		 
 	if (cachedScene.isPc) {
         NSLog(@"Dialog VC: finishScene: This is the PC");
-		self.title = NSLocalizedString(@"DialogPlayerName",@"");
+        if (![cachedScene.title isEqualToString:@""] && (cachedScene.title != nil)) self.title = cachedScene.title;
+        else self.title = NSLocalizedString(@"DialogPlayerName",@"");
 		characterView = pcView;
         characterWebView = pcWebView;
 		lastCharacterScrollView = npcScrollView;
@@ -679,11 +674,12 @@ NSString *const kDialogHtmlTemplate =
 	}
 	else {
         NSLog(@"Dialog VC: finishScene: This is the NPC");
-		if (!hasTitle) {
-        self.title = currentNpc.name;
-        }
-        hasTitle = NO;
 
+        if (![cachedScene.title isEqualToString:@""] && (cachedScene.title != nil)) self.title = cachedScene.title;
+        else self.title = currentNpc.name; 
+        
+        cachedScene.title = nil;
+        
         characterView = npcView;
         characterWebView = npcWebView;
 		lastCharacterScrollView = pcScrollView;
