@@ -699,10 +699,6 @@ BOOL isShowingNotification;
     [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] resetCurrentlyFetchingVars];
 	[tutorialViewController dismissAllTutorials];
 	
-	//Notify the Server
-	NSLog(@"RootViewController: Game Selected. Notifying Server");
-	[[AppServices sharedAppServices] updateServerGameSelected];
-	
 	UINavigationController *navigationController;
 	
 	//Get the naviation controller and visible view controller
@@ -719,7 +715,11 @@ BOOL isShowingNotification;
     [self.tabBarController presentModalViewController:self.loadingVC animated:NO];
     
     [[AppServices sharedAppServices] fetchAllGameLists];
-	[[AppServices sharedAppServices] fetchAllPlayerLists];
+    
+	//Notify the Server
+	NSLog(@"RootViewController: Game Selected. Notifying Server");
+	[[AppServices sharedAppServices] updateServerGameSelected];
+    
     [AppModel sharedAppModel].hasReceivedMediaList = NO;
 }
 
