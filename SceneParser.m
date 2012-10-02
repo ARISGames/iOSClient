@@ -75,6 +75,11 @@ NSString *const kTagVibrate = @"vibrate";
         [self.delegate setHideLeaveConversationButton: ([attributeDict objectForKey:kTagHideLeaveConversationButton] ? [[attributeDict objectForKey:kTagHideLeaveConversationButton]intValue] : 0)];
     }
     
+    if ([attributeDict objectForKey:kTagTitle]) {
+        title = [attributeDict objectForKey:kTagTitle] ? [attributeDict objectForKey:kTagTitle] : @"";
+    }
+    else title = nil;
+    
     if ([elementName isEqualToString:kTagPc]) {
 		isPc = YES;
     }
@@ -135,10 +140,6 @@ NSString *const kTagVibrate = @"vibrate";
     }
     else if ([elementName isEqualToString:kTagItem]) {
         itemId = [attributeDict objectForKey:kTagId] ? [[attributeDict objectForKey:kTagId]intValue] : 0;
-    }
-   
-    if ([attributeDict objectForKey:kTagTitle]) {
-        title = [attributeDict objectForKey:kTagTitle] ? [attributeDict objectForKey:kTagTitle] : @"";
     }
     
 	imageRect = CGRectMake(0, 0, 320, 416);
