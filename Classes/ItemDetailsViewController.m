@@ -185,9 +185,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     
 	item.hasViewed = YES;
     
-    //Notify the server this item was displayed:
-    [[AppServices sharedAppServices] updateServerItemViewed:item.itemId fromLocation:item.locationId];
-    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -297,6 +294,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     {
         [self doActionWithMode:mode quantity:1];
     }
+    
+    //Notify the server this item was displayed:
+    [[AppServices sharedAppServices] updateServerItemViewed:item.itemId fromLocation:item.locationId];
+    
 }
 
 
