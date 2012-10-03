@@ -184,6 +184,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     }
     
 	item.hasViewed = YES;
+    
+    //Notify the server this item was displayed:
+    [[AppServices sharedAppServices] updateServerItemViewed:item.itemId fromLocation:item.locationId];
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -275,7 +279,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	
 	mode = kItemDetailsPickingUp;
 	
-    
     if(self.item.qty > 1)
     {
         
