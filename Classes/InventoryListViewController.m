@@ -70,6 +70,19 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     
+    if([AppModel sharedAppModel].currentGame.allowTrading)
+    {
+        UIBarButtonItem *tradeButtonAlloc = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"InventoryTradeViewTitleKey", @"") style:UIBarButtonItemStyleDone target:self action:@selector(tradeButtonTouched)];
+        self.tradeButton = tradeButtonAlloc;
+        [self.navigationItem setRightBarButtonItem:self.tradeButton];
+    }
+    else if (self.tradeButton != nil) { 
+        // remove trade button if it shouldn't be there
+        self.navigationItem.rightBarButtonItem = nil;
+        self.tradeButton = nil;
+        
+    }
+    
     [[AppServices sharedAppServices] updateServerInventoryViewed];
 	[self refresh];		
 	
