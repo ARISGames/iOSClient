@@ -10,6 +10,7 @@
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
 #import "Quest.h"
+#import "IconQuestsButton.h"
 
 @interface IconQuestsViewController : UIViewController {
 	NSMutableArray *quests;

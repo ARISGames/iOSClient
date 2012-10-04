@@ -1,4 +1,4 @@
-//
+/////
 //  IconQuestsButton.m
 //  ARIS
 //
@@ -15,24 +15,29 @@
     self = [super initWithFrame:inputFrame];
     if (self) {
         self.frame = inputFrame;
-        [self setBackgroundImage:inputImage forState:UIControlStateNormal];
-        self.titleLabel.text = inputTitle;
-        self.titleLabel.textColor = [UIColor blackColor];
+        [self setImage:inputImage forState:UIControlStateNormal];
+        [self setTitle:inputTitle forState:UIControlStateNormal];
+        [self setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        self.titleLabel.textAlignment = UITextAlignmentCenter;
+        self.titleLabel.lineBreakMode = UILineBreakModeTailTruncation;
+        self.titleLabel.font = [UIFont systemFontOfSize:12.0];
+        self.titleLabel.font = [UIFont fontWithName:@"Helvetica" size:12];
+        
     }
     return self;
 }
 
+
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+    //CGRect frame = self.imageView.frame;
+    CGRect imageFrame = CGRectMake(0, 0, self.frame.size.width, (self.frame.size.height-15));
+    self.imageView.frame = imageFrame;
     
-    CGRect frame = self.imageView.frame;
-    frame = CGRectMake(truncf((self.bounds.size.width - frame.size.width) / 2), 0.0f, frame.size.width, frame.size.height);
-    self.imageView.frame = frame;
-    
-    frame = self.titleLabel.frame;
-    frame = CGRectMake(truncf((self.bounds.size.width - frame.size.width) / 2), self.bounds.size.height - frame.size.height, frame.size.width, frame.size.height);
-    self.titleLabel.frame = frame;
+    //frame = self.titleLabel.frame;
+    CGRect textFrame = CGRectMake(0, (self.frame.size.height-10), self.frame.size.width, 10);
+    self.titleLabel.frame = textFrame;
 }
 
 

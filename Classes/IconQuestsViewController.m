@@ -51,7 +51,7 @@ NSString *const kIconQuestsHtmlTemplate =
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
-        self.title = NSLocalizedString(@"QuestViewTitleKey",@"");
+        self.title = @"Icon Quests"; //NSLocalizedString(@"QuestViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"117-todo"];
         activeSort = 1;
 		self.isLink = NO;
@@ -200,95 +200,59 @@ NSString *const kIconQuestsHtmlTemplate =
 
 -(void)createIcons{
 	NSLog(@"QuestsVC: Constructing Icons");
+    
+    for (UIView *view in [self.view subviews]) {
+        [view removeFromSuperview];
+    }
 	
 	NSArray *activeQuests = [self.quests objectAtIndex:ACTIVE_SECTION];
 	NSArray *completedQuests = [self.quests objectAtIndex:COMPLETED_SECTION];
     
-    for(int i = 0; i < [self.quests count]; i++){
-        int xOrigin = 19;
-        int yOrigin = 20;
-        int tempI = i;
-            if(tempI > 7){
-                yOrigin += 154; 
-                tempI -= 8;
-            }
-            else if(i > 3){
-                yOrigin = 77;
-                tempI -= 4;
-            }
-            xOrigin += tempI * 75;
+    for(int i = 0; i < [activeQuests count]; i++){
+        Quest *currentQuest = [activeQuests objectAtIndex:i];
+        int xOrigin = 23;
+        int yOrigin = 23;
+        int row = (i/3);
+        xOrigin += (i % 3) * 99;
+        yOrigin += row * 114;
         
         UIImage *iconImage;
-  //      if([[self.quests objectAtIndex:i] iconMediaId] != 0){
-    //    Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: [[self.quests objectAtIndex:i] iconMediaId]];
-      //      iconImage = [UIImage imageWithData:iconMedia.image];
-       // }
-       // else 
-            iconImage = [UIImage imageNamed:@"page.png"];
-        UIButton *iconButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        iconButton.frame = CGRectMake(xOrigin, yOrigin, 57.0, 57.0);
+        if(currentQuest.iconMediaId != 0){
+          Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: currentQuest.iconMediaId];
+          iconImage = [UIImage imageWithData:iconMedia.image];
+        }
+        else iconImage = [UIImage imageNamed:@"item.png"];
+        IconQuestsButton *iconButton = [[IconQuestsButton alloc] initWithFrame:CGRectMake(xOrigin, yOrigin, 76, 91) andImage:iconImage andTitle:currentQuest.name];
         iconButton.tag = i;
-        [iconButton setBackgroundImage: iconImage forState:UIControlStateNormal];
         [iconButton addTarget:self action:@selector(questSelected:) forControlEvents:UIControlEventTouchUpInside];
+        iconButton.imageView.layer.cornerRadius = 9.0;
+        [self.view addSubview:iconButton];
         [iconButton setNeedsDisplay];
     }
     
-  /*  
-	NSEnumerator *e;
-	Quest *quest;
-	NSSortDescriptor *sortDescriptor;
-    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sortNum"
-                                                 ascending:NO];
-    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    int currentButtonIndex = [activeQuests count];
     
-    activeQuests = [activeQuests sortedArrayUsingDescriptors:sortDescriptors];
-    
-    NSLog(@"QuestsVC: Active Quests Selected");
-    e = [activeQuests objectEnumerator];
-    while ( (quest = (Quest*)[e nextObject]) ) {
-        [activeQuestCells addObject: [self getCellContentViewForQuest:quest inSection:ACTIVE_SECTION]];
+    for(int i = 0; i < [completedQuests count]; i++){
+        Quest *currentQuest = [activeQuests objectAtIndex:i];
+        int xOrigin = 23;
+        int yOrigin = 23;
+        int row = (currentButtonIndex/3);
+        xOrigin += (currentButtonIndex % 3) * 99;
+        yOrigin += row * 114;
+        
+        UIImage *iconImage;
+        if(currentQuest.iconMediaId != 0){
+            Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: currentQuest.iconMediaId];
+            iconImage = [UIImage imageWithData:iconMedia.image];
+        }
+        else iconImage = [UIImage imageNamed:@"item.png"];
+        IconQuestsButton *iconButton = [[IconQuestsButton alloc] initWithFrame:CGRectMake(xOrigin, yOrigin, 76, 91) andImage:iconImage andTitle:currentQuest.name];
+        iconButton.tag = currentButtonIndex;
+        [iconButton addTarget:self action:@selector(questSelected:) forControlEvents:UIControlEventTouchUpInside];
+        iconButton.imageView.layer.cornerRadius = 9.0;
+        [self.view addSubview:iconButton];
+        [iconButton setNeedsDisplay];
     }
-    */
-    /*
-     This adds a "No new quests" quest to the quest list. Commented out for sizing issues to be dealt with later.
-     if([activeQuestCells count] == 0){
-     activeQuestsEmpty = YES;
-     Quest *nullQuest = [[Quest alloc] init];
-     nullQuest.isNullQuest = true;
-     nullQuest.questId = -1;
-     nullQuest.name = @"Empty";
-     nullQuest.description = @"(there are no quests available at this time)";
-     NSMutableArray *activeQuestsMutable = [[NSMutableArray alloc] initWithArray: activeQuests];
-     [activeQuestsMutable addObject: nullQuest];
-     activeQuests = (NSArray *)activeQuestsMutable;
-     [activeQuestCells addObject: [self getCellContentViewForQuest:nullQuest inSection:ACTIVE_SECTION]];
-     //[self updateCellSize: [activeQuestCells objectAtIndex:0]];
-     
-     }
-     */ 
-    
- //   e = [completedQuests objectEnumerator];
- //   NSLog(@"QuestsVC: Completed Quests Selected");
- //   while ( (quest = (Quest*)[e nextObject]) ) {
- //       [completedQuestCells addObject:[self getCellContentViewForQuest:quest inSection:COMPLETED_SECTION]];
- //  }
-    /*
-     This adds a "No new quests" quest to the quest list. Commented out for sizing issues to be dealt with later.
-     if([completedQuestCells count] == 0){
-     completedQuestsEmpty = YES;
-     
-     Quest *nullQuest = [[Quest alloc] init];
-     nullQuest.isNullQuest = true;
-     nullQuest.questId = -1;
-     nullQuest.name = @"Empty";
-     nullQuest.description = @"(you have not completed any quests)";
-     NSMutableArray *activeQuestsMutable = [[NSMutableArray alloc] initWithArray: activeQuests];
-     [activeQuestsMutable addObject: nullQuest];
-     activeQuests = (NSArray *)activeQuestsMutable;
-     [completedQuestCells addObject: [self getCellContentViewForQuest:nullQuest inSection:COMPLETED_SECTION]];
-     // [self updateCellSize: [completedQuestCells objectAtIndex:0]];
-     }
-     */
 	
 	NSLog(@"QuestsVC: Icons created");
 }
