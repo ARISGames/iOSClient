@@ -42,7 +42,7 @@
 }
 - (void)moveProgressBar {
     
-    float actual = (receivedData/(float)11);
+    float actual = (receivedData/(float)10);
     if (actual < 1) {
         progressBar.progress =actual;
         [progressBar setNeedsLayout];

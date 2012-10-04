@@ -2442,9 +2442,12 @@ NSString *const kARISServerServicePackage = @"v1";
 
 
 -(void)parseGameMediaListFromJSON: (JSONResult *)jsonResult{
-    //ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+   
     
-    [self startCachingMedia:jsonResult];
+    //Below was commented out Thursday, October 4th, 2012 by Jacob Hanshaw as it was viewed to be redundant 
+    //   [self startCachingMedia:jsonResult];
+    //End of redundant code
+    
     // [[[RootViewController sharedRootViewController] showNewWaitingIndicator:@"Loading Game..." displayProgressBar:NO];
     
     if([RootViewController sharedRootViewController].loadingVC){
