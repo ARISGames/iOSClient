@@ -80,6 +80,10 @@ NSString *const kTagVibrate = @"vibrate";
     }
     else title = nil;
     
+    if ([attributeDict objectForKey:kTagVibrate]) {
+        if([[attributeDict objectForKey:kTagVibrate]intValue] > 0) vibrate = YES;
+    }
+    
     if ([elementName isEqualToString:kTagPc]) {
 		isPc = YES;
     }
@@ -88,9 +92,6 @@ NSString *const kTagVibrate = @"vibrate";
         isPc = NO;
         if ([attributeDict objectForKey:kTagMedia]) {
             mediaId = [attributeDict objectForKey:kTagMedia] ? [[attributeDict objectForKey:kTagMedia]intValue] : 0;
-        }
-        if ([attributeDict objectForKey:kTagVibrate]) {
-            if([[attributeDict objectForKey:kTagMedia]intValue] > 0) vibrate = YES;
         }
     }    
     
