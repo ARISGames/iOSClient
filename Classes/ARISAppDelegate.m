@@ -180,8 +180,8 @@ int steps = 0;
 }
 
 //Vibrate
-- (void) vibrate {
-	AudioServicesPlaySystemSound (kSystemSoundID_Vibrate);  
+- (void) vibrate{
+	AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);  
 }
 
 - (void) resetCurrentlyFetchingVars{

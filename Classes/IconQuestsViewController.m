@@ -199,7 +199,7 @@ NSString *const kIconQuestsHtmlTemplate =
 }
 
 -(void)createIcons{
-	NSLog(@"QuestsVC: Constructing Icons");
+	NSLog(@"IconQuestsVC: Constructing Icons");
     
     for (UIView *view in [self.view subviews]) {
         [view removeFromSuperview];
