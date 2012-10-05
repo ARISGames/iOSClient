@@ -17,7 +17,7 @@
         self.frame = inputFrame;
         [self setImage:inputImage forState:UIControlStateNormal];
         [self setTitle:inputTitle forState:UIControlStateNormal];
-        [self setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         self.titleLabel.textAlignment = UITextAlignmentCenter;
         self.titleLabel.lineBreakMode = UILineBreakModeTailTruncation;
         self.titleLabel.font = [UIFont systemFontOfSize:12.0];

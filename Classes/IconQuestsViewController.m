@@ -18,6 +18,8 @@
 static NSString * const OPTION_CELL = @"quest";
 static int const ACTIVE_SECTION = 0;
 static int const COMPLETED_SECTION = 1;
+int itemsPerColumnWithoutScrolling;
+int initialHeight;
 
 NSString *const kIconQuestsHtmlTemplate = 
 @"<html>"
@@ -75,8 +77,22 @@ NSString *const kIconQuestsHtmlTemplate =
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+
 	NSLog(@"IconQuestsViewController: Quests View Loaded");
 	
+}
+
+-(void)loadView{
+    [super loadView];
+    
+    CGRect fullScreenRect=CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    UIScrollView *scrollView=[[UIScrollView alloc] initWithFrame:fullScreenRect];
+    scrollView.contentSize=CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
+    initialHeight = self.view.frame.size.height;
+    itemsPerColumnWithoutScrolling = self.view.frame.size.height/ICONHEIGHT + .5;
+    itemsPerColumnWithoutScrolling--;
+    
+    self.view=scrollView;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -208,13 +224,15 @@ NSString *const kIconQuestsHtmlTemplate =
 	NSArray *activeQuests = [self.quests objectAtIndex:ACTIVE_SECTION];
 	NSArray *completedQuests = [self.quests objectAtIndex:COMPLETED_SECTION];
     
+    NSLog(@"Self frame: %f, %f", self.view.frame.size.width, self.view.frame.size.height);
+    
     for(int i = 0; i < [activeQuests count]; i++){
         Quest *currentQuest = [activeQuests objectAtIndex:i];
-        int xOrigin = 23;
-        int yOrigin = 23;
-        int row = (i/3);
-        xOrigin += (i % 3) * 99;
-        yOrigin += row * 114;
+        int xMargin = truncf((self.view.frame.size.width - ICONSPERROW * ICONWIDTH)/(ICONSPERROW +1));
+        int yMargin = truncf((initialHeight - itemsPerColumnWithoutScrolling * ICONHEIGHT)/(itemsPerColumnWithoutScrolling + 1));
+        int row = (i/ICONSPERROW);
+        int xOrigin = (i % ICONSPERROW) * (xMargin + ICONWIDTH) + xMargin;
+        int yOrigin = row * (yMargin + ICONHEIGHT) + yMargin;
         
         UIImage *iconImage;
         if(currentQuest.iconMediaId != 0){
@@ -222,7 +240,7 @@ NSString *const kIconQuestsHtmlTemplate =
           iconImage = [UIImage imageWithData:iconMedia.image];
         }
         else iconImage = [UIImage imageNamed:@"item.png"];
-        IconQuestsButton *iconButton = [[IconQuestsButton alloc] initWithFrame:CGRectMake(xOrigin, yOrigin, 76, 91) andImage:iconImage andTitle:currentQuest.name];
+        IconQuestsButton *iconButton = [[IconQuestsButton alloc] initWithFrame:CGRectMake(xOrigin, yOrigin, ICONWIDTH, ICONHEIGHT) andImage:iconImage andTitle:currentQuest.name];
         iconButton.tag = i;
         [iconButton addTarget:self action:@selector(questSelected:) forControlEvents:UIControlEventTouchUpInside];
         iconButton.imageView.layer.cornerRadius = 9.0;
@@ -234,11 +252,11 @@ NSString *const kIconQuestsHtmlTemplate =
     
     for(int i = 0; i < [completedQuests count]; i++){
         Quest *currentQuest = [activeQuests objectAtIndex:i];
-        int xOrigin = 23;
-        int yOrigin = 23;
-        int row = (currentButtonIndex/3);
-        xOrigin += (currentButtonIndex % 3) * 99;
-        yOrigin += row * 114;
+        int xMargin = truncf((self.view.frame.size.width - ICONSPERROW * ICONWIDTH)/(ICONSPERROW +1));
+        int yMargin = truncf((initialHeight - itemsPerColumnWithoutScrolling * ICONHEIGHT)/(itemsPerColumnWithoutScrolling + 1));
+        int row = (currentButtonIndex/ICONSPERROW);
+        int xOrigin = (currentButtonIndex % ICONSPERROW) * (xMargin + ICONWIDTH) + xMargin;
+        int yOrigin = row * (yMargin + ICONHEIGHT) + yMargin;
         
         UIImage *iconImage;
         if(currentQuest.iconMediaId != 0){
@@ -252,6 +270,7 @@ NSString *const kIconQuestsHtmlTemplate =
         iconButton.imageView.layer.cornerRadius = 9.0;
         [self.view addSubview:iconButton];
         [iconButton setNeedsDisplay];
+        currentButtonIndex++;
     }
 	
 	NSLog(@"QuestsVC: Icons created");

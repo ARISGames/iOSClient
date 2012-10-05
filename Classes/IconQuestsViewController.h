@@ -12,6 +12,10 @@
 #import "Quest.h"
 #import "IconQuestsButton.h"
 
+#define ICONWIDTH 76
+#define ICONHEIGHT 91
+#define ICONSPERROW 3
+
 @interface IconQuestsViewController : UIViewController {
 	NSMutableArray *quests;
     int activeSort;
