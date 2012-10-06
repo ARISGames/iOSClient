@@ -72,12 +72,17 @@ BOOL isShowingNotification;
         [dispatcher addObserver:self selector:@selector(checkForDisplayCompleteNode) name:@"NewQuestListReady" object:nil];
         [dispatcher addObserver:self selector:@selector(receivedMediaList) name:@"ReceivedMediaList" object:nil];
         
-        UILabel *titleLabelAlloc = [[UILabel alloc] initWithFrame:CGRectMake(0, TRUE_ZERO_Y, SCREEN_WIDTH, 20)];
+            
+        //UILabel *titleLabelAlloc = [[UILabel alloc] initWithFrame:CGRectMake(0, TRUE_ZERO_Y, SCREEN_WIDTH, 20)];
+        UIWebView *titleLabelAlloc = [[UIWebView alloc] initWithFrame:CGRectMake(0, TRUE_ZERO_Y-8, SCREEN_WIDTH, 28)];
         self.titleLabel = titleLabelAlloc;
-        self.titleLabel.textColor = [UIColor whiteColor];
-        self.titleLabel.font = [UIFont boldSystemFontOfSize:16];
-        self.titleLabel.textAlignment = UITextAlignmentCenter;
-        self.titleLabel.backgroundColor = [UIColor blackColor];
+        //self.titleLabel.textColor = [UIColor blackColor];
+        //self.titleLabel.font = [UIFont systemFontOfSize:16];
+        //self.titleLabel.textAlignment = UITextAlignmentCenter;
+        self.titleLabel.backgroundColor = [UIColor whiteColor];
+        //self.titleLabel.shadowColor = [UIColor colorWithWhite:.7 alpha:1];
+        //self.titleLabel.shadowOffset = CGSizeMake(.5, 1);
+        
         
         UILabel *descLabelAlloc = [[UILabel alloc] initWithFrame:CGRectMake(0, self.titleLabel.frame.origin.y + self.titleLabel.frame.size.height, SCREEN_WIDTH, 15)];
         self.descLabel = descLabelAlloc;
@@ -269,16 +274,16 @@ BOOL isShowingNotification;
             [AppModel sharedAppModel].loggedIn = YES;
             self.loginViewNavigationController.view.hidden = YES;
             self.tabBarController.view.hidden = YES;
-            if([AppModel sharedAppModel].museumMode)
+            /*if([AppModel sharedAppModel].museumMode)
             {
                 self.gameSelectionTabBarController.view.hidden = YES;
                 self.globalPlayerViewNavigationController.view.hidden = NO;
-            }
-            else
-            {
+            }*/
+            //else
+            //{
                 self.gameSelectionTabBarController.view.hidden = NO;
                 self.globalPlayerViewNavigationController.view.hidden = YES;
-            }
+            //}
         }
         //self.waitingIndicatorView = [[WaitingIndicatorView alloc] init];
         
@@ -331,9 +336,9 @@ BOOL isShowingNotification;
 
 #pragma mark Notifications, Warnings and Other Views
 
--(void)enqueueNotificationWithTitle:(NSString *)title andPrompt:(NSString *)prompt
+-(void)enqueueNotificationWithFullString:(NSString *)fullString andBoldedString:(NSString *)boldedString
 {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:title,@"title",prompt,@"prompt", nil];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:fullString,@"fullString",boldedString,@"boldedString", nil];
     [self.notifArray addObject:dict];
     if(!isShowingNotification)// && !self.presentedViewController)
          [self showNotifications];
@@ -346,7 +351,7 @@ BOOL isShowingNotification;
         if(!isShowingNotification){//lower frame into position if its not already there
             isShowingNotification = YES;
             [self.view addSubview:self.titleLabel];
-            [self.view addSubview:self.descLabel];
+            //[self.view addSubview:self.descLabel];
             
             [UIView beginAnimations:nil context:nil];
             [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
@@ -369,17 +374,46 @@ BOOL isShowingNotification;
         
         titleLabel.alpha = 0.0;
         descLabel.alpha = 0.0;
-        titleLabel.text = [[notifArray objectAtIndex:0] objectForKey:@"title"];
-        descLabel.text = [[notifArray objectAtIndex:0] objectForKey:@"prompt"];
+        //titleLabel.text = [[notifArray objectAtIndex:0] objectForKey:@"title"];
+        NSString* fullString = [[notifArray objectAtIndex:0] objectForKey:@"fullString"];
+        NSString* boldString = [[notifArray objectAtIndex:0] objectForKey:@"boldedString"];
+        NSString* part1;
+        NSString* part2;
+        NSString* part3;
         
-        [UIView animateWithDuration:1.5 delay:0.0 options:UIViewAnimationCurveEaseIn animations:^{
+        NSRange boldRange = [fullString rangeOfString:boldString];
+        if (boldRange.location == NSNotFound) {
+            part1 = fullString;
+            part2 = @"";
+            part3 = @"";
+        } else {
+            part1 = [fullString substringToIndex:boldRange.location];
+            part2 = [fullString substringWithRange:boldRange];
+            part3 = [fullString substringFromIndex:(boldRange.location + boldRange.length)];
+        }
+        
+        
+        NSString* htmlContentString = [NSString stringWithFormat:
+                                       @"<html>"
+                                       "<style type=\"text/css\">"
+                                       "body { vertical-align:text-top; text-align: center; font-family:Arial; font-size:16;}"
+                                       ".different { font: 16px Arial, Helvetica, sans-serif;font-weight:bold;color:DarkBlue}"
+                                       "</style>"
+                                       "<body>"
+                                       "%@<span class='different'>%@</span>%@"
+                                       "</body></html>", part1, part2, part3];
+        
+        [titleLabel loadHTMLString:htmlContentString baseURL:nil];
+        //descLabel.text = [[notifArray objectAtIndex:0] objectForKey:@"prompt"];
+        
+        [UIView animateWithDuration:3.0 delay:0.0 options:UIViewAnimationCurveEaseIn animations:^{
             NSLog(@"RootViewController: showNotifications: Begin Fade in");
             self.titleLabel.alpha = 1.0;
             self.descLabel.alpha = 1.0;
         }completion:^(BOOL finished){
             if(finished){
                 NSLog(@"RootViewController: showNotifications: Fade in Complete, Begin Fade Out");
-                [UIView animateWithDuration:1.5 delay:0.0 options:UIViewAnimationCurveEaseIn animations:^{
+                [UIView animateWithDuration:3.0 delay:0.0 options:UIViewAnimationCurveEaseIn animations:^{
                     self.titleLabel.alpha = 0.0;
                     self.descLabel.alpha = 0.0;
                 }completion:^(BOOL finished){

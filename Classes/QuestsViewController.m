@@ -153,8 +153,9 @@ NSString *const kQuestsHtmlTemplate =
                 quest.sortNum = activeSort;
                 activeSort++;
                 
-                [[RootViewController sharedRootViewController] enqueueNotificationWithTitle:NSLocalizedString(@"QuestsViewNewQuestsKey", @"")
-                                                                                  andPrompt:quest.name];
+                [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:[NSString stringWithFormat:@"%@ %@", quest.name, NSLocalizedString(@"QuestsViewNewQuestsKey", @"")]
+                                                                                  andBoldedString:quest.name];
+                
 			}
 		}
         
@@ -168,8 +169,10 @@ NSString *const kQuestsHtmlTemplate =
 			if (match == NO) {
                 [appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
                 
-                [[RootViewController sharedRootViewController] enqueueNotificationWithTitle:NSLocalizedString(@"QuestsViewQuestCompletedKey", @"")
-                                                                                  andPrompt:quest.name];
+                
+                [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:[NSString stringWithFormat:@"%@ %@", quest.name, NSLocalizedString(@"QuestsViewQuestCompletedKey", @"")]
+                                                                                 andBoldedString:quest.name];
+
 			}
 		}
         

@@ -159,6 +159,7 @@
 		NSArray *newInventory = [[AppModel sharedAppModel].inventory allValues];
 		//Check if anything is new since last time
 		int newItems = 0;
+       // int newItemQty = 0;
         UIViewController *topViewController =  [[self navigationController] topViewController];
 		
         for (Item *item in newInventory) {	
@@ -168,10 +169,11 @@
                 if ((existingItem.itemId == item.itemId) && (existingItem.qty < item.qty)){
                     if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
                         [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
-                    
-                    [[RootViewController sharedRootViewController] enqueueNotificationWithTitle:NSLocalizedString(@"AppModelItemReceivedKey", @"")
-                                                                                      andPrompt:[NSString stringWithFormat:@"%d %@ %@",item.qty - existingItem.qty,item.name,NSLocalizedString(@"InventoryAddedToKey", @"")]];
+                
+
+                    [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:[NSString stringWithFormat:@"%d %@ %@",item.qty - existingItem.qty,item.name,NSLocalizedString(@"InventoryAddedToKey", @"")] andBoldedString:item.name];
                     newItems ++;
+                    //newItemQty += item.qty - existingItem.qty;
                 }
 			}
             
@@ -183,10 +185,12 @@
                 }
                 if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
                     [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
+                      
+                [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:[NSString stringWithFormat:@"%d %@ %@",item.qty,item.name,NSLocalizedString(@"InventoryAddedToKey", @"")]
+                                                                                  andBoldedString:item.name];
                 
-                [[RootViewController sharedRootViewController] enqueueNotificationWithTitle:NSLocalizedString(@"AppModelItemReceivedKey", @"")
-                                                                                  andPrompt:[NSString stringWithFormat:@"%d %@ %@",item.qty,item.name,NSLocalizedString(@"InventoryAddedToKey", @"")]];
 				newItems ++;
+                //newItemQty += item.qty;
 			}
 		}
 		if (newItems > 0) {
@@ -195,7 +199,7 @@
             
 			//Vibrate and Play Sound
 			[appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
-			
+            
 			//Put up the tutorial tab
 			if (![AppModel sharedAppModel].hasSeenInventoryTabTutorial){
 				[[RootViewController sharedRootViewController].tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController  

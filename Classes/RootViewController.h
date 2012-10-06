@@ -9,7 +9,7 @@
 #define SCREEN_HEIGHT 480
 #define SCREEN_WIDTH 320
 #define STATUS_BAR_HEIGHT 20
-#define NOTIFICATION_HEIGHT 40
+#define NOTIFICATION_HEIGHT 20
 #define TRUE_ZERO_Y -20
 
 #import <UIKit/UIKit.h>
@@ -75,7 +75,8 @@
     BOOL modalPresent;
     BOOL isMovie;
     BOOL isItemDetailsMovie; 
-    UILabel *titleLabel;
+    //UILabel *titleLabel;
+    UIWebView *titleLabel;
     UILabel *descLabel;
     CGRect squishedVCFrame;
     CGRect notSquishedVCFrame;
@@ -109,7 +110,8 @@
 @property (readwrite) BOOL isMovie;
 @property (readwrite) BOOL isItemDetailsMovie;
 
-@property(nonatomic) IBOutlet UILabel *titleLabel;
+//@property(nonatomic) IBOutlet UILabel *titleLabel;
+@property(nonatomic) IBOutlet UIWebView *titleLabel;
 @property(nonatomic) IBOutlet UILabel *descLabel;
 @property(nonatomic) CGRect notSquishedVCFrame;
 @property(nonatomic) CGRect squishedVCFrame;
@@ -132,7 +134,7 @@
 - (void) checkForDisplayCompleteNode;
 - (void) displayIntroNode;
 - (void) changeTabBar;
-- (void) enqueueNotificationWithTitle:(NSString *)title andPrompt:(NSString *)prompt;
+- (void) enqueueNotificationWithFullString:(NSString *)fullString andBoldedString:(NSString *)boldedString;
 - (void) showNotifications;
 - (void) hideNotifications;
 - (void) dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController;

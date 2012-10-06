@@ -79,16 +79,17 @@
                     if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
                         [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
                     
-                    [[RootViewController sharedRootViewController] enqueueNotificationWithTitle:NSLocalizedString(@"AttributeReceivedKey", @"")
-                                                                                      andPrompt:[NSString stringWithFormat:@"%d %@ %@",attr.qty - existingAttr.qty,attr.name,@" added"]];
+                    [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:[NSString stringWithFormat:@"%d %@ %@",attr.qty - existingAttr.qty,attr.name,NSLocalizedString(@"AttributeReceivedKey", @"")] andBoldedString:attr.name];
                     newAttrs++;
                 }
                 if((existingAttr.itemId == attr.itemId) && (existingAttr.qty > attr.qty)){
                     if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
                         [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
                     
-                    [[RootViewController sharedRootViewController] enqueueNotificationWithTitle:NSLocalizedString(@"AttributeLostKey", @"")
-                                                                                      andPrompt:[NSString stringWithFormat:@"%d %@ %@",existingAttr.qty - attr.qty,attr.name,@" lost"]];
+        
+                             [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:[NSString stringWithFormat:@"%d %@ %@",existingAttr.qty - attr.qty,attr.name,NSLocalizedString(@"AttributeLostKey", @"")] andBoldedString:attr.name];
+                    
+                    
                     newAttrs++;
                 }
             }
@@ -97,8 +98,9 @@
                 if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
                     [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
                 
-                [[RootViewController sharedRootViewController] enqueueNotificationWithTitle: NSLocalizedString(@"AttributeReceivedKey", @"")
-                                                                                  andPrompt:[NSString stringWithFormat:@"%d %@ %@",attr.qty,attr.name,@" added"]];
+                
+                [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:[NSString stringWithFormat:@"%d %@ %@",attr.qty ,attr.name,NSLocalizedString(@"AttributeReceivedKey", @"")] andBoldedString:attr.name];
+                
                 newAttrs++;
             }
         }
@@ -113,8 +115,10 @@
                 if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
                     [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
                 
-                [[RootViewController sharedRootViewController] enqueueNotificationWithTitle:NSLocalizedString(@"AttributeLostKey", @"")
-                                                                                  andPrompt:[NSString stringWithFormat:@"%d %@ %@",existingAttr.qty,existingAttr.name,@" lost"]];
+                
+                [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:[NSString stringWithFormat:@"%d %@ %@",existingAttr.qty ,existingAttr.name,NSLocalizedString(@"AttributeLostKey", @"")] andBoldedString:existingAttr.name];
+                
+              
                 newAttrs++;
             }
         }

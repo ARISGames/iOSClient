@@ -189,6 +189,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     [tableView reloadData];
     
 }
+
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
 navigationType:(UIWebViewNavigationType)navigationType{
     
