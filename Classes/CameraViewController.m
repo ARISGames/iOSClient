@@ -147,11 +147,24 @@
         id orientation = [newMetadata objectForKey:@"Orientation"];
         NSInteger orientationNumber = [orientation integerValue];
         NSLog(@"Orientation Before: %d", orientationNumber);
-        if(orientationNumber == 1 || orientationNumber == 3)
-            image = [image scaleToSize:CGSizeMake(856, 640)];
+        
+        //scale image uniformly to fit in 856x640 or 640x856 box
+        if(image.size.height > image.size.width)
+        {
+            if(image.size.height > 856)
+                image = [image scaleToSize:CGSizeMake(image.size.width*(856/image.size.height), 856)];
+            if(image.size.width > 640)
+                image = [image scaleToSize:CGSizeMake(640, image.size.height*(640/image.size.width))];
+        }
         else
-            image = [image scaleToSize:CGSizeMake(640, 856)];
-		self.mediaData = UIImageJPEGRepresentation(image, 0.4);
+        {
+            if(image.size.width > 856)
+                image = [image scaleToSize:CGSizeMake(856, image.size.height*(856/image.size.width))];
+            if(image.size.height > 640)
+                image = [image scaleToSize:CGSizeMake(image.size.width*(640/image.size.height), 640)];
+        }
+        
+        self.mediaData = UIImageJPEGRepresentation(image, 0.4);
         self.mediaFilename = [NSString stringWithFormat:@"%@image.jpg",[NSDate date]];
         
         NSString *newFilePath =[NSTemporaryDirectory() stringByAppendingString: [NSString stringWithFormat:@"%@image.jpg",[NSDate date]]];
