@@ -16,6 +16,7 @@
 #import "NoteEditorViewController.h"
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "UIImage+Scale.h"
+#import "UIImage+Resize.h"
 #import "NSMutableDictionary+ImageMetadata.h"
 #import <ImageIO/ImageIO.h>
 
@@ -149,6 +150,7 @@
         NSLog(@"Orientation Before: %d", orientationNumber);
         
         //scale image uniformly to fit in 856x640 or 640x856 box
+        image = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:image.size interpolationQuality:kCGInterpolationHigh];
         if(image.size.height > image.size.width)
         {
             if(image.size.height > 856)
@@ -199,7 +201,7 @@
         if ([info objectForKey:UIImagePickerControllerReferenceURL] == NULL) {
             ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
             __block NSDate *date = [NSDate date];
-            [newMetadata setObject:[NSNumber numberWithInt:1] forKey:@"Orientation"];
+            [newMetadata setObject:[NSNumber numberWithInt:6] forKey:@"Orientation"];
             [al writeImageDataToSavedPhotosAlbum:self.mediaData metadata:newMetadata completionBlock:^(NSURL *assetURL, NSError *error) {
                 NSLog(@"Saving Time: %g", [[NSDate date] timeIntervalSinceDate:date]);
                 NSLog(@"assert url: %@", assetURL);

@@ -142,6 +142,9 @@
 		2B3D17070F49C99B0067FD3A /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D17060F49C99B0067FD3A /* Game.m */; };
 		2B3D175A0F49D18D0067FD3A /* DeveloperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D17590F49D18D0067FD3A /* DeveloperViewController.m */; };
 		2B3D18D60F4B25720067FD3A /* AppModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D18D50F4B25720067FD3A /* AppModel.m */; };
+		2D26697D1623483200342A7E /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D26697B1623483200342A7E /* UIImage+Resize.m */; };
+		2D2669821623487000342A7E /* UIImage+Alpha.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D26697F1623487000342A7E /* UIImage+Alpha.m */; };
+		2D2669831623487000342A7E /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2669811623487000342A7E /* UIImage+RoundedCorner.m */; };
 		2D367CD516122710001FC5C3 /* IconQuestsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D367CD316122710001FC5C3 /* IconQuestsViewController.m */; };
 		2D367CD616122710001FC5C3 /* IconQuestsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D367CD416122710001FC5C3 /* IconQuestsViewController.xib */; };
 		2D73EA23160CD07600A1F570 /* GlobalPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D73EA21160CD07600A1F570 /* GlobalPlayerViewController.m */; };
@@ -651,6 +654,12 @@
 		2B3D17590F49D18D0067FD3A /* DeveloperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = DeveloperViewController.m; path = Classes/DeveloperViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		2B3D18D40F4B25720067FD3A /* AppModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = AppModel.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		2B3D18D50F4B25720067FD3A /* AppModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = AppModel.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		2D26697B1623483200342A7E /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
+		2D26697C1623483200342A7E /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
+		2D26697E1623487000342A7E /* UIImage+Alpha.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Alpha.h"; sourceTree = "<group>"; };
+		2D26697F1623487000342A7E /* UIImage+Alpha.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Alpha.m"; sourceTree = "<group>"; };
+		2D2669801623487000342A7E /* UIImage+RoundedCorner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RoundedCorner.h"; sourceTree = "<group>"; };
+		2D2669811623487000342A7E /* UIImage+RoundedCorner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RoundedCorner.m"; sourceTree = "<group>"; };
 		2D2C5D4715DED4770052C056 /* UploadContent1.7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UploadContent1.7.xcdatamodel; sourceTree = "<group>"; };
 		2D367CD216122710001FC5C3 /* IconQuestsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IconQuestsViewController.h; path = Classes/IconQuestsViewController.h; sourceTree = "<group>"; };
 		2D367CD316122710001FC5C3 /* IconQuestsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IconQuestsViewController.m; path = Classes/IconQuestsViewController.m; sourceTree = "<group>"; };
@@ -1639,6 +1648,12 @@
 		A7986D6A0F8FEC7200A5469F /* Core App */ = {
 			isa = PBXGroup;
 			children = (
+				2D26697E1623487000342A7E /* UIImage+Alpha.h */,
+				2D26697F1623487000342A7E /* UIImage+Alpha.m */,
+				2D2669801623487000342A7E /* UIImage+RoundedCorner.h */,
+				2D2669811623487000342A7E /* UIImage+RoundedCorner.m */,
+				2D26697B1623483200342A7E /* UIImage+Resize.m */,
+				2D26697C1623483200342A7E /* UIImage+Resize.h */,
 				4A373BD015ACABA8007D975C /* Bump API */,
 				1174E6F314F4333D00026BAF /* Pusher Framework */,
 				AB549ED11047007B00A901EF /* JSON Framework */,
@@ -2554,6 +2569,9 @@
 				2D73EA27160CE0AA00A1F570 /* AsyncMediaTouchableImageView.m in Sources */,
 				2D367CD516122710001FC5C3 /* IconQuestsViewController.m in Sources */,
 				DDBD616A1615127C00D492DB /* IconQuestsButton.m in Sources */,
+				2D26697D1623483200342A7E /* UIImage+Resize.m in Sources */,
+				2D2669821623487000342A7E /* UIImage+Alpha.m in Sources */,
+				2D2669831623487000342A7E /* UIImage+RoundedCorner.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
