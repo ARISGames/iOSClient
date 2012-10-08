@@ -2726,6 +2726,7 @@ NSString *const kARISServerServicePackage = @"v1";
 		item.dropable = [[itemDictionary valueForKey:@"dropable"] boolValue];
 		item.destroyable = [[itemDictionary valueForKey:@"destroyable"] boolValue];
 		item.qty = [[itemDictionary valueForKey:@"qty"] intValue];
+        item.maxQty = [[itemDictionary valueForKey:@"max_qty_in_inventory"] intValue];
         item.isAttribute = [[itemDictionary valueForKey:@"is_attribute"] boolValue];
         item.isTradeable = [[itemDictionary valueForKey:@"tradeable"] boolValue];
         item.weight = [[itemDictionary valueForKey:@"weight"] intValue];
