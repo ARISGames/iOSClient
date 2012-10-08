@@ -145,6 +145,7 @@
 		2D26697D1623483200342A7E /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D26697B1623483200342A7E /* UIImage+Resize.m */; };
 		2D2669821623487000342A7E /* UIImage+Alpha.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D26697F1623487000342A7E /* UIImage+Alpha.m */; };
 		2D2669831623487000342A7E /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D2669811623487000342A7E /* UIImage+RoundedCorner.m */; };
+		2D26698616234CE400342A7E /* UIImage+fixOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D26698516234CE400342A7E /* UIImage+fixOrientation.m */; };
 		2D367CD516122710001FC5C3 /* IconQuestsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D367CD316122710001FC5C3 /* IconQuestsViewController.m */; };
 		2D367CD616122710001FC5C3 /* IconQuestsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2D367CD416122710001FC5C3 /* IconQuestsViewController.xib */; };
 		2D73EA23160CD07600A1F570 /* GlobalPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D73EA21160CD07600A1F570 /* GlobalPlayerViewController.m */; };
@@ -660,6 +661,8 @@
 		2D26697F1623487000342A7E /* UIImage+Alpha.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Alpha.m"; sourceTree = "<group>"; };
 		2D2669801623487000342A7E /* UIImage+RoundedCorner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RoundedCorner.h"; sourceTree = "<group>"; };
 		2D2669811623487000342A7E /* UIImage+RoundedCorner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RoundedCorner.m"; sourceTree = "<group>"; };
+		2D26698416234CE400342A7E /* UIImage+fixOrientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+fixOrientation.h"; sourceTree = "<group>"; };
+		2D26698516234CE400342A7E /* UIImage+fixOrientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+fixOrientation.m"; sourceTree = "<group>"; };
 		2D2C5D4715DED4770052C056 /* UploadContent1.7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UploadContent1.7.xcdatamodel; sourceTree = "<group>"; };
 		2D367CD216122710001FC5C3 /* IconQuestsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IconQuestsViewController.h; path = Classes/IconQuestsViewController.h; sourceTree = "<group>"; };
 		2D367CD316122710001FC5C3 /* IconQuestsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IconQuestsViewController.m; path = Classes/IconQuestsViewController.m; sourceTree = "<group>"; };
@@ -1648,6 +1651,8 @@
 		A7986D6A0F8FEC7200A5469F /* Core App */ = {
 			isa = PBXGroup;
 			children = (
+				2D26698416234CE400342A7E /* UIImage+fixOrientation.h */,
+				2D26698516234CE400342A7E /* UIImage+fixOrientation.m */,
 				2D26697E1623487000342A7E /* UIImage+Alpha.h */,
 				2D26697F1623487000342A7E /* UIImage+Alpha.m */,
 				2D2669801623487000342A7E /* UIImage+RoundedCorner.h */,
@@ -2572,6 +2577,7 @@
 				2D26697D1623483200342A7E /* UIImage+Resize.m in Sources */,
 				2D2669821623487000342A7E /* UIImage+Alpha.m in Sources */,
 				2D2669831623487000342A7E /* UIImage+RoundedCorner.m in Sources */,
+				2D26698616234CE400342A7E /* UIImage+fixOrientation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -17,6 +17,7 @@
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "UIImage+Scale.h"
 #import "UIImage+Resize.h"
+#import "UIImage+fixOrientation.h"
 #import "NSMutableDictionary+ImageMetadata.h"
 #import <ImageIO/ImageIO.h>
 
@@ -129,27 +130,17 @@
 
 #pragma mark UIImagePickerControllerDelegate Protocol Methods
 - (void)imagePickerController:(UIImagePickerController *)aPicker didFinishPickingMediaWithInfo:(NSDictionary  *)info
-
 {
 	NSLog(@"CameraViewController: User Selected an Image or Video");
-		
-	//[[picker parentViewController] dismissModalViewControllerAnimated:NO];
     [aPicker dismissModalViewControllerAnimated:NO];
 
-	//Get the data for the selected image or video
 	NSString* mediaType = [info objectForKey:UIImagePickerControllerMediaType];
-	
 	if ([mediaType isEqualToString:@"public.image"]){
         
-        // Get metaData For Raw Image
-        NSMutableDictionary *newMetadata = [[NSMutableDictionary alloc] initWithDictionary:[info objectForKey:UIImagePickerControllerMediaMetadata]];
         UIImage* image = [info objectForKey:UIImagePickerControllerOriginalImage];
-        //if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage]; 
-        id orientation = [newMetadata objectForKey:@"Orientation"];
-        NSInteger orientationNumber = [orientation integerValue];
-        NSLog(@"Orientation Before: %d", orientationNumber);
         
-        //scale image uniformly to fit in 856x640 or 640x856 box
+        //Manipulate image to desired specs (quality, orientation, size, etc...)
+        image = [image fixOrientation];
         image = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:image.size interpolationQuality:kCGInterpolationHigh];
         if(image.size.height > image.size.width)
         {
@@ -166,88 +157,64 @@
                 image = [image scaleToSize:CGSizeMake(image.size.width*(640/image.size.height), 640)];
         }
         
+        //Image Data
         self.mediaData = UIImageJPEGRepresentation(image, 0.4);
         self.mediaFilename = [NSString stringWithFormat:@"%@image.jpg",[NSDate date]];
-        
         NSString *newFilePath =[NSTemporaryDirectory() stringByAppendingString: [NSString stringWithFormat:@"%@image.jpg",[NSDate date]]];
-        
         NSURL *imageURL = [[NSURL alloc] initFileURLWithPath: newFilePath];
+        if (self.mediaData != nil) [mediaData writeToURL:imageURL atomically:YES];
         
-        // Add current GPS location data to metaData
-        CLLocation * location = [AppModel sharedAppModel].playerLocation;   
+        //Image Meta Data
+        NSMutableDictionary *newMetadata = [[NSMutableDictionary alloc] initWithDictionary:[info objectForKey:UIImagePickerControllerMediaMetadata]];
+        CLLocation * location = [AppModel sharedAppModel].playerLocation;
         [newMetadata setLocation:location];
-        
-        // Add game and player to metadata
         NSString *gameName = [AppModel sharedAppModel].currentGame.name;
         NSString *descript = [[NSString alloc] initWithFormat: @"%@ %@: %@. %@: %@", NSLocalizedString(@"CameraImageTakenKey", @""), NSLocalizedString(@"CameraGameKey", @""), gameName, NSLocalizedString(@"CameraPlayerKey", @""), [[AppModel sharedAppModel] userName]];
         [newMetadata setDescription: descript];
         
-        if (self.mediaData != nil) {
-            NSLog(@"HERE [%@]", newFilePath);
-            [mediaData writeToURL:imageURL atomically:YES];
-        }
-        
-        if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]) {
+        //Handle Delegate
+        if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]])
             [self.parentDelegate addedPhoto];
-            
-        }
-        
-        if([self.editView isKindOfClass:[NoteEditorViewController class]]) {
+        if([self.editView isKindOfClass:[NoteEditorViewController class]])
+        {
             [self.editView setNoteValid:YES];
             [self.editView setNoteChanged:YES];
         }
             
         // If image not selected from camera roll, save image with metadata to camera roll
-        if ([info objectForKey:UIImagePickerControllerReferenceURL] == NULL) {
+        if ([info objectForKey:UIImagePickerControllerReferenceURL] == NULL)
+        {
             ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
-            __block NSDate *date = [NSDate date];
-            [newMetadata setObject:[NSNumber numberWithInt:6] forKey:@"Orientation"];
-            [al writeImageDataToSavedPhotosAlbum:self.mediaData metadata:newMetadata completionBlock:^(NSURL *assetURL, NSError *error) {
-                NSLog(@"Saving Time: %g", [[NSDate date] timeIntervalSinceDate:date]);
-                NSLog(@"assert url: %@", assetURL);
-                
+            [al writeImageDataToSavedPhotosAlbum:self.mediaData metadata:newMetadata completionBlock:^(NSURL *assetURL, NSError *error)
+            {
                 // once image is saved, get asset from assetURL
-                [al assetForURL:assetURL resultBlock:^(ALAsset *asset) {
-                    if (asset) {
-                        // save image to temporary directory to be able to upload it
-                        ALAssetRepresentation *rep = [asset defaultRepresentation];
-                        CGImageRef iref = [rep fullResolutionImage];
-                        UIImage *image = [UIImage imageWithCGImage:iref];
-                        
-                        NSData *imageDataInit = UIImageJPEGRepresentation(image, 0.4);
-                        
-                        NSData *imageData = [self dataWithEXIFUsingData:imageDataInit];
-                        
-                        NSString *newFilePath =[NSTemporaryDirectory() stringByAppendingString: [NSString stringWithFormat:@"%@image.jpg",[NSDate date]]];
-                        
-                        NSURL *imageURL = [[NSURL alloc] initFileURLWithPath: newFilePath];
-                        
-                        [imageData writeToURL:imageURL atomically:YES]; 
-                        
-                        [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:kNoteContentTypePhoto withFileURL:imageURL];
-                        
-                        
-                        // Finished uploading.  Refresh Note Editor View
-                        if([self.editView isKindOfClass:[NoteEditorViewController class]])
-                            [self.editView refreshViewFromModel];
-                        
-                        
-                    } else {
-                        
-                    }
-                } failureBlock:^(NSError *error) {
+                [al assetForURL:assetURL resultBlock:^(ALAsset *asset)
+                {
+                    if (!asset) return;
                     
-                }];
-                
-                
+                    // save image to temporary directory to be able to upload it
+                    ALAssetRepresentation *defaultRep = [asset defaultRepresentation];
+                    UIImage * image = [UIImage imageWithCGImage:[defaultRep fullResolutionImage]];
+                    NSData *imageData = UIImageJPEGRepresentation(image, 0.4);
+                    imageData = [self dataWithEXIFUsingData:imageData];
+                    
+                    NSString *newFilePath =[NSTemporaryDirectory() stringByAppendingString: [NSString stringWithFormat:@"%@image.jpg",[NSDate date]]];
+                    NSURL *imageURL = [[NSURL alloc] initFileURLWithPath: newFilePath];
+                    
+                    [imageData writeToURL:imageURL atomically:YES];
+                    
+                    //Do the upload
+                    [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:kNoteContentTypePhoto withFileURL:imageURL];
+                    if([self.editView isKindOfClass:[NoteEditorViewController class]])
+                        [self.editView refreshViewFromModel];
+                }
+                failureBlock:^(NSError *error) {}
+                ];
             }];
         } 
         else {
-            // image from camera roll
+            //Do the upload
             [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:kNoteContentTypePhoto withFileURL:imageURL];
-            
-            
-            // Finished uploading.  Refresh Note Editor View
             if([self.editView isKindOfClass:[NoteEditorViewController class]])
                 [self.editView refreshViewFromModel];
         }
@@ -331,7 +298,6 @@
     NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy:MM:dd HH:mm:ss"];
 	
-	
     CGImageSourceRef img = CGImageSourceCreateWithData((__bridge CFDataRef)originalJPEGData, NULL);
     CLLocationDegrees exifLatitude = [AppModel sharedAppModel].playerLocation.coordinate.latitude;
     CLLocationDegrees exifLongitude = [AppModel sharedAppModel].playerLocation.coordinate.longitude;
@@ -365,7 +331,6 @@
     CGImageDestinationRef dest = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)newJPEGData, CGImageSourceGetType(img), 1, NULL);
     CGImageDestinationAddImageFromSource(dest, img, 0, (__bridge CFDictionaryRef)properties);
     CGImageDestinationFinalize(dest);
-	
 	
     CFRelease(img);
     CFRelease(dest);
