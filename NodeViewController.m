@@ -124,6 +124,28 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 
 #pragma mark UIWebViewDelegate Methods
 
+- (BOOL)webView:(UIWebView*)webViewFromMethod shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType {
+    
+    if(self.isLink) return YES; // <- I actually don't know what function 'isLink' has... kept for harmless legacy reasons. - Phil 10/2012
+    
+    NSString *url = [req URL].absoluteString;
+    if([url isEqualToString:@"about:blank"]) return YES;
+    //Check to prepend url query with '?' or '&'
+    if([url rangeOfString:@"?"].location == NSNotFound)
+        url = [url stringByAppendingString: [NSString stringWithFormat: @"?gameId=%d&webPageId=%d&playerId=%d",[AppModel sharedAppModel].currentGame.gameId, node.nodeId, [AppModel sharedAppModel].playerId]];
+    else
+        url = [url stringByAppendingString: [NSString stringWithFormat: @"&gameId=%d&webPageId=%d&playerId=%d",[AppModel sharedAppModel].currentGame.gameId, node.nodeId, [AppModel sharedAppModel].playerId]];
+    
+    webpageViewController *webPageViewController = [[webpageViewController alloc] initWithNibName:@"webpageViewController" bundle: [NSBundle mainBundle]];
+    WebPage *temp = [[WebPage alloc]init];
+    temp.url = url;
+    webPageViewController.webPage = temp;
+    webPageViewController.delegate = self;
+    [self.navigationController pushViewController:webPageViewController animated:NO];
+    
+    return NO;
+}
+
 -(void)webViewDidFinishLoad:(UIWebView *)theWebView{
     webView.alpha = 1.00;
     
@@ -141,18 +163,6 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     
     //Find the webCell spinner and remove it
     [webViewSpinner removeFromSuperview]; 
-}
-
--(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
-    if(!self.isLink) return YES;
-    
-    webpageViewController *webPageViewController = [[webpageViewController alloc] initWithNibName:@"webpageViewController" bundle: [NSBundle mainBundle]];
-    WebPage *temp = [[WebPage alloc]init];
-    temp.url = [[request URL]absoluteString];
-    webPageViewController.webPage = temp;
-    webPageViewController.delegate = self;
-    [self.navigationController pushViewController:webPageViewController animated:NO];
-    return NO;
 }
 
 #pragma mark AsyncImageView Delegate Methods
