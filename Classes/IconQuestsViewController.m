@@ -254,7 +254,7 @@ NSString *const kIconQuestsHtmlTemplate =
     int currentButtonIndex = [activeQuests count];
     
     for(int i = 0; i < [completedQuests count]; i++){
-        Quest *currentQuest = [activeQuests objectAtIndex:i];
+        Quest *currentQuest = [completedQuests objectAtIndex:i];
         int xMargin = truncf((self.view.frame.size.width - ICONSPERROW * ICONWIDTH)/(ICONSPERROW +1));
         int yMargin = truncf((initialHeight - itemsPerColumnWithoutScrolling * ICONHEIGHT)/(itemsPerColumnWithoutScrolling + 1));
         int row = (currentButtonIndex/ICONSPERROW);
