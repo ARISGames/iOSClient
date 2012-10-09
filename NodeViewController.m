@@ -38,10 +38,8 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 @"<body>%@</body>"
 @"</html>";
 
-
 @implementation NodeViewController
-@synthesize node, tableView, isLink, hasMedia,webViewSpinner, mediaImageView, cellArray;
-
+@synthesize node, isLink, hasMedia, imageLoaded, webLoaded, scrollView, mediaArea, webView, continueButton, webViewSpinner, mediaImageView;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -61,103 +59,63 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     return self;
 }
 
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
 	[super viewDidLoad];
     
-    NSLog(@"NodeViewController: Displaying Node '%@'",self.node.name);
     self.title = self.node.name;
     [RootViewController sharedRootViewController].modalPresent = YES;
     
-    
     //Setup the Image View/Video Preview Image (if needed)
     Media *media = [[AppModel sharedAppModel] mediaForMediaId: self.node.mediaId];
-    
-    //Check if the plaque has media
     if(([media.type isEqualToString: kMediaTypeVideo] || [media.type isEqualToString: kMediaTypeAudio] || [media.type isEqualToString: kMediaTypeImage]) && media.url) hasMedia = YES;
     else hasMedia = NO;
     
-    //Create Image/AV Cell
-    UITableViewCell *mediaCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"mediaCell"];
-    
-    if ([media.type isEqualToString: kMediaTypeImage] && media.url) {
-        NSLog(@"NodeVC: cellForRowAtIndexPath: This is an Image Plaque");
-        
-        //self.mediaImageView.contentMode = UIViewContentModeScaleAspectFit;
-        
-        if(!self.mediaImageView.loaded) {
-            [self.mediaImageView loadImageFromMedia:media];
-        }
-        
-        //Setup the cell as an image
-        mediaCell.backgroundView = mediaImageView;
-        mediaCell.backgroundView.layer.masksToBounds = YES;
-        mediaCell.backgroundView.layer.cornerRadius = 5.0;
-        mediaCell.userInteractionEnabled = NO;
-        
-        //By forcing these sizes now, the asyncimageview spinner displays in the correct location
-        mediaCell.frame = CGRectMake(0, 0, 320, 320);
-        self.mediaImageView.frame = CGRectMake(0, 0, 320, 320);
-        
+    mediaArea = [[UIView alloc] initWithFrame:CGRectMake(0,0,300,10)];
+    if ([media.type isEqualToString: kMediaTypeImage] && media.url)
+    {
+        if(!mediaImageView.loaded)
+            [mediaImageView loadImageFromMedia:media];
+        mediaImageView.frame = CGRectMake(0, 0, 320, 320);
+        mediaArea.frame = CGRectMake(0, 0, 320, 320);
+        [mediaArea addSubview:mediaImageView];        
     }
     else if(([media.type isEqualToString: kMediaTypeVideo] || [media.type isEqualToString:kMediaTypeAudio]) && media.url)
     {
-        NSLog(@"NodeVC: This is an A/V Plaque");
-        
-        
         AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presentingController:self preloadNow:NO];
-        
-        //Setup the cell as the video preview button
-        mediaCell.selectionStyle = UITableViewCellSelectionStyleNone;
-        mediaCell.frame =  CGRectMake(0, 0, 300, 240);
-        mediaCell.backgroundColor = [UIColor clearColor];
-        mediaCell.clipsToBounds = YES;
-        [mediaCell addSubview:mediaButton];
-        
-        mediaCell.userInteractionEnabled = YES;
-        
-        
+        mediaArea.frame = CGRectMake(0, 0, 300, 240);
+        [mediaArea addSubview:mediaButton];
+        mediaArea.frame = CGRectMake(0, 0, 300, 240);
     }
     
-    //Setup the Description Webview and begin loading content
-    UIWebView *webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, 300, 60)];
+    //Setup the Description Webview
+    webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, mediaArea.frame.size.height + 20, 300, 10)];
     webView.delegate = self;
     webView.backgroundColor =[UIColor clearColor];
+    webView.scrollView.bounces = NO;
+    webView.scrollView.scrollEnabled = NO;
     NSString *htmlDescription = [NSString stringWithFormat:kPlaqueDescriptionHtmlTemplate, self.node.text];
     webView.alpha = 0.0; //The webView will resore alpha once it's loaded to avoid the ugly white blob
 	[webView loadHTMLString:htmlDescription baseURL:nil];
     
-    //Create Description Web View Cell
-    UITableViewCell *webCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"descriptionCell"];
-    webCell.userInteractionEnabled = NO;
-    CGRect descriptionFrame = [webView frame];
-    [webView setFrame:descriptionFrame];
-    webCell.backgroundView = webView;
-    webCell.backgroundColor = [UIColor clearColor];
-    
     UIActivityIndicatorView *webViewSpinnerAlloc = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     self.webViewSpinner = webViewSpinnerAlloc;
-    self.webViewSpinner.center = webCell.center;
+    self.webViewSpinner.center = webView.center;
     [self.webViewSpinner startAnimating];
     self.webViewSpinner.backgroundColor = [UIColor clearColor];
-    [webCell addSubview:self.webViewSpinner];
+    [webView addSubview:self.webViewSpinner];
     
     //Create continue button cell
-    UITableViewCell *buttonCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"continueButtonCell"];
-    buttonCell.textLabel.text = NSLocalizedString(@"TapToContinueKey", @"");
-    buttonCell.textLabel.textAlignment = UITextAlignmentCenter;
+    continueButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [continueButton setTitle:NSLocalizedString(@"TapToContinueKey", @"") forState:UIControlStateNormal];
+    [continueButton setFrame:CGRectMake(0, webView.frame.origin.y + webView.frame.size.height + 20, 320, 30)];
+    [continueButton addTarget:self action:@selector(continueButtonTouchAction) forControlEvents:UIControlEventTouchUpInside];
     
-    //Setup the cellArray
-    if(hasMedia){
-        NSArray *cellArrayAlloc = [[NSArray alloc] initWithObjects:mediaCell,webCell,buttonCell, nil];
-        self.cellArray = cellArrayAlloc;
-    }
-    else{
-        NSArray *cellArrayAlloc = [[NSArray alloc] initWithObjects:webCell,buttonCell, nil];
-        self.cellArray = cellArrayAlloc;
-    }
-    
+    //Setup the scrollview
+    //scrollView.frame = self.parentViewController.view.frame;
+    scrollView.contentSize = CGSizeMake(320,continueButton.frame.origin.y + continueButton.frame.size.height + 50);
+    if(hasMedia) [scrollView addSubview:mediaArea];
+    [scrollView addSubview:webView];
+    [scrollView addSubview:continueButton];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -166,44 +124,35 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 
 #pragma mark UIWebViewDelegate Methods
 
--(void)webViewDidFinishLoad:(UIWebView *)webView{
-    
+-(void)webViewDidFinishLoad:(UIWebView *)theWebView{
     webView.alpha = 1.00;
     
     //Calculate the height of the web content
     float newHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
-    CGRect descriptionFrame = [webView frame];
-    descriptionFrame.size = CGSizeMake(descriptionFrame.size.width,newHeight+5);
-    [webView setFrame:descriptionFrame];
+    [webView setFrame:CGRectMake(webView.frame.origin.x,
+                                 webView.frame.origin.y,
+                                 webView.frame.size.width,
+                                 newHeight+5)];
+    [continueButton setFrame:CGRectMake(continueButton.frame.origin.x ,
+                                        webView.frame.origin.y + webView.frame.size.height + 20,
+                                        continueButton.frame.size.width,
+                                        continueButton.frame.size.height)];
+    scrollView.contentSize = CGSizeMake(320,continueButton.frame.origin.y + continueButton.frame.size.height + 50);
     
     //Find the webCell spinner and remove it
-    [webViewSpinner removeFromSuperview];
-    
-    //Find the description cell and update it's frame with the new size
-    for(int x = 0; x < 2; x++){
-        if([[(UITableViewCell *)[self.cellArray objectAtIndex:x] reuseIdentifier] isEqualToString:@"descriptionCell"]){
-            [(UITableViewCell *)[self.cellArray objectAtIndex:x] setFrame:webView.frame];
-        }
-    }
-    
-    [tableView reloadData];
-    
+    [webViewSpinner removeFromSuperview]; 
 }
 
--(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
-navigationType:(UIWebViewNavigationType)navigationType{
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+    if(!self.isLink) return YES;
     
-    if(self.isLink) {
-        webpageViewController *webPageViewController = [[webpageViewController alloc] initWithNibName:@"webpageViewController" bundle: [NSBundle mainBundle]];
-        WebPage *temp = [[WebPage alloc]init];
-        temp.url = [[request URL]absoluteString];
-        webPageViewController.webPage = temp;
-        webPageViewController.delegate = self;
-        [self.navigationController pushViewController:webPageViewController animated:NO];
-        
-        return NO;
-    }
-    else return YES;
+    webpageViewController *webPageViewController = [[webpageViewController alloc] initWithNibName:@"webpageViewController" bundle: [NSBundle mainBundle]];
+    WebPage *temp = [[WebPage alloc]init];
+    temp.url = [[request URL]absoluteString];
+    webPageViewController.webPage = temp;
+    webPageViewController.delegate = self;
+    [self.navigationController pushViewController:webPageViewController animated:NO];
+    return NO;
 }
 
 #pragma mark AsyncImageView Delegate Methods
@@ -229,33 +178,30 @@ navigationType:(UIWebViewNavigationType)navigationType{
 	//Notify the server this item was displayed
 	[[AppServices sharedAppServices] updateServerNodeViewed:node.nodeId fromLocation:node.locationId];
 	
-	
 	//[self.view removeFromSuperview];
     [RootViewController sharedRootViewController].modalPresent=NO;
-    [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
-    
+    [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];    
 }
 
-- (IBAction)continueButtonTouchAction{
+- (IBAction)continueButtonTouchAction
+{
     NSLog(@"NodeViewController: Notify server of Node view and Dismiss view");
 	
 	//Notify the server this item was displayed
 	[[AppServices sharedAppServices] updateServerNodeViewed:node.nodeId fromLocation:node.locationId];
 	
-    //Remove thyself from the screen
-    [RootViewController sharedRootViewController].modalPresent=NO;
+    //Remove thyself from the screen // <- lol
+    [RootViewController sharedRootViewController].modalPresent = NO;
     [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
+    
     //Check if this was the game complete Node and if so, display the "Start Over" tab
-    if((node.nodeId == [AppModel sharedAppModel].currentGame.completeNodeId) &&
-       ([AppModel sharedAppModel].currentGame.completeNodeId != 0)){
-        
+    if((node.nodeId == [AppModel sharedAppModel].currentGame.completeNodeId) && ([AppModel sharedAppModel].currentGame.completeNodeId != 0))
+    {
         NSString *tab;
         for(int i = 0;i < [[RootViewController sharedRootViewController].tabBarController.customizableViewControllers count];i++){
             tab = [[[RootViewController sharedRootViewController].tabBarController.customizableViewControllers objectAtIndex:i] title];
             tab = [tab lowercaseString];
-            
-            if([tab isEqualToString:@"start over"])
-                [RootViewController sharedRootViewController].tabBarController.selectedIndex = i;
+            if([tab isEqualToString:@"start over"]) [RootViewController sharedRootViewController].tabBarController.selectedIndex = i;
         }
     }
     
@@ -305,33 +251,6 @@ navigationType:(UIWebViewNavigationType)navigationType{
 
 
 #pragma mark PickerViewDelegate selectors
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [self.cellArray count];
-}
-
-// returns the # of rows in each component..
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return 1;
-}
-
-// Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)nibTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return [self.cellArray objectAtIndex:indexPath.section];
-    
-}
-
-// Customize the height of each row
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = (UITableViewCell *) [self.cellArray objectAtIndex:indexPath.section];
-    return cell.frame.size.height;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if(indexPath.section == 2 || (indexPath.section == 1 && !hasMedia)) [self continueButtonTouchAction];
-    // else [self playMovie:nil];
-}
 
 
 #pragma mark Memory Management

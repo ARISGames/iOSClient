@@ -12,28 +12,40 @@
 #import "ARISMoviePlayerViewController.h"
 #import "AsyncMediaImageView.h"
 
-@interface NodeViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,UIWebViewDelegate,  AsyncMediaImageViewDelegate>
+@interface NodeViewController : UIViewController <UIScrollViewDelegate,UIWebViewDelegate,AsyncMediaImageViewDelegate>
 {
 	Node *node;
-	MPMoviePlayerViewController *mMoviePlayer; //only used if item is a video
-	UITableView *tableView;
-	UIButton *mediaPlaybackButton;
+    
     BOOL isLink;
     BOOL hasMedia;
-    BOOL imageLoaded, webLoaded;
+    BOOL imageLoaded;
+    BOOL webLoaded;
+
+    UIScrollView *scrollView;
+    UIView *mediaArea;
+    UIWebView *webView;
+    UIButton *continueButton;
     
     AsyncMediaImageView *mediaImageView;
+    MPMoviePlayerViewController *mMoviePlayer; //only used if item is a video
+	UIButton *mediaPlaybackButton;
+    
     UIActivityIndicatorView *webViewSpinner;
-    NSArray *cellArray;
 }
 
 @property(readwrite) Node *node;
+
 @property(readwrite, assign) BOOL isLink;
 @property(readwrite, assign) BOOL hasMedia;
-@property(nonatomic) IBOutlet UITableView *tableView;
+@property(readwrite, assign) BOOL imageLoaded;
+@property(readwrite, assign) BOOL webLoaded;
+
+@property(nonatomic) IBOutlet UIScrollView *scrollView;
+@property(nonatomic) UIView *mediaArea;
+@property(nonatomic) UIWebView *webView;
+@property(nonatomic) UIButton *continueButton;
+
 @property(nonatomic)UIActivityIndicatorView *webViewSpinner;
 @property(nonatomic)AsyncMediaImageView *mediaImageView;
-@property(nonatomic)NSArray *cellArray;
 
 @end
-
