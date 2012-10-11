@@ -14,6 +14,7 @@
 #import "NoteDetailsViewController.h"
 #import "InventoryTradeViewController.h"
 
+
 @implementation InventoryListViewController
 
 @synthesize inventoryTable;
@@ -328,6 +329,7 @@
     UILabel *lblTemp2 = (UILabel *)[cell viewWithTag:2];
     lblTemp2.text = item.description;
 	AsyncMediaImageView *iconView = (AsyncMediaImageView *)[cell viewWithTag:3];
+    AsyncMediaImageView *newBannerView = (AsyncMediaImageView *)[cell viewWithTag:3];
     
     UILabel *lblTemp3 = (UILabel *)[cell viewWithTag:4];
     if(item.qty >1 && item.weight > 1)
@@ -339,6 +341,8 @@
     else
         lblTemp3.text = nil;
     iconView.hidden = NO;
+    newBannerView.hidden = NO;
+    
     Media *media;
     if (item.mediaId != 0 && ![item.type isEqualToString:@"NOTE"]) {
         if([self.mediaCache count] > indexPath.row){
@@ -363,15 +367,44 @@
             [self.iconCache  addObject:iconMedia];
             [iconView loadImageFromMedia:iconMedia];
         }
-	}
-	else {
+        
+            
+
+	} else {
 		//Load the Default
 		if ([media.type isEqualToString: kMediaTypeImage]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultImageIcon.png"]];
 		if ([media.type isEqualToString: kMediaTypeAudio]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultAudioIcon.png"]];
-		if ([media.type isEqualToString: kMediaTypeVideo]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultVideoIcon.png"]];	}
+		if ([media.type isEqualToString: kMediaTypeVideo]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultVideoIcon.png"]];	
+
+    }
+        
+    // if new item, show new banner
+    if (item.hasViewed == NO) {
+        UIImage *newBannerImage = [UIImage imageNamed:@"newBanner.png"];
+        
+        
+        CGSize size = CGSizeMake(50,50);
+        UIGraphicsBeginImageContext(size);
+        
+        CGPoint iconPoint = CGPointMake(0, 0);
+        UIImage* iconImage = [[iconView  image] scaleToSize:CGSizeMake(50,50)];
+        [iconImage drawAtPoint:iconPoint];
+        
+        CGPoint newBannerPoint = CGPointMake(0, 0);
+        [newBannerImage drawAtPoint:newBannerPoint];
+        
+        UIImage* combinedImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        
+        [newBannerView updateViewWithNewImage:combinedImage];
+    
+    }
+        
     
 	return cell;
 }
+
 
 - (unsigned int) indexOf:(char) searchChar inString:(NSString *)searchString {
 	NSRange searchRange;

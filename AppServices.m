@@ -1103,7 +1103,20 @@ NSString *const kARISServerServicePackage = @"v1";
 						 withArgs:arguments usingParser:@selector(parseNpcFromDictionary:)];
 }
 
+-(int)getItemViewed:(int)itemId{
+	NSLog(@"Model: Get item viewed by player");
+	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+						  [NSString stringWithFormat:@"%d",itemId],
+						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+						  nil];
+	return [self fetchFromService:@"players" usingMethod:@"getItemViewed"
+						 withArgs:arguments usingParser:@selector(parseItemViewed:)];
+}
 
+-(int)parseItemViewed: (NSDictionary *)itemDictionary {
+	int iViewed = [itemDictionary valueForKey:@"viewed"];
+	return iViewed;	
+}
 
 #pragma mark ASync Fetch selectors
 
@@ -2726,6 +2739,10 @@ NSString *const kARISServerServicePackage = @"v1";
 		item.dropable = [[itemDictionary valueForKey:@"dropable"] boolValue];
 		item.destroyable = [[itemDictionary valueForKey:@"destroyable"] boolValue];
 		item.qty = [[itemDictionary valueForKey:@"qty"] intValue];
+        if ([[itemDictionary valueForKey:@"viewed"] intValue] > 0)
+            item.hasViewed = YES;
+        else
+            item.hasViewed = NO;
         item.maxQty = [[itemDictionary valueForKey:@"max_qty_in_inventory"] intValue];
         item.isAttribute = [[itemDictionary valueForKey:@"is_attribute"] boolValue];
         item.isTradeable = [[itemDictionary valueForKey:@"tradeable"] boolValue];

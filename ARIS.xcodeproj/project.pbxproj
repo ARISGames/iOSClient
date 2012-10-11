@@ -153,6 +153,7 @@
 		2D73EA27160CE0AA00A1F570 /* AsyncMediaTouchableImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D73EA26160CE0AA00A1F570 /* AsyncMediaTouchableImageView.m */; };
 		2DEE862315E6BEF500F506CE /* img.png in Resources */ = {isa = PBXBuildFile; fileRef = 2DEE862215E6BEF500F506CE /* img.png */; };
 		3A29205D152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A29205C152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.m */; };
+		3A69944B1625F6610015B48A /* newBanner.png in Resources */ = {isa = PBXBuildFile; fileRef = 3A69944A1625F6610015B48A /* newBanner.png */; };
 		3AA83345159E3FF3002CC61D /* TileOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AA83342159E3FF3002CC61D /* TileOverlay.m */; };
 		3AA83346159E3FF3002CC61D /* TileOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AA83344159E3FF3002CC61D /* TileOverlayView.m */; };
 		3AA83349159E4029002CC61D /* Overlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AA83348159E4029002CC61D /* Overlay.m */; };
@@ -675,6 +676,7 @@
 		2DEE862215E6BEF500F506CE /* img.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img.png; sourceTree = "<group>"; };
 		3A29205B152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableDictionary+ImageMetadata.h"; path = "thirdParty/NSMutableDictionary+ImageMetadata.h"; sourceTree = "<group>"; };
 		3A29205C152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+ImageMetadata.m"; path = "thirdParty/NSMutableDictionary+ImageMetadata.m"; sourceTree = "<group>"; };
+		3A69944A1625F6610015B48A /* newBanner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newBanner.png; sourceTree = "<group>"; };
 		3AA83341159E3FF3002CC61D /* TileOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileOverlay.h; sourceTree = "<group>"; };
 		3AA83342159E3FF3002CC61D /* TileOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileOverlay.m; sourceTree = "<group>"; };
 		3AA83343159E3FF3002CC61D /* TileOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileOverlayView.h; sourceTree = "<group>"; };
@@ -1341,6 +1343,7 @@
 		29B97314FDCFA39411CA2CEA /* ARIS */ = {
 			isa = PBXGroup;
 			children = (
+				3A69944A1625F6610015B48A /* newBanner.png */,
 				ABAFBAC9145A0B8D0044491C /* GPX Locations */,
 				AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */,
 				AB0A5BA3120365420065CE68 /* Localizable.strings */,
@@ -2372,6 +2375,7 @@
 				2DEE862315E6BEF500F506CE /* img.png in Resources */,
 				2D73EA24160CD07600A1F570 /* GlobalPlayerViewController.xib in Resources */,
 				2D367CD616122710001FC5C3 /* IconQuestsViewController.xib in Resources */,
+				3A69944B1625F6610015B48A /* newBanner.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
