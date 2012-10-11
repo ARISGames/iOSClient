@@ -7,13 +7,6 @@
 //
 
 #import "IconQuestsViewController.h"
-#import "ARISAppDelegate.h"
-#import "AppServices.h"
-#import "Quest.h"
-#import "Media.h"
-#import "AsyncMediaImageView.h"
-#import "WebPage.h"
-#import "webpageViewController.h"
 
 static NSString * const OPTION_CELL = @"quest";
 static int const ACTIVE_SECTION = 0;
@@ -53,7 +46,7 @@ NSString *const kIconQuestsHtmlTemplate =
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
-        self.title = @"Icon Quests"; //NSLocalizedString(@"QuestViewTitleKey",@"");
+        self.title = @"Icon Quests";// NSLocalizedString(@"QuestViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"117-todo"];
         activeSort = 1;
 		self.isLink = NO;
@@ -280,7 +273,21 @@ NSString *const kIconQuestsHtmlTemplate =
 }
 
 - (void) questSelected: (id)sender {
+    UIButton *button = (UIButton*)sender;
     
+    NSArray *activeQuests = [self.quests objectAtIndex:ACTIVE_SECTION];
+	NSArray *completedQuests = [self.quests objectAtIndex:COMPLETED_SECTION];
+    
+    Quest *questSelected;
+    if(button.tag >= [activeQuests count]){
+       button.tag -= [activeQuests count];
+       questSelected = [completedQuests objectAtIndex:button.tag];
+    }
+    else questSelected = [activeQuests objectAtIndex:button.tag];
+    QuestDetailsViewController *questDetailsViewController =[[QuestDetailsViewController alloc] initWithQuest: questSelected];
+ //   UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:questDetailsViewController];
+ //   [self presentViewController:navigationController animated:YES completion:nil];
+    [self presentViewController:questDetailsViewController animated:YES completion:nil];
 }
 
 - (BOOL)webView:(UIWebView *)webView  

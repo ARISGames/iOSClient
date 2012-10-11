@@ -11,6 +11,13 @@
 #import "AppModel.h"
 #import "Quest.h"
 #import "IconQuestsButton.h"
+#import "QuestDetailsViewController.h"
+
+#import "AppServices.h"
+#import "Media.h"
+#import "AsyncMediaImageView.h"
+#import "WebPage.h"
+#import "webpageViewController.h"
 
 #define ICONWIDTH 76
 #define ICONHEIGHT 91
