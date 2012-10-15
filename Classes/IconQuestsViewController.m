@@ -132,6 +132,7 @@ NSString *const kIconQuestsHtmlTemplate =
 
 -(void)refreshViewFromModel {
 	NSLog(@"IconQuestsViewController: Refreshing view from model");
+    return;
 	
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 //	progressLabel.text = [NSString stringWithFormat:@"%d %@ %d %@", [AppModel sharedAppModel].currentGame.completedQuests, NSLocalizedString(@"OfKey", @"Number of Number"), [AppModel sharedAppModel].currentGame.totalQuests, NSLocalizedString(@"QuestsCompleteKey", @"")];
@@ -150,13 +151,12 @@ NSString *const kIconQuestsHtmlTemplate =
 				if (existingQuest.questId == quest.questId) match = YES;	
 			}
 			if (match == NO) {
-				newItems ++;;
+				newItems ++;
                 quest.sortNum = activeSort;
                 activeSort++;
                 
                 [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:[NSString stringWithFormat:@"%@ %@", quest.name, NSLocalizedString(@"QuestsViewNewQuestsKey", @"")]
                                                                                  andBoldedString:quest.name];
-
 			}
 		}
         
