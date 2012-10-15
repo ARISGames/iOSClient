@@ -206,7 +206,7 @@
 				[[RootViewController sharedRootViewController].tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController  
                                                                                                                                  type:tutorialPopupKindInventoryTab
                                                                                                                                 title:NSLocalizedString(@"InventoryNewItemKey", @"")  
-                                                                                                                              message:NSLocalizedString(@"InventoryNewItemMessageKey", @"")];						
+                                                                                                                              message:NSLocalizedString(@"InventoryNewItemMessageKey", @"")];
 				[AppModel sharedAppModel].hasSeenInventoryTabTutorial = YES;
                 [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
 			}
@@ -225,12 +225,13 @@
 	[inventoryTable reloadData];
 	
 	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
-    NSSortDescriptor *sortDescriptor;
-    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"hasViewed"
+    NSSortDescriptor *sortDescriptorName = [[NSSortDescriptor alloc] initWithKey:@"name"
                                                  ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    NSSortDescriptor *sortDescriptorNew = [[NSSortDescriptor alloc] initWithKey:@"hasViewed"
+                                                 ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptorNew, sortDescriptorName, nil];
+    
     self.inventory = [self.inventory sortedArrayUsingDescriptors:sortDescriptors];
-	
 }
 
 - (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier {
