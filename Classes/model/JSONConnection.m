@@ -147,6 +147,7 @@
 	//Get the JSONResult here
 	JSONResult *jsonResult = [[JSONResult alloc] initWithJSONString:jsonString andUserData:[self userInfo]];
 	
+    NSLog(@"Calling: %@",self.handler);
 	SEL parser = NSSelectorFromString(self.handler);   
     
 	if (parser) {

@@ -119,7 +119,8 @@ extern NSString *const kARISServerServicePackage;
 -(int)parseItemViewed: (NSDictionary *)itemDictionary;
 
 - (void) uploadContentToNoteWithFileURL:(NSURL *)fileURL name:(NSString *)name noteId:(int) noteId type: (NSString *)type;
--(void) uploadPlayerPicMediaWithFileURL:(NSURL *)fileURL type:(NSString *)type;
+- (void) uploadPlayerPicMediaWithFileURL:(NSURL *)fileURL type:(NSString *)type;
+- (void) updatePlayer:(int)playerId Name:(NSString *)name Image:(int)mid;
 - (void) addContentToNoteWithText:(NSString *)text type:(NSString *) type mediaId:(int) mediaId andNoteId:(int)noteId andFileURL:(NSURL *)fileURL;
 - (int)createNote;
 - (void)updateServerDropNoteHere: (int)noteId atCoordinate:(CLLocationCoordinate2D) coordinate;

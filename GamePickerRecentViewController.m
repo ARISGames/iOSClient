@@ -99,7 +99,7 @@
 
 
 - (void)refreshViewFromModel {
-	NSLog(@"GamePickerViewController: Refresh View from Model");
+	NSLog(@"GamePickerRecentViewController: Refresh View from Model");
 	
     //unregister for notifications
     [[NSNotificationCenter defaultCenter] removeObserver:self];

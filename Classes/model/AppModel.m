@@ -15,7 +15,7 @@
 
 @implementation AppModel
 @synthesize serverURL,showGamesInDevelopment,showPlayerOnMap;
-@synthesize loggedIn, userName, password, playerId;
+@synthesize loggedIn, userName, password, playerId, museumMode;
 @synthesize singleGameList, nearbyGameList, searchGameList, popularGameList, recentGameList;
 @synthesize currentGame, locationList, playerList;
 @synthesize playerLocation, inventory, questList, networkAlert;
@@ -85,7 +85,7 @@
     
     //Old versions of the server URL are depricated. Migrate to the new version
     if ([[currServ absoluteString] isEqual:@"http://arisgames.org/server1"] || 
-        [[currServ absoluteString]  isEqual:@"http://arisgames.org/server1/"] || 
+        [[currServ absoluteString]  isEqual:@"http://arisgames.org/server1/"] ||
         [[currServ absoluteString]  isEqual:@"http://arisgames.org/stagingserver1"] ||
         [[currServ absoluteString]  isEqual:@"http://arisgames.org/stagingserver1/"]) {
         
@@ -99,7 +99,6 @@
         [[NSNotificationCenter defaultCenter] postNotification:logoutRequestNotification];
     }
     
-    
     self.serverURL = [NSURL URLWithString: baseServerString ];
     if(self.showGamesInDevelopment != [defaults boolForKey:@"showGamesInDevelopment"])
     {
@@ -108,7 +107,8 @@
         [[NSNotificationCenter defaultCenter] postNotification:logoutRequestNotification];
     }
     
-	if ([defaults boolForKey:@"resetTutorial"]) {
+	if ([defaults boolForKey:@"resetTutorial"])
+    {
 		self.hasSeenNearbyTabTutorial = NO;
 		self.hasSeenQuestsTabTutorial = NO;
 		self.hasSeenMapTabTutorial = NO;
@@ -118,7 +118,6 @@
 		[defaults setBool:hasSeenMapTabTutorial forKey:@"hasSeenMapTabTutorial"];
 		[defaults setBool:hasSeenInventoryTabTutorial forKey:@"hasSeenInventoryTabTutorial"];
 		[defaults setBool:NO forKey:@"resetTutorial"];
-        
 	}
 	else {
 		self.hasSeenNearbyTabTutorial = [defaults boolForKey:@"hasSeenNearbyTabTutorial"];
@@ -126,7 +125,6 @@
 		self.hasSeenMapTabTutorial = [defaults boolForKey:@"hasSeenMapTabTutorial"];
 		self.hasSeenInventoryTabTutorial = [defaults boolForKey:@"hasSeenInventoryTabTutorial"];
 	}
-    
 }
 
 -(void)clearGameLists{
@@ -163,7 +161,6 @@
     [defaults setValue:userName forKey:@"userName"];
     [defaults setInteger:playerId forKey:@"playerId"];
 	[defaults synchronize];		
-    
 }
 
 -(void)saveCOREData {
@@ -176,7 +173,8 @@
 			 abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
 			 */
 			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-			abort();
+            [[RootViewController sharedRootViewController] showAlert:@"Error saving to disk" message:[NSString stringWithFormat:@"%@",[error userInfo]]];
+			//abort();
         } 
     }
 }
@@ -191,7 +189,7 @@
 	NSArray *prefSpecifierArray = [settingsDict objectForKey:@"PreferenceSpecifiers"];
 	
 	//Find the Defaults
-	NSString *baseAppURLDefault = [NSString stringWithString:@"Unknown Default"];
+	NSString *baseAppURLDefault = @"Unknown Default";
     NSNumber *showGamesInDevelopmentDefault,*showPlayerOnMapDefault;
 	NSDictionary *prefItem;
 	for (prefItem in prefSpecifierArray)

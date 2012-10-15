@@ -1,26 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //
 //  AppServices.m
 //  ARIS
@@ -749,6 +726,11 @@ NSString *const kARISServerServicePackage = @"v1";
 	[uploader upload];
 }
 
+-(void) updatePlayer:(int)playerId Name:(NSString *)name Image:(int)mid
+{
+    
+}
+
 -(void)fetchPlayerNoteListAsync{
     ///if([AppModel sharedAppModel].isGameNoteList)
     [self fetchGameNoteListAsynchronously:YES];
@@ -1202,7 +1184,7 @@ NSString *const kARISServerServicePackage = @"v1";
             tempOverlay.num_tiles = [[overlayDictionary valueForKey:@"num_tiles"] intValue];
             //tempOverlay.alpha = [[overlayDictionary valueForKey:@"alpha"] floatValue] ;
             tempOverlay.alpha = 1.0;
-            [tempOverlay.tileFileName addObject:[overlayDictionary valueForKey:@"file_name"]];
+            [tempOverlay.tileFileName addObject:[overlayDictionary valueForKey:@"file_path"]];
             [tempOverlay.tileMediaID addObject:[overlayDictionary valueForKey:@"media_id"]];
             [tempOverlay.tileX addObject:[overlayDictionary valueForKey:@"x"]];
             [tempOverlay.tileY addObject:[overlayDictionary valueForKey:@"y"]];
@@ -1218,7 +1200,7 @@ NSString *const kARISServerServicePackage = @"v1";
         }
         else {
             // add tiles to existing overlay
-            [tempOverlay.tileFileName addObject:[overlayDictionary valueForKey:@"file_name"]];
+            [tempOverlay.tileFileName addObject:[overlayDictionary valueForKey:@"file_path"]];
             [tempOverlay.tileMediaID addObject:[overlayDictionary valueForKey:@"media_id"]];
             [tempOverlay.tileX addObject:[overlayDictionary valueForKey:@"x"]];
             [tempOverlay.tileY addObject:[overlayDictionary valueForKey:@"y"]];
@@ -1915,9 +1897,8 @@ NSString *const kARISServerServicePackage = @"v1";
         int returnCode = [[[content objectForKey:@"media"]objectForKey:@"returnCode"]intValue];
         NSDictionary *m = [[content objectForKey:@"media"]objectForKey:@"data"];
         if(returnCode == 0 && m){
-            
             Media *media = [[AppModel sharedAppModel].mediaCache mediaForMediaId:c.mediaId];
-            NSString *fileName = [m objectForKey:@"file_name"];
+            NSString *fileName = [m objectForKey:@"file_path"];
             NSString *urlPath = [m objectForKey:@"url_path"];
             NSString *fullUrl = [NSString stringWithFormat:@"%@%@", urlPath, fileName];
             media.url = fullUrl;
@@ -2483,7 +2464,8 @@ NSString *const kARISServerServicePackage = @"v1";
 	while ((dict = [enumerator nextObject])) {
         mediaLoaded++;
 		NSInteger uid = [[dict valueForKey:@"media_id"] intValue];
-		NSString *fileName = [dict valueForKey:@"file_name"];
+		NSString *fileName = [dict valueForKey:@"file_path"];
+		if(fileName == nil) fileName = [dict valueForKey:@"file_name"];
 		NSString *urlPath = [dict valueForKey:@"url_path"];
         
 		NSString *type = [dict valueForKey:@"type"];

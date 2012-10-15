@@ -43,7 +43,8 @@
 - (void)moveProgressBar {
     
     float actual = (receivedData/(float)10);
-    if (actual < 1) {
+    if (actual < 1)
+    {
         progressBar.progress =actual;
         [progressBar setNeedsLayout];
         [progressBar setNeedsDisplay];
@@ -51,13 +52,13 @@
         [progressLabel setNeedsLayout];
        
     }
-    else if(actual == 1){
+    else if(actual == 1)
+    {
            if ([AppModel sharedAppModel].currentGame.completedQuests < 1)
                [[RootViewController sharedRootViewController] performSelector:@selector(displayIntroNode) withObject:nil afterDelay:.1];
         [self dismissModalViewControllerAnimated:NO];
         [RootViewController sharedRootViewController].loadingVC = nil;
-    
-} 
+    } 
 }
 - (void)viewDidUnload
 {

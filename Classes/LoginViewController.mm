@@ -89,7 +89,6 @@
     NSLog(@"Login: Change Password Button Touched");
 	ForgotViewController *forgotPassViewController = [[ForgotViewController alloc] 
                                                                       initWithNibName:@"ForgotViewController" bundle:[NSBundle mainBundle]];
-	
 	//Put the view on the screen
 	[[self navigationController] pushViewController:forgotPassViewController animated:YES];
 }
@@ -99,7 +98,6 @@
 															initWithNibName:@"SelfRegistration" bundle:[NSBundle mainBundle]];
 	//Put the view on the screen
 	[[self navigationController] pushViewController:selfRegistrationViewController animated:YES];
-	
 }
 
 - (void)zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)resultString {
@@ -110,10 +108,10 @@
     {
         int gameId = 0;
         bool museumMode = false;
-        if([terms objectAtIndex:0]) usernameField.text = [terms objectAtIndex:0]; //Username
-        if([terms objectAtIndex:1]) passwordField.text = [terms objectAtIndex:1]; //Password
-        if([terms objectAtIndex:2]) gameId = [[terms objectAtIndex:2] intValue];
-        if([terms objectAtIndex:3]) museumMode = [[terms objectAtIndex:3] boolValue];
+        if([terms count] > 0) usernameField.text = [terms objectAtIndex:0]; //Username
+        if([terms count] > 1) passwordField.text = [terms objectAtIndex:1]; //Password
+        if([terms count] > 2) gameId = [[terms objectAtIndex:2] intValue];
+        if([terms count] > 3) museumMode = [[terms objectAtIndex:3] boolValue];
         [[RootViewController sharedRootViewController] attemptLoginWithUserName:usernameField.text andPassword:passwordField.text andGameId:gameId inMuseumMode:museumMode];
     }
 }

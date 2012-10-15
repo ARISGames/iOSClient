@@ -7,6 +7,7 @@
 //
 
 #import "GlobalPlayerViewController.h"
+#import "AppServices.h"
 
 @implementation GlobalPlayerViewController
 
@@ -69,6 +70,7 @@
 -(IBAction)goButtonTouched:(id)sender
 {
     self.parentViewController.view.hidden = true;
+    [[AppServices sharedAppServices]  updatePlayer:[AppModel sharedAppModel].playerId Name:playerNameField.text Image:[playerPic.media.uid intValue]];
     return;
 }
 
@@ -103,16 +105,17 @@
     NSString *mediaFilePath;
     NSURL *imageURL;
     NSData *mediaData;
-    
+
     image = [info objectForKey:UIImagePickerControllerEditedImage];
     image = [image scaleToSize:CGSizeMake(1024,1024)];
     mediaFilePath =[NSTemporaryDirectory() stringByAppendingString: [NSString stringWithFormat:@"%@image.jpg",[NSDate date]]];
     imageURL = [[NSURL alloc] initFileURLWithPath:mediaFilePath];
     mediaData = UIImageJPEGRepresentation(image, 0.4);
     if (mediaData != nil) [mediaData writeToURL:imageURL atomically:YES];
-                
+
     // If image not selected from camera roll, save image with metadata to camera roll
-    if ([info objectForKey:UIImagePickerControllerReferenceURL] == NULL) {
+    if ([info objectForKey:UIImagePickerControllerReferenceURL] == NULL)
+    {
         ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
         [al writeImageDataToSavedPhotosAlbum:mediaData metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {                        
             // once image is saved, get asset from assetURL
@@ -135,11 +138,11 @@
             }];
         }];
     }
-    else {
+    else
+    {
         // image from camera roll
-         [[[AppModel sharedAppModel] uploadManager] uploadPlayerPicContentwithType:kNoteContentTypePhoto withFileURL:imageURL];
+        [[[AppModel sharedAppModel] uploadManager] uploadPlayerPicContentwithType:kNoteContentTypePhoto withFileURL:imageURL];
     }
 }
-
 
 @end
