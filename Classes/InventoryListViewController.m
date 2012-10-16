@@ -171,8 +171,14 @@
                     if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
                         [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
                 
+                    NSString *notifString;
+                    if(item.maxQty == 1)
+                        notifString = [NSString stringWithFormat:@"%@ Recieved", item.name];
+                    else
+                        notifString = [NSString stringWithFormat:@"+%d %@ : %d Total",  item.qty - existingItem.qty, item.name, item.qty];
+                    
+                    [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:item.name];
 
-                    [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:[NSString stringWithFormat:@"%d %@ %@",item.qty - existingItem.qty,item.name,NSLocalizedString(@"InventoryAddedToKey", @"")] andBoldedString:item.name];
                     newItems ++;
                     //newItemQty += item.qty - existingItem.qty;
                 }
@@ -186,9 +192,14 @@
                 }
                 if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
                     [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
-                      
-                [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:[NSString stringWithFormat:@"%d %@ %@",item.qty,item.name,NSLocalizedString(@"InventoryAddedToKey", @"")]
-                                                                                  andBoldedString:item.name];
+                
+                NSString *notifString;
+                if(item.maxQty == 1)
+                    notifString = [NSString stringWithFormat:@"%@ Recieved", item.name];
+                else
+                    notifString = [NSString stringWithFormat:@"+%d %@ : %d Total",  item.qty, item.name, item.qty];
+                
+                [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:item.name];
                 
 				newItems ++;
                 //newItemQty += item.qty;

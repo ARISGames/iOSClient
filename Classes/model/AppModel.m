@@ -268,8 +268,14 @@
     if([[(UINavigationController *) [RootViewController sharedRootViewController].tabBarController.selectedViewController topViewController] respondsToSelector:@selector(updateQuantityDisplay)])
         [[(UINavigationController *)[RootViewController sharedRootViewController].tabBarController.selectedViewController topViewController] performSelector:@selector(updateQuantityDisplay)];
     
-    [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:[NSString stringWithFormat:@"%d %@ %@",qty,item.name,NSLocalizedString(@"AppModelItemRemovedKey", @"")]
-                                                                      andBoldedString:item.name];
+    NSString *notifString;
+    if(item.maxQty == 1)
+        notifString = [NSString stringWithFormat:@"%@ Lost", item.name];
+    else
+        notifString = [NSString stringWithFormat:@"+%d %@ : %d Total",  qty, item.name, item.qty];
+    
+    [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:item.name];
+    
 	NSNotification *notification = [NSNotification notificationWithName:@"NewInventoryReady" object:nil];
 	[[NSNotificationCenter defaultCenter] postNotification:notification];
 }

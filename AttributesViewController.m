@@ -79,15 +79,26 @@
                     if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
                         [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
                     
-                    [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:[NSString stringWithFormat:@"%d %@ %@",attr.qty - existingAttr.qty,attr.name,NSLocalizedString(@"AttributeReceivedKey", @"")] andBoldedString:attr.name];
+                    NSString *notifString;
+                    if(attr.maxQty == 1)
+                        notifString = [NSString stringWithFormat:@"%@ Recieved", attr.name];
+                    else
+                        notifString = [NSString stringWithFormat:@"+%d %@ : %d Total",  attr.qty - existingAttr.qty, attr.name, attr.qty];
+                    
+                    [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:attr.name];
                     newAttrs++;
                 }
                 if((existingAttr.itemId == attr.itemId) && (existingAttr.qty > attr.qty)){
                     if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
                         [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
                     
-        
-                             [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:[NSString stringWithFormat:@"%d %@ %@",existingAttr.qty - attr.qty,attr.name,NSLocalizedString(@"AttributeLostKey", @"")] andBoldedString:attr.name];
+                    NSString *notifString;
+                    if(attr.maxQty == 1)
+                        notifString = [NSString stringWithFormat:@"%@ Lost", attr.name];
+                    else
+                        notifString = [NSString stringWithFormat:@"-%d %@ : %d Total", existingAttr.qty - attr.qty, attr.name, attr.qty];
+                    
+                    [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:attr.name];
                     
                     
                     newAttrs++;
@@ -95,11 +106,18 @@
             }
             
             if (match == NO) {
+                //Newly added
                 if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
                     [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
                 
+                NSString *notifString;
+                if(attr.maxQty == 1)
+                    notifString = [NSString stringWithFormat:@"%@ Recieved", attr.name];
+                else
+                    notifString = [NSString stringWithFormat:@"+%d %@ : %d Total", attr.qty, attr.name, attr.qty];
                 
-                [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:[NSString stringWithFormat:@"%d %@ %@",attr.qty ,attr.name,NSLocalizedString(@"AttributeReceivedKey", @"")] andBoldedString:attr.name];
+                [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:attr.name];
+
                 
                 newAttrs++;
             }
@@ -115,10 +133,13 @@
                 if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
                     [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
                 
+                NSString *notifString;
+                if(existingAttr.maxQty == 1)
+                    notifString = [NSString stringWithFormat:@"%@ Lost", existingAttr.name];
+                else
+                    notifString = [NSString stringWithFormat:@"-%d %@ : %d Total", existingAttr.qty, existingAttr.name, 0];
+                [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:existingAttr.name];
                 
-                [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:[NSString stringWithFormat:@"%d %@ %@",existingAttr.qty ,existingAttr.name,NSLocalizedString(@"AttributeLostKey", @"")] andBoldedString:existingAttr.name];
-                
-              
                 newAttrs++;
             }
         }
