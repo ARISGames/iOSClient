@@ -158,7 +158,7 @@
         NSLog(@"QRScannerVC: image matching imagePickerController didFinishPickingImage" );
         
         NSData *imageData = UIImageJPEGRepresentation(image, .4);
-        NSString *mediaFilename = [NSString stringWithString:@"imageToMatch.jpg"];
+        NSString *mediaFilename = @"imageToMatch.jpg";
         NSString *newFilePath =[NSTemporaryDirectory() stringByAppendingString: mediaFilename];
         NSURL *imageURL = [[NSURL alloc] initFileURLWithPath: newFilePath];
         

@@ -14,6 +14,7 @@
 @synthesize questId;
 @synthesize name, sortNum;
 @synthesize description;
+@synthesize exitToTabName;
 @synthesize iconMediaId;
 @synthesize isNullQuest;
 

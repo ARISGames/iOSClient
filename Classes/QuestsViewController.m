@@ -58,12 +58,6 @@ NSString *const kQuestsHtmlTemplate =
         activeSort = 1;
 		cellsLoaded = 0;
 		self.isLink = NO;
-		//register for notifications
-		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-        [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
-		[dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedQuestList" object:nil];
-		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewQuestListReady" object:nil];
-		[dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
     }
 	
     return self;
@@ -84,6 +78,13 @@ NSString *const kQuestsHtmlTemplate =
 - (void)viewDidLoad {
     [super viewDidLoad];
 	NSLog(@"QuestsViewController: Quests View Loaded");
+    
+    //register for notifications
+    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+    [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
+    [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedQuestList" object:nil];
+    [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewQuestListReady" object:nil];
+    [dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
 	
 }
 

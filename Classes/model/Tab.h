@@ -12,9 +12,11 @@
 @interface Tab : NSObject {
     NSString *tabName;
     int tabIndex;
+    int tabDetail1;
 }
 
 @property(nonatomic)NSString *tabName;
 @property(readwrite,assign)int tabIndex;
+@property(readwrite,assign)int tabDetail1;
 
 @end

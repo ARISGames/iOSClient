@@ -46,16 +46,10 @@ NSString *const kIconQuestsHtmlTemplate =
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
-        self.title = @"Icon Quests";// NSLocalizedString(@"QuestViewTitleKey",@"");
+        self.title = NSLocalizedString(@"QuestViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"117-todo"];
         activeSort = 1;
 		self.isLink = NO;
-		//register for notifications
-		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-        [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
-		[dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedQuestList" object:nil];
-		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewQuestListReady" object:nil];
-		[dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
     }
 	
     return self;
@@ -71,6 +65,13 @@ NSString *const kIconQuestsHtmlTemplate =
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    //register for notifications
+    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+    [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
+    [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedQuestList" object:nil];
+    [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewQuestListReady" object:nil];
+    [dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
+    
 	NSLog(@"IconQuestsViewController: Quests View Loaded");
 	
 }
@@ -104,6 +105,8 @@ NSString *const kIconQuestsHtmlTemplate =
 	newItemsSinceLastView = 0;
 	silenceNextServerUpdateCount = 0;
     
+    [self refreshViewFromModel];
+    
 }
 
 -(void)dismissTutorial{
@@ -132,7 +135,6 @@ NSString *const kIconQuestsHtmlTemplate =
 
 -(void)refreshViewFromModel {
 	NSLog(@"IconQuestsViewController: Refreshing view from model");
-    return;
 	
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 //	progressLabel.text = [NSString stringWithFormat:@"%d %@ %d %@", [AppModel sharedAppModel].currentGame.completedQuests, NSLocalizedString(@"OfKey", @"Number of Number"), [AppModel sharedAppModel].currentGame.totalQuests, NSLocalizedString(@"QuestsCompleteKey", @"")];
@@ -154,9 +156,6 @@ NSString *const kIconQuestsHtmlTemplate =
 				newItems ++;
                 quest.sortNum = activeSort;
                 activeSort++;
-                
-                [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:[NSString stringWithFormat:@"%@ %@", quest.name, NSLocalizedString(@"QuestsViewNewQuestsKey", @"")]
-                                                                                 andBoldedString:quest.name];
 			}
 		}
         
@@ -169,11 +168,6 @@ NSString *const kIconQuestsHtmlTemplate =
 			}
 			if (match == NO) {
                 [appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
-                
-                
-                [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:[NSString stringWithFormat:@"%@ %@", quest.name, NSLocalizedString(@"QuestsViewQuestCompletedKey", @"")]
-                                                                                 andBoldedString:quest.name];
-
 			}
 		}
         
@@ -287,7 +281,9 @@ NSString *const kIconQuestsHtmlTemplate =
     QuestDetailsViewController *questDetailsViewController =[[QuestDetailsViewController alloc] initWithQuest: questSelected];
  //   UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:questDetailsViewController];
  //   [self presentViewController:navigationController animated:YES completion:nil];
-    [self presentViewController:questDetailsViewController animated:YES completion:nil];
+    questDetailsViewController.navigationItem.title = questSelected.name;
+    [[self navigationController] pushViewController:questDetailsViewController animated:YES];
+  //  [self presentViewController:questDetailsViewController animated:YES completion:nil];
 }
 
 - (BOOL)webView:(UIWebView *)webView  

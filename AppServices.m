@@ -1956,6 +1956,7 @@ NSString *const kARISServerServicePackage = @"v1";
     Tab *tab = [[Tab alloc] init];
     tab.tabName = [tabDictionary valueForKey:@"tab"];
     tab.tabIndex = [[tabDictionary valueForKey:@"tab_index"] intValue];
+    tab.tabDetail1 = [tabDictionary valueForKey:@"tab_detail_1"] ? [[tabDictionary valueForKey:@"tab_detail_1"] intValue] : 0;
     return tab;
 }
 
@@ -2855,6 +2856,7 @@ NSString *const kARISServerServicePackage = @"v1";
 		quest.questId = [[activeQuest objectForKey:@"quest_id"] intValue];
 		quest.name = [activeQuest objectForKey:@"name"];
 		quest.description = [activeQuest objectForKey:@"description"];
+        quest.exitToTabName = [activeQuest objectForKey:@"exit_to_tab"] ? [activeQuest objectForKey:@"exit_to_tab"] : @"";
 		quest.iconMediaId = [[activeQuest objectForKey:@"icon_media_id"] intValue];
 		[activeQuestObjects addObject:quest];
         
@@ -2871,6 +2873,7 @@ NSString *const kARISServerServicePackage = @"v1";
 		quest.questId = [[completedQuest objectForKey:@"quest_id"] intValue];
 		quest.name = [completedQuest objectForKey:@"name"];
 		quest.description = [completedQuest objectForKey:@"text_when_complete"];
+        quest.exitToTabName = [completedQuest objectForKey:@"exit_to_tab"] ? [completedQuest objectForKey:@"exit_to_tab"] : @"";
 		quest.iconMediaId = [[completedQuest objectForKey:@"icon_media_id"] intValue];
 		[completedQuestObjects addObject:quest];
         

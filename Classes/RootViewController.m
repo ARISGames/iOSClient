@@ -50,7 +50,7 @@ BOOL isShowingNotification;
     static dispatch_once_t pred = 0;
     __strong static id _sharedObject = nil;
     dispatch_once(&pred, ^{
-        _sharedObject = [[self alloc] initWithFrame:CGRectMake(0,0,SCREEN_WIDTH,SCREEN_HEIGHT)];//[UIScreen mainScreen].bounds]; // or some other init method
+        _sharedObject = [[self alloc] initWithFrame:[UIScreen mainScreen].bounds];//[UIScreen mainScreen].bounds]; // or some other init method
     });
     return _sharedObject;
 }
@@ -168,7 +168,7 @@ BOOL isShowingNotification;
         loginViewController = [[LoginViewController alloc] initWithNibName:@"Login" bundle:nil];
         loginViewNavigationController = [[UINavigationController alloc] initWithRootViewController: loginViewController];
         loginViewNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-        [loginViewNavigationController.view setFrame:UIScreen.mainScreen.applicationFrame];
+  //      [loginViewNavigationController.view setFrame:UIScreen.mainScreen.applicationFrame];
         loginViewNavigationController.view.frame = self.view.frame;
         [self.view addSubview:loginViewNavigationController.view];
         
@@ -195,6 +195,7 @@ BOOL isShowingNotification;
                                                  nil];
         self.defaultViewControllerForMainTabBar = questsNavigationController;
         self.tabBarController.view.hidden = YES;
+        [self.tabBarController.view setFrame:self.view.bounds];
         [self.view addSubview:self.tabBarController.view];
         [AppModel sharedAppModel].defaultGameTabList = self.tabBarController.customizableViewControllers;
         
@@ -767,12 +768,16 @@ BOOL isShowingNotification;
     sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"tabIndex"
                                                  ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    Boolean isIconQuestsView = false;
     
     tmpTabList = [[AppModel sharedAppModel].gameTabList sortedArrayUsingDescriptors:sortDescriptors];
     Tab *tmpTab = [[Tab alloc] init];
     for(int y = 0; y < [tmpTabList count];y++){
         tmpTab = [tmpTabList objectAtIndex:y];
-        if ([tmpTab.tabName isEqualToString:@"QUESTS"]) tmpTab.tabName = NSLocalizedString(@"QuestViewTitleKey",@"");
+        if ([tmpTab.tabName isEqualToString:@"QUESTS"]){
+            tmpTab.tabName = NSLocalizedString(@"QuestViewTitleKey",@"");
+            isIconQuestsView = (Boolean)tmpTab.tabDetail1;
+        }
         else if([tmpTab.tabName isEqualToString:@"GPS"]) tmpTab.tabName = NSLocalizedString(@"MapViewTitleKey",@"");
         else if([tmpTab.tabName isEqualToString:@"INVENTORY"]) tmpTab.tabName = NSLocalizedString(@"InventoryViewTitleKey",@"");
         else if([tmpTab.tabName isEqualToString:@"QR"]) tmpTab.tabName = NSLocalizedString(@"QRScannerTitleKey",@"");
@@ -790,10 +795,17 @@ BOOL isShowingNotification;
 
     for(int y = 0; y < [newTabList count];y++){
         tmpTab = [newTabList objectAtIndex:y];
+        if([tmpTab.tabName isEqualToString:NSLocalizedString(@"QuestViewTitleKey",@"")]){
+            if(isIconQuestsView)tempNav = (UINavigationController *)[[AppModel sharedAppModel].defaultGameTabList objectAtIndex:8];
+            else tempNav = (UINavigationController *)[[AppModel sharedAppModel].defaultGameTabList objectAtIndex:0];
+            newCustomVC = [newCustomVC arrayByAddingObject:tempNav];
+        }
+        else{
         for(int x = 0; x < [[AppModel sharedAppModel].defaultGameTabList count];x++){
             
             tempNav = (UINavigationController *)[[AppModel sharedAppModel].defaultGameTabList objectAtIndex:x];
             if([tempNav.navigationItem.title isEqualToString:tmpTab.tabName])newCustomVC = [newCustomVC arrayByAddingObject:tempNav];
+        }
         }
     }
     

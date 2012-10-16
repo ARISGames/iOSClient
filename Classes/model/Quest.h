@@ -13,6 +13,7 @@
 	int questId;
 	NSString *name;
 	NSString *description;
+    NSString *exitToTabName;
 	int iconMediaId;
     int sortNum;
     BOOL isNullQuest;
@@ -21,6 +22,7 @@
 @property(readwrite, assign) int questId;
 @property(copy, readwrite) NSString *name;
 @property(copy, readwrite) NSString *description;
+@property(copy, readwrite) NSString *exitToTabName;
 @property(readwrite, assign) int iconMediaId;
 @property(readwrite, assign) int sortNum;
 @property(readwrite, assign) BOOL isNullQuest;

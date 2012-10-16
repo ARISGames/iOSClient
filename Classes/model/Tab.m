@@ -10,8 +10,6 @@
 
 
 @implementation Tab
-@synthesize tabName,tabIndex;
-
-
+@synthesize tabName,tabIndex, tabDetail1;
 
 @end
