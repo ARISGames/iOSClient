@@ -248,11 +248,13 @@
 - (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier {
 	CGRect CellFrame = CGRectMake(0, 0, 320, 60);
 	CGRect IconFrame = CGRectMake(5, 5, 50, 50);
+    CGRect NewBannerFrame = CGRectMake(2, 2, 55, 55);
 	CGRect Label1Frame = CGRectMake(70, 22, 240, 20);
 	CGRect Label2Frame = CGRectMake(70, 39, 240, 20);
     CGRect Label3Frame = CGRectMake(70, 5, 240, 20);
 	UILabel *lblTemp;
 	UIImageView *iconViewTemp;
+    UIImageView *newBannerViewTemp;
 	
 	UITableViewCell *cell = [[UITableViewCell alloc] initWithFrame:CellFrame reuseIdentifier:cellIdentifier];
 	
@@ -281,6 +283,12 @@
 	iconViewTemp.tag = 3;
 	iconViewTemp.backgroundColor = [UIColor clearColor]; 
 	[cell.contentView addSubview:iconViewTemp];
+    
+    //Init Icon with tag 5
+	newBannerViewTemp = [[AsyncMediaImageView alloc] initWithFrame:NewBannerFrame];
+	newBannerViewTemp.tag = 5;
+	newBannerViewTemp.backgroundColor = [UIColor clearColor]; 
+	[cell.contentView addSubview:newBannerViewTemp];
     
     //Init Icon with tag 4
     lblTemp = [[UILabel alloc] initWithFrame:Label3Frame];
@@ -341,7 +349,7 @@
     UILabel *lblTemp2 = (UILabel *)[cell viewWithTag:2];
     lblTemp2.text = item.description;
 	AsyncMediaImageView *iconView = (AsyncMediaImageView *)[cell viewWithTag:3];
-    AsyncMediaImageView *newBannerView = (AsyncMediaImageView *)[cell viewWithTag:3];
+    AsyncMediaImageView *newBannerView = (AsyncMediaImageView *)[cell viewWithTag:5];
     
     UILabel *lblTemp3 = (UILabel *)[cell viewWithTag:4];
     if(item.qty >1 && item.weight > 1)
@@ -380,7 +388,7 @@
             [iconView loadImageFromMedia:iconMedia];
         }
         
-            
+
 
 	} else {
 		//Load the Default
@@ -393,25 +401,14 @@
     // if new item, show new banner
     if (item.hasViewed == NO) {
         UIImage *newBannerImage = [UIImage imageNamed:@"newBanner.png"];
-        
-        
-        CGSize size = CGSizeMake(50,50);
-        UIGraphicsBeginImageContext(size);
-        
-        CGPoint iconPoint = CGPointMake(0, 0);
-        UIImage* iconImage = [[iconView  image] scaleToSize:CGSizeMake(50,50)];
-        [iconImage drawAtPoint:iconPoint];
-        
-        CGPoint newBannerPoint = CGPointMake(0, 0);
-        [newBannerImage drawAtPoint:newBannerPoint];
-        
-        UIImage* combinedImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        
-        
-        [newBannerView updateViewWithNewImage:combinedImage];
-    
+        [newBannerView updateViewWithNewImage:newBannerImage];
+        newBannerView.hidden = NO;
+    } else {
+        newBannerView.hidden = YES;   
     }
+        
+    
+
         
     
 	return cell;
