@@ -82,10 +82,7 @@
 	//Notify the server this item was displayed
 	[[AppServices sharedAppServices] updateServerItemViewed:item.itemId fromLocation:item.locationId];
 	
-	
-	[self.navigationController popToRootViewControllerAnimated:YES];
-    [RootViewController sharedRootViewController].modalPresent=NO;
-    [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];	
+    [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)viewDidAppear:(BOOL)animated{
     self.badValLabel.hidden = YES;
@@ -124,10 +121,8 @@
 }
 
 - (IBAction)actionButtonTouchAction:(id)sender{
-    [self doActionWithMode:self.mode quantity:self.numItems];
-    [self.navigationController popToRootViewControllerAnimated:YES];
-    [RootViewController sharedRootViewController].modalPresent=NO;
-    [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
+   [self doActionWithMode:self.mode quantity:self.numItems];
+    [self.navigationController popViewControllerAnimated:YES];
     [delegate updateQuantityDisplay];
 }
 
