@@ -18,6 +18,7 @@
 @synthesize zoomTime;
 @synthesize exitToTabWithTitle,videoId,panoId,webId,plaqueId,itemId,exitToType, mediaId;
 @synthesize title, vibrate;
+@synthesize notification;
 
 - (id) initWithText:(NSString *)theText 
                isPc:(Boolean)isPcYorN 
@@ -43,6 +44,7 @@
         self.mediaId = mId;
         self.exitToType = type;
         self.title = inputTitle;
+        self.notification=nil;
 	}
 	return self;
 }

@@ -35,6 +35,7 @@
     int             mediaId;
     NSString        *title;
     NSXMLParser		*parser;
+    NSString        *notification;
 	id<SceneParserDelegate> delegate;
 }
 
@@ -46,6 +47,7 @@
 @property(nonatomic) NSString *title;
 @property (readwrite) Boolean isPC;
 @property (readwrite) Boolean vibrate;
+@property (nonatomic) NSString *notification;
 
 @property (readwrite) id<SceneParserDelegate> delegate;
 

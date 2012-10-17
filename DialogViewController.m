@@ -590,6 +590,8 @@ NSString *const kDialogHtmlTemplate =
 	BOOL isCurrentlyDisplayed;
     
     if(aScene.vibrate) [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) vibrate];
+    if(aScene.notification != nil)
+        [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:aScene.notification andBoldedString:@""]; 
     
     self.npcImage.hidden = NO; 
 	cachedScene = aScene;

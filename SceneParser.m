@@ -34,10 +34,10 @@ NSString *const kTagItem = @"item";
 NSString *const kTagMedia = @"mediaId";
 NSString *const kTagTitle = @"title";
 NSString *const kTagVibrate = @"vibrate";
-
+NSString *const kTagNotification = @"notification";
 
 @implementation SceneParser
-@synthesize currentText, sourceText, exitToTabWithTitle, delegate, script, exitToType, title, isPC, vibrate;
+@synthesize currentText, sourceText, exitToTabWithTitle, delegate, script, exitToType, title, isPC, vibrate, notification;
 
 #pragma mark Init/dealloc
 - (id) initWithDefaultNpcIdWithDelegate:(id)inputDelegate {
@@ -83,6 +83,10 @@ NSString *const kTagVibrate = @"vibrate";
     if ([attributeDict objectForKey:kTagVibrate]) {
         if([[attributeDict objectForKey:kTagVibrate]intValue] > 0) vibrate = YES;
     }
+    
+    if ([attributeDict objectForKey:kTagNotification]) {
+        notification = [attributeDict objectForKey:kTagNotification];
+    } 
     
     if ([elementName isEqualToString:kTagPc]) {
 		isPc = YES;
@@ -186,6 +190,7 @@ NSString *const kTagVibrate = @"vibrate";
                                           panoramicId:panoId
                                             webpageId:webId plaqueId:plaqueId itemId:itemId mediaId: mediaId title: title]; 
         NSLog(@"MediaId in Scene is: %d", mediaId);
+        newScene.notification = notification;
 		[self.script addObject:newScene];
         panoId = 0;
         videoId = 0;

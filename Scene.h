@@ -30,6 +30,7 @@ enum soundConstants {
     int         itemId;
     int         mediaId;
     NSString* title;
+    NSString* notfiication;
 }
 
 @property(nonatomic) NSString* text;
@@ -48,7 +49,7 @@ enum soundConstants {
 @property(readwrite) float zoomTime;
 @property(nonatomic) NSString* exitToTabWithTitle;
 @property(nonatomic) NSString* exitToType;
-
+@property(nonatomic) NSString* notification;
 
 
 
