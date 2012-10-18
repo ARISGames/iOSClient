@@ -173,9 +173,9 @@
                 
                     NSString *notifString;
                     if(item.maxQty == 1)
-                        notifString = [NSString stringWithFormat:@"%@ Recieved", item.name];
+                        notifString = [NSString stringWithFormat:@"%@ %@", item.name, NSLocalizedString("ReceivedNotifKey", nil)];
                     else
-                        notifString = [NSString stringWithFormat:@"+%d %@ : %d Total",  item.qty - existingItem.qty, item.name, item.qty];
+                        notifString = [NSString stringWithFormat:@"+%d %@ : %d %@",  item.qty - existingItem.qty, item.name, item.qty, NSLocalizedString("TotalNotifKey", nil)];
                     
                     [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:item.name];
 
@@ -195,9 +195,9 @@
                 
                 NSString *notifString;
                 if(item.maxQty == 1)
-                    notifString = [NSString stringWithFormat:@"%@ Recieved", item.name];
+                    notifString = [NSString stringWithFormat:@"%@ %@", item.name, NSLocalizedString("ReceivedNotifKey", nil)];
                 else
-                    notifString = [NSString stringWithFormat:@"+%d %@ : %d Total",  item.qty, item.name, item.qty];
+                    notifString = [NSString stringWithFormat:@"+%d %@ : %d %@",  item.qty, item.name, item.qty, NSLocalizedString("TotalNotifKey", nil)];
                 
                 [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:item.name];
                 

@@ -81,9 +81,9 @@
                     
                     NSString *notifString;
                     if(attr.maxQty == 1)
-                        notifString = [NSString stringWithFormat:@"%@ Recieved", attr.name];
+                        notifString = [NSString stringWithFormat:@"%@ %@", attr.name, NSLocalizedString("ReceivedNotifKey", nil)];
                     else
-                        notifString = [NSString stringWithFormat:@"+%d %@ : %d Total",  attr.qty - existingAttr.qty, attr.name, attr.qty];
+                        notifString = [NSString stringWithFormat:@"+%d %@ : %d %@",  attr.qty - existingAttr.qty, attr.name, attr.qty, NSLocalizedString("TotalNotifKey", nil)];
                     
                     [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:attr.name];
                     newAttrs++;
@@ -94,9 +94,9 @@
                     
                     NSString *notifString;
                     if(attr.maxQty == 1)
-                        notifString = [NSString stringWithFormat:@"%@ Lost", attr.name];
+                        notifString = [NSString stringWithFormat:@"%@ %@", attr.name, NSLocalizedString("LostNotifKey", nil)];
                     else
-                        notifString = [NSString stringWithFormat:@"-%d %@ : %d Total", existingAttr.qty - attr.qty, attr.name, attr.qty];
+                        notifString = [NSString stringWithFormat:@"-%d %@ : %d %@", existingAttr.qty - attr.qty, attr.name, attr.qty, NSLocalizedString("LostNotifKey", nil)];
                     
                     [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:attr.name];
                     
@@ -112,9 +112,9 @@
                 
                 NSString *notifString;
                 if(attr.maxQty == 1)
-                    notifString = [NSString stringWithFormat:@"%@ Recieved", attr.name];
+                    notifString = [NSString stringWithFormat:@"%@ %@", attr.name, NSLocalizedString("ReceivedNotifKey", nil)];
                 else
-                    notifString = [NSString stringWithFormat:@"+%d %@ : %d Total", attr.qty, attr.name, attr.qty];
+                    notifString = [NSString stringWithFormat:@"+%d %@ : %d %@", attr.qty, attr.name, attr.qty, NSLocalizedString("TotalNotifKey", nil)];
                 
                 [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:attr.name];
 
@@ -135,9 +135,9 @@
                 
                 NSString *notifString;
                 if(existingAttr.maxQty == 1)
-                    notifString = [NSString stringWithFormat:@"%@ Lost", existingAttr.name];
+                    notifString = [NSString stringWithFormat:@"%@ %@", existingAttr.name, NSLocalizedString("LostNotifKey", nil)];
                 else
-                    notifString = [NSString stringWithFormat:@"-%d %@ : %d Total", existingAttr.qty, existingAttr.name, 0];
+                    notifString = [NSString stringWithFormat:@"-%d %@ : %d %@", existingAttr.qty, existingAttr.name, 0, NSLocalizedString("TotalNotifKey", nil)];
                 [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:existingAttr.name];
                 
                 newAttrs++;

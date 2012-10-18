@@ -154,7 +154,7 @@ NSString *const kQuestsHtmlTemplate =
                 quest.sortNum = activeSort;
                 activeSort++;
                 
-                [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:[NSString stringWithFormat:@"New Quest: %@", quest.name] andBoldedString:quest.name];
+                [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:[NSString stringWithFormat:@"%@: %@", NSLocalizedString("QuestViewNewQuestKey", nil), quest.name] andBoldedString:quest.name];
                 
 			}
 		}
@@ -170,7 +170,7 @@ NSString *const kQuestsHtmlTemplate =
                 [appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
                 
                 
-                [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:[NSString stringWithFormat:@"Completed: %@", quest.name] andBoldedString:quest.name];
+                [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:[NSString stringWithFormat:@"%@: %@", NSLocalizedString("CompletedNotifKey", nil), quest.name] andBoldedString:quest.name];
 
 			}
 		}
