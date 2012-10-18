@@ -270,9 +270,9 @@
     
     NSString *notifString;
     if(item.maxQty == 1)
-        notifString = [NSString stringWithFormat:@"%@ %@", item.name, NSLocalizedString("LostNotifKey", nil)];
+        notifString = [NSString stringWithFormat:@"%@ %@", item.name, NSLocalizedString(@"LostNotifKey", nil)];
     else
-        notifString = [NSString stringWithFormat:@"+%d %@ : %d %@",  qty, item.name, item.qty, NSLocalizedString("TotalNotifKey", nil)];
+        notifString = [NSString stringWithFormat:@"+%d %@ : %d %@",  qty, item.name, item.qty, NSLocalizedString(@"LostNotifKey", nil)];
     
     [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:item.name];
     
