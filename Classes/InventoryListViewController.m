@@ -248,7 +248,7 @@
 - (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier {
 	CGRect CellFrame = CGRectMake(0, 0, 320, 60);
 	CGRect IconFrame = CGRectMake(5, 5, 50, 50);
-    CGRect NewBannerFrame = CGRectMake(2, 2, 55, 55);
+    //CGRect NewBannerFrame = CGRectMake(2, 2, 55, 55);
 	CGRect Label1Frame = CGRectMake(70, 22, 240, 20);
 	CGRect Label2Frame = CGRectMake(70, 39, 240, 20);
     CGRect Label3Frame = CGRectMake(70, 5, 240, 20);
@@ -285,15 +285,16 @@
 	[cell.contentView addSubview:iconViewTemp];
     
     //Init Icon with tag 5
-	newBannerViewTemp = [[AsyncMediaImageView alloc] initWithFrame:NewBannerFrame];
+	/*newBannerViewTemp = [[AsyncMediaImageView alloc] initWithFrame:NewBannerFrame];
 	newBannerViewTemp.tag = 5;
 	newBannerViewTemp.backgroundColor = [UIColor clearColor]; 
-	[cell.contentView addSubview:newBannerViewTemp];
+	[cell.contentView addSubview:newBannerViewTemp];*/
     
     //Init Icon with tag 4
     lblTemp = [[UILabel alloc] initWithFrame:Label3Frame];
 	lblTemp.tag = 4;
-	lblTemp.font = [UIFont boldSystemFontOfSize:11];
+    lblTemp.font = [UIFont systemFontOfSize:11];
+    
 	lblTemp.textColor = [UIColor darkGrayColor];
 	lblTemp.backgroundColor = [UIColor clearColor];
     //lblTemp.textAlignment = UITextAlignmentRight;
@@ -344,12 +345,15 @@
 	
 	UILabel *lblTemp1 = (UILabel *)[cell viewWithTag:1];
 	lblTemp1.text = item.name;	
-    lblTemp1.font = [UIFont boldSystemFontOfSize:18.0];
+    if (item.hasViewed == NO) 
+        lblTemp1.font = [UIFont boldSystemFontOfSize:18];
+    else 
+        lblTemp1.font = [UIFont systemFontOfSize:18];
     
     UILabel *lblTemp2 = (UILabel *)[cell viewWithTag:2];
     lblTemp2.text = item.description;
 	AsyncMediaImageView *iconView = (AsyncMediaImageView *)[cell viewWithTag:3];
-    AsyncMediaImageView *newBannerView = (AsyncMediaImageView *)[cell viewWithTag:5];
+    //AsyncMediaImageView *newBannerView = (AsyncMediaImageView *)[cell viewWithTag:5];
     
     UILabel *lblTemp3 = (UILabel *)[cell viewWithTag:4];
     if(item.qty >1 && item.weight > 1)
@@ -361,7 +365,7 @@
     else
         lblTemp3.text = nil;
     iconView.hidden = NO;
-    newBannerView.hidden = NO;
+    //newBannerView.hidden = NO;
     
     Media *media;
     if (item.mediaId != 0 && ![item.type isEqualToString:@"NOTE"]) {
@@ -399,16 +403,13 @@
     }
         
     // if new item, show new banner
-    if (item.hasViewed == NO) {
+   /* if (item.hasViewed == NO) {
         UIImage *newBannerImage = [UIImage imageNamed:@"newBanner.png"];
         [newBannerView updateViewWithNewImage:newBannerImage];
         newBannerView.hidden = NO;
     } else {
         newBannerView.hidden = YES;   
-    }
-        
-    
-
+    }*/
         
     
 	return cell;
