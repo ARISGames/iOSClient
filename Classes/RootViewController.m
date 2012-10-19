@@ -152,9 +152,9 @@ BOOL isShowingNotification;
         qrScannerNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
         
         //Logout View
-        LogoutViewController *logoutViewController = [[LogoutViewController alloc] initWithNibName:@"Logout" bundle:nil];
-        UINavigationController *logoutNavigationController = [[UINavigationController alloc] initWithRootViewController: logoutViewController];
-        logoutNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+        AccountSettingsViewController *accountSettingsViewController = [[AccountSettingsViewController alloc] initWithNibName:@"Account" bundle:nil];
+        UINavigationController *accountSettingsNavigationController = [[UINavigationController alloc] initWithRootViewController: accountSettingsViewController];
+        accountSettingsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
         
         //Developer View
         DeveloperViewController *developerViewController = [[DeveloperViewController alloc] initWithNibName:@"Developer" bundle:nil];
@@ -189,7 +189,7 @@ BOOL isShowingNotification;
                                                  attributesNavigationController,
                                                  notesNavigationController,
                                                  bogusSelectGameViewController,
-                                                 logoutNavigationController,
+                                                 accountSettingsNavigationController,
                                                  //developerNavigationController,
                                                  iconQuestsNavigationController,
                                                  nil];
@@ -222,9 +222,9 @@ BOOL isShowingNotification;
         gamePickerRecentNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
         
         //Logout View
-        LogoutViewController *alogoutViewController = [[LogoutViewController alloc] initWithNibName:@"Logout" bundle:nil];
-        UINavigationController *alogoutNavigationController = [[UINavigationController alloc] initWithRootViewController: alogoutViewController];
-        alogoutNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+        AccountSettingsViewController *anaccountSettingsViewController = [[AccountSettingsViewController alloc] initWithNibName:@"Account" bundle:nil];
+        UINavigationController *anaccountSettingsNavigationController = [[UINavigationController alloc] initWithRootViewController: anaccountSettingsViewController];
+        anaccountSettingsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
         
         self.gameSelectionTabBarController.viewControllers = [NSMutableArray arrayWithObjects:
                                                               gamePickerNearbyNC,
@@ -232,7 +232,7 @@ BOOL isShowingNotification;
                                                               gamePickerSearchNC,
                                                               gamePickerPopularNC,
                                                               gamePickerRecentNC,
-                                                              alogoutNavigationController,
+                                                              anaccountSettingsNavigationController,
                                                               nil];
         //[self.gameSelectionTabBarController.view setFrame:UIScreen.mainScreen.applicationFrame];
         [self.view addSubview:self.gameSelectionTabBarController.view];
@@ -587,6 +587,7 @@ BOOL isShowingNotification;
 
 - (void)dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController{
     [AppServices sharedAppServices].currentlyInteractingWithObject = NO;
+    [nearbyObjectViewController.view removeFromSuperview];
     [self.nearbyObjectNavigationController.view removeFromSuperview];
     [[AppServices sharedAppServices] fetchAllPlayerLists];
 }

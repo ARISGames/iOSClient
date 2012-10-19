@@ -136,8 +136,8 @@
 		2B3D12CE0F437AC60067FD3A /* QuestsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D12CD0F437AC60067FD3A /* QuestsViewController.m */; };
 		2B3D12D90F437D6E0067FD3A /* InventoryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */; };
 		2B3D12DB0F437E690067FD3A /* InventoryList.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B3D12DA0F437E690067FD3A /* InventoryList.xib */; };
-		2B3D12EC0F4382070067FD3A /* LogoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D12EB0F4382070067FD3A /* LogoutViewController.m */; };
-		2B3D12EE0F4382A00067FD3A /* Logout.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B3D12ED0F4382A00067FD3A /* Logout.xib */; };
+		2B3D12EC0F4382070067FD3A /* AccountSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D12EB0F4382070067FD3A /* AccountSettingsViewController.m */; };
+		2B3D12EE0F4382A00067FD3A /* Account.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B3D12ED0F4382A00067FD3A /* Account.xib */; };
 		2B3D14620F45EBAA0067FD3A /* GamePickerNearbyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D14610F45EBAA0067FD3A /* GamePickerNearbyViewController.m */; };
 		2B3D17070F49C99B0067FD3A /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D17060F49C99B0067FD3A /* Game.m */; };
 		2B3D175A0F49D18D0067FD3A /* DeveloperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D17590F49D18D0067FD3A /* DeveloperViewController.m */; };
@@ -647,9 +647,9 @@
 		2B3D12D70F437D6E0067FD3A /* InventoryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = InventoryListViewController.h; path = Classes/InventoryListViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		2B3D12D80F437D6E0067FD3A /* InventoryListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = InventoryListViewController.m; path = Classes/InventoryListViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		2B3D12DA0F437E690067FD3A /* InventoryList.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InventoryList.xib; sourceTree = "<group>"; };
-		2B3D12EA0F4382070067FD3A /* LogoutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogoutViewController.h; path = Classes/LogoutViewController.h; sourceTree = "<group>"; };
-		2B3D12EB0F4382070067FD3A /* LogoutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LogoutViewController.m; path = Classes/LogoutViewController.m; sourceTree = "<group>"; };
-		2B3D12ED0F4382A00067FD3A /* Logout.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Logout.xib; sourceTree = "<group>"; };
+		2B3D12EA0F4382070067FD3A /* AccountSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AccountSettingsViewController.h; path = Classes/AccountSettingsViewController.h; sourceTree = "<group>"; };
+		2B3D12EB0F4382070067FD3A /* AccountSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AccountSettingsViewController.m; path = Classes/AccountSettingsViewController.m; sourceTree = "<group>"; };
+		2B3D12ED0F4382A00067FD3A /* Account.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Account.xib; sourceTree = "<group>"; };
 		2B3D14600F45EBAA0067FD3A /* GamePickerNearbyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = GamePickerNearbyViewController.h; path = Classes/GamePickerNearbyViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		2B3D14610F45EBAA0067FD3A /* GamePickerNearbyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = GamePickerNearbyViewController.m; path = Classes/GamePickerNearbyViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		2B3D17050F49C99B0067FD3A /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
@@ -1618,9 +1618,9 @@
 				AB35E066155C6F5200430AF7 /* 298-circlex.png */,
 				AB35E067155C6F5200430AF7 /* 298-circlex@2x.png */,
 				AB2FE578120A154B00758F8C /* LogoutButton.png */,
-				2B3D12EA0F4382070067FD3A /* LogoutViewController.h */,
-				2B3D12EB0F4382070067FD3A /* LogoutViewController.m */,
-				2B3D12ED0F4382A00067FD3A /* Logout.xib */,
+				2B3D12EA0F4382070067FD3A /* AccountSettingsViewController.h */,
+				2B3D12EB0F4382070067FD3A /* AccountSettingsViewController.m */,
+				2B3D12ED0F4382A00067FD3A /* Account.xib */,
 			);
 			name = Logout;
 			sourceTree = "<group>";
@@ -2203,7 +2203,7 @@
 				2B3D11AD0F4361380067FD3A /* Login.xib in Resources */,
 				DB72A2C215A7AFA600A04B4C /* Quests.xib in Resources */,
 				2B3D12DB0F437E690067FD3A /* InventoryList.xib in Resources */,
-				2B3D12EE0F4382A00067FD3A /* Logout.xib in Resources */,
+				2B3D12EE0F4382A00067FD3A /* Account.xib in Resources */,
 				DB72A2C715A7B0C700A04B4C /* GamePickerNearbyViewController.xib in Resources */,
 				A7A172830F4F26A60017E865 /* Entitlements.plist in Resources */,
 				A7A1728C0F4F27120017E865 /* Icon.png in Resources */,
@@ -2438,7 +2438,7 @@
 				2B3D11B10F4361940067FD3A /* LoginViewController.mm in Sources */,
 				2B3D12CE0F437AC60067FD3A /* QuestsViewController.m in Sources */,
 				2B3D12D90F437D6E0067FD3A /* InventoryListViewController.m in Sources */,
-				2B3D12EC0F4382070067FD3A /* LogoutViewController.m in Sources */,
+				2B3D12EC0F4382070067FD3A /* AccountSettingsViewController.m in Sources */,
 				2B3D14620F45EBAA0067FD3A /* GamePickerNearbyViewController.m in Sources */,
 				2B3D17070F49C99B0067FD3A /* Game.m in Sources */,
 				2B3D175A0F49D18D0067FD3A /* DeveloperViewController.m in Sources */,

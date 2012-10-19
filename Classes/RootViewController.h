@@ -37,7 +37,7 @@
 #import "AudioRecorderViewController.h"
 #import "ARViewViewControler.h"
 #import "QRScannerViewController.h"
-#import "LogoutViewController.h"
+#import "AccountSettingsViewController.h"
 #import "PlayerSettingsViewController.h"
 #import "DeveloperViewController.h"
 #import "WaitingIndicatorViewController.h"

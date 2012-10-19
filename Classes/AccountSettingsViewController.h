@@ -1,5 +1,5 @@
 //
-//  UpdatesViewController.h
+//  AccountSettingsController.h
 //  ARIS
 //
 //  Created by Ben Longoria on 2/11/09.
@@ -9,11 +9,15 @@
 #import <UIKit/UIKit.h>
 
 
-@interface LogoutViewController : UIViewController {
+@interface AccountSettingsViewController : UIViewController {
 	IBOutlet UIButton *logoutButton;
+	IBOutlet UIButton *passButton;
+	IBOutlet UIButton *profileButton;
 	IBOutlet UILabel *warningLabel;
 }
 
 -(IBAction)logoutButtonPressed: (id) sender;
+-(IBAction)passButtonPressed: (id) sender;
+-(IBAction)profileButtonPressed: (id) sender;
 
 @end

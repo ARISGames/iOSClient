@@ -14,7 +14,6 @@
 #import "Npc.h"
 #import "Note.h"
 
-
 @implementation Location
 
 @synthesize locationId;

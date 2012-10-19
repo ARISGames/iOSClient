@@ -1,15 +1,15 @@
 //
-//  UpdatesViewController.m
+//  AccountSettingsViewController.m
 //  ARIS
 //
 //  Created by Ben Longoria on 2/11/09.
 //  Copyright 2009 University of Wisconsin. All rights reserved.
 //
 
-#import "LogoutViewController.h"
+#import "AccountSettingsViewController.h"
 
 
-@implementation LogoutViewController
+@implementation AccountSettingsViewController
 
 
 //Override init for passing title and icon to tab bar
@@ -27,9 +27,11 @@
 - (void)viewDidLoad {
 	warningLabel.text = NSLocalizedString(@"LogoutWarningKey", @"");
 	[logoutButton setTitle:NSLocalizedString(@"LogoutKey",@"") forState:UIControlStateNormal];
+	[passButton setTitle:NSLocalizedString(@"ChangePasswordKey",@"") forState:UIControlStateNormal];
+	[profileButton setTitle:NSLocalizedString(@"ProfileKey",@"") forState:UIControlStateNormal];
 	
     [super viewDidLoad];	
-	NSLog(@"Logout View Controller Loaded");
+	NSLog(@"Account Settings View Controller Loaded");
 }
 
 
@@ -38,6 +40,20 @@
 	
 	NSNotification *logoutRequestNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self];
 	[[NSNotificationCenter defaultCenter] postNotification:logoutRequestNotification];
+}
+
+- (IBAction)passButtonPressed: (id) sender {
+	NSLog(@"Password Change Requested");
+	
+	NSNotification *passChangeRequestNotification = [NSNotification notificationWithName:@"PassChangeRequested" object:self];
+	[[NSNotificationCenter defaultCenter] postNotification:passChangeRequestNotification];
+}
+
+- (IBAction)profileButtonPressed: (id) sender {
+	NSLog(@"Profile Settings Requested");
+	
+	NSNotification *profSettingsRequestNotification = [NSNotification notificationWithName:@"ProfSettingsRequested" object:self];
+	[[NSNotificationCenter defaultCenter] postNotification:profSettingsRequestNotification];
 }
 
 
