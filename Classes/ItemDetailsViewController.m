@@ -379,12 +379,13 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	
 	[self updateQuantityDisplay];
 	
-	//Possibly Dismiss Item Details View
-	/*if (item.qty < 1) {
-		[self.navigationController popToRootViewControllerAnimated:YES];
-        [RootViewController sharedRootViewController].modalPresent = NO;
-        [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
-	}*/
+	//Possibly disable the pickup button
+	if (item.qty < 1) {
+        pickupButton.enabled = NO;
+	} else {
+        pickupButton.enabled = YES;
+    }
+    
 }
 
 #pragma mark MPMoviePlayerController Notification Handlers
