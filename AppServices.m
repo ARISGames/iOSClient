@@ -44,7 +44,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	NSArray *arguments = [NSArray arrayWithObjects:[AppModel sharedAppModel].userName, [AppModel sharedAppModel].password, nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithServer:[AppModel sharedAppModel].serverURL 
                                                              andServiceName: @"players" 
-                                                              andMethodName:@"loginPlayer"
+                                                              andMethodName:@"getLoginPlayerObject"
                                                                andArguments:arguments
                                                                 andUserInfo:nil];
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseLoginResponseFromJSON:)]; 
@@ -53,26 +53,27 @@ NSString *const kARISServerServicePackage = @"v1";
 -(void)setShowPlayerOnMap{
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].playerId],[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].showPlayerOnMap], nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithServer:[AppModel sharedAppModel].serverURL 
-                                                             andServiceName: @"players" 
+                                                             andServiceName:@"players"
                                                               andMethodName:@"setShowPlayerOnMap"
                                                                andArguments:arguments 
-                                                                andUserInfo:nil]; 
-    
+                                                                andUserInfo:nil];
 	[jsonConnection performAsynchronousRequestWithHandler:nil]; 
 }
+
 - (void)registerNewUser:(NSString*)userName password:(NSString*)pass 
 			  firstName:(NSString*)firstName lastName:(NSString*)lastName email:(NSString*)email {
 	NSLog(@"AppModel: New User Registration Requested");
 	//createPlayer($strNewUserName, $strPassword, $strFirstName, $strLastName, $strEmail)
 	NSArray *arguments = [NSArray arrayWithObjects:userName, pass, firstName, lastName, email, nil];
+    [AppModel sharedAppModel].userName = userName;
+    [AppModel sharedAppModel].password = pass;
 	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithServer:[AppModel sharedAppModel].serverURL 
-                                                             andServiceName: @"players" 
+                                                             andServiceName:@"players"
                                                               andMethodName:@"createPlayer"
-                                                               andArguments:arguments 
-                                                                andUserInfo:nil]; 
+                                                               andArguments:arguments
+                                                                andUserInfo:nil];
 	
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseSelfRegistrationResponseFromJSON:)]; 
-	
 }
 
 - (void)updateServerNodeViewed: (int)nodeId fromLocation:(int)locationId {
@@ -687,7 +688,7 @@ NSString *const kARISServerServicePackage = @"v1";
 
 
 -(void) uploadContentToNoteWithFileURL:(NSURL *)fileURL name:(NSString *)name noteId:(int) noteId type: (NSString *)type{
-    ARISUploader *uploader = [[ARISUploader alloc]initWithURLToUpload:fileURL delegate:self doneSelector:@selector(noteContentUploadDidfinish: ) errorSelector:@selector(uploadNoteContentDidFail:)];
+    ARISUploader *uploader = [[ARISUploader alloc]initWithURLToUpload:fileURL gameSpecific:YES delegate:self doneSelector:@selector(noteContentUploadDidfinish: ) errorSelector:@selector(uploadNoteContentDidFail:)];
     
     NSNumber *nId = [[NSNumber alloc]initWithInt:noteId];
     
@@ -710,7 +711,7 @@ NSString *const kARISServerServicePackage = @"v1";
 }
 
 -(void) uploadPlayerPicMediaWithFileURL:(NSURL *)fileURL type:(NSString *)type{
-    ARISUploader *uploader = [[ARISUploader alloc]initWithURLToUpload:fileURL delegate:self doneSelector:@selector(playerPicUploadDidfinish: ) errorSelector:@selector(uploadPlayerPicDidFail:)];
+    ARISUploader *uploader = [[ARISUploader alloc]initWithURLToUpload:fileURL gameSpecific:NO delegate:self doneSelector:@selector(playerPicUploadDidfinish: ) errorSelector:@selector(uploadPlayerPicDidFail:)];
     
     NSMutableDictionary *userInfo = [[NSMutableDictionary alloc]initWithCapacity:2];
     [userInfo setValue:type forKey: @"type"];
@@ -728,7 +729,25 @@ NSString *const kARISServerServicePackage = @"v1";
 
 -(void) updatePlayer:(int)playerId Name:(NSString *)name Image:(int)mid
 {
-    
+    if(playerId != 0){
+        NSLog(@"AppModel: Updating Player info: %@ %d", name, mid);
+        
+        //Call server service
+        NSArray *arguments = [NSArray arrayWithObjects:
+                              [NSString stringWithFormat:@"%d",playerId],
+                              name,
+                              [NSString stringWithFormat:@"%d",mid],
+                              nil];
+        JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
+                                                                andServiceName:@"players"
+                                                                 andMethodName:@"updatePlayerNameMedia"
+                                                                  andArguments:arguments
+                                                                   andUserInfo:nil];
+        [jsonConnection performAsynchronousRequestWithHandler:nil];
+    }
+    else{
+        NSLog(@"Tried updating non-existent player! (playerId = 0)");
+    }
 }
 
 -(void)fetchPlayerNoteListAsync{
@@ -800,21 +819,19 @@ NSString *const kARISServerServicePackage = @"v1";
 	NSLog(@"Model: Upload Note Content Request Finished. Response: %@", [uploader responseString]);
 
     //Call server service
-    /*
-    NSString *type = [[uploader userInfo] objectForKey:@"type"];
+    
     NSString *newFileName = [uploader responseString];
     
 	NSArray *arguments = [NSArray arrayWithObjects:
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
 						  newFileName,
-                          type,
                           nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
                                                             andServiceName:@"players"
-                                                             andMethodName:@"updatePlayerPic"
+                                                             andMethodName:@"addPlayerPicFromFilename"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-     */
+    [jsonConnection performAsynchronousRequestWithHandler:nil];
     [[AppModel sharedAppModel].uploadManager contentFinishedUploading];
 }
 
@@ -909,7 +926,7 @@ NSString *const kARISServerServicePackage = @"v1";
 
 - (void)uploadImageForMatching:(NSURL *)fileURL{
     
-    ARISUploader *uploader = [[ARISUploader alloc]initWithURLToUpload:fileURL delegate:self doneSelector:@selector(uploadImageForMatchingDidFinish: ) errorSelector:@selector(uploadImageForMatchingDidFail:)];
+    ARISUploader *uploader = [[ARISUploader alloc]initWithURLToUpload:fileURL gameSpecific:YES delegate:self doneSelector:@selector(uploadImageForMatchingDidFinish: ) errorSelector:@selector(uploadImageForMatchingDidFail:)];
     
     NSLog(@"Model: Uploading File. gameID:%d",[AppModel sharedAppModel].currentGame.gameId);
     
@@ -2106,7 +2123,10 @@ NSString *const kARISServerServicePackage = @"v1";
     
 	if ((NSNull *)jsonResult.data != [NSNull null] && jsonResult.data != nil) {
 		[AppModel sharedAppModel].loggedIn = YES;
-		[AppModel sharedAppModel].playerId = [((NSDecimalNumber*)jsonResult.data) intValue];
+		[AppModel sharedAppModel].playerId = [[((NSDictionary*)jsonResult.data) objectForKey:@"player_id"] intValue];
+		[AppModel sharedAppModel].playerMediaId = [[((NSDictionary*)jsonResult.data) objectForKey:@"media_id"] intValue];
+		[AppModel sharedAppModel].userName = [((NSDictionary*)jsonResult.data) objectForKey:@"user_name"];
+		[AppModel sharedAppModel].displayName = [((NSDictionary*)jsonResult.data) objectForKey:@"display_name"];
         [[AppServices sharedAppServices] setShowPlayerOnMap];
         [[AppModel sharedAppModel] saveUserDefaults];
     }

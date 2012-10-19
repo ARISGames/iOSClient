@@ -1,15 +1,15 @@
 //
-//  GlobalPlayerViewController.m
+//  PlayerSettingsViewController.m
 //  ARIS
 //
 //  Created by Phil Dougherty on 9/21/12.
 //
 //
 
-#import "GlobalPlayerViewController.h"
+#import "PlayerSettingsViewController.h"
 #import "AppServices.h"
 
-@implementation GlobalPlayerViewController
+@implementation PlayerSettingsViewController
 
 @synthesize playerPic;
 @synthesize playerNameField;
@@ -38,8 +38,20 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    if([AppModel sharedAppModel].userName)
+    [self refreshViewFromModel];
+}
+
+- (void) refreshViewFromModel
+{
+    if([AppModel sharedAppModel].displayName != @"(none)" && [AppModel sharedAppModel].displayName != nil)
+        playerNameField.text = [AppModel sharedAppModel].displayName;
+    else
         playerNameField.text = [AppModel sharedAppModel].userName;
+    if([AppModel sharedAppModel].playerMediaId != 0)
+        [self.playerPic loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].playerMediaId]];
+    else
+        [self.playerPic loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:39717]];
+    
     [playerPicOpt1 loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:39715]];
     [playerPicOpt2 loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:39716]];
     [playerPicOpt3 loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:39717]];
@@ -133,6 +145,7 @@
                     [imageData writeToURL:imageURL atomically:YES];
                     
                     [[[AppModel sharedAppModel] uploadManager] uploadPlayerPicContentwithType:kNoteContentTypePhoto withFileURL:imageURL];
+                    playerPic.media.uid = 0;
                 }
             } failureBlock:^(NSError *error) {
             }];

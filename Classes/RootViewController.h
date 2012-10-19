@@ -38,7 +38,7 @@
 #import "ARViewViewControler.h"
 #import "QRScannerViewController.h"
 #import "LogoutViewController.h"
-#import "GlobalPlayerViewController.h"
+#import "PlayerSettingsViewController.h"
 #import "DeveloperViewController.h"
 #import "WaitingIndicatorViewController.h"
 #import "WaitingIndicatorView.h"
@@ -61,8 +61,8 @@
 	UINavigationController *nearbyObjectsNavigationController;
 	LoginViewController *loginViewController;
 	UINavigationController *loginViewNavigationController;
-    GlobalPlayerViewController *globalPlayerViewController;
-    UINavigationController *globalPlayerViewNavigationController;
+    PlayerSettingsViewController *playerSettingsViewController;
+    UINavigationController *playerSettingsViewNavigationController;
 	UINavigationController *nearbyObjectNavigationController;
 	WaitingIndicatorViewController *waitingIndicator;
 	WaitingIndicatorView *waitingIndicatorView;
@@ -92,8 +92,8 @@
 @property (nonatomic) IBOutlet TutorialViewController *tutorialViewController;
 @property (nonatomic) IBOutlet LoginViewController *loginViewController;
 @property (nonatomic) IBOutlet UINavigationController *loginViewNavigationController;
-@property (nonatomic) IBOutlet GlobalPlayerViewController *globalPlayerViewController;
-@property (nonatomic) IBOutlet UINavigationController *globalPlayerViewNavigationController;
+@property (nonatomic) IBOutlet PlayerSettingsViewController *playerSettingsViewController;
+@property (nonatomic) IBOutlet UINavigationController *playerSettingsViewNavigationController;
 @property (nonatomic) IBOutlet UINavigationController *nearbyObjectsNavigationController;
 @property (nonatomic) IBOutlet UINavigationController *nearbyObjectNavigationController;
 @property (nonatomic) WaitingIndicatorViewController *waitingIndicator;

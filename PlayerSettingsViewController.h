@@ -1,5 +1,5 @@
 //
-//  GlobalPlayerViewController.h
+//  PlayerSettingsViewController.h
 //  ARIS
 //
 //  Created by Phil Dougherty on 9/21/12.
@@ -16,7 +16,7 @@
 #import "UIImage+Scale.h"
 #import <ImageIO/ImageIO.h>
 
-@interface GlobalPlayerViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, AsyncMediaImageViewDelegate, UITextFieldDelegate> {
+@interface PlayerSettingsViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, AsyncMediaImageViewDelegate, UITextFieldDelegate> {
 	IBOutlet AsyncMediaImageView *playerPic;
     IBOutlet UITextField *playerNameField;
     
@@ -40,6 +40,7 @@
 -(IBAction)playerNameFieldTouched:(id)sender;
 -(id)playerPicOptTouched:(id)sender;
 -(IBAction)goButtonTouched:(id)sender;
+-(void) refreshViewFromModel;
 
 -(void)asyncMediaImageTouched:(id)sender;
 

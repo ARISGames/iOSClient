@@ -46,19 +46,19 @@
 	[super viewDidLoad];
 }
  
-
 - (IBAction)submitButtonTouched: (id) sender{
 	[[RootViewController sharedRootViewController] showNewWaitingIndicator:@"Creating a New User" displayProgressBar:NO];
 
 	[[AppServices sharedAppServices] registerNewUser:self.userName.text password:self.password.text 
-					firstName:@"" lastName:@"" email:self.email.text]; 
+					firstName:@"" lastName:@"" email:self.email.text];
 }
 	
-
 -(void)selfRegistrationFailure{
 	NSLog(@"SelfRegistration: Unsuccessfull registration attempt, check network before giving an alert");
 
 	[[RootViewController sharedRootViewController] removeNewWaitingIndicator];
+    [AppModel sharedAppModel].userName = nil;
+    [AppModel sharedAppModel].password = nil;
 	
 	if ([AppModel sharedAppModel].networkAlert) NSLog(@"SelfRegistration: Network is down, skip alert");
 	else{
@@ -82,6 +82,7 @@
 												   delegate:nil cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
 	[alert show];	
 
+    [[RootViewController sharedRootViewController] attemptLoginWithUserName:[AppModel sharedAppModel].userName andPassword:[AppModel sharedAppModel].password andGameId:0 inMuseumMode:true];
 	[userName resignFirstResponder];
 	[password resignFirstResponder];
 	[email resignFirstResponder];

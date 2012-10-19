@@ -32,7 +32,7 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
 @synthesize responseString;
 @synthesize error;
 
-- (id)initWithURLToUpload:(NSURL*) aUrlToUpload delegate:(id)aDelegate 
+- (id)initWithURLToUpload:(NSURL*) aUrlToUpload gameSpecific:(BOOL)aGame delegate:(id)aDelegate
              doneSelector: (SEL)aDoneSelector errorSelector: (SEL)anErrorSelector {
     if ((self = [super init])) {
 
@@ -42,7 +42,8 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
         urlToUpload = aUrlToUpload;
         delegate = aDelegate;
         doneSelector = aDoneSelector;
-        errorSelector = anErrorSelector;        
+        errorSelector = anErrorSelector;
+        game = aGame;
     }
     return self;
 }
@@ -52,7 +53,7 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
     
     NSURLRequest *urlRequest = [self postRequestWithURL:serverURL
                                                 boundry:BOUNDRY
-                                                   fileUrl:urlToUpload];
+                                                fileUrl:urlToUpload];
     if (!urlRequest) {
         [self uploadSucceeded:NO];
         return;
@@ -87,7 +88,7 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
 
 - (NSURLRequest *)postRequestWithURL: (NSURL *)url 
                              boundry: (NSString *)boundry 
-                                fileUrl: (NSURL *)aFileURLtoUpload 
+                             fileUrl: (NSURL *)aFileURLtoUpload;
 {
     // from http://www.cocoadev.com/index.pl?HTTPFileUpload
     NSMutableURLRequest *urlRequest =
@@ -101,14 +102,17 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
     NSMutableData *postData = [NSMutableData dataWithCapacity:[data length] + 512];
     [postData appendData:[[NSString stringWithFormat:@"--%@\r\n", boundry] dataUsingEncoding:NSUTF8StringEncoding]];
     
-    [postData appendData:[[NSString stringWithString:@"Content-Disposition: form-data; name=\"gameID\"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
-	[postData appendData:[[NSString stringWithFormat:@"\r\n%d\r\n", 
+    [postData appendData:[@"Content-Disposition: form-data; name=\"path\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+	if(game)
+        [postData appendData:[[NSString stringWithFormat:@"\r\n%d\r\n",
                            [AppModel sharedAppModel].currentGame.gameId] dataUsingEncoding:NSUTF8StringEncoding]];
+    else
+        [postData appendData:[@"\r\nplayer\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
 	[postData appendData:[[NSString stringWithFormat:@"--%@\r\n",boundry] dataUsingEncoding:NSUTF8StringEncoding]];
 		    
-    //The actual file        
+    //The actual file
 	[postData appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"ipodfile.%@\"\r\n",aFileURLtoUpload.pathExtension] dataUsingEncoding:NSUTF8StringEncoding]];
-	[postData appendData:[[NSString stringWithString:@"Content-Type: application/octet-stream\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+	[postData appendData:[@"Content-Type: application/octet-stream\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
 	[postData appendData:[NSData dataWithData:data]];
 	[postData appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundry] dataUsingEncoding:NSUTF8StringEncoding]];
 	

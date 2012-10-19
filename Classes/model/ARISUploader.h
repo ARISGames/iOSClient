@@ -19,7 +19,7 @@
     SEL doneSelector;
     SEL errorSelector;
     
-    
+    BOOL game;
     BOOL uploadDidSucceed;
     NSString *responseString;
     NSError *error;
@@ -27,8 +27,8 @@
 
 }
 
-- (id)initWithURLToUpload:(NSURL*) urlToUpload delegate:(id)delegate 
-             doneSelector: (SEL)doneSelector errorSelector: (SEL)errorSelector;
+- (id)initWithURLToUpload:(NSURL*) urlToUpload gameSpecific:(BOOL)game delegate:(id)delegate
+             doneSelector: (SEL)doneSelector errorSelector:(SEL)errorSelector;
 - (void)upload;
 
 @property(nonatomic) NSDictionary *userInfo;
