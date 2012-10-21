@@ -190,7 +190,6 @@
 		A79830140FCB1CD700C1C2E7 /* WaitingIndicatorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A79830130FCB1CD700C1C2E7 /* WaitingIndicatorViewController.m */; };
 		A79830180FCB1D8900C1C2E7 /* WaitingIndicator.xib in Resources */ = {isa = PBXBuildFile; fileRef = A79830170FCB1D8900C1C2E7 /* WaitingIndicator.xib */; };
 		A798301B0FCB1F8100C1C2E7 /* RoundedBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = A798301A0FCB1F8100C1C2E7 /* RoundedBackground.png */; };
-		A7A172830F4F26A60017E865 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = A7A172820F4F26A60017E865 /* Entitlements.plist */; };
 		A7A1728C0F4F27120017E865 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = A7A1728A0F4F27120017E865 /* Icon.png */; };
 		A7A1728D0F4F27120017E865 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = A7A1728B0F4F27120017E865 /* Default.png */; };
 		A7A172950F4F273B0017E865 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = A7A172940F4F273B0017E865 /* Icon.icns */; };
@@ -737,7 +736,6 @@
 		A79830170FCB1D8900C1C2E7 /* WaitingIndicator.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WaitingIndicator.xib; sourceTree = "<group>"; };
 		A798301A0FCB1F8100C1C2E7 /* RoundedBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RoundedBackground.png; sourceTree = "<group>"; };
 		A7A172720F4F26280017E865 /* ARIS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARIS.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		A7A172820F4F26A60017E865 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		A7A1728A0F4F27120017E865 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		A7A1728B0F4F27120017E865 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		A7A172940F4F273B0017E865 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
@@ -1689,7 +1687,6 @@
 				AB9ECB4514DE4B5B00E5E74B /* AsyncMediaPlayerButton.m */,
 				28AD73870D9D96C1002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* Info.plist */,
-				A7A172820F4F26A60017E865 /* Entitlements.plist */,
 				1D3623240D0F684500981E51 /* ARISAppDelegate.h */,
 				1D3623250D0F684500981E51 /* ARISAppDelegate.m */,
 				28A0AB4B0D9B1048005BE974 /* ARIS_Prefix.pch */,
@@ -2205,7 +2202,6 @@
 				2B3D12DB0F437E690067FD3A /* InventoryList.xib in Resources */,
 				2B3D12EE0F4382A00067FD3A /* Account.xib in Resources */,
 				DB72A2C715A7B0C700A04B4C /* GamePickerNearbyViewController.xib in Resources */,
-				A7A172830F4F26A60017E865 /* Entitlements.plist in Resources */,
 				A7A1728C0F4F27120017E865 /* Icon.png in Resources */,
 				A7A1728D0F4F27120017E865 /* Default.png in Resources */,
 				A7A172950F4F273B0017E865 /* Icon.icns in Resources */,
@@ -2827,9 +2823,9 @@
 					armv6,
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: UW Division of Information Technology";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: UW Division of Information Technology";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2852,8 +2848,8 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = ARIS;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "0F878890-EE14-459C-A1D8-9D5C40DC6596";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0F878890-EE14-459C-A1D8-9D5C40DC6596";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = iphoneos;
