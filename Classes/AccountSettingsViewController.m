@@ -7,10 +7,9 @@
 //
 
 #import "AccountSettingsViewController.h"
-
+#import "ForgotViewController.h"
 
 @implementation AccountSettingsViewController
-
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
@@ -27,13 +26,14 @@
 - (void)viewDidLoad {
 	warningLabel.text = NSLocalizedString(@"LogoutWarningKey", @"");
 	[logoutButton setTitle:NSLocalizedString(@"LogoutKey",@"") forState:UIControlStateNormal];
-	[passButton setTitle:NSLocalizedString(@"ChangePasswordKey",@"") forState:UIControlStateNormal];
-	[profileButton setTitle:NSLocalizedString(@"ProfileKey",@"") forState:UIControlStateNormal];
+	//[passButton setTitle:NSLocalizedString(@"ChangePasswordKey",@"") forState:UIControlStateNormal];
+	[passButton setTitle:@"Change Password" forState:UIControlStateNormal];
+	//[profileButton setTitle:NSLocalizedString(@"ProfileKey",@"") forState:UIControlStateNormal];
+	[profileButton setTitle:@"Profile" forState:UIControlStateNormal];
 	
     [super viewDidLoad];	
 	NSLog(@"Account Settings View Controller Loaded");
 }
-
 
 - (IBAction)logoutButtonPressed: (id) sender {
 	NSLog(@"Logout Requested");
@@ -44,9 +44,12 @@
 
 - (IBAction)passButtonPressed: (id) sender {
 	NSLog(@"Password Change Requested");
-	
-	NSNotification *passChangeRequestNotification = [NSNotification notificationWithName:@"PassChangeRequested" object:self];
-	[[NSNotificationCenter defaultCenter] postNotification:passChangeRequestNotification];
+    
+	NSLog(@"Login: Change Password Button Touched");
+	ForgotViewController *forgotPassViewController = [[ForgotViewController alloc]
+                                                      initWithNibName:@"ForgotViewController" bundle:[NSBundle mainBundle]];
+	//Put the view on the screen
+	[[self navigationController] pushViewController:forgotPassViewController animated:YES];
 }
 
 - (IBAction)profileButtonPressed: (id) sender {
@@ -56,13 +59,9 @@
 	[[NSNotificationCenter defaultCenter] postNotification:profSettingsRequestNotification];
 }
 
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
     // Release anything that's not essential, such as cached data
 }
-
-
-
 
 @end

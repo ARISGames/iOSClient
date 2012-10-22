@@ -73,7 +73,7 @@
     if(!loggedIn && (self.showGamesInDevelopment == [defaults boolForKey:@"showGamesInDevelopment"]) && [currServ isEqual:self.serverURL] && (self.serverURL != nil)) {
         self.userName = [defaults objectForKey:@"userName"];
         self.playerId = [defaults integerForKey:@"playerId"];
-        self.playerMediaId = [defaults integerForKey:@"mediaId"];
+        self.playerMediaId = [defaults integerForKey:@"playerMediaId"];
         self.displayName = [defaults objectForKey:@"displayName"];
     }
     
@@ -146,8 +146,8 @@
 	[AppModel sharedAppModel].currentGame.gameId = 0;
     [AppModel sharedAppModel].playerId = 0;
     [AppModel sharedAppModel].playerMediaId = 0;
-    [AppModel sharedAppModel].displayName = @"(none)";
     [AppModel sharedAppModel].userName = @"(none)";
+    [AppModel sharedAppModel].displayName = @"(none)";
     [defaults setInteger:playerId forKey:@"playerId"];
     [defaults setInteger:playerMediaId forKey:@"playerMediaId"];
     [defaults setObject:userName forKey:@"userName"];
@@ -166,9 +166,11 @@
 	[defaults setBool:hasSeenQuestsTabTutorial forKey:@"hasSeenQuestsTabTutorial"];
 	[defaults setBool:hasSeenMapTabTutorial forKey:@"hasSeenMapTabTutorial"];
 	[defaults setBool:hasSeenInventoryTabTutorial forKey:@"hasSeenInventoryTabTutorial"];
-    [defaults setValue:userName forKey:@"userName"];
     [defaults setInteger:playerId forKey:@"playerId"];
-	[defaults synchronize];		
+    [defaults setInteger:playerMediaId forKey:@"playerMediaId"];
+    [defaults setObject:userName forKey:@"userName"];
+    [defaults setObject:displayName forKey:@"displayName"];
+	[defaults synchronize];
 }
 
 -(void)saveCOREData {

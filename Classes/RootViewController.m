@@ -68,6 +68,8 @@ BOOL isShowingNotification;
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(finishLoginAttempt:) name:@"NewLoginResponseReady" object:nil];
         [dispatcher addObserver:self selector:@selector(selectGame:) name:@"SelectGame" object:nil];
+        [dispatcher addObserver:self selector:@selector(showPlayerSettings:) name:@"ProfSettingsRequested" object:nil];
+        [dispatcher addObserver:self selector:@selector(performLogout:) name:@"PassChangeRequested" object:nil];
         [dispatcher addObserver:self selector:@selector(performLogout:) name:@"LogoutRequested" object:nil];
         [dispatcher addObserver:self selector:@selector(checkForDisplayCompleteNode) name:@"NewQuestListReady" object:nil];
         [dispatcher addObserver:self selector:@selector(receivedMediaList) name:@"ReceivedMediaList" object:nil];
@@ -679,6 +681,13 @@ BOOL isShowingNotification;
     }
 }
 
+- (void) showPlayerSettings:(NSNotification *)notification
+{
+    [self.playerSettingsViewController refreshViewFromModel];
+    self.playerSettingsViewNavigationController.view.hidden = NO;
+    self.gameSelectionTabBarController.view.hidden = NO;
+    self.gameSelectionTabBarController.selectedIndex = 0;
+}
 
 - (void)finishLoginAttempt:(NSNotification *)notification {
 	NSLog(@"RootViewController: Finishing Login Attempt");

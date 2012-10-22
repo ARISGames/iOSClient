@@ -8,6 +8,7 @@
 
 #import "AsyncMediaImageView.h"
 #import "AppModel.h"
+#import "AppServices.h"
 #import "UIImage+Scale.h"
 @implementation AsyncMediaImageView
 
@@ -147,11 +148,17 @@
 	if (self.media.image) {
         [self updateViewWithNewImage:[UIImage imageWithData:self.media.image]];
         self.loaded = YES;
+        self.isLoading = NO;
 		return;
 	}
 
     if (!self.media.url) {
-        NSLog(@"AsyncImageView: loadImageFromMedia with null url!");
+        NSLog(@"AsyncImageView: loadImageFromMedia with null url! Trying to load from server");
+        self.isLoading = NO;
+
+        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+        [dispatcher addObserver:self selector:@selector(retryLoadingMyMedia) name:@"ReceivedMediaList" object:nil];
+        [[AppServices sharedAppServices] fetchIndividualMediaById:[self.media.uid intValue]];
         return;
     }
 	
@@ -174,6 +181,14 @@
 											 cachePolicy:NSURLRequestUseProtocolCachePolicy
 										 timeoutInterval:60.0];
     connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+}
+
+- (void)retryLoadingMyMedia
+{
+    NSLog(@"Failed to load media %d previously- new media list recieved so trying again...", [self.media.uid intValue]);
+    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+    [dispatcher removeObserver:self];
+    [self loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:[self.media.uid intValue]]];
 }
 
 

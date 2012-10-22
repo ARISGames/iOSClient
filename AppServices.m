@@ -1434,6 +1434,23 @@ NSString *const kARISServerServicePackage = @"v1";
 	
 }
 
+- (void) fetchIndividualMediaById:(int)mediaId
+{
+    NSLog(@"AppModel: Fetching Media List");
+
+    NSArray *arguments = [NSArray arrayWithObjects:
+                          (([AppModel sharedAppModel].currentGame.gameId != 0) ? [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId] : @"player"),
+                          [NSString stringWithFormat:@"%d",mediaId],
+                          nil];
+    
+    JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
+                                                            andServiceName:@"media"
+                                                             andMethodName:@"getMediaObject"
+                                                             andArguments:arguments andUserInfo:nil];
+        
+    [jsonConnection performAsynchronousRequestWithHandler:@selector(parseSingleMediaFromJSON:)];
+}
+
 - (void)fetchGameMediaListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
 	NSLog(@"AppModel: Fetching Media List");
 	
@@ -2455,10 +2472,15 @@ NSString *const kARISServerServicePackage = @"v1";
     return location;
 }
 
+-(void)parseSingleMediaFromJSON: (JSONResult *)jsonResult
+{
+    //Just convert the data into a dictionary and pretend it is a full game list, so same thing as 'parseGameMediaListFromJSON'
+    NSArray * data = [[NSArray alloc] initWithObjects:jsonResult.data, nil];
+    jsonResult.data = data;
+    [self performSelector:@selector(startCachingMedia:) withObject:jsonResult afterDelay:.1];
+}
 
 -(void)parseGameMediaListFromJSON: (JSONResult *)jsonResult{
-   
-    
     //Below was commented out Thursday, October 4th, 2012 by Jacob Hanshaw as it was viewed to be redundant 
     //   [self startCachingMedia:jsonResult];
     //End of redundant code

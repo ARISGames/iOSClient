@@ -83,7 +83,11 @@
 -(IBAction)goButtonTouched:(id)sender
 {
     self.parentViewController.view.hidden = true;
-    [[AppServices sharedAppServices]  updatePlayer:[AppModel sharedAppModel].playerId Name:playerNameField.text Image:[playerPic.media.uid intValue]];
+    [AppModel sharedAppModel].displayName = playerNameField.text;
+    if([playerPic.media.uid intValue]!= 0)
+        [AppModel sharedAppModel].playerMediaId = [playerPic.media.uid intValue];
+    [[AppServices sharedAppServices] updatePlayer:[AppModel sharedAppModel].playerId Name:playerNameField.text Image:[playerPic.media.uid intValue]];
+    [[AppModel sharedAppModel] saveUserDefaults];
     return;
 }
 

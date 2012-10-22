@@ -64,11 +64,11 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"uid = %d", uid];
     [fetchRequest setPredicate:predicate];
     NSArray *allMedia = [context executeFetchRequest:fetchRequest error:&error] ;
-if([allMedia count] != 0)
-{
+    
+    if([allMedia count] != 0)
+    {
         Media *media = (Media *)[allMedia objectAtIndex:0];
             return media;
-        
     }
     
     //Media Not found try fetching a new list and looking
