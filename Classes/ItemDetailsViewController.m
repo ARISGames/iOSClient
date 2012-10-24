@@ -9,6 +9,7 @@
 #import "ItemDetailsViewController.h"
 #import "ARISAppDelegate.h"
 #import "AppServices.h"
+#import "AsyncMediaPlayerButton.h"
 #import "Media.h"
 #import "Item.h"
 #import "ItemActionViewController.h"
@@ -49,10 +50,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 												 selector:@selector(movieFinishedCallback:)
 													 name:MPMoviePlayerPlaybackDidFinishNotification
 												   object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self 
-												 selector:@selector(movieLoadStateChanged:) 
-													 name:MPMoviePlayerLoadStateDidChangeNotification 
-												   object:nil];
+		//[[NSNotificationCenter defaultCenter] addObserver:self
+		//										 selector:@selector(movieLoadStateChanged:)
+		//											 name:MPMoviePlayerLoadStateDidChangeNotification
+		//										   object:nil];
 		mode = kItemDetailsViewing;
     }
     return self;
@@ -118,6 +119,12 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	else if (([media.type isEqualToString:kMediaTypeVideo] || [media.type isEqualToString: kMediaTypeAudio]) && media.url) {
 		NSLog(@"ItemDetailsViewController:  AV Layout Selected");
         
+        AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presentingController:[RootViewController sharedRootViewController] preloadNow:NO];
+        //mediaArea.frame = CGRectMake(0, 0, 300, 240);
+        [self.scrollView addSubview:mediaButton];
+        //mediaArea.frame = CGRectMake(0, 0, 300, 240);
+        
+        /*
 		//Setup the Button
         mediaPlaybackButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 320, 240)];
         [mediaPlaybackButton addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
@@ -134,6 +141,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         playButonOverlay.center = mediaPlaybackButton.center;
         [mediaPlaybackButton addSubview:playButonOverlay];
         [self.scrollView addSubview:mediaPlaybackButton];
+           */
 	}
 	
 	else {
