@@ -89,7 +89,6 @@ NSString *const kDialogHtmlTemplate =
     [self toggleFullScreenTextMode];
 }
 
-
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
 	[super viewDidLoad];
@@ -365,7 +364,6 @@ NSString *const kDialogHtmlTemplate =
             
             //Create movie player object
             ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
-            [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
             mMoviePlayer.moviePlayer.shouldAutoplay = NO;
             [mMoviePlayer.moviePlayer prepareToPlay];		
             [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
@@ -866,7 +864,6 @@ NSString *const kDialogHtmlTemplate =
         NSLog(@"Playing through MPMoviePlayerController");
         self.ARISMoviePlayer.moviePlayer.view.hidden = hidden; 
         self.ARISMoviePlayer = [[ARISMoviePlayerViewController alloc] init];
-        [self.ARISMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
         self.ARISMoviePlayer.moviePlayer.movieSourceType = MPMovieSourceTypeStreaming;
         [self.ARISMoviePlayer.moviePlayer setContentURL: [NSURL URLWithString:media.url]];
         [self.ARISMoviePlayer.moviePlayer setControlStyle:MPMovieControlStyleNone];

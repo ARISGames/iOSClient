@@ -17,18 +17,8 @@
 	[super viewDidLoad];
 }
 
--(void) viewWillAppear:(BOOL)animated{
-    [RootViewController sharedRootViewController].isMovie = YES;  
-}
-
-
--(void) viewWillDisappear:(BOOL)animated{
-        [RootViewController sharedRootViewController].isMovie = NO;
-}
-
 -(void) viewDidDisappear:(BOOL)animated{
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
-
     UIApplication* application = [UIApplication sharedApplication];
     if (application.statusBarOrientation != UIInterfaceOrientationPortrait){
         UIViewController *c = [[UIViewController alloc]init];
@@ -47,6 +37,23 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	return YES;
+}
+
+-(BOOL)shouldAutorotate{
+    return YES;
+}
+
+-(NSInteger)supportedInterfaceOrientations{
+    NSInteger mask = 0;
+    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeLeft])
+        mask |= UIInterfaceOrientationMaskLandscapeLeft;
+    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeRight])
+        mask |= UIInterfaceOrientationMaskLandscapeRight;
+    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortrait])
+        mask |= UIInterfaceOrientationMaskPortrait;
+    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortraitUpsideDown])
+        mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
+    return mask;
 }
 
 @end

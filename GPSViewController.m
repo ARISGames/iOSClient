@@ -410,6 +410,23 @@ static float INITIAL_SPAN = 0.001;
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+-(BOOL)shouldAutorotate{
+    return YES;
+}
+
+-(NSInteger)supportedInterfaceOrientations{
+    NSInteger mask = 0;
+    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeLeft])
+        mask |= UIInterfaceOrientationMaskLandscapeLeft;
+    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeRight])
+        mask |= UIInterfaceOrientationMaskLandscapeRight;
+    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortrait])
+        mask |= UIInterfaceOrientationMaskPortrait;
+    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortraitUpsideDown])
+        mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
+    return mask;
+}
+
 
 -(UIImage *)addTitle:(NSString *)imageTitle quantity:(int)quantity toImage:(UIImage *)img {
     //I don't think this ever gets called... Might be depricated in favor of AnnotationView.drawRect. Then again, might not. just FYI. Phil 7/6/12

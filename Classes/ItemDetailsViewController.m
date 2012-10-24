@@ -69,7 +69,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     self.itemDescriptionView.delegate = self;
     
     [RootViewController sharedRootViewController].modalPresent = YES;
-    [RootViewController sharedRootViewController].isItemDetailsMovie = NO;
 	//Setup the Toolbar Buttons
 	dropButton.title = NSLocalizedString(@"ItemDropKey", @"");
 	pickupButton.title = NSLocalizedString(@"ItemPickupKey", @"");
@@ -127,7 +126,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         
         //Create movie player object
         mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
-        [mMoviePlayer shouldAutorotateToInterfaceOrientation:YES];
         mMoviePlayer.moviePlayer.shouldAutoplay = NO;
         [mMoviePlayer.moviePlayer prepareToPlay];
         
@@ -194,6 +192,23 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+-(BOOL)shouldAutorotate{
+    return YES;
+}
+
+-(NSInteger)supportedInterfaceOrientations{
+    NSInteger mask = 0;
+    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeLeft])
+        mask |= UIInterfaceOrientationMaskLandscapeLeft;
+    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeRight])
+        mask |= UIInterfaceOrientationMaskLandscapeRight;
+    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortrait])
+        mask |= UIInterfaceOrientationMaskPortrait;
+    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortraitUpsideDown])
+        mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
+    return mask;
+}
+
 - (void)updateQuantityDisplay {
 	if (item.qty > 1) self.title = [NSString stringWithFormat:@"%@ x%d",item.name,item.qty];
 	else self.title = item.name;
@@ -216,7 +231,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 }
 
 -(IBAction)playMovie:(id)sender {
-    [RootViewController sharedRootViewController].isItemDetailsMovie = YES;
 	[self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
 }
 

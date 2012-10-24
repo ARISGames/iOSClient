@@ -73,8 +73,6 @@
 	TutorialPopupView *tutorialPopupView;
 	
     BOOL modalPresent;
-    BOOL isMovie;
-    BOOL isItemDetailsMovie; 
     //UILabel *titleLabel;
     UIWebView *titleLabel;
     UILabel *descLabel;
@@ -107,8 +105,6 @@
 //@property(nonatomic)NSDictionary *imageInfo;
 
 @property (readwrite) BOOL modalPresent;
-@property (readwrite) BOOL isMovie;
-@property (readwrite) BOOL isItemDetailsMovie;
 
 //@property(nonatomic) IBOutlet UILabel *titleLabel;
 @property(nonatomic) IBOutlet UIWebView *titleLabel;

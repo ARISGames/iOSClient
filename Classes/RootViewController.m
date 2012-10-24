@@ -36,8 +36,6 @@ BOOL isShowingNotification;
 @synthesize waitingIndicator,waitingIndicatorView;
 @synthesize networkAlert,serverAlert;
 @synthesize tutorialViewController;
-@synthesize isMovie;
-@synthesize isItemDetailsMovie;
 @synthesize modalPresent;
 @synthesize titleLabel,descLabel,notifArray;
 @synthesize notSquishedVCFrame,squishedVCFrame;
@@ -311,7 +309,6 @@ BOOL isShowingNotification;
          object:privChannel];
          */
     }
-    self.isItemDetailsMovie = NO;
     return self;
 }
 
@@ -330,10 +327,15 @@ BOOL isShowingNotification;
     [[UIApplication sharedApplication] setStatusBarOrientation:UIDeviceOrientationPortrait animated:NO];
 }
 
+/*
+Notes on how this works:(Phil Dougherty- 10/23/12)
+ Under normal navigation:
+    UIApplication and RootView must agree that rotation is allowed. If so, rotates.
+ When viewcontroller presented (modal-y stuff):
+    UIApplication and Presented View Controller must agree.
+*/
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    if(self.isMovie && !self.isItemDetailsMovie){
-        return YES;
-    }
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
@@ -534,8 +536,6 @@ BOOL isShowingNotification;
 	}
 }
 
-
-
 - (void) showNewWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar {
 	NSLog (@"RootViewController: Showing Waiting Indicator With Message:%@",message);
 	//if (self.waitingIndicatorView) [self.waitingIndicatorView dismiss];
@@ -575,7 +575,6 @@ BOOL isShowingNotification;
 	NSLog (@"RootViewController: Removing Waiting Indicator");
 	if (self.waitingIndicator != nil) [self.waitingIndicator.view removeFromSuperview ];
 }
-
 
 - (void)displayNearbyObjectView:(UIViewController *)nearbyObjectViewController {
     [AppServices sharedAppServices].currentlyInteractingWithObject = YES;

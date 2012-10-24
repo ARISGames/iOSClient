@@ -26,5 +26,4 @@
 @property (nonatomic, unsafe_unretained) UIViewController *presentingController;
 @property (nonatomic) bool preloadOnInit;
 
-
 @end
