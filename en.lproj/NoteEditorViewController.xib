@@ -274,7 +274,7 @@
 					<object class="IBUITextField" id="625831935">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrameSize">{320, 45}</string>
+						<string key="NSFrame">{{8, 7}, {304, 30}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="742607468"/>
@@ -284,6 +284,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<string key="IBUIText"/>
+						<int key="IBUIBorderStyle">3</int>
 						<string key="IBUIPlaceholder">Note Title</string>
 						<object class="NSColor" key="IBUITextColor">
 							<int key="NSColorSpace">1</int>
@@ -341,7 +342,7 @@
 				<reference key="NSNextKeyView" ref="625831935"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">1</int>
-					<bytes key="NSRGB">MC4yMzkxMzA0MzQ4IDAuMjM5MTMwNDM0OCAwLjIzOTEzMDQzNDgAA</bytes>
+					<bytes key="NSRGB">MC41NDk4NjgzNzY0IDAuNTQ5ODY4Mzc2NCAwLjU0OTg2ODM3NjQAA</bytes>
 				</object>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 				<object class="IBUISimulatedNavigationBarMetrics" key="IBUISimulatedTopBarMetrics">
@@ -534,10 +535,10 @@
 							<reference ref="247898916"/>
 							<reference ref="309905534"/>
 							<reference ref="1010772445"/>
-							<reference ref="625831935"/>
 							<reference ref="961132809"/>
 							<reference ref="659723359"/>
 							<reference ref="138992275"/>
+							<reference ref="625831935"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">View</string>

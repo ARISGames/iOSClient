@@ -53,7 +53,6 @@
 		//Load the image from the media Table
 		Media *pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId];
 		[pcImage loadImageFromMedia: pcMedia];
-        
 	}
 	//else [pcImage updateViewWithNewImage:[UIImage imageNamed:@"profile.png"]];
 }
@@ -96,7 +95,7 @@
                     if(attr.maxQty == 1)
                         notifString = [NSString stringWithFormat:@"%@ %@", attr.name, NSLocalizedString(@"LostNotifKey", nil)];
                     else
-                        notifString = [NSString stringWithFormat:@"-%d %@ : %d %@", existingAttr.qty - attr.qty, attr.name, attr.qty, NSLocalizedString(@"LostNotifKey", nil)];
+                        notifString = [NSString stringWithFormat:@"-%d %@ : %d %@", existingAttr.qty - attr.qty, attr.name, attr.qty, @"Left"];
                     
                     [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:attr.name];
                     
@@ -137,7 +136,7 @@
                 if(existingAttr.maxQty == 1)
                     notifString = [NSString stringWithFormat:@"%@ %@", existingAttr.name, NSLocalizedString(@"LostNotifKey", nil)];
                 else
-                    notifString = [NSString stringWithFormat:@"-%d %@ : %d %@", existingAttr.qty, existingAttr.name, 0, NSLocalizedString(@"TotalNotifKey", nil)];
+                    notifString = [NSString stringWithFormat:@"-%d %@ : %d %@", existingAttr.qty, existingAttr.name, 0, @"Left"];
                 [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:existingAttr.name];
                 
                 newAttrs++;
