@@ -16,8 +16,8 @@
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
-        self.title = NSLocalizedString(@"LogoutTitleKey", @"");
-        self.tabBarItem.image = [UIImage imageNamed:@"298-circlex"];
+        self.title = @"Account";
+        self.tabBarItem.image = [UIImage imageNamed:@"123-id-card"];
     }
     return self;
 }

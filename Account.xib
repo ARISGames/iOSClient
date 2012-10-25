@@ -51,7 +51,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">2</int>
-						<string key="IBUINormalTitle">logoutKey</string>
+						<string key="IBUINormalTitle">Log Out</string>
 						<object class="NSColor" key="IBUIHighlightedTitleColor" id="37896167">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MSAxIDEAA</bytes>
@@ -83,21 +83,22 @@
 					<object class="IBUIButton" id="838435734">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">298</int>
-						<string key="NSFrame">{{97, 136}, {126, 96}}</string>
+						<string key="NSFrame">{{41, 136}, {238, 96}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="255618539"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">2</int>
-						<string key="IBUINormalTitle">changePass</string>
+						<string key="IBUINormalTitle">Change Password</string>
 						<reference key="IBUIHighlightedTitleColor" ref="37896167"/>
 						<reference key="IBUINormalTitleColor" ref="96615483"/>
 						<reference key="IBUINormalTitleShadowColor" ref="171175647"/>
 						<object class="NSCustomResource" key="IBUINormalBackgroundImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">developer.png</string>
+							<string key="NSResourceName">grey_button.png</string>
 						</object>
 						<reference key="IBUIFontDescription" ref="832947521"/>
 						<reference key="IBUIFont" ref="863934549"/>
@@ -105,21 +106,22 @@
 					<object class="IBUIButton" id="255618539">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">266</int>
-						<string key="NSFrame">{{97, 251}, {126, 96}}</string>
+						<string key="NSFrame">{{94, 251}, {132, 96}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">2</int>
-						<string key="IBUINormalTitle">profileKey</string>
+						<string key="IBUINormalTitle">Edit Profile</string>
 						<reference key="IBUIHighlightedTitleColor" ref="37896167"/>
 						<reference key="IBUINormalTitleColor" ref="96615483"/>
 						<reference key="IBUINormalTitleShadowColor" ref="171175647"/>
 						<object class="NSCustomResource" key="IBUINormalBackgroundImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">player.png</string>
+							<string key="NSResourceName">profile.png</string>
 						</object>
 						<reference key="IBUIFontDescription" ref="832947521"/>
 						<reference key="IBUIFont" ref="863934549"/>
@@ -223,9 +225,9 @@
 						<reference key="object" ref="191373211"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="255618539"/>
 							<reference ref="293417540"/>
 							<reference ref="838435734"/>
+							<reference ref="255618539"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -411,14 +413,14 @@
 			<object class="NSArray" key="dict.sortedKeys">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<string>LogoutButton.png</string>
-				<string>developer.png</string>
-				<string>player.png</string>
+				<string>grey_button.png</string>
+				<string>profile.png</string>
 			</object>
 			<object class="NSArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<string>{216, 173}</string>
-				<string>{30, 30}</string>
-				<string>{20, 20}</string>
+				<string>{101, 30}</string>
+				<string>{256, 256}</string>
 			</object>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">1929</string>
