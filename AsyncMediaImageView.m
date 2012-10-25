@@ -153,7 +153,7 @@
 	}
 
     if (!self.media.url) {
-        NSLog(@"AsyncImageView: loadImageFromMedia with null url! Trying to load from server");
+        NSLog(@"AsyncImageView: loadImageFromMedia with null url! Trying to load from server (mediaId:%d)",[self.media.uid intValue]);
         self.isLoading = NO;
 
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];

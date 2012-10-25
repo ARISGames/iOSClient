@@ -179,16 +179,20 @@ NSString *const kTagNotification = @"notification";
         || [elementName isEqualToString:kTagPlaque]
         || [elementName isEqualToString:kTagItem])
 	{
-        Scene *newScene = [[Scene alloc] initWithText:currentText 
-                                          isPc:isPc
-                                 shouldVibrate:vibrate
-                                     imageRect:imageRect
-                                      zoomTime:resizeTime
-                                            exitToTabWithTitle:exitToTabWithTitle
+        Scene *newScene = [[Scene alloc] initWithText:currentText
+                                                 isPc:isPc
+                                        shouldVibrate:vibrate
+                                            imageRect:imageRect
+                                             zoomTime:resizeTime
+                                   exitToTabWithTitle:exitToTabWithTitle
                                            exitToType:exitToType
                                               videoId:videoId
                                           panoramicId:panoId
-                                            webpageId:webId plaqueId:plaqueId itemId:itemId mediaId: mediaId title: title]; 
+                                            webpageId:webId
+                                             plaqueId:plaqueId
+                                               itemId:itemId
+                                              mediaId:mediaId
+                                                title:title];
         NSLog(@"MediaId in Scene is: %d", mediaId);
         newScene.notification = notification;
 		[self.script addObject:newScene];

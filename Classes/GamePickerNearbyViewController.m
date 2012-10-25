@@ -302,7 +302,6 @@
 	return 60;
 }
 
-
 /*
  // Override to support conditional editing of the table view.
  - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -310,7 +309,6 @@
  return YES;
  }
  */
-
 
 /*
  // Override to support editing the table view.
@@ -326,13 +324,11 @@
  }
  */
 
-
 /*
  // Override to support rearranging the table view.
  - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
  }
  */
-
 
 /*
  // Override to support conditional rearranging of the table view.
@@ -342,10 +338,8 @@
  }
  */
 
-
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
 
 @end

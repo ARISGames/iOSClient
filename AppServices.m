@@ -1436,7 +1436,7 @@ NSString *const kARISServerServicePackage = @"v1";
 
 - (void) fetchIndividualMediaById:(int)mediaId
 {
-    NSLog(@"AppModel: Fetching Media List");
+    NSLog(@"AppModel: Fetching Individual media: %d",mediaId);
 
     NSArray *arguments = [NSArray arrayWithObjects:
                           (([AppModel sharedAppModel].currentGame.gameId != 0) ? [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId] : @"player"),
@@ -2250,7 +2250,7 @@ NSString *const kARISServerServicePackage = @"v1";
     }
     
     NSString *mediaUrl = [gameSource valueForKey:@"media_url"];
-    if ((NSNull *)mediaUrl != [NSNull null] && [iconMediaUrl length]>0){
+    if ((NSNull *)mediaUrl != [NSNull null] && [mediaUrl length]>0){
         game.mediaUrl = [NSURL URLWithString:mediaUrl];
         game.splashMedia = [[AppModel sharedAppModel].mediaCache mediaForUrl:game.mediaUrl];
     }
@@ -2540,6 +2540,7 @@ NSString *const kARISServerServicePackage = @"v1";
         }
         [[RootViewController sharedRootViewController].loadingVC.progressLabel setNeedsDisplay];
 	}
+    if([batch isEqualToString:@""]) return;
     batch = [batch substringToIndex:(batch.length - 4)];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:batch];
     
