@@ -2327,6 +2327,7 @@ NSString *const kARISServerServicePackage = @"v1";
 }
 
 -(void)parseOneGameFromJSON: (JSONResult *)jsonResult{
+    NSLog(@"parseOneGameFromJSON called");
     currentlyFetchingOneGame = NO;
     [AppModel sharedAppModel].singleGameList = [self parseGameListFromJSON:jsonResult];
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"OneGameReady" object:nil]];
