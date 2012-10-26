@@ -57,6 +57,7 @@
 -(Media *)mediaForMediaId:(int)uid{
     NSLog(@"MediaCache:getSavedMediaWithId: %d",uid);
     NSError *error;
+    
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Media" 
                                               inManagedObjectContext:context];

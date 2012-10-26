@@ -19,7 +19,6 @@
 
 @synthesize inventoryTable;
 @synthesize inventory;
-@synthesize iconCache;
 @synthesize mediaCache;
 @synthesize tradeButton;
 @synthesize capBar;
@@ -33,8 +32,6 @@
     if (self) {
         self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"36-toolbox"];
-        NSMutableArray *iconCacheAlloc = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].inventory count]];
-        self.iconCache = iconCacheAlloc;
         NSMutableArray *mediaCacheAlloc = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].inventory count]];
         self.mediaCache = mediaCacheAlloc;
         
@@ -321,26 +318,23 @@
 	static NSString *CellIdentifier = @"Cell";
 	
     
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];	
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if(cell == nil) cell = [self getCellContentView:CellIdentifier];
     
     cell.textLabel.backgroundColor = [UIColor clearColor]; 
     cell.detailTextLabel.backgroundColor = [UIColor clearColor]; 
     
-    if (indexPath.row % 2 == 0){  
+    if (indexPath.row % 2 == 0)
         cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0  
                                                            green:233.0/255.0  
                                                             blue:233.0/255.0  
                                                            alpha:1.0];  
-    } else {  
-        cell.contentView.backgroundColor = [UIColor colorWithRed:200.0/255.0  
+    else
+        cell.contentView.backgroundColor = [UIColor colorWithRed:200.0/255.0
                                                            green:200.0/255.0  
                                                             blue:200.0/255.0  
-                                                           alpha:1.0];  
-    } 
+                                                           alpha:1.0];
     
-    
-	
 	Item *item = [inventory objectAtIndex: [indexPath row]];
 	
 	UILabel *lblTemp1 = (UILabel *)[cell viewWithTag:1];
@@ -353,6 +347,13 @@
     UILabel *lblTemp2 = (UILabel *)[cell viewWithTag:2];
     lblTemp2.text = item.description;
 	AsyncMediaImageView *iconView = (AsyncMediaImageView *)[cell viewWithTag:3];
+    if(!iconView.loaded)
+    {
+        iconView.media = nil;
+        iconView.image = nil;
+        iconView.isLoading = NO;
+        iconView.loaded = NO;
+    }
     //AsyncMediaImageView *newBannerView = (AsyncMediaImageView *)[cell viewWithTag:5];
     
     UILabel *lblTemp3 = (UILabel *)[cell viewWithTag:4];
@@ -368,38 +369,33 @@
     //newBannerView.hidden = NO;
     
     Media *media;
-    if (item.mediaId != 0 && ![item.type isEqualToString:@"NOTE"]) {
-        if([self.mediaCache count] > indexPath.row){
+    if (item.mediaId != 0 && ![item.type isEqualToString:@"NOTE"])
+    {
+        if([self.mediaCache count] > indexPath.row)
+        {
             media = [self.mediaCache objectAtIndex:indexPath.row];
         }
-        else{
-            
+        else
+        {
             media = [[AppModel sharedAppModel] mediaForMediaId: item.mediaId];
-            if(media)
-                [self.mediaCache  addObject:media];
+            if(media) [self.mediaCache  addObject:media];
         }
 	}
     
-	if (item.iconMediaId != 0) {
+	if (item.iconMediaId != 0)
+    {
         Media *iconMedia;
-        if([self.iconCache count] < indexPath.row){
-            iconMedia = [self.iconCache objectAtIndex:indexPath.row];
-            [iconView updateViewWithNewImage:[UIImage imageWithData:iconMedia.image]];
-        }
-        else{
-            iconMedia = [[AppModel sharedAppModel] mediaForMediaId: item.iconMediaId];
-            [self.iconCache  addObject:iconMedia];
-            [iconView loadImageFromMedia:iconMedia];
-        }
-        
-
-
-	} else {
+        iconMedia = [[AppModel sharedAppModel] mediaForMediaId: item.iconMediaId];
+        [iconView loadImageFromMedia:iconMedia];
+	}
+    else
+    {
 		//Load the Default
-		if ([media.type isEqualToString: kMediaTypeImage]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultImageIcon.png"]];
-		if ([media.type isEqualToString: kMediaTypeAudio]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultAudioIcon.png"]];
-		if ([media.type isEqualToString: kMediaTypeVideo]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultVideoIcon.png"]];	
-
+		if ([media.type isEqualToString: kMediaTypeImage])
+            [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultImageIcon.png"]];
+		if ([media.type isEqualToString: kMediaTypeAudio])
+            [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultAudioIcon.png"]];
+		if ([media.type isEqualToString: kMediaTypeVideo]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultVideoIcon.png"]];
     }
         
     // if new item, show new banner

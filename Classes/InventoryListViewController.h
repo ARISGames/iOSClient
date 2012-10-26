@@ -15,7 +15,6 @@
 @interface InventoryListViewController : UIViewController {
 	UITableView *inventoryTable;
 	NSArray *inventory;
-	NSMutableArray *iconCache;
     NSMutableArray *mediaCache;
     UIBarButtonItem *tradeButton;
     int silenceNextServerUpdateCount;
@@ -33,7 +32,6 @@
 @property(nonatomic) IBOutlet UITableView *inventoryTable;
 @property(nonatomic) IBOutlet UIBarButtonItem *tradeButton;
 @property(nonatomic) NSArray *inventory;
-@property(nonatomic) NSMutableArray *iconCache;
 @property(nonatomic) NSMutableArray *mediaCache;
 
 - (void) refresh;

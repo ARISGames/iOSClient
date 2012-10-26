@@ -131,7 +131,6 @@
 - (void)loadImageFromMedia:(Media *) aMedia {
     NSLog(@"AsyncImageView: loadImageFromMedia");
     self.media = aMedia;
-    self.image = nil;
     
     self.contentMode = UIViewContentModeScaleAspectFit;
     
@@ -231,14 +230,14 @@
 
 }
 
-- (void) updateViewWithNewImage:(UIImage*)image {
-
+- (void) updateViewWithNewImage:(UIImage*)image
+{
     self.alpha = 1.0;
-    if(image){
-    [self setImage:image];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(imageFinishedLoading)]){
-        [delegate imageFinishedLoading];
-    }
+    if(image)
+    {
+        [self setImage:image];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(imageFinishedLoading)])
+            [delegate imageFinishedLoading];
     }
     self.isLoading = NO;
     self.loaded = YES;
