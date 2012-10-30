@@ -383,6 +383,8 @@
 		DBBCE9E115937704006994F9 /* DefaultPCImage.png in Resources */ = {isa = PBXBuildFile; fileRef = DBBCE9E015937704006994F9 /* DefaultPCImage.png */; };
 		DBC3441315ADEED200FA902F /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBC3441115ADEED200FA902F /* RootViewController.m */; };
 		DDBD616A1615127C00D492DB /* IconQuestsButton.m in Sources */ = {isa = PBXBuildFile; fileRef = DDBD61691615127C00D492DB /* IconQuestsButton.m */; };
+		DDC495DC16407DE500D4C063 /* NewUIExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC495DA16407DE500D4C063 /* NewUIExampleViewController.m */; };
+		DDC495DD16407DE500D4C063 /* NewUIExampleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDC495DB16407DE500D4C063 /* NewUIExampleViewController.xib */; };
 		DDC4ABDC15F117C500D525BA /* RoundedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC4ABDB15F117C500D525BA /* RoundedTableViewCell.m */; };
 		DDCD2DE316275A5B003AAC64 /* QuestDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCD2DE116275A5B003AAC64 /* QuestDetailsViewController.m */; };
 		DDCD2DE416275A5B003AAC64 /* QuestDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDCD2DE216275A5B003AAC64 /* QuestDetailsViewController.xib */; };
@@ -1005,6 +1007,9 @@
 		DBC3441115ADEED200FA902F /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RootViewController.m; path = Classes/RootViewController.m; sourceTree = "<group>"; };
 		DDBD61681615127C00D492DB /* IconQuestsButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IconQuestsButton.h; sourceTree = "<group>"; };
 		DDBD61691615127C00D492DB /* IconQuestsButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IconQuestsButton.m; sourceTree = "<group>"; };
+		DDC495D916407DE500D4C063 /* NewUIExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewUIExampleViewController.h; sourceTree = "<group>"; };
+		DDC495DA16407DE500D4C063 /* NewUIExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewUIExampleViewController.m; sourceTree = "<group>"; };
+		DDC495DB16407DE500D4C063 /* NewUIExampleViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewUIExampleViewController.xib; sourceTree = "<group>"; };
 		DDC4ABDA15F117C500D525BA /* RoundedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RoundedTableViewCell.h; path = Classes/RoundedTableViewCell.h; sourceTree = "<group>"; };
 		DDC4ABDB15F117C500D525BA /* RoundedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RoundedTableViewCell.m; path = Classes/RoundedTableViewCell.m; sourceTree = "<group>"; };
 		DDCD2DE016275A5B003AAC64 /* QuestDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestDetailsViewController.h; sourceTree = "<group>"; };
@@ -1346,6 +1351,9 @@
 		29B97314FDCFA39411CA2CEA /* ARIS */ = {
 			isa = PBXGroup;
 			children = (
+				DDC495D916407DE500D4C063 /* NewUIExampleViewController.h */,
+				DDC495DA16407DE500D4C063 /* NewUIExampleViewController.m */,
+				DDC495DB16407DE500D4C063 /* NewUIExampleViewController.xib */,
 				3A69944A1625F6610015B48A /* newBanner.png */,
 				ABAFBAC9145A0B8D0044491C /* GPX Locations */,
 				AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */,
@@ -2381,6 +2389,7 @@
 				2D367CD616122710001FC5C3 /* IconQuestsViewController.xib in Resources */,
 				3A69944B1625F6610015B48A /* newBanner.png in Resources */,
 				DDCD2DE416275A5B003AAC64 /* QuestDetailsViewController.xib in Resources */,
+				DDC495DD16407DE500D4C063 /* NewUIExampleViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2588,6 +2597,7 @@
 				2D2669831623487000342A7E /* UIImage+RoundedCorner.m in Sources */,
 				2D26698616234CE400342A7E /* UIImage+fixOrientation.m in Sources */,
 				DDCD2DE316275A5B003AAC64 /* QuestDetailsViewController.m in Sources */,
+				DDC495DC16407DE500D4C063 /* NewUIExampleViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
