@@ -282,7 +282,7 @@
     if(item.maxQty == 1)
         notifString = [NSString stringWithFormat:@"%@ %@", item.name, NSLocalizedString(@"LostNotifKey", nil)];
     else
-        notifString = [NSString stringWithFormat:@"+%d %@ : %d %@",  qty, item.name, item.qty, @"Left"];
+        notifString = [NSString stringWithFormat:@"+%d %@ : %d %@",  qty, item.name, item.qty, NSLocalizedString(@"LeftNotifKey", nil)];
     
     [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:item.name];
     

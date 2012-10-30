@@ -95,7 +95,7 @@
                     if(attr.maxQty == 1)
                         notifString = [NSString stringWithFormat:@"%@ %@", attr.name, NSLocalizedString(@"LostNotifKey", nil)];
                     else
-                        notifString = [NSString stringWithFormat:@"-%d %@ : %d %@", existingAttr.qty - attr.qty, attr.name, attr.qty, @"Left"];
+                        notifString = [NSString stringWithFormat:@"-%d %@ : %d %@", existingAttr.qty - attr.qty, attr.name, attr.qty, NSLocalizedString(@"LeftNotifKey", nil)];
                     
                     [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:attr.name];
                     
@@ -136,7 +136,7 @@
                 if(existingAttr.maxQty == 1)
                     notifString = [NSString stringWithFormat:@"%@ %@", existingAttr.name, NSLocalizedString(@"LostNotifKey", nil)];
                 else
-                    notifString = [NSString stringWithFormat:@"-%d %@ : %d %@", existingAttr.qty, existingAttr.name, 0, @"Left"];
+                    notifString = [NSString stringWithFormat:@"-%d %@ : %d %@", existingAttr.qty, existingAttr.name, 0, NSLocalizedString(@"LeftNotifKey", nil)];
                 [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:existingAttr.name];
                 
                 newAttrs++;
