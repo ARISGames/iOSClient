@@ -58,34 +58,30 @@ BOOL isLoading;
 -(void)startLoadingContent
 {
     //Create movie player object
-    if(!mMoviePlayer){
+    if(!mMoviePlayer)
         mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
-    }
-    else{
-        ARISMoviePlayerViewController *mMoviePlayerAlloc = [self.mMoviePlayer initWithContentURL:[NSURL URLWithString: media.url]];
-        self.mMoviePlayer = mMoviePlayerAlloc;
-    }
     
     self.mMoviePlayer.moviePlayer.shouldAutoplay = NO;
     [self.mMoviePlayer.moviePlayer prepareToPlay];
     
-    if (media.image)
+    if (!media.image)
     {
-        //Do nothing- thumb already loaded
-    }
-    else if ([media.type isEqualToString:kMediaTypeVideo]){
-        NSLog(@"AsyncMoviePlayerButton: fetching thumbnail for a video ");
-        NSNumber *thumbTime = [NSNumber numberWithFloat:1.0f];
-        NSArray *timeArray = [NSArray arrayWithObject:thumbTime];
-        [self.mMoviePlayer.moviePlayer requestThumbnailImagesAtTimes:timeArray timeOption:MPMovieTimeOptionNearestKeyFrame];
+        if([media.type isEqualToString:kMediaTypeVideo])
+        {
+            NSLog(@"AsyncMoviePlayerButton: fetching thumbnail for a video ");
+            NSNumber *thumbTime = [NSNumber numberWithFloat:1.0f];
+            NSArray *timeArray = [NSArray arrayWithObject:thumbTime];
+            [self.mMoviePlayer.moviePlayer requestThumbnailImagesAtTimes:timeArray timeOption:MPMovieTimeOptionNearestKeyFrame];
         
-        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-        [dispatcher addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:mMoviePlayer.moviePlayer];
-    }
-    else if ([media.type isEqualToString:kMediaTypeAudio]){
-        self.media.image = UIImageJPEGRepresentation([UIImage imageNamed:@"microphoneBackground.jpg"], 1.0);
-        UIImage *videoThumbSized = [[UIImage imageNamed:@"microphoneBackground.jpg"] scaleToSize:self.frame.size];
-        [self setBackgroundImage:videoThumbSized forState:UIControlStateNormal];
+                NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+            [dispatcher addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:mMoviePlayer.moviePlayer];
+        }
+        else if ([media.type isEqualToString:kMediaTypeAudio])
+        {
+            self.media.image = UIImageJPEGRepresentation([UIImage imageNamed:@"microphoneBackground.jpg"], 1.0);
+            UIImage *videoThumbSized = [[UIImage imageNamed:@"microphoneBackground.jpg"] scaleToSize:self.frame.size];
+            [self setBackgroundImage:videoThumbSized forState:UIControlStateNormal];
+        }
     }
 }
 

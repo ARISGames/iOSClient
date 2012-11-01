@@ -27,6 +27,7 @@
     if (self) {
         // Custom initialization
         self.hidesBottomBarWhenPushed = YES;
+        
         [[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(movieFinishedCallback:)
 													 name:MPMoviePlayerPlaybackDidFinishNotification
@@ -236,14 +237,13 @@
             [scrollView addSubview:controller.view];
             
         }
-        else if([content.getType isEqualToString:kNoteContentTypePhoto]){
-            
+        else if([content.getType isEqualToString:kNoteContentTypePhoto])
+        {
             AsyncMediaImageView *controller = [[AsyncMediaImageView alloc] initWithFrame:frame andMedia:content.getMedia];
             [scrollView addSubview:controller];
-            
         }
-        else if([content.getType isEqualToString:kNoteContentTypeAudio] || [content.getType isEqualToString:kNoteContentTypeVideo]){
-            
+        else if([content.getType isEqualToString:kNoteContentTypeAudio] || [content.getType isEqualToString:kNoteContentTypeVideo])
+        {
             AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:frame media:content.getMedia presentingController:[RootViewController sharedRootViewController] preloadNow:NO];
             
             [scrollView addSubview:mediaButton];
