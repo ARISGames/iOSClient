@@ -19,11 +19,13 @@
 
 @synthesize inventoryTable;
 @synthesize inventory;
-@synthesize mediaCache;
 @synthesize tradeButton;
 @synthesize capBar;
 @synthesize capLabel;
 @synthesize weightCap, currentWeight;
+
+@synthesize iconCache;
+@synthesize mediaCache;
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
@@ -32,8 +34,12 @@
     if (self) {
         self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"36-toolbox"];
-        NSMutableArray *mediaCacheAlloc = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].inventory count]];
+        
+        //Alloc caches
+        NSMutableDictionary *mediaCacheAlloc = [[NSMutableDictionary alloc] initWithCapacity:[[AppModel sharedAppModel].inventory count]];
         self.mediaCache = mediaCacheAlloc;
+        NSMutableDictionary *iconCacheAlloc = [[NSMutableDictionary alloc] initWithCapacity:[[AppModel sharedAppModel].inventory count]];
+        self.iconCache = iconCacheAlloc;
         
 		//register for notifications
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
@@ -49,7 +55,6 @@
 - (void)silenceNextUpdate {
 	silenceNextServerUpdateCount++;
 	NSLog(@"InventoryListViewController: silenceNextUpdate. Count is %d",silenceNextServerUpdateCount);
-    
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -184,6 +189,7 @@
 			if (match == NO) {
                 if([AppModel sharedAppModel].profilePic)
                 {
+                    //What the heck is this? -Phil 11/1/12
                     [AppModel sharedAppModel].profilePic = NO;
                     [AppModel sharedAppModel].currentGame.pcMediaId = item.mediaId;
                 }
@@ -253,8 +259,7 @@
 	UIImageView *iconViewTemp;
     UIImageView *newBannerViewTemp;
 	
-	UITableViewCell *cell = [[UITableViewCell alloc] initWithFrame:CellFrame reuseIdentifier:cellIdentifier];
-	
+	UITableViewCell *cell = [[UITableViewCell alloc] initWithFrame:CellFrame reuseIdentifier:cellIdentifier];	
 	//Setup Cell
 	UIView *transparentBackground = [[UIView alloc] initWithFrame:CGRectZero];
     transparentBackground.backgroundColor = [UIColor clearColor];
@@ -317,7 +322,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	static NSString *CellIdentifier = @"Cell";
 	
-    
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if(cell == nil) cell = [self getCellContentView:CellIdentifier];
     
@@ -346,14 +350,7 @@
     
     UILabel *lblTemp2 = (UILabel *)[cell viewWithTag:2];
     lblTemp2.text = item.description;
-	AsyncMediaImageView *iconView = (AsyncMediaImageView *)[cell viewWithTag:3];
-    if(!iconView.loaded)
-    {
-        iconView.media = nil;
-        iconView.image = nil;
-        iconView.isLoading = NO;
-        iconView.loaded = NO;
-    }
+
     //AsyncMediaImageView *newBannerView = (AsyncMediaImageView *)[cell viewWithTag:5];
     
     UILabel *lblTemp3 = (UILabel *)[cell viewWithTag:4];
@@ -365,27 +362,35 @@
         lblTemp3.text = [NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"QuantityKey", @""),item.qty];
     else
         lblTemp3.text = nil;
-    iconView.hidden = NO;
     //newBannerView.hidden = NO;
     
     Media *media;
     if (item.mediaId != 0 && ![item.type isEqualToString:@"NOTE"])
     {
-        if([self.mediaCache count] > indexPath.row)
-        {
-            media = [self.mediaCache objectAtIndex:indexPath.row];
-        }
-        else
+        if(!(media = [self.mediaCache objectForKey:[NSNumber numberWithInt:item.itemId]]))
         {
             media = [[AppModel sharedAppModel] mediaForMediaId: item.mediaId];
-            if(media) [self.mediaCache  addObject:media];
+            [self.mediaCache setObject:media forKey:[NSNumber numberWithInt:item.itemId]];
         }
 	}
     
+    AsyncMediaImageView *iconView = (AsyncMediaImageView *)[cell viewWithTag:3];
+    iconView.hidden = NO;
+    
+    Media *iconMedia;
 	if (item.iconMediaId != 0)
     {
-        Media *iconMedia;
-        iconMedia = [[AppModel sharedAppModel] mediaForMediaId: item.iconMediaId];
+        if(!(iconMedia = [self.iconCache objectForKey:[NSNumber numberWithInt:item.itemId]]))
+        {
+            iconMedia = [[AppModel sharedAppModel] mediaForMediaId:item.iconMediaId];
+            [self.iconCache setObject:iconMedia forKey:[NSNumber numberWithInt:item.itemId]];
+        }
+        
+        if(iconView.isLoading)
+        {
+            CGRect oldFrame = iconView.frame;
+            iconView = [[AsyncMediaImageView alloc] initWithFrame:oldFrame andMedia:iconMedia];
+        }
         [iconView loadImageFromMedia:iconMedia];
 	}
     else

@@ -15,7 +15,6 @@
 @interface InventoryListViewController : UIViewController {
 	UITableView *inventoryTable;
 	NSArray *inventory;
-    NSMutableArray *mediaCache;
     UIBarButtonItem *tradeButton;
     int silenceNextServerUpdateCount;
 	int newItemsSinceLastView;
@@ -23,6 +22,9 @@
     UILabel *capLabel;
     int weightCap;
     int currentWeight;
+    
+    NSMutableDictionary *iconCache;
+    NSMutableDictionary *mediaCache;
 }
 
 @property(readwrite, assign) int weightCap;
@@ -32,7 +34,9 @@
 @property(nonatomic) IBOutlet UITableView *inventoryTable;
 @property(nonatomic) IBOutlet UIBarButtonItem *tradeButton;
 @property(nonatomic) NSArray *inventory;
-@property(nonatomic) NSMutableArray *mediaCache;
+
+@property(nonatomic) NSMutableDictionary *iconCache;
+@property(nonatomic) NSMutableDictionary *mediaCache;
 
 - (void) refresh;
 - (unsigned int) indexOf:(char) searchChar inString:(NSString *)searchString;
