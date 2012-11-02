@@ -57,6 +57,7 @@
 	}
 	else {
 		self.qrScanButton.hidden = YES;
+		self.barcodeButton.hidden = YES;
         self.imageScanButton.hidden = YES;
         [self.manualCode becomeFirstResponder]; 
 

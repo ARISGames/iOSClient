@@ -37,8 +37,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 @"<body>%@</body>"
 @"</html>";
 
-
-
 @implementation ItemDetailsViewController
 @synthesize item, inInventory,mode,itemImageView, itemWebView,activityIndicator,isLink,itemDescriptionView,textBox,saveButton,scrollView;
 
