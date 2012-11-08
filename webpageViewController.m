@@ -162,12 +162,13 @@
 #pragma mark -
 #pragma mark ARIS/JavaScript Connections
 
-- (BOOL)webView:(UIWebView*)webViewFromMethod shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType { 
+- (BOOL)webView:(UIWebView*)webViewFromMethod shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType
+{
     
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     self.webView = webViewFromMethod;
-    [self.webView stringByEvaluatingJavaScriptFromString: @"isCurrentlyCalling();"];
+    [self.webView stringByEvaluatingJavaScriptFromString: @"ARIS.isCurrentlyCalling();"];
     
     //Is this a special call from HTML back to ARIS?
     NSString* scheme = [[req URL] scheme];
@@ -177,24 +178,32 @@
     NSString* mainCommand = [[req URL] host];
     NSArray *components = [[req URL]pathComponents];
     
-    if ([mainCommand isEqualToString:@"closeMe"]) {
+    if ([mainCommand isEqualToString:@"closeMe"])
+    {
         NSLog(@"WebPageVC: aris://closeMe/ called");
-        [self dismissModalViewControllerAnimated:NO];
-        [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        [RootViewController sharedRootViewController].modalPresent=NO;
+        [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
+        /*
+        [[RootViewController sharedRootViewController] dismissModalViewControllerAnimated:NO];
+        [self.webView stringByEvaluatingJavaScriptFromString: @"ARIS.isNotCurrentlyCalling();"];
+         */
         return NO; 
     }  
     
-    if ([mainCommand isEqualToString:@"refreshStuff"]) {
+    if ([mainCommand isEqualToString:@"refreshStuff"])
+    {
         NSLog(@"WebPageVC: aris://refreshStuff/ called");
         [self refreshConvos];
-        [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
+        [self.webView stringByEvaluatingJavaScriptFromString: @"ARIS.isNotCurrentlyCalling();"];
         return NO; 
     }  
     
-    if ([mainCommand isEqualToString:@"vibrate"]) {
+    if ([mainCommand isEqualToString:@"vibrate"])
+    {
         NSLog(@"WebPageVC: aris://vibrate/ called");
         [appDelegate vibrate];
-        [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
+        [self.webView stringByEvaluatingJavaScriptFromString: @"ARIS.isNotCurrentlyCalling();"];
         return NO; 
     } 
     
@@ -204,85 +213,91 @@
         if ([components count] > 1 && 
             [[components objectAtIndex:1] isEqualToString:@"name"]) 
         {
-            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"setPlayerName(\"%@\");",[AppModel sharedAppModel].userName]];
-            [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
+            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"ARIS.setPlayerName(\"%@\");",[AppModel sharedAppModel].userName]];
+            [self.webView stringByEvaluatingJavaScriptFromString: @"ARIS.isNotCurrentlyCalling();"];
             return NO;
         }
         if ([components count] > 1 && 
             [[components objectAtIndex:1] isEqualToString:@"id"]) 
         {
-            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"setPlayerId(%d);",[AppModel sharedAppModel].playerId]];
-            [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
+            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"ARIS.setPlayerId(%d);",[AppModel sharedAppModel].playerId]];
+            [self.webView stringByEvaluatingJavaScriptFromString: @"ARIS.isNotCurrentlyCalling();"];
             return NO; 
         }
     }
     
-    if ([mainCommand isEqualToString:@"inventory"]) {
+    if ([mainCommand isEqualToString:@"inventory"])
+    {
         NSLog(@"WebPageVC: aris://inventory/ called");
         
         if ([components count] > 2 && 
-            [[components objectAtIndex:1] isEqualToString:@"get"]) {
+            [[components objectAtIndex:1] isEqualToString:@"get"])
+        {
             int itemId = [[components objectAtIndex:2] intValue];
             NSLog(@"WebPageVC: aris://inventory/get/ called from webpage with itemId = %d",itemId);
             int qty = [self getQtyInInventoryOfItem:itemId];
-            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"didUpdateItemQty(%d,%d);",itemId,qty]];
-            [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
+            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",itemId,qty]];
+            [self.webView stringByEvaluatingJavaScriptFromString: @"ARIS.isNotCurrentlyCalling();"];
             return NO; 
-        }  
+        }
         
         if ([components count] > 3 && 
-            [[components objectAtIndex:1] isEqualToString:@"set"]) {
+            [[components objectAtIndex:1] isEqualToString:@"set"])
+        {
             int itemId = [[components objectAtIndex:2] intValue];
             int qty = [[components objectAtIndex:3] intValue];
             NSLog(@"WebPageVC: aris://inventory/set/ called from webpage with itemId = %d and qty = %d",itemId,qty);
             int newQty = [self setQtyInInventoryOfItem:itemId toQty:qty];
-            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"didUpdateItemQty(%d,%d);",itemId,newQty]];
-            [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
+            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",itemId,newQty]];
+            [self.webView stringByEvaluatingJavaScriptFromString: @"ARIS.isNotCurrentlyCalling();"];
             return NO; 
         } 
         
         if ([components count] > 3 && 
-            [[components objectAtIndex:1] isEqualToString:@"give"]) {
+            [[components objectAtIndex:1] isEqualToString:@"give"])
+        {
             int itemId = [[components objectAtIndex:2] intValue];
             int qty = [[components objectAtIndex:3] intValue];
             NSLog(@"WebPageVC: aris://inventory/give/ called from webpage with itemId = %d and qty = %d",itemId,qty);
             int newQty = [self giveQtyInInventoryToItem:itemId ofQty:qty];
-            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"didUpdateItemQty(%d,%d);",itemId,newQty]];
-            [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
+            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",itemId,newQty]];
+            [self.webView stringByEvaluatingJavaScriptFromString: @"ARIS.isNotCurrentlyCalling();"];
             return NO; 
         } 
         
         if ([components count] > 3 && 
-            [[components objectAtIndex:1] isEqualToString:@"take"]) {
+            [[components objectAtIndex:1] isEqualToString:@"take"])
+        {
             int itemId = [[components objectAtIndex:2] intValue];
             int qty = [[components objectAtIndex:3] intValue];
             NSLog(@"WebPageVC: aris://inventory/take/ called from webpage with itemId = %d and qty = %d",itemId,qty);
             int newQty = [self takeQtyInInventoryFromItem:itemId ofQty:qty];
-            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"didUpdateItemQty(%d,%d);",itemId,newQty]];
-            [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
+            [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",itemId,newQty]];
+            [self.webView stringByEvaluatingJavaScriptFromString: @"ARIS.isNotCurrentlyCalling();"];
             return NO; 
         } 
-        
     } 
     
     if ([mainCommand isEqualToString:@"media"]) {
         NSLog(@"WebPageVC: aris://media called");
         
         if ([components count] > 2 && 
-            [[components objectAtIndex:1] isEqualToString:@"prepare"]) {
+            [[components objectAtIndex:1] isEqualToString:@"prepare"])
+        {
             int mediaId = [[components objectAtIndex:2] intValue];
             NSLog(@"WebPageVC: aris://media/prepare/ called from webpage with mediaId = %d",mediaId );
             [self loadAudioFromMediaId:mediaId];
-            [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
+            [self.webView stringByEvaluatingJavaScriptFromString: @"ARIS.isNotCurrentlyCalling();"];
             return NO; 
         }  
         
         if ([components count] > 2 && 
-            [[components objectAtIndex:1] isEqualToString:@"play"]) {
+            [[components objectAtIndex:1] isEqualToString:@"play"])
+        {
             int mediaId = [[components objectAtIndex:2] intValue];
             NSLog(@"WebPageVC: aris://media/play/ called from webpage with mediaId = %d",mediaId );
             [self playAudioFromMediaId:mediaId];
-            [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
+            [self.webView stringByEvaluatingJavaScriptFromString: @"ARIS.isNotCurrentlyCalling();"];
             return NO; 
         }  
         
@@ -292,7 +307,7 @@
             NSLog(@"WebPageVC: aris://media/playAndVibrate/ called from webpage with mediaId = %d",mediaId );
             [self playAudioFromMediaId:mediaId];
             [appDelegate vibrate];
-            [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
+            [self.webView stringByEvaluatingJavaScriptFromString: @"ARIS.isNotCurrentlyCalling();"];
             return NO; 
         }  
         
@@ -301,7 +316,7 @@
             int mediaId = [[components objectAtIndex:2] intValue];
             NSLog(@"WebPageVC: aris://media/stop/ called from webpage with mediaId = %d",mediaId );
             [self stopAudioFromMediaId:mediaId];
-            [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
+            [self.webView stringByEvaluatingJavaScriptFromString: @"ARIS.isNotCurrentlyCalling();"];
             return NO; 
         }  
         
@@ -311,7 +326,7 @@
             int volume = [[components objectAtIndex:3] floatValue];
             NSLog(@"WebPageVC: aris://media/setVolume/ called from webpage with mediaId = %d and volume =%d",mediaId,volume );
             [self setMediaId:mediaId volumeTo:volume];
-            [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
+            [self.webView stringByEvaluatingJavaScriptFromString: @"ARIS.isNotCurrentlyCalling();"];
             return NO; 
         }
     }
@@ -323,7 +338,7 @@
             self.bumpSendString = [components objectAtIndex:1];
             [self configureBump];
             [BumpClient sharedClient].bumpable = YES;
-            [self.webView stringByEvaluatingJavaScriptFromString: @"isNotCurrentlyCalling();"];
+            [self.webView stringByEvaluatingJavaScriptFromString: @"ARIS.isNotCurrentlyCalling();"];
             return NO;
         }
     }  
@@ -516,7 +531,7 @@
     [[BumpClient sharedClient] setDataReceivedBlock:^(BumpChannelID channel, NSData *data) {
         NSString *receipt = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         NSLog(@"Data received:\n%@",receipt);
-        [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"bumpReceived(%@);",receipt]];
+        [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"ARIS.bumpReceived(%@);",receipt]];
             }];
     
     [[BumpClient sharedClient] setConnectionStateChangedBlock:^(BOOL connected) {
