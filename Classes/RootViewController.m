@@ -56,7 +56,11 @@ BOOL isShowingNotification;
 - (id)initWithFrame:(CGRect)frame {
     self = [super init];
     if (self) {
-        self.view.frame = frame;//[UIScreen mainScreen].bounds;//CGRectMake(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
+        self.view.frame = frame;
+        
+        SCREEN_HEIGHT = [UIScreen mainScreen].bounds.size.height;
+        SCREEN_WIDTH = [UIScreen mainScreen].bounds.size.width;
+        
         [self.tabBarController setDelegate:self];
         
         NSMutableArray* notifyArrayAlloc = [[NSMutableArray alloc]initWithCapacity:5];
@@ -73,7 +77,6 @@ BOOL isShowingNotification;
         [dispatcher addObserver:self selector:@selector(receivedMediaList) name:@"ReceivedMediaList" object:nil];
         
             
-        //UILabel *titleLabelAlloc = [[UILabel alloc] initWithFrame:CGRectMake(0, TRUE_ZERO_Y, SCREEN_WIDTH, 20)];
         UIWebView *titleLabelAlloc = [[UIWebView alloc] initWithFrame:CGRectMake(0, TRUE_ZERO_Y-8, SCREEN_WIDTH, 28)];
         self.titleLabel = titleLabelAlloc;
         //self.titleLabel.textColor = [UIColor blackColor];

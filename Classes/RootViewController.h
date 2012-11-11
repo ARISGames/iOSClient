@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#define SCREEN_HEIGHT 480
-#define SCREEN_WIDTH 320
+//#define SCREEN_HEIGHT 480
+//#define SCREEN_WIDTH 320
 #define STATUS_BAR_HEIGHT 20
 #define NOTIFICATION_HEIGHT 20
 #define TRUE_ZERO_Y -20
@@ -82,6 +82,10 @@
     //int notificationBarHeight;
     PTPusher *client;
     //   NSDictionary *imageInfo;
+    
+    int SCREEN_HEIGHT;
+    int SCREEN_WIDTH;
+    
 }
 //@property(readwrite,assign)int notificationBarHeight;
 @property (nonatomic) IBOutlet UITabBarController *tabBarController;
