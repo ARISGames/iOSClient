@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString *const PTPusherDataKey;
+extern NSString *const PTPusherEventKey;
+extern NSString *const PTPusherChannelKey;
+
 /** A value object representing a Pusher event.
  
  All events dispatched by libPusher (via either bindings or notifications) will be represented
@@ -45,6 +49,7 @@
 @end
 
 typedef enum {
+  PTPusherErrorUnknown = -1,
   PTPusherErrorSSLRequired = 4000,
   PTPusherErrorApplicationUnknown = 4001,
   PTPusherErrorApplicationDisabled = 4002

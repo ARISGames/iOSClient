@@ -81,6 +81,10 @@
     NSMutableArray *notifArray;
     //int notificationBarHeight;
     PTPusher *client;
+    PTPusherPrivateChannel *playerChannel;
+    PTPusherPrivateChannel *groupChannel;
+    PTPusherPrivateChannel *gameChannel;
+    PTPusherPrivateChannel *webpageChannel;
     //   NSDictionary *imageInfo;
     
     int SCREEN_HEIGHT;
@@ -104,8 +108,11 @@
 @property(nonatomic) NSMutableArray *notifArray;
 @property (nonatomic) UIAlertView *networkAlert;
 @property (nonatomic) UIAlertView *serverAlert;
-@property(nonatomic)PTPusher *pubClient;
-@property(nonatomic)PTPusher *privClient;
+@property(nonatomic, strong) PTPusher *client;
+@property(nonatomic) PTPusherPrivateChannel *playerChannel;
+@property(nonatomic) PTPusherPrivateChannel *groupChannel;
+@property(nonatomic) PTPusherPrivateChannel *gameChannel;
+@property(nonatomic) PTPusherPrivateChannel *webpageChannel;
 //@property(nonatomic)NSDictionary *imageInfo;
 
 @property (readwrite) BOOL modalPresent;
@@ -119,6 +126,7 @@
 + (RootViewController *)sharedRootViewController;
 
 - (void)selectGame:(NSNotification *)notification;
+- (void)createUserAndLoginWithGroup:(NSString *)groupName andGameId:(int)gameId inMuseumMode:(BOOL)museumMode;
 - (void) attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password andGameId:(int)gameId inMuseumMode:(BOOL)museumMode;
 - (void) displayNearbyObjectView:(UIViewController *)nearbyObjectsNavigationController;
 - (void) showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)yesOrNo;
@@ -140,4 +148,5 @@
 - (void) dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController;
 - (void) handleOpenURLGamesListReady;
 - (void) showAlert:(NSString *)title message:(NSString *)message;
+- (void) didReceiveChannelEventNotification:(NSNotification *)notification;
 @end

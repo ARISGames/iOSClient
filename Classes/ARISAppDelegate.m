@@ -228,7 +228,7 @@ int steps = 0;
         
         // get GameID
         NSString *gameID = [url lastPathComponent];
-        NSLog(@"gameID=: %@",gameID);
+        NSLog(@"gameID: %@",gameID);
         
         
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
@@ -236,7 +236,6 @@ int steps = 0;
         [dispatcher addObserver:[RootViewController sharedRootViewController] selector:@selector(handleOpenURLGamesListReady) name:@"OneGameReady" object:nil];
         [[AppServices sharedAppServices] fetchOneGame:[gameID intValue]];
     }
-    
     return YES;
 }
 

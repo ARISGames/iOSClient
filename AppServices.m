@@ -50,6 +50,18 @@ NSString *const kARISServerServicePackage = @"v1";
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseLoginResponseFromJSON:)]; 
 }
 
+- (void)createUserAndLoginWithGroup:(NSString *)groupName
+{
+    NSLog(@"AppModel: Create User And Login Requested");
+	NSArray *arguments = [NSArray arrayWithObjects:groupName, nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithServer:[AppModel sharedAppModel].serverURL
+                                                             andServiceName: @"players"
+                                                              andMethodName:@"createPlayerAndGetLoginPlayerObject"
+                                                               andArguments:arguments
+                                                                andUserInfo:nil];
+	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseLoginResponseFromJSON:)];
+}
+
 -(void)setShowPlayerOnMap{
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].playerId],[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].showPlayerOnMap], nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithServer:[AppModel sharedAppModel].serverURL 

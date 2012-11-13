@@ -74,6 +74,7 @@ extern NSString *const kARISServerServicePackage;
 
 
 - (void)login;
+- (void)createUserAndLoginWithGroup:(NSString *)groupName;
 -(void)setShowPlayerOnMap;
 - (id) fetchFromService:(NSString *)aService usingMethod:(NSString *)aMethod 
 			   withArgs:(NSArray *)arguments usingParser:(SEL)aSelector;

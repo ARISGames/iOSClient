@@ -7,21 +7,32 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ZTWebSocket.h"
+#import "SRWebSocket.h"
+#import "PTPusherMacros.h"
 
 @class PTPusherConnection;
 @class PTPusherEvent;
 
 @protocol PTPusherConnectionDelegate <NSObject>
 - (void)pusherConnectionDidConnect:(PTPusherConnection *)connection;
-- (void)pusherConnectionDidDisconnect:(PTPusherConnection *)connection;
-- (void)pusherConnection:(PTPusherConnection *)connection didFailWithError:(NSError *)error;
+- (void)pusherConnection:(PTPusherConnection *)connection didDisconnectWithCode:(NSInteger)errorCode reason:(NSString *)reason wasClean:(BOOL)wasClean;
+- (void)pusherConnection:(PTPusherConnection *)connection didFailWithError:(NSError *)error wasConnected:(BOOL)wasConnected;
 - (void)pusherConnection:(PTPusherConnection *)connection didReceiveEvent:(PTPusherEvent *)event;
 @end
 
-@interface PTPusherConnection : NSObject <ZTWebSocketDelegate> {
-  ZTWebSocket *socket;
-}
+extern NSString *const PTPusherConnectionEstablishedEvent;
+extern NSString *const PTPusherConnectionPingEvent;
+
+typedef enum {
+  PTPusherConnectionClosing = 0,
+  PTPusherConnectionClosed,
+  PTPusherConnectionOpening,
+  PTPusherConnectionOpenAwaitingHandshake,
+  PTPusherConnectionOpenHandshakeReceived
+} PTPusherConnectionState;
+
+@interface PTPusherConnection : NSObject <SRWebSocketDelegate>
+
 @property (nonatomic, unsafe_unretained) id<PTPusherConnectionDelegate> delegate;
 @property (nonatomic, readonly, getter=isConnected) BOOL connected;
 @property (nonatomic, copy, readonly) NSString *socketID;
@@ -36,9 +47,21 @@
  
  @param aURL      The websocket endpoint
  @param delegate  The delegate for this connection
+ */
+- (id)initWithURL:(NSURL *)aURL;
+
+/** Creates a new PTPusherConnection instance.
+ 
+ Connections are not opened immediately; an explicit call to connect is required.
+ 
+ DEPRECATED IN VERSION 1.2. The secure parameter is now ignored; secure mode will be
+ enabled automatically when the URL protocol is wss.
+ 
+ @param aURL      The websocket endpoint
+ @param delegate  The delegate for this connection
  @param secure    Whether this connection should be secure (TLS)
  */
-- (id)initWithURL:(NSURL *)aURL secure:(BOOL)secure;
+- (id)initWithURL:(NSURL *)aURL secure:(BOOL)secure __PUSHER_DEPRECATED__;
 
 ///------------------------------------------------------------------------------------/
 /// @name Managing connections

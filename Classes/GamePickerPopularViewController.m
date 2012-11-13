@@ -13,8 +13,6 @@
 #import "GameDetails.h"
 #import "GamePickerCell.h"
 #include <QuartzCore/QuartzCore.h>
-#include "PTPusher.h"
-#include "PTPusherChannel.h"
 #include "AsyncMediaImageView.h"
 
 @implementation GamePickerPopularViewController

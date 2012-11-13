@@ -39,8 +39,12 @@ BOOL isShowingNotification;
 @synthesize modalPresent;
 @synthesize titleLabel,descLabel,notifArray;
 @synthesize notSquishedVCFrame,squishedVCFrame;
-@synthesize pubClient;
-@synthesize privClient,loadingVC;
+@synthesize loadingVC;
+@synthesize client;
+@synthesize playerChannel;
+@synthesize groupChannel;
+@synthesize gameChannel;
+@synthesize webpageChannel;
 //@synthesize toolbarViewController;
 
 + (id)sharedRootViewController
@@ -291,26 +295,10 @@ BOOL isShowingNotification;
         }
         //self.waitingIndicatorView = [[WaitingIndicatorView alloc] init];
         
-        /*//PUSHER STUFF
-         //Setup Pusher Client
-         self.pubClient = [PTPusher pusherWithKey:@"7fe26fe9f55d4b78ea02" delegate:self];
-         self.privClient = [PTPusher pusherWithKey:@"7fe26fe9f55d4b78ea02" delegate:self];
-         self.privClient.authorizationURL = [NSURL URLWithString:@"http://www.arisgames.org/devserver/pusher/private_auth.php"];
-         
-         PTPusherChannel *pubChannel = [pubClient subscribeToChannelNamed:@"public-pusher_room_channel"];
-         [[NSNotificationCenter defaultCenter]
-         addObserver:self
-         selector:@selector(didReceiveChannelEventNotification:)
-         name:PTPusherEventReceivedNotification
-         object:pubChannel];
-         
-         PTPusherPrivateChannel *privChannel = [privClient subscribeToPrivateChannelNamed:@"pusher_room_channel"];
-         [[NSNotificationCenter defaultCenter]
-         addObserver:self
-         selector:@selector(didReceiveChannelEventNotification:)
-         name:PTPusherEventReceivedNotification
-         object:privChannel];
-         */
+        //PUSHER STUFF
+        //Setup Pusher Client
+        self.client = [PTPusher pusherWithKey:@"79f6a265dbb7402a49c9" delegate:self];
+        self.client.authorizationURL = [NSURL URLWithString:@"http://dev.arisgames.org/server/events/auths/private_auth.php"];
     }
     return self;
 }
@@ -623,6 +611,8 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
         [AppServices sharedAppServices].currentlyInteractingWithObject = NO;
     }
    // [tabBarController.viewControllers makeObjectsPerformSelector:@selector(getView)];
+    
+    //Whatis this doing? -Phil 11-13-2012
     for(UIViewController * viewController in  tabBarController.viewControllers){
         viewController.view;
     }
@@ -662,6 +652,24 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
 
 
 #pragma mark Login and Game Selection
+- (void)createUserAndLoginWithGroup:(NSString *)groupName andGameId:(int)gameId inMuseumMode:(BOOL)museumMode
+{
+    NSLog(@"RootViewController: Attempt Create User for: %@", groupName);
+	[AppModel sharedAppModel].museumMode = museumMode;
+    
+    [self showNewWaitingIndicator:@"Creating User And Logging In..." displayProgressBar:NO];
+	[[AppServices sharedAppServices] createUserAndLoginWithGroup:[NSString stringWithFormat:@"%d-%@", gameId, groupName]];
+    
+    if(gameId != 0)
+    {
+        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+        [dispatcher addObserver:self
+                       selector:@selector(handleOpenURLGamesListReady)
+                           name:@"OneGameReady"
+                         object:nil];
+        [[AppServices sharedAppServices] fetchOneGame:gameId];
+    }
+}
 
 - (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password andGameId:(int)gameId inMuseumMode:(BOOL)museumMode{
 	NSLog(@"RootViewController: Attempt Login for: %@ Password: %@", userName, password);
@@ -731,7 +739,6 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
 	
 }
 
-
 - (void)selectGame:(NSNotification *)notification {
     //NSDictionary *loginObject = [notification object];
 	NSDictionary *userInfo = notification.userInfo;
@@ -786,6 +793,28 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
 	[[AppServices sharedAppServices] updateServerGameSelected];
     
     [AppModel sharedAppModel].hasReceivedMediaList = NO;
+    
+    playerChannel = [self.client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-player-channel",[AppModel sharedAppModel].playerId]];
+    groupChannel = [self.client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%@-group-channel",@"group"]];
+    gameChannel = [self.client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-game-channel",[AppModel sharedAppModel].currentGame.gameId]];
+    webpageChannel = [self.client subscribeToPrivateChannelNamed:@"webpage-channel"];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveChannelEventNotification:)
+                                                 name:PTPusherEventReceivedNotification
+                                               object:playerChannel];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveChannelEventNotification:)
+                                                 name:PTPusherEventReceivedNotification
+                                               object:groupChannel];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveChannelEventNotification:)
+                                                 name:PTPusherEventReceivedNotification
+                                               object:gameChannel];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didReceiveChannelEventNotification:)
+                                                 name:PTPusherEventReceivedNotification
+                                               object:webpageChannel];
 }
 
 -(void)changeTabBar{
@@ -1003,6 +1032,12 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     } */
 }
 
+- (void) didReceiveChannelEventNotification:(NSNotification *)notification
+{
+    NSLog(@"Event Received");
+    PTPusherEvent *event = [notification.userInfo objectForKey:PTPusherEventUserInfoKey];
+    return;
+}
 
 #pragma mark Memory Management
 - (void)dealloc {

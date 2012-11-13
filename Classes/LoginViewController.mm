@@ -107,12 +107,25 @@
     if([terms count] > 1)
     {
         int gameId = 0;
-        bool museumMode = false;
-        if([terms count] > 0) usernameField.text = [terms objectAtIndex:0]; //Username
-        if([terms count] > 1) passwordField.text = [terms objectAtIndex:1]; //Password
-        if([terms count] > 2) gameId = [[terms objectAtIndex:2] intValue];
-        if([terms count] > 3) museumMode = [[terms objectAtIndex:3] boolValue];
-        [[RootViewController sharedRootViewController] attemptLoginWithUserName:usernameField.text andPassword:passwordField.text andGameId:gameId inMuseumMode:museumMode];
+        bool create;
+        bool museumMode;
+        
+        if([terms count] > 0) create = [[terms objectAtIndex:0] boolValue];
+        if(create)
+        {
+            if([terms count] > 1) usernameField.text = [terms objectAtIndex:1]; //Group Name
+            if([terms count] > 2) gameId = [[terms objectAtIndex:2] intValue];
+            if([terms count] > 3) museumMode = [[terms objectAtIndex:3] boolValue];
+            [[RootViewController sharedRootViewController] createUserAndLoginWithGroup:usernameField.text andGameId:gameId inMuseumMode:museumMode];
+        }
+        else
+        {
+            if([terms count] > 1) usernameField.text = [terms objectAtIndex:1]; //Username
+            if([terms count] > 2) passwordField.text = [terms objectAtIndex:2]; //Password
+            if([terms count] > 3) gameId = [[terms objectAtIndex:3] intValue];
+            if([terms count] > 4) museumMode = [[terms objectAtIndex:4] boolValue];
+            [[RootViewController sharedRootViewController] attemptLoginWithUserName:usernameField.text andPassword:passwordField.text andGameId:gameId inMuseumMode:museumMode];
+        }
     }
 }
 

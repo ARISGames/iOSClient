@@ -38,8 +38,9 @@
  */
 @interface PTPusherChannel : NSObject <PTPusherEventBindings, PTEventListener> {
   NSString *name;
-  PTPusher *pusher;
+  __unsafe_unretained PTPusher *pusher;
   PTPusherEventDispatcher *dispatcher;
+  NSMutableArray *internalBindings;
 }
 
 ///------------------------------------------------------------------------------------/
@@ -81,7 +82,15 @@
 /// @name Authorization
 ///------------------------------------------------------------------------------------/
 
-- (void)authorizeWithCompletionHandler:(void(^)(BOOL, NSDictionary *))completionHandler;
+- (void)authorizeWithCompletionHandler:(void(^)(BOOL, NSDictionary *, NSError *))completionHandler;
+
+///------------------------------------------------------------------------------------/
+/// @name Unsubscribing
+///------------------------------------------------------------------------------------/
+
+/** Unsubscribes from the channel. 
+ */
+- (void)unsubscribe;
 
 @end
 
@@ -94,7 +103,9 @@
  
  Only private and presence channels support the triggering client events.
  */
-@interface PTPusherPrivateChannel : PTPusherChannel
+@interface PTPusherPrivateChannel : PTPusherChannel {
+  NSMutableArray *clientEventBuffer;
+}
 
 ///------------------------------------------------------------------------------------/
 /// @name Triggering events
