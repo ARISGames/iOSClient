@@ -83,6 +83,7 @@
 -(IBAction)goButtonTouched:(id)sender
 {
     self.parentViewController.view.hidden = true;
+    if(playerNameField.text == @"") playerNameField.text = [AppModel sharedAppModel].userName;
     [AppModel sharedAppModel].displayName = playerNameField.text;
     if([playerPic.media.uid intValue]!= 0)
         [AppModel sharedAppModel].playerMediaId = [playerPic.media.uid intValue];
@@ -101,8 +102,12 @@
             picker.delegate = self;
             picker.sourceType = UIImagePickerControllerSourceTypeCamera;
             picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:picker.sourceType];
-            picker.allowsEditing = YES;
-            picker.showsCameraControls = YES;
+            if([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceFront])
+                picker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+            else
+                picker.cameraDevice = UIImagePickerControllerCameraDeviceRear;
+            picker.allowsEditing = NO;
+            picker.showsCameraControls = NO;
             [self presentModalViewController:picker animated:NO];
         }
     }
@@ -110,6 +115,7 @@
         [self.playerPic loadImageFromMedia:[(AsyncMediaImageView *)sender media]];
     return;
 }
+
 -(void) imageFinishedLoading{
     return;
 }

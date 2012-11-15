@@ -1945,6 +1945,7 @@ NSString *const kARISServerServicePackage = @"v1";
         if(returnCode == 0 && m){
             Media *media = [[AppModel sharedAppModel].mediaCache mediaForMediaId:c.mediaId];
             NSString *fileName = [m objectForKey:@"file_path"];
+            if(fileName == nil) fileName = [m valueForKey:@"file_name"];
             NSString *urlPath = [m objectForKey:@"url_path"];
             NSString *fullUrl = [NSString stringWithFormat:@"%@%@", urlPath, fileName];
             media.url = fullUrl;

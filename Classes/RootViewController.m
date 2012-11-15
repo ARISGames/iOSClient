@@ -179,7 +179,6 @@ BOOL isShowingNotification;
         loginViewNavigationController.view.frame = self.view.frame;
         [self.view addSubview:loginViewNavigationController.view];
         
-        
         //Setup the Main Tab Bar
         UITabBarController *tabBarControllerAlloc = [[UITabBarController alloc] init];
         self.tabBarController = tabBarControllerAlloc;
@@ -794,6 +793,11 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     
     [AppModel sharedAppModel].hasReceivedMediaList = NO;
     
+    if(playerChannel) [client unsubscribeFromChannel:(PTPusherChannel *)playerChannel];
+    if(gameChannel) [client unsubscribeFromChannel:(PTPusherChannel *)gameChannel];
+    if(groupChannel) [client unsubscribeFromChannel:(PTPusherChannel *)groupChannel];
+    if(webpageChannel) [client unsubscribeFromChannel:(PTPusherChannel *)webpageChannel];
+    
     playerChannel = [self.client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-player-channel",[AppModel sharedAppModel].playerId]];
     groupChannel = [self.client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%@-group-channel",@"group"]];
     gameChannel = [self.client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-game-channel",[AppModel sharedAppModel].currentGame.gameId]];
@@ -878,9 +882,13 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
 - (void)performLogout:(NSNotification *)notification {
     NSLog(@"Performing Logout: Clearing NSUserDefaults and Displaying Login Screen");
 	
+    if(playerChannel) [client unsubscribeFromChannel:(PTPusherChannel *)playerChannel];
+    if(gameChannel) [client unsubscribeFromChannel:(PTPusherChannel *)gameChannel];
+    if(groupChannel) [client unsubscribeFromChannel:(PTPusherChannel *)groupChannel];
+    if(webpageChannel) [client unsubscribeFromChannel:(PTPusherChannel *)webpageChannel];
+    
 	//Clear any user realated info in AppModel (except server)
 	[[AppModel sharedAppModel] clearUserDefaults];
-	
 	
 	//clear the tutorial popups
 	[tutorialViewController dismissAllTutorials];
