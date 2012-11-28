@@ -102,7 +102,7 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
     NSMutableData *postData = [NSMutableData dataWithCapacity:[data length] + 512];
     [postData appendData:[[NSString stringWithFormat:@"--%@\r\n", boundry] dataUsingEncoding:NSUTF8StringEncoding]];
     
-    [postData appendData:[@"Content-Disposition: form-data; name=\"gameID\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+    [postData appendData:[@"Content-Disposition: form-data; name=\"path\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
 	if(game)
         [postData appendData:[[NSString stringWithFormat:@"\r\n%d\r\n",
                            [AppModel sharedAppModel].currentGame.gameId] dataUsingEncoding:NSUTF8StringEncoding]];

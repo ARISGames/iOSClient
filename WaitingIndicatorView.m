@@ -8,11 +8,9 @@
 
 #import "WaitingIndicatorView.h"
 
-
 @implementation WaitingIndicatorView
 
 @synthesize progressView;
-
 
 - (id)initWithWaitingMessage: (NSString*) m showProgressBar:(BOOL)showProgress {
 	if (self = [super initWithTitle:m message:nil delegate:self cancelButtonTitle:nil otherButtonTitles: nil]) {
@@ -32,7 +30,6 @@
 	return super.title;
 }
 
-	
 - (void)show{
 	[super show];
 	
@@ -41,7 +38,7 @@
         progressView.center = CGPointMake(142,73);
     }
     else{
-        UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];	
+        UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         [indicator startAnimating];
         [super addSubview:indicator];
         indicator.center = CGPointMake(142,73);//CGPointMake(super.bounds.size.width / 2, super.bounds.size.height - 40); didn't work
@@ -52,7 +49,5 @@
 - (void)dismiss{
 	[super dismissWithClickedButtonIndex:0 animated:YES];
 }
-
-
 
 @end

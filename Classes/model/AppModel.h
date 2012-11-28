@@ -39,6 +39,8 @@ extern NSDictionary *InventoryElements;
 	BOOL loggedIn;
 	int playerId;
     int playerMediaId;
+	NSString *groupName;
+	int groupGame;
 	NSString *userName;
 	NSString *displayName;
 	NSString *password;
@@ -121,6 +123,8 @@ extern NSDictionary *InventoryElements;
 @property(readwrite) float averageAccelerometerReadingZ;
 
 @property(nonatomic) NSString *userName;
+@property(nonatomic) NSString *groupName;
+@property(readwrite) int groupGame;
 @property(nonatomic) NSString *displayName;
 @property(nonatomic) NSString *password;
 @property(readwrite) int playerId;

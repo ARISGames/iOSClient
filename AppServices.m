@@ -723,7 +723,7 @@ NSString *const kARISServerServicePackage = @"v1";
 }
 
 -(void) uploadPlayerPicMediaWithFileURL:(NSURL *)fileURL type:(NSString *)type{
-    ARISUploader *uploader = [[ARISUploader alloc]initWithURLToUpload:fileURL gameSpecific:NO delegate:self doneSelector:@selector(playerPicUploadDidfinish: ) errorSelector:@selector(uploadPlayerPicDidFail:)];
+    ARISUploader *uploader = [[ARISUploader alloc]initWithURLToUpload:fileURL gameSpecific:NO delegate:self doneSelector:@selector(playerPicUploadDidfinish: ) errorSelector:@selector(playerPicUploadDidFail:)];
     
     NSMutableDictionary *userInfo = [[NSMutableDictionary alloc]initWithCapacity:2];
     [userInfo setValue:type forKey: @"type"];
@@ -802,7 +802,7 @@ NSString *const kARISServerServicePackage = @"v1";
                           type,
                           title,
                           nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
                                                             andServiceName:@"notes" 
                                                              andMethodName:@"addContentToNoteFromFileName" 
                                                               andArguments:arguments 
@@ -2159,6 +2159,9 @@ NSString *const kARISServerServicePackage = @"v1";
 		[AppModel sharedAppModel].displayName = [((NSDictionary*)jsonResult.data) objectForKey:@"display_name"];
         [[AppServices sharedAppServices] setShowPlayerOnMap];
         [[AppModel sharedAppModel] saveUserDefaults];
+        
+        //Subscribe to player channel
+        [RootViewController sharedRootViewController].playerChannel = [[RootViewController sharedRootViewController].client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-player-channel",[AppModel sharedAppModel].playerId]];
     }
 	else {
 		[AppModel sharedAppModel].loggedIn = NO;	

@@ -15,7 +15,7 @@
 
 @implementation AppModel
 @synthesize serverURL,showGamesInDevelopment,showPlayerOnMap;
-@synthesize loggedIn, userName, displayName, password, playerId, playerMediaId, museumMode;
+@synthesize loggedIn, userName, groupName, groupGame, displayName, password, playerId, playerMediaId, museumMode;
 @synthesize singleGameList, nearbyGameList, searchGameList, popularGameList, recentGameList;
 @synthesize currentGame, locationList, playerList;
 @synthesize playerLocation, inventory, questList, networkAlert;
@@ -72,6 +72,8 @@
     self.showPlayerOnMap = [defaults boolForKey:@"showPlayerOnMap"];
     if(!loggedIn && (self.showGamesInDevelopment == [defaults boolForKey:@"showGamesInDevelopment"]) && [currServ isEqual:self.serverURL] && (self.serverURL != nil)) {
         self.userName = [defaults objectForKey:@"userName"];
+        self.groupName = [defaults objectForKey:@"groupName"];
+        self.groupGame = [self.groupName intValue];
         self.playerId = [defaults integerForKey:@"playerId"];
         self.playerMediaId = [defaults integerForKey:@"playerMediaId"];
         self.displayName = [defaults objectForKey:@"displayName"];
@@ -146,8 +148,8 @@
 	[AppModel sharedAppModel].currentGame.gameId = 0;
     [AppModel sharedAppModel].playerId = 0;
     [AppModel sharedAppModel].playerMediaId = 0;
-    [AppModel sharedAppModel].userName = @"(none)";
-    [AppModel sharedAppModel].displayName = @"(none)";
+    [AppModel sharedAppModel].userName = @"";
+    [AppModel sharedAppModel].displayName = @"";
     [defaults setInteger:playerId forKey:@"playerId"];
     [defaults setInteger:playerMediaId forKey:@"playerMediaId"];
     [defaults setObject:userName forKey:@"userName"];

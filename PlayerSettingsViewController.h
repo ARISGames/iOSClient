@@ -21,20 +21,23 @@
     IBOutlet UITextField *playerNameField;
     
     //Not IBOutlets because event listeners are defined outside of the xib
-	AsyncMediaTouchableImageView *playerPicOpt1;
-	AsyncMediaTouchableImageView *playerPicOpt2;
-    AsyncMediaTouchableImageView *playerPicOpt3;
+	//AsyncMediaTouchableImageView *playerPicOpt1;
+	//AsyncMediaTouchableImageView *playerPicOpt2;
+    //AsyncMediaTouchableImageView *playerPicOpt3;
 	AsyncMediaTouchableImageView *playerPicCam;
 
     IBOutlet UIButton *goButton;
+    
+    BOOL shouldCheckForDisplayName;
 }
 
+@property (readwrite) BOOL shouldCheckForDisplayName;
 @property (nonatomic) IBOutlet AsyncMediaImageView *playerPic;
 @property (nonatomic) IBOutlet UITextField *playerNameField;
 
-@property (nonatomic) AsyncMediaTouchableImageView *playerPicOpt1;
-@property (nonatomic) AsyncMediaTouchableImageView *playerPicOpt2;
-@property (nonatomic) AsyncMediaTouchableImageView *playerPicOpt3;
+//@property (nonatomic) AsyncMediaTouchableImageView *playerPicOpt1;
+//@property (nonatomic) AsyncMediaTouchableImageView *playerPicOpt2;
+//@property (nonatomic) AsyncMediaTouchableImageView *playerPicOpt3;
 @property (nonatomic) AsyncMediaTouchableImageView *playerPicCam;
 
 -(IBAction)playerNameFieldTouched:(id)sender;

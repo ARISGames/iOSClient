@@ -710,10 +710,9 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
         self.loginViewNavigationController.view.hidden = YES;
         if([AppModel sharedAppModel].museumMode)
         {
-            [self.playerSettingsViewController refreshViewFromModel];
-            self.playerSettingsViewNavigationController.view.hidden = NO;
-            self.gameSelectionTabBarController.view.hidden = NO;
-            self.gameSelectionTabBarController.selectedIndex = 0;
+            [self showPlayerSettings:nil];
+            if([AppModel sharedAppModel].playerMediaId == 0 || [AppModel sharedAppModel].playerMediaId == -1)
+                [self.playerSettingsViewController asyncMediaImageTouched:self.playerSettingsViewController.playerPicCam];
         }
         else
         {
@@ -758,17 +757,20 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     // [UIView commitAnimations];
     
     [self returnToHomeView];
-	
-	//Set the model to this game
-	[AppModel sharedAppModel].currentGame = selectedGame;
-	[[AppModel sharedAppModel] saveUserDefaults];
-	
+
 	//Clear out the old game data
+    if(gameChannel) [client unsubscribeFromChannel:(PTPusherChannel *)gameChannel];
+    if(groupChannel) [client unsubscribeFromChannel:(PTPusherChannel *)groupChannel];
+    if(webpageChannel) [client unsubscribeFromChannel:(PTPusherChannel *)webpageChannel];
     [[AppServices sharedAppServices] fetchTabBarItemsForGame: selectedGame.gameId];
 	[[AppServices sharedAppServices] resetAllPlayerLists];
     [[AppServices sharedAppServices] resetAllGameLists];
     [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] resetCurrentlyFetchingVars];
 	[tutorialViewController dismissAllTutorials];
+    
+	//Set the model to this game
+	[AppModel sharedAppModel].currentGame = selectedGame;
+	[[AppModel sharedAppModel] saveUserDefaults];
 	
 	UINavigationController *navigationController;
 	
@@ -793,15 +795,10 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     
     [AppModel sharedAppModel].hasReceivedMediaList = NO;
     
-    if(playerChannel) [client unsubscribeFromChannel:(PTPusherChannel *)playerChannel];
-    if(gameChannel) [client unsubscribeFromChannel:(PTPusherChannel *)gameChannel];
-    if(groupChannel) [client unsubscribeFromChannel:(PTPusherChannel *)groupChannel];
-    if(webpageChannel) [client unsubscribeFromChannel:(PTPusherChannel *)webpageChannel];
-    
     playerChannel = [self.client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-player-channel",[AppModel sharedAppModel].playerId]];
-    groupChannel = [self.client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%@-group-channel",@"group"]];
+    if([AppModel sharedAppModel].groupGame == [AppModel sharedAppModel].currentGame.gameId)
+        groupChannel = [self.client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%@-group-channel",@"group"]];
     gameChannel = [self.client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-game-channel",[AppModel sharedAppModel].currentGame.gameId]];
-    webpageChannel = [self.client subscribeToPrivateChannelNamed:@"webpage-channel"];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReceiveChannelEventNotification:)

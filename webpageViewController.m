@@ -79,6 +79,8 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+    [RootViewController sharedRootViewController].webpageChannel = [[RootViewController sharedRootViewController].client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-webpage-channel",self.webPage.webPageId]];
+
     self.webView.hidden = YES;
     self.blackView.hidden = NO;
 }
@@ -91,6 +93,8 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     NSLog(@"WebPageVC: viewWillDisapear");
+    if([RootViewController sharedRootViewController].webpageChannel) [[RootViewController sharedRootViewController].client unsubscribeFromChannel:(PTPusherChannel *)[RootViewController sharedRootViewController].webpageChannel];
+
     [self.audioPlayers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop){
         AVPlayer *player = obj;
         [player pause]; 
@@ -168,11 +172,12 @@
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     self.webView = webViewFromMethod;
-    [self.webView stringByEvaluatingJavaScriptFromString: @"ARIS.isCurrentlyCalling();"];
     
     //Is this a special call from HTML back to ARIS?
     NSString* scheme = [[req URL] scheme];
     if (!([scheme isEqualToString:@"aris"] || [scheme isEqualToString:@"ARIS"])) return YES;
+    
+    [self.webView stringByEvaluatingJavaScriptFromString: @"ARIS.isCurrentlyCalling();"];
     
     //What was it requesting?
     NSString* mainCommand = [[req URL] host];
@@ -442,7 +447,7 @@
             [[AppModel sharedAppModel].inventory setObject:i forKey:[NSString stringWithFormat:@"%d",itemId]];
         else
             [[AppModel sharedAppModel].attributes setObject:i forKey:[NSString stringWithFormat:@"%d",itemId]];
-        [[AppServices sharedAppServices] updateServerAddInventoryItem:itemId addQty:qty];
+        [[AppServices sharedAppServices] updateServerInventoryItem:itemId qty:qty];
         return qty;
     }
     return 0;

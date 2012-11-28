@@ -11,11 +11,13 @@
 
 @implementation PlayerSettingsViewController
 
+@synthesize shouldCheckForDisplayName;
+
 @synthesize playerPic;
 @synthesize playerNameField;
-@synthesize playerPicOpt1;
-@synthesize playerPicOpt2;
-@synthesize playerPicOpt3;
+//@synthesize playerPicOpt1;
+//@synthesize playerPicOpt2;
+//@synthesize playerPicOpt3;
 @synthesize playerPicCam;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -30,10 +32,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    playerPicOpt1.delegate = self;
-    playerPicOpt2.delegate = self;
-    playerPicOpt3.delegate = self;
+    //playerPicOpt1.delegate = self;
+    //playerPicOpt2.delegate = self;
+    //playerPicOpt3.delegate = self;
     playerPicCam.delegate = self;
+    self.shouldCheckForDisplayName = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -41,20 +44,24 @@
     [self refreshViewFromModel];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    if(self.shouldCheckForDisplayName && [self.playerNameField.text isEqualToString:@""])
+       [self.playerNameField becomeFirstResponder];
+}
+
 - (void) refreshViewFromModel
 {
-    if([AppModel sharedAppModel].displayName != @"(none)" && [AppModel sharedAppModel].displayName != nil)
+    if([[AppModel sharedAppModel].displayName isEqualToString:@""] && [AppModel sharedAppModel].displayName != nil)
         playerNameField.text = [AppModel sharedAppModel].displayName;
     else
         playerNameField.text = [AppModel sharedAppModel].userName;
-    if([AppModel sharedAppModel].playerMediaId != 0)
+    if([AppModel sharedAppModel].playerMediaId != 0 && [AppModel sharedAppModel].playerMediaId != -1)
         [self.playerPic loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].playerMediaId]];
-    else
-        [self.playerPic loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:39717]];
     
-    [playerPicOpt1 loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:39715]];
-    [playerPicOpt2 loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:39716]];
-    [playerPicOpt3 loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:39717]];
+    //[playerPicOpt1 loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:39715]];
+    //[playerPicOpt2 loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:39716]];
+    //[playerPicOpt3 loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:39717]];
     [playerPicCam loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:36]];
 }
 
@@ -83,7 +90,7 @@
 -(IBAction)goButtonTouched:(id)sender
 {
     self.parentViewController.view.hidden = true;
-    if(playerNameField.text == @"") playerNameField.text = [AppModel sharedAppModel].userName;
+    if([playerNameField.text isEqualToString:@""]) playerNameField.text = [AppModel sharedAppModel].userName;
     [AppModel sharedAppModel].displayName = playerNameField.text;
     if([playerPic.media.uid intValue]!= 0)
         [AppModel sharedAppModel].playerMediaId = [playerPic.media.uid intValue];
@@ -96,6 +103,7 @@
 {
     if(sender == self.playerPicCam)
     {
+        self.shouldCheckForDisplayName = YES;
         if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
         {
             UIImagePickerController *picker = [[UIImagePickerController alloc]init];
@@ -106,8 +114,8 @@
                 picker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
             else
                 picker.cameraDevice = UIImagePickerControllerCameraDeviceRear;
-            picker.allowsEditing = NO;
-            picker.showsCameraControls = NO;
+            picker.allowsEditing = YES;
+            picker.showsCameraControls = YES;
             [self presentModalViewController:picker animated:NO];
         }
     }
@@ -122,6 +130,7 @@
 
 - (void)imagePickerController:(UIImagePickerController *)aPicker didFinishPickingMediaWithInfo:(NSDictionary  *)info
 {
+    [AppModel sharedAppModel].playerMediaId = -1; //Non-Zero (so we know it's picked, but it hasn't been assigned an ID yet)
     [aPicker dismissModalViewControllerAnimated:NO];
 
     UIImage *image;
