@@ -1319,7 +1319,7 @@ NSString *const kARISServerServicePackage = @"v1";
 
 -(void)fetchTabBarItemsForGame:(int)gameId {
     NSLog(@"Fetching TabBar Items for game: %d",gameId);
-    NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+    NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",gameId],
 						  nil];
     
     JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL 
@@ -1760,6 +1760,7 @@ NSString *const kARISServerServicePackage = @"v1";
 //Not Currently Deprecated: Currently used to fetch a game reached by url
 - (void)fetchOneGame:(int)gameId {
     NSLog(@"AppModel: Fetch Requested for a single game (as Game List).");
+    //[self fetchTabBarItemsForGame:gameId];//Make sure to get the tabs as well
     
     if (currentlyFetchingOneGame) {
         NSLog(@"AppModel: Already fetching Games list, skipping");

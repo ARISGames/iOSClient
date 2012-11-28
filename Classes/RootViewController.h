@@ -54,8 +54,10 @@
 #import "LoadingViewController.h"
 
 @interface RootViewController : UIViewController<UIApplicationDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate,PTPusherDelegate> {
+    
     UITabBarController *tabBarController;
     UIViewController *defaultViewControllerForMainTabBar;
+    
     UITabBarController *gameSelectionTabBarController;
     TutorialViewController *tutorialViewController;
 	UINavigationController *nearbyObjectsNavigationController;
