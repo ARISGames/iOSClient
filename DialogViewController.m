@@ -123,9 +123,6 @@ NSString *const kDialogHtmlTemplate =
 	self.textSizeButton = textSizeButtonAlloc; 
 	self.navigationItem.rightBarButtonItem = self.textSizeButton;
     
-	self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-    self.navigationController.navigationBar.opaque = NO;
-    
 	pcAnswerView.hidden = YES;
 	pcTableView.hidden = NO;
 	pcWebView.hidden = NO;
@@ -163,6 +160,11 @@ NSString *const kDialogHtmlTemplate =
 	@"<npc id='2' zoomX='150' zoomY='50' zoomWidth='100' zoomHeight='100'><![CDATA[<p><strong>OUCH!</strong></p><p>Ha ha ha!</p>]]></npc>"
 	@"</dialog>";
 */
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    self.navigationController.navigationBar.opaque = NO;
 }
 
 -(void)imageFinishedLoading{
