@@ -1314,7 +1314,6 @@ NSString *const kARISServerServicePackage = @"v1";
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewQuestListReady" object:nil]];
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewInventoryReady" object:nil]];
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedNearbyLocationList" object:nil]];
-    
 }
 
 -(void)fetchTabBarItemsForGame:(int)gameId {
@@ -1326,8 +1325,7 @@ NSString *const kARISServerServicePackage = @"v1";
                                                             andServiceName:@"games"
                                                              andMethodName:@"getTabBarItemsForGame"
                                                               andArguments:arguments andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameTabListFromJSON:)]; 
-    
+	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameTabListFromJSON:)];
 }
 
 -(void)fetchQRCode:(NSString*)code{
