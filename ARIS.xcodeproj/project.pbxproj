@@ -1140,7 +1140,7 @@
 			path = headers;
 			sourceTree = "<group>";
 		};
-		118669AF13BB8EC1004B4EC8 /* Player Profile / Attributes */ = {
+		118669AF13BB8EC1004B4EC8 /* Player Attributes */ = {
 			isa = PBXGroup;
 			children = (
 				AB35E076155C729200430AF7 /* 123-id-card.png */,
@@ -1150,7 +1150,7 @@
 				118669A913BB8EAC004B4EC8 /* AttributesViewController.xib */,
 				118669AA13BB8EAC004B4EC8 /* profile.png */,
 			);
-			name = "Player Profile / Attributes";
+			name = "Player Attributes";
 			sourceTree = "<group>";
 		};
 		1188663B1406B0D00009E36F /* Text View */ = {
@@ -1383,14 +1383,14 @@
 				ABBEBBBF104D7CE400AA7285 /* Plaques */,
 				ABDA40A910506AF400823A94 /* GPS */,
 				A7986D660F8FEC2100A5469F /* Inventory */,
-				118669AF13BB8EC1004B4EC8 /* Player Profile / Attributes */,
+				118669AF13BB8EC1004B4EC8 /* Player Attributes */,
 				ABC39C5F116C428C002185D4 /* Title and Description Form */,
 				A7986D620F8FEBD300A5469F /* QR Scanner */,
 				A7986D640F8FEBFA00A5469F /* Game Picker */,
 				A7986D610F8FEBB200A5469F /* Developer */,
 				2D73EA1F160CCFD900A1F570 /* Global Player */,
 				A7986D650F8FEC1100A5469F /* Login */,
-				A7986D670F8FEC3900A5469F /* Logout */,
+				A7986D670F8FEC3900A5469F /* Accounts */,
 				AB1660BC14E8754A002C6ACB /* Frameworks */,
 				1147E15C13F32273000E4BC2 /* Notes */,
 				1139BA5113ABC6A2008BF268 /* Panoramic */,
@@ -1634,7 +1634,7 @@
 			name = Inventory;
 			sourceTree = "<group>";
 		};
-		A7986D670F8FEC3900A5469F /* Logout */ = {
+		A7986D670F8FEC3900A5469F /* Accounts */ = {
 			isa = PBXGroup;
 			children = (
 				AB35E066155C6F5200430AF7 /* 298-circlex.png */,
@@ -1644,7 +1644,7 @@
 				2B3D12EB0F4382070067FD3A /* AccountSettingsViewController.m */,
 				2B3D12ED0F4382A00067FD3A /* Account.xib */,
 			);
-			name = Logout;
+			name = Accounts;
 			sourceTree = "<group>";
 		};
 		A7986D680F8FEC4900A5469F /* Quests */ = {
