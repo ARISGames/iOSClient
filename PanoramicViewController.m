@@ -207,10 +207,11 @@
 	
 	//[self.view removeFromSuperview];
     if([self.delegate isKindOfClass:[DialogViewController class]])
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self.navigationController popViewControllerAnimated:YES];
     else{
         [RootViewController sharedRootViewController].modalPresent=NO;
-        [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];}
+        [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
+    }
 }
 
 -(IBAction) sliderValueChanged: (id) sender{
