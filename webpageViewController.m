@@ -187,8 +187,10 @@
     {
         NSLog(@"WebPageVC: aris://closeMe/ called");
         [self.navigationController popToRootViewControllerAnimated:YES];
+        if(![[[RootViewController sharedRootViewController].nearbyObjectNavigationController.viewControllers objectAtIndex:0] isKindOfClass:[DialogViewController class]]){
         [RootViewController sharedRootViewController].modalPresent=NO;
         [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
+        }
         /*
         [[RootViewController sharedRootViewController] dismissModalViewControllerAnimated:NO];
         [self.webView stringByEvaluatingJavaScriptFromString: @"ARIS.isNotCurrentlyCalling();"];

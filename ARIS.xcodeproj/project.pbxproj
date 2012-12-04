@@ -1365,7 +1365,6 @@
 		29B97314FDCFA39411CA2CEA /* ARIS */ = {
 			isa = PBXGroup;
 			children = (
-				AA1E2D4F1652CC7500219535 /* Security.framework */,
 				AA1E2D4D1652CC6000219535 /* libicucore.dylib */,
 				DDC495D916407DE500D4C063 /* NewUIExampleViewController.h */,
 				DDC495DA16407DE500D4C063 /* NewUIExampleViewController.m */,
@@ -1747,6 +1746,7 @@
 		AB1660BC14E8754A002C6ACB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AA1E2D4F1652CC7500219535 /* Security.framework */,
 				AB1660BD14E8754B002C6ACB /* SenTestingKit.framework */,
 				AB1660BF14E8754B002C6ACB /* UIKit.framework */,
 				AB1660C114E8754B002C6ACB /* Foundation.framework */,

@@ -369,13 +369,20 @@ NSString *const kDialogHtmlTemplate =
             mMoviePlayer.moviePlayer.shouldAutoplay = NO;
             [mMoviePlayer.moviePlayer prepareToPlay];		
             [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
+            
+            ++scriptIndex;
+            [self continueScript];
         }
         else if(currentScene.panoId !=0) {
           Panoramic *pano = [[AppModel sharedAppModel] panoramicForPanoramicId:currentScene.panoId];
             PanoramicViewController *panoramicViewController = [[PanoramicViewController alloc] initWithNibName:@"PanoramicViewController" bundle: [NSBundle mainBundle]];    
             panoramicViewController.panoramic = pano;
+            panoramicViewController.delegate = self;
             
             [self.navigationController pushViewController:panoramicViewController animated:YES];
+            
+            ++scriptIndex;
+            [self continueScript];
         }
         else if(currentScene.webId != 0) {
        
@@ -383,20 +390,31 @@ NSString *const kDialogHtmlTemplate =
             webPageViewController.webPage = [[AppModel sharedAppModel] webPageForWebPageID:currentScene.webId];
             webPageViewController.delegate = self;
             [self.navigationController pushViewController:webPageViewController animated:YES];
+            
+            ++scriptIndex;
+            [self continueScript];
         }
         else if(currentScene.plaqueId != 0){
             NodeViewController *nodeVC = [[NodeViewController alloc]initWithNibName:@"Node" bundle:[NSBundle mainBundle]];
             nodeVC.node = [[AppModel sharedAppModel] nodeForNodeId:currentScene.plaqueId];
             [self.navigationController pushViewController:nodeVC animated:YES];
+            
+            ++scriptIndex;
+            [self continueScript];
         }
         else if(currentScene.itemId != 0){
             ItemDetailsViewController *itemVC = [[ItemDetailsViewController alloc]initWithNibName:@"ItemDetailsView" bundle:[NSBundle mainBundle]];
             itemVC.item = [[AppModel sharedAppModel] itemForItemId:currentScene.itemId];
             [self.navigationController pushViewController:itemVC animated:YES];
+            
+            ++scriptIndex;
+            [self continueScript];
         }
         
+        else{
         [self applyScene:currentScene];
 		++scriptIndex;
+        }
 	}
 	else { 	//End of Script. Display Player Options
         NSLog(@"DialogVC: continueScript: No more scenes left. Checking for exitTo tags before loading options");
@@ -1054,4 +1072,28 @@ NSString *const kDialogHtmlTemplate =
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
 	return cachedScrollView;
 }
+
+#pragma mark Rotation
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    return YES;
+}
+
+-(BOOL)shouldAutorotate{
+    return YES;
+}
+
+-(NSInteger)supportedInterfaceOrientations{
+    NSInteger mask = 0;
+    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeLeft])
+        mask |= UIInterfaceOrientationMaskLandscapeLeft;
+    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeRight])
+        mask |= UIInterfaceOrientationMaskLandscapeRight;
+    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortrait])
+        mask |= UIInterfaceOrientationMaskPortrait;
+    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortraitUpsideDown])
+        mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
+    return mask;
+}
+
+
 @end
