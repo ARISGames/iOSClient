@@ -107,7 +107,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     //Create continue button cell
     continueButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [continueButton setTitle:NSLocalizedString(@"TapToContinueKey", @"") forState:UIControlStateNormal];
-    [continueButton setFrame:CGRectMake(0, webView.frame.origin.y + webView.frame.size.height + 20, 320, 30)];
+    [continueButton setFrame:CGRectMake(0, webView.frame.origin.y + webView.frame.size.height + 20, 320, 60)];
     [continueButton addTarget:self action:@selector(continueButtonTouchAction) forControlEvents:UIControlEventTouchUpInside];
     
     //Setup the scrollview
