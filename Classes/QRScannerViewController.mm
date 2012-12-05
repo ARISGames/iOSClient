@@ -166,7 +166,6 @@
         NSLog(@"Tempory File will be: %@", newFilePath);
         [imageData writeToURL:imageURL atomically:YES];
         [[AppServices sharedAppServices] uploadImageForMatching:imageURL];
-       
     }	
     else{
         NSLog(@"QRSCannerVC: barcode data = %@",resultText);

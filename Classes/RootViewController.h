@@ -150,5 +150,8 @@
 - (void) dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController;
 - (void) handleOpenURLGamesListReady;
 - (void) showAlert:(NSString *)title message:(NSString *)message;
-- (void) didReceiveChannelEventNotification:(NSNotification *)notification;
+- (void) didReceiveGameChannelEventNotification:(NSNotification *)notification;
+- (void) didReceiveGroupChannelEventNotification:(NSNotification *)notification;
+- (void) didReceivePlayerChannelEventNotification:(NSNotification *)notification;
+- (void) didReceiveWebpageChannelEventNotification:(NSNotification *)notification;
 @end

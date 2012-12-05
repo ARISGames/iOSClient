@@ -801,19 +801,19 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     gameChannel = [self.client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-game-channel",[AppModel sharedAppModel].currentGame.gameId]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveChannelEventNotification:)
+                                             selector:@selector(didReceivePlayerChannelEventNotification:)
                                                  name:PTPusherEventReceivedNotification
                                                object:playerChannel];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveChannelEventNotification:)
+                                             selector:@selector(didReceiveGroupChannelEventNotification:)
                                                  name:PTPusherEventReceivedNotification
                                                object:groupChannel];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveChannelEventNotification:)
+                                             selector:@selector(didReceiveGameChannelEventNotification:)
                                                  name:PTPusherEventReceivedNotification
                                                object:gameChannel];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveChannelEventNotification:)
+                                             selector:@selector(didReceiveWebpageChannelEventNotification:)
                                                  name:PTPusherEventReceivedNotification
                                                object:webpageChannel];
 }
@@ -1029,18 +1029,53 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
 			[vc performSelector:@selector(dismissTutorial)];
 		}
 	}
-    
- /*   if(isShowingNotification){
-      //  notificationBarHeight = 0;
-        
+
+    /*
+    if(isShowingNotification){
+        //notificationBarHeight = 0;
         self.tabBarController.view.frame = CGRectMake(0, self.notificationBarHeight, self.tabBarController.view.frame.size.width, 480-self.notificationBarHeight-20);
-    } */
+    }
+    */
 }
 
-- (void) didReceiveChannelEventNotification:(NSNotification *)notification
+- (void) didReceiveGameChannelEventNotification:(NSNotification *)notification
 {
-    NSLog(@"Event Received");
     PTPusherEvent *event = [notification.userInfo objectForKey:PTPusherEventUserInfoKey];
+    if([event.channel rangeOfString:@"game"].location == NSNotFound) return;
+    NSLog(@"Event Received");
+    if([event.name isEqualToString:@"alert"])
+        [[RootViewController sharedRootViewController] showAlert:@"Game Notice:" message:event.data];
+    return;
+}
+
+- (void) didReceivePlayerChannelEventNotification:(NSNotification *)notification
+{
+    PTPusherEvent *event = [notification.userInfo objectForKey:PTPusherEventUserInfoKey];
+    if([event.channel rangeOfString:@"player"].location == NSNotFound) return;
+    NSLog(@"Event Received");
+    if([event.name isEqualToString:@"alert"])
+        [[RootViewController sharedRootViewController] showAlert:@"Player Notice:" message:event.data];
+    return;
+}
+
+- (void) didReceiveGroupChannelEventNotification:(NSNotification *)notification
+{
+    PTPusherEvent *event = [notification.userInfo objectForKey:PTPusherEventUserInfoKey];
+    if([event.channel rangeOfString:@"group"].location == NSNotFound) return;
+    NSLog(@"Event Received");
+    if([event.name isEqualToString:@"alert"])
+        [[RootViewController sharedRootViewController] showAlert:@"Group Notice:" message:event.data];
+    return;
+}
+
+
+- (void) didReceiveWebpageChannelEventNotification:(NSNotification *)notification
+{
+    PTPusherEvent *event = [notification.userInfo objectForKey:PTPusherEventUserInfoKey];
+    if([event.channel rangeOfString:@"webpage"].location == NSNotFound) return;
+    NSLog(@"Event Received");
+    if([event.name isEqualToString:@"alert"])
+        [[RootViewController sharedRootViewController] showAlert:@"Webpage Notice:" message:event.data];
     return;
 }
 
