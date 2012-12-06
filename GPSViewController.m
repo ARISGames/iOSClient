@@ -131,7 +131,7 @@ static float INITIAL_SPAN = 0.001;
     [super viewDidLoad];
 	
 	NSLog(@"Begin Loading GPS View");
-	mapView.showsUserLocation = YES;
+	//mapView.showsUserLocation = YES;
 	[mapView setDelegate:self];
     mapView.mapType=MKMapTypeHybrid;
 	[self.view addSubview:mapView];
@@ -202,6 +202,9 @@ static float INITIAL_SPAN = 0.001;
         NSLog(@"GPSViewController: Player is not logged in, don't refresh");
         return;
     }
+    
+    if([AppModel sharedAppModel].currentGame.showPlayerLocation) [mapView setShowsUserLocation:YES];
+    else [mapView setShowsUserLocation:NO];
     
 	[[AppServices sharedAppServices] updateServerMapViewed];
 	

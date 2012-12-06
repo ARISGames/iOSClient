@@ -40,6 +40,7 @@
     int calculatedScore;
     BOOL hasBeenPlayed;
     BOOL isLocational;
+    BOOL showPlayerLocation;
     BOOL allowsPlayerTags;
     BOOL allowShareNoteToMap;
     BOOL allowShareNoteToList;
@@ -76,6 +77,7 @@
 @property (readwrite) BOOL reviewedByUser;
 @property (readwrite) BOOL hasBeenPlayed;
 @property (readwrite) BOOL isLocational;
+@property (readwrite) BOOL showPlayerLocation;
 @property (readwrite) BOOL allowsPlayerTags;
 @property (readwrite) BOOL allowShareNoteToMap;
 @property (readwrite) BOOL allowShareNoteToList;

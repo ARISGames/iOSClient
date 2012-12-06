@@ -32,7 +32,7 @@
 @synthesize completedQuests;
 @synthesize totalQuests;
 @synthesize numReviews, reviewedByUser;
-@synthesize calculatedScore,isLocational, activeQuests,iconMedia,currentWeight;
+@synthesize calculatedScore,isLocational, showPlayerLocation, activeQuests,iconMedia,currentWeight;
 @synthesize allowsPlayerTags,splashMedia,allowNoteComments,allowNoteLikes,allowShareNoteToMap,allowShareNoteToList,allowTrading;
 
 - (id) init{

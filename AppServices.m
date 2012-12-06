@@ -2216,6 +2216,10 @@ NSString *const kARISServerServicePackage = @"v1";
     if ((NSNull *)isLocational != [NSNull null]) game.isLocational = [isLocational boolValue];
     else game.isLocational = NO;
     
+    NSString *showPlayerLocation = [gameSource valueForKey:@"show_player_location"];
+    if ((NSNull *)showPlayerLocation != [NSNull null]) game.showPlayerLocation = [showPlayerLocation boolValue];
+    else game.showPlayerLocation = YES;
+
     NSString *inventoryWC = [gameSource valueForKey:@"inventory_weight_cap"];
     if ((NSNull *)inventoryWC != [NSNull null]) game.inventoryWeightCap = [inventoryWC intValue];
     else game.inventoryWeightCap = 0;
