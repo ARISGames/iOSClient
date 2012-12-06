@@ -167,7 +167,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     webView.alpha = 1.00;
     
     //Calculate the height of the web content
-    float newHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
+    float newHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue] + 3;
     [webView setFrame:CGRectMake(webView.frame.origin.x,
                                  webView.frame.origin.y,
                                  webView.frame.size.width,

@@ -98,7 +98,7 @@ NSString *const kGameDetailsHtmlTemplate =
 - (void)webViewDidFinishLoad:(UIWebView *)descriptionView {
 	//Content Loaded, now we can resize
 	
-	float nHeight = [[descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
+	float nHeight = [[descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue] + 3;
 	self.newHeight = nHeight;
 	NSLog(@"GameDetails: Description View Calculated Height is: %f",newHeight);
 	

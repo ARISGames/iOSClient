@@ -786,7 +786,7 @@ NSString *const kDialogHtmlTemplate =
 
 	//Size the webView
 	CGRect webViewFrame = [webView frame];	
-	float newHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
+	float newHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue] + 3;
 	webViewFrame.size = CGSizeMake(webViewFrame.size.width, newHeight);
 	[webView setFrame:webViewFrame];
 	[[[webView subviews] lastObject] setScrollEnabled:NO]; //Disable scrolling in webview
