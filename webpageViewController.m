@@ -50,7 +50,7 @@
     self.webView.hidden = YES;
     //Create a close button
 	self.navigationItem.leftBarButtonItem = 
-	[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey",@"")
+	[[UIBarButtonItem alloc] initWithTitle:@"Close"
 									 style: UIBarButtonItemStyleBordered
 									target:self 
 									action:@selector(backButtonTouchAction:)];	

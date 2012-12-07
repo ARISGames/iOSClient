@@ -364,7 +364,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	NSLog(@"QuestViewController: Updating Cell Sizes");
     
 	UIWebView *descriptionView = (UIWebView *)[cell viewWithTag:1];
-	float newHeight = [[descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue] = 3;
+	float newHeight = [[descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];// = 3;
 	
 	NSLog(@"QuestViewController: Description View Calculated Height is: %f",newHeight);
     
