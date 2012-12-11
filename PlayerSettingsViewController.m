@@ -52,16 +52,16 @@
 
 - (void) refreshViewFromModel
 {
-    if([[AppModel sharedAppModel].displayName isEqualToString:@""] && [AppModel sharedAppModel].displayName != nil)
+    if(![[AppModel sharedAppModel].displayName isEqualToString:@""] && [AppModel sharedAppModel].displayName != nil)
         playerNameField.text = [AppModel sharedAppModel].displayName;
     else
         playerNameField.text = [AppModel sharedAppModel].userName;
+    
     if([AppModel sharedAppModel].playerMediaId != 0 && [AppModel sharedAppModel].playerMediaId != -1)
         [self.playerPic loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].playerMediaId]];
-    
-    //[playerPicOpt1 loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:39715]];
-    //[playerPicOpt2 loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:39716]];
-    //[playerPicOpt3 loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:39717]];
+    else
+        [self.playerPic updateViewWithNewImage:[UIImage imageNamed:@"profile.png"]];
+
     [playerPicCam loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:36]];
 }
 

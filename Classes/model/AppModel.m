@@ -147,7 +147,7 @@
 	NSLog(@"Model: Clearing User Defaults");	
 	[AppModel sharedAppModel].currentGame.gameId = 0;
     [AppModel sharedAppModel].playerId = 0;
-    [AppModel sharedAppModel].playerMediaId = 0;
+    [AppModel sharedAppModel].playerMediaId = -1;
     [AppModel sharedAppModel].userName = @"";
     [AppModel sharedAppModel].displayName = @"";
     [defaults setInteger:playerId forKey:@"playerId"];
