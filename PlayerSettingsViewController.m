@@ -46,6 +46,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    self.playerNameField.text = @"";
     if(self.shouldCheckForDisplayName && [self.playerNameField.text isEqualToString:@""])
        [self.playerNameField becomeFirstResponder];
 }
@@ -54,8 +55,6 @@
 {
     if(![[AppModel sharedAppModel].displayName isEqualToString:@""] && [AppModel sharedAppModel].displayName != nil)
         playerNameField.text = [AppModel sharedAppModel].displayName;
-    else
-        playerNameField.text = [AppModel sharedAppModel].userName;
     
     if([AppModel sharedAppModel].playerMediaId != 0 && [AppModel sharedAppModel].playerMediaId != -1)
         [self.playerPic loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].playerMediaId]];

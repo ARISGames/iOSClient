@@ -101,7 +101,6 @@ BOOL isShowingNotification;
         notSquishedVCFrame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-STATUS_BAR_HEIGHT);    
         squishedVCFrame = CGRectMake(0, TRUE_ZERO_Y + NOTIFICATION_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NOTIFICATION_HEIGHT);
 
-        
         //Setup NearbyObjects View
         NearbyObjectsViewController *nearbyObjectsViewController = [[NearbyObjectsViewController alloc]initWithNibName:@"NearbyObjectsViewController" bundle:nil];
         UINavigationController *nearbyObjectsNavigationControllerAlloc = [[UINavigationController alloc] initWithRootViewController:nearbyObjectsViewController];
@@ -895,6 +894,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     self.gameSelectionTabBarController.view.hidden = YES;
     self.playerSettingsViewNavigationController.view.hidden = YES;
     self.loginViewNavigationController.view.hidden = NO;
+    self.loginViewController.view.hidden = NO;
 }
 
 -(void)receivedMediaList{
