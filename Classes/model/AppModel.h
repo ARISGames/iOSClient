@@ -30,6 +30,7 @@ extern NSDictionary *InventoryElements;
     BOOL showGamesInDevelopment;
     BOOL showPlayerOnMap;
     BOOL museumMode;
+    BOOL skipGameDetails;
     BOOL inGame;
 	Game *currentGame;
 	UIAlertView *networkAlert;
@@ -105,6 +106,7 @@ extern NSDictionary *InventoryElements;
 @property(readwrite) BOOL showGamesInDevelopment;
 @property(readwrite) BOOL showPlayerOnMap;
 @property(readwrite) BOOL museumMode;
+@property(readwrite) BOOL skipGameDetails;
 @property(readwrite) BOOL inGame;
 
 @property(nonatomic, retain) CMMotionManager *motionManager;

@@ -15,7 +15,7 @@
 
 @implementation AppModel
 @synthesize serverURL,showGamesInDevelopment,showPlayerOnMap;
-@synthesize loggedIn, userName, groupName, groupGame, displayName, password, playerId, playerMediaId, museumMode;
+@synthesize loggedIn, userName, groupName, groupGame, displayName, password, playerId, playerMediaId, museumMode, skipGameDetails;
 @synthesize singleGameList, nearbyGameList, searchGameList, popularGameList, recentGameList;
 @synthesize currentGame, locationList, playerList;
 @synthesize playerLocation, inventory, questList, networkAlert;
@@ -51,6 +51,7 @@
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(clearGameLists) name:@"NewGameSelected" object:nil];
         museumMode = NO;
+        skipGameDetails = NO;
 	}
     return self;
 }

@@ -952,6 +952,8 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     GameDetails *gameDetailsVC = [[GameDetails alloc]initWithNibName:@"GameDetails" bundle:nil];
     gameDetailsVC.game = selectedGame;
     
+    [AppModel sharedAppModel].currentGame = selectedGame;
+    
     // show gameSelectionTabBarController
     self.tabBarController.view.hidden = YES;
     self.loginViewController.view.hidden = YES;
@@ -976,6 +978,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     // Push Game Detail View Controller
     [(UINavigationController*)self.gameSelectionTabBarController.selectedViewController pushViewController:gameDetailsVC animated:YES];
     [self.navigationController pushViewController:gameDetailsVC animated:YES];
+    [AppModel sharedAppModel].skipGameDetails = YES;
 }
 
 #pragma mark AlertView Delegate Methods

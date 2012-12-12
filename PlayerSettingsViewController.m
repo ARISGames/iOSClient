@@ -95,6 +95,22 @@
         [AppModel sharedAppModel].playerMediaId = [playerPic.media.uid intValue];
     [[AppServices sharedAppServices] updatePlayer:[AppModel sharedAppModel].playerId Name:playerNameField.text Image:[playerPic.media.uid intValue]];
     [[AppModel sharedAppModel] saveUserDefaults];
+    
+    if([AppModel sharedAppModel].skipGameDetails)
+    {
+        [AppModel sharedAppModel].skipGameDetails = NO;
+        
+        [AppModel sharedAppModel].currentGame.hasBeenPlayed = YES;
+        [AppModel sharedAppModel].inGame = YES;
+        [AppServices sharedAppServices].currentlyInteractingWithObject = YES;
+        
+        NSDictionary *dictionary = [NSDictionary dictionaryWithObject:[AppModel sharedAppModel].currentGame
+                                                               forKey:@"game"];
+        
+        [[AppServices sharedAppServices] silenceNextServerUpdate];
+        NSNotification *gameSelectNotification = [NSNotification notificationWithName:@"SelectGame" object:self userInfo:dictionary];
+        [[NSNotificationCenter defaultCenter] postNotification:gameSelectNotification];
+    }
     return;
 }
 
