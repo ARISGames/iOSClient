@@ -77,7 +77,6 @@ NSString *const kGameDetailsHtmlTemplate =
     [self.segmentedControl setTitle:[NSString stringWithFormat: @"%@: %d",NSLocalizedString(@"RatingKey", @""),game.rating] forSegmentAtIndex:0];
     
     [super viewDidLoad];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -119,8 +118,6 @@ NSString *const kGameDetailsHtmlTemplate =
 
 //////////////////////////////////////////////////////////////////////////////////
 
-
-
 - (BOOL)webView:(UIWebView *)webView  
 shouldStartLoadWithRequest:(NSURLRequest *)request  
  navigationType:(UIWebViewNavigationType)navigationType; {  
@@ -140,13 +137,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
     // protocols: tel, mailto and sms  
     return YES;  
 } 
-
-
-
-
-
-
-
 
 
 //////////////////////////////////////////////////////////////////////////////////

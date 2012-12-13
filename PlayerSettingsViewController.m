@@ -59,7 +59,7 @@
     if([AppModel sharedAppModel].playerMediaId != 0 && [AppModel sharedAppModel].playerMediaId != -1)
         [self.playerPic loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].playerMediaId]];
     else
-        [self.playerPic updateViewWithNewImage:[UIImage imageNamed:@"profile.png"]];
+        [self.playerPic updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
 
     [playerPicCam loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:36]];
 }
