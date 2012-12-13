@@ -1083,6 +1083,11 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
 }
 
 #pragma mark Memory Management
+- (void) applicationDidReceiveMemoryWarning:(UIApplication *)application
+{
+    [[AppModel sharedAppModel].mediaCache clearCache];
+}
+
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }

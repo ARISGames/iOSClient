@@ -116,8 +116,6 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
 	[postData appendData:[NSData dataWithData:data]];
 	[postData appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n",boundry] dataUsingEncoding:NSUTF8StringEncoding]];
 	
-    
-    
     [urlRequest setHTTPBody:postData];
     return urlRequest;
 }
@@ -182,6 +180,8 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
         uploadDidSucceed = YES;
         self.responseString = reply;
     }
+    else
+        NSLog([NSString stringWithFormat:@"%@",reply]);
 }
 
 

@@ -550,7 +550,6 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     }
     NoteContentCell *cell = (NoteContentCell *)tempCell;
     
-    
     if (cell == nil) {
         // Create a temporary UIViewController to instantiate the custom cell.
         UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"NoteContentCell" bundle:nil];

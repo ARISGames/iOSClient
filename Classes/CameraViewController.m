@@ -277,18 +277,17 @@
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
     
     // Release anything that's not essential, such as cached data
-    [self.picker dismissModalViewControllerAnimated:NO];
-    [self.navigationController popViewControllerAnimated:NO];
+    //[self.picker dismissModalViewControllerAnimated:NO];
+    //[self.navigationController popViewControllerAnimated:NO];
 
     /*
      Try to let go of the camera to save a crash
-    if (self.modalViewController.retainCount)
+    if(self.modalViewController.retainCount)
     {
         [self dismissModalViewControllerAnimated:NO];
         [self.modalViewController release];
     }
     */
-
 }
 
 - (NSMutableData*)dataWithEXIFUsingData:(NSData*)originalJPEGData {	
