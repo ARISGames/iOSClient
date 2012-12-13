@@ -100,6 +100,12 @@
         self.sharingLabel.text = NSLocalizedString(@"NoteEditorListAndMapKey", @"");
     }        
     [self refreshViewFromModel];
+    
+    if([self.note.title isEqualToString:@"New Note"])
+    {
+        self.textField.text = @"";
+        [self.textField becomeFirstResponder];
+    }
 }
 
 - (void)didReceiveMemoryWarning
