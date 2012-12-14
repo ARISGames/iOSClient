@@ -149,7 +149,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	//Stop Waiting Indicator
 	//[[RootViewController sharedRootViewController] removeWaitingIndicator];
 	[self updateQuantityDisplay];
-    if (self.item.url && (![self.item.url isEqualToString: @"0"]) &&(![self.item.url isEqualToString:@""])) {
+    if ([self.item.type isEqualToString:@"URL"] && self.item.url && (![self.item.url isEqualToString: @"0"]) &&(![self.item.url isEqualToString:@""])) {
         
         //Config the webView
         self.itemWebView.allowsInlineMediaPlayback = YES;

@@ -843,9 +843,21 @@ NSString *const kARISServerServicePackage = @"v1";
                                                              andMethodName:@"addPlayerPicFromFilename"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-    [jsonConnection performAsynchronousRequestWithHandler:nil];
+    [jsonConnection performAsynchronousRequestWithHandler:@selector(parseNewPlayerMediaResponseFromJSON:)];
     [[AppModel sharedAppModel].uploadManager contentFinishedUploading];
 }
+
+-(void)parseNewPlayerMediaResponseFromJSON: (JSONResult *)jsonResult{
+	NSLog(@"AppModel: parseNewPlayerMediaResponseFromJSON");
+	
+	[[RootViewController sharedRootViewController] removeNewWaitingIndicator];
+    
+	if ((NSNull *)jsonResult.data != [NSNull null] && jsonResult.data != nil) {
+        [AppModel sharedAppModel].playerMediaId = [[((NSDictionary*)jsonResult.data) objectForKey:@"media_id"] intValue];
+        [[AppModel sharedAppModel] saveUserDefaults];
+    }
+}
+
 
 - (void)playerPicUploadDidFail:(ARISUploader *)uploader {
     NSError *error = uploader.error;

@@ -47,6 +47,8 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     self.playerNameField.text = @"";
+    if([AppModel sharedAppModel].displayName && ![[AppModel sharedAppModel].displayName isEqualToString:@""])
+        self.playerNameField.text = [AppModel sharedAppModel].displayName;
     if(self.shouldCheckForDisplayName && [self.playerNameField.text isEqualToString:@""])
        [self.playerNameField becomeFirstResponder];
 }
