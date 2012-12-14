@@ -27,9 +27,43 @@
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
 		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewInventoryReady" object:nil];
 		[dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
+    
+        
+        UILabel *label = [[UILabel alloc] init];
+        label.frame = CGRectMake(0, 0, 500, 1000);
+        label.backgroundColor = [UIColor colorWithRed:0/255.0
+                                                green:0/255.0
+                                                 blue:0/255.0
+                                                alpha:.7];
+        
+        // Create header view and add label as a subview
+        [self.view insertSubview:label atIndex:1];
         
     }
     return self;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    NSString *sectionTitleSpace = @"   ";
+    NSString *sectionTitle = [sectionTitleSpace stringByAppendingString:NSLocalizedString(@"AttributesAttributesTitleKey", @"")];
+    
+    // Create label with section title
+    UILabel *label = [[UILabel alloc] init];
+    label.frame = CGRectMake(0, -14, tableView.frame.size.width, 50);
+    label.textColor = [UIColor whiteColor];
+    label.font = [UIFont boldSystemFontOfSize:20];
+    label.text = sectionTitle;
+    label.backgroundColor = [UIColor colorWithRed:0/255.0
+                                            green:0/255.0
+                                             blue:0/255.0
+                                            alpha:0];
+    
+    // Create header view and add label as a subview
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 500)];
+    [view addSubview:label];
+    
+    return view;
 }
 
 - (void)silenceNextUpdate
@@ -53,6 +87,7 @@
 		//Load the image from the media Table
 		Media *pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId];
 		[pcImage loadImageFromMedia: pcMedia];
+        
 	}
 	//else [pcImage updateViewWithNewImage:[UIImage imageNamed:@"profile.png"]];
 }
@@ -193,7 +228,11 @@
 	lblTemp = [[UILabel alloc] initWithFrame:Label2Frame];
 	lblTemp.tag = 2;
 	lblTemp.font = [UIFont systemFontOfSize:11];
-	lblTemp.textColor = [UIColor darkGrayColor];
+	//lblTemp.textColor = [UIColor darkGrayColor];
+    lblTemp.textColor = [UIColor colorWithRed:30/255.0
+                    green:30/255.0
+                     blue:30/255.0
+                    alpha:1];
 	lblTemp.backgroundColor = [UIColor clearColor];
 	[cell.contentView addSubview:lblTemp];
 	
@@ -207,7 +246,11 @@
     lblTemp = [[UILabel alloc] initWithFrame:Label3Frame];
 	lblTemp.tag = 4;
 	lblTemp.font = [UIFont boldSystemFontOfSize:11];
-	lblTemp.textColor = [UIColor darkGrayColor];
+	//lblTemp.textColor = [UIColor darkGrayColor];
+    lblTemp.textColor = [UIColor colorWithRed:30/255.0
+                                        green:30/255.0
+                                         blue:30/255.0
+                                        alpha:1];
 	lblTemp.backgroundColor = [UIColor clearColor];
     //lblTemp.textAlignment = UITextAlignmentRight;
 	[cell.contentView addSubview:lblTemp];
@@ -233,12 +276,20 @@
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
 	if(cell == nil) cell = [self getCellContentView:@"Cell"];
     
+    
+    tableView.backgroundColor = [UIColor clearColor];
+    tableView.opaque = NO;
+    tableView.backgroundView = nil;
+    
+    
     cell.textLabel.backgroundColor = [UIColor clearColor];
     cell.detailTextLabel.backgroundColor = [UIColor clearColor];
     cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0
                                                        green:233.0/255.0
                                                         blue:233.0/255.0
-                                                       alpha:1.0];
+                                                       alpha:.95];
+    cell.backgroundView.layer.cornerRadius = 10.0;
+    cell.contentView.layer.cornerRadius = 10.0;
     
 	Item *item = [attributes objectAtIndex: [indexPath row]];
 	
