@@ -254,7 +254,7 @@
     //CGRect NewBannerFrame = CGRectMake(2, 2, 55, 55);
 	CGRect Label1Frame = CGRectMake(70, 22, 240, 20);
 	CGRect Label2Frame = CGRectMake(70, 39, 240, 20);
-    CGRect Label3Frame = CGRectMake(70, 5, 240, 20);
+    CGRect Label3Frame = CGRectMake(250, 22, 60, 20);
 	UILabel *lblTemp;
 	UIImageView *iconViewTemp;
     UIImageView *newBannerViewTemp;
@@ -295,7 +295,7 @@
     //Init Icon with tag 4
     lblTemp = [[UILabel alloc] initWithFrame:Label3Frame];
 	lblTemp.tag = 4;
-    lblTemp.font = [UIFont systemFontOfSize:11];
+    //lblTemp.font = [UIFont systemFontOfSize:11];
     
 	lblTemp.textColor = [UIColor darkGrayColor];
 	lblTemp.backgroundColor = [UIColor clearColor];
@@ -354,12 +354,13 @@
     //AsyncMediaImageView *newBannerView = (AsyncMediaImageView *)[cell viewWithTag:5];
     
     UILabel *lblTemp3 = (UILabel *)[cell viewWithTag:4];
+    lblTemp3.numberOfLines = 2;
     if(item.qty >1 && item.weight > 1)
-        lblTemp3.text = [NSString stringWithFormat:@"%@: %d, %@: %d",NSLocalizedString(@"QuantityKey", @""),item.qty,NSLocalizedString(@"WeightKey", @""),item.weight];
+        lblTemp3.text = [NSString stringWithFormat:@"%@: %d/n%@ %d",NSLocalizedString(@"QuantityKey", @""),item.qty,NSLocalizedString(@"WeightKey", @""),item.weight];
     else if(item.weight > 1)
         lblTemp3.text = [NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"WeightKey", @""),item.weight];
     else if(item.qty > 1)
-        lblTemp3.text = [NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"QuantityKey", @""),item.qty];
+        lblTemp3.text = [NSString stringWithFormat:@"%@ %d",NSLocalizedString(@"x", @""),item.qty];
     else
         lblTemp3.text = nil;
     //newBannerView.hidden = NO;

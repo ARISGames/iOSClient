@@ -26,11 +26,11 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         if([fileName isEqualToString:@"InventoryTradeViewController.m"]){
-            self.frame = CGRectMake(0, 0, 320, 60);
+            self.frame = CGRectMake(5, 0, 310, 60);
             CGRect IconFrame = CGRectMake(5, 5, 50, 50);
-            CGRect Label1Frame = CGRectMake(70, 22, 240, 20);
-            CGRect Label2Frame = CGRectMake(70, 39, 240, 20);
-            CGRect Label3Frame = CGRectMake(70, 5, 240, 20);
+            CGRect Label1Frame = CGRectMake(70, 22, 240, 20); //Title
+            CGRect Label2Frame = CGRectMake(70, 39, 240, 20); //Desc
+            CGRect Label3Frame = CGRectMake(250, 22, 60, 20); //Qty
             
             //Setup Cell
            // UIView *transparentBackground = [[UIView alloc] initWithFrame:CGRectZero];
@@ -61,7 +61,7 @@
             //Init Icon with tag 4
             self.lbl4 = [[UILabel alloc] initWithFrame:Label3Frame];
             self.lbl4.tag = 4;
-            self.lbl4.font = [UIFont boldSystemFontOfSize:11];
+            //self.lbl4.font = [UIFont boldSystemFontOfSize:11];
             self.lbl4.textColor = [UIColor darkGrayColor];
             self.lbl4.backgroundColor = [UIColor clearColor];
             //lblTemp.textAlignment = UITextAlignmentRight;

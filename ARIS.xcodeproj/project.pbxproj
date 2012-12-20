@@ -1698,7 +1698,6 @@
 				A798300A0FCB1C5900C1C2E7 /* Waiting Indicator */,
 				2B3D17040F49C9920067FD3A /* Model */,
 				AB4FD84F130BC5460034F666 /* Tutorial */,
-				DBC3441015ADEED200FA902F /* RootViewController.h */,
 				DBC3441115ADEED200FA902F /* RootViewController.m */,
 				A763B5230F4E283100FDCC55 /* MyCLController.h */,
 				A763B5240F4E283100FDCC55 /* MyCLController.m */,
@@ -1851,6 +1850,7 @@
 		AB4FD84F130BC5460034F666 /* Tutorial */ = {
 			isa = PBXGroup;
 			children = (
+				DBC3441015ADEED200FA902F /* RootViewController.h */,
 				AB4FD852130BC5AE0034F666 /* TutorialPopupView.h */,
 				AB4FD853130BC5AE0034F666 /* TutorialPopupView.m */,
 				AB4FDC87130EB1120034F666 /* TutorialViewController.h */,
