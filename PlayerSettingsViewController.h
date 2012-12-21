@@ -27,11 +27,8 @@
 	AsyncMediaTouchableImageView *playerPicCam;
 
     IBOutlet UIButton *goButton;
-    
-    BOOL shouldCheckForDisplayName;
 }
 
-@property (readwrite) BOOL shouldCheckForDisplayName;
 @property (nonatomic) IBOutlet AsyncMediaImageView *playerPic;
 @property (nonatomic) IBOutlet UITextField *playerNameField;
 
@@ -40,6 +37,7 @@
 //@property (nonatomic) AsyncMediaTouchableImageView *playerPicOpt3;
 @property (nonatomic) AsyncMediaTouchableImageView *playerPicCam;
 
+- (void)manuallyForceViewDidAppear;
 -(IBAction)playerNameFieldTouched:(id)sender;
 -(id)playerPicOptTouched:(id)sender;
 -(IBAction)goButtonTouched:(id)sender;

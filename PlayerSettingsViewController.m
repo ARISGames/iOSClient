@@ -4,14 +4,11 @@
 //
 //  Created by Phil Dougherty on 9/21/12.
 //
-//
 
 #import "PlayerSettingsViewController.h"
 #import "AppServices.h"
 
 @implementation PlayerSettingsViewController
-
-@synthesize shouldCheckForDisplayName;
 
 @synthesize playerPic;
 @synthesize playerNameField;
@@ -36,7 +33,6 @@
     //playerPicOpt2.delegate = self;
     //playerPicOpt3.delegate = self;
     playerPicCam.delegate = self;
-    self.shouldCheckForDisplayName = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -44,18 +40,19 @@
     [self refreshViewFromModel];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)manuallyForceViewDidAppear
 {
-    self.playerNameField.text = @"";
+    //Due to the way we hide/show views rather than push/popping them, 'viewDidAppear' was constantly being called even when it wasn't 'actually' appearing.
+    //Now, we just call this manually whenever we intend the view to appear.
     if([AppModel sharedAppModel].displayName && ![[AppModel sharedAppModel].displayName isEqualToString:@""])
         self.playerNameField.text = [AppModel sharedAppModel].displayName;
-    if(self.shouldCheckForDisplayName && [self.playerNameField.text isEqualToString:@""])
+    if([self.playerNameField.text isEqualToString:@""])
        [self.playerNameField becomeFirstResponder];
 }
 
 - (void) refreshViewFromModel
 {
-    if(![[AppModel sharedAppModel].displayName isEqualToString:@""] && [AppModel sharedAppModel].displayName != nil)
+    if(![[AppModel sharedAppModel].displayName isEqualToString:@""] && [AppModel sharedAppModel].displayName != nil && [self.playerNameField.text isEqualToString:@""])
         playerNameField.text = [AppModel sharedAppModel].displayName;
     
     if([AppModel sharedAppModel].playerMediaId != 0 && [AppModel sharedAppModel].playerMediaId != -1)
@@ -90,8 +87,13 @@
 
 -(IBAction)goButtonTouched:(id)sender
 {
+    if([playerNameField.text isEqualToString:@""] || [AppModel sharedAppModel].playerMediaId == 0)
+    {
+        return;
+    }
+    
     self.parentViewController.view.hidden = true;
-    if([playerNameField.text isEqualToString:@""]) playerNameField.text = [AppModel sharedAppModel].userName;
+    
     [AppModel sharedAppModel].displayName = playerNameField.text;
     if([playerPic.media.uid intValue]!= 0)
         [AppModel sharedAppModel].playerMediaId = [playerPic.media.uid intValue];
@@ -118,26 +120,21 @@
 
 -(void)asyncMediaImageTouched:(id)sender
 {
-    if(sender == self.playerPicCam)
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
-        self.shouldCheckForDisplayName = YES;
-        if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-        {
-            UIImagePickerController *picker = [[UIImagePickerController alloc]init];
-            picker.delegate = self;
-            picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-            picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:picker.sourceType];
-            if([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceFront])
-                picker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
-            else
-                picker.cameraDevice = UIImagePickerControllerCameraDeviceRear;
-            picker.allowsEditing = YES;
-            picker.showsCameraControls = YES;
-            [self presentModalViewController:picker animated:NO];
-        }
+        UIImagePickerController *picker = [[UIImagePickerController alloc]init];
+        picker.delegate = self;
+        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:picker.sourceType];
+        if([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceFront])
+            picker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
+        else
+            picker.cameraDevice = UIImagePickerControllerCameraDeviceRear;
+        picker.allowsEditing = YES;
+        picker.showsCameraControls = YES;
+        [self presentModalViewController:picker animated:NO];
     }
-    else
-        [self.playerPic loadImageFromMedia:[(AsyncMediaImageView *)sender media]];
+
     return;
 }
 
@@ -185,6 +182,10 @@
                     playerPic.media.uid = 0;
                 }
             } failureBlock:^(NSError *error) {
+                NSLog(@"PlayerSettingsViewController Error: %@",[error localizedDescription]);
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"UploadFailedKey", @"") message: @"Player Pic Upload Failed. Please Try Again." delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
+                
+                [alert show];
             }];
         }];
     }
@@ -193,6 +194,7 @@
         // image from camera roll
         [[[AppModel sharedAppModel] uploadManager] uploadPlayerPicContentwithType:kNoteContentTypePhoto withFileURL:imageURL];
     }
+    [self manuallyForceViewDidAppear];
 }
 
 @end

@@ -12,7 +12,7 @@
 #import "AppModel.h"
 #import "AppServices.h"
 #import <QRCodeReader.h>
-#import "ZBarReaderViewController.h"
+#import "ARISZBarReaderWrapperViewController.h"
 
 
 @implementation QRScannerViewController 
@@ -72,11 +72,12 @@
 
 - (IBAction) scanButtonTapped {
     // ADD: present a barcode reader that scans from the camera feed
-    ZBarReaderViewController *reader = [ZBarReaderViewController new];
+    ARISZBarReaderWrapperViewController *reader = [ARISZBarReaderWrapperViewController new];
     reader.readerDelegate = self;
     
     ZBarImageScanner *scanner = reader.scanner;
     // TODO: (optional) additional reader configuration here
+    reader.supportedOrientationsMask = 0;
     
     // EXAMPLE: disable rarely used I2/5 to improve performance
     [scanner setSymbology: ZBAR_I25

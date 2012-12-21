@@ -693,6 +693,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
 {
     [self.playerSettingsViewController refreshViewFromModel];
     self.playerSettingsViewNavigationController.view.hidden = NO;
+    [self.playerSettingsViewController manuallyForceViewDidAppear];
     self.gameSelectionTabBarController.view.hidden = NO;
     self.gameSelectionTabBarController.selectedIndex = 0;
 }
@@ -961,6 +962,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     if([AppModel sharedAppModel].museumMode)
     {
         self.playerSettingsViewNavigationController.view.hidden = NO;
+        [self.playerSettingsViewController manuallyForceViewDidAppear];
         self.gameSelectionTabBarController.view.hidden = NO;
         self.gameSelectionTabBarController.selectedIndex = 0;
     }

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AppModel.h"
 #import <ZXingWidgetController.h>
-#import "ZBarReaderViewController.h"
+#import "ARISZBarReaderWrapperViewController.h"
 
 
 @interface QRScannerViewController : UIViewController <UINavigationControllerDelegate, 

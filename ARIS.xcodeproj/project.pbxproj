@@ -202,6 +202,7 @@
 		AA1771A01652D33200A3836D /* libPusher-combined.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA17719F1652D33200A3836D /* libPusher-combined.a */; };
 		AA1E2D4E1652CC6000219535 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4D1652CC6000219535 /* libicucore.dylib */; };
 		AA1E2D501652CC7500219535 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4F1652CC7500219535 /* Security.framework */; };
+		AA8330551684CC0E00C28960 /* ARISZBarReaderWrapperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8330541684CC0E00C28960 /* ARISZBarReaderWrapperViewController.m */; };
 		AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB0A5BA3120365420065CE68 /* Localizable.strings */; };
 		AB0DE7B611556EC200A6EC3E /* ARCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE7AF11556EC200A6EC3E /* ARCoordinate.m */; };
 		AB0DE7B711556EC200A6EC3E /* ARGeoCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE7B111556EC200A6EC3E /* ARGeoCoordinate.m */; };
@@ -760,6 +761,8 @@
 		AA1E2D4C1652CA8A00219535 /* SRWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRWebSocket.h; sourceTree = "<group>"; };
 		AA1E2D4D1652CC6000219535 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		AA1E2D4F1652CC7500219535 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		AA8330531684CC0E00C28960 /* ARISZBarReaderWrapperViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISZBarReaderWrapperViewController.h; sourceTree = "<group>"; };
+		AA8330541684CC0E00C28960 /* ARISZBarReaderWrapperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISZBarReaderWrapperViewController.m; sourceTree = "<group>"; };
 		AB0A5BA4120365420065CE68 /* en */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AB0A5BA61203665C0065CE68 /* es */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AB0DE7AE11556EC200A6EC3E /* ARCoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARCoordinate.h; sourceTree = "<group>"; };
@@ -1541,6 +1544,8 @@
 				ABC2A63F13A82A01003500AF /* qrcode_big.png */,
 				AB4A8E8813A82C2F000328AA /* camera_icon.png */,
 				AB4151DC115963D000DBA15F /* qrBackground.png */,
+				AA8330531684CC0E00C28960 /* ARISZBarReaderWrapperViewController.h */,
+				AA8330541684CC0E00C28960 /* ARISZBarReaderWrapperViewController.m */,
 			);
 			name = "QR Scanner";
 			sourceTree = "<group>";
@@ -2612,6 +2617,7 @@
 				2D26698616234CE400342A7E /* UIImage+fixOrientation.m in Sources */,
 				DDCD2DE316275A5B003AAC64 /* QuestDetailsViewController.m in Sources */,
 				DDC495DC16407DE500D4C063 /* NewUIExampleViewController.m in Sources */,
+				AA8330551684CC0E00C28960 /* ARISZBarReaderWrapperViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
