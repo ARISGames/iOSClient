@@ -1696,6 +1696,10 @@
 				2D2669811623487000342A7E /* UIImage+RoundedCorner.m */,
 				2D26697B1623483200342A7E /* UIImage+Resize.m */,
 				2D26697C1623483200342A7E /* UIImage+Resize.h */,
+				4ADE919A13CB7CB80009F4AF /* UIImage+Scale.h */,
+				4ADE919B13CB7CB80009F4AF /* UIImage+Scale.m */,
+				4ADE919D13CB84B80009F4AF /* UIDevice+Hardware.h */,
+				4ADE919E13CB84B80009F4AF /* UIDevice+Hardware.m */,
 				4A373BD015ACABA8007D975C /* Bump API */,
 				1174E6F314F4333D00026BAF /* Pusher Framework */,
 				AB549ED11047007B00A901EF /* JSON Framework */,
@@ -1703,6 +1707,7 @@
 				A798300A0FCB1C5900C1C2E7 /* Waiting Indicator */,
 				2B3D17040F49C9920067FD3A /* Model */,
 				AB4FD84F130BC5460034F666 /* Tutorial */,
+				DBC3441015ADEED200FA902F /* RootViewController.h */,
 				DBC3441115ADEED200FA902F /* RootViewController.m */,
 				A763B5230F4E283100FDCC55 /* MyCLController.h */,
 				A763B5240F4E283100FDCC55 /* MyCLController.m */,
@@ -1721,10 +1726,6 @@
 				A7A1728B0F4F27120017E865 /* Default.png */,
 				A7A172940F4F273B0017E865 /* Icon.icns */,
 				A7A1728A0F4F27120017E865 /* Icon.png */,
-				4ADE919A13CB7CB80009F4AF /* UIImage+Scale.h */,
-				4ADE919B13CB7CB80009F4AF /* UIImage+Scale.m */,
-				4ADE919D13CB84B80009F4AF /* UIDevice+Hardware.h */,
-				4ADE919E13CB84B80009F4AF /* UIDevice+Hardware.m */,
 				11D7F92F1537510D0046410F /* LoadingViewController.h */,
 				11D7F9301537510D0046410F /* LoadingViewController.m */,
 				11D7F9311537510D0046410F /* LoadingViewController.xib */,
@@ -1855,7 +1856,6 @@
 		AB4FD84F130BC5460034F666 /* Tutorial */ = {
 			isa = PBXGroup;
 			children = (
-				DBC3441015ADEED200FA902F /* RootViewController.h */,
 				AB4FD852130BC5AE0034F666 /* TutorialPopupView.h */,
 				AB4FD853130BC5AE0034F666 /* TutorialPopupView.m */,
 				AB4FDC87130EB1120034F666 /* TutorialViewController.h */,

@@ -11,6 +11,7 @@
 #import <CoreMotion/CoreMotion.h>
 #import <CoreData/CoreData.h>
 #import "Game.h"
+#import "Location.h"
 #import "Item.h"
 #import "Node.h"
 #import "Npc.h"
@@ -213,5 +214,6 @@ extern NSDictionary *InventoryElements;
 - (WebPage *)webPageForWebPageID: (int)mId;
 - (Panoramic *)panoramicForPanoramicId: (int)mId;
 - (Note *)noteForNoteId:(int)mId playerListYesGameListNo:(BOOL)playerorGame;
+- (Location *)locationForLocationId: (int)lId;
 
 @end

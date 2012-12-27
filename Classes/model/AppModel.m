@@ -416,6 +416,15 @@
 	return item;
 }
 
+-(Location *)locationForLocationId: (int)lId {
+    for(int i = 0; i < [self.locationList count]; i++)
+    {
+        if(((Location *)[self.locationList objectAtIndex:i]).locationId == lId)
+            return [self.locationList objectAtIndex:i];
+    }
+    return nil;
+}
+
 #pragma mark Core Data
 /**
  Returns the managed object context for the application.

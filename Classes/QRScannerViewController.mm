@@ -108,9 +108,7 @@
 	
 	self.imageMatchingImagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
 	[self presentViewController:self.imageMatchingImagePickerController animated:YES completion:nil];
-    
 }
-
 
 #pragma mark Delegate for text entry
 

@@ -465,7 +465,6 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     [[NSNotificationCenter defaultCenter] postNotification:hideNotificationsNotification];
 }
 
-
 - (void) showGameSelectionTabBarAndHideOthers {
     //Put it onscreen
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -1048,8 +1047,18 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     PTPusherEvent *event = [notification.userInfo objectForKey:PTPusherEventUserInfoKey];
     if([event.channel rangeOfString:@"game"].location == NSNotFound) return;
     NSLog(@"Event Received");
+    
     if([event.name isEqualToString:@"alert"])
         [[RootViewController sharedRootViewController] showAlert:@"Game Notice:" message:event.data];
+    else if([event.name isEqualToString:@"display"])
+    {
+        NSString * data = [event.data stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+
+        Location *loc = [[AppModel sharedAppModel] locationForLocationId:[data intValue]];
+        if(loc != nil)
+           [loc.object display];
+    }
+    
     return;
 }
 
@@ -1060,6 +1069,15 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     NSLog(@"Event Received");
     if([event.name isEqualToString:@"alert"])
         [[RootViewController sharedRootViewController] showAlert:@"Player Notice:" message:event.data];
+    else if([event.name isEqualToString:@"display"])
+    {
+        NSString * data = [event.data stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+        
+        Location *loc = [[AppModel sharedAppModel] locationForLocationId:[data intValue]];
+        if(loc != nil)
+            [loc.object display];
+    }
+
     return;
 }
 
@@ -1070,9 +1088,17 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     NSLog(@"Event Received");
     if([event.name isEqualToString:@"alert"])
         [[RootViewController sharedRootViewController] showAlert:@"Group Notice:" message:event.data];
+    else if([event.name isEqualToString:@"display"])
+    {
+        NSString * data = [event.data stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+        
+        Location *loc = [[AppModel sharedAppModel] locationForLocationId:[data intValue]];
+        if(loc != nil)
+            [loc.object display];
+    }
+
     return;
 }
-
 
 - (void) didReceiveWebpageChannelEventNotification:(NSNotification *)notification
 {
@@ -1081,6 +1107,15 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     NSLog(@"Event Received");
     if([event.name isEqualToString:@"alert"])
         [[RootViewController sharedRootViewController] showAlert:@"Webpage Notice:" message:event.data];
+    else if([event.name isEqualToString:@"display"])
+    {
+        NSString * data = [event.data stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+        
+        Location *loc = [[AppModel sharedAppModel] locationForLocationId:[data intValue]];
+        if(loc != nil)
+            [loc.object display];
+    }
+
     return;
 }
 
