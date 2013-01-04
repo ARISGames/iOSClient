@@ -614,21 +614,15 @@ NSString *const kDialogHtmlTemplate =
     self.npcImage.hidden = NO; 
 	cachedScene = aScene;
     if(aScene.mediaId != 0){
-        NSLog(@"mediaId gets here");
         Media *media = [[AppModel sharedAppModel] mediaForMediaId:aScene.mediaId];
-        NSLog(@"%@", media.type);
         if([media.type isEqualToString: kMediaTypeVideo]){
-            NSLog(@"Gets to video");
-            NSLog(@"Playing through ARISMoviePlayerController");
             [self playAudioOrVideoFromMedia:media andHidden:NO];
         }
         else if([media.type isEqualToString: kMediaTypeImage]){
             aScene.imageMediaId = aScene.mediaId;
-            NSLog(@"imageMediaId was overwritten");
         }
         else if([media.type isEqualToString: kMediaTypeAudio]){
             [self playAudioOrVideoFromMedia:media andHidden:YES];
-            NSLog(@"Gets to audio");
         }
     }
     
@@ -918,23 +912,23 @@ NSString *const kDialogHtmlTemplate =
 #pragma mark Audio and Video
 - (void) playAudioOrVideoFromMedia:(Media*)media andHidden:(BOOL)hidden{
     if(media.image != nil){
-        NSLog(@"Playing through AVAudioPlayer");
+        NSLog(@"DialogViewController: Playing through AVAudioPlayer");
         [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];	
         [[AVAudioSession sharedInstance] setActive: YES error: nil];
         NSError* err;
         self.player = [[AVAudioPlayer alloc] initWithData: media.image error:&err];
         [self.player setDelegate: self];
         if( err ){
-            NSLog(@"Appdelegate: Playing Audio: Failed with reason: %@", [err localizedDescription]);
+            NSLog(@"DialogViewController: Playing Audio: Failed with reason: %@", [err localizedDescription]);
         }
         else{
             [self.player play];
         }
     }
     else{
-        NSLog(@"Playing through MPMoviePlayerController");
+        NSLog(@"DialogViewController: Playing through MPMoviePlayerController");
         self.ARISMoviePlayer.moviePlayer.view.hidden = hidden; 
-        self.ARISMoviePlayer = [[ARISMoviePlayerViewController alloc] init];
+        if(!self.ARISMoviePlayer) self.ARISMoviePlayer = [[ARISMoviePlayerViewController alloc] init];
         self.ARISMoviePlayer.moviePlayer.movieSourceType = MPMovieSourceTypeStreaming;
         [self.ARISMoviePlayer.moviePlayer setContentURL: [NSURL URLWithString:media.url]];
         [self.ARISMoviePlayer.moviePlayer setControlStyle:MPMovieControlStyleNone];
@@ -948,7 +942,6 @@ NSString *const kDialogHtmlTemplate =
         [self.view addSubview:waiting];
         [self.waiting startAnimating];
         if(!hidden){
-            NSLog(@"Gets to not hidden");
             self.ARISMoviePlayer.view.frame = npcVideoView.frame;
             self.npcVideoView = (UIScrollView *)self.ARISMoviePlayer.view;
             self.npcVideoView.hidden = NO;
@@ -962,13 +955,11 @@ NSString *const kDialogHtmlTemplate =
 
 - (void)MPMoviePlayerLoadStateDidChangeNotification:(NSNotification *)notif
 {
-    NSLog(@"loadState: %d", self.ARISMoviePlayer.moviePlayer.loadState);
     if (self.ARISMoviePlayer.moviePlayer.loadState & MPMovieLoadStateStalled) {
         [self.waiting startAnimating];
         [self.ARISMoviePlayer.moviePlayer pause];
     } else if (self.ARISMoviePlayer.moviePlayer.loadState & MPMovieLoadStatePlayable) {
         [self.waiting stopAnimating];
-        NSLog(@"Load state changes");
         [self.ARISMoviePlayer.moviePlayer play];
         [self.waiting removeFromSuperview];
         
@@ -977,9 +968,7 @@ NSString *const kDialogHtmlTemplate =
 
 #pragma mark audioPlayerDone
 
-- (void) audioPlayerDidFinishPlaying: (AVAudioPlayer *) player
-                        successfully: (BOOL) flag {
-    NSLog(@"Appdelegate: Audio is done playing");
+- (void) audioPlayerDidFinishPlaying: (AVAudioPlayer *) player successfully: (BOOL) flag {
     [[AVAudioSession sharedInstance] setActive: NO error: nil];
 }
 

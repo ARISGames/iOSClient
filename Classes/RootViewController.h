@@ -52,6 +52,7 @@
 #import "PTPusher.h"
 #import "PTPusherEvent.h"
 #import "LoadingViewController.h"
+#import "PopOverViewController.h"
 
 @interface RootViewController : UIViewController<UIApplicationDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate,PTPusherDelegate> {
     
@@ -73,6 +74,7 @@
 	UIAlertView *networkAlert;
 	UIAlertView *serverAlert;
 	TutorialPopupView *tutorialPopupView;
+    PopOverViewController *popOverViewController;
 	
     BOOL modalPresent;
     //UILabel *titleLabel;
@@ -81,6 +83,7 @@
     CGRect squishedVCFrame;
     CGRect notSquishedVCFrame;
     NSMutableArray *notifArray;
+    NSMutableArray *popOverArray;
     //int notificationBarHeight;
     PTPusher *client;
     PTPusherPrivateChannel *playerChannel;
@@ -145,7 +148,9 @@
 - (void) displayIntroNode;
 - (void) changeTabBar;
 - (void) enqueueNotificationWithFullString:(NSString *)fullString andBoldedString:(NSString *)boldedString;
+- (void) enqueuePopOverWithTitle:(NSString *)title description:(NSString *)description webViewText:(NSString *)text andMediaId:(int) mediaId;
 - (void) showNotifications;
+- (void) showPopOver;
 - (void) hideNotifications;
 - (void) dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController;
 - (void) handleOpenURLGamesListReady;

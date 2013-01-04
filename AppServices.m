@@ -2932,6 +2932,7 @@ NSString *const kARISServerServicePackage = @"v1";
 		quest.name = [activeQuest objectForKey:@"name"];
 		quest.description = [activeQuest objectForKey:@"description"];
         quest.exitToTabName = [activeQuest objectForKey:@"exit_to_tab"] ? [activeQuest objectForKey:@"exit_to_tab"] : @"";
+        quest.mediaId = [[activeQuest objectForKey:@"media_id"] intValue];
 		quest.iconMediaId = [[activeQuest objectForKey:@"icon_media_id"] intValue];
 		[activeQuestObjects addObject:quest];
         
@@ -2949,7 +2950,8 @@ NSString *const kARISServerServicePackage = @"v1";
 		quest.name = [completedQuest objectForKey:@"name"];
 		quest.description = [completedQuest objectForKey:@"text_when_complete"];
         quest.exitToTabName = [completedQuest objectForKey:@"exit_to_tab"] ? [completedQuest objectForKey:@"exit_to_tab"] : @"";
-		quest.iconMediaId = [[completedQuest objectForKey:@"icon_media_id"] intValue];
+		quest.mediaId = [[completedQuest objectForKey:@"media_id"] intValue];
+        quest.iconMediaId = [[completedQuest objectForKey:@"icon_media_id"] intValue];
 		[completedQuestObjects addObject:quest];
         
         if([RootViewController sharedRootViewController].loadingVC){

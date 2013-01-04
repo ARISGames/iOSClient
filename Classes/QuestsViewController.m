@@ -154,9 +154,14 @@ NSString *const kQuestsHtmlTemplate =
                 quest.sortNum = activeSort;
                 activeSort++;
                 
-                NSString *notifString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestViewNewQuestKey", nil), quest.name];
+             //  NSString *notifString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestViewNewQuestKey", nil), quest.name];
                 
-                [[RootViewController sharedRootViewController] enqueueNotificationWithFullString: notifString andBoldedString:quest.name];
+              //  [[RootViewController sharedRootViewController] enqueueNotificationWithFullString: notifString andBoldedString:quest.name];
+           
+                //NEEDS NEW MEDIA ID
+                
+                
+                [[RootViewController sharedRootViewController] enqueuePopOverWithTitle:NSLocalizedString(@"QuestViewNewQuestKey", nil) description:quest.name webViewText:quest.description andMediaId:quest.mediaId];
                 
 			}
 		}
@@ -171,9 +176,13 @@ NSString *const kQuestsHtmlTemplate =
 			if (match == NO) {
                 [appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
                 
-                NSString *notifString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"CompletedNotifKey", nil), quest.name] ;
+               // NSString *notifString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"CompletedNotifKey", nil), quest.name] ;
                 
-                [[RootViewController sharedRootViewController] enqueueNotificationWithFullString: notifString andBoldedString:quest.name];
+               // [[RootViewController sharedRootViewController] enqueueNotificationWithFullString: notifString andBoldedString:quest.name];
+                
+                //NEEDS NEW MEDIA ID
+                
+                [[RootViewController sharedRootViewController] enqueuePopOverWithTitle:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) description:quest.name webViewText:quest.description andMediaId:quest.mediaId];
 
 			}
 		}

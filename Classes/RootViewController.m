@@ -22,6 +22,7 @@
 NSString *errorMessage, *errorDetail;
 
 BOOL isShowingNotification;
+BOOL isShowingPopOver;
 
 @implementation RootViewController
 
@@ -69,6 +70,9 @@ BOOL isShowingNotification;
         
         NSMutableArray* notifyArrayAlloc = [[NSMutableArray alloc]initWithCapacity:5];
         self.notifArray = notifyArrayAlloc;
+        
+        popOverArray = [[NSMutableArray alloc]initWithCapacity:5];
+        popOverViewController = [[PopOverViewController alloc] init];
         
         //register for notifications from views
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
@@ -351,13 +355,25 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:fullString,@"fullString",boldedString,@"boldedString", nil];
     [self.notifArray addObject:dict];
-    if(!isShowingNotification)// && !self.presentedViewController)
+    if(!(isShowingNotification || isShowingPopOver))// && !self.presentedViewController)
          [self showNotifications];
+}
+
+-(void)enqueuePopOverWithTitle:(NSString *)title description:(NSString *)description webViewText:(NSString *)text andMediaId:(int) mediaId
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:title,@"title",description,@"description",text,@"text",[NSNumber numberWithInt:mediaId],@"mediaId", nil];
+    [popOverArray addObject:dict];
+    
+    if(!(isShowingPopOver || isShowingNotification)) [self showPopOver];
 }
 
 -(void)showNotifications{
     NSLog(@"RootViewController: showNotifications");
-    if([self.notifArray count]>0) {
+    if([popOverArray count] > 0){
+        [self hideNotifications];
+        [self showPopOver];
+    }
+    else if([self.notifArray count]>0) {
         NSLog(@"RootViewController: showNotifications: We have something to display");
         if(!isShowingNotification){//lower frame into position if its not already there
             isShowingNotification = YES;
@@ -442,6 +458,26 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     }
 }
 
+-(void)showPopOver{
+    NSLog(@"RootViewController: showPopOvers");
+    if([popOverArray count] > 0) {
+        isShowingPopOver = YES;
+        popOverViewController.view; //used to force viewDidLoad before setTitle: descripion:...
+        [popOverViewController setTitle:[[popOverArray objectAtIndex:0] objectForKey:@"title"] description:[[popOverArray objectAtIndex:0] objectForKey:@"description"] webViewText:[[popOverArray objectAtIndex:0] objectForKey:@"text"] andMediaId:[[[popOverArray objectAtIndex:0] objectForKey:@"mediaId"] intValue]];
+        if (!(popOverViewController.isViewLoaded && popOverViewController.view.window)) [self presentViewController:popOverViewController animated:NO completion:nil];
+        if([popOverArray count] > 0) [popOverArray removeObjectAtIndex:0];
+    }
+    else if (popOverViewController.isViewLoaded && popOverViewController.view.window) {
+        [popOverViewController dismissViewControllerAnimated:NO completion:nil];
+        isShowingPopOver = NO;
+        [self showNotifications];
+    }
+    else {
+        isShowingPopOver = NO;    //may not ever get here; defensive programming
+        [self showNotifications];
+    }
+}
+
 -(void)hideNotifications{
     if(!tabBarController.view.hidden){
         [UIView animateWithDuration:.5 delay:0.0 options:UIViewAnimationCurveEaseIn animations:^{
@@ -463,6 +499,10 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     [self.descLabel removeFromSuperview];
     NSNotification *hideNotificationsNotification = [NSNotification notificationWithName:@"hideNotifications" object:self];
     [[NSNotificationCenter defaultCenter] postNotification:hideNotificationsNotification];
+}
+
+-(void)hidePopOver{
+    
 }
 
 - (void) showGameSelectionTabBarAndHideOthers {
