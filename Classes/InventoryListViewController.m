@@ -249,12 +249,12 @@
 }
 
 - (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier {
-	CGRect CellFrame = CGRectMake(0, 0, 320, 60);
+	CGRect CellFrame = CGRectMake(0, 0, 310, 60);
 	CGRect IconFrame = CGRectMake(5, 5, 50, 50);
     //CGRect NewBannerFrame = CGRectMake(2, 2, 55, 55);
-	CGRect Label1Frame = CGRectMake(70, 22, 240, 20);
-	CGRect Label2Frame = CGRectMake(70, 39, 240, 20);
-    CGRect Label3Frame = CGRectMake(250, 22, 60, 20);
+	CGRect Label1Frame = CGRectMake(70, 12, 180, 20); //Title
+	CGRect Label2Frame = CGRectMake(70, 29, 240, 20); //Desc
+    CGRect Label3Frame = CGRectMake(260, 12, 50, 20); //Qty
 	UILabel *lblTemp;
 	UIImageView *iconViewTemp;
     UIImageView *newBannerViewTemp;

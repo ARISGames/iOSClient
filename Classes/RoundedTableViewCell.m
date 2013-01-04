@@ -26,11 +26,11 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         if([fileName isEqualToString:@"InventoryTradeViewController.m"]){
-            self.frame = CGRectMake(5, 0, 310, 60);
+            self.frame = CGRectMake(5, 0, 290, 60);
             CGRect IconFrame = CGRectMake(5, 5, 50, 50);
-            CGRect Label1Frame = CGRectMake(70, 22, 240, 20); //Title
-            CGRect Label2Frame = CGRectMake(70, 39, 240, 20); //Desc
-            CGRect Label3Frame = CGRectMake(250, 22, 60, 20); //Qty
+            CGRect Label1Frame = CGRectMake(70, 12, 160, 20); //Title
+            CGRect Label2Frame = CGRectMake(70, 29, 220, 20); //Desc
+            CGRect Label3Frame = CGRectMake(240, 12, 50, 20); //Qty
             
             //Setup Cell
            // UIView *transparentBackground = [[UIView alloc] initWithFrame:CGRectZero];
