@@ -826,6 +826,57 @@ NSString *const kDialogHtmlTemplate =
 }
 
 
+#pragma mark -
+#pragma mark ARIS/JavaScript Connections
+
+- (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType
+{
+    
+    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    //Is this a special call from HTML back to ARIS?
+    NSString* scheme = [[req URL] scheme];
+    if (!([scheme isEqualToString:@"aris"] || [scheme isEqualToString:@"ARIS"])) return YES;
+    
+    //What was it requesting?
+    NSString* mainCommand = [[req URL] host];
+    NSArray *components = [[req URL]pathComponents];
+        
+    if ([mainCommand isEqualToString:@"inventory"])
+    {
+        NSLog(@"WebPageVC: aris://inventory/ called");
+        
+        if ([components count] > 2 &&
+            [[components objectAtIndex:1] isEqualToString:@"get"])
+        {
+            int itemId = [[components objectAtIndex:2] intValue];
+            NSLog(@"WebPageVC: aris://inventory/get/ called from webpage with itemId = %d",itemId);
+            int qty = [self getQtyInInventoryOfItem:itemId];
+            [webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"ARIS.didUpdateItemQty(%d,%d);",itemId,qty]];
+            return NO;
+        }
+        
+    }
+        
+    //Shouldn't get here.
+    NSLog(@"DialogPageVC: WARNING. An aris:// url was called with no handler");
+    return YES;
+}
+
+
+- (int) getQtyInInventoryOfItem:(int)itemId
+{
+    Item *i = [[AppModel sharedAppModel].inventory objectForKey:[NSString stringWithFormat:@"%d",itemId]];
+    if(i)
+        return i.qty;
+    i = [[AppModel sharedAppModel].attributes objectForKey:[NSString stringWithFormat:@"%d",itemId]];
+    if(i)
+        return i.qty;
+    return 0;
+}
+
+
+
 #pragma mark Movement 
 - (void) moveAllOutWithPostSelector:(SEL)postSelector {	
 	[self movePcTo:CGRectMake(160, 0, 320, 416) withAlpha:0 
