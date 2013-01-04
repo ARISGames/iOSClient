@@ -19,7 +19,7 @@
 #import "ItemDetailsViewController.h"
 
 @implementation webpageViewController
-@synthesize webView,webPage,delegate,activityIndicator,blackView, audioPlayers, bumpSendString, isConnectedToBump;
+@synthesize webView,webPage,delegate,activityIndicator,blackView, audioPlayers, bumpSendString, isConnectedToBump, loaded;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -46,6 +46,7 @@
     [super viewDidLoad];
     
     self.audioPlayers = [[NSMutableDictionary alloc] init];
+    self.loaded = NO;
     self.webView.delegate = self;
     self.webView.hidden = YES;
     //Create a close button
@@ -81,8 +82,11 @@
 -(void)viewDidAppear:(BOOL)animated{
     [RootViewController sharedRootViewController].webpageChannel = [[RootViewController sharedRootViewController].client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-webpage-channel",self.webPage.webPageId]];
 
-    self.webView.hidden = YES;
-    self.blackView.hidden = NO;
+    if(!self.loaded)
+    {
+        self.webView.hidden = YES;
+        self.blackView.hidden = NO;
+    }
 }
 
 - (void)viewDidUnload
@@ -127,11 +131,13 @@
 }
 
 -(void)webViewDidFinishLoad:(UIWebView *)webView {
+    self.loaded = YES;
     self.webView.hidden = NO;
     self.blackView.hidden = YES;
     [self dismissWaitingIndicator];
 }
 -(void)webViewDidStartLoad:(UIWebView *)webView {
+    self.loaded = NO;
     [self showWaitingIndicator];
 }
 -(void)showWaitingIndicator {

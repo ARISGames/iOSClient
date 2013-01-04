@@ -24,6 +24,7 @@
     AVPlayer *localPlayer;
     NSString *bumpSendString;
     bool isConnectedToBump;
+    bool loaded;
 }
 
 @property(nonatomic) IBOutlet UIWebView	*webView;
@@ -34,6 +35,7 @@
 @property(nonatomic, strong) NSMutableDictionary *audioPlayers;
 @property(nonatomic) NSString *bumpSendString;
 @property(nonatomic) bool isConnectedToBump;
+@property(nonatomic) bool loaded;
 
 - (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType;
 - (void) showWaitingIndicator;
