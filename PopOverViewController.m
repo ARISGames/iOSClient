@@ -14,6 +14,7 @@ NSString *const kPopOverHtmlTemplate =
 @"<head>"
 @"	<title>Aris</title>"
 @"	<style type='text/css'><!--"
+@"  html,body {margin: 0;padding: 0;width: 100%%;height: 100%%;}"
 @"  html {display: table;}"
 @"	body {"
 @"		background-color: transparent;"
@@ -23,12 +24,12 @@ NSString *const kPopOverHtmlTemplate =
 @"      text-align: center;"
 @"		font-size: 17px;"
 @"		font-family: Helvetia, Sans-Serif;"
-//@"		margin: 0px;"
+@"      -webkit-text-size-adjust: none;"
 @"	}"
 @"	a {color: #FFFFFF; text-decoration: underline; }"
 @"	--></style>"
 @"</head>"
-@"<body>%@</body>"
+@"<body><p>%@</p></body>"
 @"</html>";
 
 @implementation PopOverViewController
