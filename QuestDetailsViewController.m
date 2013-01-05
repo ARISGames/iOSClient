@@ -47,7 +47,7 @@
 
 -(void) exit:(id)sender{
     [[self navigationController] popToRootViewControllerAnimated:YES];
-    if (!(self.quest.exitToTabName == (id)[NSNull null] || self.quest.exitToTabName.length == 0)){
+    if (!(self.quest.exitToTabName == (id)[NSNull null] || self.quest.exitToTabName.length == 0 ||[self.quest.exitToTabName isEqualToString:@"NONE"])){
         if ([self.quest.exitToTabName isEqualToString:@"QUESTS"])
             self.quest.exitToTabName = NSLocalizedString(@"QuestViewTitleKey",@"");
         else if([self.quest.exitToTabName isEqualToString:@"GPS"])
