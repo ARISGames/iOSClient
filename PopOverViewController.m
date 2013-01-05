@@ -80,10 +80,10 @@ NSString *const kPopOverHtmlTemplate =
     popOverWebViewMedia.scrollView.bounces = NO;
     popOverWebViewNoMedia.scrollView.bounces = NO;
     
-    [continueButtonMedia setTitle:NSLocalizedString(@"TapToContinueKey", nil) forState:UIControlStateNormal];
-    [continueButtonMedia setTitle:NSLocalizedString(@"TapToContinueKey", nil) forState:UIControlStateHighlighted];
-    [continueButtonNoMedia setTitle:NSLocalizedString(@"TapToContinueKey", nil) forState:UIControlStateNormal];
-    [continueButtonNoMedia setTitle:NSLocalizedString(@"TapToContinueKey", nil) forState:UIControlStateHighlighted];
+    [continueButtonMedia setTitle:NSLocalizedString(@"OkKey", nil) forState:UIControlStateNormal];
+    [continueButtonMedia setTitle:NSLocalizedString(@"OkKey", nil) forState:UIControlStateHighlighted];
+    [continueButtonNoMedia setTitle:NSLocalizedString(@"OkKey", nil) forState:UIControlStateNormal];
+    [continueButtonNoMedia setTitle:NSLocalizedString(@"OkKey", nil) forState:UIControlStateHighlighted];
     
     // Do any additional setup after loading the view from its nib.
 }
