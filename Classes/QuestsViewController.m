@@ -39,7 +39,7 @@ NSString *const kQuestsHtmlTemplate =
 @"	}"
 @"	--></style>"
 @"</head>"
-@"<body></div><div style=\"position:relative; top:0px; background-color:#DDDDDD; border-style:ridge; border-width:3px; border-radius:11px; border-color:#888888;padding:15px;\"><h1>%@</h1>%@</div></body>"
+@"<body></div><div style=\"position:relative; top:0px; background-color:#DDDDDD; border-style:ridge; border-width:3px; border-radius:11px; border-color:#888888; padding:15px; text-align:center;\"><h1 style=\"display:block; margin:0px auto;\">%@</h1>%@</div></body>"
 @"</html>";
 
 
