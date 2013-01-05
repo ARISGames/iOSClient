@@ -911,7 +911,7 @@ NSString *const kDialogHtmlTemplate =
 
 #pragma mark Audio and Video
 - (void) playAudioOrVideoFromMedia:(Media*)media andHidden:(BOOL)hidden{
-    if(media.image != nil){
+    if(media.image != nil && [media.type isEqualToString: kMediaTypeAudio]) {  //worked before added type check, not sure how
         NSLog(@"DialogViewController: Playing through AVAudioPlayer");
         [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];	
         [[AVAudioSession sharedInstance] setActive: YES error: nil];

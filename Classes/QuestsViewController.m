@@ -141,6 +141,28 @@ NSString *const kQuestsHtmlTemplate =
 	
 	//Update the badge
 	if (silenceNextServerUpdateCount < 1) {
+        
+        NSArray *newCompletedQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"completed"];
+        
+        for (Quest *quest in newCompletedQuestsArray) {
+			BOOL match = NO;
+			for (Quest *existingQuest in [self.quests objectAtIndex:COMPLETED_SECTION]) {
+				if (existingQuest.questId == quest.questId) match = YES;
+			}
+			if (match == NO) {
+                [appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
+                
+                // NSString *notifString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"CompletedNotifKey", nil), quest.name] ;
+                
+                // [[RootViewController sharedRootViewController] enqueueNotificationWithFullString: notifString andBoldedString:quest.name];
+                
+                //NEEDS NEW MEDIA ID
+                
+                [[RootViewController sharedRootViewController] enqueuePopOverWithTitle:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) description:quest.name webViewText:quest.description andMediaId:quest.mediaId];
+                
+			}
+		}
+        
 		//Check if anything is new since last time
 		int newItems = 0;
 		NSArray *newActiveQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"active"];
@@ -165,29 +187,6 @@ NSString *const kQuestsHtmlTemplate =
                 
 			}
 		}
-        
-        NSArray *newCompletedQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"completed"];
-        
-        for (Quest *quest in newCompletedQuestsArray) {		
-			BOOL match = NO;
-			for (Quest *existingQuest in [self.quests objectAtIndex:COMPLETED_SECTION]) {
-				if (existingQuest.questId == quest.questId) match = YES;	
-			}
-			if (match == NO) {
-                [appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
-                
-               // NSString *notifString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"CompletedNotifKey", nil), quest.name] ;
-                
-               // [[RootViewController sharedRootViewController] enqueueNotificationWithFullString: notifString andBoldedString:quest.name];
-                
-                //NEEDS NEW MEDIA ID
-                
-                [[RootViewController sharedRootViewController] enqueuePopOverWithTitle:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) description:quest.name webViewText:quest.description andMediaId:quest.mediaId];
-
-			}
-		}
-        
-        
         
 		if (newItems > 0) {
 			newItemsSinceLastView += newItems;

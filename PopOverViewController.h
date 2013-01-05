@@ -12,6 +12,7 @@
 
 #import "AsyncMediaImageView.h"
 #import "ARISMoviePlayerViewController.h"
+#import "Media.h"
 
 @interface PopOverViewController : UIViewController<AsyncMediaImageViewDelegate, UIScrollViewDelegate, AVAudioPlayerDelegate> {
     

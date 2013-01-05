@@ -14,12 +14,16 @@ NSString *const kPopOverHtmlTemplate =
 @"<head>"
 @"	<title>Aris</title>"
 @"	<style type='text/css'><!--"
+@"  html {display: table;}"
 @"	body {"
 @"		background-color: transparent;"
 @"		color: #FFFFFF;"
+@"      display: table-cell;"
+@"      vertical-align: middle;"
+@"      text-align: center;"
 @"		font-size: 17px;"
 @"		font-family: Helvetia, Sans-Serif;"
-@"		margin: 0px;"
+//@"		margin: 0px;"
 @"	}"
 @"	a {color: #FFFFFF; text-decoration: underline; }"
 @"	--></style>"
@@ -61,6 +65,8 @@ NSString *const kPopOverHtmlTemplate =
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    imageView = [[AsyncMediaImageView alloc] init];
     
     [mainViewNoMedia.layer setCornerRadius:9.0];
     mainViewNoMedia.layer.borderColor = [UIColor grayColor].CGColor;
@@ -105,21 +111,34 @@ NSString *const kPopOverHtmlTemplate =
     [popOverWebView loadHTMLString:text baseURL:nil];
     
     if(mediaId != 0) {
+        [ARISMoviePlayer.view removeFromSuperview];
+        [imageView removeFromSuperview];
         if([media.type isEqualToString: kMediaTypeVideo]){
-            mediaView = ARISMoviePlayer.view;
+            //ARISMoviePlayer.view.frame = mediaView.frame;
+            [mediaView insertSubview: ARISMoviePlayer.view belowSubview:loadingIndicator];
             [self playAudioOrVideoFromMedia:media];
         }
-        else if([media.type isEqualToString: kMediaTypeAudio]) [self playAudioOrVideoFromMedia:media];
-        else if([media.type isEqualToString: kMediaTypeImage]){
-            mediaView = imageView;
-            [(AsyncMediaImageView *)mediaView loadImageFromMedia:media];
+        else if([media.type isEqualToString: kMediaTypeAudio]){
+            //ARISMoviePlayer.view.frame = mediaView.frame;
+            [mediaView insertSubview: ARISMoviePlayer.view belowSubview:loadingIndicator];
+            [self playAudioOrVideoFromMedia:media];
         }
+        else if([media.type isEqualToString: kMediaTypeImage]){
+            //imageView.frame = mediaView.frame;
+            [imageView loadImageFromMedia:media];
+            [mediaView addSubview: imageView];
+            loadingIndicator.hidden = YES;
+        }
+        [ARISMoviePlayer.view setNeedsDisplay];
+        [imageView setNeedsDisplay];
+        [mediaView setNeedsDisplay];
     }
 }
 
 #pragma mark Audio and Video
 - (void) playAudioOrVideoFromMedia:(Media*)media {
-    if(media.image != nil){
+    
+    if(media.image != nil && [media.type isEqualToString: kMediaTypeAudio]){
         NSLog(@"PopOver: Playing through AVAudioPlayer");
         [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];
         [[AVAudioSession sharedInstance] setActive: YES error: nil];
