@@ -10,7 +10,34 @@
 
 @implementation QuestDetailsViewController
 
-@synthesize quest, questImageView, questDescriptionBox, exitToButton;
+NSString *const kQuestDetailsHtmlTemplate =
+@"<html>"
+@"<head>"
+@"	<title>Aris</title>"
+@"	<style type='text/css'><!--"
+@"  html,body {margin: 0;padding: 0;width: 100%%;height: 100%%;}"
+@"  html {display: table;}"
+@"	body {"
+@"		background-color: transparent;"
+@"		color: #000000;"
+@"      display: table-cell;"
+@"      vertical-align: middle;"
+@"      text-align: center;"
+@"		font-size: 17px;"
+@"		font-family: Helvetia, Sans-Serif;"
+@"      -webkit-text-size-adjust: none;"
+@"	}"
+@"  ol"
+@"  {"
+@"      text-align:left;"
+@"  }"
+@"	a {color: #000000; text-decoration: underline; }"
+@"	--></style>"
+@"</head>"
+@"<body><p>%@</p></body>"
+@"</html>";
+
+@synthesize quest, questImageView, exitToButton;
 
 - (id)initWithQuest: (Quest *) inputQuest
 {
@@ -26,10 +53,22 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    //NOTE: HEY PHIL, I ONLY HID THE BUTTON, IF YOU WANT THAT EXTRA SCREEN REAL ESTATE THEN YOU'LL HAVE TO EXPAND THE TEXT VIEW
+    
   //  ((UINavigationItem *)[self.navigationBar.items objectAtIndex:0]).title = quest.name;
-    [exitToButton setTitle:@"GO" forState:UIControlStateNormal];
-    [exitToButton addTarget:self action:@selector(exit:) forControlEvents:UIControlEventTouchUpInside];
-    self.questDescriptionBox.text = self.quest.description;
+    
+    if (!(self.quest.exitToTabName == (id)[NSNull null] || self.quest.exitToTabName.length == 0 ||[self.quest.exitToTabName isEqualToString:@"NONE"])){
+        NSString *buttonTitle = NSLocalizedString(@"GoToKey", nil);
+        buttonTitle = [buttonTitle stringByAppendingString:@" "];
+        buttonTitle = [buttonTitle stringByAppendingString:self.quest.exitToTabName];
+        [exitToButton setTitle:buttonTitle forState:UIControlStateNormal];
+        [exitToButton setTitle:buttonTitle forState:UIControlStateHighlighted];
+        [exitToButton addTarget:self action:@selector(exit:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    else exitToButton.hidden = YES;
+    NSString *text = self.quest.description;
+    if ([text rangeOfString:@"<html>"].location == NSNotFound) text = [NSString stringWithFormat:kQuestDetailsHtmlTemplate, text];
+    [questDescriptionWebView loadHTMLString:text baseURL:nil];
     UIImage *iconImage;
     if(self.quest.iconMediaId != 0){
         Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: self.quest.iconMediaId];
@@ -37,6 +76,11 @@
     }
     else iconImage = [UIImage imageNamed:@"item.png"];
     [self.questImageView setImage: iconImage];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [questDescriptionWebView stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML = \"\";"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -48,20 +92,6 @@
 -(void) exit:(id)sender{
     [[self navigationController] popToRootViewControllerAnimated:YES];
     if (!(self.quest.exitToTabName == (id)[NSNull null] || self.quest.exitToTabName.length == 0 ||[self.quest.exitToTabName isEqualToString:@"NONE"])){
-        if ([self.quest.exitToTabName isEqualToString:@"QUESTS"])
-            self.quest.exitToTabName = NSLocalizedString(@"QuestViewTitleKey",@"");
-        else if([self.quest.exitToTabName isEqualToString:@"GPS"])
-            self.quest.exitToTabName = NSLocalizedString(@"MapViewTitleKey",@"");
-        else if([self.quest.exitToTabName isEqualToString:@"INVENTORY"])
-            self.quest.exitToTabName = NSLocalizedString(@"InventoryViewTitleKey",@"");
-        else if([self.quest.exitToTabName isEqualToString:@"QR"])
-            self.quest.exitToTabName = NSLocalizedString(@"QRScannerTitleKey",@"");
-        else if([self.quest.exitToTabName isEqualToString:@"PLAYER"])
-            self.quest.exitToTabName = NSLocalizedString(@"PlayerTitleKey",@"");
-        else if([self.quest.exitToTabName isEqualToString:@"NOTE"])
-            self.quest.exitToTabName = NSLocalizedString(@"NotebookTitleKey",@"");
-        else if([self.quest.exitToTabName isEqualToString:@"PICKGAME"])
-            self.quest.exitToTabName = NSLocalizedString(@"GamePickerTitleKey",@"");
         NSString *tab;
         for(int i = 0;i < [[RootViewController sharedRootViewController].tabBarController.viewControllers count];i++){
             tab = [[[RootViewController sharedRootViewController].tabBarController.viewControllers objectAtIndex:i] title];
@@ -72,7 +102,11 @@
             }
         }
     }
-    else [RootViewController sharedRootViewController].tabBarController.selectedIndex = 1;
+    //else [RootViewController sharedRootViewController].tabBarController.selectedIndex = 1;
 }
 
+- (void)viewDidUnload {
+    questDescriptionWebView = nil;
+    [super viewDidUnload];
+}
 @end

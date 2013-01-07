@@ -15,13 +15,12 @@
     Quest *quest;
     
     IBOutlet UIImageView *questImageView;
-    IBOutlet UITextView *questDescriptionBox;
+    IBOutlet UIWebView *questDescriptionWebView;
     IBOutlet UIButton    *exitToButton;
 }
 
 @property(nonatomic) Quest *quest;
 @property(nonatomic) IBOutlet UIImageView *questImageView;
-@property(nonatomic) IBOutlet UITextView *questDescriptionBox;
 @property(nonatomic) IBOutlet UIButton    *exitToButton;
 
 - (id)initWithQuest: (Quest *) inputQuest;
