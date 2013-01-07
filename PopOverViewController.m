@@ -57,11 +57,9 @@ NSString *const kPopOverHtmlTemplate =
     semiTransparentView.backgroundColor = [[UIColor alloc] initWithRed:0 green:0 blue:0 alpha:0.5];
     [self.view insertSubview:semiTransparentView atIndex:1];
     
-
-    
-    if(!player) player = [[AVAudioPlayer alloc] init];
-    if(!ARISMoviePlayer) ARISMoviePlayer = [[ARISMoviePlayerViewController alloc] init];
-    if(!imageView) imageView = [[AsyncMediaImageView alloc] init];
+    // Drawing with a white stroke color
+    CGContextRef context=UIGraphicsGetCurrentContext();
+    CGContextSetRGBStrokeColor(context, 1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -92,6 +90,10 @@ NSString *const kPopOverHtmlTemplate =
     popOverWebViewMedia.scrollView.bounces = NO;
     popOverWebViewNoMedia.scrollView.bounces = NO;
     
+    if(!player) player = [[AVAudioPlayer alloc] init];
+    if(!ARISMoviePlayer) ARISMoviePlayer = [[ARISMoviePlayerViewController alloc] init];
+    if(!imageView) imageView = [[AsyncMediaImageView alloc] init];
+    
     [continueButtonMedia setTitle:NSLocalizedString(@"OkKey", nil) forState:UIControlStateNormal];
     [continueButtonMedia setTitle:NSLocalizedString(@"OkKey", nil) forState:UIControlStateHighlighted];
     [continueButtonNoMedia setTitle:NSLocalizedString(@"OkKey", nil) forState:UIControlStateNormal];
@@ -119,32 +121,35 @@ NSString *const kPopOverHtmlTemplate =
     lbl_popOverDescription.text = description;
 
     popOverWebView = hasMedia ? popOverWebViewMedia : popOverWebViewNoMedia;
-    // if ([text rangeOfString:@"<html>"].location == NSNotFound)
-    text = [NSString stringWithFormat:kPopOverHtmlTemplate, text];
+    if ([text rangeOfString:@"<html>"].location == NSNotFound) text = [NSString stringWithFormat:kPopOverHtmlTemplate, text];
     [popOverWebView loadHTMLString:text baseURL:nil];
     
     if(mediaId != 0) {
         [ARISMoviePlayer.view removeFromSuperview];
         [imageView removeFromSuperview];
         if([media.type isEqualToString: kMediaTypeVideo]){
-            //ARISMoviePlayer.view.frame = mediaView.frame;
+            CGRect movieFrame = mediaView.frame;
+            movieFrame.origin.x = 0;
+            movieFrame.origin.y = 0;
+            [ARISMoviePlayer.view setFrame:movieFrame];
+            ARISMoviePlayer.view.backgroundColor = [UIColor clearColor];
+            for(UIView* subV in ARISMoviePlayer.moviePlayer.view.subviews) subV.backgroundColor = [UIColor clearColor];
             [mediaView insertSubview: ARISMoviePlayer.view belowSubview:loadingIndicator];
             [self playAudioOrVideoFromMedia:media];
         }
         else if([media.type isEqualToString: kMediaTypeAudio]){
-            //ARISMoviePlayer.view.frame = mediaView.frame;
             [mediaView insertSubview: ARISMoviePlayer.view belowSubview:loadingIndicator];
             [self playAudioOrVideoFromMedia:media];
         }
         else if([media.type isEqualToString: kMediaTypeImage]){
-            //imageView.frame = mediaView.frame;
+            CGRect imageFrame = mediaView.frame;
+            imageFrame.origin.x = 0;
+            imageFrame.origin.y = 0;
+            [imageView setFrame:imageFrame];
             [imageView loadImageFromMedia:media];
             [mediaView addSubview: imageView];
             loadingIndicator.hidden = YES;
         }
-        [ARISMoviePlayer.view setNeedsDisplay];
-        [imageView setNeedsDisplay];
-        [mediaView setNeedsDisplay];
     }
 }
 
@@ -165,14 +170,13 @@ NSString *const kPopOverHtmlTemplate =
     }
     else{
         NSLog(@"PopOver: Playing through MPMoviePlayerController");
-        ARISMoviePlayer.moviePlayer.shouldAutoplay = YES;
-        ARISMoviePlayer.moviePlayer.movieSourceType = MPMovieSourceTypeStreaming;
+        ARISMoviePlayer.moviePlayer.movieSourceType = MPMovieSourceTypeUnknown;
         [ARISMoviePlayer.moviePlayer setContentURL: [NSURL URLWithString:media.url]];
         [ARISMoviePlayer.moviePlayer setControlStyle:MPMovieControlStyleNone];
         [ARISMoviePlayer.moviePlayer setFullscreen:NO];
         [ARISMoviePlayer.moviePlayer prepareToPlay];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(MPMoviePlayerLoadStateDidChangeNotification:) name:MPMoviePlayerLoadStateDidChangeNotification object:ARISMoviePlayer.moviePlayer];
-
+        ARISMoviePlayer.moviePlayer.shouldAutoplay = YES;
         loadingIndicator.hidden = NO;
         loadingIndicator.hidesWhenStopped = YES;
         [loadingIndicator startAnimating];
@@ -204,6 +208,9 @@ NSString *const kPopOverHtmlTemplate =
 
 
 - (IBAction)continuePressed:(id)sender {
+    
+    if(ARISMoviePlayer.moviePlayer.playbackState == MPMoviePlaybackStatePlaying) [ARISMoviePlayer.moviePlayer pause];
+//    if(player.isPlaying) [player stop];
     [[RootViewController sharedRootViewController] showPopOver];
 }
 
