@@ -56,10 +56,6 @@ NSString *const kPopOverHtmlTemplate =
     semiTransparentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     semiTransparentView.backgroundColor = [[UIColor alloc] initWithRed:0 green:0 blue:0 alpha:0.5];
     [self.view insertSubview:semiTransparentView atIndex:1];
-    
-    // Drawing with a white stroke color
-    CGContextRef context=UIGraphicsGetCurrentContext();
-    CGContextSetRGBStrokeColor(context, 1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -75,17 +71,16 @@ NSString *const kPopOverHtmlTemplate =
     
     imageView = [[AsyncMediaImageView alloc] init];
     
+    [mainViewNoMediaContentView.layer setCornerRadius:10.0];
+    [mainViewMediaContentView.layer setCornerRadius:10.0];
+    
     [mainViewNoMedia.layer setCornerRadius:15.0f];
-    mainViewNoMedia.layer.borderColor = [UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:1.0f].CGColor;// [UIColor grayColor].CGColor;
+    mainViewNoMedia.layer.borderColor = [UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:1.0f].CGColor;
     mainViewNoMedia.layer.borderWidth = 2.0f;
     
     [mainViewMedia.layer setCornerRadius:15.0f];
-    mainViewMedia.layer.borderColor = [UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:1.0f].CGColor;// [UIColor grayColor].CGColor;
+    mainViewMedia.layer.borderColor = [UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:1.0f].CGColor;
     mainViewMedia.layer.borderWidth = 2.0f;
-    
-    [mainViewNoMediaContentView.layer setCornerRadius:10.0];
-
-    [mainViewMediaContentView.layer setCornerRadius:10.0];
     
     popOverWebViewMedia.scrollView.bounces = NO;
     popOverWebViewNoMedia.scrollView.bounces = NO;
