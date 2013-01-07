@@ -57,12 +57,20 @@ NSString *const kPopOverHtmlTemplate =
     semiTransparentView.backgroundColor = [[UIColor alloc] initWithRed:0 green:0 blue:0 alpha:0.5];
     [self.view insertSubview:semiTransparentView atIndex:1];
     
+    // As a bonus, we'll combine arcs to create a round rectangle!
+    
+    // Drawing with a white stroke color
+    CGContextRef context=UIGraphicsGetCurrentContext();
+    CGContextSetRGBStrokeColor(context, 1.0f, 1.0f, 1.0f, 1.0f);
+    
     if(!player) player = [[AVAudioPlayer alloc] init];
     if(!ARISMoviePlayer) ARISMoviePlayer = [[ARISMoviePlayerViewController alloc] init];
     if(!imageView) imageView = [[AsyncMediaImageView alloc] init];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    [popOverWebViewMedia stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML = \"\";"];
+    [popOverWebViewNoMedia stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML = \"\";"];
     [backgroundImage removeFromSuperview];
     [semiTransparentView removeFromSuperview];
 }
@@ -73,21 +81,17 @@ NSString *const kPopOverHtmlTemplate =
     
     imageView = [[AsyncMediaImageView alloc] init];
     
-    [mainViewNoMedia.layer setCornerRadius:15.0];
-    mainViewNoMedia.layer.borderColor = [UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:1.0].CGColor;// [UIColor grayColor].CGColor;
-    mainViewNoMedia.layer.borderWidth = 3.0f;
+    [mainViewNoMedia.layer setCornerRadius:15.0f];
+    mainViewNoMedia.layer.borderColor = [UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:1.0f].CGColor;// [UIColor grayColor].CGColor;
+    mainViewNoMedia.layer.borderWidth = 2.0f;
     
-    [mainViewMedia.layer setCornerRadius:15.0];
-    mainViewMedia.layer.borderColor = [UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:1.0].CGColor;// [UIColor grayColor].CGColor;
-    mainViewMedia.layer.borderWidth = 3.0f;
+    [mainViewMedia.layer setCornerRadius:15.0f];
+    mainViewMedia.layer.borderColor = [UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:1.0f].CGColor;// [UIColor grayColor].CGColor;
+    mainViewMedia.layer.borderWidth = 2.0f;
     
-    [mainViewNoMediaContentView.layer setCornerRadius:15.0];
-    //mainViewNoMediaContentView.layer.borderColor = [UIColor grayColor].CGColor;
-    //mainViewNoMediaContentView.layer.borderWidth = 1.0f;
-    
-    [mainViewMediaContentView.layer setCornerRadius:15.0];
-    //mainViewMediaContentView.layer.borderColor = [UIColor grayColor].CGColor;
-    //mainViewMediaContentView.layer.borderWidth = 1.0f;
+    [mainViewNoMediaContentView.layer setCornerRadius:10.0];
+
+    [mainViewMediaContentView.layer setCornerRadius:10.0];
     
     popOverWebViewMedia.scrollView.bounces = NO;
     popOverWebViewNoMedia.scrollView.bounces = NO;
@@ -101,7 +105,7 @@ NSString *const kPopOverHtmlTemplate =
 }
 
 - (void) setTitle:(NSString *)title description:(NSString *)description webViewText: (NSString *)text andMediaId: (int) mediaId {
-       
+
     BOOL hasMedia = (mediaId != 0);
     Media *media;
     if(hasMedia) {
