@@ -57,11 +57,7 @@ NSString *const kPopOverHtmlTemplate =
     semiTransparentView.backgroundColor = [[UIColor alloc] initWithRed:0 green:0 blue:0 alpha:0.5];
     [self.view insertSubview:semiTransparentView atIndex:1];
     
-    // As a bonus, we'll combine arcs to create a round rectangle!
-    
-    // Drawing with a white stroke color
-    CGContextRef context=UIGraphicsGetCurrentContext();
-    CGContextSetRGBStrokeColor(context, 1.0f, 1.0f, 1.0f, 1.0f);
+
     
     if(!player) player = [[AVAudioPlayer alloc] init];
     if(!ARISMoviePlayer) ARISMoviePlayer = [[ARISMoviePlayerViewController alloc] init];

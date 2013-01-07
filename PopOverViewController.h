@@ -10,14 +10,15 @@
 #import <QuartzCore/QuartzCore.h>
 #import <AVFoundation/AVFoundation.h>
 
+#import "PopOverContentView.h"
 #import "AsyncMediaImageView.h"
 #import "ARISMoviePlayerViewController.h"
 #import "Media.h"
 
 @interface PopOverViewController : UIViewController<AsyncMediaImageViewDelegate, UIScrollViewDelegate, AVAudioPlayerDelegate> {
     
-    IBOutlet UIView *mainViewNoMedia;
-    IBOutlet UIView *mainViewMedia;
+    IBOutlet PopOverContentView *mainViewNoMedia;
+    IBOutlet PopOverContentView *mainViewMedia;
     IBOutlet UIView *mainViewNoMediaContentView;
     IBOutlet UIView *mainViewMediaContentView;
     UIView *mainView;

@@ -202,6 +202,7 @@
 		AA1771A01652D33200A3836D /* libPusher-combined.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA17719F1652D33200A3836D /* libPusher-combined.a */; };
 		AA1E2D4E1652CC6000219535 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4D1652CC6000219535 /* libicucore.dylib */; };
 		AA1E2D501652CC7500219535 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4F1652CC7500219535 /* Security.framework */; };
+		AA763156169B68A800860665 /* PopOverContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA763155169B68A800860665 /* PopOverContentView.m */; };
 		AA8330551684CC0E00C28960 /* ARISZBarReaderWrapperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8330541684CC0E00C28960 /* ARISZBarReaderWrapperViewController.m */; };
 		AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB0A5BA3120365420065CE68 /* Localizable.strings */; };
 		AB0DE7B611556EC200A6EC3E /* ARCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE7AF11556EC200A6EC3E /* ARCoordinate.m */; };
@@ -761,6 +762,8 @@
 		AA1E2D4C1652CA8A00219535 /* SRWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRWebSocket.h; sourceTree = "<group>"; };
 		AA1E2D4D1652CC6000219535 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		AA1E2D4F1652CC7500219535 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		AA763154169B68A800860665 /* PopOverContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopOverContentView.h; sourceTree = "<group>"; };
+		AA763155169B68A800860665 /* PopOverContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopOverContentView.m; sourceTree = "<group>"; };
 		AA8330531684CC0E00C28960 /* ARISZBarReaderWrapperViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISZBarReaderWrapperViewController.h; sourceTree = "<group>"; };
 		AA8330541684CC0E00C28960 /* ARISZBarReaderWrapperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISZBarReaderWrapperViewController.m; sourceTree = "<group>"; };
 		AB0A5BA4120365420065CE68 /* en */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1371,6 +1374,8 @@
 				AA1E2D4D1652CC6000219535 /* libicucore.dylib */,
 				DDC495D916407DE500D4C063 /* PopOverViewController.h */,
 				DDC495DA16407DE500D4C063 /* PopOverViewController.m */,
+				AA763154169B68A800860665 /* PopOverContentView.h */,
+				AA763155169B68A800860665 /* PopOverContentView.m */,
 				DDC495DB16407DE500D4C063 /* PopOverViewController.xib */,
 				3A69944A1625F6610015B48A /* newBanner.png */,
 				ABAFBAC9145A0B8D0044491C /* GPX Locations */,
@@ -2618,6 +2623,7 @@
 				DDCD2DE316275A5B003AAC64 /* QuestDetailsViewController.m in Sources */,
 				DDC495DC16407DE500D4C063 /* PopOverViewController.m in Sources */,
 				AA8330551684CC0E00C28960 /* ARISZBarReaderWrapperViewController.m in Sources */,
+				AA763156169B68A800860665 /* PopOverContentView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
