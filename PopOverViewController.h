@@ -18,6 +18,8 @@
     
     IBOutlet UIView *mainViewNoMedia;
     IBOutlet UIView *mainViewMedia;
+    IBOutlet UIView *mainViewNoMediaContentView;
+    IBOutlet UIView *mainViewMediaContentView;
     UIView *mainView;
     
     IBOutlet UILabel *lbl_popOverTitleNoMedia;

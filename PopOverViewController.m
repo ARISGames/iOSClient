@@ -18,7 +18,7 @@ NSString *const kPopOverHtmlTemplate =
 @"  html {display: table;}"
 @"	body {"
 @"		background-color: transparent;"
-@"		color: #FFFFFF;"
+@"		color: #000000;"
 @"      display: table-cell;"
 @"      vertical-align: middle;"
 @"      text-align: center;"
@@ -30,7 +30,7 @@ NSString *const kPopOverHtmlTemplate =
 @"  {"
 @"      text-align:left;"
 @"  }"
-@"	a {color: #FFFFFF; text-decoration: underline; }"
+@"	a {color: #000000; text-decoration: underline; }"
 @"	--></style>"
 @"</head>"
 @"<body><p>%@</p></body>"
@@ -73,13 +73,21 @@ NSString *const kPopOverHtmlTemplate =
     
     imageView = [[AsyncMediaImageView alloc] init];
     
-    [mainViewNoMedia.layer setCornerRadius:9.0];
-    mainViewNoMedia.layer.borderColor = [UIColor grayColor].CGColor;
-    mainViewNoMedia.layer.borderWidth = 1.0f;
+    [mainViewNoMedia.layer setCornerRadius:15.0];
+    mainViewNoMedia.layer.borderColor = [UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:1.0].CGColor;// [UIColor grayColor].CGColor;
+    mainViewNoMedia.layer.borderWidth = 3.0f;
     
-    [mainViewMedia.layer setCornerRadius:9.0];
-    mainViewMedia.layer.borderColor = [UIColor grayColor].CGColor;
-    mainViewMedia.layer.borderWidth = 1.0f;
+    [mainViewMedia.layer setCornerRadius:15.0];
+    mainViewMedia.layer.borderColor = [UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:1.0].CGColor;// [UIColor grayColor].CGColor;
+    mainViewMedia.layer.borderWidth = 3.0f;
+    
+    [mainViewNoMediaContentView.layer setCornerRadius:15.0];
+    //mainViewNoMediaContentView.layer.borderColor = [UIColor grayColor].CGColor;
+    //mainViewNoMediaContentView.layer.borderWidth = 1.0f;
+    
+    [mainViewMediaContentView.layer setCornerRadius:15.0];
+    //mainViewMediaContentView.layer.borderColor = [UIColor grayColor].CGColor;
+    //mainViewMediaContentView.layer.borderWidth = 1.0f;
     
     popOverWebViewMedia.scrollView.bounces = NO;
     popOverWebViewNoMedia.scrollView.bounces = NO;
