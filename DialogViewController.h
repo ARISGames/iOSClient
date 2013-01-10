@@ -50,6 +50,7 @@
 	SceneParser		*parser;
 	
 	NSString        *pcTitle;
+    NSString        *leaveButtonTitle;
     
 	Npc				*currentNpc;
 	Node			*currentNode;

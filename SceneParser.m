@@ -14,6 +14,7 @@ NSString *const kTagPc = @"pc";
 NSString *const kTagNpc = @"npc";
 NSString *const kTagDialog = @"dialog";
 NSString *const kTagPcTitle = @"pcTitle";
+NSString *const kTagLeaveButtonTitle = @"leaveButtonTitle";
 NSString *const kTagHideLeaveConversationButton = @"hideLeaveConversationButton";
 NSString *const kTagHideAdjustTextAreaButton = @"hideAdjustTextAreaButton";
 NSString *const kTagAdjustTextArea = @"adjustTextArea";
@@ -93,6 +94,10 @@ NSString *const kTagNotification = @"notification";
     
     if ([attributeDict objectForKey:kTagPcTitle]) {
         [self.delegate setPcTitle:[attributeDict objectForKey:kTagPcTitle]];
+    }
+    
+    if ([attributeDict objectForKey:kTagLeaveButtonTitle]) {
+        [self.delegate setLeaveButtonTitle:[attributeDict objectForKey:kTagLeaveButtonTitle]];
     }
     
     if ([attributeDict objectForKey:kTagVibrate]) {

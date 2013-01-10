@@ -98,6 +98,7 @@ NSString *const kDialogHtmlTemplate =
 	lastPcId = 0;
 	currentNode = nil;
     pcTitle = NSLocalizedString(@"DialogPlayerName",@"");
+    leaveButtonTitle = NSLocalizedString(@"DialogEnd",@"");
 	self.closingScriptPlaying = NO;
 	self.textboxSize = 1;
     self.hideLeaveConversationButton = NO;
@@ -680,8 +681,8 @@ NSString *const kDialogHtmlTemplate =
 		
 		if (scriptIndex == [currentScript count] && self.closingScriptPlaying ) {
 			//We are at the end of the script and no conversations exist, the next tap on the button is going to end the dialog
-			[pcContinueButton setTitle: NSLocalizedString(@"DialogEnd",@"") forState: UIControlStateNormal];
-			[pcContinueButton setTitle: NSLocalizedString(@"DialogEnd",@"") forState: UIControlStateHighlighted];
+			[pcContinueButton setTitle: leaveButtonTitle forState: UIControlStateNormal];
+			[pcContinueButton setTitle: leaveButtonTitle forState: UIControlStateHighlighted];
 
 		}
 	}
@@ -1027,7 +1028,7 @@ NSString *const kDialogHtmlTemplate =
         else cell.textLabel.textColor = [UIColor colorWithRed:(50.0/255.0) green:(79.0/255.0) blue:(133.0/255.0) alpha:1];
 	}
 	else if (indexPath.row == 0) {
-		cell.textLabel.text = NSLocalizedString(@"DialogEnd",@"");
+		cell.textLabel.text = leaveButtonTitle;
         cell.textLabel.textColor = [UIColor colorWithRed:(50.0/255.0) green:(79.0/255.0) blue:(133.0/255.0) alpha:1];
 	}
 	
@@ -1124,8 +1125,12 @@ NSString *const kDialogHtmlTemplate =
     if(adjust) [self toggleFullScreenTextMode];
 }
 
--(void) setPcTitle:(NSString *)apcTitle {
-    pcTitle = apcTitle;
+-(void) setPcTitle:(NSString *)aPcTitle {
+    pcTitle = aPcTitle;
+}
+
+-(void) setLeaveButtonTitle:(NSString *)aLeaveButtonTitle {
+    leaveButtonTitle = aLeaveButtonTitle;
 }
 
 #pragma mark Scroll View
