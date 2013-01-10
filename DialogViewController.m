@@ -364,10 +364,11 @@ NSString *const kDialogHtmlTemplate =
             Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.videoId];
             
             //Create movie player object
-            ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+            ARISMoviePlayerViewController *mMoviePlayer  = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+
             mMoviePlayer.moviePlayer.shouldAutoplay = NO;
-            [mMoviePlayer.moviePlayer prepareToPlay];		
-            [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
+            [mMoviePlayer.moviePlayer prepareToPlay];
+            [[RootViewController sharedRootViewController] presentMoviePlayerViewControllerAnimated:mMoviePlayer];
             
             ++scriptIndex;
             [self continueScript];
@@ -384,7 +385,6 @@ NSString *const kDialogHtmlTemplate =
             [self continueScript];
         }
         else if(currentScene.webId != 0) {
-       
             webpageViewController *webPageViewController = [[webpageViewController alloc] initWithNibName:@"webpageViewController" bundle: [NSBundle mainBundle]];
             webPageViewController.webPage = [[AppModel sharedAppModel] webPageForWebPageID:currentScene.webId];
             webPageViewController.delegate = self;
@@ -409,10 +409,9 @@ NSString *const kDialogHtmlTemplate =
             ++scriptIndex;
             [self continueScript];
         }
-        
         else{
-        [self applyScene:currentScene];
-		++scriptIndex;
+            [self applyScene:currentScene];
+            ++scriptIndex;
         }
 	}
 	else { 	//End of Script. Display Player Options
