@@ -361,7 +361,6 @@ NSString *const kDialogHtmlTemplate =
         
         if (currentScene.videoId !=0) {
             //Setup the Button
-	
             Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.videoId];
             
             //Create movie player object
@@ -1115,11 +1114,11 @@ NSString *const kDialogHtmlTemplate =
 
 #pragma mark Rotation
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return YES;
+    return UIInterfaceOrientationPortrait;
 }
 
 -(BOOL)shouldAutorotate{
-    return YES;
+    return NO;
 }
 
 -(NSInteger)supportedInterfaceOrientations{

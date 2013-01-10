@@ -70,7 +70,11 @@ NSString *const kQuestDetailsHtmlTemplate =
     if ([text rangeOfString:@"<html>"].location == NSNotFound) text = [NSString stringWithFormat:kQuestDetailsHtmlTemplate, text];
     [questDescriptionWebView loadHTMLString:text baseURL:nil];
     UIImage *iconImage;
-    if(self.quest.iconMediaId != 0){
+    if(self.quest.mediaId != 0){
+        Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: self.quest.mediaId];
+        iconImage = [UIImage imageWithData:iconMedia.image];
+    }
+    else if(self.quest.iconMediaId != 0){
         Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: self.quest.iconMediaId];
         iconImage = [UIImage imageWithData:iconMedia.image];
     }

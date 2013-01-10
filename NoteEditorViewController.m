@@ -663,7 +663,6 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
             ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:noteC.getMedia.url]];
             mMoviePlayer.moviePlayer.shouldAutoplay = YES;
             [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
-            
         }
     }
     //[noteC release];

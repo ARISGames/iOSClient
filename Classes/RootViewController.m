@@ -875,7 +875,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
         tmpTab = [tmpTabList objectAtIndex:y];
         if ([tmpTab.tabName isEqualToString:@"QUESTS"]){
             tmpTab.tabName = NSLocalizedString(@"QuestViewTitleKey",@"");
-     //       isIconQuestsView = (Boolean)tmpTab.tabDetail1;
+            isIconQuestsView = (Boolean)tmpTab.tabDetail1;
         }
         else if([tmpTab.tabName isEqualToString:@"GPS"]) tmpTab.tabName = NSLocalizedString(@"MapViewTitleKey",@"");
         else if([tmpTab.tabName isEqualToString:@"INVENTORY"]) tmpTab.tabName = NSLocalizedString(@"InventoryViewTitleKey",@"");
