@@ -13,8 +13,9 @@
 - (void) setHideLeaveConversationButton:(BOOL) hide;
 - (BOOL) hideLeaveConversationButton;
 - (void) hideAdjustTextAreaButton:(BOOL) hide;
-- (void) makeTextAreaFullScreen;
+- (void) adjustTextArea:(NSString *)area;
 - (void) didFinishParsing;
+- (void) setPcTitle:(NSString *)pcTitle;
 @end
 
 

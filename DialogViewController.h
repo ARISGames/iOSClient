@@ -48,7 +48,9 @@
     NSString        *exitToTabVal;
 	UIView			*cachedScrollView;
 	SceneParser		*parser;
-		
+	
+	NSString        *pcTitle;
+    
 	Npc				*currentNpc;
 	Node			*currentNode;
 	NSArray			*optionList;

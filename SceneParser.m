@@ -13,9 +13,10 @@ const float kDefaultZoomTime = 1.0;
 NSString *const kTagPc = @"pc";
 NSString *const kTagNpc = @"npc";
 NSString *const kTagDialog = @"dialog";
+NSString *const kTagPcTitle = @"pcTitle";
 NSString *const kTagHideLeaveConversationButton = @"hideLeaveConversationButton";
 NSString *const kTagHideAdjustTextAreaButton = @"hideAdjustTextAreaButton";
-NSString *const kTagMakeTextAreaFullScreen = @"makeTextAreaFullScreen";
+NSString *const kTagAdjustTextArea = @"adjustTextArea";
 NSString *const kTagExitToTab = @"exitToTab";
 NSString *const kTagExitToPlaque = @"exitToPlaque";
 NSString *const kTagExitToWebPage = @"exitToWebPage";
@@ -81,12 +82,18 @@ NSString *const kTagNotification = @"notification";
         [self.delegate hideAdjustTextAreaButton: ([attributeDict objectForKey:kTagHideAdjustTextAreaButton] ? [[attributeDict objectForKey:kTagHideAdjustTextAreaButton]intValue] : 0)];
     }
     
-    if ([attributeDict objectForKey:kTagMakeTextAreaFullScreen]) [self.delegate makeTextAreaFullScreen];
+    if ([attributeDict objectForKey:kTagAdjustTextArea]){
+        [self.delegate adjustTextArea: [attributeDict objectForKey:kTagAdjustTextArea]];
+    }
     
     if ([attributeDict objectForKey:kTagTitle]) {
         title = [attributeDict objectForKey:kTagTitle] ? [attributeDict objectForKey:kTagTitle] : @"";
     }
     else title = nil;
+    
+    if ([attributeDict objectForKey:kTagPcTitle]) {
+        [self.delegate setPcTitle:[attributeDict objectForKey:kTagPcTitle]];
+    }
     
     if ([attributeDict objectForKey:kTagVibrate]) {
         if([[attributeDict objectForKey:kTagVibrate]intValue] > 0) vibrate = YES;

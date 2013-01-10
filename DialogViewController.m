@@ -97,6 +97,7 @@ NSString *const kDialogHtmlTemplate =
 	//General Setup
 	lastPcId = 0;
 	currentNode = nil;
+    pcTitle = NSLocalizedString(@"DialogPlayerName",@"");
 	self.closingScriptPlaying = NO;
 	self.textboxSize = 1;
     self.hideLeaveConversationButton = NO;
@@ -493,7 +494,7 @@ NSString *const kDialogHtmlTemplate =
         cachedScrollView = pcImage;
         [pcImageScrollView zoomToRect:[pcImage frame] animated:NO];
         
-        self.title = NSLocalizedString(@"DialogPlayerName",@"");
+        self.title = pcTitle;
 		
 	}
 	else {
@@ -511,7 +512,7 @@ NSString *const kDialogHtmlTemplate =
             cachedScrollView = pcImage;
             [pcImageScrollView zoomToRect:[pcImage frame] animated:NO];
             
-            self.title = NSLocalizedString(@"DialogPlayerName",@"");
+            self.title = pcTitle;
             [self finishApplyingPlayerOptions:currentNode.options];
 
 		}
@@ -563,7 +564,7 @@ NSString *const kDialogHtmlTemplate =
         cachedScrollView = pcImage;
         [pcImageScrollView zoomToRect:[pcImage frame] animated:NO];
         
-        self.title = NSLocalizedString(@"DialogPlayerName",@"");
+        self.title = pcTitle;
 		NSLog(@"DialogViewController: Player options exist or no closing script exists, put them on the screen");
 
         NSSortDescriptor *sortDescriptor;
@@ -665,7 +666,7 @@ NSString *const kDialogHtmlTemplate =
 	if (cachedScene.isPc) {
         NSLog(@"Dialog VC: finishScene: This is the PC");
         if (![cachedScene.title isEqualToString:@""] && (cachedScene.title != nil)) self.title = cachedScene.title;
-        else self.title = NSLocalizedString(@"DialogPlayerName",@"");
+        else self.title = pcTitle;
 		characterView = pcView;
         characterWebView = pcWebView;
 		lastCharacterScrollView = npcScrollView;
@@ -1111,11 +1112,20 @@ NSString *const kDialogHtmlTemplate =
     else self.navigationItem.rightBarButtonItem = self.textSizeButton;
 }
 
--(void) makeTextAreaFullScreen {
-    if(textboxSize != 2){ //if not already fullscreen
-    textboxSize = 1; //force to size before fullscreen so toggle will bring the textBox to fullScreen
-    [self toggleFullScreenTextMode];
+-(void) adjustTextArea:(NSString *)area {
+    BOOL adjust = YES;
+    if([area isEqualToString:@"hidden"]) {
+        textboxSize = 2;
+        [self hideAdjustTextAreaButton:NO];
     }
+    else if([area isEqualToString:@"half"]) textboxSize = 0;
+    else if([area isEqualToString:@"full"]) textboxSize = 1;
+    else adjust = NO;
+    if(adjust) [self toggleFullScreenTextMode];
+}
+
+-(void) setPcTitle:(NSString *)apcTitle {
+    pcTitle = apcTitle;
 }
 
 #pragma mark Scroll View
