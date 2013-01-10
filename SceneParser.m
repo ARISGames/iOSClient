@@ -14,6 +14,8 @@ NSString *const kTagPc = @"pc";
 NSString *const kTagNpc = @"npc";
 NSString *const kTagDialog = @"dialog";
 NSString *const kTagHideLeaveConversationButton = @"hideLeaveConversationButton";
+NSString *const kTagHideAdjustTextAreaButton = @"hideAdjustTextAreaButton";
+NSString *const kTagMakeTextAreaFullScreen = @"makeTextAreaFullScreen";
 NSString *const kTagExitToTab = @"exitToTab";
 NSString *const kTagExitToPlaque = @"exitToPlaque";
 NSString *const kTagExitToWebPage = @"exitToWebPage";
@@ -74,6 +76,12 @@ NSString *const kTagNotification = @"notification";
     if ([attributeDict objectForKey:kTagHideLeaveConversationButton]) {
         [self.delegate setHideLeaveConversationButton: ([attributeDict objectForKey:kTagHideLeaveConversationButton] ? [[attributeDict objectForKey:kTagHideLeaveConversationButton]intValue] : 0)];
     }
+    
+    if ([attributeDict objectForKey:kTagHideAdjustTextAreaButton]) {
+        [self.delegate hideAdjustTextAreaButton: ([attributeDict objectForKey:kTagHideAdjustTextAreaButton] ? [[attributeDict objectForKey:kTagHideAdjustTextAreaButton]intValue] : 0)];
+    }
+    
+    if ([attributeDict objectForKey:kTagMakeTextAreaFullScreen]) [self.delegate makeTextAreaFullScreen];
     
     if ([attributeDict objectForKey:kTagTitle]) {
         title = [attributeDict objectForKey:kTagTitle] ? [attributeDict objectForKey:kTagTitle] : @"";

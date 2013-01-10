@@ -1106,6 +1106,18 @@ NSString *const kDialogHtmlTemplate =
     return hideLeaveConversationButton;
 }
 
+- (void) hideAdjustTextAreaButton:(BOOL)hide{
+    if(hide) self.navigationItem.rightBarButtonItem = nil;
+    else self.navigationItem.rightBarButtonItem = self.textSizeButton;
+}
+
+-(void) makeTextAreaFullScreen {
+    if(textboxSize != 2){ //if not already fullscreen
+    textboxSize = 1; //force to size before fullscreen so toggle will bring the textBox to fullScreen
+    [self toggleFullScreenTextMode];
+    }
+}
+
 #pragma mark Scroll View
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
 	return cachedScrollView;

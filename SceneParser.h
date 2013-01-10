@@ -12,6 +12,8 @@
 @protocol SceneParserDelegate
 - (void) setHideLeaveConversationButton:(BOOL) hide;
 - (BOOL) hideLeaveConversationButton;
+- (void) hideAdjustTextAreaButton:(BOOL) hide;
+- (void) makeTextAreaFullScreen;
 - (void) didFinishParsing;
 @end
 
