@@ -80,9 +80,18 @@
     reader.supportedOrientationsMask = 0;
     
     // EXAMPLE: disable rarely used I2/5 to improve performance
-    [scanner setSymbology: ZBAR_I25
+    [scanner setSymbology: ZBAR_QRCODE
                    config: ZBAR_CFG_ENABLE
-                       to: 0];
+                       to: 1];
+    [scanner setSymbology: ZBAR_UPCA
+                   config: ZBAR_CFG_ENABLE
+                       to: 1];
+    [scanner setSymbology: ZBAR_UPCE
+                   config: ZBAR_CFG_ENABLE
+                       to: 1];
+    
+    UIView * infoButton = [[[[[reader.view.subviews objectAtIndex:1] subviews] objectAtIndex:0] subviews] objectAtIndex:1];
+    [infoButton setHidden:YES];
     
     // present the controller
     [self presentViewController:reader animated:YES completion:nil];
