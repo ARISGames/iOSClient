@@ -14,7 +14,8 @@
 	NSString *name;
 	NSString *description;
     NSString *exitToTabName;
-    int mediaId;
+    int activeMediaId;
+    int completeMediaId;
 	int iconMediaId;
     int sortNum;
     BOOL isNullQuest;
@@ -24,7 +25,8 @@
 @property(copy, readwrite) NSString *name;
 @property(copy, readwrite) NSString *description;
 @property(copy, readwrite) NSString *exitToTabName;
-@property(readwrite, assign) int mediaId;
+@property(readwrite, assign) int activeMediaId;
+@property(readwrite, assign) int completeMediaId;
 @property(readwrite, assign) int iconMediaId;
 @property(readwrite, assign) int sortNum;
 @property(readwrite, assign) BOOL isNullQuest;

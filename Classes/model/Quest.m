@@ -15,7 +15,8 @@
 @synthesize name, sortNum;
 @synthesize description;
 @synthesize exitToTabName;
-@synthesize mediaId;
+@synthesize activeMediaId;
+@synthesize completeMediaId;
 @synthesize iconMediaId;
 @synthesize isNullQuest;
 

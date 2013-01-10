@@ -2939,7 +2939,8 @@ NSString *const kARISServerServicePackage = @"v1";
         else if([quest.exitToTabName isEqualToString:@"PLAYER"]) quest.exitToTabName = NSLocalizedString(@"PlayerTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"NOTE"]) quest.exitToTabName = NSLocalizedString(@"NotebookTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"PICKGAME"]) quest.exitToTabName = NSLocalizedString(@"GamePickerTitleKey",@"");
-        quest.mediaId = [[activeQuest objectForKey:@"media_id"] intValue];
+        quest.activeMediaId = [[activeQuest objectForKey:@"active_media_id"] intValue];
+        quest.completeMediaId = [[activeQuest objectForKey:@"complete_media_id"] intValue];
 		quest.iconMediaId = [[activeQuest objectForKey:@"icon_media_id"] intValue];
 		[activeQuestObjects addObject:quest];
         
@@ -2964,7 +2965,8 @@ NSString *const kARISServerServicePackage = @"v1";
         else if([quest.exitToTabName isEqualToString:@"PLAYER"]) quest.exitToTabName = NSLocalizedString(@"PlayerTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"NOTE"]) quest.exitToTabName = NSLocalizedString(@"NotebookTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"PICKGAME"]) quest.exitToTabName = NSLocalizedString(@"GamePickerTitleKey",@"");
-		quest.mediaId = [[completedQuest objectForKey:@"media_id"] intValue];
+		quest.activeMediaId = [[completedQuest objectForKey:@"active_media_id"] intValue];
+        quest.completeMediaId = [[completedQuest objectForKey:@"complete_media_id"] intValue];
         quest.iconMediaId = [[completedQuest objectForKey:@"icon_media_id"] intValue];
 		[completedQuestObjects addObject:quest];
         

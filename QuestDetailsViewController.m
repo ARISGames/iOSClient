@@ -51,6 +51,12 @@ NSString *const kQuestDetailsHtmlTemplate =
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
     // Do any additional setup after loading the view from its nib.
     
     //NOTE: HEY PHIL, I ONLY HID THE BUTTON, IF YOU WANT THAT EXTRA SCREEN REAL ESTATE THEN YOU'LL HAVE TO EXPAND THE TEXT VIEW
@@ -69,17 +75,25 @@ NSString *const kQuestDetailsHtmlTemplate =
     NSString *text = self.quest.description;
     if ([text rangeOfString:@"<html>"].location == NSNotFound) text = [NSString stringWithFormat:kQuestDetailsHtmlTemplate, text];
     [questDescriptionWebView loadHTMLString:text baseURL:nil];
-    UIImage *iconImage;
-    if(self.quest.mediaId != 0){
-        Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: self.quest.mediaId];
-        iconImage = [UIImage imageWithData:iconMedia.image];
+    
+    if(self.quest.activeMediaId != 0){
+        Media *questMedia = [[AppModel sharedAppModel] mediaForMediaId: self.quest.activeMediaId];
+        CGRect mediaFrame = questImageView.frame;
+        mediaFrame.origin.x = 0;
+        mediaFrame.origin.y = 0;
+        if([questMedia.type isEqualToString:kNoteContentTypePhoto]){
+            AsyncMediaImageView* mediaView = [[AsyncMediaImageView alloc] initWithFrame:mediaFrame andMediaId:self.quest.activeMediaId];
+            [questImageView addSubview:mediaView];
+        }
+        else {
+            AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:questImageView.frame media:questMedia presentingController:self preloadNow:YES];
+            [self.view addSubview:mediaButton];
+        }
     }
-    else if(self.quest.iconMediaId != 0){
-        Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: self.quest.iconMediaId];
-        iconImage = [UIImage imageWithData:iconMedia.image];
+    else {
+        UIImage *iconImage = [UIImage imageNamed:@"item.png"];
+        [self.questImageView setImage: iconImage];
     }
-    else iconImage = [UIImage imageNamed:@"item.png"];
-    [self.questImageView setImage: iconImage];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

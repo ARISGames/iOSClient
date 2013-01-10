@@ -75,10 +75,9 @@
 					<object class="IBUIImageView" id="583850086">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">293</int>
-						<string key="NSFrame">{{75, 20}, {170, 147}}</string>
+						<string key="NSFrame">{{20, 5}, {280, 162}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -182,9 +181,9 @@
 						<int key="objectID">1</int>
 						<reference key="object" ref="191373211"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="583850086"/>
 							<reference ref="203365387"/>
 							<reference ref="677411162"/>
+							<reference ref="583850086"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -239,7 +238,6 @@
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="exitToButton">UIButton</string>
-						<string key="questDescriptionBox">UITextView</string>
 						<string key="questDescriptionWebView">UIWebView</string>
 						<string key="questImageView">UIImageView</string>
 					</dictionary>
@@ -247,10 +245,6 @@
 						<object class="IBToOneOutletInfo" key="exitToButton">
 							<string key="name">exitToButton</string>
 							<string key="candidateClassName">UIButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="questDescriptionBox">
-							<string key="name">questDescriptionBox</string>
-							<string key="candidateClassName">UITextView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="questDescriptionWebView">
 							<string key="name">questDescriptionWebView</string>

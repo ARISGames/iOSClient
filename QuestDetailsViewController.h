@@ -10,6 +10,7 @@
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
 #import "Quest.h"
+#import "AsyncMediaPlayerButton.h"
 
 @interface QuestDetailsViewController : UIViewController{
     Quest *quest;
