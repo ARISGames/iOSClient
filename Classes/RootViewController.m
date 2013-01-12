@@ -867,7 +867,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"tabIndex"
                                                  ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-    Boolean isIconQuestsView = YES;
+    Boolean isIconQuestsView = NO;
     
     tmpTabList = [[AppModel sharedAppModel].gameTabList sortedArrayUsingDescriptors:sortDescriptors];
     Tab *tmpTab = [[Tab alloc] init];

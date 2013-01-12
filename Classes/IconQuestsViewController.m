@@ -73,20 +73,9 @@ NSString *const kIconQuestsHtmlTemplate =
     [dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
     
 	NSLog(@"IconQuestsViewController: Quests View Loaded");
+    
+    [questIconCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
 	
-}
-
--(void)loadView{
-    [super loadView];
-    
-    CGRect fullScreenRect=CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    UIScrollView *scrollView=[[UIScrollView alloc] initWithFrame:fullScreenRect];
-    scrollView.contentSize=CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
-    initialHeight = self.view.frame.size.height;
-    itemsPerColumnWithoutScrolling = self.view.frame.size.height/ICONHEIGHT + .5;
-    itemsPerColumnWithoutScrolling--;
-    
-    self.view=scrollView;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -137,15 +126,14 @@ NSString *const kIconQuestsHtmlTemplate =
 	NSLog(@"IconQuestsViewController: Refreshing view from model");
 	
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-//	progressLabel.text = [NSString stringWithFormat:@"%d %@ %d %@", [AppModel sharedAppModel].currentGame.completedQuests, NSLocalizedString(@"OfKey", @"Number of Number"), [AppModel sharedAppModel].currentGame.totalQuests, NSLocalizedString(@"QuestsCompleteKey", @"")];
-//	progressView.progress = (float)[AppModel sharedAppModel].currentGame.completedQuests / (float)[AppModel sharedAppModel].currentGame.totalQuests;
-    
+
 	NSLog(@"IconQuestsViewController: refreshViewFromModel: silenceNextServerUpdateCount = %d", silenceNextServerUpdateCount);
 	
+    int newItems = 0;
+    
 	//Update the badge
 	if (silenceNextServerUpdateCount < 1) {
 		//Check if anything is new since last time
-		int newItems = 0;
 		NSArray *newActiveQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"active"];
 		for (Quest *quest in newActiveQuestsArray) {		
 			BOOL match = NO;
@@ -153,7 +141,7 @@ NSString *const kIconQuestsHtmlTemplate =
 				if (existingQuest.questId == quest.questId) match = YES;	
 			}
 			if (match == NO) {
-				newItems ++;
+				newItems++;
                 quest.sortNum = activeSort;
                 activeSort++;
 			}
@@ -198,170 +186,77 @@ NSString *const kIconQuestsHtmlTemplate =
 	
 	self.quests = [NSArray arrayWithObjects:activeQuestsArray, completedQuestsArray, nil];
     
-	[self createIcons];
+    if(newItems >0) [questIconCollectionView reloadData];
 	
 	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
     
 }
 
--(void)createIcons{
-	NSLog(@"IconQuestsVC: Constructing Icons");
-    
-    for (UIView *view in [self.view subviews]) {
-        [view removeFromSuperview];
-    }
-	
-	NSArray *activeQuests = [self.quests objectAtIndex:ACTIVE_SECTION];
-	NSArray *completedQuests = [self.quests objectAtIndex:COMPLETED_SECTION];
-    
-    NSLog(@"Self frame: %f, %f", self.view.frame.size.width, self.view.frame.size.height);
-    
-    for(int i = 0; i < [activeQuests count]; i++){
-        Quest *currentQuest = [activeQuests objectAtIndex:i];
-        int xMargin = truncf((self.view.frame.size.width - ICONSPERROW * ICONWIDTH)/(ICONSPERROW +1));
-        int yMargin = truncf((initialHeight - itemsPerColumnWithoutScrolling * ICONHEIGHT)/(itemsPerColumnWithoutScrolling + 1));
-        int row = (i/ICONSPERROW);
-        int xOrigin = (i % ICONSPERROW) * (xMargin + ICONWIDTH) + xMargin;
-        int yOrigin = row * (yMargin + ICONHEIGHT) + yMargin;
-        
-        UIImage *iconImage;
-        if(currentQuest.iconMediaId != 0){
-          Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: currentQuest.iconMediaId];
-          iconImage = [UIImage imageWithData:iconMedia.image];
-        }
-        else iconImage = [UIImage imageNamed:@"item.png"];
-        IconQuestsButton *iconButton = [[IconQuestsButton alloc] initWithFrame:CGRectMake(xOrigin, yOrigin, ICONWIDTH, ICONHEIGHT) andImage:iconImage andTitle:currentQuest.name];
-        iconButton.tag = i;
-        [iconButton addTarget:self action:@selector(questSelected:) forControlEvents:UIControlEventTouchUpInside];
-        iconButton.imageView.layer.cornerRadius = 9.0;
-        [self.view addSubview:iconButton];
-        [iconButton setNeedsDisplay];
-    }
-    
-    int currentButtonIndex = [activeQuests count];
-    
-    for(int i = 0; i < [completedQuests count]; i++){
-        Quest *currentQuest = [completedQuests objectAtIndex:i];
-        int xMargin = truncf((self.view.frame.size.width - ICONSPERROW * ICONWIDTH)/(ICONSPERROW +1));
-        int yMargin = truncf((initialHeight - itemsPerColumnWithoutScrolling * ICONHEIGHT)/(itemsPerColumnWithoutScrolling + 1));
-        int row = (currentButtonIndex/ICONSPERROW);
-        int xOrigin = (currentButtonIndex % ICONSPERROW) * (xMargin + ICONWIDTH) + xMargin;
-        int yOrigin = row * (yMargin + ICONHEIGHT) + yMargin;
-        
-        UIImage *iconImage;
-        if(currentQuest.iconMediaId != 0){
-            Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: currentQuest.iconMediaId];
-            iconImage = [UIImage imageWithData:iconMedia.image];
-        }
-        else iconImage = [UIImage imageNamed:@"item.png"];
-        IconQuestsButton *iconButton = [[IconQuestsButton alloc] initWithFrame:CGRectMake(xOrigin, yOrigin, 76, 91) andImage:iconImage andTitle:currentQuest.name];
-        iconButton.tag = currentButtonIndex;
-        [iconButton addTarget:self action:@selector(questSelected:) forControlEvents:UIControlEventTouchUpInside];
-        iconButton.imageView.layer.cornerRadius = 9.0;
-        [self.view addSubview:iconButton];
-        [iconButton setNeedsDisplay];
-        currentButtonIndex++;
-    }
-	
-	NSLog(@"QuestsVC: Icons created");
+#pragma mark CollectionView DataSource and Delegate Methods
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return 1;
 }
 
-- (void) questSelected: (id)sender {
-    UIButton *button = (UIButton*)sender;
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return [self.quests count];
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
     
     NSArray *activeQuests = [self.quests objectAtIndex:ACTIVE_SECTION];
-	NSArray *completedQuests = [self.quests objectAtIndex:COMPLETED_SECTION];
+    NSArray *completedQuests = [self.quests objectAtIndex:COMPLETED_SECTION];
     
-    Quest *questSelected;
-    if(button.tag >= [activeQuests count]){
-       button.tag -= [activeQuests count];
-       questSelected = [completedQuests objectAtIndex:button.tag];
+    int questNumber = indexPath.item;
+    
+    Quest *currentQuest;
+    if(questNumber >= [activeQuests count]){
+        questNumber -= [activeQuests count];
+        currentQuest = [completedQuests objectAtIndex:questNumber];
     }
-    else questSelected = [activeQuests objectAtIndex:button.tag];
-    QuestDetailsViewController *questDetailsViewController =[[QuestDetailsViewController alloc] initWithQuest: questSelected];
- //   UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:questDetailsViewController];
- //   [self presentViewController:navigationController animated:YES completion:nil];
-    questDetailsViewController.navigationItem.title = questSelected.name;
-    [[self navigationController] pushViewController:questDetailsViewController animated:YES];
-  //  [self presentViewController:questDetailsViewController animated:YES completion:nil];
+    else currentQuest = [activeQuests objectAtIndex:questNumber];
+    
+    UIImage *iconImage;
+    if(currentQuest.iconMediaId != 0){
+        Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: currentQuest.iconMediaId];
+        iconImage = [UIImage imageWithData:iconMedia.image];
+    }
+    else iconImage = [UIImage imageNamed:@"item.png"];
+    UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, cell.contentView.frame.size.height - TEXTLABELHEIGHT - (2*TEXTLABELPADDING))];
+    [iconImageView setImage:iconImage];
+       // iconImageView.layer.cornerRadius = 9.0f;
+    [cell.contentView addSubview:iconImageView];
+    
+    CGRect textFrame = CGRectMake(0, (cell.contentView.frame.size.height-TEXTLABELHEIGHT - TEXTLABELPADDING), cell.contentView.frame.size.width, TEXTLABELHEIGHT);
+    UILabel *iconTitleLabel = [[UILabel alloc] initWithFrame:textFrame];
+    iconTitleLabel.text = currentQuest.name;
+    iconTitleLabel.textColor = [UIColor whiteColor];
+    iconTitleLabel.backgroundColor = [UIColor clearColor];
+    iconTitleLabel.textAlignment = UITextAlignmentCenter;
+    iconTitleLabel.lineBreakMode = UILineBreakModeTailTruncation;
+    iconTitleLabel.font = [UIFont fontWithName:@"Helvetica" size:12];
+    [cell.contentView addSubview:iconTitleLabel];
+    
+    return cell;
 }
 
-- (BOOL)webView:(UIWebView *)webView  
-shouldStartLoadWithRequest:(NSURLRequest *)request  
- navigationType:(UIWebViewNavigationType)navigationType; {  
-	
-    /* NSURL *requestURL = [ [ request URL ] retain ];
-     if ( ( [ [ requestURL scheme ] isEqualToString: @"http" ]  
-     || [ [ requestURL scheme ] isEqualToString: @"https" ] )  
-     && ( navigationType == UIWebViewNavigationTypeLinkClicked ) ) {  
-     return ![ [ UIApplication sharedApplication ] openURL: [ requestURL autorelease ] ];  
-     }  */
-    if(self.isLink && ![[[request URL]absoluteString] isEqualToString:@"about:blank"]) {
-        webpageViewController *webPageViewController = [[webpageViewController alloc] initWithNibName:@"webpageViewController" bundle: [NSBundle mainBundle]];
-        WebPage *temp = [[WebPage alloc]init];
-        temp.url = [[request URL]absoluteString];
-        webPageViewController.webPage = temp;
-        webPageViewController.delegate = self;
-        [self.navigationController pushViewController:webPageViewController animated:NO];
-        
-        return NO;
-    }
-    else{
-        self.isLink = YES;
-        return YES;}
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+        NSArray *activeQuests = [self.quests objectAtIndex:ACTIVE_SECTION];
+        NSArray *completedQuests = [self.quests objectAtIndex:COMPLETED_SECTION];
     
-	// Check to see what protocol/scheme the requested URL is.  
-	
-	// Auto release  
-	//[ requestURL release ];  
-	// If request url is something other than http or https it will open  
-	// in UIWebView. You could also check for the other following  
-	// protocols: tel, mailto and sms  
-	//return YES;  
-} 
-
-
-
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
-	
-	NSLog(@"IconQuestsViewController: VebView loaded");
+        int questNumber = indexPath.item;
     
-    //[self performSelector:@selector(updateCellSizes) withObject:nil afterDelay:0.1];
+        Quest *questSelected;
+        if(questNumber >= [activeQuests count]){
+            questNumber -= [activeQuests count];
+            questSelected = [completedQuests objectAtIndex:questNumber];
+        }
+        else questSelected = [activeQuests objectAtIndex:questNumber];
+        QuestDetailsViewController *questDetailsViewController =[[QuestDetailsViewController alloc] initWithQuest: questSelected];
+        questDetailsViewController.navigationItem.title = questSelected.name;
+        [[self navigationController] pushViewController:questDetailsViewController animated:YES];
 }
-
-/*-(void)updateCellSize:(UITableViewCell*)cell {
-	NSLog(@"QuestViewController: Updating Cell Sizes");
-    
-	UIWebView *descriptionView = (UIWebView *)[cell viewWithTag:1];
-	float newHeight = [[descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
-	
-	NSLog(@"QuestViewController: Description View Calculated Height is: %f",newHeight);
-    
-	
-	CGRect descriptionFrame = [descriptionView frame];	
-	descriptionFrame.size = CGSizeMake(descriptionFrame.size.width,newHeight);
-	[descriptionView setFrame:descriptionFrame];
-	[[[descriptionView subviews] lastObject] setScrollEnabled:NO];
-	NSLog(@"QuestViewController: description UIWebView frame set to {%f, %f, %f, %f}", 
-		  descriptionFrame.origin.x, 
-		  descriptionFrame.origin.y, 
-		  descriptionFrame.size.width,
-		  descriptionFrame.size.height);
-	
-	CGRect cellFrame = [cell frame];
-	cellFrame.size = CGSizeMake(cell.frame.size.width,newHeight + 25);
-	[cell setFrame:cellFrame];
-    
-	NSLog(@"QuestViewController: cell frame set to {%f, %f, %f, %f}", 
-		  cell.frame.origin.x, 
-		  cell.frame.origin.y, 
-		  cell.frame.size.width,
-		  cell.frame.size.height);
-} */
-
-
-//	NSString *htmlDescription = [NSString stringWithFormat:kQuestsHtmlTemplate, quest.name, quest.description];
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
@@ -373,4 +268,8 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
     
 }
 
+- (void)viewDidUnload {
+    questIconCollectionView = nil;
+    [super viewDidUnload];
+}
 @end

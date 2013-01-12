@@ -22,13 +22,16 @@
 #define ICONWIDTH 76
 #define ICONHEIGHT 91
 #define ICONSPERROW 3
+#define TEXTLABELHEIGHT 10
+#define TEXTLABELPADDING 7
 
-@interface IconQuestsViewController : UIViewController {
+@interface IconQuestsViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate> {
 	NSMutableArray *quests;
     int activeSort;
     int silenceNextServerUpdateCount;
     int newItemsSinceLastView;
     BOOL isLink;
+    IBOutlet UICollectionView *questIconCollectionView;
 }
 @property(readwrite, assign) BOOL isLink;
 @property(nonatomic) NSMutableArray *quests;
