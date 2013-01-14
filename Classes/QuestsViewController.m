@@ -162,7 +162,7 @@ NSString *const kQuestsHtmlTemplate =
                 
                 //NEEDS NEW MEDIA ID
                 
-                [[RootViewController sharedRootViewController] enqueuePopOverWithTitle:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) description:quest.name webViewText:quest.description andMediaId:quest.completeMediaId];
+                [[RootViewController sharedRootViewController] enqueuePopOverWithTitle:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) description:quest.name webViewText:quest.description andMediaId:quest.mediaId];
                 
 			}
 		}
@@ -187,7 +187,7 @@ NSString *const kQuestsHtmlTemplate =
                 //NEEDS NEW MEDIA ID
                 
                 
-                [[RootViewController sharedRootViewController] enqueuePopOverWithTitle:NSLocalizedString(@"QuestViewNewQuestKey", nil) description:quest.name webViewText:quest.description andMediaId:quest.activeMediaId];
+                [[RootViewController sharedRootViewController] enqueuePopOverWithTitle:NSLocalizedString(@"QuestViewNewQuestKey", nil) description:quest.name webViewText:quest.description andMediaId:quest.mediaId];
                 
 			}
 		}

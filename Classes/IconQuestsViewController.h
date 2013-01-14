@@ -31,7 +31,9 @@
     int silenceNextServerUpdateCount;
     int newItemsSinceLastView;
     BOOL isLink;
-    IBOutlet UICollectionView *questIconCollectionView;
+    UIScrollView *questIconScrollView;
+    UICollectionView *questIconCollectionView;
+    UICollectionViewFlowLayout *questIconCollectionViewLayout;
 }
 @property(readwrite, assign) BOOL isLink;
 @property(nonatomic) NSMutableArray *quests;

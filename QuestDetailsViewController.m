@@ -61,8 +61,6 @@ NSString *const kQuestDetailsHtmlTemplate =
     
     //NOTE: HEY PHIL, I ONLY HID THE BUTTON, IF YOU WANT THAT EXTRA SCREEN REAL ESTATE THEN YOU'LL HAVE TO EXPAND THE TEXT VIEW
     
-  //  ((UINavigationItem *)[self.navigationBar.items objectAtIndex:0]).title = quest.name;
-    
     if (!(self.quest.exitToTabName == (id)[NSNull null] || self.quest.exitToTabName.length == 0 ||[self.quest.exitToTabName isEqualToString:@"NONE"])){
         NSString *buttonTitle = NSLocalizedString(@"GoToKey", nil);
         buttonTitle = [buttonTitle stringByAppendingString:@" "];
@@ -71,18 +69,22 @@ NSString *const kQuestDetailsHtmlTemplate =
         [exitToButton setTitle:buttonTitle forState:UIControlStateHighlighted];
         [exitToButton addTarget:self action:@selector(exit:) forControlEvents:UIControlEventTouchUpInside];
     }
-    else exitToButton.hidden = YES;
+    else {
+        exitToButton.hidden = YES;
+        CGRect newWebViewFrame = CGRectMake(questDescriptionWebView.frame.origin.x, questDescriptionWebView.frame.origin.y, questDescriptionWebView.frame.size.width, questDescriptionWebView.frame.size.height+69);
+        questDescriptionWebView.frame = newWebViewFrame;
+    }
     NSString *text = self.quest.description;
     if ([text rangeOfString:@"<html>"].location == NSNotFound) text = [NSString stringWithFormat:kQuestDetailsHtmlTemplate, text];
     [questDescriptionWebView loadHTMLString:text baseURL:nil];
     
-    if(self.quest.activeMediaId != 0){
-        Media *questMedia = [[AppModel sharedAppModel] mediaForMediaId: self.quest.activeMediaId];
+    if(self.quest.mediaId != 0){
+        Media *questMedia = [[AppModel sharedAppModel] mediaForMediaId: self.quest.mediaId];
         CGRect mediaFrame = questImageView.frame;
         mediaFrame.origin.x = 0;
         mediaFrame.origin.y = 0;
         if([questMedia.type isEqualToString:kNoteContentTypePhoto]){
-            AsyncMediaImageView* mediaView = [[AsyncMediaImageView alloc] initWithFrame:mediaFrame andMediaId:self.quest.activeMediaId];
+            AsyncMediaImageView* mediaView = [[AsyncMediaImageView alloc] initWithFrame:mediaFrame andMediaId:self.quest.mediaId];
             [questImageView addSubview:mediaView];
         }
         else {

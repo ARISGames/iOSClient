@@ -2939,9 +2939,9 @@ NSString *const kARISServerServicePackage = @"v1";
         else if([quest.exitToTabName isEqualToString:@"PLAYER"]) quest.exitToTabName = NSLocalizedString(@"PlayerTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"NOTE"]) quest.exitToTabName = NSLocalizedString(@"NotebookTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"PICKGAME"]) quest.exitToTabName = NSLocalizedString(@"GamePickerTitleKey",@"");
-        quest.activeMediaId = [[activeQuest objectForKey:@"active_media_id"] intValue];
-        quest.completeMediaId = [[activeQuest objectForKey:@"complete_media_id"] intValue];
-		quest.iconMediaId = [[activeQuest objectForKey:@"icon_media_id"] intValue];
+        quest.mediaId = [[activeQuest objectForKey:@"active_media_id"] intValue];
+		quest.iconMediaId = [[activeQuest objectForKey:@"active_icon_media_id"] intValue];
+        quest.sortNum = [[activeQuest objectForKey:@"sort_index"] intValue];
 		[activeQuestObjects addObject:quest];
         
         if([RootViewController sharedRootViewController].loadingVC){
@@ -2965,9 +2965,9 @@ NSString *const kARISServerServicePackage = @"v1";
         else if([quest.exitToTabName isEqualToString:@"PLAYER"]) quest.exitToTabName = NSLocalizedString(@"PlayerTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"NOTE"]) quest.exitToTabName = NSLocalizedString(@"NotebookTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"PICKGAME"]) quest.exitToTabName = NSLocalizedString(@"GamePickerTitleKey",@"");
-		quest.activeMediaId = [[completedQuest objectForKey:@"active_media_id"] intValue];
-        quest.completeMediaId = [[completedQuest objectForKey:@"complete_media_id"] intValue];
-        quest.iconMediaId = [[completedQuest objectForKey:@"icon_media_id"] intValue];
+        quest.mediaId = [[completedQuest objectForKey:@"complete_media_id"] intValue];
+        quest.iconMediaId = [[completedQuest objectForKey:@"complete_icon_media_id"] intValue];
+        quest.sortNum = [[completedQuest objectForKey:@"sort_index"] intValue];
 		[completedQuestObjects addObject:quest];
         
         if([RootViewController sharedRootViewController].loadingVC){

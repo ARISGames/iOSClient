@@ -14,6 +14,8 @@ static int const COMPLETED_SECTION = 1;
 int itemsPerColumnWithoutScrolling;
 int initialHeight;
 
+BOOL supportsCollectionView = NO;
+
 NSString *const kIconQuestsHtmlTemplate = 
 @"<html>"
 @"<head>"
@@ -74,8 +76,39 @@ NSString *const kIconQuestsHtmlTemplate =
     
 	NSLog(@"IconQuestsViewController: Quests View Loaded");
     
-    [questIconCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
-	
+    float currentVersion = 6.0;
+    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= currentVersion){
+        
+        supportsCollectionView = YES;
+        
+        questIconCollectionViewLayout = [[UICollectionViewFlowLayout alloc] init];
+        questIconCollectionViewLayout.itemSize = CGSizeMake(76, 90);
+        questIconCollectionViewLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
+        questIconCollectionViewLayout.sectionInset = UIEdgeInsetsMake(20, 20, 20, 20);
+        questIconCollectionViewLayout.minimumLineSpacing = 30.0;
+        questIconCollectionViewLayout.minimumInteritemSpacing = 10.0;
+        
+        questIconCollectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:questIconCollectionViewLayout];
+        questIconCollectionView.dataSource = self;
+        questIconCollectionView.delegate = self;
+        [questIconCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
+        [self.view addSubview:questIconCollectionView];
+    }
+    else {
+        supportsCollectionView = NO;
+        
+        CGRect fullScreenRect=CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+        questIconScrollView=[[UIScrollView alloc] initWithFrame:fullScreenRect];
+        questIconScrollView.contentSize=CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
+        questIconScrollView.backgroundColor = [UIColor blackColor];
+
+        initialHeight = self.view.frame.size.height;
+        itemsPerColumnWithoutScrolling = self.view.frame.size.height/ICONHEIGHT + .5;
+        itemsPerColumnWithoutScrolling--;
+        
+        [self.view addSubview:questIconScrollView];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -186,11 +219,92 @@ NSString *const kIconQuestsHtmlTemplate =
 	
 	self.quests = [NSArray arrayWithObjects:activeQuestsArray, completedQuestsArray, nil];
     
-    if(newItems >0) [questIconCollectionView reloadData];
+    if(newItems >0 && supportsCollectionView) [questIconCollectionView reloadData];
+    else if(newItems >0) [self createIcons];
 	
 	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
     
 }
+
+-(void)createIcons{
+	NSLog(@"IconQuestsVC: Constructing Icons");
+    
+    for (UIView *view in [questIconScrollView subviews]) {
+        [view removeFromSuperview];
+    }
+	
+	NSArray *activeQuests = [self.quests objectAtIndex:ACTIVE_SECTION];
+	NSArray *completedQuests = [self.quests objectAtIndex:COMPLETED_SECTION];
+    
+    NSLog(@"Self frame: %f, %f", self.view.frame.size.width, self.view.frame.size.height);
+    
+    for(int i = 0; i < [activeQuests count]; i++){
+        Quest *currentQuest = [activeQuests objectAtIndex:i];
+        int xMargin = truncf((questIconScrollView.frame.size.width - ICONSPERROW * ICONWIDTH)/(ICONSPERROW +1));
+        int yMargin = truncf((initialHeight - itemsPerColumnWithoutScrolling * ICONHEIGHT)/(itemsPerColumnWithoutScrolling + 1));
+        int row = (i/ICONSPERROW);
+        int xOrigin = (i % ICONSPERROW) * (xMargin + ICONWIDTH) + xMargin;
+        int yOrigin = row * (yMargin + ICONHEIGHT) + yMargin;
+        
+        UIImage *iconImage;
+        if(currentQuest.iconMediaId != 0){
+            Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: currentQuest.iconMediaId];
+            iconImage = [UIImage imageWithData:iconMedia.image];
+        }
+        else iconImage = [UIImage imageNamed:@"item.png"];
+        IconQuestsButton *iconButton = [[IconQuestsButton alloc] initWithFrame:CGRectMake(xOrigin, yOrigin, ICONWIDTH, ICONHEIGHT) andImage:iconImage andTitle:currentQuest.name];
+        iconButton.tag = i;
+        [iconButton addTarget:self action:@selector(questSelected:) forControlEvents:UIControlEventTouchUpInside];
+        iconButton.imageView.layer.cornerRadius = 9.0;
+        [questIconScrollView addSubview:iconButton];
+        [iconButton setNeedsDisplay];
+    }
+    
+    int currentButtonIndex = [activeQuests count];
+    
+    for(int i = 0; i < [completedQuests count]; i++){
+        Quest *currentQuest = [completedQuests objectAtIndex:i];
+        int xMargin = truncf((questIconScrollView.frame.size.width - ICONSPERROW * ICONWIDTH)/(ICONSPERROW +1));
+        int yMargin = truncf((initialHeight - itemsPerColumnWithoutScrolling * ICONHEIGHT)/(itemsPerColumnWithoutScrolling + 1));
+        int row = (currentButtonIndex/ICONSPERROW);
+        int xOrigin = (currentButtonIndex % ICONSPERROW) * (xMargin + ICONWIDTH) + xMargin;
+        int yOrigin = row * (yMargin + ICONHEIGHT) + yMargin;
+        
+        UIImage *iconImage;
+        if(currentQuest.iconMediaId != 0){
+            Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: currentQuest.iconMediaId];
+            iconImage = [UIImage imageWithData:iconMedia.image];
+        }
+        else iconImage = [UIImage imageNamed:@"item.png"];
+        IconQuestsButton *iconButton = [[IconQuestsButton alloc] initWithFrame:CGRectMake(xOrigin, yOrigin, 76, 91) andImage:iconImage andTitle:currentQuest.name];
+        iconButton.tag = currentButtonIndex;
+        [iconButton addTarget:self action:@selector(questSelected:) forControlEvents:UIControlEventTouchUpInside];
+        iconButton.imageView.layer.cornerRadius = 9.0;
+        [questIconScrollView addSubview:iconButton];
+        [iconButton setNeedsDisplay];
+        currentButtonIndex++;
+    }
+	
+	NSLog(@"QuestsVC: Icons created");
+}
+
+- (void) questSelected: (id)sender {
+    UIButton *button = (UIButton*)sender;
+    
+    NSArray *activeQuests = [self.quests objectAtIndex:ACTIVE_SECTION];
+	NSArray *completedQuests = [self.quests objectAtIndex:COMPLETED_SECTION];
+    
+    Quest *questSelected;
+    if(button.tag >= [activeQuests count]){
+        button.tag -= [activeQuests count];
+        questSelected = [completedQuests objectAtIndex:button.tag];
+    }
+    else questSelected = [activeQuests objectAtIndex:button.tag];
+    QuestDetailsViewController *questDetailsViewController =[[QuestDetailsViewController alloc] initWithQuest: questSelected];
+    questDetailsViewController.navigationItem.title = questSelected.name;
+    [[self navigationController] pushViewController:questDetailsViewController animated:YES];
+}
+
 
 #pragma mark CollectionView DataSource and Delegate Methods
 
