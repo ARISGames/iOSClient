@@ -335,17 +335,19 @@ NSString *const kDialogHtmlTemplate =
 	[self loadCharacterImage:mediaId withPriorId:&lastNpcId inView:npcImage];
 }
 
-- (void) loadCharacterImage:(NSInteger)mediaId withPriorId:(NSInteger *)priorId 
-					 inView:(AsyncMediaImageView *)aView 
+- (void) loadPCImage:(NSInteger)mediaId {
+    Media *characterMedia = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
+	[pcImage loadImageFromMedia:characterMedia];
+    [pcImage setNeedsDisplay];
+}
+
+- (void) loadCharacterImage:(NSInteger)mediaId withPriorId:(NSInteger *)priorId inView:(AsyncMediaImageView *)aView 
 {
 	if (mediaId == *priorId) return;
 	
 	Media *characterMedia = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
 	[aView loadImageFromMedia:characterMedia];
-  //  UIImage *currentImage = [UIImage imageWithData:aView.media.image];
-  //  if(currentImage.size.height == 416 && currentImage.size.width == 320){
-  //      aView.frame = CGRectMake(0, 44, aView.frame.size.width, aView.frame.size.height);
-  //  }
+
 	[aView setNeedsDisplay];
 	*priorId = mediaId;
 }
@@ -706,6 +708,7 @@ NSString *const kDialogHtmlTemplate =
         NSLog(@"ImageMediaID:%i",cachedScene.imageMediaId);
         
         [self loadNPCImage:cachedScene.imageMediaId];
+        [self loadPCImage:[AppModel sharedAppModel].playerMediaId];
         cachedScrollView = npcImage;
 	}
 	
