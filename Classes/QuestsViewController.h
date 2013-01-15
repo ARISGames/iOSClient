@@ -14,13 +14,14 @@
 
 @interface QuestsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate, UIWebViewDelegate> {
 	NSMutableArray *quests;
+    NSArray *sortedActiveQuests;
+    NSArray *sortedCompletedQuests;
 	NSMutableArray *questCells;
 	int cellsLoaded;
 	IBOutlet UITableView *tableView;
 	IBOutlet UIProgressView *progressView;
 	IBOutlet UILabel *progressLabel;
     IBOutlet UISegmentedControl *activeQuestsSwitch;
-    int activeSort;
 	int silenceNextServerUpdateCount;
 	int newItemsSinceLastView;
     BOOL isLink;
@@ -29,7 +30,6 @@
 @property(nonatomic) NSMutableArray *quests;
 @property(nonatomic) NSMutableArray *questCells;
 @property(nonatomic) UISegmentedControl *activeQuestsSwitch;
-@property(readwrite, assign) int activeSort;
 
 - (void)refresh;
 - (void)showLoadingIndicator;

@@ -649,7 +649,8 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     }
    // [tabBarController.viewControllers makeObjectsPerformSelector:@selector(getView)];
     
-    //Whatis this doing? -Phil 11-13-2012
+    //What is this doing? -Phil 11-13-2012
+    //Causing all views to load, so that they will enque notifications even if they haven't been viewed before -Jacob 1/14/13
     for(UIViewController * viewController in  tabBarController.viewControllers){
         viewController.view;
     }

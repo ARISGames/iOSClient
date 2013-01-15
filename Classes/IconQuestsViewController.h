@@ -20,24 +20,21 @@
 #import "webpageViewController.h"
 
 #define ICONWIDTH 76
-#define ICONHEIGHT 91
+#define ICONHEIGHT 90
 #define ICONSPERROW 3
 #define TEXTLABELHEIGHT 10
 #define TEXTLABELPADDING 7
 
 @interface IconQuestsViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate> {
 	NSMutableArray *quests;
-    int activeSort;
+    NSArray *sortedQuests;
     int silenceNextServerUpdateCount;
     int newItemsSinceLastView;
-    BOOL isLink;
     UIScrollView *questIconScrollView;
     UICollectionView *questIconCollectionView;
     UICollectionViewFlowLayout *questIconCollectionViewLayout;
 }
-@property(readwrite, assign) BOOL isLink;
 @property(nonatomic) NSMutableArray *quests;
-@property(readwrite, assign) int activeSort;
 
 - (void)refresh;
 - (void)showLoadingIndicator;

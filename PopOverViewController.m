@@ -9,6 +9,8 @@
 #import "PopOverViewController.h"
 #import "RootViewController.h"
 
+BOOL shouldPlay;
+
 NSString *const kPopOverHtmlTemplate =
 @"<html>"
 @"<head>"
@@ -85,7 +87,6 @@ NSString *const kPopOverHtmlTemplate =
     popOverWebViewMedia.scrollView.bounces = NO;
     popOverWebViewNoMedia.scrollView.bounces = NO;
     
-    if(!player) player = [[AVAudioPlayer alloc] init];
     if(!ARISMoviePlayer) ARISMoviePlayer = [[ARISMoviePlayerViewController alloc] init];
     if(!imageView) imageView = [[AsyncMediaImageView alloc] init];
     
@@ -129,11 +130,9 @@ NSString *const kPopOverHtmlTemplate =
             [ARISMoviePlayer.view setFrame:movieFrame];
             ARISMoviePlayer.view.backgroundColor = [UIColor clearColor];
             for(UIView* subV in ARISMoviePlayer.moviePlayer.view.subviews) subV.backgroundColor = [UIColor clearColor];
-            [mediaView insertSubview: ARISMoviePlayer.view belowSubview:loadingIndicator];
             [self playAudioOrVideoFromMedia:media];
         }
         else if([media.type isEqualToString: kMediaTypeAudio]){
-            [mediaView insertSubview: ARISMoviePlayer.view belowSubview:loadingIndicator];
             [self playAudioOrVideoFromMedia:media];
         }
         else if([media.type isEqualToString: kMediaTypeImage]){
@@ -151,20 +150,26 @@ NSString *const kPopOverHtmlTemplate =
 #pragma mark Audio and Video
 - (void) playAudioOrVideoFromMedia:(Media*)media {
     
+    //temp fix is to not use media.image, but always stream as we do other places like AsyncMediaPlayerButton
+    /*
     if(media.image != nil && [media.type isEqualToString: kMediaTypeAudio]){
         NSLog(@"PopOver: Playing through AVAudioPlayer");
-        [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];
-        [[AVAudioSession sharedInstance] setActive: YES error: nil];
         NSError* err;
+        [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: &err];
+        [[AVAudioSession sharedInstance] setActive: YES error: &err];
         player = [[AVAudioPlayer alloc] initWithData: media.image error:&err];
         [player setDelegate: self];
+        [player prepareToPlay];
         
         if( err )NSLog(@"PopOver: Playing Audio: Failed with reason: %@", [err localizedDescription]);
         else [player play];
         
     }
-    else{
+    */
+  //  else{
+        shouldPlay = YES;
         NSLog(@"PopOver: Playing through MPMoviePlayerController");
+        [mediaView insertSubview: ARISMoviePlayer.view belowSubview:loadingIndicator];
         ARISMoviePlayer.moviePlayer.movieSourceType = MPMovieSourceTypeUnknown;
         [ARISMoviePlayer.moviePlayer setContentURL: [NSURL URLWithString:media.url]];
         [ARISMoviePlayer.moviePlayer setControlStyle:MPMovieControlStyleNone];
@@ -175,7 +180,7 @@ NSString *const kPopOverHtmlTemplate =
         loadingIndicator.hidden = NO;
         loadingIndicator.hidesWhenStopped = YES;
         [loadingIndicator startAnimating];
-    }
+  //  }
 }
 
 #pragma mark MPMoviePlayerController notifications
@@ -189,7 +194,7 @@ NSString *const kPopOverHtmlTemplate =
     }
     else if (ARISMoviePlayer.moviePlayer.loadState & MPMovieLoadStatePlayable) {
         [loadingIndicator stopAnimating];
-        [ARISMoviePlayer.moviePlayer play];
+        if(shouldPlay) [ARISMoviePlayer.moviePlayer play];
         loadingIndicator.hidden = YES;
     }
 }
@@ -198,14 +203,21 @@ NSString *const kPopOverHtmlTemplate =
 
 - (void) audioPlayerDidFinishPlaying: (AVAudioPlayer *) player successfully: (BOOL) flag {
     NSLog(@"PopOver: Audio is done playing");
-    [[AVAudioSession sharedInstance] setActive: NO error: nil];
+    NSError* err;
+    [[AVAudioSession sharedInstance] setActive: NO error: &err];
+    if(err)NSLog(@"PopOver: Ending Audio: Failed with reason: %@", [err localizedDescription]);
 }
 
 
 - (IBAction)continuePressed:(id)sender {
+    if(ARISMoviePlayer.moviePlayer.playbackState == MPMoviePlaybackStatePlaying) [ARISMoviePlayer.moviePlayer stop];
+    ARISMoviePlayer.moviePlayer.shouldAutoplay = NO;
+    shouldPlay = NO;  //all are necessary otherwise can enter state where audio/video is still loading when user presses continue and the music will play unstoppably afterward as it was triggered by autoplay or it was trigerred by the change in state notification
     
-    if(ARISMoviePlayer.moviePlayer.playbackState == MPMoviePlaybackStatePlaying) [ARISMoviePlayer.moviePlayer pause];
-//    if(player.isPlaying) [player stop];
+   // if(player.isPlaying){
+   //     [player stop];
+   // }
+    
     [[RootViewController sharedRootViewController] showPopOver];
 }
 

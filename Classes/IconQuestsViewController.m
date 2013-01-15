@@ -41,7 +41,7 @@ NSString *const kIconQuestsHtmlTemplate =
 
 @implementation IconQuestsViewController
 
-@synthesize quests, isLink, activeSort;
+@synthesize quests;
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
@@ -50,16 +50,22 @@ NSString *const kIconQuestsHtmlTemplate =
     if (self) {
         self.title = NSLocalizedString(@"QuestViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"117-todo"];
-        activeSort = 1;
-		self.isLink = NO;
+        sortedQuests = [[NSArray alloc] init];
+        
+        //register for notifications
+        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+        [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
+        [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedQuestList" object:nil];
+        [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewQuestListReady" object:nil];
+        [dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
     }
 	
     return self;
 }
 
-- (void)silenceNextUpdate {
+- (void)silenceNextUpdate{
 	silenceNextServerUpdateCount++;
-	NSLog(@"IconQuestsViewController: silenceNextUpdate. Count is %d",silenceNextServerUpdateCount );
+	NSLog(@"IconQuestsViewController: silenceNextUpdate. Count is %d",silenceNextServerUpdateCount);
     
 }
 
@@ -67,12 +73,7 @@ NSString *const kIconQuestsHtmlTemplate =
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    //register for notifications
-    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-    [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
-    [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedQuestList" object:nil];
-    [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewQuestListReady" object:nil];
-    [dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
+
     
 	NSLog(@"IconQuestsViewController: Quests View Loaded");
     
@@ -83,7 +84,7 @@ NSString *const kIconQuestsHtmlTemplate =
         supportsCollectionView = YES;
         
         questIconCollectionViewLayout = [[UICollectionViewFlowLayout alloc] init];
-        questIconCollectionViewLayout.itemSize = CGSizeMake(76, 90);
+        questIconCollectionViewLayout.itemSize = CGSizeMake(ICONWIDTH, ICONHEIGHT);
         questIconCollectionViewLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
         questIconCollectionViewLayout.sectionInset = UIEdgeInsetsMake(20, 20, 20, 20);
         questIconCollectionViewLayout.minimumLineSpacing = 30.0;
@@ -168,28 +169,30 @@ NSString *const kIconQuestsHtmlTemplate =
 	if (silenceNextServerUpdateCount < 1) {
 		//Check if anything is new since last time
 		NSArray *newActiveQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"active"];
-		for (Quest *quest in newActiveQuestsArray) {		
+        NSArray *newCompletedQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"completed"];
+		
+        for (Quest *quest in newCompletedQuestsArray) {
+			BOOL match = NO;
+			for (Quest *existingQuest in [self.quests objectAtIndex:COMPLETED_SECTION]) {
+				if (existingQuest.questId == quest.questId) match = YES;
+			}
+			if (match == NO) {
+                [appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
+                
+                [[RootViewController sharedRootViewController] enqueuePopOverWithTitle:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) description:quest.name webViewText:quest.description andMediaId:quest.mediaId];
+			}
+		}
+        
+        for (Quest *quest in newActiveQuestsArray) {
 			BOOL match = NO;
 			for (Quest *existingQuest in [self.quests objectAtIndex:ACTIVE_SECTION]) {
 				if (existingQuest.questId == quest.questId) match = YES;	
 			}
 			if (match == NO) {
-				newItems++;
-                quest.sortNum = activeSort;
-                activeSort++;
-			}
-		}
-        
-        NSArray *newCompletedQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"completed"];
-        
-        for (Quest *quest in newCompletedQuestsArray) {		
-			BOOL match = NO;
-			for (Quest *existingQuest in [self.quests objectAtIndex:COMPLETED_SECTION]) {
-				if (existingQuest.questId == quest.questId) match = YES;	
-			}
-			if (match == NO) {
-                [appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
-			}
+                newItems++;
+                
+                [[RootViewController sharedRootViewController] enqueuePopOverWithTitle:NSLocalizedString(@"QuestViewNewQuestKey", nil) description:quest.name webViewText:quest.description andMediaId:quest.mediaId];
+            }
 		}
         
 		if (newItems > 0) {
@@ -216,11 +219,21 @@ NSString *const kIconQuestsHtmlTemplate =
 	//rebuild the list
 	NSArray *activeQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"active"];
 	NSArray *completedQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"completed"];
-	
+    
 	self.quests = [NSArray arrayWithObjects:activeQuestsArray, completedQuestsArray, nil];
     
-    if(newItems >0 && supportsCollectionView) [questIconCollectionView reloadData];
-    else if(newItems >0) [self createIcons];
+    NSMutableArray *combinedQuests = [[NSMutableArray alloc] initWithArray:[self.quests objectAtIndex:ACTIVE_SECTION]];
+    [combinedQuests addObjectsFromArray:[self.quests objectAtIndex:COMPLETED_SECTION]];
+	
+	NSSortDescriptor *sortDescriptor;
+    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sortNum"
+                                                 ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    
+    sortedQuests = [combinedQuests sortedArrayUsingDescriptors:sortDescriptors];
+    
+    if(supportsCollectionView) [questIconCollectionView reloadData];
+    else [self createIcons];
 	
 	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
     
@@ -232,14 +245,9 @@ NSString *const kIconQuestsHtmlTemplate =
     for (UIView *view in [questIconScrollView subviews]) {
         [view removeFromSuperview];
     }
-	
-	NSArray *activeQuests = [self.quests objectAtIndex:ACTIVE_SECTION];
-	NSArray *completedQuests = [self.quests objectAtIndex:COMPLETED_SECTION];
     
-    NSLog(@"Self frame: %f, %f", self.view.frame.size.width, self.view.frame.size.height);
-    
-    for(int i = 0; i < [activeQuests count]; i++){
-        Quest *currentQuest = [activeQuests objectAtIndex:i];
+    for(int i = 0; i < [sortedQuests count]; i++){
+        Quest *currentQuest = [sortedQuests objectAtIndex:i];
         int xMargin = truncf((questIconScrollView.frame.size.width - ICONSPERROW * ICONWIDTH)/(ICONSPERROW +1));
         int yMargin = truncf((initialHeight - itemsPerColumnWithoutScrolling * ICONHEIGHT)/(itemsPerColumnWithoutScrolling + 1));
         int row = (i/ICONSPERROW);
@@ -259,31 +267,6 @@ NSString *const kIconQuestsHtmlTemplate =
         [questIconScrollView addSubview:iconButton];
         [iconButton setNeedsDisplay];
     }
-    
-    int currentButtonIndex = [activeQuests count];
-    
-    for(int i = 0; i < [completedQuests count]; i++){
-        Quest *currentQuest = [completedQuests objectAtIndex:i];
-        int xMargin = truncf((questIconScrollView.frame.size.width - ICONSPERROW * ICONWIDTH)/(ICONSPERROW +1));
-        int yMargin = truncf((initialHeight - itemsPerColumnWithoutScrolling * ICONHEIGHT)/(itemsPerColumnWithoutScrolling + 1));
-        int row = (currentButtonIndex/ICONSPERROW);
-        int xOrigin = (currentButtonIndex % ICONSPERROW) * (xMargin + ICONWIDTH) + xMargin;
-        int yOrigin = row * (yMargin + ICONHEIGHT) + yMargin;
-        
-        UIImage *iconImage;
-        if(currentQuest.iconMediaId != 0){
-            Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: currentQuest.iconMediaId];
-            iconImage = [UIImage imageWithData:iconMedia.image];
-        }
-        else iconImage = [UIImage imageNamed:@"item.png"];
-        IconQuestsButton *iconButton = [[IconQuestsButton alloc] initWithFrame:CGRectMake(xOrigin, yOrigin, 76, 91) andImage:iconImage andTitle:currentQuest.name];
-        iconButton.tag = currentButtonIndex;
-        [iconButton addTarget:self action:@selector(questSelected:) forControlEvents:UIControlEventTouchUpInside];
-        iconButton.imageView.layer.cornerRadius = 9.0;
-        [questIconScrollView addSubview:iconButton];
-        [iconButton setNeedsDisplay];
-        currentButtonIndex++;
-    }
 	
 	NSLog(@"QuestsVC: Icons created");
 }
@@ -291,15 +274,8 @@ NSString *const kIconQuestsHtmlTemplate =
 - (void) questSelected: (id)sender {
     UIButton *button = (UIButton*)sender;
     
-    NSArray *activeQuests = [self.quests objectAtIndex:ACTIVE_SECTION];
-	NSArray *completedQuests = [self.quests objectAtIndex:COMPLETED_SECTION];
-    
-    Quest *questSelected;
-    if(button.tag >= [activeQuests count]){
-        button.tag -= [activeQuests count];
-        questSelected = [completedQuests objectAtIndex:button.tag];
-    }
-    else questSelected = [activeQuests objectAtIndex:button.tag];
+    Quest *questSelected = [sortedQuests objectAtIndex:button.tag];
+
     QuestDetailsViewController *questDetailsViewController =[[QuestDetailsViewController alloc] initWithQuest: questSelected];
     questDetailsViewController.navigationItem.title = questSelected.name;
     [[self navigationController] pushViewController:questDetailsViewController animated:YES];
@@ -319,17 +295,13 @@ NSString *const kIconQuestsHtmlTemplate =
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
     
-    NSArray *activeQuests = [self.quests objectAtIndex:ACTIVE_SECTION];
-    NSArray *completedQuests = [self.quests objectAtIndex:COMPLETED_SECTION];
+    for (UIView *view in [cell.contentView subviews]) {
+        [view removeFromSuperview];
+    }
     
     int questNumber = indexPath.item;
     
-    Quest *currentQuest;
-    if(questNumber >= [activeQuests count]){
-        questNumber -= [activeQuests count];
-        currentQuest = [completedQuests objectAtIndex:questNumber];
-    }
-    else currentQuest = [activeQuests objectAtIndex:questNumber];
+    Quest *currentQuest = [sortedQuests objectAtIndex:questNumber];
     
     UIImage *iconImage;
     if(currentQuest.iconMediaId != 0){
@@ -339,7 +311,7 @@ NSString *const kIconQuestsHtmlTemplate =
     else iconImage = [UIImage imageNamed:@"item.png"];
     UIImageView *iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, cell.contentView.frame.size.height - TEXTLABELHEIGHT - (2*TEXTLABELPADDING))];
     [iconImageView setImage:iconImage];
-       // iconImageView.layer.cornerRadius = 9.0f;
+    iconImageView.layer.cornerRadius = 11.0f;
     [cell.contentView addSubview:iconImageView];
     
     CGRect textFrame = CGRectMake(0, (cell.contentView.frame.size.height-TEXTLABELHEIGHT - TEXTLABELPADDING), cell.contentView.frame.size.width, TEXTLABELHEIGHT);

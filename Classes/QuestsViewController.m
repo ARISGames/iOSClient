@@ -50,7 +50,7 @@ NSString *const kQuestsHtmlTemplate =
 @implementation QuestsViewController
 
 @synthesize quests,questCells,isLink;
-@synthesize activeQuestsSwitch,activeSort;
+@synthesize activeQuestsSwitch;
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
@@ -59,7 +59,8 @@ NSString *const kQuestsHtmlTemplate =
     if (self) {
         self.title = NSLocalizedString(@"QuestViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"117-todo"];
-        activeSort = 1;
+        sortedActiveQuests = [[NSArray alloc] init];
+        sortedCompletedQuests = [[NSArray alloc] init];
 		cellsLoaded = 0;
 		self.isLink = NO;
     }
@@ -156,12 +157,6 @@ NSString *const kQuestsHtmlTemplate =
 			if (match == NO) {
                 [appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
                 
-                // NSString *notifString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"CompletedNotifKey", nil), quest.name] ;
-                
-                // [[RootViewController sharedRootViewController] enqueueNotificationWithFullString: notifString andBoldedString:quest.name];
-                
-                //NEEDS NEW MEDIA ID
-                
                 [[RootViewController sharedRootViewController] enqueuePopOverWithTitle:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) description:quest.name webViewText:quest.description andMediaId:quest.mediaId];
                 
 			}
@@ -177,18 +172,8 @@ NSString *const kQuestsHtmlTemplate =
 			}
 			if (match == NO) {
 				newItems ++;;
-                quest.sortNum = activeSort;
-                activeSort++;
-                
-             //  NSString *notifString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestViewNewQuestKey", nil), quest.name];
-                
-              //  [[RootViewController sharedRootViewController] enqueueNotificationWithFullString: notifString andBoldedString:quest.name];
-           
-                //NEEDS NEW MEDIA ID
-                
                 
                 [[RootViewController sharedRootViewController] enqueuePopOverWithTitle:NSLocalizedString(@"QuestViewNewQuestKey", nil) description:quest.name webViewText:quest.description andMediaId:quest.mediaId];
-                
 			}
 		}
         
@@ -220,6 +205,14 @@ NSString *const kQuestsHtmlTemplate =
 	NSArray *completedQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"completed"];
 	
 	self.quests = [NSArray arrayWithObjects:activeQuestsArray, completedQuestsArray, nil];
+	
+	NSSortDescriptor *sortDescriptor;
+    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sortNum"
+                                                 ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    
+    sortedActiveQuests = [[self.quests objectAtIndex:ACTIVE_SECTION] sortedArrayUsingDescriptors:sortDescriptors];
+    sortedCompletedQuests = [[self.quests objectAtIndex:COMPLETED_SECTION] sortedArrayUsingDescriptors:sortDescriptors];
     
 	[self constructCells];
 	
@@ -233,19 +226,11 @@ NSString *const kQuestsHtmlTemplate =
 	NSMutableArray *activeQuestCells = [NSMutableArray arrayWithCapacity:10];
 	NSMutableArray *completedQuestCells = [NSMutableArray arrayWithCapacity:10];
 	
-	NSArray *activeQuests = [self.quests objectAtIndex:ACTIVE_SECTION];
-	NSArray *completedQuests = [self.quests objectAtIndex:COMPLETED_SECTION];
 	NSEnumerator *e;
 	Quest *quest;
-	NSSortDescriptor *sortDescriptor;
-    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sortNum"
-                                                 ascending:NO];
-    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-    
-    activeQuests = [activeQuests sortedArrayUsingDescriptors:sortDescriptors];
     
     NSLog(@"QuestsVC: Active Quests Selected");
-    e = [activeQuests objectEnumerator];
+    e = [sortedActiveQuests objectEnumerator];
     while ( (quest = (Quest*)[e nextObject]) ) {
         [activeQuestCells addObject: [self getCellContentViewForQuest:quest inSection:ACTIVE_SECTION]];
     }
@@ -268,7 +253,7 @@ NSString *const kQuestsHtmlTemplate =
      }
      */ 
     
-    e = [completedQuests objectEnumerator];
+    e = [sortedCompletedQuests objectEnumerator];
     NSLog(@"QuestsVC: Completed Quests Selected");
     while ( (quest = (Quest*)[e nextObject]) ) {
         [completedQuestCells addObject:[self getCellContentViewForQuest:quest inSection:COMPLETED_SECTION]];
