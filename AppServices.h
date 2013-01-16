@@ -154,6 +154,7 @@ extern NSString *const kARISServerServicePackage;
 - (void)updateServerAddInventoryItem:(int)itemId addQty:(int)qty;
 - (void)updateServerRemoveInventoryItem:(int)itemId removeQty:(int)qty;
 - (void)updateNoteWithNoteId:(int)noteId title:(NSString *) title publicToMap:(BOOL)publicToMap publicToList:(BOOL)publicToList;
+- (void)setNoteCompleteForNoteId:(int)noteId;
 - (void)startOverGame:(int)gameId;
 - (void)silenceNextServerUpdate;
 

@@ -209,6 +209,9 @@
          [[AppModel sharedAppModel].gameNoteList removeObjectForKey:[NSNumber numberWithInt:self.note.noteId]]; */ 
     }
     else{
+        // set note as complete (used for fullfilling note created requirements).
+        [[AppServices sharedAppServices] setNoteCompleteForNoteId:self.note.noteId];
+
         
     }
     [self.navigationController popViewControllerAnimated:YES];

@@ -570,6 +570,29 @@ NSString *const kARISServerServicePackage = @"v1";
 	return [(NSDecimalNumber*)jsonResult.data intValue];
 }
 
+-(void)setNoteCompleteForNoteId:(int)noteId {
+    NSLog(@"AppModel: Setting Note Complete");
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects:
+                          [NSString stringWithFormat:@"%d",noteId],
+                          nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
+                                                            andServiceName:@"notes"
+                                                             andMethodName:@"setNoteComplete"
+                                                              andArguments:arguments
+                                                               andUserInfo:nil];
+	JSONResult *jsonResult = [jsonConnection performSynchronousRequest];
+    [self fetchAllPlayerLists];
+	
+	if (!jsonResult) {
+		NSLog(@"\tFailed.");
+
+	}
+	
+}
+
+
 -(int)createNote{
     NSLog(@"AppModel: Creating New Note");
 	
