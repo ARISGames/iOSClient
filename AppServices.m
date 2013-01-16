@@ -618,6 +618,32 @@ NSString *const kARISServerServicePackage = @"v1";
 	return [(NSDecimalNumber*)jsonResult.data intValue];
 }
 
+
+-(int)createNoteStartIncomplete{
+    NSLog(@"AppModel: Creating New Note Start Incomplete");
+	
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects:
+						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId],
+						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.latitude],
+						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].playerLocation.coordinate.longitude],
+                          nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
+                                                            andServiceName:@"notes"
+                                                             andMethodName:@"createNewNoteStartIncomplete"
+                                                              andArguments:arguments
+                                                               andUserInfo:nil];
+	JSONResult *jsonResult = [jsonConnection performSynchronousRequest];
+    [self fetchAllPlayerLists]; //This is a cheat to make sure that the fetch Happens After
+	if (!jsonResult) {
+		NSLog(@"\tFailed.");
+		return 0;
+	}
+	
+	return [(NSDecimalNumber*)jsonResult.data intValue];
+}
+
 -(void) contentAddedToNoteWithText:(JSONResult *)result
 {
     [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:[[result.userInfo objectForKey:@"noteId"] intValue] andFileURL:[result.userInfo objectForKey:@"localURL"]];

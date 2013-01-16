@@ -131,7 +131,7 @@
         note = [[Note alloc]init];
         self.note.creatorId = [AppModel sharedAppModel].playerId;
         self.note.username = [AppModel sharedAppModel].userName;
-        self.note.noteId = [[AppServices sharedAppServices] createNote];
+        self.note.noteId = [[AppServices sharedAppServices] createNoteStartIncomplete];
         if(self.note.noteId == 0){
             [self backButtonTouchAction:[[UIButton alloc] init]];
             UIAlertView *alert = [[UIAlertView alloc]initWithTitle: NSLocalizedString(@"NoteEditorCreateNoteFailedKey", @"") message: NSLocalizedString(@"NoteEditorCreateNoteFailedMessageKey", @"") delegate:self.delegate cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];

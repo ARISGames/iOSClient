@@ -125,6 +125,7 @@ extern NSString *const kARISServerServicePackage;
 - (void) updatePlayer:(int)playerId Name:(NSString *)name Image:(int)mid;
 - (void) addContentToNoteWithText:(NSString *)text type:(NSString *) type mediaId:(int) mediaId andNoteId:(int)noteId andFileURL:(NSURL *)fileURL;
 - (int)createNote;
+- (int)createNoteStartIncomplete;
 - (void)updateServerDropNoteHere: (int)noteId atCoordinate:(CLLocationCoordinate2D) coordinate;
 - (void)deleteNoteContentWithContentId:(int) contentId;
 - (void)deleteNoteWithNoteId: (int) noteId;
