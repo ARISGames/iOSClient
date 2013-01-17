@@ -27,7 +27,6 @@
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
 		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewInventoryReady" object:nil];
 		[dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
-    
         
         UILabel *label = [[UILabel alloc] init];
         label.frame = CGRectMake(0, 0, 500, 1000);
@@ -87,8 +86,13 @@
 		//Load the image from the media Table
 		Media *pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId];
 		[pcImage loadImageFromMedia: pcMedia];
-        
 	}
+    else if([AppModel sharedAppModel].playerMediaId != 0)
+    {
+        //Load the image from the media Table
+		Media *pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].playerMediaId];
+		[pcImage loadImageFromMedia: pcMedia];
+    }
 	//else [pcImage updateViewWithNewImage:[UIImage imageNamed:@"profile.png"]];
 }
 

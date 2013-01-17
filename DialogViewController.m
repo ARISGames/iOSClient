@@ -337,6 +337,8 @@ NSString *const kDialogHtmlTemplate =
 
 - (void) loadPCImage:(NSInteger)mediaId {
     Media *characterMedia = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
+    pcImage.contentMode = UIViewContentModeScaleAspectFill;
+    [pcImage setClipsToBounds:YES];
 	[pcImage loadImageFromMedia:characterMedia];
     [pcImage setNeedsDisplay];
 }
@@ -351,7 +353,6 @@ NSString *const kDialogHtmlTemplate =
 	[aView setNeedsDisplay];
 	*priorId = mediaId;
 }
-
 
 - (void) continueScript {
     NSLog(@"DialogVC: continueScript");
@@ -594,12 +595,12 @@ NSString *const kDialogHtmlTemplate =
     [self.view addSubview:pcActivityIndicator];
 	[pcActivityIndicator startAnimating];
 }
+
 - (void) dismissWaitingIndicatorForPlayerOptions{
     [lbl removeFromSuperview];
 	pcActivityIndicator.hidden = YES;
   
 	[pcActivityIndicator stopAnimating];
-   
 }
 
 - (void) applyScene:(Scene *)aScene {	
@@ -708,7 +709,7 @@ NSString *const kDialogHtmlTemplate =
         NSLog(@"ImageMediaID:%i",cachedScene.imageMediaId);
         
         [self loadNPCImage:cachedScene.imageMediaId];
-        [self loadPCImage:[AppModel sharedAppModel].playerMediaId];
+       
         cachedScrollView = npcImage;
 	}
 	
@@ -883,6 +884,10 @@ NSString *const kDialogHtmlTemplate =
 
 - (void) movePcIn {
 	NSLog(@"DialogViewController: Move PC view to Main View X:%f Y:%f Width:%f Height:%f",mainView.frame.origin.x,mainView.frame.origin.y,mainView.frame.size.width,mainView.frame.size.height );
+    if([AppModel sharedAppModel].currentGame.pcMediaId != 0)
+        [self loadPCImage:[AppModel sharedAppModel].currentGame.pcMediaId];
+    else if([AppModel sharedAppModel].playerMediaId != 0)
+        [self loadPCImage:[AppModel sharedAppModel].playerMediaId];
     pcScrollView.hidden = NO;
 	[self movePcTo:[mainView frame] withAlpha:1.0
 		  andNpcTo:[npcView frame] withAlpha:[npcView alpha] withPostSelector:nil];
@@ -1049,7 +1054,6 @@ NSString *const kDialogHtmlTemplate =
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (indexPath.section == 1) return 35;
 
-	
 	NodeOption *option = [optionList objectAtIndex:indexPath.row];
 
 	CGFloat maxWidth = [UIScreen mainScreen].bounds.size.width - 50;
@@ -1064,7 +1068,6 @@ NSString *const kDialogHtmlTemplate =
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	
 	//Check if it is the "leave conversation" option
 	if (indexPath.section == 1 && indexPath.row == 0) {
 		[self backButtonTouchAction:nil];
