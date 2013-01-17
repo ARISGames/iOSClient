@@ -93,6 +93,7 @@
 		Media *pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].playerMediaId];
 		[pcImage loadImageFromMedia: pcMedia];
     }
+    self.pcImage.contentMode = UIViewContentModeScaleAspectFill;
 	//else [pcImage updateViewWithNewImage:[UIImage imageNamed:@"profile.png"]];
 }
 
