@@ -44,6 +44,7 @@
 {
     //Due to the way we hide/show views rather than push/popping them, 'viewDidAppear' was constantly being called even when it wasn't 'actually' appearing.
     //Now, we just call this manually whenever we intend the view to appear.
+    playerNameField.text = @"";
     if([AppModel sharedAppModel].displayName && ![[AppModel sharedAppModel].displayName isEqualToString:@""])
         self.playerNameField.text = [AppModel sharedAppModel].displayName;
     if([self.playerNameField.text isEqualToString:@""])
@@ -99,6 +100,8 @@
         [AppModel sharedAppModel].playerMediaId = [playerPic.media.uid intValue];
     [[AppServices sharedAppServices] updatePlayer:[AppModel sharedAppModel].playerId Name:playerNameField.text Image:[playerPic.media.uid intValue]];
     [[AppModel sharedAppModel] saveUserDefaults];
+    playerNameField.text = @"";
+
     
     if([AppModel sharedAppModel].skipGameDetails)
     {
@@ -123,6 +126,13 @@
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
         UIImagePickerController *picker = [[UIImagePickerController alloc]init];
+        
+        UILabel *instructions = [[UILabel alloc] initWithFrame:CGRectMake(40, 390, 300, 33)];
+        instructions.backgroundColor = [UIColor clearColor];
+        instructions.textColor = [UIColor whiteColor];
+        instructions.text = NSLocalizedString(@"TakeYourPictureKey", @"");
+        
+        [picker.view addSubview:instructions];
         picker.delegate = self;
         picker.sourceType = UIImagePickerControllerSourceTypeCamera;
         picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:picker.sourceType];
