@@ -2288,6 +2288,9 @@ NSString *const kARISServerServicePackage = @"v1";
     game.description = [gameSource valueForKey:@"description"];
     if ((NSNull *)game.description == [NSNull null]) game.description = @"";
     
+    game.mapType = [gameSource valueForKey:@"map_type"];
+    if ((NSNull *)game.mapType == [NSNull null] || ![game.mapType isEqualToString:@"STREET"] || ![game.mapType isEqualToString:@"SATELLITE"] || ![game.mapType isEqualToString:@"HYBRID"]) game.description = @"STREET";
+    
     NSString *rating = [gameSource valueForKey:@"rating"];
     if ((NSNull *)rating != [NSNull null]) game.rating = [rating intValue];
     else game.rating = 0;

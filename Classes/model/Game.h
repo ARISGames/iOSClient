@@ -16,6 +16,8 @@
 	int gameId;
     int inventoryWeightCap;
     int currentWeight;
+    
+    NSString *mapType;
 
 	NSString *name;
 	NSString *description;
@@ -54,6 +56,8 @@
 
 @property (readwrite, assign) int inventoryWeightCap;
 @property (readwrite, assign) int currentWeight;
+
+@property (nonatomic) NSString *mapType;
 
 @property (readwrite, assign) int gameId;
 @property (nonatomic) NSString *name;
