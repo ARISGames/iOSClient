@@ -1422,9 +1422,7 @@ NSString *const kARISServerServicePackage = @"v1";
                                                              andMethodName:@"getNpcConversationsForPlayerAfterViewingNode"
                                                               andArguments:arguments andUserInfo:nil];
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseConversationNodeOptionsFromJSON:)]; 
-    
 }
-
 
 - (void)fetchGameNpcListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
 	NSLog(@"AppModel: Fetching Npc List");
