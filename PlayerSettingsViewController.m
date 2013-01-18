@@ -44,7 +44,7 @@
 {
     //Due to the way we hide/show views rather than push/popping them, 'viewDidAppear' was constantly being called even when it wasn't 'actually' appearing.
     //Now, we just call this manually whenever we intend the view to appear.
-    playerNameField.text = @"";
+    self.playerNameField.text = @"";
     if([AppModel sharedAppModel].displayName && ![[AppModel sharedAppModel].displayName isEqualToString:@""])
         self.playerNameField.text = [AppModel sharedAppModel].displayName;
     if([self.playerNameField.text isEqualToString:@""])
@@ -53,10 +53,13 @@
 
 - (void) refreshViewFromModel
 {
-    if(![[AppModel sharedAppModel].displayName isEqualToString:@""] && [AppModel sharedAppModel].displayName != nil && [self.playerNameField.text isEqualToString:@""])
+    if(![[AppModel sharedAppModel].displayName isEqualToString:@""] &&
+       !([AppModel sharedAppModel].displayName == nil) &&
+       [self.playerNameField.text isEqualToString:@""])
         playerNameField.text = [AppModel sharedAppModel].displayName;
     
-    if([AppModel sharedAppModel].playerMediaId != 0 && [AppModel sharedAppModel].playerMediaId != -1)
+    if([AppModel sharedAppModel].playerMediaId != 0 &&
+       [AppModel sharedAppModel].playerMediaId != -1)
         [self.playerPic loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].playerMediaId]];
     else
         [self.playerPic updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
@@ -204,7 +207,6 @@
         // image from camera roll
         [[[AppModel sharedAppModel] uploadManager] uploadPlayerPicContentwithType:kNoteContentTypePhoto withFileURL:imageURL];
     }
-    [self manuallyForceViewDidAppear];
 }
 
 @end
