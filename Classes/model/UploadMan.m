@@ -252,11 +252,11 @@
     }
     
     if (bContentFailed == YES) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Retry Upload?"
-														message:@"There is some user content that was not successfully uploaded to the ARIS database. Would you like to retry uploading it now?"
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"UploadManRetryUploadTitleKey", @"")
+                                                message:NSLocalizedString(@"UploadManRetryUploadTextKey", @"")
 													   delegate:self
-											  cancelButtonTitle:@"No"
-											  otherButtonTitles:@"Yes", nil];
+											  cancelButtonTitle:NSLocalizedString(@"CancelKey", @"")
+											  otherButtonTitles:NSLocalizedString(@"OkKey", @""), nil];
         [alert show];
         
     }
