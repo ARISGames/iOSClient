@@ -136,6 +136,7 @@ NSString *const kQuestsHtmlTemplate =
 }
 
 -(void)refreshViewFromModel {
+    if(![RootViewController sharedRootViewController].usesIconQuestView){
 	NSLog(@"QuestsViewController: Refreshing view from model");
 	
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -215,7 +216,7 @@ NSString *const kQuestsHtmlTemplate =
     sortedCompletedQuests = [[self.quests objectAtIndex:COMPLETED_SECTION] sortedArrayUsingDescriptors:sortDescriptors];
     
 	[self constructCells];
-	
+	}
 	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
     
 }
@@ -504,7 +505,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
 }
 
 @end

@@ -37,7 +37,7 @@ BOOL isShowingPopOver;
 @synthesize waitingIndicator,waitingIndicatorView;
 @synthesize networkAlert,serverAlert;
 @synthesize tutorialViewController;
-@synthesize modalPresent;
+@synthesize modalPresent, usesIconQuestView;
 @synthesize titleLabel,descLabel,notifArray;
 @synthesize notSquishedVCFrame,squishedVCFrame;
 @synthesize loadingVC;
@@ -465,7 +465,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     NSLog(@"RootViewController: showPopOvers");
     if([popOverArray count] > 0) {
         isShowingPopOver = YES;
-        popOverViewController.view; //used to force viewDidLoad before setTitle: descripion:...
+        [popOverViewController view]; //used to force viewDidLoad before setTitle: descripion:...
         [popOverViewController setTitle:[[popOverArray objectAtIndex:0] objectForKey:@"title"] description:[[popOverArray objectAtIndex:0] objectForKey:@"description"] webViewText:[[popOverArray objectAtIndex:0] objectForKey:@"text"] andMediaId:[[[popOverArray objectAtIndex:0] objectForKey:@"mediaId"] intValue]];
         if (!(popOverViewController.isViewLoaded && popOverViewController.view.window)) [self presentViewController:popOverViewController animated:NO completion:nil];
         if([popOverArray count] > 0) [popOverArray removeObjectAtIndex:0];
@@ -655,7 +655,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     //What is this doing? -Phil 11-13-2012
     //Causing all views to load, so that they will enque notifications even if they haven't been viewed before -Jacob 1/14/13
     for(UIViewController * viewController in  tabBarController.viewControllers){
-        viewController.view;
+        [viewController view];
     }
 }
 
@@ -874,7 +874,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"tabIndex"
                                                  ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-    Boolean isIconQuestsView = NO;
+   // Boolean isIconQuestsView = YES;
     
     tmpTabList = [[AppModel sharedAppModel].gameTabList sortedArrayUsingDescriptors:sortDescriptors];
     Tab *tmpTab = [[Tab alloc] init];
@@ -882,7 +882,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
         tmpTab = [tmpTabList objectAtIndex:y];
         if ([tmpTab.tabName isEqualToString:@"QUESTS"]){
             tmpTab.tabName = NSLocalizedString(@"QuestViewTitleKey",@"");
-            isIconQuestsView = (Boolean)tmpTab.tabDetail1;
+            usesIconQuestView = (Boolean)tmpTab.tabDetail1;
         }
         else if([tmpTab.tabName isEqualToString:@"GPS"]) tmpTab.tabName = NSLocalizedString(@"MapViewTitleKey",@"");
         else if([tmpTab.tabName isEqualToString:@"INVENTORY"]) tmpTab.tabName = NSLocalizedString(@"InventoryViewTitleKey",@"");
@@ -902,7 +902,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     for(int y = 0; y < [newTabList count];y++){
         tmpTab = [newTabList objectAtIndex:y];
         if([tmpTab.tabName isEqualToString:NSLocalizedString(@"QuestViewTitleKey",@"")]){
-            if(isIconQuestsView)tempNav = (UINavigationController *)[[AppModel sharedAppModel].defaultGameTabList objectAtIndex:8];
+            if(usesIconQuestView)tempNav = (UINavigationController *)[[AppModel sharedAppModel].defaultGameTabList objectAtIndex:8];
             else tempNav = (UINavigationController *)[[AppModel sharedAppModel].defaultGameTabList objectAtIndex:0];
             newCustomVC = [newCustomVC arrayByAddingObject:tempNav];
         }
@@ -914,9 +914,6 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
         }
         }
     }
-    
- //   tempNav = (UINavigationController *)[[AppModel sharedAppModel].defaultGameTabList objectAtIndex:8];
-  //  newCustomVC = [newCustomVC arrayByAddingObject:tempNav];
     
     self.tabBarController.viewControllers = [NSArray arrayWithArray: newCustomVC];
     [AppModel sharedAppModel].tabsReady = YES;

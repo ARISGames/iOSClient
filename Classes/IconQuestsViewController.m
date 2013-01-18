@@ -52,14 +52,12 @@ NSString *const kIconQuestsHtmlTemplate =
         self.tabBarItem.image = [UIImage imageNamed:@"117-todo"];
         sortedQuests = [[NSArray alloc] init];
        
-        /*
         //register for notifications
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
         [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedQuestList" object:nil];
         [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewQuestListReady" object:nil];
         [dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
-         */
     }
 	
     return self;
@@ -74,8 +72,6 @@ NSString *const kIconQuestsHtmlTemplate =
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-
     
 	NSLog(@"IconQuestsViewController: Quests View Loaded");
     
@@ -159,6 +155,7 @@ NSString *const kIconQuestsHtmlTemplate =
 }
 
 -(void)refreshViewFromModel {
+    if([RootViewController sharedRootViewController].usesIconQuestView){
 	NSLog(@"IconQuestsViewController: Refreshing view from model");
 	
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -236,9 +233,9 @@ NSString *const kIconQuestsHtmlTemplate =
     
     if(supportsCollectionView) [questIconCollectionView reloadData];
     else [self createIcons];
-	
-	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
+    }
     
+	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
 }
 
 -(void)createIcons{

@@ -77,6 +77,7 @@
     PopOverViewController *popOverViewController;
 	
     BOOL modalPresent;
+    BOOL usesIconQuestView;
     //UILabel *titleLabel;
     UIWebView *titleLabel;
     UILabel *descLabel;
@@ -121,6 +122,7 @@
 //@property(nonatomic)NSDictionary *imageInfo;
 
 @property (readwrite) BOOL modalPresent;
+@property (readwrite) BOOL usesIconQuestView;
 
 //@property(nonatomic) IBOutlet UILabel *titleLabel;
 @property(nonatomic) IBOutlet UIWebView *titleLabel;
