@@ -64,6 +64,8 @@ int steps = 0;
     [[AppServices sharedAppServices]setShowPlayerOnMap];
     [self resetCurrentlyFetchingVars];
     
+    [[[AppModel sharedAppModel]uploadManager] checkForFailedContent];
+    
 }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {

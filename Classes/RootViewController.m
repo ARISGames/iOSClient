@@ -301,6 +301,9 @@ BOOL isShowingPopOver;
         //Setup Pusher Client
         self.client = [PTPusher pusherWithKey:@"79f6a265dbb7402a49c9" delegate:self encrypted:YES];
         self.client.authorizationURL = [NSURL URLWithString:@"http://dev.arisgames.org/server/events/auths/private_auth.php"];
+        
+        
+    
     }
     return self;
 }
@@ -856,6 +859,9 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
                                              selector:@selector(didReceiveWebpageChannelEventNotification:)
                                                  name:PTPusherEventReceivedNotification
                                                object:webpageChannel];
+    
+    
+    
 }
 
 -(void)changeTabBar{

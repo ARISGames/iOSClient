@@ -25,6 +25,8 @@
 - (void) uploadPlayerPicContentwithType:(NSString *)type withFileURL:(NSURL *)aUrl;
 - (void) contentFinishedUploading;
 - (void) contentFailedUploading;
+- (void) uploadAllFailedContent;
+- (void) checkForFailedContent;
 - (void) deleteContentFromNoteId:(int)noteId andFileURL:(NSURL *)fileURL;
 
 @end

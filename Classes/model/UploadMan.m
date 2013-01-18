@@ -235,6 +235,66 @@
 }
 
 
+- (void) checkForFailedContent
+// check if any user content has failed to upload.  If yes, alart user and ask  if they want to upload it now.
+{
+    Boolean bContentFailed = NO;
+    NSLog(@"UploadMan: Upload Content failed uploading");
+    NSArray *noteIdKeyArray =  [self.uploadContentsForNotes allKeys];
+    for (int i=0; i < [noteIdKeyArray count]; i++) {
+        NSArray *contentIdKeyArray = [[self.uploadContentsForNotes objectForKey:[noteIdKeyArray objectAtIndex:i]] allKeys];
+        for (int j=0; j < [contentIdKeyArray count]; j++) {
+            UploadContent * uc = [[self.uploadContentsForNotes objectForKey:[ noteIdKeyArray objectAtIndex:i]] objectForKey:[ contentIdKeyArray objectAtIndex:j]];
+            if (uc.state == @"uploadStateFAILED") {
+                bContentFailed = YES;
+            }
+        }
+    }
+    
+    if (bContentFailed == YES) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Retry Upload?"
+														message:@"There is some user content that was not successfully uploaded to the ARIS database. Would you like to retry uploading it now?"
+													   delegate:self
+											  cancelButtonTitle:@"No"
+											  otherButtonTitles:@"Yes", nil];
+        [alert show];
+        
+    }
+    
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (buttonIndex != [alertView cancelButtonIndex]) {
+        [self uploadAllFailedContent];
+    }
+}
+
+- (void) uploadAllFailedContent
+// upload any content that has previously failed.
+{
+ 
+    NSLog(@"UploadMan: Upload Content failed uploading");
+    NSArray *noteIdKeyArray =  [self.uploadContentsForNotes allKeys];
+    for (int i=0; i < [noteIdKeyArray count]; i++) {
+        NSArray *contentIdKeyArray = [[self.uploadContentsForNotes objectForKey:[noteIdKeyArray objectAtIndex:i]] allKeys];
+        for (int j=0; j < [contentIdKeyArray count]; j++) {
+            UploadContent * uc = [[self.uploadContentsForNotes objectForKey:[ noteIdKeyArray objectAtIndex:i]] objectForKey:[ contentIdKeyArray objectAtIndex:j]];
+            if (uc.state == @"uploadStateFAILED") {
+                NSLog(@"Retrying Upload forNoteId:%d withTitle:%@ withText:%@ withType:%@ withFileURL:%@",uc.noteId,uc.title,uc.text,uc.type,uc.fileURL);
+            
+                //[self uploadContentForNoteId:uc.noteId withTitle:uc.title withText: uc.text withType:uc.type withFileURL:uc.fileURL];
+                [self uploadContentForNoteId:uc.getNoteId withTitle:uc.getTitle withText:uc.getText withType:uc.getType withFileURL:[NSURL URLWithString:uc.getMedia.url]];
+                
+                
+            }
+
+        }
+    }
+    
+}
+
+
 - (void) contentFinishedUploading
 {
     //PHIL APPROVED
