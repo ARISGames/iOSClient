@@ -96,6 +96,10 @@
     
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    [self refreshViewFromModel];
+}
+
 -(void)addUploadsToComments{
     Note *note = [[AppModel sharedAppModel] noteForNoteId: self.parentNote.noteId playerListYesGameListNo:YES];
     if(!note) note = [[AppModel sharedAppModel] noteForNoteId: self.parentNote.noteId playerListYesGameListNo:NO];
