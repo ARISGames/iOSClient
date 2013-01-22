@@ -65,7 +65,7 @@
     return YES;
 }
 -(BOOL)textViewShouldBeginEditing:(UITextView *)textView{
-    if([textView.text isEqualToString:@"New Note"])
+    if([textView.text isEqualToString:NSLocalizedString(@"NodeEditorNewNoteKey", @"")])
         textView.text = @"";
     return YES;
 }

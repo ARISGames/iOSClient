@@ -101,7 +101,7 @@
     }        
     [self refreshViewFromModel];
     
-    if([self.note.title isEqualToString:@"New Note"])
+    if([self.note.title isEqualToString:NSLocalizedString(@"NodeEditorNewNoteKey", @"")])
     {
         self.textField.text = @"";
         [self.textField becomeFirstResponder];
