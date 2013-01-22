@@ -171,6 +171,10 @@
     imageURL = [[NSURL alloc] initFileURLWithPath:mediaFilePath];
     mediaData = UIImageJPEGRepresentation(image, 0.4);
     if (mediaData != nil) [mediaData writeToURL:imageURL atomically:YES];
+    
+    [[[AppModel sharedAppModel] uploadManager] uploadPlayerPicContentwithType:kNoteContentTypePhoto withFileURL:imageURL];
+    playerPic.image = image;
+    playerPic.media.uid = 0;
 
     // If image not selected from camera roll, save image with metadata to camera roll
     if ([info objectForKey:UIImagePickerControllerReferenceURL] == NULL)
@@ -187,18 +191,11 @@
                     NSData *imageData = UIImageJPEGRepresentation(image, 0.4);
                     NSString *newFilePath =[NSTemporaryDirectory() stringByAppendingString: [NSString stringWithFormat:@"%@image.jpg",[NSDate date]]];
                     NSURL *imageURL = [[NSURL alloc] initFileURLWithPath: newFilePath];
-                    playerPic.image = image;
                     
                     [imageData writeToURL:imageURL atomically:YES];
-                    
-                    [[[AppModel sharedAppModel] uploadManager] uploadPlayerPicContentwithType:kNoteContentTypePhoto withFileURL:imageURL];
-                    playerPic.media.uid = 0;
                 }
             } failureBlock:^(NSError *error) {
                 NSLog(@"PlayerSettingsViewController Error: %@",[error localizedDescription]);
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"UploadFailedKey", @"") message: @"Player Pic Upload Failed. Please Try Again." delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
-                
-                [alert show];
             }];
         }];
     }
@@ -206,6 +203,8 @@
     {
         // image from camera roll
         [[[AppModel sharedAppModel] uploadManager] uploadPlayerPicContentwithType:kNoteContentTypePhoto withFileURL:imageURL];
+        playerPic.image = image;
+        playerPic.media.uid = 0;
     }
 }
 

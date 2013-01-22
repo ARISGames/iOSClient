@@ -180,7 +180,12 @@
             [self.editView setNoteValid:YES];
             [self.editView setNoteChanged:YES];
         }
-            
+        
+        //Do the upload
+        [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:kNoteContentTypePhoto withFileURL:imageURL];
+        if([self.editView isKindOfClass:[NoteEditorViewController class]])
+            [self.editView refreshViewFromModel];
+        
         // If image not selected from camera roll, save image with metadata to camera roll
         if ([info objectForKey:UIImagePickerControllerReferenceURL] == NULL)
         {
@@ -202,22 +207,11 @@
                     NSURL *imageURL = [[NSURL alloc] initFileURLWithPath: newFilePath];
                     
                     [imageData writeToURL:imageURL atomically:YES];
-                    
-                    //Do the upload
-                    [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:kNoteContentTypePhoto withFileURL:imageURL];
-                    if([self.editView isKindOfClass:[NoteEditorViewController class]])
-                        [self.editView refreshViewFromModel];
                 }
                 failureBlock:^(NSError *error) {}
                 ];
             }];
         } 
-        else {
-            //Do the upload
-            [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:kNoteContentTypePhoto withFileURL:imageURL];
-            if([self.editView isKindOfClass:[NoteEditorViewController class]])
-                [self.editView refreshViewFromModel];
-        }
                                                                                                                                                                              
         
         
