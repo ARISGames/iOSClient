@@ -15,6 +15,7 @@
 #import "ItemActionViewController.h"
 #import "WebPage.h"
 #import "webpageViewController.h"
+#import "DialogViewController.h"
 #import "NoteEditorViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import "UIImage+Scale.h"
@@ -38,7 +39,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 @"</html>";
 
 @implementation ItemDetailsViewController
-@synthesize item, inInventory,mode,itemImageView, itemWebView,activityIndicator,isLink,itemDescriptionView,textBox,saveButton,scrollView;
+@synthesize item, inInventory,mode,itemImageView, itemWebView,activityIndicator,isLink,itemDescriptionView,textBox,saveButton,scrollView, delegate;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -230,10 +231,12 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	//Notify the server this item was displayed
 	[[AppServices sharedAppServices] updateServerItemViewed:item.itemId fromLocation:item.locationId];
 	
-	
-	[self.navigationController popToRootViewControllerAnimated:YES];
-    [RootViewController sharedRootViewController].modalPresent=NO;
-    [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];		
+    if([self.delegate isKindOfClass:[DialogViewController class]])
+        [self.navigationController popViewControllerAnimated:YES];
+    else{
+        [RootViewController sharedRootViewController].modalPresent=NO;
+        [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
+    }
 }
 
 -(IBAction)playMovie:(id)sender {

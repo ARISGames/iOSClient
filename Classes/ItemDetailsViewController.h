@@ -38,6 +38,7 @@
 	ItemDetailsModeType mode;
     IBOutlet UIActivityIndicatorView *activityIndicator;
     BOOL isLink;
+    NSObject *delegate;
 
 }
 @property(readwrite, assign) BOOL isLink;
@@ -52,6 +53,7 @@
 @property(nonatomic) IBOutlet UITextView *textBox;
 @property(nonatomic)UIScrollView *scrollView;
 @property(nonatomic) IBOutlet UIButton *saveButton;
+@property (nonatomic) NSObject *delegate;
 
 - (IBAction)dropButtonTouchAction: (id) sender;
 - (IBAction)deleteButtonTouchAction: (id) sender;

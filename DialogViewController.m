@@ -407,9 +407,11 @@ NSString *const kDialogHtmlTemplate =
             [self continueScript];
         }
         else if(currentScene.itemId != 0){
+            
             ItemDetailsViewController *itemVC = [[ItemDetailsViewController alloc]initWithNibName:@"ItemDetailsView" bundle:[NSBundle mainBundle]];
             itemVC.item = [[AppModel sharedAppModel] itemForItemId:currentScene.itemId];
             [self.navigationController pushViewController:itemVC animated:YES];
+            itemVC.delegate = self;
             
             ++scriptIndex;
             [self continueScript];
