@@ -181,11 +181,6 @@
             [self.editView setNoteChanged:YES];
         }
         
-        //Do the upload
-        [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:kNoteContentTypePhoto withFileURL:imageURL];
-        if([self.editView isKindOfClass:[NoteEditorViewController class]])
-            [self.editView refreshViewFromModel];
-        
         // If image not selected from camera roll, save image with metadata to camera roll
         if ([info objectForKey:UIImagePickerControllerReferenceURL] == NULL)
         {
@@ -207,14 +202,25 @@
                     NSURL *imageURL = [[NSURL alloc] initFileURLWithPath: newFilePath];
                     
                     [imageData writeToURL:imageURL atomically:YES];
+                    
+                    //Do the upload
+                    [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:kNoteContentTypePhoto withFileURL:imageURL];
+                    if([self.editView isKindOfClass:[NoteEditorViewController class]])
+                        [self.editView refreshViewFromModel];
+
                 }
-                failureBlock:^(NSError *error) {}
+                failureBlock:^(NSError *error)
+                {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Your privacy settings are disallowing us from saving to your camera roll. Go into System Settings to turn these settings off." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+                   [alert show];
+                    //Do the upload
+                    [[[AppModel sharedAppModel] uploadManager] uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:kNoteContentTypePhoto withFileURL:imageURL];
+                    if([self.editView isKindOfClass:[NoteEditorViewController class]])
+                     [self.editView refreshViewFromModel];
+                }
                 ];
             }];
         } 
-                                                                                                                                                                             
-        
-        
 	}	
 	else if ([mediaType isEqualToString:@"public.movie"]){
 		NSLog(@"CameraViewController: Found a Movie");
