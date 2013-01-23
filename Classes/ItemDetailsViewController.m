@@ -234,6 +234,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     if([self.delegate isKindOfClass:[DialogViewController class]])
         [self.navigationController popViewControllerAnimated:YES];
     else{
+        [self.navigationController popToRootViewControllerAnimated:YES];
         [RootViewController sharedRootViewController].modalPresent=NO;
         [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
     }
