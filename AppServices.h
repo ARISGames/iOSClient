@@ -84,6 +84,7 @@ extern NSString *const kARISServerServicePackage;
 - (void)fetchPopularGameListForTime: (int)time;
 - (void)fetchMiniGamesListLocations;
 - (void)fetchOneGame:(int)gameId;
+- (void)fetchGame:(int)gameId;
 
 - (void)fetchTabBarItemsForGame:(int)gameId;
 - (void)fetchLocationList;

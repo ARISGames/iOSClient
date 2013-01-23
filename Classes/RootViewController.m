@@ -859,7 +859,14 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
                                              selector:@selector(didReceiveWebpageChannelEventNotification:)
                                                  name:PTPusherEventReceivedNotification
                                                object:webpageChannel];
+    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+    [dispatcher addObserver:self
+                   selector:@selector(handleOpenURLGamesListReady)
+                       name:@"OneGameReady"
+                     object:nil];
     
+    [[AppServices sharedAppServices] fetchGame:selectedGame.gameId];
+
     
     
 }
@@ -1025,6 +1032,8 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     [self.navigationController pushViewController:gameDetailsVC animated:YES];
     [AppModel sharedAppModel].skipGameDetails = YES;
 }
+
+
 
 #pragma mark AlertView Delegate Methods
 

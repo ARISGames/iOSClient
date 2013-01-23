@@ -1845,6 +1845,30 @@ NSString *const kARISServerServicePackage = @"v1";
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseOneGameFromJSON:)]; 
 }
 
+- (void)fetchGame:(int)gameId {
+    NSLog(@"AppModel: Fetch Requested for a single game (as Game List).");
+    //[self fetchTabBarItemsForGame:gameId];//Make sure to get the tabs as well
+    
+    if (currentlyFetchingOneGame) {
+        NSLog(@"AppModel: Already fetching Games list, skipping");
+        return;
+    }
+    
+    currentlyFetchingOneGame = YES;
+    
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects:
+                          [NSString stringWithFormat:@"%d",gameId],
+						  nil];
+	
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
+                                                            andServiceName:@"games"
+                                                             andMethodName:@"getGame"
+                                                              andArguments:arguments andUserInfo:nil];
+	
+	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameFromJSON:)];
+}
+
 
 - (void)fetchRecentGameListForPlayer  {
 	NSLog(@"AppModel: Fetch Requested for Game List.");
@@ -2405,6 +2429,16 @@ NSString *const kARISServerServicePackage = @"v1";
     NSLog(@"AppModel: parseGameListFromJSON Complete, sending notification");
     
     return tempGameList;
+}
+
+-(void)parseGameFromJSON: (JSONResult *)jsonResult{
+    NSLog(@"parseGameFromJSON called");
+    currentlyFetchingOneGame = NO;
+    
+    [[RootViewController sharedRootViewController] showNewWaitingIndicator:@"Loading Game ..." displayProgressBar:NO];
+    
+    [AppModel sharedAppModel].currentGame = [self parseGame:jsonResult.data];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GameReady" object:nil]];
 }
 
 -(void)parseOneGameFromJSON: (JSONResult *)jsonResult{
