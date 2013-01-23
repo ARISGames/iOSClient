@@ -68,7 +68,7 @@
 }
 
 
-@property(nonatomic)UILabel *lbl;
+@property(nonatomic)          UILabel *lbl;
 @property(nonatomic) IBOutlet AsyncMediaImageView	*npcImage;
 @property(nonatomic) IBOutlet AsyncMediaImageView	*pcImage;
 @property(nonatomic) IBOutlet UIWebView		*npcWebView;

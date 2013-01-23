@@ -14,6 +14,7 @@ NSString *const kTagPc = @"pc";
 NSString *const kTagNpc = @"npc";
 NSString *const kTagDialog = @"dialog";
 NSString *const kTagPcTitle = @"pcTitle";
+NSString *const kTagPcMediaId = @"pcMediaId";
 NSString *const kTagLeaveButtonTitle = @"leaveButtonTitle";
 NSString *const kTagHideLeaveConversationButton = @"hideLeaveConversationButton";
 NSString *const kTagHideAdjustTextAreaButton = @"hideAdjustTextAreaButton";
@@ -94,6 +95,10 @@ NSString *const kTagNotification = @"notification";
     
     if ([attributeDict objectForKey:kTagPcTitle]) {
         [self.delegate setPcTitle:[attributeDict objectForKey:kTagPcTitle]];
+    }
+    
+    if ([attributeDict objectForKey:kTagPcMediaId] && [[attributeDict objectForKey:kTagPcMediaId] intValue] != 0) {
+        [self.delegate setPcMediaId:[[attributeDict objectForKey:kTagPcMediaId] intValue]];
     }
     
     if ([attributeDict objectForKey:kTagLeaveButtonTitle]) {

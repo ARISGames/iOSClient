@@ -16,6 +16,7 @@
 - (void) adjustTextArea:(NSString *)area;
 - (void) didFinishParsing;
 - (void) setPcTitle:(NSString *)pcTitle;
+- (void) setPcMediaId:(int) mediaId;
 - (void) setLeaveButtonTitle:(NSString *)aLeaveButtonTitle;
 @end
 

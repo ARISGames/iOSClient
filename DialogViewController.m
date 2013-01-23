@@ -1137,6 +1137,11 @@ NSString *const kDialogHtmlTemplate =
     pcTitle = aPcTitle;
 }
 
+-(void) setPcMediaId:(int)mediaId{
+    Media *pcMedia = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
+    [pcImage loadImageFromMedia: pcMedia];
+}
+
 -(void) setLeaveButtonTitle:(NSString *)aLeaveButtonTitle {
     leaveButtonTitle = aLeaveButtonTitle;
 }
