@@ -43,6 +43,6 @@
 - (void)showLoadingIndicator;
 - (void)dismissTutorial;
 - (void)refreshViewFromModel;
-
+-(NSString *) stringByStrippingHTML:(NSString *)stringToStrip;
 
 @end

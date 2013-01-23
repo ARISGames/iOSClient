@@ -349,7 +349,22 @@
         lblTemp1.font = [UIFont systemFontOfSize:18];
     
     UILabel *lblTemp2 = (UILabel *)[cell viewWithTag:2];
-    lblTemp2.text = item.description;
+    
+    // if description has html tags in it, take first line (up until <br>) and display unformatted text for decription
+    NSRange range = [item.description rangeOfString:@"<br>"];
+    NSString *shortDescription;
+    if (range.length != 0)
+       shortDescription = [item.description substringToIndex:range.location];
+    else
+        shortDescription = item.description;
+    range = [shortDescription rangeOfString:@"</br>"];
+    if (range.length != 0)
+        shortDescription = [shortDescription substringToIndex:range.location];
+    else
+        shortDescription = shortDescription;
+    
+    NSString *strippedDescriptionString = [self stringByStrippingHTML:shortDescription];
+    lblTemp2.text = strippedDescriptionString;
 
     //AsyncMediaImageView *newBannerView = (AsyncMediaImageView *)[cell viewWithTag:5];
     
@@ -417,6 +432,14 @@
 	return cell;
 }
 
+
+-(NSString *) stringByStrippingHTML: (NSString *)stringToStrip{
+    NSRange r;
+    NSString *s = stringToStrip;
+    while ((r = [s rangeOfString:@"<[^>]+>" options:NSRegularExpressionSearch]).location != NSNotFound)
+        s = [s stringByReplacingCharactersInRange:r withString:@""];
+    return s;
+}
 
 - (unsigned int) indexOf:(char) searchChar inString:(NSString *)searchString {
 	NSRange searchRange;
