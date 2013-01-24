@@ -17,6 +17,7 @@
 @synthesize exitToTabName;
 @synthesize mediaId;
 @synthesize iconMediaId;
+@synthesize fullScreenNotification;
 @synthesize isNullQuest;
 
 - (Quest *) init {

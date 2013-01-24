@@ -17,6 +17,7 @@
     int mediaId;
 	int iconMediaId;
     int sortNum;
+    BOOL fullScreenNotification;
     BOOL isNullQuest;
 }
 
@@ -27,6 +28,7 @@
 @property(readwrite, assign) int mediaId;
 @property(readwrite, assign) int iconMediaId;
 @property(readwrite, assign) int sortNum;
+@property(readwrite, assign) BOOL fullScreenNotification;
 @property(readwrite, assign) BOOL isNullQuest;
 
 @end

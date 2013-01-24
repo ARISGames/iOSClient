@@ -158,7 +158,13 @@ NSString *const kQuestsHtmlTemplate =
 			if (match == NO) {
                 [appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
                 
-                [[RootViewController sharedRootViewController] enqueuePopOverWithTitle:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) description:quest.name webViewText:quest.description andMediaId:quest.mediaId];
+                if(quest.fullScreenNotification)
+                    [[RootViewController sharedRootViewController] enqueuePopOverWithTitle:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) description:quest.name webViewText:quest.description andMediaId:quest.mediaId];
+                else
+                {
+                    NSString *notifString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestsViewQuestCompletedKey", nil), quest.name] ;
+                    [[RootViewController sharedRootViewController] enqueueNotificationWithFullString: notifString andBoldedString:quest.name];
+                }
                 
 			}
 		}
@@ -174,7 +180,13 @@ NSString *const kQuestsHtmlTemplate =
 			if (match == NO) {
 				newItems ++;;
                 
-                [[RootViewController sharedRootViewController] enqueuePopOverWithTitle:NSLocalizedString(@"QuestViewNewQuestKey", nil) description:quest.name webViewText:quest.description andMediaId:quest.mediaId];
+                if(quest.fullScreenNotification)
+                    [[RootViewController sharedRootViewController] enqueuePopOverWithTitle:NSLocalizedString(@"QuestViewNewQuestKey", nil) description:quest.name webViewText:quest.description andMediaId:quest.mediaId];
+                else
+                {
+                    NSString *notifString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestViewNewQuestKey", nil), quest.name] ;
+                    [[RootViewController sharedRootViewController] enqueueNotificationWithFullString: notifString andBoldedString:quest.name];
+                }
 			}
 		}
         
