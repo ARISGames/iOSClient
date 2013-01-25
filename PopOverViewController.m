@@ -49,18 +49,18 @@ NSString *const kPopOverHtmlTemplate =
     return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear {
     
     // probably requires custom animation, but can change self.modalTransitionStyle beforehand
-    backgroundImage = [[UIImageView alloc] initWithImage:[self screenshot]];
-    backgroundImage.frame = CGRectMake(0, -[[UIApplication sharedApplication] statusBarFrame].size.height, self.view.frame.size.width, self.view.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height);
-    [self.view insertSubview:backgroundImage atIndex:0];
+  //  backgroundImage = [[UIImageView alloc] initWithImage:[self screenshot]];
+  //  backgroundImage.frame = CGRectMake(0, -[[UIApplication sharedApplication] statusBarFrame].size.height, self.view.frame.size.width, self.view.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height);
+  //   [self.view insertSubview:backgroundImage atIndex:0];
     semiTransparentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     semiTransparentView.backgroundColor = [[UIColor alloc] initWithRed:0 green:0 blue:0 alpha:0.5];
     [self.view insertSubview:semiTransparentView atIndex:1];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
+- (void)viewWillDisappear {
     [popOverWebViewMedia stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML = \"\";"];
     [popOverWebViewNoMedia stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML = \"\";"];
     [backgroundImage removeFromSuperview];

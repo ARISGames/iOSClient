@@ -467,11 +467,19 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
         isShowingPopOver = YES;
         [popOverViewController view]; //used to force viewDidLoad before setTitle: descripion:...
         [popOverViewController setTitle:[[popOverArray objectAtIndex:0] objectForKey:@"title"] description:[[popOverArray objectAtIndex:0] objectForKey:@"description"] webViewText:[[popOverArray objectAtIndex:0] objectForKey:@"text"] andMediaId:[[[popOverArray objectAtIndex:0] objectForKey:@"mediaId"] intValue]];
-        if (!(popOverViewController.isViewLoaded && popOverViewController.view.window)) [self presentViewController:popOverViewController animated:NO completion:nil];
-        if([popOverArray count] > 0) [popOverArray removeObjectAtIndex:0];
+        if (!(popOverViewController.isViewLoaded && popOverViewController.view.window))
+        {
+            //[self presentViewController:popOverViewController animated:NO completion:nil];
+            [self.view addSubview:popOverViewController.view];
+        }
+        if([popOverArray count] > 0)
+        {
+            [popOverArray removeObjectAtIndex:0];
+        }
     }
     else if (popOverViewController.isViewLoaded && popOverViewController.view.window) {
         [popOverViewController dismissViewControllerAnimated:NO completion:nil];
+        [popOverViewController.view removeFromSuperview];
         isShowingPopOver = NO;
         [self showNotifications];
     }

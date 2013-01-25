@@ -87,7 +87,7 @@
 									<object class="IBUILabel" id="763145879">
 										<reference key="NSNextResponder" ref="292622985"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{30, 5}, {220, 32}}</string>
+										<string key="NSFrame">{{10, 5}, {260, 32}}</string>
 										<reference key="NSSuperview" ref="292622985"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="720162469"/>
@@ -100,10 +100,11 @@
 										<string key="IBUIText">Label</string>
 										<nil key="IBUIHighlightedColor"/>
 										<int key="IBUIBaselineAdjustment">0</int>
+										<float key="IBUIMinimumFontSize">14</float>
+										<bool key="IBUIAdjustsLetterSpacingToFitWidth">YES</bool>
 										<int key="IBUITextAlignment">1</int>
 										<reference key="IBUIFontDescription" ref="187007421"/>
 										<reference key="IBUIFont" ref="213162883"/>
-										<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 									</object>
 									<object class="IBUIView" id="720162469">
 										<reference key="NSNextResponder" ref="292622985"/>
@@ -154,7 +155,7 @@
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MSAwLjgAA</bytes>
+									<bytes key="NSWhite">MQA</bytes>
 									<object class="NSColorSpace" key="NSCustomColorSpace" id="897425276">
 										<int key="NSID">2</int>
 									</object>
@@ -210,7 +211,6 @@
 						</object>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
-						<float key="IBUIAlpha">0.80000001192092896</float>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 					<object class="IBUIView" id="226109379">
@@ -246,7 +246,7 @@
 									<object class="IBUILabel" id="95897637">
 										<reference key="NSNextResponder" ref="287643569"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{30, 5}, {220, 32}}</string>
+										<string key="NSFrame">{{10, 5}, {260, 32}}</string>
 										<reference key="NSSuperview" ref="287643569"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="134241778"/>
@@ -259,10 +259,11 @@
 										<string key="IBUIText">Label</string>
 										<nil key="IBUIHighlightedColor"/>
 										<int key="IBUIBaselineAdjustment">0</int>
+										<float key="IBUIMinimumFontSize">14</float>
+										<bool key="IBUIAdjustsLetterSpacingToFitWidth">YES</bool>
 										<int key="IBUITextAlignment">1</int>
 										<reference key="IBUIFontDescription" ref="187007421"/>
 										<reference key="IBUIFont" ref="213162883"/>
-										<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 									</object>
 									<object class="IBUIWebView" id="134241778">
 										<reference key="NSNextResponder" ref="287643569"/>
@@ -284,7 +285,7 @@
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MSAwLjgAA</bytes>
+									<bytes key="NSWhite">MQA</bytes>
 									<reference key="NSCustomColorSpace" ref="897425276"/>
 								</object>
 								<bool key="IBUIOpaque">NO</bool>
@@ -321,7 +322,6 @@
 						<reference key="IBUIBackgroundColor" ref="1010275175"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
-						<float key="IBUIAlpha">0.80000001192092896</float>
 						<object class="IBUIScreenMetrics" key="IBUISimulatedDestinationMetrics" id="819897895">
 							<string key="IBUISimulatedSizeMetricsClass">IBUIScreenMetrics</string>
 							<object class="NSMutableDictionary" key="IBUINormalizedOrientationToSizeMap">
@@ -346,10 +346,7 @@
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="627091373"/>
-				<object class="NSColor" key="IBUIBackgroundColor">
-					<int key="NSColorSpace">1</int>
-					<bytes key="NSRGB">MSAxIDEAA</bytes>
-				</object>
+				<reference key="IBUIBackgroundColor" ref="45553611"/>
 				<reference key="IBUISimulatedDestinationMetrics" ref="819897895"/>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
@@ -596,18 +593,6 @@
 						<string key="objectName">NoMedia</string>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">22</int>
-						<reference key="object" ref="882343410"/>
-						<reference key="parent" ref="226109379"/>
-						<string key="objectName">NoMediaOKButton</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">16</int>
-						<reference key="object" ref="626427598"/>
-						<reference key="parent" ref="226109379"/>
-						<string key="objectName">NoMediaTitle</string>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">68</int>
 						<reference key="object" ref="287643569"/>
 						<array class="NSMutableArray" key="children">
@@ -618,16 +603,28 @@
 						<string key="objectName">WhiteBG</string>
 					</object>
 					<object class="IBObjectRecord">
+						<int key="objectID">18</int>
+						<reference key="object" ref="134241778"/>
+						<reference key="parent" ref="287643569"/>
+						<string key="objectName">NoMediaWebview</string>
+					</object>
+					<object class="IBObjectRecord">
 						<int key="objectID">26</int>
 						<reference key="object" ref="95897637"/>
 						<reference key="parent" ref="287643569"/>
 						<string key="objectName">NoMediaSubtitle</string>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">18</int>
-						<reference key="object" ref="134241778"/>
-						<reference key="parent" ref="287643569"/>
-						<string key="objectName">NoMediaWebview</string>
+						<int key="objectID">16</int>
+						<reference key="object" ref="626427598"/>
+						<reference key="parent" ref="226109379"/>
+						<string key="objectName">NoMediaTitle</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">22</int>
+						<reference key="object" ref="882343410"/>
+						<reference key="parent" ref="226109379"/>
+						<string key="objectName">NoMediaOKButton</string>
 					</object>
 				</array>
 			</object>
