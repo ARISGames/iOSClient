@@ -2435,8 +2435,6 @@ NSString *const kARISServerServicePackage = @"v1";
     NSLog(@"parseGameFromJSON called");
     currentlyFetchingOneGame = NO;
     
-    [[RootViewController sharedRootViewController] showNewWaitingIndicator:@"Loading Game ..." displayProgressBar:NO];
-    
     [AppModel sharedAppModel].currentGame = [self parseGame:jsonResult.data];
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GameReady" object:nil]];
 }
@@ -2597,15 +2595,8 @@ NSString *const kARISServerServicePackage = @"v1";
 }
 
 -(void)parseGameMediaListFromJSON: (JSONResult *)jsonResult{
-    //Below was commented out Thursday, October 4th, 2012 by Jacob Hanshaw as it was viewed to be redundant 
-    //   [self startCachingMedia:jsonResult];
-    //End of redundant code
-    
-    // [[[RootViewController sharedRootViewController] showNewWaitingIndicator:@"Loading Game..." displayProgressBar:NO];
-    
-    if([RootViewController sharedRootViewController].loadingVC){
+    if([RootViewController sharedRootViewController].loadingVC)
         [RootViewController sharedRootViewController].loadingVC.receivedData++;
-    }
     
     [self performSelector:@selector(startCachingMedia:) withObject:jsonResult afterDelay:.1];
 }
