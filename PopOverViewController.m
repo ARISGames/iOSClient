@@ -50,7 +50,6 @@ NSString *const kPopOverHtmlTemplate =
 }
 
 - (void)viewWillAppear {
-    
     // probably requires custom animation, but can change self.modalTransitionStyle beforehand
   //  backgroundImage = [[UIImageView alloc] initWithImage:[self screenshot]];
   //  backgroundImage.frame = CGRectMake(0, -[[UIApplication sharedApplication] statusBarFrame].size.height, self.view.frame.size.width, self.view.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height);

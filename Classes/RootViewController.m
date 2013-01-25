@@ -83,6 +83,7 @@ BOOL isShowingPopOver;
         [dispatcher addObserver:self selector:@selector(performLogout:) name:@"LogoutRequested" object:nil];
         [dispatcher addObserver:self selector:@selector(checkForDisplayCompleteNode) name:@"NewQuestListReady" object:nil];
         [dispatcher addObserver:self selector:@selector(receivedMediaList) name:@"ReceivedMediaList" object:nil];
+        [dispatcher addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"OneGameReady" object:nil];
         
             
         UIWebView *titleLabelAlloc = [[UIWebView alloc] initWithFrame:CGRectMake(0, TRUE_ZERO_Y-8, SCREEN_WIDTH, 28)];
@@ -527,6 +528,8 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     self.loginViewNavigationController.view.hidden = YES;
     self.playerSettingsViewNavigationController.view.hidden = YES;
     [UIView commitAnimations];
+    [AppModel sharedAppModel].fallbackGameId = 0;
+    [[AppModel sharedAppModel] saveUserDefaults];
 }
 
 - (void) showAlert:(NSString *)title message:(NSString *)message {
@@ -821,6 +824,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     
 	//Set the model to this game
 	[AppModel sharedAppModel].currentGame = selectedGame;
+    [AppModel sharedAppModel].fallbackGameId = [AppModel sharedAppModel].currentGame.gameId;
 	[[AppModel sharedAppModel] saveUserDefaults];
 	
 	UINavigationController *navigationController;
@@ -1012,6 +1016,8 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     gameDetailsVC.game = selectedGame;
     
     [AppModel sharedAppModel].currentGame = selectedGame;
+    [AppModel sharedAppModel].fallbackGameId = [AppModel sharedAppModel].currentGame.gameId;
+	[[AppModel sharedAppModel] saveUserDefaults];
     
     // show gameSelectionTabBarController
     self.tabBarController.view.hidden = YES;
@@ -1040,8 +1046,6 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     [self.navigationController pushViewController:gameDetailsVC animated:YES];
     [AppModel sharedAppModel].skipGameDetails = YES;
 }
-
-
 
 #pragma mark AlertView Delegate Methods
 

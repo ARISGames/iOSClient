@@ -15,7 +15,7 @@
 
 @implementation AppModel
 @synthesize serverURL,showGamesInDevelopment,showPlayerOnMap;
-@synthesize loggedIn, userName, groupName, groupGame, displayName, password, playerId, playerMediaId, museumMode, skipGameDetails;
+@synthesize loggedIn, userName, groupName, groupGame, displayName, password, playerId, fallbackGameId, playerMediaId, museumMode, skipGameDetails;
 @synthesize singleGameList, nearbyGameList, searchGameList, popularGameList, recentGameList;
 @synthesize currentGame, locationList, playerList;
 @synthesize playerLocation, inventory, questList, networkAlert;
@@ -130,6 +130,12 @@
 		self.hasSeenMapTabTutorial = [defaults boolForKey:@"hasSeenMapTabTutorial"];
 		self.hasSeenInventoryTabTutorial = [defaults boolForKey:@"hasSeenInventoryTabTutorial"];
 	}
+    
+    self.fallbackGameId = [defaults integerForKey:@"gameId"];
+    if(self.fallbackGameId != 0 && !self.currentGame)
+    {
+        [[AppServices sharedAppServices] fetchOneGame:self.fallbackGameId];
+    }
 }
 
 -(void)clearGameLists{
@@ -148,10 +154,12 @@
 	NSLog(@"Model: Clearing User Defaults");	
 	[AppModel sharedAppModel].currentGame.gameId = 0;
     [AppModel sharedAppModel].playerId = 0;
+    [AppModel sharedAppModel].fallbackGameId = 0;
     [AppModel sharedAppModel].playerMediaId = -1;
     [AppModel sharedAppModel].userName = @"";
     [AppModel sharedAppModel].displayName = @"";
     [defaults setInteger:playerId forKey:@"playerId"];
+    [defaults setInteger:fallbackGameId forKey:@"gameId"];
     [defaults setInteger:playerMediaId forKey:@"playerMediaId"];
     [defaults setObject:userName forKey:@"userName"];
     [defaults setObject:displayName forKey:@"displayName"];
@@ -170,6 +178,7 @@
 	[defaults setBool:hasSeenMapTabTutorial forKey:@"hasSeenMapTabTutorial"];
 	[defaults setBool:hasSeenInventoryTabTutorial forKey:@"hasSeenInventoryTabTutorial"];
     [defaults setInteger:playerId forKey:@"playerId"];
+    [defaults setInteger:fallbackGameId forKey:@"gameId"];
     [defaults setInteger:playerMediaId forKey:@"playerMediaId"];
     [defaults setObject:userName forKey:@"userName"];
     [defaults setObject:displayName forKey:@"displayName"];
@@ -237,7 +246,6 @@
     
     uploadManager = [[UploadMan alloc]init];
     mediaCache = [[MediaCache alloc]init];
-    
 }
 
 #pragma mark Seters/Geters

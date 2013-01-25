@@ -40,6 +40,7 @@ extern NSDictionary *InventoryElements;
 	
 	BOOL loggedIn;
 	int playerId;
+	int fallbackGameId;
     int playerMediaId;
 	NSString *groupName;
 	int groupGame;
@@ -131,6 +132,7 @@ extern NSDictionary *InventoryElements;
 @property(nonatomic) NSString *displayName;
 @property(nonatomic) NSString *password;
 @property(readwrite) int playerId;
+@property(readwrite) int fallbackGameId;//Used only to recover from crashes
 @property(readwrite) int playerMediaId;
 
 @property(nonatomic) Game *currentGame;

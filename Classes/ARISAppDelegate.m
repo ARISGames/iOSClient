@@ -235,7 +235,6 @@ int steps = 0;
         
         NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
         //[dispatcher addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"NewGameListReady" object:nil];
-        [dispatcher addObserver:[RootViewController sharedRootViewController] selector:@selector(handleOpenURLGamesListReady) name:@"OneGameReady" object:nil];
         [[AppServices sharedAppServices] fetchOneGame:[gameID intValue]];
     }
     return YES;
