@@ -1395,9 +1395,8 @@
 				A7986D620F8FEBD300A5469F /* QR Scanner */,
 				A7986D640F8FEBFA00A5469F /* Game Picker */,
 				A7986D610F8FEBB200A5469F /* Developer */,
-				2D73EA1F160CCFD900A1F570 /* Global Player */,
 				A7986D650F8FEC1100A5469F /* Login */,
-				A7986D670F8FEC3900A5469F /* Accounts */,
+				A7986D670F8FEC3900A5469F /* Account */,
 				AB1660BC14E8754A002C6ACB /* Frameworks */,
 				1147E15C13F32273000E4BC2 /* Notes */,
 				1139BA5113ABC6A2008BF268 /* Panoramic */,
@@ -1473,16 +1472,19 @@
 			path = Classes/model;
 			sourceTree = "<group>";
 		};
-		2D73EA1F160CCFD900A1F570 /* Global Player */ = {
+		2D73EA1F160CCFD900A1F570 /* Public Name and Image */ = {
 			isa = PBXGroup;
 			children = (
+				11566430144A414D006902C2 /* ChangePasswordViewController.h */,
+				11566431144A414D006902C2 /* ChangePasswordViewController.m */,
+				11566432144A414D006902C2 /* ChangePasswordViewController.xib */,
 				2D73EA20160CD07600A1F570 /* PlayerSettingsViewController.h */,
 				2D73EA21160CD07600A1F570 /* PlayerSettingsViewController.m */,
 				2D73EA22160CD07600A1F570 /* PlayerSettingsViewController.xib */,
 				2D73EA25160CE0AA00A1F570 /* AsyncMediaTouchableImageView.h */,
 				2D73EA26160CE0AA00A1F570 /* AsyncMediaTouchableImageView.m */,
 			);
-			name = "Global Player";
+			name = "Public Name and Image";
 			sourceTree = "<group>";
 		};
 		4A373BD015ACABA8007D975C /* Bump API */ = {
@@ -1602,9 +1604,6 @@
 				111CFA9014520EC700D56207 /* ForgotViewController.h */,
 				111CFA9114520EC700D56207 /* ForgotViewController.m */,
 				111CFA9214520EC700D56207 /* ForgotViewController.xib */,
-				11566430144A414D006902C2 /* ChangePasswordViewController.h */,
-				11566431144A414D006902C2 /* ChangePasswordViewController.m */,
-				11566432144A414D006902C2 /* ChangePasswordViewController.xib */,
 				A722C8C40FBCD92E009432DB /* SelfRegistrationViewController.h */,
 				A722C8C50FBCD92E009432DB /* SelfRegistrationViewController.m */,
 				A722C8BF0FBCD8D0009432DB /* SelfRegistration.xib */,
@@ -1643,9 +1642,10 @@
 			name = Inventory;
 			sourceTree = "<group>";
 		};
-		A7986D670F8FEC3900A5469F /* Accounts */ = {
+		A7986D670F8FEC3900A5469F /* Account */ = {
 			isa = PBXGroup;
 			children = (
+				2D73EA1F160CCFD900A1F570 /* Public Name and Image */,
 				AB35E066155C6F5200430AF7 /* 298-circlex.png */,
 				AB35E067155C6F5200430AF7 /* 298-circlex@2x.png */,
 				AB2FE578120A154B00758F8C /* LogoutButton.png */,
@@ -1653,7 +1653,7 @@
 				2B3D12EB0F4382070067FD3A /* AccountSettingsViewController.m */,
 				2B3D12ED0F4382A00067FD3A /* Account.xib */,
 			);
-			name = Accounts;
+			name = Account;
 			sourceTree = "<group>";
 		};
 		A7986D680F8FEC4900A5469F /* Quests */ = {

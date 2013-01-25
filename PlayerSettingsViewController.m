@@ -12,10 +12,9 @@
 
 @synthesize playerPic;
 @synthesize playerNameField;
-//@synthesize playerPicOpt1;
-//@synthesize playerPicOpt2;
-//@synthesize playerPicOpt3;
-@synthesize playerPicCam;
+@synthesize playerPicCamButton;
+@synthesize saveButton;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -29,15 +28,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //playerPicOpt1.delegate = self;
-    //playerPicOpt2.delegate = self;
-    //playerPicOpt3.delegate = self;
-    playerPicCam.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [self refreshViewFromModel];
+    self.title = @"Public Name and Image";
 }
 
 - (void)manuallyForceViewDidAppear
@@ -63,8 +59,6 @@
         [self.playerPic loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].playerMediaId]];
     else
         [self.playerPic updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
-
-    [playerPicCam loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:36]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -84,12 +78,8 @@
     return YES;
 }
 
--(id)playerPicOptTouched:(id)sender
-{
-    return nil;
-}
 
--(IBAction)goButtonTouched:(id)sender
+-(IBAction)saveButtonTouched:(id)sender
 {
     if([playerNameField.text isEqualToString:@""] || [AppModel sharedAppModel].playerMediaId == 0)
     {
@@ -124,7 +114,7 @@
     return;
 }
 
--(void)asyncMediaImageTouched:(id)sender
+-(IBAction)playerPicCamButtonTouched:(id)sender
 {
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {

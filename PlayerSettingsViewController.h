@@ -10,7 +10,6 @@
 #import "AppModel.h"
 #import "CameraViewController.h"
 #import "AsyncMediaTouchableImageView.h"
-
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "UIImage+Scale.h"
@@ -19,30 +18,20 @@
 @interface PlayerSettingsViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, AsyncMediaImageViewDelegate, UITextFieldDelegate> {
 	IBOutlet AsyncMediaImageView *playerPic;
     IBOutlet UITextField *playerNameField;
-    
-    //Not IBOutlets because event listeners are defined outside of the xib
-	//AsyncMediaTouchableImageView *playerPicOpt1;
-	//AsyncMediaTouchableImageView *playerPicOpt2;
-    //AsyncMediaTouchableImageView *playerPicOpt3;
-	AsyncMediaTouchableImageView *playerPicCam;
-
-    IBOutlet UIButton *goButton;
+	IBOutlet UIButton *playerPicCamButton;
+    IBOutlet UIButton *saveButton;
 }
 
 @property (nonatomic) IBOutlet AsyncMediaImageView *playerPic;
 @property (nonatomic) IBOutlet UITextField *playerNameField;
+@property (nonatomic) IBOutlet UIButton *playerPicCamButton;
+@property (nonatomic) IBOutlet UIButton *saveButton;
 
-//@property (nonatomic) AsyncMediaTouchableImageView *playerPicOpt1;
-//@property (nonatomic) AsyncMediaTouchableImageView *playerPicOpt2;
-//@property (nonatomic) AsyncMediaTouchableImageView *playerPicOpt3;
-@property (nonatomic) AsyncMediaTouchableImageView *playerPicCam;
 
-- (void)manuallyForceViewDidAppear;
--(IBAction)playerNameFieldTouched:(id)sender;
--(id)playerPicOptTouched:(id)sender;
--(IBAction)goButtonTouched:(id)sender;
+-(void)manuallyForceViewDidAppear;
 -(void) refreshViewFromModel;
-
--(void)asyncMediaImageTouched:(id)sender;
+-(IBAction)playerNameFieldTouched:(id)sender;
+-(IBAction)saveButtonTouched:(id)sender;
+-(IBAction)playerPicCamButtonTouched:(id)sender;
 
 @end

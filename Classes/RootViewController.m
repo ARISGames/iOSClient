@@ -755,7 +755,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
         {
             [self showPlayerSettings:nil];
             if([AppModel sharedAppModel].playerMediaId == 0 || [AppModel sharedAppModel].playerMediaId == -1)
-                [self.playerSettingsViewController asyncMediaImageTouched:self.playerSettingsViewController.playerPicCam];
+                [self.playerSettingsViewController playerPicCamButtonTouched:nil];
         }
         else
         {

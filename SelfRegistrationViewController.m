@@ -77,11 +77,13 @@
 	
 	[[RootViewController sharedRootViewController] removeNewWaitingIndicator];
 
+    /*
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"StartOverResetAlertTitleKey", @"")  
                                                     message:NSLocalizedString(@"SelfRegistrationSuccessMessageKey", @"")
 												   delegate:nil cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
-	[alert show];	
-
+	[alert show];
+    */
+    
     [[RootViewController sharedRootViewController] attemptLoginWithUserName:[AppModel sharedAppModel].userName andPassword:[AppModel sharedAppModel].password andGameId:0 inMuseumMode:true];
 	[userName resignFirstResponder];
 	[password resignFirstResponder];

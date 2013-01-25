@@ -26,10 +26,6 @@
 - (void)viewDidLoad {
 	warningLabel.text = NSLocalizedString(@"LogoutWarningKey", @"");
 	[logoutButton setTitle:NSLocalizedString(@"LogoutKey",@"") forState:UIControlStateNormal];
-	//[passButton setTitle:NSLocalizedString(@"ChangePasswordKey",@"") forState:UIControlStateNormal];
-	[passButton setTitle:@"Change Password" forState:UIControlStateNormal];
-	//[profileButton setTitle:NSLocalizedString(@"ProfileKey",@"") forState:UIControlStateNormal];
-	[profileButton setTitle:@"Profile" forState:UIControlStateNormal];
 	
     [super viewDidLoad];	
 	NSLog(@"Account Settings View Controller Loaded");
