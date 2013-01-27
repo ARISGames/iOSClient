@@ -158,7 +158,7 @@
 		3AA83349159E4029002CC61D /* Overlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AA83348159E4029002CC61D /* Overlay.m */; };
 		3AB24ACB152B8CE500B49876 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AB24ACA152B8CE500B49876 /* ImageIO.framework */; };
 		3AEB8F5315265E08006C12AF /* ARISUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AEB8F5215265E08006C12AF /* ARISUploader.m */; };
-		4A373BD315ACABBE007D975C /* libBump.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A373BD115ACABBE007D975C /* libBump.a */; };
+		4A373BD315ACABBE007D975C /* libBump.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A373BD115ACABBE007D975C /* libBump.a */; settings = {ATTRIBUTES = (Weak, ); }; };
 		4A7F90F315B0773200988446 /* bump_logo_250x84.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A7F90F215B0773200988446 /* bump_logo_250x84.png */; };
 		4A7F910015B09FFC00988446 /* pingtone.wav in Resources */ = {isa = PBXBuildFile; fileRef = 4A7F90FF15B09FFC00988446 /* pingtone.wav */; };
 		4A9181BA139FDF1600D236CC /* GamesMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9181B9139FDF1600D236CC /* GamesMapAnnotation.m */; };
@@ -364,6 +364,7 @@
 		ABDA40DE10506CB300823A94 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABDA40DD10506CB300823A94 /* MapKit.framework */; };
 		ABDF2CCB15DB4379008E8CA0 /* textToggle.png in Resources */ = {isa = PBXBuildFile; fileRef = ABDF2CCA15DB4379008E8CA0 /* textToggle.png */; };
 		ABEBF566123D916D00ECE66C /* WaitingIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEBF565123D916D00ECE66C /* WaitingIndicatorView.m */; };
+		ABECA1A416B5CC2100051759 /* libCrittercism_v3_4_9.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABECA1A316B5CC2100051759 /* libCrittercism_v3_4_9.a */; };
 		ABF41CAA14744DAC00B60D05 /* camera_roll.png in Resources */ = {isa = PBXBuildFile; fileRef = ABF41CA914744DAB00B60D05 /* camera_roll.png */; };
 		ABF41CEF1474657800B60D05 /* public.png in Resources */ = {isa = PBXBuildFile; fileRef = ABF41CEE1474657800B60D05 /* public.png */; };
 		ABF4A3AD116847E50043EB1C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF4A3AC116847E40043EB1C /* SystemConfiguration.framework */; };
@@ -980,6 +981,9 @@
 		ABDF2CCA15DB4379008E8CA0 /* textToggle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textToggle.png; sourceTree = "<group>"; };
 		ABEBF564123D916D00ECE66C /* WaitingIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitingIndicatorView.h; sourceTree = "<group>"; };
 		ABEBF565123D916D00ECE66C /* WaitingIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitingIndicatorView.m; sourceTree = "<group>"; };
+		ABECA1A116B5CC2100051759 /* Crittercism.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crittercism.h; sourceTree = "<group>"; };
+		ABECA1A216B5CC2100051759 /* CrittercismDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrittercismDelegate.h; sourceTree = "<group>"; };
+		ABECA1A316B5CC2100051759 /* libCrittercism_v3_4_9.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCrittercism_v3_4_9.a; sourceTree = "<group>"; };
 		ABF41CA914744DAB00B60D05 /* camera_roll.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_roll.png; sourceTree = "<group>"; };
 		ABF41CEE1474657800B60D05 /* public.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = public.png; sourceTree = "<group>"; };
 		ABF4A3AC116847E40043EB1C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -1066,6 +1070,7 @@
 				ABF4A3AD116847E50043EB1C /* SystemConfiguration.framework in Frameworks */,
 				AA1E2D501652CC7500219535 /* Security.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+				ABECA1A416B5CC2100051759 /* libCrittercism_v3_4_9.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1695,6 +1700,7 @@
 			children = (
 				2D26698416234CE400342A7E /* UIImage+fixOrientation.h */,
 				2D26698516234CE400342A7E /* UIImage+fixOrientation.m */,
+				4ADE919B13CB7CB80009F4AF /* UIImage+Scale.m */,
 				2D26697E1623487000342A7E /* UIImage+Alpha.h */,
 				2D26697F1623487000342A7E /* UIImage+Alpha.m */,
 				2D2669801623487000342A7E /* UIImage+RoundedCorner.h */,
@@ -1702,7 +1708,6 @@
 				2D26697B1623483200342A7E /* UIImage+Resize.m */,
 				2D26697C1623483200342A7E /* UIImage+Resize.h */,
 				4ADE919A13CB7CB80009F4AF /* UIImage+Scale.h */,
-				4ADE919B13CB7CB80009F4AF /* UIImage+Scale.m */,
 				4ADE919D13CB84B80009F4AF /* UIDevice+Hardware.h */,
 				4ADE919E13CB84B80009F4AF /* UIDevice+Hardware.m */,
 				4A373BD015ACABA8007D975C /* Bump API */,
@@ -1796,6 +1801,7 @@
 		AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */ = {
 			isa = PBXGroup;
 			children = (
+				ABECA1A016B5CC2100051759 /* CrittercismSDK */,
 				AA17719F1652D33200A3836D /* libPusher-combined.a */,
 				11FDA7EF1474706600ACE17D /* libzbar.a */,
 				3A29205B152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.h */,
@@ -2117,6 +2123,16 @@
 				11DD5427141E79160007CD70 /* DDAnnotationView.m */,
 			);
 			name = "Note Editor";
+			sourceTree = "<group>";
+		};
+		ABECA1A016B5CC2100051759 /* CrittercismSDK */ = {
+			isa = PBXGroup;
+			children = (
+				ABECA1A116B5CC2100051759 /* Crittercism.h */,
+				ABECA1A216B5CC2100051759 /* CrittercismDelegate.h */,
+				ABECA1A316B5CC2100051759 /* libCrittercism_v3_4_9.a */,
+			);
+			path = CrittercismSDK;
 			sourceTree = "<group>";
 		};
 		D42432501107734300E58147 /* NPC Dialog */ = {
@@ -2758,6 +2774,8 @@
 					"$(SRCROOT)/**",
 					"\"$(SRCROOT)/ZBarSDK\"",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/thirdParty/CrittercismSDK\"",
+					"\"$(SRCROOT)/CrittercismSDK\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-all_load";
@@ -2842,7 +2860,7 @@
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PROVISIONING_PROFILE = "070A9037-D69F-46F7-9769-74B7B2F68318";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "070A9037-D69F-46F7-9769-74B7B2F68318";
@@ -2860,8 +2878,8 @@
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: UW Division of Information Technology";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: UW Division of Information Technology";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: David Gagnon";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: David Gagnon";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2880,12 +2898,14 @@
 					"$(SRCROOT)/**",
 					"\"$(SRCROOT)/ZBarSDK\"",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/thirdParty/CrittercismSDK\"",
+					"\"$(SRCROOT)/CrittercismSDK\"",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = ARIS;
-				PROVISIONING_PROFILE = "0F878890-EE14-459C-A1D8-9D5C40DC6596";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0F878890-EE14-459C-A1D8-9D5C40DC6596";
+				PROVISIONING_PROFILE = "14F61364-2841-45A9-8620-5290E0E4C76D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "14F61364-2841-45A9-8620-5290E0E4C76D";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = iphoneos;
@@ -2905,7 +2925,7 @@
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = NO;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";

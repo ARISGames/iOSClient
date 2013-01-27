@@ -55,6 +55,8 @@ int steps = 0;
         [window setRootViewController:[RootViewController sharedRootViewController]];
     else
         [window addSubview:[RootViewController sharedRootViewController].view];
+    
+    [Crittercism enableWithAppID: @"5101a46d59e1bd498c000002"];
 }
 
 

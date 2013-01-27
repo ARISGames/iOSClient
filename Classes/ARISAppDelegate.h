@@ -18,6 +18,8 @@
 
 #import "Reachability.h"
 
+#import "Crittercism.h"
+
 
 
 @interface ARISAppDelegate : NSObject <AVAudioPlayerDelegate,UIApplicationDelegate, UIAccelerometerDelegate> {
