@@ -19,9 +19,10 @@
 @synthesize delegate;
 
 - (void) configureBump {
+    NSLog(@"ConfiguringBump");
     [BumpClient configureWithAPIKey:@"4ff1c7a0c2a84bb9938dafc3a1ac770c" andUserID:[[UIDevice currentDevice] name]];
     
-    [[BumpClient sharedClient] setMatchBlock:^(BumpChannelID channel) { 
+    [[BumpClient sharedClient] setMatchBlock:^(BumpChannelID channel) {
         NSLog(@"Matched with user: %@", [[BumpClient sharedClient] userIDForChannel:channel]); 
         [[BumpClient sharedClient] confirmMatch:YES onChannel:channel];
     }];

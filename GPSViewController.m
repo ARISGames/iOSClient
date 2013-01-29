@@ -133,10 +133,7 @@ static float INITIAL_SPAN = 0.001;
 	NSLog(@"Begin Loading GPS View");
 	//mapView.showsUserLocation = YES;
 	[mapView setDelegate:self];
-    if([AppModel sharedAppModel].currentGame.mapType == @"SATELLITE") mapView.mapType=MKMapTypeSatellite;
-    else if([AppModel sharedAppModel].currentGame.mapType == @"HYBRID") mapView.mapType=MKMapTypeHybrid;
-    else mapView.mapType=MKMapTypeStandard;
-	[self.view addSubview:mapView];
+    [self.view addSubview:mapView];
 	NSLog(@"GPSViewController: Mapview inited and added to view");
 	
 	//Setup the buttons
@@ -199,7 +196,10 @@ static float INITIAL_SPAN = 0.001;
 - (void)viewDidAppear:(BOOL)animated {
     NSLog(@"GPSViewController: view did appear");
     
-    
+    if([[AppModel sharedAppModel].currentGame.mapType isEqualToString:@"SATELLITE"]) mapView.mapType=MKMapTypeSatellite;
+    else if([[AppModel sharedAppModel].currentGame.mapType isEqualToString:@"HYBRID" ]) mapView.mapType=MKMapTypeHybrid;
+    else mapView.mapType=MKMapTypeStandard;
+
     if (![AppModel sharedAppModel].loggedIn || [AppModel sharedAppModel].currentGame.gameId==0) {
         NSLog(@"GPSViewController: Player is not logged in, don't refresh");
         return;

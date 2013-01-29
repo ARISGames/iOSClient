@@ -204,6 +204,8 @@
 		AA1E2D501652CC7500219535 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4F1652CC7500219535 /* Security.framework */; };
 		AA763156169B68A800860665 /* PopOverContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA763155169B68A800860665 /* PopOverContentView.m */; };
 		AA8330551684CC0E00C28960 /* ARISZBarReaderWrapperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8330541684CC0E00C28960 /* ARISZBarReaderWrapperViewController.m */; };
+		AABD101916B7164C007278EF /* README_ABOUT_LINK_ERRORS in Resources */ = {isa = PBXBuildFile; fileRef = AABD101716B7164C007278EF /* README_ABOUT_LINK_ERRORS */; };
+		AABD101B16B71787007278EF /* libCrittercism_v3_4_9.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AABD101A16B71787007278EF /* libCrittercism_v3_4_9.a */; };
 		AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB0A5BA3120365420065CE68 /* Localizable.strings */; };
 		AB0DE7B611556EC200A6EC3E /* ARCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE7AF11556EC200A6EC3E /* ARCoordinate.m */; };
 		AB0DE7B711556EC200A6EC3E /* ARGeoCoordinate.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE7B111556EC200A6EC3E /* ARGeoCoordinate.m */; };
@@ -364,7 +366,6 @@
 		ABDA40DE10506CB300823A94 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABDA40DD10506CB300823A94 /* MapKit.framework */; };
 		ABDF2CCB15DB4379008E8CA0 /* textToggle.png in Resources */ = {isa = PBXBuildFile; fileRef = ABDF2CCA15DB4379008E8CA0 /* textToggle.png */; };
 		ABEBF566123D916D00ECE66C /* WaitingIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = ABEBF565123D916D00ECE66C /* WaitingIndicatorView.m */; };
-		ABECA1A416B5CC2100051759 /* libCrittercism_v3_4_9.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABECA1A316B5CC2100051759 /* libCrittercism_v3_4_9.a */; };
 		ABF41CAA14744DAC00B60D05 /* camera_roll.png in Resources */ = {isa = PBXBuildFile; fileRef = ABF41CA914744DAB00B60D05 /* camera_roll.png */; };
 		ABF41CEF1474657800B60D05 /* public.png in Resources */ = {isa = PBXBuildFile; fileRef = ABF41CEE1474657800B60D05 /* public.png */; };
 		ABF4A3AD116847E50043EB1C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF4A3AC116847E40043EB1C /* SystemConfiguration.framework */; };
@@ -767,6 +768,10 @@
 		AA763155169B68A800860665 /* PopOverContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopOverContentView.m; sourceTree = "<group>"; };
 		AA8330531684CC0E00C28960 /* ARISZBarReaderWrapperViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISZBarReaderWrapperViewController.h; sourceTree = "<group>"; };
 		AA8330541684CC0E00C28960 /* ARISZBarReaderWrapperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISZBarReaderWrapperViewController.m; sourceTree = "<group>"; };
+		AABD101416B7164C007278EF /* Crittercism.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crittercism.h; sourceTree = "<group>"; };
+		AABD101516B7164C007278EF /* CrittercismDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrittercismDelegate.h; sourceTree = "<group>"; };
+		AABD101716B7164C007278EF /* README_ABOUT_LINK_ERRORS */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README_ABOUT_LINK_ERRORS; sourceTree = "<group>"; };
+		AABD101A16B71787007278EF /* libCrittercism_v3_4_9.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCrittercism_v3_4_9.a; sourceTree = "<group>"; };
 		AB0A5BA4120365420065CE68 /* en */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AB0A5BA61203665C0065CE68 /* es */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AB0DE7AE11556EC200A6EC3E /* ARCoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARCoordinate.h; sourceTree = "<group>"; };
@@ -981,9 +986,6 @@
 		ABDF2CCA15DB4379008E8CA0 /* textToggle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textToggle.png; sourceTree = "<group>"; };
 		ABEBF564123D916D00ECE66C /* WaitingIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitingIndicatorView.h; sourceTree = "<group>"; };
 		ABEBF565123D916D00ECE66C /* WaitingIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitingIndicatorView.m; sourceTree = "<group>"; };
-		ABECA1A116B5CC2100051759 /* Crittercism.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crittercism.h; sourceTree = "<group>"; };
-		ABECA1A216B5CC2100051759 /* CrittercismDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrittercismDelegate.h; sourceTree = "<group>"; };
-		ABECA1A316B5CC2100051759 /* libCrittercism_v3_4_9.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCrittercism_v3_4_9.a; sourceTree = "<group>"; };
 		ABF41CA914744DAB00B60D05 /* camera_roll.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_roll.png; sourceTree = "<group>"; };
 		ABF41CEE1474657800B60D05 /* public.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = public.png; sourceTree = "<group>"; };
 		ABF4A3AC116847E40043EB1C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -1070,7 +1072,7 @@
 				ABF4A3AD116847E50043EB1C /* SystemConfiguration.framework in Frameworks */,
 				AA1E2D501652CC7500219535 /* Security.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
-				ABECA1A416B5CC2100051759 /* libCrittercism_v3_4_9.a in Frameworks */,
+				AABD101B16B71787007278EF /* libCrittercism_v3_4_9.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1698,6 +1700,7 @@
 		A7986D6A0F8FEC7200A5469F /* Core App */ = {
 			isa = PBXGroup;
 			children = (
+				AABD101316B7164C007278EF /* CrittercismSDK */,
 				2D26698416234CE400342A7E /* UIImage+fixOrientation.h */,
 				2D26698516234CE400342A7E /* UIImage+fixOrientation.m */,
 				4ADE919B13CB7CB80009F4AF /* UIImage+Scale.m */,
@@ -1741,6 +1744,17 @@
 				11D7F9311537510D0046410F /* LoadingViewController.xib */,
 			);
 			name = "Core App";
+			sourceTree = "<group>";
+		};
+		AABD101316B7164C007278EF /* CrittercismSDK */ = {
+			isa = PBXGroup;
+			children = (
+				AABD101A16B71787007278EF /* libCrittercism_v3_4_9.a */,
+				AABD101416B7164C007278EF /* Crittercism.h */,
+				AABD101516B7164C007278EF /* CrittercismDelegate.h */,
+				AABD101716B7164C007278EF /* README_ABOUT_LINK_ERRORS */,
+			);
+			path = CrittercismSDK;
 			sourceTree = "<group>";
 		};
 		AB0DE7FE11559CCA00A6EC3E /* Audio Recorder */ = {
@@ -1801,7 +1815,6 @@
 		AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */ = {
 			isa = PBXGroup;
 			children = (
-				ABECA1A016B5CC2100051759 /* CrittercismSDK */,
 				AA17719F1652D33200A3836D /* libPusher-combined.a */,
 				11FDA7EF1474706600ACE17D /* libzbar.a */,
 				3A29205B152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.h */,
@@ -2125,16 +2138,6 @@
 			name = "Note Editor";
 			sourceTree = "<group>";
 		};
-		ABECA1A016B5CC2100051759 /* CrittercismSDK */ = {
-			isa = PBXGroup;
-			children = (
-				ABECA1A116B5CC2100051759 /* Crittercism.h */,
-				ABECA1A216B5CC2100051759 /* CrittercismDelegate.h */,
-				ABECA1A316B5CC2100051759 /* libCrittercism_v3_4_9.a */,
-			);
-			path = CrittercismSDK;
-			sourceTree = "<group>";
-		};
 		D42432501107734300E58147 /* NPC Dialog */ = {
 			isa = PBXGroup;
 			children = (
@@ -2431,6 +2434,7 @@
 				3A69944B1625F6610015B48A /* newBanner.png in Resources */,
 				DDCD2DE416275A5B003AAC64 /* QuestDetailsViewController.xib in Resources */,
 				DDC495DD16407DE500D4C063 /* PopOverViewController.xib in Resources */,
+				AABD101916B7164C007278EF /* README_ABOUT_LINK_ERRORS in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
