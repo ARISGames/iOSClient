@@ -558,7 +558,7 @@ NSString *const kARISServerServicePackage = @"v1";
                           nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
                                                             andServiceName:@"notes"
-                                                             andMethodName:@"addCommentToNote"
+                                                             andMethodName:@"addCommentToNoteStartIncomplete"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
 	JSONResult *jsonResult = [jsonConnection performSynchronousRequest];
