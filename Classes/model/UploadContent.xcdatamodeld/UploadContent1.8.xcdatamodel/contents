@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model name="" userDefinedModelVersionIdentifier="1.7" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1811" systemVersion="12C3012" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Media" syncable="YES">
+        <attribute name="gameid" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="uid" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -15,7 +16,7 @@
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Media" positionX="160" positionY="192" width="128" height="118"/>
-        <element name="UploadContent" positionX="160" positionY="192" width="128" height="135"/>
+        <element name="Media" positionX="160" positionY="192" width="128" height="120"/>
+        <element name="UploadContent" positionX="394" positionY="162" width="128" height="135"/>
     </elements>
 </model>

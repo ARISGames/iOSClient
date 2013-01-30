@@ -37,7 +37,6 @@
     NSError *error;
     NSArray *items = [[AppModel sharedAppModel].managedObjectContext executeFetchRequest:fetchRequest error:&error];
     
-    
     for (NSManagedObject *managedObject in items) {
         int objectId = [[(Media *)managedObject uid]intValue];
         if(objectId == mediaId)
@@ -49,17 +48,14 @@
     if (![[AppModel sharedAppModel].managedObjectContext save:&error]) {
         NSLog(@"Error deleting Media - error:%@",error);
     }
-    
 }
-
-
 
 -(Media *)mediaForMediaId:(int)uid{
     NSLog(@"MediaCache:getSavedMediaWithId: %d",uid);
     NSError *error;
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Media" 
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Media"
                                               inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"uid = %d", uid];
@@ -69,39 +65,35 @@
     if([allMedia count] != 0)
     {
         Media *media = (Media *)[allMedia objectAtIndex:0];
-            return media;
+        return media;
     }
     
-    //Media Not found try fetching a new list and looking
+    //Media Not found; you should try fetching a new list from the server
     Media *media = [NSEntityDescription insertNewObjectForEntityForName:@"Media" inManagedObjectContext:context];
+    media.uid = [NSNumber numberWithInt: uid];
     
-    if (![context save:&error]) {
+    if (![context save:&error])
         NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
-    }
-    
-    media.uid = [NSNumber numberWithInt: uid];   
     
     return media;
-   
 }
 
 -(Media *)addMediaToCache:(int) uid{
     Media *media = [NSEntityDescription insertNewObjectForEntityForName:@"Media" inManagedObjectContext:context];
-    media.uid = [NSNumber numberWithInt: uid];   
+    media.uid = [NSNumber numberWithInt: uid];
     return media;
 }
 
 -(NSArray *)mediaForPredicate:(NSPredicate *)predicate{
     NSError *error;
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Media" 
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Media"
                                               inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
     [fetchRequest setPredicate:predicate];
     NSArray *allMedia = [context executeFetchRequest:fetchRequest error:&error] ;
     
     return allMedia;
-    
 }
 
 -(Media *)mediaForUrl:(NSURL *)url{
@@ -109,7 +101,7 @@
     
     NSError *error;
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Media" 
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Media"
                                               inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"url like %@", [url absoluteString]];
@@ -118,16 +110,15 @@
     if([allMedia count] != 0)
     {
         Media *media = (Media *)[allMedia objectAtIndex:0];
-            return media;
-            NSLog(@"MediaCache:mediaForUrl: Found a media, reusing");
+        return media;
+        NSLog(@"MediaCache:mediaForUrl: Found a media, reusing");
     }
     
     NSLog(@"MediaCache:mediaForUrl: Media Not Found, creating");
-
-    //Media Not found try fetching a new list and looking
-    Media *media = [NSEntityDescription insertNewObjectForEntityForName:@"Media" inManagedObjectContext:context];
     
-    media.url = [url absoluteString];   
+    //Media Not found; you should try fetching a new list from the server
+    Media *media = [NSEntityDescription insertNewObjectForEntityForName:@"Media" inManagedObjectContext:context];
+    media.url = [url absoluteString];
     
     return media;
 }
@@ -140,16 +131,16 @@
         mediaCount = 0;
         maxMediaCount = 100;
         self.context = [AppModel sharedAppModel].managedObjectContext;
-       // [self clearCache];
+        // [self clearCache];
         /*NSArray *allStores = [[AppModel sharedAppModel].persistentStoreCoordinator persistentStores];
-        unsigned long long totalBytes = 0;
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        for (NSPersistentStore *store in allStores) {
-            if (![store.URL isFileURL]) continue; // only file URLs are compatible with NSFileManager
-            NSString *path = [[store URL] path];
-            // NSDictionary has a category to assist with NSFileManager attributes
-            totalBytes += [[fileManager attributesOfItemAtPath:path error:NULL] fileSize];
-        }*/
+         unsigned long long totalBytes = 0;
+         NSFileManager *fileManager = [NSFileManager defaultManager];
+         for (NSPersistentStore *store in allStores) {
+         if (![store.URL isFileURL]) continue; // only file URLs are compatible with NSFileManager
+         NSString *path = [[store URL] path];
+         // NSDictionary has a category to assist with NSFileManager attributes
+         totalBytes += [[fileManager attributesOfItemAtPath:path error:NULL] fileSize];
+         }*/
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
         NSString *persistentStorePath = [documentsDirectory stringByAppendingPathComponent:@"UploadContent.sqlite"];

@@ -615,7 +615,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
 
 - (void) removeWaitingIndicator {
 	NSLog (@"RootViewController: Removing Waiting Indicator");
-	if (self.waitingIndicator != nil) [self.waitingIndicator.view removeFromSuperview ];
+	if (self.waitingIndicator != nil) [self.waitingIndicator.view removeFromSuperview];
 }
 
 - (void)displayNearbyObjectView:(UIViewController *)nearbyObjectViewController {
@@ -665,9 +665,8 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     
     //What is this doing? -Phil 11-13-2012
     //Causing all views to load, so that they will enque notifications even if they haven't been viewed before -Jacob 1/14/13
-    for(UIViewController * viewController in  tabBarController.viewControllers){
+    for(UIViewController * viewController in  tabBarController.viewControllers)
         [viewController view];
-    }
 }
 
 - (void) showNearbyTab:(BOOL)yesOrNo {
@@ -690,9 +689,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
                 if ([vc respondsToSelector:@selector(dismissTutorial)]) {
                     [vc performSelector:@selector(dismissTutorial)];
                 }
-                
             }
-            
         }
         
         [self.tabBarController setViewControllers:tabs animated:NO];

@@ -13,8 +13,9 @@ extern NSString *const kMediaTypeVideo;
 extern NSString *const kMediaTypeImage;
 extern NSString *const kMediaTypeAudio;
 
-@interface Media : NSManagedObject 
-@property(nonatomic) NSString	*url;
+@interface Media : NSManagedObject
+@property(nonatomic) NSNumber *gameid;
+@property(nonatomic) NSString *url;
 @property(nonatomic) NSString *type;
 @property(nonatomic) NSData *image;
 @property(nonatomic) NSNumber *uid;

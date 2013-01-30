@@ -84,7 +84,7 @@
         
         //Only load the icon media if it is > 0, otherwise, lets load a default
         if (annotation.iconMediaId != 0) {
-            Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: annotation.iconMediaId];
+            Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId:annotation.iconMediaId];
             [self.iconView loadImageFromMedia:iconMedia];
         }
         else if (annotation.kind == NearbyObjectItem) self.iconView.image = [UIImage imageNamed:@"item.png"];

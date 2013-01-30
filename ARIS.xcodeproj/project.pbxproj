@@ -766,6 +766,7 @@
 		AA1E2D4F1652CC7500219535 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		AA763154169B68A800860665 /* PopOverContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopOverContentView.h; sourceTree = "<group>"; };
 		AA763155169B68A800860665 /* PopOverContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopOverContentView.m; sourceTree = "<group>"; };
+		AA7A428A16B86C9E00E84252 /* UploadContent1.8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UploadContent1.8.xcdatamodel; sourceTree = "<group>"; };
 		AA8330531684CC0E00C28960 /* ARISZBarReaderWrapperViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISZBarReaderWrapperViewController.h; sourceTree = "<group>"; };
 		AA8330541684CC0E00C28960 /* ARISZBarReaderWrapperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISZBarReaderWrapperViewController.m; sourceTree = "<group>"; };
 		AABD101416B7164C007278EF /* Crittercism.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crittercism.h; sourceTree = "<group>"; };
@@ -2974,9 +2975,10 @@
 			isa = XCVersionGroup;
 			children = (
 				2D2C5D4715DED4770052C056 /* UploadContent1.7.xcdatamodel */,
+				AA7A428A16B86C9E00E84252 /* UploadContent1.8.xcdatamodel */,
 				4AD5C41114E06E9200081B20 /* UploadContent.xcdatamodel */,
 			);
-			currentVersion = 2D2C5D4715DED4770052C056 /* UploadContent1.7.xcdatamodel */;
+			currentVersion = AA7A428A16B86C9E00E84252 /* UploadContent1.8.xcdatamodel */;
 			path = UploadContent.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

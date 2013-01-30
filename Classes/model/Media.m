@@ -15,7 +15,7 @@ NSString *const kMediaTypeImage = @"Image";
 NSString *const kMediaTypeAudio = @"Audio";
 
 @implementation Media
-@dynamic uid, url, type, image;
+@dynamic gameid, uid, url, type, image;
 
 
 

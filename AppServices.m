@@ -2559,79 +2559,60 @@ NSString *const kARISServerServicePackage = @"v1";
     [self performSelector:@selector(startCachingMedia:) withObject:jsonResult afterDelay:.1];
 }
 
--(void)startCachingMedia:(JSONResult *)jsonResult{
-    NSArray *mediaListArray = (NSArray *)jsonResult.data;
+-(void)startCachingMedia:(JSONResult *)jsonResult
+{
+    //Get server media
+    NSArray *serverMediaArray = (NSArray *)jsonResult.data;
     
-	NSEnumerator *enumerator = [mediaListArray objectEnumerator];
-    NSString *batch = @"";
-    NSMutableDictionary *unCachedMedia = [[NSMutableDictionary alloc]initWithCapacity:10];
-	NSDictionary *dict;
+    //Get cached media
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(gameid = 0) OR (gameid = %d)", [AppModel sharedAppModel].currentGame.gameId];
+    NSArray *cachedMediaArray = [[AppModel sharedAppModel].mediaCache mediaForPredicate:predicate];
     
+    //Construct cached media map (dictionary with identical key/values of mediaId) to quickly check for existence of media
+    NSMutableDictionary *cachedMediaMap = [[NSMutableDictionary alloc]initWithCapacity:cachedMediaArray.count];
+    for(int i = 0; i < cachedMediaArray.count; i++)
+        [cachedMediaMap setObject:[cachedMediaArray objectAtIndex:i] forKey:[[cachedMediaArray objectAtIndex:i] uid]];
+    
+    //For every media in server array
     int mediaLoaded = 0;
-    
-	while ((dict = [enumerator nextObject])) {
-        mediaLoaded++;
-		NSInteger uid = [self validIntForKey:@"media_id" inDictionary:dict];
-		NSString *fileName = [dict valueForKey:@"file_path"];
-		if(fileName == nil) fileName = [dict valueForKey:@"file_name"];
-		NSString *urlPath = [dict valueForKey:@"url_path"];
+    Media *tmpMedia;
+    for(int i = 0; i < [serverMediaArray count]; i++)
+    {
+        //Check if the id is valid, but doesn't exist in the cached array
+        int mediaId = [self validIntForKey:@"media_id" inDictionary:[serverMediaArray objectAtIndex:i]];
+        if(mediaId >= 1 && ![cachedMediaMap objectForKey:[NSNumber numberWithInt:mediaId]])
+        {
+            //Cache it
+            NSDictionary *tempMediaDict = [serverMediaArray objectAtIndex:i];
+            NSString *fileName = [tempMediaDict valueForKey:@"file_path"] ? [tempMediaDict valueForKey:@"file_path"] : [tempMediaDict valueForKey:@"file_name"];
+            tmpMedia = [[AppModel sharedAppModel].mediaCache addMediaToCache:mediaId];
+            tmpMedia.url = [NSString stringWithFormat:@"%@%@", [tempMediaDict valueForKey:@"url_path"], fileName];
+            tmpMedia.type = [tempMediaDict valueForKey:@"type"];
+            tmpMedia.gameid = [NSNumber numberWithInt:[self validIntForKey:@"game_id" inDictionary:tempMediaDict]];
+            NSLog(@"Cached Media: %d with URL: %@",mediaId,tmpMedia.url);
+        }
+        else if((tmpMedia = [cachedMediaMap objectForKey:[NSNumber numberWithInt:mediaId]]) && (tmpMedia.url == nil || tmpMedia.type == nil || tmpMedia.gameid == nil))
+        {
+            NSDictionary *tempMediaDict = [serverMediaArray objectAtIndex:i];
+            NSString *fileName = [tempMediaDict valueForKey:@"file_path"] ? [tempMediaDict valueForKey:@"file_path"] : [tempMediaDict valueForKey:@"file_name"];
+            tmpMedia.url = [NSString stringWithFormat:@"%@%@", [tempMediaDict valueForKey:@"url_path"], fileName];
+            tmpMedia.type = [tempMediaDict valueForKey:@"type"];
+            tmpMedia.gameid = [NSNumber numberWithInt:[self validIntForKey:@"game_id" inDictionary:tempMediaDict]];
+            NSLog(@"Cached Media: %d with URL: %@",mediaId,tmpMedia.url);
+        }
         
-		NSString *type = [dict valueForKey:@"type"];
-		
-		if (uid < 1) {
-			NSLog(@"AppModel fetchGameMediaList: Invalid media id: %d", uid);
-			continue;
-		}
-		if ([fileName length] < 1) {
-			NSLog(@"AppModel fetchGameMediaList: Empty fileName string for media #%d.", uid);
-			continue;
-		}
-		if ([type length] < 1) {
-            
-		}
-        NSString *fullUrl = [NSString stringWithFormat:@"%@%@", urlPath, fileName];
-        NSString *urlAndType = [fullUrl stringByAppendingFormat:@"&%@",type];
-        
-		[unCachedMedia setObject:urlAndType forKey:[NSNumber numberWithInteger:uid]];
-		batch = [batch stringByAppendingFormat:@"(uid == %d) OR ",uid];
-        
-        Media *media = [[AppModel sharedAppModel] mediaForMediaId:uid];
-        media.type = type;
-        media.url = fullUrl;
-        
+        //Update progress 
         if([RootViewController sharedRootViewController].loadingVC){
             [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesCachingGameMediaKey", @"");
-            [RootViewController sharedRootViewController].loadingVC.progressLabel.text = [[RootViewController sharedRootViewController].loadingVC.progressLabel.text stringByAppendingString:[NSString stringWithFormat:@" (%d of %d)", mediaLoaded,[mediaListArray count]]];
+            [RootViewController sharedRootViewController].loadingVC.progressLabel.text = [[RootViewController sharedRootViewController].loadingVC.progressLabel.text stringByAppendingString:[NSString stringWithFormat:@" (%d of %d)", mediaLoaded,[serverMediaArray count]]];
         }
         [[RootViewController sharedRootViewController].loadingVC.progressLabel setNeedsDisplay];
-	}
-    if([batch isEqualToString:@""]) return;
-    batch = [batch substringToIndex:(batch.length - 4)];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:batch];
-    
-    NSLog(@"Batch Request: %@",batch);
-    NSArray *cachedMediaArray = [[AppModel sharedAppModel].mediaCache mediaForPredicate:predicate];
-    NSMutableDictionary *cachedMediaDict = [[NSMutableDictionary alloc]initWithCapacity:cachedMediaArray.count];
-    for(int i = 0; i < cachedMediaArray.count;i++){
-        [cachedMediaDict setObject:[[cachedMediaArray objectAtIndex:i] uid] forKey:[[cachedMediaArray objectAtIndex:i] uid]];
-    }
-    NSArray *unCachedMediaArray = unCachedMedia.allKeys;
-    for(int i = 0; i < unCachedMediaArray.count; i++){
-        NSNumber *mediaId = [cachedMediaDict objectForKey:[unCachedMediaArray objectAtIndex:i]];
-        if(!mediaId){
-            Media *media = [[AppModel sharedAppModel].mediaCache addMediaToCache:[[unCachedMediaArray objectAtIndex:i] intValue]];
-            NSString *urlAndType = [unCachedMedia objectForKey:[unCachedMediaArray objectAtIndex:i]];
-            NSArray *components = [urlAndType componentsSeparatedByCharactersInSet:
-                                   [NSCharacterSet characterSetWithCharactersInString:@"&"]];
-            media.type = [components objectAtIndex:1];
-            media.url = [components objectAtIndex:0];
-            NSLog(@"Cached Media: %d withType: %@ andURL: %@",[[unCachedMediaArray objectAtIndex:i] intValue],[components objectAtIndex:1],[components objectAtIndex:0]);
-        }
+        
+        mediaLoaded++;
     }
     NSError *error;
-    if (![[AppModel sharedAppModel].mediaCache.context save:&error]) {
+    if (![[AppModel sharedAppModel].mediaCache.context save:&error])
         NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
-    }
     
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedMediaList" object:nil]];
     
@@ -2642,6 +2623,7 @@ NSString *const kARISServerServicePackage = @"v1";
         [RootViewController sharedRootViewController].loadingVC.receivedData++;
     }
 }
+
 -(void)parseGameItemListFromJSON: (JSONResult *)jsonResult{
 	NSArray *itemListArray = (NSArray *)jsonResult.data;
     
