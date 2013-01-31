@@ -70,7 +70,7 @@
     //URL Requst Object
     NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
     
-    //Config the webView
+    //Config the webVie
     webView.allowsInlineMediaPlayback = YES;
     webView.mediaPlaybackRequiresUserAction = NO;
     
@@ -93,6 +93,11 @@
 {
     NSLog(@"WebPageVC: viewDidUnload");
     [super viewDidUnload];
+}
+
+- (void)dealloc{
+    webView.delegate = nil;
+    [webView stopLoading];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

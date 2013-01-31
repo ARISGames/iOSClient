@@ -616,6 +616,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	// free our movie player
 	//remove listeners
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+    itemDescriptionView.delegate = nil;
+    [itemDescriptionView stopLoading];
+    itemWebView.delegate = nil;
+    [itemWebView stopLoading];
 }
 
 @end

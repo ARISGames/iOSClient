@@ -272,6 +272,11 @@ NSString *const kPopOverHtmlTemplate =
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc{
+    popOverWebView.delegate = nil;
+    [popOverWebView stopLoading];
+}
+
 - (void)viewDidUnload {
     lbl_popOverTitle = nil;
     popOverWebView = nil;

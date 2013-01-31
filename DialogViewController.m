@@ -306,6 +306,10 @@ NSString *const kDialogHtmlTemplate =
 }
 
 - (void)dealloc {
+    pcWebView.delegate = nil;
+    [pcWebView stopLoading];
+    npcWebView.delegate = nil;
+    [npcWebView stopLoading];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
