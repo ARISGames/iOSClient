@@ -175,10 +175,8 @@
                            forState:kSCRatingViewSelected];
         [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
                            forState:kSCRatingViewUserSelected];
- 
-    }
-    
-	Game *currentGame = [self.gameList objectAtIndex:indexPath.row];
+     }
+    Game *currentGame = [self.gameList objectAtIndex:indexPath.row];
     
 	cell.titleLabel.text = currentGame.name;
 	cell.distanceLabel.text = [NSString stringWithFormat:@"%d Players",currentGame.playerCount];

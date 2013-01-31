@@ -226,7 +226,6 @@
 		AB21D30814ED9C9000DC016F /* grey_button.psd in Resources */ = {isa = PBXBuildFile; fileRef = AB21D30614ED9C9000DC016F /* grey_button.psd */; };
 		AB2223F510502CD800A4255E /* Quest.m in Sources */ = {isa = PBXBuildFile; fileRef = AB2223F410502CD800A4255E /* Quest.m */; };
 		AB2FE579120A154B00758F8C /* LogoutButton.png in Resources */ = {isa = PBXBuildFile; fileRef = AB2FE578120A154B00758F8C /* LogoutButton.png */; };
-		AB301DA2151BC37B00EFB79F /* libZXingWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB1CA8B313C7CCBF00131F81 /* libZXingWidget.a */; };
 		AB35E034155C607900430AF7 /* 14-gear.png in Resources */ = {isa = PBXBuildFile; fileRef = AB35E032155C607900430AF7 /* 14-gear.png */; };
 		AB35E035155C607900430AF7 /* 14-gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB35E033155C607900430AF7 /* 14-gear@2x.png */; };
 		AB35E038155C60DA00430AF7 /* 16-tag.png in Resources */ = {isa = PBXBuildFile; fileRef = AB35E036155C60DA00430AF7 /* 16-tag.png */; };
@@ -394,23 +393,6 @@
 		DDCD2DE316275A5B003AAC64 /* QuestDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCD2DE116275A5B003AAC64 /* QuestDetailsViewController.m */; };
 		DDCD2DE416275A5B003AAC64 /* QuestDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDCD2DE216275A5B003AAC64 /* QuestDetailsViewController.xib */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		AB1CA8B213C7CCBF00131F81 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AB1CA8AB13C7CCBE00131F81 /* ZXingWidget.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D2AAC07E0554694100DB518D;
-			remoteInfo = ZXingWidget;
-		};
-		AB1CA8B413C7CCDD00131F81 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AB1CA8AB13C7CCBE00131F81 /* ZXingWidget.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D2AAC07D0554694100DB518D;
-			remoteInfo = ZXingWidget;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		1108419214D3269800478A9D /* UploadingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadingCell.h; sourceTree = "<group>"; };
@@ -801,7 +783,6 @@
 		AB1660CC14E8754B002C6ACB /* UploadManager Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UploadManager Tests-Prefix.pch"; sourceTree = "<group>"; };
 		AB18AEB8137B249A00382826 /* AppServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppServices.h; path = ../../AppServices.h; sourceTree = "<group>"; };
 		AB18AEB9137B249A00382826 /* AppServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppServices.m; path = ../../AppServices.m; sourceTree = "<group>"; };
-		AB1CA8AB13C7CCBE00131F81 /* ZXingWidget.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZXingWidget.xcodeproj; path = thirdParty/zxing/iphone/ZXingWidget/ZXingWidget.xcodeproj; sourceTree = "<group>"; };
 		AB21D30514ED9C9000DC016F /* blue_button.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = blue_button.psd; sourceTree = "<group>"; };
 		AB21D30614ED9C9000DC016F /* grey_button.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = grey_button.psd; sourceTree = "<group>"; };
 		AB2223F310502CD800A4255E /* Quest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quest.h; sourceTree = "<group>"; };
@@ -1063,7 +1044,6 @@
 				AA1771A01652D33200A3836D /* libPusher-combined.a in Frameworks */,
 				AB9BA24913DFBAB1007470E3 /* libz.dylib in Frameworks */,
 				11FDA7F01474706600ACE17D /* libzbar.a in Frameworks */,
-				AB301DA2151BC37B00EFB79F /* libZXingWidget.a in Frameworks */,
 				ABDA40DE10506CB300823A94 /* MapKit.framework in Frameworks */,
 				AB70F39413153BB500BD06CD /* MessageUI.framework in Frameworks */,
 				A79202640F8E717C0049F990 /* MediaPlayer.framework in Frameworks */,
@@ -1701,7 +1681,6 @@
 		A7986D6A0F8FEC7200A5469F /* Core App */ = {
 			isa = PBXGroup;
 			children = (
-				AABD101316B7164C007278EF /* CrittercismSDK */,
 				2D26698416234CE400342A7E /* UIImage+fixOrientation.h */,
 				2D26698516234CE400342A7E /* UIImage+fixOrientation.m */,
 				4ADE919B13CB7CB80009F4AF /* UIImage+Scale.m */,
@@ -1714,6 +1693,7 @@
 				4ADE919A13CB7CB80009F4AF /* UIImage+Scale.h */,
 				4ADE919D13CB84B80009F4AF /* UIDevice+Hardware.h */,
 				4ADE919E13CB84B80009F4AF /* UIDevice+Hardware.m */,
+				AABD101316B7164C007278EF /* CrittercismSDK */,
 				4A373BD015ACABA8007D975C /* Bump API */,
 				1174E6F314F4333D00026BAF /* Pusher Framework */,
 				AB549ED11047007B00A901EF /* JSON Framework */,
@@ -1824,7 +1804,6 @@
 				ABE0FD0D1524EA5D00A75D9E /* Reachability */,
 				113F56DD14E4435300525BE6 /* AssetsLibrary.framework */,
 				11FDA7CC1474690500ACE17D /* ZBarSDK */,
-				AB1CA8AB13C7CCBE00131F81 /* ZXingWidget.xcodeproj */,
 				4AD5C40714E0661E00081B20 /* CoreData.framework */,
 				AB7D277913C7559800F10AD5 /* CoreMedia.framework */,
 				AB7D277713C7556100F10AD5 /* AddressBookUI.framework */,
@@ -1850,14 +1829,6 @@
 				AB38DB3B13E4A1DE001EFF52 /* libiconv.dylib */,
 			);
 			name = "Frameworks and Dependancies";
-			sourceTree = "<group>";
-		};
-		AB1CA8AC13C7CCBE00131F81 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AB1CA8B313C7CCBF00131F81 /* libZXingWidget.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		AB37BC2E1184CDE600C5CE8B /* Sound Effects */ = {
@@ -2172,7 +2143,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				AB1CA8B513C7CCDD00131F81 /* PBXTargetDependency */,
 			);
 			name = ARIS;
 			productName = ARIS;
@@ -2220,12 +2190,6 @@
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* ARIS */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = AB1CA8AC13C7CCBE00131F81 /* Products */;
-					ProjectRef = AB1CA8AB13C7CCBE00131F81 /* ZXingWidget.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* ARIS */,
@@ -2233,16 +2197,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		AB1CA8B313C7CCBF00131F81 /* libZXingWidget.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libZXingWidget.a;
-			remoteRef = AB1CA8B213C7CCBF00131F81 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		1D60588D0D05DD3D006BFB54 /* Resources */ = {
@@ -2657,14 +2611,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		AB1CA8B513C7CCDD00131F81 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ZXingWidget;
-			targetProxy = AB1CA8B413C7CCDD00131F81 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		AB0A5BA3120365420065CE68 /* Localizable.strings */ = {

@@ -53,7 +53,7 @@ BOOL isShowingPopOver;
     static dispatch_once_t pred = 0;
     __strong static id _sharedObject = nil;
     dispatch_once(&pred, ^{
-        _sharedObject = [[self alloc] initWithFrame:[UIScreen mainScreen].bounds];//[UIScreen mainScreen].bounds]; // or some other init method
+        _sharedObject = [[self alloc] initWithFrame:[UIScreen mainScreen].bounds];
     });
     return _sharedObject;
 }
@@ -84,7 +84,6 @@ BOOL isShowingPopOver;
         [dispatcher addObserver:self selector:@selector(checkForDisplayCompleteNode) name:@"NewQuestListReady" object:nil];
         [dispatcher addObserver:self selector:@selector(receivedMediaList) name:@"ReceivedMediaList" object:nil];
         [dispatcher addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"OneGameReady" object:nil];
-        
             
         UIWebView *titleLabelAlloc = [[UIWebView alloc] initWithFrame:CGRectMake(0, TRUE_ZERO_Y-8, SCREEN_WIDTH, 28)];
         self.titleLabel = titleLabelAlloc;
@@ -94,7 +93,6 @@ BOOL isShowingPopOver;
         self.titleLabel.backgroundColor = [UIColor whiteColor];
         //self.titleLabel.shadowColor = [UIColor colorWithWhite:.7 alpha:1];
         //self.titleLabel.shadowOffset = CGSizeMake(.5, 1);
-        
         
         UILabel *descLabelAlloc = [[UILabel alloc] initWithFrame:CGRectMake(0, self.titleLabel.frame.origin.y + self.titleLabel.frame.size.height, SCREEN_WIDTH, 15)];
         self.descLabel = descLabelAlloc;
@@ -699,7 +697,6 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     }
 }
 
-
 #pragma mark Login and Game Selection
 - (void)createUserAndLoginWithGroup:(NSString *)groupName andGameId:(int)gameId inMuseumMode:(BOOL)museumMode
 {
@@ -785,7 +782,6 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
 			[alert show];	
 		}
 	}
-	
 }
 
 - (void)selectGame:(NSNotification *)notification {
@@ -875,9 +871,6 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
                      object:nil];
     
     [[AppServices sharedAppServices] fetchGame:selectedGame.gameId];
-
-    
-    
 }
 
 -(void)changeTabBar{
@@ -1084,7 +1077,6 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
 
 - (void)tabBarController:(UITabBarController *)tabBar didSelectViewController:(UIViewController *)viewController{
     NSLog(@"RootViewController: tabBarController didSelectViewController");	
-    
     
     [tabBar.moreNavigationController popToRootViewControllerAnimated:NO];
     

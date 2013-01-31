@@ -162,7 +162,6 @@
         [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
                            forState:kSCRatingViewUserSelected];
     }
-	
 	Game *currentGame = [self.gameList objectAtIndex:indexPath.row];
     
 	cell.titleLabel.text = currentGame.name;
@@ -171,10 +170,10 @@
 	cell.authorLabel.text = currentGame.authors;
 	cell.numReviewsLabel.text = [NSString stringWithFormat:@"%@ %@", [[NSNumber numberWithInt:currentGame.numReviews] stringValue], NSLocalizedString(@"GamePickerRecentReviewsKey", @"")];
     cell.starView.rating = currentGame.rating;
+    
     //Set up the Icon
     //Create a new iconView for each cell instead of reusing the same one
     AsyncMediaImageView *iconView = [[AsyncMediaImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-    
     if(currentGame.iconMedia.image){
         iconView.image = [UIImage imageWithData: currentGame.iconMedia.image];
     }

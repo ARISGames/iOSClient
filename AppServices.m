@@ -2392,7 +2392,6 @@ NSString *const kARISServerServicePackage = @"v1";
     currentlyFetchingOneGame = NO;
     
     [AppModel sharedAppModel].currentGame = [self parseGame:jsonResult.data];
-    [AppModel sharedAppModel].fallbackGameId = [AppModel sharedAppModel].currentGame.gameId;
     [[AppModel sharedAppModel] saveUserDefaults];
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GameReady" object:nil]];
 }

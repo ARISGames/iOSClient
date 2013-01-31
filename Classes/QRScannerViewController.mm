@@ -90,26 +90,8 @@
                    config: ZBAR_CFG_ENABLE
                        to: 1];
     
-    UIView * infoButton = [[[[[reader.view.subviews objectAtIndex:1] subviews] objectAtIndex:0] subviews] objectAtIndex:1];
-    [infoButton setHidden:YES];
-    
     // present the controller
     [self presentViewController:reader animated:YES completion:nil];
-}
-
-- (IBAction)qrScanButtonTouchAction: (id) sender{
-	NSLog(@"QRScannerViewController: QR Scan Button Pressed");
-	
-    ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO];
-    QRCodeReader* qrcodeReader = [[QRCodeReader alloc] init];
-    NSSet *readers = [[NSSet alloc ] initWithObjects:qrcodeReader,nil];
-    widController.readers = readers;
-    /*
-    NSBundle *mainBundle = [NSBundle mainBundle];
-    widController.soundToPlay =
-    [NSURL fileURLWithPath:[mainBundle pathForResource:@"beep-beep" ofType:@"aiff"] isDirectory:NO];
-     */
-    [self presentViewController:widController animated:YES completion:nil];
 }
 
 - (IBAction)imageScanButtonTouchAction: (id) sender{
@@ -187,17 +169,6 @@
 
 
 #pragma mark -
-#pragma mark ZXingDelegateMethods
-- (void)zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)resultString {
-    [controller dismissViewControllerAnimated:NO completion:nil];
-    NSLog(@"QRScannerViewController: Scan result: %@",resultString);
-    [self loadResult:resultString];
-}
-
-- (void)zxingControllerDidCancel:(ZXingWidgetController*)controller {
-    [controller dismissViewControllerAnimated:NO completion:nil];
-}
-
 
 #pragma mark QRCScan delegate methods
 /*

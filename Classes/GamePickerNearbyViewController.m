@@ -186,7 +186,8 @@
         tempCell = nil;
     }
     GamePickerCell *cell = (GamePickerCell *)tempCell;
-    if (cell == nil) {
+    if (cell == nil)
+    {
 		// Create a temporary UIViewController to instantiate the custom cell.
 		UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"GamePickerCell" bundle:nil];
 		// Grab a pointer to the custom cell.
@@ -206,9 +207,6 @@
                            forState:kSCRatingViewSelected];
         [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
                            forState:kSCRatingViewUserSelected];
-        
-        
-        
     }
 	Game *currentGame = [self.gameList objectAtIndex:indexPath.row];
     

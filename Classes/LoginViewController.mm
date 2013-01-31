@@ -6,8 +6,6 @@
 //  Copyright 2009 University of Wisconsin. All rights reserved.
 //
 
-#import "QRScannerViewController.h"
-
 #import "LoginViewController.h"
 #import "SelfRegistrationViewController.h"
 #import "ARISAppDelegate.h"
@@ -16,12 +14,9 @@
 
 #import "Decoder.h"
 #import <QRCodeReader.h>
-#import "ZBarReaderViewController.h"
-
+#import "ARISZBarReaderWrapperViewController.h"
 
 @implementation LoginViewController
-
-
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
@@ -60,7 +55,6 @@
     return YES;
 }
 
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
     // Release anything that's not essential, such as cached data
@@ -75,16 +69,31 @@
 	[passwordField resignFirstResponder];
 }
 
--(IBAction)QRButtonTouched:(id)sender
+-(IBAction)QRButtonTouched
 {
-    NSLog(@"LoginViewController: QR Scan Button Pressed");
-	
-    ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO];
-    QRCodeReader* qrcodeReader = [[QRCodeReader alloc] init];
-    NSSet *readers = [[NSSet alloc ] initWithObjects:qrcodeReader,nil];
-    widController.readers = readers;
-    [self presentViewController:widController animated:YES completion:nil];
+    // ADD: present a barcode reader that scans from the camera feed
+    ARISZBarReaderWrapperViewController *reader = [ARISZBarReaderWrapperViewController new];
+    reader.readerDelegate = self;
+    
+    ZBarImageScanner *scanner = reader.scanner;
+    // TODO: (optional) additional reader configuration here
+    reader.supportedOrientationsMask = 0;
+    
+    // EXAMPLE: disable rarely used I2/5 to improve performance
+    [scanner setSymbology: ZBAR_QRCODE
+                   config: ZBAR_CFG_ENABLE
+                       to: 1];
+    [scanner setSymbology: ZBAR_UPCA
+                   config: ZBAR_CFG_ENABLE
+                       to: 1];
+    [scanner setSymbology: ZBAR_UPCE
+                   config: ZBAR_CFG_ENABLE
+                       to: 1];
+    
+    // present the controller
+    [self presentViewController:reader animated:YES completion:nil];
 }
+
 -(void)changePassTouch{
     NSLog(@"Login: Change Password Button Touched");
 	ForgotViewController *forgotPassViewController = [[ForgotViewController alloc] 
@@ -92,6 +101,7 @@
 	//Put the view on the screen
 	[[self navigationController] pushViewController:forgotPassViewController animated:YES];
 }
+
 -(IBAction)newAccountButtonTouched: (id) sender{
 	NSLog(@"Login: New User Button Touched");
 	SelfRegistrationViewController *selfRegistrationViewController = [[SelfRegistrationViewController alloc] 
@@ -100,10 +110,21 @@
 	[[self navigationController] pushViewController:selfRegistrationViewController animated:YES];
 }
 
-- (void)zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)resultString {
-    [controller dismissViewControllerAnimated:NO completion:nil];
-    NSLog(@"LoginViewController: Scan result: %@",resultString);
-    NSArray *terms  = [resultString componentsSeparatedByString:@","];
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary  *)info{
+    [picker dismissViewControllerAnimated:NO completion:nil];
+    UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
+    if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    
+    // ADD: get the decode results
+    id<NSFastEnumeration> results =
+    [info objectForKey: ZBarReaderControllerResults];
+    ZBarSymbol *symbol = nil;
+    for(symbol in results)
+        // EXAMPLE: just grab the first barcode
+        break;
+    
+    NSLog(@"LoginViewController: Scan result: %@",symbol.data);
+    NSArray *terms  = [symbol.data componentsSeparatedByString:@","];
     if([terms count] > 1)
     {
         int gameId = 0;
@@ -127,10 +148,7 @@
             [[RootViewController sharedRootViewController] attemptLoginWithUserName:usernameField.text andPassword:passwordField.text andGameId:gameId inMuseumMode:museumMode];
         }
     }
-}
 
-- (void)zxingControllerDidCancel:(ZXingWidgetController*)controller {
-    [controller dismissViewControllerAnimated:NO completion:nil];
 }
 
 @end

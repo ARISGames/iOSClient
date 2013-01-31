@@ -110,15 +110,15 @@
 @property (nonatomic) IBOutlet UINavigationController *nearbyObjectNavigationController;
 @property (nonatomic) WaitingIndicatorViewController *waitingIndicator;
 @property (nonatomic) WaitingIndicatorView *waitingIndicatorView;
-@property(nonatomic)LoadingViewController *loadingVC;
-@property(nonatomic) NSMutableArray *notifArray;
+@property (nonatomic)LoadingViewController *loadingVC;
+@property (nonatomic) NSMutableArray *notifArray;
 @property (nonatomic) UIAlertView *networkAlert;
 @property (nonatomic) UIAlertView *serverAlert;
-@property(nonatomic, strong) PTPusher *client;
-@property(nonatomic) PTPusherPrivateChannel *playerChannel;
-@property(nonatomic) PTPusherPrivateChannel *groupChannel;
-@property(nonatomic) PTPusherPrivateChannel *gameChannel;
-@property(nonatomic) PTPusherPrivateChannel *webpageChannel;
+@property (nonatomic, strong) PTPusher *client;
+@property (nonatomic) PTPusherPrivateChannel *playerChannel;
+@property (nonatomic) PTPusherPrivateChannel *groupChannel;
+@property (nonatomic) PTPusherPrivateChannel *gameChannel;
+@property (nonatomic) PTPusherPrivateChannel *webpageChannel;
 //@property(nonatomic)NSDictionary *imageInfo;
 
 @property (readwrite) BOOL modalPresent;
@@ -132,8 +132,8 @@
 
 + (RootViewController *)sharedRootViewController;
 
-- (void)selectGame:(NSNotification *)notification;
-- (void)createUserAndLoginWithGroup:(NSString *)groupName andGameId:(int)gameId inMuseumMode:(BOOL)museumMode;
+- (void) selectGame:(NSNotification *)notification;
+- (void) createUserAndLoginWithGroup:(NSString *)groupName andGameId:(int)gameId inMuseumMode:(BOOL)museumMode;
 - (void) attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password andGameId:(int)gameId inMuseumMode:(BOOL)museumMode;
 - (void) displayNearbyObjectView:(UIViewController *)nearbyObjectsNavigationController;
 - (void) showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)yesOrNo;
@@ -143,7 +143,7 @@
 - (void) removeNewWaitingIndicator;
 - (void) showNetworkAlert;
 - (void) removeNetworkAlert;
-- (void) showNearbyTab: (BOOL) yesOrNo;
+- (void) showNearbyTab:(BOOL)yesOrNo;
 - (void) returnToHomeView;
 - (void) showGameSelectionTabBarAndHideOthers;
 - (void) checkForDisplayCompleteNode;

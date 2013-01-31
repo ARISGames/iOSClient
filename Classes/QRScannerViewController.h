@@ -8,13 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "AppModel.h"
-#import <ZXingWidgetController.h>
 #import "ARISZBarReaderWrapperViewController.h"
 
 
 @interface QRScannerViewController : UIViewController <UINavigationControllerDelegate, 
                                                         UIImagePickerControllerDelegate, 
-                                                        ZXingDelegate, ZBarReaderDelegate>{
+                                                        ZBarReaderDelegate>{
 	IBOutlet UIButton *qrScanButton;
     IBOutlet UIButton *barcodeButton;
     IBOutlet UIButton *imageScanButton;
@@ -38,9 +37,5 @@
 - (IBAction)qrScanButtonTouchAction: (id) sender;
 - (IBAction)imageScanButtonTouchAction: (id) sender;
 - (void) loadResult:(NSString *)result;
-
-- (void)zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result;
-- (void)zxingControllerDidCancel:(ZXingWidgetController*)controller;
-
 
 @end

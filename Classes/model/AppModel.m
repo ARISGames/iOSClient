@@ -124,7 +124,8 @@
 		[defaults setBool:hasSeenInventoryTabTutorial forKey:@"hasSeenInventoryTabTutorial"];
 		[defaults setBool:NO forKey:@"resetTutorial"];
 	}
-	else {
+	else
+    {
 		self.hasSeenNearbyTabTutorial = [defaults boolForKey:@"hasSeenNearbyTabTutorial"];
 		self.hasSeenQuestsTabTutorial = [defaults boolForKey:@"hasSeenQuestsTabTutorial"];
 		self.hasSeenMapTabTutorial = [defaults boolForKey:@"hasSeenMapTabTutorial"];
@@ -134,6 +135,7 @@
     self.fallbackGameId = [defaults integerForKey:@"gameId"];
     if(self.fallbackGameId != 0 && !self.currentGame)
     {
+        [[AppServices sharedAppServices] silenceNextServerUpdate];
         [[AppServices sharedAppServices] fetchOneGame:self.fallbackGameId];
     }
 }
@@ -201,8 +203,8 @@
     }
 }
 
--(void)initUserDefaults {	
-	
+-(void)initUserDefaults
+{
 	//Load the settings bundle data into an array
 	NSString *pathStr = [[NSBundle mainBundle] bundlePath];
 	NSString *settingsBundlePath = [pathStr stringByAppendingPathComponent:@"Settings.bundle"];
