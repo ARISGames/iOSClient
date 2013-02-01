@@ -1002,7 +1002,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     //[[NSNotificationCenter defaultCenter] removeObserver:self];
     
     Game *selectedGame = [[[AppModel sharedAppModel] singleGameList] objectAtIndex:0];	
-    GameDetails *gameDetailsVC = [[GameDetails alloc]initWithNibName:@"GameDetails" bundle:nil];
+    GameDetails *gameDetailsVC = [[GameDetails alloc] initWithNibName:@"GameDetails" bundle:nil];
     gameDetailsVC.game = selectedGame;
     
     [AppModel sharedAppModel].currentGame = selectedGame;

@@ -2314,14 +2314,30 @@ NSString *const kARISServerServicePackage = @"v1";
     
     game.playerCount = [self validIntForKey:@"count" inDictionary:gameSource];
     
-    NSString *iconMediaUrl = [gameSource valueForKey:@"icon_media_url"];
-    if ((NSNull *)iconMediaUrl != [NSNull null] && [iconMediaUrl length]>0) {
+    int iconMediaId;
+    if((iconMediaId = [self validIntForKey:@"icon_media_id" inDictionary:gameSource]) > 0)
+    {
+        NSLog(@"first try game iconmedia:%d",game.gameId);
+        game.iconMedia = [[AppModel sharedAppModel] mediaForMediaId:iconMediaId];
+        game.iconMediaUrl = [NSURL URLWithString:game.iconMedia.url];
+    }
+    NSString *iconMediaUrl;
+    if(!game.iconMedia && (NSNull *)(iconMediaUrl = [gameSource valueForKey:@"icon_media_url"]) != [NSNull null] && [iconMediaUrl length]>0) {
+        NSLog(@"second try game iconmedia:%d",game.gameId);
         game.iconMediaUrl = [NSURL URLWithString:iconMediaUrl];
         game.iconMedia = [[AppModel sharedAppModel].mediaCache mediaForUrl:game.iconMediaUrl];
     }
     
-    NSString *mediaUrl = [gameSource valueForKey:@"media_url"];
-    if ((NSNull *)mediaUrl != [NSNull null] && [mediaUrl length]>0){
+    int mediaId;
+    if((mediaId = [self validIntForKey:@"media_id" inDictionary:gameSource]) > 0)
+    {
+        NSLog(@"first try game iconmedia:%d",game.gameId);
+        game.splashMedia = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
+        game.mediaUrl = [NSURL URLWithString:game.splashMedia.url];
+    }
+    NSString *mediaUrl;
+    if (!game.splashMedia && (NSNull *)(mediaUrl = [gameSource valueForKey:@"media_url"]) != [NSNull null] && [mediaUrl length]>0){
+        NSLog(@"second try game iconmedia:%d",game.gameId);
         game.mediaUrl = [NSURL URLWithString:mediaUrl];
         game.splashMedia = [[AppModel sharedAppModel].mediaCache mediaForUrl:game.mediaUrl];
     }

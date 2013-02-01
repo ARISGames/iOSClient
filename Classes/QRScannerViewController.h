@@ -34,8 +34,6 @@
 
 - (IBAction) scanButtonTapped;
 - (void)cancelButtonTouch;
-- (IBAction)qrScanButtonTouchAction: (id) sender;
-- (IBAction)imageScanButtonTouchAction: (id) sender;
 - (void) loadResult:(NSString *)result;
 
 @end

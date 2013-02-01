@@ -112,8 +112,6 @@ NSString *const kGameDetailsHtmlTemplate =
     NSArray *reloadArr = [[NSArray alloc] initWithObjects:self.descriptionIndexPath, nil];
     [tableView reloadRowsAtIndexPaths: reloadArr   
                      withRowAnimation:UITableViewRowAnimationFade];
-	
-	
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -137,7 +135,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
     // protocols: tel, mailto and sms  
     return YES;  
 } 
-
 
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -344,10 +341,6 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
     return cell;
 }
 
-
-
-
-
 /*
  // Override to allow orientations other than the default portrait orientation.
  - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -388,8 +381,5 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
-
-
-
 
 @end

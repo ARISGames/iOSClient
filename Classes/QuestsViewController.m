@@ -90,7 +90,6 @@ NSString *const kQuestsHtmlTemplate =
     [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedQuestList" object:nil];
     [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewQuestListReady" object:nil];
     [dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
-	
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -108,19 +107,19 @@ NSString *const kQuestsHtmlTemplate =
 	self.tabBarItem.badgeValue = nil;
 	newItemsSinceLastView = 0;
 	silenceNextServerUpdateCount = 0;
-
 }
 
--(void)dismissTutorial{
+-(void)dismissTutorial
+{
 	[[RootViewController sharedRootViewController].tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindQuestsTab];
 }
 
-- (void)refresh {
+- (void)refresh
+{
 	NSLog(@"QuestsViewController: refresh requested");
 	if ([AppModel sharedAppModel].loggedIn) [[AppServices sharedAppServices] fetchQuestList];
 	[self showLoadingIndicator];
 }
-
 
 -(void)showLoadingIndicator{
 	UIActivityIndicatorView *activityIndicator = 
@@ -130,12 +129,14 @@ NSString *const kQuestsHtmlTemplate =
 	[activityIndicator startAnimating];
 }
 
--(void)removeLoadingIndicator{
+-(void)removeLoadingIndicator
+{
 	[[self navigationItem] setRightBarButtonItem:nil];
 	NSLog(@"QuestsViewController: removeLoadingIndicator");
 }
 
--(void)refreshViewFromModel {
+-(void)refreshViewFromModel
+{
     if(![RootViewController sharedRootViewController].usesIconQuestView){
 	NSLog(@"QuestsViewController: Refreshing view from model");
 	
@@ -177,7 +178,8 @@ NSString *const kQuestsHtmlTemplate =
 			for (Quest *existingQuest in [self.quests objectAtIndex:ACTIVE_SECTION]) {
 				if (existingQuest.questId == quest.questId) match = YES;	
 			}
-			if (match == NO) {
+			if (match == NO)
+            {
 				newItems ++;;
                 
                 if(quest.fullScreenNotification)
@@ -204,10 +206,11 @@ NSString *const kQuestsHtmlTemplate =
                 [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
 			}
 		}
-		else if (newItemsSinceLastView < 1) self.tabBarItem.badgeValue = nil;
-        
+		else if (newItemsSinceLastView < 1)
+            self.tabBarItem.badgeValue = nil;
 	}
-	else {
+	else
+    {
 		newItemsSinceLastView = 0;
 		self.tabBarItem.badgeValue = nil;
 	}

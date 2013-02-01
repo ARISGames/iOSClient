@@ -97,7 +97,7 @@
 }
 
 -(Media *)mediaForUrl:(NSURL *)url{
-    NSLog(@"MediaCache:mediaForUrl");
+    NSLog(@"MediaCache:mediaForUrl:%@",url);
     
     NSError *error;
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -106,12 +106,11 @@
     [fetchRequest setEntity:entity];
     NSPredicate *predicate = [NSPredicate predicateWithFormat: @"url like %@", [url absoluteString]];
     [fetchRequest setPredicate:predicate];
-    NSArray *allMedia = [context executeFetchRequest:fetchRequest error:&error] ;
+    NSArray *allMedia = [context executeFetchRequest:fetchRequest error:&error];
     if([allMedia count] != 0)
     {
         Media *media = (Media *)[allMedia objectAtIndex:0];
         return media;
-        NSLog(@"MediaCache:mediaForUrl: Found a media, reusing");
     }
     
     NSLog(@"MediaCache:mediaForUrl: Media Not Found, creating");
