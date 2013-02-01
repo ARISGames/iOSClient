@@ -2083,8 +2083,6 @@ NSString *const kARISServerServicePackage = @"v1";
     pan.alignMediaId = [self validIntForKey:@"alignment_media_id" inDictionary:panoramicDictionary];
     pan.iconMediaId = [self validIntForKey:@"icon_media_id" inDictionary:panoramicDictionary];
     
-    
-    
     /*NSMutableArray *activeQuestObjects = [[NSMutableArray alloc] init];
      NSArray *activeQuests = [questListDictionary objectForKey:@"active"];
      NSEnumerator *activeQuestsEnumerator = [activeQuests objectEnumerator];
@@ -2100,7 +2098,6 @@ NSString *const kARISServerServicePackage = @"v1";
      [quest release];
      }
      */
-    
     
     //parse out the active quests into quest objects
 	NSMutableArray *media = [[NSMutableArray alloc] init];

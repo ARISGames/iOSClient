@@ -97,7 +97,7 @@
 }
 
 -(Media *)mediaForUrl:(NSURL *)url{
-    NSLog(@"MediaCache:mediaForUrl:%@",url);
+    NSLog(@"MediaCache:mediaForUrl:%@ - NOTE: DON'T USE THIS FUNCTION UNLESS YOU HAVE NO OTHER OPTION. Searching through cache by url is slow as heck. Search by mediaId.",url);
     
     NSError *error;
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];

@@ -23,31 +23,35 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
 		self.tabBarItem.image = [UIImage imageNamed:@"73-radar"];
-		self.title = NSLocalizedString(@"NearbyObjectsTabKey",@"");	
+		self.title = NSLocalizedString(@"NearbyObjectsTabKey",@"");
 		self.navigationItem.title = NSLocalizedString(@"NearbyObjectsTitleKey",@"");
 		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"PlayerMoved" object:nil];		
-		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewLocationListReady" object:nil];			
+		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"PlayerMoved" object:nil];
+		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewLocationListReady" object:nil];
 		
 		self.oldNearbyLocationList = [NSMutableArray arrayWithCapacity:5];
     }
     return self;
 }
 
+- (void)silenceNextUpdate {
+	silenceNextServerUpdateCount++;
+	NSLog(@"QuestsViewController: silenceNextUpdate. Count is %d",silenceNextServerUpdateCount );
+}
 
-/*
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
+    [dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
 }
-*/
 
 /*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations.
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
+ // Override to allow orientations other than the default portrait orientation.
+ - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+ // Return YES for supported orientations.
+ return (interfaceOrientation == UIInterfaceOrientationPortrait);
+ }
  
  -(BOOL)shouldAutorotate{
  return YES;
@@ -65,7 +69,7 @@
  mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
  return mask;
  }
-*/
+ */
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
@@ -80,10 +84,8 @@
     // e.g. self.myOutlet = nil;
 }
 
-
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -104,95 +106,94 @@
 }
 
 - (void)refreshViewFromModel{
+    
     if(![AppServices sharedAppServices].currentlyInteractingWithObject && [AppModel sharedAppModel].inGame){
-	NSLog(@"NearbyBar: refreshViewFromModel");
-	
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	
-	if (![AppModel sharedAppModel].playerLocation) {
-		NSLog(@"NearbyBar: Waiting for the player location before continuing to refresh. Returning");
-		return;
-	}
-	
-	NSMutableArray *nearbyLocationList = [NSMutableArray arrayWithCapacity:5];
-	NSObject <NearbyObjectProtocol> *forcedDisplayItem = nil;
-	
-	
-	//Filter out the locations that meet some basic requirements
-	for(Location *location in [AppModel sharedAppModel].locationList) {
-        if(location.error == -1) location.error = 9999999999;
-		if ([[AppModel sharedAppModel].playerLocation distanceFromLocation:location.location] > location.error) continue;
-		else if (location.kind == NearbyObjectItem && location.qty ==0 ) continue;
-		else if (location.kind == NearbyObjectPlayer) continue;
-		else [nearbyLocationList addObject:location];
-	}
-	
-	//Check if anything is new since last time
-	BOOL newItem = NO;	//flag to see if at least one new item is in list
-    BOOL hasFoundForcedDisplayItem = NO;
-        for (int i = 0; i < nearbyLocationList.count; i++) {		
-		Location *location = [nearbyLocationList objectAtIndex:i];
-        BOOL match = NO;
-		for (Location *oldLocation in oldNearbyLocationList) {
-			if (oldLocation.locationId == location.locationId) match = YES;	
-		}
-		if (match == NO) {
-			if (location.forcedDisplay){
-                if(!hasFoundForcedDisplayItem){
-                forcedDisplayItem = location;
-                hasFoundForcedDisplayItem = YES;
+        NSLog(@"NearbyBar: refreshViewFromModel");
+        
+            ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+            
+            if (![AppModel sharedAppModel].playerLocation) {
+                NSLog(@"NearbyBar: Waiting for the player location before continuing to refresh. Returning");
+                return;
+            }
+            
+            NSMutableArray *nearbyLocationList = [NSMutableArray arrayWithCapacity:5];
+            NSObject <NearbyObjectProtocol> *forcedDisplayItem = nil;
+            
+            
+            //Filter out the locations that meet some basic requirements
+            for(Location *location in [AppModel sharedAppModel].locationList)
+            {
+                if(location.error == -1) location.error = 9999999999;
+                if ([[AppModel sharedAppModel].playerLocation distanceFromLocation:location.location] > location.error) continue;
+                else if (location.kind == NearbyObjectItem && location.qty ==0 ) continue;
+                else if (location.kind == NearbyObjectPlayer) continue;
+                else [nearbyLocationList addObject:location];
+            }
+            
+            //Check if anything is new since last time
+            BOOL newItem = NO;	//flag to see if at least one new item is in list
+            for (int i = 0; i < nearbyLocationList.count; i++) {
+                Location *location = [nearbyLocationList objectAtIndex:i];
+                BOOL match = NO;
+                for (Location *oldLocation in oldNearbyLocationList) {
+                    if (oldLocation.locationId == location.locationId) match = YES;
                 }
-                else{
-                  [nearbyLocationList removeObjectAtIndex:i];
-                    i--;
+                if (match == NO) {
+                    if (location.forcedDisplay){
+                        if(!forcedDisplayItem && silenceNextServerUpdateCount == 0)
+                            forcedDisplayItem = location;
+                        else //if there is already a forced display item, but this item also wants to be force-displayed,
+                        {
+                            //remove all evidence of it being in the list (so on next update, it thinks it's new)
+                            [nearbyLocationList removeObjectAtIndex:i];
+                            i--;
+                        }
+                    }
+                    newItem = YES;
                 }
             }
-			newItem = YES;
-		}
-	}
-	
-	//If we have something new, alert the user
-	if (newItem) {
-            //alert only if u are on quest,map,inventory, or nearby objects screen
-            [appDelegate playAudioAlert:@"pingtone" shouldVibrate:YES]; 
-
-        
-		if (![AppModel sharedAppModel].hasSeenNearbyTabTutorial) {
-			[[RootViewController sharedRootViewController].tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController  
-												type:tutorialPopupKindNearbyTab 
-												title:@"Something Nearby"  
-												message:@"There is something nearby! Touch below to see what it is."];
-			[AppModel sharedAppModel].hasSeenNearbyTabTutorial = YES;
-            [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
-		}
-	}
-	
-	//If we have a force display, do it
-	if (forcedDisplayItem) {
-		[forcedDisplayItem display];
-	}
-	
-	if ([nearbyLocationList count] == 0) { 
-		NSLog(@"NearbyBar: refreshViewFromModel: nearbyLocationList was 0");
-		self.navigationController.tabBarItem.badgeValue = nil;
-		[[RootViewController sharedRootViewController] showNearbyTab:NO];
-	}
-	else {
-		NSLog(@"NearbyBar: refreshViewFromModel: nearbyLocationList was > 0");
-		self.navigationController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",[nearbyLocationList count]];
-		[[RootViewController sharedRootViewController] showNearbyTab:YES];
-
-	}
-	
-	
-	//Save this nearby list
-	self.oldNearbyLocationList = nearbyLocationList;
-	
-	//Refresh the table
-	[nearbyTable reloadData];
-	}
-} 
-
+            
+            //If we have something new, alert the user
+            if (newItem) {
+                //alert only if u are on quest,map,inventory, or nearby objects screen
+                [appDelegate playAudioAlert:@"pingtone" shouldVibrate:YES];
+                
+                
+                if (![AppModel sharedAppModel].hasSeenNearbyTabTutorial) {
+                    [[RootViewController sharedRootViewController].tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController
+                                                                                                                                     type:tutorialPopupKindNearbyTab
+                                                                                                                                    title:@"Something Nearby"
+                                                                                                                                  message:@"There is something nearby! Touch below to see what it is."];
+                    [AppModel sharedAppModel].hasSeenNearbyTabTutorial = YES;
+                    [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
+                }
+            }
+            
+            //If we have a force display, do it
+            if (forcedDisplayItem) {
+                [forcedDisplayItem display];
+            }
+            
+            if ([nearbyLocationList count] == 0) {
+                NSLog(@"NearbyBar: refreshViewFromModel: nearbyLocationList was 0");
+                self.navigationController.tabBarItem.badgeValue = nil;
+                [[RootViewController sharedRootViewController] showNearbyTab:NO];
+            }
+            else {
+                NSLog(@"NearbyBar: refreshViewFromModel: nearbyLocationList was > 0");
+                self.navigationController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",[nearbyLocationList count]];
+                [[RootViewController sharedRootViewController] showNearbyTab:YES];
+            }
+            
+            //Save this nearby list
+            self.oldNearbyLocationList = nearbyLocationList;
+            
+            //Refresh the table
+            [nearbyTable reloadData];
+        }
+    if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
+}
 
 #pragma mark UITableView Data Source and Delegate Methods
 
@@ -206,10 +207,9 @@
 	return [self.oldNearbyLocationList count];
 }
 
-
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    
 	static NSString *CellIdentifier = @"Cell";
     NearbyObjectCell *cell = (NearbyObjectCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
@@ -221,7 +221,6 @@
 		// Release the temporary UIViewController.
 	}
 	
-
 	Location *l;
 	l = [self.oldNearbyLocationList objectAtIndex:indexPath.row];
 	NSLog(@"NearbyObjectsVC: cellForRowAtIndexPath: Text Label is: %@",l.name);
@@ -230,11 +229,11 @@
 	else cell.title.text = l.name;
 	
 	Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: l.iconMediaId];
-        [cell.iconView loadImageFromMedia:iconMedia];
- 
+    [cell.iconView loadImageFromMedia:iconMedia];
+    
 	
 	return cell;
-
+    
 }
 
 // Customize the height of each row
@@ -246,7 +245,5 @@
     l.delegate = self;
 	[l display];
 }
-
-
 
 @end

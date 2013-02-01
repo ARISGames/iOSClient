@@ -58,9 +58,11 @@ BOOL isShowingPopOver;
     return _sharedObject;
 }
 
-- (id)initWithFrame:(CGRect)frame {
+- (id)initWithFrame:(CGRect)frame
+{
     self = [super init];
-    if (self) {
+    if(self)
+    {
         self.view.frame = frame;
         
         SCREEN_HEIGHT = [UIScreen mainScreen].bounds.size.height;
@@ -84,7 +86,7 @@ BOOL isShowingPopOver;
         [dispatcher addObserver:self selector:@selector(checkForDisplayCompleteNode) name:@"NewQuestListReady" object:nil];
         [dispatcher addObserver:self selector:@selector(receivedMediaList) name:@"ReceivedMediaList" object:nil];
         [dispatcher addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"OneGameReady" object:nil];
-            
+        
         UIWebView *titleLabelAlloc = [[UIWebView alloc] initWithFrame:CGRectMake(0, TRUE_ZERO_Y-8, SCREEN_WIDTH, 28)];
         self.titleLabel = titleLabelAlloc;
         //self.titleLabel.textColor = [UIColor blackColor];
@@ -101,9 +103,9 @@ BOOL isShowingPopOver;
         self.descLabel.textAlignment = UITextAlignmentCenter;
         self.descLabel.backgroundColor = [UIColor blackColor];
         
-        notSquishedVCFrame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-STATUS_BAR_HEIGHT);    
+        notSquishedVCFrame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-STATUS_BAR_HEIGHT);
         squishedVCFrame = CGRectMake(0, TRUE_ZERO_Y + NOTIFICATION_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NOTIFICATION_HEIGHT);
-
+        
         //Setup NearbyObjects View
         NearbyObjectsViewController *nearbyObjectsViewController = [[NearbyObjectsViewController alloc]initWithNibName:@"NearbyObjectsViewController" bundle:nil];
         UINavigationController *nearbyObjectsNavigationControllerAlloc = [[UINavigationController alloc] initWithRootViewController:nearbyObjectsViewController];
@@ -153,7 +155,7 @@ BOOL isShowingPopOver;
         //Setup Audio Recorder View
         AudioRecorderViewController *audioRecorderViewController = [[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil];
         UINavigationController *audioRecorderNavigationController = [[UINavigationController alloc] initWithRootViewController: audioRecorderViewController];
-        audioRecorderNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;	
+        audioRecorderNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
         
         //QR Scanner Developer View
         QRScannerViewController *qrScannerViewController = [[QRScannerViewController alloc] initWithNibName:@"QRScanner" bundle:nil];
@@ -177,7 +179,7 @@ BOOL isShowingPopOver;
         loginViewController = [[LoginViewController alloc] initWithNibName:@"Login" bundle:nil];
         loginViewNavigationController = [[UINavigationController alloc] initWithRootViewController: loginViewController];
         loginViewNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-  //      [loginViewNavigationController.view setFrame:UIScreen.mainScreen.applicationFrame];
+        //      [loginViewNavigationController.view setFrame:UIScreen.mainScreen.applicationFrame];
         loginViewNavigationController.view.frame = self.view.frame;
         [self.view addSubview:loginViewNavigationController.view];
         
@@ -188,8 +190,8 @@ BOOL isShowingPopOver;
         UINavigationController *moreNavController = self.tabBarController.moreNavigationController;
         moreNavController.navigationBar.barStyle = UIBarStyleBlackOpaque;
         moreNavController.delegate = self;
-        self.tabBarController.viewControllers = [NSMutableArray arrayWithObjects: 
-                                                 questsNavigationController, 
+        self.tabBarController.viewControllers = [NSMutableArray arrayWithObjects:
+                                                 questsNavigationController,
                                                  gpsNavigationController,
                                                  inventoryNavigationController,
                                                  qrScannerNavigationController,
@@ -263,15 +265,15 @@ BOOL isShowingPopOver;
         [self.tabBarController.view addSubview:self.tutorialViewController.view];
         
         //Setup Location Manager
-        [NSTimer scheduledTimerWithTimeInterval:3.0 
-                                         target:[[MyCLController sharedMyCLController]locationManager] 
-                                       selector:@selector(startUpdatingLocation) 
-                                       userInfo:nil 
+        [NSTimer scheduledTimerWithTimeInterval:3.0
+                                         target:[[MyCLController sharedMyCLController]locationManager]
+                                       selector:@selector(startUpdatingLocation)
+                                       userInfo:nil
                                         repeats:NO];
         
         //Set up visibility of views at top of heirarchy
         [[AppModel sharedAppModel] loadUserDefaults];
-        if ([AppModel sharedAppModel].playerId == 0)
+        if([AppModel sharedAppModel].playerId == 0)
         {
             self.loginViewNavigationController.view.hidden = NO;
             self.tabBarController.view.hidden = YES;
@@ -284,14 +286,14 @@ BOOL isShowingPopOver;
             self.loginViewNavigationController.view.hidden = YES;
             self.tabBarController.view.hidden = YES;
             /*if([AppModel sharedAppModel].museumMode)
-            {
-                self.gameSelectionTabBarController.view.hidden = YES;
-                self.playerSettingsViewNavigationController.view.hidden = NO;
-            }*/
+             {
+             self.gameSelectionTabBarController.view.hidden = YES;
+             self.playerSettingsViewNavigationController.view.hidden = NO;
+             }*/
             //else
             //{
-                self.gameSelectionTabBarController.view.hidden = NO;
-                self.playerSettingsViewNavigationController.view.hidden = YES;
+            self.gameSelectionTabBarController.view.hidden = NO;
+            self.playerSettingsViewNavigationController.view.hidden = YES;
             //}
         }
         //self.waitingIndicatorView = [[WaitingIndicatorView alloc] init];
@@ -299,46 +301,49 @@ BOOL isShowingPopOver;
         //PUSHER STUFF
         //Setup Pusher Client
         self.client = [PTPusher pusherWithKey:@"79f6a265dbb7402a49c9" delegate:self encrypted:YES];
-        self.client.authorizationURL = [NSURL URLWithString:@"http://dev.arisgames.org/server/events/auths/private_auth.php"];
-        
-        
-    
+        self.client.authorizationURL = [NSURL URLWithString:@"http://dev.arisgames.org/server/events/auths/private_auth.php"];        
     }
     return self;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 }
 
-- (void)viewDidUnload {
+- (void)viewDidUnload
+{
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 
-- (void)viewWillAppear:(BOOL)animated{
+- (void)viewWillAppear:(BOOL)animated
+{
     [[UIApplication sharedApplication] setStatusBarOrientation:UIDeviceOrientationPortrait animated:NO];
 }
 
 /*
-Notes on how this works:(Phil Dougherty- 10/23/12)
+ Notes on how this works:(Phil Dougherty- 10/23/12)
  Under normal navigation:
-    UIApplication and RootView must agree that rotation is allowed. If so, rotates.
+ UIApplication and RootView must agree that rotation is allowed. If so, rotates.
  When viewcontroller presented (modal-y stuff):
-    UIApplication and Presented View Controller must agree.
-*/
+ UIApplication and Presented View Controller must agree.
+ */
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
--(BOOL)shouldAutorotate{
+-(BOOL)shouldAutorotate
+{
     return YES;
 }
 
--(NSInteger)supportedInterfaceOrientations{
+-(NSInteger)supportedInterfaceOrientations
+{
     NSInteger mask = 0;
     if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeLeft])
         mask |= UIInterfaceOrientationMaskLandscapeLeft;
@@ -357,8 +362,8 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:fullString,@"fullString",boldedString,@"boldedString", nil];
     [self.notifArray addObject:dict];
-    if(!(isShowingNotification || isShowingPopOver))// && !self.presentedViewController)
-         [self showNotifications];
+    if(!(isShowingNotification || isShowingPopOver))
+        [self showNotifications];
 }
 
 -(void)enqueuePopOverWithTitle:(NSString *)title description:(NSString *)description webViewText:(NSString *)text andMediaId:(int) mediaId
@@ -366,18 +371,24 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:title,@"title",description,@"description",text,@"text",[NSNumber numberWithInt:mediaId],@"mediaId", nil];
     [popOverArray addObject:dict];
     
-    if(!(isShowingPopOver || isShowingNotification)) [self showPopOver];
+    if(!(isShowingPopOver || isShowingNotification))
+        [self showPopOver];
 }
 
--(void)showNotifications{
+-(void)showNotifications
+{
     NSLog(@"RootViewController: showNotifications");
-    if([popOverArray count] > 0){
+    if([popOverArray count] > 0)
+    {
         [self hideNotifications];
         [self showPopOver];
     }
-    else if([self.notifArray count]>0) {
+    else if([self.notifArray count]>0)
+    {
         NSLog(@"RootViewController: showNotifications: We have something to display");
-        if(!isShowingNotification){//lower frame into position if its not already there
+        if(!isShowingNotification)
+        {
+            //lower frame into position if its not already there
             isShowingNotification = YES;
             [self.view addSubview:self.titleLabel];
             //[self.view addSubview:self.descLabel];
@@ -389,11 +400,10 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
             NSLog(@"TabBC frame BEFORE origin: %f",self.tabBarController.view.frame.origin.y);
             
             [[UIApplication sharedApplication] setStatusBarHidden:YES];
-
+            
             //NOTES: While the status bar is hidden, the view still is basing its origin on where the bottom of the status bar would be. Thus there is 20 pixels subtracted from all y-values to account for this.
-            if(self.presentedViewController){
+            if(self.presentedViewController)
                 self.presentedViewController.view.frame = squishedVCFrame;
-            }
             
             self.tabBarController.view.frame = squishedVCFrame;
             [UIView commitAnimations];
@@ -411,11 +421,14 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
         NSString* part3;
         
         NSRange boldRange = [fullString rangeOfString:boldString];
-        if (boldRange.location == NSNotFound) {
+        if (boldRange.location == NSNotFound)
+        {
             part1 = fullString;
             part2 = @"";
             part3 = @"";
-        } else {
+        }
+        else
+        {
             part1 = [fullString substringToIndex:boldRange.location];
             part2 = [fullString substringWithRange:boldRange];
             part3 = [fullString substringFromIndex:(boldRange.location + boldRange.length)];
@@ -455,51 +468,50 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
             }
         }];
     }
-    else{
+    else
         [self hideNotifications];
-    }
 }
 
--(void)showPopOver{
+-(void)showPopOver
+{
     NSLog(@"RootViewController: showPopOvers");
-    if([popOverArray count] > 0) {
+    if([popOverArray count] > 0)
+    {
         isShowingPopOver = YES;
         [popOverViewController view]; //used to force viewDidLoad before setTitle: descripion:...
         [popOverViewController setTitle:[[popOverArray objectAtIndex:0] objectForKey:@"title"] description:[[popOverArray objectAtIndex:0] objectForKey:@"description"] webViewText:[[popOverArray objectAtIndex:0] objectForKey:@"text"] andMediaId:[[[popOverArray objectAtIndex:0] objectForKey:@"mediaId"] intValue]];
         if (!(popOverViewController.isViewLoaded && popOverViewController.view.window))
-        {
-            //[self presentViewController:popOverViewController animated:NO completion:nil];
             [self.view addSubview:popOverViewController.view];
-        }
         if([popOverArray count] > 0)
-        {
             [popOverArray removeObjectAtIndex:0];
-        }
     }
-    else if (popOverViewController.isViewLoaded && popOverViewController.view.window) {
+    else if (popOverViewController.isViewLoaded && popOverViewController.view.window)
+    {
         [popOverViewController dismissViewControllerAnimated:NO completion:nil];
         [popOverViewController.view removeFromSuperview];
         isShowingPopOver = NO;
         [self showNotifications];
     }
-    else {
+    else
+    {
         isShowingPopOver = NO;    //may not ever get here; defensive programming
         [self showNotifications];
     }
 }
 
 -(void)hideNotifications{
-    if(!tabBarController.view.hidden){
+    if(!tabBarController.view.hidden)
+    {
         [UIView animateWithDuration:.5 delay:0.0 options:UIViewAnimationCurveEaseIn animations:^{
             if(isShowingNotification){
                 [[UIApplication sharedApplication] setStatusBarHidden:NO];
                 
                 
                 if(self.presentedViewController) {
-                    self.presentedViewController.view.frame = notSquishedVCFrame;    
+                    self.presentedViewController.view.frame = notSquishedVCFrame;
                 }
                 
-                self.tabBarController.view.frame = notSquishedVCFrame; 
+                self.tabBarController.view.frame = notSquishedVCFrame;
             }
         }completion:^(BOOL finished){
             isShowingNotification = NO;
@@ -511,11 +523,12 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     [[NSNotificationCenter defaultCenter] postNotification:hideNotificationsNotification];
 }
 
--(void)hidePopOver{
-    
+-(void)hidePopOver
+{    
 }
 
-- (void) showGameSelectionTabBarAndHideOthers {
+- (void) showGameSelectionTabBarAndHideOthers
+{
     //Put it onscreen
     CGContextRef context = UIGraphicsGetCurrentContext();
     [UIView beginAnimations:nil context:context];
@@ -530,7 +543,8 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     [[AppModel sharedAppModel] saveUserDefaults];
 }
 
-- (void) showAlert:(NSString *)title message:(NSString *)message {
+- (void) showAlert:(NSString *)title message:(NSString *)message
+{
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
     [alert show];
 }
@@ -539,55 +553,57 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
 	errorMessage = message;
     errorDetail = detail;
     
-	if (!self.serverAlert){
+	if (!self.serverAlert)
+    {
         UIAlertView *serverAlertAlloc = [[UIAlertView alloc] initWithTitle:title
                                                                    message:NSLocalizedString(@"ARISAppDelegateWIFIErrorMessageKey", @"")
                                                                   delegate:self cancelButtonTitle:NSLocalizedString(@"IgnoreKey", @"") otherButtonTitles:NSLocalizedString(@"ReportKey", @""),nil];
 		self.serverAlert = serverAlertAlloc;
-		[self.serverAlert show];	
+		[self.serverAlert show];
  	}
-	else {
-		NSLog(@"RootViewController: showServerAlertWithEmail was called, but a server alert was already present");
-	}
-    
+	else
+        NSLog(@"RootViewController: showServerAlertWithEmail was called, but a server alert was already present");
 }
 
 - (void) showNetworkAlert{
 	NSLog (@"RootViewController: Showing Network Alert");
-	if (self.loadingVC) {
+	if (self.loadingVC)
+    {
         [self.loadingVC dismissModalViewControllerAnimated:NO];
         [self tabBarController].selectedIndex = 0;
         [self showGameSelectionTabBarAndHideOthers];
     }
-	if (!self.networkAlert) {
-		networkAlert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"PoorConnectionTitleKey", @"") 
+	if (!self.networkAlert)
+    {
+		networkAlert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"PoorConnectionTitleKey", @"")
                                                   message: NSLocalizedString(@"PoorConnectionMessageKey", @"")
 												 delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
 	}
 	if (self.networkAlert.visible == NO) [networkAlert show];
-    
 }
 
-- (void) removeNetworkAlert {
+- (void) removeNetworkAlert
+{
 	NSLog (@"RootViewController: Removing Network Alert");
 	
-	if (self.networkAlert != nil) {
+	if (self.networkAlert != nil)
 		[self.networkAlert dismissWithClickedButtonIndex:0 animated:YES];
-	}
 }
 
-- (void) showNewWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar {
+- (void) showNewWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar
+{
 	NSLog (@"RootViewController: Showing Waiting Indicator With Message:%@",message);
 	//if (self.waitingIndicatorView) [self.waitingIndicatorView dismiss];
 	//if(!self.loadingVC){
-        if (self.waitingIndicatorView){ 
-            [self removeNewWaitingIndicator];
-        }
-        WaitingIndicatorView *waitingIndicatorViewAlloc = [[WaitingIndicatorView alloc] initWithWaitingMessage:message showProgressBar:displayProgressBar];
-        self.waitingIndicatorView = waitingIndicatorViewAlloc;
-        [self.waitingIndicatorView show];
-        
-        [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the activity indicator show before returning	
+    if (self.waitingIndicatorView)
+    {
+        [self removeNewWaitingIndicator];
+    }
+    WaitingIndicatorView *waitingIndicatorViewAlloc = [[WaitingIndicatorView alloc] initWithWaitingMessage:message showProgressBar:displayProgressBar];
+    self.waitingIndicatorView = waitingIndicatorViewAlloc;
+    [self.waitingIndicatorView show];
+    
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the activity indicator show before returning
     //}
 }
 
@@ -597,9 +613,11 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     self.waitingIndicatorView = nil;
 }
 
-- (void) showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar {
+- (void) showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar
+{
 	NSLog (@"RootViewController: Showing Waiting Indicator");
-	if (!self.waitingIndicator) {
+	if (!self.waitingIndicator)
+    {
         WaitingIndicatorViewController *waitingIndicatorAlloc = [[WaitingIndicatorViewController alloc] initWithNibName:@"WaitingIndicator" bundle:nil];
 		self.waitingIndicator = waitingIndicatorAlloc;
 	}
@@ -607,16 +625,18 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
 	self.waitingIndicator.progressView.hidden = !displayProgressBar;
 	
 	//by adding a subview to window, we make sure it is put on top
-	if ([AppModel sharedAppModel].loggedIn == YES) [self.view addSubview:self.waitingIndicator.view]; 
+	if ([AppModel sharedAppModel].loggedIn == YES) [self.view addSubview:self.waitingIndicator.view];
     
 }
 
-- (void) removeWaitingIndicator {
+- (void) removeWaitingIndicator
+{
 	NSLog (@"RootViewController: Removing Waiting Indicator");
 	if (self.waitingIndicator != nil) [self.waitingIndicator.view removeFromSuperview];
 }
 
-- (void)displayNearbyObjectView:(UIViewController *)nearbyObjectViewController {
+- (void)displayNearbyObjectView:(UIViewController *)nearbyObjectViewController
+{
     [AppServices sharedAppServices].currentlyInteractingWithObject = YES;
 	UINavigationController *nearbyObjectNavigationControllerAlloc = [[UINavigationController alloc] initWithRootViewController:nearbyObjectViewController];
 	self.nearbyObjectNavigationController = nearbyObjectNavigationControllerAlloc;
@@ -626,19 +646,22 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     [self.tabBarController.view addSubview: self.nearbyObjectNavigationController.view];
 }
 
-- (void)dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController{
+- (void)dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController
+{
     [AppServices sharedAppServices].currentlyInteractingWithObject = NO;
     [nearbyObjectViewController.view removeFromSuperview];
     [self.nearbyObjectNavigationController.view removeFromSuperview];
     [[AppServices sharedAppServices] fetchAllPlayerLists];
 }
 
-- (void) returnToHomeView{
+- (void) returnToHomeView
+{
 	NSLog(@"RootViewController: Returning to Home View and Popping More Nav Controller");
-    [self.tabBarController.moreNavigationController popToRootViewControllerAnimated:NO];	
+    [self.tabBarController.moreNavigationController popToRootViewControllerAnimated:NO];
 }
 
-- (void) checkForDisplayCompleteNode{
+- (void) checkForDisplayCompleteNode
+{
     int nodeID = [AppModel sharedAppModel].currentGame.completeNodeId;
     if ([AppModel sharedAppModel].currentGame.completedQuests == [AppModel sharedAppModel].currentGame.totalQuests &&
         [AppModel sharedAppModel].currentGame.completedQuests > 0  && nodeID != 0) {
@@ -648,18 +671,20 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
 	}
 }
 
-- (void) displayIntroNode{
+- (void) displayIntroNode
+{
     int nodeId = [AppModel sharedAppModel].currentGame.launchNodeId;
-    if (nodeId && nodeId != 0) {
+    if (nodeId && nodeId != 0)
+    {
         NSLog(@"RootViewController: displayIntroNode");
         Node *launchNode = [[AppModel sharedAppModel] nodeForNodeId:[AppModel sharedAppModel].currentGame.launchNodeId];
         [launchNode display];
     }
-    else{
-       NSLog(@"RootViewController: displayIntroNode: Game did not specify an intro node, skipping");
+    else
+    {
+        NSLog(@"RootViewController: displayIntroNode: Game did not specify an intro node, skipping");
         [AppServices sharedAppServices].currentlyInteractingWithObject = NO;
     }
-   // [tabBarController.viewControllers makeObjectsPerformSelector:@selector(getView)];
     
     //What is this doing? -Phil 11-13-2012
     //Causing all views to load, so that they will enque notifications even if they haven't been viewed before -Jacob 1/14/13
@@ -668,25 +693,27 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
 }
 
 - (void) showNearbyTab:(BOOL)yesOrNo {
-    if([AppModel sharedAppModel].tabsReady){
+    if([AppModel sharedAppModel].tabsReady)
+    {
         NSMutableArray *tabs = [NSMutableArray arrayWithArray:self.tabBarController.viewControllers];
         
-        if (yesOrNo) {
+        if(yesOrNo)
+        {
             NSLog(@"RootViewController: showNearbyTab: YES");
-            if (![tabs containsObject:self.nearbyObjectsNavigationController]) {
+            if (![tabs containsObject:self.nearbyObjectsNavigationController])
                 [tabs insertObject:self.nearbyObjectsNavigationController atIndex:0];
-            }
         }
-        else {
+        else
+        {
             NSLog(@"RootViewController: showNearbyTab: NO");
             
-            if ([tabs containsObject:self.nearbyObjectsNavigationController]) {
+            if ([tabs containsObject:self.nearbyObjectsNavigationController])
+            {
                 [tabs removeObject:self.nearbyObjectsNavigationController];
                 //Hide any popups
                 UIViewController *vc = [self.nearbyObjectsNavigationController performSelector:@selector(visibleViewController)];
-                if ([vc respondsToSelector:@selector(dismissTutorial)]) {
+                if ([vc respondsToSelector:@selector(dismissTutorial)])
                     [vc performSelector:@selector(dismissTutorial)];
-                }
             }
         }
         
@@ -717,12 +744,13 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     }
 }
 
-- (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password andGameId:(int)gameId inMuseumMode:(BOOL)museumMode{
+- (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password andGameId:(int)gameId inMuseumMode:(BOOL)museumMode
+{
 	NSLog(@"RootViewController: Attempt Login for: %@ Password: %@", userName, password);
 	[AppModel sharedAppModel].userName = userName;
 	[AppModel sharedAppModel].password = password;
 	[AppModel sharedAppModel].museumMode = museumMode;
-
+    
     [self showNewWaitingIndicator:@"Logging In..." displayProgressBar:NO];
 	[[AppServices sharedAppServices] login];
     
@@ -748,7 +776,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
 
 - (void)finishLoginAttempt:(NSNotification *)notification {
 	NSLog(@"RootViewController: Finishing Login Attempt");
-
+    
 	//handle login response
 	if([AppModel sharedAppModel].loggedIn)
     {
@@ -772,14 +800,16 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     else
     {
 		NSLog(@"RootViewController: Login Failed, check for a network issue");
-		if (self.networkAlert) NSLog(@"RootViewController: Network is down, skip login alert");
-		else {
+		if (self.networkAlert)
+            NSLog(@"RootViewController: Network is down, skip login alert");
+		else
+        {
 			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"LoginErrorTitleKey",@"")
                                                             message:NSLocalizedString(@"LoginErrorMessageKey",@"")
                                                            delegate:self
                                                   cancelButtonTitle:NSLocalizedString(@"OkKey", @"")
                                                   otherButtonTitles:nil];
-			[alert show];	
+			[alert show];
 		}
 	}
 }
@@ -804,7 +834,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     // [UIView commitAnimations];
     
     [self returnToHomeView];
-
+    
 	//Clear out the old game data
     if(gameChannel) [client unsubscribeFromChannel:(PTPusherChannel *)gameChannel];
     if(groupChannel) [client unsubscribeFromChannel:(PTPusherChannel *)groupChannel];
@@ -823,12 +853,10 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
 	UINavigationController *navigationController;
 	
 	//Get the naviation controller and visible view controller
-	if ([self.tabBarController.selectedViewController isKindOfClass:[UINavigationController class]]) {
+	if ([self.tabBarController.selectedViewController isKindOfClass:[UINavigationController class]])
 		navigationController = (UINavigationController*)self.tabBarController.selectedViewController;
-	}
-	else {
+	else
 		navigationController = nil;
-	}
 	
     //Start loading all the data
     loadingVC = [[LoadingViewController alloc]initWithNibName:@"LoadingViewController" bundle:nil];
@@ -883,7 +911,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"tabIndex"
                                                  ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-   // Boolean isIconQuestsView = YES;
+    // Boolean isIconQuestsView = YES;
     
     tmpTabList = [[AppModel sharedAppModel].gameTabList sortedArrayUsingDescriptors:sortDescriptors];
     Tab *tmpTab = [[Tab alloc] init];
@@ -907,7 +935,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
             newTabList = [newTabList arrayByAddingObject:tmpTab];
         }
     }
-
+    
     for(int y = 0; y < [newTabList count];y++){
         tmpTab = [newTabList objectAtIndex:y];
         if([tmpTab.tabName isEqualToString:NSLocalizedString(@"QuestViewTitleKey",@"")]){
@@ -916,11 +944,11 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
             newCustomVC = [newCustomVC arrayByAddingObject:tempNav];
         }
         else{
-        for(int x = 0; x < [[AppModel sharedAppModel].defaultGameTabList count];x++){
-            
-            tempNav = (UINavigationController *)[[AppModel sharedAppModel].defaultGameTabList objectAtIndex:x];
-            if([tempNav.navigationItem.title isEqualToString:tmpTab.tabName])newCustomVC = [newCustomVC arrayByAddingObject:tempNav];
-        }
+            for(int x = 0; x < [[AppModel sharedAppModel].defaultGameTabList count];x++){
+                
+                tempNav = (UINavigationController *)[[AppModel sharedAppModel].defaultGameTabList objectAtIndex:x];
+                if([tempNav.navigationItem.title isEqualToString:tmpTab.tabName])newCustomVC = [newCustomVC arrayByAddingObject:tempNav];
+            }
         }
     }
     
@@ -959,7 +987,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
 	NSLog(@"%@", text);
 }
 
-// handle opening ARIS using custom URL of form ARIS://?game=397 
+// handle opening ARIS using custom URL of form ARIS://?game=397
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
     NSLog(@"ARIS opened from URL");
@@ -984,7 +1012,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     NSLog(@"Path: %@", strPath);
     
     if ([strPath isEqualToString:@"games"] || [strPath isEqualToString:@"game"]) {
-
+        
         NSString *gameID = [url lastPathComponent];
         NSLog(@"gameID=: %@",gameID);
         
@@ -1001,7 +1029,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     //unregister for notifications //<- Why? Phil 09/19/12 (I commented out the next line to get this to work)
     //[[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    Game *selectedGame = [[[AppModel sharedAppModel] singleGameList] objectAtIndex:0];	
+    Game *selectedGame = [[[AppModel sharedAppModel] singleGameList] objectAtIndex:0];
     GameDetails *gameDetailsVC = [[GameDetails alloc] initWithNibName:@"GameDetails" bundle:nil];
     gameDetailsVC.game = selectedGame;
     
@@ -1026,7 +1054,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
         self.gameSelectionTabBarController.view.hidden = NO;
         self.gameSelectionTabBarController.selectedIndex = 0;
     }
-
+    
     NSLog(@"gameID= %i",selectedGame.gameId);
     NSLog(@"game= %@",selectedGame.name);
     NSLog(@"gameDetailsVC nib name = %@",gameDetailsVC.nibName);
@@ -1053,7 +1081,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
 		controller.mailComposeDelegate = self;
 		[controller setToRecipients: [NSMutableArray arrayWithObjects: @"arisgames-dev@googlegroups.com",nil]];
 		[controller setSubject:@"ARIS Error Report"];
-		[controller setMessageBody:body isHTML:NO]; 
+		[controller setMessageBody:body isHTML:NO];
 		if (controller)
             [self.tabBarController presentModalViewController:controller animated:YES];
 	}
@@ -1063,8 +1091,8 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
 
 #pragma mark MFMailComposeViewController Delegate
 
-- (void)mailComposeController:(MFMailComposeViewController*)controller  
-          didFinishWithResult:(MFMailComposeResult)result 
+- (void)mailComposeController:(MFMailComposeViewController*)controller
+          didFinishWithResult:(MFMailComposeResult)result
                         error:(NSError*)error;
 {
 	if (result == MFMailComposeResultSent) {
@@ -1076,7 +1104,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
 #pragma mark UITabBarControllerDelegate methods
 
 - (void)tabBarController:(UITabBarController *)tabBar didSelectViewController:(UIViewController *)viewController{
-    NSLog(@"RootViewController: tabBarController didSelectViewController");	
+    NSLog(@"RootViewController: tabBarController didSelectViewController");
     
     [tabBar.moreNavigationController popToRootViewControllerAnimated:NO];
     
@@ -1087,13 +1115,13 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
 			[vc performSelector:@selector(dismissTutorial)];
 		}
 	}
-
+    
     /*
-    if(isShowingNotification){
-        //notificationBarHeight = 0;
-        self.tabBarController.view.frame = CGRectMake(0, self.notificationBarHeight, self.tabBarController.view.frame.size.width, 480-self.notificationBarHeight-20);
-    }
-    */
+     if(isShowingNotification){
+     //notificationBarHeight = 0;
+     self.tabBarController.view.frame = CGRectMake(0, self.notificationBarHeight, self.tabBarController.view.frame.size.width, 480-self.notificationBarHeight-20);
+     }
+     */
 }
 
 - (void) didReceiveGameChannelEventNotification:(NSNotification *)notification
@@ -1107,10 +1135,10 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
     else if([event.name isEqualToString:@"display"])
     {
         NSString * data = [event.data stringByReplacingOccurrencesOfString:@"\"" withString:@""];
-
+        
         Location *loc = [[AppModel sharedAppModel] locationForLocationId:[data intValue]];
         if(loc != nil)
-           [loc.object display];
+            [loc.object display];
     }
     
     return;
@@ -1131,7 +1159,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
         if(loc != nil)
             [loc.object display];
     }
-
+    
     return;
 }
 
@@ -1150,7 +1178,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
         if(loc != nil)
             [loc.object display];
     }
-
+    
     return;
 }
 
@@ -1169,7 +1197,7 @@ Notes on how this works:(Phil Dougherty- 10/23/12)
         if(loc != nil)
             [loc.object display];
     }
-
+    
     return;
 }
 

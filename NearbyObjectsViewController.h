@@ -13,6 +13,7 @@
 @interface NearbyObjectsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate> {
 	NSMutableArray *oldNearbyLocationList;
 	IBOutlet UITableView *nearbyTable;
+    int silenceNextServerUpdateCount;
 }
 
 @property(nonatomic) NSMutableArray *oldNearbyLocationList;
@@ -20,6 +21,7 @@
 - (void)refreshViewFromModel;
 - (void)refresh;
 - (void)dismissTutorial;
+- (void)silenceNextUpdate;
 
 
 @end

@@ -19,7 +19,7 @@ static NSString * const OPTION_CELL = @"quest";
 static int const ACTIVE_SECTION = 0;
 static int const COMPLETED_SECTION = 1;
 
-NSString *const kQuestsHtmlTemplate = 
+NSString *const kQuestsHtmlTemplate =
 @"<html>"
 @"<head>"
 @"	<title>Aris</title>"
@@ -76,7 +76,6 @@ NSString *const kQuestsHtmlTemplate =
 - (void)silenceNextUpdate {
 	silenceNextServerUpdateCount++;
 	NSLog(@"QuestsViewController: silenceNextUpdate. Count is %d",silenceNextServerUpdateCount );
-    
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -122,7 +121,7 @@ NSString *const kQuestsHtmlTemplate =
 }
 
 -(void)showLoadingIndicator{
-	UIActivityIndicatorView *activityIndicator = 
+	UIActivityIndicatorView *activityIndicator =
     [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
 	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
 	[[self navigationItem] setRightBarButtonItem:barButton];
@@ -138,102 +137,101 @@ NSString *const kQuestsHtmlTemplate =
 -(void)refreshViewFromModel
 {
     if(![RootViewController sharedRootViewController].usesIconQuestView){
-	NSLog(@"QuestsViewController: Refreshing view from model");
-	
-    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	progressLabel.text = [NSString stringWithFormat:@"%d %@ %d %@", [AppModel sharedAppModel].currentGame.completedQuests, NSLocalizedString(@"OfKey", @"Number of Number"), [AppModel sharedAppModel].currentGame.totalQuests, NSLocalizedString(@"QuestsCompleteKey", @"")];
-	progressView.progress = (float)[AppModel sharedAppModel].currentGame.completedQuests / (float)[AppModel sharedAppModel].currentGame.totalQuests;
-    
-	NSLog(@"QuestsViewController: refreshViewFromModel: silenceNextServerUpdateCount = %d", silenceNextServerUpdateCount);
-	
-	//Update the badge
-	if (silenceNextServerUpdateCount < 1) {
+        NSLog(@"QuestsViewController: Refreshing view from model");
         
-        NSArray *newCompletedQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"completed"];
+        ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+        progressLabel.text = [NSString stringWithFormat:@"%d %@ %d %@", [AppModel sharedAppModel].currentGame.completedQuests, NSLocalizedString(@"OfKey", @"Number of Number"), [AppModel sharedAppModel].currentGame.totalQuests, NSLocalizedString(@"QuestsCompleteKey", @"")];
+        progressView.progress = (float)[AppModel sharedAppModel].currentGame.completedQuests / (float)[AppModel sharedAppModel].currentGame.totalQuests;
         
-        for (Quest *quest in newCompletedQuestsArray) {
-			BOOL match = NO;
-			for (Quest *existingQuest in [self.quests objectAtIndex:COMPLETED_SECTION]) {
-				if (existingQuest.questId == quest.questId) match = YES;
-			}
-			if (match == NO) {
-                [appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
-                
-                if(quest.fullScreenNotification)
-                    [[RootViewController sharedRootViewController] enqueuePopOverWithTitle:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) description:quest.name webViewText:quest.description andMediaId:quest.mediaId];
-                else
-                {
-                    NSString *notifString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestsViewQuestCompletedKey", nil), quest.name] ;
-                    [[RootViewController sharedRootViewController] enqueueNotificationWithFullString: notifString andBoldedString:quest.name];
+        NSLog(@"QuestsViewController: refreshViewFromModel: silenceNextServerUpdateCount = %d", silenceNextServerUpdateCount);
+        
+        //Update the badge
+        if (silenceNextServerUpdateCount < 1) {
+            
+            NSArray *newCompletedQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"completed"];
+            
+            for (Quest *quest in newCompletedQuestsArray) {
+                BOOL match = NO;
+                for (Quest *existingQuest in [self.quests objectAtIndex:COMPLETED_SECTION]) {
+                    if (existingQuest.questId == quest.questId) match = YES;
                 }
-                
-			}
-		}
-        
-		//Check if anything is new since last time
-		int newItems = 0;
-		NSArray *newActiveQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"active"];
-		for (Quest *quest in newActiveQuestsArray) {		
-			BOOL match = NO;
-			for (Quest *existingQuest in [self.quests objectAtIndex:ACTIVE_SECTION]) {
-				if (existingQuest.questId == quest.questId) match = YES;	
-			}
-			if (match == NO)
-            {
-				newItems ++;;
-                
-                if(quest.fullScreenNotification)
-                    [[RootViewController sharedRootViewController] enqueuePopOverWithTitle:NSLocalizedString(@"QuestViewNewQuestKey", nil) description:quest.name webViewText:quest.description andMediaId:quest.mediaId];
-                else
-                {
-                    NSString *notifString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestViewNewQuestKey", nil), quest.name] ;
-                    [[RootViewController sharedRootViewController] enqueueNotificationWithFullString: notifString andBoldedString:quest.name];
+                if (match == NO) {
+                    [appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
+                    
+                    if(quest.fullScreenNotification)
+                        [[RootViewController sharedRootViewController] enqueuePopOverWithTitle:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) description:quest.name webViewText:quest.description andMediaId:quest.mediaId];
+                    else
+                    {
+                        NSString *notifString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestsViewQuestCompletedKey", nil), quest.name] ;
+                        [[RootViewController sharedRootViewController] enqueueNotificationWithFullString: notifString andBoldedString:quest.name];
+                    }
+                    
                 }
-			}
-		}
-        
-		if (newItems > 0) {
-			newItemsSinceLastView += newItems;
-			self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
-			
-			if (![AppModel sharedAppModel].hasSeenQuestsTabTutorial){
-                //Put up the tutorial tab
-				[[RootViewController sharedRootViewController].tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController 
-                                                                                                                                 type:tutorialPopupKindQuestsTab 
-                                                                                                                                title:NSLocalizedString(@"QuestViewNewQuestKey", @"")
-                                                                                                                              message:NSLocalizedString(@"QuestViewNewQuestMessageKey", @"")];
-				[AppModel sharedAppModel].hasSeenQuestsTabTutorial = YES;
-                [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
-			}
-		}
-		else if (newItemsSinceLastView < 1)
+            }
+            
+            //Check if anything is new since last time
+            int newItems = 0;
+            NSArray *newActiveQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"active"];
+            for (Quest *quest in newActiveQuestsArray) {
+                BOOL match = NO;
+                for (Quest *existingQuest in [self.quests objectAtIndex:ACTIVE_SECTION]) {
+                    if (existingQuest.questId == quest.questId) match = YES;
+                }
+                if (match == NO)
+                {
+                    newItems ++;;
+                    
+                    if(quest.fullScreenNotification)
+                        [[RootViewController sharedRootViewController] enqueuePopOverWithTitle:NSLocalizedString(@"QuestViewNewQuestKey", nil) description:quest.name webViewText:quest.description andMediaId:quest.mediaId];
+                    else
+                    {
+                        NSString *notifString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestViewNewQuestKey", nil), quest.name] ;
+                        [[RootViewController sharedRootViewController] enqueueNotificationWithFullString: notifString andBoldedString:quest.name];
+                    }
+                }
+            }
+            
+            if (newItems > 0) {
+                newItemsSinceLastView += newItems;
+                self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
+                
+                if (![AppModel sharedAppModel].hasSeenQuestsTabTutorial){
+                    //Put up the tutorial tab
+                    [[RootViewController sharedRootViewController].tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController
+                                                                                                                                     type:tutorialPopupKindQuestsTab
+                                                                                                                                    title:NSLocalizedString(@"QuestViewNewQuestKey", @"")
+                                                                                                                                  message:NSLocalizedString(@"QuestViewNewQuestMessageKey", @"")];
+                    [AppModel sharedAppModel].hasSeenQuestsTabTutorial = YES;
+                    [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
+                }
+            }
+            else if (newItemsSinceLastView < 1)
+                self.tabBarItem.badgeValue = nil;
+        }
+        else
+        {
+            newItemsSinceLastView = 0;
             self.tabBarItem.badgeValue = nil;
-	}
-	else
-    {
-		newItemsSinceLastView = 0;
-		self.tabBarItem.badgeValue = nil;
-	}
-	
-	
-	//rebuild the list
-	NSArray *activeQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"active"];
-	NSArray *completedQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"completed"];
-	
-	self.quests = [NSArray arrayWithObjects:activeQuestsArray, completedQuestsArray, nil];
-	
-	NSSortDescriptor *sortDescriptor;
-    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sortNum"
-                                                 ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-    
-    sortedActiveQuests = [[self.quests objectAtIndex:ACTIVE_SECTION] sortedArrayUsingDescriptors:sortDescriptors];
-    sortedCompletedQuests = [[self.quests objectAtIndex:COMPLETED_SECTION] sortedArrayUsingDescriptors:sortDescriptors];
-    
-	[self constructCells];
+        }
+        
+        
+        //rebuild the list
+        NSArray *activeQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"active"];
+        NSArray *completedQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"completed"];
+        
+        self.quests = [NSArray arrayWithObjects:activeQuestsArray, completedQuestsArray, nil];
+        
+        NSSortDescriptor *sortDescriptor;
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sortNum"
+                                                     ascending:YES];
+        NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+        
+        sortedActiveQuests = [[self.quests objectAtIndex:ACTIVE_SECTION] sortedArrayUsingDescriptors:sortDescriptors];
+        sortedCompletedQuests = [[self.quests objectAtIndex:COMPLETED_SECTION] sortedArrayUsingDescriptors:sortDescriptors];
+        
+        [self constructCells];
 	}
 	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
-    
 }
 
 -(void)constructCells{
@@ -267,7 +265,7 @@ NSString *const kQuestsHtmlTemplate =
      //[self updateCellSize: [activeQuestCells objectAtIndex:0]];
      
      }
-     */ 
+     */
     
     e = [sortedCompletedQuests objectEnumerator];
     NSLog(@"QuestsVC: Completed Quests Selected");
@@ -294,22 +292,22 @@ NSString *const kQuestsHtmlTemplate =
     
 	self.questCells = [NSArray arrayWithObjects:activeQuestCells,completedQuestCells, nil];
 	
-	//if (activeQuestsEmpty && completedQuestsEmpty) 
+	//if (activeQuestsEmpty && completedQuestsEmpty)
     [tableView reloadData];
 	
 	NSLog(@"QuestsVC: Cells created and stored in questCells");
     
 }
 
-- (BOOL)webView:(UIWebView *)webView  
-shouldStartLoadWithRequest:(NSURLRequest *)request  
- navigationType:(UIWebViewNavigationType)navigationType; {  
+- (BOOL)webView:(UIWebView *)webView
+shouldStartLoadWithRequest:(NSURLRequest *)request
+ navigationType:(UIWebViewNavigationType)navigationType; {
 	
     /* NSURL *requestURL = [ [ request URL ] retain ];
-     if ( ( [ [ requestURL scheme ] isEqualToString: @"http" ]  
-     || [ [ requestURL scheme ] isEqualToString: @"https" ] )  
-     && ( navigationType == UIWebViewNavigationTypeLinkClicked ) ) {  
-     return ![ [ UIApplication sharedApplication ] openURL: [ requestURL autorelease ] ];  
+     if ( ( [ [ requestURL scheme ] isEqualToString: @"http" ]
+     || [ [ requestURL scheme ] isEqualToString: @"https" ] )
+     && ( navigationType == UIWebViewNavigationTypeLinkClicked ) ) {
+     return ![ [ UIApplication sharedApplication ] openURL: [ requestURL autorelease ] ];
      }  */
     if(self.isLink && ![[[request URL]absoluteString] isEqualToString:@"about:blank"]) {
         webpageViewController *webPageViewController = [[webpageViewController alloc] initWithNibName:@"webpageViewController" bundle: [NSBundle mainBundle]];
@@ -325,15 +323,15 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
         self.isLink = YES;
         return YES;}
     
-	// Check to see what protocol/scheme the requested URL is.  
+	// Check to see what protocol/scheme the requested URL is.
 	
-	// Auto release  
-	//[ requestURL release ];  
-	// If request url is something other than http or https it will open  
-	// in UIWebView. You could also check for the other following  
-	// protocols: tel, mailto and sms  
-	//return YES;  
-} 
+	// Auto release
+	//[ requestURL release ];
+	// If request url is something other than http or https it will open
+	// in UIWebView. You could also check for the other following
+	// protocols: tel, mailto and sms
+	//return YES;
+}
 
 
 
@@ -382,13 +380,13 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	NSLog(@"QuestViewController: Description View Calculated Height is: %f",newHeight);
     
 	
-	CGRect descriptionFrame = [descriptionView frame];	
+	CGRect descriptionFrame = [descriptionView frame];
 	descriptionFrame.size = CGSizeMake(descriptionFrame.size.width,newHeight);
 	[descriptionView setFrame:descriptionFrame];
 	[[[descriptionView subviews] lastObject] setScrollEnabled:NO];
-	NSLog(@"QuestViewController: description UIWebView frame set to {%f, %f, %f, %f}", 
-		  descriptionFrame.origin.x, 
-		  descriptionFrame.origin.y, 
+	NSLog(@"QuestViewController: description UIWebView frame set to {%f, %f, %f, %f}",
+		  descriptionFrame.origin.x,
+		  descriptionFrame.origin.y,
 		  descriptionFrame.size.width,
 		  descriptionFrame.size.height);
 	
@@ -396,9 +394,9 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 	cellFrame.size = CGSizeMake(cell.frame.size.width,newHeight + 25);
 	[cell setFrame:cellFrame];
     
-	NSLog(@"QuestViewController: cell frame set to {%f, %f, %f, %f}", 
-		  cell.frame.origin.x, 
-		  cell.frame.origin.y, 
+	NSLog(@"QuestViewController: cell frame set to {%f, %f, %f, %f}",
+		  cell.frame.origin.x,
+		  cell.frame.origin.y,
 		  cell.frame.size.width,
 		  cell.frame.size.height);
 }
@@ -477,7 +475,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
     return num;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)nibTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {	
+- (UITableViewCell *)tableView:(UITableView *)nibTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if(activeQuestsSwitch.selectedSegmentIndex == 0){
         NSArray *sectionArray = [questCells objectAtIndex:ACTIVE_SECTION];
         UITableViewCell *cell = [sectionArray objectAtIndex:indexPath.row];
