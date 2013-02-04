@@ -96,17 +96,13 @@
 
 -(void)changePassTouch{
     NSLog(@"Login: Change Password Button Touched");
-	ForgotViewController *forgotPassViewController = [[ForgotViewController alloc] 
-                                                                      initWithNibName:@"ForgotViewController" bundle:[NSBundle mainBundle]];
-	//Put the view on the screen
+	ForgotViewController *forgotPassViewController = [[ForgotViewController alloc] initWithNibName:@"ForgotViewController" bundle:[NSBundle mainBundle]];
 	[[self navigationController] pushViewController:forgotPassViewController animated:YES];
 }
 
 -(IBAction)newAccountButtonTouched: (id) sender{
 	NSLog(@"Login: New User Button Touched");
-	SelfRegistrationViewController *selfRegistrationViewController = [[SelfRegistrationViewController alloc] 
-															initWithNibName:@"SelfRegistration" bundle:[NSBundle mainBundle]];
-	//Put the view on the screen
+	SelfRegistrationViewController *selfRegistrationViewController = [[SelfRegistrationViewController alloc] initWithNibName:@"SelfRegistration" bundle:[NSBundle mainBundle]];
 	[[self navigationController] pushViewController:selfRegistrationViewController animated:YES];
 }
 

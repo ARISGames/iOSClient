@@ -78,14 +78,14 @@
     
     // Make synchronous request
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-	[[RootViewController sharedRootViewController] showNewWaitingIndicator: @"Loading" displayProgressBar:NO];
+	[[RootViewController sharedRootViewController] showWaitingIndicator: @"Loading" displayProgressBar:NO];
     
     NSURLResponse *response = [[NSURLResponse alloc]init];
     NSError *error = [[NSError alloc]init];
     NSData* resultData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 	
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-	[[RootViewController sharedRootViewController] removeNewWaitingIndicator];
+	[[RootViewController sharedRootViewController] removeWaitingIndicator];
 
 	if (!resultData) {
 		NSLog(@"JSONConnection: performSynchronousRequest Error");
@@ -166,7 +166,7 @@
           [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
 	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] resetCurrentlyFetchingVars];
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    [[RootViewController sharedRootViewController] removeNewWaitingIndicator];	
+    [[RootViewController sharedRootViewController] removeWaitingIndicator];	
 	[[RootViewController sharedRootViewController] showNetworkAlert];	
 	
 }

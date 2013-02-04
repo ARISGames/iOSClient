@@ -10,7 +10,7 @@
 #import "AppServices.h"
 #import "Game.h"
 #import "ARISAppDelegate.h"
-#import "GameDetails.h"
+#import "GameDetailsViewController.h"
 #import "GamePickerCell.h"
 #include <QuartzCore/QuartzCore.h>
 #include "AsyncMediaImageView.h"
@@ -231,18 +231,18 @@
     Game *selectedGame;
 	selectedGame = [self.gameList objectAtIndex:indexPath.row];
 	
-	GameDetails *gameDetailsVC = [[GameDetails alloc]initWithNibName:@"GameDetails" bundle:nil];
-	gameDetailsVC.game = selectedGame;
-	[self.navigationController pushViewController:gameDetailsVC animated:YES];
+	GameDetailsViewController *gameDetailsViewController = [[GameDetailsViewController alloc]initWithNibName:@"GameDetails" bundle:nil];
+	gameDetailsViewController.game = selectedGame;
+	[self.navigationController pushViewController:gameDetailsViewController animated:YES];
 }
 
 - (void)tableView:(UITableView *)aTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
 	Game *selectedGame;
 	selectedGame = [self.gameList objectAtIndex:indexPath.row];
 	
-	GameDetails *gameDetailsVC = [[GameDetails alloc]initWithNibName:@"GameDetails" bundle:nil];
-	gameDetailsVC.game = selectedGame;
-	[self.navigationController pushViewController:gameDetailsVC animated:YES];
+	GameDetailsViewController *gameDetailsViewController = [[GameDetailsViewController alloc]initWithNibName:@"GameDetails" bundle:nil];
+	gameDetailsViewController.game = selectedGame;
+	[self.navigationController pushViewController:gameDetailsViewController animated:YES];
 }
 
 -(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

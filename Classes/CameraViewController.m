@@ -10,6 +10,7 @@
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
 #import "AppServices.h"
+#import "NotebookViewController.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "GPSViewController.h"
 #import "NoteCommentViewController.h"

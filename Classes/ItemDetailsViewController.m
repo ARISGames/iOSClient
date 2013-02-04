@@ -68,7 +68,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	self.itemWebView.delegate = self;
     self.itemDescriptionView.delegate = self;
     
-    [RootViewController sharedRootViewController].modalPresent = YES;
 	//Setup the Toolbar Buttons
 	dropButton.title = NSLocalizedString(@"ItemDropKey", @"");
 	pickupButton.title = NSLocalizedString(@"ItemPickupKey", @"");
@@ -235,7 +234,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         [self.navigationController popViewControllerAnimated:YES];
     else{
         [self.navigationController popToRootViewControllerAnimated:YES];
-        [RootViewController sharedRootViewController].modalPresent=NO;
         [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
     }
 }
@@ -518,7 +516,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     if(webView == self.itemWebView){
     if ([[[request URL] absoluteString] hasPrefix:@"aris://closeMe"]) {
         [self.navigationController popToRootViewControllerAnimated:YES];
-        [RootViewController sharedRootViewController].modalPresent=NO;
         [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
         return NO; 
     }  
@@ -599,7 +596,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     [[AppServices sharedAppServices] updateItem:self.item];
     
     [self.navigationController popToRootViewControllerAnimated:YES];
-    [RootViewController sharedRootViewController].modalPresent=NO;
     [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];	
         
 }

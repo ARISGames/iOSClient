@@ -318,7 +318,7 @@ static float INITIAL_SPAN = 0.001;
                 NSObject <MKAnnotation>  *testAnnotation = [[mapView annotations] objectAtIndex:i];
                 if([testAnnotation respondsToSelector:@selector(title)] && !(testAnnotation == mapView.userLocation)){
                     annotation = (Annotation *)testAnnotation;
-                    if([[RootViewController sharedRootViewController].tabBarController.selectedViewController.title isEqualToString:@"Map"] &&[annotation.location respondsToSelector:@selector(hasBeenViewed)]) {
+                    if([[RootViewController sharedRootViewController].gameTabBarController.selectedViewController.title isEqualToString:@"Map"] &&[annotation.location respondsToSelector:@selector(hasBeenViewed)]) {
                         annotation.location.hasBeenViewed = YES;
                     }
                     else{
@@ -343,7 +343,7 @@ static float INITIAL_SPAN = 0.001;
                 }
             }
             
-            if (newItemsSinceLastView > 0 && ![[RootViewController sharedRootViewController].tabBarController.selectedViewController.title isEqualToString:@"Map"])
+            if (newItemsSinceLastView > 0 && ![[RootViewController sharedRootViewController].gameTabBarController.selectedViewController.title isEqualToString:@"Map"])
             {
                 self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
                 if (![AppModel sharedAppModel].hasSeenMapTabTutorial)

@@ -6,7 +6,7 @@
 //  Copyright 2009 University of Wisconsin - Madison. All rights reserved.
 //
 
-#import "QRScannerViewController.h"
+#import "DecoderViewController.h"
 #import "Decoder.h"
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
@@ -15,7 +15,7 @@
 #import "ARISZBarReaderWrapperViewController.h"
 
 
-@implementation QRScannerViewController 
+@implementation DecoderViewController
 
 @synthesize imageMatchingImagePickerController;
 @synthesize qrScanButton,imageScanButton,barcodeButton;
@@ -62,7 +62,7 @@
         [self.manualCode becomeFirstResponder]; 
 
 	}
-	NSLog(@"QRScannerViewController: Loaded");
+	NSLog(@"DecoderViewController: Loaded");
 }
 
 -(void)cancelButtonTouch{
@@ -95,7 +95,7 @@
 }
 
 - (IBAction)imageScanButtonTouchAction: (id) sender{
-    NSLog(@"QRScannerViewController: Image Scan Button Pressed");
+    NSLog(@"DecoderViewController: Image Scan Button Pressed");
 	
 	self.imageMatchingImagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
 	[self presentViewController:self.imageMatchingImagePickerController animated:YES completion:nil];
@@ -104,7 +104,7 @@
 #pragma mark Delegate for text entry
 
 -(BOOL) textFieldShouldReturn:(UITextField*) textField {
-	NSLog(@"QRScannerViewController: Code Entered");
+	NSLog(@"DecoderViewController: Code Entered");
 	
 	[textField resignFirstResponder]; 
 	
@@ -145,7 +145,7 @@
     
     
     if (picker == self.imageMatchingImagePickerController) {
-        NSLog(@"QRScannerVC: image matching imagePickerController didFinishPickingImage" );
+        NSLog(@"DecoderVC: image matching imagePickerController didFinishPickingImage" );
         
         NSData *imageData = UIImageJPEGRepresentation(image, .4);
         NSString *mediaFilename = @"imageToMatch.jpg";
@@ -157,7 +157,7 @@
         [[AppServices sharedAppServices] uploadImageForMatching:imageURL];
     }	
     else{
-        NSLog(@"QRSCannerVC: barcode data = %@",resultText);
+        NSLog(@"DecoderVC: barcode data = %@",resultText);
         [self loadResult:resultText];
         
     }
@@ -175,14 +175,14 @@
 - (void)decoder:(Decoder *)decoder didDecodeImage:(UIImage *)image usingSubset:(UIImage *)subset withResult:(TwoDDecoderResult *)twoDResult {
 	//Stop Waiting Indicator
 	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-	[[RootViewController sharedRootViewController] removeNewWaitingIndicator];
+	[[RootViewController sharedRootViewController] removeWaitingIndicator];
 	
 	//get the result
 	NSString *encodedText = twoDResult.text;
 
 	//we are done with the scanner, so release it
 	[decoder release];
-	NSLog(@"QRScannerViewController: Decode Complete. QR Code ID = %@", encodedText);
+	NSLog(@"DecoderViewController: Decode Complete. QR Code ID = %@", encodedText);
 	
 	[self loadResult:encodedText];
 }
@@ -197,11 +197,11 @@
  
  //Stop Waiting Indicator
  ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
- [[RootViewController sharedRootViewController] removeNewWaitingIndicator];
+ [[RootViewController sharedRootViewController] removeWaitingIndicator];
  [appDelegate playAudioAlert:@"error" shouldVibrate:YES];
  
- UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"QRScannerDecodingErrorTitleKey", @"")
- message:NSLocalizedString(@"QRScannerDecodingErrorMessageKey", @"")
+ UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"DecoderDecodingErrorTitleKey", @"")
+ message:NSLocalizedString(@"DecoderDecodingErrorMessageKey", @"")
  delegate:self 
  cancelButtonTitle:NSLocalizedString(@"OkKey", @"")
  otherButtonTitles:nil];
@@ -219,7 +219,7 @@
  
  //Start Waiting Indicator
  ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
- [[[RootViewController sharedRootViewController] showNewWaitingIndicator:NSLocalizedString(@"QRScannerDecodingKey",@"") displayProgressBar:NO];
+ [[[RootViewController sharedRootViewController] showWaitingIndicator:NSLocalizedString(@"DecoderDecodingKey",@"") displayProgressBar:NO];
  
  }
  
@@ -230,7 +230,7 @@
 
 -(void) loadResult:(NSString *)code {
 	//Fetch the coresponding object from the server
-	[[RootViewController sharedRootViewController] showNewWaitingIndicator:NSLocalizedString(@"LoadingKey",@"") displayProgressBar:NO];
+	[[RootViewController sharedRootViewController] showWaitingIndicator:NSLocalizedString(@"LoadingKey",@"") displayProgressBar:NO];
 	[[AppServices sharedAppServices] fetchQRCode:code];
 }
 
@@ -238,7 +238,7 @@
 	
 	NSObject<QRCodeProtocol> *qrCodeObject = notification.object;
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[[RootViewController sharedRootViewController] removeNewWaitingIndicator];
+	[[RootViewController sharedRootViewController] removeWaitingIndicator];
     
 	if (qrCodeObject == nil) {
 		[appDelegate playAudioAlert:@"error" shouldVibrate:NO];

@@ -80,7 +80,7 @@ int steps = 0;
 - (void)applicationWillResignActive:(UIApplication *)application {
 	NSLog(@"AppDelegate: Begin Application Resign Active");
     
-    [[RootViewController sharedRootViewController].tabBarController dismissModalViewControllerAnimated:NO];
+    [[RootViewController sharedRootViewController].gameTabBarController dismissModalViewControllerAnimated:NO];
     
 	[[AppModel sharedAppModel] saveUserDefaults];
 }

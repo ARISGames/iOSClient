@@ -12,6 +12,7 @@
 #import "ARISAppDelegate.h"
 #import "AppServices.h"
 #import "NoteEditorViewController.h"
+#import "NotebookViewController.h"
 
 @implementation TextViewController
 @synthesize textBox,noteId,keyboardButton,textToDisplay,editMode,contentId,backView,previewMode,index,editView;

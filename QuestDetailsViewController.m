@@ -113,16 +113,15 @@ NSString *const kQuestDetailsHtmlTemplate =
     [[self navigationController] popToRootViewControllerAnimated:YES];
     if (!(self.quest.exitToTabName == (id)[NSNull null] || self.quest.exitToTabName.length == 0 ||[self.quest.exitToTabName isEqualToString:@"NONE"])){
         NSString *tab;
-        for(int i = 0;i < [[RootViewController sharedRootViewController].tabBarController.viewControllers count];i++){
-            tab = [[[RootViewController sharedRootViewController].tabBarController.viewControllers objectAtIndex:i] title];
+        for(int i = 0;i < [[RootViewController sharedRootViewController].gameTabBarController.viewControllers count];i++){
+            tab = [[[RootViewController sharedRootViewController].gameTabBarController.viewControllers objectAtIndex:i] title];
             tab = [tab lowercaseString];
             self.quest.exitToTabName = [self.quest.exitToTabName lowercaseString];
             if([self.quest.exitToTabName isEqualToString:tab]) {
-                [RootViewController sharedRootViewController].tabBarController.selectedIndex = i;
+                [RootViewController sharedRootViewController].gameTabBarController.selectedIndex = i;
             }
         }
     }
-    //else [RootViewController sharedRootViewController].tabBarController.selectedIndex = 1;
 }
 
 - (void)viewDidUnload {

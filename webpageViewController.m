@@ -169,8 +169,7 @@
        [self.delegate isKindOfClass:[ItemDetailsViewController class]])
         [self.navigationController popToRootViewControllerAnimated:YES];
     else{
-        [RootViewController sharedRootViewController].modalPresent=NO;
-        [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];    
+        [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
     }
 }
 
@@ -199,7 +198,6 @@
         NSLog(@"WebPageVC: aris://closeMe/ called");
         [self.navigationController popToRootViewControllerAnimated:YES];
         if(![[[RootViewController sharedRootViewController].nearbyObjectNavigationController.viewControllers objectAtIndex:0] isKindOfClass:[DialogViewController class]]){
-        [RootViewController sharedRootViewController].modalPresent=NO;
         [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
         }
         /*

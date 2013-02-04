@@ -1,5 +1,5 @@
 //
-//  GameDetails.h
+//  GameDetailsViewController.h
 //  ARIS
 //
 //  Created by David J Gagnon on 4/18/10.
@@ -14,7 +14,7 @@
 
 
 
-@interface GameDetails : UIViewController <UITableViewDataSource,UITableViewDelegate,
+@interface GameDetailsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,
                                         UITextViewDelegate,  UIWebViewDelegate>{
 	Game *game; 
     IBOutlet UITableView *tableView;

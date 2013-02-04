@@ -27,12 +27,7 @@
         NSNotification *notification = [NSNotification notificationWithName:@"MovieForcedRotationToPortrait" object:nil];
         [[NSNotificationCenter defaultCenter] postNotification:notification];
     } 
-    [RootViewController sharedRootViewController].nearbyObjectNavigationController.view.frame = [RootViewController sharedRootViewController].tabBarController.view.bounds;
-   // [RootViewController sharedRootViewController].tabBarController.selectedViewController.view.frame = [RootViewController sharedRootViewController].tabBarController.view.bounds;
- //   NSArray *childViewControllers = [RootViewController sharedRootViewController].tabBarController.selectedViewController.childViewControllers;
-  //  for(int i =0; i < [childViewControllers count]; i++){
-   //    ((UIViewController*)[childViewControllers objectAtIndex:i]).view.frame = [RootViewController sharedRootViewController].tabBarController.view.frame;
-   // }
+    [RootViewController sharedRootViewController].nearbyObjectNavigationController.view.frame = [RootViewController sharedRootViewController].gameTabBarController.view.bounds;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

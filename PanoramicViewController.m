@@ -209,7 +209,6 @@
     if([self.delegate isKindOfClass:[DialogViewController class]])
         [self.navigationController popViewControllerAnimated:YES];
     else{
-        [RootViewController sharedRootViewController].modalPresent=NO;
         [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
     }
 }
@@ -233,7 +232,7 @@
 
 #pragma mark Async Image Loading
 - (void)loadImageFromMedia:(Media *) aMedia {
-	[[RootViewController sharedRootViewController] showNewWaitingIndicator:@"Loading" displayProgressBar:YES];
+	[[RootViewController sharedRootViewController] showWaitingIndicator:@"Loading" displayProgressBar:YES];
 	self.media = aMedia;
 	//check if the media already as the image, if so, just grab it
     if(self.media.image) [self showPanoView];
@@ -287,7 +286,7 @@
 }
 - (void)showPanoView{
     NSLog(@"PanoVC: showPanoView");
-	[[RootViewController sharedRootViewController] removeNewWaitingIndicator];
+	[[RootViewController sharedRootViewController] removeWaitingIndicator];
     [plView stopAnimation];
     [plView removeAllTextures];
     [plView addTextureAndRelease:[PLTexture textureWithImage:[UIImage imageWithData:self.media.image]]];

@@ -47,7 +47,7 @@
 }
  
 - (IBAction)submitButtonTouched: (id) sender{
-	[[RootViewController sharedRootViewController] showNewWaitingIndicator:@"Creating a New User" displayProgressBar:NO];
+	[[RootViewController sharedRootViewController] showWaitingIndicator:@"Creating a New User" displayProgressBar:NO];
 
 	[[AppServices sharedAppServices] registerNewUser:self.userName.text password:self.password.text 
 					firstName:@"" lastName:@"" email:self.email.text];
@@ -56,7 +56,7 @@
 -(void)selfRegistrationFailure{
 	NSLog(@"SelfRegistration: Unsuccessfull registration attempt, check network before giving an alert");
 
-	[[RootViewController sharedRootViewController] removeNewWaitingIndicator];
+	[[RootViewController sharedRootViewController] removeWaitingIndicator];
     [AppModel sharedAppModel].userName = nil;
     [AppModel sharedAppModel].password = nil;
 	
@@ -75,7 +75,7 @@
 -(void)selfRegistrationSuccess{
 	NSLog(@"SelfRegistration: New User Created Successfully");
 	
-	[[RootViewController sharedRootViewController] removeNewWaitingIndicator];
+	[[RootViewController sharedRootViewController] removeWaitingIndicator];
 
     /*
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"StartOverResetAlertTitleKey", @"")  

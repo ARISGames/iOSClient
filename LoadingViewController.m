@@ -62,7 +62,7 @@
         if ([AppModel sharedAppModel].currentGame.completedQuests < 1)
             [[RootViewController sharedRootViewController] performSelector:@selector(displayIntroNode) withObject:nil afterDelay:.1];
         [self dismissModalViewControllerAnimated:NO];
-        [RootViewController sharedRootViewController].loadingVC = nil;
+        [RootViewController sharedRootViewController].loadingViewController = nil;
     }
 }
 

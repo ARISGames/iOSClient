@@ -1,12 +1,12 @@
 //
-//  GameDetails.m
+//  GameDetailsViewController.m
 //  ARIS
 //
 //  Created by David J Gagnon on 4/18/10.
 //  Copyright 2010 University of Wisconsin - Madison. All rights reserved.
 //
 
-#import "GameDetails.h"
+#import "GameDetailsViewController.h"
 #import "AppServices.h"
 #import "AppModel.h"
 #import "ARISAppDelegate.h"
@@ -38,7 +38,7 @@ NSString *const kGameDetailsHtmlTemplate =
 
 
 
-@implementation GameDetails
+@implementation GameDetailsViewController
 
 @synthesize descriptionIndexPath;
 @synthesize descriptionWebView;
@@ -80,13 +80,13 @@ NSString *const kGameDetailsHtmlTemplate =
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	NSLog(@"GameDetails: View Will Appear, Refresh");
+	NSLog(@"GameDetailsViewController: View Will Appear, Refresh");
 	
 	scrollView.contentSize = CGSizeMake(contentView.frame.size.width,contentView.frame.size.height);
 	
 	NSString *htmlDescription = [NSString stringWithFormat:kGameDetailsHtmlTemplate, self.game.description];
     NSLog(@"Game ID = %i", self.game.gameId);
-	NSLog(@"GameDetails: HTML Description: %@", htmlDescription);
+	NSLog(@"GameDetailsViewController: HTML Description: %@", htmlDescription);
 	descriptionWebView.delegate = self;
     descriptionWebView.hidden = NO;
 	[descriptionWebView loadHTMLString:htmlDescription baseURL:nil];
@@ -99,12 +99,12 @@ NSString *const kGameDetailsHtmlTemplate =
 	
 	float nHeight = [[descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue] + 3;
 	self.newHeight = nHeight;
-	NSLog(@"GameDetails: Description View Calculated Height is: %f",newHeight);
+	NSLog(@"GameDetailsViewController: Description View Calculated Height is: %f",newHeight);
 	
 	CGRect descriptionFrame = [descriptionView frame];	
 	descriptionFrame.size = CGSizeMake(descriptionFrame.size.width,newHeight);
 	[descriptionView setFrame:descriptionFrame];	
-	NSLog(@"GameDetails: description UIWebView frame set to {%f, %f, %f, %f}", 
+	NSLog(@"GameDetailsViewController: description UIWebView frame set to {%f, %f, %f, %f}",
 		  descriptionFrame.origin.x, 
 		  descriptionFrame.origin.y, 
 		  descriptionFrame.size.width,
@@ -120,7 +120,7 @@ NSString *const kGameDetailsHtmlTemplate =
 shouldStartLoadWithRequest:(NSURLRequest *)request  
  navigationType:(UIWebViewNavigationType)navigationType; {  
     
-    NSLog(@"GameDetails: webView Called");
+    NSLog(@"GameDetailsViewController: webView Called");
     
     NSURL *requestURL = [ request URL ];  
     // Check to see what protocol/scheme the requested URL is.  

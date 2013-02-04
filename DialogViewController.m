@@ -93,7 +93,6 @@ NSString *const kDialogHtmlTemplate =
 - (void)viewDidLoad {
 	[super viewDidLoad];
 		
-    [RootViewController sharedRootViewController].modalPresent = YES;
 	//General Setup
 	lastPcId = 0;
 	currentNode = nil;
@@ -271,7 +270,6 @@ NSString *const kDialogHtmlTemplate =
 {
 	NSLog(@"DialogViewController: Notify server of NPC view and Dismiss view");
 	
-    [RootViewController sharedRootViewController].modalPresent = NO;
 	[[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
 }
 
@@ -449,7 +447,6 @@ NSString *const kDialogHtmlTemplate =
         
         //Check if this is a closing script or we are shutting down
         if(self.closingScriptPlaying==YES || (self.exitToTabVal != nil)) {
-            [RootViewController sharedRootViewController].modalPresent = NO;
             [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
             [[AppServices sharedAppServices] updateServerNodeViewed:self.currentNode.nodeId fromLocation:self.currentNode.locationId];
         }
@@ -459,12 +456,12 @@ NSString *const kDialogHtmlTemplate =
             //TODO: Move this code into an app delegate method
             if([cachedScene.exitToType isEqualToString:@"tab"]){
                 NSString *tab;
-                for(int i = 0;i < [[RootViewController sharedRootViewController].tabBarController.viewControllers count];i++){
-                    tab = [[[RootViewController sharedRootViewController].tabBarController.viewControllers objectAtIndex:i] title];
+                for(int i = 0;i < [[RootViewController sharedRootViewController].gameTabBarController.viewControllers count];i++){
+                    tab = [[[RootViewController sharedRootViewController].gameTabBarController.viewControllers objectAtIndex:i] title];
                     tab = [tab lowercaseString];
                     self.exitToTabVal = [self.exitToTabVal lowercaseString];
                     if([self.exitToTabVal isEqualToString:tab]) {
-                        [RootViewController sharedRootViewController].tabBarController.selectedIndex = i;
+                        [RootViewController sharedRootViewController].gameTabBarController.selectedIndex = i;
                     }
                 }
             }

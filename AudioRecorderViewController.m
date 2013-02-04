@@ -13,6 +13,7 @@
 #import "NoteDetailsViewController.h"
 #import "NoteCommentViewController.h"
 #import "NoteEditorViewController.h"
+#import "NotebookViewController.h"
 
 @implementation AudioRecorderViewController
 @synthesize soundFileURL;

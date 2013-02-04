@@ -6,7 +6,7 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "GameDetails.h"
+#import "GameDetailsViewController.h"
 #import "AppServices.h"
 #import "AppModel.h"
 #import "ARISAppDelegate.h"

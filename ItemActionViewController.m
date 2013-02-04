@@ -26,7 +26,6 @@
     return self;
 }
 
-
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
@@ -74,8 +73,8 @@
 									target:self 
 									action:@selector(backButtonTouchAction:)];	
     [super viewDidLoad];
-    
 }
+
 - (IBAction)backButtonTouchAction: (id) sender{
 	NSLog(@"ItemActionViewController: Notify server of Item view and Dismiss Item Details View");
 	
@@ -84,6 +83,7 @@
 	
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 -(void)viewDidAppear:(BOOL)animated{
     self.badValLabel.hidden = YES;
     actionButton.titleLabel.textAlignment = UITextAlignmentCenter;
@@ -254,7 +254,6 @@
 	//Possibly Dismiss Item Details View
 	if (item.qty < 1) {
 		[self.navigationController popToRootViewControllerAnimated:YES];
-        [RootViewController sharedRootViewController].modalPresent = NO;
         [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
 	}
 	

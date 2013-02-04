@@ -288,8 +288,8 @@
 	item.qty -=qty; 
 	if (item.qty < 1) [self.inventory removeObjectForKey:[NSString stringWithFormat:@"%d",item.itemId]];
     
-    if([[(UINavigationController *) [RootViewController sharedRootViewController].tabBarController.selectedViewController topViewController] respondsToSelector:@selector(updateQuantityDisplay)])
-        [[(UINavigationController *)[RootViewController sharedRootViewController].tabBarController.selectedViewController topViewController] performSelector:@selector(updateQuantityDisplay)];
+    if([[(UINavigationController *) [RootViewController sharedRootViewController].gameTabBarController.selectedViewController topViewController] respondsToSelector:@selector(updateQuantityDisplay)])
+        [[(UINavigationController *)[RootViewController sharedRootViewController].gameTabBarController.selectedViewController topViewController] performSelector:@selector(updateQuantityDisplay)];
     
     NSString *notifString;
     if(item.maxQty == 1)

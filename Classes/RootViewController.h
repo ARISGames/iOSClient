@@ -6,141 +6,109 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-//#define SCREEN_HEIGHT 480
-//#define SCREEN_WIDTH 320
 #define STATUS_BAR_HEIGHT 20
 #define NOTIFICATION_HEIGHT 20
 #define TRUE_ZERO_Y -20
 
-#import <UIKit/UIKit.h>
-#import "AppModel.h"
-
-#import "LoginViewController.h"
-#import "MyCLController.h"
-
-#import "model/Game.h"
-
-#import "NearbyObjectsViewController.h"
-
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import <AVFoundation/AVAudioPlayer.h>
-
-#import "Item.h"
-#import "Location.h"
-#import "ItemDetailsViewController.h"
-#import "QuestsViewController.h"
-#import "IconQuestsViewController.h"
-#import "GPSViewController.h"
-#import "InventoryListViewController.h"
-#import "AttributesViewController.h"
-#import "CameraViewController.h"
-#import "AudioRecorderViewController.h"
-#import "ARViewViewControler.h"
-#import "QRScannerViewController.h"
-#import "AccountSettingsViewController.h"
-#import "PlayerSettingsViewController.h"
-#import "DeveloperViewController.h"
-#import "WaitingIndicatorViewController.h"
-#import "WaitingIndicatorView.h"
+#import <MessageUI/MFMailComposeViewController.h>
 #import "AudioToolbox/AudioToolbox.h"
 #import "Reachability.h"
-#import "TutorialViewController.h"
-#import "NotebookViewController.h"
-#import <MessageUI/MFMailComposeViewController.h>
 #import "PTPusherDelegate.h"
-#import "GamePickerNearbyViewController.h"
 #import "PTPusher.h"
 #import "PTPusherEvent.h"
+
+#import "MyCLController.h"
+
+#import "ARViewViewControler.h"
+#import "DeveloperViewController.h"
+#import "WaitingIndicatorAlertViewController.h"
+
+#import "TutorialViewController.h"
 #import "LoadingViewController.h"
 #import "PopOverViewController.h"
 
-@interface RootViewController : UIViewController<UIApplicationDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate,PTPusherDelegate>
-{    
-    UITabBarController *tabBarController;
-    UIViewController *defaultViewControllerForMainTabBar;
-    
+@interface RootViewController : UIViewController <UIApplicationDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate, PTPusherDelegate>
+{
     UITabBarController *gameSelectionTabBarController;
-    TutorialViewController *tutorialViewController;
-	UINavigationController *nearbyObjectsNavigationController;
-	LoginViewController *loginViewController;
-	UINavigationController *loginViewNavigationController;
-    PlayerSettingsViewController *playerSettingsViewController;
-    UINavigationController *playerSettingsViewNavigationController;
-	UINavigationController *nearbyObjectNavigationController;
-	WaitingIndicatorViewController *waitingIndicator;
-	WaitingIndicatorView *waitingIndicatorView;
+    UITabBarController *gameTabBarController;
     
-	LoadingViewController *loadingVC;
-	UIAlertView *networkAlert;
+    UINavigationController *loginNavigationController;
+    UINavigationController *playerSettingsViewNavigationController;
+
+    UINavigationController *nearbyObjectsNavigationController;
+    UINavigationController *nearbyObjectNavigationController;
+    
+    LoadingViewController *loadingViewController;
+
+	WaitingIndicatorAlertViewController *waitingIndicatorAlertViewController;
+    UIAlertView *networkAlert;
 	UIAlertView *serverAlert;
-	TutorialPopupView *tutorialPopupView;
+    UIWebView *notificationView;
+    NSMutableArray *notifArray;
     PopOverViewController *popOverViewController;
+    NSMutableArray *popOverArray;
+
+    TutorialViewController *tutorialViewController;
 	
-    BOOL modalPresent;
-    BOOL usesIconQuestView;
-    //UILabel *titleLabel;
-    UIWebView *titleLabel;
-    UILabel *descLabel;
     CGRect squishedVCFrame;
     CGRect notSquishedVCFrame;
-    NSMutableArray *notifArray;
-    NSMutableArray *popOverArray;
-    //int notificationBarHeight;
+    
     PTPusher *client;
     PTPusherPrivateChannel *playerChannel;
     PTPusherPrivateChannel *groupChannel;
     PTPusherPrivateChannel *gameChannel;
     PTPusherPrivateChannel *webpageChannel;
-    //   NSDictionary *imageInfo;
     
     int SCREEN_HEIGHT;
     int SCREEN_WIDTH;
     
+    BOOL usesIconQuestView;
 }
-//@property(readwrite,assign)int notificationBarHeight;
-@property (nonatomic) IBOutlet UITabBarController *tabBarController;
-@property (nonatomic) UIViewController *defaultViewControllerForMainTabBar;
-@property (nonatomic) IBOutlet UITabBarController *gameSelectionTabBarController;
-@property (nonatomic) IBOutlet TutorialViewController *tutorialViewController;
-@property (nonatomic) IBOutlet LoginViewController *loginViewController;
-@property (nonatomic) IBOutlet UINavigationController *loginViewNavigationController;
-@property (nonatomic) IBOutlet PlayerSettingsViewController *playerSettingsViewController;
-@property (nonatomic) IBOutlet UINavigationController *playerSettingsViewNavigationController;
-@property (nonatomic) IBOutlet UINavigationController *nearbyObjectsNavigationController;
-@property (nonatomic) IBOutlet UINavigationController *nearbyObjectNavigationController;
-@property (nonatomic) WaitingIndicatorViewController *waitingIndicator;
-@property (nonatomic) WaitingIndicatorView *waitingIndicatorView;
-@property (nonatomic)LoadingViewController *loadingVC;
-@property (nonatomic) NSMutableArray *notifArray;
+
+@property (nonatomic) UITabBarController *gameSelectionTabBarController;
+@property (nonatomic) UITabBarController *gameTabBarController;
+
+@property (nonatomic) UINavigationController *loginNavigationController;
+@property (nonatomic) UINavigationController *playerSettingsNavigationController;
+
+@property (nonatomic) UINavigationController *nearbyObjectsNavigationController;
+@property (nonatomic) UINavigationController *nearbyObjectNavigationController;
+
+@property (nonatomic) LoadingViewController *loadingViewController;
+
+@property (nonatomic) WaitingIndicatorAlertViewController *waitingIndicatorAlertViewController;
 @property (nonatomic) UIAlertView *networkAlert;
 @property (nonatomic) UIAlertView *serverAlert;
+@property (nonatomic) UIWebView *notificationView;
+@property (nonatomic) NSMutableArray *notifArray;
+@property (nonatomic) PopOverViewController *popOverViewController;
+@property (nonatomic) NSMutableArray *popOverArray;
+
+@property (nonatomic) TutorialViewController *tutorialViewController;
+
+@property (nonatomic) CGRect squishedVCFrame;
+@property (nonatomic) CGRect notSquishedVCFrame;
+
 @property (nonatomic, strong) PTPusher *client;
 @property (nonatomic) PTPusherPrivateChannel *playerChannel;
 @property (nonatomic) PTPusherPrivateChannel *groupChannel;
 @property (nonatomic) PTPusherPrivateChannel *gameChannel;
 @property (nonatomic) PTPusherPrivateChannel *webpageChannel;
-//@property(nonatomic)NSDictionary *imageInfo;
 
-@property (readwrite) BOOL modalPresent;
 @property (readwrite) BOOL usesIconQuestView;
-
-//@property(nonatomic) IBOutlet UILabel *titleLabel;
-@property(nonatomic) IBOutlet UIWebView *titleLabel;
-@property(nonatomic) IBOutlet UILabel *descLabel;
-@property(nonatomic) CGRect notSquishedVCFrame;
-@property(nonatomic) CGRect squishedVCFrame;
 
 + (RootViewController *)sharedRootViewController;
 
 - (void) selectGame:(NSNotification *)notification;
 - (void) createUserAndLoginWithGroup:(NSString *)groupName andGameId:(int)gameId inMuseumMode:(BOOL)museumMode;
 - (void) attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password andGameId:(int)gameId inMuseumMode:(BOOL)museumMode;
-- (void) displayNearbyObjectView:(UIViewController *)nearbyObjectsNavigationController;
-- (void) showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)yesOrNo;
-- (void) showNewWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar;
-- (void) showServerAlertWithEmail:(NSString *)title message:(NSString *)message details:(NSString*)detail;
+- (void) displayNearbyObjectView:(UIViewController *)nearbyObjectViewController;
+- (void) showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar;
 - (void) removeWaitingIndicator;
-- (void) removeNewWaitingIndicator;
+- (void) showServerAlertWithEmail:(NSString *)title message:(NSString *)message details:(NSString*)detail;
 - (void) showNetworkAlert;
 - (void) removeNetworkAlert;
 - (void) showNearbyTab:(BOOL)yesOrNo;
@@ -161,4 +129,5 @@
 - (void) didReceiveGroupChannelEventNotification:(NSNotification *)notification;
 - (void) didReceivePlayerChannelEventNotification:(NSNotification *)notification;
 - (void) didReceiveWebpageChannelEventNotification:(NSNotification *)notification;
+
 @end

@@ -1,5 +1,5 @@
 //
-//  QRScannerViewController.h
+//  DecoderViewController.h
 //  ARIS
 //
 //  Created by David Gagnon on 3/4/09.
@@ -11,7 +11,7 @@
 #import "ARISZBarReaderWrapperViewController.h"
 
 
-@interface QRScannerViewController : UIViewController <UINavigationControllerDelegate, 
+@interface DecoderViewController : UIViewController <UINavigationControllerDelegate,
                                                         UIImagePickerControllerDelegate, 
                                                         ZBarReaderDelegate>{
 	IBOutlet UIButton *qrScanButton;

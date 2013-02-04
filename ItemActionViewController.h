@@ -10,6 +10,7 @@
 #import "AppModel.h"
 #import "Item.h"
 #import "itemDetailsMode.h"
+#import "ItemDetailsViewController.h"
 
 @interface ItemActionViewController : UIViewController<UIPickerViewDelegate, UIPickerViewDataSource> {
     IBOutlet UIButton *backButton;
@@ -28,8 +29,8 @@
 @property(readwrite,assign) int max;
 
 @property(readwrite) ItemDetailsModeType mode;
-@property(nonatomic)	IBOutlet UILabel *infoLabel;
-@property(nonatomic)	IBOutlet UILabel *badValLabel;
+@property(nonatomic) IBOutlet UILabel *infoLabel;
+@property(nonatomic) IBOutlet UILabel *badValLabel;
 
 @property(nonatomic) IBOutlet UIButton *backButton;
 @property(nonatomic) IBOutlet UIButton *actionButton;

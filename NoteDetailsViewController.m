@@ -104,7 +104,6 @@
 }
 -(void)backButtonTouch{
     NSLog(@"NoteDetialsViewController: backButtonTouch");
-    [RootViewController sharedRootViewController].modalPresent=NO;
     [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
 }
 -(void)editButtonTouched{
