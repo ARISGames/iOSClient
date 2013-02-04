@@ -49,8 +49,7 @@ NSString *const kDialogHtmlTemplate =
 
 
 @interface DialogViewController()
-- (void) loadCharacterImage:(NSInteger)mediaId withPriorId:(NSInteger *)priorId 
-					 inView:(AsyncMediaImageView *)aView;
+- (void) loadCharacterImage:(NSInteger)mediaId withPriorId:(NSInteger *)priorId inView:(AsyncMediaImageView *)aView;
 - (void) movePcIn;
 - (void) moveNpcIn;
 - (void) moveAllOutWithPostSelector:(SEL)postSelector;
@@ -60,7 +59,6 @@ NSString *const kDialogHtmlTemplate =
 - (void) applyScene:(Scene *)aScene;
 
 @end
-
 
 @implementation DialogViewController
 @synthesize npcImage, pcImage, npcWebView, pcWebView, pcTableView,exitToTabVal;
@@ -73,7 +71,8 @@ NSString *const kDialogHtmlTemplate =
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
+    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
+    {
 		[[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(optionsRecievedFromNotification:)
 													 name:@"ConversationNodeOptionsReady"
@@ -84,7 +83,8 @@ NSString *const kDialogHtmlTemplate =
     return self;
 }
 
-- (void)fixTextBox {
+- (void)fixTextBox
+{
     self.textboxSize = 0;
     [self toggleFullScreenTextMode];
 }
@@ -136,14 +136,16 @@ NSString *const kDialogHtmlTemplate =
     NSLog(@"pcMediaId == %d", [AppModel sharedAppModel].currentGame.pcMediaId);
 	
 	//Check if the game specifies a PC image
-	if ([AppModel sharedAppModel].currentGame.pcMediaId != 0) {
+	if ([AppModel sharedAppModel].currentGame.pcMediaId != 0)
+    {
 		//Load the image from the media Table
         self.pcImage.delegate = self;
 
 		Media *pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId];
 		[pcImage loadImageFromMedia: pcMedia];
 	}
-	else {
+	else
+    {
         [pcImage updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
         [self applyNPCWithGreeting];
 	}
@@ -164,41 +166,48 @@ NSString *const kDialogHtmlTemplate =
 */
 }
 
--(void)viewWillAppear:(BOOL)animated{
+-(void)viewWillAppear:(BOOL)animated
+{
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     self.navigationController.navigationBar.opaque = NO;
 }
 
--(void)imageFinishedLoading{
+-(void)imageFinishedLoading
+{
     [self applyNPCWithGreeting];
 }
 
--(void)toggleFullScreenTextMode{
+-(void)toggleFullScreenTextMode
+{
 	NSLog(@"DialogViewController: toggleTextSize");
     
     CGRect newTextFrame;
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    switch(textboxSize){
+    switch(textboxSize)
+    {
         case 0:
            //text is off screen, move it on screen
-            if(orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) newTextFrame = CGRectMake(0, 332, 320, 128);
-            else{
+            if(orientation == UIInterfaceOrientationPortrait ||
+               orientation == UIInterfaceOrientationPortraitUpsideDown)
+                newTextFrame = CGRectMake(0, 332, 320, 128);
+            else
                 newTextFrame = CGRectMake(0, 216, 480, 84);
-            }
             break;
         case 1:
             //textbox is normal size, make it full screen
-            if(orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) newTextFrame = CGRectMake(0, 44, 320, 416);
-            else{
+            if(orientation == UIInterfaceOrientationPortrait ||
+               orientation == UIInterfaceOrientationPortraitUpsideDown)
+                newTextFrame = CGRectMake(0, 44, 320, 416);
+            else
                 newTextFrame = CGRectMake(0, 44, 480, 300);
-            }
             break;
         case 2:
             //text is full screen, move it off screen
-            if(orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) newTextFrame = CGRectMake(0, 480, 320, 128);
-            else {
-              newTextFrame = CGRectMake(0, 320, 480, 128); 
-            }
+            if(orientation == UIInterfaceOrientationPortrait ||
+               orientation == UIInterfaceOrientationPortraitUpsideDown)
+                newTextFrame = CGRectMake(0, 480, 320, 128);
+            else
+                newTextFrame = CGRectMake(0, 320, 480, 128);
             break;
         default:
             //should never reach here
@@ -231,35 +240,43 @@ NSString *const kDialogHtmlTemplate =
     
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
 	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
 	
 	// Release any cached data, images, etc that aren't in use.
 }
 
-- (void)viewDidUnload {
+- (void)viewDidUnload
+{
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
 }
--(void)viewDidAppear:(BOOL)animated{
+
+-(void)viewDidAppear:(BOOL)animated
+{
     self.navigationItem.leftBarButtonItem = self.navigationItem.backBarButtonItem;
  //   self.textboxSize = 0;
   //  [self toggleFullScreenTextMode];
 }
-- (void) viewDidDisappear:(BOOL)animated {
+
+- (void) viewDidDisappear:(BOOL)animated
+{
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 	NSLog(@"DialogViewController: View Did Disapear");
 }
 
-- (IBAction)backButtonTouchAction: (id) sender{
+- (IBAction)backButtonTouchAction: (id) sender
+{
 	NSLog(@"DialogViewController: Notify server of NPC view and Dismiss view");
 	
     [RootViewController sharedRootViewController].modalPresent = NO;
 	[[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
 }
 
-- (IBAction)continueButtonTouchAction{
+- (IBAction)continueButtonTouchAction
+{
     [self.ARISMoviePlayer.moviePlayer.view removeFromSuperview];
     [self.npcVideoView removeFromSuperview];
     [self.ARISMoviePlayer.moviePlayer stop];

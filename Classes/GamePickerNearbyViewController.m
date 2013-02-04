@@ -22,18 +22,17 @@
 @synthesize gameList;
 @synthesize refreshButton,count;
 
-
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
-    if (self) {
+    if(self)
+    {
         self.title = NSLocalizedString(@"NearbyObjectsTabKey", @"");
 		self.navigationItem.title = [NSString stringWithFormat: @"%@", NSLocalizedString(@"GamePickerNearbyGamesKey", @"")];
         self.tabBarItem.image = [UIImage imageNamed:@"193-location-arrow"];
-        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-        [dispatcher addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];
         
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];
     }
     return self;
 }
@@ -41,19 +40,16 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
 	UIBarButtonItem *refreshButtonAlloc = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh)];
     self.refreshButton = refreshButtonAlloc;
-    
     self.navigationItem.rightBarButtonItem = self.refreshButton;
     
   	[gameTable reloadData];
-    
     [self refresh];
     
 	NSLog(@"GamePickerViewController: View Loaded");
 }
-
-
 
 - (void)viewDidAppear:(BOOL)animated {
 	NSLog(@"GamePickerViewController: View Appeared");	
@@ -66,12 +62,14 @@
     
 }
 
--(void)refresh {
+-(void)refresh
+{
 	NSLog(@"GamePickerViewController: Refresh Requested");
     
     //Calculate locational control value
     BOOL locational;
-    if (locationalControl.selectedSegmentIndex == 0) {
+    if (locationalControl.selectedSegmentIndex == 0)
+    {
         locational = YES;  
         distanceControl.enabled = YES;
         distanceControl.alpha = 1;
@@ -85,7 +83,8 @@
 	
     //Calculate distance filer controll value
     int distanceFilter;
-    switch (distanceControl.selectedSegmentIndex) {
+    switch (distanceControl.selectedSegmentIndex)
+    {
         case 0:
             distanceFilter = 100;
             break;
@@ -95,15 +94,16 @@
         case 2:
             distanceFilter = 50000;
             break;
-            
     }
-    if([AppModel sharedAppModel].playerLocation){
+    
+    if([AppModel sharedAppModel].playerLocation)
+    {
         //register for notifications
-        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-        [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNearbyGameListReady" object:nil];
-        [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNearbyGameListReady" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
         
         if ([[AppModel sharedAppModel] loggedIn]) [[AppServices sharedAppServices] fetchGameListWithDistanceFilter:distanceFilter locational:locational];
+        
         [self showLoadingIndicator];
     }
  /*   else{
@@ -113,13 +113,15 @@
     }*/
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
     // Release anything that's not essential, such as cached data
 }
 
 #pragma mark custom methods, logic
--(void)showLoadingIndicator{
+-(void)showLoadingIndicator
+{
 	UIActivityIndicatorView *activityIndicator = 
 	[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
 	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
@@ -127,15 +129,18 @@
 	[activityIndicator startAnimating];
 }
 
--(void) viewWillAppear:(BOOL)animated{
+-(void) viewWillAppear:(BOOL)animated
+{
     
 }
 
--(void)removeLoadingIndicator{
+-(void)removeLoadingIndicator
+{
 	[[self navigationItem] setRightBarButtonItem:self.refreshButton];
 }
 
-- (void)refreshViewFromModel {
+- (void)refreshViewFromModel
+{
 	NSLog(@"GamePickerNearbyViewController: Refresh View from Model");
     
     //unregister for notifications
@@ -149,20 +154,19 @@
 
 #pragma mark Control Callbacks
 -(IBAction)controlChanged:(id)sender{
-    
-    if (sender == locationalControl || 
-        locationalControl.selectedSegmentIndex == 0) 
+    if (sender == locationalControl || locationalControl.selectedSegmentIndex == 0) 
         [self refresh];
-    
 }
 
 #pragma mark Table view methods
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return 1;
 }
 
 // Customize the number of rows in the table view.
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     if([self.gameList count] == 0 && [AppModel sharedAppModel].playerLocation) return 1;
 	return [self.gameList count];
 }
@@ -260,8 +264,10 @@
     } 
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if([self.gameList count] == 0) return;
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if([self.gameList count] == 0)
+        return;
     //do select game notification;
     Game *selectedGame;
 	selectedGame = [self.gameList objectAtIndex:indexPath.row];
@@ -271,7 +277,8 @@
 	[self.navigationController pushViewController:gameDetailsVC animated:YES];
 }
 
-- (void)tableView:(UITableView *)aTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView *)aTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
 	Game *selectedGame;
 	selectedGame = [self.gameList objectAtIndex:indexPath.row];
 	
@@ -280,7 +287,8 @@
 	[self.navigationController pushViewController:gameDetailsVC animated:YES];
 }
 
--(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+-(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
 	return 60;
 }
 
@@ -320,7 +328,8 @@
  }
  */
 
-- (void)dealloc {
+- (void)dealloc
+{
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

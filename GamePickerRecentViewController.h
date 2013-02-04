@@ -10,12 +10,11 @@
 #import "AppModel.h"
 #import "Comment.h"
 
-@interface GamePickerRecentViewController : UIViewController <UITableViewDelegate,UITableViewDataSource>{
-
+@interface GamePickerRecentViewController : UIViewController <UITableViewDelegate,UITableViewDataSource>
+{
 	NSArray *gameList;
 	UITableView *gameTable;
     UIBarButtonItem *refreshButton;
-    
 }
 
 -(void)refresh;

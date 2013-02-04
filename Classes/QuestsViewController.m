@@ -94,7 +94,8 @@ NSString *const kQuestsHtmlTemplate =
 - (void)viewDidAppear:(BOOL)animated {
     NSLog(@"QuestsViewController: viewDidAppear");
     
-    if (![AppModel sharedAppModel].loggedIn || [AppModel sharedAppModel].currentGame.gameId==0) {
+    if (![AppModel sharedAppModel].loggedIn || [AppModel sharedAppModel].currentGame.gameId==0)
+    {
         NSLog(@"QuestsVC: Player is not logged in, don't refresh");
         return;
     }

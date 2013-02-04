@@ -2614,7 +2614,8 @@ NSString *const kARISServerServicePackage = @"v1";
         }
         
         //Update progress 
-        if([RootViewController sharedRootViewController].loadingVC){
+        if([RootViewController sharedRootViewController].loadingVC)
+        {
             [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesCachingGameMediaKey", @"");
             [RootViewController sharedRootViewController].loadingVC.progressLabel.text = [[RootViewController sharedRootViewController].loadingVC.progressLabel.text stringByAppendingString:[NSString stringWithFormat:@" (%d of %d)", mediaLoaded,[serverMediaArray count]]];
         }
@@ -2630,7 +2631,8 @@ NSString *const kARISServerServicePackage = @"v1";
     
     [[RootViewController sharedRootViewController] removeNewWaitingIndicator];
     
-    if([RootViewController sharedRootViewController].loadingVC){
+    if([RootViewController sharedRootViewController].loadingVC)
+    {
         [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesStartingGameKey", @"");
         [RootViewController sharedRootViewController].loadingVC.receivedData++;
     }
@@ -2643,13 +2645,15 @@ NSString *const kARISServerServicePackage = @"v1";
 	NSEnumerator *enumerator = [itemListArray objectEnumerator];
 	NSDictionary *dict;
     int itemsParsed = 0;
-	while ((dict = [enumerator nextObject])) {
+	while ((dict = [enumerator nextObject]))
+    {
 		Item *tmpItem = [self parseItemFromDictionary:dict];
 		
 		[tempItemList setObject:tmpItem forKey:[NSNumber numberWithInt:tmpItem.itemId]];
         
         itemsParsed++;
-        if([RootViewController sharedRootViewController].loadingVC){
+        if([RootViewController sharedRootViewController].loadingVC)
+        {
             [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGameItemListKey", @"");
             [RootViewController sharedRootViewController].loadingVC.progressLabel.text = [[RootViewController sharedRootViewController].loadingVC.progressLabel.text stringByAppendingString:[NSString stringWithFormat:@" (%d of %d)", itemsParsed,[itemListArray count]]];
         }
@@ -2661,19 +2665,22 @@ NSString *const kARISServerServicePackage = @"v1";
 }
 
 
--(void)parseGameNodeListFromJSON: (JSONResult *)jsonResult{
+-(void)parseGameNodeListFromJSON: (JSONResult *)jsonResult
+{
 	NSArray *nodeListArray = (NSArray *)jsonResult.data;
 	NSMutableDictionary *tempNodeList = [[NSMutableDictionary alloc] init];
 	NSEnumerator *enumerator = [nodeListArray objectEnumerator];
 	NSDictionary *dict;
     int nodesParsed = 0;
-	while ((dict = [enumerator nextObject])) {
+	while ((dict = [enumerator nextObject]))
+    {
 		Node *tmpNode = [self parseNodeFromDictionary:dict];
 		
 		[tempNodeList setObject:tmpNode forKey:[NSNumber numberWithInt:tmpNode.nodeId]];
         
         nodesParsed++;
-        if([RootViewController sharedRootViewController].loadingVC){
+        if([RootViewController sharedRootViewController].loadingVC)
+        {
             [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGameNodeListKey", @"");
             [RootViewController sharedRootViewController].loadingVC.progressLabel.text = [[RootViewController sharedRootViewController].loadingVC.progressLabel.text stringByAppendingString:[NSString stringWithFormat:@" (%d of %d)", nodesParsed,[nodeListArray count]]];
         }
@@ -2685,18 +2692,21 @@ NSString *const kARISServerServicePackage = @"v1";
         [RootViewController sharedRootViewController].loadingVC.receivedData++;
 }
 
--(void)parseGameTabListFromJSON: (JSONResult *)jsonResult{
+-(void)parseGameTabListFromJSON: (JSONResult *)jsonResult
+{
 	NSArray *tabListArray = (NSArray *)jsonResult.data;
 	NSArray *tempTabList = [[NSMutableArray alloc] initWithCapacity:10];
 	NSEnumerator *enumerator = [tabListArray objectEnumerator];
 	NSDictionary *dict;
     int tabsParsed = 0;
-	while ((dict = [enumerator nextObject])) {
+	while ((dict = [enumerator nextObject]))
+    {
 		Tab *tmpTab = [self parseTabFromDictionary:dict];
 		tempTabList = [tempTabList arrayByAddingObject:tmpTab];
         
         tabsParsed++;
-        if([RootViewController sharedRootViewController].loadingVC){
+        if([RootViewController sharedRootViewController].loadingVC)
+        {
             [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGameNodeListKey", @"");
             [RootViewController sharedRootViewController].loadingVC.progressLabel.text = [[RootViewController sharedRootViewController].loadingVC.progressLabel.text stringByAppendingString:[NSString stringWithFormat:@" (%d of %d)", tabsParsed,[tabListArray count]]];
         }
@@ -2708,7 +2718,6 @@ NSString *const kARISServerServicePackage = @"v1";
     if([RootViewController sharedRootViewController].loadingVC)
         [RootViewController sharedRootViewController].loadingVC.receivedData++;
 }
-
 
 -(void)parseGameNpcListFromJSON: (JSONResult *)jsonResult{
 	NSArray *npcListArray = (NSArray *)jsonResult.data;
@@ -2723,7 +2732,8 @@ NSString *const kARISServerServicePackage = @"v1";
 		[tempNpcList setObject:tmpNpc forKey:[NSNumber numberWithInt:tmpNpc.npcId]];
         
         npcsParsed++;
-        if([RootViewController sharedRootViewController].loadingVC){
+        if([RootViewController sharedRootViewController].loadingVC)
+        {
             [RootViewController sharedRootViewController].loadingVC.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGameNPCListKey", @"");
             [RootViewController sharedRootViewController].loadingVC.progressLabel.text = [[RootViewController sharedRootViewController].loadingVC.progressLabel.text stringByAppendingString:[NSString stringWithFormat:@" (%d of %d)", npcsParsed,[npcListArray count]]];
         }

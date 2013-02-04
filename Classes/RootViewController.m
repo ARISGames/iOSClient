@@ -706,7 +706,6 @@ BOOL isShowingPopOver;
         else
         {
             NSLog(@"RootViewController: showNearbyTab: NO");
-            
             if ([tabs containsObject:self.nearbyObjectsNavigationController])
             {
                 [tabs removeObject:self.nearbyObjectsNavigationController];
@@ -1028,7 +1027,7 @@ BOOL isShowingPopOver;
     
     //unregister for notifications //<- Why? Phil 09/19/12 (I commented out the next line to get this to work)
     //[[NSNotificationCenter defaultCenter] removeObserver:self];
-    
+    if([[[AppModel sharedAppModel] singleGameList] count] <= 0) return;
     Game *selectedGame = [[[AppModel sharedAppModel] singleGameList] objectAtIndex:0];
     GameDetails *gameDetailsVC = [[GameDetails alloc] initWithNibName:@"GameDetails" bundle:nil];
     gameDetailsVC.game = selectedGame;

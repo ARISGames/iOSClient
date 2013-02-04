@@ -136,9 +136,8 @@
             for (int i = 0; i < nearbyLocationList.count; i++) {
                 Location *location = [nearbyLocationList objectAtIndex:i];
                 BOOL match = NO;
-                for (Location *oldLocation in oldNearbyLocationList) {
+                for (Location *oldLocation in oldNearbyLocationList)
                     if (oldLocation.locationId == location.locationId) match = YES;
-                }
                 if (match == NO) {
                     if (location.forcedDisplay){
                         if(!forcedDisplayItem && silenceNextServerUpdateCount == 0)

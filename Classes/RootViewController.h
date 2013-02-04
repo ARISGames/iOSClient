@@ -54,8 +54,8 @@
 #import "LoadingViewController.h"
 #import "PopOverViewController.h"
 
-@interface RootViewController : UIViewController<UIApplicationDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate,PTPusherDelegate> {
-    
+@interface RootViewController : UIViewController<UIApplicationDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate,PTPusherDelegate>
+{    
     UITabBarController *tabBarController;
     UIViewController *defaultViewControllerForMainTabBar;
     

@@ -19,8 +19,8 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    if (self)
+    {
         receivedData = 0;
     }
     return self;
@@ -46,8 +46,8 @@
     [self performSelectorOnMainThread:@selector(moveProgressBar) withObject:nil waitUntilDone:YES];
 }
 
-- (void)moveProgressBar {
-    
+- (void)moveProgressBar
+{
     float actual = (receivedData/(float)10);
     if (actual < 1)
     {
@@ -56,7 +56,6 @@
         [progressBar setNeedsDisplay];
         [progressLabel setNeedsDisplay];
         [progressLabel setNeedsLayout];
-        
     }
     else if(actual == 1)
     {
@@ -79,11 +78,13 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
--(BOOL)shouldAutorotate{
+-(BOOL)shouldAutorotate
+{
     return YES;
 }
 
--(NSInteger)supportedInterfaceOrientations{
+-(NSInteger)supportedInterfaceOrientations
+{
     NSInteger mask = 0;
     if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeLeft])
         mask |= UIInterfaceOrientationMaskLandscapeLeft;

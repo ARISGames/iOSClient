@@ -11,7 +11,6 @@
 @interface IconQuestsButton : UIButton{
 }
 
-
 - (id)initWithFrame:(CGRect)inputFrame andImage:(UIImage *) inputImage andTitle:(NSString *)inputTitle;
 
 @end
