@@ -28,7 +28,7 @@ NSString *const kPopOverHtmlTemplate =
 @"		font-family: Helvetia, Sans-Serif;"
 @"      -webkit-text-size-adjust: none;"
 @"	}"
-@"  ol"
+@"  ul,ol"
 @"  {"
 @"      text-align:left;"
 @"  }"

@@ -37,7 +37,7 @@ NSString *const kQuestsHtmlTemplate =
 @"		font-family: Helvetia, Sans-Serif;"
 @"		margin: 0 0 10 0;"
 @"	}"
-@"  ol"
+@"  ul,ol"
 @"  {"
 @"      text-align:left;"
 @"  }"

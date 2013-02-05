@@ -785,6 +785,12 @@
 		AB21D30614ED9C9000DC016F /* grey_button.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = grey_button.psd; sourceTree = "<group>"; };
 		AB2223F310502CD800A4255E /* Quest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quest.h; sourceTree = "<group>"; };
 		AB2223F410502CD800A4255E /* Quest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Quest.m; sourceTree = "<group>"; };
+		AB2482F316C04A5300D81E73 /* Grainger.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Grainger.gpx; sourceTree = "<group>"; };
+		AB2482F416C04B0200D81E73 /* Chemistry.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Chemistry.gpx; sourceTree = "<group>"; };
+		AB2482F516C04DDA00D81E73 /* Science Hall.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Science Hall.gpx"; sourceTree = "<group>"; };
+		AB2482F616C04DEE00D81E73 /* North Hall.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "North Hall.gpx"; sourceTree = "<group>"; };
+		AB2482F716C04E0D00D81E73 /* Bascom Hall.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Bascom Hall.gpx"; sourceTree = "<group>"; };
+		AB2482F816C04E2D00D81E73 /* Van Hise.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Van Hise.gpx"; sourceTree = "<group>"; };
 		AB2FE578120A154B00758F8C /* LogoutButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LogoutButton.png; sourceTree = "<group>"; };
 		AB35E032155C607900430AF7 /* 14-gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "14-gear.png"; sourceTree = "<group>"; };
 		AB35E033155C607900430AF7 /* 14-gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "14-gear@2x.png"; sourceTree = "<group>"; };
@@ -1964,6 +1970,12 @@
 			children = (
 				ABAFBAC1145A0B810044491C /* Bascom Hill.gpx */,
 				ABAFBAC2145A0B810044491C /* Engage Offices.gpx */,
+				AB2482F316C04A5300D81E73 /* Grainger.gpx */,
+				AB2482F516C04DDA00D81E73 /* Science Hall.gpx */,
+				AB2482F616C04DEE00D81E73 /* North Hall.gpx */,
+				AB2482F716C04E0D00D81E73 /* Bascom Hall.gpx */,
+				AB2482F816C04E2D00D81E73 /* Van Hise.gpx */,
+				AB2482F416C04B0200D81E73 /* Chemistry.gpx */,
 				ABAFBAC3145A0B810044491C /* Engineering Fountain.gpx */,
 				ABAFBAC4145A0B810044491C /* Institutes for Discovery.gpx */,
 			);
@@ -2170,7 +2182,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0460;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "ARIS" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -2826,7 +2838,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: David Gagnon";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: UW Division of Information Technology";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2851,7 +2863,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = ARIS;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "14F61364-2841-45A9-8620-5290E0E4C76D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0F878890-EE14-459C-A1D8-9D5C40DC6596";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				SDKROOT = iphoneos;
