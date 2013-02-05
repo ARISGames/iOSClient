@@ -22,6 +22,8 @@
     if (self)
     {
         receivedData = 0;
+        //Refactor to use this notification in the future (rather than all of the random parts of AppServices running the same code...)
+        //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gamePieceLoaded) name:@"GamePieceLoaded" object:nil];
     }
     return self;
 }
@@ -32,7 +34,8 @@
     // Do any additional setup after loading the view from its nib.
     
     progressBar.progress = 0.0;
-    [self performSelectorOnMainThread:@selector(moveProgressBar) withObject:nil waitUntilDone:YES];
+    [self moveProgressBar];
+    //[self performSelectorOnMainThread:@selector(moveProgressBar) withObject:nil waitUntilDone:YES];
 }
 
 -(float)receivedData
@@ -43,7 +46,8 @@
 -(void)setReceivedData:(float)r
 {
     receivedData = r;
-    [self performSelectorOnMainThread:@selector(moveProgressBar) withObject:nil waitUntilDone:YES];
+    [self moveProgressBar];
+    //[self performSelectorOnMainThread:@selector(moveProgressBar) withObject:nil waitUntilDone:YES];
 }
 
 - (void)moveProgressBar
@@ -64,13 +68,6 @@
         [self dismissModalViewControllerAnimated:NO];
         [RootViewController sharedRootViewController].loadingViewController = nil;
     }
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

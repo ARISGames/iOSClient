@@ -69,7 +69,6 @@ BOOL isShowingPopOver;
 @synthesize webpageChannel;
 @synthesize usesIconQuestView;
 
-
 + (id)sharedRootViewController
 {
     static dispatch_once_t pred = 0;
@@ -99,15 +98,14 @@ BOOL isShowingPopOver;
         popOverViewController = [[PopOverViewController alloc] init];
         
         //register for notifications from views
-        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-        [dispatcher addObserver:self selector:@selector(finishLoginAttempt:) name:@"NewLoginResponseReady" object:nil];
-        [dispatcher addObserver:self selector:@selector(selectGame:) name:@"SelectGame" object:nil];
-        [dispatcher addObserver:self selector:@selector(showPlayerSettings:) name:@"ProfSettingsRequested" object:nil];
-        [dispatcher addObserver:self selector:@selector(performLogout:) name:@"PassChangeRequested" object:nil];
-        [dispatcher addObserver:self selector:@selector(performLogout:) name:@"LogoutRequested" object:nil];
-        [dispatcher addObserver:self selector:@selector(checkForDisplayCompleteNode) name:@"NewQuestListReady" object:nil];
-        [dispatcher addObserver:self selector:@selector(receivedMediaList) name:@"ReceivedMediaList" object:nil];
-        [dispatcher addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"OneGameReady" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishLoginAttempt:) name:@"NewLoginResponseReady" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectGame:) name:@"SelectGame" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPlayerSettings:) name:@"ProfSettingsRequested" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performLogout:) name:@"PassChangeRequested" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performLogout:) name:@"LogoutRequested" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkForDisplayCompleteNode) name:@"NewQuestListReady" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedMediaList) name:@"ReceivedMediaList" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"OneGameReady" object:nil];
         
         self.notificationView = [[UIWebView alloc] initWithFrame:CGRectMake(0, TRUE_ZERO_Y-8, SCREEN_WIDTH, 28)];
         self.notificationView.backgroundColor = [UIColor whiteColor];
@@ -300,19 +298,6 @@ BOOL isShowingPopOver;
         self.client.authorizationURL = [NSURL URLWithString:@"http://dev.arisgames.org/server/events/auths/private_auth.php"];        
     }
     return self;
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -510,10 +495,6 @@ BOOL isShowingPopOver;
     [self.notificationView removeFromSuperview];
     NSNotification *hideNotificationsNotification = [NSNotification notificationWithName:@"hideNotifications" object:self];
     [[NSNotificationCenter defaultCenter] postNotification:hideNotificationsNotification];
-}
-
--(void)hidePopOver
-{    
 }
 
 - (void) showGameSelectionTabBarAndHideOthers
@@ -871,7 +852,7 @@ BOOL isShowingPopOver;
         tmpTab = [tmpTabList objectAtIndex:y];
         if ([tmpTab.tabName isEqualToString:@"QUESTS"]){
             tmpTab.tabName = NSLocalizedString(@"QuestViewTitleKey",@"");
-            usesIconQuestView = (Boolean)tmpTab.tabDetail1;
+            usesIconQuestView = (BOOL)tmpTab.tabDetail1;
         }
         else if([tmpTab.tabName isEqualToString:@"GPS"]) tmpTab.tabName = NSLocalizedString(@"MapViewTitleKey",@"");
         else if([tmpTab.tabName isEqualToString:@"INVENTORY"]) tmpTab.tabName = NSLocalizedString(@"InventoryViewTitleKey",@"");
@@ -888,16 +869,19 @@ BOOL isShowingPopOver;
         }
     }
     
-    for(int y = 0; y < [newTabList count];y++){
+    for(int y = 0; y < [newTabList count];y++)
+    {
         tmpTab = [newTabList objectAtIndex:y];
-        if([tmpTab.tabName isEqualToString:NSLocalizedString(@"QuestViewTitleKey",@"")]){
+        if([tmpTab.tabName isEqualToString:NSLocalizedString(@"QuestViewTitleKey",@"")])
+        {
             if(usesIconQuestView)tempNav = (UINavigationController *)[[AppModel sharedAppModel].defaultGameTabList objectAtIndex:8];
             else tempNav = (UINavigationController *)[[AppModel sharedAppModel].defaultGameTabList objectAtIndex:0];
             newCustomVC = [newCustomVC arrayByAddingObject:tempNav];
         }
-        else{
-            for(int x = 0; x < [[AppModel sharedAppModel].defaultGameTabList count];x++){
-                
+        else
+        {
+            for(int x = 0; x < [[AppModel sharedAppModel].defaultGameTabList count]; x++)
+            {
                 tempNav = (UINavigationController *)[[AppModel sharedAppModel].defaultGameTabList objectAtIndex:x];
                 if([tempNav.navigationItem.title isEqualToString:tmpTab.tabName])newCustomVC = [newCustomVC arrayByAddingObject:tempNav];
             }

@@ -122,6 +122,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
     
 }
+
 - (void)updateServerPanoramicViewed: (int)panoramicId fromLocation:(int)locationId{
 	NSLog(@"Model: Panoramic %d Viewed, update server", panoramicId);
 	
@@ -138,7 +139,6 @@ NSString *const kARISServerServicePackage = @"v1";
                                                               andArguments:arguments
                                                                andUserInfo:nil];
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
-    
 }
 
 - (void)updateServerItemViewed: (int)itemId fromLocation:(int)locationId{
@@ -1271,7 +1271,8 @@ NSString *const kARISServerServicePackage = @"v1";
             //        [RootViewController sharedRootViewController].loadingViewController = [[RootViewController sharedRootViewController].loadingViewController stringByAppendingString:[NSString stringWithFormat:@" (%d of %d)", overlaysIndex,[overlayListArray count]]];;
             //}
         }
-        else {
+        else
+        {
             // add tiles to existing overlay
             [tempOverlay.tileFileName addObject:[overlayDictionary valueForKey:@"file_path"]];
             [tempOverlay.tileMediaID addObject:[overlayDictionary valueForKey:@"media_id"]];
@@ -1285,7 +1286,6 @@ NSString *const kARISServerServicePackage = @"v1";
         
         //  if([RootViewController sharedRootViewController].loadingViewController)
         //      [RootViewController sharedRootViewController].loadingViewController.receivedData++;
-        
     }
     
     [AppModel sharedAppModel].overlayList = tempOverlayList;
@@ -1822,7 +1822,7 @@ NSString *const kARISServerServicePackage = @"v1";
 }
 
 - (void)fetchGame:(int)gameId {
-    NSLog(@"AppModel: Fetch Requested for a single game (as Game List).");
+    NSLog(@"AppModel: Fetch Requested for a single game");
     //[self fetchTabBarItemsForGame:gameId];//Make sure to get the tabs as well
     
     if (currentlyFetchingOneGame) {
@@ -2225,11 +2225,11 @@ NSString *const kARISServerServicePackage = @"v1";
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewLoginResponseReady" object:nil]];
     
     //Should never excecute following code... (why would loading vc be up now?) -Phil 9/18/12
-    if([RootViewController sharedRootViewController].loadingViewController){
+    if([RootViewController sharedRootViewController].loadingViewController)
+    {
         [RootViewController sharedRootViewController].loadingViewController.progressLabel.text = NSLocalizedString(@"AppServicesRecievedLocationListKey", @"");
         [RootViewController sharedRootViewController].loadingViewController.receivedData++;
     }
-    
 }
 
 

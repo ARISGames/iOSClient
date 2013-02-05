@@ -66,50 +66,44 @@
 	NSLog(@"Model: Loading User Defaults");
 	[defaults synchronize];
     
-	//Load the base App URL
-	NSString *baseServerString = [defaults stringForKey:@"baseServerString"];
-    NSURL *currServ = [NSURL URLWithString: baseServerString ];
+    NSURL *currServ = [NSURL URLWithString:[defaults stringForKey:@"baseServerString"]];
     
-    self.showPlayerOnMap = [defaults boolForKey:@"showPlayerOnMap"];
-    if(!loggedIn && (self.showGamesInDevelopment == [defaults boolForKey:@"showGamesInDevelopment"]) && [currServ isEqual:self.serverURL] && (self.serverURL != nil)) {
+    if ([[currServ absoluteString] isEqual:@"http://arisgames.org/server1"] ||
+        [[currServ absoluteString] isEqual:@"http://arisgames.org/stagingserver1/"] ||
+        [[currServ absoluteString] isEqual:@""])
+    {
+        NSString *updatedURL = @"http://arisgames.org/server";
+        [defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:updatedURL] forKey:@"baseServerString"];
+        [defaults synchronize];
+        currServ = [NSURL URLWithString:updatedURL];
+    }
+    if (self.serverURL && ![currServ isEqual:self.serverURL])
+    {
+        [[AppModel sharedAppModel].mediaCache clearCache];
+        NSNotification *logoutRequestNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self];
+        [[NSNotificationCenter defaultCenter] postNotification:logoutRequestNotification];
+        return;
+    }
+    self.serverURL = currServ;
+    if(self.showGamesInDevelopment != [defaults boolForKey:@"showGamesInDevelopment"])
+    {
+        self.showGamesInDevelopment = [defaults boolForKey:@"showGamesInDevelopment"];
+        NSNotification *logoutRequestNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self];
+        [[NSNotificationCenter defaultCenter] postNotification:logoutRequestNotification];
+        return;
+    }
+    
+    //Safe to load defaults
+    
+    if(!loggedIn)
+    {
         self.userName = [defaults objectForKey:@"userName"];
         self.groupName = [defaults objectForKey:@"groupName"];
         self.groupGame = [self.groupName intValue];
         self.playerId = [defaults integerForKey:@"playerId"];
         self.playerMediaId = [defaults integerForKey:@"playerMediaId"];
         self.displayName = [defaults objectForKey:@"displayName"];
-    }
-    
-    if (![currServ isEqual:self.serverURL] || (self.serverURL == nil)) {
-        NSNotification *logoutRequestNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self];
-        [[NSNotificationCenter defaultCenter] postNotification:logoutRequestNotification];
-    }
-    if (![currServ isEqual:self.serverURL] && (self.serverURL != nil)) {
-        [[AppModel sharedAppModel].mediaCache clearCache];
-    }
-    
-    //Old versions of the server URL are depricated. Migrate to the new version
-    if ([[currServ absoluteString] isEqual:@"http://arisgames.org/server1"] || 
-        [[currServ absoluteString]  isEqual:@"http://arisgames.org/server1/"] ||
-        [[currServ absoluteString]  isEqual:@"http://arisgames.org/stagingserver1"] ||
-        [[currServ absoluteString]  isEqual:@"http://arisgames.org/stagingserver1/"]) {
-        
-        NSLog(@"AppModel: SERVER NEEDS TO BE CHANGED");
-        
-        NSString *updatedURL = @"http://arisgames.org/server";
-        [defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:updatedURL] forKey:@"baseServerString"]; 
-        
-        [defaults synchronize];		
-        NSNotification *logoutRequestNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self];
-        [[NSNotificationCenter defaultCenter] postNotification:logoutRequestNotification];
-    }
-    
-    self.serverURL = [NSURL URLWithString: baseServerString ];
-    if(self.showGamesInDevelopment != [defaults boolForKey:@"showGamesInDevelopment"])
-    {
-        self.showGamesInDevelopment = [defaults boolForKey:@"showGamesInDevelopment"];
-        NSNotification *logoutRequestNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self];
-        [[NSNotificationCenter defaultCenter] postNotification:logoutRequestNotification];
+        self.showPlayerOnMap = [defaults boolForKey:@"showPlayerOnMap"];
     }
     
 	if ([defaults boolForKey:@"resetTutorial"])
