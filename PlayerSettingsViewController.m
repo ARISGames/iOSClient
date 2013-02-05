@@ -39,7 +39,7 @@
 - (void)manuallyForceViewDidAppear
 {
     //Due to the way we hide/show views rather than push/popping them, 'viewDidAppear' was constantly being called even when it wasn't 'actually' appearing.
-    //Now, we just call this manually whenever we intend the view to appear.
+    //Now, we just call this manually whenever we intend the view to appear. //<- This is a call for refactor (ps I wrote this code so I'm calling myself out) - Phil
     self.playerNameField.text = @"";
     if([AppModel sharedAppModel].displayName && ![[AppModel sharedAppModel].displayName isEqualToString:@""])
         self.playerNameField.text = [AppModel sharedAppModel].displayName;
@@ -49,27 +49,14 @@
 
 - (void) refreshViewFromModel
 {
-    if(![[AppModel sharedAppModel].displayName isEqualToString:@""] &&
-       !([AppModel sharedAppModel].displayName == nil) &&
+    if([AppModel sharedAppModel].displayName && ![[AppModel sharedAppModel].displayName isEqualToString:@""] &&
        [self.playerNameField.text isEqualToString:@""])
         playerNameField.text = [AppModel sharedAppModel].displayName;
     
-    if([AppModel sharedAppModel].playerMediaId != 0 &&
-       [AppModel sharedAppModel].playerMediaId != -1)
+    if([AppModel sharedAppModel].playerMediaId > 0)
         [self.playerPic loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].playerMediaId]];
     else
         [self.playerPic updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
--(IBAction)playerNameFieldTouched:(id)sender
-{
-    return;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -78,24 +65,29 @@
     return YES;
 }
 
-
 -(IBAction)saveButtonTouched:(id)sender
 {
-    if([playerNameField.text isEqualToString:@""] || [AppModel sharedAppModel].playerMediaId == 0)
+    if([self.playerNameField.text isEqualToString:@""] || [AppModel sharedAppModel].playerMediaId == 0)
     {
+        [[RootViewController sharedRootViewController] showAlert:nil message:@"Please choose a picture and name"];
         return;
     }
     
     self.parentViewController.view.hidden = true;
     
     [AppModel sharedAppModel].displayName = playerNameField.text;
-    if([playerPic.media.uid intValue]!= 0)
-        [AppModel sharedAppModel].playerMediaId = [playerPic.media.uid intValue];
-    [[AppServices sharedAppServices] updatePlayer:[AppModel sharedAppModel].playerId Name:playerNameField.text Image:[playerPic.media.uid intValue]];
-    [[AppModel sharedAppModel] saveUserDefaults];
-    playerNameField.text = @"";
+    self.playerNameField.text = @"";
 
+    if([self.playerPic.media.uid intValue] != 0)
+        [AppModel sharedAppModel].playerMediaId = [playerPic.media.uid intValue];
+    [self.playerPic updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
     
+    [[AppServices sharedAppServices] updatePlayer:[AppModel sharedAppModel].playerId
+                                             Name:[AppModel sharedAppModel].displayName
+                                            Image:[AppModel sharedAppModel].playerMediaId];
+    
+    [[AppModel sharedAppModel] saveUserDefaults];
+
     if([AppModel sharedAppModel].skipGameDetails)
     {
         [AppModel sharedAppModel].skipGameDetails = NO;

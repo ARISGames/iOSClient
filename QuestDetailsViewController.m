@@ -61,7 +61,8 @@ NSString *const kQuestDetailsHtmlTemplate =
     
     //NOTE: HEY PHIL, I ONLY HID THE BUTTON, IF YOU WANT THAT EXTRA SCREEN REAL ESTATE THEN YOU'LL HAVE TO EXPAND THE TEXT VIEW
     
-    if (!(self.quest.exitToTabName == (id)[NSNull null] || self.quest.exitToTabName.length == 0 ||[self.quest.exitToTabName isEqualToString:@"NONE"])){
+    if (self.quest.exitToTabName && self.quest.exitToTabName.length != 0 && ![self.quest.exitToTabName isEqualToString:@"NONE"])
+    {
         NSString *buttonTitle = NSLocalizedString(@"GoToKey", nil);
         buttonTitle = [buttonTitle stringByAppendingString:@" "];
         buttonTitle = [buttonTitle stringByAppendingString:self.quest.exitToTabName];
@@ -111,7 +112,8 @@ NSString *const kQuestDetailsHtmlTemplate =
 
 -(void) exit:(id)sender{
     [[self navigationController] popToRootViewControllerAnimated:YES];
-    if (!(self.quest.exitToTabName == (id)[NSNull null] || self.quest.exitToTabName.length == 0 ||[self.quest.exitToTabName isEqualToString:@"NONE"])){
+    if (!self.quest.exitToTabName && self.quest.exitToTabName.length != 0 && ![self.quest.exitToTabName isEqualToString:@"NONE"])
+    {
         NSString *tab;
         for(int i = 0;i < [[RootViewController sharedRootViewController].gameTabBarController.viewControllers count];i++){
             tab = [[[RootViewController sharedRootViewController].gameTabBarController.viewControllers objectAtIndex:i] title];

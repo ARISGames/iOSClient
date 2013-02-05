@@ -140,7 +140,7 @@
         commentCell.authorLabel.text = ((Comment *)[game.comments objectAtIndex:indexPath.row-1]).playerName;
         NSString *a = [commentCell.authorLabel.text lowercaseString];  
         NSString *b = [[AppModel sharedAppModel].userName lowercaseString];
-        if(a != (id)[NSNull null] && b != (id)[NSNull null] && [a isEqualToString: b]){
+        if(a && b && [a isEqualToString: b]){
             self.game.reviewedByUser = YES;
         }
         commentCell.starView.rating = ((Comment *)[game.comments objectAtIndex:indexPath.row-1]).rating;
@@ -195,7 +195,8 @@
         NSString *a = [((Comment *)[game.comments objectAtIndex:i]).playerName lowercaseString];
         NSString *b = [[AppModel sharedAppModel].userName lowercaseString];
         NSLog(@"Compare %@ to %@", a, b);
-        if(a != (id)[NSNull null] && b != (id)[NSNull null] && ([a isEqualToString:b] || [a isEqualToString:[NSLocalizedString(@"DialogPlayerName", @"") lowercaseString]])){
+        if(a && b && ([a isEqualToString:b] || [a isEqualToString:[NSLocalizedString(@"DialogPlayerName", @"") lowercaseString]]))
+        {
             [game.comments removeObjectAtIndex:i];
             i--;
         }

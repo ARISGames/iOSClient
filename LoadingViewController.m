@@ -31,11 +31,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
     
     progressBar.progress = 0.0;
     [self moveProgressBar];
-    //[self performSelectorOnMainThread:@selector(moveProgressBar) withObject:nil waitUntilDone:YES];
 }
 
 -(float)receivedData
@@ -52,7 +50,8 @@
 
 - (void)moveProgressBar
 {
-    float actual = (receivedData/(float)10);
+    float actual = (receivedData/(float)9);//<- What. '9'? Where did that number come from?
+    NSLog(@"%f loaded...",actual);
     if (actual < 1)
     {
         progressBar.progress = actual;
@@ -61,12 +60,16 @@
         [progressLabel setNeedsDisplay];
         [progressLabel setNeedsLayout];
     }
-    else if(actual == 1)
+    else if(actual >= 0.999)
     {
-        if ([AppModel sharedAppModel].currentGame.completedQuests < 1)
-            [[RootViewController sharedRootViewController] performSelector:@selector(displayIntroNode) withObject:nil afterDelay:.1];
-        [self dismissModalViewControllerAnimated:NO];
-        [RootViewController sharedRootViewController].loadingViewController = nil;
+        if ([AppModel sharedAppModel].currentGame.completedQuests < 1)//<- what does completed quests have to do with anything (if this is being used as a heuristic to gauge sufficient distance in game, it should be wrapped into some "start game" function (along with the command to "displayIntroNode"))
+            [[RootViewController sharedRootViewController] performSelector:@selector(displayIntroNode) withObject:nil afterDelay:.1];//<- 'displayIntroNode' is unintuitive
+        [self dismissModalViewControllerAnimated:NO];//<- depricated
+        [RootViewController sharedRootViewController].loadingViewController = nil;//<- what.
+    }
+    else if(actual > 1)
+    {
+        NSLog(@"loadingviewcontroller got more than asked for... uh oh...");
     }
 }
 

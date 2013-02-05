@@ -230,6 +230,12 @@
 
 -(void) loadResult:(NSString *)code {
 	//Fetch the coresponding object from the server
+    if([code isEqualToString:@"log-out"])
+    {
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LogoutRequested" object:self]];
+        return;
+    }
+    
 	[[RootViewController sharedRootViewController] showWaitingIndicator:NSLocalizedString(@"LoadingKey",@"") displayProgressBar:NO];
 	[[AppServices sharedAppServices] fetchQRCode:code];
 }

@@ -82,6 +82,7 @@
         [[AppModel sharedAppModel].mediaCache clearCache];
         NSNotification *logoutRequestNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self];
         [[NSNotificationCenter defaultCenter] postNotification:logoutRequestNotification];
+        self.serverURL = currServ;
         return;
     }
     self.serverURL = currServ;
@@ -174,8 +175,8 @@
 	[defaults setBool:hasSeenMapTabTutorial forKey:@"hasSeenMapTabTutorial"];
 	[defaults setBool:hasSeenInventoryTabTutorial forKey:@"hasSeenInventoryTabTutorial"];
     [defaults setInteger:playerId forKey:@"playerId"];
-    [defaults setInteger:fallbackGameId forKey:@"gameId"];
     [defaults setInteger:playerMediaId forKey:@"playerMediaId"];
+    [defaults setInteger:fallbackGameId forKey:@"gameId"];
     [defaults setObject:userName forKey:@"userName"];
     [defaults setObject:displayName forKey:@"displayName"];
 	[defaults synchronize];
@@ -185,15 +186,9 @@
     NSError *error = nil;
     if (managedObjectContext != nil) {
         if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
-			/*
-			 Replace this implementation with code to handle the error appropriately.
-			 
-			 abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
-			 */
 			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             [[RootViewController sharedRootViewController] showAlert:@"Error saving to disk" message:[NSString stringWithFormat:@"%@",[error userInfo]]];
-			//abort();
-        } 
+        }
     }
 }
 
@@ -215,20 +210,12 @@
 		NSString *keyValueStr = [prefItem objectForKey:@"Key"];
 		
 		if ([keyValueStr isEqualToString:@"baseServerString"])
-		{
             baseAppURLDefault = [prefItem objectForKey:@"DefaultValue"];
-		}
         if ([keyValueStr isEqualToString:@"showGamesInDevelopment"])
-		{
 			showGamesInDevelopmentDefault = [prefItem objectForKey:@"DefaultValue"];
-		}
         if ([keyValueStr isEqualToString:@"showPlayerOnMap"])
-		{
 			showPlayerOnMapDefault = [prefItem objectForKey:@"DefaultValue"];
-		}
-        
-		//More defaults would go here
-	}
+    }
 	
 	// since no default values have been set (i.e. no preferences file created), create it here
 	NSDictionary *appDefaults = [NSDictionary dictionaryWithObjectsAndKeys: 
@@ -310,17 +297,7 @@
 }
 
 -(Media *)mediaForMediaId: (int)mId {
-    /*	Media *media = [self.gameMediaList objectForKey:[NSNumber numberWithInt:mId]];
-     
-     if (!media) {
-     //Let's pause everything and do a lookup
-     NSLog(@"AppModel: Media: %d not found in cached media List, refresh",mId);
-     [[AppServices sharedAppServices] fetchGameMediaListAsynchronously:NO];
-     
-     media = [self.gameMediaList objectForKey:[NSNumber numberWithInt:mId]];
-     if (media) NSLog(@"AppModel: Media found after refresh");
-     else NSLog(@"AppModel: Media: %d still NOT found after refresh",mId);
-     }*/
+    if(mId == 0) return nil;
 	return [mediaCache mediaForMediaId:mId];
 }
 

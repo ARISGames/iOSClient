@@ -1364,11 +1364,6 @@
 			isa = PBXGroup;
 			children = (
 				AA1E2D4D1652CC6000219535 /* libicucore.dylib */,
-				DDC495D916407DE500D4C063 /* PopOverViewController.h */,
-				DDC495DA16407DE500D4C063 /* PopOverViewController.m */,
-				AA763154169B68A800860665 /* PopOverContentView.h */,
-				AA763155169B68A800860665 /* PopOverContentView.m */,
-				DDC495DB16407DE500D4C063 /* PopOverViewController.xib */,
 				3A69944A1625F6610015B48A /* newBanner.png */,
 				ABAFBAC9145A0B8D0044491C /* GPX Locations */,
 				AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */,
@@ -1704,6 +1699,7 @@
 				A798300A0FCB1C5900C1C2E7 /* Waiting Indicator */,
 				2B3D17040F49C9920067FD3A /* Model */,
 				AB4FD84F130BC5460034F666 /* Tutorial */,
+				AA93121816C17D2300130773 /* PopOvers */,
 				DBC3441015ADEED200FA902F /* RootViewController.h */,
 				DBC3441115ADEED200FA902F /* RootViewController.m */,
 				A763B5230F4E283100FDCC55 /* MyCLController.h */,
@@ -1728,6 +1724,18 @@
 				11D7F9311537510D0046410F /* LoadingViewController.xib */,
 			);
 			name = "Core App";
+			sourceTree = "<group>";
+		};
+		AA93121816C17D2300130773 /* PopOvers */ = {
+			isa = PBXGroup;
+			children = (
+				DDC495D916407DE500D4C063 /* PopOverViewController.h */,
+				DDC495DA16407DE500D4C063 /* PopOverViewController.m */,
+				AA763154169B68A800860665 /* PopOverContentView.h */,
+				AA763155169B68A800860665 /* PopOverContentView.m */,
+				DDC495DB16407DE500D4C063 /* PopOverViewController.xib */,
+			);
+			name = PopOvers;
 			sourceTree = "<group>";
 		};
 		AABD101316B7164C007278EF /* CrittercismSDK */ = {

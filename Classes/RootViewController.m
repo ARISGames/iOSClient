@@ -704,9 +704,9 @@ BOOL isShowingPopOver;
 
 - (void) showPlayerSettings:(NSNotification *)notification
 {
-    [(PlayerSettingsViewController *)self.playerSettingsNavigationController.presentedViewController refreshViewFromModel];
+    [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController refreshViewFromModel];
     self.playerSettingsNavigationController.view.hidden = NO;
-    [(PlayerSettingsViewController *)self.playerSettingsNavigationController.presentedViewController manuallyForceViewDidAppear];
+    [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController manuallyForceViewDidAppear];
     self.gameSelectionTabBarController.view.hidden = NO;
     self.gameSelectionTabBarController.selectedIndex = 0;
 }
@@ -725,7 +725,7 @@ BOOL isShowingPopOver;
         {
             [self showPlayerSettings:nil];
             if([AppModel sharedAppModel].playerMediaId == 0 || [AppModel sharedAppModel].playerMediaId == -1)
-                [(PlayerSettingsViewController *)self.playerSettingsNavigationController.presentedViewController playerPicCamButtonTouched:nil];
+                [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController playerPicCamButtonTouched:nil];
         }
         else
         {
@@ -834,7 +834,8 @@ BOOL isShowingPopOver;
     [[AppServices sharedAppServices] fetchGame:selectedGame.gameId];
 }
 
--(void)changeTabBar{
+-(void)changeTabBar //What the heck does 'changeTabBar' mean?
+{
     UINavigationController *tempNav = [[UINavigationController alloc] init];
     NSArray *newCustomVC = [[NSMutableArray alloc] initWithCapacity:10];
     NSArray *newTabList = [[NSMutableArray alloc] initWithCapacity:10];
@@ -844,29 +845,28 @@ BOOL isShowingPopOver;
     sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"tabIndex"
                                                  ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-    // Boolean isIconQuestsView = YES;
+    //Boolean isIconQuestsView = YES;
     
     tmpTabList = [[AppModel sharedAppModel].gameTabList sortedArrayUsingDescriptors:sortDescriptors];
     Tab *tmpTab = [[Tab alloc] init];
-    for(int y = 0; y < [tmpTabList count];y++){
+    for(int y = 0; y < [tmpTabList count];y++)
+    {
         tmpTab = [tmpTabList objectAtIndex:y];
-        if ([tmpTab.tabName isEqualToString:@"QUESTS"]){
+        if ([tmpTab.tabName isEqualToString:@"QUESTS"])
+        {
             tmpTab.tabName = NSLocalizedString(@"QuestViewTitleKey",@"");
             usesIconQuestView = (BOOL)tmpTab.tabDetail1;
         }
-        else if([tmpTab.tabName isEqualToString:@"GPS"]) tmpTab.tabName = NSLocalizedString(@"MapViewTitleKey",@"");
+        else if([tmpTab.tabName isEqualToString:@"GPS"])       tmpTab.tabName = NSLocalizedString(@"MapViewTitleKey",@"");
         else if([tmpTab.tabName isEqualToString:@"INVENTORY"]) tmpTab.tabName = NSLocalizedString(@"InventoryViewTitleKey",@"");
-        else if([tmpTab.tabName isEqualToString:@"QR"]) tmpTab.tabName = NSLocalizedString(@"QRScannerTitleKey",@"");
-        else if([tmpTab.tabName isEqualToString:@"PLAYER"]) tmpTab.tabName = NSLocalizedString(@"PlayerTitleKey",@"");
-        else if([tmpTab.tabName isEqualToString:@"NOTE"]) tmpTab.tabName = NSLocalizedString(@"NotebookTitleKey",@"");
-        else if([tmpTab.tabName isEqualToString:@"PICKGAME"]) tmpTab.tabName = NSLocalizedString(@"GamePickerTitleKey",@"");
-        else{
-            tmpTab.tabIndex = 0;
-        }
-        if(tmpTab.tabIndex != 0) {
-            
+        else if([tmpTab.tabName isEqualToString:@"QR"])        tmpTab.tabName = NSLocalizedString(@"QRScannerTitleKey",@"");
+        else if([tmpTab.tabName isEqualToString:@"PLAYER"])    tmpTab.tabName = NSLocalizedString(@"PlayerTitleKey",@"");
+        else if([tmpTab.tabName isEqualToString:@"NOTE"])      tmpTab.tabName = NSLocalizedString(@"NotebookTitleKey",@"");
+        else if([tmpTab.tabName isEqualToString:@"PICKGAME"])  tmpTab.tabName = NSLocalizedString(@"GamePickerTitleKey",@"");
+        else tmpTab.tabIndex = 0;
+        
+        if(tmpTab.tabIndex != 0 && !([AppModel sharedAppModel].museumMode && [tmpTab.tabName isEqualToString:NSLocalizedString(@"GamePickerTitleKey", @"")]))
             newTabList = [newTabList arrayByAddingObject:tmpTab];
-        }
     }
     
     for(int y = 0; y < [newTabList count];y++)
@@ -978,7 +978,7 @@ BOOL isShowingPopOver;
     if([AppModel sharedAppModel].museumMode)
     {
         self.playerSettingsNavigationController.view.hidden = NO;
-        [(PlayerSettingsViewController *)self.playerSettingsNavigationController manuallyForceViewDidAppear];
+        [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController manuallyForceViewDidAppear];
         self.gameSelectionTabBarController.view.hidden = NO;
         self.gameSelectionTabBarController.selectedIndex = 0;
     }
