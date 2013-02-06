@@ -829,7 +829,7 @@ NSString *const kARISServerServicePackage = @"v1";
     newContent.contentId = 0;
     
     
-    [[[self validObjectForKey:[NSNumber numberWithInt:noteId] inDictionary:[[AppModel sharedAppModel] playerNoteList]] contents] addObject:newContent];// <- this line is disgusting
+    [[[[[AppModel sharedAppModel] playerNoteList] objectForKey:[NSNumber numberWithInt:noteId]] contents] addObject:newContent];
     [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:noteId andFileURL:localUrl];
     [[AppModel sharedAppModel].uploadManager contentFinishedUploading];
     
@@ -2590,7 +2590,7 @@ NSString *const kARISServerServicePackage = @"v1";
     {
         //Check if the id is valid, but doesn't exist in the cached array
         int mediaId = [self validIntForKey:@"media_id" inDictionary:[serverMediaArray objectAtIndex:i]];
-        if(mediaId >= 1 && ![self validObjectForKey:[NSNumber numberWithInt:mediaId] inDictionary:cachedMediaMap])
+        if(mediaId >= 1 && ![cachedMediaMap objectForKey:[NSNumber numberWithInt:mediaId]])
         {
             //Cache it
             NSDictionary *tempMediaDict = [serverMediaArray objectAtIndex:i];
@@ -2601,7 +2601,7 @@ NSString *const kARISServerServicePackage = @"v1";
             tmpMedia.gameid = [NSNumber numberWithInt:[self validIntForKey:@"game_id" inDictionary:tempMediaDict]];
             NSLog(@"Cached Media: %d with URL: %@",mediaId,tmpMedia.url);
         }
-        else if((tmpMedia = [self validObjectForKey:[NSNumber numberWithInt:mediaId] inDictionary:cachedMediaMap]) && (tmpMedia.url == nil || tmpMedia.type == nil || tmpMedia.gameid == nil))
+        else if((tmpMedia = [cachedMediaMap objectForKey:[NSNumber numberWithInt:mediaId]]) && (tmpMedia.url == nil || tmpMedia.type == nil || tmpMedia.gameid == nil))
         {
             NSDictionary *tempMediaDict = [serverMediaArray objectAtIndex:i];
             NSString *fileName = [self validObjectForKey:@"file_path" inDictionary:tempMediaDict] ? [self validObjectForKey:@"file_path" inDictionary:tempMediaDict] : [self validObjectForKey:@"file_name" inDictionary:tempMediaDict];
