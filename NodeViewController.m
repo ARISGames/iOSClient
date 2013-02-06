@@ -90,8 +90,10 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, mediaArea.frame.size.height + 20, 300, 10)];
     webView.delegate = self;
     webView.backgroundColor =[UIColor clearColor];
+    if([webView respondsToSelector:@selector(scrollView)]){
     webView.scrollView.bounces = NO;
     webView.scrollView.scrollEnabled = NO;
+    }
     NSString *htmlDescription = [NSString stringWithFormat:kPlaqueDescriptionHtmlTemplate, self.node.text];
     webView.alpha = 0.0; //The webView will resore alpha once it's loaded to avoid the ugly white blob
 	[webView loadHTMLString:htmlDescription baseURL:nil];

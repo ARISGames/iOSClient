@@ -105,7 +105,12 @@
 
 - (void) performAsynchronousRequestWithHandler: (SEL)aHandler{    
     //save the handler
-    if (aHandler) self.handler = NSStringFromSelector(aHandler);
+    if (aHandler){
+        self.handler = NSStringFromSelector(aHandler);
+    }
+    else {
+        NSLog(@"Handler Not passed in");
+    }
 	
     //Make sure we were inited correctly
     if (!completeRequestURL) return;
@@ -148,9 +153,16 @@
 	JSONResult *jsonResult = [[JSONResult alloc] initWithJSONString:jsonString andUserData:[self userInfo]];
 	
     NSLog(@"Calling: %@",self.handler);
-	SEL parser = NSSelectorFromString(self.handler);   
+    SEL parser;
+	if(self.handler != nil){
+        parser = NSSelectorFromString(self.handler);
+    }
+    else{
+        NSLog(@"self.handler is nil");
+    }
     
-	if (parser) {
+	if (parser && !(self.handler == nil)) {
+        NSLog(@"Actually Calling: %@",self.handler);
 		[[AppServices sharedAppServices] performSelector:parser withObject:jsonResult];
 	}
 	

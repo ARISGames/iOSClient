@@ -231,7 +231,7 @@
     mediaCache = [[MediaCache alloc]init];
 }
 
-#pragma mark Seters/Geters
+#pragma mark Setters/Getters
 
 - (void)setPlayerLocation:(CLLocation *) newLocation{
 	NSLog(@"AppModel: setPlayerLocation");

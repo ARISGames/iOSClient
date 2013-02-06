@@ -391,6 +391,7 @@
 		DDC4ABDC15F117C500D525BA /* RoundedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC4ABDB15F117C500D525BA /* RoundedTableViewCell.m */; };
 		DDCD2DE316275A5B003AAC64 /* QuestDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCD2DE116275A5B003AAC64 /* QuestDetailsViewController.m */; };
 		DDCD2DE416275A5B003AAC64 /* QuestDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDCD2DE216275A5B003AAC64 /* QuestDetailsViewController.xib */; };
+		DDD0603216C3019500C5F37E /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD0603116C3019500C5F37E /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1020,6 +1021,8 @@
 		DDCD2DE016275A5B003AAC64 /* QuestDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestDetailsViewController.h; sourceTree = "<group>"; };
 		DDCD2DE116275A5B003AAC64 /* QuestDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestDetailsViewController.m; sourceTree = "<group>"; };
 		DDCD2DE216275A5B003AAC64 /* QuestDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestDetailsViewController.xib; sourceTree = "<group>"; };
+		DDD0603016C3019500C5F37E /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
+		DDD0603116C3019500C5F37E /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1874,6 +1877,8 @@
 		AB549ED11047007B00A901EF /* JSON Framework */ = {
 			isa = PBXGroup;
 			children = (
+				DDD0603016C3019500C5F37E /* JSONKit.h */,
+				DDD0603116C3019500C5F37E /* JSONKit.m */,
 				AB549ED21047007B00A901EF /* JSON.h */,
 				AB549ED31047007B00A901EF /* NSObject+SBJSON.h */,
 				AB549ED41047007B00A901EF /* NSObject+SBJSON.m */,
@@ -2615,6 +2620,7 @@
 				AA8330551684CC0E00C28960 /* ARISZBarReaderWrapperViewController.m in Sources */,
 				AA763156169B68A800860665 /* PopOverContentView.m in Sources */,
 				AA80EFCE16C048AB00DAB826 /* WaitingIndicatorAlertViewController.m in Sources */,
+				DDD0603216C3019500C5F37E /* JSONKit.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
