@@ -116,6 +116,14 @@
         instructions.backgroundColor = [UIColor clearColor];
         instructions.textColor = [UIColor whiteColor];
         instructions.text = NSLocalizedString(@"TakeYourPictureKey", @"");
+/*
+        UIImageView *overlay = [[UIImageView alloc] initWithFrame:picker.view.bounds];
+        overlay.image = ;
+        // tell the view to put the image at the top, and make it translucent
+        overlay.contentMode = UIViewContentModeTop;
+        overlay.alpha = 0.5f;
+        picker.cameraOverlayView = overlay;
+*/
         
         [picker.view addSubview:instructions];
         picker.delegate = self;
