@@ -646,8 +646,8 @@ NSString *const kARISServerServicePackage = @"v1";
 
 -(void) contentAddedToNoteWithText:(JSONResult *)result
 {
-    if([result.userInfo objectForKey:@"noteId"])
-        [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:[self validIntForKey:@"noteId" inDictionary:result.userInfo] andFileURL:[result.userInfo objectForKey:@"localURL"]];
+    if([self validObjectForKey:@"noteId" inDictionary:result.userInfo])
+        [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:[self validIntForKey:@"noteId" inDictionary:result.userInfo] andFileURL:[self validObjectForKey:@"localURL" inDictionary:result.userInfo]];
     [[AppModel sharedAppModel].uploadManager contentFinishedUploading];
     [self fetchPlayerNoteListAsync];
 }
@@ -814,11 +814,11 @@ NSString *const kARISServerServicePackage = @"v1";
 - (void)noteContentUploadDidfinish:(ARISUploader*)uploader {
 	NSLog(@"Model: Upload Note Content Request Finished. Response: %@", [uploader responseString]);
 	
-    int noteId = [[uploader userInfo] objectForKey:@"noteId"] ? [self validIntForKey:@"noteId" inDictionary:[uploader userInfo]] : 0;
-	NSString *title = [[uploader userInfo] objectForKey:@"title"];
-    NSString *type = [[uploader userInfo] objectForKey:@"type"];
-    NSURL *localUrl = [[uploader userInfo] objectForKey:@"url"];
-    NSString *newFileName = [uploader responseString];
+        int noteId = [self validObjectForKey:@"noteId" inDictionary:[uploader userInfo]] ? [self validIntForKey:@"noteId" inDictionary:[uploader userInfo]] : 0;
+        NSString *title = [self validObjectForKey:@"title" inDictionary:[uploader userInfo]];
+        NSString *type = [self validObjectForKey:@"type" inDictionary:[uploader userInfo]];
+        NSURL *localUrl = [self validObjectForKey:@"url" inDictionary:[uploader userInfo]];
+        NSString *newFileName = [uploader responseString];
     
     //TODO: Check that the response string is actually a new filename that was made on the server, not an error
     
@@ -829,7 +829,7 @@ NSString *const kARISServerServicePackage = @"v1";
     newContent.contentId = 0;
     
     
-    [[[[[AppModel sharedAppModel] playerNoteList] objectForKey:[NSNumber numberWithInt:noteId]] contents] addObject:newContent];
+    [[[self validObjectForKey:[NSNumber numberWithInt:noteId] inDictionary:[[AppModel sharedAppModel] playerNoteList]] contents] addObject:newContent];// <- this line is disgusting
     [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:noteId andFileURL:localUrl];
     [[AppModel sharedAppModel].uploadManager contentFinishedUploading];
     
@@ -862,7 +862,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	[alert show];
     
     NSNumber *nId = [[NSNumber alloc]initWithInt:5];
-    nId = [[uploader userInfo] objectForKey:@"noteId"];
+    nId = [self validObjectForKey:@"noteId" inDictionary:[uploader userInfo]];
 	//if (description == NULL) description = @"filename";
     
     [[AppModel sharedAppModel].uploadManager contentFailedUploading];
@@ -894,7 +894,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	
 	[[RootViewController sharedRootViewController] removeWaitingIndicator];
     
-	if (jsonResult.data && [((NSDictionary *)jsonResult.data) objectForKey:@"media_id"])
+        if (jsonResult.data && [self validObjectForKey:@"media_id" inDictionary:((NSDictionary *)jsonResult.data)])
     {
         [AppModel sharedAppModel].playerMediaId = [self validIntForKey:@"media_id" inDictionary:((NSDictionary*)jsonResult.data)];
         [[AppModel sharedAppModel] saveUserDefaults];
@@ -1590,8 +1590,8 @@ NSString *const kARISServerServicePackage = @"v1";
 	NSDictionary *tagDictionary;
 	while ((tagDictionary = [gameTagEnumerator nextObject])) {
         Tag *t = [[Tag alloc]init];
-        t.tagName = [tagDictionary objectForKey:@"tag"];
-        t.playerCreated = [[tagDictionary objectForKey:@"player_created"]boolValue];
+        t.tagName = [self validObjectForKey:@"tag" inDictionary:tagDictionary];
+        t.playerCreated = [[self validObjectForKey:@"player_created" inDictionary:tagDictionary]boolValue];
         t.tagId = [self validIntForKey:@"tag_id" inDictionary:tagDictionary];
 		[tempTagsList addObject:t];
 	}
@@ -1991,34 +1991,35 @@ NSString *const kARISServerServicePackage = @"v1";
     for (NSDictionary *content in contents) {
         
         NoteContent *c = [[NoteContent alloc] init];
-        c.text = [content objectForKey:@"text"];
-        c.title = [content objectForKey:@"title"];
+        c.text = [self validObjectForKey:@"text" inDictionary:content];
+        c.title = [self validObjectForKey:@"title" inDictionary:content];
         c.contentId = [self validIntForKey:@"content_id" inDictionary:content];
         c.mediaId = [self validIntForKey:@"media_id" inDictionary:content];
         c.noteId = [self validIntForKey:@"note_id" inDictionary:content];
         c.sortIndex =[self validIntForKey:@"sort_index" inDictionary:content];
-        c.type = [content objectForKey:@"type"];
-        int returnCode = [self validIntForKey:@"returnCode" inDictionary:[content objectForKey:@"media"]];
-        NSDictionary *m = [[content objectForKey:@"media"] objectForKey:@"data"];
-        if(returnCode == 0 && m){
+        c.type = [self validObjectForKey:@"type" inDictionary:content];
+        int returnCode = [self validIntForKey:@"returnCode" inDictionary:[self validObjectForKey:@"media" inDictionary:content]];
+        NSDictionary *m = [self validObjectForKey:@"data" inDictionary:[self validObjectForKey:@"media" inDictionary:content]];
+        if(returnCode == 0 && m)
+        {
             Media *media = [[AppModel sharedAppModel].mediaCache mediaForMediaId:c.mediaId];
-            NSString *fileName = [m objectForKey:@"file_path"];
+            NSString *fileName = [self validObjectForKey:@"file_path" inDictionary:m];
             if(fileName == nil) fileName = [self validObjectForKey:@"file_name" inDictionary:m];
-            NSString *urlPath = [m objectForKey:@"url_path"];
+            NSString *urlPath = [self validObjectForKey:@"url_path" inDictionary:m];
             NSString *fullUrl = [NSString stringWithFormat:@"%@%@", urlPath, fileName];
             media.url = fullUrl;
-            media.type = [m objectForKey:@"type"];
+            media.type = [self validObjectForKey:@"type" inDictionary:m];
         }
         
         [aNote.contents addObject:c];
     }
     
     NSArray *tags = [self validObjectForKey:@"tags" inDictionary:noteDictionary];
-    for (NSDictionary *tagOb in tags) {
-        
+    for (NSDictionary *tagOb in tags) 
+    {
         Tag *tag = [[Tag alloc] init];
-        tag.tagName = [tagOb objectForKey:@"tag"];
-        tag.playerCreated = [[tagOb objectForKey:@"player_created"]boolValue];
+        tag.tagName = [self validObjectForKey:@"tag" inDictionary:tagOb];
+        tag.playerCreated = [[self validObjectForKey:@"player_created" inDictionary:tagOb] boolValue];
         tag.tagId = [self validIntForKey:@"tag_id" inDictionary:tagOb];
         [aNote.tags addObject:tag];
     }
@@ -2101,13 +2102,13 @@ NSString *const kARISServerServicePackage = @"v1";
     
     //parse out the active quests into quest objects
 	NSMutableArray *media = [[NSMutableArray alloc] init];
-	NSArray *incomingPanMediaArray = [panoramicDictionary objectForKey:@"media"];
+        NSArray *incomingPanMediaArray = [self validObjectForKey:@"media" inDictionary:panoramicDictionary];
 	NSEnumerator *incomingPanMediaEnumerator = [incomingPanMediaArray objectEnumerator];
     NSDictionary* currentPanMediaDictionary;
 	while (currentPanMediaDictionary = (NSDictionary*)[incomingPanMediaEnumerator nextObject]) {
         PanoramicMedia *pm = [[PanoramicMedia alloc]init];
-        pm.text = [currentPanMediaDictionary objectForKey:@"text"];
-        if ([currentPanMediaDictionary objectForKey:@"media_id"] && [self validIntForKey:@"media_id" inDictionary:currentPanMediaDictionary] > 0)
+        pm.text = [self validObjectForKey:@"text" inDictionary:currentPanMediaDictionary];
+        if ([self validObjectForKey:@"media_id" inDictionary:currentPanMediaDictionary] && [self validIntForKey:@"media_id" inDictionary:currentPanMediaDictionary] > 0)
             pm.mediaId = [self validIntForKey:@"media_id" inDictionary:currentPanMediaDictionary];
 		[media addObject:pm];
 	}
@@ -2211,8 +2212,8 @@ NSString *const kARISServerServicePackage = @"v1";
 		[AppModel sharedAppModel].loggedIn = YES;
 		[AppModel sharedAppModel].playerId = [self validIntForKey:@"player_id" inDictionary:((NSDictionary*)jsonResult.data)];
 		[AppModel sharedAppModel].playerMediaId = [self validIntForKey:@"media_id" inDictionary:((NSDictionary*)jsonResult.data)];
-		[AppModel sharedAppModel].userName = [((NSDictionary*)jsonResult.data) objectForKey:@"user_name"];
-		[AppModel sharedAppModel].displayName = [((NSDictionary*)jsonResult.data) objectForKey:@"display_name"];
+                [AppModel sharedAppModel].userName = [self validObjectForKey:@"user_name" inDictionary:((NSDictionary*)jsonResult.data)];
+                [AppModel sharedAppModel].displayName = [self validObjectForKey:@"display_name" inDictionary:((NSDictionary*)jsonResult.data) ];
         [[AppServices sharedAppServices] setShowPlayerOnMap];
         [[AppModel sharedAppModel] saveUserDefaults];
         
@@ -2223,13 +2224,6 @@ NSString *const kARISServerServicePackage = @"v1";
         [AppModel sharedAppModel].loggedIn = NO;
     
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewLoginResponseReady" object:nil]];
-    
-    //Should never excecute following code... (why would loading vc be up now?) -Phil 9/18/12
-    if([RootViewController sharedRootViewController].loadingViewController)
-    {
-        [RootViewController sharedRootViewController].loadingViewController.progressLabel.text = NSLocalizedString(@"AppServicesRecievedLocationListKey", @"");
-        [RootViewController sharedRootViewController].loadingViewController.receivedData++;
-    }
 }
 
 
@@ -2366,9 +2360,9 @@ NSString *const kARISServerServicePackage = @"v1";
         //This is returning an object with playerId,tex, and rating. Right now, we just want the text
         //TODO: Create a Comments object
         Comment *c = [[Comment alloc] init];
-        c.text = [comment objectForKey:@"text"];
-        c.playerName = [comment objectForKey:@"username"];
-        NSString *cRating = [comment objectForKey:@"rating"];
+        c.text = [self validObjectForKey:@"text" inDictionary:comment];
+        c.playerName = [self validObjectForKey:@"username" inDictionary:comment];
+        NSString *cRating = [self validObjectForKey:@"rating" inDictionary:comment];
         if (cRating) c.rating = [cRating intValue];
         [game.comments addObject:c];
     }
@@ -2566,9 +2560,7 @@ NSString *const kARISServerServicePackage = @"v1";
 }
 
 -(void)parseGameMediaListFromJSON: (JSONResult *)jsonResult{
-    if([RootViewController sharedRootViewController].loadingViewController)
-        [RootViewController sharedRootViewController].loadingViewController.receivedData++;
-    
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
     [self performSelector:@selector(startCachingMedia:) withObject:jsonResult afterDelay:.1];
 }
 
@@ -2593,13 +2585,12 @@ NSString *const kARISServerServicePackage = @"v1";
     }
     
     //For every media in server array
-    int mediaLoaded = 0;
     Media *tmpMedia;
     for(int i = 0; i < [serverMediaArray count]; i++)
     {
         //Check if the id is valid, but doesn't exist in the cached array
         int mediaId = [self validIntForKey:@"media_id" inDictionary:[serverMediaArray objectAtIndex:i]];
-        if(mediaId >= 1 && ![cachedMediaMap objectForKey:[NSNumber numberWithInt:mediaId]])
+        if(mediaId >= 1 && ![self validObjectForKey:[NSNumber numberWithInt:mediaId] inDictionary:cachedMediaMap])
         {
             //Cache it
             NSDictionary *tempMediaDict = [serverMediaArray objectAtIndex:i];
@@ -2610,7 +2601,7 @@ NSString *const kARISServerServicePackage = @"v1";
             tmpMedia.gameid = [NSNumber numberWithInt:[self validIntForKey:@"game_id" inDictionary:tempMediaDict]];
             NSLog(@"Cached Media: %d with URL: %@",mediaId,tmpMedia.url);
         }
-        else if((tmpMedia = [cachedMediaMap objectForKey:[NSNumber numberWithInt:mediaId]]) && (tmpMedia.url == nil || tmpMedia.type == nil || tmpMedia.gameid == nil))
+        else if((tmpMedia = [self validObjectForKey:[NSNumber numberWithInt:mediaId] inDictionary:cachedMediaMap]) && (tmpMedia.url == nil || tmpMedia.type == nil || tmpMedia.gameid == nil))
         {
             NSDictionary *tempMediaDict = [serverMediaArray objectAtIndex:i];
             NSString *fileName = [self validObjectForKey:@"file_path" inDictionary:tempMediaDict] ? [self validObjectForKey:@"file_path" inDictionary:tempMediaDict] : [self validObjectForKey:@"file_name" inDictionary:tempMediaDict];
@@ -2619,30 +2610,13 @@ NSString *const kARISServerServicePackage = @"v1";
             tmpMedia.gameid = [NSNumber numberWithInt:[self validIntForKey:@"game_id" inDictionary:tempMediaDict]];
             NSLog(@"Cached Media: %d with URL: %@",mediaId,tmpMedia.url);
         }
-        
-        //Update progress
-        if([RootViewController sharedRootViewController].loadingViewController)
-        {
-            [RootViewController sharedRootViewController].loadingViewController.progressLabel.text = NSLocalizedString(@"AppServicesCachingGameMediaKey", @"");
-            [RootViewController sharedRootViewController].loadingViewController.progressLabel.text = [[RootViewController sharedRootViewController].loadingViewController.progressLabel.text stringByAppendingString:[NSString stringWithFormat:@" (%d of %d)", mediaLoaded,[serverMediaArray count]]];
-        }
-        [[RootViewController sharedRootViewController].loadingViewController.progressLabel setNeedsDisplay];
-        
-        mediaLoaded++;
     }
     NSError *error;
     if (![[AppModel sharedAppModel].mediaCache.context save:&error])
         NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
     
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedMediaList" object:nil]];
-    
-    [[RootViewController sharedRootViewController] removeWaitingIndicator];
-    
-    if([RootViewController sharedRootViewController].loadingViewController)
-    {
-        [RootViewController sharedRootViewController].loadingViewController.progressLabel.text = NSLocalizedString(@"AppServicesStartingGameKey", @"");
-        [RootViewController sharedRootViewController].loadingViewController.receivedData++;
-    }
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
 -(void)parseGameItemListFromJSON: (JSONResult *)jsonResult{
@@ -2651,24 +2625,15 @@ NSString *const kARISServerServicePackage = @"v1";
 	NSMutableDictionary *tempItemList = [[NSMutableDictionary alloc] init];
 	NSEnumerator *enumerator = [itemListArray objectEnumerator];
 	NSDictionary *dict;
-    int itemsParsed = 0;
 	while ((dict = [enumerator nextObject]))
     {
 		Item *tmpItem = [self parseItemFromDictionary:dict];
-		
 		[tempItemList setObject:tmpItem forKey:[NSNumber numberWithInt:tmpItem.itemId]];
-        
-        itemsParsed++;
-        if([RootViewController sharedRootViewController].loadingViewController)
-        {
-            [RootViewController sharedRootViewController].loadingViewController.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGameItemListKey", @"");
-            [RootViewController sharedRootViewController].loadingViewController.progressLabel.text = [[RootViewController sharedRootViewController].loadingViewController.progressLabel.text stringByAppendingString:[NSString stringWithFormat:@" (%d of %d)", itemsParsed,[itemListArray count]]];
-        }
-	}
+    }
 	
 	[AppModel sharedAppModel].gameItemList = tempItemList;
     
-    if([RootViewController sharedRootViewController].loadingViewController) [RootViewController sharedRootViewController].loadingViewController.receivedData++;
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
 
@@ -2678,25 +2643,14 @@ NSString *const kARISServerServicePackage = @"v1";
 	NSMutableDictionary *tempNodeList = [[NSMutableDictionary alloc] init];
 	NSEnumerator *enumerator = [nodeListArray objectEnumerator];
 	NSDictionary *dict;
-    int nodesParsed = 0;
 	while ((dict = [enumerator nextObject]))
     {
 		Node *tmpNode = [self parseNodeFromDictionary:dict];
-		
 		[tempNodeList setObject:tmpNode forKey:[NSNumber numberWithInt:tmpNode.nodeId]];
-        
-        nodesParsed++;
-        if([RootViewController sharedRootViewController].loadingViewController)
-        {
-            [RootViewController sharedRootViewController].loadingViewController.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGameNodeListKey", @"");
-            [RootViewController sharedRootViewController].loadingViewController.progressLabel.text = [[RootViewController sharedRootViewController].loadingViewController.progressLabel.text stringByAppendingString:[NSString stringWithFormat:@" (%d of %d)", nodesParsed,[nodeListArray count]]];
-        }
 	}
 	
 	[AppModel sharedAppModel].gameNodeList = tempNodeList;
-    
-    if([RootViewController sharedRootViewController].loadingViewController)
-        [RootViewController sharedRootViewController].loadingViewController.receivedData++;
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
 -(void)parseGameTabListFromJSON: (JSONResult *)jsonResult
@@ -2705,25 +2659,16 @@ NSString *const kARISServerServicePackage = @"v1";
 	NSArray *tempTabList = [[NSMutableArray alloc] initWithCapacity:10];
 	NSEnumerator *enumerator = [tabListArray objectEnumerator];
 	NSDictionary *dict;
-    int tabsParsed = 0;
 	while ((dict = [enumerator nextObject]))
     {
 		Tab *tmpTab = [self parseTabFromDictionary:dict];
 		tempTabList = [tempTabList arrayByAddingObject:tmpTab];
-        
-        tabsParsed++;
-        if([RootViewController sharedRootViewController].loadingViewController)
-        {
-            [RootViewController sharedRootViewController].loadingViewController.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGameNodeListKey", @"");
-            [RootViewController sharedRootViewController].loadingViewController.progressLabel.text = [[RootViewController sharedRootViewController].loadingViewController.progressLabel.text stringByAppendingString:[NSString stringWithFormat:@" (%d of %d)", tabsParsed,[tabListArray count]]];
-        }
 	}
 	
 	[AppModel sharedAppModel].gameTabList = tempTabList;
     [[RootViewController sharedRootViewController] changeTabBar];
     
-    if([RootViewController sharedRootViewController].loadingViewController)
-        [RootViewController sharedRootViewController].loadingViewController.receivedData++;
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
 -(void)parseGameNpcListFromJSON: (JSONResult *)jsonResult{
@@ -2732,24 +2677,15 @@ NSString *const kARISServerServicePackage = @"v1";
 	NSMutableDictionary *tempNpcList = [[NSMutableDictionary alloc] init];
 	NSEnumerator *enumerator = [((NSArray *)npcListArray) objectEnumerator];
 	NSDictionary *dict;
-    int npcsParsed = 0;
-	while ((dict = [enumerator nextObject])) {
+	while ((dict = [enumerator nextObject]))
+    {
 		Npc *tmpNpc = [self parseNpcFromDictionary:dict];
-		
 		[tempNpcList setObject:tmpNpc forKey:[NSNumber numberWithInt:tmpNpc.npcId]];
-        
-        npcsParsed++;
-        if([RootViewController sharedRootViewController].loadingViewController)
-        {
-            [RootViewController sharedRootViewController].loadingViewController.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGameNPCListKey", @"");
-            [RootViewController sharedRootViewController].loadingViewController.progressLabel.text = [[RootViewController sharedRootViewController].loadingViewController.progressLabel.text stringByAppendingString:[NSString stringWithFormat:@" (%d of %d)", npcsParsed,[npcListArray count]]];
-        }
 	}
 	
 	[AppModel sharedAppModel].gameNpcList = tempNpcList;
     
-    if([RootViewController sharedRootViewController].loadingViewController)
-        [RootViewController sharedRootViewController].loadingViewController.receivedData++;
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
 -(void)parseGameWebPageListFromJSON: (JSONResult *)jsonResult{
@@ -2758,23 +2694,14 @@ NSString *const kARISServerServicePackage = @"v1";
 	NSMutableDictionary *tempWebPageList = [[NSMutableDictionary alloc] init];
 	NSEnumerator *enumerator = [((NSArray *)webpageListArray) objectEnumerator];
 	NSDictionary *dict;
-    int webpagesParsed = 0;
-	while ((dict = [enumerator nextObject])) {
+	while ((dict = [enumerator nextObject]))
+    {
 		WebPage *tmpWebpage = [self parseWebPageFromDictionary:dict];
-		
 		[tempWebPageList setObject:tmpWebpage forKey:[NSNumber numberWithInt:tmpWebpage.webPageId]];
-        
-        webpagesParsed++;
-        if([RootViewController sharedRootViewController].loadingViewController){
-            [RootViewController sharedRootViewController].loadingViewController.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGameWebpageListKey", @"");
-            [RootViewController sharedRootViewController].loadingViewController.progressLabel.text = [[RootViewController sharedRootViewController].loadingViewController.progressLabel.text stringByAppendingString:[NSString stringWithFormat:@" (%d of %d)", webpagesParsed,[webpageListArray count]]];
-        }
 	}
 	
 	[AppModel sharedAppModel].gameWebPageList = tempWebPageList;
-    
-    if([RootViewController sharedRootViewController].loadingViewController)
-        [RootViewController sharedRootViewController].loadingViewController.receivedData++;
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
 -(void)parseGamePanoramicListFromJSON: (JSONResult *)jsonResult{
@@ -2783,23 +2710,14 @@ NSString *const kARISServerServicePackage = @"v1";
 	NSMutableDictionary *tempPanoramicList = [[NSMutableDictionary alloc] init];
 	NSEnumerator *enumerator = [((NSArray *)panListArray) objectEnumerator];
 	NSDictionary *dict;
-    int panoramicsParsed = 0;
-	while ((dict = [enumerator nextObject])) {
+	while ((dict = [enumerator nextObject]))
+    {
 		Panoramic *tmpPan = [self parsePanoramicFromDictionary:dict];
-		
 		[tempPanoramicList setObject:tmpPan forKey:[NSNumber numberWithInt:tmpPan.panoramicId]];
-        
-        panoramicsParsed++;
-        if([RootViewController sharedRootViewController].loadingViewController){
-            [RootViewController sharedRootViewController].loadingViewController.progressLabel.text = NSLocalizedString(@"AppServicesReceivedGamePanoramicListKey", @"");
-            [RootViewController sharedRootViewController].loadingViewController.progressLabel.text = [[RootViewController sharedRootViewController].loadingViewController.progressLabel.text stringByAppendingString:[NSString stringWithFormat:@" (%d of %d)", panoramicsParsed,[panListArray count]]];
-        }
 	}
 	
 	[AppModel sharedAppModel].gamePanoramicList = tempPanoramicList;
-    
-    if([RootViewController sharedRootViewController].loadingViewController)
-        [RootViewController sharedRootViewController].loadingViewController.receivedData++;
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
 
@@ -2830,8 +2748,8 @@ NSString *const kARISServerServicePackage = @"v1";
     
 	NSEnumerator *inventoryEnumerator = [((NSArray *)inventoryArray) objectEnumerator];
 	NSDictionary *itemDictionary;
-    int inventoryParsed = 0;
-	while ((itemDictionary = [inventoryEnumerator nextObject])) {
+	while ((itemDictionary = [inventoryEnumerator nextObject]))
+    {
 		Item *item = [[Item alloc] init];
 		item.itemId = [self validIntForKey:@"item_id" inDictionary:itemDictionary];
 		item.name = [self validObjectForKey:@"name" inDictionary:itemDictionary];
@@ -2855,12 +2773,6 @@ NSString *const kARISServerServicePackage = @"v1";
 		NSLog(@"Model: Adding Item: %@", item.name);
         if(item.isAttribute)[tempAttributes setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]];
         else [tempInventory setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]];
-        
-        inventoryParsed++;
-        if([RootViewController sharedRootViewController].loadingViewController){
-            [RootViewController sharedRootViewController].loadingViewController.progressLabel.text = NSLocalizedString(@"AppServicesReceivedInventoryKey", @"");
-            [RootViewController sharedRootViewController].loadingViewController.progressLabel.text = [[RootViewController sharedRootViewController].loadingViewController.progressLabel.text stringByAppendingString:[NSString stringWithFormat:@" (%d of %d)", inventoryParsed,[inventoryArray count]]];
-        }
 	}
     
 	[AppModel sharedAppModel].inventory = tempInventory;
@@ -2868,11 +2780,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	
 	NSLog(@"AppModel: Finished fetching inventory from server, model updated");
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewInventoryReady" object:nil]];
-	
-	//Note: The inventory list VC listener will add the badge now that it knows something is different
-    
-    if([RootViewController sharedRootViewController].loadingViewController)
-        [RootViewController sharedRootViewController].loadingViewController.receivedData++;
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
 -(void)parseQRCodeObjectFromJSON: (JSONResult *)jsonResult {
@@ -2881,9 +2789,11 @@ NSString *const kARISServerServicePackage = @"v1";
     
 	NSObject<QRCodeProtocol> *qrCodeObject;
     
-	if (jsonResult.data) {
+	if (jsonResult.data)
+    {
 		NSDictionary *qrCodeDictionary = (NSDictionary *)jsonResult.data;
-        if(![qrCodeDictionary isKindOfClass:[NSString class]]){
+        if(![qrCodeDictionary isKindOfClass:[NSString class]])
+        {
             NSString *type = [self validObjectForKey:@"link_type" inDictionary:qrCodeDictionary];
             NSDictionary *objectDictionary = [self validObjectForKey:@"object" inDictionary:qrCodeDictionary];
             if ([type isEqualToString:@"Location"]) qrCodeObject = [self parseLocationFromDictionary:objectDictionary];
@@ -2892,14 +2802,11 @@ NSString *const kARISServerServicePackage = @"v1";
 	}
 	
 	[[NSNotificationCenter defaultCenter] postNotification: [NSNotification notificationWithName:@"QRCodeObjectReady" object:qrCodeObject]];
-    
-	
 }
 
 -(void)parseStartOverFromJSON:(JSONResult *)jsonResult
 {
 	NSLog(@"AppModel: Parsing start over result and firing off fetches");
-	//[self silenceNextServerUpdate];
 }
 
 -(void)parseUpdateServerWithPlayerLocationFromJSON:(JSONResult *)jsonResult
@@ -2910,8 +2817,7 @@ NSString *const kARISServerServicePackage = @"v1";
 
 -(void)parseQuestListFromJSON: (JSONResult *)jsonResult
 {
-    
-	NSLog(@"AppModel: Parsing Quests");
+    NSLog(@"AppModel: Parsing Quests");
     
     currentlyFetchingQuestList = NO;
 	
@@ -2936,32 +2842,24 @@ NSString *const kARISServerServicePackage = @"v1";
 	
 	//parse out the active quests into quest objects
 	NSMutableArray *activeQuestObjects = [[NSMutableArray alloc] init];
-	NSArray *activeQuests = [questListDictionary objectForKey:@"active"];
+        NSArray *activeQuests = [self validObjectForKey:@"active" inDictionary:questListDictionary];
 	NSEnumerator *activeQuestsEnumerator = [activeQuests objectEnumerator];
 	NSDictionary *activeQuest;
     
     //parse out the completed quests into quest objects
 	NSMutableArray *completedQuestObjects = [[NSMutableArray alloc] init];
-	NSArray *completedQuests = [questListDictionary objectForKey:@"completed"];
+        NSArray *completedQuests = [self validObjectForKey:@"completed" inDictionary:questListDictionary];
 	NSEnumerator *completedQuestsEnumerator = [completedQuests objectEnumerator];
 	NSDictionary *completedQuest;
     
-    int questsParsed = 0;
-    if([RootViewController sharedRootViewController].loadingViewController)
-    {
-        [RootViewController sharedRootViewController].loadingViewController.progressLabel.text = NSLocalizedString(@"AppServicesReceivedQuestListKey", @"");
-        [RootViewController sharedRootViewController].loadingViewController.progressLabel.text = [[RootViewController sharedRootViewController].loadingViewController.progressLabel.text stringByAppendingString:[NSString stringWithFormat:@" %d of %d", questsParsed,([activeQuests count] + [completedQuests count])]];
-    }
-    
 	while ((activeQuest = [activeQuestsEnumerator nextObject]))
     {
-        questsParsed++;
 		//We have a quest, parse it into a quest abject and add it to the activeQuestObjects array
 		Quest *quest = [[Quest alloc] init];
 		quest.questId = [self validIntForKey:@"quest_id" inDictionary:activeQuest];
-		quest.name = [activeQuest objectForKey:@"name"];
-		quest.description = [activeQuest objectForKey:@"description"];
-        quest.exitToTabName = [self validObjectForKey:@"exit_to_tab" inDictionary:activeQuest] ? [activeQuest objectForKey:@"exit_to_tab"] : @"NONE";
+                quest.name = [self validObjectForKey:@"name" inDictionary:activeQuest];
+                quest.description = [self validObjectForKey:@"description" inDictionary:activeQuest];
+                quest.exitToTabName = [self validObjectForKey:@"exit_to_tab" inDictionary:activeQuest] ? [self validObjectForKey:@"exit_to_tab" inDictionary:activeQuest] : @"NONE";
         if ([quest.exitToTabName isEqualToString:@"QUESTS"])        quest.exitToTabName = NSLocalizedString(@"QuestViewTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"GPS"])       quest.exitToTabName = NSLocalizedString(@"MapViewTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"INVENTORY"]) quest.exitToTabName = NSLocalizedString(@"InventoryViewTitleKey",@"");
@@ -2969,28 +2867,21 @@ NSString *const kARISServerServicePackage = @"v1";
         else if([quest.exitToTabName isEqualToString:@"PLAYER"])    quest.exitToTabName = NSLocalizedString(@"PlayerTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"NOTE"])      quest.exitToTabName = NSLocalizedString(@"NotebookTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"PICKGAME"])  quest.exitToTabName = NSLocalizedString(@"GamePickerTitleKey",@"");
-        quest.fullScreenNotification = [[activeQuest objectForKey:@"full_screen_notify"] boolValue];
+        quest.fullScreenNotification = [[self validObjectForKey:@"full_screen_notify" inDictionary:activeQuest] boolValue];
         quest.mediaId = [self validIntForKey:@"active_media_id" inDictionary:activeQuest];
 		quest.iconMediaId = [self validIntForKey:@"active_icon_media_id" inDictionary:activeQuest];
         quest.sortNum = [self validIntForKey:@"sort_index" inDictionary:activeQuest];
 		[activeQuestObjects addObject:quest];
-        
-        if([RootViewController sharedRootViewController].loadingViewController)
-        {
-            [RootViewController sharedRootViewController].loadingViewController.progressLabel.text = NSLocalizedString(@"AppServicesReceivedQuestListKey", @"");
-            [RootViewController sharedRootViewController].loadingViewController.progressLabel.text = [[RootViewController sharedRootViewController].loadingViewController.progressLabel.text stringByAppendingString:[NSString stringWithFormat:@" %d of %d", questsParsed,([activeQuests count] + [completedQuests count])]];
-        }
 	}
     
 	while ((completedQuest = [completedQuestsEnumerator nextObject]))
     {
-        questsParsed++;
 		//We have a quest, parse it into a quest object and add it to the completedQuestObjects array
 		Quest *quest = [[Quest alloc] init];
 		quest.questId = [self validIntForKey:@"quest_id" inDictionary:completedQuest];
-		quest.name = [completedQuest objectForKey:@"name"];
-		quest.description = [completedQuest objectForKey:@"text_when_complete"];
-        quest.exitToTabName = [self validObjectForKey:@"exit_to_tab" inDictionary:completedQuest] ? [completedQuest objectForKey:@"exit_to_tab"] : @"NONE";
+                quest.name = [self validObjectForKey:@"name" inDictionary:completedQuest];
+                quest.description = [self validObjectForKey:@"text_when_complete" inDictionary:completedQuest];
+                quest.exitToTabName = [self validObjectForKey:@"exit_to_tab" inDictionary:completedQuest] ? [self validObjectForKey:@"exit_to_tab" inDictionary:completedQuest] : @"NONE";
         if ([quest.exitToTabName isEqualToString:@"QUESTS"]) quest.exitToTabName = NSLocalizedString(@"QuestViewTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"GPS"]) quest.exitToTabName = NSLocalizedString(@"MapViewTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"INVENTORY"]) quest.exitToTabName = NSLocalizedString(@"InventoryViewTitleKey",@"");
@@ -2998,19 +2889,12 @@ NSString *const kARISServerServicePackage = @"v1";
         else if([quest.exitToTabName isEqualToString:@"PLAYER"]) quest.exitToTabName = NSLocalizedString(@"PlayerTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"NOTE"]) quest.exitToTabName = NSLocalizedString(@"NotebookTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"PICKGAME"]) quest.exitToTabName = NSLocalizedString(@"GamePickerTitleKey",@"");
-        quest.fullScreenNotification = [[completedQuest objectForKey:@"full_screen_notify"] boolValue];
+        quest.fullScreenNotification = [[self validObjectForKey:@"full_screen_notify" inDictionary:completedQuest] boolValue];
         quest.mediaId = [self validIntForKey:@"complete_media_id" inDictionary:completedQuest];
         quest.iconMediaId = [self validIntForKey:@"complete_icon_media_id" inDictionary:completedQuest];
         quest.sortNum = [self validIntForKey:@"sort_index" inDictionary:completedQuest];
 		[completedQuestObjects addObject:quest];
-        
-        if([RootViewController sharedRootViewController].loadingViewController)
-        {
-            [RootViewController sharedRootViewController].loadingViewController.progressLabel.text = NSLocalizedString(@"AppServicesReceivedQuestListKey", @"");
-            [RootViewController sharedRootViewController].loadingViewController.progressLabel.text = [[RootViewController sharedRootViewController].loadingViewController.progressLabel.text stringByAppendingString:[NSString stringWithFormat:@" (%d of %d)", questsParsed,([activeQuests count] + [completedQuests count])]];
-        }
 	}
-    
     
 	//Package the two object arrays in a Dictionary
 	NSMutableDictionary *tmpQuestList = [[NSMutableDictionary alloc] init];
@@ -3018,19 +2902,16 @@ NSString *const kARISServerServicePackage = @"v1";
 	[tmpQuestList setObject:completedQuestObjects forKey:@"completed"];
 	[AppModel sharedAppModel].questList = tmpQuestList;
     
-    
     //Update Game Object
 	[AppModel sharedAppModel].currentGame.completedQuests = [completedQuestObjects count];
 	[AppModel sharedAppModel].currentGame.activeQuests = [activeQuestObjects count];
     
 	[AppModel sharedAppModel].currentGame.totalQuests = [self validIntForKey:@"totalQuests" inDictionary:questListDictionary];
 	
-    
 	//Sound the alarm
 	NSLog(@"AppModel: Finished fetching quests from server, model updated");
 	[[NSNotificationCenter defaultCenter] postNotification: [NSNotification notificationWithName:@"NewQuestListReady" object:nil]];
-    
-    if([RootViewController sharedRootViewController].loadingViewController) [RootViewController sharedRootViewController].loadingViewController.receivedData++;
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
 

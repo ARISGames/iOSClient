@@ -37,7 +37,6 @@
 
 #import "Node.h"
 
-
 NSString *errorMessage, *errorDetail;
 
 BOOL isShowingNotification;
@@ -474,7 +473,8 @@ BOOL isShowingPopOver;
     }
 }
 
--(void)hideNotifications{
+-(void)hideNotifications
+{
     if(!gameTabBarController.view.hidden)
     {
         [UIView animateWithDuration:.5 delay:0.0 options:UIViewAnimationCurveEaseIn animations:^{
@@ -519,7 +519,8 @@ BOOL isShowingPopOver;
     [alert show];
 }
 
-- (void) showServerAlertWithEmail:(NSString *)title message:(NSString *)message details:(NSString*)detail{
+- (void) showServerAlertWithEmail:(NSString *)title message:(NSString *)message details:(NSString*)detail
+{
 	errorMessage = message;
     errorDetail = detail;
     
@@ -535,7 +536,8 @@ BOOL isShowingPopOver;
         NSLog(@"RootViewController: showServerAlertWithEmail was called, but a server alert was already present");
 }
 
-- (void) showNetworkAlert{
+- (void) showNetworkAlert
+{
 	NSLog (@"RootViewController: Showing Network Alert");
 	if (self.loadingViewController)
     {
@@ -598,17 +600,6 @@ BOOL isShowingPopOver;
     [self.gameTabBarController.moreNavigationController popToRootViewControllerAnimated:NO];
 }
 
-- (void) checkForDisplayCompleteNode
-{
-    int nodeID = [AppModel sharedAppModel].currentGame.completeNodeId;
-    if ([AppModel sharedAppModel].currentGame.completedQuests == [AppModel sharedAppModel].currentGame.totalQuests &&
-        [AppModel sharedAppModel].currentGame.completedQuests > 0  && nodeID != 0) {
-        NSLog(@"RootViewController: checkForIntroOrCompleteNodeDisplay: Displaying Complete Node");
-		Node *completeNode = [[AppModel sharedAppModel] nodeForNodeId:[AppModel sharedAppModel].currentGame.completeNodeId];
-		[completeNode display];
-	}
-}
-
 - (void) displayIntroNode
 {
     int nodeId = [AppModel sharedAppModel].currentGame.launchNodeId;
@@ -630,7 +621,20 @@ BOOL isShowingPopOver;
         [viewController view];
 }
 
-- (void) showNearbyTab:(BOOL)yesOrNo {
+- (void) checkForDisplayCompleteNode
+{
+    int nodeID = [AppModel sharedAppModel].currentGame.completeNodeId;
+    if ([AppModel sharedAppModel].currentGame.completedQuests == [AppModel sharedAppModel].currentGame.totalQuests &&
+        [AppModel sharedAppModel].currentGame.completedQuests > 0  && nodeID != 0)
+    {
+        NSLog(@"RootViewController: checkForIntroOrCompleteNodeDisplay: Displaying Complete Node");
+		Node *completeNode = [[AppModel sharedAppModel] nodeForNodeId:[AppModel sharedAppModel].currentGame.completeNodeId];
+		[completeNode display];
+	}
+}
+
+- (void) showNearbyTab:(BOOL)yesOrNo
+{
     if([AppModel sharedAppModel].tabsReady)
     {
         NSMutableArray *tabs = [NSMutableArray arrayWithArray:self.gameTabBarController.viewControllers];
@@ -711,7 +715,8 @@ BOOL isShowingPopOver;
     self.gameSelectionTabBarController.selectedIndex = 0;
 }
 
-- (void)finishLoginAttempt:(NSNotification *)notification {
+- (void)finishLoginAttempt:(NSNotification *)notification
+{
 	NSLog(@"RootViewController: Finishing Login Attempt");
     
 	//handle login response
@@ -751,7 +756,8 @@ BOOL isShowingPopOver;
 	}
 }
 
-- (void)selectGame:(NSNotification *)notification {
+- (void)selectGame:(NSNotification *)notification
+{
     //NSDictionary *loginObject = [notification object];
 	NSDictionary *userInfo = notification.userInfo;
 	Game *selectedGame = [userInfo objectForKey:@"game"];
@@ -892,7 +898,8 @@ BOOL isShowingPopOver;
     [AppModel sharedAppModel].tabsReady = YES;
 }
 
-- (void)performLogout:(NSNotification *)notification {
+- (void)performLogout:(NSNotification *)notification
+{
     NSLog(@"Performing Logout: Clearing NSUserDefaults and Displaying Login Screen");
 	
     if(playerChannel) [client unsubscribeFromChannel:(PTPusherChannel *)playerChannel];
@@ -913,12 +920,14 @@ BOOL isShowingPopOver;
     self.loginNavigationController.view.hidden = NO;
 }
 
--(void)receivedMediaList{
+-(void)receivedMediaList
+{
     //Display the intro node
     [AppModel sharedAppModel].hasReceivedMediaList = YES;
 }
 
-- (void)newError: (NSString *)text {
+- (void)newError: (NSString *)text
+{
 	NSLog(@"%@", text);
 }
 
@@ -946,8 +955,8 @@ BOOL isShowingPopOver;
     NSString *strPath = [[url host] lowercaseString];
     NSLog(@"Path: %@", strPath);
     
-    if ([strPath isEqualToString:@"games"] || [strPath isEqualToString:@"game"]) {
-        
+    if ([strPath isEqualToString:@"games"] || [strPath isEqualToString:@"game"])
+    {
         NSString *gameID = [url lastPathComponent];
         NSLog(@"gameID=: %@",gameID);
         
@@ -958,7 +967,8 @@ BOOL isShowingPopOver;
     return YES;
 }
 
-- (void) handleOpenURLGamesListReady {
+- (void) handleOpenURLGamesListReady
+{
     NSLog(@"game opened");
     
     //unregister for notifications //<- Why? Phil 09/19/12 (I commented out the next line to get this to work)
@@ -1001,7 +1011,8 @@ BOOL isShowingPopOver;
 
 #pragma mark AlertView Delegate Methods
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
 	//Since only the server error alert with email ever uses this, we know who we are dealing with
 	NSLog(@"RootViewController: AlertView clickedButtonAtIndex: %d",buttonIndex);
 	
@@ -1037,7 +1048,8 @@ BOOL isShowingPopOver;
 
 #pragma mark UITabBarControllerDelegate methods
 
-- (void)gameTabBarController:(UITabBarController *)tabBar didSelectViewController:(UIViewController *)viewController{
+- (void)gameTabBarController:(UITabBarController *)tabBar didSelectViewController:(UIViewController *)viewController
+{
     NSLog(@"RootViewController: gameTabBarController didSelectViewController");
     
     [tabBar.moreNavigationController popToRootViewControllerAnimated:NO];
@@ -1134,7 +1146,8 @@ BOOL isShowingPopOver;
     [[AppModel sharedAppModel].mediaCache clearCache];
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
