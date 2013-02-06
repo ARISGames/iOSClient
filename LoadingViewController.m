@@ -48,6 +48,23 @@
     //[self performSelectorOnMainThread:@selector(moveProgressBar) withObject:nil waitUntilDone:YES];
 }
 
+-(void) dataReceived
+{
+    receivedData++;
+    [self moveProgressBar];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    receivedData= 0;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataReceived) name:@"GamePieceReceived" object:nil];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)moveProgressBar
 {
     float actual = (receivedData/(float)9);//<- What. '9'? Where did that number come from?

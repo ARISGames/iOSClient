@@ -766,6 +766,11 @@ BOOL isShowingPopOver;
 	NSLog(@"RootViewController: Game Selected. '%@' game was selected", selectedGame.name);
 	
     //Put it onscreen
+    //Start loading all the data
+    loadingViewController = [[LoadingViewController alloc] initWithNibName:@"LoadingViewController" bundle:nil]; //this is dumb. should have one, and re-use it.
+    loadingViewController.progressLabel.text = NSLocalizedString(@"ARISAppDelegateFectchingGameListsKey", @"");
+    [self.gameTabBarController presentModalViewController:self.loadingViewController animated:NO];
+    
     self.gameTabBarController.view.hidden = NO;
     self.gameSelectionTabBarController.view.hidden = YES;
     self.loginNavigationController.view.hidden = YES;
@@ -778,7 +783,7 @@ BOOL isShowingPopOver;
     if(groupChannel) [client unsubscribeFromChannel:(PTPusherChannel *)groupChannel];
     if(webpageChannel) [client unsubscribeFromChannel:(PTPusherChannel *)webpageChannel];
     
-    [[AppServices sharedAppServices] fetchTabBarItemsForGame: selectedGame.gameId];
+    [[AppServices sharedAppServices] fetchTabBarItemsForGame:selectedGame.gameId];
 	[[AppServices sharedAppServices] resetAllPlayerLists];
     [[AppServices sharedAppServices] resetAllGameLists];
     [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] resetCurrentlyFetchingVars];
@@ -789,18 +794,7 @@ BOOL isShowingPopOver;
     [AppModel sharedAppModel].fallbackGameId = [AppModel sharedAppModel].currentGame.gameId;
 	[[AppModel sharedAppModel] saveUserDefaults];
 	
-	UINavigationController *navigationController;
-	
-	//Get the naviation controller and visible view controller
-	if ([self.gameTabBarController.selectedViewController isKindOfClass:[UINavigationController class]])
-		navigationController = (UINavigationController*)self.gameTabBarController.selectedViewController;
-	else
-		navigationController = nil;
-	
-    //Start loading all the data
-    loadingViewController = [[LoadingViewController alloc]initWithNibName:@"LoadingViewController" bundle:nil];
-    loadingViewController.progressLabel.text = NSLocalizedString(@"ARISAppDelegateFectchingGameListsKey", @"");
-    [self.gameTabBarController presentModalViewController:self.loadingViewController animated:NO];
+    
     
     [[AppServices sharedAppServices] fetchAllGameLists];
     

@@ -1265,10 +1265,6 @@ NSString *const kARISServerServicePackage = @"v1";
             [tempOverlay.tileImage addObject:media];
             currentOverlayID = tempOverlay.overlayId;
             overlaysIndex += 1;
-            //        if([RootViewController sharedRootViewController].loadingViewController){
-            //          [RootViewController sharedRootViewController].loadingViewController = NSLocalizedString(@"AppServicesReceivedOverlayListKey", @"");
-            //        [RootViewController sharedRootViewController].loadingViewController = [[RootViewController sharedRootViewController].loadingViewController stringByAppendingString:[NSString stringWithFormat:@" (%d of %d)", overlaysIndex,[overlayListArray count]]];;
-            //}
         }
         else
         {
@@ -1282,9 +1278,6 @@ NSString *const kARISServerServicePackage = @"v1";
             [tempOverlay.tileImage addObject:media];
             currentOverlayID = tempOverlay.overlayId;
         }
-        
-        //  if([RootViewController sharedRootViewController].loadingViewController)
-        //      [RootViewController sharedRootViewController].loadingViewController.receivedData++;
     }
     
     [AppModel sharedAppModel].overlayList = tempOverlayList;
