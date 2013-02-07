@@ -1814,9 +1814,9 @@ NSString *const kARISServerServicePackage = @"v1";
 
 - (void)fetchGame:(int)gameId {
     NSLog(@"AppModel: Fetch Requested for a single game");
-    //[self fetchTabBarItemsForGame:gameId];//Make sure to get the tabs as well
     
-    if (currentlyFetchingOneGame) {
+    if (currentlyFetchingOneGame)
+    {
         NSLog(@"AppModel: Already fetching Games list, skipping");
         return;
     }
@@ -2249,7 +2249,7 @@ NSString *const kARISServerServicePackage = @"v1";
     //NSLog(@"AppModel: Parsing Game: %d", game.gameId);
     
     NSString *hasBeenPlayed = [self validObjectForKey:@"has_been_played" inDictionary:gameSource];
-    if (!hasBeenPlayed) game.hasBeenPlayed = [hasBeenPlayed boolValue];
+    if (hasBeenPlayed) game.hasBeenPlayed = [hasBeenPlayed boolValue];
     else game.hasBeenPlayed = NO;
     
     game.name = [self validObjectForKey:@"name" inDictionary:gameSource];

@@ -770,7 +770,7 @@ BOOL isShowingPopOver;
     loadingViewController = [[LoadingViewController alloc] initWithNibName:@"LoadingViewController" bundle:nil]; //this is dumb. should have one, and re-use it.
     loadingViewController.progressLabel.text = NSLocalizedString(@"ARISAppDelegateFectchingGameListsKey", @"");
     [self.gameTabBarController presentModalViewController:self.loadingViewController animated:NO];
-    
+        
     self.gameTabBarController.view.hidden = NO;
     self.gameSelectionTabBarController.view.hidden = YES;
     self.loginNavigationController.view.hidden = YES;
@@ -779,8 +779,8 @@ BOOL isShowingPopOver;
     [self returnToHomeView];
     
 	//Clear out the old game data
-    if(gameChannel) [client unsubscribeFromChannel:(PTPusherChannel *)gameChannel];
-    if(groupChannel) [client unsubscribeFromChannel:(PTPusherChannel *)groupChannel];
+    if(gameChannel)    [client unsubscribeFromChannel:(PTPusherChannel *)gameChannel];
+    if(groupChannel)   [client unsubscribeFromChannel:(PTPusherChannel *)groupChannel];
     if(webpageChannel) [client unsubscribeFromChannel:(PTPusherChannel *)webpageChannel];
     
     [[AppServices sharedAppServices] fetchTabBarItemsForGame:selectedGame.gameId];
@@ -794,8 +794,6 @@ BOOL isShowingPopOver;
     [AppModel sharedAppModel].fallbackGameId = [AppModel sharedAppModel].currentGame.gameId;
 	[[AppModel sharedAppModel] saveUserDefaults];
 	
-    
-    
     [[AppServices sharedAppServices] fetchAllGameLists];
     
 	//Notify the Server
@@ -964,7 +962,6 @@ BOOL isShowingPopOver;
 - (void) handleOpenURLGamesListReady
 {
     NSLog(@"game opened");
-    
     //unregister for notifications //<- Why? Phil 09/19/12 (I commented out the next line to get this to work)
     //[[NSNotificationCenter defaultCenter] removeObserver:self];
     if([[[AppModel sharedAppModel] singleGameList] count] <= 0) return;
