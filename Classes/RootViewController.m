@@ -61,11 +61,11 @@ BOOL isShowingPopOver;
 @synthesize tutorialViewController;
 @synthesize squishedVCFrame;
 @synthesize notSquishedVCFrame;
-@synthesize client;
-@synthesize playerChannel;
-@synthesize groupChannel;
+@synthesize pusherClient;
+//@synthesize playerChannel;
+//@synthesize groupChannel;
 @synthesize gameChannel;
-@synthesize webpageChannel;
+//@synthesize webpageChannel;
 @synthesize usesIconQuestView;
 
 + (id)sharedRootViewController
@@ -293,8 +293,8 @@ BOOL isShowingPopOver;
                 
         //PUSHER STUFF
         //Setup Pusher Client
-        self.client = [PTPusher pusherWithKey:@"79f6a265dbb7402a49c9" delegate:self encrypted:YES];
-        self.client.authorizationURL = [NSURL URLWithString:@"http://dev.arisgames.org/server/events/auths/private_auth.php"];        
+        self.pusherClient = [PTPusher pusherWithKey:@"79f6a265dbb7402a49c9" delegate:self encrypted:YES];
+        self.pusherClient.authorizationURL = [NSURL URLWithString:@"http://dev.arisgames.org/server/events/auths/private_auth.php"];
     }
     return self;
 }
@@ -594,12 +594,6 @@ BOOL isShowingPopOver;
     [[AppServices sharedAppServices] fetchAllPlayerLists];
 }
 
-- (void) returnToHomeView
-{
-	NSLog(@"RootViewController: Returning to Home View and Popping More Nav Controller");
-    [self.gameTabBarController.moreNavigationController popToRootViewControllerAnimated:NO];
-}
-
 - (void) displayIntroNode
 {
     int nodeId = [AppModel sharedAppModel].currentGame.launchNodeId;
@@ -758,31 +752,30 @@ BOOL isShowingPopOver;
 
 - (void)selectGame:(NSNotification *)notification
 {
-    //NSDictionary *loginObject = [notification object];
 	NSDictionary *userInfo = notification.userInfo;
 	Game *selectedGame = [userInfo objectForKey:@"game"];
     [AppServices sharedAppServices].currentlyInteractingWithObject = NO;
     
 	NSLog(@"RootViewController: Game Selected. '%@' game was selected", selectedGame.name);
 	
-    //Put it onscreen
-    //Start loading all the data
-    loadingViewController = [[LoadingViewController alloc] initWithNibName:@"LoadingViewController" bundle:nil]; //this is dumb. should have one, and re-use it.
+    loadingViewController = [[LoadingViewController alloc] initWithNibName:@"LoadingViewController" bundle:nil];
     loadingViewController.progressLabel.text = NSLocalizedString(@"ARISAppDelegateFectchingGameListsKey", @"");
+    
+    [self.gameTabBarController.moreNavigationController popToRootViewControllerAnimated:NO];
     [self.gameTabBarController presentModalViewController:self.loadingViewController animated:NO];
         
-    self.gameTabBarController.view.hidden = NO;
-    self.gameSelectionTabBarController.view.hidden = YES;
-    self.loginNavigationController.view.hidden = YES;
+    self.gameTabBarController.view.hidden               = NO;
+    self.gameSelectionTabBarController.view.hidden      = YES;
+    self.loginNavigationController.view.hidden          = YES;
     self.playerSettingsNavigationController.view.hidden = YES;
     
-    [self returnToHomeView];
-    
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the keyboard go away before loading the object
+
 	//Clear out the old game data
-    if(gameChannel)    [client unsubscribeFromChannel:(PTPusherChannel *)gameChannel];
-    if(groupChannel)   [client unsubscribeFromChannel:(PTPusherChannel *)groupChannel];
-    if(webpageChannel) [client unsubscribeFromChannel:(PTPusherChannel *)webpageChannel];
-    
+    if(self.gameChannel)    [pusherClient unsubscribeFromChannel:(PTPusherChannel *)self.gameChannel];
+    //if(self.groupChannel)   [client unsubscribeFromChannel:(PTPusherChannel *)self.groupChannel];
+    //if(self.webpageChannel) [client unsubscribeFromChannel:(PTPusherChannel *)self.webpageChannel];
+        
     [[AppServices sharedAppServices] fetchTabBarItemsForGame:selectedGame.gameId];
 	[[AppServices sharedAppServices] resetAllPlayerLists];
     [[AppServices sharedAppServices] resetAllGameLists];
@@ -802,32 +795,32 @@ BOOL isShowingPopOver;
     
     [AppModel sharedAppModel].hasReceivedMediaList = NO;
     
-    playerChannel = [self.client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-player-channel",[AppModel sharedAppModel].playerId]];
-    if([AppModel sharedAppModel].groupGame == [AppModel sharedAppModel].currentGame.gameId)
-        groupChannel = [self.client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%@-group-channel",@"group"]];
-    gameChannel = [self.client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-game-channel",[AppModel sharedAppModel].currentGame.gameId]];
+    //playerChannel = [self.client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-player-channel",[AppModel sharedAppModel].playerId]];
+    //groupChannel  = [self.client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%@-group-channel",@"group"]];
+    gameChannel   = [self.pusherClient subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-game-channel",[AppModel sharedAppModel].currentGame.gameId]];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceivePlayerChannelEventNotification:)
-                                                 name:PTPusherEventReceivedNotification
-                                               object:playerChannel];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveGroupChannelEventNotification:)
-                                                 name:PTPusherEventReceivedNotification
-                                               object:groupChannel];
+    //[[NSNotificationCenter defaultCenter] addObserver:self
+    //                                         selector:@selector(didReceivePlayerChannelEventNotification:)
+    //                                             name:PTPusherEventReceivedNotification
+    //                                           object:playerChannel];
+    //[[NSNotificationCenter defaultCenter] addObserver:self
+    //                                         selector:@selector(didReceiveGroupChannelEventNotification:)
+    //                                             name:PTPusherEventReceivedNotification
+    //                                           object:groupChannel];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didReceiveGameChannelEventNotification:)
                                                  name:PTPusherEventReceivedNotification
                                                object:gameChannel];
+    //[[NSNotificationCenter defaultCenter] addObserver:self
+    //                                         selector:@selector(didReceiveWebpageChannelEventNotification:)
+    //                                             name:PTPusherEventReceivedNotification
+    //                                          object:webpageChannel];
+    
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(didReceiveWebpageChannelEventNotification:)
-                                                 name:PTPusherEventReceivedNotification
-                                               object:webpageChannel];
-    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-    [dispatcher addObserver:self
-                   selector:@selector(handleOpenURLGamesListReady)
-                       name:@"OneGameReady"
-                     object:nil];
+                                             selector:@selector(handleOpenURLGamesListReady)
+                                                 name:@"OneGameReady"
+                                               object:nil];
     
     [[AppServices sharedAppServices] fetchGame:selectedGame.gameId];
 }
@@ -867,7 +860,7 @@ BOOL isShowingPopOver;
             newTabList = [newTabList arrayByAddingObject:tmpTab];
     }
     
-    for(int y = 0; y < [newTabList count];y++)
+    for(int y = 0; y < [newTabList count]; y++)
     {
         tmpTab = [newTabList objectAtIndex:y];
         if([tmpTab.tabName isEqualToString:NSLocalizedString(@"QuestViewTitleKey",@"")])
@@ -894,10 +887,10 @@ BOOL isShowingPopOver;
 {
     NSLog(@"Performing Logout: Clearing NSUserDefaults and Displaying Login Screen");
 	
-    if(playerChannel) [client unsubscribeFromChannel:(PTPusherChannel *)playerChannel];
-    if(gameChannel) [client unsubscribeFromChannel:(PTPusherChannel *)gameChannel];
-    if(groupChannel) [client unsubscribeFromChannel:(PTPusherChannel *)groupChannel];
-    if(webpageChannel) [client unsubscribeFromChannel:(PTPusherChannel *)webpageChannel];
+    //if(playerChannel) [client unsubscribeFromChannel:(PTPusherChannel *)playerChannel];
+    if(gameChannel) [pusherClient unsubscribeFromChannel:(PTPusherChannel *)gameChannel];
+    //if(groupChannel) [client unsubscribeFromChannel:(PTPusherChannel *)groupChannel];
+    //if(webpageChannel) [client unsubscribeFromChannel:(PTPusherChannel *)webpageChannel];
     
 	//Clear any user realated info in AppModel (except server)
 	[[AppModel sharedAppModel] clearUserDefaults];

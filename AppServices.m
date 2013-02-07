@@ -2211,7 +2211,7 @@ NSString *const kARISServerServicePackage = @"v1";
         [[AppModel sharedAppModel] saveUserDefaults];
         
         //Subscribe to player channel
-        [RootViewController sharedRootViewController].playerChannel = [[RootViewController sharedRootViewController].client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-player-channel",[AppModel sharedAppModel].playerId]];
+        //[RootViewController sharedRootViewController].playerChannel = [[RootViewController sharedRootViewController].client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-player-channel",[AppModel sharedAppModel].playerId]];
     }
 	else
         [AppModel sharedAppModel].loggedIn = NO;

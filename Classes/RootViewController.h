@@ -56,11 +56,11 @@
     CGRect squishedVCFrame;
     CGRect notSquishedVCFrame;
     
-    PTPusher *client;
-    PTPusherPrivateChannel *playerChannel;
-    PTPusherPrivateChannel *groupChannel;
+    PTPusher *pusherClient;
+    //PTPusherPrivateChannel *playerChannel;
+    //PTPusherPrivateChannel *groupChannel;
     PTPusherPrivateChannel *gameChannel;
-    PTPusherPrivateChannel *webpageChannel;
+    //PTPusherPrivateChannel *webpageChannel;
     
     int SCREEN_HEIGHT;
     int SCREEN_WIDTH;
@@ -92,11 +92,11 @@
 @property (nonatomic) CGRect squishedVCFrame;
 @property (nonatomic) CGRect notSquishedVCFrame;
 
-@property (nonatomic, strong) PTPusher *client;
-@property (nonatomic) PTPusherPrivateChannel *playerChannel;
-@property (nonatomic) PTPusherPrivateChannel *groupChannel;
+@property (nonatomic, strong) PTPusher *pusherClient;
+//@property (nonatomic) PTPusherPrivateChannel *playerChannel;
+//@property (nonatomic) PTPusherPrivateChannel *groupChannel;
 @property (nonatomic) PTPusherPrivateChannel *gameChannel;
-@property (nonatomic) PTPusherPrivateChannel *webpageChannel;
+//@property (nonatomic) PTPusherPrivateChannel *webpageChannel;
 
 @property (readwrite) BOOL usesIconQuestView;
 
@@ -112,7 +112,6 @@
 - (void) showNetworkAlert;
 - (void) removeNetworkAlert;
 - (void) showNearbyTab:(BOOL)yesOrNo;
-- (void) returnToHomeView;
 - (void) showGameSelectionTabBarAndHideOthers;
 - (void) checkForDisplayCompleteNode;
 - (void) displayIntroNode;
@@ -125,9 +124,9 @@
 - (void) dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController;
 - (void) handleOpenURLGamesListReady;
 - (void) showAlert:(NSString *)title message:(NSString *)message;
+//- (void) didReceivePlayerChannelEventNotification:(NSNotification *)notification;
+//- (void) didReceiveGroupChannelEventNotification:(NSNotification *)notification;
 - (void) didReceiveGameChannelEventNotification:(NSNotification *)notification;
-- (void) didReceiveGroupChannelEventNotification:(NSNotification *)notification;
-- (void) didReceivePlayerChannelEventNotification:(NSNotification *)notification;
-- (void) didReceiveWebpageChannelEventNotification:(NSNotification *)notification;
+//- (void) didReceiveWebpageChannelEventNotification:(NSNotification *)notification;
 
 @end

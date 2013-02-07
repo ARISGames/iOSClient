@@ -80,7 +80,7 @@
 }
 
 -(void)viewDidAppear:(BOOL)animated{
-    [RootViewController sharedRootViewController].webpageChannel = [[RootViewController sharedRootViewController].client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-webpage-channel",self.webPage.webPageId]];
+    //[RootViewController sharedRootViewController].webpageChannel = [[RootViewController sharedRootViewController].client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-webpage-channel",self.webPage.webPageId]];
 
     if(!self.loaded)
     {
@@ -102,7 +102,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     NSLog(@"WebPageVC: viewWillDisapear");
-    if([RootViewController sharedRootViewController].webpageChannel) [[RootViewController sharedRootViewController].client unsubscribeFromChannel:(PTPusherChannel *)[RootViewController sharedRootViewController].webpageChannel];
+    //if([RootViewController sharedRootViewController].webpageChannel) [[RootViewController sharedRootViewController].client unsubscribeFromChannel:(PTPusherChannel *)[RootViewController sharedRootViewController].webpageChannel];
 
     [self.audioPlayers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop){
         AVPlayer *player = obj;
