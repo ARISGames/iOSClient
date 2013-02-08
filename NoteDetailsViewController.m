@@ -124,7 +124,7 @@
     self.likeLabel.text = [NSString stringWithFormat:@"%d",self.note.numRatings];
     if(self.note.userLiked) [self.likeButton setStyle:UIBarButtonItemStyleDone];
     else [self.likeButton setStyle:UIBarButtonItemStyleBordered];
-    if((NSNull *)self.note.title == [NSNull null] || self.note.title.length != 0) self.title = self.note.title;
+    if(!((NSNull *)self.note.title == [NSNull null] || self.note.title.length == 0)) self.title = self.note.title;
     else self.title = @"Note";
     
     while([scrollView.subviews count]>0)
