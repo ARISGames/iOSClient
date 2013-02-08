@@ -209,10 +209,10 @@
          [[AppModel sharedAppModel].gameNoteList removeObjectForKey:[NSNumber numberWithInt:self.note.noteId]]; */ 
     }
     else{
+        //If the user clicks done while editing the textfield, then set the textfield to be New Note; will update server on view will Disappear
+        if([self.textField.text length] == 0) self.textField.text = NSLocalizedString(@"NodeEditorNewNoteKey", @"");
         // set note as complete (used for fullfilling note created requirements).
         [[AppServices sharedAppServices] setNoteCompleteForNoteId:self.note.noteId];
-
-        
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -267,7 +267,10 @@
     self.noteValid = YES;
     
     self.note.title = self.textField.text;
-    if([note.title length] == 0) note.title = NSLocalizedString(@"NodeEditorNewNoteKey", @"");
+    if([self.note.title length] == 0) {
+        self.note.title = NSLocalizedString(@"NodeEditorNewNoteKey", @"");
+        self.textField.text = self.note.title;
+    }
     
     [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.note.title publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
     //[self.delegate refresh];
