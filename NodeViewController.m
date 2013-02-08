@@ -54,6 +54,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
         AsyncMediaImageView *mediaImageViewAlloc = [[AsyncMediaImageView alloc]init];
         self.mediaImageView = mediaImageViewAlloc;
         self.mediaImageView.delegate = self;
+        self.mediaImageView.contentMode = UIViewContentModeTop;
     }
     
     return self;
