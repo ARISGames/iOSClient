@@ -124,7 +124,8 @@
     self.likeLabel.text = [NSString stringWithFormat:@"%d",self.note.numRatings];
     if(self.note.userLiked) [self.likeButton setStyle:UIBarButtonItemStyleDone];
     else [self.likeButton setStyle:UIBarButtonItemStyleBordered];
-    self.title = self.note.title;
+    if(self.note.title.length != 0) self.title = self.note.title;
+    else self.title = @"Note";
     
     while([scrollView.subviews count]>0)
         [[self.scrollView.subviews objectAtIndex:0] removeFromSuperview];
