@@ -61,7 +61,8 @@ NSString *const kARISServerServicePackage = @"v1";
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseLoginResponseFromJSON:)];
 }
 
--(void)setShowPlayerOnMap{
+-(void)setShowPlayerOnMap
+{
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].playerId],[NSString stringWithFormat:@"%d", [AppModel sharedAppModel].showPlayerOnMap], nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithServer:[AppModel sharedAppModel].serverURL
                                                              andServiceName:@"players"
@@ -1091,9 +1092,7 @@ NSString *const kARISServerServicePackage = @"v1";
 
 - (void) silenceNextServerUpdate {
 	NSLog(@"AppModel: silenceNextServerUpdate");
-	
-	NSNotification *notification = [NSNotification notificationWithName:@"SilentNextUpdate" object:nil];
-	[[NSNotificationCenter defaultCenter] postNotification:notification];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"SilentNextUpdate" object:nil]];
 }
 
 #pragma mark Sync Fetch selectors
@@ -2794,7 +2793,7 @@ NSString *const kARISServerServicePackage = @"v1";
         else qrCodeObject = qrCodeDictionary;
 	}
 	
-	[[NSNotificationCenter defaultCenter] postNotification: [NSNotification notificationWithName:@"QRCodeObjectReady" object:qrCodeObject]];
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"QRCodeObjectReady" object:qrCodeObject]];
 }
 
 -(void)parseStartOverFromJSON:(JSONResult *)jsonResult
@@ -2903,7 +2902,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	
 	//Sound the alarm
 	NSLog(@"AppModel: Finished fetching quests from server, model updated");
-	[[NSNotificationCenter defaultCenter] postNotification: [NSNotification notificationWithName:@"NewQuestListReady" object:nil]];
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewQuestListReady" object:nil]];
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 

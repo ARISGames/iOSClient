@@ -28,10 +28,8 @@
         self.title = NSLocalizedString(@"GamePickerRecentTitleKey", @"");
 		self.navigationItem.title = NSLocalizedString(@"GamePickeRecentPlayedKey", @"");
         self.tabBarItem.image = [UIImage imageNamed:@"78-stopwatch"];
-        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-        [dispatcher addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];
-        [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
-
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
     }
     return self;
 }

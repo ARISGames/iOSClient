@@ -256,8 +256,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
                                                                    forKey:@"game"];
             
             [[AppServices sharedAppServices] silenceNextServerUpdate];
-            NSNotification *gameSelectNotification = [NSNotification notificationWithName:@"SelectGame" object:self userInfo:dictionary];
-            [[NSNotificationCenter defaultCenter] postNotification:gameSelectNotification];
+            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"SelectGame" object:self userInfo:dictionary]];
             [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
             [self.tableView reloadData];
         }

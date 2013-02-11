@@ -23,22 +23,23 @@
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
 	warningLabel.text = NSLocalizedString(@"LogoutWarningKey", @"");
 	[logoutButton setTitle:NSLocalizedString(@"LogoutKey",@"") forState:UIControlStateNormal];
 	
-    [super viewDidLoad];	
 	NSLog(@"Account Settings View Controller Loaded");
 }
 
-- (IBAction)logoutButtonPressed: (id) sender {
+- (IBAction)logoutButtonPressed: (id) sender
+{
 	NSLog(@"Logout Requested");
-	
-	NSNotification *logoutRequestNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self];
-	[[NSNotificationCenter defaultCenter] postNotification:logoutRequestNotification];
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LogoutRequested" object:self]];
 }
 
-- (IBAction)passButtonPressed: (id) sender {
+- (IBAction)passButtonPressed: (id) sender
+{
 	NSLog(@"Password Change Requested");
 
 	NSLog(@"Login: Change Password Button Touched");
@@ -48,16 +49,10 @@
 	[[self navigationController] pushViewController:forgotPassViewController animated:YES];
 }
 
-- (IBAction)profileButtonPressed: (id) sender {
+- (IBAction)profileButtonPressed: (id) sender
+{
 	NSLog(@"Profile Settings Requested");
-	
-	NSNotification *profSettingsRequestNotification = [NSNotification notificationWithName:@"ProfSettingsRequested" object:self];
-	[[NSNotificationCenter defaultCenter] postNotification:profSettingsRequestNotification];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-    // Release anything that's not essential, such as cached data
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ProfSettingsRequested" object:self]];
 }
 
 @end

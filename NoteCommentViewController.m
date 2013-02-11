@@ -33,8 +33,7 @@
         self.title = NSLocalizedString(@"NoteCommentViewTitleKey", @"");
         self.hidesBottomBarWhenPushed = YES;
         commentValid = NO;
-        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-        [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNoteListReady" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNoteListReady" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
 												 selector:@selector(movieFinishedCallback:)
 													 name:MPMoviePlayerPlaybackDidFinishNotification

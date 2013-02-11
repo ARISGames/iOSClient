@@ -24,9 +24,8 @@
         NSMutableArray *iconCacheAlloc = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].attributes count]];
         self.iconCache = iconCacheAlloc;
 		//register for notifications
-		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewInventoryReady" object:nil];
-		[dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewInventoryReady" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
         
         UILabel *label = [[UILabel alloc] init];
         label.frame = CGRectMake(0, 0, 500, 1000);

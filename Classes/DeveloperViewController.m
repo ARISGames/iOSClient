@@ -27,9 +27,8 @@
         self.tabBarItem.image = [UIImage imageNamed:@"developer.png"];
 		
 		//register for notifications
-		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-		[dispatcher addObserver:self selector:@selector(updateAccuracy) name:@"PlayerMoved" object:nil];	
-		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewLocationListReady" object:nil];	
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateAccuracy) name:@"PlayerMoved" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewLocationListReady" object:nil];	
 	
     }
     return self;

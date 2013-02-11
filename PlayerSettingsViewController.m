@@ -100,8 +100,7 @@
                                                                forKey:@"game"];
         
         [[AppServices sharedAppServices] silenceNextServerUpdate];
-        NSNotification *gameSelectNotification = [NSNotification notificationWithName:@"SelectGame" object:self userInfo:dictionary];
-        [[NSNotificationCenter defaultCenter] postNotification:gameSelectNotification];
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"SelectGame" object:self userInfo:dictionary]];
     }
     return;
 }

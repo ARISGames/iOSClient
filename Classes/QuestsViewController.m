@@ -84,11 +84,10 @@ NSString *const kQuestsHtmlTemplate =
 	NSLog(@"QuestsViewController: Quests View Loaded");
     
     //register for notifications
-    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-    [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
-    [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedQuestList" object:nil];
-    [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewQuestListReady" object:nil];
-    [dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedQuestList" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewQuestListReady" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

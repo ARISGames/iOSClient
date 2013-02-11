@@ -225,10 +225,11 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     if((node.nodeId == [AppModel sharedAppModel].currentGame.completeNodeId) && ([AppModel sharedAppModel].currentGame.completeNodeId != 0))
     {
         NSString *tab;
-        for(int i = 0;i < [[RootViewController sharedRootViewController].gameTabBarController.customizableViewControllers count];i++){
-            tab = [[[RootViewController sharedRootViewController].gameTabBarController.customizableViewControllers objectAtIndex:i] title];
+        for(int i = 0;i < [[RootViewController sharedRootViewController].gamePlayTabBarController.customizableViewControllers count];i++)
+        {
+            tab = [[[RootViewController sharedRootViewController].gamePlayTabBarController.customizableViewControllers objectAtIndex:i] title];
             tab = [tab lowercaseString];
-            if([tab isEqualToString:@"start over"]) [RootViewController sharedRootViewController].gameTabBarController.selectedIndex = i;
+            if([tab isEqualToString:@"start over"]) [RootViewController sharedRootViewController].gamePlayTabBarController.selectedIndex = i;
         }
     }
     

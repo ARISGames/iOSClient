@@ -24,10 +24,9 @@
         UIViewController *c = [[UIViewController alloc]init];
         [[RootViewController sharedRootViewController] presentModalViewController:c animated:NO];
         [[RootViewController sharedRootViewController] dismissModalViewControllerAnimated:NO];
-        NSNotification *notification = [NSNotification notificationWithName:@"MovieForcedRotationToPortrait" object:nil];
-        [[NSNotificationCenter defaultCenter] postNotification:notification];
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"MovieForcedRotationToPortrait" object:nil]];
     } 
-    [RootViewController sharedRootViewController].nearbyObjectNavigationController.view.frame = [RootViewController sharedRootViewController].gameTabBarController.view.bounds;
+    [RootViewController sharedRootViewController].nearbyObjectNavigationController.view.frame = [RootViewController sharedRootViewController].gamePlayTabBarController.view.bounds;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

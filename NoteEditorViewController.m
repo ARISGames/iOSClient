@@ -38,14 +38,9 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         viewControllers = [[NSMutableArray alloc] initWithCapacity:10];
-        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-        /*  [dispatcher addObserver:self selector:@selector(updateTable) name:@"ImageReady" object:nil];*/
-        
-        [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNoteListReady" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(movieFinishedCallback:)
-													 name:MPMoviePlayerPlaybackDidFinishNotification
-												   object:nil];
+        //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTable) name:@"ImageReady" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNoteListReady" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieFinishedCallback:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
         self.hidesBottomBarWhenPushed = YES;
         self.noteValid = NO;
         vidThumbs = [[NSMutableDictionary alloc] initWithCapacity:5];
@@ -451,8 +446,7 @@
 	NSLog(@"NoteViewController: Refresh Requested");
     
     //register for notifications
-    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-    [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"NewContentListReady" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"NewContentListReady" object:nil];
     //self.publicButton.selected = self.note.shared;
     ///Server Call here
     //[self showLoadingIndicator];

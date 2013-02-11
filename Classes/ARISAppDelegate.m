@@ -80,7 +80,7 @@ int steps = 0;
 - (void)applicationWillResignActive:(UIApplication *)application {
 	NSLog(@"AppDelegate: Begin Application Resign Active");
     
-    [[RootViewController sharedRootViewController].gameTabBarController dismissModalViewControllerAnimated:NO];
+    [[RootViewController sharedRootViewController].gamePlayTabBarController dismissModalViewControllerAnimated:NO];
     
 	[[AppModel sharedAppModel] saveUserDefaults];
 }
@@ -234,9 +234,7 @@ int steps = 0;
         NSString *gameID = [url lastPathComponent];
         NSLog(@"gameID: %@",gameID);
         
-        
-        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-        //[dispatcher addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"NewGameListReady" object:nil];
+        //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"NewGameListReady" object:nil];
         [[AppServices sharedAppServices] fetchOneGame:[gameID intValue]];
     }
     return YES;

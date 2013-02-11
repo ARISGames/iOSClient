@@ -42,12 +42,10 @@
         self.iconCache = iconCacheAlloc;
         
 		//register for notifications
-		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-		[dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedInventory" object:nil];
-		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewInventoryReady" object:nil];
-        [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
-        
-		[dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedInventory" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewInventoryReady" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
     }
     return self;
 }

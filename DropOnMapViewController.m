@@ -26,8 +26,7 @@ static float INITIAL_SPAN = 0.001;
         self.title = NSLocalizedString(@"DropOnMapTitleKey", @"");
         self.hidesBottomBarWhenPushed = YES;
         tracking = YES;
-        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-		[dispatcher addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];
     }
     return self;
 }

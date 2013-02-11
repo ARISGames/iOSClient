@@ -32,9 +32,8 @@
         self.tabBarItem.image = [UIImage imageNamed:@"85-trophy"];
         self.timeControl.enabled = YES;
         self.timeControl.alpha = 1; 
-        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-        [dispatcher addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];
-        [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil]; 
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil]; 
     }
     return self;
 }
@@ -72,10 +71,9 @@
 
     if([AppModel sharedAppModel].playerLocation){
     //register for notifications
-    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-    [dispatcher addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];
-    [dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewPopularGameListReady" object:nil];
-    [dispatcher addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil]; 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewPopularGameListReady" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil]; 
         
     if ([[AppModel sharedAppModel] loggedIn]) [[AppServices sharedAppServices] fetchPopularGameListForTime:time];
     [self showLoadingIndicator];

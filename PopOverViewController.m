@@ -50,10 +50,6 @@ NSString *const kPopOverHtmlTemplate =
 }
 
 - (void)viewWillAppear {
-    // probably requires custom animation, but can change self.modalTransitionStyle beforehand
-  //  backgroundImage = [[UIImageView alloc] initWithImage:[self screenshot]];
-  //  backgroundImage.frame = CGRectMake(0, -[[UIApplication sharedApplication] statusBarFrame].size.height, self.view.frame.size.width, self.view.frame.size.height + [[UIApplication sharedApplication] statusBarFrame].size.height);
-  //   [self.view insertSubview:backgroundImage atIndex:0];
     semiTransparentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     semiTransparentView.backgroundColor = [[UIColor alloc] initWithRed:0 green:0 blue:0 alpha:0.5];
     [self.view insertSubview:semiTransparentView atIndex:1];
@@ -207,7 +203,6 @@ NSString *const kPopOverHtmlTemplate =
     if(err)NSLog(@"PopOver: Ending Audio: Failed with reason: %@", [err localizedDescription]);
 }
 
-
 - (IBAction)continuePressed:(id)sender {
     if(ARISMoviePlayer.moviePlayer.playbackState == MPMoviePlaybackStatePlaying) [ARISMoviePlayer.moviePlayer stop];
     ARISMoviePlayer.moviePlayer.shouldAutoplay = NO;
@@ -217,59 +212,7 @@ NSString *const kPopOverHtmlTemplate =
    //     [player stop];
    // }
     
-    [[RootViewController sharedRootViewController] showPopOver];
-}
-
-- (UIImage*)screenshot
-{
-    // Create a graphics context with the target size
-    // On iOS 4 and later, use UIGraphicsBeginImageContextWithOptions to take the scale into consideration
-    // On iOS prior to 4, fall back to use UIGraphicsBeginImageContext
-    CGSize imageSize = [[UIScreen mainScreen] bounds].size;
-    if (NULL != UIGraphicsBeginImageContextWithOptions)
-        UIGraphicsBeginImageContextWithOptions(imageSize, NO, 0);
-    else
-        UIGraphicsBeginImageContext(imageSize);
-    
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    // Iterate over every window from back to front
-    for (UIWindow *window in [[UIApplication sharedApplication] windows])
-    {
-        if (![window respondsToSelector:@selector(screen)] || [window screen] == [UIScreen mainScreen])
-        {
-            // -renderInContext: renders in the coordinate space of the layer,
-            // so we must first apply the layer's geometry to the graphics context
-            CGContextSaveGState(context);
-            // Center the context around the window's anchor point
-            CGContextTranslateCTM(context, [window center].x, [window center].y);
-            // Apply the window's transform about the anchor point
-            CGContextConcatCTM(context, [window transform]);
-            // Offset by the portion of the bounds left of and above the anchor point
-            CGContextTranslateCTM(context,
-                                  -[window bounds].size.width * [[window layer] anchorPoint].x,
-                                  -[window bounds].size.height * [[window layer] anchorPoint].y);
-            
-            // Render the layer hierarchy to the current context
-            [[window layer] renderInContext:context];
-            
-            // Restore the context
-            CGContextRestoreGState(context);
-        }
-    }
-    
-    // Retrieve the screenshot image
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    
-    UIGraphicsEndImageContext();
-    
-    return image;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [[RootViewController sharedRootViewController] dequeuePopOver];
 }
 
 - (void)dealloc{
@@ -277,21 +220,8 @@ NSString *const kPopOverHtmlTemplate =
     [popOverWebView stopLoading];
 }
 
-- (void)viewDidUnload {
-    lbl_popOverTitle = nil;
-    popOverWebView = nil;
-    continueButton = nil;
-    lbl_popOverDescription = nil;
-    mediaView = nil;
-    loadingIndicator = nil;
-    mainViewNoMedia = nil;
-    mainViewMedia = nil;
-    [super viewDidUnload];
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 

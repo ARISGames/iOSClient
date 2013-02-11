@@ -12,9 +12,6 @@
 #import "LoginViewController.h"
 #import "PlayerSettingsViewController.h"
 
-#import "NearbyObjectsViewController.h"
-#import "BogusSelectGameViewController.h"
-
 #import "GameDetailsViewController.h"
 #import "webpageViewController.h"
 #import "NoteDetailsViewController.h"
@@ -26,7 +23,7 @@
 #import "GamePickerRecentViewController.h"
 #import "AccountSettingsViewController.h"
 
-//Game Tab VCs
+//Game Play Tab VCs
 #import "QuestsViewController.h"
 #import "IconQuestsViewController.h"
 #import "InventoryListViewController.h"
@@ -34,19 +31,23 @@
 #import "AttributesViewController.h"
 #import "NotebookViewController.h"
 #import "DecoderViewController.h"
+#import "BogusSelectGameViewController.h"
+#import "NearbyObjectsViewController.h"
 
 #import "Node.h"
 
-NSString *errorMessage, *errorDetail;
-
-BOOL isShowingNotification;
-BOOL isShowingPopOver;
+NSString *errorMessage;
+NSString *errorDetail;
+NSMutableArray *notifArray;
+NSMutableArray *popOverArray;
+BOOL showingNotification;
+BOOL showingPopover;
 
 @implementation RootViewController
 
-@synthesize gameSelectionTabBarController;
-@synthesize gameTabBarController;
 @synthesize loginNavigationController;
+@synthesize gameSelectionTabBarController;
+@synthesize gamePlayTabBarController;
 @synthesize playerSettingsNavigationController;
 @synthesize nearbyObjectsNavigationController;
 @synthesize nearbyObjectNavigationController;
@@ -55,9 +56,7 @@ BOOL isShowingPopOver;
 @synthesize networkAlert;
 @synthesize serverAlert;
 @synthesize notificationView;
-@synthesize notifArray;
 @synthesize popOverViewController;
-@synthesize popOverArray;
 @synthesize tutorialViewController;
 @synthesize squishedVCFrame;
 @synthesize notSquishedVCFrame;
@@ -78,6 +77,156 @@ BOOL isShowingPopOver;
     return _sharedObject;
 }
 
+- (void) initViewControllers
+{
+    //Login View Controller
+    LoginViewController* loginViewController = [[LoginViewController alloc] initWithNibName:@"Login" bundle:nil];
+    self.loginNavigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    self.loginNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    self.loginNavigationController.view.frame = self.view.frame;
+    [self.view addSubview:self.loginNavigationController.view];
+    
+    //Player Settings View Controller
+    PlayerSettingsViewController *playerSettingsViewController = [[PlayerSettingsViewController alloc] initWithNibName:@"PlayerSettingsViewController" bundle:nil];
+    self.playerSettingsNavigationController = [[UINavigationController alloc] initWithRootViewController: playerSettingsViewController];
+    self.playerSettingsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    [self.playerSettingsNavigationController.view setFrame:UIScreen.mainScreen.applicationFrame];
+    self.playerSettingsNavigationController.view.frame = self.view.frame;
+    self.playerSettingsNavigationController.view.hidden = YES;
+    [self.view addSubview:self.playerSettingsNavigationController.view];
+    
+    //Tutorial View Controller
+    self.tutorialViewController = [[TutorialViewController alloc] init];
+    self.tutorialViewController.view.frame = self.gamePlayTabBarController.view.frame;
+    self.tutorialViewController.view.hidden = YES;
+    self.tutorialViewController.view.userInteractionEnabled = NO;
+    [self.gamePlayTabBarController.view addSubview:self.tutorialViewController.view];
+    
+    self.waitingIndicatorAlertViewController = [[WaitingIndicatorAlertViewController alloc] init];
+    
+    self.popOverViewController = [[PopOverViewController alloc] init];
+    
+    //Not a VC, but probably should be...
+    self.notificationView = [[UIWebView alloc] initWithFrame:CGRectMake(0, TRUE_ZERO_Y-8, SCREEN_WIDTH, 28)];
+    self.notificationView.backgroundColor = [UIColor whiteColor];
+}
+
+- (void) initGamePickerTabs
+{
+    //Nearby Games
+    GamePickerNearbyViewController *gamePickerNearbyViewController = [[GamePickerNearbyViewController alloc] initWithNibName:@"GamePickerNearbyViewController" bundle:nil];
+    UINavigationController *gamePickerNearbyNC = [[UINavigationController alloc] initWithRootViewController: gamePickerNearbyViewController];
+    gamePickerNearbyNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    
+    //Search Games
+    GamePickerSearchViewController *gamePickerSearchVC = [[GamePickerSearchViewController alloc]initWithNibName:@"GamePickerSearchViewController" bundle:nil];
+    UINavigationController *gamePickerSearchNC = [[UINavigationController alloc] initWithRootViewController:gamePickerSearchVC];
+    gamePickerSearchNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    
+    //Popular Games
+    GamePickerPopularViewController *gamePickerPopularVC = [[GamePickerPopularViewController alloc]initWithNibName:@"GamePickerPopularViewController" bundle:nil];
+    UINavigationController *gamePickerPopularNC = [[UINavigationController alloc] initWithRootViewController:gamePickerPopularVC];
+    gamePickerPopularNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    
+    //Recent Games
+    GamePickerRecentViewController *gamePickerRecentVC = [[GamePickerRecentViewController alloc]initWithNibName:@"GamePickerRecentViewController" bundle:nil];
+    UINavigationController *gamePickerRecentNC = [[UINavigationController alloc] initWithRootViewController:gamePickerRecentVC];
+    gamePickerRecentNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    
+    //Account Settings
+    AccountSettingsViewController *accountSettingsViewController = [[AccountSettingsViewController alloc] initWithNibName:@"Account" bundle:nil];
+    UINavigationController *accountSettingsNC = [[UINavigationController alloc] initWithRootViewController:accountSettingsViewController];
+    accountSettingsNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    
+    //Setup the Game Selection Tab Bar
+    self.gameSelectionTabBarController = [[UITabBarController alloc] init];
+    self.gameSelectionTabBarController.delegate = self;
+    
+    self.gameSelectionTabBarController.viewControllers = [NSMutableArray arrayWithObjects:
+                                                          gamePickerNearbyNC,
+                                                          gamePickerSearchNC,
+                                                          gamePickerPopularNC,
+                                                          gamePickerRecentNC,
+                                                          accountSettingsNC,
+                                                          nil];
+    [self.view addSubview:self.gameSelectionTabBarController.view];
+}
+
+- (void) initGamePlayTabs
+{
+    //Setup NearbyObjects View
+    NearbyObjectsViewController *nearbyObjectsViewController = [[NearbyObjectsViewController alloc]initWithNibName:@"NearbyObjectsViewController" bundle:nil];
+    self.nearbyObjectsNavigationController = [[UINavigationController alloc] initWithRootViewController:nearbyObjectsViewController];
+    self.nearbyObjectsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    
+    //Setup ARView
+    //ARViewViewControler *arViewController = [[[ARViewViewControler alloc] initWithNibName:@"ARView" bundle:nil] autorelease];
+    //UINavigationController *arNavigationController = [[UINavigationController alloc] initWithRootViewController: arViewController];
+    //arNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    
+    //Setup Quests View
+    QuestsViewController *questsViewController = [[QuestsViewController alloc] initWithNibName:@"Quests" bundle:nil];
+    UINavigationController *questsNavigationController = [[UINavigationController alloc] initWithRootViewController: questsViewController];
+    questsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    
+    //Setup Quests Icon View
+    IconQuestsViewController *iconQuestsViewController = [[IconQuestsViewController alloc] initWithNibName:@"IconQuestsViewController" bundle:nil];
+    UINavigationController *iconQuestsNavigationController = [[UINavigationController alloc] initWithRootViewController: iconQuestsViewController];
+    iconQuestsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    
+    //Setup GPS View
+    GPSViewController *gpsViewController = [[GPSViewController alloc] initWithNibName:@"GPS" bundle:nil];
+    UINavigationController *gpsNavigationController = [[UINavigationController alloc] initWithRootViewController: gpsViewController];
+    gpsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    
+    //Setup Inventory View
+    InventoryListViewController *inventoryListViewController = [[InventoryListViewController alloc] initWithNibName:@"InventoryList" bundle:nil];
+    UINavigationController *inventoryNavigationController = [[UINavigationController alloc] initWithRootViewController: inventoryListViewController];
+    inventoryNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    
+    //Setup Attributes View
+    AttributesViewController *attributesViewController = [[AttributesViewController alloc] initWithNibName:@"AttributesViewController" bundle:nil];
+    UINavigationController *attributesNavigationController = [[UINavigationController alloc] initWithRootViewController: attributesViewController];
+    attributesNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    
+    //Setup Notes View
+    NotebookViewController *notesViewController = [[NotebookViewController alloc] initWithNibName:@"NotebookViewController" bundle:nil];
+    UINavigationController *notesNavigationController = [[UINavigationController alloc] initWithRootViewController: notesViewController];
+    notesNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    
+    //Decoder View Controller
+    DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithNibName:@"Decoder" bundle:nil];
+    UINavigationController *decoderNavigationController = [[UINavigationController alloc] initWithRootViewController:decoderViewController];
+    decoderNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    
+    //Bogus Game Picker View
+    BogusSelectGameViewController *bogusSelectGameViewController = [[BogusSelectGameViewController alloc] init];
+    
+    //Setup the Game Play Tab Bar
+    self.gamePlayTabBarController = [[UITabBarController alloc] init];
+    self.gamePlayTabBarController.delegate = self;
+    
+    self.gamePlayTabBarController.viewControllers = [NSMutableArray arrayWithObjects:
+                                                     questsNavigationController,
+                                                     iconQuestsNavigationController,
+                                                     gpsNavigationController,
+                                                     inventoryNavigationController,
+                                                     attributesNavigationController,
+                                                     decoderNavigationController,
+                                                     notesNavigationController,
+                                                     bogusSelectGameViewController,
+                                                     nil];
+    
+    //More Tab
+    UINavigationController *moreNavController = self.gamePlayTabBarController.moreNavigationController;
+    moreNavController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    moreNavController.delegate = self;
+    
+    self.gamePlayTabBarController.view.hidden = YES;
+    [self.view addSubview:self.gamePlayTabBarController.view];
+    [AppModel sharedAppModel].defaultGameTabList = self.gamePlayTabBarController.customizableViewControllers;
+}
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super init];
@@ -86,215 +235,55 @@ BOOL isShowingPopOver;
         self.view.frame = frame;
         
         SCREEN_HEIGHT = [UIScreen mainScreen].bounds.size.height;
-        SCREEN_WIDTH = [UIScreen mainScreen].bounds.size.width;
+        SCREEN_WIDTH =  [UIScreen mainScreen].bounds.size.width;
+        notSquishedVCFrame = CGRectMake(0,                                 0, SCREEN_WIDTH, SCREEN_HEIGHT - STATUS_BAR_HEIGHT);
+        squishedVCFrame =    CGRectMake(0, TRUE_ZERO_Y + NOTIFICATION_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NOTIFICATION_HEIGHT);
         
-        [self.gameTabBarController setDelegate:self];
+        //Init Notification Arrays
+        notifArray = [[NSMutableArray alloc] initWithCapacity:5];
+        popOverArray = [[NSMutableArray alloc] initWithCapacity:5];
+        showingNotification = NO;
+        showingPopover = NO;
         
-        NSMutableArray* notifyArrayAlloc = [[NSMutableArray alloc]initWithCapacity:5];
-        self.notifArray = notifyArrayAlloc;
+        //Init VC's
+        [self initGamePickerTabs];
+        [self initGamePlayTabs];
+        [self initViewControllers];
+
+        //Setup Pusher Client
+        self.pusherClient = [PTPusher pusherWithKey:@"79f6a265dbb7402a49c9" delegate:self encrypted:YES];
+        self.pusherClient.authorizationURL = [NSURL URLWithString:@"http://dev.arisgames.org/server/events/auths/private_auth.php"];
         
-        popOverArray = [[NSMutableArray alloc]initWithCapacity:5];
-        popOverViewController = [[PopOverViewController alloc] init];
+        //Start Polling Location
+        [NSTimer scheduledTimerWithTimeInterval:3.0 target:[[MyCLController sharedMyCLController]locationManager] selector:@selector(startUpdatingLocation) userInfo:nil repeats:NO];
         
-        //register for notifications from views
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishLoginAttempt:) name:@"NewLoginResponseReady" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectGame:) name:@"SelectGame" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPlayerSettings:) name:@"ProfSettingsRequested" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performLogout:) name:@"PassChangeRequested" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performLogout:) name:@"LogoutRequested" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkForDisplayCompleteNode) name:@"NewQuestListReady" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedMediaList) name:@"ReceivedMediaList" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"OneGameReady" object:nil];
-        
-        self.notificationView = [[UIWebView alloc] initWithFrame:CGRectMake(0, TRUE_ZERO_Y-8, SCREEN_WIDTH, 28)];
-        self.notificationView.backgroundColor = [UIColor whiteColor];
-        
-        notSquishedVCFrame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-STATUS_BAR_HEIGHT);
-        squishedVCFrame = CGRectMake(0, TRUE_ZERO_Y + NOTIFICATION_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NOTIFICATION_HEIGHT);
-        
-        //Setup NearbyObjects View
-        NearbyObjectsViewController *nearbyObjectsViewController = [[NearbyObjectsViewController alloc]initWithNibName:@"NearbyObjectsViewController" bundle:nil];
-        self.nearbyObjectsNavigationController = [[UINavigationController alloc] initWithRootViewController:nearbyObjectsViewController];
-        self.nearbyObjectsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-        
-        //Setup ARView
-        //ARViewViewControler *arViewController = [[[ARViewViewControler alloc] initWithNibName:@"ARView" bundle:nil] autorelease];
-        //UINavigationController *arNavigationController = [[UINavigationController alloc] initWithRootViewController: arViewController];
-        //arNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-        
-        //Setup Quests View
-        QuestsViewController *questsViewController = [[QuestsViewController alloc] initWithNibName:@"Quests" bundle:nil];
-        UINavigationController *questsNavigationController = [[UINavigationController alloc] initWithRootViewController: questsViewController];
-        questsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-        
-        //Setup Quests Icon View
-        IconQuestsViewController *iconQuestsViewController = [[IconQuestsViewController alloc] initWithNibName:@"IconQuestsViewController" bundle:nil];
-        UINavigationController *iconQuestsNavigationController = [[UINavigationController alloc] initWithRootViewController: iconQuestsViewController];
-        iconQuestsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-        
-        //Setup GPS View
-        GPSViewController *gpsViewController = [[GPSViewController alloc] initWithNibName:@"GPS" bundle:nil];
-        UINavigationController *gpsNavigationController = [[UINavigationController alloc] initWithRootViewController: gpsViewController];
-        gpsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-        
-        //Setup Inventory View
-        InventoryListViewController *inventoryListViewController = [[InventoryListViewController alloc] initWithNibName:@"InventoryList" bundle:nil];
-        UINavigationController *inventoryNavigationController = [[UINavigationController alloc] initWithRootViewController: inventoryListViewController];
-        inventoryNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-        
-        //Setup Attributes View
-        AttributesViewController *attributesViewController = [[AttributesViewController alloc] initWithNibName:@"AttributesViewController" bundle:nil];
-        UINavigationController *attributesNavigationController = [[UINavigationController alloc] initWithRootViewController: attributesViewController];
-        attributesNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-        
-        //Setup Notes View
-        NotebookViewController *notesViewController = [[NotebookViewController alloc] initWithNibName:@"NotebookViewController" bundle:nil];
-        UINavigationController *notesNavigationController = [[UINavigationController alloc] initWithRootViewController: notesViewController];
-        notesNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-        
-        //QR Scanner Developer View
-        DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithNibName:@"Decoder" bundle:nil];
-        UINavigationController *decoderNavigationController = [[UINavigationController alloc] initWithRootViewController:decoderViewController];
-        decoderNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-        
-        //Logout View
-        AccountSettingsViewController *accountSettingsViewController = [[AccountSettingsViewController alloc] initWithNibName:@"Account" bundle:nil];
-        UINavigationController *accountSettingsNavigationController = [[UINavigationController alloc] initWithRootViewController: accountSettingsViewController];
-        accountSettingsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-        
-        //Developer View
-        DeveloperViewController *developerViewController = [[DeveloperViewController alloc] initWithNibName:@"Developer" bundle:nil];
-        UINavigationController *developerNavigationController = [[UINavigationController alloc] initWithRootViewController: developerViewController];
-        developerNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-        
-        //Bogus Game Picker View
-        BogusSelectGameViewController *bogusSelectGameViewController = [[BogusSelectGameViewController alloc] init];
-        
-        //Login View
-        LoginViewController* loginViewController = [[LoginViewController alloc] initWithNibName:@"Login" bundle:nil];
-        loginNavigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
-        loginNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-        loginNavigationController.view.frame = self.view.frame;
-        [self.view addSubview:loginNavigationController.view];
-        
-        //Setup the Main Tab Bar
-        self.gameTabBarController = [[UITabBarController alloc] init];
-        self.gameTabBarController.delegate = self;
-        UINavigationController *moreNavController = self.gameTabBarController.moreNavigationController;
-        moreNavController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-        moreNavController.delegate = self;
-        self.gameTabBarController.viewControllers = [NSMutableArray arrayWithObjects:
-                                                 questsNavigationController,
-                                                 gpsNavigationController,
-                                                 inventoryNavigationController,
-                                                 decoderNavigationController,
-                                                 //arNavigationController,
-                                                 attributesNavigationController,
-                                                 notesNavigationController,
-                                                 bogusSelectGameViewController,
-                                                 accountSettingsNavigationController,
-                                                 //developerNavigationController,
-                                                 iconQuestsNavigationController,
-                                                 nil];
-        self.gameTabBarController.view.hidden = YES;
-        [self.gameTabBarController.view setFrame:self.view.bounds];
-        [self.view addSubview:self.gameTabBarController.view];
-        [AppModel sharedAppModel].defaultGameTabList = self.gameTabBarController.customizableViewControllers;
-        
-        //Setup the Game Selection Tab Bar
-        
-        UITabBarController *gameSelectionTabBarControllerAlloc = [[UITabBarController alloc] init];
-        self.gameSelectionTabBarController = gameSelectionTabBarControllerAlloc;
-        self.gameSelectionTabBarController.delegate = self;
-        
-        GamePickerNearbyViewController *gamePickerNearbyViewController = [[GamePickerNearbyViewController alloc] initWithNibName:@"GamePickerNearbyViewController" bundle:nil];
-        UINavigationController *gamePickerNearbyNC = [[UINavigationController alloc] initWithRootViewController: gamePickerNearbyViewController];
-        gamePickerNearbyNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
-        
-        GamePickerSearchViewController *gamePickerSearchVC = [[GamePickerSearchViewController alloc]initWithNibName:@"GamePickerSearchViewController" bundle:nil];
-        UINavigationController *gamePickerSearchNC = [[UINavigationController alloc] initWithRootViewController:gamePickerSearchVC];
-        gamePickerSearchNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
-        
-        GamePickerPopularViewController *gamePickerPopularVC = [[GamePickerPopularViewController alloc]initWithNibName:@"GamePickerPopularViewController" bundle:nil];
-        UINavigationController *gamePickerPopularNC = [[UINavigationController alloc] initWithRootViewController:gamePickerPopularVC];
-        gamePickerPopularNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
-        
-        GamePickerRecentViewController *gamePickerRecentVC = [[GamePickerRecentViewController alloc]initWithNibName:@"GamePickerRecentViewController" bundle:nil];
-        UINavigationController *gamePickerRecentNC = [[UINavigationController alloc] initWithRootViewController:gamePickerRecentVC];
-        gamePickerRecentNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
-        
-        //Logout View
-        AccountSettingsViewController *anaccountSettingsViewController = [[AccountSettingsViewController alloc] initWithNibName:@"Account" bundle:nil];
-        UINavigationController *anaccountSettingsNavigationController = [[UINavigationController alloc] initWithRootViewController: anaccountSettingsViewController];
-        anaccountSettingsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-        
-        self.gameSelectionTabBarController.viewControllers = [NSMutableArray arrayWithObjects:
-                                                              gamePickerNearbyNC,
-                                                              //gamePickerMapNC,
-                                                              gamePickerSearchNC,
-                                                              gamePickerPopularNC,
-                                                              gamePickerRecentNC,
-                                                              anaccountSettingsNavigationController,
-                                                              nil];
-        //[self.gameSelectionTabBarController.view setFrame:UIScreen.mainScreen.applicationFrame];
-        [self.view addSubview:self.gameSelectionTabBarController.view];
-        
-        //Global Player View
-        PlayerSettingsViewController *playerSettingsViewController = [[PlayerSettingsViewController alloc] initWithNibName:@"PlayerSettingsViewController" bundle:nil];
-        playerSettingsNavigationController = [[UINavigationController alloc] initWithRootViewController: playerSettingsViewController];
-        playerSettingsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-        [playerSettingsNavigationController.view setFrame:UIScreen.mainScreen.applicationFrame];
-        playerSettingsNavigationController.view.frame = self.view.frame;
-        playerSettingsNavigationController.view.hidden = YES;
-        [self.view addSubview:playerSettingsNavigationController.view];
-        
-        //Setup The Tutorial View Controller
-        TutorialViewController *tutorialViewControllerAlloc = [[TutorialViewController alloc]init];
-        self.tutorialViewController = tutorialViewControllerAlloc ;
-        self.tutorialViewController.view.frame = self.gameTabBarController.view.frame;
-        self.tutorialViewController.view.hidden = YES;
-        self.tutorialViewController.view.userInteractionEnabled = NO;
-        [self.gameTabBarController.view addSubview:self.tutorialViewController.view];
-        
-        //Setup Location Manager
-        [NSTimer scheduledTimerWithTimeInterval:3.0
-                                         target:[[MyCLController sharedMyCLController]locationManager]
-                                       selector:@selector(startUpdatingLocation)
-                                       userInfo:nil
-                                        repeats:NO];
-        
+        //register for notifications
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishLoginAttempt:)         name:@"NewLoginResponseReady" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"OneGameReady"          object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectGame:)                 name:@"SelectGame"            object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPlayerSettings:)         name:@"ProfSettingsRequested" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performLogout:)              name:@"PassChangeRequested"   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performLogout:)              name:@"LogoutRequested"       object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkForDisplayCompleteNode) name:@"NewQuestListReady"     object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedMediaList)           name:@"ReceivedMediaList"     object:nil];
+                
         //Set up visibility of views at top of heirarchy
         [[AppModel sharedAppModel] loadUserDefaults];
         if([AppModel sharedAppModel].playerId == 0)
         {
             self.loginNavigationController.view.hidden = NO;
-            self.gameTabBarController.view.hidden = YES;
+            self.gamePlayTabBarController.view.hidden = YES;
             self.gameSelectionTabBarController.view.hidden = YES;
         }
         else
         {
-            [[AppServices sharedAppServices]setShowPlayerOnMap];
+            [[AppServices sharedAppServices] setShowPlayerOnMap];
             [AppModel sharedAppModel].loggedIn = YES;
             self.loginNavigationController.view.hidden = YES;
-            self.gameTabBarController.view.hidden = YES;
-            /*if([AppModel sharedAppModel].museumMode)
-             {
-             self.gameSelectionTabBarController.view.hidden = YES;
-             self.playerSettingsNavigationController.view.hidden = NO;
-             }*/
-            //else
-            //{
+            self.gamePlayTabBarController.view.hidden = YES;
             self.gameSelectionTabBarController.view.hidden = NO;
             self.playerSettingsNavigationController.view.hidden = YES;
-            //}
         }
-        
-        self.waitingIndicatorAlertViewController = [[WaitingIndicatorAlertViewController alloc] init];
-                
-        //PUSHER STUFF
-        //Setup Pusher Client
-        self.pusherClient = [PTPusher pusherWithKey:@"79f6a265dbb7402a49c9" delegate:self encrypted:YES];
-        self.pusherClient.authorizationURL = [NSURL URLWithString:@"http://dev.arisgames.org/server/events/auths/private_auth.php"];
     }
     return self;
 }
@@ -304,197 +293,159 @@ BOOL isShowingPopOver;
     [[UIApplication sharedApplication] setStatusBarOrientation:UIDeviceOrientationPortrait animated:NO];
 }
 
-/*
- Notes on how this works:(Phil Dougherty- 10/23/12)
- Under normal navigation:
- UIApplication and RootView must agree that rotation is allowed. If so, rotates.
- When viewcontroller presented (modal-y stuff):
- UIApplication and Presented View Controller must agree.
- */
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
--(BOOL)shouldAutorotate
-{
-    return YES;
-}
-
--(NSInteger)supportedInterfaceOrientations
-{
-    NSInteger mask = 0;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeLeft])
-        mask |= UIInterfaceOrientationMaskLandscapeLeft;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeRight])
-        mask |= UIInterfaceOrientationMaskLandscapeRight;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortrait])
-        mask |= UIInterfaceOrientationMaskPortrait;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortraitUpsideDown])
-        mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
-    return mask;
-}
-
 #pragma mark Notifications, Warnings and Other Views
+
+-(void)lowerNotificationFrame
+{
+    [self.view addSubview:self.notificationView];
+    
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+    [UIView setAnimationDuration:.5];
+    
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    
+    //NOTES: While the status bar is hidden, the view still is basing its origin on where the bottom of the status bar would be.
+    //Thus there is 20 pixels subtracted from all y-values to account for this.
+    if(self.presentedViewController)
+        self.presentedViewController.view.frame = squishedVCFrame;
+    
+    self.gamePlayTabBarController.view.frame = squishedVCFrame;
+    [UIView commitAnimations];
+    
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"notificationFrameLowered" object:self]];
+}
+
+-(void)raiseNotificationFrame
+{
+    [UIView animateWithDuration:.5
+                          delay:0.0
+                        options:UIViewAnimationCurveEaseIn animations:^{
+                            [[UIApplication sharedApplication] setStatusBarHidden:NO];
+                            if(self.presentedViewController)
+                                self.presentedViewController.view.frame = notSquishedVCFrame;
+                            self.gamePlayTabBarController.view.frame = notSquishedVCFrame;
+                        }
+                     completion:^(BOOL finished){}];
+    [self.notificationView removeFromSuperview];
+    
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"notificationFrameRaised" object:self]];
+}
+
+-(void)dequeueNotification
+{
+    NSLog(@"RootViewController: dequeueNotification");
+    showingNotification = YES;
+
+    notificationView.alpha = 0.0;
+    NSString* fullString = [[notifArray objectAtIndex:0] objectForKey:@"fullString"];
+    NSString* boldString = [[notifArray objectAtIndex:0] objectForKey:@"boldedString"];
+    NSString* part1;
+    NSString* part2;
+    NSString* part3;
+    
+    NSRange boldRange = [fullString rangeOfString:boldString];
+    if (boldRange.location == NSNotFound)
+    {
+        part1 = fullString;
+        part2 = @"";
+        part3 = @"";
+    }
+    else
+    {
+        part1 = [fullString substringToIndex:boldRange.location];
+        part2 = [fullString substringWithRange:boldRange];
+        part3 = [fullString substringFromIndex:(boldRange.location + boldRange.length)];
+    }
+    
+    NSString* htmlContentString = [NSString stringWithFormat:
+                                    @"<html>"
+                                    "<style type=\"text/css\">"
+                                    "body { vertical-align:text-top; text-align:center; font-family:Arial; font-size:16; }"
+                                    ".different { font:16px Arial,Helvetica,sans-serif; font-weight:bold; color:DarkBlue }"
+                                    "</style>"
+                                    "<body>%@<span class='different'>%@</span>%@</body>"
+                                    "</html>", part1, part2, part3];
+        
+    [notificationView loadHTMLString:htmlContentString baseURL:nil];
+        
+    [UIView animateWithDuration:3.0 delay:0.0
+                        options:UIViewAnimationCurveEaseIn
+                     animations:^{ self.notificationView.alpha = 1.0; }
+                     completion:^(BOOL finished){
+                         if(finished)
+                         {
+                             [UIView animateWithDuration:3.0
+                                                   delay:0.0
+                                                 options:UIViewAnimationCurveEaseIn
+                                              animations:^{ self.notificationView.alpha = 0.0; }
+                                              completion:^(BOOL finished){
+                                                  if(finished)
+                                                  {
+                                                      if([popOverArray count] > 0)
+                                                         [self dequeuePopOver];
+                                                      else if([notifArray count] > 0)
+                                                          [self dequeueNotification];
+                                                      else
+                                                      {
+                                                          [self raiseNotificationFrame];
+                                                          showingPopover = NO;
+                                                      }
+                                                  }
+                                              }];
+                         }
+                     }];
+    [notifArray removeObjectAtIndex:0];
+}
+
+-(void)dequeuePopOver
+{
+    NSLog(@"RootViewController: dequeuePopOver");
+    
+    showingPopover = YES;
+    
+    if([popOverArray count] > 0)
+    {
+        [popOverViewController view]; //BAD
+        NSMutableDictionary *poDict = [popOverArray objectAtIndex:0];
+        [popOverViewController setTitle:[poDict objectForKey:@"title"]
+                            description:[poDict objectForKey:@"description"]
+                            webViewText:[poDict objectForKey:@"text"]
+                             andMediaId:[[poDict objectForKey:@"mediaId"] intValue]];
+        [self.view addSubview:popOverViewController.view];
+        [popOverArray removeObjectAtIndex:0];
+    }
+    else
+    {
+        [popOverViewController.view removeFromSuperview];
+        showingPopover = NO;
+        if([notifArray count] > 0)
+            [self dequeueNotification];
+    }
+}
 
 -(void)enqueueNotificationWithFullString:(NSString *)fullString andBoldedString:(NSString *)boldedString
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:fullString,@"fullString",boldedString,@"boldedString", nil];
-    [self.notifArray addObject:dict];
-    if(!(isShowingNotification || isShowingPopOver))
-        [self showNotifications];
+    [notifArray addObject:dict];
+    if(!showingNotification && !showingPopover)
+    {
+        [self lowerNotificationFrame];
+        [self dequeueNotification];
+    }
 }
 
 -(void)enqueuePopOverWithTitle:(NSString *)title description:(NSString *)description webViewText:(NSString *)text andMediaId:(int) mediaId
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:title,@"title",description,@"description",text,@"text",[NSNumber numberWithInt:mediaId],@"mediaId", nil];
     [popOverArray addObject:dict];
-    
-    if(!(isShowingPopOver || isShowingNotification))
-        [self showPopOver];
+    if(!showingNotification && !showingPopover) [self dequeuePopOver];
 }
 
--(void)showNotifications
+-(void)cutOffGameNotifications
 {
-    NSLog(@"RootViewController: showNotifications");
-    if([popOverArray count] > 0)
-    {
-        [self hideNotifications];
-        [self showPopOver];
-    }
-    else if([self.notifArray count]>0)
-    {
-        NSLog(@"RootViewController: showNotifications: We have something to display");
-        if(!isShowingNotification)
-        {
-            //lower frame into position if its not already there
-            isShowingNotification = YES;
-            [self.view addSubview:self.notificationView];
-            
-            [UIView beginAnimations:nil context:nil];
-            [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-            [UIView setAnimationDuration:.5];
-            NSLog(@"RootViewController: showNotifications: Begin Resizing");
-            NSLog(@"TabBC frame BEFORE origin: %f",self.gameTabBarController.view.frame.origin.y);
-            
-            [[UIApplication sharedApplication] setStatusBarHidden:YES];
-            
-            //NOTES: While the status bar is hidden, the view still is basing its origin on where the bottom of the status bar would be. Thus there is 20 pixels subtracted from all y-values to account for this.
-            if(self.presentedViewController)
-                self.presentedViewController.view.frame = squishedVCFrame;
-            
-            self.gameTabBarController.view.frame = squishedVCFrame;
-            [UIView commitAnimations];
-        }
-        NSLog(@"TabBC frame AFTER origin: %f",self.gameTabBarController.view.frame.origin.y);
-        NSLog(@"RootViewController: showNotifications: Set Text and Init alpha");
-        
-        notificationView.alpha = 0.0;
-        NSString* fullString = [[notifArray objectAtIndex:0] objectForKey:@"fullString"];
-        NSString* boldString = [[notifArray objectAtIndex:0] objectForKey:@"boldedString"];
-        NSString* part1;
-        NSString* part2;
-        NSString* part3;
-        
-        NSRange boldRange = [fullString rangeOfString:boldString];
-        if (boldRange.location == NSNotFound)
-        {
-            part1 = fullString;
-            part2 = @"";
-            part3 = @"";
-        }
-        else
-        {
-            part1 = [fullString substringToIndex:boldRange.location];
-            part2 = [fullString substringWithRange:boldRange];
-            part3 = [fullString substringFromIndex:(boldRange.location + boldRange.length)];
-        }
-        
-        
-        NSString* htmlContentString = [NSString stringWithFormat:
-                                       @"<html>"
-                                       "<style type=\"text/css\">"
-                                       "body { vertical-align:text-top; text-align: center; font-family:Arial; font-size:16;}"
-                                       ".different { font: 16px Arial, Helvetica, sans-serif;font-weight:bold;color:DarkBlue}"
-                                       "</style>"
-                                       "<body>"
-                                       "%@<span class='different'>%@</span>%@"
-                                       "</body></html>", part1, part2, part3];
-        
-        [notificationView loadHTMLString:htmlContentString baseURL:nil];
-        
-        [UIView animateWithDuration:3.0 delay:0.0 options:UIViewAnimationCurveEaseIn animations:^{
-            NSLog(@"RootViewController: showNotifications: Begin Fade in");
-            self.notificationView.alpha = 1.0;
-        }completion:^(BOOL finished){
-            if(finished){
-                NSLog(@"RootViewController: showNotifications: Fade in Complete, Begin Fade Out");
-                [UIView animateWithDuration:3.0 delay:0.0 options:UIViewAnimationCurveEaseIn animations:^{
-                    self.notificationView.alpha = 0.0;
-                }completion:^(BOOL finished){
-                    if(finished){
-                        NSLog(@"RootViewController: showNotifications: Fade Out Complete, Pop and Start over");
-                        if([notifArray count] > 0) [self.notifArray removeObjectAtIndex:0];
-                        [self showNotifications];
-                    }
-                }];
-            }
-        }];
-    }
-    else
-        [self hideNotifications];
-}
-
--(void)showPopOver
-{
-    NSLog(@"RootViewController: showPopOvers");
-    if([popOverArray count] > 0)
-    {
-        isShowingPopOver = YES;
-        [popOverViewController view]; //used to force viewDidLoad before setTitle: descripion:...
-        [popOverViewController setTitle:[[popOverArray objectAtIndex:0] objectForKey:@"title"] description:[[popOverArray objectAtIndex:0] objectForKey:@"description"] webViewText:[[popOverArray objectAtIndex:0] objectForKey:@"text"] andMediaId:[[[popOverArray objectAtIndex:0] objectForKey:@"mediaId"] intValue]];
-        if (!(popOverViewController.isViewLoaded && popOverViewController.view.window))
-            [self.view addSubview:popOverViewController.view];
-        if([popOverArray count] > 0)
-            [popOverArray removeObjectAtIndex:0];
-    }
-    else if (popOverViewController.isViewLoaded && popOverViewController.view.window)
-    {
-        [popOverViewController dismissViewControllerAnimated:NO completion:nil];
-        [popOverViewController.view removeFromSuperview];
-        isShowingPopOver = NO;
-        [self showNotifications];
-    }
-    else
-    {
-        isShowingPopOver = NO;    //may not ever get here; defensive programming
-        [self showNotifications];
-    }
-}
-
--(void)hideNotifications
-{
-    if(!gameTabBarController.view.hidden)
-    {
-        [UIView animateWithDuration:.5 delay:0.0 options:UIViewAnimationCurveEaseIn animations:^{
-            if(isShowingNotification){
-                [[UIApplication sharedApplication] setStatusBarHidden:NO];
-                
-                
-                if(self.presentedViewController) {
-                    self.presentedViewController.view.frame = notSquishedVCFrame;
-                }
-                
-                self.gameTabBarController.view.frame = notSquishedVCFrame;
-            }
-        }completion:^(BOOL finished){
-            isShowingNotification = NO;
-        }];
-    }
-    [self.notificationView removeFromSuperview];
-    NSNotification *hideNotificationsNotification = [NSNotification notificationWithName:@"hideNotifications" object:self];
-    [[NSNotificationCenter defaultCenter] postNotification:hideNotificationsNotification];
+    [notifArray removeAllObjects];
+    [popOverArray removeAllObjects];
 }
 
 - (void) showGameSelectionTabBarAndHideOthers
@@ -503,8 +454,8 @@ BOOL isShowingPopOver;
     CGContextRef context = UIGraphicsGetCurrentContext();
     [UIView beginAnimations:nil context:context];
     [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.view cache:YES];
-    self.gameTabBarController.selectedIndex = 0;
-    self.gameTabBarController.view.hidden = YES;
+    self.gamePlayTabBarController.selectedIndex = 0;
+    self.gamePlayTabBarController.view.hidden = YES;
     self.gameSelectionTabBarController.view.hidden = NO;
     self.loginNavigationController.view.hidden = YES;
     self.playerSettingsNavigationController.view.hidden = YES;
@@ -542,7 +493,7 @@ BOOL isShowingPopOver;
 	if (self.loadingViewController)
     {
         [self.loadingViewController dismissModalViewControllerAnimated:NO];
-        [self gameTabBarController].selectedIndex = 0;
+        [self gamePlayTabBarController].selectedIndex = 0;
         [self showGameSelectionTabBarAndHideOthers];
     }
 	if (!self.networkAlert)
@@ -582,8 +533,8 @@ BOOL isShowingPopOver;
 	self.nearbyObjectNavigationController = [[UINavigationController alloc] initWithRootViewController:nearbyObjectViewController];
 	self.nearbyObjectNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
-    self.nearbyObjectNavigationController.view.frame = gameTabBarController.view.bounds;
-    [self.gameTabBarController.view addSubview: self.nearbyObjectNavigationController.view];
+    self.nearbyObjectNavigationController.view.frame = gamePlayTabBarController.view.bounds;
+    [self.gamePlayTabBarController.view addSubview: self.nearbyObjectNavigationController.view];
 }
 
 - (void)dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController
@@ -611,7 +562,7 @@ BOOL isShowingPopOver;
     
     //What is this doing? -Phil 11-13-2012
     //Causing all views to load, so that they will enque notifications even if they haven't been viewed before -Jacob 1/14/13
-    for(UIViewController * viewController in  gameTabBarController.viewControllers)
+    for(UIViewController * viewController in  gamePlayTabBarController.viewControllers)
         [viewController view];
 }
 
@@ -631,7 +582,7 @@ BOOL isShowingPopOver;
 {
     if([AppModel sharedAppModel].tabsReady)
     {
-        NSMutableArray *tabs = [NSMutableArray arrayWithArray:self.gameTabBarController.viewControllers];
+        NSMutableArray *tabs = [NSMutableArray arrayWithArray:self.gamePlayTabBarController.viewControllers];
         
         if(yesOrNo)
         {
@@ -652,10 +603,9 @@ BOOL isShowingPopOver;
             }
         }
         
-        [self.gameTabBarController setViewControllers:tabs animated:NO];
+        [self.gamePlayTabBarController setViewControllers:tabs animated:NO];
         
-        NSNotification *n = [NSNotification notificationWithName:@"TabBarItemsChanged" object:self userInfo:nil];
-        [[NSNotificationCenter defaultCenter] postNotification:n];
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"TabBarItemsChanged" object:self userInfo:nil]];
     }
 }
 
@@ -670,11 +620,7 @@ BOOL isShowingPopOver;
     
     if(gameId != 0)
     {
-        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-        [dispatcher addObserver:self
-                       selector:@selector(handleOpenURLGamesListReady)
-                           name:@"OneGameReady"
-                         object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"OneGameReady" object:nil];
         [[AppServices sharedAppServices] fetchOneGame:gameId];
     }
 }
@@ -691,11 +637,7 @@ BOOL isShowingPopOver;
     
     if(gameId != 0)
     {
-        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-        [dispatcher addObserver:self
-                       selector:@selector(handleOpenURLGamesListReady)
-                           name:@"OneGameReady"
-                         object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"OneGameReady" object:nil];
         [[AppServices sharedAppServices] fetchOneGame:gameId];
     }
 }
@@ -718,7 +660,7 @@ BOOL isShowingPopOver;
     {
 		NSLog(@"RootViewController: Login Success");
         
-        self.gameTabBarController.view.hidden = YES;
+        self.gamePlayTabBarController.view.hidden = YES;
         self.loginNavigationController.view.hidden = YES;
         if([AppModel sharedAppModel].museumMode)
         {
@@ -761,10 +703,10 @@ BOOL isShowingPopOver;
     loadingViewController = [[LoadingViewController alloc] initWithNibName:@"LoadingViewController" bundle:nil];
     loadingViewController.progressLabel.text = NSLocalizedString(@"ARISAppDelegateFectchingGameListsKey", @"");
     
-    [self.gameTabBarController.moreNavigationController popToRootViewControllerAnimated:NO];
-    [self.gameTabBarController presentModalViewController:self.loadingViewController animated:NO];
+    [self.gamePlayTabBarController.moreNavigationController popToRootViewControllerAnimated:NO];
+    [self.gamePlayTabBarController presentModalViewController:self.loadingViewController animated:NO];
         
-    self.gameTabBarController.view.hidden               = NO;
+    self.gamePlayTabBarController.view.hidden               = NO;
     self.gameSelectionTabBarController.view.hidden      = YES;
     self.loginNavigationController.view.hidden          = YES;
     self.playerSettingsNavigationController.view.hidden = YES;
@@ -879,7 +821,7 @@ BOOL isShowingPopOver;
         }
     }
     
-    self.gameTabBarController.viewControllers = [NSArray arrayWithArray: newCustomVC];
+    self.gamePlayTabBarController.viewControllers = [NSArray arrayWithArray: newCustomVC];
     [AppModel sharedAppModel].tabsReady = YES;
 }
 
@@ -899,7 +841,7 @@ BOOL isShowingPopOver;
 	[tutorialViewController dismissAllTutorials];
 	
 	//(re)load the login view
-	self.gameTabBarController.view.hidden = YES;
+	self.gamePlayTabBarController.view.hidden = YES;
     self.gameSelectionTabBarController.view.hidden = YES;
     self.playerSettingsNavigationController.view.hidden = YES;
     self.loginNavigationController.view.hidden = NO;
@@ -945,8 +887,7 @@ BOOL isShowingPopOver;
         NSString *gameID = [url lastPathComponent];
         NSLog(@"gameID=: %@",gameID);
         
-        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-        [dispatcher addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"OneGameReady" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"OneGameReady" object:nil];
         [[AppServices sharedAppServices] fetchOneGame:[gameID intValue]];
     }
     return YES;
@@ -967,7 +908,7 @@ BOOL isShowingPopOver;
 	[[AppModel sharedAppModel] saveUserDefaults];
     
     // show gameSelectionTabBarController
-    self.gameTabBarController.view.hidden = YES;
+    self.gamePlayTabBarController.view.hidden = YES;
     self.loginNavigationController.view.hidden = YES;
     if([AppModel sharedAppModel].museumMode)
     {
@@ -1012,7 +953,7 @@ BOOL isShowingPopOver;
 		[controller setSubject:@"ARIS Error Report"];
 		[controller setMessageBody:body isHTML:NO];
 		if (controller)
-            [self.gameTabBarController presentModalViewController:controller animated:YES];
+            [self.gamePlayTabBarController presentModalViewController:controller animated:YES];
 	}
 	
 	self.serverAlert = nil;
@@ -1027,14 +968,14 @@ BOOL isShowingPopOver;
 	if (result == MFMailComposeResultSent) {
 		NSLog(@"RootViewController: mailComposeController result == MFMailComposeResultSent");
 	}
-	[gameTabBarController dismissModalViewControllerAnimated:YES];
+	[gamePlayTabBarController dismissModalViewControllerAnimated:YES];
 }
 
 #pragma mark UITabBarControllerDelegate methods
 
-- (void)gameTabBarController:(UITabBarController *)tabBar didSelectViewController:(UIViewController *)viewController
+- (void)gamePlayTabBarController:(UITabBarController *)tabBar didSelectViewController:(UIViewController *)viewController
 {
-    NSLog(@"RootViewController: gameTabBarController didSelectViewController");
+    NSLog(@"RootViewController: gamePlayTabBarController didSelectViewController");
     
     [tabBar.moreNavigationController popToRootViewControllerAnimated:NO];
     
@@ -1122,6 +1063,38 @@ BOOL isShowingPopOver;
     }
     
     return;
+}
+
+/*
+ Notes on how this works:(Phil Dougherty- 10/23/12)
+ Under normal navigation:
+ UIApplication and RootView must agree that rotation is allowed. If so, rotates.
+ When viewcontroller presented (modal-y stuff):
+ UIApplication and Presented View Controller must agree.
+ */
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+-(BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+-(NSInteger)supportedInterfaceOrientations
+{
+    NSInteger mask = 0;
+    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeLeft])
+        mask |= UIInterfaceOrientationMaskLandscapeLeft;
+    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeRight])
+        mask |= UIInterfaceOrientationMaskLandscapeRight;
+    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortrait])
+        mask |= UIInterfaceOrientationMaskPortrait;
+    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortraitUpsideDown])
+        mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
+    return mask;
 }
 
 #pragma mark Memory Management

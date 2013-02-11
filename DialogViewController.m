@@ -149,8 +149,7 @@ NSString *const kDialogHtmlTemplate =
         [self applyNPCWithGreeting];
 	}
     
-    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-    [dispatcher addObserver:self selector:@selector(hideNotifications:) name:@"hideNotifications" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideNotifications:) name:@"notificationFrameRaised" object:nil];
     
 /*  SAMPLE DIALOG FORMAT
 	NSString *xmlData = 
@@ -224,33 +223,19 @@ NSString *const kDialogHtmlTemplate =
     else self.textboxSize = 0;
 }
 
--(void)hideNotifications:(NSNotification*) notification {
-    CGRect newTextFrame;
-    newTextFrame = CGRectMake(0, 44, 320, 416);
+-(void)hideNotifications:(NSNotification*) notification
+{
+    CGRect newTextFrame = CGRectMake(0, 44, 320, 416);
     [UIView beginAnimations:@"toggleTextSize" context:nil];
     [UIView setAnimationDuration:0.0];
-    if (self.textboxSize == 2) {
+    if (self.textboxSize == 2)
+    {
         self.pcScrollView.frame = newTextFrame;
         self.pcTableView.frame = self.pcScrollView.bounds;
         self.pcScrollView.contentSize = self.pcTableView.frame.size;
         self.npcScrollView.frame = newTextFrame;
     }
     [UIView commitAnimations];
-    
-}
-
-- (void)didReceiveMemoryWarning
-{
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-	
-	// Release any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidUnload
-{
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -315,9 +300,7 @@ NSString *const kDialogHtmlTemplate =
 
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 	NSLog(@"DialogViewController: touchesBegan");
-	
 	[pcAnswerView resignFirstResponder];
-	
 }
 
 - (void)dealloc {
@@ -328,9 +311,8 @@ NSString *const kDialogHtmlTemplate =
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-
-- (void)applyNPCWithGreeting{
-
+- (void)applyNPCWithGreeting
+{
     //tell the server
 	[[AppServices sharedAppServices] updateServerNpcViewed:currentNpc.npcId fromLocation:currentNpc.locationId];
     
@@ -340,21 +322,22 @@ NSString *const kDialogHtmlTemplate =
     if([trimmedString length] == 1) 
     currentNpc.greeting =   [trimmedString stringByAppendingString: @"\r"];
 	[parser parseText:currentNpc.greeting];
-    
-    
 }
 
-- (void) beginWithNPC:(Npc *)aNpc {
+- (void) beginWithNPC:(Npc *)aNpc
+{
 	currentNpc = aNpc;
 		
 	parser = [[SceneParser alloc] initWithDefaultNpcIdWithDelegate: self];
 }
 
-- (void) loadNPCImage:(NSInteger)mediaId {
+- (void) loadNPCImage:(NSInteger)mediaId
+{
 	[self loadCharacterImage:mediaId withPriorId:&lastNpcId inView:npcImage];
 }
 
-- (void) loadPCImage:(NSInteger)mediaId {
+- (void) loadPCImage:(NSInteger)mediaId
+{
     Media *characterMedia = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
     pcImage.contentMode = UIViewContentModeScaleAspectFill;
     [pcImage setClipsToBounds:YES];
@@ -373,7 +356,8 @@ NSString *const kDialogHtmlTemplate =
 	*priorId = mediaId;
 }
 
-- (void) continueScript {
+- (void) continueScript
+{
     NSLog(@"DialogVC: continueScript");
     
 	if (scriptIndex < [currentScript count]) { //Load up this scene of the script
@@ -456,12 +440,12 @@ NSString *const kDialogHtmlTemplate =
             //TODO: Move this code into an app delegate method
             if([cachedScene.exitToType isEqualToString:@"tab"]){
                 NSString *tab;
-                for(int i = 0;i < [[RootViewController sharedRootViewController].gameTabBarController.viewControllers count];i++){
-                    tab = [[[RootViewController sharedRootViewController].gameTabBarController.viewControllers objectAtIndex:i] title];
+                for(int i = 0;i < [[RootViewController sharedRootViewController].gamePlayTabBarController.viewControllers count];i++){
+                    tab = [[[RootViewController sharedRootViewController].gamePlayTabBarController.viewControllers objectAtIndex:i] title];
                     tab = [tab lowercaseString];
                     self.exitToTabVal = [self.exitToTabVal lowercaseString];
                     if([self.exitToTabVal isEqualToString:tab]) {
-                        [RootViewController sharedRootViewController].gameTabBarController.selectedIndex = i;
+                        [RootViewController sharedRootViewController].gamePlayTabBarController.selectedIndex = i;
                     }
                 }
             }
@@ -501,12 +485,14 @@ NSString *const kDialogHtmlTemplate =
 	}
 }
 
-- (void) applyPlayerOptions{	
+- (void) applyPlayerOptions
+{
 	NSLog(@"DialogVC: Apply Player Options");
 	++scriptIndex;
 	
 	// Display the appropriate question for the PC
-	if ([currentNode.answerString length] > 0) {
+	if ([currentNode.answerString length] > 0)
+    {
         [self moveAllOutWithPostSelector:nil];
         [self movePcIn];
         
@@ -521,8 +507,10 @@ NSString *const kDialogHtmlTemplate =
         self.title = pcTitle;
 		
 	}
-	else {
-		if (currentNode.numberOfOptions > 0) {
+	else
+    {
+		if (currentNode.numberOfOptions > 0)
+        {
 			//There are node options
             NSLog(@"DialogVC: Apply Player Options: Node Options Exist");
 
@@ -540,7 +528,8 @@ NSString *const kDialogHtmlTemplate =
             [self finishApplyingPlayerOptions:currentNode.options];
 
 		}
-		else {
+		else
+        {
 			//No node options, load the conversations
             NSLog(@"DialogVC: Apply Player Options: Load Conversations");
 
@@ -550,14 +539,15 @@ NSString *const kDialogHtmlTemplate =
 	}
 }
 
-- (void) optionsRecievedFromNotification:(NSNotification*) notification{
+- (void) optionsRecievedFromNotification:(NSNotification*) notification
+{
     NSLog(@"DialogVC: optionsRecievedFromNotification");
     [self dismissWaitingIndicatorForPlayerOptions];
 	[self finishApplyingPlayerOptions: (NSArray*)[notification object]];
 }
 
-- (void) finishApplyingPlayerOptions:(NSArray*)options{
-    
+- (void) finishApplyingPlayerOptions:(NSArray*)options
+{
     NSLog(@"DialogVC: finishApplyingPlayerOptions");
 
     currentNode = nil;
@@ -570,13 +560,15 @@ NSString *const kDialogHtmlTemplate =
         currentNpc.closing =   [trimmedString stringByAppendingString: @"\r"];
     
     //Now our options are populated with node or conversation choices, display
-	if ([options count] == 0 && [currentNpc.closing length] > 1 && !self.closingScriptPlaying) {
+	if ([options count] == 0 && [currentNpc.closing length] > 1 && !self.closingScriptPlaying)
+    {
 			NSLog(@"DialogViewController: Play Closing Script: %@",currentNpc.closing);
 			pcWebView.hidden = YES;
 			self.closingScriptPlaying = YES; 		
 			[parser parseText:currentNpc.closing];
 	}
-	else {
+	else
+    {
         [self moveAllOutWithPostSelector:nil];
         [self movePcIn];
         
@@ -601,7 +593,8 @@ NSString *const kDialogHtmlTemplate =
 	}
 }
 
-- (void) showWaitingIndicatorForPlayerOptions{
+- (void) showWaitingIndicatorForPlayerOptions
+{
 	pcTableViewController.view.hidden = YES;
 	pcActivityIndicator.hidden = NO;
     pcActivityIndicator.frame = CGRectMake(130, 300, 50, 50);
@@ -616,14 +609,16 @@ NSString *const kDialogHtmlTemplate =
 	[pcActivityIndicator startAnimating];
 }
 
-- (void) dismissWaitingIndicatorForPlayerOptions{
+- (void) dismissWaitingIndicatorForPlayerOptions
+{
     [lbl removeFromSuperview];
 	pcActivityIndicator.hidden = YES;
   
 	[pcActivityIndicator stopAnimating];
 }
 
-- (void) applyScene:(Scene *)aScene {	
+- (void) applyScene:(Scene *)aScene
+{
 	UIView *characterView;
     UIWebView *characterWebView;
 	UIScrollView *characterScrollView;
@@ -662,7 +657,8 @@ NSString *const kDialogHtmlTemplate =
 
 	isCurrentlyDisplayed = (characterView.frame.origin.x == 0);
 	
-	if (isCurrentlyDisplayed) {
+	if (isCurrentlyDisplayed)
+    {
 		[UIView beginAnimations:@"dialog" context:nil];
 		[UIView setAnimationCurve:UIViewAnimationCurveLinear];
 		[UIView setAnimationDuration:0.25];
@@ -674,7 +670,8 @@ NSString *const kDialogHtmlTemplate =
 	else [self moveAllOutWithPostSelector:@selector(finishScene)];
 }
 
-- (void) finishScene {
+- (void) finishScene
+{
 	NSLog(@"Dialog VC: finishScene");
     UIView *characterView;
 	UIWebView *characterWebView;
@@ -687,7 +684,8 @@ NSString *const kDialogHtmlTemplate =
 	UIButton *continueButton;
 	BOOL isCurrentlyDisplayed;
 		 
-	if (cachedScene.isPc) {
+	if (cachedScene.isPc)
+    {
         NSLog(@"Dialog VC: finishScene: This is the PC");
         if (![cachedScene.title isEqualToString:@""] && (cachedScene.title != nil)) self.title = cachedScene.title;
         else self.title = pcTitle;
@@ -702,14 +700,16 @@ NSString *const kDialogHtmlTemplate =
 		cachedScrollView = pcImage;
 		continueButton = pcContinueButton;
 		
-		if (scriptIndex == [currentScript count] && self.closingScriptPlaying ) {
+		if (scriptIndex == [currentScript count] && self.closingScriptPlaying )
+        {
 			//We are at the end of the script and no conversations exist, the next tap on the button is going to end the dialog
 			[pcContinueButton setTitle: leaveButtonTitle forState: UIControlStateNormal];
 			[pcContinueButton setTitle: leaveButtonTitle forState: UIControlStateHighlighted];
 
 		}
 	}
-	else {
+	else
+    {
         NSLog(@"Dialog VC: finishScene: This is the NPC");
 
         if (![cachedScene.title isEqualToString:@""] && (cachedScene.title != nil)) self.title = cachedScene.title;
@@ -752,7 +752,8 @@ NSString *const kDialogHtmlTemplate =
     isCurrentlyDisplayed = characterView.frame.origin.x == 0;
 	NSLog(@"Character IsCurrentlyDisplayed: %d", isCurrentlyDisplayed);
     
-	if (!isCurrentlyDisplayed) {
+	if (!isCurrentlyDisplayed)
+    {
         NSLog(@"Dialog VC: finishScene: The current character is not on screen, move them in");
 
 		if (cachedScene.isPc) [self movePcIn];
@@ -787,16 +788,19 @@ NSString *const kDialogHtmlTemplate =
     
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView {	
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
 	UIButton *continueButton;
 	UIScrollView *scrollView;
 	
-	if (webView == npcWebView) {
+	if (webView == npcWebView)
+    {
 		NSLog(@"DialogViewController: NPC WebView loaded: Update Sizes");
 		continueButton = npcContinueButton;
 		scrollView = npcScrollView;
 	}
-	else {
+	else
+    {
 		NSLog(@"DialogViewController: PC WebView loaded: Update Sizes");
 		continueButton = pcContinueButton;
 		scrollView = pcScrollView;
@@ -840,7 +844,6 @@ NSString *const kDialogHtmlTemplate =
     
     webView.hidden = NO;
     scrollView.hidden = NO;
-    
 }
 
 
@@ -848,10 +851,7 @@ NSString *const kDialogHtmlTemplate =
 #pragma mark ARIS/JavaScript Connections
 
 - (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType
-{
-    
-    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-    
+{    
     //Is this a special call from HTML back to ARIS?
     NSString* scheme = [[req URL] scheme];
     if (!([scheme isEqualToString:@"aris"] || [scheme isEqualToString:@"ARIS"])) return YES;
@@ -893,16 +893,16 @@ NSString *const kDialogHtmlTemplate =
     return 0;
 }
 
-
-
 #pragma mark Movement 
-- (void) moveAllOutWithPostSelector:(SEL)postSelector {	
+- (void) moveAllOutWithPostSelector:(SEL)postSelector
+{
 	[self movePcTo:CGRectMake(160, 0, 320, 416) withAlpha:0 
 		  andNpcTo:CGRectMake(-160, 0, 320, 416) withAlpha:0
   withPostSelector:postSelector];
 }
 
-- (void) movePcIn {
+- (void) movePcIn
+{
 	NSLog(@"DialogViewController: Move PC view to Main View X:%f Y:%f Width:%f Height:%f",mainView.frame.origin.x,mainView.frame.origin.y,mainView.frame.size.width,mainView.frame.size.height );
     if([AppModel sharedAppModel].currentGame.pcMediaId != 0)
         [self loadPCImage:[AppModel sharedAppModel].currentGame.pcMediaId];
@@ -913,7 +913,8 @@ NSString *const kDialogHtmlTemplate =
 		  andNpcTo:[npcView frame] withAlpha:[npcView alpha] withPostSelector:nil];
 }
 
-- (void) moveNpcIn {
+- (void) moveNpcIn
+{
 	NSLog(@"DialogViewController: Move NPC view to Main View X:%f Y:%f Width:%f Height:%f",mainView.frame.origin.x,mainView.frame.origin.y,mainView.frame.size.width,mainView.frame.size.height );
     npcScrollView.hidden = NO;
 
@@ -938,8 +939,10 @@ NSString *const kDialogHtmlTemplate =
 }
 
 #pragma mark Audio and Video
-- (void) playAudioOrVideoFromMedia:(Media*)media andHidden:(BOOL)hidden{
-    if(media.image != nil && [media.type isEqualToString: kMediaTypeAudio]) {  //worked before added type check, not sure how
+- (void) playAudioOrVideoFromMedia:(Media*)media andHidden:(BOOL)hidden
+{
+    if(media.image != nil && [media.type isEqualToString: kMediaTypeAudio]) //worked before added type check, not sure how
+    {
         NSLog(@"DialogViewController: Playing through AVAudioPlayer");
         [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];	
         [[AVAudioSession sharedInstance] setActive: YES error: nil];
@@ -953,7 +956,8 @@ NSString *const kDialogHtmlTemplate =
             [self.player play];
         }
     }
-    else{
+    else
+    {
         NSLog(@"DialogViewController: Playing through MPMoviePlayerController");
         self.ARISMoviePlayer.moviePlayer.view.hidden = hidden; 
         if(!self.ARISMoviePlayer) self.ARISMoviePlayer = [[ARISMoviePlayerViewController alloc] init];
@@ -983,34 +987,36 @@ NSString *const kDialogHtmlTemplate =
 
 - (void)MPMoviePlayerLoadStateDidChangeNotification:(NSNotification *)notif
 {
-    if (self.ARISMoviePlayer.moviePlayer.loadState & MPMovieLoadStateStalled) {
+    if (self.ARISMoviePlayer.moviePlayer.loadState & MPMovieLoadStateStalled)
+    {
         [self.waiting startAnimating];
         [self.ARISMoviePlayer.moviePlayer pause];
-    } else if (self.ARISMoviePlayer.moviePlayer.loadState & MPMovieLoadStatePlayable) {
+    }
+    else if (self.ARISMoviePlayer.moviePlayer.loadState & MPMovieLoadStatePlayable)
+    {
         [self.waiting stopAnimating];
         [self.ARISMoviePlayer.moviePlayer play];
         [self.waiting removeFromSuperview];
-        
     }
 } 
 
 #pragma mark audioPlayerDone
 
-- (void) audioPlayerDidFinishPlaying: (AVAudioPlayer *) player successfully: (BOOL) flag {
+- (void) audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
+{
     [[AVAudioSession sharedInstance] setActive: NO error: nil];
 }
 
 #pragma mark Answer Checking
-- (BOOL) textFieldShouldReturn:(UITextField *)textField {
+- (BOOL) textFieldShouldReturn:(UITextField *)textField
+{
 	[pcAnswerView resignFirstResponder];
 	NSString *cookedResponse = [pcAnswerView.text lowercaseString];
 	NSString *cookedAnswer = [currentNode.answerString lowercaseString];
 	
 	NSInteger targetNode;
-	if ([cookedAnswer isEqualToString:cookedResponse]) {
-		targetNode = currentNode.nodeIfCorrect;
-	}
-	else targetNode = currentNode.nodeIfIncorrect;
+	if ([cookedAnswer isEqualToString:cookedResponse]) targetNode = currentNode.nodeIfCorrect;
+    else targetNode = currentNode.nodeIfIncorrect;
 		
 	Node *newNode = [[AppModel sharedAppModel] nodeForNodeId: targetNode];
 
@@ -1024,24 +1030,26 @@ NSString *const kDialogHtmlTemplate =
 }
 
 #pragma mark PC options table view
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if(self.hideLeaveConversationButton) return 1;
-       return 2;
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    if(self.hideLeaveConversationButton)
+        return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
 {
-	if (section == 0) return [optionList count];
-	else return 1;
+	if (section == 0)
+        return [optionList count];
+	return 1;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
 	UITableViewCell *cell = [pcTableView dequeueReusableCellWithIdentifier:@"Dialog"];
-	if (!cell) {
-		cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, 0, 0)
-									   reuseIdentifier:@"Dialog"];
-	}
-	
+	if (!cell)
+		cell = [[UITableViewCell alloc] initWithFrame:CGRectMake(0, 0, 0, 0) reuseIdentifier:@"Dialog"];
+    
 	if (indexPath.section == 0) {
 		NodeOption *option = [optionList objectAtIndex:indexPath.row];
 		cell.textLabel.text = option.text;
@@ -1055,7 +1063,8 @@ NSString *const kDialogHtmlTemplate =
         }
         else cell.textLabel.textColor = [UIColor colorWithRed:(50.0/255.0) green:(79.0/255.0) blue:(133.0/255.0) alpha:1];
 	}
-	else if (indexPath.row == 0) {
+	else if (indexPath.row == 0)
+    {
 		cell.textLabel.text = leaveButtonTitle;
         cell.textLabel.textColor = [UIColor colorWithRed:(50.0/255.0) green:(79.0/255.0) blue:(133.0/255.0) alpha:1];
 	}
@@ -1070,8 +1079,8 @@ NSString *const kDialogHtmlTemplate =
 	return cell;
 }
 
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
 	if (indexPath.section == 1) return 35;
 
 	NodeOption *option = [optionList objectAtIndex:indexPath.row];
@@ -1089,7 +1098,8 @@ NSString *const kDialogHtmlTemplate =
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	//Check if it is the "leave conversation" option
-	if (indexPath.section == 1 && indexPath.row == 0) {
+	if (indexPath.section == 1 && indexPath.row == 0)
+    {
 		[self backButtonTouchAction:nil];
 		return;
 	}
@@ -1100,7 +1110,8 @@ NSString *const kDialogHtmlTemplate =
 	Node *newNode = [[AppModel sharedAppModel] nodeForNodeId:selectedOption.nodeId];
 
 	currentNode = newNode;
-    if(newNode.text.length == 0){
+    if(newNode.text.length == 0)
+    {
         [self continueScript];
         return;
     }
@@ -1109,7 +1120,8 @@ NSString *const kDialogHtmlTemplate =
 }
 
 #pragma mark XML Parsing
-- (void) didFinishParsing {
+- (void) didFinishParsing
+{
 	// Load the next scene
 	pcTableView.hidden = YES;
 	pcWebView.hidden = YES;
@@ -1119,29 +1131,33 @@ NSString *const kDialogHtmlTemplate =
 	currentScript = parser.script;
 	scriptIndex = kStartingIndex;
 
-    if(parser.exitToTabWithTitle != nil) {
+    if(parser.exitToTabWithTitle != nil)
         self.exitToTabVal = (NSString*)parser.exitToTabWithTitle;
-    }
 
     [self continueScript]; 
 }
 
-- (void) setHideLeaveConversationButton:(BOOL)hide{
+- (void) setHideLeaveConversationButton:(BOOL)hide
+{
     hideLeaveConversationButton = hide;
 }
 
-- (BOOL) hideLeaveConversationButton {
+- (BOOL) hideLeaveConversationButton
+{
     return hideLeaveConversationButton;
 }
 
-- (void) hideAdjustTextAreaButton:(BOOL)hide{
+- (void) hideAdjustTextAreaButton:(BOOL)hide
+{
     if(hide) self.navigationItem.rightBarButtonItem = nil;
     else self.navigationItem.rightBarButtonItem = self.textSizeButton;
 }
 
--(void) adjustTextArea:(NSString *)area {
+-(void) adjustTextArea:(NSString *)area
+{
     BOOL adjust = YES;
-    if([area isEqualToString:@"hidden"]) {
+    if([area isEqualToString:@"hidden"])
+    {
         textboxSize = 2;
         [self hideAdjustTextAreaButton:NO];
     }
@@ -1151,34 +1167,41 @@ NSString *const kDialogHtmlTemplate =
     if(adjust) [self toggleFullScreenTextMode];
 }
 
--(void) setPcTitle:(NSString *)aPcTitle {
+-(void) setPcTitle:(NSString *)aPcTitle
+{
     pcTitle = aPcTitle;
 }
 
--(void) setPcMediaId:(int)mediaId{
+-(void) setPcMediaId:(int)mediaId
+{
     Media *pcMedia = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
     [pcImage loadImageFromMedia: pcMedia];
 }
 
--(void) setLeaveButtonTitle:(NSString *)aLeaveButtonTitle {
+-(void) setLeaveButtonTitle:(NSString *)aLeaveButtonTitle
+{
     leaveButtonTitle = aLeaveButtonTitle;
 }
 
 #pragma mark Scroll View
-- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
 	return cachedScrollView;
 }
 
 #pragma mark Rotation
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
     return UIInterfaceOrientationPortrait;
 }
 
--(BOOL)shouldAutorotate{
+-(BOOL)shouldAutorotate
+{
     return NO;
 }
 
--(NSInteger)supportedInterfaceOrientations{
+-(NSInteger)supportedInterfaceOrientations
+{
     NSInteger mask = 0;
     if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeLeft])
         mask |= UIInterfaceOrientationMaskLandscapeLeft;
@@ -1190,6 +1213,5 @@ NSString *const kDialogHtmlTemplate =
         mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
     return mask;
 }
-
 
 @end

@@ -44,14 +44,13 @@
     self = [super init];
     if (self) {
 		//Init USerDefaults
-		defaults = [NSUserDefaults standardUserDefaults];
-		gameMediaList = [[NSMutableDictionary alloc] initWithCapacity:10];
-        motionManager = [[CMMotionManager alloc] init];
-        overlayList = [[NSMutableArray alloc] initWithCapacity:10];
-        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-        [dispatcher addObserver:self selector:@selector(clearGameLists) name:@"NewGameSelected" object:nil];
         museumMode = NO;
         skipGameDetails = NO;
+		defaults =      [NSUserDefaults standardUserDefaults];
+		gameMediaList = [[NSMutableDictionary alloc] initWithCapacity:10];
+        overlayList =   [[NSMutableArray alloc] initWithCapacity:10];
+        motionManager = [[CMMotionManager alloc] init];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearGameLists) name:@"NewGameSelected" object:nil];
 	}
     return self;
 }
@@ -80,8 +79,7 @@
     if (self.serverURL && ![currServ isEqual:self.serverURL])
     {
         [[AppModel sharedAppModel].mediaCache clearCache];
-        NSNotification *logoutRequestNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self];
-        [[NSNotificationCenter defaultCenter] postNotification:logoutRequestNotification];
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LogoutRequested" object:self]];
         self.serverURL = currServ;
         return;
     }
@@ -89,8 +87,7 @@
     if(self.showGamesInDevelopment != [defaults boolForKey:@"showGamesInDevelopment"])
     {
         self.showGamesInDevelopment = [defaults boolForKey:@"showGamesInDevelopment"];
-        NSNotification *logoutRequestNotification = [NSNotification notificationWithName:@"LogoutRequested" object:self];
-        [[NSNotificationCenter defaultCenter] postNotification:logoutRequestNotification];
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LogoutRequested" object:self]];
         return;
     }
     
@@ -242,8 +239,7 @@
 	[[AppServices sharedAppServices] updateServerWithPlayerLocation];	
 	
 	//Tell the other parts of the client
-	NSNotification *updatedLocationNotification = [NSNotification notificationWithName:@"PlayerMoved" object:nil];
-	[[NSNotificationCenter defaultCenter] postNotification:updatedLocationNotification];
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerMoved" object:nil]];
 }
 
 
@@ -269,8 +265,8 @@
 	item.qty -=qty; 
 	if (item.qty < 1) [self.inventory removeObjectForKey:[NSString stringWithFormat:@"%d",item.itemId]];
     
-    if([[(UINavigationController *) [RootViewController sharedRootViewController].gameTabBarController.selectedViewController topViewController] respondsToSelector:@selector(updateQuantityDisplay)])
-        [[(UINavigationController *)[RootViewController sharedRootViewController].gameTabBarController.selectedViewController topViewController] performSelector:@selector(updateQuantityDisplay)];
+    if([[(UINavigationController *) [RootViewController sharedRootViewController].gamePlayTabBarController.selectedViewController topViewController] respondsToSelector:@selector(updateQuantityDisplay)])
+        [[(UINavigationController *)[RootViewController sharedRootViewController].gamePlayTabBarController.selectedViewController topViewController] performSelector:@selector(updateQuantityDisplay)];
     
     NSString *notifString;
     if(item.maxQty == 1)
@@ -280,8 +276,7 @@
     
     [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:item.name];
     
-	NSNotification *notification = [NSNotification notificationWithName:@"NewInventoryReady" object:nil];
-	[[NSNotificationCenter defaultCenter] postNotification:notification];
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewInventoryReady" object:nil]];
 }
 
 -(void)addItemToInventory: (Item*)item {
@@ -289,8 +284,7 @@
     
 	if(!item.isAttribute)[self.inventory setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]];
 	else [self.attributes setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]];
-	NSNotification *notification = [NSNotification notificationWithName:@"NewInventoryReady" object:nil];
-	[[NSNotificationCenter defaultCenter] postNotification:notification];
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewInventoryReady" object:nil]];
     //[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ItemRecievedNotification" object:nil]];
     //self.itemPrompt = item;
     

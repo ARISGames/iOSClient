@@ -32,10 +32,11 @@
 
 @interface RootViewController : UIViewController <UIApplicationDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate, PTPusherDelegate>
 {
-    UITabBarController *gameSelectionTabBarController;
-    UITabBarController *gameTabBarController;
-    
     UINavigationController *loginNavigationController;
+
+    UITabBarController *gameSelectionTabBarController;
+    UITabBarController *gamePlayTabBarController;
+    
     UINavigationController *playerSettingsViewNavigationController;
 
     UINavigationController *nearbyObjectsNavigationController;
@@ -47,9 +48,7 @@
     UIAlertView *networkAlert;
 	UIAlertView *serverAlert;
     UIWebView *notificationView;
-    NSMutableArray *notifArray;
     PopOverViewController *popOverViewController;
-    NSMutableArray *popOverArray;
 
     TutorialViewController *tutorialViewController;
 	
@@ -68,10 +67,11 @@
     BOOL usesIconQuestView;
 }
 
-@property (nonatomic) UITabBarController *gameSelectionTabBarController;
-@property (nonatomic) UITabBarController *gameTabBarController;
-
 @property (nonatomic) UINavigationController *loginNavigationController;
+
+@property (nonatomic) UITabBarController *gameSelectionTabBarController;
+@property (nonatomic) UITabBarController *gamePlayTabBarController;
+
 @property (nonatomic) UINavigationController *playerSettingsNavigationController;
 
 @property (nonatomic) UINavigationController *nearbyObjectsNavigationController;
@@ -83,9 +83,7 @@
 @property (nonatomic) UIAlertView *networkAlert;
 @property (nonatomic) UIAlertView *serverAlert;
 @property (nonatomic) UIWebView *notificationView;
-@property (nonatomic) NSMutableArray *notifArray;
 @property (nonatomic) PopOverViewController *popOverViewController;
-@property (nonatomic) NSMutableArray *popOverArray;
 
 @property (nonatomic) TutorialViewController *tutorialViewController;
 
@@ -102,28 +100,36 @@
 
 + (RootViewController *)sharedRootViewController;
 
-- (void) selectGame:(NSNotification *)notification;
-- (void) createUserAndLoginWithGroup:(NSString *)groupName andGameId:(int)gameId inMuseumMode:(BOOL)museumMode;
 - (void) attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password andGameId:(int)gameId inMuseumMode:(BOOL)museumMode;
+- (void) createUserAndLoginWithGroup:(NSString *)groupName andGameId:(int)gameId inMuseumMode:(BOOL)museumMode;
+
+- (void) changeTabBar;
+- (void) showGameSelectionTabBarAndHideOthers;
+- (void) handleOpenURLGamesListReady;
+
+- (void) selectGame:(NSNotification *)notification;
+
+- (void) showNearbyTab:(BOOL)yesOrNo;
 - (void) displayNearbyObjectView:(UIViewController *)nearbyObjectViewController;
+- (void) dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController;
+
+- (void) displayIntroNode;
+- (void) checkForDisplayCompleteNode;
+
+- (void) showAlert:(NSString *)title message:(NSString *)message;
+- (void) showServerAlertWithEmail:(NSString *)title message:(NSString *)message details:(NSString*)detail;
+
 - (void) showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar;
 - (void) removeWaitingIndicator;
-- (void) showServerAlertWithEmail:(NSString *)title message:(NSString *)message details:(NSString*)detail;
+
 - (void) showNetworkAlert;
 - (void) removeNetworkAlert;
-- (void) showNearbyTab:(BOOL)yesOrNo;
-- (void) showGameSelectionTabBarAndHideOthers;
-- (void) checkForDisplayCompleteNode;
-- (void) displayIntroNode;
-- (void) changeTabBar;
-- (void) enqueueNotificationWithFullString:(NSString *)fullString andBoldedString:(NSString *)boldedString;
+
 - (void) enqueuePopOverWithTitle:(NSString *)title description:(NSString *)description webViewText:(NSString *)text andMediaId:(int) mediaId;
-- (void) showNotifications;
-- (void) showPopOver;
-- (void) hideNotifications;
-- (void) dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController;
-- (void) handleOpenURLGamesListReady;
-- (void) showAlert:(NSString *)title message:(NSString *)message;
+- (void) dequeuePopOver;
+- (void) enqueueNotificationWithFullString:(NSString *)fullString andBoldedString:(NSString *)boldedString;
+- (void) cutOffGameNotifications;
+
 //- (void) didReceivePlayerChannelEventNotification:(NSNotification *)notification;
 //- (void) didReceiveGroupChannelEventNotification:(NSNotification *)notification;
 - (void) didReceiveGameChannelEventNotification:(NSNotification *)notification;

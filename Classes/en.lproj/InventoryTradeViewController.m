@@ -33,7 +33,8 @@
                                   toChannel:channel];
     }];
     
-    [[BumpClient sharedClient] setDataReceivedBlock:^(BumpChannelID channel, NSData *data) {
+    [[BumpClient sharedClient] setDataReceivedBlock:^(BumpChannelID channel, NSData *data)
+    {
         int theirGameId;
         int gameIdStartPos;
         int gameIdEndPos;

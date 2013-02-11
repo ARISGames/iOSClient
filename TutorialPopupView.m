@@ -66,7 +66,7 @@
 
 -(void) updatePointerPosition{
 	NSLog(@"TutorialPopupView: updatePointerPosition");
-	int tabIndex = [[RootViewController sharedRootViewController].gameTabBarController.viewControllers indexOfObject:self.associatedViewController];
+	int tabIndex = [[RootViewController sharedRootViewController].gamePlayTabBarController.viewControllers indexOfObject:self.associatedViewController];
 	self.pointerXpos = 22.0 + tabIndex * self.superview.frame.size.width / 5;	
 	[self setNeedsDisplay];  
 }

@@ -25,9 +25,8 @@
 		self.tabBarItem.image = [UIImage imageNamed:@"73-radar"];
 		self.title = NSLocalizedString(@"NearbyObjectsTabKey",@"");
 		self.navigationItem.title = NSLocalizedString(@"NearbyObjectsTitleKey",@"");
-		NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"PlayerMoved" object:nil];
-		[dispatcher addObserver:self selector:@selector(refreshViewFromModel) name:@"NewLocationListReady" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"PlayerMoved" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewLocationListReady" object:nil];
 		
 		self.oldNearbyLocationList = [NSMutableArray arrayWithCapacity:5];
     }
@@ -42,8 +41,7 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-    [dispatcher addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
 }
 
 /*

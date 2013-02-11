@@ -23,7 +23,6 @@
 -(id)initWithFrame:(CGRect)aFrame andMedia:(Media *)aMedia{
     self.media = aMedia;
     return [self initWithFrame:aFrame andMediaId:[aMedia.uid intValue]];
-
 }
 
 -(id)initWithFrame:(CGRect)aFrame andMediaId:(int)mediaId{        
@@ -68,8 +67,7 @@
                 self.mMoviePlayer.moviePlayer.shouldAutoplay = NO;
                 [self.mMoviePlayer.moviePlayer requestThumbnailImagesAtTimes:timeArray timeOption:MPMovieTimeOptionNearestKeyFrame];
                  
-                NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-                [dispatcher addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:self.mMoviePlayer.moviePlayer];
+                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:self.mMoviePlayer.moviePlayer];
         
                 //set up indicators
                 [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -144,7 +142,8 @@
     self.isLoading = YES;
 
 	//check if the media already as the image, if so, just grab it
-	if (self.media.image) {
+	if (self.media.image)
+    {
         [self updateViewWithNewImage:[UIImage imageWithData:self.media.image]];
         self.loaded = YES;
         self.isLoading = NO;
@@ -155,8 +154,7 @@
         NSLog(@"AsyncImageView: loadImageFromMedia with null url! Trying to load from server (mediaId:%d)",[self.media.uid intValue]);
         self.isLoading = NO;
 
-        NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-        [dispatcher addObserver:self selector:@selector(retryLoadingMyMedia) name:@"ReceivedMediaList" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(retryLoadingMyMedia) name:@"ReceivedMediaList" object:nil];
         [[AppServices sharedAppServices] fetchIndividualMediaById:[self.media.uid intValue]];
         return;
     }
@@ -185,8 +183,7 @@
 - (void)retryLoadingMyMedia
 {
     NSLog(@"Failed to load media %d previously- new media list recieved so trying again...", [self.media.uid intValue]);
-    NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-    [dispatcher removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:[self.media.uid intValue]]];
 }
 

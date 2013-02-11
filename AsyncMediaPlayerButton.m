@@ -73,8 +73,7 @@ BOOL isLoading;
             NSArray *timeArray = [NSArray arrayWithObject:thumbTime];
             [self.mMoviePlayer.moviePlayer requestThumbnailImagesAtTimes:timeArray timeOption:MPMovieTimeOptionNearestKeyFrame];
         
-                NSNotificationCenter *dispatcher = [NSNotificationCenter defaultCenter];
-            [dispatcher addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:mMoviePlayer.moviePlayer];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:mMoviePlayer.moviePlayer];
         }
         else if ([media.type isEqualToString:kMediaTypeAudio])
         {
