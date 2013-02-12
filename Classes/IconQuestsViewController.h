@@ -28,11 +28,12 @@
 @interface IconQuestsViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate> {
 	NSMutableArray *quests;
     NSArray *sortedQuests;
-    int silenceNextServerUpdateCount;
-    int newItemsSinceLastView;
     UIScrollView *questIconScrollView;
     UICollectionView *questIconCollectionView;
     UICollectionViewFlowLayout *questIconCollectionViewLayout;
+    
+    int silenceNextServerUpdateCount;
+    int newItemsSinceLastView;
 }
 @property(nonatomic) NSMutableArray *quests;
 

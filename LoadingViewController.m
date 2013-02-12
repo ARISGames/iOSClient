@@ -79,8 +79,9 @@
     }
     else if(actual >= 0.999)
     {
-        if ([AppModel sharedAppModel].currentGame.completedQuests < 1)//<- what does completed quests have to do with anything (if this is being used as a heuristic to gauge sufficient distance in game, it should be wrapped into some "start game" function (along with the command to "displayIntroNode"))
-            [[RootViewController sharedRootViewController] performSelector:@selector(displayIntroNode) withObject:nil afterDelay:.1];//<- 'displayIntroNode' is unintuitive
+        if ([AppModel sharedAppModel].currentGame.completedQuests < 1)
+            [[RootViewController sharedRootViewController] performSelector:@selector(beginGamePlay) withObject:nil afterDelay:.1];
+        // ^ that is bad. It should call a delegate method "finishedLoading" instead
         [self dismissModalViewControllerAnimated:NO];//<- depricated
         [RootViewController sharedRootViewController].loadingViewController = nil;//<- what.
     }

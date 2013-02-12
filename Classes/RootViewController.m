@@ -77,7 +77,7 @@ BOOL showingPopover;
     return _sharedObject;
 }
 
-- (void) initViewControllers
+- (void) initViewControllers //For non-tab-bar vc's
 {
     //Login View Controller
     LoginViewController* loginViewController = [[LoginViewController alloc] initWithNibName:@"Login" bundle:nil];
@@ -266,22 +266,22 @@ BOOL showingPopover;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performLogout:)              name:@"LogoutRequested"       object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkForDisplayCompleteNode) name:@"NewQuestListReady"     object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedMediaList)           name:@"ReceivedMediaList"     object:nil];
-                
+        
         //Set up visibility of views at top of heirarchy
         [[AppModel sharedAppModel] loadUserDefaults];
         if([AppModel sharedAppModel].playerId == 0)
         {
-            self.loginNavigationController.view.hidden = NO;
-            self.gamePlayTabBarController.view.hidden = YES;
+            self.loginNavigationController.view.hidden     = NO;
+            self.gamePlayTabBarController.view.hidden      = YES;
             self.gameSelectionTabBarController.view.hidden = YES;
         }
         else
         {
             [[AppServices sharedAppServices] setShowPlayerOnMap];
             [AppModel sharedAppModel].loggedIn = YES;
-            self.loginNavigationController.view.hidden = YES;
-            self.gamePlayTabBarController.view.hidden = YES;
-            self.gameSelectionTabBarController.view.hidden = NO;
+            self.gameSelectionTabBarController.view.hidden      = NO;
+            self.loginNavigationController.view.hidden          = YES;
+            self.gamePlayTabBarController.view.hidden           = YES;
             self.playerSettingsNavigationController.view.hidden = YES;
         }
     }
@@ -479,7 +479,8 @@ BOOL showingPopover;
     {
         UIAlertView *serverAlertAlloc = [[UIAlertView alloc] initWithTitle:title
                                                                    message:NSLocalizedString(@"ARISAppDelegateWIFIErrorMessageKey", @"")
-                                                                  delegate:self cancelButtonTitle:NSLocalizedString(@"IgnoreKey", @"") otherButtonTitles:NSLocalizedString(@"ReportKey", @""),nil];
+                                                                  delegate:self cancelButtonTitle:NSLocalizedString(@"IgnoreKey", @"")
+                                                         otherButtonTitles:NSLocalizedString(@"ReportKey", @""),nil];
 		self.serverAlert = serverAlertAlloc;
 		[self.serverAlert show];
  	}
@@ -545,46 +546,42 @@ BOOL showingPopover;
     [[AppServices sharedAppServices] fetchAllPlayerLists];
 }
 
-- (void) displayIntroNode
+- (void) beginGamePlay
 {
+    NSLog(@"RootViewController: beginGamePlay");
+
     int nodeId = [AppModel sharedAppModel].currentGame.launchNodeId;
     if (nodeId && nodeId != 0)
-    {
-        NSLog(@"RootViewController: displayIntroNode");
-        Node *launchNode = [[AppModel sharedAppModel] nodeForNodeId:[AppModel sharedAppModel].currentGame.launchNodeId];
-        [launchNode display];
-    }
+        [[[AppModel sharedAppModel] nodeForNodeId:nodeId] display];
     else
-    {
-        NSLog(@"RootViewController: displayIntroNode: Game did not specify an intro node, skipping");
         [AppServices sharedAppServices].currentlyInteractingWithObject = NO;
-    }
     
     //What is this doing? -Phil 11-13-2012
     //Causing all views to load, so that they will enque notifications even if they haven't been viewed before -Jacob 1/14/13
+    //Bad. -Phil 2-11-13
     for(UIViewController * viewController in  gamePlayTabBarController.viewControllers)
         [viewController view];
 }
 
 - (void) checkForDisplayCompleteNode
 {
-    int nodeID = [AppModel sharedAppModel].currentGame.completeNodeId;
-    if ([AppModel sharedAppModel].currentGame.completedQuests == [AppModel sharedAppModel].currentGame.totalQuests &&
-        [AppModel sharedAppModel].currentGame.completedQuests > 0  && nodeID != 0)
+    int nodeId = [AppModel sharedAppModel].currentGame.completeNodeId;
+    if (nodeId != 0 &&
+        [AppModel sharedAppModel].currentGame.completedQuests == [AppModel sharedAppModel].currentGame.totalQuests &&
+        [AppModel sharedAppModel].currentGame.completedQuests > 0)
     {
         NSLog(@"RootViewController: checkForIntroOrCompleteNodeDisplay: Displaying Complete Node");
-		Node *completeNode = [[AppModel sharedAppModel] nodeForNodeId:[AppModel sharedAppModel].currentGame.completeNodeId];
-		[completeNode display];
+		[[[AppModel sharedAppModel] nodeForNodeId:nodeId] display];
 	}
 }
 
-- (void) showNearbyTab:(BOOL)yesOrNo
+- (void) showNearbyTab:(BOOL)showTab
 {
     if([AppModel sharedAppModel].tabsReady)
     {
         NSMutableArray *tabs = [NSMutableArray arrayWithArray:self.gamePlayTabBarController.viewControllers];
         
-        if(yesOrNo)
+        if(showTab)
         {
             NSLog(@"RootViewController: showNearbyTab: YES");
             if (![tabs containsObject:self.nearbyObjectsNavigationController])
@@ -666,7 +663,7 @@ BOOL showingPopover;
         {
             [self showPlayerSettings:nil];
             if([AppModel sharedAppModel].playerMediaId == 0 || [AppModel sharedAppModel].playerMediaId == -1)
-                [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController playerPicCamButtonTouched:nil];
+                [(PlayerSettingsViewController *) self.playerSettingsNavigationController.topViewController playerPicCamButtonTouched:nil];
         }
         else
         {
@@ -706,7 +703,7 @@ BOOL showingPopover;
     [self.gamePlayTabBarController.moreNavigationController popToRootViewControllerAnimated:NO];
     [self.gamePlayTabBarController presentModalViewController:self.loadingViewController animated:NO];
         
-    self.gamePlayTabBarController.view.hidden               = NO;
+    self.gamePlayTabBarController.view.hidden           = NO;
     self.gameSelectionTabBarController.view.hidden      = YES;
     self.loginNavigationController.view.hidden          = YES;
     self.playerSettingsNavigationController.view.hidden = YES;

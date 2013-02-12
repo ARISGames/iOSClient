@@ -113,7 +113,7 @@
 - (void) displayNearbyObjectView:(UIViewController *)nearbyObjectViewController;
 - (void) dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController;
 
-- (void) displayIntroNode;
+- (void) beginGamePlay;
 - (void) checkForDisplayCompleteNode;
 
 - (void) showAlert:(NSString *)title message:(NSString *)message;
