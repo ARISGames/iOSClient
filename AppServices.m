@@ -10,12 +10,18 @@
 #import "ARISUploader.h"
 
 static const int kDefaultCapacity = 10;
-static const int kEmptyValue = -1;
+static const BOOL kEmptyBoolValue = NO;
+static const int kEmptyIntValue = -1;
+static const float kEmptyFloatValue = 0.0;
+static const double kEmptyDoubleValue = 0.0;
 NSString *const kARISServerServicePackage = @"v1";
 
 @interface AppServices()
 
+- (BOOL) validBoolForKey:(NSString *const)aKey inDictionary:(NSDictionary *const)aDictionary;
 - (NSInteger) validIntForKey:(NSString *const)aKey inDictionary:(NSDictionary *const)aDictionary;
+- (float) validFloatForKey:(NSString *const)aKey inDictionary:(NSDictionary *const)aDictionary;
+- (double) validDoubleForKey:(NSString *const)aKey inDictionary:(NSDictionary *const)aDictionary;
 - (id) validObjectForKey:(NSString *const)aKey inDictionary:(NSDictionary *const)aDictionary;
 
 @end
@@ -1888,9 +1894,24 @@ NSString *const kARISServerServicePackage = @"v1";
 }
 
 #pragma mark Parsers
+- (BOOL) validBoolForKey:(NSString *const)aKey inDictionary:(NSDictionary *const)aDictionary {
+	id theObject = [aDictionary valueForKey:aKey];
+	return [theObject respondsToSelector:@selector(boolValue)] ? [theObject boolValue] : kEmptyBoolValue;
+}
+
 - (NSInteger) validIntForKey:(NSString *const)aKey inDictionary:(NSDictionary *const)aDictionary {
 	id theObject = [aDictionary valueForKey:aKey];
-	return [theObject respondsToSelector:@selector(intValue)] ? [theObject intValue] : kEmptyValue;
+	return [theObject respondsToSelector:@selector(intValue)] ? [theObject intValue] : kEmptyIntValue;
+}
+
+- (float) validFloatForKey:(NSString *const)aKey inDictionary:(NSDictionary *const)aDictionary {
+	id theObject = [aDictionary valueForKey:aKey];
+	return [theObject respondsToSelector:@selector(floatValue)] ? [theObject floatValue] : kEmptyFloatValue;
+}
+
+- (double) validDoubleForKey:(NSString *const)aKey inDictionary:(NSDictionary *const)aDictionary {
+	id theObject = [aDictionary valueForKey:aKey];
+	return [theObject respondsToSelector:@selector(doubleValue)] ? [theObject doubleValue] : kEmptyDoubleValue;
 }
 
 - (id) validObjectForKey:(NSString *const)aKey inDictionary:(NSDictionary *const)aDictionary {
@@ -1966,18 +1987,18 @@ NSString *const kARISServerServicePackage = @"v1";
 	aNote.noteId =        [self validIntForKey:@"note_id" inDictionary:noteDictionary];
 	aNote.title =         [self validObjectForKey:@"title" inDictionary:noteDictionary];
 	aNote.text =          [self validObjectForKey:@"text" inDictionary:noteDictionary];
-    aNote.averageRating = [[self validObjectForKey:@"ave_rating" inDictionary:noteDictionary] floatValue];
+    aNote.averageRating = [self validFloatForKey:@"ave_rating" inDictionary:noteDictionary];
     aNote.parentNoteId =  [self validIntForKey:@"parent_note_id" inDictionary:noteDictionary];
     aNote.parentRating =  [self validIntForKey:@"parent_rating" inDictionary:noteDictionary];
     aNote.numRatings =    [self validIntForKey:@"likes" inDictionary:noteDictionary];
     aNote.creatorId =     [self validIntForKey:@"owner_id" inDictionary:noteDictionary];
-    aNote.showOnMap =     [[self validObjectForKey:@"public_to_map" inDictionary:noteDictionary]boolValue];
-    aNote.showOnList =    [[self validObjectForKey:@"public_to_notebook" inDictionary:noteDictionary]boolValue];
-    aNote.userLiked =     [[self validObjectForKey:@"player_liked" inDictionary:noteDictionary]boolValue];
+    aNote.showOnMap =     [self validBoolForKey:@"public_to_map" inDictionary:noteDictionary];
+    aNote.showOnList =    [self validBoolForKey:@"public_to_notebook" inDictionary:noteDictionary];
+    aNote.userLiked =     [self validBoolForKey:@"player_liked" inDictionary:noteDictionary];
     aNote.username =      [self validObjectForKey:@"username" inDictionary:noteDictionary];
-    aNote.dropped =       [[self validObjectForKey:@"dropped" inDictionary:noteDictionary]boolValue];
-    aNote.latitude =      [[self validObjectForKey:@"lat" inDictionary:noteDictionary]doubleValue];
-    aNote.longitude =     [[self validObjectForKey:@"lon" inDictionary:noteDictionary]doubleValue];
+    aNote.dropped =       [self validBoolForKey:@"dropped" inDictionary:noteDictionary];
+    aNote.latitude =      [self validDoubleForKey:@"lat" inDictionary:noteDictionary];
+    aNote.longitude =     [self validDoubleForKey:@"lon" inDictionary:noteDictionary];
     
     NSArray *contents = [self validObjectForKey:@"contents" inDictionary:noteDictionary];
     for (NSDictionary *content in contents) {
