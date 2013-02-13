@@ -1589,7 +1589,7 @@ NSString *const kARISServerServicePackage = @"v1";
 	while ((tagDictionary = [gameTagEnumerator nextObject])) {
         Tag *t = [[Tag alloc]init];
         t.tagName = [self validObjectForKey:@"tag" inDictionary:tagDictionary];
-        t.playerCreated = [[self validObjectForKey:@"player_created" inDictionary:tagDictionary]boolValue];
+        t.playerCreated = [self validBoolForKey:@"player_created" inDictionary:tagDictionary];
         t.tagId = [self validIntForKey:@"tag_id" inDictionary:tagDictionary];
 		[tempTagsList addObject:t];
 	}
@@ -1926,11 +1926,11 @@ NSString *const kARISServerServicePackage = @"v1";
 	item.description = [self validObjectForKey:@"description" inDictionary:itemDictionary];
     item.mediaId =     [self validIntForKey:@"item_id" inDictionary:itemDictionary];
 	item.iconMediaId = [self validIntForKey:@"icon_media_id" inDictionary:itemDictionary];
-	item.dropable =    [[self validObjectForKey:@"dropable" inDictionary:itemDictionary] boolValue];
-	item.destroyable = [[self validObjectForKey:@"destroyable" inDictionary:itemDictionary] boolValue];
+	item.dropable =    [self validBoolForKey:@"dropable" inDictionary:itemDictionary];
+	item.destroyable = [self validBoolForKey:@"destroyable" inDictionary:itemDictionary];
     item.maxQty =      [self validIntForKey:@"max_qty_in_inventory" inDictionary:itemDictionary];
-    item.isAttribute = [[self validObjectForKey:@"is_attribute" inDictionary:itemDictionary] boolValue];
-    item.isTradeable = [[self validObjectForKey:@"tradeable" inDictionary:itemDictionary] boolValue];
+    item.isAttribute = [self validBoolForKey:@"is_attribute" inDictionary:itemDictionary];
+    item.isTradeable = [self validBoolForKey:@"tradeable" inDictionary:itemDictionary];
     item.weight =      [self validIntForKey:@"weight" inDictionary:itemDictionary];
     item.url =         [self validObjectForKey:@"url" inDictionary:itemDictionary];
 	item.type =        [self validObjectForKey:@"type" inDictionary:itemDictionary];
@@ -2032,7 +2032,7 @@ NSString *const kARISServerServicePackage = @"v1";
     {
         Tag *tag = [[Tag alloc] init];
         tag.tagName = [self validObjectForKey:@"tag" inDictionary:tagOb];
-        tag.playerCreated = [[self validObjectForKey:@"player_created" inDictionary:tagOb] boolValue];
+        tag.playerCreated = [self validBoolForKey:@"player_created" inDictionary:tagOb];
         tag.tagId = [self validIntForKey:@"tag_id" inDictionary:tagOb];
         [aNote.tags addObject:tag];
     }
@@ -2206,7 +2206,7 @@ NSString *const kARISServerServicePackage = @"v1";
 		//Make the Node Option and add it to the Npc
 		int optionNodeId = [self validIntForKey:@"node_id" inDictionary:conversationDictionary];
 		NSString *text = [self validObjectForKey:@"text" inDictionary:conversationDictionary];
-        BOOL hasViewed = [[self validObjectForKey:@"has_viewed" inDictionary:conversationDictionary] boolValue];
+        BOOL hasViewed = [self validBoolForKey:@"has_viewed" inDictionary:conversationDictionary];
 		NodeOption *option = [[NodeOption alloc] initWithText:text andNodeId: optionNodeId andHasViewed:hasViewed];
 		[conversationNodeOptions addObject:option];
 	}
@@ -2268,16 +2268,12 @@ NSString *const kARISServerServicePackage = @"v1";
     game.gameId = [self validIntForKey:@"game_id" inDictionary:gameSource];
     //NSLog(@"AppModel: Parsing Game: %d", game.gameId);
     
-    NSString *hasBeenPlayed = [self validObjectForKey:@"has_been_played" inDictionary:gameSource];
-    if (hasBeenPlayed) game.hasBeenPlayed = [hasBeenPlayed boolValue];
-    else game.hasBeenPlayed = NO;
+    game.hasBeenPlayed = [self validBoolForKey:@"has_been_played" inDictionary:gameSource];
     
     game.name = [self validObjectForKey:@"name" inDictionary:gameSource];
     if (!game.name) game.name = @"";
     
-    NSString *isLocational = [self validObjectForKey:@"is_locational" inDictionary:gameSource];
-    if (!isLocational) game.isLocational = [isLocational boolValue];
-    else game.isLocational = NO;
+    game.isLocational = [self validBoolForKey:@"is_locational" inDictionary:gameSource];
     
     NSString *showPlayerLocation = [self validObjectForKey:@"show_player_location" inDictionary:gameSource];
     if (!showPlayerLocation) game.showPlayerLocation = [showPlayerLocation boolValue];
@@ -2360,13 +2356,13 @@ NSString *const kARISServerServicePackage = @"v1";
     
     game.numReviews = [self validIntForKey:@"numComments" inDictionary:gameSource];
     
-    game.allowsPlayerTags = [[self validObjectForKey:@"allow_player_tags" inDictionary:gameSource]boolValue];
+    game.allowsPlayerTags = [self validBoolForKey:@"allow_player_tags" inDictionary:gameSource];
     
-    game.allowShareNoteToMap = [[self validObjectForKey:@"allow_share_note_to_map" inDictionary:gameSource]boolValue];
-    game.allowShareNoteToList = [[self validObjectForKey:@"allow_share_note_to_book" inDictionary:gameSource]boolValue];
-    game.allowNoteComments = [[self validObjectForKey:@"allow_note_comments" inDictionary:gameSource]boolValue];
-    game.allowNoteLikes = [[self validObjectForKey:@"allow_note_likes" inDictionary:gameSource]boolValue];
-    game.allowTrading = [[self validObjectForKey:@"allow_trading" inDictionary:gameSource]boolValue];
+    game.allowShareNoteToMap = [self validBoolForKey:@"allow_share_note_to_map" inDictionary:gameSource];
+    game.allowShareNoteToList = [self validBoolForKey:@"allow_share_note_to_book" inDictionary:gameSource];
+    game.allowNoteComments = [self validBoolForKey:@"allow_note_comments" inDictionary:gameSource];
+    game.allowNoteLikes = [self validBoolForKey:@"allow_note_likes" inDictionary:gameSource];
+    game.allowTrading = [self validBoolForKey:@"allow_trading" inDictionary:gameSource];
     
     NSArray *comments = [self validObjectForKey:@"comments" inDictionary:gameSource];
     for (NSDictionary *comment in comments) {
@@ -2535,19 +2531,19 @@ NSString *const kARISServerServicePackage = @"v1";
     location.locationId = [self validIntForKey:@"location_id" inDictionary:locationDictionary];
     location.name = [self validObjectForKey:@"name" inDictionary:locationDictionary];
     location.iconMediaId = [self validIntForKey:@"icon_media_id" inDictionary:locationDictionary];
-    CLLocation *tmpLocation = [[CLLocation alloc] initWithLatitude:[[self validObjectForKey:@"latitude" inDictionary:locationDictionary] doubleValue]
-                                                         longitude:[[self validObjectForKey:@"longitude" inDictionary:locationDictionary] doubleValue]];
+    CLLocation *tmpLocation = [[CLLocation alloc] initWithLatitude:[self validDoubleForKey:@"latitude" inDictionary:locationDictionary]
+                                                         longitude:[self validDoubleForKey:@"longitude" inDictionary:locationDictionary]];
     location.location = tmpLocation;
-    location.error = [[self validObjectForKey:@"error" inDictionary:locationDictionary] doubleValue];
+    location.error = [self validDoubleForKey:@"error" inDictionary:locationDictionary];
     location.objectType = [self validObjectForKey:@"type" inDictionary:locationDictionary];
     location.objectId = [self validIntForKey:@"type_id" inDictionary:locationDictionary];
-    location.hidden = [[self validObjectForKey:@"hidden" inDictionary:locationDictionary] boolValue];
-    location.forcedDisplay = [[self validObjectForKey:@"force_view" inDictionary:locationDictionary] boolValue];
-    location.allowsQuickTravel = [[self validObjectForKey:@"allow_quick_travel" inDictionary:locationDictionary] boolValue];
+    location.hidden = [self validBoolForKey:@"hidden" inDictionary:locationDictionary];
+    location.forcedDisplay = [self validBoolForKey:@"force_view" inDictionary:locationDictionary];
+    location.allowsQuickTravel = [self validBoolForKey:@"allow_quick_travel" inDictionary:locationDictionary];
     location.qty = [self validIntForKey:@"item_qty" inDictionary:locationDictionary];
     location.hasBeenViewed = NO;
-    location.showTitle = [[self validObjectForKey:@"show_title" inDictionary:locationDictionary] boolValue];
-    location.wiggle = [[self validObjectForKey:@"wiggle" inDictionary:locationDictionary] boolValue];
+    location.showTitle = [self validBoolForKey:@"show_title" inDictionary:locationDictionary];
+    location.wiggle = [self validBoolForKey:@"wiggle" inDictionary:locationDictionary];
     NSNumber *num = [NSNumber numberWithInt:location.wiggle];
     if(num == nil)  location.wiggle = 0;
     //if(location.wiggle == nil)  location.wiggle = 0;
@@ -2769,16 +2765,16 @@ NSString *const kARISServerServicePackage = @"v1";
 		item.description = [self validObjectForKey:@"description" inDictionary:itemDictionary];
 		item.mediaId = [self validIntForKey:@"media_id" inDictionary:itemDictionary];
 		item.iconMediaId = [self validIntForKey:@"icon_media_id" inDictionary:itemDictionary];
-		item.dropable = [[self validObjectForKey:@"dropable" inDictionary:itemDictionary] boolValue];
-		item.destroyable = [[self validObjectForKey:@"destroyable" inDictionary:itemDictionary] boolValue];
+		item.dropable = [self validBoolForKey:@"dropable" inDictionary:itemDictionary];
+		item.destroyable = [self validBoolForKey:@"destroyable" inDictionary:itemDictionary];
 		item.qty = [self validIntForKey:@"qty" inDictionary:itemDictionary];
         if ([self validIntForKey:@"viewed" inDictionary:itemDictionary] > 0)
             item.hasViewed = YES;
         else
             item.hasViewed = NO;
         item.maxQty = [self validIntForKey:@"max_qty_in_inventory" inDictionary:itemDictionary];
-        item.isAttribute = [[self validObjectForKey:@"is_attribute" inDictionary:itemDictionary] boolValue];
-        item.isTradeable = [[self validObjectForKey:@"tradeable" inDictionary:itemDictionary] boolValue];
+        item.isAttribute = [self validBoolForKey:@"is_attribute" inDictionary:itemDictionary];
+        item.isTradeable = [self validBoolForKey:@"tradeable" inDictionary:itemDictionary];
         item.weight = [self validIntForKey:@"weight" inDictionary:itemDictionary];
         item.url = [self validObjectForKey:@"url" inDictionary:itemDictionary];
         item.type = [self validObjectForKey:@"type" inDictionary:itemDictionary];
@@ -2880,7 +2876,7 @@ NSString *const kARISServerServicePackage = @"v1";
         else if([quest.exitToTabName isEqualToString:@"PLAYER"])    quest.exitToTabName = NSLocalizedString(@"PlayerTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"NOTE"])      quest.exitToTabName = NSLocalizedString(@"NotebookTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"PICKGAME"])  quest.exitToTabName = NSLocalizedString(@"GamePickerTitleKey",@"");
-        quest.fullScreenNotification = [[self validObjectForKey:@"full_screen_notify" inDictionary:activeQuest] boolValue];
+        quest.fullScreenNotification = [self validBoolForKey:@"full_screen_notify" inDictionary:activeQuest];
         quest.mediaId = [self validIntForKey:@"active_media_id" inDictionary:activeQuest];
 		quest.iconMediaId = [self validIntForKey:@"active_icon_media_id" inDictionary:activeQuest];
         quest.sortNum = [self validIntForKey:@"sort_index" inDictionary:activeQuest];
@@ -2902,7 +2898,7 @@ NSString *const kARISServerServicePackage = @"v1";
         else if([quest.exitToTabName isEqualToString:@"PLAYER"]) quest.exitToTabName = NSLocalizedString(@"PlayerTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"NOTE"]) quest.exitToTabName = NSLocalizedString(@"NotebookTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"PICKGAME"]) quest.exitToTabName = NSLocalizedString(@"GamePickerTitleKey",@"");
-        quest.fullScreenNotification = [[self validObjectForKey:@"full_screen_notify" inDictionary:completedQuest] boolValue];
+        quest.fullScreenNotification = [self validBoolForKey:@"full_screen_notify" inDictionary:completedQuest];
         quest.mediaId = [self validIntForKey:@"complete_media_id" inDictionary:completedQuest];
         quest.iconMediaId = [self validIntForKey:@"complete_icon_media_id" inDictionary:completedQuest];
         quest.sortNum = [self validIntForKey:@"sort_index" inDictionary:completedQuest];
