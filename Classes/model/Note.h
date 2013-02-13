@@ -22,7 +22,6 @@ extern NSString *const kNoteContentTypeText;
     NSString *title;
     NSString *text;
     int numRatings;
-    float averageRating;
     BOOL shared;
     BOOL dropped;
     BOOL showOnMap,showOnList,userLiked;
@@ -52,7 +51,6 @@ extern NSString *const kNoteContentTypeText;
 @property(readwrite,assign) int noteId;
 @property(readwrite, assign) int creatorId;
 @property(readwrite, assign) int numRatings;
-@property(readwrite, assign) float averageRating;
 @property(readwrite, assign) double latitude;
 @property(readwrite, assign) double longitude;
 

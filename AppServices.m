@@ -1987,7 +1987,6 @@ NSString *const kARISServerServicePackage = @"v1";
 	aNote.noteId =        [self validIntForKey:@"note_id" inDictionary:noteDictionary];
 	aNote.title =         [self validObjectForKey:@"title" inDictionary:noteDictionary];
 	aNote.text =          [self validObjectForKey:@"text" inDictionary:noteDictionary];
-    aNote.averageRating = [self validFloatForKey:@"ave_rating" inDictionary:noteDictionary];
     aNote.parentNoteId =  [self validIntForKey:@"parent_note_id" inDictionary:noteDictionary];
     aNote.parentRating =  [self validIntForKey:@"parent_rating" inDictionary:noteDictionary];
     aNote.numRatings =    [self validIntForKey:@"likes" inDictionary:noteDictionary];
