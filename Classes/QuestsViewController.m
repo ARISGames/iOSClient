@@ -183,8 +183,8 @@ int badgeCount;
     {
         Quest *nullQuest = [[Quest alloc] init];
         nullQuest.questId = -1;
-        nullQuest.name = @"Empty";
-        nullQuest.description = @"(there are no quests available at this time)";
+        nullQuest.name = @"<span style='color:#555555;'>Empty</span>";
+        nullQuest.description = @"<span style='color:#555555;'>(there are no quests available at this time)</span>";
         [activeQuestCells addObject: [self getCellContentViewForQuest:nullQuest inSection:ACTIVE_SECTION]];
     }
     
@@ -200,8 +200,8 @@ int badgeCount;
     {
         Quest *nullQuest = [[Quest alloc] init];
         nullQuest.questId = -1;
-        nullQuest.name = @"Empty";
-        nullQuest.description = @"(you have not completed any quests)";
+        nullQuest.name = @"<span style='color:#555555;'>Empty</span>";
+        nullQuest.description = @"<span style='color:#555555;'>(you have not completed any quests)</span>";
         [completedQuestCells addObject: [self getCellContentViewForQuest:nullQuest inSection:COMPLETED_SECTION]];
     }
 	
