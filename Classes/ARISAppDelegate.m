@@ -62,7 +62,7 @@ int steps = 0;
     [[AppServices sharedAppServices] resetCurrentlyFetchingVars];
 
     if([AppModel sharedAppModel].fallbackGameId != 0 && ![AppModel sharedAppModel].currentGame)
-        [[AppServices sharedAppServices] fetchOneGame:[AppModel sharedAppModel].fallbackGameId];
+        [[AppServices sharedAppServices] fetchOneGameGameList:[AppModel sharedAppModel].fallbackGameId];
     
     [[AppServices sharedAppServices] setShowPlayerOnMap];
     
@@ -74,7 +74,6 @@ int steps = 0;
     NSLog(@"AppDelegate: LOW MEMORY WARNING RECIEVED");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LowMemoryWarning" object:nil]];
 }
-
 
 - (void)applicationWillResignActive:(UIApplication *)application {
 	NSLog(@"AppDelegate: Begin Application Resign Active");
@@ -218,7 +217,7 @@ int steps = 0;
         NSLog(@"gameID: %@",gameID);
         
         //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"NewGameListReady" object:nil];
-        [[AppServices sharedAppServices] fetchOneGame:[gameID intValue]];
+        [[AppServices sharedAppServices] fetchOneGameGameList:[gameID intValue]];
     }
     return YES;
 }
@@ -229,4 +228,3 @@ int steps = 0;
 }
 
 @end
-

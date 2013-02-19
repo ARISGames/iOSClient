@@ -34,16 +34,16 @@
 @property(readwrite, assign) int sort_order;
 @property(readwrite, assign) int num_tiles;
 
-@property(nonatomic) NSString *name;
-@property(nonatomic) NSString *description;
+@property(nonatomic, strong) NSString *name;
+@property(nonatomic, strong) NSString *description;
 @property(nonatomic) CGFloat alpha;
-@property(nonatomic) NSMutableArray *tileX;
-@property(nonatomic) NSMutableArray *tileY;
-@property(nonatomic) NSMutableArray *tileZ;
-@property(nonatomic) NSMutableArray *tileFileName;
-@property(nonatomic) NSMutableArray *tilePath;
-@property(nonatomic) NSMutableArray *tileMediaID;
-@property(nonatomic) NSMutableArray *tileImage;
+@property(nonatomic, strong) NSMutableArray *tileX;
+@property(nonatomic, strong) NSMutableArray *tileY;
+@property(nonatomic, strong) NSMutableArray *tileZ;
+@property(nonatomic, strong) NSMutableArray *tileFileName;
+@property(nonatomic, strong) NSMutableArray *tilePath;
+@property(nonatomic, strong) NSMutableArray *tileMediaID;
+@property(nonatomic, strong) NSMutableArray *tileImage;
 
 
 @end

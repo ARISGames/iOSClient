@@ -239,15 +239,15 @@ NSString *errorDetail;
         [NSTimer scheduledTimerWithTimeInterval:3.0 target:[[MyCLController sharedMyCLController]locationManager] selector:@selector(startUpdatingLocation) userInfo:nil repeats:NO];
         
         //register for notifications
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishLoginAttempt:)         name:@"NewLoginResponseReady" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterGameFromOutside:)       name:@"OneGameReady"          object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectGame:)                 name:@"SelectGame"            object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(beginGamePlay)               name:@"GameFinishedLoading"   object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPlayerSettings:)         name:@"ProfSettingsRequested" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performLogout:)              name:@"PassChangeRequested"   object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performLogout:)              name:@"LogoutRequested"       object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkForDisplayCompleteNode) name:@"NewQuestListReady"     object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedMediaList)           name:@"ReceivedMediaList"     object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishLoginAttempt:)         name:@"NewLoginResponseReady"   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterGameFromOutside:)       name:@"NewOneGameGameListReady" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectGame:)                 name:@"SelectGame"              object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(beginGamePlay)               name:@"GameFinishedLoading"     object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPlayerSettings:)         name:@"ProfSettingsRequested"   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performLogout:)              name:@"PassChangeRequested"     object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performLogout:)              name:@"LogoutRequested"         object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkForDisplayCompleteNode) name:@"NewQuestListReady"       object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedMediaList)           name:@"ReceivedMediaList"       object:nil];
         
         //Set up visibility of views at top of heirarchy
         [[AppModel sharedAppModel] loadUserDefaults];
@@ -445,7 +445,7 @@ NSString *errorDetail;
     
     if(gameId != 0)
     {
-        [[AppServices sharedAppServices] fetchOneGame:gameId];
+        [[AppServices sharedAppServices] fetchOneGameGameList:gameId];
     }
 }
 
@@ -461,7 +461,7 @@ NSString *errorDetail;
     
     if(gameId != 0)
     {
-        [[AppServices sharedAppServices] fetchOneGame:gameId];
+        [[AppServices sharedAppServices] fetchOneGameGameList:gameId];
     }
 }
 
@@ -707,7 +707,7 @@ NSString *errorDetail;
         NSString *gameID = [url lastPathComponent];
         NSLog(@"gameID=: %@",gameID);
         
-        [[AppServices sharedAppServices] fetchOneGame:[gameID intValue]];
+        [[AppServices sharedAppServices] fetchOneGameGameList:[gameID intValue]];
     }
     return YES;
 }
@@ -738,8 +738,6 @@ NSString *errorDetail;
     self.gameSelectionTabBarController.view.hidden = NO;
     [(UINavigationController*)self.gameSelectionTabBarController.selectedViewController pushViewController:gameDetailsViewController animated:YES];
     [self.navigationController pushViewController:gameDetailsViewController animated:YES];
-    
-    [self loadAndPlayGame:game];
 }
 
 #pragma mark AlertView Delegate Methods

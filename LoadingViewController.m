@@ -67,7 +67,7 @@
 
 - (void)moveProgressBar
 {
-    float actual = (receivedData/(float)9);//<- What. '9'? Where did that number come from?
+    float actual = (receivedData/(float)10);//<- What. '10'? Where did that number come from?
     NSLog(@"%f loaded...",actual);
     if (actual < 1)
     {

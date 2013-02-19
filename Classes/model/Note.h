@@ -39,15 +39,15 @@ extern NSString *const kNoteContentTypeText;
 
 }
 
-@property(nonatomic) NSMutableArray *comments;
-@property(nonatomic) NSMutableArray *contents;
-@property(nonatomic) NSMutableArray *tags;
+@property(nonatomic, strong) NSMutableArray *comments;
+@property(nonatomic, strong) NSMutableArray *contents;
+@property(nonatomic, strong) NSMutableArray *tags;
 @property(readwrite,assign)int tagSection;
-@property(nonatomic) NSString *username;
-@property(nonatomic) NSString *title;
-@property(nonatomic) NSString *tagName;
+@property(nonatomic, strong) NSString *username;
+@property(nonatomic, strong) NSString *title;
+@property(nonatomic, strong) NSString *tagName;
 
-@property(nonatomic) NSString *text;
+@property(nonatomic, strong) NSString *text;
 @property(readwrite,assign) int noteId;
 @property(readwrite, assign) int creatorId;
 @property(readwrite, assign) int numRatings;

@@ -61,7 +61,7 @@ extern NSString *const kARISServerServicePackage;
 - (void)fetchPopularGameListForTime: (int)time;
 - (void)fetchGameListBySearch:(NSString *)searchText onPage:(int)page;
 
-- (void)fetchOneGame:(int)gameId;
+- (void)fetchOneGameGameList:(int)gameId;
 
 - (void)fetchTabBarItemsForGame:(int)gameId; //This should probably just be part of "fetchGame".
 

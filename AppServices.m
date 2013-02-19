@@ -1760,8 +1760,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	
 }
 
-//Not Currently Deprecated: Currently used to fetch a game reached by url
-- (void)fetchOneGame:(int)gameId
+- (void)fetchOneGameGameList:(int)gameId
 {
     NSLog(@"AppModel: Fetch Requested for a single game (as Game List).");
     //[self fetchTabBarItemsForGame:gameId];//Make sure to get the tabs as well
@@ -1790,7 +1789,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"getOneGame"
                                                               andArguments:arguments andUserInfo:nil];
 	
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseOneGameFromJSON:)];
+	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseOneGameGameListFromJSON:)];
 }
 
 #pragma mark Parsers
@@ -2294,22 +2293,24 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     return tempGameList;
 }
 
--(void)parseOneGameFromJSON: (JSONResult *)jsonResult{
-    NSLog(@"parseOneGameFromJSON called");
+-(void)parseOneGameGameListFromJSON: (JSONResult *)jsonResult
+{
+    NSLog(@"parseOneGameGameListFromJSON called");
     currentlyFetchingOneGame = NO;
-    NSMutableArray *singleGameList = [self parseGameListFromJSON:jsonResult];
-    [AppModel sharedAppModel].singleGameList = singleGameList;
-    Game * game = (Game *)[singleGameList  objectAtIndex:0];
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"OneGameReady" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:game,@"game", nil]]];
+    [AppModel sharedAppModel].oneGameGameList = [self parseGameListFromJSON:jsonResult];
+    Game * game = (Game *)[[AppModel sharedAppModel].oneGameGameList  objectAtIndex:0];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewOneGameGameListReady" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:game,@"game", nil]]];
 }
 
--(void)parseNearbyGameListFromJSON: (JSONResult *)jsonResult{
+-(void)parseNearbyGameListFromJSON: (JSONResult *)jsonResult
+{
     currentlyFetchingNearbyGamesList = NO;
     [AppModel sharedAppModel].nearbyGameList = [self parseGameListFromJSON:jsonResult];
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNearbyGameListReady" object:nil]];
 }
 
--(void)parseSearchGameListFromJSON: (JSONResult *)jsonResult{
+-(void)parseSearchGameListFromJSON: (JSONResult *)jsonResult
+{
     currentlyFetchingSearchGamesList = NO;
     [AppModel sharedAppModel].searchGameList = [self parseGameListFromJSON:jsonResult];
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewSearchGameListReady" object:nil]];

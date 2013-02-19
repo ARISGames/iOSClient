@@ -16,8 +16,8 @@
     int maxUploadCount;
 }
 
-@property (nonatomic) NSMutableDictionary *uploadContentsForNotes;
-@property (nonatomic) NSManagedObjectContext *context;
+@property (nonatomic, strong) NSMutableDictionary *uploadContentsForNotes;
+@property (nonatomic, strong) NSManagedObjectContext *context;
 @property (nonatomic) int currentUploadCount;
 @property (nonatomic) int maxUploadCount;
 

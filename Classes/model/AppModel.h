@@ -48,7 +48,7 @@
 	NSString *password;
 	CLLocation *playerLocation;
     
-    NSMutableArray *singleGameList;
+    NSMutableArray *oneGameGameList;
 	NSMutableArray *nearbyGameList;
     NSMutableArray *searchGameList;
     NSMutableArray *popularGameList;
@@ -137,7 +137,7 @@
 @property(nonatomic, strong) Game *currentGame;
 
 @property(nonatomic, strong) NSURL *fileToDeleteURL;
-@property(nonatomic, strong) NSMutableArray *singleGameList;
+@property(nonatomic, strong) NSMutableArray *oneGameGameList;
 @property(nonatomic, strong) NSMutableArray *nearbyGameList;
 @property(nonatomic, strong) NSMutableArray *searchGameList;
 @property(nonatomic, strong) NSMutableArray *popularGameList;

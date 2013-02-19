@@ -20,8 +20,8 @@
 }
 
 @property(readwrite, assign) int webPageId;
-@property(nonatomic) NSString *name;
-@property(nonatomic) NSString *url;
+@property(nonatomic, strong) NSString *name;
+@property(nonatomic, strong) NSString *url;
 @property(readwrite, assign) int iconMediaId;
 @property(readwrite, assign) nearbyObjectKind kind;
 @property(readwrite, assign) int locationId;

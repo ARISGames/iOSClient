@@ -29,7 +29,7 @@
 @synthesize playerMediaId;
 @synthesize museumMode;
 @synthesize skipGameDetails;
-@synthesize singleGameList;
+@synthesize oneGameGameList;
 @synthesize nearbyGameList;
 @synthesize searchGameList;
 @synthesize popularGameList;

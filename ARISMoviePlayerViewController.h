@@ -13,5 +13,5 @@
 @interface ARISMoviePlayerViewController : MPMoviePlayerViewController {
     UIButton *mediaPlaybackButton;
 }
-@property(nonatomic) UIButton *mediaPlaybackButton;
+@property(nonatomic, strong) UIButton *mediaPlaybackButton;
 @end

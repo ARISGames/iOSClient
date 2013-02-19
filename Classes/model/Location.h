@@ -49,7 +49,7 @@
 @property(readwrite) int qty;
 @property(readwrite) bool wiggle;
 @property(readwrite) int deleteWhenViewed;
-@property(nonatomic)id delegate;
+@property(nonatomic, strong)id delegate;
 - (void) display;
 - (BOOL)compareTo: (Location *)other;
 

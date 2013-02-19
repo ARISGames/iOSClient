@@ -27,10 +27,10 @@
     BOOL loaded;
 }
 
-@property (nonatomic) NSURLConnection* connection;
-@property (nonatomic) NSMutableData* data;
-@property (nonatomic) Media *media;
-@property (nonatomic) ARISMoviePlayerViewController *mMoviePlayer;
+@property (nonatomic, strong) NSURLConnection* connection;
+@property (nonatomic, strong) NSMutableData* data;
+@property (nonatomic, strong) Media *media;
+@property (nonatomic, strong) ARISMoviePlayerViewController *mMoviePlayer;
 @property (nonatomic, unsafe_unretained) id <AsyncMediaImageViewDelegate> delegate;
 
 @property(readwrite,assign)BOOL isLoading;
