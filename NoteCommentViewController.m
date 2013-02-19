@@ -221,7 +221,7 @@
         }
         else if([[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeVideo] || [[(NoteContent *)[[currNote contents] objectAtIndex:x] getType] isEqualToString:kNoteContentTypeAudio])
         {
-            NoteContent *content =  (NoteContent *)[[currNote contents] objectAtIndex:x];
+            NoteContent *content = (NoteContent *)[[currNote contents] objectAtIndex:x];
             AsyncMediaPlayerButton *mediaButton = [asyncMediaDict objectForKey:content.getMedia.url];
             
             if(!mediaButton){

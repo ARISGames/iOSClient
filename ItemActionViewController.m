@@ -49,7 +49,7 @@
             [actionButton setTitle: NSLocalizedString(@"ItemPickupKey", @"") forState: UIControlStateHighlighted];
 
             self.max = self.item.maxQty - itemInInventory.qty;
-            while ((self.max*item.weight + [AppModel sharedAppModel].currentGame.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryWeightCap) {
+            while ((self.max*item.weight + [AppModel sharedAppModel].currentGame.inventoryModel.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryModel.weightCap) {
                 self.max--;
             }
             break;
@@ -90,14 +90,15 @@
     actionButton.titleLabel.font = [UIFont boldSystemFontOfSize:24];
     self.infoLabel.text = @"";
     [picker selectRow:1 inComponent:0 animated:NO];
-    self.itemInInventory = [[AppModel sharedAppModel].inventory objectForKey:[NSString stringWithFormat:@"%d",item.itemId]];
+    self.itemInInventory = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:item.itemId];
     self.navigationItem.title = self.item.name;
     switch (self.mode) {
         case kItemDetailsPickingUp:
             self.actionButton.titleLabel.text = NSLocalizedString(@"ItemPickupKey", @"");
             self.max = self.item.maxQty - itemInInventory.qty;
             self.numItems = 1;
-            while ((self.max*item.weight + [AppModel sharedAppModel].currentGame.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryWeightCap) {
+            while ((self.max*item.weight + [AppModel sharedAppModel].currentGame.inventoryModel.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryModel.weightCap)
+            {
                 self.max--;
             }
             break;
@@ -130,16 +131,17 @@
     return 1;
 }
 
--(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
+-(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
     if(self.mode == kItemDetailsPickingUp)
-    return (item.qty + 1);
+        return (item.qty + 1);
     else 
-    {
-        self.itemInInventory = [[AppModel sharedAppModel].inventory objectForKey:[NSString stringWithFormat:@"%d",item.itemId]];
-    }return (itemInInventory.qty + 1);
+        self.itemInInventory = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:item.itemId];
+    return (itemInInventory.qty + 1);
 }
 
--(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+-(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
     if (row == 0) return @"Max";
     else return [NSString stringWithFormat:@"%d",row];
 }
@@ -174,41 +176,44 @@
 
 
 
--(void)doActionWithMode: (ItemDetailsModeType) itemMode quantity: (int) quantity {
+-(void)doActionWithMode: (ItemDetailsModeType) itemMode quantity: (int) quantity
+{
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate playAudioAlert:@"drop" shouldVibrate:YES];
 	
 	//Determine the Quantity Effected based on the button touched
     
-	
-	
 	//Do the action based on the mode of the VC
-	if (mode == kItemDetailsDropping) {
+	if (mode == kItemDetailsDropping)
+    {
 		NSLog(@"ItemDetailsVC: Dropping %d",quantity);
 		[[AppServices sharedAppServices] updateServerDropItemHere:item.itemId qty:quantity];
 		[[AppModel sharedAppModel] removeItemFromInventory:item qtyToRemove:quantity];
-        
     }
-	else if (mode == kItemDetailsDestroying) {
+	else if (mode == kItemDetailsDestroying)
+    {
 		NSLog(@"ItemDetailsVC: Destroying %d",quantity);
 		[[AppServices sharedAppServices] updateServerDestroyItem:self.item.itemId qty:quantity];
 		[[AppModel sharedAppModel] removeItemFromInventory:item qtyToRemove:quantity];
-		
 	}
-	else if (mode == kItemDetailsPickingUp) {
+	else if (mode == kItemDetailsPickingUp)
+    {
         NSString *errorMessage;
         
 		//Determine if this item can be picked up
-		self.itemInInventory = [[AppModel sharedAppModel].inventory objectForKey:[NSString stringWithFormat:@"%d",item.itemId]];
+		self.itemInInventory = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:item.itemId];
 		if (itemInInventory.qty + quantity > item.maxQty && item.maxQty != -1) {
             
 			[appDelegate playAudioAlert:@"error" shouldVibrate:YES];
 			
-			if (itemInInventory.qty < item.maxQty) {
+			if (itemInInventory.qty < item.maxQty)
+            {
 				quantity = item.maxQty - itemInInventory.qty;
                 
-                if([AppModel sharedAppModel].currentGame.inventoryWeightCap != 0){
-                    while((quantity*item.weight + [AppModel sharedAppModel].currentGame.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryWeightCap){
+                if([AppModel sharedAppModel].currentGame.inventoryModel.weightCap != 0)
+                {
+                    while((quantity*item.weight + [AppModel sharedAppModel].currentGame.inventoryModel.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryModel.weightCap)
+                    {
                         quantity--;
                     }
                 }
@@ -228,11 +233,9 @@
 															message: errorMessage
 														   delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
 			[alert show];
-            
-            
 		}
-        else if (((quantity*item.weight +[AppModel sharedAppModel].currentGame.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryWeightCap)&&([AppModel sharedAppModel].currentGame.inventoryWeightCap != 0)){
-            while ((quantity*item.weight + [AppModel sharedAppModel].currentGame.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryWeightCap) {
+        else if (((quantity*item.weight +[AppModel sharedAppModel].currentGame.inventoryModel.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryModel.weightCap)&&([AppModel sharedAppModel].currentGame.inventoryModel.weightCap != 0)){
+            while ((quantity*item.weight + [AppModel sharedAppModel].currentGame.inventoryModel.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryModel.weightCap) {
                 quantity--;
             }
             errorMessage = [NSString stringWithFormat:@"%@ %d %@",NSLocalizedString(@"ItemAcionTooHeavyKey", @""),quantity,NSLocalizedString(@"PickedUpKey", @"")];

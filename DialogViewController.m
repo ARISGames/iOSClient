@@ -320,7 +320,7 @@ NSString *const kDialogHtmlTemplate =
     NSString *trimmedString = [string1 stringByReplacingOccurrencesOfString:@" " withString:@""]; //remove whitespace
     if([trimmedString length] == 0)[self continueScript]; //if no greeting entered then go to closing screen
     if([trimmedString length] == 1) 
-    currentNpc.greeting =   [trimmedString stringByAppendingString: @"\r"];
+    currentNpc.greeting = [trimmedString stringByAppendingString: @"\r"];
 	[parser parseText:currentNpc.greeting];
 }
 
@@ -372,7 +372,7 @@ NSString *const kDialogHtmlTemplate =
             Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.videoId];
             
             //Create movie player object
-            ARISMoviePlayerViewController *mMoviePlayer  = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+            ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
 
             mMoviePlayer.moviePlayer.shouldAutoplay = NO;
             [mMoviePlayer.moviePlayer prepareToPlay];
@@ -557,7 +557,7 @@ NSString *const kDialogHtmlTemplate =
     NSString *string1 = currentNpc.closing;
     NSString *trimmedString = [string1 stringByReplacingOccurrencesOfString:@" " withString:@""]; //remove whitespace
     if([trimmedString length] == 1) 
-        currentNpc.closing =   [trimmedString stringByAppendingString: @"\r"];
+        currentNpc.closing = [trimmedString stringByAppendingString: @"\r"];
     
     //Now our options are populated with node or conversation choices, display
 	if ([options count] == 0 && [currentNpc.closing length] > 1 && !self.closingScriptPlaying)
@@ -600,7 +600,7 @@ NSString *const kDialogHtmlTemplate =
     pcActivityIndicator.frame = CGRectMake(130, 300, 50, 50);
     pcScrollView.hidden = YES;
     npcScrollView.hidden = YES;
-    lbl.frame =  pcScrollView.frame;
+    lbl.frame = pcScrollView.frame;
     lbl.backgroundColor = [UIColor blackColor];
     lbl.alpha = .7;
     
@@ -626,8 +626,10 @@ NSString *const kDialogHtmlTemplate =
 	BOOL isCurrentlyDisplayed;
     
     if(aScene.vibrate) [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) vibrate];
-    if(aScene.notification != nil)
-        [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:aScene.notification andBoldedString:@""]; 
+    
+    //What is this? - Phil 2-12-13
+    //if(aScene.notification != nil)
+        //[[RootViewController sharedRootViewController] enqueueNotificationWithFullString:aScene.notification andBoldedString:@""];
     
     self.npcImage.hidden = NO; 
 	cachedScene = aScene;
@@ -777,7 +779,7 @@ NSString *const kDialogHtmlTemplate =
 	float imageScrollViewHeight = currentCharacterImageScrollView.contentSize.height;
 	
 	CGFloat horizScale = imageScrollViewWidth / cachedScene.imageRect.size.width;
-	CGFloat vertScale  = imageScrollViewHeight / cachedScene.imageRect.size.height;
+	CGFloat vertScale = imageScrollViewHeight / cachedScene.imageRect.size.height;
 	
 	CGAffineTransform transformation = CGAffineTransformMakeScale(horizScale, vertScale);
 	transformation = CGAffineTransformTranslate(transformation, 
@@ -881,13 +883,13 @@ NSString *const kDialogHtmlTemplate =
     return YES;
 }
 
-
 - (int) getQtyInInventoryOfItem:(int)itemId
 {
-    Item *i = [[AppModel sharedAppModel].inventory objectForKey:[NSString stringWithFormat:@"%d",itemId]];
+    Item *i;
+    i = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:itemId];
     if(i)
         return i.qty;
-    i = [[AppModel sharedAppModel].attributes objectForKey:[NSString stringWithFormat:@"%d",itemId]];
+    i = [[AppModel sharedAppModel].currentGame.attributesModel attributesItemForId:itemId];
     if(i)
         return i.qty;
     return 0;

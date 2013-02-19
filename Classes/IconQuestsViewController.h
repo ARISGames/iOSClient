@@ -26,13 +26,10 @@
 #define TEXTLABELPADDING 7
 
 @interface IconQuestsViewController : UIViewController <UICollectionViewDataSource,UICollectionViewDelegate> {
-	NSMutableArray *quests;
-    NSArray *sortedQuests;
     UIScrollView *questIconScrollView;
     UICollectionView *questIconCollectionView;
     UICollectionViewFlowLayout *questIconCollectionViewLayout;
     
-    int silenceNextServerUpdateCount;
     int newItemsSinceLastView;
 }
 @property(nonatomic) NSMutableArray *quests;

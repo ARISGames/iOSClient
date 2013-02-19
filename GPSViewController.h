@@ -25,7 +25,6 @@
 	IBOutlet UIBarButtonItem *mapTypeButton;
 	IBOutlet UIBarButtonItem *playerTrackingButton;
 	IBOutlet UIToolbar *toolBar;
-	int silenceNextServerUpdateCount;
 	int newItemsSinceLastView;
     IBOutlet UIBarButtonItem *addMediaButton;
 	NSTimer *refreshTimer;

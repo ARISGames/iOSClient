@@ -10,6 +10,7 @@
 #import "RootViewController.h"
 
 BOOL shouldPlay;
+id<PopOverViewDelegate> delegate;
 
 NSString *const kPopOverHtmlTemplate =
 @"<html>"
@@ -40,10 +41,11 @@ NSString *const kPopOverHtmlTemplate =
 
 @implementation PopOverViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil delegate:(id <PopOverViewDelegate>)poDelegate
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        delegate = poDelegate;
         // Custom initialization
     }
     return self;
@@ -205,19 +207,15 @@ NSString *const kPopOverHtmlTemplate =
 
 - (IBAction)continuePressed:(id)sender {
     if(ARISMoviePlayer.moviePlayer.playbackState == MPMoviePlaybackStatePlaying) [ARISMoviePlayer.moviePlayer stop];
+    
     ARISMoviePlayer.moviePlayer.shouldAutoplay = NO;
     shouldPlay = NO;  //all are necessary otherwise can enter state where audio/video is still loading when user presses continue and the music will play unstoppably afterward as it was triggered by autoplay or it was trigerred by the change in state notification
     
-   // if(player.isPlaying){
-   //     [player stop];
-   // }
+    //if(player.isPlaying){
+    //  [player stop];
+    //}
     
-    [[RootViewController sharedRootViewController] dequeuePopOver];
-}
-
-- (void)dealloc{
-    popOverWebView.delegate = nil;
-    [popOverWebView stopLoading];
+    [delegate popOverContinueButtonPressed];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

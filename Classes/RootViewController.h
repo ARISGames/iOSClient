@@ -6,10 +6,6 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#define STATUS_BAR_HEIGHT 20
-#define NOTIFICATION_HEIGHT 20
-#define TRUE_ZERO_Y -20
-
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <AVFoundation/AVAudioPlayer.h>
@@ -28,10 +24,11 @@
 
 #import "TutorialViewController.h"
 #import "LoadingViewController.h"
-#import "PopOverViewController.h"
 
 @interface RootViewController : UIViewController <UIApplicationDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate, PTPusherDelegate>
 {
+    TutorialViewController *tutorialViewController;
+
     UINavigationController *loginNavigationController;
 
     UITabBarController *gameSelectionTabBarController;
@@ -47,26 +44,17 @@
 	WaitingIndicatorAlertViewController *waitingIndicatorAlertViewController;
     UIAlertView *networkAlert;
 	UIAlertView *serverAlert;
-    UIWebView *notificationView;
-    PopOverViewController *popOverViewController;
-
-    TutorialViewController *tutorialViewController;
-	
-    CGRect squishedVCFrame;
-    CGRect notSquishedVCFrame;
     
     PTPusher *pusherClient;
     //PTPusherPrivateChannel *playerChannel;
     //PTPusherPrivateChannel *groupChannel;
     PTPusherPrivateChannel *gameChannel;
     //PTPusherPrivateChannel *webpageChannel;
-    
-    int SCREEN_HEIGHT;
-    int SCREEN_WIDTH;
-    
+
     BOOL usesIconQuestView;
 }
 
+@property (nonatomic) TutorialViewController *tutorialViewController;
 @property (nonatomic) UINavigationController *loginNavigationController;
 
 @property (nonatomic) UITabBarController *gameSelectionTabBarController;
@@ -82,13 +70,6 @@
 @property (nonatomic) WaitingIndicatorAlertViewController *waitingIndicatorAlertViewController;
 @property (nonatomic) UIAlertView *networkAlert;
 @property (nonatomic) UIAlertView *serverAlert;
-@property (nonatomic) UIWebView *notificationView;
-@property (nonatomic) PopOverViewController *popOverViewController;
-
-@property (nonatomic) TutorialViewController *tutorialViewController;
-
-@property (nonatomic) CGRect squishedVCFrame;
-@property (nonatomic) CGRect notSquishedVCFrame;
 
 @property (nonatomic, strong) PTPusher *pusherClient;
 //@property (nonatomic) PTPusherPrivateChannel *playerChannel;
@@ -105,8 +86,8 @@
 
 - (void) changeTabBar;
 - (void) showGameSelectionTabBarAndHideOthers;
-- (void) handleOpenURLGamesListReady;
 
+- (void) enterGameFromOutside:(NSNotification *)notification;
 - (void) selectGame:(NSNotification *)notification;
 
 - (void) showNearbyTab:(BOOL)yesOrNo;
@@ -124,11 +105,6 @@
 
 - (void) showNetworkAlert;
 - (void) removeNetworkAlert;
-
-- (void) enqueuePopOverWithTitle:(NSString *)title description:(NSString *)description webViewText:(NSString *)text andMediaId:(int) mediaId;
-- (void) dequeuePopOver;
-- (void) enqueueNotificationWithFullString:(NSString *)fullString andBoldedString:(NSString *)boldedString;
-- (void) cutOffGameNotifications;
 
 //- (void) didReceivePlayerChannelEventNotification:(NSNotification *)notification;
 //- (void) didReceiveGroupChannelEventNotification:(NSNotification *)notification;

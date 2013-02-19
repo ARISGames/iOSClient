@@ -23,9 +23,8 @@
 #import "UploadMan.h"
 #import "Overlay.h"
 
-extern NSDictionary *InventoryElements;
-
-@interface AppModel : NSObject <UIAccelerometerDelegate>{
+@interface AppModel : NSObject <UIAccelerometerDelegate>
+{
 	NSUserDefaults *defaults;
 	NSURL *serverURL;
     BOOL showGamesInDevelopment;
@@ -35,20 +34,20 @@ extern NSDictionary *InventoryElements;
     BOOL inGame;
 	Game *currentGame;
 	UIAlertView *networkAlert;
-    
+
     CMMotionManager *motionManager;
-	
+
 	BOOL loggedIn;
 	int playerId;
 	int fallbackGameId;
     int playerMediaId;
+    int groupGame;
 	NSString *groupName;
-	int groupGame;
 	NSString *userName;
 	NSString *displayName;
 	NSString *password;
 	CLLocation *playerLocation;
-
+    
     NSMutableArray *singleGameList;
 	NSMutableArray *nearbyGameList;
     NSMutableArray *searchGameList;
@@ -57,12 +56,11 @@ extern NSDictionary *InventoryElements;
 	NSMutableArray *locationList;
 	NSMutableArray *playerList;
 	NSMutableArray *nearbyLocationsList;
-	NSMutableDictionary *inventory;
-    NSMutableDictionary *attributes;
 
-	NSString *inventoryHash,*playerNoteListHash,*gameNoteListHash, *overlayListHash; 
-	NSMutableDictionary *questList;
-	NSString *questListHash;
+    NSString *playerNoteListHash;
+    NSString *gameNoteListHash;
+    NSString *overlayListHash;
+
 	NSMutableDictionary *gameMediaList;
 	NSMutableDictionary *gameItemList;
 	NSMutableDictionary *gameNodeList;
@@ -78,7 +76,7 @@ extern NSDictionary *InventoryElements;
     NSArray *defaultGameTabList;
 
     UIProgressView *progressBar;
-    
+
     BOOL overlayIsVisible;
 
     //Accelerometer Data
@@ -93,6 +91,8 @@ extern NSDictionary *InventoryElements;
 	BOOL hasSeenInventoryTabTutorial;
     BOOL profilePic,tabsReady,hidePlayers,isGameNoteList;
     BOOL hasReceivedMediaList;
+    
+    BOOL currentlyInteractingWithObject;
 
     //CORE Data
     NSManagedObjectModel *managedObjectModel;
@@ -102,8 +102,7 @@ extern NSDictionary *InventoryElements;
     MediaCache *mediaCache;
 }
 
-
-@property(nonatomic) NSURL *serverURL;
+@property(nonatomic, strong) NSURL *serverURL;
 @property(readwrite) BOOL loggedIn;
 @property(readwrite) BOOL showGamesInDevelopment;
 @property(readwrite) BOOL showPlayerOnMap;
@@ -126,57 +125,51 @@ extern NSDictionary *InventoryElements;
 @property(readwrite) float averageAccelerometerReadingY;
 @property(readwrite) float averageAccelerometerReadingZ;
 
-@property(nonatomic) NSString *userName;
-@property(nonatomic) NSString *groupName;
+@property(nonatomic, strong) NSString *userName;
+@property(nonatomic, strong) NSString *groupName;
+@property(nonatomic, strong) NSString *displayName;
+@property(nonatomic, strong) NSString *password;
 @property(readwrite) int groupGame;
-@property(nonatomic) NSString *displayName;
-@property(nonatomic) NSString *password;
 @property(readwrite) int playerId;
 @property(readwrite) int fallbackGameId;//Used only to recover from crashes
 @property(readwrite) int playerMediaId;
 
-@property(nonatomic) Game *currentGame;
+@property(nonatomic, strong) Game *currentGame;
 
-@property(nonatomic) NSURL *fileToDeleteURL;
-@property(nonatomic) NSMutableArray *singleGameList;
-@property(nonatomic) NSMutableArray *nearbyGameList;
-@property(nonatomic) NSMutableArray *searchGameList;
-@property(nonatomic) NSMutableArray *popularGameList;
-@property(nonatomic) NSMutableArray *recentGameList;	
-@property(nonatomic) NSMutableArray *locationList;
-@property(nonatomic) NSMutableArray *playerList;
-@property(nonatomic) NSMutableDictionary *questList;
-@property(nonatomic) NSString *questListHash;
-@property(nonatomic) NSMutableArray *nearbyLocationsList;	
-@property(nonatomic) CLLocation *playerLocation;
-@property(nonatomic) NSString *inventoryHash;
-@property(nonatomic) NSString *playerNoteListHash;
-@property(nonatomic) NSString *gameNoteListHash;
-@property(nonatomic) NSString *overlayListHash;
+@property(nonatomic, strong) NSURL *fileToDeleteURL;
+@property(nonatomic, strong) NSMutableArray *singleGameList;
+@property(nonatomic, strong) NSMutableArray *nearbyGameList;
+@property(nonatomic, strong) NSMutableArray *searchGameList;
+@property(nonatomic, strong) NSMutableArray *popularGameList;
+@property(nonatomic, strong) NSMutableArray *recentGameList;	
+@property(nonatomic, strong) NSMutableArray *locationList;
+@property(nonatomic, strong) NSMutableArray *playerList;
 
-@property(nonatomic) NSMutableDictionary *inventory;
-@property(nonatomic) NSMutableDictionary *attributes;
-@property(nonatomic) NSMutableDictionary *gameNoteList;
-@property(nonatomic) NSMutableDictionary *playerNoteList;
-@property(nonatomic) NSMutableArray *gameTagList;
-@property(nonatomic) NSMutableArray *overlayList;
+@property(nonatomic, strong) NSMutableArray *nearbyLocationsList;	
+@property(nonatomic, strong) CLLocation *playerLocation;
+@property(nonatomic, strong) NSString *playerNoteListHash;
+@property(nonatomic, strong) NSString *gameNoteListHash;
+@property(nonatomic, strong) NSString *overlayListHash;
 
 
-@property(nonatomic) NSMutableDictionary *gameMediaList;
-@property(nonatomic) NSMutableDictionary *gameItemList;
-@property(nonatomic) NSMutableDictionary *gameNodeList;
-@property(nonatomic) NSArray *gameTabList;
-@property(nonatomic) NSArray *defaultGameTabList;
+@property(nonatomic, strong) NSMutableDictionary *gameNoteList;
+@property(nonatomic, strong) NSMutableDictionary *playerNoteList;
+@property(nonatomic, strong) NSMutableArray *gameTagList;
+@property(nonatomic, strong) NSMutableArray *overlayList;
 
+@property(nonatomic, strong) NSMutableDictionary *gameMediaList;
+@property(nonatomic, strong) NSMutableDictionary *gameItemList;
+@property(nonatomic, strong) NSMutableDictionary *gameNodeList;
+@property(nonatomic, strong) NSArray *gameTabList;
+@property(nonatomic, strong) NSArray *defaultGameTabList;
 
-@property(nonatomic) NSMutableDictionary *gameNpcList;
-@property(nonatomic) NSMutableDictionary *gameWebPageList;
+@property(nonatomic, strong) NSMutableDictionary *gameNpcList;
+@property(nonatomic, strong) NSMutableDictionary *gameWebPageList;
 
-@property(nonatomic) NSMutableDictionary *gamePanoramicList;
+@property(nonatomic, strong) NSMutableDictionary *gamePanoramicList;
 
-
-@property(nonatomic) UIAlertView *networkAlert;
-@property(nonatomic)UIProgressView *progressBar;
+@property(nonatomic, strong) UIAlertView *networkAlert;
+@property(nonatomic, strong)UIProgressView *progressBar;
 
 //Training Flags
 @property(readwrite) BOOL hasSeenNearbyTabTutorial;
@@ -185,14 +178,14 @@ extern NSDictionary *InventoryElements;
 @property(readwrite) BOOL hasSeenInventoryTabTutorial;
 @property(readwrite) BOOL tabsReady;
 
+@property(readwrite) BOOL currentlyInteractingWithObject;
+
 // CORE Data
 @property (nonatomic, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, readonly) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-@property(nonatomic) UploadMan *uploadManager;
-@property(nonatomic) MediaCache *mediaCache;
-
-
+@property(nonatomic, strong) UploadMan *uploadManager;
+@property(nonatomic, strong) MediaCache *mediaCache;
 
 + (AppModel *)sharedAppModel;
 

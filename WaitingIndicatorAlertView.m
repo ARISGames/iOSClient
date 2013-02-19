@@ -15,7 +15,6 @@
 
 - (id)initWithDelegate:(id)delegate
 {
-    NSLog(@"Initting Waiting View");
 	if (self = [super initWithTitle:@"" message:@"" delegate:delegate cancelButtonTitle:nil otherButtonTitles: nil])
     {
         self.progressView = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];

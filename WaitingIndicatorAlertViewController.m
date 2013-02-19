@@ -12,7 +12,7 @@
 
 - (id) init
 {
-    NSLog(@"Initting Waiting View");
+    NSLog(@"Initting Waiting VC");
 	if (self = [super init])
     {
         waitingIndicatorAlertView = [[WaitingIndicatorAlertView alloc] initWithDelegate:self];

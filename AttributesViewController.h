@@ -12,8 +12,8 @@
 #import "Item.h"
 #import "ItemDetailsViewController.h"
 
-@interface AttributesViewController : UIViewController<UITableViewDataSource,UITableViewDataSource> {
-    int silenceNextServerUpdateCount;
+@interface AttributesViewController : UIViewController<UITableViewDataSource,UITableViewDataSource>
+{
 	UITableView *attributesTable;
 	NSArray *attributes;
     NSMutableArray *iconCache;
@@ -21,9 +21,8 @@
     UIButton *addGroupButton;
     UILabel *nameLabel;
     UILabel *groupLabel;
-    int newAttrsSinceLastView;
-
 }
+
 @property(nonatomic) IBOutlet UITableView *attributesTable;
 @property(nonatomic) NSArray *attributes;
 @property(nonatomic) NSMutableArray *iconCache;
@@ -32,7 +31,6 @@
 @property(nonatomic) IBOutlet UILabel *nameLabel;
 @property(nonatomic) IBOutlet UILabel *groupLabel;
 @property(nonatomic) int newAttrsSinceLastView;
-
 
 - (void) refresh;
 -(IBAction)groupButtonPressed;

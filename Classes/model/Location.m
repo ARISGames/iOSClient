@@ -100,4 +100,9 @@
     return self.locationId == other.locationId && [self.name isEqualToString: other.name] && self.iconMediaId == other.iconMediaId && self.location.coordinate.latitude == other.location.coordinate.latitude && self.location.coordinate.longitude == other.location.coordinate.longitude && self.objectId == other.objectId && self.hidden == other.hidden && self.forcedDisplay == other.forcedDisplay && self.allowsQuickTravel == other.allowsQuickTravel && self.showTitle == other.showTitle && self.wiggle == other.wiggle && self.deleteWhenViewed == other.deleteWhenViewed && self.qty == other.qty;
 }
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"Location- Id:%d\tName:%@\tType:%@",self.locationId,self.name,self.objectType];
+}
+
 @end

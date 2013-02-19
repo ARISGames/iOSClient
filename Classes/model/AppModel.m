@@ -14,20 +14,68 @@
 #import "AppServices.h"
 
 @implementation AppModel
-@synthesize serverURL,showGamesInDevelopment,showPlayerOnMap;
-@synthesize loggedIn, userName, groupName, groupGame, displayName, password, playerId, fallbackGameId, playerMediaId, museumMode, skipGameDetails;
-@synthesize singleGameList, nearbyGameList, searchGameList, popularGameList, recentGameList;
-@synthesize currentGame, locationList, playerList;
-@synthesize playerLocation, inventory, questList, networkAlert;
-@synthesize gameMediaList, gameItemList, gameNodeList, gameNpcList,gameWebPageList,gamePanoramicList,gameTabList, defaultGameTabList,gameNoteList,playerNoteList;
-@synthesize questListHash, inventoryHash,profilePic,attributes,gameNoteListHash,playerNoteListHash, overlayListHash;
+
+@synthesize serverURL;
+@synthesize showGamesInDevelopment;
+@synthesize showPlayerOnMap;
+@synthesize loggedIn;
+@synthesize userName;
+@synthesize groupName;
+@synthesize groupGame;
+@synthesize displayName;
+@synthesize password;
+@synthesize playerId;
+@synthesize fallbackGameId;
+@synthesize playerMediaId;
+@synthesize museumMode;
+@synthesize skipGameDetails;
+@synthesize singleGameList;
+@synthesize nearbyGameList;
+@synthesize searchGameList;
+@synthesize popularGameList;
+@synthesize recentGameList;
+@synthesize currentGame;
+@synthesize locationList;
+@synthesize playerList;
+@synthesize playerLocation;
+@synthesize networkAlert;
+@synthesize gameMediaList;
+@synthesize gameItemList;
+@synthesize gameNodeList;
+@synthesize gameNpcList;
+@synthesize gameWebPageList;
+@synthesize gamePanoramicList;
+@synthesize gameTabList;
+@synthesize defaultGameTabList;
+@synthesize gameNoteList;
+@synthesize playerNoteList;
+@synthesize profilePic;
+@synthesize gameNoteListHash;
+@synthesize playerNoteListHash;
+@synthesize overlayListHash;
 @synthesize overlayList;
 @synthesize overlayIsVisible;
-@synthesize nearbyLocationsList,gameTagList;
-@synthesize hasSeenNearbyTabTutorial,hasSeenQuestsTabTutorial,hasSeenMapTabTutorial,hasSeenInventoryTabTutorial, tabsReady,hidePlayers,progressBar,isGameNoteList,uploadManager,mediaCache,hasReceivedMediaList, inGame;
+@synthesize nearbyLocationsList;
+@synthesize gameTagList;
+@synthesize hasSeenNearbyTabTutorial;
+@synthesize hasSeenQuestsTabTutorial;
+@synthesize hasSeenMapTabTutorial;
+@synthesize hasSeenInventoryTabTutorial;
+@synthesize tabsReady;
+@synthesize currentlyInteractingWithObject;
+@synthesize hidePlayers;
+@synthesize progressBar;
+@synthesize isGameNoteList;
+@synthesize uploadManager;
+@synthesize mediaCache;
+@synthesize hasReceivedMediaList;
+@synthesize inGame;
 @synthesize fileToDeleteURL;
-@synthesize averageAccelerometerReadingX, averageAccelerometerReadingY, averageAccelerometerReadingZ;
+
 @synthesize motionManager;
+@synthesize averageAccelerometerReadingX;
+@synthesize averageAccelerometerReadingY;
+@synthesize averageAccelerometerReadingZ;
 
 + (id)sharedAppModel
 {
@@ -40,28 +88,32 @@
 }
 
 #pragma mark Init/dealloc
--(id)init {
+-(id)init
+{
     self = [super init];
-    if (self) {
+    if (self)
+    {
 		//Init USerDefaults
         museumMode = NO;
         skipGameDetails = NO;
-		defaults =      [NSUserDefaults standardUserDefaults];
+		defaults      = [NSUserDefaults standardUserDefaults];
 		gameMediaList = [[NSMutableDictionary alloc] initWithCapacity:10];
-        overlayList =   [[NSMutableArray alloc] initWithCapacity:10];
+        overlayList   = [[NSMutableArray alloc] initWithCapacity:10];
         motionManager = [[CMMotionManager alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearGameLists) name:@"NewGameSelected" object:nil];
 	}
     return self;
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark User Defaults
 
--(void)loadUserDefaults {
+-(void)loadUserDefaults
+{
 	NSLog(@"Model: Loading User Defaults");
 	[defaults synchronize];
     
@@ -93,96 +145,98 @@
     
     //Safe to load defaults
     
-    if(!loggedIn)
+    if(!self.loggedIn)
     {
-        self.userName = [defaults objectForKey:@"userName"];
-        self.groupName = [defaults objectForKey:@"groupName"];
-        self.groupGame = [self.groupName intValue];
-        self.playerId = [defaults integerForKey:@"playerId"];
-        self.playerMediaId = [defaults integerForKey:@"playerMediaId"];
-        self.displayName = [defaults objectForKey:@"displayName"];
         self.showPlayerOnMap = [defaults boolForKey:@"showPlayerOnMap"];
+        self.playerId        = [defaults integerForKey:@"playerId"];
+        self.playerMediaId   = [defaults integerForKey:@"playerMediaId"];
+        self.userName        = [defaults objectForKey:@"userName"];
+        self.displayName     = [defaults objectForKey:@"displayName"];
+        self.groupName       = [defaults objectForKey:@"groupName"];
+        self.groupGame       = [[defaults objectForKey:@"groupName"] intValue];
     }
     
 	if ([defaults boolForKey:@"resetTutorial"])
     {
-		self.hasSeenNearbyTabTutorial = NO;
-		self.hasSeenQuestsTabTutorial = NO;
-		self.hasSeenMapTabTutorial = NO;
+		self.hasSeenNearbyTabTutorial    = NO;
+		self.hasSeenQuestsTabTutorial    = NO;
+		self.hasSeenMapTabTutorial       = NO;
 		self.hasSeenInventoryTabTutorial = NO;
-		[defaults setBool:hasSeenNearbyTabTutorial forKey:@"hasSeenNearbyTabTutorial"];
-		[defaults setBool:hasSeenQuestsTabTutorial forKey:@"hasSeenQuestsTabTutorial"];
-		[defaults setBool:hasSeenMapTabTutorial forKey:@"hasSeenMapTabTutorial"];
-		[defaults setBool:hasSeenInventoryTabTutorial forKey:@"hasSeenInventoryTabTutorial"];
+		[defaults setBool:NO forKey:@"hasSeenNearbyTabTutorial"];
+		[defaults setBool:NO forKey:@"hasSeenQuestsTabTutorial"];
+		[defaults setBool:NO forKey:@"hasSeenMapTabTutorial"];
+		[defaults setBool:NO forKey:@"hasSeenInventoryTabTutorial"];
+        
 		[defaults setBool:NO forKey:@"resetTutorial"];
 	}
 	else
     {
-		self.hasSeenNearbyTabTutorial = [defaults boolForKey:@"hasSeenNearbyTabTutorial"];
-		self.hasSeenQuestsTabTutorial = [defaults boolForKey:@"hasSeenQuestsTabTutorial"];
-		self.hasSeenMapTabTutorial = [defaults boolForKey:@"hasSeenMapTabTutorial"];
+		self.hasSeenNearbyTabTutorial    = [defaults boolForKey:@"hasSeenNearbyTabTutorial"];
+		self.hasSeenQuestsTabTutorial    = [defaults boolForKey:@"hasSeenQuestsTabTutorial"];
+		self.hasSeenMapTabTutorial       = [defaults boolForKey:@"hasSeenMapTabTutorial"];
 		self.hasSeenInventoryTabTutorial = [defaults boolForKey:@"hasSeenInventoryTabTutorial"];
 	}
     
     self.fallbackGameId = [defaults integerForKey:@"gameId"];
-    if(self.fallbackGameId != 0 && !self.currentGame)
-    {
-        [[AppServices sharedAppServices] silenceNextServerUpdate];
-        [[AppServices sharedAppServices] fetchOneGame:self.fallbackGameId];
-    }
 }
 
--(void)clearGameLists{
+-(void)clearGameLists
+{
     NSLog(@"Clearing Game Lists");
-    [gameMediaList removeAllObjects];
-    [gameItemList removeAllObjects];
-    [gameNodeList removeAllObjects];
-    [gameNpcList removeAllObjects];
-    [gameWebPageList removeAllObjects];
+    [gameMediaList     removeAllObjects];
+    [gameItemList      removeAllObjects];
+    [gameNodeList      removeAllObjects];
+    [gameNpcList       removeAllObjects];
+    [gameWebPageList   removeAllObjects];
     [gamePanoramicList removeAllObjects];
     //[gameNoteList removeAllObjects];
     //[playerNoteList removeAllObjects];
 }
 
--(void)clearUserDefaults {
+-(void)clearUserDefaults
+{
 	NSLog(@"Model: Clearing User Defaults");	
 	[AppModel sharedAppModel].currentGame.gameId = 0;
-    [AppModel sharedAppModel].playerId = 0;
-    [AppModel sharedAppModel].fallbackGameId = 0;
-    [AppModel sharedAppModel].playerMediaId = -1;
-    [AppModel sharedAppModel].userName = @"";
-    [AppModel sharedAppModel].displayName = @"";
-    [defaults setInteger:playerId forKey:@"playerId"];
+    [AppModel sharedAppModel].playerId           = 0;
+    [AppModel sharedAppModel].fallbackGameId     = 0;
+    [AppModel sharedAppModel].playerMediaId      = -1;
+    [AppModel sharedAppModel].userName           = @"";
+    [AppModel sharedAppModel].displayName        = @"";
+    [defaults setInteger:playerId       forKey:@"playerId"];
     [defaults setInteger:fallbackGameId forKey:@"gameId"];
-    [defaults setInteger:playerMediaId forKey:@"playerMediaId"];
-    [defaults setObject:userName forKey:@"userName"];
-    [defaults setObject:displayName forKey:@"displayName"];
+    [defaults setInteger:playerMediaId  forKey:@"playerMediaId"];
+    [defaults setObject:userName        forKey:@"userName"];
+    [defaults setObject:displayName     forKey:@"displayName"];
        
 	[defaults synchronize];
 }
 
--(void)saveUserDefaults {
+-(void)saveUserDefaults
+{
 	NSLog(@"Model: Saving User Defaults");
 	
 	[defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"appVerison"];
-	[defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBuildNumber"] forKey:@"buildNum"];
+	[defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBuildNumber"]   forKey:@"buildNum"];
     
-	[defaults setBool:hasSeenNearbyTabTutorial forKey:@"hasSeenNearbyTabTutorial"];
-	[defaults setBool:hasSeenQuestsTabTutorial forKey:@"hasSeenQuestsTabTutorial"];
-	[defaults setBool:hasSeenMapTabTutorial forKey:@"hasSeenMapTabTutorial"];
+	[defaults setBool:hasSeenNearbyTabTutorial    forKey:@"hasSeenNearbyTabTutorial"];
+	[defaults setBool:hasSeenQuestsTabTutorial    forKey:@"hasSeenQuestsTabTutorial"];
+	[defaults setBool:hasSeenMapTabTutorial       forKey:@"hasSeenMapTabTutorial"];
 	[defaults setBool:hasSeenInventoryTabTutorial forKey:@"hasSeenInventoryTabTutorial"];
-    [defaults setInteger:playerId forKey:@"playerId"];
-    [defaults setInteger:playerMediaId forKey:@"playerMediaId"];
-    [defaults setInteger:fallbackGameId forKey:@"gameId"];
-    [defaults setObject:userName forKey:@"userName"];
-    [defaults setObject:displayName forKey:@"displayName"];
+    [defaults setInteger:playerId                 forKey:@"playerId"];
+    [defaults setInteger:playerMediaId            forKey:@"playerMediaId"];
+    [defaults setInteger:fallbackGameId           forKey:@"gameId"];
+    [defaults setObject:userName                  forKey:@"userName"];
+    [defaults setObject:displayName               forKey:@"displayName"];
 	[defaults synchronize];
 }
 
--(void)saveCOREData {
+-(void)saveCOREData
+{
     NSError *error = nil;
-    if (managedObjectContext != nil) {
-        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
+    if (managedObjectContext != nil)
+    {
+        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error])
+        {
 			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             [[RootViewController sharedRootViewController] showAlert:@"Error saving to disk" message:[NSString stringWithFormat:@"%@",[error userInfo]]];
         }
@@ -192,11 +246,11 @@
 -(void)initUserDefaults
 {
 	//Load the settings bundle data into an array
-	NSString *pathStr = [[NSBundle mainBundle] bundlePath];
+	NSString *pathStr            = [[NSBundle mainBundle] bundlePath];
 	NSString *settingsBundlePath = [pathStr stringByAppendingPathComponent:@"Settings.bundle"];
-	NSString *finalPath = [settingsBundlePath stringByAppendingPathComponent:@"Root.plist"];
-	NSDictionary *settingsDict = [NSDictionary dictionaryWithContentsOfFile:finalPath];
-	NSArray *prefSpecifierArray = [settingsDict objectForKey:@"PreferenceSpecifiers"];
+	NSString *finalPath          = [settingsBundlePath stringByAppendingPathComponent:@"Root.plist"];
+	NSDictionary *settingsDict   = [NSDictionary dictionaryWithContentsOfFile:finalPath];
+	NSArray *prefSpecifierArray  = [settingsDict objectForKey:@"PreferenceSpecifiers"];
 	
 	//Find the Defaults
 	NSString *baseAppURLDefault = @"Unknown Default";
@@ -224,13 +278,14 @@
 	[[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
 	[[NSUserDefaults standardUserDefaults] synchronize];
     
-    uploadManager = [[UploadMan alloc]init];
-    mediaCache = [[MediaCache alloc]init];
+    uploadManager = [[UploadMan alloc]  init];
+    mediaCache    = [[MediaCache alloc] init];
 }
 
 #pragma mark Setters/Getters
 
-- (void)setPlayerLocation:(CLLocation *) newLocation{
+- (void)setPlayerLocation:(CLLocation *) newLocation
+{
 	NSLog(@"AppModel: setPlayerLocation");
 	
 	playerLocation = newLocation;
@@ -242,14 +297,16 @@
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerMoved" object:nil]];
 }
 
-
 #pragma mark Retrieving Cashed Objects 
 
--(void)modifyQuantity: (int)quantityModifier forLocationId: (int)locationId {
+-(void)modifyQuantity:(int)quantityModifier forLocationId:(int)locationId
+{
 	NSLog(@"AppModel: modifying quantity for a location in the local location list");
 	
-	for (Location* loc in locationList) {
-		if (loc.locationId == locationId && loc.kind == NearbyObjectItem) {
+	for (Location* loc in locationList)
+    {
+		if (loc.locationId == locationId && loc.kind == NearbyObjectItem)
+        {
 			loc.qty += quantityModifier;
 			NSLog(@"AppModel: Quantity for %@ set to %d",loc.name,loc.qty);	
 		}
@@ -259,43 +316,14 @@
 	
 }
 
--(void)removeItemFromInventory:(Item*)item qtyToRemove:(int)qty {
-	NSLog(@"AppModel: removing an item from the local inventory");
-    
-	item.qty -=qty; 
-	if (item.qty < 1) [self.inventory removeObjectForKey:[NSString stringWithFormat:@"%d",item.itemId]];
-    
-    if([[(UINavigationController *) [RootViewController sharedRootViewController].gamePlayTabBarController.selectedViewController topViewController] respondsToSelector:@selector(updateQuantityDisplay)])
-        [[(UINavigationController *)[RootViewController sharedRootViewController].gamePlayTabBarController.selectedViewController topViewController] performSelector:@selector(updateQuantityDisplay)];
-    
-    NSString *notifString;
-    if(item.maxQty == 1)
-        notifString = [NSString stringWithFormat:@"%@ %@", item.name, NSLocalizedString(@"LostNotifKey", nil)];
-    else
-        notifString = [NSString stringWithFormat:@"+%d %@ : %d %@",  qty, item.name, item.qty, NSLocalizedString(@"LeftNotifKey", nil)];
-    
-    [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:item.name];
-    
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewInventoryReady" object:nil]];
-}
-
--(void)addItemToInventory: (Item*)item {
-	NSLog(@"AppModel: adding an item from the local inventory");
-    
-	if(!item.isAttribute)[self.inventory setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]];
-	else [self.attributes setObject:item forKey:[NSString stringWithFormat:@"%d",item.itemId]];
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewInventoryReady" object:nil]];
-    //[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ItemRecievedNotification" object:nil]];
-    //self.itemPrompt = item;
-    
-}
-
--(Media *)mediaForMediaId: (int)mId {
+-(Media *)mediaForMediaId:(int)mId
+{
     if(mId == 0) return nil;
 	return [mediaCache mediaForMediaId:mId];
 }
 
--(Npc *)npcForNpcId: (int)mId {
+-(Npc *)npcForNpcId:(int)mId
+{
 	NSLog(@"AppModel: Npc %d requested from cached list",mId);
     
 	Npc *npc = [self.gameNpcList objectForKey:[NSNumber numberWithInt:mId]];
@@ -312,7 +340,8 @@
 	return npc;
 }
 
--(Node *)nodeForNodeId: (int)mId {
+-(Node *)nodeForNodeId:(int)mId
+{
 	Node *node = [self.gameNodeList objectForKey:[NSNumber numberWithInt:mId]];
 	
 	if (!node) {
@@ -327,7 +356,8 @@
 	return node;
 }
 
-- (Note *)noteForNoteId:(int)mId playerListYesGameListNo:(BOOL)playerorGame{
+- (Note *)noteForNoteId:(int)mId playerListYesGameListNo:(BOOL)playerorGame
+{
 	Note *note;
     note = [self.gameNoteList objectForKey:[NSNumber numberWithInt:mId]];
 	if(!note) note = [self.playerNoteList objectForKey:[NSNumber numberWithInt:mId]];
@@ -346,7 +376,8 @@
 	return note;
 }
 
-- (WebPage *)webPageForWebPageID: (int)mId {
+- (WebPage *)webPageForWebPageID:(int)mId
+{
 	WebPage *page = [self.gameWebPageList objectForKey:[NSNumber numberWithInt:mId]];
 	
 	if (!page) {
@@ -361,7 +392,8 @@
 }
 
 
-- (Panoramic *)panoramicForPanoramicId:(int)mId {
+- (Panoramic *)panoramicForPanoramicId:(int)mId
+{
     Panoramic *pan = [self.gamePanoramicList objectForKey:[NSNumber numberWithInt:mId]];
 	
 	if (!pan) {
@@ -376,7 +408,8 @@
     
 }
 
--(Item *)itemForItemId: (int)mId {
+-(Item *)itemForItemId:(int)mId
+{
 	Item *item = [self.gameItemList objectForKey:[NSNumber numberWithInt:mId]];
 	
 	if (!item) {
@@ -391,7 +424,8 @@
 	return item;
 }
 
--(Location *)locationForLocationId: (int)lId {
+-(Location *)locationForLocationId:(int)lId
+{
     for(int i = 0; i < [self.locationList count]; i++)
     {
         if(((Location *)[self.locationList objectAtIndex:i]).locationId == lId)
@@ -405,11 +439,10 @@
  Returns the managed object context for the application.
  If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
  */
-- (NSManagedObjectContext *) managedObjectContext {
-	
-    if (managedObjectContext != nil) {
+- (NSManagedObjectContext *) managedObjectContext
+{
+    if (managedObjectContext != nil)
         return managedObjectContext;
-    }
 	
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
     if (coordinator != nil) {
@@ -425,15 +458,18 @@
  */
 - (NSManagedObjectModel *)managedObjectModel {
 	
-    if (managedObjectModel != nil) {
+    if(managedObjectModel != nil)
         return managedObjectModel;
-    }
+        
     managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];    
     return managedObjectModel;
-}/**
+}
+
+/**
   Returns the path to the application's Documents directory.
   */
-- (NSString *)applicationDocumentsDirectory {
+- (NSString *)applicationDocumentsDirectory
+{
 	return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 }
 
@@ -441,11 +477,10 @@
  Returns the persistent store coordinator for the application.
  If the coordinator doesn't already exist, it is created and the application's store added to it.
  */
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
-	
-    if (persistentStoreCoordinator != nil) {
+- (NSPersistentStoreCoordinator *)persistentStoreCoordinator
+{
+    if (persistentStoreCoordinator != nil)
         return persistentStoreCoordinator;
-    }
 	
     NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"UploadContent.sqlite"]];
     NSError *error = nil;
@@ -454,9 +489,8 @@
                              [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
                              [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
     persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
-    if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error]) {
+    if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error])
         NSLog(@"AppModel: Error getting the persistentStoreCoordinator");
-    }    
 	
     return persistentStoreCoordinator;
 }

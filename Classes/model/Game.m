@@ -13,9 +13,11 @@
 @implementation Game
 
 @synthesize gameId;
+@synthesize inventoryModel;
+@synthesize attributesModel;
+@synthesize questsModel;
 @synthesize mapType;
 @synthesize hasBeenPlayed;
-@synthesize inventoryWeightCap;
 @synthesize name;
 @synthesize description;
 @synthesize distanceFromPlayer;
@@ -30,21 +32,25 @@
 @synthesize location;
 @synthesize launchNodeId;
 @synthesize completeNodeId;
-@synthesize completedQuests;
-@synthesize totalQuests;
 @synthesize numReviews, reviewedByUser;
-@synthesize calculatedScore,isLocational, showPlayerLocation, activeQuests,iconMedia,currentWeight;
+@synthesize calculatedScore,isLocational, showPlayerLocation, iconMedia;
 @synthesize allowsPlayerTags,splashMedia,allowNoteComments,allowNoteLikes,allowShareNoteToMap,allowShareNoteToList,allowTrading;
 
 - (id) init{
-	if ((self = [super init])) {
+	if ((self = [super init]))
+    {
 		self.comments = [NSMutableArray arrayWithCapacity:5];
         self.reviewedByUser = NO;
 	}
 	return self;
 }
 
-
+- (void) getReadyToPlay
+{
+    self.inventoryModel  = [[InventoryModel  alloc] init];
+    self.attributesModel = [[AttributesModel alloc] init];
+    self.questsModel     = [[QuestsModel     alloc] init];
+}
 
 - (NSComparisonResult)compareDistanceFromPlayer:(Game*)otherGame{
 	if (self.distanceFromPlayer < otherGame.distanceFromPlayer) return NSOrderedAscending;

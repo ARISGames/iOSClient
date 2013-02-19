@@ -27,12 +27,14 @@
 @synthesize incrementalWiggleOffset;
 @synthesize xOnSinWave;
 
-- (id)initWithAnnotation:(Annotation *)annotation reuseIdentifier:(NSString *)reuseIdentifier{
-	if (self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier]) {
+- (id)initWithAnnotation:(Annotation *)annotation reuseIdentifier:(NSString *)reuseIdentifier
+{
+	if (self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier])
+    {
         self.titleFont = [UIFont fontWithName:@"Arial" size:18];
         self.subtitleFont = [UIFont fontWithName:@"Arial" size:12];
         
-        self.showTitle = (annotation.location.showTitle && annotation.title != nil && annotation.title != @"") ? YES : NO;
+        self.showTitle = (annotation.location.showTitle && annotation.title != nil && ![annotation.title isEqualToString:@""]) ? YES : NO;
         self.shouldWiggle = annotation.location.wiggle;
         self.totalWiggleOffsetFromOriginalPosition = 0;
         self.incrementalWiggleOffset = 0;
@@ -76,7 +78,7 @@
 
         iconView = [[AsyncMediaImageView alloc] init];
         [iconView setFrame:imageViewFrame];
-        iconView.contentMode =  UIViewContentModeScaleAspectFit;
+        iconView.contentMode = UIViewContentModeScaleAspectFit;
         
         [self addSubview:self.iconView];
         

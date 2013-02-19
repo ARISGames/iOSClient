@@ -421,10 +421,10 @@
 
 - (int) getQtyInInventoryOfItem:(int)itemId
 {
-    Item *i = [[AppModel sharedAppModel].inventory objectForKey:[NSString stringWithFormat:@"%d",itemId]];
+    Item *i = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:itemId];
     if(i)
         return i.qty;
-    i = [[AppModel sharedAppModel].attributes objectForKey:[NSString stringWithFormat:@"%d",itemId]];
+    i = [[AppModel sharedAppModel].currentGame.attributesModel attributesItemForId:itemId];
     if(i)
         return i.qty;
     return 0;
@@ -432,104 +432,60 @@
 
 - (int) setQtyInInventoryOfItem:(int)itemId toQty:(int)qty
 {
-    //If in inventory
-    Item *i = [[AppModel sharedAppModel].inventory objectForKey:[NSString stringWithFormat:@"%d",itemId]];
-    if(i)
+    Item *i = [[AppModel sharedAppModel] itemForItemId:itemId];
+    int newQty = 0;
+    if(!i.isAttribute)
     {
-        i.qty = qty;
-        [[AppServices sharedAppServices] updateServerInventoryItem:itemId qty:qty];
-        return qty;
-    }
-    //If in attributes
-    i = [[AppModel sharedAppModel].attributes objectForKey:[NSString stringWithFormat:@"%d",itemId]];
-    if(i)
-    {
-        i.qty = qty;
-        [[AppServices sharedAppServices] updateServerInventoryItem:itemId qty:qty];
-        return qty;
-    }
-    
-    //If not yet in inventory/attributes
-    i = [[AppModel sharedAppModel] itemForItemId:itemId];
-    if(i && qty > 0)
-    {
-        i.qty = qty;
-        if(!i.isAttribute)
-            [[AppModel sharedAppModel].inventory setObject:i forKey:[NSString stringWithFormat:@"%d",itemId]];
+        Item *ii = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:itemId];
+        if(ii && ii.qty < qty)
+            newQty = [[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:i qtyToRemove:qty-ii.qty];
+        else if(ii && ii.qty > qty)
+            newQty = [[AppModel sharedAppModel].currentGame.inventoryModel addItemToInventory:i qtyToAdd:ii.qty-qty];
         else
-            [[AppModel sharedAppModel].attributes setObject:i forKey:[NSString stringWithFormat:@"%d",itemId]];
-        [[AppServices sharedAppServices] updateServerInventoryItem:itemId qty:qty];
-        return qty;
+            newQty = [[AppModel sharedAppModel].currentGame.inventoryModel addItemToInventory:i qtyToAdd:qty];
     }
-    return 0;
+    else
+    {
+        Item *ii = [[AppModel sharedAppModel].currentGame.attributesModel attributesItemForId:itemId];
+        if(ii && ii.qty < qty)
+            newQty = [[AppModel sharedAppModel].currentGame.attributesModel removeItemFromAttributes:i qtyToRemove:qty-ii.qty];
+        else if(ii && ii.qty > qty)
+            newQty = [[AppModel sharedAppModel].currentGame.attributesModel addItemToAttributes:i qtyToAdd:ii.qty-qty];
+        else
+            newQty = [[AppModel sharedAppModel].currentGame.attributesModel addItemToAttributes:i qtyToAdd:qty];
+    }
+    [[AppServices sharedAppServices] updateServerInventoryItem:itemId qty:qty];
+    return newQty;
 }
 
 - (int) giveQtyInInventoryToItem:(int)itemId ofQty:(int)qty
 {
-    //If in inventory
-    Item *i = [[AppModel sharedAppModel].inventory objectForKey:[NSString stringWithFormat:@"%d",itemId]];
-    if(i)
-    {
-        i.qty += qty;
-        [[AppServices sharedAppServices] updateServerAddInventoryItem:itemId addQty:qty];
-        return i.qty;
-    }
-    //If in attributes
-    i = [[AppModel sharedAppModel].attributes objectForKey:[NSString stringWithFormat:@"%d",itemId]];
-    if(i)
-    {
-        i.qty += qty;
-        [[AppServices sharedAppServices] updateServerAddInventoryItem:itemId addQty:qty];
-        return i.qty;
-    }
-    
-    //If not yet in inventory/attributes
-    i = [[AppModel sharedAppModel] itemForItemId:itemId];
-    if(i)
-    {
-        i.qty = qty;
-        if(!i.isAttribute)
-            [[AppModel sharedAppModel].inventory setObject:i forKey:[NSString stringWithFormat:@"%d",itemId]];
-        else
-            [[AppModel sharedAppModel].attributes setObject:i forKey:[NSString stringWithFormat:@"%d",itemId]];
-        [[AppServices sharedAppServices] updateServerAddInventoryItem:itemId addQty:qty];
-        return qty;
-    }
-    return 0;
+    Item *i = [[AppModel sharedAppModel] itemForItemId:itemId];
+    int newQty = 0;
+    if(!i.isAttribute)
+        newQty = [[AppModel sharedAppModel].currentGame.inventoryModel addItemToInventory:i qtyToAdd:qty];
+    else
+        newQty = [[AppModel sharedAppModel].currentGame.attributesModel addItemToAttributes:i qtyToAdd:qty];
+
+    [[AppServices sharedAppServices] updateServerAddInventoryItem:itemId addQty:qty];
+    return newQty;
 }
 
 - (int) takeQtyInInventoryFromItem:(int)itemId ofQty:(int)qty
 {
-    //If in inventory
-    Item *i = [[AppModel sharedAppModel].inventory objectForKey:[NSString stringWithFormat:@"%d",itemId]];
-    if(i)
-    {
-        i.qty -= qty;
-        [[AppServices sharedAppServices] updateServerRemoveInventoryItem:itemId removeQty:qty];
-        if(i.qty < 1)
-        {
-            [[AppModel sharedAppModel].inventory removeObjectForKey:[NSString stringWithFormat:@"%d",itemId]];
-            return 0;
-        }
-        return i.qty;
-    }
-    //If in attributes
-    i = [[AppModel sharedAppModel].attributes objectForKey:[NSString stringWithFormat:@"%d",itemId]];
-    if(i)
-    {
-        i.qty -= qty;
-        [[AppServices sharedAppServices] updateServerRemoveInventoryItem:itemId removeQty:qty];
-        if(i.qty < 1)
-        {
-            [[AppModel sharedAppModel].attributes removeObjectForKey:[NSString stringWithFormat:@"%d",itemId]];
-            return 0;
-        }
-        return i.qty;
-    }
-    return 0;
+    Item *i = [[AppModel sharedAppModel] itemForItemId:itemId];
+    int newQty = 0;
+    if(!i.isAttribute)
+        newQty = [[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:i qtyToRemove:qty];
+    else
+        newQty = [[AppModel sharedAppModel].currentGame.attributesModel removeItemFromAttributes:i qtyToRemove:qty];    
+    [[AppServices sharedAppServices] updateServerRemoveInventoryItem:itemId removeQty:qty];
+
+    return newQty;
 }
 
-- (void) configureBump {
+- (void) configureBump
+{
     if(self.isConnectedToBump) return;
     [BumpClient configureWithAPIKey:@"4ff1c7a0c2a84bb9938dafc3a1ac770c" andUserID:[[UIDevice currentDevice] name]];
     

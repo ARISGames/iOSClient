@@ -16,19 +16,13 @@
 	UITableView *inventoryTable;
 	NSArray *inventory;
     UIBarButtonItem *tradeButton;
-    int silenceNextServerUpdateCount;
-	int newItemsSinceLastView;
     UIProgressView *capBar;
     UILabel *capLabel;
-    int weightCap;
-    int currentWeight;
     
     NSMutableDictionary *iconCache;
     NSMutableDictionary *mediaCache;
 }
 
-@property(readwrite, assign) int weightCap;
-@property(readwrite, assign) int currentWeight;
 @property(nonatomic) IBOutlet UIProgressView *capBar;
 @property(nonatomic) IBOutlet UILabel *capLabel;
 @property(nonatomic) IBOutlet UITableView *inventoryTable;

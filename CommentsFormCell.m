@@ -55,7 +55,7 @@
                                                             delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
         self.alert = alertAlloc;
         [self.alert show];
-        [[AppServices sharedAppServices] saveComment:self.textField.text game:self.game.gameId starRating:self.ratingView.userRating];
+        [[AppServices sharedAppServices] saveGameComment:self.textField.text game:self.game.gameId starRating:self.ratingView.userRating];
         
         self.commentsVC.defaultRating = self.ratingView.userRating;
         

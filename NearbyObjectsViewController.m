@@ -33,15 +33,9 @@
     return self;
 }
 
-- (void)silenceNextUpdate {
-	silenceNextServerUpdateCount++;
-	NSLog(@"QuestsViewController: silenceNextUpdate. Count is %d",silenceNextServerUpdateCount );
-}
-
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
 }
 
 /*
@@ -100,12 +94,13 @@
 
 - (void)refresh {
 	NSLog(@"NearbyObjectsViewController: refresh requested");
-	if ([AppModel sharedAppModel].loggedIn && ([AppModel sharedAppModel].currentGame.gameId != 0 && [AppModel sharedAppModel].playerId != 0)) [[AppServices sharedAppServices] fetchLocationList];
+	if ([AppModel sharedAppModel].loggedIn && ([AppModel sharedAppModel].currentGame.gameId != 0 && [AppModel sharedAppModel].playerId != 0))
+        [[AppServices sharedAppServices] fetchPlayerLocationList];
 }
 
 - (void)refreshViewFromModel{
     
-    if(![AppServices sharedAppServices].currentlyInteractingWithObject && [AppModel sharedAppModel].inGame){
+    if(![AppModel sharedAppModel].currentlyInteractingWithObject && [AppModel sharedAppModel].inGame){
         NSLog(@"NearbyBar: refreshViewFromModel");
         
             ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -138,7 +133,7 @@
                     if (oldLocation.locationId == location.locationId) match = YES;
                 if (match == NO) {
                     if (location.forcedDisplay){
-                        if(!forcedDisplayItem && silenceNextServerUpdateCount == 0)
+                        if(!forcedDisplayItem)
                             forcedDisplayItem = location;
                         else //if there is already a forced display item, but this item also wants to be force-displayed,
                         {
@@ -189,7 +184,6 @@
             //Refresh the table
             [nearbyTable reloadData];
         }
-    if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
 }
 
 #pragma mark UITableView Data Source and Delegate Methods

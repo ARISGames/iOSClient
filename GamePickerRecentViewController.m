@@ -20,7 +20,6 @@
 @synthesize gameList;
 @synthesize refreshButton;
 
-
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle {
     self = [super initWithNibName:nibName bundle:nibBundle];
@@ -39,8 +38,6 @@
 
 }
 
-
-
 #pragma mark - View lifecycle
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -53,19 +50,19 @@
     self.navigationItem.rightBarButtonItem = self.refreshButton;
     self.gameList = [NSArray array];
     [self refresh];
-	NSLog(@"GamePickerViewController: View Loaded");
+	NSLog(@"GamePickerRecentViewController: View Loaded");
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-	NSLog(@"GamePickerViewController: View Appeared");	
+	NSLog(@"GamePickerRecentViewController: View Appeared");	
     [gameTable reloadData];
 	[self refresh];
     
 	NSLog(@"GamePickerRecentViewController: view did appear");
 }
 
-
--(void)refresh {
+-(void)refresh
+{
 	NSLog(@"GamePickerRecentViewController: Refresh Requested");
     
     //register for notifications
@@ -80,7 +77,6 @@
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
     // Release anything that's not essential, such as cached data
 }
-
 
 #pragma mark custom methods, logic
 -(void)showLoadingIndicator{

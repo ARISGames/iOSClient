@@ -76,10 +76,7 @@
                 {
                     //Decrement qty of traded items
                     Item *itemDelta = (Item *)[self.itemsToTrade objectAtIndex:i];
-                    NSString *itemId = [NSString stringWithFormat:@"%d",itemDelta.itemId];
-                    Item *itemToChange = (Item *)[[AppModel sharedAppModel].inventory objectForKey:itemId];
-                    itemToChange.qty -= itemDelta.qty;
-                    if(itemToChange.qty < 1) [[AppModel sharedAppModel].inventory removeObjectForKey:itemId];
+                    [[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:itemDelta qtyToRemove:itemDelta.qty];
                 }
                 if(self.delegate) [self.delegate refresh];
                 [self goBackToInventory];
@@ -125,10 +122,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = NSLocalizedString(@"InventoryTradeViewTitleKey",@"");
-        NSMutableArray *iconCacheAlloc = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].inventory count]];
-        self.iconCache = iconCacheAlloc;
-        NSMutableArray *mediaCacheAlloc = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].inventory count]];
-        self.mediaCache = mediaCacheAlloc;
+        self.iconCache = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory count]];
+        self.mediaCache = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory count]];
         self.isConnectedToBump = NO;
         [self configureBump];
     }
@@ -138,9 +133,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    NSMutableArray *tempCopy = [[[AppModel sharedAppModel].inventory allValues] mutableCopy];
-    NSMutableArray *inventoryAlloc = [[NSMutableArray alloc] init];
-	self.inventory = inventoryAlloc;
+    NSArray *tempCopy = [AppModel sharedAppModel].currentGame.inventoryModel.currentInventory;
+	self.inventory = [[NSMutableArray alloc] init];
     for(int i = 0; i < [tempCopy count]; i++){
         if(((Item *)[tempCopy objectAtIndex:i]).isTradeable)
             [self.inventory addObject:[((Item *)[tempCopy objectAtIndex:i]) copyItem]];

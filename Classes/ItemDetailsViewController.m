@@ -220,10 +220,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	else self.title = item.name;
 }
 
--(void)editButtonPressed{
-    [self displayTitleandDescriptionForm];
-}
-
 - (IBAction)backButtonTouchAction: (id) sender{
 	NSLog(@"ItemDetailsViewController: Notify server of Item view and Dismiss Item Details View");
 	
@@ -323,52 +319,56 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 }
 
 
--(void)doActionWithMode: (ItemDetailsModeType) itemMode quantity: (int) quantity {
+-(void)doActionWithMode:(ItemDetailsModeType)itemMode quantity:(int)quantity
+{
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate playAudioAlert:@"drop" shouldVibrate:YES];
-	
-	//Determine the Quantity Effected based on the button touched
-    
-	
-	
+		
 	//Do the action based on the mode of the VC
-	if (mode == kItemDetailsDropping) {
+	if(mode == kItemDetailsDropping)
+    {
 		NSLog(@"ItemDetailsVC: Dropping %d",quantity);
 		[[AppServices sharedAppServices] updateServerDropItemHere:item.itemId qty:quantity];
 		[[AppModel sharedAppModel] removeItemFromInventory:item qtyToRemove:quantity];
         
     }
-	else if (mode == kItemDetailsDestroying) {
+	else if(mode == kItemDetailsDestroying)
+    {
 		NSLog(@"ItemDetailsVC: Destroying %d",quantity);
 		[[AppServices sharedAppServices] updateServerDestroyItem:self.item.itemId qty:quantity];
 		[[AppModel sharedAppModel] removeItemFromInventory:item qtyToRemove:quantity];
 		
 	}
-	else if (mode == kItemDetailsPickingUp) {
+	else if(mode == kItemDetailsPickingUp)
+    {
         NSString *errorMessage;
         
 		//Determine if this item can be picked up
-		Item *itemInInventory  = [[AppModel sharedAppModel].inventory objectForKey:[NSString stringWithFormat:@"%d",item.itemId]];
-		if (itemInInventory.qty + quantity > item.maxQty && item.maxQty != -1) {
-            
+		Item *itemInInventory  = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:item.itemId];
+		if (itemInInventory.qty + quantity > item.maxQty && item.maxQty != -1)
+        {
 			[appDelegate playAudioAlert:@"error" shouldVibrate:YES];
 			
-			if (itemInInventory.qty < item.maxQty) {
+			if (itemInInventory.qty < item.maxQty)
+            {
 				quantity = item.maxQty - itemInInventory.qty;
                 
-                if([AppModel sharedAppModel].currentGame.inventoryWeightCap != 0){
-                    while((quantity*item.weight + [AppModel sharedAppModel].currentGame.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryWeightCap){
+                if([AppModel sharedAppModel].currentGame.inventoryModel.weightCap != 0)
+                {
+                    while((quantity*item.weight + [AppModel sharedAppModel].currentGame.inventoryModel.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryModel.weightCap){
                         quantity--;
                     }
                 }
 				errorMessage = [NSString stringWithFormat:@"%@ %d %@",NSLocalizedString(@"ItemAcionCarryThatMuchKey", @""),quantity,NSLocalizedString(@"PickedUpKey", @"")];
                 
 			}
-			else if (item.maxQty == 0) {
+			else if (item.maxQty == 0)
+            {
 				errorMessage = NSLocalizedString(@"ItemAcionCannotPickUpKey", @"");
 				quantity = 0;
 			}
-            else {
+            else
+            {
 				errorMessage = NSLocalizedString(@"ItemAcionCannotCarryMoreKey", @"");
 				quantity = 0;
 			}
@@ -377,11 +377,11 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 															message: errorMessage
 														   delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
 			[alert show];
-            
-            
 		}
-        else if (((quantity*item.weight +[AppModel sharedAppModel].currentGame.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryWeightCap)&&([AppModel sharedAppModel].currentGame.inventoryWeightCap != 0)){
-            while ((quantity*item.weight + [AppModel sharedAppModel].currentGame.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryWeightCap) {
+        else if (((quantity*item.weight +[AppModel sharedAppModel].currentGame.inventoryModel.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryModel.weightCap)&&([AppModel sharedAppModel].currentGame.inventoryModel.weightCap != 0))
+        {
+            while ((quantity*item.weight + [AppModel sharedAppModel].currentGame.inventoryModel.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryModel.weightCap)
+            {
                 quantity--;
             }
             errorMessage = [NSString stringWithFormat:@"%@ %d %@",NSLocalizedString(@"ItemAcionTooHeavyKey", @""),quantity,NSLocalizedString(@"PickedUpKey", @"")];
@@ -571,33 +571,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 -(void)hideKeyboard {
     [self.textBox resignFirstResponder];
     self.textBox.frame = CGRectMake(0, 0, 320, 335);
-}
-
--(void)saveButtonTouchAction{
-    [self.saveButton setBackgroundColor:[UIColor lightGrayColor]];
-    [self displayTitleandDescriptionForm];
-}
-
-- (void)displayTitleandDescriptionForm {
-    TitleAndDecriptionFormViewController *titleAndDescForm = [[TitleAndDecriptionFormViewController alloc] 
-                                                              initWithNibName:@"TitleAndDecriptionFormViewController" bundle:nil];
-    titleAndDescForm.item = self.item;
-	titleAndDescForm.delegate = self;
-	[self.view addSubview:titleAndDescForm.view];
-}
-
-- (void)titleAndDescriptionFormDidFinish:(TitleAndDecriptionFormViewController*)titleAndDescForm{
-	NSLog(@"NoteVC: Back from form");
-	[titleAndDescForm.view removeFromSuperview];
-    item.name = titleAndDescForm.titleField.text;
-    if([item.type isEqualToString: @"NOTE"])
-        item.description = textBox.text;
-    else item.description = titleAndDescForm.descriptionField.text;
-    [[AppServices sharedAppServices] updateItem:self.item];
-    
-    [self.navigationController popToRootViewControllerAnimated:YES];
-    [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];	
-        
 }
 
 #pragma mark Memory Management

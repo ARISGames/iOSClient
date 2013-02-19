@@ -66,7 +66,7 @@ static float INITIAL_SPAN = 0.001;
     annotation= [[DDAnnotation alloc] initWithCoordinate:[AppModel sharedAppModel].playerLocation.coordinate addressDictionary:nil];
     else{
         CLLocationCoordinate2D coord;
-        coord.latitude =  note.latitude;
+        coord.latitude  = note.latitude;
         coord.longitude = note.longitude;
         annotation= [[DDAnnotation alloc] initWithCoordinate:coord addressDictionary:nil];
     }
@@ -177,7 +177,7 @@ static float INITIAL_SPAN = 0.001;
 }
 
 -(void)backButtonTouchAction:(id)sender{
-    [[AppServices sharedAppServices]updateServerDropNoteHere:self.noteId atCoordinate:self.myAnnotation.coordinate];
+    [[AppServices sharedAppServices] dropNote:self.noteId atCoordinate:self.myAnnotation.coordinate];
         [note setDropped:YES];
     note.latitude = myAnnotation.coordinate.latitude;
     note.longitude = myAnnotation.coordinate.longitude;

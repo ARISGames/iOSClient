@@ -150,8 +150,10 @@
         
         NSDictionary *fileSystemAttributes = [[NSFileManager defaultManager] attributesOfFileSystemForPath:persistentStorePath error:&error];
         NSLog(@"Free space on file system: %@ bytes", [fileSystemAttributes objectForKey:NSFileSystemFreeSize]);
-        float mBLeft = [[fileSystemAttributes objectForKey:NSFileSystemFreeSize] floatValue]/(float)1000000;
+        float mBLeft = [[fileSystemAttributes objectForKey:NSFileSystemFreeSize] floatValue]/(float)1048576;
         NSLog(@"Free space in MB: %f",mBLeft);
+        float gBLeft = [[fileSystemAttributes objectForKey:NSFileSystemFreeSize] floatValue]/(float)1073741824;
+        NSLog(@"Free space in GB: %f",gBLeft);
         if (mBLeft <= 100) {
             [self clearCache];
         }

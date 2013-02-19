@@ -39,6 +39,8 @@ NSString *const kIconQuestsHtmlTemplate =
 @"<body></div><div style=\"position:relative; top:0px; background-color:#DDDDDD; border-style:ridge; border-width:3px; border-radius:11px; border-color:#888888;padding:15px;\"><h1>%@</h1>%@</div></body>"
 @"</html>";
 
+NSArray *sortedQuests;
+
 @implementation IconQuestsViewController
 
 @synthesize quests;
@@ -57,14 +59,8 @@ NSString *const kIconQuestsHtmlTemplate =
         //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost"    object:nil];
         //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedQuestList" object:nil];
         //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel)   name:@"NewQuestListReady" object:nil];
-        //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(silenceNextUpdate)      name:@"SilentNextUpdate"  object:nil];
     }
     return self;
-}
-
-- (void)silenceNextUpdate{
-	silenceNextServerUpdateCount++;
-	NSLog(@"IconQuestsViewController: silenceNextUpdate. Count is %d",silenceNextServerUpdateCount);
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -122,7 +118,6 @@ NSString *const kIconQuestsHtmlTemplate =
 	
 	self.tabBarItem.badgeValue = nil;
 	newItemsSinceLastView = 0;
-	silenceNextServerUpdateCount = 0;
     
     [self refreshViewFromModel];
 }
@@ -133,7 +128,7 @@ NSString *const kIconQuestsHtmlTemplate =
 
 - (void)refresh {
 	NSLog(@"IconQuestsViewController: refresh requested");
-	if ([AppModel sharedAppModel].loggedIn) [[AppServices sharedAppServices] fetchQuestList];
+	if ([AppModel sharedAppModel].loggedIn) [[AppServices sharedAppServices] fetchPlayerQuestList];
 	[self showLoadingIndicator];
 }
 
@@ -154,110 +149,28 @@ NSString *const kIconQuestsHtmlTemplate =
 
 -(void)refreshViewFromModel
 {
-    if([RootViewController sharedRootViewController].usesIconQuestView)
+    NSLog(@"IconQuestsViewController: Refreshing view from model");
+    if (![AppModel sharedAppModel].hasSeenQuestsTabTutorial)
     {
-        NSLog(@"IconQuestsViewController: Refreshing view from model");
-        
-        ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-        
-        NSLog(@"IconQuestsViewController: refreshViewFromModel: silenceNextServerUpdateCount = %d", silenceNextServerUpdateCount);
-        
-        int newItems = 0;
-        
-        //Update the badge
-        if (silenceNextServerUpdateCount < 1)
-        {
-            //Check if anything is new since last time
-            NSArray *newActiveQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"active"];
-            NSArray *newCompletedQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"completed"];
-            
-            for (Quest *quest in newCompletedQuestsArray)
-            {
-                BOOL match = NO;
-                for (Quest *existingQuest in [self.quests objectAtIndex:COMPLETED_SECTION])
-                {
-                    if (existingQuest.questId == quest.questId) match = YES;
-                }
-                if (match == NO)
-                {
-                    [appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
-                    
-                    if(quest.fullScreenNotification)
-                        [[RootViewController sharedRootViewController] enqueuePopOverWithTitle:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) description:quest.name webViewText:quest.description andMediaId:quest.mediaId];
-                    else
-                    {
-                        NSString *notifString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestsViewQuestCompletedKey", nil), quest.name] ;
-                        [[RootViewController sharedRootViewController] enqueueNotificationWithFullString: notifString andBoldedString:quest.name];
-                    }
-                }
-            }
-            
-            for (Quest *quest in newActiveQuestsArray)
-            {
-                BOOL match = NO;
-                for (Quest *existingQuest in [self.quests objectAtIndex:ACTIVE_SECTION])
-                {
-                    if (existingQuest.questId == quest.questId) match = YES;
-                }
-                if (match == NO)
-                {
-                    newItems++;
-                    
-                    if(quest.fullScreenNotification)
-                        [[RootViewController sharedRootViewController] enqueuePopOverWithTitle:NSLocalizedString(@"QuestViewNewQuestKey", nil) description:quest.name webViewText:quest.description andMediaId:quest.mediaId];
-                    else
-                    {
-                        NSString *notifString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestViewNewQuestKey", nil), quest.name] ;
-                        [[RootViewController sharedRootViewController] enqueueNotificationWithFullString: notifString andBoldedString:quest.name];
-                    }
-                }
-            }
-            
-            if (newItems > 0)
-            {
-                newItemsSinceLastView += newItems;
-                self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
-                
-                if (![AppModel sharedAppModel].hasSeenQuestsTabTutorial)
-                {
-                    //Put up the tutorial tab
-                    [[RootViewController sharedRootViewController].tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController
-                                                                                                                                     type:tutorialPopupKindQuestsTab
-                                                                                                                                    title:NSLocalizedString(@"QuestViewNewQuestKey", @"")
-                                                                                                                                  message:NSLocalizedString(@"QuestViewNewQuestMessageKey", @"")];
+        //Put up the tutorial tab
+        [[RootViewController sharedRootViewController].tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController
+                                                                                                                         type:tutorialPopupKindQuestsTab
+                                                                                                                        title:NSLocalizedString(@"QuestViewNewQuestKey", @"")
+                                                                                                                      message:NSLocalizedString(@"QuestViewNewQuestMessageKey", @"")];
                     [AppModel sharedAppModel].hasSeenQuestsTabTutorial = YES;
                     [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
-                }
-            }
-            else if (newItemsSinceLastView < 1) self.tabBarItem.badgeValue = nil;
-        }
-        else
-        {
-            newItemsSinceLastView = 0;
-            self.tabBarItem.badgeValue = nil;
-        }
-        
-        //rebuild the list
-        NSArray *activeQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"active"];
-        NSArray *completedQuestsArray = [[AppModel sharedAppModel].questList objectForKey:@"completed"];
-        
-        self.quests = [NSArray arrayWithObjects:activeQuestsArray, completedQuestsArray, nil];
-        
-        NSMutableArray *combinedQuests = [[NSMutableArray alloc] initWithArray:[self.quests objectAtIndex:ACTIVE_SECTION]];
-        [combinedQuests addObjectsFromArray:[self.quests objectAtIndex:COMPLETED_SECTION]];
-        
-        NSSortDescriptor *sortDescriptor;
-        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sortNum"
-                                                     ascending:YES];
-        NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-        
-        sortedQuests = [combinedQuests sortedArrayUsingDescriptors:sortDescriptors];
-        
-        if(supportsCollectionView) [questIconCollectionView reloadData];
-        else [self createIcons];
     }
     
-	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
+    NSSortDescriptor *sortDescriptor;
+    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sortNum" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    NSArray *sortedActiveQuests    = [[AppModel sharedAppModel].currentGame.questsModel.currentActiveQuests    sortedArrayUsingDescriptors:sortDescriptors];
+    NSArray *sortedCompletedQuests = [[AppModel sharedAppModel].currentGame.questsModel.currentCompletedQuests sortedArrayUsingDescriptors:sortDescriptors];
+    
+    sortedQuests = [sortedActiveQuests arrayByAddingObjectsFromArray:sortedCompletedQuests];
+    
+    if(supportsCollectionView) [questIconCollectionView reloadData];
+    else [self createIcons];
 }
 
 -(void)createIcons

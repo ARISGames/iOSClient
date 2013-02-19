@@ -159,7 +159,7 @@ BOOL tagFilter;
     else
         [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
     
-    [[AppServices sharedAppServices]fetchGameTags];
+    [[AppServices sharedAppServices] fetchGameNoteTagsAsynchronously:YES];
     [self refreshViewFromModel];
     [noteTable reloadData];
     //[self showLoadingIndicator];

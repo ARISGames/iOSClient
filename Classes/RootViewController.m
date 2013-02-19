@@ -11,6 +11,7 @@
 
 #import "LoginViewController.h"
 #import "PlayerSettingsViewController.h"
+#import "GameNotificationViewController.h"
 
 #import "GameDetailsViewController.h"
 #import "webpageViewController.h"
@@ -36,15 +37,14 @@
 
 #import "Node.h"
 
+GameNotificationViewController *gameNotificationViewController;
+
 NSString *errorMessage;
 NSString *errorDetail;
-NSMutableArray *notifArray;
-NSMutableArray *popOverArray;
-BOOL showingNotification;
-BOOL showingPopover;
 
 @implementation RootViewController
 
+@synthesize tutorialViewController;
 @synthesize loginNavigationController;
 @synthesize gameSelectionTabBarController;
 @synthesize gamePlayTabBarController;
@@ -55,11 +55,6 @@ BOOL showingPopover;
 @synthesize waitingIndicatorAlertViewController;
 @synthesize networkAlert;
 @synthesize serverAlert;
-@synthesize notificationView;
-@synthesize popOverViewController;
-@synthesize tutorialViewController;
-@synthesize squishedVCFrame;
-@synthesize notSquishedVCFrame;
 @synthesize pusherClient;
 //@synthesize playerChannel;
 //@synthesize groupChannel;
@@ -96,19 +91,16 @@ BOOL showingPopover;
     [self.view addSubview:self.playerSettingsNavigationController.view];
     
     //Tutorial View Controller
-    self.tutorialViewController = [[TutorialViewController alloc] init];
-    self.tutorialViewController.view.frame = self.gamePlayTabBarController.view.frame;
-    self.tutorialViewController.view.hidden = YES;
-    self.tutorialViewController.view.userInteractionEnabled = NO;
-    [self.gamePlayTabBarController.view addSubview:self.tutorialViewController.view];
+    tutorialViewController = [[TutorialViewController alloc] init];
+    tutorialViewController.view.frame = self.gamePlayTabBarController.view.frame;
+    tutorialViewController.view.hidden = YES;
+    tutorialViewController.view.userInteractionEnabled = NO;
+    [self.gamePlayTabBarController.view addSubview:tutorialViewController.view];
     
     self.waitingIndicatorAlertViewController = [[WaitingIndicatorAlertViewController alloc] init];
     
-    self.popOverViewController = [[PopOverViewController alloc] init];
-    
-    //Not a VC, but probably should be...
-    self.notificationView = [[UIWebView alloc] initWithFrame:CGRectMake(0, TRUE_ZERO_Y-8, SCREEN_WIDTH, 28)];
-    self.notificationView.backgroundColor = [UIColor whiteColor];
+    gameNotificationViewController = [[GameNotificationViewController alloc] initWithNibName:nil bundle:nil];
+    [self.view addSubview:gameNotificationViewController.view];
 }
 
 - (void) initGamePickerTabs
@@ -233,18 +225,7 @@ BOOL showingPopover;
     if(self)
     {
         self.view.frame = frame;
-        
-        SCREEN_HEIGHT = [UIScreen mainScreen].bounds.size.height;
-        SCREEN_WIDTH =  [UIScreen mainScreen].bounds.size.width;
-        notSquishedVCFrame = CGRectMake(0,                                 0, SCREEN_WIDTH, SCREEN_HEIGHT - STATUS_BAR_HEIGHT);
-        squishedVCFrame =    CGRectMake(0, TRUE_ZERO_Y + NOTIFICATION_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - NOTIFICATION_HEIGHT);
-        
-        //Init Notification Arrays
-        notifArray = [[NSMutableArray alloc] initWithCapacity:5];
-        popOverArray = [[NSMutableArray alloc] initWithCapacity:5];
-        showingNotification = NO;
-        showingPopover = NO;
-        
+
         //Init VC's
         [self initGamePickerTabs];
         [self initGamePlayTabs];
@@ -259,8 +240,9 @@ BOOL showingPopover;
         
         //register for notifications
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishLoginAttempt:)         name:@"NewLoginResponseReady" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"OneGameReady"          object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterGameFromOutside:)       name:@"OneGameReady"          object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectGame:)                 name:@"SelectGame"            object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(beginGamePlay)               name:@"GameFinishedLoading"   object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPlayerSettings:)         name:@"ProfSettingsRequested" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performLogout:)              name:@"PassChangeRequested"   object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performLogout:)              name:@"LogoutRequested"       object:nil];
@@ -295,159 +277,6 @@ BOOL showingPopover;
 
 #pragma mark Notifications, Warnings and Other Views
 
--(void)lowerNotificationFrame
-{
-    [self.view addSubview:self.notificationView];
-    
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-    [UIView setAnimationDuration:.5];
-    
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    
-    //NOTES: While the status bar is hidden, the view still is basing its origin on where the bottom of the status bar would be.
-    //Thus there is 20 pixels subtracted from all y-values to account for this.
-    if(self.presentedViewController)
-        self.presentedViewController.view.frame = squishedVCFrame;
-    
-    self.gamePlayTabBarController.view.frame = squishedVCFrame;
-    [UIView commitAnimations];
-    
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"notificationFrameLowered" object:self]];
-}
-
--(void)raiseNotificationFrame
-{
-    [UIView animateWithDuration:.5
-                          delay:0.0
-                        options:UIViewAnimationCurveEaseIn animations:^{
-                            [[UIApplication sharedApplication] setStatusBarHidden:NO];
-                            if(self.presentedViewController)
-                                self.presentedViewController.view.frame = notSquishedVCFrame;
-                            self.gamePlayTabBarController.view.frame = notSquishedVCFrame;
-                        }
-                     completion:^(BOOL finished){}];
-    [self.notificationView removeFromSuperview];
-    
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"notificationFrameRaised" object:self]];
-}
-
--(void)dequeueNotification
-{
-    NSLog(@"RootViewController: dequeueNotification");
-    showingNotification = YES;
-
-    notificationView.alpha = 0.0;
-    NSString* fullString = [[notifArray objectAtIndex:0] objectForKey:@"fullString"];
-    NSString* boldString = [[notifArray objectAtIndex:0] objectForKey:@"boldedString"];
-    NSString* part1;
-    NSString* part2;
-    NSString* part3;
-    
-    NSRange boldRange = [fullString rangeOfString:boldString];
-    if (boldRange.location == NSNotFound)
-    {
-        part1 = fullString;
-        part2 = @"";
-        part3 = @"";
-    }
-    else
-    {
-        part1 = [fullString substringToIndex:boldRange.location];
-        part2 = [fullString substringWithRange:boldRange];
-        part3 = [fullString substringFromIndex:(boldRange.location + boldRange.length)];
-    }
-    
-    NSString* htmlContentString = [NSString stringWithFormat:
-                                    @"<html>"
-                                    "<style type=\"text/css\">"
-                                    "body { vertical-align:text-top; text-align:center; font-family:Arial; font-size:16; }"
-                                    ".different { font:16px Arial,Helvetica,sans-serif; font-weight:bold; color:DarkBlue }"
-                                    "</style>"
-                                    "<body>%@<span class='different'>%@</span>%@</body>"
-                                    "</html>", part1, part2, part3];
-        
-    [notificationView loadHTMLString:htmlContentString baseURL:nil];
-        
-    [UIView animateWithDuration:3.0 delay:0.0
-                        options:UIViewAnimationCurveEaseIn
-                     animations:^{ self.notificationView.alpha = 1.0; }
-                     completion:^(BOOL finished){
-                         if(finished)
-                         {
-                             [UIView animateWithDuration:3.0
-                                                   delay:0.0
-                                                 options:UIViewAnimationCurveEaseIn
-                                              animations:^{ self.notificationView.alpha = 0.0; }
-                                              completion:^(BOOL finished){
-                                                  if(finished)
-                                                  {
-                                                      if([popOverArray count] > 0)
-                                                         [self dequeuePopOver];
-                                                      else if([notifArray count] > 0)
-                                                          [self dequeueNotification];
-                                                      else
-                                                      {
-                                                          [self raiseNotificationFrame];
-                                                          showingPopover = NO;
-                                                      }
-                                                  }
-                                              }];
-                         }
-                     }];
-    [notifArray removeObjectAtIndex:0];
-}
-
--(void)dequeuePopOver
-{
-    NSLog(@"RootViewController: dequeuePopOver");
-    
-    showingPopover = YES;
-    
-    if([popOverArray count] > 0)
-    {
-        [popOverViewController view]; //BAD
-        NSMutableDictionary *poDict = [popOverArray objectAtIndex:0];
-        [popOverViewController setTitle:[poDict objectForKey:@"title"]
-                            description:[poDict objectForKey:@"description"]
-                            webViewText:[poDict objectForKey:@"text"]
-                             andMediaId:[[poDict objectForKey:@"mediaId"] intValue]];
-        [self.view addSubview:popOverViewController.view];
-        [popOverArray removeObjectAtIndex:0];
-    }
-    else
-    {
-        [popOverViewController.view removeFromSuperview];
-        showingPopover = NO;
-        if([notifArray count] > 0)
-            [self dequeueNotification];
-    }
-}
-
--(void)enqueueNotificationWithFullString:(NSString *)fullString andBoldedString:(NSString *)boldedString
-{
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:fullString,@"fullString",boldedString,@"boldedString", nil];
-    [notifArray addObject:dict];
-    if(!showingNotification && !showingPopover)
-    {
-        [self lowerNotificationFrame];
-        [self dequeueNotification];
-    }
-}
-
--(void)enqueuePopOverWithTitle:(NSString *)title description:(NSString *)description webViewText:(NSString *)text andMediaId:(int) mediaId
-{
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:title,@"title",description,@"description",text,@"text",[NSNumber numberWithInt:mediaId],@"mediaId", nil];
-    [popOverArray addObject:dict];
-    if(!showingNotification && !showingPopover) [self dequeuePopOver];
-}
-
--(void)cutOffGameNotifications
-{
-    [notifArray removeAllObjects];
-    [popOverArray removeAllObjects];
-}
-
 - (void) showGameSelectionTabBarAndHideOthers
 {
     //Put it onscreen
@@ -462,6 +291,9 @@ BOOL showingPopover;
     [UIView commitAnimations];
     [AppModel sharedAppModel].fallbackGameId = 0;
     [[AppModel sharedAppModel] saveUserDefaults];
+    
+    [gameNotificationViewController stopListeningToModel];
+    [gameNotificationViewController cutOffGameNotifications];
 }
 
 - (void) showAlert:(NSString *)title message:(NSString *)message
@@ -499,8 +331,8 @@ BOOL showingPopover;
     }
 	if (!self.networkAlert)
     {
-		networkAlert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"PoorConnectionTitleKey", @"")
-                                                  message: NSLocalizedString(@"PoorConnectionMessageKey", @"")
+		networkAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"PoorConnectionTitleKey", @"")
+                                                  message:NSLocalizedString(@"PoorConnectionMessageKey", @"")
 												 delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
 	}
 	if (self.networkAlert.visible == NO) [networkAlert show];
@@ -530,7 +362,7 @@ BOOL showingPopover;
 
 - (void)displayNearbyObjectView:(UIViewController *)nearbyObjectViewController
 {
-    [AppServices sharedAppServices].currentlyInteractingWithObject = YES;
+    [AppModel sharedAppModel].currentlyInteractingWithObject = YES;
 	self.nearbyObjectNavigationController = [[UINavigationController alloc] initWithRootViewController:nearbyObjectViewController];
 	self.nearbyObjectNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
@@ -540,7 +372,7 @@ BOOL showingPopover;
 
 - (void)dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController
 {
-    [AppServices sharedAppServices].currentlyInteractingWithObject = NO;
+    [AppModel sharedAppModel].currentlyInteractingWithObject = NO;
     [nearbyObjectViewController.view removeFromSuperview];
     [self.nearbyObjectNavigationController.view removeFromSuperview];
     [[AppServices sharedAppServices] fetchAllPlayerLists];
@@ -549,26 +381,22 @@ BOOL showingPopover;
 - (void) beginGamePlay
 {
     NSLog(@"RootViewController: beginGamePlay");
+    
+    [gameNotificationViewController startListeningToModel];
 
     int nodeId = [AppModel sharedAppModel].currentGame.launchNodeId;
     if (nodeId && nodeId != 0)
         [[[AppModel sharedAppModel] nodeForNodeId:nodeId] display];
     else
-        [AppServices sharedAppServices].currentlyInteractingWithObject = NO;
-    
-    //What is this doing? -Phil 11-13-2012
-    //Causing all views to load, so that they will enque notifications even if they haven't been viewed before -Jacob 1/14/13
-    //Bad. -Phil 2-11-13
-    for(UIViewController * viewController in  gamePlayTabBarController.viewControllers)
-        [viewController view];
+        [AppModel sharedAppModel].currentlyInteractingWithObject = NO;
 }
 
 - (void) checkForDisplayCompleteNode
 {
     int nodeId = [AppModel sharedAppModel].currentGame.completeNodeId;
     if (nodeId != 0 &&
-        [AppModel sharedAppModel].currentGame.completedQuests == [AppModel sharedAppModel].currentGame.totalQuests &&
-        [AppModel sharedAppModel].currentGame.completedQuests > 0)
+        [[AppModel sharedAppModel].currentGame.questsModel.currentCompletedQuests count] == [AppModel sharedAppModel].currentGame.questsModel.totalQuestsInGame &&
+        [[AppModel sharedAppModel].currentGame.questsModel.currentCompletedQuests count] > 0)
     {
         NSLog(@"RootViewController: checkForIntroOrCompleteNodeDisplay: Displaying Complete Node");
 		[[[AppModel sharedAppModel] nodeForNodeId:nodeId] display];
@@ -617,7 +445,6 @@ BOOL showingPopover;
     
     if(gameId != 0)
     {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"OneGameReady" object:nil];
         [[AppServices sharedAppServices] fetchOneGame:gameId];
     }
 }
@@ -634,7 +461,6 @@ BOOL showingPopover;
     
     if(gameId != 0)
     {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"OneGameReady" object:nil];
         [[AppServices sharedAppServices] fetchOneGame:gameId];
     }
 }
@@ -691,45 +517,46 @@ BOOL showingPopover;
 
 - (void)selectGame:(NSNotification *)notification
 {
-	NSDictionary *userInfo = notification.userInfo;
-	Game *selectedGame = [userInfo objectForKey:@"game"];
-    [AppServices sharedAppServices].currentlyInteractingWithObject = NO;
-    
-	NSLog(@"RootViewController: Game Selected. '%@' game was selected", selectedGame.name);
-	
+	[self loadAndPlayGame:[notification.userInfo objectForKey:@"game"]];
+}
+
+-(void)loadAndPlayGame:(Game *)game
+{    
+	NSLog(@"RootViewController: Playing Game: '%@'", game.name);
+    [AppModel sharedAppModel].currentlyInteractingWithObject = NO;
+
     loadingViewController = [[LoadingViewController alloc] initWithNibName:@"LoadingViewController" bundle:nil];
     loadingViewController.progressLabel.text = NSLocalizedString(@"ARISAppDelegateFectchingGameListsKey", @"");
     
     [self.gamePlayTabBarController.moreNavigationController popToRootViewControllerAnimated:NO];
     [self.gamePlayTabBarController presentModalViewController:self.loadingViewController animated:NO];
-        
+    
     self.gamePlayTabBarController.view.hidden           = NO;
     self.gameSelectionTabBarController.view.hidden      = YES;
     self.loginNavigationController.view.hidden          = YES;
     self.playerSettingsNavigationController.view.hidden = YES;
     
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the keyboard go away before loading the object
-
+    
 	//Clear out the old game data
     if(self.gameChannel)    [pusherClient unsubscribeFromChannel:(PTPusherChannel *)self.gameChannel];
     //if(self.groupChannel)   [client unsubscribeFromChannel:(PTPusherChannel *)self.groupChannel];
     //if(self.webpageChannel) [client unsubscribeFromChannel:(PTPusherChannel *)self.webpageChannel];
-        
-    [[AppServices sharedAppServices] fetchTabBarItemsForGame:selectedGame.gameId];
+    
+    [[AppServices sharedAppServices] fetchTabBarItemsForGame:game.gameId];
 	[[AppServices sharedAppServices] resetAllPlayerLists];
     [[AppServices sharedAppServices] resetAllGameLists];
-    [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] resetCurrentlyFetchingVars];
+    [[AppServices sharedAppServices] resetCurrentlyFetchingVars];
 	[tutorialViewController dismissAllTutorials];
     
 	//Set the model to this game
-	[AppModel sharedAppModel].currentGame = selectedGame;
-    [AppModel sharedAppModel].fallbackGameId = [AppModel sharedAppModel].currentGame.gameId;
+	[AppModel sharedAppModel].currentGame = game;
+    [AppModel sharedAppModel].fallbackGameId = game.gameId;
 	[[AppModel sharedAppModel] saveUserDefaults];
+    [game getReadyToPlay];
 	
     [[AppServices sharedAppServices] fetchAllGameLists];
-    
-	//Notify the Server
-	NSLog(@"RootViewController: Game Selected. Notifying Server");
+
 	[[AppServices sharedAppServices] updateServerGameSelected];
     
     [AppModel sharedAppModel].hasReceivedMediaList = NO;
@@ -755,13 +582,6 @@ BOOL showingPopover;
     //                                             name:PTPusherEventReceivedNotification
     //                                          object:webpageChannel];
     
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleOpenURLGamesListReady)
-                                                 name:@"OneGameReady"
-                                               object:nil];
-    
-    [[AppServices sharedAppServices] fetchGame:selectedGame.gameId];
 }
 
 -(void)changeTabBar //What the heck does 'changeTabBar' mean?
@@ -842,6 +662,9 @@ BOOL showingPopover;
     self.gameSelectionTabBarController.view.hidden = YES;
     self.playerSettingsNavigationController.view.hidden = YES;
     self.loginNavigationController.view.hidden = NO;
+    
+    [gameNotificationViewController stopListeningToModel];
+    [gameNotificationViewController cutOffGameNotifications];
 }
 
 -(void)receivedMediaList
@@ -884,51 +707,39 @@ BOOL showingPopover;
         NSString *gameID = [url lastPathComponent];
         NSLog(@"gameID=: %@",gameID);
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"OneGameReady" object:nil];
         [[AppServices sharedAppServices] fetchOneGame:[gameID intValue]];
     }
     return YES;
 }
 
-- (void) handleOpenURLGamesListReady
+- (void) enterGameFromOutside:(NSNotification *)notification
 {
     NSLog(@"game opened");
-    //unregister for notifications //<- Why? Phil 09/19/12 (I commented out the next line to get this to work)
-    //[[NSNotificationCenter defaultCenter] removeObserver:self];
-    if([[[AppModel sharedAppModel] singleGameList] count] <= 0) return;
-    Game *selectedGame = [[[AppModel sharedAppModel] singleGameList] objectAtIndex:0];
-    GameDetailsViewController *gameDetailsViewController = [[GameDetailsViewController alloc] initWithNibName:@"GameDetails" bundle:nil];
-    gameDetailsViewController.game = selectedGame;
-    
-    [AppModel sharedAppModel].currentGame = selectedGame;
-    [AppModel sharedAppModel].fallbackGameId = [AppModel sharedAppModel].currentGame.gameId;
-	[[AppModel sharedAppModel] saveUserDefaults];
-    
-    // show gameSelectionTabBarController
+    Game *game = [notification.userInfo objectForKey:@"game"];
+        
+    //Configure view heirarchy to right before gameplay
     self.gamePlayTabBarController.view.hidden = YES;
     self.loginNavigationController.view.hidden = YES;
+    
     if([AppModel sharedAppModel].museumMode)
     {
         self.playerSettingsNavigationController.view.hidden = NO;
-        [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController manuallyForceViewDidAppear];
-        self.gameSelectionTabBarController.view.hidden = NO;
-        self.gameSelectionTabBarController.selectedIndex = 0;
+        [(PlayerSettingsViewController *) self.playerSettingsNavigationController.topViewController manuallyForceViewDidAppear];
     }
     else
     {
         self.playerSettingsNavigationController.view.hidden = YES;
-        self.gameSelectionTabBarController.view.hidden = NO;
-        self.gameSelectionTabBarController.selectedIndex = 0;
     }
-    
-    NSLog(@"gameID= %i",selectedGame.gameId);
-    NSLog(@"game= %@",selectedGame.name);
-    NSLog(@"gameDetailsViewController nib name = %@",gameDetailsViewController.nibName);
-    
+
     // Push Game Detail View Controller
+    GameDetailsViewController *gameDetailsViewController = [[GameDetailsViewController alloc] initWithNibName:@"GameDetails" bundle:nil];
+    gameDetailsViewController.game = game;
+    self.gameSelectionTabBarController.selectedIndex = 3; //recent (so when they go back, they'll see the game they just left)
+    self.gameSelectionTabBarController.view.hidden = NO;
     [(UINavigationController*)self.gameSelectionTabBarController.selectedViewController pushViewController:gameDetailsViewController animated:YES];
     [self.navigationController pushViewController:gameDetailsViewController animated:YES];
-    [AppModel sharedAppModel].skipGameDetails = YES;
+    
+    [self loadAndPlayGame:game];
 }
 
 #pragma mark AlertView Delegate Methods

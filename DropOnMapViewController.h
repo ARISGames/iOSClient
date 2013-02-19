@@ -22,7 +22,6 @@
     IBOutlet UIBarButtonItem *pickupButton;
 	IBOutlet UIToolbar *toolBar;
     
-	int silenceNextServerUpdateCount;
 	int newItemsSinceLastView;
 	NSTimer *refreshTimer;
     int noteId;

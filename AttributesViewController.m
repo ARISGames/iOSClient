@@ -12,6 +12,8 @@
 #import "AsyncMediaImageView.h"
 #import "AppModel.h"
 
+int badgeCount;
+
 @implementation AttributesViewController
 @synthesize attributes,iconCache,attributesTable,pcImage,nameLabel,groupLabel,addGroupButton,newAttrsSinceLastView;
 //Override init for passing title and icon to tab bar
@@ -21,22 +23,14 @@
     if (self) {
         self.title = NSLocalizedString(@"PlayerTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"123-id-card"];
-        NSMutableArray *iconCacheAlloc = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].attributes count]];
-        self.iconCache = iconCacheAlloc;
+        self.iconCache = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.attributesModel.currentAttributes count]];
+        
 		//register for notifications
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewInventoryReady" object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
-        
-        UILabel *label = [[UILabel alloc] init];
-        label.frame = CGRectMake(0, 0, 500, 1000);
-        label.backgroundColor = [UIColor colorWithRed:0/255.0
-                                                green:0/255.0
-                                                 blue:0/255.0
-                                                alpha:.7];
-        
-        // Create header view and add label as a subview
-        [self.view insertSubview:label atIndex:1];
-        
+		//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedInventory"                object:nil];
+        //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost"                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel)   name:@"NewlyAcquiredAttributesAvailable" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel)   name:@"NewlyLostAttributesAvailable"     object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incrementBadge)         name:@"NewlyChangedItemsGameNotificationSent"    object:nil];
     }
     return self;
 }
@@ -64,23 +58,26 @@
     return view;
 }
 
-- (void)silenceNextUpdate
-{
-	silenceNextServerUpdateCount++;
-}
-
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-	[super viewDidLoad];
+- (void)viewDidLoad
+{
+    UILabel *label = [[UILabel alloc] init];
+    label.frame = CGRectMake(0, 0, 500, 1000);
+    label.backgroundColor = [UIColor colorWithRed:0/255.0
+                                            green:0/255.0
+                                             blue:0/255.0
+                                            alpha:.7];
+    
+    // Create header view and add label as a subview
+    [self.view insertSubview:label atIndex:1];
+
     self.pcImage.layer.cornerRadius = 10.0;
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-	self.tabBarItem.badgeValue = nil;
-	[self refresh];
-	self.nameLabel.text = [NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"AttributesViewNameKey", @""), [AppModel sharedAppModel].userName];
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.nameLabel.text = [NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"AttributesViewNameKey", @""), [AppModel sharedAppModel].userName];
     self.groupLabel.text = NSLocalizedString(@"AttributesViewGroupKey", @"");
-	silenceNextServerUpdateCount = 0;
     if ([AppModel sharedAppModel].currentGame.pcMediaId != 0) {
 		//Load the image from the media Table
 		Media *pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId];
@@ -96,113 +93,30 @@
 	//else [pcImage updateViewWithNewImage:[UIImage imageNamed:@"profile.png"]];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    badgeCount = 0;
+    self.tabBarItem.badgeValue = nil;
+	
+    [self refresh];
+}
+
 -(void)refresh {
-	[[AppServices sharedAppServices] fetchInventory];
+	[[AppServices sharedAppServices] fetchPlayerInventory];
     [self refreshViewFromModel];
 }
 
--(void)refreshViewFromModel {
+-(void)refreshViewFromModel
+{
 	NSLog(@"AttributesVC: Refresh View from Model");
 	
-    if (silenceNextServerUpdateCount < 1) {
-        NSArray *newAttributes = [[AppModel sharedAppModel].attributes allValues];
-        //Check if anything is new since last time
-        int newAttrs = 0;
-        UIViewController *topViewController =  [[self navigationController] topViewController];
-        for (Item *attr in newAttributes) {
-            BOOL match = NO;
-            for (Item *existingAttr in self.attributes) {
-                if (existingAttr.itemId == attr.itemId) match = YES;
-                if ((existingAttr.itemId == attr.itemId) && (existingAttr.qty < attr.qty)){
-                    if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
-                        [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
-                    
-                    NSString *notifString;
-                    if(attr.maxQty == 1)
-                        notifString = [NSString stringWithFormat:@"%@ %@", attr.name, NSLocalizedString(@"ReceivedNotifKey", nil)];
-                    else
-                        notifString = [NSString stringWithFormat:@"+%d %@ : %d %@",  attr.qty - existingAttr.qty, attr.name, attr.qty, NSLocalizedString(@"TotalNotifKey", nil)];
-                    
-                    [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:attr.name];
-                    newAttrs++;
-                }
-                if((existingAttr.itemId == attr.itemId) && (existingAttr.qty > attr.qty)){
-                    if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
-                        [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
-                    
-                    NSString *notifString;
-                    if(attr.maxQty == 1)
-                        notifString = [NSString stringWithFormat:@"%@ %@", attr.name, NSLocalizedString(@"LostNotifKey", nil)];
-                    else
-                        notifString = [NSString stringWithFormat:@"-%d %@ : %d %@", existingAttr.qty - attr.qty, attr.name, attr.qty, NSLocalizedString(@"LeftNotifKey", nil)];
-                    
-                    [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:attr.name];
-                    
-                    
-                    newAttrs++;
-                }
-            }
-            
-            if (match == NO) {
-                //Newly added
-                if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
-                    [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
-                
-                NSString *notifString;
-                if(attr.maxQty == 1)
-                    notifString = [NSString stringWithFormat:@"%@ %@", attr.name, NSLocalizedString(@"ReceivedNotifKey", nil)];
-                else
-                    notifString = [NSString stringWithFormat:@"+%d %@ : %d %@", attr.qty, attr.name, attr.qty, NSLocalizedString(@"TotalNotifKey", nil)];
-                
-                [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:attr.name];
-
-                
-                newAttrs++;
-            }
-        }
-        
-        for (Item *existingAttr in self.attributes) {
-            BOOL match = NO;
-            for (Item *attr in newAttributes) {
-                if (existingAttr.itemId == attr.itemId) match = YES;
-            }
-            if (match == NO) {
-                //We've completely lost an attribute
-                if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
-                    [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
-                
-                NSString *notifString;
-                if(existingAttr.maxQty == 1)
-                    notifString = [NSString stringWithFormat:@"%@ %@", existingAttr.name, NSLocalizedString(@"LostNotifKey", nil)];
-                else
-                    notifString = [NSString stringWithFormat:@"-%d %@ : %d %@", existingAttr.qty, existingAttr.name, 0, NSLocalizedString(@"LeftNotifKey", nil)];
-                [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:existingAttr.name];
-                
-                newAttrs++;
-            }
-        }
-        
-        if (newAttrs > 0) {
-            newAttrsSinceLastView = newAttrs;
-            self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newAttrsSinceLastView];
-            
-            //Vibrate and Play Sound
-            [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
-        }
-        else if (newAttrsSinceLastView < 1) self.tabBarItem.badgeValue = nil;
-    }
-    else {
-        newAttrsSinceLastView = 0;
-        self.tabBarItem.badgeValue = nil;
-    }
-    
-	self.attributes = [[AppModel sharedAppModel].attributes allValues];
+    //self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
+	self.attributes = [AppModel sharedAppModel].currentGame.attributesModel.currentAttributes;
 	[attributesTable reloadData];
-	
-	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
 }
 
--(IBAction)groupButtonPressed {
+-(IBAction)groupButtonPressed
+{
     
 }
 
@@ -262,6 +176,11 @@
 	return cell;
 }
 
+-(void)incrementBadge
+{
+    badgeCount++;
+    self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",badgeCount];
+}
 
 #pragma mark PickerViewDelegate selectors
 

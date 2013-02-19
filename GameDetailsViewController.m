@@ -250,12 +250,11 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
         if  (indexPath.row == 0) {
             self.game.hasBeenPlayed = YES;
             [AppModel sharedAppModel].inGame = YES;
-            [AppServices sharedAppServices].currentlyInteractingWithObject = YES;
+            [AppModel sharedAppModel].currentlyInteractingWithObject = YES;
             
             NSDictionary *dictionary = [NSDictionary dictionaryWithObject:self.game
                                                                    forKey:@"game"];
             
-            [[AppServices sharedAppServices] silenceNextServerUpdate];
             [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"SelectGame" object:self userInfo:dictionary]];
             [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
             [self.tableView reloadData];

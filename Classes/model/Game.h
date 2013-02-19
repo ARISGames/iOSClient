@@ -8,14 +8,20 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import "InventoryModel.h"
+#import "AttributesModel.h"
+#import "QuestsModel.h"
 #import "Media.h"
 #import "AsyncMediaImageView.h"
 
 
-@interface Game : NSObject {
+@interface Game : NSObject
+{
 	int gameId;
-    int inventoryWeightCap;
-    int currentWeight;
+
+    InventoryModel  *inventoryModel;
+    AttributesModel *attributesModel;
+    QuestsModel     *questsModel;
     
     NSString *mapType;
 
@@ -34,9 +40,6 @@
     NSURL *mediaUrl;
 	int launchNodeId;
 	int completeNodeId;
-	int completedQuests;
-    int activeQuests;
-	int totalQuests;
 	int numReviews;
     BOOL reviewedByUser;
     int calculatedScore;
@@ -54,29 +57,28 @@
 
 }
 
-@property (readwrite, assign) int inventoryWeightCap;
-@property (readwrite, assign) int currentWeight;
-
-@property (nonatomic) NSString *mapType;
-
 @property (readwrite, assign) int gameId;
-@property (nonatomic) NSString *name;
-@property (nonatomic) NSString *description;
-@property (nonatomic) NSString *authors;
+
+@property (nonatomic, strong) InventoryModel *inventoryModel;
+@property (nonatomic, strong) AttributesModel *attributesModel;
+@property (nonatomic, strong) QuestsModel *questsModel;
+
+@property (nonatomic, strong) NSString *mapType;
+
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *description;
+@property (nonatomic, strong) NSString *authors;
 @property (readwrite, assign) int rating;
-@property (nonatomic) NSMutableArray *comments;
+@property (nonatomic, strong) NSMutableArray *comments;
 @property (readwrite, assign) double distanceFromPlayer;
-@property (nonatomic) CLLocation *location;
+@property (nonatomic, strong) CLLocation *location;
 @property (readwrite, assign) int pcMediaId;
-@property (nonatomic) NSURL *iconMediaUrl;
-@property (nonatomic) NSURL *mediaUrl;
+@property (nonatomic, strong) NSURL *iconMediaUrl;
+@property (nonatomic, strong) NSURL *mediaUrl;
 @property (readwrite, assign) int numPlayers;
 @property (readwrite, assign) int playerCount;
 @property (readwrite, assign) int launchNodeId;
 @property (readwrite, assign) int completeNodeId;
-@property (readwrite, assign) int completedQuests;
-@property (readwrite, assign) int activeQuests;
-@property (readwrite, assign) int totalQuests;
 @property (readwrite, assign) int numReviews;
 @property (readwrite) BOOL reviewedByUser;
 @property (readwrite) BOOL hasBeenPlayed;
@@ -90,10 +92,10 @@
 @property (readwrite) BOOL allowTrading;
 
 @property (readwrite, assign) int calculatedScore;
-@property (nonatomic) Media *iconMedia;
-@property (nonatomic) Media *splashMedia;
+@property (nonatomic, strong) Media *iconMedia;
+@property (nonatomic, strong) Media *splashMedia;
 
-
+- (void) getReadyToPlay;
 - (NSComparisonResult)compareDistanceFromPlayer:(Game*)otherGame;
 - (NSComparisonResult)compareCalculatedScore:(Game*)otherGame;
 - (NSComparisonResult)compareTitle:(Game*)otherGame;

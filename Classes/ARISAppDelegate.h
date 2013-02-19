@@ -14,7 +14,9 @@
 
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVAudioPlayer.h>
+#import <AVFoundation/AVFoundation.h>
 #import <CoreMotion/CoreMotion.h>
+#import "AudioToolbox/AudioToolbox.h"
 
 #import "Reachability.h"
 
@@ -34,6 +36,5 @@
 - (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate;
 - (void) stopAudio;
 - (BOOL) application:(UIApplication *)application handleOpenURL:(NSURL *)url;
-- (void) resetCurrentlyFetchingVars;
 - (void) startMyMotionDetect;
 @end

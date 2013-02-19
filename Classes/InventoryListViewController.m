@@ -14,6 +14,7 @@
 #import "NoteDetailsViewController.h"
 #import "InventoryTradeViewController.h"
 
+int badgeCount;
 
 @implementation InventoryListViewController
 
@@ -22,7 +23,6 @@
 @synthesize tradeButton;
 @synthesize capBar;
 @synthesize capLabel;
-@synthesize weightCap, currentWeight;
 
 @synthesize iconCache;
 @synthesize mediaCache;
@@ -36,23 +36,17 @@
         self.tabBarItem.image = [UIImage imageNamed:@"36-toolbox"];
         
         //Alloc caches
-        NSMutableDictionary *mediaCacheAlloc = [[NSMutableDictionary alloc] initWithCapacity:[[AppModel sharedAppModel].inventory count]];
-        self.mediaCache = mediaCacheAlloc;
-        NSMutableDictionary *iconCacheAlloc = [[NSMutableDictionary alloc] initWithCapacity:[[AppModel sharedAppModel].inventory count]];
-        self.iconCache = iconCacheAlloc;
+        self.mediaCache = [[NSMutableDictionary alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory count]];
+        self.iconCache  = [[NSMutableDictionary alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory count]];
         
 		//register for notifications
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedInventory" object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewInventoryReady" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(silenceNextUpdate) name:@"SilentNextUpdate" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedInventory"           object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost"              object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel)   name:@"NewlyAcquiredItemsAvailable" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel)   name:@"NewlyLostItemsAvailable"     object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incrementBadge)         name:@"NewlyChangedItemsGameNotificationSent"    object:nil];
     }
     return self;
-}
-
-- (void)silenceNextUpdate {
-	silenceNextServerUpdateCount++;
-	NSLog(@"InventoryListViewController: silenceNextUpdate. Count is %d",silenceNextServerUpdateCount);
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -69,7 +63,25 @@
 	NSLog(@"Inventory View Loaded");
 }
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
+    int currentWeight = [AppModel sharedAppModel].currentGame.inventoryModel.currentWeight;
+    int weightCap     = [AppModel sharedAppModel].currentGame.inventoryModel.weightCap;
+    if(weightCap <= 0)
+    {
+        self.capBar.progress = 0;
+        self.capBar.hidden = YES;
+        self.capLabel.hidden = YES;
+        self.inventoryTable.frame = CGRectMake(0, 0, 320, 367);
+    }
+    else
+    {
+        self.capBar.progress = (float)((float)currentWeight/(float)weightCap);
+        self.capLabel.text = [NSString stringWithFormat: @"%@: %d/%d", NSLocalizedString(@"WeightCapacityKey", @""),currentWeight, weightCap];
+        self.capBar.hidden = NO;
+        self.capLabel.hidden = NO;
+        self.inventoryTable.frame = CGRectMake(0, 42, 320, 325);
+    }
     
     if([AppModel sharedAppModel].currentGame.allowTrading)
     {
@@ -77,23 +89,21 @@
         self.tradeButton = tradeButtonAlloc;
         [self.navigationItem setRightBarButtonItem:self.tradeButton];
     }
-    else if (self.tradeButton != nil) { 
+    else if(self.tradeButton != nil)
+    {
         // remove trade button if it shouldn't be there
         self.navigationItem.rightBarButtonItem = nil;
         self.tradeButton = nil;
-        
     }
+
+}
+- (void)viewDidAppear:(BOOL)animated
+{
+    badgeCount = 0;
+    self.tabBarItem.badgeValue = nil;
     
     [[AppServices sharedAppServices] updateServerInventoryViewed];
-	[self refresh];		
-	
-	self.tabBarItem.badgeValue = nil;
-	newItemsSinceLastView = 0;
-	silenceNextServerUpdateCount = 0;
-	
-	NSLog(@"InventoryListViewController: view did appear");
-	
-	
+	[self refresh];				
 }
 
 -(void)tradeButtonTouched{
@@ -107,29 +117,15 @@
 	[[RootViewController sharedRootViewController].tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindInventoryTab];
 }
 
--(void)refresh {
+-(void)refresh
+{
 	NSLog(@"InventoryListViewController: Refresh Requested");
-    self.weightCap = [AppModel sharedAppModel].currentGame.inventoryWeightCap;
-    self.currentWeight = [AppModel sharedAppModel].currentGame.currentWeight;
-    if(self.weightCap == 0){
-        [capBar setHidden:YES];
-        [capLabel setHidden:YES];
-        inventoryTable.frame = CGRectMake(0, 0, 320, 367);
-    }
-    else {
-        [capBar setHidden:NO];
-        [capLabel setHidden:NO];
-        inventoryTable.frame = CGRectMake(0, 42, 320, 325);
-        capBar.progress = (float)((float) currentWeight/(float)weightCap);
-        capLabel.text = [NSString stringWithFormat: @"%@: %d/%d", NSLocalizedString(@"WeightCapacityKey", @""), currentWeight, weightCap];
-    }
-    [capBar setProgress:0];
-	[[AppServices sharedAppServices] fetchInventory];
-    [self refreshViewFromModel];
+	[[AppServices sharedAppServices] fetchPlayerInventory];
 	[self showLoadingIndicator];
 }
 
--(void)showLoadingIndicator{
+-(void)showLoadingIndicator
+{
 	UIActivityIndicatorView *activityIndicator = 
 	[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
 	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
@@ -137,116 +133,41 @@
 	[activityIndicator startAnimating];
 }
 
--(void)removeLoadingIndicator{
-	//Do this now in case refreshViewFromModel isn't called due to == hash
+-(void)removeLoadingIndicator
+{
 	[[self navigationItem] setRightBarButtonItem:self.tradeButton];
-	NSLog(@"InventoryListViewController: removeLoadingIndicator. silenceCount = %d",silenceNextServerUpdateCount);
 }
 
--(void)refreshViewFromModel {
+-(void)incrementBadge
+{
+    badgeCount++;
+    self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",badgeCount];
+}
+
+-(void)refreshViewFromModel
+{
 	NSLog(@"InventoryListViewController: Refresh View from Model");
-    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     
-    //Calculate current Weight
-    self.currentWeight = 0;
-    for (Item *item in [[AppModel sharedAppModel].inventory allValues]){
-    self.currentWeight += item.weight*item.qty;
+    if (![AppModel sharedAppModel].hasSeenInventoryTabTutorial)
+    {
+        [[RootViewController sharedRootViewController].tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController
+                                                                                                                         type:tutorialPopupKindInventoryTab
+                                                                                                                        title:NSLocalizedString(@"InventoryNewItemKey", @"")
+                                                                                                                      message:NSLocalizedString(@"InventoryNewItemMessageKey", @"")];
+        [AppModel sharedAppModel].hasSeenInventoryTabTutorial = YES;
+        [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
     }
-    [AppModel sharedAppModel].currentGame.currentWeight = self.currentWeight;
-    capBar.progress = (float)((float)currentWeight/(float)weightCap);
-    capLabel.text = [NSString stringWithFormat: @"%@: %d/%d", NSLocalizedString(@"WeightCapacityKey", @""),currentWeight, weightCap];
-    
-	if (silenceNextServerUpdateCount < 1) {		
-		NSArray *newInventory = [[AppModel sharedAppModel].inventory allValues];
-		//Check if anything is new since last time
-		int newItems = 0;
-       // int newItemQty = 0;
-        UIViewController *topViewController =  [[self navigationController] topViewController];
-		
-        for (Item *item in newInventory) {	
-			BOOL match = NO;
-			for (Item *existingItem in self.inventory) {
-				if (existingItem.itemId == item.itemId) match = YES;	
-                if ((existingItem.itemId == item.itemId) && (existingItem.qty < item.qty)){
-                    if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
-                        [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
-                
-                    NSString *notifString;
-                    if(item.maxQty == 1)
-                        notifString = [NSString stringWithFormat:@"%@ %@", item.name, NSLocalizedString(@"ReceivedNotifKey", nil)];
-                    else
-                        notifString = [NSString stringWithFormat:@"+%d %@ : %d %@",  item.qty - existingItem.qty, item.name, item.qty, NSLocalizedString(@"TotalNotifKey", nil)];
-                    
-                    [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:item.name];
-
-                    newItems ++;
-                    //newItemQty += item.qty - existingItem.qty;
-                }
-			}
-            
-			if (match == NO) {
-                if([AppModel sharedAppModel].profilePic)
-                {
-                    //What the heck is this? -Phil 11/1/12
-                    [AppModel sharedAppModel].profilePic = NO;
-                    [AppModel sharedAppModel].currentGame.pcMediaId = item.mediaId;
-                }
-                if([topViewController respondsToSelector:@selector(updateQuantityDisplay)])
-                    [[[self navigationController] topViewController] respondsToSelector:@selector(updateQuantityDisplay)];
-                
-                NSString *notifString;
-                if(item.maxQty == 1)
-                    notifString = [NSString stringWithFormat:@"%@ %@", item.name, NSLocalizedString(@"ReceivedNotifKey", nil)];
-                else
-                    notifString = [NSString stringWithFormat:@"+%d %@ : %d %@",  item.qty, item.name, item.qty, NSLocalizedString(@"TotalNotifKey", nil)];
-                
-                [[RootViewController sharedRootViewController] enqueueNotificationWithFullString:notifString andBoldedString:item.name];
-                
-				newItems ++;
-                //newItemQty += item.qty;
-			}
-		}
-		if (newItems > 0) {
-			newItemsSinceLastView = newItems;
-			self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
-            
-			//Vibrate and Play Sound
-			[appDelegate playAudioAlert:@"inventoryChange" shouldVibrate:YES];
-            
-			//Put up the tutorial tab
-			if (![AppModel sharedAppModel].hasSeenInventoryTabTutorial){
-				[[RootViewController sharedRootViewController].tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController  
-                                                                                                                                 type:tutorialPopupKindInventoryTab
-                                                                                                                                title:NSLocalizedString(@"InventoryNewItemKey", @"")  
-                                                                                                                              message:NSLocalizedString(@"InventoryNewItemMessageKey", @"")];
-				[AppModel sharedAppModel].hasSeenInventoryTabTutorial = YES;
-                [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
-			}
-            
-			
-		}
-		else if (newItemsSinceLastView < 1) self.tabBarItem.badgeValue = nil;
-		
-	}
-	else {
-		newItemsSinceLastView = 0;
-		self.tabBarItem.badgeValue = nil;
-	}
 	
-	self.inventory = [[AppModel sharedAppModel].inventory allValues];
-	[inventoryTable reloadData];
-	
-	if (silenceNextServerUpdateCount>0) silenceNextServerUpdateCount--;
-    NSSortDescriptor *sortDescriptorName = [[NSSortDescriptor alloc] initWithKey:@"name"
-                                                 ascending:YES];
-    NSSortDescriptor *sortDescriptorNew = [[NSSortDescriptor alloc] initWithKey:@"hasViewed"
-                                                 ascending:YES];
+    NSSortDescriptor *sortDescriptorName = [[NSSortDescriptor alloc] initWithKey:@"name"      ascending:YES];
+    NSSortDescriptor *sortDescriptorNew  = [[NSSortDescriptor alloc] initWithKey:@"hasViewed" ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptorNew, sortDescriptorName, nil];
-    
+    self.inventory = [AppModel sharedAppModel].currentGame.inventoryModel.currentInventory;
     self.inventory = [self.inventory sortedArrayUsingDescriptors:sortDescriptors];
+    [inventoryTable reloadData];
 }
 
-- (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier {
+- (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier
+{
 	CGRect CellFrame = CGRectMake(0, 0, 310, 60);
 	CGRect IconFrame = CGRectMake(5, 5, 50, 50);
     //CGRect NewBannerFrame = CGRectMake(2, 2, 55, 55);
@@ -457,8 +378,7 @@
 	Item *selectedItem = [inventory objectAtIndex:[indexPath row]];
 	NSLog(@"Displaying Detail View: %@", selectedItem.name);
     
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
+	[((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"swish" shouldVibrate:NO];
 	
 	ItemDetailsViewController *itemDetailsViewController = [[ItemDetailsViewController alloc] 
 															initWithNibName:@"ItemDetailsView" bundle:[NSBundle mainBundle]];

@@ -79,9 +79,8 @@
     }
     else if(actual >= 0.999)
     {
-        if ([AppModel sharedAppModel].currentGame.completedQuests < 1)
-            [[RootViewController sharedRootViewController] performSelector:@selector(beginGamePlay) withObject:nil afterDelay:.1];
-        // ^ that is bad. It should call a delegate method "finishedLoading" instead
+        if ([[AppModel sharedAppModel].currentGame.questsModel.currentCompletedQuests count] < 1)
+            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GameFinishedLoading" object:nil userInfo:nil]];
         [self dismissModalViewControllerAnimated:NO];//<- depricated
         [RootViewController sharedRootViewController].loadingViewController = nil;//<- what.
     }

@@ -15,8 +15,12 @@
 #import "ARISMoviePlayerViewController.h"
 #import "Media.h"
 
-@interface PopOverViewController : UIViewController<AsyncMediaImageViewDelegate, UIScrollViewDelegate, AVAudioPlayerDelegate> {
-    
+@protocol PopOverViewDelegate
+- (void) popOverContinueButtonPressed;
+@end
+
+@interface PopOverViewController : UIViewController<AsyncMediaImageViewDelegate, UIScrollViewDelegate, AVAudioPlayerDelegate>
+{    
     IBOutlet PopOverContentView *mainViewNoMedia;
     IBOutlet PopOverContentView *mainViewMedia;
     IBOutlet UIView *mainViewNoMediaContentView;
@@ -50,6 +54,7 @@
     AsyncMediaImageView	*imageView;
 }
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil delegate:(id <PopOverViewDelegate>)poDelegate;
 - (void) setTitle:(NSString *)title description:(NSString *)description webViewText: (NSString *)text andMediaId: (int) mediaId;
 - (IBAction)continuePressed:(id)sender;
 

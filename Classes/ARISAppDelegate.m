@@ -33,15 +33,7 @@ int steps = 0;
     
     
 	//[application setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];	
-	//Don't sleep
 	application.idleTimerDisabled = YES;
-    
-	//Init keys in UserDefaults in case the user has not visited the ARIS Settings page
-	//To set these defaults, edit Settings.bundle->Root.plist 
-	[[AppModel sharedAppModel] initUserDefaults];
-	
-	//Load defaults from UserDefaults
-	[[AppModel sharedAppModel] loadUserDefaults];
     
     //Log the current Language
 	NSArray *languages = [[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"];
@@ -50,6 +42,10 @@ int steps = 0;
 	NSLog(@"Current language: %@", currentLanguage);
     
     //[[UIAccelerometer sharedAccelerometer] setUpdateInterval:0.2];
+    
+    //Init keys in UserDefaults in case the user has not visited the ARIS Settings page
+	//To set these defaults, edit Settings.bundle->Root.plist
+	[[AppModel sharedAppModel] initUserDefaults];
 
     if([window respondsToSelector:@selector(setRootViewController:)])
         [window setRootViewController:[RootViewController sharedRootViewController]];
@@ -59,20 +55,23 @@ int steps = 0;
     [Crittercism enableWithAppID: @"5101a46d59e1bd498c000002"];
 }
 
-
-- (void)applicationDidBecomeActive:(UIApplication *)application{
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
 	NSLog(@"AppDelegate: applicationDidBecomeActive");
-	[[AppModel sharedAppModel] loadUserDefaults];
-    [[AppServices sharedAppServices]setShowPlayerOnMap];
-    [self resetCurrentlyFetchingVars];
+	[[AppModel sharedAppModel]       loadUserDefaults];
+    [[AppServices sharedAppServices] resetCurrentlyFetchingVars];
+
+    if([AppModel sharedAppModel].fallbackGameId != 0 && ![AppModel sharedAppModel].currentGame)
+        [[AppServices sharedAppServices] fetchOneGame:[AppModel sharedAppModel].fallbackGameId];
+    
+    [[AppServices sharedAppServices] setShowPlayerOnMap];
     
     [[[AppModel sharedAppModel]uploadManager] checkForFailedContent];
-    
 }
 
-- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
+- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
+{
     NSLog(@"AppDelegate: LOW MEMORY WARNING RECIEVED");
-    
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LowMemoryWarning" object:nil]];
 }
 
@@ -186,22 +185,6 @@ int steps = 0;
 //Vibrate
 - (void) vibrate{
 	AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);  
-}
-
-- (void) resetCurrentlyFetchingVars{
-    [AppServices sharedAppServices].currentlyFetchingNearbyGamesList = NO;
-    [AppServices sharedAppServices].currentlyFetchingSearchGamesList = NO;
-    [AppServices sharedAppServices].currentlyFetchingPopularGamesList = NO;
-    [AppServices sharedAppServices].currentlyFetchingRecentGamesList = NO;
-    [AppServices sharedAppServices].currentlyFetchingInventory = NO;
-    [AppServices sharedAppServices].currentlyFetchingLocationList = NO;
-    [AppServices sharedAppServices].currentlyFetchingQuestList = NO;
-    [AppServices sharedAppServices].currentlyFetchingGameNoteList = NO;
-    [AppServices sharedAppServices].currentlyFetchingPlayerNoteList = NO;
-    [AppServices sharedAppServices].currentlyUpdatingServerWithInventoryViewed = NO;
-    [AppServices sharedAppServices].currentlyUpdatingServerWithMapViewed = NO;
-    [AppServices sharedAppServices].currentlyUpdatingServerWithPlayerLocation = NO;
-    [AppServices sharedAppServices].currentlyUpdatingServerWithQuestsViewed = NO;
 }
 
 // handle opening ARIS using custom URL of form ARIS://?game=397 

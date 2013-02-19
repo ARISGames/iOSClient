@@ -12,8 +12,6 @@
 #import "ARISMoviePlayerViewController.h"
 #import "AsyncMediaImageView.h"
 #import "itemDetailsMode.h"
-#import "TitleAndDecriptionFormViewController.h"
-
 
 @interface ItemDetailsViewController : UIViewController <UIWebViewDelegate,UITextViewDelegate> {
 	Item *item;
@@ -46,29 +44,24 @@
 @property(readwrite) Item *item;
 @property(readwrite) bool inInventory;
 @property(readwrite) ItemDetailsModeType mode;
-@property(nonatomic)	IBOutlet AsyncMediaImageView *itemImageView;
+@property(nonatomic) IBOutlet AsyncMediaImageView *itemImageView;
 @property(nonatomic) IBOutlet UIWebView *itemWebView;
 @property(nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property(nonatomic)IBOutlet UIWebView *itemDescriptionView;;
+@property(nonatomic) IBOutlet UIWebView *itemDescriptionView;;
 @property(nonatomic) IBOutlet UITextView *textBox;
-@property(nonatomic)UIScrollView *scrollView;
+@property(nonatomic) UIScrollView *scrollView;
 @property(nonatomic) IBOutlet UIButton *saveButton;
 @property (nonatomic) NSObject *delegate;
 
-- (IBAction)dropButtonTouchAction: (id) sender;
-- (IBAction)deleteButtonTouchAction: (id) sender;
-- (IBAction)backButtonTouchAction: (id) sender;
-- (IBAction)pickupButtonTouchAction: (id) sender;
+- (IBAction)dropButtonTouchAction:(id)sender;
+- (IBAction)deleteButtonTouchAction:(id)sender;
+- (IBAction)backButtonTouchAction:(id)sender;
+- (IBAction)pickupButtonTouchAction:(id)sender;
 - (IBAction)playMovie:(id)sender;
 - (IBAction)toggleDescription:(id)sender;
--(void)doActionWithMode: (ItemDetailsModeType) itemMode quantity: (int) quantity;
+- (void)doActionWithMode:(ItemDetailsModeType)itemMode quantity:(int)quantity;
 - (void)updateQuantityDisplay;
 
-- (IBAction)saveButtonTouchAction;
-- (void) hideKeyboard;
--(void) editButtonPressed;
-- (void)titleAndDescriptionFormDidFinish:(TitleAndDecriptionFormViewController*)titleAndDescForm;
-- (void)displayTitleandDescriptionForm;
 - (void) showWaitingIndicator;
 - (void) dismissWaitingIndicator;
 @end

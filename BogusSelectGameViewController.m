@@ -24,11 +24,12 @@
     return self;
 }
 
--(void)viewDidAppear:(BOOL)animated {
+-(void)viewDidAppear:(BOOL)animated
+{
     [AppModel sharedAppModel].inGame = NO;
     ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
     [appDelegate stopAudio];
-    [[RootViewController sharedRootViewController] cutOffGameNotifications];
+    //[[RootViewController sharedRootViewController] cutOffGameNotifications];
     [[RootViewController sharedRootViewController] showGameSelectionTabBarAndHideOthers];
 }
 
@@ -44,7 +45,8 @@
     return YES;
 }
 
--(NSInteger)supportedInterfaceOrientations{
+-(NSInteger)supportedInterfaceOrientations
+{
     NSInteger mask = 0;
     if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeLeft])
         mask |= UIInterfaceOrientationMaskLandscapeLeft;

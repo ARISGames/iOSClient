@@ -127,7 +127,7 @@
 
 
 - (void)loadImageFromMedia:(Media *) aMedia {
-    NSLog(@"AsyncImageView: loadImageFromMedia");
+    NSLog(@"AsyncImageView: loadImageFromMedia:%d",[aMedia.uid intValue]);
     self.media = aMedia;
     
     self.contentMode = UIViewContentModeScaleAspectFit;
@@ -155,7 +155,7 @@
         self.isLoading = NO;
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(retryLoadingMyMedia) name:@"ReceivedMediaList" object:nil];
-        [[AppServices sharedAppServices] fetchIndividualMediaById:[self.media.uid intValue]];
+        [[AppServices sharedAppServices] fetchMedia:[self.media.uid intValue]];
         return;
     }
 	
@@ -186,7 +186,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:[self.media.uid intValue]]];
 }
-
 
 - (void)connection:(NSURLConnection *)theConnection didReceiveData:(NSData *)incrementalData {
     if (self.data==nil) {

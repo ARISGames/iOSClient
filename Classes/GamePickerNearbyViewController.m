@@ -48,23 +48,23 @@
   	[gameTable reloadData];
     [self refresh];
     
-	NSLog(@"GamePickerViewController: View Loaded");
+	NSLog(@"GamePickerNearbyViewController: View Loaded");
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-	NSLog(@"GamePickerViewController: View Appeared");	
+	NSLog(@"GamePickerNearbyViewController: View Appeared");	
 	
 	//self.gameList = [NSMutableArray arrayWithCapacity:1];
     
 	[self refresh];
     
-	NSLog(@"GamePickerViewController: view did appear");
+	NSLog(@"GamePickerNearbyViewController: view did appear");
     
 }
 
 -(void)refresh
 {
-	NSLog(@"GamePickerViewController: Refresh Requested");
+	NSLog(@"GamePickerNearbyViewController: Refresh Requested");
     
     //Calculate locational control value
     BOOL locational;

@@ -13,19 +13,11 @@
 
 
 @interface QuestsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate, UIWebViewDelegate>
-{
-    NSMutableArray *quests;
-    NSMutableArray *questCells;
-    NSArray *sortedActiveQuests;
-    NSArray *sortedCompletedQuests;
-	
+{	
 	IBOutlet UITableView *tableView;
 	IBOutlet UIProgressView *progressView;
 	IBOutlet UILabel *progressLabel;
     IBOutlet UISegmentedControl *activeQuestsSwitch;
-    
-    int newItemsSinceLastView;
-    int silenceNextServerUpdateCount;
 }
 
 - (void)refresh;

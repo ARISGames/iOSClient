@@ -161,7 +161,7 @@
 {    
     //PHIL APPROVED
     NSLog(@"UploadMan: New UploadContent- NoteId:%d, Title:%@, Text:%@, Type:%@, URL:%@", noteId, title, text, type, aUrl);
-    BOOL youreOnWifi =  YES;
+    BOOL youreOnWifi = YES;
     UploadContent *uc = [[uploadContentsForNotes objectForKey:[NSNumber numberWithInt:noteId]] objectForKey:aUrl];
     Reachability *wifiReach = [Reachability reachabilityForLocalWiFi];
     NetworkStatus wifi = [wifiReach currentReachabilityStatus];
@@ -199,11 +199,11 @@
     }
 }
 
-- (void) uploadPlayerPicContentwithType:(NSString *)type withFileURL:(NSURL *)aUrl
+- (void) uploadPlayerPicContentWithFileURL:(NSURL *)aUrl
 {
     //PHIL APPROVED
-    NSLog(@"UploadMan: New (PlayerPic)UploadContent- Type:%@, URL:%@", type, aUrl);
-    BOOL youreOnWifi =  YES;
+    NSLog(@"UploadMan: New (PlayerPic)UploadContent- URL:%@", aUrl);
+    BOOL youreOnWifi = YES;
     UploadContent *uc = [[uploadContentsForNotes objectForKey:[NSNumber numberWithInt:-1]] objectForKey:aUrl];
     Reachability *wifiReach = [Reachability reachabilityForLocalWiFi];
     NetworkStatus wifi = [wifiReach currentReachabilityStatus];
@@ -211,24 +211,26 @@
         youreOnWifi = NO;
     NSData *fileData = [NSData dataWithContentsOfURL:aUrl];
     NSUInteger bytes = fileData.length;
-    if (bytes>500000 && !youreOnWifi && !uc) {
+    if (bytes>500000 && !youreOnWifi && !uc)
+    {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"UploadManDelayedKey", @"") message:NSLocalizedString(@"UploadManDelayedMessageKey", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
         [alert show];
-        uc = [self savePlayerPicUploadContentToCDWithType:type andFileURL:aUrl inState:@"uploadStateFAILED"];
+        uc = [self savePlayerPicUploadContentToCDWithType:kNoteContentTypePhoto andFileURL:aUrl inState:@"uploadStateFAILED"];
         [self insertUploadContentIntoDictionary:uc];
-        
     }
-    else{
+    else
+    {
         if(self.currentUploadCount < self.maxUploadCount)
         {
-            uc = [self savePlayerPicUploadContentToCDWithType:type andFileURL:aUrl inState:@"uploadStateUPLOADING"];
+            uc = [self savePlayerPicUploadContentToCDWithType:kNoteContentTypePhoto andFileURL:aUrl inState:@"uploadStateUPLOADING"];
             [self insertUploadContentIntoDictionary:uc];
             self.currentUploadCount++;
             
-            [[AppServices sharedAppServices] uploadPlayerPicMediaWithFileURL:aUrl type:type];
+            [[AppServices sharedAppServices] uploadPlayerPicMediaWithFileURL:aUrl];
         }
-        else {
-            uc = [self savePlayerPicUploadContentToCDWithType:type andFileURL:aUrl inState:@"uploadStateQUEUED"];
+        else
+        {
+            uc = [self savePlayerPicUploadContentToCDWithType:kNoteContentTypePhoto andFileURL:aUrl inState:@"uploadStateQUEUED"];
             [self insertUploadContentIntoDictionary:uc];
         }
     }
@@ -240,12 +242,12 @@
 {
     Boolean bContentFailed = NO;
     NSLog(@"UploadMan: Upload Content failed uploading");
-    NSArray *noteIdKeyArray =  [self.uploadContentsForNotes allKeys];
+    NSArray *noteIdKeyArray = [self.uploadContentsForNotes allKeys];
     for (int i=0; i < [noteIdKeyArray count]; i++) {
         NSArray *contentIdKeyArray = [[self.uploadContentsForNotes objectForKey:[noteIdKeyArray objectAtIndex:i]] allKeys];
         for (int j=0; j < [contentIdKeyArray count]; j++) {
             UploadContent * uc = [[self.uploadContentsForNotes objectForKey:[ noteIdKeyArray objectAtIndex:i]] objectForKey:[ contentIdKeyArray objectAtIndex:j]];
-            if (uc.state == @"uploadStateFAILED") {
+            if ([uc.state isEqualToString:@"uploadStateFAILED"]) {
                 bContentFailed = YES;
             }
         }
@@ -275,7 +277,7 @@
 {
  
     NSLog(@"UploadMan: Upload Content failed uploading");
-    NSArray *noteIdKeyArray =  [self.uploadContentsForNotes allKeys];
+    NSArray *noteIdKeyArray = [self.uploadContentsForNotes allKeys];
     for (int i=0; i < [noteIdKeyArray count]; i++) {
         NSArray *contentIdKeyArray = [[self.uploadContentsForNotes objectForKey:[noteIdKeyArray objectAtIndex:i]] allKeys];
         for (int j=0; j < [contentIdKeyArray count]; j++) {
@@ -300,7 +302,7 @@
     //PHIL APPROVED
     NSLog(@"UploadMan: Upload Content finished uploading");
     self.currentUploadCount--;
-    NSArray *noteIdKeyArray =  [self.uploadContentsForNotes allKeys];
+    NSArray *noteIdKeyArray = [self.uploadContentsForNotes allKeys];
     for (int i=0; i < [noteIdKeyArray count]; i++) {
         NSArray *contentIdKeyArray = [[self.uploadContentsForNotes objectForKey:[noteIdKeyArray objectAtIndex:i]] allKeys];
         for (int j=0; j < [contentIdKeyArray count]; j++) {
@@ -317,7 +319,7 @@
 - (void) contentFailedUploading
 {
     NSLog(@"UploadMan: Upload Content failed uploading");
-    NSArray *noteIdKeyArray =  [self.uploadContentsForNotes allKeys];
+    NSArray *noteIdKeyArray = [self.uploadContentsForNotes allKeys];
     for (int i=0; i < [noteIdKeyArray count]; i++) {
         NSArray *contentIdKeyArray = [[self.uploadContentsForNotes objectForKey:[noteIdKeyArray objectAtIndex:i]] allKeys];
         for (int j=0; j < [contentIdKeyArray count]; j++) {

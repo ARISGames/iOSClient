@@ -83,8 +83,8 @@
     [self.playerPic updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
     
     [[AppServices sharedAppServices] updatePlayer:[AppModel sharedAppModel].playerId
-                                             Name:[AppModel sharedAppModel].displayName
-                                            Image:[AppModel sharedAppModel].playerMediaId];
+                                         withName:[AppModel sharedAppModel].displayName
+                                         andImage:[AppModel sharedAppModel].playerMediaId];
     
     [[AppModel sharedAppModel] saveUserDefaults];
 
@@ -94,12 +94,10 @@
         
         [AppModel sharedAppModel].currentGame.hasBeenPlayed = YES;
         [AppModel sharedAppModel].inGame = YES;
-        [AppServices sharedAppServices].currentlyInteractingWithObject = YES;
+        [AppModel sharedAppModel].currentlyInteractingWithObject = YES;
         
         NSDictionary *dictionary = [NSDictionary dictionaryWithObject:[AppModel sharedAppModel].currentGame
                                                                forKey:@"game"];
-        
-        [[AppServices sharedAppServices] silenceNextServerUpdate];
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"SelectGame" object:self userInfo:dictionary]];
     }
     return;
@@ -179,13 +177,13 @@
                     
                     [imageData writeToURL:imageURL atomically:YES];
                     
-                    [[[AppModel sharedAppModel] uploadManager] uploadPlayerPicContentwithType:kNoteContentTypePhoto withFileURL:imageURL];
+                    [[[AppModel sharedAppModel] uploadManager] uploadPlayerPicContentWithFileURL:imageURL];
                     playerPic.image = image;
                     playerPic.media.uid = 0;
                     
                 }
             } failureBlock:^(NSError *error) {
-                [[[AppModel sharedAppModel] uploadManager] uploadPlayerPicContentwithType:kNoteContentTypePhoto withFileURL:imageURL];
+                [[[AppModel sharedAppModel] uploadManager] uploadPlayerPicContentWithFileURL:imageURL];
                 playerPic.image = image;
                 playerPic.media.uid = 0;
             }];
@@ -194,7 +192,7 @@
     else
     {
         // image from camera roll
-        [[[AppModel sharedAppModel] uploadManager] uploadPlayerPicContentwithType:kNoteContentTypePhoto withFileURL:imageURL];
+        [[[AppModel sharedAppModel] uploadManager] uploadPlayerPicContentWithFileURL:imageURL];
         playerPic.image = image;
         playerPic.media.uid = 0;
     }

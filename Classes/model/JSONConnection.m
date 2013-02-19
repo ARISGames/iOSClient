@@ -38,7 +38,6 @@
 
 	//Compute the Arguments 
 	NSMutableString *requestParameters = [NSMutableString stringWithFormat:@"json.php/%@.%@.%@", kARISServerServicePackage, self.serviceName, self.methodName];	
-    NSLog(@"JSONConnection: requestParameters: %@",requestParameters);
 	NSEnumerator *argumentsEnumerator = [self.arguments objectEnumerator];
 	NSString *argument;
 	while (argument = [argumentsEnumerator nextObject]) {
@@ -55,19 +54,16 @@
         // double encode slashes (CFURLCreateStringByAddingPercentEscapes doesn't handle them well)
         // actions.php on server side decodes them once before sending these arguments on to their respective functions.
         argument = [argument stringByReplacingOccurrencesOfString:@"/" withString:@"%252F"]; 
-        NSLog(@"argument: %@", argument);
         [requestParameters appendString:argument];
 	}
     NSMutableString *serverString = [NSMutableString stringWithString:[server absoluteString]];
     [serverString appendString:@"/"];
     [serverString appendString:requestParameters];
-    NSString *removeSpaces = [serverString stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
-    NSLog(@"JSONConnection: serverString: %@", serverString);
-    NSURL *url = [NSURL URLWithString:removeSpaces];
+    NSURL *url = [NSURL URLWithString:[serverString stringByReplacingOccurrencesOfString:@" " withString:@"%20"]];
+
     self.completeRequestURL = url;
     
-    
-	NSLog(@"JSONConnection: complete URL is : %@", self.completeRequestURL);
+	NSLog(@"JSONConnection: requesting URL: %@", self.completeRequestURL);
 
 	return self;
 }
@@ -163,7 +159,7 @@
     NSLog(@"*** JSONConnection: requestFailed: %@ %@",
           [error localizedDescription],
           [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
-	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] resetCurrentlyFetchingVars];
+	[[AppServices sharedAppServices]  resetCurrentlyFetchingVars];
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [[RootViewController sharedRootViewController] removeWaitingIndicator];	
 	[[RootViewController sharedRootViewController] showNetworkAlert];	

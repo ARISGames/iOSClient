@@ -7,7 +7,6 @@
 //
 
 #import "NoteEditorViewController.h"
-#import "TitleAndDecriptionFormViewController.h"
 #import "ARISAppDelegate.h"
 #import "AppServices.h"
 #import "InventoryListViewController.h"
@@ -170,7 +169,7 @@
     if(!self.note) 
         return;
     if([self.delegate isKindOfClass:[GPSViewController class]]){
-        [[AppServices sharedAppServices]updateServerDropNoteHere:self.note.noteId atCoordinate:[AppModel sharedAppModel].playerLocation.coordinate];
+        [[AppServices sharedAppServices] dropNote:self.note.noteId atCoordinate:[AppModel sharedAppModel].playerLocation.coordinate];
     }
     if([self.delegate isKindOfClass:[NoteDetailsViewController class]]){
         [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
@@ -392,7 +391,7 @@
                 self.note.showOnMap = YES;
                 self.sharingLabel.text = NSLocalizedString(@"NoteEditorMapOnlyKey", @""); 
                 if(!self.note.dropped){
-                    [[AppServices sharedAppServices]updateServerDropNoteHere:self.note.noteId atCoordinate:[AppModel sharedAppModel].playerLocation.coordinate];
+                    [[AppServices sharedAppServices] dropNote:self.note.noteId atCoordinate:[AppModel sharedAppModel].playerLocation.coordinate];
                     self.note.dropped = YES;
                     self.mapButton.selected = YES;
                 }
@@ -411,7 +410,7 @@
                 self.sharingLabel.text = NSLocalizedString(@"NoteEditorListAndMapKey", @""); 
                 if(!self.note.dropped){
                     if(!self.note.dropped){
-                        [[AppServices sharedAppServices]updateServerDropNoteHere:self.note.noteId atCoordinate:[AppModel sharedAppModel].playerLocation.coordinate];
+                        [[AppServices sharedAppServices] dropNote:self.note.noteId atCoordinate:[AppModel sharedAppModel].playerLocation.coordinate];
                         self.note.dropped = YES;
                         self.mapButton.selected = YES;
                     }
