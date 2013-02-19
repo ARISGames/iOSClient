@@ -54,8 +54,18 @@
         if (!match)
             [newlyActiveQuests addObject:newQuest];
     }
+    BOOL questLost = NO; //Detect newly 'invisible' quest (no notification, but quests screen will change)
+    for(Quest *existingQuest in self.currentActiveQuests)
+    {
+        BOOL match = NO;
+        for(Quest *newQuest in activeQuests) 
+            if (newQuest.questId == existingQuest.questId) match = YES;
+        
+        if (!match)
+            questLost = YES;
+    }
     self.currentActiveQuests = activeQuests;
-    if([newlyActiveQuests count] > 0)
+    if([newlyActiveQuests count] > 0 || questLost)
     {
         NSDictionary *qDict = [[NSDictionary alloc] initWithObjectsAndKeys:
                                newlyActiveQuests,@"newlyActiveQuests",
@@ -75,8 +85,18 @@
         if (!match)
             [newlyCompletedQuests addObject:newQuest];
     }
+    questLost = NO; //Detect newly 'invisible' quest (no notification, but quests screen will change)
+    for(Quest *existingQuest in self.currentCompletedQuests)
+    {
+        BOOL match = NO;
+        for(Quest *newQuest in completedQuests)
+            if (newQuest.questId == existingQuest.questId) match = YES;
+        
+        if (!match)
+            questLost = YES;
+    }
     self.currentCompletedQuests = completedQuests;
-    if([newlyCompletedQuests count] > 0)
+    if([newlyCompletedQuests count] > 0 || questLost)
     {
         NSDictionary *qDict = [[NSDictionary alloc] initWithObjectsAndKeys:
                                newlyCompletedQuests,@"newlyCompletedQuests",

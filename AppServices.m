@@ -1252,7 +1252,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[AppModel sharedAppModel].gameNoteList removeAllObjects];
 }
 
-- (void)fetchGameOverlayListAsynchronously:(BOOL)YesForAsyncOrNoForSync {
+- (void)fetchGameOverlayListAsynchronously:(BOOL)YesForAsyncOrNoForSync
+{
 	NSLog(@"AppModel: Fetching Map Overlay List");
 	
 	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],

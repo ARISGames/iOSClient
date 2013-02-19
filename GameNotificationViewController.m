@@ -46,7 +46,7 @@ BOOL showingPopOver;
     popOverVC = [[PopOverViewController alloc] initWithNibName:@"PopOverViewController" bundle:nil delegate:self];
     popOverView = (PopOverContentView *)popOverVC.view;
     
-    dropDownView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 28)];
+    dropDownView = [[UIWebView alloc] initWithFrame:CGRectMake(0, -28, [UIScreen mainScreen].bounds.size.width, 28)];
     dropDownView.backgroundColor = [UIColor whiteColor];
 }
 
@@ -125,13 +125,17 @@ BOOL showingPopOver;
                                                   if(finished)
                                                   {
                                                       if([popOverArray count] > 0)
+                                                      {
+                                                          [self raiseDropDownFrame];
+                                                          showingDropDown = NO;
                                                           [self dequeuePopOver];
+                                                      }
                                                       else if([notifArray count] > 0)
                                                           [self dequeueDropDown];
                                                       else
                                                       {
                                                           [self raiseDropDownFrame];
-                                                          showingPopOver = NO;
+                                                          showingDropDown = NO;
                                                       }
                                                   }
                                               }];
@@ -317,6 +321,8 @@ BOOL showingPopOver;
 {
     [notifArray removeAllObjects];
     [popOverArray removeAllObjects];
+    showingDropDown = NO;
+    showingPopOver  = NO;
 }
 
 -(void)startListeningToModel
