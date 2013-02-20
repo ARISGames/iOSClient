@@ -370,7 +370,7 @@ NSString *const kDialogHtmlTemplate =
         if (currentScene.videoId !=0) {
             //Setup the Button
             Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.videoId];
-            
+            NSLog(@"DialogViewController: VideoURL: %@", media.url);
             //Create movie player object
             ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
 

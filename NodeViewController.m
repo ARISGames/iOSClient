@@ -81,6 +81,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     }
     else if(([media.type isEqualToString: kMediaTypeVideo] || [media.type isEqualToString:kMediaTypeAudio]) && media.url)
     {
+        NSLog(@"NodeViewController: VideoURL: %@", media.url);
         AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presentingController:[RootViewController sharedRootViewController] preloadNow:NO];
         mediaArea.frame = CGRectMake(0, 0, 300, 240);
         [mediaArea addSubview:mediaButton];
