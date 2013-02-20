@@ -141,7 +141,8 @@ int badgeCount;
 -(void)incrementBadge
 {
     badgeCount++;
-    self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",badgeCount];
+    if( self.tabBarController.tabBar.selectedItem == self.tabBarItem) badgeCount = 0;
+    if(badgeCount != 0) self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",badgeCount];
 }
 
 -(void)refreshViewFromModel

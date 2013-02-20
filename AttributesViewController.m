@@ -35,8 +35,8 @@ int badgeCount;
     return self;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
     NSString *sectionTitleSpace = @"   ";
     NSString *sectionTitle = [sectionTitleSpace stringByAppendingString:NSLocalizedString(@"AttributesAttributesTitleKey", @"")];
     
@@ -110,7 +110,6 @@ int badgeCount;
 {
 	NSLog(@"AttributesVC: Refresh View from Model");
 	
-    //self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
 	self.attributes = [AppModel sharedAppModel].currentGame.attributesModel.currentAttributes;
 	[attributesTable reloadData];
 }
@@ -179,7 +178,8 @@ int badgeCount;
 -(void)incrementBadge
 {
     badgeCount++;
-    self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",badgeCount];
+    if( self.tabBarController.tabBar.selectedItem == self.tabBarItem) badgeCount = 0;
+    if(badgeCount != 0) self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",badgeCount];
 }
 
 #pragma mark PickerViewDelegate selectors

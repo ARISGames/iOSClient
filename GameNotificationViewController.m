@@ -236,7 +236,7 @@ BOOL showingPopOver;
     {
         NSDictionary *receivedItemDict = [receivedItems objectAtIndex:i];
         Item *receivedItem = [receivedItemDict objectForKey:@"item"];
-        int qty = [receivedItemDict objectForKey:@"delta"];
+        int qty = [((NSNumber *)[receivedItemDict objectForKey:@"delta"]) intValue];
         
         NSString *notifString;
         if(receivedItem.maxQty == 1)
@@ -258,7 +258,7 @@ BOOL showingPopOver;
     {
         NSDictionary *lostItemDict = [lostItems objectAtIndex:i];
         Item *lostItem = [lostItemDict objectForKey:@"item"];
-        int qty = [lostItemDict objectForKey:@"delta"];
+        int qty = [((NSNumber *)[lostItemDict objectForKey:@"delta"]) intValue];
         
         NSString *notifString;
         if(lostItem.maxQty == 1)
@@ -280,7 +280,7 @@ BOOL showingPopOver;
     {
         NSDictionary *receivedAttributeDict = [receivedAttributes objectAtIndex:i];
         Item *receivedAttribute = [receivedAttributeDict objectForKey:@"attribute"];
-        int qty = [receivedAttributeDict objectForKey:@"delta"];
+        int qty = [((NSNumber *)[receivedAttributeDict objectForKey:@"delta"]) intValue];
         
         NSString *notifString;
         if(receivedAttribute.maxQty == 1)
@@ -303,7 +303,8 @@ BOOL showingPopOver;
     {
         NSDictionary *lostAttributeDict = [lostAttributes objectAtIndex:i];
         Item *lostAttribute = [lostAttributeDict objectForKey:@"attribute"];
-        int qty = [lostAttributeDict objectForKey:@"delta"];
+        int qty = [((NSNumber *)[lostAttributeDict objectForKey:@"delta"]) intValue];
+
         
         NSString *notifString;
         if(lostAttribute.maxQty == 1)
