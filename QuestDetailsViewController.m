@@ -75,7 +75,7 @@ NSString *const kQuestDetailsHtmlTemplate =
         CGRect newWebViewFrame = CGRectMake(questDescriptionWebView.frame.origin.x, questDescriptionWebView.frame.origin.y, questDescriptionWebView.frame.size.width, questDescriptionWebView.frame.size.height+69);
         questDescriptionWebView.frame = newWebViewFrame;
     }
-    NSString *text = self.quest.description;
+    NSString *text = self.quest.qdescription;
     if ([text rangeOfString:@"<html>"].location == NSNotFound) text = [NSString stringWithFormat:kQuestDetailsHtmlTemplate, text];
     [questDescriptionWebView loadHTMLString:text baseURL:nil];
     

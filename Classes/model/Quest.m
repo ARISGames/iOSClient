@@ -13,7 +13,7 @@
 
 @synthesize questId;
 @synthesize name, sortNum;
-@synthesize description;
+@synthesize qdescription;
 @synthesize exitToTabName;
 @synthesize mediaId;
 @synthesize iconMediaId;
@@ -27,5 +27,9 @@
     return self;	
 }
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"Quest- Id:%d\tName:%@",self.questId,self.name];
+}
 
 @end

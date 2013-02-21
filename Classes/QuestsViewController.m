@@ -64,6 +64,7 @@ int badgeCount;
     if (self)
     {
 		cellsLoaded = 0;
+        badgeCount = 0;
 		isLink = NO;
         
         //register for notifications
@@ -185,7 +186,7 @@ int badgeCount;
         Quest *nullQuest = [[Quest alloc] init];
         nullQuest.questId = -1;
         nullQuest.name = @"<span style='color:#555555;'>Empty</span>";
-        nullQuest.description = @"<span style='color:#555555;'>(there are no quests available at this time)</span>";
+        nullQuest.qdescription = @"<span style='color:#555555;'>(there are no quests available at this time)</span>";
         [activeQuestCells addObject: [self getCellContentViewForQuest:nullQuest inSection:ACTIVE_SECTION]];
     }
     
@@ -202,7 +203,7 @@ int badgeCount;
         Quest *nullQuest = [[Quest alloc] init];
         nullQuest.questId = -1;
         nullQuest.name = @"<span style='color:#555555;'>Empty</span>";
-        nullQuest.description = @"<span style='color:#555555;'>(you have not completed any quests)</span>";
+        nullQuest.qdescription = @"<span style='color:#555555;'>(you have not completed any quests)</span>";
         [completedQuestCells addObject: [self getCellContentViewForQuest:nullQuest inSection:COMPLETED_SECTION]];
     }
 	
@@ -298,7 +299,7 @@ int badgeCount;
 	descriptionView.delegate = self;
 	descriptionView.tag = 1;
 	[descriptionView setBackgroundColor:[UIColor clearColor]];
-	NSString *htmlDescription = [NSString stringWithFormat:kQuestsHtmlTemplate, quest.name, quest.description];
+	NSString *htmlDescription = [NSString stringWithFormat:kQuestsHtmlTemplate, quest.name, quest.qdescription];
 	[descriptionView loadHTMLString:htmlDescription baseURL:nil];
 	[cell.contentView addSubview:descriptionView];
 	return cell;

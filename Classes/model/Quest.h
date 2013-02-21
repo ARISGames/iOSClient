@@ -12,7 +12,7 @@
 @interface Quest : NSObject {
 	int questId;
 	NSString *name;
-	NSString *description;
+	NSString *qdescription;
     NSString *exitToTabName;
     int mediaId;
 	int iconMediaId;
@@ -23,7 +23,7 @@
 
 @property(readwrite, assign) int questId;
 @property(copy, readwrite) NSString *name;
-@property(copy, readwrite) NSString *description;
+@property(copy, readwrite) NSString *qdescription;
 @property(copy, readwrite) NSString *exitToTabName;
 @property(readwrite, assign) int mediaId;
 @property(readwrite, assign) int iconMediaId;

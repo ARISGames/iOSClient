@@ -45,6 +45,8 @@ NSMutableArray *locationsToRemove;
         self.title = NSLocalizedString(@"MapViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"103-map"];
         
+        badgeCount = 0;
+
 		tracking = YES;
 		playerTrackingButton.style = UIBarButtonItemStyleDone;
         route = [[NSMutableArray alloc]initWithCapacity:10];

@@ -1990,22 +1990,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     pan.alignMediaId = [self validIntForKey:@"alignment_media_id" inDictionary:panoramicDictionary];
     pan.iconMediaId = [self validIntForKey:@"icon_media_id" inDictionary:panoramicDictionary];
     
-    /*NSMutableArray *activeQuestObjects = [[NSMutableArray alloc] init];
-     NSArray *activeQuests = [questListDictionary objectForKey:@"active"];
-     NSEnumerator *activeQuestsEnumerator = [activeQuests objectEnumerator];
-     NSDictionary *activeQuest;
-     while ((activeQuest = [activeQuestsEnumerator nextObject])) {
-     //We have a quest, parse it into a quest abject and add it to the activeQuestObjects array
-     Quest *quest = [[Quest alloc] init];
-     quest.questId = [[activeQuest objectForKey:@"quest_id"] intValue];
-     quest.name = [activeQuest objectForKey:@"name"];
-     quest.description = [activeQuest objectForKey:@"description"];
-     quest.iconMediaId = [[activeQuest objectForKey:@"icon_media_id"] intValue];
-     [activeQuestObjects addObject:quest];
-     [quest release];
-     }
-     */
-    
     //parse out the active quests into quest objects
 	NSMutableArray *media = [[NSMutableArray alloc] init];
         NSArray *incomingPanMediaArray = [self validObjectForKey:@"media" inDictionary:panoramicDictionary];
@@ -2698,7 +2682,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	Quest *quest = [[Quest alloc] init];
 	quest.questId                = [self validIntForKey:@"quest_id"             inDictionary:activeQuest];
         quest.name                   = [self validObjectForKey:@"name"              inDictionary:activeQuest];
-        quest.description            = [self validObjectForKey:@"description"       inDictionary:activeQuest];
+        quest.qdescription            = [self validObjectForKey:@"description"       inDictionary:activeQuest];
         quest.fullScreenNotification = [self validBoolForKey:@"full_screen_notify"  inDictionary:activeQuest];
         quest.mediaId                = [self validIntForKey:@"active_media_id"      inDictionary:activeQuest];
 	quest.iconMediaId            = [self validIntForKey:@"active_icon_media_id" inDictionary:activeQuest];
@@ -2728,7 +2712,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	Quest *quest = [[Quest alloc] init];
 	quest.questId                = [self validIntForKey:@"quest_id"               inDictionary:completedQuest];
         quest.name                   = [self validObjectForKey:@"name"                inDictionary:completedQuest];
-        quest.description            = [self validObjectForKey:@"text_when_complete"  inDictionary:completedQuest];
+        quest.qdescription            = [self validObjectForKey:@"text_when_complete"  inDictionary:completedQuest];
         quest.fullScreenNotification = [self validBoolForKey:@"full_screen_notify"    inDictionary:completedQuest];
         quest.mediaId                = [self validIntForKey:@"complete_media_id"      inDictionary:completedQuest];
         quest.iconMediaId            = [self validIntForKey:@"complete_icon_media_id" inDictionary:completedQuest];

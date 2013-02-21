@@ -35,6 +35,8 @@ int badgeCount;
         self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"36-toolbox"];
         
+        badgeCount = 0;
+
         //Alloc caches
         self.mediaCache = [[NSMutableDictionary alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory count]];
         self.iconCache  = [[NSMutableDictionary alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory count]];
