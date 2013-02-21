@@ -60,7 +60,7 @@
 -(void) refreshViewFromModel {
 	NSLog(@"DeveloperViewController: Model Updated, refreshing view");
 	
-	locationTableData = [AppModel sharedAppModel].locationList;
+	locationTableData = [AppModel sharedAppModel].currentGame.locationsModel.currentLocations;
 	[locationTable reloadData];
 	
 	//Init Accuracy Label

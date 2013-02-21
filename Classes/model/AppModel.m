@@ -35,7 +35,6 @@
 @synthesize popularGameList;
 @synthesize recentGameList;
 @synthesize currentGame;
-@synthesize locationList;
 @synthesize playerList;
 @synthesize playerLocation;
 @synthesize networkAlert;
@@ -299,23 +298,6 @@
 
 #pragma mark Retrieving Cashed Objects 
 
--(void)modifyQuantity:(int)quantityModifier forLocationId:(int)locationId
-{
-	NSLog(@"AppModel: modifying quantity for a location in the local location list");
-	
-	for (Location* loc in locationList)
-    {
-		if (loc.locationId == locationId && loc.kind == NearbyObjectItem)
-        {
-			loc.qty += quantityModifier;
-			NSLog(@"AppModel: Quantity for %@ set to %d",loc.name,loc.qty);	
-		}
-	}	
-	
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewLocationListReady" object:nil]];
-	
-}
-
 -(Media *)mediaForMediaId:(int)mId
 {
     if(mId == 0) return nil;
@@ -422,16 +404,6 @@
 		else NSLog(@"AppModel: Item still NOT found after refresh");
 	}
 	return item;
-}
-
--(Location *)locationForLocationId:(int)lId
-{
-    for(int i = 0; i < [self.locationList count]; i++)
-    {
-        if(((Location *)[self.locationList objectAtIndex:i]).locationId == lId)
-            return [self.locationList objectAtIndex:i];
-    }
-    return nil;
 }
 
 #pragma mark Core Data

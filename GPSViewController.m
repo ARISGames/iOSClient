@@ -20,6 +20,10 @@
 #import "NoteEditorViewController.h"
 
 static float INITIAL_SPAN = 0.001;
+int badgeCount;
+NSMutableArray *locationsToAdd;
+NSMutableArray *locationsToRemove;
+
 @implementation GPSViewController
 
 @synthesize locations, route;
@@ -33,32 +37,40 @@ static float INITIAL_SPAN = 0.001;
 @synthesize overlayArray;
 
 //Override init for passing title and icon to tab bar
-- (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
+- (id) initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
-    if (self) {
+    if (self)
+    {
         self.title = NSLocalizedString(@"MapViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"103-map"];
         
 		tracking = YES;
 		playerTrackingButton.style = UIBarButtonItemStyleDone;
         route = [[NSMutableArray alloc]initWithCapacity:10];
+        
+        locationsToAdd    = [[NSMutableArray alloc] initWithCapacity:10];
+        locationsToRemove = [[NSMutableArray alloc] initWithCapacity:10];
 		
 		//register for notifications
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerMoved) name:@"PlayerMoved" object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedLocationList" object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewLocationListReady" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateOverlays) name:@"NewOverlayListReady" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator)     name:@"ConnectionLost"       object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerMoved)                name:@"PlayerMoved"          object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator)     name:@"ReceivedLocationList" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateOverlays)             name:@"NewOverlayListReady"  object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addLocationsToNewQueue:)    name:@"NewlyAvailableLocationsAvailable"             object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addLocationsToRemoveQueue:) name:@"NewlyUnavailableLocationsAvailable"           object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incrementBadge)             name:@"NewlyChangedLocationsGameNotificationSent"    object:nil];
 	}
     return self;
 }
 
-- (IBAction)changeMapType: (id) sender {
+- (IBAction) changeMapType:(id)sender
+{
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate playAudioAlert:@"ticktick" shouldVibrate:NO];
 	
-	switch (mapView.mapType) {
+	switch (mapView.mapType)
+    {
 		case MKMapTypeStandard:
 			mapView.mapType=MKMapTypeSatellite;
 			break;
@@ -71,9 +83,9 @@ static float INITIAL_SPAN = 0.001;
 	}
 }
 
-- (IBAction)refreshButtonAction{
+- (IBAction) refreshButtonAction
+{
 	NSLog(@"GPSViewController: Refresh Button Touched");
-	
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate playAudioAlert:@"ticktick" shouldVibrate:NO];
 	
@@ -81,16 +93,16 @@ static float INITIAL_SPAN = 0.001;
 	tracking = YES;
 	playerTrackingButton.style = UIBarButtonItemStyleDone;
     
-	
 	//Force a location update
 	[[[MyCLController sharedMyCLController] locationManager] stopUpdatingLocation];
-	[[[MyCLController sharedMyCLController]locationManager] startUpdatingLocation];
+	[[[MyCLController sharedMyCLController] locationManager] startUpdatingLocation];
     
 	//Rerfresh all contents
 	[self refresh];
 }
 
--(void)playerButtonTouch{
+- (void) playerButtonTouch
+{
     [AppModel sharedAppModel].hidePlayers = ![AppModel sharedAppModel].hidePlayers;
     if([AppModel sharedAppModel].hidePlayers){
         [playerButton setStyle:UIBarButtonItemStyleBordered];
@@ -113,14 +125,16 @@ static float INITIAL_SPAN = 0.001;
 	[self refresh];
 }
 
-- (IBAction)addMediaButtonAction: (id) sender{
+- (IBAction) addMediaButtonAction:(id)sender
+{
     NoteEditorViewController *noteVC = [[NoteEditorViewController alloc] initWithNibName:@"NoteEditorViewController" bundle:nil];
     noteVC.delegate = self;
     [self.navigationController pushViewController:noteVC animated:YES];
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
+- (void) viewDidLoad
+{
     [super viewDidLoad];
 	
 	NSLog(@"Begin Loading GPS View");
@@ -151,9 +165,8 @@ static float INITIAL_SPAN = 0.001;
 	NSLog(@"GPSViewController: View Loaded");
 }
 
-- (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id)ovrlay
+- (MKOverlayView *) mapView:(MKMapView *)mapView viewForOverlay:(id)ovrlay
 {
-    
     TileOverlayView *view = [[TileOverlayView alloc] initWithOverlay:ovrlay];
     Overlay *ovrly = [[AppModel sharedAppModel].overlayList objectAtIndex:0]; //GWS: need to fix this?
     //view.tileAlpha = ovrly.alpha;
@@ -164,34 +177,36 @@ static float INITIAL_SPAN = 0.001;
     return view;
 }
 
-- (void) updateOverlays{
-    
-    
+- (void) updateOverlays
+{
     // remove all overlays
     [overlayArray removeAllObjects];
     [mapView removeOverlays:[mapView overlays]];
     
-    
     // add all current overlays to display
     int iOverlays = [[AppModel sharedAppModel].overlayList count];
     
-    for (int i = 0; i < iOverlays; i++) {
+    for(int i = 0; i < iOverlays; i++)
+    {
         overlay = [[TileOverlay alloc] initWithIndex: i];
-        if (overlay != NULL) {
+        if(overlay != NULL)
+        {
             [overlayArray addObject:overlay];
             [mapView addOverlay:overlay];
         }
     }
-    
-    
 }
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void) viewDidAppear:(BOOL)animated
+{
     NSLog(@"GPSViewController: view did appear");
     
-    if([[AppModel sharedAppModel].currentGame.mapType isEqualToString:@"SATELLITE"]) mapView.mapType=MKMapTypeSatellite;
-    else if([[AppModel sharedAppModel].currentGame.mapType isEqualToString:@"HYBRID" ]) mapView.mapType=MKMapTypeHybrid;
-    else mapView.mapType=MKMapTypeStandard;
+    badgeCount = 0;
+    self.tabBarItem.badgeValue = nil;
+    
+    if     ([[AppModel sharedAppModel].currentGame.mapType isEqualToString:@"SATELLITE"]) mapView.mapType = MKMapTypeSatellite;
+    else if([[AppModel sharedAppModel].currentGame.mapType isEqualToString:@"HYBRID"])    mapView.mapType = MKMapTypeHybrid;
+    else                                                                                  mapView.mapType = MKMapTypeStandard;
 
     if (![AppModel sharedAppModel].loggedIn || [AppModel sharedAppModel].currentGame.gameId==0) {
         NSLog(@"GPSViewController: Player is not logged in, don't refresh");
@@ -203,33 +218,33 @@ static float INITIAL_SPAN = 0.001;
     
 	[[AppServices sharedAppServices] updateServerMapViewed];
 	
+    [self refreshViewFromModel];
 	[self refresh];
 	
-	self.tabBarItem.badgeValue = nil;
-	newItemsSinceLastView = 0;
     [AppModel sharedAppModel].hidePlayers = ![AppModel sharedAppModel].hidePlayers;
     [self playerButtonTouch];
 	//create a time for automatic map refresh
 	NSLog(@"GPSViewController: Starting Refresh Timer");
 	if (refreshTimer != nil && [refreshTimer isValid]) [refreshTimer invalidate];
 	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
-    
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-}
-
--(void)dismissTutorial{
+- (void) dismissTutorial
+{
 	[[RootViewController sharedRootViewController].tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindMapTab];
 }
 
 // Updates the map to current data for player and locations from the server
-- (void) refresh {
-    if([AppModel sharedAppModel].inGame){
-        if (mapView) {
+- (void) refresh
+{
+    if([AppModel sharedAppModel].inGame)
+    {
+        if (mapView)
+        {
             NSLog(@"GPSViewController: refresh requested");
             
-            if ([AppModel sharedAppModel].loggedIn && ([AppModel sharedAppModel].currentGame.gameId != 0 && [AppModel sharedAppModel].playerId != 0)) {
+            if ([AppModel sharedAppModel].loggedIn && ([AppModel sharedAppModel].currentGame.gameId != 0 && [AppModel sharedAppModel].playerId != 0))
+            {
                 [[AppServices sharedAppServices] fetchPlayerLocationList];
                 [[AppServices sharedAppServices] fetchPlayerOverlayList];
                 [self showLoadingIndicator];
@@ -241,13 +256,7 @@ static float INITIAL_SPAN = 0.001;
              [self.route addObject:[AppModel sharedAppModel].playerLocation];
              MKPolyline *line = [[MKPolyline alloc]init];
              line
-             
-             }*/
-            
-        }
-        else {
-            NSLog(@"GPSViewController: refresh requested but ignored, as mapview is nil");
-            
+             }*/            
         }
     }
 }
@@ -261,14 +270,10 @@ static float INITIAL_SPAN = 0.001;
             NSLog(@"GPSViewController: player moved");
             if (tracking) [self zoomAndCenterMap];
         }
-        else
-        {
-            NSLog(@"GPSViewController: player moved, but mapview is nil");
-        }
     }
 }
 
--(void) zoomAndCenterMap
+- (void) zoomAndCenterMap
 {	
 	appSetNextRegionChange = YES;
 	
@@ -280,7 +285,7 @@ static float INITIAL_SPAN = 0.001;
 	[mapView setRegion:region animated:YES];
 }
 
--(void)showLoadingIndicator
+- (void) showLoadingIndicator
 {
 	UIActivityIndicatorView *activityIndicator =
 	[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
@@ -289,100 +294,120 @@ static float INITIAL_SPAN = 0.001;
 	[activityIndicator startAnimating];
 }
 
--(void)removeLoadingIndicator
+- (void) removeLoadingIndicator
 {
 	[[self navigationItem] setRightBarButtonItem:nil];
 }
 
-- (void)refreshViewFromModel {
-    if (mapView) {
-        NSMutableArray *newLocationsArray;
-        Annotation *annotation;
-        NSLog(@"GPSViewController: Refreshing view from model");
-        
-        //Check if anything is new since last time or item has disappeared
-        newItemsSinceLastView = 0;
-        newLocationsArray = [[NSMutableArray alloc] initWithArray:[AppModel sharedAppModel].locationList];
-        for (int i = 0; i < [[mapView annotations] count]; i++)
+- (void) addLocationsToNewQueue:(NSNotification *)notification
+{
+    //Quickly make sure we're not re-adding any info (let the 'newly' added ones take over)
+    NSArray *newLocations = (NSArray *)[notification.userInfo objectForKey:@"newlyAvailableLocations"];
+    for(int i = 0; i < [newLocations count]; i++)
+    {
+        for(int j = 0; j < [locationsToAdd count]; j++)
         {
-            BOOL match = NO;
-            NSObject <MKAnnotation>  *testAnnotation = [[mapView annotations] objectAtIndex:i];
-            if([testAnnotation respondsToSelector:@selector(title)] && !(testAnnotation == mapView.userLocation)){
-                annotation = (Annotation *)testAnnotation;
-                if([[RootViewController sharedRootViewController].gamePlayTabBarController.selectedViewController.title isEqualToString:@"Map"] &&[annotation.location respondsToSelector:@selector(hasBeenViewed)]) {
-                    annotation.location.hasBeenViewed = YES;
-                }
-                else{
-                    if([annotation.location respondsToSelector:@selector(hasBeenViewed)]) {
-                        if(!annotation.location.hasBeenViewed){
-                            newItemsSinceLastView++;
-                        }
-                    }
-                }
-                for(int j = 0; j < [newLocationsArray count]; j++) {
-                    Location *newLocation = [newLocationsArray objectAtIndex:j];
-                    if ([annotation.location compareTo:newLocation]){
-                        [newLocationsArray removeObjectAtIndex:j];
-                        j--;
-                        match = YES;
-                    }
-                }
-                if(!match){
-                    [mapView removeAnnotation:annotation];
-                    i--;
-                }
-            }
+            if(((Location *)[newLocations objectAtIndex:i]).locationId == ((Location *)[locationsToAdd objectAtIndex:j]).locationId)
+                [locationsToAdd removeObjectAtIndex:j];
         }
-        if (newItemsSinceLastView > 0 && ![[RootViewController sharedRootViewController].gamePlayTabBarController.selectedViewController.title isEqualToString:@"Map"])
+    }
+    [locationsToAdd addObjectsFromArray:newLocations];
+    
+    [self refreshViewFromModel];
+}
+
+- (void) addLocationsToRemoveQueue:(NSNotification *)notification
+{
+    //Quickly make sure we're not re-adding any info (let the 'newly' added ones take over)
+    NSArray *lostLocations = (NSArray *)[notification.userInfo objectForKey:@"newlyUnavailableLocations"];
+    for(int i = 0; i < [lostLocations count]; i++)
+    {
+        for(int j = 0; j < [locationsToRemove count]; j++)
         {
-            self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",newItemsSinceLastView];
-            if (![AppModel sharedAppModel].hasSeenMapTabTutorial)
+            if(((Location *)[lostLocations objectAtIndex:i]).locationId == ((Location *)[locationsToRemove objectAtIndex:j]).locationId)
+                [locationsToRemove removeObjectAtIndex:j];
+        }
+    }
+    [locationsToRemove addObjectsFromArray:lostLocations];
+    
+    //If told to remove something that is in queue to add, remove takes precedence 
+    for(int i = 0; i < [locationsToRemove count]; i++)
+    {
+        for(int j = 0; j < [locationsToAdd count]; j++)
+        {
+            if(((Location *)[locationsToRemove objectAtIndex:i]).locationId == ((Location *)[locationsToAdd objectAtIndex:j]).locationId)
+                [locationsToAdd removeObjectAtIndex:j];
+        }
+    }
+    
+    [self refreshViewFromModel];
+}
+
+- (void)refreshViewFromModel
+{
+    if(!mapView) return;
+    
+    //Remove old locations first
+    NSObject<MKAnnotation> *tmpMKAnnotation;
+    Annotation *tmpAnnotation;
+    for (int i = 0; i < [[mapView annotations] count]; i++)
+    {
+        if((tmpMKAnnotation = [[mapView annotations] objectAtIndex:i]) == mapView.userLocation ||
+          !((tmpAnnotation = (Annotation*)tmpMKAnnotation) && [tmpAnnotation respondsToSelector:@selector(title)])) continue;
+        for(int j = 0; j < [locationsToRemove count]; j++)
+        {
+            if(tmpAnnotation.location.locationId == ((Location *)[locationsToRemove objectAtIndex:j]).locationId)
             {
-                //Put up the tutorial tab
-                [[RootViewController sharedRootViewController].tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController
-                                                                                                                                     type:tutorialPopupKindMapTab
-                                                                                                                                    title:@"New GPS Location"
-                                                                                                                                  message:@"You have a new place of interest on your GPS! Touch below to view the Map."];
-                [AppModel sharedAppModel].hasSeenMapTabTutorial = YES;
-                [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
-            }
-        }
-        else
-        {
-            newItemsSinceLastView = 0;
-            self.tabBarItem.badgeValue = nil;
-        }
-        
-        self.locations = [AppModel sharedAppModel].locationList;
-        
-        //Add the freshly loaded locations from the notification
-        for(Location* location in newLocationsArray)
-        {
-            NSLog(@"GPSViewController: Adding location annotation for:%@ id:%d", location.name, location.locationId);
-            if (location.hidden == YES || (location.kind == NearbyObjectPlayer && [AppModel sharedAppModel].hidePlayers))
-            {
-                NSLog(@"No I'm not, because this location is hidden.");
-                continue;
-            }
-            CLLocationCoordinate2D locationLatLong = location.location.coordinate;
-			
-            Annotation *annotation = [[Annotation alloc]initWithCoordinate:locationLatLong];
-            annotation.location = location;
-            annotation.title = location.name;
-            annotation.kind = location.kind;
-            if (location.kind == NearbyObjectItem && location.qty > 1 && annotation.title != nil)
-                annotation.subtitle = [NSString stringWithFormat:@"x %d",location.qty];
-            annotation.iconMediaId = location.iconMediaId;
-            
-            [mapView addAnnotation:annotation];
-            
-            if (!mapView) {
-                NSLog(@"GPSViewController: Just added an annotation to a null mapview!");
+                [mapView removeAnnotation:tmpAnnotation];
+                i--;
             }
         }
     }
+    [locationsToRemove removeAllObjects];
+    
+    //Add new locations second
+    Location *tmpLocation;
+    for (int i = 0; i < [locationsToAdd count]; i++)
+    {
+        tmpLocation = (Location *)[locationsToAdd objectAtIndex:i];
+        if (tmpLocation.hidden == YES || (tmpLocation.kind == NearbyObjectPlayer && [AppModel sharedAppModel].hidePlayers)) continue;
+        
+        CLLocationCoordinate2D locationLatLong = tmpLocation.location.coordinate;
+        
+        Annotation *annotation = [[Annotation alloc]initWithCoordinate:locationLatLong];
+        annotation.location = tmpLocation;
+        annotation.title = tmpLocation.name;
+        annotation.kind = tmpLocation.kind;
+        annotation.iconMediaId = tmpLocation.iconMediaId;
+
+        if (tmpLocation.kind == NearbyObjectItem && tmpLocation.qty > 1 && annotation.title != nil)
+            annotation.subtitle = [NSString stringWithFormat:@"x %d",tmpLocation.qty];
+        
+        [mapView addAnnotation:annotation];
+    }
+    [locationsToAdd removeAllObjects];
+    
+    if (![[RootViewController sharedRootViewController].gamePlayTabBarController.selectedViewController.title isEqualToString:@"Map"])
+    {
+        if (![AppModel sharedAppModel].hasSeenMapTabTutorial)
+        {
+            //Put up the tutorial tab
+            [[RootViewController sharedRootViewController].tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController
+                                                                                                                             type:tutorialPopupKindMapTab
+                                                                                                                            title:@"New GPS Location"
+                                                                                                                          message:@"You have a new place of interest on your GPS! Touch below to view the Map."];
+            [AppModel sharedAppModel].hasSeenMapTabTutorial = YES;
+            [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
+        }
+    }        
 }
 
+-(void)incrementBadge
+{
+    badgeCount++;
+    if(self.tabBarController.tabBar.selectedItem == self.tabBarItem) badgeCount = 0;
+    if(badgeCount != 0) self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",badgeCount];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
@@ -393,11 +418,12 @@ static float INITIAL_SPAN = 0.001;
     NSEnumerator *existingAnnotationsEnumerator = [[[mapView annotations] copy] objectEnumerator];
     NSObject <MKAnnotation> *annotation;
     while (annotation = [existingAnnotationsEnumerator nextObject]) {
-        if (annotation != mapView.userLocation) [mapView removeAnnotation:annotation];
+        if(annotation != mapView.userLocation) [mapView removeAnnotation:annotation];
     }
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

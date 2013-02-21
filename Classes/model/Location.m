@@ -25,11 +25,9 @@
 @synthesize objectType;
 @synthesize objectId;
 @synthesize hidden;
-@synthesize hasBeenViewed;
 @synthesize forcedDisplay;
 @synthesize allowsQuickTravel, showTitle;
 @synthesize qty,delegate,wiggle,deleteWhenViewed;
-
 
 -(nearbyObjectKind) kind {
 	nearbyObjectKind returnValue = NearbyObjectNil;
@@ -50,14 +48,15 @@
 	return [o iconMediaId];
 }
 
-- (NSObject<NearbyObjectProtocol>*)object {
+- (NSObject<NearbyObjectProtocol> *)object {
     if(deleteWhenViewed == 1)
     {
-        NSMutableArray *locs = [[AppModel sharedAppModel] locationList];
+        NSArray *locs = [AppModel sharedAppModel].currentGame.locationsModel.currentLocations;
+        Location *loc;
         for(int i = 0; i < [locs count]; i++)
         {
-            if(((Location *)[locs objectAtIndex:i]).locationId == self.locationId)
-                [[[AppModel sharedAppModel] locationList] removeObjectAtIndex:i];
+            if((loc = (Location *)[locs objectAtIndex:i]).locationId == self.locationId)
+                [[AppModel sharedAppModel].currentGame.locationsModel modifyQuantity:(loc.qty*-1) forLocationId:loc.locationId];
         }
     }	
     if (self.kind == NearbyObjectItem) {

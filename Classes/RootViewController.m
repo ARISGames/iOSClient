@@ -239,15 +239,15 @@ NSString *errorDetail;
         [NSTimer scheduledTimerWithTimeInterval:3.0 target:[[MyCLController sharedMyCLController]locationManager] selector:@selector(startUpdatingLocation) userInfo:nil repeats:NO];
         
         //register for notifications
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishLoginAttempt:)         name:@"NewLoginResponseReady"   object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterGameFromOutside:)       name:@"NewOneGameGameListReady" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectGame:)                 name:@"SelectGame"              object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(beginGamePlay)               name:@"GameFinishedLoading"     object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPlayerSettings:)         name:@"ProfSettingsRequested"   object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performLogout:)              name:@"PassChangeRequested"     object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performLogout:)              name:@"LogoutRequested"         object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkForDisplayCompleteNode) name:@"NewQuestListReady"       object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedMediaList)           name:@"ReceivedMediaList"       object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishLoginAttempt:)         name:@"NewLoginResponseReady"         object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterGameFromOutside:)       name:@"NewOneGameGameListReady"       object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectGame:)                 name:@"SelectGame"                    object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(beginGamePlay)               name:@"GameFinishedLoading"           object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPlayerSettings:)         name:@"ProfSettingsRequested"         object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performLogout:)              name:@"PassChangeRequested"           object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performLogout:)              name:@"LogoutRequested"               object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkForDisplayCompleteNode) name:@"NewlyCompletedQuestsAvailable" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedMediaList)           name:@"ReceivedMediaList"             object:nil];
         
         //Set up visibility of views at top of heirarchy
         [[AppModel sharedAppModel] loadUserDefaults];
@@ -339,16 +339,13 @@ NSString *errorDetail;
 }
 
 - (void) removeNetworkAlert
-{
-	NSLog (@"RootViewController: Removing Network Alert");
-	
+{	
 	if (self.networkAlert != nil)
 		[self.networkAlert dismissWithClickedButtonIndex:0 animated:YES];
 }
 
 - (void) showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar
 {
-	NSLog (@"RootViewController: Showing Waiting Indicator");
     [self removeWaitingIndicator];
     
 	[self.waitingIndicatorAlertViewController displayMessage:message withProgressBar:displayProgressBar];
@@ -356,7 +353,6 @@ NSString *errorDetail;
 
 - (void) removeWaitingIndicator
 {
-	NSLog (@"RootViewController: Removing Waiting Indicator");
     [self.waitingIndicatorAlertViewController dismissMessage];
 }
 
@@ -806,7 +802,7 @@ NSString *errorDetail;
     {
         NSString * data = [event.data stringByReplacingOccurrencesOfString:@"\"" withString:@""];
         
-        Location *loc = [[AppModel sharedAppModel] locationForLocationId:[data intValue]];
+        Location *loc = [[AppModel sharedAppModel].currentGame.locationsModel locationForId:[data intValue]];
         if(loc != nil)
             [loc.object display];
     }
@@ -825,7 +821,7 @@ NSString *errorDetail;
     {
         NSString * data = [event.data stringByReplacingOccurrencesOfString:@"\"" withString:@""];
         
-        Location *loc = [[AppModel sharedAppModel] locationForLocationId:[data intValue]];
+        Location *loc = [[AppModel sharedAppModel].currentGame.locationsModel locationForId:[data intValue]];
         if(loc != nil)
             [loc.object display];
     }
@@ -844,7 +840,7 @@ NSString *errorDetail;
     {
         NSString * data = [event.data stringByReplacingOccurrencesOfString:@"\"" withString:@""];
         
-        Location *loc = [[AppModel sharedAppModel] locationForLocationId:[data intValue]];
+        Location *loc = [[AppModel sharedAppModel].currentGame.locationsModel locationForId:[data intValue]];
         if(loc != nil)
             [loc.object display];
     }
@@ -863,7 +859,7 @@ NSString *errorDetail;
     {
         NSString * data = [event.data stringByReplacingOccurrencesOfString:@"\"" withString:@""];
         
-        Location *loc = [[AppModel sharedAppModel] locationForLocationId:[data intValue]];
+        Location *loc = [[AppModel sharedAppModel].currentGame.locationsModel locationForId:[data intValue]];
         if(loc != nil)
             [loc.object display];
     }

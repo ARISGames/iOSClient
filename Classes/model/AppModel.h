@@ -53,7 +53,6 @@
     NSMutableArray *searchGameList;
     NSMutableArray *popularGameList;
     NSMutableArray *recentGamelist;
-	NSMutableArray *locationList;
 	NSMutableArray *playerList;
 	NSMutableArray *nearbyLocationsList;
 
@@ -142,7 +141,6 @@
 @property(nonatomic, strong) NSMutableArray *searchGameList;
 @property(nonatomic, strong) NSMutableArray *popularGameList;
 @property(nonatomic, strong) NSMutableArray *recentGameList;	
-@property(nonatomic, strong) NSMutableArray *locationList;
 @property(nonatomic, strong) NSMutableArray *playerList;
 
 @property(nonatomic, strong) NSMutableArray *nearbyLocationsList;	
@@ -169,7 +167,7 @@
 @property(nonatomic, strong) NSMutableDictionary *gamePanoramicList;
 
 @property(nonatomic, strong) UIAlertView *networkAlert;
-@property(nonatomic, strong)UIProgressView *progressBar;
+@property(nonatomic, strong) UIProgressView *progressBar;
 
 //Training Flags
 @property(readwrite) BOOL hasSeenNearbyTabTutorial;
@@ -207,6 +205,5 @@
 - (WebPage *)webPageForWebPageID: (int)mId;
 - (Panoramic *)panoramicForPanoramicId: (int)mId;
 - (Note *)noteForNoteId:(int)mId playerListYesGameListNo:(BOOL)playerorGame;
-- (Location *)locationForLocationId: (int)lId;
 
 @end

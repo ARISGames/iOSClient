@@ -202,6 +202,7 @@
 		AA21333F16CABF4900FB7F29 /* GameNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA21333E16CABF4900FB7F29 /* GameNotificationViewController.m */; };
 		AA21334216CC323C00FB7F29 /* QuestsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA21334116CC323B00FB7F29 /* QuestsModel.m */; };
 		AA21334516CC326000FB7F29 /* InventoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA21334416CC325F00FB7F29 /* InventoryModel.m */; };
+		AA2C3CF816D54A2B00623957 /* LocationsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2C3CF716D54A2B00623957 /* LocationsModel.m */; };
 		AA39E32116C4370D005A4E06 /* libPusher-combined.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA39E32016C4370D005A4E06 /* libPusher-combined.a */; };
 		AA479A0416CD6B24001B2B03 /* AttributesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA479A0316CD6B24001B2B03 /* AttributesModel.m */; };
 		AA763156169B68A800860665 /* PopOverContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA763155169B68A800860665 /* PopOverContentView.m */; };
@@ -733,6 +734,8 @@
 		AA21334116CC323B00FB7F29 /* QuestsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestsModel.m; sourceTree = "<group>"; };
 		AA21334316CC325F00FB7F29 /* InventoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryModel.h; sourceTree = "<group>"; };
 		AA21334416CC325F00FB7F29 /* InventoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryModel.m; sourceTree = "<group>"; };
+		AA2C3CF616D54A2B00623957 /* LocationsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationsModel.h; sourceTree = "<group>"; };
+		AA2C3CF716D54A2B00623957 /* LocationsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationsModel.m; sourceTree = "<group>"; };
 		AA39E32016C4370D005A4E06 /* libPusher-combined.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libPusher-combined.a"; sourceTree = "<group>"; };
 		AA39E32316C43771005A4E06 /* PTEventListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTEventListener.h; sourceTree = "<group>"; };
 		AA39E32416C43771005A4E06 /* PTJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTJSON.h; sourceTree = "<group>"; };
@@ -1444,6 +1447,8 @@
 				AA21334416CC325F00FB7F29 /* InventoryModel.m */,
 				AA479A0216CD6B24001B2B03 /* AttributesModel.h */,
 				AA479A0316CD6B24001B2B03 /* AttributesModel.m */,
+				AA2C3CF616D54A2B00623957 /* LocationsModel.h */,
+				AA2C3CF716D54A2B00623957 /* LocationsModel.m */,
 			);
 			name = Model;
 			path = Classes/model;
@@ -2626,6 +2631,7 @@
 				AA21334216CC323C00FB7F29 /* QuestsModel.m in Sources */,
 				AA21334516CC326000FB7F29 /* InventoryModel.m in Sources */,
 				AA479A0416CD6B24001B2B03 /* AttributesModel.m in Sources */,
+				AA2C3CF816D54A2B00623957 /* LocationsModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

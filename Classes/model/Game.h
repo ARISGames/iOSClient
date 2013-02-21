@@ -11,6 +11,7 @@
 #import "InventoryModel.h"
 #import "AttributesModel.h"
 #import "QuestsModel.h"
+#import "LocationsModel.h"
 #import "Media.h"
 #import "AsyncMediaImageView.h"
 
@@ -22,6 +23,7 @@
     InventoryModel  *inventoryModel;
     AttributesModel *attributesModel;
     QuestsModel     *questsModel;
+    LocationsModel  *locationsModel;
     
     NSString *mapType;
 
@@ -62,6 +64,7 @@
 @property (nonatomic, strong) InventoryModel *inventoryModel;
 @property (nonatomic, strong) AttributesModel *attributesModel;
 @property (nonatomic, strong) QuestsModel *questsModel;
+@property (nonatomic, strong) LocationsModel *locationsModel;
 
 @property (nonatomic, strong) NSString *mapType;
 

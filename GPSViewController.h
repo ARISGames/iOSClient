@@ -25,24 +25,21 @@
 	IBOutlet UIBarButtonItem *mapTypeButton;
 	IBOutlet UIBarButtonItem *playerTrackingButton;
 	IBOutlet UIToolbar *toolBar;
-	int newItemsSinceLastView;
     IBOutlet UIBarButtonItem *addMediaButton;
 	NSTimer *refreshTimer;
     IBOutlet UIBarButtonItem *playerButton;
     
 }
 
--(void) refresh;
--(void) zoomAndCenterMap;
--(void) showLoadingIndicator;
--(void)dismissTutorial;
--(IBAction)playerButtonTouch;
-- (void)refreshViewFromModel;
+- (void) refresh;
+- (void) zoomAndCenterMap;
+- (void) showLoadingIndicator;
+- (void) dismissTutorial;
+- (void) refreshViewFromModel;
 - (void) playerMoved;
-- (void)updateOverlays;
-
-
-- (double)getZoomLevel:(MKMapView *) mV;
+- (void) updateOverlays;
+- (double) getZoomLevel:(MKMapView *)mV;
+- (IBAction) playerButtonTouch;
 
 @property (nonatomic) MKMapView *mapView;
 @property (nonatomic) NSMutableArray *locations;

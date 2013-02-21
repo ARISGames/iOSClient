@@ -103,12 +103,12 @@
             
             
             //Filter out the locations that meet some basic requirements
-            for(Location *location in [AppModel sharedAppModel].locationList)
+            for(Location *location in [AppModel sharedAppModel].currentGame.locationsModel.currentLocations)
             {
-                if(location.error == -1) location.error = 9999999999;
-                if ([[AppModel sharedAppModel].playerLocation distanceFromLocation:location.location] > location.error) continue;
-                else if (location.kind == NearbyObjectItem && location.qty ==0 ) continue;
-                else if (location.kind == NearbyObjectPlayer) continue;
+                if(location.error < 0) location.error = 9999999999;
+                if([[AppModel sharedAppModel].playerLocation distanceFromLocation:location.location] > location.error) continue;
+                else if(location.kind == NearbyObjectItem && location.qty ==0 ) continue;
+                else if(location.kind == NearbyObjectPlayer) continue;
                 else [nearbyLocationList addObject:location];
             }
             

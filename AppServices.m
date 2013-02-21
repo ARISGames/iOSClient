@@ -1365,33 +1365,28 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [self fetchPlayerOverlayList];
 }
 
-- (void)resetAllPlayerLists {
+- (void)resetAllPlayerLists
+{
 	NSLog(@"AppModel: resetAllPlayerLists");
     
 	//Clear the Hashes
     [AppModel sharedAppModel].playerNoteListHash = @"";
     [AppModel sharedAppModel].gameNoteListHash = @"";
     [AppModel sharedAppModel].overlayListHash = @"";
-	//Clear them out
-    NSMutableArray *locationListAlloc = [[NSMutableArray alloc] initWithCapacity:0];
-	[AppModel sharedAppModel].locationList = locationListAlloc;
-    NSMutableArray *nearbyLocationListAlloc = [[NSMutableArray alloc] initWithCapacity:0];
-	[AppModel sharedAppModel].nearbyLocationsList = nearbyLocationListAlloc;
     
-	NSMutableArray *completedQuestObjects = [[NSMutableArray alloc] init];
-	NSMutableArray *activeQuestObjects = [[NSMutableArray alloc] init];
-	NSMutableDictionary *tmpQuestList = [[NSMutableDictionary alloc] init];
-	[tmpQuestList setObject:activeQuestObjects forKey:@"active"];
-	[tmpQuestList setObject:completedQuestObjects forKey:@"completed"];
+	//Clear them out
+	[AppModel sharedAppModel].nearbyLocationsList = [[NSMutableArray alloc] initWithCapacity:0];
+
 	[[AppModel sharedAppModel].currentGame.inventoryModel  clearData];
 	[[AppModel sharedAppModel].currentGame.attributesModel clearData];
 	[[AppModel sharedAppModel].currentGame.questsModel     clearData];
+	[[AppModel sharedAppModel].currentGame.locationsModel  clearData];
     
     [[AppModel sharedAppModel].overlayList removeAllObjects];
 	
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewLocationListReady" object:nil]];
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewQuestListReady" object:nil]];
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewInventoryReady" object:nil]];
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewLocationListReady"       object:nil]];
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewQuestListReady"          object:nil]];
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewInventoryReady"          object:nil]];
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedNearbyLocationList" object:nil]];
 }
 
@@ -1669,7 +1664,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     
 }
 
-- (void)fetchPlayerLocationList {
+- (void)fetchPlayerLocationList
+{
 	NSLog(@"AppModel: Fetching Locations from Server");
 	
 	if (![AppModel sharedAppModel].loggedIn)
@@ -2383,59 +2379,54 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedLocationList" object:nil]];
 	
-	//Continue parsing
 	NSArray *locationsArray = (NSArray *)jsonResult.data;
     
 	//Build the location list
 	NSMutableArray *tempLocationsList = [[NSMutableArray alloc] init];
 	NSEnumerator *locationsEnumerator = [locationsArray objectEnumerator];
 	NSDictionary *locationDictionary;
-	while ((locationDictionary = [locationsEnumerator nextObject])) {
-		//create a new location
+	while ((locationDictionary = [locationsEnumerator nextObject]))
+    {
         Location *location = [self parseLocationFromDictionary:locationDictionary];
 		
-		NSLog(@"AppServices: Adding %@",location);
+		NSLog(@"AppServices parsed: %@",location);
 		[tempLocationsList addObject:location];
 	}
-	
-	[AppModel sharedAppModel].locationList = tempLocationsList;
-	
+		
 	//Tell everyone
-	NSLog(@"AppServices: Finished fetching locations from server, model updated");
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewLocationListReady" object:nil]];
+    NSDictionary *locations  = [[NSDictionary alloc] initWithObjectsAndKeys:tempLocationsList,@"locations", nil];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LatestPlayerLocationsReceived" object:nil userInfo:locations]];
 }
 
 -(Location*)parseLocationFromDictionary: (NSDictionary*)locationDictionary
 {
     Location *location = [[Location alloc] init];
-    location.locationId = [self validIntForKey:@"location_id" inDictionary:locationDictionary];
-    location.name = [self validObjectForKey:@"name" inDictionary:locationDictionary];
-    location.iconMediaId = [self validIntForKey:@"icon_media_id" inDictionary:locationDictionary];
-    CLLocation *tmpLocation = [[CLLocation alloc] initWithLatitude:[self validDoubleForKey:@"latitude" inDictionary:locationDictionary]
-                                                         longitude:[self validDoubleForKey:@"longitude" inDictionary:locationDictionary]];
-    location.location = tmpLocation;
-    location.error = [self validDoubleForKey:@"error" inDictionary:locationDictionary];
-    location.objectType = [self validObjectForKey:@"type" inDictionary:locationDictionary];
-    location.objectId = [self validIntForKey:@"type_id" inDictionary:locationDictionary];
-    location.hidden = [self validBoolForKey:@"hidden" inDictionary:locationDictionary];
-    location.forcedDisplay = [self validBoolForKey:@"force_view" inDictionary:locationDictionary];
+    location.locationId        = [self validIntForKey:@"location_id"         inDictionary:locationDictionary];
+    location.objectId          = [self validIntForKey:@"type_id"             inDictionary:locationDictionary];
+    location.qty               = [self validIntForKey:@"item_qty"            inDictionary:locationDictionary];
+    location.iconMediaId       = [self validIntForKey:@"icon_media_id"       inDictionary:locationDictionary];
+    location.name              = [self validObjectForKey:@"name"             inDictionary:locationDictionary];
+    location.error             = [self validDoubleForKey:@"error"            inDictionary:locationDictionary];
+    location.objectType        = [self validObjectForKey:@"type"             inDictionary:locationDictionary];
+    location.hidden            = [self validBoolForKey:@"hidden"             inDictionary:locationDictionary];
+    location.forcedDisplay     = [self validBoolForKey:@"force_view"         inDictionary:locationDictionary];
     location.allowsQuickTravel = [self validBoolForKey:@"allow_quick_travel" inDictionary:locationDictionary];
-    location.qty = [self validIntForKey:@"item_qty" inDictionary:locationDictionary];
-    location.hasBeenViewed = NO;
-    location.showTitle = [self validBoolForKey:@"show_title" inDictionary:locationDictionary];
-    location.wiggle = [self validBoolForKey:@"wiggle" inDictionary:locationDictionary];
+    location.showTitle         = [self validBoolForKey:@"show_title"         inDictionary:locationDictionary];
+    location.wiggle            = [self validBoolForKey:@"wiggle"             inDictionary:locationDictionary];
+    location.location          = [[CLLocation alloc] initWithLatitude:[self validDoubleForKey:@"latitude"  inDictionary:locationDictionary]
+                                                            longitude:[self validDoubleForKey:@"longitude" inDictionary:locationDictionary]];
+    
     NSNumber *num = [NSNumber numberWithInt:location.wiggle];
     if(num == nil)  location.wiggle = 0;
     //if(location.wiggle == nil)  location.wiggle = 0;
     location.deleteWhenViewed = [self validIntForKey:@"delete_when_viewed" inDictionary:locationDictionary];
     
-    if(location.objectType &&[location.objectType isEqualToString:@"PlayerNote"]){
-        Note *note = [[AppModel sharedAppModel]noteForNoteId:location.objectId playerListYesGameListNo:YES];
+    if(location.objectType &&[location.objectType isEqualToString:@"PlayerNote"])
+    {
+        Note *note     = [[AppModel sharedAppModel]noteForNoteId:location.objectId playerListYesGameListNo:YES];
         if(!note) note = [[AppModel sharedAppModel]noteForNoteId:location.objectId playerListYesGameListNo:NO];
-        if(!note)
-            NSLog(@"this shouldn't happen");
-        if(note && note.showOnList)location.allowsQuickTravel = YES;
-        else location.allowsQuickTravel = NO;
+        if(note && note.showOnList) location.allowsQuickTravel = YES;
+        else                        location.allowsQuickTravel = NO;
     }
     return location;
 }

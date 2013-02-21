@@ -31,7 +31,8 @@ BOOL showingPopOver;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
+    if (self)
+    {
         //Init Notification Arrays
         notifArray = [[NSMutableArray alloc] initWithCapacity:5];
         popOverArray = [[NSMutableArray alloc] initWithCapacity:5];
@@ -318,6 +319,17 @@ BOOL showingPopOver;
     }
 }
 
+-(void)parseAvailableLocationsIntoNotifications:(NSNotification *)notification
+{
+    NSArray *lostAttributes = (NSArray *)[notification.userInfo objectForKey:@"newlyAvailableLocations"];
+    
+    for(int i = 0; i < [lostAttributes count]; i++)
+    {
+        //Don't actually show a notification... 
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyChangedLocationsGameNotificationSent" object:self]];
+    }
+}
+
 -(void)cutOffGameNotifications
 {
     [notifArray removeAllObjects];
@@ -356,6 +368,10 @@ BOOL showingPopOver;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(parseLostAttributesIntoNotifications:)
                                                  name:@"NewlyLostAttributesAvailable"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(parseAvailableLocationsIntoNotifications:)
+                                                 name:@"NewlyAvailableLocationsAvailable"
                                                object:nil];
 }
 

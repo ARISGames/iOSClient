@@ -16,6 +16,7 @@
 @synthesize inventoryModel;
 @synthesize attributesModel;
 @synthesize questsModel;
+@synthesize locationsModel;
 @synthesize mapType;
 @synthesize hasBeenPlayed;
 @synthesize name;
@@ -50,6 +51,7 @@
     self.inventoryModel  = [[InventoryModel  alloc] init];
     self.attributesModel = [[AttributesModel alloc] init];
     self.questsModel     = [[QuestsModel     alloc] init];
+    self.locationsModel  = [[LocationsModel  alloc] init];
 }
 
 - (NSComparisonResult)compareDistanceFromPlayer:(Game*)otherGame{
