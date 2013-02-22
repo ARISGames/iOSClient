@@ -65,7 +65,8 @@
 	return itemId;
 }
 
--(Item *)copyItem{
+-(Item *)copyItem
+{
     Item *itemCopy = [[Item alloc] init];
     itemCopy.itemId = self.itemId;
 	itemCopy.name = self.name;

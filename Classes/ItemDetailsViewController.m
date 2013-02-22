@@ -58,11 +58,11 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     return self;
 }
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
 	//Show waiting Indicator in own thread so it appears on time
-	//[NSThread detachNewThreadSelector: @selector(showWaitingIndicator:) toTarget: [RootViewController sharedRootViewController] withObject: @"Loading..."];	
+	//[NSThread detachNewThreadSelector: @selector(showWaitingIndicator:) toTarget:[RootViewController sharedRootViewController] withObject: @"Loading..."];	
 	//[[RootViewController sharedRootViewController]showWaitingIndicator:NSLocalizedString(@"LoadingKey",@"") displayProgressBar:NO];
     
 	self.itemWebView.delegate = self;
@@ -74,7 +74,8 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	deleteButton.title = NSLocalizedString(@"ItemDeleteKey",@"");
 	detailButton.title = NSLocalizedString(@"ItemDetailKey", @"");
 	
-	if (inInventory == YES) {		
+	if (inInventory == YES)
+    {
 		dropButton.width = 75.0;
 		deleteButton.width = 75.0;
 		detailButton.width = 140.0;
@@ -84,7 +85,8 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 		if (!item.dropable) dropButton.enabled = NO;
 		if (!item.destroyable) deleteButton.enabled = NO;
 	}
-	else {
+	else
+    {
 		pickupButton.width = 150.0;
 		detailButton.width = 150.0;
         
@@ -96,25 +98,23 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey",@"")
 									 style: UIBarButtonItemStyleBordered
 									target:self 
-									action:@selector(backButtonTouchAction:)];	
-	
-	
-    
+									action:@selector(backButtonTouchAction:)];
 	NSLog(@"ItemDetailsViewController: View Loaded. Current item: %@", item.name);
-    
     
 	//Set Up General Stuff
 	NSString *htmlDescription = [NSString stringWithFormat:kItemDetailsDescriptionHtmlTemplate, item.description];
 	[itemDescriptionView loadHTMLString:htmlDescription baseURL:nil];
     
-	Media *media = [[AppModel sharedAppModel] mediaForMediaId: item.mediaId];
-    
-	if ([media.type isEqualToString: kMediaTypeImage] && media.url) {
+	Media *media = [[AppModel sharedAppModel] mediaForMediaId:item.mediaId];
+        
+	if ([media.type isEqualToString: kMediaTypeImage] && media.url)
+    {
 		NSLog(@"ItemDetailsViewController: Image Layout Selected");
 		[itemImageView loadImageFromMedia:media];
         itemImageView.contentMode = UIViewContentModeScaleAspectFit;
 	}
-	else if (([media.type isEqualToString:kMediaTypeVideo] || [media.type isEqualToString: kMediaTypeAudio]) && media.url) {
+	else if (([media.type isEqualToString:kMediaTypeVideo] || [media.type isEqualToString: kMediaTypeAudio]) && media.url)
+    {
 		NSLog(@"ItemDetailsViewController:  AV Layout Selected");
         
         AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presentingController:[RootViewController sharedRootViewController] preloadNow:NO];
@@ -139,22 +139,20 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         playButonOverlay.center = mediaPlaybackButton.center;
         [mediaPlaybackButton addSubview:playButonOverlay];
         [self.scrollView addSubview:mediaPlaybackButton];
-           */
+        */
 	}
-	
-	else {
+	else
 		NSLog(@"ItemDetailsVC: Error Loading Media ID: %d. It etiher doesn't exist or is not of a valid type.", item.mediaId);
-	}
+    
     self.itemWebView.hidden = YES;
 	//Stop Waiting Indicator
 	//[[RootViewController sharedRootViewController] removeWaitingIndicator];
 	[self updateQuantityDisplay];
-    if ([self.item.type isEqualToString:@"URL"] && self.item.url && (![self.item.url isEqualToString: @"0"]) &&(![self.item.url isEqualToString:@""])) {
-        
+    if ([self.item.type isEqualToString:@"URL"] && self.item.url && (![self.item.url isEqualToString: @"0"]) &&(![self.item.url isEqualToString:@""]))
+    {
         //Config the webView
         self.itemWebView.allowsInlineMediaPlayback = YES;
         self.itemWebView.mediaPlaybackRequiresUserAction = NO;
-        
         
         NSString *urlAddress = [self.item.url stringByAppendingString: [NSString stringWithFormat: @"?playerId=%d&gameId=%d",[AppModel sharedAppModel].playerId,[AppModel sharedAppModel].currentGame.gameId]];
         
@@ -176,25 +174,28 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         textBox.text = item.description;
         [self.scrollView addSubview:textBox];
         [self.scrollView addSubview:saveButton];
-        if(([AppModel sharedAppModel].playerId != self.item.creatorId)) {
+        if(([AppModel sharedAppModel].playerId != self.item.creatorId))
+        {
             self.textBox.userInteractionEnabled = NO;
             [saveButton removeFromSuperview];
             self.navigationItem.rightBarButtonItem = nil;        
         }
     }
-    else if (self.item.creatorId == [AppModel sharedAppModel].playerId) {
+    else if (self.item.creatorId == [AppModel sharedAppModel].playerId)
+    {
         UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"EditKey", @"") style:UIBarButtonItemStylePlain target:self action:@selector(editButtonPressed)];
         self.navigationItem.rightBarButtonItem = editButton;
     }
     
 	item.hasViewed = YES;
-    
 }
 
--(void)viewDidAppear:(BOOL)animated{
+-(void)viewDidAppear:(BOOL)animated
+{
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
@@ -202,25 +203,28 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     return YES;
 }
 
--(NSInteger)supportedInterfaceOrientations{
+-(NSInteger)supportedInterfaceOrientations
+{
     NSInteger mask = 0;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeLeft])
+    if ([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeLeft])
         mask |= UIInterfaceOrientationMaskLandscapeLeft;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeRight])
+    if ([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeRight])
         mask |= UIInterfaceOrientationMaskLandscapeRight;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortrait])
+    if ([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationPortrait])
         mask |= UIInterfaceOrientationMaskPortrait;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortraitUpsideDown])
+    if ([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationPortraitUpsideDown])
         mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
     return mask;
 }
 
-- (void)updateQuantityDisplay {
+- (void)updateQuantityDisplay
+{
 	if (item.qty > 1) self.title = [NSString stringWithFormat:@"%@ x%d",item.name,item.qty];
 	else self.title = item.name;
 }
 
-- (IBAction)backButtonTouchAction: (id) sender{
+- (IBAction)backButtonTouchAction:(id)sender
+{
 	NSLog(@"ItemDetailsViewController: Notify server of Item view and Dismiss Item Details View");
 	
 	//Notify the server this item was displayed
@@ -228,18 +232,20 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	
     if([self.delegate isKindOfClass:[DialogViewController class]])
         [self.navigationController popViewControllerAnimated:YES];
-    else{
+    else
+    {
         [self.navigationController popToRootViewControllerAnimated:YES];
         [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
     }
 }
 
--(IBAction)playMovie:(id)sender {
+-(IBAction)playMovie:(id)sender
+{
 	[self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
 }
 
-
-- (IBAction)dropButtonTouchAction: (id) sender{
+- (IBAction)dropButtonTouchAction:(id)sender
+{
 	NSLog(@"ItemDetailsVC: Drop Button Pressed");
 	
 	mode = kItemDetailsDropping;
@@ -258,17 +264,14 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     {
         [self doActionWithMode:mode quantity:1];
     }    
-	
 }
 
 - (IBAction)deleteButtonTouchAction: (id) sender{
 	NSLog(@"ItemDetailsVC: Destroy Button Pressed");
     
-	
 	mode = kItemDetailsDestroying;
 	if(self.item.qty > 1)
     {
-        
         ItemActionViewController *itemActionVC = [[ItemActionViewController alloc]initWithNibName:@"ItemActionViewController" bundle:nil];
         itemActionVC.mode = mode;
         itemActionVC.item = item;
@@ -277,26 +280,17 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         itemActionVC.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
         [[self navigationController] pushViewController:itemActionVC animated:YES];
         [self updateQuantityDisplay];
-        
-        
     }
     else 
-    {
-        
         [self doActionWithMode:mode quantity:1];
-    }
 }
 
-
-- (IBAction)pickupButtonTouchAction: (id) sender{
+- (IBAction)pickupButtonTouchAction:(id)sender
+{
 	NSLog(@"ItemDetailsViewController: pickupButtonTouched");
-    
-	
 	mode = kItemDetailsPickingUp;
-	
     if(self.item.qty > 1)
     {
-        
         ItemActionViewController *itemActionVC = [[ItemActionViewController alloc]initWithNibName:@"ItemActionViewController" bundle:nil];
         itemActionVC.mode = mode;
         itemActionVC.item = item;
@@ -305,19 +299,12 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         itemActionVC.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
         [[self navigationController] pushViewController:itemActionVC animated:YES];
         [self updateQuantityDisplay];
-        
-        
     }
     else 
-    {
         [self doActionWithMode:mode quantity:1];
-    }
     
-    //Notify the server this item was displayed:
     [[AppServices sharedAppServices] updateServerItemViewed:item.itemId fromLocation:item.locationId];
-    
 }
-
 
 -(void)doActionWithMode:(ItemDetailsModeType)itemMode quantity:(int)quantity
 {
@@ -330,14 +317,12 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 		NSLog(@"ItemDetailsVC: Dropping %d",quantity);
 		[[AppServices sharedAppServices] updateServerDropItemHere:item.itemId qty:quantity];
 		[[AppModel sharedAppModel] removeItemFromInventory:item qtyToRemove:quantity];
-        
     }
 	else if(mode == kItemDetailsDestroying)
     {
 		NSLog(@"ItemDetailsVC: Destroying %d",quantity);
 		[[AppServices sharedAppServices] updateServerDestroyItem:self.item.itemId qty:quantity];
 		[[AppModel sharedAppModel] removeItemFromInventory:item qtyToRemove:quantity];
-		
 	}
 	else if(mode == kItemDetailsPickingUp)
     {
@@ -360,7 +345,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
                     }
                 }
 				errorMessage = [NSString stringWithFormat:@"%@ %d %@",NSLocalizedString(@"ItemAcionCarryThatMuchKey", @""),quantity,NSLocalizedString(@"PickedUpKey", @"")];
-                
 			}
 			else if (item.maxQty == 0)
             {
@@ -373,21 +357,21 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 				quantity = 0;
 			}
             
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:  NSLocalizedString(@"ItemAcionInventoryOverLimitKey", @"")
-															message: errorMessage
-														   delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ItemAcionInventoryOverLimitKey", @"")
+															message:errorMessage
+														   delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
 			[alert show];
 		}
         else if (((quantity*item.weight +[AppModel sharedAppModel].currentGame.inventoryModel.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryModel.weightCap)&&([AppModel sharedAppModel].currentGame.inventoryModel.weightCap != 0))
         {
             while ((quantity*item.weight + [AppModel sharedAppModel].currentGame.inventoryModel.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryModel.weightCap)
-            {
+
                 quantity--;
-            }
+
             errorMessage = [NSString stringWithFormat:@"%@ %d %@",NSLocalizedString(@"ItemAcionTooHeavyKey", @""),quantity,NSLocalizedString(@"PickedUpKey", @"")];
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:  NSLocalizedString(@"ItemAcionInventoryOverLimitKey", @"")
-															message: errorMessage
-														   delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ItemAcionInventoryOverLimitKey", @"")
+															message:errorMessage
+														   delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
 			[alert show];
         }
         
@@ -401,30 +385,25 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	
 	[self updateQuantityDisplay];
 	
-	//Possibly disable the pickup button
-	if (item.qty < 1) {
-        pickupButton.enabled = NO;
-	} else {
-        pickupButton.enabled = YES;
-    }
-    
+	if (item.qty < 1) pickupButton.enabled = NO;
+	else              pickupButton.enabled = YES;
 }
 
 #pragma mark MPMoviePlayerController Notification Handlers
 
-- (void)movieLoadStateChanged:(NSNotification*) aNotification{
+- (void)movieLoadStateChanged:(NSNotification*) aNotification
+{
 	MPMovieLoadState state = [(MPMoviePlayerController *) aNotification.object loadState];
 	
-	if( state & MPMovieLoadStateUnknown ) 
+	if(state & MPMovieLoadStateUnknown)
 		NSLog(@"ItemDetailsViewController: Unknown Load State");
-    if( state & MPMovieLoadStatePlaythroughOK ) 
+    if(state & MPMovieLoadStatePlaythroughOK)
 		NSLog(@"ItemDetailsViewController: Playthrough OK Load State");
-    if( state & MPMovieLoadStateStalled ) 
+    if(state & MPMovieLoadStateStalled)
 		NSLog(@"ItemDetailsViewController: Stalled Load State");
-	if( state & MPMovieLoadStatePlayable ) 
+	if(state & MPMovieLoadStatePlayable)
     {
 		NSLog(@"ItemDetailsViewController: Playable Load State");
-        
         //Create a thumbnail for the button
         if (![mediaPlaybackButton backgroundImageForState:UIControlStateNormal]) 
         {
@@ -435,19 +414,16 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	} 
 }
 
-
 - (void)movieFinishedCallback:(NSNotification*) aNotification
 {
 	NSLog(@"ItemDetailsViewController: movieFinishedCallback");
 	[self dismissMoviePlayerViewControllerAnimated];
 }
 
-
 #pragma mark Zooming delegate methods
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView 
 {
-	NSLog(@"got a viewForZooming.");
 	return itemImageView;
 }
 

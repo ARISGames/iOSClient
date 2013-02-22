@@ -1817,7 +1817,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 -(Item *)parseItemFromDictionary: (NSDictionary *)itemDictionary{
     Item *item = [[Item alloc] init];
     item.itemId      = [self validIntForKey:@"item_id"              inDictionary:itemDictionary];
-    item.mediaId     = [self validIntForKey:@"item_id"              inDictionary:itemDictionary];
+    item.mediaId     = [self validIntForKey:@"media_id"             inDictionary:itemDictionary];
     item.iconMediaId = [self validIntForKey:@"icon_media_id"        inDictionary:itemDictionary];
     item.maxQty      = [self validIntForKey:@"max_qty_in_inventory" inDictionary:itemDictionary];
     item.weight      = [self validIntForKey:@"weight"               inDictionary:itemDictionary];
@@ -1894,8 +1894,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     aNote.text          = [self validObjectForKey:@"text"     inDictionary:noteDictionary];
     
     NSArray *contents = [self validObjectForKey:@"contents" inDictionary:noteDictionary];
-    for (NSDictionary *content in contents) {
-        
+    for (NSDictionary *content in contents)
+    {
         NoteContent *c = [[NoteContent alloc] init];
         c.text = [self validObjectForKey:@"text" inDictionary:content];
         c.title = [self validObjectForKey:@"title" inDictionary:content];

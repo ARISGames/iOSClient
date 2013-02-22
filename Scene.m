@@ -28,7 +28,8 @@
    exitToTabWithTitle:(NSString*)tabTitle 
          exitToType:(NSString *)type videoId:(int)vidId panoramicId:(int)pId webpageId:(int)wId plaqueId:(int)nodeId itemId:(int)iId mediaId:(int)mId title: (NSString *)inputTitle{
 	
-	if ((self = [super init])) {
+	if ((self = [super init]))
+    {
         self.text = [theText copy];
         self.isPc = isPcYorN;
         self.vibrate = shouldVibrate;

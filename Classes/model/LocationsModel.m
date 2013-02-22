@@ -97,7 +97,7 @@
     NSMutableArray *newLocations = [[NSMutableArray alloc] initWithCapacity:[self.currentLocations count]];
     
     for(int i = 0; i < [self.currentLocations count]; i++)
-        [newLocations addObject:((Location *)[self.currentLocations objectAtIndex:i]).copy];
+        [newLocations addObject:[((Location *)[self.currentLocations objectAtIndex:i]) copy]];
     
     Location *tmpLocation;
 	for (int i = 0; i < [newLocations count]; i++)
