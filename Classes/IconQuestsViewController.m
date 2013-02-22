@@ -63,8 +63,8 @@ NSArray *sortedQuests;
     return self;
 }
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
 	NSLog(@"IconQuestsViewController: Quests View Loaded");
@@ -87,7 +87,8 @@ NSArray *sortedQuests;
         [questIconCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
         [self.view addSubview:questIconCollectionView];
     }
-    else {
+    else
+    {
         supportsCollectionView = NO;
         
         CGRect fullScreenRect=CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
@@ -103,39 +104,33 @@ NSArray *sortedQuests;
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    NSLog(@"IconQuestsViewController: viewDidAppear");
+- (void)viewDidAppear:(BOOL)animated
+{
+    if (![AppModel sharedAppModel].loggedIn || [AppModel sharedAppModel].currentGame.gameId==0) return;
     
-    if (![AppModel sharedAppModel].loggedIn || [AppModel sharedAppModel].currentGame.gameId==0)
-    {
-        NSLog(@"QuestsVC: Player is not logged in, don't refresh");
-        return;
-    }
+    self.tabBarItem.badgeValue = nil;
+	newItemsSinceLastView = 0;
     
 	[[AppServices sharedAppServices] updateServerQuestsViewed];
 	
 	[self refresh];
-	
-	self.tabBarItem.badgeValue = nil;
-	newItemsSinceLastView = 0;
-    
     [self refreshViewFromModel];
 }
 
--(void)dismissTutorial{
+-(void)dismissTutorial
+{
 	[[RootViewController sharedRootViewController].tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindQuestsTab];
 }
 
-- (void)refresh {
-	NSLog(@"IconQuestsViewController: refresh requested");
+- (void)refresh
+{
 	if ([AppModel sharedAppModel].loggedIn) [[AppServices sharedAppServices] fetchPlayerQuestList];
 	[self showLoadingIndicator];
 }
 
 -(void)showLoadingIndicator
 {
-	UIActivityIndicatorView *activityIndicator =
-    [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
 	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
 	[[self navigationItem] setRightBarButtonItem:barButton];
 	[activityIndicator startAnimating];
@@ -157,8 +152,8 @@ NSArray *sortedQuests;
                                                                                                                          type:tutorialPopupKindQuestsTab
                                                                                                                         title:NSLocalizedString(@"QuestViewNewQuestKey", @"")
                                                                                                                       message:NSLocalizedString(@"QuestViewNewQuestMessageKey", @"")];
-                    [AppModel sharedAppModel].hasSeenQuestsTabTutorial = YES;
-                    [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
+        [AppModel sharedAppModel].hasSeenQuestsTabTutorial = YES;
+        [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
     }
     
     NSSortDescriptor *sortDescriptor;
@@ -175,12 +170,8 @@ NSArray *sortedQuests;
 
 -(void)createIcons
 {
-	NSLog(@"IconQuestsVC: Constructing Icons");
-    
     for (UIView *view in [questIconScrollView subviews])
-    {
         [view removeFromSuperview];
-    }
     
     for(int i = 0; i < [sortedQuests count]; i++)
     {
@@ -204,8 +195,6 @@ NSArray *sortedQuests;
         [questIconScrollView addSubview:iconButton];
         [iconButton setNeedsDisplay];
     }
-	
-	NSLog(@"QuestsVC: Icons created");
 }
 
 - (void) questSelected: (id)sender
@@ -236,9 +225,7 @@ NSArray *sortedQuests;
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Cell" forIndexPath:indexPath];
     
     for (UIView *view in [cell.contentView subviews])
-    {
         [view removeFromSuperview];
-    }
     
     int questNumber = indexPath.item;
     
@@ -288,21 +275,9 @@ NSArray *sortedQuests;
     [[self navigationController] pushViewController:questDetailsViewController animated:YES];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-    // Release anything that's not essential, such as cached data
-}
-
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)viewDidUnload
-{
-    questIconCollectionView = nil;
-    [super viewDidUnload];
 }
 
 @end

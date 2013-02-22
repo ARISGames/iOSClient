@@ -63,9 +63,8 @@
 }
 
 
--(void)refresh {
-    NSLog(@"GamePickerViewController: Refresh Requested");
-	
+-(void)refresh
+{
     //Calculate the time distance filer control value
     int time = self.timeControl.selectedSegmentIndex;
 

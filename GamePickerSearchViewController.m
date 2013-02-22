@@ -24,11 +24,11 @@
 @synthesize currentlyFetchingNextPage;
 @synthesize allResultsFound;
 
-//Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
-    if (self) {
+    if (self)
+    {
         self.title = NSLocalizedString(@"SearchKey", @"");
         self.navigationItem.title = NSLocalizedString(@"GamePickerSearchGamesKey", @"");
 		self.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemSearch tag:0];
@@ -39,64 +39,53 @@
     return self;
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - View lifecycle
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
-	UIBarButtonItem *refreshButtonAlloc = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh)];
-    self.refreshButton = refreshButtonAlloc;
-    
+    self.refreshButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh)];
     self.navigationItem.rightBarButtonItem = self.refreshButton;
-  //  [self refresh];
-    [self.theSearchBar becomeFirstResponder]; //Bring up the keyboard right away
-	NSLog(@"SearchVC: View Loaded");
+    [self.theSearchBar becomeFirstResponder];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-	NSLog(@"SearchVC: View Appeared");	
+- (void)viewDidAppear:(BOOL)animated
+{
     [self refresh];
-    //Clear the List
-    //self.gameList = [NSArray array];
     [gameTable reloadData];
 
     [super viewDidAppear:animated];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-    // Release anything that's not essential, such as cached data
-}
-
-
 #pragma mark custom methods, logic
--(void)showLoadingIndicator{
-	UIActivityIndicatorView *activityIndicator = 
-	[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+-(void)showLoadingIndicator
+{
+	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
 	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
 	[[self navigationItem] setRightBarButtonItem:barButton];
 	[activityIndicator startAnimating];
 }
 
--(void)removeLoadingIndicator{
+-(void)removeLoadingIndicator
+{
 	[[self navigationItem] setRightBarButtonItem:self.refreshButton];
 }
 
--(void)refresh{
+-(void)refresh
+{
     self.currentPage = 0;
     self.theSearchBar.text = self.searchText;
     [self performSearch:self.searchText];
 }
 
-- (void)refreshViewFromModel {
-	NSLog(@"SearchVC: Refresh View from Model");
-	
-    //unregister for notifications
+- (void)refreshViewFromModel
+{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     if(self.currentPage == 0) self.gameList = [AppModel sharedAppModel].searchGameList;
@@ -114,17 +103,14 @@
     return 1;
 }
 
-
-// Customize the number of rows in the table view.
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     if(self.allResultsFound) return [self.gameList count];
     else return [self.gameList count]+1;
 }
 
-// Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	//NSLog(@"GamePickerVC: Cell requested for section: %d row: %d",indexPath.section,indexPath.row);
-    
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     if(indexPath.row >= [self.gameList count])
     {
         if(!self.currentlyFetchingNextPage && !self.allResultsFound) {
@@ -197,23 +183,14 @@
         return cell;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    //Color the backgrounds
-    if (indexPath.row % 2 == 0){  
-        cell.backgroundColor = [UIColor colorWithRed:233.0/255.0  
-                                               green:233.0/255.0  
-                                                blue:233.0/255.0  
-                                               alpha:1.0];  
-    } else {  
-        cell.backgroundColor = [UIColor colorWithRed:200.0/255.0  
-                                               green:200.0/255.0  
-                                                blue:200.0/255.0  
-                                               alpha:1.0];  
-    } 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row % 2 == 0) cell.backgroundColor = [UIColor colorWithRed:233.0/255.0 green:233.0/255.0 blue:233.0/255.0 alpha:1.0];  
+    else                        cell.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:1.0];  
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     //do select game notification;
     Game *selectedGame;
 	selectedGame = [self.gameList objectAtIndex:indexPath.row];
@@ -221,10 +198,10 @@
 	GameDetailsViewController *gameDetailsViewController = [[GameDetailsViewController alloc]initWithNibName:@"GameDetails" bundle:nil];
 	gameDetailsViewController.game = selectedGame;
 	[self.navigationController pushViewController:gameDetailsViewController animated:YES];
-    
 }
 
-- (void)tableView:(UITableView *)aTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView *)aTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
 	Game *selectedGame;
 	selectedGame = [self.gameList objectAtIndex:indexPath.row];
 	
@@ -233,20 +210,13 @@
 	[self.navigationController pushViewController:gameDetailsViewController animated:YES];
 }
 
--(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return 60;
-}
-
-- (void)viewDidUnload
+-(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+	return 60;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
@@ -254,7 +224,8 @@
     return YES;
 }
 
--(NSInteger)supportedInterfaceOrientations{
+-(NSInteger)supportedInterfaceOrientations
+{
     NSInteger mask = 0;
     if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeLeft])
         mask |= UIInterfaceOrientationMaskLandscapeLeft;
@@ -270,81 +241,52 @@
 #pragma mark -
 #pragma mark UISearchBarDelegate Methods
 
-- (void)searchBar:(UISearchBar *)searchBar
-    textDidChange:(NSString *)searchText {
-    // We don't want to do anything until the user clicks 
-    // the 'Search' button.
-    // If you wanted to display results as the user types 
-    // you would do that here.
-}
-
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-    // searchBarTextDidBeginEditing is called whenever 
-    // focus is given to the UISearchBar
-    // call our activate method so that we can do some 
-    // additional things when the UISearchBar shows.
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
     [self searchBar:searchBar activate:YES];
 }
 
-- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
-    // searchBarTextDidEndEditing is fired whenever the 
-    // UISearchBar loses focus
-    // We don't need to do anything here.
-}
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-    // Clear the search text
-    // Deactivate the UISearchBar
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
     searchBar.text=@"";
     [self searchBar:searchBar activate:NO];
 }
 
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    // Do the search and show the results in tableview
-    // Deactivate the UISearchBar
-	
-    // You'll probably want to do this on another thread
-    // SomeService is just a dummy class representing some 
-    // api that you are using to do the search
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
     self.searchText = searchBar.text;
 	
     [self searchBar:searchBar activate:NO];
     self.currentPage = 0;
     [self performSearch:self.searchText];
-    }
+}
 
 - (void)performSearch:(NSString *)text
 {
-    if(self.searchText != nil && self.searchText != @""){
+    if(self.searchText == nil || [self.searchText isEqualToString:@""]) return;
+        
     [[AppServices sharedAppServices] fetchGameListBySearch: [text stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding] onPage: self.currentPage];
-    NSLog(@"URL encoded search string: %@ on page %d", [text stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding], self.currentPage);
     self.currentlyFetchingNextPage = YES;
     self.allResultsFound = NO;
     
-    NSLog(@"SearchVC: Refresh Requested");
-    
-    //register for notifications
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewSearchGameListReady" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList"       object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel)   name:@"NewSearchGameListReady" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost"         object:nil];
     
 	[self showLoadingIndicator];
-    }
 }
 
-// We call this when we want to activate/deactivate the UISearchBar
-// Depending on active (YES/NO) we disable/enable selection and 
-// scrolling on the UITableView
-// Show/Hide the UISearchBar Cancel button
-// Fade the screen In/Out with the disableViewOverlay and 
-// simple Animations
-- (void)searchBar:(UISearchBar *)searchBar activate:(BOOL) active{	
+- (void)searchBar:(UISearchBar *)searchBar activate:(BOOL)active
+{
     self.gameTable.allowsSelection = !active;
     self.gameTable.scrollEnabled = !active;
-    if (!active) {
+    if (!active)
+    {
         [disableViewOverlay removeFromSuperview];
         [searchBar resignFirstResponder];
-    } else {
+    }
+    else
+    {
         self.disableViewOverlay.alpha = 0;
         [self.view addSubview:self.disableViewOverlay];
 		
@@ -353,19 +295,10 @@
         self.disableViewOverlay.alpha = 0.6;
         [UIView commitAnimations];
 		
-        // probably not needed if you have a details view since you 
-        // will go there on selection
-        NSIndexPath *selected = [self.gameTable 
-                                 indexPathForSelectedRow];
-        if (selected) {
-            [self.gameTable deselectRowAtIndexPath:selected 
-                                             animated:NO];
-        }
+        NSIndexPath *selected = [self.gameTable indexPathForSelectedRow];
+        if (selected) [self.gameTable deselectRowAtIndexPath:selected animated:NO];
     }
     [searchBar setShowsCancelButton:active animated:YES];
 }
-
-
-
 
 @end

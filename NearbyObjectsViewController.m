@@ -17,11 +17,11 @@
 
 @synthesize oldNearbyLocationList;
 
-// The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
+    if (self)
+    {
 		self.tabBarItem.image = [UIImage imageNamed:@"73-radar"];
 		self.title = NSLocalizedString(@"NearbyObjectsTabKey",@"");
 		self.navigationItem.title = NSLocalizedString(@"NearbyObjectsTitleKey",@"");
@@ -33,55 +33,25 @@
     return self;
 }
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-    [super viewDidLoad];
-}
-
-/*
- // Override to allow orientations other than the default portrait orientation.
- - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
- // Return YES for supported orientations.
- return (interfaceOrientation == UIInterfaceOrientationPortrait);
- }
- 
- -(BOOL)shouldAutorotate{
- return YES;
- }
- 
- -(NSInteger)supportedInterfaceOrientations{
- NSInteger mask = 0;
- if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeLeft])
- mask |= UIInterfaceOrientationMaskLandscapeLeft;
- if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeRight])
- mask |= UIInterfaceOrientationMaskLandscapeRight;
- if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortrait])
- mask |= UIInterfaceOrientationMaskPortrait;
- if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortraitUpsideDown])
- mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
- return mask;
- }
- */
-
-- (void)dealloc {
+- (void)dealloc
+{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated
+{
 	[self refresh];
     self.tabBarItem.badgeValue = nil;
 	
 	[[RootViewController sharedRootViewController].tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindNearbyTab];
-	
-	NSLog(@"NearbyObjectsViewController: viewDidAppear");
 }
 
 -(void)dismissTutorial{
 	[[RootViewController sharedRootViewController].tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindNearbyTab];
 }
 
-- (void)refresh {
-	NSLog(@"NearbyObjectsViewController: refresh requested");
+- (void)refresh
+{
 	if ([AppModel sharedAppModel].loggedIn && ([AppModel sharedAppModel].currentGame.gameId != 0 && [AppModel sharedAppModel].playerId != 0))
         [[AppServices sharedAppServices] fetchPlayerLocationList];
 }
@@ -210,15 +180,11 @@
 	Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: l.iconMediaId];
     [cell.iconView loadImageFromMedia:iconMedia];
     
-	
 	return cell;
-    
 }
 
-// Customize the height of each row
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {	
-	
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
 	Location<NearbyObjectProtocol> *l;
 	l = [self.oldNearbyLocationList objectAtIndex:indexPath.row];
     l.delegate = self;

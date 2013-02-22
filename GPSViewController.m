@@ -36,7 +36,6 @@ NSMutableArray *locationsToRemove;
 @synthesize overlay;
 @synthesize overlayArray;
 
-//Override init for passing title and icon to tab bar
 - (id) initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
@@ -54,7 +53,6 @@ NSMutableArray *locationsToRemove;
         locationsToAdd    = [[NSMutableArray alloc] initWithCapacity:10];
         locationsToRemove = [[NSMutableArray alloc] initWithCapacity:10];
 		
-		//register for notifications
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator)     name:@"ConnectionLost"       object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerMoved)                name:@"PlayerMoved"          object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator)     name:@"ReceivedLocationList" object:nil];
@@ -91,7 +89,6 @@ NSMutableArray *locationsToRemove;
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate playAudioAlert:@"ticktick" shouldVibrate:NO];
 	
-	//resume auto centering
 	tracking = YES;
 	playerTrackingButton.style = UIBarButtonItemStyleDone;
     
@@ -99,7 +96,6 @@ NSMutableArray *locationsToRemove;
 	[[[MyCLController sharedMyCLController] locationManager] stopUpdatingLocation];
 	[[[MyCLController sharedMyCLController] locationManager] startUpdatingLocation];
     
-	//Rerfresh all contents
 	[self refresh];
 }
 
@@ -108,7 +104,8 @@ NSMutableArray *locationsToRemove;
     [AppModel sharedAppModel].hidePlayers = ![AppModel sharedAppModel].hidePlayers;
     if([AppModel sharedAppModel].hidePlayers){
         [playerButton setStyle:UIBarButtonItemStyleBordered];
-        if (mapView) {
+        if (mapView)
+        {
             NSEnumerator *existingAnnotationsEnumerator = [[[mapView annotations] copy] objectEnumerator];
             Annotation *annotation;
             while (annotation = [existingAnnotationsEnumerator nextObject]) {
@@ -122,7 +119,6 @@ NSMutableArray *locationsToRemove;
 	[[[MyCLController sharedMyCLController] locationManager] stopUpdatingLocation];
 	[[[MyCLController sharedMyCLController]locationManager] startUpdatingLocation];
     
-	//Refresh all contents
     tracking = NO;
 	[self refresh];
 }
@@ -134,18 +130,13 @@ NSMutableArray *locationsToRemove;
     [self.navigationController pushViewController:noteVC animated:YES];
 }
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void) viewDidLoad
 {
     [super viewDidLoad];
 	
-	NSLog(@"Begin Loading GPS View");
-	//mapView.showsUserLocation = YES;
 	[mapView setDelegate:self];
     [self.view addSubview:mapView];
-	NSLog(@"GPSViewController: Mapview inited and added to view");
 	
-	//Setup the buttons
 	mapTypeButton.target = self;
 	mapTypeButton.action = @selector(changeMapType:);
 	mapTypeButton.title = NSLocalizedString(@"MapTypeKey",@"");
@@ -157,21 +148,13 @@ NSMutableArray *locationsToRemove;
     addMediaButton.target = self;
     addMediaButton.action = @selector(addMediaButtonAction:);
 	
-    
-	//Force an update of the locations
-	//[[AppServices sharedAppServices] forceUpdateOnNextLocationListFetch];
-    
     [self updateOverlays];
     [self refresh];
-    
-	NSLog(@"GPSViewController: View Loaded");
 }
 
 - (MKOverlayView *) mapView:(MKMapView *)mapView viewForOverlay:(id)ovrlay
 {
     TileOverlayView *view = [[TileOverlayView alloc] initWithOverlay:ovrlay];
-    Overlay *ovrly = [[AppModel sharedAppModel].overlayList objectAtIndex:0]; //GWS: need to fix this?
-    //view.tileAlpha = ovrly.alpha;
     view.tileAlpha = 1;
     
     [AppModel sharedAppModel].overlayIsVisible = true;
@@ -181,14 +164,10 @@ NSMutableArray *locationsToRemove;
 
 - (void) updateOverlays
 {
-    // remove all overlays
     [overlayArray removeAllObjects];
     [mapView removeOverlays:[mapView overlays]];
     
-    // add all current overlays to display
-    int iOverlays = [[AppModel sharedAppModel].overlayList count];
-    
-    for(int i = 0; i < iOverlays; i++)
+    for(int i = 0; i < [[AppModel sharedAppModel].overlayList count]; i++)
     {
         overlay = [[TileOverlay alloc] initWithIndex: i];
         if(overlay != NULL)
@@ -201,7 +180,7 @@ NSMutableArray *locationsToRemove;
 
 - (void) viewDidAppear:(BOOL)animated
 {
-    NSLog(@"GPSViewController: view did appear");
+    if (![AppModel sharedAppModel].loggedIn || [AppModel sharedAppModel].currentGame.gameId == 0) return;
     
     badgeCount = 0;
     self.tabBarItem.badgeValue = nil;
@@ -209,11 +188,6 @@ NSMutableArray *locationsToRemove;
     if     ([[AppModel sharedAppModel].currentGame.mapType isEqualToString:@"SATELLITE"]) mapView.mapType = MKMapTypeSatellite;
     else if([[AppModel sharedAppModel].currentGame.mapType isEqualToString:@"HYBRID"])    mapView.mapType = MKMapTypeHybrid;
     else                                                                                  mapView.mapType = MKMapTypeStandard;
-
-    if (![AppModel sharedAppModel].loggedIn || [AppModel sharedAppModel].currentGame.gameId==0) {
-        NSLog(@"GPSViewController: Player is not logged in, don't refresh");
-        return;
-    }
     
     if([AppModel sharedAppModel].currentGame.showPlayerLocation) [mapView setShowsUserLocation:YES];
     else [mapView setShowsUserLocation:NO];
@@ -225,8 +199,7 @@ NSMutableArray *locationsToRemove;
 	
     [AppModel sharedAppModel].hidePlayers = ![AppModel sharedAppModel].hidePlayers;
     [self playerButtonTouch];
-	//create a time for automatic map refresh
-	NSLog(@"GPSViewController: Starting Refresh Timer");
+
 	if (refreshTimer != nil && [refreshTimer isValid]) [refreshTimer invalidate];
 	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
 }
@@ -236,15 +209,12 @@ NSMutableArray *locationsToRemove;
 	[[RootViewController sharedRootViewController].tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindMapTab];
 }
 
-// Updates the map to current data for player and locations from the server
 - (void) refresh
 {
     if([AppModel sharedAppModel].inGame)
     {
         if (mapView)
         {
-            NSLog(@"GPSViewController: refresh requested");
-            
             if ([AppModel sharedAppModel].loggedIn && ([AppModel sharedAppModel].currentGame.gameId != 0 && [AppModel sharedAppModel].playerId != 0))
             {
                 [[AppServices sharedAppServices] fetchPlayerLocationList];
@@ -252,11 +222,12 @@ NSMutableArray *locationsToRemove;
                 [self showLoadingIndicator];
             }
             
-            //Zoom and Center
             if (tracking) [self zoomAndCenterMap];
-            /* if(mapTrace){
+            
+            //What? Pen down? What's going on here?
+            /* if(mapTrace){ 
              [self.route addObject:[AppModel sharedAppModel].playerLocation];
-             MKPolyline *line = [[MKPolyline alloc]init];
+             MKPolyline *line = [[MKPolyline alloc] init];
              line
              }*/            
         }
@@ -393,7 +364,6 @@ NSMutableArray *locationsToRemove;
     {
         if (![AppModel sharedAppModel].hasSeenMapTabTutorial)
         {
-            //Put up the tutorial tab
             [[RootViewController sharedRootViewController].tutorialViewController showTutorialPopupPointingToTabForViewController:self.navigationController
                                                                                                                              type:tutorialPopupKindMapTab
                                                                                                                             title:@"New GPS Location"
@@ -411,17 +381,14 @@ NSMutableArray *locationsToRemove;
     if(badgeCount != 0) self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",badgeCount];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-    // Release anything that's not essential, such as cached data
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
     
-    NSLog(@"GPSViewController: Releasing Memory");
-    //Blow away the old markers except for the player marker
     NSEnumerator *existingAnnotationsEnumerator = [[[mapView annotations] copy] objectEnumerator];
     NSObject <MKAnnotation> *annotation;
-    while (annotation = [existingAnnotationsEnumerator nextObject]) {
+    while (annotation = [existingAnnotationsEnumerator nextObject])
         if(annotation != mapView.userLocation) [mapView removeAnnotation:annotation];
-    }
 }
 
 - (void)dealloc
@@ -429,15 +396,18 @@ NSMutableArray *locationsToRemove;
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
--(BOOL)shouldAutorotate{
+-(BOOL)shouldAutorotate
+{
     return YES;
 }
 
--(NSInteger)supportedInterfaceOrientations{
+-(NSInteger)supportedInterfaceOrientations
+{
     NSInteger mask = 0;
     if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeLeft])
         mask |= UIInterfaceOrientationMaskLandscapeLeft;
@@ -450,9 +420,11 @@ NSMutableArray *locationsToRemove;
     return mask;
 }
 
-
--(UIImage *)addTitle:(NSString *)imageTitle quantity:(int)quantity toImage:(UIImage *)img {
+-(UIImage *)addTitle:(NSString *)imageTitle quantity:(int)quantity toImage:(UIImage *)img
+{
     //I don't think this ever gets called... Might be depricated in favor of AnnotationView.drawRect. Then again, might not. just FYI. Phil 7/6/12
+    NSLog(@"HEY! IF THIS IS CALLED (if you're reading this from the console), FIND THIS CODE IN GPSViewController AND DELETE THE COMMENT ABOVE IT!");
+    
 	NSString *calloutString;
 	if (quantity > 1) {
 		calloutString = [NSString stringWithFormat:@"%@:%d",imageTitle, quantity];
@@ -477,9 +449,8 @@ NSMutableArray *locationsToRemove;
 	
 	CGRect imageRect = CGRectMake(0, textSize.height + 10.0, img.size.width, img.size.height);
 	CGRect backgroundRect = CGRectUnion(textRect, imageRect);
-	if (backgroundRect.size.width > img.size.width) {
+	if (backgroundRect.size.width > img.size.width)
 		imageRect.origin.x = (backgroundRect.size.width - img.size.width) / 2.0;
-	}
 	
 	CGSize contextSize = backgroundRect.size;
 	UIGraphicsBeginImageContext(contextSize);
@@ -499,12 +470,10 @@ NSMutableArray *locationsToRemove;
 }
 
 #pragma mark MKMapViewDelegate
-- (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
-	//User must have moved the map. Turn off Tracking
-	NSLog(@"GPSVC: regionDidChange delegate metohd fired");
-    
-	if (!appSetNextRegionChange) {
-		NSLog(@"GPSVC: regionDidChange without appSetNextRegionChange, it must have been the user");
+- (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated
+{
+	if (!appSetNextRegionChange)
+    {
 		tracking = NO;
 		playerTrackingButton.style = UIBarButtonItemStyleBordered;
 	}
@@ -512,31 +481,19 @@ NSMutableArray *locationsToRemove;
 	appSetNextRegionChange = NO;
 }
 
-- (MKAnnotationView *)mapView:(MKMapView *)myMapView viewForAnnotation:(id <MKAnnotation>)annotation{
-	NSLog(@"GPSViewController: In viewForAnnotation");
-    
-	//Player
+- (MKAnnotationView *)mapView:(MKMapView *)myMapView viewForAnnotation:(id <MKAnnotation>)annotation
+{
 	if (annotation == mapView.userLocation)
-	{
-		NSLog(@"GPSViewController: Getting the annotation view for the user's location");
-        return nil; //Let it do it's own thing
-	}
-	
-	//Everything else
-	else {
-		NSLog(@"GPSViewController: Getting the annotation view for a game object: %@", annotation.title);
-		AnnotationView *annotationView=[[AnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
-        
-		return annotationView;
-	}
+        return nil;
+    else
+        return [[AnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
 }
 
-- (void)mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view {
+- (void)mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view
+{
 	Location *location = ((Annotation*)view.annotation).location;
     if(view.annotation == aMapView.userLocation) return;
-	NSLog(@"GPSViewController: didSelectAnnotationView for location: %@",location.name);
-	
-	//Set up buttons
+
 	NSMutableArray *buttonTitles = [NSMutableArray arrayWithCapacity:1];
 	int cancelButtonIndex = 0;
 	if (location.allowsQuickTravel)	{
@@ -545,9 +502,7 @@ NSMutableArray *locationsToRemove;
 	}
 	[buttonTitles addObject: NSLocalizedString(@"CancelKey", @"")];
 	
-	
-	//Create and Display Action Sheet
-	UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:location.name
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:location.name
 															delegate:self
 												   cancelButtonTitle:nil
 											  destructiveButtonTitle:nil
@@ -555,26 +510,26 @@ NSMutableArray *locationsToRemove;
 	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
 	actionSheet.cancelButtonIndex = cancelButtonIndex;
 	
-	for (NSString *title in buttonTitles) {
+	for (NSString *title in buttonTitles)
 		[actionSheet addButtonWithTitle:title];
-	}
 	
 	[actionSheet showInView:view];
-    
 }
 
 
-- (void)mapView:(MKMapView *)mV didAddAnnotationViews:(NSArray *)views {
-    for (AnnotationView *aView in views) {
-        // prepare drop animation
+- (void)mapView:(MKMapView *)mV didAddAnnotationViews:(NSArray *)views
+{
+    for (AnnotationView *aView in views)
+    {
+        //Drop animation
         CGRect endFrame = aView.frame;
         aView.frame = CGRectMake(aView.frame.origin.x, aView.frame.origin.y - 230.0, aView.frame.size.width, aView.frame.size.height);
         [UIView animateWithDuration:0.45 delay:0.0 options:UIViewAnimationCurveEaseIn animations:^{[aView setFrame: endFrame];} completion:^(BOOL finished) {}];
     }
 }
 
-- (double)getZoomLevel:(MKMapView *) mV {
-    // Helper function to get the current zoom level of the mapView.
+- (double)getZoomLevel:(MKMapView *)mV
+{
     double MERCATOR_RADIUS = 85445659.44705395;
     double MAX_GOOGLE_LEVELS  = 20;
     CLLocationDegrees longitudeDelta = mV.region.span.longitudeDelta;
@@ -586,17 +541,17 @@ NSMutableArray *locationsToRemove;
 }
 
 #pragma mark UIActionSheet Delegate
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-	NSLog(@"GPSViewController: action sheet button %d was clicked",buttonIndex);
-	
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
 	Annotation *currentAnnotation = [mapView.selectedAnnotations lastObject];
 	
-	if (buttonIndex == actionSheet.cancelButtonIndex) [mapView deselectAnnotation:currentAnnotation animated:YES];
-	else {
+	if (buttonIndex == actionSheet.cancelButtonIndex)
+        [mapView deselectAnnotation:currentAnnotation animated:YES];
+	else
+    {
         [currentAnnotation.location display];
         [mapView deselectAnnotation:currentAnnotation animated:YES];
     }
 }
-
 
 @end

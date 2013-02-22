@@ -31,7 +31,8 @@ int badgeCount;
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
-    if (self) {
+    if (self)
+    {
         self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"36-toolbox"];
         
@@ -51,8 +52,8 @@ int badgeCount;
     return self;
 }
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {	
+- (void)viewDidLoad
+{
 	[super viewDidLoad];
     
     if([AppModel sharedAppModel].currentGame.allowTrading)
@@ -61,8 +62,6 @@ int badgeCount;
         self.tradeButton = tradeButtonAlloc;
         [self.navigationItem setRightBarButtonItem:self.tradeButton];
     }
-    
-	NSLog(@"Inventory View Loaded");
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -108,20 +107,21 @@ int badgeCount;
 	[self refresh];				
 }
 
--(void)tradeButtonTouched{
+-(void)tradeButtonTouched
+{
     InventoryTradeViewController *tradeVC = [[InventoryTradeViewController alloc] initWithNibName:@"InventoryTradeViewController" bundle:nil];
     tradeVC.delegate = self;
     tradeVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:tradeVC animated:YES];
 }
 
--(void)dismissTutorial{
+-(void)dismissTutorial
+{
 	[[RootViewController sharedRootViewController].tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindInventoryTab];
 }
 
 -(void)refresh
 {
-	NSLog(@"InventoryListViewController: Refresh Requested");
 	[[AppServices sharedAppServices] fetchPlayerInventory];
 	[self showLoadingIndicator];
 }
@@ -149,7 +149,12 @@ int badgeCount;
 
 -(void)refreshViewFromModel
 {
-	NSLog(@"InventoryListViewController: Refresh View from Model");
+    NSSortDescriptor *sortDescriptorName = [[NSSortDescriptor alloc] initWithKey:@"name"      ascending:YES];
+    NSSortDescriptor *sortDescriptorNew  = [[NSSortDescriptor alloc] initWithKey:@"hasViewed" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptorNew, sortDescriptorName, nil];
+    self.inventory = [AppModel sharedAppModel].currentGame.inventoryModel.currentInventory;
+    self.inventory = [self.inventory sortedArrayUsingDescriptors:sortDescriptors];
+    [inventoryTable reloadData];
     
     if (![AppModel sharedAppModel].hasSeenInventoryTabTutorial)
     {
@@ -160,13 +165,6 @@ int badgeCount;
         [AppModel sharedAppModel].hasSeenInventoryTabTutorial = YES;
         [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
     }
-	
-    NSSortDescriptor *sortDescriptorName = [[NSSortDescriptor alloc] initWithKey:@"name"      ascending:YES];
-    NSSortDescriptor *sortDescriptorNew  = [[NSSortDescriptor alloc] initWithKey:@"hasViewed" ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sortDescriptorNew, sortDescriptorName, nil];
-    self.inventory = [AppModel sharedAppModel].currentGame.inventoryModel.currentInventory;
-    self.inventory = [self.inventory sortedArrayUsingDescriptors:sortDescriptors];
-    [inventoryTable reloadData];
 }
 
 - (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier
@@ -227,21 +225,23 @@ int badgeCount;
 	return cell;
 }
 
-
 #pragma mark PickerViewDelegate selectors
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return 1;
 }
 
 // returns the # of rows in each component..
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
 	return [inventory count];
 }
 
 
 // Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
 	static NSString *CellIdentifier = @"Cell";
 	
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -341,16 +341,6 @@ int badgeCount;
 		if ([media.type isEqualToString: kMediaTypeVideo]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultVideoIcon.png"]];
     }
         
-    // if new item, show new banner
-   /* if (item.hasViewed == NO) {
-        UIImage *newBannerImage = [UIImage imageNamed:@"newBanner.png"];
-        [newBannerView updateViewWithNewImage:newBannerImage];
-        newBannerView.hidden = NO;
-    } else {
-        newBannerView.hidden = YES;   
-    }*/
-        
-    
 	return cell;
 }
 
@@ -363,7 +353,8 @@ int badgeCount;
     return s;
 }
 
-- (unsigned int) indexOf:(char) searchChar inString:(NSString *)searchString {
+- (unsigned int) indexOf:(char)searchChar inString:(NSString *)searchString
+{
 	NSRange searchRange;
 	searchRange.location = (unsigned int) searchChar;
 	searchRange.length = 1;
@@ -371,13 +362,13 @@ int badgeCount;
 	return foundRange.location;	
 }
 
-// Customize the height of each row
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
 	return 60;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {	
-    
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
 	Item *selectedItem = [inventory objectAtIndex:[indexPath row]];
 	NSLog(@"Displaying Detail View: %@", selectedItem.name);
     
@@ -392,16 +383,12 @@ int badgeCount;
     
 	//Put the view on the screen
 	[[self navigationController] pushViewController:itemDetailsViewController animated:YES];
-	
 }
 
 #pragma mark Memory Management
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-    // Release anything that's not essential, such as cached data
-}
-
-- (void)dealloc {
+- (void)dealloc
+{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
 @end

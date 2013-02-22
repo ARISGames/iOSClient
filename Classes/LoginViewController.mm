@@ -28,8 +28,8 @@
     return self;
 }
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
 
     [AppModel sharedAppModel].inGame = NO;
@@ -38,27 +38,18 @@
     [loginButton setTitle:NSLocalizedString(@"LoginKey",@"") forState:UIControlStateNormal];
     newAccountMessageLabel.text = NSLocalizedString(@"NewAccountMessageKey", @"");
     [newAccountButton setTitle:NSLocalizedString(@"CreateAccountKey",@"") forState:UIControlStateNormal];
-
-    NSLog(@"Login View Loaded");
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    if (textField == usernameField) {
+    if (textField == usernameField)
         [passwordField becomeFirstResponder];
-    }	
-    if(textField == passwordField) {
+    if(textField == passwordField)
         [self loginButtonTouched:self];
-    }
     return YES;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-    // Release anything that's not essential, such as cached data
-}
-
--(IBAction)loginButtonTouched: (id) sender {
-    NSLog(@"Login: Login Button Touched");
+-(IBAction)loginButtonTouched: (id)sender
+{
     [[RootViewController sharedRootViewController] attemptLoginWithUserName:usernameField.text andPassword:passwordField.text andGameId:0 inMuseumMode:false];
 
     [usernameField resignFirstResponder];

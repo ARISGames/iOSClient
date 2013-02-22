@@ -36,13 +36,6 @@ static float INITIAL_SPAN = 0.001;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    // Release any cached data, images, etc that aren't in use.
-}
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
@@ -63,8 +56,9 @@ static float INITIAL_SPAN = 0.001;
 	DDAnnotation *annotation;
     note = [[AppModel sharedAppModel] noteForNoteId:self.noteId playerListYesGameListNo:YES];
     if(note.latitude == 0 && note.longitude == 0)
-    annotation= [[DDAnnotation alloc] initWithCoordinate:[AppModel sharedAppModel].playerLocation.coordinate addressDictionary:nil];
-    else{
+        annotation= [[DDAnnotation alloc] initWithCoordinate:[AppModel sharedAppModel].playerLocation.coordinate addressDictionary:nil];
+    else
+    {
         CLLocationCoordinate2D coord;
         coord.latitude  = note.latitude;
         coord.longitude = note.longitude;
@@ -82,59 +76,50 @@ static float INITIAL_SPAN = 0.001;
     pickupButton.target = self; 
 	pickupButton.action = @selector(pickupButtonAction:);
 }
--(void)viewDidAppear:(BOOL)animated{
-    
-    if (![AppModel sharedAppModel].loggedIn || [AppModel sharedAppModel].currentGame.gameId==0) {
+
+-(void)viewDidAppear:(BOOL)animated
+{    
+    if (![AppModel sharedAppModel].loggedIn || [AppModel sharedAppModel].currentGame.gameId==0)
+    {
         NSLog(@"DropOnMapViewController: Player is not logged in, don't refresh");
         return;
     }
     	
 	[self refresh];		
 }
-- (void)viewWillDisappear:(BOOL)animated {
-	NSLog(@"DropOnMapViewController: Stopping Refresh Timer");
-	if (refreshTimer) {
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+	if (refreshTimer)
+    {
 		[refreshTimer invalidate];
 		refreshTimer = nil;
 	}
 }
-- (void) refresh {
-	if (mapView) {
-		NSLog(@"DropOnMapViewController: refresh requested");	
-   
-		//Zoom and Center
-		if (tracking) [self zoomAndCenterMap];
-        
-	} else {
-		NSLog(@"DropOnMapViewController: refresh requested but ignored, as mapview is nil");	
-		
-	}
+
+- (void)refresh
+{
+    if(mapView && tracking) [self zoomAndCenterMap];
 }
 
--(void) zoomAndCenterMap {
-	
+-(void) zoomAndCenterMap
+{
 	appSetNextRegionChange = YES;
 	
-	//Center the map on the player
 	MKCoordinateRegion region = mapView.region;
 	region.center = [AppModel sharedAppModel].playerLocation.coordinate;
 	region.span = MKCoordinateSpanMake(INITIAL_SPAN, INITIAL_SPAN);
     
 	[mapView setRegion:region animated:YES];
-    
 }
 
-- (void)viewDidUnload
+- (IBAction)changeMapType:(id)sender
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-- (IBAction)changeMapType: (id) sender {
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate playAudioAlert:@"ticktick" shouldVibrate:NO];
 	
-	switch (mapView.mapType) {
+	switch (mapView.mapType)
+    {
 		case MKMapTypeStandard:
 			mapView.mapType=MKMapTypeSatellite;
 			break;
@@ -146,28 +131,10 @@ static float INITIAL_SPAN = 0.001;
 			break;
 	}
 }
-/*
-- (IBAction)refreshButtonAction: (id) sender{
-	NSLog(@"GPSViewController: Refresh Button Touched");
-	
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate playAudioAlert:@"ticktick" shouldVibrate:NO];
-	
-	//resume auto centering
-	tracking = YES;
-    
-	//Force a location update
-	[appDelegate.myCLController.locationManager stopUpdatingLocation];
-	[appDelegate.myCLController.locationManager startUpdatingLocation];
-    
-	//Rerfresh all contents
-	[self refresh];
-}
-*/
--(void)pickupButtonAction:(id)sender{
+
+-(void)pickupButtonAction:(id)sender
+{
     [[self.delegate note] setDropped:NO];
-    //do server call to update dropped val of note
-    //do server call to deleteLocation of Note
         
     [note setDropped:NO];
     note.latitude = 0;

@@ -64,8 +64,6 @@
 
 -(void)refresh
 {
-	NSLog(@"GamePickerNearbyViewController: Refresh Requested");
-    
     //Calculate locational control value
     BOOL locational;
     if (locationalControl.selectedSegmentIndex == 0)

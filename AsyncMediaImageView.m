@@ -20,46 +20,45 @@
 @synthesize loaded;
 @synthesize delegate;
 
--(id)initWithFrame:(CGRect)aFrame andMedia:(Media *)aMedia{
+-(id)initWithFrame:(CGRect)aFrame andMedia:(Media *)aMedia
+{
     self.media = aMedia;
     return [self initWithFrame:aFrame andMediaId:[aMedia.uid intValue]];
 }
 
--(id)initWithFrame:(CGRect)aFrame andMediaId:(int)mediaId{        
-    if (self = [super initWithFrame:aFrame]) {
-        NSLog(@"AsyncMediaImageView: initWithFrame and MediaId");
+-(id)initWithFrame:(CGRect)aFrame andMediaId:(int)mediaId
+{
+    if (self = [super initWithFrame:aFrame])
+    {
         self.loaded = NO;
         self.contentMode = UIViewContentModeScaleAspectFit;
         self.clipsToBounds = YES;
-         NSLog(@"%@", media.type);
-        if(!media){
-            if(mediaId == 0) NSLog(@"mediaForID 0");
-        media = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
-        }
-        if([media.type isEqualToString:kMediaTypeImage]){
-            NSLog(@"AsyncMediaImageView: Load an Image");
+        
+        if(!media)
+            media = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
+        
+        if([media.type isEqualToString:kMediaTypeImage])
             [self loadImageFromMedia:media];
-        }
-        else if([media.type isEqualToString:kMediaTypeVideo] || [media.type isEqualToString:kMediaTypeAudio]){
-            
-            if (self.media.image) {
-                NSLog(@"AsyncMediaImageView: Loading from a cached image in media.image");
-
+        else if([media.type isEqualToString:kMediaTypeVideo] || [media.type isEqualToString:kMediaTypeAudio])
+        {
+            if (self.media.image)
+            {
                 [self updateViewWithNewImage:[UIImage imageWithData:self.media.image]];
                 self.loaded = YES;
             }
-            else if([media.type isEqualToString:kMediaTypeVideo]){
-                NSLog(@"AsyncMediaImageView: Loading a still from a movie");
-                
+            else if([media.type isEqualToString:kMediaTypeVideo])
+            {
                 NSNumber *thumbTime = [NSNumber numberWithFloat:1.0f];
                 NSArray *timeArray = [NSArray arrayWithObject:thumbTime];
                 
                 //Create movie player object
-                if(!self.mMoviePlayer){
+                if(!self.mMoviePlayer)
+                {
                     ARISMoviePlayerViewController *mMoviePlayerAlloc = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString: media.url]];
                     self.mMoviePlayer = mMoviePlayerAlloc;
                 }
-                else{
+                else
+                {
                   ARISMoviePlayerViewController *mMoviePlayerAlloc = [self.mMoviePlayer initWithContentURL:[NSURL URLWithString: media.url]]; 
                   self.mMoviePlayer = mMoviePlayerAlloc; 
                 }
@@ -73,8 +72,7 @@
                 [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
                 
                 //put a spinner in the view
-                UIActivityIndicatorView *spinner = 
-                [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+                UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
                 [spinner startAnimating];
                 
                 spinner.center = self.center;
@@ -82,8 +80,8 @@
                 
                 self.isLoading= YES;
             }
-            else if ([media.type isEqualToString:kMediaTypeAudio]){
-                NSLog(@"AsyncMediaImageView: Loading the standard audio image");
+            else if ([media.type isEqualToString:kMediaTypeAudio])
+            {
                 self.media.image = UIImageJPEGRepresentation([UIImage imageNamed:@"microphoneBackground.jpg"], 1.0);
                 [self updateViewWithNewImage:[UIImage imageNamed:@"microphoneBackground.jpg"]];
                 self.loaded = YES;
@@ -98,47 +96,33 @@
     NSLog(@"AsyncMediaImageView: movieThumbDidFinish");
     NSDictionary *userInfo = aNotification.userInfo;
     UIImage *videoThumb = [userInfo objectForKey:MPMoviePlayerThumbnailImageKey];
- //   NSError *e = [userInfo objectForKey:MPMoviePlayerThumbnailErrorKey];
- //   NSNumber *time = [userInfo objectForKey:MPMoviePlayerThumbnailTimeKey];
- //   MPMoviePlayerController *player = aNotification.object;
+
     UIImage *videoThumbSized = [videoThumb scaleToSize:self.frame.size];        
     self.media.image = UIImageJPEGRepresentation(videoThumbSized,1.0 ) ;     
     [self updateViewWithNewImage:[UIImage imageWithData:self.media.image]];
-            
- //   if (e) {
-        //NSLog(@"MPMoviePlayerThumbnail ERROR: %@",e);
-  //  }
-    
-    if (self.delegate && [self.delegate respondsToSelector:@selector(imageFinishedLoading)]){
+
+    if (self.delegate && [self.delegate respondsToSelector:@selector(imageFinishedLoading)])
         [delegate imageFinishedLoading];
-    }
     
     //end the UI indicator
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	
     //clear out the spinner
-    while ([[self subviews] count] > 0) {
+    while ([[self subviews] count] > 0)
 		[[[self subviews] lastObject] removeFromSuperview];
-    }
     
     self.loaded = YES;
     self.isLoading = NO;
 }
 
-
-- (void)loadImageFromMedia:(Media *) aMedia {
-    NSLog(@"AsyncImageView: loadImageFromMedia:%d",[aMedia.uid intValue]);
+- (void)loadImageFromMedia:(Media *) aMedia
+{
     self.media = aMedia;
     
     self.contentMode = UIViewContentModeScaleAspectFit;
     
-	if(self.isLoading){
-        NSLog(@"AsyncImageView: loadImageFromMedia: Already loading another request...returning");
-        // [self.connection release];
-        // [self.data release];
-        // clear out the spinner
-        return;
-    }
+	if(self.isLoading) return;
+
     self.isLoading = YES;
 
 	//check if the media already as the image, if so, just grab it
@@ -150,7 +134,8 @@
 		return;
 	}
 
-    if (!self.media.url) {
+    if (!self.media.url)
+    {
         NSLog(@"AsyncImageView: loadImageFromMedia with null url! Trying to load from server (mediaId:%d)",[self.media.uid intValue]);
         self.isLoading = NO;
 

@@ -12,7 +12,6 @@
 
 - (id) init
 {
-    NSLog(@"Initting Waiting VC");
 	if (self = [super init])
     {
         waitingIndicatorAlertView = [[WaitingIndicatorAlertView alloc] initWithDelegate:self];

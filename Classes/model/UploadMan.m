@@ -15,7 +15,8 @@
 @synthesize currentUploadCount;
 @synthesize maxUploadCount;
 
-- (void) deleteAllObjects: (NSString *) entityDescription  {
+- (void) deleteAllObjects: (NSString *) entityDescription
+{
     NSLog(@"UploadMan: Deleting all CoreData Objects");
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:entityDescription inManagedObjectContext:[AppModel sharedAppModel].managedObjectContext];
@@ -24,30 +25,22 @@
     NSError *error;
     NSArray *items = [[AppModel sharedAppModel].managedObjectContext executeFetchRequest:fetchRequest error:&error];
     
-    for (NSManagedObject *managedObject in items) {
+    for (NSManagedObject *managedObject in items)
         [[AppModel sharedAppModel].managedObjectContext deleteObject:managedObject];
-        NSLog(@"%@ object deleted",entityDescription);
-    }
-    if (![[AppModel sharedAppModel].managedObjectContext save:&error]) {
+
+    if (![[AppModel sharedAppModel].managedObjectContext save:&error])
         NSLog(@"Error deleting %@ - error:%@",entityDescription,error);
-    }
 }
 
 - (void) deleteUploadContentFromDictionaryFromNoteId:(int)noteId andFileURL:(NSURL *)fileURL
 {
-    //PHIL APPROVED
-    NSLog(@"UploadMan: Deleting Upload Content from local dictionary");
     [(NSMutableDictionary *)[uploadContentsForNotes objectForKey:[NSNumber numberWithInt: noteId]] removeObjectForKey:fileURL];
     if([[(NSMutableDictionary *)[uploadContentsForNotes objectForKey:[NSNumber numberWithInt: noteId]] allValues] count] == 0)
-    {
         [uploadContentsForNotes removeObjectForKey:[NSNumber numberWithInt: noteId]];
-    }
 }
 
 - (void) deleteUploadContentFromCDFromNoteId:(int)noteId andFileURL:(NSURL *)theFileURL
 {
-    //PHIL APPROVED
-    NSLog(@"UploadMan: Deleting Upload Content from CoreData");
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"UploadContent" inManagedObjectContext:self.context];
     [fetchRequest setEntity:entity];
@@ -55,28 +48,21 @@
     NSError *error;
     NSArray *uploadContents = [self.context executeFetchRequest:fetchRequest error:&error];
     
-    for (UploadContent *uploadContent in uploadContents) {
+    for (UploadContent *uploadContent in uploadContents)
+    {
         NSURL *fileURL = [uploadContent fileURL];
         if([[fileURL absoluteString] isEqualToString:[theFileURL absoluteString]])
-        {
             [self.context deleteObject:uploadContent];
-            NSLog(@"UploadContent object deleted");
-        }
     }
-    if (![self.context save:&error]) {
+    
+    if (![self.context save:&error])
         NSLog(@"Error deleting UploadContent - error:%@",error);
-    }
 }
 
 -(void)insertUploadContentIntoDictionary:(UploadContent *)uploadContent
 {
-    //PHIL APPROVED
-    NSLog(@"UploadMan: Inserting Upload Content into local dictionary");
-    if(!uploadContent.fileURL)
-    {    
-        NSLog(@"UploadMan: insertUploadContentIntoDictionary returning early becasue fileURL was nil");
-        return;
-    }
+    if(!uploadContent.fileURL) return;
+
     if(![self.uploadContentsForNotes objectForKey:[NSNumber numberWithInt:[uploadContent noteId]]])
     {
         NSMutableDictionary *contentsForNote = [[NSMutableDictionary alloc] initWithCapacity:1];
@@ -87,13 +73,10 @@
     {
         [(NSMutableDictionary *)[self.uploadContentsForNotes objectForKey:[NSNumber numberWithInt:[uploadContent noteId]]] setObject:uploadContent forKey:uploadContent.fileURL];
     }
-    NSLog(@"UploadMan: adding contentForKey:%@ to noteForKey:%d",uploadContent.fileURL,uploadContent.noteId);
 }
 
 -(UploadContent *)saveUploadContentToCDWithTitle:(NSString *)title andText:(NSString *)text andType:(NSString *)type andNoteId:(int)noteId andFileURL:(NSURL *)fileURL inState:(NSString *)state
 {    
-    //PHIL APPROVED
-    NSLog(@"UploadMan: Saving Upload Content to CoreData");
     [self deleteUploadContentFromDictionaryFromNoteId:noteId andFileURL:fileURL];
     [self deleteUploadContentFromCDFromNoteId:noteId andFileURL:fileURL]; //Prevent Duplicates
     NSError *error;
@@ -108,23 +91,20 @@
     uploadContentCD.fileURL = fileURL;
     uploadContentCD.state = state;
     
-    if (![context save:&error]) {
+    if (![context save:&error])
         NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
-    }
+
     return uploadContentCD;
 }
 
 -(UploadContent *)savePlayerPicUploadContentToCDWithType:(NSString *)type andFileURL:(NSURL *)fileURL inState:(NSString *)state
 {
-    //PHIL APPROVED
-    NSLog(@"UploadMan: Saving Upload Content to CoreData");
     [self deleteUploadContentFromDictionaryFromNoteId:-1 andFileURL:fileURL];
     [self deleteUploadContentFromCDFromNoteId:-1 andFileURL:fileURL]; //Prevent Duplicates
     NSError *error;
     UploadContent *uploadContentCD = [NSEntityDescription
                                       insertNewObjectForEntityForName:@"UploadContent"
                                       inManagedObjectContext:self.context];
-    
     uploadContentCD.text = @"";
     uploadContentCD.title = @"";
     uploadContentCD.type = type;
@@ -132,16 +112,14 @@
     uploadContentCD.fileURL = fileURL;
     uploadContentCD.state = state;
     
-    if (![context save:&error]) {
+    if (![context save:&error])
         NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
-    }
+
     return uploadContentCD;
 }
 
 -(void)getSavedUploadContents
 {
-    //PHIL APPROVED
-    NSLog(@"UploadMan: Getting Upload Contents from CoreData");
     NSError *error;
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"UploadContent" 
@@ -159,8 +137,6 @@
 #pragma mark Header Implementations
 - (void) uploadContentForNoteId:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSURL *)aUrl
 {    
-    //PHIL APPROVED
-    NSLog(@"UploadMan: New UploadContent- NoteId:%d, Title:%@, Text:%@, Type:%@, URL:%@", noteId, title, text, type, aUrl);
     BOOL youreOnWifi = YES;
     UploadContent *uc = [[uploadContentsForNotes objectForKey:[NSNumber numberWithInt:noteId]] objectForKey:aUrl];
     Reachability *wifiReach = [Reachability reachabilityForLocalWiFi];
@@ -169,14 +145,15 @@
         youreOnWifi = NO;
     NSData *fileData = [NSData dataWithContentsOfURL:aUrl];
     NSUInteger bytes = fileData.length;
-    if (bytes>500000 && !youreOnWifi && !uc) {
+    if (bytes>500000 && !youreOnWifi && !uc)
+    {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"UploadManDelayedKey", @"") message:NSLocalizedString(@"UploadManDelayedMessageKey", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
         [alert show];
         uc = [self saveUploadContentToCDWithTitle:title andText:text andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateFAILED"];
         [self insertUploadContentIntoDictionary:uc];
-        
     }
-    else{
+    else
+    {
         if(self.currentUploadCount < self.maxUploadCount)
         {
             uc = [self saveUploadContentToCDWithTitle:title andText:text andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateUPLOADING"];
@@ -192,7 +169,8 @@
                 [[AppServices sharedAppServices] uploadContentToNoteWithFileURL:aUrl name:nil noteId:noteId type:type]; 
             }
         }
-        else {
+        else
+        {
             uc = [self saveUploadContentToCDWithTitle:title andText:text andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateQUEUED"];
             [self insertUploadContentIntoDictionary:uc];
         }
@@ -201,8 +179,6 @@
 
 - (void) uploadPlayerPicContentWithFileURL:(NSURL *)aUrl
 {
-    //PHIL APPROVED
-    NSLog(@"UploadMan: New (PlayerPic)UploadContent- URL:%@", aUrl);
     BOOL youreOnWifi = YES;
     UploadContent *uc = [[uploadContentsForNotes objectForKey:[NSNumber numberWithInt:-1]] objectForKey:aUrl];
     Reachability *wifiReach = [Reachability reachabilityForLocalWiFi];
@@ -236,12 +212,9 @@
     }
 }
 
-
 - (void) checkForFailedContent
-// check if any user content has failed to upload.  If yes, alart user and ask  if they want to upload it now.
 {
     Boolean bContentFailed = NO;
-    NSLog(@"UploadMan: Upload Content failed uploading");
     NSArray *noteIdKeyArray = [self.uploadContentsForNotes allKeys];
     for (int i=0; i < [noteIdKeyArray count]; i++) {
         NSArray *contentIdKeyArray = [[self.uploadContentsForNotes objectForKey:[noteIdKeyArray objectAtIndex:i]] allKeys];
@@ -253,54 +226,39 @@
         }
     }
     
-    if (bContentFailed == YES) {
+    if (bContentFailed == YES)
+    {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"UploadManRetryUploadTitleKey", @"")
-                                                message:NSLocalizedString(@"UploadManRetryUploadTextKey", @"")
+                                                        message:NSLocalizedString(@"UploadManRetryUploadTextKey", @"")
 													   delegate:self
 											  cancelButtonTitle:NSLocalizedString(@"CancelKey", @"")
 											  otherButtonTitles:NSLocalizedString(@"OkKey", @""), nil];
         [alert show];
-        
     }
-    
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
-    if (buttonIndex != [alertView cancelButtonIndex]) {
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex != [alertView cancelButtonIndex])
         [self uploadAllFailedContent];
-    }
 }
 
 - (void) uploadAllFailedContent
-// upload any content that has previously failed.
 {
- 
-    NSLog(@"UploadMan: Upload Content failed uploading");
     NSArray *noteIdKeyArray = [self.uploadContentsForNotes allKeys];
     for (int i=0; i < [noteIdKeyArray count]; i++) {
         NSArray *contentIdKeyArray = [[self.uploadContentsForNotes objectForKey:[noteIdKeyArray objectAtIndex:i]] allKeys];
         for (int j=0; j < [contentIdKeyArray count]; j++) {
             UploadContent * uc = [[self.uploadContentsForNotes objectForKey:[ noteIdKeyArray objectAtIndex:i]] objectForKey:[ contentIdKeyArray objectAtIndex:j]];
-            if (uc.state == @"uploadStateFAILED") {
-                NSLog(@"Retrying Upload forNoteId:%d withTitle:%@ withText:%@ withType:%@ withFileURL:%@",uc.noteId,uc.title,uc.text,uc.type,uc.fileURL);
-            
-                //[self uploadContentForNoteId:uc.noteId withTitle:uc.title withText: uc.text withType:uc.type withFileURL:uc.fileURL];
+            if ([uc.state isEqualToString:@"uploadStateFAILED"])
                 [self uploadContentForNoteId:uc.getNoteId withTitle:uc.getTitle withText:uc.getText withType:uc.getType withFileURL:[NSURL URLWithString:uc.getMedia.url]];
-                
-                
-            }
-
         }
     }
-    
 }
 
 
 - (void) contentFinishedUploading
 {
-    //PHIL APPROVED
-    NSLog(@"UploadMan: Upload Content finished uploading");
     self.currentUploadCount--;
     NSArray *noteIdKeyArray = [self.uploadContentsForNotes allKeys];
     for (int i=0; i < [noteIdKeyArray count]; i++) {
@@ -318,7 +276,6 @@
 
 - (void) contentFailedUploading
 {
-    NSLog(@"UploadMan: Upload Content failed uploading");
     NSArray *noteIdKeyArray = [self.uploadContentsForNotes allKeys];
     for (int i=0; i < [noteIdKeyArray count]; i++) {
         NSArray *contentIdKeyArray = [[self.uploadContentsForNotes objectForKey:[noteIdKeyArray objectAtIndex:i]] allKeys];
@@ -335,32 +292,27 @@
 
 - (void) deleteContentFromNoteId:(int)noteId andFileURL:(NSURL *)fileURL
 {
-    //PHIL APPROVED
-    NSLog(@"UploadMan: Deleting Upload Content from note");
     [self deleteUploadContentFromDictionaryFromNoteId:noteId andFileURL:fileURL];
     [self deleteUploadContentFromCDFromNoteId:noteId andFileURL:fileURL];
     
-    // For error information
     NSError *error;
     
     // Create file manager
     NSFileManager *fileMgr = [NSFileManager defaultManager];
     if ([fileMgr removeItemAtPath:[fileURL relativePath] error:&error] != YES)
         NSLog(@"Unable to delete file: %@", [error localizedDescription]);
-    else
-        NSLog(@"File Successfully Deleted");
 }
 
 - (id)init
 {
-    NSLog(@"UploadMan: init");
     self = [super init];
-    if (self) {
+    if (self)
+    {
         currentUploadCount = 0;
         maxUploadCount = 1;
         uploadContentsForNotes = [[NSMutableDictionary alloc] initWithCapacity:5];
         context = [AppModel sharedAppModel].managedObjectContext;
-        [self deleteAllObjects:@"UploadContent"]; //UNCOMMENT TO DELETE ALL CORE DATA STUFF
+        //[self deleteAllObjects:@"UploadContent"]; //UNCOMMENT TO DELETE ALL CORE DATA STUFF
         [self getSavedUploadContents];
     }
     return self;

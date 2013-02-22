@@ -23,7 +23,8 @@ BOOL tagFilter;
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
-    if (self) {
+    if (self)
+    {
         self.title = NSLocalizedString(@"NotebookTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"96-book"]; 
         noteList = [[NSMutableArray alloc] initWithCapacity:10];
@@ -34,15 +35,15 @@ BOOL tagFilter;
         headerTitleList = [[NSMutableArray alloc] initWithCapacity:10];
         headerTitleGameList = [[NSMutableArray alloc] initWithCapacity:10];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:@"NoteDeleted" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNoteListReady" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh)                name:@"NoteDeleted" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel)   name:@"NewNoteListReady" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedNoteList" object:nil];
     }
     return self;
 }
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
     UIImage *barButtonImage = [UIImage imageNamed:@"14-gear"];
@@ -54,19 +55,18 @@ BOOL tagFilter;
     [self.toolBar setFrame:CGRectMake(0, 0, 320, 44)];
     
     [self.noteTable setFrame:CGRectMake(0, 44, 320, 324)];
-    //[noteTable reloadData];
     filSelected = 0;
     sortSelected = 0;
-    //[self refresh];
-    
-	NSLog(@"NotebookViewController: View Loaded");
 }
--(void)displayMenu{
+
+-(void)displayMenu
+{
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
     
     menuDown = !menuDown;
-    if(menuDown){
+    if(menuDown)
+    {
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
         [UIView setAnimationDuration:.2];
@@ -77,7 +77,8 @@ BOOL tagFilter;
         [self.navigationItem.rightBarButtonItem setStyle:UIBarButtonItemStyleDone];
         [UIView commitAnimations];
     }
-    else{
+    else
+    {
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
         [UIView setAnimationDuration:.2];
@@ -90,17 +91,18 @@ BOOL tagFilter;
     }
 }
 
--(void)filterButtonTouchAction:(id)sender{
-    
+-(void)filterButtonTouchAction:(id)sender
+{    
     [self refresh];
 }
 
--(void)sortButtonTouchAction:(id)sender{
-    if([sender isKindOfClass:[UISegmentedControl class]]){
+-(void)sortButtonTouchAction:(id)sender
+{
+    if([sender isKindOfClass:[UISegmentedControl class]])
         [sender setTag:[(UISegmentedControl *)sender selectedSegmentIndex]];
-    }
     
-    switch ([sender tag]) {
+    switch ([sender tag])
+    {
         case 0:
         {
             NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"noteId" ascending:NO];
@@ -142,18 +144,16 @@ BOOL tagFilter;
         default:
             break;
     }
-    
     [noteTable reloadData];
-    
 }
-- (void)viewDidAppear:(BOOL)animated {
-	NSLog(@"NotebookViewController: View Did Appear");	
+
+- (void)viewDidAppear:(BOOL)animated
+{
     [self refresh];
 }
 
--(void)refresh {
-	NSLog(@"NotebookViewController: Refresh Requested");
-    
+-(void)refresh
+{
     if(filterControl.selectedSegmentIndex == 0)
         [[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:YES];
     else
@@ -162,28 +162,19 @@ BOOL tagFilter;
     [[AppServices sharedAppServices] fetchGameNoteTagsAsynchronously:YES];
     [self refreshViewFromModel];
     [noteTable reloadData];
-    //[self showLoadingIndicator];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-    // Release anything that's not essential, such as cached data
 }
 
 #pragma mark custom methods, logic
--(void)showLoadingIndicator{
-	UIActivityIndicatorView *activityIndicator = 
-	[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+-(void)showLoadingIndicator
+{
+	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
 	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
 	[[self navigationItem] setRightBarButtonItem:barButton];
 	[activityIndicator startAnimating];    
 }
 
--(void) viewWillAppear:(BOOL)animated{
-}
-
--(void)removeLoadingIndicator{
-    //[[self navigationItem] setRightBarButtonItem:nil];
+-(void)removeLoadingIndicator
+{
     [noteTable reloadData];
 }
 
@@ -522,14 +513,14 @@ BOOL tagFilter;
     return UITableViewCellEditingStyleNone;
 }
 
--(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [[AppServices sharedAppServices]deleteNoteWithNoteId:[(Note *)[self.noteList objectAtIndex:indexPath.row] noteId]];
     if([AppModel sharedAppModel].isGameNoteList)
         [[AppModel sharedAppModel].gameNoteList removeObjectForKey:[NSNumber numberWithInt:[(Note *)[self.noteList objectAtIndex:indexPath.row] noteId]]];
     else
         [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:[(Note *)[self.noteList objectAtIndex:indexPath.row] noteId]]];
     [self refreshViewFromModel];
-    
 }
 
 - (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {

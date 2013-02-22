@@ -63,8 +63,6 @@
 
 -(void)refresh
 {
-	NSLog(@"GamePickerRecentViewController: Refresh Requested");
-    
     //register for notifications
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewRecentGameListReady" object:nil];
     

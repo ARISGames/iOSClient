@@ -29,7 +29,8 @@
     }
 }
 
--(void)deleteMediaFromCDWithId:(int)mediaId{
+-(void)deleteMediaFromCDWithId:(int)mediaId
+{
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Media" inManagedObjectContext:[AppModel sharedAppModel].managedObjectContext];
     [fetchRequest setEntity:entity];
@@ -37,7 +38,8 @@
     NSError *error;
     NSArray *items = [[AppModel sharedAppModel].managedObjectContext executeFetchRequest:fetchRequest error:&error];
     
-    for (NSManagedObject *managedObject in items) {
+    for (NSManagedObject *managedObject in items)
+    {
         int objectId = [[(Media *)managedObject uid]intValue];
         if(objectId == mediaId)
         {
@@ -45,13 +47,12 @@
             NSLog(@"Media object deleted");
         }
     }
-    if (![[AppModel sharedAppModel].managedObjectContext save:&error]) {
+    if (![[AppModel sharedAppModel].managedObjectContext save:&error])
         NSLog(@"Error deleting Media - error:%@",error);
-    }
 }
 
--(Media *)mediaForMediaId:(int)uid{
-    NSLog(@"MediaCache:getSavedMediaWithId: %d",uid);
+-(Media *)mediaForMediaId:(int)uid
+{
     NSError *error;
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -78,13 +79,15 @@
     return media;
 }
 
--(Media *)addMediaToCache:(int) uid{
+- (Media *) addMediaToCache:(int)uid
+{
     Media *media = [NSEntityDescription insertNewObjectForEntityForName:@"Media" inManagedObjectContext:context];
     media.uid = [NSNumber numberWithInt: uid];
     return media;
 }
 
--(NSArray *)mediaForPredicate:(NSPredicate *)predicate{
+-(NSArray *)mediaForPredicate:(NSPredicate *)predicate
+{
     NSError *error;
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Media"
@@ -96,7 +99,8 @@
     return allMedia;
 }
 
--(Media *)mediaForUrl:(NSURL *)url{
+-(Media *)mediaForUrl:(NSURL *)url
+{
     NSLog(@"MediaCache:mediaForUrl:%@ - NOTE: DON'T USE THIS FUNCTION UNLESS YOU HAVE NO OTHER OPTION. Searching through cache by url is slow as heck. Search by mediaId.",url);
     
     NSError *error;
@@ -126,20 +130,12 @@
 - (id)init
 {
     self = [super init];
-    if (self) {
+    if (self)
+    {
         mediaCount = 0;
         maxMediaCount = 100;
         self.context = [AppModel sharedAppModel].managedObjectContext;
-        // [self clearCache];
-        /*NSArray *allStores = [[AppModel sharedAppModel].persistentStoreCoordinator persistentStores];
-         unsigned long long totalBytes = 0;
-         NSFileManager *fileManager = [NSFileManager defaultManager];
-         for (NSPersistentStore *store in allStores) {
-         if (![store.URL isFileURL]) continue; // only file URLs are compatible with NSFileManager
-         NSString *path = [[store URL] path];
-         // NSDictionary has a category to assist with NSFileManager attributes
-         totalBytes += [[fileManager attributesOfItemAtPath:path error:NULL] fileSize];
-         }*/
+
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
         NSString *persistentStorePath = [documentsDirectory stringByAppendingPathComponent:@"UploadContent.sqlite"];
@@ -154,9 +150,7 @@
         NSLog(@"Free space in MB: %f",mBLeft);
         float gBLeft = [[fileSystemAttributes objectForKey:NSFileSystemFreeSize] floatValue]/(float)1073741824;
         NSLog(@"Free space in GB: %f",gBLeft);
-        if (mBLeft <= 100) {
-            [self clearCache];
-        }
+        if (mBLeft <= 100) [self clearCache];
     }
     return self;
 }

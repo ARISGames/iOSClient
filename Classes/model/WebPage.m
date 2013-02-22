@@ -11,10 +11,13 @@
 #import "AppModel.h"
 #import "webpageViewController.h"
 
-
 @implementation WebPage
 @synthesize iconMediaId,webPageId,name,url,kind,locationId;
--(nearbyObjectKind) kind { return NearbyObjectWebPage; }
+
+-(nearbyObjectKind) kind
+{
+    return NearbyObjectWebPage;
+}
 
 - (WebPage *) init {
     self = [super init];
@@ -25,18 +28,12 @@
     return self;	
 }
 
-
-
-- (void) display{
-	NSLog(@"WebPage: Display Self Requested");
-    
+- (void) display
+{
 	webpageViewController *webPageViewController = [[webpageViewController alloc] initWithNibName:@"webpageViewController" bundle: [NSBundle mainBundle]];
 	webPageViewController.webPage = self;
 	[[RootViewController sharedRootViewController] displayNearbyObjectView:webPageViewController];
 }
-
-
-
 
 - (NSString *) name {
     return self.name;
