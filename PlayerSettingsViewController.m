@@ -65,6 +65,12 @@
     return YES;
 }
 
+//Makes keyboard disappear on touch outside of keyboard or textfield
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [playerNameField resignFirstResponder];
+}
+
 -(IBAction)saveButtonTouched:(id)sender
 {
     if([self.playerNameField.text isEqualToString:@""] || [AppModel sharedAppModel].playerMediaId == 0)

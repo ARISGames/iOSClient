@@ -48,8 +48,21 @@
     return YES;
 }
 
--(IBAction)loginButtonTouched: (id)sender
+//Makes keyboard disappear on touch outside of keyboard or textfield
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    [usernameField resignFirstResponder];
+    [passwordField resignFirstResponder];
+}
+
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
+    // Release anything that's not essential, such as cached data
+}
+
+-(IBAction)loginButtonTouched: (id) sender {
+    NSLog(@"Login: Login Button Touched");
     [[RootViewController sharedRootViewController] attemptLoginWithUserName:usernameField.text andPassword:passwordField.text andGameId:0 inMuseumMode:false];
 
     [usernameField resignFirstResponder];
