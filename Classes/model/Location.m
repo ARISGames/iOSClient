@@ -91,11 +91,13 @@
 	
 }
 
-- (void)display {
+- (void)display
+{
 	[self.object display];
 }
 
-- (BOOL)compareTo: (Location *)other {
+- (BOOL)compareTo:(Location *)other
+{
     return     [self.name isEqualToString:other.name] &&
     self.locationId                    == other.locationId &&
     self.iconMediaId                   == other.iconMediaId &&

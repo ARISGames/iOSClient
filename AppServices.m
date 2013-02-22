@@ -479,7 +479,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
      @selector(parseStartOverFromJSON:)];
 }
 
-- (void)updateServerPickupItem: (int)itemId fromLocation: (int)locationId qty:(int)qty{
+- (void)updateServerPickupItem:(int)itemId fromLocation:(int)locationId qty:(int)qty
+{
 	NSLog(@"Model: Informing the Server the player picked up item");
 	
 	//Call server service
@@ -489,6 +490,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 						  [NSString stringWithFormat:@"%d",locationId],
 						  [NSString stringWithFormat:@"%d",qty],
 						  nil];
+    
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
                                                             andServiceName:@"players"
                                                              andMethodName:@"pickupItemFromLocation"
@@ -497,7 +499,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After
 }
 
-- (void)updateServerDropItemHere: (int)itemId qty:(int)qty{
+- (void)updateServerDropItemHere:(int)itemId qty:(int)qty
+{
 	NSLog(@"Model: Informing the Server the player dropped an item");
 	
 	//Call server service
@@ -684,9 +687,9 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)]; //This is a cheat to make sure that the fetch Happens After
 }
 
--(int)addCommentToNoteWithId:(int)noteId andTitle:(NSString *)title{
+-(int)addCommentToNoteWithId:(int)noteId andTitle:(NSString *)title
+{
     NSLog(@"AppModel: Adding Comment To Note");
-	
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects:
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
@@ -702,7 +705,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	JSONResult *jsonResult = [jsonConnection performSynchronousRequest];
     [self fetchAllPlayerLists];
 	
-	if (!jsonResult) {
+	if (!jsonResult)
+    {
 		NSLog(@"\tFailed.");
 		return 0;
 	}
@@ -2304,7 +2308,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     NSLog(@"AppModel: parseGameListFromJSON Complete, sending notification");
     
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewRecentGameListReady" object:nil]];
-    
 }
 
 - (void)saveGameComment:(NSString*)comment game:(int)gameId starRating:(int)rating{
@@ -2400,7 +2403,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [self performSelector:@selector(startCachingMedia:) withObject:jsonResult afterDelay:.1];
 }
 
--(void)parseGameMediaListFromJSON: (JSONResult *)jsonResult{
+-(void)parseGameMediaListFromJSON: (JSONResult *)jsonResult
+{
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
     [self performSelector:@selector(startCachingMedia:) withObject:jsonResult afterDelay:.1];
 }
@@ -2460,7 +2464,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
--(void)parseGameItemListFromJSON: (JSONResult *)jsonResult{
+-(void)parseGameItemListFromJSON:(JSONResult *)jsonResult
+{
 	NSArray *itemListArray = (NSArray *)jsonResult.data;
     
 	NSMutableDictionary *tempItemList = [[NSMutableDictionary alloc] init];
@@ -2476,7 +2481,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
-
 
 -(void)parseGameNodeListFromJSON: (JSONResult *)jsonResult
 {
@@ -2512,7 +2516,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
--(void)parseGameNpcListFromJSON: (JSONResult *)jsonResult{
+-(void)parseGameNpcListFromJSON:(JSONResult *)jsonResult
+{
 	NSArray *npcListArray = (NSArray *)jsonResult.data;
 	
 	NSMutableDictionary *tempNpcList = [[NSMutableDictionary alloc] init];
@@ -2529,7 +2534,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
--(void)parseGameWebPageListFromJSON: (JSONResult *)jsonResult{
+- (void) parseGameWebPageListFromJSON:(JSONResult *)jsonResult
+{
 	NSArray *webpageListArray = (NSArray *)jsonResult.data;
 	
 	NSMutableDictionary *tempWebPageList = [[NSMutableDictionary alloc] init];
@@ -2545,7 +2551,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
--(void)parseGamePanoramicListFromJSON: (JSONResult *)jsonResult{
+- (void) parseGamePanoramicListFromJSON:(JSONResult *)jsonResult
+{
 	NSArray *panListArray = (NSArray *)jsonResult.data;
 	
 	NSMutableDictionary *tempPanoramicList = [[NSMutableDictionary alloc] init];
@@ -2595,7 +2602,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         item.name        = [self validObjectForKey:@"name"              inDictionary:itemDictionary];
         item.description = [self validObjectForKey:@"description"       inDictionary:itemDictionary];
 
-		NSLog(@"Model: Adding Item: %@", item.name);
         if(item.isAttribute)[tempAttributes addObject:item];
         else                [tempInventory  addObject:item];
 	}
@@ -2608,7 +2614,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
--(void)parseQRCodeObjectFromJSON: (JSONResult *)jsonResult {
+-(void)parseQRCodeObjectFromJSON:(JSONResult *)jsonResult
+{
     NSLog(@"ParseQRCodeObjectFromJSON: Coolio!");
     [[RootViewController sharedRootViewController] removeWaitingIndicator];
     

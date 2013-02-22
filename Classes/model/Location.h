@@ -10,7 +10,8 @@
 #import <CoreLocation/CoreLocation.h>
 #import "NearbyObjectProtocol.h"
 
-@interface Location : NSObject <NearbyObjectProtocol> {
+@interface Location : NSObject <NearbyObjectProtocol>
+{
 	int iconMediaId;
 	NSString *name;
 	CLLocation *location;
@@ -48,7 +49,8 @@
 @property(readwrite) bool wiggle;
 @property(readwrite) int deleteWhenViewed;
 @property(nonatomic, strong)id delegate;
+
 - (void) display;
-- (BOOL)compareTo: (Location *)other;
+- (BOOL)compareTo:(Location *)other;
 
 @end

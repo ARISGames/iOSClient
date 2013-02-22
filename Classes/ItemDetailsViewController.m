@@ -330,7 +330,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         
 		//Determine if this item can be picked up
 		Item *itemInInventory  = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:item.itemId];
-		if (itemInInventory.qty + quantity > item.maxQty && item.maxQty != -1)
+		if(itemInInventory && itemInInventory.qty + quantity > item.maxQty && item.maxQty != -1)
         {
 			[appDelegate playAudioAlert:@"error" shouldVibrate:YES];
 			
