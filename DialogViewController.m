@@ -458,9 +458,8 @@ NSString *const kDialogHtmlTemplate =
             else if([cachedScene.exitToType isEqualToString:@"webpage"]){
                 webpageViewController *webPageViewController = [[webpageViewController alloc] initWithNibName:@"webpageViewController" bundle: [NSBundle mainBundle]];
                 webPageViewController.webPage = [[AppModel sharedAppModel] webPageForWebPageID:[cachedScene.exitToTabWithTitle intValue]];
-                webPageViewController.delegate = self;
+            //    webPageViewController.delegate = self; if it is the delegate, then it uses the wrong method to close, if there is a good reason for this to be here then put it back : Jacob Hanshaw 2/9/13
                 [[RootViewController sharedRootViewController] displayNearbyObjectView:webPageViewController];
-                
             }
             else if([cachedScene.exitToType isEqualToString:@"item"]){
                 ItemDetailsViewController *itemVC = [[ItemDetailsViewController alloc]initWithNibName:@"ItemDetailsView" bundle:[NSBundle mainBundle]];
