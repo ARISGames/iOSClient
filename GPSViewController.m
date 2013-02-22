@@ -496,7 +496,8 @@ NSMutableArray *locationsToRemove;
 
 	NSMutableArray *buttonTitles = [NSMutableArray arrayWithCapacity:1];
 	int cancelButtonIndex = 0;
-	if (location.allowsQuickTravel)	{
+	if (location.allowsQuickTravel)
+    {
 		[buttonTitles addObject: NSLocalizedString(@"GPSViewQuickTravelKey", @"")];
 		cancelButtonIndex = 1;
 	}

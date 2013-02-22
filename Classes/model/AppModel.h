@@ -195,15 +195,14 @@
 - (void)saveCOREData;
 - (void)initUserDefaults;
 - (void)clearGameLists;
-- (void)modifyQuantity: (int)quantityModifier forLocationId: (int)locationId;
-- (void)removeItemFromInventory: (Item*)item qtyToRemove:(int)qty;
+- (void)removeItemFromInventory:(Item*)item qtyToRemove:(int)qty;
 
 - (Media *)mediaForMediaId:(int)mId;
-- (Item *)itemForItemId: (int)mId;
-- (Node *)nodeForNodeId: (int)mId;
-- (Npc *)npcForNpcId: (int)mId;
-- (WebPage *)webPageForWebPageID: (int)mId;
-- (Panoramic *)panoramicForPanoramicId: (int)mId;
+- (Item *)itemForItemId:(int)mId;
+- (Node *)nodeForNodeId:(int)mId;
+- (Npc *)npcForNpcId:(int)mId;
+- (WebPage *)webPageForWebPageID:(int)mId;
+- (Panoramic *)panoramicForPanoramicId:(int)mId;
 - (Note *)noteForNoteId:(int)mId playerListYesGameListNo:(BOOL)playerorGame;
 
 @end

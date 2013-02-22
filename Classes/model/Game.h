@@ -103,5 +103,4 @@
 - (NSComparisonResult)compareCalculatedScore:(Game*)otherGame;
 - (NSComparisonResult)compareTitle:(Game*)otherGame;
 
-
 @end

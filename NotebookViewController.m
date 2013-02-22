@@ -13,6 +13,7 @@
 #import "NoteCell.h"
 #import "Note.h"
 #import "ARISAppDelegate.h"
+
 BOOL menuDown;
 int filSelected;
 int sortSelected;
@@ -27,12 +28,12 @@ BOOL tagFilter;
     {
         self.title = NSLocalizedString(@"NotebookTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"96-book"]; 
-        noteList = [[NSMutableArray alloc] initWithCapacity:10];
-        gameNoteList = [[NSMutableArray alloc] initWithCapacity:10];
-        tagList = [[NSMutableArray alloc] initWithCapacity:10];
-        tagNoteList = [[NSMutableArray alloc] initWithCapacity:10];
-        tagGameNoteList = [[NSMutableArray alloc] initWithCapacity:10];
-        headerTitleList = [[NSMutableArray alloc] initWithCapacity:10];
+        noteList            = [[NSMutableArray alloc] initWithCapacity:10];
+        gameNoteList        = [[NSMutableArray alloc] initWithCapacity:10];
+        tagList             = [[NSMutableArray alloc] initWithCapacity:10];
+        tagNoteList         = [[NSMutableArray alloc] initWithCapacity:10];
+        tagGameNoteList     = [[NSMutableArray alloc] initWithCapacity:10];
+        headerTitleList     = [[NSMutableArray alloc] initWithCapacity:10];
         headerTitleGameList = [[NSMutableArray alloc] initWithCapacity:10];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh)                name:@"NoteDeleted" object:nil];
@@ -178,16 +179,16 @@ BOOL tagFilter;
     [noteTable reloadData];
 }
 
--(void)barButtonTouchAction:(id)sender{
+-(void)barButtonTouchAction:(id)sender
+{
     NoteEditorViewController *noteVC = [[NoteEditorViewController alloc] initWithNibName:@"NoteEditorViewController" bundle:nil];
     noteVC.startWithView = [sender tag] + 1;
     noteVC.delegate = self;
     [self.navigationController pushViewController:noteVC animated:NO];
 }
 
-- (void)refreshViewFromModel {
-	NSLog(@"NotebookViewController: Refresh View from Model");
-    
+- (void)refreshViewFromModel
+{    
 	noteList = [[[AppModel sharedAppModel].playerNoteList allValues] mutableCopy];
     gameNoteList = [[[AppModel sharedAppModel].gameNoteList allValues] mutableCopy];
     for(int i = 0; i < [gameNoteList count]; i++)
@@ -199,35 +200,36 @@ BOOL tagFilter;
         }
     }
     
-    if([AppModel sharedAppModel].gameTagList){
+    if([AppModel sharedAppModel].gameTagList)
+    {
         self.tagList = [AppModel sharedAppModel].gameTagList;
         NSSortDescriptor *sortDescriptor;
-        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"tagName"
-                                                      ascending:YES];
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"tagName" ascending:YES];
         NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
         
         tagList = [[tagList sortedArrayUsingDescriptors:sortDescriptors] mutableCopy];
-        [tagGameNoteList removeAllObjects];
+        [tagGameNoteList     removeAllObjects];
         [headerTitleGameList removeAllObjects];
         
-        for(int i = 0; i < [self.tagList count];i++){
+        for(int i = 0; i < [self.tagList count]; i++)
+        {
             NSString *tagName = [[self.tagList objectAtIndex:i] tagName];
             NSMutableArray *tempTagList = [[NSMutableArray alloc]initWithCapacity:5];
-            for(int x = 0; x < [self.gameNoteList count]; x++){
-                
-                for(int y = 0; y < [[[self.gameNoteList objectAtIndex:x] tags] count]; y ++){
-                    if ([[[[[self.gameNoteList objectAtIndex:x] tags] objectAtIndex:y] tagName] isEqualToString:tagName]) {
+            for(int x = 0; x < [self.gameNoteList count]; x++)
+            {                
+                for(int y = 0; y < [[[self.gameNoteList objectAtIndex:x] tags] count]; y ++)
+                {
+                    if ([[[[[self.gameNoteList objectAtIndex:x] tags] objectAtIndex:y] tagName] isEqualToString:tagName])
+                    {
                         Note *tempNote;
                         tempNote = [self.gameNoteList objectAtIndex:x];
                         [tempNote setTagName:tagName];
-                        //NSLog(@"TAGNAME: %@",tagName);
                         [tempTagList addObject:tempNote];
                     }
                 }
-                
-                
             }
-            if([tempTagList count] >0){
+            if([tempTagList count] >0)
+            {
                 [self.tagGameNoteList addObject:tempTagList];
                 [self.headerTitleGameList addObject:tagName];
             }
@@ -236,24 +238,27 @@ BOOL tagFilter;
         [tagNoteList removeAllObjects];
         [headerTitleList removeAllObjects];
         
-        for(int i = 0; i < [self.tagList count];i++){
+        for(int i = 0; i < [self.tagList count]; i++)
+        {
             NSString *tagName = [[self.tagList objectAtIndex:i] tagName];
             NSMutableArray *tempTagList = [[NSMutableArray alloc]initWithCapacity:5];
-            for(int x = 0; x < [self.noteList count]; x++){
-                
-                for(int y = 0; y < [[[self.noteList objectAtIndex:x] tags] count]; y ++){
-                    if ([[[[[self.noteList objectAtIndex:x] tags] objectAtIndex:y] tagName] isEqualToString:tagName]) {
+            for(int x = 0; x < [self.noteList count]; x++)
+            {
+                for(int y = 0; y < [[[self.noteList objectAtIndex:x] tags] count]; y ++)
+                {
+                    if ([[[[[self.noteList objectAtIndex:x] tags] objectAtIndex:y] tagName] isEqualToString:tagName])
+                    {
                         Note *tempNote;
                         tempNote = [self.noteList objectAtIndex:x];
                         [tempNote setTagName:tagName];
-                        //NSLog(@"TAGNAME: %@",tagName);
                         [tempTagList addObject:tempNote];
                     }
                 }
                 
                 
             }
-            if([tempTagList count] >0){
+            if([tempTagList count] >0)
+            {
                 [self.tagNoteList addObject:tempTagList];
                 [self.headerTitleList addObject:tagName];
             }
@@ -265,8 +270,10 @@ BOOL tagFilter;
 }
 
 #pragma mark Table view methods
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if(tagFilter){
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    if(tagFilter)
+    {
         if(self.filterControl.selectedSegmentIndex == 0)
             return [self.tagNoteList count];
         else
@@ -276,18 +283,23 @@ BOOL tagFilter;
         return 1;
 }
 
-// Customize the number of rows in the table view.
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if(!tagFilter){
-        if(self.filterControl.selectedSegmentIndex == 0){ 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if(!tagFilter)
+    {
+        if(self.filterControl.selectedSegmentIndex == 0)
+        {
             if([self.noteList count] == 0) return 1;
-            return [self.noteList count];}
-        else {
+            return [self.noteList count];
+        }
+        else
+        {
             if([self.gameNoteList count] == 0) return 1;
             return [self.gameNoteList count];
         }
     }
-    else{
+    else
+    {
         if(self.filterControl.selectedSegmentIndex == 0)
             return [[self.tagNoteList objectAtIndex:section] count]; 
         else
@@ -295,23 +307,26 @@ BOOL tagFilter;
     }
 }
 
-// Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     self.videoIconUsed = NO;
     self.photoIconUsed = NO;
     self.audioIconUsed = NO;
     self.textIconUsed = NO;
     NSMutableArray *currentNoteList;
-    if(self.filterControl.selectedSegmentIndex == 0){ 
+    if(self.filterControl.selectedSegmentIndex == 0)
+    {
         currentNoteList = self.noteList;
         [AppModel sharedAppModel].isGameNoteList  = NO;
     }
-    else {
+    else
+    {
         currentNoteList = self.gameNoteList;  
         [AppModel sharedAppModel].isGameNoteList  = YES;
     }
     
-    if(tagFilter){
+    if(tagFilter)
+    {
         if(self.filterControl.selectedSegmentIndex == 0)
             currentNoteList = self.tagNoteList;
         else 
@@ -319,7 +334,8 @@ BOOL tagFilter;
     }
     
 	static NSString *CellIdentifier = @"Cell";
-    if([currentNoteList count] == 0 && indexPath.row == 0){
+    if([currentNoteList count] == 0 && indexPath.row == 0)
+    {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         
         cell.textLabel.text =NSLocalizedString(@"NotebookNoNotesKey", @"");
@@ -330,9 +346,9 @@ BOOL tagFilter;
     
     UITableViewCell *tempCell = (NoteCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    if (tempCell && ![tempCell respondsToSelector:@selector(mediaIcon1)]){
+    if (tempCell && ![tempCell respondsToSelector:@selector(mediaIcon1)])
+    {
         NSLog(@"NotebookViewController: Throwing out dequeued cell");
-        //[tempCell release];
         tempCell = nil;
     }
     else NSLog(@"NotebookViewController: Reusing out dequeued cell");
@@ -340,44 +356,41 @@ BOOL tagFilter;
     NoteCell *cell = (NoteCell *)tempCell;
     
     
-    if (cell == nil) {
+    if(cell == nil)
+    {
         NSLog(@"NotebookViewController: Allocing a new cell");
-        // Create a temporary UIViewController to instantiate the custom cell.
         UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"NoteCell" bundle:nil];
-        // Grab a pointer to the custom cell.
         cell = (NoteCell *)temporaryController.view;
-        // Release the temporary UIViewController.
     }
     
     Note *currNote;
-    if(!tagFilter){
+    if(!tagFilter)
         currNote = (Note *)[currentNoteList objectAtIndex:indexPath.row];
-    }
-    else{
-        //tag stuff  
-        
+    else
         currNote = (Note *)[[currentNoteList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-    }
+
     cell.note = currNote;
     cell.delegate = self;
     cell.index = indexPath.row;
-    if([currNote.comments count] == 0){
+    if([currNote.comments count] == 0)
+    {
         cell.commentsLbl.text = @"";
         [cell.likesButton setFrame:CGRectMake(cell.likesButton.frame.origin.x,14,cell.likesButton.frame.size.width , cell.likesButton.frame.size.height)];
         [cell.likeLabel setFrame:CGRectMake(cell.likeLabel.frame.origin.x,26,cell.likeLabel.frame.size.width , cell.likeLabel.frame.size.height)];
     }
-    else{
+    else
+    {
         cell.commentsLbl.text = [NSString stringWithFormat:@"%d %@",[currNote.comments count],NSLocalizedString(@"NotebookCommentsKey", @"")];
         [cell.likesButton setFrame:CGRectMake(cell.likesButton.frame.origin.x,2,cell.likesButton.frame.size.width , cell.likesButton.frame.size.height)];
         [cell.likeLabel setFrame:CGRectMake(cell.likeLabel.frame.origin.x,14,cell.likeLabel.frame.size.width , cell.likeLabel.frame.size.height)];
-        
     }
     cell.likeLabel.text = [NSString stringWithFormat:@"%d",currNote.numRatings];
     if(currNote.userLiked)cell.likesButton.selected = YES;
     cell.titleLabel.text = currNote.title;
     if([currNote.contents count] == 0 && (currNote.creatorId != [AppModel sharedAppModel].playerId))cell.userInteractionEnabled = NO;
     for(int x = 0; x < [currNote.contents count];x++){
-        if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:kNoteContentTypeText]&& !self.textIconUsed){
+        if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:kNoteContentTypeText]&& !self.textIconUsed)
+        {
             self.textIconUsed = YES;
             if (cell.mediaIcon1.image == nil)
                 cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
@@ -388,7 +401,8 @@ BOOL tagFilter;
             else if(cell.mediaIcon4.image == nil)
                 cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
         }
-        else if ([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:kNoteContentTypePhoto]&& !self.photoIconUsed){
+        else if ([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:kNoteContentTypePhoto]&& !self.photoIconUsed)
+        {
             self.photoIconUsed = YES;
             if (cell.mediaIcon1.image == nil)
                 cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
@@ -399,7 +413,8 @@ BOOL tagFilter;
             else if(cell.mediaIcon4.image == nil)
                 cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
         }
-        else if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:kNoteContentTypeAudio] && !self.audioIconUsed){
+        else if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:kNoteContentTypeAudio] && !self.audioIconUsed)
+        {
             self.audioIconUsed = YES;
             if (cell.mediaIcon1.image == nil)
                 cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
@@ -410,7 +425,8 @@ BOOL tagFilter;
             else if(cell.mediaIcon4.image == nil)
                 cell.mediaIcon4.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]]; 
         }
-        else if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:kNoteContentTypeVideo] && !self.videoIconUsed){
+        else if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:kNoteContentTypeVideo] && !self.videoIconUsed)
+        {
             self.videoIconUsed = YES;
             if (cell.mediaIcon1.image == nil)
                 cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]]; 
@@ -423,7 +439,8 @@ BOOL tagFilter;
         }
     }
     
-    if(![AppModel sharedAppModel].currentGame.allowNoteLikes){
+    if(![AppModel sharedAppModel].currentGame.allowNoteLikes)
+    {
         cell.likesButton.enabled = NO;
         cell.likeLabel.hidden = YES;
         cell.likesButton.hidden = YES;
@@ -432,15 +449,19 @@ BOOL tagFilter;
     return cell;
 }
 
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    if(tagFilter){
-        if(self.filterControl.selectedSegmentIndex == 0){
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if(tagFilter)
+    {
+        if(self.filterControl.selectedSegmentIndex == 0)
+        {
             if([self.headerTitleList count] > section)
                 return [self.headerTitleList objectAtIndex:section];
             else return @"";
             
         }
-        else{
+        else
+        {
             if([self.headerTitleGameList count] > section)
                 return [self.headerTitleGameList objectAtIndex:section];
             else return @"";
@@ -450,25 +471,17 @@ BOOL tagFilter;
     else return @"";
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    //Color the backgrounds
-    if (indexPath.row % 2 == 0){  
-        cell.backgroundColor = [UIColor colorWithRed:233.0/255.0  
-                                               green:233.0/255.0  
-                                                blue:233.0/255.0  
-                                               alpha:1.0];  
-    } else {  
-        cell.backgroundColor = [UIColor colorWithRed:200.0/255.0  
-                                               green:200.0/255.0  
-                                                blue:200.0/255.0  
-                                               alpha:1.0];  
-    } 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{    
+    if (indexPath.row % 2 == 0) cell.backgroundColor = [UIColor colorWithRed:233.0/255.0 green:233.0/255.0 blue:233.0/255.0 alpha:1.0];  
+    else                        cell.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:1.0];  
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     NSMutableArray *currentNoteList;
-    if(self.filterControl.selectedSegmentIndex == 0) {
+    if(self.filterControl.selectedSegmentIndex == 0)
+    {
         [AppModel sharedAppModel].isGameNoteList = NO;
         if(!tagFilter)
             currentNoteList = self.noteList;
@@ -476,7 +489,8 @@ BOOL tagFilter;
             currentNoteList = [self.tagNoteList objectAtIndex:indexPath.section];
         
     }
-    else{ 
+    else
+    {
         [AppModel sharedAppModel].isGameNoteList = YES;
         
         if(!tagFilter)
@@ -492,22 +506,23 @@ BOOL tagFilter;
     [self.navigationController pushViewController:dataVC animated:YES];
 }
 
-- (void)tableView:(UITableView *)aTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
-}
-
--(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+-(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
 	return 60;
 }
 
--(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     if(tagFilter) return UITableViewCellEditingStyleNone;
-    if([AppModel sharedAppModel].isGameNoteList ){
-        if(([self.gameNoteList count] != 0) && [[self.gameNoteList objectAtIndex:indexPath.row] creatorId] == [AppModel sharedAppModel].playerId){
+    if([AppModel sharedAppModel].isGameNoteList )
+    {
+        if(([self.gameNoteList count] != 0) && [[self.gameNoteList objectAtIndex:indexPath.row] creatorId] == [AppModel sharedAppModel].playerId)
             return UITableViewCellEditingStyleDelete;
-        }
     }
-    else{
-        if([self.noteList count] != 0) return UITableViewCellEditingStyleDelete;        
+    else
+    {
+        if([self.noteList count] != 0)
+            return UITableViewCellEditingStyleDelete;
     }
     
     return UITableViewCellEditingStyleNone;
@@ -523,15 +538,18 @@ BOOL tagFilter;
     [self refreshViewFromModel];
 }
 
-- (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [noteTable reloadData];
 }
 
--(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath{
+-(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return  @"Delete Note";
 }
 
-- (void)dealloc {    
+- (void)dealloc
+{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

@@ -394,7 +394,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 		if (quantity > 0) 
         {
 			[[AppServices sharedAppServices] updateServerPickupItem:self.item.itemId fromLocation:self.item.locationId qty:quantity];
-			[[AppModel sharedAppModel] modifyQuantity:-quantity forLocationId:self.item.locationId];
+			[[AppModel sharedAppModel].currentGame.locationsModel modifyQuantity:-quantity forLocationId:self.item.locationId];
 			item.qty -= quantity; //the above line does not give us an update, only the map
         }
 	}

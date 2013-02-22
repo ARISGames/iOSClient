@@ -96,7 +96,37 @@
 }
 
 - (BOOL)compareTo: (Location *)other {
-    return self.locationId == other.locationId && [self.name isEqualToString: other.name] && self.iconMediaId == other.iconMediaId && self.location.coordinate.latitude == other.location.coordinate.latitude && self.location.coordinate.longitude == other.location.coordinate.longitude && self.objectId == other.objectId && self.hidden == other.hidden && self.forcedDisplay == other.forcedDisplay && self.allowsQuickTravel == other.allowsQuickTravel && self.showTitle == other.showTitle && self.wiggle == other.wiggle && self.deleteWhenViewed == other.deleteWhenViewed && self.qty == other.qty;
+    return     [self.name isEqualToString:other.name] &&
+    self.locationId                    == other.locationId &&
+    self.iconMediaId                   == other.iconMediaId &&
+    self.location.coordinate.latitude  == other.location.coordinate.latitude &&
+    self.location.coordinate.longitude == other.location.coordinate.longitude &&
+    self.objectId                      == other.objectId &&
+    self.hidden                        == other.hidden &&
+    self.forcedDisplay                 == other.forcedDisplay &&
+    self.allowsQuickTravel             == other.allowsQuickTravel &&
+    self.showTitle                     == other.showTitle &&
+    self.wiggle                        == other.wiggle &&
+    self.deleteWhenViewed              == other.deleteWhenViewed &&
+    self.qty                           == other.qty;
+}
+
+- (Location *)copy
+{
+    Location *c = [[Location alloc] init];
+    c.name              = self.name;
+    c.locationId        = self.locationId;
+    c.iconMediaId       = self.iconMediaId;
+    c.location          = self.location;
+    c.objectId          = self.objectId;
+    c.hidden            = self.hidden;
+    c.forcedDisplay     = self.forcedDisplay;
+    c.allowsQuickTravel = self.allowsQuickTravel;
+    c.showTitle         = self.showTitle;
+    c.wiggle            = self.wiggle;
+    c.deleteWhenViewed  = self.deleteWhenViewed;
+    c.qty               = self.qty;
+    return c;
 }
 
 - (NSString *)description

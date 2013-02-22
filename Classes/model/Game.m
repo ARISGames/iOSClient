@@ -37,7 +37,8 @@
 @synthesize calculatedScore,isLocational, showPlayerLocation, iconMedia;
 @synthesize allowsPlayerTags,splashMedia,allowNoteComments,allowNoteLikes,allowShareNoteToMap,allowShareNoteToList,allowTrading;
 
-- (id) init{
+- (id)init
+{
 	if ((self = [super init]))
     {
 		self.comments = [NSMutableArray arrayWithCapacity:5];
@@ -55,18 +56,19 @@
 }
 
 - (NSComparisonResult)compareDistanceFromPlayer:(Game*)otherGame{
-	if (self.distanceFromPlayer < otherGame.distanceFromPlayer) return NSOrderedAscending;
+	if      (self.distanceFromPlayer < otherGame.distanceFromPlayer) return NSOrderedAscending;
 	else if (self.distanceFromPlayer > otherGame.distanceFromPlayer) return NSOrderedDescending;
-	else return NSOrderedSame;
+	else                                                             return NSOrderedSame;
 }
 
 - (NSComparisonResult)compareCalculatedScore:(Game*)otherGame{
-	if (self.calculatedScore > otherGame.calculatedScore) return NSOrderedAscending;
+	if      (self.calculatedScore > otherGame.calculatedScore) return NSOrderedAscending;
 	else if (self.calculatedScore < otherGame.calculatedScore) return NSOrderedDescending;
-	else return NSOrderedSame;    
+	else                                                       return NSOrderedSame;    
 }
 
-- (NSComparisonResult)compareTitle:(Game*)otherGame{
+- (NSComparisonResult)compareTitle:(Game*)otherGame
+{
     return [self.name compare:otherGame.name]; 
 }
 

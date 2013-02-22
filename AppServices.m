@@ -2141,59 +2141,36 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (Game *)parseGame:(NSDictionary *)gameSource
 {
-    //create a new game
     Game *game = [[Game alloc] init];
     
-    game.gameId = [self validIntForKey:@"game_id" inDictionary:gameSource];
-    //NSLog(@"AppModel: Parsing Game: %d", game.gameId);
-    
-    game.hasBeenPlayed = [self validBoolForKey:@"has_been_played" inDictionary:gameSource];
-    
-    game.name = [self validObjectForKey:@"name" inDictionary:gameSource];
-    if (!game.name) game.name = @"";
-    
-    game.isLocational = [self validBoolForKey:@"is_locational" inDictionary:gameSource];
-    
-    NSString *showPlayerLocation = [self validObjectForKey:@"show_player_location" inDictionary:gameSource];
-    if (!showPlayerLocation) game.showPlayerLocation = [showPlayerLocation boolValue];
-    else game.showPlayerLocation = YES;
-    
-    game.inventoryModel.weightCap = [self validIntForKey:@"inventory_weight_cap" inDictionary:gameSource];
-    
-    game.description = [self validObjectForKey:@"description" inDictionary:gameSource];
-    if (!game.description) game.description = @"";
-    
-    game.mapType = [self validObjectForKey:@"map_type" inDictionary:gameSource];
+    game.gameId                   = [self validIntForKey:@"game_id"               inDictionary:gameSource];
+    game.hasBeenPlayed            = [self validBoolForKey:@"has_been_played"      inDictionary:gameSource];
+    game.isLocational             = [self validBoolForKey:@"is_locational"        inDictionary:gameSource];
+    game.showPlayerLocation       = [self validBoolForKey:@"show_player_location" inDictionary:gameSource];
+    game.inventoryModel.weightCap = [self validIntForKey:@"inventory_weight_cap"  inDictionary:gameSource];
+    game.rating                   = [self validIntForKey:@"rating"                inDictionary:gameSource];
+    game.pcMediaId                = [self validIntForKey:@"pc_media_id"           inDictionary:gameSource];
+    game.numPlayers               = [self validIntForKey:@"numPlayers"            inDictionary:gameSource];
+    game.playerCount              = [self validIntForKey:@"count"                 inDictionary:gameSource];
+    game.description              = [self validObjectForKey:@"description"        inDictionary:gameSource]; if (!game.description) game.description = @"";
+    game.name                     = [self validObjectForKey:@"name"               inDictionary:gameSource]; if (!game.name) game.name = @"";
+    game.authors                  = [self validObjectForKey:@"editors"            inDictionary:gameSource]; if (!game.authors) game.authors = @"";
+    game.mapType                  = [self validObjectForKey:@"map_type"           inDictionary:gameSource];
     if (!game.mapType || (![game.mapType isEqualToString:@"STREET"] && ![game.mapType isEqualToString:@"SATELLITE"] && ![game.mapType isEqualToString:@"HYBRID"])) game.mapType = @"STREET";
-    
-    game.rating = [self validIntForKey:@"rating" inDictionary:gameSource];
-    
-    game.pcMediaId = [self validIntForKey:@"pc_media_id" inDictionary:gameSource];
-    
+
     NSString *distance = [self validObjectForKey:@"distance" inDictionary:gameSource];
     if (distance) game.distanceFromPlayer = [distance doubleValue];
     else game.distanceFromPlayer = 999999999;
     
-    NSString *latitude = [self validObjectForKey:@"latitude" inDictionary:gameSource];
+    NSString *latitude  = [self validObjectForKey:@"latitude" inDictionary:gameSource];
     NSString *longitude = [self validObjectForKey:@"longitude" inDictionary:gameSource];
-    if (latitude && longitude )
-    {
-        CLLocation *locationAlloc = [[CLLocation alloc] initWithLatitude:[latitude doubleValue]
-                                                               longitude:[longitude doubleValue]];
-        game.location = locationAlloc;
-    }
+    if (latitude && longitude)
+        game.location = [[CLLocation alloc] initWithLatitude:[latitude doubleValue] longitude:[longitude doubleValue]];
     else
-    {
-        CLLocation *locationAlloc = [[CLLocation alloc] init];
-        game.location = locationAlloc;
-    }
+        game.location = [[CLLocation alloc] init];
     
-    game.authors = [self validObjectForKey:@"editors" inDictionary:gameSource];
-    if (!game.authors) game.authors = @"";
     
-    game.numPlayers = [self validIntForKey:@"numPlayers" inDictionary:gameSource];
-    
-    game.playerCount = [self validIntForKey:@"count" inDictionary:gameSource];
+
     
     int iconMediaId;
     if((iconMediaId = [self validIntForKey:@"icon_media_id" inDictionary:gameSource]) > 0)
@@ -2394,9 +2371,9 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     location.objectType        = [self validObjectForKey:@"type"             inDictionary:locationDictionary];
     location.hidden            = [self validBoolForKey:@"hidden"             inDictionary:locationDictionary];
     location.forcedDisplay     = [self validBoolForKey:@"force_view"         inDictionary:locationDictionary];
-    location.allowsQuickTravel = [self validBoolForKey:@"allow_quick_travel" inDictionary:locationDictionary];
     location.showTitle         = [self validBoolForKey:@"show_title"         inDictionary:locationDictionary];
     location.wiggle            = [self validBoolForKey:@"wiggle"             inDictionary:locationDictionary];
+    location.allowsQuickTravel = [self validBoolForKey:@"allow_quick_travel" inDictionary:locationDictionary];
     location.location          = [[CLLocation alloc] initWithLatitude:[self validDoubleForKey:@"latitude"  inDictionary:locationDictionary]
                                                             longitude:[self validDoubleForKey:@"longitude" inDictionary:locationDictionary]];
     
