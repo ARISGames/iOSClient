@@ -17,15 +17,6 @@
 
 @end
 
-UIWebView *dropDownView;
-PopOverViewController *popOverVC;
-PopOverContentView *popOverView;
-
-NSMutableArray *notifArray;
-NSMutableArray *popOverArray;
-BOOL showingDropDown;
-BOOL showingPopOver;
-
 @implementation GameNotificationViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -271,7 +262,7 @@ BOOL showingPopOver;
         if(lostItem.maxQty == 1)
             notifString = [NSString stringWithFormat:@"%@ %@", lostItem.name, NSLocalizedString(@"LostNotifKey", nil)];
         else
-            notifString = [NSString stringWithFormat:@"%d %@ : %d %@",  qty, lostItem.name, lostItem.qty, NSLocalizedString(@"LeftNotifKey", nil)];
+            notifString = [NSString stringWithFormat:@"-%d %@ : %d %@",  qty, lostItem.name, lostItem.qty, NSLocalizedString(@"LeftNotifKey", nil)];
         
         [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
         [self enqueueDropDownNotificationWithFullString:notifString andBoldedString:lostItem.name];
@@ -321,7 +312,7 @@ BOOL showingPopOver;
         if(lostAttribute.maxQty == 1)
             notifString = [NSString stringWithFormat:@"%@ %@", lostAttribute.name, NSLocalizedString(@"LostNotifKey", nil)];
         else
-            notifString = [NSString stringWithFormat:@"%d %@ : %d %@",  qty, lostAttribute.name, lostAttribute.qty, NSLocalizedString(@"LeftNotifKey", nil)];
+            notifString = [NSString stringWithFormat:@"-%d %@ : %d %@",  qty, lostAttribute.name, lostAttribute.qty, NSLocalizedString(@"LeftNotifKey", nil)];
         
         [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
         [self enqueueDropDownNotificationWithFullString:notifString andBoldedString:lostAttribute.name];

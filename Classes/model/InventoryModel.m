@@ -89,7 +89,7 @@
             }
         }
         
-        if(delta < 0)
+        if(delta > 0)
         {
             itemDeltaDict = [[NSDictionary alloc] initWithObjectsAndKeys:existingItem,@"item",[NSNumber numberWithInt:delta],@"delta", nil];
             [newlyLostItems addObject:itemDeltaDict];
