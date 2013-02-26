@@ -7,23 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AppModel.h"
-#import "Comment.h"
+#import "GamePickerViewController.h"
 
-@interface GamePickerRecentViewController : UIViewController <UITableViewDelegate,UITableViewDataSource>
+@interface GamePickerRecentViewController : GamePickerViewController
 {
-	NSArray *gameList;
-	UITableView *gameTable;
-    UIBarButtonItem *refreshButton;
 }
-
--(void)refresh;
--(void)showLoadingIndicator;
--(void)controlChanged:(id)sender;
-- (void)refreshViewFromModel;
-
-@property (nonatomic, copy) NSArray *gameList;
-@property (nonatomic) IBOutlet UITableView *gameTable;
-@property (nonatomic) IBOutlet UIBarButtonItem *refreshButton;
 
 @end

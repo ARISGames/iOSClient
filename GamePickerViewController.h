@@ -15,9 +15,10 @@
     UIBarButtonItem *refreshButton;
 }
 
--(void)refresh;
--(void)showLoadingIndicator;
--(void)refreshViewFromModel;
+- (void)requestNewGameList;
+- (void)refreshViewFromModel;
+- (void)showLoadingIndicator;
+- (void)removeLoadingIndicator;
 
 @property (nonatomic, copy)   NSArray *gameList;
 @property (nonatomic, strong) IBOutlet UITableView *gameTable;

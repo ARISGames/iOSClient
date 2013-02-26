@@ -6,260 +6,88 @@
 //  Copyright 2009 University of Wisconsin. All rights reserved.
 //
 
+#include <QuartzCore/QuartzCore.h>
 #import "GamePickerNearbyViewController.h"
+#import "AppModel.h"
 #import "AppServices.h"
 #import "Game.h"
-#import "ARISAppDelegate.h"
 #import "GameDetailsViewController.h"
 #import "GamePickerCell.h"
-#include <QuartzCore/QuartzCore.h>
-
-#include "AsyncMediaImageView.h"
+#import "AsyncMediaImageView.h"
 
 @implementation GamePickerNearbyViewController
 
-@synthesize gameTable;
-@synthesize gameList;
-@synthesize refreshButton;
+@synthesize distanceControl;
+@synthesize locationalControl;
 
-//Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
     if(self)
     {
+        locational = YES;
+        distanceFilter = 1000;
+        
         self.title = NSLocalizedString(@"NearbyObjectsTabKey", @"");
-		self.navigationItem.title = [NSString stringWithFormat: @"%@", NSLocalizedString(@"GamePickerNearbyGamesKey", @"")];
         self.tabBarItem.image = [UIImage imageNamed:@"193-location-arrow"];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNearbyGameListReady" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
     }
     return self;
 }
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-	UIBarButtonItem *refreshButtonAlloc = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh)];
-    self.refreshButton = refreshButtonAlloc;
-    self.navigationItem.rightBarButtonItem = self.refreshButton;
+    self.navigationItem.title = [NSString stringWithFormat: @"%@", NSLocalizedString(@"GamePickerNearbyGamesKey", @"")];
     
-  	[gameTable reloadData];
+    self.distanceControl.enabled = YES;
+    self.distanceControl.alpha = 1;
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)requestNewGameList
 {
-	[self refresh];
-}
-
--(void)refresh
-{
-    //Calculate locational control value
-    BOOL locational;
-    if (locationalControl.selectedSegmentIndex == 0)
-    {
-        locational = YES;  
-        distanceControl.enabled = YES;
-        distanceControl.alpha = 1;
-    }
-    else
-    {
-        locational = NO;
-        distanceControl.alpha = .2;
-        distanceControl.enabled = NO;
-    }
-	
-    //Calculate distance filer controll value
-    int distanceFilter;
-    switch (distanceControl.selectedSegmentIndex)
-    {
-        case 0:
-            distanceFilter = 100;
-            break;
-        case 1:
-            distanceFilter = 1000;
-            break;
-        case 2:
-            distanceFilter = 50000;
-            break;
-    }
+    [super requestNewGameList];
     
-    if([AppModel sharedAppModel].playerLocation)
+    if([AppModel sharedAppModel].playerLocation && [[AppModel sharedAppModel] loggedIn])
     {
-        if ([[AppModel sharedAppModel] loggedIn]) [[AppServices sharedAppServices] fetchGameListWithDistanceFilter:distanceFilter locational:locational];
+        [[AppServices sharedAppServices] fetchGameListWithDistanceFilter:distanceFilter locational:locational];
         [self showLoadingIndicator];
     }
-}
-
-#pragma mark custom methods, logic
--(void)showLoadingIndicator
-{
-	UIActivityIndicatorView *activityIndicator = 
-	[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
-	[[self navigationItem] setRightBarButtonItem:barButton];
-	[activityIndicator startAnimating];
-}
-
--(void) viewWillAppear:(BOOL)animated
-{
-    
-}
-
--(void)removeLoadingIndicator
-{
-	[[self navigationItem] setRightBarButtonItem:self.refreshButton];
 }
 
 - (void)refreshViewFromModel
 {
 	self.gameList = [[AppModel sharedAppModel].nearbyGameList sortedArrayUsingSelector:@selector(compareCalculatedScore:)];
-    [gameTable reloadData];
+    [self.gameTable reloadData];
     
     [self removeLoadingIndicator];
 }
 
-#pragma mark Control Callbacks
--(IBAction)controlChanged:(id)sender
-{
-    if (sender == locationalControl || locationalControl.selectedSegmentIndex == 0) 
-        [self refresh];
-}
-
-#pragma mark Table view methods
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-// Customize the number of rows in the table view.
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    if([self.gameList count] == 0 && [AppModel sharedAppModel].playerLocation) return 1;
-	return [self.gameList count];
-}
-
-// Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
-    
-    if([self.gameList count] == 0){
-        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-        cell.textLabel.text = NSLocalizedString(@"GamePickerNoGamesKey", @"");
-        cell.detailTextLabel.text = NSLocalizedString(@"GamePickerMakeOneGameKey", @"");
-        return cell;
-    }
-    
-    UITableViewCell *tempCell = (GamePickerCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (![tempCell respondsToSelector:@selector(starView)]){
-        //[tempCell release];
-        tempCell = nil;
-    }
-    GamePickerCell *cell = (GamePickerCell *)tempCell;
-    if (cell == nil)
+- (IBAction)controlChanged:(id)sender
+{    
+    if (self.locationalControl.selectedSegmentIndex == 0)
     {
-		// Create a temporary UIViewController to instantiate the custom cell.
-		UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"GamePickerCell" bundle:nil];
-		// Grab a pointer to the custom cell.
-		cell = (GamePickerCell *)temporaryController.view;
-		// Release the temporary UIViewController.
-        cell.starView.backgroundColor = [UIColor clearColor];
-        
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-halfselected.png"]
-                           forState:kSCRatingViewHalfSelected];
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
-                           forState:kSCRatingViewHighlighted];
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
-                           forState:kSCRatingViewHot];
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
-                           forState:kSCRatingViewNonSelected];
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]
-                           forState:kSCRatingViewSelected];
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
-                           forState:kSCRatingViewUserSelected];
+        locational = YES;
+        self.distanceControl.enabled = YES;
+        self.distanceControl.alpha = 1;
     }
-	Game *currentGame = [self.gameList objectAtIndex:indexPath.row];
-    
-	cell.titleLabel.text = currentGame.name;
-	double dist = currentGame.distanceFromPlayer;
-	cell.distanceLabel.text = [NSString stringWithFormat:@"%1.1f %@",  dist/1000, NSLocalizedString(@"km", @"") ];
-	cell.authorLabel.text = currentGame.authors;
-	cell.numReviewsLabel.text = [NSString stringWithFormat:@"%@ %@", [[NSNumber numberWithInt:currentGame.numReviews] stringValue], NSLocalizedString(@"GamePickerRecentReviewsKey", @"")];
-    cell.starView.rating = currentGame.rating;
-    //Set up the Icon
-    //Create a new iconView for each cell instead of reusing the same one
-    AsyncMediaImageView *iconView = [[AsyncMediaImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-    
-    
-    if(currentGame.iconMedia.image){
-        iconView.image = [UIImage imageWithData: currentGame.iconMedia.image];
+    else
+    {
+        locational = NO;
+        self.distanceControl.alpha = .2;
+        self.distanceControl.enabled = NO;
     }
-    else {
-        if(!currentGame.iconMedia) iconView.image = [UIImage imageNamed:@"Icon.png"];
-        else{
-            [iconView loadImageFromMedia:currentGame.iconMedia];
-        }
-    }
-    
-    iconView.layer.masksToBounds = YES;
-    iconView.layer.cornerRadius = 10.0;
-    
-    //clear out icon view
-    if([cell.iconView.subviews count]>0)
-        [[cell.iconView.subviews objectAtIndex:0] removeFromSuperview];
-    
-    
-    [cell.iconView addSubview: iconView];
-    
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    //Color the backgrounds
-    if (indexPath.row % 2 == 0){  
-        cell.backgroundColor = [UIColor colorWithRed:233.0/255.0  
-                                               green:233.0/255.0  
-                                                blue:233.0/255.0  
-                                               alpha:1.0];  
-    } else {  
-        cell.backgroundColor = [UIColor colorWithRed:200.0/255.0  
-                                               green:200.0/255.0  
-                                                blue:200.0/255.0  
-                                               alpha:1.0];  
-    } 
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if([self.gameList count] == 0)
-        return;
-    //do select game notification;
-    Game *selectedGame;
-	selectedGame = [self.gameList objectAtIndex:indexPath.row];
 	
-	GameDetailsViewController *gameDetailsViewController = [[GameDetailsViewController alloc]initWithNibName:@"GameDetails" bundle:nil];
-	gameDetailsViewController.game = selectedGame;
-	[self.navigationController pushViewController:gameDetailsViewController animated:YES];
-}
-
-- (void)tableView:(UITableView *)aTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
-{
-	Game *selectedGame;
-	selectedGame = [self.gameList objectAtIndex:indexPath.row];
-	
-	GameDetailsViewController *gameDetailsViewController = [[GameDetailsViewController alloc]initWithNibName:@"GameDetails" bundle:nil];
-	gameDetailsViewController.game = selectedGame;
-	[self.navigationController pushViewController:gameDetailsViewController animated:YES];
-}
-
--(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	return 60;
+    switch (self.distanceControl.selectedSegmentIndex)
+    {
+        case 0: distanceFilter = 100;   break;
+        case 1: distanceFilter = 1000;  break;
+        case 2: distanceFilter = 50000; break;
+    }
+    
+    [self requestNewGameList];
 }
 
 - (void)dealloc

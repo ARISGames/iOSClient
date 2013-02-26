@@ -6,15 +6,14 @@
 //
 //
 
+#include <QuartzCore/QuartzCore.h>
 #import "GamePickerViewController.h"
+#import "AppModel.h"
 #import "AppServices.h"
 #import "Game.h"
-#import "ARISAppDelegate.h"
 #import "GameDetailsViewController.h"
 #import "GamePickerCell.h"
-#include <QuartzCore/QuartzCore.h>
-#include "AsyncMediaImageView.h"
-
+#import "AsyncMediaImageView.h"
 
 @interface GamePickerViewController ()
 
@@ -30,9 +29,11 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
-    {        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh)                name:@"PlayerMoved" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
+    {
+        gameList = [[NSArray alloc] init];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerFirstMoved)       name:@"PlayerMoved"     object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearList)              name:@"LogoutRequested" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost"  object:nil];
     }
     return self;
 }
@@ -41,7 +42,7 @@
 {
     [super viewDidLoad];
     
-    self.refreshButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh)];
+    self.refreshButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(requestNewGameList)];
     self.navigationItem.rightBarButtonItem = self.refreshButton;
     
   	[self.gameTable reloadData];
@@ -50,7 +51,32 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-	//[self requestNewGameList];
+	[self requestNewGameList];
+}
+
+- (void)playerFirstMoved
+{
+    //Only want auto-refresh on first established location
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"PlayerMoved" object:nil];
+    [self requestNewGameList];
+}
+
+- (void)clearList
+{
+    self.gameList = [[NSArray alloc] init];
+    [self.gameTable reloadData];
+    
+    [self removeLoadingIndicator];
+}
+
+- (void)requestNewGameList
+{
+    
+}
+
+- (void)refreshViewFromModel
+{
+    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -66,72 +92,46 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    
-    if([self.gameList count] == 0){
-        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    if([self.gameList count] == 0)
+    {
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"Cell"];
         cell.textLabel.text = NSLocalizedString(@"GamePickerNoGamesKey", @"");
         cell.detailTextLabel.text = NSLocalizedString(@"GamePickerMakeOneGameKey", @"");
         return cell;
     }
     
-    UITableViewCell *tempCell = (GamePickerCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (![tempCell respondsToSelector:@selector(starView)])
-        tempCell = nil;
-    GamePickerCell *cell = (GamePickerCell *)tempCell;
+    GamePickerCell *cell = (GamePickerCell *)[tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    if (![cell respondsToSelector:@selector(starView)]) cell = nil;
+    
     if (cell == nil)
     {
-		// Create a temporary UIViewController to instantiate the custom cell.
-		UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"GamePickerCell" bundle:nil];
-		// Grab a pointer to the custom cell.
-		cell = (GamePickerCell *)temporaryController.view;
-		// Release the temporary UIViewController.
+		cell = (GamePickerCell *)[[UIViewController alloc] initWithNibName:@"GamePickerCell" bundle:nil].view;
         cell.starView.backgroundColor = [UIColor clearColor];
-        
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-halfselected.png"]
-                           forState:kSCRatingViewHalfSelected];
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
-                           forState:kSCRatingViewHighlighted];
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
-                           forState:kSCRatingViewHot];
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
-                           forState:kSCRatingViewNonSelected];
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]
-                           forState:kSCRatingViewSelected];
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
-                           forState:kSCRatingViewUserSelected];
+        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-halfselected.png"] forState:kSCRatingViewHalfSelected];
+        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]  forState:kSCRatingViewHighlighted];
+        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]          forState:kSCRatingViewHot];
+        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]  forState:kSCRatingViewNonSelected];
+        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]     forState:kSCRatingViewSelected];
+        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]          forState:kSCRatingViewUserSelected];
     }
-	Game *currentGame = [self.gameList objectAtIndex:indexPath.row];
     
-	cell.titleLabel.text = currentGame.name;
-	double dist = currentGame.distanceFromPlayer;
-	cell.distanceLabel.text = [NSString stringWithFormat:@"%1.1f %@",  dist/1000, NSLocalizedString(@"km", @"")];
-	cell.authorLabel.text = currentGame.authors;
-	cell.numReviewsLabel.text = [NSString stringWithFormat:@"%@ %@", [[NSNumber numberWithInt:currentGame.numReviews] stringValue], NSLocalizedString(@"GamePickerRecentReviewsKey", @"")];
-    cell.starView.rating = currentGame.rating;
-    //Set up the Icon
-    //Create a new iconView for each cell instead of reusing the same one
+	Game *gameForCell = [self.gameList objectAtIndex:indexPath.row];
+    
+	cell.titleLabel.text      = gameForCell.name;
+	cell.authorLabel.text     = gameForCell.authors;
+    cell.starView.rating      = gameForCell.rating;
+    cell.distanceLabel.text   = [NSString stringWithFormat:@"%1.1f %@", gameForCell.distanceFromPlayer/1000, NSLocalizedString(@"km", @"")];
+	cell.numReviewsLabel.text = [NSString stringWithFormat:@"%@ %@", [[NSNumber numberWithInt:gameForCell.numReviews] stringValue], NSLocalizedString(@"GamePickerRecentReviewsKey", @"")];
+    
     AsyncMediaImageView *iconView = [[AsyncMediaImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-    
-    
-    if(currentGame.iconMedia.image){
-        iconView.image = [UIImage imageWithData: currentGame.iconMedia.image];
-    }
-    else {
-        if(!currentGame.iconMedia) iconView.image = [UIImage imageNamed:@"Icon.png"];
-        else{
-            [iconView loadImageFromMedia:currentGame.iconMedia];
-        }
-    }
-    
     iconView.layer.masksToBounds = YES;
     iconView.layer.cornerRadius = 10.0;
     
-    //clear out icon view
-    if([cell.iconView.subviews count]>0)
-        [[cell.iconView.subviews objectAtIndex:0] removeFromSuperview];
+    if(gameForCell.iconMedia.image) iconView.image = [UIImage imageWithData: gameForCell.iconMedia.image];
+    else if(!gameForCell.iconMedia) iconView.image = [UIImage imageNamed:@"Icon.png"];
+    else                            [iconView loadImageFromMedia:gameForCell.iconMedia];
     
-    
+    if([cell.iconView.subviews count]>0) [[cell.iconView.subviews objectAtIndex:0] removeFromSuperview];
     [cell.iconView addSubview: iconView];
     
     return cell;
@@ -145,13 +145,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if([self.gameList count] == 0)
-        return;
-    //do select game notification;
-    Game *selectedGame;
-	selectedGame = [self.gameList objectAtIndex:indexPath.row];
+    if([self.gameList count] == 0) return;
+
+    Game *selectedGame = [self.gameList objectAtIndex:indexPath.row];
 	
-	GameDetailsViewController *gameDetailsViewController = [[GameDetailsViewController alloc]initWithNibName:@"GameDetails" bundle:nil];
+	GameDetailsViewController *gameDetailsViewController = [[GameDetailsViewController alloc] initWithNibName:@"GameDetails" bundle:nil];
 	gameDetailsViewController.game = selectedGame;
 	[self.navigationController pushViewController:gameDetailsViewController animated:YES];
 }
@@ -166,12 +164,12 @@
 	[self.navigationController pushViewController:gameDetailsViewController animated:YES];
 }
 
--(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	return 60;
 }
 
--(void)showLoadingIndicator
+- (void)showLoadingIndicator
 {
 	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
 	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
@@ -179,9 +177,33 @@
 	[activityIndicator startAnimating];
 }
 
--(void)removeLoadingIndicator
+- (void)removeLoadingIndicator
 {
 	[[self navigationItem] setRightBarButtonItem:self.refreshButton];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+- (NSInteger)supportedInterfaceOrientations
+{
+    NSInteger mask = 0;
+    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeLeft])
+        mask |= UIInterfaceOrientationMaskLandscapeLeft;
+    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeRight])
+        mask |= UIInterfaceOrientationMaskLandscapeRight;
+    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortrait])
+        mask |= UIInterfaceOrientationMaskPortrait;
+    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortraitUpsideDown])
+        mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
+    return mask;
 }
 
 - (void)dealloc

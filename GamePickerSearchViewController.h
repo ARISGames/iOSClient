@@ -7,33 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AppModel.h"
+#import "GamePickerViewController.h"
 
-@interface GamePickerSearchViewController : UIViewController <UITableViewDelegate,UITableViewDataSource, UISearchDisplayDelegate, UISearchBarDelegate>
+@interface GamePickerSearchViewController : GamePickerViewController <UISearchDisplayDelegate, UISearchBarDelegate>
 {    
-	NSArray *gameList;
     UISearchBar *theSearchBar;
     UIView *disableViewOverlay;
-	UITableView *gameTable;
-    UIBarButtonItem *refreshButton;
     NSString *searchText;
     int currentPage;
     BOOL currentlyFetchingNextPage;
     BOOL allResultsFound;
 }
 
--(void)refresh;
--(void)showLoadingIndicator;
 - (void)searchBar:(UISearchBar *)searchBar activate:(BOOL) active;
 
 @property UIView *disableViewOverlay;
-@property (nonatomic, copy) NSArray *gameList;
-@property (nonatomic) NSString *searchText;
-@property (nonatomic) IBOutlet UITableView *gameTable;
-@property (nonatomic) IBOutlet UIBarButtonItem *refreshButton;
-@property (nonatomic) IBOutlet UISearchBar *theSearchBar;
-@property (nonatomic) int currentPage;
-@property (nonatomic) BOOL currentlyFetchingNextPage;
-@property (nonatomic) BOOL allResultsFound;
+@property (nonatomic, strong) IBOutlet UISearchBar *theSearchBar;
 
 @end

@@ -7,25 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AppModel.h"
-#import "Comment.h"
+#import "GamePickerViewController.h"
 
-@interface GamePickerPopularViewController : UIViewController <UITableViewDelegate,UITableViewDataSource>
-{    
-	NSArray *gameList;
+@interface GamePickerPopularViewController : GamePickerViewController
+{
+    int time;
+    
     IBOutlet UISegmentedControl *timeControl;
-	UITableView *gameTable;
-    UIBarButtonItem *refreshButton;
 }
 
--(void)refresh;
--(void)showLoadingIndicator;
--(IBAction)controlChanged:(id)sender;
-- (void)refreshViewFromModel;
+- (IBAction)controlChanged:(id)sender;
 
-@property (nonatomic, copy) NSArray *gameList;
-@property (nonatomic) IBOutlet UITableView *gameTable;
-@property (nonatomic) IBOutlet UIBarButtonItem *refreshButton;
-@property (nonatomic) IBOutlet UISegmentedControl *timeControl;
+@property (nonatomic, strong) IBOutlet UISegmentedControl *timeControl;
 
 @end

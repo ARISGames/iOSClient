@@ -7,25 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AppModel.h"
-#import "Comment.h"
+#import "GamePickerViewController.h"
 
-@interface GamePickerNearbyViewController : UIViewController <UITableViewDelegate,UITableViewDataSource>
+@interface GamePickerNearbyViewController : GamePickerViewController
 {
-	NSArray *gameList;
+    int distanceFilter;
+    BOOL locational;
+    
     IBOutlet UISegmentedControl *distanceControl;
     IBOutlet UISegmentedControl *locationalControl;
-	UITableView *gameTable;
-    UIBarButtonItem *refreshButton;
 }
 
--(void)refresh;
--(void)showLoadingIndicator;
 -(IBAction)controlChanged:(id)sender;
--(void)refreshViewFromModel;
 
-@property (nonatomic, copy) NSArray *gameList;
-@property (nonatomic) IBOutlet UITableView *gameTable;
-@property (nonatomic) IBOutlet UIBarButtonItem *refreshButton;
+@property (nonatomic, strong) IBOutlet UISegmentedControl *distanceControl;
+@property (nonatomic, strong) IBOutlet UISegmentedControl *locationalControl;
 
 @end
