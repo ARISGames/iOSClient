@@ -24,6 +24,8 @@
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self)
     {
+        time = 1;
+        
         self.title = NSLocalizedString(@"GamePickerPopularTitleKey", @"");
         self.tabBarItem.image = [UIImage imageNamed:@"85-trophy"];
 
@@ -44,6 +46,8 @@
 
 - (void)requestNewGameList
 {
+    [super requestNewGameList];
+    
     if([AppModel sharedAppModel].playerLocation && [[AppModel sharedAppModel] loggedIn])
     {
         [[AppServices sharedAppServices] fetchPopularGameListForTime:time];

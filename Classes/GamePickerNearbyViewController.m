@@ -43,7 +43,7 @@
     self.navigationItem.title = [NSString stringWithFormat: @"%@", NSLocalizedString(@"GamePickerNearbyGamesKey", @"")];
     
     self.distanceControl.enabled = YES;
-    self.distanceControl.alpha = 1;
+    self.distanceControl.alpha   = 1;
 }
 
 - (void)requestNewGameList

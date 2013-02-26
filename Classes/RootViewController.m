@@ -72,7 +72,7 @@ NSString *errorDetail;
     return _sharedObject;
 }
 
-- (void) initViewControllers //For non-tab-bar vc's
+- (void)initViewControllers //For non-tab-bar vc's
 {
     //Login View Controller
     LoginViewController* loginViewController = [[LoginViewController alloc] initWithNibName:@"Login" bundle:nil];
@@ -111,17 +111,17 @@ NSString *errorDetail;
     gamePickerNearbyNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Search Games
-    GamePickerSearchViewController *gamePickerSearchVC = [[GamePickerSearchViewController alloc]initWithNibName:@"GamePickerSearchViewController" bundle:nil];
+    GamePickerSearchViewController *gamePickerSearchVC = [[GamePickerSearchViewController alloc] initWithNibName:@"GamePickerSearchViewController" bundle:nil];
     UINavigationController *gamePickerSearchNC = [[UINavigationController alloc] initWithRootViewController:gamePickerSearchVC];
     gamePickerSearchNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Popular Games
-    GamePickerPopularViewController *gamePickerPopularVC = [[GamePickerPopularViewController alloc]initWithNibName:@"GamePickerPopularViewController" bundle:nil];
+    GamePickerPopularViewController *gamePickerPopularVC = [[GamePickerPopularViewController alloc] initWithNibName:@"GamePickerPopularViewController" bundle:nil];
     UINavigationController *gamePickerPopularNC = [[UINavigationController alloc] initWithRootViewController:gamePickerPopularVC];
     gamePickerPopularNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Recent Games
-    GamePickerRecentViewController *gamePickerRecentVC = [[GamePickerRecentViewController alloc]initWithNibName:@"GamePickerRecentViewController" bundle:nil];
+    GamePickerRecentViewController *gamePickerRecentVC = [[GamePickerRecentViewController alloc] initWithNibName:@"GamePickerRecentViewController" bundle:nil];
     UINavigationController *gamePickerRecentNC = [[UINavigationController alloc] initWithRootViewController:gamePickerRecentVC];
     gamePickerRecentNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
@@ -144,10 +144,10 @@ NSString *errorDetail;
     [self.view addSubview:self.gameSelectionTabBarController.view];
 }
 
-- (void) initGamePlayTabs
+- (void)initGamePlayTabs
 {
     //Setup NearbyObjects View
-    NearbyObjectsViewController *nearbyObjectsViewController = [[NearbyObjectsViewController alloc]initWithNibName:@"NearbyObjectsViewController" bundle:nil];
+    NearbyObjectsViewController *nearbyObjectsViewController = [[NearbyObjectsViewController alloc] initWithNibName:@"NearbyObjectsViewController" bundle:nil];
     self.nearbyObjectsNavigationController = [[UINavigationController alloc] initWithRootViewController:nearbyObjectsViewController];
     self.nearbyObjectsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
@@ -277,7 +277,7 @@ NSString *errorDetail;
 
 #pragma mark Notifications, Warnings and Other Views
 
-- (void) showGameSelectionTabBarAndHideOthers
+- (void)showGameSelectionTabBarAndHideOthers
 {
     //Put it onscreen
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -296,13 +296,13 @@ NSString *errorDetail;
     [gameNotificationViewController cutOffGameNotifications];
 }
 
-- (void) showAlert:(NSString *)title message:(NSString *)message
+- (void)showAlert:(NSString *)title message:(NSString *)message
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
     [alert show];
 }
 
-- (void) showServerAlertWithEmail:(NSString *)title message:(NSString *)message details:(NSString*)detail
+- (void)showServerAlertWithEmail:(NSString *)title message:(NSString *)message details:(NSString*)detail
 {
 	errorMessage = message;
     errorDetail = detail;
@@ -320,7 +320,7 @@ NSString *errorDetail;
         NSLog(@"RootViewController: showServerAlertWithEmail was called, but a server alert was already present");
 }
 
-- (void) showNetworkAlert
+- (void)showNetworkAlert
 {
 	NSLog (@"RootViewController: Showing Network Alert");
 	if (self.loadingViewController)
@@ -338,20 +338,20 @@ NSString *errorDetail;
 	if (self.networkAlert.visible == NO) [networkAlert show];
 }
 
-- (void) removeNetworkAlert
+- (void)removeNetworkAlert
 {	
 	if (self.networkAlert != nil)
 		[self.networkAlert dismissWithClickedButtonIndex:0 animated:YES];
 }
 
-- (void) showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar
+- (void)showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar
 {
     [self removeWaitingIndicator];
     
 	[self.waitingIndicatorAlertViewController displayMessage:message withProgressBar:displayProgressBar];
 }
 
-- (void) removeWaitingIndicator
+- (void)removeWaitingIndicator
 {
     [self.waitingIndicatorAlertViewController dismissMessage];
 }
@@ -374,7 +374,7 @@ NSString *errorDetail;
     [[AppServices sharedAppServices] fetchAllPlayerLists];
 }
 
-- (void) beginGamePlay
+- (void)beginGamePlay
 {
     NSLog(@"RootViewController: beginGamePlay");
     
@@ -387,7 +387,7 @@ NSString *errorDetail;
         [AppModel sharedAppModel].currentlyInteractingWithObject = NO;
 }
 
-- (void) checkForDisplayCompleteNode
+- (void)checkForDisplayCompleteNode
 {
     int nodeId = [AppModel sharedAppModel].currentGame.completeNodeId;
     if (nodeId != 0 &&
@@ -399,7 +399,7 @@ NSString *errorDetail;
 	}
 }
 
-- (void) showNearbyTab:(BOOL)showTab
+- (void)showNearbyTab:(BOOL)showTab
 {
     if([AppModel sharedAppModel].tabsReady)
     {
@@ -460,7 +460,7 @@ NSString *errorDetail;
     }
 }
 
-- (void) showPlayerSettings:(NSNotification *)notification
+- (void)showPlayerSettings:(NSNotification *)notification
 {
     [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController refreshViewFromModel];
     self.playerSettingsNavigationController.view.hidden = NO;
@@ -517,7 +517,7 @@ NSString *errorDetail;
 	[self loadAndPlayGame:game];
 }
 
--(void)loadAndPlayGame:(Game *)game
+- (void)loadAndPlayGame:(Game *)game
 {    
 	NSLog(@"Loading Game: %@", game);
     [AppModel sharedAppModel].currentlyInteractingWithObject = NO;
@@ -581,7 +581,7 @@ NSString *errorDetail;
     
 }
 
--(void)changeTabBar //What the heck does 'changeTabBar' mean?
+- (void)changeTabBar //What the heck does 'changeTabBar' mean?
 {
     UINavigationController *tempNav = [[UINavigationController alloc] init];
     NSArray *newCustomVC = [[NSMutableArray alloc] initWithCapacity:10];
@@ -662,13 +662,13 @@ NSString *errorDetail;
     [gameNotificationViewController cutOffGameNotifications];
 }
 
--(void)receivedMediaList
+- (void)receivedMediaList
 {
     //Display the intro node
     [AppModel sharedAppModel].hasReceivedMediaList = YES;
 }
 
-- (void)newError: (NSString *)text
+- (void)newError:(NSString *)text
 {
 	NSLog(@"%@", text);
 }
@@ -707,7 +707,7 @@ NSString *errorDetail;
     return YES;
 }
 
-- (void) selectGameWithoutPicker:(NSNotification *)notification
+- (void)selectGameWithoutPicker:(NSNotification *)notification
 {
     Game *game = [notification.userInfo objectForKey:@"game"];
     NSLog(@"Selected Game (w/o picker): %@", game);
@@ -766,9 +766,8 @@ NSString *errorDetail;
           didFinishWithResult:(MFMailComposeResult)result
                         error:(NSError*)error;
 {
-	if (result == MFMailComposeResultSent) {
+	if (result == MFMailComposeResultSent)
 		NSLog(@"RootViewController: mailComposeController result == MFMailComposeResultSent");
-	}
 	[gamePlayTabBarController dismissModalViewControllerAnimated:YES];
 }
 
@@ -809,7 +808,7 @@ NSString *errorDetail;
     return;
 }
 
-- (void) didReceivePlayerChannelEventNotification:(NSNotification *)notification
+- (void)didReceivePlayerChannelEventNotification:(NSNotification *)notification
 {
     PTPusherEvent *event = [notification.userInfo objectForKey:PTPusherEventUserInfoKey];
     if([event.channel rangeOfString:@"player"].location == NSNotFound) return;
@@ -828,7 +827,7 @@ NSString *errorDetail;
     return;
 }
 
-- (void) didReceiveGroupChannelEventNotification:(NSNotification *)notification
+- (void)didReceiveGroupChannelEventNotification:(NSNotification *)notification
 {
     PTPusherEvent *event = [notification.userInfo objectForKey:PTPusherEventUserInfoKey];
     if([event.channel rangeOfString:@"group"].location == NSNotFound) return;
@@ -847,7 +846,7 @@ NSString *errorDetail;
     return;
 }
 
-- (void) didReceiveWebpageChannelEventNotification:(NSNotification *)notification
+- (void)didReceiveWebpageChannelEventNotification:(NSNotification *)notification
 {
     PTPusherEvent *event = [notification.userInfo objectForKey:PTPusherEventUserInfoKey];
     if([event.channel rangeOfString:@"webpage"].location == NSNotFound) return;
@@ -879,12 +878,12 @@ NSString *errorDetail;
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
--(BOOL)shouldAutorotate
+- (BOOL)shouldAutorotate
 {
     return YES;
 }
 
--(NSInteger)supportedInterfaceOrientations
+- (NSInteger)supportedInterfaceOrientations
 {
     NSInteger mask = 0;
     if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeLeft])
@@ -899,7 +898,7 @@ NSString *errorDetail;
 }
 
 #pragma mark Memory Management
-- (void) applicationDidReceiveMemoryWarning:(UIApplication *)application
+- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
 {
     [[AppModel sharedAppModel].mediaCache clearCache];
 }

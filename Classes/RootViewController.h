@@ -81,34 +81,34 @@
 
 + (RootViewController *)sharedRootViewController;
 
-- (void) attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password andGameId:(int)gameId inMuseumMode:(BOOL)museumMode;
-- (void) createUserAndLoginWithGroup:(NSString *)groupName andGameId:(int)gameId inMuseumMode:(BOOL)museumMode;
+- (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password andGameId:(int)gameId inMuseumMode:(BOOL)museumMode;
+- (void)createUserAndLoginWithGroup:(NSString *)groupName andGameId:(int)gameId inMuseumMode:(BOOL)museumMode;
 
-- (void) changeTabBar;
-- (void) showGameSelectionTabBarAndHideOthers;
+- (void)changeTabBar;
+- (void)showGameSelectionTabBarAndHideOthers;
 
-- (void) selectGameWithoutPicker:(NSNotification *)notification;
-- (void) selectGame:(NSNotification *)notification;
+- (void)selectGameWithoutPicker:(NSNotification *)notification;
+- (void)selectGame:(NSNotification *)notification;
 
-- (void) showNearbyTab:(BOOL)yesOrNo;
-- (void) displayNearbyObjectView:(UIViewController *)nearbyObjectViewController;
-- (void) dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController;
+- (void)showNearbyTab:(BOOL)yesOrNo;
+- (void)displayNearbyObjectView:(UIViewController *)nearbyObjectViewController;
+- (void)dismissNearbyObjectView:(UIViewController *)nearbyObjectViewController;
 
-- (void) beginGamePlay;
-- (void) checkForDisplayCompleteNode;
+- (void)beginGamePlay;
+- (void)checkForDisplayCompleteNode;
 
-- (void) showAlert:(NSString *)title message:(NSString *)message;
-- (void) showServerAlertWithEmail:(NSString *)title message:(NSString *)message details:(NSString*)detail;
+- (void)showAlert:(NSString *)title message:(NSString *)message;
+- (void)showServerAlertWithEmail:(NSString *)title message:(NSString *)message details:(NSString*)detail;
 
-- (void) showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar;
-- (void) removeWaitingIndicator;
+- (void)showWaitingIndicator:(NSString *)message displayProgressBar:(BOOL)displayProgressBar;
+- (void)removeWaitingIndicator;
 
-- (void) showNetworkAlert;
-- (void) removeNetworkAlert;
+- (void)showNetworkAlert;
+- (void)removeNetworkAlert;
 
-//- (void) didReceivePlayerChannelEventNotification:(NSNotification *)notification;
-//- (void) didReceiveGroupChannelEventNotification:(NSNotification *)notification;
-- (void) didReceiveGameChannelEventNotification:(NSNotification *)notification;
-//- (void) didReceiveWebpageChannelEventNotification:(NSNotification *)notification;
+//- (void)didReceivePlayerChannelEventNotification:(NSNotification *)notification;
+//- (void)didReceiveGroupChannelEventNotification:(NSNotification *)notification;
+- (void)didReceiveGameChannelEventNotification:(NSNotification *)notification;
+//- (void)didReceiveWebpageChannelEventNotification:(NSNotification *)notification;
 
 @end

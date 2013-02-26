@@ -49,11 +49,17 @@
 
 - (void)requestNewGameList
 {
-    currentPage = 0;
-    self.theSearchBar.text = searchText;
-    if(![searchText isEqualToString:@""]) [self performSearch:searchText];
+    [super requestNewGameList];
+    
+    if([AppModel sharedAppModel].playerLocation && [[AppModel sharedAppModel] loggedIn])
+    {
+        currentPage = 0;
+        self.theSearchBar.text = searchText;
+        if(![searchText isEqualToString:@""]) [self performSearch:searchText];
+        [self showLoadingIndicator];
+    }
 }
-
+    
 - (void)refreshViewFromModel
 {
     if(currentPage == 0) self.gameList = [AppModel sharedAppModel].searchGameList;
@@ -82,8 +88,9 @@
         UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"FetchCell"];
         if (cell == nil) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"FetchCell"];
     
-        if(!allResultsFound) cell.textLabel.text = NSLocalizedString(@"GamePickerSearchLoadingMoreKey", @"");
-        else                 cell.textLabel.text = NSLocalizedString(@"GamePickerSearchNoMoreKey", @"");
+        if(!allResultsFound)                cell.textLabel.text = NSLocalizedString(@"GamePickerSearchLoadingMoreKey", @"");
+        else if([self.gameList count] == 0) cell.textLabel.text = NSLocalizedString(@"GamePickerSearchNoResults", @"");
+        else                                cell.textLabel.text = NSLocalizedString(@"GamePickerSearchNoMoreKey", @"");
         return cell;
     }
     else

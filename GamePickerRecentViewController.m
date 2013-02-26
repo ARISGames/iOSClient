@@ -39,12 +39,18 @@
 
 - (void)requestNewGameList
 {
-    [[AppServices sharedAppServices] fetchRecentGameListForPlayer];	
-    [self showLoadingIndicator];
+    [super requestNewGameList];
+    
+    if([AppModel sharedAppModel].playerLocation && [[AppModel sharedAppModel] loggedIn])
+    {
+        [[AppServices sharedAppServices] fetchRecentGameListForPlayer];
+        [self showLoadingIndicator];
+    }
 }
 
 - (void)refreshViewFromModel
-{    
+{
+    
 	self.gameList = [AppModel sharedAppModel].recentGameList;
 	[gameTable reloadData];
     
