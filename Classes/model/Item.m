@@ -24,7 +24,7 @@
 @synthesize locationId;
 @synthesize weight,type;
 @synthesize qty,maxQty;
-@synthesize description;
+@synthesize idescription;
 
 @synthesize dropable;
 @synthesize	destroyable,isAttribute;
@@ -65,27 +65,32 @@
 	return itemId;
 }
 
--(Item *)copyItem
+-(Item *)copy
 {
-    Item *itemCopy = [[Item alloc] init];
-    itemCopy.itemId = self.itemId;
-	itemCopy.name = self.name;
-	itemCopy.mediaId = self.mediaId;
-	itemCopy.iconMediaId = self.iconMediaId;
-	itemCopy.qty = self.qty;
-	itemCopy.maxQty = self.maxQty;
-    itemCopy.weight = self.weight;
-	itemCopy.description = self.description;	
-    itemCopy.isAttribute = self.isAttribute;
-	itemCopy.forcedDisplay = self.forcedDisplay;
-	itemCopy.dropable = self.dropable;
-	itemCopy.destroyable = self.destroyable;
-    itemCopy.hasViewed = self.hasViewed;
-	itemCopy.kind = self.kind;
-    itemCopy.url = self.url;
-    itemCopy.type = self.type;
-    itemCopy.creatorId = self.creatorId;
-    return itemCopy;
+    Item *c = [[Item alloc] init];
+    c.itemId        = self.itemId;
+	c.name          = self.name;
+	c.mediaId       = self.mediaId;
+	c.iconMediaId   = self.iconMediaId;
+	c.qty           = self.qty;
+	c.maxQty        = self.maxQty;
+    c.weight        = self.weight;
+	c.idescription  = self.idescription;
+    c.isAttribute   = self.isAttribute;
+	c.forcedDisplay = self.forcedDisplay;
+	c.dropable      = self.dropable;
+	c.destroyable   = self.destroyable;
+    c.hasViewed     = self.hasViewed;
+	c.kind          = self.kind;
+    c.url           = self.url;
+    c.type          = self.type;
+    c.creatorId     = self.creatorId;
+    return c;
+}
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"Item- Id:%d\tName:%@\tAttribute:%d\tQty:%d",self.itemId,self.name,self.isAttribute,self.qty];
 }
 
 @end

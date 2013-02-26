@@ -72,21 +72,18 @@ NSString *const kGameDetailsHtmlTemplate =
     self.authorsLabel.text = [NSString stringWithFormat: @"%@: ", NSLocalizedString(@"GameDetailsAuthorKey", @"")];
     self.authorsLabel.text = [self.authorsLabel.text stringByAppendingString:self.game.authors];
     self.descriptionLabel.text = [NSString stringWithFormat: @"%@: ", NSLocalizedString(@"DescriptionKey", @"")]; 
-    //self.descriptionLabel.text = [self.descriptionLabel.text stringByAppendingString:self.game.description];
+    //self.descriptionLabel.text = [self.descriptionLabel.text stringByAppendingString:self.game.gdescription];
 	[descriptionWebView setBackgroundColor:[UIColor clearColor]];
     [self.segmentedControl setTitle:[NSString stringWithFormat: @"%@: %d",NSLocalizedString(@"RatingKey", @""),game.rating] forSegmentAtIndex:0];
     
     [super viewDidLoad];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-	NSLog(@"GameDetailsViewController: View Will Appear, Refresh");
-	
+- (void)viewWillAppear:(BOOL)animated
+{
 	scrollView.contentSize = CGSizeMake(contentView.frame.size.width,contentView.frame.size.height);
 	
-	NSString *htmlDescription = [NSString stringWithFormat:kGameDetailsHtmlTemplate, self.game.description];
-    NSLog(@"Game ID = %i", self.game.gameId);
-	NSLog(@"GameDetailsViewController: HTML Description: %@", htmlDescription);
+	NSString *htmlDescription = [NSString stringWithFormat:kGameDetailsHtmlTemplate, self.game.gdescription];
 	descriptionWebView.delegate = self;
     descriptionWebView.hidden = NO;
 	[descriptionWebView loadHTMLString:htmlDescription baseURL:nil];
@@ -99,29 +96,17 @@ NSString *const kGameDetailsHtmlTemplate =
 	
 	float nHeight = [[descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue] + 3;
 	self.newHeight = nHeight;
-	NSLog(@"GameDetailsViewController: Description View Calculated Height is: %f",newHeight);
 	
 	CGRect descriptionFrame = [descriptionView frame];	
 	descriptionFrame.size = CGSizeMake(descriptionFrame.size.width,newHeight);
-	[descriptionView setFrame:descriptionFrame];	
-	NSLog(@"GameDetailsViewController: description UIWebView frame set to {%f, %f, %f, %f}",
-		  descriptionFrame.origin.x, 
-		  descriptionFrame.origin.y, 
-		  descriptionFrame.size.width,
-		  descriptionFrame.size.height);
+	[descriptionView setFrame:descriptionFrame];
     NSArray *reloadArr = [[NSArray alloc] initWithObjects:self.descriptionIndexPath, nil];
     [tableView reloadRowsAtIndexPaths: reloadArr   
                      withRowAnimation:UITableViewRowAnimationFade];
 }
 
-//////////////////////////////////////////////////////////////////////////////////
-
-- (BOOL)webView:(UIWebView *)webView  
-shouldStartLoadWithRequest:(NSURLRequest *)request  
- navigationType:(UIWebViewNavigationType)navigationType; {  
-    
-    NSLog(@"GameDetailsViewController: webView Called");
-    
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
     NSURL *requestURL = [ request URL ];  
     // Check to see what protocol/scheme the requested URL is.  
     if ( ( [ [ requestURL scheme ] isEqualToString: @"http" ]  
@@ -129,15 +114,9 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
         && ( navigationType == UIWebViewNavigationTypeLinkClicked ) ) {  
         return ![ [ UIApplication sharedApplication ] openURL: requestURL ];  
     }  
-    // Auto release  
-    // If request url is something other than http or https it will open  
-    // in UIWebView. You could also check for the other following  
-    // protocols: tel, mailto and sms  
+
     return YES;  
 } 
-
-//////////////////////////////////////////////////////////////////////////////////
-
 
 #pragma mark -
 #pragma mark Table view methods
@@ -173,9 +152,8 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
 }
 
 // Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSLog(@"GamePickerVC: Cell requested for section: %d row: %d",indexPath.section,indexPath.row);
-    
+- (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{    
 	NSString *CellIdentifier = [NSString stringWithFormat: @"Cell%d%d",indexPath.section,indexPath.row];
     UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -255,6 +233,7 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
             NSDictionary *dictionary = [NSDictionary dictionaryWithObject:self.game
                                                                    forKey:@"game"];
             
+            NSLog(@"NSNotification: SelectGame");
             [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"SelectGame" object:self userInfo:dictionary]];
             [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
             [self.tableView reloadData];
@@ -282,20 +261,16 @@ shouldStartLoadWithRequest:(NSURLRequest *)request
     }
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
 	NSString *title = [alertView title];
-    NSLog(@"%@", title);
     
     if([title isEqualToString:NSLocalizedString(@"GameDetailsResetTitleKey", nil)]) {
-        if (buttonIndex == 1) {
-            NSLog(@"user pressed OK");
-            NSLog(@"%d", self.game.gameId);
+        if (buttonIndex == 1)
+        {
             [[AppServices sharedAppServices] startOverGame:self.game.gameId];
             self.game.hasBeenPlayed = NO;
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
-        }
-        else {
-            NSLog(@"user pressed Cancel");
         }
     }
 }

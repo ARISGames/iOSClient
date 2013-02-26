@@ -57,21 +57,19 @@ int steps = 0;
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-	NSLog(@"AppDelegate: applicationDidBecomeActive");
+	NSLog(@"Application Became Active");
 	[[AppModel sharedAppModel]       loadUserDefaults];
     [[AppServices sharedAppServices] resetCurrentlyFetchingVars];
 
     if([AppModel sharedAppModel].fallbackGameId != 0 && ![AppModel sharedAppModel].currentGame)
         [[AppServices sharedAppServices] fetchOneGameGameList:[AppModel sharedAppModel].fallbackGameId];
-    
-    [[AppServices sharedAppServices] setShowPlayerOnMap];
-    
+        
     [[[AppModel sharedAppModel]uploadManager] checkForFailedContent];
 }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
 {
-    NSLog(@"AppDelegate: LOW MEMORY WARNING RECIEVED");
+    NSLog(@"NSNotification: LowMemoryWarning");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LowMemoryWarning" object:nil]];
 }
 

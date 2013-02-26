@@ -28,30 +28,24 @@
     [super viewDidLoad];
 	warningLabel.text = NSLocalizedString(@"LogoutWarningKey", @"");
 	[logoutButton setTitle:NSLocalizedString(@"LogoutKey",@"") forState:UIControlStateNormal];
-	
-	NSLog(@"Account Settings View Controller Loaded");
 }
 
 - (IBAction)logoutButtonPressed: (id) sender
 {
-	NSLog(@"Logout Requested");
+	NSLog(@"NSNotification: LogoutRequested");
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LogoutRequested" object:self]];
 }
 
 - (IBAction)passButtonPressed: (id) sender
 {
-	NSLog(@"Password Change Requested");
-
-	NSLog(@"Login: Change Password Button Touched");
 	ForgotViewController *forgotPassViewController = [[ForgotViewController alloc]
                                                       initWithNibName:@"ForgotViewController" bundle:[NSBundle mainBundle]];
-	//Put the view on the screen
 	[[self navigationController] pushViewController:forgotPassViewController animated:YES];
 }
 
 - (IBAction)profileButtonPressed: (id) sender
 {
-	NSLog(@"Profile Settings Requested");
+    NSLog(@"NSNotification: ProfSettingsRequested");
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ProfSettingsRequested" object:self]];
 }
 

@@ -432,6 +432,10 @@
 
 - (int) setQtyInInventoryOfItem:(int)itemId toQty:(int)qty
 {
+    NSLog(@"PHIL: setting item %@ qtyToSet %d",[[AppModel sharedAppModel] itemForItemId:itemId], qty);
+    if(qty < 1) qty = 0;
+    [[AppServices sharedAppServices] updateServerInventoryItem:itemId qty:qty];
+    
     Item *i = [[AppModel sharedAppModel] itemForItemId:itemId];
     int newQty = 0;
     if(!i.isAttribute)
@@ -441,7 +445,7 @@
             newQty = [[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:i qtyToRemove:qty-ii.qty];
         else if(ii && ii.qty > qty)
             newQty = [[AppModel sharedAppModel].currentGame.inventoryModel addItemToInventory:i qtyToAdd:ii.qty-qty];
-        else
+        else if(qty > 0)
             newQty = [[AppModel sharedAppModel].currentGame.inventoryModel addItemToInventory:i qtyToAdd:qty];
     }
     else
@@ -451,15 +455,17 @@
             newQty = [[AppModel sharedAppModel].currentGame.attributesModel removeItemFromAttributes:i qtyToRemove:qty-ii.qty];
         else if(ii && ii.qty > qty)
             newQty = [[AppModel sharedAppModel].currentGame.attributesModel addItemToAttributes:i qtyToAdd:ii.qty-qty];
-        else
+        else if(qty > 0)
             newQty = [[AppModel sharedAppModel].currentGame.attributesModel addItemToAttributes:i qtyToAdd:qty];
     }
-    [[AppServices sharedAppServices] updateServerInventoryItem:itemId qty:qty];
     return newQty;
 }
 
 - (int) giveQtyInInventoryToItem:(int)itemId ofQty:(int)qty
 {
+    NSLog(@"PHIL: adding item %@ qtyToAdd %d",[[AppModel sharedAppModel] itemForItemId:itemId], qty);
+    [[AppServices sharedAppServices] updateServerAddInventoryItem:itemId addQty:qty];
+
     Item *i = [[AppModel sharedAppModel] itemForItemId:itemId];
     int newQty = 0;
     if(!i.isAttribute)
@@ -467,12 +473,14 @@
     else
         newQty = [[AppModel sharedAppModel].currentGame.attributesModel addItemToAttributes:i qtyToAdd:qty];
 
-    [[AppServices sharedAppServices] updateServerAddInventoryItem:itemId addQty:qty];
     return newQty;
 }
 
 - (int) takeQtyInInventoryFromItem:(int)itemId ofQty:(int)qty
 {
+    NSLog(@"PHIL: removing item %@ qtyToRemove %d",[[AppModel sharedAppModel] itemForItemId:itemId], qty);
+    [[AppServices sharedAppServices] updateServerAddInventoryItem:itemId addQty:qty];
+
     Item *i = [[AppModel sharedAppModel] itemForItemId:itemId];
     int newQty = 0;
     if(!i.isAttribute)

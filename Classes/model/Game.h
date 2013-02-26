@@ -28,7 +28,7 @@
     NSString *mapType;
 
 	NSString *name;
-	NSString *description;
+	NSString *gdescription;
 	NSString *authors;
     int rating;
     NSMutableArray *comments;
@@ -69,7 +69,7 @@
 @property (nonatomic, strong) NSString *mapType;
 
 @property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *description;
+@property (nonatomic, strong) NSString *gdescription;
 @property (nonatomic, strong) NSString *authors;
 @property (readwrite, assign) int rating;
 @property (nonatomic, strong) NSMutableArray *comments;

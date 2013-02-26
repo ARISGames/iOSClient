@@ -18,9 +18,8 @@
 @implementation GamePickerPopularViewController
 
 @synthesize gameTable, timeControl;
-@synthesize gameList, gameIcons;
-@synthesize refreshButton,count;
-
+@synthesize gameList;
+@synthesize refreshButton;
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
@@ -33,7 +32,8 @@
         self.timeControl.enabled = YES;
         self.timeControl.alpha = 1; 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil]; 
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewPopularGameListReady" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
     }
     return self;
 }
@@ -45,35 +45,28 @@
 #pragma mark - View lifecycle
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
 	
     UIBarButtonItem *refreshButtonAlloc = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh)];
     self.refreshButton = refreshButtonAlloc;
     
     self.navigationItem.rightBarButtonItem = self.refreshButton;
-
-    [self refresh];
-	NSLog(@"GamePickerPopularViewController: View Loaded");
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-	NSLog(@"GamePickerPopularViewController: View Appeared");	
+- (void)viewDidAppear:(BOOL)animated
+{
 	[self refresh];
 }
-
 
 -(void)refresh
 {
     //Calculate the time distance filer control value
     int time = self.timeControl.selectedSegmentIndex;
 
-    if([AppModel sharedAppModel].playerLocation){
-    //register for notifications
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewPopularGameListReady" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil]; 
-        
+    if([AppModel sharedAppModel].playerLocation)
+    {
     if ([[AppModel sharedAppModel] loggedIn]) [[AppServices sharedAppServices] fetchPopularGameListForTime:time];
     [self showLoadingIndicator];
     }
@@ -104,10 +97,8 @@
 }
 
 
-- (void)refreshViewFromModel {
-	NSLog(@"GamePickerPopularViewController: Refresh View from Model");
-	
-    //unregister for notifications
+- (void)refreshViewFromModel
+{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
 	self.gameList = [AppModel sharedAppModel].popularGameList;
@@ -137,9 +128,8 @@
 }
 
 // Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	//NSLog(@"GamePickerVC: Cell requested for section: %d row: %d",indexPath.section,indexPath.row);
-    
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
 	static NSString *CellIdentifier = @"Cell";
     
     if([self.gameList count] == 0){
@@ -150,9 +140,11 @@
     }
     
     UITableViewCell *tempCell = (GamePickerCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (![tempCell respondsToSelector:@selector(starView)]) tempCell = nil;
+    if (![tempCell respondsToSelector:@selector(starView)])
+        tempCell = nil;
     GamePickerCell *cell = (GamePickerCell *)tempCell;
-    if (cell == nil) {
+    if (cell == nil)
+    {
 		// Create a temporary UIViewController to instantiate the custom cell.
 		UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"GamePickerCell" bundle:nil];
 		// Grab a pointer to the custom cell.

@@ -10,13 +10,13 @@
 #import "AppModel.h"
 #import "Comment.h"
 
-@interface GamePickerNearbyViewController : UIViewController <UITableViewDelegate,UITableViewDataSource>{
+@interface GamePickerNearbyViewController : UIViewController <UITableViewDelegate,UITableViewDataSource>
+{
 	NSArray *gameList;
     IBOutlet UISegmentedControl *distanceControl;
     IBOutlet UISegmentedControl *locationalControl;
 	UITableView *gameTable;
     UIBarButtonItem *refreshButton;
-    NSInteger count;
 }
 
 -(void)refresh;
@@ -27,6 +27,5 @@
 @property (nonatomic, copy) NSArray *gameList;
 @property (nonatomic) IBOutlet UITableView *gameTable;
 @property (nonatomic) IBOutlet UIBarButtonItem *refreshButton;
-@property (assign) NSInteger count;
 
 @end

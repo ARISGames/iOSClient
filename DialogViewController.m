@@ -74,7 +74,7 @@ NSString *const kDialogHtmlTemplate =
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
     {
 		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(optionsRecievedFromNotification:)
+												 selector:@selector(optionsReceivedFromNotification:)
 													 name:@"ConversationNodeOptionsReady"
 												   object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fixTextBox) name:@"MovieForcedRotationToPortrait" object:nil];
@@ -538,9 +538,9 @@ NSString *const kDialogHtmlTemplate =
 	}
 }
 
-- (void) optionsRecievedFromNotification:(NSNotification*) notification
+- (void) optionsReceivedFromNotification:(NSNotification*) notification
 {
-    NSLog(@"DialogVC: optionsRecievedFromNotification");
+    NSLog(@"DialogVC: optionsReceivedFromNotification");
     [self dismissWaitingIndicatorForPlayerOptions];
 	[self finishApplyingPlayerOptions: (NSArray*)[notification object]];
 }
@@ -796,13 +796,11 @@ NSString *const kDialogHtmlTemplate =
 	
 	if (webView == npcWebView)
     {
-		NSLog(@"DialogViewController: NPC WebView loaded: Update Sizes");
 		continueButton = npcContinueButton;
 		scrollView = npcScrollView;
 	}
 	else
     {
-		NSLog(@"DialogViewController: PC WebView loaded: Update Sizes");
 		continueButton = pcContinueButton;
 		scrollView = pcScrollView;
 	}
@@ -813,27 +811,14 @@ NSString *const kDialogHtmlTemplate =
 	webViewFrame.size = CGSizeMake(webViewFrame.size.width, newHeight);
 	[webView setFrame:webViewFrame];
 	[[[webView subviews] lastObject] setScrollEnabled:NO]; //Disable scrolling in webview
-	NSLog(@"DialogViewController: UIWebView frame set to {%f, %f, %f, %f}", 
-		  webViewFrame.origin.x, 
-		  webViewFrame.origin.y, 
-		  webViewFrame.size.width,
-		  webViewFrame.size.height);
-	
 
 	//position the continue button
 	CGRect continueButtonFrame = [continueButton frame];	
 	continueButtonFrame.origin = CGPointMake(continueButtonFrame.origin.x, webViewFrame.origin.y+webViewFrame.size.height+5);
 	[continueButton setFrame:continueButtonFrame];
 	
-	NSLog(@"DialogViewController: Continue Button frame set to {%f, %f, %f, %f}", 
-		  continueButtonFrame.origin.x, 
-		  continueButtonFrame.origin.y, 
-		  continueButtonFrame.size.width,
-		  continueButtonFrame.size.height);	
-	
 	//Size the scroll view's content
 	scrollView.contentSize = CGSizeMake(scrollView.contentSize.width, continueButtonFrame.origin.y + continueButtonFrame.size.height + 30);
-	NSLog(@"DialogViewController: ScrollView size set to {%f, %f}",scrollView.contentSize.width, scrollView.contentSize.height);
     
     //Fade in the WebView
     [scrollView setContentOffset:CGPointMake(0, 0) animated:NO];

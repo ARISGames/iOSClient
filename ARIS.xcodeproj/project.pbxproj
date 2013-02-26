@@ -204,6 +204,7 @@
 		AA21334516CC326000FB7F29 /* InventoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA21334416CC325F00FB7F29 /* InventoryModel.m */; };
 		AA2C3CF816D54A2B00623957 /* LocationsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2C3CF716D54A2B00623957 /* LocationsModel.m */; };
 		AA39E32116C4370D005A4E06 /* libPusher-combined.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA39E32016C4370D005A4E06 /* libPusher-combined.a */; };
+		AA39F65916DD21B0000DE415 /* GamePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA39F65816DD21B0000DE415 /* GamePickerViewController.m */; };
 		AA479A0416CD6B24001B2B03 /* AttributesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA479A0316CD6B24001B2B03 /* AttributesModel.m */; };
 		AA763156169B68A800860665 /* PopOverContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA763155169B68A800860665 /* PopOverContentView.m */; };
 		AA80EFCE16C048AB00DAB826 /* WaitingIndicatorAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA80EFCD16C048AB00DAB826 /* WaitingIndicatorAlertViewController.m */; };
@@ -754,6 +755,8 @@
 		AA39E33116C43771005A4E06 /* PTPusherMockConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPusherMockConnection.h; sourceTree = "<group>"; };
 		AA39E33216C43771005A4E06 /* PTPusherPresenceChannelDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTPusherPresenceChannelDelegate.h; sourceTree = "<group>"; };
 		AA39E33316C43771005A4E06 /* SRWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRWebSocket.h; sourceTree = "<group>"; };
+		AA39F65716DD21B0000DE415 /* GamePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerViewController.h; sourceTree = "<group>"; };
+		AA39F65816DD21B0000DE415 /* GamePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerViewController.m; sourceTree = "<group>"; };
 		AA479A0216CD6B24001B2B03 /* AttributesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributesModel.h; sourceTree = "<group>"; };
 		AA479A0316CD6B24001B2B03 /* AttributesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributesModel.m; sourceTree = "<group>"; };
 		AA763154169B68A800860665 /* PopOverContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopOverContentView.h; sourceTree = "<group>"; };
@@ -1570,6 +1573,8 @@
 				4A9181B8139FDF1600D236CC /* GamesMapAnnotation.h */,
 				4A9181B9139FDF1600D236CC /* GamesMapAnnotation.m */,
 				AB994443139EBD0C00C0878B /* RatingView */,
+				AA39F65716DD21B0000DE415 /* GamePickerViewController.h */,
+				AA39F65816DD21B0000DE415 /* GamePickerViewController.m */,
 			);
 			name = "Game Picker";
 			sourceTree = "<group>";
@@ -2632,6 +2637,7 @@
 				AA21334516CC326000FB7F29 /* InventoryModel.m in Sources */,
 				AA479A0416CD6B24001B2B03 /* AttributesModel.m in Sources */,
 				AA2C3CF816D54A2B00623957 /* LocationsModel.m in Sources */,
+				AA39F65916DD21B0000DE415 /* GamePickerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

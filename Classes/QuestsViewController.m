@@ -46,15 +46,6 @@ NSString *const kQuestsHtmlTemplate =
 @"<body></div><div style=\"position:relative; top:0px; background-color:#DDDDDD; border-style:ridge; border-width:3px; border-radius:11px; border-color:#888888; padding:15px; text-align:center;\"><h1 style=\"display:block; margin:0px auto;\">%@</h1>%@</div></body>"
 @"</html>";
 
-NSArray *sortedActiveQuests;
-NSArray *sortedCompletedQuests;
-NSMutableArray *activeQuestCells;
-NSMutableArray *completedQuestCells;
-int cellsLoaded;
-BOOL isLink;
-
-int badgeCount;
-
 @implementation QuestsViewController
 
 //Override init for passing title and icon to tab bar
@@ -85,8 +76,6 @@ int badgeCount;
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    NSLog(@"QuestsViewController: viewDidAppear");
-    
     if (![AppModel sharedAppModel].loggedIn || [AppModel sharedAppModel].currentGame.gameId==0)
     {
         //Note- WE SHOULDN'T BE DOING THINGS LIKE THIS.
@@ -130,7 +119,6 @@ int badgeCount;
 
 -(void)refreshViewFromModel
 {
-    NSLog(@"QuestsViewController: Refreshing view from model");
     if (![AppModel sharedAppModel].hasSeenQuestsTabTutorial)
     {
         //Put up the tutorial tab

@@ -104,6 +104,7 @@
         
         NSDictionary *dictionary = [NSDictionary dictionaryWithObject:[AppModel sharedAppModel].currentGame
                                                                forKey:@"game"];
+        NSLog(@"NSNotification: SelectGame");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"SelectGame" object:self userInfo:dictionary]];
     }
     return;

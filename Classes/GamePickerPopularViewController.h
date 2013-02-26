@@ -10,14 +10,12 @@
 #import "AppModel.h"
 #import "Comment.h"
 
-@interface GamePickerPopularViewController : UIViewController <UITableViewDelegate,UITableViewDataSource>{
-    
+@interface GamePickerPopularViewController : UIViewController <UITableViewDelegate,UITableViewDataSource>
+{    
 	NSArray *gameList;
     IBOutlet UISegmentedControl *timeControl;
 	UITableView *gameTable;
     UIBarButtonItem *refreshButton;
-    NSInteger count;
-    NSArray *gameIcons;
 }
 
 -(void)refresh;
@@ -29,7 +27,5 @@
 @property (nonatomic) IBOutlet UITableView *gameTable;
 @property (nonatomic) IBOutlet UIBarButtonItem *refreshButton;
 @property (nonatomic) IBOutlet UISegmentedControl *timeControl;
-@property (nonatomic) NSArray *gameIcons;
-@property (assign) NSInteger count;
 
 @end

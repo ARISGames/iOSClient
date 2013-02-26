@@ -13,7 +13,15 @@
 
 
 @interface QuestsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate, UIWebViewDelegate>
-{	
+{
+    NSArray *sortedActiveQuests;
+    NSArray *sortedCompletedQuests;
+    NSMutableArray *activeQuestCells;
+    NSMutableArray *completedQuestCells;
+    int cellsLoaded;
+    BOOL isLink;
+    int badgeCount;
+    
 	IBOutlet UITableView *tableView;
 	IBOutlet UIProgressView *progressView;
 	IBOutlet UILabel *progressLabel;

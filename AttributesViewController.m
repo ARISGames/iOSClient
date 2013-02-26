@@ -12,9 +12,8 @@
 #import "AsyncMediaImageView.h"
 #import "AppModel.h"
 
-int badgeCount;
-
 @implementation AttributesViewController
+
 @synthesize attributes,iconCache,attributesTable,pcImage,nameLabel,groupLabel,addGroupButton,newAttrsSinceLastView;
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
@@ -110,8 +109,6 @@ int badgeCount;
 
 -(void)refreshViewFromModel
 {
-	NSLog(@"AttributesVC: Refresh View from Model");
-	
 	self.attributes = [AppModel sharedAppModel].currentGame.attributesModel.currentAttributes;
 	[attributesTable reloadData];
 }
@@ -223,7 +220,7 @@ int badgeCount;
     lblTemp1.font = [UIFont boldSystemFontOfSize:18.0];
     
     UILabel *lblTemp2 = (UILabel *)[cell viewWithTag:2];
-    lblTemp2.text = item.description;
+    lblTemp2.text = item.idescription;
 	AsyncMediaImageView *iconView = (AsyncMediaImageView *)[cell viewWithTag:3];
     
     UILabel *lblTemp3 = (UILabel *)[cell viewWithTag:4];

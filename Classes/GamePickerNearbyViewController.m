@@ -20,7 +20,7 @@
 
 @synthesize gameTable;
 @synthesize gameList;
-@synthesize refreshButton,count;
+@synthesize refreshButton;
 
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
@@ -32,13 +32,15 @@
 		self.navigationItem.title = [NSString stringWithFormat: @"%@", NSLocalizedString(@"GamePickerNearbyGamesKey", @"")];
         self.tabBarItem.image = [UIImage imageNamed:@"193-location-arrow"];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:@"PlayerMoved" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNearbyGameListReady" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
     }
     return self;
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
 	UIBarButtonItem *refreshButtonAlloc = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh)];
@@ -46,20 +48,11 @@
     self.navigationItem.rightBarButtonItem = self.refreshButton;
     
   	[gameTable reloadData];
-    [self refresh];
-    
-	NSLog(@"GamePickerNearbyViewController: View Loaded");
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-	NSLog(@"GamePickerNearbyViewController: View Appeared");	
-	
-	//self.gameList = [NSMutableArray arrayWithCapacity:1];
-    
+- (void)viewDidAppear:(BOOL)animated
+{
 	[self refresh];
-    
-	NSLog(@"GamePickerNearbyViewController: view did appear");
-    
 }
 
 -(void)refresh
@@ -96,25 +89,9 @@
     
     if([AppModel sharedAppModel].playerLocation)
     {
-        //register for notifications
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNearbyGameListReady" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
-        
         if ([[AppModel sharedAppModel] loggedIn]) [[AppServices sharedAppServices] fetchGameListWithDistanceFilter:distanceFilter locational:locational];
-        
         [self showLoadingIndicator];
     }
- /*   else{
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NoLocationTitleKey", @"") message:NSLocalizedString(@"NoLocationMessageKey", @"") delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
-        
-        [alert show];  
-    }*/
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-    // Release anything that's not essential, such as cached data
 }
 
 #pragma mark custom methods, logic
@@ -139,11 +116,6 @@
 
 - (void)refreshViewFromModel
 {
-	NSLog(@"GamePickerNearbyViewController: Refresh View from Model");
-    
-    //unregister for notifications
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
 	self.gameList = [[AppModel sharedAppModel].nearbyGameList sortedArrayUsingSelector:@selector(compareCalculatedScore:)];
     [gameTable reloadData];
     
@@ -151,7 +123,8 @@
 }
 
 #pragma mark Control Callbacks
--(IBAction)controlChanged:(id)sender{
+-(IBAction)controlChanged:(id)sender
+{
     if (sender == locationalControl || locationalControl.selectedSegmentIndex == 0) 
         [self refresh];
 }
@@ -170,10 +143,9 @@
 }
 
 // Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	//NSLog(@"GamePickerVC: Cell requested for section: %d row: %d",indexPath.section,indexPath.row);
-    
-	static NSString *CellIdentifier = @"Cell";
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"Cell";
     
     if([self.gameList count] == 0){
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
@@ -289,42 +261,6 @@
 {
 	return 60;
 }
-
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
- 
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
- }   
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }   
- }
- */
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
- }
- */
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
 
 - (void)dealloc
 {

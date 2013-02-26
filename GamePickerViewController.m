@@ -1,110 +1,86 @@
 //
-//  GamePickerRecentViewController.m
+//  GamePickerViewController.m
 //  ARIS
 //
-//  Created by David J Gagnon on 6/7/11.
-//  Copyright 2011 University of Wisconsin. All rights reserved.
+//  Created by Phil Dougherty on 2/26/13.
+//
 //
 
-#import "GamePickerRecentViewController.h"
+#import "GamePickerViewController.h"
 #import "AppServices.h"
 #import "Game.h"
 #import "ARISAppDelegate.h"
 #import "GameDetailsViewController.h"
 #import "GamePickerCell.h"
 #include <QuartzCore/QuartzCore.h>
+#include "AsyncMediaImageView.h"
 
-@implementation GamePickerRecentViewController
 
-@synthesize gameTable;
+@interface GamePickerViewController ()
+
+@end
+
+@implementation GamePickerViewController
+
 @synthesize gameList;
+@synthesize gameTable;
 @synthesize refreshButton;
 
-//Override init for passing title and icon to tab bar
-- (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithNibName:nibName bundle:nibBundle];
-    if(self)
-    {
-        self.title = NSLocalizedString(@"GamePickerRecentTitleKey", @"");
-		self.navigationItem.title = NSLocalizedString(@"GamePickeRecentPlayedKey", @"");
-        self.tabBarItem.image = [UIImage imageNamed:@"78-stopwatch"];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel)   name:@"NewRecentGameListReady" object:nil];
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self)
+    {        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh)                name:@"PlayerMoved" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost" object:nil];
     }
     return self;
 }
 
-- (void)dealloc
-{
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-#pragma mark - View lifecycle
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
-    self.refreshButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh)];
     
+    self.refreshButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refresh)];
     self.navigationItem.rightBarButtonItem = self.refreshButton;
-    self.gameList = [NSArray array];
+    
+  	[self.gameTable reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [gameTable reloadData];
-	[self refresh];
+    [super viewDidAppear:animated];
+	//[self requestNewGameList];
 }
 
--(void)refresh
-{
-    [[AppServices sharedAppServices] fetchRecentGameListForPlayer];	
-    [self showLoadingIndicator];
-}
-
-#pragma mark custom methods, logic
--(void)showLoadingIndicator
-{
-	UIActivityIndicatorView *activityIndicator = 
-	[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
-	[[self navigationItem] setRightBarButtonItem:barButton];
-	[activityIndicator startAnimating];
-}
-
--(void)removeLoadingIndicator
-{
-	[[self navigationItem] setRightBarButtonItem:self.refreshButton];
-}
-
-- (void)refreshViewFromModel
-{    
-	self.gameList = [AppModel sharedAppModel].recentGameList;
-    
-	[gameTable reloadData];
-    [self removeLoadingIndicator];
-}
-
-#pragma mark Table view methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
 
-// Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if([self.gameList count] == 0 && [AppModel sharedAppModel].playerLocation) return 1;
 	return [self.gameList count];
 }
 
-// Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	static NSString *CellIdentifier = @"Cell";
-    GamePickerCell *cell = (GamePickerCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
+    static NSString *CellIdentifier = @"Cell";
+    
+    if([self.gameList count] == 0){
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        cell.textLabel.text = NSLocalizedString(@"GamePickerNoGamesKey", @"");
+        cell.detailTextLabel.text = NSLocalizedString(@"GamePickerMakeOneGameKey", @"");
+        return cell;
+    }
+    
+    UITableViewCell *tempCell = (GamePickerCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (![tempCell respondsToSelector:@selector(starView)])
+        tempCell = nil;
+    GamePickerCell *cell = (GamePickerCell *)tempCell;
+    if (cell == nil)
+    {
 		// Create a temporary UIViewController to instantiate the custom cell.
 		UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"GamePickerCell" bundle:nil];
 		// Grab a pointer to the custom cell.
@@ -129,20 +105,23 @@
     
 	cell.titleLabel.text = currentGame.name;
 	double dist = currentGame.distanceFromPlayer;
-	cell.distanceLabel.text = [NSString stringWithFormat:@"%1.1f %@",  dist/1000, NSLocalizedString(@"km", @"") ];
+	cell.distanceLabel.text = [NSString stringWithFormat:@"%1.1f %@",  dist/1000, NSLocalizedString(@"km", @"")];
 	cell.authorLabel.text = currentGame.authors;
 	cell.numReviewsLabel.text = [NSString stringWithFormat:@"%@ %@", [[NSNumber numberWithInt:currentGame.numReviews] stringValue], NSLocalizedString(@"GamePickerRecentReviewsKey", @"")];
     cell.starView.rating = currentGame.rating;
-       
     //Set up the Icon
     //Create a new iconView for each cell instead of reusing the same one
     AsyncMediaImageView *iconView = [[AsyncMediaImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-    if(currentGame.iconMedia.image)
+    
+    
+    if(currentGame.iconMedia.image){
         iconView.image = [UIImage imageWithData: currentGame.iconMedia.image];
-    else
-    {
+    }
+    else {
         if(!currentGame.iconMedia) iconView.image = [UIImage imageNamed:@"Icon.png"];
-        else [iconView loadImageFromMedia:currentGame.iconMedia];
+        else{
+            [iconView loadImageFromMedia:currentGame.iconMedia];
+        }
     }
     
     iconView.layer.masksToBounds = YES;
@@ -152,24 +131,27 @@
     if([cell.iconView.subviews count]>0)
         [[cell.iconView.subviews objectAtIndex:0] removeFromSuperview];
     
+    
     [cell.iconView addSubview: iconView];
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{    
-    if (indexPath.row % 2 == 0) cell.backgroundColor = [UIColor colorWithRed:233.0/255.0 green:233.0/255.0 blue:233.0/255.0 alpha:1.0];  
-    else                        cell.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:1.0];  
+{
+    if (indexPath.row % 2 == 0) cell.backgroundColor = [UIColor colorWithRed:233.0/255.0 green:233.0/255.0 blue:233.0/255.0 alpha:1.0];
+    else                        cell.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:1.0];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if([self.gameList count] == 0)
+        return;
     //do select game notification;
     Game *selectedGame;
 	selectedGame = [self.gameList objectAtIndex:indexPath.row];
 	
-	GameDetailsViewController *gameDetailsViewController = [[GameDetailsViewController alloc] initWithNibName:@"GameDetails" bundle:nil];
+	GameDetailsViewController *gameDetailsViewController = [[GameDetailsViewController alloc]initWithNibName:@"GameDetails" bundle:nil];
 	gameDetailsViewController.game = selectedGame;
 	[self.navigationController pushViewController:gameDetailsViewController animated:YES];
 }
@@ -179,7 +161,7 @@
 	Game *selectedGame;
 	selectedGame = [self.gameList objectAtIndex:indexPath.row];
 	
-	GameDetailsViewController *gameDetailsViewController = [[GameDetailsViewController alloc] initWithNibName:@"GameDetails" bundle:nil];
+	GameDetailsViewController *gameDetailsViewController = [[GameDetailsViewController alloc]initWithNibName:@"GameDetails" bundle:nil];
 	gameDetailsViewController.game = selectedGame;
 	[self.navigationController pushViewController:gameDetailsViewController animated:YES];
 }
@@ -189,31 +171,22 @@
 	return 60;
 }
 
--(void)controlChanged:(id)sender{
-    //Do nothing...
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
--(BOOL)shouldAutorotate{
-    return YES;
-}
-
--(NSInteger)supportedInterfaceOrientations
+-(void)showLoadingIndicator
 {
-    NSInteger mask = 0;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeLeft])
-        mask |= UIInterfaceOrientationMaskLandscapeLeft;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeRight])
-        mask |= UIInterfaceOrientationMaskLandscapeRight;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortrait])
-        mask |= UIInterfaceOrientationMaskPortrait;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortraitUpsideDown])
-        mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
-    return mask;
+	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
+	[[self navigationItem] setRightBarButtonItem:barButton];
+	[activityIndicator startAnimating];
+}
+
+-(void)removeLoadingIndicator
+{
+	[[self navigationItem] setRightBarButtonItem:self.refreshButton];
+}
+
+- (void)dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

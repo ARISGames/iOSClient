@@ -21,7 +21,8 @@ static float INITIAL_SPAN = 0.001;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
+    if (self)
+    {
         // Custom initialization
         self.title = NSLocalizedString(@"DropOnMapTitleKey", @"");
         self.hidesBottomBarWhenPushed = YES;

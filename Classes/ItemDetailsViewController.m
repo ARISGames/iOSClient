@@ -98,25 +98,20 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey",@"")
 									 style: UIBarButtonItemStyleBordered
 									target:self 
-									action:@selector(backButtonTouchAction:)];
-	NSLog(@"ItemDetailsViewController: View Loaded. Current item: %@", item.name);
-    
+									action:@selector(backButtonTouchAction:)];    
 	//Set Up General Stuff
-	NSString *htmlDescription = [NSString stringWithFormat:kItemDetailsDescriptionHtmlTemplate, item.description];
+	NSString *htmlDescription = [NSString stringWithFormat:kItemDetailsDescriptionHtmlTemplate, item.idescription];
 	[itemDescriptionView loadHTMLString:htmlDescription baseURL:nil];
     
 	Media *media = [[AppModel sharedAppModel] mediaForMediaId:item.mediaId];
         
 	if ([media.type isEqualToString: kMediaTypeImage] && media.url)
     {
-		NSLog(@"ItemDetailsViewController: Image Layout Selected");
 		[itemImageView loadImageFromMedia:media];
         itemImageView.contentMode = UIViewContentModeScaleAspectFit;
 	}
 	else if (([media.type isEqualToString:kMediaTypeVideo] || [media.type isEqualToString: kMediaTypeAudio]) && media.url)
-    {
-		NSLog(@"ItemDetailsViewController:  AV Layout Selected");
-        
+    {        
         AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presentingController:[RootViewController sharedRootViewController] preloadNow:NO];
         //mediaArea.frame = CGRectMake(0, 0, 300, 240);
         [self.scrollView addSubview:mediaButton];
@@ -171,7 +166,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         UIBarButtonItem *hideKeyboardButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"HideKeyboardKey", @"") style:UIBarButtonItemStylePlain target:self action:@selector(hideKeyboard)];      
         self.navigationItem.rightBarButtonItem = hideKeyboardButton;
         saveButton.frame = CGRectMake(0, 335, 320, 37);
-        textBox.text = item.description;
+        textBox.text = item.idescription;
         [self.scrollView addSubview:textBox];
         [self.scrollView addSubview:saveButton];
         if(([AppModel sharedAppModel].playerId != self.item.creatorId))

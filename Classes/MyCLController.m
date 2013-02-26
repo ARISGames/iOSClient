@@ -82,21 +82,14 @@
 
 
 // Called when the location is updated
-	- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-
-	NSLog(@"MyCLCController: Read %lf, %lf from CLLocationManager with Accuracy of %gm,%gm", newLocation.coordinate.latitude,
-		  newLocation.coordinate.longitude,  newLocation.horizontalAccuracy, newLocation.verticalAccuracy );
-	
-	//Update the Model
-		[AppModel sharedAppModel].playerLocation = newLocation;
-			
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+    [AppModel sharedAppModel].playerLocation = newLocation;
 }
 
 // Called when there is an error getting the location
-- (void)locationManager:(CLLocationManager *)manager
-	   didFailWithError:(NSError *)error
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-	
 	NSMutableString *errorString = [[NSMutableString alloc] init];
 	
 	if ([error domain] == kCLErrorDomain) {

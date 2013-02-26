@@ -43,7 +43,8 @@
 }
 
 -(void)updateInventory:(NSArray *)inventory
-{    
+{
+    NSLog(@"PHIL: Updating Inventory");
     NSMutableArray *newlyAcquiredItems = [[NSMutableArray alloc] initWithCapacity:5];
     NSMutableArray *newlyLostItems     = [[NSMutableArray alloc] initWithCapacity:5];
     NSDictionary   *itemDeltaDict; //Could just be a struct for speed, but whatever
@@ -106,13 +107,13 @@
     
     self.currentInventory = inventory;
     
-    
     if([newlyAcquiredItems count] > 0)
     {
         NSDictionary *iDict = [[NSDictionary alloc] initWithObjectsAndKeys:
                                newlyAcquiredItems,@"newlyAcquiredItems",
                                inventory,@"allItems",
                                nil];
+        NSLog(@"NSNotification: NewlyAcquiredItemsAvailable");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyAcquiredItemsAvailable" object:self userInfo:iDict]];
     }
     if([newlyLostItems count] > 0)
@@ -121,6 +122,7 @@
                                newlyLostItems,@"newlyLostItems",
                                inventory,@"allItems",
                                nil];
+        NSLog(@"NSNotification: NewlyLostItemsAvailable");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyLostItemsAvailable" object:self userInfo:iDict]];
     }
 }
@@ -128,8 +130,10 @@
 -(int)removeItemFromInventory:(Item*)item qtyToRemove:(int)qty
 {
 	NSLog(@"InventoryModel: removing an item from the local inventory");
-    NSMutableArray *newInventory = [[NSMutableArray alloc] initWithArray:self.currentInventory copyItems:YES];
-    
+    NSMutableArray *newInventory = [[NSMutableArray alloc] initWithCapacity:[self.currentInventory count]];
+    for(int i = 0; i < [self.currentInventory count]; i++)
+        [newInventory addObject:[((Item *)[self.currentInventory objectAtIndex:i]) copy]];
+        
     Item* tmpItem;
     for(int i = 0; i < [newInventory count]; i++)
     {
@@ -149,7 +153,9 @@
 -(int)addItemToInventory:(Item*)item qtyToAdd:(int)qty
 {
 	NSLog(@"InventoryModel: removing an item from the local inventory");
-    NSMutableArray *newInventory = [[NSMutableArray alloc] initWithArray:self.currentInventory copyItems:YES];
+    NSMutableArray *newInventory = [[NSMutableArray alloc] initWithCapacity:[self.currentInventory count]];
+    for(int i = 0; i < [self.currentInventory count]; i++)
+        [newInventory addObject:[((Item *)[self.currentInventory objectAtIndex:i]) copy]];
     
     Item* tmpItem;
     for(int i = 0; i < [newInventory count]; i++)

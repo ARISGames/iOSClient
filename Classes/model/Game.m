@@ -20,7 +20,7 @@
 @synthesize mapType;
 @synthesize hasBeenPlayed;
 @synthesize name;
-@synthesize description;
+@synthesize gdescription;
 @synthesize distanceFromPlayer;
 @synthesize rating;
 @synthesize comments;
@@ -72,5 +72,9 @@
     return [self.name compare:otherGame.name]; 
 }
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"Game- Id:%d\tName:%@",self.gameId,self.name];
+}
 
 @end

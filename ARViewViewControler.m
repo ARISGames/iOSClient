@@ -28,8 +28,8 @@
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {	
-	
+- (void)viewDidLoad
+{	
 	ARviewController = [[ARGeoViewController alloc] init];
 	ARviewController.debugMode = NO;
 	ARviewController.delegate = self;
@@ -80,7 +80,6 @@
 	
 	
 	[super viewDidLoad];
-	NSLog(@"ARView Loaded");
 }
 
 

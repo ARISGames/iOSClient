@@ -137,7 +137,7 @@
 	self.inventory = [[NSMutableArray alloc] init];
     for(int i = 0; i < [tempCopy count]; i++){
         if(((Item *)[tempCopy objectAtIndex:i]).isTradeable)
-            [self.inventory addObject:[((Item *)[tempCopy objectAtIndex:i]) copyItem]];
+            [self.inventory addObject:[((Item *)[tempCopy objectAtIndex:i]) copy]];
     } 
     NSMutableArray *itemsToTradeAlloc = [[NSMutableArray alloc] init];
     self.itemsToTrade = itemsToTradeAlloc;
@@ -242,9 +242,8 @@
 }
 
 // Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	NSLog(@"GamePickerVC: Cell requested for section: %d row: %d",indexPath.section,indexPath.row);
-    
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{    
 	NSString *CellIdentifier = [NSString stringWithFormat: @"Cell%d%d",indexPath.section,indexPath.row];
     RoundedTableViewCell *cell = (RoundedTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -276,7 +275,7 @@
 	cell.lbl1.text = item.name;	
     cell.lbl1.font = [UIFont boldSystemFontOfSize:18.0];
     [cell.lbl1 setNeedsDisplay];
-    cell.lbl2.text = item.description;
+    cell.lbl2.text = item.idescription;
     [cell.lbl2 setNeedsDisplay];
     if(item.qty >1 && item.weight > 1)
          cell.lbl4.text = [NSString stringWithFormat:@"%@: %d, %@: %d",NSLocalizedString(@"x", @""),item.qty,NSLocalizedString(@"WeightKey", @""),item.weight];
@@ -353,7 +352,7 @@
                              }];
         
         if (result == NSNotFound){
-            Item *itemCopy = [selectedItem copyItem];
+            Item *itemCopy = [selectedItem copy];
             itemCopy.qty = 1;
             [self.inventory addObject:itemCopy];
         }
@@ -376,7 +375,7 @@
                              }];
         
         if (result == NSNotFound){
-            Item *itemCopy = [selectedItem copyItem];
+            Item *itemCopy = [selectedItem copy];
             itemCopy.qty = 1;
             [self.itemsToTrade addObject:itemCopy];
         }

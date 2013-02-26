@@ -14,8 +14,6 @@
 #import "NoteDetailsViewController.h"
 #import "InventoryTradeViewController.h"
 
-int badgeCount;
-
 @implementation InventoryListViewController
 
 @synthesize inventoryTable;
@@ -273,12 +271,12 @@ int badgeCount;
     UILabel *lblTemp2 = (UILabel *)[cell viewWithTag:2];
     
     // if description has html tags in it, take first line (up until <br>) and display unformatted text for decription
-    NSRange range = [item.description rangeOfString:@"<br>"];
+    NSRange range = [item.idescription rangeOfString:@"<br>"];
     NSString *shortDescription;
     if (range.length != 0)
-       shortDescription = [item.description substringToIndex:range.location];
+       shortDescription = [item.idescription substringToIndex:range.location];
     else
-        shortDescription = item.description;
+        shortDescription = item.idescription;
     range = [shortDescription rangeOfString:@"</br>"];
     if (range.length != 0)
         shortDescription = [shortDescription substringToIndex:range.location];

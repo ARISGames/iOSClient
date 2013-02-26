@@ -19,7 +19,7 @@
 	int qty;
 	int maxQty;
     int weight;
-	NSString *description;	
+	NSString *idescription;
     BOOL isAttribute;
 	BOOL forcedDisplay;
 	BOOL dropable;
@@ -32,25 +32,25 @@
     int creatorId;
 }
 
-@property(copy, readwrite) NSString *name;
-@property(copy, readwrite) NSString *type;
+@property (copy, readwrite) NSString *name;
+@property (copy, readwrite) NSString *type;
 
-@property(readwrite, assign) nearbyObjectKind kind;
+@property (readwrite, assign) nearbyObjectKind kind;
 - (nearbyObjectKind) kind;
-@property(readwrite, assign) BOOL forcedDisplay;
-@property(readwrite, assign) BOOL hasViewed;
-@property(readwrite, assign) BOOL isTradeable;
-@property(readwrite, assign) int itemId;
-@property(readwrite, assign) int creatorId;
+@property (readwrite, assign) BOOL forcedDisplay;
+@property (readwrite, assign) BOOL hasViewed;
+@property (readwrite, assign) BOOL isTradeable;
+@property (readwrite, assign) int itemId;
+@property (readwrite, assign) int creatorId;
 
-@property(readwrite, assign) int locationId;
-@property(readwrite, assign) int mediaId;
+@property (readwrite, assign) int locationId;
+@property (readwrite, assign) int mediaId;
 
-@property(readwrite, assign) int weight;
-@property(readwrite, assign) int qty;
-@property(readwrite, assign) int maxQty;
-@property(copy, readwrite) NSString *description;
-@property(readwrite, assign) int iconMediaId;
+@property (readwrite, assign) int weight;
+@property (readwrite, assign) int qty;
+@property (readwrite, assign) int maxQty;
+@property (copy, readwrite) NSString *idescription;
+@property (readwrite, assign) int iconMediaId;
 @property (readwrite, assign) BOOL dropable;
 @property (readwrite, assign) BOOL destroyable;
 @property (readwrite, assign) BOOL isAttribute;
@@ -58,6 +58,6 @@
 @property (nonatomic, strong) NSString *url;
 
 - (void) display;
-- (Item *)   copyItem;
+- (Item *) copy;
 
 @end

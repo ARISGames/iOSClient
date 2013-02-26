@@ -44,11 +44,11 @@
 	NSObject *dataObject = [resultDictionary objectForKey:@"data"];
 		
 	if (self.returnCode == 0) {
-		NSLog(@"JSONResult: The return code was 0, continue to parse out the data");
 		self.data = [self parseJSONData:dataObject];
 	}
 	else if (self.returnCode == 1){
 		NSLog(@"JSONResult: The return code was 1, we have a bad game id: id = %d",[AppModel sharedAppModel].currentGame.gameId);
+        NSLog(@"NSNotification: LogoutRequested");
 		[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LogoutRequested" object:self userInfo:nil]];
 	}
     else if (self.returnCode == 4)

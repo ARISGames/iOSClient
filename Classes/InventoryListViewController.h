@@ -12,7 +12,10 @@
 #import "Item.h"
 #import "ItemDetailsViewController.h"
 
-@interface InventoryListViewController : UIViewController {
+@interface InventoryListViewController : UIViewController
+{
+    int badgeCount;
+
 	UITableView *inventoryTable;
 	NSArray *inventory;
     UIBarButtonItem *tradeButton;

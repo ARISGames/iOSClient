@@ -232,6 +232,7 @@
 	//Fetch the coresponding object from the server
     if([code isEqualToString:@"log-out"])
     {
+        NSLog(@"NSNotification: LogoutRequested");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LogoutRequested" object:self]];
         return;
     }

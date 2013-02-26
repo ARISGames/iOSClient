@@ -211,6 +211,7 @@
     CLLocationCoordinate2D newCoordinate = [self.mapView convertPoint:newCenter toCoordinateFromView:self.superview];
     [theAnnotation setCoordinate:newCoordinate];
     
+    NSLog(@"NSNotification: DDAnnotationCoordinateDidChangeNotification");
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DDAnnotationCoordinateDidChangeNotification" object:theAnnotation];
     
     // Clean up the state information.
@@ -302,6 +303,7 @@
 			
 			[theAnnotation setCoordinate:newCoordinate];
 			
+            NSLog(@"NSNotification: DDAnnotationCoordinateDidChangeNotification");
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"DDAnnotationCoordinateDidChangeNotification" object:theAnnotation];
 			
 			// Clean up the state information.

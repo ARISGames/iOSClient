@@ -146,8 +146,8 @@
     NSLog(@"It'll do it!");
 }
 
--(void) viewDidAppear:(BOOL)animated{
-    NSLog(@"PanoVC: viewDidAppear");
+-(void) viewDidAppear:(BOOL)animated
+{
     //Only do this the first time the view appears
     if (!self.viewHasAlreadyAppeared)
     {

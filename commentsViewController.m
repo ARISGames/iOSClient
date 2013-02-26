@@ -21,7 +21,6 @@
 //Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
-    NSLog(@"commentsViewController Initialized");
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self) {
         self.title = NSLocalizedString(@"CommentsTitleKey", @"");
@@ -30,17 +29,14 @@
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     defaultRating = 3;
-   	NSLog(@"commentsPickerViewController: View Loaded");
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-	NSLog(@"commentsViewController: View Appeared");	
 	[tableView reloadData];
-	NSLog(@"commentsViewController: view did appear");
-    
 }
 
 
@@ -79,9 +75,8 @@
 }
 
 // Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	//NSLog(@"GamePickerVC: Cell requested for section: %d row: %d",indexPath.section,indexPath.row);
-    
+- (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
 	static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -124,7 +119,8 @@
                                    forState:kSCRatingViewUserSelected];
                 
     }
-    else {
+    else
+    {
         //CommentCell *cell = [[CommentCell alloc] init]; //? WithNibName:@"CommentCell" bundle:nil];
         
         UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"CommentCell" bundle:nil];

@@ -38,7 +38,7 @@ BOOL tagFilter;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh)                name:@"NoteDeleted" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel)   name:@"NewNoteListReady" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedNoteList" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedNoteList" object:nil];
     }
     return self;
 }

@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "AppModel.h"
 
-@interface GamePickerSearchViewController : UIViewController <UITableViewDelegate,UITableViewDataSource, UISearchDisplayDelegate, UISearchBarDelegate>{
-    
+@interface GamePickerSearchViewController : UIViewController <UITableViewDelegate,UITableViewDataSource, UISearchDisplayDelegate, UISearchBarDelegate>
+{    
 	NSArray *gameList;
     UISearchBar *theSearchBar;
     UIView *disableViewOverlay;

@@ -87,7 +87,7 @@
 - (void) changeTabBar;
 - (void) showGameSelectionTabBarAndHideOthers;
 
-- (void) enterGameFromOutside:(NSNotification *)notification;
+- (void) selectGameWithoutPicker:(NSNotification *)notification;
 - (void) selectGame:(NSNotification *)notification;
 
 - (void) showNearbyTab:(BOOL)yesOrNo;

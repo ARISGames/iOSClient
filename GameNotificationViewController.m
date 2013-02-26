@@ -207,6 +207,7 @@ BOOL showingPopOver;
             [self enqueueDropDownNotificationWithFullString:notifString andBoldedString:activeQuest.name];
         }
         
+        NSLog(@"NSNotification: NewlyChangedQuestsGameNotificationSent");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyChangedQuestsGameNotificationSent" object:self]];
     }
 }
@@ -227,6 +228,7 @@ BOOL showingPopOver;
             [self enqueueDropDownNotificationWithFullString: notifString andBoldedString:completedQuest.name];
         }
         
+        NSLog(@"NSNotification: NewlyChangedQuestsGameNotificationSent");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyChangedQuestsGameNotificationSent" object:self]];
     }
 }
@@ -249,6 +251,8 @@ BOOL showingPopOver;
         
         [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
         [self enqueueDropDownNotificationWithFullString:notifString andBoldedString:receivedItem.name];
+        
+        NSLog(@"NSNotification: NewlyChangedItemsGameNotificationSent");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyChangedItemsGameNotificationSent" object:self]];
     }
 }
@@ -267,10 +271,12 @@ BOOL showingPopOver;
         if(lostItem.maxQty == 1)
             notifString = [NSString stringWithFormat:@"%@ %@", lostItem.name, NSLocalizedString(@"LostNotifKey", nil)];
         else
-            notifString = [NSString stringWithFormat:@"+%d %@ : %d %@",  qty, lostItem.name, lostItem.qty, NSLocalizedString(@"LeftNotifKey", nil)];
+            notifString = [NSString stringWithFormat:@"%d %@ : %d %@",  qty, lostItem.name, lostItem.qty, NSLocalizedString(@"LeftNotifKey", nil)];
         
         [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
         [self enqueueDropDownNotificationWithFullString:notifString andBoldedString:lostItem.name];
+        
+        NSLog(@"NSNotification: NewlyChangedItemsGameNotificationSent");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyChangedItemsGameNotificationSent" object:self]];
     }
 }
@@ -293,6 +299,8 @@ BOOL showingPopOver;
         
         [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
         [self enqueueDropDownNotificationWithFullString:notifString andBoldedString:receivedAttribute.name];
+
+        NSLog(@"NSNotification: NewlyChangedAttributesGameNotificationSent");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyChangedAttributesGameNotificationSent" object:self]];
     }
 
@@ -313,10 +321,12 @@ BOOL showingPopOver;
         if(lostAttribute.maxQty == 1)
             notifString = [NSString stringWithFormat:@"%@ %@", lostAttribute.name, NSLocalizedString(@"LostNotifKey", nil)];
         else
-            notifString = [NSString stringWithFormat:@"+%d %@ : %d %@",  qty, lostAttribute.name, lostAttribute.qty, NSLocalizedString(@"LeftNotifKey", nil)];
+            notifString = [NSString stringWithFormat:@"%d %@ : %d %@",  qty, lostAttribute.name, lostAttribute.qty, NSLocalizedString(@"LeftNotifKey", nil)];
         
         [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
         [self enqueueDropDownNotificationWithFullString:notifString andBoldedString:lostAttribute.name];
+        
+        NSLog(@"NSNotification: NewlyChangedAttributesGameNotificationSent");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyChangedAttributesGameNotificationSent" object:self]];
     }
 }
@@ -327,7 +337,8 @@ BOOL showingPopOver;
     
     for(int i = 0; i < [lostAttributes count]; i++)
     {
-        //Don't actually show a notification... 
+        //Doesn't actually show a game notification...
+        NSLog(@"NSNotification: NewlyChangedLocationsGameNotificationSent");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyChangedLocationsGameNotificationSent" object:self]];
     }
 }

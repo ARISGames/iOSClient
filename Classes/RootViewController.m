@@ -240,7 +240,7 @@ NSString *errorDetail;
         
         //register for notifications
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishLoginAttempt:)         name:@"NewLoginResponseReady"         object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterGameFromOutside:)       name:@"NewOneGameGameListReady"       object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectGameWithoutPicker:)    name:@"NewOneGameGameListReady"       object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectGame:)                 name:@"SelectGame"                    object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(beginGamePlay)               name:@"GameFinishedLoading"           object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPlayerSettings:)         name:@"ProfSettingsRequested"         object:nil];
@@ -426,6 +426,7 @@ NSString *errorDetail;
         
         [self.gamePlayTabBarController setViewControllers:tabs animated:NO];
         
+        NSLog(@"NSNotification: TabBarItemsChanged");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"TabBarItemsChanged" object:self userInfo:nil]];
     }
 }
@@ -433,7 +434,6 @@ NSString *errorDetail;
 #pragma mark Login and Game Selection
 - (void)createUserAndLoginWithGroup:(NSString *)groupName andGameId:(int)gameId inMuseumMode:(BOOL)museumMode
 {
-    NSLog(@"RootViewController: Attempt Create User for: %@", groupName);
 	[AppModel sharedAppModel].museumMode = museumMode;
     
     [self showWaitingIndicator:@"Creating User And Logging In..." displayProgressBar:NO];
@@ -447,7 +447,6 @@ NSString *errorDetail;
 
 - (void)attemptLoginWithUserName:(NSString *)userName andPassword:(NSString *)password andGameId:(int)gameId inMuseumMode:(BOOL)museumMode
 {
-	NSLog(@"RootViewController: Attempt Login for: %@ Password: %@", userName, password);
 	[AppModel sharedAppModel].userName = userName;
 	[AppModel sharedAppModel].password = password;
 	[AppModel sharedAppModel].museumMode = museumMode;
@@ -513,12 +512,14 @@ NSString *errorDetail;
 
 - (void)selectGame:(NSNotification *)notification
 {
-	[self loadAndPlayGame:[notification.userInfo objectForKey:@"game"]];
+    Game *game = [notification.userInfo objectForKey:@"game"];
+    NSLog(@"Selected Game: %@", game);
+	[self loadAndPlayGame:game];
 }
 
 -(void)loadAndPlayGame:(Game *)game
 {    
-	NSLog(@"RootViewController: Playing Game: '%@'", game.name);
+	NSLog(@"Loading Game: %@", game);
     [AppModel sharedAppModel].currentlyInteractingWithObject = NO;
 
     loadingViewController = [[LoadingViewController alloc] initWithNibName:@"LoadingViewController" bundle:nil];
@@ -640,8 +641,6 @@ NSString *errorDetail;
 
 - (void)performLogout:(NSNotification *)notification
 {
-    NSLog(@"Performing Logout: Clearing NSUserDefaults and Displaying Login Screen");
-	
     //if(playerChannel) [client unsubscribeFromChannel:(PTPusherChannel *)playerChannel];
     if(gameChannel) [pusherClient unsubscribeFromChannel:(PTPusherChannel *)gameChannel];
     //if(groupChannel) [client unsubscribeFromChannel:(PTPusherChannel *)groupChannel];
@@ -708,11 +707,11 @@ NSString *errorDetail;
     return YES;
 }
 
-- (void) enterGameFromOutside:(NSNotification *)notification
+- (void) selectGameWithoutPicker:(NSNotification *)notification
 {
-    NSLog(@"game opened");
     Game *game = [notification.userInfo objectForKey:@"game"];
-        
+    NSLog(@"Selected Game (w/o picker): %@", game);
+    
     //Configure view heirarchy to right before gameplay
     self.gamePlayTabBarController.view.hidden = YES;
     self.loginNavigationController.view.hidden = YES;

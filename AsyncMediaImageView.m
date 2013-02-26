@@ -167,7 +167,7 @@
 
 - (void)retryLoadingMyMedia
 {
-    NSLog(@"Failed to load media %d previously- new media list recieved so trying again...", [self.media.uid intValue]);
+    NSLog(@"Failed to load media %d previously- new media list received so trying again...", [self.media.uid intValue]);
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:[self.media.uid intValue]]];
 }
@@ -207,8 +207,9 @@
 	self.isLoading= NO;
 	[self updateViewWithNewImage:[UIImage imageWithData:self.media.image]];
     self.data=nil;
+    
+    NSLog(@"NSNotification: ImageReady");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ImageReady" object:nil]];
-
 }
 
 - (void) updateViewWithNewImage:(UIImage*)image
@@ -232,13 +233,10 @@
 	[self.superview setNeedsLayout];
 }
 
-- (void)dealloc {
-    NSLog(@"AsyncMediaImageView: Dealloc");
-    if(connection){
-    [connection cancel];
-    }
-    if(mMoviePlayer)
-    [mMoviePlayer.moviePlayer cancelAllThumbnailImageRequests];
+- (void)dealloc
+{
+    if(connection) [connection cancel];
+    if(mMoviePlayer) [mMoviePlayer.moviePlayer cancelAllThumbnailImageRequests];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

@@ -63,27 +63,28 @@
 
     self.completeRequestURL = url;
     
-	NSLog(@"JSONConnection: requesting URL: %@", self.completeRequestURL);
+	NSLog(@"Requesting URL: %@", self.completeRequestURL);
 
 	return self;
 }
 
-- (JSONResult*) performSynchronousRequest{
-	
+- (JSONResult*) performSynchronousRequest
+{	
 	NSURLRequest *request = [NSURLRequest requestWithURL:self.completeRequestURL];
     
     // Make synchronous request
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 	[[RootViewController sharedRootViewController] showWaitingIndicator: @"Loading" displayProgressBar:NO];
     
-    NSURLResponse *response = [[NSURLResponse alloc]init];
-    NSError *error = [[NSError alloc]init];
+    NSURLResponse *response = [[NSURLResponse alloc] init];
+    NSError *error = [[NSError alloc] init];
     NSData* resultData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 	
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	[[RootViewController sharedRootViewController] removeWaitingIndicator];
 
-	if (!resultData) {
+	if (!resultData)
+    {
 		NSLog(@"JSONConnection: performSynchronousRequest Error");
 		[[RootViewController sharedRootViewController] showNetworkAlert];
 		return nil;		
@@ -144,16 +145,14 @@
 	//Get the JSONResult here
 	JSONResult *jsonResult = [[JSONResult alloc] initWithJSONString:jsonString andUserData:[self userInfo]];
     
-	if (self.handler != nil) {
-        NSLog(@"JSONConnection: Performing Selector: %@",NSStringFromSelector(self.handler));
+	if (self.handler != nil)
 		[[AppServices sharedAppServices] performSelector:self.handler withObject:jsonResult];
-	}
-	
-
 }
 
 
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    NSLog(@"NSNotification: ConnectionLost");
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ConnectionLost" object:nil]];
 	// inform the user
     NSLog(@"*** JSONConnection: requestFailed: %@ %@",

@@ -141,16 +141,17 @@
         NSString *persistentStorePath = [documentsDirectory stringByAppendingPathComponent:@"UploadContent.sqlite"];
         
         NSError *error = nil;
-        NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:persistentStorePath error:&error];
-        NSLog(@"Persistent store size: %@ bytes", [fileAttributes objectForKey:NSFileSize]);
-        
         NSDictionary *fileSystemAttributes = [[NSFileManager defaultManager] attributesOfFileSystemForPath:persistentStorePath error:&error];
-        NSLog(@"Free space on file system: %@ bytes", [fileSystemAttributes objectForKey:NSFileSystemFreeSize]);
         float mBLeft = [[fileSystemAttributes objectForKey:NSFileSystemFreeSize] floatValue]/(float)1048576;
-        NSLog(@"Free space in MB: %f",mBLeft);
-        float gBLeft = [[fileSystemAttributes objectForKey:NSFileSystemFreeSize] floatValue]/(float)1073741824;
-        NSLog(@"Free space in GB: %f",gBLeft);
         if (mBLeft <= 100) [self clearCache];
+
+        ///* Uncomment for logged info on file system/stored cache size */
+        //NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:persistentStorePath error:&error];
+        //float gBLeft = [[fileSystemAttributes objectForKey:NSFileSystemFreeSize] floatValue]/(float)1073741824;
+        //NSLog(@"Persistent store size: %@ bytes", [fileAttributes objectForKey:NSFileSize]);
+        //NSLog(@"Free space on file system: %@ bytes", [fileSystemAttributes objectForKey:NSFileSystemFreeSize]);
+        //NSLog(@"Free space in MB: %f",mBLeft);
+        //NSLog(@"Free space in GB: %f",gBLeft);
     }
     return self;
 }

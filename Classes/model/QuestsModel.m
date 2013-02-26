@@ -71,6 +71,7 @@
                                newlyActiveQuests,@"newlyActiveQuests",
                                activeQuests,     @"allActiveQuests",
                                nil];
+        NSLog(@"NSNotification: NewlyActiveQuestsAvailable");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyActiveQuestsAvailable" object:self userInfo:qDict]];
     }
     
@@ -102,6 +103,7 @@
                                newlyCompletedQuests,@"newlyCompletedQuests",
                                completedQuests,     @"allCompletedQuests",
                                nil];
+        NSLog(@"NSNotification: NewlyCompletedQuestsAvailable");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyCompletedQuestsAvailable" object:self userInfo:qDict]];
     }
 }

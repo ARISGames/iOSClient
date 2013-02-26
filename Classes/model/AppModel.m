@@ -113,7 +113,7 @@
 
 -(void)loadUserDefaults
 {
-	NSLog(@"Model: Loading User Defaults");
+	NSLog(@"Loading User Defaults");
 	[defaults synchronize];
     
     NSURL *currServ = [NSURL URLWithString:[defaults stringForKey:@"baseServerString"]];
@@ -130,6 +130,7 @@
     if (self.serverURL && ![currServ isEqual:self.serverURL])
     {
         [[AppModel sharedAppModel].mediaCache clearCache];
+        NSLog(@"NSNotification: LogoutRequested");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LogoutRequested" object:self]];
         self.serverURL = currServ;
         return;
@@ -138,6 +139,7 @@
     if(self.showGamesInDevelopment != [defaults boolForKey:@"showGamesInDevelopment"])
     {
         self.showGamesInDevelopment = [defaults boolForKey:@"showGamesInDevelopment"];
+        NSLog(@"NSNotification: LogoutRequested");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LogoutRequested" object:self]];
         return;
     }
@@ -194,7 +196,7 @@
 
 -(void)clearUserDefaults
 {
-	NSLog(@"Model: Clearing User Defaults");	
+	NSLog(@"Clearing User Defaults");
 	[AppModel sharedAppModel].currentGame.gameId = 0;
     [AppModel sharedAppModel].playerId           = 0;
     [AppModel sharedAppModel].fallbackGameId     = 0;
@@ -285,14 +287,12 @@
 
 - (void)setPlayerLocation:(CLLocation *) newLocation
 {
-	NSLog(@"AppModel: setPlayerLocation");
-	
 	playerLocation = newLocation;
 	
 	//Tell the model to update the server and fetch any nearby locations
 	[[AppServices sharedAppServices] updateServerWithPlayerLocation];	
 	
-	//Tell the other parts of the client
+    NSLog(@"NSNotification: PlayerMoved");
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerMoved" object:nil]];
 }
 

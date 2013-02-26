@@ -14,6 +14,8 @@
 
 @interface AttributesViewController : UIViewController<UITableViewDataSource,UITableViewDataSource>
 {
+    int badgeCount;
+
 	UITableView *attributesTable;
 	NSArray *attributes;
     NSMutableArray *iconCache;

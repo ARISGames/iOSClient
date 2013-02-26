@@ -87,6 +87,7 @@
 - (void)refreshViewFromModel
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self removeLoadingIndicator];
     
     if(self.currentPage == 0) self.gameList = [AppModel sharedAppModel].searchGameList;
     else self.gameList = [self.gameList arrayByAddingObjectsFromArray:[AppModel sharedAppModel].searchGameList];
@@ -269,7 +270,6 @@
     self.currentlyFetchingNextPage = YES;
     self.allResultsFound = NO;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"RecievedGameList"       object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel)   name:@"NewSearchGameListReady" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost"         object:nil];
     

@@ -61,8 +61,8 @@
     // Release anything that's not essential, such as cached data
 }
 
--(IBAction)loginButtonTouched: (id) sender {
-    NSLog(@"Login: Login Button Touched");
+-(IBAction)loginButtonTouched:(id)sender
+{
     [[RootViewController sharedRootViewController] attemptLoginWithUserName:usernameField.text andPassword:passwordField.text andGameId:0 inMuseumMode:false];
 
     [usernameField resignFirstResponder];
@@ -94,19 +94,20 @@
     [self presentViewController:reader animated:YES completion:nil];
 }
 
--(void)changePassTouch{
-    NSLog(@"Login: Change Password Button Touched");
+-(void)changePassTouch
+{
     ForgotViewController *forgotPassViewController = [[ForgotViewController alloc] initWithNibName:@"ForgotViewController" bundle:[NSBundle mainBundle]];
     [[self navigationController] pushViewController:forgotPassViewController animated:YES];
 }
 
--(IBAction)newAccountButtonTouched: (id) sender{
-    NSLog(@"Login: New User Button Touched");
+-(IBAction)newAccountButtonTouched:(id)sender
+{
     SelfRegistrationViewController *selfRegistrationViewController = [[SelfRegistrationViewController alloc] initWithNibName:@"SelfRegistration" bundle:[NSBundle mainBundle]];
     [[self navigationController] pushViewController:selfRegistrationViewController animated:YES];
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary  *)info{
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary  *)info
+{
     [picker dismissViewControllerAnimated:NO completion:nil];
     UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
     if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];
@@ -119,7 +120,6 @@
         // EXAMPLE: just grab the first barcode
         break;
 
-    NSLog(@"LoginViewController: Scan result: %@",symbol.data);
     NSArray *terms  = [symbol.data componentsSeparatedByString:@","];
     if([terms count] > 1)
     {

@@ -67,8 +67,6 @@ NSArray *sortedQuests;
 {
     [super viewDidLoad];
     
-	NSLog(@"IconQuestsViewController: Quests View Loaded");
-    
     float currentVersion = 6.0;
     
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= currentVersion)
