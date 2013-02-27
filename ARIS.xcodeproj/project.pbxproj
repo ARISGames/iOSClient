@@ -209,6 +209,8 @@
 		AA763156169B68A800860665 /* PopOverContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA763155169B68A800860665 /* PopOverContentView.m */; };
 		AA80EFCE16C048AB00DAB826 /* WaitingIndicatorAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA80EFCD16C048AB00DAB826 /* WaitingIndicatorAlertViewController.m */; };
 		AA8330551684CC0E00C28960 /* ARISZBarReaderWrapperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8330541684CC0E00C28960 /* ARISZBarReaderWrapperViewController.m */; };
+		AAA5890116DE714A00C2445B /* BumpTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA588FF16DE714A00C2445B /* BumpTestViewController.m */; };
+		AAA5890216DE714A00C2445B /* BumpTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAA5890016DE714A00C2445B /* BumpTestViewController.xib */; };
 		AABD101916B7164C007278EF /* README_ABOUT_LINK_ERRORS in Resources */ = {isa = PBXBuildFile; fileRef = AABD101716B7164C007278EF /* README_ABOUT_LINK_ERRORS */; };
 		AABD101B16B71787007278EF /* libCrittercism_v3_4_9.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AABD101A16B71787007278EF /* libCrittercism_v3_4_9.a */; };
 		AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB0A5BA3120365420065CE68 /* Localizable.strings */; };
@@ -766,6 +768,9 @@
 		AA80EFCD16C048AB00DAB826 /* WaitingIndicatorAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitingIndicatorAlertViewController.m; sourceTree = "<group>"; };
 		AA8330531684CC0E00C28960 /* ARISZBarReaderWrapperViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISZBarReaderWrapperViewController.h; sourceTree = "<group>"; };
 		AA8330541684CC0E00C28960 /* ARISZBarReaderWrapperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISZBarReaderWrapperViewController.m; sourceTree = "<group>"; };
+		AAA588FE16DE714A00C2445B /* BumpTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BumpTestViewController.h; sourceTree = "<group>"; };
+		AAA588FF16DE714A00C2445B /* BumpTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BumpTestViewController.m; sourceTree = "<group>"; };
+		AAA5890016DE714A00C2445B /* BumpTestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BumpTestViewController.xib; sourceTree = "<group>"; };
 		AABD101416B7164C007278EF /* Crittercism.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crittercism.h; sourceTree = "<group>"; };
 		AABD101516B7164C007278EF /* CrittercismDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrittercismDelegate.h; sourceTree = "<group>"; };
 		AABD101716B7164C007278EF /* README_ABOUT_LINK_ERRORS */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README_ABOUT_LINK_ERRORS; sourceTree = "<group>"; };
@@ -1477,6 +1482,9 @@
 			children = (
 				4A373BD115ACABBE007D975C /* libBump.a */,
 				4A373BD215ACABBE007D975C /* BumpClient.h */,
+				AAA588FE16DE714A00C2445B /* BumpTestViewController.h */,
+				AAA588FF16DE714A00C2445B /* BumpTestViewController.m */,
+				AAA5890016DE714A00C2445B /* BumpTestViewController.xib */,
 			);
 			name = "Bump API";
 			sourceTree = "<group>";
@@ -2423,6 +2431,7 @@
 				DDCD2DE416275A5B003AAC64 /* QuestDetailsViewController.xib in Resources */,
 				DDC495DD16407DE500D4C063 /* PopOverViewController.xib in Resources */,
 				AABD101916B7164C007278EF /* README_ABOUT_LINK_ERRORS in Resources */,
+				AAA5890216DE714A00C2445B /* BumpTestViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2638,6 +2647,7 @@
 				AA479A0416CD6B24001B2B03 /* AttributesModel.m in Sources */,
 				AA2C3CF816D54A2B00623957 /* LocationsModel.m in Sources */,
 				AA39F65916DD21B0000DE415 /* GamePickerViewController.m in Sources */,
+				AAA5890116DE714A00C2445B /* BumpTestViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

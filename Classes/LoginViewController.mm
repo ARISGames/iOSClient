@@ -16,6 +16,8 @@
 #import <QRCodeReader.h>
 #import "ARISZBarReaderWrapperViewController.h"
 
+#import "BumpTestViewController.h"
+
 @implementation LoginViewController
 
 //Override init for passing title and icon to tab bar
@@ -112,14 +114,18 @@
     UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
     if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];
 
-    // ADD: get the decode results
-    id<NSFastEnumeration> results =
-        [info objectForKey: ZBarReaderControllerResults];
+    id<NSFastEnumeration> results = [info objectForKey: ZBarReaderControllerResults];
     ZBarSymbol *symbol = nil;
-    for(symbol in results)
-        // EXAMPLE: just grab the first barcode
-        break;
+    for(symbol in results) break;
 
+    //PHIL ADDED BUMP DEBUGGING
+    if([symbol.data isEqualToString:@"TEST_BUMP"])
+    {
+        BumpTestViewController *b = [[BumpTestViewController alloc] initWithNibName:@"BumpTestViewController" bundle:nil];
+        [self presentViewController:b animated:NO completion:nil];
+    }
+    //END BUMP DEBUGGING
+    
     NSArray *terms  = [symbol.data componentsSeparatedByString:@","];
     if([terms count] > 1)
     {
