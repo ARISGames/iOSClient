@@ -84,6 +84,11 @@
     messageNumber++;
     self.debugView.contentSize = CGSizeMake(280,10+(30*messageNumber));
     [self.debugView addSubview:debugMessage];
+    if(self.debugView.contentSize.height > self.debugView.bounds.size.height)
+    {
+        CGPoint bottomOffset = CGPointMake(0, self.debugView.contentSize.height - self.debugView.bounds.size.height);
+        [self.debugView setContentOffset:bottomOffset animated:YES];
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -91,11 +96,13 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
--(BOOL)shouldAutorotate{
+-(BOOL)shouldAutorotate
+{
     return YES;
 }
 
--(NSInteger)supportedInterfaceOrientations{
+-(NSInteger)supportedInterfaceOrientations
+{
     NSInteger mask = 0;
     if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeLeft])
         mask |= UIInterfaceOrientationMaskLandscapeLeft;
