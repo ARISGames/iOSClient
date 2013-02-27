@@ -38,7 +38,7 @@
 
 -(void)latestPlayerQuestListsReceived:(NSNotification *)notification
 {
-    [self updateQuestListsActive:[notification.userInfo objectForKey:@"active"] complete:[notification.userInfo objectForKey:@"complete"]];
+    [self updateQuestListsActive:[notification.userInfo objectForKey:@"active"] complete:[notification.userInfo objectForKey:@"completed"]];
 }
 
 -(void)updateQuestListsActive:(NSArray *)activeQuests complete:(NSArray *)completedQuests;

@@ -44,7 +44,6 @@
 
 -(void)updateInventory:(NSArray *)inventory
 {
-    NSLog(@"PHIL: Updating Inventory");
     NSMutableArray *newlyAcquiredItems = [[NSMutableArray alloc] initWithCapacity:5];
     NSMutableArray *newlyLostItems     = [[NSMutableArray alloc] initWithCapacity:5];
     NSDictionary   *itemDeltaDict; //{"item":item,"delta":delta}

@@ -86,12 +86,12 @@
         
         if(delta > 0)
         {
-            attributeDeltaDict = [[NSDictionary alloc] initWithObjectsAndKeys:existingAttribute,@"item",[NSNumber numberWithInt:delta],@"delta", nil];
+            attributeDeltaDict = [[NSDictionary alloc] initWithObjectsAndKeys:existingAttribute,@"attribute",[NSNumber numberWithInt:delta],@"delta", nil];
             [newlyLostAttributes addObject:attributeDeltaDict];
         }
         else if(!match) //Totally lost attribute
         {
-            attributeDeltaDict = [[NSDictionary alloc] initWithObjectsAndKeys:existingAttribute,@"item",[NSNumber numberWithInt:existingAttribute.qty],@"delta", nil];
+            attributeDeltaDict = [[NSDictionary alloc] initWithObjectsAndKeys:existingAttribute,@"attribute",[NSNumber numberWithInt:existingAttribute.qty],@"delta", nil];
             [newlyLostAttributes addObject:attributeDeltaDict];
         }
     }
@@ -110,7 +110,7 @@
     if([newlyLostAttributes count] > 0)
     {
         NSDictionary *iDict = [[NSDictionary alloc] initWithObjectsAndKeys:
-                               newlyLostAttributes,@"newlyLostAttibutes",
+                               newlyLostAttributes,@"newlyLostAttributes",
                                attributes,@"allAttributes",
                                nil];
         NSLog(@"NSNotification: NewlyLostAttributesAvailable");

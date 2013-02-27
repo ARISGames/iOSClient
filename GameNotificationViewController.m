@@ -68,7 +68,6 @@
 
 -(void)dequeueDropDown
 {
-    NSLog(@"RootViewController: dequeueNotification");
     showingDropDown = YES;
     
     dropDownView.alpha = 0.0;
@@ -138,8 +137,6 @@
 
 -(void)dequeuePopOver
 {
-    NSLog(@"RootViewController: dequeuePopOver");
-    
     showingPopOver = YES;
     
     NSMutableDictionary *poDict = [popOverArray objectAtIndex:0];
@@ -307,7 +304,6 @@
         Item *lostAttribute = [lostAttributeDict objectForKey:@"attribute"];
         int qty = [((NSNumber *)[lostAttributeDict objectForKey:@"delta"]) intValue];
 
-        
         NSString *notifString;
         if(lostAttribute.maxQty == 1)
             notifString = [NSString stringWithFormat:@"%@ %@", lostAttribute.name, NSLocalizedString(@"LostNotifKey", nil)];
