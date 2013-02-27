@@ -57,7 +57,7 @@ int steps = 0;
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-	NSLog(@"Application Became Active");
+	NSLog(@"ARIS: Application Became Active");
 	[[AppModel sharedAppModel]       loadUserDefaults];
     [[AppServices sharedAppServices] resetCurrentlyFetchingVars];
 

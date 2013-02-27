@@ -513,7 +513,7 @@ NSString *errorDetail;
 - (void)selectGame:(NSNotification *)notification
 {
     Game *game = [notification.userInfo objectForKey:@"game"];
-    NSLog(@"Selected Game: %@", game);
+    NSLog(@"ARIS: Selected Game: %@", game);
 	[self loadAndPlayGame:game];
 }
 
@@ -710,7 +710,7 @@ NSString *errorDetail;
 - (void)selectGameWithoutPicker:(NSNotification *)notification
 {
     Game *game = [notification.userInfo objectForKey:@"game"];
-    NSLog(@"Selected Game (w/o picker): %@", game);
+    NSLog(@"ARIS: Selected Game (w/o picker): %@", game);
     
     //Configure view heirarchy to right before gameplay
     self.gamePlayTabBarController.view.hidden = YES;

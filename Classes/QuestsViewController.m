@@ -94,7 +94,6 @@ NSString *const kQuestsHtmlTemplate =
 
 - (IBAction)sortQuestsButtonTouched
 {
-    NSLog(@"%d", activeQuestsSwitch.selectedSegmentIndex);
     [self refreshViewFromModel];
 }
 

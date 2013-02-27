@@ -47,7 +47,7 @@
     NSLog(@"PHIL: Updating Inventory");
     NSMutableArray *newlyAcquiredItems = [[NSMutableArray alloc] initWithCapacity:5];
     NSMutableArray *newlyLostItems     = [[NSMutableArray alloc] initWithCapacity:5];
-    NSDictionary   *itemDeltaDict; //Could just be a struct for speed, but whatever
+    NSDictionary   *itemDeltaDict; //{"item":item,"delta":delta}
 
     //Gained Items
     for(Item *newItem in inventory)
