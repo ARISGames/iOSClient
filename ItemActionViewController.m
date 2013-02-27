@@ -175,13 +175,13 @@
     {
 		NSLog(@"ItemDetailsVC: Dropping %d",quantity);
 		[[AppServices sharedAppServices] updateServerDropItemHere:item.itemId qty:quantity];
-		[[AppModel sharedAppModel] removeItemFromInventory:item qtyToRemove:quantity];
+		[[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:item qtyToRemove:quantity];
     }
 	else if (mode == kItemDetailsDestroying)
     {
 		NSLog(@"ItemDetailsVC: Destroying %d",quantity);
 		[[AppServices sharedAppServices] updateServerDestroyItem:self.item.itemId qty:quantity];
-		[[AppModel sharedAppModel] removeItemFromInventory:item qtyToRemove:quantity];
+		[[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:item qtyToRemove:quantity];
 	}
 	else if (mode == kItemDetailsPickingUp)
     {

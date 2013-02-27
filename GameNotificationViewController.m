@@ -115,19 +115,11 @@
                                               completion:^(BOOL finished){
                                                   if(finished)
                                                   {
-                                                      if([popOverArray count] > 0)
-                                                      {
-                                                          [self raiseDropDownFrame];
-                                                          showingDropDown = NO;
-                                                          [self dequeuePopOver];
-                                                      }
-                                                      else if([notifArray count] > 0)
+                                                      showingDropDown = NO;
+                                                      if([notifArray count] > 0)
                                                           [self dequeueDropDown];
                                                       else
-                                                      {
                                                           [self raiseDropDownFrame];
-                                                          showingDropDown = NO;
-                                                      }
                                                   }
                                               }];
                          }
@@ -150,22 +142,18 @@
 
 -(void)popOverContinueButtonPressed
 {
+    showingPopOver = NO;
     if([popOverArray count] > 0)
         [self dequeuePopOver];
     else
-    {
         [popOverView removeFromSuperview];
-        showingPopOver = NO;
-        if([notifArray count] > 0)
-            [self dequeueDropDown];
-    }
 }
 
 -(void)enqueueDropDownNotificationWithFullString:(NSString *)fullString andBoldedString:(NSString *)boldedString
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:fullString,@"fullString",boldedString,@"boldedString", nil];
     [notifArray addObject:dict];
-    if(!showingDropDown && !showingPopOver)
+    if(!showingDropDown)
     {
         [self lowerDropDownFrame];
         [self dequeueDropDown];
@@ -176,7 +164,7 @@
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:title,@"title",description,@"description",text,@"text",[NSNumber numberWithInt:mediaId],@"mediaId", nil];
     [popOverArray addObject:dict];
-    if(!showingDropDown && !showingPopOver) [self dequeuePopOver];
+    if(!showingPopOver) [self dequeuePopOver];
 }
 
 -(void)parseActiveQuestsIntoNotifications:(NSNotification *)notification

@@ -195,7 +195,6 @@
 - (void)saveCOREData;
 - (void)initUserDefaults;
 - (void)clearGameLists;
-- (void)removeItemFromInventory:(Item*)item qtyToRemove:(int)qty;
 
 - (Media *)mediaForMediaId:(int)mId;
 - (Item *)itemForItemId:(int)mId;
