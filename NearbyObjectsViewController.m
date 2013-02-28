@@ -63,8 +63,7 @@
     for(Location *location in [AppModel sharedAppModel].currentGame.locationsModel.currentLocations)
     {
         if([[AppModel sharedAppModel].playerLocation distanceFromLocation:location.location] < location.error &&
-           (location.kind != NearbyObjectItem || location.qty != 0) &&
-           location.kind != NearbyObjectPlayer)
+           (location.kind != NearbyObjectItem || location.qty != 0) && location.kind != NearbyObjectPlayer)
             [newNearbyLocationsList addObject:location];
     }
     

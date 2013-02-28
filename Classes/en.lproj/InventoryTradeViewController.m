@@ -18,7 +18,9 @@
 @synthesize isConnectedToBump;
 @synthesize delegate;
 
-- (void) configureBump {
+- (void) configureBump
+{
+    //if(!self.isConnectedToBump)[[RootViewController sharedRootViewController] showWaitingIndicator:@"Connecting to bump..." displayProgressBar:NO];
     NSLog(@"ConfiguringBump");
     [BumpClient configureWithAPIKey:@"4ff1c7a0c2a84bb9938dafc3a1ac770c" andUserID:[[UIDevice currentDevice] name]];
     
@@ -96,6 +98,7 @@
     
     [[BumpClient sharedClient] setConnectionStateChangedBlock:^(BOOL connected) {
         if (connected) {
+            //[[RootViewController sharedRootViewController] removeWaitingIndicator];
             NSLog(@"Bump connected...");
             self.isConnectedToBump = YES;
         } else {
@@ -118,9 +121,11 @@
     }];
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
+    if(self)
+    {
         self.title = NSLocalizedString(@"InventoryTradeViewTitleKey",@"");
         self.iconCache = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory count]];
         self.mediaCache = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory count]];
@@ -152,7 +157,8 @@
 									action:@selector(backButtonTouchAction:)];	
 }
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated
+{
     [self.tradeTableView reloadData];
     [BumpClient sharedClient].bumpable = YES;
 }

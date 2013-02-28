@@ -120,8 +120,10 @@
     c.locationId        = self.locationId;
     c.iconMediaId       = self.iconMediaId;
     c.location          = self.location;
+    c.objectType        = self.objectType;
     c.objectId          = self.objectId;
     c.hidden            = self.hidden;
+    c.error             = self.error;
     c.forcedDisplay     = self.forcedDisplay;
     c.allowsQuickTravel = self.allowsQuickTravel;
     c.showTitle         = self.showTitle;

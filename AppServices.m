@@ -376,7 +376,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     
 }
 
-- (void)updateServerGameSelected{
+- (void)updateServerGameSelected
+{
 	NSLog(@"Model: Game %d Selected, update server", [AppModel sharedAppModel].currentGame.gameId);
 	
 	//Call server service
