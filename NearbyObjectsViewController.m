@@ -46,7 +46,8 @@
 	[[RootViewController sharedRootViewController].tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindNearbyTab];
 }
 
--(void)dismissTutorial{
+-(void)dismissTutorial
+{
 	[[RootViewController sharedRootViewController].tutorialViewController dismissTutorialPopupWithType:tutorialPopupKindNearbyTab];
 }
 

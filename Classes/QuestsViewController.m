@@ -74,15 +74,7 @@ NSString *const kQuestsHtmlTemplate =
 }
 
 - (void)viewDidAppear:(BOOL)animated
-{
-    if (![AppModel sharedAppModel].loggedIn || [AppModel sharedAppModel].currentGame.gameId==0)
-    {
-        //Note- WE SHOULDN'T BE DOING THINGS LIKE THIS.
-        //Instead, we should make sure it can't get here when not logged in.
-        NSLog(@"QuestsVC: Player is not logged in, don't refresh");
-        return;
-    }
-    
+{    
     badgeCount = 0;
     self.tabBarItem.badgeValue = nil;
     
@@ -151,22 +143,18 @@ NSString *const kQuestsHtmlTemplate =
 -(void)removeLoadingIndicator
 {
 	[[self navigationItem] setRightBarButtonItem:nil];
-	NSLog(@"QuestsViewController: removeLoadingIndicator");
 }
 
--(void)constructCells{
-	NSLog(@"QuestsVC: Constructing Cells");
-	
+-(void)constructCells
+{	
 	NSEnumerator *e;
 	Quest *quest;
     
     //Active
     activeQuestCells = [NSMutableArray arrayWithCapacity:10];
-    NSLog(@"QuestsVC: Active Quests Selected");
     e = [sortedActiveQuests objectEnumerator];
     while ((quest = (Quest*)[e nextObject]))
         [activeQuestCells addObject: [self getCellContentViewForQuest:quest inSection:ACTIVE_SECTION]];
-    
     if([activeQuestCells count] == 0)
     {
         Quest *nullQuest = [[Quest alloc] init];
@@ -176,14 +164,11 @@ NSString *const kQuestsHtmlTemplate =
         [activeQuestCells addObject: [self getCellContentViewForQuest:nullQuest inSection:ACTIVE_SECTION]];
     }
     
-    
     //Completed
     completedQuestCells = [NSMutableArray arrayWithCapacity:10];
     e = [sortedCompletedQuests objectEnumerator];
-    NSLog(@"QuestsVC: Completed Quests Selected");
     while ((quest = (Quest*)[e nextObject]))
         [completedQuestCells addObject:[self getCellContentViewForQuest:quest inSection:COMPLETED_SECTION]];
-    
     if([completedQuestCells count] == 0)
     {
         Quest *nullQuest = [[Quest alloc] init];
@@ -194,8 +179,6 @@ NSString *const kQuestsHtmlTemplate =
     }
 	
     [tableView reloadData];
-	
-	NSLog(@"QuestsVC: Cells created and stored in questCells");
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType

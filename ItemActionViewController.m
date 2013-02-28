@@ -157,7 +157,7 @@
             }
             else
             {
-                    self.infoLabel.text = @"";
+                self.infoLabel.text = @"";
                 self.badValLabel.hidden = YES;
                 self.actionButton.userInteractionEnabled = YES;
                 self.actionButton.alpha = 1;
@@ -186,7 +186,6 @@
 	else if (mode == kItemDetailsPickingUp)
     {
         NSString *errorMessage;
-		//Determine if this item can be picked up
 		self.itemInInventory = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:item.itemId];
 		if (itemInInventory.qty + quantity > item.maxQty && item.maxQty != -1) {
             
