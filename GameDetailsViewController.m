@@ -214,45 +214,51 @@ NSString *const kGameDetailsHtmlTemplate =
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 1){
-        if (indexPath.row ==0) cell.backgroundColor = [UIColor colorWithRed:182/255.0 green:255/255.0 blue:154/255.0 alpha:1.0];
-        if(self.game.hasBeenPlayed){
-            if (indexPath.row ==1) cell.backgroundColor = [UIColor colorWithRed:255/255.0 green:153/255.0 blue:181/255.0 alpha:1.0];
-        } 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 1)
+    {
+        if (indexPath.row ==0)
+            cell.backgroundColor = [UIColor colorWithRed:182/255.0 green:255/255.0 blue:154/255.0 alpha:1.0];
+        if (indexPath.row ==1 && self.game.hasBeenPlayed)
+            cell.backgroundColor = [UIColor colorWithRed:255/255.0 green:153/255.0 blue:181/255.0 alpha:1.0];
     }
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if(indexPath.section == 1) {
-        if  (indexPath.row == 0) {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(indexPath.section == 1)
+    {
+        if(indexPath.row == 0)
+        {
             self.game.hasBeenPlayed = YES;
-            [AppModel sharedAppModel].inGame = YES;
             [AppModel sharedAppModel].currentlyInteractingWithObject = YES;
             
-            NSDictionary *dictionary = [NSDictionary dictionaryWithObject:self.game
-                                                                   forKey:@"game"];
+            NSDictionary *dictionary = [NSDictionary dictionaryWithObject:self.game forKey:@"game"];
             
             NSLog(@"NSNotification: SelectGame");
             [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"SelectGame" object:self userInfo:dictionary]];
             [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
             [self.tableView reloadData];
         }
-        else if (indexPath.row ==1) {
-            if(self.game.hasBeenPlayed) {
+        else if(indexPath.row ==1)
+        {
+            if(self.game.hasBeenPlayed)
+            {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"GameDetailsResetTitleKey", nil) message:NSLocalizedString(@"GameDetailsResetMessageKey", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"CancelKey", @"") otherButtonTitles: NSLocalizedString(@"GameDetailsResetKey", @""), nil];
                 [alert show];	
                 [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
             }
-            else {
+            else
+            {
                 commentsViewController *commentsVC = [[commentsViewController alloc]initWithNibName:@"commentsView" bundle:nil];
                 commentsVC.game = self.game;
                 [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
                 [self.navigationController pushViewController:commentsVC animated:YES];
             }
-            
         }
-        else if (indexPath.row == 2) {
+        else if(indexPath.row == 2)
+        {
             commentsViewController *commentsVC = [[commentsViewController alloc]initWithNibName:@"commentsView" bundle:nil];
             commentsVC.game = self.game;
             [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
@@ -265,7 +271,8 @@ NSString *const kGameDetailsHtmlTemplate =
 {
 	NSString *title = [alertView title];
     
-    if([title isEqualToString:NSLocalizedString(@"GameDetailsResetTitleKey", nil)]) {
+    if([title isEqualToString:NSLocalizedString(@"GameDetailsResetTitleKey", nil)])
+    {
         if (buttonIndex == 1)
         {
             [[AppServices sharedAppServices] startOverGame:self.game.gameId];
@@ -275,17 +282,16 @@ NSString *const kGameDetailsHtmlTemplate =
     }
 }
 
-- (void)tableView:(UITableView *)aTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath{
-    
+- (void)tableView:(UITableView *)aTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{    
 }
 
--(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0 && indexPath.row == 0) return 200;
-    else if(indexPath.section ==2 && indexPath.row ==0){
-        if(self.newHeight) return self.newHeight+30;
-        else return 40;
-    }
-    else return 40;
+-(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if     (indexPath.section == 0 && indexPath.row == 0)                   return 200;
+    else if(indexPath.section == 2 && indexPath.row == 0 && self.newHeight) return self.newHeight+30;
+    
+    return 40;
 }
 
 -(UITableViewCell *)constructReviewCell{

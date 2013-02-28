@@ -99,7 +99,6 @@
         [AppModel sharedAppModel].skipGameDetails = NO;
         
         [AppModel sharedAppModel].currentGame.hasBeenPlayed = YES;
-        [AppModel sharedAppModel].inGame = YES;
         [AppModel sharedAppModel].currentlyInteractingWithObject = YES;
         
         NSDictionary *dictionary = [NSDictionary dictionaryWithObject:[AppModel sharedAppModel].currentGame

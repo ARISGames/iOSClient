@@ -11,11 +11,12 @@
 
 
 @interface NearbyObjectsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate> {
-	NSMutableArray *oldNearbyLocationList;
+	NSMutableArray *nearbyLocationsList;
+    NSMutableArray *forceDisplayQueue;
 	IBOutlet UITableView *nearbyTable;
 }
 
-@property(nonatomic) NSMutableArray *oldNearbyLocationList;
+@property(nonatomic) NSMutableArray *nearbyLocationsList;
 
 - (void)refreshViewFromModel;
 - (void)refresh;

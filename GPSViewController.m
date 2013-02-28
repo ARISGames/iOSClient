@@ -53,10 +53,10 @@ NSMutableArray *locationsToRemove;
         locationsToAdd    = [[NSMutableArray alloc] initWithCapacity:10];
         locationsToRemove = [[NSMutableArray alloc] initWithCapacity:10];
 		
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator)     name:@"ConnectionLost"       object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerMoved)                name:@"PlayerMoved"          object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator)     name:@"ReceivedLocationList" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateOverlays)             name:@"NewOverlayListReady"  object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator)     name:@"ConnectionLost"                               object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerMoved)                name:@"PlayerMoved"                                  object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator)     name:@"ReceivedLocationList"                         object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateOverlays)             name:@"NewOverlayListReady"                          object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addLocationsToNewQueue:)    name:@"NewlyAvailableLocationsAvailable"             object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addLocationsToRemoveQueue:) name:@"NewlyUnavailableLocationsAvailable"           object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incrementBadge)             name:@"NewlyChangedLocationsGameNotificationSent"    object:nil];
@@ -86,38 +86,44 @@ NSMutableArray *locationsToRemove;
 - (IBAction) refreshButtonAction
 {
 	NSLog(@"GPSViewController: Refresh Button Touched");
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate playAudioAlert:@"ticktick" shouldVibrate:NO];
+	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] playAudioAlert:@"ticktick" shouldVibrate:NO];
 	
 	tracking = YES;
 	playerTrackingButton.style = UIBarButtonItemStyleDone;
     
-	//Force a location update
 	[[[MyCLController sharedMyCLController] locationManager] stopUpdatingLocation];
 	[[[MyCLController sharedMyCLController] locationManager] startUpdatingLocation];
     
 	[self refresh];
 }
 
-- (void) playerButtonTouch
+- (void)playerButtonTouch
 {
     [AppModel sharedAppModel].hidePlayers = ![AppModel sharedAppModel].hidePlayers;
-    if([AppModel sharedAppModel].hidePlayers){
+    [self hideOrShowPlayerLocations];
+}
+
+- (void)hideOrShowPlayerLocations
+{
+    if([AppModel sharedAppModel].hidePlayers)
+    {
         [playerButton setStyle:UIBarButtonItemStyleBordered];
         if (mapView)
         {
             NSEnumerator *existingAnnotationsEnumerator = [[[mapView annotations] copy] objectEnumerator];
             Annotation *annotation;
-            while (annotation = [existingAnnotationsEnumerator nextObject]) {
-                if (annotation != mapView.userLocation && annotation.kind == NearbyObjectPlayer) [mapView removeAnnotation:annotation];
+            while (annotation = [existingAnnotationsEnumerator nextObject])
+            {
+                if (annotation != (Annotation *)mapView.userLocation && annotation.kind == NearbyObjectPlayer)
+                    [mapView removeAnnotation:annotation];
             }
         }
     }
-    else{
+    else
         [playerButton setStyle:UIBarButtonItemStyleDone];
-    }
+    
 	[[[MyCLController sharedMyCLController] locationManager] stopUpdatingLocation];
-	[[[MyCLController sharedMyCLController]locationManager] startUpdatingLocation];
+	[[[MyCLController sharedMyCLController] locationManager] startUpdatingLocation];
     
     tracking = NO;
 	[self refresh];
@@ -178,13 +184,8 @@ NSMutableArray *locationsToRemove;
     }
 }
 
-- (void) viewDidAppear:(BOOL)animated
+- (void) viewWillAppear:(BOOL)animated
 {
-    if (![AppModel sharedAppModel].loggedIn || [AppModel sharedAppModel].currentGame.gameId == 0) return;
-    
-    badgeCount = 0;
-    self.tabBarItem.badgeValue = nil;
-    
     if     ([[AppModel sharedAppModel].currentGame.mapType isEqualToString:@"SATELLITE"]) mapView.mapType = MKMapTypeSatellite;
     else if([[AppModel sharedAppModel].currentGame.mapType isEqualToString:@"HYBRID"])    mapView.mapType = MKMapTypeHybrid;
     else                                                                                  mapView.mapType = MKMapTypeStandard;
@@ -192,15 +193,20 @@ NSMutableArray *locationsToRemove;
     if([AppModel sharedAppModel].currentGame.showPlayerLocation) [mapView setShowsUserLocation:YES];
     else [mapView setShowsUserLocation:NO];
     
+    [self hideOrShowPlayerLocations];
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    badgeCount = 0;
+    self.tabBarItem.badgeValue = nil;
+    
 	[[AppServices sharedAppServices] updateServerMapViewed];
 	
     [self refreshViewFromModel];
 	[self refresh];
 	
-    [AppModel sharedAppModel].hidePlayers = ![AppModel sharedAppModel].hidePlayers;
-    [self playerButtonTouch];
-
-	if (refreshTimer != nil && [refreshTimer isValid]) [refreshTimer invalidate];
+	if (refreshTimer && [refreshTimer isValid]) [refreshTimer invalidate];
 	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
 }
 
@@ -211,38 +217,31 @@ NSMutableArray *locationsToRemove;
 
 - (void) refresh
 {
-    if([AppModel sharedAppModel].inGame)
+    if (mapView)
     {
-        if (mapView)
+        if ([AppModel sharedAppModel].loggedIn && ([AppModel sharedAppModel].currentGame.gameId != 0 && [AppModel sharedAppModel].playerId != 0))
         {
-            if ([AppModel sharedAppModel].loggedIn && ([AppModel sharedAppModel].currentGame.gameId != 0 && [AppModel sharedAppModel].playerId != 0))
-            {
-                [[AppServices sharedAppServices] fetchPlayerLocationList];
-                [[AppServices sharedAppServices] fetchPlayerOverlayList];
-                [self showLoadingIndicator];
-            }
-            
-            if (tracking) [self zoomAndCenterMap];
-            
-            //What? Pen down? What's going on here?
-            /* if(mapTrace){ 
-             [self.route addObject:[AppModel sharedAppModel].playerLocation];
-             MKPolyline *line = [[MKPolyline alloc] init];
-             line
-             }*/            
+            [[AppServices sharedAppServices] fetchPlayerLocationList];
+            [[AppServices sharedAppServices] fetchPlayerOverlayList];
+            [self showLoadingIndicator];
         }
+            
+        if (tracking) [self zoomAndCenterMap];
+            
+        //What? Pen down? What's going on here?
+        /* if(mapTrace){
+            [self.route addObject:[AppModel sharedAppModel].playerLocation];
+            MKPolyline *line = [[MKPolyline alloc] init];
+            line
+            }*/
     }
 }
 
 - (void) playerMoved
 {
-    if([AppModel sharedAppModel].inGame)
+    if (mapView && [AppModel sharedAppModel].loggedIn && [AppModel sharedAppModel].currentGame.gameId != 0 && [AppModel sharedAppModel].playerId != 0)
     {
-        if (mapView && [AppModel sharedAppModel].loggedIn && [AppModel sharedAppModel].currentGame.gameId != 0 && [AppModel sharedAppModel].playerId != 0)
-        {
-            NSLog(@"GPSViewController: player moved");
-            if (tracking) [self zoomAndCenterMap];
-        }
+        if (tracking) [self zoomAndCenterMap];
     }
 }
 
@@ -260,8 +259,7 @@ NSMutableArray *locationsToRemove;
 
 - (void) showLoadingIndicator
 {
-	UIActivityIndicatorView *activityIndicator =
-	[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
 	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
 	[[self navigationItem] setRightBarButtonItem:barButton];
 	[activityIndicator startAnimating];
@@ -418,55 +416,6 @@ NSMutableArray *locationsToRemove;
     if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortraitUpsideDown])
         mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
     return mask;
-}
-
--(UIImage *)addTitle:(NSString *)imageTitle quantity:(int)quantity toImage:(UIImage *)img
-{
-    //I don't think this ever gets called... Might be depricated in favor of AnnotationView.drawRect. Then again, might not. just FYI. Phil 7/6/12
-    NSLog(@"HEY! IF THIS IS CALLED (if you're reading this from the console), FIND THIS CODE IN GPSViewController AND DELETE THE COMMENT ABOVE IT!");
-    
-	NSString *calloutString;
-	if (quantity > 1) {
-		calloutString = [NSString stringWithFormat:@"%@:%d",imageTitle, quantity];
-	} else {
-		calloutString = imageTitle;
-	}
- 	UIFont *myFont = [UIFont fontWithName:@"Arial" size:12];
-	CGSize textSize = [calloutString sizeWithFont:myFont];
-	CGRect textRect = CGRectMake(0, 0, textSize.width + 10, textSize.height);
-	
-	//callout path
-	CGMutablePathRef calloutPath = CGPathCreateMutable();
-	CGPoint pointerPoint = CGPointMake(textRect.origin.x + 0.6 * textRect.size.width,  textRect.origin.y + textRect.size.height + 5);
-	CGPathMoveToPoint(calloutPath, NULL, textRect.origin.x, textRect.origin.y);
-	CGPathAddLineToPoint(calloutPath, NULL, textRect.origin.x, textRect.origin.y + textRect.size.height);
-	CGPathAddLineToPoint(calloutPath, NULL, pointerPoint.x - 5.0, textRect.origin.y + textRect.size.height);
-	CGPathAddLineToPoint(calloutPath, NULL, pointerPoint.x, pointerPoint.y);
-	CGPathAddLineToPoint(calloutPath, NULL, pointerPoint.x + 5.0, textRect.origin.y+ textRect.size.height);
-	CGPathAddLineToPoint(calloutPath, NULL, textRect.origin.x + textRect.size.width, textRect.origin.y + textRect.size.height);
-	CGPathAddLineToPoint(calloutPath, NULL, textRect.origin.x + textRect.size.width, textRect.origin.y);
-	CGPathAddLineToPoint(calloutPath, NULL, textRect.origin.x, textRect.origin.y);
-	
-	CGRect imageRect = CGRectMake(0, textSize.height + 10.0, img.size.width, img.size.height);
-	CGRect backgroundRect = CGRectUnion(textRect, imageRect);
-	if (backgroundRect.size.width > img.size.width)
-		imageRect.origin.x = (backgroundRect.size.width - img.size.width) / 2.0;
-	
-	CGSize contextSize = backgroundRect.size;
-	UIGraphicsBeginImageContext(contextSize);
-	CGContextAddPath(UIGraphicsGetCurrentContext(), calloutPath);
-	[[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.6] set];
-	CGContextFillPath(UIGraphicsGetCurrentContext());
-	[[UIColor blackColor] set];
-	CGContextAddPath(UIGraphicsGetCurrentContext(), calloutPath);
-	CGContextStrokePath(UIGraphicsGetCurrentContext());
-	[img drawAtPoint:imageRect.origin];
-	[calloutString drawInRect:textRect withFont:myFont lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentCenter];
-	UIImage *returnImage = UIGraphicsGetImageFromCurrentImageContext();
-	CGPathRelease(calloutPath);
-	UIGraphicsEndImageContext();
-	
-	return returnImage;
 }
 
 #pragma mark MKMapViewDelegate

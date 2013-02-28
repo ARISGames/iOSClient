@@ -2269,13 +2269,14 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     location.qty               = [self validIntForKey:@"item_qty"            inDictionary:locationDictionary];
     location.iconMediaId       = [self validIntForKey:@"icon_media_id"       inDictionary:locationDictionary];
     location.name              = [self validObjectForKey:@"name"             inDictionary:locationDictionary];
-    location.error             = [self validDoubleForKey:@"error"            inDictionary:locationDictionary];
     location.objectType        = [self validObjectForKey:@"type"             inDictionary:locationDictionary];
     location.hidden            = [self validBoolForKey:@"hidden"             inDictionary:locationDictionary];
     location.forcedDisplay     = [self validBoolForKey:@"force_view"         inDictionary:locationDictionary];
     location.showTitle         = [self validBoolForKey:@"show_title"         inDictionary:locationDictionary];
     location.wiggle            = [self validBoolForKey:@"wiggle"             inDictionary:locationDictionary];
     location.allowsQuickTravel = [self validBoolForKey:@"allow_quick_travel" inDictionary:locationDictionary];
+    location.error             = [self validIntForKey:@"error"               inDictionary:locationDictionary];
+    if(location.error < 0) location.error = 9999999999;
     location.location          = [[CLLocation alloc] initWithLatitude:[self validDoubleForKey:@"latitude"  inDictionary:locationDictionary]
                                                             longitude:[self validDoubleForKey:@"longitude" inDictionary:locationDictionary]];
     

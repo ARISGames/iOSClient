@@ -31,7 +31,6 @@
     BOOL showPlayerOnMap;
     BOOL museumMode;
     BOOL skipGameDetails;
-    BOOL inGame;
 	Game *currentGame;
 	UIAlertView *networkAlert;
 
@@ -107,7 +106,6 @@
 @property(readwrite) BOOL showPlayerOnMap;
 @property(readwrite) BOOL museumMode;
 @property(readwrite) BOOL skipGameDetails;
-@property(readwrite) BOOL inGame;
 
 @property(nonatomic, retain) CMMotionManager *motionManager;
 

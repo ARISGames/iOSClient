@@ -68,7 +68,6 @@
 @synthesize uploadManager;
 @synthesize mediaCache;
 @synthesize hasReceivedMediaList;
-@synthesize inGame;
 @synthesize fileToDeleteURL;
 
 @synthesize motionManager;

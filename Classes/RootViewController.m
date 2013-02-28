@@ -372,6 +372,9 @@ NSString *errorDetail;
     [nearbyObjectViewController.view removeFromSuperview];
     [self.nearbyObjectNavigationController.view removeFromSuperview];
     [[AppServices sharedAppServices] fetchAllPlayerLists];
+    
+    NSLog(@"NSNotification: PlayerMoved");
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerMoved" object:nil]];
 }
 
 - (void)beginGamePlay

@@ -16,24 +16,21 @@ int steps = 0;
 @synthesize window;
 @synthesize player;
 
-- (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
-    if (error != nil) {
-        NSLog(@"Error: %@", error);
-    }
+- (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
+{
+    if(error) NSLog(@"Error: %@", error);
 }
 
 #pragma mark -
 #pragma mark Application State
 
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application {
-    
+- (void)applicationDidFinishLaunching:(UIApplication *)application
+{    
     NSString *path = [NSHomeDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"Documents/movie.m4v"]];
     UISaveVideoAtPathToSavedPhotosAlbum(path, self, @selector(video:didFinishSavingWithError:contextInfo:), nil);
     
-    
-	//[application setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];	
-	application.idleTimerDisabled = YES;
+    application.idleTimerDisabled = YES;
     
     //Log the current Language
 	NSArray *languages = [[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"];
@@ -73,34 +70,33 @@ int steps = 0;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LowMemoryWarning" object:nil]];
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application {
-	NSLog(@"AppDelegate: Begin Application Resign Active");
-    
+- (void)applicationWillResignActive:(UIApplication *)application
+{
+	NSLog(@"ARIS: Resigning Active Application");
     [[RootViewController sharedRootViewController].gamePlayTabBarController dismissModalViewControllerAnimated:NO];
-    
 	[[AppModel sharedAppModel] saveUserDefaults];
 }
 
--(void) applicationWillTerminate:(UIApplication *)application {
-	NSLog(@"AppDelegate: Begin Application Termination");
+-(void) applicationWillTerminate:(UIApplication *)application
+{
+	NSLog(@"ARIS: Terminating Application");
 	[[AppModel sharedAppModel] saveUserDefaults];
     [[AppModel sharedAppModel] saveCOREData];
 }
 
 - (void)startMyMotionDetect
 {
-    if(![AppModel sharedAppModel].motionManager.accelerometerAvailable) { 
-        NSLog(@"Accelerometer not available");
-    } else { 
-        [AppModel sharedAppModel].motionManager.accelerometerUpdateInterval = 0.2;
-        NSOperationQueue *motionQueue = [[NSOperationQueue alloc] init]; 
-        [[AppModel sharedAppModel].motionManager startAccelerometerUpdatesToQueue: motionQueue withHandler:
-         ^(CMAccelerometerData *data, NSError *error) { [self accelerometerData: data errorMessage: error];}
-         ];
-    }
+    if(![AppModel sharedAppModel].motionManager.accelerometerAvailable) return;
+    
+    [AppModel sharedAppModel].motionManager.accelerometerUpdateInterval = 0.2;
+    NSOperationQueue *motionQueue = [[NSOperationQueue alloc] init];
+    [[AppModel sharedAppModel].motionManager startAccelerometerUpdatesToQueue: motionQueue withHandler:
+        ^(CMAccelerometerData *data, NSError *error) { [self accelerometerData: data errorMessage: error];}
+        ];
 }
 
-- (void)accelerometerData:(CMAccelerometerData *)data errorMessage:(NSError *)error {
+- (void)accelerometerData:(CMAccelerometerData *)data errorMessage:(NSError *)error
+{
     float minAccelX = 1.2;
     float minAccelY = 1.2;
     float minAccelZ = 1.2;
@@ -139,89 +135,59 @@ int steps = 0;
 
 #pragma mark - Audio
 
-- (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate{
-	NSLog(@"AppDelegate: Playing an audio Alert sound");
-	
-	//Vibrate
+- (void) playAudioAlert:(NSString*)wavFileName shouldVibrate:(BOOL)shouldVibrate
+{
 	if (shouldVibrate == YES) [NSThread detachNewThreadSelector:@selector(vibrate) toTarget:self withObject:nil];	
-	//Play the sound on a background thread
 	[NSThread detachNewThreadSelector:@selector(playAudio:) toTarget:self withObject:wavFileName];
 }
 
-//Play a sound
-- (void) playAudio:(NSString*)wavFileName {
-    if([AppModel sharedAppModel].inGame){
+- (void)playAudio:(NSString*)wavFileName
+{
 	NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:wavFileName ofType:@"wav"]];
-    NSLog(@"Appdelegate: Playing Audio: %@", url);
-    [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategorySoloAmbient error: nil];	
+
+    [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategorySoloAmbient error: nil];
     [[AVAudioSession sharedInstance] setActive: YES error: nil];
+    
     NSError* err;
     self.player = [[AVAudioPlayer alloc] initWithContentsOfURL: url error:&err];
     [self.player setDelegate: self];
-    if( err ){
-        NSLog(@"Appdelegate: Playing Audio: Failed with reason: %@", [err localizedDescription]);
-    }
-    else{
-        [self.player play];
-    }
-    }
+    
+    if(err) NSLog(@"Appdelegate: Playing Audio: Failed with reason: %@", [err localizedDescription]);
+    else [self.player play];
 }
 
-- (void) stopAudio{
-    if(self.player){
-            [self.player stop];
-    }
+- (void)stopAudio
+{
+    if(self.player) [self.player stop];
 }
 
-- (void) audioPlayerDidFinishPlaying: (AVAudioPlayer *) player
-                        successfully: (BOOL) flag {
-    NSLog(@"Appdelegate: Audio is done playing");
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
+{
     [[AVAudioSession sharedInstance] setActive: NO error: nil];
 }
 
-//Vibrate
-- (void) vibrate{
+- (void)vibrate
+{
 	AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);  
 }
 
 // handle opening ARIS using custom URL of form ARIS://?game=397 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    NSLog(@"ARIS opened from URL");
     if (!url) {  return NO; }
-    NSLog(@"URL found");
-    
-    // parse URL for game id
-    /*NSString *gameIDQuery = [[url query] lowercaseString];
-    NSLog(@"gameIDQuery = %@",gameIDQuery);
-    
-    if (!gameIDQuery) {return NO;}
-    NSRange equalsSignRange = [gameIDQuery rangeOfString: @"game=" ];
-    if (equalsSignRange.length == 0) {return NO;}
-    int equalsSignIndex = equalsSignRange.location;
-    NSString *gameID = [gameIDQuery substringFromIndex: equalsSignIndex+equalsSignRange.length];
-    NSLog(@"gameID=: %@",gameID);*/
-    
-    // parse URL for game id
 
-    // check that path is ARIS://games/
     NSString *strPath = [[url host] lowercaseString];
-    NSLog(@"Path: %@", strPath);
-    
-    if ([strPath isEqualToString:@"games"] || [strPath isEqualToString:@"game"]) {
-        
-        // get GameID
+    if ([strPath isEqualToString:@"games"] || [strPath isEqualToString:@"game"])
+    {
         NSString *gameID = [url lastPathComponent];
-        NSLog(@"gameID: %@",gameID);
-        
-        //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOpenURLGamesListReady) name:@"NewGameListReady" object:nil];
         [[AppServices sharedAppServices] fetchOneGameGameList:[gameID intValue]];
     }
     return YES;
 }
 
 #pragma mark Memory Management
-- (void)dealloc {
+- (void)dealloc
+{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

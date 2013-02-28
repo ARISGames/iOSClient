@@ -15,7 +15,7 @@
 	int iconMediaId;
 	NSString *name;
 	CLLocation *location;
-	double error;
+	int error;
 	NSString *objectType;
 	nearbyObjectKind kind; //for the protocol
 	int objectId;
@@ -34,7 +34,7 @@
 @property(readwrite, assign) int iconMediaId;
 
 @property(copy, readwrite) CLLocation *location;
-@property(readwrite) double error;
+@property(readwrite) int error;
 @property(copy, readwrite) NSString *objectType;
 @property(readonly) nearbyObjectKind kind;
 - (nearbyObjectKind) kind;
