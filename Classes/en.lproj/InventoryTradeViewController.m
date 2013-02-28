@@ -20,9 +20,10 @@
 
 - (void) configureBump
 {
-    //if(!self.isConnectedToBump)[[RootViewController sharedRootViewController] showWaitingIndicator:@"Connecting to bump..." displayProgressBar:NO];
+    if(!self.isConnectedToBump)[[RootViewController sharedRootViewController] showWaitingIndicator:@"Connecting to bump..." displayProgressBar:NO];
     NSLog(@"ConfiguringBump");
     [BumpClient configureWithAPIKey:@"4ff1c7a0c2a84bb9938dafc3a1ac770c" andUserID:[[UIDevice currentDevice] name]];
+    [[BumpClient sharedClient] connect];
     
     [[BumpClient sharedClient] setMatchBlock:^(BumpChannelID channel) {
         NSLog(@"Matched with user: %@", [[BumpClient sharedClient] userIDForChannel:channel]); 
@@ -96,12 +97,16 @@
         }
     }];
     
-    [[BumpClient sharedClient] setConnectionStateChangedBlock:^(BOOL connected) {
-        if (connected) {
-            //[[RootViewController sharedRootViewController] removeWaitingIndicator];
+    [[BumpClient sharedClient] setConnectionStateChangedBlock:^(BOOL connected)
+    {
+        if (connected)
+        {
+            [[RootViewController sharedRootViewController] removeWaitingIndicator];
             NSLog(@"Bump connected...");
             self.isConnectedToBump = YES;
-        } else {
+        }
+        else
+        {
             NSLog(@"Bump disconnected...");
             self.isConnectedToBump = NO;
         }
@@ -114,8 +119,6 @@
                 break;
             case BUMP_EVENT_NO_MATCH:
                 NSLog(@"No match.");
-                //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Bump Failed" message:@"No trader was found" delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-                //[alert show];
                 break;
         }
     }];
@@ -130,7 +133,6 @@
         self.iconCache = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory count]];
         self.mediaCache = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory count]];
         self.isConnectedToBump = NO;
-        [self configureBump];
     }
     return self;
 }
@@ -160,14 +162,14 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [self.tradeTableView reloadData];
-    [BumpClient sharedClient].bumpable = YES;
+    [self configureBump];
 }
 
 - (void)goBackToInventory
 {
-    [BumpClient sharedClient].bumpable = NO;
     [self.navigationController popToRootViewControllerAnimated:YES];
-    [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];	
+    [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
+    [[BumpClient sharedClient] disconnect];
 }
 
 - (IBAction)backButtonTouchAction: (id) sender{
@@ -175,9 +177,8 @@
 	[self goBackToInventory];	
 }
 
-
-
-- (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier {
+- (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier
+{
 /*	CGRect CellFrame = CGRectMake(0, 0, 320, 60);
 	CGRect IconFrame = CGRectMake(5, 5, 50, 50);
 	CGRect Label1Frame = CGRectMake(70, 22, 240, 20);
@@ -330,7 +331,8 @@
 	return cell;
 }
 
-- (unsigned int) indexOf:(char) searchChar inString:(NSString *)searchString {
+- (unsigned int) indexOf:(char) searchChar inString:(NSString *)searchString
+{
 	NSRange searchRange;
 	searchRange.location = (unsigned int) searchChar;
 	searchRange.length = 1;
@@ -412,20 +414,8 @@
     return giftsJSON;
 }
 
-#pragma mark Memory Management
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-    // Release anything that's not essential, such as cached data
-}
-
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)viewDidUnload {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
