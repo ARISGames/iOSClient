@@ -41,7 +41,7 @@
 -(void)updateAttributes:(NSArray *)attributes
 {    
     NSMutableArray *newlyAcquiredAttributes = [[NSMutableArray alloc] initWithCapacity:5];
-    NSMutableArray *newlyLostAttributes = [[NSMutableArray alloc] initWithCapacity:5];
+    NSMutableArray *newlyLostAttributes =     [[NSMutableArray alloc] initWithCapacity:5];
     NSDictionary *attributeDeltaDict; //Could just be a struct for speed, but whatever
     
     //Gained Attributes
@@ -86,12 +86,15 @@
         
         if(delta > 0)
         {
+            existingAttribute.qty -= delta;
             attributeDeltaDict = [[NSDictionary alloc] initWithObjectsAndKeys:existingAttribute,@"attribute",[NSNumber numberWithInt:delta],@"delta", nil];
             [newlyLostAttributes addObject:attributeDeltaDict];
         }
         else if(!match) //Totally lost attribute
         {
-            attributeDeltaDict = [[NSDictionary alloc] initWithObjectsAndKeys:existingAttribute,@"attribute",[NSNumber numberWithInt:existingAttribute.qty],@"delta", nil];
+            delta = existingAttribute.qty;
+            existingAttribute.qty = 0;
+            attributeDeltaDict = [[NSDictionary alloc] initWithObjectsAndKeys:existingAttribute,@"attribute",[NSNumber numberWithInt:delta],@"delta", nil];
             [newlyLostAttributes addObject:attributeDeltaDict];
         }
     }
@@ -143,7 +146,7 @@
 
 -(int)addItemToAttributes:(Item*)item qtyToAdd:(int)qty
 {
-	NSLog(@"AttributesModel: removing an item from the local attributes");
+	NSLog(@"AttributesModel: adding an item from the local attributes");
     NSMutableArray *newAttributes = [[NSMutableArray alloc] initWithCapacity:[self.currentAttributes count]];
     for(int i = 0; i < [self.currentAttributes count]; i++)
         [newAttributes addObject:[((Item *)[self.currentAttributes objectAtIndex:i]) copy]];

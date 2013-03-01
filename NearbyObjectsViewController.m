@@ -12,7 +12,6 @@
 #import "AppServices.h"
 #import "NearbyObjectCell.h"
 
-
 @implementation NearbyObjectsViewController
 
 @synthesize nearbyLocationsList;
@@ -127,17 +126,15 @@
 }
 
 // Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
 	static NSString *CellIdentifier = @"Cell";
     NearbyObjectCell *cell = (NearbyObjectCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-	if (cell == nil) {
-		// Create a temporary UIViewController to instantiate the custom cell.
+	if (cell == nil)
+    {
 		UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"NearbyObjectCell" bundle:nil];
-		// Grab a pointer to the custom cell.
 		cell = (NearbyObjectCell *)temporaryController.view;
-		// Release the temporary UIViewController.
 	}
 	
 	Location *l = [self.nearbyLocationsList objectAtIndex:indexPath.row];

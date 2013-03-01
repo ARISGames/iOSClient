@@ -90,12 +90,15 @@
         
         if(delta > 0)
         {
+            existingItem.qty -= delta;
             itemDeltaDict = [[NSDictionary alloc] initWithObjectsAndKeys:existingItem,@"item",[NSNumber numberWithInt:delta],@"delta", nil];
             [newlyLostItems addObject:itemDeltaDict];
         }
         else if(!match) //Totally lost item
         {
-            itemDeltaDict = [[NSDictionary alloc] initWithObjectsAndKeys:existingItem,@"item",[NSNumber numberWithInt:existingItem.qty],@"delta", nil];
+            delta = existingItem.qty;
+            existingItem.qty = 0;
+            itemDeltaDict = [[NSDictionary alloc] initWithObjectsAndKeys:existingItem,@"item",[NSNumber numberWithInt:delta],@"delta", nil];
             [newlyLostItems addObject:itemDeltaDict];
         }
     }

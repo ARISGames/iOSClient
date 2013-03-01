@@ -143,7 +143,8 @@
     // Do any additional setup after loading the view from its nib.
     NSArray *tempCopy = [AppModel sharedAppModel].currentGame.inventoryModel.currentInventory;
 	self.inventory = [[NSMutableArray alloc] init];
-    for(int i = 0; i < [tempCopy count]; i++){
+    for(int i = 0; i < [tempCopy count]; i++)
+    {
         if(((Item *)[tempCopy objectAtIndex:i]).isTradeable)
             [self.inventory addObject:[((Item *)[tempCopy objectAtIndex:i]) copy]];
     } 
@@ -172,12 +173,13 @@
     [[BumpClient sharedClient] disconnect];
 }
 
-- (IBAction)backButtonTouchAction: (id) sender{
+- (IBAction)backButtonTouchAction:(id)sender
+{
 	NSLog(@"ItemTradeViewController: Dismiss Item Trade View");
 	[self goBackToInventory];	
 }
 
-- (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier
+- (UITableViewCell *)getCellContentView:(NSString *)cellIdentifier
 {
 /*	CGRect CellFrame = CGRectMake(0, 0, 320, 60);
 	CGRect IconFrame = CGRectMake(5, 5, 50, 50);
