@@ -10,7 +10,8 @@
 #import "NearbyObjectProtocol.h"
 
 
-@interface NearbyObjectsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate> {
+@interface NearbyObjectsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
+{
 	NSMutableArray *nearbyLocationsList;
     NSMutableArray *forceDisplayQueue;
 	IBOutlet UITableView *nearbyTable;

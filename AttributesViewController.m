@@ -14,8 +14,15 @@
 
 @implementation AttributesViewController
 
-@synthesize attributes,iconCache,attributesTable,pcImage,nameLabel,groupLabel,addGroupButton,newAttrsSinceLastView;
-//Override init for passing title and icon to tab bar
+@synthesize attributes;
+@synthesize iconCache;
+@synthesize attributesTable;
+@synthesize pcImage;
+@synthesize nameLabel;
+@synthesize groupLabel;
+@synthesize addGroupButton;
+@synthesize newAttrsSinceLastView;
+
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
@@ -27,8 +34,6 @@
         badgeCount = 0;
 
 		//register for notifications
-		//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedInventory"                object:nil];
-        //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost"                   object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel)   name:@"NewlyAcquiredAttributesAvailable" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel)   name:@"NewlyLostAttributesAvailable"     object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incrementBadge)         name:@"NewlyChangedAttributesGameNotificationSent"    object:nil];
@@ -41,35 +46,22 @@
     NSString *sectionTitleSpace = @"   ";
     NSString *sectionTitle = [sectionTitleSpace stringByAppendingString:NSLocalizedString(@"AttributesAttributesTitleKey", @"")];
     
-    // Create label with section title
-    UILabel *label = [[UILabel alloc] init];
-    label.frame = CGRectMake(0, -14, tableView.frame.size.width, 50);
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, -14, tableView.frame.size.width, 50)];
     label.textColor = [UIColor whiteColor];
     label.font = [UIFont boldSystemFontOfSize:20];
     label.text = sectionTitle;
-    label.backgroundColor = [UIColor colorWithRed:0/255.0
-                                            green:0/255.0
-                                             blue:0/255.0
-                                            alpha:0];
+    label.backgroundColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0];
     
-    // Create header view and add label as a subview
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 500)];
-    [view addSubview:label];
+    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 500)];
+    [header addSubview:label];
     
-    return view;
+    return header;
 }
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
-    UILabel *label = [[UILabel alloc] init];
-    label.frame = CGRectMake(0, 0, 500, 1000);
-    label.backgroundColor = [UIColor colorWithRed:0/255.0
-                                            green:0/255.0
-                                             blue:0/255.0
-                                            alpha:.7];
-    
-    // Create header view and add label as a subview
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 500, 1000)];
+    label.backgroundColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:.7];
     [self.view insertSubview:label atIndex:1];
 
     self.pcImage.layer.cornerRadius = 10.0;
@@ -79,7 +71,8 @@
 {
     self.nameLabel.text = [NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"AttributesViewNameKey", @""), [AppModel sharedAppModel].userName];
     self.groupLabel.text = NSLocalizedString(@"AttributesViewGroupKey", @"");
-    if ([AppModel sharedAppModel].currentGame.pcMediaId != 0) {
+    if ([AppModel sharedAppModel].currentGame.pcMediaId != 0)
+    {
 		//Load the image from the media Table
 		Media *pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId];
 		[pcImage loadImageFromMedia: pcMedia];
@@ -96,13 +89,16 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    self.tabBarController.selectedIndex = [self.tabBarController.viewControllers indexOfObjectIdenticalTo:self];
+
     badgeCount = 0;
     self.tabBarItem.badgeValue = nil;
 	
     [self refresh];
 }
 
--(void)refresh {
+-(void)refresh
+{
 	[[AppServices sharedAppServices] fetchPlayerInventory];
     [self refreshViewFromModel];
 }

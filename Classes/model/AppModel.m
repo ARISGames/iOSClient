@@ -92,7 +92,7 @@
     if (self)
     {
 		//Init USerDefaults
-        museumMode = NO;
+        museumMode      = NO;
         skipGameDetails = NO;
 		defaults      = [NSUserDefaults standardUserDefaults];
 		gameMediaList = [[NSMutableDictionary alloc] initWithCapacity:10];

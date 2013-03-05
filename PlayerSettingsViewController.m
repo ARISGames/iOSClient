@@ -15,19 +15,13 @@
 @synthesize playerPicCamButton;
 @synthesize saveButton;
 
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    if (self)
+    {
     }
     return self;
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -36,12 +30,15 @@
     self.title = @"Public Name and Image";
 }
 
-- (void)manuallyForceViewDidAppear
+- (void)viewDidIntentionallyAppear
 {
     //Due to the way we hide/show views rather than push/popping them, 'viewDidAppear' was constantly being called even when it wasn't 'actually' appearing.
-    //Now, we just call this manually whenever we intend the view to appear. //<- This is a call for refactor (ps I wrote this code so I'm calling myself out) - Phil
+    //Now, we just call this manually whenever we intend the view to appear. //<- This is a call for refactor (ps I wrote this code so I'm calling myself out)
+    // - Phil
+    if([AppModel sharedAppModel].playerMediaId == 0)
+        [self playerPicCamButtonTouched:nil];
     self.playerNameField.text = @"";
-    if([AppModel sharedAppModel].displayName && ![[AppModel sharedAppModel].displayName isEqualToString:@""])
+    if([AppModel sharedAppModel].displayName)
         self.playerNameField.text = [AppModel sharedAppModel].displayName;
     if([self.playerNameField.text isEqualToString:@""])
        [self.playerNameField becomeFirstResponder];
@@ -65,7 +62,6 @@
     return YES;
 }
 
-//Makes keyboard disappear on touch outside of keyboard or textfield
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [playerNameField resignFirstResponder];
@@ -93,19 +89,11 @@
                                          andImage:[AppModel sharedAppModel].playerMediaId];
     
     [[AppModel sharedAppModel] saveUserDefaults];
+    
+    //THIS IS GARBAGE
+    NSLog(@"NSNotification: PlayerSettingsDidDismiss");
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerSettingsDidDismiss" object:self userInfo:nil]];
 
-    if([AppModel sharedAppModel].skipGameDetails)
-    {
-        [AppModel sharedAppModel].skipGameDetails = NO;
-        
-        [AppModel sharedAppModel].currentGame.hasBeenPlayed = YES;
-        [AppModel sharedAppModel].currentlyInteractingWithObject = YES;
-        
-        NSDictionary *dictionary = [NSDictionary dictionaryWithObject:[AppModel sharedAppModel].currentGame
-                                                               forKey:@"game"];
-        NSLog(@"NSNotification: SelectGame");
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"SelectGame" object:self userInfo:dictionary]];
-    }
     return;
 }
 
@@ -141,10 +129,6 @@
         [self presentModalViewController:picker animated:NO];
     }
 
-    return;
-}
-
--(void) imageFinishedLoading{
     return;
 }
 

@@ -228,7 +228,8 @@
 
 
 
--(void) loadResult:(NSString *)code {
+-(void) loadResult:(NSString *)code
+{
 	//Fetch the coresponding object from the server
     if([code isEqualToString:@"log-out"])
     {
@@ -241,8 +242,8 @@
 	[[AppServices sharedAppServices] fetchQRCode:code];
 }
 
--(void) finishLoadingResult:(NSNotification*) notification{
-	
+-(void) finishLoadingResult:(NSNotification*) notification
+{	
 	NSObject<QRCodeProtocol> *qrCodeObject = notification.object;
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[[RootViewController sharedRootViewController] removeWaitingIndicator];

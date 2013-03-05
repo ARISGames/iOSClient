@@ -20,18 +20,15 @@ enum {
 };
 typedef UInt32 nearbyObjectKind;
 
-
 @protocol NearbyObjectProtocol
-- (NSString *)			name; 
-- (nearbyObjectKind)	kind;
-- (BOOL)				forcedDisplay;
-- (void)				display;
-- (int)					iconMediaId;
-- (int)                 fromLocationId;
-- (int)                 locationId;
-//- (CLLocation *)		location;
+- (NSString *)		 name;
+- (nearbyObjectKind) kind;
+- (BOOL)		     forcedDisplay;
+- (void)		     display;
+- (int)				 iconMediaId;
+- (int)              fromLocationId;
+- (int)              locationId;
 
 - (void) setLocationId:(int) locationId;
-- (int) locationId;
 
 @end

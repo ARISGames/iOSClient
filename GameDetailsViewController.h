@@ -47,5 +47,6 @@
 @property (nonatomic)AsyncMediaImageView *mediaImageView;
 //@property (nonatomic)Media *splashMedia;
 
+- (void)viewDidIntentionallyAppear;
 
 @end

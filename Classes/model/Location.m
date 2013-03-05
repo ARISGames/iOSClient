@@ -29,26 +29,27 @@
 @synthesize allowsQuickTravel, showTitle;
 @synthesize qty,delegate,wiggle,deleteWhenViewed;
 
--(nearbyObjectKind) kind {
+- (nearbyObjectKind)kind
+{
 	nearbyObjectKind returnValue = NearbyObjectNil;
-	if ([self.objectType isEqualToString:@"Node"]) returnValue = NearbyObjectNode;
-	if ([self.objectType isEqualToString:@"Npc"]) returnValue = NearbyObjectNPC;
-	if ([self.objectType isEqualToString:@"Item"]) returnValue = NearbyObjectItem;
-	if ([self.objectType isEqualToString:@"Player"]) returnValue = NearbyObjectPlayer;
-    if ([self.objectType isEqualToString:@"WebPage"]) returnValue = NearbyObjectWebPage;
+	if ([self.objectType isEqualToString:@"Node"])       returnValue = NearbyObjectNode;
+	if ([self.objectType isEqualToString:@"Npc"])        returnValue = NearbyObjectNPC;
+	if ([self.objectType isEqualToString:@"Item"])       returnValue = NearbyObjectItem;
+	if ([self.objectType isEqualToString:@"Player"])     returnValue = NearbyObjectPlayer;
+    if ([self.objectType isEqualToString:@"WebPage"])    returnValue = NearbyObjectWebPage;
     if ([self.objectType isEqualToString:@"PlayerNote"]) returnValue = NearbyObjectNote;
-    if ([self.objectType isEqualToString:@"AugBubble"]) returnValue = NearbyObjectPanoramic;
+    if ([self.objectType isEqualToString:@"AugBubble"])  returnValue = NearbyObjectPanoramic;
 	return returnValue;
 }
 
-- (int) iconMediaId{
+- (int)iconMediaId
+{
 	if (iconMediaId != 0) return iconMediaId;
-	
-	NSObject<NearbyObjectProtocol> *o = [self object];
-	return [o iconMediaId];
+    return [[self object] iconMediaId];
 }
 
-- (NSObject<NearbyObjectProtocol> *)object {
+- (NSObject<NearbyObjectProtocol> *)object
+{
     if(deleteWhenViewed == 1)
     {
         NSArray *locs = [AppModel sharedAppModel].currentGame.locationsModel.currentLocations;
@@ -59,36 +60,40 @@
                 [[AppModel sharedAppModel].currentGame.locationsModel modifyQuantity:(loc.qty*-1) forLocationId:loc.locationId];
         }
     }	
-    if (self.kind == NearbyObjectItem) {
+    if (self.kind == NearbyObjectItem)
+    {
         [[AppModel sharedAppModel] itemForItemId:objectId].locationId = self.locationId; 		
         [[AppModel sharedAppModel] itemForItemId:objectId].qty = self.qty;
 		return [[AppModel sharedAppModel] itemForItemId:objectId];
 	}
-	if (self.kind == NearbyObjectNode) {
+	if (self.kind == NearbyObjectNode)
+    {
         [[AppModel sharedAppModel] nodeForNodeId: objectId].locationId = self.locationId;
 		return [[AppModel sharedAppModel] nodeForNodeId: objectId]; 
 	}
-    if (self.kind == NearbyObjectWebPage) {
+    if (self.kind == NearbyObjectWebPage)
+    {
         [[AppModel sharedAppModel] webPageForWebPageID: objectId].locationId = self.locationId;
 		return [[AppModel sharedAppModel] webPageForWebPageID: objectId]; 
 	}
-    if (self.kind == NearbyObjectPanoramic) {
+    if (self.kind == NearbyObjectPanoramic)
+    {
         [[AppModel sharedAppModel]panoramicForPanoramicId: objectId].locationId = self.locationId;
 		return [[AppModel sharedAppModel] panoramicForPanoramicId: objectId]; 
 	}
-    if (self.kind == NearbyObjectNPC) {
+    if (self.kind == NearbyObjectNPC)
+    {
         [[AppModel sharedAppModel]npcForNpcId: objectId].locationId = self.locationId;
 		return [[AppModel sharedAppModel] npcForNpcId: objectId]; 
 	}
-    if (self.kind == NearbyObjectNote) {
-        Note * note = [[AppModel sharedAppModel] noteForNoteId:objectId playerListYesGameListNo:NO];
+    if (self.kind == NearbyObjectNote)
+    {
+        Note * note    = [[AppModel sharedAppModel] noteForNoteId:objectId playerListYesGameListNo:NO];
         if(!note) note = [[AppModel sharedAppModel] noteForNoteId:objectId playerListYesGameListNo:YES];
-        if(!note)
-            NSLog(@"this shouldn't happen");
+        if(!note) NSLog(@"this shouldn't happen");
         return note;
     }
 	else return nil;
-	
 }
 
 - (void)display

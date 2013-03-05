@@ -206,6 +206,7 @@
 		AA39E32116C4370D005A4E06 /* libPusher-combined.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA39E32016C4370D005A4E06 /* libPusher-combined.a */; };
 		AA39F65916DD21B0000DE415 /* GamePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA39F65816DD21B0000DE415 /* GamePickerViewController.m */; };
 		AA479A0416CD6B24001B2B03 /* AttributesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA479A0316CD6B24001B2B03 /* AttributesModel.m */; };
+		AA73E48216E141D2001F11A6 /* GameObjectDisplayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA73E48116E141D2001F11A6 /* GameObjectDisplayViewController.m */; };
 		AA763156169B68A800860665 /* PopOverContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA763155169B68A800860665 /* PopOverContentView.m */; };
 		AA80EFCE16C048AB00DAB826 /* WaitingIndicatorAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA80EFCD16C048AB00DAB826 /* WaitingIndicatorAlertViewController.m */; };
 		AA8330551684CC0E00C28960 /* ARISZBarReaderWrapperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA8330541684CC0E00C28960 /* ARISZBarReaderWrapperViewController.m */; };
@@ -761,6 +762,8 @@
 		AA39F65816DD21B0000DE415 /* GamePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerViewController.m; sourceTree = "<group>"; };
 		AA479A0216CD6B24001B2B03 /* AttributesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributesModel.h; sourceTree = "<group>"; };
 		AA479A0316CD6B24001B2B03 /* AttributesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributesModel.m; sourceTree = "<group>"; };
+		AA73E48016E141D2001F11A6 /* GameObjectDisplayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObjectDisplayViewController.h; sourceTree = "<group>"; };
+		AA73E48116E141D2001F11A6 /* GameObjectDisplayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObjectDisplayViewController.m; sourceTree = "<group>"; };
 		AA763154169B68A800860665 /* PopOverContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopOverContentView.h; sourceTree = "<group>"; };
 		AA763155169B68A800860665 /* PopOverContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopOverContentView.m; sourceTree = "<group>"; };
 		AA7A428A16B86C9E00E84252 /* UploadContent1.8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UploadContent1.8.xcdatamodel; sourceTree = "<group>"; };
@@ -1732,6 +1735,8 @@
 				11D7F9311537510D0046410F /* LoadingViewController.xib */,
 				AA21333D16CABF4800FB7F29 /* GameNotificationViewController.h */,
 				AA21333E16CABF4900FB7F29 /* GameNotificationViewController.m */,
+				AA73E48016E141D2001F11A6 /* GameObjectDisplayViewController.h */,
+				AA73E48116E141D2001F11A6 /* GameObjectDisplayViewController.m */,
 			);
 			name = "Core App";
 			sourceTree = "<group>";
@@ -2648,6 +2653,7 @@
 				AA2C3CF816D54A2B00623957 /* LocationsModel.m in Sources */,
 				AA39F65916DD21B0000DE415 /* GamePickerViewController.m in Sources */,
 				AAA5890116DE714A00C2445B /* BumpTestViewController.m in Sources */,
+				AA73E48216E141D2001F11A6 /* GameObjectDisplayViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

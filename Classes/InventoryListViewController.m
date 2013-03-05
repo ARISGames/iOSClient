@@ -98,6 +98,8 @@
 }
 - (void)viewDidAppear:(BOOL)animated
 {
+    self.tabBarController.selectedIndex = [self.tabBarController.viewControllers indexOfObjectIdenticalTo:self];
+
     badgeCount = 0;
     self.tabBarItem.badgeValue = nil;
     

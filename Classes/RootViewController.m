@@ -11,7 +11,6 @@
 
 #import "LoginViewController.h"
 #import "PlayerSettingsViewController.h"
-#import "GameNotificationViewController.h"
 
 #import "GameDetailsViewController.h"
 #import "webpageViewController.h"
@@ -36,11 +35,6 @@
 #import "NearbyObjectsViewController.h"
 
 #import "Node.h"
-
-GameNotificationViewController *gameNotificationViewController;
-
-NSString *errorMessage;
-NSString *errorDetail;
 
 @implementation RootViewController
 
@@ -83,7 +77,7 @@ NSString *errorDetail;
     
     //Player Settings View Controller
     PlayerSettingsViewController *playerSettingsViewController = [[PlayerSettingsViewController alloc] initWithNibName:@"PlayerSettingsViewController" bundle:nil];
-    self.playerSettingsNavigationController = [[UINavigationController alloc] initWithRootViewController: playerSettingsViewController];
+    self.playerSettingsNavigationController = [[UINavigationController alloc] initWithRootViewController:playerSettingsViewController];
     self.playerSettingsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     [self.playerSettingsNavigationController.view setFrame:UIScreen.mainScreen.applicationFrame];
     self.playerSettingsNavigationController.view.frame = self.view.frame;
@@ -97,13 +91,15 @@ NSString *errorDetail;
     tutorialViewController.view.userInteractionEnabled = NO;
     [self.gamePlayTabBarController.view addSubview:tutorialViewController.view];
     
-    self.waitingIndicatorAlertViewController = [[WaitingIndicatorAlertViewController alloc] init];
+    gameObjectDisplayViewController = [[GameObjectDisplayViewController alloc] initWithRootViewController:self];
     
     gameNotificationViewController = [[GameNotificationViewController alloc] initWithNibName:nil bundle:nil];
     [self.view addSubview:gameNotificationViewController.view];
+    
+    self.waitingIndicatorAlertViewController = [[WaitingIndicatorAlertViewController alloc] init];
 }
 
-- (void) initGamePickerTabs
+- (void)initGamePickerTabs
 {
     //Nearby Games
     GamePickerNearbyViewController *gamePickerNearbyViewController = [[GamePickerNearbyViewController alloc] initWithNibName:@"GamePickerNearbyViewController" bundle:nil];
@@ -158,32 +154,32 @@ NSString *errorDetail;
     
     //Setup Quests View
     QuestsViewController *questsViewController = [[QuestsViewController alloc] initWithNibName:@"Quests" bundle:nil];
-    UINavigationController *questsNavigationController = [[UINavigationController alloc] initWithRootViewController: questsViewController];
+    UINavigationController *questsNavigationController = [[UINavigationController alloc] initWithRootViewController:questsViewController];
     questsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Setup Quests Icon View
     IconQuestsViewController *iconQuestsViewController = [[IconQuestsViewController alloc] initWithNibName:@"IconQuestsViewController" bundle:nil];
-    UINavigationController *iconQuestsNavigationController = [[UINavigationController alloc] initWithRootViewController: iconQuestsViewController];
+    UINavigationController *iconQuestsNavigationController = [[UINavigationController alloc] initWithRootViewController:iconQuestsViewController];
     iconQuestsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Setup GPS View
     GPSViewController *gpsViewController = [[GPSViewController alloc] initWithNibName:@"GPS" bundle:nil];
-    UINavigationController *gpsNavigationController = [[UINavigationController alloc] initWithRootViewController: gpsViewController];
+    UINavigationController *gpsNavigationController = [[UINavigationController alloc] initWithRootViewController:gpsViewController];
     gpsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Setup Inventory View
     InventoryListViewController *inventoryListViewController = [[InventoryListViewController alloc] initWithNibName:@"InventoryList" bundle:nil];
-    UINavigationController *inventoryNavigationController = [[UINavigationController alloc] initWithRootViewController: inventoryListViewController];
+    UINavigationController *inventoryNavigationController = [[UINavigationController alloc] initWithRootViewController:inventoryListViewController];
     inventoryNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Setup Attributes View
     AttributesViewController *attributesViewController = [[AttributesViewController alloc] initWithNibName:@"AttributesViewController" bundle:nil];
-    UINavigationController *attributesNavigationController = [[UINavigationController alloc] initWithRootViewController: attributesViewController];
+    UINavigationController *attributesNavigationController = [[UINavigationController alloc] initWithRootViewController:attributesViewController];
     attributesNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Setup Notes View
     NotebookViewController *notesViewController = [[NotebookViewController alloc] initWithNibName:@"NotebookViewController" bundle:nil];
-    UINavigationController *notesNavigationController = [[UINavigationController alloc] initWithRootViewController: notesViewController];
+    UINavigationController *notesNavigationController = [[UINavigationController alloc] initWithRootViewController:notesViewController];
     notesNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Decoder View Controller
@@ -241,7 +237,7 @@ NSString *errorDetail;
         //register for notifications
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishLoginAttempt:)         name:@"NewLoginResponseReady"         object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectGameWithoutPicker:)    name:@"NewOneGameGameListReady"       object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectGame:)                 name:@"SelectGame"                    object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(commitToPlayGame:)           name:@"CommitToPlayGame"              object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(beginGamePlay)               name:@"GameFinishedLoading"           object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPlayerSettings:)         name:@"ProfSettingsRequested"         object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(performLogout:)              name:@"PassChangeRequested"           object:nil];
@@ -305,13 +301,14 @@ NSString *errorDetail;
 - (void)showServerAlertWithEmail:(NSString *)title message:(NSString *)message details:(NSString*)detail
 {
 	errorMessage = message;
-    errorDetail = detail;
+    errorDetail  = detail;
     
 	if (!self.serverAlert)
     {
         UIAlertView *serverAlertAlloc = [[UIAlertView alloc] initWithTitle:title
                                                                    message:NSLocalizedString(@"ARISAppDelegateWIFIErrorMessageKey", @"")
-                                                                  delegate:self cancelButtonTitle:NSLocalizedString(@"IgnoreKey", @"")
+                                                                  delegate:self
+                                                         cancelButtonTitle:NSLocalizedString(@"IgnoreKey", @"")
                                                          otherButtonTitles:NSLocalizedString(@"ReportKey", @""),nil];
 		self.serverAlert = serverAlertAlloc;
 		[self.serverAlert show];
@@ -333,7 +330,9 @@ NSString *errorDetail;
     {
 		networkAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"PoorConnectionTitleKey", @"")
                                                   message:NSLocalizedString(@"PoorConnectionMessageKey", @"")
-												 delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
+												 delegate:self
+                                        cancelButtonTitle:NSLocalizedString(@"OkKey", @"")
+                                        otherButtonTitles:nil];
 	}
 	if (self.networkAlert.visible == NO) [networkAlert show];
 }
@@ -410,13 +409,13 @@ NSString *errorDetail;
         
         if(showTab)
         {
-            NSLog(@"RootViewController: showNearbyTab: YES");
+            NSLog(@"RootViewController: showNearbyTab:YES");
             if (![tabs containsObject:self.nearbyObjectsNavigationController])
                 [tabs insertObject:self.nearbyObjectsNavigationController atIndex:0];
         }
         else
         {
-            NSLog(@"RootViewController: showNearbyTab: NO");
+            NSLog(@"RootViewController: showNearbyTab:NO");
             if ([tabs containsObject:self.nearbyObjectsNavigationController])
             {
                 [tabs removeObject:self.nearbyObjectsNavigationController];
@@ -444,6 +443,7 @@ NSString *errorDetail;
     
     if(gameId != 0)
     {
+        [AppModel sharedAppModel].skipGameDetails = YES;
         [[AppServices sharedAppServices] fetchOneGameGameList:gameId];
     }
 }
@@ -459,6 +459,7 @@ NSString *errorDetail;
     
     if(gameId != 0)
     {
+        [AppModel sharedAppModel].skipGameDetails = YES;
         [[AppServices sharedAppServices] fetchOneGameGameList:gameId];
     }
 }
@@ -467,27 +468,20 @@ NSString *errorDetail;
 {
     [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController refreshViewFromModel];
     self.playerSettingsNavigationController.view.hidden = NO;
-    [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController manuallyForceViewDidAppear];
+    [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController viewDidIntentionallyAppear];
     self.gameSelectionTabBarController.view.hidden = NO;
-    self.gameSelectionTabBarController.selectedIndex = 0;
 }
 
 - (void)finishLoginAttempt:(NSNotification *)notification
-{
-	NSLog(@"RootViewController: Finishing Login Attempt");
-    
-	//handle login response
+{    
 	if([AppModel sharedAppModel].loggedIn)
     {
-		NSLog(@"RootViewController: Login Success");
-        
-        self.gamePlayTabBarController.view.hidden = YES;
+		NSLog(@"ARIS: Login Success");
         self.loginNavigationController.view.hidden = YES;
         if([AppModel sharedAppModel].museumMode)
         {
-            [self showPlayerSettings:nil];
-            if([AppModel sharedAppModel].playerMediaId == 0 || [AppModel sharedAppModel].playerMediaId == -1)
-                [(PlayerSettingsViewController *) self.playerSettingsNavigationController.topViewController playerPicCamButtonTouched:nil];
+            NSLog(@"NSNotification: ProfSettingsRequested");
+            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ProfSettingsRequested" object:nil]];
         }
         else
         {
@@ -498,7 +492,7 @@ NSString *errorDetail;
     }
     else
     {
-		NSLog(@"RootViewController: Login Failed, check for a network issue");
+		NSLog(@"ARIS: Login Failed");
 		if (self.networkAlert)
             NSLog(@"RootViewController: Network is down, skip login alert");
 		else
@@ -513,7 +507,7 @@ NSString *errorDetail;
 	}
 }
 
-- (void)selectGame:(NSNotification *)notification
+- (void)commitToPlayGame:(NSNotification *)notification
 {
     Game *game = [notification.userInfo objectForKey:@"game"];
     NSLog(@"ARIS: Selected Game: %@", game);
@@ -667,13 +661,7 @@ NSString *errorDetail;
 
 - (void)receivedMediaList
 {
-    //Display the intro node
     [AppModel sharedAppModel].hasReceivedMediaList = YES;
-}
-
-- (void)newError:(NSString *)text
-{
-	NSLog(@"%@", text);
 }
 
 // handle opening ARIS using custom URL of form ARIS://?game=397
@@ -715,19 +703,8 @@ NSString *errorDetail;
     Game *game = [notification.userInfo objectForKey:@"game"];
     NSLog(@"ARIS: Selected Game (w/o picker): %@", game);
     
-    //Configure view heirarchy to right before gameplay
-    self.gamePlayTabBarController.view.hidden = YES;
+    self.gamePlayTabBarController.view.hidden  = YES;
     self.loginNavigationController.view.hidden = YES;
-    
-    if([AppModel sharedAppModel].museumMode)
-    {
-        self.playerSettingsNavigationController.view.hidden = NO;
-        [(PlayerSettingsViewController *) self.playerSettingsNavigationController.topViewController manuallyForceViewDidAppear];
-    }
-    else
-    {
-        self.playerSettingsNavigationController.view.hidden = YES;
-    }
 
     // Push Game Detail View Controller
     GameDetailsViewController *gameDetailsViewController = [[GameDetailsViewController alloc] initWithNibName:@"GameDetails" bundle:nil];

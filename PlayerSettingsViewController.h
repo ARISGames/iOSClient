@@ -28,7 +28,7 @@
 @property (nonatomic) IBOutlet UIButton *saveButton;
 
 
--(void)manuallyForceViewDidAppear;
+-(void)viewDidIntentionallyAppear;
 -(void) refreshViewFromModel;
 -(IBAction)playerNameFieldTouched:(id)sender;
 -(IBAction)saveButtonTouched:(id)sender;

@@ -158,7 +158,6 @@ static NSInteger zoomScaleToZoomLevel(MKZoomScale scale) {
     return self;
 }
 
-
 - (id)initWithIndex:(int)ov_index
 {
     if (self = [super init]) {
@@ -245,7 +244,6 @@ static NSInteger zoomScaleToZoomLevel(MKZoomScale scale) {
     return boundingMapRect;
 }
 
-
 - (NSArray *)tilesInMapRect:(MKMapRect)rect zoomScale:(MKZoomScale)scale withIndex:(int)ov_index
 {
     NSInteger z = zoomScaleToZoomLevel(scale);
@@ -310,6 +308,9 @@ static NSInteger zoomScaleToZoomLevel(MKZoomScale scale) {
     return tiles;
 }
 
+
+//Reading through this function- it will ALWAYS return an empty NSMutableArray. It won't do anything outside that either.
+//Is this an error? Is it being used? Can we get rid of this function? -Phil 3/1/2013
 - (NSArray *)tilesInMapRect:(MKMapRect)rect zoomScale:(MKZoomScale)scale
 {
     NSInteger z = zoomScaleToZoomLevel(scale);

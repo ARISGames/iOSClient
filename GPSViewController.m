@@ -198,6 +198,8 @@ NSMutableArray *locationsToRemove;
 
 - (void) viewDidAppear:(BOOL)animated
 {
+    self.tabBarController.selectedIndex = [self.tabBarController.viewControllers indexOfObjectIdenticalTo:self];
+
     badgeCount = 0;
     self.tabBarItem.badgeValue = nil;
     
@@ -284,7 +286,7 @@ NSMutableArray *locationsToRemove;
     }
     [locationsToAdd addObjectsFromArray:newLocations];
     
-    [self refreshViewFromModel];
+    if(self.tabBarController.tabBar.selectedItem == self.tabBarItem) [self refreshViewFromModel];
 }
 
 - (void) addLocationsToRemoveQueue:(NSNotification *)notification
@@ -311,7 +313,7 @@ NSMutableArray *locationsToRemove;
         }
     }
     
-    [self refreshViewFromModel];
+    if(self.tabBarController.tabBar.selectedItem == self.tabBarItem) [self refreshViewFromModel];
 }
 
 - (void)refreshViewFromModel

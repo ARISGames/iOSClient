@@ -10,7 +10,8 @@
 #import "Media.h"
 #import "ARISMoviePlayerViewController.h"
 
-@interface AsyncMediaPlayerButton : UIButton {
+@interface AsyncMediaPlayerButton : UIButton
+{
     Media *media; //keep a refrence so we can update the media with the data after it is loaded
     ARISMoviePlayerViewController *mMoviePlayer;
     UIViewController *__unsafe_unretained presentingController;

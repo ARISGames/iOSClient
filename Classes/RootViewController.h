@@ -16,6 +16,9 @@
 #import "PTPusher.h"
 #import "PTPusherEvent.h"
 
+#import "GameObjectDisplayViewController.h"
+#import "GameNotificationViewController.h"
+
 #import "MyCLController.h"
 
 #import "ARViewViewControler.h"
@@ -27,6 +30,12 @@
 
 @interface RootViewController : UIViewController <UIApplicationDelegate, UITabBarControllerDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate, PTPusherDelegate>
 {
+    GameNotificationViewController *gameNotificationViewController;
+    GameObjectDisplayViewController *gameObjectDisplayViewController;
+    
+    NSString *errorMessage;
+    NSString *errorDetail;
+    
     TutorialViewController *tutorialViewController;
 
     UINavigationController *loginNavigationController;
@@ -88,7 +97,7 @@
 - (void)showGameSelectionTabBarAndHideOthers;
 
 - (void)selectGameWithoutPicker:(NSNotification *)notification;
-- (void)selectGame:(NSNotification *)notification;
+- (void)commitToPlayGame:(NSNotification *)notification;
 
 - (void)showNearbyTab:(BOOL)yesOrNo;
 - (void)displayNearbyObjectView:(UIViewController *)nearbyObjectViewController;
