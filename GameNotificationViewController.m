@@ -39,7 +39,6 @@
     popOverView = (PopOverContentView *)popOverVC.view;
     
     dropDownView = [[UIWebView alloc] initWithFrame:CGRectMake(0, -28, [UIScreen mainScreen].bounds.size.width, 28)];
-    dropDownView.backgroundColor = [UIColor whiteColor];
 }
 
 -(void)lowerDropDownFrame
@@ -57,13 +56,15 @@
 
 -(void)raiseDropDownFrame
 {
-    [UIView animateWithDuration:.5
-                          delay:0.0
-                        options:UIViewAnimationCurveEaseIn animations:^{
-                            [[UIApplication sharedApplication] setStatusBarHidden:NO];
-                        }
-                     completion:^(BOOL finished){}];
     [dropDownView removeFromSuperview];
+
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
+    [UIView setAnimationDuration:.5];
+    
+    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    
+    [UIView commitAnimations];
 }
 
 -(void)dequeueDropDown
@@ -94,8 +95,8 @@
     NSString* htmlContentString = [NSString stringWithFormat:
                                    @"<html>"
                                    "<style type=\"text/css\">"
-                                   "body { vertical-align:text-top; text-align:center; font-family:Arial; font-size:16; }"
-                                   ".different { font:16px Arial,Helvetica,sans-serif; font-weight:bold; color:DarkBlue }"
+                                   "body       { background-color:black; vertical-align:text-top; text-align:center; font:16px Arial,Helvetica,sans-serif; color:white; }"
+                                   ".different { font-weight:bold; color:#2222FF; }"
                                    "</style>"
                                    "<body>%@<span class='different'>%@</span>%@</body>"
                                    "</html>", part1, part2, part3];
@@ -103,7 +104,7 @@
     [dropDownView loadHTMLString:htmlContentString baseURL:nil];
     
     [UIView animateWithDuration:3.0 delay:0.0
-                        options:UIViewAnimationCurveEaseIn
+                        options:UIViewAnimationCurveEaseOut
                      animations:^{ dropDownView.alpha = 1.0; }
                      completion:^(BOOL finished){
                          if(finished)

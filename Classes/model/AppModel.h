@@ -70,9 +70,6 @@
     NSMutableArray *gameTagList;
     NSMutableArray *overlayList;
 
-    NSArray *gameTabList;
-    NSArray *defaultGameTabList;
-
     UIProgressView *progressBar;
 
     BOOL overlayIsVisible;
@@ -156,8 +153,6 @@
 @property(nonatomic, strong) NSMutableDictionary *gameMediaList;
 @property(nonatomic, strong) NSMutableDictionary *gameItemList;
 @property(nonatomic, strong) NSMutableDictionary *gameNodeList;
-@property(nonatomic, strong) NSArray *gameTabList;
-@property(nonatomic, strong) NSArray *defaultGameTabList;
 
 @property(nonatomic, strong) NSMutableDictionary *gameNpcList;
 @property(nonatomic, strong) NSMutableDictionary *gameWebPageList;

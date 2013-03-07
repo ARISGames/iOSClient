@@ -13,15 +13,13 @@
     IBOutlet UIImageView *splashImage;
     IBOutlet UIProgressView *progressBar;
     IBOutlet UILabel *progressLabel;
-    float receivedData;
-    NSTimer *timer;
+    int receivedData;
 }
 
 @property(nonatomic)IBOutlet UIImageView *splashImage;
 @property(nonatomic)IBOutlet UIProgressView *progressBar;
 @property(nonatomic)IBOutlet UILabel *progressLabel;
-@property(nonatomic)NSTimer *timer;
-@property(readwrite)float receivedData;
+@property(readwrite)int receivedData;
 
 - (void)moveProgressBar;
 @end

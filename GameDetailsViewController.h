@@ -14,8 +14,8 @@
 
 
 
-@interface GameDetailsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate,
-                                        UITextViewDelegate,  UIWebViewDelegate>{
+@interface GameDetailsViewController : UIViewController <UITableViewDataSource,UITableViewDelegate, UITextViewDelegate,  UIWebViewDelegate>
+{
 	Game *game; 
     IBOutlet UITableView *tableView;
     IBOutlet UIWebView *descriptionWebView;
@@ -30,8 +30,8 @@
     CGFloat newHeight;
     NSIndexPath *descriptionIndexPath;
   //  Media *splashMedia;
-
 }
+
 @property (nonatomic) NSIndexPath *descriptionIndexPath;
 @property (nonatomic) Game *game;
 @property (nonatomic) IBOutlet UITableView *tableView;

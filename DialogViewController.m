@@ -53,7 +53,7 @@ NSString *const kDialogHtmlTemplate =
 - (void) movePcIn;
 - (void) moveNpcIn;
 - (void) moveAllOutWithPostSelector:(SEL)postSelector;
-- (void) movePcTo:(CGRect)pcRect withAlpha:(CGFloat)pcAlpha 
+- (void) movePcTo:(CGRect)pcRect  withAlpha:(CGFloat)pcAlpha 
 		 andNpcTo:(CGRect)npcRect withAlpha:(CGFloat)npcAlpha 
  withPostSelector:(SEL)aSelector;
 - (void) applyScene:(Scene *)aScene;
@@ -251,7 +251,7 @@ NSString *const kDialogHtmlTemplate =
 	NSLog(@"DialogViewController: View Did Disapear");
 }
 
-- (IBAction)backButtonTouchAction: (id) sender
+- (IBAction)backButtonTouchAction:(id)sender
 {
 	NSLog(@"DialogViewController: Notify server of NPC view and Dismiss view");
 	
@@ -265,9 +265,9 @@ NSString *const kDialogHtmlTemplate =
     [self.ARISMoviePlayer.moviePlayer stop];
     [self.waiting stopAnimating];
     [self.waiting removeFromSuperview];
-    if(self.player.isPlaying){
-      [self.player stop];
-    }
+    
+    if(self.player.isPlaying) [self.player stop];
+    
     [[AVAudioSession sharedInstance] setActive: NO error: nil];
     self.player = nil;
     NSLog(@"Continue Button Pressed");

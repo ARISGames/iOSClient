@@ -14,7 +14,10 @@
 @end
 
 @implementation LoadingViewController
-@synthesize splashImage, progressBar,progressLabel,receivedData, timer;
+@synthesize splashImage;
+@synthesize progressBar;
+@synthesize progressLabel;
+@synthesize receivedData;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -22,10 +25,14 @@
     if (self)
     {
         receivedData = 0;
-        //Refactor to use this notification in the future (rather than all of the random parts of AppServices running the same code...)
-        //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gamePieceLoaded) name:@"GamePieceLoaded" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataReceived) name:@"GamePieceReceived" object:nil];
     }
     return self;
+}
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad
@@ -36,33 +43,10 @@
     [self moveProgressBar];
 }
 
--(float)receivedData
-{
-    return receivedData;
-}
-
--(void)setReceivedData:(float)r
-{
-    receivedData = r;
-    [self moveProgressBar];
-    //[self performSelectorOnMainThread:@selector(moveProgressBar) withObject:nil waitUntilDone:YES];
-}
-
 -(void) dataReceived
 {
     receivedData++;
     [self moveProgressBar];
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-    receivedData= 0;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataReceived) name:@"GamePieceReceived" object:nil];
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)moveProgressBar
@@ -85,7 +69,7 @@
             [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GameFinishedLoading" object:nil userInfo:nil]];
         }
         [self dismissModalViewControllerAnimated:NO];//<- depricated
-        [RootViewController sharedRootViewController].loadingViewController = nil;//<- what.
+        receivedData = 0;
     }
     else if(actual > 1)
     {

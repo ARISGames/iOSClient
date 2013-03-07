@@ -15,6 +15,7 @@
 #import "GameDetailsViewController.h"
 #import "webpageViewController.h"
 #import "NoteDetailsViewController.h"
+#import "LoadingViewController.h"
 
 //Game Picker Tab VCs
 #import "GamePickerNearbyViewController.h"
@@ -40,12 +41,20 @@
 
 @synthesize tutorialViewController;
 @synthesize loginNavigationController;
-@synthesize gameSelectionTabBarController;
+@synthesize gamePickerTabBarController;
 @synthesize gamePlayTabBarController;
 @synthesize playerSettingsNavigationController;
 @synthesize nearbyObjectsNavigationController;
 @synthesize nearbyObjectNavigationController;
-@synthesize loadingViewController;
+//@synthesize arNavigationController;
+@synthesize questsNavigationController;
+@synthesize iconQuestsNavigationController;
+@synthesize gpsNavigationController;
+@synthesize inventoryNavigationController;
+@synthesize attributesNavigationController;
+@synthesize notesNavigationController;
+@synthesize decoderNavigationController;
+@synthesize bogusSelectGameViewController;
 @synthesize waitingIndicatorAlertViewController;
 @synthesize networkAlert;
 @synthesize serverAlert;
@@ -54,7 +63,6 @@
 //@synthesize groupChannel;
 @synthesize gameChannel;
 //@synthesize webpageChannel;
-@synthesize usesIconQuestView;
 
 + (id)sharedRootViewController
 {
@@ -103,7 +111,7 @@
 {
     //Nearby Games
     GamePickerNearbyViewController *gamePickerNearbyViewController = [[GamePickerNearbyViewController alloc] initWithNibName:@"GamePickerNearbyViewController" bundle:nil];
-    UINavigationController *gamePickerNearbyNC = [[UINavigationController alloc] initWithRootViewController: gamePickerNearbyViewController];
+    UINavigationController *gamePickerNearbyNC = [[UINavigationController alloc] initWithRootViewController:gamePickerNearbyViewController];
     gamePickerNearbyNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Search Games
@@ -127,17 +135,17 @@
     accountSettingsNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Setup the Game Selection Tab Bar
-    self.gameSelectionTabBarController = [[UITabBarController alloc] init];
-    self.gameSelectionTabBarController.delegate = self;
+    self.gamePickerTabBarController = [[UITabBarController alloc] init];
+    self.gamePickerTabBarController.delegate = self;
     
-    self.gameSelectionTabBarController.viewControllers = [NSMutableArray arrayWithObjects:
-                                                          gamePickerNearbyNC,
-                                                          gamePickerSearchNC,
-                                                          gamePickerPopularNC,
-                                                          gamePickerRecentNC,
-                                                          accountSettingsNC,
-                                                          nil];
-    [self.view addSubview:self.gameSelectionTabBarController.view];
+    self.gamePickerTabBarController.viewControllers = [NSMutableArray arrayWithObjects:
+                                                        gamePickerNearbyNC,
+                                                        gamePickerSearchNC,
+                                                        gamePickerPopularNC,
+                                                        gamePickerRecentNC,
+                                                        accountSettingsNC,
+                                                        nil];
+    [self.view addSubview:self.gamePickerTabBarController.view];
 }
 
 - (void)initGamePlayTabs
@@ -154,65 +162,48 @@
     
     //Setup Quests View
     QuestsViewController *questsViewController = [[QuestsViewController alloc] initWithNibName:@"Quests" bundle:nil];
-    UINavigationController *questsNavigationController = [[UINavigationController alloc] initWithRootViewController:questsViewController];
-    questsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    self.questsNavigationController = [[UINavigationController alloc] initWithRootViewController:questsViewController];
+    self.questsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Setup Quests Icon View
     IconQuestsViewController *iconQuestsViewController = [[IconQuestsViewController alloc] initWithNibName:@"IconQuestsViewController" bundle:nil];
-    UINavigationController *iconQuestsNavigationController = [[UINavigationController alloc] initWithRootViewController:iconQuestsViewController];
-    iconQuestsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    self.iconQuestsNavigationController = [[UINavigationController alloc] initWithRootViewController:iconQuestsViewController];
+    self.iconQuestsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Setup GPS View
     GPSViewController *gpsViewController = [[GPSViewController alloc] initWithNibName:@"GPS" bundle:nil];
-    UINavigationController *gpsNavigationController = [[UINavigationController alloc] initWithRootViewController:gpsViewController];
-    gpsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    self.gpsNavigationController = [[UINavigationController alloc] initWithRootViewController:gpsViewController];
+    self.gpsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Setup Inventory View
     InventoryListViewController *inventoryListViewController = [[InventoryListViewController alloc] initWithNibName:@"InventoryList" bundle:nil];
-    UINavigationController *inventoryNavigationController = [[UINavigationController alloc] initWithRootViewController:inventoryListViewController];
-    inventoryNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    self.inventoryNavigationController = [[UINavigationController alloc] initWithRootViewController:inventoryListViewController];
+    self.inventoryNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Setup Attributes View
     AttributesViewController *attributesViewController = [[AttributesViewController alloc] initWithNibName:@"AttributesViewController" bundle:nil];
-    UINavigationController *attributesNavigationController = [[UINavigationController alloc] initWithRootViewController:attributesViewController];
-    attributesNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    self.attributesNavigationController = [[UINavigationController alloc] initWithRootViewController:attributesViewController];
+    self.attributesNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Setup Notes View
     NotebookViewController *notesViewController = [[NotebookViewController alloc] initWithNibName:@"NotebookViewController" bundle:nil];
-    UINavigationController *notesNavigationController = [[UINavigationController alloc] initWithRootViewController:notesViewController];
-    notesNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    self.notesNavigationController = [[UINavigationController alloc] initWithRootViewController:notesViewController];
+    self.notesNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Decoder View Controller
     DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithNibName:@"Decoder" bundle:nil];
-    UINavigationController *decoderNavigationController = [[UINavigationController alloc] initWithRootViewController:decoderViewController];
-    decoderNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    self.decoderNavigationController = [[UINavigationController alloc] initWithRootViewController:decoderViewController];
+    self.decoderNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Bogus Game Picker View
-    BogusSelectGameViewController *bogusSelectGameViewController = [[BogusSelectGameViewController alloc] init];
+    self.bogusSelectGameViewController = [[BogusSelectGameViewController alloc] init];
     
     //Setup the Game Play Tab Bar
     self.gamePlayTabBarController = [[UITabBarController alloc] init];
     self.gamePlayTabBarController.delegate = self;
     
-    self.gamePlayTabBarController.viewControllers = [NSMutableArray arrayWithObjects:
-                                                     questsNavigationController,
-                                                     iconQuestsNavigationController,
-                                                     gpsNavigationController,
-                                                     inventoryNavigationController,
-                                                     attributesNavigationController,
-                                                     decoderNavigationController,
-                                                     notesNavigationController,
-                                                     bogusSelectGameViewController,
-                                                     nil];
-    
-    //More Tab
-    UINavigationController *moreNavController = self.gamePlayTabBarController.moreNavigationController;
-    moreNavController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-    moreNavController.delegate = self;
-    
     self.gamePlayTabBarController.view.hidden = YES;
     [self.view addSubview:self.gamePlayTabBarController.view];
-    [AppModel sharedAppModel].defaultGameTabList = self.gamePlayTabBarController.customizableViewControllers;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -251,13 +242,13 @@
         {
             self.loginNavigationController.view.hidden     = NO;
             self.gamePlayTabBarController.view.hidden      = YES;
-            self.gameSelectionTabBarController.view.hidden = YES;
+            self.gamePickerTabBarController.view.hidden    = YES;
         }
         else
         {
             [[AppServices sharedAppServices] setShowPlayerOnMap];
             [AppModel sharedAppModel].loggedIn = YES;
-            self.gameSelectionTabBarController.view.hidden      = NO;
+            self.gamePickerTabBarController.view.hidden         = NO;
             self.loginNavigationController.view.hidden          = YES;
             self.gamePlayTabBarController.view.hidden           = YES;
             self.playerSettingsNavigationController.view.hidden = YES;
@@ -273,18 +264,20 @@
 
 #pragma mark Notifications, Warnings and Other Views
 
-- (void)showGameSelectionTabBarAndHideOthers
+- (void)showGamePickerTabBarAndHideOthers
 {
     //Put it onscreen
     CGContextRef context = UIGraphicsGetCurrentContext();
     [UIView beginAnimations:nil context:context];
     [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.view cache:YES];
-    self.gamePlayTabBarController.selectedIndex = 0;
-    self.gamePlayTabBarController.view.hidden = YES;
-    self.gameSelectionTabBarController.view.hidden = NO;
-    self.loginNavigationController.view.hidden = YES;
+    self.gamePickerTabBarController.view.hidden = NO;
+
+    self.gamePlayTabBarController.selectedIndex         = 0;
+    self.gamePlayTabBarController.view.hidden           = YES;
+    self.loginNavigationController.view.hidden          = YES;
     self.playerSettingsNavigationController.view.hidden = YES;
     [UIView commitAnimations];
+    [AppModel sharedAppModel].currentGame = nil;
     [AppModel sharedAppModel].fallbackGameId = 0;
     [[AppModel sharedAppModel] saveUserDefaults];
     
@@ -320,12 +313,6 @@
 - (void)showNetworkAlert
 {
 	NSLog (@"RootViewController: Showing Network Alert");
-	if (self.loadingViewController)
-    {
-        [self.loadingViewController dismissModalViewControllerAnimated:NO];
-        [self gamePlayTabBarController].selectedIndex = 0;
-        [self showGameSelectionTabBarAndHideOthers];
-    }
 	if (!self.networkAlert)
     {
 		networkAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"PoorConnectionTitleKey", @"")
@@ -469,7 +456,7 @@
     [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController refreshViewFromModel];
     self.playerSettingsNavigationController.view.hidden = NO;
     [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController viewDidIntentionallyAppear];
-    self.gameSelectionTabBarController.view.hidden = NO;
+    self.gamePickerTabBarController.view.hidden = NO;
 }
 
 - (void)finishLoginAttempt:(NSNotification *)notification
@@ -486,8 +473,8 @@
         else
         {
             self.playerSettingsNavigationController.view.hidden = YES;
-            self.gameSelectionTabBarController.view.hidden = NO;
-            self.gameSelectionTabBarController.selectedIndex = 0;
+            self.gamePickerTabBarController.view.hidden = NO;
+            self.gamePickerTabBarController.selectedIndex = 0;
         }
     }
     else
@@ -519,14 +506,14 @@
 	NSLog(@"Loading Game: %@", game);
     [AppModel sharedAppModel].currentlyInteractingWithObject = NO;
 
-    loadingViewController = [[LoadingViewController alloc] initWithNibName:@"LoadingViewController" bundle:nil];
+    LoadingViewController *loadingViewController = [[LoadingViewController alloc] initWithNibName:@"LoadingViewController" bundle:nil];
     loadingViewController.progressLabel.text = NSLocalizedString(@"ARISAppDelegateFectchingGameListsKey", @"");
     
     [self.gamePlayTabBarController.moreNavigationController popToRootViewControllerAnimated:NO];
-    [self.gamePlayTabBarController presentModalViewController:self.loadingViewController animated:NO];
+    [self.gamePlayTabBarController presentModalViewController:loadingViewController animated:NO];
     
     self.gamePlayTabBarController.view.hidden           = NO;
-    self.gameSelectionTabBarController.view.hidden      = YES;
+    self.gamePickerTabBarController.view.hidden         = YES;
     self.loginNavigationController.view.hidden          = YES;
     self.playerSettingsNavigationController.view.hidden = YES;
     
@@ -575,64 +562,41 @@
     //                                         selector:@selector(didReceiveWebpageChannelEventNotification:)
     //                                             name:PTPusherEventReceivedNotification
     //                                          object:webpageChannel];
-    
 }
 
-- (void)changeTabBar //What the heck does 'changeTabBar' mean?
+- (void)setGamePlayTabBarVCs:(NSArray *)gamePlayTabs
 {
-    UINavigationController *tempNav = [[UINavigationController alloc] init];
-    NSArray *newCustomVC = [[NSMutableArray alloc] initWithCapacity:10];
-    NSArray *newTabList = [[NSMutableArray alloc] initWithCapacity:10];
-    NSArray *tmpTabList = [[NSMutableArray alloc] initWithCapacity:11];
+    NSMutableArray *newGamePlayTabVCList  = [[NSMutableArray alloc] initWithCapacity:10];
     
-    NSSortDescriptor *sortDescriptor;
-    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"tabIndex"
-                                                 ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-    //Boolean isIconQuestsView = YES;
-    
-    tmpTabList = [[AppModel sharedAppModel].gameTabList sortedArrayUsingDescriptors:sortDescriptors];
-    Tab *tmpTab = [[Tab alloc] init];
-    for(int y = 0; y < [tmpTabList count];y++)
+    NSArray *sortDescriptors = [NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"tabIndex" ascending:YES]];
+    NSArray *gamePlayTabList = [gamePlayTabs sortedArrayUsingDescriptors:sortDescriptors];
+    Tab *tmpTab;
+    for(int i = 0; i < [gamePlayTabList count]; i++)
     {
-        tmpTab = [tmpTabList objectAtIndex:y];
+        tmpTab = [gamePlayTabList objectAtIndex:i];
+        if(tmpTab.tabIndex < 1) continue;
+        
         if ([tmpTab.tabName isEqualToString:@"QUESTS"])
         {
-            tmpTab.tabName = NSLocalizedString(@"QuestViewTitleKey",@"");
-            usesIconQuestView = (BOOL)tmpTab.tabDetail1;
+            //if uses icon quest view 
+            if((BOOL)tmpTab.tabDetail1)                        [newGamePlayTabVCList addObject:self.iconQuestsNavigationController];
+            else                                               [newGamePlayTabVCList addObject:self.questsNavigationController];
         }
-        else if([tmpTab.tabName isEqualToString:@"GPS"])       tmpTab.tabName = NSLocalizedString(@"MapViewTitleKey",@"");
-        else if([tmpTab.tabName isEqualToString:@"INVENTORY"]) tmpTab.tabName = NSLocalizedString(@"InventoryViewTitleKey",@"");
-        else if([tmpTab.tabName isEqualToString:@"QR"])        tmpTab.tabName = NSLocalizedString(@"QRScannerTitleKey",@"");
-        else if([tmpTab.tabName isEqualToString:@"PLAYER"])    tmpTab.tabName = NSLocalizedString(@"PlayerTitleKey",@"");
-        else if([tmpTab.tabName isEqualToString:@"NOTE"])      tmpTab.tabName = NSLocalizedString(@"NotebookTitleKey",@"");
-        else if([tmpTab.tabName isEqualToString:@"PICKGAME"])  tmpTab.tabName = NSLocalizedString(@"GamePickerTitleKey",@"");
-        else tmpTab.tabIndex = 0;
-        
-        if(tmpTab.tabIndex != 0 && !([AppModel sharedAppModel].museumMode && [tmpTab.tabName isEqualToString:NSLocalizedString(@"GamePickerTitleKey", @"")]))
-            newTabList = [newTabList arrayByAddingObject:tmpTab];
-    }
-    
-    for(int y = 0; y < [newTabList count]; y++)
-    {
-        tmpTab = [newTabList objectAtIndex:y];
-        if([tmpTab.tabName isEqualToString:NSLocalizedString(@"QuestViewTitleKey",@"")])
+        else if([tmpTab.tabName isEqualToString:@"GPS"])       [newGamePlayTabVCList addObject:self.gpsNavigationController];
+        else if([tmpTab.tabName isEqualToString:@"INVENTORY"]) [newGamePlayTabVCList addObject:self.inventoryNavigationController];
+        else if([tmpTab.tabName isEqualToString:@"QR"])        [newGamePlayTabVCList addObject:self.decoderNavigationController];
+        else if([tmpTab.tabName isEqualToString:@"PLAYER"])    [newGamePlayTabVCList addObject:self.attributesNavigationController];
+        else if([tmpTab.tabName isEqualToString:@"NOTE"])      [newGamePlayTabVCList addObject:self.notesNavigationController];
+        else if([tmpTab.tabName isEqualToString:@"PICKGAME"])
         {
-            if(usesIconQuestView)tempNav = (UINavigationController *)[[AppModel sharedAppModel].defaultGameTabList objectAtIndex:8];
-            else tempNav = (UINavigationController *)[[AppModel sharedAppModel].defaultGameTabList objectAtIndex:0];
-            newCustomVC = [newCustomVC arrayByAddingObject:tempNav];
-        }
-        else
-        {
-            for(int x = 0; x < [[AppModel sharedAppModel].defaultGameTabList count]; x++)
-            {
-                tempNav = (UINavigationController *)[[AppModel sharedAppModel].defaultGameTabList objectAtIndex:x];
-                if([tempNav.navigationItem.title isEqualToString:tmpTab.tabName])newCustomVC = [newCustomVC arrayByAddingObject:tempNav];
-            }
+            if(![AppModel sharedAppModel].museumMode)          [newGamePlayTabVCList addObject:self.bogusSelectGameViewController];
         }
     }
     
-    self.gamePlayTabBarController.viewControllers = [NSArray arrayWithArray: newCustomVC];
+    self.gamePlayTabBarController.viewControllers = [NSArray arrayWithArray:newGamePlayTabVCList];
+    self.gamePlayTabBarController.moreNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    self.gamePlayTabBarController.moreNavigationController.delegate = self;
+    self.gamePlayTabBarController.selectedIndex = 0;
     [AppModel sharedAppModel].tabsReady = YES;
 }
 
@@ -650,10 +614,10 @@
 	[tutorialViewController dismissAllTutorials];
 	
 	//(re)load the login view
-	self.gamePlayTabBarController.view.hidden = YES;
-    self.gameSelectionTabBarController.view.hidden = YES;
+	self.gamePlayTabBarController.view.hidden           = YES;
+    self.gamePickerTabBarController.view.hidden         = YES;
     self.playerSettingsNavigationController.view.hidden = YES;
-    self.loginNavigationController.view.hidden = NO;
+    self.loginNavigationController.view.hidden          = NO;
     
     [gameNotificationViewController stopListeningToModel];
     [gameNotificationViewController cutOffGameNotifications];
@@ -709,9 +673,9 @@
     // Push Game Detail View Controller
     GameDetailsViewController *gameDetailsViewController = [[GameDetailsViewController alloc] initWithNibName:@"GameDetails" bundle:nil];
     gameDetailsViewController.game = game;
-    self.gameSelectionTabBarController.selectedIndex = 3; //recent (so when they go back, they'll see the game they just left)
-    self.gameSelectionTabBarController.view.hidden = NO;
-    [(UINavigationController*)self.gameSelectionTabBarController.selectedViewController pushViewController:gameDetailsViewController animated:YES];
+    self.gamePickerTabBarController.selectedIndex = 3; //recent (so when they go back, they'll see the game they just left)
+    self.gamePickerTabBarController.view.hidden = NO;
+    [(UINavigationController*)self.gamePickerTabBarController.selectedViewController pushViewController:gameDetailsViewController animated:YES];
     [self.navigationController pushViewController:gameDetailsViewController animated:YES];
 }
 

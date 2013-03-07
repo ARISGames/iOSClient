@@ -29,7 +29,7 @@
     ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
     [appDelegate stopAudio];
     //[[RootViewController sharedRootViewController] cutOffGameNotifications];
-    [[RootViewController sharedRootViewController] showGameSelectionTabBarAndHideOthers];
+    [[RootViewController sharedRootViewController] showGamePickerTabBarAndHideOthers];
 }
 
 #pragma mark - View lifecycle

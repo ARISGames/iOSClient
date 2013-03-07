@@ -2404,20 +2404,14 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
--(void)parseGameTabListFromJSON: (JSONResult *)jsonResult
+-(void)parseGameTabListFromJSON:(JSONResult *)jsonResult
 {
 	NSArray *tabListArray = (NSArray *)jsonResult.data;
-	NSArray *tempTabList = [[NSMutableArray alloc] initWithCapacity:10];
-	NSEnumerator *enumerator = [tabListArray objectEnumerator];
-	NSDictionary *dict;
-	while ((dict = [enumerator nextObject]))
-    {
-		Tab *tmpTab = [self parseTabFromDictionary:dict];
-		tempTabList = [tempTabList arrayByAddingObject:tmpTab];
-	}
-	
-	[AppModel sharedAppModel].gameTabList = tempTabList;
-    [[RootViewController sharedRootViewController] changeTabBar];
+    NSMutableArray *tempTabList = [[NSMutableArray alloc] initWithCapacity:10];
+	for(int i = 0; i < [tabListArray count]; i++)
+		[tempTabList addObject:[self parseTabFromDictionary:[tabListArray objectAtIndex:i]]];
+    
+    [[RootViewController sharedRootViewController] setGamePlayTabBarVCs:tempTabList];
     
     NSLog(@"NSNotification: GamePieceReceived");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
@@ -2560,28 +2554,27 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     
     currentlyFetchingQuestList = NO;
 
-	NSDictionary *questListDictionary = (NSDictionary *)jsonResult.data;
+	NSDictionary *questListsDictionary = (NSDictionary *)jsonResult.data;
 	
     //Active Quests
-	NSMutableArray *activeQuestObjects = [[NSMutableArray alloc] init];
-    NSArray *activeQuests = [self validObjectForKey:@"active" inDictionary:questListDictionary];
-	NSEnumerator *activeQuestsEnumerator = [activeQuests objectEnumerator];
-	NSDictionary *activeQuest;
-	while ((activeQuest = [activeQuestsEnumerator nextObject]))
+    NSArray *activeQuestDicts = [self validObjectForKey:@"active" inDictionary:questListsDictionary];
+	NSEnumerator *activeQuestDictsEnumerator = [activeQuestDicts objectEnumerator];
+	NSDictionary *activeQuestDict;
+    NSMutableArray *activeQuestObjects = [[NSMutableArray alloc] init];
+	while ((activeQuestDict = [activeQuestDictsEnumerator nextObject]))
     {
-	Quest *quest = [[Quest alloc] init];
-	quest.questId                = [self validIntForKey:@"quest_id"             inDictionary:activeQuest];
-        quest.name                   = [self validObjectForKey:@"name"              inDictionary:activeQuest];
-        quest.qdescription            = [self validObjectForKey:@"description"       inDictionary:activeQuest];
-        quest.fullScreenNotification = [self validBoolForKey:@"full_screen_notify"  inDictionary:activeQuest];
-        quest.mediaId                = [self validIntForKey:@"active_media_id"      inDictionary:activeQuest];
-	quest.iconMediaId            = [self validIntForKey:@"active_icon_media_id" inDictionary:activeQuest];
-        quest.sortNum                = [self validIntForKey:@"sort_index"           inDictionary:activeQuest];
+        Quest *quest = [[Quest alloc] init];
+        quest.questId                = [self validIntForKey:@"quest_id"             inDictionary:activeQuestDict];
+        quest.mediaId                = [self validIntForKey:@"active_media_id"      inDictionary:activeQuestDict];
+        quest.iconMediaId            = [self validIntForKey:@"active_icon_media_id" inDictionary:activeQuestDict];
+        quest.sortNum                = [self validIntForKey:@"sort_index"           inDictionary:activeQuestDict];
+        quest.name                   = [self validObjectForKey:@"name"              inDictionary:activeQuestDict];
+        quest.qdescription           = [self validObjectForKey:@"description"       inDictionary:activeQuestDict];
+        quest.fullScreenNotification = [self validBoolForKey:@"full_screen_notify"  inDictionary:activeQuestDict];
+        quest.exitToTabName          = [self validObjectForKey:@"exit_to_tab"       inDictionary:activeQuestDict];
         
-        quest.exitToTabName = [self validObjectForKey:@"exit_to_tab" inDictionary:activeQuest]
-                              ? [self validObjectForKey:@"exit_to_tab" inDictionary:activeQuest]
-                              : @"NONE";
-        if     ([quest.exitToTabName isEqualToString:@"QUESTS"])    quest.exitToTabName = NSLocalizedString(@"QuestViewTitleKey",@"");
+        if     (!quest.exitToTabName)                               quest.exitToTabName = @"NONE";
+        else if([quest.exitToTabName isEqualToString:@"QUESTS"])    quest.exitToTabName = NSLocalizedString(@"QuestViewTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"GPS"])       quest.exitToTabName = NSLocalizedString(@"MapViewTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"INVENTORY"]) quest.exitToTabName = NSLocalizedString(@"InventoryViewTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"QR"])        quest.exitToTabName = NSLocalizedString(@"QRScannerTitleKey",@"");
@@ -2593,25 +2586,24 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	}
     
     //Completed Quests
-	NSMutableArray *completedQuestObjects = [[NSMutableArray alloc] init];
-    NSArray *completedQuests = [self validObjectForKey:@"completed" inDictionary:questListDictionary];
-	NSEnumerator *completedQuestsEnumerator = [completedQuests objectEnumerator];
-	NSDictionary *completedQuest;
-	while ((completedQuest = [completedQuestsEnumerator nextObject]))
+    NSArray *completedQuestDicts = [self validObjectForKey:@"completed" inDictionary:questListsDictionary];
+	NSEnumerator *completedQuestDictsEnumerator = [completedQuestDicts objectEnumerator];
+	NSDictionary *completedQuestDict;
+    NSMutableArray *completedQuestObjects = [[NSMutableArray alloc] init];
+	while ((completedQuestDict = [completedQuestDictsEnumerator nextObject]))
     {
-	Quest *quest = [[Quest alloc] init];
-	quest.questId                = [self validIntForKey:@"quest_id"               inDictionary:completedQuest];
-        quest.name                   = [self validObjectForKey:@"name"                inDictionary:completedQuest];
-        quest.qdescription            = [self validObjectForKey:@"text_when_complete"  inDictionary:completedQuest];
-        quest.fullScreenNotification = [self validBoolForKey:@"full_screen_notify"    inDictionary:completedQuest];
-        quest.mediaId                = [self validIntForKey:@"complete_media_id"      inDictionary:completedQuest];
-        quest.iconMediaId            = [self validIntForKey:@"complete_icon_media_id" inDictionary:completedQuest];
-        quest.sortNum                = [self validIntForKey:@"sort_index"             inDictionary:completedQuest];
+        Quest *quest = [[Quest alloc] init];
+        quest.questId                = [self validIntForKey:@"quest_id"               inDictionary:completedQuestDict];
+        quest.mediaId                = [self validIntForKey:@"complete_media_id"      inDictionary:completedQuestDict];
+        quest.iconMediaId            = [self validIntForKey:@"complete_icon_media_id" inDictionary:completedQuestDict];
+        quest.sortNum                = [self validIntForKey:@"sort_index"             inDictionary:completedQuestDict];
+        quest.fullScreenNotification = [self validBoolForKey:@"full_screen_notify"    inDictionary:completedQuestDict];
+        quest.name                   = [self validObjectForKey:@"name"                inDictionary:completedQuestDict];
+        quest.qdescription           = [self validObjectForKey:@"text_when_complete"  inDictionary:completedQuestDict];
+        quest.exitToTabName          = [self validObjectForKey:@"exit_to_tab"         inDictionary:completedQuestDict];
         
-        quest.exitToTabName = [self validObjectForKey:@"exit_to_tab" inDictionary:completedQuest]
-                              ? [self validObjectForKey:@"exit_to_tab" inDictionary:completedQuest]
-                              : @"NONE";
-        if     ([quest.exitToTabName isEqualToString:@"QUESTS"])    quest.exitToTabName = NSLocalizedString(@"QuestViewTitleKey",@"");
+        if     (!quest.exitToTabName)                               quest.exitToTabName =  @"NONE";
+        else if([quest.exitToTabName isEqualToString:@"QUESTS"])    quest.exitToTabName = NSLocalizedString(@"QuestViewTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"GPS"])       quest.exitToTabName = NSLocalizedString(@"MapViewTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"INVENTORY"]) quest.exitToTabName = NSLocalizedString(@"InventoryViewTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"QR"])        quest.exitToTabName = NSLocalizedString(@"QRScannerTitleKey",@"");

@@ -56,55 +56,39 @@
 
 - (id)initWithOverlay:(id <MKOverlay>)overlay
 {
-    if (self = [super initWithOverlay:overlay]) {
+    if (self = [super initWithOverlay:overlay])
+    {
         tileAlpha = 1;
     }
     return self;
 }
 
-- (BOOL)canDrawMapRect:(MKMapRect)mapRect
-             zoomScale:(MKZoomScale)zoomScale
+- (BOOL)canDrawMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale
 {
-    // Return YES only if there are some tiles in this mapRect and at this zoomScale.
-    
     NSArray *tilesInRect;
-    int iOverlays = [[AppModel sharedAppModel].overlayList count];
-    TileOverlay *tileOverlay = (TileOverlay *)self.overlay;
-    for (int i = 0; i < iOverlays; i++) {
-        tilesInRect = [tileOverlay tilesInMapRect:mapRect zoomScale:zoomScale withIndex:i];
-        
-        if ([tilesInRect count] > 0)
-            return true;
+    for (int i = 0; i < [[AppModel sharedAppModel].overlayList count]; i++)
+    {
+        tilesInRect = [(TileOverlay *)self.overlay tilesInMapRect:mapRect zoomScale:zoomScale withIndex:i];
+        if ([tilesInRect count] > 0) return true;
     }
+    //Again (see comment below), why are we iterating? Are we asking "do ANY tilesInRect have > 0 count"? If so, why are we then
+    //just using the final one (in drawMapRect:zoomScale:inContext:)? -Phil 3/6/13
 
-     return false;    
+    return false;    
 }
 
-- (void)drawMapRect:(MKMapRect)mapRect
-          zoomScale:(MKZoomScale)zoomScale
-          inContext:(CGContextRef)context
+- (void)drawMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale inContext:(CGContextRef)context
 {
-    TileOverlay *tileOverlay = (TileOverlay *)self.overlay;
-    
-    // Get the list of tile images from the model object for this mapRect.  The
-    // list may be 1 or more images (but not 0 because canDrawMapRect would have
-    // returned NO in that case).
     NSArray *tilesInRect;
-    int iOverlays = [[AppModel sharedAppModel].overlayList count];
-    for (int i = 0; i < iOverlays; i++) {
-        //NSString *tileFolderTitle = [NSString stringWithFormat:@"OverlayTiles%i",0];
-        //NSString *tileDirectory = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:tileFolderTitle];
-        //overlay = [[TileOverlay alloc] initWithTileDirectory:tileDirectory];
-        tilesInRect = [tileOverlay tilesInMapRect:mapRect zoomScale:zoomScale withIndex:i];
-        //NSArray *tilesInRect = [tileOverlay tilesInMapRect:mapRect zoomScale:zoomScale];
+    for (int i = 0; i < [[AppModel sharedAppModel].overlayList count]; i++) //count always > 0, otherwise this function wouldn't be called
+        tilesInRect = [(TileOverlay *)self.overlay tilesInMapRect:mapRect zoomScale:zoomScale withIndex:i];
+    //^ This iterates through an array, and sets 'tilesInRect' to each member, but doesn't do anything with it, resulting in:
+    //tilesInRect = [self.overlay tilesInMapRect:mapRect zoomScale:zoomScale withIndex:[[AppModel sharedAppModel].overlayList count]-1];
+    //So why don't we just set it to that rather than iterating through stuff? Was this intended to do more than that? -Phil 3/6/13
 
-    }
-    
-        
     CGContextSetAlpha(context, tileAlpha);
-        
-    for (ImageTile *tile in tilesInRect) {
-        // For each image tile, draw it in its corresponding MKMapRect frame
+    for (ImageTile *tile in tilesInRect)
+    {
         CGRect rect = [self rectForMapRect:tile.frame];
         UIImage *image = tile.image;
         CGContextSaveGState(context);

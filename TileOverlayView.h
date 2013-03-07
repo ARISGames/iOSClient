@@ -45,11 +45,10 @@
 // Copyright (C) 2010 Apple Inc. All Rights Reserved.
 // 
 
-
 #import <MapKit/MapKit.h>
 
-
-@interface TileOverlayView : MKOverlayView {
+@interface TileOverlayView : MKOverlayView
+{
     CGFloat tileAlpha;
 }
 

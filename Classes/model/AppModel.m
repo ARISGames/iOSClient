@@ -44,8 +44,6 @@
 @synthesize gameNpcList;
 @synthesize gameWebPageList;
 @synthesize gamePanoramicList;
-@synthesize gameTabList;
-@synthesize defaultGameTabList;
 @synthesize gameNoteList;
 @synthesize playerNoteList;
 @synthesize profilePic;
@@ -196,7 +194,7 @@
 -(void)clearUserDefaults
 {
 	NSLog(@"Clearing User Defaults");
-	[AppModel sharedAppModel].currentGame.gameId = 0;
+	[AppModel sharedAppModel].currentGame        = nil;
     [AppModel sharedAppModel].playerId           = 0;
     [AppModel sharedAppModel].fallbackGameId     = 0;
     [AppModel sharedAppModel].playerMediaId      = -1;
