@@ -70,28 +70,19 @@
     self.navigationItem.rightBarButtonItem = nil;	
 }
 
-- (IBAction) scanButtonTapped {
-    // ADD: present a barcode reader that scans from the camera feed
+- (IBAction)scanButtonTapped
+{
     ARISZBarReaderWrapperViewController *reader = [ARISZBarReaderWrapperViewController new];
     reader.readerDelegate = self;
     
     ZBarImageScanner *scanner = reader.scanner;
-    // TODO: (optional) additional reader configuration here
     reader.supportedOrientationsMask = 0;
     
-    // EXAMPLE: disable rarely used I2/5 to improve performance
-    [scanner setSymbology: ZBAR_QRCODE
-                   config: ZBAR_CFG_ENABLE
-                       to: 1];
-    [scanner setSymbology: ZBAR_UPCA
-                   config: ZBAR_CFG_ENABLE
-                       to: 1];
-    [scanner setSymbology: ZBAR_UPCE
-                   config: ZBAR_CFG_ENABLE
-                       to: 1];
+    [scanner setSymbology:ZBAR_QRCODE config:ZBAR_CFG_ENABLE to:1];
+    [scanner setSymbology:ZBAR_UPCA   config:ZBAR_CFG_ENABLE to:1];
+    [scanner setSymbology:ZBAR_UPCE   config:ZBAR_CFG_ENABLE to:1];
     
-    // present the controller
-    [self presentViewController:reader animated:YES completion:nil];
+    [self presentViewController:reader animated:NO completion:nil];
 }
 
 - (IBAction)imageScanButtonTouchAction: (id) sender{
@@ -124,7 +115,8 @@
 
 #pragma mark UIImagePickerControllerDelegate Protocol Methods
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary  *)info{
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary  *)info
+{
     [picker dismissViewControllerAnimated:NO completion:nil];
     UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
     if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];                 
@@ -144,7 +136,8 @@
     // [picker dismissModalViewControllerAnimated: YES];
     
     
-    if (picker == self.imageMatchingImagePickerController) {
+    if (picker == self.imageMatchingImagePickerController)
+    {
         NSLog(@"DecoderVC: image matching imagePickerController didFinishPickingImage" );
         
         NSData *imageData = UIImageJPEGRepresentation(image, .4);
@@ -156,77 +149,21 @@
         [imageData writeToURL:imageURL atomically:YES];
         [[AppServices sharedAppServices] uploadImageForMatching:imageURL];
     }	
-    else{
+    else
+    {
         NSLog(@"DecoderVC: barcode data = %@",resultText);
         [self loadResult:resultText];
-        
     }
 }
 
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
     [picker dismissViewControllerAnimated:NO completion:nil];
 }
-
 
 #pragma mark -
 
 #pragma mark QRCScan delegate methods
-/*
-- (void)decoder:(Decoder *)decoder didDecodeImage:(UIImage *)image usingSubset:(UIImage *)subset withResult:(TwoDDecoderResult *)twoDResult {
-	//Stop Waiting Indicator
-	ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
-	[[RootViewController sharedRootViewController] removeWaitingIndicator];
-	
-	//get the result
-	NSString *encodedText = twoDResult.text;
-
-	//we are done with the scanner, so release it
-	[decoder release];
-	NSLog(@"DecoderViewController: Decode Complete. QR Code ID = %@", encodedText);
-	
-	[self loadResult:encodedText];
-}
- 
- - (void)decoder:(Decoder *)decoder decodingImage:(UIImage *)image usingSubset:(UIImage *)subset progress:(NSString *)message {
- NSLog(@"Decoding image");
- }
- 
- - (void)decoder:(Decoder *)decoder failedToDecodeImage:(UIImage *)image usingSubset:(UIImage *)subset reason:(NSString *)reason {
- NSLog(@"Failed to decode image");
- [decoder release];
- 
- //Stop Waiting Indicator
- ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
- [[RootViewController sharedRootViewController] removeWaitingIndicator];
- [appDelegate playAudioAlert:@"error" shouldVibrate:YES];
- 
- UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"DecoderDecodingErrorTitleKey", @"")
- message:NSLocalizedString(@"DecoderDecodingErrorMessageKey", @"")
- delegate:self 
- cancelButtonTitle:NSLocalizedString(@"OkKey", @"")
- otherButtonTitles:nil];
- [alert show];	
- [alert release];
- }
- 
- - (void) qrParserDidFinish:(id<QRCodeProtocol>)qrcode {
- NSLog(@"Not implemented.");
- assert(false);
- }
- 
- - (void)decoder:(Decoder *)decoder willDecodeImage:(UIImage *)image usingSubset:(UIImage *)subset {
- NSLog(@"QR: Will decode image");
- 
- //Start Waiting Indicator
- ARISAppDelegate *appDelegate = (ARISAppDelegate *) [[UIApplication sharedApplication] delegate];
- [[[RootViewController sharedRootViewController] showWaitingIndicator:NSLocalizedString(@"DecoderDecodingKey",@"") displayProgressBar:NO];
- 
- }
- 
-
-*/
-
-
 
 -(void) loadResult:(NSString *)code
 {
@@ -260,7 +197,8 @@
 		[alert show];	
 		
 	}
-	else if ([qrCodeObject isKindOfClass:[NSString class]]) {
+	else if ([qrCodeObject isKindOfClass:[NSString class]])
+    {
         [appDelegate playAudioAlert:@"error" shouldVibrate:NO];
         
         //Display an alert
@@ -269,24 +207,14 @@
                                                        delegate:self 
                                               cancelButtonTitle:NSLocalizedString(@"OkKey", @"")
                                               otherButtonTitles:nil];
-        [alert show];	
-        
+        [alert show];
     }
-    else{
+    else
+    {
 		[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];		
 		//Display the content
 		[qrCodeObject display];
 	}
-}
-
-
-#pragma mark UINavigationControllerDelegate Protocol Methods
-- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
-	//nada
-}
-
-- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
-	//nada
 }
 
 #pragma mark Rotation

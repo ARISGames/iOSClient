@@ -47,9 +47,6 @@
 @synthesize gameNoteList;
 @synthesize playerNoteList;
 @synthesize profilePic;
-@synthesize gameNoteListHash;
-@synthesize playerNoteListHash;
-@synthesize overlayListHash;
 @synthesize overlayList;
 @synthesize overlayIsVisible;
 @synthesize nearbyLocationsList;

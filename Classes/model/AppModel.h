@@ -55,10 +55,6 @@
 	NSMutableArray *playerList;
 	NSMutableArray *nearbyLocationsList;
 
-    NSString *playerNoteListHash;
-    NSString *gameNoteListHash;
-    NSString *overlayListHash;
-
 	NSMutableDictionary *gameMediaList;
 	NSMutableDictionary *gameItemList;
 	NSMutableDictionary *gameNodeList;
@@ -140,10 +136,6 @@
 
 @property(nonatomic, strong) NSMutableArray *nearbyLocationsList;	
 @property(nonatomic, strong) CLLocation *playerLocation;
-@property(nonatomic, strong) NSString *playerNoteListHash;
-@property(nonatomic, strong) NSString *gameNoteListHash;
-@property(nonatomic, strong) NSString *overlayListHash;
-
 
 @property(nonatomic, strong) NSMutableDictionary *gameNoteList;
 @property(nonatomic, strong) NSMutableDictionary *playerNoteList;

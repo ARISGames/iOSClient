@@ -11,9 +11,8 @@
 #import "ARISZBarReaderWrapperViewController.h"
 
 
-@interface DecoderViewController : UIViewController <UINavigationControllerDelegate,
-                                                        UIImagePickerControllerDelegate, 
-                                                        ZBarReaderDelegate>{
+@interface DecoderViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, ZBarReaderDelegate>
+{
 	IBOutlet UIButton *qrScanButton;
     IBOutlet UIButton *barcodeButton;
     IBOutlet UIButton *imageScanButton;

@@ -220,12 +220,14 @@
 
         //Setup Pusher Client
         self.pusherClient = [PTPusher pusherWithKey:@"79f6a265dbb7402a49c9" delegate:self encrypted:YES];
+        self.pusherClient.delegate = self;
+        self.pusherClient.reconnectAutomatically = YES;
+
         self.pusherClient.authorizationURL = [NSURL URLWithString:@"http://dev.arisgames.org/server/events/auths/private_auth.php"];
         
         //Start Polling Location
         [NSTimer scheduledTimerWithTimeInterval:3.0 target:[[MyCLController sharedMyCLController]locationManager] selector:@selector(startUpdatingLocation) userInfo:nil repeats:NO];
         
-        //register for notifications
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishLoginAttempt:)         name:@"NewLoginResponseReady"         object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectGameWithoutPicker:)    name:@"NewOneGameGameListReady"       object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(commitToPlayGame:)           name:@"CommitToPlayGame"              object:nil];

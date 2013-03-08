@@ -1198,17 +1198,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     //   currentlyFetchingGamesList = NO; Is there a reason for this?
     NSLog(@"NSNotification: ReceivedOverlayList");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedOverlayList" object:nil]];
-    
-    if ([jsonResult.hash isEqualToString:[[AppModel sharedAppModel] overlayListHash]] && [AppModel sharedAppModel].overlayIsVisible ==true)
-    {
-		NSLog(@"AppModel: Hash is same as last overlay list update, continue");
-        
-        return;
-	}
-	
-	//Save this hash for later comparisions
+
     [AppModel sharedAppModel].overlayIsVisible = false;
-	[AppModel sharedAppModel].overlayListHash = [jsonResult.hash copy];
     
     NSArray *overlayListArray = (NSArray *)jsonResult.data;
     
@@ -1290,13 +1281,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (void)resetAllPlayerLists
 {
-	NSLog(@"AppModel: resetAllPlayerLists");
-    
-	//Clear the Hashes
-    [AppModel sharedAppModel].playerNoteListHash = @"";
-    [AppModel sharedAppModel].gameNoteListHash   = @"";
-    [AppModel sharedAppModel].overlayListHash    = @"";
-    
+	NSLog(@"AppModel: resetAllPlayerLists");    
 	//Clear them out
 	[AppModel sharedAppModel].nearbyLocationsList = [[NSMutableArray alloc] initWithCapacity:0];
 
@@ -1729,6 +1714,12 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	return (theObject == [NSNull null]) ? nil : theObject;
 }
 
+- (NSString *) validStringForKey:(NSString *const)aKey inDictionary:(NSDictionary *const)aDictionary
+{
+    id theObject = [aDictionary valueForKey:aKey];
+    return ([theObject respondsToSelector:@selector(isEqualToString:)]) ? theObject : @"";
+}
+
 -(Item *)parseItemFromDictionary: (NSDictionary *)itemDictionary
 {
     Item *item = [[Item alloc] init];
@@ -1874,8 +1865,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	npc.name        = [self validObjectForKey:@"name"        inDictionary:npcDictionary];
 	npc.greeting    = [self validObjectForKey:@"text"        inDictionary:npcDictionary];
 	npc.description = [self validObjectForKey:@"description" inDictionary:npcDictionary];
-    npc.closing     = [self validObjectForKey:@"closing"     inDictionary:npcDictionary];
-	if (!npc.closing) npc.closing = @"";
+    npc.closing     = [self validStringForKey:@"closing"     inDictionary:npcDictionary];
     
 	return npc;
 }
@@ -1929,14 +1919,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 -(void)parseGameNoteListFromJSON: (JSONResult *)jsonResult
 {
-    if ([jsonResult.hash isEqualToString:[AppModel sharedAppModel].gameNoteListHash]) {
-		NSLog(@"AppModel: Hash is same as last game note list update, continue");
-		//return;
-	}
-	
-	//Save this hash for later comparisions
-	[AppModel sharedAppModel].gameNoteListHash = jsonResult.hash;
-    
 	NSArray *noteListArray = (NSArray *)jsonResult.data;
     NSMutableDictionary *tempNoteList = [[NSMutableDictionary alloc]init];
     
@@ -1959,15 +1941,9 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     currentlyFetchingGameNoteList = NO;
 }
 
--(void)parsePlayerNoteListFromJSON: (JSONResult *)jsonResult{
+-(void)parsePlayerNoteListFromJSON:(JSONResult *)jsonResult
+{
     NSLog(@"Parsing Player Note List");
-    if ([jsonResult.hash isEqualToString:[AppModel sharedAppModel].playerNoteListHash]) {
-		NSLog(@"AppModel: Hash is same as last player note list update, continue");
-		//return;
-	}
-	
-	//Save this hash for later comparisions
-	[AppModel sharedAppModel].playerNoteListHash = [jsonResult.hash copy];
     
 	NSArray *noteListArray = (NSArray *)jsonResult.data;
     NSLog(@"NSNotification: ReceivedNoteList");
@@ -2075,9 +2051,9 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     game.pcMediaId                = [self validIntForKey:@"pc_media_id"           inDictionary:gameSource];
     game.numPlayers               = [self validIntForKey:@"numPlayers"            inDictionary:gameSource];
     game.playerCount              = [self validIntForKey:@"count"                 inDictionary:gameSource];
-    game.gdescription             = [self validObjectForKey:@"description"        inDictionary:gameSource]; if (!game.gdescription) game.gdescription = @"";
-    game.name                     = [self validObjectForKey:@"name"               inDictionary:gameSource]; if (!game.name)         game.name = @"";
-    game.authors                  = [self validObjectForKey:@"editors"            inDictionary:gameSource]; if (!game.authors)      game.authors = @"";
+    game.gdescription             = [self validStringForKey:@"description"        inDictionary:gameSource];
+    game.name                     = [self validStringForKey:@"name"               inDictionary:gameSource];
+    game.authors                  = [self validStringForKey:@"editors"            inDictionary:gameSource];
     game.mapType                  = [self validObjectForKey:@"map_type"           inDictionary:gameSource];
     if (!game.mapType || (![game.mapType isEqualToString:@"STREET"] && ![game.mapType isEqualToString:@"SATELLITE"] && ![game.mapType isEqualToString:@"HYBRID"])) game.mapType = @"STREET";
 
@@ -2121,11 +2097,11 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         game.splashMedia = [[AppModel sharedAppModel].mediaCache mediaForUrl:game.mediaUrl];
     }
     
-    game.questsModel.totalQuestsInGame = [self validIntForKey:@"totalQuests"           inDictionary:gameSource];
-    game.launchNodeId                  = [self validIntForKey:@"on_launch_node_id"     inDictionary:gameSource];
-    game.completeNodeId                = [self validIntForKey:@"game_complete_node_id" inDictionary:gameSource];
-    game.calculatedScore               = [self validIntForKey:@"calculatedScore"       inDictionary:gameSource];
-    game.numReviews                    = [self validIntForKey:@"numComments"           inDictionary:gameSource];
+    game.questsModel.totalQuestsInGame = [self validIntForKey:@"totalQuests"               inDictionary:gameSource];
+    game.launchNodeId                  = [self validIntForKey:@"on_launch_node_id"         inDictionary:gameSource];
+    game.completeNodeId                = [self validIntForKey:@"game_complete_node_id"     inDictionary:gameSource];
+    game.calculatedScore               = [self validIntForKey:@"calculatedScore"           inDictionary:gameSource];
+    game.numReviews                    = [self validIntForKey:@"numComments"               inDictionary:gameSource];
     game.allowsPlayerTags              = [self validBoolForKey:@"allow_player_tags"        inDictionary:gameSource];
     game.allowShareNoteToMap           = [self validBoolForKey:@"allow_share_note_to_map"  inDictionary:gameSource];
     game.allowShareNoteToList          = [self validBoolForKey:@"allow_share_note_to_book" inDictionary:gameSource];

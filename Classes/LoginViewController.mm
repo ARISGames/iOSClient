@@ -72,27 +72,17 @@
 
 -(IBAction)QRButtonTouched
 {
-    // ADD: present a barcode reader that scans from the camera feed
     ARISZBarReaderWrapperViewController *reader = [ARISZBarReaderWrapperViewController new];
     reader.readerDelegate = self;
-
+    
     ZBarImageScanner *scanner = reader.scanner;
-    // TODO: (optional) additional reader configuration here
     reader.supportedOrientationsMask = 0;
+    
+    [scanner setSymbology:ZBAR_QRCODE config:ZBAR_CFG_ENABLE to:1];
+    [scanner setSymbology:ZBAR_UPCA   config:ZBAR_CFG_ENABLE to:1];
+    [scanner setSymbology:ZBAR_UPCE   config:ZBAR_CFG_ENABLE to:1];
 
-    // EXAMPLE: disable rarely used I2/5 to improve performance
-    [scanner setSymbology: ZBAR_QRCODE
-        config: ZBAR_CFG_ENABLE
-        to: 1];
-    [scanner setSymbology: ZBAR_UPCA
-        config: ZBAR_CFG_ENABLE
-        to: 1];
-    [scanner setSymbology: ZBAR_UPCE
-        config: ZBAR_CFG_ENABLE
-        to: 1];
-
-    // present the controller
-    [self presentViewController:reader animated:YES completion:nil];
+    [self presentViewController:reader animated:NO completion:nil];
 }
 
 -(void)changePassTouch
