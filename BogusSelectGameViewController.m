@@ -16,7 +16,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self)
     {
-        // Custom initialization
         self.title = NSLocalizedString(@"BogusTitleKey", @"");
         self.tabBarItem.image = [UIImage imageNamed:@"213-reply.png"];
         self.view.backgroundColor = [UIColor whiteColor];
@@ -36,11 +35,11 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
--(BOOL)shouldAutorotate{
+-(BOOL)shouldAutorotate
+{
     return YES;
 }
 

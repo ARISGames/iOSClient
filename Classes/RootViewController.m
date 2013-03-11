@@ -268,17 +268,16 @@
 
 - (void)showGamePickerTabBarAndHideOthers
 {
-    //Put it onscreen
+    self.gamePickerTabBarController.view.hidden = NO;
+
     CGContextRef context = UIGraphicsGetCurrentContext();
     [UIView beginAnimations:nil context:context];
     [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.view cache:YES];
-    self.gamePickerTabBarController.view.hidden = NO;
-
-    self.gamePlayTabBarController.selectedIndex         = 0;
     self.gamePlayTabBarController.view.hidden           = YES;
     self.loginNavigationController.view.hidden          = YES;
     self.playerSettingsNavigationController.view.hidden = YES;
     [UIView commitAnimations];
+
     [AppModel sharedAppModel].currentGame = nil;
     [AppModel sharedAppModel].fallbackGameId = 0;
     [[AppModel sharedAppModel] saveUserDefaults];

@@ -2558,6 +2558,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         else if([quest.exitToTabName isEqualToString:@"NOTE"])      quest.exitToTabName = NSLocalizedString(@"NotebookTitleKey",@"");
         else if([quest.exitToTabName isEqualToString:@"PICKGAME"])  quest.exitToTabName = NSLocalizedString(@"GamePickerTitleKey",@"");
         
+        NSLog(@"Parsed %@",quest);
 		[activeQuestObjects addObject:quest];
 	}
     

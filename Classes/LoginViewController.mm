@@ -20,11 +20,11 @@
 
 @implementation LoginViewController
 
-//Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
-    if (self) {
+    if (self)
+    {
         self.title = NSLocalizedString(@"LoginTitleKey", @"");
     }
     return self;
@@ -41,7 +41,8 @@
     [newAccountButton setTitle:NSLocalizedString(@"CreateAccountKey",@"") forState:UIControlStateNormal];
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
     if (textField == usernameField)
         [passwordField becomeFirstResponder];
     if(textField == passwordField)
@@ -54,12 +55,6 @@
 {
     [usernameField resignFirstResponder];
     [passwordField resignFirstResponder];
-}
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-    // Release anything that's not essential, such as cached data
 }
 
 -(IBAction)loginButtonTouched:(id)sender
