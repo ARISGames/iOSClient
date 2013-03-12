@@ -64,7 +64,6 @@
 -(IBAction)QRButtonTouched
 {
     ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO];
-    
     widController.readers = [[NSMutableSet alloc ] initWithObjects:[[QRCodeReader alloc] init], nil];
     [self presentModalViewController:widController animated:NO];
 }
