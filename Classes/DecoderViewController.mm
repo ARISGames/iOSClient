@@ -73,8 +73,7 @@
 
 - (IBAction)scanButtonTapped
 {
-    //ARISZBarReaderWrapperViewController *reader = [[ARISZBarReaderWrapperViewController alloc] init];
-    ZBarReaderViewController *reader = [[ZBarReaderViewController alloc] init];
+    ARISZBarReaderWrapperViewController *reader = [[ARISZBarReaderWrapperViewController alloc] init];
     reader.readerDelegate = self;
     
     ZBarImageScanner *scanner = reader.scanner;
@@ -152,7 +151,6 @@
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-    picker.delegate = nil;
     [picker dismissViewControllerAnimated:NO completion:nil];
 }
 
