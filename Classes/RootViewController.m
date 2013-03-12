@@ -371,7 +371,7 @@
     [gameNotificationViewController startListeningToModel];
 
     int nodeId = [AppModel sharedAppModel].currentGame.launchNodeId;
-    if (nodeId && nodeId != 0)
+    if (nodeId && nodeId != 0 && [[AppModel sharedAppModel].currentGame.questsModel.currentCompletedQuests count] < 1)
         [[[AppModel sharedAppModel] nodeForNodeId:nodeId] display];
     else
         [AppModel sharedAppModel].currentlyInteractingWithObject = NO;

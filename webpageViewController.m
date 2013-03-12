@@ -31,14 +31,6 @@
     return self;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
-}
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
@@ -432,7 +424,6 @@
 
 - (int) setQtyInInventoryOfItem:(int)itemId toQty:(int)qty
 {
-    NSLog(@"PHIL: setting item %@ qtyToSet %d",[[AppModel sharedAppModel] itemForItemId:itemId], qty);
     if(qty < 1) qty = 0;
     [[AppServices sharedAppServices] updateServerInventoryItem:itemId qty:qty];
     
@@ -463,7 +454,6 @@
 
 - (int) giveQtyInInventoryToItem:(int)itemId ofQty:(int)qty
 {
-    NSLog(@"PHIL: adding item %@ qtyToAdd %d",[[AppModel sharedAppModel] itemForItemId:itemId], qty);
     [[AppServices sharedAppServices] updateServerAddInventoryItem:itemId addQty:qty];
 
     Item *i = [[AppModel sharedAppModel] itemForItemId:itemId];
@@ -478,7 +468,6 @@
 
 - (int) takeQtyInInventoryFromItem:(int)itemId ofQty:(int)qty
 {
-    NSLog(@"PHIL: removing item %@ qtyToRemove %d",[[AppModel sharedAppModel] itemForItemId:itemId], qty);
     [[AppServices sharedAppServices] updateServerAddInventoryItem:itemId addQty:qty];
 
     Item *i = [[AppModel sharedAppModel] itemForItemId:itemId];

@@ -38,8 +38,8 @@
 }
 
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
 		
 	//[self.qrScanButton setTitle:NSLocalizedString(@"ScanUsingCameraKey",@"") forState:UIControlStateNormal];
@@ -65,27 +65,28 @@
 	NSLog(@"DecoderViewController: Loaded");
 }
 
--(void)cancelButtonTouch{
+-(void)cancelButtonTouch
+{
     [self.manualCode resignFirstResponder];
     self.navigationItem.rightBarButtonItem = nil;	
 }
 
 - (IBAction)scanButtonTapped
 {
-    ARISZBarReaderWrapperViewController *reader = [ARISZBarReaderWrapperViewController new];
+    //ARISZBarReaderWrapperViewController *reader = [[ARISZBarReaderWrapperViewController alloc] init];
+    ZBarReaderViewController *reader = [[ZBarReaderViewController alloc] init];
     reader.readerDelegate = self;
     
     ZBarImageScanner *scanner = reader.scanner;
     reader.supportedOrientationsMask = 0;
     
     [scanner setSymbology:ZBAR_QRCODE config:ZBAR_CFG_ENABLE to:1];
-    [scanner setSymbology:ZBAR_UPCA   config:ZBAR_CFG_ENABLE to:1];
-    [scanner setSymbology:ZBAR_UPCE   config:ZBAR_CFG_ENABLE to:1];
     
     [self presentViewController:reader animated:NO completion:nil];
 }
 
-- (IBAction)imageScanButtonTouchAction: (id) sender{
+- (IBAction)imageScanButtonTouchAction:(id)sender
+{
     NSLog(@"DecoderViewController: Image Scan Button Pressed");
 	
 	self.imageMatchingImagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
@@ -94,7 +95,8 @@
 
 #pragma mark Delegate for text entry
 
--(BOOL) textFieldShouldReturn:(UITextField*) textField {
+-(BOOL) textFieldShouldReturn:(UITextField*)textField
+{
 	NSLog(@"DecoderViewController: Code Entered");
 	
 	[textField resignFirstResponder]; 
@@ -117,24 +119,16 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary  *)info
 {
+    picker.delegate = nil;
     [picker dismissViewControllerAnimated:NO completion:nil];
     UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
     if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];                 
     
-    // ADD: get the decode results
-    id<NSFastEnumeration> results =
-    [info objectForKey: ZBarReaderControllerResults];
+    id<NSFastEnumeration> results = [info objectForKey:ZBarReaderControllerResults];
     ZBarSymbol *symbol = nil;
-    for(symbol in results)
-        // EXAMPLE: just grab the first barcode
-        break;
+    for(symbol in results) break;
     
-    // EXAMPLE: do something useful with the barcode data
     resultText = symbol.data;
-    
-    // ADD: dismiss the controller (NB dismiss from the *reader*!)
-    // [picker dismissModalViewControllerAnimated: YES];
-    
     
     if (picker == self.imageMatchingImagePickerController)
     {
@@ -142,8 +136,8 @@
         
         NSData *imageData = UIImageJPEGRepresentation(image, .4);
         NSString *mediaFilename = @"imageToMatch.jpg";
-        NSString *newFilePath =[NSTemporaryDirectory() stringByAppendingString: mediaFilename];
-        NSURL *imageURL = [[NSURL alloc] initFileURLWithPath: newFilePath];
+        NSString *newFilePath = [NSTemporaryDirectory() stringByAppendingString:mediaFilename];
+        NSURL *imageURL = [[NSURL alloc] initFileURLWithPath:newFilePath];
         
         NSLog(@"Tempory File will be: %@", newFilePath);
         [imageData writeToURL:imageURL atomically:YES];
@@ -158,6 +152,7 @@
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
+    picker.delegate = nil;
     [picker dismissViewControllerAnimated:NO completion:nil];
 }
 

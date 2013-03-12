@@ -67,7 +67,7 @@
 
 -(IBAction)QRButtonTouched
 {
-    ARISZBarReaderWrapperViewController *reader = [ARISZBarReaderWrapperViewController new];
+    ARISZBarReaderWrapperViewController *reader = [[ARISZBarReaderWrapperViewController alloc] init];
     reader.readerDelegate = self;
     
     ZBarImageScanner *scanner = reader.scanner;
@@ -94,6 +94,7 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary  *)info
 {
+    picker.delegate = nil;
     [picker dismissViewControllerAnimated:NO completion:nil];
     UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
     if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];

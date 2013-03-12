@@ -19,21 +19,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if(self)
     {
-        // Custom initialization
     }
     return self;
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -41,11 +28,13 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
--(BOOL)shouldAutorotate{
+-(BOOL)shouldAutorotate
+{
     return NO;
 }
 
--(NSInteger)supportedInterfaceOrientations{
+-(NSInteger)supportedInterfaceOrientations
+{
     NSInteger mask = 0;
     if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeLeft])
         mask |= UIInterfaceOrientationMaskLandscapeLeft;
@@ -57,6 +46,5 @@
         mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
     return mask;
 }
-
 
 @end

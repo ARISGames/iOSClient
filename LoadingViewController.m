@@ -63,11 +63,8 @@
     }
     else if(actual >= 0.999)
     {
-        if ([[AppModel sharedAppModel].currentGame.questsModel.currentCompletedQuests count] < 1)
-        {
-            NSLog(@"NSNotification: GameFinishedLoading");
-            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GameFinishedLoading" object:nil userInfo:nil]];
-        }
+        NSLog(@"NSNotification: GameFinishedLoading");
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GameFinishedLoading" object:nil userInfo:nil]];
         [self dismissModalViewControllerAnimated:NO];//<- depricated
         receivedData = 0;
     }
