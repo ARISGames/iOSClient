@@ -677,7 +677,6 @@
     self.gamePickerTabBarController.selectedIndex = 3; //recent (so when they go back, they'll see the game they just left)
     self.gamePickerTabBarController.view.hidden = NO;
     [(UINavigationController*)self.gamePickerTabBarController.selectedViewController pushViewController:gameDetailsViewController animated:YES];
-    [self.navigationController pushViewController:gameDetailsViewController animated:YES];
 }
 
 #pragma mark AlertView Delegate Methods

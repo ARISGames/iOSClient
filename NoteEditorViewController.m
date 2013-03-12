@@ -268,11 +268,9 @@
     }
     
     [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.note.title publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
-    //[self.delegate refresh];
-    //if(![AppModel sharedAppModel].isGameNoteList)
-    [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];
-    /*else
-     [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]]; */
+
+    if(self.note && self.note.noteId)
+        [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];
     
     return YES;
 }

@@ -445,7 +445,7 @@
             newQty = [[AppModel sharedAppModel].currentGame.inventoryModel addItemToInventory:i qtyToAdd:qty-ii.qty];
         else if(ii && ii.qty > qty)
             newQty = [[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:i qtyToRemove:ii.qty-qty];
-        else if(qty > 0)
+        else if(!ii && qty > 0)
             newQty = [[AppModel sharedAppModel].currentGame.inventoryModel addItemToInventory:i qtyToAdd:qty];
     }
     else
@@ -455,7 +455,7 @@
             newQty = [[AppModel sharedAppModel].currentGame.attributesModel addItemToAttributes:i qtyToAdd:qty-ii.qty];
         else if(ii && ii.qty > qty)
             newQty = [[AppModel sharedAppModel].currentGame.attributesModel removeItemFromAttributes:i qtyToRemove:ii.qty-qty];
-        else if(qty > 0)
+        else if(!ii && qty > 0)
             newQty = [[AppModel sharedAppModel].currentGame.attributesModel addItemToAttributes:i qtyToAdd:qty];
     }
     return newQty;
