@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <ZXingWidgetController.h>
 #import "AppModel.h"
-#import "ARISZBarReaderWrapperViewController.h"
 
-
-@interface DecoderViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, ZBarReaderDelegate>
+@interface DecoderViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, ZXingDelegate>
 {
 	IBOutlet UIButton *qrScanButton;
     IBOutlet UIButton *barcodeButton;

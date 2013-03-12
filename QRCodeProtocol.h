@@ -13,7 +13,6 @@ enum {
 };
 typedef UInt32 QRCodeKind;
 
-
 @protocol QRCodeProtocol
 - (NSString *)name; 
 - (QRCodeKind)kind;

@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "AppModel.h"
-#import "ARISZBarReaderWrapperViewController.h"
+#import <ZXingWidgetController.h>
 
-@interface LoginViewController : UIViewController <ZBarReaderDelegate>{
-
+@interface LoginViewController : UIViewController <ZXingDelegate>
+{
 	IBOutlet UITextField *usernameField;
 	IBOutlet UITextField *passwordField;
 	IBOutlet UIButton *loginButton;

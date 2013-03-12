@@ -11,9 +11,7 @@
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
 #import "AppServices.h"
-#import <QRCodeReader.h>
-#import "ARISZBarReaderWrapperViewController.h"
-
+#import "QRCodeReader.h"
 
 @implementation DecoderViewController
 
@@ -71,25 +69,12 @@
     self.navigationItem.rightBarButtonItem = nil;	
 }
 
-- (IBAction)scanButtonTapped
-{
-    ARISZBarReaderWrapperViewController *reader = [[ARISZBarReaderWrapperViewController alloc] init];
-    reader.readerDelegate = self;
-    
-    ZBarImageScanner *scanner = reader.scanner;
-    reader.supportedOrientationsMask = 0;
-    
-    [scanner setSymbology:ZBAR_QRCODE config:ZBAR_CFG_ENABLE to:1];
-    
-    [self presentViewController:reader animated:NO completion:nil];
-}
-
 - (IBAction)imageScanButtonTouchAction:(id)sender
 {
     NSLog(@"DecoderViewController: Image Scan Button Pressed");
 	
 	self.imageMatchingImagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-	[self presentViewController:self.imageMatchingImagePickerController animated:YES completion:nil];
+	[self presentViewController:self.imageMatchingImagePickerController animated:NO completion:nil];
 }
 
 #pragma mark Delegate for text entry
@@ -116,43 +101,25 @@
 
 #pragma mark UIImagePickerControllerDelegate Protocol Methods
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary  *)info
+- (IBAction)scanButtonTapped
 {
-    picker.delegate = nil;
-    [picker dismissViewControllerAnimated:NO completion:nil];
-    UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
-    if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];                 
+    ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO];
     
-    id<NSFastEnumeration> results = [info objectForKey:ZBarReaderControllerResults];
-    ZBarSymbol *symbol = nil;
-    for(symbol in results) break;
-    
-    resultText = symbol.data;
-    
-    if (picker == self.imageMatchingImagePickerController)
-    {
-        NSLog(@"DecoderVC: image matching imagePickerController didFinishPickingImage" );
-        
-        NSData *imageData = UIImageJPEGRepresentation(image, .4);
-        NSString *mediaFilename = @"imageToMatch.jpg";
-        NSString *newFilePath = [NSTemporaryDirectory() stringByAppendingString:mediaFilename];
-        NSURL *imageURL = [[NSURL alloc] initFileURLWithPath:newFilePath];
-        
-        NSLog(@"Tempory File will be: %@", newFilePath);
-        [imageData writeToURL:imageURL atomically:YES];
-        [[AppServices sharedAppServices] uploadImageForMatching:imageURL];
-    }	
-    else
-    {
-        NSLog(@"DecoderVC: barcode data = %@",resultText);
-        [self loadResult:resultText];
-    }
+    widController.readers = [[NSMutableSet alloc ] initWithObjects:[[QRCodeReader alloc] init], nil];
+    [self presentModalViewController:widController animated:NO];
 }
 
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+- (void)zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result
 {
-    [picker dismissViewControllerAnimated:NO completion:nil];
+    [self dismissModalViewControllerAnimated:NO];
+    [self loadResult:result];
 }
+
+- (void)zxingControllerDidCancel:(ZXingWidgetController*)controller
+{
+    [self dismissModalViewControllerAnimated:NO];
+}
+
 
 #pragma mark -
 

@@ -6,8 +6,7 @@
 //
 //
 
-#import "ZBarReaderViewController.h"
 
-@interface ARISZBarReaderWrapperViewController : ZBarReaderViewController
+@interface ARISZBarReaderWrapperViewController : UIViewController
 
 @end

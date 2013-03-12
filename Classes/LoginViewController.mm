@@ -11,11 +11,7 @@
 #import "ARISAppDelegate.h"
 #import "ChangePasswordViewController.h"
 #import "ForgotViewController.h"
-
-#import "Decoder.h"
-#import <QRCodeReader.h>
-#import "ARISZBarReaderWrapperViewController.h"
-
+#import "QRCodeReader.h"
 #import "BumpTestViewController.h"
 
 @implementation LoginViewController
@@ -67,74 +63,64 @@
 
 -(IBAction)QRButtonTouched
 {
-    ARISZBarReaderWrapperViewController *reader = [[ARISZBarReaderWrapperViewController alloc] init];
-    reader.readerDelegate = self;
+    ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO];
     
-    ZBarImageScanner *scanner = reader.scanner;
-    reader.supportedOrientationsMask = 0;
-    
-    [scanner setSymbology:ZBAR_QRCODE config:ZBAR_CFG_ENABLE to:1];
-    [scanner setSymbology:ZBAR_UPCA   config:ZBAR_CFG_ENABLE to:1];
-    [scanner setSymbology:ZBAR_UPCE   config:ZBAR_CFG_ENABLE to:1];
-
-    [self presentViewController:reader animated:NO completion:nil];
+    widController.readers = [[NSMutableSet alloc ] initWithObjects:[[QRCodeReader alloc] init], nil];
+    [self presentModalViewController:widController animated:NO];
 }
 
 -(void)changePassTouch
 {
     ForgotViewController *forgotPassViewController = [[ForgotViewController alloc] initWithNibName:@"ForgotViewController" bundle:[NSBundle mainBundle]];
-    [[self navigationController] pushViewController:forgotPassViewController animated:YES];
+    [[self navigationController] pushViewController:forgotPassViewController animated:NO];
 }
 
 -(IBAction)newAccountButtonTouched:(id)sender
 {
     SelfRegistrationViewController *selfRegistrationViewController = [[SelfRegistrationViewController alloc] initWithNibName:@"SelfRegistration" bundle:[NSBundle mainBundle]];
-    [[self navigationController] pushViewController:selfRegistrationViewController animated:YES];
+    [[self navigationController] pushViewController:selfRegistrationViewController animated:NO];
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary  *)info
+- (void)zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result
 {
-    picker.delegate = nil;
-    [picker dismissViewControllerAnimated:NO completion:nil];
-    UIImage* image = [info objectForKey:UIImagePickerControllerEditedImage];
-    if (!image) image = [info objectForKey:UIImagePickerControllerOriginalImage];
-
-    id<NSFastEnumeration> results = [info objectForKey: ZBarReaderControllerResults];
-    ZBarSymbol *symbol = nil;
-    for(symbol in results) break;
-
-    //PHIL ADDED BUMP DEBUGGING
-    if([symbol.data isEqualToString:@"TEST_BUMP"])
+    [self dismissModalViewControllerAnimated:NO];
+    if([result isEqualToString:@"TEST_BUMP"])
     {
         BumpTestViewController *b = [[BumpTestViewController alloc] initWithNibName:@"BumpTestViewController" bundle:nil];
         [self presentViewController:b animated:NO completion:nil];
     }
-    //END BUMP DEBUGGING
-    
-    NSArray *terms  = [symbol.data componentsSeparatedByString:@","];
-    if([terms count] > 1)
+    else
     {
-        int gameId = 0;
-        bool create;
-        bool museumMode;
-
-        if([terms count] > 0) create = [[terms objectAtIndex:0] boolValue];
-        if(create)
+        NSArray *terms  = [result componentsSeparatedByString:@","];
+        if([terms count] > 1)
         {
-            if([terms count] > 1) usernameField.text = [terms objectAtIndex:1]; //Group Name
-            if([terms count] > 2) gameId = [[terms objectAtIndex:2] intValue];
-            if([terms count] > 3) museumMode = [[terms objectAtIndex:3] boolValue];
-            [[RootViewController sharedRootViewController] createUserAndLoginWithGroup:usernameField.text andGameId:gameId inMuseumMode:museumMode];
-        }
-        else
-        {
-            if([terms count] > 1) usernameField.text = [terms objectAtIndex:1]; //Username
-            if([terms count] > 2) passwordField.text = [terms objectAtIndex:2]; //Password
-            if([terms count] > 3) gameId = [[terms objectAtIndex:3] intValue];
-            if([terms count] > 4) museumMode = [[terms objectAtIndex:4] boolValue];
-            [[RootViewController sharedRootViewController] attemptLoginWithUserName:usernameField.text andPassword:passwordField.text andGameId:gameId inMuseumMode:museumMode];
+            int gameId = 0;
+            bool create;
+            bool museumMode;
+            
+            if([terms count] > 0) create = [[terms objectAtIndex:0] boolValue];
+            if(create)
+            {
+                if([terms count] > 1) usernameField.text = [terms objectAtIndex:1]; //Group Name
+                if([terms count] > 2) gameId = [[terms objectAtIndex:2] intValue];
+                if([terms count] > 3) museumMode = [[terms objectAtIndex:3] boolValue];
+                [[RootViewController sharedRootViewController] createUserAndLoginWithGroup:usernameField.text andGameId:gameId inMuseumMode:museumMode];
+            }
+            else
+            {
+                if([terms count] > 1) usernameField.text = [terms objectAtIndex:1]; //Username
+                if([terms count] > 2) passwordField.text = [terms objectAtIndex:2]; //Password
+                if([terms count] > 3) gameId = [[terms objectAtIndex:3] intValue];
+                if([terms count] > 4) museumMode = [[terms objectAtIndex:4] boolValue];
+                [[RootViewController sharedRootViewController] attemptLoginWithUserName:usernameField.text andPassword:passwordField.text andGameId:gameId inMuseumMode:museumMode];
+            }
         }
     }
+}
+
+- (void)zxingControllerDidCancel:(ZXingWidgetController*)controller
+{
+    [self dismissModalViewControllerAnimated:NO];
 }
 
 @end
