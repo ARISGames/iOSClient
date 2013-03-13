@@ -56,6 +56,9 @@
 
 -(void)refreshViewFromModel
 {
+    if ([AppModel sharedAppModel].currentlyInteractingWithObject)
+        return;
+    
     NSMutableArray *newNearbyLocationsList = [NSMutableArray arrayWithCapacity:5];
     
     //Find locations that are "nearby" from the list of all locations
