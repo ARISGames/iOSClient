@@ -72,6 +72,14 @@
     return [self.name compare:otherGame.name]; 
 }
 
+- (void) clearLocalModels
+{
+    [self.inventoryModel  clearData];
+    [self.attributesModel clearData];
+    [self.questsModel     clearData];
+    [self.locationsModel  clearData];
+}
+
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"Game- Id:%d\tName:%@",self.gameId,self.name];

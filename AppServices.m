@@ -1285,21 +1285,9 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	//Clear them out
 	[AppModel sharedAppModel].nearbyLocationsList = [[NSMutableArray alloc] initWithCapacity:0];
 
-	[[AppModel sharedAppModel].currentGame.inventoryModel  clearData];
-	[[AppModel sharedAppModel].currentGame.attributesModel clearData];
-	[[AppModel sharedAppModel].currentGame.questsModel     clearData];
-	[[AppModel sharedAppModel].currentGame.locationsModel  clearData];
+	[[AppModel sharedAppModel].currentGame clearLocalModels];
     
     [[AppModel sharedAppModel].overlayList removeAllObjects];
-	
-    NSLog(@"NSNotification: NewLocationListReady");
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewLocationListReady"       object:nil]];
-    NSLog(@"NSNotification: NewQuestListReady");
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewQuestListReady"          object:nil]];
-    NSLog(@"NSNotification: NewInventoryReady");
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewInventoryReady"          object:nil]];
-    NSLog(@"NSNotification: ReceivedNearbyLocationList");
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedNearbyLocationList" object:nil]];
 }
 
 -(void)fetchTabBarItemsForGame:(int)gameId {

@@ -102,5 +102,6 @@
 - (NSComparisonResult)compareDistanceFromPlayer:(Game*)otherGame;
 - (NSComparisonResult)compareCalculatedScore:(Game*)otherGame;
 - (NSComparisonResult)compareTitle:(Game*)otherGame;
+- (void) clearLocalModels;
 
 @end
