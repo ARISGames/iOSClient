@@ -191,7 +191,9 @@
 -(void)clearUserDefaults
 {
 	NSLog(@"Clearing User Defaults");
-	[AppModel sharedAppModel].currentGame        = nil;
+    if([AppModel sharedAppModel].currentGame) [[AppModel sharedAppModel].currentGame clearLocalModels];
+    [AppModel sharedAppModel].currentGame = nil;
+    
     [AppModel sharedAppModel].playerId           = 0;
     [AppModel sharedAppModel].fallbackGameId     = 0;
     [AppModel sharedAppModel].playerMediaId      = -1;

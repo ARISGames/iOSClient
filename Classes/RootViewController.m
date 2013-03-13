@@ -278,12 +278,13 @@
     self.playerSettingsNavigationController.view.hidden = YES;
     [UIView commitAnimations];
 
-    [AppModel sharedAppModel].currentGame = nil;
-    [AppModel sharedAppModel].fallbackGameId = 0;
-    [[AppModel sharedAppModel] saveUserDefaults];
-    
     [gameNotificationViewController stopListeningToModel];
     [gameNotificationViewController cutOffGameNotifications];
+    if([AppModel sharedAppModel].currentGame) [[AppModel sharedAppModel].currentGame clearLocalModels];
+    [AppModel sharedAppModel].currentGame = nil;
+    
+    [AppModel sharedAppModel].fallbackGameId = 0;
+    [[AppModel sharedAppModel] saveUserDefaults];
 }
 
 - (void)showAlert:(NSString *)title message:(NSString *)message
@@ -532,8 +533,6 @@
 	[tutorialViewController dismissAllTutorials];
     
 	//Set the model to this game
-    if([AppModel sharedAppModel].currentGame) [[AppModel sharedAppModel].currentGame clearLocalModels];
-
 	[AppModel sharedAppModel].currentGame = game;
     [AppModel sharedAppModel].fallbackGameId = game.gameId;
 	[[AppModel sharedAppModel] saveUserDefaults];
