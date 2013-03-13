@@ -126,19 +126,21 @@ NSString *const kDialogHtmlTemplate =
     npcView.hidden             = NO;
 
     NSLog(@"pcMediaId == %d", [AppModel sharedAppModel].currentGame.pcMediaId);
-	
-	//Check if the game specifies a PC image
-	if ([AppModel sharedAppModel].currentGame.pcMediaId != 0)
-    {
-		//Load the image from the media Table
-        self.pcImage.delegate = self;
-		[pcImage loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId]];
-	}
-	else
+    
+    currentPcMediaId = 0;
+
+    if([AppModel sharedAppModel].playerMediaId != 0) currentPcMediaId = [AppModel sharedAppModel].playerMediaId;
+	if ([AppModel sharedAppModel].currentGame.pcMediaId != 0) currentPcMediaId = [AppModel sharedAppModel].currentGame.pcMediaId;
+	if(currentPcMediaId == 0)
     {
         [pcImage updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
         [self applyNPCWithGreeting];
 	}
+    else {
+        //Load the image from the media Table
+        self.pcImage.delegate = self;
+		[pcImage loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:currentPcMediaId]];
+    }
         
 /*  SAMPLE DIALOG FORMAT
 	NSString *xmlData = 
@@ -872,10 +874,7 @@ NSString *const kDialogHtmlTemplate =
 - (void) movePcIn
 {
 	NSLog(@"DialogViewController: Move PC view to Main View X:%f Y:%f Width:%f Height:%f",mainView.frame.origin.x,mainView.frame.origin.y,mainView.frame.size.width,mainView.frame.size.height );
-    if([AppModel sharedAppModel].currentGame.pcMediaId != 0)
-        [self loadPCImage:[AppModel sharedAppModel].currentGame.pcMediaId];
-    else if([AppModel sharedAppModel].playerMediaId != 0)
-        [self loadPCImage:[AppModel sharedAppModel].playerMediaId];
+    [self loadPCImage:currentPcMediaId];
     pcScrollView.hidden = NO;
     
 	[self movePcTo:[mainView frame] withAlpha:1.0
@@ -1142,8 +1141,7 @@ NSString *const kDialogHtmlTemplate =
 
 -(void) setPcMediaId:(int)mediaId
 {
-    Media *pcMedia = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
-    [pcImage loadImageFromMedia:pcMedia];
+    currentPcMediaId = mediaId;
 }
 
 -(void) setLeaveButtonTitle:(NSString *)aLeaveButtonTitle
