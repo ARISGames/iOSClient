@@ -201,10 +201,10 @@
 		AA39E32116C4370D005A4E06 /* libPusher-combined.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA39E32016C4370D005A4E06 /* libPusher-combined.a */; };
 		AA39F65916DD21B0000DE415 /* GamePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA39F65816DD21B0000DE415 /* GamePickerViewController.m */; };
 		AA479A0416CD6B24001B2B03 /* AttributesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA479A0316CD6B24001B2B03 /* AttributesModel.m */; };
-		AA69438816EFD8DD001075EF /* libZXingWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA69438316EFD8C3001075EF /* libZXingWidget.a */; };
 		AA73E48216E141D2001F11A6 /* GameObjectDisplayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA73E48116E141D2001F11A6 /* GameObjectDisplayViewController.m */; };
 		AA763156169B68A800860665 /* PopOverContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA763155169B68A800860665 /* PopOverContentView.m */; };
 		AA80EFCE16C048AB00DAB826 /* WaitingIndicatorAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA80EFCD16C048AB00DAB826 /* WaitingIndicatorAlertViewController.m */; };
+		AA99E61F16F0D80E00E22030 /* libZXingWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA99E61A16F0D7FF00E22030 /* libZXingWidget.a */; };
 		AAA5890116DE714A00C2445B /* BumpTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA588FF16DE714A00C2445B /* BumpTestViewController.m */; };
 		AAA5890216DE714A00C2445B /* BumpTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAA5890016DE714A00C2445B /* BumpTestViewController.xib */; };
 		AABD101916B7164C007278EF /* README_ABOUT_LINK_ERRORS in Resources */ = {isa = PBXBuildFile; fileRef = AABD101716B7164C007278EF /* README_ABOUT_LINK_ERRORS */; };
@@ -397,23 +397,23 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		AA69438216EFD8C3001075EF /* PBXContainerItemProxy */ = {
+		AA99E61916F0D7FF00E22030 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = AA69437D16EFD8C3001075EF /* ZXingWidget.xcodeproj */;
+			containerPortal = AA99E61416F0D7FF00E22030 /* ZXingWidget.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = D2AAC07E0554694100DB518D;
 			remoteInfo = ZXingWidget;
 		};
-		AA69438416EFD8C3001075EF /* PBXContainerItemProxy */ = {
+		AA99E61B16F0D7FF00E22030 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = AA69437D16EFD8C3001075EF /* ZXingWidget.xcodeproj */;
+			containerPortal = AA99E61416F0D7FF00E22030 /* ZXingWidget.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 1D60398D13DF7CAD006F4B51;
 			remoteInfo = ZXingTests;
 		};
-		AA69438616EFD8CF001075EF /* PBXContainerItemProxy */ = {
+		AA99E61D16F0D80700E22030 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = AA69437D16EFD8C3001075EF /* ZXingWidget.xcodeproj */;
+			containerPortal = AA99E61416F0D7FF00E22030 /* ZXingWidget.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = D2AAC07D0554694100DB518D;
 			remoteInfo = ZXingWidget;
@@ -756,7 +756,6 @@
 		AA39F65816DD21B0000DE415 /* GamePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerViewController.m; sourceTree = "<group>"; };
 		AA479A0216CD6B24001B2B03 /* AttributesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributesModel.h; sourceTree = "<group>"; };
 		AA479A0316CD6B24001B2B03 /* AttributesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributesModel.m; sourceTree = "<group>"; };
-		AA69437D16EFD8C3001075EF /* ZXingWidget.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZXingWidget.xcodeproj; path = "../../../zxing-master/iphone/ZXingWidget/ZXingWidget.xcodeproj"; sourceTree = "<group>"; };
 		AA73E48016E141D2001F11A6 /* GameObjectDisplayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObjectDisplayViewController.h; sourceTree = "<group>"; };
 		AA73E48116E141D2001F11A6 /* GameObjectDisplayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObjectDisplayViewController.m; sourceTree = "<group>"; };
 		AA763154169B68A800860665 /* PopOverContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopOverContentView.h; sourceTree = "<group>"; };
@@ -764,6 +763,7 @@
 		AA7A428A16B86C9E00E84252 /* UploadContent1.8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UploadContent1.8.xcdatamodel; sourceTree = "<group>"; };
 		AA80EFCC16C048AB00DAB826 /* WaitingIndicatorAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitingIndicatorAlertViewController.h; sourceTree = "<group>"; };
 		AA80EFCD16C048AB00DAB826 /* WaitingIndicatorAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitingIndicatorAlertViewController.m; sourceTree = "<group>"; };
+		AA99E61416F0D7FF00E22030 /* ZXingWidget.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZXingWidget.xcodeproj; path = "../zxing-master/iphone/ZXingWidget/ZXingWidget.xcodeproj"; sourceTree = "<group>"; };
 		AAA588FE16DE714A00C2445B /* BumpTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BumpTestViewController.h; sourceTree = "<group>"; };
 		AAA588FF16DE714A00C2445B /* BumpTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BumpTestViewController.m; sourceTree = "<group>"; };
 		AAA5890016DE714A00C2445B /* BumpTestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BumpTestViewController.xib; sourceTree = "<group>"; };
@@ -1044,7 +1044,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA69438816EFD8DD001075EF /* libZXingWidget.a in Frameworks */,
+				AA99E61F16F0D80E00E22030 /* libZXingWidget.a in Frameworks */,
 				ABB2CDC613C7498A00F051E4 /* AddressBook.framework in Frameworks */,
 				AB7D277813C7556100F10AD5 /* AddressBookUI.framework in Frameworks */,
 				113F56DE14E4435300525BE6 /* AssetsLibrary.framework in Frameworks */,
@@ -1292,7 +1292,7 @@
 		29B97314FDCFA39411CA2CEA /* ARIS */ = {
 			isa = PBXGroup;
 			children = (
-				AA69437D16EFD8C3001075EF /* ZXingWidget.xcodeproj */,
+				AA99E61416F0D7FF00E22030 /* ZXingWidget.xcodeproj */,
 				AA1E2D4D1652CC6000219535 /* libicucore.dylib */,
 				3A69944A1625F6610015B48A /* newBanner.png */,
 				ABAFBAC9145A0B8D0044491C /* GPX Locations */,
@@ -1694,15 +1694,6 @@
 			name = "Pusher Headers";
 			sourceTree = "<group>";
 		};
-		AA69437E16EFD8C3001075EF /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AA69438316EFD8C3001075EF /* libZXingWidget.a */,
-				AA69438516EFD8C3001075EF /* ZXingTests.octest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		AA93121816C17D2300130773 /* PopOvers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1713,6 +1704,15 @@
 				DDC495DB16407DE500D4C063 /* PopOverViewController.xib */,
 			);
 			name = PopOvers;
+			sourceTree = "<group>";
+		};
+		AA99E61516F0D7FF00E22030 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AA99E61A16F0D7FF00E22030 /* libZXingWidget.a */,
+				AA99E61C16F0D7FF00E22030 /* ZXingTests.octest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		AABD101316B7164C007278EF /* CrittercismSDK */ = {
@@ -2127,7 +2127,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				AA69438716EFD8CF001075EF /* PBXTargetDependency */,
+				AA99E61E16F0D80700E22030 /* PBXTargetDependency */,
 			);
 			name = ARIS;
 			productName = ARIS;
@@ -2177,8 +2177,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = AA69437E16EFD8C3001075EF /* Products */;
-					ProjectRef = AA69437D16EFD8C3001075EF /* ZXingWidget.xcodeproj */;
+					ProductGroup = AA99E61516F0D7FF00E22030 /* Products */;
+					ProjectRef = AA99E61416F0D7FF00E22030 /* ZXingWidget.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -2190,18 +2190,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		AA69438316EFD8C3001075EF /* libZXingWidget.a */ = {
+		AA99E61A16F0D7FF00E22030 /* libZXingWidget.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libZXingWidget.a;
-			remoteRef = AA69438216EFD8C3001075EF /* PBXContainerItemProxy */;
+			remoteRef = AA99E61916F0D7FF00E22030 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		AA69438516EFD8C3001075EF /* ZXingTests.octest */ = {
+		AA99E61C16F0D7FF00E22030 /* ZXingTests.octest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = ZXingTests.octest;
-			remoteRef = AA69438416EFD8C3001075EF /* PBXContainerItemProxy */;
+			remoteRef = AA99E61B16F0D7FF00E22030 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -2623,10 +2623,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		AA69438716EFD8CF001075EF /* PBXTargetDependency */ = {
+		AA99E61E16F0D80700E22030 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = ZXingWidget;
-			targetProxy = AA69438616EFD8CF001075EF /* PBXContainerItemProxy */;
+			targetProxy = AA99E61D16F0D80700E22030 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
