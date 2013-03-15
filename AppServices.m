@@ -17,6 +17,7 @@ static const double kEmptyDoubleValue = 0.0;
 NSString *const kARISServerServicePackage = @"v1";
 
 BOOL currentlyFetchingLocationList;
+BOOL currentlyFetchingOverlayList;
 BOOL currentlyFetchingGameNoteList;
 BOOL currentlyFetchingPlayerNoteList;
 BOOL currentlyFetchingInventory;
@@ -61,6 +62,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     currentlyFetchingRecentGamesList = NO;
     currentlyFetchingInventory = NO;
     currentlyFetchingLocationList = NO;
+    currentlyFetchingOverlayList = NO;
     currentlyFetchingQuestList = NO;
     currentlyFetchingGameNoteList = NO;
     currentlyFetchingPlayerNoteList = NO;
@@ -1195,7 +1197,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 -(void)parseOverlayListFromJSON: (JSONResult *)jsonResult
 {
-    //   currentlyFetchingGamesList = NO; Is there a reason for this?
+    currentlyFetchingOverlayList = NO;
+    
     NSLog(@"NSNotification: ReceivedOverlayList");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedOverlayList" object:nil]];
 
@@ -1584,8 +1587,22 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseLocationListFromJSON:)];
 }
 
-- (void)fetchPlayerOverlayList
-{	
+- (void)fetchPlayerOverlayList {
+	
+    if (![AppModel sharedAppModel].loggedIn)
+    {
+		NSLog(@"AppModel: Player Not logged in yet, skip the overlay fetch");
+		return;
+	}
+    
+    if (currentlyFetchingOverlayList || [AppModel sharedAppModel].currentlyInteractingWithObject)
+    {
+        NSLog(@"Skipping Request: already fetching overlays or interacting with object");
+        return;
+    }
+    
+    currentlyFetchingOverlayList = YES;
+    
 	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].playerId], nil];
     
