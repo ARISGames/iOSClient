@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define DEBUGMODE 1
+
 @interface Logger : NSObject {
     
 }

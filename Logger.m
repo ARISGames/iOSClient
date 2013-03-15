@@ -21,6 +21,7 @@
 }
 
 - (void)logDebug:(NSString *) string {
+#if DEBUGMODE > 0
     NSString *sourceString = [[NSThread callStackSymbols] objectAtIndex:1];
     // Example: 1   UIKit                               0x00540c89 -[UIApplication _callInitializationDelegatesForURL:payload:suspended:] + 1163
     NSCharacterSet *separatorSet = [NSCharacterSet characterSetWithCharactersInString:@" -[]+?.,"];
@@ -36,6 +37,7 @@
     //NSLog(@"Line caller = %@", [array objectAtIndex:5]);
     
     NSLog(@"%@: %@ Debug: %@", [array objectAtIndex:3], [array objectAtIndex:4], string);
+#endif
 }
 
 
