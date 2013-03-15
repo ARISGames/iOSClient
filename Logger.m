@@ -10,7 +10,7 @@
 
 @implementation Logger
 
-+ (id)logger
++ (id)sharedLogger
 {
     static dispatch_once_t pred = 0;
     __strong static id _sharedObject = nil;

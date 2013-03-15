@@ -12,7 +12,7 @@
     
 }
 
-+ (Logger *)logger;
++ (Logger *)sharedLogger;
 - (void)logDebug:(NSString *) string;
 
 @end
