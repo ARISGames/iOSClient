@@ -80,7 +80,7 @@
     LoginViewController* loginViewController = [[LoginViewController alloc] initWithNibName:@"Login" bundle:nil];
     self.loginNavigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
     self.loginNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-    self.loginNavigationController.view.frame = self.view.frame;
+    //self.loginNavigationController.view.frame = self.view.frame;
     [self.view addSubview:self.loginNavigationController.view];
     
     //Player Settings View Controller
@@ -88,7 +88,7 @@
     self.playerSettingsNavigationController = [[UINavigationController alloc] initWithRootViewController:playerSettingsViewController];
     self.playerSettingsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     [self.playerSettingsNavigationController.view setFrame:UIScreen.mainScreen.applicationFrame];
-    self.playerSettingsNavigationController.view.frame = self.view.frame;
+    //self.playerSettingsNavigationController.view.frame = self.view.frame;
     self.playerSettingsNavigationController.view.hidden = YES;
     [self.view addSubview:self.playerSettingsNavigationController.view];
     
@@ -609,11 +609,8 @@
     //if(groupChannel) [client unsubscribeFromChannel:(PTPusherChannel *)groupChannel];
     //if(webpageChannel) [client unsubscribeFromChannel:(PTPusherChannel *)webpageChannel];
     
-	//Clear any user realated info in AppModel (except server)
 	[[AppModel sharedAppModel] clearUserDefaults];
-	
-	//clear the tutorial popups
-	[tutorialViewController dismissAllTutorials];
+    [tutorialViewController dismissAllTutorials];
 	
 	//(re)load the login view
 	self.gamePlayTabBarController.view.hidden           = YES;
@@ -628,40 +625,6 @@
 - (void)receivedMediaList
 {
     [AppModel sharedAppModel].hasReceivedMediaList = YES;
-}
-
-// handle opening ARIS using custom URL of form ARIS://?game=397
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
-{
-    NSLog(@"ARIS opened from URL");
-    if (!url) {  return NO; }
-    NSLog(@"URL found");
-    
-    // parse URL for game id
-    /*NSString *gameIDQuery = [[url query] lowercaseString];
-     NSLog(@"gameIDQuery = %@",gameIDQuery);
-     
-     if (!gameIDQuery) {return NO;}
-     NSRange equalsSignRange = [gameIDQuery rangeOfString: @"game=" ];
-     if (equalsSignRange.length == 0) {return NO;}
-     int equalsSignIndex = equalsSignRange.location;
-     NSString *gameID = [gameIDQuery substringFromIndex: equalsSignIndex+equalsSignRange.length];
-     NSLog(@"gameID=: %@",gameID);*/
-    
-    // parse URL for game id
-    
-    // check that path is ARIS://games/
-    NSString *strPath = [[url host] lowercaseString];
-    NSLog(@"Path: %@", strPath);
-    
-    if ([strPath isEqualToString:@"games"] || [strPath isEqualToString:@"game"])
-    {
-        NSString *gameID = [url lastPathComponent];
-        NSLog(@"gameID=: %@",gameID);
-        
-        [[AppServices sharedAppServices] fetchOneGameGameList:[gameID intValue]];
-    }
-    return YES;
 }
 
 - (void)selectGameWithoutPicker:(NSNotification *)notification
@@ -707,18 +670,16 @@
 
 #pragma mark MFMailComposeViewController Delegate
 
-- (void)mailComposeController:(MFMailComposeViewController*)controller
-          didFinishWithResult:(MFMailComposeResult)result
-                        error:(NSError*)error;
+- (void) mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error;
 {
-	if (result == MFMailComposeResultSent)
+	if(result == MFMailComposeResultSent)
 		NSLog(@"RootViewController: mailComposeController result == MFMailComposeResultSent");
 	[gamePlayTabBarController dismissModalViewControllerAnimated:YES];
 }
 
 #pragma mark UITabBarControllerDelegate methods
 
-- (void)gamePlayTabBarController:(UITabBarController *)tabBar didSelectViewController:(UIViewController *)viewController
+- (void) gamePlayTabBarController:(UITabBarController *)tabBar didSelectViewController:(UIViewController *)viewController
 {
     NSLog(@"RootViewController: gamePlayTabBarController didSelectViewController");
     
@@ -753,7 +714,7 @@
     return;
 }
 
-- (void)didReceivePlayerChannelEventNotification:(NSNotification *)notification
+- (void) didReceivePlayerChannelEventNotification:(NSNotification *)notification
 {
     PTPusherEvent *event = [notification.userInfo objectForKey:PTPusherEventUserInfoKey];
     if([event.channel rangeOfString:@"player"].location == NSNotFound) return;
@@ -772,7 +733,7 @@
     return;
 }
 
-- (void)didReceiveGroupChannelEventNotification:(NSNotification *)notification
+- (void) didReceiveGroupChannelEventNotification:(NSNotification *)notification
 {
     PTPusherEvent *event = [notification.userInfo objectForKey:PTPusherEventUserInfoKey];
     if([event.channel rangeOfString:@"group"].location == NSNotFound) return;
@@ -791,7 +752,7 @@
     return;
 }
 
-- (void)didReceiveWebpageChannelEventNotification:(NSNotification *)notification
+- (void) didReceiveWebpageChannelEventNotification:(NSNotification *)notification
 {
     PTPusherEvent *event = [notification.userInfo objectForKey:PTPusherEventUserInfoKey];
     if([event.channel rangeOfString:@"webpage"].location == NSNotFound) return;

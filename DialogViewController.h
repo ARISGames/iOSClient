@@ -53,8 +53,6 @@
 	NSString *pcTitle;
     NSString *leaveButtonTitle;
     
-    int currentPcMediaId;
-    
 	Npc  *currentNpc;
 	Node *currentNode;
 	NSArray *optionList;

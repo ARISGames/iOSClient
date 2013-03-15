@@ -42,17 +42,17 @@ NSString *const kTagVibrate                     = @"vibrate";
 NSString *const kTagNotification                = @"notification";
 
 @implementation SceneParser
-@synthesize currentText, sourceText, exitToTabWithTitle, delegate, script, exitToType, title, isPc, vibrate, notification;
+@synthesize currentText, sourceText, exitToTabWithTitle, delegate, script, exitToType, title, isPC, vibrate, notification;
 
 #pragma mark Init/dealloc
-- (id) initWithDefaultNpcIdWithDelegate:(id)inputDelegate
-{
-	if ((self = [super init]))
-    {
-        parser = nil;
-        self.sourceText = nil;
-		self.currentText = [[NSMutableString alloc] init];
-		self.script = [[NSMutableArray alloc] init];
+- (id) initWithDefaultNpcIdWithDelegate:(id)inputDelegate {
+	if ((self = [super init])) {
+        NSMutableString *currentTextAlloc = [[NSMutableString alloc] init];
+		self.currentText = currentTextAlloc;
+		parser = nil;
+		self.sourceText = nil;
+        NSMutableArray *scriptAlloc = [[NSMutableArray alloc] init];
+		self.script = scriptAlloc;
 		self.delegate = inputDelegate;
 	}
 	return self;
@@ -60,8 +60,7 @@ NSString *const kTagNotification                = @"notification";
 
 
 #pragma mark XML Parsing
-- (void) parseText:(NSString *)text
-{
+- (void) parseText:(NSString *)text {
 	self.sourceText = text;
 	[script removeAllObjects];
 	
@@ -124,6 +123,7 @@ NSString *const kTagNotification                = @"notification";
             mediaId = [attributeDict objectForKey:kTagMedia] ? [[attributeDict objectForKey:kTagMedia]intValue] : 0;
         }
     }    
+    
     else if ([elementName isEqualToString:kTagDialog]) {
         
         if ([attributeDict objectForKey:kTagExitToTab]){
@@ -172,7 +172,7 @@ NSString *const kTagNotification                = @"notification";
         itemId = [attributeDict objectForKey:kTagId] ? [[attributeDict objectForKey:kTagId]intValue] : 0;
     }
     
-	imageRect = CGRectMake(0, 0, [[UIScreen mainScreen] applicationFrame].size.width, [[UIScreen mainScreen] applicationFrame].size.height-NOTIFICATIONBARHEIGHT);
+	imageRect = CGRectMake(0, 0, 320, 416);
 	imageRect.origin.x = [attributeDict objectForKey:kTagZoomX] ?
     [[attributeDict objectForKey:kTagZoomX] floatValue] : 
     imageRect.origin.x;
@@ -189,7 +189,6 @@ NSString *const kTagNotification                = @"notification";
     kDefaultZoomTime;
     
 	[self.currentText setString:@""];
-    NSLog(@"Scene Parser: Is Pc: %d", isPc);
 }
 
 - (void) parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName 
@@ -220,7 +219,6 @@ NSString *const kTagNotification                = @"notification";
                                               mediaId:mediaId
                                                 title:title];
         NSLog(@"MediaId in Scene is: %d", mediaId);
-        NSLog(@"Scene Parser: Is Pc: %d", isPc);
         newScene.notification = notification;
 		[self.script addObject:newScene];
         panoId = 0;
@@ -251,7 +249,7 @@ NSString *const kTagNotification                = @"notification";
         Scene *s = [[Scene alloc] initWithText:sourceText 
                                           isPc:NO
                                  shouldVibrate:NO
-                                     imageRect:CGRectMake(0, 0, [[UIScreen mainScreen] applicationFrame].size.width, [[UIScreen mainScreen] applicationFrame].size.height-NOTIFICATIONBARHEIGHT)
+                                     imageRect:CGRectMake(0, 0, 320, 416)
                                       zoomTime:kDefaultZoomTime
                               exitToTabWithTitle:nil exitToType:nil
                                        videoId:0 panoramicId:0 webpageId:0 plaqueId:0 itemId:0 mediaId:0 title:@""];

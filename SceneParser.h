@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "Scene.h"
 
-#define NOTIFICATIONBARHEIGHT 44
-
 @protocol SceneParserDelegate
 - (void) setHideLeaveConversationButton:(BOOL) hide;
 - (BOOL) hideLeaveConversationButton;
@@ -52,7 +50,7 @@
 @property (nonatomic) NSString *exitToTabWithTitle;
 @property (nonatomic) NSString *exitToType;
 @property(nonatomic) NSString *title;
-@property (readwrite) Boolean isPc;
+@property (readwrite) Boolean isPC;
 @property (readwrite) Boolean vibrate;
 @property (nonatomic) NSString *notification;
 

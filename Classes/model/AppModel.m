@@ -194,11 +194,11 @@
     if([AppModel sharedAppModel].currentGame) [[AppModel sharedAppModel].currentGame clearLocalModels];
     [AppModel sharedAppModel].currentGame = nil;
     
-    [AppModel sharedAppModel].playerId           = 0;
-    [AppModel sharedAppModel].fallbackGameId     = 0;
-    [AppModel sharedAppModel].playerMediaId      = -1;
-    [AppModel sharedAppModel].userName           = @"";
-    [AppModel sharedAppModel].displayName        = @"";
+    [AppModel sharedAppModel].playerId       = 0;
+    [AppModel sharedAppModel].fallbackGameId = 0;
+    [AppModel sharedAppModel].playerMediaId  = -1;
+    [AppModel sharedAppModel].userName       = @"";
+    [AppModel sharedAppModel].displayName    = @"";
     [defaults setInteger:playerId       forKey:@"playerId"];
     [defaults setInteger:fallbackGameId forKey:@"gameId"];
     [defaults setInteger:playerMediaId  forKey:@"playerMediaId"];
