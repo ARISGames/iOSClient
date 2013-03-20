@@ -98,7 +98,6 @@
     return YES;
 }
 
-
 #pragma mark UIImagePickerControllerDelegate Protocol Methods
 
 - (IBAction)scanButtonTapped
@@ -119,7 +118,6 @@
 {
     [self dismissModalViewControllerAnimated:NO];
 }
-
 
 #pragma mark -
 
@@ -148,7 +146,6 @@
 	if (qrCodeObject == nil) {
 		[appDelegate playAudioAlert:@"error" shouldVibrate:NO];
 		
-		//Display an alert
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", @"")
 														message:NSLocalizedString(@"QRScannerErrorMessageKey", @"")
 													   delegate:self 
@@ -161,7 +158,6 @@
     {
         [appDelegate playAudioAlert:@"error" shouldVibrate:NO];
         
-        //Display an alert
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", @"")
                                                         message:(NSString *)qrCodeObject
                                                        delegate:self 
@@ -172,21 +168,24 @@
     else
     {
 		[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];		
-		//Display the content
 		[qrCodeObject display];
 	}
 }
 
 #pragma mark Rotation
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	return NO;
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+	return interfaceOrientation == UIInterfaceOrientationPortrait;
 }
 
--(BOOL)shouldAutorotate{
-    return NO;
+-(BOOL)shouldAutorotate
+{
+    return YES;
 }
 
--(NSInteger)supportedInterfaceOrientations{
+-(NSInteger)supportedInterfaceOrientations
+{
     NSInteger mask = 0;
     if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeLeft])
         mask |= UIInterfaceOrientationMaskLandscapeLeft;
@@ -199,16 +198,9 @@
     return mask;
 }
 
-#pragma mark Memory Management
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-    // Release anything that's not essential, such as cached data
-}
-
-
-- (void)dealloc {
+- (void)dealloc
+{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-
 }
 
 
