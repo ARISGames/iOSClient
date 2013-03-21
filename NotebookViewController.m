@@ -190,7 +190,11 @@ BOOL tagFilter;
 - (void)refreshViewFromModel
 {    
 	noteList = [[[AppModel sharedAppModel].playerNoteList allValues] mutableCopy];
-    gameNoteList = [[[AppModel sharedAppModel].gameNoteList allValues] mutableCopy];
+    if([AppModel sharedAppModel].currentGame.allowShareNoteToList)
+        gameNoteList = [[[AppModel sharedAppModel].gameNoteList allValues] mutableCopy];
+    else
+        gameNoteList = [[NSMutableArray alloc] initWithCapacity:10];
+    
     for(int i = 0; i < [gameNoteList count]; i++)
     {
         if(!((Note *)[gameNoteList objectAtIndex:i]).showOnList)
