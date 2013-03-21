@@ -11,7 +11,8 @@
 #import "Note.h"
 #import <MediaPlayer/MediaPlayer.h>
 
-@interface NoteCommentCell : UITableViewCell {
+@interface NoteCommentCell : UITableViewCell
+{
     IBOutlet UITextView *titleLabel;
     IBOutlet UIImageView *mediaIcon2;
     IBOutlet UIImageView *mediaIcon3;
@@ -23,19 +24,21 @@
     IBOutlet UIButton *likesButton;
     Note *note;
 }
-@property(nonatomic)IBOutlet UITextView *titleLabel;
-@property(nonatomic)IBOutlet UILabel *userLabel;
-@property(nonatomic)IBOutlet UILabel *likeLabel;
 
-@property(nonatomic)IBOutlet UIButton *likesButton;
-@property(nonatomic)Note *note;
-@property(nonatomic)IBOutlet UIImageView *mediaIcon2;
-@property(nonatomic)IBOutlet UIImageView *mediaIcon3;
-@property(nonatomic)IBOutlet UIImageView *mediaIcon4;
-@property(nonatomic)IBOutlet UIButton *retryButton;
-@property(nonatomic)IBOutlet UIActivityIndicatorView *spinner;
--(void)checkForRetry;
--(IBAction)retryUpload;
--(IBAction)likeButtonTouched;
--(void)initCell;
+@property (nonatomic) IBOutlet UITextView *titleLabel;
+@property (nonatomic) IBOutlet UILabel *userLabel;
+@property (nonatomic) IBOutlet UILabel *likeLabel;
+
+@property (nonatomic) IBOutlet UIButton *likesButton;
+@property (nonatomic) Note *note;
+@property (nonatomic) IBOutlet UIImageView *mediaIcon2;
+@property (nonatomic) IBOutlet UIImageView *mediaIcon3;
+@property (nonatomic) IBOutlet UIImageView *mediaIcon4;
+@property (nonatomic) IBOutlet UIButton *retryButton;
+@property (nonatomic) IBOutlet UIActivityIndicatorView *spinner;
+- (void) checkForRetry;
+- (IBAction) retryUpload;
+- (IBAction) likeButtonTouched;
+- (void) initCell;
+
 @end

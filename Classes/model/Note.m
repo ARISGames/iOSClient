@@ -21,6 +21,7 @@
 
 @implementation Note
 @synthesize comments,contents, creatorId,noteId,parentNoteId,parentRating,shared,text,title,kind,numRatings,username,delegate,dropped,showOnMap,showOnList,userLiked,hasImage,hasAudio,tags,tagSection,tagName,latitude,longitude;
+@synthesize displayname;
 
 -(nearbyObjectKind) kind { return NearbyObjectNote; }
 
