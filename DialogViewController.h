@@ -50,6 +50,7 @@
 	UIView *cachedScrollView;
 	SceneParser *parser;
 	
+    int currentPcMediaId;
 	NSString *pcTitle;
     NSString *leaveButtonTitle;
     

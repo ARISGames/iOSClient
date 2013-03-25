@@ -72,7 +72,7 @@ NSString *const kDialogHtmlTemplate =
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]))
     {
-        lastPcId = 0;
+        //lastPcId = 0;    Unused? -Jacob Hanshaw 3/25/13
         currentNode = nil;
         pcTitle = NSLocalizedString(@"DialogPlayerName",@"");
         leaveButtonTitle = NSLocalizedString(@"DialogEnd",@"");
@@ -126,14 +126,16 @@ NSString *const kDialogHtmlTemplate =
     npcView.hidden             = NO;
 
     NSLog(@"pcMediaId == %d", [AppModel sharedAppModel].currentGame.pcMediaId);
-	
+    
+    currentPcMediaId = 0;
+    if ([AppModel sharedAppModel].currentGame.pcMediaId != 0) currentPcMediaId = [AppModel sharedAppModel].currentGame.pcMediaId;
+    else if([AppModel sharedAppModel].playerMediaId != 0) currentPcMediaId = [AppModel sharedAppModel].playerMediaId;
 	//Check if the game specifies a PC image
-	if ([AppModel sharedAppModel].currentGame.pcMediaId != 0)
+	if(currentPcMediaId != 0)
     {
-		//Load the image from the media Table
-        self.pcImage.delegate = self;
-		[pcImage loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId]];
-	}
+        [pcImage loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:currentPcMediaId]];
+        [self applyNPCWithGreeting];
+    }
 	else
     {
         [pcImage updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
@@ -168,11 +170,6 @@ NSString *const kDialogHtmlTemplate =
 {
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 	NSLog(@"DialogViewController: View Did Disapear");
-}
-
--(void) imageFinishedLoading
-{
-    [self applyNPCWithGreeting];
 }
 
 -(void) toggleFullScreenTextMode
@@ -872,10 +869,8 @@ NSString *const kDialogHtmlTemplate =
 - (void) movePcIn
 {
 	NSLog(@"DialogViewController: Move PC view to Main View X:%f Y:%f Width:%f Height:%f",mainView.frame.origin.x,mainView.frame.origin.y,mainView.frame.size.width,mainView.frame.size.height );
-    if([AppModel sharedAppModel].currentGame.pcMediaId != 0)
-        [self loadPCImage:[AppModel sharedAppModel].currentGame.pcMediaId];
-    else if([AppModel sharedAppModel].playerMediaId != 0)
-        [self loadPCImage:[AppModel sharedAppModel].playerMediaId];
+    if(currentPcMediaId != 0)
+        [self loadPCImage:currentPcMediaId];
     pcScrollView.hidden = NO;
     
 	[self movePcTo:[mainView frame] withAlpha:1.0
@@ -1142,8 +1137,7 @@ NSString *const kDialogHtmlTemplate =
 
 -(void) setPcMediaId:(int)mediaId
 {
-    Media *pcMedia = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
-    [pcImage loadImageFromMedia:pcMedia];
+    currentPcMediaId = mediaId;
 }
 
 -(void) setLeaveButtonTitle:(NSString *)aLeaveButtonTitle
