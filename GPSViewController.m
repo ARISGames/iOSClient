@@ -329,7 +329,7 @@ NSMutableArray *locationsToRemove;
           !((tmpAnnotation = (Annotation*)tmpMKAnnotation) && [tmpAnnotation respondsToSelector:@selector(title)])) continue;
         for(int j = 0; j < [locationsToRemove count]; j++)
         {
-            if(tmpAnnotation.location.locationId == ((Location *)[locationsToRemove objectAtIndex:j]).locationId)
+            if([tmpAnnotation.location compareTo: ((Location *)[locationsToRemove objectAtIndex:j])])
             {
                 [mapView removeAnnotation:tmpAnnotation];
                 i--;
