@@ -123,7 +123,10 @@ didStartElement:(NSString *)elementName
         //These two are weird, and should in stead be a member of the parent class that contains all conversations (the npc?)
         //because it takes effect in between scripts
         if([attributeDict objectForKey:kAttrHideLeaveConversationButton])
+        {
+            script.hideLeaveConversationButtonSpecified = YES; //This is dumb, but setting it to "NO" and doing nothing need to be regarded differently
             script.hideLeaveConversationButton = [attributeDict objectForKey:kAttrHideLeaveConversationButton];
+        }
         if ([attributeDict objectForKey:kAttrLeaveButtonTitle])
             script.leaveConversationButtonTitle = [attributeDict objectForKey:kAttrLeaveButtonTitle];
         // end weirdness

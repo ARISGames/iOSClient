@@ -16,6 +16,7 @@
     NSString *exitToTabTitle;
     
     BOOL hideLeaveConversationButton;
+    BOOL hideLeaveConversationButtonSpecified;
     NSString *leaveConversationButtonTitle;
     BOOL hideAdjustTextAreaButton;
     NSString *adjustTextArea; //Note- possible both in script AND scene
@@ -29,6 +30,7 @@
 @property (nonatomic,strong) NSString *exitToTabTitle;
 
 @property (nonatomic,assign) BOOL hideLeaveConversationButton;
+@property (nonatomic,assign) BOOL hideLeaveConversationButtonSpecified;
 @property (nonatomic,strong) NSString *leaveConversationButtonTitle;
 @property (nonatomic,assign) BOOL hideAdjustTextAreaButton;
 @property (nonatomic,strong) NSString *adjustTextArea;

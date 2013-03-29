@@ -26,9 +26,10 @@
         exitToType     = nil;
         exitToTypeId   = 0;
         exitToTabTitle = nil;
-        hideLeaveConversationButton  = NO;
-        leaveConversationButtonTitle = nil;
-        hideAdjustTextAreaButton     = NO;
+        hideLeaveConversationButton          = NO;
+        hideLeaveConversationButtonSpecified = NO;
+        leaveConversationButtonTitle         = nil;
+        hideAdjustTextAreaButton             = NO;
         adjustTextArea = nil;
         sceneArray = [[NSMutableArray alloc] init];
         sceneIndex = -1;

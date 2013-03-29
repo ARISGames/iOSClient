@@ -159,7 +159,7 @@ NSString *const kDialogHtmlTemplate =
 	else                        [pcImageView updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
     if(currentNpc.mediaId != 0) [npcImageView loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:currentNpc.mediaId]];
     else                        [npcImageView updateViewWithNewImage:[UIImage imageNamed:@"npc.png"]];
-        
+    
     if([[self.currentNpc.greeting stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""])
         [self loadPlayerOptions];
     else
@@ -169,7 +169,7 @@ NSString *const kDialogHtmlTemplate =
 - (void) didFinishParsing:(DialogScript *)s
 {
     currentScript = s;
-    if(currentScript.hideLeaveConversationButton)  currentlyHidingLeaveConversationButton = YES;
+    if(currentScript.hideLeaveConversationButtonSpecified)  currentlyHidingLeaveConversationButton = currentScript.hideLeaveConversationButton;
     if(currentScript.leaveConversationButtonTitle) currentLeaveConversationTitle = currentScript.leaveConversationButtonTitle;
     [self readySceneForDisplay:[currentScript nextScene]];
 }
@@ -750,7 +750,7 @@ NSString *const kDialogHtmlTemplate =
     }
     
     pcOptionsTable.hidden = YES;
-    pcTextWebView.hidden  = NO;
+    pcTextWebView.hidden  = YES;
     [parser parseText:newNode.text];
 }
 
