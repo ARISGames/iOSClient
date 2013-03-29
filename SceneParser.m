@@ -10,257 +10,226 @@
 
 const float kDefaultZoomTime = 1.0;
 
+NSString *const kTagDialog                      = @"dialog";
 NSString *const kTagPc                          = @"pc";
 NSString *const kTagNpc                         = @"npc";
-NSString *const kTagDialog                      = @"dialog";
-NSString *const kTagPcTitle                     = @"pcTitle";
-NSString *const kTagPcMediaId                   = @"pcMediaId";
-NSString *const kTagLeaveButtonTitle            = @"leaveButtonTitle";
-NSString *const kTagHideLeaveConversationButton = @"hideLeaveConversationButton";
-NSString *const kTagHideAdjustTextAreaButton    = @"hideAdjustTextAreaButton";
-NSString *const kTagAdjustTextArea              = @"adjustTextArea";
-NSString *const kTagExitToTab                   = @"exitToTab";
-NSString *const kTagExitToPlaque                = @"exitToPlaque";
-NSString *const kTagExitToWebPage               = @"exitToWebPage";
-NSString *const kTagExitToCharacter             = @"exitToCharacter";
-NSString *const kTagExitToPanoramic             = @"exitToPanoramic";
-NSString *const kTagExitToItem                  = @"exitToItem";
-NSString *const kTagZoomX                       = @"zoomX";
-NSString *const kTagZoomY                       = @"zoomY";
-NSString *const kTagZoomWidth                   = @"zoomWidth";
-NSString *const kTagZoomHeight                  = @"zoomHeight";
-NSString *const kTagZoomTime                    = @"zoomTime";
+
 NSString *const kTagVideo                       = @"video";
-NSString *const kTagId                          = @"id";
 NSString *const kTagPanoramic                   = @"panoramic";
 NSString *const kTagWebpage                     = @"webpage";
 NSString *const kTagPlaque                      = @"plaque";
 NSString *const kTagItem                        = @"item";
-NSString *const kTagMedia                       = @"mediaId";
-NSString *const kTagTitle                       = @"title";
-NSString *const kTagVibrate                     = @"vibrate";
-NSString *const kTagNotification                = @"notification";
+NSString *const kAttrId                          = @"id";
+
+NSString *const kAttrTitle                       = @"title";
+NSString *const kAttrMedia                       = @"mediaId";
+
+NSString *const kAttrHideLeaveConversationButton = @"hideLeaveConversationButton";
+NSString *const kAttrLeaveButtonTitle            = @"leaveButtonTitle";
+
+NSString *const kAttrHideAdjustTextAreaButton    = @"hideAdjustTextAreaButton";
+NSString *const kAttrAdjustTextArea              = @"adjustTextArea";
+
+NSString *const kAttrExitToTab                   = @"exitToTab";
+NSString *const kAttrExitToPlaque                = @"exitToPlaque";
+NSString *const kAttrExitToWebPage               = @"exitToWebPage";
+NSString *const kAttrExitToCharacter             = @"exitToCharacter";
+NSString *const kAttrExitToPanoramic             = @"exitToPanoramic";
+NSString *const kAttrExitToItem                  = @"exitToItem";
+
+NSString *const kAttrZoomX                       = @"zoomX";
+NSString *const kAttrZoomY                       = @"zoomY";
+NSString *const kAttrZoomWidth                   = @"zoomWidth";
+NSString *const kAttrZoomHeight                  = @"zoomHeight";
+NSString *const kAttrZoomTime                    = @"zoomTime";
+
+NSString *const kAttrVibrate                     = @"vibrate";
+NSString *const kAttrNotification                = @"notification";
 
 @implementation SceneParser
-@synthesize currentText, sourceText, exitToTabWithTitle, delegate, script, exitToType, title, isPC, vibrate, notification;
+{
+    Scene *tempScene;
+    NSMutableString *tempText;
+}
+
+@synthesize script;
 
 #pragma mark Init/dealloc
-- (id) initWithDefaultNpcIdWithDelegate:(id)inputDelegate {
-	if ((self = [super init])) {
-        NSMutableString *currentTextAlloc = [[NSMutableString alloc] init];
-		self.currentText = currentTextAlloc;
-		parser = nil;
-		self.sourceText = nil;
-        NSMutableArray *scriptAlloc = [[NSMutableArray alloc] init];
-		self.script = scriptAlloc;
-		self.delegate = inputDelegate;
+- (id) initWithDelegate:(id<SceneParserDelegate>)inputDelegate
+{
+	if ((self = [super init]))
+    {
+        parser = nil;
+        sourceText = nil;
+		
+        delegate = inputDelegate;
 	}
 	return self;
 }
 
-
 #pragma mark XML Parsing
-- (void) parseText:(NSString *)text {
-	self.sourceText = text;
-	[script removeAllObjects];
+- (void) parseText:(NSString *)text
+{
+	sourceText = text;
 	
 	NSData *data = [text dataUsingEncoding:NSUTF8StringEncoding];
 	parser = [[NSXMLParser alloc] initWithData:data];
 	parser.delegate = self;
 	
+    script = [[DialogScript alloc] init];
+    
 	[parser parse];
 }
 
-- (void) parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI 
-  qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict 
+- (void) parser:(NSXMLParser *)parser
+didStartElement:(NSString *)elementName
+   namespaceURI:(NSString *)namespaceURI
+  qualifiedName:(NSString *)qName
+     attributes:(NSDictionary *)attributeDict
 {
-	NSLog(@"SceneParser: Starting Element %@", elementName);
-    vibrate = NO;
-    if ([attributeDict objectForKey:kTagHideLeaveConversationButton]) {
-        [self.delegate setHideLeaveConversationButton: ([attributeDict objectForKey:kTagHideLeaveConversationButton] ? [[attributeDict objectForKey:kTagHideLeaveConversationButton]intValue] : 0)];
-    }
-    
-    if ([attributeDict objectForKey:kTagHideAdjustTextAreaButton]) {
-        [self.delegate hideAdjustTextAreaButton: ([attributeDict objectForKey:kTagHideAdjustTextAreaButton] ? [[attributeDict objectForKey:kTagHideAdjustTextAreaButton]intValue] : 0)];
-    }
-    
-    if ([attributeDict objectForKey:kTagAdjustTextArea]){
-        [self.delegate adjustTextArea: [attributeDict objectForKey:kTagAdjustTextArea]];
-    }
-    
-    if ([attributeDict objectForKey:kTagTitle]) {
-        title = [attributeDict objectForKey:kTagTitle] ? [attributeDict objectForKey:kTagTitle] : @"";
-    }
-    else title = nil;
-    
-    if ([attributeDict objectForKey:kTagPcTitle]) {
-        [self.delegate setPcTitle:[attributeDict objectForKey:kTagPcTitle]];
-    }
-    
-    if ([attributeDict objectForKey:kTagPcMediaId] && [[attributeDict objectForKey:kTagPcMediaId] intValue] != 0) {
-        [self.delegate setPcMediaId:[[attributeDict objectForKey:kTagPcMediaId] intValue]];
-    }
-    
-    if ([attributeDict objectForKey:kTagLeaveButtonTitle]) {
-        [self.delegate setLeaveButtonTitle:[attributeDict objectForKey:kTagLeaveButtonTitle]];
-    }
-    
-    if ([attributeDict objectForKey:kTagVibrate]) {
-        if([[attributeDict objectForKey:kTagVibrate]intValue] > 0) vibrate = YES;
-    }
-    
-    if ([attributeDict objectForKey:kTagNotification]) {
-        notification = [attributeDict objectForKey:kTagNotification];
-    } 
-    
-    if ([elementName isEqualToString:kTagPc]) {
-		isPc = YES;
-    }
-    
-	else if ([elementName isEqualToString:kTagNpc]){ 
-        isPc = NO;
-        if ([attributeDict objectForKey:kTagMedia]) {
-            mediaId = [attributeDict objectForKey:kTagMedia] ? [[attributeDict objectForKey:kTagMedia]intValue] : 0;
+    if ([elementName isEqualToString:kTagDialog])
+    {
+        if ([attributeDict objectForKey:kAttrExitToTab])
+        {
+            script.exitToType = @"tab";
+            script.exitToTabTitle = [attributeDict objectForKey:kAttrExitToTab];
         }
-    }    
-    
-    else if ([elementName isEqualToString:kTagDialog]) {
+        else if([attributeDict objectForKey:kAttrExitToPlaque])
+        {
+            script.exitToType = @"plaque";
+            script.exitToTypeId = [[attributeDict objectForKey:kAttrExitToPlaque] intValue];
+        }
+        else if([attributeDict objectForKey:kAttrExitToWebPage])
+        {
+            script.exitToType = @"webpage";
+            script.exitToTypeId = [[attributeDict objectForKey:kAttrExitToWebPage] intValue];
+        }
+        else if([attributeDict objectForKey:kAttrExitToItem])
+        {
+            script.exitToType = @"item";
+            script.exitToTypeId = [[attributeDict objectForKey:kAttrExitToItem] intValue];
+        }
+        else if([attributeDict objectForKey:kAttrExitToCharacter])
+        {
+            script.exitToType = @"character";
+            script.exitToTypeId = [[attributeDict objectForKey:kAttrExitToCharacter] intValue];
+        }
+        else if([attributeDict objectForKey:kAttrExitToPanoramic])
+        {
+            script.exitToType = @"panoramic";
+            script.exitToTypeId = [[attributeDict objectForKey:kAttrExitToPanoramic] intValue];
+        }
         
-        if ([attributeDict objectForKey:kTagExitToTab]){
-            exitToType = @"tab";
-            exitToTabWithTitle = [attributeDict objectForKey:kTagExitToTab];
+        //These two are weird, and should in stead be a member of the parent class that contains all conversations (the npc?)
+        //because it takes effect in between scripts
+        if([attributeDict objectForKey:kAttrHideLeaveConversationButton])
+            script.hideLeaveConversationButton = [attributeDict objectForKey:kAttrHideLeaveConversationButton];
+        if ([attributeDict objectForKey:kAttrLeaveButtonTitle])
+            script.leaveConversationButtonTitle = [attributeDict objectForKey:kAttrLeaveButtonTitle];
+        // end weirdness
+            
+        if([attributeDict objectForKey:kAttrHideAdjustTextAreaButton])
+            script.hideAdjustTextAreaButton = [[attributeDict objectForKey:kAttrHideAdjustTextAreaButton] boolValue];
+        if ([attributeDict objectForKey:kAttrAdjustTextArea])
+            script.adjustTextArea = [attributeDict objectForKey:kAttrAdjustTextArea];
+    }
+    else
+    {
+        tempScene = [[Scene alloc] init];
+        tempText  = [[NSMutableString alloc] init];
+
+        if([elementName isEqualToString:kTagNpc] || [elementName isEqualToString:kTagPc])
+        {
+            if([elementName isEqualToString:kTagNpc]) tempScene.sceneType = @"npc";
+            if([elementName isEqualToString:kTagPc])  tempScene.sceneType = @"pc";
+        
+            if([attributeDict objectForKey:kAttrAdjustTextArea])
+                tempScene.adjustTextArea = [attributeDict objectForKey:kAttrAdjustTextArea];
+            if([attributeDict objectForKey:kAttrTitle])
+                tempScene.title = [attributeDict objectForKey:kAttrTitle];
+            if([attributeDict objectForKey:kAttrMedia])
+                tempScene.mediaId = [[attributeDict objectForKey:kAttrMedia] intValue];
+            if([attributeDict objectForKey:kAttrVibrate])
+                tempScene.vibrate = YES;
+            if ([attributeDict objectForKey:kAttrNotification])
+                tempScene.notification = [attributeDict objectForKey:kAttrNotification];
+            
+            int x = 0;
+            int y = 0;
+            int width  = 320;
+            int height = 416;
+            if([attributeDict objectForKey:kAttrZoomX])
+                x = [[attributeDict objectForKey:kAttrZoomX] intValue];
+            if([attributeDict objectForKey:kAttrZoomY])
+                y = [[attributeDict objectForKey:kAttrZoomY] intValue];
+            if([attributeDict objectForKey:kAttrZoomWidth])
+                width = [[attributeDict objectForKey:kAttrZoomWidth] intValue];
+            if([attributeDict objectForKey:kAttrZoomHeight])
+                height = [[attributeDict objectForKey:kAttrZoomHeight] intValue];
+            tempScene.imageRect = CGRectMake(x,y,width,height);
+
+            if([attributeDict objectForKey:kAttrZoomTime])
+                tempScene.zoomTime = [[attributeDict objectForKey:kAttrZoomTime] floatValue];            
         }
-        else if([attributeDict objectForKey:kTagExitToPlaque]){
-            exitToType = @"plaque";
-            exitToTabWithTitle = [attributeDict objectForKey:kTagExitToPlaque];
-        }
-        else if([attributeDict objectForKey:kTagExitToWebPage]){
-            exitToType = @"webpage";
-            exitToTabWithTitle = [attributeDict objectForKey:kTagExitToWebPage];
-        }
-        else if([attributeDict objectForKey:kTagExitToItem]){
-            exitToType = @"item";
-            exitToTabWithTitle = [attributeDict objectForKey:kTagExitToItem];
-        }
-        else if([attributeDict objectForKey:kTagExitToCharacter]){
-            exitToType = @"character";
-            exitToTabWithTitle = [attributeDict objectForKey:kTagExitToCharacter];
-        }
-        else if([attributeDict objectForKey:kTagExitToPanoramic]){
-            exitToType = @"panoramic";
-            exitToTabWithTitle = [attributeDict objectForKey:kTagExitToPanoramic];
-        }
-        else {
-            exitToType = nil;
-            exitToTabWithTitle = nil;
+        else if ([elementName isEqualToString:kTagVideo]     ||
+                 [elementName isEqualToString:kTagPanoramic] ||
+                 [elementName isEqualToString:kTagWebpage]   ||
+                 [elementName isEqualToString:kTagPlaque]    ||
+                 [elementName isEqualToString:kTagItem]       )
+        {
+            if([elementName isEqualToString:kTagItem])      tempScene.sceneType = @"item";
+            if([elementName isEqualToString:kTagPlaque])    tempScene.sceneType = @"node";
+            if([elementName isEqualToString:kTagWebpage])   tempScene.sceneType = @"webpage";
+            if([elementName isEqualToString:kTagPanoramic]) tempScene.sceneType = @"panoramic";
+            if([elementName isEqualToString:kTagVideo])     tempScene.sceneType = @"video";
+            
+            tempScene.typeId = [[attributeDict objectForKey:kAttrId] intValue];
         }
     }
-    else if ([elementName isEqualToString:kTagVideo]){
-        videoId = [attributeDict objectForKey:kTagId] ? [[attributeDict objectForKey:kTagId]intValue] : 0;
-    }
-    
-    else if ([elementName isEqualToString:kTagPanoramic]) {
-        panoId = [attributeDict objectForKey:kTagId] ? [[attributeDict objectForKey:kTagId]intValue] : 0;
-    }
-    else if ([elementName isEqualToString:kTagWebpage]) {
-        webId = [attributeDict objectForKey:kTagId] ? [[attributeDict objectForKey:kTagId]intValue] : 0;
-    }
-    else if ([elementName isEqualToString:kTagPlaque]) {
-        plaqueId = [attributeDict objectForKey:kTagId] ? [[attributeDict objectForKey:kTagId]intValue] : 0;
-    }
-    else if ([elementName isEqualToString:kTagItem]) {
-        itemId = [attributeDict objectForKey:kTagId] ? [[attributeDict objectForKey:kTagId]intValue] : 0;
-    }
-    
-	imageRect = CGRectMake(0, 0, 320, 416);
-	imageRect.origin.x = [attributeDict objectForKey:kTagZoomX] ?
-    [[attributeDict objectForKey:kTagZoomX] floatValue] : 
-    imageRect.origin.x;
-	imageRect.origin.y = [attributeDict objectForKey:kTagZoomX] ?
-    [[attributeDict objectForKey:kTagZoomY] floatValue] :
-    imageRect.origin.y;
-	imageRect.size.width = [attributeDict objectForKey:kTagZoomX] ? [[attributeDict objectForKey:kTagZoomWidth] floatValue] : 
-    imageRect.size.width;
-	imageRect.size.height = [attributeDict objectForKey:kTagZoomX] ? [[attributeDict objectForKey:kTagZoomHeight] floatValue] :
-    imageRect.size.height;
-    
-	resizeTime = [attributeDict objectForKey:kTagZoomTime] ? 
-    [[attributeDict objectForKey:kTagZoomTime] floatValue] :
-    kDefaultZoomTime;
-    
-	[self.currentText setString:@""];
 }
 
-- (void) parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName 
-   namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
-	
-    NSLog(@"SceneParser: Ended Element %@", elementName);
-	
-    if ([elementName isEqualToString:kTagPc] 
-        || [elementName isEqualToString:kTagNpc] 
-        || [elementName isEqualToString:kTagPanoramic] 
-        || [elementName isEqualToString:kTagVideo]
-        || [elementName isEqualToString:kTagWebpage]
-        || [elementName isEqualToString:kTagPlaque]
-        || [elementName isEqualToString:kTagItem])
-	{
-        Scene *newScene = [[Scene alloc] initWithText:currentText
-                                                 isPc:isPc
-                                        shouldVibrate:vibrate
-                                            imageRect:imageRect
-                                             zoomTime:resizeTime
-                                   exitToTabWithTitle:exitToTabWithTitle
-                                           exitToType:exitToType
-                                              videoId:videoId
-                                          panoramicId:panoId
-                                            webpageId:webId
-                                             plaqueId:plaqueId
-                                               itemId:itemId
-                                              mediaId:mediaId
-                                                title:title];
-        NSLog(@"MediaId in Scene is: %d", mediaId);
-        newScene.notification = notification;
-		[self.script addObject:newScene];
-        panoId = 0;
-        videoId = 0;
-        webId = 0;
-        mediaId = 0;
-	}
+- (void) parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName
+   namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
+{
+    if(tempScene && ![elementName isEqualToString:kTagDialog])
+    {
+        tempScene.text = [NSString stringWithString:tempText];
+        [script.sceneArray addObject:tempScene];
+        tempScene = nil;
+        tempText  = nil;
+    }
 }
 
-- (void) parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
+- (void) parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
+{
 	// Not wrapped in CDATA, so hope for the best and add to it
-	[self.currentText appendString:string];
+	[tempText appendString:string];
 	NSLog(@"SceneParser: WARNING: No CDATA used for %@", string);
 }
 
-- (void) parser:(NSXMLParser *)parser foundCDATA:(NSData *)CDATABlock {
-	// Fond CDATA, so HTML should work.
-	
-	NSString *text = [[NSString alloc] initWithData:CDATABlock
-										   encoding:NSUTF8StringEncoding];
-	[self.currentText appendString:text];
+- (void) parser:(NSXMLParser *)parser foundCDATA:(NSData *)CDATABlock
+{
+	// Found CDATA, so HTML should work.
+	NSString *text = [[NSString alloc] initWithData:CDATABlock encoding:NSUTF8StringEncoding];
+	[tempText appendString:text];
 }
 
-- (void) parserDidEndDocument:(NSXMLParser *)parser {
+- (void) parserDidEndDocument:(NSXMLParser *)parser
+{
 	NSLog(@"SceneParser: parserDidEndDocument");
-	if ([script count] == 0) {
-		// No parsing happened; use raw text
-        Scene *s = [[Scene alloc] initWithText:sourceText 
-                                          isPc:NO
-                                 shouldVibrate:NO
-                                     imageRect:CGRectMake(0, 0, 320, 416)
-                                      zoomTime:kDefaultZoomTime
-                              exitToTabWithTitle:nil exitToType:nil
-                                       videoId:0 panoramicId:0 webpageId:0 plaqueId:0 itemId:0 mediaId:0 title:@""];
-		[self.script addObject:s];
+	if ([script.sceneArray count] == 0)
+    {
+        Scene *s = [[Scene alloc] init];
+        s.sceneType = @"npc";
+        s.text = sourceText;
+        [script.sceneArray addObject:s];
 	}
 	
-	NSLog(@"SceneParser: didFinishParsing");
-	if (self.delegate) [self.delegate didFinishParsing];
+	[delegate didFinishParsing:script];
 }
 
-- (void) parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
+- (void) parser:(NSXMLParser *)p parseErrorOccurred:(NSError *)parseError
+{
 	NSLog(@"SceneParser: Fatal error: %@", parseError);
 }
 @end

@@ -58,6 +58,8 @@ NSString *const kQuestsHtmlTemplate =
         badgeCount = 0;
 		isLink = NO;
         
+        self.tabBarItem.image = [UIImage imageNamed:@"117-todo"];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost"                object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedQuestList"             object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel)   name:@"NewlyActiveQuestsAvailable"    object:nil];
@@ -70,7 +72,6 @@ NSString *const kQuestsHtmlTemplate =
 -(void)viewDidLoad
 {
     self.title = NSLocalizedString(@"QuestViewTitleKey",@"");
-    self.tabBarItem.image = [UIImage imageNamed:@"117-todo"];
 }
 
 - (void)viewDidAppear:(BOOL)animated

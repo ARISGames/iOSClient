@@ -7,58 +7,26 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DialogScript.h"
 #import "Scene.h"
 
 @protocol SceneParserDelegate
-- (void) setHideLeaveConversationButton:(BOOL) hide;
-- (BOOL) hideLeaveConversationButton;
-- (void) hideAdjustTextAreaButton:(BOOL) hide;
-- (void) adjustTextArea:(NSString *)area;
-- (void) didFinishParsing;
-- (void) setPcTitle:(NSString *)pcTitle;
-- (void) setPcMediaId:(int) mediaId;
-- (void) setLeaveButtonTitle:(NSString *)aLeaveButtonTitle;
+- (void) didFinishParsing:(DialogScript *)s;
 @end
 
-
-@interface SceneParser : NSObject <NSXMLParserDelegate> {
-	Boolean			isPc;
-    Boolean			vibrate;
-	NSInteger		currentCharacterId;
-	NSMutableString *currentText;
-	NSMutableArray	*script;
-	NSString		*sourceText;
-	CGRect			imageRect;
-	float			resizeTime;
-    NSString        *exitToTabWithTitle;
-    NSString        *exitToType;
-    int             videoId;
-    int             panoId;
-    int             webId;
-    int             plaqueId;
-    int             itemId;
-    int             mediaId;
-    NSString        *title;
+@interface SceneParser : NSObject <NSXMLParserDelegate>
+{
     NSXMLParser		*parser;
-    NSString        *notification;
+    NSString		*sourceText;
+
+    DialogScript *script;
+    
 	id<SceneParserDelegate> delegate;
 }
 
-@property (nonatomic) NSMutableString *currentText;
-@property (nonatomic) NSMutableArray *script;
-@property (nonatomic) NSString *sourceText;
-@property (nonatomic) NSString *exitToTabWithTitle;
-@property (nonatomic) NSString *exitToType;
-@property(nonatomic) NSString *title;
-@property (readwrite) Boolean isPC;
-@property (readwrite) Boolean vibrate;
-@property (nonatomic) NSString *notification;
+@property (nonatomic,strong) DialogScript *script;
 
-@property (readwrite) id<SceneParserDelegate> delegate;
-
-
-
-- (id) initWithDefaultNpcIdWithDelegate:(id)inputDelegate;
+- (id) initWithDelegate:(id<SceneParserDelegate>)inputDelegate;
 
 - (void) parseText:(NSString *)text;
 

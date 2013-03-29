@@ -70,7 +70,7 @@
     
     //Media Not found; you should try fetching a new list from the server
     Media *media = [NSEntityDescription insertNewObjectForEntityForName:@"Media" inManagedObjectContext:context];
-    media.uid = [NSNumber numberWithInt: uid];
+    media.uid = [NSNumber numberWithInt:uid];
     
     if (![context save:&error])
         NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);

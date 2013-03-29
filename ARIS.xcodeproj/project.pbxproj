@@ -192,6 +192,7 @@
 		A7E39ECA0F5F655E00826198 /* Camera.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7E39EC90F5F655E00826198 /* Camera.xib */; };
 		A7E4C88C0F54C4D000C6D9E8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E4C88B0F54C4D000C6D9E8 /* QuartzCore.framework */; };
 		A7E4C8990F54C5E300C6D9E8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E4C8980F54C5E300C6D9E8 /* CoreLocation.framework */; };
+		AA0CE8331704C3BE0098429E /* DialogScript.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0CE8321704C3BE0098429E /* DialogScript.m */; };
 		AA1E2D4E1652CC6000219535 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4D1652CC6000219535 /* libicucore.dylib */; };
 		AA1E2D501652CC7500219535 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4F1652CC7500219535 /* Security.framework */; };
 		AA21333F16CABF4900FB7F29 /* GameNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA21333E16CABF4900FB7F29 /* GameNotificationViewController.m */; };
@@ -222,8 +223,6 @@
 		AB1660BE14E8754B002C6ACB /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB1660BD14E8754B002C6ACB /* SenTestingKit.framework */; };
 		AB1660C014E8754B002C6ACB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB1660BF14E8754B002C6ACB /* UIKit.framework */; };
 		AB1660C214E8754B002C6ACB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB1660C114E8754B002C6ACB /* Foundation.framework */; };
-		AB1660C814E8754B002C6ACB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB1660C614E8754B002C6ACB /* InfoPlist.strings */; };
-		AB1660CB14E8754B002C6ACB /* UploadManager_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = AB1660CA14E8754B002C6ACB /* UploadManager_Tests.m */; };
 		AB18AEBA137B249A00382826 /* AppServices.m in Sources */ = {isa = PBXBuildFile; fileRef = AB18AEB9137B249A00382826 /* AppServices.m */; };
 		AB21D30714ED9C9000DC016F /* blue_button.psd in Resources */ = {isa = PBXBuildFile; fileRef = AB21D30514ED9C9000DC016F /* blue_button.psd */; };
 		AB21D30814ED9C9000DC016F /* grey_button.psd in Resources */ = {isa = PBXBuildFile; fileRef = AB21D30614ED9C9000DC016F /* grey_button.psd */; };
@@ -724,6 +723,8 @@
 		A7E39EC90F5F655E00826198 /* Camera.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Camera.xib; sourceTree = "<group>"; };
 		A7E4C88B0F54C4D000C6D9E8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A7E4C8980F54C5E300C6D9E8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		AA0CE8311704C3BE0098429E /* DialogScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogScript.h; sourceTree = "<group>"; };
+		AA0CE8321704C3BE0098429E /* DialogScript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialogScript.m; sourceTree = "<group>"; };
 		AA1771A11652DDAB00A3836D /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		AA1E2D4D1652CC6000219535 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		AA1E2D4F1652CC7500219535 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -793,11 +794,6 @@
 		AB1660BD14E8754B002C6ACB /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		AB1660BF14E8754B002C6ACB /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		AB1660C114E8754B002C6ACB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		AB1660C514E8754B002C6ACB /* UploadManager Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UploadManager Tests-Info.plist"; sourceTree = "<group>"; };
-		AB1660C714E8754B002C6ACB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		AB1660C914E8754B002C6ACB /* UploadManager_Tests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UploadManager_Tests.h; sourceTree = "<group>"; };
-		AB1660CA14E8754B002C6ACB /* UploadManager_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UploadManager_Tests.m; sourceTree = "<group>"; };
-		AB1660CC14E8754B002C6ACB /* UploadManager Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UploadManager Tests-Prefix.pch"; sourceTree = "<group>"; };
 		AB18AEB8137B249A00382826 /* AppServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppServices.h; path = ../../AppServices.h; sourceTree = "<group>"; };
 		AB18AEB9137B249A00382826 /* AppServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppServices.m; path = ../../AppServices.m; sourceTree = "<group>"; };
 		AB21D30514ED9C9000DC016F /* blue_button.psd */ = {isa = PBXFileReference; lastKnownFileType = file; path = blue_button.psd; sourceTree = "<group>"; };
@@ -1321,7 +1317,6 @@
 				1139BA5113ABC6A2008BF268 /* Panoramic */,
 				1122C0B113A7D063004F0392 /* Webpage */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				AB1660D014E8761E002C6ACB /* Unit Tests */,
 			);
 			name = ARIS;
 			sourceTree = "<group>";
@@ -1757,35 +1752,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		AB1660C314E8754B002C6ACB /* UploadManager Tests */ = {
-			isa = PBXGroup;
-			children = (
-				AB1660C914E8754B002C6ACB /* UploadManager_Tests.h */,
-				AB1660CA14E8754B002C6ACB /* UploadManager_Tests.m */,
-				AB1660C414E8754B002C6ACB /* Supporting Files */,
-			);
-			name = "UploadManager Tests";
-			sourceTree = "<group>";
-		};
-		AB1660C414E8754B002C6ACB /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				AB1660C514E8754B002C6ACB /* UploadManager Tests-Info.plist */,
-				AB1660C614E8754B002C6ACB /* InfoPlist.strings */,
-				AB1660CC14E8754B002C6ACB /* UploadManager Tests-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		AB1660D014E8761E002C6ACB /* Unit Tests */ = {
-			isa = PBXGroup;
-			children = (
-				AB1660C314E8754B002C6ACB /* UploadManager Tests */,
-			);
-			name = "Unit Tests";
-			path = "UploadManager Tests";
-			sourceTree = "<group>";
-		};
 		AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */ = {
 			isa = PBXGroup;
 			children = (
@@ -2113,6 +2079,8 @@
 				D424324C1107730E00E58147 /* SceneParser.m */,
 				DBBCE9E015937704006994F9 /* DefaultPCImage.png */,
 				D4DE6B8A110A00D7008BFE38 /* defaultCharacter.png */,
+				AA0CE8311704C3BE0098429E /* DialogScript.h */,
+				AA0CE8321704C3BE0098429E /* DialogScript.m */,
 			);
 			name = "NPC Dialog";
 			sourceTree = "<group>";
@@ -2405,7 +2373,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB1660C814E8754B002C6ACB /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2615,6 +2582,7 @@
 				AAA5890116DE714A00C2445B /* BumpTestViewController.m in Sources */,
 				AA73E48216E141D2001F11A6 /* GameObjectDisplayViewController.m in Sources */,
 				DD3C285116F3BF0D00CBC085 /* Logger.m in Sources */,
+				AA0CE8331704C3BE0098429E /* DialogScript.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2622,7 +2590,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB1660CB14E8754B002C6ACB /* UploadManager_Tests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2645,14 +2612,6 @@
 				ABD24F59120A5BAD00D792F5 /* fr */,
 			);
 			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		AB1660C614E8754B002C6ACB /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AB1660C714E8754B002C6ACB /* en */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		DB4C161015A7B418005EF91B /* GamePickerPopularViewController.xib */ = {

@@ -44,11 +44,12 @@
 	else return mediaId;
 }
 
-- (void) display{
+- (void) display
+{
 	NSLog(@"Npc: Display Self Requested");
 	DialogViewController *dialogController = [[DialogViewController alloc] initWithNibName:@"Dialog"
-																					bundle:[NSBundle mainBundle]];
-	[dialogController beginWithNPC:self];
+																					bundle:[NSBundle mainBundle]
+                                                                                       npc:self];
 	[[RootViewController sharedRootViewController] displayNearbyObjectView:dialogController];
 }
 

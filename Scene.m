@@ -8,46 +8,44 @@
 
 #import "Scene.h"
 
-
 @implementation Scene
 
+@synthesize title;
 @synthesize text;
-@synthesize isPc;
-@synthesize imageMediaId;
+
+@synthesize sceneType;
+@synthesize typeId;
+
+@synthesize mediaId;
+
+@synthesize adjustTextArea;
+
 @synthesize imageRect;
 @synthesize zoomTime;
-@synthesize exitToTabWithTitle,videoId,panoId,webId,plaqueId,itemId,exitToType, mediaId;
-@synthesize title, vibrate;
+
+@synthesize vibrate;
 @synthesize notification;
 
-- (id) initWithText:(NSString *)theText 
-               isPc:(Boolean)isPcYorN 
-      shouldVibrate:(Boolean)shouldVibrate
-          imageRect:(CGRect)rect 
-           zoomTime:(float)seconds
-   exitToTabWithTitle:(NSString*)tabTitle 
-         exitToType:(NSString *)type videoId:(int)vidId panoramicId:(int)pId webpageId:(int)wId plaqueId:(int)nodeId itemId:(int)iId mediaId:(int)mId title: (NSString *)inputTitle{
-	
+- (id) init
+{
 	if ((self = [super init]))
     {
-        self.text = [theText copy];
-        self.isPc = isPcYorN;
-        self.vibrate = shouldVibrate;
-        self.imageMediaId = 0;
-        self.imageRect = rect;
-        self.zoomTime = seconds;
-        self.exitToTabWithTitle = tabTitle;
-        self.videoId = vidId;
-        self.panoId = pId;
-        self.webId = wId;
-        self.plaqueId = nodeId;
-        self.itemId = iId;
-        self.mediaId = mId;
-        self.exitToType = type;
-        self.title = inputTitle;
-        self.notification=nil;
+        self.title        = nil;
+        self.text         = nil;
+        
+        self.sceneType    = @"pc";
+        self.typeId      = 0;
+        
+        self.mediaId      = 0;
+
+        self.imageRect    = CGRectMake(0, 0, 320, 416);
+        self.zoomTime     = 0;
+        
+        self.vibrate      = NO;
+        self.notification = nil;
 	}
 	return self;
 }
+
 
 @end

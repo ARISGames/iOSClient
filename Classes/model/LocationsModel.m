@@ -49,7 +49,7 @@
         BOOL match = NO;
         for (Location *existingLocation in self.currentLocations)
         {
-            if ([newLocation compareTo: existingLocation])
+            if ([newLocation compareTo:existingLocation])
                 match = YES;
         }
         
@@ -63,7 +63,7 @@
         BOOL match = NO;
         for (Location *newLocation in locations)
         {
-            if ([newLocation compareTo: existingLocation])
+            if ([newLocation compareTo:existingLocation])
                 match = YES;
         }
         
