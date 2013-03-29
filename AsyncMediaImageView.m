@@ -157,11 +157,11 @@
 	spinner.center = self.center;
 	[self addSubview:spinner];
 	
-    //if (data!=nil) { [self.data release]; }
 	NSLog(@"AsyncImageView: Loading Image at %@",self.media.url);
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString: self.media.url]
 											 cachePolicy:NSURLRequestUseProtocolCachePolicy
 										 timeoutInterval:60.0];
+    if(connection) [connection cancel];
     connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
 
@@ -179,27 +179,23 @@
     [self.data appendData:incrementalData];
 }
 
-- (void)connectionDidFinishLoading:(NSURLConnection*)theConnection {
+- (void)connectionDidFinishLoading:(NSURLConnection*)theConnection
+{
 	//end the UI indicator
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	
     //clear out the spinner
-    while ([[self subviews] count] > 0) {
+    while ([[self subviews] count] > 0)
 		[[[self subviews] lastObject] removeFromSuperview];
-    }
     
 	//throw out the connection
-    if(self.connection!=nil)
-    self.connection=nil;
+    if(self.connection!=nil) self.connection=nil;
 	
 	//turn the data into an image
 	UIImage* image = [UIImage imageWithData:data];
 	
-
-	
 	//Save the image in the media
-    if(image)
-	self.media.image =data;
+    if(image) self.media.image = data;
     
     //throw out the data
 

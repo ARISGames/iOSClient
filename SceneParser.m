@@ -125,7 +125,7 @@ didStartElement:(NSString *)elementName
         if([attributeDict objectForKey:kAttrHideLeaveConversationButton])
         {
             script.hideLeaveConversationButtonSpecified = YES; //This is dumb, but setting it to "NO" and doing nothing need to be regarded differently
-            script.hideLeaveConversationButton = [attributeDict objectForKey:kAttrHideLeaveConversationButton];
+            script.hideLeaveConversationButton = [[attributeDict objectForKey:kAttrHideLeaveConversationButton] boolValue];
         }
         if ([attributeDict objectForKey:kAttrLeaveButtonTitle])
             script.leaveConversationButtonTitle = [attributeDict objectForKey:kAttrLeaveButtonTitle];
