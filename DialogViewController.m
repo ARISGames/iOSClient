@@ -240,10 +240,39 @@ NSString *const kDialogHtmlTemplate =
         if(currentScene.mediaId != 0)
         {
             Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.mediaId];
+            //TEMPORARY BANDAID
+            if(currentImageView.isLoading && currentImageView == npcImageView)
+            {
+                [npcImageView removeFromSuperview];
+                npcImageView = [[AsyncMediaImageView alloc] initWithFrame:npcImageView.frame andMedia:media];
+                [npcImageSection addSubview:npcImageView];
+                currentImageView = npcImageView;
+            }
+            if(currentImageView.isLoading && currentImageView == pcImageView)
+            {
+                [pcImageView removeFromSuperview];
+                pcImageView = [[AsyncMediaImageView alloc] initWithFrame:pcImageView.frame andMedia:media];
+                [pcImageSection addSubview:pcImageView];
+                currentImageView = npcImageView;
+            }
+            //END TEMPORARY BANDAID
             if(!media.type) [currentImageView loadImageFromMedia:media]; // This should never happen (all game media should be cached by now)
             else if([media.type isEqualToString:kMediaTypeImage]) [currentImageView loadImageFromMedia:media];
             else if([media.type isEqualToString:kMediaTypeVideo]) [self playAudioOrVideoFromMedia:media andHidden:NO];
             else if([media.type isEqualToString:kMediaTypeAudio]) [self playAudioOrVideoFromMedia:media andHidden:YES];
+        }
+        else
+        {
+            if([currentScene.sceneType isEqualToString:@"pc"])
+            {
+                if(currentPcMediaId != 0)   [pcImageView loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:currentPcMediaId]];
+                else                        [pcImageView updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
+            }
+            else
+            {
+                if(currentNpc.mediaId != 0) [npcImageView loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:currentNpc.mediaId]];
+                else                        [npcImageView updateViewWithNewImage:[UIImage imageNamed:@"npc.png"]];
+            }
         }
         
         if(closingScriptPlaying)

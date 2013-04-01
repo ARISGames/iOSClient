@@ -117,12 +117,12 @@
 
 - (void)loadImageFromMedia:(Media *) aMedia
 {
+    if(self.isLoading) return;
+
     self.media = aMedia;
     
     self.contentMode = UIViewContentModeScaleAspectFit;
     
-	if(self.isLoading) return;
-
     self.isLoading = YES;
 
 	//check if the media already as the image, if so, just grab it
@@ -235,13 +235,5 @@
     if(mMoviePlayer) [mMoviePlayer.moviePlayer cancelAllThumbnailImageRequests];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
-
-
-
-
-
-
-
 
 @end
