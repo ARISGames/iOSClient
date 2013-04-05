@@ -9,15 +9,11 @@
 #import "Media.h"
 #import "AppModel.h"
 
-
 NSString *const kMediaTypeVideo = @"Video";
 NSString *const kMediaTypeImage = @"Image";
 NSString *const kMediaTypeAudio = @"Audio";
 
 @implementation Media
 @dynamic gameid, uid, url, type, image;
-
-
-
 
 @end

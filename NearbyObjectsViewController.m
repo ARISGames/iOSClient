@@ -76,7 +76,9 @@
         BOOL match = NO;
         for (Location *oldLocation in self.nearbyLocationsList)
             if (oldLocation.locationId == location.locationId) match = YES;
-        if (match == NO && location.forcedDisplay)
+        for(Location *oldForceDisplay in forceDisplayQueue)
+            if(oldForceDisplay.locationId == location.locationId) match = YES;
+        if(match == NO && location.forcedDisplay)
             [forceDisplayQueue addObject:location];
     }
     

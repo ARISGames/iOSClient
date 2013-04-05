@@ -14,13 +14,10 @@ extern NSString *const kMediaTypeImage;
 extern NSString *const kMediaTypeAudio;
 
 @interface Media : NSManagedObject
-@property(nonatomic, strong) NSNumber *gameid;
-@property(nonatomic, strong) NSString *url;
-@property(nonatomic, strong) NSString *type;
-@property(nonatomic, strong) NSData *image;
-@property(nonatomic, strong) NSNumber *uid;
-
+@property (nonatomic,strong) NSNumber *gameid;
+@property (nonatomic,strong) NSString *url;
+@property (nonatomic,strong) NSString *type;
+@property (nonatomic,strong) NSData *image;
+@property (nonatomic,strong) NSNumber *uid;
 
 @end
-
-

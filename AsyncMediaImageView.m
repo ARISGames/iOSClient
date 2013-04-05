@@ -41,7 +41,7 @@
             [self loadImageFromMedia:media];
         else if([media.type isEqualToString:kMediaTypeVideo] || [media.type isEqualToString:kMediaTypeAudio])
         {
-            if (self.media.image)
+            if(self.media.image)
             {
                 [self updateViewWithNewImage:[UIImage imageWithData:self.media.image]];
                 self.loaded = YES;
@@ -59,15 +59,15 @@
                 }
                 else
                 {
-                  ARISMoviePlayerViewController *mMoviePlayerAlloc = [self.mMoviePlayer initWithContentURL:[NSURL URLWithString: media.url]]; 
-                  self.mMoviePlayer = mMoviePlayerAlloc; 
+                    ARISMoviePlayerViewController *mMoviePlayerAlloc = [self.mMoviePlayer initWithContentURL:[NSURL URLWithString: media.url]];
+                    self.mMoviePlayer = mMoviePlayerAlloc; 
                 }
             
                 self.mMoviePlayer.moviePlayer.shouldAutoplay = NO;
                 [self.mMoviePlayer.moviePlayer requestThumbnailImagesAtTimes:timeArray timeOption:MPMovieTimeOptionNearestKeyFrame];
-                 
+                
                 [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:self.mMoviePlayer.moviePlayer];
-        
+                
                 //set up indicators
                 [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
                 
@@ -91,7 +91,7 @@
     return self;
 }
 
--(void)movieThumbDidFinish:(NSNotification*) aNotification
+-(void)movieThumbDidFinish:(NSNotification*)aNotification
 {
     NSLog(@"AsyncMediaImageView: movieThumbDidFinish");
     NSDictionary *userInfo = aNotification.userInfo;
@@ -108,10 +108,10 @@
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	
     //clear out the spinner
-    while ([[self subviews] count] > 0)
+    while([[self subviews] count] > 0)
 		[[[self subviews] lastObject] removeFromSuperview];
     
-    self.loaded = YES;
+    self.loaded    = YES;
     self.isLoading = NO;
 }
 
@@ -172,10 +172,10 @@
     [self loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:[self.media.uid intValue]]];
 }
 
-- (void)connection:(NSURLConnection *)theConnection didReceiveData:(NSData *)incrementalData {
-    if (self.data==nil) {
+- (void)connection:(NSURLConnection *)theConnection didReceiveData:(NSData *)incrementalData
+{
+    if (self.data==nil)
 		data = [[NSMutableData alloc] initWithCapacity:2048];
-    }
     [self.data appendData:incrementalData];
 }
 
@@ -200,9 +200,9 @@
     //throw out the data
 
     self.loaded = YES;
-	self.isLoading= NO;
+	self.isLoading = NO;
 	[self updateViewWithNewImage:[UIImage imageWithData:self.media.image]];
-    self.data=nil;
+    self.data = nil;
     
     NSLog(@"NSNotification: ImageReady");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ImageReady" object:nil]];
@@ -221,7 +221,8 @@
     self.loaded = YES;
 }
 
-- (void) setImage:(UIImage*)image {
+- (void) setImage:(UIImage*)image
+{
     super.image = image;
     
     [self setNeedsLayout];

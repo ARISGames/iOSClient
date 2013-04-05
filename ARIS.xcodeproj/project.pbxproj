@@ -201,6 +201,7 @@
 		AA2C3CF816D54A2B00623957 /* LocationsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA2C3CF716D54A2B00623957 /* LocationsModel.m */; };
 		AA39E32116C4370D005A4E06 /* libPusher-combined.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA39E32016C4370D005A4E06 /* libPusher-combined.a */; };
 		AA39F65916DD21B0000DE415 /* GamePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA39F65816DD21B0000DE415 /* GamePickerViewController.m */; };
+		AA3D34E7170F368300830B60 /* Central Park New York.gpx in Resources */ = {isa = PBXBuildFile; fileRef = AA3D34E6170F368300830B60 /* Central Park New York.gpx */; };
 		AA479A0416CD6B24001B2B03 /* AttributesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA479A0316CD6B24001B2B03 /* AttributesModel.m */; };
 		AA73E48216E141D2001F11A6 /* GameObjectDisplayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA73E48116E141D2001F11A6 /* GameObjectDisplayViewController.m */; };
 		AA763156169B68A800860665 /* PopOverContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA763155169B68A800860665 /* PopOverContentView.m */; };
@@ -756,6 +757,7 @@
 		AA39E33316C43771005A4E06 /* SRWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRWebSocket.h; sourceTree = "<group>"; };
 		AA39F65716DD21B0000DE415 /* GamePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerViewController.h; sourceTree = "<group>"; };
 		AA39F65816DD21B0000DE415 /* GamePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerViewController.m; sourceTree = "<group>"; };
+		AA3D34E6170F368300830B60 /* Central Park New York.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Central Park New York.gpx"; sourceTree = "<group>"; };
 		AA479A0216CD6B24001B2B03 /* AttributesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributesModel.h; sourceTree = "<group>"; };
 		AA479A0316CD6B24001B2B03 /* AttributesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttributesModel.m; sourceTree = "<group>"; };
 		AA73E48016E141D2001F11A6 /* GameObjectDisplayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObjectDisplayViewController.h; sourceTree = "<group>"; };
@@ -1291,6 +1293,7 @@
 		29B97314FDCFA39411CA2CEA /* ARIS */ = {
 			isa = PBXGroup;
 			children = (
+				AA3D34E6170F368300830B60 /* Central Park New York.gpx */,
 				AA99E61416F0D7FF00E22030 /* ZXingWidget.xcodeproj */,
 				AA1E2D4D1652CC6000219535 /* libicucore.dylib */,
 				3A69944A1625F6610015B48A /* newBanner.png */,
@@ -2366,6 +2369,7 @@
 				DDC495DD16407DE500D4C063 /* PopOverViewController.xib in Resources */,
 				AABD101916B7164C007278EF /* README_ABOUT_LINK_ERRORS in Resources */,
 				AAA5890216DE714A00C2445B /* BumpTestViewController.xib in Resources */,
+				AA3D34E7170F368300830B60 /* Central Park New York.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

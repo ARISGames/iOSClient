@@ -60,6 +60,8 @@ NSMutableArray *locationsToRemove;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addLocationsToNewQueue:)    name:@"NewlyAvailableLocationsAvailable"             object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addLocationsToRemoveQueue:) name:@"NewlyUnavailableLocationsAvailable"           object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incrementBadge)             name:@"NewlyChangedLocationsGameNotificationSent"    object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearBadge)                 name:@"ClearBadgeRequest" object:nil];
+
 	}
     return self;
 }
@@ -200,9 +202,8 @@ NSMutableArray *locationsToRemove;
 {
     self.tabBarController.selectedIndex = [self.tabBarController.viewControllers indexOfObjectIdenticalTo:self];
 
-    badgeCount = 0;
-    self.tabBarItem.badgeValue = nil;
-    
+    [self clearBadge];
+
 	[[AppServices sharedAppServices] updateServerMapViewed];
 	
     [self refreshViewFromModel];
@@ -210,6 +211,12 @@ NSMutableArray *locationsToRemove;
 	
 	if (refreshTimer && [refreshTimer isValid]) [refreshTimer invalidate];
 	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
+}
+
+- (void) clearBadge
+{
+    badgeCount = 0;
+    self.tabBarItem.badgeValue = nil;
 }
 
 - (void) dismissTutorial

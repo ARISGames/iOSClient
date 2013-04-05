@@ -37,6 +37,8 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel)   name:@"NewlyAcquiredAttributesAvailable" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel)   name:@"NewlyLostAttributesAvailable"     object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incrementBadge)         name:@"NewlyChangedAttributesGameNotificationSent"    object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearBadge)             name:@"ClearBadgeRequest" object:nil];
+
     }
     return self;
 }
@@ -90,11 +92,14 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     self.tabBarController.selectedIndex = [self.tabBarController.viewControllers indexOfObjectIdenticalTo:self];
+    [self clearBadge];
+    [self refresh];
+}
 
+- (void) clearBadge
+{
     badgeCount = 0;
     self.tabBarItem.badgeValue = nil;
-	
-    [self refresh];
 }
 
 -(void)refresh

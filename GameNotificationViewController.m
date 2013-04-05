@@ -321,6 +321,8 @@
 
 -(void)cutOffGameNotifications
 {
+    NSLog(@"NSNotification: ClearBadgeRequest");
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ClearBadgeRequest" object:self]];
     [notifArray removeAllObjects];
     [popOverArray removeAllObjects];
     showingDropDown = NO;
