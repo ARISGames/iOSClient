@@ -7,17 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PopOverViewController.h" //Just including this in the header for its protocol... really should be separated into different file
+#import "MTStatusBarOverlay.h"
+#import "PopOverViewController.h"
 
-@interface GameNotificationViewController : UIViewController <PopOverViewDelegate>
+@interface GameNotificationViewController : UIViewController <MTStatusBarOverlayDelegate, PopOverViewDelegate>
 {
-    UIWebView *dropDownView;
+    MTStatusBarOverlay *statusBar;
     PopOverViewController *popOverVC;
     PopOverContentView *popOverView;
     
     NSMutableArray *notifArray;
     NSMutableArray *popOverArray;
-    BOOL showingDropDown;
     BOOL showingPopOver;
 }
 

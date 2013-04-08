@@ -206,6 +206,7 @@
 		AA73E48216E141D2001F11A6 /* GameObjectDisplayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA73E48116E141D2001F11A6 /* GameObjectDisplayViewController.m */; };
 		AA763156169B68A800860665 /* PopOverContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA763155169B68A800860665 /* PopOverContentView.m */; };
 		AA80EFCE16C048AB00DAB826 /* WaitingIndicatorAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA80EFCD16C048AB00DAB826 /* WaitingIndicatorAlertViewController.m */; };
+		AA84429E17131ECD0097FF21 /* MTStatusBarOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = AA84429D17131ECD0097FF21 /* MTStatusBarOverlay.m */; };
 		AA99E61F16F0D80E00E22030 /* libZXingWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA99E61A16F0D7FF00E22030 /* libZXingWidget.a */; };
 		AAA5890116DE714A00C2445B /* BumpTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAA588FF16DE714A00C2445B /* BumpTestViewController.m */; };
 		AAA5890216DE714A00C2445B /* BumpTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAA5890016DE714A00C2445B /* BumpTestViewController.xib */; };
@@ -767,6 +768,8 @@
 		AA7A428A16B86C9E00E84252 /* UploadContent1.8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UploadContent1.8.xcdatamodel; sourceTree = "<group>"; };
 		AA80EFCC16C048AB00DAB826 /* WaitingIndicatorAlertViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaitingIndicatorAlertViewController.h; sourceTree = "<group>"; };
 		AA80EFCD16C048AB00DAB826 /* WaitingIndicatorAlertViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WaitingIndicatorAlertViewController.m; sourceTree = "<group>"; };
+		AA84429C17131ECD0097FF21 /* MTStatusBarOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTStatusBarOverlay.h; sourceTree = "<group>"; };
+		AA84429D17131ECD0097FF21 /* MTStatusBarOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTStatusBarOverlay.m; sourceTree = "<group>"; };
 		AA99E61416F0D7FF00E22030 /* ZXingWidget.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZXingWidget.xcodeproj; path = "../zxing-master/iphone/ZXingWidget/ZXingWidget.xcodeproj"; sourceTree = "<group>"; };
 		AAA588FE16DE714A00C2445B /* BumpTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BumpTestViewController.h; sourceTree = "<group>"; };
 		AAA588FF16DE714A00C2445B /* BumpTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BumpTestViewController.m; sourceTree = "<group>"; };
@@ -1758,6 +1761,8 @@
 		AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */ = {
 			isa = PBXGroup;
 			children = (
+				AA84429C17131ECD0097FF21 /* MTStatusBarOverlay.h */,
+				AA84429D17131ECD0097FF21 /* MTStatusBarOverlay.m */,
 				AA39E32016C4370D005A4E06 /* libPusher-combined.a */,
 				3A29205B152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.h */,
 				3A29205C152CB83B00B91231 /* NSMutableDictionary+ImageMetadata.m */,
@@ -2587,6 +2592,7 @@
 				AA73E48216E141D2001F11A6 /* GameObjectDisplayViewController.m in Sources */,
 				DD3C285116F3BF0D00CBC085 /* Logger.m in Sources */,
 				AA0CE8331704C3BE0098429E /* DialogScript.m in Sources */,
+				AA84429E17131ECD0097FF21 /* MTStatusBarOverlay.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

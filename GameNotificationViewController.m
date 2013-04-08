@@ -27,7 +27,6 @@
         //Init Notification Arrays
         notifArray = [[NSMutableArray alloc] initWithCapacity:5];
         popOverArray = [[NSMutableArray alloc] initWithCapacity:5];
-        showingDropDown = NO;
         showingPopOver = NO;
     }
     return self;
@@ -38,94 +37,10 @@
     popOverVC = [[PopOverViewController alloc] initWithNibName:@"PopOverViewController" bundle:nil delegate:self];
     popOverView = (PopOverContentView *)popOverVC.view;
     
-    dropDownView = [[UIWebView alloc] initWithFrame:CGRectMake(0, -28, [UIScreen mainScreen].bounds.size.width, 28)];
-}
-
--(void)lowerDropDownFrame
-{
-    [[RootViewController sharedRootViewController].view addSubview:dropDownView];
-    
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-    [UIView setAnimationDuration:.5];
-    
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    
-    [UIView commitAnimations];
-}
-
--(void)raiseDropDownFrame
-{
-    [dropDownView removeFromSuperview];
-
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
-    [UIView setAnimationDuration:.5];
-    
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
-    
-    [UIView commitAnimations];
-}
-
--(void)dequeueDropDown
-{
-    showingDropDown = YES;
-    
-    dropDownView.alpha = 0.0;
-    NSString* fullString = [[notifArray objectAtIndex:0] objectForKey:@"fullString"];
-    NSString* boldString = [[notifArray objectAtIndex:0] objectForKey:@"boldedString"];
-    NSString* part1;
-    NSString* part2;
-    NSString* part3;
-    
-    NSRange boldRange = [fullString rangeOfString:boldString];
-    if (boldRange.location == NSNotFound)
-    {
-        part1 = fullString;
-        part2 = @"";
-        part3 = @"";
-    }
-    else
-    {
-        part1 = [fullString substringToIndex:boldRange.location];
-        part2 = [fullString substringWithRange:boldRange];
-        part3 = [fullString substringFromIndex:(boldRange.location + boldRange.length)];
-    }
-    
-    NSString* htmlContentString = [NSString stringWithFormat:
-                                   @"<html>"
-                                   "<style type=\"text/css\">"
-                                   "body       { background-color:black; vertical-align:text-top; text-align:center; font:16px Arial,Helvetica,sans-serif; color:white; }"
-                                   ".different { font-weight:bold; color:#2222FF; }"
-                                   "</style>"
-                                   "<body>%@<span class='different'>%@</span>%@</body>"
-                                   "</html>", part1, part2, part3];
-    
-    [dropDownView loadHTMLString:htmlContentString baseURL:nil];
-    
-    [UIView animateWithDuration:3.0 delay:0.0
-                        options:UIViewAnimationCurveEaseOut
-                     animations:^{ dropDownView.alpha = 1.0; }
-                     completion:^(BOOL finished){
-                         if(finished)
-                         {
-                             [UIView animateWithDuration:3.0
-                                                   delay:0.0
-                                                 options:UIViewAnimationCurveEaseIn
-                                              animations:^{ dropDownView.alpha = 0.0; }
-                                              completion:^(BOOL finished){
-                                                  if(finished)
-                                                  {
-                                                      showingDropDown = NO;
-                                                      if([notifArray count] > 0)
-                                                          [self dequeueDropDown];
-                                                      else
-                                                          [self raiseDropDownFrame];
-                                                  }
-                                              }];
-                         }
-                     }];
-    [notifArray removeObjectAtIndex:0];
+    statusBar = [MTStatusBarOverlay sharedInstance];
+    statusBar.animation = MTStatusBarOverlayAnimationFallDown;
+    statusBar.detailViewMode = MTDetailViewModeHistory;
+    statusBar.delegate = self;
 }
 
 -(void)dequeuePopOver
@@ -150,15 +65,9 @@
         [popOverView removeFromSuperview];
 }
 
--(void)enqueueDropDownNotificationWithFullString:(NSString *)fullString andBoldedString:(NSString *)boldedString
+-(void)enqueueDropDownNotificationWithString:(NSString *)string
 {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:fullString,@"fullString",boldedString,@"boldedString", nil];
-    [notifArray addObject:dict];
-    if(!showingDropDown)
-    {
-        [self lowerDropDownFrame];
-        [self dequeueDropDown];
-    }
+    [statusBar postMessage:string duration:4.0 animated:YES];
 }
 
 -(void)enqueuePopOverNotificationWithTitle:(NSString *)title description:(NSString *)description webViewText:(NSString *)text andMediaId:(int) mediaId
@@ -181,7 +90,7 @@
         else
         {
             NSString *notifString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestViewNewQuestKey", nil), activeQuest.name] ;
-            [self enqueueDropDownNotificationWithFullString:notifString andBoldedString:activeQuest.name];
+            [self enqueueDropDownNotificationWithString:notifString];
         }
         
         NSLog(@"NSNotification: NewlyChangedQuestsGameNotificationSent");
@@ -202,7 +111,7 @@
         else
         {
             NSString *notifString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestsViewQuestCompletedKey", nil), completedQuest.name] ;
-            [self enqueueDropDownNotificationWithFullString: notifString andBoldedString:completedQuest.name];
+            [self enqueueDropDownNotificationWithString:notifString];
         }
         
         NSLog(@"NSNotification: NewlyChangedQuestsGameNotificationSent");
@@ -227,7 +136,7 @@
             notifString = [NSString stringWithFormat:@"+%d %@ : %d %@",  qty, receivedItem.name, receivedItem.qty, NSLocalizedString(@"TotalNotifKey", nil)];
         
         [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
-        [self enqueueDropDownNotificationWithFullString:notifString andBoldedString:receivedItem.name];
+        [self enqueueDropDownNotificationWithString:notifString];
         
         NSLog(@"NSNotification: NewlyChangedItemsGameNotificationSent");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyChangedItemsGameNotificationSent" object:self]];
@@ -251,7 +160,7 @@
             notifString = [NSString stringWithFormat:@"-%d %@ : %d %@",  qty, lostItem.name, lostItem.qty, NSLocalizedString(@"LeftNotifKey", nil)];
         
         [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
-        [self enqueueDropDownNotificationWithFullString:notifString andBoldedString:lostItem.name];
+        [self enqueueDropDownNotificationWithString:notifString];
         
         NSLog(@"NSNotification: NewlyChangedItemsGameNotificationSent");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyChangedItemsGameNotificationSent" object:self]];
@@ -275,7 +184,7 @@
             notifString = [NSString stringWithFormat:@"+%d %@ : %d %@",  qty, receivedAttribute.name, receivedAttribute.qty, NSLocalizedString(@"TotalNotifKey", nil)];
         
         [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
-        [self enqueueDropDownNotificationWithFullString:notifString andBoldedString:receivedAttribute.name];
+        [self enqueueDropDownNotificationWithString:notifString];
 
         NSLog(@"NSNotification: NewlyChangedAttributesGameNotificationSent");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyChangedAttributesGameNotificationSent" object:self]];
@@ -300,7 +209,7 @@
             notifString = [NSString stringWithFormat:@"-%d %@ : %d %@",  qty, lostAttribute.name, lostAttribute.qty, NSLocalizedString(@"LeftNotifKey", nil)];
         
         [((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"inventoryChange" shouldVibrate:YES];
-        [self enqueueDropDownNotificationWithFullString:notifString andBoldedString:lostAttribute.name];
+        [self enqueueDropDownNotificationWithString:notifString];
         
         NSLog(@"NSNotification: NewlyChangedAttributesGameNotificationSent");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyChangedAttributesGameNotificationSent" object:self]];
@@ -325,7 +234,6 @@
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ClearBadgeRequest" object:self]];
     [notifArray removeAllObjects];
     [popOverArray removeAllObjects];
-    showingDropDown = NO;
     showingPopOver  = NO;
 }
 
