@@ -57,7 +57,6 @@
 
 - (IBAction)continueButtonTouchAction;
 
-- (void) beginWithNPC:(Npc *)aNpc;
 - (void) showWaitingIndicatorForPlayerOptions;
 
 @end

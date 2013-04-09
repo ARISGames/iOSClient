@@ -16,7 +16,6 @@
     PopOverViewController *popOverVC;
     PopOverContentView *popOverView;
     
-    NSMutableArray *notifArray;
     NSMutableArray *popOverArray;
     BOOL showingPopOver;
 }

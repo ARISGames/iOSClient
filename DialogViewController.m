@@ -144,6 +144,9 @@ NSString *const kDialogHtmlTemplate =
     pcImageSection.contentSize  = pcImageSection.frame.size;
     npcImageSection.contentSize = npcImageSection.frame.size;
     
+    pcImageView.delegate = self;
+    npcImageView.delegate = self;
+    
 	pcOptionsTableViewController = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
 	pcOptionsTableViewController.view = pcOptionsTable;
     
@@ -169,7 +172,7 @@ NSString *const kDialogHtmlTemplate =
 - (void) didFinishParsing:(DialogScript *)s
 {
     currentScript = s;
-    if(currentScript.hideLeaveConversationButtonSpecified)  currentlyHidingLeaveConversationButton = currentScript.hideLeaveConversationButton;
+    if(currentScript.hideLeaveConversationButtonSpecified) currentlyHidingLeaveConversationButton = currentScript.hideLeaveConversationButton;
     if(currentScript.leaveConversationButtonTitle) currentLeaveConversationTitle = currentScript.leaveConversationButtonTitle;
     [self readySceneForDisplay:[currentScript nextScene]];
 }
@@ -405,6 +408,38 @@ NSString *const kDialogHtmlTemplate =
     [UIView setAnimationDuration:0.25];
     webView.alpha = 1.0;
     [UIView commitAnimations];
+}
+
+- (void) imageFinishedLoading:(AsyncMediaImageView *)image 
+{
+    //ASPECT FIT + ALIGN TO TOP:
+    //Let 'aspect fit' do the actual aspect fit- but still required to simulate the fitting to get correct dimensions
+    float sw = image.superview.frame.size.width;  //screen width (320)
+    float sh = image.superview.frame.size.height; //screen height(416)
+    float iw = image.image.size.width;            //image width  (like, the raw image size. example:1024)
+    float ih = image.image.size.height;           //image height (like, the raw image size. example:768)
+
+    float dw = iw;                                //display width  (calculated size of image AFTER aspect fit)
+    float dh = ih;                                //display height (calculated size of image AFTER aspect fit)
+    
+    if(dw > sw)
+    {
+        dw = sw;
+        dh = ih*sw/iw;
+    }
+    if(dh > sh)
+    {
+        dh = sh;
+        dw = iw*sh/ih;
+    }
+    
+    NSLog(@"%f < %f : %d",dh,sh,(dh < sh));
+    if(dh < sh)
+    {
+        image.frame = CGRectMake(0, (-0.5*(sh-dh)), image.frame.size.width, image.frame.size.height);
+        //image.bounds = image.frame;
+        NSLog(@"%f, %f, %f, %f",image.frame.origin.x,image.frame.origin.y,image.frame.size.width,image.frame.size.height);
+    }
 }
 
 - (void) scriptEnded

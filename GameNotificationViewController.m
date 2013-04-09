@@ -25,7 +25,6 @@
     if (self)
     {
         //Init Notification Arrays
-        notifArray = [[NSMutableArray alloc] initWithCapacity:5];
         popOverArray = [[NSMutableArray alloc] initWithCapacity:5];
         showingPopOver = NO;
     }
@@ -232,7 +231,6 @@
 {
     NSLog(@"NSNotification: ClearBadgeRequest");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ClearBadgeRequest" object:self]];
-    [notifArray removeAllObjects];
     [popOverArray removeAllObjects];
     showingPopOver  = NO;
 }

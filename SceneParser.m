@@ -207,7 +207,6 @@ didStartElement:(NSString *)elementName
 {
 	// Not wrapped in CDATA, so hope for the best and add to it
 	[tempText appendString:string];
-	NSLog(@"SceneParser: WARNING: No CDATA used for %@", string);
 }
 
 - (void) parser:(NSXMLParser *)parser foundCDATA:(NSData *)CDATABlock

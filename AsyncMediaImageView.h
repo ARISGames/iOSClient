@@ -11,9 +11,11 @@
 #import "ARISMoviePlayerViewController.h"
 
 
+@class AsyncMediaImageView;
+
 @protocol AsyncMediaImageViewDelegate <NSObject>
 @optional
--(void) imageFinishedLoading;
+-(void) imageFinishedLoading:(AsyncMediaImageView *)image;
 @end
 
 

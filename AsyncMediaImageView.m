@@ -101,8 +101,8 @@
     self.media.image = UIImageJPEGRepresentation(videoThumbSized,1.0 ) ;     
     [self updateViewWithNewImage:[UIImage imageWithData:self.media.image]];
 
-    if (self.delegate && [self.delegate respondsToSelector:@selector(imageFinishedLoading)])
-        [delegate imageFinishedLoading];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(imageFinishedLoading:)])
+        [delegate imageFinishedLoading:self];
     
     //end the UI indicator
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
@@ -214,8 +214,8 @@
     if(image)
     {
         [self setImage:image];
-        if (self.delegate && [self.delegate respondsToSelector:@selector(imageFinishedLoading)])
-            [delegate imageFinishedLoading];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(imageFinishedLoading:)])
+            [delegate imageFinishedLoading:self];
     }
     self.isLoading = NO;
     self.loaded = YES;
