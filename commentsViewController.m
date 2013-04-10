@@ -206,7 +206,6 @@
 					   constrainedToSize:frame.size lineBreakMode:UILineBreakModeWordWrap];
 	frame.size = calcSize;
 	frame.size.height += 0;
-	NSLog(@"Found height of %f", frame.size.height);
 	return frame.size.height;
 }
 

@@ -203,9 +203,6 @@
 	self.isLoading = NO;
 	[self updateViewWithNewImage:[UIImage imageWithData:self.media.image]];
     self.data = nil;
-    
-    NSLog(@"NSNotification: ImageReady");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ImageReady" object:nil]];
 }
 
 - (void) updateViewWithNewImage:(UIImage*)image

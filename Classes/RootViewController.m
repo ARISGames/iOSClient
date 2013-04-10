@@ -698,7 +698,6 @@
 {
     PTPusherEvent *event = [notification.userInfo objectForKey:PTPusherEventUserInfoKey];
     if([event.channel rangeOfString:@"game"].location == NSNotFound) return;
-    NSLog(@"Event Received");
     
     if([event.name isEqualToString:@"alert"])
         [[RootViewController sharedRootViewController] showAlert:@"Game Notice:" message:event.data];
@@ -718,7 +717,7 @@
 {
     PTPusherEvent *event = [notification.userInfo objectForKey:PTPusherEventUserInfoKey];
     if([event.channel rangeOfString:@"player"].location == NSNotFound) return;
-    NSLog(@"Event Received");
+
     if([event.name isEqualToString:@"alert"])
         [[RootViewController sharedRootViewController] showAlert:@"Player Notice:" message:event.data];
     else if([event.name isEqualToString:@"display"])
@@ -737,7 +736,7 @@
 {
     PTPusherEvent *event = [notification.userInfo objectForKey:PTPusherEventUserInfoKey];
     if([event.channel rangeOfString:@"group"].location == NSNotFound) return;
-    NSLog(@"Event Received");
+
     if([event.name isEqualToString:@"alert"])
         [[RootViewController sharedRootViewController] showAlert:@"Group Notice:" message:event.data];
     else if([event.name isEqualToString:@"display"])
@@ -756,7 +755,7 @@
 {
     PTPusherEvent *event = [notification.userInfo objectForKey:PTPusherEventUserInfoKey];
     if([event.channel rangeOfString:@"webpage"].location == NSNotFound) return;
-    NSLog(@"Event Received");
+
     if([event.name isEqualToString:@"alert"])
         [[RootViewController sharedRootViewController] showAlert:@"Webpage Notice:" message:event.data];
     else if([event.name isEqualToString:@"display"])

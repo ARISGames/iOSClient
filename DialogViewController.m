@@ -433,13 +433,10 @@ NSString *const kDialogHtmlTemplate =
         dw = iw*sh/ih;
     }
     
-    NSLog(@"%f < %f : %d",dh,sh,(dh < sh));
     if(dh < sh)
-    {
         image.frame = CGRectMake(0, (-0.5*(sh-dh)), image.frame.size.width, image.frame.size.height);
-        //image.bounds = image.frame;
-        NSLog(@"%f, %f, %f, %f",image.frame.origin.x,image.frame.origin.y,image.frame.size.width,image.frame.size.height);
-    }
+    else
+        image.frame = CGRectMake(0,0,sw,sh);
 }
 
 - (void) scriptEnded
@@ -522,6 +519,7 @@ NSString *const kDialogHtmlTemplate =
     {
         pcTapToContinueButton.hidden = YES;
         pcTextWebView.hidden  = YES;
+        [pcTextWebView loadHTMLString:@"" baseURL:nil];
         pcOptionsTable.hidden = NO;
 
         if(!pcView.frame.origin.x  == 0)
@@ -542,8 +540,9 @@ NSString *const kDialogHtmlTemplate =
 
 - (void) showWaitingIndicatorForPlayerOptions
 {
-    pcOptionsTable.hidden = NO;
     pcTextWebView.hidden  = YES;
+    [pcTextWebView loadHTMLString:@"" baseURL:nil];
+    pcOptionsTable.hidden = NO;
     [self.view addSubview:pcLoadingIndicator];
     [pcLoadingIndicator startAnimating];
 }

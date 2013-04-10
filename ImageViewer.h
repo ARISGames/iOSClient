@@ -16,5 +16,4 @@
 @property(nonatomic)IBOutlet AsyncMediaImageView *imageView;
 @property(nonatomic) Media *media;
 
--(void)updateImage;
 @end
