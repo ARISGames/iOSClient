@@ -5,6 +5,7 @@
 //  Created by Kevin Harris on 09/11/17.
 //  Copyright Studio Tectorum 2009. All rights reserved.
 //
+
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
 #import "AppServices.h"
@@ -64,7 +65,6 @@ NSString *const kDialogHtmlTemplate =
     Scene *currentScene;
 
     UIBarButtonItem	*textSizeButton;
-	
 	
 	AsyncMediaImageView *currentImageView;
 	
