@@ -414,11 +414,9 @@
                 self.note.showOnMap = YES;
                 self.sharingLabel.text = NSLocalizedString(@"NoteEditorListAndMapKey", @""); 
                 if(!self.note.dropped){
-                    if(!self.note.dropped){
                         [[AppServices sharedAppServices] dropNote:self.note.noteId atCoordinate:[AppModel sharedAppModel].playerLocation.coordinate];
                         self.note.dropped = YES;
                         self.mapButton.selected = YES;
-                    }
                 }
             }
             else{
