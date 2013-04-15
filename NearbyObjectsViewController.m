@@ -70,7 +70,7 @@
         if(!match && [[AppModel sharedAppModel].playerLocation distanceFromLocation:location.location] < location.error &&
            (location.kind != NearbyObjectItem || location.qty != 0) && location.kind != NearbyObjectPlayer)
             [newNearbyLocationsList addObject:location];
-        else if(match && [[AppModel sharedAppModel].playerLocation distanceFromLocation:location.location] < location.error+10 &&
+        else if(match && (location.error >= 2147483637 || [[AppModel sharedAppModel].playerLocation distanceFromLocation:location.location] < location.error+10) &&
            (location.kind != NearbyObjectItem || location.qty != 0) && location.kind != NearbyObjectPlayer)
             [newNearbyLocationsList addObject:location];
     }
