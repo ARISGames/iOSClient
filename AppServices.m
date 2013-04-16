@@ -14,7 +14,7 @@ static const BOOL kEmptyBoolValue = NO;
 static const int kEmptyIntValue = 0;
 static const float kEmptyFloatValue = 0.0;
 static const double kEmptyDoubleValue = 0.0;
-NSString *const kARISServerServicePackage = @"v2";
+NSString *const kARISServerServicePackage = @"v1";
 
 BOOL currentlyFetchingLocationList;
 BOOL currentlyFetchingOverlayList;
