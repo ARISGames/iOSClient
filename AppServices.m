@@ -14,7 +14,7 @@ static const BOOL kEmptyBoolValue = NO;
 static const int kEmptyIntValue = 0;
 static const float kEmptyFloatValue = 0.0;
 static const double kEmptyDoubleValue = 0.0;
-NSString *const kARISServerServicePackage = @"v1";
+NSString *const kARISServerServicePackage = @"v2";
 
 BOOL currentlyFetchingLocationList;
 BOOL currentlyFetchingOverlayList;
@@ -698,8 +698,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	JSONResult *jsonResult = [jsonConnection performSynchronousRequest];
     [self fetchAllPlayerLists];
     
-	if (!jsonResult) return 0;
-	else             return jsonResult.data ? [(NSDecimalNumber*)jsonResult.data intValue] : 0;
+	if(!jsonResult) return 0;
+	else            return jsonResult.data ? [(NSDecimalNumber*)jsonResult.data intValue] : 0;
 }
 
 -(int)createNoteStartIncomplete

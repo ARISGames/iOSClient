@@ -19,11 +19,11 @@
 @synthesize qrScanButton,imageScanButton,barcodeButton;
 @synthesize manualCode,resultText,cancelButton;
 
-//Override init for passing title and icon to tab bar
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
-    if (self) {
+    if (self)
+    {
         self.title = NSLocalizedString(@"QRScannerTitleKey", @"");
         self.tabBarItem.image = [UIImage imageNamed:@"qrscanner.png"];
 		
@@ -34,7 +34,6 @@
     }
     return self;
 }
-
 
 - (void)viewDidLoad
 {

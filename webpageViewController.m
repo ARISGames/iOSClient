@@ -146,6 +146,9 @@
 }
 
 - (IBAction)backButtonTouchAction: (id) sender{
+    
+    [self.webView loadHTMLString:@"" baseURL:nil]; //clears out any pusher connections, etc...
+
     if(self.isConnectedToBump) [BumpClient sharedClient].bumpable = NO;
 
 	NSLog(@"NodeViewController: Notify server of Node view and Dismiss view");
@@ -188,6 +191,7 @@
     if ([mainCommand isEqualToString:@"closeMe"])
     {
         NSLog(@"WebPageVC: aris://closeMe/ called");
+        [self.webView loadHTMLString:@"" baseURL:nil]; //clears out any pusher connections, etc...
         [self.navigationController popToRootViewControllerAnimated:YES];
         if(![[[RootViewController sharedRootViewController].nearbyObjectNavigationController.viewControllers objectAtIndex:0] isKindOfClass:[DialogViewController class]]){
         [[RootViewController sharedRootViewController] dismissNearbyObjectView:self];
