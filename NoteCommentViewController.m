@@ -15,7 +15,6 @@
 #import "ARISAppDelegate.h"
 #import "AudioRecorderViewController.h"
 #import "UIImage+Scale.h"
-#import "UploadingCell.h"
 #import "AsyncMediaPlayerButton.h"
 
 

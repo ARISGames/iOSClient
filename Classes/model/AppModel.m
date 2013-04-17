@@ -93,6 +93,10 @@
 		gameMediaList = [[NSMutableDictionary alloc] initWithCapacity:10];
         overlayList   = [[NSMutableArray alloc] initWithCapacity:10];
         motionManager = [[CMMotionManager alloc] init];
+        
+        playerNoteList = [[NSMutableDictionary alloc] initWithCapacity:10];
+		gameNoteList   = [[NSMutableDictionary alloc] initWithCapacity:10];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearGameLists) name:@"NewGameSelected" object:nil];
 	}
     return self;

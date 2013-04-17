@@ -72,7 +72,6 @@
 -(IBAction)mapButtonTouchAction;
 -(IBAction)publicButtonTouchAction;
 -(IBAction)textButtonTouchAction;
--(void)refresh;
 - (void)updateTable;
 //-(IBAction)controlChanged:(id)sender;
 - (void)refreshViewFromModel;

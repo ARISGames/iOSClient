@@ -26,7 +26,6 @@
 #import "NoteContentProtocol.h"
 #import "UIImage+Scale.h"
 #import "TagViewController.h"
-#import "UploadingCell.h"
 #import "ARISAppDelegate.h"
 
 @implementation NoteEditorViewController
@@ -57,41 +56,30 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {    
-    if(startWithView == 0){
-        if(self.note.noteId != 0){
+    if(startWithView == 0)
+    {
+        if(self.note.noteId != 0)
             self.textField.text = self.note.title;
-        }
-        if(self.note.dropped)self.mapButton.selected = YES;   
-        else self.mapButton.selected = NO;
         
-        if(self.noteChanged){
+        if(self.note.dropped) self.mapButton.selected = YES;   
+        else                  self.mapButton.selected = NO;
+        
+        if(self.noteChanged)
+        {
             self.noteChanged = NO;
-            // [self refresh];
             [contentTable reloadData];
         }
     }
-    else if(startWithView == 1){
-        [self cameraButtonTouchAction];
-    }
-    else if(startWithView == 2){
-        [self textButtonTouchAction];
-    }
-    else if(startWithView == 3){
-        [self audioButtonTouchAction];
-    }
+    else if(startWithView == 1) [self cameraButtonTouchAction];
+    else if(startWithView == 2) [self textButtonTouchAction];
+    else if(startWithView == 3) [self audioButtonTouchAction];
     startWithView = 0;
-    if(!self.note.showOnMap && !self.note.showOnList){
-        self.sharingLabel.text = NSLocalizedString(@"NoneKey", @"");
-    }
-    else if(self.note.showOnMap && !self.note.showOnList){
-        self.sharingLabel.text = NSLocalizedString(@"NoteEditorMapOnlyKey", @""); 
-    }
-    else if(!self.note.showOnMap && self.note.showOnList){
-        self.sharingLabel.text = NSLocalizedString(@"NoteEditorListOnlyKey", @"");
-    }
-    else if(self.note.showOnMap && self.note.showOnList){
-        self.sharingLabel.text = NSLocalizedString(@"NoteEditorListAndMapKey", @"");
-    }        
+    
+    if     (!self.note.showOnMap && !self.note.showOnList) self.sharingLabel.text = NSLocalizedString(@"NoneKey", @"");
+    else if( self.note.showOnMap && !self.note.showOnList) self.sharingLabel.text = NSLocalizedString(@"NoteEditorMapOnlyKey", @"");
+    else if(!self.note.showOnMap &&  self.note.showOnList) self.sharingLabel.text = NSLocalizedString(@"NoteEditorListOnlyKey", @"");
+    else if( self.note.showOnMap &&  self.note.showOnList) self.sharingLabel.text = NSLocalizedString(@"NoteEditorListAndMapKey", @"");
+    
     [self refreshViewFromModel];
     
     if([self.note.title isEqualToString:NSLocalizedString(@"NodeEditorNewNoteKey", @"")])
@@ -124,11 +112,7 @@
             UIAlertView *alert = [[UIAlertView alloc]initWithTitle: NSLocalizedString(@"NoteEditorCreateNoteFailedKey", @"") message: NSLocalizedString(@"NoteEditorCreateNoteFailedMessageKey", @"") delegate:self.delegate cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
             [alert show];
         }
-        //if(![AppModel sharedAppModel].isGameNoteList)
         [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];
-        
-        /*  else
-         [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]]; */
     }
     else self.noteValid = YES;
     //self.contentTable.editing = YES;
@@ -139,7 +123,6 @@
     UIImage *tagButtonImage = [UIImage imageNamed:@"16-tag"];
     UIBarButtonItem * tagButton = [[UIBarButtonItem alloc] initWithImage:tagButtonImage style:UIBarButtonItemStyleBordered target:self action:@selector(tagButtonTouchAction)];
     self.navigationItem.rightBarButtonItem = tagButton;
-    
     
     [[AVAudioSession sharedInstance] setDelegate: self];
     
@@ -203,13 +186,6 @@
         [[AppServices sharedAppServices] setNoteCompleteForNoteId:self.note.noteId];
     }
     [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 -(void)previewButtonTouchAction
@@ -437,15 +413,6 @@
     [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
 }
 
--(void)refresh
-{
-    //register for notifications
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"NewContentListReady" object:nil];
-    //self.publicButton.selected = self.note.shared;
-    ///Server Call here
-    //[self showLoadingIndicator];
-}
-
 #pragma mark custom methods, logic
 /*-(void)showLoadingIndicator{
  UIActivityIndicatorView *activityIndicator = 
@@ -473,16 +440,15 @@
         
     }
     [self.note.contents removeObjectAtIndex:indexPath.row];
-    
 }
 
--(void)removeLoadingIndicator{
+-(void)removeLoadingIndicator
+{
     [[self navigationItem] setRightBarButtonItem:nil];
     [contentTable reloadData];
 }
-- (void)tableView:(UITableView *)tableView 
-
-didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [contentTable reloadData];
 }
 - (void)refreshViewFromModel
@@ -594,6 +560,7 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
 
 -(void)retryUpload:(id)sender
 {
+    
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -601,8 +568,6 @@ didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row % 2 == 0) cell.backgroundColor = [UIColor colorWithRed:233.0/255.0 green:233.0/255.0 blue:233.0/255.0 alpha:1.0];
     else                        cell.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:1.0];
 }
-
-
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

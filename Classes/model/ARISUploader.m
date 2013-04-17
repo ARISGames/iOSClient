@@ -181,7 +181,7 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
         self.responseString = reply;
     }
     else
-        NSLog([NSString stringWithFormat:@"%@",reply]);
+        NSLog(@"%@",reply);
 }
 
 
