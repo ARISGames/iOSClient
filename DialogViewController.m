@@ -249,14 +249,12 @@ NSString *const kDialogHtmlTemplate =
                 [npcImageView removeFromSuperview];
                 npcImageView = [[AsyncMediaImageView alloc] initWithFrame:npcImageView.frame andMedia:media];
                 [npcImageSection addSubview:npcImageView];
-                currentImageView = npcImageView;
             }
             if(currentImageView.isLoading && currentImageView == pcImageView)
             {
                 [pcImageView removeFromSuperview];
                 pcImageView = [[AsyncMediaImageView alloc] initWithFrame:pcImageView.frame andMedia:media];
                 [pcImageSection addSubview:pcImageView];
-                currentImageView = npcImageView;
             }
             //END TEMPORARY BANDAID
             if(!media.type) [currentImageView loadImageFromMedia:media]; // This should never happen (all game media should be cached by now)
@@ -421,6 +419,20 @@ NSString *const kDialogHtmlTemplate =
 
     float dw = iw;                                //display width  (calculated size of image AFTER aspect fit)
     float dh = ih;                                //display height (calculated size of image AFTER aspect fit)
+    if(ih < sh && iw < sw)                        //simulate scale up to aspect fit if necessary
+    {
+        if(ih > iw)
+        {
+            dh = sh;
+            dw = sh/ih*iw;
+        }
+        else
+        {
+            dh = sw/iw*ih;
+            dw = sw;
+        }
+    }
+    
     
     if(dw > sw)
     {
