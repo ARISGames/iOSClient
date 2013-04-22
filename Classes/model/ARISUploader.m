@@ -50,20 +50,11 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
 
 - (void)upload
 {
+    NSURLRequest *urlRequest = [self postRequestWithURL:serverURL boundry:BOUNDRY fileUrl:urlToUpload];
     
-    NSURLRequest *urlRequest = [self postRequestWithURL:serverURL
-                                                boundry:BOUNDRY
-                                                fileUrl:urlToUpload];
-    if (!urlRequest) {
-        [self uploadSucceeded:NO];
-        return;
-    }
-    
-    NSURLConnection * connection =
-    [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self];
-    if (!connection) {
-        [self uploadSucceeded:NO];
-    }
+    if(!urlRequest){ [self uploadSucceeded:NO]; return; }
+    NSURLConnection * connection = [[NSURLConnection alloc] initWithRequest:urlRequest delegate:self];
+    if(!connection){ [self uploadSucceeded:NO]; return; }
     
     // Now wait for the URL connection to call us back.
 }
@@ -91,23 +82,17 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
                              fileUrl: (NSURL *)aFileURLtoUpload;
 {
     // from http://www.cocoadev.com/index.pl?HTTPFileUpload
-    NSMutableURLRequest *urlRequest =
-    [NSMutableURLRequest requestWithURL:url];
+    NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
     [urlRequest setHTTPMethod:@"POST"];
-    [urlRequest setValue:
-     [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundry]
-      forHTTPHeaderField:@"Content-Type"];
+    [urlRequest setValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundry] forHTTPHeaderField:@"Content-Type"];
     
     NSData *data = [NSData dataWithContentsOfURL:aFileURLtoUpload];
     NSMutableData *postData = [NSMutableData dataWithCapacity:[data length] + 512];
     [postData appendData:[[NSString stringWithFormat:@"--%@\r\n", boundry] dataUsingEncoding:NSUTF8StringEncoding]];
     
     [postData appendData:[@"Content-Disposition: form-data; name=\"path\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-	if(game)
-        [postData appendData:[[NSString stringWithFormat:@"\r\n%d\r\n",
-                           [AppModel sharedAppModel].currentGame.gameId] dataUsingEncoding:NSUTF8StringEncoding]];
-    else
-        [postData appendData:[@"\r\nplayer\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+	if(game) [postData appendData:[[NSString stringWithFormat:@"\r\n%d\r\n", [AppModel sharedAppModel].currentGame.gameId] dataUsingEncoding:NSUTF8StringEncoding]];
+    else     [postData appendData:[@"\r\nplayer\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
 	[postData appendData:[[NSString stringWithFormat:@"--%@\r\n",boundry] dataUsingEncoding:NSUTF8StringEncoding]];
 		    
     //The actual file

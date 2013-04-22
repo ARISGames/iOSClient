@@ -388,16 +388,6 @@ NSMutableArray *locationsToRemove;
     if(badgeCount != 0) self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",badgeCount];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    
-    NSEnumerator *existingAnnotationsEnumerator = [[[mapView annotations] copy] objectEnumerator];
-    NSObject <MKAnnotation> *annotation;
-    while (annotation = [existingAnnotationsEnumerator nextObject])
-        if(annotation != mapView.userLocation) [mapView removeAnnotation:annotation];
-}
-
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
