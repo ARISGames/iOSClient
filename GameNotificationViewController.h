@@ -7,16 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MTStatusBarOverlay.h"
 #import "PopOverViewController.h"
 
-@interface GameNotificationViewController : UIViewController <MTStatusBarOverlayDelegate, PopOverViewDelegate>
+@interface GameNotificationViewController : UIViewController <PopOverViewDelegate>
 {
-    MTStatusBarOverlay *statusBar;
+    UIWebView *dropDownView;
     PopOverViewController *popOverVC;
     PopOverContentView *popOverView;
     
+    NSMutableArray *notifArray;
     NSMutableArray *popOverArray;
+    BOOL showingDropDown;
     BOOL showingPopOver;
 }
 
