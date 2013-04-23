@@ -77,7 +77,7 @@
     NSString* htmlContentString = [NSString stringWithFormat:
         @"<html>"
         "<style type=\"text/css\">"
-        "body       { background-color:black; vertical-align:text-top; text-align:center; font:16px Arial,Helvetica,sans-serif; color:white; }"
+        "body{background-color:black;vertical-align:text-top;text-align:center;font:16px Arial,Helvetica,sans-serif;color:white;}"
         "</style>"
         "<body>%@</body>"
         "</html>", str];

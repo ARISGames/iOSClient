@@ -79,7 +79,7 @@
     for(Location *location in newNearbyLocationsList)
     {
         BOOL match = NO;
-        for (Location *oldLocation in self.nearbyLocationsList)
+        for(Location *oldLocation in self.nearbyLocationsList)
             if (oldLocation.locationId == location.locationId) match = YES;
         for(Location *oldForceDisplay in forceDisplayQueue)
             if(oldForceDisplay.locationId == location.locationId) match = YES;
