@@ -220,9 +220,6 @@
 		AB0DE80911559D0500A6EC3E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0DE80811559D0500A6EC3E /* AVFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		AB0DE80D11559D1200A6EC3E /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */; };
 		AB15EC1510B49F8A00EEC11F /* AsyncMediaImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AB15EC1410B49F8A00EEC11F /* AsyncMediaImageView.m */; };
-		AB1660BE14E8754B002C6ACB /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB1660BD14E8754B002C6ACB /* SenTestingKit.framework */; };
-		AB1660C014E8754B002C6ACB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB1660BF14E8754B002C6ACB /* UIKit.framework */; };
-		AB1660C214E8754B002C6ACB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB1660C114E8754B002C6ACB /* Foundation.framework */; };
 		AB18AEBA137B249A00382826 /* AppServices.m in Sources */ = {isa = PBXBuildFile; fileRef = AB18AEB9137B249A00382826 /* AppServices.m */; };
 		AB21D30714ED9C9000DC016F /* blue_button.psd in Resources */ = {isa = PBXBuildFile; fileRef = AB21D30514ED9C9000DC016F /* blue_button.psd */; };
 		AB21D30814ED9C9000DC016F /* grey_button.psd in Resources */ = {isa = PBXBuildFile; fileRef = AB21D30614ED9C9000DC016F /* grey_button.psd */; };
@@ -790,7 +787,6 @@
 		AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		AB15EC1310B49F8A00EEC11F /* AsyncMediaImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncMediaImageView.h; sourceTree = "<group>"; };
 		AB15EC1410B49F8A00EEC11F /* AsyncMediaImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncMediaImageView.m; sourceTree = "<group>"; };
-		AB1660BB14E8754A002C6ACB /* UploadManager Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "UploadManager Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB1660BD14E8754B002C6ACB /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		AB1660BF14E8754B002C6ACB /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		AB1660C114E8754B002C6ACB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
@@ -1077,16 +1073,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AB1660B714E8754A002C6ACB /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				AB1660BE14E8754B002C6ACB /* SenTestingKit.framework in Frameworks */,
-				AB1660C014E8754B002C6ACB /* UIKit.framework in Frameworks */,
-				AB1660C214E8754B002C6ACB /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -1283,7 +1269,6 @@
 			isa = PBXGroup;
 			children = (
 				A7A172720F4F26280017E865 /* ARIS.app */,
-				AB1660BB14E8754A002C6ACB /* UploadManager Tests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2107,24 +2092,6 @@
 			productReference = A7A172720F4F26280017E865 /* ARIS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		AB1660BA14E8754A002C6ACB /* UploadManager Tests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = AB1660CD14E8754B002C6ACB /* Build configuration list for PBXNativeTarget "UploadManager Tests" */;
-			buildPhases = (
-				AB1660B614E8754A002C6ACB /* Sources */,
-				AB1660B714E8754A002C6ACB /* Frameworks */,
-				AB1660B814E8754A002C6ACB /* Resources */,
-				AB1660B914E8754A002C6ACB /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "UploadManager Tests";
-			productName = "UploadManager Tests";
-			productReference = AB1660BB14E8754A002C6ACB /* UploadManager Tests.octest */;
-			productType = "com.apple.product-type.bundle";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -2157,7 +2124,6 @@
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* ARIS */,
-				AB1660BA14E8754A002C6ACB /* UploadManager Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -2369,29 +2335,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AB1660B814E8754A002C6ACB /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		AB1660B914E8754A002C6ACB /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
-		};
 		AB508AC8119330710002FCFA /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2586,13 +2532,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AB1660B614E8754A002C6ACB /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -2721,65 +2660,6 @@
 			};
 			name = Debug;
 		};
-		AB1660CE14E8754B002C6ACB /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Brian Thiel (P8BZ46FXTP)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Brian Thiel (P8BZ46FXTP)";
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "UploadManager Tests/UploadManager Tests-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				INFOPLIST_FILE = "UploadManager Tests/UploadManager Tests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "FEA8A513-18C9-467A-9C5C-9CF19550ABE6";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FEA8A513-18C9-467A-9C5C-9CF19550ABE6";
-				WRAPPER_EXTENSION = octest;
-			};
-			name = Debug;
-		};
-		AB1660CF14E8754B002C6ACB /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
-				);
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "UploadManager Tests/UploadManager Tests-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				INFOPLIST_FILE = "UploadManager Tests/UploadManager Tests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				VALIDATE_PRODUCT = YES;
-				WRAPPER_EXTENSION = octest;
-			};
-			name = Release;
-		};
 		AB1CA8BB13C7D2B700131F81 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2872,15 +2752,6 @@
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				AB1CA8BC13C7D2B700131F81 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		AB1660CD14E8754B002C6ACB /* Build configuration list for PBXNativeTarget "UploadManager Tests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				AB1660CE14E8754B002C6ACB /* Debug */,
-				AB1660CF14E8754B002C6ACB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
