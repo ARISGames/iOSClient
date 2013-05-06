@@ -2707,7 +2707,6 @@
 					"$(inherited)",
 					"$(SRCROOT)/**",
 					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/thirdParty/CrittercismSDK\"",
 					"\"$(SRCROOT)/CrittercismSDK\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
@@ -2831,7 +2830,6 @@
 					"$(inherited)",
 					"$(SRCROOT)/**",
 					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/thirdParty/CrittercismSDK\"",
 					"\"$(SRCROOT)/CrittercismSDK\"",
 				);
 				ONLY_ACTIVE_ARCH = NO;
