@@ -7,6 +7,7 @@
 //
 
 #import "NotebookViewController.h"
+#import "StateControllerProtocol.h"
 #import "NoteEditorViewController.h"
 #import "NoteDetailsViewController.h"
 #import "AppServices.h"
@@ -21,7 +22,7 @@
     int sortSelected;
     BOOL tagFilter;
     
-    id<NotebookViewControllerDelegate> __unsafe_unretained delegate;
+    id<NotebookViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 @end
 

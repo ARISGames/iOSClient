@@ -76,7 +76,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     self.itemDescriptionView.delegate = self;
     
 	//Setup the Toolbar Buttons
-	dropButton.title = NSLocalizedString(@"ItemDropKey", @"");
+	dropButton.title   = NSLocalizedString(@"ItemDropKey", @"");
 	pickupButton.title = NSLocalizedString(@"ItemPickupKey", @"");
 	deleteButton.title = NSLocalizedString(@"ItemDeleteKey",@"");
 	detailButton.title = NSLocalizedString(@"ItemDetailKey", @"");
@@ -89,8 +89,8 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 		
 		[toolBar setItems:[NSMutableArray arrayWithObjects: dropButton, deleteButton, detailButton,  nil] animated:NO];
         
-		if (!item.dropable) dropButton.enabled = NO;
-		if (!item.destroyable) deleteButton.enabled = NO;
+		if(!item.dropable)    dropButton.enabled   = NO;
+		if(!item.destroyable) deleteButton.enabled = NO;
 	}
 	else
     {

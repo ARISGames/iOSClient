@@ -11,6 +11,8 @@
 #import "ARISGamePlayTabBarViewController.h"
 #import "AppModel.h"
 
+@protocol StateControllerProtocol;
+
 @protocol DecoderViewControllerDelegate <GamePlayTabBarViewControllerDelegate>
 @end
 
@@ -34,7 +36,7 @@
 @property (nonatomic) NSString *resultText;
 @property (nonatomic) UIBarButtonItem *cancelButton;
 
-- (id) initWithDelegate:(id<DecoderViewControllerDelegate>)d;
+- (id) initWithDelegate:(id<DecoderViewControllerDelegate, StateControllerProtocol>)d;
 - (IBAction) scanButtonTapped;
 - (void)cancelButtonTouch;
 - (void) loadResult:(NSString *)result;

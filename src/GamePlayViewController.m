@@ -14,6 +14,7 @@
 
 //PHIL APPROVED IMPORTS
 #import "GamePlayViewController.h"
+#import "StateControllerProtocol.h"
 #import "Game.h"
 
 #import "LoadingViewController.h"
@@ -32,7 +33,7 @@
 
 #import "ARISAlertHandler.h"
 
-@interface GamePlayViewController() <UITabBarControllerDelegate, UINavigationControllerDelegate, LoadingViewControllerDelegate, GameObjectViewControllerDelegate, GamePlayTabBarViewControllerDelegate, NearbyObjectsViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate, BogusSelectGameViewControllerDelegate>
+@interface GamePlayViewController() <UITabBarControllerDelegate, UINavigationControllerDelegate, StateControllerProtocol, LoadingViewControllerDelegate, GameObjectViewControllerDelegate, GamePlayTabBarViewControllerDelegate, NearbyObjectsViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate, BogusSelectGameViewControllerDelegate>
 {
     Game *game;
 

@@ -14,7 +14,6 @@
 @protocol GamePlayTabBarViewControllerDelegate
 - (void) showTutorialPopupPointingToTabForViewController:(ARISGamePlayTabBarViewController *)vc title:(NSString *)title message:(NSString *)message;
 - (void) dismissTutorial;
-- (void) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s;
 @end
 
 @interface ARISGamePlayTabBarViewController : UIViewController

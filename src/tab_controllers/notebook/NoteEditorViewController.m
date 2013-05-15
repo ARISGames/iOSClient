@@ -7,6 +7,7 @@
 //
 
 #import "NoteEditorViewController.h"
+#import "StateControllerProtocol.h"
 #import "ARISAppDelegate.h"
 #import "AppServices.h"
 #import "InventoryViewController.h"
@@ -188,7 +189,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
--(void)previewButtonTouchAction
+- (void) previewButtonTouchAction
 {
     [delegate displayGameObject:self.note fromSource:self];
 }

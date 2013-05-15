@@ -7,6 +7,7 @@
 //
 
 #import "NearbyObjectsViewController.h"
+#import "StateControllerProtocol.h"
 #import "AppModel.h"
 #import "ARISAppDelegate.h"
 #import "AppServices.h"
@@ -17,7 +18,7 @@
     NSMutableArray *nearbyLocationsList;
 	IBOutlet UITableView *nearbyTable;
     
-    id<NearbyObjectsViewControllerDelegate> __unsafe_unretained delegate;
+    id<NearbyObjectsViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 
 @property (nonatomic, strong) NSMutableArray *nearbyLocationsList;

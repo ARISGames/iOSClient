@@ -7,6 +7,7 @@
 //
 
 #import "DecoderViewController.h"
+#import "StateControllerProtocol.h"
 #import "Decoder.h"
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
@@ -16,7 +17,7 @@
 
 @interface DecoderViewController()
 {
-    id<DecoderViewControllerDelegate> __unsafe_unretained delegate;
+    id<DecoderViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 @end
 
@@ -26,7 +27,7 @@
 @synthesize qrScanButton,imageScanButton,barcodeButton;
 @synthesize manualCode,resultText,cancelButton;
 
-- (id)initWithDelegate:(id<DecoderViewControllerDelegate>)d
+- (id)initWithDelegate:(id<DecoderViewControllerDelegate, StateControllerProtocol>)d
 {
     if(self = [super initWithNibName:@"DecoderViewController" bundle:nil])
     {

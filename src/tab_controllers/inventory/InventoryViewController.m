@@ -7,6 +7,7 @@
 //
 
 #import "InventoryViewController.h"
+#import "StateControllerProtocol.h"
 #import "AppServices.h"
 #import "Media.h"
 #import "AsyncMediaImageView.h"
@@ -15,7 +16,7 @@
 
 @interface InventoryViewController() <InventoryTradeViewControllerDelegate, GameObjectViewControllerDelegate>
 {
-    id<InventoryViewControllerDelegate> __unsafe_unretained delegate;
+    id<InventoryViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 @end
 
@@ -30,7 +31,7 @@
 @synthesize iconCache;
 @synthesize mediaCache;
 
-- (id)initWithDelegate:(id<InventoryViewControllerDelegate>)d
+- (id)initWithDelegate:(id<InventoryViewControllerDelegate, StateControllerProtocol>)d
 {
     if(self = [super initWithNibName:@"InventoryViewController" bundle:nil])
     {

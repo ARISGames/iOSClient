@@ -13,6 +13,8 @@
 #import "Item.h"
 #import "ItemViewController.h"
 
+@protocol StateControllerProtocol;
+
 @protocol InventoryViewControllerDelegate <GamePlayTabBarViewControllerDelegate>
 @end
 
@@ -37,7 +39,7 @@
 @property(nonatomic) NSMutableDictionary *iconCache;
 @property(nonatomic) NSMutableDictionary *mediaCache;
 
-- (id) initWithDelegate:(id<InventoryViewControllerDelegate>)d;
+- (id) initWithDelegate:(id<InventoryViewControllerDelegate, StateControllerProtocol>)d;
 - (void) refresh;
 - (unsigned int) indexOf:(char)searchChar inString:(NSString *)searchString;
 - (void) showLoadingIndicator;

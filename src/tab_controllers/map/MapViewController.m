@@ -8,6 +8,7 @@
 
 #import <UIKit/UIActionSheet.h>
 #import "MapViewController.h"
+#import "StateControllerProtocol.h"
 #import "AppModel.h"
 #import "AppServices.h"
 #import "Location.h"
@@ -22,7 +23,7 @@
 
 @interface MapViewController()
 {
-    id<MapViewControllerDelegate> __unsafe_unretained delegate;
+    id<MapViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
     NSMutableArray *locationsToAdd;
     NSMutableArray *locationsToRemove;
 }
