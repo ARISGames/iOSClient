@@ -128,9 +128,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [userInfo setValue:@"PHOTO" forKey: @"type"];
     [userInfo setValue:fileURL forKey:@"url"];
 	[uploader setUserInfo:userInfo];
-	
-	NSLog(@"Model: Uploading File. gameID:%d ",[AppModel sharedAppModel].currentGame.gameId);
-	
+		
 	//ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     //[[[RootViewController sharedRootViewController] showWaitingIndicator:@"Uploading" displayProgressBar:YES];
 	//[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
@@ -291,7 +289,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseSearchGameListFromJSON:)];
 }
 
-- (void)updateServerNodeViewed: (int)nodeId fromLocation:(int)locationId
+- (void)updateServerNodeViewed:(int)nodeId fromLocation:(int)locationId
 {
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],

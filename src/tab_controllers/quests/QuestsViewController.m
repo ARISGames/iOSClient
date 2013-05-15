@@ -70,7 +70,7 @@ NSString *const kQuestsHtmlTemplate =
 
 @interface QuestsViewController()
 {
-    id<QuestsViewControllerDelegate> delegate;
+    id<QuestsViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
 

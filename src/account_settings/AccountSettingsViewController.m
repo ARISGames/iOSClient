@@ -11,7 +11,7 @@
 
 @interface AccountSettingsViewController()
 {
-    id<AccountSettingsViewControllerDelegate> delegate;
+    id<AccountSettingsViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @end

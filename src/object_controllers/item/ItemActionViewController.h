@@ -36,7 +36,7 @@
 @property(nonatomic) Item *item;
 @property(nonatomic) Item *itemInInventory;
 
-@property(nonatomic)	id delegate;
+@property(nonatomic) id delegate;
 
 - (id) initWithItem:(Item *)i;
 

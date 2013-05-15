@@ -21,7 +21,7 @@
     int sortSelected;
     BOOL tagFilter;
     
-    id<NotebookViewControllerDelegate> delegate;
+    id<NotebookViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
 

@@ -22,7 +22,7 @@
 
 @interface MapViewController()
 {
-    id<MapViewControllerDelegate> delegate;
+    id<MapViewControllerDelegate> __unsafe_unretained delegate;
     NSMutableArray *locationsToAdd;
     NSMutableArray *locationsToRemove;
 }

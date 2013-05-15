@@ -52,7 +52,7 @@
     UINavigationController *decoderNavigationController;
     BogusSelectGameViewController *bogusSelectGameViewController;
 
-    id<GamePlayViewControllerDelegate> delegate;
+    id<GamePlayViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @property (nonatomic, strong) Game *game;
@@ -193,7 +193,6 @@
     
     NSLog(@"NSNotification: TabBarItemsChanged");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"TabBarItemsChanged" object:self userInfo:nil]];
-    
 }
 
 - (void) showNearbyObjectsTab

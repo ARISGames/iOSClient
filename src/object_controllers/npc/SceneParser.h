@@ -21,7 +21,7 @@
 
     DialogScript *script;
     
-	id<SceneParserDelegate> delegate;
+	id<SceneParserDelegate> __unsafe_unretained delegate;
 }
 
 @property (nonatomic,strong) DialogScript *script;

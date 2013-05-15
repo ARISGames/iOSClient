@@ -14,7 +14,7 @@
 
 @interface AttributesViewController()
 {
-    id<AttributesViewControllerDelegate> delegate;
+    id<AttributesViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
 

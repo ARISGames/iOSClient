@@ -8,14 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-
-
-
-@interface ARISUploader : NSObject {
+@interface ARISUploader : NSObject
+{
     NSURL* urlToUpload;
     NSURL *serverURL;
     NSDictionary *userInfo;
-    id delegate;
     SEL doneSelector;
     SEL errorSelector;
     
@@ -23,16 +20,13 @@
     BOOL uploadDidSucceed;
     NSString *responseString;
     NSError *error;
-
-
 }
 
-- (id)initWithURLToUpload:(NSURL*) urlToUpload gameSpecific:(BOOL)game delegate:(id)delegate
-             doneSelector: (SEL)doneSelector errorSelector:(SEL)errorSelector;
-- (void)upload;
+- (id) initWithURLToUpload:(NSURL*)urlToUpload gameSpecific:(BOOL)game delegate:(id)delegate doneSelector: (SEL)doneSelector errorSelector:(SEL)errorSelector;
+- (void) upload;
 
-@property(nonatomic) NSDictionary *userInfo;
-@property(nonatomic) NSString *responseString;
-@property(nonatomic) NSError *error;
+@property (nonatomic) NSDictionary *userInfo;
+@property (nonatomic) NSString *responseString;
+@property (nonatomic) NSError *error;
 
 @end

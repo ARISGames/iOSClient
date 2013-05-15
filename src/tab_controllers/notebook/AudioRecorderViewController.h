@@ -37,7 +37,9 @@ typedef enum {
     BOOL previewMode;
     int noteId;
 	NSTimer *meterUpdateTimer;
-	id backView, parentDelegate, editView;
+	id backView;
+    id parentDelegate;
+    id editView;
 }
 
 @property(readwrite) AudioMeter *meter;

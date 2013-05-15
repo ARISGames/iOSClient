@@ -37,7 +37,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     
 	IBOutlet UILabel *newAccountMessageLabel;
     
-    id<LoginViewControllerDelegate> delegate;
+    id<LoginViewControllerDelegate> __unsafe_unretained delegate;
     
     NSString *groupName;
     int gameId;

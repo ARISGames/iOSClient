@@ -19,7 +19,9 @@
 	NSData *mediaData;
 	NSString *mediaFilename;
     BOOL showVid;
-    id backView, parentDelegate, editView;
+    id backView;
+    id parentDelegate;
+    id editView;
     int noteId;
     BOOL bringUpCamera;
     UIImagePickerController *picker;

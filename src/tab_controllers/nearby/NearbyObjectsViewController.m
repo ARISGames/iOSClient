@@ -17,7 +17,7 @@
     NSMutableArray *nearbyLocationsList;
 	IBOutlet UITableView *nearbyTable;
     
-    id<NearbyObjectsViewControllerDelegate> delegate;
+    id<NearbyObjectsViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @property (nonatomic, strong) NSMutableArray *nearbyLocationsList;

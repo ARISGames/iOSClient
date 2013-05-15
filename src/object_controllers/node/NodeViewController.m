@@ -233,7 +233,6 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 
 - (void)dealloc
 {
-	NSLog(@"NodeViewController: Dealloc");
     webView.delegate = nil;
     [webView stopLoading];
     //remove listeners

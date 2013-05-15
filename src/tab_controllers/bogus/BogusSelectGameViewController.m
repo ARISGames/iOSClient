@@ -11,7 +11,7 @@
 
 @interface BogusSelectGameViewController()
 {
-    id<BogusSelectGameViewControllerDelegate> delegate;
+    id<BogusSelectGameViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
 

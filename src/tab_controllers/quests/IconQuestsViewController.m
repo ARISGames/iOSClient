@@ -50,7 +50,7 @@ NSString *const kIconQuestsHtmlTemplate =
 
 @interface IconQuestsViewController()
 {
-    id<QuestsViewControllerDelegate> delegate;
+    id<QuestsViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
 

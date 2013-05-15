@@ -11,7 +11,7 @@
 
 @interface InventoryTradeViewController()
 {
-    id<InventoryTradeViewControllerDelegate> delegate;
+    id<InventoryTradeViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
 

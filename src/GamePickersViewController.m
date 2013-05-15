@@ -21,7 +21,7 @@
     UINavigationController *gameDetailsNavigationController;
     UINavigationController *accountSettingsNavigationController;
     
-    id<GamePickersViewControllerDelegate> delegate;
+    id<GamePickersViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @property (nonatomic, strong) UITabBarController *gamePickersTabBarController;

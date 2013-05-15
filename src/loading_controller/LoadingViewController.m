@@ -12,7 +12,7 @@
 
 @interface LoadingViewController()
 {
-    id<LoadingViewControllerDelegate> delegate;
+    id<LoadingViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
 

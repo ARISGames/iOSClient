@@ -21,7 +21,12 @@
 @synthesize soundPlayer;
 @synthesize meter;
 @synthesize meterUpdateTimer;
-@synthesize audioData, backView,parentDelegate, noteId,previewMode,editView;
+@synthesize audioData;
+@synthesize backView;
+@synthesize parentDelegate;
+@synthesize noteId;
+@synthesize previewMode;
+@synthesize editView;
 
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.

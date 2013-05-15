@@ -11,20 +11,19 @@
 #import "AppModel.h"
 #import "AppServices.h"
 
-
 static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
 
-@interface ARISUploader (Private)
+@interface ARISUploader()
+{
+    id __unsafe_unretained delegate;
+}
 
-- (NSURLRequest *)postRequestWithURL: (NSURL *)url 
-                             boundry: (NSString *)boundry 
-                             fileUrl: (NSURL *)aFileURLtoUpload;
-- (NSData *)compress: (NSData *)data;
-- (void)uploadSucceeded: (BOOL)success;
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection;
+- (NSURLRequest *) postRequestWithURL:(NSURL *)url  boundry:(NSString *)boundry fileUrl:(NSURL *)aFileURLtoUpload;
+- (NSData *) compress:(NSData *)data;
+- (void) uploadSucceeded:(BOOL)success;
+- (void) connectionDidFinishLoading:(NSURLConnection *)connection;
 
 @end
-
 
 @implementation ARISUploader
 
@@ -32,13 +31,11 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
 @synthesize responseString;
 @synthesize error;
 
-- (id)initWithURLToUpload:(NSURL*) aUrlToUpload gameSpecific:(BOOL)aGame delegate:(id)aDelegate
-             doneSelector: (SEL)aDoneSelector errorSelector: (SEL)anErrorSelector {
-    if ((self = [super init])) {
-
-        serverURL = [[AppModel sharedAppModel].serverURL 
-                     URLByAppendingPathComponent:
-                     [NSString stringWithFormat: @"services/%@/uploadHandler.php",kARISServerServicePackage]];
+- (id)initWithURLToUpload:(NSURL*) aUrlToUpload gameSpecific:(BOOL)aGame delegate:(id)aDelegate doneSelector:(SEL)aDoneSelector errorSelector:(SEL)anErrorSelector
+{
+    if ((self = [super init]))
+    {
+        serverURL = [[AppModel sharedAppModel].serverURL URLByAppendingPathComponent:[NSString stringWithFormat:@"services/%@/uploadHandler.php",kARISServerServicePackage]];
         urlToUpload = aUrlToUpload;
         delegate = aDelegate;
         doneSelector = aDoneSelector;
@@ -59,8 +56,6 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
     // Now wait for the URL connection to call us back.
 }
 
-
-
 - (void)dealloc
 {
     serverURL = nil;
@@ -68,18 +63,13 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
     delegate = nil;
     doneSelector = NULL;
     errorSelector = NULL;
-    
 }
 
 @end
 
-
 @implementation ARISUploader (Private)
 
-
-- (NSURLRequest *)postRequestWithURL: (NSURL *)url 
-                             boundry: (NSString *)boundry 
-                             fileUrl: (NSURL *)aFileURLtoUpload;
+- (NSURLRequest *) postRequestWithURL:(NSURL *)url boundry:(NSString *)boundry fileUrl:(NSURL *)aFileURLtoUpload;
 {
     // from http://www.cocoadev.com/index.pl?HTTPFileUpload
     NSMutableURLRequest *urlRequest = [NSMutableURLRequest requestWithURL:url];
@@ -105,8 +95,7 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
     return urlRequest;
 }
 
-
-- (NSData *)compress: (NSData *)data 
+- (NSData *) compress:(NSData *)data
 {
     if (!data || [data length] == 0)
         return nil;
@@ -135,7 +124,7 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
 }
 
 
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+- (void) connectionDidFinishLoading:(NSURLConnection *)connection
 {
     NSLog(@"ARISUploader: connectionDidFinishLoading");
     [self uploadSucceeded:uploadDidSucceed];

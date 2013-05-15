@@ -36,7 +36,7 @@ NSString *const kGameDetailsHtmlTemplate =
 
 @interface GameDetailsViewController()
 {
-    id<GameDetailsViewControllerDelegate> delegate;
+    id<GameDetailsViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @end
@@ -70,6 +70,7 @@ NSString *const kGameDetailsHtmlTemplate =
 
 - (void)dealloc
 {
+    NSLog(@"DEALLOCING");
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

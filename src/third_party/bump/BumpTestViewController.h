@@ -10,7 +10,7 @@
 
 @interface BumpTestViewController : UIViewController
 {
-    id delegate;
+    id __unsafe_unretained delegate;
     IBOutlet UIScrollView *debugView;
     int messageNumber;
 }

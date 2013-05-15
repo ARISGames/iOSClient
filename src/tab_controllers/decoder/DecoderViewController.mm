@@ -16,7 +16,7 @@
 
 @interface DecoderViewController()
 {
-    id<DecoderViewControllerDelegate> delegate;
+    id<DecoderViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
 
@@ -35,10 +35,7 @@
         self.title = NSLocalizedString(@"QRScannerTitleKey", @"");
         self.tabBarItem.image = [UIImage imageNamed:@"qrscanner.png"];
 		
-		[[NSNotificationCenter defaultCenter] addObserver:self
-												 selector:@selector(finishLoadingResult:)
-													 name:@"QRCodeObjectReady"
-												   object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishLoadingResult:) name:@"QRCodeObjectReady" object:nil];
     }
     return self;
 }

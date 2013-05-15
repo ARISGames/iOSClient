@@ -21,7 +21,7 @@
 	UITableView *gameTable;
     UIBarButtonItem *refreshButton;
     
-    id<GamePickerViewControllerDelegate> delegate;
+    id<GamePickerViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @property (nonatomic, copy)   NSArray *gameList;

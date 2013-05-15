@@ -10,7 +10,7 @@
 
 @interface PlayerSettingsViewController()
 {
-    id<PlayerSettingsViewControllerDelegate> delegate;
+    id<PlayerSettingsViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end
 

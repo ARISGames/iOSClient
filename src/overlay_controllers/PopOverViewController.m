@@ -39,7 +39,7 @@ NSString *const kPopOverHtmlTemplate =
 @interface PopOverViewController()
 {
     BOOL shouldPlay;
-    id<PopOverViewDelegate> delegate;
+    id<PopOverViewDelegate> __unsafe_unretained delegate;
 }
 @end
 

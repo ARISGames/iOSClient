@@ -12,7 +12,7 @@
 
 @interface SelfRegistrationViewController()
 {
-    id<SelfRegistrationViewControllerDelegate> delegate;
+    id<SelfRegistrationViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @end
