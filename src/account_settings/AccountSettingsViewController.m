@@ -51,8 +51,7 @@
 
 - (IBAction)profileButtonPressed:(id)sender
 {
-    NSLog(@"NSNotification: ProfSettingsRequested");
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ProfSettingsRequested" object:self]];
+    [delegate playerSettingsRequested];
 }
 
 - (void) backButtonTouched

@@ -81,9 +81,7 @@
         //PHIL [[RootViewController sharedRootViewController] showAlert:nil message:@"Please choose a picture and name"];
         return;
     }
-    
-    self.parentViewController.view.hidden = true;
-    
+        
     [AppModel sharedAppModel].player.displayname = playerNameField.text;
     self.playerNameField.text = @"";
 

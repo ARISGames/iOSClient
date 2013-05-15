@@ -9,13 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @protocol AccountSettingsViewControllerDelegate
-
+- (void) playerSettingsRequested;
 - (void) logoutWasRequested;
 - (void) accountSettingsWereDismissed;
-    
 @end
 
-@interface AccountSettingsViewController : UIViewController {
+@interface AccountSettingsViewController : UIViewController
+{
 	IBOutlet UIButton *logoutButton;
 	IBOutlet UIButton *passButton;
 	IBOutlet UIButton *profileButton;

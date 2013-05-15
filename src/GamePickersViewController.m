@@ -82,7 +82,6 @@
                                                        gamePickerSearchNC,
                                                        gamePickerPopularNC,
                                                        gamePickerRecentNC,
-                                                       //accountSettingsNC,
                                                        nil];
 }
 
@@ -118,6 +117,11 @@
     self.accountSettingsNavigationController = [[UINavigationController alloc] initWithRootViewController:accountSettingsViewController];
     self.accountSettingsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     [self displayContentController:self.accountSettingsNavigationController];
+}
+
+- (void) playerSettingsRequested
+{
+    [delegate playerSettingsRequested];
 }
 
 - (void) accountSettingsWereDismissed

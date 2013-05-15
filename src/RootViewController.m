@@ -107,6 +107,15 @@
         [self displayContentController:self.gamePickersViewController];
 }
 
+- (void) playerSettingsRequested
+{
+    //PHIL HATES THIS NEXT CHUNK
+    [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController refreshViewFromModel];
+    [self displayContentController:self.playerSettingsNavigationController];
+    [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController viewDidIntentionallyAppear];
+    //PHIL DONE HATING CHUNK
+}
+
 - (void) playerSettingsWasDismissed
 {
     //PHIL HATES THIS CHUNK
@@ -124,6 +133,7 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NewOneGameGameListReady" object:nil];
     [self gamePickedForPlay:[n.userInfo objectForKey:@"game"]];
+    [AppModel sharedAppModel].skipGameDetails = 0; // PHIL HATES THIS
 }
 
 - (void) gamePickedForPlay:(Game *)g
