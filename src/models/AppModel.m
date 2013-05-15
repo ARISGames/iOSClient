@@ -79,7 +79,7 @@
     {
 		//Init USerDefaults
         disableLeaveGame = NO;
-        skipGameDetails  = NO;
+        skipGameDetails  = 0;
 		defaults      = [NSUserDefaults standardUserDefaults];
 		gameMediaList = [[NSMutableDictionary alloc] initWithCapacity:10];
         overlayList   = [[NSMutableArray alloc] initWithCapacity:10];

@@ -31,7 +31,7 @@
     BOOL showGamesInDevelopment;
     BOOL showPlayerOnMap;
     BOOL disableLeaveGame;
-    BOOL skipGameDetails;
+    int skipGameDetails;
 	Game *currentGame;
     Player *player;
 	UIAlertView *networkAlert;
@@ -88,7 +88,7 @@
 @property(readwrite) BOOL showGamesInDevelopment;
 @property(readwrite) BOOL showPlayerOnMap;
 @property(readwrite) BOOL disableLeaveGame;
-@property(readwrite) BOOL skipGameDetails;
+@property(readwrite) int  skipGameDetails;
 
 @property(nonatomic, strong) CMMotionManager *motionManager;
 

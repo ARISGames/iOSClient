@@ -94,12 +94,17 @@
     }
     if(gameId)
     {
-        [AppModel sharedAppModel].skipGameDetails = YES;
-        [[AppServices sharedAppServices] fetchOneGameGameList:gameId];
+        [AppModel sharedAppModel].skipGameDetails = gameId;
+        if(!newPlayer)
+        {
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleGameRequestReady:) name:@"NewOneGameGameListReady" object:nil];
+            [[AppServices sharedAppServices] fetchOneGameGameList:gameId];
+        }
     }
     //PHIL DONE HATING CHUNK
     
-    [self displayContentController:self.gamePickersViewController];
+    if(!newPlayer && !gameId)
+        [self displayContentController:self.gamePickersViewController];
 }
 
 - (void) playerSettingsWasDismissed
@@ -107,9 +112,18 @@
     //PHIL HATES THIS CHUNK
     if([AppModel sharedAppModel].skipGameDetails)
     {
-        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleGameRequestReady:) name:@"NewOneGameGameListReady" object:nil];
+        [[AppServices sharedAppServices] fetchOneGameGameList:[AppModel sharedAppModel].skipGameDetails];
     }
+    else
+        [self displayContentController:self.gamePickersViewController];
     //PHIL DONE HATING THIS CHUNK
+}
+
+- (void) singleGameRequestReady:(NSNotification *)n
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NewOneGameGameListReady" object:nil];
+    [self gamePickedForPlay:[n.userInfo objectForKey:@"game"]];
 }
 
 - (void) gamePickedForPlay:(Game *)g
@@ -133,6 +147,7 @@
 {
     [AppModel sharedAppModel].player = nil;
     [[AppModel sharedAppModel] saveUserDefaults];
+    [(LoginViewController *)[[self.loginNavigationController viewControllers] objectAtIndex:0] resetState];
     [self displayContentController:self.loginNavigationController];
 }
 

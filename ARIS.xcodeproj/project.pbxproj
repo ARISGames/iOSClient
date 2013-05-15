@@ -1328,6 +1328,7 @@
 				AA701FDB17330947003A840D /* GamePlayViewController.m */,
 				AABC70ED172739D60074CC21 /* MyCLController.h */,
 				AABC70EE172739D60074CC21 /* MyCLController.m */,
+				AAB8AADC17441B64001F10F0 /* StateControllerProtocol.h */,
 				AABC711C172739D60074CC21 /* Reachability.h */,
 				AABC70DB172739D60074CC21 /* models */,
 				AABC711F172739D60074CC21 /* services */,
@@ -1344,7 +1345,6 @@
 				AABC7096172739D60074CC21 /* debug */,
 				AABC7362172739D80074CC21 /* utils */,
 				AABC71B1172739D70074CC21 /* third_party */,
-				AAB8AADC17441B64001F10F0 /* StateControllerProtocol.h */,
 			);
 			path = src;
 			sourceTree = "<group>";

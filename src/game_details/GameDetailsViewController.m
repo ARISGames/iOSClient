@@ -111,7 +111,7 @@ NSString *const kGameDetailsHtmlTemplate =
 {
     if([AppModel sharedAppModel].skipGameDetails)
     {
-        [AppModel sharedAppModel].skipGameDetails = NO;
+        [AppModel sharedAppModel].skipGameDetails = 0;
         [self playGame];
     }
 }

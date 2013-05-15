@@ -8,11 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "src/RootViewController.m"
-         timestampString = "390329270.421476"
+         timestampString = "390342450.509481"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "123"
-         endingLineNumber = "123"
+         startingLineNumber = "137"
+         endingLineNumber = "137"
          landmarkName = "-gameplayWasDismissed"
          landmarkType = "5">
       </FileBreakpoint>
@@ -21,12 +21,25 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "src/RootViewController.m"
-         timestampString = "390329272.149667"
+         timestampString = "390342450.509481"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "117"
-         endingLineNumber = "117"
+         startingLineNumber = "131"
+         endingLineNumber = "131"
          landmarkName = "-gamePickedForPlay:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "src/RootViewController.m"
+         timestampString = "390342635.780256"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "85"
+         endingLineNumber = "85"
+         landmarkName = "-loginCredentialsApprovedForPlayer:toGame:newPlayer:disableLeaveGame:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

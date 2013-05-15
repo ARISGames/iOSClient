@@ -15,5 +15,6 @@
 @end
 
 @interface LoginViewController : UIViewController
-- (id)initWithDelegate:(id<LoginViewControllerDelegate>)d;
+- (id) initWithDelegate:(id<LoginViewControllerDelegate>)d;
+- (void) resetState;
 @end
