@@ -1,0 +1,13 @@
+//
+// Prefix header for all source files of the 'ARIS' target in the 'ARIS' project
+//
+
+#ifdef __OBJC__
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "PLConstants.h"
+#import <OpenGLES/ES1/gl.h>
+#import <OpenGLES/ES1/glext.h>
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+
+#endif
