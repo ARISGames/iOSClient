@@ -190,7 +190,7 @@
 
 -(void)previewButtonTouchAction
 {
-    [delegate displayGameObject:self.note];
+    [delegate displayGameObject:self.note fromSource:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

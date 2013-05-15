@@ -75,9 +75,9 @@
     return GameObjectItem;
 }
 
-- (ItemViewController *) viewControllerForDelegate:(NSObject<GameObjectViewControllerDelegate> *)d
+- (ItemViewController *) viewControllerForDelegate:(NSObject<GameObjectViewControllerDelegate> *)d fromSource:(id)s
 {
-	return [[ItemViewController alloc] initWithItem:self delegate:d];
+	return [[ItemViewController alloc] initWithItem:self delegate:d source:s];
 }
 
 -(Item *)copy

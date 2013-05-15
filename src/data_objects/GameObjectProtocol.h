@@ -28,7 +28,7 @@ typedef UInt32 GameObjectType;
 - (GameObjectType) type;
 - (NSString *) name;
 - (int) iconMediaId;
-- (GameObjectViewController *) viewControllerForDelegate:(NSObject<GameObjectViewControllerDelegate> *)d;
+- (GameObjectViewController *) viewControllerForDelegate:(id<GameObjectViewControllerDelegate>)d fromSource:(id)s;
 - (id<GameObjectProtocol>) copy;
 - (int) compareTo:(id<GameObjectProtocol>)ob;
 - (NSString *) description;

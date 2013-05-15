@@ -47,7 +47,7 @@
     return GameObjectPanoramic;
 }
 
-- (PanoramicViewController *) viewControllerForDelegate:(NSObject<GameObjectViewControllerDelegate> *)d
+- (PanoramicViewController *) viewControllerForDelegate:(NSObject<GameObjectViewControllerDelegate> *)d fromSource:(id)s
 {
 	return [[PanoramicViewController alloc] initWithPanoramic:self delegate:d];
 }

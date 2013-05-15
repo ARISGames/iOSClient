@@ -13,7 +13,7 @@
 #import "AppModel.h"
 #import "InventoryTradeViewController.h"
 
-@interface InventoryViewController() <InventoryTradeViewControllerDelegate>
+@interface InventoryViewController() <InventoryTradeViewControllerDelegate, GameObjectViewControllerDelegate>
 {
     id<InventoryViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -301,7 +301,14 @@
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	[((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"swish" shouldVibrate:NO];
-    [delegate displayGameObject:[inventory objectAtIndex:[indexPath row]]];
+    [delegate displayGameObject:[inventory objectAtIndex:[indexPath row]] fromSource:self];
+
+    //[self.navigationController pushViewController:[((Item *)[inventory objectAtIndex:[indexPath row]]) viewControllerForDelegate:self] animated:YES];
+}
+
+- (void) gameObjectViewControllerRequestsDismissal:(GameObjectViewController *)govc
+{
+    //[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark Memory Management

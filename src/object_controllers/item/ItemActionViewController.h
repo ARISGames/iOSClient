@@ -11,7 +11,8 @@
 #import "Item.h"
 #import "ItemViewController.h"
 
-@interface ItemActionViewController : UIViewController<UIPickerViewDelegate, UIPickerViewDataSource> {
+@interface ItemActionViewController : UIViewController<UIPickerViewDelegate, UIPickerViewDataSource>
+{
     IBOutlet UIButton *backButton;
     IBOutlet UIButton *actionButton;
     IBOutlet UILabel *infoLabel;
@@ -24,6 +25,7 @@
     int max;
     id delegate;
 }
+
 @property(readwrite,assign) int numItems;
 @property(readwrite,assign) int max;
 
@@ -40,8 +42,8 @@
 
 - (id) initWithItem:(Item *)i;
 
--(void)doActionWithMode: (ItemDetailsModeType) itemMode quantity: (int) quantity;
-- (IBAction)backButtonTouchAction: (id) sender;
-- (IBAction)actionButtonTouchAction: (id) sender;
+- (void) doActionWithMode:(ItemDetailsModeType)itemMode quantity:(int)quantity;
+- (IBAction) backButtonTouchAction:(id)sender;
+- (IBAction) actionButtonTouchAction:(id)sender;
 
 @end

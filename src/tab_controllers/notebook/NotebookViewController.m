@@ -526,7 +526,7 @@
             currentNoteList = [self.tagGameNoteList objectAtIndex:indexPath.section];
     }
     
-    [delegate displayGameObject:(Note *)[currentNoteList objectAtIndex:indexPath.row]];
+    [delegate displayGameObject:(Note *)[currentNoteList objectAtIndex:indexPath.row] fromSource:self];
 }
 
 -(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

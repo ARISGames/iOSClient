@@ -18,10 +18,8 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
     id __unsafe_unretained delegate;
 }
 
-- (NSURLRequest *) postRequestWithURL:(NSURL *)url  boundry:(NSString *)boundry fileUrl:(NSURL *)aFileURLtoUpload;
-- (NSData *) compress:(NSData *)data;
 - (void) uploadSucceeded:(BOOL)success;
-- (void) connectionDidFinishLoading:(NSURLConnection *)connection;
+- (NSURLRequest *) postRequestWithURL:(NSURL *)url boundry:(NSString *)boundry fileUrl:(NSURL *)aFileURLtoUpload;
 
 @end
 
@@ -31,7 +29,7 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
 @synthesize responseString;
 @synthesize error;
 
-- (id)initWithURLToUpload:(NSURL*) aUrlToUpload gameSpecific:(BOOL)aGame delegate:(id)aDelegate doneSelector:(SEL)aDoneSelector errorSelector:(SEL)anErrorSelector
+- (id) initWithURLToUpload:(NSURL*)aUrlToUpload gameSpecific:(BOOL)aGame delegate:(id)aDelegate doneSelector:(SEL)aDoneSelector errorSelector:(SEL)anErrorSelector
 {
     if ((self = [super init]))
     {
@@ -45,7 +43,7 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
     return self;
 }
 
-- (void)upload
+- (void) upload
 {
     NSURLRequest *urlRequest = [self postRequestWithURL:serverURL boundry:BOUNDRY fileUrl:urlToUpload];
     
@@ -64,10 +62,6 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
     doneSelector = NULL;
     errorSelector = NULL;
 }
-
-@end
-
-@implementation ARISUploader (Private)
 
 - (NSURLRequest *) postRequestWithURL:(NSURL *)url boundry:(NSString *)boundry fileUrl:(NSURL *)aFileURLtoUpload;
 {
@@ -123,7 +117,6 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
                    withObject:self];
 }
 
-
 - (void) connectionDidFinishLoading:(NSURLConnection *)connection
 {
     NSLog(@"ARISUploader: connectionDidFinishLoading");
@@ -142,7 +135,6 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
     
 }
 
-
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     NSLog(@"ARISUploader: connectiondidReceiveData");
@@ -157,6 +149,5 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
     else
         NSLog(@"%@",reply);
 }
-
 
 @end

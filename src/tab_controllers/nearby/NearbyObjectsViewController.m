@@ -94,8 +94,13 @@
             forceLocation = location;
     }
     
-   if(forceLocation) { [delegate displayGameObject:forceLocation.gameObject]; [self.nearbyLocationsList addObject:forceLocation]; }
-   else              self.nearbyLocationsList = newNearbyLocationsList; //Throw out new locations list
+   if(forceLocation)
+   {
+       [delegate displayGameObject:forceLocation.gameObject fromSource:self];
+       [self.nearbyLocationsList addObject:forceLocation];
+   }
+   else
+       self.nearbyLocationsList = newNearbyLocationsList; //Throw out new locations list
     
     if([self.nearbyLocationsList count] == 0)
     {
@@ -155,7 +160,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	Location *l = [self.nearbyLocationsList objectAtIndex:indexPath.row];
-	[delegate displayGameObject:l.gameObject];
+	[delegate displayGameObject:l.gameObject fromSource:self];
 }
 
 @end

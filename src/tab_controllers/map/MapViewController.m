@@ -454,7 +454,7 @@
         [mapView deselectAnnotation:currentAnnotation animated:YES];
 	else
     {
-        [delegate displayGameObject:((Location *)currentAnnotation).gameObject];
+        [delegate displayGameObject:((Location *)currentAnnotation).gameObject fromSource:self];
         [mapView deselectAnnotation:currentAnnotation animated:YES];
     }
 }

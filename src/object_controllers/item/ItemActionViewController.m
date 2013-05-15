@@ -20,8 +20,7 @@
 
 - (id) initWithItem:(Item *)i
 {
-    self = [super initWithNibName:@"ItemActionViewController" bundle:nil];
-    if(self)
+    if(self = [super initWithNibName:@"ItemActionViewController" bundle:nil])
     {
         self.item = i;
     }
@@ -43,7 +42,7 @@
             [actionButton setTitle: NSLocalizedString(@"ItemPickupKey", @"") forState: UIControlStateHighlighted];
 
             self.max = self.item.maxQty - itemInInventory.qty;
-            while ((self.max*item.weight + [AppModel sharedAppModel].currentGame.inventoryModel.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryModel.weightCap)
+            while((self.max*item.weight + [AppModel sharedAppModel].currentGame.inventoryModel.currentWeight) > [AppModel sharedAppModel].currentGame.inventoryModel.weightCap)
                 self.max--;
             break;
         case kItemDetailsDropping:
@@ -60,15 +59,11 @@
             break;
     }
     
-    self.navigationItem.leftBarButtonItem = 
-	[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey",@"")
-									 style: UIBarButtonItemStyleBordered
-									target:self 
-									action:@selector(backButtonTouchAction:)];	
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey",@"") style: UIBarButtonItemStyleBordered target:self action:@selector(backButtonTouchAction:)];
     [super viewDidLoad];
 }
 
-- (IBAction)backButtonTouchAction:(id)sender
+- (IBAction) backButtonTouchAction:(id)sender
 {
 	[[AppServices sharedAppServices] updateServerItemViewed:item.itemId fromLocation:0];
     [self.navigationController popViewControllerAnimated:YES];

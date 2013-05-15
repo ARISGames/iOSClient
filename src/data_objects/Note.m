@@ -113,7 +113,7 @@
     return 71;
 }
 
-- (NoteDetailsViewController *) viewControllerForDelegate:(NSObject<GameObjectViewControllerDelegate> *)d
+- (NoteDetailsViewController *) viewControllerForDelegate:(NSObject<GameObjectViewControllerDelegate> *)d fromSource:(id)s
 {
     return [[NoteDetailsViewController alloc] initWithNote:self delegate:d];
 }

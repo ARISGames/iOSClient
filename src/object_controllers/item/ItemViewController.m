@@ -20,6 +20,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "UIImage+Scale.h"
 
+#import "InventoryViewController.h"
 
 NSString *const kItemDetailsDescriptionHtmlTemplate = 
 @"<html>"
@@ -41,7 +42,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 @implementation ItemViewController
 @synthesize item, inInventory,mode,itemImageView, itemWebView,activityIndicator,itemDescriptionView,textBox,saveButton,scrollView;
 
-- (id) initWithItem:(Item *)i delegate:(NSObject<GameObjectViewControllerDelegate> *)d
+- (id) initWithItem:(Item *)i delegate:(id<GameObjectViewControllerDelegate>)d source:(id)s
 {
     if ((self = [super initWithNibName:@"ItemViewController" bundle:nil]))
     {
@@ -56,7 +57,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 		//										 selector:@selector(movieLoadStateChanged:)
 		//											 name:MPMoviePlayerLoadStateDidChangeNotification
 		//										   object:nil];
-		mode = kItemDetailsViewing;
+        if([(NSObject *)s isKindOfClass:[InventoryViewController class]])
+            inInventory = YES;
+        
+        mode = kItemDetailsViewing;
     }
     return self;
 }

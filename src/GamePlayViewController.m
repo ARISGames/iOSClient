@@ -305,9 +305,9 @@
     self.gamePlayTabBarController.selectedIndex = 0;
 }
 
-- (void) displayGameObject:(NSObject<GameObjectProtocol> *)g
+- (void) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
 {
-	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[g viewControllerForDelegate:self]];
+	UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[g viewControllerForDelegate:self fromSource:s]];
 	nav.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     [self presentModalViewController:nav animated:NO];
@@ -338,7 +338,7 @@
     
     int nodeId = [AppModel sharedAppModel].currentGame.launchNodeId;
     if(nodeId && nodeId != 0 && [[AppModel sharedAppModel].currentGame.questsModel.currentCompletedQuests count] < 1)
-        [self displayGameObject:[[AppModel sharedAppModel] nodeForNodeId:nodeId]];
+        [self displayGameObject:[[AppModel sharedAppModel] nodeForNodeId:nodeId] fromSource:self];
 }
 
 - (void)checkForDisplayCompleteNode
@@ -348,7 +348,7 @@
         [[AppModel sharedAppModel].currentGame.questsModel.currentCompletedQuests count] == [AppModel sharedAppModel].currentGame.questsModel.totalQuestsInGame &&
         [[AppModel sharedAppModel].currentGame.questsModel.currentCompletedQuests count] > 0)
     {
-        [self displayGameObject:[[AppModel sharedAppModel] nodeForNodeId:nodeId]];
+        [self displayGameObject:[[AppModel sharedAppModel] nodeForNodeId:nodeId] fromSource:self];
 	}
 }
 

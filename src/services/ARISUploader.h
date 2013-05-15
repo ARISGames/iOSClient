@@ -22,7 +22,7 @@
     NSError *error;
 }
 
-- (id) initWithURLToUpload:(NSURL*)urlToUpload gameSpecific:(BOOL)game delegate:(id)delegate doneSelector: (SEL)doneSelector errorSelector:(SEL)errorSelector;
+- (id) initWithURLToUpload:(NSURL*)urlToUpload gameSpecific:(BOOL)game delegate:(id)delegate doneSelector:(SEL)doneSelector errorSelector:(SEL)errorSelector;
 - (void) upload;
 
 @property (nonatomic) NSDictionary *userInfo;

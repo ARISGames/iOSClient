@@ -15,6 +15,6 @@
 
 @interface GameObjectViewController : UIViewController
 {
-    NSObject<GameObjectViewControllerDelegate> *__unsafe_unretained delegate;
+    id<GameObjectViewControllerDelegate> __unsafe_unretained delegate;
 }
 @end

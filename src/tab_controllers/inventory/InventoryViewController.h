@@ -37,12 +37,12 @@
 @property(nonatomic) NSMutableDictionary *iconCache;
 @property(nonatomic) NSMutableDictionary *mediaCache;
 
-- (id)initWithDelegate:(id<InventoryViewControllerDelegate>)d;
+- (id) initWithDelegate:(id<InventoryViewControllerDelegate>)d;
 - (void) refresh;
-- (unsigned int) indexOf:(char) searchChar inString:(NSString *)searchString;
-- (void)showLoadingIndicator;
-- (void)dismissTutorial;
-- (void)refreshViewFromModel;
+- (unsigned int) indexOf:(char)searchChar inString:(NSString *)searchString;
+- (void) showLoadingIndicator;
+- (void) dismissTutorial;
+- (void) refreshViewFromModel;
 -(NSString *) stringByStrippingHTML:(NSString *)stringToStrip;
 
 @end

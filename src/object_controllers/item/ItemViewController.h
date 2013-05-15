@@ -19,7 +19,6 @@ typedef enum {
 	kItemDetailsPickingUp
 } ItemDetailsModeType;
 
-
 @interface ItemViewController : GameObjectViewController <UIWebViewDelegate, UITextViewDelegate>
 {
 	Item *item;
@@ -56,7 +55,7 @@ typedef enum {
 @property(nonatomic) UIScrollView *scrollView;
 @property(nonatomic) IBOutlet UIButton *saveButton;
 
-- (id) initWithItem:(Item *)i delegate:(NSObject<GameObjectViewControllerDelegate> *)d;
+- (id) initWithItem:(Item *)i delegate:(NSObject<GameObjectViewControllerDelegate> *)d source:(id)s;
 - (IBAction)dropButtonTouchAction:(id)sender;
 - (IBAction)deleteButtonTouchAction:(id)sender;
 - (IBAction)backButtonTouchAction:(id)sender;

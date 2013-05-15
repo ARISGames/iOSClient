@@ -325,7 +325,7 @@
 - (void)refreshConvos
 {
     [[AppServices sharedAppServices] fetchAllPlayerLists];
-    if([delegate isKindOfClass:[NpcViewController class]])
+    if([(NSObject *)delegate isKindOfClass:[NpcViewController class]])
     {
         NpcViewController *npcvc = (NpcViewController *)delegate;
         [[AppServices sharedAppServices] fetchNpcConversations:npcvc.currentNpc.npcId afterViewingNode:npcvc.currentNode.nodeId];
