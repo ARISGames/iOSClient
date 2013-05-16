@@ -22,6 +22,7 @@
 		AA1DA9841742BB2900D10A35 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA1DA9831742BB2700D10A35 /* Default-568h@2x.png */; };
 		AA1E2D4E1652CC6000219535 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4D1652CC6000219535 /* libicucore.dylib */; };
 		AA1E2D501652CC7500219535 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4F1652CC7500219535 /* Security.framework */; };
+		AA4B20931745672600079AEF /* ARISNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4B20921745672500079AEF /* ARISNavigationController.m */; };
 		AA50A48017396B7200B105C2 /* ARISContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA50A47F17396B7000B105C2 /* ARISContainerViewController.m */; };
 		AA50A484173992F500B105C2 /* 123-id-card-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA50A482173992F500B105C2 /* 123-id-card-white@2x.png */; };
 		AA50A485173992F500B105C2 /* 123-id-card-white.png in Resources */ = {isa = PBXBuildFile; fileRef = AA50A483173992F500B105C2 /* 123-id-card-white.png */; };
@@ -459,6 +460,8 @@
 		AA1E2D4D1652CC6000219535 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		AA1E2D4F1652CC7500219535 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		AA353F891729C43600A1EB6A /* GameObjectProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObjectProtocol.h; sourceTree = "<group>"; };
+		AA4B20911745672300079AEF /* ARISNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISNavigationController.h; sourceTree = "<group>"; };
+		AA4B20921745672500079AEF /* ARISNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISNavigationController.m; sourceTree = "<group>"; };
 		AA50A47E17396B6F00B105C2 /* ARISContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISContainerViewController.h; sourceTree = "<group>"; };
 		AA50A47F17396B7000B105C2 /* ARISContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISContainerViewController.m; sourceTree = "<group>"; };
 		AA50A482173992F500B105C2 /* 123-id-card-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "123-id-card-white@2x.png"; sourceTree = "<group>"; };
@@ -1345,6 +1348,8 @@
 				AABC7096172739D60074CC21 /* debug */,
 				AABC7362172739D80074CC21 /* utils */,
 				AABC71B1172739D70074CC21 /* third_party */,
+				AA4B20911745672300079AEF /* ARISNavigationController.h */,
+				AA4B20921745672500079AEF /* ARISNavigationController.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -2647,6 +2652,7 @@
 				AA701FE8173443FC003A840D /* ARISPusherHandler.m in Sources */,
 				AA50A48017396B7200B105C2 /* ARISContainerViewController.m in Sources */,
 				AAAB7637173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m in Sources */,
+				AA4B20931745672600079AEF /* ARISNavigationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

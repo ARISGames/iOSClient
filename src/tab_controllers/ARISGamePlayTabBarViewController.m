@@ -62,12 +62,12 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
--(BOOL) shouldAutorotate
+- (BOOL) shouldAutorotate
 {
     return YES;
 }
 
--(NSInteger) supportedInterfaceOrientations
+- (NSInteger) supportedInterfaceOrientations
 {
     NSInteger mask = 0;
     if([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeLeft])      mask |= UIInterfaceOrientationMaskLandscapeLeft;

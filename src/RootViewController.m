@@ -17,18 +17,20 @@
 #import "GamePickersViewController.h"
 #import "GamePlayViewController.h"
 
+#import "ARISNavigationController.h"
+
 #import "AppServices.h"
 
 @interface RootViewController () <UINavigationControllerDelegate, LoginViewControllerDelegate, PlayerSettingsViewControllerDelegate, GamePickersViewControllerDelegate, GamePlayViewControllerDelegate>
 {
-    UINavigationController *loginNavigationController;
-    UINavigationController *playerSettingsViewNavigationController;
+    ARISNavigationController *loginNavigationController;
+    ARISNavigationController *playerSettingsViewNavigationController;
     GamePickersViewController *gamePickersViewController;
     GamePlayViewController *gamePlayViewController;
 }
 
-@property (nonatomic, strong) UINavigationController *loginNavigationController;
-@property (nonatomic, strong) UINavigationController *playerSettingsNavigationController;
+@property (nonatomic, strong) ARISNavigationController *loginNavigationController;
+@property (nonatomic, strong) ARISNavigationController *playerSettingsNavigationController;
 @property (nonatomic, strong) GamePickersViewController *gamePickersViewController;
 @property (nonatomic, strong) GamePlayViewController *gamePlayViewController;
 
@@ -56,11 +58,11 @@
     if(self = [super init])
     {
         LoginViewController* loginViewController = [[LoginViewController alloc] initWithDelegate:self];
-        self.loginNavigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+        self.loginNavigationController = [[ARISNavigationController alloc] initWithRootViewController:loginViewController];
         self.loginNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
         
         PlayerSettingsViewController *playerSettingsViewController = [[PlayerSettingsViewController alloc] initWithDelegate:self];
-        self.playerSettingsNavigationController = [[UINavigationController alloc] initWithRootViewController:playerSettingsViewController];
+        self.playerSettingsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:playerSettingsViewController];
         self.playerSettingsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
         
         self.gamePickersViewController = [[GamePickersViewController alloc] initWithDelegate:self];

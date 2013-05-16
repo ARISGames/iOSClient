@@ -15,29 +15,20 @@
 
 @implementation TextViewController
 @synthesize textBox,noteId,keyboardButton,textToDisplay,editMode,contentId,backView,previewMode,index,editView;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
+    if(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
+    {
         self.title = NSLocalizedString(@"TextViewTitleKey", @"");
     }
     return self;
-}
-
-
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
 }
 
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
-
     [super viewDidLoad];
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey", @"")
                                                                    style: UIBarButtonItemStyleBordered
@@ -72,15 +63,21 @@
     if(self.note && ([AppModel sharedAppModel].playerId != self.note.creatorId)) self.textBox.userInteractionEnabled = NO;
      */
 }
--(void)backButtonTouchAction{
-    if([backView isKindOfClass:[NotebookViewController class]]){
-    [[AppServices sharedAppServices]deleteNoteWithNoteId:self.noteId];
-    [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.noteId]];   
+
+- (void) backButtonTouchAction
+{
+    if([backView isKindOfClass:[NotebookViewController class]])
+    {
+        [[AppServices sharedAppServices]deleteNoteWithNoteId:self.noteId];
+        [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.noteId]];   
     }
     [self.navigationController popToViewController:self.backView animated:NO];   
 }
--(void)viewWillAppear:(BOOL)animated{
-    if(previewMode){
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    if(previewMode)
+    {
         self.textBox.userInteractionEnabled = NO;
         self.textBox.text = self.textToDisplay;
         self.textBox.frame = CGRectMake(0, 0, 320, 367);
@@ -88,37 +85,29 @@
     }
   else self.textBox.frame = CGRectMake(0, 0, 320, 330);
 }
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
--(BOOL)shouldAutorotate{
+- (BOOL) shouldAutorotate
+{
     return YES;
 }
 
--(NSInteger)supportedInterfaceOrientations{
+- (NSInteger) supportedInterfaceOrientations
+{
     NSInteger mask = 0;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeLeft])
-        mask |= UIInterfaceOrientationMaskLandscapeLeft;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeRight])
-        mask |= UIInterfaceOrientationMaskLandscapeRight;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortrait])
-        mask |= UIInterfaceOrientationMaskPortrait;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortraitUpsideDown])
-        mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
+    if([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeLeft])      mask |= UIInterfaceOrientationMaskLandscapeLeft;
+    if([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeRight])     mask |= UIInterfaceOrientationMaskLandscapeRight;
+    if([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortrait])           mask |= UIInterfaceOrientationMaskPortrait;
+    if([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortraitUpsideDown]) mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
     return mask;
 }
 
--(void)updateContentTouchAction{
+-(void)updateContentTouchAction
+{
     //server call here
    NSMutableArray *noteC = [[AppModel sharedAppModel] noteForNoteId:self.noteId playerListYesGameListNo:YES].contents;
     for(int i = 0; i < noteC.count; i++){

@@ -14,7 +14,7 @@
 
 @implementation GameObjectViewController
 
-- (id)init
+- (id) init
 {
     if(self = [super init])
     {
@@ -22,27 +22,23 @@
     return self;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
--(BOOL)shouldAutorotate
+- (BOOL) shouldAutorotate
 {
     return YES;
 }
 
--(NSInteger)supportedInterfaceOrientations
+- (NSInteger) supportedInterfaceOrientations
 {
     NSInteger mask = 0;
-    if ([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeLeft])
-        mask |= UIInterfaceOrientationMaskLandscapeLeft;
-    if ([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeRight])
-        mask |= UIInterfaceOrientationMaskLandscapeRight;
-    if ([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationPortrait])
-        mask |= UIInterfaceOrientationMaskPortrait;
-    if ([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationPortraitUpsideDown])
-        mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
+    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeLeft])      mask |= UIInterfaceOrientationMaskLandscapeLeft;
+    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeRight])     mask |= UIInterfaceOrientationMaskLandscapeRight;
+    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationPortrait])           mask |= UIInterfaceOrientationMaskPortrait;
+    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationPortraitUpsideDown]) mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
     return mask;
 }
 

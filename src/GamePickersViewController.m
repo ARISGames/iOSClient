@@ -15,18 +15,20 @@
 #import "GameDetailsViewController.h"
 #import "AccountSettingsViewController.h"
 
+#import "ARISNavigationController.h"
+
 @interface GamePickersViewController () <UITabBarControllerDelegate, GamePickerViewControllerDelegate, GameDetailsViewControllerDelegate, AccountSettingsViewControllerDelegate>
 {
     UITabBarController *gamePickersTabBarController;
-    UINavigationController *gameDetailsNavigationController;
-    UINavigationController *accountSettingsNavigationController;
+    ARISNavigationController *gameDetailsNavigationController;
+    ARISNavigationController *accountSettingsNavigationController;
     
     id<GamePickersViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @property (nonatomic, strong) UITabBarController *gamePickersTabBarController;
-@property (nonatomic, strong) UINavigationController *gameDetailsNavigationController;
-@property (nonatomic, strong) UINavigationController *accountSettingsNavigationController;
+@property (nonatomic, strong) ARISNavigationController *gameDetailsNavigationController;
+@property (nonatomic, strong) ARISNavigationController *accountSettingsNavigationController;
 
 @end
 
@@ -55,22 +57,22 @@
     
     //Nearby Games
     GamePickerNearbyViewController *gamePickerNearbyViewController = [[GamePickerNearbyViewController alloc] initWithDelegate:self];
-    UINavigationController *gamePickerNearbyNC = [[UINavigationController alloc] initWithRootViewController:gamePickerNearbyViewController];
+    ARISNavigationController *gamePickerNearbyNC = [[ARISNavigationController alloc] initWithRootViewController:gamePickerNearbyViewController];
     gamePickerNearbyNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Search Games
     GamePickerSearchViewController *gamePickerSearchVC = [[GamePickerSearchViewController alloc] initWithDelegate:self];
-    UINavigationController *gamePickerSearchNC = [[UINavigationController alloc] initWithRootViewController:gamePickerSearchVC];
+    ARISNavigationController *gamePickerSearchNC = [[ARISNavigationController alloc] initWithRootViewController:gamePickerSearchVC];
     gamePickerSearchNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Popular Games
     GamePickerPopularViewController *gamePickerPopularVC = [[GamePickerPopularViewController alloc] initWithDelegate:self];
-    UINavigationController *gamePickerPopularNC = [[UINavigationController alloc] initWithRootViewController:gamePickerPopularVC];
+    ARISNavigationController *gamePickerPopularNC = [[ARISNavigationController alloc] initWithRootViewController:gamePickerPopularVC];
     gamePickerPopularNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Recent Games
     GamePickerRecentViewController *gamePickerRecentVC = [[GamePickerRecentViewController alloc] initWithDelegate:self];
-    UINavigationController *gamePickerRecentNC = [[UINavigationController alloc] initWithRootViewController:gamePickerRecentVC];
+    ARISNavigationController *gamePickerRecentNC = [[ARISNavigationController alloc] initWithRootViewController:gamePickerRecentVC];
     gamePickerRecentNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Setup the Game Selection Tab Bar
@@ -96,7 +98,7 @@
 - (void) gamePicked:(Game *)g
 {
     GameDetailsViewController *gameDetailsViewController = [[GameDetailsViewController alloc] initWithGame:g delegate:self];
-    self.gameDetailsNavigationController = [[UINavigationController alloc] initWithRootViewController:gameDetailsViewController];
+    self.gameDetailsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:gameDetailsViewController];
     self.gameDetailsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     [self displayContentController:self.gameDetailsNavigationController];
 }
@@ -114,7 +116,7 @@
 - (void) accountSettingsRequested
 {
     AccountSettingsViewController *accountSettingsViewController = [[AccountSettingsViewController alloc] initWithDelegate:self];
-    self.accountSettingsNavigationController = [[UINavigationController alloc] initWithRootViewController:accountSettingsViewController];
+    self.accountSettingsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:accountSettingsViewController];
     self.accountSettingsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     [self displayContentController:self.accountSettingsNavigationController];
 }
