@@ -140,7 +140,7 @@
     UploadContent *uc = [[uploadContentsForNotes objectForKey:[NSNumber numberWithInt:noteId]] objectForKey:aUrl];
     Reachability *wifiReach = [Reachability reachabilityForLocalWiFi];
     NSUInteger bytes = ((NSData *)[NSData dataWithContentsOfURL:aUrl]).length;
-    if (bytes>500000 && ([wifiReach currentReachabilityStatus] == NotReachable) && !uc)
+    if(bytes>500000 && ([wifiReach currentReachabilityStatus] == NotReachable) && !uc)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"UploadManDelayedKey", @"") message:NSLocalizedString(@"UploadManDelayedMessageKey", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
         [alert show];
@@ -155,14 +155,8 @@
             [self insertUploadContentIntoDictionary:uc];
             self.currentUploadCount++;
             
-            if(text)
-            {
-                [[AppServices sharedAppServices] addContentToNoteWithText:text type:type mediaId:0 andNoteId:noteId andFileURL:aUrl];
-            }
-            else
-            {            
-                [[AppServices sharedAppServices] uploadContentToNoteWithFileURL:aUrl name:nil noteId:noteId type:type]; 
-            }
+            if(text) [[AppServices sharedAppServices] addContentToNoteWithText:text type:type mediaId:0 andNoteId:noteId andFileURL:aUrl];
+            else     [[AppServices sharedAppServices] uploadContentToNoteWithFileURL:aUrl name:nil noteId:noteId type:type]; 
         }
         else
         {
@@ -236,11 +230,11 @@
 - (void) uploadAllFailedContent
 {
     NSArray *noteIdKeyArray = [self.uploadContentsForNotes allKeys];
-    for (int i=0; i < [noteIdKeyArray count]; i++) {
+    for(int i=0; i < [noteIdKeyArray count]; i++) {
         NSArray *contentIdKeyArray = [[self.uploadContentsForNotes objectForKey:[noteIdKeyArray objectAtIndex:i]] allKeys];
-        for (int j=0; j < [contentIdKeyArray count]; j++) {
+        for(int j=0; j < [contentIdKeyArray count]; j++) {
             UploadContent * uc = [[self.uploadContentsForNotes objectForKey:[ noteIdKeyArray objectAtIndex:i]] objectForKey:[ contentIdKeyArray objectAtIndex:j]];
-            if ([uc.state isEqualToString:@"uploadStateFAILED"])
+            if([uc.state isEqualToString:@"uploadStateFAILED"])
                 [self uploadContentForNoteId:uc.getNoteId withTitle:uc.getTitle withText:uc.getText withType:uc.getType withFileURL:[NSURL URLWithString:uc.getMedia.url]];
         }
     }
@@ -254,7 +248,7 @@
     for (int i=0; i < [noteIdKeyArray count]; i++) {
         NSArray *contentIdKeyArray = [[self.uploadContentsForNotes objectForKey:[noteIdKeyArray objectAtIndex:i]] allKeys];
         for (int j=0; j < [contentIdKeyArray count]; j++) {
-            UploadContent * uc = [[self.uploadContentsForNotes objectForKey:[ noteIdKeyArray objectAtIndex:i]] objectForKey:[ contentIdKeyArray objectAtIndex:j]];
+            UploadContent * uc = [[self.uploadContentsForNotes objectForKey:[noteIdKeyArray objectAtIndex:i]] objectForKey:[contentIdKeyArray objectAtIndex:j]];
             if([[uc getUploadState] isEqualToString:@"uploadStateQUEUED"])
             {
                 [self uploadContentForNoteId:uc.noteId withTitle:uc.title withText: uc.text withType:uc.type withFileURL:uc.fileURL];
@@ -270,7 +264,7 @@
     for (int i=0; i < [noteIdKeyArray count]; i++) {
         NSArray *contentIdKeyArray = [[self.uploadContentsForNotes objectForKey:[noteIdKeyArray objectAtIndex:i]] allKeys];
         for (int j=0; j < [contentIdKeyArray count]; j++) {
-            UploadContent * uc = [[self.uploadContentsForNotes objectForKey:[ noteIdKeyArray objectAtIndex:i]] objectForKey:[ contentIdKeyArray objectAtIndex:j]];
+            UploadContent * uc = [[self.uploadContentsForNotes objectForKey:[ noteIdKeyArray objectAtIndex:i]] objectForKey:[contentIdKeyArray objectAtIndex:j]];
             uc.state = @"uploadStateFAILED";
             
             UploadContent * newuc = [self saveUploadContentToCDWithTitle:[uc getTitle] andText:[uc getText] andType:[uc getType] andNoteId:[uc getNoteId] andFileURL:uc.fileURL inState:@"uploadStateFAILED"];

@@ -46,19 +46,6 @@
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "src/tab_controllers/attributes/AttributesViewController.m"
-         timestampString = "390416673.228295"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "79"
-         endingLineNumber = "79"
-         landmarkName = "-viewWillAppear:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "src/models/AppModel.m"
          timestampString = "390416728.254375"
          startingColumnNumber = "9223372036854775807"
@@ -72,32 +59,6 @@
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "src/services/UploadContent.m"
-         timestampString = "390417792.587289"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "85"
-         endingLineNumber = "85"
-         landmarkName = "-getMedia"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "src/services/AppServices.m"
-         timestampString = "390417854.380593"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "1832"
-         endingLineNumber = "1832"
-         landmarkName = "-startCachingMedia:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
          filePath = "src/models/media/MediaCache.m"
          timestampString = "390417911.561902"
          startingColumnNumber = "9223372036854775807"
@@ -105,19 +66,6 @@
          startingLineNumber = "123"
          endingLineNumber = "123"
          landmarkName = "-mediaForUrl:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "Yes"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "src/services/AppServices.m"
-         timestampString = "390419102.009232"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "880"
-         endingLineNumber = "880"
-         landmarkName = "-playerPicUploadDidfinish:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

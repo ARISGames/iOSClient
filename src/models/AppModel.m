@@ -102,7 +102,7 @@
 
 -(void)loadUserDefaults
 {
-	NSLog(@"ARIS: Loading User Defaults");
+	NSLog(@"Model: Loading User Defaults");
 	[defaults synchronize];
     
     NSURL *currServ = [NSURL URLWithString:[defaults stringForKey:@"baseServerString"]];

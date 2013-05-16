@@ -889,6 +889,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                               andArguments:arguments
                                                                andUserInfo:nil];
     [jsonConnection performAsynchronousRequestWithHandler:@selector(parseNewPlayerMediaResponseFromJSON:)];
+    
+    [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:-1 andFileURL:[uploader.userInfo validObjectForKey:@"url"]];
     [[AppModel sharedAppModel].uploadManager contentFinishedUploading];
 }
 
@@ -1990,7 +1992,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 {
 	NSObject *qrCodeObject;
     
-	if(jsonResult.data)
+	if(jsonResult.data && jsonResult.data != [NSNull null])
     {
 		NSDictionary *qrCodeDictionary = (NSDictionary *)jsonResult.data;
         if(![qrCodeDictionary isKindOfClass:[NSString class]])
