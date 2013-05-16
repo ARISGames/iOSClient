@@ -10,8 +10,25 @@
 
 @interface PlayerSettingsViewController()
 {
+    IBOutlet AsyncMediaImageView *playerPic;
+    IBOutlet UITextField *playerNameField;
+	IBOutlet UIButton *playerPicCamButton;
+    IBOutlet UIButton *saveButton;
+    
+    NSString *chosenName;
+    int chosenMediaId;
+    
     id<PlayerSettingsViewControllerDelegate> __unsafe_unretained delegate;
 }
+
+@property (nonatomic) IBOutlet AsyncMediaImageView *playerPic;
+@property (nonatomic) IBOutlet UITextField *playerNameField;
+@property (nonatomic) IBOutlet UIButton *playerPicCamButton;
+@property (nonatomic) IBOutlet UIButton *saveButton;
+
+- (IBAction)saveButtonTouched:(id)sender;
+- (IBAction)playerPicCamButtonTouched:(id)sender;
+
 @end
 
 @implementation PlayerSettingsViewController
@@ -23,84 +40,93 @@
 
 - (id)initWithDelegate:(id<PlayerSettingsViewControllerDelegate>)d
 {
-    self = [super initWithNibName:@"PlayerSettingsViewController" bundle:nil];
-    if (self)
+    if(self = [super initWithNibName:@"PlayerSettingsViewController" bundle:nil])
     {
         delegate = d;
+        
+        //chosenName = nil;
+        chosenMediaId = 0;
     }
     return self;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void) viewWillAppear:(BOOL)animated
 {
-    [self refreshViewFromModel];
     self.title = @"Public Name and Image";
 }
 
-- (void)viewDidIntentionallyAppear
+- (void) viewDidAppear:(BOOL)animated
+{    
+    [self refreshView];
+}
+
+- (void) resetState
 {
-    //Due to the way we hide/show views rather than push/popping them, 'viewDidAppear' was constantly being called even when it wasn't 'actually' appearing.
-    //Now, we just call this manually whenever we intend the view to appear. //<- This is a call for refactor (ps I wrote this code so I'm calling myself out)
-    // - Phil
-    if([AppModel sharedAppModel].player.playerMediaId == 0)
-        [self playerPicCamButtonTouched:nil];
     self.playerNameField.text = @"";
-    if([AppModel sharedAppModel].player.displayname)
-        self.playerNameField.text = [AppModel sharedAppModel].player.displayname;
-    if([self.playerNameField.text isEqualToString:@""])
-       [self.playerNameField becomeFirstResponder];
+    chosenMediaId = 0;
+    [self.playerPic updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
 }
 
-- (void) refreshViewFromModel
+- (void) syncLocalVars
 {
-    if([AppModel sharedAppModel].player.displayname && ![[AppModel sharedAppModel].player.displayname isEqualToString:@""] &&
-       [self.playerNameField.text isEqualToString:@""])
-        playerNameField.text = [AppModel sharedAppModel].player.displayname;
-    
-    if([AppModel sharedAppModel].player.playerMediaId > 0)
-        [self.playerPic loadMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId]];
-    else
-        [self.playerPic updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
+    if([self.playerNameField.text isEqualToString:@""])
+        self.playerNameField.text = [AppModel sharedAppModel].player.displayname; // @"" by default
+    if(chosenMediaId == 0)
+        chosenMediaId = [AppModel sharedAppModel].player.playerMediaId;
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
+- (void) refreshView
+{
+    [self syncLocalVars];
+    
+    if([self.playerNameField.text isEqualToString:@""])
+        [self.playerNameField becomeFirstResponder];
+
+    if(chosenMediaId > 0)
+        [self.playerPic loadMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId]];
+    else if(chosenMediaId == 0)
+        [self takePicture];
+    //if chosenMediaId < 0, just leave the image as is
+}
+
+- (BOOL) textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
     return YES;
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [playerNameField resignFirstResponder];
 }
 
--(IBAction)saveButtonTouched:(id)sender
+- (IBAction) saveButtonTouched:(id)sender
 {
-    if([self.playerNameField.text isEqualToString:@""] || [AppModel sharedAppModel].player.playerMediaId == 0)
+    if([self.playerNameField.text isEqualToString:@""] || chosenMediaId == 0)
     {
         //PHIL [[RootViewController sharedRootViewController] showAlert:nil message:@"Please choose a picture and name"];
         return;
     }
-        
-    [AppModel sharedAppModel].player.displayname = playerNameField.text;
-    self.playerNameField.text = @"";
 
-    if([self.playerPic.media.uid intValue] != 0)
-        [AppModel sharedAppModel].player.playerMediaId = [playerPic.media.uid intValue];
-    [self.playerPic updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
-    
+    [AppModel sharedAppModel].player.displayname = playerNameField.text; //Let AppServices take care of setting AppModel's Media id
+
     [[AppServices sharedAppServices] updatePlayer:[AppModel sharedAppModel].player.playerId
                                          withName:[AppModel sharedAppModel].player.displayname
                                          andImage:[AppModel sharedAppModel].player.playerMediaId];
-    
+
     [[AppModel sharedAppModel] saveUserDefaults];
-    
+
     [delegate playerSettingsWasDismissed];
 }
 
--(IBAction)playerPicCamButtonTouched:(id)sender
+- (IBAction) playerPicCamButtonTouched:(id)sender
 {
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+    [self takePicture];
+}
+
+- (void) takePicture
+{
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
         UIImagePickerController *picker = [[UIImagePickerController alloc]init];
         
@@ -108,14 +134,6 @@
         instructions.backgroundColor = [UIColor clearColor];
         instructions.textColor = [UIColor whiteColor];
         instructions.text = NSLocalizedString(@"TakeYourPictureKey", @"");
-/*
-        UIImageView *overlay = [[UIImageView alloc] initWithFrame:picker.view.bounds];
-        overlay.image = ;
-        // tell the view to put the image at the top, and make it translucent
-        overlay.contentMode = UIViewContentModeTop;
-        overlay.alpha = 0.5f;
-        picker.cameraOverlayView = overlay;
-*/
         
         [picker.view addSubview:instructions];
         picker.delegate = self;
@@ -133,47 +151,34 @@
     return;
 }
 
-- (void)imagePickerController:(UIImagePickerController *)aPicker didFinishPickingMediaWithInfo:(NSDictionary  *)info
+- (void) imagePickerController:(UIImagePickerController *)aPicker didFinishPickingMediaWithInfo:(NSDictionary  *)info
 {
-    [AppModel sharedAppModel].player.playerMediaId = -1; //Non-Zero (so we know it's picked, but it hasn't been assigned an ID yet)
+    chosenMediaId = -1;
     [aPicker dismissModalViewControllerAnimated:NO];
 
-    UIImage *image;
-    NSString *mediaFilePath;
-    NSURL *imageURL;
-    NSData *mediaData;
-
-    image = [info objectForKey:UIImagePickerControllerEditedImage];
-    image = [image scaleToSize:CGSizeMake(1024,1024)];
-    mediaFilePath =[NSTemporaryDirectory() stringByAppendingString:[NSString stringWithFormat:@"%@image.jpg",[NSDate date]]];
-    imageURL = [[NSURL alloc] initFileURLWithPath:mediaFilePath];
-    mediaData = UIImageJPEGRepresentation(image, 0.4);
-    if(mediaData != nil) [mediaData writeToURL:imageURL atomically:YES];
+    UIImage *image = [[info objectForKey:UIImagePickerControllerEditedImage] scaleToSize:CGSizeMake(1024,1024)];
+    NSData *imageData = UIImageJPEGRepresentation(image, 0.4);
+    NSURL *imageURL = [[NSURL alloc] initFileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:[NSString stringWithFormat:@"%@image.jpg",[NSDate date]]]];
+    [imageData writeToURL:imageURL atomically:YES];
 
     // If image not selected from camera roll, save image with metadata to camera roll
-    if ([info objectForKey:UIImagePickerControllerReferenceURL] == NULL)
+    if([info objectForKey:UIImagePickerControllerReferenceURL] == NULL)
     {
         ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
-        [al writeImageDataToSavedPhotosAlbum:mediaData metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {                        
+        [al writeImageDataToSavedPhotosAlbum:imageData metadata:nil completionBlock:^(NSURL *assetURL, NSError *error) {
             // once image is saved, get asset from assetURL
             [al assetForURL:assetURL resultBlock:^(ALAsset *asset) {
                 // save image to temporary directory to be able to upload it
-                ALAssetRepresentation *rep = [asset defaultRepresentation];
-                CGImageRef iref = [rep fullResolutionImage];
-                UIImage *image = [UIImage imageWithCGImage:iref];
+                UIImage *image = [UIImage imageWithCGImage:[[asset defaultRepresentation] fullResolutionImage]];
                 NSData *imageData = UIImageJPEGRepresentation(image, 0.4);
-                NSString *newFilePath =[NSTemporaryDirectory() stringByAppendingString:[NSString stringWithFormat:@"%@image.jpg",[NSDate date]]];
-                NSURL *imageURL = [[NSURL alloc] initFileURLWithPath:newFilePath];
-
+                NSURL *imageURL = [[NSURL alloc] initFileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:[NSString stringWithFormat:@"%@image.jpg",[NSDate date]]]];
                 [imageData writeToURL:imageURL atomically:YES];
                     
                 [[[AppModel sharedAppModel] uploadManager] uploadPlayerPicContentWithFileURL:imageURL];
                 playerPic.image = image;
-                playerPic.media.uid = 0;
             } failureBlock:^(NSError *error) {
                 [[[AppModel sharedAppModel] uploadManager] uploadPlayerPicContentWithFileURL:imageURL];
                 playerPic.image = image;
-                playerPic.media.uid = 0;
             }];
         }];
     }
@@ -182,7 +187,6 @@
         // image from camera roll
         [[[AppModel sharedAppModel] uploadManager] uploadPlayerPicContentWithFileURL:imageURL];
         playerPic.image = image;
-        playerPic.media.uid = 0;
     }
 }
 

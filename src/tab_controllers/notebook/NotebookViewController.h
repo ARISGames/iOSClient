@@ -11,6 +11,7 @@
 #import "AppModel.h"
 #import "Comment.h"
 
+@protocol StateControllerProtocol;
 @protocol NotebookViewControllerDelegate <GamePlayTabBarViewControllerDelegate>
 
 @end
@@ -57,7 +58,7 @@
 @property (nonatomic, strong) IBOutlet UISegmentedControl *filterControl;
 @property (nonatomic, strong) IBOutlet UISegmentedControl *sortControl;
 
-- (id) initWithDelegate:(id<NotebookViewControllerDelegate>)d;
+- (id) initWithDelegate:(id<NotebookViewControllerDelegate, StateControllerProtocol>)d;
 - (void) refresh;
 - (void) showLoadingIndicator;
 - (void) refreshViewFromModel;

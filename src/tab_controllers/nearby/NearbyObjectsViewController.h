@@ -9,11 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "ARISGamePlayTabBarViewController.h"
 
+@protocol StateControllerProtocol;
 @protocol NearbyObjectsViewControllerDelegate <GamePlayTabBarViewControllerDelegate>
 - (void) showNearbyObjectsTab;
 - (void) hideNearbyObjectsTab;
 @end
 
 @interface NearbyObjectsViewController : ARISGamePlayTabBarViewController <UITableViewDataSource,UITableViewDelegate>
-- (id)initWithDelegate:(id<NearbyObjectsViewControllerDelegate>)d;
+- (id)initWithDelegate:(id<NearbyObjectsViewControllerDelegate, StateControllerProtocol>)d;
 @end

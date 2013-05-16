@@ -46,7 +46,7 @@
 @synthesize filterToolBar;
 @synthesize sortToolBar;
 
-- (id)initWithDelegate:(id<NotebookViewControllerDelegate>)d
+- (id)initWithDelegate:(id<NotebookViewControllerDelegate, StateControllerProtocol>)d
 {
     if(self = [super initWithNibName:@"NotebookViewController" bundle:nil])
     {

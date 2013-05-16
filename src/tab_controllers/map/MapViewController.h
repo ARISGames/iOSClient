@@ -14,6 +14,7 @@
 #import "TileOverlay.h"
 #import "TileOverlayView.h"
 
+@protocol StateControllerProtocol;
 @protocol MapViewControllerDelegate <GamePlayTabBarViewControllerDelegate>
 @end
 
@@ -49,7 +50,7 @@
 @property (nonatomic) IBOutlet UIBarButtonItem *playerTrackingButton;
 @property (nonatomic) IBOutlet UIToolbar *toolBar;
 
-- (id) initWithDelegate:(id<MapViewControllerDelegate>)d;
+- (id) initWithDelegate:(id<MapViewControllerDelegate, StateControllerProtocol>)d;
 - (void) refresh;
 - (void) zoomAndCenterMap;
 - (void) showLoadingIndicator;

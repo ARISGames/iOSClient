@@ -29,7 +29,7 @@
 
 @synthesize nearbyLocationsList;
 
-- (id)initWithDelegate:(id<NearbyObjectsViewControllerDelegate>)d
+- (id)initWithDelegate:(id<NearbyObjectsViewControllerDelegate, StateControllerProtocol>)d
 {
     if(self = [super initWithNibName:@"NearbyObjectsViewController" bundle:nil])
     {

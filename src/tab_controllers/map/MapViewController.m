@@ -41,7 +41,7 @@
 @synthesize overlay;
 @synthesize overlayArray;
 
-- (id) initWithDelegate:(id<MapViewControllerDelegate>)d
+- (id) initWithDelegate:(id<MapViewControllerDelegate, StateControllerProtocol>)d
 {
     if(self = [super initWithNibName:@"MapViewController" bundle:nil])
     {

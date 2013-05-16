@@ -122,13 +122,13 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 -(void) uploadPlayerPicMediaWithFileURL:(NSURL *)fileURL
 {
-    ARISUploader *uploader = [[ARISUploader alloc] initWithURLToUpload:fileURL gameSpecific:NO delegate:self doneSelector:@selector(playerPicUploadDidfinish: ) errorSelector:@selector(playerPicUploadDidFail:)];
+    ARISUploader *uploader = [[ARISUploader alloc] initWithURLToUpload:fileURL gameSpecific:NO delegate:self doneSelector:@selector(playerPicUploadDidfinish:) errorSelector:@selector(playerPicUploadDidFail:)];
     
-    NSMutableDictionary *userInfo = [[NSMutableDictionary alloc]initWithCapacity:2];
+    NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] initWithCapacity:2];
     [userInfo setValue:@"PHOTO" forKey: @"type"];
     [userInfo setValue:fileURL forKey:@"url"];
 	[uploader setUserInfo:userInfo];
-		
+
 	//ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     //[[[RootViewController sharedRootViewController] showWaitingIndicator:@"Uploading" displayProgressBar:YES];
 	//[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];

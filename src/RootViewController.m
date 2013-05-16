@@ -88,9 +88,8 @@
     [AppModel sharedAppModel].disableLeaveGame = disableLeaveGame;
     if(newPlayer)
     {
-        [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController refreshViewFromModel];
+        [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController resetState];
         [self displayContentController:self.playerSettingsNavigationController];
-        [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController viewDidIntentionallyAppear];
     }
     if(gameId)
     {
@@ -110,9 +109,8 @@
 - (void) playerSettingsRequested
 {
     //PHIL HATES THIS NEXT CHUNK
-    [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController refreshViewFromModel];
+    [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController resetState];
     [self displayContentController:self.playerSettingsNavigationController];
-    [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController viewDidIntentionallyAppear];
     //PHIL DONE HATING CHUNK
 }
 
