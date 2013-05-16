@@ -123,6 +123,7 @@
     {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleGameRequestReady:) name:@"NewOneGameGameListReady" object:nil];
         [[AppServices sharedAppServices] fetchOneGameGameList:[AppModel sharedAppModel].skipGameDetails];
+        [[ARISAlertHandler sharedAlertHandler] showWaitingIndicator:@"Confirming..."];
     }
     else
         [self displayContentController:self.gamePickersViewController];
@@ -131,6 +132,7 @@
 
 - (void) singleGameRequestReady:(NSNotification *)n
 {
+    [[ARISAlertHandler sharedAlertHandler] removeNetworkAlert];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NewOneGameGameListReady" object:nil];
     [self gamePickedForPlay:[n.userInfo objectForKey:@"game"]];
     [AppModel sharedAppModel].skipGameDetails = 0; // PHIL HATES THIS

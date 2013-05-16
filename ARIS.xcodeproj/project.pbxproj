@@ -1314,13 +1314,15 @@
 		AABC7062172739D60074CC21 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				AA50A47E17396B6F00B105C2 /* ARISContainerViewController.h */,
-				AA50A47F17396B7000B105C2 /* ARISContainerViewController.m */,
 				AABC70D0172739D60074CC21 /* main.mm */,
 				AABC7070172739D60074CC21 /* ARIS_Prefix.pch */,
 				AABC70D1172739D60074CC21 /* MainWindow.xib */,
 				AABC7071172739D60074CC21 /* ARISAppDelegate.h */,
 				AABC7072172739D60074CC21 /* ARISAppDelegate.m */,
+				AA50A47E17396B6F00B105C2 /* ARISContainerViewController.h */,
+				AA50A47F17396B7000B105C2 /* ARISContainerViewController.m */,
+				AA4B20911745672300079AEF /* ARISNavigationController.h */,
+				AA4B20921745672500079AEF /* ARISNavigationController.m */,
 				AABC711D172739D60074CC21 /* RootViewController.h */,
 				AABC711E172739D60074CC21 /* RootViewController.m */,
 				AA701FE6173443FB003A840D /* ARISPusherHandler.h */,
@@ -1348,8 +1350,6 @@
 				AABC7096172739D60074CC21 /* debug */,
 				AABC7362172739D80074CC21 /* utils */,
 				AABC71B1172739D70074CC21 /* third_party */,
-				AA4B20911745672300079AEF /* ARISNavigationController.h */,
-				AA4B20921745672500079AEF /* ARISNavigationController.m */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -1427,6 +1427,9 @@
 		AABC7099172739D60074CC21 /* game_details */ = {
 			isa = PBXGroup;
 			children = (
+				AABC70A6172739D60074CC21 /* GameDetailsViewController.h */,
+				AABC70A7172739D60074CC21 /* GameDetailsViewController.m */,
+				AABC70A5172739D60074CC21 /* GameDetailsViewController.xib */,
 				AABC709A172739D60074CC21 /* Comment.h */,
 				AABC709B172739D60074CC21 /* Comment.m */,
 				AABC709C172739D60074CC21 /* CommentCell.h */,
@@ -1438,9 +1441,6 @@
 				AABC70A2172739D60074CC21 /* commentsView.xib */,
 				AABC70A3172739D60074CC21 /* commentsViewController.h */,
 				AABC70A4172739D60074CC21 /* commentsViewController.m */,
-				AABC70A5172739D60074CC21 /* GameDetailsViewController.xib */,
-				AABC70A6172739D60074CC21 /* GameDetailsViewController.h */,
-				AABC70A7172739D60074CC21 /* GameDetailsViewController.m */,
 				AABC70A8172739D60074CC21 /* RatingCell.h */,
 				AABC70A9172739D60074CC21 /* RatingCell.m */,
 				AABC70AA172739D60074CC21 /* RatingCell.xib */,
@@ -1454,11 +1454,11 @@
 		AABC70AE172739D60074CC21 /* game_pickers */ = {
 			isa = PBXGroup;
 			children = (
+				AABC70B2172739D60074CC21 /* GamePickerViewController.h */,
+				AABC70B3172739D60074CC21 /* GamePickerViewController.m */,
 				AABC70AF172739D60074CC21 /* GamePickerCell.h */,
 				AABC70B0172739D60074CC21 /* GamePickerCell.m */,
 				AABC70B1172739D60074CC21 /* GamePickerCell.xib */,
-				AABC70B2172739D60074CC21 /* GamePickerViewController.h */,
-				AABC70B3172739D60074CC21 /* GamePickerViewController.m */,
 				AABC70B4172739D60074CC21 /* nearby */,
 				AABC70B8172739D60074CC21 /* popular */,
 				AABC70BC172739D60074CC21 /* recent */,

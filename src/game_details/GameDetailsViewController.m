@@ -14,7 +14,9 @@
 #import "commentsViewController.h"
 #import "RatingCell.h"
 
-#include <QuartzCore/QuartzCore.h>
+#import "ARISAlertHandler.h"
+
+#import <QuartzCore/QuartzCore.h>
 
 NSString *const kGameDetailsHtmlTemplate =
 @"<html>"
@@ -148,7 +150,7 @@ NSString *const kGameDetailsHtmlTemplate =
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    switch (section)
+    switch(section)
     {
         case 0:
             return 1;
@@ -229,9 +231,9 @@ NSString *const kGameDetailsHtmlTemplate =
 {
     if (indexPath.section == 1)
     {
-        if (indexPath.row == 0)
+        if(indexPath.row == 0)
             cell.backgroundColor = [UIColor colorWithRed:182/255.0 green:255/255.0 blue:154/255.0 alpha:1.0];
-        if (indexPath.row == 1 && self.game.hasBeenPlayed)
+        if(indexPath.row == 1 && self.game.hasBeenPlayed)
             cell.backgroundColor = [UIColor colorWithRed:255/255.0 green:153/255.0 blue:181/255.0 alpha:1.0];
     }
 }
@@ -247,15 +249,15 @@ NSString *const kGameDetailsHtmlTemplate =
     [delegate gameDetailsWereCanceled:self.game];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(indexPath.section == 1)
     {
         if(indexPath.row == 0)
         {
             [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
-            [self.tableView reloadData];
             [self playGame];
+            [self.tableView reloadData];
         }
         else if(indexPath.row ==1)
         {
@@ -283,7 +285,7 @@ NSString *const kGameDetailsHtmlTemplate =
     }
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
 	NSString *title = [alertView title];
     

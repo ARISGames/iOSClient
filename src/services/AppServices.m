@@ -382,7 +382,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"updatePlayerLastGame"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-    [jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+    [jsonConnection performAsynchronousRequestWithHandler:nil];
 }
 
 - (void)updateServerMapViewed
@@ -1386,12 +1386,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (void)fetchPlayerLocationList
 {
-	if (![AppModel sharedAppModel].player)
-    {
-		NSLog(@"AppModel: Player Not logged in yet, skip the location fetch");
-		return;
-	}
-    
     if (currentlyFetchingLocationList)
     {
         NSLog(@"Skipping Request: already fetching locations");
@@ -1414,12 +1408,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (void)fetchPlayerOverlayList
 {
-    if (![AppModel sharedAppModel].player)
-    {
-		NSLog(@"AppModel: Player Not logged in yet, skip the overlay fetch");
-		return;
-	}
-    
     if (currentlyFetchingOverlayList)
     {
         NSLog(@"Skipping Request: already fetching overlays or interacting with object");
@@ -2089,8 +2077,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     
     NSLog(@"NSNotification: LatestPlayerQuestListsReceived");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LatestPlayerQuestListsReceived" object:self userInfo:questLists]];
-    NSLog(@"NSNotification: GamePieceReceived");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
 @end

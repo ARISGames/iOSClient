@@ -57,7 +57,7 @@
 
 -(void)dismissTutorial
 {
-    [delegate dismissTutorial];
+    if(delegate) [delegate dismissTutorial];
 }
 
 - (void)refresh

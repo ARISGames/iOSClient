@@ -10,7 +10,8 @@
 #import "AsyncMediaImageView.h"
 #import "SCRRatingView.h"
 
-@interface GamePickerCell : UITableViewCell {
+@interface GamePickerCell : UITableViewCell
+{
 	UILabel *titleLabel;
 	UILabel *distanceLabel;
 	UILabel *authorLabel;

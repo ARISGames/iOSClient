@@ -57,7 +57,7 @@
 
 - (void)moveProgressBar
 {
-    float actual = ((float)receivedData/8.0f);//<- What. '8'? Where did that number come from?
+    float actual = ((float)receivedData/7.0f);//<- What. '8'? Where did that number come from?
     progressBar.progress = actual;
     [progressBar setNeedsLayout];
     [progressBar setNeedsDisplay];
@@ -66,8 +66,8 @@
     
     if(actual >= 0.999)
     {
-        [delegate loadingViewControllerDidComplete];
         [self dismissViewControllerAnimated:NO completion:nil];
+        [delegate loadingViewControllerDidComplete];
         receivedData = 0;
     }
 }

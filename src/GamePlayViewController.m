@@ -95,7 +95,7 @@
 - (id) initWithGame:(Game *)g delegate:(id<GamePlayViewControllerDelegate>)d
 {
     if(self = [super init])
-    {
+    {        
         delegate = d;
         self.game = g;
         
@@ -105,6 +105,8 @@
         [[AppModel sharedAppModel] saveUserDefaults];
         //PHIL DONE HATING CHUNK
         
+        [[ARISAlertHandler sharedAlertHandler] showWaitingIndicator:NSLocalizedString(@"LoadingKey",@"")];
+
         tutorialViewController         = [[TutorialViewController         alloc] init];
         gameNotificationViewController = [[GameNotificationViewController alloc] init];
         
@@ -145,6 +147,7 @@
 - (void) startLoadingGame
 {
     [self.game getReadyToPlay];
+    [[AppServices sharedAppServices] fetchAllGameLists];
     
     //PHIL HATES THIS CHUNK
 	[[AppServices sharedAppServices] updateServerGameSelected];
@@ -153,9 +156,10 @@
 }
 
 - (void) loadingViewControllerDidComplete
-{
+{    
     [self displayContentController:self.gamePlayTabBarController];
     self.loadingViewController = nil;
+    [[ARISAlertHandler sharedAlertHandler] removeWaitingIndicator];
     
     //PHIL UNAPPROVED -
     [self beginGamePlay];
@@ -164,7 +168,7 @@
 - (void) gameDismisallWasRequested
 {
     [tutorialViewController dismissTutorials];
-	
+
     [gameNotificationViewController stopListeningToModel];
     [gameNotificationViewController cutOffGameNotifications];
     [self.game clearLocalModels];
@@ -338,6 +342,7 @@
     NSLog(@"GamePlayViewController: beginGamePlay");
     
     [gameNotificationViewController startListeningToModel];
+    [[AppServices sharedAppServices] fetchAllPlayerLists];
     
     int nodeId = [AppModel sharedAppModel].currentGame.launchNodeId;
     if(nodeId && nodeId != 0 && [[AppModel sharedAppModel].currentGame.questsModel.currentCompletedQuests count] < 1)
