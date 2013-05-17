@@ -41,7 +41,7 @@
 @synthesize overlay;
 @synthesize overlayArray;
 
-- (id) initWithDelegate:(id<MapViewControllerDelegate>)d
+- (id) initWithDelegate:(id<MapViewControllerDelegate, StateControllerProtocol>)d
 {
     if(self = [super initWithNibName:@"MapViewController" bundle:nil])
     {
@@ -215,7 +215,7 @@
 
 - (void) dismissTutorial
 {
-    [delegate dismissTutorial];
+    if(delegate) [delegate dismissTutorial];
 }
 
 - (void) refresh
@@ -348,30 +348,6 @@
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
--(BOOL)shouldAutorotate
-{
-    return YES;
-}
-
--(NSInteger)supportedInterfaceOrientations
-{
-    NSInteger mask = 0;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeLeft])
-        mask |= UIInterfaceOrientationMaskLandscapeLeft;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeRight])
-        mask |= UIInterfaceOrientationMaskLandscapeRight;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortrait])
-        mask |= UIInterfaceOrientationMaskPortrait;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortraitUpsideDown])
-        mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
-    return mask;
 }
 
 #pragma mark MKMapViewDelegate

@@ -131,12 +131,12 @@ NSString *const kIconQuestsHtmlTemplate =
 
 -(void)dismissTutorial
 {
-    [delegate dismissTutorial];
+    if(delegate) [delegate dismissTutorial];
 }
 
 - (void)refresh
 {
-	if ([AppModel sharedAppModel].player) [[AppServices sharedAppServices] fetchPlayerQuestList];
+	[[AppServices sharedAppServices] fetchPlayerQuestList];
 	[self showLoadingIndicator];
 }
 

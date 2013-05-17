@@ -124,8 +124,8 @@ NSString *const kDialogHtmlTemplate =
         closingScriptPlaying  = NO;
         
         currentPcMediaId = 0;
-        if ([AppModel sharedAppModel].currentGame.pcMediaId != 0) currentPcMediaId = [AppModel sharedAppModel].currentGame.pcMediaId;
-        else if([AppModel sharedAppModel].player.playerMediaId != 0)     currentPcMediaId = [AppModel sharedAppModel].player.playerMediaId;
+        if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) currentPcMediaId = [AppModel sharedAppModel].currentGame.pcMediaId;
+        else if([AppModel sharedAppModel].player.playerMediaId != 0)  currentPcMediaId = [AppModel sharedAppModel].player.playerMediaId;
 
         defaultPcTitle                = NSLocalizedString(@"DialogPlayerName",@"");
         currentLeaveConversationTitle = NSLocalizedString(@"DialogEnd",@"");

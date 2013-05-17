@@ -122,13 +122,13 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 -(void) uploadPlayerPicMediaWithFileURL:(NSURL *)fileURL
 {
-    ARISUploader *uploader = [[ARISUploader alloc] initWithURLToUpload:fileURL gameSpecific:NO delegate:self doneSelector:@selector(playerPicUploadDidfinish: ) errorSelector:@selector(playerPicUploadDidFail:)];
+    ARISUploader *uploader = [[ARISUploader alloc] initWithURLToUpload:fileURL gameSpecific:NO delegate:self doneSelector:@selector(playerPicUploadDidfinish:) errorSelector:@selector(playerPicUploadDidFail:)];
     
-    NSMutableDictionary *userInfo = [[NSMutableDictionary alloc]initWithCapacity:2];
+    NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] initWithCapacity:2];
     [userInfo setValue:@"PHOTO" forKey: @"type"];
     [userInfo setValue:fileURL forKey:@"url"];
 	[uploader setUserInfo:userInfo];
-		
+
 	//ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     //[[[RootViewController sharedRootViewController] showWaitingIndicator:@"Uploading" displayProgressBar:YES];
 	//[request setUploadProgressDelegate:appDelegate.waitingIndicator.progressView];
@@ -382,7 +382,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"updatePlayerLastGame"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-    [jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+    [jsonConnection performAsynchronousRequestWithHandler:nil];
 }
 
 - (void)updateServerMapViewed
@@ -889,6 +889,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                               andArguments:arguments
                                                                andUserInfo:nil];
     [jsonConnection performAsynchronousRequestWithHandler:@selector(parseNewPlayerMediaResponseFromJSON:)];
+    
+    [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:-1 andFileURL:[uploader.userInfo validObjectForKey:@"url"]];
     [[AppModel sharedAppModel].uploadManager contentFinishedUploading];
 }
 
@@ -1384,12 +1386,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (void)fetchPlayerLocationList
 {
-	if (![AppModel sharedAppModel].player)
-    {
-		NSLog(@"AppModel: Player Not logged in yet, skip the location fetch");
-		return;
-	}
-    
     if (currentlyFetchingLocationList)
     {
         NSLog(@"Skipping Request: already fetching locations");
@@ -1412,12 +1408,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 - (void)fetchPlayerOverlayList
 {
-    if (![AppModel sharedAppModel].player)
-    {
-		NSLog(@"AppModel: Player Not logged in yet, skip the overlay fetch");
-		return;
-	}
-    
     if (currentlyFetchingOverlayList)
     {
         NSLog(@"Skipping Request: already fetching overlays or interacting with object");
@@ -1990,7 +1980,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 {
 	NSObject *qrCodeObject;
     
-	if(jsonResult.data)
+	if(jsonResult.data && jsonResult.data != [NSNull null])
     {
 		NSDictionary *qrCodeDictionary = (NSDictionary *)jsonResult.data;
         if(![qrCodeDictionary isKindOfClass:[NSString class]])
@@ -2087,8 +2077,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     
     NSLog(@"NSNotification: LatestPlayerQuestListsReceived");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LatestPlayerQuestListsReceived" object:self userInfo:questLists]];
-    NSLog(@"NSNotification: GamePieceReceived");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
 @end

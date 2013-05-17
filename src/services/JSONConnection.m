@@ -76,7 +76,7 @@
     
     // Make synchronous request
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    [[ARISAlertHandler sharedAlertHandler] showWaitingIndicator:@"Loading"];
+    [[ARISAlertHandler sharedAlertHandler] showWaitingIndicator:NSLocalizedString(@"LoadingKey",@"")];
     
     NSURLResponse *response = [[NSURLResponse alloc] init];
     NSError *error = [[NSError alloc] init];

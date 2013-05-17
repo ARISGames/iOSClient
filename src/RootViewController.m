@@ -17,18 +17,20 @@
 #import "GamePickersViewController.h"
 #import "GamePlayViewController.h"
 
+#import "ARISNavigationController.h"
+
 #import "AppServices.h"
 
 @interface RootViewController () <UINavigationControllerDelegate, LoginViewControllerDelegate, PlayerSettingsViewControllerDelegate, GamePickersViewControllerDelegate, GamePlayViewControllerDelegate>
 {
-    UINavigationController *loginNavigationController;
-    UINavigationController *playerSettingsViewNavigationController;
+    ARISNavigationController *loginNavigationController;
+    ARISNavigationController *playerSettingsViewNavigationController;
     GamePickersViewController *gamePickersViewController;
     GamePlayViewController *gamePlayViewController;
 }
 
-@property (nonatomic, strong) UINavigationController *loginNavigationController;
-@property (nonatomic, strong) UINavigationController *playerSettingsNavigationController;
+@property (nonatomic, strong) ARISNavigationController *loginNavigationController;
+@property (nonatomic, strong) ARISNavigationController *playerSettingsNavigationController;
 @property (nonatomic, strong) GamePickersViewController *gamePickersViewController;
 @property (nonatomic, strong) GamePlayViewController *gamePlayViewController;
 
@@ -56,11 +58,11 @@
     if(self = [super init])
     {
         LoginViewController* loginViewController = [[LoginViewController alloc] initWithDelegate:self];
-        self.loginNavigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+        self.loginNavigationController = [[ARISNavigationController alloc] initWithRootViewController:loginViewController];
         self.loginNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
         
         PlayerSettingsViewController *playerSettingsViewController = [[PlayerSettingsViewController alloc] initWithDelegate:self];
-        self.playerSettingsNavigationController = [[UINavigationController alloc] initWithRootViewController:playerSettingsViewController];
+        self.playerSettingsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:playerSettingsViewController];
         self.playerSettingsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
         
         self.gamePickersViewController = [[GamePickersViewController alloc] initWithDelegate:self];
@@ -88,9 +90,8 @@
     [AppModel sharedAppModel].disableLeaveGame = disableLeaveGame;
     if(newPlayer)
     {
-        [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController refreshViewFromModel];
+        [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController resetState];
         [self displayContentController:self.playerSettingsNavigationController];
-        [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController viewDidIntentionallyAppear];
     }
     if(gameId)
     {
@@ -110,9 +111,8 @@
 - (void) playerSettingsRequested
 {
     //PHIL HATES THIS NEXT CHUNK
-    [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController refreshViewFromModel];
+    [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController resetState];
     [self displayContentController:self.playerSettingsNavigationController];
-    [(PlayerSettingsViewController *)self.playerSettingsNavigationController.topViewController viewDidIntentionallyAppear];
     //PHIL DONE HATING CHUNK
 }
 
@@ -123,6 +123,7 @@
     {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleGameRequestReady:) name:@"NewOneGameGameListReady" object:nil];
         [[AppServices sharedAppServices] fetchOneGameGameList:[AppModel sharedAppModel].skipGameDetails];
+        [[ARISAlertHandler sharedAlertHandler] showWaitingIndicator:@"Confirming..."];
     }
     else
         [self displayContentController:self.gamePickersViewController];
@@ -131,6 +132,7 @@
 
 - (void) singleGameRequestReady:(NSNotification *)n
 {
+    [[ARISAlertHandler sharedAlertHandler] removeNetworkAlert];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NewOneGameGameListReady" object:nil];
     [self gamePickedForPlay:[n.userInfo objectForKey:@"game"]];
     [AppModel sharedAppModel].skipGameDetails = 0; // PHIL HATES THIS

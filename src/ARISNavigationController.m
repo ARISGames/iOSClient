@@ -1,27 +1,26 @@
 //
-//  AudioPlayerViewController.m
+//  ARISNavigationController.m
 //  ARIS
 //
-//  Created by Brian Thiel on 9/7/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Created by Phil Dougherty on 5/16/13.
+//
 //
 
-#import "AudioPlayerViewController.h"
+#import "ARISNavigationController.h"
 
-
-@implementation AudioPlayerViewController
+@implementation ARISNavigationController
 
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
--(BOOL) shouldAutorotate
+- (BOOL) shouldAutorotate
 {
     return YES;
 }
 
--(NSInteger) supportedInterfaceOrientations
+- (NSInteger) supportedInterfaceOrientations
 {
     NSInteger mask = 0;
     if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeLeft])      mask |= UIInterfaceOrientationMaskLandscapeLeft;

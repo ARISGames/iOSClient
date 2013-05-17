@@ -84,7 +84,8 @@
     Media  *media = [[AppModel sharedAppModel].mediaCache mediaForMediaId:[self.fileURL hash]];
     media.url = [self.fileURL absoluteString];
     media.type = mediaType;
-    if([self.type isEqualToString:@"PHOTO"]){
+    if([self.type isEqualToString:@"PHOTO"])
+    {
         NSData *imageData = [NSData dataWithContentsOfURL:self.fileURL];
         media.image = imageData;
     }

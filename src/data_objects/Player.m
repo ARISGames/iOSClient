@@ -26,8 +26,8 @@
 {
     if(self = [super init])
     {
-        self.username      = [dict validObjectForKey:@"user_name"];
-        self.displayname   = [dict validObjectForKey:@"display_name"];
+        self.username      = [dict validStringForKey:@"user_name"];
+        self.displayname   = [dict validStringForKey:@"display_name"];
 		self.playerId      = [dict validIntForKey:@"player_id"];
 		self.playerMediaId = [dict validIntForKey:@"media_id"];
         self.groupname     = [dict validObjectForKey:@"group_name"];

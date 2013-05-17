@@ -487,28 +487,23 @@
 
 #pragma mark - View lifecycle
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
--(BOOL)shouldAutorotate
+- (BOOL) shouldAutorotate
 {
     return YES;
 }
 
--(NSInteger)supportedInterfaceOrientations
+- (NSInteger) supportedInterfaceOrientations
 {
     NSInteger mask = 0;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeLeft])
-        mask |= UIInterfaceOrientationMaskLandscapeLeft;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeRight])
-        mask |= UIInterfaceOrientationMaskLandscapeRight;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortrait])
-        mask |= UIInterfaceOrientationMaskPortrait;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortraitUpsideDown])
-        mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
+    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeLeft])      mask |= UIInterfaceOrientationMaskLandscapeLeft;
+    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeRight])     mask |= UIInterfaceOrientationMaskLandscapeRight;
+    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationPortrait])           mask |= UIInterfaceOrientationMaskPortrait;
+    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationPortraitUpsideDown]) mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
     return mask;
 }
 

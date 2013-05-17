@@ -19,22 +19,9 @@
 - (void) playerSettingsWasDismissed;
 @end
 
-@interface PlayerSettingsViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, AsyncMediaImageViewDelegate, UITextFieldDelegate> {
-	IBOutlet AsyncMediaImageView *playerPic;
-    IBOutlet UITextField *playerNameField;
-	IBOutlet UIButton *playerPicCamButton;
-    IBOutlet UIButton *saveButton;
-}
-
-@property (nonatomic) IBOutlet AsyncMediaImageView *playerPic;
-@property (nonatomic) IBOutlet UITextField *playerNameField;
-@property (nonatomic) IBOutlet UIButton *playerPicCamButton;
-@property (nonatomic) IBOutlet UIButton *saveButton;
+@interface PlayerSettingsViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, AsyncMediaImageViewDelegate, UITextFieldDelegate>
 
 - (id)initWithDelegate:(id<PlayerSettingsViewControllerDelegate>)d;
--(void)viewDidIntentionallyAppear;
--(void) refreshViewFromModel;
--(IBAction)saveButtonTouched:(id)sender;
--(IBAction)playerPicCamButtonTouched:(id)sender;
+- (void) resetState;
 
 @end

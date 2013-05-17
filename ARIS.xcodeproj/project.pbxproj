@@ -22,6 +22,7 @@
 		AA1DA9841742BB2900D10A35 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA1DA9831742BB2700D10A35 /* Default-568h@2x.png */; };
 		AA1E2D4E1652CC6000219535 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4D1652CC6000219535 /* libicucore.dylib */; };
 		AA1E2D501652CC7500219535 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4F1652CC7500219535 /* Security.framework */; };
+		AA4B20931745672600079AEF /* ARISNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4B20921745672500079AEF /* ARISNavigationController.m */; };
 		AA50A48017396B7200B105C2 /* ARISContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA50A47F17396B7000B105C2 /* ARISContainerViewController.m */; };
 		AA50A484173992F500B105C2 /* 123-id-card-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA50A482173992F500B105C2 /* 123-id-card-white@2x.png */; };
 		AA50A485173992F500B105C2 /* 123-id-card-white.png in Resources */ = {isa = PBXBuildFile; fileRef = AA50A483173992F500B105C2 /* 123-id-card-white.png */; };
@@ -459,6 +460,8 @@
 		AA1E2D4D1652CC6000219535 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		AA1E2D4F1652CC7500219535 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		AA353F891729C43600A1EB6A /* GameObjectProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObjectProtocol.h; sourceTree = "<group>"; };
+		AA4B20911745672300079AEF /* ARISNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISNavigationController.h; sourceTree = "<group>"; };
+		AA4B20921745672500079AEF /* ARISNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISNavigationController.m; sourceTree = "<group>"; };
 		AA50A47E17396B6F00B105C2 /* ARISContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISContainerViewController.h; sourceTree = "<group>"; };
 		AA50A47F17396B7000B105C2 /* ARISContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISContainerViewController.m; sourceTree = "<group>"; };
 		AA50A482173992F500B105C2 /* 123-id-card-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "123-id-card-white@2x.png"; sourceTree = "<group>"; };
@@ -1311,13 +1314,15 @@
 		AABC7062172739D60074CC21 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				AA50A47E17396B6F00B105C2 /* ARISContainerViewController.h */,
-				AA50A47F17396B7000B105C2 /* ARISContainerViewController.m */,
 				AABC70D0172739D60074CC21 /* main.mm */,
 				AABC7070172739D60074CC21 /* ARIS_Prefix.pch */,
 				AABC70D1172739D60074CC21 /* MainWindow.xib */,
 				AABC7071172739D60074CC21 /* ARISAppDelegate.h */,
 				AABC7072172739D60074CC21 /* ARISAppDelegate.m */,
+				AA50A47E17396B6F00B105C2 /* ARISContainerViewController.h */,
+				AA50A47F17396B7000B105C2 /* ARISContainerViewController.m */,
+				AA4B20911745672300079AEF /* ARISNavigationController.h */,
+				AA4B20921745672500079AEF /* ARISNavigationController.m */,
 				AABC711D172739D60074CC21 /* RootViewController.h */,
 				AABC711E172739D60074CC21 /* RootViewController.m */,
 				AA701FE6173443FB003A840D /* ARISPusherHandler.h */,
@@ -1422,6 +1427,9 @@
 		AABC7099172739D60074CC21 /* game_details */ = {
 			isa = PBXGroup;
 			children = (
+				AABC70A6172739D60074CC21 /* GameDetailsViewController.h */,
+				AABC70A7172739D60074CC21 /* GameDetailsViewController.m */,
+				AABC70A5172739D60074CC21 /* GameDetailsViewController.xib */,
 				AABC709A172739D60074CC21 /* Comment.h */,
 				AABC709B172739D60074CC21 /* Comment.m */,
 				AABC709C172739D60074CC21 /* CommentCell.h */,
@@ -1433,9 +1441,6 @@
 				AABC70A2172739D60074CC21 /* commentsView.xib */,
 				AABC70A3172739D60074CC21 /* commentsViewController.h */,
 				AABC70A4172739D60074CC21 /* commentsViewController.m */,
-				AABC70A5172739D60074CC21 /* GameDetailsViewController.xib */,
-				AABC70A6172739D60074CC21 /* GameDetailsViewController.h */,
-				AABC70A7172739D60074CC21 /* GameDetailsViewController.m */,
 				AABC70A8172739D60074CC21 /* RatingCell.h */,
 				AABC70A9172739D60074CC21 /* RatingCell.m */,
 				AABC70AA172739D60074CC21 /* RatingCell.xib */,
@@ -1449,11 +1454,11 @@
 		AABC70AE172739D60074CC21 /* game_pickers */ = {
 			isa = PBXGroup;
 			children = (
+				AABC70B2172739D60074CC21 /* GamePickerViewController.h */,
+				AABC70B3172739D60074CC21 /* GamePickerViewController.m */,
 				AABC70AF172739D60074CC21 /* GamePickerCell.h */,
 				AABC70B0172739D60074CC21 /* GamePickerCell.m */,
 				AABC70B1172739D60074CC21 /* GamePickerCell.xib */,
-				AABC70B2172739D60074CC21 /* GamePickerViewController.h */,
-				AABC70B3172739D60074CC21 /* GamePickerViewController.m */,
 				AABC70B4172739D60074CC21 /* nearby */,
 				AABC70B8172739D60074CC21 /* popular */,
 				AABC70BC172739D60074CC21 /* recent */,
@@ -2647,6 +2652,7 @@
 				AA701FE8173443FC003A840D /* ARISPusherHandler.m in Sources */,
 				AA50A48017396B7200B105C2 /* ARISContainerViewController.m in Sources */,
 				AAAB7637173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m in Sources */,
+				AA4B20931745672600079AEF /* ARISNavigationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

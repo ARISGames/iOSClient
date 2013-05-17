@@ -51,8 +51,6 @@
     self.attributesModel = [[AttributesModel alloc] init];
     self.questsModel     = [[QuestsModel     alloc] init];
     self.locationsModel  = [[LocationsModel  alloc] init];
-    
-    [[AppServices sharedAppServices] fetchAllGameLists];
 }
 
 - (NSComparisonResult)compareDistanceFromPlayer:(Game*)otherGame{

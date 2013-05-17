@@ -57,7 +57,7 @@
 
 - (void)moveProgressBar
 {
-    float actual = ((float)receivedData/8.0f);//<- What. '8'? Where did that number come from?
+    float actual = ((float)receivedData/7.0f);//<- What. '8'? Where did that number come from?
     progressBar.progress = actual;
     [progressBar setNeedsLayout];
     [progressBar setNeedsDisplay];
@@ -66,8 +66,8 @@
     
     if(actual >= 0.999)
     {
-        [delegate loadingViewControllerDidComplete];
         [self dismissViewControllerAnimated:NO completion:nil];
+        [delegate loadingViewControllerDidComplete];
         receivedData = 0;
     }
 }
@@ -82,17 +82,13 @@
     return YES;
 }
 
--(NSInteger)supportedInterfaceOrientations
+-(NSInteger) supportedInterfaceOrientations
 {
     NSInteger mask = 0;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeLeft])
-        mask |= UIInterfaceOrientationMaskLandscapeLeft;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationLandscapeRight])
-        mask |= UIInterfaceOrientationMaskLandscapeRight;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortrait])
-        mask |= UIInterfaceOrientationMaskPortrait;
-    if ([self shouldAutorotateToInterfaceOrientation: UIInterfaceOrientationPortraitUpsideDown])
-        mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
+    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeLeft])      mask |= UIInterfaceOrientationMaskLandscapeLeft;
+    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeRight])     mask |= UIInterfaceOrientationMaskLandscapeRight;
+    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationPortrait])           mask |= UIInterfaceOrientationMaskPortrait;
+    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationPortraitUpsideDown]) mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
     return mask;
 }
 
