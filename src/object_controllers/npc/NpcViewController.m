@@ -616,6 +616,7 @@ NSString *const kDialogHtmlTemplate =
     CGRect newTextFrame;
     switch(textboxSizeState)
     {
+            //PHIL- Here are the magic numbers. needs fixin'
         case 0: newTextFrame = CGRectMake(0, 416, 320,   1); break;
         case 1: newTextFrame = CGRectMake(0, 288, 320, 128); break;
         case 2: newTextFrame = CGRectMake(0,   0, 320, 416); break;

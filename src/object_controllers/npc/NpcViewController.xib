@@ -50,12 +50,12 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBUIScrollView" id="205060251">
 								<reference key="NSNextResponder" ref="629273398"/>
-								<int key="NSvFlags">306</int>
+								<int key="NSvFlags">274</int>
 								<object class="NSMutableArray" key="NSSubviews">
 									<bool key="EncodedWithXMLCoder">YES</bool>
 									<object class="IBUIImageView" id="5728575">
 										<reference key="NSNextResponder" ref="205060251"/>
-										<int key="NSvFlags">306</int>
+										<int key="NSvFlags">274</int>
 										<string key="NSFrameSize">{320, 416}</string>
 										<reference key="NSSuperview" ref="205060251"/>
 										<reference key="NSWindow"/>
@@ -79,12 +79,12 @@
 							</object>
 							<object class="IBUIScrollView" id="644584544">
 								<reference key="NSNextResponder" ref="629273398"/>
-								<int key="NSvFlags">274</int>
+								<int key="NSvFlags">282</int>
 								<object class="NSMutableArray" key="NSSubviews">
 									<bool key="EncodedWithXMLCoder">YES</bool>
 									<object class="IBUIWebView" id="411850233">
 										<reference key="NSNextResponder" ref="644584544"/>
-										<int key="NSvFlags">274</int>
+										<int key="NSvFlags">306</int>
 										<string key="NSFrame">{{10, 10}, {300, 20}}</string>
 										<reference key="NSSuperview" ref="644584544"/>
 										<reference key="NSWindow"/>
@@ -126,7 +126,6 @@
 										<string key="NSFrame">{{10, 57}, {300, 37}}</string>
 										<reference key="NSSuperview" ref="644584544"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 										<int key="IBUIContentHorizontalAlignment">0</int>
@@ -191,12 +190,12 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBUIScrollView" id="528360346">
 								<reference key="NSNextResponder" ref="133102362"/>
-								<int key="NSvFlags">306</int>
+								<int key="NSvFlags">274</int>
 								<object class="NSMutableArray" key="NSSubviews">
 									<bool key="EncodedWithXMLCoder">YES</bool>
 									<object class="IBUIImageView" id="758704175">
 										<reference key="NSNextResponder" ref="528360346"/>
-										<int key="NSvFlags">306</int>
+										<int key="NSvFlags">274</int>
 										<string key="NSFrameSize">{320, 416}</string>
 										<reference key="NSSuperview" ref="528360346"/>
 										<reference key="NSWindow"/>
@@ -220,7 +219,7 @@
 							</object>
 							<object class="IBUIScrollView" id="769965998">
 								<reference key="NSNextResponder" ref="133102362"/>
-								<int key="NSvFlags">268</int>
+								<int key="NSvFlags">274</int>
 								<string key="NSFrame">{{40, 144}, {240, 128}}</string>
 								<reference key="NSSuperview" ref="133102362"/>
 								<reference key="NSWindow"/>
@@ -233,12 +232,12 @@
 							</object>
 							<object class="IBUIScrollView" id="687792649">
 								<reference key="NSNextResponder" ref="133102362"/>
-								<int key="NSvFlags">287</int>
+								<int key="NSvFlags">282</int>
 								<object class="NSMutableArray" key="NSSubviews">
 									<bool key="EncodedWithXMLCoder">YES</bool>
 									<object class="IBUIWebView" id="354571343">
 										<reference key="NSNextResponder" ref="687792649"/>
-										<int key="NSvFlags">311</int>
+										<int key="NSvFlags">306</int>
 										<string key="NSFrame">{{10, 10}, {300, 20}}</string>
 										<reference key="NSSuperview" ref="687792649"/>
 										<reference key="NSWindow"/>
@@ -772,148 +771,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/AsyncMediaImageView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">DialogViewController</string>
-					<string key="superclassName">UIViewController</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">continueButtonTouchAction</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">continueButtonTouchAction</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">continueButtonTouchAction</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
-					<object class="NSMutableDictionary" key="outlets">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>npcImageSection</string>
-							<string>npcImageView</string>
-							<string>npcTapToContinueButton</string>
-							<string>npcTextSection</string>
-							<string>npcTextWebView</string>
-							<string>npcVideoView</string>
-							<string>npcView</string>
-							<string>pcImageSection</string>
-							<string>pcImageView</string>
-							<string>pcLoadingIndicator</string>
-							<string>pcOptionsTable</string>
-							<string>pcTapToContinueButton</string>
-							<string>pcTextSection</string>
-							<string>pcTextWebView</string>
-							<string>pcView</string>
-						</object>
-						<object class="NSArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>UIScrollView</string>
-							<string>AsyncMediaImageView</string>
-							<string>UIButton</string>
-							<string>UIScrollView</string>
-							<string>UIWebView</string>
-							<string>UIScrollView</string>
-							<string>UIView</string>
-							<string>UIScrollView</string>
-							<string>AsyncMediaImageView</string>
-							<string>UIActivityIndicatorView</string>
-							<string>UITableView</string>
-							<string>UIButton</string>
-							<string>UIScrollView</string>
-							<string>UIWebView</string>
-							<string>UIView</string>
-						</object>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>npcImageSection</string>
-							<string>npcImageView</string>
-							<string>npcTapToContinueButton</string>
-							<string>npcTextSection</string>
-							<string>npcTextWebView</string>
-							<string>npcVideoView</string>
-							<string>npcView</string>
-							<string>pcImageSection</string>
-							<string>pcImageView</string>
-							<string>pcLoadingIndicator</string>
-							<string>pcOptionsTable</string>
-							<string>pcTapToContinueButton</string>
-							<string>pcTextSection</string>
-							<string>pcTextWebView</string>
-							<string>pcView</string>
-						</object>
-						<object class="NSArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBToOneOutletInfo">
-								<string key="name">npcImageSection</string>
-								<string key="candidateClassName">UIScrollView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">npcImageView</string>
-								<string key="candidateClassName">AsyncMediaImageView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">npcTapToContinueButton</string>
-								<string key="candidateClassName">UIButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">npcTextSection</string>
-								<string key="candidateClassName">UIScrollView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">npcTextWebView</string>
-								<string key="candidateClassName">UIWebView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">npcVideoView</string>
-								<string key="candidateClassName">UIScrollView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">npcView</string>
-								<string key="candidateClassName">UIView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">pcImageSection</string>
-								<string key="candidateClassName">UIScrollView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">pcImageView</string>
-								<string key="candidateClassName">AsyncMediaImageView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">pcLoadingIndicator</string>
-								<string key="candidateClassName">UIActivityIndicatorView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">pcOptionsTable</string>
-								<string key="candidateClassName">UITableView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">pcTapToContinueButton</string>
-								<string key="candidateClassName">UIButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">pcTextSection</string>
-								<string key="candidateClassName">UIScrollView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">pcTextWebView</string>
-								<string key="candidateClassName">UIWebView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">pcView</string>
-								<string key="candidateClassName">UIView</string>
-							</object>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/DialogViewController.h</string>
 					</object>
 				</object>
 			</object>

@@ -46,7 +46,7 @@
 @synthesize filterToolBar;
 @synthesize sortToolBar;
 
-- (id)initWithDelegate:(id<NotebookViewControllerDelegate, StateControllerProtocol>)d
+- (id) initWithDelegate:(id<NotebookViewControllerDelegate, StateControllerProtocol>)d
 {
     if(self = [super initWithNibName:@"NotebookViewController" bundle:nil])
     {
@@ -69,24 +69,23 @@
     return self;
 }
 
-- (void)viewDidLoad
+- (void) viewDidLoad
 {
     [super viewDidLoad];
     
     UIImage *barButtonImage = [UIImage imageNamed:@"14-gear"];
-    UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithImage:barButtonImage style:UIBarButtonItemStyleBordered target:self action:@selector(displayMenu)];
-
-    self.navigationItem.rightBarButtonItem = barButton;
-    [self.filterToolBar setFrame:CGRectMake(0, -44, 320, 44)];
-    [self.sortToolBar setFrame:CGRectMake(0, 416, 320, 44)];
-    [self.toolBar setFrame:CGRectMake(0, 0, 320, 44)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:barButtonImage style:UIBarButtonItemStyleBordered target:self action:@selector(displayMenu)];
     
-    [self.noteTable setFrame:CGRectMake(0, 44, 320, 324)];
+    //[self.filterToolBar setFrame:CGRectMake(0, -44, 320, 44)];
+    //[self.toolBar       setFrame:CGRectMake(0, 0,   320, 44)];
+    //[self.noteTable setFrame:CGRectMake(0, 44, 320, 324)];
+    //[self.sortToolBar   setFrame:CGRectMake(0, 416, 320, 44)];
+    
     filSelected = 0;
     sortSelected = 0;
 }
 
--(void)displayMenu
+- (void) displayMenu
 {
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
@@ -118,17 +117,17 @@
     }
 }
 
--(void)filterButtonTouchAction:(id)sender
+- (void) filterButtonTouchAction:(id)sender
 {    
     [self refresh];
 }
 
--(void)sortButtonTouchAction:(id)sender
+- (void) sortButtonTouchAction:(id)sender
 {
     if([sender isKindOfClass:[UISegmentedControl class]])
         [sender setTag:[(UISegmentedControl *)sender selectedSegmentIndex]];
     
-    switch ([sender tag])
+    switch([sender tag])
     {
         case 0:
         {
@@ -174,12 +173,12 @@
     [noteTable reloadData];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void) viewDidAppear:(BOOL)animated
 {
     [self refresh];
 }
 
--(void)refresh
+- (void) refresh
 {
     if(filterControl.selectedSegmentIndex == 0)
         [[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:YES];
@@ -192,7 +191,7 @@
 }
 
 #pragma mark custom methods, logic
--(void)showLoadingIndicator
+- (void) showLoadingIndicator
 {
 	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
 	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
@@ -200,12 +199,12 @@
 	[activityIndicator startAnimating];    
 }
 
--(void)removeLoadingIndicator
+- (void) removeLoadingIndicator
 {
     [noteTable reloadData];
 }
 
--(void)barButtonTouchAction:(id)sender
+- (void) barButtonTouchAction:(id)sender
 {
     NoteEditorViewController *noteVC = [[NoteEditorViewController alloc] initWithNibName:@"NoteEditorViewController" bundle:nil];
     noteVC.startWithView = [sender tag] + 1;
@@ -213,7 +212,7 @@
     [self.navigationController pushViewController:noteVC animated:NO];
 }
 
-- (void)refreshViewFromModel
+- (void) refreshViewFromModel
 {    
 	noteList = [[[AppModel sharedAppModel].playerNoteList allValues] mutableCopy];
     if([AppModel sharedAppModel].currentGame.allowShareNoteToList)
@@ -298,7 +297,7 @@
 }
 
 #pragma mark Table view methods
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
     if(tagFilter)
     {
@@ -335,7 +334,7 @@
     }
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     self.videoIconUsed = NO;
     self.photoIconUsed = NO;
@@ -477,7 +476,7 @@
     return cell;
 }
 
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+- (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if(tagFilter)
     {
@@ -499,13 +498,13 @@
     else return @"";
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {    
     if (indexPath.row % 2 == 0) cell.backgroundColor = [UIColor colorWithRed:233.0/255.0 green:233.0/255.0 blue:233.0/255.0 alpha:1.0];  
     else                        cell.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:1.0];  
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSMutableArray *currentNoteList;
     if(self.filterControl.selectedSegmentIndex == 0)
@@ -530,12 +529,12 @@
     [delegate displayGameObject:(Note *)[currentNoteList objectAtIndex:indexPath.row] fromSource:self];
 }
 
--(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat) tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	return 60;
 }
 
--(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCellEditingStyle) tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(tagFilter) return UITableViewCellEditingStyleNone;
     if([AppModel sharedAppModel].isGameNoteList )
@@ -552,7 +551,7 @@
     return UITableViewCellEditingStyleNone;
 }
 
--(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+- (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [[AppServices sharedAppServices]deleteNoteWithNoteId:[(Note *)[self.noteList objectAtIndex:indexPath.row] noteId]];
     if([AppModel sharedAppModel].isGameNoteList)
@@ -562,17 +561,17 @@
     [self refreshViewFromModel];
 }
 
-- (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath
+- (void) tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [noteTable reloadData];
 }
 
--(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+- (NSString *) tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return  @"Delete Note";
 }
 
-- (void)dealloc
+- (void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
