@@ -170,6 +170,8 @@ NSString *const kDialogHtmlTemplate =
         [self loadPlayerOptions];
     else
         [parser parseText:self.currentNpc.greeting];
+    
+    [self toggleTextBoxSize:1];
 }
 
 - (void) didFinishParsing:(DialogScript *)s
@@ -568,8 +570,8 @@ NSString *const kDialogHtmlTemplate =
 
 - (void) moveAllOutWithPostSelector:(SEL)postSelector
 {
-	[self movePcTo:CGRectMake(160, 0, 320, 416)  withAlpha:0.0
-		  andNpcTo:CGRectMake(-160, 0, 320, 416) withAlpha:0.0
+	[self movePcTo:CGRectMake( 160, 0, 320, [UIScreen mainScreen].applicationFrame.size.height-44) withAlpha:0.0
+		  andNpcTo:CGRectMake(-160, 0, 320, [UIScreen mainScreen].applicationFrame.size.height-44) withAlpha:0.0
   withPostSelector:postSelector];
 }
 
@@ -602,12 +604,14 @@ NSString *const kDialogHtmlTemplate =
     textboxSizeState = mode;
     
     CGRect newTextFrame;
+    int screenHeight = [UIScreen mainScreen].applicationFrame.size.height-44;
+    NSLog(@"Screen Stats:\nUIScreen MainScreen:%f\nself.view.frame.size.height:%f",[UIScreen mainScreen].applicationFrame.size.height, self.view.frame.size.height);
+
     switch(textboxSizeState)
     {
-            //PHIL- Here are the magic numbers. needs fixin'
-        case 0: newTextFrame = CGRectMake(0, 416, 320,   1); break;
-        case 1: newTextFrame = CGRectMake(0, 288, 320, 128); break;
-        case 2: newTextFrame = CGRectMake(0,   0, 320, 416); break;
+        case 0: newTextFrame = CGRectMake(0, screenHeight    , 320,            1); break;
+        case 1: newTextFrame = CGRectMake(0, screenHeight-128, 320,          128); break;
+        case 2: newTextFrame = CGRectMake(0,                0, 320, screenHeight); break;
     }
     
 	[UIView beginAnimations:@"toggleTextSize" context:nil];

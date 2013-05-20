@@ -160,7 +160,7 @@ didStartElement:(NSString *)elementName
             int x = 0;
             int y = 0;
             int width  = 320;
-            int height = 416;
+            int height = [UIScreen mainScreen].applicationFrame.size.height-44;
             if([attributeDict objectForKey:kAttrZoomX])
                 x = [[attributeDict objectForKey:kAttrZoomX] intValue];
             if([attributeDict objectForKey:kAttrZoomY])
