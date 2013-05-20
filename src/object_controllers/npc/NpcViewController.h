@@ -14,6 +14,8 @@
 #import "Node.h"
 #import "Npc.h"
 
+#import "StateControllerProtocol.h"
+
 @interface NpcViewController : GameObjectViewController <SceneParserDelegate, AsyncMediaImageViewDelegate, GameObjectViewControllerDelegate, UIScrollViewDelegate, UITextFieldDelegate, AVAudioPlayerDelegate>
 {
     IBOutlet UIView	*pcView;
@@ -55,7 +57,7 @@
 @property (nonatomic, strong) Npc *currentNpc;
 @property (nonatomic, strong) Node *currentNode;
 
-- (id) initWithNpc:(Npc *)n delegate:(NSObject<GameObjectViewControllerDelegate> *)d;
+- (id) initWithNpc:(Npc *)n delegate:(id<GameObjectViewControllerDelegate, StateControllerProtocol>)d;
 
 - (IBAction)continueButtonTouchAction;
 

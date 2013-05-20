@@ -85,6 +85,8 @@ NSString *const kDialogHtmlTemplate =
     UITableViewController *pcOptionsTableViewController;
     UIActivityIndicatorView *pcLoadingIndicator;
     UIActivityIndicatorView *waiting;
+    
+    id<GameObjectViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 
 @end
@@ -110,7 +112,7 @@ NSString *const kDialogHtmlTemplate =
 @synthesize currentNpc;
 @synthesize currentNode;
 
-- (id) initWithNpc:(Npc *)n delegate:(NSObject<GameObjectViewControllerDelegate> *)d
+- (id) initWithNpc:(Npc *)n delegate:(id<GameObjectViewControllerDelegate, StateControllerProtocol>)d
 {
     if((self = [super initWithNibName:@"NpcViewController" bundle:nil]))
     {
@@ -439,40 +441,26 @@ NSString *const kDialogHtmlTemplate =
 
 - (void) scriptEnded
 {
-    //PHIL 
-    /*
     if(closingScriptPlaying == YES || currentScript.exitToType)
     {
         [[AppServices sharedAppServices] updateServerNodeViewed:currentNode.nodeId fromLocation:0];
         [delegate gameObjectViewControllerRequestsDismissal:self];
         
-        if ([currentScript.exitToType isEqualToString:@"tab"])
-        {
-            NSString *tab;
-            for(int i = 0;i < [[RootViewController sharedRootViewController].gamePlayTabBarController.viewControllers count];i++)
-            {
-                tab = [[[RootViewController sharedRootViewController].gamePlayTabBarController.viewControllers objectAtIndex:i] title];
-                if([[tab lowercaseString] isEqualToString:[currentScript.exitToTabTitle lowercaseString]])
-                    [RootViewController sharedRootViewController].gamePlayTabBarController.selectedIndex = i;
-            }
-        }
+        if([currentScript.exitToType isEqualToString:@"tab"])
+            [delegate displayTab:[currentScript.exitToTabTitle lowercaseString]];
         else if([currentScript.exitToType isEqualToString:@"plaque"])
-            [[RootViewController sharedRootViewController] displayGameObject:[[AppModel sharedAppModel] nodeForNodeId:currentScript.exitToTypeId]];
+            [delegate displayGameObject:[[AppModel sharedAppModel] nodeForNodeId:currentScript.exitToTypeId] fromSource:self];
         else if([currentScript.exitToType isEqualToString:@"webpage"])
-            [[RootViewController sharedRootViewController] displayGameObject:[[AppModel sharedAppModel] webPageForWebPageID:currentScript.exitToTypeId]];
+            [delegate displayGameObject:[[AppModel sharedAppModel] webPageForWebPageID:currentScript.exitToTypeId] fromSource:self];
         else if([currentScript.exitToType isEqualToString:@"item"])
-            [[RootViewController sharedRootViewController] displayGameObject:[[AppModel sharedAppModel] itemForItemId:currentScript.exitToTypeId]];
+            [delegate displayGameObject:[[AppModel sharedAppModel] itemForItemId:currentScript.exitToTypeId] fromSource:self];
         else if([currentScript.exitToType isEqualToString:@"character"])
-            [[RootViewController sharedRootViewController] displayGameObject:[[AppModel sharedAppModel] npcForNpcId:currentScript.exitToTypeId]];
+            [delegate displayGameObject:[[AppModel sharedAppModel] npcForNpcId:currentScript.exitToTypeId] fromSource:self];
         else if([currentScript.exitToType isEqualToString:@"panoramic"])
-            [[RootViewController sharedRootViewController] displayGameObject:[[AppModel sharedAppModel] panoramicForPanoramicId:currentScript.exitToTypeId]];
+            [delegate displayGameObject:[[AppModel sharedAppModel] panoramicForPanoramicId:currentScript.exitToTypeId] fromSource:self];
     }
     else
-    {
         [self loadPlayerOptions];
-    }
-     */
-    //PHIL 
 }
 
 - (void) loadPlayerOptions
