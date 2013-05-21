@@ -1,0 +1,6 @@
+Compiling ARIS
+
+git clone git@github.com:ARISGames/iOSClient.git ARISiOSClient
+cd ARISiOSClient
+git submodule init
+git submodule update
