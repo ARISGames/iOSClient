@@ -746,7 +746,7 @@ NSString *const kDialogHtmlTemplate =
 	cell.textLabel.minimumFontSize = kOptionsFontSize;
 	
 	cell.textLabel.numberOfLines = 0;
-	[cell.textLabel sizeToFit];
+	[cell.textLabel sizeToFit]; 
 
 	return cell;
 }
