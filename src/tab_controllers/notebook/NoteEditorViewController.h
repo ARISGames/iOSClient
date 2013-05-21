@@ -12,7 +12,8 @@
 #import <AVFoundation/AVFoundation.h>
 
 
-@interface NoteEditorViewController : UIViewController <AVAudioSessionDelegate,UITextFieldDelegate, UITableViewDataSource,UITableViewDelegate, AVAudioPlayerDelegate,UIActionSheetDelegate>{
+@interface NoteEditorViewController : UIViewController <AVAudioSessionDelegate,UITextFieldDelegate, UITableViewDataSource,UITableViewDelegate, AVAudioPlayerDelegate,UIActionSheetDelegate>
+{
     IBOutlet UITextView *textBox;
     IBOutlet UITextField *textField;
     IBOutlet UIButton *cameraButton;
@@ -38,44 +39,43 @@
     UIActionSheet *actionSheet;
     IBOutlet UILabel *sharingLabel;
 }
-@property(nonatomic)    NSMutableDictionary *vidThumbs;
-@property(nonatomic) IBOutlet UITextView *textBox;
-@property(nonatomic) IBOutlet UIButton *hideKeyboardButton;
-@property(nonatomic) IBOutlet UISegmentedControl *typeControl;
-@property(nonatomic) Note *note;
-@property(nonatomic, unsafe_unretained) id delegate;
-@property(nonatomic)UIActionSheet *actionSheet;
-@property(nonatomic)IBOutlet UILabel *sharingLabel;
 
-@property (nonatomic) IBOutlet UITableView *contentTable;
-@property(nonatomic)IBOutlet UIButton *cameraButton;
-@property(nonatomic)IBOutlet UIButton *audioButton;
-@property(nonatomic)IBOutlet UIButton *publicButton;
-@property(nonatomic)IBOutlet UIButton *textButton;
-@property(nonatomic)IBOutlet UIButton *mapButton;
-@property(nonatomic)IBOutlet UIButton *libraryButton;
-@property(nonatomic)IBOutlet UITextField *textField;
-@property(nonatomic) IBOutlet UIScrollView *scrollView;
-@property(nonatomic) IBOutlet UIPageControl *pageControl;
-@property(nonatomic) NSMutableArray *viewControllers;
-@property(readwrite, assign) BOOL noteValid;
-@property(readwrite, assign) BOOL noteChanged;
-@property(readwrite, assign) BOOL noteDropped;
-@property(readwrite, assign) int startWithView;
+@property (nonatomic, strong) NSMutableDictionary *vidThumbs;
+@property (nonatomic, strong) IBOutlet UITextView *textBox;
+@property (nonatomic, strong) IBOutlet UIButton *hideKeyboardButton;
+@property (nonatomic, strong) IBOutlet UISegmentedControl *typeControl;
+@property (nonatomic, strong) Note *note;
+@property (nonatomic, strong) UIActionSheet *actionSheet;
+@property (nonatomic, strong) IBOutlet UILabel *sharingLabel;
 
+@property (nonatomic, strong) IBOutlet UITableView *contentTable;
+@property (nonatomic, strong) IBOutlet UIButton *cameraButton;
+@property (nonatomic, strong) IBOutlet UIButton *audioButton;
+@property (nonatomic, strong) IBOutlet UIButton *publicButton;
+@property (nonatomic, strong) IBOutlet UIButton *textButton;
+@property (nonatomic, strong) IBOutlet UIButton *mapButton;
+@property (nonatomic, strong) IBOutlet UIButton *libraryButton;
+@property (nonatomic, strong) IBOutlet UITextField *textField;
+@property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
+@property (nonatomic, strong) IBOutlet UIPageControl *pageControl;
+@property (nonatomic, strong) NSMutableArray *viewControllers;
+@property (readwrite, assign) BOOL noteValid;
+@property (readwrite, assign) BOOL noteChanged;
+@property (readwrite, assign) BOOL noteDropped;
+@property (readwrite, assign) int startWithView;
 
+@property (nonatomic, unsafe_unretained) id delegate;
 
-- (IBAction)previewButtonTouchAction;
--(IBAction)cameraButtonTouchAction;
--(IBAction)audioButtonTouchAction;
--(IBAction)libraryButtonTouchAction;
--(IBAction)mapButtonTouchAction;
--(IBAction)publicButtonTouchAction;
--(IBAction)textButtonTouchAction;
-- (void)updateTable;
-//-(IBAction)controlChanged:(id)sender;
-- (void)refreshViewFromModel;
--(void)tagButtonTouchAction;
--(void)addCDUploadsToNote;
-- (IBAction)backButtonTouchAction: (id) sender;
+- (IBAction) previewButtonTouchAction;
+- (IBAction) cameraButtonTouchAction;
+- (IBAction) audioButtonTouchAction;
+- (IBAction) libraryButtonTouchAction;
+- (IBAction) mapButtonTouchAction;
+- (IBAction) publicButtonTouchAction;
+- (IBAction) textButtonTouchAction;
+- (void) updateTable;
+- (void) refreshViewFromModel;
+- (void) tagButtonTouchAction;
+- (void) addCDUploadsToNote;
+
 @end
