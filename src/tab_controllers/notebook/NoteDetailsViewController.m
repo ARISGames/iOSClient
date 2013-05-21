@@ -162,7 +162,8 @@
         NSLog(@"this shouldn't happen");
     self.note = note;
     
-    for(int x = [self.note.contents count]-1; x >= 0; x--){
+    for(int x = [self.note.contents count]-1; x >= 0; x--)
+    {
         if(![[[self.note.contents objectAtIndex:x] getUploadState] isEqualToString:@"uploadStateDONE"])
             [self.note.contents removeObjectAtIndex:x];
     }
