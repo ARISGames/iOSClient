@@ -173,8 +173,11 @@
 	spinner.center = self.center;
 	[self addSubview:spinner];
 	
-	NSLog(@"AsyncImageView: Loading Image at %@",self.media.url);
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString: self.media.url]
+    //Phil hack until server is updated:
+    self.media.url = [self.media.url stringByReplacingOccurrencesOfString:@"gamedata//" withString:@"gamedata/player/"];
+    //End Phil hack
+    NSLog(@"AsyncImageView: Loading Image at %@",self.media.url);
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.media.url]
 											 cachePolicy:NSURLRequestUseProtocolCachePolicy
 										 timeoutInterval:60.0];
     if(connection) [connection cancel];

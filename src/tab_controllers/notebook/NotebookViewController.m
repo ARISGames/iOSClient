@@ -76,10 +76,11 @@
     UIImage *barButtonImage = [UIImage imageNamed:@"14-gear"];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:barButtonImage style:UIBarButtonItemStyleBordered target:self action:@selector(displayMenu)];
     
-    //[self.filterToolBar setFrame:CGRectMake(0, -44, 320, 44)];
-    //[self.toolBar       setFrame:CGRectMake(0, 0,   320, 44)];
-    //[self.noteTable setFrame:CGRectMake(0, 44, 320, 324)];
-    //[self.sortToolBar   setFrame:CGRectMake(0, 416, 320, 44)];
+    float screenHeight = [UIScreen mainScreen].applicationFrame.size.height;
+    [self.filterToolBar setFrame:CGRectMake(0,             -44, 320,                 44)];
+    [self.toolBar       setFrame:CGRectMake(0,               0, 320,                 44)];
+    [self.noteTable     setFrame:CGRectMake(0,              44, 320, screenHeight-44-92)];
+    [self.sortToolBar   setFrame:CGRectMake(0, screenHeight-44, 320,                 44)];
     
     filSelected = 0;
     sortSelected = 0;
@@ -91,15 +92,16 @@
 	[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
     
     menuDown = !menuDown;
+    float screenHeight = [UIScreen mainScreen].applicationFrame.size.height;
     if(menuDown)
     {
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
         [UIView setAnimationDuration:.2];
-        [self.filterToolBar setFrame:CGRectMake(0, 0, 320, 44)];
-        [self.sortToolBar setFrame:CGRectMake(0, 323, 320, 44)];
-        [self.toolBar setFrame:CGRectMake(0, 44, 320, 44)];
-        [self.noteTable setFrame:CGRectMake(0, 88, 320, 235)];
+        [self.filterToolBar setFrame:CGRectMake(0,                      0, 320,                     44)];
+        [self.toolBar       setFrame:CGRectMake(0,                     44, 320,                     44)];
+        [self.noteTable     setFrame:CGRectMake(0,                 (2*44), 320, screenHeight-(4*44)-49)];
+        [self.sortToolBar   setFrame:CGRectMake(0, screenHeight-(2*44)-49, 320,                     44)];
         [self.navigationItem.rightBarButtonItem setStyle:UIBarButtonItemStyleDone];
         [UIView commitAnimations];
     }
@@ -108,10 +110,10 @@
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
         [UIView setAnimationDuration:.2];
-        [self.filterToolBar setFrame:CGRectMake(0, -44, 320, 44)];
-        [self.sortToolBar setFrame:CGRectMake(0, 367, 320, 44)];
-        [self.toolBar setFrame:CGRectMake(0, 0, 320, 44)];
-        [self.noteTable setFrame:CGRectMake(0, 44, 320, 323)];
+        [self.filterToolBar setFrame:CGRectMake(0,             -44, 320,                     44)];
+        [self.toolBar       setFrame:CGRectMake(0,               0, 320,                     44)];
+        [self.noteTable     setFrame:CGRectMake(0,              44, 320, screenHeight-(2*44)-49)];
+        [self.sortToolBar   setFrame:CGRectMake(0, screenHeight-49, 320,                     44)];
         [self.navigationItem.rightBarButtonItem setStyle:UIBarButtonItemStyleBordered];
         [UIView commitAnimations];       
     }
@@ -135,7 +137,7 @@
             NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
             tagFilter = NO;   
             
-            self.noteList = [NSMutableArray arrayWithArray:[self.noteList sortedArrayUsingDescriptors:sortDescriptors]];
+            self.noteList     = [NSMutableArray arrayWithArray:[self.noteList     sortedArrayUsingDescriptors:sortDescriptors]];
             self.gameNoteList = [NSMutableArray arrayWithArray:[self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors]];
 
             break;
@@ -146,7 +148,7 @@
             NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
             tagFilter = NO;       
             
-            self.noteList = [NSMutableArray arrayWithArray:[self.noteList sortedArrayUsingDescriptors:sortDescriptors]];
+            self.noteList     = [NSMutableArray arrayWithArray:[self.noteList     sortedArrayUsingDescriptors:sortDescriptors]];
             self.gameNoteList = [NSMutableArray arrayWithArray:[self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors]];
             
             break;  
@@ -157,7 +159,7 @@
             NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
             tagFilter = NO;  
             
-            self.noteList = [NSMutableArray arrayWithArray:[self.noteList sortedArrayUsingDescriptors:sortDescriptors]];
+            self.noteList     = [NSMutableArray arrayWithArray:[self.noteList     sortedArrayUsingDescriptors:sortDescriptors]];
             self.gameNoteList = [NSMutableArray arrayWithArray:[self.gameNoteList sortedArrayUsingDescriptors:sortDescriptors]];
 
             break; 
@@ -339,7 +341,7 @@
     self.videoIconUsed = NO;
     self.photoIconUsed = NO;
     self.audioIconUsed = NO;
-    self.textIconUsed = NO;
+    self.textIconUsed  = NO;
     NSMutableArray *currentNoteList;
     if(self.filterControl.selectedSegmentIndex == 0)
     {
@@ -382,7 +384,6 @@
     
     NoteCell *cell = (NoteCell *)tempCell;
     
-    
     if(cell == nil)
     {
         NSLog(@"NotebookViewController: Allocing a new cell");
@@ -415,11 +416,12 @@
     if(currNote.userLiked)cell.likesButton.selected = YES;
     cell.titleLabel.text = currNote.name;
     if([currNote.contents count] == 0 && (currNote.creatorId != [AppModel sharedAppModel].player.playerId))cell.userInteractionEnabled = NO;
-    for(int x = 0; x < [currNote.contents count];x++){
+    for(int x = 0; x < [currNote.contents count];x++)
+    {
         if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:@"TEXT"]&& !self.textIconUsed)
         {
             self.textIconUsed = YES;
-            if (cell.mediaIcon1.image == nil)
+            if(cell.mediaIcon1.image == nil)
                 cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
             else if(cell.mediaIcon2.image == nil)
                 cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
@@ -431,7 +433,7 @@
         else if ([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:@"PHOTO"]&& !self.photoIconUsed)
         {
             self.photoIconUsed = YES;
-            if (cell.mediaIcon1.image == nil)
+            if(cell.mediaIcon1.image == nil)
                 cell.mediaIcon1.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
             else if(cell.mediaIcon2.image == nil)
                 cell.mediaIcon2.image = [UIImage imageWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
@@ -485,7 +487,6 @@
             if([self.headerTitleList count] > section)
                 return [self.headerTitleList objectAtIndex:section];
             else return @"";
-            
         }
         else
         {
@@ -514,12 +515,10 @@
             currentNoteList = self.noteList;
         else
             currentNoteList = [self.tagNoteList objectAtIndex:indexPath.section];
-        
     }
     else
     {
         [AppModel sharedAppModel].isGameNoteList = YES;
-        
         if(!tagFilter)
             currentNoteList = self.gameNoteList;
         else
