@@ -605,8 +605,6 @@ NSString *const kDialogHtmlTemplate =
     
     CGRect newTextFrame;
     int screenHeight = [UIScreen mainScreen].applicationFrame.size.height-44;
-    NSLog(@"Screen Stats:\nUIScreen MainScreen:%f\nself.view.frame.size.height:%f",[UIScreen mainScreen].applicationFrame.size.height, self.view.frame.size.height);
-
     switch(textboxSizeState)
     {
         case 0: newTextFrame = CGRectMake(0, screenHeight    , 320,            1); break;
