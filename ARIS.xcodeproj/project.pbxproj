@@ -1114,9 +1114,7 @@
 		29B97314FDCFA39411CA2CEA /* ARIS */ = {
 			isa = PBXGroup;
 			children = (
-				AAF81F9A174BC73C0003D848 /* ZXingWidget.xcodeproj */,
 				AABC74E317273A0F0074CC21 /* Info.plist */,
-				AA1DA9831742BB2700D10A35 /* Default-568h@2x.png */,
 				AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */,
 				AB0A5BA3120365420065CE68 /* Localizable.strings */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -1183,6 +1181,7 @@
 				AABC6F651727398B0074CC21 /* clickToPlay.png */,
 				AABC6F661727398B0074CC21 /* comment.png */,
 				AABC6F671727398B0074CC21 /* Default.png */,
+				AA1DA9831742BB2700D10A35 /* Default-568h@2x.png */,
 				AABC6F681727398B0074CC21 /* defaultAudioIcon.png */,
 				AABC6F691727398B0074CC21 /* defaultCharacter.png */,
 				AABC6F6A1727398B0074CC21 /* DefaultGameSplash.png */,
@@ -2129,6 +2128,7 @@
 		AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */ = {
 			isa = PBXGroup;
 			children = (
+				AAF81F9A174BC73C0003D848 /* ZXingWidget.xcodeproj */,
 				AABC6F3A172738CD0074CC21 /* Settings.bundle */,
 				AB9BA24813DFBAB1007470E3 /* libz.dylib */,
 				AB38DB3B13E4A1DE001EFF52 /* libiconv.dylib */,
