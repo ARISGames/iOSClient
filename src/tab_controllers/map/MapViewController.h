@@ -28,7 +28,6 @@
 	IBOutlet UIBarButtonItem *mapTypeButton;
 	IBOutlet UIBarButtonItem *playerTrackingButton;
 	IBOutlet UIToolbar *toolBar;
-    IBOutlet UIBarButtonItem *addMediaButton;
 	NSTimer *refreshTimer;
     IBOutlet UIBarButtonItem *playerButton;
 }
@@ -46,7 +45,6 @@
 @property (nonatomic) IBOutlet UIBarButtonItem *mapTypeButton;
 @property (nonatomic) IBOutlet UIBarButtonItem *playerButton;
 
-@property (nonatomic) IBOutlet UIBarButtonItem *addMediaButton;
 @property (nonatomic) IBOutlet UIBarButtonItem *playerTrackingButton;
 @property (nonatomic) IBOutlet UIToolbar *toolBar;
 

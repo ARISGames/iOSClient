@@ -46,14 +46,13 @@
         UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"SaveKey", @"") style:UIBarButtonItemStylePlain target:self action:@selector(saveButtonTouchAction)];      
         self.navigationItem.rightBarButtonItem = saveButton;    
     }
-    if(self.previewMode)  {
+    if(self.previewMode)
+    {
         self.textBox.userInteractionEnabled = NO;
         self.textBox.text = self.textToDisplay;
     }
-    if([self.backView isKindOfClass:[NoteEditorViewController class]] || [self.backView isKindOfClass:[NotebookViewController class]]) {
-
-    [self.textBox becomeFirstResponder];
-    }
+    if([self.backView isKindOfClass:[NoteEditorViewController class]] || [self.backView isKindOfClass:[NotebookViewController class]])
+        [self.textBox becomeFirstResponder];
     else self.textBox.userInteractionEnabled = NO;
     // Do any additional setup after loading the view from its nib.
     /*if(self.note)
