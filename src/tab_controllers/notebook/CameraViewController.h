@@ -7,27 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AppModel.h"
 
-@interface CameraViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
-{
-    BOOL showVid;
-    id backView;
-    id parentDelegate;
-    id editView;
-    int noteId;
-    BOOL bringUpCamera;
-    UIImagePickerController *picker;
-}
+@protocol CameraViewControllerDelegate
+- (void) imageChosenWithURL:(NSURL *)url;
+- (void) videoChosenWithURL:(NSURL *)url;
+- (void) cameraControllerCancelled;
+@end
 
-@property (nonatomic) id backView;
-@property (nonatomic) id parentDelegate;
-@property (nonatomic) id editView;
-@property(nonatomic)UIImagePickerController *picker;
-
-@property(readwrite,assign) BOOL showVid;
-@property(readwrite,assign) int noteId;
-
-- (NSMutableData*)dataWithEXIFUsingData:(NSData*)originalJPEGData;
-
+@interface CameraViewController : UIViewController
+- (id) initWithPresentMode:(NSString *)mode delegate:(id<CameraViewControllerDelegate>)d;
 @end
