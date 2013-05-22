@@ -222,7 +222,7 @@
         case 2: startView = @"audio";  break;
         default:startView = @"text";   break;
     }
-    NoteEditorViewController *noteVC = [[NoteEditorViewController alloc] initWithDelegate:self inView:startView];
+    NoteEditorViewController *noteVC = [[NoteEditorViewController alloc] initWithNote:nil inView:startView delegate:self];
     [self.navigationController pushViewController:noteVC animated:NO];
 }
 
@@ -390,34 +390,34 @@
         if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:@"TEXT"]&& !textIconUsed)
         {
             textIconUsed = YES;
-            if     (cell.mediaIcon1.image == nil) cell.mediaIcon1.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]];
-            else if(cell.mediaIcon2.image == nil) cell.mediaIcon2.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]];
-            else if(cell.mediaIcon3.image == nil) cell.mediaIcon3.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]];
-            else if(cell.mediaIcon4.image == nil) cell.mediaIcon4.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
+            if     (cell.mediaIcon1.image == nil) cell.mediaIcon1.image = [UIImage imageNamed:@"noteicon.png"];
+            else if(cell.mediaIcon2.image == nil) cell.mediaIcon2.image = [UIImage imageNamed:@"noteicon.png"];
+            else if(cell.mediaIcon3.image == nil) cell.mediaIcon3.image = [UIImage imageNamed:@"noteicon.png"];
+            else if(cell.mediaIcon4.image == nil) cell.mediaIcon4.image = [UIImage imageNamed:@"noteicon.png"]; 
         }
         else if ([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:@"PHOTO"]&& !photoIconUsed)
         {
             photoIconUsed = YES;
-            if     (cell.mediaIcon1.image == nil) cell.mediaIcon1.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]];
-            else if(cell.mediaIcon2.image == nil) cell.mediaIcon2.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]];
-            else if(cell.mediaIcon3.image == nil) cell.mediaIcon3.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]];
-            else if(cell.mediaIcon4.image == nil) cell.mediaIcon4.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"defaultImageIcon" ofType:@"png"]]; 
+            if     (cell.mediaIcon1.image == nil) cell.mediaIcon1.image = [UIImage imageNamed:@"defaultImageIcon.png"];
+            else if(cell.mediaIcon2.image == nil) cell.mediaIcon2.image = [UIImage imageNamed:@"defaultImageIcon.png"];
+            else if(cell.mediaIcon3.image == nil) cell.mediaIcon3.image = [UIImage imageNamed:@"defaultImageIcon.png"];
+            else if(cell.mediaIcon4.image == nil) cell.mediaIcon4.image = [UIImage imageNamed:@"defaultImageIcon.png"];
         }
         else if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:@"AUDIO"] && !audioIconUsed)
         {
             audioIconUsed = YES;
-            if     (cell.mediaIcon1.image == nil) cell.mediaIcon1.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]];
-            else if(cell.mediaIcon2.image == nil) cell.mediaIcon2.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]];
-            else if(cell.mediaIcon3.image == nil) cell.mediaIcon3.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]];
-            else if(cell.mediaIcon4.image == nil) cell.mediaIcon4.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"defaultAudioIcon" ofType:@"png"]];
+            if     (cell.mediaIcon1.image == nil) cell.mediaIcon1.image = [UIImage imageNamed:@"defaultAudioIcon.png"];
+            else if(cell.mediaIcon2.image == nil) cell.mediaIcon2.image = [UIImage imageNamed:@"defaultAudioIcon.png"];
+            else if(cell.mediaIcon3.image == nil) cell.mediaIcon3.image = [UIImage imageNamed:@"defaultAudioIcon.png"];
+            else if(cell.mediaIcon4.image == nil) cell.mediaIcon4.image = [UIImage imageNamed:@"defaultAudioIcon.png"];
         }
         else if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:@"VIDEO"] && !videoIconUsed)
         {
             videoIconUsed = YES;
-            if     (cell.mediaIcon1.image == nil) cell.mediaIcon1.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]];
-            else if(cell.mediaIcon2.image == nil) cell.mediaIcon2.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]];
-            else if(cell.mediaIcon3.image == nil) cell.mediaIcon3.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]];
-            else if(cell.mediaIcon4.image == nil) cell.mediaIcon4.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"defaultVideoIcon" ofType:@"png"]];
+            if     (cell.mediaIcon1.image == nil) cell.mediaIcon1.image = [UIImage imageNamed:@"defaultVideoIcon.png"];
+            else if(cell.mediaIcon2.image == nil) cell.mediaIcon2.image = [UIImage imageNamed:@"defaultVideoIcon.png"];
+            else if(cell.mediaIcon3.image == nil) cell.mediaIcon3.image = [UIImage imageNamed:@"defaultVideoIcon.png"];
+            else if(cell.mediaIcon4.image == nil) cell.mediaIcon4.image = [UIImage imageNamed:@"defaultVideoIcon.png"];
         }
     }
     

@@ -27,7 +27,7 @@
 #import "TagViewController.h"
 #import "ARISAppDelegate.h"
 
-@interface NoteEditorViewController() <AVAudioSessionDelegate, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate, AVAudioPlayerDelegate, UIActionSheetDelegate>
+@interface NoteEditorViewController() <AVAudioSessionDelegate, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate, AVAudioPlayerDelegate, UIActionSheetDelegate, CameraViewControllerDelegate, AudioRecorderViewControllerDelegate>
 {
     IBOutlet UITextField *textField;
     IBOutlet UIButton *cameraButton;
@@ -107,6 +107,8 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieFinishedCallback:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
         self.hidesBottomBarWhenPushed = YES;
         
+        [[AVAudioSession sharedInstance] setDelegate:self];
+        
         self.actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"SharingKey", @"")
                                                        delegate:self
                                               cancelButtonTitle:NSLocalizedString(@"CancelKey", @"")
@@ -116,6 +118,22 @@
                                                                 NSLocalizedString(@"BothKey", @""),
                                                                 NSLocalizedString(@"DontShareKey", @""),
                                                                 nil];
+        
+        if(!self.note)
+        {
+            self.note = [[Note alloc] init];
+            self.note.creatorId = [AppModel sharedAppModel].player.playerId;
+            self.note.username  = [AppModel sharedAppModel].player.username;
+            self.note.noteId    = [[AppServices sharedAppServices] createNoteStartIncomplete];
+            if(self.note.noteId != 0)
+                [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];
+            else
+            {
+                [self dismissSelf];
+                [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"NoteEditorCreateNoteFailedKey", @"") message:NSLocalizedString(@"NoteEditorCreateNoteFailedMessageKey", @"")];
+            }
+        }
+        else self.noteValid = YES;
     }
     return self;
 }
@@ -128,63 +146,44 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {    
-    if(!startingView)
-    {
-        if(self.note.noteId != 0)
-            self.textField.text = self.note.name;
-        
+    if(!self.startingView)
+    {        
         if(self.note.dropped) self.mapButton.selected = YES;   
         else                  self.mapButton.selected = NO;
+        
+        if     (!self.note.showOnMap && !self.note.showOnList) self.sharingLabel.text = NSLocalizedString(@"NoneKey", @"");
+        else if( self.note.showOnMap && !self.note.showOnList) self.sharingLabel.text = NSLocalizedString(@"NoteEditorMapOnlyKey", @"");
+        else if(!self.note.showOnMap &&  self.note.showOnList) self.sharingLabel.text = NSLocalizedString(@"NoteEditorListOnlyKey", @"");
+        else if( self.note.showOnMap &&  self.note.showOnList) self.sharingLabel.text = NSLocalizedString(@"NoteEditorListAndMapKey", @"");
         
         if(self.noteChanged)
         {
             self.noteChanged = NO;
             [contentTable reloadData];
         }
+        
+        [self refreshViewFromModel];
+        
+        self.textField.text = self.note.name;
+        if([self.note.name isEqualToString:NSLocalizedString(@"NodeEditorNewNoteKey", @"")])
+        {
+            self.textField.text = @"";
+            [self.textField becomeFirstResponder];
+        }
     }
-    else if([startingView isEqualToString:@"camera"]) [self cameraButtonTouchAction];
-    else if([startingView isEqualToString:@"text"])   [self textButtonTouchAction];
-    else if([startingView isEqualToString:@"audio"])  [self audioButtonTouchAction];
-    startingView = nil;
-    
-    if     (!self.note.showOnMap && !self.note.showOnList) self.sharingLabel.text = NSLocalizedString(@"NoneKey", @"");
-    else if( self.note.showOnMap && !self.note.showOnList) self.sharingLabel.text = NSLocalizedString(@"NoteEditorMapOnlyKey", @"");
-    else if(!self.note.showOnMap &&  self.note.showOnList) self.sharingLabel.text = NSLocalizedString(@"NoteEditorListOnlyKey", @"");
-    else if( self.note.showOnMap &&  self.note.showOnList) self.sharingLabel.text = NSLocalizedString(@"NoteEditorListAndMapKey", @"");
-    
-    [self refreshViewFromModel];
-    
-    if([self.note.name isEqualToString:NSLocalizedString(@"NodeEditorNewNoteKey", @"")])
-    {
-        self.textField.text = @"";
-        [self.textField becomeFirstResponder];
-    }
+    else if([self.startingView isEqualToString:@"camera"]) [self cameraButtonTouchAction];
+    else if([self.startingView isEqualToString:@"text"])   [self textButtonTouchAction];
+    else if([self.startingView isEqualToString:@"audio"])  [self audioButtonTouchAction];
+    self.startingView = nil;
 }
 
 - (void) viewDidLoad
 {
     [super viewDidLoad];
     
-    if(self.note.noteId == 0)
-    {
-        self.note = [[Note alloc] init];
-        self.note.creatorId = [AppModel sharedAppModel].player.playerId;
-        self.note.username  = [AppModel sharedAppModel].player.username;
-        self.note.noteId    = [[AppServices sharedAppServices] createNoteStartIncomplete];
-        if(self.note.noteId == 0)
-        {
-            [self backButtonTouchAction:[[UIButton alloc] init]];
-            [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"NoteEditorCreateNoteFailedKey", @"") message:NSLocalizedString(@"NoteEditorCreateNoteFailedMessageKey", @"")];
-        }
-        [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];
-    }
-    else self.noteValid = YES;
-    
     self.navigationItem.leftBarButtonItem  = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"DoneKey", @"") style:UIBarButtonItemStyleDone     target:self action:@selector(backButtonTouchAction:)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"16-tag"]     style:UIBarButtonItemStyleBordered target:self action:@selector(tagButtonTouchAction)];
-    
-    [[AVAudioSession sharedInstance] setDelegate:self];
-    
+        
     if([delegate isKindOfClass:[NoteCommentViewController class]])
     {
         self.publicButton.hidden = YES;
@@ -200,17 +199,10 @@
 {
     if(!self.note) return;
 
-    startingView = nil;
-    if([delegate isKindOfClass:[NoteDetailsViewController class]])
-    {
-        [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
-        self.note.name = self.textField.text;
-        [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   
-        [delegate setNote:self.note];
-    }
+    self.startingView = nil;
     self.note.name = self.textField.text;
-    if(([note.name length] == 0)) note.name = NSLocalizedString(@"NodeEditorNewNoteKey", @"");
-    [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];
+    if([note.name isEqualToString:@""]) note.name = NSLocalizedString(@"NodeEditorNewNoteKey", @"");
+    [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
 }
 
 -(void) tagButtonTouchAction
@@ -221,38 +213,15 @@
 }
 
 - (IBAction) backButtonTouchAction:(id)sender
-{    
-    if(!self.noteValid)
-    {
-        [[AppServices sharedAppServices]deleteNoteWithNoteId:self.note.noteId];
-        [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.note.noteId]];  
-    }
-    else
-    {
-        if([self.textField.text isEqualToString:@""]) self.textField.text = NSLocalizedString(@"NodeEditorNewNoteKey", @"");
-        [[AppServices sharedAppServices] setNoteCompleteForNoteId:self.note.noteId];
-    }
+{
+    if([self.textField.text isEqualToString:@""]) self.textField.text = NSLocalizedString(@"NodeEditorNewNoteKey", @"");
+    [[AppServices sharedAppServices] setNoteCompleteForNoteId:self.note.noteId];
+    [self dismissSelf];
+}
+
+- (void) dismissSelf
+{
     [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-- (BOOL) shouldAutorotate
-{
-    return YES;
-}
-
-- (NSInteger) supportedInterfaceOrientations
-{
-    NSInteger mask = 0;
-    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeLeft])      mask |= UIInterfaceOrientationMaskLandscapeLeft;
-    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeRight])     mask |= UIInterfaceOrientationMaskLandscapeRight;
-    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationPortrait])           mask |= UIInterfaceOrientationMaskPortrait;
-    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationPortraitUpsideDown]) mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
-    return mask;
 }
 
 -(void)updateTable
@@ -264,51 +233,70 @@
 {
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
-        CameraViewController *cameraVC = [[CameraViewController alloc] initWithDelegate:delegate];
-        if(!startingView) cameraVC.backView = self;
-        else              cameraVC.backView = delegate;
-        cameraVC.showVid = YES;
-        cameraVC.editView = self;
-        cameraVC.noteId = self.note.noteId;
-        
+        CameraViewController *cameraVC = [[CameraViewController alloc] initWithPresentMode:@"camera" delegate:self];
         [self.navigationController pushViewController:cameraVC animated:NO];
     }
 }
 
--(void)audioButtonTouchAction
+-(void)libraryButtonTouchAction
+{
+    CameraViewController *cameraVC = [[CameraViewController alloc] initWithPresentMode:@"library" delegate:self];
+    [self.navigationController pushViewController:cameraVC animated:NO];
+}
+
+- (void) imageChosenWithURL:(NSURL *)url
+{
+    [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.note.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:@"PHOTO" withFileURL:url];
+    self.noteValid   = YES;
+    self.noteChanged = YES;
+    [self refreshViewFromModel];
+}
+
+- (void) videoChosenWithURL:(NSURL *)url
+{
+    [[[AppModel sharedAppModel] uploadManager] uploadContentForNoteId:self.note.noteId withTitle:[NSString stringWithFormat:@"%@", [NSDate date]] withText:nil withType:@"VIDEO" withFileURL:url];
+    self.noteValid   = YES;
+    self.noteChanged = YES;
+    [self refreshViewFromModel];
+}
+
+- (void) cameraViewControllerCancelled
+{
+    if(!self.noteValid)
+    {
+        [[AppServices sharedAppServices] deleteNoteWithNoteId:self.note.noteId];
+        [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.note.noteId]];
+        [self dismissSelf];
+    }
+}
+
+- (void) audioButtonTouchAction
 {
     if([[AVAudioSession sharedInstance] inputIsAvailable])
     {
         AudioRecorderViewController *audioVC = [[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil];
-        if(!startingView) audioVC.backView = self;
-        else              audioVC.backView = delegate;
+        if(!self.startingView) audioVC.backView = self;
+        else                   audioVC.backView = delegate;
         audioVC.parentDelegate = delegate;
         audioVC.noteId = self.note.noteId;
         audioVC.editView = self;
         
         [self.navigationController pushViewController:audioVC animated:NO];
-    } 
+    }
 }
 
--(void)libraryButtonTouchAction
+- (void) audioRecorderViewControllerCancelled
 {
-    CameraViewController *cameraVC = [[CameraViewController alloc] initWithDelegate:delegate];
-    if(!startingView) cameraVC.backView = self;
-    else              cameraVC.backView = delegate;
-    
-    cameraVC.showVid = NO;
-    cameraVC.noteId = self.note.noteId;
-    cameraVC.editView = self;
-    
-    [self.navigationController pushViewController:cameraVC animated:NO];
+    [[AppServices sharedAppServices]deleteNoteWithNoteId:self.note.noteId];
+    [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.note.noteId]];
 }
 
 -(void)textButtonTouchAction
 {
     TextViewController *textVC = [[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil];
     textVC.noteId = self.note.noteId;
-    if(!startingView) textVC.backView = self;
-    else              textVC.backView = delegate;
+    if(!self.startingView) textVC.backView = self;
+    else                   textVC.backView = delegate;
     textVC.index = [self.note.contents count];
     textVC.editView = self;
     
@@ -438,18 +426,18 @@
     NSLog(@"NoteEditorVC: Added %d upload content(s) to note",[uploadContentsForNote count]);
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if([self.note.contents count] == 0) return 1;
 	return [self.note.contents count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {    
 	static NSString *CellIdentifier = @"Cell";
     
@@ -484,8 +472,7 @@
     cell.titleLbl.text = noteC.getTitle;
     
     if([[[self.note.contents objectAtIndex:indexPath.row] getType] isEqualToString:@"TEXT"]){
-        cell.imageView.image = [UIImage imageWithContentsOfFile: 
-                                [[NSBundle mainBundle] pathForResource:@"noteicon" ofType:@"png"]]; 
+        cell.imageView.image = [UIImage imageNamed:@"noteicon.png"];
         cell.detailLbl.text = noteC.getText;
     }
     else if([[noteC getType] isEqualToString:@"PHOTO"])
@@ -497,7 +484,7 @@
             [[noteC getType] isEqualToString:@"VIDEO"])
     {
         AsyncMediaImageView *aView = [[AsyncMediaImageView alloc]initWithFrame:cell.imageView.frame andMedia:noteC.getMedia];
-        UIImageView *overlay = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"play_button.png"]];
+        UIImageView *overlay = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"play_button.png"]];
         overlay.frame = CGRectMake(aView.frame.origin.x, aView.frame.origin.y, aView.frame.size.width/2, aView.frame.size.height/2);
         overlay.center = aView.center;
         
@@ -510,17 +497,17 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {    
-    if (indexPath.row % 2 == 0) cell.backgroundColor = [UIColor colorWithRed:233.0/255.0 green:233.0/255.0 blue:233.0/255.0 alpha:1.0];
-    else                        cell.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:1.0];
+    if(indexPath.row % 2 == 0) cell.backgroundColor = [UIColor colorWithRed:233.0/255.0 green:233.0/255.0 blue:233.0/255.0 alpha:1.0];
+    else                       cell.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:1.0];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NoteContent *noteC;
     
-    if([self.note.contents count]>indexPath.row)
+    if([self.note.contents count] > indexPath.row)
     {
         noteC = [self.note.contents objectAtIndex:indexPath.row];
         if ([noteC.getType isEqualToString:@"TEXT"])
@@ -572,6 +559,27 @@
 - (void)movieFinishedCallback:(NSNotification*) aNotification
 {
 	[self dismissMoviePlayerViewControllerAnimated];
+}
+
+
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (BOOL) shouldAutorotate
+{
+    return YES;
+}
+
+- (NSInteger) supportedInterfaceOrientations
+{
+    NSInteger mask = 0;
+    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeLeft])      mask |= UIInterfaceOrientationMaskLandscapeLeft;
+    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeRight])     mask |= UIInterfaceOrientationMaskLandscapeRight;
+    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationPortrait])           mask |= UIInterfaceOrientationMaskPortrait;
+    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationPortraitUpsideDown]) mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
+    return mask;
 }
 
 @end

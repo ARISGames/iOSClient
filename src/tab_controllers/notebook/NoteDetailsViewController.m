@@ -223,6 +223,7 @@
 -(void)saveButtonTouchAction{
     //[self displayTitleandDescriptionForm];
 }
+
 - (void)loadNewPageWithContent:(NoteContent *)content{
     
     if(![content.getType isEqualToString:@"UPLOAD"]){
