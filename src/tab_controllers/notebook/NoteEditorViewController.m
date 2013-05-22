@@ -10,8 +10,8 @@
 #import "StateControllerProtocol.h"
 #import "ARISAppDelegate.h"
 #import "AppServices.h"
-#import "InventoryViewController.h"
-#import "MapViewController.h"
+#import "AppModel.h"
+#import "ARISAlertHandler.h"
 #import "CameraViewController.h"
 #import "AudioRecorderViewController.h"
 #import "TextViewController.h"
@@ -22,42 +22,113 @@
 #import "DropOnMapViewController.h"
 #import "NoteCommentViewController.h"
 #import "NoteDetailsViewController.h"
-#import "AppModel.h"
 #import "NoteContentCell.h"
 #import "NoteContentProtocol.h"
-#import "UIImage+Scale.h"
 #import "TagViewController.h"
 #import "ARISAppDelegate.h"
 
-@implementation NoteEditorViewController
-@synthesize textBox,textField,note, delegate, hideKeyboardButton,libraryButton,cameraButton,audioButton, typeControl,viewControllers, scrollView,pageControl,publicButton,textButton,mapButton, contentTable,noteValid,noteChanged, noteDropped, vidThumbs,startWithView,actionSheet,sharingLabel;
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+@interface NoteEditorViewController() <AVAudioSessionDelegate, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate, AVAudioPlayerDelegate, UIActionSheetDelegate>
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self)
+    IBOutlet UITextField *textField;
+    IBOutlet UIButton *cameraButton;
+    IBOutlet UIButton *audioButton;
+    IBOutlet UIButton *libraryButton;
+    IBOutlet UIButton *mapButton;
+    IBOutlet UIButton *publicButton;
+    IBOutlet UIButton *textButton;
+    IBOutlet UITableView *contentTable;
+    IBOutlet UILabel *sharingLabel;
+    UIActionSheet *actionSheet;
+
+    Note *note;
+    id __unsafe_unretained delegate;
+    BOOL noteValid;
+    BOOL noteChanged;
+    NSString *startingView;
+}
+
+@property (nonatomic, strong) Note *note;
+@property (nonatomic, strong) UIActionSheet *actionSheet;
+@property (nonatomic, strong) IBOutlet UILabel *sharingLabel;
+@property (nonatomic, strong) IBOutlet UITableView *contentTable;
+@property (nonatomic, strong) IBOutlet UIButton *cameraButton;
+@property (nonatomic, strong) IBOutlet UIButton *audioButton;
+@property (nonatomic, strong) IBOutlet UIButton *publicButton;
+@property (nonatomic, strong) IBOutlet UIButton *textButton;
+@property (nonatomic, strong) IBOutlet UIButton *mapButton;
+@property (nonatomic, strong) IBOutlet UIButton *libraryButton;
+@property (nonatomic, strong) IBOutlet UITextField *textField;
+@property (readwrite, strong) NSString *startingView;
+@property (readwrite, assign) BOOL noteValid;
+@property (readwrite, assign) BOOL noteChanged;
+
+- (void) updateTable;
+- (void) refreshViewFromModel;
+- (void) tagButtonTouchAction;
+- (void) addCDUploadsToNote;
+
+- (IBAction) cameraButtonTouchAction;
+- (IBAction) audioButtonTouchAction;
+- (IBAction) libraryButtonTouchAction;
+- (IBAction) mapButtonTouchAction;
+- (IBAction) publicButtonTouchAction;
+- (IBAction) textButtonTouchAction;
+
+@end
+
+@implementation NoteEditorViewController
+
+@synthesize note;
+@synthesize actionSheet;
+@synthesize sharingLabel;
+
+@synthesize contentTable;
+@synthesize cameraButton;
+@synthesize audioButton;
+@synthesize publicButton;
+@synthesize textButton;
+@synthesize mapButton;
+@synthesize libraryButton;
+@synthesize textField;
+@synthesize noteValid;
+@synthesize noteChanged;
+@synthesize startingView;
+
+- (id) initWithNote:(Note *)n inView:(NSString *)view delegate:(id)d
+{
+    if(self = [super initWithNibName:@"NoteEditorViewController" bundle:nil])
     {
-        viewControllers = [[NSMutableArray alloc] initWithCapacity:10];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNoteListReady" object:nil];
+        delegate = d;
+        self.note = n;
+        self.startingView = view;
+        self.noteValid = NO;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel)   name:@"NewNoteListReady"                        object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieFinishedCallback:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
         self.hidesBottomBarWhenPushed = YES;
-        self.noteValid = NO;
-        vidThumbs = [[NSMutableDictionary alloc] initWithCapacity:5];
-        startWithView = 0;
-        actionSheet = [[UIActionSheet alloc]initWithTitle:NSLocalizedString(@"SharingKey", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"CancelKey", @"")destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"NoteEditorListOnlyKey", @""),NSLocalizedString(@"NoteEditorMapOnlyKey", @""),NSLocalizedString(@"BothKey", @""),NSLocalizedString(@"DontShareKey", @""), nil];
+        
+        self.actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"SharingKey", @"")
+                                                       delegate:self
+                                              cancelButtonTitle:NSLocalizedString(@"CancelKey", @"")
+                                         destructiveButtonTitle:nil
+                                              otherButtonTitles:NSLocalizedString(@"NoteEditorListOnlyKey", @""),
+                                                                NSLocalizedString(@"NoteEditorMapOnlyKey", @""),
+                                                                NSLocalizedString(@"BothKey", @""),
+                                                                NSLocalizedString(@"DontShareKey", @""),
+                                                                nil];
     }
     return self;
 }
 
-- (void)dealloc
+- (void) dealloc
 {
-    [[AVAudioSession sharedInstance] setDelegate: nil];
+    [[AVAudioSession sharedInstance] setDelegate:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
--(void)viewWillAppear:(BOOL)animated
+- (void) viewWillAppear:(BOOL)animated
 {    
-    if(startWithView == 0)
+    if(!startingView)
     {
         if(self.note.noteId != 0)
             self.textField.text = self.note.name;
@@ -71,10 +142,10 @@
             [contentTable reloadData];
         }
     }
-    else if(startWithView == 1) [self cameraButtonTouchAction];
-    else if(startWithView == 2) [self textButtonTouchAction];
-    else if(startWithView == 3) [self audioButtonTouchAction];
-    startWithView = 0;
+    else if([startingView isEqualToString:@"camera"]) [self cameraButtonTouchAction];
+    else if([startingView isEqualToString:@"text"])   [self textButtonTouchAction];
+    else if([startingView isEqualToString:@"audio"])  [self audioButtonTouchAction];
+    startingView = nil;
     
     if     (!self.note.showOnMap && !self.note.showOnList) self.sharingLabel.text = NSLocalizedString(@"NoneKey", @"");
     else if( self.note.showOnMap && !self.note.showOnList) self.sharingLabel.text = NSLocalizedString(@"NoteEditorMapOnlyKey", @"");
@@ -90,108 +161,78 @@
     }
 }
 
-#pragma mark - View lifecycle
-
-- (void)viewDidLoad
+- (void) viewDidLoad
 {
     [super viewDidLoad];
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"DoneKey", @"")
-                                                                   style: UIBarButtonItemStyleDone
-                                                                  target:self 
-                                                                  action:@selector(backButtonTouchAction:)];
-    self.navigationItem.leftBarButtonItem = doneButton;
-	    
+    
     if(self.note.noteId == 0)
     {
-        note = [[Note alloc]init];
+        self.note = [[Note alloc] init];
         self.note.creatorId = [AppModel sharedAppModel].player.playerId;
-        self.note.username = [AppModel sharedAppModel].player.username;
-        self.note.noteId = [[AppServices sharedAppServices] createNoteStartIncomplete];
+        self.note.username  = [AppModel sharedAppModel].player.username;
+        self.note.noteId    = [[AppServices sharedAppServices] createNoteStartIncomplete];
         if(self.note.noteId == 0)
         {
             [self backButtonTouchAction:[[UIButton alloc] init]];
-            UIAlertView *alert = [[UIAlertView alloc]initWithTitle: NSLocalizedString(@"NoteEditorCreateNoteFailedKey", @"") message: NSLocalizedString(@"NoteEditorCreateNoteFailedMessageKey", @"") delegate:self.delegate cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
-            [alert show];
+            [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"NoteEditorCreateNoteFailedKey", @"") message:NSLocalizedString(@"NoteEditorCreateNoteFailedMessageKey", @"")];
         }
         [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];
     }
     else self.noteValid = YES;
-    //self.contentTable.editing = YES;
-    scrollView.delegate = self;
-    pageControl.currentPage = 0;
-    pageControl.numberOfPages = numPages;
     
-    UIImage *tagButtonImage = [UIImage imageNamed:@"16-tag"];
-    UIBarButtonItem * tagButton = [[UIBarButtonItem alloc] initWithImage:tagButtonImage style:UIBarButtonItemStyleBordered target:self action:@selector(tagButtonTouchAction)];
-    self.navigationItem.rightBarButtonItem = tagButton;
+    self.navigationItem.leftBarButtonItem  = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"DoneKey", @"") style:UIBarButtonItemStyleDone     target:self action:@selector(backButtonTouchAction:)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"16-tag"]     style:UIBarButtonItemStyleBordered target:self action:@selector(tagButtonTouchAction)];
     
-    [[AVAudioSession sharedInstance] setDelegate: self];
+    [[AVAudioSession sharedInstance] setDelegate:self];
     
-    if([self.delegate isKindOfClass:[NoteCommentViewController class]])
+    if([delegate isKindOfClass:[NoteCommentViewController class]])
     {
         self.publicButton.hidden = YES;
-        self.mapButton.hidden = YES;
-        self.textButton.frame = CGRectMake(self.textButton.frame.origin.x, self.textButton.frame.origin.y, self.textButton.frame.size.width*1.5, self.textButton.frame.size.height);
-        self.libraryButton.frame = CGRectMake(self.libraryButton.frame.origin.x, self.libraryButton.frame.origin.y, self.libraryButton.frame.size.width*1.5, self.libraryButton.frame.size.height);
-        self.audioButton.frame = CGRectMake(self.textButton.frame.size.width-2, self.audioButton.frame.origin.y, self.audioButton.frame.size.width*1.5, self.audioButton.frame.size.height);
-        self.cameraButton.frame = CGRectMake(self.textButton.frame.size.width-2, self.cameraButton.frame.origin.y, self.cameraButton.frame.size.width*1.5, self.cameraButton.frame.size.height);
+        self.mapButton.hidden    = YES;
+        self.textButton.frame    = CGRectMake(    self.textButton.frame.origin.x,    self.textButton.frame.origin.y,    self.textButton.frame.size.width*1.5,    self.textButton.frame.size.height);
+        self.libraryButton.frame = CGRectMake( self.libraryButton.frame.origin.x, self.libraryButton.frame.origin.y, self.libraryButton.frame.size.width*1.5, self.libraryButton.frame.size.height);
+        self.audioButton.frame   = CGRectMake(self.textButton.frame.size.width-2,   self.audioButton.frame.origin.y,   self.audioButton.frame.size.width*1.5,   self.audioButton.frame.size.height);
+        self.cameraButton.frame  = CGRectMake(self.textButton.frame.size.width-2,  self.cameraButton.frame.origin.y,  self.cameraButton.frame.size.width*1.5,  self.cameraButton.frame.size.height);
     }
-    if([self.delegate isKindOfClass:[MapViewController class]])
-        self.note.dropped = YES;       
 }
 
--(void)viewWillDisappear:(BOOL)animated
+-(void) viewWillDisappear:(BOOL)animated
 {
-    startWithView = 0;
-    if(!self.note) 
-        return;
-    if([self.delegate isKindOfClass:[MapViewController class]]){
-        [[AppServices sharedAppServices] dropNote:self.note.noteId atCoordinate:[AppModel sharedAppModel].player.location.coordinate];
-    }
-    if([self.delegate isKindOfClass:[NoteDetailsViewController class]]){
+    if(!self.note) return;
+
+    startingView = nil;
+    if([delegate isKindOfClass:[NoteDetailsViewController class]])
+    {
         [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
         self.note.name = self.textField.text;
-        // if(![AppModel sharedAppModel].isGameNoteList)
         [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   
-        /*else
-         [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   */
-        [self.delegate setNote:self.note];
+        [delegate setNote:self.note];
     }
     self.note.name = self.textField.text;
     if(([note.name length] == 0)) note.name = NSLocalizedString(@"NodeEditorNewNoteKey", @"");
-    // if(![AppModel sharedAppModel].isGameNoteList)
     [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];
-    /*else
-     [[AppModel sharedAppModel].gameNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];   */
 }
 
--(void)tagButtonTouchAction
+-(void) tagButtonTouchAction
 {
     TagViewController *tagView = [[TagViewController alloc] initWithNibName:@"TagViewController" bundle:nil];
     tagView.note = self.note;
     [self.navigationController pushViewController:tagView animated:YES];
 }
 
-- (IBAction)backButtonTouchAction: (id) sender
+- (IBAction) backButtonTouchAction:(id)sender
 {    
-    if(!self.noteValid){ [[AppServices sharedAppServices]deleteNoteWithNoteId:self.note.noteId];
-        // if(![AppModel sharedAppModel].isGameNoteList)
+    if(!self.noteValid)
+    {
+        [[AppServices sharedAppServices]deleteNoteWithNoteId:self.note.noteId];
         [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.note.noteId]];  
-        /*  else
-         [[AppModel sharedAppModel].gameNoteList removeObjectForKey:[NSNumber numberWithInt:self.note.noteId]]; */ 
     }
-    else{
-        //If the user clicks done while editing the textfield, then set the textfield to be New Note; will update server on view will Disappear
-        if([self.textField.text length] == 0) self.textField.text = NSLocalizedString(@"NodeEditorNewNoteKey", @"");
-        // set note as complete (used for fullfilling note created requirements).
+    else
+    {
+        if([self.textField.text isEqualToString:@""]) self.textField.text = NSLocalizedString(@"NodeEditorNewNoteKey", @"");
         [[AppServices sharedAppServices] setNoteCompleteForNoteId:self.note.noteId];
     }
     [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void) previewButtonTouchAction
-{
-    [delegate displayGameObject:self.note fromSource:self];
 }
 
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -214,44 +255,18 @@
     return mask;
 }
 
--(void)textFieldDidBeginEditing:(UITextField *)textField
-{
-}
-
 -(void)updateTable
 {
     [contentTable reloadData];
-}
-
--(BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [self.textField resignFirstResponder];
-    self.noteValid = YES;
-    
-    self.note.name = self.textField.text;
-    if([self.note.name length] == 0)
-    {
-        self.note.name = NSLocalizedString(@"NodeEditorNewNoteKey", @"");
-        self.textField.text = self.note.name;
-    }
-    
-    [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.note.name publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
-
-    if(self.note && self.note.noteId)
-        [[AppModel sharedAppModel].playerNoteList setObject:self.note forKey:[NSNumber numberWithInt:self.note.noteId]];
-    
-    return YES;
 }
 
 -(void)cameraButtonTouchAction
 {
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
-        CameraViewController *cameraVC = [[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil];
-        if(startWithView == 0)
-            cameraVC.backView = self;
-        else cameraVC.backView = self.delegate;
-        cameraVC.parentDelegate = self.delegate;
+        CameraViewController *cameraVC = [[CameraViewController alloc] initWithDelegate:delegate];
+        if(!startingView) cameraVC.backView = self;
+        else              cameraVC.backView = delegate;
         cameraVC.showVid = YES;
         cameraVC.editView = self;
         cameraVC.noteId = self.note.noteId;
@@ -262,13 +277,12 @@
 
 -(void)audioButtonTouchAction
 {
-    BOOL audioHWAvailable = [[AVAudioSession sharedInstance] inputIsAvailable];
-    if(audioHWAvailable){
+    if([[AVAudioSession sharedInstance] inputIsAvailable])
+    {
         AudioRecorderViewController *audioVC = [[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil];
-        if(startWithView == 0)
-            audioVC.backView = self;
-        else audioVC.backView = self.delegate;
-        audioVC.parentDelegate = self.delegate;
+        if(!startingView) audioVC.backView = self;
+        else              audioVC.backView = delegate;
+        audioVC.parentDelegate = delegate;
         audioVC.noteId = self.note.noteId;
         audioVC.editView = self;
         
@@ -278,13 +292,11 @@
 
 -(void)libraryButtonTouchAction
 {
-    CameraViewController *cameraVC = [[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil];
-    if(startWithView == 0)
-        cameraVC.backView = self;
-    else cameraVC.backView = self.delegate;
+    CameraViewController *cameraVC = [[CameraViewController alloc] initWithDelegate:delegate];
+    if(!startingView) cameraVC.backView = self;
+    else              cameraVC.backView = delegate;
     
     cameraVC.showVid = NO;
-    cameraVC.parentDelegate = self.delegate;
     cameraVC.noteId = self.note.noteId;
     cameraVC.editView = self;
     
@@ -295,25 +307,16 @@
 {
     TextViewController *textVC = [[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil];
     textVC.noteId = self.note.noteId;
-    if(startWithView == 0)
-        textVC.backView = self;
-    else textVC.backView = self.delegate;
+    if(!startingView) textVC.backView = self;
+    else              textVC.backView = delegate;
     textVC.index = [self.note.contents count];
     textVC.editView = self;
     
     [self.navigationController pushViewController:textVC animated:NO];
 }
 
--(void)mapButtonTouchAction
+- (void) mapButtonTouchAction
 {
-    /*if(self.note.dropped){
-     
-     self.mapButton.selected = NO;
-     self.note.dropped = NO;
-     [[AppServices sharedAppServices]deleteNoteLocationWithNoteId:self.note.noteId];
-     
-     }
-     else{*/
     DropOnMapViewController *mapVC = [[DropOnMapViewController alloc] initWithNibName:@"DropOnMapViewController" bundle:nil] ;
     mapVC.noteId = self.note.noteId;
     mapVC.delegate = self;
@@ -321,42 +324,27 @@
     self.mapButton.selected = YES;
     
     [self.navigationController pushViewController:mapVC animated:NO];
-    //}
 }
 
--(void)publicButtonTouchAction
+- (void) publicButtonTouchAction
 {
     self.noteValid = YES;
-    actionSheet = [[UIActionSheet alloc]initWithTitle:NSLocalizedString(@"SharingKey", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"CancelKey", @"") destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"NoteEditorListOnlyKey", @""),NSLocalizedString(@"NoteEditorMapOnlyKey", @""),NSLocalizedString(@"BothKey", @""),NSLocalizedString(@"DontShareKey", @""), nil];
     [actionSheet showInView:self.view];
-    
-    /* if(self.publicButton.selected){
-     self.publicButton.selected = NO;
-     self.note.shared = NO;
-     }
-     else {
-     self.publicButton.selected = YES;
-     self.note.shared = YES;}
-     
-     [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text andShared:self.note.shared];*/
 }
 
--(void)willPresentActionSheet:(UIActionSheet *)actionSheet{
-}
-
--(void)actionSheet:(UIActionSheet *)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex{
-    switch (buttonIndex) {
+- (void) actionSheet:(UIActionSheet *)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    switch(buttonIndex)
+    {
         case 0:
-            if([AppModel sharedAppModel].currentGame.allowShareNoteToList){
+            if([AppModel sharedAppModel].currentGame.allowShareNoteToList)
+            {
                 self.note.showOnList = YES;
                 self.note.showOnMap = NO;
                 self.sharingLabel.text = NSLocalizedString(@"NoteEditorListOnlyKey", @""); 
             }
-            else{
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NoteEditorNotAllowedKey", @"") message: NSLocalizedString(@"NoteEditorNotAllowedSharingToListsMessageKey", @"") delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
-                
-                [alert show];
-            }
+            else
+                [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"NoteEditorNotAllowedKey", @"") message:NSLocalizedString(@"NoteEditorNotAllowedSharingToListsMessageKey", @"")];
             break;
         case 1:
         {
@@ -370,11 +358,8 @@
                     self.mapButton.selected = YES;
                 }
             }
-            else{
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NoteEditorNotAllowedKey", @"") message:NSLocalizedString(@"NoteEditorNotAllowedSharingToMapMessageKey", @"") delegate: self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
-                
-                [alert show];
-            }
+            else
+                [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"NoteEditorNotAllowedKey", @"") message:NSLocalizedString(@"NoteEditorNotAllowedSharingToMapMessageKey", @"")];
             break;
         }
         case 2:{
@@ -382,17 +367,15 @@
                 self.note.showOnList = YES;
                 self.note.showOnMap = YES;
                 self.sharingLabel.text = NSLocalizedString(@"NoteEditorListAndMapKey", @""); 
-                if(!self.note.dropped){
+                if(!self.note.dropped)
+                {
                         [[AppServices sharedAppServices] dropNote:self.note.noteId atCoordinate:[AppModel sharedAppModel].player.location.coordinate];
                         self.note.dropped = YES;
                         self.mapButton.selected = YES;
                 }
             }
-            else{
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"NoteEditorNotAllowedKey", @"") message:NSLocalizedString(@"NoteEditorNotAllowedOneOrMoreMessageKey", @"") delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
-                
-                [alert show];  
-            }
+            else
+                [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"NoteEditorNotAllowedKey", @"") message:NSLocalizedString(@"NoteEditorNotAllowedOneOrMoreMessageKey", @"")];                
             break;
         }
         case 3:
@@ -406,33 +389,19 @@
     [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
 }
 
-#pragma mark custom methods, logic
-/*-(void)showLoadingIndicator{
- UIActivityIndicatorView *activityIndicator = 
- [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
- //UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
- //[activityIndicator release];
- // [[self navigationItem] setRightBarButtonItem:barButton];
- //[barButton release];
- [activityIndicator startAnimating];
- 
- }*/
-
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if([self.note.contents count] == 0 && indexPath.row == 0) return UITableViewCellEditingStyleNone;
+    if([self.note.contents count] == 0 && indexPath.row == 0)
+        return UITableViewCellEditingStyleNone;
     return UITableViewCellEditingStyleDelete;
 }
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if([[[self.note.contents objectAtIndex:indexPath.row] getUploadState] isEqualToString:@"uploadStateDONE"]){
-        [[AppServices sharedAppServices]deleteNoteContentWithContentId:[[self.note.contents objectAtIndex:indexPath.row] getContentId]];
-    }
-    else{
+    if([[[self.note.contents objectAtIndex:indexPath.row] getUploadState] isEqualToString:@"uploadStateDONE"])
+        [[AppServices sharedAppServices] deleteNoteContentWithContentId:[[self.note.contents objectAtIndex:indexPath.row] getContentId]];
+    else
         [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:self.note.noteId andFileURL:[NSURL URLWithString:[[[self.note.contents objectAtIndex:indexPath.row]getMedia] url]]];
-        
-    }
     [self.note.contents removeObjectAtIndex:indexPath.row];
 }
 
@@ -441,10 +410,12 @@
     [[self navigationItem] setRightBarButtonItem:nil];
     [contentTable reloadData];
 }
+
 - (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [contentTable reloadData];
 }
+
 - (void)refreshViewFromModel
 {
     self.note = [[[AppModel sharedAppModel] playerNoteList] objectForKey:[NSNumber numberWithInt:self.note.noteId]];
@@ -467,19 +438,17 @@
     NSLog(@"NoteEditorVC: Added %d upload content(s) to note",[uploadContentsForNote count]);
 }
 
-#pragma mark Table view methods
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return 1;
 }
 
-// Customize the number of rows in the table view.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if([self.note.contents count] == 0) return 1;
 	return [self.note.contents count];
 }
 
-// Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {    
 	static NSString *CellIdentifier = @"Cell";
@@ -496,18 +465,11 @@
     NoteContent *noteC = [self.note.contents objectAtIndex:indexPath.row];
     
     UITableViewCell *tempCell = (NoteContentCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (tempCell && ![tempCell respondsToSelector:@selector(titleLbl)])
-        tempCell = nil;
+    if(tempCell && ![tempCell respondsToSelector:@selector(titleLbl)]) tempCell = nil;
     
     NoteContentCell *cell = (NoteContentCell *)tempCell;
+    if(!cell) cell = (NoteContentCell *)[[UIViewController alloc] initWithNibName:@"NoteContentCell" bundle:nil].view;
     
-    if (cell == nil) {
-        // Create a temporary UIViewController to instantiate the custom cell.
-        UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"NoteContentCell" bundle:nil];
-        // Grab a pointer to the custom cell.
-        cell = (NoteContentCell *)temporaryController.view;
-        // Release the temporary UIViewController.
-    }
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
     
     cell.index = indexPath.row;
@@ -546,15 +508,6 @@
     
     cell.titleLbl.text = noteC.getTitle;
     return cell;
-    
-    
-    //Should never get here
-    return [UITableViewCell alloc];
-}
-
--(void)retryUpload:(id)sender
-{
-    
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -591,7 +544,6 @@
         }
         else if([noteC.getType isEqualToString:@"PHOTO"])
         {
-            //view photo
             ImageViewer *controller = [[ImageViewer alloc] initWithNibName:@"ImageViewer" bundle:nil];
             controller.media = noteC.getMedia;
             [UIView beginAnimations:nil context:NULL];
@@ -605,17 +557,11 @@
         }
         else if([noteC.getType isEqualToString:@"VIDEO"] || [noteC.getType isEqualToString:@"AUDIO"])
         {
-            //Create movie player object
             ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:noteC.getMedia.url]];
             mMoviePlayer.moviePlayer.shouldAutoplay = YES;
             [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
         }
     }
-}
-
-- (void)tableView:(UITableView *)aTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
-{
-	
 }
 
 -(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

@@ -853,7 +853,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"addContentToNoteFromFileName"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-    //[AppModel sharedAppModel].isGameNoteList = NO;
+
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchPlayerNoteListAsync)];
     [self fetchAllPlayerLists];
 }

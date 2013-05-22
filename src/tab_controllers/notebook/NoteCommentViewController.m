@@ -7,7 +7,6 @@
 //
 
 #import "NoteCommentViewController.h"
-#import "NotebookViewController.h"
 #import "NoteEditorViewController.h"
 #import "NoteDetailsViewController.h"
 #import "AppServices.h"
@@ -16,7 +15,6 @@
 #import "AudioRecorderViewController.h"
 #import "UIImage+Scale.h"
 #import "AsyncMediaPlayerButton.h"
-
 
 @implementation NoteCommentViewController
 @synthesize parentNote,commentNote,textBox,rating,commentTable,addAudioButton,addPhotoButton,addMediaFromAlbumButton,myIndexPath,commentValid,addTextButton,videoIconUsed,photoIconUsed,audioIconUsed,currNoteHasAudio,currNoteHasPhoto,currNoteHasVideo,inputView,hideKeyboardButton,addCommentButton,delegate,movieViews;
@@ -111,7 +109,7 @@
     }
     
     if([AppModel sharedAppModel].isGameNoteList)
-        [[AppModel sharedAppModel].gameNoteList setObject:self.parentNote forKey:[NSNumber numberWithInt:self.parentNote.noteId]];
+        [[AppModel sharedAppModel].gameNoteList   setObject:self.parentNote forKey:[NSNumber numberWithInt:self.parentNote.noteId]];
     else
         [[AppModel sharedAppModel].playerNoteList setObject:self.parentNote forKey:[NSNumber numberWithInt:self.parentNote.noteId]];
 }
@@ -120,8 +118,7 @@
 {
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
-        CameraViewController *cameraVC = [[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil];
-        cameraVC.parentDelegate = self;
+        CameraViewController *cameraVC = [[CameraViewController alloc] initWithDelegate:self];
         cameraVC.showVid = YES;
         
         cameraVC.noteId = self.commentNote.noteId;
@@ -150,9 +147,7 @@
 
 -(void)addMediaFromAlbumButtonTouchAction
 {
-    CameraViewController *cameraVC = [[CameraViewController alloc] initWithNibName:@"Camera" bundle:nil];
-    //cameraVC.delegate = self.delegate;
-    cameraVC.parentDelegate = self;
+    CameraViewController *cameraVC = [[CameraViewController alloc] initWithDelegate:self];
     
     cameraVC.showVid = NO;
     cameraVC.noteId = self.commentNote.noteId;

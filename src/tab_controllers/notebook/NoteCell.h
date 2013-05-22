@@ -10,7 +10,8 @@
 #import "SCRRatingView.h"
 #import "Note.h"
 
-@interface NoteCell : UITableViewCell<UITextViewDelegate> {
+@interface NoteCell : UITableViewCell<UITextViewDelegate>
+{
     IBOutlet UITextView *titleLabel;
     IBOutlet UIImageView *mediaIcon1;
     IBOutlet UIImageView *mediaIcon2;
@@ -22,10 +23,10 @@
     IBOutlet UILabel *commentsLbl;
     IBOutlet UILabel *holdLbl;
     Note *note;
-    SCRRatingView *starView;
     int index;
     id __unsafe_unretained delegate;
 }
+
 @property(nonatomic)IBOutlet UITextView *titleLabel;
 @property(nonatomic)IBOutlet UILabel *likeLabel;
 @property(nonatomic)IBOutlet UIButton *likesButton;
@@ -40,7 +41,7 @@
 @property(nonatomic)IBOutlet UIImageView *mediaIcon2;
 @property(nonatomic)IBOutlet UIImageView *mediaIcon3;
 @property(nonatomic)IBOutlet UIImageView *mediaIcon4;
-@property(nonatomic) IBOutlet SCRRatingView *starView;
+
 -(IBAction)likeButtonTouched;
 
 @end

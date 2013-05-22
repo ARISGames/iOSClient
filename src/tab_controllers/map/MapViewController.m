@@ -36,7 +36,7 @@
 @synthesize tracking,mapTrace;
 @synthesize mapTypeButton;
 @synthesize playerTrackingButton;
-@synthesize toolBar,addMediaButton;
+@synthesize toolBar;
 @synthesize playerButton;
 @synthesize overlay;
 @synthesize overlayArray;
@@ -133,13 +133,6 @@
 	[self refresh];
 }
 
-- (IBAction) addMediaButtonAction:(id)sender
-{
-    NoteEditorViewController *noteVC = [[NoteEditorViewController alloc] initWithNibName:@"NoteEditorViewController" bundle:nil];
-    noteVC.delegate = self;
-    [self.navigationController pushViewController:noteVC animated:YES];
-}
-
 - (void) viewDidLoad
 {
     [super viewDidLoad];
@@ -154,9 +147,6 @@
 	playerTrackingButton.target = self;
 	playerTrackingButton.action = @selector(refreshButtonAction);
 	playerTrackingButton.style = UIBarButtonItemStyleDone;
-    
-    addMediaButton.target = self;
-    addMediaButton.action = @selector(addMediaButtonAction:);
 	
     [self updateOverlays];
     [self refresh];

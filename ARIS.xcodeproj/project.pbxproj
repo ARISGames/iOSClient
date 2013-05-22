@@ -294,7 +294,7 @@
 		AABC73F9172739D80074CC21 /* AudioPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7175172739D60074CC21 /* AudioPlayerViewController.xib */; };
 		AABC73FA172739D80074CC21 /* AudioRecorderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7177172739D60074CC21 /* AudioRecorderViewController.m */; };
 		AABC73FB172739D80074CC21 /* AudioRecorderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7178172739D60074CC21 /* AudioRecorderViewController.xib */; };
-		AABC73FC172739D80074CC21 /* Camera.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7179172739D60074CC21 /* Camera.xib */; };
+		AABC73FC172739D80074CC21 /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7179172739D60074CC21 /* CameraViewController.xib */; };
 		AABC73FD172739D80074CC21 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC717B172739D60074CC21 /* CameraViewController.m */; };
 		AABC73FE172739D80074CC21 /* DDAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC717D172739D60074CC21 /* DDAnnotation.m */; };
 		AABC73FF172739D80074CC21 /* DDAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC717F172739D60074CC21 /* DDAnnotationView.m */; };
@@ -827,7 +827,7 @@
 		AABC7176172739D60074CC21 /* AudioRecorderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRecorderViewController.h; sourceTree = "<group>"; };
 		AABC7177172739D60074CC21 /* AudioRecorderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRecorderViewController.m; sourceTree = "<group>"; };
 		AABC7178172739D60074CC21 /* AudioRecorderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioRecorderViewController.xib; sourceTree = "<group>"; };
-		AABC7179172739D60074CC21 /* Camera.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Camera.xib; sourceTree = "<group>"; };
+		AABC7179172739D60074CC21 /* CameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraViewController.xib; sourceTree = "<group>"; };
 		AABC717A172739D60074CC21 /* CameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraViewController.h; sourceTree = "<group>"; };
 		AABC717B172739D60074CC21 /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
 		AABC717C172739D60074CC21 /* DDAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAnnotation.h; sourceTree = "<group>"; };
@@ -1837,7 +1837,7 @@
 				AABC7176172739D60074CC21 /* AudioRecorderViewController.h */,
 				AABC7177172739D60074CC21 /* AudioRecorderViewController.m */,
 				AABC7178172739D60074CC21 /* AudioRecorderViewController.xib */,
-				AABC7179172739D60074CC21 /* Camera.xib */,
+				AABC7179172739D60074CC21 /* CameraViewController.xib */,
 				AABC717A172739D60074CC21 /* CameraViewController.h */,
 				AABC717B172739D60074CC21 /* CameraViewController.m */,
 				AABC717C172739D60074CC21 /* DDAnnotation.h */,
@@ -2415,7 +2415,7 @@
 				AABC73F6172739D80074CC21 /* NearbyObjectsViewController.xib in Resources */,
 				AABC73F9172739D80074CC21 /* AudioPlayerViewController.xib in Resources */,
 				AABC73FB172739D80074CC21 /* AudioRecorderViewController.xib in Resources */,
-				AABC73FC172739D80074CC21 /* Camera.xib in Resources */,
+				AABC73FC172739D80074CC21 /* CameraViewController.xib in Resources */,
 				AABC7401172739D80074CC21 /* DropOnMapViewController.xib in Resources */,
 				AABC7403172739D80074CC21 /* ImageViewer.xib in Resources */,
 				AABC7405172739D80074CC21 /* NotebookViewController.xib in Resources */,
