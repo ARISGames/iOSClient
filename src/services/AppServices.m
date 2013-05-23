@@ -1222,9 +1222,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                             andServiceName:@"notes"
                                                              andMethodName:@"getNotesForPlayer"
                                                               andArguments:arguments andUserInfo:nil];
-	if (YesForAsyncOrNoForSync){
+	if(YesForAsyncOrNoForSync)
 		[jsonConnection performAsynchronousRequestWithHandler:@selector(parsePlayerNoteListFromJSON:)];
-	}
 	else [self parsePlayerNoteListFromJSON: [jsonConnection performSynchronousRequest]];
 }
 
@@ -1236,9 +1235,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                             andServiceName:@"webpages"
                                                              andMethodName:@"getWebPages"
                                                               andArguments:arguments andUserInfo:nil];
-	if (YesForAsyncOrNoForSync){
+	if(YesForAsyncOrNoForSync)
 		[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameWebPageListFromJSON:)];
-	}
 	else [self parseGameWebPageListFromJSON: [jsonConnection performSynchronousRequest]];
 }
 
@@ -1266,9 +1264,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"getMedia"
                                                               andArguments:arguments andUserInfo:nil];
 	
-	if (YesForAsyncOrNoForSync){
+	if(YesForAsyncOrNoForSync)
 		[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameMediaListFromJSON:)];
-	}
 	else [self parseGameMediaListFromJSON: [jsonConnection performSynchronousRequest]];
 }
 
@@ -1281,9 +1278,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"getAugBubbles"
                                                               andArguments:arguments andUserInfo:nil];
 	
-	if (YesForAsyncOrNoForSync){
+	if(YesForAsyncOrNoForSync)
 		[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGamePanoramicListFromJSON:)];
-	}
 	else [self parseGamePanoramicListFromJSON: [jsonConnection performSynchronousRequest]];
 }
 
@@ -1296,7 +1292,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                             andServiceName:@"items"
                                                              andMethodName:@"getItems"
                                                               andArguments:arguments andUserInfo:nil];
-	if (YesForAsyncOrNoForSync)
+	if(YesForAsyncOrNoForSync)
 		[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameItemListFromJSON:)];
 	else
         [self parseGameItemListFromJSON:[jsonConnection performSynchronousRequest]];

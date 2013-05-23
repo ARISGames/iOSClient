@@ -72,7 +72,6 @@ NSString *const kGameDetailsHtmlTemplate =
 
 - (void)dealloc
 {
-    NSLog(@"DEALLOCING");
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

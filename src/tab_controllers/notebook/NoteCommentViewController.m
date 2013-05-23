@@ -7,26 +7,78 @@
 //
 
 #import "NoteCommentViewController.h"
-#import "NoteEditorViewController.h"
-#import "NoteDetailsViewController.h"
 #import "AppServices.h"
+#import "ARISAlertHandler.h"
+#import "Note.h"
 #import "NoteCommentCell.h"
-#import "ARISAppDelegate.h"
+#import "CameraViewController.h"
 #import "AudioRecorderViewController.h"
-#import "UIImage+Scale.h"
 #import "AsyncMediaPlayerButton.h"
 
-@implementation NoteCommentViewController
-@synthesize parentNote,commentNote,textBox,rating,commentTable,addAudioButton,addPhotoButton,addMediaFromAlbumButton,myIndexPath,commentValid,addTextButton,videoIconUsed,photoIconUsed,audioIconUsed,currNoteHasAudio,currNoteHasPhoto,currNoteHasVideo,inputView,hideKeyboardButton,addCommentButton,delegate,movieViews;
-@synthesize asyncMediaDict;
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+@interface NoteCommentViewController() <UITextViewDelegate, UITableViewDataSource, UITableViewDelegate, AVAudioPlayerDelegate, CameraViewControllerDelegate, AudioRecorderViewControllerDelegate>
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self)
+    Note *note;
+    Note *comment;
+    BOOL commentValid;
+    
+    UIView *inputView;
+    UIBarButtonItem *hideKeyboardButton;
+    UIBarButtonItem *addCommentButton;
+    NSMutableDictionary *asyncMediaDict;
+    
+    IBOutlet UITableView *commentTable;
+    IBOutlet UIButton *addPhotoButton;
+    IBOutlet UIButton *addAudioButton;
+    IBOutlet UIButton *addMediaFromAlbumButton;
+    IBOutlet UITextView *textBox;
+    
+    id __unsafe_unretained delegate;
+}
+
+@property (nonatomic) Note *note;
+@property (nonatomic) Note *comment;
+
+@property (nonatomic) BOOL commentValid;
+
+@property (nonatomic) UIView *inputView;
+@property (nonatomic) UIBarButtonItem *hideKeyboardButton;
+@property (nonatomic) UIBarButtonItem *addCommentButton;
+@property (nonatomic) NSMutableDictionary *asyncMediaDict;
+
+@property (nonatomic) IBOutlet UITableView *commentTable;
+@property (nonatomic) IBOutlet UIButton *addPhotoButton;
+@property (nonatomic) IBOutlet UIButton *addAudioButton;
+@property (nonatomic) IBOutlet UIButton *addMediaFromAlbumButton;
+@property (nonatomic) IBOutlet UITextView *textBox;
+
+- (IBAction) addPhotoButtonTouchAction;
+- (IBAction) addAudioButtonTouchAction;
+- (IBAction) addMediaFromAlbumButtonTouchAction;
+
+@end
+
+@implementation NoteCommentViewController
+
+@synthesize note;
+@synthesize comment;
+@synthesize commentValid;
+@synthesize inputView;
+@synthesize hideKeyboardButton;
+@synthesize addCommentButton;
+@synthesize asyncMediaDict;
+@synthesize commentTable;
+@synthesize addPhotoButton;
+@synthesize addAudioButton;
+@synthesize addMediaFromAlbumButton;
+@synthesize textBox;
+
+- (id) initWithNote:(Note *)n delegate:(id)d
+{
+    if(self = [super initWithNibName:@"NoteCommentViewController" bundle:nil])
     {
-        // Custom initialization
-        movieViews = [[NSMutableArray alloc]initWithCapacity:5];
+        delegate = d;
+        self.note = n;
+        
         asyncMediaDict = [[NSMutableDictionary alloc] initWithCapacity:5];
         self.title = NSLocalizedString(@"NoteCommentViewTitleKey", @"");
         self.hidesBottomBarWhenPushed = YES;
@@ -40,7 +92,7 @@
     return self;
 }
 
--(void)refreshViewFromModel
+- (void)refreshViewFromModel
 {
     [self addUploadsToComments];    
     [self.commentTable reloadData];
@@ -49,33 +101,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    Note *tnote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteId playerListYesGameListNo:NO];
-    if(!tnote) tnote = [[AppModel sharedAppModel] noteForNoteId:self.parentNote.noteId playerListYesGameListNo:YES];
-    if(!tnote)
-        NSLog(@"this shouldn't happen");
-    self.parentNote = tnote;
     
-    hideKeyboardButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"SaveCommentKey", @"") style:UIBarButtonItemStylePlain target:self action:@selector(hideKeyboard)];
-    //self.navigationItem.rightBarButtonItem = hideKeyboardButton;
-    
-    addCommentButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showKeyboard)];
+    self.hideKeyboardButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"SaveCommentKey", @"") style:UIBarButtonItemStylePlain target:self action:@selector(hideKeyboard)];
+    self.addCommentButton   = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showKeyboard)];
     self.navigationItem.rightBarButtonItem = addCommentButton;
-    
-    myIndexPath = [[NSIndexPath alloc] init];
-    [self.navigationItem.backBarButtonItem setAction:@selector(perform:)];
-    // Do any additional setup after loading the view from its nib.
+    [self.navigationItem.backBarButtonItem setAction:@selector(dismissSelf:)];
 }
 
--(void) perform:(id)sender
+- (void) dismissSelf:(id)sender
 {
     [self.navigationController popViewControllerAnimated:NO];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    self.videoIconUsed = NO;
-    self.photoIconUsed = NO;
-    self.audioIconUsed = NO;
     if(self.textBox.frame.origin.y == 0)
         [self.textBox becomeFirstResponder];
     [self refreshViewFromModel];    
@@ -88,14 +127,9 @@
 
 -(void)addUploadsToComments
 {
-    Note *    note = [[AppModel sharedAppModel] noteForNoteId: self.parentNote.noteId playerListYesGameListNo:YES];
-    if(!note) note = [[AppModel sharedAppModel] noteForNoteId: self.parentNote.noteId playerListYesGameListNo:NO];
-    if(!note) NSLog(@"this shouldn't happen");
-    
-    self.parentNote = note;
-    for(int i = 0; i < [self.parentNote.comments count]; i++)
+    for(int i = 0; i < [self.note.comments count]; i++)
     {
-        Note *currNote = [self.parentNote.comments objectAtIndex:i];
+        Note *currNote = [self.note.comments objectAtIndex:i];
         for(int x = [currNote.contents count]-1; x >= 0; x--)
         {
             if(![[[currNote.contents objectAtIndex:x] getUploadState] isEqualToString:@"uploadStateDONE"])
@@ -107,62 +141,40 @@
         [currNote.contents addObjectsFromArray:uploadContentForNote];
         NSLog(@"NoteEditorVC: Added %d upload content(s) to note",[uploadContentForNote count]);
     }
-    
-    if([AppModel sharedAppModel].isGameNoteList)
-        [[AppModel sharedAppModel].gameNoteList   setObject:self.parentNote forKey:[NSNumber numberWithInt:self.parentNote.noteId]];
-    else
-        [[AppModel sharedAppModel].playerNoteList setObject:self.parentNote forKey:[NSNumber numberWithInt:self.parentNote.noteId]];
 }
 
 -(void)addPhotoButtonTouchAction
 {
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
-        CameraViewController *cameraVC = [[CameraViewController alloc] initWithDelegate:self];
-        cameraVC.showVid = YES;
-        
-        cameraVC.noteId = self.commentNote.noteId;
-        cameraVC.backView = self;
-        
+        CameraViewController *cameraVC = [[CameraViewController alloc] initWithPresentMode:@"camera" delegate:self];
         [self.navigationController pushViewController:cameraVC animated:YES];
     }
 }
 
+-(void)addMediaFromAlbumButtonTouchAction
+{
+    CameraViewController *cameraVC = [[CameraViewController alloc] initWithPresentMode:@"library" delegate:self];
+    [self.navigationController pushViewController:cameraVC animated:YES];
+}
+
 -(void)addAudioButtonTouchAction
 {
-    BOOL audioHWAvailable = [[AVAudioSession sharedInstance] inputIsAvailable];
-    if(audioHWAvailable){
-        AudioRecorderViewController *audioVC = [[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil];
-        audioVC.parentDelegate = self;
-        audioVC.noteId = self.commentNote.noteId;
-        audioVC.backView = self;
-        
+    if([[AVAudioSession sharedInstance] inputIsAvailable])
+    {
+        AudioRecorderViewController *audioVC = [[AudioRecorderViewController alloc] initWithDelegate:self];
         [self.navigationController pushViewController:audioVC animated:YES];
     }    
 }
 
--(void)addTextButtonTouchAction
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-}
-
--(void)addMediaFromAlbumButtonTouchAction
-{
-    CameraViewController *cameraVC = [[CameraViewController alloc] initWithDelegate:self];
-    
-    cameraVC.showVid = NO;
-    cameraVC.noteId = self.commentNote.noteId;
-    cameraVC.backView = self;
-    
-    [self.navigationController pushViewController:cameraVC animated:YES];
-}
-
-#pragma mark Table view methods
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.parentNote.comments count];
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [self.note.comments count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -183,11 +195,8 @@
         cell = (NoteCommentCell *)temporaryController.view;
         // Release the temporary UIViewController.
     }
-    self.photoIconUsed = NO;
-    self.videoIconUsed = NO;
-    self.audioIconUsed = NO;
     
-    Note *currComment = [self.parentNote.comments objectAtIndex:(indexPath.row)];
+    Note *currComment = [self.note.comments objectAtIndex:(indexPath.row)];
     cell.note = currComment;
     [cell initCell];
     [cell checkForRetry];
@@ -242,21 +251,8 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //Color the backgrounds
-    if (indexPath.row % 2 == 0)
-    {
-        cell.backgroundColor = [UIColor colorWithRed:233.0/255.0
-                                               green:233.0/255.0
-                                                blue:233.0/255.0
-                                               alpha:1.0];
-    }
-    else
-    {
-        cell.backgroundColor = [UIColor colorWithRed:200.0/255.0
-                                               green:200.0/255.0
-                                                blue:200.0/255.0
-                                               alpha:1.0];
-    }
+    if (indexPath.row % 2 == 0) cell.backgroundColor = [UIColor colorWithRed:233.0/255.0 green:233.0/255.0 blue:233.0/255.0 alpha:1.0];
+    else                        cell.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:1.0];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -271,30 +267,30 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Note *note = (Note *)[self.parentNote.comments objectAtIndex:(indexPath.row)];
-    CGFloat textHeight = [self calculateTextHeight:note.name] +35;
+    Note *c = (Note *)[self.note.comments objectAtIndex:(indexPath.row)];
+    CGFloat textHeight = [self calculateTextHeight:c.name] +35;
     if (textHeight < 30)textHeight = 30;
     BOOL hasImage = NO;
-    for(int i = 0; i < [[note contents] count];i++)
+    for(int i = 0; i < [[c contents] count];i++)
     {
-        if([[(NoteContent *)[note.contents objectAtIndex:i]getType] isEqualToString:@"PHOTO"] ||
-           [[(NoteContent *)[note.contents objectAtIndex:i]getType] isEqualToString:@"VIDEO"] ||
-           [[(NoteContent *)[note.contents objectAtIndex:i]getType] isEqualToString:@"AUDIO"])
+        if([[(NoteContent *)[c.contents objectAtIndex:i] getType] isEqualToString:@"PHOTO"] ||
+           [[(NoteContent *)[c.contents objectAtIndex:i] getType] isEqualToString:@"VIDEO"] ||
+           [[(NoteContent *)[c.contents objectAtIndex:i] getType] isEqualToString:@"AUDIO"])
         {
             hasImage = YES;
         }
     }
-    [note setHasImage:hasImage];
+    [c setHasImage:hasImage];
 
     if(hasImage) textHeight+=300;
     textHeight += 21+5; // User Label
+    
     return textHeight;
 }
 
-#pragma mark Text view methods
 -(void)showKeyboard
 {
-    self.navigationItem.rightBarButtonItem = hideKeyboardButton;
+    self.navigationItem.rightBarButtonItem = self.hideKeyboardButton;
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveLinear];
     [UIView setAnimationDuration:.5];
@@ -303,10 +299,10 @@
     [UIView commitAnimations];
     [self.textBox becomeFirstResponder];
     self.textBox.text = @"";
-    commentNote = [[Note alloc]init];
+    self.comment = [[Note alloc] init];
     
-    self.commentNote.noteId = [[AppServices sharedAppServices]addCommentToNoteWithId:self.parentNote.noteId andTitle:@""];
-    if(self.commentNote.noteId == 0){
+    self.comment.noteId = [[AppServices sharedAppServices] addCommentToNoteWithId:self.note.noteId andTitle:@""];
+    if(self.comment.noteId == 0){
         self.navigationItem.rightBarButtonItem = addCommentButton;
         
         [UIView beginAnimations:nil context:nil];
@@ -317,15 +313,12 @@
         [UIView commitAnimations];
         
         [self.textBox resignFirstResponder];
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"NoteCommentViewCreateFailedKey", @"") message:NSLocalizedString(@"NoteCommentViewCreateFailedMessageKey", @"") delegate:self.delegate cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
-        [alert show];
+        
+        [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"NoteCommentViewCreateFailedKey", @"") message:NSLocalizedString(@"NoteCommentViewCreateFailedMessageKey", @"")];
     }
     
-    [self.parentNote.comments insertObject:self.commentNote atIndex:0];
-    if([AppModel sharedAppModel].isGameNoteList)
-        [[AppModel sharedAppModel].gameNoteList   setObject:self.parentNote forKey:[NSNumber numberWithInt:self.parentNote.noteId]];
-    else
-        [[AppModel sharedAppModel].playerNoteList setObject:self.parentNote forKey:[NSNumber numberWithInt:self.parentNote.noteId]];
+    [self.note.comments insertObject:self.comment atIndex:0];
+
     self.addAudioButton.userInteractionEnabled = YES;
     self.addAudioButton.alpha = 1;
     self.addPhotoButton.userInteractionEnabled = YES;
@@ -334,17 +327,10 @@
     self.addMediaFromAlbumButton.alpha = 1;
 }
 
--(void)hideKeyboard
+- (void) hideKeyboard
 {    
     if([textBox.text length] == 0 || [textBox.text isEqualToString:@"Write Comment..."])
-    {
-        UIAlertView *alert;
-        
-        alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"ErrorKey", @"")
-                                           message: NSLocalizedString(@"PleaseAddCommentKey", @"")
-                                          delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
-        [alert show];
-    }
+        [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"ErrorKey", @"") message:NSLocalizedString(@"PleaseAddCommentKey", @"")];
     else
     {
         self.navigationItem.rightBarButtonItem = addCommentButton;
@@ -352,59 +338,38 @@
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveLinear];
         [UIView setAnimationDuration:.5];
-        [self.textBox setFrame:CGRectMake(0, -215, 320, 215)];
-        [self.inputView setFrame:CGRectMake(0, 416, 320, 52)];
+        [self.textBox   setFrame:CGRectMake(0, -215, 320, 215)];
+        [self.inputView setFrame:CGRectMake(0,  416, 320, 52)];
         [UIView commitAnimations];
         
         [self.textBox resignFirstResponder];
-        commentNote.name = self.textBox.text;
-        commentNote.parentNoteId = parentNote.noteId;
-        commentNote.creatorId = [AppModel sharedAppModel].player.playerId;
-        commentNote.username = [AppModel sharedAppModel].player.username;
+        self.comment.name = self.textBox.text;
+        self.comment.parentNoteId = self.note.noteId;
+        self.comment.creatorId = [AppModel sharedAppModel].player.playerId;
+        self.comment.username  = [AppModel sharedAppModel].player.username;
         
-        [[AppServices sharedAppServices]updateCommentWithId:self.commentNote.noteId andTitle:self.textBox.text andRefresh:YES];
+        [[AppServices sharedAppServices] updateCommentWithId:self.comment.noteId andTitle:self.textBox.text andRefresh:YES];
         
-        if([parentNote.comments count] > 0 && [[parentNote.comments objectAtIndex:0] noteId] == commentNote.noteId)
+        if([self.note.comments count] > 0 && [[self.note.comments objectAtIndex:0] noteId] == self.comment.noteId)
         {
-            [[parentNote.comments objectAtIndex:0] setTitle:self.textBox.text];
-            [[parentNote.comments objectAtIndex:0] setParentNoteId:parentNote.noteId];
-            [[parentNote.comments objectAtIndex:0] setCreatorId:[AppModel sharedAppModel].player.playerId];
-            [[parentNote.comments objectAtIndex:0] setUsername:[AppModel sharedAppModel].player.username];
+            [[self.note.comments objectAtIndex:0] setTitle:self.textBox.text];
+            [[self.note.comments objectAtIndex:0] setParentNoteId:self.note.noteId];
+            [[self.note.comments objectAtIndex:0] setCreatorId:[AppModel sharedAppModel].player.playerId];
+            [[self.note.comments objectAtIndex:0] setUsername:[AppModel sharedAppModel].player.username];
         }
         else
-            [parentNote.comments insertObject:commentNote atIndex:0];
-
-        [self.delegate setNote:parentNote];
-        
-        if([AppModel sharedAppModel].isGameNoteList)
-            [[AppModel sharedAppModel].gameNoteList   setObject:self.parentNote forKey:[NSNumber numberWithInt:self.parentNote.noteId]];
-        else
-            [[AppModel sharedAppModel].playerNoteList setObject:self.parentNote forKey:[NSNumber numberWithInt:self.parentNote.noteId]];
+            [self.note.comments insertObject:self.comment atIndex:0];
         
         self.commentValid = YES;
-        [movieViews removeAllObjects];
         
         [self refreshViewFromModel];
     }
 }
 
--(void)textViewDidBeginEditing:(UITextView *)textView
+- (void) imageChosenWithURL:(NSURL *)url
 {
-    if([textView.text isEqualToString:@"Write Comment..."]) textView.text = @"";    
-}
-
-- (void)textViewDidChange:(UITextView *)textView
-{
-    /*   NoteCommentCell *cell = (NoteCommentCell *)[self.commentTable cellForRowAtIndexPath:self.myIndexPath];
-     cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, cell.frame.size.width, [self calculateTextHeight:textView.text]+35);
-     NSArray *indexArr = [[NSArray alloc] initWithObjects:self.myIndexPath, nil];*/
-    //[self.commentTable reloadRowsAtIndexPaths:indexArr withRowAnimation:nil];
-}
-
--(void)addedPhoto
-{    
+    [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.note.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:@"PHOTO" withFileURL:url];
     self.commentValid = YES;
-    self.currNoteHasPhoto = YES;
     self.addPhotoButton.userInteractionEnabled = NO;
     self.addMediaFromAlbumButton.userInteractionEnabled = NO;
     self.addAudioButton.userInteractionEnabled = NO;
@@ -414,10 +379,10 @@
     self.addAudioButton.alpha = .3;
 }
 
--(void)addedAudio
-{    
+- (void) videoChosenWithURL:(NSURL *)url
+{
+    [[[AppModel sharedAppModel] uploadManager] uploadContentForNoteId:self.note.noteId withTitle:[NSString stringWithFormat:@"%@", [NSDate date]] withText:nil withType:@"VIDEO" withFileURL:url];
     self.commentValid = YES;
-    self.currNoteHasAudio = YES;
     self.addPhotoButton.userInteractionEnabled = NO;
     self.addMediaFromAlbumButton.userInteractionEnabled = NO;
     self.addAudioButton.userInteractionEnabled = NO;
@@ -427,10 +392,15 @@
     self.addAudioButton.alpha = .3;
 }
 
--(void)addedVideo
+- (void) cameraViewControllerCancelled
 {
+    //do nothing
+}
+
+- (void) audioChosenWith:(NSURL *)url
+{
+    [[[AppModel sharedAppModel]uploadManager] uploadContentForNoteId:self.note.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:@"AUDIO" withFileURL:url];
     self.commentValid = YES;
-    self.currNoteHasVideo = YES;
     self.addPhotoButton.userInteractionEnabled = NO;
     self.addMediaFromAlbumButton.userInteractionEnabled = NO;
     self.addAudioButton.userInteractionEnabled = NO;
@@ -440,15 +410,15 @@
     self.addAudioButton.alpha = .3;
 }
 
--(void)addedText
+- (void) audioRecorderViewControllerCancelled
 {
-    self.commentValid = YES;
+    //do nothing
 }
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if([[self.parentNote.comments objectAtIndex:(indexPath.row)] creatorId] == [AppModel sharedAppModel].player.playerId ||
-       [self.parentNote creatorId] == [AppModel sharedAppModel].player.playerId)
+    if([[self.note.comments objectAtIndex:(indexPath.row)] creatorId] == [AppModel sharedAppModel].player.playerId ||
+       [self.note creatorId] == [AppModel sharedAppModel].player.playerId)
         return UITableViewCellEditingStyleDelete;
     
     return UITableViewCellEditingStyleNone;
@@ -456,11 +426,11 @@
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if([[self.parentNote.comments objectAtIndex:(indexPath.row)] creatorId] == [AppModel sharedAppModel].player.playerId ||
-       [self.parentNote creatorId] == [AppModel sharedAppModel].player.playerId)
+    if([[self.note.comments objectAtIndex:(indexPath.row)] creatorId] == [AppModel sharedAppModel].player.playerId ||
+       [self.note creatorId] == [AppModel sharedAppModel].player.playerId)
     {
-        [[AppServices sharedAppServices]deleteNoteWithNoteId:[[self.parentNote.comments objectAtIndex:(indexPath.row)] noteId]];
-        [self.parentNote.comments removeObjectAtIndex:(indexPath.row)];
+        [[AppServices sharedAppServices] deleteNoteWithNoteId:[[self.note.comments objectAtIndex:(indexPath.row)] noteId]];
+        [self.note.comments removeObjectAtIndex:(indexPath.row)];
     }
 }
 
@@ -471,7 +441,6 @@
 
 - (void)movieFinishedCallback:(NSNotification*) aNotification
 {
-	NSLog(@"NoteCommentViewController: movieFinishedCallback");
 	[self dismissMoviePlayerViewControllerAnimated];
 }
 
@@ -479,8 +448,6 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
-#pragma mark - View lifecycle
 
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

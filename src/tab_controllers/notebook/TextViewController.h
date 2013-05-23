@@ -7,34 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Note.h"
 
-@interface TextViewController : UIViewController <UITextViewDelegate>{
-    IBOutlet UITextView *textBox;
-    IBOutlet UIButton *keyboardButton;
-    NSString *textToDisplay;
-    int noteId;
-    BOOL editMode;
-    BOOL previewMode;
-    id __unsafe_unretained backView;
-    id __unsafe_unretained editView;
-    int contentId;
-    int index;
-}
-@property(nonatomic) IBOutlet UITextView *textBox;
-@property(nonatomic) IBOutlet UIButton *keyboardButton;
-@property(nonatomic, unsafe_unretained) id backView;
-@property(nonatomic, unsafe_unretained) id editView;
+@class Note;
+@class NoteContent;
+@protocol TextViewControllerDelegate
+- (void) textChosen:(NSString *)s;
+- (void) textUpdated:(NSString *)s forContent:(NoteContent *)c;
+- (void) textViewControllerCancelled;
+@end
 
-@property(nonatomic)NSString *textToDisplay;
-@property(readwrite, assign) int noteId;
-@property(readwrite, assign) int contentId;
-@property(readwrite,assign)int index;
-
-@property(readwrite,assign)BOOL editMode;
-@property(readwrite,assign)BOOL previewMode;
-
-- (IBAction)saveButtonTouchAction;
-- (IBAction) hideKeyboard;
--(void)updateContentTouchAction;
+@interface TextViewController : UIViewController
+- (id) initWithNote:(Note *)n content:(NoteContent *)c inMode:(NSString *)m delegate:(id<TextViewControllerDelegate>)d;
 @end

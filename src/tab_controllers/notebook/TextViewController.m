@@ -10,24 +10,55 @@
 #import "Note.h"
 #import "ARISAppDelegate.h"
 #import "AppServices.h"
-#import "NoteEditorViewController.h"
-#import "NotebookViewController.h"
+
+@interface TextViewController() <UITextViewDelegate>
+{
+    Note *note;
+    NoteContent *content;
+    NSString *mode;
+
+    IBOutlet UITextView *textBox;
+    IBOutlet UIButton *keyboardButton;
+    
+    id<TextViewControllerDelegate> __unsafe_unretained delegate;
+}
+
+@property(nonatomic, strong) Note *note;
+@property(nonatomic, strong) NoteContent *content;
+@property(nonatomic, strong) NSString *mode;
+
+@property(nonatomic, strong) IBOutlet UITextView *textBox;
+@property(nonatomic, strong) IBOutlet UIButton *keyboardButton;
+
+- (IBAction) saveButtonTouchAction;
+- (IBAction) hideKeyboard;
+- (void) updateContentTouchAction;
+
+@end
 
 @implementation TextViewController
-@synthesize textBox,noteId,keyboardButton,textToDisplay,editMode,contentId,backView,previewMode,index,editView;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+@synthesize note;
+@synthesize content;
+@synthesize mode;
+@synthesize textBox;
+@synthesize keyboardButton;
+
+- (id) initWithNote:(Note *)n content:(NoteContent *)c inMode:(NSString *)m delegate:(id<TextViewControllerDelegate>)d
 {
-    if(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
+    if(self = [super initWithNibName:@"TextViewController" bundle:nil])
     {
+        delegate = d;
+        self.note = n;
+        self.content = c;
+        self.mode = m;
+        
         self.title = NSLocalizedString(@"TextViewTitleKey", @"");
     }
     return self;
 }
 
-#pragma mark - View lifecycle
-
-- (void)viewDidLoad
+- (void) viewDidLoad
 {
     [super viewDidLoad];
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey", @"")
@@ -36,53 +67,69 @@
                                                                   action:@selector(backButtonTouchAction)];
     
     self.navigationItem.leftBarButtonItem = backButton;
-	    if(self.editMode){
-    
-        self.textBox.text = self.textToDisplay;
-        UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"SaveKey", @"" )style:UIBarButtonItemStylePlain target:self action:@selector(updateContentTouchAction)];      
-        self.navigationItem.rightBarButtonItem = saveButton;
-    }
-    else{
-        UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"SaveKey", @"") style:UIBarButtonItemStylePlain target:self action:@selector(saveButtonTouchAction)];      
-        self.navigationItem.rightBarButtonItem = saveButton;    
-    }
-    if(self.previewMode)
+    if(self.content)
     {
-        self.textBox.userInteractionEnabled = NO;
-        self.textBox.text = self.textToDisplay;
+        self.textBox.text = self.content.text;
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"SaveKey", @"" )style:UIBarButtonItemStylePlain target:self action:@selector(updateContentTouchAction)];
     }
-    if([self.backView isKindOfClass:[NoteEditorViewController class]] || [self.backView isKindOfClass:[NotebookViewController class]])
+    else
+    {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"SaveKey", @"") style:UIBarButtonItemStylePlain target:self action:@selector(saveButtonTouchAction)];    
+    }
+    
+    if([self.mode isEqualToString:@"preview"])
+        self.textBox.userInteractionEnabled = NO;
+    else
         [self.textBox becomeFirstResponder];
-    else self.textBox.userInteractionEnabled = NO;
-    // Do any additional setup after loading the view from its nib.
-    /*if(self.note)
-    self.title = self.note.name;
-    UIBarButtonItem *hideKeyboardButton = [[UIBarButtonItem alloc] initWithTitle:@"Hide Keyboard" style:UIBarButtonItemStylePlain target:self action:@selector(hideKeyboard)];      
-	self.navigationItem.rightBarButtonItem = hideKeyboardButton;
-    if(self.note && ([AppModel sharedAppModel].playerId != self.note.creatorId)) self.textBox.userInteractionEnabled = NO;
-     */
 }
 
 - (void) backButtonTouchAction
 {
-    if([backView isKindOfClass:[NotebookViewController class]])
-    {
-        [[AppServices sharedAppServices]deleteNoteWithNoteId:self.noteId];
-        [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.noteId]];   
-    }
-    [self.navigationController popToViewController:self.backView animated:NO];   
+    [delegate textViewControllerCancelled];
+    [self.navigationController popViewControllerAnimated:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    if(previewMode)
+    if([self.mode isEqualToString:@"preview"])
     {
         self.textBox.userInteractionEnabled = NO;
-        self.textBox.text = self.textToDisplay;
         self.textBox.frame = CGRectMake(0, 0, 320, 367);
-
     }
-  else self.textBox.frame = CGRectMake(0, 0, 320, 330);
+    else self.textBox.frame = CGRectMake(0, 0, 320, 330);
+}
+
+-(void)updateContentTouchAction
+{
+    [delegate textUpdated:self.textBox.text forContent:self.content];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void) textViewDidBeginEditing:(UITextView *)textView
+{
+    if([self.textBox.text isEqualToString:@"Write note here..."])
+        [self.textBox setText:@""];
+    self.textBox.frame = CGRectMake(0, 0, 320, 230);
+}
+
+-(void)hideKeyboard
+{
+    [self.textBox resignFirstResponder];
+    if([self.mode isEqualToString:@"edit"])
+        self.textBox.frame = CGRectMake(0, 0, 320, 330);
+    else
+        self.textBox.frame = CGRectMake(0, 0, 320, 367);
+}
+
+-(void)saveButtonTouchAction
+{
+    [delegate textChosen:self.textBox.text];
+
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:.5];
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.navigationController.view cache:YES];
+    [self.navigationController popViewControllerAnimated:NO];
+    [UIView commitAnimations]; 
 }
 
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -105,56 +152,5 @@
     return mask;
 }
 
--(void)updateContentTouchAction
-{
-    //server call here
-   NSMutableArray *noteC = [[AppModel sharedAppModel] noteForNoteId:self.noteId playerListYesGameListNo:YES].contents;
-    for(int i = 0; i < noteC.count; i++){
-        if(((NoteContent *)[noteC objectAtIndex:i]).contentId == self.contentId){
-            NSLog(@"TextViewBefore: %@", ((NoteContent *)[noteC objectAtIndex:i]).text);
-            ((NoteContent *)[noteC objectAtIndex:i]).text = self.textBox.text;
-            NSLog(@"TextViewAfter: %@", ((NoteContent *)[noteC objectAtIndex:i]).text);
-        }
-    }
-    [[AppServices sharedAppServices]updateNoteContent:self.contentId text:self.textBox.text];
-    [self.navigationController popViewControllerAnimated:YES];
-    
-}
--(void)textViewDidBeginEditing:(UITextView *)textView{
-    if([self.textBox.text isEqualToString:@"Write note here..."])
-    [self.textBox setText:@""];
-    self.textBox.frame = CGRectMake(0, 0, 320, 230);
-    //self.keyboardButton.hidden = NO;
-}
--(void)hideKeyboard {
-    [self.textBox resignFirstResponder];
-    if(!previewMode)
-    self.textBox.frame = CGRectMake(0, 0, 320, 330);
-    else self.textBox.frame = CGRectMake(0, 0, 320, 367);
-   // self.keyboardButton.hidden = YES;
-}
-
--(void)saveButtonTouchAction{
-    
-//Do server call here
-    if([self.editView isKindOfClass:[NoteEditorViewController class]]) {
-        [self.editView setNoteValid:YES];
-        [self.editView setNoteChanged:YES];
-         
-    }
-    NSString *urlString = [NSString stringWithFormat:@"%@.txt",[NSDate date]];
-    urlString = [NSString stringWithFormat:@"%d.txt",urlString.hash];
-    NSURL *url = [NSURL URLWithString:urlString];
-    [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:self.textBox.text withType:@"TEXT" withFileURL:url];
-    
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:.5];
-    
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight
-                           forView:self.navigationController.view cache:YES];
-    [self.navigationController popViewControllerAnimated:NO];
-    
-    [UIView commitAnimations]; 
-}
 
 @end

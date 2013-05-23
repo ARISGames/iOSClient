@@ -147,7 +147,7 @@
 - (void) imagePickerControllerDidCancel:(UIImagePickerController *)aPicker
 {
     [aPicker dismissModalViewControllerAnimated:NO];
-    [delegate cameraControllerCancelled];
+    [delegate cameraViewControllerCancelled];
     [self.navigationController popViewControllerAnimated:NO];
 }
 
