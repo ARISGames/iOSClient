@@ -11,7 +11,7 @@
 @protocol CameraViewControllerDelegate
 - (void) imageChosenWithURL:(NSURL *)url;
 - (void) videoChosenWithURL:(NSURL *)url;
-- (void) cameraControllerCancelled;
+- (void) cameraViewControllerCancelled;
 @end
 
 @interface CameraViewController : UIViewController

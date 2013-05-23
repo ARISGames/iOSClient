@@ -11,7 +11,8 @@
 #import "NoteContent.h"
 #import "ARISMoviePlayerViewController.h"
 
-@interface NoteDetailsViewController : GameObjectViewController <UIScrollViewDelegate> {
+@interface NoteDetailsViewController : GameObjectViewController <UIScrollViewDelegate>
+{
     IBOutlet UIScrollView *scrollView;
     IBOutlet UIPageControl *pageControl;
     int pageNumber;
@@ -38,15 +39,15 @@
 
 - (id)initWithNote:(Note *)n delegate:(NSObject<GameObjectViewControllerDelegate> *)d;
 
-- (IBAction)saveButtonTouchAction;
-- (IBAction)changePage:(id) sender;
-- (void)loadNewPageWithContent:(NoteContent *)content;
-- (void)showComments;
--(void)editButtonTouched;
--(IBAction)shareButtonTouch;
--(IBAction)commentButtonTouch;
--(IBAction)likeButtonTouch;
--(void)backButtonTouch;
--(void)addUploadsToNote;
+- (IBAction) saveButtonTouchAction;
+- (IBAction) changePage:(id)sender;
+- (void) loadNewPageWithContent:(NoteContent *)content;
+- (void) showComments;
+- (void) editButtonTouched;
+- (IBAction) shareButtonTouch;
+- (IBAction) commentButtonTouch;
+- (IBAction) likeButtonTouch;
+- (void) backButtonTouch;
+- (void) addUploadsToNote;
 
 @end

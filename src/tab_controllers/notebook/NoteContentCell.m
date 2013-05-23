@@ -7,9 +7,9 @@
 //
 
 #import "NoteContentCell.h"
-#import "AppServices.h"
-#import "NoteEditorViewController.h"
+#import "NoteContent.h"
 #import "AppModel.h"
+#import "AppServices.h"
 
 @interface NoteContentCell() <UITextViewDelegate>
 {
@@ -23,7 +23,7 @@
     IBOutlet UIImageView *imageView;
     NSIndexPath *indexPath;
     
-    id __unsafe_unretained delegate;
+    id<NoteContentCellDelegate> __unsafe_unretained delegate;
 }
 
 @property (nonatomic, strong) NoteContent *content;
@@ -59,7 +59,7 @@
     [self.titleLbl setUserInteractionEnabled:NO];
 }
 
-- (void) setupWithNoteContent:(NoteContent *)nc delegate:(id)d
+- (void) setupWithNoteContent:(NoteContent *)nc delegate:(id<NoteContentCellDelegate>)d
 {
     self.content = nc;
     delegate = d;
@@ -169,7 +169,6 @@
 - (BOOL) textViewShouldEndEditing:(UITextView *)textView
 {
     [delegate cellFinishedEditing:self];
-    [self.parentTableView setFrame:CGRectMake(self.parentTableView.frame.origin.x, self.parentTableView.frame.origin.y, self.parentTableView.frame.size.width, 261)];
     return YES;
 }
 
@@ -194,8 +193,6 @@
         [self.titleLbl setEditable:YES];
         [self.titleLbl becomeFirstResponder];
         [delegate cellStartedEditing:self];
-        [self.parentTableView scrollToRowAtIndexPath:self.indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
-        [self.parentTableView setFrame:CGRectMake(self.parentTableView.frame.origin.x, self.parentTableView.frame.origin.y, self.parentTableView.frame.size.width, 160)];
     }
     else
         [self.titleLbl setUserInteractionEnabled:NO];

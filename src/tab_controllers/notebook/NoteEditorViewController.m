@@ -27,7 +27,7 @@
 #import "TagViewController.h"
 #import "ARISAppDelegate.h"
 
-@interface NoteEditorViewController() <AVAudioSessionDelegate, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate, AVAudioPlayerDelegate, UIActionSheetDelegate, CameraViewControllerDelegate, AudioRecorderViewControllerDelegate>
+@interface NoteEditorViewController() <AVAudioSessionDelegate, UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate, AVAudioPlayerDelegate, UIActionSheetDelegate, CameraViewControllerDelegate, AudioRecorderViewControllerDelegate, TextViewControllerDelegate, NoteContentCellDelegate>
 {
     IBOutlet UITextField *textField;
     IBOutlet UIButton *cameraButton;
@@ -298,14 +298,32 @@
 
 -(void)textButtonTouchAction
 {
-    TextViewController *textVC = [[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil];
-    textVC.noteId = self.note.noteId;
-    if(!self.startingView) textVC.backView = self;
-    else                   textVC.backView = delegate;
-    textVC.index = [self.note.contents count];
-    textVC.editView = self;
-    
+    TextViewController *textVC = [[TextViewController alloc] initWithNote:self.note content:nil inMode:@"edit" delegate:self];
     [self.navigationController pushViewController:textVC animated:NO];
+}
+
+- (void) textUpdated:(NSString *)s forContent:(NoteContent *)c
+{
+    c.text = s;
+    [[AppServices sharedAppServices] updateNoteContent:c.contentId text:s];
+}
+
+- (void) textChosen:(NSString *)s
+{
+    [[[AppModel sharedAppModel] uploadManager] uploadContentForNoteId:self.note.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:s withType:@"TEXT" withFileURL:[NSURL URLWithString:[NSString stringWithFormat:@"%d.txt",((NSString *)[NSString stringWithFormat:@"%@.txt",[NSDate date]]).hash]]];
+    
+    self.noteValid   = YES;
+    self.noteChanged = YES;
+}
+
+- (void) textViewControllerCancelled
+{
+    if(!self.noteValid)
+    {
+        [[AppServices sharedAppServices] deleteNoteWithNoteId:self.note.noteId];
+        [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.note.noteId]];
+        [self dismissSelf];
+    }
 }
 
 - (void) mapButtonTouchAction
@@ -482,14 +500,7 @@
         noteC = [self.note.contents objectAtIndex:indexPath.row];
         if ([noteC.getType isEqualToString:@"TEXT"])
         {
-            TextViewController *textVC = [[TextViewController alloc] initWithNibName:@"TextViewController" bundle:nil];
-            textVC.noteId = self.note.noteId;
-            textVC.textToDisplay = noteC.getText;
-            textVC.editMode = YES;
-            textVC.contentId = noteC.getContentId;
-            textVC.editView = self;
-            textVC.backView = self;
-            textVC.index = indexPath.row;
+            TextViewController *textVC = [[TextViewController alloc] initWithNote:self.note content:noteC inMode:@"edit" delegate:self];
             [UIView beginAnimations:nil context:NULL];
             [UIView setAnimationDuration:.5];
             
@@ -522,6 +533,16 @@
 -(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	return 60;
+}
+
+- (void) cellStartedEditing:(NoteContentCell *)c
+{
+    [self.contentTable setFrame:CGRectMake(self.contentTable.frame.origin.x, self.contentTable.frame.origin.y, self.contentTable.frame.size.width, 160)];
+}
+
+- (void) cellFinishedEditing:(NoteContentCell *)c
+{
+    [self.contentTable setFrame:CGRectMake(self.contentTable.frame.origin.x, self.contentTable.frame.origin.y, self.contentTable.frame.size.width, 261)];
 }
 
 - (void)movieFinishedCallback:(NSNotification*) aNotification
