@@ -12,36 +12,55 @@
 #import "Tag.h"
 #import "TagCell.h"
 
-@implementation TagViewController
-@synthesize playerTagList,tagTable,gameTagList,note,addTagToolBar,tagTextField;
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+@interface TagViewController() <UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-        gameTagList = [[NSMutableArray alloc]initWithCapacity:5];
+    Note *note;
+    NSMutableArray *gameTagList;
+    NSMutableArray *playerTagList;
+    IBOutlet UITableView *tagTable;
+    IBOutlet UIToolbar *addTagToolBar;
+    IBOutlet UITextField *tagTextField;
+}
+
+@property (nonatomic, strong) Note *note;
+@property (nonatomic, strong) NSMutableArray *gameTagList;
+@property (nonatomic, strong) NSMutableArray *playerTagList;
+@property (nonatomic, strong) IBOutlet UITableView *tagTable;
+@property (nonatomic, strong) IBOutlet UIToolbar *addTagToolBar;
+@property (nonatomic, strong) IBOutlet UITextField *tagTextField;
+
+- (IBAction) cancelButtonTouchAction;
+- (IBAction) createButtonTouchAction;
+
+@end
+
+@implementation TagViewController
+
+@synthesize note;
+@synthesize gameTagList;
+@synthesize playerTagList;
+@synthesize tagTable;
+@synthesize addTagToolBar;
+@synthesize tagTextField;
+
+- (id) initWithNote:(Note *)n
+{
+    if(self = [super initWithNibName:@"TagViewController" bundle:nil])
+    {
+        gameTagList   = [[NSMutableArray alloc]initWithCapacity:5];
         playerTagList = [[NSMutableArray alloc]initWithCapacity:5];
     }
     return self;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
-}
-
-#pragma mark - View lifecycle
-- (void)viewDidLoad
+- (void) viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib. 
-    
     [self refresh];
-    }
--(void)refresh{
+}
+
+- (void) refresh
+{
     [playerTagList removeAllObjects];
     [gameTagList removeAllObjects];
     for(int i = 0; i < [[AppModel sharedAppModel].gameTagList count];i++){
@@ -54,10 +73,14 @@
     }
     [tagTable reloadData];
 }
--(void)backButtonTouchAction{
+
+- (void) backButtonTouchAction
+{
     [self.navigationController popViewControllerAnimated:YES];
 }
--(void)cancelButtonTouchAction{
+
+- (void) cancelButtonTouchAction
+{
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView setAnimationDuration:.5];
@@ -66,7 +89,8 @@
     [self.tagTextField resignFirstResponder];
 }
 
--(void)createButtonTouchAction{
+- (void) createButtonTouchAction
+{
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView setAnimationDuration:.5];
@@ -81,9 +105,12 @@
     [self refresh];
     [self.tagTextField resignFirstResponder];
 }
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+
+- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     static NSString *CellIdentifier = @"Cell";
-    if([gameTagList count] == 0 && indexPath.row == 0 && indexPath.section == 0){
+    if([gameTagList count] == 0 && indexPath.row == 0 && indexPath.section == 0)
+    {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         
         cell.textLabel.text = NSLocalizedString(@"TagViewNoGameTagsKey", @"");
@@ -94,7 +121,8 @@
         cell.textLabel.textColor = [UIColor darkGrayColor];
         return cell;
     }
-    if([playerTagList count] == 0 && indexPath.row == 0 && indexPath.section == 2){
+    if([playerTagList count] == 0 && indexPath.row == 0 && indexPath.section == 2)
+    {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         
         cell.textLabel.text = NSLocalizedString(@"TagViewNoTagsKey", @"");
@@ -119,16 +147,14 @@
         return cell;
     }
 
-    
     UITableViewCell *tempCell = (TagCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (![tempCell respondsToSelector:@selector(nameLabel)]){
-        //[tempCell release];
+    if (![tempCell respondsToSelector:@selector(nameLabel)])
         tempCell = nil;
-    }
     TagCell *cell = (TagCell *)tempCell;
     
     
-    if (cell == nil) {
+    if (cell == nil)
+    {
         // Create a temporary UIViewController to instantiate the custom cell.
         UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"TagCell" bundle:nil];
         // Grab a pointer to the custom cell.
@@ -153,30 +179,36 @@
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if(indexPath.section == 1){
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(indexPath.section == 1)
+    {
         //create new tag
-        if([AppModel sharedAppModel].currentGame.allowsPlayerTags){
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-        [UIView setAnimationDuration:.5];
-        [self.addTagToolBar setFrame:CGRectMake(addTagToolBar.frame.origin.x, 0, 320, 44)];
-            [UIView commitAnimations];  }
-        else{
+        if([AppModel sharedAppModel].currentGame.allowsPlayerTags)
+        {
+            [UIView beginAnimations:nil context:nil];
+            [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+            [UIView setAnimationDuration:.5];
+            [self.addTagToolBar setFrame:CGRectMake(addTagToolBar.frame.origin.x, 0, 320, 44)];
+            [UIView commitAnimations];
+        }
+        else
+        {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"TagViewCannotCreateKey", @"") message: NSLocalizedString(@"TagViewNoPlayerCreatedTagsKey", @"")delegate: self cancelButtonTitle: NSLocalizedString(@"OkKey", @"") otherButtonTitles: nil];
-            
             [alert show];
-
         }
-        
-        }
-    else{
+    }
+    else
+    {
         TagCell *cell = (TagCell *)[tableView cellForRowAtIndexPath:indexPath];
-        if(cell.accessoryType == UITableViewCellAccessoryCheckmark){
+        if(cell.accessoryType == UITableViewCellAccessoryCheckmark)
+        {
             [cell setAccessoryType:UITableViewCellAccessoryNone];
             int tagId;
-                for(int i = 0; i < self.note.tags.count;i++){
-                    if([[(Tag *)[self.note.tags objectAtIndex:i] tagName] isEqualToString:cell.nameLabel.text]){
+                for(int i = 0; i < self.note.tags.count;i++)
+                {
+                    if([[(Tag *)[self.note.tags objectAtIndex:i] tagName] isEqualToString:cell.nameLabel.text])
+                    {
                         tagId = [[self.note.tags objectAtIndex:i] tagId];
                         [self.note.tags removeObjectAtIndex:i];
                         break;
