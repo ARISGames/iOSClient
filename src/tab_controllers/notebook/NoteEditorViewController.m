@@ -207,8 +207,7 @@
 
 -(void) tagButtonTouchAction
 {
-    TagViewController *tagView = [[TagViewController alloc] initWithNibName:@"TagViewController" bundle:nil];
-    tagView.note = self.note;
+    TagViewController *tagView = [[TagViewController alloc] initWithNote:self.note];
     [self.navigationController pushViewController:tagView animated:YES];
 }
 
@@ -231,7 +230,7 @@
 
 -(void)cameraButtonTouchAction
 {
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
     {
         CameraViewController *cameraVC = [[CameraViewController alloc] initWithPresentMode:@"camera" delegate:self];
         [self.navigationController pushViewController:cameraVC animated:NO];
@@ -274,21 +273,27 @@
 {
     if([[AVAudioSession sharedInstance] inputIsAvailable])
     {
-        AudioRecorderViewController *audioVC = [[AudioRecorderViewController alloc] initWithNibName:@"AudioRecorderViewController" bundle:nil];
-        if(!self.startingView) audioVC.backView = self;
-        else                   audioVC.backView = delegate;
-        audioVC.parentDelegate = delegate;
-        audioVC.noteId = self.note.noteId;
-        audioVC.editView = self;
-        
+        AudioRecorderViewController *audioVC = [[AudioRecorderViewController alloc] initWithDelegate:self];
         [self.navigationController pushViewController:audioVC animated:NO];
     }
 }
 
+- (void) audioChosenWith:(NSURL *)url
+{
+    [[[AppModel sharedAppModel]uploadManager] uploadContentForNoteId:self.note.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:@"AUDIO" withFileURL:url];
+    self.noteValid   = YES;
+    self.noteChanged = YES;
+    [self refreshViewFromModel];
+}
+
 - (void) audioRecorderViewControllerCancelled
 {
-    [[AppServices sharedAppServices]deleteNoteWithNoteId:self.note.noteId];
-    [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.note.noteId]];
+    if(!self.noteValid)
+    {
+        [[AppServices sharedAppServices]deleteNoteWithNoteId:self.note.noteId];
+        [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.note.noteId]];
+        [self dismissSelf];
+    }
 }
 
 -(void)textButtonTouchAction
@@ -450,50 +455,15 @@
         return  cell;
     }
     
-    NoteContent *noteC = [self.note.contents objectAtIndex:indexPath.row];
-    
-    UITableViewCell *tempCell = (NoteContentCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if(tempCell && ![tempCell respondsToSelector:@selector(titleLbl)]) tempCell = nil;
-    
-    NoteContentCell *cell = (NoteContentCell *)tempCell;
-    if(!cell) cell = (NoteContentCell *)[[UIViewController alloc] initWithNibName:@"NoteContentCell" bundle:nil].view;
-    
-    cell.selectionStyle = UITableViewCellSelectionStyleGray;
-    
-    cell.index = indexPath.row;
-    cell.delegate = self;
-    cell.contentId = noteC.getContentId;
-    cell.content = noteC;
-    cell.indexPath = indexPath;
-    cell.parentTableView = self.contentTable;
-    
-    [cell checkForRetry];
-    if([noteC.getTitle length] >24)noteC.title = [noteC.getTitle substringToIndex:24];
-    cell.titleLbl.text = noteC.getTitle;
-    
-    if([[[self.note.contents objectAtIndex:indexPath.row] getType] isEqualToString:@"TEXT"]){
-        cell.imageView.image = [UIImage imageNamed:@"noteicon.png"];
-        cell.detailLbl.text = noteC.getText;
-    }
-    else if([[noteC getType] isEqualToString:@"PHOTO"])
-    {
-        AsyncMediaImageView *aView = [[AsyncMediaImageView alloc]initWithFrame:cell.imageView.frame andMedia:noteC.getMedia];
-        [cell addSubview:aView];
-    }
-    else if([[noteC getType] isEqualToString:@"AUDIO"] ||
-            [[noteC getType] isEqualToString:@"VIDEO"])
-    {
-        AsyncMediaImageView *aView = [[AsyncMediaImageView alloc]initWithFrame:cell.imageView.frame andMedia:noteC.getMedia];
-        UIImageView *overlay = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"play_button.png"]];
-        overlay.frame = CGRectMake(aView.frame.origin.x, aView.frame.origin.y, aView.frame.size.width/2, aView.frame.size.height/2);
-        overlay.center = aView.center;
-        
-        //overlay.alpha = .6;
-        [cell addSubview:aView];
-        [cell addSubview:overlay];
-    }
-    
-    cell.titleLbl.text = noteC.getTitle;
+    NoteContentCell *cell;
+    UITableViewCell *tempCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if(!tempCell || ![tempCell respondsToSelector:@selector(titleLbl)])
+        cell = (NoteContentCell *)[[[NSBundle mainBundle] loadNibNamed:@"NoteContentCell" owner:self options:nil] objectAtIndex:0];
+    else
+        cell = (NoteContentCell *)tempCell;
+
+    [cell setupWithNoteContent:[self.note.contents objectAtIndex:indexPath.row] delegate:self];
+
     return cell;
 }
 
@@ -523,11 +493,9 @@
             [UIView beginAnimations:nil context:NULL];
             [UIView setAnimationDuration:.5];
             
-            [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
-                                   forView:self.navigationController.view cache:YES];
+            [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.navigationController.view cache:YES];
             [self.navigationController pushViewController:textVC animated:NO];
             [UIView commitAnimations];
-            
         }
         else if([noteC.getType isEqualToString:@"PHOTO"])
         {
@@ -560,7 +528,6 @@
 {
 	[self dismissMoviePlayerViewControllerAnimated];
 }
-
 
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

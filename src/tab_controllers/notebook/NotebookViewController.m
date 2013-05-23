@@ -342,92 +342,22 @@
         return cell;
     }
     
-    UITableViewCell *tempCell = (NoteCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    NoteCell *cell;
+    UITableViewCell *tempCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if(!tempCell || ![tempCell isKindOfClass:[NoteCell class]])
+        cell = (NoteCell *)[[[NSBundle mainBundle] loadNibNamed:@"NoteCell" owner:self options:nil] objectAtIndex:0];
+    else
+        cell = (NoteCell *)tempCell;
     
-    if(tempCell && ![tempCell respondsToSelector:@selector(mediaIcon1)]) tempCell = nil;
-    
-    NoteCell *cell = (NoteCell *)tempCell;
-    
-    if(cell == nil)
-    {
-        NSLog(@"NotebookViewController: Allocing a new cell");
-        UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"NoteCell" bundle:nil];
-        cell = (NoteCell *)temporaryController.view;
-    }
-    
+        
     Note *currNote;
     if([sortControl selectedSegmentIndex] == 3) //tag
         currNote = (Note *)[[currentNoteList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     else
         currNote = (Note *)[currentNoteList objectAtIndex:indexPath.row];
 
-    cell.note = currNote;
-    cell.delegate = self;
-    cell.index = indexPath.row;
-    if([currNote.comments count] == 0)
-    {
-        cell.commentsLbl.text = @"";
-        [cell.likesButton setFrame:CGRectMake(cell.likesButton.frame.origin.x,14,cell.likesButton.frame.size.width , cell.likesButton.frame.size.height)];
-        [cell.likeLabel setFrame:CGRectMake(cell.likeLabel.frame.origin.x,26,cell.likeLabel.frame.size.width , cell.likeLabel.frame.size.height)];
-    }
-    else
-    {
-        cell.commentsLbl.text = [NSString stringWithFormat:@"%d %@",[currNote.comments count],NSLocalizedString(@"NotebookCommentsKey", @"")];
-        [cell.likesButton setFrame:CGRectMake(cell.likesButton.frame.origin.x,  2, cell.likesButton.frame.size.width, cell.likesButton.frame.size.height)];
-        [cell.likeLabel   setFrame:CGRectMake(  cell.likeLabel.frame.origin.x, 14,   cell.likeLabel.frame.size.width, cell.likeLabel.frame.size.height)];
-    }
-    cell.likeLabel.text = [NSString stringWithFormat:@"%d",currNote.numRatings];
-    if(currNote.userLiked) cell.likesButton.selected = YES;
-    cell.titleLabel.text = currNote.name;
-    if([currNote.contents count] == 0 && (currNote.creatorId != [AppModel sharedAppModel].player.playerId))cell.userInteractionEnabled = NO;
-    
-    BOOL videoIconUsed = NO;
-    BOOL photoIconUsed = NO;
-    BOOL audioIconUsed = NO;
-    BOOL textIconUsed  = NO;
-    for(int x = 0; x < [currNote.contents count]; x++)
-    {
-        if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:@"TEXT"]&& !textIconUsed)
-        {
-            textIconUsed = YES;
-            if     (cell.mediaIcon1.image == nil) cell.mediaIcon1.image = [UIImage imageNamed:@"noteicon.png"];
-            else if(cell.mediaIcon2.image == nil) cell.mediaIcon2.image = [UIImage imageNamed:@"noteicon.png"];
-            else if(cell.mediaIcon3.image == nil) cell.mediaIcon3.image = [UIImage imageNamed:@"noteicon.png"];
-            else if(cell.mediaIcon4.image == nil) cell.mediaIcon4.image = [UIImage imageNamed:@"noteicon.png"]; 
-        }
-        else if ([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:@"PHOTO"]&& !photoIconUsed)
-        {
-            photoIconUsed = YES;
-            if     (cell.mediaIcon1.image == nil) cell.mediaIcon1.image = [UIImage imageNamed:@"defaultImageIcon.png"];
-            else if(cell.mediaIcon2.image == nil) cell.mediaIcon2.image = [UIImage imageNamed:@"defaultImageIcon.png"];
-            else if(cell.mediaIcon3.image == nil) cell.mediaIcon3.image = [UIImage imageNamed:@"defaultImageIcon.png"];
-            else if(cell.mediaIcon4.image == nil) cell.mediaIcon4.image = [UIImage imageNamed:@"defaultImageIcon.png"];
-        }
-        else if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:@"AUDIO"] && !audioIconUsed)
-        {
-            audioIconUsed = YES;
-            if     (cell.mediaIcon1.image == nil) cell.mediaIcon1.image = [UIImage imageNamed:@"defaultAudioIcon.png"];
-            else if(cell.mediaIcon2.image == nil) cell.mediaIcon2.image = [UIImage imageNamed:@"defaultAudioIcon.png"];
-            else if(cell.mediaIcon3.image == nil) cell.mediaIcon3.image = [UIImage imageNamed:@"defaultAudioIcon.png"];
-            else if(cell.mediaIcon4.image == nil) cell.mediaIcon4.image = [UIImage imageNamed:@"defaultAudioIcon.png"];
-        }
-        else if([[(NoteContent *)[currNote.contents objectAtIndex:x] type] isEqualToString:@"VIDEO"] && !videoIconUsed)
-        {
-            videoIconUsed = YES;
-            if     (cell.mediaIcon1.image == nil) cell.mediaIcon1.image = [UIImage imageNamed:@"defaultVideoIcon.png"];
-            else if(cell.mediaIcon2.image == nil) cell.mediaIcon2.image = [UIImage imageNamed:@"defaultVideoIcon.png"];
-            else if(cell.mediaIcon3.image == nil) cell.mediaIcon3.image = [UIImage imageNamed:@"defaultVideoIcon.png"];
-            else if(cell.mediaIcon4.image == nil) cell.mediaIcon4.image = [UIImage imageNamed:@"defaultVideoIcon.png"];
-        }
-    }
-    
-    if(![AppModel sharedAppModel].currentGame.allowNoteLikes)
-    {
-        cell.likesButton.enabled = NO;
-        cell.likeLabel.hidden = YES;
-        cell.likesButton.hidden = YES;
-    }
-    
+    [cell setupWithNote:currNote delegate:self];
+
     return cell;
 }
 

@@ -8,24 +8,14 @@
 
 #import "ImageViewer.h"
 
-
 @implementation ImageViewer
 @synthesize imageView,media;
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-    }
-    return self;
-}
 
 - (void)dealloc
 {
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
-#pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {

@@ -13,49 +13,50 @@
 #import "AudioMeter.h"
 #import "ARISAppDelegate.h"
 #import "AppServices.h"
+#import "ARISAlertHandler.h"
 
 @interface AudioRecorderViewController() <AVAudioSessionDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate>
 {
+    AudioRecorderModeType mode;
 	AudioMeter *meter;
+    NSTimer *meterUpdateTimer;
+
 	AVAudioRecorder *soundRecorder;
 	AVAudioPlayer *soundPlayer;
-	NSData *audioData;
-	IBOutlet UIButton *recordStopOrPlayButton;
+    NSURL *soundFileURL;
+    
+    IBOutlet UIButton *recordStopOrPlayButton;
 	IBOutlet UIButton *uploadButton;
 	IBOutlet UIButton *discardButton;
-	BOOL recording;
-	BOOL playing;
-	NSTimer *meterUpdateTimer;
-	id backView;
-    id parentDelegate;
-    id editView;
     
     id<AudioRecorderViewControllerDelegate> __unsafe_unretained delegate;
 }
 
-@property(nonatomic) AudioMeter *meter;
-@property(nonatomic) NSData *audioData;
-@property(nonatomic) AVAudioRecorder *soundRecorder;
-@property(nonatomic) AVAudioPlayer *soundPlayer;
-@property(nonatomic) NSTimer *meterUpdateTimer;
-@property(nonatomic) id backView;
-@property(nonatomic) id parentDelegate;
-@property(nonatomic) id editView;
+@property (nonatomic, assign) AudioRecorderModeType mode;
+@property (nonatomic, strong) AudioMeter *meter;
+@property (nonatomic, strong) AVAudioRecorder *soundRecorder;
+@property (nonatomic, strong) AVAudioPlayer *soundPlayer;
+@property (nonatomic, strong) NSURL *soundFileURL;
+@property (nonatomic, strong) NSTimer *meterUpdateTimer;
 
-- (NSString *)getUniqueId;
+@property (nonatomic, strong) IBOutlet UIButton *recordStopOrPlayButton;
+@property (nonatomic, strong) IBOutlet UIButton *uploadButton;
+@property (nonatomic, strong) IBOutlet UIButton *discardButton;
 
 @end
 
 @implementation AudioRecorderViewController
 
+@synthesize mode;
+@synthesize meter;
 @synthesize soundRecorder;
 @synthesize soundPlayer;
-@synthesize meter;
+@synthesize soundFileURL;
 @synthesize meterUpdateTimer;
-@synthesize audioData;
-@synthesize backView;
-@synthesize parentDelegate;
-@synthesize editView;
+
+@synthesize recordStopOrPlayButton;
+@synthesize uploadButton;
+@synthesize discardButton;
 
 - (id) initWithDelegate:(id<AudioRecorderViewControllerDelegate>)d
 {
@@ -64,6 +65,9 @@
         delegate = d;
         self.title = NSLocalizedString(@"AudioRecorderTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"microphone.png"];
+        
+        NSString *tempDir = NSTemporaryDirectory ();
+        self.soundFileURL = [[NSURL alloc] initFileURLWithPath:[tempDir stringByAppendingString:[NSString stringWithFormat:@"%@.caf",[self getUniqueId]]]];
         
         [[AVAudioSession sharedInstance] setDelegate:self];
     }
@@ -85,10 +89,10 @@
 	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonTouchAction)];
     self.meter = [[AudioMeter alloc] initWithFrame:CGRectMake(0, 0, 320, 360)];
 	self.meter.alpha = 0.0;
-	[self.view addSubview:meter];
-	[self.view sendSubviewToBack:meter];
+	[self.view addSubview:self.meter];
+	[self.view sendSubviewToBack:self.meter];
 
-    [self updateButtonsForMode:kAudioRecorderStarting];
+    [self setMode:kAudioRecorderStarting];
 }
 
 - (void) backButtonTouchAction
@@ -102,8 +106,10 @@
     [[AVAudioSession sharedInstance] setDelegate:nil];
 }
 
-- (void) updateButtonsForMode:(AudioRecorderModeType)mode
+- (void) setMode:(AudioRecorderModeType)m
 {
+    mode = m;
+    
 	[uploadButton setTitle:NSLocalizedString(@"SaveKey", @"") forState:UIControlStateNormal];
 	[uploadButton setTitle:NSLocalizedString(@"SaveKey", @"") forState:UIControlStateHighlighted];
 
@@ -168,17 +174,14 @@
 	[self.meter updateLevel:0];
 	self.meter.alpha = 0.0; 
 	
-	[self updateButtonsForMode:kAudioRecorderRecordingComplete];
+	[self setMode:kAudioRecorderRecordingComplete];
 }
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
 {
-	NSLog(@"audioPlayerDidFinishPlaying");
-	[[AVAudioSession sharedInstance] setActive: NO error: nil];
-    
-	soundPlayer = nil;
-	
-	[self updateButtonsForMode:kAudioRecorderRecordingComplete];
+	[[AVAudioSession sharedInstance] setActive:NO error:nil];
+	self.soundPlayer = nil;
+	[self setMode:kAudioRecorderRecordingComplete];
 }
 
 - (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error
@@ -191,65 +194,40 @@
 	switch(mode)
     {
 		case kAudioRecorderStarting:
-			NSLog(@"AudioRecorder: Record/Play/Stop Button selected");
-			
-			[[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryRecord error: nil];
-			
+        {
+			[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryRecord error: nil];
 			NSDictionary *recordSettings = [[NSDictionary alloc] initWithObjectsAndKeys:
 											[NSNumber numberWithInt:kAudioFormatAppleIMA4],AVFormatIDKey,
 											[NSNumber numberWithInt:16000.0],AVSampleRateKey,
 											[NSNumber numberWithInt: 1],AVNumberOfChannelsKey,
 											[NSNumber numberWithInt: AVAudioQualityMin],AVSampleRateConverterAudioQualityKey,
 											nil];
-			
-			AVAudioRecorder *newRecorder = [[AVAudioRecorder alloc] initWithURL: soundFileURL settings: recordSettings error: nil];
-			self.soundRecorder = newRecorder;
-			
-			soundRecorder.delegate = self;
-			[soundRecorder setMeteringEnabled:YES];
-			[soundRecorder prepareToRecord];
-			
-			
-			BOOL audioHWAvailable = [[AVAudioSession sharedInstance] inputIsAvailable];
-			if (! audioHWAvailable) {
-				UIAlertView *cantRecordAlert =
-				[[UIAlertView alloc] initWithTitle: NSLocalizedString(@"NoAudioHardwareAvailableTitleKey", @"")
-										   message: NSLocalizedString(@"NoAudioHardwareAvailableMessageKey", @"")
-										  delegate: nil
-								 cancelButtonTitle: NSLocalizedString(@"OkKey",@"")
-								 otherButtonTitles:nil];
-				[cantRecordAlert show];
+			self.soundRecorder = [[AVAudioRecorder alloc] initWithURL:self.soundFileURL settings:recordSettings error:nil];
+			self.soundRecorder.delegate = self;
+			[self.soundRecorder setMeteringEnabled:YES];
+			[self.soundRecorder prepareToRecord];
+			if(![[AVAudioSession sharedInstance] inputIsAvailable])
+            {
+                [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"NoAudioHardwareAvailableTitleKey", @"") message:NSLocalizedString(@"NoAudioHardwareAvailableMessageKey", @"")];
 				return;
 			}
-			
-			[soundRecorder record];
-			
+			[self.soundRecorder record];
 			self.meter.alpha = 1.0;
 			self.meterUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:0.1
 																	 target:self
 																   selector:@selector(updateMeter)
 																   userInfo:nil
 																	repeats:YES];
-			NSLog(@"Recording.");
-			mode = kAudioRecorderRecording;
-			[self updateButtonsForCurrentMode];
+			[self setMode:kAudioRecorderNoteMode];
+        }
             break;
-			
 		case kAudioRecorderPlaying:
 			[self.soundPlayer stop];
-            if(!self.previewMode)
-                mode = kAudioRecorderRecordingComplete;
-            else
-                mode = kAudioRecorderNoteMode;
-            
-			[self updateButtonsForCurrentMode];
+            [self setMode:kAudioRecorderRecordingComplete];
             break;
-			
 		case kAudioRecorderRecordingComplete:
 			[[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];
-			
 			[[AVAudioSession sharedInstance] setActive: YES error: nil];
-			
 			if (nil == self.soundPlayer) {
 				NSError *error;
 				AVAudioPlayer *newPlayer =[[AVAudioPlayer alloc] initWithContentsOfURL:self.soundFileURL error: &error];
@@ -257,52 +235,31 @@
 				[self.soundPlayer prepareToPlay];
 				[self.soundPlayer setDelegate: self];
 			}
-			
-			mode = kAudioRecorderPlaying;
-			[self updateButtonsForCurrentMode];
-			
+            [self setMode:kAudioRecorderPlaying];
 			[self.soundPlayer play];
             break;
-			
 		case kAudioRecorderRecording:
 			[[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];
-			
-			[soundRecorder stop];
+			[self.soundRecorder stop];
 			self.soundRecorder = nil;
-			mode = kAudioRecorderRecordingComplete;
-			[self updateButtonsForCurrentMode];
+            [self setMode:kAudioRecorderRecordingComplete];
             break;
-			
 		default:
 			break;
 	}
 }
 
-- (IBAction) uploadButtonAction: (id) sender{
-	self.audioData = [NSData dataWithContentsOfURL:soundFileURL];
+- (IBAction) uploadButtonAction:(id)sender
+{
 	self.soundRecorder = nil;
-	
-	//Do server call here
-    
-    if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]) {
-        [self.parentDelegate addedAudio];
-        
-    }
-    if([self.editView isKindOfClass:[NoteEditorViewController class]]) {
-        [self.editView setNoteValid:YES];
-        [self.editView setNoteChanged:YES];
-    }
-    
-    [[[AppModel sharedAppModel]uploadManager] uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:@"AUDIO" withFileURL:self.soundFileURL];
-    
+    [delegate audioChosenWith:self.soundFileURL];
     [self.navigationController popViewControllerAnimated:YES];
-    
 }
 
-- (IBAction) discardButtonAction: (id) sender{
-	soundPlayer = nil;
-	mode = kAudioRecorderStarting;
-	[self updateButtonsForCurrentMode];
+- (IBAction) discardButtonAction:(id)sender
+{
+	self.soundPlayer = nil;
+	[self setMode:kAudioRecorderStarting];
 }
 
 
