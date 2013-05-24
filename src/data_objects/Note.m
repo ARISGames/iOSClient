@@ -86,14 +86,17 @@
         self.text          = [dict validObjectForKey:@"text"];
         
         NSArray *contentDicts = [dict validObjectForKey:@"contents"];
+        self.contents = [[NSMutableArray alloc] initWithCapacity:5];
         for(NSDictionary *contentDict in contentDicts)
              [self.contents addObject:[[NoteContent alloc] initWithDictionary:contentDict]];
                
         NSArray *tagDicts = [dict validObjectForKey:@"tags"];
+        self.tags = [[NSMutableArray alloc] initWithCapacity:5];
         for(NSDictionary *tagDict in tagDicts)
             [self.tags addObject:[[Tag alloc] initWithDictionary:tagDict]];
         
         NSArray *commentDicts = [dict validObjectForKey:@"comments"];
+        self.comments = [[NSMutableArray alloc] initWithCapacity:5];
         for(NSDictionary *commentDict in commentDicts)
             [self.comments addObject:[[Note alloc] initWithDictionary:commentDict]];
         

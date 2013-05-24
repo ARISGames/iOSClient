@@ -136,11 +136,10 @@
 
 #pragma mark Header Implementations
 - (void) uploadContentForNoteId:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSURL *)aUrl
-{    
+{
     UploadContent *uc = [[uploadContentsForNotes objectForKey:[NSNumber numberWithInt:noteId]] objectForKey:aUrl];
-    Reachability *wifiReach = [Reachability reachabilityForLocalWiFi];
     NSUInteger bytes = ((NSData *)[NSData dataWithContentsOfURL:aUrl]).length;
-    if(bytes>500000 && ([wifiReach currentReachabilityStatus] == NotReachable) && !uc)
+    if(bytes > 500000 && ([[Reachability reachabilityForLocalWiFi] currentReachabilityStatus] == NotReachable) && !uc)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"UploadManDelayedKey", @"") message:NSLocalizedString(@"UploadManDelayedMessageKey", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
         [alert show];
@@ -169,9 +168,8 @@
 - (void) uploadPlayerPicContentWithFileURL:(NSURL *)aUrl
 {
     UploadContent *uc = [[uploadContentsForNotes objectForKey:[NSNumber numberWithInt:-1]] objectForKey:aUrl];
-    Reachability *wifiReach = [Reachability reachabilityForLocalWiFi];
     NSUInteger bytes = ((NSData *)[NSData dataWithContentsOfURL:aUrl]).length;
-    if(bytes > 500000 && ([wifiReach currentReachabilityStatus] == NotReachable) && !uc)
+    if(bytes > 500000 && ([[Reachability reachabilityForLocalWiFi] currentReachabilityStatus] == NotReachable) && !uc)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"UploadManDelayedKey", @"") message:NSLocalizedString(@"UploadManDelayedMessageKey", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
         [alert show];

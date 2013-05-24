@@ -123,7 +123,8 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
     [self uploadSucceeded:uploadDidSucceed];
 }
 
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)aError {
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)aError
+{
     NSLog(@"ARISUploader: connectiondidFailWithError");
     [self uploadSucceeded:NO];
     self.error = aError;
@@ -142,7 +143,8 @@ static NSString * const BOUNDRY = @"0xKhTmLbOuNdArY";
     NSString *reply = [[NSString alloc] initWithData:data
                                              encoding:NSUTF8StringEncoding];
     
-    if ([reply hasPrefix:@"aris"]) {
+    if ([reply hasPrefix:@"aris"])
+    {
         uploadDidSucceed = YES;
         self.responseString = reply;
     }

@@ -797,9 +797,9 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 -(void) uploadContentToNoteWithFileURL:(NSURL *)fileURL name:(NSString *)name noteId:(int) noteId type: (NSString *)type
 {
-    ARISUploader *uploader = [[ARISUploader alloc]initWithURLToUpload:fileURL gameSpecific:YES delegate:self doneSelector:@selector(noteContentUploadDidfinish: ) errorSelector:@selector(uploadNoteContentDidFail:)];
+    ARISUploader *uploader = [[ARISUploader alloc] initWithURLToUpload:fileURL gameSpecific:YES delegate:self doneSelector:@selector(noteContentUploadDidfinish: ) errorSelector:@selector(uploadNoteContentDidFail:)];
     
-    NSNumber *nId = [[NSNumber alloc]initWithInt:noteId];
+    NSNumber *nId = [[NSNumber alloc] initWithInt:noteId];
     
     NSMutableDictionary *userInfo = [[NSMutableDictionary alloc]initWithCapacity:4];
     [userInfo setValue:name forKey:@"title"];

@@ -36,6 +36,8 @@
 {
     if((self = [super initWithNibName:@"CameraViewController" bundle:nil]))
     {
+        delegate = d;
+        
         self.presentMode = mode;
         self.title = NSLocalizedString(@"CameraTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"camera.png"];

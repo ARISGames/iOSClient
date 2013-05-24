@@ -19,7 +19,30 @@
 #import "AppServices.h"
 #import "AsyncMediaPlayerButton.h"
 
-@interface NoteDetailsViewController() <TextViewControllerDelegate>
+@interface NoteDetailsViewController() <UIScrollViewDelegate, TextViewControllerDelegate>
+{
+    Note *note;
+    
+    IBOutlet UIScrollView *scrollView;
+    IBOutlet UIPageControl *pageControl;
+    IBOutlet UILabel *commentLabel;
+    IBOutlet UILabel *likeLabel;
+    IBOutlet UIBarButtonItem *likeButton;
+    IBOutlet UIBarButtonItem *commentButton;    
+}
+
+@property (nonatomic) Note *note;
+
+@property (nonatomic) IBOutlet UIScrollView *scrollView;
+@property (nonatomic) IBOutlet UIPageControl *pageControl;
+@property (nonatomic) IBOutlet UILabel *commentLabel;
+@property (nonatomic) IBOutlet UILabel *likeLabel;
+@property (nonatomic) IBOutlet UIBarButtonItem *likeButton;
+@property (nonatomic) IBOutlet UIBarButtonItem *commentButton;;
+
+- (IBAction) commentButtonTouch;
+- (IBAction) likeButtonTouch;
+
 @end
 
 @implementation NoteDetailsViewController
@@ -42,43 +65,21 @@
     return self;
 }
 
-- (void)movieFinishedCallback:(NSNotification*) aNotification
+- (void) viewDidLoad
 {
-	[self dismissMoviePlayerViewControllerAnimated];
-}
-
-- (void)dealloc
-{    
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)viewDidLoad
-{
-    NSLog(@"NoteDetailsView ViewDidLoad");
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-    //self.title = self.note.title;
-    self.scrollView.pagingEnabled = YES;
-    self.scrollView.contentSize = CGSizeMake(scrollView.frame.size.width * numPages, scrollView.frame.size.height);
-    self.scrollView.showsHorizontalScrollIndicator = NO;
-    //scrollView.showsVerticalScrollIndicator = NO;
-    //scrollView.scrollsToTop = NO;
-    scrollView.userInteractionEnabled = YES;
-    scrollView.exclusiveTouch = NO;
-    scrollView.canCancelContentTouches = YES;
-    scrollView.delaysContentTouches = YES;
-    scrollView.delegate = self;
-    self.pageControl.currentPage = 0;
-    self.pageControl.numberOfPages = 1;
-    self.pageControl.hidesForSinglePage = YES;
-    if (self.note.creatorId == [AppModel sharedAppModel].player.playerId)
-    {
-        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"EditKey", @"") style:UIBarButtonItemStyleDone target:self action:@selector(editButtonTouched)]];
-    }
 
-    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonTouch)]];
+    self.scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, scrollView.frame.size.height);
+    self.scrollView.userInteractionEnabled = YES;
+    self.scrollView.exclusiveTouch = NO;
+    self.scrollView.delaysContentTouches = YES;
+    self.scrollView.canCancelContentTouches = YES;
+    self.scrollView.pagingEnabled = YES;
+    self.scrollView.showsHorizontalScrollIndicator = NO;
+    self.scrollView.delegate = self;
     
-    self.pageControl.currentPage = 0;
+    self.pageControl.hidesForSinglePage = YES;
+    
     if(![AppModel sharedAppModel].currentGame.allowNoteComments)
     {
         self.commentButton.style = UIBarButtonItemStylePlain;
@@ -92,56 +93,53 @@
         self.likeButton.enabled = NO;
         self.likeButton.image = nil;
         self.likeLabel.hidden = YES;
-        self.likeButton = nil;
     }
-}
-
--(void)backButtonTouch
-{
-    [delegate gameObjectViewControllerRequestsDismissal:self];
-}
-
--(void)editButtonTouched
-{
-    NoteEditorViewController *noteVC = [[NoteEditorViewController alloc] initWithNote:self.note inView:nil delegate:self];
-    [self.navigationController pushViewController:noteVC animated:YES];
+    
+    if(self.note.creatorId == [AppModel sharedAppModel].player.playerId)
+        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"EditKey", @"") style:UIBarButtonItemStyleDone target:self action:@selector(editButtonTouched)]];
+    
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonTouch)]];
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-    self.scrollView.frame = self.navigationController.view.frame;
-    
-    [self addUploadsToNote];
-    
-    self.commentLabel.text = [NSString stringWithFormat:@"%d",[self.note.comments count]];
-    self.likeLabel.text = [NSString stringWithFormat:@"%d",self.note.numRatings];
-    if(self.note.userLiked) [self.likeButton setStyle:UIBarButtonItemStyleDone];
-    else [self.likeButton setStyle:UIBarButtonItemStyleBordered];
-    if(!((NSNull *)self.note.name == [NSNull null] || self.note.name.length == 0)) self.title = self.note.name;
-    else self.title = @"Note";
-    
-    while([scrollView.subviews count]>0)
-        [[self.scrollView.subviews objectAtIndex:0] removeFromSuperview];
-    
-    self.pageControl.currentPage = 0;
-    self.pageControl.numberOfPages = 1;
-    self.pageControl.hidesForSinglePage = YES;
-    numPages = 0;
-    
-    NoteContent *noteContent;
-    if([self.note.contents count] == 0){
-        
-    }
-    else{
-        for(int x = 0; x < [self.note.contents count]; x++){
-            noteContent = [self.note.contents objectAtIndex:x];
-            [self loadNewPageWithContent:noteContent];
-        }
-    }
+    [self refreshView];
 }
 
--(void)addUploadsToNote
+- (void) viewWillDisappear:(BOOL)animated
+{
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+}
+
+- (void) viewDidDisappear:(BOOL)animated
+{
+    while([[self.scrollView subviews] count] > 0)
+        [[self.scrollView.subviews objectAtIndex:0] removeFromSuperview];
+}
+
+- (void) refreshView
+{
+    [self addFinishedUploadsToNote];
+    
+    if(![self.note.name isEqualToString:@""]) self.title = self.note.name;
+    else                                      self.title = @"Note";
+    self.commentLabel.text = [NSString stringWithFormat:@"%d",[self.note.comments count]];
+    self.likeLabel.text    = [NSString stringWithFormat:@"%d",self.note.numRatings];
+    if(self.note.userLiked) [self.likeButton setStyle:UIBarButtonItemStyleDone];
+    else                    [self.likeButton setStyle:UIBarButtonItemStyleBordered];
+    
+    while([scrollView.subviews count] > 0)
+        [[self.scrollView.subviews objectAtIndex:0] removeFromSuperview];
+    self.scrollView.frame = self.navigationController.view.frame;
+    
+    self.pageControl.currentPage = 0;
+    self.pageControl.numberOfPages = 0;
+    for(int x = 0; x < [self.note.contents count]; x++)
+        [self loadNewPageWithContent:[self.note.contents objectAtIndex:x]];
+}
+
+- (void) addFinishedUploadsToNote
 {    
     for(int x = [self.note.contents count]-1; x >= 0; x--)
     {
@@ -150,15 +148,31 @@
     }
     
     NSMutableDictionary *uploads = [AppModel sharedAppModel].uploadManager.uploadContentsForNotes;
-    NSArray *uploadContentForNote = [[uploads objectForKey:[NSNumber numberWithInt:self.note.noteId]]allValues];
-    [self.note.contents addObjectsFromArray:uploadContentForNote];
-    NSLog(@"NoteEditorVC: Added %d upload content(s) to note",[uploadContentForNote count]);
+    [self.note.contents addObjectsFromArray:[[uploads objectForKey:[NSNumber numberWithInt:self.note.noteId]] allValues]];
 }
 
--(void)commentButtonTouch
+- (void) backButtonTouch
 {
-    [self showComments];
+    [delegate gameObjectViewControllerRequestsDismissal:self];
 }
+
+- (void) editButtonTouched
+{
+    NoteEditorViewController *noteVC = [[NoteEditorViewController alloc] initWithNote:self.note inView:nil delegate:self];
+    [self.navigationController pushViewController:noteVC animated:YES];
+}
+
+- (void) commentButtonTouch
+{
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    
+    NoteCommentViewController *noteCommentVC = [[NoteCommentViewController alloc] initWithNote:self.note delegate:self];
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:.5];
+    
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.navigationController.view cache:YES];
+    [self.navigationController pushViewController:noteCommentVC animated:NO];
+    [UIView commitAnimations];}
 
 - (void) likeButtonTouch
 {
@@ -178,43 +192,19 @@
     self.likeLabel.text = [NSString stringWithFormat:@"%d",self.note.numRatings];
 }
 
-- (void) shareButtonTouch
-{
-    
-}
-
-- (void) showComments
-{
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-    
-    NoteCommentViewController *noteCommentVC = [[NoteCommentViewController alloc] initWithNote:self.note delegate:self];
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:.5];
-    
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.navigationController.view cache:YES];
-    [self.navigationController pushViewController:noteCommentVC animated:NO];
-    [UIView commitAnimations];
-}
-
 - (void) scrollViewDidScroll:(UIScrollView *)sender
 {
     int pageWidth = scrollView.frame.size.width;
     pageControl.currentPage = floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
-    pageControl.numberOfPages = numPages;
 }
 
-- (void) saveButtonTouchAction
-{
-}
-
-- (void)loadNewPageWithContent:(NoteContent *)content
+- (void) loadNewPageWithContent:(NoteContent *)content
 {    
     if(![content.getType isEqualToString:@"UPLOAD"])
     {
-        numPages++;
-        scrollView.contentSize = CGSizeMake(320 * numPages, scrollView.frame.size.height);
-        pageControl.numberOfPages = numPages;
-        CGRect frame = CGRectMake(scrollView.frame.size.width * (numPages-1), 0,
+        pageControl.numberOfPages++;
+        scrollView.contentSize = CGSizeMake(320 * pageControl.numberOfPages, scrollView.frame.size.height);
+        CGRect frame = CGRectMake(scrollView.frame.size.width * (pageControl.numberOfPages-1), 0,
                                   scrollView.frame.size.width,
                                   scrollView.frame.size.height);
         if([content.getType isEqualToString:@"TEXT"])
@@ -248,40 +238,14 @@
     
 }
 
-- (IBAction) changePage:(id)sender
+- (void) movieFinishedCallback:(NSNotification*)aNotification
 {
-    
+	[self dismissMoviePlayerViewControllerAnimated];
 }
 
--(void)viewWillDisappear:(BOOL)animated
+- (void) dealloc
 {
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-}
-
--(void)viewDidDisappear:(BOOL)animated
-{
-    while([[self.scrollView subviews] count] > 0)
-        [[self.scrollView.subviews objectAtIndex:0] removeFromSuperview];
-}
-
-- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-- (BOOL) shouldAutorotate
-{
-    return YES;
-}
-
-- (NSInteger) supportedInterfaceOrientations
-{
-    NSInteger mask = 0;
-    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeLeft])      mask |= UIInterfaceOrientationMaskLandscapeLeft;
-    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeRight])     mask |= UIInterfaceOrientationMaskLandscapeRight;
-    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationPortrait])           mask |= UIInterfaceOrientationMaskPortrait;
-    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationPortraitUpsideDown]) mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
-    return mask;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

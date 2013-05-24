@@ -101,20 +101,37 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"14-gear"] style:UIBarButtonItemStyleBordered target:self action:@selector(displayMenu)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"14-gear"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
     
     float screenHeight = [UIScreen mainScreen].applicationFrame.size.height;
-    [self.filterToolBar setFrame:CGRectMake(0,             -44, 320,                 44)];
-    [self.toolBar       setFrame:CGRectMake(0,               0, 320,                 44)];
-    [self.noteTable     setFrame:CGRectMake(0,              44, 320, screenHeight-44-92)];
-    [self.sortToolBar   setFrame:CGRectMake(0, screenHeight-44, 320,                 44)];
+    [self.filterToolBar setFrame:CGRectMake(0,             -44, 320,                     44)];
+    [self.toolBar       setFrame:CGRectMake(0,               0, 320,                     44)];
+    [self.noteTable     setFrame:CGRectMake(0,              44, 320, screenHeight-(2*44)-49)];
+    [self.sortToolBar   setFrame:CGRectMake(0, screenHeight-49, 320,                     44)];
 }
 
-- (void) displayMenu
+- (void) viewWillAppear:(BOOL)animated
 {
-	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] playAudioAlert:@"swish" shouldVibrate:NO];
+    [super viewWillAppear:animated];
+    [self setMenuDisplayDown:menuDown];
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self refresh];
+}
+
+- (void) toggleMenu
+{
+    [self setMenuDisplayDown:!menuDown];
+}
+
+- (void) setMenuDisplayDown:(BOOL)down
+{
+    menuDown = down;
+    [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] playAudioAlert:@"swish" shouldVibrate:NO];
     
-    menuDown = !menuDown;
     float screenHeight = [UIScreen mainScreen].applicationFrame.size.height;
     if(menuDown)
     {
@@ -138,8 +155,9 @@
         [self.noteTable     setFrame:CGRectMake(0,              44, 320, screenHeight-(2*44)-49)];
         [self.sortToolBar   setFrame:CGRectMake(0, screenHeight-49, 320,                     44)];
         [self.navigationItem.rightBarButtonItem setStyle:UIBarButtonItemStyleBordered];
-        [UIView commitAnimations];       
+        [UIView commitAnimations];
     }
+
 }
 
 - (void) filterButtonTouchAction:(id)sender
@@ -183,11 +201,6 @@
     [noteTable reloadData];
 }
 
-- (void) viewDidAppear:(BOOL)animated
-{
-    [self refresh];
-}
-
 - (void) refresh
 {
     if(filterControl.selectedSegmentIndex == 0)
@@ -196,8 +209,6 @@
         [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
     
     [[AppServices sharedAppServices] fetchGameNoteTagsAsynchronously:YES];
-    [self refreshViewFromModel];
-    [noteTable reloadData];
 }
 
 - (void) showLoadingIndicator
@@ -222,8 +233,7 @@
         case 2: startView = @"audio";  break;
         default:startView = @"text";   break;
     }
-    NoteEditorViewController *noteVC = [[NoteEditorViewController alloc] initWithNote:nil inView:startView delegate:self];
-    [self.navigationController pushViewController:noteVC animated:NO];
+    [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil inView:startView delegate:self] animated:NO];
 }
 
 - (void) refreshViewFromModel
@@ -289,6 +299,8 @@
         }
         [self sortWithMode:0];
     }
+    
+    [noteTable reloadData];
 }
 
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
@@ -302,7 +314,7 @@
         return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if([sortControl selectedSegmentIndex] == 3) //tag
     {
@@ -345,7 +357,8 @@
     NoteCell *cell;
     UITableViewCell *tempCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if(!tempCell || ![tempCell isKindOfClass:[NoteCell class]])
-        cell = (NoteCell *)[[[NSBundle mainBundle] loadNibNamed:@"NoteCell" owner:self options:nil] objectAtIndex:0];
+        cell = (NoteCell *)[[[NSBundle mainBundle] loadNibNamed:@"NoteCell" owner:[[UIViewController alloc] init] options:nil] objectAtIndex:0]
+;
     else
         cell = (NoteCell *)tempCell;
     
@@ -384,8 +397,8 @@
 
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {    
-    if (indexPath.row % 2 == 0) cell.backgroundColor = [UIColor colorWithRed:233.0/255.0 green:233.0/255.0 blue:233.0/255.0 alpha:1.0];  
-    else                        cell.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:1.0];  
+    if(indexPath.row % 2 == 0) cell.backgroundColor = [UIColor colorWithRed:233.0/255.0 green:233.0/255.0 blue:233.0/255.0 alpha:1.0];  
+    else                       cell.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:1.0];  
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

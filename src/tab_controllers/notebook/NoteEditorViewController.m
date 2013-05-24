@@ -245,7 +245,7 @@
 
 - (void) imageChosenWithURL:(NSURL *)url
 {
-    [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.note.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:@"PHOTO" withFileURL:url];
+    [[[AppModel sharedAppModel] uploadManager] uploadContentForNoteId:self.note.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:@"PHOTO" withFileURL:url];
     self.noteValid   = YES;
     self.noteChanged = YES;
     [self refreshViewFromModel];
@@ -439,7 +439,7 @@
     for(int x = [self.note.contents count]-1; x >= 0; x--)
     {
         //Removes note contents that are not done uploading, because they will all be added again right after this loop
-        if((NSObject <NoteContentProtocol> *)[[self.note.contents objectAtIndex:x] managedObjectContext] == nil || 
+        if((id<NoteContentProtocol>)[[self.note.contents objectAtIndex:x] managedObjectContext] == nil ||
            ![[[self.note.contents objectAtIndex:x] getUploadState] isEqualToString:@"uploadStateDONE"])
             [self.note.contents removeObjectAtIndex:x];
     }
