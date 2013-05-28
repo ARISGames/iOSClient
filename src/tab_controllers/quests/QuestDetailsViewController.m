@@ -75,7 +75,7 @@ NSString *const kQuestDetailsHtmlTemplate =
     
     if(self.quest.mediaId != 0)
     {
-        Media *questMedia = [[AppModel sharedAppModel] mediaForMediaId: self.quest.mediaId];
+        Media *questMedia = [[AppModel sharedAppModel] mediaForMediaId: self.quest.mediaId ofType:nil];
         CGRect mediaFrame = questImageView.frame;
         mediaFrame.origin.x = 0;
         mediaFrame.origin.y = 0;

@@ -13,7 +13,7 @@
 
 @interface NoteContentCell() <UITextViewDelegate>
 {
-    NoteContent *content;
+    id<NoteContentProtocol>content;
 
     IBOutlet UIButton *retryButton;
     IBOutlet UIActivityIndicatorView *spinner;
@@ -21,12 +21,11 @@
     IBOutlet UILabel *detailLbl;
     IBOutlet UILabel *holdLbl;
     IBOutlet UIImageView *imageView;
-    NSIndexPath *indexPath;
     
     id<NoteContentCellDelegate> __unsafe_unretained delegate;
 }
 
-@property (nonatomic, strong) NoteContent *content;
+@property (nonatomic, strong) id<NoteContentProtocol>content;
 
 @property (nonatomic, strong) IBOutlet UIButton *retryButton;
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *spinner;
@@ -34,8 +33,6 @@
 @property (nonatomic, strong) IBOutlet UILabel *detailLbl;
 @property (nonatomic, strong) IBOutlet UILabel *holdLbl;
 @property (nonatomic, strong) IBOutlet UIImageView *imageView;
-
-@property (nonatomic, strong) NSIndexPath *indexPath;
 
 - (IBAction) retryUpload;
 
@@ -50,7 +47,6 @@
 @synthesize detailLbl;
 @synthesize holdLbl;
 @synthesize imageView;
-@synthesize indexPath;
 
 - (void) awakeFromNib
 {
@@ -59,11 +55,10 @@
     [self.titleLbl setUserInteractionEnabled:NO];
 }
 
-- (void) setupWithNoteContent:(NoteContent *)nc delegate:(id<NoteContentCellDelegate>)d
+- (void) setupWithNoteContent:(id<NoteContentProtocol>)nc delegate:(id<NoteContentCellDelegate>)d
 {
     self.content = nc;
     delegate = d;
-    
     
     self.selectionStyle = UITableViewCellSelectionStyleGray;
     
@@ -75,9 +70,7 @@
         self.detailLbl.text = self.content.getText;
     }
     else if([[self.content getType] isEqualToString:@"PHOTO"])
-    {
-        [self addSubview:[[AsyncMediaImageView alloc] initWithFrame:self.imageView.frame andMedia:self.content.getMedia]];
-    }
+        [self addSubview:[[AsyncMediaImageView alloc] initWithFrame:self.imageView.frame andMedia:[self.content getMedia]]];
     else if([[self.content getType] isEqualToString:@"AUDIO"] ||
             [[self.content getType] isEqualToString:@"VIDEO"])
     {
@@ -98,7 +91,7 @@
 
 -(void)checkForRetry
 {
-    if(![self.content respondsToSelector:@selector(getUploadState)] || ![[self.content getUploadState] isEqualToString:@"uploadStateDONE"])
+    if(![[self.content getUploadState] isEqualToString:@"uploadStateDONE"])
     {
         retryButton.hidden = NO;
         self.titleLbl.userInteractionEnabled = NO;
@@ -177,8 +170,8 @@
     if([text isEqualToString:@"\n"])
     {
         [textView resignFirstResponder];  
-        [self.content setTitle:textView.text];
-        [[AppServices sharedAppServices] updateNoteContent:self.content.contentId title:textView.text];
+        [((NoteContent *)self.content) setTitle:textView.text];
+        [[AppServices sharedAppServices] updateNoteContent:((NoteContent *)self.content).contentId title:textView.text];
         
         return NO;
     }

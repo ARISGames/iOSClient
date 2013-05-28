@@ -287,10 +287,10 @@
 
 #pragma mark Retrieving Cashed Objects 
 
--(Media *)mediaForMediaId:(int)mId
+-(Media *)mediaForMediaId:(int)mId ofType:(NSString *)type // type = nil for "I don't know". Used as a hint for how to treat media if it needs to be loaded
 {
     if(mId == 0) return nil;
-	return [mediaCache mediaForMediaId:mId];
+	return [mediaCache mediaForMediaId:mId ofType:type];
 }
 
 -(Npc *)npcForNpcId:(int)mId

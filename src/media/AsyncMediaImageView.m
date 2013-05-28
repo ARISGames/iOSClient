@@ -22,7 +22,7 @@
 
 - (id) initWithMediaId:(int)mediaId
 {
-    return [self initWithMedia:[[AppModel sharedAppModel] mediaForMediaId:mediaId]];
+    return [self initWithMedia:[[AppModel sharedAppModel] mediaForMediaId:mediaId ofType:nil]];
 }
 
 - (id) initWithMedia:(Media *)aMedia
@@ -36,7 +36,7 @@
 
 -(id) initWithFrame:(CGRect)aFrame andMediaId:(int)mediaId
 {
-    return [self initWithFrame:aFrame andMedia:[[AppModel sharedAppModel] mediaForMediaId:mediaId]];
+    return [self initWithFrame:aFrame andMedia:[[AppModel sharedAppModel] mediaForMediaId:mediaId ofType:nil]];
 }
 
 - (id) initWithFrame:(CGRect)aFrame andMedia:(Media *)aMedia
@@ -107,7 +107,7 @@
     }
 }
 
--(void)movieThumbDidFinish:(NSNotification*)aNotification
+- (void) movieThumbDidFinish:(NSNotification*)aNotification
 {
     NSLog(@"AsyncMediaImageView: movieThumbDidFinish");
     NSDictionary *userInfo = aNotification.userInfo;
@@ -188,7 +188,7 @@
 {
     NSLog(@"Failed to load media %d previously- new media list received so trying again...", [self.media.uid intValue]);
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:[self.media.uid intValue]]];
+    [self loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:[self.media.uid intValue] ofType:nil]];
 }
 
 - (void)connection:(NSURLConnection *)theConnection didReceiveData:(NSData *)incrementalData

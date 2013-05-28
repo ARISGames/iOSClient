@@ -110,7 +110,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	NSString *htmlDescription = [NSString stringWithFormat:kItemDetailsDescriptionHtmlTemplate, item.text];
 	[itemDescriptionView loadHTMLString:htmlDescription baseURL:nil];
     
-	Media *media = [[AppModel sharedAppModel] mediaForMediaId:item.mediaId];
+	Media *media = [[AppModel sharedAppModel] mediaForMediaId:item.mediaId ofType:@"PHOTO"];
         
 	if([media.type isEqualToString:@"PHOTO"] && media.url)
     {

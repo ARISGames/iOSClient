@@ -107,8 +107,9 @@
 	
 	AsyncMediaImageView *imageView = [[AsyncMediaImageView alloc] initWithFrame:CGRectZero];
 	imageView.frame = CGRectMake((int)(BOX_WIDTH / 2.0 - 300 / 2.0), 20, 300, 300);
-	if (coordinate.mediaId != 0) {
-		Media *imageMedia = [[AppModel sharedAppModel] mediaForMediaId: coordinate.mediaId];
+	if (coordinate.mediaId != 0)
+    {
+		Media *imageMedia = [[AppModel sharedAppModel] mediaForMediaId:coordinate.mediaId ofType:@"PHOTO"];
 		[imageView loadMedia:imageMedia];
 	}
 	else imageView.image = [UIImage imageNamed:@"location.png"];

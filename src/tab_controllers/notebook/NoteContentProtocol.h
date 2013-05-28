@@ -7,10 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Media.h"
-
-@protocol NoteContentProtocol <NSObject>
-@required
+@class Media;
+@protocol NoteContentProtocol
 - (NSString *) getTitle;
 - (NSString *) getText;
 - (NSString *) getType;
@@ -19,4 +17,5 @@
 - (int) getNoteId;
 - (int) getContentId;
 - (id) managedObjectContext;
+- (NSString *) description;
 @end

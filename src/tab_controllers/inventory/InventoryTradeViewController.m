@@ -307,25 +307,27 @@
     [cell.lbl4 setNeedsDisplay];
     Media *media;
     if (item.mediaId != 0) {
-        if([self.mediaCache count] > indexPath.row){
+        if([self.mediaCache count] > indexPath.row)
             media = [self.mediaCache objectAtIndex:indexPath.row];
-        }
-        else{
-            
-            media = [[AppModel sharedAppModel] mediaForMediaId: item.mediaId];
+        else
+        {
+            media = [[AppModel sharedAppModel] mediaForMediaId: item.mediaId ofType:nil];
             if(media)
                 [self.mediaCache  addObject:media];
         }
 	}
     
-	if (item.iconMediaId != 0) {
+	if (item.iconMediaId != 0)
+    {
         Media *iconMedia;
-        if([self.iconCache count] < indexPath.row){
+        if([self.iconCache count] < indexPath.row)
+        {
             iconMedia = [self.iconCache objectAtIndex:indexPath.row];
             [cell.iconView updateViewWithNewImage:[UIImage imageWithData:iconMedia.image]];
         }
-        else{
-            iconMedia = [[AppModel sharedAppModel] mediaForMediaId: item.iconMediaId];
+        else
+        {
+            iconMedia = [[AppModel sharedAppModel] mediaForMediaId:item.iconMediaId ofType:nil];
             [self.iconCache  addObject:iconMedia];
             [cell.iconView loadMedia:iconMedia];
         }

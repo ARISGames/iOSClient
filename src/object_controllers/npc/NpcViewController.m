@@ -161,9 +161,9 @@ NSString *const kDialogHtmlTemplate =
 	textSizeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"textToggle.png"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleNextTextBoxSize)];
 	self.navigationItem.rightBarButtonItem = textSizeButton;
 
-	if(currentPcMediaId != 0)   [pcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentPcMediaId]];
+	if(currentPcMediaId != 0)   [pcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentPcMediaId ofType:nil]];
 	else                        [pcImageView updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
-    if(currentNpc.mediaId != 0) [npcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentNpc.mediaId]];
+    if(currentNpc.mediaId != 0) [npcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentNpc.mediaId ofType:nil]];
     else                        [npcImageView updateViewWithNewImage:[UIImage imageNamed:@"npc.png"]];
     
     if([[self.currentNpc.greeting stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""])
@@ -247,7 +247,7 @@ NSString *const kDialogHtmlTemplate =
         
         if(currentScene.mediaId != 0)
         {
-            Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.mediaId];
+            Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.mediaId ofType:nil];
             //TEMPORARY BANDAID 
             if(currentImageView.isLoading)
             {
@@ -268,12 +268,12 @@ NSString *const kDialogHtmlTemplate =
         {
             if([currentScene.sceneType isEqualToString:@"pc"])
             {
-                if(currentPcMediaId != 0)   [pcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentPcMediaId]];
+                if(currentPcMediaId != 0)   [pcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentPcMediaId ofType:nil]];
                 else                        [pcImageView updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
             }
             else
             {
-                if(currentNpc.mediaId != 0) [npcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentNpc.mediaId]];
+                if(currentNpc.mediaId != 0) [npcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentNpc.mediaId ofType:nil]];
                 else                        [npcImageView updateViewWithNewImage:[UIImage imageNamed:@"npc.png"]];
             }
         }
@@ -329,7 +329,7 @@ NSString *const kDialogHtmlTemplate =
     else if([currentScene.sceneType isEqualToString:@"video"])
     {
         //Setup the Button
-        Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.typeId];
+        Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.typeId ofType:@"VIDEO"];
         NSLog(@"NpcViewController: VideoURL: %@", media.url);
         //Create movie player object
         ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];

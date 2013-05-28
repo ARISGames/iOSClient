@@ -43,7 +43,6 @@
     Note *note;
     id __unsafe_unretained delegate;
     BOOL noteValid;
-    BOOL noteChanged;
     NSString *startingView;
 }
 
@@ -60,12 +59,6 @@
 @property (nonatomic, strong) IBOutlet UITextField *textField;
 @property (readwrite, strong) NSString *startingView;
 @property (readwrite, assign) BOOL noteValid;
-@property (readwrite, assign) BOOL noteChanged;
-
-- (void) updateTable;
-- (void) refreshViewFromModel;
-- (void) tagButtonTouchAction;
-- (void) addCDUploadsToNote;
 
 - (IBAction) cameraButtonTouchAction;
 - (IBAction) audioButtonTouchAction;
@@ -91,7 +84,6 @@
 @synthesize libraryButton;
 @synthesize textField;
 @synthesize noteValid;
-@synthesize noteChanged;
 @synthesize startingView;
 
 - (id) initWithNote:(Note *)n inView:(NSString *)view delegate:(id)d
@@ -155,12 +147,6 @@
         else if( self.note.showOnMap && !self.note.showOnList) self.sharingLabel.text = NSLocalizedString(@"NoteEditorMapOnlyKey", @"");
         else if(!self.note.showOnMap &&  self.note.showOnList) self.sharingLabel.text = NSLocalizedString(@"NoteEditorListOnlyKey", @"");
         else if( self.note.showOnMap &&  self.note.showOnList) self.sharingLabel.text = NSLocalizedString(@"NoteEditorListAndMapKey", @"");
-        
-        if(self.noteChanged)
-        {
-            self.noteChanged = NO;
-            [contentTable reloadData];
-        }
         
         [self refreshViewFromModel];
         
@@ -247,16 +233,12 @@
 {
     [[[AppModel sharedAppModel] uploadManager] uploadContentForNoteId:self.note.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:@"PHOTO" withFileURL:url];
     self.noteValid   = YES;
-    self.noteChanged = YES;
-    [self refreshViewFromModel];
 }
 
 - (void) videoChosenWithURL:(NSURL *)url
 {
     [[[AppModel sharedAppModel] uploadManager] uploadContentForNoteId:self.note.noteId withTitle:[NSString stringWithFormat:@"%@", [NSDate date]] withText:nil withType:@"VIDEO" withFileURL:url];
     self.noteValid   = YES;
-    self.noteChanged = YES;
-    [self refreshViewFromModel];
 }
 
 - (void) cameraViewControllerCancelled
@@ -282,8 +264,6 @@
 {
     [[[AppModel sharedAppModel]uploadManager] uploadContentForNoteId:self.note.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:@"AUDIO" withFileURL:url];
     self.noteValid   = YES;
-    self.noteChanged = YES;
-    [self refreshViewFromModel];
 }
 
 - (void) audioRecorderViewControllerCancelled
@@ -296,7 +276,7 @@
     }
 }
 
--(void)textButtonTouchAction
+- (void) textButtonTouchAction
 {
     TextViewController *textVC = [[TextViewController alloc] initWithNote:self.note content:nil inMode:@"edit" delegate:self];
     [self.navigationController pushViewController:textVC animated:NO];
@@ -313,7 +293,6 @@
     [[[AppModel sharedAppModel] uploadManager] uploadContentForNoteId:self.note.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:s withType:@"TEXT" withFileURL:[NSURL URLWithString:[NSString stringWithFormat:@"%d.txt",((NSString *)[NSString stringWithFormat:@"%@.txt",[NSDate date]]).hash]]];
     
     self.noteValid   = YES;
-    self.noteChanged = YES;
 }
 
 - (void) textViewControllerCancelled
@@ -400,14 +379,14 @@
     [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
 }
 
--(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCellEditingStyle) tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if([self.note.contents count] == 0 && indexPath.row == 0)
         return UITableViewCellEditingStyleNone;
     return UITableViewCellEditingStyleDelete;
 }
 
--(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+- (void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if([[[self.note.contents objectAtIndex:indexPath.row] getUploadState] isEqualToString:@"uploadStateDONE"])
         [[AppServices sharedAppServices] deleteNoteContentWithContentId:[[self.note.contents objectAtIndex:indexPath.row] getContentId]];
@@ -427,7 +406,7 @@
     [contentTable reloadData];
 }
 
-- (void)refreshViewFromModel
+- (void) refreshViewFromModel
 {
     self.note = [[[AppModel sharedAppModel] playerNoteList] objectForKey:[NSNumber numberWithInt:self.note.noteId]];
     [self addCDUploadsToNote];
@@ -445,8 +424,7 @@
     }
     
     NSArray *uploadContentsForNote = [[[AppModel sharedAppModel].uploadManager.uploadContentsForNotes objectForKey:[NSNumber numberWithInt:self.note.noteId]]allValues];
-    [self.note.contents addObjectsFromArray:uploadContentsForNote];
-    NSLog(@"NoteEditorVC: Added %d upload content(s) to note",[uploadContentsForNote count]);
+    if(uploadContentsForNote) [self.note.contents addObjectsFromArray:uploadContentsForNote];
 }
 
 - (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
@@ -476,7 +454,7 @@
     NoteContentCell *cell;
     UITableViewCell *tempCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if(!tempCell || ![tempCell respondsToSelector:@selector(titleLbl)])
-        cell = (NoteContentCell *)[[[NSBundle mainBundle] loadNibNamed:@"NoteContentCell" owner:self options:nil] objectAtIndex:0];
+        cell = (NoteContentCell *)[[[NSBundle mainBundle] loadNibNamed:@"NoteContentCell" owner:[[UIViewController alloc] init] options:nil] objectAtIndex:0];
     else
         cell = (NoteContentCell *)tempCell;
 

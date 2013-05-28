@@ -228,7 +228,7 @@
     Media *media;
     if(item.mediaId != 0 && !(media = [self.mediaCache objectForKey:[NSNumber numberWithInt:item.itemId]]))
     {
-        media = [[AppModel sharedAppModel] mediaForMediaId: item.mediaId];
+        media = [[AppModel sharedAppModel] mediaForMediaId:item.mediaId ofType:nil];
         [self.mediaCache setObject:media forKey:[NSNumber numberWithInt:item.itemId]];
 	}
     
@@ -238,7 +238,7 @@
     {
         if(!(iconMedia = [self.iconCache objectForKey:[NSNumber numberWithInt:item.itemId]]))
         {
-            iconMedia = [[AppModel sharedAppModel] mediaForMediaId:item.iconMediaId];
+            iconMedia = [[AppModel sharedAppModel] mediaForMediaId:item.iconMediaId ofType:@"PHOTO"];
             [self.iconCache setObject:iconMedia forKey:[NSNumber numberWithInt:item.itemId]];
         }
         

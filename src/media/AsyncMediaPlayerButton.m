@@ -33,7 +33,7 @@ BOOL isLoading;
         self.imageView.clipsToBounds = YES;
         self.presentingController = aPresentingController;
         if(!self.media)
-            self.media = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
+            self.media = [[AppModel sharedAppModel] mediaForMediaId:mediaId ofType:nil];
         
         [self setImage:[UIImage imageNamed:@"play_button.png"] forState:UIControlStateNormal];
         [self setContentHorizontalAlignment:UIControlContentHorizontalAlignmentCenter];

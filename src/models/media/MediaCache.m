@@ -12,7 +12,8 @@
 @implementation MediaCache
 @synthesize mediaCount,maxMediaCount,context;
 
-- (void)clearCache{
+- (void) clearCache
+{
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Media" inManagedObjectContext:[AppModel sharedAppModel].managedObjectContext];
     [fetchRequest setEntity:entity];
@@ -29,7 +30,7 @@
     }
 }
 
--(void)deleteMediaFromCDWithId:(int)mediaId
+- (void) deleteMediaFromCDWithId:(int)mediaId
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Media" inManagedObjectContext:[AppModel sharedAppModel].managedObjectContext];
@@ -51,7 +52,7 @@
         NSLog(@"Error deleting Media - error:%@",error);
 }
 
--(Media *)mediaForMediaId:(int)uid
+- (Media *) mediaForMediaId:(int)uid ofType:(NSString *)type
 {
     NSError *error;
     
@@ -71,6 +72,7 @@
     //Media Not found; you should try fetching a new list from the server
     Media *media = [NSEntityDescription insertNewObjectForEntityForName:@"Media" inManagedObjectContext:context];
     media.uid = [NSNumber numberWithInt:uid];
+    media.type = type;
     
     if(![context save:&error])
         NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);

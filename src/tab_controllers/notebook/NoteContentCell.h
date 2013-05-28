@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class NoteContent;
+@protocol NoteContentProtocol;
 @class NoteContentCell;
 @protocol NoteContentCellDelegate
 - (void) cellStartedEditing:(NoteContentCell *)c;
@@ -16,5 +16,5 @@
 @end
 
 @interface NoteContentCell : UITableViewCell
-- (void) setupWithNoteContent:(NoteContent *)nc delegate:(id<NoteContentCellDelegate>)d;
+- (void) setupWithNoteContent:(id<NoteContentProtocol>)nc delegate:(id<NoteContentCellDelegate>)d;
 @end

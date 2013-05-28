@@ -69,7 +69,7 @@
 {
     [super viewDidLoad];
 
-    self.scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, scrollView.frame.size.height);
+    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, self.scrollView.frame.size.height);
     self.scrollView.userInteractionEnabled = YES;
     self.scrollView.exclusiveTouch = NO;
     self.scrollView.delaysContentTouches = YES;
@@ -172,7 +172,8 @@
     
     [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.navigationController.view cache:YES];
     [self.navigationController pushViewController:noteCommentVC animated:NO];
-    [UIView commitAnimations];}
+    [UIView commitAnimations];
+}
 
 - (void) likeButtonTouch
 {
@@ -194,31 +195,31 @@
 
 - (void) scrollViewDidScroll:(UIScrollView *)sender
 {
-    int pageWidth = scrollView.frame.size.width;
-    pageControl.currentPage = floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+    int pageWidth = self.scrollView.frame.size.width;
+    self.pageControl.currentPage = floor((self.scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
 }
 
 - (void) loadNewPageWithContent:(NoteContent *)content
 {    
     if(![content.getType isEqualToString:@"UPLOAD"])
     {
-        pageControl.numberOfPages++;
-        scrollView.contentSize = CGSizeMake(320 * pageControl.numberOfPages, scrollView.frame.size.height);
-        CGRect frame = CGRectMake(scrollView.frame.size.width * (pageControl.numberOfPages-1), 0,
-                                  scrollView.frame.size.width,
-                                  scrollView.frame.size.height);
+        self.pageControl.numberOfPages++;
+        self.scrollView.contentSize = CGSizeMake(320 * self.pageControl.numberOfPages, self.scrollView.frame.size.height);
+        CGRect frame = CGRectMake(self.scrollView.frame.size.width * (self.pageControl.numberOfPages-1), 0,
+                                  self.scrollView.frame.size.width,
+                                  self.scrollView.frame.size.height);
         if([content.getType isEqualToString:@"TEXT"])
         {
             TextViewController *controller = [[TextViewController alloc] initWithNote:self.note content:content inMode:@"preview" delegate:self];
             controller.view.frame = frame;
-            [scrollView addSubview:controller.view];
+            [self.scrollView addSubview:controller.view];
         }
         else if([content.getType isEqualToString:@"PHOTO"])
         {
-            [scrollView addSubview:[[AsyncMediaImageView alloc] initWithFrame:frame andMedia:content.getMedia]];
+            [self.scrollView addSubview:[[AsyncMediaImageView alloc] initWithFrame:frame andMedia:content.getMedia]];
         }
         else if([content.getType isEqualToString:@"AUDIO"] || [content.getType isEqualToString:@"VIDEO"])
-            [scrollView addSubview:[[AsyncMediaPlayerButton alloc] initWithFrame:frame media:content.getMedia presentingController:[RootViewController sharedRootViewController] preloadNow:NO]];
+            [self.scrollView addSubview:[[AsyncMediaPlayerButton alloc] initWithFrame:frame media:content.getMedia presentingController:[RootViewController sharedRootViewController] preloadNow:NO]];
     }
 }
 

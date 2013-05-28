@@ -192,8 +192,9 @@ NSString *const kIconQuestsHtmlTemplate =
         int yOrigin = row * (yMargin + ICONHEIGHT) + yMargin;
         
         UIImage *iconImage;
-        if(currentQuest.iconMediaId != 0){
-            Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: currentQuest.iconMediaId];
+        if(currentQuest.iconMediaId != 0)
+        {
+            Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId:currentQuest.iconMediaId ofType:@"PHOTO"];
             iconImage = [UIImage imageWithData:iconMedia.image];
         }
         else iconImage = [UIImage imageNamed:@"item.png"];
@@ -243,7 +244,7 @@ NSString *const kIconQuestsHtmlTemplate =
     UIImage *iconImage;
     if(currentQuest.iconMediaId != 0)
     {
-        Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: currentQuest.iconMediaId];
+        Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: currentQuest.iconMediaId ofType:@"PHOTO"];
         iconImage = [UIImage imageWithData:iconMedia.image];
     }
     else iconImage = [UIImage imageNamed:@"item.png"];

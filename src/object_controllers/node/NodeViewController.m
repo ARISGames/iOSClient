@@ -88,7 +88,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     
     self.title = self.node.name;
     
-    Media *media = [[AppModel sharedAppModel] mediaForMediaId:self.node.mediaId];
+    Media *media = [[AppModel sharedAppModel] mediaForMediaId:self.node.mediaId ofType:nil];
     
     mediaArea = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,10)];
     if([media.type isEqualToString:@"PHOTO"] && media.url)

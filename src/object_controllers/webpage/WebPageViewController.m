@@ -336,7 +336,7 @@
 - (void) loadAudioFromMediaId:(int)mediaId
 {
     NSLog(@"WebPageVC: loadAudioFromMediaId");
-    Media* media = [[AppModel sharedAppModel] mediaForMediaId: mediaId];
+    Media* media = [[AppModel sharedAppModel] mediaForMediaId:mediaId ofType:@"AUDIO"];
     NSURL* url = [NSURL URLWithString:media.url];
     AVPlayer *player = [AVPlayer playerWithURL:url];
     [audioPlayers setObject:player forKey:[NSNumber numberWithInt:mediaId]];

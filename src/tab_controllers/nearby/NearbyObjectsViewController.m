@@ -153,7 +153,7 @@
 	if (l.gameObject.type == GameObjectItem && l.qty > 1) cell.title.text = [NSString stringWithFormat:@"%@ (x%d)",l.name,l.qty];
 	else cell.title.text = l.name;
 	
-    [cell.iconView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:l.gameObject.iconMediaId]];
+    [cell.iconView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:l.gameObject.iconMediaId ofType:@"PHOTO"]];
     
 	return cell;
 }

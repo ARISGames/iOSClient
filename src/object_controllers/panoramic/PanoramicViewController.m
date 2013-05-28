@@ -81,7 +81,7 @@
         plView.isInertiaEnabled = NO;
     }
     
-    self.imageLoader = [[AsyncMediaImageView alloc] initWithMediaId:[[AppModel sharedAppModel] mediaForMediaId:self.panoramic.mediaId]];
+    self.imageLoader = [[AsyncMediaImageView alloc] initWithMediaId:[[AppModel sharedAppModel] mediaForMediaId:self.panoramic.mediaId ofType:@"PHOTO"]];
     
     //Create a close button
 	self.navigationItem.leftBarButtonItem =

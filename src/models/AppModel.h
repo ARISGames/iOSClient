@@ -158,7 +158,7 @@
 - (void) initUserDefaults;
 - (void) clearGameLists;
 
-- (Media *)mediaForMediaId:(int)mId;
+- (Media *)mediaForMediaId:(int)mId ofType:(NSString *)type;
 - (Item *)itemForItemId:(int)mId;
 - (Node *)nodeForNodeId:(int)mId;
 - (Npc *)npcForNpcId:(int)mId;

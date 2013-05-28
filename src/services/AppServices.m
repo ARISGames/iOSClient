@@ -809,8 +809,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[uploader setUserInfo:userInfo];
 	
 	[uploader upload];
-    
-    [self fetchAllPlayerLists];
 }
 
 -(void)fetchPlayerNoteListAsync
@@ -848,7 +846,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                           type,
                           title,
                           nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
+	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithServer:[AppModel sharedAppModel].serverURL
                                                             andServiceName:@"notes"
                                                              andMethodName:@"addContentToNoteFromFileName"
                                                               andArguments:arguments
@@ -1068,7 +1066,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
             [tempOverlay.tileX addObject:[overlayDictionary validObjectForKey:@"x"]];
             [tempOverlay.tileY addObject:[overlayDictionary validObjectForKey:@"y"]];
             [tempOverlay.tileZ addObject:[overlayDictionary validObjectForKey:@"zoom"]];
-            Media *media = [[AppModel sharedAppModel] mediaForMediaId:[overlayDictionary validIntForKey:@"media_id"]];
+            Media *media = [[AppModel sharedAppModel] mediaForMediaId:[overlayDictionary validIntForKey:@"media_id"] ofType:@"PHOTO"];
             [tempOverlay.tileImage addObject:media];
             currentOverlayID = tempOverlay.overlayId;
             overlaysIndex += 1;
@@ -1081,7 +1079,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
             [tempOverlay.tileX addObject:[overlayDictionary validObjectForKey:@"x"]];
             [tempOverlay.tileY addObject:[overlayDictionary validObjectForKey:@"y"]];
             [tempOverlay.tileZ addObject:[overlayDictionary validObjectForKey:@"zoom"]];
-            Media *media = [[AppModel sharedAppModel] mediaForMediaId:[overlayDictionary validIntForKey:@"media_id"]];
+            Media *media = [[AppModel sharedAppModel] mediaForMediaId:[overlayDictionary validIntForKey:@"media_id"] ofType:@"PHOTO"];
             [tempOverlay.tileImage addObject:media];
             currentOverlayID = tempOverlay.overlayId;
         }
@@ -1613,7 +1611,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     int iconMediaId;
     if((iconMediaId = [gameSource validIntForKey:@"icon_media_id"]) > 0)
     {
-        game.iconMedia = [[AppModel sharedAppModel] mediaForMediaId:iconMediaId];
+        game.iconMedia = [[AppModel sharedAppModel] mediaForMediaId:iconMediaId ofType:@"PHOTO"];
         game.iconMedia.type = @"PHOTO"; //Phil doesn't like this...
     }
     
@@ -1621,7 +1619,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     int mediaId;
     if((mediaId = [gameSource validIntForKey:@"media_id"]) > 0)
     {
-        game.splashMedia = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
+        game.splashMedia = [[AppModel sharedAppModel] mediaForMediaId:mediaId ofType:@"PHOTO"];
         game.splashMedia.type = @"PHOTO"; //Phil doesn't like this...
     }
 
@@ -1661,9 +1659,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     
     NSEnumerator *gameListEnumerator = [gameListArray objectEnumerator];
     NSDictionary *gameDictionary;
-    while ((gameDictionary = [gameListEnumerator nextObject])) {
+    while ((gameDictionary = [gameListEnumerator nextObject]))
         [tempGameList addObject:[self parseGame:(gameDictionary)]];
-    }
     
     NSError *error;
     if (![[AppModel sharedAppModel].mediaCache.context save:&error])

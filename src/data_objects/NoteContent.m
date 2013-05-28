@@ -29,22 +29,22 @@
 
 - (NSString *) getTitle
 {
-    return [self title];
+    return self.title;
 }
 
 - (NSString *) getText
 {
-    return [self text];
+    return self.text;
 }
 
 - (Media *) getMedia
 {
-    return [[AppModel sharedAppModel] mediaForMediaId:[self mediaId]];
+    return [[AppModel sharedAppModel] mediaForMediaId:self.mediaId ofType:@"PHOTO"];
 }
 
 - (NSString *) getType
 {
-    return [self type];
+    return self.type;
 }
 
 - (NSString *) getUploadState
@@ -54,12 +54,12 @@
 
 - (int) getNoteId
 {
-    return [self noteId];
+    return self.noteId;
 }
 
 - (int) getContentId
 {
-    return [self contentId];
+    return self.contentId;
 }
 
 - (id) managedObjectContext
@@ -67,7 +67,9 @@
     return @"I'm Not nil!";
 }
 
-- (void) dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+- (NSString *) description
+{
+    return [NSString stringWithFormat:@"NoteContent - MediaId:%@ MediaType:%@ UploadStatus:%@ ContentId:%d NoteId:%d",[self getMedia].uid,[self getType],[self getUploadState],[self getContentId],[self getNoteId]];
 }
+
 @end

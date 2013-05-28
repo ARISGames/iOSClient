@@ -8,6 +8,7 @@
 
 #import "UploadMan.h"
 #import "AppServices.h"
+#import "ARISAlertHandler.h"
 
 @implementation UploadMan
 @synthesize uploadContentsForNotes;
@@ -137,12 +138,14 @@
 #pragma mark Header Implementations
 - (void) uploadContentForNoteId:(int)noteId withTitle:(NSString *)title withText:(NSString *)text withType:(NSString *)type withFileURL:(NSURL *)aUrl
 {
-    UploadContent *uc = [[uploadContentsForNotes objectForKey:[NSNumber numberWithInt:noteId]] objectForKey:aUrl];
+    UploadContent *uc = nil;
+    NSMutableDictionary *uploadContentsDictionary = [uploadContentsForNotes objectForKey:[NSNumber numberWithInt:noteId]];
+    if(uploadContentsDictionary) uc = [uploadContentsDictionary objectForKey:aUrl]; //PHIL - there seems to be no reason that this would ever result in uc not being nil...
+    
     NSUInteger bytes = ((NSData *)[NSData dataWithContentsOfURL:aUrl]).length;
     if(bytes > 500000 && ([[Reachability reachabilityForLocalWiFi] currentReachabilityStatus] == NotReachable) && !uc)
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"UploadManDelayedKey", @"") message:NSLocalizedString(@"UploadManDelayedMessageKey", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"OkKey", @"") otherButtonTitles:nil];
-        [alert show];
+        [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"UploadManDelayedKey", @"") message:NSLocalizedString(@"UploadManDelayedMessageKey", @"")];
         uc = [self saveUploadContentToCDWithTitle:title andText:text andType:type andNoteId:noteId andFileURL:aUrl inState:@"uploadStateFAILED"];
         [self insertUploadContentIntoDictionary:uc];
     }
