@@ -16,7 +16,7 @@
 #import "Note.h"
 #import "Comment.h"
 
-@interface NotebookViewController()  <UITableViewDelegate, UITableViewDataSource>
+@interface NotebookViewController()  <UITableViewDelegate, UITableViewDataSource, NoteEditorViewControllerDelegate>
 {
     BOOL menuDown;
     
@@ -157,7 +157,6 @@
         [self.navigationItem.rightBarButtonItem setStyle:UIBarButtonItemStyleBordered];
         [UIView commitAnimations];
     }
-
 }
 
 - (void) filterButtonTouchAction:(id)sender
@@ -234,6 +233,11 @@
         default:startView = @"text";   break;
     }
     [self.navigationController pushViewController:[[NoteEditorViewController alloc] initWithNote:nil inView:startView delegate:self] animated:NO];
+}
+
+- (void) noteEditorViewControllerDidFinish
+{
+    [self refreshViewFromModel];
 }
 
 - (void) refreshViewFromModel
@@ -357,12 +361,10 @@
     NoteCell *cell;
     UITableViewCell *tempCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if(!tempCell || ![tempCell isKindOfClass:[NoteCell class]])
-        cell = (NoteCell *)[[[NSBundle mainBundle] loadNibNamed:@"NoteCell" owner:[[UIViewController alloc] init] options:nil] objectAtIndex:0]
-;
+        cell = (NoteCell *)[[[NSBundle mainBundle] loadNibNamed:@"NoteCell" owner:[[UIViewController alloc] init] options:nil] objectAtIndex:0];
     else
         cell = (NoteCell *)tempCell;
     
-        
     Note *currNote;
     if([sortControl selectedSegmentIndex] == 3) //tag
         currNote = (Note *)[[currentNoteList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
@@ -390,7 +392,6 @@
                 return [self.tagGameHeaderList objectAtIndex:section];
             else return @"";
         }
-        
     }
     else return @"";
 }

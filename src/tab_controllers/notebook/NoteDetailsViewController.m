@@ -19,7 +19,7 @@
 #import "AppServices.h"
 #import "AsyncMediaPlayerButton.h"
 
-@interface NoteDetailsViewController() <UIScrollViewDelegate, TextViewControllerDelegate>
+@interface NoteDetailsViewController() <UIScrollViewDelegate, TextViewControllerDelegate, NoteEditorViewControllerDelegate>
 {
     Note *note;
     
@@ -116,6 +116,11 @@
 {
     while([[self.scrollView subviews] count] > 0)
         [[self.scrollView.subviews objectAtIndex:0] removeFromSuperview];
+}
+
+- (void) noteEditorViewControllerDidFinish
+{
+    [self refreshView];
 }
 
 - (void) refreshView

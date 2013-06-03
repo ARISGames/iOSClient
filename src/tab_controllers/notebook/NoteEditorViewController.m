@@ -41,7 +41,7 @@
     UIActionSheet *actionSheet;
 
     Note *note;
-    id __unsafe_unretained delegate;
+    id<NoteEditorViewControllerDelegate> __unsafe_unretained delegate;
     BOOL noteValid;
     NSString *startingView;
 }
@@ -86,7 +86,7 @@
 @synthesize noteValid;
 @synthesize startingView;
 
-- (id) initWithNote:(Note *)n inView:(NSString *)view delegate:(id)d
+- (id) initWithNote:(Note *)n inView:(NSString *)view delegate:(id<NoteEditorViewControllerDelegate>)d
 {
     if(self = [super initWithNibName:@"NoteEditorViewController" bundle:nil])
     {
@@ -169,8 +169,8 @@
     
     self.navigationItem.leftBarButtonItem  = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"DoneKey", @"") style:UIBarButtonItemStyleDone     target:self action:@selector(backButtonTouchAction:)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"16-tag"]     style:UIBarButtonItemStyleBordered target:self action:@selector(tagButtonTouchAction)];
-        
-    if([delegate isKindOfClass:[NoteCommentViewController class]])
+            
+    if([(NSObject *)delegate isKindOfClass:[NoteCommentViewController class]])
     {
         self.publicButton.hidden = YES;
         self.mapButton.hidden    = YES;
@@ -179,6 +179,27 @@
         self.audioButton.frame   = CGRectMake(self.textButton.frame.size.width-2,   self.audioButton.frame.origin.y,   self.audioButton.frame.size.width*1.5,   self.audioButton.frame.size.height);
         self.cameraButton.frame  = CGRectMake(self.textButton.frame.size.width-2,  self.cameraButton.frame.origin.y,  self.cameraButton.frame.size.width*1.5,  self.cameraButton.frame.size.height);
     }
+}
+
+//For some reason, 'done' key thinks it is a 'return' key...
+- (BOOL) textField:(UITextField *)t shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if([string isEqualToString:@"\n"])
+    {
+        [t resignFirstResponder];
+        return NO;
+    }
+    return YES;
+}
+
+- (void) textFieldDidEndEditing:(UITextField *)t
+{
+    if([self.textField.text isEqualToString:@""])
+        self.textField.text = self.note.name;
+    else
+        self.note.name = self.textField.text;
+
+    [t resignFirstResponder];
 }
 
 -(void) viewWillDisappear:(BOOL)animated
@@ -191,13 +212,13 @@
     [[AppServices sharedAppServices] updateNoteWithNoteId:self.note.noteId title:self.textField.text publicToMap:self.note.showOnMap publicToList:self.note.showOnList];
 }
 
--(void) tagButtonTouchAction
+- (void) tagButtonTouchAction
 {
     TagViewController *tagView = [[TagViewController alloc] initWithNote:self.note];
     [self.navigationController pushViewController:tagView animated:YES];
 }
 
-- (IBAction) backButtonTouchAction:(id)sender
+- (void) backButtonTouchAction:(id)sender
 {
     if([self.textField.text isEqualToString:@""]) self.textField.text = NSLocalizedString(@"NodeEditorNewNoteKey", @"");
     [[AppServices sharedAppServices] setNoteCompleteForNoteId:self.note.noteId];
@@ -207,6 +228,7 @@
 - (void) dismissSelf
 {
     [self.navigationController popViewControllerAnimated:YES];
+    [delegate noteEditorViewControllerDidFinish];
 }
 
 -(void)updateTable
@@ -391,29 +413,29 @@
     if([[[self.note.contents objectAtIndex:indexPath.row] getUploadState] isEqualToString:@"uploadStateDONE"])
         [[AppServices sharedAppServices] deleteNoteContentWithContentId:[[self.note.contents objectAtIndex:indexPath.row] getContentId]];
     else
-        [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:self.note.noteId andFileURL:[NSURL URLWithString:[[[self.note.contents objectAtIndex:indexPath.row]getMedia] url]]];
+        [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:self.note.noteId andFileURL:[NSURL URLWithString:[[[self.note.contents objectAtIndex:indexPath.row] getMedia] url]]];
     [self.note.contents removeObjectAtIndex:indexPath.row];
 }
 
 -(void)removeLoadingIndicator
 {
     [[self navigationItem] setRightBarButtonItem:nil];
-    [contentTable reloadData];
+    [self.contentTable reloadData];
 }
 
 - (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [contentTable reloadData];
+    [self.contentTable reloadData];
 }
 
 - (void) refreshViewFromModel
 {
     self.note = [[[AppModel sharedAppModel] playerNoteList] objectForKey:[NSNumber numberWithInt:self.note.noteId]];
     [self addCDUploadsToNote];
-    [contentTable reloadData];
+    [self.contentTable reloadData];
 }
 
--(void)addCDUploadsToNote
+- (void) addCDUploadsToNote
 {
     for(int x = [self.note.contents count]-1; x >= 0; x--)
     {

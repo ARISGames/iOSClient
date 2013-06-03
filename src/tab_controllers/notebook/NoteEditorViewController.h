@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "Note.h"
 
+@protocol NoteEditorViewControllerDelegate
+- (void) noteEditorViewControllerDidFinish;
+@end
 @interface NoteEditorViewController : UIViewController
-- (id) initWithNote:(Note *)n inView:(NSString *)view delegate:(id)d;
+- (id) initWithNote:(Note *)n inView:(NSString *)view delegate:(id<NoteEditorViewControllerDelegate>)d;
 @end
