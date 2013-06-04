@@ -159,7 +159,7 @@
     
     NSError* err;
     self.player = [[AVAudioPlayer alloc] initWithContentsOfURL: url error:&err];
-    [self.player setDelegate: self];
+    self.player.delegate = self;
     
     if(err) NSLog(@"Appdelegate: Playing Audio: Failed with reason: %@", [err localizedDescription]);
     else [self.player play];

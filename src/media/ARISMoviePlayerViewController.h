@@ -10,8 +10,5 @@
 #import <MediaPlayer/MediaPlayer.h>
 
 
-@interface ARISMoviePlayerViewController : MPMoviePlayerViewController {
-    UIButton *mediaPlaybackButton;
-}
-@property(nonatomic, strong) UIButton *mediaPlaybackButton;
+@interface ARISMoviePlayerViewController : MPMoviePlayerViewController
 @end

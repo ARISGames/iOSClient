@@ -224,7 +224,7 @@
             [self.scrollView addSubview:[[AsyncMediaImageView alloc] initWithFrame:frame andMedia:content.getMedia]];
         }
         else if([content.getType isEqualToString:@"AUDIO"] || [content.getType isEqualToString:@"VIDEO"])
-            [self.scrollView addSubview:[[AsyncMediaPlayerButton alloc] initWithFrame:frame media:content.getMedia presentingController:[RootViewController sharedRootViewController] preloadNow:NO]];
+            [self.scrollView addSubview:[[AsyncMediaPlayerButton alloc] initWithFrame:frame media:content.getMedia delegate:[RootViewController sharedRootViewController] preloadNow:NO]];
     }
 }
 

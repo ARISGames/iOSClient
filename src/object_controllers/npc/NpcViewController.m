@@ -357,29 +357,30 @@ NSString *const kDialogHtmlTemplate =
         }];
         currentImageView.frame = imageFrame; //To prevent animation from changing it...
     }
-    else if([currentScene.sceneType isEqualToString:@"video"])
+    else
     {
-        //Setup the Button
-        Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.typeId ofType:@"VIDEO"];
-        NSLog(@"NpcViewController: VideoURL: %@", media.url);
-        //Create movie player object
-        ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
-        
-        mMoviePlayer.moviePlayer.shouldAutoplay = NO;
-        [mMoviePlayer.moviePlayer prepareToPlay];
-        [[RootViewController sharedRootViewController] presentMoviePlayerViewControllerAnimated:mMoviePlayer];
-    }
-    else if([currentScene.sceneType isEqualToString:@"panoramic"])
-        [self.navigationController pushViewController:[[[AppModel sharedAppModel] panoramicForPanoramicId:currentScene.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
-    else if([currentScene.sceneType isEqualToString:@"webpage"])
-        [self.navigationController pushViewController:[[[AppModel sharedAppModel] webPageForWebPageID:currentScene.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
-    else if([currentScene.sceneType isEqualToString:@"node"])
-        [self.navigationController pushViewController:[[[AppModel sharedAppModel] nodeForNodeId:currentScene.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
-    else if([currentScene.sceneType isEqualToString:@"item"])
-    {
-        ItemViewController *itemVC = (ItemViewController *)[[[AppModel sharedAppModel] itemForItemId:currentScene.typeId] viewControllerForDelegate:self fromSource:self];
-        itemVC.item.qty = 1;
-        [self.navigationController pushViewController:itemVC animated:YES];
+        if([currentScene.sceneType isEqualToString:@"video"])
+        {
+            Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.typeId ofType:@"VIDEO"];
+            ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+            mMoviePlayer.moviePlayer.shouldAutoplay = YES;
+            [mMoviePlayer.moviePlayer prepareToPlay];
+            [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
+            [self continueButtonTouchAction];
+        }
+        else if([currentScene.sceneType isEqualToString:@"panoramic"])
+            [self.navigationController pushViewController:[[[AppModel sharedAppModel] panoramicForPanoramicId:currentScene.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+        else if([currentScene.sceneType isEqualToString:@"webpage"])
+            [self.navigationController pushViewController:[[[AppModel sharedAppModel] webPageForWebPageID:currentScene.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+        else if([currentScene.sceneType isEqualToString:@"node"])
+            [self.navigationController pushViewController:[[[AppModel sharedAppModel] nodeForNodeId:currentScene.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+        else if([currentScene.sceneType isEqualToString:@"item"])
+        {
+            ItemViewController *itemVC = (ItemViewController *)[[[AppModel sharedAppModel] itemForItemId:currentScene.typeId] viewControllerForDelegate:self fromSource:self];
+            itemVC.item.qty = 1;
+            [self.navigationController pushViewController:itemVC animated:YES];
+        }
+        [self continueButtonTouchAction];
     }
 }
 
@@ -583,7 +584,6 @@ NSString *const kDialogHtmlTemplate =
     [self readySceneForDisplay:[currentScript nextScene]];
 }
 
-#pragma mark Movement 
 - (void) movePcTo:(CGRect)pcRect  withAlpha:(CGFloat)pcAlpha
 		 andNpcTo:(CGRect)npcRect withAlpha:(CGFloat)npcAlpha
  withPostSelector:(SEL)aSelector
@@ -666,7 +666,6 @@ NSString *const kDialogHtmlTemplate =
     else if([area isEqualToString:@"full"]) [self toggleTextBoxSize:2];
 }
 
-#pragma mark Audio and Video
 - (void) playAudioOrVideoFromMedia:(Media*)media andHidden:(BOOL)hidden
 {
     if(media.image != nil && [media.type isEqualToString:@"AUDIO"]) //worked before added type check, not sure how
@@ -708,9 +707,7 @@ NSString *const kDialogHtmlTemplate =
     }
 }
 
-#pragma mark MPMoviePlayerController notifications
-
-- (void)MPMoviePlayerLoadStateDidChangeNotification:(NSNotification *)notif
+- (void) MPMoviePlayerLoadStateDidChangeNotification:(NSNotification *)notif
 {
     if (ARISMoviePlayer.moviePlayer.loadState & MPMovieLoadStateStalled)
     {
@@ -723,16 +720,13 @@ NSString *const kDialogHtmlTemplate =
         [ARISMoviePlayer.moviePlayer play];
         [waiting removeFromSuperview];
     }
-} 
-
-#pragma mark audioPlayerDone
+}
 
 - (void) audioPlayerDidFinishPlaying:(AVAudioPlayer *)audioPlayer successfully:(BOOL)flag
 {
     [[AVAudioSession sharedInstance] setActive: NO error: nil];
 }
 
-#pragma mark PC options table view
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     if(currentlyHidingLeaveConversationButton)
@@ -781,7 +775,7 @@ NSString *const kDialogHtmlTemplate =
 	return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	if (indexPath.section == 1) return 35;
 
@@ -797,9 +791,8 @@ NSString *const kDialogHtmlTemplate =
 	return expectedLabelSize.height + 15;	
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {    
-	//Check if it is the "leave conversation" option
 	if (indexPath.section == 1 && indexPath.row == 0)
     {
 		[self backButtonTouchAction:nil];
@@ -821,8 +814,7 @@ NSString *const kDialogHtmlTemplate =
     [parser parseText:newNode.text];
 }
 
-#pragma mark Scroll View
-- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
+- (UIView *) viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
 	return self.currentImageView;
 }

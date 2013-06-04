@@ -23,9 +23,9 @@
 
 @interface MapViewController()
 {
-    id<MapViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
     NSMutableArray *locationsToAdd;
     NSMutableArray *locationsToRemove;
+    id<MapViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 @end
 
@@ -88,10 +88,7 @@
 }
 
 - (IBAction) refreshButtonAction
-{
-	NSLog(@"MapViewController: Refresh Button Touched");
-	[(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] playAudioAlert:@"ticktick" shouldVibrate:NO];
-	
+{	
 	tracking = YES;
 	playerTrackingButton.style = UIBarButtonItemStyleDone;
     
@@ -137,7 +134,7 @@
 {
     [super viewDidLoad];
 	
-	[mapView setDelegate:self];
+	mapView.delegate = self;
     [self.view addSubview:mapView];
 	
 	mapTypeButton.target = self;

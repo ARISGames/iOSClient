@@ -231,7 +231,7 @@
                 mediaButton = [[AsyncMediaPlayerButton alloc]
                                initWithFrame:frame
                                media:content.getMedia
-                               presentingController:[RootViewController sharedRootViewController] preloadNow:NO];
+                               delegate:[RootViewController sharedRootViewController] preloadNow:NO];
                 [asyncMediaDict setObject:mediaButton forKey:content.getMedia.url];
             }
             [cell.userLabel setFrame:CGRectMake(cell.userLabel.frame.origin.x, cell.frame.origin.y+(textHeight+300)+5, cell.userLabel.frame.size.width, cell.userLabel.frame.size.height)];

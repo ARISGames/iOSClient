@@ -17,6 +17,9 @@
 #import <AVFoundation/AVFoundation.h>
 #import "AsyncMediaPlayerButton.h"
 #import "UIImage+Scale.h"
+#import "Node.h"
+#import "ARISMoviePlayerViewController.h"
+#import "AsyncMediaImageView.h"
 
 static NSString * const OPTION_CELL = @"option";
 
@@ -37,37 +40,37 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 @"<body>%@</body>"
 @"</html>";
 
-@interface NodeViewController()
+@interface NodeViewController() <UIScrollViewDelegate,UIWebViewDelegate,AsyncMediaImageViewDelegate>
 {
     BOOL imageLoaded;
     BOOL webLoaded;
     
     UIScrollView *scrollView;
-    UIView *mediaArea;
     UIWebView *webView;
     UIButton *continueButton;
     
-    MPMoviePlayerViewController *mMoviePlayer; //only used if item is a video
-	UIButton *mediaPlaybackButton;
-    
     UIActivityIndicatorView *webViewSpinner;
 }
-@property(readwrite) Node *node;
 
+@property(readwrite, strong) Node *node;
 @property(readwrite, assign) BOOL imageLoaded;
 @property(readwrite, assign) BOOL webLoaded;
-
 @property(nonatomic, strong) IBOutlet UIScrollView *scrollView;
-@property(nonatomic, strong) UIView *mediaArea;
 @property(nonatomic, strong) UIWebView *webView;
 @property(nonatomic, strong) UIButton *continueButton;
-
 @property(nonatomic, strong) UIActivityIndicatorView *webViewSpinner;
 
 @end
 
 @implementation NodeViewController
-@synthesize node, imageLoaded, webLoaded, scrollView, mediaArea, webView, continueButton, webViewSpinner;
+
+@synthesize node;
+@synthesize imageLoaded;
+@synthesize webLoaded;
+@synthesize scrollView;
+@synthesize webView;
+@synthesize continueButton;
+@synthesize webViewSpinner;
 
 - (id) initWithNode:(Node *)n delegate:(NSObject<GameObjectViewControllerDelegate> *)d
 {
@@ -90,7 +93,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     
     Media *media = [[AppModel sharedAppModel] mediaForMediaId:self.node.mediaId ofType:nil];
     
-    mediaArea = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,10)];
+    UIView *mediaArea = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,10)];
     if([media.type isEqualToString:@"PHOTO"] && media.url)
     {
         AsyncMediaImageView *mediaImageView = [[AsyncMediaImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 320) andMedia:media];
@@ -100,15 +103,15 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     }
     else if(([media.type isEqualToString:@"VIDEO"] || [media.type isEqualToString:@"AUDIO"]) && media.url)
     {
-        AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presentingController:[RootViewController sharedRootViewController] preloadNow:NO];
+        AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media delegate:self preloadNow:NO];
         mediaArea.frame = CGRectMake(0, 0, 300, 240);
         [mediaArea addSubview:mediaButton];
     }
     
     //Setup the Description Webview
-    webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, mediaArea.frame.size.height + 20, 300, 10)];
+    webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, mediaArea.frame.size.height + 20, 300, 10)];
     webView.delegate = self;
-    webView.backgroundColor =[UIColor clearColor];
+    webView.backgroundColor = [UIColor clearColor];
     if([webView respondsToSelector:@selector(scrollView)])
     {
         webView.scrollView.bounces = NO;
@@ -118,8 +121,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     webView.alpha = 0.0; //The webView will resore alpha once it's loaded to avoid the ugly white blob
 	[webView loadHTMLString:htmlDescription baseURL:nil];
     
-    UIActivityIndicatorView *webViewSpinnerAlloc = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-    self.webViewSpinner = webViewSpinnerAlloc;
+    self.webViewSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     self.webViewSpinner.center = webView.center;
     [self.webViewSpinner startAnimating];
     self.webViewSpinner.backgroundColor = [UIColor clearColor];
@@ -139,8 +141,6 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     [scrollView addSubview:continueButton];
 }
 
-#pragma mark UIWebViewDelegate Methods
-
 - (BOOL)webView:(UIWebView*)webViewFromMethod shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType
 {
     NSString *url = [req URL].absoluteString;
@@ -156,7 +156,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     return YES;
 }
 
--(void)webViewDidFinishLoad:(UIWebView *)theWebView
+- (void) webViewDidFinishLoad:(UIWebView *)theWebView
 {
     webView.alpha = 1.00;
     
@@ -172,59 +172,14 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
                                         continueButton.frame.size.height)];
     scrollView.contentSize = CGSizeMake(320,continueButton.frame.origin.y + continueButton.frame.size.height + 50);
     
-    //Find the webCell spinner and remove it
     [webViewSpinner removeFromSuperview]; 
 }
 
-#pragma mark Button Handlers
-- (IBAction) backButtonTouchAction:(id)sender
+- (void) continueButtonTouchAction
 {
 	[[AppServices sharedAppServices] updateServerNodeViewed:node.nodeId fromLocation:0];
     [delegate gameObjectViewControllerRequestsDismissal:self];
 }
-
-- (IBAction)continueButtonTouchAction
-{
-	[[AppServices sharedAppServices] updateServerNodeViewed:node.nodeId fromLocation:0];
-    [delegate gameObjectViewControllerRequestsDismissal:self];
-}
-
-/*-(IBAction)playMovie:(id)sender {
- [mMoviePlayer.moviePlayer play];
- [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
- }
- */
-
-#pragma mark MPMoviePlayerController Notification Handlers
-
-/*
- - (void)movieLoadStateChanged:(NSNotification*) aNotification{
- MPMovieLoadState state = [(MPMoviePlayerController *) aNotification.object loadState];
- 
- if( state & MPMovieLoadStateUnknown ) {
- NSLog(@"NodeViewController: Unknown Load State");
- }
- if( state & MPMovieLoadStatePlayable ) {
- NSLog(@"NodeViewController: Playable Load State");
- 
- //Create a thumbnail for the button
- if (![mediaPlaybackButton backgroundImageForState:UIControlStateNormal]){
- UIImage *videoThumb = [mMoviePlayer.moviePlayer thumbnailImageAtTime:(NSTimeInterval)1.0 timeOption:MPMovieTimeOptionExact];
- UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(300, 240)];
- [mediaPlaybackButton setBackgroundImage:videoThumbSized forState:UIControlStateNormal];
- }
- 
- }
- if( state & MPMovieLoadStatePlaythroughOK ) {
- NSLog(@"NodeViewController: Playthrough OK Load State");
- 
- }
- if( state & MPMovieLoadStateStalled ) {
- NSLog(@"NodeViewController: Stalled Load State");
- }
- 
- }*/
-
 
 - (void)movieFinishedCallback:(NSNotification*) aNotification
 {
@@ -235,7 +190,6 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 {
     webView.delegate = nil;
     [webView stopLoading];
-    //remove listeners
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

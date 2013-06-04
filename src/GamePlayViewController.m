@@ -179,7 +179,7 @@
 
 - (void) dismissTutorial
 {
-    [tutorialViewController dismissTutorials];
+    if(tutorialViewController) [tutorialViewController dismissTutorials];
 }
 
 - (void) showTutorialPopupPointingToTabForViewController:(ARISGamePlayTabBarViewController *)vc title:(NSString *)title message:(NSString *)message

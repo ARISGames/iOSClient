@@ -1525,8 +1525,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[AppModel sharedAppModel].gameNoteList = tempNoteList;
     NSLog(@"NSNotification: NewNoteListReady");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady"      object:nil]];
-    NSLog(@"NSNotification: GameNoteListRefreshed");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GameNoteListRefreshed" object:nil]];
     NSLog(@"NSNotification: ReceivedNoteList");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedNoteList"      object:nil]];
     //^ This is ridiculous. Each notification is a paraphrasing of the last. <3 Phil
@@ -1538,9 +1536,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     currentlyFetchingPlayerNoteList = NO;
     
 	NSArray *noteListArray = (NSArray *)jsonResult.data;
-    NSLog(@"NSNotification: ReceivedNoteList");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedNoteList" object:nil]];
-	NSMutableDictionary *tempNoteList = [[NSMutableDictionary alloc] init];
+    	NSMutableDictionary *tempNoteList = [[NSMutableDictionary alloc] init];
 	NSEnumerator *enumerator = [((NSArray *)noteListArray) objectEnumerator];
 	NSDictionary *dict;
 	while ((dict = [enumerator nextObject]))
@@ -1550,6 +1546,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	}
     
 	[AppModel sharedAppModel].playerNoteList = tempNoteList;
+    NSLog(@"NSNotification: ReceivedNoteList");
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedNoteList" object:nil]];
     NSLog(@"NSNotification: NewNoteListReady");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
 }

@@ -8,15 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "GameObjectViewController.h"
-#import "Node.h"
-#import "ARISMoviePlayerViewController.h"
-#import "AsyncMediaImageView.h"
 
-@interface NodeViewController : GameObjectViewController <UIScrollViewDelegate,UIWebViewDelegate,AsyncMediaImageViewDelegate>
+@class Node;
+@interface NodeViewController : GameObjectViewController
 {
 	Node *node;
 }
-
 - (id) initWithNode:(Node *)n delegate:(NSObject<GameObjectViewControllerDelegate> *)d;
-
 @end

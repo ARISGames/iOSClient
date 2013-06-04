@@ -119,7 +119,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	}
 	else if(([media.type isEqualToString:@"VIDEO"] || [media.type isEqualToString:@"AUDIO"]) && media.url)
     {        
-        AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presentingController:[RootViewController sharedRootViewController] preloadNow:NO];
+        AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media delegate:[RootViewController sharedRootViewController] preloadNow:NO];
         //mediaArea.frame = CGRectMake(0, 0, 300, 240);
         [self.scrollView addSubview:mediaButton];
         //mediaArea.frame = CGRectMake(0, 0, 300, 240);
