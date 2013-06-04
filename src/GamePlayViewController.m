@@ -327,7 +327,7 @@
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
 {
-    [[AppModel sharedAppModel].mediaCache clearCache];
+    //[[AppModel sharedAppModel].mediaCache clearCache]; 
 }
 
 - (void)dealloc

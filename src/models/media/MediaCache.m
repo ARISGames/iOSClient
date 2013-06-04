@@ -21,11 +21,13 @@
     NSError *error;
     NSArray *items = [[AppModel sharedAppModel].managedObjectContext executeFetchRequest:fetchRequest error:&error];
     
-    for (NSManagedObject *managedObject in items) {
+    for(NSManagedObject *managedObject in items)
+    {
         [[AppModel sharedAppModel].managedObjectContext deleteObject:managedObject];
         NSLog(@"Media object deleted");
     }
-    if (![[AppModel sharedAppModel].managedObjectContext save:&error]) {
+    if(![[AppModel sharedAppModel].managedObjectContext save:&error])
+    {
         NSLog(@"Error deleting Media - error:%@",error);
     }
 }
@@ -130,8 +132,7 @@
 
 - (id)init
 {
-    self = [super init];
-    if (self)
+    if(self = [super init])
     {
         mediaCount = 0;
         maxMediaCount = 100;

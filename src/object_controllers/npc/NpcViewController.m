@@ -89,6 +89,8 @@ NSString *const kDialogHtmlTemplate =
     id<GameObjectViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 
+@property (nonatomic, strong) AsyncMediaImageView *currentImageView;
+
 @end
 
 @implementation NpcViewController
@@ -111,6 +113,8 @@ NSString *const kDialogHtmlTemplate =
 
 @synthesize currentNpc;
 @synthesize currentNode;
+
+@synthesize currentImageView;
 
 - (id) initWithNpc:(Npc *)n delegate:(id<GameObjectViewControllerDelegate, StateControllerProtocol>)d
 {
@@ -144,11 +148,11 @@ NSString *const kDialogHtmlTemplate =
 {
 	[super viewDidLoad];
     
+    self.pcImageView.delegate = self;
+    self.npcImageView.delegate = self;
+    
     pcImageSection.contentSize  = pcImageSection.frame.size;
     npcImageSection.contentSize = npcImageSection.frame.size;
-    
-    pcImageView.delegate = self;
-    npcImageView.delegate = self;
     
 	pcOptionsTableViewController = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
 	pcOptionsTableViewController.view = pcOptionsTable;
@@ -161,10 +165,10 @@ NSString *const kDialogHtmlTemplate =
 	textSizeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"textToggle.png"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleNextTextBoxSize)];
 	self.navigationItem.rightBarButtonItem = textSizeButton;
 
-	if(currentPcMediaId != 0)   [pcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentPcMediaId ofType:nil]];
-	else                        [pcImageView updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
-    if(currentNpc.mediaId != 0) [npcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentNpc.mediaId ofType:nil]];
-    else                        [npcImageView updateViewWithNewImage:[UIImage imageNamed:@"npc.png"]];
+	if(currentPcMediaId != 0)   [self.pcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentPcMediaId ofType:nil]];
+	else                        [self.pcImageView updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
+    if(currentNpc.mediaId != 0) [self.npcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentNpc.mediaId ofType:nil]];
+    else                        [self.npcImageView updateViewWithNewImage:[UIImage imageNamed:@"npc.png"]];
     
     if([[self.currentNpc.greeting stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""])
         [self loadPlayerOptions];
@@ -228,7 +232,7 @@ NSString *const kDialogHtmlTemplate =
             currentCharacterTextSection  = pcTextSection;
             currentCharacterTextWebView  = pcTextWebView;
             
-            currentImageView = pcImageView;
+            self.currentImageView = self.pcImageView;
             continueButton = pcTapToContinueButton;
         }
         else if([currentScene.sceneType isEqualToString:@"npc"])
@@ -241,7 +245,7 @@ NSString *const kDialogHtmlTemplate =
             currentCharacterTextSection  = npcTextSection;
             currentCharacterTextWebView  = npcTextWebView;
             
-            currentImageView = npcImageView;
+            self.currentImageView = self.npcImageView;
             continueButton = npcTapToContinueButton;
         }
         
@@ -249,18 +253,18 @@ NSString *const kDialogHtmlTemplate =
         {
             Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.mediaId ofType:nil];
             //TEMPORARY BANDAID 
-            if(currentImageView.isLoading)
+            if(self.currentImageView.isLoading)
             {
-                [currentImageView removeFromSuperview];
-                currentImageView = [[AsyncMediaImageView alloc] initWithFrame:currentImageView.frame andMedia:media];
-                if(currentImageView == npcImageView)
-                    [npcImageSection addSubview:currentImageView];
-                else if(currentImageView == pcImageView)
-                    [pcImageSection addSubview:currentImageView];
+                [self.currentImageView removeFromSuperview];
+                self.currentImageView = [[AsyncMediaImageView alloc] initWithFrame:self.currentImageView.frame andMedia:media];
+                if(self.currentImageView == self.npcImageView)
+                    [npcImageSection addSubview:self.currentImageView];
+                else if(self.currentImageView == self.pcImageView)
+                    [pcImageSection addSubview:self.currentImageView];
             }
             //END TEMPORARY BANDAID
-            if(!media.type) [currentImageView loadMedia:media]; // This should never happen (all game media should be cached by now)
-            else if([media.type isEqualToString:@"PHOTO"]) [currentImageView loadMedia:media];
+            if(!media.type) [self.currentImageView loadMedia:media]; // This should never happen (all game media should be cached by now)
+            else if([media.type isEqualToString:@"PHOTO"]) [self.currentImageView loadMedia:media];
             else if([media.type isEqualToString:@"VIDEO"]) [self playAudioOrVideoFromMedia:media andHidden:NO];
             else if([media.type isEqualToString:@"AUDIO"]) [self playAudioOrVideoFromMedia:media andHidden:YES];
         }
@@ -268,13 +272,13 @@ NSString *const kDialogHtmlTemplate =
         {
             if([currentScene.sceneType isEqualToString:@"pc"])
             {
-                if(currentPcMediaId != 0)   [pcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentPcMediaId ofType:nil]];
-                else                        [pcImageView updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
+                if(currentPcMediaId != 0)   [self.pcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentPcMediaId ofType:nil]];
+                else                        [self.pcImageView updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
             }
             else
             {
-                if(currentNpc.mediaId != 0) [npcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentNpc.mediaId ofType:nil]];
-                else                        [npcImageView updateViewWithNewImage:[UIImage imageNamed:@"npc.png"]];
+                if(currentNpc.mediaId != 0) [self.npcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentNpc.mediaId ofType:nil]];
+                else                        [self.npcImageView updateViewWithNewImage:[UIImage imageNamed:@"npc.png"]];
             }
         }
         
@@ -303,28 +307,12 @@ NSString *const kDialogHtmlTemplate =
             else if([currentScene.sceneType isEqualToString:@"npc"]) [self moveNpcIn];
         }
         
-        if(currentScene.imageRect.origin.x    != currentCharacterImageSection.frame.origin.x   ||
-           currentScene.imageRect.origin.y    != currentCharacterImageSection.frame.origin.y   ||
-           currentScene.imageRect.size.width  != currentCharacterImageSection.frame.size.width ||
-           currentScene.imageRect.size.height != currentCharacterImageSection.frame.size.height)
+        [UIView animateWithDuration:currentScene.zoomTime animations:^
         {
-            [UIView beginAnimations:@"cameraZoom" context:nil];
-            [UIView setAnimationCurve:UIViewAnimationCurveLinear];
-            [UIView setAnimationDuration:currentScene.zoomTime];
-            
-            float imageScrollViewWidth  = currentCharacterImageSection.contentSize.width;
-            float imageScrollViewHeight = currentCharacterImageSection.contentSize.height;
-            
-            CGFloat horizScale = imageScrollViewWidth  / currentScene.imageRect.size.width;
-            CGFloat vertScale  = imageScrollViewHeight / currentScene.imageRect.size.height;
-            
-            CGAffineTransform transformation = CGAffineTransformMakeScale(horizScale, vertScale);
-            transformation = CGAffineTransformTranslate(transformation,
-                                                        (imageScrollViewWidth/2  - (currentScene.imageRect.origin.x + currentScene.imageRect.size.width  / 2.0)),
-                                                        (imageScrollViewHeight/2 - (currentScene.imageRect.origin.y + currentScene.imageRect.size.height / 2.0)));
-            [currentCharacterImageSection setTransform:transformation];
-            [UIView commitAnimations];
-        }
+            currentCharacterImageSection.frame = CGRectMake(currentScene.imageRect.origin.x*-1, currentScene.imageRect.origin.y*-1,
+                                                            self.currentImageView.frame.size.width *self.currentImageView.frame.size.width /currentScene.imageRect.size.width,
+                                                            self.currentImageView.frame.size.height*self.currentImageView.frame.size.height/currentScene.imageRect.size.height);
+        }];
     }
     else if([currentScene.sceneType isEqualToString:@"video"])
     {
@@ -402,14 +390,16 @@ NSString *const kDialogHtmlTemplate =
 {
     //ASPECT FIT + ALIGN TO TOP:
     //Let 'aspect fit' do the actual aspect fit- but still required to simulate the fitting to get correct dimensions
-    float sw = image.superview.frame.size.width;  //screen width (320)
-    float sh = image.superview.frame.size.height; //screen height(416)
-    float iw = image.image.size.width;            //image width  (like, the raw image size. example:1024)
-    float ih = image.image.size.height;           //image height (like, the raw image size. example:768)
+    image.frame = CGRectMake(0, 0, 320, [UIScreen mainScreen].applicationFrame.size.height-44);
 
-    float dw = iw;                                //display width  (calculated size of image AFTER aspect fit)
-    float dh = ih;                                //display height (calculated size of image AFTER aspect fit)
-    if(ih < sh && iw < sw)                        //simulate scale up to aspect fit if necessary
+    float sw = image.frame.size.width;  //screen width (320)
+    float sh = image.frame.size.height; //screen height(416)
+    float iw = image.image.size.width;  //image width  (like, the raw image size. example:1024)
+    float ih = image.image.size.height; //image height (like, the raw image size. example:768)
+
+    float dw = iw;                      //display width  (calculated size of image AFTER aspect fit)
+    float dh = ih;                      //display height (calculated size of image AFTER aspect fit)
+    if(ih < sh && iw < sw)              //simulate scale up to aspect fit if necessary
     {
         if(ih > iw)
         {
@@ -423,7 +413,6 @@ NSString *const kDialogHtmlTemplate =
         }
     }
     
-    
     if(dw > sw)
     {
         dw = sw;
@@ -434,7 +423,7 @@ NSString *const kDialogHtmlTemplate =
         dh = sh;
         dw = iw*sh/ih;
     }
-    
+
     if(dh < sh)
         image.frame = CGRectMake(0, (-0.5*(sh-dh)), image.frame.size.width, image.frame.size.height);
     else
@@ -496,7 +485,7 @@ NSString *const kDialogHtmlTemplate =
         if(!pcView.frame.origin.x  == 0)
             [self moveAllOutWithPostSelector:@selector(movePcIn)];
 
-        currentImageView = pcImageView;
+        self.currentImageView = self.pcImageView;
         
         self.title = defaultPcTitle;
         
@@ -792,7 +781,7 @@ NSString *const kDialogHtmlTemplate =
 #pragma mark Scroll View
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
-	return currentImageView;
+	return self.currentImageView;
 }
 
 - (void)dealloc
