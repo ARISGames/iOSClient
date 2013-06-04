@@ -25,6 +25,13 @@
 #import "ItemViewController.h"
 #import "NodeOption.h"
 
+#import "SceneParser.h"
+#import "AsyncMediaImageView.h"
+#import "Node.h"
+#import "Npc.h"
+
+#import "StateControllerProtocol.h"
+
 const NSInteger kOptionsFontSize = 17;
 
 NSString *const kDialogHtmlTemplate = 
@@ -59,7 +66,7 @@ NSString *const kDialogHtmlTemplate =
  @"</dialog>";
  */
 
-@interface NpcViewController()
+@interface NpcViewController() <SceneParserDelegate, AsyncMediaImageViewDelegate, GameObjectViewControllerDelegate, UIScrollViewDelegate, UITextFieldDelegate, AVAudioPlayerDelegate>
 {
     SceneParser *parser;
     DialogScript *currentScript;
@@ -86,10 +93,43 @@ NSString *const kDialogHtmlTemplate =
     UIActivityIndicatorView *pcLoadingIndicator;
     UIActivityIndicatorView *waiting;
     
+    IBOutlet UIView	*pcView;
+    IBOutlet UIScrollView *pcImageSection;
+    IBOutlet AsyncMediaImageView *pcImageView;
+	IBOutlet UIScrollView *pcTextSection;
+    IBOutlet UIWebView *pcTextWebView;
+    IBOutlet UITableView *pcOptionsTable;
+    IBOutlet UIButton *pcTapToContinueButton;
+    
+	IBOutlet UIView	*npcView;
+    IBOutlet UIScrollView *npcImageSection;
+	IBOutlet AsyncMediaImageView *npcImageView;
+    IBOutlet UIScrollView *npcVideoView;
+	IBOutlet UIScrollView *npcTextSection;
+    IBOutlet UIWebView *npcTextWebView;
+	IBOutlet UIButton *npcTapToContinueButton;
+    
     id<GameObjectViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 
+@property (nonatomic, strong) IBOutlet UIView *pcView;
+@property (nonatomic, strong) IBOutlet UIScrollView *pcImageSection;
+@property (nonatomic, strong) IBOutlet AsyncMediaImageView *pcImageView;
+@property (nonatomic, strong) IBOutlet UIScrollView *pcTextSection;
+@property (nonatomic, strong) IBOutlet UIWebView *pcTextWebView;
+@property (nonatomic, strong) IBOutlet UITableView *pcOptionsTable;
+@property (nonatomic, strong) IBOutlet UIButton *pcTapToContinueButton;
+
+@property (nonatomic, strong) IBOutlet UIView *npcView;
+@property (nonatomic, strong) IBOutlet UIScrollView *npcImageSection;
+@property (nonatomic, strong) IBOutlet AsyncMediaImageView *npcImageView;
+@property (nonatomic, strong) IBOutlet UIScrollView *npcVideoView;
+@property (nonatomic, strong) IBOutlet UIScrollView *npcTextSection;
+@property (nonatomic, strong) IBOutlet UIWebView *npcTextWebView;
+@property (nonatomic, strong) IBOutlet UIButton *npcTapToContinueButton;
 @property (nonatomic, strong) AsyncMediaImageView *currentImageView;
+
+- (IBAction)continueButtonTouchAction;
 
 @end
 
@@ -110,6 +150,7 @@ NSString *const kDialogHtmlTemplate =
 @synthesize npcTextSection;
 @synthesize npcTextWebView;
 @synthesize npcTapToContinueButton;
+
 
 @synthesize currentNpc;
 @synthesize currentNode;
@@ -307,12 +348,14 @@ NSString *const kDialogHtmlTemplate =
             else if([currentScene.sceneType isEqualToString:@"npc"]) [self moveNpcIn];
         }
         
+        CGRect imageFrame = self.currentImageView.frame;
         [UIView animateWithDuration:currentScene.zoomTime animations:^
         {
             currentCharacterImageSection.frame = CGRectMake(currentScene.imageRect.origin.x*-1, currentScene.imageRect.origin.y*-1,
-                                                            self.currentImageView.frame.size.width *self.currentImageView.frame.size.width /currentScene.imageRect.size.width,
-                                                            self.currentImageView.frame.size.height*self.currentImageView.frame.size.height/currentScene.imageRect.size.height);
+                                                            imageFrame.size.width *imageFrame.size.width /currentScene.imageRect.size.width,
+                                                            imageFrame.size.height*imageFrame.size.height/currentScene.imageRect.size.height);
         }];
+        currentImageView.frame = imageFrame; //To prevent animation from changing it...
     }
     else if([currentScene.sceneType isEqualToString:@"video"])
     {
