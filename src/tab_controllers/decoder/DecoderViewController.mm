@@ -148,7 +148,8 @@
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     [[ARISAlertHandler sharedAlertHandler] removeWaitingIndicator];
     
-	if (qrCodeObject == nil) {
+	if(!qrCodeObject)
+    {
 		[appDelegate playAudioAlert:@"error" shouldVibrate:NO];
 		
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"QRScannerErrorTitleKey", @"")
@@ -159,7 +160,7 @@
 		[alert show];	
 		
 	}
-	else if ([qrCodeObject isKindOfClass:[NSString class]])
+	else if([qrCodeObject isKindOfClass:[NSString class]])
     {
         [appDelegate playAudioAlert:@"error" shouldVibrate:NO];
         
@@ -173,7 +174,7 @@
     else
     {
 		[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
-		[delegate displayGameObject:((id<GameObjectProtocol>)qrCodeObject) fromSource:self];
+		[delegate displayGameObject:((id<GameObjectProtocol>)((Location *)qrCodeObject).gameObject) fromSource:(Location *)qrCodeObject];
 	}
 }
 

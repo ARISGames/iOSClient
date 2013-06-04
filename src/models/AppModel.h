@@ -152,10 +152,11 @@
 
 - (void) commitPlayerLogin:(Player *)p;
 - (void) setPlayerLocation:(CLLocation *)newLocation;
-- (void) loadUserDefaults;
-- (void) saveUserDefaults;
-- (void) saveCOREData;
+
 - (void) initUserDefaults;
+- (void) saveUserDefaults;
+- (void) loadUserDefaults;
+- (void) saveCOREData;
 - (void) clearGameLists;
 
 - (Media *)mediaForMediaId:(int)mId ofType:(NSString *)type;
