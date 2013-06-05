@@ -80,6 +80,7 @@ NSString *const kQuestsHtmlTemplate =
 {
     if(self = [super initWithNibName:@"QuestsViewController" bundle:nil])
     {
+        self.tabID = @"QUESTS";
         delegate = d;
         
 		cellsLoaded = 0;

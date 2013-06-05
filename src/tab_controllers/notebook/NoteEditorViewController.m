@@ -7,7 +7,6 @@
 //
 
 #import "NoteEditorViewController.h"
-#import "StateControllerProtocol.h"
 #import "ARISAppDelegate.h"
 #import "AppServices.h"
 #import "AppModel.h"

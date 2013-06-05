@@ -103,7 +103,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     }
     else if(([media.type isEqualToString:@"VIDEO"] || [media.type isEqualToString:@"AUDIO"]) && media.url)
     {
-        AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media delegate:self preloadNow:NO];
+        AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presenter:self preloadNow:NO];
         mediaArea.frame = CGRectMake(0, 0, 300, 240);
         [mediaArea addSubview:mediaButton];
     }

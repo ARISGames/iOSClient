@@ -99,23 +99,17 @@
                         options:UIViewAnimationCurveEaseOut
                      animations:^{ dropDownView.alpha = 1.0; }
                      completion:^(BOOL finished){
-                        if(finished)
-                        {
-                            [UIView animateWithDuration:3.0
-                                                  delay:0.0
-                                                options:UIViewAnimationCurveEaseIn
-                                             animations:^{ dropDownView.alpha = 0.0; }
-                                             completion:^(BOOL finished){
-                                                 if(finished)
-                                                 {
-                                                     showingDropDown = NO;
-                                                     if([notifArray count] > 0)
-                                                         [self dequeueDropDown];
-                                                     else
-                                                         [self raiseDropDownFrame];
-                                                 }
-                                             }];
-                        }
+                        [UIView animateWithDuration:3.0
+                                              delay:0.0
+                                            options:UIViewAnimationCurveEaseIn
+                                         animations:^{ dropDownView.alpha = 0.0; }
+                                         completion:^(BOOL finished){
+                                             showingDropDown = NO;
+                                             if([notifArray count] > 0)
+                                                 [self dequeueDropDown];
+                                             else
+                                                 [self raiseDropDownFrame];
+                                         }];
                      }];
     [notifArray removeObjectAtIndex:0];
 }

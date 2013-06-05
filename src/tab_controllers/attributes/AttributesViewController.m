@@ -33,6 +33,7 @@
 {
     if(self = [super initWithNibName:@"AttributesViewController" bundle:nil])
     {
+        self.tabID = @"PLAYER";
         delegate = d;
         
         self.title = NSLocalizedString(@"PlayerTitleKey",@"");

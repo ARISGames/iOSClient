@@ -14,6 +14,6 @@
 @class Media;
 
 @interface AsyncMediaPlayerButton : UIButton
--(id)initWithFrame:(CGRect)frame media:(Media *)media delegate:(id<AsyncMediaPlayerButtonDelegate>)d preloadNow:(BOOL)preload;
--(id)initWithFrame:(CGRect)frame mediaId:(int)mediaId delegate:(id<AsyncMediaPlayerButtonDelegate>)d preloadNow:(BOOL)preload;
+-(id)initWithFrame:(CGRect)frame media:(Media *)media presenter:(UIViewController *)p preloadNow:(BOOL)preload;
+-(id)initWithFrame:(CGRect)frame mediaId:(int)mediaId presenter:(UIViewController *)p preloadNow:(BOOL)preload;
 @end

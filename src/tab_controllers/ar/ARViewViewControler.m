@@ -20,6 +20,7 @@
     
     if(self = [super initWithNibName:nibName bundle:nibBundle])
     {
+        self.tabID = @"AR";
         self.title = NSLocalizedString(@"ARViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"camera.png"];
     }

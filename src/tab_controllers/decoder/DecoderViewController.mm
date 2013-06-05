@@ -31,6 +31,8 @@
 {
     if(self = [super initWithNibName:@"DecoderViewController" bundle:nil])
     {
+        self.tabID = @"QR";
+
         delegate = d;
         
         self.title = NSLocalizedString(@"QRScannerTitleKey", @"");

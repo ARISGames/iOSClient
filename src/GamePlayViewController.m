@@ -95,7 +95,7 @@
 - (id) initWithGame:(Game *)g delegate:(id<GamePlayViewControllerDelegate>)d
 {
     if(self = [super init])
-    {        
+    {
         delegate = d;
         self.game = g;
         
@@ -349,7 +349,7 @@
         [self displayGameObject:[[AppModel sharedAppModel] nodeForNodeId:nodeId] fromSource:self];
 }
 
-- (void)checkForDisplayCompleteNode
+- (void) checkForDisplayCompleteNode
 {
     int nodeId = [AppModel sharedAppModel].currentGame.completeNodeId;
     if (nodeId != 0 &&
@@ -360,12 +360,19 @@
 	}
 }
 
-- (void)receivedMediaList
+- (void) receivedMediaList
 {
     [AppModel sharedAppModel].hasReceivedMediaList = YES;
 }
 
-#pragma mark UITabBarControllerDelegate methods
+- (void) displayTab:(NSString *)t
+{
+    for(int i = 0; i < [self.gamePlayTabBarController.viewControllers count]; i++)
+    {
+        if([((GamePlayViewController *)[self.gamePlayTabBarController.viewControllers objectAtIndex:i]).title isEqualToString:t])
+            [self.gamePlayTabBarController select:(GamePlayViewController *)[self.gamePlayTabBarController.viewControllers objectAtIndex:i]];
+    }
+}
 
 - (void) gamePlayTabBarController:(UITabBarController *)tabBar didSelectViewController:(UIViewController *)viewController
 {

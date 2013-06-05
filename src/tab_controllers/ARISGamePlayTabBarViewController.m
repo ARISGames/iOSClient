@@ -14,6 +14,8 @@
 
 @implementation ARISGamePlayTabBarViewController
 
+@synthesize tabID;
+
 - (id) init
 {
     if([super init])

@@ -86,7 +86,7 @@ NSString *const kQuestDetailsHtmlTemplate =
         }
         else
         {
-            AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:questImageView.frame media:questMedia delegate:self preloadNow:YES];
+            AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:questImageView.frame media:questMedia presenter:self preloadNow:YES];
             [self.view addSubview:mediaButton];
         }
     }

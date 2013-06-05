@@ -63,6 +63,7 @@ NSString *const kIconQuestsHtmlTemplate =
     self = [super initWithNibName:@"IconQuestsViewController" bundle:nil];
     if (self)
     {
+        self.tabID = @"QUESTS";
         self.title = NSLocalizedString(@"QuestViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"117-todo"];
         supportsCollectionView = NO;

@@ -76,6 +76,7 @@
 {
     if(self = [super initWithNibName:@"NotebookViewController" bundle:nil])
     {
+        self.tabID = @"NOTE";
         delegate = d;
         
         menuDown  = NO;

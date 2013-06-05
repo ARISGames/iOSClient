@@ -35,6 +35,7 @@
 {
     if(self = [super initWithNibName:@"InventoryViewController" bundle:nil])
     {
+        self.tabID = @"INVENTORY";
         delegate = d;
         
         self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");

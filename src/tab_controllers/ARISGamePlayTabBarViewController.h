@@ -18,8 +18,11 @@
 
 @interface ARISGamePlayTabBarViewController : UIViewController
 {
+    NSString *tabID;
     int badgeCount;
 }
+
+@property (nonatomic, strong) NSString *tabID;
 - (void) clearBadge;
 - (void) incrementBadge;
 

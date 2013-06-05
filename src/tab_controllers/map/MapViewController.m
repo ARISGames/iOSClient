@@ -45,6 +45,8 @@
 {
     if(self = [super initWithNibName:@"MapViewController" bundle:nil])
     {
+        self.tabID = @"GPS";
+
         delegate = d;
         
         self.title = NSLocalizedString(@"MapViewTitleKey",@"");
@@ -386,7 +388,7 @@
 }
 
 
-- (void)mapView:(MKMapView *)mV didAddAnnotationViews:(NSArray *)views
+- (void) mapView:(MKMapView *)mV didAddAnnotationViews:(NSArray *)views
 {
     for (AnnotationView *aView in views)
     {
@@ -397,7 +399,7 @@
     }
 }
 
-- (double)getZoomLevel:(MKMapView *)mV
+- (double) getZoomLevel:(MKMapView *)mV
 {
     double MERCATOR_RADIUS = 85445659.44705395;
     double MAX_GOOGLE_LEVELS  = 20;

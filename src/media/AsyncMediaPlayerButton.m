@@ -19,6 +19,7 @@
     Media *media;
     ARISMoviePlayerViewController *mMoviePlayer;
     
+    UIViewController *presenter;
     id<AsyncMediaPlayerButtonDelegate> __unsafe_unretained delegate;
 }
 
@@ -33,16 +34,16 @@
 @synthesize mMoviePlayer;
 
 
-- (id) initWithFrame:(CGRect)frame mediaId:(int)mediaId delegate:(id<AsyncMediaPlayerButtonDelegate>)d preloadNow:(BOOL)preload
+- (id) initWithFrame:(CGRect)frame mediaId:(int)mediaId presenter:(UIViewController *)p preloadNow:(BOOL)preload
 {
-    return [self initWithFrame:frame mediaId:[[AppModel sharedAppModel] mediaForMediaId:mediaId ofType:nil] delegate:d preloadNow:preload];
+    return [self initWithFrame:frame mediaId:[[AppModel sharedAppModel] mediaForMediaId:mediaId ofType:nil] presenter:p preloadNow:preload];
 }
 
-- (id) initWithFrame:(CGRect)frame media:(Media *)aMedia delegate:(id<AsyncMediaPlayerButtonDelegate>)d preloadNow:(BOOL)preload
+- (id) initWithFrame:(CGRect)frame media:(Media *)aMedia presenter:(UIViewController *)p preloadNow:(BOOL)preload
 {
     if(self = [super initWithFrame:frame])
     {
-        delegate = d;
+        presenter = p;
         self.media = aMedia;
         hasStartedLoading = NO;
         
@@ -101,7 +102,7 @@
 {
     [self attemptLoadingContent];
     
-    [(UIViewController *)delegate presentMoviePlayerViewControllerAnimated:self.mMoviePlayer];
+    [presenter presentMoviePlayerViewControllerAnimated:self.mMoviePlayer];
     [self.mMoviePlayer.moviePlayer play];
 }
 

@@ -21,6 +21,7 @@
 {
     if(self = [super init])
     {
+        self.tabID = @"PICKGAME";
         delegate = d;
         
         self.title = NSLocalizedString(@"BogusTitleKey", @"");
