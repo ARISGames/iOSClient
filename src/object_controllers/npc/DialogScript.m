@@ -16,6 +16,7 @@
 @synthesize hideLeaveConversationButton;
 @synthesize hideLeaveConversationButtonSpecified;
 @synthesize leaveConversationButtonTitle;
+@synthesize defaultPcTitle;
 @synthesize hideAdjustTextAreaButton;
 @synthesize adjustTextArea;
 @synthesize sceneArray;
@@ -30,6 +31,7 @@
         hideLeaveConversationButton          = NO;
         hideLeaveConversationButtonSpecified = NO;
         leaveConversationButtonTitle         = nil;
+        defaultPcTitle                       = nil;
         hideAdjustTextAreaButton             = NO;
         adjustTextArea = nil;
         sceneArray = [[NSMutableArray alloc] init];

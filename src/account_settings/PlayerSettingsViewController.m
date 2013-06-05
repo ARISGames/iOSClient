@@ -7,15 +7,13 @@
 
 #import "PlayerSettingsViewController.h"
 #import "AppServices.h"
+#import "ARISAlertHandler.h"
 
 @interface PlayerSettingsViewController()
 {
     IBOutlet AsyncMediaImageView *playerPic;
     IBOutlet UITextField *playerNameField;
 	IBOutlet UIButton *playerPicCamButton;
-    IBOutlet UIButton *saveButton;
-    
-    NSString *chosenName;
     int chosenMediaId;
     
     id<PlayerSettingsViewControllerDelegate> __unsafe_unretained delegate;
@@ -24,7 +22,6 @@
 @property (nonatomic) IBOutlet AsyncMediaImageView *playerPic;
 @property (nonatomic) IBOutlet UITextField *playerNameField;
 @property (nonatomic) IBOutlet UIButton *playerPicCamButton;
-@property (nonatomic) IBOutlet UIButton *saveButton;
 
 - (IBAction)saveButtonTouched:(id)sender;
 - (IBAction)playerPicCamButtonTouched:(id)sender;
@@ -36,15 +33,12 @@
 @synthesize playerPic;
 @synthesize playerNameField;
 @synthesize playerPicCamButton;
-@synthesize saveButton;
 
 - (id)initWithDelegate:(id<PlayerSettingsViewControllerDelegate>)d
 {
     if(self = [super initWithNibName:@"PlayerSettingsViewController" bundle:nil])
     {
         delegate = d;
-        
-        //chosenName = nil;
         chosenMediaId = 0;
     }
     return self;
@@ -104,7 +98,7 @@
 {
     if([self.playerNameField.text isEqualToString:@""] || chosenMediaId == 0)
     {
-        //PHIL [[RootViewController sharedRootViewController] showAlert:nil message:@"Please choose a picture and name"];
+        [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Profile Save Error" message:@"Please choose a picture and name"];
         return;
     }
 

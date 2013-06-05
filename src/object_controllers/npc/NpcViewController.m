@@ -172,7 +172,7 @@ NSString *const kDialogHtmlTemplate =
         
         currentPcMediaId = 0;
         if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) currentPcMediaId = [AppModel sharedAppModel].currentGame.pcMediaId;
-        else if([AppModel sharedAppModel].player.playerMediaId != 0)  currentPcMediaId = [AppModel sharedAppModel].player.playerMediaId;
+        else if([AppModel sharedAppModel].player.playerMediaId  != 0) currentPcMediaId = [AppModel sharedAppModel].player.playerMediaId;
 
         defaultPcTitle                = NSLocalizedString(@"DialogPlayerName",@"");
         currentLeaveConversationTitle = NSLocalizedString(@"DialogEnd",@"");
@@ -216,14 +216,16 @@ NSString *const kDialogHtmlTemplate =
     else
         [parser parseText:self.currentNpc.greeting];
     
-    [self toggleTextBoxSize:1];
+    [self toggleTextBoxSize:textboxSizeState];
 }
 
 - (void) didFinishParsing:(DialogScript *)s
 {
     currentScript = s;
     if(currentScript.hideLeaveConversationButtonSpecified) currentlyHidingLeaveConversationButton = currentScript.hideLeaveConversationButton;
-    if(currentScript.leaveConversationButtonTitle) currentLeaveConversationTitle = currentScript.leaveConversationButtonTitle;
+    if(currentScript.leaveConversationButtonTitle)         currentLeaveConversationTitle          = currentScript.leaveConversationButtonTitle;
+    if(currentScript.defaultPcTitle)                       defaultPcTitle                         = currentScript.defaultPcTitle;
+    if(currentScript.adjustTextArea)                       [self adjustTextArea:currentScript.adjustTextArea];
     [self readySceneForDisplay:[currentScript nextScene]];
 }
 
@@ -235,8 +237,8 @@ NSString *const kDialogHtmlTemplate =
     pcOptionsTable.hidden = YES;
     pcTextWebView.hidden  = NO;
 
-    if (([currentScene.sceneType isEqualToString:@"pc"]  && pcView.frame.origin.x  == 0) ||
-        ([currentScene.sceneType isEqualToString:@"npc"] && npcView.frame.origin.x == 0))
+    if(([currentScene.sceneType isEqualToString:@"pc"]  && pcView.frame.origin.x  == 0) ||
+       ([currentScene.sceneType isEqualToString:@"npc"] && npcView.frame.origin.x == 0))
     {
         [UIView beginAnimations:@"dialog" context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveLinear];
@@ -257,6 +259,8 @@ NSString *const kDialogHtmlTemplate =
     
     if([currentScene.sceneType isEqualToString:@"pc"] || [currentScene.sceneType isEqualToString:@"npc"])
     {
+        if(currentScene.adjustTextArea) [self adjustTextArea:currentScene.adjustTextArea];
+        
         UIView       *currentCharacterView;
         UIScrollView *currentCharacterImageSection;
         UIScrollView *currentCharacterTextSection;
