@@ -31,6 +31,11 @@
     CGRect rect = [UIScreen mainScreen].applicationFrame;
     rect.origin.x = 0;
     rect.origin.y = 0;
+    if([UIApplication sharedApplication].statusBarFrame.size.height < 20.0f)
+    {
+        rect.size.height = rect.size.height-20;
+        rect.origin.y = 20;
+    }
     return rect;
 }
 
@@ -47,7 +52,7 @@
     if(currentChildViewController) [self hideContentController:currentChildViewController];
     
     [self addChildViewController:content];
-    content.view.frame = [self screenRect];
+    content.view.frame = self.view.bounds;
     [self.view addSubview:content.view];
     [content didMoveToParentViewController:self];
     

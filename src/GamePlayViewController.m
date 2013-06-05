@@ -107,8 +107,8 @@
         
         [[ARISAlertHandler sharedAlertHandler] showWaitingIndicator:NSLocalizedString(@"LoadingKey",@"")];
 
-        tutorialViewController         = [[TutorialViewController         alloc] init];
-        gameNotificationViewController = [[GameNotificationViewController alloc] init];
+        //self.tutorialViewController         = [[TutorialViewController         alloc] init];
+        self.gameNotificationViewController = [[GameNotificationViewController alloc] init];
         
         //PHIL UNAPPROVED
         [[AppServices sharedAppServices] resetAllPlayerLists];
@@ -126,10 +126,10 @@
 - (void) loadView
 {
     [super loadView];
-    tutorialViewController.view.frame = self.view.frame;
-    [self.view addSubview:tutorialViewController.view];
-    gameNotificationViewController.view.frame = self.view.frame;
-    [self.view addSubview:gameNotificationViewController.view];
+    //self.tutorialViewController.view.frame = self.view.frame;
+    //[self.view addSubview:tutorialViewController.view];
+    self.gameNotificationViewController.view.frame = self.view.frame;
+    [self.view addSubview:self.gameNotificationViewController.view];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -167,10 +167,10 @@
 
 - (void) gameDismisallWasRequested
 {
-    [tutorialViewController dismissTutorials];
+    //[self.tutorialViewController dismissTutorials];
 
-    [gameNotificationViewController stopListeningToModel];
-    [gameNotificationViewController cutOffGameNotifications];
+    [self.gameNotificationViewController stopListeningToModel];
+    [self.gameNotificationViewController cutOffGameNotifications];
     [self.game clearLocalModels];
     //PHIL UNAPPROVED - 
     [AppModel sharedAppModel].currentGame = nil;
@@ -179,12 +179,12 @@
 
 - (void) dismissTutorial
 {
-    if(tutorialViewController) [tutorialViewController dismissTutorials];
+    //if(self.tutorialViewController) [self.tutorialViewController dismissTutorials];
 }
 
 - (void) showTutorialPopupPointingToTabForViewController:(ARISGamePlayTabBarViewController *)vc title:(NSString *)title message:(NSString *)message
 {
-    [tutorialViewController showTutorialPopupPointingToTabForViewController:vc title:title message:message];
+    //[self.tutorialViewController showTutorialPopupPointingToTabForViewController:vc title:title message:message];
 }
 
 //PHIL UNAPPROVED FROM THIS POINT ON
@@ -341,7 +341,7 @@
 {
     NSLog(@"GamePlayViewController: beginGamePlay");
     
-    [gameNotificationViewController startListeningToModel];
+    [self.gameNotificationViewController startListeningToModel];
     [[AppServices sharedAppServices] fetchAllPlayerLists];
     
     int nodeId = [AppModel sharedAppModel].currentGame.launchNodeId;

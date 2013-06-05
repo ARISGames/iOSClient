@@ -109,9 +109,9 @@ NSString *const kQuestsHtmlTemplate =
     [self refreshViewFromModel];
 }
 
--(void) dismissTutorial
+- (void) dismissTutorial
 {
-    if(delegate) [delegate dismissTutorial];
+    //if(delegate) [delegate dismissTutorial];
 }
 
 - (void) refresh

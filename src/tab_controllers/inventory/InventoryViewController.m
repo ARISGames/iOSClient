@@ -115,7 +115,7 @@
 
 -(void)dismissTutorial
 {
-    if(delegate) [delegate dismissTutorial];
+    //if(delegate) [delegate dismissTutorial];
 }
 
 -(void)refresh

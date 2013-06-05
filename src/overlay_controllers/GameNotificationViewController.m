@@ -9,11 +9,12 @@
 #import "GameNotificationViewController.h"
 #import "RootViewController.h"
 #import "ARISAppDelegate.h"
+#import "PopOverViewController.h"
 
 #import "Item.h"
 #import "Quest.h"
 
-@interface GameNotificationViewController()
+@interface GameNotificationViewController() <PopOverViewDelegate>
 {
     UIWebView *dropDownView;
     PopOverViewController *popOverVC;
@@ -28,7 +29,7 @@
 
 @implementation GameNotificationViewController
 
-- (id)init
+- (id) init
 {
     if(self = [super init])
     {
@@ -41,7 +42,7 @@
     return self;
 }
 
--(void)loadView
+- (void) loadView
 {
     [super loadView];
     
@@ -51,7 +52,7 @@
     dropDownView = [[UIWebView alloc] initWithFrame:CGRectMake(0, -28.0, [UIScreen mainScreen].bounds.size.width, 28)];
 }
 
--(void)lowerDropDownFrame
+- (void) lowerDropDownFrame
 {
     [[RootViewController sharedRootViewController].view addSubview:dropDownView];
 
@@ -64,7 +65,7 @@
     [UIView commitAnimations];
 }
 
--(void)raiseDropDownFrame
+- (void) raiseDropDownFrame
 {
     [dropDownView removeFromSuperview];
 
@@ -77,7 +78,7 @@
     [UIView commitAnimations];
 }
 
--(void)dequeueDropDown
+- (void) dequeueDropDown
 {
     showingDropDown = YES;
 
@@ -119,7 +120,7 @@
     [notifArray removeObjectAtIndex:0];
 }
 
--(void)dequeuePopOver
+- (void) dequeuePopOver
 {
     showingPopOver = YES;
     
@@ -132,7 +133,7 @@
     [popOverArray removeObjectAtIndex:0];
 }
 
--(void)popOverContinueButtonPressed
+- (void) popOverContinueButtonPressed
 {
     showingPopOver = NO;
     if([popOverArray count] > 0)
@@ -141,7 +142,7 @@
         [popOverView removeFromSuperview];
 }
 
--(void)enqueueDropDownNotificationWithString:(NSString *)string
+- (void) enqueueDropDownNotificationWithString:(NSString *)string
 {
     [notifArray addObject:string];
     if(!showingDropDown)
@@ -151,14 +152,14 @@
     }
 }
 
--(void)enqueuePopOverNotificationWithTitle:(NSString *)title description:(NSString *)description webViewText:(NSString *)text andMediaId:(int) mediaId
+- (void) enqueuePopOverNotificationWithTitle:(NSString *)title description:(NSString *)description webViewText:(NSString *)text andMediaId:(int) mediaId
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:title,@"title",description,@"description",text,@"text",[NSNumber numberWithInt:mediaId],@"mediaId", nil];
     [popOverArray addObject:dict];
     if(!showingPopOver) [self dequeuePopOver];
 }
 
--(void)parseActiveQuestsIntoNotifications:(NSNotification *)notification
+- (void) parseActiveQuestsIntoNotifications:(NSNotification *)notification
 {
     NSArray *activeQuests = (NSArray *)[notification.userInfo objectForKey:@"newlyActiveQuests"];
     
@@ -179,7 +180,7 @@
     }
 }
 
--(void)parseCompleteQuestsIntoNotifications:(NSNotification *)notification
+- (void) parseCompleteQuestsIntoNotifications:(NSNotification *)notification
 {
     NSArray *completedQuests = (NSArray *)[notification.userInfo objectForKey:@"newlyCompletedQuests"];
 
@@ -200,7 +201,7 @@
     }
 }
 
--(void)parseReceivedItemsIntoNotifications:(NSNotification *)notification
+- (void) parseReceivedItemsIntoNotifications:(NSNotification *)notification
 {
     NSArray *receivedItems = (NSArray *)[notification.userInfo objectForKey:@"newlyAcquiredItems"];
     
@@ -224,7 +225,7 @@
     }
 }
 
--(void)parseLostItemsIntoNotifications:(NSNotification *)notification
+- (void) parseLostItemsIntoNotifications:(NSNotification *)notification
 {
     NSArray *lostItems = (NSArray *)[notification.userInfo objectForKey:@"newlyLostItems"];
 
@@ -248,7 +249,7 @@
     }
 }
 
--(void)parseReceivedAttributesIntoNotifications:(NSNotification *)notification
+- (void) parseReceivedAttributesIntoNotifications:(NSNotification *)notification
 {
     NSArray *receivedAttributes = (NSArray *)[notification.userInfo objectForKey:@"newlyAcquiredAttributes"];
 
@@ -273,7 +274,7 @@
 
 }
 
--(void)parseLostAttributesIntoNotifications:(NSNotification *)notification
+- (void) parseLostAttributesIntoNotifications:(NSNotification *)notification
 {
     NSArray *lostAttributes = (NSArray *)[notification.userInfo objectForKey:@"newlyLostAttributes"];
 
@@ -297,7 +298,7 @@
     }
 }
 
--(void)parseAvailableLocationsIntoNotifications:(NSNotification *)notification
+- (void) parseAvailableLocationsIntoNotifications:(NSNotification *)notification
 {
     NSArray *lostAttributes = (NSArray *)[notification.userInfo objectForKey:@"newlyAvailableLocations"];
     
@@ -309,7 +310,7 @@
     }
 }
 
--(void)cutOffGameNotifications
+- (void) cutOffGameNotifications
 {
     NSLog(@"NSNotification: ClearBadgeRequest");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ClearBadgeRequest" object:self]];
@@ -319,7 +320,7 @@
     showingPopOver   = NO;
 }
 
--(void)startListeningToModel
+- (void) startListeningToModel
 {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(parseActiveQuestsIntoNotifications:)
@@ -356,7 +357,7 @@
                                                object:nil];
 }
 
--(void)stopListeningToModel
+- (void)stopListeningToModel
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }

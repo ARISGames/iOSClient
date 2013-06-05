@@ -18,7 +18,8 @@
 }
 
 - (void) showTutorialPopupPointingToTabForViewController:(UIViewController*)vc title:(NSString *)title message:(NSString *)message
-{	
+{
+    /*
 	NSLog(@"TutorialViewController: showTutorialPopupPointingToTabForViewController");
 	self.view.hidden = NO;
 
@@ -30,6 +31,7 @@
 	popup.message = message;
 
 	[self.view addSubview:popup];
+     */
 }
 
 - (void) dismissTutorials
