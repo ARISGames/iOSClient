@@ -56,26 +56,30 @@
 {
     [[RootViewController sharedRootViewController].view addSubview:dropDownView];
 
+    /*
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView setAnimationDuration:.5];
+     */
 
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
 
-    [UIView commitAnimations];
+    //[UIView commitAnimations];
 }
 
 - (void) raiseDropDownFrame
 {
     [dropDownView removeFromSuperview];
 
+    /*
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
     [UIView setAnimationDuration:.5];
+     */
 
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 
-    [UIView commitAnimations];
+    //[UIView commitAnimations];
 }
 
 - (void) dequeueDropDown

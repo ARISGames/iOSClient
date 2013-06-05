@@ -317,12 +317,12 @@
 	ARISNavigationController *nav = [[ARISNavigationController alloc] initWithRootViewController:[g viewControllerForDelegate:self fromSource:s]];
 	nav.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
-    [self presentModalViewController:nav animated:NO];
+    [self presentViewController:nav animated:NO completion:nil];
 }
 
 - (void) gameObjectViewControllerRequestsDismissal:(GameObjectViewController *)govc
 {
-    [govc.navigationController dismissModalViewControllerAnimated:NO];
+    [govc.navigationController dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application

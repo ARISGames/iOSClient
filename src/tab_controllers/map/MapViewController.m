@@ -7,6 +7,11 @@
 //
 
 #import <UIKit/UIActionSheet.h>
+#import <MapKit/MapKit.h>
+#import "AppModel.h"
+#import "Location.h"
+#import "TileOverlay.h"
+#import "TileOverlayView.h"
 #import "MapViewController.h"
 #import "StateControllerProtocol.h"
 #import "AppModel.h"
@@ -21,22 +26,52 @@
 
 #define INITIAL_SPAN 0.001f
 
-@interface MapViewController()
+@interface MapViewController() <MKMapViewDelegate, UIActionSheetDelegate>
 {
+	NSMutableArray *locations;
+    NSMutableArray *route;
+	BOOL tracking,mapTrace;
+	BOOL appSetNextRegionChange;
+    
+    IBOutlet MKMapView *mapView;
+	IBOutlet UIBarButtonItem *mapTypeButton;
+    IBOutlet UIBarButtonItem *playerButton;
+	IBOutlet UIBarButtonItem *playerTrackingButton;
+
+	NSTimer *refreshTimer;
+    
     NSMutableArray *locationsToAdd;
     NSMutableArray *locationsToRemove;
     id<MapViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
+    
+    id<MKAnnotation> currentAnnotation; //PHIL HATES this...
 }
+
+@property (nonatomic, strong) NSMutableArray *locations;
+@property (nonatomic, strong) NSMutableArray *route;
+
+@property (nonatomic, assign) BOOL tracking;
+@property (nonatomic, assign) BOOL mapTrace;
+
+@property (nonatomic, strong) TileOverlay *overlay;
+@property (nonatomic, strong) NSMutableArray *overlayArray;
+
+@property (nonatomic, strong) IBOutlet MKMapView *mapView;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *mapTypeButton;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *playerButton;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *playerTrackingButton;
+- (IBAction) playerButtonTouch;
+
 @end
 
 @implementation MapViewController
 
-@synthesize locations, route;
+@synthesize locations;
+@synthesize route;
 @synthesize mapView;
 @synthesize tracking,mapTrace;
 @synthesize mapTypeButton;
 @synthesize playerTrackingButton;
-@synthesize toolBar;
 @synthesize playerButton;
 @synthesize overlay;
 @synthesize overlayArray;
@@ -48,17 +83,17 @@
         self.tabID = @"GPS";
 
         delegate = d;
-        
+
         self.title = NSLocalizedString(@"MapViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"103-map"];
-        
+
 		tracking = YES;
 		playerTrackingButton.style = UIBarButtonItemStyleDone;
         route = [[NSMutableArray alloc]initWithCapacity:10];
-        
+
         locationsToAdd    = [[NSMutableArray alloc] initWithCapacity:10];
         locationsToRemove = [[NSMutableArray alloc] initWithCapacity:10];
-		
+
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator)     name:@"ConnectionLost"                               object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerMoved)                name:@"PlayerMoved"                                  object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator)     name:@"ReceivedLocationList"                         object:nil];
@@ -74,7 +109,7 @@
 {
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate playAudioAlert:@"ticktick" shouldVibrate:NO];
-	
+
 	switch (mapView.mapType)
     {
 		case MKMapTypeStandard:
@@ -90,23 +125,23 @@
 }
 
 - (IBAction) refreshButtonAction
-{	
+{
 	tracking = YES;
 	playerTrackingButton.style = UIBarButtonItemStyleDone;
-    
+
 	[[[MyCLController sharedMyCLController] locationManager] stopUpdatingLocation];
 	[[[MyCLController sharedMyCLController] locationManager] startUpdatingLocation];
-    
+
 	[self refresh];
 }
 
-- (void)playerButtonTouch
+- (void) playerButtonTouch
 {
     [AppModel sharedAppModel].hidePlayers = ![AppModel sharedAppModel].hidePlayers;
     [self hideOrShowPlayerLocations];
 }
 
-- (void)hideOrShowPlayerLocations
+- (void) hideOrShowPlayerLocations
 {
     if([AppModel sharedAppModel].hidePlayers)
     {
@@ -124,10 +159,10 @@
     }
     else
         [playerButton setStyle:UIBarButtonItemStyleDone];
-    
+
 	[[[MyCLController sharedMyCLController] locationManager] stopUpdatingLocation];
 	[[[MyCLController sharedMyCLController] locationManager] startUpdatingLocation];
-    
+
     tracking = NO;
 	[self refresh];
 }
@@ -135,18 +170,17 @@
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-	
+
 	mapView.delegate = self;
-    [self.view addSubview:mapView];
-	
+
 	mapTypeButton.target = self;
 	mapTypeButton.action = @selector(changeMapType:);
 	mapTypeButton.title = NSLocalizedString(@"MapTypeKey",@"");
-	
+
 	playerTrackingButton.target = self;
 	playerTrackingButton.action = @selector(refreshButtonAction);
 	playerTrackingButton.style = UIBarButtonItemStyleDone;
-	
+
     [self updateOverlays];
     [self refresh];
 }
@@ -154,10 +188,10 @@
 - (MKOverlayView *) mapView:(MKMapView *)mapView viewForOverlay:(id)ovrlay
 {
     TileOverlayView *view = [[TileOverlayView alloc] initWithOverlay:ovrlay];
-    view.tileAlpha = 1;
-    
+    //view.tileAlpha = 1;
+
     [AppModel sharedAppModel].overlayIsVisible = true;
-    
+
     return view;
 }
 
@@ -165,7 +199,7 @@
 {
     [overlayArray removeAllObjects];
     [mapView removeOverlays:[mapView overlays]];
-    
+
     for(int i = 0; i < [[AppModel sharedAppModel].overlayList count]; i++)
     {
         overlay = [[TileOverlay alloc] initWithIndex: i];
@@ -179,6 +213,8 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+
     if     ([[AppModel sharedAppModel].currentGame.mapType isEqualToString:@"SATELLITE"]) mapView.mapType = MKMapTypeSatellite;
     else if([[AppModel sharedAppModel].currentGame.mapType isEqualToString:@"HYBRID"])    mapView.mapType = MKMapTypeHybrid;
     else                                                                                  mapView.mapType = MKMapTypeStandard;
@@ -209,22 +245,22 @@
 
 - (void) refresh
 {
-    if (mapView)
+    if(mapView)
     {
-        if ([AppModel sharedAppModel].player && ([AppModel sharedAppModel].currentGame.gameId != 0 && [AppModel sharedAppModel].player.playerId != 0))
+        if([AppModel sharedAppModel].player && ([AppModel sharedAppModel].currentGame.gameId != 0 && [AppModel sharedAppModel].player.playerId != 0))
         {
             [[AppServices sharedAppServices] fetchPlayerLocationList];
             [[AppServices sharedAppServices] fetchPlayerOverlayList];
             [self showLoadingIndicator];
         }
             
-        if (tracking) [self zoomAndCenterMap];
+        if(tracking) [self zoomAndCenterMap];
     }
 }
 
 - (void) playerMoved
 {
-    if (mapView && tracking && [AppModel sharedAppModel].player && [AppModel sharedAppModel].currentGame.gameId != 0 && [AppModel sharedAppModel].player.playerId != 0)
+    if(mapView && tracking && [AppModel sharedAppModel].player && [AppModel sharedAppModel].currentGame.gameId != 0 && [AppModel sharedAppModel].player.playerId != 0)
         [self zoomAndCenterMap];
 }
 
@@ -243,14 +279,13 @@
 - (void) showLoadingIndicator
 {
 	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
-	[[self navigationItem] setRightBarButtonItem:barButton];
+	[self navigationItem].rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
 	[activityIndicator startAnimating];
 }
 
 - (void) removeLoadingIndicator
 {
-	[[self navigationItem] setRightBarButtonItem:nil];
+	[self navigationItem].rightBarButtonItem = nil;
 }
 
 - (void) addLocationsToNewQueue:(NSNotification *)notification
@@ -297,13 +332,13 @@
     if(self.tabBarController.tabBar.selectedItem == self.tabBarItem) [self refreshViewFromModel];
 }
 
-- (void)refreshViewFromModel
+- (void) refreshViewFromModel
 {
     if(!mapView) return;
     
     //Remove old locations first
     id<MKAnnotation> annotation;
-    for (int i = 0; i < [[mapView annotations] count]; i++)
+    for(int i = 0; i < [[mapView annotations] count]; i++)
     {
         if(![[[mapView annotations] objectAtIndex:i] isKindOfClass:[Location class]]) continue;
         annotation = [[mapView annotations] objectAtIndex:i];
@@ -327,9 +362,9 @@
             [mapView addAnnotation:tmpLocation];
     }
     [locationsToAdd removeAllObjects];
-    
+
     [delegate showTutorialPopupPointingToTabForViewController:self title:@"New GPS Location" message:@"You have a new place of interest on your GPS! Touch below to view the Map."];
-    
+
     [AppModel sharedAppModel].hasSeenMapTabTutorial = YES;
     [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
 }
@@ -339,7 +374,6 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark MKMapViewDelegate
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated
 {
 	if (!appSetNextRegionChange)
@@ -347,7 +381,7 @@
 		tracking = NO;
 		playerTrackingButton.style = UIBarButtonItemStyleBordered;
 	}
-	
+
 	appSetNextRegionChange = NO;
 }
 
@@ -366,13 +400,13 @@
 
 	NSMutableArray *buttonTitles = [NSMutableArray arrayWithCapacity:1];
 	int cancelButtonIndex = 0;
-	if (location.allowsQuickTravel)
+	if(location.allowsQuickTravel)
     {
 		[buttonTitles addObject: NSLocalizedString(@"GPSViewQuickTravelKey", @"")];
 		cancelButtonIndex = 1;
 	}
 	[buttonTitles addObject: NSLocalizedString(@"CancelKey", @"")];
-	
+
     UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:location.name
 															delegate:self
 												   cancelButtonTitle:nil
@@ -381,12 +415,11 @@
 	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
 	actionSheet.cancelButtonIndex = cancelButtonIndex;
 	
-	for (NSString *title in buttonTitles)
+	for(NSString *title in buttonTitles)
 		[actionSheet addButtonWithTitle:title];
 	
 	[actionSheet showInView:view];
 }
-
 
 - (void) mapView:(MKMapView *)mV didAddAnnotationViews:(NSArray *)views
 {
@@ -411,18 +444,26 @@
     return zoomer;
 }
 
-#pragma mark UIActionSheet Delegate
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	id<MKAnnotation> currentAnnotation = [mapView.selectedAnnotations lastObject];
+	currentAnnotation = [mapView.selectedAnnotations lastObject];
 	
-	if (buttonIndex == actionSheet.cancelButtonIndex)
-        [mapView deselectAnnotation:currentAnnotation animated:YES];
-	else
-    {
-        [delegate displayGameObject:((Location *)currentAnnotation).gameObject fromSource:self];
-        [mapView deselectAnnotation:currentAnnotation animated:YES];
-    }
+    [mapView deselectAnnotation:currentAnnotation animated:NO];
+
+	if(buttonIndex != actionSheet.cancelButtonIndex)
+        [self performSelector:@selector(quickTravelToLastSelectedAnnotation) withObject:nil afterDelay:0.5];
+}
+
+//THIS IS A HACK-
+/*
+ When the action sheet comes up, if you look closely, it fades out the buttons underneath (not the tab bar ones, the buttons above that).
+ If you hit cancel, it will re-fade them back in. However, if you immediately launch a view over them, it thinks it doesn't have to re-animate
+ them in, and they stay alpha = 0. So, I created this no-argument function such that it can be called "after a delay", allowing the animation 
+ to begin. Stupid apple.
+ */
+- (void) quickTravelToLastSelectedAnnotation
+{
+    [delegate displayGameObject:((Location *)currentAnnotation).gameObject fromSource:self];
 }
 
 @end

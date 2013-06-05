@@ -31,7 +31,7 @@
     CGRect rect = [UIScreen mainScreen].applicationFrame;
     rect.origin.x = 0;
     rect.origin.y = 0;
-    if([UIApplication sharedApplication].statusBarFrame.size.height < 20.0f)
+    if(rect.size.height == [UIScreen mainScreen].bounds.size.height) //if no status bar
     {
         rect.size.height = rect.size.height-20;
         rect.origin.y = 20;
