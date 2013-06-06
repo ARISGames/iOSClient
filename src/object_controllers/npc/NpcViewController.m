@@ -206,7 +206,7 @@ NSString *const kDialogHtmlTemplate =
 	textSizeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"textToggle.png"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleNextTextBoxSize)];
 	self.navigationItem.rightBarButtonItem = textSizeButton;
 
-	if(currentPcMediaId != 0)   [self.pcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentPcMediaId ofType:nil]];
+	if(currentPcMediaId != 0)   [self.pcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentPcMediaId ofType:@"PHOTO"]];
 	else                        [self.pcImageView updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
     if(currentNpc.mediaId != 0) [self.npcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentNpc.mediaId ofType:nil]];
     else                        [self.npcImageView updateViewWithNewImage:[UIImage imageNamed:@"npc.png"]];

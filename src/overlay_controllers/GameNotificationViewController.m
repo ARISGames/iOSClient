@@ -316,6 +316,7 @@
     [popOverArray removeAllObjects];
     showingDropDown  = NO;
     showingPopOver   = NO;
+    [self raiseDropDownFrame];
 }
 
 - (void) startListeningToModel
