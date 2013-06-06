@@ -47,6 +47,7 @@
 {
     if(self = [super initWithNibName:@"TagViewController" bundle:nil])
     {
+        self.note = n;
         gameTagList   = [[NSMutableArray alloc]initWithCapacity:5];
         playerTagList = [[NSMutableArray alloc]initWithCapacity:5];
     }
@@ -63,13 +64,12 @@
 {
     [playerTagList removeAllObjects];
     [gameTagList removeAllObjects];
-    for(int i = 0; i < [[AppModel sharedAppModel].gameTagList count];i++){
-        if([(Tag *)[[AppModel sharedAppModel].gameTagList objectAtIndex:i] playerCreated]){
+    for(int i = 0; i < [[AppModel sharedAppModel].gameTagList count]; i++)
+    {
+        if([(Tag *)[[AppModel sharedAppModel].gameTagList objectAtIndex:i] playerCreated])
             [playerTagList addObject:[[AppModel sharedAppModel].gameTagList objectAtIndex:i]];
-        }
-        else{
+        else
             [gameTagList addObject:[[AppModel sharedAppModel].gameTagList objectAtIndex:i]];
-        }
     }
     [tagTable reloadData];
 }
@@ -135,7 +135,8 @@
         return cell;
     }
 
-    if(indexPath.row == 0 && indexPath.section == 1){
+    if(indexPath.row == 0 && indexPath.section == 1)
+    {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         
         cell.textLabel.text = NSLocalizedString(@"TagViewCreateNewTagKey", @"");
@@ -148,18 +149,13 @@
     }
 
     UITableViewCell *tempCell = (TagCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (![tempCell respondsToSelector:@selector(nameLabel)])
-        tempCell = nil;
+    if(![tempCell respondsToSelector:@selector(nameLabel)]) tempCell = nil;
     TagCell *cell = (TagCell *)tempCell;
-    
     
     if (cell == nil)
     {
-        // Create a temporary UIViewController to instantiate the custom cell.
         UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"TagCell" bundle:nil];
-        // Grab a pointer to the custom cell.
         cell = (TagCell *)temporaryController.view;
-        // Release the temporary UIViewController.
     }
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 
@@ -168,9 +164,10 @@
     else if(indexPath.section == 2)
         cell.nameLabel.text = [[self.playerTagList objectAtIndex:indexPath.row] tagName];
     
-    for(int i = 0; i < self.note.tags.count;i++){
-        if([[(Tag *)[self.note.tags objectAtIndex:i] tagName] isEqualToString:cell.nameLabel.text]){
-            
+    for(int i = 0; i < self.note.tags.count;i++)
+    {
+        if([[(Tag *)[self.note.tags objectAtIndex:i] tagName] isEqualToString:cell.nameLabel.text])
+        {
             [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
             break;
         }
@@ -179,11 +176,10 @@
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(indexPath.section == 1)
     {
-        //create new tag
         if([AppModel sharedAppModel].currentGame.allowsPlayerTags)
         {
             [UIView beginAnimations:nil context:nil];
@@ -205,60 +201,55 @@
         {
             [cell setAccessoryType:UITableViewCellAccessoryNone];
             int tagId;
-                for(int i = 0; i < self.note.tags.count;i++)
+            for(int i = 0; i < self.note.tags.count;i++)
+            {
+                if([[(Tag *)[self.note.tags objectAtIndex:i] tagName] isEqualToString:cell.nameLabel.text])
                 {
-                    if([[(Tag *)[self.note.tags objectAtIndex:i] tagName] isEqualToString:cell.nameLabel.text])
-                    {
-                        tagId = [[self.note.tags objectAtIndex:i] tagId];
-                        [self.note.tags removeObjectAtIndex:i];
-                        break;
-                    }
+                    tagId = [[self.note.tags objectAtIndex:i] tagId];
+                    [self.note.tags removeObjectAtIndex:i];
+                    break;
                 }
-        
-            //delete tag from note
+            }
             [[AppServices sharedAppServices]deleteTagFromNote:self.note.noteId tagId:tagId];
         }
-        else{
+        else
+        {
             [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
-            //add tag to note;
             Tag *tempTag =[[Tag alloc]init];
             tempTag.tagName = cell.nameLabel.text;
             [self.note.tags addObject:tempTag];
             [[AppServices sharedAppServices]addTagToNote:self.note.noteId tagName:cell.nameLabel.text];
-                   }
+        }
     }
         
-    [self refresh]; }
+    [self refresh];
+}
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return 44;
 }
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    if([AppModel sharedAppModel].currentGame.allowsPlayerTags)
-    return 3;
-    else{
-        return 1;
-    }
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    if([AppModel sharedAppModel].currentGame.allowsPlayerTags) return 3;
+    return 1;
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    switch (section) {
+    switch(section)
+    {
         case 0:
-            if(self.gameTagList.count > 0)
-                return [self.gameTagList count];
-            else
-                return 1;
+            if(self.gameTagList.count > 0) return [self.gameTagList count];
+            else                           return 1;
             break;
         case 1:
             return 1;
             break;
         case 2:
-            if(self.playerTagList.count > 0)
-                return [self.playerTagList count];
-            else
-                return 1;            
+            if(self.playerTagList.count > 0)  return [self.playerTagList count];
+            else                              return 1;            
             break;
         default:
             break;
@@ -266,8 +257,10 @@
     return 1;
 }
 
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    switch (section) {
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    switch(section)
+    {
         case 0:
             return @"Game Tags";
             break;

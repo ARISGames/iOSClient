@@ -83,7 +83,7 @@
     
     self.imageLoader = [[AsyncMediaImageView alloc] initWithFrame:CGRectMake(0, 0, 1, 1) andMediaId:self.panoramic.mediaId andDelegate:self];
     
-    //Create a close button
+    //Create a close buttonx
 	self.navigationItem.leftBarButtonItem =
 	[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey",@"")
 									 style:UIBarButtonItemStyleBordered

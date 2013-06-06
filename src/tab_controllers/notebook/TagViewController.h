@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Note.h"
+
 @interface TagViewController : UIViewController
 - (id) initWithNote:(Note *)n;
-
 @end
