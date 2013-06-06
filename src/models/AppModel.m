@@ -102,19 +102,16 @@
 
 - (void) loadUserDefaults
 {
+    
 	NSLog(@"Model: Loading User Defaults");
-	[defaults synchronize];
-    
     NSURL *currServ = [NSURL URLWithString:[defaults stringForKey:@"baseServerString"]];
-    
     if([[currServ absoluteString] isEqual:@""])
     {
-        NSString *updatedURL = @"http://arisgames.org/server";
-        [defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:updatedURL] forKey:@"baseServerString"];
+        currServ = [NSURL URLWithString:@"http://arisgames.org/server"];
+        [defaults setObject:[currServ absoluteString] forKey:@"baseServerString"];
         [defaults synchronize];
-        currServ = [NSURL URLWithString:updatedURL];
     }
-    if(![[defaults objectForKey:@"appVersion"] isEqualToString:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]] ||
+    if(![[defaults stringForKey:@"appVersion"] isEqualToString:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]] ||
        (self.serverURL && ![currServ isEqual:self.serverURL]))
     {
         [[AppModel sharedAppModel].mediaCache clearCache];
@@ -133,7 +130,6 @@
     }
     
     //Safe to load defaults
-    
     if(!self.player)
     {
         self.player = [[Player alloc] init];
@@ -196,10 +192,8 @@
 -(void)saveUserDefaults
 {
 	NSLog(@"Model: Saving User Defaults");
-	
-	[defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"appVerison"];
-	[defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBuildNumber"]   forKey:@"buildNum"];
-    
+    [defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"appVersion"];
+    [defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBuildNumber"]   forKey:@"buildNum"];
 	[defaults setBool:hasSeenNearbyTabTutorial    forKey:@"hasSeenNearbyTabTutorial"];
 	[defaults setBool:hasSeenQuestsTabTutorial    forKey:@"hasSeenQuestsTabTutorial"];
 	[defaults setBool:hasSeenMapTabTutorial       forKey:@"hasSeenMapTabTutorial"];
@@ -235,37 +229,33 @@
     }
 }
 
--(void)initUserDefaults
+- (void) initUserDefaults
 {
 	//Load the settings bundle data into an array
-	NSString *pathStr            = [[NSBundle mainBundle] bundlePath];
-	NSString *settingsBundlePath = [pathStr stringByAppendingPathComponent:@"Settings.bundle"];
-	NSString *finalPath          = [settingsBundlePath stringByAppendingPathComponent:@"Root.plist"];
-	NSDictionary *settingsDict   = [NSDictionary dictionaryWithContentsOfFile:finalPath];
-	NSArray *prefSpecifierArray  = [settingsDict objectForKey:@"PreferenceSpecifiers"];
+	NSDictionary *settingsDict  = [NSDictionary dictionaryWithContentsOfFile:[[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"Settings.bundle"] stringByAppendingPathComponent:@"Root.plist"]];
+	NSArray *prefSpecifierArray = [settingsDict objectForKey:@"PreferenceSpecifiers"];
 	
 	//Find the Defaults
-	NSString *baseAppURLDefault = @"Unknown Default";
-    NSNumber *showGamesInDevelopmentDefault,*showPlayerOnMapDefault;
+	NSString *baseAppURLDefault             = @"Unknown Default";
+    NSNumber *showGamesInDevelopmentDefault = [NSNumber numberWithInt:0];
+    NSNumber *showPlayerOnMapDefault        = [NSNumber numberWithInt:1];
 	NSDictionary *prefItem;
-	for (prefItem in prefSpecifierArray)
+	for(prefItem in prefSpecifierArray)
 	{
-		NSString *keyValueStr = [prefItem objectForKey:@"Key"];
-		
-		if ([keyValueStr isEqualToString:@"baseServerString"])       baseAppURLDefault             = [prefItem objectForKey:@"DefaultValue"];
-        if ([keyValueStr isEqualToString:@"showGamesInDevelopment"]) showGamesInDevelopmentDefault = [prefItem objectForKey:@"DefaultValue"];
-        if ([keyValueStr isEqualToString:@"showPlayerOnMap"])        showPlayerOnMapDefault        = [prefItem objectForKey:@"DefaultValue"];
+		if([[prefItem objectForKey:@"Key"] isEqualToString:@"baseServerString"])       baseAppURLDefault             = [prefItem objectForKey:@"DefaultValue"];
+        if([[prefItem objectForKey:@"Key"] isEqualToString:@"showGamesInDevelopment"]) showGamesInDevelopmentDefault = [prefItem objectForKey:@"DefaultValue"];
+        if([[prefItem objectForKey:@"Key"] isEqualToString:@"showPlayerOnMap"])        showPlayerOnMapDefault        = [prefItem objectForKey:@"DefaultValue"];
     }
 	
 	// since no default values have been set (i.e. no preferences file created), create it here
 	NSDictionary *appDefaults = [NSDictionary dictionaryWithObjectsAndKeys: 
-								 baseAppURLDefault,  @"baseServerString",
-                                 showGamesInDevelopmentDefault , @"showGamesInDevelopment",
-                                 showPlayerOnMapDefault,@"showPlayerOnMap",
+								 baseAppURLDefault,             @"baseServerString",
+                                 showGamesInDevelopmentDefault, @"showGamesInDevelopment",
+                                 showPlayerOnMapDefault,        @"showPlayerOnMap",
 								 nil];
 	
-	[[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
-	[[NSUserDefaults standardUserDefaults] synchronize];
+	[defaults registerDefaults:appDefaults];
+	[defaults synchronize];
     
     uploadManager = [[UploadMan alloc]  init];
     mediaCache    = [[MediaCache alloc] init];
