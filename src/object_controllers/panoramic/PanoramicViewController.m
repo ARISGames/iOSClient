@@ -81,12 +81,12 @@
         plView.isInertiaEnabled = NO;
     }
     
-    self.imageLoader = [[AsyncMediaImageView alloc] initWithMediaId:[[AppModel sharedAppModel] mediaForMediaId:self.panoramic.mediaId ofType:@"PHOTO"]];
+    self.imageLoader = [[AsyncMediaImageView alloc] initWithFrame:CGRectMake(0, 0, 1, 1) andMediaId:self.panoramic.mediaId andDelegate:self];
     
     //Create a close button
 	self.navigationItem.leftBarButtonItem =
 	[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey",@"")
-									 style: UIBarButtonItemStyleBordered
+									 style:UIBarButtonItemStyleBordered
 									target:self
 									action:@selector(backButtonTouchAction:)];
 }
