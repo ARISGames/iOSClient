@@ -49,6 +49,21 @@
     return self;
 }
 
+-(id) initWithFrame:(CGRect)aFrame andMediaId:(int)mediaId andDelegate:(id<AsyncMediaImageViewDelegate>)d
+{
+    return [self initWithFrame:aFrame andMedia:[[AppModel sharedAppModel] mediaForMediaId:mediaId ofType:nil] andDelegate:d];
+}
+
+- (id) initWithFrame:(CGRect)aFrame andMedia:(Media *)aMedia andDelegate:(id<AsyncMediaImageViewDelegate>)d
+{
+    if(self = [super initWithFrame:aFrame])
+    {
+        delegate = d;
+        [self loadMedia:aMedia];
+    }
+    return self;
+}
+
 - (void) loadMedia:(Media *)aMedia
 {
     self.media = aMedia;
@@ -113,7 +128,7 @@
     self.media.image = UIImageJPEGRepresentation(videoThumbSized,1.0 ) ;     
     [self updateViewWithNewImage:[UIImage imageWithData:self.media.image]];
 
-    if (self.delegate && [self.delegate respondsToSelector:@selector(imageFinishedLoading:)])
+    if(self.delegate && [self.delegate respondsToSelector:@selector(imageFinishedLoading:)])
         [delegate imageFinishedLoading:self];
     
     //end the UI indicator

@@ -44,6 +44,8 @@
 - (id) initWithMedia:(Media *)aMedia;
 - (id) initWithFrame:(CGRect)aFrame andMediaId:(int)mediaId;
 - (id) initWithFrame:(CGRect)aFrame andMedia:(Media *)aMedia;
+- (id) initWithFrame:(CGRect)aFrame andMediaId:(int)mediaId andDelegate:(id<AsyncMediaImageViewDelegate>)d;
+- (id) initWithFrame:(CGRect)aFrame andMedia:(Media *)aMedia andDelegate:(id<AsyncMediaImageViewDelegate>)d;
 
 - (void) loadMedia:(Media *)aMedia;
 - (void) setImage:(UIImage*)image;
