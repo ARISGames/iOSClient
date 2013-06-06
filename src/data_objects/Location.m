@@ -65,6 +65,7 @@
             if(!(self.gameObject = [[AppModel sharedAppModel] noteForNoteId:oid playerListYesGameListNo:YES]))
                  self.gameObject = [[AppModel sharedAppModel] noteForNoteId:oid playerListYesGameListNo:NO];
         }
+        if([otype isEqualToString:@"Player"])     self.gameObject = [[Player alloc] init];
         
         self.qty               = [dict validIntForKey:@"item_qty"];
         self.hidden            = [dict validBoolForKey:@"hidden"];

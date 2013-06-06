@@ -22,6 +22,20 @@
 @synthesize location;
 @synthesize hidden;
 
+- (id) init
+{
+    if(self = [super init])
+    {
+        self.username      = @"Unknown Player";
+        self.displayname   = @"Unknown Player";
+        self.playerId      = 0;
+        self.playerMediaId = 0;
+        self.groupname     = @"";
+        self.groupGameId   = 0;
+    }
+    return self;
+}
+
 - (id) initWithDictionary:(NSDictionary *)dict
 {
     if(self = [super init])
@@ -34,9 +48,33 @@
 		self.groupGameId   = [dict validIntForKey:@"group_game_id"];
         if([dict validObjectForKey:@"latitude"] && [dict validObjectForKey:@"longitude"])
             self.location = [[CLLocation alloc] initWithLatitude:[dict validFloatForKey:@"latitude"] longitude:[dict validFloatForKey:@"longitude"]];
-
     }
     return self;
+}
+
+- (GameObjectType) type
+{
+    return GameObjectPlayer;
+}
+
+- (int) compareTo:(Player *)ob
+{
+    return self.playerId == ob.playerId;
+}
+
+- (NSString *) name
+{
+    return self.displayname;
+}
+
+- (int) iconMediaId
+{
+    return 9;
+}
+
+- (GameObjectViewController *) viewControllerForDelegate:(id<GameObjectViewControllerDelegate>)d fromSource:(id)s
+{
+    return nil;
 }
 
 @end

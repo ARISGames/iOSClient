@@ -60,6 +60,7 @@
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *mapTypeButton;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *playerButton;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *playerTrackingButton;
+
 - (IBAction) playerButtonTouch;
 
 @end
@@ -146,13 +147,13 @@
     if([AppModel sharedAppModel].hidePlayers)
     {
         [playerButton setStyle:UIBarButtonItemStyleBordered];
-        if (mapView)
+        if(mapView)
         {
             NSEnumerator *existingAnnotationsEnumerator = [[mapView annotations] objectEnumerator];
-            id<MKAnnotation> annotation;
+            NSObject<MKAnnotation> *annotation;
             while(annotation = [existingAnnotationsEnumerator nextObject])
             {
-                if (annotation != mapView.userLocation)
+                if(annotation != mapView.userLocation && [annotation isKindOfClass:[Location class]] && [((Location *)annotation).gameObject type] == GameObjectPlayer)
                     [mapView removeAnnotation:annotation];
             }
         }
