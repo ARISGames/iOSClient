@@ -15,6 +15,7 @@
 @synthesize connection;
 @synthesize data;
 @synthesize media;
+@synthesize spinner;
 @synthesize mMoviePlayer;
 @synthesize isLoading;
 @synthesize loaded;
@@ -88,14 +89,9 @@
             
             //set up indicators
             [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-            
-            //put a spinner in the view
-            UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-            [spinner startAnimating];
-            
-            spinner.center = self.center;
-            [self addSubview:spinner];
-            
+
+            [self addSpinner];
+
             self.isLoading= YES;
         }
         else if ([self.media.type isEqualToString:@"AUDIO"])
@@ -123,9 +119,7 @@
     //end the UI indicator
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	
-    //clear out the spinner
-    while([[self subviews] count] > 0)
-		[[[self subviews] lastObject] removeFromSuperview];
+    [self removeSpinner];
     
     self.loaded    = YES;
     self.isLoading = NO;
@@ -142,7 +136,7 @@
     self.isLoading = YES;
 
 	//check if the media already as the image, if so, just grab it
-	if (self.media.image)
+	if(self.media.image)
     {
         [self updateViewWithNewImage:[UIImage imageWithData:self.media.image]];
         self.loaded = YES;
@@ -150,7 +144,7 @@
 		return;
 	}
 
-    if (!self.media.url)
+    if(!self.media.url)
     {
         NSLog(@"AsyncImageView: loadImageFromMedia with null url! Trying to load from server (mediaId:%d)",[self.media.uid intValue]);
         self.isLoading = NO;
@@ -165,13 +159,7 @@
 	//set up indicators
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 	
-	//put a spinner in the view
-	UIActivityIndicatorView *spinner = 
-	[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-	[spinner startAnimating];
-	
-	spinner.center = self.center;
-	[self addSubview:spinner];
+    [self addSpinner];
 	
     //Phil hack until server is updated:
     self.media.url = [self.media.url stringByReplacingOccurrencesOfString:@"gamedata//" withString:@"gamedata/player/"];
@@ -202,10 +190,8 @@
 {
 	//end the UI indicator
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-	
-    //clear out the spinner
-    while ([[self subviews] count] > 0)
-		[[[self subviews] lastObject] removeFromSuperview];
+    
+    [self removeSpinner];
     
 	//throw out the connection
     if(self.connection!=nil) self.connection=nil;
@@ -244,6 +230,21 @@
     [self setNeedsLayout];
     [self setNeedsDisplay];
 	[self.superview setNeedsLayout];
+}
+
+- (void) addSpinner
+{
+    self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    self.spinner.center = self.center;
+    [self addSubview:self.spinner];
+    [self.spinner startAnimating];
+}
+
+- (void) removeSpinner
+{
+	[self.spinner stopAnimating];
+    [self.spinner removeFromSuperview];
+    self.spinner = nil;
 }
 
 - (void)dealloc
