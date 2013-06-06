@@ -93,14 +93,14 @@
     return self;
 }
 
-- (void)dealloc
+- (void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark User Defaults
 
--(void)loadUserDefaults
+- (void) loadUserDefaults
 {
 	NSLog(@"Model: Loading User Defaults");
 	[defaults synchronize];
@@ -114,7 +114,8 @@
         [defaults synchronize];
         currServ = [NSURL URLWithString:updatedURL];
     }
-    if(self.serverURL && ![currServ isEqual:self.serverURL])
+    if(![[defaults objectForKey:@"appVersion"] isEqualToString:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]] ||
+       (self.serverURL && ![currServ isEqual:self.serverURL]))
     {
         [[AppModel sharedAppModel].mediaCache clearCache];
         NSLog(@"NSNotification: LogoutRequested");

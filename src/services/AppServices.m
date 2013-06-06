@@ -122,7 +122,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 -(void) uploadPlayerPicMediaWithFileURL:(NSURL *)fileURL
 {
-    ARISUploader *uploader = [[ARISUploader alloc] initWithURLToUpload:fileURL gameSpecific:NO delegate:self doneSelector:@selector(playerPicUploadDidfinish:) errorSelector:@selector(playerPicUploadDidFail:)];
+    ARISUploader *uploader = [[ARISUploader alloc] initWithURLToUpload:fileURL gameSpecific:NO delegate:self doneSelector:@selector(playerPicUploadDidFinish:) errorSelector:@selector(playerPicUploadDidFail:)];
     
     NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] initWithCapacity:2];
     [userInfo setValue:@"PHOTO" forKey: @"type"];
@@ -797,7 +797,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 -(void) uploadContentToNoteWithFileURL:(NSURL *)fileURL name:(NSString *)name noteId:(int) noteId type: (NSString *)type
 {
-    ARISUploader *uploader = [[ARISUploader alloc] initWithURLToUpload:fileURL gameSpecific:YES delegate:self doneSelector:@selector(noteContentUploadDidfinish: ) errorSelector:@selector(uploadNoteContentDidFail:)];
+    ARISUploader *uploader = [[ARISUploader alloc] initWithURLToUpload:fileURL gameSpecific:YES delegate:self doneSelector:@selector(noteContentUploadDidFinish: ) errorSelector:@selector(uploadNoteContentDidFail:)];
     
     NSNumber *nId = [[NSNumber alloc] initWithInt:noteId];
     
@@ -811,13 +811,13 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[uploader upload];
 }
 
--(void)fetchPlayerNoteListAsync
+- (void) fetchPlayerNoteListAsync
 {
     [self fetchGameNoteListAsynchronously:YES];
     [self fetchPlayerNoteListAsynchronously:YES];
 }
 
-- (void)noteContentUploadDidfinish:(ARISUploader*)uploader
+- (void) noteContentUploadDidFinish:(ARISUploader*)uploader
 {
     int noteId      = [[uploader userInfo] validIntForKey:@"noteId"] ? [[uploader userInfo] validIntForKey:@"noteId"] : 0;
     NSString *title = [[uploader userInfo] validObjectForKey:@"title"];
@@ -873,7 +873,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
 }
 
-- (void)playerPicUploadDidfinish:(ARISUploader*)uploader
+- (void)playerPicUploadDidFinish:(ARISUploader*)uploader
 {        
     NSString *newFileName = [uploader responseString];
     
@@ -894,7 +894,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 -(void)parseNewPlayerMediaResponseFromJSON:(ServiceResult *)jsonResult
 {	   
-    if(jsonResult.data && [((NSDictionary *)jsonResult.data) validObjectForKey:@"media_id"])
+    if(jsonResult.data && [((NSDictionary *)jsonResult.data) validIntForKey:@"media_id"])
     {
         [AppModel sharedAppModel].player.playerMediaId = [((NSDictionary*)jsonResult.data) validIntForKey:@"media_id"];
         [[AppModel sharedAppModel] saveUserDefaults];
