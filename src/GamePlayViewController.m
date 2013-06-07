@@ -374,19 +374,16 @@
     }
 }
 
-- (void) gamePlayTabBarController:(UITabBarController *)tabBar didSelectViewController:(UIViewController *)viewController
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController 
 {
     NSLog(@"RootViewController: gamePlayTabBarController didSelectViewController");
+
+    //Force more tab to always be a list of options, not the last VC
+    NSLog(@"RootViewController: selectedIndex is %d", tabBarController.selectedIndex);
+    if (tabBarController.selectedIndex > 3) {
+        [tabBarController.moreNavigationController popToRootViewControllerAnimated:NO];
+    }
     
-    [tabBar.moreNavigationController popToRootViewControllerAnimated:NO];
-    
-	//Hide any popups
-	if([viewController respondsToSelector:@selector(visibleViewController)])
-    {
-		UIViewController *vc = [viewController performSelector:@selector(rootViewController)];
-		if([vc respondsToSelector:@selector(dismissTutorial)])
-			[vc performSelector:@selector(dismissTutorial)];
-	}
 }
 
 @end
