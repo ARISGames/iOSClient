@@ -115,8 +115,6 @@
         
         if (![AppModel sharedAppModel].hasSeenNearbyTabTutorial)
         {
-            [delegate showTutorialPopupPointingToTabForViewController:self title:@"Something Nearby" message:@"There is something nearby! Touch below to see what it is."];
-
             [AppModel sharedAppModel].hasSeenNearbyTabTutorial = YES;
             [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
         }

@@ -125,8 +125,6 @@ NSString *const kQuestsHtmlTemplate =
 {
     if(![AppModel sharedAppModel].hasSeenQuestsTabTutorial)
     {
-        [delegate showTutorialPopupPointingToTabForViewController:self title:NSLocalizedString(@"QuestViewNewQuestKey", @"") message:NSLocalizedString(@"QuestViewNewQuestMessageKey", @"")];
-        
         [AppModel sharedAppModel].hasSeenQuestsTabTutorial = YES;
         [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
     }

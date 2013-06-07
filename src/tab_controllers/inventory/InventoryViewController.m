@@ -146,8 +146,6 @@
     
     if(![AppModel sharedAppModel].hasSeenInventoryTabTutorial)
     {
-        [delegate showTutorialPopupPointingToTabForViewController:self title:NSLocalizedString(@"InventoryNewItemKey", @"") message:NSLocalizedString(@"InventoryNewItemMessageKey", @"")];
-        
         [AppModel sharedAppModel].hasSeenInventoryTabTutorial = YES;
         [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
     }
