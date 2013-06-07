@@ -257,8 +257,6 @@
 		AABC73C9172739D80074CC21 /* PopOverContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7110172739D60074CC21 /* PopOverContentView.m */; };
 		AABC73CA172739D80074CC21 /* PopOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7112172739D60074CC21 /* PopOverViewController.m */; };
 		AABC73CB172739D80074CC21 /* PopOverViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7113172739D60074CC21 /* PopOverViewController.xib */; };
-		AABC73CC172739D80074CC21 /* TutorialPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7115172739D60074CC21 /* TutorialPopupView.m */; };
-		AABC73CD172739D80074CC21 /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7117172739D60074CC21 /* TutorialViewController.m */; };
 		AABC73D0172739D80074CC21 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC711E172739D60074CC21 /* RootViewController.m */; };
 		AABC73D1172739D80074CC21 /* AppServices.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7121172739D60074CC21 /* AppServices.m */; };
 		AABC73D2172739D80074CC21 /* ARISUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7123172739D60074CC21 /* ARISUploader.m */; };
@@ -765,10 +763,6 @@
 		AABC7111172739D60074CC21 /* PopOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopOverViewController.h; sourceTree = "<group>"; };
 		AABC7112172739D60074CC21 /* PopOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopOverViewController.m; sourceTree = "<group>"; };
 		AABC7113172739D60074CC21 /* PopOverViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopOverViewController.xib; sourceTree = "<group>"; };
-		AABC7114172739D60074CC21 /* TutorialPopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialPopupView.h; sourceTree = "<group>"; };
-		AABC7115172739D60074CC21 /* TutorialPopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialPopupView.m; sourceTree = "<group>"; };
-		AABC7116172739D60074CC21 /* TutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialViewController.h; sourceTree = "<group>"; };
-		AABC7117172739D60074CC21 /* TutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialViewController.m; sourceTree = "<group>"; };
 		AABC711C172739D60074CC21 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		AABC711D172739D60074CC21 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		AABC711E172739D60074CC21 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
@@ -1686,10 +1680,6 @@
 				AABC7111172739D60074CC21 /* PopOverViewController.h */,
 				AABC7112172739D60074CC21 /* PopOverViewController.m */,
 				AABC7113172739D60074CC21 /* PopOverViewController.xib */,
-				AABC7114172739D60074CC21 /* TutorialPopupView.h */,
-				AABC7115172739D60074CC21 /* TutorialPopupView.m */,
-				AABC7116172739D60074CC21 /* TutorialViewController.h */,
-				AABC7117172739D60074CC21 /* TutorialViewController.m */,
 				AA701FE3173428C3003A840D /* ARISAlertHandler.h */,
 				AA701FE4173428C3003A840D /* ARISAlertHandler.m */,
 			);
@@ -2539,8 +2529,6 @@
 				AABC73C8172739D80074CC21 /* GameNotificationViewController.m in Sources */,
 				AABC73C9172739D80074CC21 /* PopOverContentView.m in Sources */,
 				AABC73CA172739D80074CC21 /* PopOverViewController.m in Sources */,
-				AABC73CC172739D80074CC21 /* TutorialPopupView.m in Sources */,
-				AABC73CD172739D80074CC21 /* TutorialViewController.m in Sources */,
 				AABC73D0172739D80074CC21 /* RootViewController.m in Sources */,
 				AABC73D1172739D80074CC21 /* AppServices.m in Sources */,
 				AABC73D2172739D80074CC21 /* ARISUploader.m in Sources */,
@@ -2690,8 +2678,8 @@
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: David Gagnon (56YHU87885)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: David Gagnon (56YHU87885)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2721,8 +2709,8 @@
 					"-v",
 				);
 				PRODUCT_NAME = ARIS;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "5B7639CB-3E84-4F3A-810B-D91EE4FB31AD";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5B7639CB-3E84-4F3A-810B-D91EE4FB31AD";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SDKROOT = iphoneos;

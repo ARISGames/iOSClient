@@ -18,7 +18,6 @@
 #import "Game.h"
 
 #import "LoadingViewController.h"
-#import "TutorialViewController.h"
 #import "GameNotificationViewController.h"
 
 #import "QuestsViewController.h"
@@ -42,7 +41,6 @@
     LoadingViewController *loadingViewController;
     UITabBarController *gamePlayTabBarController;
     
-    TutorialViewController *tutorialViewController;
     GameNotificationViewController *gameNotificationViewController;
     
     ARISNavigationController *nearbyObjectsNavigationController;
@@ -61,7 +59,6 @@
 @property (nonatomic, strong) Game *game;
 @property (nonatomic, strong) LoadingViewController *loadingViewController;
 @property (nonatomic, strong) UITabBarController *gamePlayTabBarController;
-@property (nonatomic, strong) TutorialViewController *tutorialViewController;
 @property (nonatomic, strong) GameNotificationViewController *gameNotificationViewController;
 @property (nonatomic, strong) ARISNavigationController *nearbyObjectsNavigationController;
 @property (nonatomic, strong) ARISNavigationController *arNavigationController;
@@ -80,7 +77,6 @@
 @synthesize game;
 @synthesize loadingViewController;
 @synthesize gamePlayTabBarController;
-@synthesize tutorialViewController;
 @synthesize gameNotificationViewController;
 @synthesize nearbyObjectsNavigationController;
 @synthesize arNavigationController;
@@ -107,7 +103,6 @@
         
         [[ARISAlertHandler sharedAlertHandler] showWaitingIndicator:NSLocalizedString(@"LoadingKey",@"")];
 
-        //self.tutorialViewController         = [[TutorialViewController         alloc] init];
         self.gameNotificationViewController = [[GameNotificationViewController alloc] init];
         
         //PHIL UNAPPROVED
@@ -126,8 +121,6 @@
 - (void) loadView
 {
     [super loadView];
-    //self.tutorialViewController.view.frame = self.view.frame;
-    //[self.view addSubview:tutorialViewController.view];
     self.gameNotificationViewController.view.frame = self.view.frame;
     [self.view addSubview:self.gameNotificationViewController.view];
 }
@@ -167,8 +160,6 @@
 
 - (void) gameDismisallWasRequested
 {
-    //[self.tutorialViewController dismissTutorials];
-
     [self.gameNotificationViewController stopListeningToModel];
     [self.gameNotificationViewController cutOffGameNotifications];
     [self.game clearLocalModels];
@@ -177,15 +168,6 @@
     [delegate gameplayWasDismissed];
 }
 
-- (void) dismissTutorial
-{
-    //if(self.tutorialViewController) [self.tutorialViewController dismissTutorials];
-}
-
-- (void) showTutorialPopupPointingToTabForViewController:(ARISGamePlayTabBarViewController *)vc title:(NSString *)title message:(NSString *)message
-{
-    //[self.tutorialViewController showTutorialPopupPointingToTabForViewController:vc title:title message:message];
-}
 
 //PHIL UNAPPROVED FROM THIS POINT ON
 
@@ -374,19 +356,16 @@
     }
 }
 
-- (void) gamePlayTabBarController:(UITabBarController *)tabBar didSelectViewController:(UIViewController *)viewController
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController 
 {
     NSLog(@"RootViewController: gamePlayTabBarController didSelectViewController");
+
+    //Force more tab to always be a list of options, not the last VC
+    NSLog(@"RootViewController: selectedIndex is %d", tabBarController.selectedIndex);
+    if (tabBarController.selectedIndex > 3) {
+        [tabBarController.moreNavigationController popToRootViewControllerAnimated:NO];
+    }
     
-    [tabBar.moreNavigationController popToRootViewControllerAnimated:NO];
-    
-	//Hide any popups
-	if([viewController respondsToSelector:@selector(visibleViewController)])
-    {
-		UIViewController *vc = [viewController performSelector:@selector(rootViewController)];
-		if([vc respondsToSelector:@selector(dismissTutorial)])
-			[vc performSelector:@selector(dismissTutorial)];
-	}
 }
 
 @end

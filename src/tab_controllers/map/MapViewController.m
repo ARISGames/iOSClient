@@ -364,8 +364,6 @@
     }
     [locationsToAdd removeAllObjects];
 
-    [delegate showTutorialPopupPointingToTabForViewController:self title:@"New GPS Location" message:@"You have a new place of interest on your GPS! Touch below to view the Map."];
-
     [AppModel sharedAppModel].hasSeenMapTabTutorial = YES;
     [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
 }

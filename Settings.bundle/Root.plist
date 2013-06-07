@@ -49,16 +49,6 @@
 			<true/>
 		</dict>
 		<dict>
-			<key>DefaultValue</key>
-			<false/>
-			<key>Key</key>
-			<string>resetTutorial</string>
-			<key>Title</key>
-			<string>Reset Tutorial Popups</string>
-			<key>Type</key>
-			<string>PSToggleSwitchSpecifier</string>
-		</dict>
-		<dict>
 			<key>Title</key>
 			<string>About ARIS</string>
 			<key>Type</key>
