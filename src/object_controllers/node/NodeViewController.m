@@ -17,6 +17,9 @@
 #import <AVFoundation/AVFoundation.h>
 #import "AsyncMediaPlayerButton.h"
 #import "UIImage+Scale.h"
+#import "Node.h"
+#import "ARISMoviePlayerViewController.h"
+#import "AsyncMediaImageView.h"
 
 static NSString * const OPTION_CELL = @"option";
 
@@ -37,37 +40,40 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 @"<body>%@</body>"
 @"</html>";
 
-@interface NodeViewController()
+@interface NodeViewController() <UIScrollViewDelegate, UIWebViewDelegate, AsyncMediaImageViewDelegate>
 {
     BOOL imageLoaded;
     BOOL webLoaded;
     
     UIScrollView *scrollView;
-    UIView *mediaArea;
+    UIView *mediaSection;
     UIWebView *webView;
     UIButton *continueButton;
     
-    MPMoviePlayerViewController *mMoviePlayer; //only used if item is a video
-	UIButton *mediaPlaybackButton;
-    
     UIActivityIndicatorView *webViewSpinner;
 }
-@property(readwrite) Node *node;
 
+@property(readwrite, strong) Node *node;
 @property(readwrite, assign) BOOL imageLoaded;
 @property(readwrite, assign) BOOL webLoaded;
-
 @property(nonatomic, strong) IBOutlet UIScrollView *scrollView;
-@property(nonatomic, strong) UIView *mediaArea;
+@property(nonatomic, strong) UIView *mediaSection;
 @property(nonatomic, strong) UIWebView *webView;
 @property(nonatomic, strong) UIButton *continueButton;
-
 @property(nonatomic, strong) UIActivityIndicatorView *webViewSpinner;
 
 @end
 
 @implementation NodeViewController
-@synthesize node, imageLoaded, webLoaded, scrollView, mediaArea, webView, continueButton, webViewSpinner;
+
+@synthesize node;
+@synthesize imageLoaded;
+@synthesize webLoaded;
+@synthesize scrollView;
+@synthesize mediaSection;
+@synthesize webView;
+@synthesize continueButton;
+@synthesize webViewSpinner;
 
 - (id) initWithNode:(Node *)n delegate:(NSObject<GameObjectViewControllerDelegate> *)d
 {
@@ -88,60 +94,109 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     
     self.title = self.node.name;
     
-    Media *media = [[AppModel sharedAppModel] mediaForMediaId:self.node.mediaId];
+    Media *media = [[AppModel sharedAppModel] mediaForMediaId:self.node.mediaId ofType:nil];
     
-    mediaArea = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,10)];
+    self.mediaSection = [[UIView alloc] init];
+    self.webView = [[UIWebView alloc] init];
+    self.continueButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    
     if([media.type isEqualToString:@"PHOTO"] && media.url)
     {
-        AsyncMediaImageView *mediaImageView = [[AsyncMediaImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 320) andMedia:media];
-        mediaImageView.contentMode = UIViewContentModeScaleAspectFit;
-        mediaArea.frame = CGRectMake(0, 0, 320, 320);
-        [mediaArea addSubview:mediaImageView];
+        self.mediaSection.frame = CGRectMake(0,0,320,20);
+        AsyncMediaImageView *mediaImageView = [[AsyncMediaImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 320) andMedia:media andDelegate:self];
+        [self.mediaSection addSubview:mediaImageView];
     }
     else if(([media.type isEqualToString:@"VIDEO"] || [media.type isEqualToString:@"AUDIO"]) && media.url)
     {
-        AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presentingController:[RootViewController sharedRootViewController] preloadNow:NO];
-        mediaArea.frame = CGRectMake(0, 0, 300, 240);
-        [mediaArea addSubview:mediaButton];
+        self.mediaSection.frame = CGRectMake(0,0,320,240);
+        self.webView.frame = CGRectMake(0, self.mediaSection.frame.size.height+10, 320, self.webView.frame.size.height);
+        AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presenter:self preloadNow:NO];
+        [self.mediaSection addSubview:mediaButton];
     }
     
     //Setup the Description Webview
-    webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, mediaArea.frame.size.height + 20, 300, 10)];
-    webView.delegate = self;
-    webView.backgroundColor =[UIColor clearColor];
-    if([webView respondsToSelector:@selector(scrollView)])
+    self.webView.delegate = self;
+    self.webView.backgroundColor = [UIColor clearColor];
+    if([self.webView respondsToSelector:@selector(scrollView)])
     {
-        webView.scrollView.bounces = NO;
-        webView.scrollView.scrollEnabled = NO;
+        self.webView.scrollView.bounces = NO;
+        self.webView.scrollView.scrollEnabled = NO;
     }
     NSString *htmlDescription = [NSString stringWithFormat:kPlaqueDescriptionHtmlTemplate, self.node.text];
-    webView.alpha = 0.0; //The webView will resore alpha once it's loaded to avoid the ugly white blob
-	[webView loadHTMLString:htmlDescription baseURL:nil];
+    self.webView.alpha = 0.0; //The webView will resore alpha once it's loaded to avoid the ugly white blob
+	[self.webView loadHTMLString:htmlDescription baseURL:nil];
     
-    UIActivityIndicatorView *webViewSpinnerAlloc = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-    self.webViewSpinner = webViewSpinnerAlloc;
-    self.webViewSpinner.center = webView.center;
+    self.webViewSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    self.webViewSpinner.center = self.webView.center;
     [self.webViewSpinner startAnimating];
     self.webViewSpinner.backgroundColor = [UIColor clearColor];
-    [webView addSubview:self.webViewSpinner];
+    [self.webView addSubview:self.webViewSpinner];
     
     //Create continue button cell
-    continueButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [continueButton setTitle:NSLocalizedString(@"TapToContinueKey", @"") forState:UIControlStateNormal];
-    [continueButton setFrame:CGRectMake(0, webView.frame.origin.y + webView.frame.size.height + 20, 320, 45)];
-    [continueButton addTarget:self action:@selector(continueButtonTouchAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.continueButton setTitle:NSLocalizedString(@"TapToContinueKey", @"") forState:UIControlStateNormal];
+    [self.continueButton setFrame:CGRectMake(0, 20, 320, 45)];
+    [self.continueButton addTarget:self action:@selector(continueButtonTouchAction) forControlEvents:UIControlEventTouchUpInside];
     
     //Setup the scrollview
     //scrollView.frame = self.parentViewController.view.frame;
-    scrollView.contentSize = CGSizeMake(320,continueButton.frame.origin.y + continueButton.frame.size.height + 50);
-    if(media.type && media.url) [scrollView addSubview:mediaArea];
-    [scrollView addSubview:webView];
-    [scrollView addSubview:continueButton];
+    scrollView.contentSize = CGSizeMake(320, self.continueButton.frame.origin.y+self.continueButton.frame.size.height+50);
+    if(self.mediaSection) [scrollView addSubview:self.mediaSection];
+    [scrollView addSubview:self.webView];
+    [scrollView addSubview:self.continueButton];
 }
 
-#pragma mark UIWebViewDelegate Methods
+- (void) imageFinishedLoading:(AsyncMediaImageView *)image
+{
+    //THIS CODE IS COPIED FROM NPCVIEWCONTROLLER- this should be rolled into asyncmediaimageview or something
+    
+    //ASPECT FIT + ALIGN TO TOP:
+    //Let 'aspect fit' do the actual aspect fill- but still required to simulate the fitting to get correct dimensions
+    image.frame = CGRectMake(0, 0, 320, [UIScreen mainScreen].applicationFrame.size.height-64);
+    
+    float sw = image.frame.size.width;  //screen width (320)
+    float sh = image.frame.size.height; //screen height(416)
+    float iw = image.image.size.width;  //image width  (like, the raw image size. example:1024)
+    float ih = image.image.size.height; //image height (like, the raw image size. example:768)
+    
+    float dw = iw;                      //display width  (calculated size of image AFTER aspect fit)
+    float dh = ih;                      //display height (calculated size of image AFTER aspect fit)
+    if(ih < sh && iw < sw)              //simulate scale up to aspect fit if necessary
+    {
+        if(ih > iw)
+        {
+            dh = sh;
+            dw = sh/ih*iw;
+        }
+        else
+        {
+            dh = sw/iw*ih;
+            dw = sw;
+        }
+    }
+    
+    if(dw > sw)
+    {
+        dw = sw;
+        dh = ih*sw/iw;
+    }
+    if(dh > sh)
+    {
+        dh = sh;
+        dw = iw*sh/ih;
+    }
+    
+    if(dh < sh)
+        image.frame = CGRectMake(0, (-0.5*(sh-dh)), image.frame.size.width, image.frame.size.height);
+    else
+        image.frame = CGRectMake(0,0,sw,sh);
+    
+    self.mediaSection.frame = CGRectMake(0, 0, 320, dh);
+    self.webView.frame = CGRectMake(0, self.mediaSection.frame.size.height+10, 320, self.webView.frame.size.height);
+    self.continueButton.frame = CGRectMake(0, self.webView.frame.origin.y + self.webView.frame.size.height+10, 320, 45);
+    self.scrollView.contentSize = CGSizeMake(320,self.continueButton.frame.origin.y + self.continueButton.frame.size.height+50);
+}
 
-- (BOOL)webView:(UIWebView*)webViewFromMethod shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType
+- (BOOL) webView:(UIWebView*)webViewFromMethod shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType
 {
     NSString *url = [req URL].absoluteString;
     if([url isEqualToString:@"about:blank"]) return YES;
@@ -156,75 +211,30 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     return YES;
 }
 
--(void)webViewDidFinishLoad:(UIWebView *)theWebView
+- (void) webViewDidFinishLoad:(UIWebView *)theWebView
 {
-    webView.alpha = 1.00;
+    self.webView.alpha = 1.00;
     
     //Calculate the height of the web content
-    float newHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue] + 3;
-    [webView setFrame:CGRectMake(webView.frame.origin.x,
-                                 webView.frame.origin.y,
-                                 webView.frame.size.width,
-                                 newHeight+5)];
-    [continueButton setFrame:CGRectMake(continueButton.frame.origin.x ,
-                                        webView.frame.origin.y + webView.frame.size.height + 20,
-                                        continueButton.frame.size.width,
-                                        continueButton.frame.size.height)];
-    scrollView.contentSize = CGSizeMake(320,continueButton.frame.origin.y + continueButton.frame.size.height + 50);
+    float newHeight = [[self.webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue] + 3;
+    [self.webView setFrame:CGRectMake(self.webView.frame.origin.x,
+                                      self.webView.frame.origin.y,
+                                      self.webView.frame.size.width,
+                                      newHeight+5)];
+    [self.continueButton setFrame:CGRectMake(self.continueButton.frame.origin.x ,
+                                             self.webView.frame.origin.y + self.webView.frame.size.height+10,
+                                             self.continueButton.frame.size.width,
+                                             self.continueButton.frame.size.height)];
+    scrollView.contentSize = CGSizeMake(320,self.continueButton.frame.origin.y + self.continueButton.frame.size.height+50);
     
-    //Find the webCell spinner and remove it
-    [webViewSpinner removeFromSuperview]; 
+    [self.webViewSpinner removeFromSuperview];
 }
 
-#pragma mark Button Handlers
-- (IBAction) backButtonTouchAction:(id)sender
+- (void) continueButtonTouchAction
 {
 	[[AppServices sharedAppServices] updateServerNodeViewed:node.nodeId fromLocation:0];
     [delegate gameObjectViewControllerRequestsDismissal:self];
 }
-
-- (IBAction)continueButtonTouchAction
-{
-	[[AppServices sharedAppServices] updateServerNodeViewed:node.nodeId fromLocation:0];
-    [delegate gameObjectViewControllerRequestsDismissal:self];
-}
-
-/*-(IBAction)playMovie:(id)sender {
- [mMoviePlayer.moviePlayer play];
- [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
- }
- */
-
-#pragma mark MPMoviePlayerController Notification Handlers
-
-/*
- - (void)movieLoadStateChanged:(NSNotification*) aNotification{
- MPMovieLoadState state = [(MPMoviePlayerController *) aNotification.object loadState];
- 
- if( state & MPMovieLoadStateUnknown ) {
- NSLog(@"NodeViewController: Unknown Load State");
- }
- if( state & MPMovieLoadStatePlayable ) {
- NSLog(@"NodeViewController: Playable Load State");
- 
- //Create a thumbnail for the button
- if (![mediaPlaybackButton backgroundImageForState:UIControlStateNormal]){
- UIImage *videoThumb = [mMoviePlayer.moviePlayer thumbnailImageAtTime:(NSTimeInterval)1.0 timeOption:MPMovieTimeOptionExact];
- UIImage *videoThumbSized = [videoThumb scaleToSize:CGSizeMake(300, 240)];
- [mediaPlaybackButton setBackgroundImage:videoThumbSized forState:UIControlStateNormal];
- }
- 
- }
- if( state & MPMovieLoadStatePlaythroughOK ) {
- NSLog(@"NodeViewController: Playthrough OK Load State");
- 
- }
- if( state & MPMovieLoadStateStalled ) {
- NSLog(@"NodeViewController: Stalled Load State");
- }
- 
- }*/
-
 
 - (void)movieFinishedCallback:(NSNotification*) aNotification
 {
@@ -233,9 +243,8 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 
 - (void)dealloc
 {
-    webView.delegate = nil;
-    [webView stopLoading];
-    //remove listeners
+    self.webView.delegate = nil;
+    [self.webView stopLoading];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

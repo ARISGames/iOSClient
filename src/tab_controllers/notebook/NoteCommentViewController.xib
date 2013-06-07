@@ -477,11 +477,9 @@
 							<string>addAudioButtonTouchAction</string>
 							<string>addMediaFromAlbumButtonTouchAction</string>
 							<string>addPhotoButtonTouchAction</string>
-							<string>addTextButtonTouchAction</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -494,7 +492,6 @@
 							<string>addAudioButtonTouchAction</string>
 							<string>addMediaFromAlbumButtonTouchAction</string>
 							<string>addPhotoButtonTouchAction</string>
-							<string>addTextButtonTouchAction</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -510,10 +507,6 @@
 								<string key="name">addPhotoButtonTouchAction</string>
 								<string key="candidateClassName">id</string>
 							</object>
-							<object class="IBActionInfo">
-								<string key="name">addTextButtonTouchAction</string>
-								<string key="candidateClassName">id</string>
-							</object>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">
@@ -523,9 +516,7 @@
 							<string>addAudioButton</string>
 							<string>addMediaFromAlbumButton</string>
 							<string>addPhotoButton</string>
-							<string>addTextButton</string>
 							<string>commentTable</string>
-							<string>inputView</string>
 							<string>textBox</string>
 						</object>
 						<object class="NSArray" key="dict.values">
@@ -533,9 +524,7 @@
 							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
-							<string>UIButton</string>
 							<string>UITableView</string>
-							<string>UIView</string>
 							<string>UITextView</string>
 						</object>
 					</object>
@@ -546,9 +535,7 @@
 							<string>addAudioButton</string>
 							<string>addMediaFromAlbumButton</string>
 							<string>addPhotoButton</string>
-							<string>addTextButton</string>
 							<string>commentTable</string>
-							<string>inputView</string>
 							<string>textBox</string>
 						</object>
 						<object class="NSArray" key="dict.values">
@@ -566,16 +553,8 @@
 								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">addTextButton</string>
-								<string key="candidateClassName">UIButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
 								<string key="name">commentTable</string>
 								<string key="candidateClassName">UITableView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">inputView</string>
-								<string key="candidateClassName">UIView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">textBox</string>

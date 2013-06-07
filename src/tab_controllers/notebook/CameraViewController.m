@@ -7,84 +7,57 @@
 //
 
 #import "CameraViewController.h"
-#import "ARISAppDelegate.h"
-#import "AppModel.h"
-#import "AppServices.h"
-#import "NotebookViewController.h"
+#import "ARISAlertHandler.h"
 #import <MobileCoreServices/UTCoreTypes.h>
-#import "MapViewController.h"
-#import "NoteCommentViewController.h"
-#import "NoteEditorViewController.h"
+#import <ImageIO/ImageIO.h>
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "UIImage+Scale.h"
 #import "UIImage+Resize.h"
 #import "UIImage+fixOrientation.h"
 #import "NSMutableDictionary+ImageMetadata.h"
-#import <ImageIO/ImageIO.h>
+#import "ARISAppDelegate.h"
+#import "AppModel.h"
+
+@interface CameraViewController() <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+{
+    NSString *presentMode;
+    id<CameraViewControllerDelegate> __unsafe_unretained delegate;
+}
+
+@property (nonatomic, strong) NSString *presentMode;
+
+@end
 
 @implementation CameraViewController
 
-//@synthesize imagePickerController;
-@synthesize cameraButton;
-@synthesize libraryButton;
-@synthesize mediaData;
-@synthesize mediaFilename;
-@synthesize profileButton,parentDelegate,backView,showVid, noteId,editView,picker;
+@synthesize presentMode;
 
-//Override init for passing title and icon to tab bar
-- (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle {
-    if ((self = [super initWithNibName:nibName bundle:nibBundle])) {
+- (id) initWithPresentMode:(NSString *)mode delegate:(id<CameraViewControllerDelegate>)d;
+{
+    if((self = [super initWithNibName:@"CameraViewController" bundle:nil]))
+    {
+        delegate = d;
+        
+        self.presentMode = mode;
         self.title = NSLocalizedString(@"CameraTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"camera.png"];
-        bringUpCamera = YES;
     }
     return self;
 }
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-    [super viewDidLoad];
-	
-	//self.imagePickerController = [[UIImagePickerController alloc] init];
-	
-	[libraryButton setTitle: NSLocalizedString(@"CameraLibraryButtonTitleKey",@"") forState: UIControlStateNormal];
-	[libraryButton setTitle: NSLocalizedString(@"CameraLibraryButtonTitleKey",@"") forState: UIControlStateHighlighted];	
-	
-	[cameraButton setTitle: NSLocalizedString(@"CameraCameraButtonTitleKey",@"") forState: UIControlStateNormal];
-	[cameraButton setTitle: NSLocalizedString(@"CameraCameraButtonTitleKey",@"") forState: UIControlStateHighlighted];	
-    [profileButton setTitle:@"Take Profile Picture" forState:UIControlStateNormal];
-    [profileButton setTitle:@"Take Profile Picture" forState:UIControlStateHighlighted];    
-		
-	if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-		self.cameraButton.enabled = YES;
-		self.cameraButton.alpha = 1.0;
-        self.profileButton.enabled = YES;
-        self.profileButton.alpha  = 1.0;
-	}
-	else {
-		self.cameraButton.enabled = NO;
-		self.cameraButton.alpha = 0.6;
-        self.profileButton.enabled = NO;
-        self.profileButton.alpha = 0.6;
-	}
-	
-	//self.imagePickerController.delegate = self;
-	
-	NSLog(@"Camera Loaded");
-}
-
--(void)viewWillAppear:(BOOL)animated{
-    if(bringUpCamera){
-        bringUpCamera = NO;
-
-   if(showVid) [self cameraButtonTouchAction];
-    else [self libraryButtonTouchAction];
+- (void) viewWillAppear:(BOOL)animated
+{
+    if(self.presentMode)
+    {
+        if([self.presentMode isEqualToString:@"camera"])  [self presentCamera];
+        if([self.presentMode isEqualToString:@"library"]) [self presentLibrary];
     }
+    self.presentMode = nil;
 }
 
-- (IBAction)cameraButtonTouchAction {
-	NSLog(@"Camera Button Pressed");
-    picker = [[UIImagePickerController alloc]init];
+- (void) presentCamera
+{
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.delegate = self;
     picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:picker.sourceType];
     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
@@ -93,22 +66,9 @@
 	[self presentModalViewController:picker animated:NO];
 }
 
-        
-/*- (BOOL) isVideoCameraAvailable{
-       // UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-        NSArray *sourceTypes = [UIImagePickerController availableMediaTypesForSourceType:self.imagePickerController.sourceType];
-        
-        if (![sourceTypes containsObject:(NSString *)kUTTypeMovie ]){
-            
-            return NO;
-        }
-        
-        return YES;
-    }*/
-
-- (IBAction)libraryButtonTouchAction {
-	NSLog(@"Library Button Pressed");
-    picker = [[UIImagePickerController alloc]init];
+- (void) presentLibrary
+{
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.delegate = self;
     picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
 	picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
@@ -116,226 +76,85 @@
 	[self presentModalViewController:picker animated:NO];
 }
 
-- (IBAction)profileButtonTouchAction {
-	NSLog(@"Profile Button Pressed");
-    picker = [[UIImagePickerController alloc]init];
-    picker.delegate = self;
-
-	picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-	picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:picker.sourceType];
-	picker.allowsEditing = NO;
-	picker.showsCameraControls = YES;
-	[self presentModalViewController:picker animated:NO];
-}
-
-#pragma mark UIImagePickerControllerDelegate Protocol Methods
-- (void)imagePickerController:(UIImagePickerController *)aPicker didFinishPickingMediaWithInfo:(NSDictionary  *)info
+- (void) imagePickerController:(UIImagePickerController *)aPicker didFinishPickingMediaWithInfo:(NSDictionary  *)info
 {
-	NSLog(@"CameraViewController: User Selected an Image or Video");
     [aPicker dismissModalViewControllerAnimated:NO];
 
 	NSString* mediaType = [info objectForKey:UIImagePickerControllerMediaType];
-	if ([mediaType isEqualToString:@"public.image"]){
+	if([mediaType isEqualToString:@"public.image"])
+    {        
+        UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
         
-        UIImage* image = [info objectForKey:UIImagePickerControllerOriginalImage];
-        
-        //Manipulate image to desired specs (quality, orientation, size, etc...)
+        //PHIL- BS attempt to fix orientation. Don't think it's really needed.
         image = [image fixOrientation];
         image = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:image.size interpolationQuality:kCGInterpolationHigh];
         if(image.size.height > image.size.width)
         {
-            if(image.size.height > 856)
-                image = [image scaleToSize:CGSizeMake(image.size.width*(856/image.size.height), 856)];
-            if(image.size.width > 640)
-                image = [image scaleToSize:CGSizeMake(640, image.size.height*(640/image.size.width))];
+            if(image.size.height > 856) image = [image scaleToSize:CGSizeMake(image.size.width*(856/image.size.height), 856)];
+            if(image.size.width  > 640) image = [image scaleToSize:CGSizeMake(640, image.size.height*(640/image.size.width))];
         }
         else
         {
-            if(image.size.width > 856)
-                image = [image scaleToSize:CGSizeMake(856, image.size.height*(856/image.size.width))];
-            if(image.size.height > 640)
-                image = [image scaleToSize:CGSizeMake(image.size.width*(640/image.size.height), 640)];
+            if(image.size.width  > 856) image = [image scaleToSize:CGSizeMake(856, image.size.height*(856/image.size.width))];
+            if(image.size.height > 640) image = [image scaleToSize:CGSizeMake(image.size.width*(640/image.size.height), 640)];
         }
+        //PHIL end BS attempt
         
-        //Image Data
-        self.mediaData = UIImageJPEGRepresentation(image, 0.4);
-        self.mediaFilename = [NSString stringWithFormat:@"%@image.jpg",[NSDate date]];
-        NSString *newFilePath =[NSTemporaryDirectory() stringByAppendingString: [NSString stringWithFormat:@"%@image.jpg",[NSDate date]]];
-        NSURL *imageURL = [[NSURL alloc] initFileURLWithPath: newFilePath];
-        if (self.mediaData != nil) [mediaData writeToURL:imageURL atomically:YES];
-        
-        //Image Meta Data
-        NSMutableDictionary *newMetadata = [[NSMutableDictionary alloc] initWithDictionary:[info objectForKey:UIImagePickerControllerMediaMetadata]];
-        CLLocation * location = [AppModel sharedAppModel].player.location;
-        [newMetadata setLocation:location];
-        NSString *gameName = [AppModel sharedAppModel].currentGame.name;
-        NSString *descript = [[NSString alloc] initWithFormat: @"%@ %@: %@. %@: %@", NSLocalizedString(@"CameraImageTakenKey", @""), NSLocalizedString(@"CameraGameKey", @""), gameName, NSLocalizedString(@"CameraPlayerKey", @""), [AppModel sharedAppModel].player.username];
-        [newMetadata setDescription: descript];
-        
-        //Handle Delegate
-        if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]])
-            [self.parentDelegate addedPhoto];
-        if([self.editView isKindOfClass:[NoteEditorViewController class]])
-        {
-            [self.editView setNoteValid:YES];
-            [self.editView setNoteChanged:YES];
-        }
+        NSData *imageData = UIImageJPEGRepresentation(image, 0.4);
+        NSURL *imageURL = [[NSURL alloc] initFileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:[NSString stringWithFormat:@"%@image.jpg",[NSDate date]]]];
+        [imageData writeToURL:imageURL atomically:YES];
         
         // If image not selected from camera roll, save image with metadata to camera roll
-        if ([info objectForKey:UIImagePickerControllerReferenceURL] == NULL)
+        if([info objectForKey:UIImagePickerControllerReferenceURL] == NULL)
         {
             ALAssetsLibrary *al = [[ALAssetsLibrary alloc] init];
-            [al writeImageDataToSavedPhotosAlbum:self.mediaData metadata:newMetadata completionBlock:^(NSURL *assetURL, NSError *error)
-            {
-                // once image is saved, get asset from assetURL
-                [al assetForURL:assetURL resultBlock:^(ALAsset *asset)
+            [al writeImageDataToSavedPhotosAlbum:imageData metadata:nil
+                completionBlock:^(NSURL *assetURL, NSError *error)
                 {
-                    if (!asset) return;
-                    
-                    // save image to temporary directory to be able to upload it
-                    ALAssetRepresentation *defaultRep = [asset defaultRepresentation];
-                    UIImage * image = [UIImage imageWithCGImage:[defaultRep fullResolutionImage]];
-                    NSData *imageData = UIImageJPEGRepresentation(image, 0.4);
-                    imageData = [self dataWithEXIFUsingData:imageData];
-                    
-                    NSString *newFilePath =[NSTemporaryDirectory() stringByAppendingString: [NSString stringWithFormat:@"%@image.jpg",[NSDate date]]];
-                    NSURL *imageURL = [[NSURL alloc] initFileURLWithPath: newFilePath];
-                    
-                    [imageData writeToURL:imageURL atomically:YES];
-                    
-                    //Do the upload
-                    [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:@"PHOTO" withFileURL:imageURL];
-                    if([self.editView isKindOfClass:[NoteEditorViewController class]])
-                        [self.editView refreshViewFromModel];
-
-                }
-                failureBlock:^(NSError *error)
-                {
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"Your privacy settings are disallowing us from saving to your camera roll. Go into System Settings to turn these settings off." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-                   [alert show];
-                    //Do the upload
-                    [[[AppModel sharedAppModel] uploadManager] uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:@"PHOTO" withFileURL:imageURL];
-                    if([self.editView isKindOfClass:[NoteEditorViewController class]])
-                     [self.editView refreshViewFromModel];
-                }
-                ];
+                    [al assetForURL:assetURL resultBlock:^(ALAsset *asset)
+                    {
+                        UIImage *image = [UIImage imageWithCGImage:[[asset defaultRepresentation] fullResolutionImage]];
+                        NSData *imageData = UIImageJPEGRepresentation(image, 0.4);
+                        NSURL *imageURL = [[NSURL alloc] initFileURLWithPath:[NSTemporaryDirectory() stringByAppendingString:[NSString stringWithFormat:@"%@image.jpg",[NSDate date]]]];
+                        [imageData writeToURL:imageURL atomically:YES];
+                        [delegate imageChosenWithURL:imageURL];
+                        [self.navigationController popViewControllerAnimated:NO];
+                    }
+                    failureBlock:^(NSError *error)
+                    {
+                        [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:@"Warning" message:@"Your privacy settings are disallowing us from saving to your camera roll. Go into System Settings to turn these settings off."];
+                        [delegate imageChosenWithURL:imageURL];
+                        [self.navigationController popViewControllerAnimated:NO];
+                    }];
             }];
-        } 
-	}	
-	else if ([mediaType isEqualToString:@"public.movie"]){
-		NSLog(@"CameraViewController: Found a Movie");
-		NSURL *videoURL = [info objectForKey:UIImagePickerControllerMediaURL];
-		self.mediaData = [NSData dataWithContentsOfURL:videoURL];
-		self.mediaFilename = @"video.mp4";
-        if([self.parentDelegate isKindOfClass:[NoteCommentViewController class]]){ 
-                       [self.parentDelegate addedVideo];
-
         }
-        if([self.editView isKindOfClass:[NoteEditorViewController class]]) {
-            [self.editView setNoteValid:YES];
-            [self.editView setNoteChanged:YES];
-                 }
-        
-  [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:@"VIDEO" withFileURL:videoURL];
-    
-    }	
+        else
+        {
+            // image from camera roll
+            [delegate imageChosenWithURL:imageURL];
+            [self.navigationController popViewControllerAnimated:NO];
+        }
+	}
+	else if([mediaType isEqualToString:@"public.movie"])
+    {
+		NSURL *videoURL = [info objectForKey:UIImagePickerControllerMediaURL];        
+        [delegate videoChosenWithURL:videoURL];
+        [self.navigationController popViewControllerAnimated:NO];
+    }
+    else
+        [self.navigationController popViewControllerAnimated:NO]; //shouldn't get here, but if it does we at least need to get back
+}
 
+- (void) image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
+{
+    NSLog(@"Error Saving Image: %@", error);
+}
+
+- (void) imagePickerControllerDidCancel:(UIImagePickerController *)aPicker
+{
+    [aPicker dismissModalViewControllerAnimated:NO];
+    [delegate cameraViewControllerCancelled];
     [self.navigationController popViewControllerAnimated:NO];
 }
-
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
-    NSLog(@"Finished saving image with error: %@", error);
-}
-
--(void) uploadMedia
-{
-}
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)aPicker {
-    [aPicker dismissModalViewControllerAnimated:NO];
-    if([backView isKindOfClass:[NotebookViewController class]]){
-        [[AppServices sharedAppServices]deleteNoteWithNoteId:self.noteId];
-        [[AppModel sharedAppModel].playerNoteList removeObjectForKey:[NSNumber numberWithInt:self.noteId]];   
-    }
-    [self.navigationController popToViewController:self.backView animated:NO];
-}
-
-#pragma mark UINavigationControllerDelegate Protocol Methods
-- (void)navigationController:(UINavigationController *)navigationController 
-	   didShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
-	//nada
-}
-
-- (void)navigationController:(UINavigationController *)navigationController 
-	  willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
-	//nada
-}
-
-#pragma mark Memory Management
-- (void)didReceiveMemoryWarning {
-    NSLog(@"CAMERA DID RECEIVE MEMORY WARNING!");
-    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-    
-    // Release anything that's not essential, such as cached data
-    //[self.picker dismissModalViewControllerAnimated:NO];
-    //[self.navigationController popViewControllerAnimated:NO];
-
-    /*
-     Try to let go of the camera to save a crash
-    if(self.modalViewController.retainCount)
-    {
-        [self dismissModalViewControllerAnimated:NO];
-        [self.modalViewController release];
-    }
-    */
-}
-
-- (NSMutableData*)dataWithEXIFUsingData:(NSData*)originalJPEGData {	
-    NSMutableData* newJPEGData = [[NSMutableData alloc] init];
-    NSMutableDictionary* exifDict = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary* locDict = [[NSMutableDictionary alloc] init];
-    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy:MM:dd HH:mm:ss"];
-	
-    CGImageSourceRef img = CGImageSourceCreateWithData((__bridge CFDataRef)originalJPEGData, NULL);
-    CLLocationDegrees exifLatitude = [AppModel sharedAppModel].player.location.coordinate.latitude;
-    CLLocationDegrees exifLongitude = [AppModel sharedAppModel].player.location.coordinate.longitude;
-	
-    NSString* datetime = [dateFormatter stringFromDate:[AppModel sharedAppModel].player.location.timestamp];
-	
-    [exifDict setObject:datetime forKey:(NSString*)kCGImagePropertyExifDateTimeOriginal];
-    [exifDict setObject:datetime forKey:(NSString*)kCGImagePropertyExifDateTimeDigitized];
-	
-    [locDict setObject:[AppModel sharedAppModel].player.location.timestamp forKey:(NSString*)kCGImagePropertyGPSTimeStamp];
-	
-    if (exifLatitude <0.0){
-        exifLatitude = exifLatitude*(-1);
-        [locDict setObject:@"S" forKey:(NSString*)kCGImagePropertyGPSLatitudeRef];
-    }else{
-        [locDict setObject:@"N" forKey:(NSString*)kCGImagePropertyGPSLatitudeRef];
-    }
-    [locDict setObject:[NSNumber numberWithFloat:exifLatitude] forKey:(NSString*)kCGImagePropertyGPSLatitude];
-	
-    if (exifLongitude <0.0){
-        exifLongitude=exifLongitude*(-1);
-        [locDict setObject:@"W" forKey:(NSString*)kCGImagePropertyGPSLongitudeRef];
-    }else{
-        [locDict setObject:@"E" forKey:(NSString*)kCGImagePropertyGPSLongitudeRef];
-    }
-    [locDict setObject:[NSNumber numberWithFloat:exifLongitude] forKey:(NSString*) kCGImagePropertyGPSLongitude];
-	
-    NSDictionary * properties = [[NSDictionary alloc] initWithObjectsAndKeys:
-								 locDict, (NSString*)kCGImagePropertyGPSDictionary,
-								 exifDict, (NSString*)kCGImagePropertyExifDictionary, nil];
-    CGImageDestinationRef dest = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)newJPEGData, CGImageSourceGetType(img), 1, NULL);
-    CGImageDestinationAddImageFromSource(dest, img, 0, (__bridge CFDictionaryRef)properties);
-    CGImageDestinationFinalize(dest);
-	
-    CFRelease(img);
-    CFRelease(dest);
-	
-    return newJPEGData;
-}
-
 
 @end

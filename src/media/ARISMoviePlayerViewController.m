@@ -10,9 +10,9 @@
 #import "RootViewController.h"
 
 @implementation ARISMoviePlayerViewController
-@synthesize mediaPlaybackButton;
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
 	self.view.backgroundColor = [UIColor blackColor];
 	[super viewDidLoad];
 }
@@ -21,9 +21,10 @@
 {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
     UIApplication* application = [UIApplication sharedApplication];
-    if (application.statusBarOrientation != UIInterfaceOrientationPortrait){
+    if (application.statusBarOrientation != UIInterfaceOrientationPortrait)
+    {
         //What the heck is this. If anyone knows, get rid of it. -Phil 5/1/13
-        UIViewController *c = [[UIViewController alloc]init];
+        UIViewController *c = [[UIViewController alloc] init];
         [[RootViewController sharedRootViewController] presentModalViewController:c animated:NO];
         [[RootViewController sharedRootViewController] dismissModalViewControllerAnimated:NO];
         

@@ -28,7 +28,7 @@
 #pragma mark -
 #pragma mark Application State
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application
+- (void) applicationDidFinishLaunching:(UIApplication *)application
 {    
     application.idleTimerDisabled = YES;
     
@@ -48,7 +48,7 @@
     [self.window makeKeyAndVisible];
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application
+- (void) applicationDidBecomeActive:(UIApplication *)application
 {
 	NSLog(@"ARIS: Application Became Active");
 	[[AppModel sharedAppModel]       loadUserDefaults];
@@ -62,13 +62,13 @@
     [self startPollingLocation];
 }
 
-- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
+- (void) applicationDidReceiveMemoryWarning:(UIApplication *)application
 {
     NSLog(@"NSNotification: LowMemoryWarning");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LowMemoryWarning" object:nil]];
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application
+- (void) applicationWillResignActive:(UIApplication *)application
 {
 	NSLog(@"ARIS: Resigning Active Application");
 	[[AppModel sharedAppModel] saveUserDefaults];
@@ -159,7 +159,7 @@
     
     NSError* err;
     self.player = [[AVAudioPlayer alloc] initWithContentsOfURL: url error:&err];
-    [self.player setDelegate: self];
+    self.player.delegate = self;
     
     if(err) NSLog(@"Appdelegate: Playing Audio: Failed with reason: %@", [err localizedDescription]);
     else [self.player play];

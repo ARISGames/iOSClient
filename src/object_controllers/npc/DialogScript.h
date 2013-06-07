@@ -18,6 +18,7 @@
     BOOL hideLeaveConversationButton;
     BOOL hideLeaveConversationButtonSpecified;
     NSString *leaveConversationButtonTitle;
+    NSString *defaultPcTitle;
     BOOL hideAdjustTextAreaButton;
     NSString *adjustTextArea; //Note- possible both in script AND scene
     
@@ -32,6 +33,7 @@
 @property (nonatomic,assign) BOOL hideLeaveConversationButton;
 @property (nonatomic,assign) BOOL hideLeaveConversationButtonSpecified;
 @property (nonatomic,strong) NSString *leaveConversationButtonTitle;
+@property (nonatomic,strong) NSString *defaultPcTitle;
 @property (nonatomic,assign) BOOL hideAdjustTextAreaButton;
 @property (nonatomic,strong) NSString *adjustTextArea;
 

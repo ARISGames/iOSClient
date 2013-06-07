@@ -12,7 +12,8 @@
 @implementation MediaCache
 @synthesize mediaCount,maxMediaCount,context;
 
-- (void)clearCache{
+- (void) clearCache
+{
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Media" inManagedObjectContext:[AppModel sharedAppModel].managedObjectContext];
     [fetchRequest setEntity:entity];
@@ -20,16 +21,18 @@
     NSError *error;
     NSArray *items = [[AppModel sharedAppModel].managedObjectContext executeFetchRequest:fetchRequest error:&error];
     
-    for (NSManagedObject *managedObject in items) {
+    for(NSManagedObject *managedObject in items)
+    {
         [[AppModel sharedAppModel].managedObjectContext deleteObject:managedObject];
         NSLog(@"Media object deleted");
     }
-    if (![[AppModel sharedAppModel].managedObjectContext save:&error]) {
+    if(![[AppModel sharedAppModel].managedObjectContext save:&error])
+    {
         NSLog(@"Error deleting Media - error:%@",error);
     }
 }
 
--(void)deleteMediaFromCDWithId:(int)mediaId
+- (void) deleteMediaFromCDWithId:(int)mediaId
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Media" inManagedObjectContext:[AppModel sharedAppModel].managedObjectContext];
@@ -51,7 +54,7 @@
         NSLog(@"Error deleting Media - error:%@",error);
 }
 
--(Media *)mediaForMediaId:(int)uid
+- (Media *) mediaForMediaId:(int)uid ofType:(NSString *)type
 {
     NSError *error;
     
@@ -71,6 +74,7 @@
     //Media Not found; you should try fetching a new list from the server
     Media *media = [NSEntityDescription insertNewObjectForEntityForName:@"Media" inManagedObjectContext:context];
     media.uid = [NSNumber numberWithInt:uid];
+    media.type = type;
     
     if(![context save:&error])
         NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
@@ -128,8 +132,7 @@
 
 - (id)init
 {
-    self = [super init];
-    if (self)
+    if(self = [super init])
     {
         mediaCount = 0;
         maxMediaCount = 100;

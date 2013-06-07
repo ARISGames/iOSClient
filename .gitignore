@@ -1,1 +1,3 @@
-*.xcuserdatad
+.AppleDouble
+.DS_Store
+*.xcuserdata

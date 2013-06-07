@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "Media.h"
 
-@interface MediaCache : NSObject{
+@interface MediaCache : NSObject
+{
     NSManagedObjectContext *context;
     int mediaCount;
     int maxMediaCount;
@@ -19,7 +20,7 @@
 @property (nonatomic) int mediaCount;
 @property (nonatomic) int maxMediaCount;
 
--(Media *)mediaForMediaId:(int)uid;
+-(Media *)mediaForMediaId:(int)uid ofType:(NSString *)type;
 -(Media *)mediaForUrl:(NSURL *)url;
 -(NSArray *)mediaForPredicate:(NSPredicate *)predicate;
 -(Media *)addMediaToCache:(int) uid;

@@ -22,13 +22,13 @@
     NSString *type;
 }
 
-@property(readwrite,assign)int contentId;
-@property(readwrite,assign)int mediaId;
-@property(readwrite,assign)int noteId;
-@property(readwrite,assign)int sortIndex;
-@property(nonatomic)NSString *text;
-@property(nonatomic)NSString *title;
-@property(nonatomic)NSString *type;
+@property (nonatomic, assign) int contentId;
+@property (nonatomic, assign) int mediaId;
+@property (nonatomic, assign) int noteId;
+@property (nonatomic, assign) int sortIndex;
+@property (nonatomic, strong) NSString *text;
+@property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) NSString *type;
 
 - (NoteContent *) initWithDictionary:(NSDictionary *)dict;
 

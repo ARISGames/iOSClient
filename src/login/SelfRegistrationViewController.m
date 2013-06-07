@@ -9,6 +9,7 @@
 #import "SelfRegistrationViewController.h"
 #import "AppServices.h"
 #import "ServiceResult.h"
+#import "ARISAlertHandler.h"
 
 @interface SelfRegistrationViewController()
 {
@@ -62,12 +63,7 @@
         [delegate registrationSucceededWithUsername:userName.text password:password.text];
     else
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"ErrorKey", @"")
-                                                        message:NSLocalizedString(@"SelfRegistrationErrorMessageKey", @"")
-													   delegate:nil
-                                              cancelButtonTitle:NSLocalizedString(@"OkKey", @"")
-                                              otherButtonTitles:nil];
-		[alert show];
+        [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"ErrorKey", @"") message:NSLocalizedString(@"SelfRegistrationErrorMessageKey", @"")];
 	}
 }
 

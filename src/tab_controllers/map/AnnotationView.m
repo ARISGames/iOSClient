@@ -95,7 +95,7 @@
         
         //Only load the icon media if it is > 0, otherwise, lets load a default
         if (loc.gameObject.iconMediaId != 0)
-            [self.iconView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:loc.gameObject.iconMediaId]];
+            [self.iconView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:loc.gameObject.iconMediaId ofType:@"PHOTO"]];
         
         self.opaque = NO; 
     }

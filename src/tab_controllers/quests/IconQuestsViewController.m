@@ -63,6 +63,7 @@ NSString *const kIconQuestsHtmlTemplate =
     self = [super initWithNibName:@"IconQuestsViewController" bundle:nil];
     if (self)
     {
+        self.tabID = @"QUESTS";
         self.title = NSLocalizedString(@"QuestViewTitleKey",@"");
         self.tabBarItem.image = [UIImage imageNamed:@"117-todo"];
         supportsCollectionView = NO;
@@ -131,7 +132,7 @@ NSString *const kIconQuestsHtmlTemplate =
 
 -(void)dismissTutorial
 {
-    if(delegate) [delegate dismissTutorial];
+    //if(delegate) [delegate dismissTutorial];
 }
 
 - (void)refresh
@@ -159,8 +160,6 @@ NSString *const kIconQuestsHtmlTemplate =
     NSLog(@"IconQuestsViewController: Refreshing view from model");
     if (![AppModel sharedAppModel].hasSeenQuestsTabTutorial)
     {
-        [delegate showTutorialPopupPointingToTabForViewController:self title:NSLocalizedString(@"QuestViewNewQuestKey", @"") message:NSLocalizedString(@"QuestViewNewQuestMessageKey", @"")];
-
         [AppModel sharedAppModel].hasSeenQuestsTabTutorial = YES;
         [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
     }
@@ -192,8 +191,9 @@ NSString *const kIconQuestsHtmlTemplate =
         int yOrigin = row * (yMargin + ICONHEIGHT) + yMargin;
         
         UIImage *iconImage;
-        if(currentQuest.iconMediaId != 0){
-            Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: currentQuest.iconMediaId];
+        if(currentQuest.iconMediaId != 0)
+        {
+            Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId:currentQuest.iconMediaId ofType:@"PHOTO"];
             iconImage = [UIImage imageWithData:iconMedia.image];
         }
         else iconImage = [UIImage imageNamed:@"item.png"];
@@ -243,7 +243,7 @@ NSString *const kIconQuestsHtmlTemplate =
     UIImage *iconImage;
     if(currentQuest.iconMediaId != 0)
     {
-        Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: currentQuest.iconMediaId];
+        Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId: currentQuest.iconMediaId ofType:@"PHOTO"];
         iconImage = [UIImage imageWithData:iconMedia.image];
     }
     else iconImage = [UIImage imageNamed:@"item.png"];

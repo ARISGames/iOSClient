@@ -38,7 +38,7 @@
 
 - (id) initWithDelegate:(id<DecoderViewControllerDelegate, StateControllerProtocol>)d;
 - (IBAction) scanButtonTapped;
-- (void)cancelButtonTouch;
+- (void) cancelButtonTouch;
 - (void) loadResult:(NSString *)result;
 
 @end

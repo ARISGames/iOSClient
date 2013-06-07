@@ -47,11 +47,11 @@
 {
     if(self = [super init])
     {
-        self.locationId        = [dict validIntForKey:@"location_id"];
-        self.name              = [dict validObjectForKey:@"name"];
-        self.latlon            = [[CLLocation alloc] initWithLatitude:[dict validDoubleForKey:@"latitude"]
+        self.locationId = [dict validIntForKey:@"location_id"];
+        self.name       = [dict validObjectForKey:@"name"];
+        self.latlon     = [[CLLocation alloc] initWithLatitude:[dict validDoubleForKey:@"latitude"]
                                                             longitude:[dict validDoubleForKey:@"longitude"]];
-        self.coordinate        = self.latlon.coordinate;
+        self.coordinate = self.latlon.coordinate;
         
         NSString *otype = [dict validObjectForKey:@"type"];
         int oid         = [dict validIntForKey:@"type_id"];
@@ -63,8 +63,9 @@
         if([otype isEqualToString:@"PlayerNote"])
         {
             if(!(self.gameObject = [[AppModel sharedAppModel] noteForNoteId:oid playerListYesGameListNo:YES]))
-                self.gameObject = [[AppModel sharedAppModel] noteForNoteId:oid playerListYesGameListNo:NO];
+                 self.gameObject = [[AppModel sharedAppModel] noteForNoteId:oid playerListYesGameListNo:NO];
         }
+        if([otype isEqualToString:@"Player"])     self.gameObject = [[Player alloc] init];
         
         self.qty               = [dict validIntForKey:@"item_qty"];
         self.hidden            = [dict validBoolForKey:@"hidden"];

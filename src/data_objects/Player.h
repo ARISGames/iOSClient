@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import "GameObjectProtocol.h"
 
-@interface Player : NSObject
+@interface Player : NSObject <GameObjectProtocol>
 {
 	NSString *username;
 	NSString *displayname;

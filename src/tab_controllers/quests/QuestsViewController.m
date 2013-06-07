@@ -80,6 +80,7 @@ NSString *const kQuestsHtmlTemplate =
 {
     if(self = [super initWithNibName:@"QuestsViewController" bundle:nil])
     {
+        self.tabID = @"QUESTS";
         delegate = d;
         
 		cellsLoaded = 0;
@@ -109,9 +110,9 @@ NSString *const kQuestsHtmlTemplate =
     [self refreshViewFromModel];
 }
 
--(void) dismissTutorial
+- (void) dismissTutorial
 {
-    if(delegate) [delegate dismissTutorial];
+    //if(delegate) [delegate dismissTutorial];
 }
 
 - (void) refresh
@@ -124,8 +125,6 @@ NSString *const kQuestsHtmlTemplate =
 {
     if(![AppModel sharedAppModel].hasSeenQuestsTabTutorial)
     {
-        [delegate showTutorialPopupPointingToTabForViewController:self title:NSLocalizedString(@"QuestViewNewQuestKey", @"") message:NSLocalizedString(@"QuestViewNewQuestMessageKey", @"")];
-        
         [AppModel sharedAppModel].hasSeenQuestsTabTutorial = YES;
         [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
     }

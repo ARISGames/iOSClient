@@ -129,25 +129,25 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     }
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
+- (BOOL) textFieldShouldReturn:(UITextField *)textField
 {
     if(textField == usernameField) { [passwordField becomeFirstResponder]; }
     if(textField == passwordField) { [self resignKeyboard]; [self attemptLogin]; }
     return YES;
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self resignKeyboard];
 }
 
--(IBAction)loginButtonTouched:(id)sender
+- (IBAction) loginButtonTouched:(id)sender
 {
     [self resignKeyboard];
     [self attemptLogin];
 }
 
--(IBAction)QRButtonTouched
+- (IBAction) QRButtonTouched
 {
     [self resignKeyboard];
     ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO];
@@ -155,14 +155,14 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     [self presentViewController:widController animated:NO completion:nil];
 }
 
--(void)changePassTouch
+- (void) changePassTouch
 {
     [self resignKeyboard];
     ForgotPasswordViewController *forgotPassViewController = [[ForgotPasswordViewController alloc] init];
     [[self navigationController] pushViewController:forgotPassViewController animated:NO];
 }
 
--(IBAction)newAccountButtonTouched:(id)sender
+- (IBAction) newAccountButtonTouched:(id)sender
 {
     [self resignKeyboard];
     SelfRegistrationViewController *selfRegistrationViewController = [[SelfRegistrationViewController alloc] initWithDelegate:self];

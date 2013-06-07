@@ -257,8 +257,6 @@
 		AABC73C9172739D80074CC21 /* PopOverContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7110172739D60074CC21 /* PopOverContentView.m */; };
 		AABC73CA172739D80074CC21 /* PopOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7112172739D60074CC21 /* PopOverViewController.m */; };
 		AABC73CB172739D80074CC21 /* PopOverViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7113172739D60074CC21 /* PopOverViewController.xib */; };
-		AABC73CC172739D80074CC21 /* TutorialPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7115172739D60074CC21 /* TutorialPopupView.m */; };
-		AABC73CD172739D80074CC21 /* TutorialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7117172739D60074CC21 /* TutorialViewController.m */; };
 		AABC73D0172739D80074CC21 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC711E172739D60074CC21 /* RootViewController.m */; };
 		AABC73D1172739D80074CC21 /* AppServices.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7121172739D60074CC21 /* AppServices.m */; };
 		AABC73D2172739D80074CC21 /* ARISUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7123172739D60074CC21 /* ARISUploader.m */; };
@@ -294,7 +292,7 @@
 		AABC73F9172739D80074CC21 /* AudioPlayerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7175172739D60074CC21 /* AudioPlayerViewController.xib */; };
 		AABC73FA172739D80074CC21 /* AudioRecorderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7177172739D60074CC21 /* AudioRecorderViewController.m */; };
 		AABC73FB172739D80074CC21 /* AudioRecorderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7178172739D60074CC21 /* AudioRecorderViewController.xib */; };
-		AABC73FC172739D80074CC21 /* Camera.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7179172739D60074CC21 /* Camera.xib */; };
+		AABC73FC172739D80074CC21 /* CameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7179172739D60074CC21 /* CameraViewController.xib */; };
 		AABC73FD172739D80074CC21 /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC717B172739D60074CC21 /* CameraViewController.m */; };
 		AABC73FE172739D80074CC21 /* DDAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC717D172739D60074CC21 /* DDAnnotation.m */; };
 		AABC73FF172739D80074CC21 /* DDAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC717F172739D60074CC21 /* DDAnnotationView.m */; };
@@ -386,7 +384,6 @@
 		AABC74E0172739D80074CC21 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC736F172739D80074CC21 /* UIImage+Resize.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AABC74E1172739D80074CC21 /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7371172739D80074CC21 /* UIImage+RoundedCorner.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AABC74E2172739D80074CC21 /* UIImage+Scale.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7373172739D80074CC21 /* UIImage+Scale.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		AABC74F1172854610074CC21 /* libZXingWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AABC74EE172854370074CC21 /* libZXingWidget.a */; };
 		AABC74F517285FBE0074CC21 /* DecoderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC74F417285FBE0074CC21 /* DecoderViewController.xib */; };
 		AABC74F917285FE00074CC21 /* InventoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC74F717285FE00074CC21 /* InventoryViewController.m */; };
 		AABC74FA17285FE00074CC21 /* InventoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC74F817285FE00074CC21 /* InventoryViewController.xib */; };
@@ -402,6 +399,7 @@
 		AABC7512172860860074CC21 /* ItemActionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7510172860860074CC21 /* ItemActionViewController.xib */; };
 		AABC7518172873510074CC21 /* ItemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7515172873510074CC21 /* ItemViewController.xib */; };
 		AABC7519172873510074CC21 /* ItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7517172873510074CC21 /* ItemViewController.m */; };
+		AAF81FA3174BCD640003D848 /* libZXingWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAF81FA0174BC73C0003D848 /* libZXingWidget.a */; };
 		AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB0A5BA3120365420065CE68 /* Localizable.strings */; };
 		AB0DE80911559D0500A6EC3E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0DE80811559D0500A6EC3E /* AVFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		AB0DE80D11559D1200A6EC3E /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */; };
@@ -419,26 +417,26 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		AA353F841729C2C200A1EB6A /* PBXContainerItemProxy */ = {
+		AAF6FE32174FBCBC00C3E687 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = AABC74E8172854370074CC21 /* ZXingWidget.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1D60398D13DF7CAD006F4B51;
-			remoteInfo = ZXingTests;
+			containerPortal = AAF81F9A174BC73C0003D848 /* ZXingWidget.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC07D0554694100DB518D;
+			remoteInfo = ZXingWidget;
 		};
-		AABC74ED172854370074CC21 /* PBXContainerItemProxy */ = {
+		AAF81F9F174BC73C0003D848 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = AABC74E8172854370074CC21 /* ZXingWidget.xcodeproj */;
+			containerPortal = AAF81F9A174BC73C0003D848 /* ZXingWidget.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = D2AAC07E0554694100DB518D;
 			remoteInfo = ZXingWidget;
 		};
-		AABC74F21728549E0074CC21 /* PBXContainerItemProxy */ = {
+		AAF81FA1174BC73C0003D848 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = AABC74E8172854370074CC21 /* ZXingWidget.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D2AAC07D0554694100DB518D;
-			remoteInfo = ZXingWidget;
+			containerPortal = AAF81F9A174BC73C0003D848 /* ZXingWidget.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1D60398D13DF7CAD006F4B51;
+			remoteInfo = ZXingTests;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -765,10 +763,6 @@
 		AABC7111172739D60074CC21 /* PopOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopOverViewController.h; sourceTree = "<group>"; };
 		AABC7112172739D60074CC21 /* PopOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopOverViewController.m; sourceTree = "<group>"; };
 		AABC7113172739D60074CC21 /* PopOverViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopOverViewController.xib; sourceTree = "<group>"; };
-		AABC7114172739D60074CC21 /* TutorialPopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialPopupView.h; sourceTree = "<group>"; };
-		AABC7115172739D60074CC21 /* TutorialPopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialPopupView.m; sourceTree = "<group>"; };
-		AABC7116172739D60074CC21 /* TutorialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialViewController.h; sourceTree = "<group>"; };
-		AABC7117172739D60074CC21 /* TutorialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialViewController.m; sourceTree = "<group>"; };
 		AABC711C172739D60074CC21 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		AABC711D172739D60074CC21 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		AABC711E172739D60074CC21 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
@@ -834,7 +828,7 @@
 		AABC7176172739D60074CC21 /* AudioRecorderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRecorderViewController.h; sourceTree = "<group>"; };
 		AABC7177172739D60074CC21 /* AudioRecorderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRecorderViewController.m; sourceTree = "<group>"; };
 		AABC7178172739D60074CC21 /* AudioRecorderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AudioRecorderViewController.xib; sourceTree = "<group>"; };
-		AABC7179172739D60074CC21 /* Camera.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Camera.xib; sourceTree = "<group>"; };
+		AABC7179172739D60074CC21 /* CameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CameraViewController.xib; sourceTree = "<group>"; };
 		AABC717A172739D60074CC21 /* CameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraViewController.h; sourceTree = "<group>"; };
 		AABC717B172739D60074CC21 /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
 		AABC717C172739D60074CC21 /* DDAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAnnotation.h; sourceTree = "<group>"; };
@@ -1027,7 +1021,6 @@
 		AABC7372172739D80074CC21 /* UIImage+Scale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Scale.h"; sourceTree = "<group>"; };
 		AABC7373172739D80074CC21 /* UIImage+Scale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Scale.m"; sourceTree = "<group>"; };
 		AABC74E317273A0F0074CC21 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AABC74E8172854370074CC21 /* ZXingWidget.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZXingWidget.xcodeproj; path = "../zxing-master/iphone/ZXingWidget/ZXingWidget.xcodeproj"; sourceTree = "<group>"; };
 		AABC74F417285FBE0074CC21 /* DecoderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DecoderViewController.xib; sourceTree = "<group>"; };
 		AABC74F617285FE00074CC21 /* InventoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryViewController.h; sourceTree = "<group>"; };
 		AABC74F717285FE00074CC21 /* InventoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryViewController.m; sourceTree = "<group>"; };
@@ -1049,6 +1042,7 @@
 		AABC7515172873510074CC21 /* ItemViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemViewController.xib; sourceTree = "<group>"; };
 		AABC7516172873510074CC21 /* ItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemViewController.h; sourceTree = "<group>"; };
 		AABC7517172873510074CC21 /* ItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemViewController.m; sourceTree = "<group>"; };
+		AAF81F9A174BC73C0003D848 /* ZXingWidget.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZXingWidget.xcodeproj; path = src/third_party/zxing/iphone/ZXingWidget/ZXingWidget.xcodeproj; sourceTree = "<group>"; };
 		AB0A5BA4120365420065CE68 /* en */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AB0A5BA61203665C0065CE68 /* es */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AB0DE80811559D0500A6EC3E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -1073,7 +1067,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AABC74F1172854610074CC21 /* libZXingWidget.a in Frameworks */,
+				AAF81FA3174BCD640003D848 /* libZXingWidget.a in Frameworks */,
 				ABB2CDC613C7498A00F051E4 /* AddressBook.framework in Frameworks */,
 				AB7D277813C7556100F10AD5 /* AddressBookUI.framework in Frameworks */,
 				113F56DE14E4435300525BE6 /* AssetsLibrary.framework in Frameworks */,
@@ -1121,8 +1115,6 @@
 		29B97314FDCFA39411CA2CEA /* ARIS */ = {
 			isa = PBXGroup;
 			children = (
-				AA1DA9831742BB2700D10A35 /* Default-568h@2x.png */,
-				AABC74E8172854370074CC21 /* ZXingWidget.xcodeproj */,
 				AABC74E317273A0F0074CC21 /* Info.plist */,
 				AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */,
 				AB0A5BA3120365420065CE68 /* Localizable.strings */,
@@ -1190,6 +1182,7 @@
 				AABC6F651727398B0074CC21 /* clickToPlay.png */,
 				AABC6F661727398B0074CC21 /* comment.png */,
 				AABC6F671727398B0074CC21 /* Default.png */,
+				AA1DA9831742BB2700D10A35 /* Default-568h@2x.png */,
 				AABC6F681727398B0074CC21 /* defaultAudioIcon.png */,
 				AABC6F691727398B0074CC21 /* defaultCharacter.png */,
 				AABC6F6A1727398B0074CC21 /* DefaultGameSplash.png */,
@@ -1687,10 +1680,6 @@
 				AABC7111172739D60074CC21 /* PopOverViewController.h */,
 				AABC7112172739D60074CC21 /* PopOverViewController.m */,
 				AABC7113172739D60074CC21 /* PopOverViewController.xib */,
-				AABC7114172739D60074CC21 /* TutorialPopupView.h */,
-				AABC7115172739D60074CC21 /* TutorialPopupView.m */,
-				AABC7116172739D60074CC21 /* TutorialViewController.h */,
-				AABC7117172739D60074CC21 /* TutorialViewController.m */,
 				AA701FE3173428C3003A840D /* ARISAlertHandler.h */,
 				AA701FE4173428C3003A840D /* ARISAlertHandler.m */,
 			);
@@ -1836,17 +1825,23 @@
 				AABC7186172739D60074CC21 /* NotebookViewController.h */,
 				AABC7187172739D60074CC21 /* NotebookViewController.m */,
 				AABC7188172739D60074CC21 /* NotebookViewController.xib */,
+				AABC7199172739D70074CC21 /* NoteEditorViewController.h */,
+				AABC719A172739D70074CC21 /* NoteEditorViewController.m */,
+				AABC719B172739D70074CC21 /* NoteEditorViewController.xib */,
+				AABC71A2172739D70074CC21 /* TextViewController.h */,
+				AABC71A3172739D70074CC21 /* TextViewController.m */,
+				AABC71A4172739D70074CC21 /* TextViewController.xib */,
+				AABC717A172739D60074CC21 /* CameraViewController.h */,
+				AABC717B172739D60074CC21 /* CameraViewController.m */,
+				AABC7179172739D60074CC21 /* CameraViewController.xib */,
+				AABC7176172739D60074CC21 /* AudioRecorderViewController.h */,
+				AABC7177172739D60074CC21 /* AudioRecorderViewController.m */,
+				AABC7178172739D60074CC21 /* AudioRecorderViewController.xib */,
 				AABC7171172739D60074CC21 /* AudioMeter.h */,
 				AABC7172172739D60074CC21 /* AudioMeter.m */,
 				AABC7173172739D60074CC21 /* AudioPlayerViewController.h */,
 				AABC7174172739D60074CC21 /* AudioPlayerViewController.m */,
 				AABC7175172739D60074CC21 /* AudioPlayerViewController.xib */,
-				AABC7176172739D60074CC21 /* AudioRecorderViewController.h */,
-				AABC7177172739D60074CC21 /* AudioRecorderViewController.m */,
-				AABC7178172739D60074CC21 /* AudioRecorderViewController.xib */,
-				AABC7179172739D60074CC21 /* Camera.xib */,
-				AABC717A172739D60074CC21 /* CameraViewController.h */,
-				AABC717B172739D60074CC21 /* CameraViewController.m */,
 				AABC717C172739D60074CC21 /* DDAnnotation.h */,
 				AABC717D172739D60074CC21 /* DDAnnotation.m */,
 				AABC717E172739D60074CC21 /* DDAnnotationView.h */,
@@ -1873,18 +1868,12 @@
 				AABC7196172739D70074CC21 /* NoteDetailsViewController.h */,
 				AABC7197172739D70074CC21 /* NoteDetailsViewController.m */,
 				AABC7198172739D70074CC21 /* NoteDetailsViewController.xib */,
-				AABC7199172739D70074CC21 /* NoteEditorViewController.h */,
-				AABC719A172739D70074CC21 /* NoteEditorViewController.m */,
-				AABC719B172739D70074CC21 /* NoteEditorViewController.xib */,
 				AABC719C172739D70074CC21 /* TagCell.h */,
 				AABC719D172739D70074CC21 /* TagCell.m */,
 				AABC719E172739D70074CC21 /* TagCell.xib */,
 				AABC719F172739D70074CC21 /* TagViewController.h */,
 				AABC71A0172739D70074CC21 /* TagViewController.m */,
 				AABC71A1172739D70074CC21 /* TagViewController.xib */,
-				AABC71A2172739D70074CC21 /* TextViewController.h */,
-				AABC71A3172739D70074CC21 /* TextViewController.m */,
-				AABC71A4172739D70074CC21 /* TextViewController.xib */,
 			);
 			path = notebook;
 			sourceTree = "<group>";
@@ -2124,11 +2113,11 @@
 			path = utils;
 			sourceTree = "<group>";
 		};
-		AABC74E9172854370074CC21 /* Products */ = {
+		AAF81F9B174BC73C0003D848 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AABC74EE172854370074CC21 /* libZXingWidget.a */,
-				AA353F851729C2C200A1EB6A /* ZXingTests.octest */,
+				AAF81FA0174BC73C0003D848 /* libZXingWidget.a */,
+				AAF81FA2174BC73C0003D848 /* ZXingTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2136,6 +2125,7 @@
 		AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */ = {
 			isa = PBXGroup;
 			children = (
+				AAF81F9A174BC73C0003D848 /* ZXingWidget.xcodeproj */,
 				AABC6F3A172738CD0074CC21 /* Settings.bundle */,
 				AB9BA24813DFBAB1007470E3 /* libz.dylib */,
 				AB38DB3B13E4A1DE001EFF52 /* libiconv.dylib */,
@@ -2184,7 +2174,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				AABC74F31728549E0074CC21 /* PBXTargetDependency */,
+				AAF6FE33174FBCBC00C3E687 /* PBXTargetDependency */,
 			);
 			name = ARIS;
 			productName = ARIS;
@@ -2216,8 +2206,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = AABC74E9172854370074CC21 /* Products */;
-					ProjectRef = AABC74E8172854370074CC21 /* ZXingWidget.xcodeproj */;
+					ProductGroup = AAF81F9B174BC73C0003D848 /* Products */;
+					ProjectRef = AAF81F9A174BC73C0003D848 /* ZXingWidget.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -2228,18 +2218,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		AA353F851729C2C200A1EB6A /* ZXingTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = ZXingTests.octest;
-			remoteRef = AA353F841729C2C200A1EB6A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		AABC74EE172854370074CC21 /* libZXingWidget.a */ = {
+		AAF81FA0174BC73C0003D848 /* libZXingWidget.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libZXingWidget.a;
-			remoteRef = AABC74ED172854370074CC21 /* PBXContainerItemProxy */;
+			remoteRef = AAF81F9F174BC73C0003D848 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AAF81FA2174BC73C0003D848 /* ZXingTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ZXingTests.octest;
+			remoteRef = AAF81FA1174BC73C0003D848 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -2423,7 +2413,7 @@
 				AABC73F6172739D80074CC21 /* NearbyObjectsViewController.xib in Resources */,
 				AABC73F9172739D80074CC21 /* AudioPlayerViewController.xib in Resources */,
 				AABC73FB172739D80074CC21 /* AudioRecorderViewController.xib in Resources */,
-				AABC73FC172739D80074CC21 /* Camera.xib in Resources */,
+				AABC73FC172739D80074CC21 /* CameraViewController.xib in Resources */,
 				AABC7401172739D80074CC21 /* DropOnMapViewController.xib in Resources */,
 				AABC7403172739D80074CC21 /* ImageViewer.xib in Resources */,
 				AABC7405172739D80074CC21 /* NotebookViewController.xib in Resources */,
@@ -2539,8 +2529,6 @@
 				AABC73C8172739D80074CC21 /* GameNotificationViewController.m in Sources */,
 				AABC73C9172739D80074CC21 /* PopOverContentView.m in Sources */,
 				AABC73CA172739D80074CC21 /* PopOverViewController.m in Sources */,
-				AABC73CC172739D80074CC21 /* TutorialPopupView.m in Sources */,
-				AABC73CD172739D80074CC21 /* TutorialViewController.m in Sources */,
 				AABC73D0172739D80074CC21 /* RootViewController.m in Sources */,
 				AABC73D1172739D80074CC21 /* AppServices.m in Sources */,
 				AABC73D2172739D80074CC21 /* ARISUploader.m in Sources */,
@@ -2659,10 +2647,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		AABC74F31728549E0074CC21 /* PBXTargetDependency */ = {
+		AAF6FE33174FBCBC00C3E687 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = ZXingWidget;
-			targetProxy = AABC74F21728549E0074CC21 /* PBXContainerItemProxy */;
+			targetProxy = AAF6FE32174FBCBC00C3E687 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2690,8 +2678,8 @@
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: David Gagnon (56YHU87885)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: David Gagnon (56YHU87885)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2702,8 +2690,8 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GENERATE_PROFILING_CODE = NO;
 				HEADER_SEARCH_PATHS = (
-					"../zxing-master/iphone/ZXingWidget/Classes/**",
-					"../zxing-master/cpp/core/src",
+					"src/third_party/zxing/iphone/ZXingWidget/Classes/**",
+					src/third_party/zxing/cpp/core/src,
 				);
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
@@ -2721,8 +2709,8 @@
 					"-v",
 				);
 				PRODUCT_NAME = ARIS;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "5B7639CB-3E84-4F3A-810B-D91EE4FB31AD";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "5B7639CB-3E84-4F3A-810B-D91EE4FB31AD";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SDKROOT = iphoneos;
@@ -2772,8 +2760,8 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GENERATE_PROFILING_CODE = NO;
 				HEADER_SEARCH_PATHS = (
-					"../zxing-master/iphone/ZXingWidget/Classes/**",
-					"../zxing-master/cpp/core/src",
+					"src/third_party/zxing/iphone/ZXingWidget/Classes/**",
+					src/third_party/zxing/cpp/core/src,
 				);
 				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;

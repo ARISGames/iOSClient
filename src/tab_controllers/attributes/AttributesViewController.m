@@ -33,6 +33,7 @@
 {
     if(self = [super initWithNibName:@"AttributesViewController" bundle:nil])
     {
+        self.tabID = @"PLAYER";
         delegate = d;
         
         self.title = NSLocalizedString(@"PlayerTitleKey",@"");
@@ -81,13 +82,13 @@
     if ([AppModel sharedAppModel].currentGame.pcMediaId != 0)
     {
 		//Load the image from the media Table
-		Media *pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId];
+		Media *pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId ofType:nil];
 		[pcImage loadMedia:pcMedia];
 	}
     else if([AppModel sharedAppModel].player.playerMediaId != 0)
     {
         //Load the image from the media Table
-		Media *pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId];
+		Media *pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId ofType:nil];
 		[pcImage loadMedia:pcMedia];
     }
     self.pcImage.contentMode = UIViewContentModeScaleAspectFill;
@@ -222,14 +223,17 @@
         lblTemp3.text = nil;
     iconView.hidden = NO;
     
-	if (item.iconMediaId != 0) {
+	if (item.iconMediaId != 0)
+    {
         Media *iconMedia;
-        if([self.iconCache count] < indexPath.row){
+        if([self.iconCache count] < indexPath.row)
+        {
             iconMedia = [self.iconCache objectAtIndex:indexPath.row];
             [iconView updateViewWithNewImage:[UIImage imageWithData:iconMedia.image]];
         }
-        else{
-            iconMedia = [[AppModel sharedAppModel] mediaForMediaId: item.iconMediaId];
+        else
+        {
+            iconMedia = [[AppModel sharedAppModel] mediaForMediaId:item.iconMediaId ofType:@"PHOTO"];
             [self.iconCache  addObject:iconMedia];
             [iconView loadMedia:iconMedia];
         }

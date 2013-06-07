@@ -12,14 +12,15 @@
 @protocol GameObjectProtocol;
 
 @protocol GamePlayTabBarViewControllerDelegate
-- (void) showTutorialPopupPointingToTabForViewController:(ARISGamePlayTabBarViewController *)vc title:(NSString *)title message:(NSString *)message;
-- (void) dismissTutorial;
 @end
 
 @interface ARISGamePlayTabBarViewController : UIViewController
 {
+    NSString *tabID;
     int badgeCount;
 }
+
+@property (nonatomic, strong) NSString *tabID;
 - (void) clearBadge;
 - (void) incrementBadge;
 

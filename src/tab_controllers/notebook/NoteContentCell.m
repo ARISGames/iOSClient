@@ -7,28 +7,99 @@
 //
 
 #import "NoteContentCell.h"
-#import "AppServices.h"
-#import "NoteEditorViewController.h"
+#import "NoteContent.h"
 #import "AppModel.h"
+#import "AppServices.h"
+
+@interface NoteContentCell() <UITextViewDelegate>
+{
+    id<NoteContentProtocol>content;
+
+    IBOutlet UIButton *retryButton;
+    IBOutlet UIActivityIndicatorView *spinner;
+    IBOutlet UITextView *titleLbl;
+    IBOutlet UILabel *detailLbl;
+    IBOutlet UILabel *holdLbl;
+    IBOutlet UIImageView *imageView;
+    
+    id<NoteContentCellDelegate> __unsafe_unretained delegate;
+}
+
+@property (nonatomic, strong) id<NoteContentProtocol>content;
+
+@property (nonatomic, strong) IBOutlet UIButton *retryButton;
+@property (nonatomic, strong) IBOutlet UIActivityIndicatorView *spinner;
+@property (nonatomic, strong) IBOutlet UITextView *titleLbl;
+@property (nonatomic, strong) IBOutlet UILabel *detailLbl;
+@property (nonatomic, strong) IBOutlet UILabel *holdLbl;
+@property (nonatomic, strong) IBOutlet UIImageView *imageView;
+
+- (IBAction) retryUpload;
+
+@end
 
 @implementation NoteContentCell
-@synthesize titleLbl,detailLbl,imageView,holdLbl,contentId,index,delegate,content,retryButton,spinner,parentTableView,indexPath;
 
--(void)awakeFromNib{
+@synthesize content;
+@synthesize retryButton;
+@synthesize spinner;
+@synthesize titleLbl;
+@synthesize detailLbl;
+@synthesize holdLbl;
+@synthesize imageView;
+
+- (void) awakeFromNib
+{
     UILongPressGestureRecognizer *gesture = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(holdTextBox:)];
     [holdLbl addGestureRecognizer:gesture];
     [self.titleLbl setUserInteractionEnabled:NO];
-    
 }
 
--(void)checkForRetry{
-    if(![self.content respondsToSelector:@selector(getUploadState)] || ![[self.content getUploadState] isEqualToString:@"uploadStateDONE"]) {
+- (void) setupWithNoteContent:(id<NoteContentProtocol>)nc delegate:(id<NoteContentCellDelegate>)d
+{
+    self.content = nc;
+    delegate = d;
+    
+    self.selectionStyle = UITableViewCellSelectionStyleGray;
+    
+    self.titleLbl.text = [self.content.getTitle substringToIndex:24];
+    
+    if([[self.content getType] isEqualToString:@"TEXT"])
+    {
+        self.imageView.image = [UIImage imageNamed:@"noteicon.png"];
+        self.detailLbl.text = self.content.getText;
+    }
+    else if([[self.content getType] isEqualToString:@"PHOTO"])
+        [self addSubview:[[AsyncMediaImageView alloc] initWithFrame:self.imageView.frame andMedia:[self.content getMedia]]];
+    else if([[self.content getType] isEqualToString:@"AUDIO"] ||
+            [[self.content getType] isEqualToString:@"VIDEO"])
+    {
+        AsyncMediaImageView *aView = [[AsyncMediaImageView alloc] initWithFrame:self.imageView.frame andMedia:self.content.getMedia];
+        UIImageView *overlay = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"play_button.png"]];
+        overlay.frame = CGRectMake(aView.frame.origin.x, aView.frame.origin.y, aView.frame.size.width/2, aView.frame.size.height/2);
+        overlay.center = aView.center;
+        
+        //overlay.alpha = .6;
+        [self addSubview:aView];
+        [self addSubview:overlay];
+    }
+    
+    self.titleLbl.text = self.content.getTitle;
+    
+    [self checkForRetry];
+}
+
+-(void)checkForRetry
+{
+    if(![[self.content getUploadState] isEqualToString:@"uploadStateDONE"])
+    {
         retryButton.hidden = NO;
         self.titleLbl.userInteractionEnabled = NO;
         self.holdLbl.userInteractionEnabled = NO;
         [self.titleLbl setFrame:CGRectMake(65, 4, 147, 30)];
         self.titleLbl.hidden = YES;
-        if([[(UploadContent *)self.content getUploadState] isEqualToString:@"uploadStateFAILED"]){
+        if([[(UploadContent *)self.content getUploadState] isEqualToString:@"uploadStateFAILED"])
+        {
             [self.retryButton setBackgroundImage:[UIImage imageNamed:@"blue_button.png"] forState:UIControlStateNormal];
             self.retryButton.userInteractionEnabled = YES;
             [self.retryButton setTitle: @"Retry" forState: UIControlStateNormal];
@@ -36,9 +107,9 @@
             [self.retryButton setFrame:CGRectMake(228, 15, 80, 30)];
             [spinner stopAnimating];
             spinner.hidden = YES;
-            
         }
-        else if([[self.content getUploadState] isEqualToString:@"uploadStateQUEUED"]){
+        else if([[self.content getUploadState] isEqualToString:@"uploadStateQUEUED"])
+        {
             [self.retryButton setBackgroundImage:[UIImage imageNamed:@"grey_button.png"] forState:UIControlStateNormal];
             [self.retryButton setTitle: @"  Waiting" forState: UIControlStateNormal];
             [self.retryButton setFrame:CGRectMake(208, 15, 100, 30)];
@@ -47,7 +118,8 @@
             [spinner startAnimating];
             spinner.hidden = NO;
         }
-        else {
+        else
+        {
             [self.retryButton setBackgroundImage:[UIImage imageNamed:@"grey_button.png"] forState:UIControlStateNormal];
             [self.retryButton setTitle: @"  Uploading" forState: UIControlStateNormal];
             [self.retryButton setFrame:CGRectMake(187, 15, 121, 30)];
@@ -58,7 +130,8 @@
             self.retryButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         }
     }
-    else {
+    else
+    {
         self.titleLbl.hidden = NO;
         self.titleLbl.userInteractionEnabled = YES;
         self.holdLbl.userInteractionEnabled = YES;
@@ -70,8 +143,8 @@
     }
 }
 
--(void)retryUpload{
-    
+- (void) retryUpload
+{    
     retryButton.hidden = YES;
     [self.titleLbl setFrame:CGRectMake(65, 4, 235, 30)];
     [spinner startAnimating];
@@ -82,25 +155,23 @@
     [self checkForRetry];
 }
 
--(void)textViewDidEndEditing:(UITextView *)textView{
-    //[textView resignFirstResponder];
+- (void) textViewDidEndEditing:(UITextView *)textView
+{
 }
 
--(BOOL)textViewShouldEndEditing:(UITextView *)textView{
-    //[self.titleLabel setUserInteractionEnabled:NO];
-    // [textView resignFirstResponder];
-    [self.parentTableView setFrame:CGRectMake(self.parentTableView.frame.origin.x, self.parentTableView.frame.origin.y, self.parentTableView.frame.size.width, 261)];
+- (BOOL) textViewShouldEndEditing:(UITextView *)textView
+{
+    [delegate cellFinishedEditing:self];
     return YES;
-    
 }
 
--(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
-    if([text isEqualToString:@"\n"]){
-        // [self.titleLabel setUserInteractionEnabled:NO];
+- (BOOL) textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if([text isEqualToString:@"\n"])
+    {
         [textView resignFirstResponder];  
-        NoteEditorViewController *nVC = (NoteEditorViewController *)self.delegate;
-        [[nVC.note.contents objectAtIndex:self.index]setTitle:textView.text];
-        [[AppServices sharedAppServices] updateNoteContent:self.contentId title:textView.text];
+        [((NoteContent *)self.content) setTitle:textView.text];
+        [[AppServices sharedAppServices] updateNoteContent:((NoteContent *)self.content).contentId title:textView.text];
         
         return NO;
     }
@@ -108,24 +179,16 @@
     return YES;
 }
 
--(void)holdTextBox:(UIPanGestureRecognizer *) gestureRecognizer{
-    
-    if(gestureRecognizer.state == UIGestureRecognizerStateBegan || gestureRecognizer.state == UIGestureRecognizerStatePossible || gestureRecognizer.state == UIGestureRecognizerStateRecognized){
-        //textbox has been held down so now do some stuff
+- (void) holdTextBox:(UIPanGestureRecognizer *) gestureRecognizer
+{    
+    if(gestureRecognizer.state == UIGestureRecognizerStateBegan || gestureRecognizer.state == UIGestureRecognizerStatePossible || gestureRecognizer.state == UIGestureRecognizerStateRecognized)
+    {
         [self.titleLbl setEditable:YES];
-        //[self.titleLabel setUserInteractionEnabled:YES];
         [self.titleLbl becomeFirstResponder];
-        [self.parentTableView scrollToRowAtIndexPath:self.indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
-        [self.parentTableView setFrame:CGRectMake(self.parentTableView.frame.origin.x, self.parentTableView.frame.origin.y, self.parentTableView.frame.size.width, 160)];
+        [delegate cellStartedEditing:self];
     }
-    else{
+    else
         [self.titleLbl setUserInteractionEnabled:NO];
-    }
 }
 
--(void)dealloc{
-    NSLog(@"NoteContentCell: Dealloc");
-    
-    
-}
 @end

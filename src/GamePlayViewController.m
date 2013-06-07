@@ -18,7 +18,6 @@
 #import "Game.h"
 
 #import "LoadingViewController.h"
-#import "TutorialViewController.h"
 #import "GameNotificationViewController.h"
 
 #import "QuestsViewController.h"
@@ -42,7 +41,6 @@
     LoadingViewController *loadingViewController;
     UITabBarController *gamePlayTabBarController;
     
-    TutorialViewController *tutorialViewController;
     GameNotificationViewController *gameNotificationViewController;
     
     ARISNavigationController *nearbyObjectsNavigationController;
@@ -61,7 +59,6 @@
 @property (nonatomic, strong) Game *game;
 @property (nonatomic, strong) LoadingViewController *loadingViewController;
 @property (nonatomic, strong) UITabBarController *gamePlayTabBarController;
-@property (nonatomic, strong) TutorialViewController *tutorialViewController;
 @property (nonatomic, strong) GameNotificationViewController *gameNotificationViewController;
 @property (nonatomic, strong) ARISNavigationController *nearbyObjectsNavigationController;
 @property (nonatomic, strong) ARISNavigationController *arNavigationController;
@@ -80,7 +77,6 @@
 @synthesize game;
 @synthesize loadingViewController;
 @synthesize gamePlayTabBarController;
-@synthesize tutorialViewController;
 @synthesize gameNotificationViewController;
 @synthesize nearbyObjectsNavigationController;
 @synthesize arNavigationController;
@@ -95,7 +91,7 @@
 - (id) initWithGame:(Game *)g delegate:(id<GamePlayViewControllerDelegate>)d
 {
     if(self = [super init])
-    {        
+    {
         delegate = d;
         self.game = g;
         
@@ -107,8 +103,7 @@
         
         [[ARISAlertHandler sharedAlertHandler] showWaitingIndicator:NSLocalizedString(@"LoadingKey",@"")];
 
-        tutorialViewController         = [[TutorialViewController         alloc] init];
-        gameNotificationViewController = [[GameNotificationViewController alloc] init];
+        self.gameNotificationViewController = [[GameNotificationViewController alloc] init];
         
         //PHIL UNAPPROVED
         [[AppServices sharedAppServices] resetAllPlayerLists];
@@ -126,10 +121,8 @@
 - (void) loadView
 {
     [super loadView];
-    tutorialViewController.view.frame = self.view.frame;
-    [self.view addSubview:tutorialViewController.view];
-    gameNotificationViewController.view.frame = self.view.frame;
-    [self.view addSubview:gameNotificationViewController.view];
+    self.gameNotificationViewController.view.frame = self.view.frame;
+    [self.view addSubview:self.gameNotificationViewController.view];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -167,25 +160,14 @@
 
 - (void) gameDismisallWasRequested
 {
-    [tutorialViewController dismissTutorials];
-
-    [gameNotificationViewController stopListeningToModel];
-    [gameNotificationViewController cutOffGameNotifications];
+    [self.gameNotificationViewController stopListeningToModel];
+    [self.gameNotificationViewController cutOffGameNotifications];
     [self.game clearLocalModels];
     //PHIL UNAPPROVED - 
     [AppModel sharedAppModel].currentGame = nil;
     [delegate gameplayWasDismissed];
 }
 
-- (void) dismissTutorial
-{
-    [tutorialViewController dismissTutorials];
-}
-
-- (void) showTutorialPopupPointingToTabForViewController:(ARISGamePlayTabBarViewController *)vc title:(NSString *)title message:(NSString *)message
-{
-    [tutorialViewController showTutorialPopupPointingToTabForViewController:vc title:title message:message];
-}
 
 //PHIL UNAPPROVED FROM THIS POINT ON
 
@@ -317,17 +299,17 @@
 	ARISNavigationController *nav = [[ARISNavigationController alloc] initWithRootViewController:[g viewControllerForDelegate:self fromSource:s]];
 	nav.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
-    [self presentModalViewController:nav animated:NO];
+    [self presentViewController:nav animated:NO completion:nil];
 }
 
 - (void) gameObjectViewControllerRequestsDismissal:(GameObjectViewController *)govc
 {
-    [govc.navigationController dismissModalViewControllerAnimated:NO];
+    [govc.navigationController dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
 {
-    [[AppModel sharedAppModel].mediaCache clearCache];
+    //[[AppModel sharedAppModel].mediaCache clearCache]; 
 }
 
 - (void)dealloc
@@ -341,7 +323,7 @@
 {
     NSLog(@"GamePlayViewController: beginGamePlay");
     
-    [gameNotificationViewController startListeningToModel];
+    [self.gameNotificationViewController startListeningToModel];
     [[AppServices sharedAppServices] fetchAllPlayerLists];
     
     int nodeId = [AppModel sharedAppModel].currentGame.launchNodeId;
@@ -349,7 +331,7 @@
         [self displayGameObject:[[AppModel sharedAppModel] nodeForNodeId:nodeId] fromSource:self];
 }
 
-- (void)checkForDisplayCompleteNode
+- (void) checkForDisplayCompleteNode
 {
     int nodeId = [AppModel sharedAppModel].currentGame.completeNodeId;
     if (nodeId != 0 &&
@@ -360,26 +342,30 @@
 	}
 }
 
-- (void)receivedMediaList
+- (void) receivedMediaList
 {
     [AppModel sharedAppModel].hasReceivedMediaList = YES;
 }
 
-#pragma mark UITabBarControllerDelegate methods
+- (void) displayTab:(NSString *)t
+{
+    for(int i = 0; i < [self.gamePlayTabBarController.viewControllers count]; i++)
+    {
+        if([((GamePlayViewController *)[self.gamePlayTabBarController.viewControllers objectAtIndex:i]).title isEqualToString:t])
+            [self.gamePlayTabBarController select:(GamePlayViewController *)[self.gamePlayTabBarController.viewControllers objectAtIndex:i]];
+    }
+}
 
-- (void) gamePlayTabBarController:(UITabBarController *)tabBar didSelectViewController:(UIViewController *)viewController
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController 
 {
     NSLog(@"RootViewController: gamePlayTabBarController didSelectViewController");
+
+    //Force more tab to always be a list of options, not the last VC
+    NSLog(@"RootViewController: selectedIndex is %d", tabBarController.selectedIndex);
+    if (tabBarController.selectedIndex > 3) {
+        [tabBarController.moreNavigationController popToRootViewControllerAnimated:NO];
+    }
     
-    [tabBar.moreNavigationController popToRootViewControllerAnimated:NO];
-    
-	//Hide any popups
-	if([viewController respondsToSelector:@selector(visibleViewController)])
-    {
-		UIViewController *vc = [viewController performSelector:@selector(rootViewController)];
-		if([vc respondsToSelector:@selector(dismissTutorial)])
-			[vc performSelector:@selector(dismissTutorial)];
-	}
 }
 
 @end

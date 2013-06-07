@@ -93,28 +93,26 @@
     return self;
 }
 
-- (void)dealloc
+- (void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark User Defaults
 
--(void)loadUserDefaults
+- (void) loadUserDefaults
 {
+    
 	NSLog(@"Model: Loading User Defaults");
-	[defaults synchronize];
-    
     NSURL *currServ = [NSURL URLWithString:[defaults stringForKey:@"baseServerString"]];
-    
     if([[currServ absoluteString] isEqual:@""])
     {
-        NSString *updatedURL = @"http://arisgames.org/server";
-        [defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:updatedURL] forKey:@"baseServerString"];
+        currServ = [NSURL URLWithString:@"http://arisgames.org/server"];
+        [defaults setObject:[currServ absoluteString] forKey:@"baseServerString"];
         [defaults synchronize];
-        currServ = [NSURL URLWithString:updatedURL];
     }
-    if(self.serverURL && ![currServ isEqual:self.serverURL])
+    if(![[defaults stringForKey:@"appVersion"] isEqualToString:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]] ||
+       (self.serverURL && ![currServ isEqual:self.serverURL]))
     {
         [[AppModel sharedAppModel].mediaCache clearCache];
         NSLog(@"NSNotification: LogoutRequested");
@@ -132,7 +130,6 @@
     }
     
     //Safe to load defaults
-    
     if(!self.player)
     {
         self.player = [[Player alloc] init];
@@ -195,10 +192,8 @@
 -(void)saveUserDefaults
 {
 	NSLog(@"Model: Saving User Defaults");
-	
-	[defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"appVerison"];
-	[defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBuildNumber"]   forKey:@"buildNum"];
-    
+    [defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"appVersion"];
+    [defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBuildNumber"]   forKey:@"buildNum"];
 	[defaults setBool:hasSeenNearbyTabTutorial    forKey:@"hasSeenNearbyTabTutorial"];
 	[defaults setBool:hasSeenQuestsTabTutorial    forKey:@"hasSeenQuestsTabTutorial"];
 	[defaults setBool:hasSeenMapTabTutorial       forKey:@"hasSeenMapTabTutorial"];
@@ -234,45 +229,39 @@
     }
 }
 
--(void)initUserDefaults
+- (void) initUserDefaults
 {
 	//Load the settings bundle data into an array
-	NSString *pathStr            = [[NSBundle mainBundle] bundlePath];
-	NSString *settingsBundlePath = [pathStr stringByAppendingPathComponent:@"Settings.bundle"];
-	NSString *finalPath          = [settingsBundlePath stringByAppendingPathComponent:@"Root.plist"];
-	NSDictionary *settingsDict   = [NSDictionary dictionaryWithContentsOfFile:finalPath];
-	NSArray *prefSpecifierArray  = [settingsDict objectForKey:@"PreferenceSpecifiers"];
+	NSDictionary *settingsDict  = [NSDictionary dictionaryWithContentsOfFile:[[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"Settings.bundle"] stringByAppendingPathComponent:@"Root.plist"]];
+	NSArray *prefSpecifierArray = [settingsDict objectForKey:@"PreferenceSpecifiers"];
 	
 	//Find the Defaults
-	NSString *baseAppURLDefault = @"Unknown Default";
-    NSNumber *showGamesInDevelopmentDefault,*showPlayerOnMapDefault;
+	NSString *baseAppURLDefault             = @"Unknown Default";
+    NSNumber *showGamesInDevelopmentDefault = [NSNumber numberWithInt:0];
+    NSNumber *showPlayerOnMapDefault        = [NSNumber numberWithInt:1];
 	NSDictionary *prefItem;
-	for (prefItem in prefSpecifierArray)
+	for(prefItem in prefSpecifierArray)
 	{
-		NSString *keyValueStr = [prefItem objectForKey:@"Key"];
-		
-		if ([keyValueStr isEqualToString:@"baseServerString"])       baseAppURLDefault             = [prefItem objectForKey:@"DefaultValue"];
-        if ([keyValueStr isEqualToString:@"showGamesInDevelopment"]) showGamesInDevelopmentDefault = [prefItem objectForKey:@"DefaultValue"];
-        if ([keyValueStr isEqualToString:@"showPlayerOnMap"])        showPlayerOnMapDefault        = [prefItem objectForKey:@"DefaultValue"];
+		if([[prefItem objectForKey:@"Key"] isEqualToString:@"baseServerString"])       baseAppURLDefault             = [prefItem objectForKey:@"DefaultValue"];
+        if([[prefItem objectForKey:@"Key"] isEqualToString:@"showGamesInDevelopment"]) showGamesInDevelopmentDefault = [prefItem objectForKey:@"DefaultValue"];
+        if([[prefItem objectForKey:@"Key"] isEqualToString:@"showPlayerOnMap"])        showPlayerOnMapDefault        = [prefItem objectForKey:@"DefaultValue"];
     }
 	
 	// since no default values have been set (i.e. no preferences file created), create it here
 	NSDictionary *appDefaults = [NSDictionary dictionaryWithObjectsAndKeys: 
-								 baseAppURLDefault,  @"baseServerString",
-                                 showGamesInDevelopmentDefault , @"showGamesInDevelopment",
-                                 showPlayerOnMapDefault,@"showPlayerOnMap",
+								 baseAppURLDefault,             @"baseServerString",
+                                 showGamesInDevelopmentDefault, @"showGamesInDevelopment",
+                                 showPlayerOnMapDefault,        @"showPlayerOnMap",
 								 nil];
 	
-	[[NSUserDefaults standardUserDefaults] registerDefaults:appDefaults];
-	[[NSUserDefaults standardUserDefaults] synchronize];
+	[defaults registerDefaults:appDefaults];
+	[defaults synchronize];
     
     uploadManager = [[UploadMan alloc]  init];
     mediaCache    = [[MediaCache alloc] init];
 }
 
-#pragma mark Setters/Getters
-
-- (void)setPlayerLocation:(CLLocation *)newLocation
+- (void) setPlayerLocation:(CLLocation *)newLocation
 {
     if(player)
     {
@@ -287,171 +276,90 @@
 
 #pragma mark Retrieving Cashed Objects 
 
--(Media *)mediaForMediaId:(int)mId
+- (Media *) mediaForMediaId:(int)mId ofType:(NSString *)type // type = nil for "I don't know". Used as a hint for how to treat media if it needs to be loaded
 {
     if(mId == 0) return nil;
-	return [mediaCache mediaForMediaId:mId];
+	return [mediaCache mediaForMediaId:mId ofType:type];
 }
 
--(Npc *)npcForNpcId:(int)mId
+- (Npc *) npcForNpcId:(int)mId
 {    
-	Npc *npc = [self.gameNpcList objectForKey:[NSNumber numberWithInt:mId]];
-	
-	if (!npc) {
-		//Let's pause everything and do a lookup
-		NSLog(@"AppModel: Npc not found in cached item list, refresh");
-		[[AppServices sharedAppServices] fetchGameNpcListAsynchronously:NO];
-		
-		npc = [self.gameNpcList objectForKey:[NSNumber numberWithInt:mId]];
-		if (npc) NSLog(@"AppModel: Npc found after refresh");
-		else NSLog(@"AppModel: Npc still NOT found after refresh");
-	}
-	return npc;
+	return [self.gameNpcList objectForKey:[NSNumber numberWithInt:mId]];
 }
 
--(Node *)nodeForNodeId:(int)mId
+- (Node *) nodeForNodeId:(int)mId
 {
-	Node *node = [self.gameNodeList objectForKey:[NSNumber numberWithInt:mId]];
-	
-	if (!node)
-    {
-		//Let's pause everything and do a lookup
-		NSLog(@"AppModel: Node not found in cached item list, refresh");
-		[[AppServices sharedAppServices] fetchGameNodeListAsynchronously:NO];
-		
-		node = [self.gameNodeList objectForKey:[NSNumber numberWithInt:mId]];
-		if (node) NSLog(@"AppModel: Node found after refresh");
-		else NSLog(@"AppModel: Node still NOT found after refresh");
-	}
-	return node;
+	return [self.gameNodeList objectForKey:[NSNumber numberWithInt:mId]];
 }
 
-- (Note *)noteForNoteId:(int)mId playerListYesGameListNo:(BOOL)playerorGame
+- (WebPage *) webPageForWebPageID:(int)mId
+{
+	return [self.gameWebPageList objectForKey:[NSNumber numberWithInt:mId]];
+}
+
+
+- (Panoramic *) panoramicForPanoramicId:(int)mId
+{
+    return [self.gamePanoramicList objectForKey:[NSNumber numberWithInt:mId]];
+}
+
+-(Item *) itemForItemId:(int)mId
+{
+	return [self.gameItemList objectForKey:[NSNumber numberWithInt:mId]];
+}
+
+- (Note *) noteForNoteId:(int)mId playerListYesGameListNo:(BOOL)checkPlayerList
 {
 	Note *note;
     note = [self.gameNoteList objectForKey:[NSNumber numberWithInt:mId]];
 	if(!note) note = [self.playerNoteList objectForKey:[NSNumber numberWithInt:mId]];
     
-	if (!note) {
-		//Let's pause everything and do a lookup
-		NSLog(@"AppModel: Note not found in cached item list, refresh");
-        if(!playerorGame)
-            [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
-        else
-            [[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:YES];
-        
-        if (note) NSLog(@"AppModel: Note found after refresh");
-		else NSLog(@"AppModel: Note still NOT found after refresh");
+	if(!note)
+    {
+        if(checkPlayerList) [[AppServices sharedAppServices] fetchPlayerNoteListAsynchronously:YES];
+        else                [[AppServices sharedAppServices] fetchGameNoteListAsynchronously:YES];
 	}
 	return note;
 }
 
-- (WebPage *)webPageForWebPageID:(int)mId
-{
-	WebPage *page = [self.gameWebPageList objectForKey:[NSNumber numberWithInt:mId]];
-	
-	if (!page) {
-        
-		
-		[[AppServices sharedAppServices] fetchGameWebPageListAsynchronously:NO];
-		
-		page = [self.gameWebPageList objectForKey:[NSNumber numberWithInt:mId]];
-        
-	}
-	return page;
-}
-
-
-- (Panoramic *)panoramicForPanoramicId:(int)mId
-{
-    Panoramic *pan = [self.gamePanoramicList objectForKey:[NSNumber numberWithInt:mId]];
-	
-	if (!pan) {
-        
-		
-		[[AppServices sharedAppServices] fetchGamePanoramicListAsynchronously:NO];
-		
-		pan = [self.gamePanoramicList objectForKey:[NSNumber numberWithInt:mId]];
-        
-	}
-	return pan;
-    
-}
-
--(Item *)itemForItemId:(int)mId
-{
-	Item *item = [self.gameItemList objectForKey:[NSNumber numberWithInt:mId]];
-	
-	if (!item) {
-		//Let's pause everything and do a lookup
-		NSLog(@"AppModel: Item not found in cached item list, refresh");
-		[[AppServices sharedAppServices] fetchGameItemListAsynchronously:NO];
-		
-		item = [self.gameItemList objectForKey:[NSNumber numberWithInt:mId]];
-		if (item) NSLog(@"AppModel: Item found after refresh");
-		else NSLog(@"AppModel: Item still NOT found after refresh");
-	}
-	return item;
-}
-
-#pragma mark Core Data
-/**
- Returns the managed object context for the application.
- If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
- */
 - (NSManagedObjectContext *) managedObjectContext
 {
-    if (managedObjectContext != nil)
-        return managedObjectContext;
-	
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (coordinator != nil) {
-        managedObjectContext = [[NSManagedObjectContext alloc] init];
-        [managedObjectContext setPersistentStoreCoordinator: coordinator];
+    if(!managedObjectContext)
+    {
+        NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+        if(coordinator)
+        {
+            managedObjectContext = [[NSManagedObjectContext alloc] init];
+            [managedObjectContext setPersistentStoreCoordinator:coordinator];
+        }
     }
     return managedObjectContext;
 }
 
-/**
- Returns the managed object model for the application.
- If the model doesn't already exist, it is created by merging all of the models found in the application bundle.
- */
-- (NSManagedObjectModel *)managedObjectModel {
-	
-    if(managedObjectModel != nil)
-        return managedObjectModel;
-        
-    managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];    
+- (NSManagedObjectModel *) managedObjectModel
+{
+    if(!managedObjectModel) managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];    
     return managedObjectModel;
 }
 
-/**
-  Returns the path to the application's Documents directory.
-  */
-- (NSString *)applicationDocumentsDirectory
+- (NSString *) applicationDocumentsDirectory
 {
 	return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 }
 
-/**
- Returns the persistent store coordinator for the application.
- If the coordinator doesn't already exist, it is created and the application's store added to it.
- */
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator
+- (NSPersistentStoreCoordinator *) persistentStoreCoordinator
 {
-    if (persistentStoreCoordinator != nil)
-        return persistentStoreCoordinator;
-	
-    NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent: @"UploadContent.sqlite"]];
-    NSError *error = nil;
-    
-    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+    if(!persistentStoreCoordinator)
+    {
+        NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory] stringByAppendingPathComponent:@"UploadContent.sqlite"]];
+        NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
                              [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
                              [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
-    persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
-    if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error])
-        NSLog(@"AppModel: Error getting the persistentStoreCoordinator");
-	
+        persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
+        NSError *error;
+        if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:options error:&error])
+            NSLog(@"AppModel: Error getting the persistentStoreCoordinator");
+	}
     return persistentStoreCoordinator;
 }
 

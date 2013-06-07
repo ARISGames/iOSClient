@@ -122,7 +122,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 -(void) uploadPlayerPicMediaWithFileURL:(NSURL *)fileURL
 {
-    ARISUploader *uploader = [[ARISUploader alloc] initWithURLToUpload:fileURL gameSpecific:NO delegate:self doneSelector:@selector(playerPicUploadDidfinish:) errorSelector:@selector(playerPicUploadDidFail:)];
+    ARISUploader *uploader = [[ARISUploader alloc] initWithURLToUpload:fileURL gameSpecific:NO delegate:self doneSelector:@selector(playerPicUploadDidFinish:) errorSelector:@selector(playerPicUploadDidFail:)];
     
     NSMutableDictionary *userInfo = [[NSMutableDictionary alloc] initWithCapacity:2];
     [userInfo setValue:@"PHOTO" forKey: @"type"];
@@ -797,9 +797,9 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 -(void) uploadContentToNoteWithFileURL:(NSURL *)fileURL name:(NSString *)name noteId:(int) noteId type: (NSString *)type
 {
-    ARISUploader *uploader = [[ARISUploader alloc]initWithURLToUpload:fileURL gameSpecific:YES delegate:self doneSelector:@selector(noteContentUploadDidfinish: ) errorSelector:@selector(uploadNoteContentDidFail:)];
+    ARISUploader *uploader = [[ARISUploader alloc] initWithURLToUpload:fileURL gameSpecific:YES delegate:self doneSelector:@selector(noteContentUploadDidFinish: ) errorSelector:@selector(uploadNoteContentDidFail:)];
     
-    NSNumber *nId = [[NSNumber alloc]initWithInt:noteId];
+    NSNumber *nId = [[NSNumber alloc] initWithInt:noteId];
     
     NSMutableDictionary *userInfo = [[NSMutableDictionary alloc]initWithCapacity:4];
     [userInfo setValue:name forKey:@"title"];
@@ -809,17 +809,15 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[uploader setUserInfo:userInfo];
 	
 	[uploader upload];
-    
-    [self fetchAllPlayerLists];
 }
 
--(void)fetchPlayerNoteListAsync
+- (void) fetchPlayerNoteListAsync
 {
     [self fetchGameNoteListAsynchronously:YES];
     [self fetchPlayerNoteListAsynchronously:YES];
 }
 
-- (void)noteContentUploadDidfinish:(ARISUploader*)uploader
+- (void) noteContentUploadDidFinish:(ARISUploader*)uploader
 {
     int noteId      = [[uploader userInfo] validIntForKey:@"noteId"] ? [[uploader userInfo] validIntForKey:@"noteId"] : 0;
     NSString *title = [[uploader userInfo] validObjectForKey:@"title"];
@@ -848,12 +846,12 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                           type,
                           title,
                           nil];
-	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
+	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithServer:[AppModel sharedAppModel].serverURL
                                                             andServiceName:@"notes"
                                                              andMethodName:@"addContentToNoteFromFileName"
                                                               andArguments:arguments
                                                                andUserInfo:nil];
-    //[AppModel sharedAppModel].isGameNoteList = NO;
+
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchPlayerNoteListAsync)];
     [self fetchAllPlayerLists];
 }
@@ -875,7 +873,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
 }
 
-- (void)playerPicUploadDidfinish:(ARISUploader*)uploader
+- (void)playerPicUploadDidFinish:(ARISUploader*)uploader
 {        
     NSString *newFileName = [uploader responseString];
     
@@ -896,7 +894,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 -(void)parseNewPlayerMediaResponseFromJSON:(ServiceResult *)jsonResult
 {	   
-    if(jsonResult.data && [((NSDictionary *)jsonResult.data) validObjectForKey:@"media_id"])
+    if(jsonResult.data && [((NSDictionary *)jsonResult.data) validIntForKey:@"media_id"])
     {
         [AppModel sharedAppModel].player.playerMediaId = [((NSDictionary*)jsonResult.data) validIntForKey:@"media_id"];
         [[AppModel sharedAppModel] saveUserDefaults];
@@ -1068,7 +1066,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
             [tempOverlay.tileX addObject:[overlayDictionary validObjectForKey:@"x"]];
             [tempOverlay.tileY addObject:[overlayDictionary validObjectForKey:@"y"]];
             [tempOverlay.tileZ addObject:[overlayDictionary validObjectForKey:@"zoom"]];
-            Media *media = [[AppModel sharedAppModel] mediaForMediaId:[overlayDictionary validIntForKey:@"media_id"]];
+            Media *media = [[AppModel sharedAppModel] mediaForMediaId:[overlayDictionary validIntForKey:@"media_id"] ofType:@"PHOTO"];
             [tempOverlay.tileImage addObject:media];
             currentOverlayID = tempOverlay.overlayId;
             overlaysIndex += 1;
@@ -1081,7 +1079,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
             [tempOverlay.tileX addObject:[overlayDictionary validObjectForKey:@"x"]];
             [tempOverlay.tileY addObject:[overlayDictionary validObjectForKey:@"y"]];
             [tempOverlay.tileZ addObject:[overlayDictionary validObjectForKey:@"zoom"]];
-            Media *media = [[AppModel sharedAppModel] mediaForMediaId:[overlayDictionary validIntForKey:@"media_id"]];
+            Media *media = [[AppModel sharedAppModel] mediaForMediaId:[overlayDictionary validIntForKey:@"media_id"] ofType:@"PHOTO"];
             [tempOverlay.tileImage addObject:media];
             currentOverlayID = tempOverlay.overlayId;
         }
@@ -1222,9 +1220,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                             andServiceName:@"notes"
                                                              andMethodName:@"getNotesForPlayer"
                                                               andArguments:arguments andUserInfo:nil];
-	if (YesForAsyncOrNoForSync){
+	if(YesForAsyncOrNoForSync)
 		[jsonConnection performAsynchronousRequestWithHandler:@selector(parsePlayerNoteListFromJSON:)];
-	}
 	else [self parsePlayerNoteListFromJSON: [jsonConnection performSynchronousRequest]];
 }
 
@@ -1236,9 +1233,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                             andServiceName:@"webpages"
                                                              andMethodName:@"getWebPages"
                                                               andArguments:arguments andUserInfo:nil];
-	if (YesForAsyncOrNoForSync){
+	if(YesForAsyncOrNoForSync)
 		[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameWebPageListFromJSON:)];
-	}
 	else [self parseGameWebPageListFromJSON: [jsonConnection performSynchronousRequest]];
 }
 
@@ -1266,9 +1262,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"getMedia"
                                                               andArguments:arguments andUserInfo:nil];
 	
-	if (YesForAsyncOrNoForSync){
+	if(YesForAsyncOrNoForSync)
 		[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameMediaListFromJSON:)];
-	}
 	else [self parseGameMediaListFromJSON: [jsonConnection performSynchronousRequest]];
 }
 
@@ -1281,9 +1276,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"getAugBubbles"
                                                               andArguments:arguments andUserInfo:nil];
 	
-	if (YesForAsyncOrNoForSync){
+	if(YesForAsyncOrNoForSync)
 		[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGamePanoramicListFromJSON:)];
-	}
 	else [self parseGamePanoramicListFromJSON: [jsonConnection performSynchronousRequest]];
 }
 
@@ -1296,7 +1290,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                             andServiceName:@"items"
                                                              andMethodName:@"getItems"
                                                               andArguments:arguments andUserInfo:nil];
-	if (YesForAsyncOrNoForSync)
+	if(YesForAsyncOrNoForSync)
 		[jsonConnection performAsynchronousRequestWithHandler:@selector(parseGameItemListFromJSON:)];
 	else
         [self parseGameItemListFromJSON:[jsonConnection performSynchronousRequest]];
@@ -1531,8 +1525,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[AppModel sharedAppModel].gameNoteList = tempNoteList;
     NSLog(@"NSNotification: NewNoteListReady");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady"      object:nil]];
-    NSLog(@"NSNotification: GameNoteListRefreshed");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GameNoteListRefreshed" object:nil]];
     NSLog(@"NSNotification: ReceivedNoteList");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedNoteList"      object:nil]];
     //^ This is ridiculous. Each notification is a paraphrasing of the last. <3 Phil
@@ -1544,9 +1536,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     currentlyFetchingPlayerNoteList = NO;
     
 	NSArray *noteListArray = (NSArray *)jsonResult.data;
-    NSLog(@"NSNotification: ReceivedNoteList");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedNoteList" object:nil]];
-	NSMutableDictionary *tempNoteList = [[NSMutableDictionary alloc] init];
+    	NSMutableDictionary *tempNoteList = [[NSMutableDictionary alloc] init];
 	NSEnumerator *enumerator = [((NSArray *)noteListArray) objectEnumerator];
 	NSDictionary *dict;
 	while ((dict = [enumerator nextObject]))
@@ -1556,6 +1546,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	}
     
 	[AppModel sharedAppModel].playerNoteList = tempNoteList;
+    NSLog(@"NSNotification: ReceivedNoteList");
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ReceivedNoteList" object:nil]];
     NSLog(@"NSNotification: NewNoteListReady");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
 }
@@ -1617,7 +1609,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     int iconMediaId;
     if((iconMediaId = [gameSource validIntForKey:@"icon_media_id"]) > 0)
     {
-        game.iconMedia = [[AppModel sharedAppModel] mediaForMediaId:iconMediaId];
+        game.iconMedia = [[AppModel sharedAppModel] mediaForMediaId:iconMediaId ofType:@"PHOTO"];
         game.iconMedia.type = @"PHOTO"; //Phil doesn't like this...
     }
     
@@ -1625,7 +1617,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     int mediaId;
     if((mediaId = [gameSource validIntForKey:@"media_id"]) > 0)
     {
-        game.splashMedia = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
+        game.splashMedia = [[AppModel sharedAppModel] mediaForMediaId:mediaId ofType:@"PHOTO"];
         game.splashMedia.type = @"PHOTO"; //Phil doesn't like this...
     }
 
@@ -1665,9 +1657,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     
     NSEnumerator *gameListEnumerator = [gameListArray objectEnumerator];
     NSDictionary *gameDictionary;
-    while ((gameDictionary = [gameListEnumerator nextObject])) {
+    while ((gameDictionary = [gameListEnumerator nextObject]))
         [tempGameList addObject:[self parseGame:(gameDictionary)]];
-    }
     
     NSError *error;
     if (![[AppModel sharedAppModel].mediaCache.context save:&error])

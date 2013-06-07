@@ -73,22 +73,10 @@
 
 - (Media *) getMedia
 {
-    NSString *mediaType;
-    if([self.type isEqualToString:@"PHOTO"] ||
-       [self.type isEqualToString:@"AUDIO"] ||
-       [self.type isEqualToString:@"VIDEO"])
-        mediaType = self.type;
-    else
-        mediaType = @"TEXT";
-
-    Media  *media = [[AppModel sharedAppModel].mediaCache mediaForMediaId:[self.fileURL hash]];
+    Media  *media = [[AppModel sharedAppModel].mediaCache mediaForMediaId:[self.fileURL hash] ofType:self.type]; //gets media with random bs id... why?
     media.url = [self.fileURL absoluteString];
-    media.type = mediaType;
     if([self.type isEqualToString:@"PHOTO"])
-    {
-        NSData *imageData = [NSData dataWithContentsOfURL:self.fileURL];
-        media.image = imageData;
-    }
+        media.image = [NSData dataWithContentsOfURL:self.fileURL];
     NSLog(@"UploadContent: Returning media with ID: %d and type:%@",[media.uid intValue],media.type);
     
     return media;
@@ -117,6 +105,11 @@
 - (int) getContentId
 {
     return -1;
+}
+
+- (NSString *) description
+{
+    return [NSString stringWithFormat:@"UploadContent - MediaId:%@ MediaType:%@ UploadStatus:%@ ContentId:%d NoteId:%d",[self getMedia].uid,[self getType],[self getUploadState],[self getContentId],[self getNoteId]];
 }
 
 @end

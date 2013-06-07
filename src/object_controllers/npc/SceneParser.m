@@ -26,6 +26,7 @@ NSString *const kAttrMedia                       = @"mediaId";
 
 NSString *const kAttrHideLeaveConversationButton = @"hideLeaveConversationButton";
 NSString *const kAttrLeaveButtonTitle            = @"leaveButtonTitle";
+NSString *const kAttrDefaultPcTitle              = @"pcTitle";
 
 NSString *const kAttrHideAdjustTextAreaButton    = @"hideAdjustTextAreaButton";
 NSString *const kAttrAdjustTextArea              = @"adjustTextArea";
@@ -127,8 +128,10 @@ didStartElement:(NSString *)elementName
             script.hideLeaveConversationButtonSpecified = YES; //This is dumb, but setting it to "NO" and doing nothing need to be regarded differently
             script.hideLeaveConversationButton = [[attributeDict objectForKey:kAttrHideLeaveConversationButton] boolValue];
         }
-        if ([attributeDict objectForKey:kAttrLeaveButtonTitle])
+        if([attributeDict objectForKey:kAttrLeaveButtonTitle])
             script.leaveConversationButtonTitle = [attributeDict objectForKey:kAttrLeaveButtonTitle];
+        if([attributeDict objectForKey:kAttrDefaultPcTitle])
+            script.defaultPcTitle = [attributeDict objectForKey:kAttrDefaultPcTitle];
         // end weirdness
             
         if([attributeDict objectForKey:kAttrHideAdjustTextAreaButton])
@@ -160,7 +163,7 @@ didStartElement:(NSString *)elementName
             int x = 0;
             int y = 0;
             int width  = 320;
-            int height = 416;
+            int height = [UIScreen mainScreen].applicationFrame.size.height-44;
             if([attributeDict objectForKey:kAttrZoomX])
                 x = [[attributeDict objectForKey:kAttrZoomX] intValue];
             if([attributeDict objectForKey:kAttrZoomY])

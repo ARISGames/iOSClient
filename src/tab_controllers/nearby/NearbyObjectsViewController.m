@@ -57,7 +57,7 @@
 
 -(void)dismissTutorial
 {
-    if(delegate) [delegate dismissTutorial];
+    //if(delegate) [delegate dismissTutorial];
 }
 
 - (void)refresh
@@ -115,8 +115,6 @@
         
         if (![AppModel sharedAppModel].hasSeenNearbyTabTutorial)
         {
-            [delegate showTutorialPopupPointingToTabForViewController:self title:@"Something Nearby" message:@"There is something nearby! Touch below to see what it is."];
-
             [AppModel sharedAppModel].hasSeenNearbyTabTutorial = YES;
             [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
         }
@@ -153,7 +151,7 @@
 	if (l.gameObject.type == GameObjectItem && l.qty > 1) cell.title.text = [NSString stringWithFormat:@"%@ (x%d)",l.name,l.qty];
 	else cell.title.text = l.name;
 	
-    [cell.iconView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:l.gameObject.iconMediaId]];
+    [cell.iconView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:l.gameObject.iconMediaId ofType:@"PHOTO"]];
     
 	return cell;
 }

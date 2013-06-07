@@ -20,7 +20,7 @@
 @synthesize theSearchBar;
 @synthesize disableViewOverlay;
 
-- (id)initWithDelegate:(id<GamePickerViewControllerDelegate>)d
+- (id) initWithDelegate:(id<GamePickerViewControllerDelegate>)d
 {
     if(self = [super initWithNibName:@"GamePickerSearchViewController" bundle:nil delegate:d])
     {        
@@ -37,7 +37,7 @@
     return self;
 }
 
-- (void)viewDidLoad
+- (void) viewDidLoad
 {
     [super viewDidLoad];
     
@@ -46,7 +46,7 @@
     [self.theSearchBar becomeFirstResponder];
 }
 
-- (void)requestNewGameList
+- (void) requestNewGameList
 {
     [super requestNewGameList];
     
@@ -54,12 +54,11 @@
     {
         currentPage = 0;
         self.theSearchBar.text = searchText;
-        if(![searchText isEqualToString:@""]) [self performSearch:searchText];
-        [self showLoadingIndicator];
+        [self attemptSearch:searchText];
     }
 }
     
-- (void)refreshViewFromModel
+- (void) refreshViewFromModel
 {
     if(currentPage == 0) self.gameList = [AppModel sharedAppModel].searchGameList;
     else                 self.gameList = [self.gameList arrayByAddingObjectsFromArray:[AppModel sharedAppModel].searchGameList];
@@ -73,17 +72,17 @@
     [self removeLoadingIndicator];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if(allResultsFound) return [super tableView:tableView numberOfRowsInSection:section];
     else                return [super tableView:tableView numberOfRowsInSection:section]+1;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(indexPath.row >= [self.gameList count])
     {
-        if(!currentlyFetchingNextPage && !allResultsFound) [self performSearch:searchText];
+        if(!currentlyFetchingNextPage && !allResultsFound) [self attemptSearch:searchText];
         UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"FetchCell"];
         if (cell == nil) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"FetchCell"];
     
@@ -96,27 +95,27 @@
         return [super tableView:tableView cellForRowAtIndexPath:indexPath];
 }
 
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+- (void) searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
     [self searchBar:searchBar activate:YES];
 }
 
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+- (void) searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     searchBar.text=@"";
     [self searchBar:searchBar activate:NO];
 }
 
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+- (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     searchText = searchBar.text;
 	
     [self searchBar:searchBar activate:NO];
     currentPage = 0;
-    [self performSearch:searchText];
+    [self attemptSearch:searchText];
 }
 
-- (void)performSearch:(NSString *)text
+- (void) attemptSearch:(NSString *)text
 {
     if(searchText == nil || [searchText isEqualToString:@""]) return;
         
@@ -127,7 +126,7 @@
 	[self showLoadingIndicator];
 }
 
-- (void)searchBar:(UISearchBar *)searchBar activate:(BOOL)active
+- (void) searchBar:(UISearchBar *)searchBar activate:(BOOL)active
 {
     self.gameTable.allowsSelection = !active;
     self.gameTable.scrollEnabled   = !active;
@@ -152,7 +151,7 @@
     [searchBar setShowsCancelButton:active animated:YES];
 }
 
-- (void)dealloc
+- (void) dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }

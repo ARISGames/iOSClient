@@ -1,0 +1,3 @@
+[submodule "src/third_party/zxing"]
+	path = src/third_party/zxing
+	url = https://github.com/zxing/zxing.git

@@ -38,7 +38,7 @@
         
         self.mediaId      = 0;
 
-        self.imageRect    = CGRectMake(0, 0, 320, 416);
+        self.imageRect    = CGRectMake(0, 0, 320, [UIScreen mainScreen].applicationFrame.size.height-44);
         self.zoomTime     = 0;
         
         self.vibrate      = NO;

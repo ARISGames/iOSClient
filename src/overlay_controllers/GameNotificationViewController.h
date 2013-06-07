@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PopOverViewController.h"
 
-@interface GameNotificationViewController : UIViewController <PopOverViewDelegate>
+@interface GameNotificationViewController : UIViewController
 
 - (void) startListeningToModel;
 - (void) stopListeningToModel;

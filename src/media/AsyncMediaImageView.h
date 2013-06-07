@@ -23,6 +23,7 @@
 	NSURLConnection* connection; //keep a reference to the connection so we can cancel download in dealloc
 	NSMutableData* data; //keep reference to the data so we can collect it as it downloads
 	Media *media; //keep a refrence so we can update the media with the data after it is loaded
+    UIActivityIndicatorView *spinner;
     ARISMoviePlayerViewController *mMoviePlayer; //In case we need to load a frame of a movie
     id <AsyncMediaImageViewDelegate> __unsafe_unretained delegate;
 	BOOL isLoading;
@@ -32,6 +33,7 @@
 @property (nonatomic, strong) NSURLConnection* connection;
 @property (nonatomic, strong) NSMutableData* data;
 @property (nonatomic, strong) Media *media;
+@property (nonatomic, strong) UIActivityIndicatorView *spinner;
 @property (nonatomic, strong) ARISMoviePlayerViewController *mMoviePlayer;
 @property (nonatomic, unsafe_unretained) id <AsyncMediaImageViewDelegate> delegate;
 
@@ -42,6 +44,8 @@
 - (id) initWithMedia:(Media *)aMedia;
 - (id) initWithFrame:(CGRect)aFrame andMediaId:(int)mediaId;
 - (id) initWithFrame:(CGRect)aFrame andMedia:(Media *)aMedia;
+- (id) initWithFrame:(CGRect)aFrame andMediaId:(int)mediaId andDelegate:(id<AsyncMediaImageViewDelegate>)d;
+- (id) initWithFrame:(CGRect)aFrame andMedia:(Media *)aMedia andDelegate:(id<AsyncMediaImageViewDelegate>)d;
 
 - (void) loadMedia:(Media *)aMedia;
 - (void) setImage:(UIImage*)image;

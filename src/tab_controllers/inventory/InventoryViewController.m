@@ -35,6 +35,7 @@
 {
     if(self = [super initWithNibName:@"InventoryViewController" bundle:nil])
     {
+        self.tabID = @"INVENTORY";
         delegate = d;
         
         self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");
@@ -115,7 +116,7 @@
 
 -(void)dismissTutorial
 {
-    if(delegate) [delegate dismissTutorial];
+    //if(delegate) [delegate dismissTutorial];
 }
 
 -(void)refresh
@@ -145,8 +146,6 @@
     
     if(![AppModel sharedAppModel].hasSeenInventoryTabTutorial)
     {
-        [delegate showTutorialPopupPointingToTabForViewController:self title:NSLocalizedString(@"InventoryNewItemKey", @"") message:NSLocalizedString(@"InventoryNewItemMessageKey", @"")];
-        
         [AppModel sharedAppModel].hasSeenInventoryTabTutorial = YES;
         [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
     }
@@ -228,7 +227,7 @@
     Media *media;
     if(item.mediaId != 0 && !(media = [self.mediaCache objectForKey:[NSNumber numberWithInt:item.itemId]]))
     {
-        media = [[AppModel sharedAppModel] mediaForMediaId: item.mediaId];
+        media = [[AppModel sharedAppModel] mediaForMediaId:item.mediaId ofType:nil];
         [self.mediaCache setObject:media forKey:[NSNumber numberWithInt:item.itemId]];
 	}
     
@@ -238,7 +237,7 @@
     {
         if(!(iconMedia = [self.iconCache objectForKey:[NSNumber numberWithInt:item.itemId]]))
         {
-            iconMedia = [[AppModel sharedAppModel] mediaForMediaId:item.iconMediaId];
+            iconMedia = [[AppModel sharedAppModel] mediaForMediaId:item.iconMediaId ofType:@"PHOTO"];
             [self.iconCache setObject:iconMedia forKey:[NSNumber numberWithInt:item.itemId]];
         }
         

@@ -25,6 +25,13 @@
 #import "ItemViewController.h"
 #import "NodeOption.h"
 
+#import "SceneParser.h"
+#import "AsyncMediaImageView.h"
+#import "Node.h"
+#import "Npc.h"
+
+#import "StateControllerProtocol.h"
+
 const NSInteger kOptionsFontSize = 17;
 
 NSString *const kDialogHtmlTemplate = 
@@ -59,7 +66,7 @@ NSString *const kDialogHtmlTemplate =
  @"</dialog>";
  */
 
-@interface NpcViewController()
+@interface NpcViewController() <SceneParserDelegate, AsyncMediaImageViewDelegate, GameObjectViewControllerDelegate, UIScrollViewDelegate, UITextFieldDelegate, AVAudioPlayerDelegate>
 {
     SceneParser *parser;
     DialogScript *currentScript;
@@ -85,7 +92,44 @@ NSString *const kDialogHtmlTemplate =
     UITableViewController *pcOptionsTableViewController;
     UIActivityIndicatorView *pcLoadingIndicator;
     UIActivityIndicatorView *waiting;
+    
+    IBOutlet UIView	*pcView;
+    IBOutlet UIScrollView *pcImageSection;
+    IBOutlet AsyncMediaImageView *pcImageView;
+	IBOutlet UIScrollView *pcTextSection;
+    IBOutlet UIWebView *pcTextWebView;
+    IBOutlet UITableView *pcOptionsTable;
+    IBOutlet UIButton *pcTapToContinueButton;
+    
+	IBOutlet UIView	*npcView;
+    IBOutlet UIScrollView *npcImageSection;
+	IBOutlet AsyncMediaImageView *npcImageView;
+    IBOutlet UIScrollView *npcVideoView;
+	IBOutlet UIScrollView *npcTextSection;
+    IBOutlet UIWebView *npcTextWebView;
+	IBOutlet UIButton *npcTapToContinueButton;
+    
+    id<GameObjectViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
+
+@property (nonatomic, strong) IBOutlet UIView *pcView;
+@property (nonatomic, strong) IBOutlet UIScrollView *pcImageSection;
+@property (nonatomic, strong) IBOutlet AsyncMediaImageView *pcImageView;
+@property (nonatomic, strong) IBOutlet UIScrollView *pcTextSection;
+@property (nonatomic, strong) IBOutlet UIWebView *pcTextWebView;
+@property (nonatomic, strong) IBOutlet UITableView *pcOptionsTable;
+@property (nonatomic, strong) IBOutlet UIButton *pcTapToContinueButton;
+
+@property (nonatomic, strong) IBOutlet UIView *npcView;
+@property (nonatomic, strong) IBOutlet UIScrollView *npcImageSection;
+@property (nonatomic, strong) IBOutlet AsyncMediaImageView *npcImageView;
+@property (nonatomic, strong) IBOutlet UIScrollView *npcVideoView;
+@property (nonatomic, strong) IBOutlet UIScrollView *npcTextSection;
+@property (nonatomic, strong) IBOutlet UIWebView *npcTextWebView;
+@property (nonatomic, strong) IBOutlet UIButton *npcTapToContinueButton;
+@property (nonatomic, strong) AsyncMediaImageView *currentImageView;
+
+- (IBAction)continueButtonTouchAction;
 
 @end
 
@@ -107,10 +151,13 @@ NSString *const kDialogHtmlTemplate =
 @synthesize npcTextWebView;
 @synthesize npcTapToContinueButton;
 
+
 @synthesize currentNpc;
 @synthesize currentNode;
 
-- (id) initWithNpc:(Npc *)n delegate:(NSObject<GameObjectViewControllerDelegate> *)d
+@synthesize currentImageView;
+
+- (id) initWithNpc:(Npc *)n delegate:(id<GameObjectViewControllerDelegate, StateControllerProtocol>)d
 {
     if((self = [super initWithNibName:@"NpcViewController" bundle:nil]))
     {
@@ -125,7 +172,7 @@ NSString *const kDialogHtmlTemplate =
         
         currentPcMediaId = 0;
         if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) currentPcMediaId = [AppModel sharedAppModel].currentGame.pcMediaId;
-        else if([AppModel sharedAppModel].player.playerMediaId != 0)  currentPcMediaId = [AppModel sharedAppModel].player.playerMediaId;
+        else if([AppModel sharedAppModel].player.playerMediaId  != 0) currentPcMediaId = [AppModel sharedAppModel].player.playerMediaId;
 
         defaultPcTitle                = NSLocalizedString(@"DialogPlayerName",@"");
         currentLeaveConversationTitle = NSLocalizedString(@"DialogEnd",@"");
@@ -142,11 +189,11 @@ NSString *const kDialogHtmlTemplate =
 {
 	[super viewDidLoad];
     
+    self.pcImageView.delegate = self;
+    self.npcImageView.delegate = self;
+    
     pcImageSection.contentSize  = pcImageSection.frame.size;
     npcImageSection.contentSize = npcImageSection.frame.size;
-    
-    pcImageView.delegate = self;
-    npcImageView.delegate = self;
     
 	pcOptionsTableViewController = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
 	pcOptionsTableViewController.view = pcOptionsTable;
@@ -159,22 +206,26 @@ NSString *const kDialogHtmlTemplate =
 	textSizeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"textToggle.png"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleNextTextBoxSize)];
 	self.navigationItem.rightBarButtonItem = textSizeButton;
 
-	if(currentPcMediaId != 0)   [pcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentPcMediaId]];
-	else                        [pcImageView updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
-    if(currentNpc.mediaId != 0) [npcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentNpc.mediaId]];
-    else                        [npcImageView updateViewWithNewImage:[UIImage imageNamed:@"npc.png"]];
+	if(currentPcMediaId != 0)   [self.pcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentPcMediaId ofType:@"PHOTO"]];
+	else                        [self.pcImageView updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
+    if(currentNpc.mediaId != 0) [self.npcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentNpc.mediaId ofType:nil]];
+    else                        [self.npcImageView updateViewWithNewImage:[UIImage imageNamed:@"npc.png"]];
     
     if([[self.currentNpc.greeting stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""])
         [self loadPlayerOptions];
     else
         [parser parseText:self.currentNpc.greeting];
+    
+    [self toggleTextBoxSize:textboxSizeState];
 }
 
 - (void) didFinishParsing:(DialogScript *)s
 {
     currentScript = s;
     if(currentScript.hideLeaveConversationButtonSpecified) currentlyHidingLeaveConversationButton = currentScript.hideLeaveConversationButton;
-    if(currentScript.leaveConversationButtonTitle) currentLeaveConversationTitle = currentScript.leaveConversationButtonTitle;
+    if(currentScript.leaveConversationButtonTitle)         currentLeaveConversationTitle          = currentScript.leaveConversationButtonTitle;
+    if(currentScript.defaultPcTitle)                       defaultPcTitle                         = currentScript.defaultPcTitle;
+    if(currentScript.adjustTextArea)                       [self adjustTextArea:currentScript.adjustTextArea];
     [self readySceneForDisplay:[currentScript nextScene]];
 }
 
@@ -186,8 +237,8 @@ NSString *const kDialogHtmlTemplate =
     pcOptionsTable.hidden = YES;
     pcTextWebView.hidden  = NO;
 
-    if (([currentScene.sceneType isEqualToString:@"pc"]  && pcView.frame.origin.x  == 0) ||
-        ([currentScene.sceneType isEqualToString:@"npc"] && npcView.frame.origin.x == 0))
+    if(([currentScene.sceneType isEqualToString:@"pc"]  && pcView.frame.origin.x  == 0) ||
+       ([currentScene.sceneType isEqualToString:@"npc"] && npcView.frame.origin.x == 0))
     {
         [UIView beginAnimations:@"dialog" context:nil];
         [UIView setAnimationCurve:UIViewAnimationCurveLinear];
@@ -208,6 +259,8 @@ NSString *const kDialogHtmlTemplate =
     
     if([currentScene.sceneType isEqualToString:@"pc"] || [currentScene.sceneType isEqualToString:@"npc"])
     {
+        if(currentScene.adjustTextArea) [self adjustTextArea:currentScene.adjustTextArea];
+        
         UIView       *currentCharacterView;
         UIScrollView *currentCharacterImageSection;
         UIScrollView *currentCharacterTextSection;
@@ -224,7 +277,7 @@ NSString *const kDialogHtmlTemplate =
             currentCharacterTextSection  = pcTextSection;
             currentCharacterTextWebView  = pcTextWebView;
             
-            currentImageView = pcImageView;
+            self.currentImageView = self.pcImageView;
             continueButton = pcTapToContinueButton;
         }
         else if([currentScene.sceneType isEqualToString:@"npc"])
@@ -237,26 +290,26 @@ NSString *const kDialogHtmlTemplate =
             currentCharacterTextSection  = npcTextSection;
             currentCharacterTextWebView  = npcTextWebView;
             
-            currentImageView = npcImageView;
+            self.currentImageView = self.npcImageView;
             continueButton = npcTapToContinueButton;
         }
         
         if(currentScene.mediaId != 0)
         {
-            Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.mediaId];
+            Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.mediaId ofType:nil];
             //TEMPORARY BANDAID 
-            if(currentImageView.isLoading)
+            if(self.currentImageView.isLoading)
             {
-                [currentImageView removeFromSuperview];
-                currentImageView = [[AsyncMediaImageView alloc] initWithFrame:currentImageView.frame andMedia:media];
-                if(currentImageView == npcImageView)
-                    [npcImageSection addSubview:currentImageView];
-                else if(currentImageView == pcImageView)
-                    [pcImageSection addSubview:currentImageView];
+                [self.currentImageView removeFromSuperview];
+                self.currentImageView = [[AsyncMediaImageView alloc] initWithFrame:self.currentImageView.frame andMedia:media];
+                if(self.currentImageView == self.npcImageView)
+                    [npcImageSection addSubview:self.currentImageView];
+                else if(self.currentImageView == self.pcImageView)
+                    [pcImageSection addSubview:self.currentImageView];
             }
             //END TEMPORARY BANDAID
-            if(!media.type) [currentImageView loadMedia:media]; // This should never happen (all game media should be cached by now)
-            else if([media.type isEqualToString:@"PHOTO"]) [currentImageView loadMedia:media];
+            if(!media.type) [self.currentImageView loadMedia:media]; // This should never happen (all game media should be cached by now)
+            else if([media.type isEqualToString:@"PHOTO"]) [self.currentImageView loadMedia:media];
             else if([media.type isEqualToString:@"VIDEO"]) [self playAudioOrVideoFromMedia:media andHidden:NO];
             else if([media.type isEqualToString:@"AUDIO"]) [self playAudioOrVideoFromMedia:media andHidden:YES];
         }
@@ -264,13 +317,13 @@ NSString *const kDialogHtmlTemplate =
         {
             if([currentScene.sceneType isEqualToString:@"pc"])
             {
-                if(currentPcMediaId != 0)   [pcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentPcMediaId]];
-                else                        [pcImageView updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
+                if(currentPcMediaId != 0)   [self.pcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentPcMediaId ofType:nil]];
+                else                        [self.pcImageView updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
             }
             else
             {
-                if(currentNpc.mediaId != 0) [npcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentNpc.mediaId]];
-                else                        [npcImageView updateViewWithNewImage:[UIImage imageNamed:@"npc.png"]];
+                if(currentNpc.mediaId != 0) [self.npcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentNpc.mediaId ofType:nil]];
+                else                        [self.npcImageView updateViewWithNewImage:[UIImage imageNamed:@"npc.png"]];
             }
         }
         
@@ -299,52 +352,39 @@ NSString *const kDialogHtmlTemplate =
             else if([currentScene.sceneType isEqualToString:@"npc"]) [self moveNpcIn];
         }
         
-        if(currentScene.imageRect.origin.x    != currentCharacterImageSection.frame.origin.x   ||
-           currentScene.imageRect.origin.y    != currentCharacterImageSection.frame.origin.y   ||
-           currentScene.imageRect.size.width  != currentCharacterImageSection.frame.size.width ||
-           currentScene.imageRect.size.height != currentCharacterImageSection.frame.size.height)
+        CGRect imageFrame = self.currentImageView.frame;
+        [UIView animateWithDuration:currentScene.zoomTime animations:^
         {
-            [UIView beginAnimations:@"cameraZoom" context:nil];
-            [UIView setAnimationCurve:UIViewAnimationCurveLinear];
-            [UIView setAnimationDuration:currentScene.zoomTime];
-            
-            float imageScrollViewWidth  = currentCharacterImageSection.contentSize.width;
-            float imageScrollViewHeight = currentCharacterImageSection.contentSize.height;
-            
-            CGFloat horizScale = imageScrollViewWidth  / currentScene.imageRect.size.width;
-            CGFloat vertScale  = imageScrollViewHeight / currentScene.imageRect.size.height;
-            
-            CGAffineTransform transformation = CGAffineTransformMakeScale(horizScale, vertScale);
-            transformation = CGAffineTransformTranslate(transformation,
-                                                        (imageScrollViewWidth/2  - (currentScene.imageRect.origin.x + currentScene.imageRect.size.width  / 2.0)),
-                                                        (imageScrollViewHeight/2 - (currentScene.imageRect.origin.y + currentScene.imageRect.size.height / 2.0)));
-            [currentCharacterImageSection setTransform:transformation];
-            [UIView commitAnimations];
+            currentCharacterImageSection.frame = CGRectMake(currentScene.imageRect.origin.x*-1, currentScene.imageRect.origin.y*-1,
+                                                            imageFrame.size.width *imageFrame.size.width /currentScene.imageRect.size.width,
+                                                            imageFrame.size.height*imageFrame.size.height/currentScene.imageRect.size.height);
+        }];
+        currentImageView.frame = imageFrame; //To prevent animation from changing it...
+    }
+    else
+    {
+        if([currentScene.sceneType isEqualToString:@"video"])
+        {
+            Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.typeId ofType:@"VIDEO"];
+            ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+            mMoviePlayer.moviePlayer.shouldAutoplay = YES;
+            [mMoviePlayer.moviePlayer prepareToPlay];
+            [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
+            [self continueButtonTouchAction];
         }
-    }
-    else if([currentScene.sceneType isEqualToString:@"video"])
-    {
-        //Setup the Button
-        Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.typeId];
-        NSLog(@"NpcViewController: VideoURL: %@", media.url);
-        //Create movie player object
-        ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
-        
-        mMoviePlayer.moviePlayer.shouldAutoplay = NO;
-        [mMoviePlayer.moviePlayer prepareToPlay];
-        [[RootViewController sharedRootViewController] presentMoviePlayerViewControllerAnimated:mMoviePlayer];
-    }
-    else if([currentScene.sceneType isEqualToString:@"panoramic"])
-        [self.navigationController pushViewController:[[[AppModel sharedAppModel] panoramicForPanoramicId:currentScene.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
-    else if([currentScene.sceneType isEqualToString:@"webpage"])
-        [self.navigationController pushViewController:[[[AppModel sharedAppModel] webPageForWebPageID:currentScene.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
-    else if([currentScene.sceneType isEqualToString:@"node"])
-        [self.navigationController pushViewController:[[[AppModel sharedAppModel] nodeForNodeId:currentScene.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
-    else if([currentScene.sceneType isEqualToString:@"item"])
-    {
-        ItemViewController *itemVC = (ItemViewController *)[[[AppModel sharedAppModel] itemForItemId:currentScene.typeId] viewControllerForDelegate:self fromSource:self];
-        itemVC.item.qty = 1;
-        [self.navigationController pushViewController:itemVC animated:YES];
+        else if([currentScene.sceneType isEqualToString:@"panoramic"])
+            [self.navigationController pushViewController:[[[AppModel sharedAppModel] panoramicForPanoramicId:currentScene.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+        else if([currentScene.sceneType isEqualToString:@"webpage"])
+            [self.navigationController pushViewController:[[[AppModel sharedAppModel] webPageForWebPageID:currentScene.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+        else if([currentScene.sceneType isEqualToString:@"node"])
+            [self.navigationController pushViewController:[[[AppModel sharedAppModel] nodeForNodeId:currentScene.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+        else if([currentScene.sceneType isEqualToString:@"item"])
+        {
+            ItemViewController *itemVC = (ItemViewController *)[[[AppModel sharedAppModel] itemForItemId:currentScene.typeId] viewControllerForDelegate:self fromSource:self];
+            itemVC.item.qty = 1;
+            [self.navigationController pushViewController:itemVC animated:YES];
+        }
+        [self continueButtonTouchAction];
     }
 }
 
@@ -398,14 +438,16 @@ NSString *const kDialogHtmlTemplate =
 {
     //ASPECT FIT + ALIGN TO TOP:
     //Let 'aspect fit' do the actual aspect fit- but still required to simulate the fitting to get correct dimensions
-    float sw = image.superview.frame.size.width;  //screen width (320)
-    float sh = image.superview.frame.size.height; //screen height(416)
-    float iw = image.image.size.width;            //image width  (like, the raw image size. example:1024)
-    float ih = image.image.size.height;           //image height (like, the raw image size. example:768)
+    image.frame = CGRectMake(0, 0, 320, [UIScreen mainScreen].applicationFrame.size.height-44);
 
-    float dw = iw;                                //display width  (calculated size of image AFTER aspect fit)
-    float dh = ih;                                //display height (calculated size of image AFTER aspect fit)
-    if(ih < sh && iw < sw)                        //simulate scale up to aspect fit if necessary
+    float sw = image.frame.size.width;  //screen width (320)
+    float sh = image.frame.size.height; //screen height(416)
+    float iw = image.image.size.width;  //image width  (like, the raw image size. example:1024)
+    float ih = image.image.size.height; //image height (like, the raw image size. example:768)
+
+    float dw = iw;                      //display width  (calculated size of image AFTER aspect fit)
+    float dh = ih;                      //display height (calculated size of image AFTER aspect fit)
+    if(ih < sh && iw < sw)              //simulate scale up to aspect fit if necessary
     {
         if(ih > iw)
         {
@@ -419,7 +461,6 @@ NSString *const kDialogHtmlTemplate =
         }
     }
     
-    
     if(dw > sw)
     {
         dw = sw;
@@ -430,7 +471,7 @@ NSString *const kDialogHtmlTemplate =
         dh = sh;
         dw = iw*sh/ih;
     }
-    
+
     if(dh < sh)
         image.frame = CGRectMake(0, (-0.5*(sh-dh)), image.frame.size.width, image.frame.size.height);
     else
@@ -439,40 +480,26 @@ NSString *const kDialogHtmlTemplate =
 
 - (void) scriptEnded
 {
-    //PHIL 
-    /*
     if(closingScriptPlaying == YES || currentScript.exitToType)
     {
         [[AppServices sharedAppServices] updateServerNodeViewed:currentNode.nodeId fromLocation:0];
         [delegate gameObjectViewControllerRequestsDismissal:self];
         
-        if ([currentScript.exitToType isEqualToString:@"tab"])
-        {
-            NSString *tab;
-            for(int i = 0;i < [[RootViewController sharedRootViewController].gamePlayTabBarController.viewControllers count];i++)
-            {
-                tab = [[[RootViewController sharedRootViewController].gamePlayTabBarController.viewControllers objectAtIndex:i] title];
-                if([[tab lowercaseString] isEqualToString:[currentScript.exitToTabTitle lowercaseString]])
-                    [RootViewController sharedRootViewController].gamePlayTabBarController.selectedIndex = i;
-            }
-        }
+        if([currentScript.exitToType isEqualToString:@"tab"])
+            [delegate displayTab:[currentScript.exitToTabTitle lowercaseString]];
         else if([currentScript.exitToType isEqualToString:@"plaque"])
-            [[RootViewController sharedRootViewController] displayGameObject:[[AppModel sharedAppModel] nodeForNodeId:currentScript.exitToTypeId]];
+            [delegate displayGameObject:[[AppModel sharedAppModel] nodeForNodeId:currentScript.exitToTypeId] fromSource:self];
         else if([currentScript.exitToType isEqualToString:@"webpage"])
-            [[RootViewController sharedRootViewController] displayGameObject:[[AppModel sharedAppModel] webPageForWebPageID:currentScript.exitToTypeId]];
+            [delegate displayGameObject:[[AppModel sharedAppModel] webPageForWebPageID:currentScript.exitToTypeId] fromSource:self];
         else if([currentScript.exitToType isEqualToString:@"item"])
-            [[RootViewController sharedRootViewController] displayGameObject:[[AppModel sharedAppModel] itemForItemId:currentScript.exitToTypeId]];
+            [delegate displayGameObject:[[AppModel sharedAppModel] itemForItemId:currentScript.exitToTypeId] fromSource:self];
         else if([currentScript.exitToType isEqualToString:@"character"])
-            [[RootViewController sharedRootViewController] displayGameObject:[[AppModel sharedAppModel] npcForNpcId:currentScript.exitToTypeId]];
+            [delegate displayGameObject:[[AppModel sharedAppModel] npcForNpcId:currentScript.exitToTypeId] fromSource:self];
         else if([currentScript.exitToType isEqualToString:@"panoramic"])
-            [[RootViewController sharedRootViewController] displayGameObject:[[AppModel sharedAppModel] panoramicForPanoramicId:currentScript.exitToTypeId]];
+            [delegate displayGameObject:[[AppModel sharedAppModel] panoramicForPanoramicId:currentScript.exitToTypeId] fromSource:self];
     }
     else
-    {
         [self loadPlayerOptions];
-    }
-     */
-    //PHIL 
 }
 
 - (void) loadPlayerOptions
@@ -506,7 +533,7 @@ NSString *const kDialogHtmlTemplate =
         if(!pcView.frame.origin.x  == 0)
             [self moveAllOutWithPostSelector:@selector(movePcIn)];
 
-        currentImageView = pcImageView;
+        self.currentImageView = self.pcImageView;
         
         self.title = defaultPcTitle;
         
@@ -561,7 +588,6 @@ NSString *const kDialogHtmlTemplate =
     [self readySceneForDisplay:[currentScript nextScene]];
 }
 
-#pragma mark Movement 
 - (void) movePcTo:(CGRect)pcRect  withAlpha:(CGFloat)pcAlpha
 		 andNpcTo:(CGRect)npcRect withAlpha:(CGFloat)npcAlpha
  withPostSelector:(SEL)aSelector
@@ -580,8 +606,8 @@ NSString *const kDialogHtmlTemplate =
 
 - (void) moveAllOutWithPostSelector:(SEL)postSelector
 {
-	[self movePcTo:CGRectMake(160, 0, 320, 416)  withAlpha:0.0
-		  andNpcTo:CGRectMake(-160, 0, 320, 416) withAlpha:0.0
+	[self movePcTo:CGRectMake( 160, 0, 320, [UIScreen mainScreen].applicationFrame.size.height-44) withAlpha:0.0
+		  andNpcTo:CGRectMake(-160, 0, 320, [UIScreen mainScreen].applicationFrame.size.height-44) withAlpha:0.0
   withPostSelector:postSelector];
 }
 
@@ -614,12 +640,12 @@ NSString *const kDialogHtmlTemplate =
     textboxSizeState = mode;
     
     CGRect newTextFrame;
+    int screenHeight = [UIScreen mainScreen].applicationFrame.size.height-44;
     switch(textboxSizeState)
     {
-            //PHIL- Here are the magic numbers. needs fixin'
-        case 0: newTextFrame = CGRectMake(0, 416, 320,   1); break;
-        case 1: newTextFrame = CGRectMake(0, 288, 320, 128); break;
-        case 2: newTextFrame = CGRectMake(0,   0, 320, 416); break;
+        case 0: newTextFrame = CGRectMake(0, screenHeight    , 320,            1); break;
+        case 1: newTextFrame = CGRectMake(0, screenHeight-128, 320,          128); break;
+        case 2: newTextFrame = CGRectMake(0,                0, 320, screenHeight); break;
     }
     
 	[UIView beginAnimations:@"toggleTextSize" context:nil];
@@ -644,7 +670,6 @@ NSString *const kDialogHtmlTemplate =
     else if([area isEqualToString:@"full"]) [self toggleTextBoxSize:2];
 }
 
-#pragma mark Audio and Video
 - (void) playAudioOrVideoFromMedia:(Media*)media andHidden:(BOOL)hidden
 {
     if(media.image != nil && [media.type isEqualToString:@"AUDIO"]) //worked before added type check, not sure how
@@ -686,9 +711,7 @@ NSString *const kDialogHtmlTemplate =
     }
 }
 
-#pragma mark MPMoviePlayerController notifications
-
-- (void)MPMoviePlayerLoadStateDidChangeNotification:(NSNotification *)notif
+- (void) MPMoviePlayerLoadStateDidChangeNotification:(NSNotification *)notif
 {
     if (ARISMoviePlayer.moviePlayer.loadState & MPMovieLoadStateStalled)
     {
@@ -701,16 +724,13 @@ NSString *const kDialogHtmlTemplate =
         [ARISMoviePlayer.moviePlayer play];
         [waiting removeFromSuperview];
     }
-} 
-
-#pragma mark audioPlayerDone
+}
 
 - (void) audioPlayerDidFinishPlaying:(AVAudioPlayer *)audioPlayer successfully:(BOOL)flag
 {
     [[AVAudioSession sharedInstance] setActive: NO error: nil];
 }
 
-#pragma mark PC options table view
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     if(currentlyHidingLeaveConversationButton)
@@ -754,12 +774,12 @@ NSString *const kDialogHtmlTemplate =
 	cell.textLabel.minimumFontSize = kOptionsFontSize;
 	
 	cell.textLabel.numberOfLines = 0;
-	[cell.textLabel sizeToFit];
+	[cell.textLabel sizeToFit]; 
 
 	return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	if (indexPath.section == 1) return 35;
 
@@ -775,9 +795,8 @@ NSString *const kDialogHtmlTemplate =
 	return expectedLabelSize.height + 15;	
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {    
-	//Check if it is the "leave conversation" option
 	if (indexPath.section == 1 && indexPath.row == 0)
     {
 		[self backButtonTouchAction:nil];
@@ -799,10 +818,9 @@ NSString *const kDialogHtmlTemplate =
     [parser parseText:newNode.text];
 }
 
-#pragma mark Scroll View
-- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
+- (UIView *) viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
-	return currentImageView;
+	return self.currentImageView;
 }
 
 - (void)dealloc

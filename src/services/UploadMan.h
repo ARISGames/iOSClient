@@ -9,7 +9,8 @@
 #import "UploadContent.h"
 #import "Media.h"
 
-@interface UploadMan : NSObject {    
+@interface UploadMan : NSObject
+{
     NSMutableDictionary *uploadContentsForNotes;
     NSManagedObjectContext *context;   
     int currentUploadCount;
