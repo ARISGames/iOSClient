@@ -148,7 +148,17 @@
     //PHIL DONE HATING CHUNK
 }
 
-- (void) loadingViewControllerDidComplete
+- (void) loadingViewControllerFinishedLoadingGameData
+{
+    [[AppServices sharedAppServices] fetchAllPlayerLists];
+}
+
+- (void) loadingViewControllerFinishedLoadingPlayerData
+{
+    //Nada
+}
+
+- (void) loadingViewControllerFinishedLoadingData
 {    
     [self displayContentController:self.gamePlayTabBarController];
     self.loadingViewController = nil;

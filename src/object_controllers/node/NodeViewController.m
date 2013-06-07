@@ -53,14 +53,14 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     UIActivityIndicatorView *webViewSpinner;
 }
 
-@property(readwrite, strong) Node *node;
-@property(readwrite, assign) BOOL imageLoaded;
-@property(readwrite, assign) BOOL webLoaded;
-@property(nonatomic, strong) IBOutlet UIScrollView *scrollView;
-@property(nonatomic, strong) UIView *mediaSection;
-@property(nonatomic, strong) UIWebView *webView;
-@property(nonatomic, strong) UIButton *continueButton;
-@property(nonatomic, strong) UIActivityIndicatorView *webViewSpinner;
+@property (readwrite, strong) Node *node;
+@property (readwrite, assign) BOOL imageLoaded;
+@property (readwrite, assign) BOOL webLoaded;
+@property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
+@property (nonatomic, strong) UIView *mediaSection;
+@property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic, strong) UIButton *continueButton;
+@property (nonatomic, strong) UIActivityIndicatorView *webViewSpinner;
 
 @end
 
@@ -162,7 +162,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     if([url rangeOfString:@"?"].location == NSNotFound)
         url = [url stringByAppendingString: [NSString stringWithFormat: @"?gameId=%d&webPageId=%d&playerId=%d",[AppModel sharedAppModel].currentGame.gameId, node.nodeId, [AppModel sharedAppModel].player.playerId]];
     else
-        url = [url stringByAppendingString: [NSString stringWithFormat: @"&gameId=%d&webPageId=%d&playerId=%d",[AppModel sharedAppModel].currentGame.gameId, node.nodeId, [AppModel sharedAppModel].player.playerId]];
+        url = [url stringByAppendingString:[NSString stringWithFormat: @"&gameId=%d&webPageId=%d&playerId=%d",[AppModel sharedAppModel].currentGame.gameId, node.nodeId, [AppModel sharedAppModel].player.playerId]];
     
     //PHIL TODO- convert to ARIS WebView (but first, create ARIS WebView)
     

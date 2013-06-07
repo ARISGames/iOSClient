@@ -1105,6 +1105,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         
     NSLog(@"NSNotification: NewOverlayListReady");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewOverlayListReady" object:nil]];
+    NSLog(@"NSNotification: PlayerPieceReceived");
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerPieceReceived" object:nil]];
 }
 
 - (void)fetchAllPlayerLists
@@ -1441,7 +1443,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                              andMethodName:@"getItemsForPlayer"
                                                               andArguments:arguments andUserInfo:nil];
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseInventoryFromJSON:)];
-	
 }
 
 -(void)fetchPlayerQuestList
@@ -1465,7 +1466,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                               andArguments:arguments andUserInfo:nil];
 	
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseQuestListFromJSON:)];
-	
 }
 
 - (void)fetchOneGameGameList:(int)gameId
@@ -1765,6 +1765,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     NSDictionary *locations  = [[NSDictionary alloc] initWithObjectsAndKeys:tempLocationsList,@"locations", nil];
     NSLog(@"NSNotification: LatestPlayerLocationsReceived");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LatestPlayerLocationsReceived" object:nil userInfo:locations]];
+    NSLog(@"NSNotification: PlayerPieceReceived");
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerPieceReceived" object:nil]];
 }
 
 -(void)parseSingleMediaFromJSON:(ServiceResult *)jsonResult
@@ -1965,6 +1967,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LatestPlayerInventoryReceived" object:nil userInfo:inventory]];
     NSLog(@"NSNotification: LatestPlayerAttributesReceived");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LatestPlayerAttributesReceived" object:nil userInfo:attributes]];
+    NSLog(@"NSNotification: PlayerPieceReceived");
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerPieceReceived" object:nil]];
 }
 
 -(void)parseQRCodeObjectFromJSON:(ServiceResult *)jsonResult
@@ -2068,6 +2072,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     
     NSLog(@"NSNotification: LatestPlayerQuestListsReceived");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LatestPlayerQuestListsReceived" object:self userInfo:questLists]];
+    NSLog(@"NSNotification: PlayerPieceReceived");
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerPieceReceived" object:nil]];
 }
 
 @end
