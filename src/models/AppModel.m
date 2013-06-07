@@ -102,7 +102,6 @@
 
 - (void) loadUserDefaults
 {
-    
 	NSLog(@"Model: Loading User Defaults");
     NSURL *currServ = [NSURL URLWithString:[defaults stringForKey:@"baseServerString"]];
     if([[currServ absoluteString] isEqual:@""])
@@ -121,13 +120,7 @@
         return;
     }
     self.serverURL = currServ;
-    if(self.showGamesInDevelopment != [defaults boolForKey:@"showGamesInDevelopment"])
-    {
-        self.showGamesInDevelopment = [defaults boolForKey:@"showGamesInDevelopment"];
-        NSLog(@"NSNotification: LogoutRequested");
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LogoutRequested" object:self]];
-        return;
-    }
+    self.showGamesInDevelopment = [defaults boolForKey:@"showGamesInDevelopment"];
     
     //Safe to load defaults
     if(!self.player)
