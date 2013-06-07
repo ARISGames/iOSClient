@@ -1086,15 +1086,18 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     }
     
     [AppModel sharedAppModel].overlayList = tempOverlayList;
-    
-    for (int iOverlay=0; iOverlay < [[AppModel sharedAppModel].overlayList count]; iOverlay++) {
-        Overlay *currentOverlay = [[AppModel sharedAppModel].overlayList objectAtIndex:iOverlay];
-        int iTiles = [currentOverlay.tileX count];
-        for (int iTile = 0; iTile < iTiles; iTile++)
-        {
-            // step through tile list and update media with images
-            AsyncMediaImageView *aImageView = [[AsyncMediaImageView alloc] init ];
-            [aImageView loadMedia:[currentOverlay.tileImage objectAtIndex:iTile]];
+    // don' do that for offline game
+    Game *game = [AppModel sharedAppModel].currentGame;
+    if (!game.offlineMode) {
+        for (int iOverlay=0; iOverlay < [[AppModel sharedAppModel].overlayList count]; iOverlay++) {
+            Overlay *currentOverlay = [[AppModel sharedAppModel].overlayList objectAtIndex:iOverlay];
+            int iTiles = [currentOverlay.tileX count];
+            for (int iTile = 0; iTile < iTiles; iTile++)
+            {
+                // step through tile list and update media with images
+                AsyncMediaImageView *aImageView = [[AsyncMediaImageView alloc] init ];
+                [aImageView loadMedia:[currentOverlay.tileImage objectAtIndex:iTile]];
+            }
         }
     }
     
@@ -1645,6 +1648,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         if (cRating) c.rating = [cRating intValue];
         [game.comments addObject:c];
     }
+    game.offlineMode = [gameSource validBoolForKey:@"offline"];
     
     return game;
 }

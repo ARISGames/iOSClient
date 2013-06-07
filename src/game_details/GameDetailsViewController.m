@@ -13,6 +13,9 @@
 #import "ARISAppDelegate.h"
 #import "commentsViewController.h"
 #import "RatingCell.h"
+#import "LocalData.h"
+#import "StoreLocallyViewController.h"
+
 
 #import "ARISAlertHandler.h"
 
@@ -144,6 +147,7 @@ NSString *const kGameDetailsHtmlTemplate =
 #pragma mark Table view methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if (self.game.offlineMode) return 4;
     return 3;
 }
 
@@ -159,6 +163,9 @@ NSString *const kGameDetailsHtmlTemplate =
             else return 2;
             break;
         case 2:
+            return 1;
+            break;
+        case 3:
             return 1;
             break;
     }
@@ -222,6 +229,11 @@ NSString *const kGameDetailsHtmlTemplate =
         [descriptionWebView setFrame:descriptionFrame];
         [cell.contentView addSubview:descriptionWebView];
     }
+    else if (indexPath.section == 3)
+    {
+        // MG:
+        cell.textLabel.text = NSLocalizedString(@"Download Game", @"");
+    }
     
     return cell;
 }
@@ -254,6 +266,19 @@ NSString *const kGameDetailsHtmlTemplate =
     {
         if(indexPath.row == 0)
         {
+            if (self.game.offlineMode) {
+                // MG: try to get it from the local model
+                MGame *mgame = [[LocalData sharedLocal] gameForId:self.game.gameId];
+                if (!mgame)  {
+                    // download the game
+                    StoreLocallyViewController *controller = [[StoreLocallyViewController alloc] initWithNibName:@"StoreLocallyViewController" bundle:nil];
+                    controller.game = self.game;
+                    [controller setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+                    [self presentViewController:controller animated:YES completion:nil];
+                    return;
+                }
+            }
+            
             [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
             [self playGame];
             [self.tableView reloadData];
@@ -281,6 +306,12 @@ NSString *const kGameDetailsHtmlTemplate =
             [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
             [self.navigationController pushViewController:commentsVC animated:YES];     
         }
+    }
+    else if (indexPath.section == 3) {
+        StoreLocallyViewController *controller = [[StoreLocallyViewController alloc] initWithNibName:@"StoreLocallyViewController" bundle:nil];
+        controller.game = self.game;
+        [controller setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+        [self presentViewController:controller animated:YES completion:nil];
     }
 }
 
