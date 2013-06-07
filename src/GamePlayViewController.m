@@ -178,7 +178,6 @@
     [delegate gameplayWasDismissed];
 }
 
-
 //PHIL UNAPPROVED FROM THIS POINT ON
 
 - (void) hideNearbyObjectsTab
@@ -319,7 +318,6 @@
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
 {
-    //[[AppModel sharedAppModel].mediaCache clearCache]; 
 }
 
 - (void)dealloc
@@ -368,14 +366,9 @@
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController 
 {
-    NSLog(@"RootViewController: gamePlayTabBarController didSelectViewController");
-
     //Force more tab to always be a list of options, not the last VC
-    NSLog(@"RootViewController: selectedIndex is %d", tabBarController.selectedIndex);
-    if (tabBarController.selectedIndex > 3) {
-        [tabBarController.moreNavigationController popToRootViewControllerAnimated:NO];
-    }
-    
+    NSLog(@"GamePlayTabBarController: selectedIndex is %d", tabBarController.selectedIndex);
+    if(tabBarController.selectedIndex > 3)  [tabBarController.moreNavigationController popToRootViewControllerAnimated:NO];
 }
 
 @end

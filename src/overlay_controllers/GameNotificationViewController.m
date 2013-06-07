@@ -56,30 +56,26 @@
 {
     [[RootViewController sharedRootViewController].view addSubview:dropDownView];
 
-    /*
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView setAnimationDuration:.5];
-     */
 
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
 
-    //[UIView commitAnimations];
+    [UIView commitAnimations];
 }
 
 - (void) raiseDropDownFrame
 {
     [dropDownView removeFromSuperview];
 
-    /*
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
     [UIView setAnimationDuration:.5];
-     */
 
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 
-    //[UIView commitAnimations];
+    [UIView commitAnimations];
 }
 
 - (void) dequeueDropDown
@@ -298,9 +294,9 @@
 
 - (void) parseAvailableLocationsIntoNotifications:(NSNotification *)notification
 {
-    NSArray *lostAttributes = (NSArray *)[notification.userInfo objectForKey:@"newlyAvailableLocations"];
+    NSArray *newLocations = (NSArray *)[notification.userInfo objectForKey:@"newlyAvailableLocations"];
     
-    for(int i = 0; i < [lostAttributes count]; i++)
+    for(int i = 0; i < [newLocations count]; i++)
     {
         //Doesn't actually show a game notification...
         NSLog(@"NSNotification: NewlyChangedLocationsGameNotificationSent");

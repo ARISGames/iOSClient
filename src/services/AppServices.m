@@ -37,7 +37,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 @implementation AppServices
 
-+ (id)sharedAppServices
++ (id) sharedAppServices
 {
     static dispatch_once_t pred = 0;
     __strong static id _sharedObject = nil;
@@ -66,7 +66,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 }
 
 #pragma mark Communication with Server
-- (void)loginUserName:(NSString *)username password:(NSString *)password userInfo:(NSMutableDictionary *)dict
+- (void) loginUserName:(NSString *)username password:(NSString *)password userInfo:(NSMutableDictionary *)dict
 {
 	NSArray *arguments = [NSArray arrayWithObjects:username, password, nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithServer:[AppModel sharedAppModel].serverURL
@@ -77,7 +77,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseLoginResponseFromJSON:)];
 }
 
--(void)parseLoginResponseFromJSON:(ServiceResult *)result
+- (void) parseLoginResponseFromJSON:(ServiceResult *)result
 {
     NSMutableDictionary *responseDict = [[NSMutableDictionary alloc] initWithCapacity:2];
     [responseDict setObject:result forKey:@"result"];
@@ -85,7 +85,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LoginResponseReady" object:nil userInfo:responseDict]];
 }
 
-- (void)registerNewUser:(NSString*)userName password:(NSString*)pass
+- (void) registerNewUser:(NSString*)userName password:(NSString*)pass
 			  firstName:(NSString*)firstName lastName:(NSString*)lastName email:(NSString*)email
 {
 	//createPlayer($strNewUserName, $strPassword, $strFirstName, $strLastName, $strEmail)
@@ -101,7 +101,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseSelfRegistrationResponseFromJSON:)];
 }
 
--(void)parseSelfRegistrationResponseFromJSON:(ServiceResult *)result
+- (void) parseSelfRegistrationResponseFromJSON:(ServiceResult *)result
 {
     NSMutableDictionary *responseDict = [[NSMutableDictionary alloc] initWithCapacity:2];
     [responseDict setObject:result forKey:@"result"];
@@ -109,7 +109,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RegistrationResponseReady" object:nil userInfo:responseDict]];
 }
 
-- (void)createUserAndLoginWithGroup:(NSString *)groupName
+- (void) createUserAndLoginWithGroup:(NSString *)groupName
 {
 	NSArray *arguments = [NSArray arrayWithObjects:groupName, nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc] initWithServer:[AppModel sharedAppModel].serverURL
@@ -120,7 +120,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseLoginResponseFromJSON:)];
 }
 
--(void) uploadPlayerPicMediaWithFileURL:(NSURL *)fileURL
+- (void) uploadPlayerPicMediaWithFileURL:(NSURL *)fileURL
 {
     ARISUploader *uploader = [[ARISUploader alloc] initWithURLToUpload:fileURL gameSpecific:NO delegate:self doneSelector:@selector(playerPicUploadDidFinish:) errorSelector:@selector(playerPicUploadDidFail:)];
     
@@ -136,7 +136,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[uploader upload];
 }
 
--(void) updatePlayer:(int)playerId withName:(NSString *)name andImage:(int)mid
+- (void) updatePlayer:(int)playerId withName:(NSString *)name andImage:(int)mid
 {
     if(playerId != 0)
     {
@@ -289,7 +289,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseSearchGameListFromJSON:)];
 }
 
-- (void)updateServerNodeViewed:(int)nodeId fromLocation:(int)locationId
+- (void) updateServerNodeViewed:(int)nodeId fromLocation:(int)locationId
 {
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
@@ -305,7 +305,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
 }
 
-- (void)updateServerWebPageViewed:(int)webPageId fromLocation:(int)locationId
+- (void) updateServerWebPageViewed:(int)webPageId fromLocation:(int)locationId
 {
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects:
@@ -322,7 +322,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
 }
 
-- (void)updateServerPanoramicViewed:(int)panoramicId fromLocation:(int)locationId
+- (void) updateServerPanoramicViewed:(int)panoramicId fromLocation:(int)locationId
 {
 	NSArray *arguments = [NSArray arrayWithObjects:
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
@@ -338,7 +338,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
 }
 
-- (void)updateServerItemViewed:(int)itemId fromLocation:(int)locationId
+- (void) updateServerItemViewed:(int)itemId fromLocation:(int)locationId
 {	
 	NSArray *arguments = [NSArray arrayWithObjects:
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
@@ -355,7 +355,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     
 }
 
-- (void)updateServerNpcViewed:(int)npcId fromLocation:(int)locationId
+- (void) updateServerNpcViewed:(int)npcId fromLocation:(int)locationId
 {	
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
@@ -370,7 +370,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
 }
 
-- (void)updateServerGameSelected
+- (void) updateServerGameSelected
 {	
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects:
@@ -385,7 +385,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [jsonConnection performAsynchronousRequestWithHandler:nil];
 }
 
-- (void)updateServerMapViewed
+- (void) updateServerMapViewed
 {
 	//Call server service
 	NSArray *arguments = [NSArray arrayWithObjects:
@@ -400,7 +400,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [jsonConnection performAsynchronousRequestWithHandler:@selector(fetchPlayerLocationList)];
 }
 
-- (void)updateServerQuestsViewed
+- (void) updateServerQuestsViewed
 {
 	NSArray *arguments = [NSArray arrayWithObjects:
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
@@ -414,7 +414,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [jsonConnection performAsynchronousRequestWithHandler:@selector(fetchPlayerQuestList)];
 }
 
-- (void)updateServerInventoryViewed
+- (void) updateServerInventoryViewed
 {
 	NSArray *arguments = [NSArray arrayWithObjects:
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
@@ -428,7 +428,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [jsonConnection performAsynchronousRequestWithHandler:@selector(fetchPlayerInventory)];
 }
 
--(void)parseResetAndEmailNewPassword:(ServiceResult *)jsonResult
+- (void) parseResetAndEmailNewPassword:(ServiceResult *)jsonResult
 {
     if(jsonResult == nil)
         [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"ForgotPasswordTitleKey", nil) message:NSLocalizedString(@"ForgotPasswordMessageKey", nil)];
@@ -436,7 +436,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"ForgotEmailSentTitleKey", @"") message:NSLocalizedString(@"ForgotMessageKey", @"")];
 }
 
-- (void)startOverGame:(int)gameId
+- (void) startOverGame:(int)gameId
 {
     [self resetAllGameLists];
     
@@ -453,7 +453,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[jsonConnection performAsynchronousRequestWithHandler:nil];
 }
 
-- (void)updateServerPickupItem:(int)itemId fromLocation:(int)locationId qty:(int)qty
+- (void) updateServerPickupItem:(int)itemId fromLocation:(int)locationId qty:(int)qty
 {
 	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
@@ -487,7 +487,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
 }
 
-- (void)dropNote:(int)noteId atCoordinate:(CLLocationCoordinate2D)coordinate
+- (void) dropNote:(int)noteId atCoordinate:(CLLocationCoordinate2D)coordinate
 {
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
@@ -503,7 +503,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
 }
 
-- (void)updateServerDestroyItem:(int)itemId qty:(int)qty
+- (void) updateServerDestroyItem:(int)itemId qty:(int)qty
 {
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
@@ -518,7 +518,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
 }
 
-- (void)updateServerInventoryItem:(int)itemId qty:(int)qty
+- (void) updateServerInventoryItem:(int)itemId qty:(int)qty
 {
 	NSArray *arguments = [NSArray arrayWithObjects:
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
@@ -534,7 +534,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
 }
 
-- (void)updateServerAddInventoryItem:(int)itemId addQty:(int)qty
+- (void) updateServerAddInventoryItem:(int)itemId addQty:(int)qty
 {
 	NSArray *arguments = [NSArray arrayWithObjects:
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
@@ -550,7 +550,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
 }
 
-- (void)updateServerRemoveInventoryItem:(int)itemId removeQty:(int)qty
+- (void) updateServerRemoveInventoryItem:(int)itemId removeQty:(int)qty
 {
 	NSArray *arguments = [NSArray arrayWithObjects:
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
@@ -566,7 +566,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
 }
 
-- (void)commitInventoryTrade:(int)gameId fromMe:(int)playerOneId toYou:(int)playerTwoId giving:(NSString *)giftsJSON receiving:(NSString *)receiptsJSON
+- (void) commitInventoryTrade:(int)gameId fromMe:(int)playerOneId toYou:(int)playerTwoId giving:(NSString *)giftsJSON receiving:(NSString *)receiptsJSON
 {
     //  Gifts/Receipts json should be of following format:
     //  {"items":[{"item_id":1,"qtyDelta":3},{"item_id":2,"qtyDelta":4}]}
@@ -586,7 +586,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchPlayerInventory)];
 }
 
--(void)updateCommentWithId:(int)noteId andTitle:(NSString *)title andRefresh:(BOOL)refresh
+- (void) updateCommentWithId:(int)noteId andTitle:(NSString *)title andRefresh:(BOOL)refresh
 {
 	NSArray *arguments = [NSArray arrayWithObjects:
 						  [NSString stringWithFormat:@"%d",noteId],
@@ -604,7 +604,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         [jsonConnection performAsynchronousRequestWithHandler:nil];	
 }
 
--(void)likeNote:(int)noteId
+- (void) likeNote:(int)noteId
 {
     NSArray *arguments = [NSArray arrayWithObjects:
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
@@ -618,7 +618,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
 }
 
--(void)unLikeNote:(int)noteId
+- (void) unLikeNote:(int)noteId
 {
     NSArray *arguments = [NSArray arrayWithObjects:
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
@@ -632,7 +632,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
 }
 
--(int)addCommentToNoteWithId:(int)noteId andTitle:(NSString *)title
+- (int) addCommentToNoteWithId:(int)noteId andTitle:(NSString *)title
 {
 	NSArray *arguments = [NSArray arrayWithObjects:
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
@@ -652,7 +652,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	else             return [(NSDecimalNumber*)jsonResult.data intValue];
 }
 
--(void)setNoteCompleteForNoteId:(int)noteId
+- (void) setNoteCompleteForNoteId:(int)noteId
 {
 	NSArray *arguments = [NSArray arrayWithObjects:
                           [NSString stringWithFormat:@"%d",noteId],
@@ -666,7 +666,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [self fetchAllPlayerLists];
 }
 
--(int)createNote
+- (int) createNote
 {
 	NSArray *arguments = [NSArray arrayWithObjects:
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
@@ -686,7 +686,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	else            return jsonResult.data ? [(NSDecimalNumber*)jsonResult.data intValue] : 0;
 }
 
--(int)createNoteStartIncomplete
+- (int) createNoteStartIncomplete
 {
 	NSArray *arguments = [NSArray arrayWithObjects:
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
@@ -705,7 +705,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	else             return jsonResult.data ? [(NSDecimalNumber*)jsonResult.data intValue] : 0;
 }
 
--(void) contentAddedToNoteWithText:(ServiceResult *)result
+- (void) contentAddedToNoteWithText:(ServiceResult *)result
 {
     if([result.userInfo validObjectForKey:@"noteId"])
         [[AppModel sharedAppModel].uploadManager deleteContentFromNoteId:[result.userInfo validIntForKey:@"noteId"]
@@ -714,7 +714,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [self fetchPlayerNoteListAsync];
 }
 
--(void) addContentToNoteWithText:(NSString *)text type:(NSString *) type mediaId:(int) mediaId andNoteId:(int)noteId andFileURL:(NSURL *)fileURL
+- (void) addContentToNoteWithText:(NSString *)text type:(NSString *) type mediaId:(int) mediaId andNoteId:(int)noteId andFileURL:(NSURL *)fileURL
 {
 	NSArray *arguments = [NSArray arrayWithObjects:
 						  [NSString stringWithFormat:@"%d",noteId],
@@ -734,7 +734,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(contentAddedToNoteWithText:)];
 }
 
--(void)deleteNoteContentWithContentId:(int)contentId
+- (void) deleteNoteContentWithContentId:(int)contentId
 {
     if(contentId != -1)
     {
@@ -750,7 +750,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     }
 }
 
--(void)deleteNoteLocationWithNoteId:(int)noteId
+- (void) deleteNoteLocationWithNoteId:(int)noteId
 {
 	NSArray *arguments = [NSArray arrayWithObjects:
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
@@ -765,7 +765,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
 }
 
--(void)deleteNoteWithNoteId:(int)noteId
+- (void) deleteNoteWithNoteId:(int)noteId
 {
     if(noteId != 0)
     {
@@ -781,21 +781,21 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     }
 }
 
--(void)sendNotificationToNoteViewer
+- (void) sendNotificationToNoteViewer
 {
     NSLog(@"NSNotification: NewContentListReady");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewContentListReady" object:nil]];
     [self fetchPlayerNoteListAsync];
 }
 
--(void)sendNotificationToNotebookViewer
+- (void) sendNotificationToNotebookViewer
 {
     NSLog(@"NSNotification: NoteDeleted");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NoteDeleted" object:nil]];
     [self fetchPlayerNoteListAsync];
 }
 
--(void) uploadContentToNoteWithFileURL:(NSURL *)fileURL name:(NSString *)name noteId:(int) noteId type: (NSString *)type
+- (void) uploadContentToNoteWithFileURL:(NSURL *)fileURL name:(NSString *)name noteId:(int) noteId type: (NSString *)type
 {
     ARISUploader *uploader = [[ARISUploader alloc] initWithURLToUpload:fileURL gameSpecific:YES delegate:self doneSelector:@selector(noteContentUploadDidFinish: ) errorSelector:@selector(uploadNoteContentDidFail:)];
     

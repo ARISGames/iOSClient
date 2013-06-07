@@ -241,7 +241,7 @@
             [self.iconCache setObject:iconMedia forKey:[NSNumber numberWithInt:item.itemId]];
         }
         
-        if(iconView.isLoading) //throw out old asyncview, add in new one
+        if(iconView.isLoading || !iconMedia.image) //if either new or old one is not a fully loaded image
         {
             [iconView removeFromSuperview];
             iconView = [[AsyncMediaImageView alloc] initWithFrame:iconView.frame andMedia:iconMedia];
