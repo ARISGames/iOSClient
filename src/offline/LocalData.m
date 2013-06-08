@@ -1109,13 +1109,13 @@ NSString * const kPSC_TAKE_ITEM = @"TAKE_ITEM";
             mNewLocation.latitude = [NSNumber numberWithDouble:location.coordinate.latitude];
             mNewLocation.longitude = [NSNumber numberWithDouble:location.coordinate.longitude];
             mNewLocation.name = location.name;
-            mNewLocation.type = location.gameObject.name;
-            mNewLocation.typeId = [NSNumber numberWithInt:location.gameObject.type];
+            mNewLocation.type = locationDictionary[@"type"];
+            mNewLocation.typeId = [NSNumber numberWithInt:[locationDictionary[@"type_id"] intValue]];
             mNewLocation.game = game;
             mNewLocation.player = player;
             int iconMediaId = [[locationDictionary objectForKey:@"icon_media_id"] intValue];
             if (iconMediaId) {
-                MMedia *media = [self fetchForEntityName:@"Media" predicate:[NSPredicate predicateWithFormat:@"mediaId = %d", location.gameObject.iconMediaId]];
+                MMedia *media = [self fetchForEntityName:@"Media" predicate:[NSPredicate predicateWithFormat:@"mediaId = %d", iconMediaId]];
                 media.mediaId = [NSNumber numberWithInt:iconMediaId];
                 media.game = game;
                 mNewLocation.icon = media;

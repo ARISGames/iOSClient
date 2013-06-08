@@ -168,6 +168,15 @@
         [[AppServices sharedAppServices] fetchMedia:[self.media.uid intValue]];
         return;
     }
+    
+    //check if the media already downloaded as file
+    NSURL *url = [NSURL URLWithString:self.media.url];
+    if ([url isFileURL]) {
+        [self updateViewWithNewImage:[UIImage imageWithContentsOfFile:[url path]]];
+        self.loaded = YES;
+        self.isLoading = NO;
+		return;
+    }
 	
     self.loaded = NO;
 
