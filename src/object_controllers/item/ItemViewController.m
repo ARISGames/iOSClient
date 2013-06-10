@@ -198,9 +198,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	mode = kItemDetailsDropping;
 	if(self.item.qty > 1)
     {
-        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithItem:item];
-        itemActionVC.mode = mode;
-        itemActionVC.delegate = self;
+        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithItem:item mode:mode delegate:self];
         itemActionVC.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
         [[self navigationController] pushViewController:itemActionVC animated:YES];
         [self updateQuantityDisplay];
@@ -218,10 +216,8 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	mode = kItemDetailsDestroying;
 	if(self.item.qty > 1)
     {
-        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithItem:item];
-        itemActionVC.mode = mode;
-        itemActionVC.delegate = self;
-        
+        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithItem:item mode:mode delegate:self];
+
         itemActionVC.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
         [[self navigationController] pushViewController:itemActionVC animated:YES];
         [self updateQuantityDisplay];
@@ -236,9 +232,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	mode = kItemDetailsPickingUp;
     if(self.item.qty > 1)
     {
-        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithItem:item];
-        itemActionVC.mode = mode;
-        itemActionVC.delegate = self;
+        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithItem:item mode:mode delegate:self];
         
         itemActionVC.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
         [[self navigationController] pushViewController:itemActionVC animated:YES];

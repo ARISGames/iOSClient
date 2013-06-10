@@ -565,11 +565,6 @@ NSString *const kDialogHtmlTemplate =
     self.navigationItem.leftBarButtonItem = self.navigationItem.backBarButtonItem;
 }
 
-- (void) backButtonTouchAction:(id)sender
-{
-    [self dismissSelf];
-}
-
 - (void) dismissSelf
 {
     [[AppServices sharedAppServices] updateServerNpcViewed:currentNpc.npcId fromLocation:0];
@@ -802,10 +797,7 @@ NSString *const kDialogHtmlTemplate =
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {    
 	if (indexPath.section == 1 && indexPath.row == 0)
-    {
-		[self backButtonTouchAction:nil];
-		return;
-	}
+		[self dismissSelf];
 	
 	NodeOption *selectedOption = [optionList objectAtIndex:[indexPath row]];
 	Node *newNode = [[AppModel sharedAppModel] nodeForNodeId:selectedOption.nodeId];

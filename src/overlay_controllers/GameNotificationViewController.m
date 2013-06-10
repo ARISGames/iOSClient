@@ -15,7 +15,7 @@
 #import "Item.h"
 #import "Quest.h"
 
-@interface GameNotificationViewController() <PopOverViewDelegate>
+@interface GameNotificationViewController() <PopOverViewDelegate, MTStatusBarOverlayDelegate>
 {
     UIWebView *dropDownView;
     PopOverViewController *popOverVC;
