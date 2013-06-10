@@ -81,7 +81,7 @@
     }
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     int currentWeight = [AppModel sharedAppModel].currentGame.inventoryModel.currentWeight;
@@ -90,7 +90,7 @@
     self.capLabel.text = [NSString stringWithFormat:@"%@: %d/%d", NSLocalizedString(@"WeightCapacityKey", @""),currentWeight, weightCap];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     [[AppServices sharedAppServices] updateServerInventoryViewed];
@@ -107,25 +107,25 @@
     [self refresh];
 }
 
--(void)tradeButtonTouched
+- (void) tradeButtonTouched
 {
     InventoryTradeViewController *tradeVC = [[InventoryTradeViewController alloc] initWithDelegate:self];
     tradeVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:tradeVC animated:YES];
 }
 
--(void)dismissTutorial
+- (void) dismissTutorial
 {
     //if(delegate) [delegate dismissTutorial];
 }
 
--(void)refresh
+- (void) refresh
 {
 	[[AppServices sharedAppServices] fetchPlayerInventory];
 	[self showLoadingIndicator];
 }
 
--(void)showLoadingIndicator
+- (void) showLoadingIndicator
 {
 	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
 	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
@@ -133,12 +133,12 @@
 	[activityIndicator startAnimating];
 }
 
--(void)removeLoadingIndicator
+- (void) removeLoadingIndicator
 {
 	[[self navigationItem] setRightBarButtonItem:self.tradeButton]; //self.tradeButton will be 'nil' if trading not allowed, so this should be safe
 }
 
--(void)refreshViewFromModel
+- (void) refreshViewFromModel
 {
     NSArray *sortDescriptors = [NSArray arrayWithObjects:[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES], nil];
     self.inventory = [[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory sortedArrayUsingDescriptors:sortDescriptors];

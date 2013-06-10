@@ -63,12 +63,12 @@
     return self;
 }
 
--(void)dealloc
+-(void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)viewDidLoad
+- (void) viewDidLoad
 {
     [super viewDidLoad];
     
@@ -89,7 +89,7 @@
     [self moveProgressBar];
 }
 
-- (void)moveProgressBar
+- (void) moveProgressBar
 {
     float percentLoaded = ((float)(receivedGameData+receivedPlayerData)/(float)(gameDatasToReceive+playerDatasToReceive));
     progressBar.progress = percentLoaded;
@@ -98,12 +98,12 @@
     [progressLabel setNeedsDisplay];
     [progressLabel setNeedsLayout];
     
-    if(!gameDataReceived && percentLoaded >= (float)(receivedGameData/gameDatasToReceive)-epsillon)
+    if(!gameDataReceived && ((float)receivedGameData/(float)gameDatasToReceive) >= 1.0-epsillon)
     {
         gameDataReceived = YES;
         [delegate loadingViewControllerFinishedLoadingGameData];
     }
-    if(!playerDataReceived && percentLoaded >= (float)(receivedPlayerData/playerDatasToReceive)-epsillon)
+    if(!playerDataReceived && ((float)receivedPlayerData/(float)playerDatasToReceive) >= 1.0-epsillon)
     {
         playerDataReceived = YES;
         [delegate loadingViewControllerFinishedLoadingPlayerData];
