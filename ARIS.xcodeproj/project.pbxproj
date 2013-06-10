@@ -22,6 +22,13 @@
 		AA1DA9841742BB2900D10A35 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA1DA9831742BB2700D10A35 /* Default-568h@2x.png */; };
 		AA1E2D4E1652CC6000219535 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4D1652CC6000219535 /* libicucore.dylib */; };
 		AA1E2D501652CC7500219535 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4F1652CC7500219535 /* Security.framework */; };
+		AA3D7C7717662C1F00382D00 /* .gitattributes in Resources */ = {isa = PBXBuildFile; fileRef = AA3D7C6B17662C1F00382D00 /* .gitattributes */; };
+		AA3D7C7817662C1F00382D00 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = AA3D7C6C17662C1F00382D00 /* .gitignore */; };
+		AA3D7C7917662C1F00382D00 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = AA3D7C6D17662C1F00382D00 /* LICENSE */; };
+		AA3D7C7A17662C1F00382D00 /* MTStatusBarOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3D7C6F17662C1F00382D00 /* MTStatusBarOverlay.m */; };
+		AA3D7C7B17662C1F00382D00 /* MTStatusBarOverlay.podspec in Resources */ = {isa = PBXBuildFile; fileRef = AA3D7C7017662C1F00382D00 /* MTStatusBarOverlay.podspec */; };
+		AA3D7C7C17662C1F00382D00 /* Readme.mdown in Resources */ = {isa = PBXBuildFile; fileRef = AA3D7C7517662C1F00382D00 /* Readme.mdown */; };
+		AA3D7C7D17662C1F00382D00 /* TODO.mdown in Resources */ = {isa = PBXBuildFile; fileRef = AA3D7C7617662C1F00382D00 /* TODO.mdown */; };
 		AA4B20931745672600079AEF /* ARISNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4B20921745672500079AEF /* ARISNavigationController.m */; };
 		AA50A48017396B7200B105C2 /* ARISContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA50A47F17396B7000B105C2 /* ARISContainerViewController.m */; };
 		AA50A484173992F500B105C2 /* 123-id-card-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA50A482173992F500B105C2 /* 123-id-card-white@2x.png */; };
@@ -417,6 +424,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		AA3D7C7F17662C1F00382D00 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA3D7C7117662C1F00382D00 /* MTStatusBarOverlay.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC07E0554694100DB518D;
+			remoteInfo = MTStatusBarOverlay;
+		};
 		AAF6FE32174FBCBC00C3E687 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AAF81F9A174BC73C0003D848 /* ZXingWidget.xcodeproj */;
@@ -458,6 +472,16 @@
 		AA1E2D4D1652CC6000219535 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		AA1E2D4F1652CC7500219535 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		AA353F891729C43600A1EB6A /* GameObjectProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObjectProtocol.h; sourceTree = "<group>"; };
+		AA3D7C6B17662C1F00382D00 /* .gitattributes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitattributes; sourceTree = "<group>"; };
+		AA3D7C6C17662C1F00382D00 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		AA3D7C6D17662C1F00382D00 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		AA3D7C6E17662C1F00382D00 /* MTStatusBarOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTStatusBarOverlay.h; sourceTree = "<group>"; };
+		AA3D7C6F17662C1F00382D00 /* MTStatusBarOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTStatusBarOverlay.m; sourceTree = "<group>"; };
+		AA3D7C7017662C1F00382D00 /* MTStatusBarOverlay.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MTStatusBarOverlay.podspec; sourceTree = "<group>"; };
+		AA3D7C7117662C1F00382D00 /* MTStatusBarOverlay.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = MTStatusBarOverlay.xcodeproj; sourceTree = "<group>"; };
+		AA3D7C7417662C1F00382D00 /* MTStatusBarOverlay_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTStatusBarOverlay_Prefix.pch; sourceTree = "<group>"; };
+		AA3D7C7517662C1F00382D00 /* Readme.mdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Readme.mdown; sourceTree = "<group>"; };
+		AA3D7C7617662C1F00382D00 /* TODO.mdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO.mdown; sourceTree = "<group>"; };
 		AA4B20911745672300079AEF /* ARISNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISNavigationController.h; sourceTree = "<group>"; };
 		AA4B20921745672500079AEF /* ARISNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISNavigationController.m; sourceTree = "<group>"; };
 		AA50A47E17396B6F00B105C2 /* ARISContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISContainerViewController.h; sourceTree = "<group>"; };
@@ -1124,6 +1148,31 @@
 				AABC7062172739D60074CC21 /* src */,
 			);
 			name = ARIS;
+			sourceTree = "<group>";
+		};
+		AA3D7C6A17662C1F00382D00 /* MTStatusBarOverlay */ = {
+			isa = PBXGroup;
+			children = (
+				AA3D7C6B17662C1F00382D00 /* .gitattributes */,
+				AA3D7C6C17662C1F00382D00 /* .gitignore */,
+				AA3D7C6D17662C1F00382D00 /* LICENSE */,
+				AA3D7C6E17662C1F00382D00 /* MTStatusBarOverlay.h */,
+				AA3D7C6F17662C1F00382D00 /* MTStatusBarOverlay.m */,
+				AA3D7C7017662C1F00382D00 /* MTStatusBarOverlay.podspec */,
+				AA3D7C7117662C1F00382D00 /* MTStatusBarOverlay.xcodeproj */,
+				AA3D7C7417662C1F00382D00 /* MTStatusBarOverlay_Prefix.pch */,
+				AA3D7C7517662C1F00382D00 /* Readme.mdown */,
+				AA3D7C7617662C1F00382D00 /* TODO.mdown */,
+			);
+			path = MTStatusBarOverlay;
+			sourceTree = "<group>";
+		};
+		AA3D7C7217662C1F00382D00 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AA3D7C8017662C1F00382D00 /* libMTStatusBarOverlay.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		AABC6F3C1727398B0074CC21 /* assets */ = {
@@ -1900,6 +1949,7 @@
 		AABC71B1172739D70074CC21 /* third_party */ = {
 			isa = PBXGroup;
 			children = (
+				AA3D7C6A17662C1F00382D00 /* MTStatusBarOverlay */,
 				AABC71B5172739D70074CC21 /* bump */,
 				AABC71BB172739D70074CC21 /* CrittercismSDK */,
 				AABC71C0172739D70074CC21 /* JSON */,
@@ -2206,6 +2256,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = AA3D7C7217662C1F00382D00 /* Products */;
+					ProjectRef = AA3D7C7117662C1F00382D00 /* MTStatusBarOverlay.xcodeproj */;
+				},
+				{
 					ProductGroup = AAF81F9B174BC73C0003D848 /* Products */;
 					ProjectRef = AAF81F9A174BC73C0003D848 /* ZXingWidget.xcodeproj */;
 				},
@@ -2218,6 +2272,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		AA3D7C8017662C1F00382D00 /* libMTStatusBarOverlay.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMTStatusBarOverlay.a;
+			remoteRef = AA3D7C7F17662C1F00382D00 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		AAF81FA0174BC73C0003D848 /* libZXingWidget.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -2444,6 +2505,12 @@
 				AA50A484173992F500B105C2 /* 123-id-card-white@2x.png in Resources */,
 				AA50A485173992F500B105C2 /* 123-id-card-white.png in Resources */,
 				AA1DA9841742BB2900D10A35 /* Default-568h@2x.png in Resources */,
+				AA3D7C7717662C1F00382D00 /* .gitattributes in Resources */,
+				AA3D7C7817662C1F00382D00 /* .gitignore in Resources */,
+				AA3D7C7917662C1F00382D00 /* LICENSE in Resources */,
+				AA3D7C7B17662C1F00382D00 /* MTStatusBarOverlay.podspec in Resources */,
+				AA3D7C7C17662C1F00382D00 /* Readme.mdown in Resources */,
+				AA3D7C7D17662C1F00382D00 /* TODO.mdown in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2641,6 +2708,7 @@
 				AA50A48017396B7200B105C2 /* ARISContainerViewController.m in Sources */,
 				AAAB7637173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m in Sources */,
 				AA4B20931745672600079AEF /* ARISNavigationController.m in Sources */,
+				AA3D7C7A17662C1F00382D00 /* MTStatusBarOverlay.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

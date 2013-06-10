@@ -10,6 +10,7 @@
 #import "RootViewController.h"
 #import "ARISAppDelegate.h"
 #import "PopOverViewController.h"
+#import "MTStatusBarOverlay.h"
 
 #import "Item.h"
 #import "Quest.h"
@@ -38,6 +39,10 @@
         popOverArray = [[NSMutableArray alloc] initWithCapacity:5];
         showingDropDown = NO;
         showingPopOver  = NO;
+        
+        MTStatusBarOverlay *o = [MTStatusBarOverlay sharedInstance];
+        o.animation = MTStatusBarOverlayAnimationFallDown;
+        o.delegate = self;
     }
     return self;
 }
@@ -56,6 +61,7 @@
 {
     [[RootViewController sharedRootViewController].view addSubview:dropDownView];
 
+    /*
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView setAnimationDuration:.5];
@@ -63,6 +69,7 @@
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
 
     [UIView commitAnimations];
+     */
 }
 
 - (void) raiseDropDownFrame
@@ -80,6 +87,7 @@
 
 - (void) dequeueDropDown
 {
+    /*
     showingDropDown = YES;
 
     dropDownView.alpha = 0.0;
@@ -112,6 +120,7 @@
                                          }];
                      }];
     [notifArray removeObjectAtIndex:0];
+     */
 }
 
 - (void) dequeuePopOver
@@ -138,12 +147,15 @@
 
 - (void) enqueueDropDownNotificationWithString:(NSString *)string
 {
+    [[MTStatusBarOverlay sharedInstance] postMessage:string duration:3.0];
+    /*
     [notifArray addObject:string];
     if(!showingDropDown)
     {
         [self lowerDropDownFrame];
         [self dequeueDropDown];
     }
+     */
 }
 
 - (void) enqueuePopOverNotificationWithTitle:(NSString *)title description:(NSString *)description webViewText:(NSString *)text andMediaId:(int) mediaId
