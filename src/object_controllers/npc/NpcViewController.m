@@ -482,8 +482,7 @@ NSString *const kDialogHtmlTemplate =
 {
     if(closingScriptPlaying == YES || currentScript.exitToType)
     {
-        [[AppServices sharedAppServices] updateServerNodeViewed:currentNode.nodeId fromLocation:0];
-        [delegate gameObjectViewControllerRequestsDismissal:self];
+        [self dismissSelf];
         
         if([currentScript.exitToType isEqualToString:@"tab"])
             [delegate displayTab:[currentScript.exitToTabTitle lowercaseString]];
@@ -567,6 +566,11 @@ NSString *const kDialogHtmlTemplate =
 }
 
 - (void) backButtonTouchAction:(id)sender
+{
+    [self dismissSelf];
+}
+
+- (void) dismissSelf
 {
     [[AppServices sharedAppServices] updateServerNpcViewed:currentNpc.npcId fromLocation:0];
     [delegate gameObjectViewControllerRequestsDismissal:self];

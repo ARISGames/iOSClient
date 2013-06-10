@@ -789,7 +789,7 @@ kDetailViewWidth, kHistoryTableRowHeight*kMaxHistoryTableRowCount + kStatusBarHe
 		[self setHidden:YES useAlpha:YES];
 	} completion:^(BOOL finished) {
 		// call delegate
-		if ([self.delegate respondsToSelector:@selector(statusBarOverlayDidHide)]) {
+		if (self.delegate && [self.delegate respondsToSelector:@selector(statusBarOverlayDidHide)]) {
 			[self.delegate statusBarOverlayDidHide];
 		}
 	}];
