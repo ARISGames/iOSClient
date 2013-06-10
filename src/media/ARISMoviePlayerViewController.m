@@ -19,7 +19,6 @@
 
 -(void) viewDidDisappear:(BOOL)animated
 {
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque];
     UIApplication* application = [UIApplication sharedApplication];
     if (application.statusBarOrientation != UIInterfaceOrientationPortrait)
     {
