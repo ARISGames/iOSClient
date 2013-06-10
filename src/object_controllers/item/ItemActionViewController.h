@@ -11,5 +11,5 @@
 
 @class Item;
 @interface ItemActionViewController : UIViewController
-- (id) initWithItem:(Item *)i mode:(ItemDetailsModeType)mode delegate:(id)delegate;
+- (id) initWithItem:(Item *)i mode:(ItemDetailsModeType)m delegate:(id)d source:(id)s;
 @end

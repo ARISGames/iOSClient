@@ -461,7 +461,6 @@
 		AA353F891729C43600A1EB6A /* GameObjectProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObjectProtocol.h; sourceTree = "<group>"; };
 		AA3D7C6E17662C1F00382D00 /* MTStatusBarOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTStatusBarOverlay.h; sourceTree = "<group>"; };
 		AA3D7C6F17662C1F00382D00 /* MTStatusBarOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTStatusBarOverlay.m; sourceTree = "<group>"; };
-		AA3D7C7417662C1F00382D00 /* MTStatusBarOverlay_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTStatusBarOverlay_Prefix.pch; sourceTree = "<group>"; };
 		AA4B20911745672300079AEF /* ARISNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISNavigationController.h; sourceTree = "<group>"; };
 		AA4B20921745672500079AEF /* ARISNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISNavigationController.m; sourceTree = "<group>"; };
 		AA50A47E17396B6F00B105C2 /* ARISContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISContainerViewController.h; sourceTree = "<group>"; };
@@ -1135,7 +1134,6 @@
 			children = (
 				AA3D7C6E17662C1F00382D00 /* MTStatusBarOverlay.h */,
 				AA3D7C6F17662C1F00382D00 /* MTStatusBarOverlay.m */,
-				AA3D7C7417662C1F00382D00 /* MTStatusBarOverlay_Prefix.pch */,
 			);
 			path = MTStatusBarOverlay;
 			sourceTree = "<group>";

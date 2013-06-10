@@ -24,6 +24,7 @@
     int numItems;
     int max;
     id delegate;
+    id source;
 }
 
 @property(readwrite,assign) int numItems;
@@ -51,12 +52,13 @@
 @synthesize infoLabel,actionButton,badValLabel;
 @synthesize delegate;
 
-- (id) initWithItem:(Item *)i mode:(ItemDetailsModeType)m delegate:(id)d
+- (id) initWithItem:(Item *)i mode:(ItemDetailsModeType)m delegate:(id)d source:(id)s
 {
     if(self = [super initWithNibName:@"ItemActionViewController" bundle:nil])
     {
         self.mode = m;
         self.delegate = d;
+        source = s;
         self.item = i;
     }
     return self;
@@ -64,7 +66,7 @@
 
 #pragma mark - View lifecycle
 
-- (void)viewDidLoad
+- (void) viewDidLoad
 {
     actionButton.titleLabel.textAlignment = UITextAlignmentCenter;
     actionButton.titleLabel.font = [UIFont boldSystemFontOfSize:24];
@@ -141,7 +143,7 @@
 {
     [self doActionWithMode:self.mode quantity:self.numItems];
     [self.navigationController popViewControllerAnimated:YES];
-    [delegate updateQuantityDisplay];
+    [(ItemViewController *)delegate updateQuantityDisplay];
 }
 
 - (NSInteger) numberOfComponentsInPickerView:(UIPickerView *)pickerView
@@ -258,8 +260,13 @@
         
 		if (quantity > 0)
         {
-            [[AppServices sharedAppServices] updateServerPickupItem:self.item.itemId fromLocation:0 qty:quantity];
-			//[[AppModel sharedAppModel].currentGame.locationsModel modifyQuantity:-quantity forLocationId:0];
+            if([(NSObject *)source isKindOfClass:[Location class]])
+            {
+                [[AppServices sharedAppServices] updateServerPickupItem:self.item.itemId fromLocation:((Location *)source).locationId qty:quantity];
+                [[AppModel sharedAppModel].currentGame.locationsModel modifyQuantity:-quantity forLocationId:((Location *)source).locationId];
+            }
+
+            [[AppServices sharedAppServices] updateServerAddInventoryItem:self.item.itemId addQty:quantity];
 			item.qty -= quantity; //the above line does not give us an update, only the map
         }
 	}
