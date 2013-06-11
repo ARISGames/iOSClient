@@ -359,8 +359,8 @@
 {
     for(int i = 0; i < [self.gamePlayTabBarController.viewControllers count]; i++)
     {
-        if([((GamePlayViewController *)[self.gamePlayTabBarController.viewControllers objectAtIndex:i]).title isEqualToString:t])
-            [self.gamePlayTabBarController select:(GamePlayViewController *)[self.gamePlayTabBarController.viewControllers objectAtIndex:i]];
+        if([[((GamePlayViewController *)[self.gamePlayTabBarController.viewControllers objectAtIndex:i]).title lowercaseString] isEqualToString:[t lowercaseString]])
+            self.gamePlayTabBarController.selectedIndex = i;
     }
 }
 

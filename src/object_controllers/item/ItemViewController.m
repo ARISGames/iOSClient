@@ -371,7 +371,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
             }
             
             [[AppServices sharedAppServices] updateServerAddInventoryItem:self.item.itemId addQty:quantity];
-			item.qty += quantity; //the above line does not give us an update, only the map
+			item.qty -= quantity; //the above line does not give us an update, only the map
         }
 	}
 	
