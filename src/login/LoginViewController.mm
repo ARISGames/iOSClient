@@ -83,6 +83,12 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     [self resetState];
 }
 
+- (void) viewDidAppear:(BOOL)animated
+{
+    if([AppModel sharedAppModel].player.playerId)
+        [delegate loginCredentialsApprovedForPlayer:[AppModel sharedAppModel].player toGame:0 newPlayer:NO disableLeaveGame:NO];
+}
+
 - (void) resetState
 {
     usernameField.text = @"";

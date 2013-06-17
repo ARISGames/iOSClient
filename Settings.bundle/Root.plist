@@ -48,6 +48,16 @@
 			<key>DefaultValue</key>
 			<true/>
 		</dict>
+        <dict>
+			<key>Type</key>
+			<string>PSToggleSwitchSpecifier</string>
+			<key>Title</key>
+			<string>Clear Cache</string>
+			<key>Key</key>
+			<string>clearCache</string>
+			<key>DefaultValue</key>
+			<false/>
+		</dict>
 		<dict>
 			<key>Title</key>
 			<string>About ARIS</string>
@@ -58,7 +68,7 @@
 			<key>DefaultValue</key>
 			<string>Run ARIS to update</string>
 			<key>Key</key>
-			<string>appVerison</string>
+			<string>appVersion</string>
 			<key>Title</key>
 			<string>Version</string>
 			<key>Type</key>
