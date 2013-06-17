@@ -312,7 +312,7 @@
 
 - (void) videoChosenWithURL:(NSURL *)url
 {
-    [[[AppModel sharedAppModel] uploadManager] uploadContentForNoteId:self.note.noteId withTitle:[NSString stringWithFormat:@"%@", [NSDate date]] withText:nil withType:@"VIDEO" withFileURL:url];
+    [[[AppModel sharedAppModel] uploadManager] uploadContentForNoteId:self.comment.noteId withTitle:[NSString stringWithFormat:@"%@", [NSDate date]] withText:nil withType:@"VIDEO" withFileURL:url];
     self.addPhotoButton.userInteractionEnabled = NO;
     self.addMediaFromAlbumButton.userInteractionEnabled = NO;
     self.addAudioButton.userInteractionEnabled = NO;
@@ -329,7 +329,7 @@
 
 - (void) audioChosenWith:(NSURL *)url
 {
-    [[[AppModel sharedAppModel]uploadManager] uploadContentForNoteId:self.note.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:@"AUDIO" withFileURL:url];
+    [[[AppModel sharedAppModel]uploadManager] uploadContentForNoteId:self.comment.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:@"AUDIO" withFileURL:url];
     self.addPhotoButton.userInteractionEnabled = NO;
     self.addMediaFromAlbumButton.userInteractionEnabled = NO;
     self.addAudioButton.userInteractionEnabled = NO;
