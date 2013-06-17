@@ -37,8 +37,6 @@ typedef UInt32 NoteContentType;
     BOOL userLiked;
     int parentNoteId;
     int parentRating;
-    BOOL hasImage;
-    BOOL hasAudio;
     double latitude;
     double longitude;
 }
@@ -60,8 +58,6 @@ typedef UInt32 NoteContentType;
 @property (nonatomic, assign) BOOL userLiked;
 @property (nonatomic, assign) int parentNoteId;
 @property (nonatomic, assign) int parentRating;
-@property (nonatomic, assign) BOOL hasImage;
-@property (nonatomic, assign) BOOL hasAudio;
 @property (nonatomic, assign) double latitude;
 @property (nonatomic, assign) double longitude;
 

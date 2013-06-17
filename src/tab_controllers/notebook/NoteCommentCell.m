@@ -12,14 +12,21 @@
 @implementation NoteCommentCell
 @synthesize titleLabel,mediaIcon2,mediaIcon3,mediaIcon4,userLabel,likesButton,note,likeLabel,retryButton,spinner;
 
--(void)initCell
+- (void) initWithNote:(Note *)n
 {
+    self.note = n;
+    
+    //self.titleLabel.contentInset = UIEdgeInsetsMake(0.0f,4.0f,0.0f,4.0f);
+    self.titleLabel.text = self.note.name;
+    if(![self.note.displayname isEqualToString:@""]) self.userLabel.text = self.note.displayname;
+    else                                             self.userLabel.text = self.note.username;
+    
     if(self.note.userLiked) self.likesButton.selected = YES;
     else                    self.likesButton.selected = NO;
-    likeLabel.text = [NSString stringWithFormat:@"%d",self.note.numRatings];  
+    self.likeLabel.text = [NSString stringWithFormat:@"%d",self.note.numRatings];
 }
 
--(void)checkForRetry
+- (void) checkForRetry
 {
     if ((self.note.contents.count > 0)&&![[[self.note.contents objectAtIndex:0] getUploadState] isEqualToString:@"uploadStateDONE"])
     {
@@ -72,7 +79,7 @@
     }
 }
 
--(void)retryUpload
+- (void) retryUpload
 {    
     retryButton.hidden = YES;
     [self.titleLabel setFrame:CGRectMake(titleLabel.frame.origin.x, titleLabel.frame.origin.y, 235, titleLabel.frame.size.height)];    
@@ -86,7 +93,7 @@
     [self checkForRetry];
 }
 
--(void)likeButtonTouched
+- (void) likeButtonTouched
 {
     self.likesButton.selected = !self.likesButton.selected;
     self.note.userLiked = !self.note.userLiked;

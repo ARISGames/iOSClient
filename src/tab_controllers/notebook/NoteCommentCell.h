@@ -39,6 +39,6 @@
 - (void) checkForRetry;
 - (IBAction) retryUpload;
 - (IBAction) likeButtonTouched;
-- (void) initCell;
+- (void) initWithNote:(Note *)n;
 
 @end
