@@ -13,11 +13,44 @@
 #import "AsyncMediaImageView.h"
 #import "AppModel.h"
 #import "InventoryTradeViewController.h"
+#import "AppModel.h"
+#import "ARISAppDelegate.h"
+#import "Item.h"
+#import "ItemViewController.h"
 
 @interface InventoryViewController() <InventoryTradeViewControllerDelegate, GameObjectViewControllerDelegate>
 {
+    UITableView *inventoryTable;
+    NSArray *inventory;
+    UIBarButtonItem *tradeButton;
+    UIProgressView *capBar;
+    UILabel *capLabel;
+        
+    NSMutableDictionary *iconCache;
+    NSMutableDictionary *mediaCache;
+    NSMutableDictionary *viewedList;
+    
     id<InventoryViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
+
+
+@property (nonatomic, strong) IBOutlet UIProgressView *capBar;
+@property (nonatomic, strong) IBOutlet UILabel *capLabel;
+@property (nonatomic, strong) IBOutlet UITableView *inventoryTable;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *tradeButton;
+@property (nonatomic, strong) NSArray *inventory;
+
+@property (nonatomic, strong) NSMutableDictionary *iconCache;
+@property (nonatomic, strong) NSMutableDictionary *mediaCache;
+@property (nonatomic, strong) NSMutableDictionary *viewedList;
+
+- (void) refresh;
+- (unsigned int) indexOf:(char)searchChar inString:(NSString *)searchString;
+- (void) showLoadingIndicator;
+- (void) dismissTutorial;
+- (void) refreshViewFromModel;
+- (NSString *) stringByStrippingHTML:(NSString *)stringToStrip;
+
 @end
 
 @implementation InventoryViewController
@@ -30,6 +63,7 @@
 
 @synthesize iconCache;
 @synthesize mediaCache;
+@synthesize viewedList;
 
 - (id)initWithDelegate:(id<InventoryViewControllerDelegate, StateControllerProtocol>)d
 {
@@ -43,6 +77,7 @@
 
         self.mediaCache = [[NSMutableDictionary alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory count]];
         self.iconCache  = [[NSMutableDictionary alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory count]];
+        self.viewedList = [[NSMutableDictionary alloc] initWithCapacity:10];
         
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedInventory"           object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost"              object:nil];
@@ -94,7 +129,8 @@
 {
     [super viewDidAppear:animated];
     [[AppServices sharedAppServices] updateServerInventoryViewed];
-	[self refresh];				
+    [inventoryTable reloadData]; //For un-bolding items
+	[self refresh];
 }
 
 - (void) tradeDidComplete
@@ -224,6 +260,18 @@
     ((UILabel *)[cell viewWithTag:2]).text = [self stringByStrippingHTML:item.text];
     ((UILabel *)[cell viewWithTag:4]).text = [self getQtyLabelStringForQty:item.qty maxQty:item.maxQty weight:item.weight];
     
+    NSNumber *viewed;
+    if(!(viewed = [self.viewedList objectForKey:[NSNumber numberWithInt:item.itemId]]) || [viewed isEqualToNumber:[NSNumber numberWithInt:0]])
+    {
+        [self.viewedList setObject:[NSNumber numberWithInt:0] forKey:[NSNumber numberWithInt:item.itemId]];
+        [((UILabel *)[cell viewWithTag:1]) setFont:[UIFont fontWithName:@"Arial-BoldMT" size:18]];
+    }
+    else
+    {
+        [self.viewedList setObject:[NSNumber numberWithInt:1] forKey:[NSNumber numberWithInt:item.itemId]];
+        [((UILabel *)[cell viewWithTag:1]) setFont:[UIFont fontWithName:@"Arial-MT" size:18]];
+    }
+    
     Media *media;
     if(item.mediaId != 0 && !(media = [self.mediaCache objectForKey:[NSNumber numberWithInt:item.itemId]]))
     {
@@ -281,7 +329,7 @@
     NSString *weightString = @"";
     if(qty > 1 || maxQty != 1) qtyString    = [NSString stringWithFormat:@"x%d",  qty];
     if(weight > 1)             weightString = [NSString stringWithFormat:@"\n%@ %d",NSLocalizedString(@"WeightKey", @""), weight];
-    return [NSString stringWithFormat:@"%@%@",qtyString, weightString];
+    return [NSString stringWithFormat:@"%@%@", qtyString, weightString];
 }
 
 - (unsigned int) indexOf:(char)searchChar inString:(NSString *)searchString
@@ -302,8 +350,8 @@
 {
 	[((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"swish" shouldVibrate:NO];
     [delegate displayGameObject:[inventory objectAtIndex:[indexPath row]] fromSource:self];
-
-    //[self.navigationController pushViewController:[((Item *)[inventory objectAtIndex:[indexPath row]]) viewControllerForDelegate:self] animated:YES];
+    
+    [self.viewedList setObject:[NSNumber numberWithInt:1] forKey:[NSNumber numberWithInt:((Item *)[inventory objectAtIndex:[indexPath row]]).itemId]];
 }
 
 - (void) gameObjectViewControllerRequestsDismissal:(GameObjectViewController *)govc
