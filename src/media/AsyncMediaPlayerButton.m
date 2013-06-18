@@ -56,6 +56,13 @@
         
         if(self.media.image)
             [self setBackgroundImage:[[UIImage imageWithData: self.media.image] scaleToSize:self.frame.size] forState:UIControlStateNormal];
+        else if([media.type isEqualToString:@"VIDEO"])
+        {
+            self.mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+            self.mMoviePlayer.moviePlayer.shouldAutoplay = NO;
+            [self.mMoviePlayer.moviePlayer requestThumbnailImagesAtTimes:[NSArray arrayWithObject:[NSNumber numberWithFloat:1.0f]] timeOption:MPMovieTimeOptionNearestKeyFrame];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:self.mMoviePlayer.moviePlayer];
+        }
         
         if(preload) [self attemptLoadingContent];
     }
@@ -67,17 +74,14 @@
     if(hasStartedLoading) return;
     hasStartedLoading = YES;
     
-    self.mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
-    
-    self.mMoviePlayer.moviePlayer.shouldAutoplay = NO;
     [self.mMoviePlayer.moviePlayer prepareToPlay];
     
     if(!media.image)
     {
         if([media.type isEqualToString:@"VIDEO"])
         {
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:self.mMoviePlayer.moviePlayer];
             [self.mMoviePlayer.moviePlayer requestThumbnailImagesAtTimes:[NSArray arrayWithObject:[NSNumber numberWithFloat:1.0f]] timeOption:MPMovieTimeOptionNearestKeyFrame];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:self.mMoviePlayer.moviePlayer];
         }
         else if([media.type isEqualToString:@"AUDIO"])
         {

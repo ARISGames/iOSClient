@@ -235,7 +235,7 @@
     [self refreshViewFromModel];
 	[self refresh];
 	
-	if (refreshTimer && [refreshTimer isValid]) [refreshTimer invalidate];
+	if(refreshTimer && [refreshTimer isValid]) [refreshTimer invalidate];
 	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
 }
 
@@ -254,7 +254,6 @@
             [[AppServices sharedAppServices] fetchPlayerOverlayList];
             [self showLoadingIndicator];
         }
-            
         if(tracking) [self zoomAndCenterMap];
     }
 }

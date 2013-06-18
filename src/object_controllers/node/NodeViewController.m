@@ -53,14 +53,14 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     UIActivityIndicatorView *webViewSpinner;
 }
 
-@property(readwrite, strong) Node *node;
-@property(readwrite, assign) BOOL imageLoaded;
-@property(readwrite, assign) BOOL webLoaded;
-@property(nonatomic, strong) IBOutlet UIScrollView *scrollView;
-@property(nonatomic, strong) UIView *mediaSection;
-@property(nonatomic, strong) UIWebView *webView;
-@property(nonatomic, strong) UIButton *continueButton;
-@property(nonatomic, strong) UIActivityIndicatorView *webViewSpinner;
+@property (readwrite, strong) Node *node;
+@property (readwrite, assign) BOOL imageLoaded;
+@property (readwrite, assign) BOOL webLoaded;
+@property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
+@property (nonatomic, strong) UIView *mediaSection;
+@property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic, strong) UIButton *continueButton;
+@property (nonatomic, strong) UIActivityIndicatorView *webViewSpinner;
 
 @end
 
@@ -97,7 +97,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     Media *media = [[AppModel sharedAppModel] mediaForMediaId:self.node.mediaId ofType:nil];
     
     self.mediaSection = [[UIView alloc] init];
-    self.webView = [[UIWebView alloc] init];
+    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)]; //Needs width of 320, otherwise "height" is calculated wrong because only 1 character can fit per line
     self.continueButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
     if([media.type isEqualToString:@"PHOTO"] && media.url)
@@ -147,50 +147,8 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 
 - (void) imageFinishedLoading:(AsyncMediaImageView *)image
 {
-    //THIS CODE IS COPIED FROM NPCVIEWCONTROLLER- this should be rolled into asyncmediaimageview or something
-    
-    //ASPECT FIT + ALIGN TO TOP:
-    //Let 'aspect fit' do the actual aspect fill- but still required to simulate the fitting to get correct dimensions
-    image.frame = CGRectMake(0, 0, 320, [UIScreen mainScreen].applicationFrame.size.height-64);
-    
-    float sw = image.frame.size.width;  //screen width (320)
-    float sh = image.frame.size.height; //screen height(416)
-    float iw = image.image.size.width;  //image width  (like, the raw image size. example:1024)
-    float ih = image.image.size.height; //image height (like, the raw image size. example:768)
-    
-    float dw = iw;                      //display width  (calculated size of image AFTER aspect fit)
-    float dh = ih;                      //display height (calculated size of image AFTER aspect fit)
-    if(ih < sh && iw < sw)              //simulate scale up to aspect fit if necessary
-    {
-        if(ih > iw)
-        {
-            dh = sh;
-            dw = sh/ih*iw;
-        }
-        else
-        {
-            dh = sw/iw*ih;
-            dw = sw;
-        }
-    }
-    
-    if(dw > sw)
-    {
-        dw = sw;
-        dh = ih*sw/iw;
-    }
-    if(dh > sh)
-    {
-        dh = sh;
-        dw = iw*sh/ih;
-    }
-    
-    if(dh < sh)
-        image.frame = CGRectMake(0, (-0.5*(sh-dh)), image.frame.size.width, image.frame.size.height);
-    else
-        image.frame = CGRectMake(0,0,sw,sh);
-    
-    self.mediaSection.frame = CGRectMake(0, 0, 320, dh);
+    image.frame = CGRectMake(0, 0, 320, 320/image.image.size.width*image.image.size.height);
+    self.mediaSection.frame = image.frame;
     self.webView.frame = CGRectMake(0, self.mediaSection.frame.size.height+10, 320, self.webView.frame.size.height);
     self.continueButton.frame = CGRectMake(0, self.webView.frame.origin.y + self.webView.frame.size.height+10, 320, 45);
     self.scrollView.contentSize = CGSizeMake(320,self.continueButton.frame.origin.y + self.continueButton.frame.size.height+50);
@@ -204,7 +162,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     if([url rangeOfString:@"?"].location == NSNotFound)
         url = [url stringByAppendingString: [NSString stringWithFormat: @"?gameId=%d&webPageId=%d&playerId=%d",[AppModel sharedAppModel].currentGame.gameId, node.nodeId, [AppModel sharedAppModel].player.playerId]];
     else
-        url = [url stringByAppendingString: [NSString stringWithFormat: @"&gameId=%d&webPageId=%d&playerId=%d",[AppModel sharedAppModel].currentGame.gameId, node.nodeId, [AppModel sharedAppModel].player.playerId]];
+        url = [url stringByAppendingString:[NSString stringWithFormat: @"&gameId=%d&webPageId=%d&playerId=%d",[AppModel sharedAppModel].currentGame.gameId, node.nodeId, [AppModel sharedAppModel].player.playerId]];
     
     //PHIL TODO- convert to ARIS WebView (but first, create ARIS WebView)
     

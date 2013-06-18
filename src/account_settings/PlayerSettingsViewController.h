@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "AppModel.h"
 #import "CameraViewController.h"
-#import "AsyncMediaTouchableImageView.h"
 #import <MobileCoreServices/UTCoreTypes.h>
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "UIImage+Scale.h"

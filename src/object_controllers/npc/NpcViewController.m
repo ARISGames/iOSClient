@@ -296,7 +296,7 @@ NSString *const kDialogHtmlTemplate =
         
         if(currentScene.mediaId != 0)
         {
-            Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.mediaId ofType:nil];
+            Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.mediaId ofType:@"PHOTO"];//if it can't find a media, assume it is a photo
             //TEMPORARY BANDAID 
             if(self.currentImageView.isLoading)
             {
@@ -356,8 +356,8 @@ NSString *const kDialogHtmlTemplate =
         [UIView animateWithDuration:currentScene.zoomTime animations:^
         {
             currentCharacterImageSection.frame = CGRectMake(currentScene.imageRect.origin.x*-1, currentScene.imageRect.origin.y*-1,
-                                                            imageFrame.size.width *imageFrame.size.width /currentScene.imageRect.size.width,
-                                                            imageFrame.size.height*imageFrame.size.height/currentScene.imageRect.size.height);
+                                                            currentScene.imageRect.size.width*currentScene.imageRect.size.width/imageFrame.size.width,
+                                                            currentScene.imageRect.size.height*currentScene.imageRect.size.height/imageFrame.size.height);
         }];
         currentImageView.frame = imageFrame; //To prevent animation from changing it...
     }
@@ -483,10 +483,10 @@ NSString *const kDialogHtmlTemplate =
     if(closingScriptPlaying == YES || currentScript.exitToType)
     {
         [[AppServices sharedAppServices] updateServerNodeViewed:currentNode.nodeId fromLocation:0];
-        [delegate gameObjectViewControllerRequestsDismissal:self];
+        [self dismissSelf];
         
         if([currentScript.exitToType isEqualToString:@"tab"])
-            [delegate displayTab:[currentScript.exitToTabTitle lowercaseString]];
+            [delegate displayTab:currentScript.exitToTabTitle];
         else if([currentScript.exitToType isEqualToString:@"plaque"])
             [delegate displayGameObject:[[AppModel sharedAppModel] nodeForNodeId:currentScript.exitToTypeId] fromSource:self];
         else if([currentScript.exitToType isEqualToString:@"webpage"])
@@ -566,7 +566,7 @@ NSString *const kDialogHtmlTemplate =
     self.navigationItem.leftBarButtonItem = self.navigationItem.backBarButtonItem;
 }
 
-- (void) backButtonTouchAction:(id)sender
+- (void) dismissSelf
 {
     [[AppServices sharedAppServices] updateServerNpcViewed:currentNpc.npcId fromLocation:0];
     [delegate gameObjectViewControllerRequestsDismissal:self];
@@ -799,9 +799,9 @@ NSString *const kDialogHtmlTemplate =
 {    
 	if (indexPath.section == 1 && indexPath.row == 0)
     {
-		[self backButtonTouchAction:nil];
-		return;
-	}
+		[self dismissSelf];
+        return;
+    }
 	
 	NodeOption *selectedOption = [optionList objectAtIndex:[indexPath row]];
 	Node *newNode = [[AppModel sharedAppModel] nodeForNodeId:selectedOption.nodeId];

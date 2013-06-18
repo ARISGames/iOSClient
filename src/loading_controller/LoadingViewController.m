@@ -12,8 +12,27 @@
 
 @interface LoadingViewController()
 {
+    IBOutlet UIImageView *splashImage;
+    IBOutlet UIProgressView *progressBar;
+    IBOutlet UILabel *progressLabel;
+    
+    int gameDatasToReceive;
+    int receivedGameData;
+    BOOL gameDataReceived;
+    
+    int playerDatasToReceive;
+    int receivedPlayerData;
+    BOOL playerDataReceived;
+    
+    float epsillon;
+
     id<LoadingViewControllerDelegate> __unsafe_unretained delegate;
 }
+
+@property(nonatomic)IBOutlet UIImageView *splashImage;
+@property(nonatomic)IBOutlet UIProgressView *progressBar;
+@property(nonatomic)IBOutlet UILabel *progressLabel;
+
 @end
 
 @implementation LoadingViewController
@@ -21,7 +40,6 @@
 @synthesize splashImage;
 @synthesize progressBar;
 @synthesize progressLabel;
-@synthesize receivedData;
 
 - (id) initWithDelegate:(id<LoadingViewControllerDelegate>)d;
 {
@@ -29,18 +47,28 @@
     {
         delegate = d;
         
-        receivedData = 0;
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataReceived) name:@"GamePieceReceived" object:nil];
+        epsillon = 0.00001;
+        
+        gameDatasToReceive = 7;
+        receivedGameData = 0;
+        gameDataReceived = NO;
+        
+        playerDatasToReceive = 4;
+        receivedPlayerData = 0;
+        playerDataReceived = NO;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameDataReceived)   name:@"GamePieceReceived"   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerDataReceived) name:@"PlayerPieceReceived" object:nil];
     }
     return self;
 }
 
--(void)dealloc
+-(void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)viewDidLoad
+- (void) viewDidLoad
 {
     [super viewDidLoad];
     
@@ -49,26 +77,45 @@
     [self moveProgressBar];
 }
 
--(void) dataReceived
+-(void) gameDataReceived
 {
-    receivedData++;
+    receivedGameData++;
     [self moveProgressBar];
 }
 
-- (void)moveProgressBar
+-(void) playerDataReceived
 {
-    float actual = ((float)receivedData/7.0f);//<- What. '8'? Where did that number come from?
-    progressBar.progress = actual;
+    receivedPlayerData++;
+    [self moveProgressBar];
+}
+
+- (void) moveProgressBar
+{
+    float percentLoaded = ((float)(receivedGameData+receivedPlayerData)/(float)(gameDatasToReceive+playerDatasToReceive));
+    progressBar.progress = percentLoaded;
     [progressBar setNeedsLayout];
     [progressBar setNeedsDisplay];
     [progressLabel setNeedsDisplay];
     [progressLabel setNeedsLayout];
     
-    if(actual >= 0.999)
+    if(!gameDataReceived && ((float)receivedGameData/(float)gameDatasToReceive) >= 1.0-epsillon)
+    {
+        gameDataReceived = YES;
+        [delegate loadingViewControllerFinishedLoadingGameData];
+    }
+    if(!playerDataReceived && ((float)receivedPlayerData/(float)playerDatasToReceive) >= 1.0-epsillon)
+    {
+        playerDataReceived = YES;
+        [delegate loadingViewControllerFinishedLoadingPlayerData];
+    }
+    if(percentLoaded >= 1.0-epsillon)
     {
         [self dismissViewControllerAnimated:NO completion:nil];
-        [delegate loadingViewControllerDidComplete];
-        receivedData = 0;
+        [delegate loadingViewControllerFinishedLoadingData];
+        receivedGameData   = 0;
+        gameDataReceived   = NO;
+        receivedPlayerData = 0;
+        playerDataReceived = NO;
     }
 }
 

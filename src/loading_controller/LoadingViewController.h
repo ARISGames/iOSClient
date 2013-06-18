@@ -9,21 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @protocol LoadingViewControllerDelegate
-- (void) loadingViewControllerDidComplete;
+- (void) loadingViewControllerFinishedLoadingGameData;
+- (void) loadingViewControllerFinishedLoadingPlayerData;
+- (void) loadingViewControllerFinishedLoadingData;
 @end
 
 @interface LoadingViewController : UIViewController
-{
-    IBOutlet UIImageView *splashImage;
-    IBOutlet UIProgressView *progressBar;
-    IBOutlet UILabel *progressLabel;
-    int receivedData;
-}
-
-@property(nonatomic)IBOutlet UIImageView *splashImage;
-@property(nonatomic)IBOutlet UIProgressView *progressBar;
-@property(nonatomic)IBOutlet UILabel *progressLabel;
-@property(readwrite)int receivedData;
 
 - (id) initWithDelegate:(id<LoadingViewControllerDelegate>)d;
 - (void)moveProgressBar;
