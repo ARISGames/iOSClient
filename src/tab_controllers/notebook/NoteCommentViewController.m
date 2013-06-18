@@ -182,7 +182,7 @@
                                                                                       presenter:[RootViewController sharedRootViewController]
                                                                                      preloadNow:NO];
 
-            [cell.userLabel setFrame:CGRectMake(cell.userLabel.frame.origin.x, cell.frame.origin.y+(textHeight+300)+5, cell.userLabel.frame.size.width, cell.userLabel.frame.size.height)];
+            [cell.userLabel setFrame:CGRectMake(cell.userLabel.frame.origin.x, cell.frame.origin.y+(textHeight+450)+5, cell.userLabel.frame.size.width, cell.userLabel.frame.size.height)];
 
             [cell addSubview:mediaButton];
         }
@@ -211,7 +211,7 @@
            [[(NoteContent *)[n.contents objectAtIndex:i] getType] isEqualToString:@"VIDEO"] ||
            [[(NoteContent *)[n.contents objectAtIndex:i] getType] isEqualToString:@"AUDIO"])
         {
-            textHeight+=300;
+            textHeight+=450;
         }
     }
     textHeight += 26; // User Label

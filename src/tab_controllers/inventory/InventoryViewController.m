@@ -189,11 +189,11 @@
 
 - (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier
 {
-	CGRect cellFrame = CGRectMake(0, 0, 310, 60);
-	CGRect iconFrame = CGRectMake(5, 5, 50, 50);
-	CGRect label1Frame = CGRectMake(70, 12, 180, 20); //Title
-	CGRect label2Frame = CGRectMake(70, 29, 240, 20); //Desc
-    CGRect label3Frame = CGRectMake(260, 12, 50, 20); //Qty
+	CGRect cellFrame   = CGRectMake(  0,  0, 310, 60);
+	CGRect iconFrame   = CGRectMake(  5,  5,  50, 50);
+	CGRect label1Frame = CGRectMake( 70, 12, 180, 20); //Title
+	CGRect label2Frame = CGRectMake( 70, 29, 240, 20); //Desc
+    CGRect label3Frame = CGRectMake(260, 12,  50, 20); //Qty
 	UILabel *lblTemp;
 	UIImageView *iconViewTemp;
 	
@@ -293,6 +293,7 @@
         {
             [iconView removeFromSuperview];
             iconView = [[AsyncMediaImageView alloc] initWithFrame:iconView.frame andMedia:iconMedia];
+            iconView.tag = 3;
             [cell addSubview:iconView];
         }
         else

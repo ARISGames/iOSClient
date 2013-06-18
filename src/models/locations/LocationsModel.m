@@ -12,7 +12,7 @@
 
 @synthesize currentLocations;
 
--(id)init
+- (id) init
 {
     self = [super init];
     if(self)
@@ -23,22 +23,22 @@
     return self;
 }
 
--(void)dealloc
+- (void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
--(void)clearData
+- (void) clearData
 {
     [self updateLocations:[[NSArray alloc] init]];
 }
 
--(void)latestPlayerLocationsReceived:(NSNotification *)notification
+- (void) latestPlayerLocationsReceived:(NSNotification *)notification
 {
     [self updateLocations:[notification.userInfo objectForKey:@"locations"]];
 }
 
--(void)updateLocations:(NSArray *)locations
+- (void) updateLocations:(NSArray *)locations
 {
     NSMutableArray *newlyAvailableLocations   = [[NSMutableArray alloc] initWithCapacity:5];
     NSMutableArray *newlyUnavailableLocations = [[NSMutableArray alloc] initWithCapacity:5];
@@ -98,7 +98,7 @@
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LocationsAvailable" object:self userInfo:lDict]];
 }
 
--(int)modifyQuantity:(int)quantityModifier forLocationId:(int)locationId
+- (int) modifyQuantity:(int)quantityModifier forLocationId:(int)locationId
 {
 	NSLog(@"LocationsModel: modifying quantity for a location in the local location list");
     NSMutableArray *newLocations = [[NSMutableArray alloc] initWithCapacity:[self.currentLocations count]];
@@ -118,7 +118,7 @@
     return tmpLocation.qty;
 }
 
--(Location *)locationForId:(int)locationId
+- (Location *) locationForId:(int)locationId
 {
     for(int i = 0; i < [currentLocations count]; i++)
         if(((Location *)[currentLocations objectAtIndex:i]).locationId == locationId) return [currentLocations objectAtIndex:i];

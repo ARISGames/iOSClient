@@ -240,7 +240,6 @@
 		AABC73AF172739D80074CC21 /* ARISMoviePlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70D4172739D60074CC21 /* ARISMoviePlayerViewController.m */; };
 		AABC73B0172739D80074CC21 /* AsyncMediaImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70D6172739D60074CC21 /* AsyncMediaImageView.m */; };
 		AABC73B1172739D80074CC21 /* AsyncMediaPlayerButton.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70D8172739D60074CC21 /* AsyncMediaPlayerButton.m */; };
-		AABC73B2172739D80074CC21 /* AsyncMediaTouchableImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70DA172739D60074CC21 /* AsyncMediaTouchableImageView.m */; };
 		AABC73B3172739D80074CC21 /* AppModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70DD172739D60074CC21 /* AppModel.m */; };
 		AABC73B4172739D80074CC21 /* AttributesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70E0172739D60074CC21 /* AttributesModel.m */; };
 		AABC73B5172739D80074CC21 /* InventoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70E3172739D60074CC21 /* InventoryModel.m */; };
@@ -732,8 +731,6 @@
 		AABC70D6172739D60074CC21 /* AsyncMediaImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncMediaImageView.m; sourceTree = "<group>"; };
 		AABC70D7172739D60074CC21 /* AsyncMediaPlayerButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncMediaPlayerButton.h; sourceTree = "<group>"; };
 		AABC70D8172739D60074CC21 /* AsyncMediaPlayerButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncMediaPlayerButton.m; sourceTree = "<group>"; };
-		AABC70D9172739D60074CC21 /* AsyncMediaTouchableImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncMediaTouchableImageView.h; sourceTree = "<group>"; };
-		AABC70DA172739D60074CC21 /* AsyncMediaTouchableImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncMediaTouchableImageView.m; sourceTree = "<group>"; };
 		AABC70DC172739D60074CC21 /* AppModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppModel.h; sourceTree = "<group>"; };
 		AABC70DD172739D60074CC21 /* AppModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppModel.m; sourceTree = "<group>"; };
 		AABC70DF172739D60074CC21 /* AttributesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttributesModel.h; sourceTree = "<group>"; };
@@ -1544,8 +1541,6 @@
 				AABC70D6172739D60074CC21 /* AsyncMediaImageView.m */,
 				AABC70D7172739D60074CC21 /* AsyncMediaPlayerButton.h */,
 				AABC70D8172739D60074CC21 /* AsyncMediaPlayerButton.m */,
-				AABC70D9172739D60074CC21 /* AsyncMediaTouchableImageView.h */,
-				AABC70DA172739D60074CC21 /* AsyncMediaTouchableImageView.m */,
 			);
 			path = media;
 			sourceTree = "<group>";
@@ -2526,7 +2521,6 @@
 				AABC73AF172739D80074CC21 /* ARISMoviePlayerViewController.m in Sources */,
 				AABC73B0172739D80074CC21 /* AsyncMediaImageView.m in Sources */,
 				AABC73B1172739D80074CC21 /* AsyncMediaPlayerButton.m in Sources */,
-				AABC73B2172739D80074CC21 /* AsyncMediaTouchableImageView.m in Sources */,
 				AABC73B3172739D80074CC21 /* AppModel.m in Sources */,
 				AABC73B4172739D80074CC21 /* AttributesModel.m in Sources */,
 				AABC73B5172739D80074CC21 /* InventoryModel.m in Sources */,
