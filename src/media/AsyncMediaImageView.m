@@ -49,7 +49,7 @@
     return self;
 }
 
--(id) initWithFrame:(CGRect)aFrame andMediaId:(int)mediaId andDelegate:(id<AsyncMediaImageViewDelegate>)d
+- (id) initWithFrame:(CGRect)aFrame andMediaId:(int)mediaId andDelegate:(id<AsyncMediaImageViewDelegate>)d
 {
     return [self initWithFrame:aFrame andMedia:[[AppModel sharedAppModel] mediaForMediaId:mediaId ofType:nil] andDelegate:d];
 }
@@ -121,11 +121,9 @@
 - (void) movieThumbDidFinish:(NSNotification*)aNotification
 {
     NSLog(@"AsyncMediaImageView: movieThumbDidFinish");
-    NSDictionary *userInfo = aNotification.userInfo;
-    UIImage *videoThumb = [userInfo objectForKey:MPMoviePlayerThumbnailImageKey];
+    UIImage *videoThumb = [aNotification.userInfo objectForKey:MPMoviePlayerThumbnailImageKey];
 
-    UIImage *videoThumbSized = [videoThumb scaleToSize:self.frame.size];        
-    self.media.image = UIImageJPEGRepresentation(videoThumbSized,1.0 ) ;     
+    self.media.image = UIImageJPEGRepresentation([videoThumb scaleToSize:self.frame.size],1.0 ) ;     
     [self updateViewWithNewImage:[UIImage imageWithData:self.media.image]];
 
     if(self.delegate && [self.delegate respondsToSelector:@selector(imageFinishedLoading:)])
