@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>5EF482B0-5C23-4355-BD5E-023CFD5E983B</string>
+	<key>IDESourceControlProjectName</key>
+	<string>ARIS</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>2CF58A57-468F-4019-9C60-4D9C14071284</key>
+		<string>https://github.com/ARISGames/iOSClient.git</string>
+		<key>307C953F-61DB-4976-9440-FA47D1F3A967</key>
+		<string>ssh://github.com/zxing/zxing.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>ARIS.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>2CF58A57-468F-4019-9C60-4D9C14071284</key>
+		<string>../..</string>
+		<key>307C953F-61DB-4976-9440-FA47D1F3A967</key>
+		<string>../../src/third_party/zxing</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/ARISGames/iOSClient.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>2CF58A57-468F-4019-9C60-4D9C14071284</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>2CF58A57-468F-4019-9C60-4D9C14071284</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ARISiOSClient</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>307C953F-61DB-4976-9440-FA47D1F3A967</string>
+			<key>IDESourceControlWCCName</key>
+			<string>zxing</string>
+		</dict>
+	</array>
+</dict>
+</plist>
