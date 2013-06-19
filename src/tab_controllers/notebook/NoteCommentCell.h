@@ -36,9 +36,10 @@
 @property (nonatomic) IBOutlet UIImageView *mediaIcon4;
 @property (nonatomic) IBOutlet UIButton *retryButton;
 @property (nonatomic) IBOutlet UIActivityIndicatorView *spinner;
+
 - (void) checkForRetry;
 - (IBAction) retryUpload;
 - (IBAction) likeButtonTouched;
-- (void) initCell;
+- (void) initWithNote:(Note *)n;
 
 @end

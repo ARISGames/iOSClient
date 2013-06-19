@@ -31,8 +31,6 @@
 @synthesize userLiked;
 @synthesize parentNoteId;
 @synthesize parentRating;
-@synthesize hasImage;
-@synthesize hasAudio;
 @synthesize latitude;
 @synthesize longitude;
 
@@ -57,8 +55,6 @@
         self.userLiked = NO;
         self.parentNoteId = 0;
         self.parentRating = 0;
-        self.hasImage = NO;
-        self.hasAudio = NO;
         self.latitude = 0.0;
         self.longitude = 0.0;
     }

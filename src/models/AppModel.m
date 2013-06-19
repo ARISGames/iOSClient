@@ -111,12 +111,15 @@
         [defaults synchronize];
     }
     if(![[defaults stringForKey:@"appVersion"] isEqualToString:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]] ||
-       (self.serverURL && ![currServ isEqual:self.serverURL]))
+       (self.serverURL && ![currServ isEqual:self.serverURL]) ||
+       [defaults boolForKey:@"clearCache"])
     {
         [[AppModel sharedAppModel].mediaCache clearCache];
         NSLog(@"NSNotification: LogoutRequested");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LogoutRequested" object:self]];
         self.serverURL = currServ;
+        [defaults setBool:NO forKey:@"clearCache"];
+        [defaults synchronize];
         return;
     }
     self.serverURL = currServ;
@@ -125,36 +128,15 @@
     //Safe to load defaults
     if(!self.player)
     {
-        self.player = [[Player alloc] init];
-        self.showPlayerOnMap = [defaults  boolForKey:@"showPlayerOnMap"];
-        player.playerId      = [defaults  integerForKey:@"playerId"];
-        player.playerMediaId = [defaults  integerForKey:@"playerMediaId"];
-        player.username      = [defaults  objectForKey:@"userName"];
-        player.displayname   = [defaults  objectForKey:@"displayName"];
-        player.groupname     = [defaults  objectForKey:@"groupName"];
-        player.groupGameId   = [[defaults objectForKey:@"groupName"] intValue];
+        self.player               = [[Player alloc] init];
+        self.showPlayerOnMap      = [defaults  boolForKey:@"showPlayerOnMap"];
+        self.player.playerId      = [defaults  integerForKey:@"playerId"];
+        self.player.playerMediaId = [defaults  integerForKey:@"playerMediaId"];
+        self.player.username      = [defaults  objectForKey:@"userName"];
+        self.player.displayname   = [defaults  objectForKey:@"displayName"];
+        self.player.groupname     = [defaults  objectForKey:@"groupName"];
+        self.player.groupGameId   = [[defaults objectForKey:@"groupName"] intValue];
     }
-    
-	if ([defaults boolForKey:@"resetTutorial"])
-    {
-		self.hasSeenNearbyTabTutorial    = NO;
-		self.hasSeenQuestsTabTutorial    = NO;
-		self.hasSeenMapTabTutorial       = NO;
-		self.hasSeenInventoryTabTutorial = NO;
-		[defaults setBool:NO forKey:@"hasSeenNearbyTabTutorial"];
-		[defaults setBool:NO forKey:@"hasSeenQuestsTabTutorial"];
-		[defaults setBool:NO forKey:@"hasSeenMapTabTutorial"];
-		[defaults setBool:NO forKey:@"hasSeenInventoryTabTutorial"];
-        
-		[defaults setBool:NO forKey:@"resetTutorial"];
-	}
-	else
-    {
-		self.hasSeenNearbyTabTutorial    = [defaults boolForKey:@"hasSeenNearbyTabTutorial"];
-		self.hasSeenQuestsTabTutorial    = [defaults boolForKey:@"hasSeenQuestsTabTutorial"];
-		self.hasSeenMapTabTutorial       = [defaults boolForKey:@"hasSeenMapTabTutorial"];
-		self.hasSeenInventoryTabTutorial = [defaults boolForKey:@"hasSeenInventoryTabTutorial"];
-	}
     
     self.fallbackGameId = [defaults integerForKey:@"gameId"];
 }
@@ -209,7 +191,7 @@
     [defaults synchronize];
 }
 
--(void)saveCOREData
+- (void) saveCOREData
 {
     NSError *error = nil;
     if (managedObjectContext != nil)

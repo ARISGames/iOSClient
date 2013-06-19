@@ -159,7 +159,9 @@
 {
     [AppModel sharedAppModel].player = nil;
     [[AppModel sharedAppModel] saveUserDefaults];
-    [(LoginViewController *)[[self.loginNavigationController viewControllers] objectAtIndex:0] resetState];
+    [self.gamePickersViewController resetState];
+    if([[self.loginNavigationController viewControllers] count] > 0)
+        [(LoginViewController *)[[self.loginNavigationController viewControllers] objectAtIndex:0] resetState];
     [self displayContentController:self.loginNavigationController];
 }
 

@@ -95,6 +95,13 @@
         [self displayContentController:self.gamePickersTabBarController];
 }
 
+- (void) resetState
+{
+    [self displayContentController:self.gamePickersTabBarController];
+    for(int i = 0; i < [[self.gamePickersTabBarController viewControllers] count]; i++)
+        [(GamePickerViewController *)([[((ARISNavigationController *)[[self.gamePickersTabBarController viewControllers] objectAtIndex:i]) viewControllers] objectAtIndex:0]) clearList];
+}
+
 - (void) gamePicked:(Game *)g
 {
     GameDetailsViewController *gameDetailsViewController = [[GameDetailsViewController alloc] initWithGame:g delegate:self];

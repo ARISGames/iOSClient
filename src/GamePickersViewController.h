@@ -20,5 +20,6 @@
 @interface GamePickersViewController : ARISContainerViewController
 
 - (id) initWithDelegate:(id<GamePickersViewControllerDelegate>)d;
+- (void) resetState;
 
 @end

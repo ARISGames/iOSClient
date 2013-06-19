@@ -10,5 +10,5 @@
 
 @class Note;
 @interface NoteCommentViewController : UIViewController
-- (id)initWithNote:(Note *)n delegate:(id)d;
+- (id) initWithNote:(Note *)n delegate:(id)d;
 @end

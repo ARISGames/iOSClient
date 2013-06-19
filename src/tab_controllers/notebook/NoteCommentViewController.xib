@@ -98,7 +98,7 @@
 					</object>
 					<object class="IBUIView" id="780997418">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">274</int>
+						<int key="NSvFlags">266</int>
 						<object class="NSMutableArray" key="NSSubviews">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBUIButton" id="238505012">
@@ -180,6 +180,7 @@
 								<string key="NSFrame">{{274, 8}, {36, 36}}</string>
 								<reference key="NSSuperview" ref="780997418"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<reference key="IBUIBackgroundColor" ref="281447506"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>

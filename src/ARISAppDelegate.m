@@ -70,7 +70,9 @@
 
     if([AppModel sharedAppModel].fallbackGameId != 0 && ![AppModel sharedAppModel].currentGame)
         [[AppServices sharedAppServices] fetchOneGameGameList:[AppModel sharedAppModel].fallbackGameId];
-        
+    else if([AppModel sharedAppModel].player.playerId > 0)
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerAlreadyLoggedIn" object:nil]];
+    
     [[[AppModel sharedAppModel] uploadManager] checkForFailedContent];
     
     [self startPollingLocation];
