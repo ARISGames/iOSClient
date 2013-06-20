@@ -115,8 +115,11 @@
        [defaults boolForKey:@"clearCache"])
     {
         [[AppModel sharedAppModel].mediaCache clearCache];
-        NSLog(@"NSNotification: LogoutRequested");
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LogoutRequested" object:self]];
+        if([AppModel sharedAppModel].player)
+        {
+            NSLog(@"NSNotification: LogoutRequested");
+            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"LogoutRequested" object:self]];
+        }
         self.serverURL = currServ;
         [defaults setBool:NO forKey:@"clearCache"];
         [defaults synchronize];
@@ -251,7 +254,7 @@
 
 #pragma mark Retrieving Cashed Objects 
 
-- (Media *) mediaForMediaId:(int)mId ofType:(NSString *)type // type = nil for "I don't know". Used as a hint for how to treat media if it needs to be loaded
+- (Media *) mediaForMediaId:(int)mId ofType:(NSString *)type// type = nil for "I don't know". Used as a hint for how to treat media if it needs to be loaded
 {
     if(mId == 0) return nil;
 	return [mediaCache mediaForMediaId:mId ofType:type];
