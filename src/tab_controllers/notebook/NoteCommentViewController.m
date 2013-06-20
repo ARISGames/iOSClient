@@ -87,13 +87,16 @@
     self.hideKeyboardButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"SaveCommentKey", @"") style:UIBarButtonItemStylePlain target:self action:@selector(hideKeyboard)];
     self.addCommentButton   = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(showKeyboard)];
     self.navigationItem.rightBarButtonItem = addCommentButton;
-    [self.navigationItem.backBarButtonItem setAction:@selector(dismissSelf:)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(dismissSelf:)];
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
     if(self.textBox.frame.origin.y == 0)
         [self.textBox becomeFirstResponder];
+    
+    [self.navigationItem.backBarButtonItem setAction:@selector(dismissSelf:)];
+    [self.navigationItem.leftBarButtonItem setAction:@selector(dismissSelf:)];
     [self refreshViewFromModel];
 }
 
@@ -118,6 +121,7 @@
 
 - (void) dismissSelf:(id)sender
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self.navigationController popViewControllerAnimated:NO];
 }
 
@@ -168,23 +172,14 @@
     {
         if([[(NoteContent *)[cell.note.contents objectAtIndex:x] getType] isEqualToString:@"PHOTO"])
         {
-            [cell.userLabel setFrame:CGRectMake(cell.userLabel.frame.origin.x, cell.frame.origin.y+(textHeight+300)+5, cell.userLabel.frame.size.width, cell.userLabel.frame.size.height)];
-            [cell addSubview:[[AsyncMediaImageView alloc] initWithFrame:CGRectMake(10, textHeight, 300, 300) andMedia:[[[cell.note contents] objectAtIndex:x] getMedia]]];
+            [cell.userLabel setFrame:CGRectMake(cell.userLabel.frame.origin.x, cell.frame.origin.y+(textHeight+450)+5, cell.userLabel.frame.size.width, cell.userLabel.frame.size.height)];
+            [cell addSubview:[[AsyncMediaImageView alloc] initWithFrame:CGRectMake(10, textHeight, 300, 450) andMedia:[[[cell.note contents] objectAtIndex:x] getMedia]]];
         }
         else if([[(NoteContent *)[cell.note.contents objectAtIndex:x] getType] isEqualToString:@"VIDEO"] ||
                 [[(NoteContent *)[cell.note.contents objectAtIndex:x] getType] isEqualToString:@"AUDIO"])
         {
-            NoteContent *content = (NoteContent *)[[cell.note contents] objectAtIndex:x];
-            
-            CGRect frame = CGRectMake(10, textHeight, 300, 450);
-            AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:frame
-                                                                                          media:content.getMedia
-                                                                                      presenter:[RootViewController sharedRootViewController]
-                                                                                     preloadNow:NO];
-
             [cell.userLabel setFrame:CGRectMake(cell.userLabel.frame.origin.x, cell.frame.origin.y+(textHeight+450)+5, cell.userLabel.frame.size.width, cell.userLabel.frame.size.height)];
-
-            [cell addSubview:mediaButton];
+            [cell addSubview:[[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(10, textHeight, 300, 450) media:((NoteContent *)[[cell.note contents] objectAtIndex:x]).getMedia presenter:self preloadNow:NO]];
         }
     }
     
@@ -300,7 +295,7 @@
 
 - (void) imageChosenWithURL:(NSURL *)url
 {
-    [[[AppModel sharedAppModel] uploadManager]uploadContentForNoteId:self.note.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:@"PHOTO" withFileURL:url];
+    [[[AppModel sharedAppModel] uploadManager] uploadContentForNoteId:self.comment.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:@"PHOTO" withFileURL:url];
     self.addPhotoButton.userInteractionEnabled = NO;
     self.addMediaFromAlbumButton.userInteractionEnabled = NO;
     self.addAudioButton.userInteractionEnabled = NO;
