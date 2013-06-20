@@ -410,8 +410,6 @@
 		ABB2CAC5177267490060FFFA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB2CAC3177267490060FFFA /* Default-568h@2x.png */; };
 		ABB2CAC8177267630060FFFA /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB2CAC7177267630060FFFA /* Default@2x.png */; };
 		ABB2CACC17726B200060FFFA /* LoginBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB2CACB17726B200060FFFA /* LoginBackground.png */; };
-		ABB2CACE17726B260060FFFA /* LoginBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB2CACD17726B260060FFFA /* LoginBackground@2x.png */; };
-		ABB2CAD017726B2B0060FFFA /* LoginBackground-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB2CACF17726B2B0060FFFA /* LoginBackground-568h@2x.png */; };
 		ABB2CDC413C7497500F051E4 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB2CDC313C7497400F051E4 /* CoreVideo.framework */; };
 		ABB2CDC613C7498A00F051E4 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB2CDC513C7498A00F051E4 /* AddressBook.framework */; };
 		ABDA40DE10506CB300823A94 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABDA40DD10506CB300823A94 /* MapKit.framework */; };
@@ -1060,8 +1058,6 @@
 		ABB2CAC4177267490060FFFA /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		ABB2CAC7177267630060FFFA /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		ABB2CACB17726B200060FFFA /* LoginBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LoginBackground.png; sourceTree = "<group>"; };
-		ABB2CACD17726B260060FFFA /* LoginBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LoginBackground@2x.png"; sourceTree = "<group>"; };
-		ABB2CACF17726B2B0060FFFA /* LoginBackground-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LoginBackground-568h@2x.png"; sourceTree = "<group>"; };
 		ABB2CDC313C7497400F051E4 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		ABB2CDC513C7498A00F051E4 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		ABD24F59120A5BAD00D792F5 /* fr */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1156,8 +1152,6 @@
 		AABC6F3D1727398B0074CC21 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				ABB2CACF17726B2B0060FFFA /* LoginBackground-568h@2x.png */,
-				ABB2CACD17726B260060FFFA /* LoginBackground@2x.png */,
 				ABB2CACB17726B200060FFFA /* LoginBackground.png */,
 				ABB2CAC7177267630060FFFA /* Default@2x.png */,
 				ABB2CAC3177267490060FFFA /* Default-568h@2x.png */,
@@ -2468,8 +2462,6 @@
 				ABB2CAC5177267490060FFFA /* Default-568h@2x.png in Resources */,
 				ABB2CAC8177267630060FFFA /* Default@2x.png in Resources */,
 				ABB2CACC17726B200060FFFA /* LoginBackground.png in Resources */,
-				ABB2CACE17726B260060FFFA /* LoginBackground@2x.png in Resources */,
-				ABB2CAD017726B2B0060FFFA /* LoginBackground-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2704,8 +2696,8 @@
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: David Gagnon (56YHU87885)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: David Gagnon (56YHU87885)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2735,8 +2727,8 @@
 					"-v",
 				);
 				PRODUCT_NAME = ARIS;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "C24CF76E-9D8B-461C-85DF-83B76249A40E";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C24CF76E-9D8B-461C-85DF-83B76249A40E";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SDKROOT = iphoneos;
