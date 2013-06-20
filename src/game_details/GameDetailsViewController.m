@@ -77,12 +77,6 @@ NSString *const kGameDetailsHtmlTemplate =
 
 - (void)viewDidLoad
 {
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey", @"")
-                                                                   style:UIBarButtonItemStyleBordered
-                                                                  target:self
-                                                                  action:@selector(backButtonTouched)];
-    
-	self.navigationItem.leftBarButtonItem = backButton;
     self.mediaImageView = [[AsyncMediaImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
 
     self.title = self.game.name;
@@ -92,6 +86,8 @@ NSString *const kGameDetailsHtmlTemplate =
 
 	[descriptionWebView setBackgroundColor:[UIColor clearColor]];
     [self.segmentedControl setTitle:[NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"RatingKey", @""),game.rating] forSegmentAtIndex:0];
+    
+    self.hidesBottomBarWhenPushed = YES;
     
     [super viewDidLoad];
 }

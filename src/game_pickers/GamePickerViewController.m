@@ -165,7 +165,12 @@
 {
     if([self.gameList count] == 0) return;
 
-    [delegate gamePicked:[self.gameList objectAtIndex:indexPath.row]];
+    //[delegate gamePicked:[self.gameList objectAtIndex:indexPath.row]];
+    
+    GameDetailsViewController *gameDetailsViewController = [[GameDetailsViewController alloc] initWithGame:[self.gameList objectAtIndex:indexPath.row] delegate: delegate];
+    
+    [self.navigationController pushViewController:gameDetailsViewController animated:YES];
+
 }
 
 - (void) tableView:(UITableView *)aTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
