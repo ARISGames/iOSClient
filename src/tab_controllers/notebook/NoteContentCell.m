@@ -74,7 +74,7 @@
     else if([[self.content getType] isEqualToString:@"AUDIO"] ||
             [[self.content getType] isEqualToString:@"VIDEO"])
     {
-        AsyncMediaImageView *aView = [[AsyncMediaImageView alloc] initWithFrame:self.imageView.frame andMedia:self.content.getMedia];
+        AsyncMediaImageView *aView = [[AsyncMediaImageView alloc] initWithFrame:self.imageView.frame andMedia:[self.content getMedia]];
         UIImageView *overlay = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"play_button.png"]];
         overlay.frame = CGRectMake(aView.frame.origin.x, aView.frame.origin.y, aView.frame.size.width/2, aView.frame.size.height/2);
         overlay.center = aView.center;

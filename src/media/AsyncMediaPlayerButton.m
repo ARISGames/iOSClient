@@ -6,7 +6,6 @@
 //  Copyright (c) 2012 University of Wisconsin. All rights reserved.
 //
 
-#import "RootViewController.h"
 #import "AsyncMediaPlayerButton.h"
 #import "Media.h"
 #import "ARISMoviePlayerViewController.h"
@@ -54,14 +53,23 @@
         [self setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
         [self addTarget:self action:@selector(playMovie:) forControlEvents:UIControlEventTouchUpInside];
         
+        if([media.type isEqualToString:@"VIDEO"])
+        {
+            self.mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+            self.mMoviePlayer.moviePlayer.shouldAutoplay = NO;
+        }
+        
         if(self.media.image)
             [self setBackgroundImage:[[UIImage imageWithData: self.media.image] scaleToSize:self.frame.size] forState:UIControlStateNormal];
         else if([media.type isEqualToString:@"VIDEO"])
         {
-            self.mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
-            self.mMoviePlayer.moviePlayer.shouldAutoplay = NO;
             [self.mMoviePlayer.moviePlayer requestThumbnailImagesAtTimes:[NSArray arrayWithObject:[NSNumber numberWithFloat:1.0f]] timeOption:MPMovieTimeOptionNearestKeyFrame];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:self.mMoviePlayer.moviePlayer];
+        }
+        else if([media.type isEqualToString:@"AUDIO"])
+        {
+            self.media.image = UIImageJPEGRepresentation([UIImage imageNamed:@"microphoneBackground.jpg"], 1.0);
+            [self setBackgroundImage:[[UIImage imageNamed:@"microphoneBackground.jpg"] scaleToSize:self.frame.size] forState:UIControlStateNormal];
         }
         
         if(preload) [self attemptLoadingContent];
@@ -75,20 +83,6 @@
     hasStartedLoading = YES;
     
     [self.mMoviePlayer.moviePlayer prepareToPlay];
-    
-    if(!media.image)
-    {
-        if([media.type isEqualToString:@"VIDEO"])
-        {
-            [self.mMoviePlayer.moviePlayer requestThumbnailImagesAtTimes:[NSArray arrayWithObject:[NSNumber numberWithFloat:1.0f]] timeOption:MPMovieTimeOptionNearestKeyFrame];
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:self.mMoviePlayer.moviePlayer];
-        }
-        else if([media.type isEqualToString:@"AUDIO"])
-        {
-            self.media.image = UIImageJPEGRepresentation([UIImage imageNamed:@"microphoneBackground.jpg"], 1.0);
-            [self setBackgroundImage:[[UIImage imageNamed:@"microphoneBackground.jpg"] scaleToSize:self.frame.size] forState:UIControlStateNormal];
-        }
-    }
 }
 
 - (void) movieThumbDidFinish:(NSNotification*)notification
