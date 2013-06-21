@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1552</int>
-		<string key="IBDocument.SystemVersion">12D78</string>
+		<string key="IBDocument.SystemVersion">12E55</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187.37</string>
+		<string key="IBDocument.AppKitVersion">1187.39</string>
 		<string key="IBDocument.HIToolboxVersion">626.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -105,6 +105,10 @@
 									<object class="NSNull" id="4"/>
 									<reference ref="4"/>
 								</array>
+								<object class="NSColor" key="IBTintColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC44MTU2ODYyNzQ1IDAuMTI1NDkwMTk2MSAwLjIxNTY4NjI3NDUAA</bytes>
+								</object>
 							</object>
 						</array>
 						<string key="NSFrameSize">{320, 44}</string>
@@ -133,7 +137,6 @@
 								<string key="NSFrame">{{6, 8}, {300, 30}}</string>
 								<reference key="NSSuperview" ref="230452768"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBSegmentControlStyle">2</int>
@@ -164,6 +167,10 @@
 									<reference ref="4"/>
 									<reference ref="4"/>
 								</array>
+								<object class="NSColor" key="IBTintColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC44MTU2ODYyNzQ1IDAuMTI1NDkwMTk2MSAwLjIxNTY4NjI3NDUAA</bytes>
+								</object>
 							</object>
 						</array>
 						<string key="NSFrame">{{0, 372}, {320, 44}}</string>

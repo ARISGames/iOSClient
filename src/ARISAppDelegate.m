@@ -50,11 +50,26 @@
     //WHITE-      [UIColor colorWithRed:(0.0/255.0)   green:(0.0/255.0)    blue:(0.0/255.0)   alpha:1.0];
     //OFFWHITE-   [UIColor colorWithRed:(214.0/255.0) green:(218.0/255.0)  blue:(211.0/255.0) alpha:1.0];
 
-    [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:(214.0/255.0) green:(218.0/255.0)  blue:(211.0/255.0) alpha:1.0]];
-    [[UITabBar appearance]        setTintColor:[UIColor colorWithRed:(214.0/255.0) green:(218.0/255.0)  blue:(211.0/255.0) alpha:1.0]];
+
     [[UIToolbar appearance]       setTintColor:[UIColor colorWithRed:(214.0/255.0) green:(218.0/255.0)  blue:(211.0/255.0) alpha:1.0]];
+    
+    [[UIBarButtonItem appearance] setTintColor:[UIColor colorWithRed:(237.0/255.0) green:(23.0/255.0)   blue:(79.0/255.0)  alpha:1.0]];
+    
+    [[UISegmentedControl appearance] setTintColor:[UIColor darkGrayColor]];
+
     [[UISearchBar appearance]     setTintColor:[UIColor colorWithRed:(214.0/255.0) green:(218.0/255.0)  blue:(211.0/255.0) alpha:1.0]];
 
+    [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:(214.0/255.0) green:(218.0/255.0)  blue:(211.0/255.0) alpha:1.0]];
+    [[UINavigationBar appearance] setTitleTextAttributes:
+        [NSDictionary dictionaryWithObjectsAndKeys: [UIColor darkGrayColor],
+         UITextAttributeTextColor,
+         [UIFont fontWithName:@"ProximaNova-Semibold" size:0.0],
+         UITextAttributeFont,
+         nil]
+     ];
+
+    [[UITabBar appearance]        setTintColor:[UIColor colorWithRed:(214.0/255.0) green:(218.0/255.0)  blue:(211.0/255.0) alpha:1.0]];
+    
     [[UITabBarItem appearance] setTitleTextAttributes:
         [NSDictionary dictionaryWithObjectsAndKeys:
             [UIColor darkGrayColor],UITextAttributeTextColor,
