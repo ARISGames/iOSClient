@@ -226,10 +226,12 @@ NSString *const kGameDetailsHtmlTemplate =
 {
     if (indexPath.section == 1)
     {
-        if(indexPath.row == 0)
-            cell.backgroundColor = [UIColor colorWithRed:182/255.0 green:255/255.0 blue:154/255.0 alpha:1.0];
+        if(indexPath.row == 0) {
+            cell.backgroundColor = [UIColor colorWithRed:(237.0/255.0) green:(23.0/255.0)   blue:(79.0/255.0)  alpha:1.0];
+            cell.textLabel.textColor = [UIColor whiteColor];
+        }
         if(indexPath.row == 1 && self.game.hasBeenPlayed)
-            cell.backgroundColor = [UIColor colorWithRed:255/255.0 green:153/255.0 blue:181/255.0 alpha:1.0];
+            cell.backgroundColor = [UIColor colorWithRed:(228.0/255.0) green:(229.0/255.0)  blue:(230.0/255.0) alpha:1.0];
     }
 }
 
