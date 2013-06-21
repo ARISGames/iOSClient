@@ -61,7 +61,7 @@
 
     [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:(214.0/255.0) green:(218.0/255.0)  blue:(211.0/255.0) alpha:1.0]];
     [[UINavigationBar appearance] setTitleTextAttributes:
-        [NSDictionary dictionaryWithObjectsAndKeys: [UIColor darkGrayColor],
+        [NSDictionary dictionaryWithObjectsAndKeys: [UIColor colorWithRed:(0.0/255.0)   green:(101.0/255.0)  blue:(149.0/255.0) alpha:1.0],
          UITextAttributeTextColor,
          [UIFont fontWithName:@"ProximaNova-Semibold" size:0.0],
          UITextAttributeFont,
