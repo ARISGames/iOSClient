@@ -300,6 +300,7 @@
     self.gamePlayTabBarController.viewControllers = [NSArray arrayWithArray:gamePlayTabVCs];
     self.gamePlayTabBarController.moreNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     self.gamePlayTabBarController.moreNavigationController.delegate = self;
+    self.gamePlayTabBarController.tabBar.selectedImageTintColor = [UIColor whiteColor];
     self.gamePlayTabBarController.selectedIndex = 0;
 }
 

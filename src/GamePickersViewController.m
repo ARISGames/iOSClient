@@ -78,6 +78,7 @@
     //Setup the Game Selection Tab Bar
     self.gamePickersTabBarController = [[UITabBarController alloc] init];
     self.gamePickersTabBarController.delegate = self;
+    self.gamePickersTabBarController.tabBar.selectedImageTintColor = [UIColor colorWithRed:(237.0/255.0) green:(23.0/255.0)   blue:(79.0/255.0)  alpha:1.0];
     
     self.gamePickersTabBarController.viewControllers = [NSMutableArray arrayWithObjects:
                                                        gamePickerNearbyNC,

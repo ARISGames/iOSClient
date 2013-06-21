@@ -50,11 +50,26 @@
     //WHITE-      [UIColor colorWithRed:(0.0/255.0)   green:(0.0/255.0)    blue:(0.0/255.0)   alpha:1.0];
     //OFFWHITE-   [UIColor colorWithRed:(214.0/255.0) green:(218.0/255.0)  blue:(211.0/255.0) alpha:1.0];
 
-    [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:(0.0/255.0)   green:(101.0/255.0)  blue:(149.0/255.0) alpha:1.0]];
-    [[UITabBar appearance]        setTintColor:[UIColor colorWithRed:(0.0/255.0)   green:(101.0/255.0)  blue:(149.0/255.0) alpha:1.0]];
-    [[UIToolbar appearance]       setTintColor:[UIColor colorWithRed:(132.0/255.0) green:(153.0/255.0)  blue:(165.0/255.0) alpha:1.0]];
-    [[UISearchBar appearance]     setTintColor:[UIColor colorWithRed:(132.0/255.0) green:(153.0/255.0)  blue:(165.0/255.0) alpha:1.0]];
+    [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:(214.0/255.0) green:(218.0/255.0)  blue:(211.0/255.0) alpha:1.0]];
+    [[UITabBar appearance]        setTintColor:[UIColor colorWithRed:(214.0/255.0) green:(218.0/255.0)  blue:(211.0/255.0) alpha:1.0]];
+    [[UIToolbar appearance]       setTintColor:[UIColor colorWithRed:(214.0/255.0) green:(218.0/255.0)  blue:(211.0/255.0) alpha:1.0]];
+    [[UISearchBar appearance]     setTintColor:[UIColor colorWithRed:(214.0/255.0) green:(218.0/255.0)  blue:(211.0/255.0) alpha:1.0]];
 
+    [[UITabBarItem appearance] setTitleTextAttributes:
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            [UIColor darkGrayColor],UITextAttributeTextColor,
+            [UIFont fontWithName:@"ProximaNova-Semibold" size:0.0], UITextAttributeFont, nil]
+        forState:UIControlStateHighlighted];
+    
+    [[UITabBarItem appearance] setTitleTextAttributes:
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            [UIColor lightGrayColor], UITextAttributeTextColor,
+            [UIFont fontWithName:@"ProximaNova-Semibold" size:0.0], UITextAttributeFont,nil]
+        forState:UIControlStateNormal];
+    
+    
+    
+    
     if([window respondsToSelector:@selector(setRootViewController:)])
         window.rootViewController = [RootViewController sharedRootViewController];
     else
