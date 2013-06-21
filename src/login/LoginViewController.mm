@@ -165,14 +165,14 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 {
     [self resignKeyboard];
     ForgotPasswordViewController *forgotPassViewController = [[ForgotPasswordViewController alloc] init];
-    [[self navigationController] pushViewController:forgotPassViewController animated:NO];
+    [[self navigationController] pushViewController:forgotPassViewController animated:YES];
 }
 
 - (IBAction) newAccountButtonTouched:(id)sender
 {
     [self resignKeyboard];
     SelfRegistrationViewController *selfRegistrationViewController = [[SelfRegistrationViewController alloc] initWithDelegate:self];
-    [[self navigationController] pushViewController:selfRegistrationViewController animated:NO];
+    [[self navigationController] pushViewController:selfRegistrationViewController animated:YES];
 }
 
 - (void) registrationSucceededWithUsername:(NSString *)username password:(NSString *)password
