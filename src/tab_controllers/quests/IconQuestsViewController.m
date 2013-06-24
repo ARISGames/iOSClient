@@ -19,11 +19,15 @@
 #import "WebPage.h"
 #import "WebPageViewController.h"
 
+#define ICONWIDTH 76
+#define ICONHEIGHT 90
+#define ICONSPERROW 3
+#define TEXTLABELHEIGHT 10
+#define TEXTLABELPADDING 7
 
 static NSString * const OPTION_CELL = @"quest";
 static int const ACTIVE_SECTION = 0;
 static int const COMPLETED_SECTION = 1;
-
 
 NSString *const kIconQuestsHtmlTemplate =
 @"<html>"
@@ -48,10 +52,31 @@ NSString *const kIconQuestsHtmlTemplate =
 @"<body></div><div style=\"position:relative; top:0px; background-color:#DDDDDD; border-style:ridge; border-width:3px; border-radius:11px; border-color:#888888;padding:15px;\"><h1>%@</h1>%@</div></body>"
 @"</html>";
 
-@interface IconQuestsViewController()
+@interface IconQuestsViewController() <UICollectionViewDataSource,UICollectionViewDelegate>
 {
+    UIScrollView *questIconScrollView;
+    UICollectionView *questIconCollectionView;
+    UICollectionViewFlowLayout *questIconCollectionViewLayout;
+    
+    int newItemsSinceLastView;
+    int itemsPerColumnWithoutScrolling;
+    int initialHeight;
+    
+    BOOL supportsCollectionView;
+    NSArray *sortedQuests;
+    
     id<QuestsViewControllerDelegate> __unsafe_unretained delegate;
 }
+
+@property(nonatomic) NSMutableArray *quests;
+
+- (id)initWithDelegate:(id<QuestsViewControllerDelegate>)d;
+- (void)refresh;
+- (void)showLoadingIndicator;
+- (void)removeLoadingIndicator;
+- (void)dismissTutorial;
+- (void)refreshViewFromModel;
+
 @end
 
 @implementation IconQuestsViewController
@@ -164,8 +189,7 @@ NSString *const kIconQuestsHtmlTemplate =
         [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
     }
     
-    NSSortDescriptor *sortDescriptor;
-    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sortNum" ascending:YES];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sortNum" ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
     NSArray *sortedActiveQuests    = [[AppModel sharedAppModel].currentGame.questsModel.currentActiveQuests    sortedArrayUsingDescriptors:sortDescriptors];
     NSArray *sortedCompletedQuests = [[AppModel sharedAppModel].currentGame.questsModel.currentCompletedQuests sortedArrayUsingDescriptors:sortDescriptors];

@@ -485,6 +485,7 @@
 		AAAC4352172EDDB300C92DF0 /* GameObjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameObjectViewController.h; sourceTree = "<group>"; };
 		AAAC4353172EDDB300C92DF0 /* GameObjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameObjectViewController.m; sourceTree = "<group>"; };
 		AAB8AADC17441B64001F10F0 /* StateControllerProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StateControllerProtocol.h; sourceTree = "<group>"; };
+		AABBAF681778B4B500D56E4B /* IconQuestsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IconQuestsViewController.h; sourceTree = "<group>"; };
 		AABC6F3A172738CD0074CC21 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		AABC6F3E1727398B0074CC21 /* 103-map.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "103-map.png"; sourceTree = "<group>"; };
 		AABC6F3F1727398B0074CC21 /* 103-map@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "103-map@2x.png"; sourceTree = "<group>"; };
@@ -876,7 +877,6 @@
 		AABC71A4172739D70074CC21 /* TextViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TextViewController.xib; sourceTree = "<group>"; };
 		AABC71A6172739D70074CC21 /* IconQuestsButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IconQuestsButton.h; sourceTree = "<group>"; };
 		AABC71A7172739D70074CC21 /* IconQuestsButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IconQuestsButton.m; sourceTree = "<group>"; };
-		AABC71A8172739D70074CC21 /* IconQuestsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IconQuestsViewController.h; sourceTree = "<group>"; };
 		AABC71A9172739D70074CC21 /* IconQuestsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IconQuestsViewController.m; sourceTree = "<group>"; };
 		AABC71AA172739D70074CC21 /* IconQuestsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IconQuestsViewController.xib; sourceTree = "<group>"; };
 		AABC71AB172739D70074CC21 /* QuestDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestDetailsViewController.h; sourceTree = "<group>"; };
@@ -1911,7 +1911,7 @@
 				AABC71AF172739D70074CC21 /* QuestsViewController.h */,
 				AABC71B0172739D70074CC21 /* QuestsViewController.m */,
 				AABC74FB17285FF70074CC21 /* QuestsViewController.xib */,
-				AABC71A8172739D70074CC21 /* IconQuestsViewController.h */,
+				AABBAF681778B4B500D56E4B /* IconQuestsViewController.h */,
 				AABC71A9172739D70074CC21 /* IconQuestsViewController.m */,
 				AABC71AA172739D70074CC21 /* IconQuestsViewController.xib */,
 				AABC71A6172739D70074CC21 /* IconQuestsButton.h */,
