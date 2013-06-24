@@ -168,7 +168,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	}
 	else if(([media.type isEqualToString:@"VIDEO"] || [media.type isEqualToString:@"AUDIO"]) && media.url)
     {        
-        AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presenter:[RootViewController sharedRootViewController] preloadNow:NO];
+        AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presenter:self preloadNow:NO];
         //mediaArea.frame = CGRectMake(0, 0, 300, 240);
         [self.scrollView addSubview:mediaButton];
         //mediaArea.frame = CGRectMake(0, 0, 300, 240);
@@ -251,7 +251,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         itemActionVC.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
         [[self navigationController] pushViewController:itemActionVC animated:YES];
         [self updateQuantityDisplay];
-        
     }
     else 
     {
