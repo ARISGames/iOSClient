@@ -126,7 +126,6 @@
     {
 		cell = (GamePickerCell *)[[UIViewController alloc] initWithNibName:@"GamePickerCell" bundle:nil].view;
         cell.starView.backgroundColor = [UIColor clearColor];
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-halfselected.png"] forState:kSCRatingViewHalfSelected];
         [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]  forState:kSCRatingViewHighlighted];
         [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]          forState:kSCRatingViewHot];
         [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]  forState:kSCRatingViewNonSelected];

@@ -227,11 +227,18 @@ NSString *const kGameDetailsHtmlTemplate =
     if (indexPath.section == 1)
     {
         if(indexPath.row == 0) {
-            cell.backgroundColor = [UIColor colorWithRed:(237.0/255.0) green:(23.0/255.0)   blue:(79.0/255.0)  alpha:1.0];
+            cell.backgroundColor = [UIColor colorWithRed:(0.0/255.0)   green:(101.0/255.0)  blue:(149.0/255.0) alpha:1.0];
+
             cell.textLabel.textColor = [UIColor whiteColor];
         }
-        if(indexPath.row == 1 && self.game.hasBeenPlayed)
-            cell.backgroundColor = [UIColor colorWithRed:(228.0/255.0) green:(229.0/255.0)  blue:(230.0/255.0) alpha:1.0];
+        if(indexPath.row == 1 && self.game.hasBeenPlayed){
+            cell.backgroundColor = [UIColor colorWithRed:(237.0/255.0) green:(23.0/255.0)   blue:(79.0/255.0)  alpha:1.0];
+            
+            cell.textLabel.textColor = [UIColor whiteColor];
+        }
+        else if((indexPath.row == 1 && !game.hasBeenPlayed) || indexPath.row == 2)
+            cell.backgroundColor = [UIColor colorWithRed:233.0/255.0 green:233.0/255.0 blue:233.0/255.0 alpha:1.0];
+
     }
 }
 
@@ -310,12 +317,12 @@ NSString *const kGameDetailsHtmlTemplate =
     UITableViewCell *cell = (RatingCell *)[[UIViewController alloc] initWithNibName:@"RatingCell" bundle:nil].view;
     
     RatingCell *ratingCell = (RatingCell *)cell;
+
     ratingCell.ratingView.rating = self.game.rating;
     ratingCell.ratingView.userInteractionEnabled = NO;
     ratingCell.reviewsLabel.text = [NSString stringWithFormat:@"%d %@",self.game.numReviews, NSLocalizedString(@"ReviewsKey", @"")];
     [ratingCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
-    [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-halfselected.png"] forState:kSCRatingViewHalfSelected];
     [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]  forState:kSCRatingViewHighlighted];
     [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]          forState:kSCRatingViewHot];
     [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]  forState:kSCRatingViewNonSelected];

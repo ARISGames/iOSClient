@@ -19,9 +19,7 @@
     
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-    
-        [self.ratingView setStarImage:[UIImage imageNamed:@"small-star-halfselected.png"]
-                             forState:kSCRatingViewHalfSelected];
+
         [self.ratingView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
                              forState:kSCRatingViewHighlighted];
         [self.ratingView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
