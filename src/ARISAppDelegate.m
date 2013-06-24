@@ -7,6 +7,7 @@
 //
 
 #import "ARISAppDelegate.h"
+#import "UIColor+ARISColors.h"
 
 @interface ARISAppDelegate ()
 {
@@ -40,45 +41,32 @@
     readingCountUpToOneHundredThousand = 0;
     steps = 0;
     
-    //DARK BLUE-  [UIColor colorWithRed:(0.0/255.0)   green:(101.0/255.0)  blue:(149.0/255.0) alpha:1.0];
-    //LIGHT BLUE- [UIColor colorWithRed:(132.0/255.0) green:(153.0/255.0)  blue:(165.0/255.0) alpha:1.0];
-    //ORANGE-     [UIColor colorWithRed:(249.0/255.0) green:(99.0/255.0)   blue:(2.0/255.0)   alpha:1.0];
-    //RED-        [UIColor colorWithRed:(237.0/255.0) green:(23.0/255.0)   blue:(79.0/255.0)  alpha:1.0];
-    //YELLOW-     [UIColor colorWithRed:(216.0/255.0) green:(181.0/255.0)  blue:(17.0/255.0)  alpha:1.0];
-    //BLACK-      [UIColor colorWithRed:(?.0/255.0)   green:(?.0/255.0)    blue:(?.0/255.0)   alpha:1.0];
-    //LIGHT GRAY- [UIColor colorWithRed:(228.0/255.0) green:(229.0/255.0)  blue:(230.0/255.0) alpha:1.0];
-    //WHITE-      [UIColor colorWithRed:(0.0/255.0)   green:(0.0/255.0)    blue:(0.0/255.0)   alpha:1.0];
-    //OFFWHITE-   [UIColor colorWithRed:(214.0/255.0) green:(218.0/255.0)  blue:(211.0/255.0) alpha:1.0];
 
-
-    [[UIToolbar appearance]       setTintColor:[UIColor colorWithRed:(214.0/255.0) green:(218.0/255.0)  blue:(211.0/255.0) alpha:1.0]];
-    
-    [[UIBarButtonItem appearance] setTintColor:[UIColor colorWithRed:(237.0/255.0) green:(23.0/255.0)   blue:(79.0/255.0)  alpha:1.0]];
-    
-    [[UISegmentedControl appearance] setTintColor:[UIColor darkGrayColor]];
-
-    [[UISearchBar appearance]     setTintColor:[UIColor colorWithRed:(214.0/255.0) green:(218.0/255.0)  blue:(211.0/255.0) alpha:1.0]];
-
-    [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:(214.0/255.0) green:(218.0/255.0)  blue:(211.0/255.0) alpha:1.0]];
+    [[UIToolbar appearance]             setTintColor:[UIColor ARISColorLightGrey]];
+    [[UIBarButtonItem appearance]       setTintColor:[UIColor ARISColorRed]];
+    [[UISegmentedControl appearance]    setTintColor:[UIColor ARISColorDarkBlue]];
+    [[UISearchBar appearance]           setTintColor:[UIColor ARISColorLightGrey]];
+    UIImage *navBarBackground44 = [[UIImage imageNamed:@"navBarBackground44"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    [[UINavigationBar appearance] setBackgroundImage:navBarBackground44 forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setTitleTextAttributes:
-        [NSDictionary dictionaryWithObjectsAndKeys: [UIColor colorWithRed:(0.0/255.0)   green:(101.0/255.0)  blue:(149.0/255.0) alpha:1.0],
-         UITextAttributeTextColor,
-         [UIFont fontWithName:@"ProximaNova-Semibold" size:0.0],
-         UITextAttributeFont,
-         nil]
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            [UIColor ARISColorDarkBlue],UITextAttributeTextColor,
+            [UIFont fontWithName:@"ProximaNova-Semibold" size:0.0],UITextAttributeFont,
+            nil]
      ];
 
-    [[UITabBar appearance]        setTintColor:[UIColor colorWithRed:(214.0/255.0) green:(218.0/255.0)  blue:(211.0/255.0) alpha:1.0]];
+    [[UITabBar appearance] setBackgroundImage:navBarBackground44];
+    [[UITabBar appearance] setSelectionIndicatorImage:navBarBackground44];
     
     [[UITabBarItem appearance] setTitleTextAttributes:
         [NSDictionary dictionaryWithObjectsAndKeys:
-            [UIColor darkGrayColor],UITextAttributeTextColor,
+            [UIColor ARISColorDarkBlue],UITextAttributeTextColor,
             [UIFont fontWithName:@"ProximaNova-Semibold" size:0.0], UITextAttributeFont, nil]
         forState:UIControlStateHighlighted];
     
     [[UITabBarItem appearance] setTitleTextAttributes:
         [NSDictionary dictionaryWithObjectsAndKeys:
-            [UIColor lightGrayColor], UITextAttributeTextColor,
+            [UIColor ARISColorDarkBlue], UITextAttributeTextColor,
             [UIFont fontWithName:@"ProximaNova-Semibold" size:0.0], UITextAttributeFont,nil]
         forState:UIControlStateNormal];
     

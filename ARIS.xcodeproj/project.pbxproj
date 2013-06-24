@@ -398,6 +398,8 @@
 		AABC7519172873510074CC21 /* ItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7517172873510074CC21 /* ItemViewController.m */; };
 		AAF81FA3174BCD640003D848 /* libZXingWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAF81FA0174BC73C0003D848 /* libZXingWidget.a */; };
 		AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB0A5BA3120365420065CE68 /* Localizable.strings */; };
+		AB0DE73217785B1E00D62D9B /* navBarBackground44.png in Resources */ = {isa = PBXBuildFile; fileRef = AB0DE73117785B1E00D62D9B /* navBarBackground44.png */; };
+		AB0DE7371778636300D62D9B /* UIColor+ARISColors.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE7361778636300D62D9B /* UIColor+ARISColors.m */; };
 		AB0DE80911559D0500A6EC3E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0DE80811559D0500A6EC3E /* AVFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		AB0DE80D11559D1200A6EC3E /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */; };
 		AB38DB3C13E4A1DE001EFF52 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AB38DB3B13E4A1DE001EFF52 /* libiconv.dylib */; };
@@ -1045,6 +1047,9 @@
 		AAF81F9A174BC73C0003D848 /* ZXingWidget.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZXingWidget.xcodeproj; path = src/third_party/zxing/iphone/ZXingWidget/ZXingWidget.xcodeproj; sourceTree = "<group>"; };
 		AB0A5BA4120365420065CE68 /* en */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AB0A5BA61203665C0065CE68 /* es */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		AB0DE73117785B1E00D62D9B /* navBarBackground44.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navBarBackground44.png; sourceTree = "<group>"; };
+		AB0DE73417785F4D00D62D9B /* UIColor+ARISColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ARISColors.h"; sourceTree = "<group>"; };
+		AB0DE7361778636300D62D9B /* UIColor+ARISColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ARISColors.m"; sourceTree = "<group>"; };
 		AB0DE80811559D0500A6EC3E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		AB1660BD14E8754B002C6ACB /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -1154,6 +1159,7 @@
 		AABC6F3D1727398B0074CC21 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				AB0DE73117785B1E00D62D9B /* navBarBackground44.png */,
 				AB39FD401773ACCF006DEC96 /* logo.png */,
 				AB44383F1774DFF2004D9DC3 /* logoWithText.png */,
 				ABB2CAC7177267630060FFFA /* Default@2x.png */,
@@ -1327,6 +1333,8 @@
 		AABC7062172739D60074CC21 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				AB0DE73417785F4D00D62D9B /* UIColor+ARISColors.h */,
+				AB0DE7361778636300D62D9B /* UIColor+ARISColors.m */,
 				AABC70D0172739D60074CC21 /* main.mm */,
 				AABC7070172739D60074CC21 /* ARIS_Prefix.pch */,
 				AABC70D1172739D60074CC21 /* MainWindow.xib */,
@@ -2466,6 +2474,7 @@
 				ABB2CAC8177267630060FFFA /* Default@2x.png in Resources */,
 				AB39FD411773ACCF006DEC96 /* logo.png in Resources */,
 				AB4438401774DFF2004D9DC3 /* logoWithText.png in Resources */,
+				AB0DE73217785B1E00D62D9B /* navBarBackground44.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2663,6 +2672,7 @@
 				AAAB7637173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m in Sources */,
 				AA4B20931745672600079AEF /* ARISNavigationController.m in Sources */,
 				AA3D7C7A17662C1F00382D00 /* MTStatusBarOverlay.m in Sources */,
+				AB0DE7371778636300D62D9B /* UIColor+ARISColors.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

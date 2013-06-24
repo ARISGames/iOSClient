@@ -14,8 +14,8 @@
 #import "GamePickerRecentViewController.h"
 #import "GameDetailsViewController.h"
 #import "AccountSettingsViewController.h"
-
 #import "ARISNavigationController.h"
+#import "UIColor+ARISColors.h"
 
 @interface GamePickersViewController () <UITabBarControllerDelegate, GamePickerViewControllerDelegate, GameDetailsViewControllerDelegate, AccountSettingsViewControllerDelegate>
 {
@@ -78,7 +78,8 @@
     //Setup the Game Selection Tab Bar
     self.gamePickersTabBarController = [[UITabBarController alloc] init];
     self.gamePickersTabBarController.delegate = self;
-    self.gamePickersTabBarController.tabBar.selectedImageTintColor = [UIColor colorWithRed:(237.0/255.0) green:(23.0/255.0)   blue:(79.0/255.0)  alpha:1.0];
+    
+    self.gamePickersTabBarController.tabBar.selectedImageTintColor = [UIColor ARISColorRed];
     
     self.gamePickersTabBarController.viewControllers = [NSMutableArray arrayWithObjects:
                                                        gamePickerNearbyNC,
