@@ -22,6 +22,8 @@
     
     NSString *errorMessage;
     NSString *errorDetail;
+    
+    BOOL emailed;
 }
 
 @property (nonatomic, strong) UIAlertView *waitingIndicator;
@@ -70,6 +72,8 @@
                                                      delegate:self
                                             cancelButtonTitle:NSLocalizedString(@"IgnoreKey", @"")
                                             otherButtonTitles:NSLocalizedString(@"ReportKey", @""),nil];
+        
+        emailed = NO;
     }
     return self;
 }
@@ -82,6 +86,9 @@
 
 - (void)showServerAlertEmailWithTitle:(NSString *)title message:(NSString *)message details:(NSString*)detail
 {
+    if(emailed) return;
+    emailed = YES;
+    
 	errorMessage = message;
     errorDetail  = detail;
     
@@ -91,7 +98,7 @@
     [self.serverAlert show];
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
 	if(buttonIndex == 1)//Since only the server error alert with email has button 1, we know who we are dealing with
     {

@@ -69,7 +69,7 @@
 
 - (int) iconMediaId
 {
-    return 9;
+    return 126853;
 }
 
 - (GameObjectViewController *) viewControllerForDelegate:(id<GameObjectViewControllerDelegate>)d fromSource:(id)s
