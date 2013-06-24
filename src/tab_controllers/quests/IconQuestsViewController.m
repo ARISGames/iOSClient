@@ -143,7 +143,7 @@ NSString *const kIconQuestsHtmlTemplate =
 
 -(void)showLoadingIndicator
 {
-	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
 	[[self navigationItem] setRightBarButtonItem:barButton];
 	[activityIndicator startAnimating];
