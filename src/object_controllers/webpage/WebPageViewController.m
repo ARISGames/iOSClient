@@ -381,12 +381,9 @@
 
 - (int) getQtyInInventoryOfItem:(int)itemId
 {
-    Item *i = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:itemId];
-    if(i)
-        return i.qty;
-    i = [[AppModel sharedAppModel].currentGame.attributesModel attributesItemForId:itemId];
-    if(i)
-        return i.qty;
+    Item *i;
+    if((i = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:itemId]))   return i.qty;
+    if((i = [[AppModel sharedAppModel].currentGame.attributesModel attributesItemForId:itemId])) return i.qty;
     return 0;
 }
 
@@ -397,7 +394,7 @@
     
     Item *i = [[AppModel sharedAppModel] itemForItemId:itemId];
     int newQty = 0;
-    if(!i.itemType == ItemTypeAttribute)
+    if(i.itemType != ItemTypeAttribute)
     {
         Item *ii = [[AppModel sharedAppModel].currentGame.inventoryModel inventoryItemForId:itemId];
         if(ii && ii.qty < qty)
@@ -426,7 +423,7 @@
 
     Item *i = [[AppModel sharedAppModel] itemForItemId:itemId];
     int newQty = 0;
-    if(!i.itemType == ItemTypeAttribute)
+    if(i.itemType != ItemTypeAttribute)
         newQty = [[AppModel sharedAppModel].currentGame.inventoryModel addItemToInventory:i qtyToAdd:qty];
     else
         newQty = [[AppModel sharedAppModel].currentGame.attributesModel addItemToAttributes:i qtyToAdd:qty];
@@ -440,7 +437,7 @@
 
     Item *i = [[AppModel sharedAppModel] itemForItemId:itemId];
     int newQty = 0;
-    if(!i.itemType == ItemTypeAttribute)
+    if(i.itemType != ItemTypeAttribute)
         newQty = [[AppModel sharedAppModel].currentGame.inventoryModel removeItemFromInventory:i qtyToRemove:qty];
     else
         newQty = [[AppModel sharedAppModel].currentGame.attributesModel removeItemFromAttributes:i qtyToRemove:qty];    
