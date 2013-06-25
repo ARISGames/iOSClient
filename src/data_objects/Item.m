@@ -54,9 +54,9 @@
         self.itemId       = [dict validIntForKey:@"item_id"];
         self.name         = [dict validObjectForKey:@"name"];
         self.text         = [dict validObjectForKey:@"description"];
-        if([[dict validObjectForKey:@"type"] isEqualToString:@"NORMAL"]) self.itemType = ItemTypeNormal;
-        if([[dict validObjectForKey:@"type"] isEqualToString:@"ATTRIB"]) self.itemType = ItemTypeAttribute;
-        if([[dict validObjectForKey:@"type"] isEqualToString:@"URL"])    self.itemType = ItemTypeWebPage;
+        if([[dict validStringForKey:@"type"] isEqualToString:@"NORMAL"]) self.itemType = ItemTypeNormal;
+        if([[dict validStringForKey:@"type"] isEqualToString:@"ATTRIB"]) self.itemType = ItemTypeAttribute;
+        if([[dict validStringForKey:@"type"] isEqualToString:@"URL"])    self.itemType = ItemTypeWebPage;
         self.mediaId      = [dict validIntForKey:@"media_id"];
         self.iconMediaId  = [dict validIntForKey:@"icon_media_id"];
         self.qty          = [dict validIntForKey:@"qty"];
