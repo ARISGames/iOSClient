@@ -146,7 +146,7 @@
     iconView.layer.cornerRadius = 10.0;
     
     if(gameForCell.iconMedia.image) iconView.image = [UIImage imageWithData: gameForCell.iconMedia.image];
-    else if(!gameForCell.iconMedia) iconView.image = [UIImage imageNamed:@"Icon.png"];
+    else if(!gameForCell.iconMedia) iconView.image = [UIImage imageNamed:@"icon.png"];
     else                            [iconView loadMedia:gameForCell.iconMedia];
     
     if([cell.iconView.subviews count] > 0) [[cell.iconView.subviews objectAtIndex:0] removeFromSuperview];
