@@ -20,6 +20,7 @@
 #import "Node.h"
 #import "ARISMoviePlayerViewController.h"
 #import "AsyncMediaImageView.h"
+#import "UIColor+ARISColors.h"
 
 static NSString * const OPTION_CELL = @"option";
 
@@ -98,7 +99,8 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     
     self.mediaSection = [[UIView alloc] init];
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)]; //Needs width of 320, otherwise "height" is calculated wrong because only 1 character can fit per line
-    self.continueButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    self.continueButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    //self.continueButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
     if([media.type isEqualToString:@"PHOTO"] && media.url)
     {
@@ -133,6 +135,8 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     [self.webView addSubview:self.webViewSpinner];
     
     //Create continue button cell
+    self.continueButton.backgroundColor = [UIColor ARISColorDarkBlue];
+    self.continueButton.layer.cornerRadius = 10.0f;
     [self.continueButton setTitle:NSLocalizedString(@"TapToContinueKey", @"") forState:UIControlStateNormal];
     [self.continueButton setFrame:CGRectMake(0, 20, 320, 45)];
     [self.continueButton addTarget:self action:@selector(continueButtonTouchAction) forControlEvents:UIControlEventTouchUpInside];
