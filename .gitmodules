@@ -1,3 +1,0 @@
-[submodule "src/third_party/zxing"]
-	path = src/third_party/zxing
-	url = https://github.com/ARISGames/zxing.git
