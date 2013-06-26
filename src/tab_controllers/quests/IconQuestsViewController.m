@@ -90,7 +90,8 @@ NSString *const kIconQuestsHtmlTemplate =
     {
         self.tabID = @"QUESTS";
         self.title = NSLocalizedString(@"QuestViewTitleKey",@"");
-        self.tabBarItem.image = [UIImage imageNamed:@"117-todo"];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"todoTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"todoTabBarUnselected"]];
+        
         supportsCollectionView = NO;
         sortedQuests = [[NSArray alloc] init];
 

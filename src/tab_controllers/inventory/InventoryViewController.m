@@ -74,8 +74,9 @@
         delegate = d;
         
         self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");
-        self.tabBarItem.image = [UIImage imageNamed:@"36-toolbox"];
 
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"toolboxTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"toolboxTabBarUnselected"]];
+        
         self.mediaCache = [[NSMutableDictionary alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory count]];
         self.iconCache  = [[NSMutableDictionary alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory count]];
         self.viewedList = [[NSMutableDictionary alloc] initWithCapacity:10];

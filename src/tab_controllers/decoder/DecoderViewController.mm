@@ -36,7 +36,7 @@
         delegate = d;
         
         self.title = NSLocalizedString(@"QRScannerTitleKey", @"");
-        self.tabBarItem.image = [UIImage imageNamed:@"qrscanner.png"];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"qrScannerTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"qrScannerTabBarUnselected"]];
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishLoadingResult:) name:@"QRCodeObjectReady" object:nil];
     }

@@ -106,7 +106,7 @@ NSString *const kQuestsHtmlTemplate =
 		cellsLoaded = 0;
         
         self.title = NSLocalizedString(@"QuestViewTitleKey",@"");
-        self.tabBarItem.image = [UIImage imageNamed:@"117-todo"];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"todoTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"todoTabBarUnselected"]];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost"                object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedQuestList"             object:nil];

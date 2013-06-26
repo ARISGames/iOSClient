@@ -40,7 +40,7 @@
         
         self.presentMode = mode;
         self.title = NSLocalizedString(@"CameraTitleKey",@"");
-        self.tabBarItem.image = [UIImage imageNamed:@"camera.png"];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"cameraTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"cameraTabBarUnselected"]];
     }
     return self;
 }

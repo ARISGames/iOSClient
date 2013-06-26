@@ -64,7 +64,7 @@
     {
         delegate = d;
         self.title = NSLocalizedString(@"AudioRecorderTitleKey",@"");
-        self.tabBarItem.image = [UIImage imageNamed:@"microphone.png"];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"microphoneTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"microphoneTabBarUnselected"]];
         
         NSString *tempDir = NSTemporaryDirectory ();
         self.soundFileURL = [[NSURL alloc] initFileURLWithPath:[tempDir stringByAppendingString:[NSString stringWithFormat:@"%@.caf",[self getUniqueId]]]];

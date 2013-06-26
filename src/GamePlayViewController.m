@@ -30,6 +30,8 @@
 #import "BogusSelectGameViewController.h"
 #import "NearbyObjectsViewController.h"
 
+#import "UIColor+ARISColors.h"
+
 #import "ARISAlertHandler.h"
 
 #import "ARISNavigationController.h"
@@ -300,7 +302,8 @@
     self.gamePlayTabBarController.viewControllers = [NSArray arrayWithArray:gamePlayTabVCs];
     self.gamePlayTabBarController.moreNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     self.gamePlayTabBarController.moreNavigationController.delegate = self;
-    self.gamePlayTabBarController.tabBar.selectedImageTintColor = [UIColor whiteColor];
+    self.gamePlayTabBarController.tabBar.selectedImageTintColor = [UIColor ARISColorScarlet];
+    
     self.gamePlayTabBarController.selectedIndex = 0;
 }
 

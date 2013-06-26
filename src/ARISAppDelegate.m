@@ -41,38 +41,29 @@
     readingCountUpToOneHundredThousand = 0;
     steps = 0;
     
-
     [[UIToolbar appearance]             setTintColor:[UIColor ARISColorLightGrey]];
     [[UIBarButtonItem appearance]       setTintColor:[UIColor ARISColorRed]];
-    [[UISegmentedControl appearance]    setTintColor:[UIColor ARISColorDarkBlue]];
+    [[UISegmentedControl appearance]    setTintColor:[UIColor ARISColorRed]];
     [[UISearchBar appearance]           setTintColor:[UIColor ARISColorLightGrey]];
-    UIImage *navBarBackground44 = [[UIImage imageNamed:@"navBarBackground44"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-    [[UINavigationBar appearance] setBackgroundImage:navBarBackground44 forBarMetrics:UIBarMetricsDefault];
+    UIImage *navBarBackground = [[UIImage imageNamed:@"navBarBackground"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    
+    UIImage *tabBarBackground = [[UIImage imageNamed:@"tabBarBackground"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    
+    [[UINavigationBar appearance] setBackgroundImage:navBarBackground forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setTitleTextAttributes:
         [NSDictionary dictionaryWithObjectsAndKeys:
-            [UIColor ARISColorDarkBlue],UITextAttributeTextColor,
-            [UIFont fontWithName:@"ProximaNova-Semibold" size:0.0],UITextAttributeFont,
-            nil]
-     ];
+            [UIColor colorWithRed:69 green:69 blue:69 alpha:0],UITextAttributeTextColor,
+            [UIFont fontWithName:@"ProximaNova-Semibold" size:0.0], UITextAttributeFont, nil]];
 
-    [[UITabBar appearance] setBackgroundImage:navBarBackground44];
-    [[UITabBar appearance] setSelectionIndicatorImage:navBarBackground44];
+    [[UITabBar appearance] setBackgroundImage:tabBarBackground];
+    [[UITabBar appearance] setSelectionIndicatorImage:tabBarBackground];
     
     [[UITabBarItem appearance] setTitleTextAttributes:
         [NSDictionary dictionaryWithObjectsAndKeys:
-            [UIColor ARISColorDarkBlue],UITextAttributeTextColor,
+            [UIColor ARISColorBlack],UITextAttributeTextColor,
             [UIFont fontWithName:@"ProximaNova-Semibold" size:0.0], UITextAttributeFont, nil]
-        forState:UIControlStateHighlighted];
-    
-    [[UITabBarItem appearance] setTitleTextAttributes:
-        [NSDictionary dictionaryWithObjectsAndKeys:
-            [UIColor ARISColorDarkBlue], UITextAttributeTextColor,
-            [UIFont fontWithName:@"ProximaNova-Semibold" size:0.0], UITextAttributeFont,nil]
-        forState:UIControlStateNormal];
-    
-    
-    
-    
+        forState:UIControlStateHighlighted && UIControlStateNormal];
+
     if([window respondsToSelector:@selector(setRootViewController:)])
         window.rootViewController = [RootViewController sharedRootViewController];
     else

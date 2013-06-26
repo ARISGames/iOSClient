@@ -10,6 +10,7 @@
 
 @interface UIColor (ARISColors)
 
++ (UIColor*)ARISColorScarlet;
 + (UIColor*)ARISColorDarkBlue;
 + (UIColor*)ARISColorLighBlue;
 + (UIColor*)ARISColorOrange;

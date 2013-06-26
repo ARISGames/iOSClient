@@ -30,7 +30,8 @@
         searchText = @"";
         
         self.title = NSLocalizedString(@"SearchKey", @"");
-        self.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemSearch tag:0];
+        
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"magnifyTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"magnifyTabBarUnselected"]];        
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewSearchGameListReady" object:nil];
     }
