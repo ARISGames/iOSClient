@@ -41,10 +41,10 @@
     readingCountUpToOneHundredThousand = 0;
     steps = 0;
     
-    [[UIToolbar appearance]             setTintColor:[UIColor ARISColorLightGrey]];
-    [[UIBarButtonItem appearance]       setTintColor:[UIColor ARISColorRed]];
-    [[UISegmentedControl appearance]    setTintColor:[UIColor ARISColorRed]];
-    [[UISearchBar appearance]           setTintColor:[UIColor ARISColorLightGrey]];
+    [[UIToolbar appearance]             setTintColor:[UIColor ARISColorOffWhite]];
+    [[UIBarButtonItem appearance]       setTintColor:[UIColor ARISColorLighBlue]];
+    [[UISegmentedControl appearance]    setTintColor:[UIColor ARISColorLighBlue]];
+    [[UISearchBar appearance]           setTintColor:[UIColor ARISColorOffWhite]];
     UIImage *navBarBackground = [[UIImage imageNamed:@"navBarBackground"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
     
     UIImage *tabBarBackground = [[UIImage imageNamed:@"tabBarBackground"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];

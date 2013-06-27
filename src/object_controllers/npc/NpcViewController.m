@@ -31,6 +31,7 @@
 #import "Npc.h"
 
 #import "StateControllerProtocol.h"
+#import "UIColor+ARISColors.h"
 
 const NSInteger kOptionsFontSize = 17;
 
@@ -202,7 +203,13 @@ NSString *const kDialogHtmlTemplate =
     
 	[npcTapToContinueButton setTitle:NSLocalizedString(@"DialogContinue",@"") forState:UIControlStateNormal];
 	[pcTapToContinueButton  setTitle:NSLocalizedString(@"DialogContinue",@"") forState:UIControlStateNormal];
-	
+    npcTapToContinueButton.backgroundColor = [UIColor ARISColorOffWhite];
+    pcTapToContinueButton.backgroundColor = [UIColor ARISColorOffWhite];
+    [npcTapToContinueButton setFrame:CGRectMake(0, 20, 320, 45)];
+    npcTapToContinueButton.layer.cornerRadius = 10.0f;
+    [pcTapToContinueButton setFrame:CGRectMake(0, 20, 320, 45)];
+    pcTapToContinueButton.layer.cornerRadius = 10.0f;
+    
 	textSizeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"textToggle.png"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleNextTextBoxSize)];
 	self.navigationItem.rightBarButtonItem = textSizeButton;
 
@@ -758,16 +765,16 @@ NSString *const kDialogHtmlTemplate =
         [cell.textLabel setLineBreakMode:UILineBreakModeWordWrap];
         if(option.hasViewed)
         {
-            cell.backgroundColor     = [UIColor colorWithRed:233.0/255.0 green:233.0/255.0 blue:233.0/255.0 alpha:1.0];
-            cell.textLabel.textColor = [UIColor colorWithRed:100.0/255.0 green:129.0/255.0 blue:183.0/255.0 alpha:1.0];
+            cell.backgroundColor     = [UIColor ARISColorOffWhite];
+            cell.textLabel.textColor = [UIColor ARISColorDarkBlue];
         }
         else
-            cell.textLabel.textColor = [UIColor colorWithRed:50.0/255.0 green:79.0/255.0 blue:133.0/255.0 alpha:1.0];
+            cell.textLabel.textColor = [UIColor ARISColorDarkBlue];
 	}
 	else if (indexPath.row == 0)
     {
 		cell.textLabel.text = currentLeaveConversationTitle;
-        cell.textLabel.textColor = [UIColor colorWithRed:50.0/255.0 green:79.0/255.0 blue:133.0/255.0 alpha:1.0];
+        cell.textLabel.textColor = [UIColor ARISColorDarkBlue];
 	}
 	
     cell.textLabel.textAlignment = UITextAlignmentCenter;
@@ -781,7 +788,7 @@ NSString *const kDialogHtmlTemplate =
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (indexPath.section == 1) return 35;
+	if (indexPath.section == 1) return 45;
 
 	NodeOption *option = [optionList objectAtIndex:indexPath.row];
 
@@ -792,7 +799,12 @@ NSString *const kDialogHtmlTemplate =
     CGSize expectedLabelSize = [option.text sizeWithFont:[UIFont boldSystemFontOfSize:kOptionsFontSize] 
 									   constrainedToSize:maximumLabelSize lineBreakMode:UILineBreakModeWordWrap]; 
 	
-	return expectedLabelSize.height + 15;	
+	return expectedLabelSize.height + 25;
+}
+
+- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    cell.backgroundColor = [UIColor ARISColorOffWhite];
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

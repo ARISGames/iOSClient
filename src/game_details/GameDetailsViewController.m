@@ -15,6 +15,7 @@
 #import "RatingCell.h"
 
 #import "ARISAlertHandler.h"
+#import "UIColor+ARISColors.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -227,17 +228,20 @@ NSString *const kGameDetailsHtmlTemplate =
     if (indexPath.section == 1)
     {
         if(indexPath.row == 0) {
-            cell.backgroundColor = [UIColor colorWithRed:(0.0/255.0)   green:(101.0/255.0)  blue:(149.0/255.0) alpha:1.0];
+            //Resume
+            cell.backgroundColor = [UIColor ARISColorLighBlue];
 
             cell.textLabel.textColor = [UIColor whiteColor];
         }
         if(indexPath.row == 1 && self.game.hasBeenPlayed){
-            cell.backgroundColor = [UIColor colorWithRed:(237.0/255.0) green:(23.0/255.0)   blue:(79.0/255.0)  alpha:1.0];
+            //Reset
+            cell.backgroundColor = [UIColor ARISColorRed];
             
             cell.textLabel.textColor = [UIColor whiteColor];
         }
         else if((indexPath.row == 1 && !game.hasBeenPlayed) || indexPath.row == 2)
-            cell.backgroundColor = [UIColor colorWithRed:233.0/255.0 green:233.0/255.0 blue:233.0/255.0 alpha:1.0];
+            //Ratings
+            cell.backgroundColor = [UIColor ARISColorOffWhite];
 
     }
 }

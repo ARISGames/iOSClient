@@ -135,11 +135,12 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     [self.webView addSubview:self.webViewSpinner];
     
     //Create continue button cell
-    self.continueButton.backgroundColor = [UIColor ARISColorLightGrey];
-    self.continueButton.layer.cornerRadius = 10.0f;
+    self.continueButton.backgroundColor = [UIColor ARISColorOffWhite];
     [self.continueButton setTitleColor:[UIColor ARISColorBlack] forState:UIControlStateNormal];
     [self.continueButton setTitle:NSLocalizedString(@"TapToContinueKey", @"") forState:UIControlStateNormal];
     [self.continueButton setFrame:CGRectMake(0, 20, 320, 45)];
+    self.continueButton.layer.cornerRadius = 10.0f;
+    self.continueButton.titleLabel.font = [UIFont boldSystemFontOfSize:16];
     [self.continueButton addTarget:self action:@selector(continueButtonTouchAction) forControlEvents:UIControlEventTouchUpInside];
     
     //Setup the scrollview
