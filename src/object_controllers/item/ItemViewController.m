@@ -19,6 +19,9 @@
 #import "NoteEditorViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import "UIImage+Scale.h"
+#import "Item.h"
+#import "ARISMoviePlayerViewController.h"
+#import "AsyncMediaImageView.h"
 
 #import "InventoryViewController.h"
 
@@ -39,14 +42,62 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 @"<body>%@</body>"
 @"</html>";
 
+@interface ItemViewController()  <UIWebViewDelegate, UITextViewDelegate>
+{
+	//ARISMoviePlayerViewController *mMoviePlayer; //only used if item is a video
+	MPMoviePlayerViewController *mMoviePlayer; //only used if item is a video
+    
+	bool descriptionShowing;
+	IBOutlet UIToolbar *toolBar;
+	IBOutlet UIBarButtonItem *dropButton;
+	IBOutlet UIBarButtonItem *deleteButton;
+	IBOutlet UIBarButtonItem *pickupButton;
+	IBOutlet UIBarButtonItem *detailButton;
+    IBOutlet UITextView *textBox;
+    IBOutlet UIButton *saveButton;
+	IBOutlet UIButton *backButton;
+	IBOutlet AsyncMediaImageView *itemImageView;
+	IBOutlet UIWebView *itemDescriptionView;
+    IBOutlet UIWebView *itemWebView;
+	IBOutlet UIScrollView *scrollView;
+	UIButton *mediaPlaybackButton;
+	ItemDetailsModeType mode;
+    IBOutlet UIActivityIndicatorView *activityIndicator;
+    
+    id source;
+}
+
+@property(readwrite) ItemDetailsModeType mode;
+@property(nonatomic) IBOutlet AsyncMediaImageView *itemImageView;
+@property(nonatomic) IBOutlet UIWebView *itemWebView;
+@property(nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property(nonatomic) IBOutlet UIWebView *itemDescriptionView;;
+@property(nonatomic) IBOutlet UITextView *textBox;
+@property(nonatomic) UIScrollView *scrollView;
+@property(nonatomic) IBOutlet UIButton *saveButton;
+
+- (IBAction) dropButtonTouchAction:(id)sender;
+- (IBAction) deleteButtonTouchAction:(id)sender;
+- (IBAction) backButtonTouchAction:(id)sender;
+- (IBAction) pickupButtonTouchAction:(id)sender;
+- (IBAction) playMovie:(id)sender;
+- (IBAction) toggleDescription:(id)sender;
+- (void) doActionWithMode:(ItemDetailsModeType)itemMode quantity:(int)quantity;
+
+- (void) showWaitingIndicator;
+- (void) dismissWaitingIndicator;
+
+@end
+
 @implementation ItemViewController
-@synthesize item, inInventory,mode,itemImageView, itemWebView,activityIndicator,itemDescriptionView,textBox,saveButton,scrollView;
+@synthesize item, mode, itemImageView, itemWebView,activityIndicator,itemDescriptionView,textBox,saveButton,scrollView;
 
 - (id) initWithItem:(Item *)i delegate:(id<GameObjectViewControllerDelegate>)d source:(id)s
 {
     if ((self = [super initWithNibName:@"ItemViewController" bundle:nil]))
     {
         delegate = d;
+        source = s;
 
 		self.item = i;
 		[[NSNotificationCenter defaultCenter] addObserver:self
@@ -57,8 +108,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 		//										 selector:@selector(movieLoadStateChanged:)
 		//											 name:MPMoviePlayerLoadStateDidChangeNotification
 		//										   object:nil];
-        if([(NSObject *)s isKindOfClass:[InventoryViewController class]])
-            inInventory = YES;
         
         mode = kItemDetailsViewing;
     }
@@ -81,7 +130,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	deleteButton.title = NSLocalizedString(@"ItemDeleteKey",@"");
 	detailButton.title = NSLocalizedString(@"ItemDetailKey", @"");
 	
-	if (inInventory == YES)
+	if([(NSObject *)source isKindOfClass:[InventoryViewController class]] == YES)
     {
 		dropButton.width = 75.0;
 		deleteButton.width = 75.0;
@@ -119,7 +168,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	}
 	else if(([media.type isEqualToString:@"VIDEO"] || [media.type isEqualToString:@"AUDIO"]) && media.url)
     {        
-        AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presenter:[RootViewController sharedRootViewController] preloadNow:NO];
+        AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presenter:self preloadNow:NO];
         //mediaArea.frame = CGRectMake(0, 0, 300, 240);
         [self.scrollView addSubview:mediaButton];
         //mediaArea.frame = CGRectMake(0, 0, 300, 240);
@@ -198,13 +247,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	mode = kItemDetailsDropping;
 	if(self.item.qty > 1)
     {
-        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithItem:item];
-        itemActionVC.mode = mode;
-        itemActionVC.delegate = self;
+        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithItem:item mode:mode delegate:self source:source];
         itemActionVC.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
         [[self navigationController] pushViewController:itemActionVC animated:YES];
         [self updateQuantityDisplay];
-        
     }
     else 
     {
@@ -218,10 +264,8 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	mode = kItemDetailsDestroying;
 	if(self.item.qty > 1)
     {
-        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithItem:item];
-        itemActionVC.mode = mode;
-        itemActionVC.delegate = self;
-        
+        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithItem:item mode:mode delegate:self source:source];
+
         itemActionVC.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
         [[self navigationController] pushViewController:itemActionVC animated:YES];
         [self updateQuantityDisplay];
@@ -236,9 +280,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	mode = kItemDetailsPickingUp;
     if(self.item.qty > 1)
     {
-        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithItem:item];
-        itemActionVC.mode = mode;
-        itemActionVC.delegate = self;
+        ItemActionViewController *itemActionVC = [[ItemActionViewController alloc] initWithItem:item mode:mode delegate:self source:source];
         
         itemActionVC.modalPresentationStyle = UIModalTransitionStyleCoverVertical;
         [[self navigationController] pushViewController:itemActionVC animated:YES];
@@ -321,8 +363,13 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         
 		if (quantity > 0) 
         {
-			//TODO [[AppServices sharedAppServices] updateServerPickupItem:self.item.itemId fromLocation:self.item.locationId qty:quantity];
-			//TODO [[AppModel sharedAppModel].currentGame.locationsModel modifyQuantity:-quantity forLocationId:self.item.locationId];
+			if([(NSObject *)source isKindOfClass:[Location class]])
+            {
+                [[AppServices sharedAppServices] updateServerPickupItem:self.item.itemId fromLocation:((Location *)source).locationId qty:quantity];
+                [[AppModel sharedAppModel].currentGame.locationsModel modifyQuantity:-quantity forLocationId:((Location *)source).locationId];
+            }
+            
+            [[AppServices sharedAppServices] updateServerAddInventoryItem:self.item.itemId addQty:quantity];
 			item.qty -= quantity; //the above line does not give us an update, only the map
         }
 	}

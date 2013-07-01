@@ -25,7 +25,7 @@
         delegate = d;
         
         self.title = NSLocalizedString(@"BogusTitleKey", @"");
-        self.tabBarItem.image = [UIImage imageNamed:@"213-reply.png"];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"replyTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"replyTabBarUnselected"]];
         self.view.backgroundColor = [UIColor whiteColor];
     }
     return self;

@@ -14,6 +14,8 @@
 	NSString *returnCodeDescription;
 	NSObject *data;
     NSDictionary *userInfo;
+    
+    BOOL alreadyErred;
 }
 
 @property(readwrite) int returnCode;

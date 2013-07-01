@@ -86,7 +86,8 @@
         delegate = d;
 
         self.title = NSLocalizedString(@"MapViewTitleKey",@"");
-        self.tabBarItem.image = [UIImage imageNamed:@"103-map"];
+        
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"mapTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"mapTabBarUnselected"]];
 
 		tracking = YES;
 		playerTrackingButton.style = UIBarButtonItemStyleDone;
@@ -235,7 +236,7 @@
     [self refreshViewFromModel];
 	[self refresh];
 	
-	if (refreshTimer && [refreshTimer isValid]) [refreshTimer invalidate];
+	if(refreshTimer && [refreshTimer isValid]) [refreshTimer invalidate];
 	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
 }
 
@@ -254,7 +255,6 @@
             [[AppServices sharedAppServices] fetchPlayerOverlayList];
             [self showLoadingIndicator];
         }
-            
         if(tracking) [self zoomAndCenterMap];
     }
 }
@@ -279,7 +279,7 @@
 
 - (void) showLoadingIndicator
 {
-	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 	[self navigationItem].rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
 	[activityIndicator startAnimating];
 }

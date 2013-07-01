@@ -26,7 +26,7 @@
         time = 1;
         
         self.title = NSLocalizedString(@"GamePickerPopularTitleKey", @"");
-        self.tabBarItem.image = [UIImage imageNamed:@"85-trophy"];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"trophyTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"trophyTabBarUnselected"]];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewPopularGameListReady" object:nil];
     }

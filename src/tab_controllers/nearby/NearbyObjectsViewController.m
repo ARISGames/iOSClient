@@ -34,8 +34,9 @@
     if(self = [super initWithNibName:@"NearbyObjectsViewController" bundle:nil])
     {
         delegate = d;
-		self.tabBarItem.image = [UIImage imageNamed:@"73-radar"];
-		self.title = NSLocalizedString(@"NearbyObjectsTabKey",@"");
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"radarTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"radarTabBarUnselected"]];
+        
+        self.title = NSLocalizedString(@"NearbyObjectsTabKey",@"");
 		self.navigationItem.title = NSLocalizedString(@"NearbyObjectsTitleKey",@"");
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"PlayerMoved"        object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"LocationsAvailable" object:nil];

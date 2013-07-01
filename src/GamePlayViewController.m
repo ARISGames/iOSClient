@@ -30,6 +30,8 @@
 #import "BogusSelectGameViewController.h"
 #import "NearbyObjectsViewController.h"
 
+#import "UIColor+ARISColors.h"
+
 #import "ARISAlertHandler.h"
 
 #import "ARISNavigationController.h"
@@ -148,7 +150,17 @@
     //PHIL DONE HATING CHUNK
 }
 
-- (void) loadingViewControllerDidComplete
+- (void) loadingViewControllerFinishedLoadingGameData
+{
+    [[AppServices sharedAppServices] fetchAllPlayerLists];
+}
+
+- (void) loadingViewControllerFinishedLoadingPlayerData
+{
+    //Nada
+}
+
+- (void) loadingViewControllerFinishedLoadingData
 {    
     [self displayContentController:self.gamePlayTabBarController];
     self.loadingViewController = nil;
@@ -167,7 +179,6 @@
     [AppModel sharedAppModel].currentGame = nil;
     [delegate gameplayWasDismissed];
 }
-
 
 //PHIL UNAPPROVED FROM THIS POINT ON
 
@@ -291,6 +302,8 @@
     self.gamePlayTabBarController.viewControllers = [NSArray arrayWithArray:gamePlayTabVCs];
     self.gamePlayTabBarController.moreNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     self.gamePlayTabBarController.moreNavigationController.delegate = self;
+    self.gamePlayTabBarController.tabBar.selectedImageTintColor = [UIColor ARISColorScarlet];
+    
     self.gamePlayTabBarController.selectedIndex = 0;
 }
 
@@ -309,7 +322,6 @@
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
 {
-    //[[AppModel sharedAppModel].mediaCache clearCache]; 
 }
 
 - (void)dealloc
@@ -351,21 +363,16 @@
 {
     for(int i = 0; i < [self.gamePlayTabBarController.viewControllers count]; i++)
     {
-        if([((GamePlayViewController *)[self.gamePlayTabBarController.viewControllers objectAtIndex:i]).title isEqualToString:t])
-            [self.gamePlayTabBarController select:(GamePlayViewController *)[self.gamePlayTabBarController.viewControllers objectAtIndex:i]];
+        if([[((GamePlayViewController *)[self.gamePlayTabBarController.viewControllers objectAtIndex:i]).title lowercaseString] isEqualToString:[t lowercaseString]])
+            self.gamePlayTabBarController.selectedIndex = i;
     }
 }
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController 
 {
-    NSLog(@"RootViewController: gamePlayTabBarController didSelectViewController");
-
     //Force more tab to always be a list of options, not the last VC
-    NSLog(@"RootViewController: selectedIndex is %d", tabBarController.selectedIndex);
-    if (tabBarController.selectedIndex > 3) {
-        [tabBarController.moreNavigationController popToRootViewControllerAnimated:NO];
-    }
-    
+    NSLog(@"GamePlayTabBarController: selectedIndex is %d", tabBarController.selectedIndex);
+    if(tabBarController.selectedIndex > 3)  [tabBarController.moreNavigationController popToRootViewControllerAnimated:NO];
 }
 
 @end

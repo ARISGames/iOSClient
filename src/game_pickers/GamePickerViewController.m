@@ -14,6 +14,7 @@
 #import "GameDetailsViewController.h"
 #import "GamePickerCell.h"
 #import "AsyncMediaImageView.h"
+#import "UIColor+ARISColors.h"
 
 @interface GamePickerViewController ()
 
@@ -49,7 +50,6 @@
 {
     gameList = [[NSArray alloc] init];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerFirstMoved)       name:@"PlayerMoved"     object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearList)              name:@"LogoutRequested" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost"  object:nil];
 }
 
@@ -126,7 +126,6 @@
     {
 		cell = (GamePickerCell *)[[UIViewController alloc] initWithNibName:@"GamePickerCell" bundle:nil].view;
         cell.starView.backgroundColor = [UIColor clearColor];
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-halfselected.png"] forState:kSCRatingViewHalfSelected];
         [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]  forState:kSCRatingViewHighlighted];
         [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]          forState:kSCRatingViewHot];
         [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]  forState:kSCRatingViewNonSelected];
@@ -147,7 +146,7 @@
     iconView.layer.cornerRadius = 10.0;
     
     if(gameForCell.iconMedia.image) iconView.image = [UIImage imageWithData: gameForCell.iconMedia.image];
-    else if(!gameForCell.iconMedia) iconView.image = [UIImage imageNamed:@"Icon.png"];
+    else if(!gameForCell.iconMedia) iconView.image = [UIImage imageNamed:@"icon.png"]; 
     else                            [iconView loadMedia:gameForCell.iconMedia];
     
     if([cell.iconView.subviews count] > 0) [[cell.iconView.subviews objectAtIndex:0] removeFromSuperview];
@@ -158,15 +157,18 @@
 
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(indexPath.row % 2 == 0) cell.backgroundColor = [UIColor colorWithRed:233.0/255.0 green:233.0/255.0 blue:233.0/255.0 alpha:1.0];
-    else                       cell.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:1.0];
+    if(indexPath.row % 2 == 0) cell.backgroundColor = [UIColor ARISColorWhite];
+    else                       cell.backgroundColor = [UIColor ARISColorOffWhite];
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if([self.gameList count] == 0) return;
+    
+    GameDetailsViewController *gameDetailsViewController = [[GameDetailsViewController alloc] initWithGame:[self.gameList objectAtIndex:indexPath.row] delegate:(id<GameDetailsViewControllerDelegate>)delegate];
+    
+    [self.navigationController pushViewController:gameDetailsViewController animated:YES];
 
-    [delegate gamePicked:[self.gameList objectAtIndex:indexPath.row]];
 }
 
 - (void) tableView:(UITableView *)aTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
@@ -181,7 +183,7 @@
 
 - (void) showLoadingIndicator
 {
-	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
 	[self navigationItem].leftBarButtonItem = barButton;
 	[activityIndicator startAnimating];

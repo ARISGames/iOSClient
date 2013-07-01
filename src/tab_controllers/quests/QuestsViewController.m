@@ -68,10 +68,30 @@ NSString *const kQuestsHtmlTemplate =
 @"</body>"
 @"</html>";
 
-@interface QuestsViewController()
+@interface QuestsViewController() <UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate>
 {
+    NSArray *sortedActiveQuests;
+    NSArray *sortedCompletedQuests;
+    NSMutableArray *activeQuestCells;
+    NSMutableArray *completedQuestCells;
+    int cellsLoaded;
+    
+	IBOutlet UITableView *tableView;
+	IBOutlet UIProgressView *progressView;
+	IBOutlet UILabel *progressLabel;
+    IBOutlet UISegmentedControl *activeQuestsSwitch;
+    
     id<QuestsViewControllerDelegate> __unsafe_unretained delegate;
+
 }
+
+- (void)refresh;
+- (void)refreshViewFromModel;
+- (void)showLoadingIndicator;
+- (void)removeLoadingIndicator;
+- (void)dismissTutorial;
+- (IBAction)sortQuestsButtonTouched;
+
 @end
 
 @implementation QuestsViewController
@@ -86,7 +106,7 @@ NSString *const kQuestsHtmlTemplate =
 		cellsLoaded = 0;
         
         self.title = NSLocalizedString(@"QuestViewTitleKey",@"");
-        self.tabBarItem.image = [UIImage imageNamed:@"117-todo"];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"todoTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"todoTabBarUnselected"]];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost"                object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedQuestList"             object:nil];

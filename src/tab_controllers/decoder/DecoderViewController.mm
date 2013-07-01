@@ -23,8 +23,6 @@
 
 @implementation DecoderViewController
 
-@synthesize imageMatchingImagePickerController;
-@synthesize qrScanButton,imageScanButton,barcodeButton;
 @synthesize manualCode,resultText,cancelButton;
 
 - (id) initWithDelegate:(id<DecoderViewControllerDelegate, StateControllerProtocol>)d
@@ -36,7 +34,7 @@
         delegate = d;
         
         self.title = NSLocalizedString(@"QRScannerTitleKey", @"");
-        self.tabBarItem.image = [UIImage imageNamed:@"qrscanner.png"];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"qrScannerTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"qrScannerTabBarUnselected"]];
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishLoadingResult:) name:@"QRCodeObjectReady" object:nil];
     }
@@ -48,38 +46,14 @@
     [super viewDidLoad];
 		
 	manualCode.placeholder = NSLocalizedString(@"EnterCodeKey",@"");
-	    
-	imageMatchingImagePickerController = [[UIImagePickerController alloc] init];
-	self.imageMatchingImagePickerController.delegate = self;
 	
     cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"CancelKey",@"") style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonTouch)];      
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-    {
-		self.qrScanButton.enabled = YES;
-		self.qrScanButton.alpha = 1.0;
-        self.imageScanButton.enabled = YES;
-		self.imageScanButton.alpha = 1.0;
-	}
-	else
-    {
-		self.qrScanButton.hidden = YES;
-		self.barcodeButton.hidden = YES;
-        self.imageScanButton.hidden = YES;
-        [self.manualCode becomeFirstResponder]; 
-	}
-	NSLog(@"DecoderViewController: Loaded");
 }
 
 -(void)cancelButtonTouch
 {
     [self.manualCode resignFirstResponder];
-    self.navigationItem.rightBarButtonItem = nil;	
-}
-
-- (IBAction)imageScanButtonTouchAction:(id)sender
-{	
-	self.imageMatchingImagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-	[self presentViewController:self.imageMatchingImagePickerController animated:NO completion:nil];
+    self.navigationItem.rightBarButtonItem = nil;
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField*)textField
@@ -102,7 +76,6 @@
 - (IBAction) scanButtonTapped
 {
     ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO];
-    
     widController.readers = [[NSMutableSet alloc ] initWithObjects:[[QRCodeReader alloc] init], nil];
     [self presentModalViewController:widController animated:NO];
 }
@@ -152,26 +125,6 @@
 		[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
 		[delegate displayGameObject:((id<GameObjectProtocol>)((Location *)qrCodeObject).gameObject) fromSource:(Location *)qrCodeObject];
 	}
-}
-
-- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-	return interfaceOrientation == UIInterfaceOrientationPortrait;
-}
-
-- (BOOL) shouldAutorotate
-{
-    return YES;
-}
-
-- (NSInteger) supportedInterfaceOrientations
-{
-    NSInteger mask = 0;
-    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeLeft])      mask |= UIInterfaceOrientationMaskLandscapeLeft;
-    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeRight])     mask |= UIInterfaceOrientationMaskLandscapeRight;
-    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationPortrait])           mask |= UIInterfaceOrientationMaskPortrait;
-    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationPortraitUpsideDown]) mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
-    return mask;
 }
 
 - (void) dealloc

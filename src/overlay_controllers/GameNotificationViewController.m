@@ -10,11 +10,12 @@
 #import "RootViewController.h"
 #import "ARISAppDelegate.h"
 #import "PopOverViewController.h"
+#import "MTStatusBarOverlay.h"
 
 #import "Item.h"
 #import "Quest.h"
 
-@interface GameNotificationViewController() <PopOverViewDelegate>
+@interface GameNotificationViewController() <PopOverViewDelegate, MTStatusBarOverlayDelegate>
 {
     UIWebView *dropDownView;
     PopOverViewController *popOverVC;
@@ -38,6 +39,10 @@
         popOverArray = [[NSMutableArray alloc] initWithCapacity:5];
         showingDropDown = NO;
         showingPopOver  = NO;
+        
+        MTStatusBarOverlay *o = [MTStatusBarOverlay sharedInstance];
+        o.animation = MTStatusBarOverlayAnimationFallDown;
+        o.delegate = self;
     }
     return self;
 }
@@ -60,30 +65,29 @@
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView setAnimationDuration:.5];
-     */
 
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
 
-    //[UIView commitAnimations];
+    [UIView commitAnimations];
+     */
 }
 
 - (void) raiseDropDownFrame
 {
     [dropDownView removeFromSuperview];
 
-    /*
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
     [UIView setAnimationDuration:.5];
-     */
 
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 
-    //[UIView commitAnimations];
+    [UIView commitAnimations];
 }
 
 - (void) dequeueDropDown
 {
+    /*
     showingDropDown = YES;
 
     dropDownView.alpha = 0.0;
@@ -116,6 +120,7 @@
                                          }];
                      }];
     [notifArray removeObjectAtIndex:0];
+     */
 }
 
 - (void) dequeuePopOver
@@ -142,12 +147,15 @@
 
 - (void) enqueueDropDownNotificationWithString:(NSString *)string
 {
+    [[MTStatusBarOverlay sharedInstance] postMessage:string duration:3.0];
+    /*
     [notifArray addObject:string];
     if(!showingDropDown)
     {
         [self lowerDropDownFrame];
         [self dequeueDropDown];
     }
+     */
 }
 
 - (void) enqueuePopOverNotificationWithTitle:(NSString *)title description:(NSString *)description webViewText:(NSString *)text andMediaId:(int) mediaId
@@ -298,9 +306,9 @@
 
 - (void) parseAvailableLocationsIntoNotifications:(NSNotification *)notification
 {
-    NSArray *lostAttributes = (NSArray *)[notification.userInfo objectForKey:@"newlyAvailableLocations"];
+    NSArray *newLocations = (NSArray *)[notification.userInfo objectForKey:@"newlyAvailableLocations"];
     
-    for(int i = 0; i < [lostAttributes count]; i++)
+    for(int i = 0; i < [newLocations count]; i++)
     {
         //Doesn't actually show a game notification...
         NSLog(@"NSNotification: NewlyChangedLocationsGameNotificationSent");

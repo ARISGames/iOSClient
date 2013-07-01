@@ -10,26 +10,6 @@
 #import "ARISGamePlayTabBarViewController.h"
 #import "QuestsViewControllerDelegate.h"
 
-@interface QuestsViewController : ARISGamePlayTabBarViewController <UITableViewDataSource, UITableViewDelegate, UIWebViewDelegate>
-{
-    NSArray *sortedActiveQuests;
-    NSArray *sortedCompletedQuests;
-    NSMutableArray *activeQuestCells;
-    NSMutableArray *completedQuestCells;
-    int cellsLoaded;
-    
-	IBOutlet UITableView *tableView;
-	IBOutlet UIProgressView *progressView;
-	IBOutlet UILabel *progressLabel;
-    IBOutlet UISegmentedControl *activeQuestsSwitch;
-}
-
+@interface QuestsViewController : ARISGamePlayTabBarViewController
 - (id)initWithDelegate:(id<QuestsViewControllerDelegate>)d;
-- (void)refresh;
-- (void)refreshViewFromModel;
-- (void)showLoadingIndicator;
-- (void)removeLoadingIndicator;
-- (void)dismissTutorial;
-- (IBAction)sortQuestsButtonTouched;
-
 @end

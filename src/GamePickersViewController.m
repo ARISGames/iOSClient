@@ -14,8 +14,8 @@
 #import "GamePickerRecentViewController.h"
 #import "GameDetailsViewController.h"
 #import "AccountSettingsViewController.h"
-
 #import "ARISNavigationController.h"
+#import "UIColor+ARISColors.h"
 
 @interface GamePickersViewController () <UITabBarControllerDelegate, GamePickerViewControllerDelegate, GameDetailsViewControllerDelegate, AccountSettingsViewControllerDelegate>
 {
@@ -78,7 +78,6 @@
     //Setup the Game Selection Tab Bar
     self.gamePickersTabBarController = [[UITabBarController alloc] init];
     self.gamePickersTabBarController.delegate = self;
-    
     self.gamePickersTabBarController.viewControllers = [NSMutableArray arrayWithObjects:
                                                        gamePickerNearbyNC,
                                                        gamePickerSearchNC,
@@ -95,12 +94,21 @@
         [self displayContentController:self.gamePickersTabBarController];
 }
 
+- (void) resetState
+{
+    [self displayContentController:self.gamePickersTabBarController];
+    for(int i = 0; i < [[self.gamePickersTabBarController viewControllers] count]; i++)
+        [(GamePickerViewController *)([[((ARISNavigationController *)[[self.gamePickersTabBarController viewControllers] objectAtIndex:i]) viewControllers] objectAtIndex:0]) clearList];
+}
+
 - (void) gamePicked:(Game *)g
 {
     GameDetailsViewController *gameDetailsViewController = [[GameDetailsViewController alloc] initWithGame:g delegate:self];
-    self.gameDetailsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:gameDetailsViewController];
-    self.gameDetailsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-    [self displayContentController:self.gameDetailsNavigationController];
+    
+    //self.gameDetailsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:gameDetailsViewController];
+    //self.gameDetailsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    [self.gamePickersTabBarController.selectedViewController.navigationController pushViewController:gameDetailsViewController animated:YES];
+    //[self displayContentController:self.gameDetailsNavigationController];
 }
 
 - (void) gameDetailsWereCanceled:(Game *)g

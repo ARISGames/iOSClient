@@ -18,6 +18,7 @@
 
 
 #import "ARISAlertHandler.h"
+#import "UIColor+ARISColors.h"
 
 #import <QuartzCore/QuartzCore.h>
 
@@ -80,12 +81,6 @@ NSString *const kGameDetailsHtmlTemplate =
 
 - (void)viewDidLoad
 {
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey", @"")
-                                                                   style:UIBarButtonItemStyleBordered
-                                                                  target:self
-                                                                  action:@selector(backButtonTouched)];
-    
-	self.navigationItem.leftBarButtonItem = backButton;
     self.mediaImageView = [[AsyncMediaImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
 
     self.title = self.game.name;
@@ -95,6 +90,8 @@ NSString *const kGameDetailsHtmlTemplate =
 
 	[descriptionWebView setBackgroundColor:[UIColor clearColor]];
     [self.segmentedControl setTitle:[NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"RatingKey", @""),game.rating] forSegmentAtIndex:0];
+    
+    self.hidesBottomBarWhenPushed = YES;
     
     [super viewDidLoad];
 }
@@ -242,10 +239,22 @@ NSString *const kGameDetailsHtmlTemplate =
 {
     if (indexPath.section == 1)
     {
-        if(indexPath.row == 0)
-            cell.backgroundColor = [UIColor colorWithRed:182/255.0 green:255/255.0 blue:154/255.0 alpha:1.0];
-        if(indexPath.row == 1 && self.game.hasBeenPlayed)
-            cell.backgroundColor = [UIColor colorWithRed:255/255.0 green:153/255.0 blue:181/255.0 alpha:1.0];
+        if(indexPath.row == 0) {
+            //Resume
+            cell.backgroundColor = [UIColor ARISColorLighBlue];
+
+            cell.textLabel.textColor = [UIColor whiteColor];
+        }
+        if(indexPath.row == 1 && self.game.hasBeenPlayed){
+            //Reset
+            cell.backgroundColor = [UIColor ARISColorRed];
+            
+            cell.textLabel.textColor = [UIColor whiteColor];
+        }
+        else if((indexPath.row == 1 && !game.hasBeenPlayed) || indexPath.row == 2)
+            //Ratings
+            cell.backgroundColor = [UIColor ARISColorOffWhite];
+
     }
 }
 
@@ -343,12 +352,12 @@ NSString *const kGameDetailsHtmlTemplate =
     UITableViewCell *cell = (RatingCell *)[[UIViewController alloc] initWithNibName:@"RatingCell" bundle:nil].view;
     
     RatingCell *ratingCell = (RatingCell *)cell;
+
     ratingCell.ratingView.rating = self.game.rating;
     ratingCell.ratingView.userInteractionEnabled = NO;
     ratingCell.reviewsLabel.text = [NSString stringWithFormat:@"%d %@",self.game.numReviews, NSLocalizedString(@"ReviewsKey", @"")];
     [ratingCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
-    [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-halfselected.png"] forState:kSCRatingViewHalfSelected];
     [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]  forState:kSCRatingViewHighlighted];
     [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]          forState:kSCRatingViewHot];
     [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]  forState:kSCRatingViewNonSelected];

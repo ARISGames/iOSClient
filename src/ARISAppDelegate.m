@@ -7,6 +7,7 @@
 //
 
 #import "ARISAppDelegate.h"
+#import "UIColor+ARISColors.h"
 
 @interface ARISAppDelegate ()
 {
@@ -40,6 +41,29 @@
     readingCountUpToOneHundredThousand = 0;
     steps = 0;
     
+    [[UIToolbar appearance]             setTintColor:[UIColor ARISColorOffWhite]];
+    [[UIBarButtonItem appearance]       setTintColor:[UIColor ARISColorLighBlue]];
+    [[UISegmentedControl appearance]    setTintColor:[UIColor ARISColorLighBlue]];
+    [[UISearchBar appearance]           setTintColor:[UIColor ARISColorOffWhite]];
+    UIImage *navBarBackground = [[UIImage imageNamed:@"navBarBackground"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    
+    UIImage *tabBarBackground = [[UIImage imageNamed:@"tabBarBackground"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    
+    [[UINavigationBar appearance] setBackgroundImage:navBarBackground forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setTitleTextAttributes:
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            [UIColor colorWithRed:69 green:69 blue:69 alpha:0],UITextAttributeTextColor,
+            [UIFont fontWithName:@"ProximaNova-Semibold" size:0.0], UITextAttributeFont, nil]];
+
+    [[UITabBar appearance] setBackgroundImage:tabBarBackground];
+    [[UITabBar appearance] setSelectionIndicatorImage:tabBarBackground];
+    
+    [[UITabBarItem appearance] setTitleTextAttributes:
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            [UIColor ARISColorBlack],UITextAttributeTextColor,
+            [UIFont fontWithName:@"ProximaNova-Semibold" size:0.0], UITextAttributeFont, nil]
+        forState:UIControlStateHighlighted && UIControlStateNormal];
+
     if([window respondsToSelector:@selector(setRootViewController:)])
         window.rootViewController = [RootViewController sharedRootViewController];
     else
@@ -56,7 +80,9 @@
 
     if([AppModel sharedAppModel].fallbackGameId != 0 && ![AppModel sharedAppModel].currentGame)
         [[AppServices sharedAppServices] fetchOneGameGameList:[AppModel sharedAppModel].fallbackGameId];
-        
+    else if([AppModel sharedAppModel].player.playerId > 0)
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PlayerAlreadyLoggedIn" object:nil]];
+    
     [[[AppModel sharedAppModel] uploadManager] checkForFailedContent];
     
     [self startPollingLocation];

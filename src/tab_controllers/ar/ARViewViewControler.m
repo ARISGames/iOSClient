@@ -22,7 +22,8 @@
     {
         self.tabID = @"AR";
         self.title = NSLocalizedString(@"ARViewTitleKey",@"");
-        self.tabBarItem.image = [UIImage imageNamed:@"camera.png"];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"cameraTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"cameraTabBarUnselected"]];
+        
     }
     return self;
 }

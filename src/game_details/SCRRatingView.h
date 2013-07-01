@@ -13,7 +13,6 @@
 
 #define kSCRatingViewNonSelected	@"state-nonselected"
 #define kSCRatingViewSelected		@"state-selected"
-#define kSCRatingViewHalfSelected	@"state-halfselected"
 #define kSCRatingViewHot			@"state-hot"
 #define kSCRatingViewHighlighted	@"state-highlighted"
 #define kSCRatingViewUserSelected	@"state-userselected"

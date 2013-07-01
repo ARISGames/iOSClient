@@ -13,11 +13,45 @@
 #import "AsyncMediaImageView.h"
 #import "AppModel.h"
 #import "InventoryTradeViewController.h"
+#import "AppModel.h"
+#import "ARISAppDelegate.h"
+#import "Item.h"
+#import "ItemViewController.h"
+#import "UIColor+ARISColors.h"
 
 @interface InventoryViewController() <InventoryTradeViewControllerDelegate, GameObjectViewControllerDelegate>
 {
+    UITableView *inventoryTable;
+    NSArray *inventory;
+    UIBarButtonItem *tradeButton;
+    UIProgressView *capBar;
+    UILabel *capLabel;
+        
+    NSMutableDictionary *iconCache;
+    NSMutableDictionary *mediaCache;
+    NSMutableDictionary *viewedList;
+    
     id<InventoryViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
+
+
+@property (nonatomic, strong) IBOutlet UIProgressView *capBar;
+@property (nonatomic, strong) IBOutlet UILabel *capLabel;
+@property (nonatomic, strong) IBOutlet UITableView *inventoryTable;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *tradeButton;
+@property (nonatomic, strong) NSArray *inventory;
+
+@property (nonatomic, strong) NSMutableDictionary *iconCache;
+@property (nonatomic, strong) NSMutableDictionary *mediaCache;
+@property (nonatomic, strong) NSMutableDictionary *viewedList;
+
+- (void) refresh;
+- (unsigned int) indexOf:(char)searchChar inString:(NSString *)searchString;
+- (void) showLoadingIndicator;
+- (void) dismissTutorial;
+- (void) refreshViewFromModel;
+- (NSString *) stringByStrippingHTML:(NSString *)stringToStrip;
+
 @end
 
 @implementation InventoryViewController
@@ -30,6 +64,7 @@
 
 @synthesize iconCache;
 @synthesize mediaCache;
+@synthesize viewedList;
 
 - (id)initWithDelegate:(id<InventoryViewControllerDelegate, StateControllerProtocol>)d
 {
@@ -39,10 +74,12 @@
         delegate = d;
         
         self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");
-        self.tabBarItem.image = [UIImage imageNamed:@"36-toolbox"];
 
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"toolboxTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"toolboxTabBarUnselected"]];
+        
         self.mediaCache = [[NSMutableDictionary alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory count]];
         self.iconCache  = [[NSMutableDictionary alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory count]];
+        self.viewedList = [[NSMutableDictionary alloc] initWithCapacity:10];
         
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedInventory"           object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost"              object:nil];
@@ -81,7 +118,7 @@
     }
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     int currentWeight = [AppModel sharedAppModel].currentGame.inventoryModel.currentWeight;
@@ -90,11 +127,12 @@
     self.capLabel.text = [NSString stringWithFormat:@"%@: %d/%d", NSLocalizedString(@"WeightCapacityKey", @""),currentWeight, weightCap];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     [[AppServices sharedAppServices] updateServerInventoryViewed];
-	[self refresh];				
+    [inventoryTable reloadData]; //For un-bolding items
+	[self refresh];
 }
 
 - (void) tradeDidComplete
@@ -107,38 +145,38 @@
     [self refresh];
 }
 
--(void)tradeButtonTouched
+- (void) tradeButtonTouched
 {
     InventoryTradeViewController *tradeVC = [[InventoryTradeViewController alloc] initWithDelegate:self];
     tradeVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:tradeVC animated:YES];
 }
 
--(void)dismissTutorial
+- (void) dismissTutorial
 {
     //if(delegate) [delegate dismissTutorial];
 }
 
--(void)refresh
+- (void) refresh
 {
 	[[AppServices sharedAppServices] fetchPlayerInventory];
 	[self showLoadingIndicator];
 }
 
--(void)showLoadingIndicator
+- (void) showLoadingIndicator
 {
-	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
 	[[self navigationItem] setRightBarButtonItem:barButton];
 	[activityIndicator startAnimating];
 }
 
--(void)removeLoadingIndicator
+- (void) removeLoadingIndicator
 {
 	[[self navigationItem] setRightBarButtonItem:self.tradeButton]; //self.tradeButton will be 'nil' if trading not allowed, so this should be safe
 }
 
--(void)refreshViewFromModel
+- (void) refreshViewFromModel
 {
     NSArray *sortDescriptors = [NSArray arrayWithObjects:[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES], nil];
     self.inventory = [[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory sortedArrayUsingDescriptors:sortDescriptors];
@@ -153,11 +191,11 @@
 
 - (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier
 {
-	CGRect cellFrame = CGRectMake(0, 0, 310, 60);
-	CGRect iconFrame = CGRectMake(5, 5, 50, 50);
-	CGRect label1Frame = CGRectMake(70, 12, 180, 20); //Title
-	CGRect label2Frame = CGRectMake(70, 29, 240, 20); //Desc
-    CGRect label3Frame = CGRectMake(260, 12, 50, 20); //Qty
+	CGRect cellFrame   = CGRectMake(  0,  0, 310, 60);
+	CGRect iconFrame   = CGRectMake(  5,  5,  50, 50);
+	CGRect label1Frame = CGRectMake( 70, 12, 180, 20); //Title
+	CGRect label2Frame = CGRectMake( 70, 29, 240, 20); //Desc
+    CGRect label3Frame = CGRectMake(260, 12,  50, 20); //Qty
 	UILabel *lblTemp;
 	UIImageView *iconViewTemp;
 	
@@ -215,14 +253,26 @@
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if(cell == nil) cell = [self getCellContentView:CellIdentifier];
     
-    if(indexPath.row % 2 == 0) cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0 green:233.0/255.0 blue:233.0/255.0 alpha:1.0];
-    else                       cell.contentView.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:1.0];
+    if(indexPath.row % 2 == 0) cell.contentView.backgroundColor = [UIColor ARISColorWhite];
+    else                       cell.contentView.backgroundColor = [UIColor ARISColorOffWhite];
     
 	Item *item = [inventory objectAtIndex: [indexPath row]];
 	    
 	((UILabel *)[cell viewWithTag:1]).text = item.name;
     ((UILabel *)[cell viewWithTag:2]).text = [self stringByStrippingHTML:item.text];
     ((UILabel *)[cell viewWithTag:4]).text = [self getQtyLabelStringForQty:item.qty maxQty:item.maxQty weight:item.weight];
+    
+    NSNumber *viewed;
+    if(!(viewed = [self.viewedList objectForKey:[NSNumber numberWithInt:item.itemId]]) || [viewed isEqualToNumber:[NSNumber numberWithInt:0]])
+    {
+        [self.viewedList setObject:[NSNumber numberWithInt:0] forKey:[NSNumber numberWithInt:item.itemId]];
+        [((UILabel *)[cell viewWithTag:1]) setFont:[UIFont fontWithName:@"Arial-BoldMT" size:18]];
+    }
+    else
+    {
+        [self.viewedList setObject:[NSNumber numberWithInt:1] forKey:[NSNumber numberWithInt:item.itemId]];
+        [((UILabel *)[cell viewWithTag:1]) setFont:[UIFont fontWithName:@"Arial-MT" size:18]];
+    }
     
     Media *media;
     if(item.mediaId != 0 && !(media = [self.mediaCache objectForKey:[NSNumber numberWithInt:item.itemId]]))
@@ -241,10 +291,11 @@
             [self.iconCache setObject:iconMedia forKey:[NSNumber numberWithInt:item.itemId]];
         }
         
-        if(iconView.isLoading) //throw out old asyncview, add in new one
+        if(iconView.isLoading || !iconMedia.image) //if either new or old one is not a fully loaded image
         {
             [iconView removeFromSuperview];
             iconView = [[AsyncMediaImageView alloc] initWithFrame:iconView.frame andMedia:iconMedia];
+            iconView.tag = 3;
             [cell addSubview:iconView];
         }
         else
@@ -281,7 +332,7 @@
     NSString *weightString = @"";
     if(qty > 1 || maxQty != 1) qtyString    = [NSString stringWithFormat:@"x%d",  qty];
     if(weight > 1)             weightString = [NSString stringWithFormat:@"\n%@ %d",NSLocalizedString(@"WeightKey", @""), weight];
-    return [NSString stringWithFormat:@"%@%@",qtyString, weightString];
+    return [NSString stringWithFormat:@"%@%@", qtyString, weightString];
 }
 
 - (unsigned int) indexOf:(char)searchChar inString:(NSString *)searchString
@@ -302,8 +353,8 @@
 {
 	[((ARISAppDelegate *)[[UIApplication sharedApplication] delegate]) playAudioAlert:@"swish" shouldVibrate:NO];
     [delegate displayGameObject:[inventory objectAtIndex:[indexPath row]] fromSource:self];
-
-    //[self.navigationController pushViewController:[((Item *)[inventory objectAtIndex:[indexPath row]]) viewControllerForDelegate:self] animated:YES];
+    
+    [self.viewedList setObject:[NSNumber numberWithInt:1] forKey:[NSNumber numberWithInt:((Item *)[inventory objectAtIndex:[indexPath row]]).itemId]];
 }
 
 - (void) gameObjectViewControllerRequestsDismissal:(GameObjectViewController *)govc

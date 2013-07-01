@@ -93,7 +93,7 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedNoteList" object:nil];
         
         self.title = NSLocalizedString(@"NotebookTitleKey",@"");
-        self.tabBarItem.image = [UIImage imageNamed:@"96-book"];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"bookTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"bookTabBarUnselected"]];
     }
     return self;
 }

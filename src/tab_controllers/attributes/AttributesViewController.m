@@ -37,7 +37,8 @@
         delegate = d;
         
         self.title = NSLocalizedString(@"PlayerTitleKey",@"");
-        self.tabBarItem.image = [UIImage imageNamed:@"123-id-card"];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"idCardTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"idCardTabBarUnselected"]];        
+        
         self.iconCache = [[NSMutableArray alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.attributesModel.currentAttributes count]];
         
 		//register for notifications
