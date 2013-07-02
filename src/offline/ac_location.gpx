@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<gpx
+    version="1.0"
+    creator="ExpertGPS 1.1 - http://www.topografix.com"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.topografix.com/GPX/1/0"
+    xsi:schemaLocation="http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd">
+    <time>2002-02-27T17:18:33Z</time>
+
+    
+
+    <!--wpt lat="42.373475901413" lon="-72.519370666688">
+        <name>Towns Commons</name>
+    </wpt-->
+    <!--
+    <wpt lat="42.377344915034" lon="-72.518780580704">
+     <name>Commissioner</name>
+    </wpt>-->
+    
+    <!--
+    <wpt lat="42.375880638519" lon="-72.518705210637">
+        <name>morgan dragstore</name>
+    </wpt>
+     -->
+    <!--
+    <wpt lat="42.375706666726" lon="-72.520046583359">
+        <name>amherst house</name>
+    </wpt>
+     -->
+    <!--
+    <wpt lat="42.204266" lon="-72.6161967">
+        <name>holyoke</name>
+    </wpt>
+     
+     <wpt lat="42.204131896684" lon="-72.60778332345">
+     <name>holyoke - ornate key</name>
+     </wpt>
+    
+     -->
+    
+    <wpt lat="42.204131" lon="-72.607783">
+        <name>holyoke - ornate key</name>
+    </wpt>
+
+    
+    <!--
+    <wpt lat="42.205938486155" lon="-72.608717402738">
+        <name>Maria Gomez</name>
+    </wpt>
+     -->
+     
+
+</gpx>
