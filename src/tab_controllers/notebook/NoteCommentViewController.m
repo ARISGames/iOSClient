@@ -365,7 +365,7 @@
 
 - (int) calculateCellHeightWithText:(NSString *)s
 {
-	CGSize calcSize = [s sizeWithFont:[UIFont boldSystemFontOfSize:17.0f] constrainedToSize:CGSizeMake(235-8, MAXFLOAT) lineBreakMode:UILineBreakModeWordWrap];
+	CGSize calcSize = [s sizeWithFont:[UIFont boldSystemFontOfSize:17.0f] constrainedToSize:CGSizeMake(235-8, MAXFLOAT) lineBreakMode:NSLineBreakByWordWrapping];
 	return calcSize.height+35;
 }
 

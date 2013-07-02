@@ -18,8 +18,8 @@
         [self setImage:inputImage forState:UIControlStateNormal];
         [self setTitle:inputTitle forState:UIControlStateNormal];
         [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        self.titleLabel.textAlignment = UITextAlignmentCenter;
-        self.titleLabel.lineBreakMode = UILineBreakModeTailTruncation;
+        self.titleLabel.textAlignment = NSTextAlignmentCenter;
+        self.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
         self.titleLabel.font = [UIFont systemFontOfSize:12.0];
         self.titleLabel.font = [UIFont fontWithName:@"Helvetica" size:12];
         

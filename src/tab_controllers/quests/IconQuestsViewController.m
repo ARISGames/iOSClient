@@ -282,8 +282,8 @@ NSString *const kIconQuestsHtmlTemplate =
     iconTitleLabel.text = currentQuest.name;
     iconTitleLabel.textColor = [UIColor whiteColor];
     iconTitleLabel.backgroundColor = [UIColor clearColor];
-    iconTitleLabel.textAlignment = UITextAlignmentCenter;
-    iconTitleLabel.lineBreakMode = UILineBreakModeTailTruncation;
+    iconTitleLabel.textAlignment = NSTextAlignmentCenter;
+    iconTitleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     iconTitleLabel.font = [UIFont fontWithName:@"Helvetica" size:12];
     [cell.contentView addSubview:iconTitleLabel];
     

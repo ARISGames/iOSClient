@@ -24,8 +24,8 @@
     {
         //What the heck is this. If anyone knows, get rid of it. -Phil 5/1/13
         UIViewController *c = [[UIViewController alloc] init];
-        [[RootViewController sharedRootViewController] presentModalViewController:c animated:NO];
-        [[RootViewController sharedRootViewController] dismissModalViewControllerAnimated:NO];
+        [[RootViewController sharedRootViewController] presentViewController:c animated:NO completion:nil];
+        [[RootViewController sharedRootViewController] dismissViewControllerAnimated:NO completion:nil];
         
         NSLog(@"NSNotification: MovieForcedRotationToPortrait");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"MovieForcedRotationToPortrait" object:nil]];

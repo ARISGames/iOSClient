@@ -199,8 +199,7 @@
 
 - (int) calculateTextHeight:(NSString *)text {
 	CGRect frame = CGRectMake(0, 0, self.view.bounds.size.width, 200000);
-	CGSize calcSize = [text sizeWithFont:[UIFont systemFontOfSize:18.0]
-					   constrainedToSize:frame.size lineBreakMode:UILineBreakModeWordWrap];
+	CGSize calcSize = [text sizeWithFont:[UIFont systemFontOfSize:18.0] constrainedToSize:frame.size lineBreakMode:NSLineBreakByWordWrapping];
 	frame.size = calcSize;
 	frame.size.height += 0;
 	return frame.size.height;

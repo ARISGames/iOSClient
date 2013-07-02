@@ -68,7 +68,7 @@
 
 - (void) viewDidLoad
 {
-    actionButton.titleLabel.textAlignment = UITextAlignmentCenter;
+    actionButton.titleLabel.textAlignment = NSTextAlignmentCenter;
     actionButton.titleLabel.font = [UIFont boldSystemFontOfSize:24];
     self.infoLabel.text = @"";
     self.infoLabel.font = [UIFont boldSystemFontOfSize:18];
@@ -109,7 +109,7 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     self.badValLabel.hidden = YES;
-    actionButton.titleLabel.textAlignment = UITextAlignmentCenter;
+    actionButton.titleLabel.textAlignment = NSTextAlignmentCenter;
     actionButton.titleLabel.font = [UIFont boldSystemFontOfSize:24];
     self.infoLabel.text = @"";
     [picker selectRow:1 inComponent:0 animated:NO];

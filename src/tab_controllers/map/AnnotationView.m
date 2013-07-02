@@ -128,8 +128,8 @@
         [[UIColor colorWithRed:0.3 green:0.3 blue:0.3 alpha:0.8] set];
         CGContextFillPath(UIGraphicsGetCurrentContext());
         [[UIColor whiteColor] set];
-        [self.annotation.title drawInRect:self.titleRect withFont:self.titleFont lineBreakMode:UILineBreakModeMiddleTruncation alignment:UITextAlignmentCenter];
-        [self.annotation.subtitle drawInRect:self.subtitleRect withFont:self.subtitleFont lineBreakMode:UILineBreakModeMiddleTruncation alignment:UITextAlignmentCenter];
+        [self.annotation.title drawInRect:self.titleRect withFont:self.titleFont lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter];
+        [self.annotation.subtitle drawInRect:self.subtitleRect withFont:self.subtitleFont lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter];
         CGContextAddPath(UIGraphicsGetCurrentContext(), calloutPath);
         CGContextStrokePath(UIGraphicsGetCurrentContext());
     }

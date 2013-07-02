@@ -139,7 +139,7 @@
             picker.cameraDevice = UIImagePickerControllerCameraDeviceRear;
         picker.allowsEditing = YES;
         picker.showsCameraControls = YES;
-        [self presentModalViewController:picker animated:NO];
+        [self presentViewController:picker animated:NO completion:nil];
     }
 
     return;
@@ -148,7 +148,7 @@
 - (void) imagePickerController:(UIImagePickerController *)aPicker didFinishPickingMediaWithInfo:(NSDictionary  *)info
 {
     chosenMediaId = -1;
-    [aPicker dismissModalViewControllerAnimated:NO];
+    [aPicker dismissViewControllerAnimated:NO completion:nil];
 
     UIImage *image = [[info objectForKey:UIImagePickerControllerEditedImage] scaleToSize:CGSizeMake(1024,1024)];
     NSData *imageData = UIImageJPEGRepresentation(image, 0.4);

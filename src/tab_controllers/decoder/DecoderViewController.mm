@@ -77,18 +77,18 @@
 {
     ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO];
     widController.readers = [[NSMutableSet alloc ] initWithObjects:[[QRCodeReader alloc] init], nil];
-    [self presentModalViewController:widController animated:NO];
+    [self presentViewController:widController animated:NO completion:nil];
 }
 
 - (void)zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result
 {
-    [self dismissModalViewControllerAnimated:NO];
+    [self dismissViewControllerAnimated:NO completion:nil];
     [self loadResult:result];
 }
 
 - (void)zxingControllerDidCancel:(ZXingWidgetController*)controller
 {
-    [self dismissModalViewControllerAnimated:NO];
+    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void) loadResult:(NSString *)code

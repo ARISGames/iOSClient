@@ -762,7 +762,7 @@ NSString *const kDialogHtmlTemplate =
 		NodeOption *option = [optionList objectAtIndex:indexPath.row];
         cell.textLabel.text = option.text;
         cell.textLabel.font = [UIFont boldSystemFontOfSize:kOptionsFontSize];
-        [cell.textLabel setLineBreakMode:UILineBreakModeWordWrap];
+        [cell.textLabel setLineBreakMode:NSLineBreakByWordWrapping];
         if(option.hasViewed)
         {
             cell.backgroundColor     = [UIColor ARISColorOffWhite];
@@ -777,8 +777,7 @@ NSString *const kDialogHtmlTemplate =
         cell.textLabel.textColor = [UIColor ARISColorDarkBlue];
 	}
 	
-    cell.textLabel.textAlignment = UITextAlignmentCenter;
-	cell.textLabel.minimumFontSize = kOptionsFontSize;
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
 	
 	cell.textLabel.numberOfLines = 0;
 	[cell.textLabel sizeToFit]; 
@@ -797,7 +796,7 @@ NSString *const kDialogHtmlTemplate =
     CGSize maximumLabelSize = CGSizeMake(maxWidth,maxHeight);
 	
     CGSize expectedLabelSize = [option.text sizeWithFont:[UIFont boldSystemFontOfSize:kOptionsFontSize] 
-									   constrainedToSize:maximumLabelSize lineBreakMode:UILineBreakModeWordWrap]; 
+									   constrainedToSize:maximumLabelSize lineBreakMode:NSLineBreakByWordWrapping];
 	
 	return expectedLabelSize.height + 25;
 }
