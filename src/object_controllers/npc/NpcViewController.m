@@ -308,11 +308,16 @@ NSString *const kDialogHtmlTemplate =
             if(self.currentImageView.isLoading)
             {
                 [self.currentImageView removeFromSuperview];
-                self.currentImageView = [[AsyncMediaImageView alloc] initWithFrame:self.currentImageView.frame andMedia:media];
                 if(self.currentImageView == self.npcImageView)
+                {
+                    self.currentImageView = [[AsyncMediaImageView alloc] initWithFrame:self.currentImageView.frame andMedia:media];
                     [npcImageSection addSubview:self.currentImageView];
+                }
                 else if(self.currentImageView == self.pcImageView)
+                {
+                    self.currentImageView = [[AsyncMediaImageView alloc] initWithFrame:self.currentImageView.frame andMedia:media];
                     [pcImageSection addSubview:self.currentImageView];
+                }
             }
             //END TEMPORARY BANDAID
             if(!media.type) [self.currentImageView loadMedia:media]; // This should never happen (all game media should be cached by now)
