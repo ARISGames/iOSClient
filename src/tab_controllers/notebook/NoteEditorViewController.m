@@ -515,10 +515,8 @@
             [UIView beginAnimations:nil context:NULL];
             [UIView setAnimationDuration:.5];
             
-            [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
-                                   forView:self.navigationController.view cache:YES];
-            [self.navigationController pushViewController:controller
-                                                 animated:NO];
+            [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.navigationController.view cache:YES];
+            [self.navigationController pushViewController:controller animated:NO];
             [UIView commitAnimations];
         }
         else if([noteC.getType isEqualToString:@"VIDEO"] || [noteC.getType isEqualToString:@"AUDIO"])

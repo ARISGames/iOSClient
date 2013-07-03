@@ -7,9 +7,34 @@
 //
 
 #import "AsyncMediaImageView.h"
+#import "ARISMoviePlayerViewController.h"
 #import "AppModel.h"
 #import "AppServices.h"
 #import "UIImage+Scale.h"
+
+@interface AsyncMediaImageView()
+{
+	NSURLConnection* connection; //keep a reference to the connection so we can cancel download in dealloc
+	NSMutableData* data; //keep reference to the data so we can collect it as it downloads
+	Media *media; //keep a refrence so we can update the media with the data after it is loaded
+    UIActivityIndicatorView *spinner;
+    ARISMoviePlayerViewController *mMoviePlayer; //In case we need to load a frame of a movie
+    BOOL loaded;
+    
+    id <AsyncMediaImageViewDelegate> __unsafe_unretained delegate;
+
+}
+
+@property (nonatomic, strong) NSURLConnection* connection;
+@property (nonatomic, strong) NSMutableData* data;
+@property (nonatomic, strong) Media *media;
+@property (nonatomic, strong) UIActivityIndicatorView *spinner;
+@property (nonatomic, strong) ARISMoviePlayerViewController *mMoviePlayer;
+
+@property (readwrite, assign) BOOL loaded;
+
+@end
+
 @implementation AsyncMediaImageView
 
 @synthesize connection;
@@ -19,7 +44,6 @@
 @synthesize mMoviePlayer;
 @synthesize isLoading;
 @synthesize loaded;
-@synthesize delegate;
 
 - (id) initWithMediaId:(int)mediaId
 {
@@ -35,7 +59,7 @@
     return self;
 }
 
--(id) initWithFrame:(CGRect)aFrame andMediaId:(int)mediaId
+- (id) initWithFrame:(CGRect)aFrame andMediaId:(int)mediaId
 {
     return [self initWithFrame:aFrame andMedia:[[AppModel sharedAppModel] mediaForMediaId:mediaId ofType:nil]];
 }
@@ -62,6 +86,11 @@
         [self loadMedia:aMedia];
     }
     return self;
+}
+
+- (void) setDelegate:(id<AsyncMediaImageViewDelegate>)d
+{
+    delegate = d;
 }
 
 - (void) loadMedia:(Media *)aMedia
@@ -101,7 +130,6 @@
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieThumbDidFinish:) name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:self.mMoviePlayer.moviePlayer];
             [self.mMoviePlayer.moviePlayer requestThumbnailImagesAtTimes:timeArray timeOption:MPMovieTimeOptionNearestKeyFrame];
             
-            
             //set up indicators
             [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 
@@ -118,6 +146,12 @@
     }
 }
 
+- (void) cancelLoad
+{
+    if(self.connection) [self.connection cancel];
+    self.isLoading = NO;
+}
+
 - (void) movieThumbDidFinish:(NSNotification*)aNotification
 {
     NSLog(@"AsyncMediaImageView: movieThumbDidFinish");
@@ -126,7 +160,7 @@
     self.media.image = UIImageJPEGRepresentation([videoThumb scaleToSize:self.frame.size],1.0 ) ;     
     [self updateViewWithNewImage:[UIImage imageWithData:self.media.image]];
 
-    if(self.delegate && [self.delegate respondsToSelector:@selector(imageFinishedLoading:)])
+    if(delegate && [delegate respondsToSelector:@selector(imageFinishedLoading:)])
         [delegate imageFinishedLoading:self];
     
     //end the UI indicator
@@ -169,7 +203,8 @@
     
     //check if the media already downloaded as file
     NSURL *url = [NSURL URLWithString:self.media.url];
-    if ([url isFileURL]) {
+    if([url isFileURL])
+    {
         [self updateViewWithNewImage:[UIImage imageWithContentsOfFile:[url path]]];
         self.loaded = YES;
         self.isLoading = NO;
@@ -190,8 +225,8 @@
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.media.url]
 											 cachePolicy:NSURLRequestUseProtocolCachePolicy
 										 timeoutInterval:60.0];
-    if(connection) [connection cancel];
-    connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    if(self.connection) [self.connection cancel];
+    self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
 
 - (void)retryLoadingMyMedia
@@ -201,22 +236,23 @@
     [self loadImageFromMedia:[[AppModel sharedAppModel] mediaForMediaId:[self.media.uid intValue] ofType:nil]];
 }
 
-- (void)connection:(NSURLConnection *)theConnection didReceiveData:(NSData *)incrementalData
+- (void) connection:(NSURLConnection *)theConnection didReceiveData:(NSData *)incrementalData
 {
-    if (self.data==nil)
+    if(self.data==nil)
 		data = [[NSMutableData alloc] initWithCapacity:2048];
     [self.data appendData:incrementalData];
 }
 
-- (void)connectionDidFinishLoading:(NSURLConnection*)theConnection
+- (void) connectionDidFinishLoading:(NSURLConnection*)theConnection
 {
+    if(theConnection != self.connection) return;
 	//end the UI indicator
 	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
     [self removeSpinner];
     
 	//throw out the connection
-    if(self.connection!=nil) self.connection=nil;
+    self.connection = nil;
 	
 	//turn the data into an image
 	UIImage* image = [UIImage imageWithData:data];
@@ -238,7 +274,7 @@
     if(image)
     {
         [self setImage:image];
-        if (self.delegate && [self.delegate respondsToSelector:@selector(imageFinishedLoading:)])
+        if(delegate && [delegate respondsToSelector:@selector(imageFinishedLoading:)])
             [delegate imageFinishedLoading:self];
     }
     self.isLoading = NO;

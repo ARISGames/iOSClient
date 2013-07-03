@@ -1343,92 +1343,6 @@
 			name = ARIS;
 			sourceTree = "<group>";
 		};
-		AA74E79D176267EE005C279B /* iPad */ = {
-			isa = PBXGroup;
-			children = (
-				AA74E79E176267EF005C279B /* MainWindow-iPad.xib */,
-			);
-			name = iPad;
-			sourceTree = "<group>";
-		};
-		AA74E7A017626EE9005C279B /* offline */ = {
-			isa = PBXGroup;
-			children = (
-				AA74E7A117626EE9005C279B /* ac_location.gpx */,
-				AA74E7A217626EE9005C279B /* JSONConnection+Local.h */,
-				AA74E7A317626EE9005C279B /* JSONConnection+Local.m */,
-				AA74E7A417626EE9005C279B /* LocalData.h */,
-				AA74E7A517626EE9005C279B /* LocalData.m */,
-				AA74E7A617626EE9005C279B /* LocalMap.h */,
-				AA74E7A717626EE9005C279B /* LocalMap.m */,
-				AA74E7A817626EE9005C279B /* LocalMapView.h */,
-				AA74E7A917626EE9005C279B /* LocalMapView.m */,
-				AA74E7AA17626EE9005C279B /* model */,
-				AA74E7AD17626EE9005C279B /* model classes */,
-				AA74E7D417626EE9005C279B /* NSData+md5.h */,
-				AA74E7D517626EE9005C279B /* NSData+md5.m */,
-				AA74E7D617626EE9005C279B /* NSURLConnection+block.h */,
-				AA74E7D717626EE9005C279B /* NSURLConnection+block.m */,
-				AA74E7D817626EE9005C279B /* StoreLocallyViewController.h */,
-				AA74E7D917626EE9005C279B /* StoreLocallyViewController.m */,
-				AA74E7DA17626EE9005C279B /* StoreLocallyViewController.xib */,
-			);
-			path = offline;
-			sourceTree = "<group>";
-		};
-		AA74E7AA17626EE9005C279B /* model */ = {
-			isa = PBXGroup;
-			children = (
-				AA74E7AB17626EE9005C279B /* aris.xcdatamodeld */,
-			);
-			path = model;
-			sourceTree = "<group>";
-		};
-		AA74E7AD17626EE9005C279B /* model classes */ = {
-			isa = PBXGroup;
-			children = (
-				AA74E7AE17626EE9005C279B /* MComment.h */,
-				AA74E7AF17626EE9005C279B /* MComment.m */,
-				AA74E7B017626EE9005C279B /* MGame.h */,
-				AA74E7B117626EE9005C279B /* MGame.m */,
-				AA74E7B217626EE9005C279B /* MItem.h */,
-				AA74E7B317626EE9005C279B /* MItem.m */,
-				AA74E7B417626EE9005C279B /* MLocation.h */,
-				AA74E7B517626EE9005C279B /* MLocation.m */,
-				AA74E7B617626EE9005C279B /* MMap.h */,
-				AA74E7B717626EE9005C279B /* MMap.m */,
-				AA74E7B817626EE9005C279B /* MMedia.h */,
-				AA74E7B917626EE9005C279B /* MMedia.m */,
-				AA74E7BA17626EE9005C279B /* MNode.h */,
-				AA74E7BB17626EE9005C279B /* MNode.m */,
-				AA74E7BC17626EE9005C279B /* MNpc.h */,
-				AA74E7BD17626EE9005C279B /* MNpc.m */,
-				AA74E7BE17626EE9005C279B /* MNpcConversation.h */,
-				AA74E7BF17626EE9005C279B /* MNpcConversation.m */,
-				AA74E7C017626EE9005C279B /* MOverlay.h */,
-				AA74E7C117626EE9005C279B /* MOverlay.m */,
-				AA74E7C217626EE9005C279B /* MOverlayTile.h */,
-				AA74E7C317626EE9005C279B /* MOverlayTile.m */,
-				AA74E7C417626EE9005C279B /* MPlayer.h */,
-				AA74E7C517626EE9005C279B /* MPlayer.m */,
-				AA74E7C617626EE9005C279B /* MPlayerItem.h */,
-				AA74E7C717626EE9005C279B /* MPlayerItem.m */,
-				AA74E7C817626EE9005C279B /* MPlayerLog.h */,
-				AA74E7C917626EE9005C279B /* MPlayerLog.m */,
-				AA74E7CA17626EE9005C279B /* MPlayerStateChange.h */,
-				AA74E7CB17626EE9005C279B /* MPlayerStateChange.m */,
-				AA74E7CC17626EE9005C279B /* MQRCode.h */,
-				AA74E7CD17626EE9005C279B /* MQRCode.m */,
-				AA74E7CE17626EE9005C279B /* MQuest.h */,
-				AA74E7CF17626EE9005C279B /* MQuest.m */,
-				AA74E7D017626EE9005C279B /* MRequirement.h */,
-				AA74E7D117626EE9005C279B /* MRequirement.m */,
-				AA74E7D217626EE9005C279B /* MTab.h */,
-				AA74E7D317626EE9005C279B /* MTab.m */,
-			);
-			path = "model classes";
-			sourceTree = "<group>";
-		};
 		7152F536177B7831001B0CAE /* tabBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -1517,6 +1431,92 @@
 				AA3D7C6F17662C1F00382D00 /* MTStatusBarOverlay.m */,
 			);
 			path = MTStatusBarOverlay;
+			sourceTree = "<group>";
+		};
+		AA74E79D176267EE005C279B /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+				AA74E79E176267EF005C279B /* MainWindow-iPad.xib */,
+			);
+			name = iPad;
+			sourceTree = "<group>";
+		};
+		AA74E7A017626EE9005C279B /* offline */ = {
+			isa = PBXGroup;
+			children = (
+				AA74E7A117626EE9005C279B /* ac_location.gpx */,
+				AA74E7A217626EE9005C279B /* JSONConnection+Local.h */,
+				AA74E7A317626EE9005C279B /* JSONConnection+Local.m */,
+				AA74E7A417626EE9005C279B /* LocalData.h */,
+				AA74E7A517626EE9005C279B /* LocalData.m */,
+				AA74E7A617626EE9005C279B /* LocalMap.h */,
+				AA74E7A717626EE9005C279B /* LocalMap.m */,
+				AA74E7A817626EE9005C279B /* LocalMapView.h */,
+				AA74E7A917626EE9005C279B /* LocalMapView.m */,
+				AA74E7AA17626EE9005C279B /* model */,
+				AA74E7AD17626EE9005C279B /* model classes */,
+				AA74E7D417626EE9005C279B /* NSData+md5.h */,
+				AA74E7D517626EE9005C279B /* NSData+md5.m */,
+				AA74E7D617626EE9005C279B /* NSURLConnection+block.h */,
+				AA74E7D717626EE9005C279B /* NSURLConnection+block.m */,
+				AA74E7D817626EE9005C279B /* StoreLocallyViewController.h */,
+				AA74E7D917626EE9005C279B /* StoreLocallyViewController.m */,
+				AA74E7DA17626EE9005C279B /* StoreLocallyViewController.xib */,
+			);
+			path = offline;
+			sourceTree = "<group>";
+		};
+		AA74E7AA17626EE9005C279B /* model */ = {
+			isa = PBXGroup;
+			children = (
+				AA74E7AB17626EE9005C279B /* aris.xcdatamodeld */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		AA74E7AD17626EE9005C279B /* model classes */ = {
+			isa = PBXGroup;
+			children = (
+				AA74E7AE17626EE9005C279B /* MComment.h */,
+				AA74E7AF17626EE9005C279B /* MComment.m */,
+				AA74E7B017626EE9005C279B /* MGame.h */,
+				AA74E7B117626EE9005C279B /* MGame.m */,
+				AA74E7B217626EE9005C279B /* MItem.h */,
+				AA74E7B317626EE9005C279B /* MItem.m */,
+				AA74E7B417626EE9005C279B /* MLocation.h */,
+				AA74E7B517626EE9005C279B /* MLocation.m */,
+				AA74E7B617626EE9005C279B /* MMap.h */,
+				AA74E7B717626EE9005C279B /* MMap.m */,
+				AA74E7B817626EE9005C279B /* MMedia.h */,
+				AA74E7B917626EE9005C279B /* MMedia.m */,
+				AA74E7BA17626EE9005C279B /* MNode.h */,
+				AA74E7BB17626EE9005C279B /* MNode.m */,
+				AA74E7BC17626EE9005C279B /* MNpc.h */,
+				AA74E7BD17626EE9005C279B /* MNpc.m */,
+				AA74E7BE17626EE9005C279B /* MNpcConversation.h */,
+				AA74E7BF17626EE9005C279B /* MNpcConversation.m */,
+				AA74E7C017626EE9005C279B /* MOverlay.h */,
+				AA74E7C117626EE9005C279B /* MOverlay.m */,
+				AA74E7C217626EE9005C279B /* MOverlayTile.h */,
+				AA74E7C317626EE9005C279B /* MOverlayTile.m */,
+				AA74E7C417626EE9005C279B /* MPlayer.h */,
+				AA74E7C517626EE9005C279B /* MPlayer.m */,
+				AA74E7C617626EE9005C279B /* MPlayerItem.h */,
+				AA74E7C717626EE9005C279B /* MPlayerItem.m */,
+				AA74E7C817626EE9005C279B /* MPlayerLog.h */,
+				AA74E7C917626EE9005C279B /* MPlayerLog.m */,
+				AA74E7CA17626EE9005C279B /* MPlayerStateChange.h */,
+				AA74E7CB17626EE9005C279B /* MPlayerStateChange.m */,
+				AA74E7CC17626EE9005C279B /* MQRCode.h */,
+				AA74E7CD17626EE9005C279B /* MQRCode.m */,
+				AA74E7CE17626EE9005C279B /* MQuest.h */,
+				AA74E7CF17626EE9005C279B /* MQuest.m */,
+				AA74E7D017626EE9005C279B /* MRequirement.h */,
+				AA74E7D117626EE9005C279B /* MRequirement.m */,
+				AA74E7D217626EE9005C279B /* MTab.h */,
+				AA74E7D317626EE9005C279B /* MTab.m */,
+			);
+			path = "model classes";
 			sourceTree = "<group>";
 		};
 		AABC6F3C1727398B0074CC21 /* assets */ = {

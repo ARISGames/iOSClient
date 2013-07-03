@@ -7,6 +7,7 @@
 //
 
 #import "NoteDetailsViewController.h"
+#import "ARISMoviePlayerViewController.h"
 #import "CameraViewController.h"
 #import "AudioRecorderViewController.h"
 #import "NoteEditorViewController.h"

@@ -190,8 +190,8 @@ NSString *const kDialogHtmlTemplate =
 {
 	[super viewDidLoad];
     
-    self.pcImageView.delegate = self;
-    self.npcImageView.delegate = self;
+    [self.pcImageView setDelegate:self];
+    [self.npcImageView setDelegate:self];
     
     pcImageSection.contentSize  = pcImageSection.frame.size;
     npcImageSection.contentSize = npcImageSection.frame.size;
@@ -307,16 +307,19 @@ NSString *const kDialogHtmlTemplate =
             //TEMPORARY BANDAID 
             if(self.currentImageView.isLoading)
             {
+                [self.currentImageView cancelLoad];
                 [self.currentImageView removeFromSuperview];
                 if(self.currentImageView == self.npcImageView)
                 {
                     self.currentImageView = [[AsyncMediaImageView alloc] initWithFrame:self.currentImageView.frame andMedia:media];
                     [npcImageSection addSubview:self.currentImageView];
+                    self.npcImageView = self.currentImageView;
                 }
                 else if(self.currentImageView == self.pcImageView)
                 {
                     self.currentImageView = [[AsyncMediaImageView alloc] initWithFrame:self.currentImageView.frame andMedia:media];
                     [pcImageSection addSubview:self.currentImageView];
+                    self.pcImageView = self.currentImageView;
                 }
             }
             //END TEMPORARY BANDAID

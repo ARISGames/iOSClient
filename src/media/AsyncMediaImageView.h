@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "Media.h"
-#import "ARISMoviePlayerViewController.h"
-
 
 @class AsyncMediaImageView;
 
@@ -20,25 +18,10 @@
 
 @interface AsyncMediaImageView : UIImageView
 {
-	NSURLConnection* connection; //keep a reference to the connection so we can cancel download in dealloc
-	NSMutableData* data; //keep reference to the data so we can collect it as it downloads
-	Media *media; //keep a refrence so we can update the media with the data after it is loaded
-    UIActivityIndicatorView *spinner;
-    ARISMoviePlayerViewController *mMoviePlayer; //In case we need to load a frame of a movie
-    id <AsyncMediaImageViewDelegate> __unsafe_unretained delegate;
-	BOOL isLoading;
-    BOOL loaded;
+    BOOL isLoading;
 }
 
-@property (nonatomic, strong) NSURLConnection* connection;
-@property (nonatomic, strong) NSMutableData* data;
-@property (nonatomic, strong) Media *media;
-@property (nonatomic, strong) UIActivityIndicatorView *spinner;
-@property (nonatomic, strong) ARISMoviePlayerViewController *mMoviePlayer;
-@property (nonatomic, unsafe_unretained) id <AsyncMediaImageViewDelegate> delegate;
-
-@property(readwrite,assign)BOOL isLoading;
-@property(readwrite,assign)BOOL loaded;
+@property (readwrite, assign) BOOL isLoading;
 
 - (id) initWithMediaId:(int)mediaId;
 - (id) initWithMedia:(Media *)aMedia;
@@ -46,11 +29,11 @@
 - (id) initWithFrame:(CGRect)aFrame andMedia:(Media *)aMedia;
 - (id) initWithFrame:(CGRect)aFrame andMediaId:(int)mediaId andDelegate:(id<AsyncMediaImageViewDelegate>)d;
 - (id) initWithFrame:(CGRect)aFrame andMedia:(Media *)aMedia andDelegate:(id<AsyncMediaImageViewDelegate>)d;
+- (void) setDelegate:(id<AsyncMediaImageViewDelegate>)d;
 
 - (void) loadMedia:(Media *)aMedia;
+- (void) cancelLoad;
 - (void) setImage:(UIImage*)image;
 - (void) updateViewWithNewImage:(UIImage*)image;
 
 @end
-
-
