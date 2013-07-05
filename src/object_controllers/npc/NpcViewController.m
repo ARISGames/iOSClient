@@ -366,6 +366,8 @@ NSString *const kDialogHtmlTemplate =
             if     ([currentScene.sceneType isEqualToString:@"pc"])  [self movePcIn];
             else if([currentScene.sceneType isEqualToString:@"npc"]) [self moveNpcIn];
         }
+        else
+            [self endIgnoringIneractions];
         
         CGRect imageFrame = self.currentImageView.frame;
         [UIView animateWithDuration:currentScene.zoomTime animations:^
@@ -378,6 +380,7 @@ NSString *const kDialogHtmlTemplate =
     }
     else
     {
+        [self endIgnoringIneractions];
         if([currentScene.sceneType isEqualToString:@"video"])
         {
             Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.typeId ofType:@"VIDEO"];
@@ -585,6 +588,8 @@ NSString *const kDialogHtmlTemplate =
 
 - (IBAction) continueButtonTouchAction
 {
+    [self beginIgnoringInteractions];
+    
     [ARISMoviePlayer.moviePlayer.view removeFromSuperview];
     [self.npcVideoView removeFromSuperview];
     [ARISMoviePlayer.moviePlayer stop];
@@ -597,6 +602,16 @@ NSString *const kDialogHtmlTemplate =
     audioPlayer = nil;
     
     [self readySceneForDisplay:[currentScript nextScene]];
+}
+
+- (void) beginIgnoringInteractions
+{
+    [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+}
+
+- (void) endIgnoringIneractions
+{
+    [[UIApplication sharedApplication] endIgnoringInteractionEvents];
 }
 
 - (void) movePcTo:(CGRect)pcRect  withAlpha:(CGFloat)pcAlpha
@@ -626,14 +641,14 @@ NSString *const kDialogHtmlTemplate =
 {
 	[self movePcTo:[self.view frame] withAlpha:1.0
 		  andNpcTo:[npcView frame]   withAlpha:[npcView alpha]
-  withPostSelector:nil];
+  withPostSelector:@selector(endIgnoringIneractions)];
 }
 
 - (void) moveNpcIn
 {
 	[self movePcTo:[pcView frame]    withAlpha:[pcView alpha]
 		  andNpcTo:[self.view frame] withAlpha:1.0
-  withPostSelector:nil];
+  withPostSelector:@selector(endIgnoringIneractions)];
 }
 
 - (void) toggleNextTextBoxSize
@@ -809,7 +824,9 @@ NSString *const kDialogHtmlTemplate =
 		[self dismissSelf];
         return;
     }
-	
+    
+    [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+    
 	NodeOption *selectedOption = [optionList objectAtIndex:[indexPath row]];
 	Node *newNode = [[AppModel sharedAppModel] nodeForNodeId:selectedOption.nodeId];
 
