@@ -607,22 +607,16 @@ NSString *const kDialogHtmlTemplate =
 
 - (void) beginIgnoringInteractions
 {
-    /*
     self.pcOptionsTable.userInteractionEnabled         = NO;
     self.pcTapToContinueButton.userInteractionEnabled  = NO;
     self.npcTapToContinueButton.userInteractionEnabled = NO;
-     */
-    NSLog(@"DISABLED");
 }
 
 - (void) endIgnoringInteractions
 {
-    /*
     self.pcOptionsTable.userInteractionEnabled         = YES;
     self.pcTapToContinueButton.userInteractionEnabled  = YES;
     self.npcTapToContinueButton.userInteractionEnabled = YES;
-     */
-    NSLog(@"ENABLED");
 }
 
 - (void) movePcTo:(CGRect)pcRect  withAlpha:(CGFloat)pcAlpha
@@ -836,7 +830,7 @@ NSString *const kDialogHtmlTemplate =
         return;
     }
     
-    [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+    [self beginIgnoringInteractions];
     
 	NodeOption *selectedOption = [optionList objectAtIndex:[indexPath row]];
 	Node *newNode = [[AppModel sharedAppModel] nodeForNodeId:selectedOption.nodeId];
