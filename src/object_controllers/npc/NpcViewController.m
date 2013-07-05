@@ -367,7 +367,7 @@ NSString *const kDialogHtmlTemplate =
             else if([currentScene.sceneType isEqualToString:@"npc"]) [self moveNpcIn];
         }
         else
-            [self endIgnoringIneractions];
+            [self endIgnoringInteractions];
         
         CGRect imageFrame = self.currentImageView.frame;
         [UIView animateWithDuration:currentScene.zoomTime animations:^
@@ -380,7 +380,7 @@ NSString *const kDialogHtmlTemplate =
     }
     else
     {
-        [self endIgnoringIneractions];
+        [self endIgnoringInteractions];
         if([currentScene.sceneType isEqualToString:@"video"])
         {
             Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.typeId ofType:@"VIDEO"];
@@ -582,6 +582,7 @@ NSString *const kDialogHtmlTemplate =
 
 - (void) dismissSelf
 {
+    [self endIgnoringInteractions];
     [[AppServices sharedAppServices] updateServerNpcViewed:currentNpc.npcId fromLocation:0];
     [delegate gameObjectViewControllerRequestsDismissal:self];
 }
@@ -598,7 +599,7 @@ NSString *const kDialogHtmlTemplate =
     
     if(audioPlayer.isPlaying) [audioPlayer stop];
     
-    [[AVAudioSession sharedInstance] setActive: NO error: nil];
+    [[AVAudioSession sharedInstance] setActive:NO error:nil];
     audioPlayer = nil;
     
     [self readySceneForDisplay:[currentScript nextScene]];
@@ -606,12 +607,22 @@ NSString *const kDialogHtmlTemplate =
 
 - (void) beginIgnoringInteractions
 {
-    [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+    /*
+    self.pcOptionsTable.userInteractionEnabled         = NO;
+    self.pcTapToContinueButton.userInteractionEnabled  = NO;
+    self.npcTapToContinueButton.userInteractionEnabled = NO;
+     */
+    NSLog(@"DISABLED");
 }
 
-- (void) endIgnoringIneractions
+- (void) endIgnoringInteractions
 {
-    [[UIApplication sharedApplication] endIgnoringInteractionEvents];
+    /*
+    self.pcOptionsTable.userInteractionEnabled         = YES;
+    self.pcTapToContinueButton.userInteractionEnabled  = YES;
+    self.npcTapToContinueButton.userInteractionEnabled = YES;
+     */
+    NSLog(@"ENABLED");
 }
 
 - (void) movePcTo:(CGRect)pcRect  withAlpha:(CGFloat)pcAlpha
@@ -641,14 +652,14 @@ NSString *const kDialogHtmlTemplate =
 {
 	[self movePcTo:[self.view frame] withAlpha:1.0
 		  andNpcTo:[npcView frame]   withAlpha:[npcView alpha]
-  withPostSelector:@selector(endIgnoringIneractions)];
+  withPostSelector:@selector(endIgnoringInteractions)];
 }
 
 - (void) moveNpcIn
 {
 	[self movePcTo:[pcView frame]    withAlpha:[pcView alpha]
 		  andNpcTo:[self.view frame] withAlpha:1.0
-  withPostSelector:@selector(endIgnoringIneractions)];
+  withPostSelector:@selector(endIgnoringInteractions)];
 }
 
 - (void) toggleNextTextBoxSize
