@@ -552,11 +552,7 @@ NSString *const kDialogHtmlTemplate =
         
         self.title = defaultPcTitle;
         
-        NSSortDescriptor *sortDescriptor;
-        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"hasViewed" ascending:YES];
-        NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-        
-        optionList = [options sortedArrayUsingDescriptors:sortDescriptors];
+        optionList = [options sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"hasViewed" ascending:YES]]];
 		[pcOptionsTable reloadData];
 	}
 }
@@ -765,29 +761,26 @@ NSString *const kDialogHtmlTemplate =
 	UITableViewCell *cell = [pcOptionsTable dequeueReusableCellWithIdentifier:@"Dialog"];
 	if (!cell) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Dialog"];
     
-	if (indexPath.section == 0)
+    cell.backgroundColor         = [UIColor ARISColorOffWhite];
+    cell.textLabel.textColor     = [UIColor ARISColorDarkBlue];
+    cell.textLabel.font          = [UIFont boldSystemFontOfSize:kOptionsFontSize];
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
+    cell.textLabel.numberOfLines = 0;
+
+    [cell.textLabel setLineBreakMode:NSLineBreakByWordWrapping];
+	if(indexPath.section == 0)
     {
 		NodeOption *option = [optionList objectAtIndex:indexPath.row];
-        cell.textLabel.text = option.text;
-        cell.textLabel.font = [UIFont boldSystemFontOfSize:kOptionsFontSize];
-        [cell.textLabel setLineBreakMode:NSLineBreakByWordWrapping];
         if(option.hasViewed)
         {
-            cell.backgroundColor     = [UIColor ARISColorOffWhite];
-            cell.textLabel.textColor = [UIColor ARISColorDarkBlue];
+            cell.backgroundColor     = [UIColor ARISColorLightGrey];
+            cell.textLabel.textColor = [UIColor ARISColorLighBlue];
         }
-        else
-            cell.textLabel.textColor = [UIColor ARISColorDarkBlue];
+        cell.textLabel.text = option.text;
 	}
 	else if (indexPath.row == 0)
-    {
 		cell.textLabel.text = currentLeaveConversationTitle;
-        cell.textLabel.textColor = [UIColor ARISColorDarkBlue];
-	}
-	
-    cell.textLabel.textAlignment = NSTextAlignmentCenter;
-	
-	cell.textLabel.numberOfLines = 0;
+    
 	[cell.textLabel sizeToFit]; 
 
 	return cell;
@@ -795,7 +788,7 @@ NSString *const kDialogHtmlTemplate =
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (indexPath.section == 1) return 45;
+	if(indexPath.section == 1) return 45;
 
 	NodeOption *option = [optionList objectAtIndex:indexPath.row];
 
@@ -807,11 +800,6 @@ NSString *const kDialogHtmlTemplate =
 									   constrainedToSize:maximumLabelSize lineBreakMode:NSLineBreakByWordWrapping];
 	
 	return expectedLabelSize.height + 25;
-}
-
-- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    cell.backgroundColor = [UIColor ARISColorOffWhite];
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
