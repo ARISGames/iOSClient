@@ -166,7 +166,8 @@ static NSInteger zoomScaleToZoomLevel(MKZoomScale scale) {
         NSMutableArray* xArray = [[NSMutableArray alloc] init];
         NSMutableArray* yArray = [[NSMutableArray alloc] init];
         NSMutableArray* zArray = [[NSMutableArray alloc] init];
-        NSNumber *minZ = [NSNumber numberWithInt:1000000];
+        // MG: using NSNumber breaks comparison
+        NSInteger minZ = [NSNumber numberWithInt:1000000];
         
         for (int i = 0; i < [currentOverlay.tileX count]; i++) {
         
@@ -180,8 +181,9 @@ static NSInteger zoomScaleToZoomLevel(MKZoomScale scale) {
             NSNumber *z = [currentOverlay.tileZ objectAtIndex:i]; 
             [zArray addObject:z];
             
-            if (z < minZ)
-                minZ = z;
+            NSInteger currentZ = [z intValue];
+            if (currentZ < minZ)
+                minZ = currentZ;
             
             
         }
@@ -202,7 +204,7 @@ static NSInteger zoomScaleToZoomLevel(MKZoomScale scale) {
         NSInteger maxX = 0;
         NSInteger maxY = 0;
         for (int i = 0; i < [currentOverlay.tileX count]; i++) {            
-            if ([zArray objectAtIndex:i] == minZ) {
+            if ([[zArray objectAtIndex:i] intValue] == minZ) {
                 minX = MIN(minX, [[xArray objectAtIndex:i] intValue]);
                 minY = MIN(minY, [[yArray objectAtIndex:i] intValue]);
                 maxX = MAX(maxX, [[xArray objectAtIndex:i] intValue]);
@@ -211,7 +213,7 @@ static NSInteger zoomScaleToZoomLevel(MKZoomScale scale) {
         }
         
         // Note: this part stays the same
-        NSInteger tilesAtZ = pow(2, [minZ doubleValue]);
+        NSInteger tilesAtZ = pow(2, minZ);
         double sizeAtZ = tilesAtZ * TILE_SIZE;
         double zoomScaleAtMinZ = sizeAtZ / MKMapSizeWorld.width;
         
@@ -291,8 +293,18 @@ static NSInteger zoomScaleToZoomLevel(MKZoomScale scale) {
                     //NSString *path = [currentOverlay.tileFileName objectAtIndex:i]; 
                     
                     
-                    //NSString *path = [currentOverlay.tilePath objectAtIndex:i]; 
-                    UIImage *image = [UIImage imageWithData:media.image];
+                    //NSString *path = [currentOverlay.tilePath objectAtIndex:i];
+                    // MG: load image from file system if offline
+                    UIImage *image;
+                    if (media.image) {
+                        image = [UIImage imageWithData:media.image];
+                    }
+                    else {
+                        NSURL *url = [NSURL URLWithString:media.url];
+                        if ([url isFileURL]) {
+                            image = [UIImage imageWithContentsOfFile:[url path]];
+                        }
+                    }
                     //init tile
                     ImageTile *tile = [[ImageTile alloc] initWithFrame:frame image:image];
                     

@@ -53,7 +53,6 @@
 @synthesize isGameNoteList;
 @synthesize uploadManager;
 @synthesize mediaCache;
-@synthesize hasReceivedMediaList;
 @synthesize fileToDeleteURL;
 
 @synthesize motionManager;
@@ -316,7 +315,10 @@
 
 - (NSManagedObjectModel *) managedObjectModel
 {
-    if(!managedObjectModel) managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];    
+    if(!managedObjectModel) {
+        NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"UploadContent" withExtension:@"momd"];
+        managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    }
     return managedObjectModel;
 }
 

@@ -113,7 +113,6 @@
         [[AppServices sharedAppServices] resetCurrentlyFetchingVars];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkForDisplayCompleteNode) name:@"NewlyCompletedQuestsAvailable" object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receivedMediaList)           name:@"ReceivedMediaList"             object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameTabListRecieved:)        name:@"ReceivedTabList"               object:nil];
         //END PHIL UNAPPROVED
     }
@@ -147,7 +146,6 @@
     
     //PHIL HATES THIS CHUNK
 	[[AppServices sharedAppServices] updateServerGameSelected];
-    [AppModel sharedAppModel].hasReceivedMediaList = NO;
     //PHIL DONE HATING CHUNK
 }
 
@@ -162,7 +160,7 @@
 }
 
 - (void) loadingViewControllerFinishedLoadingData
-{    
+{
     [self displayContentController:self.gamePlayTabBarController];
     self.loadingViewController = nil;
     [[ARISAlertHandler sharedAlertHandler] removeWaitingIndicator];
@@ -314,15 +312,23 @@
 	nav.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     [self presentViewController:nav animated:NO completion:nil];
+    //Phil hates that the frame changes depending on what view you add it to...
+    self.gameNotificationViewController.view.frame = CGRectMake(self.gameNotificationViewController.view.frame.origin.x, 
+                                                                self.gameNotificationViewController.view.frame.origin.y+20,
+                                                                self.gameNotificationViewController.view.frame.size.width,
+                                                                self.gameNotificationViewController.view.frame.size.height);
+    [nav.view addSubview:self.gameNotificationViewController.view];//always put notifs on top //Phil doesn't LOVE this, but can't think of anything better...
 }
 
 - (void) gameObjectViewControllerRequestsDismissal:(GameObjectViewController *)govc
 {
     [govc.navigationController dismissViewControllerAnimated:NO completion:nil];
-}
-
-- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
-{
+    //Phil hates that the frame changes depending on what view you add it to...
+    self.gameNotificationViewController.view.frame = CGRectMake(self.gameNotificationViewController.view.frame.origin.x,
+                                                                self.gameNotificationViewController.view.frame.origin.y-20,
+                                                                self.gameNotificationViewController.view.frame.size.width,
+                                                                self.gameNotificationViewController.view.frame.size.height);
+    [self.view addSubview:self.gameNotificationViewController.view];//always put notifs on top //Phil doesn't LOVE this, but can't think of anything better...
 }
 
 - (void)dealloc
@@ -335,10 +341,10 @@
 - (void)beginGamePlay
 {
     NSLog(@"GamePlayViewController: beginGamePlay");
-    
+    self.gameNotificationViewController.view.frame = CGRectMake(0,0,0,0);
+    [self.view addSubview:self.gameNotificationViewController.view];
     [self.gameNotificationViewController startListeningToModel];
-    [[AppServices sharedAppServices] fetchAllPlayerLists];
-    
+        
     int nodeId = [AppModel sharedAppModel].currentGame.launchNodeId;
     if(nodeId && nodeId != 0 && [[AppModel sharedAppModel].currentGame.questsModel.currentCompletedQuests count] < 1)
         [self displayGameObject:[[AppModel sharedAppModel] nodeForNodeId:nodeId] fromSource:self];
@@ -347,17 +353,12 @@
 - (void) checkForDisplayCompleteNode
 {
     int nodeId = [AppModel sharedAppModel].currentGame.completeNodeId;
-    if (nodeId != 0 &&
+    if(nodeId != 0 &&
         [[AppModel sharedAppModel].currentGame.questsModel.currentCompletedQuests count] == [AppModel sharedAppModel].currentGame.questsModel.totalQuestsInGame &&
         [[AppModel sharedAppModel].currentGame.questsModel.currentCompletedQuests count] > 0)
     {
         [self displayGameObject:[[AppModel sharedAppModel] nodeForNodeId:nodeId] fromSource:self];
 	}
-}
-
-- (void) receivedMediaList
-{
-    [AppModel sharedAppModel].hasReceivedMediaList = YES;
 }
 
 - (void) displayTab:(NSString *)t

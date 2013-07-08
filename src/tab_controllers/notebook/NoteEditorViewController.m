@@ -284,7 +284,7 @@
 
 - (void) audioChosenWith:(NSURL *)url
 {
-    [[[AppModel sharedAppModel]uploadManager] uploadContentForNoteId:self.note.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:@"AUDIO" withFileURL:url];
+    [[[AppModel sharedAppModel] uploadManager] uploadContentForNoteId:self.note.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:@"AUDIO" withFileURL:url];
     self.noteValid   = YES;
 }
 
@@ -515,10 +515,8 @@
             [UIView beginAnimations:nil context:NULL];
             [UIView setAnimationDuration:.5];
             
-            [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
-                                   forView:self.navigationController.view cache:YES];
-            [self.navigationController pushViewController:controller
-                                                 animated:NO];
+            [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:self.navigationController.view cache:YES];
+            [self.navigationController pushViewController:controller animated:NO];
             [UIView commitAnimations];
         }
         else if([noteC.getType isEqualToString:@"VIDEO"] || [noteC.getType isEqualToString:@"AUDIO"])

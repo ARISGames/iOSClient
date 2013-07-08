@@ -74,7 +74,6 @@
 	BOOL hasSeenMapTabTutorial;
 	BOOL hasSeenInventoryTabTutorial;
     BOOL hidePlayers,isGameNoteList;
-    BOOL hasReceivedMediaList;
     
     //CORE Data
     NSManagedObjectModel *managedObjectModel;
@@ -94,8 +93,6 @@
 
 @property(readwrite) BOOL hidePlayers;
 @property(readwrite) BOOL isGameNoteList;
-
-@property(readwrite) BOOL hasReceivedMediaList;
 
 @property(readwrite) BOOL overlayIsVisible;
 

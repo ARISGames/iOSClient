@@ -63,7 +63,7 @@
     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
     picker.allowsEditing = NO;
 	picker.showsCameraControls = YES;
-	[self presentModalViewController:picker animated:NO];
+    [self presentViewController:picker animated:NO completion:nil];
 }
 
 - (void) presentLibrary
@@ -73,12 +73,12 @@
     picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
 	picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     
-	[self presentModalViewController:picker animated:NO];
+    [self presentViewController:picker animated:NO completion:nil];
 }
 
 - (void) imagePickerController:(UIImagePickerController *)aPicker didFinishPickingMediaWithInfo:(NSDictionary  *)info
 {
-    [aPicker dismissModalViewControllerAnimated:NO];
+    [aPicker dismissViewControllerAnimated:NO completion:nil];
 
 	NSString* mediaType = [info objectForKey:UIImagePickerControllerMediaType];
 	if([mediaType isEqualToString:@"public.image"])
@@ -152,7 +152,7 @@
 
 - (void) imagePickerControllerDidCancel:(UIImagePickerController *)aPicker
 {
-    [aPicker dismissModalViewControllerAnimated:NO];
+    [aPicker dismissViewControllerAnimated:NO completion:nil];
     [delegate cameraViewControllerCancelled];
     [self.navigationController popViewControllerAnimated:NO];
 }

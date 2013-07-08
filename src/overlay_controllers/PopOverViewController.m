@@ -7,7 +7,12 @@
 //
 
 #import "PopOverViewController.h"
-#import "RootViewController.h"
+#import <QuartzCore/QuartzCore.h>
+#import <AVFoundation/AVFoundation.h>
+#import "PopOverContentView.h"
+#import "AsyncMediaImageView.h"
+#import "ARISMoviePlayerViewController.h"
+#import "Media.h"
 
 NSString *const kPopOverHtmlTemplate =
 @"<html>"
@@ -36,11 +41,44 @@ NSString *const kPopOverHtmlTemplate =
 @"<body><p>%@</p></body>"
 @"</html>";
 
-@interface PopOverViewController()
+@interface PopOverViewController() <AsyncMediaImageViewDelegate, UIScrollViewDelegate, AVAudioPlayerDelegate>
 {
     BOOL shouldPlay;
+
+    IBOutlet PopOverContentView *mainViewNoMedia;
+    IBOutlet PopOverContentView *mainViewMedia;
+    IBOutlet UIView *mainViewNoMediaContentView;
+    IBOutlet UIView *mainViewMediaContentView;
+    UIView *mainView;
+    
+    IBOutlet UILabel *lbl_popOverTitleNoMedia;
+    IBOutlet UILabel *lbl_popOverTitleMedia;
+    UILabel *lbl_popOverTitle;
+    
+    IBOutlet UILabel *lbl_popOverDescriptionNoMedia;
+    IBOutlet UILabel *lbl_popOverDescriptionMedia;
+    UILabel *lbl_popOverDescription;
+    
+    IBOutlet UIWebView *popOverWebViewNoMedia;
+    IBOutlet UIWebView *popOverWebViewMedia;
+    UIWebView *popOverWebView;
+    
+    IBOutlet UIButton *continueButtonNoMedia;
+    IBOutlet UIButton *continueButtonMedia;
+    UIButton *continueButton;
+    
+    IBOutlet UIView *mediaView;
+    IBOutlet UIActivityIndicatorView *loadingIndicator;
+        
+    AVAudioPlayer *player;
+    ARISMoviePlayerViewController *ARISMoviePlayer;
+    AsyncMediaImageView	*imageView;
+    
     id<PopOverViewDelegate> __unsafe_unretained delegate;
+
 }
+- (IBAction) continuePressed:(id)sender;
+
 @end
 
 @implementation PopOverViewController
@@ -54,17 +92,10 @@ NSString *const kPopOverHtmlTemplate =
     return self;
 }
 
-- (void)viewWillAppear {
-    semiTransparentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    semiTransparentView.backgroundColor = [[UIColor alloc] initWithRed:0 green:0 blue:0 alpha:0.5];
-    [self.view insertSubview:semiTransparentView atIndex:1];
-}
-
-- (void)viewWillDisappear {
+- (void)viewWillDisappear
+{
     [popOverWebViewMedia stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML = \"\";"];
     [popOverWebViewNoMedia stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML = \"\";"];
-    [backgroundImage removeFromSuperview];
-    [semiTransparentView removeFromSuperview];
 }
 
 - (void)viewDidLoad
@@ -94,15 +125,16 @@ NSString *const kPopOverHtmlTemplate =
     [continueButtonMedia setTitle:NSLocalizedString(@"OkKey", nil) forState:UIControlStateHighlighted];
     [continueButtonNoMedia setTitle:NSLocalizedString(@"OkKey", nil) forState:UIControlStateNormal];
     [continueButtonNoMedia setTitle:NSLocalizedString(@"OkKey", nil) forState:UIControlStateHighlighted];
-    
-    // Do any additional setup after loading the view from its nib.
 }
 
-- (void) setTitle:(NSString *)title description:(NSString *)description webViewText: (NSString *)text andMediaId: (int) mediaId {
-
+- (void) setTitle:(NSString *)title description:(NSString *)description webViewText:(NSString *)text andMediaId:(int)mediaId
+{
+    if(!self.view) self.view.hidden = NO; //Just accesses view to force its load
+    
     BOOL hasMedia = (mediaId != 0);
     Media *media;
-    if(hasMedia) {
+    if(hasMedia)
+    {
         //PHIL media = [[AppModel sharedAppModel] mediaForMediaId:mediaId];
         if([media.type isEqualToString:@"AUDIO"]) hasMedia = NO;
     }
@@ -120,26 +152,22 @@ NSString *const kPopOverHtmlTemplate =
     if ([text rangeOfString:@"<html>"].location == NSNotFound) text = [NSString stringWithFormat:kPopOverHtmlTemplate, text];
     [popOverWebView loadHTMLString:text baseURL:nil];
     
-    if(mediaId != 0) {
+    if(mediaId != 0)
+    {
         [ARISMoviePlayer.view removeFromSuperview];
         [imageView removeFromSuperview];
-        if([media.type isEqualToString:@"VIDEO"]){
-            CGRect movieFrame = mediaView.frame;
-            movieFrame.origin.x = 0;
-            movieFrame.origin.y = 0;
-            [ARISMoviePlayer.view setFrame:movieFrame];
+        if([media.type isEqualToString:@"VIDEO"])
+        {
+            [ARISMoviePlayer.view setFrame:CGRectMake(0,0,mediaView.frame.size.width,mediaView.frame.size.height)];
             ARISMoviePlayer.view.backgroundColor = [UIColor clearColor];
             for(UIView* subV in ARISMoviePlayer.moviePlayer.view.subviews) subV.backgroundColor = [UIColor clearColor];
             [self playAudioOrVideoFromMedia:media];
         }
-        else if([media.type isEqualToString:@"AUDIO"]){
+        else if([media.type isEqualToString:@"AUDIO"])
             [self playAudioOrVideoFromMedia:media];
-        }
-        else if([media.type isEqualToString:@"PHOTO"]){
-            CGRect imageFrame = mediaView.frame;
-            imageFrame.origin.x = 0;
-            imageFrame.origin.y = 0;
-            [imageView setFrame:imageFrame];
+        else if([media.type isEqualToString:@"PHOTO"])
+        {
+            [imageView setFrame:CGRectMake(0,0,mediaView.frame.size.width,mediaView.frame.size.height)];
             [imageView loadMedia:media];
             [mediaView addSubview: imageView];
             loadingIndicator.hidden = YES;
@@ -148,8 +176,8 @@ NSString *const kPopOverHtmlTemplate =
 }
 
 #pragma mark Audio and Video
-- (void) playAudioOrVideoFromMedia:(Media*)media {
-    
+- (void) playAudioOrVideoFromMedia:(Media*)media
+{    
     //temp fix is to not use media.image, but always stream as we do other places like AsyncMediaPlayerButton
     /*
     if(media.image != nil && [media.type isEqualToString:@"AUDIO"]){
@@ -187,12 +215,14 @@ NSString *const kPopOverHtmlTemplate =
 
 - (void)MPMoviePlayerLoadStateDidChangeNotification:(NSNotification *)notif
 {
-    if (ARISMoviePlayer.moviePlayer.loadState & MPMovieLoadStateStalled) {
+    if(ARISMoviePlayer.moviePlayer.loadState & MPMovieLoadStateStalled)
+    {
         loadingIndicator.hidden = NO;
         [loadingIndicator startAnimating];
         [ARISMoviePlayer.moviePlayer pause];
     }
-    else if (ARISMoviePlayer.moviePlayer.loadState & MPMovieLoadStatePlayable) {
+    else if(ARISMoviePlayer.moviePlayer.loadState & MPMovieLoadStatePlayable)
+    {
         [loadingIndicator stopAnimating];
         if(shouldPlay) [ARISMoviePlayer.moviePlayer play];
         loadingIndicator.hidden = YES;
@@ -201,14 +231,16 @@ NSString *const kPopOverHtmlTemplate =
 
 #pragma mark audioPlayerDone
 
-- (void) audioPlayerDidFinishPlaying: (AVAudioPlayer *) player successfully: (BOOL) flag {
+- (void) audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
+{
     NSLog(@"PopOver: Audio is done playing");
     NSError* err;
     [[AVAudioSession sharedInstance] setActive: NO error: &err];
     if(err)NSLog(@"PopOver: Ending Audio: Failed with reason: %@", [err localizedDescription]);
 }
 
-- (IBAction)continuePressed:(id)sender {
+- (IBAction) continuePressed:(id)sender
+{
     if(ARISMoviePlayer.moviePlayer.playbackState == MPMoviePlaybackStatePlaying) [ARISMoviePlayer.moviePlayer stop];
     
     ARISMoviePlayer.moviePlayer.shouldAutoplay = NO;

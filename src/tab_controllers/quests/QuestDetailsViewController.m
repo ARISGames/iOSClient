@@ -93,7 +93,7 @@ NSString *const kQuestDetailsHtmlTemplate =
     else
     {
         UIImage *iconImage = [UIImage imageNamed:@"item.png"];
-        [self.questImageView setImage: iconImage];
+        [self.questImageView setImage:iconImage];
     }
 }
 

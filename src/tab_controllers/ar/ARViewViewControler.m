@@ -87,7 +87,7 @@
 	//[self.view removeFromSuperview];
 	//[self.cameraController dismissModalViewControllerAnimated:NO];
 	//[self release];
-	[ARviewController dismissModalViewControllerAnimated:NO]; //bad code
+	[ARviewController dismissViewControllerAnimated:NO completion:nil]; //bad code
 }
 
 #define BOX_WIDTH 300
@@ -101,7 +101,7 @@
 	UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, BOX_WIDTH, 20.0)];
 	titleLabel.backgroundColor = [UIColor colorWithWhite:.3 alpha:.8];
 	titleLabel.textColor = [UIColor whiteColor];
-	titleLabel.textAlignment = UITextAlignmentCenter;
+	titleLabel.textAlignment = NSTextAlignmentCenter;
 	titleLabel.text = coordinate.title;
 	[titleLabel sizeToFit];
 	titleLabel.frame = CGRectMake(BOX_WIDTH / 2.0 - titleLabel.frame.size.width / 2.0 - 4.0, 0, titleLabel.frame.size.width + 8.0, titleLabel.frame.size.height + 8.0);
