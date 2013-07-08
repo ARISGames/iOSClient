@@ -74,7 +74,8 @@
     
 }
 
--(void)viewDidAppear:(BOOL)animated{
+-(void)viewDidAppear:(BOOL)animated
+{
     //[RootViewController sharedRootViewController].webPageChannel = [[RootViewController sharedRootViewController].client subscribeToPrivateChannelNamed:[NSString stringWithFormat:@"%d-webpage-channel",self.webPage.webPageId]];
 
     if(!self.loaded)
@@ -86,17 +87,17 @@
 
 - (void)viewDidUnload
 {
-    NSLog(@"WebPageVC: viewDidUnload");
     [super viewDidUnload];
 }
 
-- (void)dealloc{
+- (void)dealloc
+{
     webView.delegate = nil;
     [webView stopLoading];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    NSLog(@"WebPageVC: viewWillDisapear");
+- (void)viewWillDisappear:(BOOL)animated
+{
     //if([RootViewController sharedRootViewController].webPageChannel) [[RootViewController sharedRootViewController].client unsubscribeFromChannel:(PTPusherChannel *)[RootViewController sharedRootViewController].webPageChannel];
 
     [self.audioPlayers enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop){
@@ -108,26 +109,32 @@
 #pragma mark -
 #pragma mark General Logic
 
--(void)webViewDidFinishLoad:(UIWebView *)webView {
+-(void)webViewDidFinishLoad:(UIWebView *)webView
+{
     self.loaded = YES;
     self.webView.hidden = NO;
     self.blackView.hidden = YES;
     [self dismissWaitingIndicator];
 }
--(void)webViewDidStartLoad:(UIWebView *)webView {
+
+-(void)webViewDidStartLoad:(UIWebView *)webView
+{
     self.loaded = NO;
     [self showWaitingIndicator];
 }
--(void)showWaitingIndicator {
+
+-(void)showWaitingIndicator
+{
     [self.activityIndicator startAnimating];
 }
 
--(void)dismissWaitingIndicator {
+-(void)dismissWaitingIndicator
+{
     [self.activityIndicator stopAnimating];
 }
 
-- (IBAction)backButtonTouchAction: (id) sender{
-    
+- (IBAction)backButtonTouchAction:(id)sender
+{
     [self.webView loadHTMLString:@"" baseURL:nil]; //clears out any running javascript, etc...
     if(self.isConnectedToBump) [BumpClient sharedClient].bumpable = NO;
 
@@ -140,7 +147,6 @@
 
 - (BOOL)webView:(UIWebView*)webViewFromMethod shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType
 {
-    
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     self.webView = webViewFromMethod;

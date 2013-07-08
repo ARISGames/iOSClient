@@ -7,6 +7,7 @@
 //
 
 #import "NodeViewController.h"
+#import "StateControllerProtocol.h"
 #import "AppModel.h"
 #import "AppServices.h"
 #import "ARISAppDelegate.h"
@@ -76,7 +77,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 @synthesize continueButton;
 @synthesize webViewSpinner;
 
-- (id) initWithNode:(Node *)n delegate:(NSObject<GameObjectViewControllerDelegate> *)d
+- (id) initWithNode:(Node *)n delegate:(NSObject<GameObjectViewControllerDelegate, StateControllerProtocol> *)d
 {
     if((self = [super initWithNibName:@"NodeViewController" bundle:nil]))
     {
@@ -164,15 +165,15 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 {
     NSString *url = [req URL].absoluteString;
     if([url isEqualToString:@"about:blank"]) return YES;
-    //Check to prepend url query with '?' or '&'
-    if([url rangeOfString:@"?"].location == NSNotFound)
-        url = [url stringByAppendingString: [NSString stringWithFormat: @"?gameId=%d&webPageId=%d&playerId=%d",[AppModel sharedAppModel].currentGame.gameId, node.nodeId, [AppModel sharedAppModel].player.playerId]];
-    else
-        url = [url stringByAppendingString:[NSString stringWithFormat: @"&gameId=%d&webPageId=%d&playerId=%d",[AppModel sharedAppModel].currentGame.gameId, node.nodeId, [AppModel sharedAppModel].player.playerId]];
     
+    [delegate gameObjectViewControllerRequestsDismissal:self];
+    WebPage *w = [[WebPage alloc] init];
+    w.webPageId = self.node.nodeId;
+    w.url = url;
+    [(id<StateControllerProtocol>)delegate displayGameObject:w fromSource:self];
     //PHIL TODO- convert to ARIS WebView (but first, create ARIS WebView)
     
-    return YES;
+    return NO;
 }
 
 - (void) webViewDidFinishLoad:(UIWebView *)theWebView
