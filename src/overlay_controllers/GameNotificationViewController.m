@@ -183,6 +183,8 @@
         
         NSLog(@"NSNotification: NewlyChangedQuestsGameNotificationSent");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyChangedQuestsGameNotificationSent" object:self]];
+        NSLog(@"NSNotification: NewlyActiveQuestsGameNotificationSent");
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyActiveQuestsGameNotificationSent" object:self]];
     }
 }
 
@@ -201,6 +203,8 @@
         
         NSLog(@"NSNotification: NewlyChangedQuestsGameNotificationSent");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyChangedQuestsGameNotificationSent" object:self]];
+        NSLog(@"NSNotification: NewlyCompletedQuestsGameNotificationSent");
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyCompletedQuestsGameNotificationSent" object:self]];
     }
 }
 
