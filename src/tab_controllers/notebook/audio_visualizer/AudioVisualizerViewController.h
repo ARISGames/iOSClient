@@ -34,6 +34,8 @@
 @property (nonatomic) float endTime;
 @property (nonatomic) int lengthInSeconds;
 
+@property (nonatomic) NSURL *path;
+
 - (void) openAudioURL:(NSURL *)url;
 -(void)setPlayHeadToLeftSlider;
 - (void) pauseAudio;
