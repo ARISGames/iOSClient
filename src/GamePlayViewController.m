@@ -125,6 +125,7 @@
     [super loadView];
     self.gameNotificationViewController.view.frame = self.view.frame;
     [self.view addSubview:self.gameNotificationViewController.view];
+    self.view.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight);
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -373,6 +374,21 @@
     //Force more tab to always be a list of options, not the last VC
     NSLog(@"GamePlayTabBarController: selectedIndex is %d", tabBarController.selectedIndex);
     if(tabBarController.selectedIndex > 3)  [tabBarController.moreNavigationController popToRootViewControllerAnimated:NO];
+}
+
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return [self.gamePlayTabBarController.selectedViewController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+}
+
+- (BOOL) shouldAutorotate
+{
+    return YES;
+}
+
+- (NSInteger) supportedInterfaceOrientations
+{
+    return [self.gamePlayTabBarController.selectedViewController supportedInterfaceOrientations];
 }
 
 @end

@@ -14,6 +14,7 @@
 #import "ARISAppDelegate.h"
 #import "AppServices.h"
 #import "ARISAlertHandler.h"
+#import "AudioVisualizerViewController.h"
 
 @interface AudioRecorderViewController() <AVAudioSessionDelegate, AVAudioRecorderDelegate, AVAudioPlayerDelegate>
 {
@@ -28,6 +29,7 @@
     IBOutlet UIButton *recordStopOrPlayButton;
 	IBOutlet UIButton *uploadButton;
 	IBOutlet UIButton *discardButton;
+    IBOutlet UIButton *editButton;
     
     id<AudioRecorderViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -42,6 +44,7 @@
 @property (nonatomic, strong) IBOutlet UIButton *recordStopOrPlayButton;
 @property (nonatomic, strong) IBOutlet UIButton *uploadButton;
 @property (nonatomic, strong) IBOutlet UIButton *discardButton;
+@property (nonatomic, strong) IBOutlet UIButton *editButton;
 
 @end
 
@@ -57,6 +60,7 @@
 @synthesize recordStopOrPlayButton;
 @synthesize uploadButton;
 @synthesize discardButton;
+@synthesize editButton;
 
 - (id) initWithDelegate:(id<AudioRecorderViewControllerDelegate>)d
 {
@@ -123,30 +127,35 @@
 			[recordStopOrPlayButton setTitle:NSLocalizedString(@"BeginRecordingKey", @"") forState:UIControlStateHighlighted];
 			uploadButton.hidden  = YES;
 			discardButton.hidden = YES;
+            editButton.hidden = YES;
 			break;
 		case kAudioRecorderRecording:
 			[recordStopOrPlayButton setTitle:NSLocalizedString(@"StopRecordingKey", @"") forState:UIControlStateNormal];
 			[recordStopOrPlayButton setTitle:NSLocalizedString(@"StopRecordingKey", @"") forState:UIControlStateHighlighted];
 			uploadButton.hidden  = YES;
 			discardButton.hidden = YES;
+            editButton.hidden = YES;
 			break;
 		case kAudioRecorderRecordingComplete:
 			[recordStopOrPlayButton setTitle:NSLocalizedString(@"PlayKey", @"") forState:UIControlStateNormal];
 			[recordStopOrPlayButton setTitle:NSLocalizedString(@"PlayKey", @"") forState:UIControlStateHighlighted];
 			uploadButton.hidden  = NO;
 			discardButton.hidden = NO;
+            editButton.hidden = NO;
 			break;
 		case kAudioRecorderPlaying:
 			[recordStopOrPlayButton setTitle:NSLocalizedString(@"StopKey", @"") forState:UIControlStateNormal];
 			[recordStopOrPlayButton setTitle:NSLocalizedString(@"StopKey", @"") forState:UIControlStateHighlighted];
 			uploadButton.hidden  = YES;
 			discardButton.hidden = YES;
+            editButton.hidden = YES;
 			break;
         case kAudioRecorderNoteMode:
             [recordStopOrPlayButton setTitle:NSLocalizedString(@"PlayKey", @"") forState:UIControlStateNormal];
             [recordStopOrPlayButton setTitle:NSLocalizedString(@"PlayKey", @"") forState:UIControlStateHighlighted];
             uploadButton.hidden  = YES;
             discardButton.hidden = YES;
+            editButton.hidden = YES;
             mode = kAudioRecorderRecordingComplete;
             break;
 		default:
@@ -262,5 +271,35 @@
 	[self setMode:kAudioRecorderStarting];
 }
 
+- (IBAction) editButtonAction:(id)sender
+{
+    AudioVisualizerViewController *audioVC = [[AudioVisualizerViewController alloc] initWithNibName:@"AudioVisualizerViewController" bundle:nil];
+    [self.navigationController pushViewController:audioVC animated:YES];
+}
 
+
+- (void)viewDidUnload {
+    [self setEditButton:nil];
+    [super viewDidUnload];
+}
+
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return interfaceOrientation == UIInterfaceOrientationPortrait;
+}
+
+- (BOOL) shouldAutorotate
+{
+    return YES;
+}
+
+- (NSInteger) supportedInterfaceOrientations
+{
+        NSInteger mask = 0;
+        if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeLeft])      mask |= UIInterfaceOrientationMaskLandscapeLeft;
+        if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeRight])     mask |= UIInterfaceOrientationMaskLandscapeRight;
+        if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationPortrait])           mask |= UIInterfaceOrientationMaskPortrait;
+        if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationPortraitUpsideDown]) mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
+        return mask;
+}
 @end
