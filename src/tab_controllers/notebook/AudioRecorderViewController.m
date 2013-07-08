@@ -6,6 +6,7 @@
 //  Copyright Dept. of Journalism - University of Wisconsin - Madison 2010. All rights reserved.
 //
 
+
 #import "AudioRecorderViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import <CoreAudio/CoreAudioTypes.h>
@@ -21,6 +22,7 @@
 	AudioMeter *meter;
     NSTimer *meterUpdateTimer;
 
+    AVAudioSession *session;
 	AVAudioRecorder *soundRecorder;
 	AVAudioPlayer *soundPlayer;
     NSURL *soundFileURL;
@@ -66,10 +68,24 @@
         self.title = NSLocalizedString(@"AudioRecorderTitleKey",@"");
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"microphoneTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"microphoneTabBarUnselected"]];
         
-        NSString *tempDir = NSTemporaryDirectory ();
-        self.soundFileURL = [[NSURL alloc] initFileURLWithPath:[tempDir stringByAppendingString:[NSString stringWithFormat:@"%@.caf",[self getUniqueId]]]];
         
-        [[AVAudioSession sharedInstance] setDelegate:self];
+        session = [AVAudioSession sharedInstance];
+
+        
+//       NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//       NSString *docsDir = [dirPaths objectAtIndex:0];
+//       self.soundFileURL = [[NSURL alloc] initFileURLWithPath:[docsDir stringByAppendingString:[NSString stringWithFormat:@"%@.m4a",[self getUniqueId]]]];
+
+//        NSString *soundFilePath = [NSString stringWithFormat:@"%@/test.m4a", [[NSBundle mainBundle] resourcePath]];
+//        self.soundFileURL = [NSURL fileURLWithPath:soundFilePath];
+
+//        NSString *soundFilePath = @"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/temp.m4a";
+//        self.soundFileURL = [NSURL fileURLWithPath:soundFilePath];
+        
+        NSString *tempDir = NSTemporaryDirectory ();
+        self.soundFileURL = [[NSURL alloc] initFileURLWithPath:[tempDir stringByAppendingString:[NSString stringWithFormat:@"%@.m4a",[self getUniqueId]]]];
+        
+        [session setDelegate:self];
     }
     return self;
 }
@@ -93,6 +109,8 @@
 	[self.view sendSubviewToBack:self.meter];
 
     [self setMode:kAudioRecorderStarting];
+    //[self setMode:kAudioRecorderRecordingComplete];
+
 }
 
 - (void) backButtonTouchAction
@@ -103,7 +121,7 @@
 
 - (void) dealloc
 {
-    [[AVAudioSession sharedInstance] setDelegate:nil];
+    [session setDelegate:nil];
 }
 
 - (void) setMode:(AudioRecorderModeType)m
@@ -111,43 +129,36 @@
     mode = m;
     
 	[uploadButton setTitle:NSLocalizedString(@"SaveKey", @"") forState:UIControlStateNormal];
-	[uploadButton setTitle:NSLocalizedString(@"SaveKey", @"") forState:UIControlStateHighlighted];
 
 	[discardButton setTitle:NSLocalizedString(@"DiscardKey", @"") forState:UIControlStateNormal];
-	[discardButton setTitle:NSLocalizedString(@"DiscardKey", @"") forState:UIControlStateHighlighted];
 	
 	switch(mode)
     {
 		case kAudioRecorderStarting:
 			[recordStopOrPlayButton setTitle:NSLocalizedString(@"BeginRecordingKey", @"") forState:UIControlStateNormal];
-			[recordStopOrPlayButton setTitle:NSLocalizedString(@"BeginRecordingKey", @"") forState:UIControlStateHighlighted];
 			uploadButton.hidden  = YES;
 			discardButton.hidden = YES;
 			break;
 		case kAudioRecorderRecording:
 			[recordStopOrPlayButton setTitle:NSLocalizedString(@"StopRecordingKey", @"") forState:UIControlStateNormal];
-			[recordStopOrPlayButton setTitle:NSLocalizedString(@"StopRecordingKey", @"") forState:UIControlStateHighlighted];
 			uploadButton.hidden  = YES;
 			discardButton.hidden = YES;
 			break;
 		case kAudioRecorderRecordingComplete:
 			[recordStopOrPlayButton setTitle:NSLocalizedString(@"PlayKey", @"") forState:UIControlStateNormal];
-			[recordStopOrPlayButton setTitle:NSLocalizedString(@"PlayKey", @"") forState:UIControlStateHighlighted];
 			uploadButton.hidden  = NO;
 			discardButton.hidden = NO;
 			break;
 		case kAudioRecorderPlaying:
 			[recordStopOrPlayButton setTitle:NSLocalizedString(@"StopKey", @"") forState:UIControlStateNormal];
-			[recordStopOrPlayButton setTitle:NSLocalizedString(@"StopKey", @"") forState:UIControlStateHighlighted];
 			uploadButton.hidden  = YES;
 			discardButton.hidden = YES;
 			break;
         case kAudioRecorderNoteMode:
-            [recordStopOrPlayButton setTitle:NSLocalizedString(@"PlayKey", @"") forState:UIControlStateNormal];
-            [recordStopOrPlayButton setTitle:NSLocalizedString(@"PlayKey", @"") forState:UIControlStateHighlighted];
+            [recordStopOrPlayButton setTitle:NSLocalizedString(@"StopRecordingKey", @"") forState:UIControlStateNormal];
             uploadButton.hidden  = YES;
             discardButton.hidden = YES;
-            mode = kAudioRecorderRecordingComplete;
+            mode = kAudioRecorderRecording;
             break;
 		default:
 			break;
@@ -179,7 +190,7 @@
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
 {
-	[[AVAudioSession sharedInstance] setActive:NO error:nil];
+	[session setActive:NO error:nil];
 	self.soundPlayer = nil;
 	[self setMode:kAudioRecorderRecordingComplete];
 }
@@ -193,12 +204,19 @@
 {	
 	switch(mode)
     {
+            
+//            [session setCategory:AVAudioSessionCategoryRecord error:nil];
+//            [session setActive:YES error:nil];
+//
+//            [recorder record];
+            
+        //Set up the recorder's properties.
 		case kAudioRecorderStarting:
         {
-			[[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryRecord error: nil];
+			[session setCategory:AVAudioSessionCategoryRecord error: nil];
 			NSDictionary *recordSettings = [[NSDictionary alloc] initWithObjectsAndKeys:
-											[NSNumber numberWithInt:kAudioFormatAppleIMA4],AVFormatIDKey,
-											[NSNumber numberWithInt:16000.0],AVSampleRateKey,
+											[NSNumber numberWithInt:kAudioFormatMPEG4AAC],AVFormatIDKey,
+											[NSNumber numberWithInt:44100.0],AVSampleRateKey,
 											[NSNumber numberWithInt: 1],AVNumberOfChannelsKey,
 											[NSNumber numberWithInt: AVAudioQualityMin],AVSampleRateConverterAudioQualityKey,
 											nil];
@@ -206,11 +224,12 @@
 			self.soundRecorder.delegate = self;
 			[self.soundRecorder setMeteringEnabled:YES];
 			[self.soundRecorder prepareToRecord];
-			if(![[AVAudioSession sharedInstance] inputIsAvailable])
+			if(![session inputIsAvailable])
             {
                 [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"NoAudioHardwareAvailableTitleKey", @"") message:NSLocalizedString(@"NoAudioHardwareAvailableMessageKey", @"")];
 				return;
 			}
+            [session setActive:YES error:nil];
 			[self.soundRecorder record];
 			self.meter.alpha = 1.0;
 			self.meterUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:0.1
@@ -226,9 +245,9 @@
             [self setMode:kAudioRecorderRecordingComplete];
             break;
 		case kAudioRecorderRecordingComplete:
-			[[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];
-			[[AVAudioSession sharedInstance] setActive: YES error: nil];
-			if (nil == self.soundPlayer) {
+			[session setCategory: AVAudioSessionCategoryPlayback error: nil];
+			[session setActive: YES error: nil];
+			if (self.soundPlayer == nil) {
 				NSError *error;
 				AVAudioPlayer *newPlayer =[[AVAudioPlayer alloc] initWithContentsOfURL:self.soundFileURL error: &error];
 				self.soundPlayer = newPlayer;
@@ -239,8 +258,14 @@
 			[self.soundPlayer play];
             break;
 		case kAudioRecorderRecording:
-			[[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];
-			[self.soundRecorder stop];
+            [self.soundRecorder stop];
+            
+            //iOS5 way to do it
+            [session setActive:NO withFlags:AVAudioSessionSetActiveFlags_NotifyOthersOnDeactivation error:nil];
+            //iOS6 way to do it
+            //[session setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
+            
+			[session setCategory: AVAudioSessionCategoryPlayback error: nil];
 			self.soundRecorder = nil;
             [self setMode:kAudioRecorderRecordingComplete];
             break;
