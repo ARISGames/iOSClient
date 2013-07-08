@@ -1267,7 +1267,6 @@
 		ABB2CABF177267280060FFFA /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		ABB2CAC0177267280060FFFA /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
 		ABB2CAC3177267490060FFFA /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		ABB2CAC4177267490060FFFA /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		ABB2CAC7177267630060FFFA /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		ABB2CDC313C7497400F051E4 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		ABB2CDC513C7498A00F051E4 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
@@ -1536,9 +1535,9 @@
 				7152F65F177B9A17001B0CAE /* navBarBackground.png */,
 				AB39FD401773ACCF006DEC96 /* logo.png */,
 				AB44383F1774DFF2004D9DC3 /* logoWithText.png */,
+				AABC6F671727398B0074CC21 /* Default.png */,
 				ABB2CAC7177267630060FFFA /* Default@2x.png */,
 				ABB2CAC3177267490060FFFA /* Default-568h@2x.png */,
-				ABB2CAC4177267490060FFFA /* Default.png */,
 				ABB2CABF177267280060FFFA /* icon.png */,
 				ABB2CAC0177267280060FFFA /* icon@2x.png */,
 				AA50A482173992F500B105C2 /* 123-id-card-white@2x.png */,

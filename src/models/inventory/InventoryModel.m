@@ -131,7 +131,6 @@
 
 -(int)removeItemFromInventory:(Item*)item qtyToRemove:(int)qty
 {
-	NSLog(@"InventoryModel: removing an item from the local inventory");
     NSMutableArray *newInventory = [[NSMutableArray alloc] initWithCapacity:[self.currentInventory count]];
     for(int i = 0; i < [self.currentInventory count]; i++)
         [newInventory addObject:[((Item *)[self.currentInventory objectAtIndex:i]) copy]];
@@ -154,7 +153,6 @@
 
 -(int)addItemToInventory:(Item*)item qtyToAdd:(int)qty
 {
-	NSLog(@"InventoryModel: removing an item from the local inventory");
     NSMutableArray *newInventory = [[NSMutableArray alloc] initWithCapacity:[self.currentInventory count]];
     for(int i = 0; i < [self.currentInventory count]; i++)
         [newInventory addObject:[((Item *)[self.currentInventory objectAtIndex:i]) copy]];
