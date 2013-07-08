@@ -366,6 +366,8 @@ NSString *const kDialogHtmlTemplate =
             if     ([currentScene.sceneType isEqualToString:@"pc"])  [self movePcIn];
             else if([currentScene.sceneType isEqualToString:@"npc"]) [self moveNpcIn];
         }
+        else
+            [self endIgnoringInteractions];
         
         CGRect imageFrame = self.currentImageView.frame;
         [UIView animateWithDuration:currentScene.zoomTime animations:^
@@ -378,6 +380,7 @@ NSString *const kDialogHtmlTemplate =
     }
     else
     {
+        [self endIgnoringInteractions];
         if([currentScene.sceneType isEqualToString:@"video"])
         {
             Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.typeId ofType:@"VIDEO"];
@@ -552,11 +555,7 @@ NSString *const kDialogHtmlTemplate =
         
         self.title = defaultPcTitle;
         
-        NSSortDescriptor *sortDescriptor;
-        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"hasViewed" ascending:YES];
-        NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-        
-        optionList = [options sortedArrayUsingDescriptors:sortDescriptors];
+        optionList = [options sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"hasViewed" ascending:YES]]];
 		[pcOptionsTable reloadData];
 	}
 }
@@ -583,12 +582,15 @@ NSString *const kDialogHtmlTemplate =
 
 - (void) dismissSelf
 {
+    [self endIgnoringInteractions];
     [[AppServices sharedAppServices] updateServerNpcViewed:currentNpc.npcId fromLocation:0];
     [delegate gameObjectViewControllerRequestsDismissal:self];
 }
 
 - (IBAction) continueButtonTouchAction
 {
+    [self beginIgnoringInteractions];
+    
     [ARISMoviePlayer.moviePlayer.view removeFromSuperview];
     [self.npcVideoView removeFromSuperview];
     [ARISMoviePlayer.moviePlayer stop];
@@ -597,10 +599,24 @@ NSString *const kDialogHtmlTemplate =
     
     if(audioPlayer.isPlaying) [audioPlayer stop];
     
-    [[AVAudioSession sharedInstance] setActive: NO error: nil];
+    [[AVAudioSession sharedInstance] setActive:NO error:nil];
     audioPlayer = nil;
     
     [self readySceneForDisplay:[currentScript nextScene]];
+}
+
+- (void) beginIgnoringInteractions
+{
+    self.pcOptionsTable.userInteractionEnabled         = NO;
+    self.pcTapToContinueButton.userInteractionEnabled  = NO;
+    self.npcTapToContinueButton.userInteractionEnabled = NO;
+}
+
+- (void) endIgnoringInteractions
+{
+    self.pcOptionsTable.userInteractionEnabled         = YES;
+    self.pcTapToContinueButton.userInteractionEnabled  = YES;
+    self.npcTapToContinueButton.userInteractionEnabled = YES;
 }
 
 - (void) movePcTo:(CGRect)pcRect  withAlpha:(CGFloat)pcAlpha
@@ -630,14 +646,14 @@ NSString *const kDialogHtmlTemplate =
 {
 	[self movePcTo:[self.view frame] withAlpha:1.0
 		  andNpcTo:[npcView frame]   withAlpha:[npcView alpha]
-  withPostSelector:nil];
+  withPostSelector:@selector(endIgnoringInteractions)];
 }
 
 - (void) moveNpcIn
 {
 	[self movePcTo:[pcView frame]    withAlpha:[pcView alpha]
 		  andNpcTo:[self.view frame] withAlpha:1.0
-  withPostSelector:nil];
+  withPostSelector:@selector(endIgnoringInteractions)];
 }
 
 - (void) toggleNextTextBoxSize
@@ -765,29 +781,26 @@ NSString *const kDialogHtmlTemplate =
 	UITableViewCell *cell = [pcOptionsTable dequeueReusableCellWithIdentifier:@"Dialog"];
 	if (!cell) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Dialog"];
     
-	if (indexPath.section == 0)
+    cell.backgroundColor         = [UIColor ARISColorOffWhite];
+    cell.textLabel.textColor     = [UIColor ARISColorDarkBlue];
+    cell.textLabel.font          = [UIFont boldSystemFontOfSize:kOptionsFontSize];
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
+    cell.textLabel.numberOfLines = 0;
+
+    [cell.textLabel setLineBreakMode:NSLineBreakByWordWrapping];
+	if(indexPath.section == 0)
     {
 		NodeOption *option = [optionList objectAtIndex:indexPath.row];
-        cell.textLabel.text = option.text;
-        cell.textLabel.font = [UIFont boldSystemFontOfSize:kOptionsFontSize];
-        [cell.textLabel setLineBreakMode:NSLineBreakByWordWrapping];
         if(option.hasViewed)
         {
-            cell.backgroundColor     = [UIColor ARISColorOffWhite];
-            cell.textLabel.textColor = [UIColor ARISColorDarkBlue];
+            cell.backgroundColor     = [UIColor ARISColorLightGrey];
+            cell.textLabel.textColor = [UIColor ARISColorLighBlue];
         }
-        else
-            cell.textLabel.textColor = [UIColor ARISColorDarkBlue];
+        cell.textLabel.text = option.text;
 	}
 	else if (indexPath.row == 0)
-    {
 		cell.textLabel.text = currentLeaveConversationTitle;
-        cell.textLabel.textColor = [UIColor ARISColorDarkBlue];
-	}
-	
-    cell.textLabel.textAlignment = NSTextAlignmentCenter;
-	
-	cell.textLabel.numberOfLines = 0;
+    
 	[cell.textLabel sizeToFit]; 
 
 	return cell;
@@ -795,7 +808,7 @@ NSString *const kDialogHtmlTemplate =
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (indexPath.section == 1) return 45;
+	if(indexPath.section == 1) return 45;
 
 	NodeOption *option = [optionList objectAtIndex:indexPath.row];
 
@@ -809,11 +822,6 @@ NSString *const kDialogHtmlTemplate =
 	return expectedLabelSize.height + 25;
 }
 
-- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    cell.backgroundColor = [UIColor ARISColorOffWhite];
-}
-
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {    
 	if (indexPath.section == 1 && indexPath.row == 0)
@@ -821,7 +829,9 @@ NSString *const kDialogHtmlTemplate =
 		[self dismissSelf];
         return;
     }
-	
+    
+    [self beginIgnoringInteractions];
+    
 	NodeOption *selectedOption = [optionList objectAtIndex:[indexPath row]];
 	Node *newNode = [[AppModel sharedAppModel] nodeForNodeId:selectedOption.nodeId];
 
