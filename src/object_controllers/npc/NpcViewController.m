@@ -528,6 +528,7 @@ NSString *const kDialogHtmlTemplate =
 
 - (void) optionsReceivedFromNotification:(NSNotification*)notification
 {
+    [[AppServices sharedAppServices] fetchAllPlayerLists];
     [self dismissWaitingIndicatorForPlayerOptions];
 	[self showPlayerOptions:(NSArray*)[notification object]];
 }
@@ -548,7 +549,9 @@ NSString *const kDialogHtmlTemplate =
         [pcTextWebView loadHTMLString:@"" baseURL:nil];
         pcOptionsTable.hidden = NO;
 
-        if(!pcView.frame.origin.x  == 0)
+        if(pcView.frame.origin.x == 0)
+            [self endIgnoringInteractions];
+        else
             [self moveAllOutWithPostSelector:@selector(movePcIn)];
 
         self.currentImageView = self.pcImageView;

@@ -123,7 +123,6 @@
 
 -(int)removeItemFromAttributes:(Item*)item qtyToRemove:(int)qty
 {
-	NSLog(@"AttributesModel: removing an item from the local attributes");
     NSMutableArray *newAttributes = [[NSMutableArray alloc] initWithCapacity:[self.currentAttributes count]];
     for(int i = 0; i < [self.currentAttributes count]; i++)
         [newAttributes addObject:[((Item *)[self.currentAttributes objectAtIndex:i]) copy]];
@@ -146,7 +145,6 @@
 
 -(int)addItemToAttributes:(Item*)item qtyToAdd:(int)qty
 {
-	NSLog(@"AttributesModel: adding an item from the local attributes");
     NSMutableArray *newAttributes = [[NSMutableArray alloc] initWithCapacity:[self.currentAttributes count]];
     for(int i = 0; i < [self.currentAttributes count]; i++)
         [newAttributes addObject:[((Item *)[self.currentAttributes objectAtIndex:i]) copy]];

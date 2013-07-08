@@ -53,7 +53,6 @@
 @synthesize isGameNoteList;
 @synthesize uploadManager;
 @synthesize mediaCache;
-@synthesize hasReceivedMediaList;
 @synthesize fileToDeleteURL;
 
 @synthesize motionManager;

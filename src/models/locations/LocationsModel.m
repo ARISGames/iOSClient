@@ -100,7 +100,6 @@
 
 - (int) modifyQuantity:(int)quantityModifier forLocationId:(int)locationId
 {
-	NSLog(@"LocationsModel: modifying quantity for a location in the local location list");
     NSMutableArray *newLocations = [[NSMutableArray alloc] initWithCapacity:[self.currentLocations count]];
     for(int i = 0; i < [self.currentLocations count]; i++)
         [newLocations addObject:[((Location *)[self.currentLocations objectAtIndex:i]) copy]];

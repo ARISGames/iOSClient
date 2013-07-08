@@ -284,7 +284,7 @@
 
 - (void) audioChosenWith:(NSURL *)url
 {
-    [[[AppModel sharedAppModel]uploadManager] uploadContentForNoteId:self.note.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:@"AUDIO" withFileURL:url];
+    [[[AppModel sharedAppModel] uploadManager] uploadContentForNoteId:self.note.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:nil withType:@"AUDIO" withFileURL:url];
     self.noteValid   = YES;
 }
 

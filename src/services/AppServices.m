@@ -856,7 +856,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [self fetchAllPlayerLists];
 }
 
-- (void)uploadNoteContentDidFail:(ARISUploader *)uploader
+- (void) uploadNoteContentDidFail:(ARISUploader *)uploader
 {
     NSError *error = uploader.error;
 	NSLog(@"Model: uploadRequestFailed: %@",[error localizedDescription]);
@@ -873,7 +873,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
 }
 
-- (void)playerPicUploadDidFinish:(ARISUploader*)uploader
+- (void) playerPicUploadDidFinish:(ARISUploader*)uploader
 {        
     NSString *newFileName = [uploader responseString];
     
@@ -892,7 +892,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[AppModel sharedAppModel].uploadManager contentFinishedUploading];
 }
 
--(void)parseNewPlayerMediaResponseFromJSON:(ServiceResult *)jsonResult
+- (void) parseNewPlayerMediaResponseFromJSON:(ServiceResult *)jsonResult
 {	   
     if(jsonResult.data && [((NSDictionary *)jsonResult.data) validIntForKey:@"media_id"])
     {
@@ -901,7 +901,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     }
 }
 
-- (void)playerPicUploadDidFail:(ARISUploader *)uploader
+- (void) playerPicUploadDidFail:(ARISUploader *)uploader
 {
     NSError *error = uploader.error;
 	NSLog(@"Model: uploadRequestFailed: %@",[error localizedDescription]);
@@ -912,7 +912,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[AppModel sharedAppModel].uploadManager contentFailedUploading];
 }
 
--(void)updateNoteWithNoteId:(int)noteId title:(NSString *)title publicToMap:(BOOL)publicToMap publicToList:(BOOL)publicToList
+- (void) updateNoteWithNoteId:(int)noteId title:(NSString *)title publicToMap:(BOOL)publicToMap publicToList:(BOOL)publicToList
 {	
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",noteId],
 						  title,
@@ -927,7 +927,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
 }
 
-- (void)updateNoteContent:(int)contentId title:(NSString *)text;
+- (void) updateNoteContent:(int)contentId title:(NSString *)text;
 {	
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",contentId],
 						  text,
@@ -985,7 +985,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 #pragma mark ASync Fetch selectors
 
-- (void)fetchAllGameLists
+- (void) fetchAllGameLists
 {
     [self fetchTabBarItemsAsynchronously:      YES];
     [self fetchGameMediaListAsynchronously:    YES];
@@ -1000,7 +1000,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [self fetchPlayerNoteListAsynchronously:YES];
 }
 
-- (void)resetAllGameLists
+- (void) resetAllGameLists
 {
 	NSLog(@"Resetting game lists");
 	[[AppModel sharedAppModel].gameItemList removeAllObjects];
@@ -1013,7 +1013,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[AppModel sharedAppModel].gameNoteList removeAllObjects];
 }
 
-- (void)fetchGameOverlayListAsynchronously:(BOOL)YesForAsyncOrNoForSync
+- (void) fetchGameOverlayListAsynchronously:(BOOL)YesForAsyncOrNoForSync
 {
 	NSArray *arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId], nil];
@@ -1027,7 +1027,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     else [self parseOverlayListFromJSON: [jsonConnection performSynchronousRequest]];
 }
 
--(void)parseOverlayListFromJSON:(ServiceResult *)jsonResult
+- (void) parseOverlayListFromJSON:(ServiceResult *)jsonResult
 {
     if(!currentlyFetchingOverlayList) return;
     currentlyFetchingOverlayList = NO;
@@ -1047,7 +1047,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     // step through results and create overlays
     int currentOverlayID = -1;
     int overlaysIndex = 0;
-    while (overlayDictionary = [overlayListEnumerator nextObject])
+    while(overlayDictionary = [overlayListEnumerator nextObject])
     {
         // if new overlay in database
         if (currentOverlayID != [overlayDictionary validIntForKey:@"overlay_id"])
@@ -1102,9 +1102,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     }
     
     NSError *error;
-    if (![[AppModel sharedAppModel].mediaCache.context save:&error]) {
+    if(![[AppModel sharedAppModel].mediaCache.context save:&error])
         NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
-    }
         
     NSLog(@"NSNotification: NewOverlayListReady");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewOverlayListReady" object:nil]];
@@ -1160,7 +1159,6 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 
 -(void)fetchNpcConversations:(int)npcId afterViewingNode:(int)nodeId
 {
-	NSLog(@"Model: Fetch Requested for Npc %d Conversations after Viewing node %d", npcId, nodeId);
 	NSArray *arguments = [NSArray arrayWithObjects: [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
 						  [NSString stringWithFormat:@"%d",npcId],
 						  [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],

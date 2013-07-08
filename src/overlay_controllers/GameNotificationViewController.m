@@ -7,7 +7,6 @@
 //
 
 #import "GameNotificationViewController.h"
-#import "RootViewController.h"
 #import "ARISAppDelegate.h"
 #import "PopOverViewController.h"
 #import "MTStatusBarOverlay.h"
@@ -19,7 +18,6 @@
 {
     UIWebView *dropDownView;
     PopOverViewController *popOverVC;
-    PopOverContentView *popOverView;
 
     NSMutableArray *notifArray;
     NSMutableArray *popOverArray;
@@ -52,16 +50,14 @@
     [super loadView];
     
     popOverVC = [[PopOverViewController alloc] initWithDelegate:self];
-    popOverView = (PopOverContentView *)popOverVC.view;
-    
-    dropDownView = [[UIWebView alloc] initWithFrame:CGRectMake(0, -28.0, [UIScreen mainScreen].bounds.size.width, 28)];
+    //dropDownView = [[UIWebView alloc] initWithFrame:CGRectMake(0, -28.0, [UIScreen mainScreen].bounds.size.width, 28)];
 }
 
 - (void) lowerDropDownFrame
 {
-    [[RootViewController sharedRootViewController].view addSubview:dropDownView];
-
     /*
+    [self.view addSubview:dropDownView];
+
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView setAnimationDuration:.5];
@@ -74,6 +70,7 @@
 
 - (void) raiseDropDownFrame
 {
+    /*
     [dropDownView removeFromSuperview];
 
     [UIView beginAnimations:nil context:nil];
@@ -83,6 +80,7 @@
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
 
     [UIView commitAnimations];
+     */
 }
 
 - (void) dequeueDropDown
@@ -132,17 +130,23 @@
             description:[poDict objectForKey:@"description"]
             webViewText:[poDict objectForKey:@"text"]
              andMediaId:[[poDict objectForKey:@"mediaId"] intValue]];
-    [[RootViewController sharedRootViewController].view addSubview:popOverView];
+    self.view.frame = CGRectMake(self.view.frame.origin.x,self.view.frame.origin.y,self.view.superview.frame.size.width,self.view.superview.frame.size.height);
+    [self.view addSubview:popOverVC.view];
     [popOverArray removeObjectAtIndex:0];
 }
 
 - (void) popOverContinueButtonPressed
 {
     showingPopOver = NO;
+    
+    CGRect poFrame = popOverVC.view.frame; //change parent frame but override it's autosizing its children
+    self.view.frame = CGRectMake(self.view.frame.origin.x,self.view.frame.origin.y,0,0);
+    popOverVC.view.frame = poFrame;
+    
     if([popOverArray count] > 0)
         [self dequeuePopOver];
     else
-        [popOverView removeFromSuperview];
+        [popOverVC.view removeFromSuperview];
 }
 
 - (void) enqueueDropDownNotificationWithString:(NSString *)string
@@ -160,8 +164,7 @@
 
 - (void) enqueuePopOverNotificationWithTitle:(NSString *)title description:(NSString *)description webViewText:(NSString *)text andMediaId:(int) mediaId
 {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:title,@"title",description,@"description",text,@"text",[NSNumber numberWithInt:mediaId],@"mediaId", nil];
-    [popOverArray addObject:dict];
+    [popOverArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:title,@"title",description,@"description",text,@"text",[NSNumber numberWithInt:mediaId],@"mediaId", nil]];
     if(!showingPopOver) [self dequeuePopOver];
 }
 
@@ -176,10 +179,7 @@
         if(activeQuest.fullScreenNotification)
             [self enqueuePopOverNotificationWithTitle:NSLocalizedString(@"QuestViewNewQuestKey", nil) description:activeQuest.name webViewText:activeQuest.qdescription andMediaId:activeQuest.mediaId];
         else
-        {
-            NSString *notifString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestViewNewQuestKey", nil), activeQuest.name] ;
-            [self enqueueDropDownNotificationWithString:notifString];
-        }
+            [self enqueueDropDownNotificationWithString:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestViewNewQuestKey", nil), activeQuest.name]];
         
         NSLog(@"NSNotification: NewlyChangedQuestsGameNotificationSent");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyChangedQuestsGameNotificationSent" object:self]];
@@ -197,10 +197,7 @@
         if(completedQuest.fullScreenNotification)
             [self enqueuePopOverNotificationWithTitle:NSLocalizedString(@"QuestsViewQuestCompletedKey", nil) description:completedQuest.name webViewText:completedQuest.qdescription andMediaId:completedQuest.mediaId];
         else
-        {
-            NSString *notifString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestsViewQuestCompletedKey", nil), completedQuest.name] ;
-            [self enqueueDropDownNotificationWithString:notifString];
-        }
+            [self enqueueDropDownNotificationWithString:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"QuestsViewQuestCompletedKey", nil), completedQuest.name]];
         
         NSLog(@"NSNotification: NewlyChangedQuestsGameNotificationSent");
         [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewlyChangedQuestsGameNotificationSent" object:self]];
@@ -324,7 +321,7 @@
     [popOverArray removeAllObjects];
     showingDropDown  = NO;
     showingPopOver   = NO;
-    [self raiseDropDownFrame];
+    //[self raiseDropDownFrame];
 }
 
 - (void) startListeningToModel
