@@ -154,7 +154,7 @@
             uploadButton.hidden  = YES;
             discardButton.hidden = YES;
             editButton.hidden = YES;
-            mode = kAudioRecorderRecordingComplete;
+            mode = kAudioRecorderRecording;
             break;
 		default:
 			break;

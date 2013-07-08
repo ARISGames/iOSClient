@@ -389,7 +389,13 @@
 
 - (NSInteger) supportedInterfaceOrientations
 {
-    return [self.gamePlayTabBarController.selectedViewController supportedInterfaceOrientations];
+    if(self.gamePlayTabBarController.selectedIndex > 3 && self.gamePlayTabBarController.selectedIndex < 6){
+        return [self.gamePlayTabBarController.moreNavigationController.visibleViewController supportedInterfaceOrientations];
+    }
+    else if(self.gamePlayTabBarController.selectedIndex <= 3){
+        return [self.gamePlayTabBarController.selectedViewController supportedInterfaceOrientations];
+    }
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 @end
