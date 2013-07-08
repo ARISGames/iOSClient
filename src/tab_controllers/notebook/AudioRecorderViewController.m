@@ -2,9 +2,10 @@
 //  AudioRecorderViewController.m
 //  AudioDemo
 //
+//  Edited by Nick HEindl on 07/8/13.
+//
 //  Created by Brian Deith on 3/18/10.
 //  Copyright Dept. of Journalism - University of Wisconsin - Madison 2010. All rights reserved.
-//
 
 
 #import "AudioRecorderViewController.h"
@@ -68,19 +69,7 @@
         self.title = NSLocalizedString(@"AudioRecorderTitleKey",@"");
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"microphoneTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"microphoneTabBarUnselected"]];
         
-        
         session = [AVAudioSession sharedInstance];
-
-        
-//       NSArray *dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-//       NSString *docsDir = [dirPaths objectAtIndex:0];
-//       self.soundFileURL = [[NSURL alloc] initFileURLWithPath:[docsDir stringByAppendingString:[NSString stringWithFormat:@"%@.m4a",[self getUniqueId]]]];
-
-//        NSString *soundFilePath = [NSString stringWithFormat:@"%@/test.m4a", [[NSBundle mainBundle] resourcePath]];
-//        self.soundFileURL = [NSURL fileURLWithPath:soundFilePath];
-
-//        NSString *soundFilePath = @"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/temp.m4a";
-//        self.soundFileURL = [NSURL fileURLWithPath:soundFilePath];
         
         NSString *tempDir = NSTemporaryDirectory ();
         self.soundFileURL = [[NSURL alloc] initFileURLWithPath:[tempDir stringByAppendingString:[NSString stringWithFormat:@"%@.m4a",[self getUniqueId]]]];
@@ -109,8 +98,6 @@
 	[self.view sendSubviewToBack:self.meter];
 
     [self setMode:kAudioRecorderStarting];
-    //[self setMode:kAudioRecorderRecordingComplete];
-
 }
 
 - (void) backButtonTouchAction
@@ -204,11 +191,6 @@
 {	
 	switch(mode)
     {
-            
-//            [session setCategory:AVAudioSessionCategoryRecord error:nil];
-//            [session setActive:YES error:nil];
-//
-//            [recorder record];
             
         //Set up the recorder's properties.
 		case kAudioRecorderStarting:
