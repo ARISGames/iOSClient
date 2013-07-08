@@ -23,17 +23,19 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 #import "Player.h"
 #import "ServiceResult.h"
 
+#import "UIColor+ARISColors.h"
 #import "ARISAlertHandler.h"
 
 
-@interface LoginViewController() <ZXingDelegate, SelfRegistrationViewControllerDelegate>
+@interface LoginViewController() <ZXingDelegate, SelfRegistrationViewControllerDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource>
 {
-    IBOutlet UITextField *usernameField;
-	IBOutlet UITextField *passwordField;
+    UITextField *usernameField;
+	UITextField *passwordField;
 	IBOutlet UIButton *loginButton;
     IBOutlet UIButton *qrButton;
 	IBOutlet UIButton *newAccountButton;
     IBOutlet UIButton *changePassButton;
+    IBOutlet UITableView *experimentalTableView;
     
 	IBOutlet UILabel *newAccountMessageLabel;
     
@@ -57,7 +59,40 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 
 @implementation LoginViewController
 
-- (id)initWithDelegate:(id<LoginViewControllerDelegate>)d
+- (NSInteger) numberOfSectionsInTableView:(UITableView *)t
+{
+    return 1;
+}
+
+- (NSInteger) tableView:(UITableView *)t numberOfRowsInSection:(NSInteger)section
+{
+    return 2;
+}
+
+- (UITableViewCell *) tableView:(UITableView *)t cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *c = [[UITableViewCell alloc] initWithStyle:UITableViewStyleGrouped reuseIdentifier:nil];
+    if(indexPath.row == 0)
+    {
+        usernameField = [[UITextField alloc] initWithFrame:CGRectMake(10,10,t.frame.size.width,40)];
+        usernameField.delegate = self;
+        usernameField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        usernameField.autocorrectionType = UITextAutocorrectionTypeNo;
+        usernameField.placeholder = NSLocalizedString(@"UsernameKey", @"");
+       [c.contentView addSubview:usernameField];
+    }
+    else
+    {
+        passwordField = [[UITextField alloc] initWithFrame:CGRectMake(10,10,t.frame.size.width,40)];
+        passwordField.delegate = self;
+        passwordField.secureTextEntry = YES;
+        passwordField.placeholder = NSLocalizedString(@"PasswordKey", @"");
+        [c.contentView addSubview:passwordField];
+    }
+    return c;
+}
+
+- (id) initWithDelegate:(id<LoginViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>)d
 {
     self = [super initWithNibName:@"LoginViewController" bundle:nil];
     if(self)
@@ -73,9 +108,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-
-    usernameField.placeholder = NSLocalizedString(@"UsernameKey", @"");
-    passwordField.placeholder = NSLocalizedString(@"PasswordKey", @"");
+    
     [loginButton setTitle:NSLocalizedString(@"LoginKey",@"") forState:UIControlStateNormal];
     newAccountMessageLabel.text = NSLocalizedString(@"NewAccountMessageKey", @"");
     [newAccountButton setTitle:NSLocalizedString(@"CreateAccountKey",@"") forState:UIControlStateNormal];
