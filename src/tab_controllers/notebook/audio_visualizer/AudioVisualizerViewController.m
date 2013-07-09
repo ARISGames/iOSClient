@@ -88,6 +88,8 @@
     UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:withoutBorderButton];
     self.navigationItem.rightBarButtonItem = rightNavBarButton;
     
+
+    
     //path = @"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/3000hz.m4a";
 }
 
@@ -102,7 +104,23 @@
 		NSLog(@"Cannot open audio file");
 		return;
 	}
+
+
+    //this is a giant hack that causes the current view controller to re-evaluate the orientation its in.
+    //change if a better way is found for forcing the orientation to initially be in landscape
+    UIApplication *app = [UIApplication sharedApplication];
+    UIWindow *window = [[app windows] objectAtIndex:0];
+    UIViewController *root = window.rootViewController;
+    window.rootViewController = nil;
+    window.rootViewController = root;
     [UIViewController attemptRotationToDeviceOrientation];
+
+    CGRect frame = self.navigationController.navigationBar.frame;
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if(orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight){
+        frame.size.height = 32;
+    }
+    self.navigationController.navigationBar.frame = frame;
 
 }
 
