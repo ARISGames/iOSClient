@@ -289,8 +289,7 @@
 //                                              otherButtonTitles: nil];
 //        [alert show];
 //    }
-    
-    
+        
     if(pathURL == nil) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"No Audio!"
                                                         message: @"You should add a .m4a file to the project before test it."
@@ -502,9 +501,7 @@
     {
         [self saveAudio];
     }
-    
     [self.navigationController popViewControllerAnimated:YES];
-
 }
 
 - (void)saveAudioConfirmation
@@ -513,7 +510,7 @@
     UIAlertView *confirmationAlert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"SaveConfirmationKey", nil)
                                                                message:nil
                                                               delegate:self
-                                                     cancelButtonTitle:NSLocalizedString(@"DiscardKey", nil)
+                                                     cancelButtonTitle:NSLocalizedString(@"DiscardChangesKey", nil)
                                                      otherButtonTitles:NSLocalizedString(@"SaveKey", nil), nil];
     [confirmationAlert show];
 }
@@ -526,7 +523,7 @@
     
     //Also need to force into landscape. Seems like a bitch to do so in iOS6 >:/
     //SaveConfirmationKey "Would you like to save?"
-    //Also SaveErrorKey "Sorry, the file didn't save properly" ; ErrorKey "Error :'["
+    //Also SaveErrorKey "Sorry, the file didn't save properly" ; SaveErrorTitleKey "Error :'["
     
     //possibly add slider's representation of time. Something like this:
     //*toolbarButtons = [NSArray arrayWithObjects:
@@ -586,7 +583,7 @@
              // Show an error as a popup
              NSLog(@"DIDNT WORK");
              
-             UIAlertView *errorAlert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"ErrorKey", nil)
+             UIAlertView *errorAlert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"SaveErrorTitleKey", nil)
                                                                         message:NSLocalizedString(@"SaveErrorKey", nil)
                                                                        delegate:self
                                                               cancelButtonTitle:NSLocalizedString(@"OkKey", nil)
@@ -598,10 +595,9 @@
     return YES;
 }
 
+#pragma mark Control
 - (void) flipView
 {
-    
-#pragma mark Control
     //subviews[0 or 1 (not sure yet)] is wf; subviews[2] is freq
     [self.view.subviews[0] setHidden:[self.view.subviews[2] isHidden]];
     [self.view.subviews[2] setHidden:![self.view.subviews[2] isHidden]];
