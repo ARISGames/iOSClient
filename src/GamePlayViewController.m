@@ -381,7 +381,7 @@
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController 
 {
     //Force more tab to always be a list of options, not the last VC
-    NSLog(@"GamePlayTabBarController: selectedIndex is %d", tabBarController.selectedIndex);
+    NSLog(@"GamePlayTabBarController: Selected tab- %@", ((GamePlayViewController *)[tabBarController.viewControllers objectAtIndex:tabBarController.selectedIndex]).title);
     if(tabBarController.selectedIndex > 3)  [tabBarController.moreNavigationController popToRootViewControllerAnimated:NO];
 }
 
