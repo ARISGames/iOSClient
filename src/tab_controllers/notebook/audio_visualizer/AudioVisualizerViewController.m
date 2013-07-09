@@ -40,7 +40,6 @@
     ExtAudioFileRef extAFRef;
     int extAFNumChannels;
     NSURL *audioURL;
-    NSString *path;
 }
 
 - (void) initView;
@@ -56,6 +55,8 @@
 @synthesize playProgress;
 @synthesize endTime;
 @synthesize lengthInSeconds;
+
+@synthesize path;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -87,12 +88,12 @@
     UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:withoutBorderButton];
     self.navigationItem.rightBarButtonItem = rightNavBarButton;
     
-    path = @"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/3000hz.m4a";
-    [self loadAudioForPath:path];
+    //path = @"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/3000hz.m4a";
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self loadAudioForPath:path];
 
 }
 
@@ -183,7 +184,7 @@
     
     endTime = 1.0;
     
-    audioURL = [NSURL fileURLWithPath:path];
+    audioURL = path;
     OSStatus err;
 	CFURLRef inpUrl = (__bridge CFURLRef)audioURL;
 	err = ExtAudioFileOpenURL(inpUrl, &extAFRef);
@@ -270,18 +271,32 @@
     [player seekToTime:tm];
 }
 
--(void)loadAudioForPath:(NSString *)pathURL{
-    if([[NSFileManager defaultManager] fileExistsAtPath:pathURL]) {
-        NSURL *audio = [NSURL fileURLWithPath:pathURL];
-        [self openAudioURL:audio];
-    } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"No Audio !"
-                                                        message: @"You should add a sample.mp3 file to the project before test it."
+-(void)loadAudioForPath:(NSURL *)pathURL{
+//-(void)loadAudioForPath:(NSString *)pathURL{
+
+//    if([[NSFileManager defaultManager] fileExistsAtPath:pathURL]) {
+//        NSURL *audio = [NSURL fileURLWithPath:pathURL];
+//        [self openAudioURL:audio];
+//    } else {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"No Audio!"
+//                                                        message: @"You should add a .m4a file to the project before test it."
+//                                                       delegate: self
+//                                              cancelButtonTitle: @"OK"
+//                                              otherButtonTitles: nil];
+//        [alert show];
+//    }
+        
+    if(pathURL == nil) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"No Audio!"
+                                                        message: @"You should add a .m4a file to the project before test it."
                                                        delegate: self
                                               cancelButtonTitle: @"OK"
                                               otherButtonTitles: nil];
         [alert show];
+    } else {
+        [self openAudioURL:pathURL];
     }
+
 }
 
 -(void)updateTimeString{
@@ -484,9 +499,7 @@
     {
         [self saveAudio];
     }
-    
     [self.navigationController popViewControllerAnimated:YES];
-
 }
 
 - (void)saveAudioConfirmation
@@ -495,7 +508,7 @@
     UIAlertView *confirmationAlert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"SaveConfirmationKey", nil)
                                                                message:nil
                                                               delegate:self
-                                                     cancelButtonTitle:NSLocalizedString(@"DiscardKey", nil)
+                                                     cancelButtonTitle:NSLocalizedString(@"DiscardChangesKey", nil)
                                                      otherButtonTitles:NSLocalizedString(@"SaveKey", nil), nil];
     [confirmationAlert show];
 }
@@ -504,11 +517,11 @@
 {
     //TODO in ARIS: We'll need to put the sample back at the original file at the very end.
                 //  We'll need to change the paths in general to reflect aris's stuff
-                //  We'll probably have to convert .caf from ARIS to .m4a - talk to David because he talked about switching over to .m4a anyways.
+
     
     //Also need to force into landscape. Seems like a bitch to do so in iOS6 >:/
-    //If not there already, need to add DiscardKey "Discard", SaveKey "Save", and SaveConfirmationKey "Would you like to save?"
-    //Also SaveErrorKey "Sorry, the file didn't save properly" ; ErrorKey "Error :'["
+    //SaveConfirmationKey "Would you like to save?"
+    //Also SaveErrorKey "Sorry, the file didn't save properly" ; SaveErrorTitleKey "Error :'["
     
     //possibly add slider's representation of time. Something like this:
     //*toolbarButtons = [NSArray arrayWithObjects:
@@ -521,8 +534,8 @@
     NSString *outputPath = @"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample13.m4a";
     
     
-    NSURL *audioFileInput = [NSURL fileURLWithPath:inputPath];
-    NSURL *audioFileOutput = [NSURL fileURLWithPath:outputPath];
+    NSURL *audioFileInput = path;//[NSURL fileURLWithPath:inputPath];
+    NSURL *audioFileOutput = path;//[NSURL fileURLWithPath:outputPath];
     
     if (!audioFileInput || !audioFileOutput)
     {
@@ -568,7 +581,7 @@
              // Show an error as a popup
              NSLog(@"DIDNT WORK");
              
-             UIAlertView *errorAlert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"ErrorKey", nil)
+             UIAlertView *errorAlert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"SaveErrorTitleKey", nil)
                                                                         message:NSLocalizedString(@"SaveErrorKey", nil)
                                                                        delegate:self
                                                               cancelButtonTitle:NSLocalizedString(@"OkKey", nil)
@@ -580,10 +593,9 @@
     return YES;
 }
 
+#pragma mark Control
 - (void) flipView
 {
-    
-#pragma mark Control
     //subviews[0 or 1 (not sure yet)] is wf; subviews[2] is freq
     [self.view.subviews[0] setHidden:[self.view.subviews[2] isHidden]];
     [self.view.subviews[2] setHidden:![self.view.subviews[2] isHidden]];

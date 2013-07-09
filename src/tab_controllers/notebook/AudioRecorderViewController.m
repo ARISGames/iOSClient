@@ -122,6 +122,8 @@
 	[uploadButton setTitle:NSLocalizedString(@"SaveKey", @"") forState:UIControlStateNormal];
 
 	[discardButton setTitle:NSLocalizedString(@"DiscardKey", @"") forState:UIControlStateNormal];
+    
+    [editButton setTitle:NSLocalizedString(@"EditKey", @"") forState:UIControlStateNormal];
 	
 	switch(mode)
     {
@@ -280,7 +282,9 @@
 
 - (IBAction) editButtonAction:(id)sender
 {
+    //self.soundPlayer = nil;//Not sure if need - still need to test.
     AudioVisualizerViewController *audioVC = [[AudioVisualizerViewController alloc] initWithNibName:@"AudioVisualizerViewController" bundle:nil];
+    audioVC.path = self.soundFileURL;
     [self.navigationController pushViewController:audioVC animated:YES];
     
 }
