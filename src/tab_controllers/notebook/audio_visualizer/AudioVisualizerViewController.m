@@ -13,6 +13,7 @@
 #import "AudioTint.h"
 #import <Accelerate/Accelerate.h>
 #import "AppModel.h"
+#import "UIColor+ARISColors.h"
 
 #define SLIDER_BUFFER 5
 
@@ -186,14 +187,14 @@
     
     timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 125, 25)];
     [timeLabel setText:timeString];
-    [timeLabel setBackgroundColor:[UIColor clearColor]];
+    [timeLabel setBackgroundColor:[UIColor ARISColorBlack]];
     [timeLabel setTextAlignment:NSTextAlignmentCenter];
     timeButton = [[UIBarButtonItem alloc] initWithCustomView:timeLabel];
     
     freqLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 125, 25)];
     [freqLabel setText:@""];
     [freqLabel setBackgroundColor:[UIColor clearColor]];
-    [freqLabel setTextColor:[UIColor whiteColor]];
+    [freqLabel setTextColor:[UIColor ARISColorBlack]];
     [freqLabel setTextAlignment:NSTextAlignmentCenter];
     freqButton = [[UIBarButtonItem alloc]initWithCustomView:freqLabel];
     
@@ -319,7 +320,7 @@
 	timeString = newTime;
     [timeLabel setText:timeString];
     [timeLabel setBackgroundColor:[UIColor clearColor]];
-    [timeLabel setTextColor:[UIColor whiteColor]];
+    [timeLabel setTextColor:[UIColor ARISColorBlack]];
     [timeLabel setTextAlignment:NSTextAlignmentCenter];
     timeButton = [[UIBarButtonItem alloc] initWithCustomView:timeLabel];
 }
@@ -497,7 +498,7 @@
     
     [freqLabel setText:[NSString stringWithFormat:@"%.2f Hz", ((bin * 44100.0)/512)]];
     [freqLabel setBackgroundColor:[UIColor clearColor]];
-    [freqLabel setTextColor:[UIColor whiteColor]];
+    [freqLabel setTextColor:[UIColor ARISColorBlack]];
     [freqLabel setTextAlignment:NSTextAlignmentCenter];
     freqButton = [[UIBarButtonItem alloc] initWithCustomView:freqLabel];
 }
@@ -610,7 +611,7 @@
     [self.view.subviews[2] setHidden:![self.view.subviews[2] isHidden]];
     [freqLabel setText:@""];
     [freqLabel setBackgroundColor:[UIColor clearColor]];
-    [freqLabel setTextColor:[UIColor whiteColor]];
+    [freqLabel setTextColor:[UIColor ARISColorBlack]];
     [freqLabel setTextAlignment:NSTextAlignmentCenter];
     freqButton = [[UIBarButtonItem alloc]initWithCustomView:freqLabel];
     [leftSlider setHidden:![leftSlider isHidden]];
