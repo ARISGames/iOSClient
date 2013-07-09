@@ -2,7 +2,7 @@
 //  AudioRecorderViewController.m
 //  AudioDemo
 //
-//  Edited by Nick HEindl on 07/8/13.
+//  Edited by Nick Heindl on 07/8/13.
 //
 //  Created by Brian Deith on 3/18/10.
 //  Copyright Dept. of Journalism - University of Wisconsin - Madison 2010. All rights reserved.
@@ -28,6 +28,8 @@
 	AVAudioRecorder *soundRecorder;
 	AVAudioPlayer *soundPlayer;
     NSURL *soundFileURL;
+    NSString *soundFileString;
+    BOOL isTrimmedFile;
     
     IBOutlet UIButton *recordStopOrPlayButton;
 	IBOutlet UIButton *uploadButton;
@@ -42,6 +44,7 @@
 @property (nonatomic, strong) AVAudioRecorder *soundRecorder;
 @property (nonatomic, strong) AVAudioPlayer *soundPlayer;
 @property (nonatomic, strong) NSURL *soundFileURL;
+@property (nonatomic, strong) NSString *soundFileString;
 @property (nonatomic, strong) NSTimer *meterUpdateTimer;
 
 @property (nonatomic, strong) IBOutlet UIButton *recordStopOrPlayButton;
@@ -58,6 +61,7 @@
 @synthesize soundRecorder;
 @synthesize soundPlayer;
 @synthesize soundFileURL;
+@synthesize soundFileString;
 @synthesize meterUpdateTimer;
 
 @synthesize recordStopOrPlayButton;
@@ -75,9 +79,13 @@
         
         session = [AVAudioSession sharedInstance];
         
-        NSString *tempDir = NSTemporaryDirectory ();
-        self.soundFileURL = [[NSURL alloc] initFileURLWithPath:[tempDir stringByAppendingString:[NSString stringWithFormat:@"%@.m4a",[self getUniqueId]]]];
+        isTrimmedFile = NO;
         
+        NSString *tempDir = NSTemporaryDirectory ();
+        self.soundFileString = [tempDir stringByAppendingString:[NSString stringWithFormat:@"%@",[self getUniqueId]]];
+        
+        self.soundFileURL = [[NSURL alloc] initFileURLWithPath:[self.soundFileString stringByAppendingString:@".m4a"]];
+                
         [session setDelegate:self];
     }
     return self;
@@ -104,6 +112,15 @@
     [self setMode:kAudioRecorderStarting];
 }
 
+- (void) viewDidAppear:(BOOL)animated{
+    if(isTrimmedFile){
+        NSString *soundFileStringEncoded = [self.soundFileString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        //Add file://localhost to the path here because it goes away when not inited.
+        self.soundFileURL = [NSURL URLWithString:[NSString stringWithFormat:@"file://localhost%@trimmed.m4a",soundFileStringEncoded]];
+        [self uploadAudio];
+    }
+}
+
 - (void) backButtonTouchAction
 {
     [delegate audioRecorderViewControllerCancelled];
@@ -113,6 +130,8 @@
 - (void) dealloc
 {
     [session setDelegate:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
 }
 
 - (void) setMode:(AudioRecorderModeType)m
@@ -269,9 +288,7 @@
 
 - (IBAction) uploadButtonAction:(id)sender
 {
-	self.soundRecorder = nil;
-    [delegate audioChosenWith:self.soundFileURL];
-    [self.navigationController popViewControllerAnimated:YES];
+    [self uploadAudio];
 }
 
 - (IBAction) discardButtonAction:(id)sender
@@ -282,14 +299,30 @@
 
 - (IBAction) editButtonAction:(id)sender
 {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(fileWasTrimmed)
+                                                 name:@"AudioWasTrimmedNotification"
+                                               object:nil];
+    
     //self.soundPlayer = nil;//Not sure if need - still need to test.
     AudioVisualizerViewController *audioVC = [[AudioVisualizerViewController alloc] initWithNibName:@"AudioVisualizerViewController" bundle:nil];
-    audioVC.path = self.soundFileURL;
+    audioVC.inputOutputPathURL = self.soundFileURL;
+    audioVC.intermediatePathString = self.soundFileString;
     [self.navigationController pushViewController:audioVC animated:YES];
 }
 
+- (void) uploadAudio{
+    self.soundRecorder = nil;
+    [delegate audioChosenWith:self.soundFileURL];
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
-- (void)viewDidUnload {
+- (void) fileWasTrimmed{
+    NSLog(@"File was trimmed.");
+    isTrimmedFile = YES;
+}
+
+- (void) viewDidUnload {
     [self setEditButton:nil];
     [super viewDidUnload];
 }

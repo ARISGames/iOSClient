@@ -56,7 +56,9 @@
 @synthesize endTime;
 @synthesize lengthInSeconds;
 
-@synthesize path;
+@synthesize inputOutputPathURL;
+@synthesize intermediatePathString;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -93,7 +95,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self loadAudioForPath:path];
+    [self loadAudioForPath:inputOutputPathURL];
 
 }
 
@@ -188,7 +190,7 @@
     
     endTime = 1.0;
     
-    audioURL = path;
+    audioURL = inputOutputPathURL;
     OSStatus err;
 	CFURLRef inpUrl = (__bridge CFURLRef)audioURL;
 	err = ExtAudioFileOpenURL(inpUrl, &extAFRef);
@@ -517,27 +519,11 @@
 
 - (BOOL)saveAudio
 {
-    //TODO in ARIS: We'll need to put the sample back at the original file at the very end.
-                //  We'll need to change the paths in general to reflect aris's stuff
-
-    
-    //Also need to force into landscape. Seems like a bitch to do so in iOS6 >:/
-    //SaveConfirmationKey "Would you like to save?"
-    //Also SaveErrorKey "Sorry, the file didn't save properly" ; SaveErrorTitleKey "Error :'["
-    
-    //possibly add slider's representation of time. Something like this:
-    //*toolbarButtons = [NSArray arrayWithObjects:
-    //playButton, leftPlayHeadTime, flexibleSpace, timeButton, flexibleSpace, rightPlayHeadTime, stopButton, nil];
-    
     float vocalStartMarker  = leftSlider.center.x  / self.view.frame.size.width;
     float vocalEndMarker    = rightSlider.center.x / self.view.frame.size.width;
-
-    NSString *inputPath =  @"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample12.m4a";
-    NSString *outputPath = @"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample13.m4a";
     
-    
-    NSURL *audioFileInput = path;//[NSURL fileURLWithPath:inputPath];
-    NSURL *audioFileOutput = path;//[NSURL fileURLWithPath:outputPath];
+    NSURL *audioFileInput = inputOutputPathURL;
+    NSURL *audioFileOutput = [NSURL fileURLWithPath:[intermediatePathString stringByAppendingString:@"trimmed.m4a"]];
     
     if (!audioFileInput || !audioFileOutput)
     {
@@ -574,14 +560,16 @@
          if (AVAssetExportSessionStatusCompleted == exportSession.status)
          {
              // It worked!
-             // Show a popup saying it worked (maybe)
-             NSLog(@"WORKED");
+             [[NSFileManager defaultManager] removeItemAtURL:audioFileInput error: nil];
+             
+             [[NSNotificationCenter defaultCenter]
+              postNotificationName:@"AudioWasTrimmedNotification"
+              object:self];
          }
          else if (AVAssetExportSessionStatusFailed == exportSession.status)
          {
-             // It failed...
-             // Show an error as a popup
-             NSLog(@"DIDNT WORK");
+             // Failed :'[
+             NSLog(@"Save didn't work right :'[");
              
              UIAlertView *errorAlert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"SaveErrorTitleKey", nil)
                                                                         message:NSLocalizedString(@"SaveErrorKey", nil)
