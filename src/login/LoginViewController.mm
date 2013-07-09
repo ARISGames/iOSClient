@@ -72,6 +72,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 - (UITableViewCell *) tableView:(UITableView *)t cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *c = [[UITableViewCell alloc] initWithStyle:UITableViewStyleGrouped reuseIdentifier:nil];
+    c.selectionStyle = UITableViewCellSelectionStyleNone;
     if(indexPath.row == 0)
     {
         usernameField = [[UITextField alloc] initWithFrame:CGRectMake(10,10,t.frame.size.width,40)];
