@@ -43,10 +43,11 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBUIButton" id="91900552">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{67, 184}, {194, 190}}</string>
+						<int key="NSvFlags">264</int>
+						<string key="NSFrame">{{67, 193}, {194, 190}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="1053457158"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<float key="IBUIAlpha">0.05000000074505806</float>
@@ -91,10 +92,10 @@
 					<object class="IBUIButton" id="988830135">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">288</int>
-						<string key="NSFrame">{{68, 112}, {184, 31}}</string>
+						<string key="NSFrame">{{12, 108}, {298, 39}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="708684874"/>
+						<reference key="NSNextKeyView" ref="24419821"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<object class="IBUIAccessibilityConfiguration" key="IBUIAccessibilityConfiguration">
@@ -118,10 +119,10 @@
 					<object class="IBUIImageView" id="24419821">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">264</int>
-						<string key="NSFrame">{{33, 164}, {259, 232}}</string>
+						<string key="NSFrame">{{33, 174}, {259, 232}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="91900552"/>
+						<reference key="NSNextKeyView" ref="708684874"/>
 						<object class="NSColor" key="IBUIBackgroundColor" id="120108016">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MCAwAA</bytes>
@@ -139,10 +140,10 @@
 					<object class="IBUIButton" id="708684874">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">288</int>
-						<string key="NSFrame">{{68, 145}, {184, 31}}</string>
+						<string key="NSFrame">{{68, 151}, {184, 31}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="1053457158"/>
+						<reference key="NSNextKeyView" ref="91900552"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -164,7 +165,7 @@
 						<string key="NSFrame">{{2, 378}, {320, 38}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="24419821"/>
+						<reference key="NSNextKeyView"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MSAwLjAwOTk5OTk5OTgAA</bytes>
@@ -208,6 +209,7 @@
 						<string key="NSFrame">{{2, 0}, {318, 110}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="988830135"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<reference key="IBUIBackgroundColor" ref="120108016"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -228,6 +230,7 @@
 				<string key="NSFrame">{{0, 64}, {320, 416}}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
+				<reference key="NSNextKeyView" ref="674742446"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">2</int>
 					<bytes key="NSRGB">MC44OTQxMTc2NDcxIDAuODk4MDM5MjE1NyAwLjkwMTk2MDc4NDMAA</bytes>
@@ -383,10 +386,10 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="1053457158"/>
 							<reference ref="91900552"/>
-							<reference ref="24419821"/>
 							<reference ref="988830135"/>
 							<reference ref="708684874"/>
 							<reference ref="674742446"/>
+							<reference ref="24419821"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
