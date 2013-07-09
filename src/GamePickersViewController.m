@@ -147,7 +147,6 @@
     [delegate logoutWasRequested];
 }
 
-//this is required
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);

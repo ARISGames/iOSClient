@@ -282,6 +282,7 @@
 {
     AudioVisualizerViewController *audioVC = [[AudioVisualizerViewController alloc] initWithNibName:@"AudioVisualizerViewController" bundle:nil];
     [self.navigationController pushViewController:audioVC animated:YES];
+    
 }
 
 

@@ -93,10 +93,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-}
 
--(void)viewWillDisappear:(BOOL)animated{
-//    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RotateToPortrait" object:nil]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -381,6 +378,8 @@
 	[wf setNeedsDisplay];
     [freq setNeedsDisplay];
 }
+
+#pragma mark Orientation
 
 - (NSUInteger)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskLandscape;
