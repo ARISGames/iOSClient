@@ -68,6 +68,12 @@
     if([allMedia count] != 0)
     {
         Media *media = (Media *)[allMedia objectAtIndex:0];
+        if(!media.type)
+        {
+            media.type = type;
+            if(![context save:&error])
+                NSLog(@"Whoops, couldn't save: %@", [error localizedDescription]);
+        }
         return media;
     }
     

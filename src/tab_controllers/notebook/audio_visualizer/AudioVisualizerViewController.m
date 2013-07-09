@@ -13,6 +13,7 @@
 #import "AudioTint.h"
 #import <Accelerate/Accelerate.h>
 #import "AppModel.h"
+#import "UIColor+ARISColors.h"
 
 #define SLIDER_BUFFER 5
 
@@ -90,17 +91,40 @@
     UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:withoutBorderButton];
     self.navigationItem.rightBarButtonItem = rightNavBarButton;
     
+
+    
     //path = @"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/3000hz.m4a";
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self loadAudioForPath:inputOutputPathURL];
+    [self loadAudioForPath:inputOutputPathURL];/////////////////
+    audioURL = inputOutputPathURL;
+    OSStatus err;
+	CFURLRef inpUrl = (__bridge CFURLRef)audioURL;
+	err = ExtAudioFileOpenURL(inpUrl, &extAFRef);
+	if(err != noErr) {
+		NSLog(@"Cannot open audio file");
+		return;
+	}
 
-}
 
--(void)viewWillDisappear:(BOOL)animated{
-//    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"RotateToPortrait" object:nil]];
+    //this is a giant hack that causes the current view controller to re-evaluate the orientation its in.
+    //change if a better way is found for forcing the orientation to initially be in landscape
+    UIApplication *app = [UIApplication sharedApplication];
+    UIWindow *window = [[app windows] objectAtIndex:0];
+    UIViewController *root = window.rootViewController;
+    window.rootViewController = nil;
+    window.rootViewController = root;
+    [UIViewController attemptRotationToDeviceOrientation];
+
+    CGRect frame = self.navigationController.navigationBar.frame;
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if(orientation == UIInterfaceOrientationLandscapeLeft || orientation == UIInterfaceOrientationLandscapeRight){
+        frame.size.height = 32;
+    }
+    self.navigationController.navigationBar.frame = frame;
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -165,14 +189,14 @@
     
     timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 125, 25)];
     [timeLabel setText:timeString];
-    [timeLabel setBackgroundColor:[UIColor clearColor]];
+    [timeLabel setBackgroundColor:[UIColor ARISColorBlack]];
     [timeLabel setTextAlignment:NSTextAlignmentCenter];
     timeButton = [[UIBarButtonItem alloc] initWithCustomView:timeLabel];
     
     freqLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 125, 25)];
     [freqLabel setText:@""];
     [freqLabel setBackgroundColor:[UIColor clearColor]];
-    [freqLabel setTextColor:[UIColor whiteColor]];
+    [freqLabel setTextColor:[UIColor ARISColorBlack]];
     [freqLabel setTextAlignment:NSTextAlignmentCenter];
     freqButton = [[UIBarButtonItem alloc]initWithCustomView:freqLabel];
     
@@ -189,15 +213,6 @@
     [self.view addSubview:toolbar];
     
     endTime = 1.0;
-    
-    audioURL = inputOutputPathURL;
-    OSStatus err;
-	CFURLRef inpUrl = (__bridge CFURLRef)audioURL;
-	err = ExtAudioFileOpenURL(inpUrl, &extAFRef);
-	if(err != noErr) {
-		NSLog(@"Cannot open audio file");
-		return;
-	}
     
 }
 
@@ -278,20 +293,6 @@
 }
 
 -(void)loadAudioForPath:(NSURL *)pathURL{
-//-(void)loadAudioForPath:(NSString *)pathURL{
-
-//    if([[NSFileManager defaultManager] fileExistsAtPath:pathURL]) {
-//        NSURL *audio = [NSURL fileURLWithPath:pathURL];
-//        [self openAudioURL:audio];
-//    } else {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"No Audio!"
-//                                                        message: @"You should add a .m4a file to the project before test it."
-//                                                       delegate: self
-//                                              cancelButtonTitle: @"OK"
-//                                              otherButtonTitles: nil];
-//        [alert show];
-//    }
-        
     if(pathURL == nil) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"No Audio!"
                                                         message: @"You should add a .m4a file to the project before test it."
@@ -321,7 +322,7 @@
 	timeString = newTime;
     [timeLabel setText:timeString];
     [timeLabel setBackgroundColor:[UIColor clearColor]];
-    [timeLabel setTextColor:[UIColor whiteColor]];
+    [timeLabel setTextColor:[UIColor ARISColorBlack]];
     [timeLabel setTextAlignment:NSTextAlignmentCenter];
     timeButton = [[UIBarButtonItem alloc] initWithCustomView:timeLabel];
 }
@@ -366,7 +367,9 @@
     timeObserver = [player addPeriodicTimeObserverForInterval:tm queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
         [self updateTimeString];
         [wf setNeedsDisplay];
-        [self loadAudio];
+        if([wf isHidden]){
+            [self loadAudio];
+        }
         if(playProgress >= endTime){
             [self clipOver];
         }
@@ -400,6 +403,8 @@
     [freq setNeedsDisplay];
 }
 
+#pragma mark Orientation
+
 - (NSUInteger)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskLandscape;
 }
@@ -412,7 +417,7 @@
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     
-    return interfaceOrientation == UIInterfaceOrientationLandscapeLeft;
+    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft || interfaceOrientation == UIInterfaceOrientationLandscapeRight);
 }
 
 #pragma mark -
@@ -460,7 +465,13 @@
 }
 
 -(void)clipOver{
-    [self stopFunction];
+    [self pauseAudio];
+    [withoutBorderButton setImage:[UIImage imageNamed:@"30-circle-play.png"] forState:UIControlStateNormal];
+    [withoutBorderButton addTarget:self action:@selector(playFunction) forControlEvents:UIControlEventTouchUpInside];
+    playButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderButton];
+    [player removeTimeObserver:timeObserver];
+    [self addTimeObserver];
+    [self setPlayHeadToLeftSlider];
 }
 
 -(CGPoint *)getSampleData{
@@ -491,7 +502,7 @@
     
     [freqLabel setText:[NSString stringWithFormat:@"%.2f Hz", ((bin * 44100.0)/512)]];
     [freqLabel setBackgroundColor:[UIColor clearColor]];
-    [freqLabel setTextColor:[UIColor whiteColor]];
+    [freqLabel setTextColor:[UIColor ARISColorBlack]];
     [freqLabel setTextAlignment:NSTextAlignmentCenter];
     freqButton = [[UIBarButtonItem alloc] initWithCustomView:freqLabel];
 }
@@ -586,12 +597,11 @@
 #pragma mark Control
 - (void) flipView
 {
-    //subviews[0 or 1 (not sure yet)] is wf; subviews[2] is freq
     [self.view.subviews[0] setHidden:[self.view.subviews[2] isHidden]];
     [self.view.subviews[2] setHidden:![self.view.subviews[2] isHidden]];
     [freqLabel setText:@""];
     [freqLabel setBackgroundColor:[UIColor clearColor]];
-    [freqLabel setTextColor:[UIColor whiteColor]];
+    [freqLabel setTextColor:[UIColor ARISColorBlack]];
     [freqLabel setTextAlignment:NSTextAlignmentCenter];
     freqButton = [[UIBarButtonItem alloc]initWithCustomView:freqLabel];
     [leftSlider setHidden:![leftSlider isHidden]];
@@ -614,12 +624,11 @@
     err = ExtAudioFileGetProperty(extAFRef, kExtAudioFileProperty_FileDataFormat, &propSize, &fileFormat);
 	if(err != noErr) {
 		NSLog(@"Cannot get audio file properties");
-		return;
 	}
     
     Float64 sampleRate = 44100.0;
     
-    float startingSample = (44100.0 * playProgress * lengthInSeconds);
+    float startingSample = (sampleRate * playProgress * lengthInSeconds);
     
     AudioStreamBasicDescription clientFormat;
     propSize = sizeof(clientFormat);
@@ -650,7 +659,7 @@
     
     AudioBufferList bufList;
     bufList.mNumberBuffers = 1;
-    bufList.mBuffers[0].mNumberChannels = extAFNumChannels; // Always 2 channels in this example
+    bufList.mBuffers[0].mNumberChannels = extAFNumChannels;
     bufList.mBuffers[0].mData = returnData; // data is a pointer (float*) to our sample buffer
     bufList.mBuffers[0].mDataByteSize = 1024 * sizeof(float);
     

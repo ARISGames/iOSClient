@@ -7,8 +7,7 @@
 //
 
 #import "FreqHistogramControl.h"
-#import <Accelerate/Accelerate.h>
-#include <AudioToolbox/AudioToolbox.h>
+#import "UIColor+ARISColors.h"
 
 @interface FreqHistogramControl(){
     
@@ -83,7 +82,7 @@
     
     CGPoint startPoint = CGPointMake(currentFreqX, 0);
     CGPoint endPoint = CGPointMake(currentFreqX, self.bounds.size.height);
-    [self draw1PxStrokeForContext:context startPoint:startPoint endPoint:endPoint color:[UIColor blueColor].CGColor];
+    [self draw1PxStrokeForContext:context startPoint:startPoint endPoint:endPoint color:[UIColor ARISColorDarkBlue].CGColor];
     
 }
 

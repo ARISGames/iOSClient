@@ -7,6 +7,7 @@
 //
 
 #import "AudioSlider.h"
+#import "UIColor+ARISColors.h"
 
 #define TRIANGLE_HEIGHT 15
 
@@ -75,10 +76,10 @@
     
     //draw the two triangles
     CGContextSaveGState(context);
-    [self drawTriangleForContext:context width:self.bounds.size.width height:TRIANGLE_HEIGHT color:[UIColor orangeColor]];
+    [self drawTriangleForContext:context width:self.bounds.size.width height:TRIANGLE_HEIGHT color:[UIColor ARISColorRed]];
     CGContextTranslateCTM(context, 0, self.bounds.size.height);
     CGContextScaleCTM(context, 1, -1);
-    [self drawTriangleForContext:context width:self.bounds.size.width height:TRIANGLE_HEIGHT color:[UIColor orangeColor]];
+    [self drawTriangleForContext:context width:self.bounds.size.width height:TRIANGLE_HEIGHT color:[UIColor ARISColorRed]];
     CGContextRestoreGState(context);
     
     CGPoint startPoint = CGPointMake((self.bounds.size.width / 2.0) - 0.5, TRIANGLE_HEIGHT);

@@ -309,6 +309,7 @@
     audioVC.inputOutputPathURL = self.soundFileURL;
     audioVC.intermediatePathString = self.soundFileString;
     [self.navigationController pushViewController:audioVC animated:YES];
+    
 }
 
 - (void) uploadAudio{

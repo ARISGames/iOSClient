@@ -363,23 +363,41 @@
 
 - (void) displayTab:(NSString *)t
 {
+    NSString *localized = [t lowercaseString];
+    if([localized isEqualToString:@"map"])       localized = [NSLocalizedString(@"MapViewTitleKey",       @"") lowercaseString];
+    if([localized isEqualToString:@"quests"])    localized = [NSLocalizedString(@"QuestViewTitleKey",     @"") lowercaseString];
+    if([localized isEqualToString:@"notebook"])  localized = [NSLocalizedString(@"NotebookTitleKey",      @"") lowercaseString];
+    if([localized isEqualToString:@"inventory"]) localized = [NSLocalizedString(@"InventoryViewTitleKey", @"") lowercaseString];
+    if([localized isEqualToString:@"decoder"])   localized = [NSLocalizedString(@"QRScannerTitleKey",     @"") lowercaseString];
+    if([localized isEqualToString:@"player"])    localized = [NSLocalizedString(@"PlayerTitleKey",        @"") lowercaseString];
+
     for(int i = 0; i < [self.gamePlayTabBarController.viewControllers count]; i++)
     {
-        if([[((GamePlayViewController *)[self.gamePlayTabBarController.viewControllers objectAtIndex:i]).title lowercaseString] isEqualToString:[t lowercaseString]])
+        if([[((GamePlayViewController *)[self.gamePlayTabBarController.viewControllers objectAtIndex:i]).title lowercaseString] isEqualToString:localized])
             self.gamePlayTabBarController.selectedIndex = i;
     }
 }
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController 
 {
-    //Force more tab to always be a list of options, not the last VC
-    NSLog(@"GamePlayTabBarController: selectedIndex is %d", tabBarController.selectedIndex);
-    if(tabBarController.selectedIndex > 3)  [tabBarController.moreNavigationController popToRootViewControllerAnimated:NO];
+    if(tabBarController.selectedIndex > 3 && [tabBarController.viewControllers count] > 5)
+    {
+        [tabBarController.moreNavigationController popToRootViewControllerAnimated:NO];
+        NSLog(@"GamePlayTabBarController: Selected tab- More");
+    }
+    else
+        NSLog(@"GamePlayTabBarController: Selected tab- %@", ((GamePlayViewController *)[tabBarController.viewControllers objectAtIndex:tabBarController.selectedIndex]).title);
 }
 
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return [self.gamePlayTabBarController.selectedViewController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+    if(self.gamePlayTabBarController.selectedIndex > 3 && self.gamePlayTabBarController.selectedIndex < 6){
+        return [self.gamePlayTabBarController.moreNavigationController.topViewController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+    }
+    else if(self.gamePlayTabBarController.selectedIndex <= 3){
+        return [self.gamePlayTabBarController.selectedViewController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+    }
+    return interfaceOrientation == UIInterfaceOrientationPortrait;
 }
 
 - (BOOL) shouldAutorotate
@@ -390,7 +408,7 @@
 - (NSInteger) supportedInterfaceOrientations
 {
     if(self.gamePlayTabBarController.selectedIndex > 3 && self.gamePlayTabBarController.selectedIndex < 6){
-        return [self.gamePlayTabBarController.moreNavigationController.visibleViewController supportedInterfaceOrientations];
+        return [self.gamePlayTabBarController.moreNavigationController.topViewController supportedInterfaceOrientations];
     }
     else if(self.gamePlayTabBarController.selectedIndex <= 3){
         return [self.gamePlayTabBarController.selectedViewController supportedInterfaceOrientations];

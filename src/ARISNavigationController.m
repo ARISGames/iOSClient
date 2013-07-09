@@ -16,7 +16,7 @@
         return YES;
     }
     else {
-        return (interfaceOrientation == UIInterfaceOrientationPortrait);
+        return [self.topViewController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
     }
 }
 
@@ -27,14 +27,6 @@
 
 - (NSInteger) supportedInterfaceOrientations
 {
-//    NSInteger mask = 0;
-//    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeLeft])      mask |= UIInterfaceOrientationMaskLandscapeLeft;
-//    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeRight])     mask |= UIInterfaceOrientationMaskLandscapeRight;
-//    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationPortrait])           mask |= UIInterfaceOrientationMaskPortrait;
-//    if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationPortraitUpsideDown]) mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
-//    return mask;
-    NSLog(@"JUSTIN topViewController: %@", [self.topViewController description]);
     return [self.topViewController supportedInterfaceOrientations];
 }
-
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "WaveformControl.h"
+#import "UIColor+ARISColors.h"
 
 @interface WaveformControl (Private)
 
@@ -140,7 +141,7 @@
         float currentPointX = (waveRect.size.width) * [self.delegate getPlayProgress];
         CGPoint startPoint = CGPointMake(currentPointX, 0);
         CGPoint endPoint = CGPointMake(currentPointX, self.bounds.size.height);
-        [self draw1PxStrokeForContext:cx startPoint:startPoint endPoint:endPoint color:[UIColor redColor].CGColor];
+        [self draw1PxStrokeForContext:cx startPoint:startPoint endPoint:endPoint color:[UIColor ARISColorRed].CGColor];
         
         
 	}
