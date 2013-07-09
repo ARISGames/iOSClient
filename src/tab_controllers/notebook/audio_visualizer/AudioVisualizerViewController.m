@@ -365,7 +365,9 @@
     timeObserver = [player addPeriodicTimeObserverForInterval:tm queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
         [self updateTimeString];
         [wf setNeedsDisplay];
-        [self loadAudio];
+        if([wf isHidden]){
+            [self loadAudio];
+        }
         if(playProgress >= endTime){
             [self clipOver];
         }
