@@ -104,6 +104,10 @@
     [self setMode:kAudioRecorderStarting];
 }
 
+- (void) viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+}
+
 - (void) backButtonTouchAction
 {
     [delegate audioRecorderViewControllerCancelled];

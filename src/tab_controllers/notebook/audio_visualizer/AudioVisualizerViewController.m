@@ -94,6 +94,15 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self loadAudioForPath:path];
+    audioURL = path;
+    OSStatus err;
+	CFURLRef inpUrl = (__bridge CFURLRef)audioURL;
+	err = ExtAudioFileOpenURL(inpUrl, &extAFRef);
+	if(err != noErr) {
+		NSLog(@"Cannot open audio file");
+		return;
+	}
+    [UIViewController attemptRotationToDeviceOrientation];
 
 }
 
@@ -184,15 +193,6 @@
     
     endTime = 1.0;
     
-    audioURL = path;
-    OSStatus err;
-	CFURLRef inpUrl = (__bridge CFURLRef)audioURL;
-	err = ExtAudioFileOpenURL(inpUrl, &extAFRef);
-	if(err != noErr) {
-		NSLog(@"Cannot open audio file");
-		return;
-	}
-    
 }
 
 - (void) draggedOut: (UIControl *) c withEvent: (UIEvent *) ev {
@@ -272,20 +272,6 @@
 }
 
 -(void)loadAudioForPath:(NSURL *)pathURL{
-//-(void)loadAudioForPath:(NSString *)pathURL{
-
-//    if([[NSFileManager defaultManager] fileExistsAtPath:pathURL]) {
-//        NSURL *audio = [NSURL fileURLWithPath:pathURL];
-//        [self openAudioURL:audio];
-//    } else {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"No Audio!"
-//                                                        message: @"You should add a .m4a file to the project before test it."
-//                                                       delegate: self
-//                                              cancelButtonTitle: @"OK"
-//                                              otherButtonTitles: nil];
-//        [alert show];
-//    }
-        
     if(pathURL == nil) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"No Audio!"
                                                         message: @"You should add a .m4a file to the project before test it."
@@ -408,7 +394,7 @@
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     
-    return interfaceOrientation == UIInterfaceOrientationLandscapeLeft;
+    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft || interfaceOrientation == UIInterfaceOrientationLandscapeRight);
 }
 
 #pragma mark -
@@ -456,7 +442,13 @@
 }
 
 -(void)clipOver{
-    [self stopFunction];
+    [self pauseAudio];
+    [withoutBorderButton setImage:[UIImage imageNamed:@"30-circle-play.png"] forState:UIControlStateNormal];
+    [withoutBorderButton addTarget:self action:@selector(playFunction) forControlEvents:UIControlEventTouchUpInside];
+    playButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderButton];
+    [player removeTimeObserver:timeObserver];
+    [self addTimeObserver];
+    [self setPlayHeadToLeftSlider];
 }
 
 -(CGPoint *)getSampleData{
@@ -596,7 +588,6 @@
 #pragma mark Control
 - (void) flipView
 {
-    //subviews[0 or 1 (not sure yet)] is wf; subviews[2] is freq
     [self.view.subviews[0] setHidden:[self.view.subviews[2] isHidden]];
     [self.view.subviews[2] setHidden:![self.view.subviews[2] isHidden]];
     [freqLabel setText:@""];
@@ -624,12 +615,11 @@
     err = ExtAudioFileGetProperty(extAFRef, kExtAudioFileProperty_FileDataFormat, &propSize, &fileFormat);
 	if(err != noErr) {
 		NSLog(@"Cannot get audio file properties");
-		return;
 	}
     
     Float64 sampleRate = 44100.0;
     
-    float startingSample = (44100.0 * playProgress * lengthInSeconds);
+    float startingSample = (sampleRate * playProgress * lengthInSeconds);
     
     AudioStreamBasicDescription clientFormat;
     propSize = sizeof(clientFormat);
@@ -660,7 +650,7 @@
     
     AudioBufferList bufList;
     bufList.mNumberBuffers = 1;
-    bufList.mBuffers[0].mNumberChannels = extAFNumChannels; // Always 2 channels in this example
+    bufList.mBuffers[0].mNumberChannels = extAFNumChannels;
     bufList.mBuffers[0].mData = returnData; // data is a pointer (float*) to our sample buffer
     bufList.mBuffers[0].mDataByteSize = 1024 * sizeof(float);
     
