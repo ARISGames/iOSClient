@@ -363,9 +363,17 @@
 
 - (void) displayTab:(NSString *)t
 {
+    NSString *localized = [t lowercaseString];
+    if([localized isEqualToString:@"map"])       localized = [NSLocalizedString(@"MapViewTitleKey",       @"") lowercaseString];
+    if([localized isEqualToString:@"quests"])    localized = [NSLocalizedString(@"QuestViewTitleKey",     @"") lowercaseString];
+    if([localized isEqualToString:@"notebook"])  localized = [NSLocalizedString(@"NotebookTitleKey",      @"") lowercaseString];
+    if([localized isEqualToString:@"inventory"]) localized = [NSLocalizedString(@"InventoryViewTitleKey", @"") lowercaseString];
+    if([localized isEqualToString:@"decoder"])   localized = [NSLocalizedString(@"QRScannerTitleKey",     @"") lowercaseString];
+    if([localized isEqualToString:@"player"])    localized = [NSLocalizedString(@"PlayerTitleKey",        @"") lowercaseString];
+
     for(int i = 0; i < [self.gamePlayTabBarController.viewControllers count]; i++)
     {
-        if([[((GamePlayViewController *)[self.gamePlayTabBarController.viewControllers objectAtIndex:i]).title lowercaseString] isEqualToString:[t lowercaseString]])
+        if([[((GamePlayViewController *)[self.gamePlayTabBarController.viewControllers objectAtIndex:i]).title lowercaseString] isEqualToString:localized])
             self.gamePlayTabBarController.selectedIndex = i;
     }
 }
