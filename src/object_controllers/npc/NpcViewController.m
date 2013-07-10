@@ -380,9 +380,9 @@ NSString *const kDialogHtmlTemplate =
         
         
         //PHIL
+        currentZoomContainer.frame = CGRectMake(0,0,currentCharacterImageSection.frame.size.width,currentCharacterImageSection.frame.size.height);
         CGRect oldImageFrame = currentZoomContainer.frame;
         CGRect newImageFrame = currentScene.imageRect;
-        currentZoomContainer.frame = CGRectMake(0,0,currentCharacterImageSection.frame.size.width,currentCharacterImageSection.frame.size.height);
         [self aspectFitAlignToTop:self.currentImageView];
         [UIView animateWithDuration:currentScene.zoomTime animations:^
         {
