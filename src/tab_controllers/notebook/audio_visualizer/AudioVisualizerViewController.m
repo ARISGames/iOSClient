@@ -14,7 +14,7 @@
 #import "AppModel.h"
 #import "UIColor+ARISColors.h"
 
-#define SLIDER_BUFFER 5
+#define SLIDER_BUFFER 35
 
 @interface AudioVisualizerViewController (){
     UIToolbar *toolbar;
