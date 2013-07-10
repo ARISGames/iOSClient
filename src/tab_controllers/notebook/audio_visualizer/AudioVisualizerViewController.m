@@ -142,24 +142,23 @@
 	white = [UIColor whiteColor];
 	marker = [UIColor colorWithRed:242.0/255.0 green:147.0/255.0 blue:0.0/255.0 alpha:1.0];
 
-    freq = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height + 12)];
+    freq = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.height, self.view.bounds.size.height + 12)];
     freq.delegate = self;
     [self.view addSubview:freq];
     
-    
-    wf = [[WaveformControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height + 12)];
+    wf = [[WaveformControl alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.height, self.view.bounds.size.height + 12)];
     wf.delegate = self;
     [self.view addSubview:wf];
     
     
     leftSlider = [[AudioSlider alloc] init];
-    leftSlider.frame = CGRectMake(-7.5, 0, 15.0, self.view.bounds.size.height + 12);
+    leftSlider.frame = CGRectMake(-17.5, 0, 35.0, self.view.bounds.size.height + 12);
     [leftSlider addTarget:self action:@selector(draggedOut:withEvent:)
          forControlEvents:UIControlEventTouchDragOutside |
      UIControlEventTouchDragInside];
 
     rightSlider = [[AudioSlider alloc] init];
-    rightSlider.frame = CGRectMake([UIScreen mainScreen].bounds.size.height - 7.5, 0, 15.0, self.view.bounds.size.height + 12);
+    rightSlider.frame = CGRectMake([UIScreen mainScreen].bounds.size.height - 17.5, 0, 35.0, self.view.bounds.size.height + 12);
     [rightSlider addTarget:self action:@selector(draggedOut:withEvent:)
           forControlEvents:UIControlEventTouchDragOutside |
      UIControlEventTouchDragInside];
@@ -201,6 +200,7 @@
     
     UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     NSLog(@"%f height lulz",[UIScreen mainScreen].bounds.size.height);
+    
     //Normal Screen - 480
     //fixedSpace.width = 42;//42*3=128 ; 480-128=352 -> ([UIScreen mainScreen].bounds.size.height - 352)/3
     //4 Inch Screen - 568
