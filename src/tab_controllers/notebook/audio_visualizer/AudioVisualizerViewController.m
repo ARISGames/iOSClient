@@ -83,7 +83,6 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [[ARISAlertHandler sharedAlertHandler] showWaitingIndicator:@"Loading Audio..."];
     [self loadAudioForPath:inputOutputPathURL];
     audioURL = inputOutputPathURL;
     OSStatus err;
@@ -295,12 +294,13 @@
 -(void)loadAudioForPath:(NSURL *)pathURL{
     if(pathURL == nil) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"No Audio!"
-                                                        message: @"You should add a .m4a file to the project before test it."
+                                                        message: @"Sorry, the audio visualizer failed to load the audio"
                                                        delegate: self
                                               cancelButtonTitle: @"OK"
                                               otherButtonTitles: nil];
         [alert show];
     } else {
+        [[ARISAlertHandler sharedAlertHandler] showWaitingIndicator:@"Loading Audio..."];
         [self openAudioURL:pathURL];
     }
 
