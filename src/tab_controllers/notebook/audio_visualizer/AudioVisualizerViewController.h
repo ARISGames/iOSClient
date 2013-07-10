@@ -12,9 +12,10 @@
 #include <AVFoundation/AVFoundation.h>
 #import "WaveformControl.h"
 #import "FreqHistogramControl.h"
+#import "Playhead.h"
 
 
-@interface AudioVisualizerViewController : UIViewController<WaveSampleProviderDelegate, WaveformControlDelegate, FreqHistogramControlDelegate, UIAlertViewDelegate>{
+@interface AudioVisualizerViewController : UIViewController<WaveSampleProviderDelegate, WaveformControlDelegate, FreqHistogramControlDelegate, PlayheadControlDelegate, UIAlertViewDelegate>{
 	WaveSampleProvider *wsp;
 	AVPlayer *player;
 	NSString *infoString;

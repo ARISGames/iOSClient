@@ -12,10 +12,8 @@
 
 @protocol WaveformControlDelegate <NSObject>
 
--(void)waveformControl:(WaveformControl *)waveform wasTouched:(NSSet *)touches;
 -(CGPoint *)getSampleData;
 -(int)getSampleLength;
--(float)getPlayProgress;
 
 @end
 

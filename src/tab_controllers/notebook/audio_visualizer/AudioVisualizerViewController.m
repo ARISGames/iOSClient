@@ -14,6 +14,7 @@
 #import <Accelerate/Accelerate.h>
 #import "AppModel.h"
 #import "UIColor+ARISColors.h"
+#import "Playhead.h"
 
 #define SLIDER_BUFFER 5
 
@@ -29,6 +30,7 @@
     AudioTint *rightTint;
     WaveformControl *wf;
     FreqHistogramControl *freq;
+    Playhead *playHead;
     id timeObserver;
     UILabel *timeLabel;
     UIBarButtonItem *timeButton;
@@ -41,6 +43,8 @@
     ExtAudioFileRef extAFRef;
     int extAFNumChannels;
     NSURL *audioURL;
+    Float64 sampleRate;
+    int numBins;
 }
 
 - (void) initView;
@@ -132,7 +136,8 @@
 
 - (void) initView
 {
-    
+    numBins = 512;
+    sampleRate = 44100.0f;
 	playProgress = 0.0;
 	green = [UIColor colorWithRed:143.0/255.0 green:196.0/255.0 blue:72.0/255.0 alpha:1.0];
 	gray = [UIColor colorWithRed:64.0/255.0 green:63.0/255.0 blue:65.0/255.0 alpha:1.0];
@@ -149,6 +154,11 @@
     wf = [[WaveformControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
     wf.delegate = self;
     [self.view addSubview:wf];
+    
+    playHead = [[Playhead alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
+    playHead.delegate = self;
+    [self.view addSubview:playHead];
+
     
     
     leftSlider = [[AudioSlider alloc] init];
@@ -364,7 +374,9 @@
     CMTime tm = CMTimeMakeWithSeconds(0.1, NSEC_PER_SEC);
     timeObserver = [player addPeriodicTimeObserverForInterval:tm queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
         [self updateTimeString];
-        [wf setNeedsDisplay];
+        if(![playHead isHidden]){
+            [playHead setNeedsDisplay];
+        }
         if([wf isHidden]){
             [self loadAudio];
         }
@@ -436,7 +448,6 @@
 		int dsec = wsp.sec;
 		[self setTimeString:[NSString stringWithFormat:@"--:--/%02d:%02d",dmin,dsec]];
 		[self startAudio];
-		
 	}
 }
 
@@ -446,9 +457,9 @@
 
 
 
-#pragma mark Waveform control delegate
+#pragma mark Playhead control delegate
 
--(void)waveformControl:(WaveformControl *)waveform wasTouched:(NSSet *)touches{
+-(void)playheadControl:(Playhead *)playhead wasTouched:(NSSet *)touches{
     UITouch *touch = [touches anyObject];
 	CGPoint local_point = [touch locationInView:self.view];
 	if(CGRectContainsPoint(self.view.bounds,local_point) && player != nil) {
@@ -458,7 +469,6 @@
         float timeSelected = duration * sel;
         CMTime tm = CMTimeMakeWithSeconds(timeSelected, NSEC_PER_SEC);
         [player seekToTime:tm];
-        
 	}
 }
 
@@ -488,9 +498,8 @@
 -(void)freqHistogramControl:(WaveformControl *)waveform wasTouched:(NSSet *)touches{
     UITouch *touch = [touches anyObject];
     CGPoint local_point = [touch locationInView:freq];
-    float binWidth = freq.bounds.size.width / 256;
+    float binWidth = freq.bounds.size.width / (numBins/2);
     float bin = local_point.x / binWidth;
-    NSLog(@"Frequency: %.2f", (bin * 44100.0)/512);
     
     if(CGRectContainsPoint(freq.bounds,local_point)){
         freq.currentFreqX = local_point.x;
@@ -498,7 +507,7 @@
     
     [freq setNeedsDisplay];
     
-    [freqLabel setText:[NSString stringWithFormat:@"%.2f Hz", ((bin * 44100.0)/512)]];
+    [freqLabel setText:[NSString stringWithFormat:@"%.2f Hz", ((bin * sampleRate)/numBins)]];
     [freqLabel setBackgroundColor:[UIColor clearColor]];
     [freqLabel setTextColor:[UIColor ARISColorBlack]];
     [freqLabel setTextAlignment:NSTextAlignmentCenter];
@@ -611,7 +620,15 @@
 {
     [self.view.subviews[0] setHidden:[self.view.subviews[2] isHidden]];
     [self.view.subviews[2] setHidden:![self.view.subviews[2] isHidden]];
-    [freqLabel setText:@""];
+    if([wf isHidden]){
+        float binWidth = freq.bounds.size.width / (numBins/2);
+        float bin = freq.currentFreqX / binWidth;
+        [freqLabel setText:[NSString stringWithFormat:@"%.2f Hz", ((bin * sampleRate)/numBins)]];
+    }
+    else{
+        [freqLabel setText:@""];
+    }
+    
     [freqLabel setBackgroundColor:[UIColor clearColor]];
     [freqLabel setTextColor:[UIColor ARISColorBlack]];
     [freqLabel setTextAlignment:NSTextAlignmentCenter];
@@ -620,6 +637,7 @@
     [rightSlider setHidden:![rightSlider isHidden]];
     [leftTint setHidden:![leftTint isHidden]];
     [rightTint setHidden:![rightTint isHidden]];
+    [playHead setHidden:![playHead isHidden]];
 }
 
 #pragma mark Fourier Helper functions
@@ -637,8 +655,6 @@
 	if(err != noErr) {
 		NSLog(@"Cannot get audio file properties");
 	}
-    
-    Float64 sampleRate = 44100.0;
     
     float startingSample = (sampleRate * playProgress * lengthInSeconds);
     
@@ -703,7 +719,7 @@
     
     //print out data
     //    for(int i = 1; i < bufferFrames / 2; i++){
-    //        float frequency = (i * 44100.0)/bufferFrames;
+    //        float frequency = (i * sampleRate)/bufferFrames;
     //        float magnitude = sqrtf((out.realp[i] * out.realp[i]) + (out.imagp[i] * out.imagp[i]));
     //        float magnitudeDB = 10 * log10(out.realp[i] * out.realp[i] + (out.imagp[i] * out.imagp[i]));
     //        NSLog(@"Bin %i: Magnitude: %f Magnitude DB: %f  Frequency: %f Hz", i, magnitude, magnitudeDB, frequency);
@@ -711,7 +727,7 @@
     
     //NSLog(@"\nSpectrum\n");
     //    for(int k = 0; k < bufferFrames / 2; k++){
-    //        NSLog(@"Frequency %f Real: %f Imag: %f", (k * 44100.0)/bufferFrames, out.realp[k], out.imagp[k]);
+    //        NSLog(@"Frequency %f Real: %f Imag: %f", (k * sampleRate)/bufferFrames, out.realp[k], out.imagp[k]);
     //    }
     
     float *mag = (float *)malloc(sizeof(float) * bufferFrames/2);
@@ -725,11 +741,11 @@
     for(int k = 1; k < bufferFrames/2; k++){
         float magnitudeDB = 10 * log10(out.realp[k] * out.realp[k] + (out.imagp[k] * out.imagp[k]));
         magDB[k] = magnitudeDB;
-        //NSLog(@"Frequency: %f Magnitude DB: %f", (k * 44100.0)/bufferFrames, magnitudeDB);
+        //NSLog(@"Frequency: %f Magnitude DB: %f", (k * sampleRate)/bufferFrames, magnitudeDB);
         if(magDB[k] > freq.largestMag){
             freq.largestMag = magDB[k];
         }
-        //NSLog(@"Frequency: %f Mag: %f Phase: %f", (k * 44100.0)/bufferFrames, mag[k], phase[k]);
+        //NSLog(@"Frequency: %f Mag: %f Phase: %f", (k * sampleRate)/bufferFrames, mag[k], phase[k]);
     }
     
     return magDB;

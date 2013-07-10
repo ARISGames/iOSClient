@@ -25,12 +25,7 @@
     return self;
 }
 
-#pragma mark -
-#pragma mark Touch Handling
-- (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    [self.delegate waveformControl:self wasTouched:touches];
-}
+#pragma mark Drawing code
 
 - (CGRect) waveRect
 {
@@ -136,15 +131,10 @@
         CGContextAddPath(cx, path);
         CGContextStrokePath(cx);
 		CGPathRelease(path); // clean up!
-        
-        
-        float currentPointX = (waveRect.size.width) * [self.delegate getPlayProgress];
-        CGPoint startPoint = CGPointMake(currentPointX, 0);
-        CGPoint endPoint = CGPointMake(currentPointX, self.bounds.size.height);
-        [self draw1PxStrokeForContext:cx startPoint:startPoint endPoint:endPoint color:[UIColor ARISColorRed].CGColor];
-        
-        
 	}
+    
+
+    
 	[[UIColor clearColor] setFill];
 	CGContextRestoreGState(cx);
 }
