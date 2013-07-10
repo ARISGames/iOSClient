@@ -199,8 +199,15 @@ NSString *const kDialogHtmlTemplate =
     [self.pcImageView setDelegate:self];
     [self.npcImageView setDelegate:self];
     
+    self.pcImageView.frame  = CGRectMake(self.pcImageView.frame.origin.x, self.pcImageView.frame.origin.y, 320, [UIScreen mainScreen].applicationFrame.size.height-44);
+    pcImageSection.frame = CGRectMake(0,0,pcImageView.frame.size.width,pcImageView.frame.size.height);
     pcImageSection.contentSize  = pcImageSection.frame.size;
+    pcZoomContainer.frame = CGRectMake(0,0,pcImageSection.frame.size.width,pcImageSection.frame.size.height);
+
+    self.npcImageView.frame = CGRectMake(self.npcImageView.frame.origin.x, self.npcImageView.frame.origin.y, 320, [UIScreen mainScreen].applicationFrame.size.height-44);
+    npcImageSection.frame = CGRectMake(0,0,npcImageView.frame.size.width,npcImageView.frame.size.height);
     npcImageSection.contentSize = npcImageSection.frame.size;
+    pcZoomContainer.frame = CGRectMake(0,0,npcImageSection.frame.size.width,npcImageSection.frame.size.height);
     
 	pcOptionsTableViewController = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
 	pcOptionsTableViewController.view = pcOptionsTable;
@@ -383,18 +390,23 @@ NSString *const kDialogHtmlTemplate =
         currentZoomContainer.frame = CGRectMake(0,0,currentCharacterImageSection.frame.size.width,currentCharacterImageSection.frame.size.height);
         CGRect oldImageFrame = currentZoomContainer.frame;
         CGRect newImageFrame = currentScene.imageRect;
-        [self aspectFitAlignToTop:self.currentImageView];
-        [UIView animateWithDuration:currentScene.zoomTime animations:^
+        [self aspectFitAlignToTop:self.currentImageView ofRect:currentZoomContainer.frame];
+        
+        CGRect zoomContainerRect = CGRectMake((int)(-1*newImageFrame.origin.x*oldImageFrame.size.width/newImageFrame.size.width),
+                                              (int)(-1*newImageFrame.origin.y*oldImageFrame.size.height/newImageFrame.size.height),
+                                              (int)(oldImageFrame.size.width*oldImageFrame.size.width/newImageFrame.size.width),
+                                              (int)(oldImageFrame.size.height*oldImageFrame.size.height/newImageFrame.size.height));
+
+        [UIView transitionWithView:currentZoomContainer.superview duration:currentScene.zoomTime options:UIViewAnimationCurveLinear|UIViewAnimationOptionAllowAnimatedContent|UIViewAnimationOptionLayoutSubviews animations:^
         {
-            int newx = -1*newImageFrame.origin.x*oldImageFrame.size.width/newImageFrame.size.width;
-            int newy = -1*newImageFrame.origin.y*oldImageFrame.size.height/newImageFrame.size.height;
-            int neww = oldImageFrame.size.width*oldImageFrame.size.width/newImageFrame.size.width;
-            int newh = oldImageFrame.size.height*oldImageFrame.size.height/newImageFrame.size.height;
-            currentZoomContainer.frame = CGRectMake(newx,newy,neww,newh);
+            //Theoretically, these two lines should correctly do the animation
+            [self aspectFitAlignToTop:self.currentImageView ofRect:zoomContainerRect];
+            //currentZoomContainer.frame  = zoomContainerRect;
 
-            [self aspectFitAlignToTop:self.currentImageView];
-
-        }];
+            //However, apple gets mad when you try to animate a view and subview simultaneously, so instead we overanimate the subview to compensate and comment out the superview's animation
+            self.currentImageView.frame = CGRectMake(currentZoomContainer.frame.origin.x+self.currentImageView.frame.origin.x,currentZoomContainer.frame.origin.y+self.currentImageView.frame.origin.y,self.currentImageView.frame.size.width,self.currentImageView.frame.size.height);
+        }
+        completion:nil];
     }
     else
     {
@@ -472,18 +484,16 @@ NSString *const kDialogHtmlTemplate =
 
 - (void) imageFinishedLoading:(AsyncMediaImageView *)image 
 {
-    [self aspectFitAlignToTop:image];
+    [self aspectFitAlignToTop:image ofRect:image.superview.frame];
 }
 
-- (void) aspectFitAlignToTop:(UIImageView *)image
+- (void) aspectFitAlignToTop:(UIImageView *)image ofRect:(CGRect)r
 {
     //ASPECT FIT + ALIGN TO TOP:
     //Let 'aspect fit' do the actual aspect fit- but still required to simulate the fitting to get correct dimensions
-    //image.frame = CGRectMake(0, 0, 320, [UIScreen mainScreen].applicationFrame.size.height-44);
-    image.frame = CGRectMake(0, 0, image.superview.frame.size.width, image.superview.frame.size.height);
     
-    float sw = image.frame.size.width;  //screen width (320)
-    float sh = image.frame.size.height; //screen height(416)
+    float sw = r.size.width;  //screen width (320)
+    float sh = r.size.height; //screen height(416)
     float iw = image.image.size.width;  //image width  (like, the raw image size. example:1024)
     float ih = image.image.size.height; //image height (like, the raw image size. example:768)
     
@@ -515,7 +525,7 @@ NSString *const kDialogHtmlTemplate =
     }
     
     if(dh < sh)
-        image.frame = CGRectMake(0, (-0.5*(sh-dh)), image.frame.size.width, image.frame.size.height);
+        image.frame = CGRectMake(0, (-0.5*(sh-dh)), r.size.width, r.size.height);
     else
         image.frame = CGRectMake(0,0,sw,sh);
 }
