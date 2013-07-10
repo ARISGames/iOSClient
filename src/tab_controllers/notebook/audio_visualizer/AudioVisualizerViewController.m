@@ -9,7 +9,6 @@
 #import "AudioVisualizerViewController.h"
 #import "WaveformControl.h"
 #import "FreqHistogramControl.h"
-#import "WaveformControl.h"
 #import "AudioTint.h"
 #import <Accelerate/Accelerate.h>
 #import "AppModel.h"
@@ -143,12 +142,12 @@
 	white = [UIColor whiteColor];
 	marker = [UIColor colorWithRed:242.0/255.0 green:147.0/255.0 blue:0.0/255.0 alpha:1.0];
 
-    freq = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
+    freq = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height + 12)];
     freq.delegate = self;
     [self.view addSubview:freq];
     
     
-    wf = [[WaveformControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
+    wf = [[WaveformControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height + 12)];
     wf.delegate = self;
     [self.view addSubview:wf];
     
