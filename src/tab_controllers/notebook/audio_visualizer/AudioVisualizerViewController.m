@@ -138,7 +138,7 @@
     wf.delegate = self;
     [self.view addSubview:wf];
     
-    playHead = [[Playhead alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
+    playHead = [[Playhead alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.height, self.view.bounds.size.height + 12)];
     playHead.delegate = self;
     [self.view addSubview:playHead];
 
