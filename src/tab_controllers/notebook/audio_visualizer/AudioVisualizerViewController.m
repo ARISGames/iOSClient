@@ -9,14 +9,13 @@
 #import "AudioVisualizerViewController.h"
 #import "WaveformControl.h"
 #import "FreqHistogramControl.h"
-#import "WaveformControl.h"
 #import "AudioTint.h"
 #import <Accelerate/Accelerate.h>
 #import "AppModel.h"
 #import "UIColor+ARISColors.h"
 #import "Playhead.h"
 
-#define SLIDER_BUFFER 5
+#define SLIDER_BUFFER 35
 
 @interface AudioVisualizerViewController (){
     UIToolbar *toolbar;
@@ -61,7 +60,9 @@
 @synthesize endTime;
 @synthesize lengthInSeconds;
 
-@synthesize path;
+@synthesize inputOutputPathURL;
+@synthesize intermediatePathString;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -100,8 +101,8 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self loadAudioForPath:path];
-    audioURL = path;
+    [self loadAudioForPath:inputOutputPathURL];/////////////////
+    audioURL = inputOutputPathURL;
     OSStatus err;
 	CFURLRef inpUrl = (__bridge CFURLRef)audioURL;
 	err = ExtAudioFileOpenURL(inpUrl, &extAFRef);
@@ -146,12 +147,11 @@
 	white = [UIColor whiteColor];
 	marker = [UIColor colorWithRed:242.0/255.0 green:147.0/255.0 blue:0.0/255.0 alpha:1.0];
 
-    freq = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
+    freq = [[FreqHistogramControl alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.height, self.view.bounds.size.height + 12)];
     freq.delegate = self;
     [self.view addSubview:freq];
     
-    
-    wf = [[WaveformControl alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width - 88, self.view.bounds.size.height + 12)];
+    wf = [[WaveformControl alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.height, self.view.bounds.size.height + 12)];
     wf.delegate = self;
     [self.view addSubview:wf];
     
@@ -162,13 +162,13 @@
     
     
     leftSlider = [[AudioSlider alloc] init];
-    leftSlider.frame = CGRectMake(-7.5, 0, 15.0, self.view.bounds.size.height + 12);
+    leftSlider.frame = CGRectMake(-17.5, 0, 35.0, self.view.bounds.size.height + 12);
     [leftSlider addTarget:self action:@selector(draggedOut:withEvent:)
          forControlEvents:UIControlEventTouchDragOutside |
      UIControlEventTouchDragInside];
 
     rightSlider = [[AudioSlider alloc] init];
-    rightSlider.frame = CGRectMake([UIScreen mainScreen].bounds.size.height - 7.5, 0, 15.0, self.view.bounds.size.height + 12);
+    rightSlider.frame = CGRectMake([UIScreen mainScreen].bounds.size.height - 17.5, 0, 35.0, self.view.bounds.size.height + 12);
     [rightSlider addTarget:self action:@selector(draggedOut:withEvent:)
           forControlEvents:UIControlEventTouchDragOutside |
      UIControlEventTouchDragInside];
@@ -210,6 +210,7 @@
     
     UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     NSLog(@"%f height lulz",[UIScreen mainScreen].bounds.size.height);
+    
     //Normal Screen - 480
     //fixedSpace.width = 42;//42*3=128 ; 480-128=352 -> ([UIScreen mainScreen].bounds.size.height - 352)/3
     //4 Inch Screen - 568
@@ -537,27 +538,11 @@
 
 - (BOOL)saveAudio
 {
-    //TODO in ARIS: We'll need to put the sample back at the original file at the very end.
-                //  We'll need to change the paths in general to reflect aris's stuff
-
-    
-    //Also need to force into landscape. Seems like a bitch to do so in iOS6 >:/
-    //SaveConfirmationKey "Would you like to save?"
-    //Also SaveErrorKey "Sorry, the file didn't save properly" ; SaveErrorTitleKey "Error :'["
-    
-    //possibly add slider's representation of time. Something like this:
-    //*toolbarButtons = [NSArray arrayWithObjects:
-    //playButton, leftPlayHeadTime, flexibleSpace, timeButton, flexibleSpace, rightPlayHeadTime, stopButton, nil];
-    
     float vocalStartMarker  = leftSlider.center.x  / self.view.frame.size.width;
     float vocalEndMarker    = rightSlider.center.x / self.view.frame.size.width;
-
-    NSString *inputPath =  @"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample12.m4a";
-    NSString *outputPath = @"/Users/nickheindl/Desktop/AudioVisualizer/AudioVisualizer/AudioVisualizer/sample13.m4a";
     
-    
-    NSURL *audioFileInput = path;//[NSURL fileURLWithPath:inputPath];
-    NSURL *audioFileOutput = path;//[NSURL fileURLWithPath:outputPath];
+    NSURL *audioFileInput = inputOutputPathURL;
+    NSURL *audioFileOutput = [NSURL fileURLWithPath:[intermediatePathString stringByAppendingString:@"trimmed.m4a"]];
     
     if (!audioFileInput || !audioFileOutput)
     {
@@ -594,14 +579,16 @@
          if (AVAssetExportSessionStatusCompleted == exportSession.status)
          {
              // It worked!
-             // Show a popup saying it worked (maybe)
-             NSLog(@"WORKED");
+             [[NSFileManager defaultManager] removeItemAtURL:audioFileInput error: nil];
+             
+             [[NSNotificationCenter defaultCenter]
+              postNotificationName:@"AudioWasTrimmedNotification"
+              object:self];
          }
          else if (AVAssetExportSessionStatusFailed == exportSession.status)
          {
-             // It failed...
-             // Show an error as a popup
-             NSLog(@"DIDNT WORK");
+             // Failed :'[
+             NSLog(@"Save didn't work right :'[");
              
              UIAlertView *errorAlert = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"SaveErrorTitleKey", nil)
                                                                         message:NSLocalizedString(@"SaveErrorKey", nil)
