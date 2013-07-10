@@ -197,7 +197,6 @@
     freqButton = [[UIBarButtonItem alloc]initWithCustomView:freqLabel];
     
     UIBarButtonItem *fixedSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    NSLog(@"%f height lulz",[UIScreen mainScreen].bounds.size.height);
     
     //Normal Screen - 480
     //fixedSpace.width = 42;//42*3=128 ; 480-128=352 -> ([UIScreen mainScreen].bounds.size.height - 352)/4
@@ -205,7 +204,7 @@
     //fixedSpace.width = 72;//72*3=216 ; 568-216=352 -> ([UIScreen mainScreen].bounds.size.height - 352)/4
     fixedSpace.width = ([UIScreen mainScreen].bounds.size.height - 352)/4;
     
-    NSArray *toolbarButtons = [NSArray arrayWithObjects:playButton, stopButton, fixedSpace, timeButton, fixedSpace, freqButton,  fixedSpace, swapButton, nil];
+    NSArray *toolbarButtons = [NSArray arrayWithObjects:playButton, stopButton, fixedSpace, timeButton, fixedSpace, freqButton, fixedSpace, swapButton, nil];
     [toolbar setItems:toolbarButtons animated:NO];
     [self.view addSubview:toolbar];
     
