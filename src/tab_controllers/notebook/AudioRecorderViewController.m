@@ -308,6 +308,10 @@
     AudioVisualizerViewController *audioVC = [[AudioVisualizerViewController alloc] initWithNibName:@"AudioVisualizerViewController" bundle:nil];
     audioVC.inputOutputPathURL = self.soundFileURL;
     audioVC.intermediatePathString = self.soundFileString;
+    
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle: @"Back" style: UIBarButtonItemStyleBordered target: nil action: nil];
+    [self.navigationItem setBackBarButtonItem:backButton];
+    
     [self.navigationController pushViewController:audioVC animated:YES];
     
 }

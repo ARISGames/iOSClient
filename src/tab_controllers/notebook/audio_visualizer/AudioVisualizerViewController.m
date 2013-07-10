@@ -21,8 +21,10 @@
     UIToolbar *toolbar;
     UIButton *withoutBorderButton;
     UIButton *withoutBorderButtonStop;
+    UIButton *withoutBorderButtonSwap;
     UIBarButtonItem *playButton;
     UIBarButtonItem *stopButton;
+    UIBarButtonItem *swapButton;
     AudioSlider *leftSlider;
     AudioSlider *rightSlider;
     AudioTint *leftTint;
@@ -76,27 +78,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-
-    [self.navigationItem setHidesBackButton:YES animated:YES];
-    
-    //Can either have text 'Save' or a floppy icon.
-    withoutBorderButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [withoutBorderButton setImage:[UIImage imageNamed:@"57-download"] forState:UIControlStateNormal];
-    [withoutBorderButton addTarget:self action:@selector(saveAudioConfirmation) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *leftNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:withoutBorderButton];
-    self.navigationItem.leftBarButtonItem = leftNavBarButton;
-    
-    //Can maybe have 77-ekg and 17-bar-chart (with a tad bit of editing) for wf/freq respectively
-    withoutBorderButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [withoutBorderButton setImage:[UIImage imageNamed:@"05-shuffle"] forState:UIControlStateNormal];
-    [withoutBorderButton addTarget:self action:@selector(flipView) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:withoutBorderButton];
-    self.navigationItem.rightBarButtonItem = rightNavBarButton;
-    
-
-    
-    //path = @"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/3000hz.m4a";
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -186,14 +167,19 @@
     toolbar.frame = CGRectMake(self.view.bounds.origin.x, wf.bounds.size.height, self.view.bounds.size.width, 44);
     
     withoutBorderButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [withoutBorderButton setImage:[UIImage imageNamed:@"30-circle-play.png"] forState:UIControlStateNormal];
+    [withoutBorderButton setImage:[UIImage imageNamed:@"30-circle-play"] forState:UIControlStateNormal];
     [withoutBorderButton addTarget:self action:@selector(playFunction) forControlEvents:UIControlEventTouchUpInside];
     playButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderButton];
     
     withoutBorderButtonStop = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
-    [withoutBorderButtonStop setImage:[UIImage imageNamed:@"35-circle-stop.png"] forState:UIControlStateNormal];
+    [withoutBorderButtonStop setImage:[UIImage imageNamed:@"35-circle-stop"] forState:UIControlStateNormal];
     [withoutBorderButtonStop addTarget:self action:@selector(stopFunction) forControlEvents:UIControlEventTouchUpInside];
     stopButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderButtonStop];
+    
+    withoutBorderButtonSwap = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 25, 25)];
+    [withoutBorderButtonSwap setImage:[UIImage imageNamed:@"05-shuffle"] forState:UIControlStateNormal];
+    [withoutBorderButtonSwap addTarget:self action:@selector(flipView) forControlEvents:UIControlEventTouchUpInside];
+    swapButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderButtonSwap];
     
     timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 125, 25)];
     [timeLabel setText:timeString];
@@ -212,16 +198,19 @@
     NSLog(@"%f height lulz",[UIScreen mainScreen].bounds.size.height);
     
     //Normal Screen - 480
-    //fixedSpace.width = 42;//42*3=128 ; 480-128=352 -> ([UIScreen mainScreen].bounds.size.height - 352)/3
+    //fixedSpace.width = 42;//42*3=128 ; 480-128=352 -> ([UIScreen mainScreen].bounds.size.height - 352)/4
     //4 Inch Screen - 568
-    //fixedSpace.width = 72;//72*3=216 ; 568-216=352 -> ([UIScreen mainScreen].bounds.size.height - 352)/3
-    fixedSpace.width = ([UIScreen mainScreen].bounds.size.height - 352)/3;
+    //fixedSpace.width = 72;//72*3=216 ; 568-216=352 -> ([UIScreen mainScreen].bounds.size.height - 352)/4
+    fixedSpace.width = ([UIScreen mainScreen].bounds.size.height - 352)/4;
     
-    NSArray *toolbarButtons = [NSArray arrayWithObjects:playButton, fixedSpace, timeButton, fixedSpace, freqButton, fixedSpace, stopButton, nil];
+    NSArray *toolbarButtons = [NSArray arrayWithObjects:playButton, stopButton, fixedSpace, timeButton, fixedSpace, freqButton,  fixedSpace, swapButton, nil];
     [toolbar setItems:toolbarButtons animated:NO];
     [self.view addSubview:toolbar];
     
     endTime = 1.0;
+    
+    UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStyleBordered target:self action:@selector(saveAudioConfirmation)];
+    self.navigationItem.rightBarButtonItem = rightNavBarButton;
     
 }
 
@@ -267,12 +256,12 @@
 
 -(void)playFunction{
     if(player.rate == 0.0){
-        [withoutBorderButton setImage:[UIImage imageNamed:@"29-circle-pause.png"] forState:UIControlStateNormal];
+        [withoutBorderButton setImage:[UIImage imageNamed:@"29-circle-pause"] forState:UIControlStateNormal];
         [withoutBorderButton addTarget:self action:@selector(playFunction) forControlEvents:UIControlEventTouchUpInside];
         playButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderButton];
     }
     else{
-        [withoutBorderButton setImage:[UIImage imageNamed:@"30-circle-play.png"] forState:UIControlStateNormal];
+        [withoutBorderButton setImage:[UIImage imageNamed:@"30-circle-play"] forState:UIControlStateNormal];
         [withoutBorderButton addTarget:self action:@selector(playFunction) forControlEvents:UIControlEventTouchUpInside];
         playButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderButton];
     }
@@ -283,7 +272,7 @@
 -(void)stopFunction{
     if(player.rate != 0.0){
         [self pauseAudio];
-        [withoutBorderButton setImage:[UIImage imageNamed:@"30-circle-play.png"] forState:UIControlStateNormal];
+        [withoutBorderButton setImage:[UIImage imageNamed:@"30-circle-play"] forState:UIControlStateNormal];
         [withoutBorderButton addTarget:self action:@selector(playFunction) forControlEvents:UIControlEventTouchUpInside];
         playButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderButton];
         [player removeTimeObserver:timeObserver];
@@ -475,7 +464,7 @@
 
 -(void)clipOver{
     [self pauseAudio];
-    [withoutBorderButton setImage:[UIImage imageNamed:@"30-circle-play.png"] forState:UIControlStateNormal];
+    [withoutBorderButton setImage:[UIImage imageNamed:@"30-circle-play"] forState:UIControlStateNormal];
     [withoutBorderButton addTarget:self action:@selector(playFunction) forControlEvents:UIControlEventTouchUpInside];
     playButton = [[UIBarButtonItem alloc]initWithCustomView:withoutBorderButton];
     [player removeTimeObserver:timeObserver];
