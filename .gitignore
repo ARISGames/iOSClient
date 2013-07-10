@@ -1,4 +1,7 @@
 # Xcode
+.DS_Store
+.AppleDouble
+*.swp
 build/*
 *.pbxuser
 !default.pbxuser
