@@ -14,6 +14,7 @@
 #import "AppModel.h"
 #import "UIColor+ARISColors.h"
 #import "Playhead.h"
+#import "ARISAlertHandler.h"
 
 #define SLIDER_BUFFER 35
 
@@ -80,28 +81,24 @@
 
     [self.navigationItem setHidesBackButton:YES animated:YES];
     
-    //Can either have text 'Save' or a floppy icon.
     withoutBorderButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
     [withoutBorderButton setImage:[UIImage imageNamed:@"57-download"] forState:UIControlStateNormal];
     [withoutBorderButton addTarget:self action:@selector(saveAudioConfirmation) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *leftNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:withoutBorderButton];
     self.navigationItem.leftBarButtonItem = leftNavBarButton;
     
-    //Can maybe have 77-ekg and 17-bar-chart (with a tad bit of editing) for wf/freq respectively
     withoutBorderButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
     [withoutBorderButton setImage:[UIImage imageNamed:@"05-shuffle"] forState:UIControlStateNormal];
     [withoutBorderButton addTarget:self action:@selector(flipView) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *rightNavBarButton = [[UIBarButtonItem alloc] initWithCustomView:withoutBorderButton];
     self.navigationItem.rightBarButtonItem = rightNavBarButton;
-    
 
-    
-    //path = @"/Users/jgmoeller/iOS Development/AudioVisualizer/AudioVisualizer/AudioVisualizer/AudioVisualizer/3000hz.m4a";
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self loadAudioForPath:inputOutputPathURL];/////////////////
+    [[ARISAlertHandler sharedAlertHandler] showWaitingIndicator:@"Loading Audio..."];
+    [self loadAudioForPath:inputOutputPathURL];
     audioURL = inputOutputPathURL;
     OSStatus err;
 	CFURLRef inpUrl = (__bridge CFURLRef)audioURL;
@@ -197,7 +194,7 @@
     
     timeLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 125, 25)];
     [timeLabel setText:timeString];
-    [timeLabel setBackgroundColor:[UIColor ARISColorBlack]];
+    [timeLabel setBackgroundColor:[UIColor clearColor]];
     [timeLabel setTextAlignment:NSTextAlignmentCenter];
     timeButton = [[UIBarButtonItem alloc] initWithCustomView:timeLabel];
     
@@ -441,6 +438,7 @@
 - (void) sampleProcessed:(WaveSampleProvider *)provider
 {
 	if(wsp.status == LOADED) {
+        [[ARISAlertHandler sharedAlertHandler] removeWaitingIndicator];
 		int sdl = 0;
 		//		float *sd = [wsp dataForResolution:[self waveRect].size.width lenght:&sdl];
 		float *sd = [wsp dataForResolution:8000 lenght:&sdl];
