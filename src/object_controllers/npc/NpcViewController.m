@@ -96,6 +96,7 @@ NSString *const kDialogHtmlTemplate =
     
     IBOutlet UIView	*pcView;
     IBOutlet UIScrollView *pcImageSection;
+    IBOutlet UIView *pcZoomContainer;
     IBOutlet AsyncMediaImageView *pcImageView;
 	IBOutlet UIScrollView *pcTextSection;
     IBOutlet UIWebView *pcTextWebView;
@@ -104,6 +105,7 @@ NSString *const kDialogHtmlTemplate =
     
 	IBOutlet UIView	*npcView;
     IBOutlet UIScrollView *npcImageSection;
+    IBOutlet UIView *npcZoomContainer;
 	IBOutlet AsyncMediaImageView *npcImageView;
     IBOutlet UIScrollView *npcVideoView;
 	IBOutlet UIScrollView *npcTextSection;
@@ -115,6 +117,7 @@ NSString *const kDialogHtmlTemplate =
 
 @property (nonatomic, strong) IBOutlet UIView *pcView;
 @property (nonatomic, strong) IBOutlet UIScrollView *pcImageSection;
+@property (nonatomic, strong) IBOutlet UIView *pcZoomContainer;
 @property (nonatomic, strong) IBOutlet AsyncMediaImageView *pcImageView;
 @property (nonatomic, strong) IBOutlet UIScrollView *pcTextSection;
 @property (nonatomic, strong) IBOutlet UIWebView *pcTextWebView;
@@ -123,6 +126,7 @@ NSString *const kDialogHtmlTemplate =
 
 @property (nonatomic, strong) IBOutlet UIView *npcView;
 @property (nonatomic, strong) IBOutlet UIScrollView *npcImageSection;
+@property (nonatomic, strong) IBOutlet UIView *npcZoomContainer;
 @property (nonatomic, strong) IBOutlet AsyncMediaImageView *npcImageView;
 @property (nonatomic, strong) IBOutlet UIScrollView *npcVideoView;
 @property (nonatomic, strong) IBOutlet UIScrollView *npcTextSection;
@@ -138,6 +142,7 @@ NSString *const kDialogHtmlTemplate =
 
 @synthesize pcView;
 @synthesize pcImageSection;
+@synthesize pcZoomContainer;
 @synthesize pcImageView;
 @synthesize pcTextSection;
 @synthesize pcTextWebView;
@@ -146,6 +151,7 @@ NSString *const kDialogHtmlTemplate =
 
 @synthesize npcView;
 @synthesize npcImageSection;
+@synthesize npcZoomContainer;
 @synthesize npcImageView;
 @synthesize npcVideoView;
 @synthesize npcTextSection;
@@ -270,6 +276,7 @@ NSString *const kDialogHtmlTemplate =
         
         UIView       *currentCharacterView;
         UIScrollView *currentCharacterImageSection;
+        UIView       *currentZoomContainer;
         UIScrollView *currentCharacterTextSection;
         UIWebView    *currentCharacterTextWebView;
         UIButton *continueButton;
@@ -281,6 +288,7 @@ NSString *const kDialogHtmlTemplate =
             
             currentCharacterView         = pcView;
             currentCharacterImageSection = pcImageSection;
+            currentZoomContainer         = pcZoomContainer;
             currentCharacterTextSection  = pcTextSection;
             currentCharacterTextWebView  = pcTextWebView;
             
@@ -294,6 +302,7 @@ NSString *const kDialogHtmlTemplate =
                         
             currentCharacterView         = npcView;
             currentCharacterImageSection = npcImageSection;
+            currentZoomContainer         = npcZoomContainer;
             currentCharacterTextSection  = npcTextSection;
             currentCharacterTextWebView  = npcTextWebView;
             
@@ -369,14 +378,23 @@ NSString *const kDialogHtmlTemplate =
         else
             [self endIgnoringInteractions];
         
-        CGRect imageFrame = self.currentImageView.frame;
+        
+        //PHIL
+        CGRect oldImageFrame = currentZoomContainer.frame;
+        CGRect newImageFrame = currentScene.imageRect;
+        currentZoomContainer.frame = CGRectMake(0,0,currentCharacterImageSection.frame.size.width,currentCharacterImageSection.frame.size.height);
+        [self aspectFitAlignToTop:self.currentImageView];
         [UIView animateWithDuration:currentScene.zoomTime animations:^
         {
-            currentCharacterImageSection.frame = CGRectMake(currentScene.imageRect.origin.x*-1, currentScene.imageRect.origin.y*-1,
-                                                            currentScene.imageRect.size.width*currentScene.imageRect.size.width/imageFrame.size.width,
-                                                            currentScene.imageRect.size.height*currentScene.imageRect.size.height/imageFrame.size.height);
+            int newx = -1*newImageFrame.origin.x*oldImageFrame.size.width/newImageFrame.size.width;
+            int newy = -1*newImageFrame.origin.y*oldImageFrame.size.height/newImageFrame.size.height;
+            int neww = oldImageFrame.size.width*oldImageFrame.size.width/newImageFrame.size.width;
+            int newh = oldImageFrame.size.height*oldImageFrame.size.height/newImageFrame.size.height;
+            currentZoomContainer.frame = CGRectMake(newx,newy,neww,newh);
+
+            [self aspectFitAlignToTop:self.currentImageView];
+
         }];
-        currentImageView.frame = imageFrame; //To prevent animation from changing it...
     }
     else
     {
@@ -454,15 +472,21 @@ NSString *const kDialogHtmlTemplate =
 
 - (void) imageFinishedLoading:(AsyncMediaImageView *)image 
 {
+    [self aspectFitAlignToTop:image];
+}
+
+- (void) aspectFitAlignToTop:(UIImageView *)image
+{
     //ASPECT FIT + ALIGN TO TOP:
     //Let 'aspect fit' do the actual aspect fit- but still required to simulate the fitting to get correct dimensions
-    image.frame = CGRectMake(0, 0, 320, [UIScreen mainScreen].applicationFrame.size.height-44);
-
+    //image.frame = CGRectMake(0, 0, 320, [UIScreen mainScreen].applicationFrame.size.height-44);
+    image.frame = CGRectMake(0, 0, image.superview.frame.size.width, image.superview.frame.size.height);
+    
     float sw = image.frame.size.width;  //screen width (320)
     float sh = image.frame.size.height; //screen height(416)
     float iw = image.image.size.width;  //image width  (like, the raw image size. example:1024)
     float ih = image.image.size.height; //image height (like, the raw image size. example:768)
-
+    
     float dw = iw;                      //display width  (calculated size of image AFTER aspect fit)
     float dh = ih;                      //display height (calculated size of image AFTER aspect fit)
     if(ih < sh && iw < sw)              //simulate scale up to aspect fit if necessary
@@ -489,7 +513,7 @@ NSString *const kDialogHtmlTemplate =
         dh = sh;
         dw = iw*sh/ih;
     }
-
+    
     if(dh < sh)
         image.frame = CGRectMake(0, (-0.5*(sh-dh)), image.frame.size.width, image.frame.size.height);
     else
@@ -848,11 +872,6 @@ NSString *const kDialogHtmlTemplate =
     pcOptionsTable.hidden = YES;
     pcTextWebView.hidden  = YES;
     [parser parseText:newNode.text];
-}
-
-- (UIView *) viewForZoomingInScrollView:(UIScrollView *)scrollView
-{
-	return self.currentImageView;
 }
 
 - (void)dealloc

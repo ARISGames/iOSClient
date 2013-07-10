@@ -172,7 +172,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     w.url = url;
     [(id<StateControllerProtocol>)delegate displayGameObject:w fromSource:self];
     //PHIL TODO- convert to ARIS WebView (but first, create ARIS WebView)
-    
+
     return NO;
 }
 
