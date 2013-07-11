@@ -669,7 +669,7 @@
 		AA701FE4173428C3003A840D /* ARISAlertHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISAlertHandler.m; sourceTree = "<group>"; };
 		AA701FE6173443FB003A840D /* ARISPusherHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISPusherHandler.h; sourceTree = "<group>"; };
 		AA701FE7173443FB003A840D /* ARISPusherHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISPusherHandler.m; sourceTree = "<group>"; };
-		AA74E79E176267EF005C279B /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "src/iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
+		AA74E79E176267EF005C279B /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		AA74E7A117626EE9005C279B /* ac_location.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ac_location.gpx; sourceTree = "<group>"; };
 		AA74E7A217626EE9005C279B /* JSONConnection+Local.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JSONConnection+Local.h"; sourceTree = "<group>"; };
 		AA74E7A317626EE9005C279B /* JSONConnection+Local.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JSONConnection+Local.m"; sourceTree = "<group>"; };
@@ -1294,8 +1294,8 @@
 		AB0A5BA4120365420065CE68 /* en */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AB0A5BA61203665C0065CE68 /* es */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AB0DE73117785B1E00D62D9B /* navBarBackground44.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navBarBackground44.png; sourceTree = "<group>"; };
-		AB0DE73417785F4D00D62D9B /* UIColor+ARISColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ARISColors.h"; sourceTree = "<group>"; };
-		AB0DE7361778636300D62D9B /* UIColor+ARISColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ARISColors.m"; sourceTree = "<group>"; };
+		AB0DE73417785F4D00D62D9B /* UIColor+ARISColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+ARISColors.h"; path = "../UIColor+ARISColors.h"; sourceTree = "<group>"; };
+		AB0DE7361778636300D62D9B /* UIColor+ARISColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+ARISColors.m"; path = "../UIColor+ARISColors.m"; sourceTree = "<group>"; };
 		AB0DE80811559D0500A6EC3E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		AB1660BD14E8754B002C6ACB /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -1373,7 +1373,6 @@
 		29B97314FDCFA39411CA2CEA /* ARIS */ = {
 			isa = PBXGroup;
 			children = (
-				AA74E79D176267EE005C279B /* iPad */,
 				AABC74E317273A0F0074CC21 /* Info.plist */,
 				AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */,
 				AB0A5BA3120365420065CE68 /* Localizable.strings */,
@@ -1511,14 +1510,6 @@
 				AA3D7C6F17662C1F00382D00 /* MTStatusBarOverlay.m */,
 			);
 			path = MTStatusBarOverlay;
-			sourceTree = "<group>";
-		};
-		AA74E79D176267EE005C279B /* iPad */ = {
-			isa = PBXGroup;
-			children = (
-				AA74E79E176267EF005C279B /* MainWindow-iPad.xib */,
-			);
-			name = iPad;
 			sourceTree = "<group>";
 		};
 		AA74E7A017626EE9005C279B /* offline */ = {
@@ -1788,11 +1779,10 @@
 		AABC7062172739D60074CC21 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				AB0DE73417785F4D00D62D9B /* UIColor+ARISColors.h */,
-				AB0DE7361778636300D62D9B /* UIColor+ARISColors.m */,
 				AABC70D0172739D60074CC21 /* main.mm */,
 				AABC7070172739D60074CC21 /* ARIS_Prefix.pch */,
 				AABC70D1172739D60074CC21 /* MainWindow.xib */,
+				AA74E79E176267EF005C279B /* MainWindow-iPad.xib */,
 				AABC7071172739D60074CC21 /* ARISAppDelegate.h */,
 				AABC7072172739D60074CC21 /* ARISAppDelegate.m */,
 				AA50A47E17396B6F00B105C2 /* ARISContainerViewController.h */,
@@ -2576,6 +2566,8 @@
 		AABC7362172739D80074CC21 /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				AB0DE73417785F4D00D62D9B /* UIColor+ARISColors.h */,
+				AB0DE7361778636300D62D9B /* UIColor+ARISColors.m */,
 				AABC7363172739D80074CC21 /* NSDictionary+ValidParsers.h */,
 				AABC7364172739D80074CC21 /* NSDictionary+ValidParsers.m */,
 				AABC7365172739D80074CC21 /* NSMutableDictionary+ImageMetadata.h */,
