@@ -432,8 +432,6 @@
 		AABC741F172739D80074CC21 /* BumpTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC71B8172739D70074CC21 /* BumpTestViewController.m */; };
 		AABC7420172739D80074CC21 /* BumpTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC71B9172739D70074CC21 /* BumpTestViewController.xib */; };
 		AABC7421172739D80074CC21 /* libBump.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AABC71BA172739D70074CC21 /* libBump.a */; };
-		AABC7422172739D80074CC21 /* libCrittercism_v3_4_9.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AABC71BE172739D70074CC21 /* libCrittercism_v3_4_9.a */; };
-		AABC7423172739D80074CC21 /* README_ABOUT_LINK_ERRORS in Resources */ = {isa = PBXBuildFile; fileRef = AABC71BF172739D70074CC21 /* README_ABOUT_LINK_ERRORS */; };
 		AABC7424172739D80074CC21 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC71C3172739D70074CC21 /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc -w"; }; };
 		AABC7425172739D80074CC21 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC71C5172739D70074CC21 /* NSObject+SBJSON.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AABC7426172739D80074CC21 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC71C7172739D70074CC21 /* NSString+SBJSON.m */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -503,6 +501,8 @@
 		AABC7518172873510074CC21 /* ItemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7515172873510074CC21 /* ItemViewController.xib */; };
 		AABC7519172873510074CC21 /* ItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7517172873510074CC21 /* ItemViewController.m */; };
 		AAF81FA3174BCD640003D848 /* libZXingWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAF81FA0174BC73C0003D848 /* libZXingWidget.a */; };
+		AB05A2DA1790B091009CD01B /* libCrittercism_v4_0_1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB05A2D81790B091009CD01B /* libCrittercism_v4_0_1.a */; };
+		AB05A2DB1790B091009CD01B /* dsym_upload.sh in Resources */ = {isa = PBXBuildFile; fileRef = AB05A2D91790B091009CD01B /* dsym_upload.sh */; };
 		AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB0A5BA3120365420065CE68 /* Localizable.strings */; };
 		AB0DE73217785B1E00D62D9B /* navBarBackground44.png in Resources */ = {isa = PBXBuildFile; fileRef = AB0DE73117785B1E00D62D9B /* navBarBackground44.png */; };
 		AB0DE7371778636300D62D9B /* UIColor+ARISColors.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE7361778636300D62D9B /* UIColor+ARISColors.m */; };
@@ -1137,8 +1137,6 @@
 		AABC71BA172739D70074CC21 /* libBump.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBump.a; sourceTree = "<group>"; };
 		AABC71BC172739D70074CC21 /* Crittercism.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crittercism.h; sourceTree = "<group>"; };
 		AABC71BD172739D70074CC21 /* CrittercismDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrittercismDelegate.h; sourceTree = "<group>"; };
-		AABC71BE172739D70074CC21 /* libCrittercism_v3_4_9.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCrittercism_v3_4_9.a; sourceTree = "<group>"; };
-		AABC71BF172739D70074CC21 /* README_ABOUT_LINK_ERRORS */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README_ABOUT_LINK_ERRORS; sourceTree = "<group>"; };
 		AABC71C1172739D70074CC21 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		AABC71C2172739D70074CC21 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		AABC71C3172739D70074CC21 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
@@ -1291,6 +1289,8 @@
 		AABC7516172873510074CC21 /* ItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemViewController.h; sourceTree = "<group>"; };
 		AABC7517172873510074CC21 /* ItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemViewController.m; sourceTree = "<group>"; };
 		AAF81F9A174BC73C0003D848 /* ZXingWidget.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZXingWidget.xcodeproj; path = src/third_party/zxing/iphone/ZXingWidget/ZXingWidget.xcodeproj; sourceTree = "<group>"; };
+		AB05A2D81790B091009CD01B /* libCrittercism_v4_0_1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCrittercism_v4_0_1.a; sourceTree = "<group>"; };
+		AB05A2D91790B091009CD01B /* dsym_upload.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = dsym_upload.sh; sourceTree = "<group>"; };
 		AB0A5BA4120365420065CE68 /* en */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AB0A5BA61203665C0065CE68 /* es */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AB0DE73117785B1E00D62D9B /* navBarBackground44.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navBarBackground44.png; sourceTree = "<group>"; };
@@ -1354,8 +1354,8 @@
 				AA1E2D4E1652CC6000219535 /* libicucore.dylib in Frameworks */,
 				AB9BA24913DFBAB1007470E3 /* libz.dylib in Frameworks */,
 				AABC7421172739D80074CC21 /* libBump.a in Frameworks */,
-				AABC7422172739D80074CC21 /* libCrittercism_v3_4_9.a in Frameworks */,
 				AABC7450172739D80074CC21 /* libPusher-combined.a in Frameworks */,
+				AB05A2DA1790B091009CD01B /* libCrittercism_v4_0_1.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2398,10 +2398,10 @@
 		AABC71BB172739D70074CC21 /* CrittercismSDK */ = {
 			isa = PBXGroup;
 			children = (
+				AB05A2D81790B091009CD01B /* libCrittercism_v4_0_1.a */,
+				AB05A2D91790B091009CD01B /* dsym_upload.sh */,
 				AABC71BC172739D70074CC21 /* Crittercism.h */,
 				AABC71BD172739D70074CC21 /* CrittercismDelegate.h */,
-				AABC71BE172739D70074CC21 /* libCrittercism_v3_4_9.a */,
-				AABC71BF172739D70074CC21 /* README_ABOUT_LINK_ERRORS */,
 			);
 			path = CrittercismSDK;
 			sourceTree = "<group>";
@@ -2903,7 +2903,6 @@
 				AABC741A172739D80074CC21 /* IconQuestsViewController.xib in Resources */,
 				AABC741C172739D80074CC21 /* QuestDetailsViewController.xib in Resources */,
 				AABC7420172739D80074CC21 /* BumpTestViewController.xib in Resources */,
-				AABC7423172739D80074CC21 /* README_ABOUT_LINK_ERRORS in Resources */,
 				AABC7430172739D80074CC21 /* alg-outline in Resources */,
 				AABC7438172739D80074CC21 /* README in Resources */,
 				AABC74F517285FBE0074CC21 /* DecoderViewController.xib in Resources */,
@@ -2996,6 +2995,7 @@
 				5B1D998F178CC3A700661453 /* 30-circle-play@2x.png in Resources */,
 				5B1D9990178CC3A700661453 /* 35-circle-stop.png in Resources */,
 				5B1D9991178CC3A700661453 /* 35-circle-stop@2x.png in Resources */,
+				AB05A2DB1790B091009CD01B /* dsym_upload.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
