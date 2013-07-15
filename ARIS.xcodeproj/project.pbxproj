@@ -508,6 +508,7 @@
 		AB0DE7371778636300D62D9B /* UIColor+ARISColors.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE7361778636300D62D9B /* UIColor+ARISColors.m */; };
 		AB0DE80911559D0500A6EC3E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0DE80811559D0500A6EC3E /* AVFoundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		AB0DE80D11559D1200A6EC3E /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */; };
+		AB123BDE1794314700547BA7 /* GamePickerSearching.js in Sources */ = {isa = PBXBuildFile; fileRef = AB123BDD1794314700547BA7 /* GamePickerSearching.js */; };
 		AB38DB3C13E4A1DE001EFF52 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AB38DB3B13E4A1DE001EFF52 /* libiconv.dylib */; };
 		AB39FD411773ACCF006DEC96 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = AB39FD401773ACCF006DEC96 /* logo.png */; };
 		AB4438401774DFF2004D9DC3 /* logoWithText.png in Resources */ = {isa = PBXBuildFile; fileRef = AB44383F1774DFF2004D9DC3 /* logoWithText.png */; };
@@ -1298,6 +1299,7 @@
 		AB0DE7361778636300D62D9B /* UIColor+ARISColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+ARISColors.m"; path = "../UIColor+ARISColors.m"; sourceTree = "<group>"; };
 		AB0DE80811559D0500A6EC3E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		AB0DE80C11559D1200A6EC3E /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		AB123BDD1794314700547BA7 /* GamePickerSearching.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = GamePickerSearching.js; sourceTree = "<group>"; };
 		AB1660BD14E8754B002C6ACB /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		AB38DB3B13E4A1DE001EFF52 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		AB39FD401773ACCF006DEC96 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
@@ -1374,12 +1376,13 @@
 			isa = PBXGroup;
 			children = (
 				AABC74E317273A0F0074CC21 /* Info.plist */,
-				AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */,
 				AB0A5BA3120365420065CE68 /* Localizable.strings */,
+				AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				AABC704B1727399C0074CC21 /* gpx_locations */,
 				AABC6F3C1727398B0074CC21 /* assets */,
 				AABC7062172739D60074CC21 /* src */,
+				AB7378411793A084005C7949 /* tests */,
 			);
 			name = ARIS;
 			sourceTree = "<group>";
@@ -2636,6 +2639,14 @@
 			name = "Frameworks and Dependancies";
 			sourceTree = "<group>";
 		};
+		AB7378411793A084005C7949 /* tests */ = {
+			isa = PBXGroup;
+			children = (
+				AB123BDD1794314700547BA7 /* GamePickerSearching.js */,
+			);
+			path = tests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -3013,7 +3024,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "";
+			shellScript = "APP_ID=\"5101a46d59e1bd498c000002\"\nAPI_KEY=\"dvoqdekc54cfpinayo2uqf3u6nbhrty7\"\nREQUIRE_UPLOAD_SUCCESS=0\nsource ${SRCROOT}/src/third_party/CrittercismSDK/dsym_upload.sh";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -3228,6 +3239,7 @@
 				5BBA6A6117822E4C00387DBD /* WaveformControl.m in Sources */,
 				5BBA6A6217822E4C00387DBD /* WaveSampleProvider.m in Sources */,
 				5B87AE24178DBA4100229D92 /* Playhead.m in Sources */,
+				AB123BDE1794314700547BA7 /* GamePickerSearching.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3338,7 +3350,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: UW Division of Information Technology";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: David Gagnon (VDP976Y25G)";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3366,7 +3378,7 @@
 					"-v",
 				);
 				PRODUCT_NAME = ARIS;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8411B94E-1D39-4C3D-8623-5C178280CE7B";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "38D78BF2-D5B6-4241-AB57-A8B1C872AF49";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SDKROOT = iphoneos;
