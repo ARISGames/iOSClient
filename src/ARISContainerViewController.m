@@ -41,7 +41,7 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    [[UIApplication sharedApplication] setStatusBarOrientation:UIDeviceOrientationPortrait animated:NO];
+    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:NO];
     self.view.frame = [self screenRect];
 }
 
