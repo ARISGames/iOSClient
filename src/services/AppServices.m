@@ -1675,9 +1675,19 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     currentlyFetchingOneGame = NO;
     
     [AppModel sharedAppModel].oneGameGameList = [self parseGameListFromJSON:jsonResult];
-    Game * game = (Game *)[[AppModel sharedAppModel].oneGameGameList  objectAtIndex:0];
-    NSLog(@"NSNotification: NewOneGameGameListReady");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewOneGameGameListReady" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:game,@"game", nil]]];
+    
+    Game *game;
+    if([[AppModel sharedAppModel].oneGameGameList count] > 0)
+    {
+        game = (Game *)[[AppModel sharedAppModel].oneGameGameList  objectAtIndex:0];
+        NSLog(@"NSNotification: NewOneGameGameListReady");
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewOneGameGameListReady" object:nil userInfo:[NSDictionary dictionaryWithObjectsAndKeys:game,@"game", nil]]];
+    }
+    else
+    {
+        NSLog(@"NSNotification: NewOneGameGameListFailed");
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewOneGameGameListFailed" object:nil userInfo:nil]];
+    }
 }
 
 -(void)parseNearbyGameListFromJSON:(ServiceResult *)jsonResult

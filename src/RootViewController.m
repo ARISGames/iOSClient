@@ -98,7 +98,8 @@
         [AppModel sharedAppModel].skipGameDetails = gameId;
         if(!newPlayer)
         {
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleGameRequestReady:) name:@"NewOneGameGameListReady" object:nil];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleGameRequestReady:)  name:@"NewOneGameGameListReady"  object:nil];
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleGameRequestFailed:) name:@"NewOneGameGameListFailed" object:nil];
             [[AppServices sharedAppServices] fetchOneGameGameList:gameId];
         }
     }
@@ -121,7 +122,8 @@
     //PHIL HATES THIS CHUNK
     if([AppModel sharedAppModel].skipGameDetails)
     {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleGameRequestReady:) name:@"NewOneGameGameListReady" object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleGameRequestReady:)  name:@"NewOneGameGameListReady"  object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(singleGameRequestFailed:) name:@"NewOneGameGameListFailed" object:nil];
         [[AppServices sharedAppServices] fetchOneGameGameList:[AppModel sharedAppModel].skipGameDetails];
         [[ARISAlertHandler sharedAlertHandler] showWaitingIndicator:@"Confirming..."];
     }
@@ -134,8 +136,17 @@
 {
     [[ARISAlertHandler sharedAlertHandler] removeNetworkAlert];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NewOneGameGameListReady" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NewOneGameGameListFailed" object:nil];
     [self gamePickedForPlay:[n.userInfo objectForKey:@"game"]];
     [AppModel sharedAppModel].skipGameDetails = 0; // PHIL HATES THIS
+}
+
+- (void) singleGameRequestFailed:(NSNotification *)n
+{
+    [[ARISAlertHandler sharedAlertHandler] removeNetworkAlert];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NewOneGameGameListReady" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NewOneGameGameListFailed" object:nil];
+    [self displayContentController:self.gamePickersViewController];
 }
 
 - (void) gamePickedForPlay:(Game *)g
