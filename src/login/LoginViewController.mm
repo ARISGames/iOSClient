@@ -261,16 +261,6 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     [self dismissViewControllerAnimated:NO completion:nil];
 }
 
-- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return interfaceOrientation == UIInterfaceOrientationPortrait;
-}
-
-- (BOOL) shouldAutorotate
-{
-    return YES;
-}
-
 - (NSInteger) supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;

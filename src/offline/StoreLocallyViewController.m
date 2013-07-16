@@ -63,26 +63,9 @@
     }];
 }
 
-- (void)viewDidUnload
+- (IBAction)done:(id)sender
 {
-    [self setTitle:nil];
-    [self setProgressLabel:nil];
-    [self setProgressView:nil];
-    [self setDoneButton:nil];
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-/*
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-	return YES;
-}
- */
-
-
-- (IBAction)done:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
 @end

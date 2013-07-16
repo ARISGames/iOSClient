@@ -389,30 +389,12 @@
         NSLog(@"GamePlayTabBarController: Selected tab- %@", ((GamePlayViewController *)[tabBarController.viewControllers objectAtIndex:tabBarController.selectedIndex]).title);
 }
 
-- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    if(self.gamePlayTabBarController.selectedIndex > 3 && self.gamePlayTabBarController.selectedIndex < 6){
-        return [self.gamePlayTabBarController.moreNavigationController.topViewController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
-    }
-    else if(self.gamePlayTabBarController.selectedIndex <= 3){
-        return [self.gamePlayTabBarController.selectedViewController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
-    }
-    return interfaceOrientation == UIInterfaceOrientationPortrait;
-}
-
-- (BOOL) shouldAutorotate
-{
-    return YES;
-}
-
 - (NSInteger) supportedInterfaceOrientations
 {
-    if(self.gamePlayTabBarController.selectedIndex > 3 && self.gamePlayTabBarController.selectedIndex < 6){
+    if(self.gamePlayTabBarController.selectedIndex > 3 && self.gamePlayTabBarController.selectedIndex < 6)
         return [self.gamePlayTabBarController.moreNavigationController.topViewController supportedInterfaceOrientations];
-    }
-    else if(self.gamePlayTabBarController.selectedIndex <= 3){
+    else if(self.gamePlayTabBarController.selectedIndex <= 3)
         return [self.gamePlayTabBarController.selectedViewController supportedInterfaceOrientations];
-    }
     return UIInterfaceOrientationMaskPortrait;
 }
 
