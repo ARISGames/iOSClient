@@ -112,8 +112,10 @@
     [self setMode:kAudioRecorderStarting];
 }
 
-- (void) viewDidAppear:(BOOL)animated{
-    if(isTrimmedFile){
+- (void) viewDidAppear:(BOOL)animated
+{
+    if(isTrimmedFile)
+    {
         NSString *soundFileStringEncoded = [self.soundFileString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         //Add file://localhost to the path here because it goes away when not inited.
         self.soundFileURL = [NSURL URLWithString:[NSString stringWithFormat:@"file://localhost%@trimmed.m4a",soundFileStringEncoded]];
