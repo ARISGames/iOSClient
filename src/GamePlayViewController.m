@@ -306,8 +306,10 @@
     self.gamePlayTabBarController.selectedIndex = 0;
 }
 
-- (void) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
+- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
 {
+    if(!self.isViewLoaded || !self.view.window) return NO; //Doesn't currently have the view-heirarchy authority to display. Return that it failed to those who care
+
 	ARISNavigationController *nav = [[ARISNavigationController alloc] initWithRootViewController:[g viewControllerForDelegate:self fromSource:s]];
 	nav.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
@@ -318,6 +320,8 @@
                                                                 self.gameNotificationViewController.view.frame.size.width,
                                                                 self.gameNotificationViewController.view.frame.size.height);
     [nav.view addSubview:self.gameNotificationViewController.view];//always put notifs on top //Phil doesn't LOVE this, but can't think of anything better...
+    
+    return YES;
 }
 
 - (void) gameObjectViewControllerRequestsDismissal:(GameObjectViewController *)govc
@@ -338,7 +342,7 @@
 
 //PHIL REALLY UNAPPROVED FROM THIS POINT ON
 
-- (void)beginGamePlay
+- (void) beginGamePlay
 {
     NSLog(@"GamePlayViewController: beginGamePlay");
     self.gameNotificationViewController.view.frame = CGRectMake(0,0,0,0);

@@ -12,6 +12,6 @@
 //This is a separate protocol to allow state change requests to percolate up through all conforming VC's
 
 @protocol StateControllerProtocol
-- (void) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s;
+- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s; //returns success
 - (void) displayTab:(NSString *)t;
 @end
