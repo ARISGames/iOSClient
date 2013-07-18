@@ -423,7 +423,7 @@ NSString *const kDialogHtmlTemplate =
         else if([currentScene.sceneType isEqualToString:@"panoramic"])
             [self.navigationController pushViewController:[[[AppModel sharedAppModel] panoramicForPanoramicId:currentScene.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
         else if([currentScene.sceneType isEqualToString:@"webpage"])
-            [self.navigationController pushViewController:[[[AppModel sharedAppModel] webPageForWebPageID:currentScene.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+            [self.navigationController pushViewController:[[[AppModel sharedAppModel] webPageForWebPageId:currentScene.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
         else if([currentScene.sceneType isEqualToString:@"node"])
             [self.navigationController pushViewController:[[[AppModel sharedAppModel] nodeForNodeId:currentScene.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
         else if([currentScene.sceneType isEqualToString:@"item"])
@@ -542,7 +542,7 @@ NSString *const kDialogHtmlTemplate =
         else if([currentScript.exitToType isEqualToString:@"plaque"])
             [delegate displayGameObject:[[AppModel sharedAppModel] nodeForNodeId:currentScript.exitToTypeId] fromSource:self];
         else if([currentScript.exitToType isEqualToString:@"webpage"])
-            [delegate displayGameObject:[[AppModel sharedAppModel] webPageForWebPageID:currentScript.exitToTypeId] fromSource:self];
+            [delegate displayGameObject:[[AppModel sharedAppModel] webPageForWebPageId:currentScript.exitToTypeId] fromSource:self];
         else if([currentScript.exitToType isEqualToString:@"item"])
             [delegate displayGameObject:[[AppModel sharedAppModel] itemForItemId:currentScript.exitToTypeId] fromSource:self];
         else if([currentScript.exitToType isEqualToString:@"character"])

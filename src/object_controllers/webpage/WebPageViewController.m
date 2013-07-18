@@ -6,7 +6,10 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
+#import "StateControllerProtocol.h"
 #import "WebPageViewController.h"
+#import "WebPage.h"
+#import "Npc.h"
 #import "AppModel.h"
 #import "AppServices.h"
 #import "ARISAppDelegate.h"
@@ -16,11 +19,50 @@
 #import "NodeViewController.h"
 #import "QuestsViewController.h"
 #import "ItemViewController.h"
+#import "ARISMoviePlayerViewController.h"
+#import "BumpClient.h"
+#import <Foundation/Foundation.h>
+#import <AVFoundation/AVFoundation.h>
+
+@interface WebPageViewController() <AVAudioPlayerDelegate, UIWebViewDelegate>
+{
+    IBOutlet UIWebView	*webView;
+    WebPage *webPage;
+    IBOutlet UIView  *blackView;
+    UIActivityIndicatorView *activityIndicator;
+    NSMutableDictionary *avPlayers;
+    AVPlayer *localPlayer;
+    NSString *bumpSendString;
+    BOOL isConnectedToBump;
+    BOOL loaded;
+    
+    id<GameObjectViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
+}
+
+
+@property (nonatomic, strong) IBOutlet UIWebView *webView;
+@property (nonatomic, strong) WebPage *webPage;
+@property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) IBOutlet UIView *blackView;
+@property (nonatomic, strong) NSMutableDictionary *audioPlayers;
+@property (nonatomic, strong) NSString *bumpSendString;
+@property (nonatomic, assign) BOOL isConnectedToBump;
+@property (nonatomic, assign) BOOL loaded;
+
+- (BOOL) webView:(UIWebView*)webView shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType;
+- (void) showWaitingIndicator;
+- (void) dismissWaitingIndicator;
+- (void) refreshConvos;
+- (void) loadAudioFromMediaId:(int)mediaId;
+- (void) playAudioFromMediaId:(int)mediaId;
+- (void) stopAudioFromMediaId:(int)mediaId;
+
+@end
 
 @implementation WebPageViewController
 @synthesize webView,webPage,activityIndicator,blackView, audioPlayers, bumpSendString, isConnectedToBump, loaded;
 
-- (id) initWithWebPage:(WebPage *)w delegate:(NSObject<GameObjectViewControllerDelegate> *)d
+- (id) initWithWebPage:(WebPage *)w delegate:(NSObject<GameObjectViewControllerDelegate, StateControllerProtocol> *)d
 {
     self = [super initWithNibName:@"WebPageViewController" bundle:nil];
     if(self)
@@ -71,7 +113,6 @@
     
     //Load the request in the UIWebView.
     [webView loadRequest:requestObj];
-    
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -145,7 +186,7 @@
 #pragma mark -
 #pragma mark ARIS/JavaScript Connections
 
-- (BOOL)webView:(UIWebView*)webViewFromMethod shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType
+- (BOOL) webView:(UIWebView*)webViewFromMethod shouldStartLoadWithRequest: (NSURLRequest*)req navigationType:(UIWebViewNavigationType)navigationType
 {
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
     
@@ -161,16 +202,43 @@
     NSString* mainCommand = [[req URL] host];
     NSArray *components = [[req URL]pathComponents];
     
-    if ([mainCommand isEqualToString:@"closeMe"])
+    if([mainCommand isEqualToString:@"closeMe"])
     {
         NSLog(@"WebPageVC: aris://closeMe/ called");
         [self.webView loadHTMLString:@"" baseURL:nil]; //clears out any pusher connections, etc...
         [self.navigationController popToRootViewControllerAnimated:YES];
         [delegate gameObjectViewControllerRequestsDismissal:self];
         return NO;
-    }  
+    }
     
-    if ([mainCommand isEqualToString:@"refreshStuff"])
+    if([mainCommand isEqualToString:@"exitTo"])
+    {
+        NSLog(@"WebPageVC: aris://exitTo/ called");
+        
+        [self.webView loadHTMLString:@"" baseURL:nil]; //clears out any pusher connections, etc...
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        [delegate gameObjectViewControllerRequestsDismissal:self];
+        
+        NSString *toExit = @"0";
+        if([components count] > 2)
+            toExit = [components objectAtIndex:2];
+        if([components count] > 1 && [[components objectAtIndex:1] isEqualToString:@"tab"])
+            [delegate displayTab:toExit];
+        if([components count] > 1 && [[components objectAtIndex:1] isEqualToString:@"plaque"])
+            [delegate displayGameObject:[[AppModel sharedAppModel] nodeForNodeId:[toExit intValue]] fromSource:self];
+        if([components count] > 1 && [[components objectAtIndex:1] isEqualToString:@"webpage"])
+            [delegate displayGameObject:[[AppModel sharedAppModel] webPageForWebPageId:[toExit intValue]] fromSource:self];
+        if([components count] > 1 && [[components objectAtIndex:1] isEqualToString:@"item"])
+            [delegate displayGameObject:[[AppModel sharedAppModel] itemForItemId:[toExit intValue]] fromSource:self];
+        if([components count] > 1 && [[components objectAtIndex:1] isEqualToString:@"character"])
+            [delegate displayGameObject:[[AppModel sharedAppModel] npcForNpcId:[toExit intValue]] fromSource:self];
+        if([components count] > 1 && [[components objectAtIndex:1] isEqualToString:@"panoramic"])
+            [delegate displayGameObject:[[AppModel sharedAppModel] panoramicForPanoramicId:[toExit intValue]] fromSource:self];
+
+        return NO;
+    }
+    
+    if([mainCommand isEqualToString:@"refreshStuff"])
     {
         NSLog(@"WebPageVC: aris://refreshStuff/ called");
         [self refreshConvos];
@@ -178,7 +246,7 @@
         return NO; 
     }  
     
-    if ([mainCommand isEqualToString:@"vibrate"])
+    if([mainCommand isEqualToString:@"vibrate"])
     {
         NSLog(@"WebPageVC: aris://vibrate/ called");
         [appDelegate vibrate];
@@ -186,18 +254,16 @@
         return NO; 
     } 
     
-    if ([mainCommand isEqualToString:@"player"]) {
+    if([mainCommand isEqualToString:@"player"]) {
         NSLog(@"WebPageVC: aris://player/ called");
         
-        if ([components count] > 1 && 
-            [[components objectAtIndex:1] isEqualToString:@"name"]) 
+        if([components count] > 1 && [[components objectAtIndex:1] isEqualToString:@"name"]) 
         {
             [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"ARIS.setPlayerName(\"%@\");",[AppModel sharedAppModel].player.username]];
             [self.webView stringByEvaluatingJavaScriptFromString: @"ARIS.isNotCurrentlyCalling();"];
             return NO;
         }
-        if ([components count] > 1 && 
-            [[components objectAtIndex:1] isEqualToString:@"id"]) 
+        if([components count] > 1 && [[components objectAtIndex:1] isEqualToString:@"id"]) 
         {
             [self.webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat:@"ARIS.setPlayerId(%d);",[AppModel sharedAppModel].player.playerId]];
             [self.webView stringByEvaluatingJavaScriptFromString: @"ARIS.isNotCurrentlyCalling();"];

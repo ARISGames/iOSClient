@@ -335,7 +335,7 @@
     [self.view addSubview:self.gameNotificationViewController.view];//always put notifs on top //Phil doesn't LOVE this, but can't think of anything better...
 }
 
-- (void)dealloc
+- (void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -382,7 +382,7 @@
     }
 }
 
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController 
+- (void) tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController 
 {
     if(tabBarController.selectedIndex > 3 && [tabBarController.viewControllers count] > 5)
     {

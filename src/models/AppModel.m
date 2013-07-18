@@ -269,7 +269,7 @@
 	return [self.gameNodeList objectForKey:[NSNumber numberWithInt:mId]];
 }
 
-- (WebPage *) webPageForWebPageID:(int)mId
+- (WebPage *) webPageForWebPageId:(int)mId
 {
 	return [self.gameWebPageList objectForKey:[NSNumber numberWithInt:mId]];
 }

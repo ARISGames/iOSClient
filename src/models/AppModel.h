@@ -160,7 +160,7 @@
 - (Item *)itemForItemId:(int)mId;
 - (Node *)nodeForNodeId:(int)mId;
 - (Npc *)npcForNpcId:(int)mId;
-- (WebPage *)webPageForWebPageID:(int)mId;
+- (WebPage *)webPageForWebPageId:(int)mId;
 - (Panoramic *)panoramicForPanoramicId:(int)mId;
 - (Note *)noteForNoteId:(int)mId playerListYesGameListNo:(BOOL)playerorGame;
 
