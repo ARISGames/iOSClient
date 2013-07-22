@@ -176,7 +176,7 @@
 	[NSThread detachNewThreadSelector:@selector(playAudio:) toTarget:self withObject:wavFileName];
 }
 
-- (void)playAudio:(NSString*)wavFileName
+- (void) playAudio:(NSString*)wavFileName
 {
 	NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:wavFileName ofType:@"wav"]];
 

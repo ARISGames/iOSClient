@@ -2034,16 +2034,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         quest.name                   = [activeQuestDict validObjectForKey:@"name"];
         quest.qdescription           = [activeQuestDict validObjectForKey:@"description"];
         quest.fullScreenNotification = [activeQuestDict validBoolForKey:@"full_screen_notify"];
-        quest.exitToTabName          = [activeQuestDict validObjectForKey:@"exit_to_tab"];
-        
-        if     (!quest.exitToTabName)                               quest.exitToTabName = @"NONE";
-        else if([quest.exitToTabName isEqualToString:@"QUESTS"])    quest.exitToTabName = NSLocalizedString(@"QuestViewTitleKey",@"");
-        else if([quest.exitToTabName isEqualToString:@"GPS"])       quest.exitToTabName = NSLocalizedString(@"MapViewTitleKey",@"");
-        else if([quest.exitToTabName isEqualToString:@"INVENTORY"]) quest.exitToTabName = NSLocalizedString(@"InventoryViewTitleKey",@"");
-        else if([quest.exitToTabName isEqualToString:@"QR"])        quest.exitToTabName = NSLocalizedString(@"QRScannerTitleKey",@"");
-        else if([quest.exitToTabName isEqualToString:@"PLAYER"])    quest.exitToTabName = NSLocalizedString(@"PlayerTitleKey",@"");
-        else if([quest.exitToTabName isEqualToString:@"NOTE"])      quest.exitToTabName = NSLocalizedString(@"NotebookTitleKey",@"");
-        else if([quest.exitToTabName isEqualToString:@"PICKGAME"])  quest.exitToTabName = NSLocalizedString(@"GamePickerTitleKey",@"");
+        quest.goFunction             = [activeQuestDict validObjectForKey:@"go_function"];
         
 		[activeQuestObjects addObject:quest];
 	}
@@ -2061,18 +2052,9 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
         quest.iconMediaId            = [completedQuestDict validIntForKey:@"complete_icon_media_id"];
         quest.sortNum                = [completedQuestDict validIntForKey:@"sort_index"];
         quest.fullScreenNotification = [completedQuestDict validBoolForKey:@"full_screen_notify"];
-        quest.name                   = [completedQuestDict validObjectForKey:@"name"];
-        quest.qdescription           = [completedQuestDict validObjectForKey:@"text_when_complete"];
-        quest.exitToTabName          = [completedQuestDict validObjectForKey:@"exit_to_tab"];
-        
-        if     (!quest.exitToTabName)                               quest.exitToTabName =  @"NONE";
-        else if([quest.exitToTabName isEqualToString:@"QUESTS"])    quest.exitToTabName = NSLocalizedString(@"QuestViewTitleKey",@"");
-        else if([quest.exitToTabName isEqualToString:@"GPS"])       quest.exitToTabName = NSLocalizedString(@"MapViewTitleKey",@"");
-        else if([quest.exitToTabName isEqualToString:@"INVENTORY"]) quest.exitToTabName = NSLocalizedString(@"InventoryViewTitleKey",@"");
-        else if([quest.exitToTabName isEqualToString:@"QR"])        quest.exitToTabName = NSLocalizedString(@"QRScannerTitleKey",@"");
-        else if([quest.exitToTabName isEqualToString:@"PLAYER"])    quest.exitToTabName = NSLocalizedString(@"PlayerTitleKey",@"");
-        else if([quest.exitToTabName isEqualToString:@"NOTE"])      quest.exitToTabName = NSLocalizedString(@"NotebookTitleKey",@"");
-        else if([quest.exitToTabName isEqualToString:@"PICKGAME"])  quest.exitToTabName = NSLocalizedString(@"GamePickerTitleKey",@"");
+        quest.name                   = [completedQuestDict validStringForKey:@"name"];
+        quest.qdescription           = [completedQuestDict validStringForKey:@"text_when_complete"];
+        quest.goFunction             = [completedQuestDict validStringForKey:@"go_function"];
         
 		[completedQuestObjects addObject:quest];
 	}

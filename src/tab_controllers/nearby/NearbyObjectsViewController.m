@@ -33,6 +33,7 @@
 {
     if(self = [super initWithNibName:@"NearbyObjectsViewController" bundle:nil])
     {
+        self.tabID = @"NEARBY";
         delegate = d;
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"radarTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"radarTabBarUnselected"]];
         

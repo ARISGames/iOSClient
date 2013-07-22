@@ -7,24 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ARISAppDelegate.h"
-#import "AppModel.h"
-#import "Quest.h"
-#import "AsyncMediaPlayerButton.h"
 
+@class Quest;
+@protocol QuestDetailsViewControllerDelegate
+- (void) questDetailsRequestedExitToTab:(NSString *)tab;
+@end
 @interface QuestDetailsViewController : UIViewController
-{
-    Quest *quest;
-    
-    IBOutlet UIImageView *questImageView;
-    IBOutlet UIWebView *questDescriptionWebView;
-    IBOutlet UIButton *exitToButton;
-}
-
-@property(nonatomic) Quest *quest;
-@property(nonatomic) IBOutlet UIImageView *questImageView;
-@property(nonatomic) IBOutlet UIButton    *exitToButton;
-
-- (id)initWithQuest: (Quest *) inputQuest;
+- (id) initWithQuest:(Quest *)q delegate:(id<QuestDetailsViewControllerDelegate>)d;
 
 @end
