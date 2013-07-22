@@ -121,15 +121,10 @@
         self.textBox.frame = CGRectMake(0, 0, 320, 367);
 }
 
--(void)saveButtonTouchAction
+- (void) saveButtonTouchAction
 {
     [delegate textChosen:self.textBox.text];
-
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:.5];
-    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:self.navigationController.view cache:YES];
     [self.navigationController popViewControllerAnimated:NO];
-    [UIView commitAnimations]; 
 }
 
 - (NSInteger) supportedInterfaceOrientations

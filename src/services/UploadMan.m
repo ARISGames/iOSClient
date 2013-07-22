@@ -142,7 +142,9 @@
     NSMutableDictionary *uploadContentsDictionary = [uploadContentsForNotes objectForKey:[NSNumber numberWithInt:noteId]];
     if(uploadContentsDictionary) uc = [uploadContentsDictionary objectForKey:aUrl]; //PHIL - there seems to be no reason that this would ever result in uc not being nil...
     
-    NSUInteger bytes = ((NSData *)[NSData dataWithContentsOfURL:aUrl]).length;
+    NSUInteger bytes;
+    if(aUrl) bytes = ((NSData *)[NSData dataWithContentsOfURL:aUrl]).length;
+    else bytes = 0;
     if(bytes > 500000 && ([[Reachability reachabilityForLocalWiFi] currentReachabilityStatus] == NotReachable) && !uc)
     {
         [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"UploadManDelayedKey", @"") message:NSLocalizedString(@"UploadManDelayedMessageKey", @"")];
