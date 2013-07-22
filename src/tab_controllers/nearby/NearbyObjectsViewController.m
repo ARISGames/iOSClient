@@ -56,11 +56,6 @@
     self.tabBarItem.badgeValue = nil;
 }
 
-- (void) dismissTutorial
-{
-    //if(delegate) [delegate dismissTutorial];
-}
-
 - (void) refresh
 {
     [[AppServices sharedAppServices] fetchPlayerLocationList];
@@ -113,12 +108,6 @@
     {
         self.navigationController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",[self.nearbyLocationsList count]];
         [delegate showNearbyObjectsTab];
-        
-        if (![AppModel sharedAppModel].hasSeenNearbyTabTutorial)
-        {
-            [AppModel sharedAppModel].hasSeenNearbyTabTutorial = YES;
-            [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
-        }
     }
     
     [nearbyTable reloadData];

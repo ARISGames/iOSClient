@@ -39,7 +39,6 @@
     id<GameObjectViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 
-
 @property (nonatomic, strong) IBOutlet UIWebView *webView;
 @property (nonatomic, strong) WebPage *webPage;
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;

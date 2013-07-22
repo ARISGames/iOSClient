@@ -240,11 +240,6 @@
 	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
 }
 
-- (void) dismissTutorial
-{
-    //if(delegate) [delegate dismissTutorial];
-}
-
 - (void) refresh
 {
     if(mapView)
@@ -363,17 +358,14 @@
             [mapView addAnnotation:tmpLocation];
     }
     [locationsToAdd removeAllObjects];
-
-    [AppModel sharedAppModel].hasSeenMapTabTutorial = YES;
-    [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
 }
 
-- (void)dealloc
+- (void) dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated
+- (void) mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated
 {
 	if (!appSetNextRegionChange)
     {
@@ -384,7 +376,7 @@
 	appSetNextRegionChange = NO;
 }
 
-- (MKAnnotationView *)mapView:(MKMapView *)myMapView viewForAnnotation:(id <MKAnnotation>)annotation
+- (MKAnnotationView *) mapView:(MKMapView *)myMapView viewForAnnotation:(id <MKAnnotation>)annotation
 {
 	if (annotation == mapView.userLocation)
         return nil;
@@ -392,7 +384,7 @@
         return [[AnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
 }
 
-- (void)mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view
+- (void) mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view
 {
     if(view.annotation == aMapView.userLocation) return;
     Location *location = (Location *)view.annotation;

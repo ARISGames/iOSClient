@@ -62,7 +62,6 @@ NSString *const kIconQuestsHtmlTemplate =
     int itemsPerColumnWithoutScrolling;
     int initialHeight;
     
-    BOOL supportsCollectionView;
     NSArray *sortedQuests;
     
     id<QuestsViewControllerDelegate> __unsafe_unretained delegate;
@@ -74,7 +73,6 @@ NSString *const kIconQuestsHtmlTemplate =
 - (void)refresh;
 - (void)showLoadingIndicator;
 - (void)removeLoadingIndicator;
-- (void)dismissTutorial;
 - (void)refreshViewFromModel;
 
 @end
@@ -92,7 +90,6 @@ NSString *const kIconQuestsHtmlTemplate =
         self.title = NSLocalizedString(@"QuestViewTitleKey",@"");
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"todoTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"todoTabBarUnselected"]];
         
-        supportsCollectionView = NO;
         sortedQuests = [[NSArray alloc] init];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost"                object:nil];
@@ -108,39 +105,18 @@ NSString *const kIconQuestsHtmlTemplate =
 {
     [super viewDidLoad];
     
-    //float currentVersion = 6.0;
-    
-    if (NO)//[[[UIDevice currentDevice] systemVersion] floatValue] >= currentVersion)
-    {
-        supportsCollectionView = YES;
-        questIconCollectionViewLayout = [[UICollectionViewFlowLayout alloc] init];
-        questIconCollectionViewLayout.itemSize = CGSizeMake(ICONWIDTH, ICONHEIGHT);
-        questIconCollectionViewLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
-        questIconCollectionViewLayout.sectionInset = UIEdgeInsetsMake(20, 20, 20, 20);
-        questIconCollectionViewLayout.minimumLineSpacing = 30.0;
-        questIconCollectionViewLayout.minimumInteritemSpacing = 10.0;
+    questIconCollectionViewLayout = [[UICollectionViewFlowLayout alloc] init];
+    questIconCollectionViewLayout.itemSize = CGSizeMake(ICONWIDTH, ICONHEIGHT);
+    questIconCollectionViewLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    questIconCollectionViewLayout.sectionInset = UIEdgeInsetsMake(20, 20, 20, 20);
+    questIconCollectionViewLayout.minimumLineSpacing = 30.0;
+    questIconCollectionViewLayout.minimumInteritemSpacing = 10.0;
         
-        questIconCollectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:questIconCollectionViewLayout];
-        questIconCollectionView.dataSource = self;
-        questIconCollectionView.delegate = self;
-        [questIconCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
-        [self.view addSubview:questIconCollectionView];
-    }
-    else
-    {
-        supportsCollectionView = NO;
-        
-        CGRect fullScreenRect=CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-        questIconScrollView=[[UIScrollView alloc] initWithFrame:fullScreenRect];
-        questIconScrollView.contentSize=CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
-        questIconScrollView.backgroundColor = [UIColor blackColor];
-        
-        initialHeight = self.view.frame.size.height;
-        itemsPerColumnWithoutScrolling = self.view.frame.size.height/ICONHEIGHT + .5;
-        itemsPerColumnWithoutScrolling--;
-        
-        [self.view addSubview:questIconScrollView];
-    }
+    questIconCollectionView = [[UICollectionView alloc] initWithFrame:self.view.frame collectionViewLayout:questIconCollectionViewLayout];
+    questIconCollectionView.dataSource = self;
+    questIconCollectionView.delegate = self;
+    [questIconCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
+    [self.view addSubview:questIconCollectionView];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -154,11 +130,6 @@ NSString *const kIconQuestsHtmlTemplate =
 	
 	[self refresh];
     [self refreshViewFromModel];
-}
-
--(void)dismissTutorial
-{
-    //if(delegate) [delegate dismissTutorial];
 }
 
 - (void)refresh
@@ -178,18 +149,10 @@ NSString *const kIconQuestsHtmlTemplate =
 -(void)removeLoadingIndicator
 {
 	[[self navigationItem] setRightBarButtonItem:nil];
-	NSLog(@"IconQuestsViewController: removeLoadingIndicator");
 }
 
 -(void)refreshViewFromModel
 {
-    NSLog(@"IconQuestsViewController: Refreshing view from model");
-    if (![AppModel sharedAppModel].hasSeenQuestsTabTutorial)
-    {
-        [AppModel sharedAppModel].hasSeenQuestsTabTutorial = YES;
-        [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
-    }
-    
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sortNum" ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
     NSArray *sortedActiveQuests    = [[AppModel sharedAppModel].currentGame.questsModel.currentActiveQuests    sortedArrayUsingDescriptors:sortDescriptors];
@@ -197,38 +160,7 @@ NSString *const kIconQuestsHtmlTemplate =
     
     sortedQuests = [sortedActiveQuests arrayByAddingObjectsFromArray:sortedCompletedQuests];
     
-    if(supportsCollectionView) [questIconCollectionView reloadData];
-    else [self createIcons];
-}
-
--(void)createIcons
-{
-    for (UIView *view in [questIconScrollView subviews])
-        [view removeFromSuperview];
-    
-    for(int i = 0; i < [sortedQuests count]; i++)
-    {
-        Quest *currentQuest = [sortedQuests objectAtIndex:i];
-        int xMargin = truncf((questIconScrollView.frame.size.width - ICONSPERROW * ICONWIDTH)/(ICONSPERROW +1));
-        int yMargin = truncf((initialHeight - itemsPerColumnWithoutScrolling * ICONHEIGHT)/(itemsPerColumnWithoutScrolling + 1));
-        int row = (i/ICONSPERROW);
-        int xOrigin = (i % ICONSPERROW) * (xMargin + ICONWIDTH) + xMargin;
-        int yOrigin = row * (yMargin + ICONHEIGHT) + yMargin;
-        
-        UIImage *iconImage;
-        if(currentQuest.iconMediaId != 0)
-        {
-            Media *iconMedia = [[AppModel sharedAppModel] mediaForMediaId:currentQuest.iconMediaId ofType:@"PHOTO"];
-            iconImage = [UIImage imageWithData:iconMedia.image];
-        }
-        else iconImage = [UIImage imageNamed:@"item.png"];
-        IconQuestsButton *iconButton = [[IconQuestsButton alloc] initWithFrame:CGRectMake(xOrigin, yOrigin, ICONWIDTH, ICONHEIGHT) andImage:iconImage andTitle:currentQuest.name];
-        iconButton.tag = i;
-        [iconButton addTarget:self action:@selector(questSelected:) forControlEvents:UIControlEventTouchUpInside];
-        iconButton.imageView.layer.cornerRadius = 9.0;
-        [questIconScrollView addSubview:iconButton];
-        [iconButton setNeedsDisplay];
-    }
+    [questIconCollectionView reloadData];
 }
 
 - (void) questSelected: (id)sender

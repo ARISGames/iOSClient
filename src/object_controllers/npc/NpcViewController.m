@@ -134,7 +134,7 @@ NSString *const kDialogHtmlTemplate =
 @property (nonatomic, strong) IBOutlet UIButton *npcTapToContinueButton;
 @property (nonatomic, strong) AsyncMediaImageView *currentImageView;
 
-- (IBAction)continueButtonTouchAction;
+- (IBAction) continueButtonTouchAction;
 
 @end
 
@@ -157,7 +157,6 @@ NSString *const kDialogHtmlTemplate =
 @synthesize npcTextSection;
 @synthesize npcTextWebView;
 @synthesize npcTapToContinueButton;
-
 
 @synthesize currentNpc;
 @synthesize currentNode;

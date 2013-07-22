@@ -44,10 +44,6 @@
 @synthesize overlayIsVisible;
 @synthesize nearbyLocationsList;
 @synthesize gameTagList;
-@synthesize hasSeenNearbyTabTutorial;
-@synthesize hasSeenQuestsTabTutorial;
-@synthesize hasSeenMapTabTutorial;
-@synthesize hasSeenInventoryTabTutorial;
 @synthesize hidePlayers;
 @synthesize progressBar;
 @synthesize isGameNoteList;
@@ -171,10 +167,6 @@
 	NSLog(@"Model: Saving User Defaults");
     [defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"] forKey:@"appVersion"];
     [defaults setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBuildNumber"]   forKey:@"buildNum"];
-	[defaults setBool:hasSeenNearbyTabTutorial    forKey:@"hasSeenNearbyTabTutorial"];
-	[defaults setBool:hasSeenQuestsTabTutorial    forKey:@"hasSeenQuestsTabTutorial"];
-	[defaults setBool:hasSeenMapTabTutorial       forKey:@"hasSeenMapTabTutorial"];
-	[defaults setBool:hasSeenInventoryTabTutorial forKey:@"hasSeenInventoryTabTutorial"];
     [defaults setInteger:fallbackGameId           forKey:@"gameId"];
     if(player)
     {
