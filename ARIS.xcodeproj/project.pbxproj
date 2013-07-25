@@ -501,8 +501,6 @@
 		AABC7518172873510074CC21 /* ItemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7515172873510074CC21 /* ItemViewController.xib */; };
 		AABC7519172873510074CC21 /* ItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7517172873510074CC21 /* ItemViewController.m */; };
 		AAF81FA3174BCD640003D848 /* libZXingWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAF81FA0174BC73C0003D848 /* libZXingWidget.a */; };
-		AB05A2DA1790B091009CD01B /* libCrittercism_v4_0_1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AB05A2D81790B091009CD01B /* libCrittercism_v4_0_1.a */; };
-		AB05A2DB1790B091009CD01B /* dsym_upload.sh in Resources */ = {isa = PBXBuildFile; fileRef = AB05A2D91790B091009CD01B /* dsym_upload.sh */; };
 		AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB0A5BA3120365420065CE68 /* Localizable.strings */; };
 		AB0DE73217785B1E00D62D9B /* navBarBackground44.png in Resources */ = {isa = PBXBuildFile; fileRef = AB0DE73117785B1E00D62D9B /* navBarBackground44.png */; };
 		AB0DE7371778636300D62D9B /* UIColor+ARISColors.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0DE7361778636300D62D9B /* UIColor+ARISColors.m */; };
@@ -523,6 +521,8 @@
 		ABB2CDC413C7497500F051E4 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB2CDC313C7497400F051E4 /* CoreVideo.framework */; };
 		ABB2CDC613C7498A00F051E4 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB2CDC513C7498A00F051E4 /* AddressBook.framework */; };
 		ABDA40DE10506CB300823A94 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABDA40DD10506CB300823A94 /* MapKit.framework */; };
+		ABE47D5017A0F21300A20CE7 /* dsym_upload.sh in Resources */ = {isa = PBXBuildFile; fileRef = ABE47D4E17A0F21300A20CE7 /* dsym_upload.sh */; };
+		ABE47D5117A0F21300A20CE7 /* libCrittercism_v4_0_3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE47D4F17A0F21300A20CE7 /* libCrittercism_v4_0_3.a */; };
 		ABF4A3AD116847E50043EB1C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF4A3AC116847E40043EB1C /* SystemConfiguration.framework */; };
 		ABF4A3B1116847F50043EB1C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF4A3B0116847F50043EB1C /* MobileCoreServices.framework */; };
 		D4D366DF111B6789009C4D00 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D366DE111B6789009C4D00 /* CFNetwork.framework */; };
@@ -1136,8 +1136,6 @@
 		AABC71B8172739D70074CC21 /* BumpTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BumpTestViewController.m; sourceTree = "<group>"; };
 		AABC71B9172739D70074CC21 /* BumpTestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BumpTestViewController.xib; sourceTree = "<group>"; };
 		AABC71BA172739D70074CC21 /* libBump.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBump.a; sourceTree = "<group>"; };
-		AABC71BC172739D70074CC21 /* Crittercism.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crittercism.h; sourceTree = "<group>"; };
-		AABC71BD172739D70074CC21 /* CrittercismDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrittercismDelegate.h; sourceTree = "<group>"; };
 		AABC71C1172739D70074CC21 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		AABC71C2172739D70074CC21 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		AABC71C3172739D70074CC21 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
@@ -1290,8 +1288,6 @@
 		AABC7516172873510074CC21 /* ItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemViewController.h; sourceTree = "<group>"; };
 		AABC7517172873510074CC21 /* ItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemViewController.m; sourceTree = "<group>"; };
 		AAF81F9A174BC73C0003D848 /* ZXingWidget.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZXingWidget.xcodeproj; path = src/third_party/zxing/iphone/ZXingWidget/ZXingWidget.xcodeproj; sourceTree = "<group>"; };
-		AB05A2D81790B091009CD01B /* libCrittercism_v4_0_1.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCrittercism_v4_0_1.a; sourceTree = "<group>"; };
-		AB05A2D91790B091009CD01B /* dsym_upload.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = dsym_upload.sh; sourceTree = "<group>"; };
 		AB0A5BA4120365420065CE68 /* en */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AB0A5BA61203665C0065CE68 /* es */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AB0DE73117785B1E00D62D9B /* navBarBackground44.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navBarBackground44.png; sourceTree = "<group>"; };
@@ -1316,6 +1312,10 @@
 		ABB2CDC513C7498A00F051E4 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		ABD24F59120A5BAD00D792F5 /* fr */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ABDA40DD10506CB300823A94 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		ABE47D4C17A0F21300A20CE7 /* Crittercism.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crittercism.h; sourceTree = "<group>"; };
+		ABE47D4D17A0F21300A20CE7 /* CrittercismDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrittercismDelegate.h; sourceTree = "<group>"; };
+		ABE47D4E17A0F21300A20CE7 /* dsym_upload.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = dsym_upload.sh; sourceTree = "<group>"; };
+		ABE47D4F17A0F21300A20CE7 /* libCrittercism_v4_0_3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCrittercism_v4_0_3.a; sourceTree = "<group>"; };
 		ABF4A3AC116847E40043EB1C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		ABF4A3B0116847F50043EB1C /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		D4D366DE111B6789009C4D00 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -1357,7 +1357,7 @@
 				AB9BA24913DFBAB1007470E3 /* libz.dylib in Frameworks */,
 				AABC7421172739D80074CC21 /* libBump.a in Frameworks */,
 				AABC7450172739D80074CC21 /* libPusher-combined.a in Frameworks */,
-				AB05A2DA1790B091009CD01B /* libCrittercism_v4_0_1.a in Frameworks */,
+				ABE47D5117A0F21300A20CE7 /* libCrittercism_v4_0_3.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2376,9 +2376,9 @@
 		AABC71B1172739D70074CC21 /* third_party */ = {
 			isa = PBXGroup;
 			children = (
+				ABE47D4B17A0F21300A20CE7 /* CrittercismSDK */,
 				AA3D7C6A17662C1F00382D00 /* MTStatusBarOverlay */,
 				AABC71B5172739D70074CC21 /* bump */,
-				AABC71BB172739D70074CC21 /* CrittercismSDK */,
 				AABC71C0172739D70074CC21 /* JSON */,
 				AABC71D0172739D70074CC21 /* PanoramaGL */,
 				AABC7224172739D70074CC21 /* pusher */,
@@ -2396,17 +2396,6 @@
 				AABC71BA172739D70074CC21 /* libBump.a */,
 			);
 			path = bump;
-			sourceTree = "<group>";
-		};
-		AABC71BB172739D70074CC21 /* CrittercismSDK */ = {
-			isa = PBXGroup;
-			children = (
-				AB05A2D81790B091009CD01B /* libCrittercism_v4_0_1.a */,
-				AB05A2D91790B091009CD01B /* dsym_upload.sh */,
-				AABC71BC172739D70074CC21 /* Crittercism.h */,
-				AABC71BD172739D70074CC21 /* CrittercismDelegate.h */,
-			);
-			path = CrittercismSDK;
 			sourceTree = "<group>";
 		};
 		AABC71C0172739D70074CC21 /* JSON */ = {
@@ -2645,6 +2634,17 @@
 				AB123BDD1794314700547BA7 /* GamePickerSearching.js */,
 			);
 			path = tests;
+			sourceTree = "<group>";
+		};
+		ABE47D4B17A0F21300A20CE7 /* CrittercismSDK */ = {
+			isa = PBXGroup;
+			children = (
+				ABE47D4C17A0F21300A20CE7 /* Crittercism.h */,
+				ABE47D4D17A0F21300A20CE7 /* CrittercismDelegate.h */,
+				ABE47D4E17A0F21300A20CE7 /* dsym_upload.sh */,
+				ABE47D4F17A0F21300A20CE7 /* libCrittercism_v4_0_3.a */,
+			);
+			path = CrittercismSDK;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -3006,7 +3006,7 @@
 				5B1D998F178CC3A700661453 /* 30-circle-play@2x.png in Resources */,
 				5B1D9990178CC3A700661453 /* 35-circle-stop.png in Resources */,
 				5B1D9991178CC3A700661453 /* 35-circle-stop@2x.png in Resources */,
-				AB05A2DB1790B091009CD01B /* dsym_upload.sh in Resources */,
+				ABE47D5017A0F21300A20CE7 /* dsym_upload.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3330,7 +3330,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-v";
 				PROVISIONING_PROFILE = "";
@@ -3399,7 +3399,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-v";
 				PROVISIONING_PROFILE = "";
