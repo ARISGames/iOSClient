@@ -99,6 +99,7 @@
 		AA1E2D4E1652CC6000219535 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4D1652CC6000219535 /* libicucore.dylib */; };
 		AA1E2D501652CC7500219535 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4F1652CC7500219535 /* Security.framework */; };
 		AA3D7C7A17662C1F00382D00 /* MTStatusBarOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3D7C6F17662C1F00382D00 /* MTStatusBarOverlay.m */; };
+		AA3F493217A828B300FF4C80 /* ARISWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3F493117A828B300FF4C80 /* ARISWebView.m */; };
 		AA4B20931745672600079AEF /* ARISNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4B20921745672500079AEF /* ARISNavigationController.m */; };
 		AA50A48017396B7200B105C2 /* ARISContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA50A47F17396B7000B105C2 /* ARISContainerViewController.m */; };
 		AA50A484173992F500B105C2 /* 123-id-card-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA50A482173992F500B105C2 /* 123-id-card-white@2x.png */; };
@@ -657,6 +658,8 @@
 		AA353F891729C43600A1EB6A /* GameObjectProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameObjectProtocol.h; sourceTree = "<group>"; };
 		AA3D7C6E17662C1F00382D00 /* MTStatusBarOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTStatusBarOverlay.h; sourceTree = "<group>"; };
 		AA3D7C6F17662C1F00382D00 /* MTStatusBarOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTStatusBarOverlay.m; sourceTree = "<group>"; };
+		AA3F493017A828B300FF4C80 /* ARISWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISWebView.h; sourceTree = "<group>"; };
+		AA3F493117A828B300FF4C80 /* ARISWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISWebView.m; sourceTree = "<group>"; };
 		AA4B20911745672300079AEF /* ARISNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISNavigationController.h; sourceTree = "<group>"; };
 		AA4B20921745672500079AEF /* ARISNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISNavigationController.m; sourceTree = "<group>"; };
 		AA50A47E17396B6F00B105C2 /* ARISContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISContainerViewController.h; sourceTree = "<group>"; };
@@ -1799,6 +1802,8 @@
 				AABC711E172739D60074CC21 /* RootViewController.m */,
 				AA701FE6173443FB003A840D /* ARISPusherHandler.h */,
 				AA701FE7173443FB003A840D /* ARISPusherHandler.m */,
+				AA3F493017A828B300FF4C80 /* ARISWebView.h */,
+				AA3F493117A828B300FF4C80 /* ARISWebView.m */,
 				AA701FDF17342169003A840D /* GamePickersViewController.h */,
 				AA701FE017342169003A840D /* GamePickersViewController.m */,
 				AA701FDA17330947003A840D /* GamePlayViewController.h */,
@@ -3242,6 +3247,7 @@
 				5BBA6A6217822E4C00387DBD /* WaveSampleProvider.m in Sources */,
 				5B87AE24178DBA4100229D92 /* Playhead.m in Sources */,
 				AB123BDE1794314700547BA7 /* GamePickerSearching.js in Sources */,
+				AA3F493217A828B300FF4C80 /* ARISWebView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
