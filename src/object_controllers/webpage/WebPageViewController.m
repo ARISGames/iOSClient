@@ -57,7 +57,7 @@
     
     self.loaded = NO;
     
-    self.aWebView = [[ARISWebView alloc] initWithFrame:self.view.bounds delegate:self];
+    self.aWebView = [[ARISWebView alloc] initWithFrame:self.blackView.frame delegate:self];
     self.aWebView.hidden = YES;
     self.aWebView.allowsInlineMediaPlayback = YES;
     self.aWebView.mediaPlaybackRequiresUserAction = NO;
@@ -68,19 +68,14 @@
     [self.aWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.webPage.url]] withAppendation:[NSString stringWithFormat:@"&webPageId=%d",self.webPage.webPageId]];
 }
 
-- (void) viewDidAppear:(BOOL)animated
+- (void) viewWillAppear:(BOOL)animated
 {
+    self.aWebView.frame = self.blackView.frame;
     if(!self.loaded)
     {
         self.aWebView.hidden = YES;
         self.blackView.hidden = NO;
     }
-}
-
-- (BOOL) webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-{
-    if([webView isKindOfClass:[ARISWebView class]]) return ![(ARISWebView *)webView handleARISRequestIfApplicable:request];
-    return YES;
 }
 
 - (void) webViewDidFinishLoad:(UIWebView *)webView
@@ -89,6 +84,12 @@
     self.aWebView.hidden = NO;
     self.blackView.hidden = YES;
     [self.activityIndicator stopAnimating];
+}
+
+- (BOOL) webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    if([webView isKindOfClass:[ARISWebView class]]) return ![(ARISWebView *)webView handleARISRequestIfApplicable:request];
+    return YES;
 }
 
 - (void) webViewDidStartLoad:(UIWebView *)webView
