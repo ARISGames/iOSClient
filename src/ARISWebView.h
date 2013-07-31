@@ -19,6 +19,7 @@
 - (id) initWithDelegate:(id<UIWebViewDelegate,ARISWebViewDelegate,StateControllerProtocol>)d;
 - (void) setDelegate:(id<UIWebViewDelegate,ARISWebViewDelegate,StateControllerProtocol>)d;
 
+- (void) injectHTMLWithARISjs;
 - (BOOL) isARISRequest:(NSURLRequest *)request;
 - (BOOL) handleARISRequestIfApplicable:(NSURLRequest *)request;
 - (void) loadRequest:(NSURLRequest *)request withAppendation:(NSString *)appendation;

@@ -91,6 +91,12 @@
     [super loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
 }
 
+- (void) injectHTMLWithARISjs
+{
+    if([[self stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('html')[0] != null;"] isEqualToString:@"true"])
+        [self stringByEvaluatingJavaScriptFromString:[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"arisjs" ofType:@"js"] encoding:NSUTF8StringEncoding error:NULL]];
+}
+
 - (BOOL) isARISRequest:(NSURLRequest *)request
 {
     return [[[[request URL] scheme] lowercaseString] isEqualToString:@"aris"];
@@ -141,7 +147,7 @@
     else if([mainCommand isEqualToString:@"player"])
     {
         if([components count] > 1 && [[components objectAtIndex:1] isEqualToString:@"name"])
-            [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.setPlayerName(\"%@\");",[AppModel sharedAppModel].player.username]];
+            [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.playerNameReceived(\"%@\");",[AppModel sharedAppModel].player.username]];
         if([components count] > 1 && [[components objectAtIndex:1] isEqualToString:@"id"])
             [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.setPlayerId(%d);",[AppModel sharedAppModel].player.playerId]];
     }
@@ -332,7 +338,7 @@
     {
         NSString *receipt = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         NSLog(@"Data received:\n%@",receipt);
-        [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.bumpReceived(%@);",receipt]];
+        [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.bumpDetected(%@);",receipt]];
     }];
     
     [[BumpClient sharedClient] setConnectionStateChangedBlock:^(BOOL connected)

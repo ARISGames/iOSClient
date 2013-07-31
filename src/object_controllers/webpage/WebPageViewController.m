@@ -80,6 +80,8 @@
 
 - (void) webViewDidFinishLoad:(UIWebView *)webView
 {
+    if([webView isKindOfClass:[ARISWebView class]])
+        [self.aWebView injectHTMLWithARISjs];
     self.loaded = YES;
     self.aWebView.hidden = NO;
     self.blackView.hidden = YES;
