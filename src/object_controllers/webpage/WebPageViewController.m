@@ -15,7 +15,7 @@
 
 @interface WebPageViewController() <ARISWebViewDelegate,StateControllerProtocol,UIWebViewDelegate>
 {
-    IBOutlet ARISWebView *aWebView;
+    ARISWebView *aWebView;
     WebPage *webPage;
     IBOutlet UIView  *blackView;
     UIActivityIndicatorView *activityIndicator;
@@ -24,7 +24,7 @@
     id<GameObjectViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 
-@property (nonatomic, strong) IBOutlet ARISWebView *aWebView;
+@property (nonatomic, strong) ARISWebView *aWebView;
 @property (nonatomic, strong) WebPage *webPage;
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) IBOutlet UIView *blackView;
@@ -115,14 +115,16 @@
     }
 }
 
+- (void) displayScannerWithPrompt:(NSString *)p
+{
+    [self dismissSelf];
+    [delegate displayScannerWithPrompt:p];
+}
+
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
 {
-    if([delegate displayGameObject:g fromSource:s])
-    {
-        [self dismissSelf];
-        return YES;
-    }
-    return NO;
+    [self dismissSelf];
+    [delegate displayGameObject:g fromSource:s];
 }
 
 - (void) displayTab:(NSString *)t

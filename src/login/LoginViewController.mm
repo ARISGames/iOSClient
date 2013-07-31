@@ -190,7 +190,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 - (IBAction) QRButtonTouched
 {
     [self resignKeyboard];
-    ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO];
+    ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO showLicense:NO];
     widController.readers = [[NSMutableSet alloc ] initWithObjects:[[QRCodeReader alloc] init], nil];
     [self presentViewController:widController animated:NO completion:nil];
 }

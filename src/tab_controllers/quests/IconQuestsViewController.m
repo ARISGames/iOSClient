@@ -19,7 +19,7 @@
 #define TEXTLABELHEIGHT 10
 #define TEXTLABELPADDING 7
 
-@interface IconQuestsViewController() <UICollectionViewDataSource,UICollectionViewDelegate,QuestDetailsViewControllerDelegate>
+@interface IconQuestsViewController() <UICollectionViewDataSource,UICollectionViewDelegate,QuestDetailsViewControllerDelegate,StateControllerProtocol>
 {
     UICollectionView *questIconCollectionView;
     UICollectionViewFlowLayout *questIconCollectionViewLayout;
@@ -29,20 +29,14 @@
     NSArray *activeQuests;
     NSArray *completedQuests;
     
-    id<QuestsViewControllerDelegate> __unsafe_unretained delegate;
+    id<QuestsViewControllerDelegate,StateControllerProtocol> __unsafe_unretained delegate;
 }
-
-- (id) initWithDelegate:(id<QuestsViewControllerDelegate>)d;
-- (void) refresh;
-- (void) showLoadingIndicator;
-- (void) removeLoadingIndicator;
-- (void) refreshViewFromModel;
 
 @end
 
 @implementation IconQuestsViewController
 
-- (id) initWithDelegate:(id<QuestsViewControllerDelegate>)d
+- (id) initWithDelegate:(id<QuestsViewControllerDelegate,StateControllerProtocol>)d
 {
     self = [super initWithNibName:@"IconQuestsViewController" bundle:nil];
     if(self)
@@ -168,11 +162,22 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void) questDetailsRequestedExitToTab:(NSString *)tab
+- (void) displayScannerWithPrompt:(NSString *)p
 {
     [self.navigationController popToViewController:self animated:YES];
-    if(![tab isEqualToString:@""] && ![tab isEqualToString:@"NONE"])
-        [delegate displayTab:tab];
+    [delegate displayScannerWithPrompt:p];
+}
+
+- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
+{
+    [self.navigationController popToViewController:self animated:YES];
+    return [delegate displayGameObject:g fromSource:s];
+}
+
+- (void) displayTab:(NSString *)t
+{
+    [self.navigationController popToViewController:self animated:YES];
+    [delegate displayTab:t];
 }
 
 @end

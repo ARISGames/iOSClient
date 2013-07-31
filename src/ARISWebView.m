@@ -121,21 +121,25 @@
     {
         [self clear];
         
-        NSString *toExit = @"0";
-        if([components count] > 2)
-            toExit = [components objectAtIndex:2];
-        if([components count] > 1 && [[components objectAtIndex:1] isEqualToString:@"tab"])
-            [delegate displayTab:toExit];
-        if([components count] > 1 && [[components objectAtIndex:1] isEqualToString:@"plaque"])
-            [delegate displayGameObject:[[AppModel sharedAppModel] nodeForNodeId:[toExit intValue]]           fromSource:delegate];
-        if([components count] > 1 && [[components objectAtIndex:1] isEqualToString:@"webpage"])
-            [delegate displayGameObject:[[AppModel sharedAppModel] webPageForWebPageId:[toExit intValue]]     fromSource:delegate];
-        if([components count] > 1 && [[components objectAtIndex:1] isEqualToString:@"item"])
-            [delegate displayGameObject:[[AppModel sharedAppModel] itemForItemId:[toExit intValue]]           fromSource:delegate];
-        if([components count] > 1 && [[components objectAtIndex:1] isEqualToString:@"character"])
-            [delegate displayGameObject:[[AppModel sharedAppModel] npcForNpcId:[toExit intValue]]             fromSource:delegate];
-        if([components count] > 1 && [[components objectAtIndex:1] isEqualToString:@"panoramic"])
-            [delegate displayGameObject:[[AppModel sharedAppModel] panoramicForPanoramicId:[toExit intValue]] fromSource:delegate];
+        NSString *type = @"";
+        NSString *token = @"";
+        if([components count] > 1) type  = [components objectAtIndex:1];
+        if([components count] > 2) token = [components objectAtIndex:2];
+        
+        if([type isEqualToString:@"tab"])
+            [delegate displayTab:token];
+        else if([type isEqualToString:@"scanner"])
+            [delegate displayScannerWithPrompt:token];
+        else if([type isEqualToString:@"plaque"])
+            [delegate displayGameObject:[[AppModel sharedAppModel] nodeForNodeId:[token intValue]]           fromSource:delegate];
+        else if([type isEqualToString:@"webpage"])
+            [delegate displayGameObject:[[AppModel sharedAppModel] webPageForWebPageId:[token intValue]]     fromSource:delegate];
+        else if([type isEqualToString:@"item"])
+            [delegate displayGameObject:[[AppModel sharedAppModel] itemForItemId:[token intValue]]           fromSource:delegate];
+        else if([type isEqualToString:@"character"])
+            [delegate displayGameObject:[[AppModel sharedAppModel] npcForNpcId:[token intValue]]             fromSource:delegate];
+        else if([type isEqualToString:@"panoramic"])
+            [delegate displayGameObject:[[AppModel sharedAppModel] panoramicForPanoramicId:[token intValue]] fromSource:delegate];
     }
     else if([mainCommand isEqualToString:@"refreshStuff"])
     {
@@ -355,6 +359,11 @@
             case BUMP_EVENT_NO_MATCH: NSLog(@"No match.");      break;
         }
     }];
+}
+
+- (void) hookWithParams:(NSString *)params
+{
+    [self stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"ARIS.hook(%@);",params]];
 }
 
 - (void) clear

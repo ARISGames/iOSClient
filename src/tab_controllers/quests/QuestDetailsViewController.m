@@ -11,8 +11,9 @@
 #import "AppModel.h"
 #import "Quest.h"
 #import "AsyncMediaPlayerButton.h"
+#import "ARISWebView.h"
 
-@interface QuestDetailsViewController() <UIScrollViewDelegate, UIWebViewDelegate, AsyncMediaImageViewDelegate>
+@interface QuestDetailsViewController() <UIScrollViewDelegate, UIWebViewDelegate, ARISWebViewDelegate, StateControllerProtocol, AsyncMediaImageViewDelegate>
 {
     Quest *quest;
     IBOutlet UIScrollView *scrollView;
@@ -20,9 +21,9 @@
     IBOutlet UIButton *goButton;
     UIView *mediaSection;
     AsyncMediaImageView *questImageView;
-    UIWebView *webView;
+    ARISWebView *webView;
     
-    id<QuestDetailsViewControllerDelegate> __unsafe_unretained delegate;
+    id<QuestDetailsViewControllerDelegate,StateControllerProtocol> __unsafe_unretained delegate;
 }
     
 @property (nonatomic, strong) Quest *quest;
@@ -31,8 +32,10 @@
 @property (nonatomic, strong) IBOutlet UIButton *goButton;
 @property (nonatomic, strong) UIView *mediaSection;
 @property (nonatomic, strong) UIImageView *questImageView;
-@property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic, strong) ARISWebView *webView;
 @property (nonatomic, strong) UIActivityIndicatorView *webViewSpinner;
+
+- (IBAction) goButtonPressed:(id)sender;
 
 @end
 
@@ -74,7 +77,7 @@ NSString *const kQuestDetailsHtmlTemplate =
 @synthesize webView;
 @synthesize webViewSpinner;
 
-- (id) initWithQuest:(Quest *)q delegate:(id<QuestDetailsViewControllerDelegate>)d;
+- (id) initWithQuest:(Quest *)q delegate:(id<QuestDetailsViewControllerDelegate,StateControllerProtocol>)d;
 {
     if(self = [super init])
     {
@@ -92,7 +95,7 @@ NSString *const kQuestDetailsHtmlTemplate =
     self.title = self.quest.name;
     self.navigationItem.title = self.quest.name;
     
-    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 320, 1)]; //Needs width of 320, otherwise "height" is calculated wrong because only 1 character can fit per line
+    self.webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0, 0, 320, 1) delegate:self]; //Needs width of 320, otherwise "height" is calculated wrong because only 1 character can fit per line
     
     Media *media = [[AppModel sharedAppModel] mediaForMediaId:self.quest.mediaId ofType:nil];
     if(media && [media.type isEqualToString:@"PHOTO"] && media.url)
@@ -157,6 +160,7 @@ NSString *const kQuestDetailsHtmlTemplate =
 
 - (void) webViewDidFinishLoad:(UIWebView *)theWebView
 {
+    [self.webView injectHTMLWithARISjs];
     self.webView.alpha = 1.00;
     
     //Calculate the height of the web content
@@ -165,6 +169,44 @@ NSString *const kQuestDetailsHtmlTemplate =
     scrollView.contentSize = CGSizeMake(320,self.webView.frame.origin.y+self.webView.frame.size.height+50);
     
     [self.webViewSpinner removeFromSuperview];
+}
+
+- (BOOL) webView:(UIWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    return ![self.webView handleARISRequestIfApplicable:request];
+    return YES;
+}
+
+- (void) ARISWebViewRequestsDismissal:(ARISWebView *)awv
+{
+    //Ignore 'closeMe' requests...
+}
+
+- (void) ARISWebViewRequestsRefresh:(ARISWebView *)awv
+{
+    //Ignore refresh requests...
+}
+
+- (void) displayScannerWithPrompt:(NSString *)p
+{
+    [delegate displayScannerWithPrompt:p];
+}
+
+- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
+{
+    return [delegate displayGameObject:g fromSource:s];
+}
+
+- (void) displayTab:(NSString *)t
+{
+    [delegate displayTab:t];
+}
+
+- (IBAction) goButtonPressed:(id)sender
+{
+    if([self.quest.goFunction isEqualToString:@"JAVASCRIPT"]) [self.webView hookWithParams:@""];
+    else if([self.quest.goFunction isEqualToString:@"NONE"]) return;
+    else [self displayTab:self.quest.goFunction];
 }
 
 - (void)dealloc

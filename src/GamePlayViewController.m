@@ -306,6 +306,22 @@
     self.gamePlayTabBarController.selectedIndex = 0;
 }
 
+- (void) displayScannerWithPrompt:(NSString *)p
+{
+    ARISGamePlayTabBarViewController *vc;
+    ARISNavigationController *nc;
+    for(int i = 0; i < [self.gamePlayTabBarController.viewControllers count]; i++)
+    {
+        nc = [self.gamePlayTabBarController.viewControllers objectAtIndex:i];
+        vc = [[nc childViewControllers] objectAtIndex:0];
+        if([vc.tabID isEqualToString:@"QR"])
+        {
+            self.gamePlayTabBarController.selectedIndex = i;
+            [(DecoderViewController *)vc launchScannerWithPrompt:p];
+        }
+    }
+}
+
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
 {
     if(!self.isViewLoaded || !self.view.window) return NO; //Doesn't currently have the view-heirarchy authority to display. Return that it failed to those who care

@@ -9,10 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @class Quest;
+@protocol StateControllerProtocol;
 @protocol QuestDetailsViewControllerDelegate
-- (void) questDetailsRequestedExitToTab:(NSString *)tab;
 @end
 @interface QuestDetailsViewController : UIViewController
-- (id) initWithQuest:(Quest *)q delegate:(id<QuestDetailsViewControllerDelegate>)d;
-
+- (id) initWithQuest:(Quest *)q delegate:(id<QuestDetailsViewControllerDelegate,StateControllerProtocol>)d;
 @end

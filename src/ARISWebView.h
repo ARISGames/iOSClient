@@ -23,6 +23,7 @@
 - (BOOL) isARISRequest:(NSURLRequest *)request;
 - (BOOL) handleARISRequestIfApplicable:(NSURLRequest *)request;
 - (void) loadRequest:(NSURLRequest *)request withAppendation:(NSString *)appendation;
+- (void) hookWithParams:(NSString *)params;
 - (void) clear;
 
 @end
