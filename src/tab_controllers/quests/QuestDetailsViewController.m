@@ -121,7 +121,8 @@ NSString *const kQuestDetailsHtmlTemplate =
         self.webView.scrollView.scrollEnabled = NO;
     }
     NSString *text;
-    text =
+    text = self.quest.qdescription;
+    /*
     @"<script type='text/javascript'>"
     @"var ARIS = {};"
     @"ARIS.hook = function(params) { ARIS.exitToScanner('woohoo');};"
@@ -137,6 +138,7 @@ NSString *const kQuestDetailsHtmlTemplate =
     @"<div style=\"padding:10px; clear:both;\">"
     @"Yo yo yo you're a hunter blah blah hey cool quest do it."
     @"</div>";
+     */
     if([text rangeOfString:@"<html>"].location == NSNotFound) text = [NSString stringWithFormat:kQuestDetailsHtmlTemplate, text];
 
     
@@ -211,7 +213,6 @@ NSString *const kQuestDetailsHtmlTemplate =
 
 - (IBAction) goButtonPressed:(id)sender
 {
-    [self.webView hookWithParams:@""];
     if([self.quest.goFunction isEqualToString:@"JAVASCRIPT"]) [self.webView hookWithParams:@""];
     else if([self.quest.goFunction isEqualToString:@"NONE"]) return;
     else [self displayTab:self.quest.goFunction];

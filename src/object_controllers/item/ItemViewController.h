@@ -17,13 +17,15 @@ typedef enum {
 } ItemDetailsModeType;
 
 @class Item;
+@protocol StateControllerProtocol;
+
 @interface ItemViewController : GameObjectViewController
 {
     Item *item;
 }
 @property (nonatomic, strong) Item *item;
 
-- (id) initWithItem:(Item *)i delegate:(NSObject<GameObjectViewControllerDelegate> *)d source:(id)s;
+- (id) initWithItem:(Item *)i delegate:(NSObject<GameObjectViewControllerDelegate,StateControllerProtocol> *)d source:(id)s;
 - (void) updateQuantityDisplay;
 
 @end

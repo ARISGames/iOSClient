@@ -2106,9 +2106,9 @@
 		AABC70F2172739D60074CC21 /* item */ = {
 			isa = PBXGroup;
 			children = (
-				AABC7515172873510074CC21 /* ItemViewController.xib */,
 				AABC7516172873510074CC21 /* ItemViewController.h */,
 				AABC7517172873510074CC21 /* ItemViewController.m */,
+				AABC7515172873510074CC21 /* ItemViewController.xib */,
 				AABC750E172860860074CC21 /* ItemActionViewController.h */,
 				AABC750F172860860074CC21 /* ItemActionViewController.m */,
 				AABC7510172860860074CC21 /* ItemActionViewController.xib */,
