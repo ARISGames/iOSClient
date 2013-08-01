@@ -13,10 +13,10 @@
 #import "Game.h"
 #import "GameDetailsViewController.h"
 #import "GamePickerCell.h"
-#import "AsyncMediaImageView.h"
+#import "ARISMediaView.h"
 #import "UIColor+ARISColors.h"
 
-@interface GamePickerViewController ()
+@interface GamePickerViewController () <ARISMediaViewDelegate>
 
 @end
 
@@ -141,13 +141,12 @@
     cell.distanceLabel.text   = [NSString stringWithFormat:@"%1.1f %@", gameForCell.distanceFromPlayer/1000, NSLocalizedString(@"km", @"")];
 	cell.numReviewsLabel.text = [NSString stringWithFormat:@"%@ %@", [[NSNumber numberWithInt:gameForCell.numReviews] stringValue], NSLocalizedString(@"GamePickerRecentReviewsKey", @"")];
     
-    AsyncMediaImageView *iconView = [[AsyncMediaImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+    ARISMediaView *iconView = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
     iconView.layer.masksToBounds = YES;
     iconView.layer.cornerRadius = 10.0;
     
-    if(gameForCell.iconMedia.image) iconView.image = [UIImage imageWithData: gameForCell.iconMedia.image];
-    else if(!gameForCell.iconMedia) iconView.image = [UIImage imageNamed:@"icon.png"]; 
-    else                            [iconView loadMedia:gameForCell.iconMedia];
+    if(!gameForCell.iconMedia) [iconView refreshWithFrame:iconView.frame image:[UIImage imageNamed:@"icon.png"] mode:ARISMediaDisplayModeAspectFill delegate:self] ;
+    else                       [iconView refreshWithFrame:iconView.frame media:gameForCell.iconMedia            mode:ARISMediaDisplayModeAspectFill delegate:self];
     
     if([cell.iconView.subviews count] > 0) [[cell.iconView.subviews objectAtIndex:0] removeFromSuperview];
     [cell.iconView addSubview: iconView];
@@ -165,10 +164,7 @@
 {
     if([self.gameList count] == 0) return;
     
-    GameDetailsViewController *gameDetailsViewController = [[GameDetailsViewController alloc] initWithGame:[self.gameList objectAtIndex:indexPath.row] delegate:(id<GameDetailsViewControllerDelegate>)delegate];
-    
-    [self.navigationController pushViewController:gameDetailsViewController animated:YES];
-
+    [delegate gamePicked:[self.gameList objectAtIndex:indexPath.row]];
 }
 
 - (void) tableView:(UITableView *)aTableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
@@ -197,6 +193,11 @@
 - (void) accountButtonTouched
 {
     [delegate accountSettingsRequested];
+}
+
+- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+{
+    
 }
 
 - (NSInteger) supportedInterfaceOrientations

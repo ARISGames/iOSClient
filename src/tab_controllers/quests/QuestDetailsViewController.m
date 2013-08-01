@@ -12,15 +12,15 @@
 #import "Quest.h"
 #import "AsyncMediaPlayerButton.h"
 #import "ARISWebView.h"
+#import "ARISMediaView.h"
 
-@interface QuestDetailsViewController() <UIScrollViewDelegate, UIWebViewDelegate, ARISWebViewDelegate, StateControllerProtocol, AsyncMediaImageViewDelegate>
+@interface QuestDetailsViewController() <UIScrollViewDelegate, UIWebViewDelegate, ARISWebViewDelegate, StateControllerProtocol, ARISMediaViewDelegate>
 {
     Quest *quest;
     IBOutlet UIScrollView *scrollView;
     IBOutlet UIImageView *fader;
     IBOutlet UIButton *goButton;
     UIView *mediaSection;
-    AsyncMediaImageView *questImageView;
     ARISWebView *webView;
     
     id<QuestDetailsViewControllerDelegate,StateControllerProtocol> __unsafe_unretained delegate;
@@ -31,7 +31,6 @@
 @property (nonatomic, strong) IBOutlet UIImageView *fader;
 @property (nonatomic, strong) IBOutlet UIButton *goButton;
 @property (nonatomic, strong) UIView *mediaSection;
-@property (nonatomic, strong) UIImageView *questImageView;
 @property (nonatomic, strong) ARISWebView *webView;
 @property (nonatomic, strong) UIActivityIndicatorView *webViewSpinner;
 
@@ -65,7 +64,6 @@ NSString *const kQuestDetailsHtmlTemplate =
 @synthesize fader;
 @synthesize goButton;
 @synthesize mediaSection;
-@synthesize questImageView;
 @synthesize webView;
 @synthesize webViewSpinner;
 
@@ -93,7 +91,7 @@ NSString *const kQuestDetailsHtmlTemplate =
     if(media && [media.type isEqualToString:@"PHOTO"] && media.url)
     {
         self.mediaSection = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,20)];
-        AsyncMediaImageView *mediaImageView = [[AsyncMediaImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 320) andMedia:media andDelegate:self];
+        ARISMediaView *mediaImageView = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, 320, 320) media:media mode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight delegate:self];
         [self.mediaSection addSubview:mediaImageView];
     }
     else if(media && ([media.type isEqualToString:@"VIDEO"] || [media.type isEqualToString:@"AUDIO"]) && media.url)
@@ -106,9 +104,7 @@ NSString *const kQuestDetailsHtmlTemplate =
     else
     {
         self.mediaSection = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,20)];
-        AsyncMediaImageView *mediaImageView = [[AsyncMediaImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
-        [mediaImageView setDelegate:self];
-        [mediaImageView updateViewWithNewImage:[UIImage imageNamed:@"item.png"]];
+        ARISMediaView *mediaImageView = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, 320, 320) image:[UIImage imageNamed:@"item.png"] mode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight delegate:self];
         [self.mediaSection addSubview:mediaImageView];
     }
     
@@ -159,9 +155,8 @@ NSString *const kQuestDetailsHtmlTemplate =
     [scrollView addSubview:self.webView];
 }
 
-- (void) imageFinishedLoading:(AsyncMediaImageView *)image
+- (void) imageFinishedLoading:(ARISMediaView *)image
 {
-    image.frame = CGRectMake(0, 0, 320, 320/image.image.size.width*image.image.size.height);
     self.mediaSection.frame = image.frame;
     self.webView.frame = CGRectMake(0, self.mediaSection.frame.size.height+10, 320, self.webView.frame.size.height);
     self.scrollView.contentSize = CGSizeMake(320,self.webView.frame.origin.y+self.webView.frame.size.height+50);
@@ -218,7 +213,12 @@ NSString *const kQuestDetailsHtmlTemplate =
     else [self displayTab:self.quest.goFunction];
 }
 
-- (void)dealloc
+- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+{
+    
+}
+
+- (void) dealloc
 {
     self.webView.delegate = nil;
     [self.webView stopLoading];

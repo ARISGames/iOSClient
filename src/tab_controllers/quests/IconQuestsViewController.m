@@ -10,7 +10,7 @@
 #import "Quest.h"
 #import "QuestDetailsViewController.h"
 #import "Media.h"
-#import "AsyncMediaImageView.h"
+#import "ARISMediaView.h"
 #import "AppModel.h"
 #import "AppServices.h"
 
@@ -19,7 +19,7 @@
 #define TEXTLABELHEIGHT 10
 #define TEXTLABELPADDING 7
 
-@interface IconQuestsViewController() <UICollectionViewDataSource,UICollectionViewDelegate,QuestDetailsViewControllerDelegate,StateControllerProtocol>
+@interface IconQuestsViewController() <ARISMediaViewDelegate, UICollectionViewDataSource,UICollectionViewDelegate,QuestDetailsViewControllerDelegate,StateControllerProtocol>
 {
     UICollectionView *questIconCollectionView;
     UICollectionViewFlowLayout *questIconCollectionViewLayout;
@@ -131,9 +131,13 @@
     if(indexPath.item < [activeQuests count]) q = [activeQuests    objectAtIndex:indexPath.item];
     else                                      q = [completedQuests objectAtIndex:indexPath.item-[activeQuests count]];
     
-    AsyncMediaImageView *icon = [[AsyncMediaImageView alloc] initWithFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, cell.contentView.frame.size.height - TEXTLABELHEIGHT - (2*TEXTLABELPADDING))];
-    if(q.iconMediaId != 0) [icon loadMedia:[[AppModel sharedAppModel] mediaForMediaId:q.iconMediaId ofType:@"PHOTO"]];
-    else                   [icon setImage:[UIImage imageNamed:@"item.png"]];
+    CGRect iconFrame = CGRectMake(0, 0, cell.contentView.frame.size.width, cell.contentView.frame.size.height - TEXTLABELHEIGHT - (2*TEXTLABELPADDING));
+    ARISMediaView *icon;
+    if(q.iconMediaId != 0)
+        icon = [[ARISMediaView alloc] initWithFrame:iconFrame media:[[AppModel sharedAppModel] mediaForMediaId:q.iconMediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFill delegate:self];
+    else
+        icon = [[ARISMediaView alloc] initWithFrame:iconFrame image:[UIImage imageNamed:@"item.png"] mode:ARISMediaDisplayModeAspectFill delegate:self];
+    
     icon.layer.cornerRadius = 11.0f;
     [cell.contentView addSubview:icon];
     
@@ -148,6 +152,11 @@
     [cell.contentView addSubview:iconTitleLabel];
     
     return cell;
+}
+
+- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+{
+    
 }
 
 - (void) collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath

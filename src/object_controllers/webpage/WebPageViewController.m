@@ -124,7 +124,7 @@
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
 {
     [self dismissSelf];
-    [delegate displayGameObject:g fromSource:s];
+    return [delegate displayGameObject:g fromSource:s];
 }
 
 - (void) displayTab:(NSString *)t

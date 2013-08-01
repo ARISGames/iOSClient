@@ -9,13 +9,27 @@
 #import "AttributesViewController.h"
 #import "AppServices.h"
 #import "Media.h"
-#import "AsyncMediaImageView.h"
+#import "ARISMediaView.h"
 #import "AppModel.h"
+#import "ARISAppDelegate.h"
+#import "Item.h"
+#import "ItemViewController.h"
 
-@interface AttributesViewController()
+@interface AttributesViewController() <ARISMediaViewDelegate,UITableViewDataSource,UITableViewDataSource>
 {
+	UITableView *attributesTable;
+	NSArray *attributes;
+    NSMutableArray *iconCache;
+    ARISMediaView *pcImage;
     id<AttributesViewControllerDelegate> __unsafe_unretained delegate;
 }
+
+@property(nonatomic) IBOutlet UITableView *attributesTable;
+@property(nonatomic) NSArray *attributes;
+@property(nonatomic) NSMutableArray *iconCache;
+@property(nonatomic) IBOutlet ARISMediaView	*pcImage;
+@property(nonatomic) int newAttrsSinceLastView;
+
 @end
 
 @implementation AttributesViewController
@@ -24,9 +38,6 @@
 @synthesize iconCache;
 @synthesize attributesTable;
 @synthesize pcImage;
-@synthesize nameLabel;
-@synthesize groupLabel;
-@synthesize addGroupButton;
 @synthesize newAttrsSinceLastView;
 
 - (id)initWithDelegate:(id<AttributesViewControllerDelegate>)d
@@ -67,7 +78,7 @@
     return header;
 }
 
-- (void)viewDidLoad
+- (void) viewDidLoad
 {
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 500, 1000)];
     label.backgroundColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:.7];
@@ -76,24 +87,13 @@
     self.pcImage.layer.cornerRadius = 10.0;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void) viewWillAppear:(BOOL)animated
 {
-    self.nameLabel.text = [NSString stringWithFormat:@"%@: %@",NSLocalizedString(@"AttributesViewNameKey", @""), [AppModel sharedAppModel].player.username];
-    self.groupLabel.text = NSLocalizedString(@"AttributesViewGroupKey", @"");
-    if ([AppModel sharedAppModel].currentGame.pcMediaId != 0)
-    {
-		//Load the image from the media Table
-		Media *pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId ofType:nil];
-		[pcImage loadMedia:pcMedia];
-	}
+    if([AppModel sharedAppModel].currentGame.pcMediaId != 0)
+        [pcImage refreshWithFrame:pcImage.frame media:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFill delegate:self];
     else if([AppModel sharedAppModel].player.playerMediaId != 0)
-    {
-        //Load the image from the media Table
-		Media *pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId ofType:nil];
-		[pcImage loadMedia:pcMedia];
-    }
-    self.pcImage.contentMode = UIViewContentModeScaleAspectFill;
-	//else [pcImage updateViewWithNewImage:[UIImage imageNamed:@"profile.png"]];
+        [pcImage refreshWithFrame:pcImage.frame media:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFill delegate:self];
+	else [pcImage refreshWithFrame:pcImage.frame image:[UIImage imageNamed:@"profile.png"] mode:ARISMediaDisplayModeAspectFill delegate:self];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -114,18 +114,14 @@
 	[attributesTable reloadData];
 }
 
--(IBAction)groupButtonPressed
+- (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier
 {
-    
-}
-
-- (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier {
 	CGRect IconFrame = CGRectMake(5, 5, 50, 50);
 	CGRect Label1Frame = CGRectMake(70, 22, 240, 20);
 	CGRect Label2Frame = CGRectMake(70, 39, 240, 20);
     CGRect Label3Frame = CGRectMake(70, 5, 240, 20);
 	UILabel *lblTemp;
-	UIImageView *iconViewTemp;
+	ARISMediaView *iconViewTemp;
 	
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
 	
@@ -154,7 +150,7 @@
 	[cell.contentView addSubview:lblTemp];
 	
 	//Init Icon with tag 3
-	iconViewTemp = [[AsyncMediaImageView alloc] initWithFrame:IconFrame];
+	iconViewTemp = [[ARISMediaView alloc] initWithFrame:IconFrame];
 	iconViewTemp.tag = 3;
 	iconViewTemp.backgroundColor = [UIColor clearColor];
 	[cell.contentView addSubview:iconViewTemp];
@@ -175,35 +171,28 @@
 	return cell;
 }
 
-#pragma mark PickerViewDelegate selectors
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // return 2;
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return 1;
 }
 
-// returns the # of rows in each component..
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
 	return [attributes count];
 }
 
-// Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
 	if(cell == nil) cell = [self getCellContentView:@"Cell"];
-    
     
     tableView.backgroundColor = [UIColor clearColor];
     tableView.opaque = NO;
     tableView.backgroundView = nil;
     
-    
     cell.textLabel.backgroundColor = [UIColor clearColor];
     cell.detailTextLabel.backgroundColor = [UIColor clearColor];
-    cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0
-                                                       green:233.0/255.0
-                                                        blue:233.0/255.0
-                                                       alpha:.95];
+    cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0 green:233.0/255.0 blue:233.0/255.0 alpha:.95];
     cell.backgroundView.layer.cornerRadius = 10.0;
     cell.contentView.layer.cornerRadius = 10.0;
     
@@ -215,7 +204,7 @@
     
     UILabel *lblTemp2 = (UILabel *)[cell viewWithTag:2];
     lblTemp2.text = item.text;
-	AsyncMediaImageView *iconView = (AsyncMediaImageView *)[cell viewWithTag:3];
+	ARISMediaView *iconView = (ARISMediaView *)[cell viewWithTag:3];
     
     UILabel *lblTemp3 = (UILabel *)[cell viewWithTag:4];
     if(item.qty > 1 || item.maxQty > 1)
@@ -224,45 +213,33 @@
         lblTemp3.text = nil;
     iconView.hidden = NO;
     
-	if (item.iconMediaId != 0)
+	if(item.iconMediaId != 0)
     {
-        Media *iconMedia;
-        if([self.iconCache count] < indexPath.row)
-        {
-            iconMedia = [self.iconCache objectAtIndex:indexPath.row];
-            [iconView updateViewWithNewImage:[UIImage imageWithData:iconMedia.image]];
-        }
-        else
-        {
-            iconMedia = [[AppModel sharedAppModel] mediaForMediaId:item.iconMediaId ofType:@"PHOTO"];
-            [self.iconCache  addObject:iconMedia];
-            [iconView loadMedia:iconMedia];
-        }
+        if([self.iconCache count] <= indexPath.row)
+            [self.iconCache addObject:[[AppModel sharedAppModel] mediaForMediaId:item.iconMediaId ofType:@"PHOTO"]];
+        [iconView refreshWithFrame:iconView.frame media:[self.iconCache objectAtIndex:indexPath.row] mode:ARISMediaDisplayModeAspectFit delegate:self];
 	}
     cell.userInteractionEnabled = NO;
 	return cell;
 }
 
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    //if(section==0)return  @"Group";
-    // else
+-(NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
     return NSLocalizedString(@"AttributesAttributesTitleKey", @"");
 }
 
-// Customize the height of each row
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+-(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
 	return 60;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-	
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
 }
 
-#pragma mark Memory Management
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-    // Release anything that's not essential, such as cached data
+- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+{
+    
 }
 
 @end

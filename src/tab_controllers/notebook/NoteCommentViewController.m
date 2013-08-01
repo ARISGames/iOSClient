@@ -13,9 +13,10 @@
 #import "NoteCommentCell.h"
 #import "CameraViewController.h"
 #import "AudioRecorderViewController.h"
+#import "ARISMediaView.h"
 #import "AsyncMediaPlayerButton.h"
 
-@interface NoteCommentViewController() <UITextViewDelegate, UITableViewDataSource, UITableViewDelegate, AVAudioPlayerDelegate, CameraViewControllerDelegate, AudioRecorderViewControllerDelegate>
+@interface NoteCommentViewController() <ARISMediaViewDelegate, UITextViewDelegate, UITableViewDataSource, UITableViewDelegate, AVAudioPlayerDelegate, CameraViewControllerDelegate, AudioRecorderViewControllerDelegate>
 {
     Note *note;
     Note *comment;
@@ -173,7 +174,7 @@
         if([[(NoteContent *)[cell.note.contents objectAtIndex:x] getType] isEqualToString:@"PHOTO"])
         {
             [cell.userLabel setFrame:CGRectMake(cell.userLabel.frame.origin.x, cell.frame.origin.y+(textHeight+450)+5, cell.userLabel.frame.size.width, cell.userLabel.frame.size.height)];
-            [cell addSubview:[[AsyncMediaImageView alloc] initWithFrame:CGRectMake(10, textHeight, 300, 450) andMedia:[[[cell.note contents] objectAtIndex:x] getMedia]]];
+            [cell addSubview:[[ARISMediaView alloc] initWithFrame:CGRectMake(10, textHeight, 300, 450) media:[[[cell.note contents] objectAtIndex:x] getMedia] mode:ARISMediaDisplayModeAspectFill delegate:self]];
         }
         else if([[(NoteContent *)[cell.note.contents objectAtIndex:x] getType] isEqualToString:@"VIDEO"] ||
                 [[(NoteContent *)[cell.note.contents objectAtIndex:x] getType] isEqualToString:@"AUDIO"])
@@ -372,6 +373,11 @@
 - (void) movieFinishedCallback:(NSNotification*) aNotification
 {
 	[self dismissMoviePlayerViewControllerAnimated];
+}
+
+- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+{
+    
 }
 
 - (void) dealloc

@@ -107,10 +107,9 @@
 {
     GameDetailsViewController *gameDetailsViewController = [[GameDetailsViewController alloc] initWithGame:g delegate:self];
     
-    //self.gameDetailsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:gameDetailsViewController];
-    //self.gameDetailsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-    [self.gamePickersTabBarController.selectedViewController.navigationController pushViewController:gameDetailsViewController animated:YES];
-    //[self displayContentController:self.gameDetailsNavigationController];
+    self.gameDetailsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:gameDetailsViewController];
+    self.gameDetailsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    [self displayContentController:self.gameDetailsNavigationController];
 }
 
 - (void) gameDetailsWereCanceled:(Game *)g

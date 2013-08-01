@@ -10,7 +10,7 @@
 #import <MapKit/MapKit.h>
 #import "AppModel.h"
 #import "ARISAppDelegate.h"
-#import "AsyncMediaImageView.h"
+#import "ARISMediaView.h"
 
 #define POINTER_LENGTH 10
 #define WIGGLE_DISTANCE 3.0
@@ -21,7 +21,6 @@
 #define IMAGE_HEIGHT 30
 #define IMAGE_WIDTH 30
 
-
 @interface AnnotationView : MKAnnotationView
 {
 	CGRect titleRect;
@@ -31,7 +30,7 @@
 	UIFont *subtitleFont;
 	NSMutableData *asyncData;
 	UIImage *icon;
-	AsyncMediaImageView *iconView;
+	ARISMediaView *iconView;
     bool showTitle;
     bool shouldWiggle;
     float totalWiggleOffsetFromOriginalPosition;
@@ -45,7 +44,7 @@
 @property (readwrite) UIFont *titleFont;
 @property (readwrite) UIFont *subtitleFont;
 @property (readwrite) UIImage *icon;
-@property (readwrite) AsyncMediaImageView *iconView;
+@property (readwrite) ARISMediaView *iconView;
 @property (readwrite) bool showTitle;
 @property (readwrite) bool shouldWiggle;
 @property (readwrite) float totalWiggleOffsetFromOriginalPosition;

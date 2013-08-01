@@ -7,11 +7,18 @@
 
 #import "PlayerSettingsViewController.h"
 #import "AppServices.h"
+#import "ARISMediaView.h"
 #import "ARISAlertHandler.h"
+#import "AppModel.h"
+#import "CameraViewController.h"
+#import <MobileCoreServices/UTCoreTypes.h>
+#import "AssetsLibrary/AssetsLibrary.h"
+#import "UIImage+Scale.h"
+#import <ImageIO/ImageIO.h>
 
-@interface PlayerSettingsViewController()
+@interface PlayerSettingsViewController()<UINavigationControllerDelegate, UIImagePickerControllerDelegate, ARISMediaViewDelegate, UITextFieldDelegate>
 {
-    IBOutlet AsyncMediaImageView *playerPic;
+    IBOutlet ARISMediaView *playerPic;
     IBOutlet UITextField *playerNameField;
 	IBOutlet UIButton *playerPicCamButton;
     int chosenMediaId;
@@ -19,7 +26,7 @@
     id<PlayerSettingsViewControllerDelegate> __unsafe_unretained delegate;
 }
 
-@property (nonatomic) IBOutlet AsyncMediaImageView *playerPic;
+@property (nonatomic) IBOutlet ARISMediaView *playerPic;
 @property (nonatomic) IBOutlet UITextField *playerNameField;
 @property (nonatomic) IBOutlet UIButton *playerPicCamButton;
 
@@ -58,7 +65,7 @@
 {
     self.playerNameField.text = @"";
     chosenMediaId = 0;
-    [self.playerPic updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
+    [self.playerPic refreshWithFrame:self.playerPic.frame image:[UIImage imageNamed:@"DefaultPCImage.png"] mode:ARISMediaDisplayModeAspectFill delegate:self];
 }
 
 - (void) syncLocalVars
@@ -77,7 +84,7 @@
         [self.playerNameField becomeFirstResponder];
 
     if(chosenMediaId > 0)
-        [self.playerPic loadMedia:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId ofType:@"PHOTO"]];
+        [self.playerPic refreshWithFrame:self.playerPic.frame media:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFill delegate:self];
     else if(chosenMediaId == 0)
         [self takePicture];
     //if chosenMediaId < 0, just leave the image as is
@@ -169,10 +176,10 @@
                 [imageData writeToURL:imageURL atomically:YES];
                     
                 [[[AppModel sharedAppModel] uploadManager] uploadPlayerPicContentWithFileURL:imageURL];
-                playerPic.image = image;
+                [self.playerPic refreshWithFrame:playerPic.frame image:image mode:ARISMediaDisplayModeAspectFill delegate:self];
             } failureBlock:^(NSError *error) {
                 [[[AppModel sharedAppModel] uploadManager] uploadPlayerPicContentWithFileURL:imageURL];
-                playerPic.image = image;
+                [self.playerPic refreshWithFrame:playerPic.frame image:image mode:ARISMediaDisplayModeAspectFill delegate:self];
             }];
         }];
     }
@@ -180,8 +187,13 @@
     {
         // image from camera roll
         [[[AppModel sharedAppModel] uploadManager] uploadPlayerPicContentWithFileURL:imageURL];
-        playerPic.image = image;
+        [self.playerPic refreshWithFrame:playerPic.frame image:image mode:ARISMediaDisplayModeAspectFill delegate:self];
     }
+}
+
+- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+{
+    
 }
 
 @end

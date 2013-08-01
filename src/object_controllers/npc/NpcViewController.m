@@ -9,7 +9,7 @@
 #import "ARISAppDelegate.h"
 #import "AppModel.h"
 #import "AppServices.h"
-#import "AsyncMediaImageView.h"
+#import "ARISMediaView.h"
 #import "NpcViewController.h"
 #import "Media.h"
 #import "Node.h"
@@ -26,7 +26,6 @@
 #import "NodeOption.h"
 
 #import "SceneParser.h"
-#import "AsyncMediaImageView.h"
 #import "Node.h"
 #import "Npc.h"
 
@@ -67,7 +66,7 @@ NSString *const kDialogHtmlTemplate =
  @"</dialog>";
  */
 
-@interface NpcViewController() <SceneParserDelegate, AsyncMediaImageViewDelegate, GameObjectViewControllerDelegate, UIScrollViewDelegate, UITextFieldDelegate, AVAudioPlayerDelegate>
+@interface NpcViewController() <SceneParserDelegate, ARISMediaViewDelegate, GameObjectViewControllerDelegate, UIScrollViewDelegate, UITextFieldDelegate, AVAudioPlayerDelegate>
 {
     SceneParser *parser;
     DialogScript *currentScript;
@@ -75,7 +74,7 @@ NSString *const kDialogHtmlTemplate =
 
     UIBarButtonItem	*textSizeButton;
 	
-	AsyncMediaImageView *currentImageView;
+	ARISMediaView *currentImageView;
 	
     int currentPcMediaId;
     BOOL currentlyHidingLeaveConversationButton;
@@ -97,7 +96,7 @@ NSString *const kDialogHtmlTemplate =
     IBOutlet UIView	*pcView;
     IBOutlet UIScrollView *pcImageSection;
     IBOutlet UIView *pcZoomContainer;
-    IBOutlet AsyncMediaImageView *pcImageView;
+    IBOutlet ARISMediaView *pcImageView;
 	IBOutlet UIScrollView *pcTextSection;
     IBOutlet UIWebView *pcTextWebView;
     IBOutlet UITableView *pcOptionsTable;
@@ -106,7 +105,7 @@ NSString *const kDialogHtmlTemplate =
 	IBOutlet UIView	*npcView;
     IBOutlet UIScrollView *npcImageSection;
     IBOutlet UIView *npcZoomContainer;
-	IBOutlet AsyncMediaImageView *npcImageView;
+	IBOutlet ARISMediaView *npcImageView;
     IBOutlet UIScrollView *npcVideoView;
 	IBOutlet UIScrollView *npcTextSection;
     IBOutlet UIWebView *npcTextWebView;
@@ -118,7 +117,7 @@ NSString *const kDialogHtmlTemplate =
 @property (nonatomic, strong) IBOutlet UIView *pcView;
 @property (nonatomic, strong) IBOutlet UIScrollView *pcImageSection;
 @property (nonatomic, strong) IBOutlet UIView *pcZoomContainer;
-@property (nonatomic, strong) IBOutlet AsyncMediaImageView *pcImageView;
+@property (nonatomic, strong) IBOutlet ARISMediaView *pcImageView;
 @property (nonatomic, strong) IBOutlet UIScrollView *pcTextSection;
 @property (nonatomic, strong) IBOutlet UIWebView *pcTextWebView;
 @property (nonatomic, strong) IBOutlet UITableView *pcOptionsTable;
@@ -127,12 +126,12 @@ NSString *const kDialogHtmlTemplate =
 @property (nonatomic, strong) IBOutlet UIView *npcView;
 @property (nonatomic, strong) IBOutlet UIScrollView *npcImageSection;
 @property (nonatomic, strong) IBOutlet UIView *npcZoomContainer;
-@property (nonatomic, strong) IBOutlet AsyncMediaImageView *npcImageView;
+@property (nonatomic, strong) IBOutlet ARISMediaView *npcImageView;
 @property (nonatomic, strong) IBOutlet UIScrollView *npcVideoView;
 @property (nonatomic, strong) IBOutlet UIScrollView *npcTextSection;
 @property (nonatomic, strong) IBOutlet UIWebView *npcTextWebView;
 @property (nonatomic, strong) IBOutlet UIButton *npcTapToContinueButton;
-@property (nonatomic, strong) AsyncMediaImageView *currentImageView;
+@property (nonatomic, strong) ARISMediaView *currentImageView;
 
 - (IBAction) continueButtonTouchAction;
 
@@ -195,9 +194,6 @@ NSString *const kDialogHtmlTemplate =
 {
 	[super viewDidLoad];
     
-    [self.pcImageView setDelegate:self];
-    [self.npcImageView setDelegate:self];
-    
     self.pcImageView.frame  = CGRectMake(self.pcImageView.frame.origin.x, self.pcImageView.frame.origin.y, 320, [UIScreen mainScreen].applicationFrame.size.height-44);
     pcImageSection.frame = CGRectMake(0,0,pcImageView.frame.size.width,pcImageView.frame.size.height);
     pcImageSection.contentSize  = pcImageSection.frame.size;
@@ -216,7 +212,7 @@ NSString *const kDialogHtmlTemplate =
 	[npcTapToContinueButton setTitle:NSLocalizedString(@"DialogContinue",@"") forState:UIControlStateNormal];
 	[pcTapToContinueButton  setTitle:NSLocalizedString(@"DialogContinue",@"") forState:UIControlStateNormal];
     npcTapToContinueButton.backgroundColor = [UIColor ARISColorOffWhite];
-    pcTapToContinueButton.backgroundColor = [UIColor ARISColorOffWhite];
+    pcTapToContinueButton.backgroundColor  = [UIColor ARISColorOffWhite];
     [npcTapToContinueButton setFrame:CGRectMake(0, 20, 320, 45)];
     npcTapToContinueButton.layer.cornerRadius = 10.0f;
     [pcTapToContinueButton setFrame:CGRectMake(0, 20, 320, 45)];
@@ -225,10 +221,10 @@ NSString *const kDialogHtmlTemplate =
 	textSizeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"textToggle.png"] style:UIBarButtonItemStylePlain target:self action:@selector(toggleNextTextBoxSize)];
 	self.navigationItem.rightBarButtonItem = textSizeButton;
 
-	if(currentPcMediaId != 0)   [self.pcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentPcMediaId ofType:@"PHOTO"]];
-	else                        [self.pcImageView updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
-    if(currentNpc.mediaId != 0) [self.npcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentNpc.mediaId ofType:nil]];
-    else                        [self.npcImageView updateViewWithNewImage:[UIImage imageNamed:@"npc.png"]];
+	if(currentPcMediaId != 0) [self.pcImageView refreshWithFrame:self.pcImageView.frame media:[[AppModel sharedAppModel] mediaForMediaId:currentPcMediaId ofType:nil] mode:ARISMediaDisplayModeTopAlignAspectFitWidth delegate:self];
+	else [self.pcImageView refreshWithFrame:self.pcImageView.frame image:[UIImage imageNamed:@"DefaultPCImage.png"] mode:ARISMediaDisplayModeTopAlignAspectFitWidth delegate:self];
+    if(currentNpc.mediaId != 0) [self.npcImageView refreshWithFrame:self.npcImageView.frame media:[[AppModel sharedAppModel] mediaForMediaId:currentNpc.mediaId ofType:nil] mode:ARISMediaDisplayModeTopAlignAspectFitWidth delegate:self];
+    else [self.npcImageView refreshWithFrame:self.npcImageView.frame image:[UIImage imageNamed:@"npc.png"] mode:ARISMediaDisplayModeTopAlignAspectFitWidth delegate:self];
     
     if([[self.currentNpc.greeting stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""])
         [self loadPlayerOptions];
@@ -319,41 +315,25 @@ NSString *const kDialogHtmlTemplate =
         if(currentScene.mediaId != 0)
         {
             Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScene.mediaId ofType:@"PHOTO"];//if it can't find a media, assume it is a photo
-            //TEMPORARY BANDAID 
-            if(self.currentImageView.isLoading)
-            {
-                [self.currentImageView cancelLoad];
-                [self.currentImageView removeFromSuperview];
-                if(self.currentImageView == self.npcImageView)
-                {
-                    self.currentImageView = [[AsyncMediaImageView alloc] initWithFrame:self.currentImageView.frame andMedia:media];
-                    [npcImageSection addSubview:self.currentImageView];
-                    self.npcImageView = self.currentImageView;
-                }
-                else if(self.currentImageView == self.pcImageView)
-                {
-                    self.currentImageView = [[AsyncMediaImageView alloc] initWithFrame:self.currentImageView.frame andMedia:media];
-                    [pcImageSection addSubview:self.currentImageView];
-                    self.pcImageView = self.currentImageView;
-                }
-            }
-            //END TEMPORARY BANDAID
-            if(!media.type) [self.currentImageView loadMedia:media]; // This should never happen (all game media should be cached by now)
-            else if([media.type isEqualToString:@"PHOTO"]) [self.currentImageView loadMedia:media];
-            else if([media.type isEqualToString:@"VIDEO"]) [self playAudioOrVideoFromMedia:media andHidden:NO];
-            else if([media.type isEqualToString:@"AUDIO"]) [self playAudioOrVideoFromMedia:media andHidden:YES];
+            [self.currentImageView refreshWithFrame:self.currentImageView.frame media:media mode:ARISMediaDisplayModeTopAlignAspectFitWidth delegate:self];
+            if([media.type isEqualToString:@"VIDEO"]) [self playAudioOrVideoFromMedia:media andHidden:NO];
+            if([media.type isEqualToString:@"AUDIO"]) [self playAudioOrVideoFromMedia:media andHidden:YES];
         }
         else
         {
             if([currentScene.sceneType isEqualToString:@"pc"])
             {
-                if(currentPcMediaId != 0)   [self.pcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentPcMediaId ofType:nil]];
-                else                        [self.pcImageView updateViewWithNewImage:[UIImage imageNamed:@"DefaultPCImage.png"]];
+                if(currentPcMediaId != 0)
+                    [self.pcImageView refreshWithFrame:self.pcImageView.frame media:[[AppModel sharedAppModel] mediaForMediaId:currentPcMediaId ofType:nil] mode:ARISMediaDisplayModeTopAlignAspectFitWidth delegate:self];
+                else
+                    [self.pcImageView refreshWithFrame:self.pcImageView.frame image:[UIImage imageNamed:@"DefaultPCImage.png"] mode:ARISMediaDisplayModeTopAlignAspectFitWidth delegate:self];
             }
             else
             {
-                if(currentNpc.mediaId != 0) [self.npcImageView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:currentNpc.mediaId ofType:nil]];
-                else                        [self.npcImageView updateViewWithNewImage:[UIImage imageNamed:@"npc.png"]];
+                if(currentNpc.mediaId != 0)
+                    [self.npcImageView refreshWithFrame:self.npcImageView.frame media:[[AppModel sharedAppModel] mediaForMediaId:currentNpc.mediaId ofType:nil] mode:ARISMediaDisplayModeTopAlignAspectFitWidth delegate:self];
+                else
+                    [self.npcImageView refreshWithFrame:self.npcImageView.frame image:[UIImage imageNamed:@"npc.png"] mode:ARISMediaDisplayModeTopAlignAspectFitWidth delegate:self];
             }
         }
         
@@ -400,7 +380,7 @@ NSString *const kDialogHtmlTemplate =
         {
             //Theoretically, these two lines should correctly do the animation
             [self aspectFitAlignToTop:self.currentImageView ofRect:zoomContainerRect];
-            //currentZoomContainer.frame  = zoomContainerRect;
+            currentZoomContainer.frame  = zoomContainerRect;
 
             //However, apple gets mad when you try to animate a view and subview simultaneously, so instead we overanimate the subview to compensate and comment out the superview's animation
             self.currentImageView.frame = CGRectMake(currentZoomContainer.frame.origin.x+self.currentImageView.frame.origin.x,currentZoomContainer.frame.origin.y+self.currentImageView.frame.origin.y,self.currentImageView.frame.size.width,self.currentImageView.frame.size.height);
@@ -481,12 +461,12 @@ NSString *const kDialogHtmlTemplate =
     [UIView commitAnimations];
 }
 
-- (void) imageFinishedLoading:(AsyncMediaImageView *)image 
+- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
 {
-    [self aspectFitAlignToTop:image ofRect:image.superview.frame];
+    [self aspectFitAlignToTop:amv ofRect:amv.superview.frame];
 }
 
-- (void) aspectFitAlignToTop:(UIImageView *)image ofRect:(CGRect)r
+- (void) aspectFitAlignToTop:(ARISMediaView *)image ofRect:(CGRect)r
 {
     //ASPECT FIT + ALIGN TO TOP:
     //Let 'aspect fit' do the actual aspect fit- but still required to simulate the fitting to get correct dimensions

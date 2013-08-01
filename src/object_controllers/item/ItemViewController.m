@@ -22,7 +22,7 @@
 #import "UIImage+Scale.h"
 #import "Item.h"
 #import "ARISMoviePlayerViewController.h"
-#import "AsyncMediaImageView.h"
+#import "ARISMediaView.h"
 
 #import "InventoryViewController.h"
 
@@ -43,7 +43,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 @"<body>%@</body>"
 @"</html>";
 
-@interface ItemViewController()  <ARISWebViewDelegate, StateControllerProtocol, UIWebViewDelegate, UITextViewDelegate>
+@interface ItemViewController()  <ARISMediaViewDelegate, ARISWebViewDelegate, StateControllerProtocol, UIWebViewDelegate, UITextViewDelegate>
 {
 	//ARISMoviePlayerViewController *mMoviePlayer; //only used if item is a video
 	MPMoviePlayerViewController *mMoviePlayer; //only used if item is a video
@@ -54,8 +54,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	IBOutlet UIBarButtonItem *deleteButton;
 	IBOutlet UIBarButtonItem *pickupButton;
 	IBOutlet UIBarButtonItem *detailButton;
-    IBOutlet UITextView *textBox;
-	IBOutlet AsyncMediaImageView *itemImageView;
+	IBOutlet ARISMediaView *itemImageView;
 	IBOutlet ARISWebView *itemDescriptionView;
     IBOutlet ARISWebView *itemWebView;
 	IBOutlet UIScrollView *scrollView;
@@ -68,11 +67,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 }
 
 @property(readwrite) ItemDetailsModeType mode;
-@property(nonatomic) IBOutlet AsyncMediaImageView *itemImageView;
+@property(nonatomic) IBOutlet ARISMediaView *itemImageView;
 @property(nonatomic) IBOutlet ARISWebView *itemWebView;
 @property(nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property(nonatomic) IBOutlet ARISWebView *itemDescriptionView;;
-@property(nonatomic) IBOutlet UITextView *textBox;
 @property(nonatomic) UIScrollView *scrollView;
 
 - (IBAction) dropButtonTouchAction:(id)sender;
@@ -90,7 +88,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 @synthesize itemWebView;
 @synthesize activityIndicator;
 @synthesize itemDescriptionView;
-@synthesize textBox;
 @synthesize scrollView;
 
 - (id) initWithItem:(Item *)i delegate:(id<GameObjectViewControllerDelegate,StateControllerProtocol>)d source:(id)s
@@ -150,8 +147,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     
 	if([media.type isEqualToString:@"PHOTO"] && media.url)
     {
-		[itemImageView loadMedia:media];
-        itemImageView.contentMode = UIViewContentModeScaleAspectFit;
+        [itemImageView refreshWithFrame:scrollView.frame media:media mode:ARISMediaDisplayModeAspectFit delegate:self];
 	}
 	else if(([media.type isEqualToString:@"VIDEO"] || [media.type isEqualToString:@"AUDIO"]) && media.url)
     {        
@@ -447,6 +443,11 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 -(void)dismissWaitingIndicator
 {
     [self.activityIndicator stopAnimating];
+}
+
+- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+{
+    
 }
 
 - (void)dealloc

@@ -13,7 +13,7 @@
 #import "AppServices.h"
 #import "NearbyObjectCell.h"
 
-@interface NearbyObjectsViewController()
+@interface NearbyObjectsViewController() <ARISMediaViewDelegate>
 {
     NSMutableArray *nearbyLocationsList;
 	IBOutlet UITableView *nearbyTable;
@@ -131,7 +131,7 @@
 	static NSString *CellIdentifier = @"Cell";
     NearbyObjectCell *cell = (NearbyObjectCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-	if (cell == nil)
+	if(cell == nil)
     {
 		UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"NearbyObjectCell" bundle:nil];
 		cell = (NearbyObjectCell *)temporaryController.view;
@@ -142,7 +142,7 @@
 	if (l.gameObject.type == GameObjectItem && l.qty > 1) cell.title.text = [NSString stringWithFormat:@"%@ (x%d)",l.name,l.qty];
 	else cell.title.text = l.name;
 	
-    [cell.iconView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:l.gameObject.iconMediaId ofType:@"PHOTO"]];
+    [cell.iconView refreshWithFrame:cell.iconView.frame media:[[AppModel sharedAppModel] mediaForMediaId:l.gameObject.iconMediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFit delegate:self];
     
 	return cell;
 }
@@ -151,6 +151,11 @@
 {
 	Location *l = [self.nearbyLocationsList objectAtIndex:indexPath.row];
 	[delegate displayGameObject:l.gameObject fromSource:l];
+}
+
+- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+{
+    
 }
 
 @end

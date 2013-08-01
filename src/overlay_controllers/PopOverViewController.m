@@ -10,7 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <AVFoundation/AVFoundation.h>
 #import "PopOverContentView.h"
-#import "AsyncMediaImageView.h"
+#import "ARISMediaView.h"
 #import "ARISMoviePlayerViewController.h"
 #import "Media.h"
 
@@ -41,7 +41,7 @@ NSString *const kPopOverHtmlTemplate =
 @"<body><p>%@</p></body>"
 @"</html>";
 
-@interface PopOverViewController() <AsyncMediaImageViewDelegate, UIScrollViewDelegate, AVAudioPlayerDelegate>
+@interface PopOverViewController() <ARISMediaViewDelegate, UIScrollViewDelegate, AVAudioPlayerDelegate>
 {
     BOOL shouldPlay;
 
@@ -72,7 +72,7 @@ NSString *const kPopOverHtmlTemplate =
         
     AVAudioPlayer *player;
     ARISMoviePlayerViewController *ARISMoviePlayer;
-    AsyncMediaImageView	*imageView;
+    ARISMediaView *imageView;
     
     id<PopOverViewDelegate> __unsafe_unretained delegate;
 }
@@ -113,7 +113,7 @@ NSString *const kPopOverHtmlTemplate =
     popOverWebViewNoMedia.scrollView.bounces = NO;
     
     if(!ARISMoviePlayer) ARISMoviePlayer = [[ARISMoviePlayerViewController alloc] init];
-    if(!imageView)             imageView = [[AsyncMediaImageView           alloc] init];
+    if(!imageView)             imageView = [[ARISMediaView                 alloc] init];
     
     [continueButtonMedia   setTitle:NSLocalizedString(@"OkKey", nil) forState:UIControlStateNormal];
     [continueButtonNoMedia setTitle:NSLocalizedString(@"OkKey", nil) forState:UIControlStateNormal];
@@ -159,15 +159,13 @@ NSString *const kPopOverHtmlTemplate =
             [self playAudioOrVideoFromMedia:media];
         else if([media.type isEqualToString:@"PHOTO"])
         {
-            [imageView setFrame:CGRectMake(0,0,mediaView.frame.size.width,mediaView.frame.size.height)];
-            [imageView loadMedia:media];
+            [imageView refreshWithFrame:CGRectMake(0,0,mediaView.frame.size.width,mediaView.frame.size.height) media:media mode:ARISMediaDisplayModeAspectFit delegate:self];
             [mediaView addSubview: imageView];
             loadingIndicator.hidden = YES;
         }
     }
 }
 
-#pragma mark Audio and Video
 - (void) playAudioOrVideoFromMedia:(Media*)media
 {    
     //temp fix is to not use media.image, but always stream as we do other places like AsyncMediaPlayerButton
@@ -201,8 +199,6 @@ NSString *const kPopOverHtmlTemplate =
         [loadingIndicator startAnimating];
   //  }
 }
-
-#pragma mark MPMoviePlayerController notifications
 
 - (void)MPMoviePlayerLoadStateDidChangeNotification:(NSNotification *)notif
 {
@@ -239,6 +235,11 @@ NSString *const kPopOverHtmlTemplate =
     //}
     
     [delegate popOverContinueButtonPressed];
+}
+
+- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+{
+    
 }
 
 - (NSInteger) supportedInterfaceOrientations

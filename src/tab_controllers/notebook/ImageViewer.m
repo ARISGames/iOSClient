@@ -8,6 +8,9 @@
 
 #import "ImageViewer.h"
 
+@interface ImageViewer() <ARISMediaViewDelegate>
+@end
+
 @implementation ImageViewer
 @synthesize imageView,media;
 
@@ -19,7 +22,11 @@
 
 - (void)viewDidLoad
 {
-    [self.imageView loadMedia:self.media];
+    [self.imageView refreshWithFrame:self.imageView.frame media:self.media mode:ARISMediaDisplayModeAspectFit delegate:self];
+}
+
+- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+{
 }
 
 - (NSInteger) supportedInterfaceOrientations

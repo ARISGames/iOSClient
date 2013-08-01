@@ -103,10 +103,12 @@
 		AA3D7C7A17662C1F00382D00 /* MTStatusBarOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3D7C6F17662C1F00382D00 /* MTStatusBarOverlay.m */; };
 		AA3F493217A828B300FF4C80 /* ARISWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3F493117A828B300FF4C80 /* ARISWebView.m */; };
 		AA49A25817AAC75200629C87 /* arisjs.js in Resources */ = {isa = PBXBuildFile; fileRef = AA856FEF17A972B800E9D451 /* arisjs.js */; };
+		AA49A25D17AAE6C200629C87 /* ARISMediaView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA49A25C17AAE6C200629C87 /* ARISMediaView.m */; };
 		AA4B20931745672600079AEF /* ARISNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4B20921745672500079AEF /* ARISNavigationController.m */; };
 		AA50A48017396B7200B105C2 /* ARISContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA50A47F17396B7000B105C2 /* ARISContainerViewController.m */; };
 		AA50A484173992F500B105C2 /* 123-id-card-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA50A482173992F500B105C2 /* 123-id-card-white@2x.png */; };
 		AA50A485173992F500B105C2 /* 123-id-card-white.png in Resources */ = {isa = PBXBuildFile; fileRef = AA50A483173992F500B105C2 /* 123-id-card-white.png */; };
+		AA522B8E17AC225200C8A72B /* GamePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA522B8D17AC225200C8A72B /* GamePickerCell.m */; };
 		AA701FDC17330947003A840D /* GamePlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA701FDB17330947003A840D /* GamePlayViewController.m */; };
 		AA701FE117342169003A840D /* GamePickersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA701FE017342169003A840D /* GamePickersViewController.m */; };
 		AA701FE5173428C4003A840D /* ARISAlertHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = AA701FE4173428C3003A840D /* ARISAlertHandler.m */; };
@@ -329,7 +331,6 @@
 		AABC7398172739D80074CC21 /* RatingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70A9172739D60074CC21 /* RatingCell.m */; };
 		AABC7399172739D80074CC21 /* RatingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC70AA172739D60074CC21 /* RatingCell.xib */; };
 		AABC739A172739D80074CC21 /* SCRRatingView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70AD172739D60074CC21 /* SCRRatingView.m */; };
-		AABC739B172739D80074CC21 /* GamePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70B0172739D60074CC21 /* GamePickerCell.m */; };
 		AABC739C172739D80074CC21 /* GamePickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC70B1172739D60074CC21 /* GamePickerCell.xib */; };
 		AABC739D172739D80074CC21 /* GamePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70B3172739D60074CC21 /* GamePickerViewController.m */; };
 		AABC739E172739D80074CC21 /* GamePickerNearbyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70B6172739D60074CC21 /* GamePickerNearbyViewController.m */; };
@@ -349,7 +350,6 @@
 		AABC73AD172739D80074CC21 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = AABC70D0172739D60074CC21 /* main.mm */; };
 		AABC73AE172739D80074CC21 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC70D1172739D60074CC21 /* MainWindow.xib */; };
 		AABC73AF172739D80074CC21 /* ARISMoviePlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70D4172739D60074CC21 /* ARISMoviePlayerViewController.m */; };
-		AABC73B0172739D80074CC21 /* AsyncMediaImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70D6172739D60074CC21 /* AsyncMediaImageView.m */; };
 		AABC73B1172739D80074CC21 /* AsyncMediaPlayerButton.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70D8172739D60074CC21 /* AsyncMediaPlayerButton.m */; };
 		AABC73B3172739D80074CC21 /* AppModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70DD172739D60074CC21 /* AppModel.m */; };
 		AABC73B4172739D80074CC21 /* AttributesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70E0172739D60074CC21 /* AttributesModel.m */; };
@@ -668,12 +668,16 @@
 		AA3D7C6F17662C1F00382D00 /* MTStatusBarOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTStatusBarOverlay.m; sourceTree = "<group>"; };
 		AA3F493017A828B300FF4C80 /* ARISWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISWebView.h; sourceTree = "<group>"; };
 		AA3F493117A828B300FF4C80 /* ARISWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISWebView.m; sourceTree = "<group>"; };
+		AA49A25B17AAE6C200629C87 /* ARISMediaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISMediaView.h; sourceTree = "<group>"; };
+		AA49A25C17AAE6C200629C87 /* ARISMediaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISMediaView.m; sourceTree = "<group>"; };
 		AA4B20911745672300079AEF /* ARISNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISNavigationController.h; sourceTree = "<group>"; };
 		AA4B20921745672500079AEF /* ARISNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISNavigationController.m; sourceTree = "<group>"; };
 		AA50A47E17396B6F00B105C2 /* ARISContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISContainerViewController.h; sourceTree = "<group>"; };
 		AA50A47F17396B7000B105C2 /* ARISContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISContainerViewController.m; sourceTree = "<group>"; };
 		AA50A482173992F500B105C2 /* 123-id-card-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "123-id-card-white@2x.png"; sourceTree = "<group>"; };
 		AA50A483173992F500B105C2 /* 123-id-card-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "123-id-card-white.png"; sourceTree = "<group>"; };
+		AA522B8C17AC225200C8A72B /* GamePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerCell.h; sourceTree = "<group>"; };
+		AA522B8D17AC225200C8A72B /* GamePickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerCell.m; sourceTree = "<group>"; };
 		AA701FDA17330947003A840D /* GamePlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlayViewController.h; sourceTree = "<group>"; };
 		AA701FDB17330947003A840D /* GamePlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePlayViewController.m; sourceTree = "<group>"; };
 		AA701FDF17342169003A840D /* GamePickersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickersViewController.h; sourceTree = "<group>"; };
@@ -964,8 +968,6 @@
 		AABC70AB172739D60074CC21 /* SCRMemoryManagement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCRMemoryManagement.h; sourceTree = "<group>"; };
 		AABC70AC172739D60074CC21 /* SCRRatingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCRRatingView.h; sourceTree = "<group>"; };
 		AABC70AD172739D60074CC21 /* SCRRatingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCRRatingView.m; sourceTree = "<group>"; };
-		AABC70AF172739D60074CC21 /* GamePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerCell.h; sourceTree = "<group>"; };
-		AABC70B0172739D60074CC21 /* GamePickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerCell.m; sourceTree = "<group>"; };
 		AABC70B1172739D60074CC21 /* GamePickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GamePickerCell.xib; sourceTree = "<group>"; };
 		AABC70B2172739D60074CC21 /* GamePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerViewController.h; sourceTree = "<group>"; };
 		AABC70B3172739D60074CC21 /* GamePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerViewController.m; sourceTree = "<group>"; };
@@ -994,8 +996,6 @@
 		AABC70D1172739D60074CC21 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		AABC70D3172739D60074CC21 /* ARISMoviePlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISMoviePlayerViewController.h; sourceTree = "<group>"; };
 		AABC70D4172739D60074CC21 /* ARISMoviePlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISMoviePlayerViewController.m; sourceTree = "<group>"; };
-		AABC70D5172739D60074CC21 /* AsyncMediaImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncMediaImageView.h; sourceTree = "<group>"; };
-		AABC70D6172739D60074CC21 /* AsyncMediaImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncMediaImageView.m; sourceTree = "<group>"; };
 		AABC70D7172739D60074CC21 /* AsyncMediaPlayerButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncMediaPlayerButton.h; sourceTree = "<group>"; };
 		AABC70D8172739D60074CC21 /* AsyncMediaPlayerButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncMediaPlayerButton.m; sourceTree = "<group>"; };
 		AABC70DC172739D60074CC21 /* AppModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppModel.h; sourceTree = "<group>"; };
@@ -1809,8 +1809,8 @@
 		AABC7062172739D60074CC21 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				AABC70D0172739D60074CC21 /* main.mm */,
 				AABC7070172739D60074CC21 /* ARIS_Prefix.pch */,
+				AABC70D0172739D60074CC21 /* main.mm */,
 				AABC70D1172739D60074CC21 /* MainWindow.xib */,
 				AA74E79E176267EF005C279B /* MainWindow-iPad.xib */,
 				AABC7071172739D60074CC21 /* ARISAppDelegate.h */,
@@ -1956,8 +1956,8 @@
 			children = (
 				AABC70B2172739D60074CC21 /* GamePickerViewController.h */,
 				AABC70B3172739D60074CC21 /* GamePickerViewController.m */,
-				AABC70AF172739D60074CC21 /* GamePickerCell.h */,
-				AABC70B0172739D60074CC21 /* GamePickerCell.m */,
+				AA522B8C17AC225200C8A72B /* GamePickerCell.h */,
+				AA522B8D17AC225200C8A72B /* GamePickerCell.m */,
 				AABC70B1172739D60074CC21 /* GamePickerCell.xib */,
 				AABC70B4172739D60074CC21 /* nearby */,
 				AABC70B8172739D60074CC21 /* popular */,
@@ -2033,10 +2033,10 @@
 		AABC70D2172739D60074CC21 /* media */ = {
 			isa = PBXGroup;
 			children = (
+				AA49A25B17AAE6C200629C87 /* ARISMediaView.h */,
+				AA49A25C17AAE6C200629C87 /* ARISMediaView.m */,
 				AABC70D3172739D60074CC21 /* ARISMoviePlayerViewController.h */,
 				AABC70D4172739D60074CC21 /* ARISMoviePlayerViewController.m */,
-				AABC70D5172739D60074CC21 /* AsyncMediaImageView.h */,
-				AABC70D6172739D60074CC21 /* AsyncMediaImageView.m */,
 				AABC70D7172739D60074CC21 /* AsyncMediaPlayerButton.h */,
 				AABC70D8172739D60074CC21 /* AsyncMediaPlayerButton.m */,
 			);
@@ -3085,7 +3085,6 @@
 				AABC7397172739D80074CC21 /* GameDetailsViewController.m in Sources */,
 				AABC7398172739D80074CC21 /* RatingCell.m in Sources */,
 				AABC739A172739D80074CC21 /* SCRRatingView.m in Sources */,
-				AABC739B172739D80074CC21 /* GamePickerCell.m in Sources */,
 				AABC739D172739D80074CC21 /* GamePickerViewController.m in Sources */,
 				AABC739E172739D80074CC21 /* GamePickerNearbyViewController.m in Sources */,
 				AABC73A0172739D80074CC21 /* GamePickerPopularViewController.m in Sources */,
@@ -3096,7 +3095,6 @@
 				AABC73AC172739D80074CC21 /* SelfRegistrationViewController.m in Sources */,
 				AABC73AD172739D80074CC21 /* main.mm in Sources */,
 				AABC73AF172739D80074CC21 /* ARISMoviePlayerViewController.m in Sources */,
-				AABC73B0172739D80074CC21 /* AsyncMediaImageView.m in Sources */,
 				AABC73B1172739D80074CC21 /* AsyncMediaPlayerButton.m in Sources */,
 				AABC73B3172739D80074CC21 /* AppModel.m in Sources */,
 				AABC73B4172739D80074CC21 /* AttributesModel.m in Sources */,
@@ -3262,6 +3260,8 @@
 				5B87AE24178DBA4100229D92 /* Playhead.m in Sources */,
 				AB123BDE1794314700547BA7 /* GamePickerSearching.js in Sources */,
 				AA3F493217A828B300FF4C80 /* ARISWebView.m in Sources */,
+				AA49A25D17AAE6C200629C87 /* ARISMediaView.m in Sources */,
+				AA522B8E17AC225200C8A72B /* GamePickerCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

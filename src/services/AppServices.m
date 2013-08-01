@@ -11,6 +11,7 @@
 #import "NSDictionary+ValidParsers.h"
 #import "NodeOption.h"
 #import "ARISAlertHandler.h"
+#import "ARISMediaView.h"
 
 static const int kDefaultCapacity = 10;
 static const BOOL kEmptyBoolValue = NO;
@@ -1110,9 +1111,10 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
             int iTiles = [currentOverlay.tileX count];
             for (int iTile = 0; iTile < iTiles; iTile++)
             {
-                // step through tile list and update media with images
-                AsyncMediaImageView *aImageView = [[AsyncMediaImageView alloc] init ];
-                [aImageView loadMedia:[currentOverlay.tileImage objectAtIndex:iTile]];
+                //SHOULD NOT MANIPULATE VIEWS IN APPSERVICES!!! -Phil
+                //ARISMediaView *aImageView = [[ARISMediaView alloc] initWithFrame:CGRectZero media:[currentOverlay.tileImage objectAtIndex:iTile] mode:ARISMediaDisplayModeAspectFit delegate:nil];
+                //also... what the heck is this doing? -Phil
+                //This is dumb so I commented it out
             }
         }
     }

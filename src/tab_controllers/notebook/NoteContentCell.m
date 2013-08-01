@@ -10,11 +10,10 @@
 #import "NoteContent.h"
 #import "AppModel.h"
 #import "AppServices.h"
+#import "ARISMediaView.h"
 
-@interface NoteContentCell() <UITextViewDelegate>
+@interface NoteContentCell() <ARISMediaViewDelegate, UITextViewDelegate>
 {
-    id<NoteContentProtocol>content;
-
     IBOutlet UIButton *retryButton;
     IBOutlet UIActivityIndicatorView *spinner;
     IBOutlet UITextView *titleLbl;
@@ -22,6 +21,7 @@
     IBOutlet UILabel *holdLbl;
     IBOutlet UIImageView *imageView;
     
+    id<NoteContentProtocol>content;
     id<NoteContentCellDelegate> __unsafe_unretained delegate;
 }
 
@@ -70,16 +70,14 @@
         self.detailLbl.text = self.content.getText;
     }
     else if([[self.content getType] isEqualToString:@"PHOTO"])
-        [self addSubview:[[AsyncMediaImageView alloc] initWithFrame:self.imageView.frame andMedia:[self.content getMedia]]];
+        [self addSubview:[[ARISMediaView alloc] initWithFrame:self.imageView.frame media:[self.content getMedia] mode:ARISMediaDisplayModeAspectFill delegate:self]];
     else if([[self.content getType] isEqualToString:@"AUDIO"] ||
             [[self.content getType] isEqualToString:@"VIDEO"])
     {
-        AsyncMediaImageView *aView = [[AsyncMediaImageView alloc] initWithFrame:self.imageView.frame andMedia:[self.content getMedia]];
+        ARISMediaView *aView = [[ARISMediaView alloc] initWithFrame:self.imageView.frame media:[self.content getMedia] mode:ARISMediaDisplayModeAspectFill delegate:self];
         UIImageView *overlay = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"play_button.png"]];
         overlay.frame = CGRectMake(aView.frame.origin.x, aView.frame.origin.y, aView.frame.size.width/2, aView.frame.size.height/2);
         overlay.center = aView.center;
-        
-        //overlay.alpha = .6;
         [self addSubview:aView];
         [self addSubview:overlay];
     }
@@ -189,6 +187,11 @@
     }
     else
         [self.titleLbl setUserInteractionEnabled:NO];
+}
+
+- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+{
+    
 }
 
 @end

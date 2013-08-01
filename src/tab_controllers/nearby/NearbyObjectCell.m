@@ -8,31 +8,17 @@
 
 #import "NearbyObjectCell.h"
 
-
 @implementation NearbyObjectCell
 
-@synthesize title, iconView;
+@synthesize title;
+@synthesize iconView;
 
-
-
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        // Initialization code.
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    if(self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
+    {
     }
     return self;
 }
-
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    
-    [super setSelected:selected animated:animated];
-    
-    // Configure the view for the selected state.
-}
-
-
-
 
 @end
