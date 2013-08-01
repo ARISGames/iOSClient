@@ -231,7 +231,7 @@
         tmpTab = [gamePlayTabs objectAtIndex:i];
         if(tmpTab.tabIndex < 1) continue;
         
-        if ([tmpTab.tabName isEqualToString:@"QUESTS"])
+        if([tmpTab.tabName isEqualToString:@"QUESTS"])
         {
             //if uses icon quest view
             if((BOOL)tmpTab.tabDetail1)

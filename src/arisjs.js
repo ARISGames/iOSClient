@@ -121,7 +121,7 @@ var ARISJS = function(_ARIS)
     /*
      * ARIS CALLBACK FUNCTIONS
      */
-    if(!_ARIS.didUpdateItemQty)
+    if(typeof(_ARIS.didUpdateItemQty) === 'undefined')
     {
         _ARIS.didUpdateItemQty = function(updatedItemId,qty)
         {
@@ -129,7 +129,7 @@ var ARISJS = function(_ARIS)
         }
     }
 
-    if(!_ARIS.didReceiveName)
+    if(typeof(_ARIS.didReceiveName) === 'undefined')
     {
         _ARIS.didReceiveName = function(name)
         {
@@ -137,7 +137,7 @@ var ARISJS = function(_ARIS)
         }
     }
 
-    if(!_ARIS.bumpDetected)
+    if(typeof(_ARIS.bumpDetected) === 'undefined')
     {
         _ARIS.bumpDetected = function(bumpString)
         {
@@ -145,7 +145,7 @@ var ARISJS = function(_ARIS)
         }
     }
 
-    if(!_ARIS.hook)
+    if(typeof(_ARIS.hook) === 'undefined')
     {
         _ARIS.hook = function(paramsJSON)
         {
@@ -156,7 +156,7 @@ var ARISJS = function(_ARIS)
     return _ARIS;
 }
 
-if(ARIS) ARISJS(ARIS);
-else var ARIS = ARISJS({});
+if(typeof(ARIS) === 'undefined') var ARIS = ARISJS({});
+else ARIS = ARISJS(ARIS);
 
-if(ARISReady) ARISReady();
+if(typeof(ARISReady) === 'function') ARISReady();

@@ -41,6 +41,8 @@
     self = [super initWithNibName:@"IconQuestsViewController" bundle:nil];
     if(self)
     {
+        delegate = d;
+        
         self.tabID = @"QUESTS";
         self.title = NSLocalizedString(@"QuestViewTitleKey",@"");
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"todoTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"todoTabBarUnselected"]];

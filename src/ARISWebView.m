@@ -93,8 +93,9 @@
 
 - (void) injectHTMLWithARISjs
 {
-    if([[self stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('html')[0] != null;"] isEqualToString:@"true"])
-        [self stringByEvaluatingJavaScriptFromString:[NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"arisjs" ofType:@"js"] encoding:NSUTF8StringEncoding error:NULL]];
+    NSString *arisjs = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"arisjs" ofType:@"js"] encoding:NSASCIIStringEncoding error:NULL];
+    //if([[self stringByEvaluatingJavaScriptFromString:@"document.getElementsByTagName('html')[0] != null;"] isEqualToString:@"true"])
+    [self stringByEvaluatingJavaScriptFromString:arisjs];
 }
 
 - (BOOL) isARISRequest:(NSURLRequest *)request

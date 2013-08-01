@@ -100,6 +100,7 @@
 		AA1E2D501652CC7500219535 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4F1652CC7500219535 /* Security.framework */; };
 		AA3D7C7A17662C1F00382D00 /* MTStatusBarOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3D7C6F17662C1F00382D00 /* MTStatusBarOverlay.m */; };
 		AA3F493217A828B300FF4C80 /* ARISWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3F493117A828B300FF4C80 /* ARISWebView.m */; };
+		AA49A25817AAC75200629C87 /* arisjs.js in Resources */ = {isa = PBXBuildFile; fileRef = AA856FEF17A972B800E9D451 /* arisjs.js */; };
 		AA4B20931745672600079AEF /* ARISNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA4B20921745672500079AEF /* ARISNavigationController.m */; };
 		AA50A48017396B7200B105C2 /* ARISContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA50A47F17396B7000B105C2 /* ARISContainerViewController.m */; };
 		AA50A484173992F500B105C2 /* 123-id-card-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA50A482173992F500B105C2 /* 123-id-card-white@2x.png */; };
@@ -140,7 +141,6 @@
 		AA74E7F517626EE9005C279B /* NSURLConnection+block.m in Sources */ = {isa = PBXBuildFile; fileRef = AA74E7D717626EE9005C279B /* NSURLConnection+block.m */; };
 		AA74E7F617626EE9005C279B /* StoreLocallyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA74E7D917626EE9005C279B /* StoreLocallyViewController.m */; };
 		AA74E7F717626EE9005C279B /* StoreLocallyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA74E7DA17626EE9005C279B /* StoreLocallyViewController.xib */; };
-		AA856FF017A972B800E9D451 /* arisjs.js in Sources */ = {isa = PBXBuildFile; fileRef = AA856FEF17A972B800E9D451 /* arisjs.js */; };
 		AA856FF517A9AFA900E9D451 /* qr_nowhite.png in Resources */ = {isa = PBXBuildFile; fileRef = AA856FF317A9AFA900E9D451 /* qr_nowhite.png */; };
 		AA856FF617A9AFA900E9D451 /* qr.png in Resources */ = {isa = PBXBuildFile; fileRef = AA856FF417A9AFA900E9D451 /* qr.png */; };
 		AAAB7637173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAB7636173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m */; };
@@ -2742,6 +2742,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA49A25817AAC75200629C87 /* arisjs.js in Resources */,
 				AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */,
 				AABC6F3B172738CD0074CC21 /* Settings.bundle in Resources */,
 				AABC6FC51727398B0074CC21 /* 103-map.png in Resources */,
@@ -3259,7 +3260,6 @@
 				5B87AE24178DBA4100229D92 /* Playhead.m in Sources */,
 				AB123BDE1794314700547BA7 /* GamePickerSearching.js in Sources */,
 				AA3F493217A828B300FF4C80 /* ARISWebView.m in Sources */,
-				AA856FF017A972B800E9D451 /* arisjs.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

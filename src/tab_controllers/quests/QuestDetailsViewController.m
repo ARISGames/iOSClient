@@ -44,28 +44,20 @@
 NSString *const kQuestDetailsHtmlTemplate =
 @"<html>"
 @"<head>"
-@"	<title>Aris</title>"
 @"	<style type='text/css'><!--"
-@"  html,body {margin: 0;padding: 0;width: 100%%;height: 100%%;}"
-@"  html {display: table;}"
+@"  html,body {margin: 0;padding: 0;}"
 @"	body {"
-@"		background-color: transparent;"
 @"		color: #000000;"
-@"      display: table-cell;"
-@"      vertical-align: middle;"
 @"      text-align: center;"
 @"		font-size: 17px;"
 @"		font-family: Helvetia, Sans-Serif;"
 @"      -webkit-text-size-adjust: none;"
 @"	}"
-@"  ul,ol"
-@"  {"
-@"      text-align:left;"
-@"  }"
+@"  ul,ol { text-align:left; }"
 @"	a {color: #000000; text-decoration: underline; }"
 @"	--></style>"
 @"</head>"
-@"<body><p>%@</p></body>"
+@"<body>%@</body>"
 @"</html>";
 
 @synthesize quest;
@@ -129,9 +121,24 @@ NSString *const kQuestDetailsHtmlTemplate =
         self.webView.scrollView.scrollEnabled = NO;
     }
     NSString *text;
-    if([text rangeOfString:@"<html>"].location == NSNotFound) text = [NSString stringWithFormat:kQuestDetailsHtmlTemplate, text];
     text =
-    @"<html><style type='text/css'><!-- html{margin:0px; padding:0px;}body{margin:0px;padding:0px;color:#000000;font-size:17px;font-family:Helvetia, Sans-Serif;-webkit-text-size-adjust:none;}--></style><body><div style=\"padding:10px;\">Yo yo yo you're a hunter blah blah hey cool quest do it.</div><div style=\"width:120px; margin:0px auto;\"><img style=\"width:40px; height:40px;\" src=\"http://www.rdheducation.com/wp-content/themes/onlinecourse/images/star_img.png\" /><img style=\"width:40px; height:40px;\" src=\"http://www.rdheducation.com/wp-content/themes/onlinecourse/images/star_img.png\" /><img style=\"width:40px; height:40px;\" src=\"http://www.rdheducation.com/wp-content/themes/onlinecourse/images/star_img.png\" /></div><div style=\"padding:10px; clear:both;\">Yo yo yo you're a hunter blah blah hey cool quest do it.</div></body></html>";
+    @"<script type='text/javascript'>"
+    @"var ARIS = {};"
+    @"ARIS.hook = function(params) { ARIS.exitToScanner('woohoo');};"
+    @"</script>"
+    @"<div style=\"padding:10px;\">"
+    @"Yo yo yo you're a hunter blah blah hey cool quest do it."
+    @"</div>"
+    @"<div style=\"width:120px; margin:0px auto;\">"
+    @"<img style=\"width:40px; height:40px;\" src=\"http://www.rdheducation.com/wp-content/themes/onlinecourse/images/star_img.png\" />"
+    @"<img style=\"width:40px; height:40px;\" src=\"http://www.rdheducation.com/wp-content/themes/onlinecourse/images/star_img.png\" />"
+    @"<img style=\"width:40px; height:40px;\" src=\"http://www.rdheducation.com/wp-content/themes/onlinecourse/images/star_img.png\" />"
+    @"</div>"
+    @"<div style=\"padding:10px; clear:both;\">"
+    @"Yo yo yo you're a hunter blah blah hey cool quest do it."
+    @"</div>";
+    if([text rangeOfString:@"<html>"].location == NSNotFound) text = [NSString stringWithFormat:kQuestDetailsHtmlTemplate, text];
+
     
     self.webView.alpha = 0.0; //The webView will resore alpha once it's loaded to avoid the ugly white blob
 	[self.webView loadHTMLString:text baseURL:nil];
@@ -204,6 +211,7 @@ NSString *const kQuestDetailsHtmlTemplate =
 
 - (IBAction) goButtonPressed:(id)sender
 {
+    [self.webView hookWithParams:@""];
     if([self.quest.goFunction isEqualToString:@"JAVASCRIPT"]) [self.webView hookWithParams:@""];
     else if([self.quest.goFunction isEqualToString:@"NONE"]) return;
     else [self displayTab:self.quest.goFunction];
