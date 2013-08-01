@@ -75,7 +75,6 @@ NSString *const kPopOverHtmlTemplate =
     AsyncMediaImageView	*imageView;
     
     id<PopOverViewDelegate> __unsafe_unretained delegate;
-
 }
 - (IBAction) continuePressed:(id)sender;
 
@@ -94,37 +93,30 @@ NSString *const kPopOverHtmlTemplate =
 
 - (void)viewWillDisappear
 {
-    [popOverWebViewMedia stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML = \"\";"];
+    [popOverWebViewMedia   stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML = \"\";"];
     [popOverWebViewNoMedia stringByEvaluatingJavaScriptFromString:@"document.body.innerHTML = \"\";"];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    imageView = [[AsyncMediaImageView alloc] init];
-    
+        
     [mainViewNoMediaContentView.layer setCornerRadius:10.0];
-    [mainViewMediaContentView.layer setCornerRadius:10.0];
-    
+    [mainViewMediaContentView.layer   setCornerRadius:10.0];
     [mainViewNoMedia.layer setCornerRadius:15.0f];
+    [mainViewMedia.layer   setCornerRadius:15.0f];
     mainViewNoMedia.layer.borderColor = [UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:1.0f].CGColor;
+    mainViewMedia.layer.borderColor   = [UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:1.0f].CGColor;
     mainViewNoMedia.layer.borderWidth = 2.0f;
-    
-    [mainViewMedia.layer setCornerRadius:15.0f];
-    mainViewMedia.layer.borderColor = [UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:1.0f].CGColor;
-    mainViewMedia.layer.borderWidth = 2.0f;
-    
-    popOverWebViewMedia.scrollView.bounces = NO;
+    mainViewMedia.layer.borderWidth   = 2.0f;
+    popOverWebViewMedia.scrollView.bounces   = NO;
     popOverWebViewNoMedia.scrollView.bounces = NO;
     
     if(!ARISMoviePlayer) ARISMoviePlayer = [[ARISMoviePlayerViewController alloc] init];
-    if(!imageView) imageView = [[AsyncMediaImageView alloc] init];
+    if(!imageView)             imageView = [[AsyncMediaImageView           alloc] init];
     
-    [continueButtonMedia setTitle:NSLocalizedString(@"OkKey", nil) forState:UIControlStateNormal];
-    [continueButtonMedia setTitle:NSLocalizedString(@"OkKey", nil) forState:UIControlStateHighlighted];
+    [continueButtonMedia   setTitle:NSLocalizedString(@"OkKey", nil) forState:UIControlStateNormal];
     [continueButtonNoMedia setTitle:NSLocalizedString(@"OkKey", nil) forState:UIControlStateNormal];
-    [continueButtonNoMedia setTitle:NSLocalizedString(@"OkKey", nil) forState:UIControlStateHighlighted];
 }
 
 - (void) setTitle:(NSString *)title description:(NSString *)description webViewText:(NSString *)text andMediaId:(int)mediaId
@@ -149,7 +141,7 @@ NSString *const kPopOverHtmlTemplate =
     lbl_popOverDescription.text = description;
 
     popOverWebView = hasMedia ? popOverWebViewMedia : popOverWebViewNoMedia;
-    if ([text rangeOfString:@"<html>"].location == NSNotFound) text = [NSString stringWithFormat:kPopOverHtmlTemplate, text];
+    if([text rangeOfString:@"<html>"].location == NSNotFound) text = [NSString stringWithFormat:kPopOverHtmlTemplate, text];
     [popOverWebView loadHTMLString:text baseURL:nil];
     
     if(mediaId != 0)
@@ -196,7 +188,6 @@ NSString *const kPopOverHtmlTemplate =
     */
   //  else{
         shouldPlay = YES;
-        NSLog(@"PopOver: Playing through MPMoviePlayerController");
         [mediaView insertSubview: ARISMoviePlayer.view belowSubview:loadingIndicator];
         ARISMoviePlayer.moviePlayer.movieSourceType = MPMovieSourceTypeUnknown;
         [ARISMoviePlayer.moviePlayer setContentURL: [NSURL URLWithString:media.url]];
@@ -229,11 +220,8 @@ NSString *const kPopOverHtmlTemplate =
     }
 }
 
-#pragma mark audioPlayerDone
-
 - (void) audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
 {
-    NSLog(@"PopOver: Audio is done playing");
     NSError* err;
     [[AVAudioSession sharedInstance] setActive: NO error: &err];
     if(err)NSLog(@"PopOver: Ending Audio: Failed with reason: %@", [err localizedDescription]);
