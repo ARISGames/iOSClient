@@ -89,6 +89,8 @@
 		7152F672177B9BCB001B0CAE /* magnifyTabBarUnselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7152F66D177B9BCA001B0CAE /* magnifyTabBarUnselected@2x.png */; };
 		7152F673177B9BCB001B0CAE /* microphoneTabBarUnselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7152F66E177B9BCA001B0CAE /* microphoneTabBarUnselected@2x.png */; };
 		7152F674177B9BCB001B0CAE /* qrScannerTabBarUnselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7152F66F177B9BCB001B0CAE /* qrScannerTabBarUnselected@2x.png */; };
+		8902C4A917AC09E700C80803 /* dsym_upload.sh in Resources */ = {isa = PBXBuildFile; fileRef = 8902C4A717AC09E700C80803 /* dsym_upload.sh */; };
+		8902C4AA17AC09E700C80803 /* libCrittercism_v4_0_6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8902C4A817AC09E700C80803 /* libCrittercism_v4_0_6.a */; };
 		A78FD8B00F4B7E9400820FEA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78FD8AF0F4B7E9400820FEA /* Foundation.framework */; };
 		A78FD8B20F4B7EA200820FEA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A78FD8B10F4B7EA200820FEA /* CoreGraphics.framework */; };
 		A79202640F8E717C0049F990 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A79202630F8E717C0049F990 /* MediaPlayer.framework */; };
@@ -526,8 +528,6 @@
 		ABB2CDC413C7497500F051E4 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB2CDC313C7497400F051E4 /* CoreVideo.framework */; };
 		ABB2CDC613C7498A00F051E4 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB2CDC513C7498A00F051E4 /* AddressBook.framework */; };
 		ABDA40DE10506CB300823A94 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABDA40DD10506CB300823A94 /* MapKit.framework */; };
-		ABE47D5017A0F21300A20CE7 /* dsym_upload.sh in Resources */ = {isa = PBXBuildFile; fileRef = ABE47D4E17A0F21300A20CE7 /* dsym_upload.sh */; };
-		ABE47D5117A0F21300A20CE7 /* libCrittercism_v4_0_3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABE47D4F17A0F21300A20CE7 /* libCrittercism_v4_0_3.a */; };
 		ABF4A3AD116847E50043EB1C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF4A3AC116847E40043EB1C /* SystemConfiguration.framework */; };
 		ABF4A3B1116847F50043EB1C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF4A3B0116847F50043EB1C /* MobileCoreServices.framework */; };
 		D4D366DF111B6789009C4D00 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D366DE111B6789009C4D00 /* CFNetwork.framework */; };
@@ -648,6 +648,11 @@
 		7152F66D177B9BCA001B0CAE /* magnifyTabBarUnselected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "magnifyTabBarUnselected@2x.png"; sourceTree = "<group>"; };
 		7152F66E177B9BCA001B0CAE /* microphoneTabBarUnselected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "microphoneTabBarUnselected@2x.png"; sourceTree = "<group>"; };
 		7152F66F177B9BCB001B0CAE /* qrScannerTabBarUnselected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qrScannerTabBarUnselected@2x.png"; sourceTree = "<group>"; };
+		8902C4A417AC09E700C80803 /* CRFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CRFilter.h; sourceTree = "<group>"; };
+		8902C4A517AC09E700C80803 /* Crittercism.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crittercism.h; sourceTree = "<group>"; };
+		8902C4A617AC09E700C80803 /* CrittercismDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrittercismDelegate.h; sourceTree = "<group>"; };
+		8902C4A717AC09E700C80803 /* dsym_upload.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = dsym_upload.sh; sourceTree = "<group>"; };
+		8902C4A817AC09E700C80803 /* libCrittercism_v4_0_6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCrittercism_v4_0_6.a; sourceTree = "<group>"; };
 		A78FD8AF0F4B7E9400820FEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A78FD8B10F4B7EA200820FEA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		A79202630F8E717C0049F990 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -1322,10 +1327,6 @@
 		ABB2CDC513C7498A00F051E4 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		ABD24F59120A5BAD00D792F5 /* fr */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ABDA40DD10506CB300823A94 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		ABE47D4C17A0F21300A20CE7 /* Crittercism.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Crittercism.h; sourceTree = "<group>"; };
-		ABE47D4D17A0F21300A20CE7 /* CrittercismDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrittercismDelegate.h; sourceTree = "<group>"; };
-		ABE47D4E17A0F21300A20CE7 /* dsym_upload.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = dsym_upload.sh; sourceTree = "<group>"; };
-		ABE47D4F17A0F21300A20CE7 /* libCrittercism_v4_0_3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCrittercism_v4_0_3.a; sourceTree = "<group>"; };
 		ABF4A3AC116847E40043EB1C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		ABF4A3B0116847F50043EB1C /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		D4D366DE111B6789009C4D00 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -1367,7 +1368,7 @@
 				AB9BA24913DFBAB1007470E3 /* libz.dylib in Frameworks */,
 				AABC7421172739D80074CC21 /* libBump.a in Frameworks */,
 				AABC7450172739D80074CC21 /* libPusher-combined.a in Frameworks */,
-				ABE47D5117A0F21300A20CE7 /* libCrittercism_v4_0_3.a in Frameworks */,
+				8902C4AA17AC09E700C80803 /* libCrittercism_v4_0_6.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1514,6 +1515,18 @@
 				7152F5CC177B7AD3001B0CAE /* trophyTabBarUnselected@2x.png */,
 			);
 			path = Unselected;
+			sourceTree = "<group>";
+		};
+		8902C4A317AC09E700C80803 /* CrittercismSDK */ = {
+			isa = PBXGroup;
+			children = (
+				8902C4A417AC09E700C80803 /* CRFilter.h */,
+				8902C4A517AC09E700C80803 /* Crittercism.h */,
+				8902C4A617AC09E700C80803 /* CrittercismDelegate.h */,
+				8902C4A717AC09E700C80803 /* dsym_upload.sh */,
+				8902C4A817AC09E700C80803 /* libCrittercism_v4_0_6.a */,
+			);
+			path = CrittercismSDK;
 			sourceTree = "<group>";
 		};
 		AA3D7C6A17662C1F00382D00 /* MTStatusBarOverlay */ = {
@@ -2391,7 +2404,7 @@
 		AABC71B1172739D70074CC21 /* third_party */ = {
 			isa = PBXGroup;
 			children = (
-				ABE47D4B17A0F21300A20CE7 /* CrittercismSDK */,
+				8902C4A317AC09E700C80803 /* CrittercismSDK */,
 				AA3D7C6A17662C1F00382D00 /* MTStatusBarOverlay */,
 				AABC71B5172739D70074CC21 /* bump */,
 				AABC71C0172739D70074CC21 /* JSON */,
@@ -2649,17 +2662,6 @@
 				AB123BDD1794314700547BA7 /* GamePickerSearching.js */,
 			);
 			path = tests;
-			sourceTree = "<group>";
-		};
-		ABE47D4B17A0F21300A20CE7 /* CrittercismSDK */ = {
-			isa = PBXGroup;
-			children = (
-				ABE47D4C17A0F21300A20CE7 /* Crittercism.h */,
-				ABE47D4D17A0F21300A20CE7 /* CrittercismDelegate.h */,
-				ABE47D4E17A0F21300A20CE7 /* dsym_upload.sh */,
-				ABE47D4F17A0F21300A20CE7 /* libCrittercism_v4_0_3.a */,
-			);
-			path = CrittercismSDK;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -3022,11 +3024,11 @@
 				5B1D998F178CC3A700661453 /* 30-circle-play@2x.png in Resources */,
 				5B1D9990178CC3A700661453 /* 35-circle-stop.png in Resources */,
 				5B1D9991178CC3A700661453 /* 35-circle-stop@2x.png in Resources */,
-				ABE47D5017A0F21300A20CE7 /* dsym_upload.sh in Resources */,
 				AA73FB5A17A7178B00D6495F /* 3x1_fade_up.png in Resources */,
 				AA73FB5B17A7178B00D6495F /* 3x1_fade_down.png in Resources */,
 				AA856FF517A9AFA900E9D451 /* qr_nowhite.png in Resources */,
 				AA856FF617A9AFA900E9D451 /* qr.png in Resources */,
+				8902C4A917AC09E700C80803 /* dsym_upload.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
