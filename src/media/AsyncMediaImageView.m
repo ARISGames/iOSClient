@@ -175,6 +175,7 @@
 - (void) loadImageFromMedia:(Media *)aMedia
 {
     if(self.isLoading) return;
+    [self setImage:nil];
 
     self.media = aMedia;
     
@@ -274,8 +275,7 @@
     if(image)
     {
         [self setImage:image];
-        if(delegate &&
-           [delegate respondsToSelector:@selector(imageFinishedLoading:)])
+        if(delegate && [delegate respondsToSelector:@selector(imageFinishedLoading:)])
             [delegate imageFinishedLoading:self];
     }
     self.isLoading = NO;

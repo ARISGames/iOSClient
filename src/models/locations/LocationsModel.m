@@ -33,6 +33,22 @@
     [self updateLocations:[[NSArray alloc] init]];
 }
 
+- (void) removeLocation:(Location *)location
+{
+    NSMutableArray *currentLocationsMutable = [self.currentLocations mutableCopy];
+    for(int i = 0; i < [currentLocationsMutable count]; ++i)
+    {
+        Location *existingLocation = [currentLocationsMutable objectAtIndex:i];
+        if([existingLocation isEqual:location])
+        {
+            [currentLocationsMutable removeObject:existingLocation];
+            --i;
+        }
+    }
+    
+    [self updateLocations:currentLocationsMutable];
+}
+
 - (void) latestPlayerLocationsReceived:(NSNotification *)notification
 {
     [self updateLocations:[notification.userInfo objectForKey:@"locations"]];

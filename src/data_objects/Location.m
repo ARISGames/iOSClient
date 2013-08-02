@@ -59,7 +59,7 @@
             self.gameObject = [[AppModel sharedAppModel] nodeForNodeId:oid];
         if([otype isEqualToString:@"Item"])       self.gameObject = [[AppModel sharedAppModel] itemForItemId:oid];
         if([otype isEqualToString:@"Npc"])        self.gameObject = [[AppModel sharedAppModel] npcForNpcId:oid];
-        if([otype isEqualToString:@"WebPage"])    self.gameObject = [[AppModel sharedAppModel] webPageForWebPageID:oid];
+        if([otype isEqualToString:@"WebPage"])    self.gameObject = [[AppModel sharedAppModel] webPageForWebPageId:oid];
         if([otype isEqualToString:@"PlayerNote"])
         {
             if(!(self.gameObject = [[AppModel sharedAppModel] noteForNoteId:oid playerListYesGameListNo:YES]))

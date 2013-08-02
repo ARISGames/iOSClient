@@ -28,6 +28,7 @@
 @property (nonatomic) UIBarButtonItem *cancelButton;
 
 - (id) initWithDelegate:(id<DecoderViewControllerDelegate, StateControllerProtocol>)d;
+- (void) launchScannerWithPrompt:(NSString *)p;
 - (IBAction) scanButtonTapped;
 - (void) cancelButtonTouch;
 - (void) loadResult:(NSString *)result;

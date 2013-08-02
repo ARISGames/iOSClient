@@ -363,16 +363,19 @@
 
 -(void)addTimeObserver{
     CMTime tm = CMTimeMakeWithSeconds(0.1, NSEC_PER_SEC);
+    __weak id weakSelf = self;
+    __weak id weakPlayHead = playHead;
+    __weak id weakWf = wf;
     timeObserver = [player addPeriodicTimeObserverForInterval:tm queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
-        [self updateTimeString];
-        if(![playHead isHidden]){
-            [playHead setNeedsDisplay];
+        [weakSelf updateTimeString];
+        if(![weakPlayHead isHidden]){
+            [weakPlayHead setNeedsDisplay];
         }
-        if([wf isHidden]){
-            [self loadAudio];
+        if([weakWf isHidden]){
+            [weakSelf loadAudio];
         }
-        if(playProgress >= endTime){
-            [self clipOver];
+        if([weakSelf getPlayProgress] >= [weakSelf getEndTime]){
+            [weakSelf clipOver];
         }
     }];
 }
@@ -406,19 +409,9 @@
 
 #pragma mark Orientation
 
-- (NSUInteger)supportedInterfaceOrientations {
-    return UIInterfaceOrientationMaskLandscape;
-}
-
-- (BOOL)shouldAutorotate {
-    
-    return YES;
-}
-
-- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (NSUInteger) supportedInterfaceOrientations
 {
-    
-    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft || interfaceOrientation == UIInterfaceOrientationLandscapeRight);
+    return UIInterfaceOrientationMaskLandscape;
 }
 
 #pragma mark -
@@ -484,6 +477,10 @@
 
 -(float)getPlayProgress{
     return playProgress;
+}
+
+-(float)getEndTime{
+    return endTime;
 }
 
 #pragma mark Freq Histogram control delegate

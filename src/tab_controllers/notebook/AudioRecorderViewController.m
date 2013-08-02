@@ -112,8 +112,10 @@
     [self setMode:kAudioRecorderStarting];
 }
 
-- (void) viewDidAppear:(BOOL)animated{
-    if(isTrimmedFile){
+- (void) viewDidAppear:(BOOL)animated
+{
+    if(isTrimmedFile)
+    {
         NSString *soundFileStringEncoded = [self.soundFileString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         //Add file://localhost to the path here because it goes away when not inited.
         self.soundFileURL = [NSURL URLWithString:[NSString stringWithFormat:@"file://localhost%@trimmed.m4a",soundFileStringEncoded]];
@@ -332,23 +334,9 @@
     [super viewDidUnload];
 }
 
-- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return interfaceOrientation == UIInterfaceOrientationPortrait;
-}
-
-- (BOOL) shouldAutorotate
-{
-    return YES;
-}
-
 - (NSInteger) supportedInterfaceOrientations
 {
-        NSInteger mask = 0;
-        if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeLeft])      mask |= UIInterfaceOrientationMaskLandscapeLeft;
-        if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationLandscapeRight])     mask |= UIInterfaceOrientationMaskLandscapeRight;
-        if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationPortrait])           mask |= UIInterfaceOrientationMaskPortrait;
-        if([self shouldAutorotateToInterfaceOrientation:UIInterfaceOrientationPortraitUpsideDown]) mask |= UIInterfaceOrientationMaskPortraitUpsideDown;
-        return mask;
+    return UIInterfaceOrientationMaskPortrait;
 }
+
 @end

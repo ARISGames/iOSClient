@@ -29,10 +29,11 @@
 
 @synthesize nearbyLocationsList;
 
-- (id)initWithDelegate:(id<NearbyObjectsViewControllerDelegate, StateControllerProtocol>)d
+- (id) initWithDelegate:(id<NearbyObjectsViewControllerDelegate, StateControllerProtocol>)d
 {
     if(self = [super initWithNibName:@"NearbyObjectsViewController" bundle:nil])
     {
+        self.tabID = @"NEARBY";
         delegate = d;
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"radarTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"radarTabBarUnselected"]];
         
@@ -45,28 +46,23 @@
     return self;
 }
 
-- (void)dealloc
+- (void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void) viewDidAppear:(BOOL)animated
 {
 	[self refresh];
     self.tabBarItem.badgeValue = nil;
 }
 
--(void)dismissTutorial
-{
-    //if(delegate) [delegate dismissTutorial];
-}
-
-- (void)refresh
+- (void) refresh
 {
     [[AppServices sharedAppServices] fetchPlayerLocationList];
 }
 
--(void)refreshViewFromModel
+- (void) refreshViewFromModel
 {
     NSMutableArray *newNearbyLocationsList = [NSMutableArray arrayWithCapacity:5];
     
@@ -98,8 +94,8 @@
     
    if(forceLocation)
    {
-       [delegate displayGameObject:forceLocation.gameObject fromSource:self];
-       [self.nearbyLocationsList addObject:forceLocation];
+       if([delegate displayGameObject:forceLocation.gameObject fromSource:forceLocation])
+           [self.nearbyLocationsList addObject:forceLocation];
    }
    else
        self.nearbyLocationsList = newNearbyLocationsList; //Throw out new locations list
@@ -113,12 +109,6 @@
     {
         self.navigationController.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",[self.nearbyLocationsList count]];
         [delegate showNearbyObjectsTab];
-        
-        if (![AppModel sharedAppModel].hasSeenNearbyTabTutorial)
-        {
-            [AppModel sharedAppModel].hasSeenNearbyTabTutorial = YES;
-            [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
-        }
     }
     
     [nearbyTable reloadData];
@@ -160,7 +150,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	Location *l = [self.nearbyLocationsList objectAtIndex:indexPath.row];
-	[delegate displayGameObject:l.gameObject fromSource:self];
+	[delegate displayGameObject:l.gameObject fromSource:l];
 }
 
 @end

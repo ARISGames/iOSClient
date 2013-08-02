@@ -89,7 +89,6 @@ NSString *const kQuestsHtmlTemplate =
 - (void)refreshViewFromModel;
 - (void)showLoadingIndicator;
 - (void)removeLoadingIndicator;
-- (void)dismissTutorial;
 - (IBAction)sortQuestsButtonTouched;
 
 @end
@@ -130,11 +129,6 @@ NSString *const kQuestsHtmlTemplate =
     [self refreshViewFromModel];
 }
 
-- (void) dismissTutorial
-{
-    //if(delegate) [delegate dismissTutorial];
-}
-
 - (void) refresh
 {
 	[[AppServices sharedAppServices] fetchPlayerQuestList];
@@ -143,12 +137,6 @@ NSString *const kQuestsHtmlTemplate =
 
 -(void) refreshViewFromModel
 {
-    if(![AppModel sharedAppModel].hasSeenQuestsTabTutorial)
-    {
-        [AppModel sharedAppModel].hasSeenQuestsTabTutorial = YES;
-        [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
-    }
-    
     NSSortDescriptor *sortDescriptor;
     sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"sortNum" ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];

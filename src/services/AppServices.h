@@ -113,6 +113,7 @@ extern NSString *const kARISServerServicePackage;
 
 //Tell server of state
 - (void)updateServerWithPlayerLocation;
+- (void)updateServerLocationViewed:(int)locationId;
 - (void)updateServerNodeViewed:(int)nodeId fromLocation:(int)locationId;
 - (void)updateServerItemViewed:(int)itemId fromLocation:(int)locationId;
 - (void)updateServerWebPageViewed:(int)webPageId fromLocation:(int)locationId;

@@ -69,10 +69,6 @@
     float averageAccelerometerReadingZ;
     
 	//Training Flags
-	BOOL hasSeenNearbyTabTutorial;
-	BOOL hasSeenQuestsTabTutorial;
-	BOOL hasSeenMapTabTutorial;
-	BOOL hasSeenInventoryTabTutorial;
     BOOL hidePlayers,isGameNoteList;
     
     //CORE Data
@@ -132,12 +128,6 @@
 @property(nonatomic, strong) UIAlertView *networkAlert;
 @property(nonatomic, strong) UIProgressView *progressBar;
 
-//Training Flags
-@property(readwrite) BOOL hasSeenNearbyTabTutorial;
-@property(readwrite) BOOL hasSeenQuestsTabTutorial;
-@property(readwrite) BOOL hasSeenMapTabTutorial;
-@property(readwrite) BOOL hasSeenInventoryTabTutorial;
-
 // CORE Data
 @property (nonatomic, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, readonly) NSManagedObjectContext *managedObjectContext;
@@ -160,7 +150,7 @@
 - (Item *)itemForItemId:(int)mId;
 - (Node *)nodeForNodeId:(int)mId;
 - (Npc *)npcForNpcId:(int)mId;
-- (WebPage *)webPageForWebPageID:(int)mId;
+- (WebPage *)webPageForWebPageId:(int)mId;
 - (Panoramic *)panoramicForPanoramicId:(int)mId;
 - (Note *)noteForNoteId:(int)mId playerListYesGameListNo:(BOOL)playerorGame;
 

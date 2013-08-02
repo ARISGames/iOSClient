@@ -17,6 +17,7 @@
 @property(nonatomic, strong) NSArray *currentLocations;
 
 -(void)clearData;
+-(void)removeLocation:(Location *) location;
 -(int)modifyQuantity:(int)quantityModifier forLocationId:(int)locationId;
 -(Location *)locationForId:(int)itemId;
 

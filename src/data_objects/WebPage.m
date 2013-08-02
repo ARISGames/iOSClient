@@ -46,7 +46,7 @@
     return GameObjectWebPage;
 }
 
-- (WebPageViewController *) viewControllerForDelegate:(NSObject<GameObjectViewControllerDelegate> *)d fromSource:(id)s
+- (WebPageViewController *) viewControllerForDelegate:(NSObject<GameObjectViewControllerDelegate,StateControllerProtocol> *)d fromSource:(id)s
 {
 	return [[WebPageViewController alloc] initWithWebPage:self delegate:d];
 }

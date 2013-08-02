@@ -134,7 +134,7 @@ NSString *const kDialogHtmlTemplate =
 @property (nonatomic, strong) IBOutlet UIButton *npcTapToContinueButton;
 @property (nonatomic, strong) AsyncMediaImageView *currentImageView;
 
-- (IBAction)continueButtonTouchAction;
+- (IBAction) continueButtonTouchAction;
 
 @end
 
@@ -157,7 +157,6 @@ NSString *const kDialogHtmlTemplate =
 @synthesize npcTextSection;
 @synthesize npcTextWebView;
 @synthesize npcTapToContinueButton;
-
 
 @synthesize currentNpc;
 @synthesize currentNode;
@@ -423,7 +422,7 @@ NSString *const kDialogHtmlTemplate =
         else if([currentScene.sceneType isEqualToString:@"panoramic"])
             [self.navigationController pushViewController:[[[AppModel sharedAppModel] panoramicForPanoramicId:currentScene.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
         else if([currentScene.sceneType isEqualToString:@"webpage"])
-            [self.navigationController pushViewController:[[[AppModel sharedAppModel] webPageForWebPageID:currentScene.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+            [self.navigationController pushViewController:[[[AppModel sharedAppModel] webPageForWebPageId:currentScene.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
         else if([currentScene.sceneType isEqualToString:@"node"])
             [self.navigationController pushViewController:[[[AppModel sharedAppModel] nodeForNodeId:currentScene.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
         else if([currentScene.sceneType isEqualToString:@"item"])
@@ -542,7 +541,7 @@ NSString *const kDialogHtmlTemplate =
         else if([currentScript.exitToType isEqualToString:@"plaque"])
             [delegate displayGameObject:[[AppModel sharedAppModel] nodeForNodeId:currentScript.exitToTypeId] fromSource:self];
         else if([currentScript.exitToType isEqualToString:@"webpage"])
-            [delegate displayGameObject:[[AppModel sharedAppModel] webPageForWebPageID:currentScript.exitToTypeId] fromSource:self];
+            [delegate displayGameObject:[[AppModel sharedAppModel] webPageForWebPageId:currentScript.exitToTypeId] fromSource:self];
         else if([currentScript.exitToType isEqualToString:@"item"])
             [delegate displayGameObject:[[AppModel sharedAppModel] itemForItemId:currentScript.exitToTypeId] fromSource:self];
         else if([currentScript.exitToType isEqualToString:@"character"])
@@ -705,6 +704,9 @@ NSString *const kDialogHtmlTemplate =
 
 -(void) toggleTextBoxSize:(int)mode
 {
+    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
+    
     textboxSizeState = mode;
     
     CGRect newTextFrame;

@@ -83,24 +83,12 @@
                             completion:^(BOOL finished) { [oldC removeFromParentViewController]; [newC didMoveToParentViewController:self]; }];
 }
 
-- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        return YES;
-    }
-    else {
-        return [currentChildViewController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
-    }
-}
-
-- (BOOL) shouldAutorotate
-{
-    return YES;
-}
-
 - (NSInteger) supportedInterfaceOrientations
 {
-    return [currentChildViewController supportedInterfaceOrientations];
+    if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        return UIInterfaceOrientationMaskAll;
+    else
+        return [currentChildViewController supportedInterfaceOrientations];
 }
 
 @end
