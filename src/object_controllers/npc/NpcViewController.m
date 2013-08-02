@@ -704,6 +704,9 @@ NSString *const kDialogHtmlTemplate =
 
 -(void) toggleTextBoxSize:(int)mode
 {
+    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
+    
     textboxSizeState = mode;
     
     CGRect newTextFrame;
