@@ -94,7 +94,7 @@
     
    if(forceLocation)
    {
-       if([delegate displayGameObject:forceLocation.gameObject fromSource:self])
+       if([delegate displayGameObject:forceLocation.gameObject fromSource:forceLocation])
            [self.nearbyLocationsList addObject:forceLocation];
    }
    else
@@ -150,7 +150,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	Location *l = [self.nearbyLocationsList objectAtIndex:indexPath.row];
-	[delegate displayGameObject:l.gameObject fromSource:self];
+	[delegate displayGameObject:l.gameObject fromSource:l];
 }
 
 @end

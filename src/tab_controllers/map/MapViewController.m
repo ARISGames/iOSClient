@@ -454,7 +454,7 @@
  */
 - (void) quickTravelToLastSelectedAnnotation
 {
-    [delegate displayGameObject:((Location *)currentAnnotation).gameObject fromSource:self];
+    [delegate displayGameObject:((Location *)currentAnnotation).gameObject fromSource:((Location *)currentAnnotation)];
 }
 
 @end

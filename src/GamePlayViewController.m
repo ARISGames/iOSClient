@@ -12,6 +12,8 @@
 #import "WebPageViewController.h"
 #import "NoteDetailsViewController.h"
 
+//#import "Location.h"
+
 //PHIL APPROVED IMPORTS
 #import "GamePlayViewController.h"
 #import "StateControllerProtocol.h"
@@ -336,6 +338,14 @@
                                                                 self.gameNotificationViewController.view.frame.size.width,
                                                                 self.gameNotificationViewController.view.frame.size.height);
     [nav.view addSubview:self.gameNotificationViewController.view];//always put notifs on top //Phil doesn't LOVE this, but can't think of anything better...
+    
+    if([s isKindOfClass:[Location class]])
+    {
+        [[AppServices sharedAppServices] updateServerLocationViewed:((Location *)s).locationId];
+        
+        if(((Location *)s).deleteWhenViewed)
+            [game.locationsModel removeLocation:s];
+    }
     
     return YES;
 }

@@ -289,6 +289,22 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseSearchGameListFromJSON:)];
 }
 
+- (void)updateServerLocationViewed:(int)locationId
+{
+    //Call server service
+	NSArray *arguments = [NSArray arrayWithObjects:
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].currentGame.gameId],
+						    [NSString stringWithFormat:@"%d", [AppModel sharedAppModel].player.playerId],
+                          [NSString stringWithFormat:@"%d",locationId],
+						  nil];
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
+                                                            andServiceName:@"players"
+                                                             andMethodName:@"locationViewed"
+                                                              andArguments:arguments
+                                                               andUserInfo:nil];
+	[jsonConnection performAsynchronousRequestWithHandler:@selector(fetchAllPlayerLists)];
+}
+
 - (void) updateServerNodeViewed:(int)nodeId fromLocation:(int)locationId
 {
 	//Call server service
