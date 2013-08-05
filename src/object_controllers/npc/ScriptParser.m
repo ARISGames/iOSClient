@@ -1,12 +1,25 @@
 //
-//  SceneParser.m
+//  ScriptParser.m
 //  aris-conversation
 //
 //  Created by Kevin Harris on 09/12/01.
 //  Copyright 2009 Studio Tectorum. All rights reserved.
 //
 
-#import "SceneParser.h"
+#import "ScriptParser.h"
+
+/*
+ SAMPLE DIALOG FORMAT
+ NSString *xmlData =
+ @"<dialog>"
+ @"<pc bgSound='1'>Tell me more.</pc>"
+ @"<pc zoomX='130' zoomY='35' zoomWidth='50' zoomHeight='71.875'><![CDATA[I'm really interested.]]></pc>"
+ @"<npc fgSound='2' id='1'><![CDATA[<p>So a man walks into a bar.</p>]]></npc>"
+ @"<npc id='2'><![CDATA[<p>This is the good part.</p>]]></npc>"
+ @"<npc bgSound='-2' id='1'><![CDATA[<p><strong>Quiet!</strong></p><p>Anyway, he says ouch.</p>]]></npc>"
+ @"<npc id='2' zoomX='150' zoomY='50' zoomWidth='100' zoomHeight='100'><![CDATA[<p><strong>OUCH!</strong></p><p>Ha ha ha!</p>]]></npc>"
+ @"</dialog>";
+ */
 
 const float kDefaultZoomTime = 1.0;
 
@@ -46,16 +59,15 @@ NSString *const kAttrZoomTime                    = @"zoomTime";
 NSString *const kAttrVibrate                     = @"vibrate";//
 NSString *const kAttrNotification                = @"notification";
 
-@implementation SceneParser
+@implementation ScriptParser
 {
-    Scene *tempScene;
+    ScriptElement *tempScriptElement;
     NSMutableString *tempText;
 }
 
 @synthesize script;
 
-#pragma mark Init/dealloc
-- (id) initWithDelegate:(id<SceneParserDelegate>)inputDelegate
+- (id) initWithDelegate:(id<ScriptParserDelegate>)inputDelegate
 {
 	if ((self = [super init]))
     {
@@ -67,7 +79,6 @@ NSString *const kAttrNotification                = @"notification";
 	return self;
 }
 
-#pragma mark XML Parsing
 - (void) parseText:(NSString *)text
 {
 	sourceText = text;
@@ -76,7 +87,7 @@ NSString *const kAttrNotification                = @"notification";
 	parser = [[NSXMLParser alloc] initWithData:data];
 	parser.delegate = self;
 	
-    script = [[DialogScript alloc] init];
+    script = [[Script alloc] init];
     
 	[parser parse];
 }
@@ -140,24 +151,24 @@ didStartElement:(NSString *)elementName
     }
     else
     {
-        tempScene = [[Scene alloc] init];
+        tempScriptElement = [[ScriptElement alloc] init];
         tempText  = [[NSMutableString alloc] init];
 
         if([elementName isEqualToString:kTagNpc] || [elementName isEqualToString:kTagPc])
         {
-            if([elementName isEqualToString:kTagNpc]) tempScene.sceneType = @"npc";
-            if([elementName isEqualToString:kTagPc])  tempScene.sceneType = @"pc";
+            if([elementName isEqualToString:kTagNpc]) tempScriptElement.type = @"npc";
+            if([elementName isEqualToString:kTagPc])  tempScriptElement.type = @"pc";
         
             if([attributeDict objectForKey:kAttrAdjustTextArea])
-                tempScene.adjustTextArea = [attributeDict objectForKey:kAttrAdjustTextArea];
+                tempScriptElement.adjustTextArea = [attributeDict objectForKey:kAttrAdjustTextArea];
             if([attributeDict objectForKey:kAttrTitle])
-                tempScene.title = [attributeDict objectForKey:kAttrTitle];
+                tempScriptElement.title = [attributeDict objectForKey:kAttrTitle];
             if([attributeDict objectForKey:kAttrMedia])
-                tempScene.mediaId = [[attributeDict objectForKey:kAttrMedia] intValue];
+                tempScriptElement.mediaId = [[attributeDict objectForKey:kAttrMedia] intValue];
             if([attributeDict objectForKey:kAttrVibrate])
-                tempScene.vibrate = YES;
+                tempScriptElement.vibrate = YES;
             if ([attributeDict objectForKey:kAttrNotification])
-                tempScene.notification = [attributeDict objectForKey:kAttrNotification];
+                tempScriptElement.notification = [attributeDict objectForKey:kAttrNotification];
             
             int x = 0;
             int y = 0;
@@ -171,10 +182,10 @@ didStartElement:(NSString *)elementName
                 width = [[attributeDict objectForKey:kAttrZoomWidth] intValue];
             if([attributeDict objectForKey:kAttrZoomHeight])
                 height = [[attributeDict objectForKey:kAttrZoomHeight] intValue];
-            tempScene.imageRect = CGRectMake(x,y,width,height);
+            tempScriptElement.imageRect = CGRectMake(x,y,width,height);
 
             if([attributeDict objectForKey:kAttrZoomTime])
-                tempScene.zoomTime = [[attributeDict objectForKey:kAttrZoomTime] floatValue];            
+                tempScriptElement.zoomTime = [[attributeDict objectForKey:kAttrZoomTime] floatValue];
         }
         else if ([elementName isEqualToString:kTagVideo]     ||
                  [elementName isEqualToString:kTagPanoramic] ||
@@ -182,13 +193,13 @@ didStartElement:(NSString *)elementName
                  [elementName isEqualToString:kTagPlaque]    ||
                  [elementName isEqualToString:kTagItem]       )
         {
-            if([elementName isEqualToString:kTagItem])      tempScene.sceneType = @"item";
-            if([elementName isEqualToString:kTagPlaque])    tempScene.sceneType = @"node";
-            if([elementName isEqualToString:kTagWebPage])   tempScene.sceneType = @"webpage";
-            if([elementName isEqualToString:kTagPanoramic]) tempScene.sceneType = @"panoramic";
-            if([elementName isEqualToString:kTagVideo])     tempScene.sceneType = @"video";
+            if([elementName isEqualToString:kTagItem])      tempScriptElement.type = @"item";
+            if([elementName isEqualToString:kTagPlaque])    tempScriptElement.type = @"node";
+            if([elementName isEqualToString:kTagWebPage])   tempScriptElement.type = @"webpage";
+            if([elementName isEqualToString:kTagPanoramic]) tempScriptElement.type = @"panoramic";
+            if([elementName isEqualToString:kTagVideo])     tempScriptElement.type = @"video";
             
-            tempScene.typeId = [[attributeDict objectForKey:kAttrId] intValue];
+            tempScriptElement.typeId = [[attributeDict objectForKey:kAttrId] intValue];
         }
     }
 }
@@ -196,11 +207,11 @@ didStartElement:(NSString *)elementName
 - (void) parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName
    namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName
 {
-    if(tempScene && ![elementName isEqualToString:kTagDialog])
+    if(tempScriptElement && ![elementName isEqualToString:kTagDialog])
     {
-        tempScene.text = [NSString stringWithString:tempText];
-        [script.sceneArray addObject:tempScene];
-        tempScene = nil;
+        tempScriptElement.text = [NSString stringWithString:tempText];
+        [script.scriptElementArray addObject:tempScriptElement];
+        tempScriptElement = nil;
         tempText  = nil;
     }
 }
@@ -220,20 +231,20 @@ didStartElement:(NSString *)elementName
 
 - (void) parserDidEndDocument:(NSXMLParser *)parser
 {
-	NSLog(@"SceneParser: parserDidEndDocument");
-	if ([script.sceneArray count] == 0)
+	NSLog(@"ScriptParser: parserDidEndDocument");
+	if ([script.scriptElementArray count] == 0)
     {
-        Scene *s = [[Scene alloc] init];
-        s.sceneType = @"npc";
+        ScriptElement *s = [[ScriptElement alloc] init];
+        s.type = @"npc";
         s.text = sourceText;
-        [script.sceneArray addObject:s];
+        [script.scriptElementArray addObject:s];
 	}
 	
-	[delegate didFinishParsing:script];
+	[delegate scriptDidFinishParsing:script];
 }
 
 - (void) parser:(NSXMLParser *)p parseErrorOccurred:(NSError *)parseError
 {
-	NSLog(@"SceneParser: Fatal error: %@", parseError);
+	NSLog(@"ScriptParser: Fatal error: %@", parseError);
 }
 @end

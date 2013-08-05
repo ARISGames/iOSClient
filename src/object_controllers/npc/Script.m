@@ -1,14 +1,14 @@
 //
-//  DialogScript.m
+//  Script.m
 //  ARIS
 //
 //  Created by Phil Dougherty on 3/28/13.
 //
 //
 
-#import "DialogScript.h"
+#import "Script.h"
 
-@implementation DialogScript
+@implementation Script
 
 @synthesize exitToType;
 @synthesize exitToTypeId;
@@ -19,7 +19,7 @@
 @synthesize defaultPcTitle;
 @synthesize hideAdjustTextAreaButton;
 @synthesize adjustTextArea;
-@synthesize sceneArray;
+@synthesize scriptElementArray;
 
 -(id) init
 {
@@ -34,17 +34,17 @@
         defaultPcTitle                       = nil;
         hideAdjustTextAreaButton             = NO;
         adjustTextArea = nil;
-        sceneArray = [[NSMutableArray alloc] init];
-        sceneIndex = -1;
+        scriptElementArray = [[NSMutableArray alloc] init];
+        scriptElementIndex = -1;
     }
     return self;
 }
 
-- (Scene *) nextScene
+- (ScriptElement *) nextScriptElement
 {
-    sceneIndex++;
-    if([sceneArray count] > sceneIndex)
-        return [sceneArray objectAtIndex:sceneIndex];
+    scriptElementIndex++;
+    if([scriptElementArray count] > scriptElementIndex)
+        return [scriptElementArray objectAtIndex:scriptElementIndex];
     else
         return nil;
 }

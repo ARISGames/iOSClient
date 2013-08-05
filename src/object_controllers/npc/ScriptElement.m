@@ -1,19 +1,19 @@
 //
-//  Scene.m
+//  ScriptElement.m
 //  aris-conversation
 //
 //  Created by Kevin Harris on 09/11/18.
 //  Copyright 2009 Studio Tectorum. All rights reserved.
 //
 
-#import "Scene.h"
+#import "ScriptElement.h"
 
-@implementation Scene
+@implementation ScriptElement
 
 @synthesize title;
 @synthesize text;
 
-@synthesize sceneType;
+@synthesize type;
 @synthesize typeId;
 
 @synthesize mediaId;
@@ -33,8 +33,8 @@
         self.title        = nil;
         self.text         = nil;
         
-        self.sceneType    = @"pc";
-        self.typeId      = 0;
+        self.type         = @"pc";
+        self.typeId       = 0;
         
         self.mediaId      = 0;
 

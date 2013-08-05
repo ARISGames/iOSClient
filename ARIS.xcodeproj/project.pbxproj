@@ -97,6 +97,9 @@
 		A7955B930F73E095005148E4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7955B920F73E095005148E4 /* AudioToolbox.framework */; };
 		A7E4C88C0F54C4D000C6D9E8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E4C88B0F54C4D000C6D9E8 /* QuartzCore.framework */; };
 		A7E4C8990F54C5E300C6D9E8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E4C8980F54C5E300C6D9E8 /* CoreLocation.framework */; };
+		AA0D807A17B00E7E0002A81C /* NpcScriptElementView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0D807917B00E7E0002A81C /* NpcScriptElementView.m */; };
+		AA0D807D17B011FF0002A81C /* NpcOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0D807C17B011FE0002A81C /* NpcOptionsViewController.m */; };
+		AA0D808017B015A00002A81C /* NpcScriptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA0D807F17B015A00002A81C /* NpcScriptViewController.m */; };
 		AA1DA9841742BB2900D10A35 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA1DA9831742BB2700D10A35 /* Default-568h@2x.png */; };
 		AA1E2D4E1652CC6000219535 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4D1652CC6000219535 /* libicucore.dylib */; };
 		AA1E2D501652CC7500219535 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA1E2D4F1652CC7500219535 /* Security.framework */; };
@@ -306,7 +309,7 @@
 		AABC737F172739D80074CC21 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7079172739D60074CC21 /* Location.m */; };
 		AABC7380172739D80074CC21 /* Media.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC707B172739D60074CC21 /* Media.m */; };
 		AABC7381172739D80074CC21 /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC707D172739D60074CC21 /* Node.m */; };
-		AABC7382172739D80074CC21 /* NodeOption.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC707F172739D60074CC21 /* NodeOption.m */; };
+		AABC7382172739D80074CC21 /* NpcScriptOption.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC707F172739D60074CC21 /* NpcScriptOption.m */; };
 		AABC7383172739D80074CC21 /* Note.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7081172739D60074CC21 /* Note.m */; };
 		AABC7384172739D80074CC21 /* NoteContent.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7083172739D60074CC21 /* NoteContent.m */; };
 		AABC7385172739D80074CC21 /* Npc.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7085172739D60074CC21 /* Npc.m */; };
@@ -359,9 +362,9 @@
 		AABC73B8172739D80074CC21 /* QuestsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70EC172739D60074CC21 /* QuestsModel.m */; };
 		AABC73B9172739D80074CC21 /* MyCLController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70EE172739D60074CC21 /* MyCLController.m */; };
 		AABC73BE172739D80074CC21 /* NodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70F9172739D60074CC21 /* NodeViewController.m */; };
-		AABC73C0172739D80074CC21 /* DialogScript.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70FD172739D60074CC21 /* DialogScript.m */; };
-		AABC73C2172739D80074CC21 /* Scene.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7101172739D60074CC21 /* Scene.m */; };
-		AABC73C3172739D80074CC21 /* SceneParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7103172739D60074CC21 /* SceneParser.m */; };
+		AABC73C0172739D80074CC21 /* Script.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70FD172739D60074CC21 /* Script.m */; };
+		AABC73C2172739D80074CC21 /* ScriptElement.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7101172739D60074CC21 /* ScriptElement.m */; };
+		AABC73C3172739D80074CC21 /* ScriptParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7103172739D60074CC21 /* ScriptParser.m */; };
 		AABC73C4172739D80074CC21 /* PanoramicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7106172739D60074CC21 /* PanoramicViewController.m */; };
 		AABC73C5172739D80074CC21 /* PanoramicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7107172739D60074CC21 /* PanoramicViewController.xib */; };
 		AABC73C8172739D80074CC21 /* GameNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC710E172739D60074CC21 /* GameNotificationViewController.m */; };
@@ -660,6 +663,12 @@
 		A7A172720F4F26280017E865 /* ARIS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARIS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7E4C88B0F54C4D000C6D9E8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		A7E4C8980F54C5E300C6D9E8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		AA0D807817B00E7E0002A81C /* NpcScriptElementView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NpcScriptElementView.h; sourceTree = "<group>"; };
+		AA0D807917B00E7E0002A81C /* NpcScriptElementView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NpcScriptElementView.m; sourceTree = "<group>"; };
+		AA0D807B17B011FE0002A81C /* NpcOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NpcOptionsViewController.h; sourceTree = "<group>"; };
+		AA0D807C17B011FE0002A81C /* NpcOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NpcOptionsViewController.m; sourceTree = "<group>"; };
+		AA0D807E17B015A00002A81C /* NpcScriptViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NpcScriptViewController.h; sourceTree = "<group>"; };
+		AA0D807F17B015A00002A81C /* NpcScriptViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NpcScriptViewController.m; sourceTree = "<group>"; };
 		AA1DA9831742BB2700D10A35 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		AA1E2D4D1652CC6000219535 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		AA1E2D4F1652CC7500219535 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -922,8 +931,8 @@
 		AABC707B172739D60074CC21 /* Media.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Media.m; sourceTree = "<group>"; };
 		AABC707C172739D60074CC21 /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
 		AABC707D172739D60074CC21 /* Node.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Node.m; sourceTree = "<group>"; };
-		AABC707E172739D60074CC21 /* NodeOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeOption.h; sourceTree = "<group>"; };
-		AABC707F172739D60074CC21 /* NodeOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NodeOption.m; sourceTree = "<group>"; };
+		AABC707E172739D60074CC21 /* NpcScriptOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NpcScriptOption.h; sourceTree = "<group>"; };
+		AABC707F172739D60074CC21 /* NpcScriptOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NpcScriptOption.m; sourceTree = "<group>"; };
 		AABC7080172739D60074CC21 /* Note.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Note.h; sourceTree = "<group>"; };
 		AABC7081172739D60074CC21 /* Note.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Note.m; sourceTree = "<group>"; };
 		AABC7082172739D60074CC21 /* NoteContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteContent.h; sourceTree = "<group>"; };
@@ -1014,12 +1023,12 @@
 		AABC70EE172739D60074CC21 /* MyCLController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCLController.m; sourceTree = "<group>"; };
 		AABC70F8172739D60074CC21 /* NodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeViewController.h; sourceTree = "<group>"; };
 		AABC70F9172739D60074CC21 /* NodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NodeViewController.m; sourceTree = "<group>"; };
-		AABC70FC172739D60074CC21 /* DialogScript.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialogScript.h; sourceTree = "<group>"; };
-		AABC70FD172739D60074CC21 /* DialogScript.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialogScript.m; sourceTree = "<group>"; };
-		AABC7100172739D60074CC21 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
-		AABC7101172739D60074CC21 /* Scene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scene.m; sourceTree = "<group>"; };
-		AABC7102172739D60074CC21 /* SceneParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneParser.h; sourceTree = "<group>"; };
-		AABC7103172739D60074CC21 /* SceneParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SceneParser.m; sourceTree = "<group>"; };
+		AABC70FC172739D60074CC21 /* Script.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Script.h; sourceTree = "<group>"; };
+		AABC70FD172739D60074CC21 /* Script.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Script.m; sourceTree = "<group>"; };
+		AABC7100172739D60074CC21 /* ScriptElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptElement.h; sourceTree = "<group>"; };
+		AABC7101172739D60074CC21 /* ScriptElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptElement.m; sourceTree = "<group>"; };
+		AABC7102172739D60074CC21 /* ScriptParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScriptParser.h; sourceTree = "<group>"; };
+		AABC7103172739D60074CC21 /* ScriptParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScriptParser.m; sourceTree = "<group>"; };
 		AABC7105172739D60074CC21 /* PanoramicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PanoramicViewController.h; sourceTree = "<group>"; };
 		AABC7106172739D60074CC21 /* PanoramicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PanoramicViewController.m; sourceTree = "<group>"; };
 		AABC7107172739D60074CC21 /* PanoramicViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PanoramicViewController.xib; sourceTree = "<group>"; };
@@ -1886,8 +1895,8 @@
 				AABC707B172739D60074CC21 /* Media.m */,
 				AABC707C172739D60074CC21 /* Node.h */,
 				AABC707D172739D60074CC21 /* Node.m */,
-				AABC707E172739D60074CC21 /* NodeOption.h */,
-				AABC707F172739D60074CC21 /* NodeOption.m */,
+				AABC707E172739D60074CC21 /* NpcScriptOption.h */,
+				AABC707F172739D60074CC21 /* NpcScriptOption.m */,
 				AABC7080172739D60074CC21 /* Note.h */,
 				AABC7081172739D60074CC21 /* Note.m */,
 				AABC7082172739D60074CC21 /* NoteContent.h */,
@@ -2145,12 +2154,18 @@
 				AABC7507172860690074CC21 /* NpcViewController.h */,
 				AABC7508172860690074CC21 /* NpcViewController.m */,
 				AABC7509172860690074CC21 /* NpcViewController.xib */,
-				AABC70FC172739D60074CC21 /* DialogScript.h */,
-				AABC70FD172739D60074CC21 /* DialogScript.m */,
-				AABC7100172739D60074CC21 /* Scene.h */,
-				AABC7101172739D60074CC21 /* Scene.m */,
-				AABC7102172739D60074CC21 /* SceneParser.h */,
-				AABC7103172739D60074CC21 /* SceneParser.m */,
+				AA0D807B17B011FE0002A81C /* NpcOptionsViewController.h */,
+				AA0D807C17B011FE0002A81C /* NpcOptionsViewController.m */,
+				AA0D807E17B015A00002A81C /* NpcScriptViewController.h */,
+				AA0D807F17B015A00002A81C /* NpcScriptViewController.m */,
+				AA0D807817B00E7E0002A81C /* NpcScriptElementView.h */,
+				AA0D807917B00E7E0002A81C /* NpcScriptElementView.m */,
+				AABC7102172739D60074CC21 /* ScriptParser.h */,
+				AABC7103172739D60074CC21 /* ScriptParser.m */,
+				AABC70FC172739D60074CC21 /* Script.h */,
+				AABC70FD172739D60074CC21 /* Script.m */,
+				AABC7100172739D60074CC21 /* ScriptElement.h */,
+				AABC7101172739D60074CC21 /* ScriptElement.m */,
 			);
 			path = npc;
 			sourceTree = "<group>";
@@ -3065,7 +3080,7 @@
 				AABC737F172739D80074CC21 /* Location.m in Sources */,
 				AABC7380172739D80074CC21 /* Media.m in Sources */,
 				AABC7381172739D80074CC21 /* Node.m in Sources */,
-				AABC7382172739D80074CC21 /* NodeOption.m in Sources */,
+				AABC7382172739D80074CC21 /* NpcScriptOption.m in Sources */,
 				AABC7383172739D80074CC21 /* Note.m in Sources */,
 				AABC7384172739D80074CC21 /* NoteContent.m in Sources */,
 				AABC7385172739D80074CC21 /* Npc.m in Sources */,
@@ -3104,9 +3119,9 @@
 				AABC73B8172739D80074CC21 /* QuestsModel.m in Sources */,
 				AABC73B9172739D80074CC21 /* MyCLController.m in Sources */,
 				AABC73BE172739D80074CC21 /* NodeViewController.m in Sources */,
-				AABC73C0172739D80074CC21 /* DialogScript.m in Sources */,
-				AABC73C2172739D80074CC21 /* Scene.m in Sources */,
-				AABC73C3172739D80074CC21 /* SceneParser.m in Sources */,
+				AABC73C0172739D80074CC21 /* Script.m in Sources */,
+				AABC73C2172739D80074CC21 /* ScriptElement.m in Sources */,
+				AABC73C3172739D80074CC21 /* ScriptParser.m in Sources */,
 				AABC73C4172739D80074CC21 /* PanoramicViewController.m in Sources */,
 				AABC73C8172739D80074CC21 /* GameNotificationViewController.m in Sources */,
 				AABC73C9172739D80074CC21 /* PopOverContentView.m in Sources */,
@@ -3262,6 +3277,9 @@
 				AA3F493217A828B300FF4C80 /* ARISWebView.m in Sources */,
 				AA49A25D17AAE6C200629C87 /* ARISMediaView.m in Sources */,
 				AA522B8E17AC225200C8A72B /* GamePickerCell.m in Sources */,
+				AA0D807A17B00E7E0002A81C /* NpcScriptElementView.m in Sources */,
+				AA0D807D17B011FF0002A81C /* NpcOptionsViewController.m in Sources */,
+				AA0D808017B015A00002A81C /* NpcScriptViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
