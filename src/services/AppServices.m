@@ -1650,6 +1650,8 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     game.allowNoteComments             = [gameSource validBoolForKey:@"allow_note_comments"];
     game.allowNoteLikes                = [gameSource validBoolForKey:@"allow_note_likes"];
     game.allowTrading                  = [gameSource validBoolForKey:@"allow_trading"];
+    if([[gameSource validStringForKey:@"note_title_behavior"] isEqualToString:@"NONE"])                 game.noteTitleBehavior = None;
+    else if([[gameSource validStringForKey:@"note_title_behavior"] isEqualToString:@"FORCE_OVERWRITE"]) game.noteTitleBehavior = ForceOverwrite;
     
     NSArray *comments = [gameSource validObjectForKey:@"comments"];
     for (NSDictionary *comment in comments)

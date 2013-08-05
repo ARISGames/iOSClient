@@ -15,6 +15,11 @@
 #import "Media.h"
 #import "AsyncMediaImageView.h"
 
+typedef enum
+{
+	None = 0,
+    ForceOverwrite = 1
+} NoteTitleBehavior;
 
 @interface Game : NSObject
 {
@@ -52,6 +57,8 @@
     BOOL allowNoteComments;
     BOOL allowNoteLikes;
     BOOL allowTrading;
+    NoteTitleBehavior noteTitleBehavior;
+    
     Media *iconMedia;
     Media *splashMedia;
 
@@ -90,6 +97,7 @@
 @property (readwrite) BOOL allowNoteLikes;
 @property (readwrite) BOOL allowTrading;
 @property (readwrite) BOOL offlineMode;
+@property (readwrite) NoteTitleBehavior noteTitleBehavior;
 
 @property (readwrite, assign) int calculatedScore;
 @property (nonatomic, strong) Media *iconMedia;

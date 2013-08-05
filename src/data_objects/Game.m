@@ -34,6 +34,7 @@
 @synthesize numReviews, reviewedByUser;
 @synthesize calculatedScore,isLocational, showPlayerLocation, iconMedia;
 @synthesize allowsPlayerTags,splashMedia,allowNoteComments,allowNoteLikes,allowShareNoteToMap,allowShareNoteToList,allowTrading;
+@synthesize noteTitleBehavior;
 
 - (id)init
 {

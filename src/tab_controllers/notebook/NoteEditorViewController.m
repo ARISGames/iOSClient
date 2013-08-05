@@ -38,11 +38,12 @@
     IBOutlet UITableView *contentTable;
     IBOutlet UILabel *sharingLabel;
     UIActionSheet *actionSheet;
-
+    
     Note *note;
     id<NoteEditorViewControllerDelegate> __unsafe_unretained delegate;
     BOOL noteValid;
     NSString *startingView;
+    NSString *dateText;
 }
 
 @property (nonatomic, strong) Note *note;
@@ -105,10 +106,10 @@
                                               cancelButtonTitle:NSLocalizedString(@"CancelKey", @"")
                                          destructiveButtonTitle:nil
                                               otherButtonTitles:NSLocalizedString(@"NoteEditorListOnlyKey", @""),
-                                                                NSLocalizedString(@"NoteEditorMapOnlyKey", @""),
-                                                                NSLocalizedString(@"BothKey", @""),
-                                                                NSLocalizedString(@"DontShareKey", @""),
-                                                                nil];
+                            NSLocalizedString(@"NoteEditorMapOnlyKey", @""),
+                            NSLocalizedString(@"BothKey", @""),
+                            NSLocalizedString(@"DontShareKey", @""),
+                            nil];
         
         if(!self.note)
         {
@@ -136,10 +137,10 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated
-{    
+{
     if(!self.startingView)
-    {        
-        if(self.note.dropped) self.mapButton.selected = YES;   
+    {
+        if(self.note.dropped) self.mapButton.selected = YES;
         else                  self.mapButton.selected = NO;
         
         if     (!self.note.showOnMap && !self.note.showOnList) self.sharingLabel.text = NSLocalizedString(@"NoneKey", @"");
@@ -149,11 +150,24 @@
         
         [self refreshViewFromModel];
         
-        self.textField.text = self.note.name;
-        if([self.note.name isEqualToString:NSLocalizedString(@"NodeEditorNewNoteKey", @"")])
+        if([AppModel sharedAppModel].currentGame.noteTitleBehavior == None)
         {
-            self.textField.text = @"";
-            [self.textField becomeFirstResponder];
+            self.textField.text = self.note.name;
+            if([self.note.name isEqualToString:NSLocalizedString(@"NodeEditorNewNoteKey", @"")])
+            {
+                NSLocale* currentLocale = [NSLocale currentLocale];
+                dateText = [[NSDate date] descriptionWithLocale:currentLocale];
+                self.textField.text = dateText;
+            }
+        }
+        else
+        {
+            self.textField.text = self.note.name;
+            if([self.note.name isEqualToString:NSLocalizedString(@"NodeEditorNewNoteKey", @"")])
+            {
+                self.textField.text = @"";
+                [self.textField becomeFirstResponder];
+            }
         }
     }
     else if([self.startingView isEqualToString:@"camera"]) [self cameraButtonTouchAction];
@@ -169,7 +183,7 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"DoneKey", @"") style:UIBarButtonItemStyleDone target:self action:@selector(backButtonTouchAction:)];
     if([AppModel sharedAppModel].currentGame.allowsPlayerTags)
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"16-tag"] style:UIBarButtonItemStyleBordered target:self action:@selector(tagButtonTouchAction)];
-            
+    
     if([(NSObject *)delegate isKindOfClass:[NoteCommentViewController class]])
     {
         self.publicButton.hidden = YES;
@@ -178,6 +192,14 @@
         self.libraryButton.frame = CGRectMake( self.libraryButton.frame.origin.x, self.libraryButton.frame.origin.y, self.libraryButton.frame.size.width*1.5, self.libraryButton.frame.size.height);
         self.audioButton.frame   = CGRectMake(self.textButton.frame.size.width-2,   self.audioButton.frame.origin.y,   self.audioButton.frame.size.width*1.5,   self.audioButton.frame.size.height);
         self.cameraButton.frame  = CGRectMake(self.textButton.frame.size.width-2,  self.cameraButton.frame.origin.y,  self.cameraButton.frame.size.width*1.5,  self.cameraButton.frame.size.height);
+    }
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)aTextField
+{
+    if([aTextField.text isEqualToString:NSLocalizedString(@"NodeEditorNewNoteKey", @"")] || [aTextField.text isEqualToString:dateText])
+    {
+        aTextField.text = @"";
     }
 }
 
@@ -198,14 +220,14 @@
         self.textField.text = self.note.name;
     else
         self.note.name = self.textField.text;
-
+    
     [t resignFirstResponder];
 }
 
 -(void) viewWillDisappear:(BOOL)animated
 {
     if(!self.note) return;
-
+    
     self.startingView = nil;
     self.note.name = self.textField.text;
     if([note.name isEqualToString:@""]) note.name = NSLocalizedString(@"NodeEditorNewNoteKey", @"");
@@ -353,7 +375,7 @@
             {
                 self.note.showOnList = YES;
                 self.note.showOnMap = NO;
-                self.sharingLabel.text = NSLocalizedString(@"NoteEditorListOnlyKey", @""); 
+                self.sharingLabel.text = NSLocalizedString(@"NoteEditorListOnlyKey", @"");
             }
             else
                 [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"NoteEditorNotAllowedKey", @"") message:NSLocalizedString(@"NoteEditorNotAllowedSharingToListsMessageKey", @"")];
@@ -363,7 +385,7 @@
             if([AppModel sharedAppModel].currentGame.allowShareNoteToMap){
                 self.note.showOnList = NO;
                 self.note.showOnMap = YES;
-                self.sharingLabel.text = NSLocalizedString(@"NoteEditorMapOnlyKey", @""); 
+                self.sharingLabel.text = NSLocalizedString(@"NoteEditorMapOnlyKey", @"");
                 if(!self.note.dropped){
                     [[AppServices sharedAppServices] dropNote:self.note.noteId atCoordinate:[AppModel sharedAppModel].player.location.coordinate];
                     self.note.dropped = YES;
@@ -378,16 +400,16 @@
             if([AppModel sharedAppModel].currentGame.allowShareNoteToMap && ([AppModel sharedAppModel].currentGame.allowShareNoteToList)){
                 self.note.showOnList = YES;
                 self.note.showOnMap = YES;
-                self.sharingLabel.text = NSLocalizedString(@"NoteEditorListAndMapKey", @""); 
+                self.sharingLabel.text = NSLocalizedString(@"NoteEditorListAndMapKey", @"");
                 if(!self.note.dropped)
                 {
-                        [[AppServices sharedAppServices] dropNote:self.note.noteId atCoordinate:[AppModel sharedAppModel].player.location.coordinate];
-                        self.note.dropped = YES;
-                        self.mapButton.selected = YES;
+                    [[AppServices sharedAppServices] dropNote:self.note.noteId atCoordinate:[AppModel sharedAppModel].player.location.coordinate];
+                    self.note.dropped = YES;
+                    self.mapButton.selected = YES;
                 }
             }
             else
-                [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"NoteEditorNotAllowedKey", @"") message:NSLocalizedString(@"NoteEditorNotAllowedOneOrMoreMessageKey", @"")];                
+                [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"NoteEditorNotAllowedKey", @"") message:NSLocalizedString(@"NoteEditorNotAllowedOneOrMoreMessageKey", @"")];
             break;
         }
         case 3:
@@ -461,7 +483,7 @@
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{    
+{
 	static NSString *CellIdentifier = @"Cell";
     
     if([self.note.contents count] == 0)
@@ -479,14 +501,14 @@
         cell = (NoteContentCell *)[[[NSBundle mainBundle] loadNibNamed:@"NoteContentCell" owner:[[UIViewController alloc] init] options:nil] objectAtIndex:0];
     else
         cell = (NoteContentCell *)tempCell;
-
+    
     [cell setupWithNoteContent:[self.note.contents objectAtIndex:indexPath.row] delegate:self];
-
+    
     return cell;
 }
 
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{    
+{
     if(indexPath.row % 2 == 0) cell.backgroundColor = [UIColor colorWithRed:233.0/255.0 green:233.0/255.0 blue:233.0/255.0 alpha:1.0];
     else                       cell.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:1.0];
 }
