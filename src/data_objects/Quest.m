@@ -14,7 +14,7 @@
 @synthesize questId;
 @synthesize name, sortNum;
 @synthesize qdescription;
-@synthesize exitToTabName;
+@synthesize goFunction;
 @synthesize mediaId;
 @synthesize iconMediaId;
 @synthesize fullScreenNotification;

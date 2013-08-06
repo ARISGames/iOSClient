@@ -12,6 +12,8 @@
 #import "WebPageViewController.h"
 #import "NoteDetailsViewController.h"
 
+//#import "Location.h"
+
 //PHIL APPROVED IMPORTS
 #import "GamePlayViewController.h"
 #import "StateControllerProtocol.h"
@@ -231,7 +233,7 @@
         tmpTab = [gamePlayTabs objectAtIndex:i];
         if(tmpTab.tabIndex < 1) continue;
         
-        if ([tmpTab.tabName isEqualToString:@"QUESTS"])
+        if([tmpTab.tabName isEqualToString:@"QUESTS"])
         {
             //if uses icon quest view
             if((BOOL)tmpTab.tabDetail1)
@@ -306,6 +308,22 @@
     self.gamePlayTabBarController.selectedIndex = 0;
 }
 
+- (void) displayScannerWithPrompt:(NSString *)p
+{
+    ARISGamePlayTabBarViewController *vc;
+    ARISNavigationController *nc;
+    for(int i = 0; i < [self.gamePlayTabBarController.viewControllers count]; i++)
+    {
+        nc = [self.gamePlayTabBarController.viewControllers objectAtIndex:i];
+        vc = [[nc childViewControllers] objectAtIndex:0];
+        if([vc.tabID isEqualToString:@"QR"])
+        {
+            self.gamePlayTabBarController.selectedIndex = i;
+            [(DecoderViewController *)vc launchScannerWithPrompt:p];
+        }
+    }
+}
+
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
 {
     if(!self.isViewLoaded || !self.view.window) return NO; //Doesn't currently have the view-heirarchy authority to display. Return that it failed to those who care
@@ -320,6 +338,14 @@
                                                                 self.gameNotificationViewController.view.frame.size.width,
                                                                 self.gameNotificationViewController.view.frame.size.height);
     [nav.view addSubview:self.gameNotificationViewController.view];//always put notifs on top //Phil doesn't LOVE this, but can't think of anything better...
+    
+    if([s isKindOfClass:[Location class]])
+    {
+        [[AppServices sharedAppServices] updateServerLocationViewed:((Location *)s).locationId];
+        
+        if(((Location *)s).deleteWhenViewed)
+            [game.locationsModel removeLocation:s];
+    }
     
     return YES;
 }

@@ -41,12 +41,12 @@
     readingCountUpToOneHundredThousand = 0;
     steps = 0;
     
-    [[UIToolbar appearance]             setTintColor:[UIColor ARISColorOffWhite]];
-    [[UIBarButtonItem appearance]       setTintColor:[UIColor ARISColorLighBlue]];
-    [[UISegmentedControl appearance]    setTintColor:[UIColor ARISColorLighBlue]];
-    [[UISearchBar appearance]           setTintColor:[UIColor ARISColorOffWhite]];
-    UIImage *navBarBackground = [[UIImage imageNamed:@"navBarBackground"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    [[UIToolbar appearance]          setTintColor:[UIColor ARISColorOffWhite]];
+    [[UIBarButtonItem appearance]    setTintColor:[UIColor ARISColorLighBlue]];
+    [[UISegmentedControl appearance] setTintColor:[UIColor ARISColorLighBlue]];
+    [[UISearchBar appearance]        setTintColor:[UIColor ARISColorOffWhite]];
     
+    UIImage *navBarBackground = [[UIImage imageNamed:@"navBarBackground"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
     UIImage *tabBarBackground = [[UIImage imageNamed:@"tabBarBackground"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
     
     [[UINavigationBar appearance] setBackgroundImage:navBarBackground forBarMetrics:UIBarMetricsDefault];
@@ -64,11 +64,7 @@
             [UIFont fontWithName:@"ProximaNova-Semibold" size:0.0], UITextAttributeFont, nil]
         forState:UIControlStateHighlighted && UIControlStateNormal];
 
-    if([window respondsToSelector:@selector(setRootViewController:)])
-        window.rootViewController = [RootViewController sharedRootViewController];
-    else
-        [window addSubview:[RootViewController sharedRootViewController].view];
-    
+    [self.window setRootViewController:[RootViewController sharedRootViewController]];
     [self.window makeKeyAndVisible];
 }
 
@@ -176,7 +172,7 @@
 	[NSThread detachNewThreadSelector:@selector(playAudio:) toTarget:self withObject:wavFileName];
 }
 
-- (void)playAudio:(NSString*)wavFileName
+- (void) playAudio:(NSString*)wavFileName
 {
 	NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:wavFileName ofType:@"wav"]];
 

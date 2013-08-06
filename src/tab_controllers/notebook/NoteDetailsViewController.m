@@ -231,7 +231,7 @@
 
 - (void) textChosen:(NSString *)s
 {
-    [[[AppModel sharedAppModel] uploadManager] uploadContentForNoteId:self.note.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:s withType:@"TEXT" withFileURL:[NSURL URLWithString:[NSString stringWithFormat:@"%d.txt",((NSString *)[NSString stringWithFormat:@"%@.txt",[NSDate date]]).hash]]];
+    [[[AppModel sharedAppModel] uploadManager] uploadContentForNoteId:self.note.noteId withTitle:[NSString stringWithFormat:@"%@",[NSDate date]] withText:s withType:@"TEXT" withFileURL:nil];
 }
 
 - (void) textUpdated:(NSString *)s forContent:(NoteContent *)c

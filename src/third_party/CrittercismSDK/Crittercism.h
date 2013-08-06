@@ -6,6 +6,7 @@
 //
 #import <Foundation/Foundation.h>
 #import "CrittercismDelegate.h"
+#import "CRFilter.h"
 
 // Operating System Support
 //
@@ -45,7 +46,9 @@
 //
 // The filters parameter can be used to prevent sensitive URLs from being
 // captured by the network instrumentation. To use this, pass in an
-// NSArray of strings that will be matched against URLs captured by the library.
+// NSArray of CRFilter objects that will be matched against URLs captured by the
+// library.
+//
 // (Note - the filtering will take place off of your application's main thread.)
 
 + (void)enableWithAppID:(NSString *)appId;
@@ -67,8 +70,8 @@
  disableInstrumentation:(BOOL)disableInstrumentation;
 
 // Adds an additional filter for network instrumentation.
-
-+ (void)addFilter:(NSString *)filter;
+// See CRFilter.h for additional details.
++ (void)addFilter:(CRFilter *)filter;
 
 // Breadcrumbs provide the ability to track activity within your app.
 //

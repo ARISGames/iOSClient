@@ -9,13 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "GameObjectProtocol.h"
 
-enum
+typedef enum
 {
 	ItemTypeNormal = 0,
     ItemTypeWebPage = 1,
     ItemTypeAttribute = 2
-};
-typedef UInt32 ItemType;
+} ItemType;
 
 @interface Item : NSObject <GameObjectProtocol>
 {

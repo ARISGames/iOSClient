@@ -48,7 +48,6 @@
 - (void) refresh;
 - (unsigned int) indexOf:(char)searchChar inString:(NSString *)searchString;
 - (void) showLoadingIndicator;
-- (void) dismissTutorial;
 - (void) refreshViewFromModel;
 - (NSString *) stringByStrippingHTML:(NSString *)stringToStrip;
 
@@ -152,11 +151,6 @@
     [self.navigationController pushViewController:tradeVC animated:YES];
 }
 
-- (void) dismissTutorial
-{
-    //if(delegate) [delegate dismissTutorial];
-}
-
 - (void) refresh
 {
 	[[AppServices sharedAppServices] fetchPlayerInventory];
@@ -181,12 +175,6 @@
     NSArray *sortDescriptors = [NSArray arrayWithObjects:[[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES], nil];
     self.inventory = [[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory sortedArrayUsingDescriptors:sortDescriptors];
     [inventoryTable reloadData];
-    
-    if(![AppModel sharedAppModel].hasSeenInventoryTabTutorial)
-    {
-        [AppModel sharedAppModel].hasSeenInventoryTabTutorial = YES;
-        [self performSelector:@selector(dismissTutorial) withObject:nil afterDelay:5.0];
-    }
 }
 
 - (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier

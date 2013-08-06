@@ -73,11 +73,16 @@
     return YES;
 }
 
-- (IBAction) scanButtonTapped
+- (void) launchScannerWithPrompt:(NSString *)p
 {
-    ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO];
+    ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO showLicense:NO withPrompt:p];
     widController.readers = [[NSMutableSet alloc ] initWithObjects:[[QRCodeReader alloc] init], nil];
     [self presentViewController:widController animated:NO completion:nil];
+}
+
+- (IBAction) scanButtonTapped
+{
+    [self launchScannerWithPrompt:@""];
 }
 
 - (void)zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result

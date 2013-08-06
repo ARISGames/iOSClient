@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "StateControllerProtocol.h"
 
-@protocol QuestsViewControllerDelegate <GamePlayTabBarViewControllerDelegate>
+@protocol QuestsViewControllerDelegate <GamePlayTabBarViewControllerDelegate, StateControllerProtocol>
 
 @end

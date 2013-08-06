@@ -13,7 +13,7 @@
 	int questId;
 	NSString *name;
 	NSString *qdescription;
-    NSString *exitToTabName;
+    NSString *goFunction;
     int mediaId;
 	int iconMediaId;
     int sortNum;
@@ -24,7 +24,7 @@
 @property(readwrite, assign) int questId;
 @property(copy, readwrite) NSString *name;
 @property(copy, readwrite) NSString *qdescription;
-@property(copy, readwrite) NSString *exitToTabName;
+@property(copy, readwrite) NSString *goFunction;
 @property(readwrite, assign) int mediaId;
 @property(readwrite, assign) int iconMediaId;
 @property(readwrite, assign) int sortNum;

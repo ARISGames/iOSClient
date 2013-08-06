@@ -14,4 +14,5 @@
 @protocol StateControllerProtocol
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s; //returns success
 - (void) displayTab:(NSString *)t;
+- (void) displayScannerWithPrompt:(NSString *)p;
 @end

@@ -11,5 +11,5 @@
 #import "QuestsViewControllerDelegate.h"
 
 @interface IconQuestsViewController : ARISGamePlayTabBarViewController
-- (id)initWithDelegate:(id<QuestsViewControllerDelegate>)d;
+- (id)initWithDelegate:(id<QuestsViewControllerDelegate,StateControllerProtocol>)d;
 @end
