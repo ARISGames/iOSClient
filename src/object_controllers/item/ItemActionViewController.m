@@ -275,7 +275,7 @@
 		[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-- (NSInteger) supportedInterfaceOrientations
+- (NSUInteger) supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;
 }

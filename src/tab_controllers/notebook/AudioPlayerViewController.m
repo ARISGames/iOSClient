@@ -11,7 +11,7 @@
 
 @implementation AudioPlayerViewController
 
-- (NSInteger) supportedInterfaceOrientations
+- (NSUInteger) supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;
 }

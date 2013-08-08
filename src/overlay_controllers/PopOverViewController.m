@@ -242,7 +242,7 @@ NSString *const kPopOverHtmlTemplate =
     
 }
 
-- (NSInteger) supportedInterfaceOrientations
+- (NSUInteger) supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;
 }

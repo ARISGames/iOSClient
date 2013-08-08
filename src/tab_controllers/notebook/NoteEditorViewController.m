@@ -569,7 +569,7 @@
 	[self dismissMoviePlayerViewControllerAnimated];
 }
 
-- (NSInteger) supportedInterfaceOrientations
+- (NSUInteger) supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;
 }
