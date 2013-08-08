@@ -83,12 +83,10 @@ const NSInteger kOptionsFontSize = 17;
     if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId ofType:nil];
     else if([AppModel sharedAppModel].player.playerMediaId  != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId ofType:nil];
     
-    if(pcMedia)
-        self.mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds media:pcMedia mode:ARISMediaDisplayModeTopAlignAspectFitWidth delegate:self];
-    else
-        self.mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] mode:ARISMediaDisplayModeTopAlignAspectFitWidth delegate:self];
+    if(pcMedia) self.mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds media:pcMedia                                    mode:ARISMediaDisplayModeTopAlignAspectFitWidth delegate:self];
+    else        self.mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] mode:ARISMediaDisplayModeTopAlignAspectFitWidth delegate:self];
     
-    self.optionsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-177, self.view.bounds.size.width, 177) style:UITableViewStyleGrouped];
+    self.optionsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-128, self.view.bounds.size.width, 128) style:UITableViewStyleGrouped];
     self.optionsTableView.opaque = NO;
     self.optionsTableView.backgroundView = nil;
     self.optionsTableView.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.5f];
@@ -100,14 +98,34 @@ const NSInteger kOptionsFontSize = 17;
     [self.view addSubview:self.optionsTableView];
 }
 
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+- (void) loadOptionsForNpc:(Npc *)n afterViewingOption:(NpcScriptOption *)o
 {
+    [delegate optionsRequestsTitle:self.playerTitle];
+    [[AppServices sharedAppServices] fetchNpcConversations:n.npcId afterViewingNode:o.nodeId];
+    [self showWaitingIndicatorForPlayerOptions];
+}
+
+- (void) optionsReceivedFromNotification:(NSNotification*)notification
+{
+    [self dismissWaitingIndicatorForPlayerOptions];
+	[self showPlayerOptions:(NSArray*)[notification object]];
+}
+
+- (void) showPlayerOptions:(NSArray *)options
+{
+    self.optionList = [options sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"hasViewed" ascending:YES]]];
+    [self.optionsTableView reloadData];
 }
 
 - (void) showWaitingIndicatorForPlayerOptions
 {
+    if(!self.loadingIndicator)
+    {
+        self.loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+        self.loadingIndicator.frame = CGRectMake((self.optionsTableView.frame.size.width/2)-10, (self.optionsTableView.frame.size.height/2)-10, 20, 20);
+    }
     self.optionsTableView.hidden = YES;
-    [self.view addSubview:self.loadingIndicator];
+    [self.optionsTableView addSubview:self.loadingIndicator];
     [self.loadingIndicator startAnimating];
 }
 
@@ -192,7 +210,7 @@ const NSInteger kOptionsFontSize = 17;
     [delegate optionsRequestsTextBoxSize:(textBoxSizeState+1)%3];
 }
 
--(void) toggleTextBoxSize:(int)s
+- (void) toggleTextBoxSize:(int)s
 {
     textBoxSizeState = s;
     
@@ -210,25 +228,6 @@ const NSInteger kOptionsFontSize = 17;
 	[UIView commitAnimations];
 }
 
-- (void) loadOptionsForNpc:(Npc *)n afterViewingOption:(NpcScriptOption *)o
-{
-    [delegate optionsRequestsTitle:self.playerTitle];
-    [[AppServices sharedAppServices] fetchNpcConversations:n.npcId afterViewingNode:o.nodeId];
-    [self showWaitingIndicatorForPlayerOptions];
-}
-
-- (void) optionsReceivedFromNotification:(NSNotification*)notification
-{
-    [self dismissWaitingIndicatorForPlayerOptions];
-	[self showPlayerOptions:(NSArray*)[notification object]];
-}
-
-- (void) showPlayerOptions:(NSArray *)options
-{
-    self.optionList = [options sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"hasViewed" ascending:YES]]];
-    [self.optionsTableView reloadData];
-}
-
 - (void) setDefaultTitle:(NSString *)t
 {
     self.playerTitle = t;
@@ -242,6 +241,11 @@ const NSInteger kOptionsFontSize = 17;
 - (void) setLeaveConversationTitle:(NSString *)t
 {
     self.currentLeaveConversationTitle = t;
+}
+
+- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+{
+    //No need to do anything
 }
 
 @end

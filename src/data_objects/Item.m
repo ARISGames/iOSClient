@@ -107,7 +107,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"Item- Id:%d\tName:%@\tType:%ld\tQty:%d",self.itemId,self.name,self.itemType,self.qty];
+    return [NSString stringWithFormat:@"Item- Id:%d\tName:%@\tType:%u\tQty:%d",self.itemId,self.name,self.itemType,self.qty];
 }
 
 @end

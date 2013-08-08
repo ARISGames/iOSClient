@@ -81,8 +81,8 @@
     Media *pcMedia;
     if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId ofType:nil];
     else if([AppModel sharedAppModel].player.playerMediaId  != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId ofType:nil];
-    if(pcMedia) self.pcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds media:pcMedia                                    title:@"You" delegate:self];
-    else        self.pcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] title:@"You" delegate:self];
+    if(pcMedia) self.pcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds media:pcMedia                                    title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
+    else        self.pcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
     [self.view addSubview:self.pcView];
     
     Media *npcMedia;
@@ -176,7 +176,7 @@
 
 - (void) gameObjectViewControllerRequestsDismissal:(GameObjectViewController *)govc
 {
-    
+    [self readyNextScriptElementForDisplay];
 }
 
 - (void) audioPlayerDidFinishPlaying:(AVAudioPlayer *)audioPlayer successfully:(BOOL)flag
@@ -191,7 +191,7 @@
 
 - (void) scriptElementViewRequestsHideTextAdjust:(BOOL)h
 {
-    
+    //tell delegate to hide/show textadjust button
 }
 
 - (void) adjustTextArea:(NSString *)area

@@ -88,7 +88,7 @@ NSString *const kDialogHtmlTemplate =
     self.mediaSection.contentSize = self.bounds.size;
     self.mediaSection.userInteractionEnabled = YES;
     
-    self.textSection  = [[UIScrollView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height-177, self.bounds.size.width, (177-44))];
+    self.textSection  = [[UIScrollView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height-128, self.bounds.size.width, (128-44))];
     self.textSection.contentSize = self.textSection.frame.size;
     self.textSection.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.5f];
     self.textSection.scrollEnabled = YES;
