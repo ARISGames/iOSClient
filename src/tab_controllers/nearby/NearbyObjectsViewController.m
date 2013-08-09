@@ -68,6 +68,7 @@
     
     Location *forceLocation;
     
+    BOOL newNearbyLocation;
     //Find locations that are "nearby" from the list of all locations
     for(Location *location in [AppModel sharedAppModel].currentGame.locationsModel.currentLocations)
     {
@@ -76,7 +77,10 @@
             if (oldLocation.locationId == location.locationId) match = YES;
         if(!match && [[AppModel sharedAppModel].player.location distanceFromLocation:location.latlon] < location.errorRange &&
            (location.gameObject.type != GameObjectItem || location.qty != 0) && location.gameObject.type != GameObjectPlayer)
+        {
+            newNearbyLocation = YES;
             [newNearbyLocationsList addObject:location];
+        }
         else if(match && (location.errorRange >= 2147483637 || [[AppModel sharedAppModel].player.location distanceFromLocation:location.latlon] < location.errorRange+10) &&
            (location.gameObject.type != GameObjectItem || location.qty != 0) && location.gameObject.type != GameObjectPlayer)
             [newNearbyLocationsList addObject:location];
@@ -91,6 +95,9 @@
         if(match == NO && location.forcedDisplay)
             forceLocation = location;
     }
+    
+    if(newNearbyLocation && !forceLocation)
+        [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] playAudioAlert:@"nearbyObject" shouldVibrate:NO];
     
    if(forceLocation)
    {
