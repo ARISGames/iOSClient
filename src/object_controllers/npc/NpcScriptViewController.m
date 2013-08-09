@@ -16,6 +16,7 @@
 #import "AppModel.h"
 #import "AppServices.h"
 #import "ARISMoviePlayerViewController.h"
+#import "UIColor+ARISColors.h"
 
 @interface NpcScriptViewController() <ScriptParserDelegate, NPcScriptElementViewDelegate, GameObjectViewControllerDelegate>
 {
@@ -77,19 +78,28 @@
     
     self.view.frame = viewFrame;
     self.view.bounds = CGRectMake(0,0,viewFrame.size.width,viewFrame.size.height);
+    CGRect scriptElementFrame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height-44);
     
     Media *pcMedia;
     if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId ofType:nil];
     else if([AppModel sharedAppModel].player.playerMediaId  != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].player.playerMediaId ofType:nil];
-    if(pcMedia) self.pcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds media:pcMedia                                    title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
-    else        self.pcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
+    if(pcMedia) self.pcView = [[NpcScriptElementView alloc] initWithFrame:scriptElementFrame media:pcMedia                                    title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
+    else        self.pcView = [[NpcScriptElementView alloc] initWithFrame:scriptElementFrame image:[UIImage imageNamed:@"DefaultPCImage.png"] title:NSLocalizedString(@"DialogPlayerName",@"") delegate:self];
     [self.view addSubview:self.pcView];
     
     Media *npcMedia;
     if(self.npc.mediaId != 0) npcMedia = [[AppModel sharedAppModel] mediaForMediaId:self.npc.mediaId ofType:nil];
-    if(npcMedia) self.npcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds media:npcMedia                                   title:self.npc.name delegate:self];
-    else         self.npcView = [[NpcScriptElementView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] title:self.npc.name delegate:self];
+    if(npcMedia) self.npcView = [[NpcScriptElementView alloc] initWithFrame:scriptElementFrame media:npcMedia                                   title:self.npc.name delegate:self];
+    else         self.npcView = [[NpcScriptElementView alloc] initWithFrame:scriptElementFrame image:[UIImage imageNamed:@"DefaultPCImage.png"] title:self.npc.name delegate:self];
     [self.view addSubview:self.npcView];
+    
+    UIButton *continueButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    continueButton.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
+    [continueButton setBackgroundColor:[UIColor whiteColor]];
+    [continueButton setTitle:@"Tap To Continue" forState:UIControlStateNormal];
+    [continueButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
+    [continueButton addTarget:self action:@selector(continueButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:continueButton];
     
     [self movePcIn];
 }
@@ -162,16 +172,12 @@
         [self moveAllOut];
         [self.navigationController pushViewController:[[[AppModel sharedAppModel] itemForItemId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
     }
+    self.view.userInteractionEnabled = YES;
 }
 
 - (void) scriptElementViewRequestsTitle:(NSString *)t
 {
     [delegate scriptRequestsTitle:t];
-}
-
-- (void) scriptElementViewRequestsContinue:(NpcScriptElementView *)s
-{
-    [s fadeWithCallback:@selector(readyNextScriptElementForDisplay)];
 }
 
 - (void) gameObjectViewControllerRequestsDismissal:(GameObjectViewController *)govc
@@ -213,6 +219,13 @@
     [delegate scriptRequestsTextBoxSize:s];
     [self.pcView  toggleTextBoxSize:s];
     [self.npcView toggleTextBoxSize:s];
+}
+
+- (void) continueButtonTouched
+{
+    self.view.userInteractionEnabled = NO;
+    if(self.pcView.frame.origin.x == 0)  [self.pcView  fadeWithCallback:@selector(readyNextScriptElementForDisplay)];
+    if(self.npcView.frame.origin.x == 0) [self.npcView fadeWithCallback:@selector(readyNextScriptElementForDisplay)];
 }
 
 #define pcOffscreenRect  CGRectMake(  self.pcView.frame.size.width, self.pcView.frame.origin.y, self.pcView.frame.size.width, self.pcView.frame.size.height)

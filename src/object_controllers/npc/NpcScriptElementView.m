@@ -13,7 +13,6 @@
 #import "ARISAppDelegate.h"
 #import "ARISMoviePlayerViewController.h"
 #import "StateControllerProtocol.h"
-#import "UIColor+ARISColors.h"
 
 NSString *const kDialogHtmlTemplate =
 @"<html>"
@@ -42,7 +41,6 @@ NSString *const kDialogHtmlTemplate =
     ARISMediaView *mediaView;
     UIScrollView *textSection;
     ARISWebView *textWebView;
-    UIButton *continueButton;
     
     NSString *defaultTitle;
     Media *defaultMedia;
@@ -57,7 +55,6 @@ NSString *const kDialogHtmlTemplate =
 @property (nonatomic, strong) ARISMediaView *mediaView;
 @property (nonatomic, strong) UIScrollView *textSection;
 @property (nonatomic, strong) ARISWebView *textWebView;
-@property (nonatomic, strong) UIButton *continueButton;
 
 @property (nonatomic, strong) NSString *defaultTitle;
 @property (nonatomic, strong) Media *defaultMedia;
@@ -73,7 +70,6 @@ NSString *const kDialogHtmlTemplate =
 @synthesize mediaView;
 @synthesize textSection;
 @synthesize textWebView;
-@synthesize continueButton;
 
 @synthesize defaultTitle;
 @synthesize defaultMedia;
@@ -81,38 +77,24 @@ NSString *const kDialogHtmlTemplate =
 
 - (void) initialize
 {
-    self.userInteractionEnabled = YES;
-    self.clipsToBounds = YES;
-    
     self.mediaSection = [[UIScrollView alloc] initWithFrame:self.bounds];
     self.mediaSection.contentSize = self.bounds.size;
-    self.mediaSection.userInteractionEnabled = YES;
     
-    self.textSection  = [[UIScrollView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height-128, self.bounds.size.width, (128-44))];
+    self.textSection  = [[UIScrollView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height-(128-44), self.bounds.size.width, (128-44))];
     self.textSection.contentSize = self.textSection.frame.size;
     self.textSection.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.5f];
     self.textSection.scrollEnabled = YES;
     self.textSection.delegate = self;
     self.textSection.clipsToBounds = YES;
-    self.textSection.userInteractionEnabled = YES;
     
     self.textWebView = [[ARISWebView alloc] initWithFrame:CGRectMake(10, 10, self.bounds.size.width-20, 10) delegate:self];
     self.textWebView.opaque = NO;
     self.textWebView.backgroundColor = [UIColor clearColor];
     
-    self.continueButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.continueButton.frame = CGRectMake(0, self.bounds.size.height-44, self.bounds.size.width, 44);
-    [self.continueButton setBackgroundColor:[UIColor whiteColor]];
-    [self.continueButton setTitle:@"Tap To Continue" forState:UIControlStateNormal];
-    [self.continueButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
-    [self.continueButton addTarget:self action:@selector(continueButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-    self.continueButton.userInteractionEnabled = YES;
-    
     [self addSubview:self.mediaSection];
     [self.mediaSection addSubview:self.mediaView];
     [self addSubview:self.textSection];
     [self.textSection addSubview:self.textWebView];
-    [self addSubview:continueButton];
 }
 
 - (id) initWithFrame:(CGRect)f media:(Media *)m title:(NSString *)t delegate:(id)d
@@ -211,8 +193,6 @@ NSString *const kDialogHtmlTemplate =
 
 - (void) fadeWithCallback:(SEL)s
 {
-    //self.userInteractionEnabled = NO;
-    
     [UIView beginAnimations:@"dialog" context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveLinear];
     [UIView setAnimationDuration:0.25];
@@ -268,7 +248,6 @@ NSString *const kDialogHtmlTemplate =
     [UIView setAnimationDuration:0.25];
     self.textWebView.alpha = 1.0;
     [UIView commitAnimations];
-    self.userInteractionEnabled= YES;
 }
 
 - (void) playAudioOrVideoFromMedia:(Media*)media andHidden:(BOOL)hidden
@@ -333,12 +312,6 @@ NSString *const kDialogHtmlTemplate =
 - (void) displayScannerWithPrompt:(NSString *)p
 {
     
-}
-
-- (void) continueButtonTouched
-{
-    self.userInteractionEnabled = NO;
-    [delegate scriptElementViewRequestsContinue:self];
 }
 
 @end
