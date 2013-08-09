@@ -13,13 +13,14 @@
 #import "ARISMediaView.h"
 #import "AppModel.h"
 #import "AppServices.h"
+#import "UIColor+ARISColors.h"
 
 #define ICONWIDTH 76
 #define ICONHEIGHT 90
 #define TEXTLABELHEIGHT 10
 #define TEXTLABELPADDING 7
 
-@interface IconQuestsViewController() <ARISMediaViewDelegate, UICollectionViewDataSource,UICollectionViewDelegate,QuestDetailsViewControllerDelegate,StateControllerProtocol>
+@interface IconQuestsViewController() <ARISMediaViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,QuestDetailsViewControllerDelegate,StateControllerProtocol>
 {
     UICollectionView *questIconCollectionView;
     UICollectionViewFlowLayout *questIconCollectionViewLayout;
@@ -68,6 +69,7 @@
     questIconCollectionViewLayout.minimumInteritemSpacing = 10.0;
     
     questIconCollectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:questIconCollectionViewLayout];
+    questIconCollectionView.backgroundColor = [UIColor ARISColorOffWhite];
     questIconCollectionView.dataSource = self;
     questIconCollectionView.delegate = self;
     [questIconCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
@@ -131,24 +133,24 @@
     if(indexPath.item < [activeQuests count]) q = [activeQuests    objectAtIndex:indexPath.item];
     else                                      q = [completedQuests objectAtIndex:indexPath.item-[activeQuests count]];
     
-    CGRect iconFrame = CGRectMake(0, 0, cell.contentView.frame.size.width, cell.contentView.frame.size.height - TEXTLABELHEIGHT - (2*TEXTLABELPADDING));
+    CGRect iconFrame = CGRectMake(0, 0, cell.contentView.frame.size.width, cell.contentView.frame.size.height-(TEXTLABELHEIGHT+TEXTLABELPADDING));
     ARISMediaView *icon;
     if(q.iconMediaId != 0)
-        icon = [[ARISMediaView alloc] initWithFrame:iconFrame media:[[AppModel sharedAppModel] mediaForMediaId:q.iconMediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFill delegate:self];
+        icon = [[ARISMediaView alloc] initWithFrame:iconFrame media:[[AppModel sharedAppModel] mediaForMediaId:q.iconMediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFit delegate:self];
     else
-        icon = [[ARISMediaView alloc] initWithFrame:iconFrame image:[UIImage imageNamed:@"item.png"] mode:ARISMediaDisplayModeAspectFill delegate:self];
+        icon = [[ARISMediaView alloc] initWithFrame:iconFrame image:[UIImage imageNamed:@"item.png"] mode:ARISMediaDisplayModeAspectFit delegate:self];
     
     icon.layer.cornerRadius = 11.0f;
     [cell.contentView addSubview:icon];
     
-    CGRect textFrame = CGRectMake(0, (cell.contentView.frame.size.height-TEXTLABELHEIGHT - TEXTLABELPADDING), cell.contentView.frame.size.width, TEXTLABELHEIGHT);
+    CGRect textFrame = CGRectMake(0, (cell.contentView.frame.size.height-TEXTLABELHEIGHT), cell.contentView.frame.size.width, TEXTLABELHEIGHT);
     UILabel *iconTitleLabel = [[UILabel alloc] initWithFrame:textFrame];
     iconTitleLabel.text = q.name;
-    iconTitleLabel.textColor = [UIColor whiteColor];
+    iconTitleLabel.textColor = [UIColor ARISColorBlack];
     iconTitleLabel.backgroundColor = [UIColor clearColor];
     iconTitleLabel.textAlignment = NSTextAlignmentCenter;
-    iconTitleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-    iconTitleLabel.font = [UIFont fontWithName:@"Helvetica" size:12];
+    iconTitleLabel.lineBreakMode = NSLineBreakByWordWrapping;// NSLineBreakByTruncatingTail;
+    iconTitleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:14];
     [cell.contentView addSubview:iconTitleLabel];
     
     return cell;
@@ -168,11 +170,6 @@
     [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q delegate:self] animated:YES];
 }
 
-- (void) dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (void) displayScannerWithPrompt:(NSString *)p
 {
     [self.navigationController popToViewController:self animated:YES];
@@ -189,6 +186,11 @@
 {
     [self.navigationController popToViewController:self animated:YES];
     [delegate displayTab:t];
+}
+
+- (void) dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

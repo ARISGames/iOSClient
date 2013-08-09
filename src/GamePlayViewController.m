@@ -236,7 +236,7 @@
         if([tmpTab.tabName isEqualToString:@"QUESTS"])
         {
             //if uses icon quest view
-            if((BOOL)tmpTab.tabDetail1)
+            if(YES)//(BOOL)tmpTab.tabDetail1)
             {
                 IconQuestsViewController *iconQuestsViewController = [[IconQuestsViewController alloc] initWithDelegate:self];
                 self.questsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:iconQuestsViewController];
