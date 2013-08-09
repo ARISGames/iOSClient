@@ -82,7 +82,7 @@ NSString *const kDialogHtmlTemplate =
     
     self.textSection  = [[UIScrollView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height-(128-44), self.bounds.size.width, (128-44))];
     self.textSection.contentSize = self.textSection.frame.size;
-    self.textSection.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.5f];
+    self.textSection.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.75f];
     self.textSection.scrollEnabled = YES;
     self.textSection.delegate = self;
     self.textSection.clipsToBounds = YES;

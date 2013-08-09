@@ -95,7 +95,7 @@
     
     UIButton *continueButton = [UIButton buttonWithType:UIButtonTypeCustom];
     continueButton.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
-    [continueButton setBackgroundColor:[UIColor whiteColor]];
+    [continueButton setBackgroundColor:[UIColor ARISColorLightGrey]];
     [continueButton setTitle:@"Tap To Continue" forState:UIControlStateNormal];
     [continueButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
     [continueButton addTarget:self action:@selector(continueButtonTouched) forControlEvents:UIControlEventTouchUpInside];

@@ -89,7 +89,7 @@ const NSInteger kOptionsFontSize = 17;
     self.optionsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-128, self.view.bounds.size.width, 128) style:UITableViewStyleGrouped];
     self.optionsTableView.opaque = NO;
     self.optionsTableView.backgroundView = nil;
-    self.optionsTableView.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.5f];
+    self.optionsTableView.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.75f];
     self.optionsTableView.scrollEnabled = YES;
     self.optionsTableView.dataSource = self;
     self.optionsTableView.delegate = self;
@@ -156,7 +156,7 @@ const NSInteger kOptionsFontSize = 17;
 	UITableViewCell *cell = [self.optionsTableView dequeueReusableCellWithIdentifier:@"Dialog"];
 	if (!cell) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Dialog"];
     
-    cell.backgroundColor         = [UIColor ARISColorOffWhite];
+    cell.backgroundColor         = [UIColor ARISColorLightGrey];
     cell.textLabel.textColor     = [UIColor ARISColorDarkBlue];
     cell.textLabel.font          = [UIFont boldSystemFontOfSize:kOptionsFontSize];
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
