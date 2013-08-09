@@ -13,28 +13,21 @@
 #import "AsyncMediaPlayerButton.h"
 #import "ARISWebView.h"
 #import "ARISMediaView.h"
+#import "UIColor+ARISColors.h"
 
 @interface QuestDetailsViewController() <UIScrollViewDelegate, UIWebViewDelegate, ARISWebViewDelegate, StateControllerProtocol, ARISMediaViewDelegate>
 {
     Quest *quest;
-    IBOutlet UIScrollView *scrollView;
-    IBOutlet UIImageView *fader;
-    IBOutlet UIButton *goButton;
-    UIView *mediaSection;
     ARISWebView *webView;
+    
+    CGRect viewFrame;
     
     id<QuestDetailsViewControllerDelegate,StateControllerProtocol> __unsafe_unretained delegate;
 }
     
 @property (nonatomic, strong) Quest *quest;
-@property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
-@property (nonatomic, strong) IBOutlet UIImageView *fader;
-@property (nonatomic, strong) IBOutlet UIButton *goButton;
-@property (nonatomic, strong) UIView *mediaSection;
 @property (nonatomic, strong) ARISWebView *webView;
 @property (nonatomic, strong) UIActivityIndicatorView *webViewSpinner;
-
-- (IBAction) goButtonPressed:(id)sender;
 
 @end
 
@@ -44,8 +37,9 @@ NSString *const kQuestDetailsHtmlTemplate =
 @"<html>"
 @"<head>"
 @"	<style type='text/css'><!--"
-@"  html,body {margin: 0;padding: 0;}"
+@"  html,body {margin:0; padding:0;}"
 @"	body {"
+@"      padding:10px;"
 @"		color: #000000;"
 @"      text-align: center;"
 @"		font-size: 17px;"
@@ -60,64 +54,79 @@ NSString *const kQuestDetailsHtmlTemplate =
 @"</html>";
 
 @synthesize quest;
-@synthesize scrollView;
-@synthesize fader;
-@synthesize goButton;
-@synthesize mediaSection;
 @synthesize webView;
 @synthesize webViewSpinner;
 
-- (id) initWithQuest:(Quest *)q delegate:(id<QuestDetailsViewControllerDelegate,StateControllerProtocol>)d;
+- (id) initWithQuest:(Quest *)q delegate:(id<QuestDetailsViewControllerDelegate,StateControllerProtocol>)d frame:(CGRect)f;
 {
     if(self = [super init])
     {
         self.quest = q;
+        viewFrame = f;
         delegate = d;
         self.hidesBottomBarWhenPushed = YES;
     }
     return self;
 }
 
-- (void) viewDidLoad
+- (void) loadView
 {
-    [super viewDidLoad];
-    
+    [super loadView];
+    self.view.frame = viewFrame;
+
+    self.view.backgroundColor = [UIColor ARISColorOffWhite];
     self.title = self.quest.name;
     self.navigationItem.title = self.quest.name;
     
+    CGRect mainFrame = self.view.bounds;
+    mainFrame.size.height -= 44;
+    
+    UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    backButton.opaque = YES;
+    backButton.frame = CGRectMake(0, mainFrame.size.height, mainFrame.size.width, 44);
+    [backButton setTitle:@"back" forState:UIControlStateNormal];
+    [backButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
+    [backButton setBackgroundColor:[UIColor ARISColorOffWhite]];
+    [backButton addTarget:self action:@selector(backButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:backButton];
+    
+    if(![self.quest.goFunction isEqualToString:@"NONE"])
+    {
+        UIButton *goButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        goButton.frame = CGRectMake(mainFrame.size.width/2, mainFrame.size.height, mainFrame.size.width/2, 44);
+        [goButton setBackgroundColor:[UIColor ARISColorOffWhite]];
+        [goButton setTitleColor:[UIColor ARISColorBlack] forState:UIControlStateNormal];
+        [goButton setTitle:@"GO" forState:UIControlStateNormal];
+        [goButton addTarget:self action:@selector(goButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:goButton];
+        
+        backButton.frame = CGRectMake(0, mainFrame.size.height, mainFrame.size.width/2, 44);
+    }
+    
+    UIImageView *fade = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"3x1_fade_up.png"]];
+    fade.contentMode = UIViewContentModeScaleToFill;
+    fade.frame = CGRectMake(0, mainFrame.size.height-3, mainFrame.size.width, 3);
+    [self.view addSubview:fade];
+    
+    //Setup the Description Webview
     self.webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0, 0, 320, 1) delegate:self]; //Needs width of 320, otherwise "height" is calculated wrong because only 1 character can fit per line
+    self.webView.delegate = self;
+    self.webView.backgroundColor = [UIColor clearColor];
+    self.webView.scrollView.scrollEnabled = NO;
     
     Media *media = [[AppModel sharedAppModel] mediaForMediaId:self.quest.mediaId ofType:nil];
     if(media && [media.type isEqualToString:@"PHOTO"] && media.url)
     {
-        self.mediaSection = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,20)];
-        ARISMediaView *mediaImageView = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, 320, 320) media:media mode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight delegate:self];
-        [self.mediaSection addSubview:mediaImageView];
+        ARISMediaView *mediaImageView = [[ARISMediaView alloc] initWithFrame:mainFrame media:media mode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight delegate:self];
+        [self.view addSubview:mediaImageView];
     }
     else if(media && ([media.type isEqualToString:@"VIDEO"] || [media.type isEqualToString:@"AUDIO"]) && media.url)
     {
-        self.mediaSection = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,240)];
-        self.webView.frame = CGRectMake(0, self.mediaSection.frame.size.height+10, 320, self.webView.frame.size.height);
-        AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presenter:self preloadNow:NO];
-        [self.mediaSection addSubview:mediaButton];
-    }
-    else
-    {
-        self.mediaSection = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,20)];
-        ARISMediaView *mediaImageView = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, 320, 320) image:[UIImage imageNamed:@"item.png"] mode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight delegate:self];
-        [self.mediaSection addSubview:mediaImageView];
+        AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:mainFrame media:media presenter:self preloadNow:NO];
+        [self.view addSubview:mediaButton];
     }
     
-    //Setup the Description Webview
-    self.webView.delegate = self;
-    self.webView.backgroundColor = [UIColor clearColor];
-    if([self.webView respondsToSelector:@selector(scrollView)])
-    {
-        self.webView.scrollView.bounces = NO;
-        self.webView.scrollView.scrollEnabled = NO;
-    }
-    NSString *text;
-    text = self.quest.qdescription;
+    NSString *text = self.quest.qdescription;
     /*
     @"<script type='text/javascript'>"
     @"var ARIS = {};"
@@ -137,29 +146,26 @@ NSString *const kQuestDetailsHtmlTemplate =
      */
     if([text rangeOfString:@"<html>"].location == NSNotFound) text = [NSString stringWithFormat:kQuestDetailsHtmlTemplate, text];
 
-    
     self.webView.alpha = 0.0; //The webView will resore alpha once it's loaded to avoid the ugly white blob
-	[self.webView loadHTMLString:text baseURL:nil];
     self.webView.opaque = NO;
     self.webView.backgroundColor = [UIColor clearColor];
+	[self.webView loadHTMLString:text baseURL:nil];
     
     self.webViewSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    self.webViewSpinner.backgroundColor = [UIColor clearColor];
     self.webViewSpinner.center = self.webView.center;
     [self.webViewSpinner startAnimating];
-    self.webViewSpinner.backgroundColor = [UIColor clearColor];
     [self.webView addSubview:self.webViewSpinner];
     
-    //Setup the scrollview
-    scrollView.contentSize = CGSizeMake(320, 50);
-    if(self.mediaSection) [scrollView addSubview:self.mediaSection];
-    [scrollView addSubview:self.webView];
+    if(!media)
+    {
+        [self.view addSubview:self.webView];
+        [self.view sendSubviewToBack:self.webView];//behind fade thing
+    }
 }
 
-- (void) imageFinishedLoading:(ARISMediaView *)image
+- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
 {
-    self.mediaSection.frame = image.frame;
-    self.webView.frame = CGRectMake(0, self.mediaSection.frame.size.height+10, 320, self.webView.frame.size.height);
-    self.scrollView.contentSize = CGSizeMake(320,self.webView.frame.origin.y+self.webView.frame.size.height+50);
 }
 
 - (void) webViewDidFinishLoad:(UIWebView *)theWebView
@@ -168,9 +174,8 @@ NSString *const kQuestDetailsHtmlTemplate =
     self.webView.alpha = 1.00;
     
     //Calculate the height of the web content
-    float newHeight = [[self.webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue] + 3;
-    [self.webView setFrame:CGRectMake(self.webView.frame.origin.x,self.webView.frame.origin.y,self.webView.frame.size.width,newHeight+5)];
-    scrollView.contentSize = CGSizeMake(320,self.webView.frame.origin.y+self.webView.frame.size.height+50);
+    float newHeight = [[self.webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue]+5;
+    [self.webView setFrame:CGRectMake(self.webView.frame.origin.x,self.webView.frame.origin.y,self.webView.frame.size.width,newHeight)];
     
     [self.webViewSpinner removeFromSuperview];
 }
@@ -178,7 +183,6 @@ NSString *const kQuestDetailsHtmlTemplate =
 - (BOOL) webView:(UIWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     return ![self.webView handleARISRequestIfApplicable:request];
-    return YES;
 }
 
 - (void) ARISWebViewRequestsDismissal:(ARISWebView *)awv
@@ -206,16 +210,16 @@ NSString *const kQuestDetailsHtmlTemplate =
     [delegate displayTab:t];
 }
 
-- (IBAction) goButtonPressed:(id)sender
+- (void) backButtonPressed
+{
+    [delegate questDetailsRequestsDismissal];
+}
+
+- (void) goButtonPressed
 {
     if([self.quest.goFunction isEqualToString:@"JAVASCRIPT"]) [self.webView hookWithParams:@""];
     else if([self.quest.goFunction isEqualToString:@"NONE"]) return;
     else [self displayTab:self.quest.goFunction];
-}
-
-- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
-{
-    
 }
 
 - (void) dealloc

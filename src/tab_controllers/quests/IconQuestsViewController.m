@@ -167,7 +167,7 @@
     if(indexPath.item < [activeQuests count]) q = [activeQuests    objectAtIndex:indexPath.item];
     else                                      q = [completedQuests objectAtIndex:indexPath.item-[activeQuests count]];
 
-    [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q delegate:self] animated:YES];
+    [[self navigationController] pushViewController:[[QuestDetailsViewController alloc] initWithQuest:q delegate:self frame:self.view.bounds] animated:YES];
 }
 
 - (void) displayScannerWithPrompt:(NSString *)p
@@ -186,6 +186,11 @@
 {
     [self.navigationController popToViewController:self animated:YES];
     [delegate displayTab:t];
+}
+
+- (void) questDetailsRequestsDismissal
+{
+    [self.navigationController popToViewController:self animated:YES];
 }
 
 - (void) dealloc

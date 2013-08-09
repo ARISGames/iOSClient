@@ -11,7 +11,8 @@
 @class Quest;
 @protocol StateControllerProtocol;
 @protocol QuestDetailsViewControllerDelegate
+- (void) questDetailsRequestsDismissal;
 @end
 @interface QuestDetailsViewController : UIViewController
-- (id) initWithQuest:(Quest *)q delegate:(id<QuestDetailsViewControllerDelegate,StateControllerProtocol>)d;
+- (id) initWithQuest:(Quest *)q delegate:(id<QuestDetailsViewControllerDelegate,StateControllerProtocol>)d frame:(CGRect)f;
 @end

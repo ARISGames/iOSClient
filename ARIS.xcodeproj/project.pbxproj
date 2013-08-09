@@ -437,7 +437,6 @@
 		AABC7419172739D80074CC21 /* IconQuestsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC71A9172739D70074CC21 /* IconQuestsViewController.m */; };
 		AABC741A172739D80074CC21 /* IconQuestsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC71AA172739D70074CC21 /* IconQuestsViewController.xib */; };
 		AABC741B172739D80074CC21 /* QuestDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC71AC172739D70074CC21 /* QuestDetailsViewController.m */; };
-		AABC741C172739D80074CC21 /* QuestDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC71AD172739D70074CC21 /* QuestDetailsViewController.xib */; };
 		AABC741E172739D80074CC21 /* QuestsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC71B0172739D70074CC21 /* QuestsViewController.m */; };
 		AABC741F172739D80074CC21 /* BumpTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC71B8172739D70074CC21 /* BumpTestViewController.m */; };
 		AABC7420172739D80074CC21 /* BumpTestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC71B9172739D70074CC21 /* BumpTestViewController.xib */; };
@@ -1152,7 +1151,6 @@
 		AABC71AA172739D70074CC21 /* IconQuestsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IconQuestsViewController.xib; sourceTree = "<group>"; };
 		AABC71AB172739D70074CC21 /* QuestDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestDetailsViewController.h; sourceTree = "<group>"; };
 		AABC71AC172739D70074CC21 /* QuestDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestDetailsViewController.m; sourceTree = "<group>"; };
-		AABC71AD172739D70074CC21 /* QuestDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestDetailsViewController.xib; sourceTree = "<group>"; };
 		AABC71AF172739D70074CC21 /* QuestsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestsViewController.h; sourceTree = "<group>"; };
 		AABC71B0172739D70074CC21 /* QuestsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestsViewController.m; sourceTree = "<group>"; };
 		AABC71B6172739D70074CC21 /* BumpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BumpClient.h; sourceTree = "<group>"; };
@@ -2411,7 +2409,6 @@
 				AABC71AA172739D70074CC21 /* IconQuestsViewController.xib */,
 				AABC71AB172739D70074CC21 /* QuestDetailsViewController.h */,
 				AABC71AC172739D70074CC21 /* QuestDetailsViewController.m */,
-				AABC71AD172739D70074CC21 /* QuestDetailsViewController.xib */,
 			);
 			path = quests;
 			sourceTree = "<group>";
@@ -2945,7 +2942,6 @@
 				AABC7415172739D80074CC21 /* TagViewController.xib in Resources */,
 				AABC7417172739D80074CC21 /* TextViewController.xib in Resources */,
 				AABC741A172739D80074CC21 /* IconQuestsViewController.xib in Resources */,
-				AABC741C172739D80074CC21 /* QuestDetailsViewController.xib in Resources */,
 				AABC7420172739D80074CC21 /* BumpTestViewController.xib in Resources */,
 				AABC7430172739D80074CC21 /* alg-outline in Resources */,
 				AABC7438172739D80074CC21 /* README in Resources */,

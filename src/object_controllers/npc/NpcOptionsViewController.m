@@ -122,7 +122,7 @@ const NSInteger kOptionsFontSize = 17;
     if(!self.loadingIndicator)
     {
         self.loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-        self.loadingIndicator.frame = CGRectMake((self.optionsTableView.frame.size.width/2)-10, (self.optionsTableView.frame.size.height/2)-10, 20, 20);
+        self.loadingIndicator.center = self.optionsTableView.center;
     }
     self.optionsTableView.hidden = YES;
     [self.optionsTableView addSubview:self.loadingIndicator];
