@@ -110,8 +110,8 @@
     if([(NSObject *)delegate isKindOfClass:[NpcViewController class]])
     {
         NpcViewController *npcvc = (NpcViewController *)delegate;
-        [[AppServices sharedAppServices] fetchNpcConversations:npcvc.currentNpc.npcId afterViewingNode:npcvc.currentNode.nodeId];
-        [npcvc showWaitingIndicatorForPlayerOptions];
+        //[[AppServices sharedAppServices] fetchNpcConversations:npcvc.currentNpc.npcId afterViewingNode:npcvc.currentNode.nodeId];
+        //[npcvc showWaitingIndicatorForPlayerOptions];
     }
 }
 
@@ -124,7 +124,7 @@
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
 {
     [self dismissSelf];
-    [delegate displayGameObject:g fromSource:s];
+    return [delegate displayGameObject:g fromSource:s];
 }
 
 - (void) displayTab:(NSString *)t

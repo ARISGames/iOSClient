@@ -1,5 +1,5 @@
 //
-//  Scene.h
+//  ScriptElement.h
 //  aris-conversation
 //
 //  Created by Kevin Harris on 09/11/18.
@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Scene : NSObject
+@interface ScriptElement : NSObject
 {
-	NSString *sceneType;
+	NSString *type;
     int       typeId;
     
     NSString *title;
@@ -27,7 +27,7 @@
     NSString *notification;
 }
 
-@property (nonatomic,strong) NSString *sceneType;
+@property (nonatomic,strong) NSString *type;
 @property (nonatomic,assign) int       typeId;
 
 @property (nonatomic,strong) NSString *title;

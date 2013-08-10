@@ -13,7 +13,7 @@
 #import "AppServices.h"
 #import "NearbyObjectCell.h"
 
-@interface NearbyObjectsViewController()
+@interface NearbyObjectsViewController() <ARISMediaViewDelegate>
 {
     NSMutableArray *nearbyLocationsList;
 	IBOutlet UITableView *nearbyTable;
@@ -68,6 +68,7 @@
     
     Location *forceLocation;
     
+    BOOL newNearbyLocation;
     //Find locations that are "nearby" from the list of all locations
     for(Location *location in [AppModel sharedAppModel].currentGame.locationsModel.currentLocations)
     {
@@ -76,7 +77,10 @@
             if (oldLocation.locationId == location.locationId) match = YES;
         if(!match && [[AppModel sharedAppModel].player.location distanceFromLocation:location.latlon] < location.errorRange &&
            (location.gameObject.type != GameObjectItem || location.qty != 0) && location.gameObject.type != GameObjectPlayer)
+        {
+            newNearbyLocation = YES;
             [newNearbyLocationsList addObject:location];
+        }
         else if(match && (location.errorRange >= 2147483637 || [[AppModel sharedAppModel].player.location distanceFromLocation:location.latlon] < location.errorRange+10) &&
            (location.gameObject.type != GameObjectItem || location.qty != 0) && location.gameObject.type != GameObjectPlayer)
             [newNearbyLocationsList addObject:location];
@@ -91,6 +95,9 @@
         if(match == NO && location.forcedDisplay)
             forceLocation = location;
     }
+    
+    if(newNearbyLocation && !forceLocation)
+        [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] playAudioAlert:@"nearbyObject" shouldVibrate:NO];
     
    if(forceLocation)
    {
@@ -131,7 +138,7 @@
 	static NSString *CellIdentifier = @"Cell";
     NearbyObjectCell *cell = (NearbyObjectCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-	if (cell == nil)
+	if(cell == nil)
     {
 		UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"NearbyObjectCell" bundle:nil];
 		cell = (NearbyObjectCell *)temporaryController.view;
@@ -142,7 +149,7 @@
 	if (l.gameObject.type == GameObjectItem && l.qty > 1) cell.title.text = [NSString stringWithFormat:@"%@ (x%d)",l.name,l.qty];
 	else cell.title.text = l.name;
 	
-    [cell.iconView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:l.gameObject.iconMediaId ofType:@"PHOTO"]];
+    [cell.iconView refreshWithFrame:cell.iconView.frame media:[[AppModel sharedAppModel] mediaForMediaId:l.gameObject.iconMediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFit delegate:self];
     
 	return cell;
 }
@@ -151,6 +158,11 @@
 {
 	Location *l = [self.nearbyLocationsList objectAtIndex:indexPath.row];
 	[delegate displayGameObject:l.gameObject fromSource:l];
+}
+
+- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+{
+    
 }
 
 @end

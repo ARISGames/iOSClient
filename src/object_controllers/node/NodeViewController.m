@@ -12,7 +12,7 @@
 #import "AppServices.h"
 #import "ARISAppDelegate.h"
 #import "Media.h"
-#import "AsyncMediaImageView.h"
+#import "ARISMediaView.h"
 #import "WebPageViewController.h"
 #import "WebPage.h"
 #import <AVFoundation/AVFoundation.h>
@@ -20,7 +20,6 @@
 #import "UIImage+Scale.h"
 #import "Node.h"
 #import "ARISMoviePlayerViewController.h"
-#import "AsyncMediaImageView.h"
 #import "UIColor+ARISColors.h"
 
 static NSString * const OPTION_CELL = @"option";
@@ -42,11 +41,8 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 @"<body>%@</body>"
 @"</html>";
 
-@interface NodeViewController() <UIScrollViewDelegate, UIWebViewDelegate, AsyncMediaImageViewDelegate>
+@interface NodeViewController() <UIScrollViewDelegate, UIWebViewDelegate, ARISMediaViewDelegate>
 {
-    BOOL imageLoaded;
-    BOOL webLoaded;
-    
     UIScrollView *scrollView;
     UIView *mediaSection;
     UIWebView *webView;
@@ -56,8 +52,6 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 }
 
 @property (readwrite, strong) Node *node;
-@property (readwrite, assign) BOOL imageLoaded;
-@property (readwrite, assign) BOOL webLoaded;
 @property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, strong) UIView *mediaSection;
 @property (nonatomic, strong) UIWebView *webView;
@@ -69,8 +63,6 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 @implementation NodeViewController
 
 @synthesize node;
-@synthesize imageLoaded;
-@synthesize webLoaded;
 @synthesize scrollView;
 @synthesize mediaSection;
 @synthesize webView;
@@ -106,8 +98,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     if([media.type isEqualToString:@"PHOTO"] && media.url)
     {
         self.mediaSection.frame = CGRectMake(0,0,320,20);
-        AsyncMediaImageView *mediaImageView = [[AsyncMediaImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 320) andMedia:media andDelegate:self];
-        [self.mediaSection addSubview:mediaImageView];
+        [self.mediaSection addSubview:[[ARISMediaView alloc] initWithFrame:self.mediaSection.frame media:media mode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight delegate:self]];
     }
     else if(([media.type isEqualToString:@"VIDEO"] || [media.type isEqualToString:@"AUDIO"]) && media.url)
     {
@@ -152,10 +143,9 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     [scrollView addSubview:self.continueButton];
 }
 
-- (void) imageFinishedLoading:(AsyncMediaImageView *)image
+- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
 {
-    image.frame = CGRectMake(0, 0, 320, 320/image.image.size.width*image.image.size.height);
-    self.mediaSection.frame = image.frame;
+    self.mediaSection.frame = amv.frame;
     self.webView.frame = CGRectMake(0, self.mediaSection.frame.size.height+10, 320, self.webView.frame.size.height);
     self.continueButton.frame = CGRectMake(0, self.webView.frame.origin.y + self.webView.frame.size.height+10, 320, 45);
     self.scrollView.contentSize = CGSizeMake(320,self.continueButton.frame.origin.y + self.continueButton.frame.size.height+50);

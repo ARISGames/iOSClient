@@ -12,20 +12,20 @@
 #import "AppServices.h"
 #import "ARISAppDelegate.h"
 #import "Media.h"
-#import "AsyncMediaImageView.h"
+#import "ARISMediaView.h"
 #import "UIImage+Scale.h"
 #import "UIDevice+Hardware.h"
 #import "NpcViewController.h"
 
-@interface PanoramicViewController() <AsyncMediaImageViewDelegate>
+@interface PanoramicViewController() <ARISMediaViewDelegate>
 {
     Panoramic *panoramic;
     IBOutlet PLView	*plView;
-    AsyncMediaImageView *imageLoader;
+    ARISMediaView *imageLoader;
 }
 @property (nonatomic, strong) Panoramic *panoramic;
 @property (nonatomic, strong) IBOutlet PLView *plView;
-@property (nonatomic, strong) AsyncMediaImageView *imageLoader;
+@property (nonatomic, strong) ARISMediaView *imageLoader;
 
 @end
 
@@ -81,7 +81,10 @@
         plView.isInertiaEnabled = NO;
     }
     
-    self.imageLoader = [[AsyncMediaImageView alloc] initWithFrame:CGRectMake(0, 0, 1, 1) andMediaId:self.panoramic.mediaId andDelegate:self];
+    self.imageLoader = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)
+                                                      media:[[AppModel sharedAppModel] mediaForMediaId:self.panoramic.mediaId ofType:@"PHOTO"]
+                                                       mode:ARISMediaDisplayModeStretchFill
+                                                   delegate:self];
     
     //Create a close buttonx
 	self.navigationItem.leftBarButtonItem =
@@ -107,19 +110,15 @@
     [plView.gyroTimer invalidate];
 }
 
-#pragma mark -
-#pragma mark Button Handlers
-
 - (IBAction)backButtonTouchAction:(id)sender
 {    
 	[[AppServices sharedAppServices] updateServerPanoramicViewed:self.panoramic.panoramicId fromLocation:0];
     [delegate gameObjectViewControllerRequestsDismissal:self];
 }
 
-#pragma mark Async Image Loading
-- (void) imageFinishedLoading:(AsyncMediaImageView *)asyncImageView
+- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
 {
-    UIImage *image = asyncImageView.image;
+    UIImage *image = amv.image;
     if([[[UIDevice currentDevice] platform] isEqualToString:@"iPhone2,1"] ||
        [[[UIDevice currentDevice] platform] isEqualToString:@"iPhone3,1"] ||
        [[[UIDevice currentDevice] platform] isEqualToString:@"iPad2,1"])
@@ -138,7 +137,6 @@
 
 - (void)showPanoViewWithImage:(UIImage *)image
 {
-    NSLog(@"PanoVC: showPanoView");
     [plView stopAnimation];
     [plView removeAllTextures];
     [plView addTextureAndRelease:[PLTexture textureWithImage:image]];

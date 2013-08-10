@@ -9,6 +9,9 @@
 #import "AnnotationView.h"
 #import "Media.h"
 
+@interface AnnotationView() <ARISMediaViewDelegate>
+@end
+
 @implementation AnnotationView
 
 @synthesize titleRect;
@@ -48,7 +51,6 @@
 
         CGRect imageViewFrame;
         
-        
         if(self.showTitle) //TODO || annotation.kind == NearbyObjectPlayer)
         {
             //Find width of annotation
@@ -85,26 +87,21 @@
         
         [self setFrame: CGRectUnion(contentRect, imageViewFrame)];
 
-        iconView = [[AsyncMediaImageView alloc] init];
-        [iconView setFrame:imageViewFrame];
-        iconView.contentMode = UIViewContentModeScaleAspectFit;
+        if(loc.gameObject.iconMediaId != 0)
+            self.iconView = [[ARISMediaView alloc] initWithFrame:imageViewFrame media:[[AppModel sharedAppModel] mediaForMediaId:loc.gameObject.iconMediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFit delegate:self];
+        else
+            self.iconView = [[ARISMediaView alloc] initWithFrame:imageViewFrame image:[UIImage imageNamed:@"logo.png"] mode:ARISMediaDisplayModeAspectFit delegate:self];
         
         [self addSubview:self.iconView];
-        
-        self.iconView.userInteractionEnabled = NO;
-        
-        //Only load the icon media if it is > 0, otherwise, lets load a default
-        if (loc.gameObject.iconMediaId != 0)
-            [self.iconView loadMedia:[[AppModel sharedAppModel] mediaForMediaId:loc.gameObject.iconMediaId ofType:@"PHOTO"]];
         
         self.opaque = NO; 
     }
     return self;
 }
 
-- (void)dealloc {
-	asyncData= nil;
-	[iconView removeFromSuperview];
+- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+{
+    
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -144,7 +141,5 @@
         [self performSelector:@selector(setNeedsDisplay) withObject:nil afterDelay:WIGGLE_FRAMELENGTH];
     }
 }	
-
-
 
 @end

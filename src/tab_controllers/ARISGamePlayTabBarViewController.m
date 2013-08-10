@@ -59,7 +59,7 @@
     if(badgeCount != 0) self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",badgeCount];
 }
 
-- (NSInteger) supportedInterfaceOrientations
+- (NSUInteger) supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;
 }

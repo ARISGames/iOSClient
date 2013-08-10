@@ -75,8 +75,9 @@
     return GameObjectItem;
 }
 
-- (ItemViewController *) viewControllerForDelegate:(NSObject<GameObjectViewControllerDelegate> *)d fromSource:(id)s
+- (ItemViewController *) viewControllerForDelegate:(NSObject<GameObjectViewControllerDelegate,StateControllerProtocol> *)d fromSource:(id)s
 {
+    if(self.qty == 0) self.qty = 1;
 	return [[ItemViewController alloc] initWithItem:self delegate:d source:s];
 }
 
@@ -106,7 +107,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"Item- Id:%d\tName:%@\tType:%ld\tQty:%d",self.itemId,self.name,self.itemType,self.qty];
+    return [NSString stringWithFormat:@"Item- Id:%d\tName:%@\tType:%u\tQty:%d",self.itemId,self.name,self.itemType,self.qty];
 }
 
 @end

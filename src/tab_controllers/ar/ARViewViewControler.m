@@ -7,7 +7,7 @@
 //
 
 #import "ARViewViewControler.h"
-#import "AsyncMediaImageView.h"
+#import "ARISMediaView.h"
 #import "NearbyObjectARCoordinate.h"
 #import "Location.h"
 
@@ -17,7 +17,6 @@
 
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
-    
     if(self = [super initWithNibName:nibName bundle:nibBundle])
     {
         self.tabID = @"AR";
@@ -37,8 +36,6 @@
 	ARviewController.minimumScaleFactor = .5;
 	ARviewController.rotateViewsBasedOnPerspective = NO;
 
-	
-	//Init with the nearby locations in the model
 	NSMutableArray *tempLocationArray = [[NSMutableArray alloc] initWithCapacity:10];
 	
 	NearbyObjectARCoordinate *tempCoordinate;
@@ -106,26 +103,23 @@
 	[titleLabel sizeToFit];
 	titleLabel.frame = CGRectMake(BOX_WIDTH / 2.0 - titleLabel.frame.size.width / 2.0 - 4.0, 0, titleLabel.frame.size.width + 8.0, titleLabel.frame.size.height + 8.0);
 	
-	
-	AsyncMediaImageView *imageView = [[AsyncMediaImageView alloc] initWithFrame:CGRectZero];
+	ARISMediaView *imageView = [[ARISMediaView alloc] initWithFrame:CGRectZero];
 	imageView.frame = CGRectMake((int)(BOX_WIDTH / 2.0 - 300 / 2.0), 20, 300, 300);
-	if (coordinate.mediaId != 0)
-    {
-		Media *imageMedia = [[AppModel sharedAppModel] mediaForMediaId:coordinate.mediaId ofType:@"PHOTO"];
-		[imageView loadMedia:imageMedia];
-	}
-	else imageView.image = [UIImage imageNamed:@"location.png"];
-
+	//if(coordinate.mediaId != 0)
+		//[imageView refreshWithFrame:CGRectZero media:[[AppModel sharedAppModel] mediaForMediaId:coordinate.mediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFit delegate:self];
+	//else
+        //[imageView refreshWithFrame:CGRectZero image:[UIImage imageNamed:@"location.png"] mode:ARISMediaDisplayModeAspectFit delegate:self];
+    
 	//[imageView addTarget:self action:@selector(closeButtonTouched) forControlEvents:UIControlEventTouchUpInside];
 	
 	[tempView addSubview:titleLabel];
 	[tempView addSubview:imageView];
 	
-	
 	return tempView;
 }
 
-- (void)refresh {
+- (void)refresh
+{
 	
 }
 

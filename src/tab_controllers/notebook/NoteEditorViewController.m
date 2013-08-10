@@ -14,7 +14,6 @@
 #import "CameraViewController.h"
 #import "AudioRecorderViewController.h"
 #import "TextViewController.h"
-#import "AsyncMediaImageView.h"
 #import "Media.h"
 #import "ImageViewer.h"
 #import "ARISMoviePlayerViewController.h"
@@ -570,7 +569,7 @@
 	[self dismissMoviePlayerViewControllerAnimated];
 }
 
-- (NSInteger) supportedInterfaceOrientations
+- (NSUInteger) supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;
 }

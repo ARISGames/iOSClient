@@ -9,8 +9,9 @@
 #import "AppServices.h"
 #import "ARISUploader.h"
 #import "NSDictionary+ValidParsers.h"
-#import "NodeOption.h"
+#import "NpcScriptOption.h"
 #import "ARISAlertHandler.h"
+#import "ARISMediaView.h"
 
 static const int kDefaultCapacity = 10;
 static const BOOL kEmptyBoolValue = NO;
@@ -741,7 +742,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 						  text,
 						  nil];
     
-    NSMutableDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:noteId], @"noteId", fileURL, @"localURL", nil];
+    NSMutableDictionary* userInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:noteId], @"noteId", fileURL, @"localURL", nil];
 	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
                                                             andServiceName:@"notes"
                                                              andMethodName:@"addContentToNote"
@@ -1110,9 +1111,10 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
             int iTiles = [currentOverlay.tileX count];
             for (int iTile = 0; iTile < iTiles; iTile++)
             {
-                // step through tile list and update media with images
-                AsyncMediaImageView *aImageView = [[AsyncMediaImageView alloc] init ];
-                [aImageView loadMedia:[currentOverlay.tileImage objectAtIndex:iTile]];
+                //SHOULD NOT MANIPULATE VIEWS IN APPSERVICES!!! -Phil
+                //ARISMediaView *aImageView = [[ARISMediaView alloc] initWithFrame:CGRectZero media:[currentOverlay.tileImage objectAtIndex:iTile] mode:ARISMediaDisplayModeAspectFit delegate:nil];
+                //also... what the heck is this doing? -Phil
+                //This is dumb so I commented it out
             }
         }
     }
@@ -1185,7 +1187,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                             andServiceName:@"npcs"
                                                              andMethodName:@"getNpcConversationsForPlayerAfterViewingNode"
                                                               andArguments:arguments andUserInfo:nil];
-	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseConversationNodeOptionsFromJSON:)];
+	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseConversationOptionsFromJSON:)];
 }
 
 - (void)fetchGameNpcListAsynchronously:(BOOL)YesForAsyncOrNoForSync
@@ -1569,27 +1571,26 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNoteListReady" object:nil]];
 }
 
--(void)parseConversationNodeOptionsFromJSON:(ServiceResult *)jsonResult
+-(void)parseConversationOptionsFromJSON:(ServiceResult *)jsonResult
 {
     NSArray *conversationOptionsArray = (NSArray *)jsonResult.data;
 	
-	NSMutableArray *conversationNodeOptions = [[NSMutableArray alloc] initWithCapacity:3];
+	NSMutableArray *conversationOptions = [[NSMutableArray alloc] initWithCapacity:3];
 	
 	NSEnumerator *conversationOptionsEnumerator = [conversationOptionsArray objectEnumerator];
 	NSDictionary *conversationDictionary;
 	
-	while ((conversationDictionary = [conversationOptionsEnumerator nextObject]))
+	while((conversationDictionary = [conversationOptionsEnumerator nextObject]))
     {
-		int optionNodeId = [conversationDictionary validIntForKey:@"node_id"];
+		int nodeId = [conversationDictionary validIntForKey:@"node_id"];
 		NSString *text = [conversationDictionary validObjectForKey:@"text"];
         BOOL hasViewed = [conversationDictionary validBoolForKey:@"has_viewed"];
-		NodeOption *option = [[NodeOption alloc] initWithText:text andNodeId:optionNodeId andHasViewed:hasViewed];
-		[conversationNodeOptions addObject:option];
+		NpcScriptOption *option = [[NpcScriptOption alloc] initWithOptionText:text scriptText:@"" nodeId:nodeId hasViewed:hasViewed];
+		[conversationOptions addObject:option];
 	}
 	
-	//return conversationNodeOptions;
-    NSLog(@"NSNotification: ConversationNodeOptionsReady");
-	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ConversationNodeOptionsReady" object:conversationNodeOptions]];
+    NSLog(@"NSNotification: ConversationOptionsReady");
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"ConversationOptionsReady" object:conversationOptions]];
 }
 
 

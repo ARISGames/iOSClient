@@ -13,7 +13,6 @@
 #import "Game.h"
 #import "GameDetailsViewController.h"
 #import "GamePickerCell.h"
-#import "AsyncMediaImageView.h"
 
 @implementation GamePickerRecentViewController
 

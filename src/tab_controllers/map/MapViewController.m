@@ -442,7 +442,10 @@
     [mapView deselectAnnotation:currentAnnotation animated:NO];
 
 	if(buttonIndex != actionSheet.cancelButtonIndex)
+    {
+        [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] playAudioAlert:@"click" shouldVibrate:NO];
         [self performSelector:@selector(quickTravelToLastSelectedAnnotation) withObject:nil afterDelay:0.5];
+    }
 }
 
 //THIS IS A HACK-

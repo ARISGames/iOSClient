@@ -7,20 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AppModel.h"
-#import "CameraViewController.h"
-#import <MobileCoreServices/UTCoreTypes.h>
-#import "AssetsLibrary/AssetsLibrary.h"
-#import "UIImage+Scale.h"
-#import <ImageIO/ImageIO.h>
 
 @protocol PlayerSettingsViewControllerDelegate
 - (void) playerSettingsWasDismissed;
 @end
 
-@interface PlayerSettingsViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, AsyncMediaImageViewDelegate, UITextFieldDelegate>
+@interface PlayerSettingsViewController : UIViewController 
 
-- (id)initWithDelegate:(id<PlayerSettingsViewControllerDelegate>)d;
+- (id) initWithDelegate:(id<PlayerSettingsViewControllerDelegate>)d;
 - (void) resetState;
 
 @end

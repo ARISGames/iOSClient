@@ -153,7 +153,7 @@ static float INITIAL_SPAN = 0.001;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (NSInteger) supportedInterfaceOrientations
+- (NSUInteger) supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;
 }

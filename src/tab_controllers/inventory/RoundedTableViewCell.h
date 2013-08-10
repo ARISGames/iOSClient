@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
-#import "AsyncMediaImageView.h"
+#import "ARISMediaView.h"
 
 @interface RoundedTableViewCell : UITableViewCell{
 
@@ -23,7 +23,7 @@ BOOL roundBottom;
     
 UILabel *lbl1;
 UILabel *lbl2;
-AsyncMediaImageView *iconView;
+ARISMediaView *iconView;
 UILabel *lbl4;
 
 }
@@ -39,7 +39,7 @@ UILabel *lbl4;
 
 @property (nonatomic, strong) UILabel *lbl1;
 @property (nonatomic, strong) UILabel *lbl2;
-@property (nonatomic, strong) AsyncMediaImageView *iconView;
+@property (nonatomic, strong) ARISMediaView *iconView;
 @property (nonatomic, strong) UILabel *lbl4;
 
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier forFile:(NSString*)fileName;

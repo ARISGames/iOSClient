@@ -10,7 +10,7 @@
 #import "StateControllerProtocol.h"
 #import "AppServices.h"
 #import "Media.h"
-#import "AsyncMediaImageView.h"
+#import "ARISMediaView.h"
 #import "AppModel.h"
 #import "InventoryTradeViewController.h"
 #import "AppModel.h"
@@ -19,7 +19,7 @@
 #import "ItemViewController.h"
 #import "UIColor+ARISColors.h"
 
-@interface InventoryViewController() <InventoryTradeViewControllerDelegate, GameObjectViewControllerDelegate>
+@interface InventoryViewController() <ARISMediaViewDelegate, InventoryTradeViewControllerDelegate, GameObjectViewControllerDelegate>
 {
     UITableView *inventoryTable;
     NSArray *inventory;
@@ -185,7 +185,7 @@
 	CGRect label2Frame = CGRectMake( 70, 29, 240, 20); //Desc
     CGRect label3Frame = CGRectMake(260, 12,  50, 20); //Qty
 	UILabel *lblTemp;
-	UIImageView *iconViewTemp;
+	ARISMediaView *iconViewTemp;
 	
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     cell.frame = cellFrame;
@@ -206,7 +206,7 @@
 	[cell.contentView addSubview:lblTemp];
 	
 	//Init Icon with tag 3
-	iconViewTemp = [[AsyncMediaImageView alloc] initWithFrame:iconFrame];
+	iconViewTemp = [[ARISMediaView alloc] initWithFrame:iconFrame];
 	iconViewTemp.tag = 3;
 	iconViewTemp.backgroundColor = [UIColor clearColor]; 
 	[cell.contentView addSubview:iconViewTemp];
@@ -269,7 +269,7 @@
         [self.mediaCache setObject:media forKey:[NSNumber numberWithInt:item.itemId]];
 	}
     
-    AsyncMediaImageView *iconView = (AsyncMediaImageView *)[cell viewWithTag:3];    
+    ARISMediaView *iconView = (ARISMediaView *)[cell viewWithTag:3];
     Media *iconMedia;
 	if(item.iconMediaId != 0)
     {
@@ -279,21 +279,13 @@
             [self.iconCache setObject:iconMedia forKey:[NSNumber numberWithInt:item.itemId]];
         }
         
-        if(iconView.isLoading || !iconMedia.image) //if either new or old one is not a fully loaded image
-        {
-            [iconView removeFromSuperview];
-            iconView = [[AsyncMediaImageView alloc] initWithFrame:iconView.frame andMedia:iconMedia];
-            iconView.tag = 3;
-            [cell addSubview:iconView];
-        }
-        else
-            [iconView loadMedia:iconMedia];
+        [iconView refreshWithFrame:iconView.frame media:iconMedia mode:ARISMediaDisplayModeAspectFit delegate:self];
 	}
     else
     {
-		if([media.type isEqualToString:@"PHOTO"]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultImageIcon.png"]];
-		if([media.type isEqualToString:@"AUDIO"]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultAudioIcon.png"]];
-		if([media.type isEqualToString:@"VIDEO"]) [iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultVideoIcon.png"]];
+		if([media.type isEqualToString:@"PHOTO"])[iconView refreshWithFrame:iconView.frame image:[UIImage imageNamed:@"defaultImageIcon.png"] mode:ARISMediaDisplayModeAspectFit delegate:self];
+		if([media.type isEqualToString:@"AUDIO"])[iconView refreshWithFrame:iconView.frame image:[UIImage imageNamed:@"defaultAudioIcon.png"] mode:ARISMediaDisplayModeAspectFit delegate:self];
+		if([media.type isEqualToString:@"VIDEO"])[iconView refreshWithFrame:iconView.frame image:[UIImage imageNamed:@"defaultVideoIcon.png"] mode:ARISMediaDisplayModeAspectFit delegate:self];
     }
         
 	return cell;
@@ -350,7 +342,11 @@
     //[self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-#pragma mark Memory Management
+- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+{
+    
+}
+
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];

@@ -13,14 +13,14 @@
 #import "NoteEditorViewController.h"
 #import "NoteContent.h"
 #import "TextViewController.h"
-#import "AsyncMediaImageView.h"
+#import "ARISMediaView.h"
 #import "Media.h"
 #import "NoteCommentViewController.h"
 #import "UIImage+Scale.h"
 #import "AppServices.h"
 #import "AsyncMediaPlayerButton.h"
 
-@interface NoteDetailsViewController() <UIScrollViewDelegate, TextViewControllerDelegate, NoteEditorViewControllerDelegate>
+@interface NoteDetailsViewController() <UIScrollViewDelegate, TextViewControllerDelegate, NoteEditorViewControllerDelegate, ARISMediaViewDelegate>
 {
     Note *note;
     
@@ -222,7 +222,7 @@
         }
         else if([content.getType isEqualToString:@"PHOTO"])
         {
-            [self.scrollView addSubview:[[AsyncMediaImageView alloc] initWithFrame:frame andMedia:content.getMedia]];
+            [self.scrollView addSubview:[[ARISMediaView alloc] initWithFrame:frame media:content.getMedia mode:ARISMediaDisplayModeAspectFit delegate:self]];
         }
         else if([content.getType isEqualToString:@"AUDIO"] || [content.getType isEqualToString:@"VIDEO"])
             [self.scrollView addSubview:[[AsyncMediaPlayerButton alloc] initWithFrame:frame media:content.getMedia presenter:self preloadNow:NO]];
@@ -241,6 +241,11 @@
 }
 
 - (void) textViewControllerCancelled
+{
+    
+}
+
+- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
 {
     
 }

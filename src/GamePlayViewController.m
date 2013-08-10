@@ -419,7 +419,7 @@
         NSLog(@"GamePlayTabBarController: Selected tab- %@", ((GamePlayViewController *)[tabBarController.viewControllers objectAtIndex:tabBarController.selectedIndex]).title);
 }
 
-- (NSInteger) supportedInterfaceOrientations
+- (NSUInteger) supportedInterfaceOrientations
 {
     if(self.gamePlayTabBarController.selectedIndex > 3 && self.gamePlayTabBarController.selectedIndex < 6)
         return [self.gamePlayTabBarController.moreNavigationController.topViewController supportedInterfaceOrientations];

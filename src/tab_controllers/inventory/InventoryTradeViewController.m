@@ -9,7 +9,7 @@
 #import "InventoryTradeViewController.h"
 #import "ARISAlertHandler.h"
 
-@interface InventoryTradeViewController()
+@interface InventoryTradeViewController()<ARISMediaViewDelegate>
 {
     id<InventoryTradeViewControllerDelegate> __unsafe_unretained delegate;
 }
@@ -187,54 +187,7 @@
 
 - (UITableViewCell *)getCellContentView:(NSString *)cellIdentifier
 {
-/*	CGRect CellFrame = CGRectMake(0, 0, 320, 60);
-	CGRect IconFrame = CGRectMake(5, 5, 50, 50);
-	CGRect Label1Frame = CGRectMake(70, 22, 240, 20);
-	CGRect Label2Frame = CGRectMake(70, 39, 240, 20);
-    CGRect Label3Frame = CGRectMake(70, 5, 240, 20);
-	UILabel *lblTemp;
-	UIImageView *iconViewTemp;
-	
-	UITableViewCell *cell = [[UITableViewCell alloc] initWithFrame:CellFrame reuseIdentifier:cellIdentifier];
-	
-	//Setup Cell
-	UIView *transparentBackground = [[UIView alloc] initWithFrame:CGRectZero];
-    transparentBackground.backgroundColor = [UIColor clearColor];
-    cell.backgroundView = transparentBackground;
-	
-	//Initialize Label with tag 1.
-	lblTemp = [[UILabel alloc] initWithFrame:Label1Frame];
-	lblTemp.tag = 1;
-	//lblTemp.textColor = [UIColor whiteColor];
-	lblTemp.backgroundColor = [UIColor clearColor];
-	[cell.contentView addSubview:lblTemp];
-	
-	//Initialize Label with tag 2.
-	lblTemp = [[UILabel alloc] initWithFrame:Label2Frame];
-	lblTemp.tag = 2;
-	lblTemp.font = [UIFont systemFontOfSize:11];
-	lblTemp.textColor = [UIColor darkGrayColor];
-	lblTemp.backgroundColor = [UIColor clearColor];
-	[cell.contentView addSubview:lblTemp];
-	
-	//Init Icon with tag 3
-	iconViewTemp = [[AsyncMediaImageView alloc] initWithFrame:IconFrame];
-	iconViewTemp.tag = 3;
-	iconViewTemp.backgroundColor = [UIColor clearColor]; 
-	[cell.contentView addSubview:iconViewTemp];
-    
-    //Init Icon with tag 4
-    lblTemp = [[UILabel alloc] initWithFrame:Label3Frame];
-	lblTemp.tag = 4;
-	lblTemp.font = [UIFont boldSystemFontOfSize:11];
-	lblTemp.textColor = [UIColor darkGrayColor];
-	lblTemp.backgroundColor = [UIColor clearColor];
-    //lblTemp.textAlignment = UITextAlignmentRight;
-	[cell.contentView addSubview:lblTemp]; 
-  */  
-    RoundedTableViewCell *cell = [[RoundedTableViewCell alloc] initWithStyle:UITableViewCellSelectionStyleNone reuseIdentifier:cellIdentifier forFile:@"InventoryTradeViewController"];
-    
-	return cell;
+	return [[RoundedTableViewCell alloc] initWithStyle:UITableViewCellSelectionStyleNone reuseIdentifier:cellIdentifier forFile:@"InventoryTradeViewController"];
 } 
 
 
@@ -245,7 +198,6 @@
     return 2;
 }
 
-// returns the # of rows in each component..
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if(section == 0) return [self.itemsToTrade count];
@@ -319,69 +271,52 @@
     
 	if (item.iconMediaId != 0)
     {
-        Media *iconMedia;
         if([self.iconCache count] < indexPath.row)
-        {
-            iconMedia = [self.iconCache objectAtIndex:indexPath.row];
-            [cell.iconView updateViewWithNewImage:[UIImage imageWithData:iconMedia.image]];
-        }
-        else
-        {
-            iconMedia = [[AppModel sharedAppModel] mediaForMediaId:item.iconMediaId ofType:nil];
-            [self.iconCache  addObject:iconMedia];
-            [cell.iconView loadMedia:iconMedia];
-        }
+            [self.iconCache  addObject:[[AppModel sharedAppModel] mediaForMediaId:item.iconMediaId ofType:nil]];
+        [cell.iconView refreshWithFrame:cell.iconView.frame media:[self.iconCache objectAtIndex:indexPath.row] mode:ARISMediaDisplayModeAspectFit delegate:self];
 	}
-	else {
+	else
+    {
 		//Load the Default
-		if ([media.type isEqualToString:@"PHOTO"]) [cell.iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultImageIcon.png"]];
-		if ([media.type isEqualToString:@"AUDIO"]) [cell.iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultAudioIcon.png"]];
-		if ([media.type isEqualToString:@"VIDEO"]) [cell.iconView updateViewWithNewImage:[UIImage imageNamed:@"defaultVideoIcon.png"]];	}
+		if ([media.type isEqualToString:@"PHOTO"]) [cell.iconView refreshWithFrame:cell.iconView.frame image:[UIImage imageNamed:@"defaultImageIcon.png"] mode:ARISMediaDisplayModeAspectFit delegate:self];
+		if ([media.type isEqualToString:@"AUDIO"]) [cell.iconView refreshWithFrame:cell.iconView.frame image:[UIImage imageNamed:@"defaultAudioIcon.png"] mode:ARISMediaDisplayModeAspectFit delegate:self];
+		if ([media.type isEqualToString:@"VIDEO"]) [cell.iconView refreshWithFrame:cell.iconView.frame image:[UIImage imageNamed:@"defaultVideoIcon.png"] mode:ARISMediaDisplayModeAspectFit delegate:self];
+    }
     
 	return cell;
 }
 
-- (unsigned int) indexOf:(char) searchChar inString:(NSString *)searchString
-{
-	NSRange searchRange;
-	searchRange.location = (unsigned int) searchChar;
-	searchRange.length = 1;
-	NSRange foundRange = [searchString rangeOfCharacterFromSet:[NSCharacterSet characterSetWithRange:searchRange]];
-	return foundRange.location;	
-}
-
-// Customize the height of each row
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+-(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	return 60;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {	
-    
-    if(indexPath.section == 0){
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(indexPath.section == 0)
+    {
         Item *selectedItem = [self.itemsToTrade objectAtIndex:[indexPath row]];
         if(((Item *)[self.itemsToTrade objectAtIndex:[indexPath row]]).qty > 1) ((Item *)[self.itemsToTrade objectAtIndex:[indexPath row]]).qty--;
         else [self.itemsToTrade removeObjectAtIndex:[indexPath row]];
         
-        NSUInteger result = [self.inventory indexOfObjectPassingTest:
-                             ^ (id arrayItem, NSUInteger idx, BOOL *stop)
-                             {   
-                                 if (((Item *)arrayItem).itemId == selectedItem.itemId) {
-                                     return YES;
-                                 }
-                                 else
-                                     return NO;
-                             }];
+        NSUInteger result = [self.inventory indexOfObjectPassingTest:^ (id arrayItem, NSUInteger idx, BOOL *stop)
+            {
+                if(((Item *)arrayItem).itemId == selectedItem.itemId)
+                    return YES;
+                else
+                    return NO;
+            }];
         
-        if (result == NSNotFound){
+        if(result == NSNotFound)
+        {
             Item *itemCopy = [selectedItem copy];
             itemCopy.qty = 1;
             [self.inventory addObject:itemCopy];
         }
         else ((Item *)[self.inventory objectAtIndex:result]).qty++;
     }
-    
-    else{
+    else
+    {
         Item *selectedItem = [self.inventory objectAtIndex:[indexPath row]];
         if(((Item *)[self.inventory objectAtIndex:[indexPath row]]).qty > 1) ((Item *)[self.inventory objectAtIndex:[indexPath row]]).qty--;
         else [self.inventory removeObjectAtIndex:[indexPath row]];
@@ -424,12 +359,17 @@
     return giftsJSON;
 }
 
+- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+{
+    
+}
+
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (NSInteger) supportedInterfaceOrientations
+- (NSUInteger) supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;
 }

@@ -15,7 +15,9 @@
 #import "RatingCell.h"
 #import "LocalData.h"
 #import "StoreLocallyViewController.h"
-
+#import "Game.h"
+#import "ARISMediaView.h"
+#import "Media.h"
 
 #import "ARISAlertHandler.h"
 #import "UIColor+ARISColors.h"
@@ -40,10 +42,23 @@ NSString *const kGameDetailsHtmlTemplate =
 @"<body>%@</body>"
 @"</html>";
 
-@interface GameDetailsViewController()
+@interface GameDetailsViewController() <ARISMediaViewDelegate, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate,  UIWebViewDelegate>
 {
+	Game *game; 
+    IBOutlet UITableView *tableView;
+    UIWebView *descriptionWebView;
+    ARISMediaView *mediaImageView;
+    CGFloat newHeight;
+    NSIndexPath *descriptionIndexPath;
     id<GameDetailsViewControllerDelegate> __unsafe_unretained delegate;
 }
+
+@property (nonatomic, strong) NSIndexPath *descriptionIndexPath;
+@property (nonatomic, strong) Game *game;
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) UIWebView *descriptionWebView;
+@property (nonatomic, assign) CGFloat  newHeight;
+@property (nonatomic, strong) ARISMediaView *mediaImageView;
 
 @end
 
@@ -53,13 +68,8 @@ NSString *const kGameDetailsHtmlTemplate =
 @synthesize descriptionWebView;
 @synthesize game;
 @synthesize tableView;
-@synthesize titleLabel;
-@synthesize authorsLabel;
-@synthesize descriptionLabel;
-@synthesize locationLabel;
-@synthesize scrollView;
-@synthesize contentView;
-@synthesize segmentedControl, newHeight, mediaImageView;
+@synthesize newHeight;
+@synthesize mediaImageView;
 
 - (id)initWithGame:(Game *)g delegate:(id<GameDetailsViewControllerDelegate>)d
 {
@@ -81,25 +91,23 @@ NSString *const kGameDetailsHtmlTemplate =
 
 - (void)viewDidLoad
 {
-    self.mediaImageView = [[AsyncMediaImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
-
-    self.title = self.game.name;
-    self.authorsLabel.text = [NSString stringWithFormat:@"%@: ", NSLocalizedString(@"GameDetailsAuthorKey", @"")];
-    self.authorsLabel.text = [self.authorsLabel.text stringByAppendingString:self.game.authors];
-    self.descriptionLabel.text = [NSString stringWithFormat:@"%@: ", NSLocalizedString(@"DescriptionKey", @"")];
-
-	[descriptionWebView setBackgroundColor:[UIColor clearColor]];
-    [self.segmentedControl setTitle:[NSString stringWithFormat:@"%@: %d",NSLocalizedString(@"RatingKey", @""),game.rating] forSegmentAtIndex:0];
-    
-    self.hidesBottomBarWhenPushed = YES;
-    
     [super viewDidLoad];
+    
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey", @"")
+                                                                   style:UIBarButtonItemStyleBordered
+                                                                  target:self
+                                                                  action:@selector(backButtonTouched)];
+    self.navigationItem.leftBarButtonItem = backButton;
+    
+    self.mediaImageView = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
+    self.descriptionWebView = [[UIWebView alloc] init];
+    [descriptionWebView setBackgroundColor:[UIColor clearColor]];
+    
+    self.title = self.game.name;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	scrollView.contentSize = CGSizeMake(contentView.frame.size.width,contentView.frame.size.height);
-	
 	NSString *htmlDescription = [NSString stringWithFormat:kGameDetailsHtmlTemplate, self.game.gdescription];
 	descriptionWebView.delegate = self;
     descriptionWebView.hidden = NO;
@@ -140,8 +148,6 @@ NSString *const kGameDetailsHtmlTemplate =
     return YES;  
 } 
 
-#pragma mark -
-#pragma mark Table view methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     if (self.game.offlineMode) return 4;
@@ -184,9 +190,10 @@ NSString *const kGameDetailsHtmlTemplate =
 	
     if (indexPath.section == 0 && indexPath.row == 0)
     {
-        if(self.game.splashMedia) [self.mediaImageView loadMedia:self.game.splashMedia];
-        else self.mediaImageView.image = [UIImage imageNamed:@"DefaultGameSplash.png"];
-        self.mediaImageView.frame = CGRectMake(0, 0, 320, 200);
+        if(self.game.splashMedia)
+            [self.mediaImageView refreshWithFrame:CGRectMake(0, 0, 320, 200) media:self.game.splashMedia mode:ARISMediaDisplayModeAspectFit delegate:self];
+        else
+            [self.mediaImageView refreshWithFrame:CGRectMake(0, 0, 320, 200) image:[UIImage imageNamed:@"DefaultGameSplash"] mode:ARISMediaDisplayModeAspectFit delegate:self];
         
         cell.backgroundView = mediaImageView;
         cell.backgroundView.layer.masksToBounds = YES;
@@ -239,22 +246,20 @@ NSString *const kGameDetailsHtmlTemplate =
 {
     if (indexPath.section == 1)
     {
-        if(indexPath.row == 0) {
-            //Resume
+        if(indexPath.row == 0)//Resume
+        {
             cell.backgroundColor = [UIColor ARISColorLighBlue];
-
             cell.textLabel.textColor = [UIColor whiteColor];
         }
-        if(indexPath.row == 1 && self.game.hasBeenPlayed){
-            //Reset
+        else if(indexPath.row == 1 && self.game.hasBeenPlayed)//Reset
+        {
             cell.backgroundColor = [UIColor ARISColorRed];
-            
             cell.textLabel.textColor = [UIColor whiteColor];
         }
-        else if((indexPath.row == 1 && !game.hasBeenPlayed) || indexPath.row == 2)
-            //Ratings
+        else if((indexPath.row == 1 && !game.hasBeenPlayed) || indexPath.row == 2)//Ratings
+        {
             cell.backgroundColor = [UIColor ARISColorOffWhite];
-
+        }
     }
 }
 
@@ -365,6 +370,11 @@ NSString *const kGameDetailsHtmlTemplate =
     [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]          forState:kSCRatingViewUserSelected];
     
     return cell;
+}
+
+- (void) ARISMediaViewUpdated:(ARISMediaView *)amv
+{
+    
 }
 
 @end

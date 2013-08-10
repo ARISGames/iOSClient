@@ -53,7 +53,7 @@
             [self.contentView addSubview:self.lbl2];
             
             //Init Icon with tag 3
-            self.iconView = [[AsyncMediaImageView alloc] initWithFrame:IconFrame];
+            self.iconView = [[ARISMediaView alloc] initWithFrame:IconFrame];
             self.iconView.tag = 3;
             self.iconView.backgroundColor = [UIColor clearColor]; 
             [self.contentView addSubview:self.iconView];
