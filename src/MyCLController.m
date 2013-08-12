@@ -82,13 +82,13 @@
 
 
 // Called when the location is updated
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+- (void) locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
     [[AppModel sharedAppModel] setPlayerLocation:newLocation];
 }
 
 // Called when there is an error getting the location
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+- (void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
 	NSMutableString *errorString = [[NSMutableString alloc] init];
 	
@@ -140,6 +140,5 @@
 	
 	//Send the update somewhere?
 }
-
 
 @end

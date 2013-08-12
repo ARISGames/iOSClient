@@ -509,6 +509,7 @@
 		AABC7512172860860074CC21 /* ItemActionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7510172860860074CC21 /* ItemActionViewController.xib */; };
 		AABC7518172873510074CC21 /* ItemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7515172873510074CC21 /* ItemViewController.xib */; };
 		AABC7519172873510074CC21 /* ItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7517172873510074CC21 /* ItemViewController.m */; };
+		AAF7116617B971ED00262A37 /* ARISCollapseView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7116517B971ED00262A37 /* ARISCollapseView.m */; };
 		AAF81FA3174BCD640003D848 /* libZXingWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAF81FA0174BC73C0003D848 /* libZXingWidget.a */; };
 		AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB0A5BA3120365420065CE68 /* Localizable.strings */; };
 		AB0DE73217785B1E00D62D9B /* navBarBackground44.png in Resources */ = {isa = PBXBuildFile; fileRef = AB0DE73117785B1E00D62D9B /* navBarBackground44.png */; };
@@ -1309,6 +1310,8 @@
 		AABC7515172873510074CC21 /* ItemViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemViewController.xib; sourceTree = "<group>"; };
 		AABC7516172873510074CC21 /* ItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemViewController.h; sourceTree = "<group>"; };
 		AABC7517172873510074CC21 /* ItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemViewController.m; sourceTree = "<group>"; };
+		AAF7116417B971ED00262A37 /* ARISCollapseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISCollapseView.h; sourceTree = "<group>"; };
+		AAF7116517B971ED00262A37 /* ARISCollapseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISCollapseView.m; sourceTree = "<group>"; };
 		AAF81F9A174BC73C0003D848 /* ZXingWidget.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZXingWidget.xcodeproj; path = src/third_party/zxing/iphone/ZXingWidget/ZXingWidget.xcodeproj; sourceTree = "<group>"; };
 		AB0A5BA4120365420065CE68 /* en */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AB0A5BA61203665C0065CE68 /* es */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1831,6 +1834,8 @@
 				AA701FE6173443FB003A840D /* ARISPusherHandler.h */,
 				AA701FE7173443FB003A840D /* ARISPusherHandler.m */,
 				AA856FEF17A972B800E9D451 /* arisjs.js */,
+				AAF7116417B971ED00262A37 /* ARISCollapseView.h */,
+				AAF7116517B971ED00262A37 /* ARISCollapseView.m */,
 				AA3F493017A828B300FF4C80 /* ARISWebView.h */,
 				AA3F493117A828B300FF4C80 /* ARISWebView.m */,
 				AA701FDF17342169003A840D /* GamePickersViewController.h */,
@@ -1839,8 +1844,8 @@
 				AA701FDB17330947003A840D /* GamePlayViewController.m */,
 				AABC70ED172739D60074CC21 /* MyCLController.h */,
 				AABC70EE172739D60074CC21 /* MyCLController.m */,
-				AAB8AADC17441B64001F10F0 /* StateControllerProtocol.h */,
 				AABC711C172739D60074CC21 /* Reachability.h */,
+				AAB8AADC17441B64001F10F0 /* StateControllerProtocol.h */,
 				AABC70DB172739D60074CC21 /* models */,
 				AABC711F172739D60074CC21 /* services */,
 				AABC7073172739D60074CC21 /* data_objects */,
@@ -3246,6 +3251,7 @@
 				AA74E7E617626EE9005C279B /* MMedia.m in Sources */,
 				AA74E7E717626EE9005C279B /* MNode.m in Sources */,
 				AA74E7E817626EE9005C279B /* MNpc.m in Sources */,
+				AAF7116617B971ED00262A37 /* ARISCollapseView.m in Sources */,
 				AA74E7E917626EE9005C279B /* MNpcConversation.m in Sources */,
 				AA74E7EA17626EE9005C279B /* MOverlay.m in Sources */,
 				AA74E7EB17626EE9005C279B /* MOverlayTile.m in Sources */,
