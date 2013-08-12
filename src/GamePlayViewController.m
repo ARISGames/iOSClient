@@ -314,7 +314,8 @@
 
 - (void) viewControllerRequestedDisplay:(ARISNavigationController *)avc
 {
-    self.gamePlayTabBarController.frontViewController = avc;
+    [self.gamePlayTabBarController setFrontViewController:avc];
+    [self.gamePlayTabBarController showViewController:avc];
 }
 
 - (void) displayScannerWithPrompt:(NSString *)p
