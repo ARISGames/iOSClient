@@ -509,6 +509,10 @@
 		AABC7512172860860074CC21 /* ItemActionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7510172860860074CC21 /* ItemActionViewController.xib */; };
 		AABC7518172873510074CC21 /* ItemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7515172873510074CC21 /* ItemViewController.xib */; };
 		AABC7519172873510074CC21 /* ItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7517172873510074CC21 /* ItemViewController.m */; };
+		AAF7115B17B9579900262A37 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = AAF7115217B9579900262A37 /* .gitignore */; };
+		AAF7115C17B9579900262A37 /* PKRevealController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7115617B9579900262A37 /* PKRevealController.m */; };
+		AAF7115D17B9579900262A37 /* PKRevealControllerContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7115817B9579900262A37 /* PKRevealControllerContainerView.m */; };
+		AAF7115E17B9579900262A37 /* UIViewController+PKRevealController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7115A17B9579900262A37 /* UIViewController+PKRevealController.m */; };
 		AAF81FA3174BCD640003D848 /* libZXingWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAF81FA0174BC73C0003D848 /* libZXingWidget.a */; };
 		AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB0A5BA3120365420065CE68 /* Localizable.strings */; };
 		AB0DE73217785B1E00D62D9B /* navBarBackground44.png in Resources */ = {isa = PBXBuildFile; fileRef = AB0DE73117785B1E00D62D9B /* navBarBackground44.png */; };
@@ -536,13 +540,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		AAF6FE32174FBCBC00C3E687 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AAF81F9A174BC73C0003D848 /* ZXingWidget.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D2AAC07D0554694100DB518D;
-			remoteInfo = ZXingWidget;
-		};
 		AAF81F9F174BC73C0003D848 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AAF81F9A174BC73C0003D848 /* ZXingWidget.xcodeproj */;
@@ -1309,6 +1306,13 @@
 		AABC7515172873510074CC21 /* ItemViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemViewController.xib; sourceTree = "<group>"; };
 		AABC7516172873510074CC21 /* ItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemViewController.h; sourceTree = "<group>"; };
 		AABC7517172873510074CC21 /* ItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemViewController.m; sourceTree = "<group>"; };
+		AAF7115217B9579900262A37 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		AAF7115517B9579900262A37 /* PKRevealController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKRevealController.h; sourceTree = "<group>"; };
+		AAF7115617B9579900262A37 /* PKRevealController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKRevealController.m; sourceTree = "<group>"; };
+		AAF7115717B9579900262A37 /* PKRevealControllerContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKRevealControllerContainerView.h; sourceTree = "<group>"; };
+		AAF7115817B9579900262A37 /* PKRevealControllerContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKRevealControllerContainerView.m; sourceTree = "<group>"; };
+		AAF7115917B9579900262A37 /* UIViewController+PKRevealController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+PKRevealController.h"; sourceTree = "<group>"; };
+		AAF7115A17B9579900262A37 /* UIViewController+PKRevealController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+PKRevealController.m"; sourceTree = "<group>"; };
 		AAF81F9A174BC73C0003D848 /* ZXingWidget.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZXingWidget.xcodeproj; path = src/third_party/zxing/iphone/ZXingWidget/ZXingWidget.xcodeproj; sourceTree = "<group>"; };
 		AB0A5BA4120365420065CE68 /* en */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AB0A5BA61203665C0065CE68 /* es */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -2416,6 +2420,7 @@
 		AABC71B1172739D70074CC21 /* third_party */ = {
 			isa = PBXGroup;
 			children = (
+				AAF7115117B9579900262A37 /* PKRevealController */,
 				8902C4A317AC09E700C80803 /* CrittercismSDK */,
 				AA3D7C6A17662C1F00382D00 /* MTStatusBarOverlay */,
 				AABC71B5172739D70074CC21 /* bump */,
@@ -2621,6 +2626,36 @@
 			path = utils;
 			sourceTree = "<group>";
 		};
+		AAF7115117B9579900262A37 /* PKRevealController */ = {
+			isa = PBXGroup;
+			children = (
+				AAF7115217B9579900262A37 /* .gitignore */,
+				AAF7115317B9579900262A37 /* PKRevealController */,
+			);
+			path = PKRevealController;
+			sourceTree = "<group>";
+		};
+		AAF7115317B9579900262A37 /* PKRevealController */ = {
+			isa = PBXGroup;
+			children = (
+				AAF7115417B9579900262A37 /* Controller */,
+			);
+			path = PKRevealController;
+			sourceTree = "<group>";
+		};
+		AAF7115417B9579900262A37 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				AAF7115517B9579900262A37 /* PKRevealController.h */,
+				AAF7115617B9579900262A37 /* PKRevealController.m */,
+				AAF7115717B9579900262A37 /* PKRevealControllerContainerView.h */,
+				AAF7115817B9579900262A37 /* PKRevealControllerContainerView.m */,
+				AAF7115917B9579900262A37 /* UIViewController+PKRevealController.h */,
+				AAF7115A17B9579900262A37 /* UIViewController+PKRevealController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		AAF81F9B174BC73C0003D848 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -2691,7 +2726,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				AAF6FE33174FBCBC00C3E687 /* PBXTargetDependency */,
 			);
 			name = ARIS;
 			productName = ARIS;
@@ -2718,6 +2752,8 @@
 				en,
 				es,
 				fr,
+				de,
+				sv,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* ARIS */;
 			projectDirPath = "";
@@ -2976,6 +3012,7 @@
 				7152F5D1177B7AD3001B0CAE /* idCardTabBarSelected@2x.png in Resources */,
 				7152F5D2177B7AD3001B0CAE /* locationArrowTabBarSelected.png in Resources */,
 				7152F5D3177B7AD3001B0CAE /* locationArrowTabBarSelected@2x.png in Resources */,
+				AAF7115B17B9579900262A37 /* .gitignore in Resources */,
 				7152F5D4177B7AD3001B0CAE /* mapTabBarSelected.png in Resources */,
 				7152F5D5177B7AD3001B0CAE /* mapTabBarSelected@2x.png in Resources */,
 				7152F5D6177B7AD3001B0CAE /* microphoneTabBarSelected.png in Resources */,
@@ -3136,6 +3173,7 @@
 				AABC73DB172739D80074CC21 /* ARGeoViewController.m in Sources */,
 				AABC73DD172739D80074CC21 /* ARViewController.m in Sources */,
 				AABC73DE172739D80074CC21 /* ARViewViewControler.m in Sources */,
+				AAF7115E17B9579900262A37 /* UIViewController+PKRevealController.m in Sources */,
 				AABC73DF172739D80074CC21 /* NearbyObjectARCoordinate.m in Sources */,
 				AABC73E0172739D80074CC21 /* AttributesViewController.m in Sources */,
 				AABC73E2172739D80074CC21 /* BogusSelectGameViewController.m in Sources */,
@@ -3170,6 +3208,7 @@
 				AABC741E172739D80074CC21 /* QuestsViewController.m in Sources */,
 				AABC741F172739D80074CC21 /* BumpTestViewController.m in Sources */,
 				AABC7424172739D80074CC21 /* JSONKit.m in Sources */,
+				AAF7115D17B9579900262A37 /* PKRevealControllerContainerView.m in Sources */,
 				AABC7425172739D80074CC21 /* NSObject+SBJSON.m in Sources */,
 				AABC7426172739D80074CC21 /* NSString+SBJSON.m in Sources */,
 				AABC7427172739D80074CC21 /* SBJSON.m in Sources */,
@@ -3248,6 +3287,7 @@
 				AA74E7E817626EE9005C279B /* MNpc.m in Sources */,
 				AA74E7E917626EE9005C279B /* MNpcConversation.m in Sources */,
 				AA74E7EA17626EE9005C279B /* MOverlay.m in Sources */,
+				AAF7115C17B9579900262A37 /* PKRevealController.m in Sources */,
 				AA74E7EB17626EE9005C279B /* MOverlayTile.m in Sources */,
 				AA74E7EC17626EE9005C279B /* MPlayer.m in Sources */,
 				AA74E7ED17626EE9005C279B /* MPlayerItem.m in Sources */,
@@ -3280,14 +3320,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		AAF6FE33174FBCBC00C3E687 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ZXingWidget;
-			targetProxy = AAF6FE32174FBCBC00C3E687 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		AB0A5BA3120365420065CE68 /* Localizable.strings */ = {
@@ -3333,10 +3365,13 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/**",
-					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/src/third_party/bump\"",
-					"\"$(SRCROOT)/src/third_party/CrittercismSDK\"",
-					"\"$(SRCROOT)/src/third_party/pusher\"",
+					"$(SRCROOT)",
+					"\\\"$(SRCROOT)/src/third_party/bump\\\"",
+					"\\\"$(SRCROOT)/src/third_party/CrittercismSDK\\\"",
+					"\\\"$(SRCROOT)/src/third_party/pusher\\\"",
+					/Users/pdougherty/Desktop/iOSClient/src/third_party/bump,
+					/Users/pdougherty/Desktop/iOSClient/src/third_party/CrittercismSDK,
+					/Users/pdougherty/Desktop/iOSClient/src/third_party/pusher,
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -3403,10 +3438,13 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/**",
-					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/src/third_party/bump\"",
-					"\"$(SRCROOT)/src/third_party/CrittercismSDK\"",
-					"\"$(SRCROOT)/src/third_party/pusher\"",
+					"$(SRCROOT)",
+					"\\\"$(SRCROOT)/src/third_party/bump\\\"",
+					"\\\"$(SRCROOT)/src/third_party/CrittercismSDK\\\"",
+					"\\\"$(SRCROOT)/src/third_party/pusher\\\"",
+					/Users/pdougherty/Desktop/iOSClient/src/third_party/bump,
+					/Users/pdougherty/Desktop/iOSClient/src/third_party/CrittercismSDK,
+					/Users/pdougherty/Desktop/iOSClient/src/third_party/pusher,
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
