@@ -513,6 +513,7 @@
 		AAF7115C17B9579900262A37 /* PKRevealController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7115617B9579900262A37 /* PKRevealController.m */; };
 		AAF7115D17B9579900262A37 /* PKRevealControllerContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7115817B9579900262A37 /* PKRevealControllerContainerView.m */; };
 		AAF7115E17B9579900262A37 /* UIViewController+PKRevealController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7115A17B9579900262A37 /* UIViewController+PKRevealController.m */; };
+		AAF7116117B9588D00262A37 /* GamePlayTabSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7116017B9588D00262A37 /* GamePlayTabSelectorViewController.m */; };
 		AAF81FA3174BCD640003D848 /* libZXingWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAF81FA0174BC73C0003D848 /* libZXingWidget.a */; };
 		AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB0A5BA3120365420065CE68 /* Localizable.strings */; };
 		AB0DE73217785B1E00D62D9B /* navBarBackground44.png in Resources */ = {isa = PBXBuildFile; fileRef = AB0DE73117785B1E00D62D9B /* navBarBackground44.png */; };
@@ -1313,6 +1314,8 @@
 		AAF7115817B9579900262A37 /* PKRevealControllerContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKRevealControllerContainerView.m; sourceTree = "<group>"; };
 		AAF7115917B9579900262A37 /* UIViewController+PKRevealController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+PKRevealController.h"; sourceTree = "<group>"; };
 		AAF7115A17B9579900262A37 /* UIViewController+PKRevealController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+PKRevealController.m"; sourceTree = "<group>"; };
+		AAF7115F17B9588D00262A37 /* GamePlayTabSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlayTabSelectorViewController.h; sourceTree = "<group>"; };
+		AAF7116017B9588D00262A37 /* GamePlayTabSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePlayTabSelectorViewController.m; sourceTree = "<group>"; };
 		AAF81F9A174BC73C0003D848 /* ZXingWidget.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZXingWidget.xcodeproj; path = src/third_party/zxing/iphone/ZXingWidget/ZXingWidget.xcodeproj; sourceTree = "<group>"; };
 		AB0A5BA4120365420065CE68 /* en */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AB0A5BA61203665C0065CE68 /* es */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1841,6 +1844,8 @@
 				AA701FE017342169003A840D /* GamePickersViewController.m */,
 				AA701FDA17330947003A840D /* GamePlayViewController.h */,
 				AA701FDB17330947003A840D /* GamePlayViewController.m */,
+				AAF7115F17B9588D00262A37 /* GamePlayTabSelectorViewController.h */,
+				AAF7116017B9588D00262A37 /* GamePlayTabSelectorViewController.m */,
 				AABC70ED172739D60074CC21 /* MyCLController.h */,
 				AABC70EE172739D60074CC21 /* MyCLController.m */,
 				AAB8AADC17441B64001F10F0 /* StateControllerProtocol.h */,
@@ -3192,6 +3197,7 @@
 				AABC73FE172739D80074CC21 /* DDAnnotation.m in Sources */,
 				AABC73FF172739D80074CC21 /* DDAnnotationView.m in Sources */,
 				AABC7400172739D80074CC21 /* DropOnMapViewController.m in Sources */,
+				AAF7116117B9588D00262A37 /* GamePlayTabSelectorViewController.m in Sources */,
 				AABC7402172739D80074CC21 /* ImageViewer.m in Sources */,
 				AABC7404172739D80074CC21 /* NotebookViewController.m in Sources */,
 				AABC7406172739D80074CC21 /* NoteCell.m in Sources */,

@@ -31,13 +31,14 @@
 #import "DecoderViewController.h"
 #import "BogusSelectGameViewController.h"
 #import "NearbyObjectsViewController.h"
+#import "GamePlayTabSelectorViewController.h"
 #import "PKRevealController.h"
 
 #import "ARISAlertHandler.h"
 #import "ARISNavigationController.h"
 #import "UIColor+ARISColors.h"
 
-@interface GamePlayViewController() <UITabBarControllerDelegate, UINavigationControllerDelegate, StateControllerProtocol, LoadingViewControllerDelegate, GameObjectViewControllerDelegate, GamePlayTabBarViewControllerDelegate, NearbyObjectsViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate, BogusSelectGameViewControllerDelegate>
+@interface GamePlayViewController() <UINavigationControllerDelegate, GamePlayTabSelectorViewControllerDelegate, StateControllerProtocol, LoadingViewControllerDelegate, GameObjectViewControllerDelegate, GamePlayTabBarViewControllerDelegate, NearbyObjectsViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate, BogusSelectGameViewControllerDelegate>
 {
     Game *game;
 
@@ -296,7 +297,7 @@
         else if([tmpTab.tabName isEqualToString:@"PICKGAME"] && ![AppModel sharedAppModel].disableLeaveGame)
         {
             self.bogusSelectGameViewController = [[BogusSelectGameViewController alloc] initWithDelegate:self];
-            [gamePlayTabVCs addObject:self.bogusSelectGameViewController];
+            //[gamePlayTabVCs addObject:self.bogusSelectGameViewController];
         }
     }
     
@@ -307,7 +308,13 @@
     
     //self.gamePlayTabBarController.selectedIndex = 0;
     
-    self.gamePlayTabBarController = [PKRevealController revealControllerWithFrontViewController:[gamePlayTabVCs objectAtIndex:0] leftViewController:[[UIViewController alloc] init] options:nil];
+    GamePlayTabSelectorViewController *g = [[GamePlayTabSelectorViewController alloc] initWithViewControllers:gamePlayTabVCs delegate:self];
+    self.gamePlayTabBarController = [PKRevealController revealControllerWithFrontViewController:[gamePlayTabVCs objectAtIndex:0] leftViewController:g options:nil];
+}
+
+- (void) viewControllerRequestedDisplay:(ARISNavigationController *)avc
+{
+    self.gamePlayTabBarController.frontViewController = avc;
 }
 
 - (void) displayScannerWithPrompt:(NSString *)p
