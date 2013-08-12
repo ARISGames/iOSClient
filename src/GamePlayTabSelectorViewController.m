@@ -9,6 +9,7 @@
 #import "GamePlayTabSelectorViewController.h"
 #import "ARISNavigationController.h"
 #import "ARISGamePlayTabBarViewController.h"
+#import "BogusSelectGameViewController.h"
 
 @interface GamePlayTabSelectorViewController () <UITableViewDelegate, UITableViewDataSource>
 {
@@ -57,9 +58,17 @@
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *c = [[UITableViewCell alloc] initWithStyle:UITableViewStylePlain reuseIdentifier:nil];
-    ARISNavigationController *anc = [self.viewControllers objectAtIndex:indexPath.row];
-    ARISGamePlayTabBarViewController *agptbvc = [anc.viewControllers objectAtIndex:0];
-    c.textLabel.text = agptbvc.tabID;
+    UIViewController *vc = [self.viewControllers objectAtIndex:indexPath.row];
+    if([vc isKindOfClass:[BogusSelectGameViewController class]])
+    {
+        c.textLabel.text = @"LEAVE";
+    }
+    else
+    {
+        ARISNavigationController *anc = (ARISNavigationController *)vc;
+        ARISGamePlayTabBarViewController *agptbvc = [anc.viewControllers objectAtIndex:0];
+        c.textLabel.text = agptbvc.tabID;
+    }
     return c;
 }
 

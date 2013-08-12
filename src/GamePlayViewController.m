@@ -297,7 +297,7 @@
         else if([tmpTab.tabName isEqualToString:@"PICKGAME"] && ![AppModel sharedAppModel].disableLeaveGame)
         {
             self.bogusSelectGameViewController = [[BogusSelectGameViewController alloc] initWithDelegate:self];
-            //[gamePlayTabVCs addObject:self.bogusSelectGameViewController];
+            [gamePlayTabVCs addObject:self.bogusSelectGameViewController];
         }
     }
     
