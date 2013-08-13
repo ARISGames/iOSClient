@@ -23,6 +23,7 @@
 #import "Item.h"
 #import "ARISMoviePlayerViewController.h"
 #import "ARISMediaView.h"
+#import "ARISCollapseView.h"
 
 #import "InventoryViewController.h"
 
@@ -32,7 +33,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 @"	<title>Aris</title>"
 @"	<style type='text/css'><!--"
 @"	body {"
-@"		background-color: #000000;"
 @"		color: #FFFFFF;"
 @"		font-size: 17px;"
 @"		font-family: Helvetia, Sans-Serif;"
@@ -43,21 +43,21 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 @"<body>%@</body>"
 @"</html>";
 
-@interface ItemViewController()  <ARISMediaViewDelegate, ARISWebViewDelegate, StateControllerProtocol, UIWebViewDelegate, UITextViewDelegate>
+@interface ItemViewController()  <ARISMediaViewDelegate, ARISWebViewDelegate, ARISCollapseViewDelegate, StateControllerProtocol, UIWebViewDelegate, UITextViewDelegate>
 {
 	//ARISMoviePlayerViewController *mMoviePlayer; //only used if item is a video
 	MPMoviePlayerViewController *mMoviePlayer; //only used if item is a video
     
-	bool descriptionShowing;
-	IBOutlet UIToolbar *toolBar;
-	IBOutlet UIBarButtonItem *dropButton;
-	IBOutlet UIBarButtonItem *deleteButton;
-	IBOutlet UIBarButtonItem *pickupButton;
-	IBOutlet UIBarButtonItem *detailButton;
+    UIButton *backBtn;
+    UIButton *dropBtn;
+    UIButton *destroyBtn;
+    UIButton *pickupBtn;
+    
 	IBOutlet ARISMediaView *itemImageView;
-	IBOutlet ARISWebView *itemDescriptionView;
     IBOutlet ARISWebView *itemWebView;
 	IBOutlet UIScrollView *scrollView;
+    ARISCollapseView *descriptionCollapseView;
+	ARISWebView *descriptionWebView;
 	UIButton *mediaPlaybackButton;
 	ItemDetailsModeType mode;
     IBOutlet UIActivityIndicatorView *activityIndicator;
@@ -66,17 +66,13 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     id source;
 }
 
-@property(readwrite) ItemDetailsModeType mode;
-@property(nonatomic) IBOutlet ARISMediaView *itemImageView;
-@property(nonatomic) IBOutlet ARISWebView *itemWebView;
-@property(nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property(nonatomic) IBOutlet ARISWebView *itemDescriptionView;;
-@property(nonatomic) UIScrollView *scrollView;
-
-- (IBAction) dropButtonTouchAction:(id)sender;
-- (IBAction) deleteButtonTouchAction:(id)sender;
-- (IBAction) pickupButtonTouchAction:(id)sender;
-- (IBAction) toggleDescription:(id)sender;
+@property (nonatomic, assign) ItemDetailsModeType mode;
+@property (nonatomic, strong) IBOutlet ARISMediaView *itemImageView;
+@property (nonatomic, strong) IBOutlet ARISWebView *itemWebView;
+@property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
+@property (nonatomic, strong) ARISWebView *descriptionWebView;
+@property (nonatomic, strong) ARISCollapseView *descriptionCollapseView;
 
 @end
 
@@ -87,102 +83,144 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 @synthesize itemImageView;
 @synthesize itemWebView;
 @synthesize activityIndicator;
-@synthesize itemDescriptionView;
+@synthesize descriptionWebView;
+@synthesize descriptionCollapseView;
 @synthesize scrollView;
 
 - (id) initWithItem:(Item *)i delegate:(id<GameObjectViewControllerDelegate,StateControllerProtocol>)d source:(id)s
 {
     if ((self = [super initWithNibName:@"ItemViewController" bundle:nil]))
     {
-        delegate = d;
-        source = s;
 		self.item = i;
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieFinishedCallback:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
+        source = s;
         mode = kItemDetailsViewing;
+        
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieFinishedCallback:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
+        
+        delegate = d;
     }
     return self;
 }
 
-- (void)viewDidLoad
+- (void) viewDidLoad
 {
     [super viewDidLoad];
+
+    backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [backBtn setTitle:NSLocalizedString(@"ItemDropKey", @"") forState:UIControlStateNormal];
+    [backBtn setTitle:@"Back" forState:UIControlStateNormal];
+    [backBtn setBackgroundColor:[UIColor whiteColor]];
+    [backBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [backBtn addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     
-	self.itemWebView.delegate = self;
-    self.itemDescriptionView.delegate = self;
-    
-	//Setup the Toolbar Buttons
-	dropButton.title   = NSLocalizedString(@"ItemDropKey", @"");
-	pickupButton.title = NSLocalizedString(@"ItemPickupKey", @"");
-	deleteButton.title = NSLocalizedString(@"ItemDeleteKey",@"");
-	detailButton.title = NSLocalizedString(@"ItemDetailKey", @"");
-	
-    NSMutableArray *barButtonItems = [[NSMutableArray alloc] initWithCapacity:3];
 	if([(NSObject *)source isKindOfClass:[InventoryViewController class]] == YES)
     {
-		dropButton.width = 75.0;
-		deleteButton.width = 75.0;
-		detailButton.width = 140.0;
-		
-        if(item.dropable)                           [barButtonItems addObject:dropButton];
-        if(item.destroyable)                        [barButtonItems addObject:deleteButton];
-        if(![item.description isEqualToString:@""]) [barButtonItems addObject:detailButton];
-	}
-	else
-    {
-		pickupButton.width = 150.0;
-		detailButton.width = 150.0;
+        if(item.dropable)
+        {
+            dropBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [dropBtn setTitle:NSLocalizedString(@"ItemDropKey", @"") forState:UIControlStateNormal];
+            [dropBtn setBackgroundColor:[UIColor whiteColor]];
+            [dropBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+            if(item.destroyable)
+                dropBtn.frame = CGRectMake(self.view.bounds.size.width/3, self.view.bounds.size.height-44, self.view.bounds.size.width/3, 44);
+            else
+                dropBtn.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
+            [dropBtn addTarget:self action:@selector(dropButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+            [self.view addSubview:dropBtn];
+        }
+        if(item.destroyable)
+        {
+            destroyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [destroyBtn setTitle:NSLocalizedString(@"ItemDeleteKey",@"") forState:UIControlStateNormal];
+            [destroyBtn setBackgroundColor:[UIColor whiteColor]];
+            [destroyBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+            if(item.dropable)
+                destroyBtn.frame = CGRectMake(2*self.view.bounds.size.width/3, self.view.bounds.size.height-44, self.view.bounds.size.width/3, 44);
+            else
+                destroyBtn.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
+            [dropBtn addTarget:self action:@selector(destroyButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+            [self.view addSubview:destroyBtn];
+        }
         
-        [barButtonItems addObject:pickupButton];
-        if(![item.description isEqualToString:@""]) [barButtonItems addObject:detailButton];
-	}
-    [toolBar setItems:barButtonItems animated:NO];
-
-    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey",@"") style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonTouchAction:)];    
-
-	[itemDescriptionView loadHTMLString:[NSString stringWithFormat:kItemDetailsDescriptionHtmlTemplate, item.text] baseURL:nil];
-    
-	Media *media;
-    if(item.mediaId) media = [[AppModel sharedAppModel] mediaForMediaId:item.mediaId     ofType:@"PHOTO"];
-    else             media = [[AppModel sharedAppModel] mediaForMediaId:item.iconMediaId ofType:@"PHOTO"];
-    
-	if([media.type isEqualToString:@"PHOTO"] && media.url)
-    {
-        [itemImageView refreshWithFrame:scrollView.frame media:media mode:ARISMediaDisplayModeAspectFit delegate:self];
-	}
-	else if(([media.type isEqualToString:@"VIDEO"] || [media.type isEqualToString:@"AUDIO"]) && media.url)
-    {        
-        AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presenter:self preloadNow:NO];
-        [self.scrollView addSubview:mediaButton];
+        if(item.dropable && item.destroyable)
+            backBtn.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width/3, 44);
+        else if(item.dropable || item.destroyable)
+            backBtn.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
+        else 
+            backBtn.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
 	}
 	else
-		NSLog(@"ItemDetailsVC: Error Loading Media ID: %d. It etiher doesn't exist or is not of a valid type.", item.mediaId);
+    {
+        pickupBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [pickupBtn setTitle:NSLocalizedString(@"ItemPickupKey", @"") forState:UIControlStateNormal];
+        [pickupBtn setBackgroundColor:[UIColor whiteColor]];
+        [pickupBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        pickupBtn.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
+        backBtn.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
+        [pickupBtn addTarget:self action:@selector(pickupButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:pickupBtn];
+	}
+    [self.view addSubview:backBtn];
     
     self.itemWebView.hidden = YES;
-
-	[self updateQuantityDisplay];
     if(self.item.itemType == ItemTypeWebPage && self.item.url && (![self.item.url isEqualToString: @"0"]) &&(![self.item.url isEqualToString:@""]))
     {
         self.itemWebView.allowsInlineMediaPlayback = YES;
         self.itemWebView.mediaPlaybackRequiresUserAction = NO;
+        self.itemWebView.delegate = self;
         
-        [itemWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.item.url]] withAppendation:[NSString stringWithFormat:@"itemId=%d",self.item.itemId]];
+        [self.itemWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.item.url]] withAppendation:[NSString stringWithFormat:@"itemId=%d",self.item.itemId]];
     }
-    else itemWebView.hidden = YES;
+    else
+    {
+        Media *media;
+        if(item.mediaId) media = [[AppModel sharedAppModel] mediaForMediaId:item.mediaId     ofType:@"PHOTO"];
+        else             media = [[AppModel sharedAppModel] mediaForMediaId:item.iconMediaId ofType:@"PHOTO"];
+        
+        if([media.type isEqualToString:@"PHOTO"] && media.url)
+            [itemImageView refreshWithFrame:scrollView.frame media:media mode:ARISMediaDisplayModeAspectFit delegate:self];
+        else if(([media.type isEqualToString:@"VIDEO"] || [media.type isEqualToString:@"AUDIO"]) && media.url)
+        {        
+            AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presenter:self preloadNow:NO];
+            [self.scrollView addSubview:mediaButton];
+        }
+    }
+    
+    if(![self.item.description isEqualToString:@""])
+    {
+        self.descriptionWebView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,10) delegate:self];
+        self.descriptionWebView.backgroundColor = [UIColor clearColor];
+        self.descriptionWebView.opaque = NO;
+        self.descriptionWebView.scrollView.bounces = NO;
+        self.descriptionCollapseView = [[ARISCollapseView alloc] initWithView:self.descriptionWebView frame:CGRectMake(0,self.view.bounds.size.height-100-44,self.view.frame.size.width, 100) open:NO delegate:self];
+        [self.descriptionWebView loadHTMLString:[NSString stringWithFormat:kItemDetailsDescriptionHtmlTemplate, self.item.text] baseURL:nil];
+        [self.view addSubview:self.descriptionCollapseView];
+    }
+    
+	[self updateQuantityDisplay];
 }
 
-- (void)updateQuantityDisplay
+- (void) updateQuantityDisplay
 {
 	if(item.qty > 1) self.title = [NSString stringWithFormat:@"%@ x%d",item.name,item.qty];
 	else self.title = item.name;
+    
+    if(item.qty == 0)
+    {
+        [dropBtn removeFromSuperview];
+        [destroyBtn removeFromSuperview];
+        [pickupBtn removeFromSuperview];
+        backBtn.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
+    }
 }
 
-- (void) backButtonTouchAction:(id)sender
+- (void) backButtonTouched
 {
 	[[AppServices sharedAppServices] updateServerItemViewed:item.itemId fromLocation:0];	
     [delegate gameObjectViewControllerRequestsDismissal:self];
 }
 
-- (IBAction)dropButtonTouchAction:(id)sender
+- (void) dropButtonTouched
 {	
 	mode = kItemDetailsDropping;
 	if(self.item.qty > 1)
@@ -198,7 +236,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     }    
 }
 
-- (IBAction)deleteButtonTouchAction:(id)sender
+- (void) destroyButtonTouched
 {
 	mode = kItemDetailsDestroying;
 	if(self.item.qty > 1)
@@ -213,7 +251,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         [self doActionWithMode:mode quantity:1];
 }
 
-- (IBAction)pickupButtonTouchAction:(id)sender
+- (void) pickupButtonTouched
 {
 	mode = kItemDetailsPickingUp;
     if(self.item.qty > 1)
@@ -230,7 +268,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     [[AppServices sharedAppServices] updateServerItemViewed:item.itemId fromLocation:0];
 }
 
--(void)doActionWithMode:(ItemDetailsModeType)itemMode quantity:(int)quantity
+- (void) doActionWithMode:(ItemDetailsModeType)itemMode quantity:(int)quantity
 {
     ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate playAudioAlert:@"drop" shouldVibrate:YES];
@@ -310,9 +348,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	}
 	
 	[self updateQuantityDisplay];
-	
-	if (item.qty < 1) pickupButton.enabled = NO;
-	else              pickupButton.enabled = YES;
 }
 
 - (void) movieFinishedCallback:(NSNotification*) aNotification
@@ -344,44 +379,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     }
 }
 
-- (void) showView:(UIView *)aView 
-{
-	CGRect superFrame = [aView superview].bounds;
-	CGRect viewFrame = [aView frame];
-	viewFrame.origin.y = superFrame.origin.y + superFrame.size.height - aView.frame.size.height - toolBar.frame.size.height;
-    viewFrame.size.height = aView.frame.size.height;
-	[UIView beginAnimations:nil context:NULL]; //we animate the transition
-	[aView setFrame:viewFrame];
-	[UIView commitAnimations]; //run animation
-}
-
-- (void) hideView:(UIView *)aView 
-{
-	CGRect superFrame = [aView superview].bounds;
-	CGRect viewFrame = [aView frame];
-	viewFrame.origin.y = superFrame.origin.y + superFrame.size.height;
-	[UIView beginAnimations:nil context:NULL]; //we animate the transition
-	[aView setFrame:viewFrame];
-	[UIView commitAnimations]; //run animation
-}
-
-- (void) toggleDescription:(id)sender 
-{
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
-	
-	if(descriptionShowing)
-    {
-		[self hideView:self.itemDescriptionView];
-		descriptionShowing = NO;
-	}
-    else
-    {
-		[self showView:self.itemDescriptionView];
-		descriptionShowing = YES;
-	}
-}
-
 - (void) ARISWebViewRequestsDismissal:(ARISWebView *)awv
 {
     [delegate gameObjectViewControllerRequestsDismissal:self];
@@ -407,7 +404,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     [delegate displayScannerWithPrompt:p];
 }
 
--(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+- (BOOL) webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     if(webView == self.itemWebView) return (![self.itemWebView handleARISRequestIfApplicable:request]);
     else if(![[[request URL] absoluteString] isEqualToString:@"about:blank"])
@@ -420,7 +417,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     return YES;
 }
 
--(void)webViewDidFinishLoad:(UIWebView *)webView
+- (void) webViewDidFinishLoad:(UIWebView *)webView
 {
     if(webView == self.itemWebView)
     {
@@ -428,19 +425,24 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         self.itemWebView.hidden = NO;
         [self dismissWaitingIndicator];
     }
+    if(webView == self.descriptionWebView)
+    {
+        float newHeight = [[self.descriptionWebView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue] + 3;
+        self.descriptionWebView.frame = CGRectMake(0, 0, self.descriptionWebView.frame.size.width, newHeight);
+    }
 }
 
--(void)webViewDidStartLoad:(UIWebView *)webView
+- (void) webViewDidStartLoad:(UIWebView *)webView
 {
     if(webView == self.itemWebView) [self showWaitingIndicator];
 }
 
--(void)showWaitingIndicator
+- (void) showWaitingIndicator
 {
     [self.activityIndicator startAnimating];
 }
 
--(void)dismissWaitingIndicator
+- (void) dismissWaitingIndicator
 {
     [self.activityIndicator stopAnimating];
 }
@@ -450,7 +452,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     
 }
 
-- (void)dealloc
+- (void) dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }

@@ -328,7 +328,8 @@
 {
     if(!self.isViewLoaded || !self.view.window) return NO; //Doesn't currently have the view-heirarchy authority to display. Return that it failed to those who care
 
-	ARISNavigationController *nav = [[ARISNavigationController alloc] initWithRootViewController:[g viewControllerForDelegate:self fromSource:s]];
+    UIViewController *uivc = [g viewControllerForDelegate:self fromSource:s];
+	ARISNavigationController *nav = [[ARISNavigationController alloc] initWithRootViewController:uivc];
 	nav.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     [self presentViewController:nav animated:NO completion:nil];
