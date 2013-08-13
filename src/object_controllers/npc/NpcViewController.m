@@ -72,13 +72,13 @@
     
     if([[self.npc.greeting stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""])
     {
-        [self.optionsViewController loadOptionsForNpc:self.npc afterViewingOption:nil];
         [self displayOptionsVC];
+        [self.optionsViewController loadOptionsForNpc:self.npc afterViewingOption:nil];
     }
     else
     {
-        [self.scriptViewController loadScriptOption:[[NpcScriptOption alloc] initWithOptionText:@"" scriptText:self.npc.greeting nodeId:-1 hasViewed:NO]];
         [self displayScriptVC];
+        [self.scriptViewController loadScriptOption:[[NpcScriptOption alloc] initWithOptionText:@"" scriptText:self.npc.greeting nodeId:-1 hasViewed:NO]];
     }
 }
 

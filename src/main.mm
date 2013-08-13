@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "ARISAppDelegate.h"
 
-
 int main(int argc, char *argv[])
 {
     @autoreleasepool

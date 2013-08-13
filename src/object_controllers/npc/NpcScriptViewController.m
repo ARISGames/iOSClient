@@ -122,6 +122,15 @@
     [self readyNextScriptElementForDisplay];
 }
 
+- (void) play
+{
+    Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScriptElement.typeId ofType:@"VIDEO"];
+    ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+    mMoviePlayer.moviePlayer.shouldAutoplay = YES;
+    [mMoviePlayer.moviePlayer prepareToPlay];
+    [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
+}
+    
 - (void) readyNextScriptElementForDisplay
 {
     self.currentScriptElement = [self.currentScript nextScriptElement];
@@ -146,11 +155,7 @@
     else if([currentScriptElement.type isEqualToString:@"video"])
     {
         [self moveAllOut];
-        Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScriptElement.typeId ofType:@"VIDEO"];
-        ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
-        mMoviePlayer.moviePlayer.shouldAutoplay = YES;
-        [mMoviePlayer.moviePlayer prepareToPlay];
-        [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
+        [self performSelector:@selector(play) withObject:nil afterDelay:1.0];
     }
     else if([currentScriptElement.type isEqualToString:@"panoramic"])
     {
@@ -224,8 +229,9 @@
 - (void) continueButtonTouched
 {
     self.view.userInteractionEnabled = NO;
-    if(self.pcView.frame.origin.x == 0)  [self.pcView  fadeWithCallback:@selector(readyNextScriptElementForDisplay)];
-    if(self.npcView.frame.origin.x == 0) [self.npcView fadeWithCallback:@selector(readyNextScriptElementForDisplay)];
+    if     (self.pcView.frame.origin.x == 0)  [self.pcView  fadeWithCallback:@selector(readyNextScriptElementForDisplay)];
+    else if(self.npcView.frame.origin.x == 0) [self.npcView fadeWithCallback:@selector(readyNextScriptElementForDisplay)];
+    else [self readyNextScriptElementForDisplay];
 }
 
 #define pcOffscreenRect  CGRectMake(  self.pcView.frame.size.width, self.pcView.frame.origin.y, self.pcView.frame.size.width, self.pcView.frame.size.height)
