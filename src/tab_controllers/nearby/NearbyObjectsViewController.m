@@ -68,19 +68,15 @@
     
     Location *forceLocation;
     
-    BOOL newNearbyLocation;
     //Find locations that are "nearby" from the list of all locations
     for(Location *location in [AppModel sharedAppModel].currentGame.locationsModel.currentLocations)
     {
         BOOL match = NO;
         for(Location *oldLocation in self.nearbyLocationsList)
-            if (oldLocation.locationId == location.locationId) match = YES;
+            if(oldLocation.locationId == location.locationId) match = YES;
         if(!match && [[AppModel sharedAppModel].player.location distanceFromLocation:location.latlon] < location.errorRange &&
            (location.gameObject.type != GameObjectItem || location.qty != 0) && location.gameObject.type != GameObjectPlayer)
-        {
-            newNearbyLocation = YES;
             [newNearbyLocationsList addObject:location];
-        }
         else if(match && (location.errorRange >= 2147483637 || [[AppModel sharedAppModel].player.location distanceFromLocation:location.latlon] < location.errorRange+10) &&
            (location.gameObject.type != GameObjectItem || location.qty != 0) && location.gameObject.type != GameObjectPlayer)
             [newNearbyLocationsList addObject:location];
@@ -96,16 +92,27 @@
             forceLocation = location;
     }
     
-    if(newNearbyLocation && !forceLocation)
-        [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] playAudioAlert:@"nearbyObject" shouldVibrate:NO];
-    
-   if(forceLocation)
-   {
-       if([delegate displayGameObject:forceLocation.gameObject fromSource:forceLocation])
-           [self.nearbyLocationsList addObject:forceLocation];
-   }
-   else
-       self.nearbyLocationsList = newNearbyLocationsList; //Throw out new locations list
+    if(forceLocation)
+    {
+        if([delegate displayGameObject:forceLocation.gameObject fromSource:forceLocation])
+            [self.nearbyLocationsList addObject:forceLocation];
+    }
+    else
+    {
+        BOOL shouldPlaySound = NO;
+        BOOL match = NO;
+        for(Location *newLocation in newNearbyLocationsList)
+        {
+            for(Location *oldLocation in self.nearbyLocationsList)
+            {
+                if(newLocation.locationId == oldLocation.locationId) match = YES;
+            }
+            if(!match) shouldPlaySound = YES;
+        }
+        if(shouldPlaySound) [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] playAudioAlert:@"nearbyObject" shouldVibrate:NO];
+        
+        self.nearbyLocationsList = newNearbyLocationsList; //Throw out new locations list
+    }
     
     if([self.nearbyLocationsList count] == 0)
     {
@@ -121,14 +128,12 @@
     [nearbyTable reloadData];
 }
 
-#pragma mark UITableView Data Source and Delegate Methods
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	return [self.nearbyLocationsList count];
 }
@@ -154,7 +159,7 @@
 	return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	Location *l = [self.nearbyLocationsList objectAtIndex:indexPath.row];
 	[delegate displayGameObject:l.gameObject fromSource:l];
