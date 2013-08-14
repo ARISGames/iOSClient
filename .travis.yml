@@ -3,4 +3,4 @@ language: objective-c
 before_install:
   - git submodule update --init --recursive
 
-  xcode_sdk: iphonesimulator
+xcode_sdk: iphonesimulator
