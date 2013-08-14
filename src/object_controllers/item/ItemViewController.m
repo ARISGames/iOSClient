@@ -53,10 +53,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     UIButton *destroyBtn;
     UIButton *pickupBtn;
     
-	IBOutlet ARISMediaView *itemImageView;
-    IBOutlet ARISWebView *itemWebView;
-	IBOutlet UIScrollView *scrollView;
-    IBOutlet UIActivityIndicatorView *activityIndicator;
+	ARISMediaView *itemImageView;
+    ARISWebView *itemWebView;
+	UIScrollView *scrollView;
+    UIActivityIndicatorView *activityIndicator;
     ARISCollapseView *descriptionCollapseView;
 	ARISWebView *descriptionWebView;
 	UIButton *mediaPlaybackButton;
@@ -68,10 +68,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 }
 
 @property (nonatomic, assign) ItemDetailsModeType mode;
-@property (nonatomic, strong) IBOutlet ARISMediaView *itemImageView;
-@property (nonatomic, strong) IBOutlet ARISWebView *itemWebView;
-@property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
+@property (nonatomic, strong) ARISMediaView *itemImageView;
+@property (nonatomic, strong) ARISWebView *itemWebView;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) ARISWebView *descriptionWebView;
 @property (nonatomic, strong) ARISCollapseView *descriptionCollapseView;
 
@@ -90,7 +90,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
 - (id) initWithItem:(Item *)i viewFrame:(CGRect)vf delegate:(id<GameObjectViewControllerDelegate,StateControllerProtocol>)d source:(id)s
 {
-    if ((self = [super initWithNibName:@"ItemViewController" bundle:nil]))
+    if ((self = [super init]))
     {
         viewFrame = vf;
 		self.item = i;
@@ -104,14 +104,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     return self;
 }
 
-- (void) viewDidLoad
+- (void) loadView
 {
-    [super viewDidLoad];
+    [super loadView];
     self.view.frame = viewFrame;
-    
-	self.itemImageView.frame = CGRectMake(0, 0, viewFrame.size.width, viewFrame.size.height-44);
-	self.itemWebView.frame   = CGRectMake(0, 0, viewFrame.size.width, viewFrame.size.height-44);
-	self.scrollView.frame    = CGRectMake(0, 0, viewFrame.size.width, viewFrame.size.height-44);
     
     backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [backBtn setTitle:NSLocalizedString(@"ItemDropKey", @"") forState:UIControlStateNormal];
@@ -169,28 +165,40 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	}
     [self.view addSubview:backBtn];
     
-    self.itemWebView.hidden = YES;
     if(self.item.itemType == ItemTypeWebPage && self.item.url && (![self.item.url isEqualToString: @"0"]) &&(![self.item.url isEqualToString:@""]))
     {
+        self.itemWebView = [[ARISWebView alloc] initWithFrame:CGRectMake(0, 0, viewFrame.size.width, viewFrame.size.height-44) delegate:self];
+        self.itemWebView.hidden = YES;
         self.itemWebView.allowsInlineMediaPlayback = YES;
         self.itemWebView.mediaPlaybackRequiresUserAction = NO;
-        self.itemWebView.delegate = self;
         
         [self.itemWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.item.url]] withAppendation:[NSString stringWithFormat:@"itemId=%d",self.item.itemId]];
+        [self.view addSubview:self.itemWebView];
     }
     else
     {
+        self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, viewFrame.size.width, viewFrame.size.height-44)];
+        self.scrollView.contentSize = self.scrollView.bounds.size;
+        self.scrollView.maximumZoomScale = 100;
+        self.scrollView.minimumZoomScale = 1;
+        self.scrollView.delegate = self;
+        
         Media *media;
         if(item.mediaId) media = [[AppModel sharedAppModel] mediaForMediaId:item.mediaId     ofType:@"PHOTO"];
         else             media = [[AppModel sharedAppModel] mediaForMediaId:item.iconMediaId ofType:@"PHOTO"];
         
         if([media.type isEqualToString:@"PHOTO"] && media.url)
-            [itemImageView refreshWithFrame:scrollView.frame media:media mode:ARISMediaDisplayModeAspectFit delegate:self];
+        {
+            self.itemImageView = [[ARISMediaView alloc] initWithFrame:self.scrollView.frame media:media mode:ARISMediaDisplayModeAspectFit delegate:self];
+            [self.scrollView addSubview:self.itemImageView];
+        }
         else if(([media.type isEqualToString:@"VIDEO"] || [media.type isEqualToString:@"AUDIO"]) && media.url)
         {        
             AsyncMediaPlayerButton *mediaButton = [[AsyncMediaPlayerButton alloc] initWithFrame:CGRectMake(8, 0, 304, 244) media:media presenter:self preloadNow:NO];
             [self.scrollView addSubview:mediaButton];
         }
+        
+        [self.view addSubview:self.scrollView];
     }
     
     if(![self.item.idescription isEqualToString:@""])
@@ -454,12 +462,16 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
 - (void) showWaitingIndicator
 {
+    if(!self.activityIndicator)
+        self.activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:self.scrollView.bounds];
     [self.activityIndicator startAnimating];
+    [self.scrollView addSubview:self.activityIndicator];
 }
 
 - (void) dismissWaitingIndicator
 {
     [self.activityIndicator stopAnimating];
+    [self.activityIndicator removeFromSuperview];
 }
 
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv
