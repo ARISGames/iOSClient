@@ -245,7 +245,7 @@
 	cell.lbl1.text = item.name;	
     cell.lbl1.font = [UIFont boldSystemFontOfSize:18.0];
     [cell.lbl1 setNeedsDisplay];
-    cell.lbl2.text = item.text;
+    cell.lbl2.text = item.idescription;
     [cell.lbl2 setNeedsDisplay];
     if(item.qty >1 && item.weight > 1)
          cell.lbl4.text = [NSString stringWithFormat:@"%@: %d, %@: %d",NSLocalizedString(@"x", @""),item.qty,NSLocalizedString(@"WeightKey", @""),item.weight];

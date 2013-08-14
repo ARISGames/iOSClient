@@ -160,22 +160,22 @@
     else if([currentScriptElement.type isEqualToString:@"panoramic"])
     {
         [self moveAllOut];
-        [((UIViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] panoramicForPanoramicId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+        [((UIViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] panoramicForPanoramicId:currentScriptElement.typeId] viewControllerForDelegate:self viewFrame:self.view.bounds fromSource:self] animated:YES];
     }
     else if([currentScriptElement.type isEqualToString:@"webpage"])
     {
         [self moveAllOut];
-        [((UIViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] webPageForWebPageId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+        [((UIViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] webPageForWebPageId:currentScriptElement.typeId] viewControllerForDelegate:self viewFrame:self.view.bounds fromSource:self] animated:YES];
     }
     else if([currentScriptElement.type isEqualToString:@"node"])
     {
         [self moveAllOut];
-        [((UIViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] nodeForNodeId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+        [((UIViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] nodeForNodeId:currentScriptElement.typeId] viewControllerForDelegate:self viewFrame:self.view.bounds fromSource:self] animated:YES];
     }
     else if([currentScriptElement.type isEqualToString:@"item"])
     {
         [self moveAllOut];
-        [((UIViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] itemForItemId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+        [((UIViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] itemForItemId:currentScriptElement.typeId] viewControllerForDelegate:self viewFrame:self.view.bounds fromSource:self] animated:YES];
     }
     self.view.userInteractionEnabled = YES;
 }

@@ -68,6 +68,12 @@
     if(self.frame.size.height != 10) [self open];
 }
 
+- (void) setOpenFrameHeight:(CGFloat)h
+{
+    if(h < 10) h = 10;
+    [self setOpenFrame:CGRectMake(openFrame.origin.x, openFrame.origin.y+openFrame.size.height-h, openFrame.size.width, h)];
+}
+
 - (void) handleTapped
 {
     if(self.frame.size.height == 10) [self open];

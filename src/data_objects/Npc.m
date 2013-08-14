@@ -53,7 +53,7 @@
     return GameObjectNpc;
 }
 
-- (NpcViewController *) viewControllerForDelegate:(id<GameObjectViewControllerDelegate, StateControllerProtocol>)d fromSource:(id)s
+- (NpcViewController *) viewControllerForDelegate:(id<GameObjectViewControllerDelegate, StateControllerProtocol>)d viewFrame:(CGRect)vf fromSource:(id)s
 {
 	return [[NpcViewController alloc] initWithNpc:self delegate:d];
 }

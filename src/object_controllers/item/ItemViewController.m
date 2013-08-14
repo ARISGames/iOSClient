@@ -56,12 +56,13 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	IBOutlet ARISMediaView *itemImageView;
     IBOutlet ARISWebView *itemWebView;
 	IBOutlet UIScrollView *scrollView;
+    IBOutlet UIActivityIndicatorView *activityIndicator;
     ARISCollapseView *descriptionCollapseView;
 	ARISWebView *descriptionWebView;
 	UIButton *mediaPlaybackButton;
 	ItemDetailsModeType mode;
-    IBOutlet UIActivityIndicatorView *activityIndicator;
     
+    CGRect viewFrame;
     id<GameObjectViewControllerDelegate,StateControllerProtocol> __unsafe_unretained delegate;
     id source;
 }
@@ -87,10 +88,11 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 @synthesize descriptionCollapseView;
 @synthesize scrollView;
 
-- (id) initWithItem:(Item *)i delegate:(id<GameObjectViewControllerDelegate,StateControllerProtocol>)d source:(id)s
+- (id) initWithItem:(Item *)i viewFrame:(CGRect)vf delegate:(id<GameObjectViewControllerDelegate,StateControllerProtocol>)d source:(id)s
 {
     if ((self = [super initWithNibName:@"ItemViewController" bundle:nil]))
     {
+        viewFrame = vf;
 		self.item = i;
         source = s;
         mode = kItemDetailsViewing;
@@ -105,7 +107,12 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-
+    self.view.frame = viewFrame;
+    
+	self.itemImageView.frame = CGRectMake(0, 0, viewFrame.size.width, viewFrame.size.height-44);
+	self.itemWebView.frame   = CGRectMake(0, 0, viewFrame.size.width, viewFrame.size.height-44);
+	self.scrollView.frame    = CGRectMake(0, 0, viewFrame.size.width, viewFrame.size.height-44);
+    
     backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [backBtn setTitle:NSLocalizedString(@"ItemDropKey", @"") forState:UIControlStateNormal];
     [backBtn setTitle:@"Back" forState:UIControlStateNormal];
@@ -186,18 +193,24 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         }
     }
     
-    if(![self.item.description isEqualToString:@""])
+    if(![self.item.idescription isEqualToString:@""])
     {
-        self.descriptionWebView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,10) delegate:self];
+        self.descriptionWebView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,100-10) delegate:self];
         self.descriptionWebView.backgroundColor = [UIColor clearColor];
         self.descriptionWebView.opaque = NO;
         self.descriptionWebView.scrollView.bounces = NO;
-        self.descriptionCollapseView = [[ARISCollapseView alloc] initWithView:self.descriptionWebView frame:CGRectMake(0,self.view.bounds.size.height-100-44,self.view.frame.size.width, 100) open:NO delegate:self];
-        [self.descriptionWebView loadHTMLString:[NSString stringWithFormat:kItemDetailsDescriptionHtmlTemplate, self.item.text] baseURL:nil];
+        self.descriptionCollapseView = [[ARISCollapseView alloc] initWithView:self.descriptionWebView frame:CGRectMake(0,self.view.bounds.size.height-10-44,self.view.frame.size.width, 10) open:NO delegate:self];
+        [self.descriptionWebView loadHTMLString:[NSString stringWithFormat:kItemDetailsDescriptionHtmlTemplate, self.item.idescription] baseURL:nil];
         [self.view addSubview:self.descriptionCollapseView];
     }
     
 	[self updateQuantityDisplay];
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.view.frame = viewFrame;
 }
 
 - (void) updateQuantityDisplay
@@ -427,7 +440,9 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     }
     if(webView == self.descriptionWebView)
     {
-        float newHeight = [[self.descriptionWebView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue] + 3;
+        float newHeight = [[self.descriptionWebView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue]+20;
+        if(newHeight > self.view.bounds.size.height-44) newHeight = self.view.bounds.size.height-44;
+        [self.descriptionCollapseView setOpenFrameHeight:newHeight+10];
         self.descriptionWebView.frame = CGRectMake(0, 0, self.descriptionWebView.frame.size.width, newHeight);
     }
 }

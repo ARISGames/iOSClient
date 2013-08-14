@@ -25,7 +25,7 @@ typedef enum {
 }
 @property (nonatomic, strong) Item *item;
 
-- (id) initWithItem:(Item *)i delegate:(NSObject<GameObjectViewControllerDelegate,StateControllerProtocol> *)d source:(id)s;
+- (id) initWithItem:(Item *)i viewFrame:(CGRect)vf delegate:(id<GameObjectViewControllerDelegate,StateControllerProtocol>)d source:(id)s;
 - (void) updateQuantityDisplay;
 
 @end
