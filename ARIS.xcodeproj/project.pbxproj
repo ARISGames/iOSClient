@@ -3312,6 +3312,7 @@
 				ARCHS = (
 					armv7,
 					armv6,
+					i386,
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
@@ -3384,6 +3385,7 @@
 				ARCHS = (
 					armv7,
 					armv6,
+					i386,
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
