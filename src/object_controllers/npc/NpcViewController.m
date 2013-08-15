@@ -42,7 +42,7 @@
 
 - (id) initWithNpc:(Npc *)n delegate:(id<GameObjectViewControllerDelegate, StateControllerProtocol>)d
 {
-    if((self = [super initWithNibName:@"NpcViewController" bundle:nil]))
+    if((self = [super init]))
     {
         self.npc = n;
         closingScriptPlaying = NO;
@@ -52,13 +52,19 @@
     return self;
 }
 
+- (void) loadView
+{
+    [super loadView];
+    self.view.backgroundColor = [UIColor whiteColor];
+}
+
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     if(!hasAppeared) [self viewWillAppearFirstTime];
 }
 
-- (void) viewWillAppearFirstTime //the only reason this is neccesary is because we are using a .xib, and viewDidLoad doesn't yet have reasonable frame/bounds
+- (void) viewWillAppearFirstTime
 {
     hasAppeared = YES;
     

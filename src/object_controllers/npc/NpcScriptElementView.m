@@ -12,6 +12,7 @@
 #import "ARISWebView.h"
 #import "ARISAppDelegate.h"
 #import "ARISMoviePlayerViewController.h"
+#import "ARISCollapseView.h"
 #import "StateControllerProtocol.h"
 
 NSString *const kDialogHtmlTemplate =
@@ -20,26 +21,24 @@ NSString *const kDialogHtmlTemplate =
 @"	<title>Aris</title>"
 @"	<style type='text/css'><!--"
 @"	body {"
-@"		background-color: transparent;"
-@"		color: #FFFFFF;"
 @"		font-size: 19px;"
 @"		font-family: Helvetia, Sans-Serif;"
 @"      text-align: center;"
 @"      margin:0;"
-@"      padding:0;"
+@"      padding:10;"
 @"	}"
 @"	--></style>"
 @"</head>"
 @"<body>%@</body>"
 @"</html>";
 
-@interface NpcScriptElementView() <ARISMediaViewDelegate, StateControllerProtocol, ARISWebViewDelegate, UIWebViewDelegate, UIWebViewDelegate, UIScrollViewDelegate>
+@interface NpcScriptElementView() <ARISMediaViewDelegate, ARISCollapseViewDelegate, StateControllerProtocol, ARISWebViewDelegate, UIWebViewDelegate, UIWebViewDelegate, UIScrollViewDelegate>
 {
     ScriptElement *scriptElement;
     
     UIScrollView *mediaSection;
     ARISMediaView *mediaView;
-    UIScrollView *textSection;
+    ARISCollapseView *textSection;
     ARISWebView *textWebView;
     
     NSString *defaultTitle;
@@ -53,7 +52,7 @@ NSString *const kDialogHtmlTemplate =
 
 @property (nonatomic, strong) UIScrollView *mediaSection;
 @property (nonatomic, strong) ARISMediaView *mediaView;
-@property (nonatomic, strong) UIScrollView *textSection;
+@property (nonatomic, strong) ARISCollapseView *textSection;
 @property (nonatomic, strong) ARISWebView *textWebView;
 
 @property (nonatomic, strong) NSString *defaultTitle;
@@ -77,24 +76,23 @@ NSString *const kDialogHtmlTemplate =
 
 - (void) initialize
 {
+    self.backgroundColor = [UIColor whiteColor];
+    
     self.mediaSection = [[UIScrollView alloc] initWithFrame:self.bounds];
     self.mediaSection.contentSize = self.bounds.size;
-    
-    self.textSection  = [[UIScrollView alloc] initWithFrame:CGRectMake(0, self.bounds.size.height-(128-44), self.bounds.size.width, (128-44))];
-    self.textSection.contentSize = self.textSection.frame.size;
-    self.textSection.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.75f];
-    self.textSection.scrollEnabled = YES;
-    self.textSection.delegate = self;
-    self.textSection.clipsToBounds = YES;
+    self.mediaSection.backgroundColor = [UIColor whiteColor];
+    [self.mediaSection addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToTextSection:)]];
     
     self.textWebView = [[ARISWebView alloc] initWithFrame:CGRectMake(10, 10, self.bounds.size.width-20, 10) delegate:self];
     self.textWebView.opaque = NO;
     self.textWebView.backgroundColor = [UIColor clearColor];
+    [self.textWebView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToTextSection:)]];
+    
+    self.textSection = [[ARISCollapseView alloc] initWithView:self.textWebView frame:CGRectMake(0, self.bounds.size.height-128, self.bounds.size.width, 128) open:YES showHandle:NO draggable:NO tappable:NO delegate:self];
     
     [self addSubview:self.mediaSection];
     [self.mediaSection addSubview:self.mediaView];
     [self addSubview:self.textSection];
-    [self.textSection addSubview:self.textWebView];
 }
 
 - (id) initWithFrame:(CGRect)f media:(Media *)m title:(NSString *)t delegate:(id)d
@@ -125,6 +123,11 @@ NSString *const kDialogHtmlTemplate =
     return self;
 }
 
+- (void) passTapToTextSection:(UITapGestureRecognizer *)r
+{
+    [self.textSection handleTapped:r];
+}
+
 - (void) loadScriptElement:(ScriptElement *)s
 {
     self.scriptElement = s;
@@ -149,8 +152,6 @@ NSString *const kDialogHtmlTemplate =
     //Try resetting the text view height to 0 each time for proper content height calculation
     CGRect wvFrame = [self.textWebView frame];
     [self.textWebView setFrame:CGRectMake(wvFrame.origin.x, wvFrame.origin.y, wvFrame.size.width, 10)];
-    //Reset it's scroll view
-    [self.textSection setContentOffset:CGPointMake(0, 0) animated:NO];
     //Load content
     [self.textWebView loadHTMLString:[NSString stringWithFormat:kDialogHtmlTemplate, self.scriptElement.text] baseURL:nil];
     
@@ -215,34 +216,17 @@ NSString *const kDialogHtmlTemplate =
 {
 }
 
-- (void) toggleTextBoxSize:(int)mode
-{
-    CGRect newTextFrame;
-    switch(mode)
-    {
-        case 0: newTextFrame = CGRectMake(0, self.bounds.size.height    , self.bounds.size.width,                       1); break;
-        case 1: newTextFrame = CGRectMake(0, self.bounds.size.height-128, self.bounds.size.width,                     128); break;
-        case 2: newTextFrame = CGRectMake(0,                           0, self.bounds.size.width, self.bounds.size.height); break;
-    }
-    
-	[UIView beginAnimations:@"toggleTextSize" context:nil];
-	[UIView setAnimationDuration:0.5];
-	self.textSection.frame  = newTextFrame;
-	[UIView commitAnimations];
-}
-
 - (void) webViewDidFinishLoad:(UIWebView *)webView
 {
 	//Size the webView
 	CGRect wvFrame = [webView frame];
-	webView.frame = CGRectMake(wvFrame.origin.x, wvFrame.origin.y, wvFrame.size.width, [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue] + 3);
+    CGFloat wvHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
+	webView.frame = CGRectMake(wvFrame.origin.x, wvFrame.origin.y, wvFrame.size.width, wvHeight);
 	[[[webView subviews] lastObject] setScrollEnabled:NO]; //Disable scrolling in webview
-	
-	//Size the scroll view's content
-    self.textSection.contentSize = CGSizeMake(self.textSection.contentSize.width, webView.frame.size.height+20);
     
+    [self.textSection setOpenFrameHeight:wvHeight+44];
+	
     //Fade in the WebView
-    [self.textSection setContentOffset:CGPointMake(0, 0) animated:NO];
     [UIView beginAnimations:@"dialog" context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveLinear];
     [UIView setAnimationDuration:0.25];

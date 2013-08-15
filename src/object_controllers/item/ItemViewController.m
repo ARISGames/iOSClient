@@ -115,6 +115,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     [backBtn setBackgroundColor:[UIColor whiteColor]];
     [backBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [backBtn addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    [backBtn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
     
 	if([(NSObject *)source isKindOfClass:[InventoryViewController class]] == YES)
     {
@@ -129,6 +130,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
             else
                 dropBtn.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
             [dropBtn addTarget:self action:@selector(dropButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+            [dropBtn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
             [self.view addSubview:dropBtn];
         }
         if(item.destroyable)
@@ -142,6 +144,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
             else
                 destroyBtn.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
             [dropBtn addTarget:self action:@selector(destroyButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+            [destroyBtn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
             [self.view addSubview:destroyBtn];
         }
         
@@ -159,8 +162,9 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         [pickupBtn setBackgroundColor:[UIColor whiteColor]];
         [pickupBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
         pickupBtn.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
-        backBtn.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
+        backBtn.frame   = CGRectMake(                            0, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
         [pickupBtn addTarget:self action:@selector(pickupButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+        [pickupBtn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
         [self.view addSubview:pickupBtn];
 	}
     [self.view addSubview:backBtn];
@@ -207,12 +211,17 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         self.descriptionWebView.backgroundColor = [UIColor clearColor];
         self.descriptionWebView.opaque = NO;
         self.descriptionWebView.scrollView.bounces = NO;
-        self.descriptionCollapseView = [[ARISCollapseView alloc] initWithView:self.descriptionWebView frame:CGRectMake(0,self.view.bounds.size.height-10-44,self.view.frame.size.width, 10) open:NO delegate:self];
+        self.descriptionCollapseView = [[ARISCollapseView alloc] initWithView:self.descriptionWebView frame:CGRectMake(0,self.view.bounds.size.height-10-44,self.view.frame.size.width, 10) open:NO showHandle:YES draggable:YES tappable:YES delegate:self];
         [self.descriptionWebView loadHTMLString:[NSString stringWithFormat:kItemDetailsDescriptionHtmlTemplate, self.item.idescription] baseURL:nil];
         [self.view addSubview:self.descriptionCollapseView];
     }
     
 	[self updateQuantityDisplay];
+}
+
+- (void) passPanToDescription:(UIPanGestureRecognizer *)g
+{
+    [self.descriptionCollapseView handlePanned:g];
 }
 
 - (void) viewWillAppear:(BOOL)animated

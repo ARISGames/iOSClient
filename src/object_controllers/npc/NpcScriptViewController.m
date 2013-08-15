@@ -78,7 +78,9 @@
     
     self.view.frame = viewFrame;
     self.view.bounds = CGRectMake(0,0,viewFrame.size.width,viewFrame.size.height);
-    CGRect scriptElementFrame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height-44);
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    CGRect scriptElementFrame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height);
     
     Media *pcMedia;
     if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId ofType:nil];
@@ -93,12 +95,13 @@
     else         self.npcView = [[NpcScriptElementView alloc] initWithFrame:scriptElementFrame image:[UIImage imageNamed:@"DefaultPCImage.png"] title:self.npc.name delegate:self];
     [self.view addSubview:self.npcView];
     
-    UIButton *continueButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    continueButton.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
-    [continueButton setBackgroundColor:[UIColor ARISColorLightGrey]];
-    [continueButton setTitle:@"Tap To Continue" forState:UIControlStateNormal];
-    [continueButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
-    [continueButton addTarget:self action:@selector(continueButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    UILabel *continueButton = [[UILabel alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44)];
+    continueButton.textAlignment = NSTextAlignmentRight;
+    continueButton.text = @"Continue > ";
+    continueButton.userInteractionEnabled = YES;
+    continueButton.backgroundColor = [UIColor clearColor];
+    continueButton.opaque = NO;
+    [continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouched)]];
     [self.view addSubview:continueButton];
     
     [self movePcIn];

@@ -78,6 +78,7 @@ const NSInteger kOptionsFontSize = 17;
      
     self.view.frame = viewFrame;
     self.view.bounds = CGRectMake(0,0,viewFrame.size.width,viewFrame.size.height);
+    self.view.backgroundColor = [UIColor whiteColor];
     
     Media *pcMedia = 0;
     if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId ofType:nil];
@@ -89,7 +90,7 @@ const NSInteger kOptionsFontSize = 17;
     self.optionsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-128, self.view.bounds.size.width, 128) style:UITableViewStyleGrouped];
     self.optionsTableView.opaque = NO;
     self.optionsTableView.backgroundView = nil;
-    self.optionsTableView.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.75f];
+    self.optionsTableView.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.9];
     self.optionsTableView.scrollEnabled = YES;
     self.optionsTableView.dataSource = self;
     self.optionsTableView.delegate = self;
@@ -156,8 +157,8 @@ const NSInteger kOptionsFontSize = 17;
 	UITableViewCell *cell = [self.optionsTableView dequeueReusableCellWithIdentifier:@"Dialog"];
 	if (!cell) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Dialog"];
     
-    cell.backgroundColor         = [UIColor ARISColorLightGrey];
-    cell.textLabel.textColor     = [UIColor ARISColorDarkBlue];
+    cell.backgroundColor         = [UIColor clearColor];
+    cell.textLabel.textColor     = [UIColor blackColor];
     cell.textLabel.font          = [UIFont boldSystemFontOfSize:kOptionsFontSize];
     cell.textLabel.textAlignment = NSTextAlignmentCenter;
     cell.textLabel.numberOfLines = 0;
@@ -167,10 +168,7 @@ const NSInteger kOptionsFontSize = 17;
     {
 		NpcScriptOption *option = [optionList objectAtIndex:indexPath.row];
         if(option.hasViewed)
-        {
-            cell.backgroundColor     = [UIColor ARISColorLightGrey];
-            cell.textLabel.textColor = [UIColor ARISColorLighBlue];
-        }
+            cell.textLabel.textColor = [UIColor ARISColorLightGrey];
         cell.textLabel.text = option.optionText;
 	}
 	else
