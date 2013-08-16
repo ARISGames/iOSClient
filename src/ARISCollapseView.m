@@ -57,6 +57,7 @@
         }
             
         self.childContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, (20+10*handleShowing), openFrame.size.width, openFrame.size.height-(20+10*handleShowing))];
+        self.childContainerView.userInteractionEnabled = YES;
         self.childView = v;
         self.childView.frame = self.childContainerView.bounds;
         [self addSubview:self.childContainerView];

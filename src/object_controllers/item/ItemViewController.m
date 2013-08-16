@@ -216,7 +216,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     if(![self.item.idescription isEqualToString:@""])
     {
         self.descriptionWebView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,10) delegate:self];
-        [self.descriptionWebView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToDescription:)]];
         self.descriptionWebView.userInteractionEnabled = NO;
         self.descriptionWebView.scrollView.scrollEnabled = NO;
         self.descriptionWebView.scrollView.bounces = NO;

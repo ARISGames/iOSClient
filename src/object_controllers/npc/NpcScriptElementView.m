@@ -89,7 +89,7 @@ NSString *const kDialogHtmlTemplate =
     self.textWebView.backgroundColor = [UIColor clearColor];
     [self.textWebView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToTextSection:)]];
     
-    self.textSection = [[ARISCollapseView alloc] initWithView:self.textWebView frame:CGRectMake(0, self.bounds.size.height-128, self.bounds.size.width, 128) open:YES showHandle:NO draggable:NO tappable:NO delegate:self];
+    self.textSection = [[ARISCollapseView alloc] initWithView:self.textWebView frame:CGRectMake(0, self.bounds.size.height-128, self.bounds.size.width, 128) open:YES showHandle:YES draggable:YES tappable:NO delegate:self];
     
     [self addSubview:self.mediaSection];
     [self.mediaSection addSubview:self.mediaView];
@@ -225,7 +225,7 @@ NSString *const kDialogHtmlTemplate =
 	webView.frame = CGRectMake(wvFrame.origin.x, wvFrame.origin.y, wvFrame.size.width, wvHeight);
 	[[[webView subviews] lastObject] setScrollEnabled:NO]; //Disable scrolling in webview
     
-    [self.textSection setOpenFrameHeight:wvHeight+44];
+    [self.textSection setOpenFrameHeight:wvHeight+54];
 	
     //Fade in the WebView
     [UIView beginAnimations:@"dialog" context:nil];
