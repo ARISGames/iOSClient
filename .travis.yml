@@ -1,6 +1,4 @@
 language: objective-c
-before_script:
- - cd iOSClient
 before_install:
   - git submodule update --init --recursive
 xcode_sdk: iphonesimulator
