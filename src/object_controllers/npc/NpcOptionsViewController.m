@@ -9,15 +9,18 @@
 #import "NpcOptionsViewController.h"
 #import "NpcScriptOption.h"
 #import "ARISMediaView.h"
+#import "ARISCollapseView.h"
 #import "AppModel.h"
 #import "AppServices.h"
 #import "UIColor+ARISColors.h"
 
 const NSInteger kOptionsFontSize = 17;
 
-@interface NpcOptionsViewController() <ARISMediaViewDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface NpcOptionsViewController() <ARISMediaViewDelegate, ARISCollapseViewDelegate, UITableViewDataSource, UITableViewDelegate>
 {
     ARISMediaView *mediaView;
+    
+    ARISCollapseView *optionsCollapseView;
     UITableView *optionsTableView;
     UIActivityIndicatorView *loadingIndicator;
     
@@ -35,6 +38,7 @@ const NSInteger kOptionsFontSize = 17;
 }
 
 @property (nonatomic, strong) ARISMediaView *mediaView;
+@property (nonatomic, strong) ARISCollapseView *optionsCollapseView;
 @property (nonatomic, strong) UITableView *optionsTableView;
 @property (nonatomic, strong) UIActivityIndicatorView *loadingIndicator;
 
@@ -49,6 +53,7 @@ const NSInteger kOptionsFontSize = 17;
 @implementation NpcOptionsViewController
 
 @synthesize mediaView;
+@synthesize optionsCollapseView;
 @synthesize optionsTableView;
 @synthesize loadingIndicator;
 @synthesize optionList;
@@ -86,8 +91,9 @@ const NSInteger kOptionsFontSize = 17;
     
     if(pcMedia) self.mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds media:pcMedia                                    mode:ARISMediaDisplayModeTopAlignAspectFitWidth delegate:self];
     else        self.mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] mode:ARISMediaDisplayModeTopAlignAspectFitWidth delegate:self];
+    [self.mediaView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToOptions:)]];
     
-    self.optionsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-128, self.view.bounds.size.width, 128) style:UITableViewStyleGrouped];
+    self.optionsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 128) style:UITableViewStyleGrouped];
     self.optionsTableView.opaque = NO;
     self.optionsTableView.backgroundView = nil;
     self.optionsTableView.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.9];
@@ -95,8 +101,15 @@ const NSInteger kOptionsFontSize = 17;
     self.optionsTableView.dataSource = self;
     self.optionsTableView.delegate = self;
     
+    self.optionsCollapseView = [[ARISCollapseView alloc] initWithView:self.optionsTableView frame:CGRectMake(0, self.view.bounds.size.height-128, self.view.bounds.size.width, 128) open:YES showHandle:NO draggable:NO tappable:NO delegate:self];
+    
     [self.view addSubview:self.mediaView];
-    [self.view addSubview:self.optionsTableView];
+    [self.view addSubview:self.optionsCollapseView];
+}
+
+- (void) passTapToOptions:(UITapGestureRecognizer *)r
+{
+    [self.optionsCollapseView handleTapped:r];
 }
 
 - (void) loadOptionsForNpc:(Npc *)n afterViewingOption:(NpcScriptOption *)o
