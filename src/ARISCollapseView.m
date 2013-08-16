@@ -34,7 +34,7 @@
 {
     if(self = [super initWithFrame:f])
     {
-        [self setOpenFrame:f];
+        openFrame = [self morphFrame:f];
         
         handleShowing = h ? 1 : 0;
         
@@ -48,7 +48,7 @@
             self.handle = [[UIView alloc] initWithFrame:CGRectMake(0,20,f.size.width,10)];
             UILabel *dots = [[UILabel alloc] initWithFrame:CGRectMake(0, -15, f.size.width, 20)];
             dots.backgroundColor = [UIColor clearColor];
-            dots.textColor = [UIColor whiteColor];
+            dots.textColor = [UIColor grayColor];
             dots.font = [UIFont fontWithName:@"Helvetica" size:30];
             dots.textAlignment = NSTextAlignmentCenter;
             dots.text = @"...";
@@ -56,13 +56,13 @@
             [self addSubview:self.handle];
         }
             
-        self.childContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, (20+10*handleShowing), f.size.width, f.size.height-(20+10*handleShowing))];
+        self.childContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, (20+10*handleShowing), openFrame.size.width, openFrame.size.height-(20+10*handleShowing))];
         self.childView = v;
         self.childView.frame = self.childContainerView.bounds;
         [self addSubview:self.childContainerView];
         [self.childContainerView addSubview:self.childView];
         
-        self.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.9];
+        [self setBackgroundColor:[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.9]];
         
         if(t) [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapped:)]];
         if(d) [self addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanned:)]];
@@ -72,14 +72,19 @@
     return self;
 }
 
-- (void) setOpenFrame:(CGRect)f
+- (CGRect) morphFrame:(CGRect)f
 {
     if(handleShowing && f.size.height < 10) { f.origin.y-=(10-f.size.height); f.size.height = 10; }
     
     //touch area buffer
-    f.size.height += (20+10*handleShowing);
-    f.origin.y    -= (20+10*handleShowing);
-    openFrame = f;
+    f.size.height += 20;
+    f.origin.y    -= 20;
+    return f;
+}
+    
+- (void) setOpenFrame:(CGRect)f
+{
+    openFrame = [self morphFrame:f];
     
     if(self.frame.size.height != (20+10*handleShowing)) [self open];
     else                                                [self close];
@@ -94,12 +99,6 @@
 {
     if(self.frame.size.height == (20+10*handleShowing)) [self open];
     else                                                [self close];
-}
-
-- (void) setBackgroundColor:(UIColor *)backgroundColor
-{
-    self.handle.backgroundColor             = backgroundColor;
-    self.childContainerView.backgroundColor = backgroundColor;
 }
 
 - (void) handlePanned:(UIPanGestureRecognizer *)g
@@ -145,6 +144,12 @@
     self.frame = CGRectMake(openFrame.origin.x, openFrame.origin.y+openFrame.size.height-(20+10*handleShowing), openFrame.size.width, (20+10*handleShowing));
     self.childContainerView.frame = CGRectMake(0, (20+10*handleShowing), openFrame.size.width, openFrame.size.height-(20+10*handleShowing));
     [UIView commitAnimations];
+}
+
+- (void) setBackgroundColor:(UIColor *)backgroundColor
+{
+    self.handle.backgroundColor             = backgroundColor;
+    self.childContainerView.backgroundColor = backgroundColor;
 }
 
 @end

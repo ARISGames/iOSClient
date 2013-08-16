@@ -20,6 +20,7 @@ NSString *const kDialogHtmlTemplate =
 @"<head>"
 @"	<title>Aris</title>"
 @"	<style type='text/css'><!--"
+@"	html { margin:0; padding:0; }"
 @"	body {"
 @"		font-size: 19px;"
 @"		font-family: Helvetia, Sans-Serif;"
