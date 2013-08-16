@@ -216,6 +216,8 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     if(![self.item.idescription isEqualToString:@""])
     {
         self.descriptionWebView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,10) delegate:self];
+        [self.descriptionWebView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToDescription:)]];
+        self.descriptionWebView.userInteractionEnabled = NO;
         self.descriptionWebView.scrollView.scrollEnabled = NO;
         self.descriptionWebView.scrollView.bounces = NO;
         self.descriptionWebView.opaque = NO;
@@ -226,6 +228,11 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     }
     
 	[self updateQuantityDisplay];
+}
+
+- (void) passTapToDescription:(UITapGestureRecognizer *)r
+{
+    [self.descriptionCollapseView handleTapped:r];
 }
 
 - (void) passPanToDescription:(UIPanGestureRecognizer *)g
@@ -392,11 +399,6 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 - (void) movieFinishedCallback:(NSNotification*) aNotification
 {
 	[self dismissMoviePlayerViewControllerAnimated];
-}
-
-- (void) passTapToDescription:(UITapGestureRecognizer *)r
-{
-    [self.descriptionCollapseView handleTapped:r];
 }
 
 - (UIView *) viewForZoomingInScrollView:(UIScrollView *)scrollView 
