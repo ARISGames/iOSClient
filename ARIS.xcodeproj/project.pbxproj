@@ -501,7 +501,6 @@
 		AABC75001728600B0074CC21 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC74FE1728600B0074CC21 /* MapViewController.m */; };
 		AABC75011728600B0074CC21 /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC74FF1728600B0074CC21 /* MapViewController.xib */; };
 		AABC75051728604E0074CC21 /* WebPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC75031728604E0074CC21 /* WebPageViewController.m */; };
-		AABC75061728604E0074CC21 /* WebPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC75041728604E0074CC21 /* WebPageViewController.xib */; };
 		AABC750A172860690074CC21 /* NpcViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7508172860690074CC21 /* NpcViewController.m */; };
 		AABC7511172860860074CC21 /* ItemActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC750F172860860074CC21 /* ItemActionViewController.m */; };
 		AABC7512172860860074CC21 /* ItemActionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7510172860860074CC21 /* ItemActionViewController.xib */; };
@@ -1296,7 +1295,6 @@
 		AABC74FF1728600B0074CC21 /* MapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapViewController.xib; sourceTree = "<group>"; };
 		AABC75021728604E0074CC21 /* WebPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPageViewController.h; sourceTree = "<group>"; };
 		AABC75031728604E0074CC21 /* WebPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebPageViewController.m; sourceTree = "<group>"; };
-		AABC75041728604E0074CC21 /* WebPageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebPageViewController.xib; sourceTree = "<group>"; };
 		AABC7507172860690074CC21 /* NpcViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NpcViewController.h; sourceTree = "<group>"; };
 		AABC7508172860690074CC21 /* NpcViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NpcViewController.m; sourceTree = "<group>"; };
 		AABC750E172860860074CC21 /* ItemActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemActionViewController.h; sourceTree = "<group>"; };
@@ -2179,7 +2177,6 @@
 			children = (
 				AABC75021728604E0074CC21 /* WebPageViewController.h */,
 				AABC75031728604E0074CC21 /* WebPageViewController.m */,
-				AABC75041728604E0074CC21 /* WebPageViewController.xib */,
 			);
 			path = webpage;
 			sourceTree = "<group>";
@@ -2945,7 +2942,6 @@
 				AABC74FA17285FE00074CC21 /* InventoryViewController.xib in Resources */,
 				AABC74FC17285FF70074CC21 /* QuestsViewController.xib in Resources */,
 				AABC75011728600B0074CC21 /* MapViewController.xib in Resources */,
-				AABC75061728604E0074CC21 /* WebPageViewController.xib in Resources */,
 				AABC7512172860860074CC21 /* ItemActionViewController.xib in Resources */,
 				AA50A484173992F500B105C2 /* 123-id-card-white@2x.png in Resources */,
 				AA50A485173992F500B105C2 /* 123-id-card-white.png in Resources */,

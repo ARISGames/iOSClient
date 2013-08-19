@@ -15,89 +15,90 @@
 
 @interface WebPageViewController() <ARISWebViewDelegate,StateControllerProtocol,UIWebViewDelegate>
 {
-    ARISWebView *aWebView;
     WebPage *webPage;
-    IBOutlet UIView  *blackView;
+    ARISWebView *webView;
     UIActivityIndicatorView *activityIndicator;
-    BOOL loaded;
+    UIButton *continueButton;
+    
+    BOOL hasAppeared;
     
     id<GameObjectViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 
-@property (nonatomic, strong) ARISWebView *aWebView;
 @property (nonatomic, strong) WebPage *webPage;
-@property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property (nonatomic, strong) IBOutlet UIView *blackView;
-@property (nonatomic, assign) BOOL loaded;
+@property (nonatomic, strong) ARISWebView *webView;
+@property (nonatomic, strong) UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) UIButton *continueButton;
 
 @end
 
 @implementation WebPageViewController
 
-@synthesize aWebView;
 @synthesize webPage;
+@synthesize webView;
 @synthesize activityIndicator;
-@synthesize blackView;
-@synthesize loaded;
+@synthesize continueButton;
 
 - (id) initWithWebPage:(WebPage *)w delegate:(NSObject<GameObjectViewControllerDelegate, StateControllerProtocol> *)d
 {
-    self = [super initWithNibName:@"WebPageViewController" bundle:nil];
-    if(self)
+    if(self = [super init])
     {
         delegate = d;
         self.webPage = w;
+        
+        hasAppeared = NO;
     }
     return self;
 }
 
-- (void) viewDidLoad
+- (void) loadView
 {
-    [super viewDidLoad];
-    
-    self.loaded = NO;
-    
-    self.aWebView = [[ARISWebView alloc] initWithFrame:self.blackView.frame delegate:self];
-    self.aWebView.hidden = YES;
-    self.aWebView.allowsInlineMediaPlayback = YES;
-    self.aWebView.mediaPlaybackRequiresUserAction = NO;
-    [self.view addSubview:self.aWebView];
-    
-	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonTouchAction:)];
-    
-    [self.aWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.webPage.url]] withAppendation:[NSString stringWithFormat:@"&webPageId=%d",self.webPage.webPageId]];
+    [super loadView];
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
-    self.aWebView.frame = self.blackView.frame;
-    if(!self.loaded)
-    {
-        self.aWebView.hidden = YES;
-        self.blackView.hidden = NO;
-    }
+    [super viewWillAppear:animated];
+    if(!hasAppeared) [self viewWillAppearFirstTime];
 }
 
-- (void) webViewDidFinishLoad:(UIWebView *)webView
+- (void) viewWillAppearFirstTime
 {
-    if([webView isKindOfClass:[ARISWebView class]])
-        [self.aWebView injectHTMLWithARISjs];
-    self.loaded = YES;
-    self.aWebView.hidden = NO;
-    self.blackView.hidden = YES;
-    [self.activityIndicator stopAnimating];
-}
-
-- (BOOL) webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-{
-    if([webView isKindOfClass:[ARISWebView class]]) return ![(ARISWebView *)webView handleARISRequestIfApplicable:request];
-    return YES;
-}
-
-- (void) webViewDidStartLoad:(UIWebView *)webView
-{
-    self.loaded = NO;
+    hasAppeared = YES;
+    
+    self.view.backgroundColor = [UIColor blackColor];
+    
+    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithFrame:self.view.bounds];
     [self.activityIndicator startAnimating];
+    [self.view addSubview:self.activityIndicator];
+    
+    self.webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height-44) delegate:self];
+    self.webView.allowsInlineMediaPlayback = YES;
+    self.webView.mediaPlaybackRequiresUserAction = NO;
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.webPage.url]] withAppendation:[NSString stringWithFormat:@"&webPageId=%d",self.webPage.webPageId]];
+    
+    self.continueButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.continueButton.frame = CGRectMake(0,self.view.bounds.size.height-44,self.view.bounds.size.width,44);
+    self.continueButton.backgroundColor = [UIColor whiteColor];
+    [self.continueButton setTitle:@"Continue" forState:UIControlStateNormal];
+    [self.continueButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.continueButton addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.continueButton];
+}
+
+- (void) webViewDidFinishLoad:(UIWebView *)wv
+{
+    [self.webView injectHTMLWithARISjs];
+    [self.activityIndicator removeFromSuperview];
+    [self.activityIndicator stopAnimating];
+    self.activityIndicator = nil;
+    
+    [self.view addSubview:self.webView];
+}
+
+- (BOOL) webView:(UIWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    return ![self.webView handleARISRequestIfApplicable:request];
 }
 
 - (void) ARISWebViewRequestsDismissal:(ARISWebView *)awv
@@ -105,11 +106,17 @@
     [self dismissSelf];
 }
 
+- (void) ARISWebViewRequestsHideButton:(ARISWebView *)awv
+{
+    self.webView.frame = self.view.bounds;
+    [self.continueButton removeFromSuperview];
+}
+
 - (void) ARISWebViewRequestsRefresh:(ARISWebView *)awv
 {
     if([(NSObject *)delegate isKindOfClass:[NpcViewController class]])
     {
-        NpcViewController *npcvc = (NpcViewController *)delegate;
+        //NpcViewController *npcvc = (NpcViewController *)delegate;
         //[[AppServices sharedAppServices] fetchNpcConversations:npcvc.currentNpc.npcId afterViewingNode:npcvc.currentNode.nodeId];
         //[npcvc showWaitingIndicatorForPlayerOptions];
     }
@@ -133,14 +140,14 @@
     [delegate displayTab:t];
 }
 
-- (IBAction) backButtonTouchAction:(id)sender
+- (void) backButtonTouched
 {
     [self dismissSelf];
 }
 
 - (void) dismissSelf
 {
-    [self.aWebView clear];
+    [self.webView clear];
     [self.navigationController popToRootViewControllerAnimated:YES];
     [[AppServices sharedAppServices] updateServerWebPageViewed:webPage.webPageId fromLocation:0];
     [delegate gameObjectViewControllerRequestsDismissal:self];
@@ -148,8 +155,8 @@
 
 - (void) dealloc
 {
-    [self.aWebView clear];
-    aWebView.delegate = nil;
+    [self.webView clear];
+    webView.delegate = nil;
 }
 
 
