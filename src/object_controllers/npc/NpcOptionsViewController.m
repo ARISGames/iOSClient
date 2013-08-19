@@ -37,6 +37,28 @@ NSString *const kDialogOptionHtmlTemplate =
 @"<body>%@</body>"
 @"</html>";
 
+NSString *const kDialogViewedOptionHtmlTemplate =
+@"<html>"
+@"<head>"
+@"	<title>Aris</title>"
+@"	<style type='text/css'><!--"
+@"	html { margin:0; padding:0; }"
+@"	body {"
+@"		font-size:19px;"
+@"		font-family:Helvetia, Sans-Serif;"
+@"      color:#444444;"
+@"      margin:0;"
+@"      padding:10;"
+@"	}"
+@"	div {"
+@"      margin:0;"
+@"      padding:0;"
+@"	}"
+@"	--></style>"
+@"</head>"
+@"<body>%@</body>"
+@"</html>";
+
 @interface NpcOptionsViewController() <ARISMediaViewDelegate, ARISCollapseViewDelegate, ARISWebViewDelegate, UIWebViewDelegate, StateControllerProtocol>
 {
     ARISMediaView *mediaView;
@@ -174,7 +196,10 @@ NSString *const kDialogOptionHtmlTemplate =
         text.opaque = NO;
         NpcScriptOption *option = [optionList objectAtIndex:i];
         //if(option.hasViewed) cell.textLabel.textColor = [UIColor ARISColorLightGrey];
-        [text loadHTMLString:[NSString stringWithFormat:kDialogOptionHtmlTemplate, option.optionText] baseURL:nil];
+        if(option.hasViewed)
+            [text loadHTMLString:[NSString stringWithFormat:kDialogViewedOptionHtmlTemplate, option.optionText] baseURL:nil];
+        else
+            [text loadHTMLString:[NSString stringWithFormat:kDialogOptionHtmlTemplate, option.optionText] baseURL:nil];
         
         arrowFrame = textFrame;
         arrowFrame.origin.x = textFrame.size.width;
@@ -189,26 +214,29 @@ NSString *const kDialogOptionHtmlTemplate =
         [self.optionsScrollView addSubview:cell];
     }
     
-    cellFrame = CGRectMake(0, 43*[self.optionList count], self.view.bounds.size.width, 43);
-    cell = [[UIView alloc] initWithFrame:cellFrame];
-    [cell addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(optionSelected:)]];
+    if(!self.currentlyHidingLeaveConversationButton)
+    {
+        cellFrame = CGRectMake(0, 43*[self.optionList count], self.view.bounds.size.width, 43);
+        cell = [[UIView alloc] initWithFrame:cellFrame];
+        [cell addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(optionSelected:)]];
+        
+        textFrame = cellFrame;
+        textFrame.origin.y = 0;
+        textFrame.size.width -= 30;
+        text = [[ARISWebView alloc] initWithFrame:textFrame delegate:self];
+        text.userInteractionEnabled = NO;
+        text.scrollView.scrollEnabled = NO;
+        text.scrollView.bounces = NO;
+        text.backgroundColor = [UIColor clearColor];
+        text.opaque = NO;
+        cell.tag = -1;
+        [text loadHTMLString:[NSString stringWithFormat:kDialogOptionHtmlTemplate, self.currentLeaveConversationTitle] baseURL:nil];
+        
+        [cell addSubview:text];
+        [self.optionsScrollView addSubview:cell];
+    }
     
-    textFrame = cellFrame;
-    textFrame.origin.y = 0;
-    textFrame.size.width -= 30;
-    text = [[ARISWebView alloc] initWithFrame:textFrame delegate:self];
-    text.userInteractionEnabled = NO;
-    text.scrollView.scrollEnabled = NO;
-    text.scrollView.bounces = NO;
-    text.backgroundColor = [UIColor clearColor];
-    text.opaque = NO;
-    cell.tag = -1;
-    [text loadHTMLString:[NSString stringWithFormat:kDialogOptionHtmlTemplate, @"Leave Conversation"] baseURL:nil];
-    
-    [cell addSubview:text];
-    [self.optionsScrollView addSubview:cell];
-    
-    cellFrame = CGRectMake(0, 43*([self.optionList count]+1), self.view.bounds.size.width, 40);
+    cellFrame = CGRectMake(0, 43*([self.optionList count]+(!self.currentlyHidingLeaveConversationButton)), self.view.bounds.size.width, 40);
     cell = [[UIView alloc] initWithFrame:cellFrame];
     
     textFrame = cellFrame;
@@ -226,7 +254,7 @@ NSString *const kDialogOptionHtmlTemplate =
     [cell addSubview:text];
     [self.optionsScrollView addSubview:cell];
     
-    CGFloat newHeight = 43*[self.optionList count]+86;
+    CGFloat newHeight = 43*[self.optionList count]+(43*(1+(!self.currentlyHidingLeaveConversationButton)));
     self.optionsScrollView.frame = CGRectMake(0, 0, self.optionsScrollView.frame.size.width, newHeight);
     self.optionsScrollView.contentSize = CGSizeMake(self.optionsScrollView.frame.size.width, newHeight);
     [self.optionsCollapseView setOpenFrameHeight:newHeight+10];
@@ -337,6 +365,20 @@ NSString *const kDialogOptionHtmlTemplate =
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv
 {
     //No need to do anything
+}
+
+- (void) displayScannerWithPrompt:(NSString *)p
+{
+    
+}
+
+- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
+{
+    return NO;
+}
+
+- (void) displayTab:(NSString *)t
+{
 }
 
 @end
