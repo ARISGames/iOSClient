@@ -70,6 +70,11 @@ NSString *const kQuestDetailsHtmlTemplate =
     return self;
 }
 
+- (void) loadView
+{
+    [super loadView];
+}
+
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
