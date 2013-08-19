@@ -29,6 +29,7 @@
     
     NpcScriptElementView *npcView;
     NpcScriptElementView *pcView;
+    UILabel *continueButton;
     
     int textBoxSizeState;
     CGRect viewFrame;
@@ -45,6 +46,7 @@
 
 @property (nonatomic, strong) NpcScriptElementView *npcView;
 @property (nonatomic, strong) NpcScriptElementView *pcView;
+@property (nonatomic, strong) UILabel *continueButton;
 
 @end
 
@@ -57,6 +59,7 @@
 @synthesize currentScriptElement;
 @synthesize npcView;
 @synthesize pcView;
+@synthesize continueButton;
 
 - (id) initWithNpc:(Npc *)n frame:(CGRect)f delegate:(id<NpcScriptViewControllerDelegate>)d
 {
@@ -95,13 +98,13 @@
     else         self.npcView = [[NpcScriptElementView alloc] initWithFrame:scriptElementFrame image:[UIImage imageNamed:@"DefaultPCImage.png"] title:self.npc.name delegate:self];
     [self.view addSubview:self.npcView];
     
-    UILabel *continueButton = [[UILabel alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44)];
-    continueButton.textAlignment = NSTextAlignmentRight;
-    continueButton.text = @"Continue > ";
-    continueButton.userInteractionEnabled = YES;
-    continueButton.backgroundColor = [UIColor clearColor];
-    continueButton.opaque = NO;
-    [continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouched)]];
+    self.continueButton = [[UILabel alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44)];
+    self.continueButton.textAlignment = NSTextAlignmentRight;
+    self.continueButton.text = @"Continue > ";
+    self.continueButton.userInteractionEnabled = YES;
+    self.continueButton.backgroundColor = [UIColor clearColor];
+    self.continueButton.opaque = NO;
+    [self.continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouched)]];
     [self.view addSubview:continueButton];
     
     [self movePcIn];
@@ -207,6 +210,26 @@
 - (void) scriptElementViewRequestsHideTextAdjust:(BOOL)h
 {
     //tell delegate to hide/show textadjust button
+}
+
+- (void) scriptElementViewRequestsHideContinue:(BOOL)h
+{
+    if(!h)
+    {
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView setAnimationDuration:.1];
+        self.continueButton.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
+        [UIView commitAnimations];
+    }
+    if(h)
+    {
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView setAnimationDuration:.1];
+        self.continueButton.frame = CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, 44);
+        [UIView commitAnimations];
+    }
 }
 
 - (void) adjustTextArea:(NSString *)area

@@ -119,7 +119,6 @@
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"PusherWebPageEventReceived" object:event]];
 }
 
-
 - (void) logoutGame
 {
     if(self.gameChannel)    [(PTPusherChannel *)self.gameChannel    unsubscribe];

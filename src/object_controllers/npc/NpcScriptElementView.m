@@ -89,7 +89,7 @@ NSString *const kDialogHtmlTemplate =
     self.textWebView.backgroundColor = [UIColor clearColor];
     [self.textWebView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToTextSection:)]];
     
-    self.textSection = [[ARISCollapseView alloc] initWithView:self.textWebView frame:CGRectMake(0, self.bounds.size.height-128, self.bounds.size.width, 128) open:YES showHandle:YES draggable:YES tappable:NO delegate:self];
+    self.textSection = [[ARISCollapseView alloc] initWithView:self.textWebView frame:CGRectMake(0, self.bounds.size.height-128, self.bounds.size.width, 128) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
     
     [self addSubview:self.mediaSection];
     [self.mediaSection addSubview:self.mediaView];
@@ -287,6 +287,11 @@ NSString *const kDialogHtmlTemplate =
 - (void) displayTab:(NSString *)t
 {
     
+}
+
+- (void) collapseView:(ARISCollapseView *)cv didStartOpen:(BOOL)o
+{
+    [delegate scriptElementViewRequestsHideContinue:!o];
 }
 
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s

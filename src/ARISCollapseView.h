@@ -11,6 +11,9 @@
 @class ARISCollapseView;
 
 @protocol ARISCollapseViewDelegate
+@optional 
+- (void) collapseView:(ARISCollapseView *)cv didStartOpen:(BOOL)o;
+- (void) collapseView:(ARISCollapseView *)cv didFinishOpen:(BOOL)o;
 @end
 
 @interface ARISCollapseView : UIView

@@ -120,7 +120,7 @@ NSString *const kDialogOptionHtmlTemplate =
     self.optionsScrollView.scrollEnabled = YES;
     self.optionsScrollView.bounces = NO;
     
-    self.optionsCollapseView = [[ARISCollapseView alloc] initWithView:self.optionsScrollView frame:CGRectMake(0, self.view.bounds.size.height-128, self.view.bounds.size.width, 128) open:YES showHandle:YES draggable:YES tappable:NO delegate:self];
+    self.optionsCollapseView = [[ARISCollapseView alloc] initWithView:self.optionsScrollView frame:CGRectMake(0, self.view.bounds.size.height-128, self.view.bounds.size.width, 128) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
     
     [self.view addSubview:self.mediaView];
     [self.view addSubview:self.optionsCollapseView];
@@ -216,7 +216,7 @@ NSString *const kDialogOptionHtmlTemplate =
     textFrame.size.width -= 30;
     text = [[ARISWebView alloc] initWithFrame:textFrame delegate:self];
     text.delegate = self;
-    text.userInteractionEnabled = NO;
+    text.userInteractionEnabled = YES; //to disallow clicks percolating through
     text.scrollView.scrollEnabled = NO;
     text.scrollView.bounces = NO;
     text.backgroundColor = [UIColor clearColor];
