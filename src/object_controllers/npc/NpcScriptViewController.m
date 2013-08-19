@@ -78,7 +78,7 @@
 - (void) loadView
 {
     [super loadView];
-    
+
     self.view.frame = viewFrame;
     self.view.bounds = CGRectMake(0,0,viewFrame.size.width,viewFrame.size.height);
     self.view.backgroundColor = [UIColor whiteColor];
