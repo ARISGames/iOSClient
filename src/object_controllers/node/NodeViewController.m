@@ -51,6 +51,8 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     UIButton *continueButton;
     
     UIActivityIndicatorView *webViewSpinner;
+    
+    BOOL hasAppeared;
 }
 
 @property (readwrite, strong) Node *node;
@@ -80,14 +82,21 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
         self.node = n;
         self.title = self.node.name;
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieFinishedCallback:) name:MPMoviePlayerPlaybackDidFinishNotification object:nil];
+        hasAppeared = NO;
     }
     
     return self;
 }
 
-- (void) viewDidLoad
+- (void) viewWillAppear:(BOOL)animated
 {
-	[super viewDidLoad];
+	[super viewWillAppear:animated];
+    if(!hasAppeared) [self viewWillAppearFirstTime];
+}
+
+- (void) viewWillAppearFirstTime
+{
+    hasAppeared = YES;
     
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height-44)];
     self.scrollView.contentSize = self.scrollView.bounds.size;
