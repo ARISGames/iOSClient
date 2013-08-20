@@ -207,6 +207,8 @@ NSString *const kDialogViewedOptionHtmlTemplate =
         arrow = [[UILabel alloc] initWithFrame:arrowFrame];
         arrow.font = [UIFont fontWithName:@"Helvetica" size:19];
         arrow.textAlignment = NSTextAlignmentCenter;
+        arrow.backgroundColor = [UIColor clearColor];
+        arrow.opaque = NO;
         arrow.text = @">";
         
         [cell addSubview:text];
@@ -241,7 +243,6 @@ NSString *const kDialogViewedOptionHtmlTemplate =
     
     textFrame = cellFrame;
     textFrame.origin.y = 0;
-    textFrame.size.width -= 30;
     text = [[ARISWebView alloc] initWithFrame:textFrame delegate:self];
     text.delegate = self;
     text.userInteractionEnabled = YES; //to disallow clicks percolating through
@@ -249,7 +250,7 @@ NSString *const kDialogViewedOptionHtmlTemplate =
     text.scrollView.bounces = NO;
     text.backgroundColor = [UIColor clearColor];
     text.opaque = NO;
-    [text loadHTMLString:[NSString stringWithFormat:kDialogOptionHtmlTemplate, @"<div style=\"color:#444444; font-size:14px; text-align:center;\">Make a Selection</div>"] baseURL:nil];
+    [text loadHTMLString:[NSString stringWithFormat:kDialogOptionHtmlTemplate, @"<div style=\"color:#666666; font-size:14px; text-align:center;\">Make a Selection</div>"] baseURL:nil];
     
     [cell addSubview:text];
     [self.optionsScrollView addSubview:cell];
