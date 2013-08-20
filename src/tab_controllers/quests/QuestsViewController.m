@@ -96,7 +96,7 @@ NSString *const kQuestsHtmlTemplate =
 
 - (id)initWithDelegate:(id<QuestsViewControllerDelegate>)d
 {
-    if(self = [super initWithNibName:@"QuestsViewController" bundle:nil])
+    if(self = [super initWithNibName:@"QuestsViewController" bundle:nil delegate:d])
     {
         self.tabID = @"QUESTS";
         delegate = d;

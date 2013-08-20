@@ -74,7 +74,7 @@
 
 - (id) initWithDelegate:(id<NotebookViewControllerDelegate, StateControllerProtocol>)d
 {
-    if(self = [super initWithNibName:@"NotebookViewController" bundle:nil])
+    if(self = [super initWithNibName:@"NotebookViewController" bundle:nil delegate:d])
     {
         self.tabID = @"NOTE";
         delegate = d;

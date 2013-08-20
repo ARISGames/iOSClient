@@ -9,7 +9,9 @@
 #import "ARISGamePlayTabBarViewController.h"
 
 @interface ARISGamePlayTabBarViewController()
-
+{
+    id<GamePlayTabBarViewControllerDelegate> __unsafe_unretained delegate;
+}
 @end
 
 @implementation ARISGamePlayTabBarViewController
@@ -18,18 +20,38 @@
 
 - (id) init
 {
-    if([super init])
+    if(self = [super init])
     {
         [self initialize];
     }
     return self;
 }
 
-- (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id) initWithDelegate:(id<GamePlayTabBarViewControllerDelegate>)d
 {
-    if([super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
+    if(self = [super init])
     {
         [self initialize];
+        delegate = d;
+    }
+    return self;
+}
+
+- (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    if(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
+    {
+        [self initialize];
+    }
+    return self;
+}
+
+- (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil delegate:(id<GamePlayTabBarViewControllerDelegate>)d
+{
+    if(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
+    {
+        [self initialize];
+        delegate = d;
     }
     return self;
 }
@@ -40,23 +62,31 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(clearBadge) name:@"ClearBadgeRequest" object:nil];
 }
 
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"nav" style:UIBarButtonSystemItemAction target:self action:@selector(showNav)];
+}
+
 - (void) viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
     [self clearBadge];
-    self.tabBarController.selectedIndex = [self.tabBarController.viewControllers indexOfObjectIdenticalTo:self];
 }
 
 - (void) clearBadge
 {
     badgeCount = 0;
-    self.tabBarItem.badgeValue = nil;
 }
 
 - (void) incrementBadge
 {
     badgeCount++;
-    if(self.tabBarController.tabBar.selectedItem == self.tabBarItem) badgeCount = 0;
-    if(badgeCount != 0) self.tabBarItem.badgeValue = [NSString stringWithFormat:@"%d",badgeCount];
+}
+
+- (void) showNav
+{
+    [delegate gamePlayTabBarViewControllerRequestsNav];
 }
 
 - (NSUInteger) supportedInterfaceOrientations

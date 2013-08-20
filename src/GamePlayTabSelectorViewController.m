@@ -60,9 +60,7 @@
     UITableViewCell *c = [[UITableViewCell alloc] initWithStyle:UITableViewStylePlain reuseIdentifier:nil];
     UIViewController *vc = [self.viewControllers objectAtIndex:indexPath.row];
     if([vc isKindOfClass:[BogusSelectGameViewController class]])
-    {
         c.textLabel.text = @"LEAVE";
-    }
     else
     {
         ARISNavigationController *anc = (ARISNavigationController *)vc;

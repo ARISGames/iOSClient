@@ -527,7 +527,6 @@
 		AB9BA24913DFBAB1007470E3 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AB9BA24813DFBAB1007470E3 /* libz.dylib */; };
 		ABB2CAC1177267280060FFFA /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB2CABF177267280060FFFA /* icon.png */; };
 		ABB2CAC2177267280060FFFA /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB2CAC0177267280060FFFA /* icon@2x.png */; };
-		ABB2CAC5177267490060FFFA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB2CAC3177267490060FFFA /* Default-568h@2x.png */; };
 		ABB2CAC8177267630060FFFA /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB2CAC7177267630060FFFA /* Default@2x.png */; };
 		ABB2CDC413C7497500F051E4 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB2CDC313C7497400F051E4 /* CoreVideo.framework */; };
 		ABB2CDC613C7498A00F051E4 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB2CDC513C7498A00F051E4 /* AddressBook.framework */; };
@@ -2736,7 +2735,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "ARIS" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -2992,7 +2991,6 @@
 				AA74E7F717626EE9005C279B /* StoreLocallyViewController.xib in Resources */,
 				ABB2CAC1177267280060FFFA /* icon.png in Resources */,
 				ABB2CAC2177267280060FFFA /* icon@2x.png in Resources */,
-				ABB2CAC5177267490060FFFA /* Default-568h@2x.png in Resources */,
 				ABB2CAC8177267630060FFFA /* Default@2x.png in Resources */,
 				AB39FD411773ACCF006DEC96 /* logo.png in Resources */,
 				AB4438401774DFF2004D9DC3 /* logoWithText.png in Resources */,

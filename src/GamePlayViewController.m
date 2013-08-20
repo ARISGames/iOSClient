@@ -44,6 +44,7 @@
 
     LoadingViewController *loadingViewController;
     PKRevealController *gamePlayTabBarController;
+    GamePlayTabSelectorViewController *gamePlayTabSelectorController;
     
     GameNotificationViewController *gameNotificationViewController;
     
@@ -63,6 +64,7 @@
 @property (nonatomic, strong) Game *game;
 @property (nonatomic, strong) LoadingViewController *loadingViewController;
 @property (nonatomic, strong) PKRevealController *gamePlayTabBarController;
+@property (nonatomic, strong) GamePlayTabSelectorViewController *gamePlayTabSelectorController;
 @property (nonatomic, strong) GameNotificationViewController *gameNotificationViewController;
 @property (nonatomic, strong) ARISNavigationController *nearbyObjectsNavigationController;
 @property (nonatomic, strong) ARISNavigationController *arNavigationController;
@@ -81,6 +83,7 @@
 @synthesize game;
 @synthesize loadingViewController;
 @synthesize gamePlayTabBarController;
+@synthesize gamePlayTabSelectorController;
 @synthesize gameNotificationViewController;
 @synthesize nearbyObjectsNavigationController;
 @synthesize arNavigationController;
@@ -308,8 +311,13 @@
     
     //self.gamePlayTabBarController.selectedIndex = 0;
     
-    GamePlayTabSelectorViewController *g = [[GamePlayTabSelectorViewController alloc] initWithViewControllers:gamePlayTabVCs delegate:self];
-    self.gamePlayTabBarController = [PKRevealController revealControllerWithFrontViewController:[gamePlayTabVCs objectAtIndex:0] leftViewController:g options:nil];
+    self.gamePlayTabSelectorController = [[GamePlayTabSelectorViewController alloc] initWithViewControllers:gamePlayTabVCs delegate:self];
+    self.gamePlayTabBarController = [PKRevealController revealControllerWithFrontViewController:[gamePlayTabVCs objectAtIndex:0] leftViewController:self.gamePlayTabSelectorController options:nil];
+}
+
+- (void) gamePlayTabBarViewControllerRequestsNav
+{
+    [self.gamePlayTabBarController showViewController:self.gamePlayTabSelectorController];
 }
 
 - (void) viewControllerRequestedDisplay:(ARISNavigationController *)avc
