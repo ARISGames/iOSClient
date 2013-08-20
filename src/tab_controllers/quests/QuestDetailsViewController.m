@@ -85,6 +85,8 @@ NSString *const kQuestDetailsHtmlTemplate =
 {
     hasAppeared = YES;
 
+    self.navigationItem.hidesBackButton = YES;
+    
     self.view.backgroundColor = [UIColor ARISColorOffWhite];
     self.title = self.quest.name;
     self.navigationItem.title = self.quest.name;
