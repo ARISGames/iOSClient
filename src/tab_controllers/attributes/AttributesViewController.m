@@ -14,6 +14,7 @@
 #import "ARISAppDelegate.h"
 #import "Item.h"
 #import "ItemViewController.h"
+#import "UIColor+ARISColors.h"
 
 @interface AttributesViewController() <ARISMediaViewDelegate,UITableViewDataSource,UITableViewDataSource>
 {
@@ -67,10 +68,11 @@
     NSString *sectionTitle = [sectionTitleSpace stringByAppendingString:NSLocalizedString(@"AttributesAttributesTitleKey", @"")];
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, -14, tableView.frame.size.width, 50)];
-    label.textColor = [UIColor whiteColor];
+    label.backgroundColor = [UIColor clearColor];
+    label.opaque = NO;
+    label.textColor = [UIColor ARISColorText];
     label.font = [UIFont boldSystemFontOfSize:20];
     label.text = sectionTitle;
-    label.backgroundColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0];
     
     UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 500)];
     [header addSubview:label];
@@ -81,7 +83,7 @@
 - (void) viewDidLoad
 {
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 500, 1000)];
-    label.backgroundColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:.7];
+    label.backgroundColor = [UIColor ARISColorTranslucentBlack];
     [self.view insertSubview:label atIndex:1];
 
     self.pcImage.layer.cornerRadius = 10.0;
@@ -133,7 +135,6 @@
 	//Initialize Label with tag 1.
 	lblTemp = [[UILabel alloc] initWithFrame:Label1Frame];
 	lblTemp.tag = 1;
-	//lblTemp.textColor = [UIColor whiteColor];
 	lblTemp.backgroundColor = [UIColor clearColor];
 	[cell.contentView addSubview:lblTemp];
 	
@@ -141,11 +142,7 @@
 	lblTemp = [[UILabel alloc] initWithFrame:Label2Frame];
 	lblTemp.tag = 2;
 	lblTemp.font = [UIFont systemFontOfSize:11];
-	//lblTemp.textColor = [UIColor darkGrayColor];
-    lblTemp.textColor = [UIColor colorWithRed:30/255.0
-                    green:30/255.0
-                     blue:30/255.0
-                    alpha:1];
+	lblTemp.textColor = [UIColor ARISColorDarkGray];
 	lblTemp.backgroundColor = [UIColor clearColor];
 	[cell.contentView addSubview:lblTemp];
 	
@@ -159,13 +156,8 @@
     lblTemp = [[UILabel alloc] initWithFrame:Label3Frame];
 	lblTemp.tag = 4;
 	lblTemp.font = [UIFont boldSystemFontOfSize:11];
-	//lblTemp.textColor = [UIColor darkGrayColor];
-    lblTemp.textColor = [UIColor colorWithRed:30/255.0
-                                        green:30/255.0
-                                         blue:30/255.0
-                                        alpha:1];
+	lblTemp.textColor = [UIColor ARISColorDarkGray];
 	lblTemp.backgroundColor = [UIColor clearColor];
-    //lblTemp.textAlignment = UITextAlignmentRight;
 	[cell.contentView addSubview:lblTemp];
     
 	return cell;
@@ -192,7 +184,7 @@
     
     cell.textLabel.backgroundColor = [UIColor clearColor];
     cell.detailTextLabel.backgroundColor = [UIColor clearColor];
-    cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0 green:233.0/255.0 blue:233.0/255.0 alpha:.95];
+    cell.contentView.backgroundColor = [UIColor ARISColorTranslucentWhite];
     cell.backgroundView.layer.cornerRadius = 10.0;
     cell.contentView.layer.cornerRadius = 10.0;
     

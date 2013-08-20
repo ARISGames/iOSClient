@@ -8,12 +8,13 @@
 
 #import "ARISMoviePlayerViewController.h"
 #import "RootViewController.h"
+#import "UIColor+ARISColors.h"
 
 @implementation ARISMoviePlayerViewController
 
 - (void)viewDidLoad
 {
-	self.view.backgroundColor = [UIColor blackColor];
+	self.view.backgroundColor = [UIColor ARISColorViewBackdrop];
 	[super viewDidLoad];
 }
 

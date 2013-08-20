@@ -60,9 +60,8 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     [self drawSquareRect:self.bounds fillColor:[UIColor lightGrayColor] strokeColor:[UIColor clearColor] radius:4.0 lineWidth:2.0];
     
-    if(fourierData != nil){
-        
-        
+    if(fourierData != nil)
+    {
         float binWidth = self.bounds.size.width / 256; //512/2
         float currentBinCoor = binWidth / 2;
         for(int k = 1; k < 512; k++){

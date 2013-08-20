@@ -43,7 +43,7 @@
     Game *game;
 
     LoadingViewController *loadingViewController;
-    PKRevealController *gamePlayTabBarController;
+    PKRevealController *gamePlayRevealController;
     GamePlayTabSelectorViewController *gamePlayTabSelectorController;
     
     GameNotificationViewController *gameNotificationViewController;
@@ -63,7 +63,7 @@
 
 @property (nonatomic, strong) Game *game;
 @property (nonatomic, strong) LoadingViewController *loadingViewController;
-@property (nonatomic, strong) PKRevealController *gamePlayTabBarController;
+@property (nonatomic, strong) PKRevealController *gamePlayRevealController;
 @property (nonatomic, strong) GamePlayTabSelectorViewController *gamePlayTabSelectorController;
 @property (nonatomic, strong) GameNotificationViewController *gameNotificationViewController;
 @property (nonatomic, strong) ARISNavigationController *nearbyObjectsNavigationController;
@@ -82,7 +82,7 @@
 
 @synthesize game;
 @synthesize loadingViewController;
-@synthesize gamePlayTabBarController;
+@synthesize gamePlayRevealController;
 @synthesize gamePlayTabSelectorController;
 @synthesize gameNotificationViewController;
 @synthesize nearbyObjectsNavigationController;
@@ -166,7 +166,7 @@
 
 - (void) loadingViewControllerFinishedLoadingData
 {
-    [self displayContentController:self.gamePlayTabBarController];
+    [self displayContentController:self.gamePlayRevealController];
     self.loadingViewController = nil;
     [[ARISAlertHandler sharedAlertHandler] removeWaitingIndicator];
     
@@ -188,32 +188,10 @@
 
 - (void) hideNearbyObjectsTab
 {
-    /*
-    NSMutableArray *tabs = [NSMutableArray arrayWithArray:self.gamePlayTabBarController.viewControllers];
-    
-    if([tabs containsObject:self.nearbyObjectsNavigationController])
-        [tabs removeObject:self.nearbyObjectsNavigationController];
-    
-    [self.gamePlayTabBarController setViewControllers:tabs animated:NO];
-    
-    NSLog(@"NSNotification: TabBarItemsChanged");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"TabBarItemsChanged" object:self userInfo:nil]];
-     */
 }
 
 - (void) showNearbyObjectsTab
 {
-    /*
-    NSMutableArray *tabs = [NSMutableArray arrayWithArray:self.gamePlayTabBarController.viewControllers];
-    
-    if(![tabs containsObject:self.nearbyObjectsNavigationController])
-        [tabs insertObject:self.nearbyObjectsNavigationController atIndex:0];
-    
-    [self.gamePlayTabBarController setViewControllers:tabs animated:NO];
-    
-    NSLog(@"NSNotification: TabBarItemsChanged");
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"TabBarItemsChanged" object:self userInfo:nil]];
-     */
 }
 
 - (void) gameTabListRecieved:(NSNotification *)n
@@ -304,44 +282,28 @@
         }
     }
     
-    //self.gamePlayTabBarController.viewControllers = [NSArray arrayWithArray:gamePlayTabVCs];
-    //self.gamePlayTabBarController.moreNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-    //self.gamePlayTabBarController.moreNavigationController.delegate = self;
-    //self.gamePlayTabBarController.tabBar.selectedImageTintColor = [UIColor ARISColorScarlet];
-    
-    //self.gamePlayTabBarController.selectedIndex = 0;
-    
     self.gamePlayTabSelectorController = [[GamePlayTabSelectorViewController alloc] initWithViewControllers:gamePlayTabVCs delegate:self];
-    self.gamePlayTabBarController = [PKRevealController revealControllerWithFrontViewController:[gamePlayTabVCs objectAtIndex:0] leftViewController:self.gamePlayTabSelectorController options:nil];
+    self.gamePlayRevealController = [PKRevealController revealControllerWithFrontViewController:[gamePlayTabVCs objectAtIndex:0] leftViewController:self.gamePlayTabSelectorController options:nil];
 }
 
 - (void) gamePlayTabBarViewControllerRequestsNav
 {
-    [self.gamePlayTabBarController showViewController:self.gamePlayTabSelectorController];
+    [self.gamePlayRevealController showViewController:self.gamePlayTabSelectorController];
 }
 
 - (void) viewControllerRequestedDisplay:(ARISNavigationController *)avc
 {
-    [self.gamePlayTabBarController setFrontViewController:avc];
-    [self.gamePlayTabBarController showViewController:avc];
+    [self.gamePlayRevealController setFrontViewController:avc];
+    [self.gamePlayRevealController showViewController:avc];
 }
 
 - (void) displayScannerWithPrompt:(NSString *)p
 {
-    /*
-    ARISGamePlayTabBarViewController *vc;
-    ARISNavigationController *nc;
-    for(int i = 0; i < [self.gamePlayTabBarController.viewControllers count]; i++)
+    if(self.decoderNavigationController)
     {
-        nc = [self.gamePlayTabBarController.viewControllers objectAtIndex:i];
-        vc = [[nc childViewControllers] objectAtIndex:0];
-        if([vc.tabID isEqualToString:@"QR"])
-        {
-            self.gamePlayTabBarController.selectedIndex = i;
-            [(DecoderViewController *)vc launchScannerWithPrompt:p];
-        }
+        [self.gamePlayRevealController showViewController:self.decoderNavigationController];
+        [(DecoderViewController *)[[self.decoderNavigationController viewControllers] objectAtIndex:0] launchScannerWithPrompt:p];
     }
-     */
 }
 
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
@@ -416,21 +378,19 @@
 
 - (void) displayTab:(NSString *)t
 {
-    /*
     NSString *localized = [t lowercaseString];
-    if([localized isEqualToString:@"map"])       localized = [NSLocalizedString(@"MapViewTitleKey",       @"") lowercaseString];
-    if([localized isEqualToString:@"quests"])    localized = [NSLocalizedString(@"QuestViewTitleKey",     @"") lowercaseString];
-    if([localized isEqualToString:@"notebook"])  localized = [NSLocalizedString(@"NotebookTitleKey",      @"") lowercaseString];
-    if([localized isEqualToString:@"inventory"]) localized = [NSLocalizedString(@"InventoryViewTitleKey", @"") lowercaseString];
-    if([localized isEqualToString:@"decoder"])   localized = [NSLocalizedString(@"QRScannerTitleKey",     @"") lowercaseString];
-    if([localized isEqualToString:@"player"])    localized = [NSLocalizedString(@"PlayerTitleKey",        @"") lowercaseString];
-
-    for(int i = 0; i < [self.gamePlayTabBarController.viewControllers count]; i++)
-    {
-        if([[((GamePlayViewController *)[self.gamePlayTabBarController.viewControllers objectAtIndex:i]).title lowercaseString] isEqualToString:localized])
-            self.gamePlayTabBarController.selectedIndex = i;
-    }
-     */
+    if([localized isEqualToString:@"map"]       || [localized isEqualToString:[NSLocalizedString(@"MapViewTitleKey",       @"") lowercaseString]])
+       [self.gamePlayRevealController showViewController:self.mapNavigationController];
+    if([localized isEqualToString:@"quests"]    || [localized isEqualToString:[NSLocalizedString(@"QuestViewTitleKey",     @"") lowercaseString]])
+       [self.gamePlayRevealController showViewController:self.questsNavigationController];
+    if([localized isEqualToString:@"notebook"]  || [localized isEqualToString:[NSLocalizedString(@"NotebookTitleKey",      @"") lowercaseString]])
+       [self.gamePlayRevealController showViewController:self.notesNavigationController];
+    if([localized isEqualToString:@"inventory"] || [localized isEqualToString:[NSLocalizedString(@"InventoryViewTitleKey", @"") lowercaseString]])
+       [self.gamePlayRevealController showViewController:self.inventoryNavigationController];
+    if([localized isEqualToString:@"decoder"]   || [localized isEqualToString:[NSLocalizedString(@"QRScannerTitleKey",     @"") lowercaseString]])
+       [self.gamePlayRevealController showViewController:self.decoderNavigationController];
+    if([localized isEqualToString:@"player"]    || [localized isEqualToString:[NSLocalizedString(@"PlayerTitleKey",        @"") lowercaseString]])
+       [self.gamePlayRevealController showViewController:self.attributesNavigationController];
 }
 
 - (void) tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController 
@@ -446,10 +406,6 @@
 
 - (NSUInteger) supportedInterfaceOrientations
 {
-    //if(self.gamePlayTabBarController.selectedIndex > 3 && self.gamePlayTabBarController.selectedIndex < 6)
-        //return [self.gamePlayTabBarController.moreNavigationController.topViewController supportedInterfaceOrientations];
-    //else if(self.gamePlayTabBarController.selectedIndex <= 3)
-        //return [self.gamePlayTabBarController.selectedViewController supportedInterfaceOrientations];
     return UIInterfaceOrientationMaskPortrait;
 }
 

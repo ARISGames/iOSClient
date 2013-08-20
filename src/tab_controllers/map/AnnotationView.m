@@ -7,6 +7,7 @@
 //
 
 #import "AnnotationView.h"
+#import "UIColor+ARISColors.h"
 #import "Media.h"
 
 @interface AnnotationView() <ARISMediaViewDelegate>
@@ -122,9 +123,9 @@
         CGPathCloseSubpath(calloutPath);
         
         CGContextAddPath(UIGraphicsGetCurrentContext(), calloutPath);
-        [[UIColor colorWithRed:0.3 green:0.3 blue:0.3 alpha:0.8] set];
+        [[UIColor ARISColorTranslucentBlack] set];
         CGContextFillPath(UIGraphicsGetCurrentContext());
-        [[UIColor whiteColor] set];
+        [[UIColor ARISColorWhite] set];
         [self.annotation.title drawInRect:self.titleRect withFont:self.titleFont lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter];
         [self.annotation.subtitle drawInRect:self.subtitleRect withFont:self.subtitleFont lineBreakMode:NSLineBreakByTruncatingMiddle alignment:NSTextAlignmentCenter];
         CGContextAddPath(UIGraphicsGetCurrentContext(), calloutPath);

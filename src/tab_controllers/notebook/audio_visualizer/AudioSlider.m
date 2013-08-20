@@ -20,13 +20,12 @@
 
 - (id)initWithFrame:(CGRect)frame
 {
-    self = [super initWithFrame:frame];
-    if (self) {
+    if(self = [super initWithFrame:frame])
+    {
         self.backgroundColor = [UIColor clearColor];
     }
     return self;
 }
-
 
 - (void) drawRoundRect:(CGRect)bounds fillColor:(UIColor *)fillColor strokeColor:(UIColor *)strokeColor radius:(CGFloat)radius lineWidht:(CGFloat)lineWidth
 {
@@ -59,7 +58,8 @@
     CGContextRestoreGState(context);
 }
 
--(void)drawTriangleForContext:(CGContextRef)context width:(float)width height:(float)height color:(UIColor *)color{
+-(void)drawTriangleForContext:(CGContextRef)context width:(float)width height:(float)height color:(UIColor *)color
+{
     UIBezierPath *path = [UIBezierPath bezierPath];
     [path moveToPoint:CGPointMake(0, 0)];
     float halfWidth = width / 2.0;
@@ -87,6 +87,5 @@
     [self draw1PxStrokeForContext:context startPoint:startPoint endPoint:endPoint color:[UIColor blackColor].CGColor];
     
 }
-
 
 @end

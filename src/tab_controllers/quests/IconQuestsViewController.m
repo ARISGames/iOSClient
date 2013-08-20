@@ -68,7 +68,7 @@
     questIconCollectionViewLayout.minimumInteritemSpacing = 10.0;
     
     questIconCollectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:questIconCollectionViewLayout];
-    questIconCollectionView.backgroundColor = [UIColor ARISColorOffWhite];
+    questIconCollectionView.backgroundColor = [UIColor ARISColorViewBackdrop];
     questIconCollectionView.dataSource = self;
     questIconCollectionView.delegate = self;
     [questIconCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];

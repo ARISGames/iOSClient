@@ -15,6 +15,7 @@
 #import "NoteCell.h"
 #import "Note.h"
 #import "Comment.h"
+#import "UIColor+ARISColors.h"
 
 @interface NotebookViewController()  <UITableViewDelegate, UITableViewDataSource, NoteEditorViewControllerDelegate>
 {
@@ -399,8 +400,8 @@
 
 - (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {    
-    if(indexPath.row % 2 == 0) cell.backgroundColor = [UIColor colorWithRed:233.0/255.0 green:233.0/255.0 blue:233.0/255.0 alpha:1.0];  
-    else                       cell.backgroundColor = [UIColor colorWithRed:200.0/255.0 green:200.0/255.0 blue:200.0/255.0 alpha:1.0];  
+    if(indexPath.row % 2 == 0) cell.backgroundColor = [UIColor ARISColorLightGray];  
+    else                       cell.backgroundColor = [UIColor ARISColorDarkGray];  
 }
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

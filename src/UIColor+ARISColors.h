@@ -10,16 +10,30 @@
 
 @interface UIColor (ARISColors)
 
-+ (UIColor*)ARISColorScarlet;
-+ (UIColor*)ARISColorDarkBlue;
-+ (UIColor*)ARISColorLighBlue;
-+ (UIColor*)ARISColorOrange;
-+ (UIColor*)ARISColorRed;
-+ (UIColor*)ARISColorYellow;
-+ (UIColor*)ARISColorBlack;
-+ (UIColor*)ARISColorLightGrey;
-+ (UIColor*)ARISColorWhite;
-+ (UIColor*)ARISColorOffWhite;
++ (UIColor *) ARISColorScarlet;
++ (UIColor *) ARISColorDarkBlue;
++ (UIColor *) ARISColorLightBlue;
++ (UIColor *) ARISColorOrange;
++ (UIColor *) ARISColorRed;
++ (UIColor *) ARISColorYellow;
++ (UIColor *) ARISColorBlack;
++ (UIColor *) ARISColorLightGray;
++ (UIColor *) ARISColorDarkGray;
++ (UIColor *) ARISColorWhite;
++ (UIColor *) ARISColorOffWhite;
 
++ (UIColor *) ARISColorTranslucentBlack;
++ (UIColor *) ARISColorTranslucentWhite;
+
++ (UIColor *) ARISColorNavBar;           
++ (UIColor *) ARISColorTabBar;           
++ (UIColor *) ARISColorToolBar;
++ (UIColor *) ARISColorBarButton;
++ (UIColor *) ARISColorSegmentedControl;
++ (UIColor *) ARISColorSearchBar;
++ (UIColor *) ARISColorTextBackdrop;
++ (UIColor *) ARISColorText;
++ (UIColor *) ARISColorContentBackdrop;
++ (UIColor *) ARISColorViewBackdrop;
 
 @end

@@ -15,7 +15,8 @@
 #import "Playhead.h"
 
 
-@interface AudioVisualizerViewController : UIViewController<WaveSampleProviderDelegate, WaveformControlDelegate, FreqHistogramControlDelegate, PlayheadControlDelegate, UIAlertViewDelegate>{
+@interface AudioVisualizerViewController : UIViewController<WaveSampleProviderDelegate, WaveformControlDelegate, FreqHistogramControlDelegate, PlayheadControlDelegate, UIAlertViewDelegate>
+{
 	WaveSampleProvider *wsp;
 	AVPlayer *player;
 	NSString *infoString;
@@ -26,9 +27,8 @@
 	UIColor *darkgray;
 	UIColor *white;
 	UIColor *marker;
-    
-
 }
+
 @property (nonatomic) CGPoint* sampleData;
 @property (nonatomic) int sampleLength;
 @property (nonatomic) float playProgress;
@@ -39,9 +39,7 @@
 @property (nonatomic) NSString *intermediatePathString;
 
 - (void) openAudioURL:(NSURL *)url;
--(void)setPlayHeadToLeftSlider;
+- (void) setPlayHeadToLeftSlider;
 - (void) pauseAudio;
-
-
 
 @end

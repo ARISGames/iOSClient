@@ -81,7 +81,7 @@
 
     self.view.frame = viewFrame;
     self.view.bounds = CGRectMake(0,0,viewFrame.size.width,viewFrame.size.height);
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor ARISColorContentBackdrop];
     
     CGRect scriptElementFrame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height);
     

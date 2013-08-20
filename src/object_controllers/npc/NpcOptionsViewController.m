@@ -126,7 +126,7 @@ NSString *const kDialogViewedOptionHtmlTemplate =
      
     self.view.frame = viewFrame;
     self.view.bounds = CGRectMake(0,0,viewFrame.size.width,viewFrame.size.height);
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor ARISColorContentBackdrop];
     
     Media *pcMedia = 0;
     if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId ofType:nil];
@@ -195,7 +195,7 @@ NSString *const kDialogViewedOptionHtmlTemplate =
         text.backgroundColor = [UIColor clearColor];
         text.opaque = NO;
         NpcScriptOption *option = [optionList objectAtIndex:i];
-        //if(option.hasViewed) cell.textLabel.textColor = [UIColor ARISColorLightGrey];
+        
         if(option.hasViewed)
             [text loadHTMLString:[NSString stringWithFormat:kDialogViewedOptionHtmlTemplate, option.optionText] baseURL:nil];
         else

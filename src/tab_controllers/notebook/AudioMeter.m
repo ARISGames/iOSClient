@@ -8,7 +8,6 @@
 
 #import "AudioMeter.h"
 
-
 @implementation AudioMeter
 
 @synthesize barViews;
@@ -17,17 +16,15 @@
 @synthesize activeColor;
 @synthesize inactiveColor;
 
-
-
-- (id)initWithFrame:(CGRect)frame {
-    if ((self = [super initWithFrame:frame])) {
-        
+- (id) initWithFrame:(CGRect)frame
+{
+    if(self = [super initWithFrame:frame])
+    {
 		self.backgroundColor = [UIColor clearColor];
 		self.numberofBars = 30;
 		self.spacingBetweenBars = 2;
 		self.activeColor = [UIColor lightTextColor];
 		self.inactiveColor = [UIColor clearColor];
-		
 		
 		//Create a view for each bar
 		int width = frame.size.width;
@@ -50,33 +47,16 @@
     return self;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
-
-- (void)updateLevel:(double)level {
+- (void) updateLevel:(double)level
+{
 	int numberToMakeActive = abs(round(self.numberofBars * level));
 
-	for (int i = 0; i<[self.barViews count]; i++) {
+	for (int i = 0; i<[self.barViews count]; i++)
+    {
 		UIView *bar = [self.barViews objectAtIndex:i];
-		if (i<numberToMakeActive) {
-			bar.backgroundColor = self.activeColor;
-		}
-		else {
-			bar.backgroundColor = self.inactiveColor;
-		}
-			
+		if(i < numberToMakeActive) bar.backgroundColor = self.activeColor;
+		else                       bar.backgroundColor = self.inactiveColor;
 	}
-	
-	[self setNeedsDisplay]; 
-
 }
-
-
-
 
 @end

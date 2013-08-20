@@ -248,7 +248,7 @@ NSString *const kGameDetailsHtmlTemplate =
     {
         if(indexPath.row == 0)//Resume
         {
-            cell.backgroundColor = [UIColor ARISColorLighBlue];
+            cell.backgroundColor = [UIColor ARISColorLightBlue];
             cell.textLabel.textColor = [UIColor whiteColor];
         }
         else if(indexPath.row == 1 && self.game.hasBeenPlayed)//Reset

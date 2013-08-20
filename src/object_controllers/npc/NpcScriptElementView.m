@@ -14,6 +14,7 @@
 #import "ARISMoviePlayerViewController.h"
 #import "ARISCollapseView.h"
 #import "StateControllerProtocol.h"
+#import "UIColor+ARISColors.h"
 
 NSString *const kDialogHtmlTemplate =
 @"<html>"
@@ -77,11 +78,11 @@ NSString *const kDialogHtmlTemplate =
 
 - (void) initialize
 {
-    self.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = [UIColor ARISColorContentBackdrop];
     
     self.mediaSection = [[UIScrollView alloc] initWithFrame:self.bounds];
     self.mediaSection.contentSize = self.bounds.size;
-    self.mediaSection.backgroundColor = [UIColor whiteColor];
+    self.mediaSection.backgroundColor = [UIColor clearColor];
     [self.mediaSection addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToTextSection:)]];
     
     self.textWebView = [[ARISWebView alloc] initWithFrame:CGRectMake(10, 10, self.bounds.size.width-20, 10) delegate:self];

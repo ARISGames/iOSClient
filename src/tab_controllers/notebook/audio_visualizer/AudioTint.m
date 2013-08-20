@@ -12,13 +12,12 @@
 
 - (id)initWithFrame:(CGRect)frame
 {
-    self = [super initWithFrame:frame];
-    if (self) {
+    if(self = [super initWithFrame:frame])
+    {
         self.backgroundColor = [UIColor clearColor];
     }
     return self;
 }
-
 
 - (void)drawRect:(CGRect)rect
 {
@@ -29,6 +28,5 @@
     CGContextFillRect(context, rectangle);
     CGContextStrokeRect(context, rectangle);
 }
-
 
 @end

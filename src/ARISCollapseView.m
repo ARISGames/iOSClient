@@ -7,6 +7,7 @@
 //
 
 #import "ARISCollapseView.h"
+#import "UIColor+ARISColors.h"
 
 @interface ARISCollapseView()
 {
@@ -47,7 +48,7 @@
             self.handle = [[UIView alloc] initWithFrame:CGRectMake(0,20,f.size.width,10)];
             UILabel *dots = [[UILabel alloc] initWithFrame:CGRectMake(0, -15, f.size.width, 20)];
             dots.backgroundColor = [UIColor clearColor];
-            dots.textColor = [UIColor grayColor];
+            dots.textColor = [UIColor ARISColorText];
             dots.font = [UIFont fontWithName:@"Helvetica" size:30];
             dots.textAlignment = NSTextAlignmentCenter;
             dots.text = @"...";
@@ -62,7 +63,7 @@
         [self addSubview:self.childContainerView];
         [self.childContainerView addSubview:self.childView];
         
-        [self setBackgroundColor:[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.9]];
+        [self setBackgroundColor:[UIColor ARISColorTextBackdrop]];
         
         if(t) [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapped:)]];
         if(d) [self addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanned:)]];

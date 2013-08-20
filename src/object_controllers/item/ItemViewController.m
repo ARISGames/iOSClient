@@ -24,6 +24,7 @@
 #import "ARISMoviePlayerViewController.h"
 #import "ARISMediaView.h"
 #import "ARISCollapseView.h"
+#import "UIColor+ARISColors.h"
 
 #import "InventoryViewController.h"
 
@@ -110,7 +111,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 {
     [super loadView];
     self.view.frame = viewFrame;
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor ARISColorContentBackdrop];
     
     if(self.item.itemType == ItemTypeWebPage && self.item.url && (![self.item.url isEqualToString: @"0"]) &&(![self.item.url isEqualToString:@""]))
     {
@@ -154,7 +155,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     backBtn.textAlignment = NSTextAlignmentCenter;
     backBtn.text = NSLocalizedString(@"ItemDropKey", @"");
     backBtn.text = @"Back";
-    backBtn.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.9];
+    backBtn.backgroundColor = [UIColor ARISColorTextBackdrop];
     [backBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backButtonTouched)]];
     [backBtn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
     
@@ -166,7 +167,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
             dropBtn.userInteractionEnabled = YES;
             dropBtn.textAlignment = NSTextAlignmentCenter;
             dropBtn.text = NSLocalizedString(@"ItemDropKey", @"");
-            dropBtn.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.9];
+            dropBtn.backgroundColor = [UIColor ARISColorTextBackdrop];
             if(item.destroyable)
                 dropBtn.frame = CGRectMake(self.view.bounds.size.width/3, self.view.bounds.size.height-44, self.view.bounds.size.width/3, 44);
             else
@@ -181,7 +182,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
             destroyBtn.userInteractionEnabled = YES;
             destroyBtn.textAlignment = NSTextAlignmentCenter;
             destroyBtn.text = NSLocalizedString(@"ItemDeleteKey",@"");
-            destroyBtn.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.9];
+            destroyBtn.backgroundColor = [UIColor ARISColorTextBackdrop];
             if(item.dropable)
                 destroyBtn.frame = CGRectMake(2*self.view.bounds.size.width/3, self.view.bounds.size.height-44, self.view.bounds.size.width/3, 44);
             else
@@ -204,7 +205,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         pickupBtn.userInteractionEnabled = YES;
         pickupBtn.textAlignment = NSTextAlignmentCenter;
         pickupBtn.text = NSLocalizedString(@"ItemPickupKey", @"");
-        [pickupBtn setBackgroundColor:[UIColor whiteColor]];
+        pickupBtn.backgroundColor = [UIColor ARISColorTextBackdrop];
         pickupBtn.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
         backBtn.frame   = CGRectMake(                            0, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
         [pickupBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pickupButtonTouched)]];

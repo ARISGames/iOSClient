@@ -12,69 +12,56 @@
 #import "ARISAppDelegate.h"
 #import "commentsViewController.h"
 #import "CommentsFormCell.h"
+#import "UIColor+ARISColors.h"
 
 @implementation commentsViewController
 @synthesize tableView;
 @synthesize game;
 @synthesize defaultRating;
 
-//Override init for passing title and icon to tab bar
-- (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
+- (id) initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
-    self = [super initWithNibName:nibName bundle:nibBundle];
-    if (self) {
+    if(self = [super initWithNibName:nibName bundle:nibBundle])
+    {
         self.title = NSLocalizedString(@"CommentsTitleKey", @"");
     }
     return self;
 }
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad
+- (void) viewDidLoad
 {
     [super viewDidLoad];
     defaultRating = 3;
 }
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void) viewDidAppear:(BOOL)animated
+{
 	[tableView reloadData];
 }
 
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning]; // Releases the view if it doesn't have a superview
-    // Release anything that's not essential, such as cached data
-}
-
-#pragma mark custom methods, logic
--(void)showLoadingIndicator{
-	UIActivityIndicatorView *activityIndicator = 
-	[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+- (void) showLoadingIndicator
+{
+	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
 	[[self navigationItem] setRightBarButtonItem:barButton];
 	[activityIndicator startAnimating];
 }
 
--(void)removeLoadingIndicator{
-	
-}
-
-- (void)refreshViewFromModel {
+- (void)refreshViewFromModel
+{
 	[tableView reloadData];
 }
 
-
-#pragma mark Table view methods
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return 1;
 }
 
-
-// Customize the number of rows in the table view.
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return [game.comments count] + 1;
 }
 
-// Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	static NSString *CellIdentifier = @"Cell";
@@ -87,16 +74,13 @@
         cell = tempCell;
     }
      */
-    if (indexPath.row == 0) {
+    if(indexPath.row == 0)
+    {
         UIViewController *temporaryController = [[UIViewController alloc] initWithNibName:@"CommentsFormCell" bundle:nil];
 		// Grab a pointer to the custom cell
 		cell = (CommentsFormCell *)temporaryController.view;
         //cell.userInteractionEnabled = NO;
-        cell.contentView.backgroundColor = [UIColor colorWithRed:200.0/255.0  
-                                                           green:200.0/255.0  
-                                                            blue:200.0/255.0  
-                                                           alpha:1.0];  
-		// Release the temporary UIViewController.
+        cell.contentView.backgroundColor = [UIColor ARISColorLightGray];  
         
         CommentsFormCell *commentsFormCell = (CommentsFormCell *)cell; 
         commentsFormCell.game = self.game;
@@ -172,19 +156,20 @@
 }
 
 
--(CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.row == 0) return 160;
-    else{
+- (CGFloat) tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	if(indexPath.row == 0) 
+        return 160;
+    else 
         return [self calculateTextHeight:((Comment *) [game.comments objectAtIndex:indexPath.row-1]).text]+30;
-    }
 }
 
--(void)addComment:(Comment *)comment{
-    if(!self.game.reviewedByUser){
-    self.game.numReviews += 1;
-    }
+- (void) addComment:(Comment *)comment
+{
+    if(!self.game.reviewedByUser) self.game.numReviews += 1;
     
-    for(int i = 0; i < game.comments.count; i++){
+    for(int i = 0; i < game.comments.count; i++)
+    {
         NSString *a = [((Comment *)[game.comments objectAtIndex:i]).playerName lowercaseString];
         NSString *b = [[AppModel sharedAppModel].player.username lowercaseString];
         NSLog(@"Compare %@ to %@", a, b);
@@ -197,7 +182,8 @@
     [game.comments addObject:comment];
 }
 
-- (int) calculateTextHeight:(NSString *)text {
+- (int) calculateTextHeight:(NSString *)text
+{
 	CGRect frame = CGRectMake(0, 0, self.view.bounds.size.width, 200000);
 	CGSize calcSize = [text sizeWithFont:[UIFont systemFontOfSize:18.0] constrainedToSize:frame.size lineBreakMode:NSLineBreakByWordWrapping];
 	frame.size = calcSize;
