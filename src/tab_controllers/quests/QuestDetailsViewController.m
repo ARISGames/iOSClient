@@ -20,7 +20,7 @@
     Quest *quest;
     ARISWebView *webView;
     
-    CGRect viewFrame;
+    BOOL hasAppeared;
     
     id<QuestDetailsViewControllerDelegate,StateControllerProtocol> __unsafe_unretained delegate;
 }
@@ -57,14 +57,15 @@ NSString *const kQuestDetailsHtmlTemplate =
 @synthesize webView;
 @synthesize webViewSpinner;
 
-- (id) initWithQuest:(Quest *)q delegate:(id<QuestDetailsViewControllerDelegate,StateControllerProtocol>)d frame:(CGRect)f;
+- (id) initWithQuest:(Quest *)q delegate:(id<QuestDetailsViewControllerDelegate,StateControllerProtocol>)d;
 {
     if(self = [super init])
     {
         self.quest = q;
-        viewFrame = f;
         delegate = d;
         self.hidesBottomBarWhenPushed = YES;
+        
+        hasAppeared = NO;
     }
     return self;
 }
@@ -72,7 +73,17 @@ NSString *const kQuestDetailsHtmlTemplate =
 - (void) loadView
 {
     [super loadView];
-    self.view.frame = viewFrame;
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if(!hasAppeared) [self viewWillAppearFirstTime];
+}
+
+- (void) viewWillAppearFirstTime
+{
+    hasAppeared = YES;
 
     self.view.backgroundColor = [UIColor ARISColorOffWhite];
     self.title = self.quest.name;

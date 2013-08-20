@@ -9,16 +9,62 @@
 #import "NpcOptionsViewController.h"
 #import "NpcScriptOption.h"
 #import "ARISMediaView.h"
+#import "ARISCollapseView.h"
+#import "ARISWebView.h"
 #import "AppModel.h"
 #import "AppServices.h"
 #import "UIColor+ARISColors.h"
+#import "StateControllerProtocol.h"
 
-const NSInteger kOptionsFontSize = 17;
+NSString *const kDialogOptionHtmlTemplate =
+@"<html>"
+@"<head>"
+@"	<title>Aris</title>"
+@"	<style type='text/css'><!--"
+@"	html { margin:0; padding:0; }"
+@"	body {"
+@"		font-size:19px;"
+@"		font-family:Helvetia, Sans-Serif;"
+@"      margin:0;"
+@"      padding:10;"
+@"	}"
+@"	div {"
+@"      margin:0;"
+@"      padding:0;"
+@"	}"
+@"	--></style>"
+@"</head>"
+@"<body>%@</body>"
+@"</html>";
 
-@interface NpcOptionsViewController() <ARISMediaViewDelegate, UITableViewDataSource, UITableViewDelegate>
+NSString *const kDialogViewedOptionHtmlTemplate =
+@"<html>"
+@"<head>"
+@"	<title>Aris</title>"
+@"	<style type='text/css'><!--"
+@"	html { margin:0; padding:0; }"
+@"	body {"
+@"		font-size:19px;"
+@"		font-family:Helvetia, Sans-Serif;"
+@"      color:#444444;"
+@"      margin:0;"
+@"      padding:10;"
+@"	}"
+@"	div {"
+@"      margin:0;"
+@"      padding:0;"
+@"	}"
+@"	--></style>"
+@"</head>"
+@"<body>%@</body>"
+@"</html>";
+
+@interface NpcOptionsViewController() <ARISMediaViewDelegate, ARISCollapseViewDelegate, ARISWebViewDelegate, UIWebViewDelegate, StateControllerProtocol>
 {
     ARISMediaView *mediaView;
-    UITableView *optionsTableView;
+    
+    ARISCollapseView *optionsCollapseView;
+    UIScrollView *optionsScrollView;
     UIActivityIndicatorView *loadingIndicator;
     
 	NSArray *optionList;
@@ -35,7 +81,8 @@ const NSInteger kOptionsFontSize = 17;
 }
 
 @property (nonatomic, strong) ARISMediaView *mediaView;
-@property (nonatomic, strong) UITableView *optionsTableView;
+@property (nonatomic, strong) ARISCollapseView *optionsCollapseView;
+@property (nonatomic, strong) UIScrollView *optionsScrollView;
 @property (nonatomic, strong) UIActivityIndicatorView *loadingIndicator;
 
 @property (nonatomic, strong) NSArray *optionList;
@@ -49,7 +96,8 @@ const NSInteger kOptionsFontSize = 17;
 @implementation NpcOptionsViewController
 
 @synthesize mediaView;
-@synthesize optionsTableView;
+@synthesize optionsCollapseView;
+@synthesize optionsScrollView;
 @synthesize loadingIndicator;
 @synthesize optionList;
 @synthesize playerTitle;
@@ -78,6 +126,7 @@ const NSInteger kOptionsFontSize = 17;
      
     self.view.frame = viewFrame;
     self.view.bounds = CGRectMake(0,0,viewFrame.size.width,viewFrame.size.height);
+    self.view.backgroundColor = [UIColor whiteColor];
     
     Media *pcMedia = 0;
     if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId ofType:nil];
@@ -85,17 +134,23 @@ const NSInteger kOptionsFontSize = 17;
     
     if(pcMedia) self.mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds media:pcMedia                                    mode:ARISMediaDisplayModeTopAlignAspectFitWidth delegate:self];
     else        self.mediaView = [[ARISMediaView alloc] initWithFrame:self.view.bounds image:[UIImage imageNamed:@"DefaultPCImage.png"] mode:ARISMediaDisplayModeTopAlignAspectFitWidth delegate:self];
+    [self.mediaView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToOptions:)]];
     
-    self.optionsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-128, self.view.bounds.size.width, 128) style:UITableViewStyleGrouped];
-    self.optionsTableView.opaque = NO;
-    self.optionsTableView.backgroundView = nil;
-    self.optionsTableView.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.75f];
-    self.optionsTableView.scrollEnabled = YES;
-    self.optionsTableView.dataSource = self;
-    self.optionsTableView.delegate = self;
+    self.optionsScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 128)];
+    self.optionsScrollView.userInteractionEnabled = YES;
+    self.optionsScrollView.opaque = NO;
+    self.optionsScrollView.scrollEnabled = YES;
+    self.optionsScrollView.bounces = NO;
+    
+    self.optionsCollapseView = [[ARISCollapseView alloc] initWithView:self.optionsScrollView frame:CGRectMake(0, self.view.bounds.size.height-128, self.view.bounds.size.width, 128) open:YES showHandle:YES draggable:YES tappable:YES delegate:self];
     
     [self.view addSubview:self.mediaView];
-    [self.view addSubview:self.optionsTableView];
+    [self.view addSubview:self.optionsCollapseView];
+}
+
+- (void) passTapToOptions:(UITapGestureRecognizer *)r
+{
+    [self.optionsCollapseView handleTapped:r];
 }
 
 - (void) loadOptionsForNpc:(Npc *)n afterViewingOption:(NpcScriptOption *)o
@@ -113,8 +168,96 @@ const NSInteger kOptionsFontSize = 17;
 
 - (void) showPlayerOptions:(NSArray *)options
 {
+    while([[self.optionsScrollView subviews] count] > 0)
+        [[[self.optionsScrollView subviews] objectAtIndex:0] removeFromSuperview];
+    
     self.optionList = [options sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"hasViewed" ascending:YES]]];
-    [self.optionsTableView reloadData];
+    UIView *cell;
+    ARISWebView * text;
+    UILabel *arrow;
+    CGRect cellFrame;
+    CGRect textFrame;
+    CGRect arrowFrame;
+    for(int i = 0; i < [self.optionList count]; i++)
+    {
+        cellFrame = CGRectMake(0, 43*i, self.view.bounds.size.width, 43);
+        cell = [[UIView alloc] initWithFrame:cellFrame];
+        [cell addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(optionSelected:)]];
+        cell.tag = i;
+        
+        textFrame = cellFrame;
+        textFrame.origin.y = 0;
+        textFrame.size.width -= 30;
+        text = [[ARISWebView alloc] initWithFrame:textFrame delegate:self];
+        text.userInteractionEnabled = NO;
+        text.scrollView.scrollEnabled = NO;
+        text.scrollView.bounces = NO;
+        text.backgroundColor = [UIColor clearColor];
+        text.opaque = NO;
+        NpcScriptOption *option = [optionList objectAtIndex:i];
+        //if(option.hasViewed) cell.textLabel.textColor = [UIColor ARISColorLightGrey];
+        if(option.hasViewed)
+            [text loadHTMLString:[NSString stringWithFormat:kDialogViewedOptionHtmlTemplate, option.optionText] baseURL:nil];
+        else
+            [text loadHTMLString:[NSString stringWithFormat:kDialogOptionHtmlTemplate, option.optionText] baseURL:nil];
+        
+        arrowFrame = textFrame;
+        arrowFrame.origin.x = textFrame.size.width;
+        arrowFrame.size.width = cellFrame.size.width-textFrame.size.width;
+        arrow = [[UILabel alloc] initWithFrame:arrowFrame];
+        arrow.font = [UIFont fontWithName:@"Helvetica" size:19];
+        arrow.textAlignment = NSTextAlignmentCenter;
+        arrow.text = @">";
+        
+        [cell addSubview:text];
+        [cell addSubview:arrow];
+        [self.optionsScrollView addSubview:cell];
+    }
+    
+    if(!self.currentlyHidingLeaveConversationButton)
+    {
+        cellFrame = CGRectMake(0, 43*[self.optionList count], self.view.bounds.size.width, 43);
+        cell = [[UIView alloc] initWithFrame:cellFrame];
+        [cell addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(optionSelected:)]];
+        
+        textFrame = cellFrame;
+        textFrame.origin.y = 0;
+        textFrame.size.width -= 30;
+        text = [[ARISWebView alloc] initWithFrame:textFrame delegate:self];
+        text.userInteractionEnabled = NO;
+        text.scrollView.scrollEnabled = NO;
+        text.scrollView.bounces = NO;
+        text.backgroundColor = [UIColor clearColor];
+        text.opaque = NO;
+        cell.tag = -1;
+        [text loadHTMLString:[NSString stringWithFormat:kDialogOptionHtmlTemplate, self.currentLeaveConversationTitle] baseURL:nil];
+        
+        [cell addSubview:text];
+        [self.optionsScrollView addSubview:cell];
+    }
+    
+    cellFrame = CGRectMake(0, 43*([self.optionList count]+(!self.currentlyHidingLeaveConversationButton)), self.view.bounds.size.width, 40);
+    cell = [[UIView alloc] initWithFrame:cellFrame];
+    
+    textFrame = cellFrame;
+    textFrame.origin.y = 0;
+    textFrame.size.width -= 30;
+    text = [[ARISWebView alloc] initWithFrame:textFrame delegate:self];
+    text.delegate = self;
+    text.userInteractionEnabled = YES; //to disallow clicks percolating through
+    text.scrollView.scrollEnabled = NO;
+    text.scrollView.bounces = NO;
+    text.backgroundColor = [UIColor clearColor];
+    text.opaque = NO;
+    [text loadHTMLString:[NSString stringWithFormat:kDialogOptionHtmlTemplate, @"<div style=\"color:#444444; font-size:14px; text-align:center;\">Make a Selection</div>"] baseURL:nil];
+    
+    [cell addSubview:text];
+    [self.optionsScrollView addSubview:cell];
+    
+    CGFloat newHeight = 43*[self.optionList count]+(43*(1+(!self.currentlyHidingLeaveConversationButton)));
+    self.optionsScrollView.frame = CGRectMake(0, 0, self.optionsScrollView.frame.size.width, newHeight);
+    self.optionsScrollView.contentSize = CGSizeMake(self.optionsScrollView.frame.size.width, newHeight);
+    [self.optionsCollapseView setOpenFrameHeight:newHeight+10];
 }
 
 - (void) showWaitingIndicatorForPlayerOptions
@@ -122,10 +265,10 @@ const NSInteger kOptionsFontSize = 17;
     if(!self.loadingIndicator)
     {
         self.loadingIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-        self.loadingIndicator.center = self.optionsTableView.center;
+        self.loadingIndicator.center = self.optionsScrollView.center;
     }
-    self.optionsTableView.hidden = YES;
-    [self.optionsTableView addSubview:self.loadingIndicator];
+    self.optionsScrollView.hidden = YES;
+    [self.optionsScrollView addSubview:self.loadingIndicator];
     [self.loadingIndicator startAnimating];
 }
 
@@ -133,73 +276,49 @@ const NSInteger kOptionsFontSize = 17;
 {
     [self.loadingIndicator removeFromSuperview];
 	[self.loadingIndicator stopAnimating];
-    self.optionsTableView.hidden = NO;
+    self.optionsScrollView.hidden = NO;
 }
 
-- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
+- (void) ARISWebViewRequestsRefresh:(ARISWebView *)awv
 {
-    int sections = 0;
-    if([self.optionList count] > 0)             sections++;
-    if(!currentlyHidingLeaveConversationButton) sections++;
-    return sections;
-}
-
-- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-	if(section == 0 && [optionList count] > 0)
-        return [optionList count];
-	return 1;
-}
-
-- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	UITableViewCell *cell = [self.optionsTableView dequeueReusableCellWithIdentifier:@"Dialog"];
-	if (!cell) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Dialog"];
     
-    cell.backgroundColor         = [UIColor ARISColorLightGrey];
-    cell.textLabel.textColor     = [UIColor ARISColorDarkBlue];
-    cell.textLabel.font          = [UIFont boldSystemFontOfSize:kOptionsFontSize];
-    cell.textLabel.textAlignment = NSTextAlignmentCenter;
-    cell.textLabel.numberOfLines = 0;
+}
 
-    [cell.textLabel setLineBreakMode:NSLineBreakByWordWrapping];
-	if(indexPath.section == 0 && [optionList count] > 0)
+- (void) ARISWebViewRequestsDismissal:(ARISWebView *)awv
+{
+    
+}
+
+- (void) webViewDidFinishLoad:(UIWebView *)webView
+{
+    float newHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
+    float newOffset = 0.0;
+    for(int i = 0; i < [[self.optionsScrollView subviews] count]; i++)
     {
-		NpcScriptOption *option = [optionList objectAtIndex:indexPath.row];
-        if(option.hasViewed)
+        CGRect superFrame = ((UIView *)[[self.optionsScrollView subviews] objectAtIndex:i]).frame;
+        superFrame.origin.y += newOffset;
+        ((UIView *)[[self.optionsScrollView subviews] objectAtIndex:i]).frame = superFrame;
+        if([[self.optionsScrollView subviews] objectAtIndex:i] == [webView superview])
         {
-            cell.backgroundColor     = [UIColor ARISColorLightGrey];
-            cell.textLabel.textColor = [UIColor ARISColorLighBlue];
+            newOffset = newHeight - webView.superview.frame.size.height;
+            webView.frame             = CGRectMake(0,                               0,          webView.frame.size.width,newHeight);
+            [webView superview].frame = CGRectMake(0,webView.superview.frame.origin.y,webView.superview.frame.size.width,newHeight);
         }
-        cell.textLabel.text = option.optionText;
-	}
-	else
-		cell.textLabel.text = self.currentLeaveConversationTitle;
-    
-	[cell.textLabel sizeToFit]; 
-
-	return cell;
+    }
+    CGRect newFrame = self.optionsScrollView.frame;
+    newFrame.size.height += newOffset;
+    self.optionsScrollView.frame = newFrame;
+    self.optionsScrollView.contentSize = CGSizeMake(newFrame.size.width, newFrame.size.height);
+    [self.optionsCollapseView setOpenFrameHeight:self.optionsScrollView.frame.size.height+10];
 }
 
-- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (void) optionSelected:(UITapGestureRecognizer *)r
 {
-	if(indexPath.section == 1 || [optionList count] == 0) return 45; //Leave conversation button
-
-	NpcScriptOption *option = [optionList objectAtIndex:indexPath.row];
-
-    CGSize maximumLabelSize = CGSizeMake([UIScreen mainScreen].bounds.size.width - 50,9999);
-    CGSize expectedLabelSize = [option.optionText sizeWithFont:[UIFont boldSystemFontOfSize:kOptionsFontSize] constrainedToSize:maximumLabelSize lineBreakMode:NSLineBreakByWordWrapping];
-	
-	return expectedLabelSize.height+25;
-}
-
-- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{    
-	if(indexPath.section == 1 || [optionList count] == 0)
+	if(r.view.tag == -1)
         [delegate leaveConversationRequested];
     else
     {
-        NpcScriptOption *selectedOption = [optionList objectAtIndex:[indexPath row]];
+        NpcScriptOption *selectedOption = [optionList objectAtIndex:r.view.tag];
         selectedOption.scriptText = [[AppModel sharedAppModel] nodeForNodeId:selectedOption.nodeId].text;
         [delegate optionChosen:selectedOption];
     }
@@ -224,7 +343,7 @@ const NSInteger kOptionsFontSize = 17;
     
 	[UIView beginAnimations:@"toggleTextSize" context:nil];
 	[UIView setAnimationDuration:0.5];
-	self.optionsTableView.frame  = newFrame;
+	self.optionsScrollView.frame  = newFrame;
 	[UIView commitAnimations];
 }
 
@@ -246,6 +365,20 @@ const NSInteger kOptionsFontSize = 17;
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv
 {
     //No need to do anything
+}
+
+- (void) displayScannerWithPrompt:(NSString *)p
+{
+    
+}
+
+- (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
+{
+    return NO;
+}
+
+- (void) displayTab:(NSString *)t
+{
 }
 
 @end

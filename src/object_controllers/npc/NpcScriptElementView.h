@@ -15,6 +15,7 @@
 - (void) scriptElementViewRequestsTitle:(NSString *)t;
 - (void) scriptElementViewRequestsHideTextAdjust:(BOOL)h;
 - (void) scriptElementViewRequestsTextBoxArea:(NSString *)a;
+- (void) scriptElementViewRequestsHideContinue:(BOOL)h;
 @end
 @interface NpcScriptElementView : UIView
 - (id) initWithFrame:(CGRect)f media:(Media *)m   title:(NSString *)t delegate:(id)d;

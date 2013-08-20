@@ -118,6 +118,11 @@
         [self clear];
         [delegate ARISWebViewRequestsDismissal:self];
     }
+    else if([mainCommand isEqualToString:@"leaveButton"])
+    {
+        if([components count] > 1 && [[components objectAtIndex:1] isEqualToString:@"disable"])
+            [delegate ARISWebViewRequestsHideButton:self];
+    }
     else if([mainCommand isEqualToString:@"exitTo"])
     {
         [self clear];

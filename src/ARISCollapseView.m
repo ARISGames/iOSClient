@@ -7,7 +7,6 @@
 //
 
 #import "ARISCollapseView.h"
-#import "ARISAppDelegate.h"
 
 @interface ARISCollapseView()
 {
@@ -16,6 +15,7 @@
     UIView *childView;
     CGRect openFrame;
     CGRect dragStartFrame;
+    int handleShowing;
     
     id<ARISCollapseViewDelegate> __unsafe_unretained delegate;
 }
@@ -29,65 +29,85 @@
 @synthesize childContainerView;
 @synthesize childView;
 
-- (id) initWithView:(UIView *)v frame:(CGRect)f open:(BOOL)o delegate:(id<ARISCollapseViewDelegate>)d
+- (id) initWithView:(UIView *)v frame:(CGRect)f open:(BOOL)o showHandle:(BOOL)h draggable:(BOOL)d tappable:(BOOL)t delegate:(id<ARISCollapseViewDelegate>)del
 {
-    if(f.size.height < 10) { f.origin.y-=(10-f.size.height); f.size.height = 10; }
     if(self = [super initWithFrame:f])
     {
-        if(!o) self.frame = CGRectMake(f.origin.x, f.origin.y+f.size.height-10, f.size.width, 10);
+        openFrame = [self morphFrame:f];
         
+        handleShowing = h ? 1 : 0;
+        
+        if(!o) self.frame = CGRectMake(openFrame.origin.x, openFrame.origin.y+openFrame.size.height-(20+10*handleShowing), f.size.width, (20+10*handleShowing));
+            
         self.userInteractionEnabled = YES;
         self.clipsToBounds = YES;
-        openFrame = f;
-        self.handle = [[UIView alloc] initWithFrame:CGRectMake(0,0,f.size.width,10)];
-        UILabel *dots = [[UILabel alloc] initWithFrame:CGRectMake(0, -15, f.size.width, 20)];
-        dots.backgroundColor = [UIColor clearColor];
-        dots.textColor = [UIColor whiteColor];
-        dots.font = [UIFont fontWithName:@"Helvetica" size:30];
-        dots.textAlignment = NSTextAlignmentCenter;
-        dots.text = @"...";
-        [self.handle addSubview:dots];
-        self.childContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, 10, f.size.width, f.size.height-10)];
+        
+        if(h)
+        {
+            self.handle = [[UIView alloc] initWithFrame:CGRectMake(0,20,f.size.width,10)];
+            UILabel *dots = [[UILabel alloc] initWithFrame:CGRectMake(0, -15, f.size.width, 20)];
+            dots.backgroundColor = [UIColor clearColor];
+            dots.textColor = [UIColor grayColor];
+            dots.font = [UIFont fontWithName:@"Helvetica" size:30];
+            dots.textAlignment = NSTextAlignmentCenter;
+            dots.text = @"...";
+            [self.handle addSubview:dots];
+            [self addSubview:self.handle];
+        }
+            
+        self.childContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, (20+10*handleShowing), openFrame.size.width, openFrame.size.height-(20+10*handleShowing))];
+        self.childContainerView.userInteractionEnabled = YES;
         self.childView = v;
         self.childView.frame = self.childContainerView.bounds;
-        [self addSubview:self.handle];
         [self addSubview:self.childContainerView];
         [self.childContainerView addSubview:self.childView];
         
-        [self.handle addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapped)]];
-        [self.handle addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanned:)]];
-        self.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5];
-        delegate = d;
+        [self setBackgroundColor:[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.9]];
+        
+        if(t) [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapped:)]];
+        if(d) [self addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanned:)]];
+        
+        delegate = del;
     }
     return self;
 }
 
+- (CGRect) morphFrame:(CGRect)f
+{
+    if(handleShowing && f.size.height < 10) { f.origin.y-=(10-f.size.height); f.size.height = 10; }
+    
+    //touch area buffer
+    f.size.height += 20;
+    f.origin.y    -= 20;
+    return f;
+}
+    
 - (void) setOpenFrame:(CGRect)f
 {
-    if(f.size.height < 10) f.size.height = 10;
-    openFrame = f;
-    self.childContainerView.frame = CGRectMake(0, 10, f.size.width, f.size.height-10);
-    if(self.frame.size.height != 10) [self open];
+    openFrame = [self morphFrame:f];
+    
+    if(self.frame.size.height != (20+10*handleShowing)) [self open];
+    else                                                [self close];
 }
 
 - (void) setOpenFrameHeight:(CGFloat)h
 {
-    if(h < 10) h = 10;
-    [self setOpenFrame:CGRectMake(openFrame.origin.x, openFrame.origin.y+openFrame.size.height-h, openFrame.size.width, h)];
+    [self setOpenFrame:CGRectMake(openFrame.origin.x, self.frame.origin.y+self.frame.size.height-h, openFrame.size.width, h)];
 }
 
-- (void) handleTapped
+- (void) handleTapped:(UITapGestureRecognizer *)g
 {
-    if(self.frame.size.height == 10) [self open];
-    else                             [self close];
+    if(self.frame.size.height == (20+10*handleShowing)) [self open];
+    else                                                [self close];
 }
 
 - (void) handlePanned:(UIPanGestureRecognizer *)g
 {
-    if(g.state == UIGestureRecognizerStateBegan) dragStartFrame = self.frame;
+    if(g.state == UIGestureRecognizerStateBegan) 
+        dragStartFrame = self.frame;
     else if(g.state == UIGestureRecognizerStateEnded)
     {
-        if(openFrame.size.height-self.frame.size.height < self.frame.size.height-10)
+        if(openFrame.size.height-self.frame.size.height < self.frame.size.height-(20+10*handleShowing))
             [self open];
         else
             [self close];
@@ -95,34 +115,39 @@
     else
     {
         CGFloat drag = [g translationInView:self].y;
-        if(dragStartFrame.origin.y+drag < openFrame.origin.y) drag = openFrame.origin.y - dragStartFrame.origin.y;
-        if(dragStartFrame.size.height-drag < 10) drag = dragStartFrame.size.height - 10;
+        if(dragStartFrame.origin.y+drag < openFrame.origin.y)       drag = openFrame.origin.y - dragStartFrame.origin.y;
+        if(dragStartFrame.size.height-drag < (20+10*handleShowing)) drag = dragStartFrame.size.height - (20+10*handleShowing);
         
         self.frame = CGRectMake(dragStartFrame.origin.x, dragStartFrame.origin.y+drag, dragStartFrame.size.width, dragStartFrame.size.height-drag);
-        self.childContainerView.frame = CGRectMake(0, 10, dragStartFrame.size.width, dragStartFrame.size.height-drag-10);
     }
 }
 
 - (void) open
 {
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
+    if([(NSObject *)delegate respondsToSelector:@selector(collapseView:didStartOpen:)]) [delegate collapseView:self didStartOpen:YES];
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView setAnimationDuration:.1];
-     self.frame = openFrame;
+    self.frame = openFrame;
+    self.childContainerView.frame = CGRectMake(0, (20+10*handleShowing), openFrame.size.width, openFrame.size.height-(20+10*handleShowing));
     [UIView commitAnimations];
 }
 
 - (void) close
 {
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate playAudioAlert:@"swish" shouldVibrate:NO];
+    if([(NSObject *)delegate respondsToSelector:@selector(collapseView:didStartOpen:)]) [delegate collapseView:self didStartOpen:NO];
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView setAnimationDuration:.1];
-    self.frame = CGRectMake(openFrame.origin.x, openFrame.origin.y+openFrame.size.height-10, openFrame.size.width, 10);
+    self.frame = CGRectMake(openFrame.origin.x, openFrame.origin.y+openFrame.size.height-(20+10*handleShowing), openFrame.size.width, (20+10*handleShowing));
+    self.childContainerView.frame = CGRectMake(0, (20+10*handleShowing), openFrame.size.width, openFrame.size.height-(20+10*handleShowing));
     [UIView commitAnimations];
+}
+
+- (void) setBackgroundColor:(UIColor *)backgroundColor
+{
+    self.handle.backgroundColor             = backgroundColor;
+    self.childContainerView.backgroundColor = backgroundColor;
 }
 
 @end

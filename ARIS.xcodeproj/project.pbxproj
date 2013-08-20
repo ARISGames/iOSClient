@@ -501,10 +501,7 @@
 		AABC75001728600B0074CC21 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC74FE1728600B0074CC21 /* MapViewController.m */; };
 		AABC75011728600B0074CC21 /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC74FF1728600B0074CC21 /* MapViewController.xib */; };
 		AABC75051728604E0074CC21 /* WebPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC75031728604E0074CC21 /* WebPageViewController.m */; };
-		AABC75061728604E0074CC21 /* WebPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC75041728604E0074CC21 /* WebPageViewController.xib */; };
 		AABC750A172860690074CC21 /* NpcViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7508172860690074CC21 /* NpcViewController.m */; };
-		AABC750B172860690074CC21 /* NpcViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7509172860690074CC21 /* NpcViewController.xib */; };
-		AABC750D172860760074CC21 /* NodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC750C172860760074CC21 /* NodeViewController.xib */; };
 		AABC7511172860860074CC21 /* ItemActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC750F172860860074CC21 /* ItemActionViewController.m */; };
 		AABC7512172860860074CC21 /* ItemActionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7510172860860074CC21 /* ItemActionViewController.xib */; };
 		AABC7519172873510074CC21 /* ItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7517172873510074CC21 /* ItemViewController.m */; };
@@ -564,7 +561,6 @@
 		11BE779E13B0FCC7000D037B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		11BE77A613B26515000D037B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		25C63D5D17BE695C003D540C /* ARIS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ARIS.entitlements; sourceTree = "<group>"; };
 		3AB24ACA152B8CE500B49876 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		4AD5C40714E0661E00081B20 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		5B1D9980178CC3A700661453 /* 05-shuffle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "05-shuffle.png"; sourceTree = "<group>"; };
@@ -1299,11 +1295,8 @@
 		AABC74FF1728600B0074CC21 /* MapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapViewController.xib; sourceTree = "<group>"; };
 		AABC75021728604E0074CC21 /* WebPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPageViewController.h; sourceTree = "<group>"; };
 		AABC75031728604E0074CC21 /* WebPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebPageViewController.m; sourceTree = "<group>"; };
-		AABC75041728604E0074CC21 /* WebPageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebPageViewController.xib; sourceTree = "<group>"; };
 		AABC7507172860690074CC21 /* NpcViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NpcViewController.h; sourceTree = "<group>"; };
 		AABC7508172860690074CC21 /* NpcViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NpcViewController.m; sourceTree = "<group>"; };
-		AABC7509172860690074CC21 /* NpcViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NpcViewController.xib; sourceTree = "<group>"; };
-		AABC750C172860760074CC21 /* NodeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NodeViewController.xib; sourceTree = "<group>"; };
 		AABC750E172860860074CC21 /* ItemActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemActionViewController.h; sourceTree = "<group>"; };
 		AABC750F172860860074CC21 /* ItemActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemActionViewController.m; sourceTree = "<group>"; };
 		AABC7510172860860074CC21 /* ItemActionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemActionViewController.xib; sourceTree = "<group>"; };
@@ -1395,7 +1388,6 @@
 		29B97314FDCFA39411CA2CEA /* ARIS */ = {
 			isa = PBXGroup;
 			children = (
-				25C63D5D17BE695C003D540C /* ARIS.entitlements */,
 				AABC74E317273A0F0074CC21 /* Info.plist */,
 				AB0A5BA3120365420065CE68 /* Localizable.strings */,
 				AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */,
@@ -2143,7 +2135,6 @@
 		AABC70F6172739D60074CC21 /* node */ = {
 			isa = PBXGroup;
 			children = (
-				AABC750C172860760074CC21 /* NodeViewController.xib */,
 				AABC70F8172739D60074CC21 /* NodeViewController.h */,
 				AABC70F9172739D60074CC21 /* NodeViewController.m */,
 			);
@@ -2155,7 +2146,6 @@
 			children = (
 				AABC7507172860690074CC21 /* NpcViewController.h */,
 				AABC7508172860690074CC21 /* NpcViewController.m */,
-				AABC7509172860690074CC21 /* NpcViewController.xib */,
 				AA0D807B17B011FE0002A81C /* NpcOptionsViewController.h */,
 				AA0D807C17B011FE0002A81C /* NpcOptionsViewController.m */,
 				AA0D807E17B015A00002A81C /* NpcScriptViewController.h */,
@@ -2187,7 +2177,6 @@
 			children = (
 				AABC75021728604E0074CC21 /* WebPageViewController.h */,
 				AABC75031728604E0074CC21 /* WebPageViewController.m */,
-				AABC75041728604E0074CC21 /* WebPageViewController.xib */,
 			);
 			path = webpage;
 			sourceTree = "<group>";
@@ -2953,9 +2942,6 @@
 				AABC74FA17285FE00074CC21 /* InventoryViewController.xib in Resources */,
 				AABC74FC17285FF70074CC21 /* QuestsViewController.xib in Resources */,
 				AABC75011728600B0074CC21 /* MapViewController.xib in Resources */,
-				AABC75061728604E0074CC21 /* WebPageViewController.xib in Resources */,
-				AABC750B172860690074CC21 /* NpcViewController.xib in Resources */,
-				AABC750D172860760074CC21 /* NodeViewController.xib in Resources */,
 				AABC7512172860860074CC21 /* ItemActionViewController.xib in Resources */,
 				AA50A484173992F500B105C2 /* 123-id-card-white@2x.png in Resources */,
 				AA50A485173992F500B105C2 /* 123-id-card-white.png in Resources */,
@@ -3315,10 +3301,10 @@
 					armv7,
 					armv6,
 				);
-				"ARCHS[sdk=iphonesimulator*]" = i386;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Philip Dougherty (BUGLD6V3A5)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Philip Dougherty (BUGLD6V3A5)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -3348,11 +3334,12 @@
 					"-v",
 				);
 				PRODUCT_NAME = ARIS;
+				PROVISIONING_PROFILE = "1D27C132-A7AD-4EBC-9963-8C2900AB83FA";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1D27C132-A7AD-4EBC-9963-8C2900AB83FA";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
-				VALID_ARCHS = "armv7 armv7s i386";
 			};
 			name = Debug;
 		};
@@ -3386,10 +3373,10 @@
 					armv7,
 					armv6,
 				);
-				"ARCHS[sdk=iphonesimulator*]" = i386;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: UW Division of Information Technology";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3417,12 +3404,12 @@
 					"-v",
 				);
 				PRODUCT_NAME = ARIS;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8411B94E-1D39-4C3D-8623-5C178280CE7B";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
-				VALID_ARCHS = "armv7 armv7s i386";
 			};
 			name = Release;
 		};

@@ -27,16 +27,18 @@
 
 #import "InventoryViewController.h"
 
-NSString *const kItemDetailsDescriptionHtmlTemplate = 
+NSString *const kItemDetailsDescriptionHtmlTemplate =
 @"<html>"
 @"<head>"
 @"	<title>Aris</title>"
 @"	<style type='text/css'><!--"
+@"  html { margin:0; padding:0; }"
 @"	body {"
-@"		color: #FFFFFF;"
-@"		font-size: 17px;"
+@"		font-size: 19px;"
 @"		font-family: Helvetia, Sans-Serif;"
-@"      a:link {COLOR: #0000FF;}"
+@"      text-align: center;"
+@"      margin:0;"
+@"      padding:10;"
 @"	}"
 @"	--></style>"
 @"</head>"
@@ -48,10 +50,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 	//ARISMoviePlayerViewController *mMoviePlayer; //only used if item is a video
 	MPMoviePlayerViewController *mMoviePlayer; //only used if item is a video
     
-    UIButton *backBtn;
-    UIButton *dropBtn;
-    UIButton *destroyBtn;
-    UIButton *pickupBtn;
+    UILabel *backBtn;
+    UILabel *dropBtn;
+    UILabel *destroyBtn;
+    UILabel *pickupBtn;
     
 	ARISMediaView *itemImageView;
     ARISWebView *itemWebView;
@@ -108,66 +110,11 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 {
     [super loadView];
     self.view.frame = viewFrame;
-    
-    backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [backBtn setTitle:NSLocalizedString(@"ItemDropKey", @"") forState:UIControlStateNormal];
-    [backBtn setTitle:@"Back" forState:UIControlStateNormal];
-    [backBtn setBackgroundColor:[UIColor whiteColor]];
-    [backBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    [backBtn addTarget:self action:@selector(backButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-    
-	if([(NSObject *)source isKindOfClass:[InventoryViewController class]] == YES)
-    {
-        if(item.dropable)
-        {
-            dropBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            [dropBtn setTitle:NSLocalizedString(@"ItemDropKey", @"") forState:UIControlStateNormal];
-            [dropBtn setBackgroundColor:[UIColor whiteColor]];
-            [dropBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-            if(item.destroyable)
-                dropBtn.frame = CGRectMake(self.view.bounds.size.width/3, self.view.bounds.size.height-44, self.view.bounds.size.width/3, 44);
-            else
-                dropBtn.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
-            [dropBtn addTarget:self action:@selector(dropButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-            [self.view addSubview:dropBtn];
-        }
-        if(item.destroyable)
-        {
-            destroyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            [destroyBtn setTitle:NSLocalizedString(@"ItemDeleteKey",@"") forState:UIControlStateNormal];
-            [destroyBtn setBackgroundColor:[UIColor whiteColor]];
-            [destroyBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-            if(item.dropable)
-                destroyBtn.frame = CGRectMake(2*self.view.bounds.size.width/3, self.view.bounds.size.height-44, self.view.bounds.size.width/3, 44);
-            else
-                destroyBtn.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
-            [dropBtn addTarget:self action:@selector(destroyButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-            [self.view addSubview:destroyBtn];
-        }
-        
-        if(item.dropable && item.destroyable)
-            backBtn.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width/3, 44);
-        else if(item.dropable || item.destroyable)
-            backBtn.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
-        else 
-            backBtn.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
-	}
-	else
-    {
-        pickupBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [pickupBtn setTitle:NSLocalizedString(@"ItemPickupKey", @"") forState:UIControlStateNormal];
-        [pickupBtn setBackgroundColor:[UIColor whiteColor]];
-        [pickupBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-        pickupBtn.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
-        backBtn.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
-        [pickupBtn addTarget:self action:@selector(pickupButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:pickupBtn];
-	}
-    [self.view addSubview:backBtn];
+    self.view.backgroundColor = [UIColor whiteColor];
     
     if(self.item.itemType == ItemTypeWebPage && self.item.url && (![self.item.url isEqualToString: @"0"]) &&(![self.item.url isEqualToString:@""]))
     {
-        self.itemWebView = [[ARISWebView alloc] initWithFrame:CGRectMake(0, 0, viewFrame.size.width, viewFrame.size.height-44) delegate:self];
+        self.itemWebView = [[ARISWebView alloc] initWithFrame:CGRectMake(0, 0, viewFrame.size.width, viewFrame.size.height) delegate:self];
         self.itemWebView.hidden = YES;
         self.itemWebView.allowsInlineMediaPlayback = YES;
         self.itemWebView.mediaPlaybackRequiresUserAction = NO;
@@ -191,6 +138,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         {
             self.itemImageView = [[ARISMediaView alloc] initWithFrame:self.scrollView.frame media:media mode:ARISMediaDisplayModeAspectFit delegate:self];
             [self.scrollView addSubview:self.itemImageView];
+            [self.scrollView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToDescription:)]];
         }
         else if(([media.type isEqualToString:@"VIDEO"] || [media.type isEqualToString:@"AUDIO"]) && media.url)
         {        
@@ -201,18 +149,94 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         [self.view addSubview:self.scrollView];
     }
     
+    backBtn = [[UILabel alloc] init];
+    backBtn.userInteractionEnabled = YES;
+    backBtn.textAlignment = NSTextAlignmentCenter;
+    backBtn.text = NSLocalizedString(@"ItemDropKey", @"");
+    backBtn.text = @"Back";
+    backBtn.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.9];
+    [backBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backButtonTouched)]];
+    [backBtn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
+    
+	if([(NSObject *)source isKindOfClass:[InventoryViewController class]] == YES)
+    {
+        if(item.dropable)
+        {
+            dropBtn = [[UILabel alloc] init];
+            dropBtn.userInteractionEnabled = YES;
+            dropBtn.textAlignment = NSTextAlignmentCenter;
+            dropBtn.text = NSLocalizedString(@"ItemDropKey", @"");
+            dropBtn.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.9];
+            if(item.destroyable)
+                dropBtn.frame = CGRectMake(self.view.bounds.size.width/3, self.view.bounds.size.height-44, self.view.bounds.size.width/3, 44);
+            else
+                dropBtn.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
+            [dropBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dropButtonTouched)]];
+            [dropBtn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
+            [self.view addSubview:dropBtn];
+        }
+        if(item.destroyable)
+        {
+            destroyBtn = [[UILabel alloc] init];
+            destroyBtn.userInteractionEnabled = YES;
+            destroyBtn.textAlignment = NSTextAlignmentCenter;
+            destroyBtn.text = NSLocalizedString(@"ItemDeleteKey",@"");
+            destroyBtn.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.9];
+            if(item.dropable)
+                destroyBtn.frame = CGRectMake(2*self.view.bounds.size.width/3, self.view.bounds.size.height-44, self.view.bounds.size.width/3, 44);
+            else
+                destroyBtn.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
+            [dropBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dropButtonTouched)]];
+            [dropBtn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
+            [self.view addSubview:destroyBtn];
+        }
+        
+        if(item.dropable && item.destroyable)
+            backBtn.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width/3, 44);
+        else if(item.dropable || item.destroyable)
+            backBtn.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
+        else 
+            backBtn.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
+	}
+	else
+    {
+        pickupBtn = [[UILabel alloc] init];
+        pickupBtn.userInteractionEnabled = YES;
+        pickupBtn.textAlignment = NSTextAlignmentCenter;
+        pickupBtn.text = NSLocalizedString(@"ItemPickupKey", @"");
+        [pickupBtn setBackgroundColor:[UIColor whiteColor]];
+        pickupBtn.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
+        backBtn.frame   = CGRectMake(                            0, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
+        [pickupBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pickupButtonTouched)]];
+        [pickupBtn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
+        [self.view addSubview:pickupBtn];
+	}
+    [self.view addSubview:backBtn];
+    
     if(![self.item.idescription isEqualToString:@""])
     {
-        self.descriptionWebView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,100-10) delegate:self];
-        self.descriptionWebView.backgroundColor = [UIColor clearColor];
-        self.descriptionWebView.opaque = NO;
+        self.descriptionWebView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,10) delegate:self];
+        self.descriptionWebView.userInteractionEnabled = NO;
+        self.descriptionWebView.scrollView.scrollEnabled = NO;
         self.descriptionWebView.scrollView.bounces = NO;
-        self.descriptionCollapseView = [[ARISCollapseView alloc] initWithView:self.descriptionWebView frame:CGRectMake(0,self.view.bounds.size.height-10-44,self.view.frame.size.width, 10) open:NO delegate:self];
+        self.descriptionWebView.opaque = NO;
+        self.descriptionWebView.backgroundColor = [UIColor clearColor];
+        self.descriptionCollapseView = [[ARISCollapseView alloc] initWithView:self.descriptionWebView frame:CGRectMake(0,self.view.bounds.size.height-10-44,self.view.frame.size.width,10) open:NO showHandle:YES draggable:YES tappable:YES delegate:self];
         [self.descriptionWebView loadHTMLString:[NSString stringWithFormat:kItemDetailsDescriptionHtmlTemplate, self.item.idescription] baseURL:nil];
         [self.view addSubview:self.descriptionCollapseView];
     }
     
 	[self updateQuantityDisplay];
+}
+
+- (void) passTapToDescription:(UITapGestureRecognizer *)r
+{
+    [self.descriptionCollapseView handleTapped:r];
+}
+
+- (void) passPanToDescription:(UIPanGestureRecognizer *)g
+{
+    [self.descriptionCollapseView handlePanned:g];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -448,7 +472,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     }
     if(webView == self.descriptionWebView)
     {
-        float newHeight = [[self.descriptionWebView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue]+20;
+        float newHeight = [[self.descriptionWebView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
         if(newHeight > self.view.bounds.size.height-44) newHeight = self.view.bounds.size.height-44;
         [self.descriptionCollapseView setOpenFrameHeight:newHeight+10];
         self.descriptionWebView.frame = CGRectMake(0, 0, self.descriptionWebView.frame.size.width, newHeight);

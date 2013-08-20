@@ -115,7 +115,7 @@ NSString *const kQuestsHtmlTemplate =
     return self;
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
 	[[AppServices sharedAppServices] updateServerQuestsViewed];

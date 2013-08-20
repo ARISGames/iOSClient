@@ -42,6 +42,7 @@ var ARISJS = function(_ARIS)
     }
 
     _ARIS.closeMe             = function()                { _ARIS.enqueueRequest("aris://closeMe"); }
+    _ARIS.hideLeaveButton     = function()                { _ARIS.enqueueRequest("aris://leaveButton/disable"); }
     _ARIS.exitToTab           = function(tab)             { _ARIS.enqueueRequest("aris://exitTo/tab/"+tab); }
     _ARIS.exitToScanner       = function(prompt)          { _ARIS.enqueueRequest("aris://exitTo/scanner/"+prompt); }
     _ARIS.exitToPlaque        = function(plaqueId)        { _ARIS.enqueueRequest("aris://exitTo/plaque/"+plaqueId); }

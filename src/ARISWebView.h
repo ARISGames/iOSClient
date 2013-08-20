@@ -11,8 +11,10 @@
 
 @class ARISWebView;
 @protocol ARISWebViewDelegate
+@optional
 - (void) ARISWebViewRequestsDismissal:(ARISWebView *)awv;
 - (void) ARISWebViewRequestsRefresh:(ARISWebView *)awv;
+- (void) ARISWebViewRequestsHideButton:(ARISWebView *)awv;
 @end
 @interface ARISWebView : UIWebView
 - (id) initWithFrame:(CGRect)frame delegate:(id<UIWebViewDelegate,ARISWebViewDelegate,StateControllerProtocol>)d;
