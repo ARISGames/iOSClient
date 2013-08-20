@@ -20,7 +20,7 @@ typedef enum
 {
 	int itemId;
 	NSString *name;
-    NSString *text;
+    NSString *idescription;
     ItemType itemType;
 	int mediaId;
 	int iconMediaId;
@@ -35,7 +35,7 @@ typedef enum
 
 @property (nonatomic, assign) int itemId;
 @property (nonatomic, strong) NSString *name;
-@property (nonatomic, strong) NSString *text;
+@property (nonatomic, strong) NSString *idescription;
 @property (nonatomic, assign) ItemType itemType;
 @property (nonatomic, assign) int mediaId;
 @property (nonatomic, assign) int iconMediaId;

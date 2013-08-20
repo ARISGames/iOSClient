@@ -507,7 +507,6 @@
 		AABC750D172860760074CC21 /* NodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC750C172860760074CC21 /* NodeViewController.xib */; };
 		AABC7511172860860074CC21 /* ItemActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC750F172860860074CC21 /* ItemActionViewController.m */; };
 		AABC7512172860860074CC21 /* ItemActionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7510172860860074CC21 /* ItemActionViewController.xib */; };
-		AABC7518172873510074CC21 /* ItemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7515172873510074CC21 /* ItemViewController.xib */; };
 		AABC7519172873510074CC21 /* ItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7517172873510074CC21 /* ItemViewController.m */; };
 		AAF7116617B971ED00262A37 /* ARISCollapseView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7116517B971ED00262A37 /* ARISCollapseView.m */; };
 		AAF81FA3174BCD640003D848 /* libZXingWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAF81FA0174BC73C0003D848 /* libZXingWidget.a */; };
@@ -565,6 +564,7 @@
 		11BE779E13B0FCC7000D037B /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		11BE77A613B26515000D037B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		25C63D5D17BE695C003D540C /* ARIS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ARIS.entitlements; sourceTree = "<group>"; };
 		3AB24ACA152B8CE500B49876 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		4AD5C40714E0661E00081B20 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		5B1D9980178CC3A700661453 /* 05-shuffle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "05-shuffle.png"; sourceTree = "<group>"; };
@@ -1307,7 +1307,6 @@
 		AABC750E172860860074CC21 /* ItemActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemActionViewController.h; sourceTree = "<group>"; };
 		AABC750F172860860074CC21 /* ItemActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemActionViewController.m; sourceTree = "<group>"; };
 		AABC7510172860860074CC21 /* ItemActionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemActionViewController.xib; sourceTree = "<group>"; };
-		AABC7515172873510074CC21 /* ItemViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemViewController.xib; sourceTree = "<group>"; };
 		AABC7516172873510074CC21 /* ItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemViewController.h; sourceTree = "<group>"; };
 		AABC7517172873510074CC21 /* ItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemViewController.m; sourceTree = "<group>"; };
 		AAF7116417B971ED00262A37 /* ARISCollapseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISCollapseView.h; sourceTree = "<group>"; };
@@ -1396,6 +1395,7 @@
 		29B97314FDCFA39411CA2CEA /* ARIS */ = {
 			isa = PBXGroup;
 			children = (
+				25C63D5D17BE695C003D540C /* ARIS.entitlements */,
 				AABC74E317273A0F0074CC21 /* Info.plist */,
 				AB0A5BA3120365420065CE68 /* Localizable.strings */,
 				AB1CA8AA13C7CC9000131F81 /* Frameworks and Dependancies */,
@@ -2133,7 +2133,6 @@
 			children = (
 				AABC7516172873510074CC21 /* ItemViewController.h */,
 				AABC7517172873510074CC21 /* ItemViewController.m */,
-				AABC7515172873510074CC21 /* ItemViewController.xib */,
 				AABC750E172860860074CC21 /* ItemActionViewController.h */,
 				AABC750F172860860074CC21 /* ItemActionViewController.m */,
 				AABC7510172860860074CC21 /* ItemActionViewController.xib */,
@@ -2958,7 +2957,6 @@
 				AABC750B172860690074CC21 /* NpcViewController.xib in Resources */,
 				AABC750D172860760074CC21 /* NodeViewController.xib in Resources */,
 				AABC7512172860860074CC21 /* ItemActionViewController.xib in Resources */,
-				AABC7518172873510074CC21 /* ItemViewController.xib in Resources */,
 				AA50A484173992F500B105C2 /* 123-id-card-white@2x.png in Resources */,
 				AA50A485173992F500B105C2 /* 123-id-card-white.png in Resources */,
 				AA1DA9841742BB2900D10A35 /* Default-568h@2x.png in Resources */,
@@ -3317,10 +3315,10 @@
 					armv7,
 					armv6,
 				);
+				"ARCHS[sdk=iphonesimulator*]" = i386;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -3350,12 +3348,11 @@
 					"-v",
 				);
 				PRODUCT_NAME = ARIS;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "armv7 armv7s i386";
 			};
 			name = Debug;
 		};
@@ -3389,10 +3386,10 @@
 					armv7,
 					armv6,
 				);
+				"ARCHS[sdk=iphonesimulator*]" = i386;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: UW Division of Information Technology";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3420,12 +3417,12 @@
 					"-v",
 				);
 				PRODUCT_NAME = ARIS;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8411B94E-1D39-4C3D-8623-5C178280CE7B";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "armv7 armv7s i386";
 			};
 			name = Release;
 		};

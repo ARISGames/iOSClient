@@ -15,6 +15,7 @@
     UIView *childContainerView;
     UIView *childView;
     CGRect openFrame;
+    CGRect dragStartFrame;
     
     id<ARISCollapseViewDelegate> __unsafe_unretained delegate;
 }
@@ -54,6 +55,7 @@
         [self.childContainerView addSubview:self.childView];
         
         [self.handle addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapped)]];
+        [self.handle addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanned:)]];
         self.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5];
         delegate = d;
     }
@@ -68,10 +70,37 @@
     if(self.frame.size.height != 10) [self open];
 }
 
+- (void) setOpenFrameHeight:(CGFloat)h
+{
+    if(h < 10) h = 10;
+    [self setOpenFrame:CGRectMake(openFrame.origin.x, openFrame.origin.y+openFrame.size.height-h, openFrame.size.width, h)];
+}
+
 - (void) handleTapped
 {
     if(self.frame.size.height == 10) [self open];
     else                             [self close];
+}
+
+- (void) handlePanned:(UIPanGestureRecognizer *)g
+{
+    if(g.state == UIGestureRecognizerStateBegan) dragStartFrame = self.frame;
+    else if(g.state == UIGestureRecognizerStateEnded)
+    {
+        if(openFrame.size.height-self.frame.size.height < self.frame.size.height-10)
+            [self open];
+        else
+            [self close];
+    }
+    else
+    {
+        CGFloat drag = [g translationInView:self].y;
+        if(dragStartFrame.origin.y+drag < openFrame.origin.y) drag = openFrame.origin.y - dragStartFrame.origin.y;
+        if(dragStartFrame.size.height-drag < 10) drag = dragStartFrame.size.height - 10;
+        
+        self.frame = CGRectMake(dragStartFrame.origin.x, dragStartFrame.origin.y+drag, dragStartFrame.size.width, dragStartFrame.size.height-drag);
+        self.childContainerView.frame = CGRectMake(0, 10, dragStartFrame.size.width, dragStartFrame.size.height-drag-10);
+    }
 }
 
 - (void) open
