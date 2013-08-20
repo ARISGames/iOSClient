@@ -2,8 +2,3 @@ language: objective-c
 
 before_install:
   - git submodule update --init --recursive
-
-install: echo
-script: 
-  - xcodebuild -workspace ARIS.xcworkspace -scheme "ARIS" -sdk iphonesimulator -configuration Debug TEST_AFTER_BUILD=YES
-
