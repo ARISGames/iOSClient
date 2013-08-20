@@ -1779,7 +1779,8 @@ NSString * const kPSC_TAKE_ITEM = @"TAKE_ITEM";
     return nil;
 }
 
-- (NSDictionary*)dictionaryWithGame:(MGame*)game {
+- (NSDictionary*) dictionaryWithGame:(MGame*)game
+{
     NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
     //NSNumberFormatter *f = [AppServices formatter];
     [dictionary setObject:game.gameId forKey:@"game_id"];

@@ -14,7 +14,7 @@
 
 @synthesize itemId;
 @synthesize name;
-@synthesize text;
+@synthesize idescription;
 @synthesize itemType;
 @synthesize mediaId;
 @synthesize iconMediaId;
@@ -32,7 +32,7 @@
     {
         self.itemId = 0;
         self.name = @"Item";
-        self.text = @"Text";
+        self.idescription = @"Description";
         self.itemType = ItemTypeNormal;
         self.mediaId = 0;
         self.iconMediaId = 0;
@@ -53,8 +53,8 @@
     {
         self.itemId       = [dict validIntForKey:@"item_id"];
         self.name         = [dict validObjectForKey:@"name"];
-        self.text         = [dict validObjectForKey:@"description"];
-        if([[dict validStringForKey:@"type"] isEqualToString:@"NORMAL"])      self.itemType = ItemTypeNormal;
+        self.idescription = [dict validObjectForKey:@"description"];
+        if     ([[dict validStringForKey:@"type"] isEqualToString:@"NORMAL"]) self.itemType = ItemTypeNormal;
         else if([[dict validStringForKey:@"type"] isEqualToString:@"ATTRIB"]) self.itemType = ItemTypeAttribute;
         else if([[dict validStringForKey:@"type"] isEqualToString:@"URL"])    self.itemType = ItemTypeWebPage;
         self.mediaId      = [dict validIntForKey:@"media_id"];
@@ -75,10 +75,10 @@
     return GameObjectItem;
 }
 
-- (ItemViewController *) viewControllerForDelegate:(NSObject<GameObjectViewControllerDelegate,StateControllerProtocol> *)d fromSource:(id)s
+- (ItemViewController *) viewControllerForDelegate:(NSObject<GameObjectViewControllerDelegate,StateControllerProtocol> *)d viewFrame:(CGRect)vf fromSource:(id)s
 {
     if(self.qty == 0) self.qty = 1;
-	return [[ItemViewController alloc] initWithItem:self delegate:d source:s];
+	return [[ItemViewController alloc] initWithItem:self viewFrame:vf delegate:d source:s];
 }
 
 -(Item *)copy
@@ -86,7 +86,7 @@
     Item *c = [[Item alloc] init];
     c.itemId = self.itemId;
     c.name = self.name;
-    c.text = self.text;
+    c.idescription = self.idescription;
     c.itemType = self.itemType;
     c.mediaId = self.mediaId;
     c.iconMediaId = self.iconMediaId;

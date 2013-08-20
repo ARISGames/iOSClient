@@ -203,7 +203,7 @@
     lblTemp1.font = [UIFont boldSystemFontOfSize:18.0];
     
     UILabel *lblTemp2 = (UILabel *)[cell viewWithTag:2];
-    lblTemp2.text = item.text;
+    lblTemp2.text = item.idescription;
 	ARISMediaView *iconView = (ARISMediaView *)[cell viewWithTag:3];
     
     UILabel *lblTemp3 = (UILabel *)[cell viewWithTag:4];

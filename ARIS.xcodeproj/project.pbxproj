@@ -501,19 +501,16 @@
 		AABC75001728600B0074CC21 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC74FE1728600B0074CC21 /* MapViewController.m */; };
 		AABC75011728600B0074CC21 /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC74FF1728600B0074CC21 /* MapViewController.xib */; };
 		AABC75051728604E0074CC21 /* WebPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC75031728604E0074CC21 /* WebPageViewController.m */; };
-		AABC75061728604E0074CC21 /* WebPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC75041728604E0074CC21 /* WebPageViewController.xib */; };
 		AABC750A172860690074CC21 /* NpcViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7508172860690074CC21 /* NpcViewController.m */; };
-		AABC750B172860690074CC21 /* NpcViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7509172860690074CC21 /* NpcViewController.xib */; };
-		AABC750D172860760074CC21 /* NodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC750C172860760074CC21 /* NodeViewController.xib */; };
 		AABC7511172860860074CC21 /* ItemActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC750F172860860074CC21 /* ItemActionViewController.m */; };
 		AABC7512172860860074CC21 /* ItemActionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7510172860860074CC21 /* ItemActionViewController.xib */; };
-		AABC7518172873510074CC21 /* ItemViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7515172873510074CC21 /* ItemViewController.xib */; };
 		AABC7519172873510074CC21 /* ItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7517172873510074CC21 /* ItemViewController.m */; };
 		AAF7115B17B9579900262A37 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = AAF7115217B9579900262A37 /* .gitignore */; };
 		AAF7115C17B9579900262A37 /* PKRevealController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7115617B9579900262A37 /* PKRevealController.m */; };
 		AAF7115D17B9579900262A37 /* PKRevealControllerContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7115817B9579900262A37 /* PKRevealControllerContainerView.m */; };
 		AAF7115E17B9579900262A37 /* UIViewController+PKRevealController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7115A17B9579900262A37 /* UIViewController+PKRevealController.m */; };
 		AAF7116117B9588D00262A37 /* GamePlayTabSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7116017B9588D00262A37 /* GamePlayTabSelectorViewController.m */; };
+		AAF7116617B971ED00262A37 /* ARISCollapseView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7116517B971ED00262A37 /* ARISCollapseView.m */; };
 		AAF81FA3174BCD640003D848 /* libZXingWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAF81FA0174BC73C0003D848 /* libZXingWidget.a */; };
 		AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB0A5BA3120365420065CE68 /* Localizable.strings */; };
 		AB0DE73217785B1E00D62D9B /* navBarBackground44.png in Resources */ = {isa = PBXBuildFile; fileRef = AB0DE73117785B1E00D62D9B /* navBarBackground44.png */; };
@@ -1296,15 +1293,11 @@
 		AABC74FF1728600B0074CC21 /* MapViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapViewController.xib; sourceTree = "<group>"; };
 		AABC75021728604E0074CC21 /* WebPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPageViewController.h; sourceTree = "<group>"; };
 		AABC75031728604E0074CC21 /* WebPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebPageViewController.m; sourceTree = "<group>"; };
-		AABC75041728604E0074CC21 /* WebPageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebPageViewController.xib; sourceTree = "<group>"; };
 		AABC7507172860690074CC21 /* NpcViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NpcViewController.h; sourceTree = "<group>"; };
 		AABC7508172860690074CC21 /* NpcViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NpcViewController.m; sourceTree = "<group>"; };
-		AABC7509172860690074CC21 /* NpcViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NpcViewController.xib; sourceTree = "<group>"; };
-		AABC750C172860760074CC21 /* NodeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NodeViewController.xib; sourceTree = "<group>"; };
 		AABC750E172860860074CC21 /* ItemActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemActionViewController.h; sourceTree = "<group>"; };
 		AABC750F172860860074CC21 /* ItemActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemActionViewController.m; sourceTree = "<group>"; };
 		AABC7510172860860074CC21 /* ItemActionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemActionViewController.xib; sourceTree = "<group>"; };
-		AABC7515172873510074CC21 /* ItemViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemViewController.xib; sourceTree = "<group>"; };
 		AABC7516172873510074CC21 /* ItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemViewController.h; sourceTree = "<group>"; };
 		AABC7517172873510074CC21 /* ItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemViewController.m; sourceTree = "<group>"; };
 		AAF7115217B9579900262A37 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -1316,6 +1309,8 @@
 		AAF7115A17B9579900262A37 /* UIViewController+PKRevealController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+PKRevealController.m"; sourceTree = "<group>"; };
 		AAF7115F17B9588D00262A37 /* GamePlayTabSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlayTabSelectorViewController.h; sourceTree = "<group>"; };
 		AAF7116017B9588D00262A37 /* GamePlayTabSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePlayTabSelectorViewController.m; sourceTree = "<group>"; };
+		AAF7116417B971ED00262A37 /* ARISCollapseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISCollapseView.h; sourceTree = "<group>"; };
+		AAF7116517B971ED00262A37 /* ARISCollapseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISCollapseView.m; sourceTree = "<group>"; };
 		AAF81F9A174BC73C0003D848 /* ZXingWidget.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZXingWidget.xcodeproj; path = src/third_party/zxing/iphone/ZXingWidget/ZXingWidget.xcodeproj; sourceTree = "<group>"; };
 		AB0A5BA4120365420065CE68 /* en */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AB0A5BA61203665C0065CE68 /* es */ = {isa = PBXFileReference; explicitFileType = text.plist.strings; fileEncoding = 10; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1838,6 +1833,8 @@
 				AA701FE6173443FB003A840D /* ARISPusherHandler.h */,
 				AA701FE7173443FB003A840D /* ARISPusherHandler.m */,
 				AA856FEF17A972B800E9D451 /* arisjs.js */,
+				AAF7116417B971ED00262A37 /* ARISCollapseView.h */,
+				AAF7116517B971ED00262A37 /* ARISCollapseView.m */,
 				AA3F493017A828B300FF4C80 /* ARISWebView.h */,
 				AA3F493117A828B300FF4C80 /* ARISWebView.m */,
 				AA701FDF17342169003A840D /* GamePickersViewController.h */,
@@ -1848,8 +1845,8 @@
 				AAF7116017B9588D00262A37 /* GamePlayTabSelectorViewController.m */,
 				AABC70ED172739D60074CC21 /* MyCLController.h */,
 				AABC70EE172739D60074CC21 /* MyCLController.m */,
-				AAB8AADC17441B64001F10F0 /* StateControllerProtocol.h */,
 				AABC711C172739D60074CC21 /* Reachability.h */,
+				AAB8AADC17441B64001F10F0 /* StateControllerProtocol.h */,
 				AABC70DB172739D60074CC21 /* models */,
 				AABC711F172739D60074CC21 /* services */,
 				AABC7073172739D60074CC21 /* data_objects */,
@@ -2137,7 +2134,6 @@
 			children = (
 				AABC7516172873510074CC21 /* ItemViewController.h */,
 				AABC7517172873510074CC21 /* ItemViewController.m */,
-				AABC7515172873510074CC21 /* ItemViewController.xib */,
 				AABC750E172860860074CC21 /* ItemActionViewController.h */,
 				AABC750F172860860074CC21 /* ItemActionViewController.m */,
 				AABC7510172860860074CC21 /* ItemActionViewController.xib */,
@@ -2148,7 +2144,6 @@
 		AABC70F6172739D60074CC21 /* node */ = {
 			isa = PBXGroup;
 			children = (
-				AABC750C172860760074CC21 /* NodeViewController.xib */,
 				AABC70F8172739D60074CC21 /* NodeViewController.h */,
 				AABC70F9172739D60074CC21 /* NodeViewController.m */,
 			);
@@ -2160,7 +2155,6 @@
 			children = (
 				AABC7507172860690074CC21 /* NpcViewController.h */,
 				AABC7508172860690074CC21 /* NpcViewController.m */,
-				AABC7509172860690074CC21 /* NpcViewController.xib */,
 				AA0D807B17B011FE0002A81C /* NpcOptionsViewController.h */,
 				AA0D807C17B011FE0002A81C /* NpcOptionsViewController.m */,
 				AA0D807E17B015A00002A81C /* NpcScriptViewController.h */,
@@ -2192,7 +2186,6 @@
 			children = (
 				AABC75021728604E0074CC21 /* WebPageViewController.h */,
 				AABC75031728604E0074CC21 /* WebPageViewController.m */,
-				AABC75041728604E0074CC21 /* WebPageViewController.xib */,
 			);
 			path = webpage;
 			sourceTree = "<group>";
@@ -2990,11 +2983,7 @@
 				AABC74FA17285FE00074CC21 /* InventoryViewController.xib in Resources */,
 				AABC74FC17285FF70074CC21 /* QuestsViewController.xib in Resources */,
 				AABC75011728600B0074CC21 /* MapViewController.xib in Resources */,
-				AABC75061728604E0074CC21 /* WebPageViewController.xib in Resources */,
-				AABC750B172860690074CC21 /* NpcViewController.xib in Resources */,
-				AABC750D172860760074CC21 /* NodeViewController.xib in Resources */,
 				AABC7512172860860074CC21 /* ItemActionViewController.xib in Resources */,
-				AABC7518172873510074CC21 /* ItemViewController.xib in Resources */,
 				AA50A484173992F500B105C2 /* 123-id-card-white@2x.png in Resources */,
 				AA50A485173992F500B105C2 /* 123-id-card-white.png in Resources */,
 				AA1DA9841742BB2900D10A35 /* Default-568h@2x.png in Resources */,
@@ -3291,6 +3280,7 @@
 				AA74E7E617626EE9005C279B /* MMedia.m in Sources */,
 				AA74E7E717626EE9005C279B /* MNode.m in Sources */,
 				AA74E7E817626EE9005C279B /* MNpc.m in Sources */,
+				AAF7116617B971ED00262A37 /* ARISCollapseView.m in Sources */,
 				AA74E7E917626EE9005C279B /* MNpcConversation.m in Sources */,
 				AA74E7EA17626EE9005C279B /* MOverlay.m in Sources */,
 				AAF7115C17B9579900262A37 /* PKRevealController.m in Sources */,
@@ -3351,8 +3341,8 @@
 				);
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Philip Dougherty (BUGLD6V3A5)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Philip Dougherty (BUGLD6V3A5)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -3385,8 +3375,8 @@
 					"-v",
 				);
 				PRODUCT_NAME = ARIS;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "1D27C132-A7AD-4EBC-9963-8C2900AB83FA";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1D27C132-A7AD-4EBC-9963-8C2900AB83FA";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SDKROOT = iphoneos;
@@ -3427,7 +3417,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: David Gagnon (VDP976Y25G)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: UW Division of Information Technology";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3458,7 +3448,7 @@
 					"-v",
 				);
 				PRODUCT_NAME = ARIS;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "38D78BF2-D5B6-4241-AB57-A8B1C872AF49";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8411B94E-1D39-4C3D-8623-5C178280CE7B";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SDKROOT = iphoneos;

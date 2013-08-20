@@ -29,6 +29,7 @@
     
     NpcScriptElementView *npcView;
     NpcScriptElementView *pcView;
+    UILabel *continueButton;
     
     int textBoxSizeState;
     CGRect viewFrame;
@@ -45,6 +46,7 @@
 
 @property (nonatomic, strong) NpcScriptElementView *npcView;
 @property (nonatomic, strong) NpcScriptElementView *pcView;
+@property (nonatomic, strong) UILabel *continueButton;
 
 @end
 
@@ -57,6 +59,7 @@
 @synthesize currentScriptElement;
 @synthesize npcView;
 @synthesize pcView;
+@synthesize continueButton;
 
 - (id) initWithNpc:(Npc *)n frame:(CGRect)f delegate:(id<NpcScriptViewControllerDelegate>)d
 {
@@ -75,10 +78,12 @@
 - (void) loadView
 {
     [super loadView];
-    
+
     self.view.frame = viewFrame;
     self.view.bounds = CGRectMake(0,0,viewFrame.size.width,viewFrame.size.height);
-    CGRect scriptElementFrame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height-44);
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    CGRect scriptElementFrame = CGRectMake(self.view.bounds.origin.x, self.view.bounds.origin.y, self.view.bounds.size.width, self.view.bounds.size.height);
     
     Media *pcMedia;
     if     ([AppModel sharedAppModel].currentGame.pcMediaId != 0) pcMedia = [[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId ofType:nil];
@@ -93,12 +98,13 @@
     else         self.npcView = [[NpcScriptElementView alloc] initWithFrame:scriptElementFrame image:[UIImage imageNamed:@"DefaultPCImage.png"] title:self.npc.name delegate:self];
     [self.view addSubview:self.npcView];
     
-    UIButton *continueButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    continueButton.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
-    [continueButton setBackgroundColor:[UIColor ARISColorLightGrey]];
-    [continueButton setTitle:@"Tap To Continue" forState:UIControlStateNormal];
-    [continueButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
-    [continueButton addTarget:self action:@selector(continueButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    self.continueButton = [[UILabel alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44)];
+    self.continueButton.textAlignment = NSTextAlignmentRight;
+    self.continueButton.text = @"Continue > ";
+    self.continueButton.userInteractionEnabled = YES;
+    self.continueButton.backgroundColor = [UIColor clearColor];
+    self.continueButton.opaque = NO;
+    [self.continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouched)]];
     [self.view addSubview:continueButton];
     
     [self movePcIn];
@@ -122,6 +128,15 @@
     [self readyNextScriptElementForDisplay];
 }
 
+- (void) play
+{
+    Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScriptElement.typeId ofType:@"VIDEO"];
+    ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
+    mMoviePlayer.moviePlayer.shouldAutoplay = YES;
+    [mMoviePlayer.moviePlayer prepareToPlay];
+    [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
+}
+    
 - (void) readyNextScriptElementForDisplay
 {
     self.currentScriptElement = [self.currentScript nextScriptElement];
@@ -146,31 +161,27 @@
     else if([currentScriptElement.type isEqualToString:@"video"])
     {
         [self moveAllOut];
-        Media *media = [[AppModel sharedAppModel] mediaForMediaId:currentScriptElement.typeId ofType:@"VIDEO"];
-        ARISMoviePlayerViewController *mMoviePlayer = [[ARISMoviePlayerViewController alloc] initWithContentURL:[NSURL URLWithString:media.url]];
-        mMoviePlayer.moviePlayer.shouldAutoplay = YES;
-        [mMoviePlayer.moviePlayer prepareToPlay];
-        [self presentMoviePlayerViewControllerAnimated:mMoviePlayer];
+        [self performSelector:@selector(play) withObject:nil afterDelay:1.0];
     }
     else if([currentScriptElement.type isEqualToString:@"panoramic"])
     {
         [self moveAllOut];
-        [self.navigationController pushViewController:[[[AppModel sharedAppModel] panoramicForPanoramicId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+        [((UIViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] panoramicForPanoramicId:currentScriptElement.typeId] viewControllerForDelegate:self viewFrame:self.view.bounds fromSource:self] animated:YES];
     }
     else if([currentScriptElement.type isEqualToString:@"webpage"])
     {
         [self moveAllOut];
-        [self.navigationController pushViewController:[[[AppModel sharedAppModel] webPageForWebPageId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+        [((UIViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] webPageForWebPageId:currentScriptElement.typeId] viewControllerForDelegate:self viewFrame:self.view.bounds fromSource:self] animated:YES];
     }
     else if([currentScriptElement.type isEqualToString:@"node"])
     {
         [self moveAllOut];
-        [self.navigationController pushViewController:[[[AppModel sharedAppModel] nodeForNodeId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+        [((UIViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] nodeForNodeId:currentScriptElement.typeId] viewControllerForDelegate:self viewFrame:self.view.bounds fromSource:self] animated:YES];
     }
     else if([currentScriptElement.type isEqualToString:@"item"])
     {
         [self moveAllOut];
-        [self.navigationController pushViewController:[[[AppModel sharedAppModel] itemForItemId:currentScriptElement.typeId] viewControllerForDelegate:self fromSource:self] animated:YES];
+        [((UIViewController *)delegate).navigationController pushViewController:[[[AppModel sharedAppModel] itemForItemId:currentScriptElement.typeId] viewControllerForDelegate:self viewFrame:self.view.bounds fromSource:self] animated:YES];
     }
     self.view.userInteractionEnabled = YES;
 }
@@ -182,6 +193,7 @@
 
 - (void) gameObjectViewControllerRequestsDismissal:(GameObjectViewController *)govc
 {
+    [((UIViewController *)delegate).navigationController popToViewController:((UIViewController *)delegate) animated:YES];
     [self readyNextScriptElementForDisplay];
 }
 
@@ -198,6 +210,26 @@
 - (void) scriptElementViewRequestsHideTextAdjust:(BOOL)h
 {
     //tell delegate to hide/show textadjust button
+}
+
+- (void) scriptElementViewRequestsHideContinue:(BOOL)h
+{
+    if(!h)
+    {
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView setAnimationDuration:.1];
+        self.continueButton.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
+        [UIView commitAnimations];
+    }
+    if(h)
+    {
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+        [UIView setAnimationDuration:.1];
+        self.continueButton.frame = CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, 44);
+        [UIView commitAnimations];
+    }
 }
 
 - (void) adjustTextArea:(NSString *)area
@@ -224,8 +256,9 @@
 - (void) continueButtonTouched
 {
     self.view.userInteractionEnabled = NO;
-    if(self.pcView.frame.origin.x == 0)  [self.pcView  fadeWithCallback:@selector(readyNextScriptElementForDisplay)];
-    if(self.npcView.frame.origin.x == 0) [self.npcView fadeWithCallback:@selector(readyNextScriptElementForDisplay)];
+    if     (self.pcView.frame.origin.x == 0)  [self.pcView  fadeWithCallback:@selector(readyNextScriptElementForDisplay)];
+    else if(self.npcView.frame.origin.x == 0) [self.npcView fadeWithCallback:@selector(readyNextScriptElementForDisplay)];
+    else [self readyNextScriptElementForDisplay];
 }
 
 #define pcOffscreenRect  CGRectMake(  self.pcView.frame.size.width, self.pcView.frame.origin.y, self.pcView.frame.size.width, self.pcView.frame.size.height)

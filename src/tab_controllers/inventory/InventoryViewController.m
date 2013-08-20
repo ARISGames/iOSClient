@@ -247,7 +247,7 @@
 	Item *item = [inventory objectAtIndex: [indexPath row]];
 	    
 	((UILabel *)[cell viewWithTag:1]).text = item.name;
-    ((UILabel *)[cell viewWithTag:2]).text = [self stringByStrippingHTML:item.text];
+    ((UILabel *)[cell viewWithTag:2]).text = [self stringByStrippingHTML:item.idescription];
     ((UILabel *)[cell viewWithTag:4]).text = [self getQtyLabelStringForQty:item.qty maxQty:item.maxQty weight:item.weight];
     
     NSNumber *viewed;

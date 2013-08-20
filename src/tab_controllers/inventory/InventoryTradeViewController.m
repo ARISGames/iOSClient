@@ -144,10 +144,10 @@
     }];
 }
 
-- (void)viewDidLoad
+- (void) viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
     NSArray *tempCopy = [AppModel sharedAppModel].currentGame.inventoryModel.currentInventory;
 	self.inventory = [[NSMutableArray alloc] init];
     for(int i = 0; i < [tempCopy count]; i++)
@@ -155,98 +155,74 @@
         if(((Item *)[tempCopy objectAtIndex:i]).tradeable)
             [self.inventory addObject:[((Item *)[tempCopy objectAtIndex:i]) copy]];
     } 
-    NSMutableArray *itemsToTradeAlloc = [[NSMutableArray alloc] init];
-    self.itemsToTrade = itemsToTradeAlloc;
+    self.itemsToTrade = [[NSMutableArray alloc] init];
     [self.tradeTableView reloadData];
     
-    //Create a close button
 	self.navigationItem.leftBarButtonItem = 
 	[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey",@"")
-									 style: UIBarButtonItemStyleBordered
+									 style:UIBarButtonItemStyleBordered
 									target:self 
 									action:@selector(backButtonTouchAction:)];	
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void) viewDidAppear:(BOOL)animated
 {
     [self.tradeTableView reloadData];
     [self configureBump];
 }
 
-- (void)goBackToInventory
+- (void) goBackToInventory
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
     [[BumpClient sharedClient] disconnect];
 }
 
-- (IBAction)backButtonTouchAction:(id)sender
+- (IBAction) backButtonTouchAction:(id)sender
 {
 	NSLog(@"ItemTradeViewController: Dismiss Item Trade View");
 	[self goBackToInventory];	
 }
 
-- (UITableViewCell *)getCellContentView:(NSString *)cellIdentifier
+- (UITableViewCell *) getCellContentView:(NSString *)cellIdentifier
 {
 	return [[RoundedTableViewCell alloc] initWithStyle:UITableViewCellSelectionStyleNone reuseIdentifier:cellIdentifier forFile:@"InventoryTradeViewController"];
 } 
 
-
-#pragma mark PickerViewDelegate selectors
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 2;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if(section == 0) return [self.itemsToTrade count];
 	return [self.inventory count];
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+- (NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if(section == 0) return NSLocalizedString(@"InventoryTradeViewToTradeKey", @"");
     return NSLocalizedString(@"InventoryViewTitleKey",@""); 
 }
 
-// Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {    
 	NSString *CellIdentifier = [NSString stringWithFormat: @"Cell%d%d",indexPath.section,indexPath.row];
     RoundedTableViewCell *cell = (RoundedTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil)
-    {
         cell = [[RoundedTableViewCell alloc] initWithStyle:UITableViewCellSelectionStyleNone reuseIdentifier:CellIdentifier forFile:@"InventoryTradeViewController.m"];
-    }
 
-    // Configure the cell.
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    // draw round top corners in first row
-    if(indexPath.row == 0){
-        [cell drawRoundTop];
-    }
-    // draw round corners in last row
-    if (indexPath.row == [tableView  numberOfRowsInSection:indexPath.section]-1) {
-        [cell drawRoundBottom];
-    }
+    if(indexPath.row == 0)                                                      [cell drawRoundTop];
+    if(indexPath.row == [tableView  numberOfRowsInSection:indexPath.section]-1) [cell drawRoundBottom];
     
-  //  cell.textLabel.backgroundColor = [UIColor clearColor]; 
-   // cell.detailTextLabel.backgroundColor = [UIColor clearColor]; 
-    
-   // cell.contentView.backgroundColor = [UIColor colorWithRed:233.0/255.0  
-     //                                                  green:233.0/255.0  
-       //                                                 blue:233.0/255.0  
-         //                                              alpha:1.0];  
 	Item *item;
 	if(indexPath.section == 0) item = [self.itemsToTrade objectAtIndex: [indexPath row]];
 	else item = [self.inventory objectAtIndex: [indexPath row]];
     
 	cell.lbl1.text = item.name;	
     cell.lbl1.font = [UIFont boldSystemFontOfSize:18.0];
-    [cell.lbl1 setNeedsDisplay];
-    cell.lbl2.text = item.text;
-    [cell.lbl2 setNeedsDisplay];
+    cell.lbl2.text = item.idescription;
     if(item.qty >1 && item.weight > 1)
          cell.lbl4.text = [NSString stringWithFormat:@"%@: %d, %@: %d",NSLocalizedString(@"x", @""),item.qty,NSLocalizedString(@"WeightKey", @""),item.weight];
     else if(item.weight > 1)
@@ -256,42 +232,40 @@
     else
         cell.lbl4.text = nil;
     cell.iconView.hidden = NO;
-    [cell.lbl4 setNeedsDisplay];
+    
     Media *media;
-    if (item.mediaId != 0) {
+    if(item.mediaId != 0)
+    {
         if([self.mediaCache count] > indexPath.row)
             media = [self.mediaCache objectAtIndex:indexPath.row];
         else
         {
             media = [[AppModel sharedAppModel] mediaForMediaId: item.mediaId ofType:nil];
-            if(media)
-                [self.mediaCache  addObject:media];
+            if(media) [self.mediaCache  addObject:media];
         }
 	}
     
-	if (item.iconMediaId != 0)
+	if(item.iconMediaId != 0)
     {
-        if([self.iconCache count] < indexPath.row)
+        if([self.iconCache count] <= indexPath.row)
             [self.iconCache  addObject:[[AppModel sharedAppModel] mediaForMediaId:item.iconMediaId ofType:nil]];
         [cell.iconView refreshWithFrame:cell.iconView.frame media:[self.iconCache objectAtIndex:indexPath.row] mode:ARISMediaDisplayModeAspectFit delegate:self];
 	}
 	else
     {
-		//Load the Default
-		if ([media.type isEqualToString:@"PHOTO"]) [cell.iconView refreshWithFrame:cell.iconView.frame image:[UIImage imageNamed:@"defaultImageIcon.png"] mode:ARISMediaDisplayModeAspectFit delegate:self];
-		if ([media.type isEqualToString:@"AUDIO"]) [cell.iconView refreshWithFrame:cell.iconView.frame image:[UIImage imageNamed:@"defaultAudioIcon.png"] mode:ARISMediaDisplayModeAspectFit delegate:self];
-		if ([media.type isEqualToString:@"VIDEO"]) [cell.iconView refreshWithFrame:cell.iconView.frame image:[UIImage imageNamed:@"defaultVideoIcon.png"] mode:ARISMediaDisplayModeAspectFit delegate:self];
+		if([media.type isEqualToString:@"PHOTO"]) [cell.iconView refreshWithFrame:cell.iconView.frame image:[UIImage imageNamed:@"defaultImageIcon.png"] mode:ARISMediaDisplayModeAspectFit delegate:self];
+		if([media.type isEqualToString:@"AUDIO"]) [cell.iconView refreshWithFrame:cell.iconView.frame image:[UIImage imageNamed:@"defaultAudioIcon.png"] mode:ARISMediaDisplayModeAspectFit delegate:self];
+		if([media.type isEqualToString:@"VIDEO"]) [cell.iconView refreshWithFrame:cell.iconView.frame image:[UIImage imageNamed:@"defaultVideoIcon.png"] mode:ARISMediaDisplayModeAspectFit delegate:self];
     }
-    
 	return cell;
 }
 
--(CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	return 60;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(indexPath.section == 0)
     {
@@ -318,20 +292,17 @@
     else
     {
         Item *selectedItem = [self.inventory objectAtIndex:[indexPath row]];
-        if(((Item *)[self.inventory objectAtIndex:[indexPath row]]).qty > 1) ((Item *)[self.inventory objectAtIndex:[indexPath row]]).qty--;
+        if(selectedItem.qty > 1) selectedItem.qty--;
         else [self.inventory removeObjectAtIndex:[indexPath row]];
         
         NSUInteger result = [self.itemsToTrade indexOfObjectPassingTest:
                              ^ (id arrayItem, NSUInteger idx, BOOL *stop)
                              {   
-                                 if (((Item *)arrayItem).itemId == selectedItem.itemId) {
-                                     return YES;
-                                 }
-                                 else
-                                     return NO;
+                                 return (BOOL)(((Item *)arrayItem).itemId == selectedItem.itemId);
                              }];
         
-        if (result == NSNotFound){
+        if(result == NSNotFound)
+        {
             Item *itemCopy = [selectedItem copy];
             itemCopy.qty = 1;
             [self.itemsToTrade addObject:itemCopy];

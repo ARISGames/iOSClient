@@ -18,12 +18,10 @@ static float INITIAL_SPAN = 0.001;
 @implementation DropOnMapViewController
 @synthesize mapView,mapTypeButton,locations,tracking,toolBar,noteId,myAnnotation,delegate,pickupButton,note;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self)
+    if(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
     {
-        // Custom initialization
         self.title = NSLocalizedString(@"DropOnMapTitleKey", @"");
         self.hidesBottomBarWhenPushed = YES;
         tracking = YES;
@@ -32,14 +30,12 @@ static float INITIAL_SPAN = 0.001;
     return self;
 }
 
-- (void)dealloc
+- (void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma mark - View lifecycle
-
-- (void)viewDidLoad
+- (void) viewDidLoad
 {
     [super viewDidLoad];
 	
@@ -78,7 +74,7 @@ static float INITIAL_SPAN = 0.001;
 	pickupButton.action = @selector(pickupButtonAction:);
 }
 
--(void)viewDidAppear:(BOOL)animated
+- (void) viewDidAppear:(BOOL)animated
 {    
     if (![AppModel sharedAppModel].player || [AppModel sharedAppModel].currentGame.gameId==0)
     {
@@ -89,7 +85,7 @@ static float INITIAL_SPAN = 0.001;
 	[self refresh];		
 }
 
-- (void)viewWillDisappear:(BOOL)animated
+- (void) viewWillDisappear:(BOOL)animated
 {
 	if (refreshTimer)
     {
@@ -98,12 +94,12 @@ static float INITIAL_SPAN = 0.001;
 	}
 }
 
-- (void)refresh
+- (void) refresh
 {
     if(mapView && tracking) [self zoomAndCenterMap];
 }
 
--(void) zoomAndCenterMap
+- (void) zoomAndCenterMap
 {
 	appSetNextRegionChange = YES;
 	
@@ -114,7 +110,7 @@ static float INITIAL_SPAN = 0.001;
 	[mapView setRegion:region animated:YES];
 }
 
-- (IBAction)changeMapType:(id)sender
+- (IBAction) changeMapType:(id)sender
 {
 	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate playAudioAlert:@"ticktick" shouldVibrate:NO];
@@ -133,7 +129,7 @@ static float INITIAL_SPAN = 0.001;
 	}
 }
 
--(void)pickupButtonAction:(id)sender
+- (void) pickupButtonAction:(id)sender
 {
     [[self.delegate note] setDropped:NO];
         
@@ -144,7 +140,8 @@ static float INITIAL_SPAN = 0.001;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
--(void)backButtonTouchAction:(id)sender{
+- (void) backButtonTouchAction:(id)sender
+{
     [[AppServices sharedAppServices] dropNote:self.noteId atCoordinate:self.myAnnotation.coordinate];
         [note setDropped:YES];
     note.latitude = myAnnotation.coordinate.latitude;
@@ -158,9 +155,8 @@ static float INITIAL_SPAN = 0.001;
     return UIInterfaceOrientationMaskPortrait;
 }
 
-#pragma mark MKMapViewDelegate
-
-- (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
+- (void) mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated
+{
 	//User must have moved the map. Turn off Tracking
 	NSLog(@"GPSVC: regionDidChange delegate metohd fired");
     
@@ -177,29 +173,31 @@ static float INITIAL_SPAN = 0.001;
 	NSLog(@"MapViewController: didSelectAnnotationView for location: %@",location.name);
 }*/
 
-- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)annotationView didChangeDragState:(MKAnnotationViewDragState)newState fromOldState:(MKAnnotationViewDragState)oldState {
-	
-	if (oldState == MKAnnotationViewDragStateDragging) {
+- (void) mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)annotationView didChangeDragState:(MKAnnotationViewDragState)newState fromOldState:(MKAnnotationViewDragState)oldState
+{
+	if(oldState == MKAnnotationViewDragStateDragging)
+    {
 		DDAnnotation *annotation = (DDAnnotation *)annotationView.annotation;
 		annotation.subtitle = [NSString	stringWithFormat:@"%f %f", annotation.coordinate.latitude, annotation.coordinate.longitude];		
 	}
 }
 
-- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
+- (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
 {	
     if ([annotation isKindOfClass:[MKUserLocation class]]) return nil;
 	
 	static NSString * const kPinAnnotationIdentifier = @"PinIdentifier";
 	MKAnnotationView *draggablePinView = [self.mapView dequeueReusableAnnotationViewWithIdentifier:kPinAnnotationIdentifier];
 	
-	if (draggablePinView)
+	if(draggablePinView)
 		draggablePinView.annotation = annotation;
     else
 		draggablePinView = [DDAnnotationView annotationViewWithAnnotation:annotation reuseIdentifier:kPinAnnotationIdentifier mapView:self.mapView];
 
 	return draggablePinView;
 }
-- (void)mapView:(MKMapView *)mv didAddAnnotationViews:(NSArray *)views
+
+- (void) mapView:(MKMapView *)mv didAddAnnotationViews:(NSArray *)views
 {
 	MKAnnotationView *annotationView = [views objectAtIndex:0];
 	id <MKAnnotation> mp = [annotationView annotation];
