@@ -10,8 +10,8 @@
 
 @class ARISGamePlayTabBarViewController;
 @protocol GameObjectProtocol;
-
 @protocol GamePlayTabBarViewControllerDelegate
+- (void) gamePlayTabBarViewControllerRequestsNav;
 @end
 
 @interface ARISGamePlayTabBarViewController : UIViewController
@@ -21,6 +21,9 @@
 }
 
 @property (nonatomic, strong) NSString *tabID;
+
+- (id) initWithDelegate:(id<GamePlayTabBarViewControllerDelegate>)d;
+- (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil delegate:(id<GamePlayTabBarViewControllerDelegate>)d;
 - (void) clearBadge;
 - (void) incrementBadge;
 

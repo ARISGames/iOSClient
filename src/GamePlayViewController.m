@@ -31,19 +31,20 @@
 #import "DecoderViewController.h"
 #import "BogusSelectGameViewController.h"
 #import "NearbyObjectsViewController.h"
-
-#import "UIColor+ARISColors.h"
+#import "GamePlayTabSelectorViewController.h"
+#import "PKRevealController.h"
 
 #import "ARISAlertHandler.h"
-
 #import "ARISNavigationController.h"
+#import "UIColor+ARISColors.h"
 
-@interface GamePlayViewController() <UITabBarControllerDelegate, UINavigationControllerDelegate, StateControllerProtocol, LoadingViewControllerDelegate, GameObjectViewControllerDelegate, GamePlayTabBarViewControllerDelegate, NearbyObjectsViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate, BogusSelectGameViewControllerDelegate>
+@interface GamePlayViewController() <UINavigationControllerDelegate, GamePlayTabSelectorViewControllerDelegate, StateControllerProtocol, LoadingViewControllerDelegate, GameObjectViewControllerDelegate, GamePlayTabBarViewControllerDelegate, NearbyObjectsViewControllerDelegate, QuestsViewControllerDelegate, MapViewControllerDelegate, InventoryViewControllerDelegate, AttributesViewControllerDelegate, NotebookViewControllerDelegate, DecoderViewControllerDelegate, BogusSelectGameViewControllerDelegate>
 {
     Game *game;
 
     LoadingViewController *loadingViewController;
-    UITabBarController *gamePlayTabBarController;
+    PKRevealController *gamePlayTabBarController;
+    GamePlayTabSelectorViewController *gamePlayTabSelectorController;
     
     GameNotificationViewController *gameNotificationViewController;
     
@@ -62,7 +63,8 @@
 
 @property (nonatomic, strong) Game *game;
 @property (nonatomic, strong) LoadingViewController *loadingViewController;
-@property (nonatomic, strong) UITabBarController *gamePlayTabBarController;
+@property (nonatomic, strong) PKRevealController *gamePlayTabBarController;
+@property (nonatomic, strong) GamePlayTabSelectorViewController *gamePlayTabSelectorController;
 @property (nonatomic, strong) GameNotificationViewController *gameNotificationViewController;
 @property (nonatomic, strong) ARISNavigationController *nearbyObjectsNavigationController;
 @property (nonatomic, strong) ARISNavigationController *arNavigationController;
@@ -81,6 +83,7 @@
 @synthesize game;
 @synthesize loadingViewController;
 @synthesize gamePlayTabBarController;
+@synthesize gamePlayTabSelectorController;
 @synthesize gameNotificationViewController;
 @synthesize nearbyObjectsNavigationController;
 @synthesize arNavigationController;
@@ -185,6 +188,7 @@
 
 - (void) hideNearbyObjectsTab
 {
+    /*
     NSMutableArray *tabs = [NSMutableArray arrayWithArray:self.gamePlayTabBarController.viewControllers];
     
     if([tabs containsObject:self.nearbyObjectsNavigationController])
@@ -194,10 +198,12 @@
     
     NSLog(@"NSNotification: TabBarItemsChanged");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"TabBarItemsChanged" object:self userInfo:nil]];
+     */
 }
 
 - (void) showNearbyObjectsTab
 {
+    /*
     NSMutableArray *tabs = [NSMutableArray arrayWithArray:self.gamePlayTabBarController.viewControllers];
     
     if(![tabs containsObject:self.nearbyObjectsNavigationController])
@@ -207,6 +213,7 @@
     
     NSLog(@"NSNotification: TabBarItemsChanged");
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"TabBarItemsChanged" object:self userInfo:nil]];
+     */
 }
 
 - (void) gameTabListRecieved:(NSNotification *)n
@@ -218,9 +225,6 @@
 {
     gamePlayTabs = [gamePlayTabs sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[NSSortDescriptor alloc] initWithKey:@"tabIndex" ascending:YES]]];
 
-    self.gamePlayTabBarController = [[UITabBarController alloc] init];
-    self.gamePlayTabBarController.delegate = self;
-    
     //Special case- always should get inited (yet not added to the gameplay tabbar until specified)
     NearbyObjectsViewController *nearbyObjectsViewController = [[NearbyObjectsViewController alloc] initWithDelegate:self];
     self.nearbyObjectsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:nearbyObjectsViewController];
@@ -300,16 +304,31 @@
         }
     }
     
-    self.gamePlayTabBarController.viewControllers = [NSArray arrayWithArray:gamePlayTabVCs];
-    self.gamePlayTabBarController.moreNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-    self.gamePlayTabBarController.moreNavigationController.delegate = self;
-    self.gamePlayTabBarController.tabBar.selectedImageTintColor = [UIColor ARISColorScarlet];
+    //self.gamePlayTabBarController.viewControllers = [NSArray arrayWithArray:gamePlayTabVCs];
+    //self.gamePlayTabBarController.moreNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    //self.gamePlayTabBarController.moreNavigationController.delegate = self;
+    //self.gamePlayTabBarController.tabBar.selectedImageTintColor = [UIColor ARISColorScarlet];
     
-    self.gamePlayTabBarController.selectedIndex = 0;
+    //self.gamePlayTabBarController.selectedIndex = 0;
+    
+    self.gamePlayTabSelectorController = [[GamePlayTabSelectorViewController alloc] initWithViewControllers:gamePlayTabVCs delegate:self];
+    self.gamePlayTabBarController = [PKRevealController revealControllerWithFrontViewController:[gamePlayTabVCs objectAtIndex:0] leftViewController:self.gamePlayTabSelectorController options:nil];
+}
+
+- (void) gamePlayTabBarViewControllerRequestsNav
+{
+    [self.gamePlayTabBarController showViewController:self.gamePlayTabSelectorController];
+}
+
+- (void) viewControllerRequestedDisplay:(ARISNavigationController *)avc
+{
+    [self.gamePlayTabBarController setFrontViewController:avc];
+    [self.gamePlayTabBarController showViewController:avc];
 }
 
 - (void) displayScannerWithPrompt:(NSString *)p
 {
+    /*
     ARISGamePlayTabBarViewController *vc;
     ARISNavigationController *nc;
     for(int i = 0; i < [self.gamePlayTabBarController.viewControllers count]; i++)
@@ -322,6 +341,7 @@
             [(DecoderViewController *)vc launchScannerWithPrompt:p];
         }
     }
+     */
 }
 
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
@@ -396,6 +416,7 @@
 
 - (void) displayTab:(NSString *)t
 {
+    /*
     NSString *localized = [t lowercaseString];
     if([localized isEqualToString:@"map"])       localized = [NSLocalizedString(@"MapViewTitleKey",       @"") lowercaseString];
     if([localized isEqualToString:@"quests"])    localized = [NSLocalizedString(@"QuestViewTitleKey",     @"") lowercaseString];
@@ -409,6 +430,7 @@
         if([[((GamePlayViewController *)[self.gamePlayTabBarController.viewControllers objectAtIndex:i]).title lowercaseString] isEqualToString:localized])
             self.gamePlayTabBarController.selectedIndex = i;
     }
+     */
 }
 
 - (void) tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController 
@@ -424,10 +446,10 @@
 
 - (NSUInteger) supportedInterfaceOrientations
 {
-    if(self.gamePlayTabBarController.selectedIndex > 3 && self.gamePlayTabBarController.selectedIndex < 6)
-        return [self.gamePlayTabBarController.moreNavigationController.topViewController supportedInterfaceOrientations];
-    else if(self.gamePlayTabBarController.selectedIndex <= 3)
-        return [self.gamePlayTabBarController.selectedViewController supportedInterfaceOrientations];
+    //if(self.gamePlayTabBarController.selectedIndex > 3 && self.gamePlayTabBarController.selectedIndex < 6)
+        //return [self.gamePlayTabBarController.moreNavigationController.topViewController supportedInterfaceOrientations];
+    //else if(self.gamePlayTabBarController.selectedIndex <= 3)
+        //return [self.gamePlayTabBarController.selectedViewController supportedInterfaceOrientations];
     return UIInterfaceOrientationMaskPortrait;
 }
 

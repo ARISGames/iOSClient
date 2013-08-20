@@ -79,7 +79,7 @@
 
 - (id) initWithDelegate:(id<MapViewControllerDelegate, StateControllerProtocol>)d
 {
-    if(self = [super initWithNibName:@"MapViewController" bundle:nil])
+    if(self = [super initWithNibName:@"MapViewController" bundle:nil delegate:d])
     {
         self.tabID = @"GPS";
 

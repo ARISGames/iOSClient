@@ -19,7 +19,7 @@
 
 - (id)initWithDelegate:(id<BogusSelectGameViewControllerDelegate>)d
 {
-    if(self = [super init])
+    if(self = [super initWithDelegate:d])
     {
         self.tabID = @"PICKGAME";
         delegate = d;

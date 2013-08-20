@@ -39,7 +39,7 @@
 
 - (id) initWithDelegate:(id<QuestsViewControllerDelegate,StateControllerProtocol>)d
 {
-    if(self = [super initWithNibName:@"IconQuestsViewController" bundle:nil])
+    if(self = [super initWithNibName:@"IconQuestsViewController" bundle:nil delegate:d])
     {
         delegate = d;
         

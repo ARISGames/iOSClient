@@ -505,6 +505,11 @@
 		AABC7511172860860074CC21 /* ItemActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC750F172860860074CC21 /* ItemActionViewController.m */; };
 		AABC7512172860860074CC21 /* ItemActionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7510172860860074CC21 /* ItemActionViewController.xib */; };
 		AABC7519172873510074CC21 /* ItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7517172873510074CC21 /* ItemViewController.m */; };
+		AAF7115B17B9579900262A37 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = AAF7115217B9579900262A37 /* .gitignore */; };
+		AAF7115C17B9579900262A37 /* PKRevealController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7115617B9579900262A37 /* PKRevealController.m */; };
+		AAF7115D17B9579900262A37 /* PKRevealControllerContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7115817B9579900262A37 /* PKRevealControllerContainerView.m */; };
+		AAF7115E17B9579900262A37 /* UIViewController+PKRevealController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7115A17B9579900262A37 /* UIViewController+PKRevealController.m */; };
+		AAF7116117B9588D00262A37 /* GamePlayTabSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7116017B9588D00262A37 /* GamePlayTabSelectorViewController.m */; };
 		AAF7116617B971ED00262A37 /* ARISCollapseView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAF7116517B971ED00262A37 /* ARISCollapseView.m */; };
 		AAF81FA3174BCD640003D848 /* libZXingWidget.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAF81FA0174BC73C0003D848 /* libZXingWidget.a */; };
 		AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = AB0A5BA3120365420065CE68 /* Localizable.strings */; };
@@ -522,7 +527,6 @@
 		AB9BA24913DFBAB1007470E3 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AB9BA24813DFBAB1007470E3 /* libz.dylib */; };
 		ABB2CAC1177267280060FFFA /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB2CABF177267280060FFFA /* icon.png */; };
 		ABB2CAC2177267280060FFFA /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB2CAC0177267280060FFFA /* icon@2x.png */; };
-		ABB2CAC5177267490060FFFA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB2CAC3177267490060FFFA /* Default-568h@2x.png */; };
 		ABB2CAC8177267630060FFFA /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABB2CAC7177267630060FFFA /* Default@2x.png */; };
 		ABB2CDC413C7497500F051E4 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB2CDC313C7497400F051E4 /* CoreVideo.framework */; };
 		ABB2CDC613C7498A00F051E4 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB2CDC513C7498A00F051E4 /* AddressBook.framework */; };
@@ -533,13 +537,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		AAF6FE32174FBCBC00C3E687 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AAF81F9A174BC73C0003D848 /* ZXingWidget.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D2AAC07D0554694100DB518D;
-			remoteInfo = ZXingWidget;
-		};
 		AAF81F9F174BC73C0003D848 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AAF81F9A174BC73C0003D848 /* ZXingWidget.xcodeproj */;
@@ -1302,6 +1299,15 @@
 		AABC7510172860860074CC21 /* ItemActionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemActionViewController.xib; sourceTree = "<group>"; };
 		AABC7516172873510074CC21 /* ItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemViewController.h; sourceTree = "<group>"; };
 		AABC7517172873510074CC21 /* ItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemViewController.m; sourceTree = "<group>"; };
+		AAF7115217B9579900262A37 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		AAF7115517B9579900262A37 /* PKRevealController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKRevealController.h; sourceTree = "<group>"; };
+		AAF7115617B9579900262A37 /* PKRevealController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKRevealController.m; sourceTree = "<group>"; };
+		AAF7115717B9579900262A37 /* PKRevealControllerContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PKRevealControllerContainerView.h; sourceTree = "<group>"; };
+		AAF7115817B9579900262A37 /* PKRevealControllerContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PKRevealControllerContainerView.m; sourceTree = "<group>"; };
+		AAF7115917B9579900262A37 /* UIViewController+PKRevealController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+PKRevealController.h"; sourceTree = "<group>"; };
+		AAF7115A17B9579900262A37 /* UIViewController+PKRevealController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+PKRevealController.m"; sourceTree = "<group>"; };
+		AAF7115F17B9588D00262A37 /* GamePlayTabSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlayTabSelectorViewController.h; sourceTree = "<group>"; };
+		AAF7116017B9588D00262A37 /* GamePlayTabSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePlayTabSelectorViewController.m; sourceTree = "<group>"; };
 		AAF7116417B971ED00262A37 /* ARISCollapseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISCollapseView.h; sourceTree = "<group>"; };
 		AAF7116517B971ED00262A37 /* ARISCollapseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISCollapseView.m; sourceTree = "<group>"; };
 		AAF81F9A174BC73C0003D848 /* ZXingWidget.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ZXingWidget.xcodeproj; path = src/third_party/zxing/iphone/ZXingWidget/ZXingWidget.xcodeproj; sourceTree = "<group>"; };
@@ -1834,6 +1840,8 @@
 				AA701FE017342169003A840D /* GamePickersViewController.m */,
 				AA701FDA17330947003A840D /* GamePlayViewController.h */,
 				AA701FDB17330947003A840D /* GamePlayViewController.m */,
+				AAF7115F17B9588D00262A37 /* GamePlayTabSelectorViewController.h */,
+				AAF7116017B9588D00262A37 /* GamePlayTabSelectorViewController.m */,
 				AABC70ED172739D60074CC21 /* MyCLController.h */,
 				AABC70EE172739D60074CC21 /* MyCLController.m */,
 				AABC711C172739D60074CC21 /* Reachability.h */,
@@ -2409,6 +2417,7 @@
 		AABC71B1172739D70074CC21 /* third_party */ = {
 			isa = PBXGroup;
 			children = (
+				AAF7115117B9579900262A37 /* PKRevealController */,
 				8902C4A317AC09E700C80803 /* CrittercismSDK */,
 				AA3D7C6A17662C1F00382D00 /* MTStatusBarOverlay */,
 				AABC71B5172739D70074CC21 /* bump */,
@@ -2614,6 +2623,36 @@
 			path = utils;
 			sourceTree = "<group>";
 		};
+		AAF7115117B9579900262A37 /* PKRevealController */ = {
+			isa = PBXGroup;
+			children = (
+				AAF7115217B9579900262A37 /* .gitignore */,
+				AAF7115317B9579900262A37 /* PKRevealController */,
+			);
+			path = PKRevealController;
+			sourceTree = "<group>";
+		};
+		AAF7115317B9579900262A37 /* PKRevealController */ = {
+			isa = PBXGroup;
+			children = (
+				AAF7115417B9579900262A37 /* Controller */,
+			);
+			path = PKRevealController;
+			sourceTree = "<group>";
+		};
+		AAF7115417B9579900262A37 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				AAF7115517B9579900262A37 /* PKRevealController.h */,
+				AAF7115617B9579900262A37 /* PKRevealController.m */,
+				AAF7115717B9579900262A37 /* PKRevealControllerContainerView.h */,
+				AAF7115817B9579900262A37 /* PKRevealControllerContainerView.m */,
+				AAF7115917B9579900262A37 /* UIViewController+PKRevealController.h */,
+				AAF7115A17B9579900262A37 /* UIViewController+PKRevealController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		AAF81F9B174BC73C0003D848 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -2684,7 +2723,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				AAF6FE33174FBCBC00C3E687 /* PBXTargetDependency */,
 			);
 			name = ARIS;
 			productName = ARIS;
@@ -2697,7 +2735,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "ARIS" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -2711,6 +2749,8 @@
 				en,
 				es,
 				fr,
+				de,
+				sv,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* ARIS */;
 			projectDirPath = "";
@@ -2951,7 +2991,6 @@
 				AA74E7F717626EE9005C279B /* StoreLocallyViewController.xib in Resources */,
 				ABB2CAC1177267280060FFFA /* icon.png in Resources */,
 				ABB2CAC2177267280060FFFA /* icon@2x.png in Resources */,
-				ABB2CAC5177267490060FFFA /* Default-568h@2x.png in Resources */,
 				ABB2CAC8177267630060FFFA /* Default@2x.png in Resources */,
 				AB39FD411773ACCF006DEC96 /* logo.png in Resources */,
 				AB4438401774DFF2004D9DC3 /* logoWithText.png in Resources */,
@@ -2965,6 +3004,7 @@
 				7152F5D1177B7AD3001B0CAE /* idCardTabBarSelected@2x.png in Resources */,
 				7152F5D2177B7AD3001B0CAE /* locationArrowTabBarSelected.png in Resources */,
 				7152F5D3177B7AD3001B0CAE /* locationArrowTabBarSelected@2x.png in Resources */,
+				AAF7115B17B9579900262A37 /* .gitignore in Resources */,
 				7152F5D4177B7AD3001B0CAE /* mapTabBarSelected.png in Resources */,
 				7152F5D5177B7AD3001B0CAE /* mapTabBarSelected@2x.png in Resources */,
 				7152F5D6177B7AD3001B0CAE /* microphoneTabBarSelected.png in Resources */,
@@ -3125,6 +3165,7 @@
 				AABC73DB172739D80074CC21 /* ARGeoViewController.m in Sources */,
 				AABC73DD172739D80074CC21 /* ARViewController.m in Sources */,
 				AABC73DE172739D80074CC21 /* ARViewViewControler.m in Sources */,
+				AAF7115E17B9579900262A37 /* UIViewController+PKRevealController.m in Sources */,
 				AABC73DF172739D80074CC21 /* NearbyObjectARCoordinate.m in Sources */,
 				AABC73E0172739D80074CC21 /* AttributesViewController.m in Sources */,
 				AABC73E2172739D80074CC21 /* BogusSelectGameViewController.m in Sources */,
@@ -3143,6 +3184,7 @@
 				AABC73FE172739D80074CC21 /* DDAnnotation.m in Sources */,
 				AABC73FF172739D80074CC21 /* DDAnnotationView.m in Sources */,
 				AABC7400172739D80074CC21 /* DropOnMapViewController.m in Sources */,
+				AAF7116117B9588D00262A37 /* GamePlayTabSelectorViewController.m in Sources */,
 				AABC7402172739D80074CC21 /* ImageViewer.m in Sources */,
 				AABC7404172739D80074CC21 /* NotebookViewController.m in Sources */,
 				AABC7406172739D80074CC21 /* NoteCell.m in Sources */,
@@ -3159,6 +3201,7 @@
 				AABC741E172739D80074CC21 /* QuestsViewController.m in Sources */,
 				AABC741F172739D80074CC21 /* BumpTestViewController.m in Sources */,
 				AABC7424172739D80074CC21 /* JSONKit.m in Sources */,
+				AAF7115D17B9579900262A37 /* PKRevealControllerContainerView.m in Sources */,
 				AABC7425172739D80074CC21 /* NSObject+SBJSON.m in Sources */,
 				AABC7426172739D80074CC21 /* NSString+SBJSON.m in Sources */,
 				AABC7427172739D80074CC21 /* SBJSON.m in Sources */,
@@ -3238,6 +3281,7 @@
 				AAF7116617B971ED00262A37 /* ARISCollapseView.m in Sources */,
 				AA74E7E917626EE9005C279B /* MNpcConversation.m in Sources */,
 				AA74E7EA17626EE9005C279B /* MOverlay.m in Sources */,
+				AAF7115C17B9579900262A37 /* PKRevealController.m in Sources */,
 				AA74E7EB17626EE9005C279B /* MOverlayTile.m in Sources */,
 				AA74E7EC17626EE9005C279B /* MPlayer.m in Sources */,
 				AA74E7ED17626EE9005C279B /* MPlayerItem.m in Sources */,
@@ -3270,14 +3314,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		AAF6FE33174FBCBC00C3E687 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ZXingWidget;
-			targetProxy = AAF6FE32174FBCBC00C3E687 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		AB0A5BA3120365420065CE68 /* Localizable.strings */ = {
@@ -3323,10 +3359,13 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/**",
-					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/src/third_party/bump\"",
-					"\"$(SRCROOT)/src/third_party/CrittercismSDK\"",
-					"\"$(SRCROOT)/src/third_party/pusher\"",
+					"$(SRCROOT)",
+					"\\\"$(SRCROOT)/src/third_party/bump\\\"",
+					"\\\"$(SRCROOT)/src/third_party/CrittercismSDK\\\"",
+					"\\\"$(SRCROOT)/src/third_party/pusher\\\"",
+					/Users/pdougherty/Desktop/iOSClient/src/third_party/bump,
+					/Users/pdougherty/Desktop/iOSClient/src/third_party/CrittercismSDK,
+					/Users/pdougherty/Desktop/iOSClient/src/third_party/pusher,
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -3392,10 +3431,13 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/**",
-					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/src/third_party/bump\"",
-					"\"$(SRCROOT)/src/third_party/CrittercismSDK\"",
-					"\"$(SRCROOT)/src/third_party/pusher\"",
+					"$(SRCROOT)",
+					"\\\"$(SRCROOT)/src/third_party/bump\\\"",
+					"\\\"$(SRCROOT)/src/third_party/CrittercismSDK\\\"",
+					"\\\"$(SRCROOT)/src/third_party/pusher\\\"",
+					/Users/pdougherty/Desktop/iOSClient/src/third_party/bump,
+					/Users/pdougherty/Desktop/iOSClient/src/third_party/CrittercismSDK,
+					/Users/pdougherty/Desktop/iOSClient/src/third_party/pusher,
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (

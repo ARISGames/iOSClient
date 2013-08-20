@@ -67,7 +67,7 @@
 
 - (id)initWithDelegate:(id<InventoryViewControllerDelegate, StateControllerProtocol>)d
 {
-    if(self = [super initWithNibName:@"InventoryViewController" bundle:nil])
+    if(self = [super initWithNibName:@"InventoryViewController" bundle:nil delegate:d])
     {
         self.tabID = @"INVENTORY";
         delegate = d;

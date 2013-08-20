@@ -27,7 +27,7 @@
 
 - (id) initWithDelegate:(id<DecoderViewControllerDelegate, StateControllerProtocol>)d
 {
-    if(self = [super initWithNibName:@"DecoderViewController" bundle:nil])
+    if(self = [super initWithNibName:@"DecoderViewController" bundle:nil delegate:d])
     {
         self.tabID = @"QR";
 

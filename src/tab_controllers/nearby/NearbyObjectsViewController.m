@@ -31,7 +31,7 @@
 
 - (id) initWithDelegate:(id<NearbyObjectsViewControllerDelegate, StateControllerProtocol>)d
 {
-    if(self = [super initWithNibName:@"NearbyObjectsViewController" bundle:nil])
+    if(self = [super initWithNibName:@"NearbyObjectsViewController" bundle:nil delegate:d])
     {
         self.tabID = @"NEARBY";
         delegate = d;

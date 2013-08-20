@@ -42,7 +42,7 @@
 
 - (id)initWithDelegate:(id<AttributesViewControllerDelegate>)d
 {
-    if(self = [super initWithNibName:@"AttributesViewController" bundle:nil])
+    if(self = [super initWithNibName:@"AttributesViewController" bundle:nil delegate:d])
     {
         self.tabID = @"PLAYER";
         delegate = d;
