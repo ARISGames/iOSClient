@@ -153,7 +153,8 @@ UIALogger.logStart(inGame);
 	
 	target.delay(1);
 	target.captureScreenWithName('5 - Initial Plaque');
-	window.scrollViews()[0].buttons()["Tap To Continue"].tap();
+	target.frontMostApp().mainWindow().buttons()["Tap To Continue"].tap();
+	
 	// Let screen with quests load
 	//SCREEN CAPTURE
 	target.delay(1);
@@ -167,9 +168,10 @@ UIALogger.logStart(inGame);
 	
 	target.frontMostApp().mainWindow().elements()["Normal Item"].tap();
 	target.frontMostApp().actionSheet().buttons()["Quick Travel"].tap();
-	target.frontMostApp().mainWindow().buttons()["Back"].tap();
-	target.frontMostApp().mainWindow().buttons()[0].tap();
+	target.frontMostApp().mainWindow().staticTexts()["Back"].tapWithOptions({tapOffset:{x:0.61, y:0.55}});
 	
+	//QUEST COMPLETE, DISMISS
+	target.frontMostApp().mainWindow().buttons()[0].tap();
 	
 	
 	//TAP ON PLAQUE ON MAP
