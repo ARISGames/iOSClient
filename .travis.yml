@@ -1,4 +1,4 @@
 language: objective-c
 
 xcode_sdk: iphonesimulator
-script: integration/build_and_test.sh
+script: rake
