@@ -21,45 +21,42 @@
 #import "ARISAppDelegate.h"
 #import "AnnotationView.h"
 #import "Media.h"
-#import "NoteDetailsViewController.h"
-#import "NoteEditorViewController.h"
-
-#define INITIAL_SPAN 0.001f
 
 @interface MapViewController() <MKMapViewDelegate, UIActionSheetDelegate>
 {
-	NSMutableArray *locations;
-    NSMutableArray *route;
-	BOOL tracking,mapTrace;
-	BOOL appSetNextRegionChange;
-    
-    IBOutlet MKMapView *mapView;
-	IBOutlet UIBarButtonItem *mapTypeButton;
-    IBOutlet UIBarButtonItem *playerButton;
-	IBOutlet UIBarButtonItem *playerTrackingButton;
-
-	NSTimer *refreshTimer;
-    
+    NSMutableArray *locations;
     NSMutableArray *locationsToAdd;
     NSMutableArray *locationsToRemove;
-    id<MapViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
+    NSMutableArray *overlayArray;
     
+    BOOL tracking;
+    BOOL appSetNextRegionChange;
+
+    IBOutlet MKMapView *mapView;
+    IBOutlet UIBarButtonItem *mapTypeButton;
+    IBOutlet UIBarButtonItem *playerButton;
+    IBOutlet UIBarButtonItem *playerTrackingButton;
+
+    NSTimer *refreshTimer;
+
     id<MKAnnotation> currentAnnotation; //PHIL HATES this...
+    id<MapViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 
 @property (nonatomic, strong) NSMutableArray *locations;
-@property (nonatomic, strong) NSMutableArray *route;
+@property (nonatomic, strong) NSMutableArray *locationsToAdd;
+@property (nonatomic, strong) NSMutableArray *locationsToRemove;
+@property (nonatomic, strong) NSMutableArray *overlayArray;
 
 @property (nonatomic, assign) BOOL tracking;
-@property (nonatomic, assign) BOOL mapTrace;
-
-@property (nonatomic, strong) TileOverlay *overlay;
-@property (nonatomic, strong) NSMutableArray *overlayArray;
+@property (nonatomic, assign) BOOL appSetNextRegionChange;
 
 @property (nonatomic, strong) IBOutlet MKMapView *mapView;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *mapTypeButton;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *playerButton;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *playerTrackingButton;
+
+@property (nonatomic, strong) NSTimer *refreshTimer;
 
 - (IBAction) playerButtonTouch;
 
@@ -68,155 +65,68 @@
 @implementation MapViewController
 
 @synthesize locations;
-@synthesize route;
-@synthesize mapView;
-@synthesize tracking,mapTrace;
-@synthesize mapTypeButton;
-@synthesize playerTrackingButton;
-@synthesize playerButton;
-@synthesize overlay;
+@synthesize locationsToAdd;
+@synthesize locationsToRemove;
 @synthesize overlayArray;
+@synthesize tracking;
+@synthesize appSetNextRegionChange;
+@synthesize mapView;
+@synthesize mapTypeButton;
+@synthesize playerButton;
+@synthesize playerTrackingButton;
+@synthesize refreshTimer;
 
 - (id) initWithDelegate:(id<MapViewControllerDelegate, StateControllerProtocol>)d
 {
     if(self = [super initWithNibName:@"MapViewController" bundle:nil delegate:d])
     {
         self.tabID = @"GPS";
-
+        
         delegate = d;
-
+        
         self.title = NSLocalizedString(@"MapViewTitleKey",@"");
         
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"mapTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"mapTabBarUnselected"]];
-
-		tracking = YES;
-		playerTrackingButton.style = UIBarButtonItemStyleDone;
-        route = [[NSMutableArray alloc]initWithCapacity:10];
-
-        locationsToAdd    = [[NSMutableArray alloc] initWithCapacity:10];
-        locationsToRemove = [[NSMutableArray alloc] initWithCapacity:10];
-
+        
+        self.tracking = YES;
+        self.playerTrackingButton.style = UIBarButtonItemStyleDone;
+        
+        self.locationsToAdd    = [[NSMutableArray alloc] initWithCapacity:10];
+        self.locationsToRemove = [[NSMutableArray alloc] initWithCapacity:10];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator)     name:@"ConnectionLost"                               object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerMoved)                name:@"PlayerMoved"                                  object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator)     name:@"ReceivedLocationList"                         object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerMoved)                name:@"PlayerMoved"                                  object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator)     name:@"ReceivedLocationList"                         object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateOverlays)             name:@"NewOverlayListReady"                          object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addLocationsToNewQueue:)    name:@"NewlyAvailableLocationsAvailable"             object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addLocationsToRemoveQueue:) name:@"NewlyUnavailableLocationsAvailable"           object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(incrementBadge)             name:@"NewlyChangedLocationsGameNotificationSent"    object:nil];
-	}
-    return self;
-}
-
-- (IBAction) changeMapType:(id)sender
-{
-	ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate playAudioAlert:@"ticktick" shouldVibrate:NO];
-
-	switch (mapView.mapType)
-    {
-		case MKMapTypeStandard:
-			mapView.mapType=MKMapTypeSatellite;
-			break;
-		case MKMapTypeSatellite:
-			mapView.mapType=MKMapTypeHybrid;
-			break;
-		case MKMapTypeHybrid:
-			mapView.mapType=MKMapTypeStandard;
-			break;
-	}
-}
-
-- (IBAction) refreshButtonAction
-{
-	tracking = YES;
-	playerTrackingButton.style = UIBarButtonItemStyleDone;
-
-	[[[MyCLController sharedMyCLController] locationManager] stopUpdatingLocation];
-	[[[MyCLController sharedMyCLController] locationManager] startUpdatingLocation];
-
-	[self refresh];
-}
-
-- (void) playerButtonTouch
-{
-    [AppModel sharedAppModel].hidePlayers = ![AppModel sharedAppModel].hidePlayers;
-    [self hideOrShowPlayerLocations];
-}
-
-- (void) hideOrShowPlayerLocations
-{
-    if([AppModel sharedAppModel].hidePlayers)
-    {
-        [playerButton setStyle:UIBarButtonItemStyleBordered];
-        if(mapView)
-        {
-            NSEnumerator *existingAnnotationsEnumerator = [[mapView annotations] objectEnumerator];
-            NSObject<MKAnnotation> *annotation;
-            while(annotation = [existingAnnotationsEnumerator nextObject])
-            {
-                if(annotation != mapView.userLocation && [annotation isKindOfClass:[Location class]] && [((Location *)annotation).gameObject type] == GameObjectPlayer)
-                    [mapView removeAnnotation:annotation];
-            }
-        }
     }
-    else
-        [playerButton setStyle:UIBarButtonItemStyleDone];
-
-	[[[MyCLController sharedMyCLController] locationManager] stopUpdatingLocation];
-	[[[MyCLController sharedMyCLController] locationManager] startUpdatingLocation];
-
-    tracking = NO;
-	[self refresh];
+    return self;
 }
 
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-
-	mapView.delegate = self;
-
-	mapTypeButton.target = self;
-	mapTypeButton.action = @selector(changeMapType:);
-	mapTypeButton.title = NSLocalizedString(@"MapTypeKey",@"");
-
-	playerTrackingButton.target = self;
-	playerTrackingButton.action = @selector(refreshButtonAction);
-	playerTrackingButton.style = UIBarButtonItemStyleDone;
-
+    
+	self.mapView.delegate = self;
+    
+	self.mapTypeButton.target = self;
+	self.mapTypeButton.action = @selector(changeMapType:);
+	self.mapTypeButton.title = NSLocalizedString(@"MapTypeKey",@"");
+    
+	self.playerTrackingButton.target = self;
+	self.playerTrackingButton.action = @selector(refreshButtonAction);
+	self.playerTrackingButton.style = UIBarButtonItemStyleDone;
+    
     [self updateOverlays];
     [self refresh];
-}
-
-- (MKOverlayView *) mapView:(MKMapView *)mapView viewForOverlay:(id)ovrlay
-{
-    TileOverlayView *view = [[TileOverlayView alloc] initWithOverlay:ovrlay];
-    //view.tileAlpha = 1;
-
-    [AppModel sharedAppModel].overlayIsVisible = true;
-
-    return view;
-}
-
-- (void) updateOverlays
-{
-    [overlayArray removeAllObjects];
-    [mapView removeOverlays:[mapView overlays]];
-
-    for(int i = 0; i < [[AppModel sharedAppModel].overlayList count]; i++)
-    {
-        overlay = [[TileOverlay alloc] initWithIndex: i];
-        if(overlay != NULL)
-        {
-            [overlayArray addObject:overlay];
-            [mapView addOverlay:overlay];
-        }
-    }
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-
+    
     if     ([[AppModel sharedAppModel].currentGame.mapType isEqualToString:@"SATELLITE"]) mapView.mapType = MKMapTypeSatellite;
     else if([[AppModel sharedAppModel].currentGame.mapType isEqualToString:@"HYBRID"])    mapView.mapType = MKMapTypeHybrid;
     else                                                                                  mapView.mapType = MKMapTypeStandard;
@@ -238,6 +148,88 @@
 	
 	if(refreshTimer && [refreshTimer isValid]) [refreshTimer invalidate];
 	refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(refresh) userInfo:nil repeats:YES];
+}
+
+- (IBAction) changeMapType:(id)sender
+{
+    ARISAppDelegate* appDelegate = (ARISAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate playAudioAlert:@"ticktick" shouldVibrate:NO];
+
+    switch(mapView.mapType)
+    {
+        case MKMapTypeStandard:  mapView.mapType = MKMapTypeSatellite; break;
+        case MKMapTypeSatellite: mapView.mapType = MKMapTypeHybrid;    break;
+        case MKMapTypeHybrid:    mapView.mapType = MKMapTypeStandard;  break;
+    }
+}
+
+- (IBAction) refreshButtonAction
+{
+	self.tracking = YES;
+	self.playerTrackingButton.style = UIBarButtonItemStyleDone;
+    
+	[[[MyCLController sharedMyCLController] locationManager] stopUpdatingLocation];
+	[[[MyCLController sharedMyCLController] locationManager] startUpdatingLocation];
+    
+	[self refresh];
+}
+
+- (void) playerButtonTouch
+{
+    [AppModel sharedAppModel].hidePlayers = ![AppModel sharedAppModel].hidePlayers;
+    [self hideOrShowPlayerLocations];
+}
+
+- (void) hideOrShowPlayerLocations
+{
+    if([AppModel sharedAppModel].hidePlayers)
+    {
+        [self.playerButton setStyle:UIBarButtonItemStyleBordered];
+        if(self.mapView)
+        {
+            NSEnumerator *existingAnnotationsEnumerator = [[self.mapView annotations] objectEnumerator];
+            NSObject<MKAnnotation> *annotation;
+            while(annotation = [existingAnnotationsEnumerator nextObject])
+            {
+                if(annotation != self.mapView.userLocation && [annotation isKindOfClass:[Location class]] && [((Location *)annotation).gameObject type] == GameObjectPlayer)
+                    [self.mapView removeAnnotation:annotation];
+            }
+        }
+    }
+    else
+        [self.playerButton setStyle:UIBarButtonItemStyleDone];
+
+    [[[MyCLController sharedMyCLController] locationManager] stopUpdatingLocation];
+    [[[MyCLController sharedMyCLController] locationManager] startUpdatingLocation];
+
+    self.tracking = NO;
+    [self refresh];
+}
+
+- (MKOverlayView *) mapView:(MKMapView *)mapView viewForOverlay:(id)overlay
+{
+    TileOverlayView *view = [[TileOverlayView alloc] initWithOverlay:overlay];
+    //view.tileAlpha = 1;
+    
+    [AppModel sharedAppModel].overlayIsVisible = true;
+    
+    return view;
+}
+
+- (void) updateOverlays
+{
+    [overlayArray removeAllObjects];
+    [mapView removeOverlays:[mapView overlays]];
+    
+    for(int i = 0; i < [[AppModel sharedAppModel].overlayList count]; i++)
+    {
+        TileOverlay *overlay = [[TileOverlay alloc] initWithIndex: i];
+        if(overlay != NULL)
+        {
+            [overlayArray addObject:overlay];
+            [mapView addOverlay:overlay];
+        }
+    }
 }
 
 - (void) refresh
@@ -267,7 +259,7 @@
 	//Center the map on the player
 	MKCoordinateRegion region = mapView.region;
 	region.center = [AppModel sharedAppModel].player.location.coordinate;
-	region.span = MKCoordinateSpanMake(INITIAL_SPAN, INITIAL_SPAN);
+	region.span = MKCoordinateSpanMake(0.001f, 0.001f);
     
 	[mapView setRegion:region animated:YES];
 }
@@ -367,21 +359,19 @@
 
 - (void) mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated
 {
-	if (!appSetNextRegionChange)
+    if(!appSetNextRegionChange)
     {
-		tracking = NO;
-		playerTrackingButton.style = UIBarButtonItemStyleBordered;
-	}
+        tracking = NO;
+        playerTrackingButton.style = UIBarButtonItemStyleBordered;
+    }
 
-	appSetNextRegionChange = NO;
+    appSetNextRegionChange = NO;
 }
 
 - (MKAnnotationView *) mapView:(MKMapView *)myMapView viewForAnnotation:(id <MKAnnotation>)annotation
 {
-	if (annotation == mapView.userLocation)
-        return nil;
-    else
-        return [[AnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
+    if(annotation == mapView.userLocation) return nil;
+    else return [[AnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:nil];
 }
 
 - (void) mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view
@@ -389,27 +379,27 @@
     if(view.annotation == aMapView.userLocation) return;
     Location *location = (Location *)view.annotation;
 
-	NSMutableArray *buttonTitles = [NSMutableArray arrayWithCapacity:1];
-	int cancelButtonIndex = 0;
-	if(location.allowsQuickTravel)
+    NSMutableArray *buttonTitles = [NSMutableArray arrayWithCapacity:1];
+    int cancelButtonIndex = 0;
+    if(location.allowsQuickTravel)
     {
-		[buttonTitles addObject: NSLocalizedString(@"GPSViewQuickTravelKey", @"")];
-		cancelButtonIndex = 1;
-	}
-	[buttonTitles addObject: NSLocalizedString(@"CancelKey", @"")];
+        [buttonTitles addObject: NSLocalizedString(@"GPSViewQuickTravelKey", @"")];
+        cancelButtonIndex = 1;
+    }
+    [buttonTitles addObject: NSLocalizedString(@"CancelKey", @"")];
 
     UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:location.name
-															delegate:self
-												   cancelButtonTitle:nil
-											  destructiveButtonTitle:nil
-												   otherButtonTitles:nil];
-	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-	actionSheet.cancelButtonIndex = cancelButtonIndex;
-	
-	for(NSString *title in buttonTitles)
-		[actionSheet addButtonWithTitle:title];
-	
-	[actionSheet showInView:view];
+                                                            delegate:self
+                                                   cancelButtonTitle:nil
+                                              destructiveButtonTitle:nil
+                                                   otherButtonTitles:nil];
+    actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+    actionSheet.cancelButtonIndex = cancelButtonIndex;
+
+    for(NSString *title in buttonTitles)
+        [actionSheet addButtonWithTitle:title];
+
+    [actionSheet showInView:view];
 }
 
 - (void) mapView:(MKMapView *)mV didAddAnnotationViews:(NSArray *)views
@@ -437,11 +427,11 @@
 
 - (void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	currentAnnotation = [mapView.selectedAnnotations lastObject];
-	
+    currentAnnotation = [mapView.selectedAnnotations lastObject];
+
     [mapView deselectAnnotation:currentAnnotation animated:NO];
 
-	if(buttonIndex != actionSheet.cancelButtonIndex)
+    if(buttonIndex != actionSheet.cancelButtonIndex)
     {
         [(ARISAppDelegate *)[[UIApplication sharedApplication] delegate] playAudioAlert:@"click" shouldVibrate:NO];
         [self performSelector:@selector(quickTravelToLastSelectedAnnotation) withObject:nil afterDelay:0.5];

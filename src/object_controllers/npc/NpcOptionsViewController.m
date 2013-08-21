@@ -209,6 +209,7 @@ NSString *const kDialogViewedOptionHtmlTemplate =
         arrow.font = [UIFont fontWithName:@"Helvetica" size:19];
         arrow.textAlignment = NSTextAlignmentCenter;
         arrow.backgroundColor = [UIColor clearColor];
+        arrow.textColor = [UIColor ARISColorText];
         arrow.opaque = NO;
         arrow.text = @">";
         
