@@ -1,5 +1,6 @@
-#!/bin/sh
+#
+/bin/sh
 set -e
 
 git submodule update --init --recursive
-
+rake bwoken:init
