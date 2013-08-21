@@ -1,3 +1,3 @@
-#import ../example_js.js
+#import "../allTests.js"
 target = UIATarget.localTarget()
 window = target.frontMostApp().mainWindow()
