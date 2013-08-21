@@ -158,7 +158,9 @@ UIALogger.logStart(inGame);
 	
 	
 	//GO TO MAP
-	target.frontMostApp().tabBar().buttons()["Map"].tap();
+	target.frontMostApp().navigationBar().leftButton().tap();
+	target.frontMostApp().mainWindow().tableViews()[0].cells()["GPS"].tap();
+	
 	
 	//TAP ON NORMAL ITEM AND QUICK TRAVEL
 	
@@ -171,11 +173,9 @@ UIALogger.logStart(inGame);
 	
 	
 	//TAP ON PLAQUE ON MAP
-
 	target.frontMostApp().mainWindow().elements()["Plaque"].tap();
 	target.frontMostApp().actionSheet().buttons()["Quick Travel"].tap();
 	target.frontMostApp().mainWindow().scrollViews()[0].buttons()["Tap To Continue"].tap();
-	
 	
 	//////////////////////////////////////////////////TAP ON GREETING CHARACTER
 	
