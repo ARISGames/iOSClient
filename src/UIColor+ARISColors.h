@@ -26,14 +26,18 @@
 + (UIColor *) ARISColorTranslucentWhite;
 
 + (UIColor *) ARISColorNavBar;           
++ (UIColor *) ARISColorNavBarText;           
 + (UIColor *) ARISColorTabBar;           
++ (UIColor *) ARISColorTabBarText;           
 + (UIColor *) ARISColorToolBar;
 + (UIColor *) ARISColorBarButton;
 + (UIColor *) ARISColorSegmentedControl;
 + (UIColor *) ARISColorSearchBar;
-+ (UIColor *) ARISColorTextBackdrop;
-+ (UIColor *) ARISColorText;
-+ (UIColor *) ARISColorContentBackdrop;
-+ (UIColor *) ARISColorViewBackdrop;
+
++ (UIColor *) ARISColorContentBackdrop; //behind fullscreen content
++ (UIColor *) ARISColorTextBackdrop;    //behind large amounts of text
++ (UIColor *) ARISColorText;            //content text
++ (UIColor *) ARISColorViewBackdrop;    //behind navigation screens
++ (UIColor *) ARISColorViewText;        //labels on navigation screens
 
 @end

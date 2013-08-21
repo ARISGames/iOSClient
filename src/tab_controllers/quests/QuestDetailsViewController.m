@@ -40,7 +40,7 @@ NSString *const kQuestDetailsHtmlTemplate =
 @"  html,body {margin:0; padding:0;}"
 @"	body {"
 @"      padding:10px;"
-@"		color: #000000;"
+@"		color: #FFFFFF;"
 @"      text-align: center;"
 @"		font-size: 17px;"
 @"		font-family: Helvetia, Sans-Serif;"
@@ -87,7 +87,7 @@ NSString *const kQuestDetailsHtmlTemplate =
 
     self.navigationItem.hidesBackButton = YES;
     
-    self.view.backgroundColor = [UIColor ARISColorOffWhite];
+    self.view.backgroundColor = [UIColor ARISColorContentBackdrop];
     self.title = self.quest.name;
     self.navigationItem.title = self.quest.name;
     
@@ -98,8 +98,8 @@ NSString *const kQuestDetailsHtmlTemplate =
     backButton.opaque = YES;
     backButton.frame = CGRectMake(0, mainFrame.size.height, mainFrame.size.width, 44);
     [backButton setTitle:@"back" forState:UIControlStateNormal];
-    [backButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
-    [backButton setBackgroundColor:[UIColor ARISColorOffWhite]];
+    [backButton setTitleColor:[UIColor ARISColorText] forState:UIControlStateNormal];
+    [backButton setBackgroundColor:[UIColor ARISColorTextBackdrop]];
     [backButton addTarget:self action:@selector(backButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:backButton];
     
@@ -107,8 +107,8 @@ NSString *const kQuestDetailsHtmlTemplate =
     {
         UIButton *goButton = [UIButton buttonWithType:UIButtonTypeCustom];
         goButton.frame = CGRectMake(mainFrame.size.width/2, mainFrame.size.height, mainFrame.size.width/2, 44);
-        [goButton setBackgroundColor:[UIColor ARISColorOffWhite]];
-        [goButton setTitleColor:[UIColor ARISColorBlack] forState:UIControlStateNormal];
+        [goButton setBackgroundColor:[UIColor ARISColorText]];
+        [goButton setTitleColor:[UIColor ARISColorTextBackdrop] forState:UIControlStateNormal];
         [goButton setTitle:@"GO" forState:UIControlStateNormal];
         [goButton addTarget:self action:@selector(goButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:goButton];

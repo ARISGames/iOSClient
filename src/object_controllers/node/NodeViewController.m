@@ -98,6 +98,8 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
 {
     hasAppeared = YES;
     
+    self.view.backgroundColor = [UIColor ARISColorContentBackdrop];
+    
     self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,self.view.bounds.size.height-44)];
     self.scrollView.contentSize = self.scrollView.bounds.size;
     
@@ -138,8 +140,8 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
     }
     
     self.continueButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.continueButton.backgroundColor = [UIColor ARISColorOffWhite];
-    [self.continueButton setTitleColor:[UIColor ARISColorBlack] forState:UIControlStateNormal];
+    self.continueButton.backgroundColor = [UIColor ARISColorContentBackdrop];
+    [self.continueButton setTitleColor:[UIColor ARISColorText] forState:UIControlStateNormal];
     [self.continueButton setTitle:NSLocalizedString(@"TapToContinueKey", @"") forState:UIControlStateNormal];
     [self.continueButton setFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44)];
     self.continueButton.titleLabel.font = [UIFont boldSystemFontOfSize:16];

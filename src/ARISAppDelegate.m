@@ -46,17 +46,22 @@
     [[UISegmentedControl appearance] setTintColor:[UIColor ARISColorSegmentedControl]];
     [[UISearchBar appearance]        setTintColor:[UIColor ARISColorSearchBar]];
     
+    [[UINavigationBar appearance] setTintColor:[UIColor ARISColorNavBar]];
     [[UINavigationBar appearance] setTitleTextAttributes:
         [NSDictionary dictionaryWithObjectsAndKeys:
-            [UIColor ARISColorNavBar],UITextAttributeTextColor,
-            [UIFont fontWithName:@"ProximaNova-Semibold" size:0.0], UITextAttributeFont, nil]];
+            [UIColor ARISColorNavBarText],                   UITextAttributeTextColor,
+            [UIFont fontWithName:@"Helvetica-Nue" size:0.0], UITextAttributeFont,
+            nil]
+        ];
     
+    [[UITabBar appearance] setTintColor:[UIColor ARISColorTabBar]];
     [[UITabBarItem appearance] setTitleTextAttributes:
         [NSDictionary dictionaryWithObjectsAndKeys:
-            [UIColor ARISColorTabBar],UITextAttributeTextColor,
-            [UIFont fontWithName:@"ProximaNova-Semibold" size:0.0], UITextAttributeFont, nil]
-        forState:UIControlStateHighlighted && UIControlStateNormal];
-
+            [UIColor ARISColorTabBarText],                   UITextAttributeTextColor,
+            [UIFont fontWithName:@"Helvetica-Nue" size:0.0], UITextAttributeFont,
+            nil] 
+        forState:UIControlStateNormal];
+    
     [self.window setRootViewController:[RootViewController sharedRootViewController]];
     [self.window makeKeyAndVisible];
 }

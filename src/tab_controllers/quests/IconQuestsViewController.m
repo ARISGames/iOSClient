@@ -15,15 +15,9 @@
 #import "AppServices.h"
 #import "UIColor+ARISColors.h"
 
-#define ICONWIDTH 76
-#define ICONHEIGHT 90
-#define TEXTLABELHEIGHT 10
-#define TEXTLABELPADDING 7
-
 @interface IconQuestsViewController() <ARISMediaViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,QuestDetailsViewControllerDelegate,StateControllerProtocol>
 {
     UICollectionView *questIconCollectionView;
-    UICollectionViewFlowLayout *questIconCollectionViewLayout;
     
     int newItemsSinceLastView;
     
@@ -32,14 +26,17 @@
     
     id<QuestsViewControllerDelegate,StateControllerProtocol> __unsafe_unretained delegate;
 }
+@property (nonatomic, strong) UICollectionView *questIconCollectionView;
 
 @end
 
 @implementation IconQuestsViewController
 
+@synthesize questIconCollectionView;
+
 - (id) initWithDelegate:(id<QuestsViewControllerDelegate,StateControllerProtocol>)d
 {
-    if(self = [super initWithNibName:@"IconQuestsViewController" bundle:nil delegate:d])
+    if(self = [super initWithDelegate:d])
     {
         delegate = d;
         
@@ -56,19 +53,25 @@
     return self;
 }
 
+- (void) loadView
+{
+    [super loadView];
+    self.view.backgroundColor = [UIColor ARISColorViewBackdrop];
+}
+
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-    
-    questIconCollectionViewLayout = [[UICollectionViewFlowLayout alloc] init];
-    questIconCollectionViewLayout.itemSize = CGSizeMake(ICONWIDTH, ICONHEIGHT);
+
+    UICollectionViewFlowLayout *questIconCollectionViewLayout = [[UICollectionViewFlowLayout alloc] init];
+    questIconCollectionViewLayout.itemSize = CGSizeMake(76, 90);
     questIconCollectionViewLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
     questIconCollectionViewLayout.sectionInset = UIEdgeInsetsMake(20, 20, 20, 20);
     questIconCollectionViewLayout.minimumLineSpacing = 30.0;
     questIconCollectionViewLayout.minimumInteritemSpacing = 10.0;
     
     questIconCollectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:questIconCollectionViewLayout];
-    questIconCollectionView.backgroundColor = [UIColor ARISColorViewBackdrop];
+    questIconCollectionView.backgroundColor = [UIColor clearColor];
     questIconCollectionView.dataSource = self;
     questIconCollectionView.delegate = self;
     [questIconCollectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"Cell"];
@@ -108,7 +111,7 @@
     activeQuests    = [[AppModel sharedAppModel].currentGame.questsModel.currentActiveQuests    sortedArrayUsingDescriptors:sortDescriptors];
     completedQuests = [[AppModel sharedAppModel].currentGame.questsModel.currentCompletedQuests sortedArrayUsingDescriptors:sortDescriptors];
         
-    [questIconCollectionView reloadData];
+    [self.questIconCollectionView reloadData];
 }
 
 - (NSInteger) numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -132,7 +135,17 @@
     if(indexPath.item < [activeQuests count]) q = [activeQuests    objectAtIndex:indexPath.item];
     else                                      q = [completedQuests objectAtIndex:indexPath.item-[activeQuests count]];
     
-    CGRect iconFrame = CGRectMake(0, 0, cell.contentView.frame.size.width, cell.contentView.frame.size.height-(TEXTLABELHEIGHT+TEXTLABELPADDING));
+    CGRect textFrame = CGRectMake(0, (cell.contentView.frame.size.height-10), cell.contentView.frame.size.width, 10);
+    UILabel *iconTitleLabel = [[UILabel alloc] initWithFrame:textFrame];
+    iconTitleLabel.text = q.name;
+    iconTitleLabel.textColor = [UIColor ARISColorViewText];
+    iconTitleLabel.backgroundColor = [UIColor clearColor];
+    iconTitleLabel.textAlignment = NSTextAlignmentCenter;
+    iconTitleLabel.lineBreakMode = NSLineBreakByWordWrapping;// NSLineBreakByTruncatingTail;
+    iconTitleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:14];
+    [cell.contentView addSubview:iconTitleLabel];
+    
+    CGRect iconFrame = CGRectMake(0, 0, cell.contentView.frame.size.width, cell.contentView.frame.size.height-(textFrame.size.height+7));
     ARISMediaView *icon;
     if(q.iconMediaId != 0)
         icon = [[ARISMediaView alloc] initWithFrame:iconFrame media:[[AppModel sharedAppModel] mediaForMediaId:q.iconMediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFit delegate:self];
@@ -141,16 +154,6 @@
     
     icon.layer.cornerRadius = 11.0f;
     [cell.contentView addSubview:icon];
-    
-    CGRect textFrame = CGRectMake(0, (cell.contentView.frame.size.height-TEXTLABELHEIGHT), cell.contentView.frame.size.width, TEXTLABELHEIGHT);
-    UILabel *iconTitleLabel = [[UILabel alloc] initWithFrame:textFrame];
-    iconTitleLabel.text = q.name;
-    iconTitleLabel.textColor = [UIColor ARISColorBlack];
-    iconTitleLabel.backgroundColor = [UIColor clearColor];
-    iconTitleLabel.textAlignment = NSTextAlignmentCenter;
-    iconTitleLabel.lineBreakMode = NSLineBreakByWordWrapping;// NSLineBreakByTruncatingTail;
-    iconTitleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:14];
-    [cell.contentView addSubview:iconTitleLabel];
     
     return cell;
 }

@@ -102,6 +102,7 @@
     self.continueButton.textAlignment = NSTextAlignmentRight;
     self.continueButton.text = @"Continue > ";
     self.continueButton.userInteractionEnabled = YES;
+    self.continueButton.textColor = [UIColor ARISColorText];
     self.continueButton.backgroundColor = [UIColor clearColor];
     self.continueButton.opaque = NO;
     [self.continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouched)]];

@@ -35,9 +35,10 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 @"	<style type='text/css'><!--"
 @"  html { margin:0; padding:0; }"
 @"	body {"
-@"		font-size: 19px;"
-@"		font-family: Helvetia, Sans-Serif;"
-@"      text-align: center;"
+@"      color:#FFFFFF;"
+@"		font-size:19px;"
+@"		font-family:Helvetia, Sans-Serif;"
+@"      text-align:center;"
 @"      margin:0;"
 @"      padding:10;"
 @"	}"
@@ -93,7 +94,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 
 - (id) initWithItem:(Item *)i viewFrame:(CGRect)vf delegate:(id<GameObjectViewControllerDelegate,StateControllerProtocol>)d source:(id)s
 {
-    if ((self = [super init]))
+    if(self = [super init])
     {
         viewFrame = vf;
 		self.item = i;
@@ -156,6 +157,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
     backBtn.text = NSLocalizedString(@"ItemDropKey", @"");
     backBtn.text = @"Back";
     backBtn.backgroundColor = [UIColor ARISColorTextBackdrop];
+    backBtn.textColor       = [UIColor ARISColorText];
     [backBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backButtonTouched)]];
     [backBtn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
     
