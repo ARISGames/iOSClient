@@ -1,2 +1,4 @@
-source 'https://rubygems.org'
+source :rubygems
+
+gem 'xcodebuild-rb'
 gem 'bwoken'

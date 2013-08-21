@@ -1,6 +1,5 @@
 /// This JS script tests the UI Elements and Accessibility tags for the ARIS game "Game-Tester"
 
-
 /////Variables
 var target = UIATarget.localTarget();
 var app = target.frontMostApp();
@@ -10,8 +9,6 @@ target.logElementTree();
 var username = "aris-test";
 var password = "aris";
 var gameName = "ARIS-Tester";
-
-
 
 ////////////////////////////////////////////////////////////////////// RESET USER IF ALREADY LOGGED IN
 
@@ -29,7 +26,6 @@ var resetUser = function()
 	
 	UIALogger.logPass(resetUser);	
 }
-
 
 
 ////////////////////////////////////////////////////////////////////// SIMULATING: LOGIN
