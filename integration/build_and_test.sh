@@ -1,3 +1,3 @@
 #!/bin/sh
 
-rake
+SIMULATOR=true rake
