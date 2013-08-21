@@ -1,5 +1,4 @@
 language: objective-c
 
 xcode_sdk: iphonesimulator
-before_script: integration/prep.sh
 script: integration/build_and_test.sh
