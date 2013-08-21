@@ -170,6 +170,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
             dropBtn.textAlignment = NSTextAlignmentCenter;
             dropBtn.text = NSLocalizedString(@"ItemDropKey", @"");
             dropBtn.backgroundColor = [UIColor ARISColorTextBackdrop];
+            dropBtn.textColor       = [UIColor ARISColorText];
             if(item.destroyable)
                 dropBtn.frame = CGRectMake(self.view.bounds.size.width/3, self.view.bounds.size.height-44, self.view.bounds.size.width/3, 44);
             else
@@ -185,6 +186,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
             destroyBtn.textAlignment = NSTextAlignmentCenter;
             destroyBtn.text = NSLocalizedString(@"ItemDeleteKey",@"");
             destroyBtn.backgroundColor = [UIColor ARISColorTextBackdrop];
+            destroyBtn.textColor       = [UIColor ARISColorText];
             if(item.dropable)
                 destroyBtn.frame = CGRectMake(2*self.view.bounds.size.width/3, self.view.bounds.size.height-44, self.view.bounds.size.width/3, 44);
             else
@@ -208,6 +210,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         pickupBtn.textAlignment = NSTextAlignmentCenter;
         pickupBtn.text = NSLocalizedString(@"ItemPickupKey", @"");
         pickupBtn.backgroundColor = [UIColor ARISColorTextBackdrop];
+        pickupBtn.textColor       = [UIColor ARISColorText];
         pickupBtn.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
         backBtn.frame   = CGRectMake(                            0, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
         [pickupBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pickupButtonTouched)]];
