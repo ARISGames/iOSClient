@@ -1,4 +1,4 @@
 #!/bin/sh
 set -e
 
-xctool -workspace ARIS -scheme ARIS build test
+xctool -workspace ARIS.xcworkspace -scheme 'ARIS' build test
