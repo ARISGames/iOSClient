@@ -1,5 +1,4 @@
 language: objective-c
 
 xcode_sdk: iphonesimulator
-before_script: rake xcode:cleanbuild
 script: rake
