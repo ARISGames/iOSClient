@@ -35,7 +35,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
 @"	<style type='text/css'><!--"
 @"  html { margin:0; padding:0; }"
 @"	body {"
-@"      color:#FFFFFF;"
+@"      color:#000000;"
 @"		font-size:19px;"
 @"		font-family:Helvetia, Sans-Serif;"
 @"      text-align:center;"

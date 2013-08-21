@@ -40,7 +40,7 @@ NSString *const kQuestDetailsHtmlTemplate =
 @"  html,body {margin:0; padding:0;}"
 @"	body {"
 @"      padding:10px;"
-@"		color: #FFFFFF;"
+@"		color: #000000;"
 @"      text-align: center;"
 @"		font-size: 17px;"
 @"		font-family: Helvetia, Sans-Serif;"

@@ -27,14 +27,12 @@
 NSString *const kGameDetailsHtmlTemplate =
 @"<html>"
 @"<head>"
-@"	<title>Aris</title>"
 @"	<style type='text/css'><!--"
 @"	body {"
-@"		background-color: transparent;"
-@"		color: #000000;"
-@"		font-size: 17px;"
-@"		font-family: Helvetia, Sans-Serif;"
-@"		margin: 0px;"
+@"		color:#000000;"
+@"		font-size:17px;"
+@"		font-family:Helvetia, Sans-Serif;"
+@"		margin:0px;"
 @"	}"
 @"	a {color: #FFFFFF; text-decoration: underline; }"
 @"	--></style>"
@@ -100,23 +98,25 @@ NSString *const kGameDetailsHtmlTemplate =
     self.navigationItem.leftBarButtonItem = backButton;
     
     self.mediaImageView = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
-    self.descriptionWebView = [[UIWebView alloc] init];
+    self.descriptionWebView = [[UIWebView alloc] initWithFrame:CGRectMake(15, 15, self.view.bounds.size.width-30, 10)];
     [descriptionWebView setBackgroundColor:[UIColor clearColor]];
     
     self.title = self.game.name;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void) viewWillAppear:(BOOL)animated
 {
-	NSString *htmlDescription = [NSString stringWithFormat:kGameDetailsHtmlTemplate, self.game.gdescription];
-	descriptionWebView.delegate = self;
-    descriptionWebView.hidden = NO;
-	[descriptionWebView loadHTMLString:htmlDescription baseURL:nil];
-    
-    [self.tableView reloadData];
+    if(![self.game.gdescription isEqualToString:@""])
+    {
+        self.descriptionWebView.delegate = self;
+        self.descriptionWebView.hidden = NO;
+        [self.descriptionWebView loadHTMLString:[NSString stringWithFormat:kGameDetailsHtmlTemplate, self.game.gdescription] baseURL:nil];
+
+        [self.tableView reloadData];
+    }
 }
 
-- (void)viewDidIntentionallyAppear
+- (void) viewDidIntentionallyAppear
 {
     if([AppModel sharedAppModel].skipGameDetails)
     {
@@ -125,7 +125,7 @@ NSString *const kGameDetailsHtmlTemplate =
     }
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)descriptionView
+- (void) webViewDidFinishLoad:(UIWebView *)descriptionView
 {
 	float nHeight = [[descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue] + 3;
 	self.newHeight = nHeight;
@@ -136,7 +136,7 @@ NSString *const kGameDetailsHtmlTemplate =
     [tableView reloadRowsAtIndexPaths:[[NSArray alloc] initWithObjects:self.descriptionIndexPath, nil] withRowAnimation:UITableViewRowAnimationFade];
 }
 
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+- (BOOL) webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     NSURL *requestURL = [request URL];  
 
@@ -225,12 +225,8 @@ NSString *const kGameDetailsHtmlTemplate =
     {
         descriptionIndexPath = [indexPath copy];
         cell.userInteractionEnabled = NO;
-        CGRect descriptionFrame = [descriptionWebView frame];
         descriptionWebView.opaque = NO;
         descriptionWebView.backgroundColor = [UIColor clearColor];
-        descriptionFrame.origin.x = 15;
-        descriptionFrame.origin.y = 15;
-        [descriptionWebView setFrame:descriptionFrame];
         [cell.contentView addSubview:descriptionWebView];
     }
     else if (indexPath.section == 3)

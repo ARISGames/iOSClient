@@ -27,17 +27,18 @@
 + (UIColor *) ARISColorTranslucentBlack { return [UIColor colorWithRed:( 16.0/255.0) green:(  8.0/255.0) blue:(  2.0/255.0) alpha:0.8]; }
 + (UIColor *) ARISColorTranslucentWhite { return [UIColor colorWithRed:(255.0/255.0) green:(255.0/255.0) blue:(255.0/255.0) alpha:0.8]; }
 
-+ (UIColor *) ARISColorNavBar           { return [UIColor ARISColorBlack]; }
-+ (UIColor *) ARISColorNavBarText       { return [UIColor ARISColorWhite]; }
-+ (UIColor *) ARISColorTabBar           { return [UIColor ARISColorBlack]; }
-+ (UIColor *) ARISColorTabBarText       { return [UIColor ARISColorWhite]; }
-+ (UIColor *) ARISColorToolBar          { return [UIColor ARISColorBlack]; }
-+ (UIColor *) ARISColorBarButton        { return [UIColor ARISColorLightBlue]; }
-+ (UIColor *) ARISColorSegmentedControl { return [UIColor ARISColorLightBlue]; }
-+ (UIColor *) ARISColorSearchBar        { return [UIColor ARISColorOffWhite]; }
-+ (UIColor *) ARISColorTextBackdrop     { return [UIColor ARISColorTranslucentBlack]; }
-+ (UIColor *) ARISColorText             { return [UIColor ARISColorWhite]; }
-+ (UIColor *) ARISColorContentBackdrop  { return [UIColor ARISColorBlack]; }
++ (UIColor *) ARISColorNavBar           { return [UIColor ARISColorWhite]; }
++ (UIColor *) ARISColorNavBarText       { return [UIColor ARISColorBlack]; }
++ (UIColor *) ARISColorTabBar           { return [UIColor ARISColorWhite]; }
++ (UIColor *) ARISColorTabBarText       { return [UIColor ARISColorBlack]; }
++ (UIColor *) ARISColorToolBar          { return [UIColor ARISColorWhite]; }
++ (UIColor *) ARISColorBarButton        { return [UIColor ARISColorBlack]; }
++ (UIColor *) ARISColorSegmentedControl { return [UIColor ARISColorBlack]; }
++ (UIColor *) ARISColorSearchBar        { return [UIColor ARISColorWhite]; }
+
++ (UIColor *) ARISColorTextBackdrop     { return [UIColor ARISColorTranslucentWhite]; }
++ (UIColor *) ARISColorText             { return [UIColor ARISColorBlack]; }
++ (UIColor *) ARISColorContentBackdrop  { return [UIColor ARISColorWhite]; }
 + (UIColor *) ARISColorViewBackdrop     { return [UIColor ARISColorLightGray]; }
 + (UIColor *) ARISColorViewText         { return [UIColor ARISColorBlack]; }
 
