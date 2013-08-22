@@ -28,25 +28,6 @@
 
 #import "InventoryViewController.h"
 
-NSString *const kItemDetailsDescriptionHtmlTemplate =
-@"<html>"
-@"<head>"
-@"	<title>Aris</title>"
-@"	<style type='text/css'><!--"
-@"  html { margin:0; padding:0; }"
-@"	body {"
-@"      color:#000000;"
-@"		font-size:19px;"
-@"		font-family:Helvetia, Sans-Serif;"
-@"      text-align:center;"
-@"      margin:0;"
-@"      padding:10;"
-@"	}"
-@"	--></style>"
-@"</head>"
-@"<body>%@</body>"
-@"</html>";
-
 @interface ItemViewController()  <ARISMediaViewDelegate, ARISWebViewDelegate, ARISCollapseViewDelegate, StateControllerProtocol, UIWebViewDelegate, UITextViewDelegate>
 {
 	//ARISMoviePlayerViewController *mMoviePlayer; //only used if item is a video
@@ -228,7 +209,7 @@ NSString *const kItemDetailsDescriptionHtmlTemplate =
         self.descriptionWebView.opaque = NO;
         self.descriptionWebView.backgroundColor = [UIColor clearColor];
         self.descriptionCollapseView = [[ARISCollapseView alloc] initWithView:self.descriptionWebView frame:CGRectMake(0,self.view.bounds.size.height-10-44,self.view.frame.size.width,10) open:NO showHandle:YES draggable:YES tappable:YES delegate:self];
-        [self.descriptionWebView loadHTMLString:[NSString stringWithFormat:kItemDetailsDescriptionHtmlTemplate, self.item.idescription] baseURL:nil];
+        [self.descriptionWebView loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], self.item.idescription] baseURL:nil];
         [self.view addSubview:self.descriptionCollapseView];
     }
     

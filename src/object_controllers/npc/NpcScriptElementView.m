@@ -16,25 +16,6 @@
 #import "StateControllerProtocol.h"
 #import "UIColor+ARISColors.h"
 
-NSString *const kDialogHtmlTemplate =
-@"<html>"
-@"<head>"
-@"	<title>Aris</title>"
-@"	<style type='text/css'><!--"
-@"	html { margin:0; padding:0; }"
-@"	body {"
-@"      color:#000000;"
-@"		font-size:19px;"
-@"		font-family:Helvetia, Sans-Serif;"
-@"      text-align:center;"
-@"      margin:0;"
-@"      padding:10;"
-@"	}"
-@"	--></style>"
-@"</head>"
-@"<body>%@</body>"
-@"</html>";
-
 @interface NpcScriptElementView() <ARISMediaViewDelegate, ARISCollapseViewDelegate, StateControllerProtocol, ARISWebViewDelegate, UIWebViewDelegate, UIWebViewDelegate, UIScrollViewDelegate>
 {
     ScriptElement *scriptElement;
@@ -156,7 +137,7 @@ NSString *const kDialogHtmlTemplate =
     CGRect wvFrame = [self.textWebView frame];
     [self.textWebView setFrame:CGRectMake(wvFrame.origin.x, wvFrame.origin.y, wvFrame.size.width, 10)];
     //Load content
-    [self.textWebView loadHTMLString:[NSString stringWithFormat:kDialogHtmlTemplate, self.scriptElement.text] baseURL:nil];
+    [self.textWebView loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], self.scriptElement.text] baseURL:nil];
     
     //PHIL
     /*

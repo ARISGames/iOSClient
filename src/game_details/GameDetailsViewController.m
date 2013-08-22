@@ -24,22 +24,6 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-NSString *const kGameDetailsHtmlTemplate =
-@"<html>"
-@"<head>"
-@"	<style type='text/css'><!--"
-@"	body {"
-@"		color:#000000;"
-@"		font-size:17px;"
-@"		font-family:Helvetia, Sans-Serif;"
-@"		margin:0px;"
-@"	}"
-@"	a {color: #FFFFFF; text-decoration: underline; }"
-@"	--></style>"
-@"</head>"
-@"<body>%@</body>"
-@"</html>";
-
 @interface GameDetailsViewController() <ARISMediaViewDelegate, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate,  UIWebViewDelegate>
 {
 	Game *game; 
@@ -110,7 +94,7 @@ NSString *const kGameDetailsHtmlTemplate =
     {
         self.descriptionWebView.delegate = self;
         self.descriptionWebView.hidden = NO;
-        [self.descriptionWebView loadHTMLString:[NSString stringWithFormat:kGameDetailsHtmlTemplate, self.game.gdescription] baseURL:nil];
+        [self.descriptionWebView loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], self.game.gdescription] baseURL:nil];
 
         [self.tableView reloadData];
     }
@@ -186,14 +170,14 @@ NSString *const kGameDetailsHtmlTemplate =
 {    
 	NSString *CellIdentifier = [NSString stringWithFormat: @"Cell%d%d",indexPath.section,indexPath.row];
     UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];;
+    if(cell == nil) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];;
 	
-    if (indexPath.section == 0 && indexPath.row == 0)
+    if(indexPath.section == 0 && indexPath.row == 0)
     {
         if(self.game.splashMedia)
-            [self.mediaImageView refreshWithFrame:CGRectMake(0, 0, 320, 200) media:self.game.splashMedia mode:ARISMediaDisplayModeAspectFit delegate:self];
+            [self.mediaImageView refreshWithFrame:CGRectMake(0,0,self.view.bounds.size.width-20,200) media:self.game.splashMedia mode:ARISMediaDisplayModeAspectFit delegate:self];
         else
-            [self.mediaImageView refreshWithFrame:CGRectMake(0, 0, 320, 200) image:[UIImage imageNamed:@"DefaultGameSplash"] mode:ARISMediaDisplayModeAspectFit delegate:self];
+            [self.mediaImageView refreshWithFrame:CGRectMake(0,0,self.view.bounds.size.width-20,200) image:[UIImage imageNamed:@"DefaultGameSplash"] mode:ARISMediaDisplayModeAspectFit delegate:self];
         
         cell.backgroundView = mediaImageView;
         cell.backgroundView.layer.masksToBounds = YES;
@@ -206,6 +190,7 @@ NSString *const kGameDetailsHtmlTemplate =
         {
             if(self.game.hasBeenPlayed) cell.textLabel.text = NSLocalizedString(@"GameDetailsResumeKey", @"");
             else                        cell.textLabel.text = NSLocalizedString(@"GameDetailsNewGameKey", @""); 
+            cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:18];
             cell.textLabel.textAlignment = NSTextAlignmentCenter;
         }
         else if (indexPath.row ==1)
@@ -213,6 +198,7 @@ NSString *const kGameDetailsHtmlTemplate =
             if(self.game.hasBeenPlayed)
             {
                 cell.textLabel.text = NSLocalizedString(@"GameDetailsResetKey", @"");
+                cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:18];
                 cell.textLabel.textAlignment = NSTextAlignmentCenter;
             } 
             else

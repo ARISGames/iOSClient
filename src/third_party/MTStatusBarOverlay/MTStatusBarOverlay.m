@@ -393,7 +393,7 @@ kDetailViewWidth, kHistoryTableRowHeight*kMaxHistoryTableRowCount + kStatusBarHe
 		finishedLabel_.hidden = YES;
 		finishedLabel_.text = kFinishedText;
 		finishedLabel_.textAlignment = NSTextAlignmentCenter;
-		finishedLabel_.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:kFinishedFontSize];
+		finishedLabel_.font = [UIFont fontWithName:@"HelveticaNeue-Bold-Light" size:kFinishedFontSize];
         finishedLabel_.adjustsFontSizeToFitWidth = YES;
 		[self addSubviewToBackgroundView:finishedLabel_];
         
@@ -1292,7 +1292,7 @@ kDetailViewWidth, kHistoryTableRowHeight*kMaxHistoryTableRowCount + kStatusBarHe
 			[self.activityIndicator stopAnimating];
             
 			// update font and text
-			self.finishedLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:kFinishedFontSize];
+			self.finishedLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold-Light" size:kFinishedFontSize];
 			self.finishedLabel.text = kFinishedText;
             self.progress = 1.0;
 			break;

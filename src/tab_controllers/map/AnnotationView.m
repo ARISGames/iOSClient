@@ -41,8 +41,8 @@
         if(loc.gameObject.type == GameObjectItem && loc.qty > 1 && loc.title)
             loc.subtitle = [NSString stringWithFormat:@"x %d",loc.qty];
         
-        self.titleFont = [UIFont fontWithName:@"Arial" size:18];
-        self.subtitleFont = [UIFont fontWithName:@"Arial" size:12];
+        self.titleFont    = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
+        self.subtitleFont = [UIFont fontWithName:@"HelveticaNeue-Light" size:12];
         
         self.showTitle = (loc.showTitle && loc.title) ? YES : NO;
         self.shouldWiggle = loc.wiggle;

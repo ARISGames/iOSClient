@@ -46,11 +46,27 @@
     [[UISegmentedControl appearance] setTintColor:[UIColor ARISColorSegmentedControl]];
     [[UISearchBar appearance]        setTintColor:[UIColor ARISColorSearchBar]];
     
+    [[UILabel appearance] setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:12.0]];
+    [[UILabel appearanceWhenContainedIn:[UIButton class],        nil] setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
+    [[UILabel appearanceWhenContainedIn:[UITableViewCell class], nil] setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
+    
+    [[UIBarButtonItem appearance] setTitleTextAttributes:
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            [UIFont fontWithName:@"HelveticaNeue-Light" size:16], UITextAttributeFont,
+            nil]
+        forState:UIControlStateNormal];
+    
+    [[UISegmentedControl appearance] setTitleTextAttributes:
+        [NSDictionary dictionaryWithObjectsAndKeys:
+            [UIFont fontWithName:@"HelveticaNeue-Light" size:16], UITextAttributeFont,
+            nil]
+        forState:UIControlStateNormal];
+    
     [[UINavigationBar appearance] setTintColor:[UIColor ARISColorNavBar]];
     [[UINavigationBar appearance] setTitleTextAttributes:
         [NSDictionary dictionaryWithObjectsAndKeys:
             [UIColor ARISColorNavBarText],                   UITextAttributeTextColor,
-            [UIFont fontWithName:@"Helvetica-Nue" size:0.0], UITextAttributeFont,
+            [UIFont fontWithName:@"HelveticaNeue-Light" size:0.0], UITextAttributeFont,
             nil]
         ];
     
@@ -58,7 +74,7 @@
     [[UITabBarItem appearance] setTitleTextAttributes:
         [NSDictionary dictionaryWithObjectsAndKeys:
             [UIColor ARISColorTabBarText],                   UITextAttributeTextColor,
-            [UIFont fontWithName:@"Helvetica-Nue" size:0.0], UITextAttributeFont,
+            [UIFont fontWithName:@"HelveticaNeue-Light" size:0.0], UITextAttributeFont,
             nil] 
         forState:UIControlStateNormal];
     

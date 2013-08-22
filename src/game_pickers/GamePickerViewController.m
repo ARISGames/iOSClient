@@ -136,10 +136,18 @@
 	Game *gameForCell = [self.gameList objectAtIndex:indexPath.row];
     
 	cell.titleLabel.text      = gameForCell.name;
+    [cell.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-CondensedBold" size:16]];
+    
 	cell.authorLabel.text     = gameForCell.authors;
+    [cell.authorLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:12]];
+    
     cell.starView.rating      = gameForCell.rating;
+    
     cell.distanceLabel.text   = [NSString stringWithFormat:@"%1.1f %@", gameForCell.distanceFromPlayer/1000, NSLocalizedString(@"km", @"")];
+    [cell.distanceLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:12]];
+    
 	cell.numReviewsLabel.text = [NSString stringWithFormat:@"%@ %@", [[NSNumber numberWithInt:gameForCell.numReviews] stringValue], NSLocalizedString(@"GamePickerRecentReviewsKey", @"")];
+    [cell.numReviewsLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:12]];
     
     ARISMediaView *iconView = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
     iconView.layer.masksToBounds = YES;

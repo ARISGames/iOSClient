@@ -16,50 +16,6 @@
 #import "UIColor+ARISColors.h"
 #import "StateControllerProtocol.h"
 
-NSString *const kDialogOptionHtmlTemplate =
-@"<html>"
-@"<head>"
-@"	<title>Aris</title>"
-@"	<style type='text/css'><!--"
-@"	html { margin:0; padding:0; }"
-@"	body {"
-@"      color:#000000;"
-@"		font-size:19px;"
-@"		font-family:Helvetia, Sans-Serif;"
-@"      margin:0;"
-@"      padding:10;"
-@"	}"
-@"	div {"
-@"      margin:0;"
-@"      padding:0;"
-@"	}"
-@"	--></style>"
-@"</head>"
-@"<body>%@</body>"
-@"</html>";
-
-NSString *const kDialogViewedOptionHtmlTemplate =
-@"<html>"
-@"<head>"
-@"	<title>Aris</title>"
-@"	<style type='text/css'><!--"
-@"	html { margin:0; padding:0; }"
-@"	body {"
-@"      color:#999999;"
-@"		font-size:19px;"
-@"		font-family:Helvetia, Sans-Serif;"
-@"      margin:0;"
-@"      padding:10;"
-@"	}"
-@"	div {"
-@"      margin:0;"
-@"      padding:0;"
-@"	}"
-@"	--></style>"
-@"</head>"
-@"<body>%@</body>"
-@"</html>";
-
 @interface NpcOptionsViewController() <ARISMediaViewDelegate, ARISCollapseViewDelegate, ARISWebViewDelegate, UIWebViewDelegate, StateControllerProtocol>
 {
     ARISMediaView *mediaView;
@@ -198,15 +154,15 @@ NSString *const kDialogViewedOptionHtmlTemplate =
         NpcScriptOption *option = [optionList objectAtIndex:i];
         
         if(option.hasViewed)
-            [text loadHTMLString:[NSString stringWithFormat:kDialogViewedOptionHtmlTemplate, option.optionText] baseURL:nil];
+            [text loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], option.optionText] baseURL:nil];
         else
-            [text loadHTMLString:[NSString stringWithFormat:kDialogOptionHtmlTemplate, option.optionText] baseURL:nil];
+            [text loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], option.optionText] baseURL:nil];
         
         arrowFrame = textFrame;
         arrowFrame.origin.x = textFrame.size.width;
         arrowFrame.size.width = cellFrame.size.width-textFrame.size.width;
         arrow = [[UILabel alloc] initWithFrame:arrowFrame];
-        arrow.font = [UIFont fontWithName:@"Helvetica" size:19];
+        arrow.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:19];
         arrow.textAlignment = NSTextAlignmentCenter;
         arrow.backgroundColor = [UIColor clearColor];
         arrow.textColor = [UIColor ARISColorText];
@@ -234,7 +190,7 @@ NSString *const kDialogViewedOptionHtmlTemplate =
         text.backgroundColor = [UIColor clearColor];
         text.opaque = NO;
         cell.tag = -1;
-        [text loadHTMLString:[NSString stringWithFormat:kDialogOptionHtmlTemplate, self.currentLeaveConversationTitle] baseURL:nil];
+        [text loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], self.currentLeaveConversationTitle] baseURL:nil];
         
         [cell addSubview:text];
         [self.optionsScrollView addSubview:cell];
@@ -252,7 +208,7 @@ NSString *const kDialogViewedOptionHtmlTemplate =
     text.scrollView.bounces = NO;
     text.backgroundColor = [UIColor clearColor];
     text.opaque = NO;
-    [text loadHTMLString:[NSString stringWithFormat:kDialogOptionHtmlTemplate, @"<div style=\"color:#666666; font-size:14px; text-align:center;\">Make a Selection</div>"] baseURL:nil];
+    [text loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], @"<div style=\"color:#666666; font-size:14px; text-align:center;\">Make a Selection</div>"] baseURL:nil];
     
     [cell addSubview:text];
     [self.optionsScrollView addSubview:cell];

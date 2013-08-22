@@ -49,7 +49,7 @@
             UILabel *dots = [[UILabel alloc] initWithFrame:CGRectMake(0, -15, f.size.width, 20)];
             dots.backgroundColor = [UIColor clearColor];
             dots.textColor = [UIColor ARISColorText];
-            dots.font = [UIFont fontWithName:@"Helvetica" size:30];
+            dots.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:30];
             dots.textAlignment = NSTextAlignmentCenter;
             dots.text = @"...";
             [self.handle addSubview:dots];

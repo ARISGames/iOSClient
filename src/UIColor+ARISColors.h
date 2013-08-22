@@ -18,6 +18,7 @@
 + (UIColor *) ARISColorYellow;
 + (UIColor *) ARISColorBlack;
 + (UIColor *) ARISColorLightGray;
++ (UIColor *) ARISColorGray;
 + (UIColor *) ARISColorDarkGray;
 + (UIColor *) ARISColorWhite;
 + (UIColor *) ARISColorOffWhite;
@@ -39,5 +40,7 @@
 + (UIColor *) ARISColorText;            //content text
 + (UIColor *) ARISColorViewBackdrop;    //behind navigation screens
 + (UIColor *) ARISColorViewText;        //labels on navigation screens
+
++ (NSString *) ARISHtmlTemplate;
 
 @end

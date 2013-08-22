@@ -24,25 +24,6 @@
 
 static NSString * const OPTION_CELL = @"option";
 
-NSString *const kPlaqueDescriptionHtmlTemplate =
-@"<html>"
-@"<head>"
-@"	<title>Aris</title>"
-@"	<style type='text/css'><!--"
-@"  html { margin:0px; padding:0px; }"
-@"	body {"
-@"		background-color: #000000;"
-@"		color: #FFFFFF;"
-@"		font-size: 17px;"
-@"		font-family: Helvetia, Sans-Serif;"
-@"      padding:10px;"
-@"	}"
-@"	a {color: #9999FF; text-decoration: underline; }"
-@"	--></style>"
-@"</head>"
-@"<body>%@</body>"
-@"</html>";
-
 @interface NodeViewController() <UIScrollViewDelegate, UIWebViewDelegate, ARISMediaViewDelegate>
 {
     UIScrollView *scrollView;
@@ -111,7 +92,7 @@ NSString *const kPlaqueDescriptionHtmlTemplate =
         self.webView.scrollView.bounces = NO;
         self.webView.scrollView.scrollEnabled = NO;
         self.webView.alpha = 0.0; //The webView will resore alpha once it's loaded to avoid the ugly white blob
-        [self.webView loadHTMLString:[NSString stringWithFormat:kPlaqueDescriptionHtmlTemplate, self.node.text] baseURL:nil];
+        [self.webView loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], self.node.text] baseURL:nil];
         
         self.webViewSpinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
         self.webViewSpinner.center = self.webView.center;

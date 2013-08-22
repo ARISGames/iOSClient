@@ -254,12 +254,12 @@
     if(!(viewed = [self.viewedList objectForKey:[NSNumber numberWithInt:item.itemId]]) || [viewed isEqualToNumber:[NSNumber numberWithInt:0]])
     {
         [self.viewedList setObject:[NSNumber numberWithInt:0] forKey:[NSNumber numberWithInt:item.itemId]];
-        [((UILabel *)[cell viewWithTag:1]) setFont:[UIFont fontWithName:@"Arial-BoldMT" size:18]];
+        [((UILabel *)[cell viewWithTag:1]) setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:18]];
     }
     else
     {
         [self.viewedList setObject:[NSNumber numberWithInt:1] forKey:[NSNumber numberWithInt:item.itemId]];
-        [((UILabel *)[cell viewWithTag:1]) setFont:[UIFont fontWithName:@"Arial-MT" size:18]];
+        [((UILabel *)[cell viewWithTag:1]) setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:18]];
     }
     
     Media *media;

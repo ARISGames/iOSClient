@@ -33,26 +33,6 @@
 
 @implementation QuestDetailsViewController
 
-NSString *const kQuestDetailsHtmlTemplate =
-@"<html>"
-@"<head>"
-@"	<style type='text/css'><!--"
-@"  html,body {margin:0; padding:0;}"
-@"	body {"
-@"      padding:10px;"
-@"		color: #000000;"
-@"      text-align: center;"
-@"		font-size: 17px;"
-@"		font-family: Helvetia, Sans-Serif;"
-@"      -webkit-text-size-adjust: none;"
-@"	}"
-@"  ul,ol { text-align:left; }"
-@"	a {color: #000000; text-decoration: underline; }"
-@"	--></style>"
-@"</head>"
-@"<body>%@</body>"
-@"</html>";
-
 @synthesize quest;
 @synthesize webView;
 @synthesize webViewSpinner;
@@ -157,7 +137,7 @@ NSString *const kQuestDetailsHtmlTemplate =
     @"Yo yo yo you're a hunter blah blah hey cool quest do it."
     @"</div>";
      */
-    if([text rangeOfString:@"<html>"].location == NSNotFound) text = [NSString stringWithFormat:kQuestDetailsHtmlTemplate, text];
+    if([text rangeOfString:@"<html>"].location == NSNotFound) text = [NSString stringWithFormat:[UIColor ARISHtmlTemplate], text];
 
     self.webView.alpha = 0.0; //The webView will resore alpha once it's loaded to avoid the ugly white blob
     self.webView.opaque = NO;
