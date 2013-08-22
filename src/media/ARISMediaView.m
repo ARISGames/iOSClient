@@ -195,7 +195,8 @@
         default:
             break;
     }
-    if(delegate) [delegate ARISMediaViewUpdated:self];
+    if(delegate && [(NSObject *)delegate respondsToSelector:@selector(ARISMediaViewUpdated:)])
+        [delegate ARISMediaViewUpdated:self];
 }
 
 - (UIImage *) image

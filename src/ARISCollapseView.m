@@ -48,7 +48,7 @@
             self.handle = [[UIView alloc] initWithFrame:CGRectMake(0,20,f.size.width,10)];
             UILabel *dots = [[UILabel alloc] initWithFrame:CGRectMake(0, -15, f.size.width, 20)];
             dots.backgroundColor = [UIColor clearColor];
-            dots.textColor = [UIColor ARISColorText];
+            dots.textColor = [UIColor ARISColorGray];
             dots.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:30];
             dots.textAlignment = NSTextAlignmentCenter;
             dots.text = @"...";
