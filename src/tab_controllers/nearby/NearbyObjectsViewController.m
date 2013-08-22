@@ -35,7 +35,7 @@
     {
         self.tabID = @"NEARBY";
         delegate = d;
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"radarTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"radarTabBarUnselected"]];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"radarTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"radarTabBarSelected"]];
         
         self.title = NSLocalizedString(@"NearbyObjectsTabKey",@"");
 		self.navigationItem.title = NSLocalizedString(@"NearbyObjectsTitleKey",@"");

@@ -75,7 +75,7 @@
     {
         delegate = d;
         self.title = NSLocalizedString(@"AudioRecorderTitleKey",@"");
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"microphoneTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"microphoneTabBarUnselected"]];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"microphoneTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"microphoneTabBarSelected"]];
         
         session = [AVAudioSession sharedInstance];
         

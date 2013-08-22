@@ -21,7 +21,7 @@
     if(self = [super initWithNibName:@"GamePickerRecentViewController" bundle:nil delegate:d])
     {
         self.title = NSLocalizedString(@"GamePickerRecentTitleKey", @"");
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"stopwatchTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"stopwatchTabBarUnselected"]];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"stopwatchTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"stopwatchTabBarSelected"]];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewRecentGameListReady" object:nil];
     }

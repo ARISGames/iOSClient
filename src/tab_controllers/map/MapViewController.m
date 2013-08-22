@@ -86,7 +86,7 @@
         
         self.title = NSLocalizedString(@"MapViewTitleKey",@"");
         
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"mapTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"mapTabBarUnselected"]];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"mapTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"mapTabBarSelected"]];
         
         self.tracking = YES;
         self.playerTrackingButton.style = UIBarButtonItemStyleDone;

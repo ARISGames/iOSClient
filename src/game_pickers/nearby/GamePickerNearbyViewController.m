@@ -27,7 +27,7 @@
         distanceFilter = 1000;
         
         self.title = NSLocalizedString(@"NearbyObjectsTabKey", @"");
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"locationArrowTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"locationArrowTabBarUnselected"]];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"locationArrowTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"locationArrowTabBarSelected"]];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNearbyGameListReady" object:nil];
     }

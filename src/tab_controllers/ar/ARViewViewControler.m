@@ -21,7 +21,7 @@
     {
         self.tabID = @"AR";
         self.title = NSLocalizedString(@"ARViewTitleKey",@"");
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"cameraTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"cameraTabBarUnselected"]];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"cameraTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"cameraTabBarSelected"]];
         
     }
     return self;

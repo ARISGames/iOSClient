@@ -42,7 +42,7 @@
         
         self.tabID = @"QUESTS";
         self.title = NSLocalizedString(@"QuestViewTitleKey",@"");
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"todoTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"todoTabBarUnselected"]];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"todoTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"todoTabBarSelected"]];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost"                         object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ReceivedQuestList"                      object:nil];
