@@ -100,7 +100,8 @@
     
     self.continueButton = [[UILabel alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44)];
     self.continueButton.textAlignment = NSTextAlignmentRight;
-    self.continueButton.text = @"Continue > ";
+    self.continueButton.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
+    self.continueButton.text = [NSString stringWithFormat:@"%@ > ",NSLocalizedString(@"ContinueKey",@"")];
     self.continueButton.userInteractionEnabled = YES;
     self.continueButton.textColor = [UIColor ARISColorText];
     self.continueButton.backgroundColor = [UIColor clearColor];

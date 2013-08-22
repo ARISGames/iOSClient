@@ -46,7 +46,7 @@
     [[UISegmentedControl appearance] setTintColor:[UIColor ARISColorSegmentedControl]];
     [[UISearchBar appearance]        setTintColor:[UIColor ARISColorSearchBar]];
     
-    [[UILabel appearance] setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:12.0]];
+    [[UILabel appearance] setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:14.0]];
     [[UILabel appearanceWhenContainedIn:[UIButton class],        nil] setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
     [[UILabel appearanceWhenContainedIn:[UITableViewCell class], nil] setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
     

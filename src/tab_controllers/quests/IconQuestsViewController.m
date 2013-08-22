@@ -135,14 +135,14 @@
     if(indexPath.item < [activeQuests count]) q = [activeQuests    objectAtIndex:indexPath.item];
     else                                      q = [completedQuests objectAtIndex:indexPath.item-[activeQuests count]];
     
-    CGRect textFrame = CGRectMake(0, (cell.contentView.frame.size.height-10), cell.contentView.frame.size.width, 10);
+    CGRect textFrame = CGRectMake(0, (cell.contentView.frame.size.height-20), cell.contentView.frame.size.width, 20);
     UILabel *iconTitleLabel = [[UILabel alloc] initWithFrame:textFrame];
     iconTitleLabel.text = q.name;
     iconTitleLabel.textColor = [UIColor ARISColorViewText];
     iconTitleLabel.backgroundColor = [UIColor clearColor];
     iconTitleLabel.textAlignment = NSTextAlignmentCenter;
     iconTitleLabel.lineBreakMode = NSLineBreakByWordWrapping;// NSLineBreakByTruncatingTail;
-    iconTitleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14];
+    iconTitleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:14];
     [cell.contentView addSubview:iconTitleLabel];
     
     CGRect iconFrame = CGRectMake(0, 0, cell.contentView.frame.size.width, cell.contentView.frame.size.height-(textFrame.size.height+7));

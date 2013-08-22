@@ -153,10 +153,10 @@
         text.opaque = NO;
         NpcScriptOption *option = [optionList objectAtIndex:i];
         
-        if(option.hasViewed)
+        if(!option.hasViewed)
             [text loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], option.optionText] baseURL:nil];
         else
-            [text loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], option.optionText] baseURL:nil];
+            [text loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], [NSString stringWithFormat:@"<div style=\"color:#555555;\">%@</div>",option.optionText]] baseURL:nil];
         
         arrowFrame = textFrame;
         arrowFrame.origin.x = textFrame.size.width;
@@ -208,7 +208,7 @@
     text.scrollView.bounces = NO;
     text.backgroundColor = [UIColor clearColor];
     text.opaque = NO;
-    [text loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], @"<div style=\"color:#666666; font-size:14px; text-align:center;\">Make a Selection</div>"] baseURL:nil];
+    [text loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], @"<div style=\"color:#666666; font-size:14px; text-align:center;\">(Make a Selection)</div>"] baseURL:nil];
     
     [cell addSubview:text];
     [self.optionsScrollView addSubview:cell];

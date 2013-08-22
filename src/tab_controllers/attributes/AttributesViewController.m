@@ -82,6 +82,7 @@
 
 - (void) viewDidLoad
 {
+    [super viewDidLoad];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 500, 1000)];
     label.backgroundColor = [UIColor ARISColorTranslucentBlack];
     [self.view insertSubview:label atIndex:1];
@@ -91,6 +92,7 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     if([AppModel sharedAppModel].currentGame.pcMediaId != 0)
         [pcImage refreshWithFrame:pcImage.frame media:[[AppModel sharedAppModel] mediaForMediaId:[AppModel sharedAppModel].currentGame.pcMediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFill delegate:self];
     else if([AppModel sharedAppModel].player.playerMediaId != 0)

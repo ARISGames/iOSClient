@@ -123,9 +123,10 @@ static NSString * const OPTION_CELL = @"option";
     self.continueButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.continueButton.backgroundColor = [UIColor ARISColorContentBackdrop];
     [self.continueButton setTitleColor:[UIColor ARISColorText] forState:UIControlStateNormal];
-    [self.continueButton setTitle:NSLocalizedString(@"TapToContinueKey", @"") forState:UIControlStateNormal];
+    [self.continueButton setTitle:[NSString stringWithFormat:@"%@ > ",NSLocalizedString(@"ContinueKey", @"")] forState:UIControlStateNormal];
+    [self.continueButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
     [self.continueButton setFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44)];
-    self.continueButton.titleLabel.font = [UIFont boldSystemFontOfSize:16];
+    [self.continueButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:20]];
     [self.continueButton addTarget:self action:@selector(continueButtonTouchAction) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:self.scrollView];

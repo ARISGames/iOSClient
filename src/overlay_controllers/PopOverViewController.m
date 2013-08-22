@@ -1,5 +1,5 @@
 //
-//  NewUIExampleViewController.m
+//  PopOverViewController.m
 //  ARIS
 //
 //  Created by Jacob Hanshaw on 10/30/12.
@@ -13,33 +13,7 @@
 #import "ARISMediaView.h"
 #import "ARISMoviePlayerViewController.h"
 #import "Media.h"
-
-NSString *const kPopOverHtmlTemplate =
-@"<html>"
-@"<head>"
-@"	<title>Aris</title>"
-@"	<style type='text/css'><!--"
-@"  html,body {margin: 0;padding: 0;width: 100%%;height: 100%%;}"
-@"  html {display: table;}"
-@"	body {"
-@"		background-color: transparent;"
-@"		color: #000000;"
-@"      display: table-cell;"
-@"      vertical-align: middle;"
-@"      text-align: center;"
-@"		font-size: 17px;"
-@"		font-family: Helvetia, Sans-Serif;"
-@"      -webkit-text-size-adjust: none;"
-@"	}"
-@"  ul,ol"
-@"  {"
-@"      text-align:left;"
-@"  }"
-@"	a {color: #000000; text-decoration: underline; }"
-@"	--></style>"
-@"</head>"
-@"<body><p>%@</p></body>"
-@"</html>";
+#import "UIColor+ARISColors.h"
 
 @interface PopOverViewController() <ARISMediaViewDelegate, UIScrollViewDelegate, AVAudioPlayerDelegate>
 {
@@ -141,7 +115,7 @@ NSString *const kPopOverHtmlTemplate =
     lbl_popOverDescription.text = description;
 
     popOverWebView = hasMedia ? popOverWebViewMedia : popOverWebViewNoMedia;
-    if([text rangeOfString:@"<html>"].location == NSNotFound) text = [NSString stringWithFormat:kPopOverHtmlTemplate, text];
+    if([text rangeOfString:@"<html>"].location == NSNotFound) text = [NSString stringWithFormat:[UIColor ARISHtmlTemplate], text];
     [popOverWebView loadHTMLString:text baseURL:nil];
     
     if(mediaId != 0)
