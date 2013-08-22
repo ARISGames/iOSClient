@@ -30,6 +30,7 @@
     NpcScriptElementView *npcView;
     NpcScriptElementView *pcView;
     UILabel *continueButton;
+    UIView *line;
     
     int textBoxSizeState;
     CGRect viewFrame;
@@ -47,6 +48,7 @@
 @property (nonatomic, strong) NpcScriptElementView *npcView;
 @property (nonatomic, strong) NpcScriptElementView *pcView;
 @property (nonatomic, strong) UILabel *continueButton;
+@property (nonatomic, strong) UIView *line;
 
 @end
 
@@ -60,6 +62,7 @@
 @synthesize npcView;
 @synthesize pcView;
 @synthesize continueButton;
+@synthesize line;
 
 - (id) initWithNpc:(Npc *)n frame:(CGRect)f delegate:(id<NpcScriptViewControllerDelegate>)d
 {
@@ -107,7 +110,12 @@
     self.continueButton.backgroundColor = [UIColor clearColor];
     self.continueButton.opaque = NO;
     [self.continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouched)]];
-    [self.view addSubview:continueButton];
+    
+    self.line = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1)];
+    self.line.backgroundColor = [UIColor ARISColorLightGray];
+    
+    [self.view addSubview:self.continueButton];
+    [self.view addSubview:self.line];
     
     [self movePcIn];
 }
@@ -222,6 +230,7 @@
         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
         [UIView setAnimationDuration:.1];
         self.continueButton.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
+        self.line.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1);
         [UIView commitAnimations];
     }
     if(h)
@@ -230,6 +239,7 @@
         [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
         [UIView setAnimationDuration:.1];
         self.continueButton.frame = CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, 44);
+        self.line.frame = CGRectMake(0, self.view.bounds.size.height, self.view.bounds.size.width, 1);
         [UIView commitAnimations];
     }
 }

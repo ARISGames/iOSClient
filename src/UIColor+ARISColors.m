@@ -26,7 +26,7 @@
 
 //+ (UIColor *) ARISColorTranslucentBlack { return [UIColor colorWithRed:( 38.0/255.0) green:( 28.0/255.0) blue:(  2.0/255.0) alpha:0.8]; }
 + (UIColor *) ARISColorTranslucentBlack { return [UIColor colorWithRed:( 16.0/255.0) green:(  8.0/255.0) blue:(  2.0/255.0) alpha:0.8]; }
-+ (UIColor *) ARISColorTranslucentWhite { return [UIColor colorWithRed:(255.0/255.0) green:(255.0/255.0) blue:(255.0/255.0) alpha:0.8]; }
++ (UIColor *) ARISColorTranslucentWhite { return [UIColor colorWithRed:(255.0/255.0) green:(255.0/255.0) blue:(255.0/255.0) alpha:0.9]; }
 
 // Should put following in own class ARISTemplate or something
 + (UIColor *) ARISColorNavBar           { return [UIColor ARISColorWhite]; }

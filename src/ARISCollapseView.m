@@ -121,11 +121,15 @@
         
         self.frame = CGRectMake(dragStartFrame.origin.x, dragStartFrame.origin.y+drag, dragStartFrame.size.width, dragStartFrame.size.height-drag);
     }
+    
+    if([(NSObject *)delegate respondsToSelector:@selector(collapseView:wasDragged:)])
+        [delegate collapseView:self wasDragged:g];
 }
 
 - (void) open
 {
-    if([(NSObject *)delegate respondsToSelector:@selector(collapseView:didStartOpen:)]) [delegate collapseView:self didStartOpen:YES];
+    if([(NSObject *)delegate respondsToSelector:@selector(collapseView:didStartOpen:)])
+        [delegate collapseView:self didStartOpen:YES];
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView setAnimationDuration:.1];
