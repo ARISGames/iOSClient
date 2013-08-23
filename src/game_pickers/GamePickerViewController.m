@@ -24,7 +24,7 @@
 
 @synthesize gameList;
 @synthesize gameTable;
-@synthesize refreshButton;
+@synthesize refreshControl;
 
 - (id) initWithDelegate:(id<GamePickerViewControllerDelegate>)d
 {
@@ -56,11 +56,12 @@
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"01-refresh"] style:UIBarButtonItemStyleBordered target:self action:@selector(requestNewGameList)];
-    self.navigationItem.leftBarButtonItem = self.refreshButton;
-    
+
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"123-id-card-gray"] style:UIBarButtonItemStyleBordered target:self action:@selector(accountButtonTouched)];
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(refreshView:) forControlEvents:UIControlEventValueChanged];
+    [self.gameTable addSubview: refreshControl];
     
   	[self.gameTable reloadData];
     
@@ -86,6 +87,10 @@
     [self.gameTable reloadData];
     
     [self removeLoadingIndicator];
+}
+
+-(void)refreshView:(UIRefreshControl *)refresh {
+    [self requestNewGameList];
 }
 
 - (void)requestNewGameList
@@ -187,15 +192,16 @@
 
 - (void) showLoadingIndicator
 {
-	UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-	UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:activityIndicator];
-	[self navigationItem].leftBarButtonItem = barButton;
-	[activityIndicator startAnimating];
+	[self.refreshControl beginRefreshing];
+    if (self.gameTable.contentOffset.y == 0)
+        [self.gameTable setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
+
 }
 
 - (void) removeLoadingIndicator
 {
-	[self navigationItem].leftBarButtonItem = self.refreshButton;
+    [self.refreshControl endRefreshing];
+    [self.gameTable setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
 - (void) accountButtonTouched
