@@ -17,4 +17,5 @@ xcuserdata
 profile
 *.moved-aside
 DerivedData
+integration/tmp/*
 
