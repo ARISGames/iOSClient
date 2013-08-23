@@ -48,9 +48,17 @@
 - (void) loadView
 {
     [super loadView];
+    self.view.userInteractionEnabled = NO;
     
     popOverVC = [[PopOverViewController alloc] initWithDelegate:self];
     //dropDownView = [[UIWebView alloc] initWithFrame:CGRectMake(0, -28.0, [UIScreen mainScreen].bounds.size.width, 28)];
+}
+
+- (void) viewWillAppear:(BOOL)animated //first time view should be 'correct' frame
+{
+    [super viewWillAppear:animated];
+    self.view.frame = CGRectMake(0,0,self.view.superview.frame.size.width,self.view.superview.frame.size.height);
+    popOverVC.view.frame = self.view.frame;
 }
 
 - (void) lowerDropDownFrame
@@ -130,18 +138,15 @@
             description:[poDict objectForKey:@"description"]
             webViewText:[poDict objectForKey:@"text"]
              andMediaId:[[poDict objectForKey:@"mediaId"] intValue]];
-    self.view.frame = CGRectMake(self.view.frame.origin.x,self.view.frame.origin.y,self.view.superview.frame.size.width,self.view.superview.frame.size.height);
     [self.view addSubview:popOverVC.view];
     [popOverArray removeObjectAtIndex:0];
+    self.view.userInteractionEnabled = YES;
 }
 
 - (void) popOverContinueButtonPressed
 {
     showingPopOver = NO;
-    
-    CGRect poFrame = popOverVC.view.frame; //change parent frame but override it's autosizing its children
-    self.view.frame = CGRectMake(self.view.frame.origin.x,self.view.frame.origin.y,0,0);
-    popOverVC.view.frame = poFrame;
+    self.view.userInteractionEnabled = NO;
     
     if([popOverArray count] > 0)
         [self dequeuePopOver];
