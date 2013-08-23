@@ -149,12 +149,12 @@ UIALogger.logStart(inGame);
 	
 	target.delay(1);
 	target.captureScreenWithName('5 - Initial Plaque');
-	target.frontMostApp().mainWindow().buttons()["Tap To Continue"].tap();
 	
 	// Let screen with quests load
 	//SCREEN CAPTURE
 	target.delay(1);
 	target.captureScreenWithName('6 - Initial Quests');
+	target.frontMostApp().mainWindow().buttons()["Continue > "].tap();
 	
 	
 	//GO TO MAP
