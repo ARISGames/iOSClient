@@ -136,7 +136,7 @@
 	Game *gameForCell = [self.gameList objectAtIndex:indexPath.row];
     
 	cell.titleLabel.text      = gameForCell.name;
-    [cell.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue" size:16]];
+    [cell.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16]];
     
 	cell.authorLabel.text     = gameForCell.authors;
     [cell.authorLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:12]];

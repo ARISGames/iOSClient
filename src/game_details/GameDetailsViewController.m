@@ -190,7 +190,7 @@
         {
             if(self.game.hasBeenPlayed) cell.textLabel.text = NSLocalizedString(@"GameDetailsResumeKey", @"");
             else                        cell.textLabel.text = NSLocalizedString(@"GameDetailsNewGameKey", @""); 
-            cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:18];
+            cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
             cell.textLabel.textAlignment = NSTextAlignmentCenter;
         }
         else if (indexPath.row ==1)
@@ -198,7 +198,7 @@
             if(self.game.hasBeenPlayed)
             {
                 cell.textLabel.text = NSLocalizedString(@"GameDetailsResetKey", @"");
-                cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:18];
+                cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
                 cell.textLabel.textAlignment = NSTextAlignmentCenter;
             } 
             else

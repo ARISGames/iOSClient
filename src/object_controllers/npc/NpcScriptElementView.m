@@ -60,11 +60,11 @@
 
 - (void) initialize
 {
-    self.backgroundColor = [UIColor ARISColorContentBackdrop];
-    
+    self.backgroundColor = [UIColor clearColor];
     self.mediaSection = [[UIScrollView alloc] initWithFrame:self.bounds];
     self.mediaSection.contentSize = self.bounds.size;
     self.mediaSection.backgroundColor = [UIColor clearColor];
+    self.mediaSection.opaque = NO;
     [self.mediaSection addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(passTapToTextSection:)]];
     
     self.textWebView = [[ARISWebView alloc] initWithFrame:CGRectMake(10, 10, self.bounds.size.width-20, 10) delegate:self];
@@ -87,7 +87,9 @@
         self.defaultMedia = m;
         self.mediaView = [[ARISMediaView alloc] initWithFrame:self.bounds media:m mode:ARISMediaDisplayModeTopAlignAspectFitWidth delegate:self];
         [self initialize];
-        
+        self.mediaView.backgroundColor = [UIColor clearColor];
+        self.mediaSection.opaque = NO;
+
         delegate = d;
     }
     return self;
@@ -100,6 +102,8 @@
         self.defaultTitle = t;
         self.defaultImage = i;
         self.mediaView = [[ARISMediaView alloc] initWithFrame:self.bounds image:i mode:ARISMediaDisplayModeTopAlignAspectFitWidth delegate:self];
+        self.mediaView.backgroundColor = [UIColor clearColor];
+        self.mediaSection.opaque = NO;
         [self initialize];
         
         delegate = d;

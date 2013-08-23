@@ -14,6 +14,7 @@
 #import "AppModel.h"
 #import "AppServices.h"
 #import "StateControllerProtocol.h"
+#import "UIColor+ARISColors.h"
 
 @interface NpcViewController() <NpcOptionsViewControllerDelegate, NpcScriptViewControllerDelegate, AVAudioPlayerDelegate>
 {
@@ -55,7 +56,7 @@
 - (void) loadView
 {
     [super loadView];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor ARISColorNpcContentBackdrop];
 }
 
 - (void) viewWillAppear:(BOOL)animated

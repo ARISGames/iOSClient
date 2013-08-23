@@ -52,21 +52,26 @@
     
     [[UIBarButtonItem appearance] setTitleTextAttributes:
         [NSDictionary dictionaryWithObjectsAndKeys:
-            [UIFont fontWithName:@"HelveticaNeue-Light" size:16], UITextAttributeFont,
+            [UIFont fontWithName:@"HelveticaNeue-Light" size:12], UITextAttributeFont,
             nil]
         forState:UIControlStateNormal];
     
     [[UISegmentedControl appearance] setTitleTextAttributes:
         [NSDictionary dictionaryWithObjectsAndKeys:
-            [UIFont fontWithName:@"HelveticaNeue-Light" size:16], UITextAttributeFont,
+            [UIFont fontWithName:@"HelveticaNeue-Light" size:12], UITextAttributeFont,
+            [UIColor ARISColorDarkGray],                      UITextAttributeTextColor,
+         [UIColor clearColor],                               UITextAttributeTextShadowColor,
+
+
             nil]
         forState:UIControlStateNormal];
     
     [[UINavigationBar appearance] setTintColor:[UIColor ARISColorNavBar]];
     [[UINavigationBar appearance] setTitleTextAttributes:
         [NSDictionary dictionaryWithObjectsAndKeys:
-            [UIColor ARISColorNavBarText],                   UITextAttributeTextColor,
-            [UIFont fontWithName:@"HelveticaNeue-Light" size:0.0], UITextAttributeFont,
+            [UIColor ARISColorNavBarText],                      UITextAttributeTextColor,
+            [UIColor clearColor],                               UITextAttributeTextShadowColor,
+            [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0],    UITextAttributeFont,
             nil]
         ];
     
