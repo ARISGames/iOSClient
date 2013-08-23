@@ -65,7 +65,10 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"259-list"] style: UIBarButtonItemStylePlain target:self action:@selector(showNav)];
+    UIButton *withoutBorderButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
+    [withoutBorderButton setImage:[UIImage imageNamed:@"threeLines"] forState:UIControlStateNormal];
+    [withoutBorderButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:withoutBorderButton];
 }
 
 - (void) viewDidAppear:(BOOL)animated
