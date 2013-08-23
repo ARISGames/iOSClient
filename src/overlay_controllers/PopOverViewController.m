@@ -77,34 +77,69 @@
     
     self.popOverView = [[UIView alloc] initWithFrame:CGRectMake(10,self.view.bounds.size.height/2-214,self.view.bounds.size.width-20,428)];
     self.popOverView.backgroundColor = [UIColor ARISColorTextBackdrop];
+    self.popOverView.layer.cornerRadius = 10;
+    self.popOverView.layer.masksToBounds = YES;
     
-    self.title    = [[UILabel alloc] initWithFrame:CGRectMake(10,10,self.view.bounds.size.width-20,24)];
-    self.subtitle = [[UILabel alloc] initWithFrame:CGRectMake(10,34,self.view.bounds.size.width-20,20)];
+    self.title    = [[UILabel alloc] initWithFrame:CGRectMake(10,10,self.popOverView.bounds.size.width-20,24)];
+    self.title.font = [UIFont fontWithName:@"HelveticaNeue" size:18];
+    self.title.backgroundColor = [UIColor clearColor];
+    self.subtitle = [[UILabel alloc] initWithFrame:CGRectMake(10,34,self.popOverView.bounds.size.width-20,20)];
+    self.subtitle.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
+    self.subtitle.backgroundColor = [UIColor clearColor];
     
-    self.contentView = [[UIView alloc] initWithFrame:CGRectMake(10,44+10,self.view.bounds.size.width-20,374)];
+    self.contentView = [[UIView alloc] initWithFrame:CGRectMake(0,44+20,self.popOverView.bounds.size.width,320)];
     
-    self.descriptionView = [[ARISWebView alloc] initWithFrame:CGRectMake(10,10,self.view.bounds.size.width,self.view.bounds.size.height) delegate:self];
+    self.continueButton = [[UILabel alloc] initWithFrame:CGRectMake(10, self.popOverView.frame.size.height-44, self.popOverView.frame.size.width-20, 44)];
+    self.continueButton.text = @"Continue > ";
+    self.continueButton.textAlignment = NSTextAlignmentRight;
+    self.continueButton.backgroundColor = [UIColor clearColor];
+    self.continueButton.userInteractionEnabled = YES;
+    [self.continueButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(continueButtonTouched)]];
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, self.popOverView.frame.size.height-44, self.popOverView.frame.size.width, 1)];
+    line.backgroundColor = [UIColor ARISColorLightGray];
+    
+    [self.popOverView addSubview:self.title];
+    [self.popOverView addSubview:self.subtitle];
+    [self.popOverView addSubview:self.contentView];
+    [self.popOverView addSubview:self.continueButton];
+    [self.popOverView addSubview:line];
+    [self.view addSubview:self.popOverView];
 }
 
-- (void) setTitle:(NSString *)title description:(NSString *)description webViewText:(NSString *)text andMediaId:(int)mediaId
+- (void) setTitle:(NSString *)t description:(NSString *)d webViewText:(NSString *)wvt andMediaId:(int)m
 {
     if(!self.view) self.view.hidden = NO; //Just accesses view to force its load
     
-    if([text rangeOfString:@"<html>"].location == NSNotFound) text = [NSString stringWithFormat:[UIColor ARISHtmlTemplate], text];
-    [self.descriptionView loadHTMLString:text baseURL:nil];
+    while([self.contentView.subviews count] > 0)
+        [[self.contentView.subviews objectAtIndex:0] removeFromSuperview];
     
-    self.mediaView = [[ARISMediaView alloc] initWithFrame:CGRectMake(0,0,mediaView.frame.size.width,mediaView.frame.size.height) media:[[AppModel sharedAppModel] mediaForMediaId:mediaId ofType:@"PHOTO"] mode:ARISMediaDisplayModeAspectFit delegate:self];
-    loadingIndicator.hidden = YES;
-}
-
-- (void) continuePressed
-{
-    [delegate popOverContinueButtonPressed];
+    self.title.text    = t;
+    self.subtitle.text = d;
+    
+    if(![wvt isEqualToString:@""])
+    {
+        self.descriptionView = [[ARISWebView alloc] initWithFrame:CGRectMake(0,0,self.contentView.frame.size.width,10) delegate:self];
+        self.descriptionView.scrollView.scrollEnabled = NO;
+        self.descriptionView.backgroundColor = [UIColor clearColor];
+        self.descriptionView.opaque = NO;
+        wvt = [NSString stringWithFormat:[UIColor ARISHtmlTemplate], wvt];
+        [self.descriptionView loadHTMLString:wvt baseURL:nil];
+        [self.contentView addSubview:self.descriptionView];
+    }
+    
+    if(m != 0)
+    {
+        self.mediaView = [[ARISMediaView alloc] initWithFrame:CGRectMake(10,0,self.contentView.frame.size.width-20,20) media:[[AppModel sharedAppModel] mediaForMediaId:m ofType:@"PHOTO"] mode:ARISMediaDisplayModeTopAlignAspectFitWidthAutoResizeHeight delegate:self];
+        [self.contentView addSubview:self.mediaView];
+    }
 }
 
 - (void) webViewDidFinishLoad:(UIWebView *)webView
 {
     [self.descriptionView injectHTMLWithARISjs];
+    float newHeight = [[self.descriptionView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
+    
+    self.descriptionView.frame = CGRectMake(0, self.descriptionView.frame.origin.y, self.contentView.frame.size.width, newHeight);
 }
 
 - (BOOL) webView:(UIWebView *)wv shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
@@ -114,7 +149,7 @@
 
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv
 {
-    
+    self.descriptionView.frame = CGRectMake(0,amv.frame.size.height+10,self.contentView.frame.size.width,self.descriptionView.frame.size.height);
 }
 
 - (BOOL) displayGameObject:(id<GameObjectProtocol>)g fromSource:(id)s
@@ -124,12 +159,15 @@
 
 - (void) displayScannerWithPrompt:(NSString *)p
 {
-    
 }
 
 - (void) displayTab:(NSString *)t
 {
-    
+}
+
+- (void) continueButtonTouched
+{
+    [delegate popOverContinueButtonPressed];
 }
 
 - (NSUInteger) supportedInterfaceOrientations

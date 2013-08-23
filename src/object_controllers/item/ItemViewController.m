@@ -463,6 +463,7 @@
     }
     if(webView == self.descriptionWebView)
     {
+        [self.descriptionWebView injectHTMLWithARISjs];
         float newHeight = [[self.descriptionWebView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
         if(newHeight > self.view.bounds.size.height-44) newHeight = self.view.bounds.size.height-44;
         [self.descriptionCollapseView setOpenFrameHeight:newHeight+10];
