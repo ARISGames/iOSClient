@@ -112,6 +112,10 @@
 		AA50A484173992F500B105C2 /* 123-id-card-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA50A482173992F500B105C2 /* 123-id-card-white@2x.png */; };
 		AA50A485173992F500B105C2 /* 123-id-card-white.png in Resources */ = {isa = PBXBuildFile; fileRef = AA50A483173992F500B105C2 /* 123-id-card-white.png */; };
 		AA522B8E17AC225200C8A72B /* GamePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AA522B8D17AC225200C8A72B /* GamePickerCell.m */; };
+		AA5C899017C69DB8001ABB83 /* 000000.png in Resources */ = {isa = PBXBuildFile; fileRef = AA5C898E17C69DB8001ABB83 /* 000000.png */; };
+		AA5C899117C69DB8001ABB83 /* 888888.png in Resources */ = {isa = PBXBuildFile; fileRef = AA5C898F17C69DB8001ABB83 /* 888888.png */; };
+		AA5C899617C6B3D6001ABB83 /* 259-list@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA5C899417C6B3D6001ABB83 /* 259-list@2x.png */; };
+		AA5C899717C6B3D6001ABB83 /* 259-list.png in Resources */ = {isa = PBXBuildFile; fileRef = AA5C899517C6B3D6001ABB83 /* 259-list.png */; };
 		AA701FDC17330947003A840D /* GamePlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA701FDB17330947003A840D /* GamePlayViewController.m */; };
 		AA701FE117342169003A840D /* GamePickersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA701FE017342169003A840D /* GamePickersViewController.m */; };
 		AA701FE5173428C4003A840D /* ARISAlertHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = AA701FE4173428C3003A840D /* ARISAlertHandler.m */; };
@@ -678,6 +682,10 @@
 		AA50A483173992F500B105C2 /* 123-id-card-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "123-id-card-white.png"; sourceTree = "<group>"; };
 		AA522B8C17AC225200C8A72B /* GamePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerCell.h; sourceTree = "<group>"; };
 		AA522B8D17AC225200C8A72B /* GamePickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerCell.m; sourceTree = "<group>"; };
+		AA5C898E17C69DB8001ABB83 /* 000000.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 000000.png; sourceTree = "<group>"; };
+		AA5C898F17C69DB8001ABB83 /* 888888.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 888888.png; sourceTree = "<group>"; };
+		AA5C899417C6B3D6001ABB83 /* 259-list@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "259-list@2x.png"; sourceTree = "<group>"; };
+		AA5C899517C6B3D6001ABB83 /* 259-list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "259-list.png"; sourceTree = "<group>"; };
 		AA701FDA17330947003A840D /* GamePlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePlayViewController.h; sourceTree = "<group>"; };
 		AA701FDB17330947003A840D /* GamePlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePlayViewController.m; sourceTree = "<group>"; };
 		AA701FDF17342169003A840D /* GamePickersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickersViewController.h; sourceTree = "<group>"; };
@@ -1631,6 +1639,10 @@
 		AABC6F3D1727398B0074CC21 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				AA5C899417C6B3D6001ABB83 /* 259-list@2x.png */,
+				AA5C899517C6B3D6001ABB83 /* 259-list.png */,
+				AA5C898E17C69DB8001ABB83 /* 000000.png */,
+				AA5C898F17C69DB8001ABB83 /* 888888.png */,
 				AA856FF317A9AFA900E9D451 /* qr_nowhite.png */,
 				AA856FF417A9AFA900E9D451 /* qr.png */,
 				AA73FB5817A7178B00D6495F /* 3x1_fade_up.png */,
@@ -2848,6 +2860,7 @@
 				AABC700B1727398B0074CC21 /* marker-player.png in Resources */,
 				AABC700C1727398B0074CC21 /* marker-red-withletter.png in Resources */,
 				AABC700D1727398B0074CC21 /* marker-red.png in Resources */,
+				AA5C899717C6B3D6001ABB83 /* 259-list.png in Resources */,
 				AABC700E1727398B0074CC21 /* microphone.png in Resources */,
 				AABC700F1727398B0074CC21 /* microphoneBackground.jpg in Resources */,
 				AABC70101727398B0074CC21 /* microphoneForeground.png in Resources */,
@@ -2914,6 +2927,7 @@
 				AABC70591727399C0074CC21 /* Central Park New York.gpx in Resources */,
 				AABC705A1727399C0074CC21 /* Chemistry.gpx in Resources */,
 				AABC705B1727399C0074CC21 /* Engage Offices.gpx in Resources */,
+				AA5C899617C6B3D6001ABB83 /* 259-list@2x.png in Resources */,
 				AABC705C1727399C0074CC21 /* Engineering Fountain.gpx in Resources */,
 				AABC705D1727399C0074CC21 /* Grainger.gpx in Resources */,
 				AABC705E1727399C0074CC21 /* Institutes for Discovery.gpx in Resources */,
@@ -2935,6 +2949,7 @@
 				AABC73A3172739D80074CC21 /* GamePickerRecentViewController.xib in Resources */,
 				AABC73A5172739D80074CC21 /* GamePickerSearchViewController.xib in Resources */,
 				AABC73A8172739D80074CC21 /* LoadingViewController.xib in Resources */,
+				AA5C899117C69DB8001ABB83 /* 888888.png in Resources */,
 				AABC73A9172739D80074CC21 /* LoginViewController.xib in Resources */,
 				AABC73AB172739D80074CC21 /* SelfRegistrationViewController.xib in Resources */,
 				AABC73AE172739D80074CC21 /* MainWindow.xib in Resources */,
@@ -2948,6 +2963,7 @@
 				AABC73F9172739D80074CC21 /* AudioPlayerViewController.xib in Resources */,
 				AABC73FB172739D80074CC21 /* AudioRecorderViewController.xib in Resources */,
 				AABC73FC172739D80074CC21 /* CameraViewController.xib in Resources */,
+				AA5C899017C69DB8001ABB83 /* 000000.png in Resources */,
 				AABC7401172739D80074CC21 /* DropOnMapViewController.xib in Resources */,
 				AABC7403172739D80074CC21 /* ImageViewer.xib in Resources */,
 				AABC7405172739D80074CC21 /* NotebookViewController.xib in Resources */,

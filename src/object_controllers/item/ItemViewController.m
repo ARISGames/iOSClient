@@ -109,6 +109,7 @@
     {
         self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, viewFrame.size.width, viewFrame.size.height-44)];
         self.scrollView.contentSize = self.scrollView.bounds.size;
+        self.scrollView.clipsToBounds = NO;
         self.scrollView.maximumZoomScale = 100;
         self.scrollView.minimumZoomScale = 1;
         self.scrollView.delegate = self;
@@ -199,6 +200,9 @@
         [self.view addSubview:pickupBtn];
 	}
     [self.view addSubview:backBtn];
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1)];
+    line.backgroundColor = [UIColor ARISColorLightGray];
+    [self.view addSubview:line];
     
     if(![self.item.idescription isEqualToString:@""])
     {

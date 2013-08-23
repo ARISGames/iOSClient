@@ -208,7 +208,7 @@
     text.scrollView.bounces = NO;
     text.backgroundColor = [UIColor clearColor];
     text.opaque = NO;
-    [text loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], @"<div style=\"color:#666666; font-size:14px; text-align:center;\">(Make a Selection)</div>"] baseURL:nil];
+    [text loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], @"<div style=\"color:#BBBBBB; font-size:14px; text-align:center;\">(Make a Selection)</div>"] baseURL:nil];
     
     [cell addSubview:text];
     [self.optionsScrollView addSubview:cell];
@@ -252,7 +252,7 @@
 {
     float newHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] floatValue];
     float newOffset = 0.0;
-    for(int i = 0; i < [[self.optionsScrollView subviews] count]; i++)
+    for(int i = 0; i < [[self.optionsScrollView subviews] count]-1; i++)
     {
         CGRect superFrame = ((UIView *)[[self.optionsScrollView subviews] objectAtIndex:i]).frame;
         superFrame.origin.y += newOffset;
@@ -262,6 +262,10 @@
             newOffset = newHeight - webView.superview.frame.size.height;
             webView.frame             = CGRectMake(0,                               0,          webView.frame.size.width,newHeight);
             [webView superview].frame = CGRectMake(0,webView.superview.frame.origin.y,webView.superview.frame.size.width,newHeight);
+            
+            UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, newHeight, webView.superview.frame.size.width, 1)];
+            line.backgroundColor = [UIColor ARISColorLightGray];
+            [[webView superview] addSubview:line];
         }
     }
     CGRect newFrame = self.optionsScrollView.frame;

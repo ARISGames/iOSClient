@@ -95,7 +95,7 @@ NSString *const kQuestsHtmlTemplate =
 
 @implementation QuestsViewController
 
-- (id)initWithDelegate:(id<QuestsViewControllerDelegate>)d
+- (id) initWithDelegate:(id<QuestsViewControllerDelegate>)d
 {
     if(self = [super initWithNibName:@"QuestsViewController" bundle:nil delegate:d])
     {

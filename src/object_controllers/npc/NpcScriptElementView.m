@@ -276,6 +276,12 @@
     
 }
 
+- (void) collapseView:(ARISCollapseView *)cv wasDragged:(UIPanGestureRecognizer *)r
+{
+    if(r.state == UIGestureRecognizerStateBegan) 
+        [delegate scriptElementViewRequestsHideContinue:YES];
+}
+
 - (void) collapseView:(ARISCollapseView *)cv didStartOpen:(BOOL)o
 {
     [delegate scriptElementViewRequestsHideContinue:!o];

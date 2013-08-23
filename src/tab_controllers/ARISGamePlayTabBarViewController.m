@@ -65,7 +65,7 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"nav" style:UIBarButtonSystemItemAction target:self action:@selector(showNav)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"259-list"] style: UIBarButtonItemStylePlain target:self action:@selector(showNav)];
 }
 
 - (void) viewDidAppear:(BOOL)animated
