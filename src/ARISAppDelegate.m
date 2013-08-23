@@ -41,10 +41,10 @@
     readingCountUpToOneHundredThousand = 0;
     steps = 0;
     
-    [[UIToolbar appearance]          setTintColor:[UIColor ARISColorToolBar]];
-    [[UIBarButtonItem appearance]    setTintColor:[UIColor ARISColorBarButton]];
-    [[UISegmentedControl appearance] setTintColor:[UIColor ARISColorSegmentedControl]];
-    [[UISearchBar appearance]        setTintColor:[UIColor ARISColorSearchBar]];
+    [[UIToolbar appearance]          setTintColor:[UIColor ARISColorToolBarTint]];
+    //[[UIBarButtonItem appearance]    setTintColor:[UIColor ARISColorBarButtonTint]];
+    [[UISegmentedControl appearance] setTintColor:[UIColor ARISColorSegmentedControlTint]];
+    [[UISearchBar appearance]        setTintColor:[UIColor ARISColorSearchBarTint]];
     
     [[UILabel appearance] setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:14.0]];
     [[UILabel appearanceWhenContainedIn:[UIButton class],        nil] setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
@@ -53,8 +53,13 @@
     [[UIBarButtonItem appearance] setTitleTextAttributes:
         [NSDictionary dictionaryWithObjectsAndKeys:
             [UIFont fontWithName:@"HelveticaNeue-Light" size:12], UITextAttributeFont,
-            nil]
+            [UIColor ARISColorDarkGray], UITextAttributeTextColor,
+         nil]
         forState:UIControlStateNormal];
+    [[UIBarButtonItem appearance] setBackButtonBackgroundImage:
+     [UIImage imageNamed:@"1pxColorClear"]
+                                                      forState:UIControlStateNormal
+                                                    barMetrics:UIBarMetricsDefault];
     
     [[UISegmentedControl appearance] setTitleTextAttributes:
         [NSDictionary dictionaryWithObjectsAndKeys:
@@ -66,7 +71,7 @@
             nil]
         forState:UIControlStateNormal];
     
-    [[UINavigationBar appearance] setTintColor:[UIColor ARISColorNavBar]];
+    [[UINavigationBar appearance] setTintColor:[UIColor ARISColorNavBarTint]];
     [[UINavigationBar appearance] setTitleTextAttributes:
         [NSDictionary dictionaryWithObjectsAndKeys:
             [UIColor ARISColorNavBarText],                      UITextAttributeTextColor,
@@ -75,7 +80,7 @@
             nil]
         ];
     
-    [[UITabBar appearance] setTintColor:[UIColor ARISColorTabBar]];
+    [[UITabBar appearance] setTintColor:[UIColor ARISColorTabBarTint]];
     [[UITabBarItem appearance] setTitleTextAttributes:
         [NSDictionary dictionaryWithObjectsAndKeys:
             [UIColor ARISColorTabBarText],                   UITextAttributeTextColor,

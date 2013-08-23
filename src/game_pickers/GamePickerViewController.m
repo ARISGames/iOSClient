@@ -60,7 +60,8 @@
     self.refreshButton = [[UIBarButtonItem alloc]  initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(requestNewGameList)];
     self.navigationItem.leftBarButtonItem = self.refreshButton;
     
-	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"123-id-card-white"] style:UIBarButtonItemStyleBordered target:self action:@selector(accountButtonTouched)];
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"123-id-card-gray"]]];
+    [self.navigationItem.rightBarButtonItem addTarget:self action:@selector(accountButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     
   	[self.gameTable reloadData];
     
