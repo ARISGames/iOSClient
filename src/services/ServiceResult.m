@@ -8,6 +8,7 @@
 
 #import "ServiceResult.h"
 #import "JSON.h"
+#import "AppModel.h"
 #import "ARISAppDelegate.h"
 #import "ARISAlertHandler.h"
 

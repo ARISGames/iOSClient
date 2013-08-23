@@ -8,6 +8,7 @@
 
 #import "UploadMan.h"
 #import "AppServices.h"
+#import "Reachability.h"
 #import "ARISAlertHandler.h"
 
 @implementation UploadMan

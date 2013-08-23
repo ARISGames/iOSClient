@@ -31,6 +31,11 @@
 #import "MMedia.h"
 #import "MOverlay.h"
 #import "MOverlayTile.h"
+#import "AppModel.h"
+#import "Reachability.h"
+
+#import "AppModel.h"
+#import "AppServices.h"
 
 #if ! __has_feature(objc_arc)
 #error This file must be compiled with ARC

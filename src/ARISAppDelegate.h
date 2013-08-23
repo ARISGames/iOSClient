@@ -7,22 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AppModel.h"
-#import "AppServices.h"
 
-#import "RootViewController.h"
-
-#import <Foundation/Foundation.h>
-#import <AVFoundation/AVAudioPlayer.h>
-#import <AVFoundation/AVFoundation.h>
-#import <CoreMotion/CoreMotion.h>
-#import "AudioToolbox/AudioToolbox.h"
-
-#import "Reachability.h"
-
-#import "Crittercism.h"
-
-@interface ARISAppDelegate : NSObject <AVAudioPlayerDelegate, UIApplicationDelegate, UIAccelerometerDelegate>
+@interface ARISAppDelegate : NSObject <UIApplicationDelegate>
 {
 	UIWindow *window;
 }

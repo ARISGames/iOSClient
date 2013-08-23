@@ -7,9 +7,20 @@
 //
 
 #import "ARISAppDelegate.h"
+#import <Foundation/Foundation.h>
+#import <AVFoundation/AVAudioPlayer.h>
+#import <AVFoundation/AVFoundation.h>
+#import <CoreMotion/CoreMotion.h>
+#import "AudioToolbox/AudioToolbox.h"
+#import "Reachability.h"
+#import "Crittercism.h"
 #import "UIColor+ARISColors.h"
 
-@interface ARISAppDelegate ()
+#import "AppModel.h"
+#import "AppServices.h"
+#import "RootViewController.h"
+
+@interface ARISAppDelegate() <UIAccelerometerDelegate, AVAudioPlayerDelegate>
 {
     NSTimer *locationPoller;
     AVAudioPlayer *player;
@@ -17,17 +28,13 @@
     int readingCountUpToOneHundredThousand;
     int steps;
 }
-
 @property (nonatomic, strong) AVAudioPlayer *player;
-
 @end
+
 @implementation ARISAppDelegate
 
 @synthesize window;
 @synthesize player;
-
-#pragma mark -
-#pragma mark Application State
 
 - (void) applicationDidFinishLaunching:(UIApplication *)application
 {    
@@ -41,6 +48,14 @@
     readingCountUpToOneHundredThousand = 0;
     steps = 0;
     
+    [self setApplicationUITemplates];
+    
+    [self.window setRootViewController:[RootViewController sharedRootViewController]];
+    [self.window makeKeyAndVisible];
+}
+
+- (void) setApplicationUITemplates
+{
     [[UIToolbar appearance]          setTintColor:[UIColor ARISColorToolBar]];
     [[UIBarButtonItem appearance]    setTintColor:[UIColor ARISColorBarButton]];
     [[UISegmentedControl appearance] setTintColor:[UIColor ARISColorSegmentedControl]];
@@ -59,32 +74,27 @@
     [[UISegmentedControl appearance] setTitleTextAttributes:
         [NSDictionary dictionaryWithObjectsAndKeys:
             [UIFont fontWithName:@"HelveticaNeue-Light" size:12], UITextAttributeFont,
-            [UIColor ARISColorDarkGray],                      UITextAttributeTextColor,
-         [UIColor clearColor],                               UITextAttributeTextShadowColor,
-
-
+            [UIColor ARISColorDarkGray],                          UITextAttributeTextColor,
+            [UIColor clearColor],                                 UITextAttributeTextShadowColor,
             nil]
         forState:UIControlStateNormal];
     
     [[UINavigationBar appearance] setTintColor:[UIColor ARISColorNavBar]];
     [[UINavigationBar appearance] setTitleTextAttributes:
         [NSDictionary dictionaryWithObjectsAndKeys:
-            [UIColor ARISColorNavBarText],                      UITextAttributeTextColor,
-            [UIColor clearColor],                               UITextAttributeTextShadowColor,
-            [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0],    UITextAttributeFont,
+            [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeFont,
+            [UIColor ARISColorNavBarText],                          UITextAttributeTextColor,
+            [UIColor clearColor],                                   UITextAttributeTextShadowColor,
             nil]
         ];
     
     [[UITabBar appearance] setTintColor:[UIColor ARISColorTabBar]];
     [[UITabBarItem appearance] setTitleTextAttributes:
         [NSDictionary dictionaryWithObjectsAndKeys:
-            [UIColor ARISColorTabBarText],                   UITextAttributeTextColor,
             [UIFont fontWithName:@"HelveticaNeue-Light" size:0.0], UITextAttributeFont,
+            [UIColor ARISColorTabBarText],                         UITextAttributeTextColor,
             nil] 
         forState:UIControlStateNormal];
-    
-    [self.window setRootViewController:[RootViewController sharedRootViewController]];
-    [self.window makeKeyAndVisible];
 }
 
 - (void) applicationDidBecomeActive:(UIApplication *)application

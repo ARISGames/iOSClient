@@ -7,6 +7,7 @@
 //
 
 #import "NoteCommentViewController.h"
+#import <AVFoundation/AVFoundation.h>
 #import "AppServices.h"
 #import "ARISAlertHandler.h"
 #import "Note.h"

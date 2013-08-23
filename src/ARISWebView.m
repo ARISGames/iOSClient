@@ -7,6 +7,8 @@
 //
 
 #import "ARISWebView.h"
+#import "AppModel.h"
+#import "AppServices.h"
 #import "ARISAppDelegate.h"
 #import "BumpClient.h"
 #import <Foundation/Foundation.h>

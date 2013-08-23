@@ -7,6 +7,7 @@
 //
 
 #import "NpcScriptElementView.h"
+#import <AVFoundation/AVFoundation.h>
 #import "ScriptElement.h"
 #import "ARISMediaView.h"
 #import "ARISWebView.h"
@@ -14,6 +15,7 @@
 #import "ARISMoviePlayerViewController.h"
 #import "ARISCollapseView.h"
 #import "StateControllerProtocol.h"
+#import "AppModel.h"
 #import "UIColor+ARISColors.h"
 
 @interface NpcScriptElementView() <ARISMediaViewDelegate, ARISCollapseViewDelegate, StateControllerProtocol, ARISWebViewDelegate, UIWebViewDelegate, UIWebViewDelegate, UIScrollViewDelegate>

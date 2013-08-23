@@ -268,6 +268,10 @@
             [[webView superview] addSubview:line];
         }
     }
+    
+    UIView *masCell = [[self.optionsScrollView subviews] objectAtIndex:[self.optionsScrollView.subviews count]-1];
+    masCell.frame = CGRectMake(masCell.frame.origin.x, masCell.frame.origin.y+newOffset, masCell.frame.size.width, masCell.frame.size.height);
+    
     CGRect newFrame = self.optionsScrollView.frame;
     newFrame.size.height += newOffset;
     self.optionsScrollView.frame = newFrame;

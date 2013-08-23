@@ -8,6 +8,8 @@
 
 #import "JSONConnection+Local.h"
 #import "ARISAppDelegate.h"
+#import "AppModel.h"
+#import "AppServices.h"
 #import "LocalData.h"
 #import "Reachability.h"
 

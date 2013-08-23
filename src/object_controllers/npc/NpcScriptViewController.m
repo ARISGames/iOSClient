@@ -17,6 +17,7 @@
 #import "AppServices.h"
 #import "ARISMoviePlayerViewController.h"
 #import "UIColor+ARISColors.h"
+#import <AVFoundation/AVFoundation.h>
 
 @interface NpcScriptViewController() <ScriptParserDelegate, NPcScriptElementViewDelegate, GameObjectViewControllerDelegate>
 {
@@ -210,7 +211,7 @@
 
 - (void) audioPlayerDidFinishPlaying:(AVAudioPlayer *)audioPlayer successfully:(BOOL)flag
 {
-    [[AVAudioSession sharedInstance] setActive: NO error: nil];
+    [[AVAudioSession sharedInstance] setActive:NO error:nil];
 }
 
 - (void) scriptElementViewRequestsTextBoxArea:(NSString *)a
