@@ -26,14 +26,14 @@
 + (UIColor *) ARISColorTranslucentBlack;
 + (UIColor *) ARISColorTranslucentWhite;
 
-+ (UIColor *) ARISColorNavBar;           
++ (UIColor *) ARISColorNavBarTint;
 + (UIColor *) ARISColorNavBarText;           
-+ (UIColor *) ARISColorTabBar;           
++ (UIColor *) ARISColorTabBarTint;
 + (UIColor *) ARISColorTabBarText;           
-+ (UIColor *) ARISColorToolBar;
-+ (UIColor *) ARISColorBarButton;
-+ (UIColor *) ARISColorSegmentedControl;
-+ (UIColor *) ARISColorSearchBar;
++ (UIColor *) ARISColorToolBarTint;
++ (UIColor *) ARISColorBarButtonTint;
++ (UIColor *) ARISColorSegmentedControlTint;
++ (UIColor *) ARISColorSearchBarTint;
 
 + (UIColor *) ARISColorContentBackdrop; //behind fullscreen content
 + (UIColor *) ARISColorNpcContentBackdrop; //behind npc media

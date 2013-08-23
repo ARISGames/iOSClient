@@ -522,6 +522,10 @@
 		AB38DB3C13E4A1DE001EFF52 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AB38DB3B13E4A1DE001EFF52 /* libiconv.dylib */; };
 		AB39FD411773ACCF006DEC96 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = AB39FD401773ACCF006DEC96 /* logo.png */; };
 		AB4438401774DFF2004D9DC3 /* logoWithText.png in Resources */ = {isa = PBXBuildFile; fileRef = AB44383F1774DFF2004D9DC3 /* logoWithText.png */; };
+		AB54CDD817C7D128007179FC /* 1pxColorClear.png in Resources */ = {isa = PBXBuildFile; fileRef = AB54CDD617C7D126007179FC /* 1pxColorClear.png */; };
+		AB54CDD917C7D128007179FC /* 1pxColorWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = AB54CDD717C7D127007179FC /* 1pxColorWhite.png */; };
+		AB54CDDE17C7D4EB007179FC /* 123-id-card-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = AB54CDDC17C7D4E9007179FC /* 123-id-card-gray.png */; };
+		AB54CDDF17C7D4EB007179FC /* 123-id-card-gray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB54CDDD17C7D4EA007179FC /* 123-id-card-gray@2x.png */; };
 		AB70F39413153BB500BD06CD /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB70F39313153BB500BD06CD /* MessageUI.framework */; };
 		AB7D277813C7556100F10AD5 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB7D277713C7556100F10AD5 /* AddressBookUI.framework */; };
 		AB7D277A13C7559800F10AD5 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB7D277913C7559800F10AD5 /* CoreMedia.framework */; };
@@ -1325,6 +1329,10 @@
 		AB38DB3B13E4A1DE001EFF52 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		AB39FD401773ACCF006DEC96 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		AB44383F1774DFF2004D9DC3 /* logoWithText.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logoWithText.png; sourceTree = "<group>"; };
+		AB54CDD617C7D126007179FC /* 1pxColorClear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1pxColorClear.png; sourceTree = "<group>"; };
+		AB54CDD717C7D127007179FC /* 1pxColorWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1pxColorWhite.png; sourceTree = "<group>"; };
+		AB54CDDC17C7D4E9007179FC /* 123-id-card-gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "123-id-card-gray.png"; sourceTree = "<group>"; };
+		AB54CDDD17C7D4EA007179FC /* 123-id-card-gray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "123-id-card-gray@2x.png"; sourceTree = "<group>"; };
 		AB70F39313153BB500BD06CD /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		AB7D277713C7556100F10AD5 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		AB7D277913C7559800F10AD5 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
@@ -1637,6 +1645,8 @@
 		AABC6F3D1727398B0074CC21 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				AB54CDD617C7D126007179FC /* 1pxColorClear.png */,
+				AB54CDD717C7D127007179FC /* 1pxColorWhite.png */,
 				AA5C899417C6B3D6001ABB83 /* 259-list@2x.png */,
 				AA5C899517C6B3D6001ABB83 /* 259-list.png */,
 				AA5C898E17C69DB8001ABB83 /* 000000.png */,
@@ -1658,6 +1668,8 @@
 				ABB2CAC0177267280060FFFA /* icon@2x.png */,
 				AA50A482173992F500B105C2 /* 123-id-card-white@2x.png */,
 				AA50A483173992F500B105C2 /* 123-id-card-white.png */,
+				AB54CDDC17C7D4E9007179FC /* 123-id-card-gray.png */,
+				AB54CDDD17C7D4EA007179FC /* 123-id-card-gray@2x.png */,
 				AABC6F3E1727398B0074CC21 /* 103-map.png */,
 				AABC6F3F1727398B0074CC21 /* 103-map@2x.png */,
 				AABC6F401727398B0074CC21 /* 117-todo.png */,
@@ -3066,6 +3078,10 @@
 				AA856FF517A9AFA900E9D451 /* qr_nowhite.png in Resources */,
 				AA856FF617A9AFA900E9D451 /* qr.png in Resources */,
 				8902C4A917AC09E700C80803 /* dsym_upload.sh in Resources */,
+				AB54CDD817C7D128007179FC /* 1pxColorClear.png in Resources */,
+				AB54CDD917C7D128007179FC /* 1pxColorWhite.png in Resources */,
+				AB54CDDE17C7D4EB007179FC /* 123-id-card-gray.png in Resources */,
+				AB54CDDF17C7D4EB007179FC /* 123-id-card-gray@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

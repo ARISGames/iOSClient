@@ -19,14 +19,15 @@
 {
 	NSArray *gameList;
 	UITableView *gameTable;
-    UIBarButtonItem *refreshButton;
+    UIRefreshControl *refreshControl;
     
     id<GamePickerViewControllerDelegate> __unsafe_unretained delegate;
 }
 
 @property (nonatomic, copy)   NSArray *gameList;
 @property (nonatomic, strong) IBOutlet UITableView *gameTable;
-@property (nonatomic, strong) IBOutlet UIBarButtonItem *refreshButton;
+@property (nonatomic, strong) IBOutlet UIRefreshControl *refreshControl;
+
 
 - (id) initWithDelegate:(id<GamePickerViewControllerDelegate>)d;
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil delegate:(id<GamePickerViewControllerDelegate>)d;

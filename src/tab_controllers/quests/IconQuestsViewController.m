@@ -142,7 +142,7 @@
     iconTitleLabel.backgroundColor = [UIColor clearColor];
     iconTitleLabel.textAlignment = NSTextAlignmentCenter;
     iconTitleLabel.lineBreakMode = NSLineBreakByWordWrapping;// NSLineBreakByTruncatingTail;
-    iconTitleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:14];
+    iconTitleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14];
     [cell.contentView addSubview:iconTitleLabel];
     
     CGRect iconFrame = CGRectMake(0, 0, cell.contentView.frame.size.width, cell.contentView.frame.size.height-(textFrame.size.height+7));

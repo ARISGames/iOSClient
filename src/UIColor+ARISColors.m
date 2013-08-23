@@ -26,14 +26,14 @@
 + (UIColor *) ARISColorTranslucentWhite { return [UIColor colorWithRed:(255.0/255.0) green:(255.0/255.0) blue:(255.0/255.0) alpha:0.9]; }
 
 // Should put following in own class ARISTemplate or something
-+ (UIColor *) ARISColorNavBar           { return [UIColor ARISColorTranslucentWhite]; }
++ (UIColor *) ARISColorNavBarTint           { return [UIColor ARISColorTranslucentWhite]; }
 + (UIColor *) ARISColorNavBarText       { return [UIColor ARISColorBlack]; }
-+ (UIColor *) ARISColorTabBar           { return [UIColor ARISColorWhite]; }
++ (UIColor *) ARISColorTabBarTint           { return [UIColor ARISColorWhite]; }
 + (UIColor *) ARISColorTabBarText       { return [UIColor ARISColorBlack]; }
-+ (UIColor *) ARISColorToolBar          { return [UIColor ARISColorWhite]; }
-+ (UIColor *) ARISColorBarButton        { return [UIColor ARISColorWhite]; }
-+ (UIColor *) ARISColorSegmentedControl { return [UIColor ARISColorWhite]; }
-+ (UIColor *) ARISColorSearchBar        { return [UIColor ARISColorWhite]; }
++ (UIColor *) ARISColorToolBarTint          { return [UIColor ARISColorWhite]; }
++ (UIColor *) ARISColorBarButtonTint       { return [UIColor ARISColorWhite]; }
++ (UIColor *) ARISColorSegmentedControlTint { return [UIColor ARISColorWhite]; }
++ (UIColor *) ARISColorSearchBarTint        { return [UIColor ARISColorWhite]; }
 
 + (UIColor *) ARISColorTextBackdrop     { return [UIColor ARISColorTranslucentWhite]; }
 + (UIColor *) ARISColorText             { return [UIColor ARISColorBlack]; }
