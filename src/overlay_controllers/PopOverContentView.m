@@ -10,11 +10,10 @@
 
 @implementation PopOverContentView
 
--(void) drawRect:(CGRect)rect
+- (void) drawRect:(CGRect)rect
 {
     CGContextRef context=UIGraphicsGetCurrentContext();
-    CGContextSetRGBStrokeColor(context, 0.6f, 0.6f, 0.6f, 1.0f);
-    //CGRect rrect = CGRectMake(mainViewMedia.frame.origin.x+2.5f, mainViewMedia.frame.origin.y+2.5f, mainViewMedia.frame.size.width-5.0f, mainViewMedia.frame.size.height-5.0f);
+    CGContextSetRGBFillColor(context, 1.0f, 1.0f, 1.0f, 0.9f);
     CGRect rrect = CGRectMake(2.0f,2.0f,self.frame.size.width-4.0f,self.frame.size.height-4.0f);
     CGFloat radius = 15.0f;
     

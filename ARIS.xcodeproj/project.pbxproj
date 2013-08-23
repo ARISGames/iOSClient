@@ -374,7 +374,6 @@
 		AABC73C8172739D80074CC21 /* GameNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC710E172739D60074CC21 /* GameNotificationViewController.m */; };
 		AABC73C9172739D80074CC21 /* PopOverContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7110172739D60074CC21 /* PopOverContentView.m */; };
 		AABC73CA172739D80074CC21 /* PopOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7112172739D60074CC21 /* PopOverViewController.m */; };
-		AABC73CB172739D80074CC21 /* PopOverViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7113172739D60074CC21 /* PopOverViewController.xib */; };
 		AABC73D0172739D80074CC21 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC711E172739D60074CC21 /* RootViewController.m */; };
 		AABC73D1172739D80074CC21 /* AppServices.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7121172739D60074CC21 /* AppServices.m */; };
 		AABC73D2172739D80074CC21 /* ARISUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7123172739D60074CC21 /* ARISUploader.m */; };
@@ -1037,7 +1036,6 @@
 		AABC7110172739D60074CC21 /* PopOverContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopOverContentView.m; sourceTree = "<group>"; };
 		AABC7111172739D60074CC21 /* PopOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopOverViewController.h; sourceTree = "<group>"; };
 		AABC7112172739D60074CC21 /* PopOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopOverViewController.m; sourceTree = "<group>"; };
-		AABC7113172739D60074CC21 /* PopOverViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopOverViewController.xib; sourceTree = "<group>"; };
 		AABC711C172739D60074CC21 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		AABC711D172739D60074CC21 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		AABC711E172739D60074CC21 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
@@ -2205,7 +2203,6 @@
 				AABC7110172739D60074CC21 /* PopOverContentView.m */,
 				AABC7111172739D60074CC21 /* PopOverViewController.h */,
 				AABC7112172739D60074CC21 /* PopOverViewController.m */,
-				AABC7113172739D60074CC21 /* PopOverViewController.xib */,
 				AA701FE3173428C3003A840D /* ARISAlertHandler.h */,
 				AA701FE4173428C3003A840D /* ARISAlertHandler.m */,
 			);
@@ -2954,7 +2951,6 @@
 				AABC73AB172739D80074CC21 /* SelfRegistrationViewController.xib in Resources */,
 				AABC73AE172739D80074CC21 /* MainWindow.xib in Resources */,
 				AABC73C5172739D80074CC21 /* PanoramicViewController.xib in Resources */,
-				AABC73CB172739D80074CC21 /* PopOverViewController.xib in Resources */,
 				AABC73DC172739D80074CC21 /* ARView.xib in Resources */,
 				AABC73E1172739D80074CC21 /* AttributesViewController.xib in Resources */,
 				AABC73E8172739D80074CC21 /* InventoryTradeViewController.xib in Resources */,
