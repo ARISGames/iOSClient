@@ -526,6 +526,8 @@
 		AB54CDD917C7D128007179FC /* 1pxColorWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = AB54CDD717C7D127007179FC /* 1pxColorWhite.png */; };
 		AB54CDDE17C7D4EB007179FC /* 123-id-card-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = AB54CDDC17C7D4E9007179FC /* 123-id-card-gray.png */; };
 		AB54CDDF17C7D4EB007179FC /* 123-id-card-gray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB54CDDD17C7D4EA007179FC /* 123-id-card-gray@2x.png */; };
+		AB54CDE317C7DAD0007179FC /* 01-refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = AB54CDE117C7DAD0007179FC /* 01-refresh.png */; };
+		AB54CDE417C7DAD0007179FC /* 01-refresh@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AB54CDE217C7DAD0007179FC /* 01-refresh@2x.png */; };
 		AB70F39413153BB500BD06CD /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB70F39313153BB500BD06CD /* MessageUI.framework */; };
 		AB7D277813C7556100F10AD5 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB7D277713C7556100F10AD5 /* AddressBookUI.framework */; };
 		AB7D277A13C7559800F10AD5 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB7D277913C7559800F10AD5 /* CoreMedia.framework */; };
@@ -1333,6 +1335,8 @@
 		AB54CDD717C7D127007179FC /* 1pxColorWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1pxColorWhite.png; sourceTree = "<group>"; };
 		AB54CDDC17C7D4E9007179FC /* 123-id-card-gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "123-id-card-gray.png"; sourceTree = "<group>"; };
 		AB54CDDD17C7D4EA007179FC /* 123-id-card-gray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "123-id-card-gray@2x.png"; sourceTree = "<group>"; };
+		AB54CDE117C7DAD0007179FC /* 01-refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "01-refresh.png"; sourceTree = "<group>"; };
+		AB54CDE217C7DAD0007179FC /* 01-refresh@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "01-refresh@2x.png"; sourceTree = "<group>"; };
 		AB70F39313153BB500BD06CD /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		AB7D277713C7556100F10AD5 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		AB7D277913C7559800F10AD5 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
@@ -1645,6 +1649,8 @@
 		AABC6F3D1727398B0074CC21 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				AB54CDE117C7DAD0007179FC /* 01-refresh.png */,
+				AB54CDE217C7DAD0007179FC /* 01-refresh@2x.png */,
 				AB54CDD617C7D126007179FC /* 1pxColorClear.png */,
 				AB54CDD717C7D127007179FC /* 1pxColorWhite.png */,
 				AA5C899417C6B3D6001ABB83 /* 259-list@2x.png */,
@@ -3082,6 +3088,8 @@
 				AB54CDD917C7D128007179FC /* 1pxColorWhite.png in Resources */,
 				AB54CDDE17C7D4EB007179FC /* 123-id-card-gray.png in Resources */,
 				AB54CDDF17C7D4EB007179FC /* 123-id-card-gray@2x.png in Resources */,
+				AB54CDE317C7DAD0007179FC /* 01-refresh.png in Resources */,
+				AB54CDE417C7DAD0007179FC /* 01-refresh@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
