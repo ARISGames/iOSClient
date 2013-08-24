@@ -42,6 +42,15 @@
     
     self.distanceControl.enabled = YES;
     self.distanceControl.alpha   = 1;
+    
+    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
+        // Load resources for iOS 6.1 or earlier
+    } else {
+        // Load resources for iOS 7 or later
+        //self.edgesForExtendedLayout = UIRectEdgeNone;
+        //self.extendedLayoutIncludesOpaqueBars = NO;
+    }
+    
 }
 
 - (void)requestNewGameList

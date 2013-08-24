@@ -59,11 +59,9 @@
     {
         LoginViewController* loginViewController = [[LoginViewController alloc] initWithDelegate:self];
         self.loginNavigationController = [[ARISNavigationController alloc] initWithRootViewController:loginViewController];
-        self.loginNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
         
         PlayerSettingsViewController *playerSettingsViewController = [[PlayerSettingsViewController alloc] initWithDelegate:self];
         self.playerSettingsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:playerSettingsViewController];
-        self.playerSettingsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
         
         self.gamePickersViewController = [[GamePickersViewController alloc] initWithDelegate:self];
         

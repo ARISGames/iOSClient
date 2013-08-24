@@ -31,7 +31,7 @@
 + (UIColor *) ARISColorTabBarTint           { return [UIColor ARISColorWhite]; }
 + (UIColor *) ARISColorTabBarText       { return [UIColor ARISColorBlack]; }
 + (UIColor *) ARISColorToolBarTint          { return [UIColor ARISColorWhite]; }
-+ (UIColor *) ARISColorBarButtonTint       { return [UIColor ARISColorWhite]; }
++ (UIColor *) ARISColorBarButtonTint       { return [UIColor ARISColorGray]; }
 + (UIColor *) ARISColorSegmentedControlTint { return [UIColor ARISColorWhite]; }
 + (UIColor *) ARISColorSearchBarTint        { return [UIColor ARISColorWhite]; }
 
