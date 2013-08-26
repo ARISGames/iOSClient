@@ -89,8 +89,6 @@
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"mapTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"mapTabBarSelected"]];
         
         self.tracking = YES;
-        self.playerTrackingButton.style = UIBarButtonItemStyleDone;
-        
         self.locationsToAdd    = [[NSMutableArray alloc] initWithCapacity:10];
         self.locationsToRemove = [[NSMutableArray alloc] initWithCapacity:10];
         
@@ -117,7 +115,6 @@
     
 	self.playerTrackingButton.target = self;
 	self.playerTrackingButton.action = @selector(refreshButtonAction);
-	self.playerTrackingButton.style = UIBarButtonItemStyleDone;
     
     [self updateOverlays];
     [self refresh];
@@ -166,8 +163,6 @@
 - (IBAction) refreshButtonAction
 {
 	self.tracking = YES;
-	self.playerTrackingButton.style = UIBarButtonItemStyleDone;
-    
 	[[[MyCLController sharedMyCLController] locationManager] stopUpdatingLocation];
 	[[[MyCLController sharedMyCLController] locationManager] startUpdatingLocation];
     
@@ -184,7 +179,6 @@
 {
     if([AppModel sharedAppModel].hidePlayers)
     {
-        [self.playerButton setStyle:UIBarButtonItemStyleBordered];
         if(self.mapView)
         {
             NSEnumerator *existingAnnotationsEnumerator = [[self.mapView annotations] objectEnumerator];
@@ -197,7 +191,6 @@
         }
     }
     else
-        [self.playerButton setStyle:UIBarButtonItemStyleDone];
 
     [[[MyCLController sharedMyCLController] locationManager] stopUpdatingLocation];
     [[[MyCLController sharedMyCLController] locationManager] startUpdatingLocation];
@@ -362,7 +355,6 @@
     if(!appSetNextRegionChange)
     {
         tracking = NO;
-        playerTrackingButton.style = UIBarButtonItemStyleBordered;
     }
 
     appSetNextRegionChange = NO;

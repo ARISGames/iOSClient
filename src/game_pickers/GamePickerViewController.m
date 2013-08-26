@@ -193,15 +193,17 @@
 - (void) showLoadingIndicator
 {
 	[self.refreshControl beginRefreshing];
-    if (self.gameTable.contentOffset.y == 0)
-        [self.gameTable setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
+    
+    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1)
+        if (self.gameTable.contentOffset.y == 0) [self.gameTable setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
 
 }
 
 - (void) removeLoadingIndicator
 {
     [self.refreshControl endRefreshing];
-    [self.gameTable setContentOffset:CGPointMake(0, 0) animated:YES];
+    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1)
+        [self.gameTable setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 
 - (void) accountButtonTouched

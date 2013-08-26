@@ -61,7 +61,6 @@
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<int key="IBUIBarStyle">1</int>
 						<array class="NSMutableArray" key="IBUIItems">
 							<object class="IBUIBarButtonItem" id="404450860">
 								<object class="NSCustomResource" key="IBUIImage">
@@ -69,7 +68,6 @@
 									<string key="NSResourceName">74-location.png</string>
 								</object>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIStyle">1</int>
 								<reference key="IBUIToolbar" ref="753830476"/>
 							</object>
 							<object class="IBUIBarButtonItem" id="933809469">
@@ -78,7 +76,6 @@
 									<string key="NSResourceName">player.png</string>
 								</object>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIStyle">2</int>
 								<reference key="IBUIToolbar" ref="753830476"/>
 							</object>
 							<object class="IBUIBarButtonItem" id="545852258">
@@ -89,7 +86,6 @@
 							<object class="IBUIBarButtonItem" id="508484521">
 								<string key="IBUITitle">Type</string>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-								<int key="IBUIStyle">1</int>
 								<reference key="IBUIToolbar" ref="753830476"/>
 							</object>
 						</array>

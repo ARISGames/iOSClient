@@ -54,28 +54,25 @@
     //Frame will need to get set in viewWillAppear:
     // http://stackoverflow.com/questions/11305818/create-view-in-load-view-and-set-its-frame-but-frame-auto-changes
     self.view = [[UIView alloc] initWithFrame:CGRectZero];
+    
     self.view.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight);
 
     
     //Nearby Games
     GamePickerNearbyViewController *gamePickerNearbyViewController = [[GamePickerNearbyViewController alloc] initWithDelegate:self];
     ARISNavigationController *gamePickerNearbyNC = [[ARISNavigationController alloc] initWithRootViewController:gamePickerNearbyViewController];
-    gamePickerNearbyNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Search Games
     GamePickerSearchViewController *gamePickerSearchVC = [[GamePickerSearchViewController alloc] initWithDelegate:self];
     ARISNavigationController *gamePickerSearchNC = [[ARISNavigationController alloc] initWithRootViewController:gamePickerSearchVC];
-    gamePickerSearchNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Popular Games
     GamePickerPopularViewController *gamePickerPopularVC = [[GamePickerPopularViewController alloc] initWithDelegate:self];
     ARISNavigationController *gamePickerPopularNC = [[ARISNavigationController alloc] initWithRootViewController:gamePickerPopularVC];
-    gamePickerPopularNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Recent Games
     GamePickerRecentViewController *gamePickerRecentVC = [[GamePickerRecentViewController alloc] initWithDelegate:self];
     ARISNavigationController *gamePickerRecentNC = [[ARISNavigationController alloc] initWithRootViewController:gamePickerRecentVC];
-    gamePickerRecentNC.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     //Setup the Game Selection Tab Bar
     self.gamePickersTabBarController = [[UITabBarController alloc] init];
@@ -108,7 +105,6 @@
     GameDetailsViewController *gameDetailsViewController = [[GameDetailsViewController alloc] initWithGame:g delegate:self];
     
     self.gameDetailsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:gameDetailsViewController];
-    self.gameDetailsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     [self displayContentController:self.gameDetailsNavigationController];
 }
 
@@ -126,7 +122,6 @@
 {
     AccountSettingsViewController *accountSettingsViewController = [[AccountSettingsViewController alloc] initWithDelegate:self];
     self.accountSettingsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:accountSettingsViewController];
-    self.accountSettingsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     [self displayContentController:self.accountSettingsNavigationController];
 }
 

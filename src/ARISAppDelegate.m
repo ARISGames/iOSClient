@@ -40,7 +40,7 @@
 {    
     application.idleTimerDisabled = YES;
     
-    [Crittercism enableWithAppID:@"5101a46d59e1bd498c000002"];
+    //[Crittercism enableWithAppID:@"5101a46d59e1bd498c000002"];
     //Init keys in UserDefaults in case the user has not visited the ARIS Settings page
 	//To set these defaults, edit Settings.bundle->Root.plist
 	[[AppModel sharedAppModel] initUserDefaults];
@@ -60,6 +60,29 @@
     //[[UIBarButtonItem appearance]    setTintColor:[UIColor ARISColorBarButtonTint]];
     [[UISegmentedControl appearance] setTintColor:[UIColor ARISColorSegmentedControlTint]];
     [[UISearchBar appearance]        setTintColor:[UIColor ARISColorSearchBarTint]];
+
+    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
+        // Load resources for iOS 6.1 or earlier
+        [[UIToolbar appearance]             setTintColor:[UIColor ARISColorToolBarTint]];
+        [[UIBarButtonItem appearance]       setTintColor:[UIColor ARISColorBarButtonTint]];
+        [[UISegmentedControl appearance]    setTintColor:[UIColor ARISColorSegmentedControlTint]];
+        [[UISearchBar appearance]           setTintColor:[UIColor ARISColorSearchBarTint]];
+        [[UINavigationBar appearance]       setTintColor:[UIColor ARISColorNavBarTint]];
+        [[UITabBar appearance]              setTintColor:[UIColor ARISColorTabBarTint]];
+        
+        [[UINavigationBar appearance] setTitleTextAttributes:
+         [NSDictionary dictionaryWithObjectsAndKeys:
+          [UIColor ARISColorNavBarText],                      UITextAttributeTextColor,
+          [UIColor clearColor],                               UITextAttributeTextShadowColor,
+          [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0],    UITextAttributeFont,
+          nil]
+         ];
+        
+    } else {
+        // Load resources for iOS 7 or later
+        self.window.rootViewController.edgesForExtendedLayout = UIRectEdgeAll;
+        self.window.rootViewController.extendedLayoutIncludesOpaqueBars = NO;
+    }
     
     [[UILabel appearance] setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:14.0]];
     [[UILabel appearanceWhenContainedIn:[UIButton class],        nil] setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:17]];
@@ -83,8 +106,7 @@
             [UIColor clearColor],                                 UITextAttributeTextShadowColor,
             nil]
         forState:UIControlStateNormal];
-    
-    [[UINavigationBar appearance] setTintColor:[UIColor ARISColorNavBarTint]];
+
     [[UINavigationBar appearance] setTitleTextAttributes:
         [NSDictionary dictionaryWithObjectsAndKeys:
             [UIFont fontWithName:@"HelveticaNeue-Light" size:16.0], UITextAttributeFont,
@@ -93,7 +115,6 @@
             nil]
         ];
     
-    [[UITabBar appearance] setTintColor:[UIColor ARISColorTabBarTint]];
     [[UITabBarItem appearance] setTitleTextAttributes:
         [NSDictionary dictionaryWithObjectsAndKeys:
             [UIFont fontWithName:@"HelveticaNeue-Light" size:0.0], UITextAttributeFont,

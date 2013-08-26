@@ -41,7 +41,6 @@
 #error This file must be compiled with ARC
 #endif
 
-
 // const
 NSString * const kLOG_LOGIN = @"LOGIN";
 NSString * const kLOG_MOVE = @"MOVE";
@@ -116,8 +115,6 @@ NSString * const kPSC_TAKE_ITEM = @"TAKE_ITEM";
 - (void)appendLogForPlayer:(MPlayer*)player game:(MGame*)game type:(NSString*)type detail1:(NSString*)detail1 detail2:(NSString*)detail2;
 - (void)appendLogForPlayer:(MPlayer*)player game:(MGame*)game type:(NSString*)type detail1:(NSString*)detail1 detail2:(NSString*)detail2;
 - (void)stateChangeForPlayer:(MPlayer*)player game:(MGame*)game type:(NSString*)type detail:(NSString*)detail;
-
-
 
 @end
 
@@ -2399,7 +2396,8 @@ NSString * const kPSC_TAKE_ITEM = @"TAKE_ITEM";
     return [[ServiceResult alloc] initWithJSONString:[result JSONRepresentation] andUserData:nil];
 }
 
-- (ServiceResult*)mediaForId:(NSNumber*)mediaId {
+- (ServiceResult*)mediaForId:(NSNumber*)mediaId
+{
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Media"];
     fetchRequest.predicate = [NSPredicate predicateWithFormat:@"mediaId = %@", mediaId];
     NSArray *fetchedMedia = [_managedObjectContext executeFetchRequest:fetchRequest error:nil];
@@ -2447,7 +2445,5 @@ NSString * const kPSC_TAKE_ITEM = @"TAKE_ITEM";
         return nil;
     }
 }
-
-
 
 @end

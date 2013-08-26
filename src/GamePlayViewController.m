@@ -206,7 +206,6 @@
     //Special case- always should get inited (yet not added to the gameplay tabbar until specified)
     NearbyObjectsViewController *nearbyObjectsViewController = [[NearbyObjectsViewController alloc] initWithDelegate:self];
     self.nearbyObjectsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:nearbyObjectsViewController];
-    self.nearbyObjectsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     NSMutableArray *gamePlayTabVCs  = [[NSMutableArray alloc] initWithCapacity:10];
     Tab *tmpTab;
@@ -222,14 +221,12 @@
             {
                 IconQuestsViewController *iconQuestsViewController = [[IconQuestsViewController alloc] initWithDelegate:self];
                 self.questsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:iconQuestsViewController];
-                self.questsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
                 [gamePlayTabVCs addObject:self.questsNavigationController];
             }
             else
             {
                 QuestsViewController *questsViewController = [[QuestsViewController alloc] initWithDelegate:self];
                 self.questsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:questsViewController];
-                self.questsNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
                 [gamePlayTabVCs addObject:self.questsNavigationController];
             }
         }
@@ -237,42 +234,36 @@
         {
             MapViewController *mapViewController = [[MapViewController alloc] initWithDelegate:self];
             self.mapNavigationController = [[ARISNavigationController alloc] initWithRootViewController:mapViewController];
-            self.mapNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
             [gamePlayTabVCs addObject:self.mapNavigationController];
         }
         else if([tmpTab.tabName isEqualToString:@"INVENTORY"])
         {
             InventoryViewController *inventoryListViewController = [[InventoryViewController alloc] initWithDelegate:self];
             self.inventoryNavigationController = [[ARISNavigationController alloc] initWithRootViewController:inventoryListViewController];
-            self.inventoryNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
             [gamePlayTabVCs addObject:self.inventoryNavigationController];
         }
         else if([tmpTab.tabName isEqualToString:@"QR"])
         {
             DecoderViewController *decoderViewController = [[DecoderViewController alloc] initWithDelegate:self];
             self.decoderNavigationController = [[ARISNavigationController alloc] initWithRootViewController:decoderViewController];
-            self.decoderNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
             [gamePlayTabVCs addObject:self.decoderNavigationController];
         }
         else if([tmpTab.tabName isEqualToString:@"PLAYER"])
         {
             AttributesViewController *attributesViewController = [[AttributesViewController alloc] initWithDelegate:self];
             self.attributesNavigationController = [[ARISNavigationController alloc] initWithRootViewController:attributesViewController];
-            self.attributesNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
             [gamePlayTabVCs addObject:self.attributesNavigationController];
         }
         else if([tmpTab.tabName isEqualToString:@"NOTE"])
         {
             NotebookViewController *notesViewController = [[NotebookViewController alloc] initWithDelegate:self];
             self.notesNavigationController = [[ARISNavigationController alloc] initWithRootViewController:notesViewController];
-            self.notesNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
             [gamePlayTabVCs addObject:self.notesNavigationController];
         }
         else if([tmpTab.tabName isEqualToString:@"AR"])
         {
             //ARViewViewControler *arViewController = [[[ARViewViewControler alloc] initWithNibName:@"ARView" bundle:nil] autorelease];
             //self.arNavigationController = [[ARISNavigationController alloc] initWithRootViewController: arViewController];
-            //self.arNavigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
             //[gamePlayTabVCs addObject:self.arNavigationController];
         }
         else if([tmpTab.tabName isEqualToString:@"PICKGAME"] && ![AppModel sharedAppModel].disableLeaveGame)
@@ -314,7 +305,6 @@
     boundsMinusNav.size.height -= 44;
     UIViewController *uivc = [g viewControllerForDelegate:self viewFrame:boundsMinusNav fromSource:s];
 	ARISNavigationController *nav = [[ARISNavigationController alloc] initWithRootViewController:uivc];
-	nav.navigationBar.barStyle = UIBarStyleBlackOpaque;
     
     [self presentViewController:nav animated:NO completion:nil];
     //Phil hates that the frame changes depending on what view you add it to...
