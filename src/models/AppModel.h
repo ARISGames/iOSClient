@@ -42,6 +42,7 @@
     
     NSMutableArray *oneGameGameList;
 	NSMutableArray *nearbyGameList;
+	NSMutableArray *anywhereGameList;
     NSMutableArray *searchGameList;
     NSMutableArray *popularGameList;
     NSMutableArray *recentGamelist;
@@ -104,6 +105,7 @@
 @property(nonatomic, strong) NSURL *fileToDeleteURL;
 @property(nonatomic, strong) NSMutableArray *oneGameGameList;
 @property(nonatomic, strong) NSMutableArray *nearbyGameList;
+@property(nonatomic, strong) NSMutableArray *anywhereGameList;
 @property(nonatomic, strong) NSMutableArray *searchGameList;
 @property(nonatomic, strong) NSMutableArray *popularGameList;
 @property(nonatomic, strong) NSMutableArray *recentGameList;	

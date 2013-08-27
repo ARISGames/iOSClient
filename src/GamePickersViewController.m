@@ -8,10 +8,11 @@
 
 #import "GamePickersViewController.h"
 #import "GamePickerViewController.h"
-#import "GamePickerSearchViewController.h"
 #import "GamePickerNearbyViewController.h"
+#import "GamePickerAnywhereViewController.h"
 #import "GamePickerPopularViewController.h"
 #import "GamePickerRecentViewController.h"
+#import "GamePickerSearchViewController.h"
 #import "GameDetailsViewController.h"
 #import "AccountSettingsViewController.h"
 #import "ARISNavigationController.h"
@@ -57,14 +58,13 @@
     
     self.view.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight);
 
-    
     //Nearby Games
     GamePickerNearbyViewController *gamePickerNearbyViewController = [[GamePickerNearbyViewController alloc] initWithDelegate:self];
     ARISNavigationController *gamePickerNearbyNC = [[ARISNavigationController alloc] initWithRootViewController:gamePickerNearbyViewController];
     
-    //Search Games
-    GamePickerSearchViewController *gamePickerSearchVC = [[GamePickerSearchViewController alloc] initWithDelegate:self];
-    ARISNavigationController *gamePickerSearchNC = [[ARISNavigationController alloc] initWithRootViewController:gamePickerSearchVC];
+    //Anywhere Games
+    GamePickerAnywhereViewController *gamePickerAnywhereViewController = [[GamePickerAnywhereViewController alloc] initWithDelegate:self];
+    ARISNavigationController *gamePickerAnywhereNC = [[ARISNavigationController alloc] initWithRootViewController:gamePickerAnywhereViewController];
     
     //Popular Games
     GamePickerPopularViewController *gamePickerPopularVC = [[GamePickerPopularViewController alloc] initWithDelegate:self];
@@ -74,15 +74,20 @@
     GamePickerRecentViewController *gamePickerRecentVC = [[GamePickerRecentViewController alloc] initWithDelegate:self];
     ARISNavigationController *gamePickerRecentNC = [[ARISNavigationController alloc] initWithRootViewController:gamePickerRecentVC];
     
+    //Search Games
+    GamePickerSearchViewController *gamePickerSearchVC = [[GamePickerSearchViewController alloc] initWithDelegate:self];
+    ARISNavigationController *gamePickerSearchNC = [[ARISNavigationController alloc] initWithRootViewController:gamePickerSearchVC];
+    
     //Setup the Game Selection Tab Bar
     self.gamePickersTabBarController = [[UITabBarController alloc] init];
     self.gamePickersTabBarController.delegate = self;
     self.gamePickersTabBarController.viewControllers = [NSMutableArray arrayWithObjects:
                                                        gamePickerNearbyNC,
-                                                       gamePickerSearchNC,
+                                                       gamePickerAnywhereNC,
                                                        gamePickerPopularNC,
                                                        gamePickerRecentNC,
-                                                       nil];
+                                                       gamePickerSearchNC,
+                                                        nil];
 }
 
 - (void) viewWillAppear:(BOOL)animated

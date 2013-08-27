@@ -12,15 +12,12 @@
 @interface GamePickerNearbyViewController : GamePickerViewController
 {
     int distanceFilter;
-    BOOL locational;
     
     IBOutlet UISegmentedControl *distanceControl;
-    IBOutlet UISegmentedControl *locationalControl;
 }
 
 -(IBAction)controlChanged:(id)sender;
 
 @property (nonatomic, strong) IBOutlet UISegmentedControl *distanceControl;
-@property (nonatomic, strong) IBOutlet UISegmentedControl *locationalControl;
 
 @end

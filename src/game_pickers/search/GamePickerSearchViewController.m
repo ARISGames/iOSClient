@@ -28,7 +28,7 @@
         allResultsFound = YES;
         searchText = @"";
         
-        self.title = NSLocalizedString(@"SearchKey", @"");
+        self.title = NSLocalizedString(@"GamePickerSearchTabKey", @"");
         
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"magnifyTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"magnifyTabBarSelected"]];        
         
@@ -41,7 +41,7 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.title = NSLocalizedString(@"GamePickerSearchGamesKey", @"");
+    self.navigationItem.title = NSLocalizedString(@"GamePickerSearchTitleKey", @"");
     
     [self.theSearchBar becomeFirstResponder];
 }

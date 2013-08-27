@@ -24,8 +24,8 @@
     {
         time = 1;
         
-        self.title = NSLocalizedString(@"GamePickerPopularTitleKey", @"");
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"trophyTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"trophyTabBarSelected"]];
+        self.title = NSLocalizedString(@"GamePickerPopularTabKey", @"");
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"star_selected"] withFinishedUnselectedImage:[UIImage imageNamed:@"star_selected"]];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewPopularGameListReady" object:nil];
     }
@@ -35,9 +35,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
-    self.navigationItem.title = NSLocalizedString(@"GamePickerPopularPlayedKey", @"");
-    
+    self.navigationItem.title = NSLocalizedString(@"GamePickerPopularTitleKey", @"");
     self.timeControl.enabled = YES;
     self.timeControl.alpha = 1;
 }

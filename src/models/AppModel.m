@@ -24,6 +24,7 @@
 @synthesize skipGameDetails;
 @synthesize oneGameGameList;
 @synthesize nearbyGameList;
+@synthesize anywhereGameList;
 @synthesize searchGameList;
 @synthesize popularGameList;
 @synthesize recentGameList;

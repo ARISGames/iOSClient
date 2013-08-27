@@ -20,8 +20,8 @@
 {
     if(self = [super initWithNibName:@"GamePickerRecentViewController" bundle:nil delegate:d])
     {
-        self.title = NSLocalizedString(@"GamePickerRecentTitleKey", @"");
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"stopwatchTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"stopwatchTabBarSelected"]];
+        self.title = NSLocalizedString(@"GamePickerRecentTabKey", @"");
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"clock_selected.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"clock_selected.png"]];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewRecentGameListReady" object:nil];
     }
@@ -31,8 +31,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
-    self.navigationItem.title = NSLocalizedString(@"GamePickeRecentPlayedKey", @"");
+    self.navigationItem.title = NSLocalizedString(@"GamePickeRecentTitleKey", @"");
 }
 
 - (void)requestNewGameList

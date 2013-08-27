@@ -152,8 +152,18 @@
 		AA74E7F517626EE9005C279B /* NSURLConnection+block.m in Sources */ = {isa = PBXBuildFile; fileRef = AA74E7D717626EE9005C279B /* NSURLConnection+block.m */; };
 		AA74E7F617626EE9005C279B /* StoreLocallyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA74E7D917626EE9005C279B /* StoreLocallyViewController.m */; };
 		AA74E7F717626EE9005C279B /* StoreLocallyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA74E7DA17626EE9005C279B /* StoreLocallyViewController.xib */; };
+		AA766D3817CBD811001F88D2 /* GamePickerAnywhereViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA766D3617CBD811001F88D2 /* GamePickerAnywhereViewController.m */; };
+		AA766D3917CBD811001F88D2 /* GamePickerAnywhereViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA766D3717CBD811001F88D2 /* GamePickerAnywhereViewController.xib */; };
+		AA766D3C17CBE7B5001F88D2 /* clock_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = AA766D3A17CBE68A001F88D2 /* clock_selected.png */; };
+		AA766D3D17CBE7B5001F88D2 /* clock_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA766D3B17CBE68A001F88D2 /* clock_selected@2x.png */; };
+		AA766D4017CBEBD8001F88D2 /* star_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = AA766D3E17CBEA9C001F88D2 /* star_selected.png */; };
+		AA766D4117CBEBD8001F88D2 /* star_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA766D3F17CBEA9C001F88D2 /* star_selected@2x.png */; };
 		AA856FF517A9AFA900E9D451 /* qr_nowhite.png in Resources */ = {isa = PBXBuildFile; fileRef = AA856FF317A9AFA900E9D451 /* qr_nowhite.png */; };
 		AA856FF617A9AFA900E9D451 /* qr.png in Resources */ = {isa = PBXBuildFile; fileRef = AA856FF417A9AFA900E9D451 /* qr.png */; };
+		AA942B5B17CD2C61004EDEA1 /* logo_text.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AA942B5A17CD2C61004EDEA1 /* logo_text.jpg */; };
+		AA942B5D17CD2CD6004EDEA1 /* logo_text.png in Resources */ = {isa = PBXBuildFile; fileRef = AA942B5C17CD2CD6004EDEA1 /* logo_text.png */; };
+		AA942B5F17CD2E39004EDEA1 /* logo_text_nav.png in Resources */ = {isa = PBXBuildFile; fileRef = AA942B5E17CD2E39004EDEA1 /* logo_text_nav.png */; };
+		AA942B6117CD3076004EDEA1 /* logo_text_fake.png in Resources */ = {isa = PBXBuildFile; fileRef = AA942B6017CD3076004EDEA1 /* logo_text_fake.png */; };
 		AAAB7637173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAB7636173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m */; };
 		AAAC4354172EDDB300C92DF0 /* GameObjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAAC4353172EDDB300C92DF0 /* GameObjectViewController.m */; };
 		AABC6F3B172738CD0074CC21 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AABC6F3A172738CD0074CC21 /* Settings.bundle */; };
@@ -304,7 +314,6 @@
 		AABC7376172739D80074CC21 /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7068172739D60074CC21 /* ChangePasswordViewController.m */; };
 		AABC7377172739D80074CC21 /* ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7069172739D60074CC21 /* ChangePasswordViewController.xib */; };
 		AABC7378172739D80074CC21 /* ForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC706B172739D60074CC21 /* ForgotPasswordViewController.m */; };
-		AABC7379172739D80074CC21 /* ForgotPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC706C172739D60074CC21 /* ForgotPasswordViewController.xib */; };
 		AABC737A172739D80074CC21 /* PlayerSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC706E172739D60074CC21 /* PlayerSettingsViewController.m */; };
 		AABC737B172739D80074CC21 /* PlayerSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC706F172739D60074CC21 /* PlayerSettingsViewController.xib */; };
 		AABC737C172739D80074CC21 /* ARISAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7072172739D60074CC21 /* ARISAppDelegate.m */; };
@@ -350,9 +359,7 @@
 		AABC73A5172739D80074CC21 /* GamePickerSearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC70C3172739D60074CC21 /* GamePickerSearchViewController.xib */; };
 		AABC73A7172739D80074CC21 /* LoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70C7172739D60074CC21 /* LoadingViewController.m */; };
 		AABC73A8172739D80074CC21 /* LoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC70C8172739D60074CC21 /* LoadingViewController.xib */; };
-		AABC73A9172739D80074CC21 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC70CA172739D60074CC21 /* LoginViewController.xib */; };
 		AABC73AA172739D80074CC21 /* LoginViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = AABC70CC172739D60074CC21 /* LoginViewController.mm */; };
-		AABC73AB172739D80074CC21 /* SelfRegistrationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC70CD172739D60074CC21 /* SelfRegistrationViewController.xib */; };
 		AABC73AC172739D80074CC21 /* SelfRegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70CF172739D60074CC21 /* SelfRegistrationViewController.m */; };
 		AABC73AD172739D80074CC21 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = AABC70D0172739D60074CC21 /* main.mm */; };
 		AABC73AE172739D80074CC21 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC70D1172739D60074CC21 /* MainWindow.xib */; };
@@ -773,9 +780,20 @@
 		AA74E7D817626EE9005C279B /* StoreLocallyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreLocallyViewController.h; sourceTree = "<group>"; };
 		AA74E7D917626EE9005C279B /* StoreLocallyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreLocallyViewController.m; sourceTree = "<group>"; };
 		AA74E7DA17626EE9005C279B /* StoreLocallyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoreLocallyViewController.xib; sourceTree = "<group>"; };
+		AA766D3517CBD811001F88D2 /* GamePickerAnywhereViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerAnywhereViewController.h; sourceTree = "<group>"; };
+		AA766D3617CBD811001F88D2 /* GamePickerAnywhereViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerAnywhereViewController.m; sourceTree = "<group>"; };
+		AA766D3717CBD811001F88D2 /* GamePickerAnywhereViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GamePickerAnywhereViewController.xib; sourceTree = "<group>"; };
+		AA766D3A17CBE68A001F88D2 /* clock_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = clock_selected.png; path = ../../clock_selected.png; sourceTree = "<group>"; };
+		AA766D3B17CBE68A001F88D2 /* clock_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "clock_selected@2x.png"; path = "../../clock_selected@2x.png"; sourceTree = "<group>"; };
+		AA766D3E17CBEA9C001F88D2 /* star_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = star_selected.png; path = ../../star_selected.png; sourceTree = "<group>"; };
+		AA766D3F17CBEA9C001F88D2 /* star_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "star_selected@2x.png"; path = "../../star_selected@2x.png"; sourceTree = "<group>"; };
 		AA856FEF17A972B800E9D451 /* arisjs.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = arisjs.js; sourceTree = "<group>"; };
 		AA856FF317A9AFA900E9D451 /* qr_nowhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qr_nowhite.png; sourceTree = "<group>"; };
 		AA856FF417A9AFA900E9D451 /* qr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qr.png; sourceTree = "<group>"; };
+		AA942B5A17CD2C61004EDEA1 /* logo_text.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = logo_text.jpg; sourceTree = "<group>"; };
+		AA942B5C17CD2CD6004EDEA1 /* logo_text.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_text.png; sourceTree = "<group>"; };
+		AA942B5E17CD2E39004EDEA1 /* logo_text_nav.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_text_nav.png; sourceTree = "<group>"; };
+		AA942B6017CD3076004EDEA1 /* logo_text_fake.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_text_fake.png; sourceTree = "<group>"; };
 		AAAB7634173AAA3D007B5A75 /* QuestsViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuestsViewControllerDelegate.h; sourceTree = "<group>"; };
 		AAAB7635173AB6E6007B5A75 /* ARISGamePlayTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARISGamePlayTabBarViewController.h; sourceTree = "<group>"; };
 		AAAB7636173AB6E7007B5A75 /* ARISGamePlayTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ARISGamePlayTabBarViewController.m; sourceTree = "<group>"; };
@@ -934,7 +952,6 @@
 		AABC7069172739D60074CC21 /* ChangePasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangePasswordViewController.xib; sourceTree = "<group>"; };
 		AABC706A172739D60074CC21 /* ForgotPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgotPasswordViewController.h; sourceTree = "<group>"; };
 		AABC706B172739D60074CC21 /* ForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgotPasswordViewController.m; sourceTree = "<group>"; };
-		AABC706C172739D60074CC21 /* ForgotPasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ForgotPasswordViewController.xib; sourceTree = "<group>"; };
 		AABC706D172739D60074CC21 /* PlayerSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerSettingsViewController.h; sourceTree = "<group>"; };
 		AABC706E172739D60074CC21 /* PlayerSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerSettingsViewController.m; sourceTree = "<group>"; };
 		AABC706F172739D60074CC21 /* PlayerSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlayerSettingsViewController.xib; sourceTree = "<group>"; };
@@ -1015,10 +1032,8 @@
 		AABC70C6172739D60074CC21 /* LoadingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingViewController.h; sourceTree = "<group>"; };
 		AABC70C7172739D60074CC21 /* LoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingViewController.m; sourceTree = "<group>"; };
 		AABC70C8172739D60074CC21 /* LoadingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingViewController.xib; sourceTree = "<group>"; };
-		AABC70CA172739D60074CC21 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		AABC70CB172739D60074CC21 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		AABC70CC172739D60074CC21 /* LoginViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = LoginViewController.mm; sourceTree = "<group>"; };
-		AABC70CD172739D60074CC21 /* SelfRegistrationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelfRegistrationViewController.xib; sourceTree = "<group>"; };
 		AABC70CE172739D60074CC21 /* SelfRegistrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelfRegistrationViewController.h; sourceTree = "<group>"; };
 		AABC70CF172739D60074CC21 /* SelfRegistrationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelfRegistrationViewController.m; sourceTree = "<group>"; };
 		AABC70D0172739D60074CC21 /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
@@ -1503,6 +1518,10 @@
 		7152F59D177B7AD3001B0CAE /* Selected */ = {
 			isa = PBXGroup;
 			children = (
+				AA766D3E17CBEA9C001F88D2 /* star_selected.png */,
+				AA766D3F17CBEA9C001F88D2 /* star_selected@2x.png */,
+				AA766D3A17CBE68A001F88D2 /* clock_selected.png */,
+				AA766D3B17CBE68A001F88D2 /* clock_selected@2x.png */,
 				7152F59E177B7AD3001B0CAE /* bookTabBarSelected.png */,
 				7152F59F177B7AD3001B0CAE /* bookTabBarSelected@2x.png */,
 				7152F5A0177B7AD3001B0CAE /* cameraTabBarSelected.png */,
@@ -1669,6 +1688,16 @@
 			path = "model classes";
 			sourceTree = "<group>";
 		};
+		AA766D3417CBD811001F88D2 /* anywhere */ = {
+			isa = PBXGroup;
+			children = (
+				AA766D3517CBD811001F88D2 /* GamePickerAnywhereViewController.h */,
+				AA766D3617CBD811001F88D2 /* GamePickerAnywhereViewController.m */,
+				AA766D3717CBD811001F88D2 /* GamePickerAnywhereViewController.xib */,
+			);
+			path = anywhere;
+			sourceTree = "<group>";
+		};
 		AABC6F3C1727398B0074CC21 /* assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -1681,6 +1710,10 @@
 		AABC6F3D1727398B0074CC21 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				AA942B6017CD3076004EDEA1 /* logo_text_fake.png */,
+				AA942B5E17CD2E39004EDEA1 /* logo_text_nav.png */,
+				AA942B5C17CD2CD6004EDEA1 /* logo_text.png */,
+				AA942B5A17CD2C61004EDEA1 /* logo_text.jpg */,
 				AB54CE0B17C80703007179FC /* threelines.png */,
 				AB54CE0C17C80713007179FC /* threeLines@2x.png */,
 				AB54CDD617C7D126007179FC /* 1pxColorClear.png */,
@@ -1948,7 +1981,6 @@
 				AABC7069172739D60074CC21 /* ChangePasswordViewController.xib */,
 				AABC706A172739D60074CC21 /* ForgotPasswordViewController.h */,
 				AABC706B172739D60074CC21 /* ForgotPasswordViewController.m */,
-				AABC706C172739D60074CC21 /* ForgotPasswordViewController.xib */,
 				AABC706D172739D60074CC21 /* PlayerSettingsViewController.h */,
 				AABC706E172739D60074CC21 /* PlayerSettingsViewController.m */,
 				AABC706F172739D60074CC21 /* PlayerSettingsViewController.xib */,
@@ -2043,6 +2075,7 @@
 				AA522B8D17AC225200C8A72B /* GamePickerCell.m */,
 				AABC70B1172739D60074CC21 /* GamePickerCell.xib */,
 				AABC70B4172739D60074CC21 /* nearby */,
+				AA766D3417CBD811001F88D2 /* anywhere */,
 				AABC70B8172739D60074CC21 /* popular */,
 				AABC70BC172739D60074CC21 /* recent */,
 				AABC70C0172739D60074CC21 /* search */,
@@ -2103,10 +2136,8 @@
 		AABC70C9172739D60074CC21 /* login */ = {
 			isa = PBXGroup;
 			children = (
-				AABC70CA172739D60074CC21 /* LoginViewController.xib */,
 				AABC70CB172739D60074CC21 /* LoginViewController.h */,
 				AABC70CC172739D60074CC21 /* LoginViewController.mm */,
-				AABC70CD172739D60074CC21 /* SelfRegistrationViewController.xib */,
 				AABC70CE172739D60074CC21 /* SelfRegistrationViewController.h */,
 				AABC70CF172739D60074CC21 /* SelfRegistrationViewController.m */,
 			);
@@ -2850,6 +2881,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA766D4017CBEBD8001F88D2 /* star_selected.png in Resources */,
+				AA766D4117CBEBD8001F88D2 /* star_selected@2x.png in Resources */,
+				AA766D3C17CBE7B5001F88D2 /* clock_selected.png in Resources */,
+				AA766D3D17CBE7B5001F88D2 /* clock_selected@2x.png in Resources */,
 				AA49A25817AAC75200629C87 /* arisjs.js in Resources */,
 				AB0A5BA5120365420065CE68 /* Localizable.strings in Resources */,
 				AABC6F3B172738CD0074CC21 /* Settings.bundle in Resources */,
@@ -2983,6 +3018,7 @@
 				AABC70461727398B0074CC21 /* nearbyObject.wav in Resources */,
 				AABC70471727398B0074CC21 /* pingtone.wav in Resources */,
 				AABC70481727398B0074CC21 /* questChange.wav in Resources */,
+				AA942B5B17CD2C61004EDEA1 /* logo_text.jpg in Resources */,
 				AABC70491727398B0074CC21 /* swish.wav in Resources */,
 				AABC704A1727398B0074CC21 /* ticktick.wav in Resources */,
 				AABC70571727399C0074CC21 /* Bascom Hall.gpx in Resources */,
@@ -2999,7 +3035,6 @@
 				AABC70611727399C0074CC21 /* Van Hise.gpx in Resources */,
 				AABC7374172739D80074CC21 /* AccountSettingsViewController.xib in Resources */,
 				AABC7377172739D80074CC21 /* ChangePasswordViewController.xib in Resources */,
-				AABC7379172739D80074CC21 /* ForgotPasswordViewController.xib in Resources */,
 				AABC737B172739D80074CC21 /* PlayerSettingsViewController.xib in Resources */,
 				AABC7391172739D80074CC21 /* CommentCell.xib in Resources */,
 				AABC7393172739D80074CC21 /* CommentsFormCell.xib in Resources */,
@@ -3012,9 +3047,8 @@
 				AABC73A3172739D80074CC21 /* GamePickerRecentViewController.xib in Resources */,
 				AABC73A5172739D80074CC21 /* GamePickerSearchViewController.xib in Resources */,
 				AABC73A8172739D80074CC21 /* LoadingViewController.xib in Resources */,
+				AA942B5F17CD2E39004EDEA1 /* logo_text_nav.png in Resources */,
 				AA5C899117C69DB8001ABB83 /* 888888.png in Resources */,
-				AABC73A9172739D80074CC21 /* LoginViewController.xib in Resources */,
-				AABC73AB172739D80074CC21 /* SelfRegistrationViewController.xib in Resources */,
 				AABC73AE172739D80074CC21 /* MainWindow.xib in Resources */,
 				AABC73C5172739D80074CC21 /* PanoramicViewController.xib in Resources */,
 				AABC73DC172739D80074CC21 /* ARView.xib in Resources */,
@@ -3028,6 +3062,7 @@
 				AA5C899017C69DB8001ABB83 /* 000000.png in Resources */,
 				AABC7401172739D80074CC21 /* DropOnMapViewController.xib in Resources */,
 				AABC7403172739D80074CC21 /* ImageViewer.xib in Resources */,
+				AA766D3917CBD811001F88D2 /* GamePickerAnywhereViewController.xib in Resources */,
 				AABC7405172739D80074CC21 /* NotebookViewController.xib in Resources */,
 				AABC7407172739D80074CC21 /* NoteCell.xib in Resources */,
 				AABC7409172739D80074CC21 /* NoteCommentCell.xib in Resources */,
@@ -3036,6 +3071,7 @@
 				AABC740F172739D80074CC21 /* NoteDetailsViewController.xib in Resources */,
 				AABC7411172739D80074CC21 /* NoteEditorViewController.xib in Resources */,
 				AABC7413172739D80074CC21 /* TagCell.xib in Resources */,
+				AA942B6117CD3076004EDEA1 /* logo_text_fake.png in Resources */,
 				AABC7415172739D80074CC21 /* TagViewController.xib in Resources */,
 				AABC7417172739D80074CC21 /* TextViewController.xib in Resources */,
 				AABC7420172739D80074CC21 /* BumpTestViewController.xib in Resources */,
@@ -3070,6 +3106,7 @@
 				AAF7115B17B9579900262A37 /* .gitignore in Resources */,
 				7152F5D4177B7AD3001B0CAE /* mapTabBarSelected.png in Resources */,
 				7152F5D5177B7AD3001B0CAE /* mapTabBarSelected@2x.png in Resources */,
+				AA942B5D17CD2CD6004EDEA1 /* logo_text.png in Resources */,
 				7152F5D6177B7AD3001B0CAE /* microphoneTabBarSelected.png in Resources */,
 				7152F5D8177B7AD3001B0CAE /* radarTabBarSelected.png in Resources */,
 				7152F5D9177B7AD3001B0CAE /* radarTabBarSelected@2x.png in Resources */,
@@ -3307,6 +3344,7 @@
 				AABC7437172739D80074CC21 /* priorityq.c in Sources */,
 				AABC7439172739D80074CC21 /* render.c in Sources */,
 				AABC743A172739D80074CC21 /* sweep.c in Sources */,
+				AA766D3817CBD811001F88D2 /* GamePickerAnywhereViewController.m in Sources */,
 				AABC743B172739D80074CC21 /* tess.c in Sources */,
 				AABC743C172739D80074CC21 /* tessmono.c in Sources */,
 				AABC743D172739D80074CC21 /* PLCamera.m in Sources */,
@@ -3485,8 +3523,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-v";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "36F27C8B-CD8E-4797-963B-BD280FFF4864";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "36F27C8B-CD8E-4797-963B-BD280FFF4864";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "armv7 armv7s i386";
 			};
@@ -3551,8 +3589,8 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"ARCHS[sdk=iphoneos*]" = "$(ARCHS_STANDARD_32_BIT)";
 				"ARCHS[sdk=iphonesimulator*]" = i386;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = "";
@@ -3562,8 +3600,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-v";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "36F27C8B-CD8E-4797-963B-BD280FFF4864";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "36F27C8B-CD8E-4797-963B-BD280FFF4864";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "armv7 armv7s i386";
 			};

@@ -54,7 +54,8 @@ extern NSString *const kARISServerServicePackage;
 - (void)setShowPlayerOnMap;
 
 //Game Picker
-- (void)fetchGameListWithDistanceFilter:(int)distanceInMeters locational:(BOOL)locationalOrNonLocational;
+- (void)fetchNearbyGameListWithDistanceFilter:(int)distanceInMeters;
+- (void)fetchAnywhereGameList;
 - (void)fetchRecentGameListForPlayer;
 - (void)fetchPopularGameListForTime:(int)time;
 - (void)fetchGameListBySearch:(NSString *)searchText onPage:(int)page;

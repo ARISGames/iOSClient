@@ -8,13 +8,5 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ForgotPasswordViewController : UIViewController <UITextFieldDelegate>
-{
-    IBOutlet UITextField *userField;
-    IBOutlet UILabel *userLabel;
-}
-
-@property(nonatomic)IBOutlet UITextField *userField;
-@property(nonatomic)IBOutlet UILabel *userLabel;
-
+@interface ForgotPasswordViewController : UIViewController
 @end

@@ -27,17 +27,14 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 #import "ARISAlertHandler.h"
 
 
-@interface LoginViewController() <ZXingDelegate, SelfRegistrationViewControllerDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface LoginViewController() <ZXingDelegate, SelfRegistrationViewControllerDelegate, UITextFieldDelegate>
 {
     UITextField *usernameField;
 	UITextField *passwordField;
-	IBOutlet UIButton *loginButton;
-    IBOutlet UIButton *qrButton;
-	IBOutlet UIButton *newAccountButton;
-    IBOutlet UIButton *changePassButton;
-    IBOutlet UITableView *experimentalTableView;
-    
-	IBOutlet UILabel *newAccountMessageLabel;
+	UIButton *loginButton;
+    UIButton *qrButton;
+	UIButton *newAccountButton;
+    UIButton *changePassButton;
     
     id<LoginViewControllerDelegate> __unsafe_unretained delegate;
     
@@ -50,53 +47,13 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     CLLocation *location;
 }
 
-- (IBAction) newAccountButtonTouched:(id)sender;
-- (IBAction) loginButtonTouched:(id)sender;
-- (IBAction) QRButtonTouched;
-- (IBAction) changePassTouch;
-
 @end
 
 @implementation LoginViewController
 
-- (NSInteger) numberOfSectionsInTableView:(UITableView *)t
-{
-    return 1;
-}
-
-- (NSInteger) tableView:(UITableView *)t numberOfRowsInSection:(NSInteger)section
-{
-    return 2;
-}
-
-- (UITableViewCell *) tableView:(UITableView *)t cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *c = [[UITableViewCell alloc] initWithStyle:UITableViewStyleGrouped reuseIdentifier:nil];
-    c.selectionStyle = UITableViewCellSelectionStyleNone;
-    if(indexPath.row == 0)
-    {
-        usernameField = [[UITextField alloc] initWithFrame:CGRectMake(10,10,t.frame.size.width,40)];
-        usernameField.delegate = self;
-        usernameField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        usernameField.autocorrectionType = UITextAutocorrectionTypeNo;
-        usernameField.placeholder = NSLocalizedString(@"UsernameKey", @"");
-       [c.contentView addSubview:usernameField];
-    }
-    else
-    {
-        passwordField = [[UITextField alloc] initWithFrame:CGRectMake(10,10,t.frame.size.width,40)];
-        passwordField.delegate = self;
-        passwordField.secureTextEntry = YES;
-        passwordField.placeholder = NSLocalizedString(@"PasswordKey", @"");
-        [c.contentView addSubview:passwordField];
-    }
-    return c;
-}
-
 - (id) initWithDelegate:(id<LoginViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>)d
 {
-    self = [super initWithNibName:@"LoginViewController" bundle:nil];
-    if(self)
+    if(self = [super init])
     {
         delegate = d;
         self.title = NSLocalizedString(@"LoginTitleKey", @"");
@@ -106,13 +63,79 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     return self;
 }
 
-- (void) viewDidLoad
+- (void) loadView
 {
-    [super viewDidLoad];
+    [super loadView];
+    self.view.backgroundColor = [UIColor ARISColorWhite];
     
-    [loginButton setTitle:NSLocalizedString(@"LoginKey",@"") forState:UIControlStateNormal];
-    newAccountMessageLabel.text = NSLocalizedString(@"NewAccountMessageKey", @"");
+    UIView *titleContainer = [[UIView alloc] initWithFrame:self.navigationItem.titleView.frame];
+    UIImageView *logoText = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_text_nav.png"]];
+    logoText.frame = CGRectMake(titleContainer.frame.size.width/2-50, titleContainer.frame.size.height/2-15, 100, 30);
+    [titleContainer addSubview:logoText];
+    self.navigationItem.titleView = titleContainer;
+    [self.navigationController.navigationBar layoutIfNeeded];
+    
+    usernameField = [[UITextField alloc] initWithFrame:CGRectMake(20,66+20,self.view.frame.size.width-40,20)];
+    usernameField.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
+    usernameField.delegate = self;
+    usernameField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    usernameField.autocorrectionType = UITextAutocorrectionTypeNo;
+    usernameField.placeholder = @"ARIS ID";
+    usernameField.clearButtonMode = UITextFieldViewModeAlways;
+    [self.view addSubview:usernameField];
+    
+    UIView *line;
+    line = [[UIView alloc] initWithFrame:CGRectMake(20, 66+20+20+5, self.view.frame.size.width-40, 1)];
+    line.backgroundColor = [UIColor colorWithRed:(194.0/255.0) green:(198.0/255.0)  blue:(191.0/255.0) alpha:1.0];
+    [self.view addSubview:line];
+
+    passwordField = [[UITextField alloc] initWithFrame:CGRectMake(20,66+20+20+20,self.view.frame.size.width-40,20)];
+    passwordField.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
+    passwordField.delegate = self;
+    passwordField.secureTextEntry = YES;
+    passwordField.placeholder = NSLocalizedString(@"PasswordKey", @"");
+    passwordField.clearButtonMode = UITextFieldViewModeAlways;
+    [self.view addSubview:passwordField];
+    
+    line = [[UIView alloc] initWithFrame:CGRectMake(20, 66+20+20+20+20+5, self.view.frame.size.width-40, 1)];
+    line.backgroundColor = [UIColor colorWithRed:(194.0/255.0) green:(198.0/255.0)  blue:(191.0/255.0) alpha:1.0];
+    [self.view addSubview:line];
+    
+    loginButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    loginButton.backgroundColor = [UIColor clearColor];
+    [loginButton setTitle:@">" forState:UIControlStateNormal];
+    [loginButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
+    [loginButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:18]];
+    loginButton.frame = CGRectMake(self.view.frame.size.width-60, 66+90, 40, 40);
+    [loginButton addTarget:self action:@selector(loginButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:loginButton];
+    
+    qrButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    qrButton.backgroundColor = [UIColor clearColor];
+    qrButton.alpha = 0.1;
+    qrButton.opaque = NO;
+    [qrButton setImage:[UIImage imageNamed:@"img.png"] forState:UIControlStateNormal];
+    qrButton.frame = CGRectMake(80, self.view.frame.size.height-(self.view.frame.size.width-160)-80, self.view.frame.size.width-160, self.view.frame.size.width-160);
+    [qrButton addTarget:self action:@selector(QRButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:qrButton];
+    
+    newAccountButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    newAccountButton.backgroundColor = [UIColor clearColor];
     [newAccountButton setTitle:NSLocalizedString(@"CreateAccountKey",@"") forState:UIControlStateNormal];
+    [newAccountButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
+    [newAccountButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:18]];
+    newAccountButton.frame = CGRectMake(0, self.view.frame.size.height-60, self.view.frame.size.width, 20);
+    [newAccountButton addTarget:self action:@selector(newAccountButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:newAccountButton];
+    
+    changePassButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    changePassButton.backgroundColor = [UIColor clearColor];
+    [changePassButton setTitle:@"Forgot Password?" forState:UIControlStateNormal];
+    [changePassButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
+    [changePassButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:18]];
+    changePassButton.frame = CGRectMake(0, self.view.frame.size.height-30, self.view.frame.size.width, 20);
+    [changePassButton addTarget:self action:@selector(changePassTouch) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:changePassButton];
     
     [self resetState];
 }
@@ -181,13 +204,13 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     [self resignKeyboard];
 }
 
-- (IBAction) loginButtonTouched:(id)sender
+- (void) loginButtonTouched
 {
     [self resignKeyboard];
     [self attemptLogin];
 }
 
-- (IBAction) QRButtonTouched
+- (void) QRButtonTouched
 {
     [self resignKeyboard];
     ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO showLicense:NO];
@@ -202,7 +225,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     [[self navigationController] pushViewController:forgotPassViewController animated:YES];
 }
 
-- (IBAction) newAccountButtonTouched:(id)sender
+- (void) newAccountButtonTouched
 {
     [self resignKeyboard];
     SelfRegistrationViewController *selfRegistrationViewController = [[SelfRegistrationViewController alloc] initWithDelegate:self];
@@ -256,7 +279,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     }
 }
 
-- (void)zxingControllerDidCancel:(ZXingWidgetController*)controller
+- (void) zxingControllerDidCancel:(ZXingWidgetController*)controller
 {
     [self dismissViewControllerAnimated:NO completion:nil];
 }

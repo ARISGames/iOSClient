@@ -28,6 +28,7 @@ BOOL currentlyFetchingInventory;
 BOOL currentlyFetchingQuestList;
 BOOL currentlyFetchingOneGame;
 BOOL currentlyFetchingNearbyGamesList;
+BOOL currentlyFetchingAnywhereGamesList;
 BOOL currentlyFetchingPopularGamesList;
 BOOL currentlyFetchingSearchGamesList;
 BOOL currentlyFetchingRecentGamesList;
@@ -51,6 +52,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 - (void) resetCurrentlyFetchingVars
 {
     currentlyFetchingNearbyGamesList           = NO;
+    currentlyFetchingAnywhereGamesList           = NO;
     currentlyFetchingSearchGamesList           = NO;
     currentlyFetchingPopularGamesList          = NO;
     currentlyFetchingRecentGamesList           = NO;
@@ -184,7 +186,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 	[jsonConnection performAsynchronousRequestWithHandler:nil];
 }
 
-- (void)fetchGameListWithDistanceFilter:(int)distanceInMeters locational:(BOOL)locationalOrNonLocational
+- (void)fetchNearbyGameListWithDistanceFilter:(int)distanceInMeters
 {
     if (currentlyFetchingNearbyGamesList)
     {
@@ -200,7 +202,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
 						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude],
 						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude],
                           [NSString stringWithFormat:@"%d",distanceInMeters],
-                          [NSString stringWithFormat:@"%d",locationalOrNonLocational],
+                          [NSString stringWithFormat:@"%d",YES],
                           [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],
 						  nil];
 	
@@ -210,6 +212,34 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
                                                               andArguments:arguments andUserInfo:nil];
 	
 	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseNearbyGameListFromJSON:)];
+}
+
+- (void)fetchAnywhereGameList
+{
+    if (currentlyFetchingAnywhereGamesList)
+    {
+        NSLog(@"Skipping Request: already fetching nearby games");
+        return;
+    }
+    
+    currentlyFetchingAnywhereGamesList = YES;
+    
+	//Call server service
+	NSArray *arguments = [NSArray arrayWithObjects:
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].player.playerId],
+						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.latitude],
+						  [NSString stringWithFormat:@"%f",[AppModel sharedAppModel].player.location.coordinate.longitude],
+                          [NSString stringWithFormat:@"%d",0],
+                          [NSString stringWithFormat:@"%d",NO],
+                          [NSString stringWithFormat:@"%d",[AppModel sharedAppModel].showGamesInDevelopment],
+						  nil];
+	
+	JSONConnection *jsonConnection = [[JSONConnection alloc]initWithServer:[AppModel sharedAppModel].serverURL
+                                                            andServiceName:@"games"
+                                                             andMethodName:@"getGamesForPlayerAtLocation"
+                                                              andArguments:arguments andUserInfo:nil];
+	
+	[jsonConnection performAsynchronousRequestWithHandler:@selector(parseAnywhereGameListFromJSON:)];
 }
 
 - (void)fetchRecentGameListForPlayer
@@ -1709,7 +1739,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     }
 }
 
--(void)parseNearbyGameListFromJSON:(ServiceResult *)jsonResult
+- (void)parseNearbyGameListFromJSON:(ServiceResult *)jsonResult
 {
     if(!currentlyFetchingNearbyGamesList) return;
     currentlyFetchingNearbyGamesList = NO;
@@ -1719,7 +1749,17 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewNearbyGameListReady" object:nil]];
 }
 
--(void)parseSearchGameListFromJSON:(ServiceResult *)jsonResult
+- (void)parseAnywhereGameListFromJSON:(ServiceResult *)jsonResult
+{
+    if(!currentlyFetchingAnywhereGamesList) return;
+    currentlyFetchingAnywhereGamesList = NO;
+    
+    [AppModel sharedAppModel].anywhereGameList = [self parseGameListFromJSON:jsonResult];
+    NSLog(@"NSNotification: NewAnywhereGameListReady");
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"NewAnywhereGameListReady" object:nil]];
+}
+
+- (void)parseSearchGameListFromJSON:(ServiceResult *)jsonResult
 {
     if(!currentlyFetchingSearchGamesList) return;
     currentlyFetchingSearchGamesList = NO;

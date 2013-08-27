@@ -10,23 +10,33 @@
 #import "AppServices.h"
 #import "ServiceResult.h"
 #import "ARISAlertHandler.h"
+#import "UIColor+ARISColors.h"
 
-@interface SelfRegistrationViewController()
+@interface SelfRegistrationViewController() <UITextFieldDelegate, UITextViewDelegate>
 {
+	UITextField *usernameField;
+	UITextField *passwordField;
+	UITextField *emailField;
+	UIButton *createAccountButton;
+
     id<SelfRegistrationViewControllerDelegate> __unsafe_unretained delegate;
 }
-
+    
+@property (nonatomic) UITextField *usernameField;
+@property (nonatomic) UITextField *passwordField;
+@property (nonatomic) UITextField *emailField;
+    
 @end
 
 @implementation SelfRegistrationViewController
 
-@synthesize userName;
-@synthesize password;
-@synthesize email;
+@synthesize usernameField;
+@synthesize passwordField;
+@synthesize emailField;
 
 - (id)initWithDelegate:(id<SelfRegistrationViewControllerDelegate>)d
 {
-    if(self = [super initWithNibName:@"SelfRegistrationViewController" bundle:nil])
+    if(self = [super init])
     {
         delegate = d;
         self.title = NSLocalizedString(@"SelfRegistrationTitleKey", @""); 
@@ -35,22 +45,74 @@
     return self;
 }
 
-- (void) viewDidLoad
+- (void) loadView
 {
-    [super viewDidLoad];
+    [super loadView];
+    self.view.backgroundColor = [UIColor ARISColorWhite];
+    
+    UIView *titleContainer = [[UIView alloc] initWithFrame:self.navigationItem.titleView.frame];
+    UIImageView *logoText = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_text_nav.png"]];
+    logoText.frame = CGRectMake(titleContainer.frame.size.width/2-50, titleContainer.frame.size.height/2-15, 100, 30);
+    [titleContainer addSubview:logoText];
+    self.navigationItem.titleView = titleContainer;
+    [self.navigationController.navigationBar layoutIfNeeded];
+    
+    usernameField = [[UITextField alloc] initWithFrame:CGRectMake(20,66+20,self.view.frame.size.width-40,20)];
+    usernameField.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
+    usernameField.delegate = self;
+    usernameField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    usernameField.autocorrectionType = UITextAutocorrectionTypeNo;
+    usernameField.placeholder = @"ARIS ID";
+    usernameField.clearButtonMode = UITextFieldViewModeAlways;
+    [self.view addSubview:usernameField];
+    
+    UIView *line;
+    line = [[UIView alloc] initWithFrame:CGRectMake(20,66+20+20+5,self.view.frame.size.width-40, 1)];
+    line.backgroundColor = [UIColor colorWithRed:(194.0/255.0) green:(198.0/255.0)  blue:(191.0/255.0) alpha:1.0];
+    [self.view addSubview:line];
 
-	userName.placeholder = NSLocalizedString(@"UsernameKey",@"");
-	password.placeholder = NSLocalizedString(@"PasswordKey",@"");
-	email.placeholder    = NSLocalizedString(@"EmailKey",@"");
-	[createAccountButton setTitle:NSLocalizedString(@"CreateAccountKey",@"") forState:UIControlStateNormal];
-	
-	[userName becomeFirstResponder];
+    passwordField = [[UITextField alloc] initWithFrame:CGRectMake(20,66+20+20+20,self.view.frame.size.width-40,20)];
+    passwordField.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
+    passwordField.delegate = self;
+    passwordField.secureTextEntry = YES;
+	passwordField.placeholder = NSLocalizedString(@"PasswordKey",@"");
+    passwordField.clearButtonMode = UITextFieldViewModeAlways;
+    [self.view addSubview:passwordField];
+    
+    line = [[UIView alloc] initWithFrame:CGRectMake(20,66+20+20+20+20+5, self.view.frame.size.width-40, 1)];
+    line.backgroundColor = [UIColor colorWithRed:(194.0/255.0) green:(198.0/255.0)  blue:(191.0/255.0) alpha:1.0];
+    [self.view addSubview:line];
+
+    emailField = [[UITextField alloc] initWithFrame:CGRectMake(20,66+20+20+20+20+20,self.view.frame.size.width-40,20)];
+    emailField.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
+    emailField.delegate = self;
+	emailField.placeholder = NSLocalizedString(@"EmailKey",@"");
+    emailField.clearButtonMode = UITextFieldViewModeAlways;
+    [self.view addSubview:emailField];
+    
+    line = [[UIView alloc] initWithFrame:CGRectMake(20,66+20+20+20+20+20+20+5, self.view.frame.size.width-40, 1)];
+    line.backgroundColor = [UIColor colorWithRed:(194.0/255.0) green:(198.0/255.0)  blue:(191.0/255.0) alpha:1.0];
+    [self.view addSubview:line];
+    
+    createAccountButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    createAccountButton.backgroundColor = [UIColor clearColor];
+    [createAccountButton setTitle:@">" forState:UIControlStateNormal];
+    [createAccountButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
+    [createAccountButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:18]];
+    createAccountButton.frame = CGRectMake(self.view.frame.size.width-60,66+20+20+20+20+20+20, 40, 40);
+    [createAccountButton addTarget:self action:@selector(createAccountButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:createAccountButton];
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+	[usernameField becomeFirstResponder];
 }
 
 - (void) attemptRegistration
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registrationResponseReady:) name:@"RegistrationResponseReady" object:nil];
-    [[AppServices sharedAppServices] registerNewUser:self.userName.text password:self.password.text firstName:@"" lastName:@"" email:self.email.text];
+    [[AppServices sharedAppServices] registerNewUser:self.usernameField.text password:self.passwordField.text firstName:@"" lastName:@"" email:self.emailField.text];
 }
 
 //PHIL should refactor to return the equivalent of the login package so we don't have to immediately log in
@@ -60,23 +122,23 @@
     ServiceResult *r = (ServiceResult *)[n.userInfo objectForKey:@"result"];
 
 	if([(NSDecimalNumber*)r.data intValue] > 0) //There exists a new playerId
-        [delegate registrationSucceededWithUsername:userName.text password:password.text];
+        [delegate registrationSucceededWithUsername:usernameField.text password:passwordField.text];
     else
     {
         [[ARISAlertHandler sharedAlertHandler] showAlertWithTitle:NSLocalizedString(@"ErrorKey", @"") message:NSLocalizedString(@"SelfRegistrationErrorMessageKey", @"")];
 	}
 }
 
-- (IBAction) submitButtonTouched:(id)sender
+- (void) createAccountButtonTouched
 {
     [self attemptRegistration];
 }
 	
 - (BOOL) textFieldShouldReturn:(UITextField *)textField
 {
-	if(textField == userName) [password becomeFirstResponder];
-	if(textField == password) [email becomeFirstResponder];
-	if(textField == email)    [self attemptRegistration];
+	if(textField == usernameField) [passwordField becomeFirstResponder];
+	if(textField == passwordField) [emailField becomeFirstResponder];
+	if(textField == emailField)    [self attemptRegistration];
     return YES;
 }
 
