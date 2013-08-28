@@ -14,6 +14,21 @@
 #import "GameDetailsViewController.h"
 #import "GamePickerCell.h"
 
+@interface GamePickerSearchViewController() <UISearchDisplayDelegate, UISearchBarDelegate>
+{    
+    UISearchBar *theSearchBar;
+    UIView *disableViewOverlay;
+    NSString *searchText;
+    int currentPage;
+    BOOL currentlyFetchingNextPage;
+    BOOL allResultsFound;
+}
+
+@property UIView *disableViewOverlay;
+@property (nonatomic, strong) UISearchBar *theSearchBar;
+
+@end
+
 @implementation GamePickerSearchViewController
 
 @synthesize theSearchBar;
@@ -43,6 +58,8 @@
     
     self.navigationItem.title = NSLocalizedString(@"GamePickerSearchTitleKey", @"");
     
+    self.theSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,30)];
+    self.theSearchBar.delegate = self;
     [self.theSearchBar becomeFirstResponder];
 }
 
@@ -72,15 +89,30 @@
     [self removeLoadingIndicator];
 }
 
+- (float) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(indexPath.row == 0) return 30;
+    else return 60;
+}
+
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if(allResultsFound) return [super tableView:tableView numberOfRowsInSection:section];
-    else                return [super tableView:tableView numberOfRowsInSection:section]+1;
+    if(allResultsFound) return [super tableView:tableView numberOfRowsInSection:section]+1;
+    else                return [super tableView:tableView numberOfRowsInSection:section]+2;
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(indexPath.row >= [self.gameList count])
+    if(indexPath.row == 0)
+    {
+        UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"SearchCell"];
+        if (cell == nil) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SearchCell"];
+        
+        [cell addSubview:self.theSearchBar];
+    
+        return cell;
+    }
+    else if(indexPath.row >= [self.gameList count]+1)
     {
         if(!currentlyFetchingNextPage && !allResultsFound) [self attemptSearch:searchText];
         UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"FetchCell"];
@@ -92,7 +124,12 @@
         return cell;
     }
     else
-        return [super tableView:tableView cellForRowAtIndexPath:indexPath];
+        return [super tableView:tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
+}
+
+- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [super tableView:tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
 }
 
 - (void) searchBarTextDidBeginEditing:(UISearchBar *)searchBar

@@ -10,14 +10,4 @@
 #import "GamePickerViewController.h"
 
 @interface GamePickerPopularViewController : GamePickerViewController
-{
-    int time;
-    
-    IBOutlet UISegmentedControl *timeControl;
-}
-
-- (IBAction)controlChanged:(id)sender;
-
-@property (nonatomic, strong) IBOutlet UISegmentedControl *timeControl;
-
 @end

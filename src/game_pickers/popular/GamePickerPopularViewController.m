@@ -14,6 +14,14 @@
 #import "GameDetailsViewController.h"
 #import "GamePickerCell.h"
 
+@interface GamePickerPopularViewController()
+{
+    int time;
+    UISegmentedControl *timeControl;
+}
+@property (nonatomic, strong) UISegmentedControl *timeControl;
+@end
+    
 @implementation GamePickerPopularViewController
 
 @synthesize timeControl;
@@ -35,12 +43,15 @@
 - (void) viewDidLoad
 {
     [super viewDidLoad];
+    
     self.navigationItem.title = NSLocalizedString(@"GamePickerPopularTitleKey", @"");
-    self.timeControl.enabled = YES;
-    self.timeControl.alpha = 1;
+    self.timeControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"Daily",@"Weekly",@"Monthly", nil]];
+    self.timeControl.frame = CGRectMake(0, 0, self.view.bounds.size.width, 30);
+    self.timeControl.selectedSegmentIndex = 1;
+    [self.timeControl addTarget:self action:@selector(controlChanged) forControlEvents:UIControlEventValueChanged];
 }
 
-- (void)requestNewGameList
+- (void) requestNewGameList
 {
     [super requestNewGameList];
     
@@ -51,7 +62,7 @@
     }
 }
 
-- (void)refreshViewFromModel
+- (void) refreshViewFromModel
 {
 	self.gameList = [AppModel sharedAppModel].popularGameList;
 	[gameTable reloadData];
@@ -59,24 +70,43 @@
     [self removeLoadingIndicator];
 }
 
-- (IBAction)controlChanged:(id)sender
+- (void) controlChanged
 {
     time = self.timeControl.selectedSegmentIndex;
     [self requestNewGameList];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (float) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    GamePickerCell *cell = (GamePickerCell *)[super tableView:tableView cellForRowAtIndexPath:indexPath];
-    if([self.gameList count] > 0)
-    {
-        Game *gameForCell = [self.gameList objectAtIndex:indexPath.row];
-        cell.distanceLabel.text = [NSString stringWithFormat:@"%d Players",gameForCell.playerCount];
-    }
-    return cell;
+    if(indexPath.row == 0) return 30;
+    else return 60;
 }
 
-- (void)dealloc
+- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return [super tableView:tableView numberOfRowsInSection:section]+1;
+}
+
+- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(indexPath.row == 0)
+    {
+        UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"SegCell"];
+        if (cell == nil) cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"SegCell"];
+        [cell addSubview:self.timeControl];
+        return cell;
+    }
+    else if([self.gameList count] > 0)
+    {
+        GamePickerCell *cell = (GamePickerCell *)[super tableView:tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
+        Game *gameForCell = [self.gameList objectAtIndex:(indexPath.row-1)];
+        cell.distanceLabel.text = [NSString stringWithFormat:@"%d Players",gameForCell.playerCount];
+        return cell;
+    }
+    return nil;
+}
+
+- (void) dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }

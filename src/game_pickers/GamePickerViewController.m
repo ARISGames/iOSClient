@@ -140,9 +140,9 @@
     }
     
     GamePickerCell *cell = (GamePickerCell *)[tableView dequeueReusableCellWithIdentifier:@"Cell"];
-    if (![cell respondsToSelector:@selector(starView)]) cell = nil;
+    if(![cell respondsToSelector:@selector(starView)]) cell = nil;
     
-    if (cell == nil)
+    if(cell == nil)
     {
 		cell = (GamePickerCell *)[[UIViewController alloc] initWithNibName:@"GamePickerCell" bundle:nil].view;
         cell.starView.backgroundColor = [UIColor clearColor];
@@ -168,7 +168,7 @@
     cell.distanceLabel.text   = [NSString stringWithFormat:@"%1.1f %@", gameForCell.distanceFromPlayer/1000, NSLocalizedString(@"km", @"")];
     [cell.distanceLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:12]];
     
-	cell.numReviewsLabel.text = [NSString stringWithFormat:@"%@ %@", [[NSNumber numberWithInt:gameForCell.numReviews] stringValue], NSLocalizedString(@"GamePickerRecentReviewsKey", @"")];
+	cell.numReviewsLabel.text = [NSString stringWithFormat:@"%@ %@", [[NSNumber numberWithInt:gameForCell.numReviews] stringValue], NSLocalizedString(@"GamePickerReviewsKey", @"")];
     [cell.numReviewsLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:12]];
     
     ARISMediaView *iconView = [[ARISMediaView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
@@ -211,9 +211,8 @@
 {
 	[self.refreshControl beginRefreshing];
     
-    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1)
-        if (self.gameTable.contentOffset.y == 0) [self.gameTable setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
-
+    if(floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1)
+        if(self.gameTable.contentOffset.y == 0) [self.gameTable setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
 }
 
 - (void) removeLoadingIndicator

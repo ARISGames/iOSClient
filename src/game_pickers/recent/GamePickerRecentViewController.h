@@ -10,7 +10,4 @@
 #import "GamePickerViewController.h"
 
 @interface GamePickerRecentViewController : GamePickerViewController
-{
-}
-
 @end
