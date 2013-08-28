@@ -78,8 +78,7 @@
 {
     widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO showLicense:NO withPrompt:p];
     widController.readers = [[NSMutableSet alloc ] initWithObjects:[[QRCodeReader alloc] init], nil];
-    [self.view addSubview:widController.view];
-    //[self presentViewController:widController animated:NO completion:nil];
+    [self presentViewController:widController animated:NO completion:nil];
 }
 
 - (IBAction) scanButtonTapped
@@ -90,14 +89,14 @@
 - (void) zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result
 {
     [self dismissViewControllerAnimated:NO completion:nil];
+    widController = nil;
     [self loadResult:result];
 }
 
 - (void) zxingControllerDidCancel:(ZXingWidgetController*)controller
 {
-    [widController.view removeFromSuperview];
+    [self dismissViewControllerAnimated:NO completion:nil];
     widController = nil;
-    //[self dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void) loadResult:(NSString *)code
