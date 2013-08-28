@@ -33,9 +33,6 @@
     [super viewDidLoad];
 	warningLabel.text = NSLocalizedString(@"LogoutWarningKey", @"");
 	[logoutButton setTitle:NSLocalizedString(@"LogoutKey",@"") forState:UIControlStateNormal];
-    
-    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"BackButtonKey", @"") style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonTouched)];
-	self.navigationItem.leftBarButtonItem = backButton;
 }
 
 - (IBAction)logoutButtonPressed:(id)sender
@@ -52,11 +49,6 @@
 - (IBAction)profileButtonPressed:(id)sender
 {
     [delegate playerSettingsRequested];
-}
-
-- (void) backButtonTouched
-{
-    [delegate accountSettingsWereDismissed];
 }
 
 @end

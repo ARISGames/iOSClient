@@ -14,12 +14,14 @@
 #import "GamePickerRecentViewController.h"
 #import "GamePickerSearchViewController.h"
 #import "GameDetailsViewController.h"
+#import "PKRevealController.h"
 #import "AccountSettingsViewController.h"
 #import "ARISNavigationController.h"
 #import "UIColor+ARISColors.h"
 
 @interface GamePickersViewController () <UITabBarControllerDelegate, GamePickerViewControllerDelegate, GameDetailsViewControllerDelegate, AccountSettingsViewControllerDelegate>
 {
+    PKRevealController *gamePickersRevealController;
     UITabBarController *gamePickersTabBarController;
     ARISNavigationController *gameDetailsNavigationController;
     ARISNavigationController *accountSettingsNavigationController;
@@ -27,6 +29,7 @@
     id<GamePickersViewControllerDelegate> __unsafe_unretained delegate;
 }
 
+@property (nonatomic, strong) PKRevealController *gamePickersRevealController;
 @property (nonatomic, strong) UITabBarController *gamePickersTabBarController;
 @property (nonatomic, strong) ARISNavigationController *gameDetailsNavigationController;
 @property (nonatomic, strong) ARISNavigationController *accountSettingsNavigationController;
@@ -35,6 +38,7 @@
 
 @implementation GamePickersViewController
 
+@synthesize gamePickersRevealController;
 @synthesize gamePickersTabBarController;
 @synthesize gameDetailsNavigationController;
 @synthesize accountSettingsNavigationController;
@@ -86,6 +90,11 @@
                                                        gamePickerRecentNC,
                                                        gamePickerSearchNC,
                                                         nil];
+    
+    AccountSettingsViewController *accountSettingsViewController = [[AccountSettingsViewController alloc] initWithDelegate:self];
+    self.accountSettingsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:accountSettingsViewController];
+    
+    self.gamePickersRevealController = [PKRevealController revealControllerWithFrontViewController:self.gamePickersTabBarController leftViewController:self.accountSettingsNavigationController options:nil];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -93,12 +102,12 @@
     [super viewWillAppear:animated];
     
     if(!currentChildViewController)
-        [self displayContentController:self.gamePickersTabBarController];
+        [self displayContentController:self.gamePickersRevealController];
 }
 
 - (void) resetState
 {
-    [self displayContentController:self.gamePickersTabBarController];
+    [self displayContentController:self.gamePickersRevealController];
     for(int i = 0; i < [[self.gamePickersTabBarController viewControllers] count]; i++)
         [(GamePickerViewController *)([[((ARISNavigationController *)[[self.gamePickersTabBarController viewControllers] objectAtIndex:i]) viewControllers] objectAtIndex:0]) clearList];
 }
@@ -113,7 +122,7 @@
 
 - (void) gameDetailsWereCanceled:(Game *)g
 {
-    [self displayContentController:self.gamePickersTabBarController];
+    [self displayContentController:self.gamePickersRevealController];
 }
 
 - (void) gameDetailsWereConfirmed:(Game *)g
@@ -123,9 +132,7 @@
 
 - (void) accountSettingsRequested
 {
-    AccountSettingsViewController *accountSettingsViewController = [[AccountSettingsViewController alloc] initWithDelegate:self];
-    self.accountSettingsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:accountSettingsViewController];
-    [self displayContentController:self.accountSettingsNavigationController];
+    [self.gamePickersRevealController showViewController:self.accountSettingsNavigationController];
 }
 
 - (void) playerSettingsRequested
@@ -133,14 +140,10 @@
     [delegate playerSettingsRequested];
 }
 
-- (void) accountSettingsWereDismissed
-{
-    [self displayContentController:self.gamePickersTabBarController];
-}
-
 - (void) logoutWasRequested
 {
-    [self displayContentController:self.gamePickersTabBarController];
+    [self displayContentController:self.gamePickersRevealController];
+    [self.gamePickersRevealController showViewController:self.gamePickersTabBarController];
     [delegate logoutWasRequested];
 }
 

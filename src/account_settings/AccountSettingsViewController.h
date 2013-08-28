@@ -11,7 +11,6 @@
 @protocol AccountSettingsViewControllerDelegate
 - (void) playerSettingsRequested;
 - (void) logoutWasRequested;
-- (void) accountSettingsWereDismissed;
 @end
 
 @interface AccountSettingsViewController : UIViewController
