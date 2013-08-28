@@ -90,17 +90,11 @@
         commentsFormCell.ratingView.userRating = defaultRating;
         commentsFormCell.ratingView.rating = defaultRating;
 
-        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-highlighted.png"]
-                                   forState:kSCRatingViewHighlighted];
-        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-selected.png"] //Need?
-                                   forState:kSCRatingViewHot];
-        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-highlighted.png"]
-                                   forState:kSCRatingViewNonSelected];
-        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-selected.png"]
-                                   forState:kSCRatingViewSelected];
-        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-selected.png"]
-                                   forState:kSCRatingViewUserSelected];
-                
+        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-highlighted.png"] forState:kSCRatingViewHighlighted];
+        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-selected.png"]    forState:kSCRatingViewHot];
+        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-highlighted.png"] forState:kSCRatingViewNonSelected];
+        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-selected.png"]    forState:kSCRatingViewSelected];
+        [commentsFormCell.ratingView setStarImage:[UIImage imageNamed:@"star-selected.png"]    forState:kSCRatingViewUserSelected];
     }
     else
     {
@@ -125,16 +119,11 @@
         commentCell.starView.rating = ((Comment *)[game.comments objectAtIndex:indexPath.row-1]).rating;
         commentCell.starView.backgroundColor = [UIColor clearColor];
         
-        [commentCell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
-                           forState:kSCRatingViewHighlighted];
-        [commentCell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
-                           forState:kSCRatingViewHot];
-        [commentCell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]
-                           forState:kSCRatingViewNonSelected];
-        [commentCell.starView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]
-                           forState:kSCRatingViewSelected];
-        [commentCell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]
-                           forState:kSCRatingViewUserSelected];
+        [commentCell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"] forState:kSCRatingViewHighlighted];
+        [commentCell.starView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]    forState:kSCRatingViewHot];
+        [commentCell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"] forState:kSCRatingViewNonSelected];
+        [commentCell.starView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]    forState:kSCRatingViewSelected];
+        [commentCell.starView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]    forState:kSCRatingViewUserSelected];
     }
     
     cell.textLabel.backgroundColor = [UIColor clearColor]; 

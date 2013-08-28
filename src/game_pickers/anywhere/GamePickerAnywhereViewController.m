@@ -21,7 +21,7 @@
     if(self = [super initWithNibName:@"GamePickerAnywhereViewController" bundle:nil delegate:d])
     {
         self.title = NSLocalizedString(@"GamePickerAnywhereTabKey", @"");
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"clock_selected.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"clock_selected.png"]];
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"globe_selected.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"globe_unselected.png"]];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewAnywhereGameListReady" object:nil];
     }

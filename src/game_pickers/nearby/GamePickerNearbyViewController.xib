@@ -7,7 +7,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GamePickerNearbyViewController">
             <connections>
-                <outlet property="distanceControl" destination="21" id="23"/>
                 <outlet property="gameTable" destination="3" id="6"/>
                 <outlet property="view" destination="18" id="19"/>
             </connections>
@@ -28,27 +27,6 @@
                         <outlet property="delegate" destination="-1" id="17"/>
                     </connections>
                 </tableView>
-                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="32">
-                    <rect key="frame" x="0.0" y="475" width="320" height="44"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="-54" maxX="0.0" maxY="54"/>
-                    <items>
-                        <barButtonItem style="plain" id="34">
-                            <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="1" id="21">
-                                <rect key="frame" x="6" y="7" width="308" height="30"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <segments>
-                                    <segment title="100 m"/>
-                                    <segment title="1 km"/>
-                                    <segment title="50 km"/>
-                                </segments>
-                                <connections>
-                                    <action selector="controlChanged:" destination="-1" eventType="valueChanged" id="28"/>
-                                </connections>
-                            </segmentedControl>
-                        </barButtonItem>
-                    </items>
-                </toolbar>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <color key="tintColor" red="0.0" green="0.39607843139999999" blue="0.58431372550000005" alpha="1" colorSpace="calibratedRGB"/>

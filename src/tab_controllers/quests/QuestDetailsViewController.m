@@ -96,10 +96,8 @@
         backButton.frame = CGRectMake(0, mainFrame.size.height, mainFrame.size.width/2, 44);
     }
     
-    UIImageView *fade = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"3x1_fade_up.png"]];
-    fade.contentMode = UIViewContentModeScaleToFill;
-    fade.frame = CGRectMake(0, mainFrame.size.height-3, mainFrame.size.width, 3);
-    [self.view addSubview:fade];
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, mainFrame.size.height, mainFrame.size.width, 1)];
+    [self.view addSubview:line];
     
     //Setup the Description Webview
     self.webView = [[ARISWebView alloc] initWithFrame:CGRectMake(0, 0, 320, 1) delegate:self]; //Needs width of 320, otherwise "height" is calculated wrong because only 1 character can fit per line

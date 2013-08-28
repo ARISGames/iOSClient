@@ -183,7 +183,7 @@
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"DoneKey", @"") style:UIBarButtonItemStyleDone target:self action:@selector(backButtonTouchAction:)];
     if([AppModel sharedAppModel].currentGame.allowsPlayerTags)
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"16-tag"] style:UIBarButtonItemStyleBordered target:self action:@selector(tagButtonTouchAction)];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"tag.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(tagButtonTouchAction)];
     
     if([(NSObject *)delegate isKindOfClass:[NoteCommentViewController class]])
     {

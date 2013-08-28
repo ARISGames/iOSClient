@@ -103,7 +103,7 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"14-gear"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gear.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(toggleMenu)];
     
     float screenHeight = [UIScreen mainScreen].applicationFrame.size.height;
     [self.filterToolBar setFrame:CGRectMake(0,             -44, 320,                     44)];

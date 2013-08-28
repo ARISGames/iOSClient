@@ -345,11 +345,11 @@
     ratingCell.reviewsLabel.text = [NSString stringWithFormat:@"%d %@",self.game.numReviews, NSLocalizedString(@"ReviewsKey", @"")];
     [ratingCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
-    [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]  forState:kSCRatingViewHighlighted];
-    [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]          forState:kSCRatingViewHot];
-    [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]  forState:kSCRatingViewNonSelected];
-    [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]     forState:kSCRatingViewSelected];
-    [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]          forState:kSCRatingViewUserSelected];
+    [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"] forState:kSCRatingViewHighlighted];
+    [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]    forState:kSCRatingViewHot];
+    [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"] forState:kSCRatingViewNonSelected];
+    [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]    forState:kSCRatingViewSelected];
+    [ratingCell.ratingView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]    forState:kSCRatingViewUserSelected];
     
     return cell;
 }

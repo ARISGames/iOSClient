@@ -51,7 +51,7 @@
     emailField.delegate = self;
     emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     emailField.autocorrectionType = UITextAutocorrectionTypeNo;
-    emailField.placeholder = @"Email";
+    emailField.placeholder = @"Email to Reset";
     emailField.clearButtonMode = UITextFieldViewModeAlways;
     [self.view addSubview:emailField];
     

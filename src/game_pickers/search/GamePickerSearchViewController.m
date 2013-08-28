@@ -30,7 +30,7 @@
         
         self.title = NSLocalizedString(@"GamePickerSearchTabKey", @"");
         
-        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"magnifyTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"magnifyTabBarSelected"]];        
+        [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"magnify_selected"] withFinishedUnselectedImage:[UIImage imageNamed:@"magnify_unselected"]];        
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewSearchGameListReady" object:nil];
     }

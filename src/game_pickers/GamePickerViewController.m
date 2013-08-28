@@ -56,8 +56,20 @@
 - (void) viewDidLoad
 {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor ARISColorWhite];
+    
+    UIView *titleContainer = [[UIView alloc] initWithFrame:self.navigationItem.titleView.frame];
+    UIImageView *logoText = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_text_nav.png"]];
+    logoText.frame = CGRectMake(titleContainer.frame.size.width/2-50, titleContainer.frame.size.height/2-15, 100, 30);
+    [titleContainer addSubview:logoText];
+    self.navigationItem.titleView = titleContainer;
+    [self.navigationController.navigationBar layoutIfNeeded];
 
-	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"123-id-card-gray"] style:UIBarButtonItemStyleBordered target:self action:@selector(accountButtonTouched)];
+    UIButton *settingsbutton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [settingsbutton setImage:[UIImage imageNamed:@"idcard.png"] forState:UIControlStateNormal];
+    [settingsbutton addTarget:self action:@selector(accountButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    
+	//self.navigationItem.rightBarButtonItem = settingsbutton;
     
     self.refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(refreshView:) forControlEvents:UIControlEventValueChanged];
@@ -89,7 +101,8 @@
     [self removeLoadingIndicator];
 }
 
--(void)refreshView:(UIRefreshControl *)refresh {
+-(void)refreshView:(UIRefreshControl *)refresh
+{
     [self requestNewGameList];
 }
 
@@ -131,11 +144,13 @@
     {
 		cell = (GamePickerCell *)[[UIViewController alloc] initWithNibName:@"GamePickerCell" bundle:nil].view;
         cell.starView.backgroundColor = [UIColor clearColor];
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]  forState:kSCRatingViewHighlighted];
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]          forState:kSCRatingViewHot];
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"]  forState:kSCRatingViewNonSelected];
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]     forState:kSCRatingViewSelected];
-        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-hot.png"]          forState:kSCRatingViewUserSelected];
+        
+        
+        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"] forState:kSCRatingViewHighlighted];
+        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]    forState:kSCRatingViewHot];
+        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-highlighted.png"] forState:kSCRatingViewNonSelected];
+        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]    forState:kSCRatingViewSelected];
+        [cell.starView setStarImage:[UIImage imageNamed:@"small-star-selected.png"]    forState:kSCRatingViewUserSelected];
     }
     
 	Game *gameForCell = [self.gameList objectAtIndex:indexPath.row];
@@ -158,7 +173,7 @@
     iconView.layer.masksToBounds = YES;
     iconView.layer.cornerRadius = 10.0;
     
-    if(!gameForCell.iconMedia) [iconView refreshWithFrame:iconView.frame image:[UIImage imageNamed:@"icon.png"] mode:ARISMediaDisplayModeAspectFill delegate:self] ;
+    if(!gameForCell.iconMedia) [iconView refreshWithFrame:iconView.frame image:[UIImage imageNamed:@"icon.png"] mode:ARISMediaDisplayModeAspectFill delegate:self];
     else                       [iconView refreshWithFrame:iconView.frame media:gameForCell.iconMedia            mode:ARISMediaDisplayModeAspectFill delegate:self];
     
     if([cell.iconView.subviews count] > 0) [[cell.iconView.subviews objectAtIndex:0] removeFromSuperview];

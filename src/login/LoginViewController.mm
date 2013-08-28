@@ -114,7 +114,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     qrButton.backgroundColor = [UIColor clearColor];
     qrButton.alpha = 0.1;
     qrButton.opaque = NO;
-    [qrButton setImage:[UIImage imageNamed:@"img.png"] forState:UIControlStateNormal];
+    [qrButton setImage:[UIImage imageNamed:@"qr.png"] forState:UIControlStateNormal];
     qrButton.frame = CGRectMake(80, self.view.frame.size.height-(self.view.frame.size.width-160)-80, self.view.frame.size.width-160, self.view.frame.size.width-160);
     [qrButton addTarget:self action:@selector(QRButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:qrButton];

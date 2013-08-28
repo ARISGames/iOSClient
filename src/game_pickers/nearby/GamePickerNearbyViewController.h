@@ -10,14 +10,4 @@
 #import "GamePickerViewController.h"
 
 @interface GamePickerNearbyViewController : GamePickerViewController
-{
-    int distanceFilter;
-    
-    IBOutlet UISegmentedControl *distanceControl;
-}
-
--(IBAction)controlChanged:(id)sender;
-
-@property (nonatomic, strong) IBOutlet UISegmentedControl *distanceControl;
-
 @end
