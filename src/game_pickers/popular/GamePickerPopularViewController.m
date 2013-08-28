@@ -103,7 +103,8 @@
         cell.distanceLabel.text = [NSString stringWithFormat:@"%d Players",gameForCell.playerCount];
         return cell;
     }
-    return nil;
+    else
+        return (GamePickerCell *)[super tableView:tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
 }
 
 - (void) dealloc
