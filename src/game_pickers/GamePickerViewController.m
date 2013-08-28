@@ -66,10 +66,11 @@
     [self.navigationController.navigationBar layoutIfNeeded];
 
     UIButton *settingsbutton = [UIButton buttonWithType:UIButtonTypeCustom];
+    settingsbutton.frame = CGRectMake(0, 0, 27, 27);
     [settingsbutton setImage:[UIImage imageNamed:@"idcard.png"] forState:UIControlStateNormal];
     [settingsbutton addTarget:self action:@selector(accountButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     
-	//self.navigationItem.rightBarButtonItem = settingsbutton;
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:settingsbutton];
     
     self.refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(refreshView:) forControlEvents:UIControlEventValueChanged];

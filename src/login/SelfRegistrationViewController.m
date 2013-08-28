@@ -19,6 +19,7 @@
 	UITextField *emailField;
 	UIButton *createAccountButton;
 
+    BOOL viewHasAppeared;
     id<SelfRegistrationViewControllerDelegate> __unsafe_unretained delegate;
 }
     
@@ -40,6 +41,7 @@
     {
         delegate = d;
         self.title = NSLocalizedString(@"SelfRegistrationTitleKey", @""); 
+        viewHasAppeared = NO;
 	}
 	
     return self;
@@ -49,6 +51,17 @@
 {
     [super loadView];
     self.view.backgroundColor = [UIColor ARISColorWhite];
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if(viewHasAppeared) return;
+    viewHasAppeared = YES;
+    
+    int navOffset = 0;
+    if(floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1)
+        navOffset = 66;
     
     UIView *titleContainer = [[UIView alloc] initWithFrame:self.navigationItem.titleView.frame];
     UIImageView *logoText = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_text_nav.png"]];
@@ -57,7 +70,7 @@
     self.navigationItem.titleView = titleContainer;
     [self.navigationController.navigationBar layoutIfNeeded];
     
-    usernameField = [[UITextField alloc] initWithFrame:CGRectMake(20,66+20,self.view.frame.size.width-40,20)];
+    usernameField = [[UITextField alloc] initWithFrame:CGRectMake(20,navOffset+20,self.view.frame.size.width-40,20)];
     usernameField.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     usernameField.delegate = self;
     usernameField.autocapitalizationType = UITextAutocapitalizationTypeNone;
@@ -67,11 +80,11 @@
     [self.view addSubview:usernameField];
     
     UIView *line;
-    line = [[UIView alloc] initWithFrame:CGRectMake(20,66+20+20+5,self.view.frame.size.width-40, 1)];
+    line = [[UIView alloc] initWithFrame:CGRectMake(20,navOffset+20+20+5,self.view.frame.size.width-40, 1)];
     line.backgroundColor = [UIColor colorWithRed:(194.0/255.0) green:(198.0/255.0)  blue:(191.0/255.0) alpha:1.0];
     [self.view addSubview:line];
 
-    passwordField = [[UITextField alloc] initWithFrame:CGRectMake(20,66+20+20+20,self.view.frame.size.width-40,20)];
+    passwordField = [[UITextField alloc] initWithFrame:CGRectMake(20,navOffset+20+20+20,self.view.frame.size.width-40,20)];
     passwordField.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     passwordField.delegate = self;
     passwordField.secureTextEntry = YES;
@@ -79,18 +92,18 @@
     passwordField.clearButtonMode = UITextFieldViewModeAlways;
     [self.view addSubview:passwordField];
     
-    line = [[UIView alloc] initWithFrame:CGRectMake(20,66+20+20+20+20+5, self.view.frame.size.width-40, 1)];
+    line = [[UIView alloc] initWithFrame:CGRectMake(20,navOffset+20+20+20+20+5, self.view.frame.size.width-40, 1)];
     line.backgroundColor = [UIColor colorWithRed:(194.0/255.0) green:(198.0/255.0)  blue:(191.0/255.0) alpha:1.0];
     [self.view addSubview:line];
 
-    emailField = [[UITextField alloc] initWithFrame:CGRectMake(20,66+20+20+20+20+20,self.view.frame.size.width-40,20)];
+    emailField = [[UITextField alloc] initWithFrame:CGRectMake(20,navOffset+20+20+20+20+20,self.view.frame.size.width-40,20)];
     emailField.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     emailField.delegate = self;
 	emailField.placeholder = NSLocalizedString(@"EmailKey",@"");
     emailField.clearButtonMode = UITextFieldViewModeAlways;
     [self.view addSubview:emailField];
     
-    line = [[UIView alloc] initWithFrame:CGRectMake(20,66+20+20+20+20+20+20+5, self.view.frame.size.width-40, 1)];
+    line = [[UIView alloc] initWithFrame:CGRectMake(20,navOffset+20+20+20+20+20+20+5, self.view.frame.size.width-40, 1)];
     line.backgroundColor = [UIColor colorWithRed:(194.0/255.0) green:(198.0/255.0)  blue:(191.0/255.0) alpha:1.0];
     [self.view addSubview:line];
     
@@ -99,13 +112,14 @@
     [createAccountButton setTitle:@">" forState:UIControlStateNormal];
     [createAccountButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
     [createAccountButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:18]];
-    createAccountButton.frame = CGRectMake(self.view.frame.size.width-60,66+20+20+20+20+20+20, 40, 40);
+    createAccountButton.frame = CGRectMake(self.view.frame.size.width-60,navOffset+20+20+20+20+20+20, 40, 40);
     [createAccountButton addTarget:self action:@selector(createAccountButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:createAccountButton];
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
 	[usernameField becomeFirstResponder];
 }
 

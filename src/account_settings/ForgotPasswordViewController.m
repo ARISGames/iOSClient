@@ -14,6 +14,7 @@
 {
     UITextField *emailField;
     UILabel *instructions;
+    BOOL viewHasAppeared;
 }
 
 @property (nonatomic, strong) UITextField *emailField;
@@ -30,6 +31,7 @@
 {
     if(self = [super init])
     {
+        viewHasAppeared = NO;
     }
     return self;
 }
@@ -38,6 +40,17 @@
 {
     [super loadView];
     self.view.backgroundColor = [UIColor ARISColorWhite];
+}
+
+- (void)  viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if(viewHasAppeared) return;
+    viewHasAppeared = YES;
+    
+    int navOffset = 0;
+    if(floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1)
+        navOffset = 66;
     
     UIView *titleContainer = [[UIView alloc] initWithFrame:self.navigationItem.titleView.frame];
     UIImageView *logoText = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_text_nav.png"]];

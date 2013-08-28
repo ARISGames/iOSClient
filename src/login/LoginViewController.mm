@@ -45,6 +45,8 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     
     //For holding on to the player's location before he exists (/ is logged in)
     CLLocation *location;
+    
+    BOOL viewHasAppeared;
 }
 
 @end
@@ -59,6 +61,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
         self.title = NSLocalizedString(@"LoginTitleKey", @"");
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(saveLocation:) name:@"PlayerMoved" object:nil];
+        viewHasAppeared = NO;
     }
     return self;
 }
@@ -67,7 +70,18 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
 {
     [super loadView];
     self.view.backgroundColor = [UIColor ARISColorWhite];
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if(viewHasAppeared) return;
+    viewHasAppeared = YES;
     
+    int navOffset = 0;
+    if(floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1)
+        navOffset = 66;
+        
     UIView *titleContainer = [[UIView alloc] initWithFrame:self.navigationItem.titleView.frame];
     UIImageView *logoText = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_text_nav.png"]];
     logoText.frame = CGRectMake(titleContainer.frame.size.width/2-50, titleContainer.frame.size.height/2-15, 100, 30);
@@ -75,7 +89,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     self.navigationItem.titleView = titleContainer;
     [self.navigationController.navigationBar layoutIfNeeded];
     
-    usernameField = [[UITextField alloc] initWithFrame:CGRectMake(20,66+20,self.view.frame.size.width-40,20)];
+    usernameField = [[UITextField alloc] initWithFrame:CGRectMake(20,navOffset+20,self.view.frame.size.width-40,20)];
     usernameField.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     usernameField.delegate = self;
     usernameField.autocapitalizationType = UITextAutocapitalizationTypeNone;
@@ -85,11 +99,11 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     [self.view addSubview:usernameField];
     
     UIView *line;
-    line = [[UIView alloc] initWithFrame:CGRectMake(20, 66+20+20+5, self.view.frame.size.width-40, 1)];
+    line = [[UIView alloc] initWithFrame:CGRectMake(20, navOffset+20+20+5, self.view.frame.size.width-40, 1)];
     line.backgroundColor = [UIColor colorWithRed:(194.0/255.0) green:(198.0/255.0)  blue:(191.0/255.0) alpha:1.0];
     [self.view addSubview:line];
 
-    passwordField = [[UITextField alloc] initWithFrame:CGRectMake(20,66+20+20+20,self.view.frame.size.width-40,20)];
+    passwordField = [[UITextField alloc] initWithFrame:CGRectMake(20,navOffset+20+20+20,self.view.frame.size.width-40,20)];
     passwordField.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18];
     passwordField.delegate = self;
     passwordField.secureTextEntry = YES;
@@ -97,7 +111,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     passwordField.clearButtonMode = UITextFieldViewModeAlways;
     [self.view addSubview:passwordField];
     
-    line = [[UIView alloc] initWithFrame:CGRectMake(20, 66+20+20+20+20+5, self.view.frame.size.width-40, 1)];
+    line = [[UIView alloc] initWithFrame:CGRectMake(20, navOffset+20+20+20+20+5, self.view.frame.size.width-40, 1)];
     line.backgroundColor = [UIColor colorWithRed:(194.0/255.0) green:(198.0/255.0)  blue:(191.0/255.0) alpha:1.0];
     [self.view addSubview:line];
     
@@ -106,7 +120,7 @@ using namespace std; //math.h undef's "isinf", which is used in mapkit...
     [loginButton setTitle:@">" forState:UIControlStateNormal];
     [loginButton setTitleColor:[UIColor ARISColorDarkBlue] forState:UIControlStateNormal];
     [loginButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:18]];
-    loginButton.frame = CGRectMake(self.view.frame.size.width-60, 66+90, 40, 40);
+    loginButton.frame = CGRectMake(self.view.frame.size.width-60, navOffset+90, 40, 40);
     [loginButton addTarget:self action:@selector(loginButtonTouched) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:loginButton];
     
