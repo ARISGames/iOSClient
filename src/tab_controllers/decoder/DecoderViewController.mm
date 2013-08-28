@@ -17,6 +17,7 @@
 
 @interface DecoderViewController()
 {
+    ZXingWidgetController *widController;
     id<DecoderViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 @end
@@ -50,7 +51,7 @@
     cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"CancelKey",@"") style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonTouch)];      
 }
 
--(void)cancelButtonTouch
+- (void) cancelButtonTouch
 {
     [self.manualCode resignFirstResponder];
     self.navigationItem.rightBarButtonItem = nil;
@@ -75,9 +76,10 @@
 
 - (void) launchScannerWithPrompt:(NSString *)p
 {
-    ZXingWidgetController *widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO showLicense:NO withPrompt:p];
+    widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO showLicense:NO withPrompt:p];
     widController.readers = [[NSMutableSet alloc ] initWithObjects:[[QRCodeReader alloc] init], nil];
-    [self presentViewController:widController animated:NO completion:nil];
+    [self.view addSubview:widController.view];
+    //[self presentViewController:widController animated:NO completion:nil];
 }
 
 - (IBAction) scanButtonTapped
@@ -85,15 +87,17 @@
     [self launchScannerWithPrompt:@""];
 }
 
-- (void)zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result
+- (void) zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result
 {
     [self dismissViewControllerAnimated:NO completion:nil];
     [self loadResult:result];
 }
 
-- (void)zxingControllerDidCancel:(ZXingWidgetController*)controller
+- (void) zxingControllerDidCancel:(ZXingWidgetController*)controller
 {
-    [self dismissViewControllerAnimated:NO completion:nil];
+    [widController.view removeFromSuperview];
+    widController = nil;
+    //[self dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void) loadResult:(NSString *)code

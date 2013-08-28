@@ -97,6 +97,7 @@
     }
     
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, mainFrame.size.height, mainFrame.size.width, 1)];
+    line.backgroundColor = [UIColor ARISColorLightGray];
     [self.view addSubview:line];
     
     //Setup the Description Webview
