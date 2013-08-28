@@ -18,7 +18,7 @@
 
 - (id)initWithDelegate:(id<GamePickerViewControllerDelegate>)d
 {
-    if(self = [super initWithNibName:@"GamePickerRecentViewController" bundle:nil delegate:d])
+    if(self = [super initWithDelegate:d])
     {
         self.title = NSLocalizedString(@"GamePickerRecentTabKey", @"");
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"clock_selected.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"clock_unselected.png"]];
@@ -28,13 +28,13 @@
     return self;
 }
 
-- (void)viewDidLoad
+- (void) viewDidLoad
 {
     [super viewDidLoad];
     self.navigationItem.title = NSLocalizedString(@"GamePickeRecentTitleKey", @"");
 }
 
-- (void)requestNewGameList
+- (void) requestNewGameList
 {
     [super requestNewGameList];
     
@@ -45,9 +45,8 @@
     }
 }
 
-- (void)refreshViewFromModel
+- (void) refreshViewFromModel
 {
-    
 	self.gameList = [AppModel sharedAppModel].recentGameList;
 	[gameTable reloadData];
     

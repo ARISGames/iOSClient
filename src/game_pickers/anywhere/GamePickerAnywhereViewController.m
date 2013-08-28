@@ -18,7 +18,7 @@
 
 - (id)initWithDelegate:(id<GamePickerViewControllerDelegate>)d
 {
-    if(self = [super initWithNibName:@"GamePickerAnywhereViewController" bundle:nil delegate:d])
+    if(self = [super initWithDelegate:d])
     {
         self.title = NSLocalizedString(@"GamePickerAnywhereTabKey", @"");
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"globe_selected.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"globe_unselected.png"]];
@@ -28,24 +28,13 @@
     return self;
 }
 
-- (void)viewDidLoad
+- (void) viewDidLoad
 {
     [super viewDidLoad];
-    
     self.navigationItem.title = [NSString stringWithFormat: @"%@", NSLocalizedString(@"GamePickerAnywhereTitleKey", @"")];
-    
-    
-    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
-        // Load resources for iOS 6.1 or earlier
-    } else {
-        // Load resources for iOS 7 or later
-        //self.edgesForExtendedLayout = UIRectEdgeNone;
-        //self.extendedLayoutIncludesOpaqueBars = NO;
-    }
-    
 }
 
-- (void)requestNewGameList
+- (void) requestNewGameList
 {
     [super requestNewGameList];
     
@@ -56,7 +45,7 @@
     }
 }
 
-- (void)refreshViewFromModel
+- (void) refreshViewFromModel
 {
 	self.gameList = [[AppModel sharedAppModel].anywhereGameList sortedArrayUsingSelector:@selector(compareCalculatedScore:)];
     [self.gameTable reloadData];
@@ -64,7 +53,7 @@
     [self removeLoadingIndicator];
 }
 
-- (void)dealloc
+- (void) dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }

@@ -21,7 +21,7 @@
 
 - (id) initWithDelegate:(id<GamePickerViewControllerDelegate>)d
 {
-    if(self = [super initWithNibName:@"GamePickerSearchViewController" bundle:nil delegate:d])
+    if(self = [super initWithDelegate:d])
     {        
         currentPage = 0;
         currentlyFetchingNextPage = NO;

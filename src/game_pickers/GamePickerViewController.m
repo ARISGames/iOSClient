@@ -17,6 +17,9 @@
 #import "UIColor+ARISColors.h"
 
 @interface GamePickerViewController () <ARISMediaViewDelegate>
+{
+    BOOL viewHasAppeared;
+}
 
 @end
 
@@ -31,31 +34,18 @@
     if(self = [super init])
     {
         delegate = d;
-        [self initialize];
+        
+        viewHasAppeared = NO;
+        gameList = [[NSArray alloc] init];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerFirstMoved)       name:@"PlayerMoved"     object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost"  object:nil];
     }
     return self;
 }
 
-- (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil delegate:(id<GamePickerViewControllerDelegate>)d
+- (void) loadView
 {
-    if(self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
-    {
-        delegate = d;
-        [self initialize];
-    }
-    return self;
-}
-
-- (void) initialize
-{
-    gameList = [[NSArray alloc] init];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerFirstMoved)       name:@"PlayerMoved"     object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost"  object:nil];
-}
-
-- (void) viewDidLoad
-{
-    [super viewDidLoad];
+    [super loadView];
     self.view.backgroundColor = [UIColor ARISColorWhite];
     
     UIView *titleContainer = [[UIView alloc] initWithFrame:self.navigationItem.titleView.frame];
@@ -64,17 +54,28 @@
     [titleContainer addSubview:logoText];
     self.navigationItem.titleView = titleContainer;
     [self.navigationController.navigationBar layoutIfNeeded];
-
+    
     UIButton *settingsbutton = [UIButton buttonWithType:UIButtonTypeCustom];
     settingsbutton.frame = CGRectMake(0, 0, 27, 27);
     [settingsbutton setImage:[UIImage imageNamed:@"idcard.png"] forState:UIControlStateNormal];
     [settingsbutton addTarget:self action:@selector(accountButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-    
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:settingsbutton];
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if(viewHasAppeared) return;
+    viewHasAppeared = YES;
+
+    self.gameTable = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    self.gameTable.delegate = self;
+    self.gameTable.dataSource = self;
+    [self.view addSubview:self.gameTable];
     
     self.refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(refreshView:) forControlEvents:UIControlEventValueChanged];
-    [self.gameTable addSubview: refreshControl];
+    [self.gameTable addSubview:refreshControl];
     
   	[self.gameTable reloadData];
     

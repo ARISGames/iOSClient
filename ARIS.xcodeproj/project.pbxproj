@@ -85,7 +85,6 @@
 		AA74E7F617626EE9005C279B /* StoreLocallyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA74E7D917626EE9005C279B /* StoreLocallyViewController.m */; };
 		AA74E7F717626EE9005C279B /* StoreLocallyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA74E7DA17626EE9005C279B /* StoreLocallyViewController.xib */; };
 		AA766D3817CBD811001F88D2 /* GamePickerAnywhereViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA766D3617CBD811001F88D2 /* GamePickerAnywhereViewController.m */; };
-		AA766D3917CBD811001F88D2 /* GamePickerAnywhereViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA766D3717CBD811001F88D2 /* GamePickerAnywhereViewController.xib */; };
 		AA856FF517A9AFA900E9D451 /* qr.png in Resources */ = {isa = PBXBuildFile; fileRef = AA856FF317A9AFA900E9D451 /* qr.png */; };
 		AA942B7617CD498D004EDEA1 /* arrow_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = AA942B6217CD498D004EDEA1 /* arrow_selected.png */; };
 		AA942B7717CD498D004EDEA1 /* arrow_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA942B6317CD498D004EDEA1 /* arrow_selected@2x.png */; };
@@ -282,13 +281,9 @@
 		AABC739C172739D80074CC21 /* GamePickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC70B1172739D60074CC21 /* GamePickerCell.xib */; };
 		AABC739D172739D80074CC21 /* GamePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70B3172739D60074CC21 /* GamePickerViewController.m */; };
 		AABC739E172739D80074CC21 /* GamePickerNearbyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70B6172739D60074CC21 /* GamePickerNearbyViewController.m */; };
-		AABC739F172739D80074CC21 /* GamePickerNearbyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC70B7172739D60074CC21 /* GamePickerNearbyViewController.xib */; };
 		AABC73A0172739D80074CC21 /* GamePickerPopularViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70BA172739D60074CC21 /* GamePickerPopularViewController.m */; };
-		AABC73A1172739D80074CC21 /* GamePickerPopularViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC70BB172739D60074CC21 /* GamePickerPopularViewController.xib */; };
 		AABC73A2172739D80074CC21 /* GamePickerRecentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70BE172739D60074CC21 /* GamePickerRecentViewController.m */; };
-		AABC73A3172739D80074CC21 /* GamePickerRecentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC70BF172739D60074CC21 /* GamePickerRecentViewController.xib */; };
 		AABC73A4172739D80074CC21 /* GamePickerSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70C2172739D60074CC21 /* GamePickerSearchViewController.m */; };
-		AABC73A5172739D80074CC21 /* GamePickerSearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC70C3172739D60074CC21 /* GamePickerSearchViewController.xib */; };
 		AABC73A7172739D80074CC21 /* LoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC70C7172739D60074CC21 /* LoadingViewController.m */; };
 		AABC73A8172739D80074CC21 /* LoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC70C8172739D60074CC21 /* LoadingViewController.xib */; };
 		AABC73AA172739D80074CC21 /* LoginViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = AABC70CC172739D60074CC21 /* LoginViewController.mm */; };
@@ -620,7 +615,6 @@
 		AA74E7DA17626EE9005C279B /* StoreLocallyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StoreLocallyViewController.xib; sourceTree = "<group>"; };
 		AA766D3517CBD811001F88D2 /* GamePickerAnywhereViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerAnywhereViewController.h; sourceTree = "<group>"; };
 		AA766D3617CBD811001F88D2 /* GamePickerAnywhereViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerAnywhereViewController.m; sourceTree = "<group>"; };
-		AA766D3717CBD811001F88D2 /* GamePickerAnywhereViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GamePickerAnywhereViewController.xib; sourceTree = "<group>"; };
 		AA856FEF17A972B800E9D451 /* arisjs.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = arisjs.js; sourceTree = "<group>"; };
 		AA856FF317A9AFA900E9D451 /* qr.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qr.png; sourceTree = "<group>"; };
 		AA942B6217CD498D004EDEA1 /* arrow_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_selected.png; sourceTree = "<group>"; };
@@ -857,16 +851,12 @@
 		AABC70B3172739D60074CC21 /* GamePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerViewController.m; sourceTree = "<group>"; };
 		AABC70B5172739D60074CC21 /* GamePickerNearbyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerNearbyViewController.h; sourceTree = "<group>"; };
 		AABC70B6172739D60074CC21 /* GamePickerNearbyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerNearbyViewController.m; sourceTree = "<group>"; };
-		AABC70B7172739D60074CC21 /* GamePickerNearbyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GamePickerNearbyViewController.xib; sourceTree = "<group>"; };
 		AABC70B9172739D60074CC21 /* GamePickerPopularViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerPopularViewController.h; sourceTree = "<group>"; };
 		AABC70BA172739D60074CC21 /* GamePickerPopularViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerPopularViewController.m; sourceTree = "<group>"; };
-		AABC70BB172739D60074CC21 /* GamePickerPopularViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GamePickerPopularViewController.xib; sourceTree = "<group>"; };
 		AABC70BD172739D60074CC21 /* GamePickerRecentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerRecentViewController.h; sourceTree = "<group>"; };
 		AABC70BE172739D60074CC21 /* GamePickerRecentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerRecentViewController.m; sourceTree = "<group>"; };
-		AABC70BF172739D60074CC21 /* GamePickerRecentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GamePickerRecentViewController.xib; sourceTree = "<group>"; };
 		AABC70C1172739D60074CC21 /* GamePickerSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerSearchViewController.h; sourceTree = "<group>"; };
 		AABC70C2172739D60074CC21 /* GamePickerSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerSearchViewController.m; sourceTree = "<group>"; };
-		AABC70C3172739D60074CC21 /* GamePickerSearchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GamePickerSearchViewController.xib; sourceTree = "<group>"; };
 		AABC70C6172739D60074CC21 /* LoadingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingViewController.h; sourceTree = "<group>"; };
 		AABC70C7172739D60074CC21 /* LoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingViewController.m; sourceTree = "<group>"; };
 		AABC70C8172739D60074CC21 /* LoadingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadingViewController.xib; sourceTree = "<group>"; };
@@ -1446,7 +1436,6 @@
 			children = (
 				AA766D3517CBD811001F88D2 /* GamePickerAnywhereViewController.h */,
 				AA766D3617CBD811001F88D2 /* GamePickerAnywhereViewController.m */,
-				AA766D3717CBD811001F88D2 /* GamePickerAnywhereViewController.xib */,
 			);
 			path = anywhere;
 			sourceTree = "<group>";
@@ -1803,7 +1792,6 @@
 			children = (
 				AABC70B5172739D60074CC21 /* GamePickerNearbyViewController.h */,
 				AABC70B6172739D60074CC21 /* GamePickerNearbyViewController.m */,
-				AABC70B7172739D60074CC21 /* GamePickerNearbyViewController.xib */,
 			);
 			path = nearby;
 			sourceTree = "<group>";
@@ -1813,7 +1801,6 @@
 			children = (
 				AABC70B9172739D60074CC21 /* GamePickerPopularViewController.h */,
 				AABC70BA172739D60074CC21 /* GamePickerPopularViewController.m */,
-				AABC70BB172739D60074CC21 /* GamePickerPopularViewController.xib */,
 			);
 			path = popular;
 			sourceTree = "<group>";
@@ -1823,7 +1810,6 @@
 			children = (
 				AABC70BD172739D60074CC21 /* GamePickerRecentViewController.h */,
 				AABC70BE172739D60074CC21 /* GamePickerRecentViewController.m */,
-				AABC70BF172739D60074CC21 /* GamePickerRecentViewController.xib */,
 			);
 			path = recent;
 			sourceTree = "<group>";
@@ -1833,7 +1819,6 @@
 			children = (
 				AABC70C1172739D60074CC21 /* GamePickerSearchViewController.h */,
 				AABC70C2172739D60074CC21 /* GamePickerSearchViewController.m */,
-				AABC70C3172739D60074CC21 /* GamePickerSearchViewController.xib */,
 			);
 			path = search;
 			sourceTree = "<group>";
@@ -2756,11 +2741,7 @@
 				AA942B9417CD4CF4004EDEA1 /* icon@2x.png in Resources */,
 				AABC739C172739D80074CC21 /* GamePickerCell.xib in Resources */,
 				AA942B9A17CD4F86004EDEA1 /* logo_full.png in Resources */,
-				AABC739F172739D80074CC21 /* GamePickerNearbyViewController.xib in Resources */,
-				AABC73A1172739D80074CC21 /* GamePickerPopularViewController.xib in Resources */,
 				AA942B7817CD498D004EDEA1 /* arrow_unselected.png in Resources */,
-				AABC73A3172739D80074CC21 /* GamePickerRecentViewController.xib in Resources */,
-				AABC73A5172739D80074CC21 /* GamePickerSearchViewController.xib in Resources */,
 				AABC73A8172739D80074CC21 /* LoadingViewController.xib in Resources */,
 				AABC73AE172739D80074CC21 /* MainWindow.xib in Resources */,
 				AABC73C5172739D80074CC21 /* PanoramicViewController.xib in Resources */,
@@ -2776,7 +2757,6 @@
 				AABC73FC172739D80074CC21 /* CameraViewController.xib in Resources */,
 				AABC7401172739D80074CC21 /* DropOnMapViewController.xib in Resources */,
 				AABC7403172739D80074CC21 /* ImageViewer.xib in Resources */,
-				AA766D3917CBD811001F88D2 /* GamePickerAnywhereViewController.xib in Resources */,
 				AABC7405172739D80074CC21 /* NotebookViewController.xib in Resources */,
 				AA942B8317CD498D004EDEA1 /* magnify_selected@2x.png in Resources */,
 				AABC7407172739D80074CC21 /* NoteCell.xib in Resources */,

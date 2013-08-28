@@ -42,7 +42,10 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:NO];
-    self.view.frame = [self screenRect];
+    if(floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1)
+        self.view.frame = [self screenRect];
+    else 
+        self.view.frame = [UIScreen mainScreen].bounds;
 }
 
 // Container VC Functions pulled from Apple Docs 5/6/13

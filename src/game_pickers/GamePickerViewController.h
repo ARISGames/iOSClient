@@ -30,7 +30,6 @@
 
 
 - (id) initWithDelegate:(id<GamePickerViewControllerDelegate>)d;
-- (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil delegate:(id<GamePickerViewControllerDelegate>)d;
 - (void) clearList;
 - (void) requestNewGameList;
 - (void) refreshViewFromModel;

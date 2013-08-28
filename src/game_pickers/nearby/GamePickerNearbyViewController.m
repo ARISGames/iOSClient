@@ -18,11 +18,10 @@
 
 - (id) initWithDelegate:(id<GamePickerViewControllerDelegate>)d
 {
-    if(self = [super initWithNibName:@"GamePickerNearbyViewController" bundle:nil delegate:d])
+    if(self = [super initWithDelegate:d])
     {
         self.title = NSLocalizedString(@"GamePickerNearbyTabKey", @"");
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"arrow_selected"] withFinishedUnselectedImage:[UIImage imageNamed:@"arrow_unselected"]];
-        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNearbyGameListReady" object:nil];
     }
     return self;
@@ -31,16 +30,7 @@
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-    
     self.navigationItem.title = [NSString stringWithFormat: @"%@", NSLocalizedString(@"GamePickerNearbyTitleKey", @"")];
-    
-    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
-        // Load resources for iOS 6.1 or earlier
-    } else {
-        // Load resources for iOS 7 or later
-        //self.edgesForExtendedLayout = UIRectEdgeNone;
-        //self.extendedLayoutIncludesOpaqueBars = NO;
-    }
 }
 
 - (void) requestNewGameList

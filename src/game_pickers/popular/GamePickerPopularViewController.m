@@ -20,7 +20,7 @@
 
 - (id)initWithDelegate:(id<GamePickerViewControllerDelegate>)d
 {
-    if(self = [super initWithNibName:@"GamePickerPopularViewController" bundle:nil delegate:d])
+    if(self = [super initWithDelegate:d])
     {
         time = 1;
         
@@ -32,7 +32,7 @@
     return self;
 }
 
-- (void)viewDidLoad
+- (void) viewDidLoad
 {
     [super viewDidLoad];
     self.navigationItem.title = NSLocalizedString(@"GamePickerPopularTitleKey", @"");
