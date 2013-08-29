@@ -16,21 +16,7 @@
 @protocol DecoderViewControllerDelegate <GamePlayTabBarViewControllerDelegate>
 @end
 
-@interface DecoderViewController : ARISGamePlayTabBarViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, ZXingDelegate>
-{
-	IBOutlet UITextField *manualCode;
-    NSString *resultText;
-    UIBarButtonItem *cancelButton;
-}
-
-@property (nonatomic) IBOutlet UITextField *manualCode;
-@property (nonatomic) NSString *resultText;
-@property (nonatomic) UIBarButtonItem *cancelButton;
-
+@interface DecoderViewController : ARISGamePlayTabBarViewController 
 - (id) initWithDelegate:(id<DecoderViewControllerDelegate, StateControllerProtocol>)d;
 - (void) launchScannerWithPrompt:(NSString *)p;
-- (IBAction) scanButtonTapped;
-- (void) cancelButtonTouch;
-- (void) loadResult:(NSString *)result;
-
 @end

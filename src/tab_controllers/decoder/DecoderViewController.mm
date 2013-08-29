@@ -14,21 +14,29 @@
 #import "AppServices.h"
 #import "QRCodeReader.h"
 #import "ARISAlertHandler.h"
+#import "UIColor+ARISColors.h"
 
-@interface DecoderViewController()
+@interface DecoderViewController() <ZXingDelegate, UITextFieldDelegate>
 {
+	UITextField *codeTextField;
+    UIBarButtonItem *cancelButton;
+    
     ZXingWidgetController *widController;
     id<DecoderViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
+@property (nonatomic, strong) UITextField *codeTextField;
+@property (nonatomic, strong) UIBarButtonItem *cancelButton;
+
 @end
 
 @implementation DecoderViewController
 
-@synthesize manualCode,resultText,cancelButton;
+@synthesize codeTextField;
+@synthesize cancelButton;
 
 - (id) initWithDelegate:(id<DecoderViewControllerDelegate, StateControllerProtocol>)d
 {
-    if(self = [super initWithNibName:@"DecoderViewController" bundle:nil delegate:d])
+    if(self = [super initWithDelegate:d])
     {
         self.tabID = @"QR";
 
@@ -42,19 +50,32 @@
     return self;
 }
 
-- (void) viewDidLoad
+- (void) loadView
 {
-    [super viewDidLoad];
-		
-	manualCode.placeholder = NSLocalizedString(@"EnterCodeKey",@"");
+    [super loadView];
+    self.view.backgroundColor = [UIColor ARISColorWhite];
+    
+    codeTextField = [[UITextField alloc] initWithFrame:CGRectMake(20,20,self.view.frame.size.width-40,30)];
+    codeTextField.textAlignment = NSTextAlignmentCenter;
+	codeTextField.placeholder = NSLocalizedString(@"EnterCodeKey",@"");
+    codeTextField.delegate = self;
+    [self.view addSubview:codeTextField];
+    
+    UIButton *scanBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    scanBtn.frame = CGRectMake(20,70,self.view.frame.size.width-40,30);
+    scanBtn.backgroundColor = [UIColor ARISColorDarkGray];
+    [scanBtn setTitle:@"Scan" forState:UIControlStateNormal];
+    [scanBtn addTarget:self action:@selector(scanButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:scanBtn];
 	
-    cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"CancelKey",@"") style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonTouch)];      
+    cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"CancelKey",@"") style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonTouched)];      
 }
 
-- (void) cancelButtonTouch
+- (void) cancelButtonTouched
 {
-    [self.manualCode resignFirstResponder];
-    self.navigationItem.rightBarButtonItem = nil;
+    [self.codeTextField resignFirstResponder];
+    if(widController) [self hideWidController];
+    [self hideCancelButton];
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField*)textField
@@ -63,39 +84,55 @@
 	
 	[[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]]; //Let the keyboard go away before loading the object
 	
-	[self loadResult:manualCode.text];
-    self.navigationItem.rightBarButtonItem = nil;	
+	[self loadResult:codeTextField.text];
+    [self hideCancelButton];
 	return YES;
 }
 
 - (BOOL) textFieldShouldBeginEditing:(UITextField *)textField
 {    
-    self.navigationItem.rightBarButtonItem = self.cancelButton;	
+    [self displayCancelButton];
     return YES;
+}
+
+- (void) displayCancelButton
+{
+    self.navigationItem.rightBarButtonItem = self.cancelButton;	
+}
+
+- (void) hideCancelButton
+{
+    self.navigationItem.rightBarButtonItem = nil;	
 }
 
 - (void) launchScannerWithPrompt:(NSString *)p
 {
     widController = [[ZXingWidgetController alloc] initWithDelegate:self showCancel:YES OneDMode:NO showLicense:NO withPrompt:p];
     widController.readers = [[NSMutableSet alloc ] initWithObjects:[[QRCodeReader alloc] init], nil];
-    [self presentViewController:widController animated:NO completion:nil];
+    
+    [self.view addSubview:widController.view];
+    [self displayCancelButton];
 }
 
-- (IBAction) scanButtonTapped
+- (void) scanButtonTouched
 {
     [self launchScannerWithPrompt:@""];
 }
 
 - (void) zxingController:(ZXingWidgetController*)controller didScanResult:(NSString *)result
 {
-    [self dismissViewControllerAnimated:NO completion:nil];
-    widController = nil;
+    [self hideWidController];
     [self loadResult:result];
 }
 
 - (void) zxingControllerDidCancel:(ZXingWidgetController*)controller
 {
-    [self dismissViewControllerAnimated:NO completion:nil];
+    [self hideWidController];
+}
+
+- (void) hideWidController
+{
+    [widController.view removeFromSuperview];
     widController = nil;
 }
 

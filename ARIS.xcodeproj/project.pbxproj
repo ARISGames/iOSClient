@@ -430,7 +430,6 @@
 		AABC74E0172739D80074CC21 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC736F172739D80074CC21 /* UIImage+Resize.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AABC74E1172739D80074CC21 /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7371172739D80074CC21 /* UIImage+RoundedCorner.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		AABC74E2172739D80074CC21 /* UIImage+Scale.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7373172739D80074CC21 /* UIImage+Scale.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		AABC74F517285FBE0074CC21 /* DecoderViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC74F417285FBE0074CC21 /* DecoderViewController.xib */; };
 		AABC74F917285FE00074CC21 /* InventoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC74F717285FE00074CC21 /* InventoryViewController.m */; };
 		AABC74FA17285FE00074CC21 /* InventoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC74F817285FE00074CC21 /* InventoryViewController.xib */; };
 		AABC74FC17285FF70074CC21 /* QuestsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC74FB17285FF70074CC21 /* QuestsViewController.xib */; };
@@ -1150,7 +1149,6 @@
 		AABC7372172739D80074CC21 /* UIImage+Scale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Scale.h"; sourceTree = "<group>"; };
 		AABC7373172739D80074CC21 /* UIImage+Scale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Scale.m"; sourceTree = "<group>"; };
 		AABC74E317273A0F0074CC21 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AABC74F417285FBE0074CC21 /* DecoderViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DecoderViewController.xib; sourceTree = "<group>"; };
 		AABC74F617285FE00074CC21 /* InventoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryViewController.h; sourceTree = "<group>"; };
 		AABC74F717285FE00074CC21 /* InventoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryViewController.m; sourceTree = "<group>"; };
 		AABC74F817285FE00074CC21 /* InventoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InventoryViewController.xib; sourceTree = "<group>"; };
@@ -2090,7 +2088,6 @@
 			children = (
 				AABC714A172739D60074CC21 /* DecoderViewController.h */,
 				AABC714B172739D60074CC21 /* DecoderViewController.mm */,
-				AABC74F417285FBE0074CC21 /* DecoderViewController.xib */,
 			);
 			path = decoder;
 			sourceTree = "<group>";
@@ -2772,7 +2769,6 @@
 				AABC7420172739D80074CC21 /* BumpTestViewController.xib in Resources */,
 				AABC7430172739D80074CC21 /* alg-outline in Resources */,
 				AABC7438172739D80074CC21 /* README in Resources */,
-				AABC74F517285FBE0074CC21 /* DecoderViewController.xib in Resources */,
 				AABC74FA17285FE00074CC21 /* InventoryViewController.xib in Resources */,
 				AABC74FC17285FF70074CC21 /* QuestsViewController.xib in Resources */,
 				AABC75011728600B0074CC21 /* MapViewController.xib in Resources */,
