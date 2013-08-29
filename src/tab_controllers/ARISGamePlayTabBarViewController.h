@@ -24,6 +24,7 @@
 
 - (id) initWithDelegate:(id<GamePlayTabBarViewControllerDelegate>)d;
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil delegate:(id<GamePlayTabBarViewControllerDelegate>)d;
+- (void) showNav;
 - (void) clearBadge;
 - (void) incrementBadge;
 

@@ -71,12 +71,33 @@
     cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"CancelKey",@"") style:UIBarButtonItemStylePlain target:self action:@selector(cancelButtonTouched)];      
 }
 
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
+    [threeLineNavButton setImage:[UIImage imageNamed:@"threeLines"] forState:UIControlStateNormal];
+    [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
+}
+
+- (void) showNav
+{
+    [self clearScreenActions];
+    [super showNav];
+}
+
 - (void) cancelButtonTouched
 {
-    [self.codeTextField resignFirstResponder];
-    if(widController) [self hideWidController];
-    [self hideCancelButton];
+    [self clearScreenActions];
 }
+     
+ - (void) clearScreenActions
+ {
+     [self.codeTextField resignFirstResponder];
+     if(widController) [self hideWidController];
+     [self hideCancelButton];
+ }
 
 - (BOOL) textFieldShouldReturn:(UITextField*)textField
 {	

@@ -65,10 +65,11 @@
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    UIButton *withoutBorderButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
-    [withoutBorderButton setImage:[UIImage imageNamed:@"threeLines"] forState:UIControlStateNormal];
-    [withoutBorderButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:withoutBorderButton];
+    
+    UIButton *threeLineNavButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 27, 27)];
+    [threeLineNavButton setImage:[UIImage imageNamed:@"threeLines"] forState:UIControlStateNormal];
+    [threeLineNavButton addTarget:self action:@selector(showNav) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:threeLineNavButton];
 }
 
 - (void) viewDidAppear:(BOOL)animated
