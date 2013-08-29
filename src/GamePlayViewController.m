@@ -188,10 +188,13 @@
 
 - (void) hideNearbyObjectsTab
 {
+    [self.gamePlayTabSelectorController removeViewControllerWithTabID:@"NEARBY"];
 }
 
 - (void) showNearbyObjectsTab
 {
+    //[self.gamePlayTabSelectorController removeViewControllerWithTabID:@"NEARBY"];
+    [self.gamePlayTabSelectorController addViewController:self.nearbyObjectsNavigationController];
 }
 
 - (void) gameTabListRecieved:(NSNotification *)n
@@ -207,7 +210,7 @@
     NearbyObjectsViewController *nearbyObjectsViewController = [[NearbyObjectsViewController alloc] initWithDelegate:self];
     self.nearbyObjectsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:nearbyObjectsViewController];
     
-    NSMutableArray *gamePlayTabVCs  = [[NSMutableArray alloc] initWithCapacity:10];
+    NSMutableArray *gamePlayTabVCs = [[NSMutableArray alloc] initWithCapacity:10];
     Tab *tmpTab;
     for(int i = 0; i < [gamePlayTabs count]; i++)
     {
