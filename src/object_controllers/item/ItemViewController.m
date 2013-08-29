@@ -33,10 +33,11 @@
 	//ARISMoviePlayerViewController *mMoviePlayer; //only used if item is a video
 	MPMoviePlayerViewController *mMoviePlayer; //only used if item is a video
     
-    UILabel *backBtn;
     UILabel *dropBtn;
     UILabel *destroyBtn;
     UILabel *pickupBtn;
+    
+    UIView *line;
     
 	ARISMediaView *itemImageView;
     ARISWebView *itemWebView;
@@ -92,8 +93,66 @@
 - (void) loadView
 {
     [super loadView];
+    
+    BOOL atLeastOneButton = NO;
+    
     self.view.frame = viewFrame;
     self.view.backgroundColor = [UIColor ARISColorContentBackdrop];
+    
+	if([(NSObject *)source isKindOfClass:[InventoryViewController class]] == YES)
+    {
+        if(item.dropable)
+        {
+            atLeastOneButton = YES;
+            
+            dropBtn = [[UILabel alloc] init];
+            dropBtn.userInteractionEnabled = YES;
+            dropBtn.textAlignment = NSTextAlignmentCenter;
+            dropBtn.text = NSLocalizedString(@"ItemDropKey", @"");
+            dropBtn.backgroundColor = [UIColor ARISColorTextBackdrop];
+            dropBtn.textColor       = [UIColor ARISColorText];
+            if(item.destroyable)
+                dropBtn.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
+            else
+                dropBtn.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
+            [dropBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dropButtonTouched)]];
+            [dropBtn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
+            [self.view addSubview:dropBtn];
+        }
+        if(item.destroyable)
+        {
+            atLeastOneButton = YES;
+            
+            destroyBtn = [[UILabel alloc] init];
+            destroyBtn.userInteractionEnabled = YES;
+            destroyBtn.textAlignment = NSTextAlignmentCenter;
+            destroyBtn.text = NSLocalizedString(@"ItemDeleteKey",@"");
+            destroyBtn.backgroundColor = [UIColor ARISColorTextBackdrop];
+            destroyBtn.textColor       = [UIColor ARISColorText];
+            if(item.dropable)
+                destroyBtn.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
+            else
+                destroyBtn.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
+            [dropBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dropButtonTouched)]];
+            [dropBtn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
+            [self.view addSubview:destroyBtn];
+        }
+	}
+	else
+    {
+        atLeastOneButton = YES;
+            
+        pickupBtn = [[UILabel alloc] init];
+        pickupBtn.userInteractionEnabled = YES;
+        pickupBtn.textAlignment = NSTextAlignmentCenter;
+        pickupBtn.text = NSLocalizedString(@"ItemPickupKey", @"");
+        pickupBtn.backgroundColor = [UIColor ARISColorTextBackdrop];
+        pickupBtn.textColor       = [UIColor ARISColorText];
+        pickupBtn.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
+        [pickupBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pickupButtonTouched)]];
+        [pickupBtn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
+        [self.view addSubview:pickupBtn];
+	}
     
     if(self.item.itemType == ItemTypeWebPage && self.item.url && (![self.item.url isEqualToString: @"0"]) &&(![self.item.url isEqualToString:@""]))
     {
@@ -107,7 +166,7 @@
     }
     else
     {
-        self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, viewFrame.size.width, viewFrame.size.height-44)];
+        self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, viewFrame.size.width, viewFrame.size.height-(atLeastOneButton*44))];
         self.scrollView.contentSize = self.scrollView.bounds.size;
         self.scrollView.clipsToBounds = NO;
         self.scrollView.maximumZoomScale = 100;
@@ -131,78 +190,8 @@
         }
         
         [self.view addSubview:self.scrollView];
+        [self.view sendSubviewToBack:self.scrollView];
     }
-    
-    backBtn = [[UILabel alloc] init];
-    backBtn.userInteractionEnabled = YES;
-    backBtn.textAlignment = NSTextAlignmentCenter;
-    backBtn.text = NSLocalizedString(@"ItemDropKey", @"");
-    backBtn.text = @"Back";
-    backBtn.backgroundColor = [UIColor ARISColorTextBackdrop];
-    backBtn.textColor       = [UIColor ARISColorText];
-    [backBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backButtonTouched)]];
-    [backBtn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
-    
-	if([(NSObject *)source isKindOfClass:[InventoryViewController class]] == YES)
-    {
-        if(item.dropable)
-        {
-            dropBtn = [[UILabel alloc] init];
-            dropBtn.userInteractionEnabled = YES;
-            dropBtn.textAlignment = NSTextAlignmentCenter;
-            dropBtn.text = NSLocalizedString(@"ItemDropKey", @"");
-            dropBtn.backgroundColor = [UIColor ARISColorTextBackdrop];
-            dropBtn.textColor       = [UIColor ARISColorText];
-            if(item.destroyable)
-                dropBtn.frame = CGRectMake(self.view.bounds.size.width/3, self.view.bounds.size.height-44, self.view.bounds.size.width/3, 44);
-            else
-                dropBtn.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
-            [dropBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dropButtonTouched)]];
-            [dropBtn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
-            [self.view addSubview:dropBtn];
-        }
-        if(item.destroyable)
-        {
-            destroyBtn = [[UILabel alloc] init];
-            destroyBtn.userInteractionEnabled = YES;
-            destroyBtn.textAlignment = NSTextAlignmentCenter;
-            destroyBtn.text = NSLocalizedString(@"ItemDeleteKey",@"");
-            destroyBtn.backgroundColor = [UIColor ARISColorTextBackdrop];
-            destroyBtn.textColor       = [UIColor ARISColorText];
-            if(item.dropable)
-                destroyBtn.frame = CGRectMake(2*self.view.bounds.size.width/3, self.view.bounds.size.height-44, self.view.bounds.size.width/3, 44);
-            else
-                destroyBtn.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
-            [dropBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dropButtonTouched)]];
-            [dropBtn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
-            [self.view addSubview:destroyBtn];
-        }
-        
-        if(item.dropable && item.destroyable)
-            backBtn.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width/3, 44);
-        else if(item.dropable || item.destroyable)
-            backBtn.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
-        else 
-            backBtn.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
-	}
-	else
-    {
-        pickupBtn = [[UILabel alloc] init];
-        pickupBtn.userInteractionEnabled = YES;
-        pickupBtn.textAlignment = NSTextAlignmentCenter;
-        pickupBtn.text = NSLocalizedString(@"ItemPickupKey", @"");
-        pickupBtn.backgroundColor = [UIColor ARISColorTextBackdrop];
-        pickupBtn.textColor       = [UIColor ARISColorText];
-        pickupBtn.frame = CGRectMake(self.view.bounds.size.width/2, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
-        backBtn.frame   = CGRectMake(                            0, self.view.bounds.size.height-44, self.view.bounds.size.width/2, 44);
-        [pickupBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pickupButtonTouched)]];
-        [pickupBtn addGestureRecognizer:[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(passPanToDescription:)]];
-        [self.view addSubview:pickupBtn];
-	}
-    [self.view addSubview:backBtn];
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1)];
-    line.backgroundColor = [UIColor ARISColorLightGray];
-    [self.view addSubview:line];
     
     if(![self.item.idescription isEqualToString:@""])
     {
@@ -212,10 +201,18 @@
         self.descriptionWebView.scrollView.bounces = NO;
         self.descriptionWebView.opaque = NO;
         self.descriptionWebView.backgroundColor = [UIColor clearColor];
-        self.descriptionCollapseView = [[ARISCollapseView alloc] initWithView:self.descriptionWebView frame:CGRectMake(0,self.view.bounds.size.height-10-44,self.view.frame.size.width,10) open:NO showHandle:YES draggable:YES tappable:YES delegate:self];
+        self.descriptionCollapseView = [[ARISCollapseView alloc] initWithView:self.descriptionWebView frame:CGRectMake(0,self.view.bounds.size.height-10-(atLeastOneButton*44),self.view.frame.size.width,10) open:NO showHandle:YES draggable:YES tappable:YES delegate:self];
         [self.descriptionWebView loadHTMLString:[NSString stringWithFormat:[UIColor ARISHtmlTemplate], self.item.idescription] baseURL:nil];
         [self.view addSubview:self.descriptionCollapseView];
     }
+    
+    if(atLeastOneButton)
+    {
+        line = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 1)];
+        line.backgroundColor = [UIColor ARISColorLightGray];
+        [self.view addSubview:line];
+    }
+    
     
 	[self updateQuantityDisplay];
 }
@@ -234,6 +231,8 @@
 {
     [super viewWillAppear:animated];
     self.view.frame = viewFrame;
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(backButtonTouched)];
 }
 
 - (void) updateQuantityDisplay
@@ -246,7 +245,12 @@
         [dropBtn removeFromSuperview];
         [destroyBtn removeFromSuperview];
         [pickupBtn removeFromSuperview];
-        backBtn.frame = CGRectMake(0, self.view.bounds.size.height-44, self.view.bounds.size.width, 44);
+        [line removeFromSuperview];
+        
+        if(self.descriptionCollapseView)
+            [self.descriptionCollapseView setOpenFrame:CGRectMake(0,self.view.bounds.size.height-self.descriptionWebView.frame.size.height-10,self.view.frame.size.width,self.descriptionWebView.frame.size.height+10)];
+        if(self.scrollView)
+            self.scrollView.frame = CGRectMake(0, 0, viewFrame.size.width, viewFrame.size.height);
     }
 }
 

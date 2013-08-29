@@ -306,7 +306,6 @@
 		AABC73C4172739D80074CC21 /* PanoramicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7106172739D60074CC21 /* PanoramicViewController.m */; };
 		AABC73C5172739D80074CC21 /* PanoramicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABC7107172739D60074CC21 /* PanoramicViewController.xib */; };
 		AABC73C8172739D80074CC21 /* GameNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC710E172739D60074CC21 /* GameNotificationViewController.m */; };
-		AABC73C9172739D80074CC21 /* PopOverContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7110172739D60074CC21 /* PopOverContentView.m */; };
 		AABC73CA172739D80074CC21 /* PopOverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7112172739D60074CC21 /* PopOverViewController.m */; };
 		AABC73D0172739D80074CC21 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC711E172739D60074CC21 /* RootViewController.m */; };
 		AABC73D1172739D80074CC21 /* AppServices.m in Sources */ = {isa = PBXBuildFile; fileRef = AABC7121172739D60074CC21 /* AppServices.m */; };
@@ -896,8 +895,6 @@
 		AABC7107172739D60074CC21 /* PanoramicViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PanoramicViewController.xib; sourceTree = "<group>"; };
 		AABC710D172739D60074CC21 /* GameNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameNotificationViewController.h; sourceTree = "<group>"; };
 		AABC710E172739D60074CC21 /* GameNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameNotificationViewController.m; sourceTree = "<group>"; };
-		AABC710F172739D60074CC21 /* PopOverContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopOverContentView.h; sourceTree = "<group>"; };
-		AABC7110172739D60074CC21 /* PopOverContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopOverContentView.m; sourceTree = "<group>"; };
 		AABC7111172739D60074CC21 /* PopOverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopOverViewController.h; sourceTree = "<group>"; };
 		AABC7112172739D60074CC21 /* PopOverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopOverViewController.m; sourceTree = "<group>"; };
 		AABC711C172739D60074CC21 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
@@ -1994,8 +1991,6 @@
 			children = (
 				AABC710D172739D60074CC21 /* GameNotificationViewController.h */,
 				AABC710E172739D60074CC21 /* GameNotificationViewController.m */,
-				AABC710F172739D60074CC21 /* PopOverContentView.h */,
-				AABC7110172739D60074CC21 /* PopOverContentView.m */,
 				AABC7111172739D60074CC21 /* PopOverViewController.h */,
 				AABC7112172739D60074CC21 /* PopOverViewController.m */,
 				AA701FE3173428C3003A840D /* ARISAlertHandler.h */,
@@ -2873,7 +2868,6 @@
 				AABC73C3172739D80074CC21 /* ScriptParser.m in Sources */,
 				AABC73C4172739D80074CC21 /* PanoramicViewController.m in Sources */,
 				AABC73C8172739D80074CC21 /* GameNotificationViewController.m in Sources */,
-				AABC73C9172739D80074CC21 /* PopOverContentView.m in Sources */,
 				AABC73CA172739D80074CC21 /* PopOverViewController.m in Sources */,
 				AABC73D0172739D80074CC21 /* RootViewController.m in Sources */,
 				AABC73D1172739D80074CC21 /* AppServices.m in Sources */,

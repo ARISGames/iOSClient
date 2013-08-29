@@ -65,6 +65,13 @@
     return self;
 }
 
+- (void) refreshWithFrame:(CGRect)f
+{
+    [self initializeWithFrame:f inMode:self.displayMode delegate:delegate];
+    if(self.image)      [self displayImage:self.image];
+    else if(self.media) [self displayMedia:self.media];
+}
+
 - (void) refreshWithFrame:(CGRect)f media:(Media *)m mode:(ARISMediaDisplayMode)dm delegate:(id<ARISMediaViewDelegate>)d
 {
     [self initializeWithFrame:(CGRect)f inMode:dm delegate:d];

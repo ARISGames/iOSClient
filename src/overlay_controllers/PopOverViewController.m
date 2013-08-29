@@ -9,7 +9,6 @@
 #import "PopOverViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import <AVFoundation/AVFoundation.h>
-#import "PopOverContentView.h"
 #import "ARISMediaView.h"
 #import "ARISWebView.h"
 #import "ARISMoviePlayerViewController.h"
@@ -74,6 +73,7 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor ARISColorTranslucentBlack];
+    self.view.userInteractionEnabled = YES;
     
     self.popOverView = [[UIView alloc] initWithFrame:CGRectMake(10,self.view.bounds.size.height/2-214,self.view.bounds.size.width-20,428)];
     self.popOverView.backgroundColor = [UIColor ARISColorTextBackdrop];
