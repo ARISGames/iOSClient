@@ -26,9 +26,9 @@
 
 @synthesize timeControl;
 
-- (id)initWithDelegate:(id<GamePickerViewControllerDelegate>)d
+- (id) initWithViewFrame:(CGRect)f delegate:(id<GamePickerViewControllerDelegate>)d
 {
-    if(self = [super initWithDelegate:d])
+    if(self = [super initWithViewFrame:f delegate:d])
     {
         time = 1;
         
@@ -44,7 +44,6 @@
 {
     [super viewDidLoad];
     
-    self.navigationItem.title = NSLocalizedString(@"GamePickerPopularTitleKey", @"");
     self.timeControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"Daily",@"Weekly",@"Monthly", nil]];
     self.timeControl.frame = CGRectMake(0, 0, self.view.bounds.size.width, 30);
     self.timeControl.selectedSegmentIndex = 1;
@@ -76,10 +75,10 @@
     [self requestNewGameList];
 }
 
-- (float) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(indexPath.row == 0) return 30;
-    else return 60;
+    else return [super tableView:tableView heightForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

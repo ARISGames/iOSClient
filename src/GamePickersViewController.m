@@ -22,6 +22,7 @@
 @interface GamePickersViewController () <UITabBarControllerDelegate, GamePickerViewControllerDelegate, GameDetailsViewControllerDelegate, AccountSettingsViewControllerDelegate>
 {
     PKRevealController *gamePickersRevealController;
+    ARISNavigationController *gamePickersNavigationController;
     UITabBarController *gamePickersTabBarController;
     ARISNavigationController *gameDetailsNavigationController;
     ARISNavigationController *accountSettingsNavigationController;
@@ -30,6 +31,7 @@
 }
 
 @property (nonatomic, strong) PKRevealController *gamePickersRevealController;
+@property (nonatomic, strong) ARISNavigationController *gamePickersNavigationController;
 @property (nonatomic, strong) UITabBarController *gamePickersTabBarController;
 @property (nonatomic, strong) ARISNavigationController *gameDetailsNavigationController;
 @property (nonatomic, strong) ARISNavigationController *accountSettingsNavigationController;
@@ -39,6 +41,7 @@
 @implementation GamePickersViewController
 
 @synthesize gamePickersRevealController;
+@synthesize gamePickersNavigationController;
 @synthesize gamePickersTabBarController;
 @synthesize gameDetailsNavigationController;
 @synthesize accountSettingsNavigationController;
@@ -59,50 +62,56 @@
     //Frame will need to get set in viewWillAppear:
     // http://stackoverflow.com/questions/11305818/create-view-in-load-view-and-set-its-frame-but-frame-auto-changes
     self.view = [[UIView alloc] initWithFrame:CGRectZero];
-    
-    //Nearby Games
-    GamePickerNearbyViewController *gamePickerNearbyViewController = [[GamePickerNearbyViewController alloc] initWithDelegate:self];
-    ARISNavigationController *gamePickerNearbyNC = [[ARISNavigationController alloc] initWithRootViewController:gamePickerNearbyViewController];
-    
-    //Anywhere Games
-    GamePickerAnywhereViewController *gamePickerAnywhereViewController = [[GamePickerAnywhereViewController alloc] initWithDelegate:self];
-    ARISNavigationController *gamePickerAnywhereNC = [[ARISNavigationController alloc] initWithRootViewController:gamePickerAnywhereViewController];
-    
-    //Popular Games
-    GamePickerPopularViewController *gamePickerPopularVC = [[GamePickerPopularViewController alloc] initWithDelegate:self];
-    ARISNavigationController *gamePickerPopularNC = [[ARISNavigationController alloc] initWithRootViewController:gamePickerPopularVC];
-    
-    //Recent Games
-    GamePickerRecentViewController *gamePickerRecentVC = [[GamePickerRecentViewController alloc] initWithDelegate:self];
-    ARISNavigationController *gamePickerRecentNC = [[ARISNavigationController alloc] initWithRootViewController:gamePickerRecentVC];
-    
-    //Search Games
-    GamePickerSearchViewController *gamePickerSearchVC = [[GamePickerSearchViewController alloc] initWithDelegate:self];
-    ARISNavigationController *gamePickerSearchNC = [[ARISNavigationController alloc] initWithRootViewController:gamePickerSearchVC];
-    
-    //Setup the Game Selection Tab Bar
-    self.gamePickersTabBarController = [[UITabBarController alloc] init];
-    self.gamePickersTabBarController.delegate = self;
-    self.gamePickersTabBarController.viewControllers = [NSMutableArray arrayWithObjects:
-                                                       gamePickerNearbyNC,
-                                                       gamePickerAnywhereNC,
-                                                       gamePickerPopularNC,
-                                                       gamePickerRecentNC,
-                                                       gamePickerSearchNC,
-                                                        nil];
-    
-    AccountSettingsViewController *accountSettingsViewController = [[AccountSettingsViewController alloc] initWithDelegate:self];
-    self.accountSettingsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:accountSettingsViewController];
-    
-    self.gamePickersRevealController = [PKRevealController revealControllerWithFrontViewController:self.gamePickersTabBarController leftViewController:self.accountSettingsNavigationController options:nil];
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
+    CGRect viewFrame;
+    if(floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1)
+        viewFrame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
+    else
+        viewFrame = CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height);
+    
+    //Setup the Game Selection Tab Bar
+    self.gamePickersTabBarController = [[UITabBarController alloc] init];
+    self.gamePickersTabBarController.delegate = self;
+    self.gamePickersTabBarController.viewControllers = [NSMutableArray arrayWithObjects:
+                        [[GamePickerNearbyViewController   alloc] initWithViewFrame:viewFrame delegate:self],
+                        [[GamePickerAnywhereViewController alloc] initWithViewFrame:viewFrame delegate:self],
+                        [[GamePickerPopularViewController  alloc] initWithViewFrame:viewFrame delegate:self],
+                        [[GamePickerRecentViewController   alloc] initWithViewFrame:viewFrame delegate:self],
+                        [[GamePickerSearchViewController   alloc] initWithViewFrame:viewFrame delegate:self],
+                        nil];
+    
+    self.gamePickersNavigationController = [[ARISNavigationController alloc] initWithRootViewController:self.gamePickersTabBarController];
+    
+    AccountSettingsViewController *accountSettingsViewController = [[AccountSettingsViewController alloc] initWithDelegate:self];
+    self.accountSettingsNavigationController = [[ARISNavigationController alloc] initWithRootViewController:accountSettingsViewController];
+    
+    self.gamePickersRevealController = [PKRevealController revealControllerWithFrontViewController:self.gamePickersNavigationController leftViewController:self.accountSettingsNavigationController options:nil];
+    
+    UIView *logoContainer = [[UIView alloc] initWithFrame:self.gamePickersTabBarController.navigationItem.titleView.frame];
+    UIImageView *logoText  = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_text_nav.png"]];
+    logoText.frame = CGRectMake(logoContainer.frame.size.width/2-50, logoContainer.frame.size.height/2-15, 100, 30);
+    [logoContainer addSubview:logoText];
+    self.gamePickersTabBarController.navigationItem.titleView = logoContainer;
+    
+    UIButton *settingsbutton = [UIButton buttonWithType:UIButtonTypeCustom];
+    settingsbutton.frame = CGRectMake(0, 0, 27, 27);
+    [settingsbutton setImage:[UIImage imageNamed:@"idcard.png"] forState:UIControlStateNormal];
+    [settingsbutton addTarget:self action:@selector(accountButtonTouched) forControlEvents:UIControlEventTouchUpInside];
+	self.gamePickersTabBarController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:settingsbutton];
+    
     if(!currentChildViewController)
         [self displayContentController:self.gamePickersRevealController];
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
 }
 
 - (void) resetState
@@ -130,7 +139,7 @@
     [delegate gamePickedForPlay:g];
 }
 
-- (void) accountSettingsRequested
+- (void) accountButtonTouched
 {
     [self.gamePickersRevealController showViewController:self.accountSettingsNavigationController];
 }

@@ -34,9 +34,9 @@
 @synthesize theSearchBar;
 @synthesize disableViewOverlay;
 
-- (id) initWithDelegate:(id<GamePickerViewControllerDelegate>)d
+- (id) initWithViewFrame:(CGRect)f delegate:(id<GamePickerViewControllerDelegate>)d
 {
-    if(self = [super initWithDelegate:d])
+    if(self = [super initWithViewFrame:f delegate:d])
     {        
         currentPage = 0;
         currentlyFetchingNextPage = NO;
@@ -55,8 +55,6 @@
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.navigationItem.title = NSLocalizedString(@"GamePickerSearchTitleKey", @"");
     
     self.theSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,30)];
     self.theSearchBar.delegate = self;
@@ -89,10 +87,10 @@
     [self removeLoadingIndicator];
 }
 
-- (float) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(indexPath.row == 0) return 30;
-    else return 60;
+    else return [super tableView:tableView heightForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
 }
 
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

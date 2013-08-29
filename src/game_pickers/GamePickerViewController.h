@@ -12,7 +12,6 @@
 
 @protocol GamePickerViewControllerDelegate
 - (void) gamePicked:(Game *)g;
-- (void) accountSettingsRequested;
 @end
 
 @interface GamePickerViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
@@ -25,16 +24,14 @@
 }
 
 @property (nonatomic, copy)   NSArray *gameList;
-@property (nonatomic, strong) IBOutlet UITableView *gameTable;
-@property (nonatomic, strong) IBOutlet UIRefreshControl *refreshControl;
+@property (nonatomic, strong) UITableView *gameTable;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
-
-- (id) initWithDelegate:(id<GamePickerViewControllerDelegate>)d;
+- (id) initWithViewFrame:(CGRect)f delegate:(id<GamePickerViewControllerDelegate>)d;
 - (void) clearList;
 - (void) requestNewGameList;
 - (void) refreshViewFromModel;
 - (void) showLoadingIndicator;
 - (void) removeLoadingIndicator;
-- (void) accountButtonTouched;
 
 @end

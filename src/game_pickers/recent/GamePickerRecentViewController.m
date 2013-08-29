@@ -16,22 +16,15 @@
 
 @implementation GamePickerRecentViewController
 
-- (id)initWithDelegate:(id<GamePickerViewControllerDelegate>)d
+- (id) initWithViewFrame:(CGRect)f delegate:(id<GamePickerViewControllerDelegate>)d
 {
-    if(self = [super initWithDelegate:d])
+    if(self = [super initWithViewFrame:f delegate:d])
     {
         self.title = NSLocalizedString(@"GamePickerRecentTabKey", @"");
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"clock_selected.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"clock_unselected.png"]];
-
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewRecentGameListReady" object:nil];
     }
     return self;
-}
-
-- (void) viewDidLoad
-{
-    [super viewDidLoad];
-    self.navigationItem.title = NSLocalizedString(@"GamePickeRecentTitleKey", @"");
 }
 
 - (void) requestNewGameList
@@ -48,12 +41,12 @@
 - (void) refreshViewFromModel
 {
 	self.gameList = [AppModel sharedAppModel].recentGameList;
-	[gameTable reloadData];
+	[self.gameTable reloadData];
     
     [self removeLoadingIndicator];
 }
 
-- (void)dealloc
+- (void) dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }

@@ -16,21 +16,15 @@
 
 @implementation GamePickerNearbyViewController
 
-- (id) initWithDelegate:(id<GamePickerViewControllerDelegate>)d
+- (id) initWithViewFrame:(CGRect)f delegate:(id<GamePickerViewControllerDelegate>)d
 {
-    if(self = [super initWithDelegate:d])
+    if(self = [super initWithViewFrame:f delegate:d])
     {
         self.title = NSLocalizedString(@"GamePickerNearbyTabKey", @"");
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"arrow_selected"] withFinishedUnselectedImage:[UIImage imageNamed:@"arrow_unselected"]];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewNearbyGameListReady" object:nil];
     }
     return self;
-}
-
-- (void) viewDidLoad
-{
-    [super viewDidLoad];
-    self.navigationItem.title = [NSString stringWithFormat: @"%@", NSLocalizedString(@"GamePickerNearbyTitleKey", @"")];
 }
 
 - (void) requestNewGameList

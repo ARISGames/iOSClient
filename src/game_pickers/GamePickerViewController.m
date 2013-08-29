@@ -18,7 +18,7 @@
 
 @interface GamePickerViewController () <ARISMediaViewDelegate>
 {
-    BOOL viewHasAppeared;
+    CGRect viewFrame;
 }
 
 @end
@@ -29,13 +29,13 @@
 @synthesize gameTable;
 @synthesize refreshControl;
 
-- (id) initWithDelegate:(id<GamePickerViewControllerDelegate>)d
+- (id) initWithViewFrame:(CGRect)f delegate:(id<GamePickerViewControllerDelegate>)d
 {
     if(self = [super init])
     {
+        viewFrame = f;
         delegate = d;
         
-        viewHasAppeared = NO;
         gameList = [[NSArray alloc] init];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerFirstMoved)       name:@"PlayerMoved"     object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(removeLoadingIndicator) name:@"ConnectionLost"  object:nil];
@@ -46,29 +46,11 @@
 - (void) loadView
 {
     [super loadView];
-    self.view.backgroundColor = [UIColor ARISColorWhite];
-    
-    UIView *titleContainer = [[UIView alloc] initWithFrame:self.navigationItem.titleView.frame];
-    UIImageView *logoText = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_text_nav.png"]];
-    logoText.frame = CGRectMake(titleContainer.frame.size.width/2-50, titleContainer.frame.size.height/2-15, 100, 30);
-    [titleContainer addSubview:logoText];
-    self.navigationItem.titleView = titleContainer;
-    [self.navigationController.navigationBar layoutIfNeeded];
-    
-    UIButton *settingsbutton = [UIButton buttonWithType:UIButtonTypeCustom];
-    settingsbutton.frame = CGRectMake(0, 0, 27, 27);
-    [settingsbutton setImage:[UIImage imageNamed:@"idcard.png"] forState:UIControlStateNormal];
-    [settingsbutton addTarget:self action:@selector(accountButtonTouched) forControlEvents:UIControlEventTouchUpInside];
-	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:settingsbutton];
-}
+    self.view.backgroundColor = [UIColor ARISColorRed];
 
-- (void) viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    if(viewHasAppeared) return;
-    viewHasAppeared = YES;
-
-    self.gameTable = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    self.gameTable = [[UITableView alloc] initWithFrame:viewFrame style:UITableViewStylePlain];
+    [self fixAppleAutoFraming];
+    
     self.gameTable.delegate = self;
     self.gameTable.dataSource = self;
     [self.view addSubview:self.gameTable];
@@ -78,13 +60,32 @@
     [self.gameTable addSubview:refreshControl];
     
   	[self.gameTable reloadData];
-    
     if([AppModel sharedAppModel].player.location) [self playerFirstMoved];
+}
+
+- (void) fixAppleAutoFraming
+{
+    self.view.frame = viewFrame;
+    
+    if(floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1)
+        self.gameTable.frame = CGRectMake(0,0,viewFrame.size.width,viewFrame.size.height-44-49);
+    else //ios7
+    {
+        self.gameTable.frame = viewFrame;
+        [self.gameTable setContentInset:UIEdgeInsetsMake(64,0,49,0)];
+    }
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self fixAppleAutoFraming];
 }
 
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self fixAppleAutoFraming];
 	[self requestNewGameList];
 }
 
@@ -103,17 +104,17 @@
     [self removeLoadingIndicator];
 }
 
--(void)refreshView:(UIRefreshControl *)refresh
+- (void) refreshView:(UIRefreshControl *)refresh
 {
     [self requestNewGameList];
 }
 
-- (void)requestNewGameList
+- (void) requestNewGameList
 {
     
 }
 
-- (void)refreshViewFromModel
+- (void) refreshViewFromModel
 {
     
 }
@@ -193,7 +194,6 @@
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if([self.gameList count] == 0) return;
-    
     [delegate gamePicked:[self.gameList objectAtIndex:indexPath.row]];
 }
 
@@ -210,26 +210,15 @@
 - (void) showLoadingIndicator
 {
 	[self.refreshControl beginRefreshing];
-    
-    if(floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1)
-        if(self.gameTable.contentOffset.y == 0) [self.gameTable setContentOffset:CGPointMake(0, -self.refreshControl.frame.size.height) animated:YES];
 }
 
 - (void) removeLoadingIndicator
 {
     [self.refreshControl endRefreshing];
-    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1)
-        [self.gameTable setContentOffset:CGPointMake(0, 0) animated:YES];
-}
-
-- (void) accountButtonTouched
-{
-    [delegate accountSettingsRequested];
 }
 
 - (void) ARISMediaViewUpdated:(ARISMediaView *)amv
 {
-    
 }
 
 - (NSUInteger) supportedInterfaceOrientations

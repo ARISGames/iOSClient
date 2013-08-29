@@ -16,9 +16,9 @@
 
 @implementation GamePickerAnywhereViewController
 
-- (id)initWithDelegate:(id<GamePickerViewControllerDelegate>)d
+- (id) initWithViewFrame:(CGRect)f delegate:(id<GamePickerViewControllerDelegate>)d
 {
-    if(self = [super initWithDelegate:d])
+    if(self = [super initWithViewFrame:f delegate:d])
     {
         self.title = NSLocalizedString(@"GamePickerAnywhereTabKey", @"");
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"globe_selected.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"globe_unselected.png"]];
@@ -26,12 +26,6 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshViewFromModel) name:@"NewAnywhereGameListReady" object:nil];
     }
     return self;
-}
-
-- (void) viewDidLoad
-{
-    [super viewDidLoad];
-    self.navigationItem.title = [NSString stringWithFormat: @"%@", NSLocalizedString(@"GamePickerAnywhereTitleKey", @"")];
 }
 
 - (void) requestNewGameList
