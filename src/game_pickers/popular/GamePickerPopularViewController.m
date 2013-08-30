@@ -45,8 +45,9 @@
     [super viewDidLoad];
     
     self.timeControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"Daily",@"Weekly",@"Monthly", nil]];
-    self.timeControl.frame = CGRectMake(0, 0, self.view.bounds.size.width, 30);
+    self.timeControl.frame = CGRectMake(5, 5, self.view.bounds.size.width-10, 30);
     self.timeControl.selectedSegmentIndex = 1;
+    self.timeControl.segmentedControlStyle = UISegmentedControlStyleBar;
     [self.timeControl addTarget:self action:@selector(controlChanged) forControlEvents:UIControlEventValueChanged];
 }
 
@@ -77,7 +78,7 @@
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(indexPath.row == 0) return 30;
+    if(indexPath.row == 0) return 40;
     else return [super tableView:tableView heightForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
 }
 

@@ -56,7 +56,7 @@
 {
     [super viewDidLoad];
     
-    self.theSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0,0,self.view.bounds.size.width,30)];
+    self.theSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(5,5,self.view.bounds.size.width-10,30)];
     self.theSearchBar.delegate = self;
     [self.theSearchBar becomeFirstResponder];
 }
@@ -89,7 +89,7 @@
 
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(indexPath.row == 0) return 30;
+    if(indexPath.row == 0) return 40;
     else return [super tableView:tableView heightForRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
 }
 
