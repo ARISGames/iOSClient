@@ -16,6 +16,6 @@
 
 @interface GamePlayTabSelectorViewController : UIViewController
 - (id) initWithViewControllers:(NSMutableArray *)vcs delegate:(id<GamePlayTabSelectorViewControllerDelegate>)d;
-- (void) addViewController:(ARISGamePlayTabBarViewController *)vc;
+- (void) addViewController:(UIViewController *)vc;
 - (void) removeViewControllerWithTabID:(NSString *)t;
 @end

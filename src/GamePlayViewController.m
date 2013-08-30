@@ -295,8 +295,9 @@
 {
     if(self.decoderNavigationController)
     {
-        [self.gamePlayRevealController showViewController:self.decoderNavigationController];
-        [(DecoderViewController *)[[self.decoderNavigationController viewControllers] objectAtIndex:0] launchScannerWithPrompt:p];
+        [self viewControllerRequestedDisplay:self.decoderNavigationController];
+        //[(DecoderViewController *)[[self.decoderNavigationController viewControllers] objectAtIndex:0] launchScannerWithPrompt:p];
+        [(DecoderViewController *)[[self.decoderNavigationController viewControllers] objectAtIndex:0] performSelector:@selector(launchScannerWithPrompt:) withObject:p afterDelay:0.1];
     }
 }
 
@@ -373,17 +374,17 @@
 {
     NSString *localized = [t lowercaseString];
     if([localized isEqualToString:@"map"]       || [localized isEqualToString:[NSLocalizedString(@"MapViewTitleKey",       @"") lowercaseString]])
-       [self.gamePlayRevealController showViewController:self.mapNavigationController];
+        [self viewControllerRequestedDisplay:self.mapNavigationController];
     if([localized isEqualToString:@"quests"]    || [localized isEqualToString:[NSLocalizedString(@"QuestViewTitleKey",     @"") lowercaseString]])
-       [self.gamePlayRevealController showViewController:self.questsNavigationController];
+        [self viewControllerRequestedDisplay:self.questsNavigationController];
     if([localized isEqualToString:@"notebook"]  || [localized isEqualToString:[NSLocalizedString(@"NotebookTitleKey",      @"") lowercaseString]])
-       [self.gamePlayRevealController showViewController:self.notesNavigationController];
+        [self viewControllerRequestedDisplay:self.notesNavigationController];
     if([localized isEqualToString:@"inventory"] || [localized isEqualToString:[NSLocalizedString(@"InventoryViewTitleKey", @"") lowercaseString]])
-       [self.gamePlayRevealController showViewController:self.inventoryNavigationController];
+        [self viewControllerRequestedDisplay:self.inventoryNavigationController];
     if([localized isEqualToString:@"decoder"]   || [localized isEqualToString:[NSLocalizedString(@"QRScannerTitleKey",     @"") lowercaseString]])
-       [self.gamePlayRevealController showViewController:self.decoderNavigationController];
+        [self viewControllerRequestedDisplay:self.decoderNavigationController];
     if([localized isEqualToString:@"player"]    || [localized isEqualToString:[NSLocalizedString(@"PlayerTitleKey",        @"") lowercaseString]])
-       [self.gamePlayRevealController showViewController:self.attributesNavigationController];
+        [self viewControllerRequestedDisplay:self.attributesNavigationController];
 }
 
 - (void) tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController 
