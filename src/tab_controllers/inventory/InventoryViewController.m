@@ -34,7 +34,6 @@
     id<InventoryViewControllerDelegate, StateControllerProtocol> __unsafe_unretained delegate;
 }
 
-
 @property (nonatomic, strong) IBOutlet UIProgressView *capBar;
 @property (nonatomic, strong) IBOutlet UILabel *capLabel;
 @property (nonatomic, strong) IBOutlet UITableView *inventoryTable;
@@ -65,7 +64,7 @@
 @synthesize mediaCache;
 @synthesize viewedList;
 
-- (id)initWithDelegate:(id<InventoryViewControllerDelegate, StateControllerProtocol>)d
+- (id) initWithDelegate:(id<InventoryViewControllerDelegate, StateControllerProtocol>)d
 {
     if(self = [super initWithNibName:@"InventoryViewController" bundle:nil delegate:d])
     {
@@ -73,7 +72,6 @@
         delegate = d;
         
         self.title = NSLocalizedString(@"InventoryViewTitleKey",@"");
-
         [self.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"toolboxTabBarSelected"] withFinishedUnselectedImage:[UIImage imageNamed:@"toolboxTabBarSelected"]];
         
         self.mediaCache = [[NSMutableDictionary alloc] initWithCapacity:[[AppModel sharedAppModel].currentGame.inventoryModel.currentInventory count]];
@@ -221,12 +219,11 @@
 	return cell;
 }
 
-#pragma mark PickerViewDelegate selectors
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	return [inventory count];
@@ -322,7 +319,7 @@
 	return foundRange.location;	
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	return 60;
 }
@@ -345,7 +342,7 @@
     
 }
 
-- (void)dealloc
+- (void) dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }

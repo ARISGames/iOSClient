@@ -1,9 +1,9 @@
 //
-//  FilesViewController.h
+//  InventoryTagViewController.h
 //  ARIS
 //
-//  Created by Ben Longoria on 2/11/09.
-//  Copyright 2009 University of Wisconsin. All rights reserved.
+//  Created by Phil Dougherty on 8/30/13.
+//
 //
 
 #import <UIKit/UIKit.h>
@@ -12,6 +12,6 @@
 
 @protocol StateControllerProtocol;
 
-@interface InventoryViewController : ARISGamePlayTabBarViewController
+@interface InventoryTagViewController : ARISGamePlayTabBarViewController
 - (id) initWithDelegate:(id<InventoryViewControllerDelegate, StateControllerProtocol>)d;
 @end

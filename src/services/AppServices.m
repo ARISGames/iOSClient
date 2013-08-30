@@ -1904,14 +1904,15 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
--(void)parseGameItemListFromJSON:(ServiceResult *)jsonResult
+- (void) parseGameItemListFromJSON:(ServiceResult *)jsonResult
 {
 	NSArray *itemListArray = (NSArray *)jsonResult.data;
     
 	NSMutableDictionary *tempItemList = [[NSMutableDictionary alloc] init];
 	NSEnumerator *enumerator = [itemListArray objectEnumerator];
+    
 	NSDictionary *dict;
-	while ((dict = [enumerator nextObject]))
+	while((dict = [enumerator nextObject]))
     {
 		Item *tmpItem = [[Item alloc] initWithDictionary:dict];
 		[tempItemList setObject:tmpItem forKey:[NSNumber numberWithInt:tmpItem.itemId]];
@@ -1923,7 +1924,7 @@ BOOL currentlyUpdatingServerWithInventoryViewed;
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"GamePieceReceived" object:nil]];
 }
 
--(void)parseGameNodeListFromJSON:(ServiceResult *)jsonResult
+- (void) parseGameNodeListFromJSON:(ServiceResult *)jsonResult
 {
 	NSArray *nodeListArray = (NSArray *)jsonResult.data;
 	NSMutableDictionary *tempNodeList = [[NSMutableDictionary alloc] init];
