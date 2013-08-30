@@ -26,21 +26,24 @@
 + (UIColor *) ARISColorTranslucentWhite { return [UIColor colorWithRed:(255.0/255.0) green:(255.0/255.0) blue:(255.0/255.0) alpha:0.9]; }
 
 // Should put following in own class ARISTemplate or something
-+ (UIColor *) ARISColorNavBarTint           { return [UIColor ARISColorTranslucentWhite]; }
-+ (UIColor *) ARISColorNavBarText       { return [UIColor ARISColorBlack]; }
-+ (UIColor *) ARISColorTabBarTint           { return [UIColor ARISColorWhite]; }
-+ (UIColor *) ARISColorTabBarText       { return [UIColor ARISColorBlack]; }
-+ (UIColor *) ARISColorToolBarTint          { return [UIColor ARISColorWhite]; }
-+ (UIColor *) ARISColorBarButtonTint       { return [UIColor ARISColorGray]; }
-+ (UIColor *) ARISColorSegmentedControlTint { return [UIColor ARISColorWhite]; }
-+ (UIColor *) ARISColorSearchBarTint        { return [UIColor ARISColorWhite]; }
++ (UIColor *) ARISColorNavBarTint               { return [UIColor ARISColorTranslucentWhite]; }
++ (UIColor *) ARISColorNavBarText               { return [UIColor ARISColorBlack]; }
++ (UIColor *) ARISColorTabBarTint               { return [UIColor ARISColorWhite]; }
++ (UIColor *) ARISColorTabBarText               { return [UIColor ARISColorBlack]; }
++ (UIColor *) ARISColorToolBarTint              { return [UIColor ARISColorWhite]; }
++ (UIColor *) ARISColorBarButtonTint            { return [UIColor ARISColorGray]; }
++ (UIColor *) ARISColorSegmentedControlTint     { return [UIColor ARISColorWhite]; }
++ (UIColor *) ARISColorSearchBarTint            { return [UIColor ARISColorWhite]; }
 
-+ (UIColor *) ARISColorTextBackdrop     { return [UIColor ARISColorTranslucentWhite]; }
-+ (UIColor *) ARISColorText             { return [UIColor ARISColorBlack]; }
-+ (UIColor *) ARISColorContentBackdrop  { return [UIColor ARISColorWhite]; }
-+ (UIColor *) ARISColorNpcContentBackdrop{ return [UIColor blackColor]; }
-+ (UIColor *) ARISColorViewBackdrop     { return [UIColor ARISColorWhite]; }
-+ (UIColor *) ARISColorViewText         { return [UIColor ARISColorBlack]; }
++ (UIColor *) ARISColorTextBackdrop             { return [UIColor ARISColorTranslucentWhite]; }
++ (UIColor *) ARISColorText                     { return [UIColor ARISColorBlack]; }
++ (UIColor *) ARISColorContentBackdrop          { return [UIColor ARISColorWhite]; }
++ (UIColor *) ARISColorNpcContentBackdrop       { return [UIColor blackColor]; }
++ (UIColor *) ARISColorViewBackdrop             { return [UIColor ARISColorWhite]; }
++ (UIColor *) ARISColorViewText                 { return [UIColor ARISColorBlack]; }
++ (UIColor *) ARISColorSideNaviagtionBackdrop   { return [UIColor ARISColorGray];  }
++ (UIColor *) ARISColorSideNaviagtionText       { return [UIColor ARISColorWhite]; }
+
 
 + (NSString *) ARISHtmlTemplate
 {

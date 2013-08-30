@@ -10,6 +10,7 @@
 #import "ARISNavigationController.h"
 #import "ARISGamePlayTabBarViewController.h"
 #import "BogusSelectGameViewController.h"
+#import "UIColor+ARISColors.h"
 
 @interface GamePlayTabSelectorViewController () <UITableViewDelegate, UITableViewDataSource>
 {
@@ -41,7 +42,10 @@
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.opaque = NO;
+    self.tableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.tableView];
+    self.view.backgroundColor = [UIColor ARISColorSideNaviagtionBackdrop];
 }
 
 - (void) viewDidLoad
@@ -58,9 +62,12 @@
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *c = [[UITableViewCell alloc] initWithStyle:UITableViewStylePlain reuseIdentifier:nil];
+    c.opaque = NO;
+    c.backgroundColor = [UIColor clearColor];
+    c.textLabel.textColor = [UIColor ARISColorSideNaviagtionText];
     UIViewController *vc = [self.viewControllers objectAtIndex:indexPath.row];
     if([vc isKindOfClass:[BogusSelectGameViewController class]])
-        c.textLabel.text = @"LEAVE";
+        c.textLabel.text = @"Leave Game";
     else
     {
         ARISNavigationController *anc = (ARISNavigationController *)vc;

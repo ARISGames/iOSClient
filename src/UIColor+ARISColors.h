@@ -41,6 +41,9 @@
 + (UIColor *) ARISColorText;            //content text
 + (UIColor *) ARISColorViewBackdrop;    //behind navigation screens
 + (UIColor *) ARISColorViewText;        //labels on navigation screens
++ (UIColor *) ARISColorSideNaviagtionBackdrop;
++ (UIColor *) ARISColorSideNaviagtionText;
+
 
 + (NSString *) ARISHtmlTemplate;
 
