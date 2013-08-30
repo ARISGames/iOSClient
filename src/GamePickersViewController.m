@@ -111,14 +111,6 @@
 - (void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-}
-
-- (void) resetState
-{
-    [self displayContentController:self.gamePickersRevealController];
-    for(int i = 0; i < [[self.gamePickersTabBarController viewControllers] count]; i++)
-        [(GamePickerViewController *)([[((ARISNavigationController *)[[self.gamePickersTabBarController viewControllers] objectAtIndex:i]) viewControllers] objectAtIndex:0]) clearList];
 }
 
 - (void) gamePicked:(Game *)g

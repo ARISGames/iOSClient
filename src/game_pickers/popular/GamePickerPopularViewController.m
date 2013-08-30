@@ -46,7 +46,7 @@
     
     self.timeControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"Daily",@"Weekly",@"Monthly", nil]];
     self.timeControl.frame = CGRectMake(5, 5, self.view.bounds.size.width-10, 30);
-    self.timeControl.selectedSegmentIndex = 1;
+    self.timeControl.selectedSegmentIndex = time;
     self.timeControl.segmentedControlStyle = UISegmentedControlStyleBar;
     [self.timeControl addTarget:self action:@selector(controlChanged) forControlEvents:UIControlEventValueChanged];
 }
