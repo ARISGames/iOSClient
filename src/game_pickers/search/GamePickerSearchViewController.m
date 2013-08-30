@@ -59,6 +59,10 @@
     self.theSearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(5,5,self.view.bounds.size.width-10,30)];
     self.theSearchBar.delegate = self;
     [self.theSearchBar becomeFirstResponder];
+    
+    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
+    gestureRecognizer.cancelsTouchesInView = NO;
+    [gameTable addGestureRecognizer:gestureRecognizer];
 }
 
 - (void) requestNewGameList
@@ -184,6 +188,11 @@
         if (selected) [self.gameTable deselectRowAtIndexPath:selected animated:NO];
     }
     [searchBar setShowsCancelButton:active animated:YES];
+}
+
+- (void) hideKeyboard: (UIGestureRecognizer *) gesture
+{
+    [self searchBarCancelButtonClicked:theSearchBar];
 }
 
 - (void) dealloc
